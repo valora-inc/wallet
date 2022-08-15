@@ -32,7 +32,6 @@ export default function SwapContent({ exchange }: Props) {
   const toTokenSymbol = tokensList.find((token) => token.address === exchange.inAmount.tokenAddress)
     ?.symbol
 
-  //TODO: verifying fee part.
   const onPressTxDetails = () => {
     ValoraAnalytics.track(SwapEvents.swap_feed_detail_view_tx)
     navigate(Screens.WebViewScreen, {
