@@ -1284,12 +1284,12 @@
     "failedRefetch": {
       "title": "Verbindungsfehler!",
       "description": "Wir konnten deine Konten leider nicht verknüpfen.\n\nDies kann auf eine schlechte Internetverbindung oder ein Server-Problem zurückzuführen sein. Bitte versuche es erneut.",
-      "tryAgain": "Try Again"
+      "tryAgain": "Wiederholen"
     },
     "quoteExpiredDialog": {
       "title": "Beträge und Gebühren prüfen",
       "body": "Krypto-Beträge und -Gebühren können sich aufgrund von Schwankungen auf dem Krypto-Markt ändern.\n\nBitte überprüfe deine endgültigen Beträge und Gebühren, bevor du sie einreichst.",
-      "continue": "Continue"
+      "continue": "Weiter"
     }
   },
   "fiatConnectStatusScreen": {
