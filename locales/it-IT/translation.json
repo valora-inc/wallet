@@ -1284,12 +1284,12 @@
     "failedRefetch": {
       "title": "Connessione persa!",
       "description": "Non è stato possibile stabilire una connessione tra i tuoi conti.\n\nQuesto potrebbe essere causato da una connessione a Internet debole o da problemi del server. Riprovare a stabilire la connessione.",
-      "tryAgain": "Try Again"
+      "tryAgain": "Riprova"
     },
     "quoteExpiredDialog": {
       "title": "Esamina importi e commissioni",
       "body": "Gli importi e le commissioni possono cambiare a causa di oscillazioni nel mercato delle criptovalute.\n\nEsamina l'importo e le commissioni finali prima di inviare",
-      "continue": "Continue"
+      "continue": "Continua"
     }
   },
   "fiatConnectStatusScreen": {
@@ -1332,7 +1332,7 @@
     }
   },
   "fiatDetailsScreen": {
-    "header": "Inserisci informazioni bancarie",
+    "header": "Immetti i dettagli della banca",
     "headerSubTitle": "Powered by {{provider}}",
     "description": "Aggiungi le tue informazioni per collegare il tuo conto bancario a Valora",
     "selectedPaymentOption": "Opzione di pagamento selezionata",
