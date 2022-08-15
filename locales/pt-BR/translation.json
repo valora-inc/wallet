@@ -1284,12 +1284,12 @@
     "failedRefetch": {
       "title": "Conexão perdida!",
       "description": "Não foi possível estabelecer uma conexão entre as suas contas.\n\nIsso pode ser devido a uma má conexão de internet ou problema no servidor. Tente reconectar.",
-      "tryAgain": "Try Again"
+      "tryAgain": "Repetir"
     },
     "quoteExpiredDialog": {
       "title": "Revisar quantias e taxas",
       "body": "Os valores e taxas das criptomoedas podem mudar devido a flutuações no mercado cripto.\n\nRevise sua quantia e taxas finais antes de enviar",
-      "continue": "Continue"
+      "continue": "Continuar"
     }
   },
   "fiatConnectStatusScreen": {
@@ -1332,7 +1332,7 @@
     }
   },
   "fiatDetailsScreen": {
-    "header": "Inserir informações bancárias",
+    "header": "Insira os dados bancários",
     "headerSubTitle": "Desenvolvido por {{provider}}",
     "description": "Adicione suas informações para vincular sua conta bancária à Valora",
     "selectedPaymentOption": "Opção de pagamento selecionada",
