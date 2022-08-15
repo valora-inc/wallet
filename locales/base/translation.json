@@ -718,7 +718,10 @@
   "welcome": {
     "title": "Step into the future of crypto with {{appName}}",
     "createAccount": "Create new account",
-    "restoreAccount": "Restore my account"
+    "restoreAccount": "Restore my account",
+    "createNewWallet": "Create new wallet",
+    "restoreWallet": "Restore wallet",
+    "iAlreadyHaveAWallet": "I already have a wallet"
   },
   "accessContacts": {
     "disclosure": {
@@ -727,6 +730,7 @@
     }
   },
   "createAccount": "Create Account",
+  "createProfile": "Create Profile",
   "restoreAccount": "Restore My Account",
   "registrationSteps": "Step {{step}} of {{totalSteps}}",
   "selectCountryCode": "Select Country Code",
