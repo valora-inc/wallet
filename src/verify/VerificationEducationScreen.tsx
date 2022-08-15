@@ -58,7 +58,7 @@ import { getPhoneNumberState } from 'src/verify/utils'
 import VerificationLearnMoreDialog from 'src/verify/VerificationLearnMoreDialog'
 import VerificationSkipDialog from 'src/verify/VerificationSkipDialog'
 import networkConfig from 'src/web3/networkConfig'
-import { currentAccountSelector } from 'src/web3/selectors'
+import { currentAccountSelector, walletAddressSelector } from 'src/web3/selectors'
 
 type ScreenProps = StackScreenProps<StackParamList, Screens.VerificationEducationScreen>
 
@@ -92,6 +92,7 @@ function VerificationEducationScreen({ route, navigation }: Props) {
   const shouldUseKomenci = useSelector(shouldUseKomenciSelector)
   const verificationStatus = useSelector(verificationStatusSelector)
   const choseToRestoreAccount = useSelector(choseToRestoreAccountSelector)
+  const walletAddress = useSelector(walletAddressSelector)
   const { step, totalSteps } = useSelector(registrationStepsSelector)
 
   const onPressStart = async () => {
@@ -194,7 +195,7 @@ function VerificationEducationScreen({ route, navigation }: Props) {
 
   useAsync(async () => {
     await waitUntilSagasFinishLoading()
-    dispatch(initializeAccount())
+    if (walletAddress === null) dispatch(initializeAccount())
     dispatch(checkIfKomenciAvailable())
   }, [])
 
