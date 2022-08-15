@@ -1265,20 +1265,31 @@
     "continue": "Continuer"
   },
   "fiatConnectReviewScreen": {
-    "paymentMethod": "Mode de paiement",
     "transactionDetails": "Détails de transaction",
     "paymentMethodVia": "Relié(e) par {{providerName}}",
     "receiveAmount": "Vous recevrez",
     "cashIn": {
       "header": "Vérifier - Ajouter des fonds",
       "button": "Ajouter des fonds",
-      "transactionDetailsAmount": "Prix total"
+      "transactionDetailsAmount": "Prix total",
+      "paymentMethodHeader": "Deposit From"
     },
     "cashOut": {
       "header": "Vérifier",
       "button": "Retirer des fonds",
       "transactionDetailsAmount": "Retrait total",
-      "transactionDetailsAmountConverted": "Montant du retrait"
+      "transactionDetailsAmountConverted": "Montant du retrait",
+      "paymentMethodHeader": "Withdraw To"
+    },
+    "failedRefetch": {
+      "title": "Connection lost!",
+      "description": "We were not able to establish a connection between your accounts.\n\nThis may be due to a poor internet connection or server issue. Please try to reconnect.",
+      "tryAgain": "Try Again"
+    },
+    "quoteExpiredDialog": {
+      "title": "Review amounts & fees",
+      "body": "Crypto amounts & fees can change due to fluctuations in the crypto market.\n\nPlease review your final amount & fees before submitting",
+      "continue": "Continue"
     }
   },
   "fiatConnectStatusScreen": {
@@ -1321,24 +1332,21 @@
     }
   },
   "fiatDetailsScreen": {
-    "header": "Saisir les coordonnées bancaires",
+    "header": "Enter Bank Information",
+    "headerSubTitle": "Powered by {{provider}}",
+    "description": "Add your information to link your bank account to Valora",
     "selectedPaymentOption": "Option de paiement sélectionnée",
     "addFiatAccountSuccess": "Votre compte a bien été associé à Valora.",
     "addFiatAccountResourceExist": "Vous avez déjà lié ce compte à Valora.",
     "addFiatAccountFailed": "Votre compte n'a pas pu être lié, veuillez réessayer ou contacter le Support.",
     "selectItem": "Sélectionnez une option...",
-    "selectDone": "Terminé"
+    "selectDone": "Terminé",
+    "submitAndContinue": "Submit & Continue"
   },
   "fiatAccountSchema": {
-    "accountName": {
-      "label": "Nom du compte",
-      "placeholderText": "Un nom pour le compte",
-      "errorMessage": "Un nom de compte est obligatoire"
-    },
     "institutionName": {
       "label": "Nom de la banque",
-      "placeholderText": "Saisissez le nom de la banque",
-      "errorMessage": "Un nom de banque est obligatoire"
+      "placeholderText": "Saisissez le nom de la banque"
     },
     "accountNumber": {
       "label": "Numéro de compte",
