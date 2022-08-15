@@ -1,7 +1,6 @@
 import { render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
-import { ReactTestInstance } from 'react-test-renderer'
 import { RootState } from 'src/redux/reducers'
 import SwapFeedItem from 'src/transactions/feed/SwapFeedItem'
 import {
@@ -57,32 +56,6 @@ describe('SwapFeedItem', () => {
     }
   }
 
-  function expectDisplay({
-    getByTestId,
-    expectedTitleSections,
-    expectedSubtitleSections,
-    expectedIncomingAmount,
-    expectedOutgoingAmount,
-  }: {
-    getByTestId: (testId: string) => ReactTestInstance
-    expectedTitleSections: string
-    expectedSubtitleSections: string
-    expectedIncomingAmount: string
-    expectedOutgoingAmount: string
-  }) {
-    const title = getElementText(getByTestId('SwapFeedItem/title'))
-    expect(getElementText(title)).toEqual(expectedTitleSections)
-
-    const subtitle = getElementText(getByTestId('SwapFeedItem/subtitle'))
-    expect(getElementText(subtitle)).toEqual(expectedSubtitleSections)
-
-    const amountDisplay = getByTestId('SwapFeedItem/incomingAmount')
-    expect(getElementText(amountDisplay)).toEqual(expectedIncomingAmount)
-
-    const tokenDisplay = getByTestId('SwapFeedItem/outgoingAmount')
-    expect(getElementText(tokenDisplay)).toEqual(expectedOutgoingAmount)
-  }
-
   it('renders correctly for cUSD to cEUR swap', async () => {
     const { getByTestId } = renderScreen({
       inAmount: {
@@ -94,13 +67,11 @@ describe('SwapFeedItem', () => {
         value: 2.87,
       },
     })
-    expectDisplay({
-      getByTestId,
-      expectedTitleSections: 'swapScreen.title',
-      expectedSubtitleSections: 'cUSD to cEUR',
-      expectedIncomingAmount: '+2.93 cEUR',
-      expectedOutgoingAmount: '-2.87 cUSD',
-    })
+
+    expect(getElementText(getByTestId('SwapFeedItem/title'))).toEqual('swapScreen.title')
+    expect(getElementText(getByTestId('SwapFeedItem/subtitle'))).toEqual('cUSD to cEUR')
+    expect(getElementText(getByTestId('SwapFeedItem/incomingAmount'))).toEqual('+2.93 cEUR')
+    expect(getElementText(getByTestId('SwapFeedItem/outgoingAmount'))).toEqual('-2.87 cUSD')
   })
 
   it('renders correctly for cEUR to cUSD swap', async () => {
@@ -114,12 +85,10 @@ describe('SwapFeedItem', () => {
         value: 17.54,
       },
     })
-    expectDisplay({
-      getByTestId,
-      expectedTitleSections: 'swapScreen.title',
-      expectedSubtitleSections: 'cEUR to cUSD',
-      expectedIncomingAmount: '+17.87 cUSD',
-      expectedOutgoingAmount: '-17.54 cEUR',
-    })
+
+    expect(getElementText(getByTestId('SwapFeedItem/title'))).toEqual('swapScreen.title')
+    expect(getElementText(getByTestId('SwapFeedItem/subtitle'))).toEqual('cEUR to cUSD')
+    expect(getElementText(getByTestId('SwapFeedItem/incomingAmount'))).toEqual('+17.87 cUSD')
+    expect(getElementText(getByTestId('SwapFeedItem/outgoingAmount'))).toEqual('-17.54 cEUR')
   })
 })
