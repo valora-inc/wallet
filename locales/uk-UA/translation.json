@@ -1264,7 +1264,7 @@
     "bankAccount": {
       "header": "Прив'язати банківський рахунок",
       "bodyTitle": "Введіть банківські реквізити",
-      "description": "Enter bank account details to link your account to Valora. Your transactions will be powered by <0>{{providerName}}</0>."
+      "description": "Введіть реквізити банківського рахунку для під’єднання вашого облікового запису до Valora. Ваші операції здійснюватимуться за підтримки <0>{{providerName}}</0>."
     },
     "continue": "Продовжити"
   },
@@ -1276,22 +1276,22 @@
       "header": "Перегляд - Поповнити кошти",
       "button": "Додати кошти",
       "transactionDetailsAmount": "Сума",
-      "paymentMethodHeader": "Deposit From"
+      "paymentMethodHeader": "Поповнити з"
     },
     "cashOut": {
       "header": "Перегляд",
       "button": "Вивести кошти",
       "transactionDetailsAmount": "Всього Зняття",
       "transactionDetailsAmountConverted": "Знята сума",
-      "paymentMethodHeader": "Withdraw To"
+      "paymentMethodHeader": "Вивести до"
     },
     "failedRefetch": {
-      "title": "Connection lost!",
-      "description": "We were not able to establish a connection between your accounts.\n\nThis may be due to a poor internet connection or server issue. Please try to reconnect.",
+      "title": "З’єднання втрачено!",
+      "description": "Нам не вдалося встановити зв’язок між вашими обліковими записами.\n\nЦе може бути через поганий зв'язок з Інтернетом або проблеми з сервером. Будь ласка, спробуйте відновити підключення.",
       "tryAgain": "Try Again"
     },
     "quoteExpiredDialog": {
-      "title": "Review amounts & fees",
+      "title": "Переглянути суми та тарифи",
       "body": "Crypto amounts & fees can change due to fluctuations in the crypto market.\n\nPlease review your final amount & fees before submitting",
       "continue": "Continue"
     }
