@@ -10,7 +10,7 @@ export const SentryTransactionHub = {
     transactions.push(transaction)
   },
   finishTransaction(name: SentryTransaction) {
-    // get span operation - 'op'
+    // get transaction operation - 'op'
     const op = SentryTransactions[name].op
 
     // Find first the transaction with this op.
