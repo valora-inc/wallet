@@ -1264,7 +1264,7 @@
     "bankAccount": {
       "header": "Powiąż konto bankowe",
       "bodyTitle": "Wprowadź dane banku",
-      "description": "Wprowadź szczegóły dotyczące rachunku bankowego, aby powiązać swoje konto z aplikacją Valora. Transakcje będą obsługiwane przez <0>{{nazwaDostawcy}}</0>."
+      "description": "Wprowadź szczegóły dotyczące rachunku bankowego, aby powiązać swoje konto z aplikacją Valora. Transakcje będą obsługiwane przez <0>{{providerName}}</0>."
     },
     "continue": "Kontynuuj"
   },
@@ -1288,12 +1288,12 @@
     "failedRefetch": {
       "title": "Utracono połączenie!",
       "description": "Nie mogliśmy ustanowić połączenia między kontami.\n\nPrzyczyną może być słaba jakość połączenia internetowego lub błąd serwera. Spróbuj ponownie nawiązać połączenie.",
-      "tryAgain": "Try Again"
+      "tryAgain": "Spróbuj ponownie"
     },
     "quoteExpiredDialog": {
       "title": "Przejrzyj kwoty i opłaty",
       "body": "Kwoty kryptowalut i opłaty mogą ulegać zmianie z uwagi na wahania kursów na rynku kryptowalutowym.\n\nPrzed przesłaniem przejrzyj końcową kwotę i opłaty.",
-      "continue": "Continue"
+      "continue": "Kontynuuj"
     }
   },
   "fiatConnectStatusScreen": {
@@ -1337,7 +1337,7 @@
   },
   "fiatDetailsScreen": {
     "header": "Wprowadź dane banku",
-    "headerSubTitle": "Obsługiwane przez {{dostawca}}",
+    "headerSubTitle": "Obsługiwane przez {{provider}}",
     "description": "Dodaj swoje informacje, aby powiązać swój rachunek bankowy z aplikacją Valora",
     "selectedPaymentOption": "Wybrana opcja płatności",
     "addFiatAccountSuccess": "Twoje konto zostało połączone z aplikacją Valora.",
