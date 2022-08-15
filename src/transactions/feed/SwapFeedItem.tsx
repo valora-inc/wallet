@@ -72,7 +72,6 @@ function SwapFeedItem({ exchange }: Props) {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     flex: 1,
     paddingVertical: 12,
     paddingHorizontal: variables.contentPadding,
