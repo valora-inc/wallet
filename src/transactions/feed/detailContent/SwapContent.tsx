@@ -3,6 +3,8 @@ import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
+import { SwapEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import TokenDisplay, { formatValueToDisplay } from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import OpenLinkIcon from 'src/icons/OpenLinkIcon'
@@ -32,6 +34,7 @@ export default function SwapContent({ exchange }: Props) {
 
   //TODO: verifying fee part.
   const onPressTxDetails = () => {
+    ValoraAnalytics.track(SwapEvents.swap_feed_detail_view_tx)
     navigate(Screens.WebViewScreen, {
       uri: `${networkConfig.celoExplorerBaseTxUrl}${exchange.transactionHash}`,
     })

@@ -1278,6 +1278,7 @@ interface SwapEventsProperties {
     tokenSymbol: string
   }
   [SwapEvents.swap_screen_review_swap]: undefined
+  [SwapEvents.swap_feed_detail_view_tx]: undefined
 }
 
 export type AnalyticsPropertiesList = AppEventsProperties &
