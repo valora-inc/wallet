@@ -31,9 +31,7 @@ function SwapFeedItem({ exchange }: Props) {
   return (
     <Touchable disabled={false} onPress={openTransferDetails}>
       <View style={styles.container}>
-        <View style={styles.iconContainer}>
-          <SwapIcon />
-        </View>
+        <SwapIcon />
         <View style={styles.contentContainer}>
           <Text style={styles.title} testID={'SwapFeedItem/title'}>
             {t('swapScreen.title')}
@@ -78,10 +76,6 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingVertical: 12,
     paddingHorizontal: variables.contentPadding,
-  },
-  iconContainer: {
-    flexDirection: 'column',
-    alignItems: 'center',
   },
   contentContainer: {
     flex: 1,
