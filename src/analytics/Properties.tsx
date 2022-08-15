@@ -301,6 +301,7 @@ interface OnboardingEventsProperties {
   [OnboardingEvents.escrow_redeem_start]: undefined
   [OnboardingEvents.escrow_redeem_complete]: {
     paymentId: string | null
+    senderAddress: string
   }
   [OnboardingEvents.escrow_redeem_error]: {
     error: string

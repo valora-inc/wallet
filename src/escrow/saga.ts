@@ -281,9 +281,6 @@ function* withdrawFromEscrow(komenciActive: boolean = false) {
 
     if (escrowPaymentIds.length === 0) {
       Logger.debug(TAG + '@withdrawFromEscrow', 'No pending payments in escrow')
-      ValoraAnalytics.track(OnboardingEvents.escrow_redeem_complete, {
-        paymentId: null,
-      })
       return
     }
 
@@ -348,6 +345,7 @@ function* withdrawFromEscrow(komenciActive: boolean = false) {
         withdrawTxSuccess.push(true)
         ValoraAnalytics.track(OnboardingEvents.escrow_redeem_complete, {
           paymentId,
+          senderAddress: receivedPayment[1],
         })
       } catch (error) {
         withdrawTxSuccess.push(false)
