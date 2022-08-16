@@ -300,7 +300,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   loadingContentContainer: {
-    justifyContent: 'flex-start',
     alignItems: 'center',
     padding: Spacing.Regular16,
     flexGrow: 1,
@@ -334,9 +333,7 @@ const styles = StyleSheet.create({
   transactionDetailsRightText: {
     ...fontStyles.regular,
     flex: 1,
-    alignSelf: 'flex-end',
     textAlign: 'right',
-    textAlignVertical: 'center',
     fontWeight: '400',
     lineHeight: 24,
   },
