@@ -57,7 +57,7 @@ export function SwapReviewScreen(props: Props) {
   const swapFeePercentage = useSelector(swapFeePercentageSelector)
 
   // Remote configs converted to decimals strings
-  const maxSlippageDecimal = `${maxSlippagePercent / 100}`
+  // const maxSlippageDecimal = `${maxSlippagePercent / 100}`
   const swapFeeDecimal = `${swapFeePercentage / 100}`
 
   const { t } = useTranslation()
