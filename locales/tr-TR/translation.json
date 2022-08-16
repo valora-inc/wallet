@@ -389,7 +389,7 @@
   "choose": "Seçiniz",
   "receivedPayment": "Alınan Ödeme",
   "receivedNft": "NFT Alındı",
-  "sentNft": "Gönderilen NFT",
+  "sentNft": "NFT Gönderildi",
   "getStarted": "Kullanmaya Başlayın",
   "manageCeloDollars": "Celo Dollar'ları Yönetin",
   "sendCeloDollars": "Celo Dollar Gönderin",
@@ -718,7 +718,10 @@
   "welcome": {
     "title": "{{appName}} ile kriptonun geleceğine adım atın",
     "createAccount": "Yeni hesap oluştur",
-    "restoreAccount": "Hesabımı geri yükle"
+    "restoreAccount": "Hesabımı geri yükle",
+    "createNewWallet": "Create new wallet",
+    "restoreWallet": "Restore wallet",
+    "iAlreadyHaveAWallet": "I already have a wallet"
   },
   "accessContacts": {
     "disclosure": {
@@ -727,6 +730,7 @@
     }
   },
   "createAccount": "Hesap Oluştur",
+  "createProfile": "Create Profile",
   "restoreAccount": "Hesabımı Geri Yükle",
   "registrationSteps": "Toplam {{totalSteps}} adımdan {{step}}.",
   "selectCountryCode": "Ülke Kodu Seçin",
@@ -1056,7 +1060,7 @@
   "feedItemAddress": "Hesap {{address}}",
   "feedItemDepositInfo": "{{comment}}",
   "feedItemDepositInfo_noComment": "Yatırılan",
-  "feedItemDepositTitle": "Deposit",
+  "feedItemDepositTitle": "Patra Yatırma",
   "feedItemExchangeTitle": "CELO",
   "feedItemExchangeInfo_boughtGold": "<0></0> CELO alındı",
   "feedItemExchangeInfo_soldGold": "<0></0> CELO satıldı",
@@ -1260,7 +1264,7 @@
     "bankAccount": {
       "header": "Banka Hesabı Bağla",
       "bodyTitle": "Banka Bilgilerini Girin",
-      "description": "Enter bank account details to link your account to Valora. Your transactions will be powered by <0>{{providerName}}</0>."
+      "description": "Hesabınızı Valora'ya bağlamak için banka hesabı ayrıntılarını girin. İşlemleriniz <0>{{providerName}}</0> tarafından desteklenecektir."
     },
     "continue": "İleri"
   },
@@ -1272,24 +1276,24 @@
       "header": "Gözden Geçir - Bakiye Ekle",
       "button": "Bakiye Ekle",
       "transactionDetailsAmount": "Toplam fiyat",
-      "paymentMethodHeader": "Deposit From"
+      "paymentMethodHeader": "Para Yatıran"
     },
     "cashOut": {
       "header": "Gözden Geçir",
       "button": "Bakiye Çek",
       "transactionDetailsAmount": "Çekilen Toplam Tutar",
       "transactionDetailsAmountConverted": "Çekilen Tutar",
-      "paymentMethodHeader": "Withdraw To"
+      "paymentMethodHeader": "Parayı Çeken"
     },
     "failedRefetch": {
-      "title": "Connection lost!",
-      "description": "We were not able to establish a connection between your accounts.\n\nThis may be due to a poor internet connection or server issue. Please try to reconnect.",
-      "tryAgain": "Try Again"
+      "title": "Bağlantı kesildi!",
+      "description": "Hesaplarınız arasında bağlantı kurulamadı.\n\nBunun nedeni internet bağlantısının zayıf olması veya sunucu sorunu olabilir. Lütfen yeniden bağlanmayı deneyin.",
+      "tryAgain": "Tekrar Deneyin"
     },
     "quoteExpiredDialog": {
-      "title": "Review amounts & fees",
-      "body": "Crypto amounts & fees can change due to fluctuations in the crypto market.\n\nPlease review your final amount & fees before submitting",
-      "continue": "Continue"
+      "title": "Tutarları ve ücretleri gözden geçirin",
+      "body": "Kripto para piyasasındaki dalgalanmalar nedeniyle kripto tutarları ve ücretleri değişebilir.\n\nLütfen göndermeden önce nihai tutarınızı ve ücretlerinizi gözden geçirin",
+      "continue": "İleri"
     }
   },
   "fiatConnectStatusScreen": {
@@ -1332,16 +1336,16 @@
     }
   },
   "fiatDetailsScreen": {
-    "header": "Enter Bank Information",
-    "headerSubTitle": "Powered by {{provider}}",
-    "description": "Add your information to link your bank account to Valora",
+    "header": "Banka Bilgilerini girin",
+    "headerSubTitle": "{{provider}} tarafından desteklenmektedir",
+    "description": "Banka hesabınızı Valora'ya bağlamak için bilgilerinizi ekleyin",
     "selectedPaymentOption": "Seçili ödeme yöntemi",
     "addFiatAccountSuccess": "Hesabınız Valora'ya bağlandı.",
     "addFiatAccountResourceExist": "Bu hesabı zaten Valora'ya bağladınız.",
     "addFiatAccountFailed": "Hesabınız bağlanmadı, lütfen tekrar deneyin veya desteğe başvurun.",
     "selectItem": "Bir seçenek seçin...",
     "selectDone": "Tamamlandı",
-    "submitAndContinue": "Submit & Continue"
+    "submitAndContinue": "Gönder ve Devam Et"
   },
   "fiatAccountSchema": {
     "institutionName": {
@@ -1364,7 +1368,7 @@
     "swapFrom": "Bu Token’dan",
     "swapTo": "Şu Token’a",
     "insufficientFunds": "Yetersiz {{token}}. Lütfen daha küçük bir miktar girin veya farklı bir token seçin.",
-    "fetchSwapQuoteFailed": "Sorry for the delay! It's taking longer than usual to get the best exchange rate. Please try again in a few minutes."
+    "fetchSwapQuoteFailed": "Gecikme için üzgünüz! En iyi döviz kurunu almak normalden daha uzun sürüyor. Lütfen birkaç dakika içinde tekrar deneyin."
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

@@ -718,7 +718,10 @@
   "welcome": {
     "title": "Wkrocz w przyszłość kryptowalut z aplikacją {{appName}}",
     "createAccount": "Utwórz nowe konto",
-    "restoreAccount": "Przywróć konto"
+    "restoreAccount": "Przywróć konto",
+    "createNewWallet": "Utwórz nowy portfel",
+    "restoreWallet": "Przywróć portfel",
+    "iAlreadyHaveAWallet": "Ja już mam portfel"
   },
   "accessContacts": {
     "disclosure": {
@@ -727,6 +730,7 @@
     }
   },
   "createAccount": "Utwórz konto",
+  "createProfile": "Utwórz profil",
   "restoreAccount": "Przywróć konto",
   "registrationSteps": "Krok {{step}} z {{totalSteps}}",
   "selectCountryCode": "Wybierz kod kraju",
@@ -1264,7 +1268,7 @@
     "bankAccount": {
       "header": "Powiąż konto bankowe",
       "bodyTitle": "Wprowadź dane banku",
-      "description": "Enter bank account details to link your account to Valora. Your transactions will be powered by <0>{{providerName}}</0>."
+      "description": "Wprowadź szczegóły dotyczące rachunku bankowego, aby powiązać swoje konto z aplikacją Valora. Transakcje będą obsługiwane przez <0>{{providerName}}</0>."
     },
     "continue": "Kontynuuj"
   },
@@ -1276,24 +1280,24 @@
       "header": "Analizuj – Dodaj środki",
       "button": "Dodaj środki",
       "transactionDetailsAmount": "Cena całkowita",
-      "paymentMethodHeader": "Deposit From"
+      "paymentMethodHeader": "Wpłata z"
     },
     "cashOut": {
       "header": "Analizuj",
       "button": "Wypłać środki",
       "transactionDetailsAmount": "Całkowita wypłata",
       "transactionDetailsAmountConverted": "Wypłacona kwota",
-      "paymentMethodHeader": "Withdraw To"
+      "paymentMethodHeader": "Wypłata na"
     },
     "failedRefetch": {
-      "title": "Connection lost!",
-      "description": "We were not able to establish a connection between your accounts.\n\nThis may be due to a poor internet connection or server issue. Please try to reconnect.",
-      "tryAgain": "Try Again"
+      "title": "Utracono połączenie!",
+      "description": "Nie mogliśmy ustanowić połączenia między kontami.\n\nPrzyczyną może być słaba jakość połączenia internetowego lub błąd serwera. Spróbuj ponownie nawiązać połączenie.",
+      "tryAgain": "Spróbuj ponownie"
     },
     "quoteExpiredDialog": {
-      "title": "Review amounts & fees",
-      "body": "Crypto amounts & fees can change due to fluctuations in the crypto market.\n\nPlease review your final amount & fees before submitting",
-      "continue": "Continue"
+      "title": "Przejrzyj kwoty i opłaty",
+      "body": "Kwoty kryptowalut i opłaty mogą ulegać zmianie z uwagi na wahania kursów na rynku kryptowalutowym.\n\nPrzed przesłaniem przejrzyj końcową kwotę i opłaty.",
+      "continue": "Kontynuuj"
     }
   },
   "fiatConnectStatusScreen": {
@@ -1336,16 +1340,16 @@
     }
   },
   "fiatDetailsScreen": {
-    "header": "Enter Bank Information",
-    "headerSubTitle": "Powered by {{provider}}",
-    "description": "Add your information to link your bank account to Valora",
+    "header": "Wprowadź dane banku",
+    "headerSubTitle": "Obsługiwane przez {{provider}}",
+    "description": "Dodaj swoje informacje, aby powiązać swój rachunek bankowy z aplikacją Valora",
     "selectedPaymentOption": "Wybrana opcja płatności",
     "addFiatAccountSuccess": "Twoje konto zostało połączone z aplikacją Valora.",
     "addFiatAccountResourceExist": "Twoje konto jest już połączone z aplikacją Valora.",
     "addFiatAccountFailed": "Twoje konto nie zostało połączone, spróbuj ponownie lub skontaktuj się z Działem wsparcia.",
     "selectItem": "Wybierz opcję...",
     "selectDone": "Gotowe",
-    "submitAndContinue": "Submit & Continue"
+    "submitAndContinue": "Prześlij i kontynuuj"
   },
   "fiatAccountSchema": {
     "institutionName": {
@@ -1368,7 +1372,7 @@
     "swapFrom": "Od",
     "swapTo": "Do",
     "insufficientFunds": "Niewystarczające saldo {{token}}. Spróbuj wpłacić mniejszą kwotę lub wybierz inny token.",
-    "fetchSwapQuoteFailed": "Sorry for the delay! It's taking longer than usual to get the best exchange rate. Please try again in a few minutes."
+    "fetchSwapQuoteFailed": "Przepraszamy za opóźnienie! Przetwarzanie trwa dłużej niż zwykle, aby uzyskać najlepszy kurs wymiany. Spróbuj ponownie za kilka minut."
   },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",
