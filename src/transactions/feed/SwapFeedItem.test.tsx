@@ -69,7 +69,9 @@ describe('SwapFeedItem', () => {
     })
 
     expect(getElementText(getByTestId('SwapFeedItem/title'))).toEqual('swapScreen.title')
-    expect(getElementText(getByTestId('SwapFeedItem/subtitle'))).toEqual('cUSD to cEUR')
+    expect(getElementText(getByTestId('SwapFeedItem/subtitle'))).toEqual(
+      'feedItemSwapPath, {"token1":"cUSD","token2":"cEUR"}'
+    )
     expect(getElementText(getByTestId('SwapFeedItem/incomingAmount'))).toEqual('+2.93 cEUR')
     expect(getElementText(getByTestId('SwapFeedItem/outgoingAmount'))).toEqual('-2.87 cUSD')
   })
@@ -87,7 +89,9 @@ describe('SwapFeedItem', () => {
     })
 
     expect(getElementText(getByTestId('SwapFeedItem/title'))).toEqual('swapScreen.title')
-    expect(getElementText(getByTestId('SwapFeedItem/subtitle'))).toEqual('cEUR to cUSD')
+    expect(getElementText(getByTestId('SwapFeedItem/subtitle'))).toEqual(
+      'feedItemSwapPath, {"token1":"cEUR","token2":"cUSD"}'
+    )
     expect(getElementText(getByTestId('SwapFeedItem/incomingAmount'))).toEqual('+17.87 cUSD')
     expect(getElementText(getByTestId('SwapFeedItem/outgoingAmount'))).toEqual('-17.54 cEUR')
   })
