@@ -674,6 +674,7 @@ export const mockFiatConnectProviderInfo: FiatConnectProviderInfo[] = [
     baseUrl: 'fakewebsite.valoraapp.com',
     websiteUrl: 'https://fakewebsite.valorapp.com',
     iconUrl: mockFiatConnectProviderIcon,
+    apiKey: 'fake-api-key',
   },
   {
     id: 'provider-one',

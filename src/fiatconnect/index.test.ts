@@ -94,6 +94,7 @@ describe('FiatConnect helpers', () => {
           imageUrl: 'https://fake-icon.valoraapp.com',
           websiteUrl: 'https://fake-provider.valoraapp.com',
           iconUrl: 'https://fake-icon.valoraapp.com',
+          apiKey: 'fake-api-key',
         },
       ],
     }
@@ -148,6 +149,7 @@ describe('FiatConnect helpers', () => {
         baseUrl: 'some url',
         network: Network.Alfajores,
         accountAddress: 'some address',
+        apiKey: 'fake-api-key',
       },
       (message: string): Promise<string> => {
         return Promise.resolve(message)

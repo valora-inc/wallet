@@ -260,7 +260,8 @@ function* _getFiatAccount({
   const fiatAccounts: FiatAccount[] = yield call(
     fetchFiatAccountsSaga,
     providerId,
-    fiatConnectProvider.baseUrl
+    fiatConnectProvider.baseUrl,
+    fiatConnectProvider.apiKey
   )
 
   let fiatAccount: FiatAccount | undefined
@@ -324,11 +325,16 @@ export function* handleSelectFiatConnectQuote({
   }
 }
 
-export function* fetchFiatAccountsSaga(providerId: string, baseUrl: string) {
+export function* fetchFiatAccountsSaga(
+  providerId: string,
+  baseUrl: string,
+  apiKey: string | undefined
+) {
   const fiatConnectClient: FiatConnectApiClient = yield call(
     getFiatConnectClient,
     providerId,
-    baseUrl
+    baseUrl,
+    apiKey
   )
   const fiatAccountsResponse: Result<GetFiatAccountsResponse, ResponseError> = yield call([
     fiatConnectClient,
@@ -373,7 +379,8 @@ export function* handleCreateFiatConnectTransfer({
       const fiatConnectClient: FiatConnectClient = yield call(
         getFiatConnectClient,
         fiatConnectQuote.getProviderId(),
-        fiatConnectQuote.getProviderBaseUrl()
+        fiatConnectQuote.getProviderBaseUrl(),
+        fiatConnectQuote.getProviderApiKey()
       )
       const result: Result<TransferResponse, ResponseError> = yield call(
         [fiatConnectClient, 'transferOut'],
