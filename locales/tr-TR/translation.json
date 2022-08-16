@@ -1262,9 +1262,9 @@
   },
   "fiatConnectLinkAccountScreen": {
     "bankAccount": {
-      "header": "Banka Hesabı Bağla",
-      "bodyTitle": "Banka Bilgilerini Girin",
-      "description": "Hesabınızı Valora'ya bağlamak için banka hesabı ayrıntılarını girin. İşlemleriniz <0>{{providerName}}</0> tarafından desteklenecektir."
+      "header": "Set up Bank Account",
+      "bodyTitle": "Set Up Bank Account",
+      "description": "Enter Bank Account details to transfer funds. Your transactions will be powered by <0>{{providerName}}</0>."
     },
     "continue": "İleri"
   },
@@ -1310,8 +1310,8 @@
     },
     "requestNotCompleted": {
       "title": "İsteğiniz gerçekleştirilemedi.",
-      "description": "Paranız Valora'dan aqktarılamadı. Lütfen tekrar deneyin veya yardım için destek ekibimizle iletişime geçin.",
-      "contactSupportPrefill": "Valora'dan paramı çekerken sorun yaşıyorum"
+      "description": "Your funds were not able to be transferred. Please try again or contact our support team for help.",
+      "contactSupportPrefill": "I'm having trouble withdrawing my funds."
     }
   },
   "fiatExchangeFlow": {
@@ -1338,11 +1338,10 @@
   "fiatDetailsScreen": {
     "header": "Banka Bilgilerini girin",
     "headerSubTitle": "{{provider}} tarafından desteklenmektedir",
-    "description": "Banka hesabınızı Valora'ya bağlamak için bilgilerinizi ekleyin",
     "selectedPaymentOption": "Seçili ödeme yöntemi",
-    "addFiatAccountSuccess": "Hesabınız Valora'ya bağlandı.",
-    "addFiatAccountResourceExist": "Bu hesabı zaten Valora'ya bağladınız.",
-    "addFiatAccountFailed": "Hesabınız bağlanmadı, lütfen tekrar deneyin veya desteğe başvurun.",
+    "addFiatAccountSuccess": "Your account has been connected to {{provider}}.",
+    "addFiatAccountResourceExist": "You have already connected this account to {{provider}}.",
+    "addFiatAccountFailed": "Your account was not connected to {{provider}}, please try again or contact support.",
     "selectItem": "Bir seçenek seçin...",
     "selectDone": "Tamamlandı",
     "submitAndContinue": "Gönder ve Devam Et"
