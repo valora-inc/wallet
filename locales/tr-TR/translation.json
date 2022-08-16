@@ -719,9 +719,9 @@
     "title": "{{appName}} ile kriptonun geleceğine adım atın",
     "createAccount": "Yeni hesap oluştur",
     "restoreAccount": "Hesabımı geri yükle",
-    "createNewWallet": "Create new wallet",
-    "restoreWallet": "Restore wallet",
-    "iAlreadyHaveAWallet": "I already have a wallet"
+    "createNewWallet": "Cüzdan oluştur",
+    "restoreWallet": "Cüzdan Yeniden Kur",
+    "iAlreadyHaveAWallet": "Zaten cüzdanım var"
   },
   "accessContacts": {
     "disclosure": {
@@ -730,7 +730,7 @@
     }
   },
   "createAccount": "Hesap Oluştur",
-  "createProfile": "Create Profile",
+  "createProfile": "Profili oluştur",
   "restoreAccount": "Hesabımı Geri Yükle",
   "registrationSteps": "Toplam {{totalSteps}} adımdan {{step}}.",
   "selectCountryCode": "Ülke Kodu Seçin",
