@@ -86,11 +86,16 @@ export default function SwapContent({ exchange }: Props) {
           testID="SwapContent/estimatedFee"
         />
       </View>
-      <Touchable testID={'txDetails'} borderless={true} onPress={onPressTxDetails}>
-        <View style={styles.rowContainer}>
+      <Touchable
+        style={styles.rowContainer}
+        borderless={true}
+        onPress={onPressTxDetails}
+        testID={'txDetails'}
+      >
+        <>
           <Text style={styles.txDetails}>{t('swapTransactionDetailPage.viewOnExplorer')}</Text>
           <OpenLinkIcon color={colors.gray4} />
-        </View>
+        </>
       </Touchable>
     </View>
   )
