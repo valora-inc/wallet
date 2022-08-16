@@ -9,8 +9,7 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  TouchableOpacity,
-  View,
+  View
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
@@ -28,6 +27,7 @@ import Button, { BtnSizes } from 'src/components/Button'
 import Dialog from 'src/components/Dialog'
 import CustomHeader from 'src/components/header/CustomHeader'
 import TokenDisplay, { formatValueToDisplay } from 'src/components/TokenDisplay'
+import Touchable from 'src/components/Touchable'
 import InfoIcon from 'src/icons/InfoIcon'
 import { noHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
@@ -190,16 +190,18 @@ export function SwapReviewScreen(props: Props) {
                   showLocalAmount={false}
                   testID={'ToSwapAmountToken'}
                 />
-                <TouchableOpacity
+                <Touchable
                   style={styles.touchableRow}
                   onPress={() => setEstimatedDialogVisible(true)}
                   hitSlop={variables.iconHitslop}
                 >
-                  <Text style={[styles.amountSubText, { marginRight: 4 }]}>
-                    {t('swapReviewScreen.estimatedAmountTitle')}
-                  </Text>
-                  <InfoIcon size={12} color={colors.gray4} />
-                </TouchableOpacity>
+                  <>
+                    <Text style={[styles.amountSubText, { marginRight: 4 }]}>
+                      {t('swapReviewScreen.estimatedAmountTitle')}
+                    </Text>
+                    <InfoIcon size={12} color={colors.gray4} />
+                  </>
+                </Touchable>
               </View>
             </View>
             <View style={styles.separator} />
@@ -232,16 +234,18 @@ export function SwapReviewScreen(props: Props) {
               </View>
             </View>
             <View style={styles.row}>
-              <TouchableOpacity
+              <Touchable
                 style={styles.touchableRow}
                 onPress={() => setSwapFeeModalVisible(true)}
                 hitSlop={variables.iconHitslop}
               >
-                <Text style={{ marginRight: 4, ...fontStyles.regular }}>
-                  {t('swapReviewScreen.swapFee')}
-                </Text>
-                <InfoIcon size={12} color={colors.gray4} />
-              </TouchableOpacity>
+                <>
+                  <Text style={{ marginRight: 4, ...fontStyles.regular }}>
+                    {t('swapReviewScreen.swapFee')}
+                  </Text>
+                  <InfoIcon size={12} color={colors.gray4} />
+                </>
+              </Touchable>
               <TokenDisplay
                 style={[styles.transactionDetailsRightText, !swapFeeEnabled && styles.feeWaived]}
                 amount={divideByWei(swapInfo?.unvalidatedSwapTransaction?.sellAmount).multipliedBy(
