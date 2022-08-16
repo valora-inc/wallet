@@ -719,9 +719,9 @@
     "title": "Wkrocz w przyszłość kryptowalut z aplikacją {{appName}}",
     "createAccount": "Utwórz nowe konto",
     "restoreAccount": "Przywróć konto",
-    "createNewWallet": "Utwórz nowy portfel",
+    "createNewWallet": "Utwórz portfel",
     "restoreWallet": "Przywróć portfel",
-    "iAlreadyHaveAWallet": "Ja już mam portfel"
+    "iAlreadyHaveAWallet": "Mam już portfel"
   },
   "accessContacts": {
     "disclosure": {
