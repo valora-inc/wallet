@@ -45,25 +45,24 @@ export default function SwapContent({ exchange }: Props) {
         <Text style={styles.bodyText}>{t('swapTransactionDetailPage.swapTo')}</Text>
         <TokenDisplay
           style={styles.currencyAmountText}
-          amount={exchange.outAmount.value}
-          tokenAddress={exchange.outAmount.tokenAddress}
+          amount={exchange.inAmount.value}
+          tokenAddress={exchange.inAmount.tokenAddress}
           showLocalAmount={false}
           showSymbol={true}
           hideSign={true}
-          testID="SwapContent/swapFrom"
+          testID="SwapContent/swapTo"
         />
       </View>
       <View style={[styles.row, { paddingBottom: Spacing.Regular16 }]}>
         <Text style={styles.bodyText}>{t('swapTransactionDetailPage.swapFrom')}</Text>
         <TokenDisplay
           style={styles.currencyAmountText}
-          amount={exchange.inAmount.value}
-          tokenAddress={exchange.inAmount.tokenAddress}
+          amount={exchange.outAmount.value}
+          tokenAddress={exchange.outAmount.tokenAddress}
           showLocalAmount={false}
           showSymbol={true}
-          showExplicitPositiveSign={true}
           hideSign={true}
-          testID="SwapContent/swapTo"
+          testID="SwapContent/swapFrom"
         />
       </View>
       <View style={styles.separator} />
@@ -89,7 +88,7 @@ export default function SwapContent({ exchange }: Props) {
       </View>
       <Touchable testID={'txDetails'} borderless={true} onPress={onPressTxDetails}>
         <View style={styles.rowContainer}>
-          <Text style={styles.txDetails}>{t('swapTransactionDetailPage.txDetails')}</Text>
+          <Text style={styles.txDetails}>{t('swapTransactionDetailPage.viewOnExplorer')}</Text>
           <OpenLinkIcon color={colors.gray4} />
         </View>
       </Touchable>

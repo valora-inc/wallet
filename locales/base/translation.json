@@ -1378,6 +1378,6 @@
     "swapTo": "Swap to",
     "rate": "Rate",
     "estimatedFee": "Estimated Fee",
-    "txDetails": "View on CeloExplorer"
+    "viewOnExplorer": "View on CeloExplorer"
   }
 }
