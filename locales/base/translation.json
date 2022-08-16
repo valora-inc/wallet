@@ -1373,7 +1373,7 @@
     "insufficientFunds": "Insufficient {{token}} balance. Try a smaller amount or choose a different token.",
     "fetchSwapQuoteFailed": "Sorry for the delay! It's taking longer than usual to get the best exchange rate. Please try again in a few minutes."
   },
-  "swapContent": {
+  "swapTransactionDetailPage": {
     "swapFrom": "Swap from",
     "swapTo": "Swap to",
     "rate": "Rate",
