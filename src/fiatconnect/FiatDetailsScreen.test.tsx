@@ -286,7 +286,8 @@ describe('FiatDetailsScreen', () => {
 
     expect(getFiatConnectClient).toHaveBeenCalledWith(
       quote.getProviderId(),
-      quote.getProviderBaseUrl()
+      quote.getProviderBaseUrl(),
+      quote.getProviderApiKey()
     )
     expect(fiatConnectClient.addFiatAccount).toHaveBeenCalledWith({
       fiatAccountSchema: 'AccountNumber',
@@ -327,7 +328,8 @@ describe('FiatDetailsScreen', () => {
 
     expect(getFiatConnectClient).toHaveBeenCalledWith(
       quote.getProviderId(),
-      quote.getProviderBaseUrl()
+      quote.getProviderBaseUrl(),
+      quote.getProviderApiKey()
     )
     expect(fiatConnectClient.addFiatAccount).toHaveBeenCalledWith({
       fiatAccountSchema: 'AccountNumber',
@@ -367,7 +369,8 @@ describe('FiatDetailsScreen', () => {
 
     expect(getFiatConnectClient).toHaveBeenCalledWith(
       quote.getProviderId(),
-      quote.getProviderBaseUrl()
+      quote.getProviderBaseUrl(),
+      quote.getProviderApiKey()
     )
     expect(fiatConnectClient.addFiatAccount).toHaveBeenCalledWith({
       fiatAccountSchema: 'AccountNumber',

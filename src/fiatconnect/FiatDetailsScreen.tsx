@@ -226,7 +226,8 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
 
       const fiatConnectClient = await getFiatConnectClient(
         quote.getProviderId(),
-        quote.getProviderBaseUrl()
+        quote.getProviderBaseUrl(),
+        quote.getProviderApiKey()
       )
       const result = await fiatConnectClient.addFiatAccount({
         fiatAccountSchema: fiatAccountSchema,

@@ -6,7 +6,10 @@ import { getPassword } from 'src/pincode/authentication'
 import { UNLOCK_DURATION } from 'src/web3/consts'
 import { getWalletAsync } from 'src/web3/contracts'
 
-const fiatConnectClients: Record<string, { url: string; client: FiatConnectApiClient }> = {}
+const fiatConnectClients: Record<
+  string,
+  { url: string; apiKey: string | undefined; client: FiatConnectApiClient }
+> = {}
 
 export function getSigningFunction(wallet: UnlockableWallet): (message: string) => Promise<string> {
   return async function (message: string): Promise<string> {
@@ -21,18 +24,25 @@ export function getSigningFunction(wallet: UnlockableWallet): (message: string) 
 
 export async function getFiatConnectClient(
   providerId: string,
-  providerBaseUrl: string
+  providerBaseUrl: string,
+  providerApiKey?: string
 ): Promise<FiatConnectApiClient> {
-  if (!fiatConnectClients[providerId] || fiatConnectClients[providerId].url !== providerBaseUrl) {
+  if (
+    !fiatConnectClients[providerId] ||
+    fiatConnectClients[providerId].url !== providerBaseUrl ||
+    fiatConnectClients[providerId].apiKey !== providerApiKey
+  ) {
     const wallet = (await getWalletAsync()) as UnlockableWallet
     const [account] = wallet.getAccounts()
     fiatConnectClients[providerId] = {
       url: providerBaseUrl,
+      apiKey: providerApiKey,
       client: new FiatConnectClient(
         {
           baseUrl: providerBaseUrl,
           network: FIATCONNECT_NETWORK,
           accountAddress: account,
+          apiKey: providerApiKey,
         },
         getSigningFunction(wallet)
       ),
