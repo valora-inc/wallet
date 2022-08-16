@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { DefaultTheme, NavigationContainer, NavigationState } from '@react-navigation/native'
 import * as Sentry from '@sentry/react-native'
+import { SeverityLevel } from '@sentry/types'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Share, StyleSheet, View } from 'react-native'
@@ -154,7 +155,7 @@ export const NavigatorWrapper = () => {
       Sentry.addBreadcrumb({
         category: 'navigation',
         message: `Navigated to ${currentRouteName}`,
-        level: Sentry.Severity.Info,
+        level: 'info' as SeverityLevel,
       })
     }
 
