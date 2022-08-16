@@ -719,8 +719,8 @@
     "title": "Сделайте шаг в будущее криптовалют с помощью {{appName}}",
     "createAccount": "Создать новый аккаунт",
     "restoreAccount": "Восстановить мой аккаунт",
-    "createNewWallet": "Создайте новый кошелек",
-    "restoreWallet": "Восстановление кошелька",
+    "createNewWallet": "Создать кошелек",
+    "restoreWallet": "Восстановить кошелек",
     "iAlreadyHaveAWallet": "У меня уже есть кошелек"
   },
   "accessContacts": {
