@@ -71,7 +71,7 @@ export function useLocalAmountToCurrency(
   if (currency === 'cREAL') {
     const usdOfLocalCurrency = useLocalAmountToCurrency(amount, Currency.Dollar)
     const tokenUsdPrice = useTokenInfoBySymbol(currency)?.usdPrice
-    return new BigNumber(usdOfLocalCurrency!).dividedBy(tokenUsdPrice!) || new BigNumber(0)
+    return usdOfLocalCurrency?.dividedBy(tokenUsdPrice!) || new BigNumber(0)
   }
   const exchangeRate = useSelector(localCurrencyExchangeRatesSelector)[currency]
   return useMemo(() => convertLocalAmountToCurrency(amount, exchangeRate), [amount, exchangeRate])
