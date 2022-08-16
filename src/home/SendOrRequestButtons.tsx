@@ -17,12 +17,12 @@ export default function SendOrRequestButtons() {
 
   const onPressSend = () => {
     ValoraAnalytics.track(HomeEvents.home_send)
-    navigate(Screens.Send)
+    navigate(Screens.QRNavigator, { screen: Screens.QRScanner })
   }
 
   const onPressRequest = () => {
     ValoraAnalytics.track(HomeEvents.home_request)
-    navigate(Screens.Send, { isOutgoingPaymentRequest: true })
+    navigate(Screens.ReceiveAmount)
   }
 
   const { t } = useTranslation()

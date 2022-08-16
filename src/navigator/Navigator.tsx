@@ -92,6 +92,7 @@ import PaymentRequestUnavailable, {
 } from 'src/paymentRequest/PaymentRequestUnavailable'
 import PincodeEnter from 'src/pincode/PincodeEnter'
 import PincodeSet from 'src/pincode/PincodeSet'
+import ReceiveAmount from 'src/receive'
 import { RootState } from 'src/redux/reducers'
 import { store } from 'src/redux/store'
 import Send from 'src/send/Send'
@@ -297,6 +298,11 @@ const sendScreens = (Navigator: typeof Stack) => (
       name={Screens.SendAmount}
       component={SendAmount}
       options={SendAmount.navigationOptions}
+    />
+    <Navigator.Screen
+      name={Screens.ReceiveAmount}
+      component={ReceiveAmount}
+      options={ReceiveAmount.navigationOptions}
     />
     <Navigator.Screen
       name={Screens.SendConfirmation}

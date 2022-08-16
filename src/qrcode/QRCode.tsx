@@ -13,6 +13,8 @@ import variables from 'src/styles/variables'
 import { currentAccountSelector } from 'src/web3/selectors'
 
 interface Props {
+  isForScanToSend?: boolean
+  content?: string
   qrSvgRef: React.MutableRefObject<SVG>
 }
 
@@ -22,7 +24,7 @@ const mapStateToProps = (state: RootState): Partial<UriData> => ({
   e164PhoneNumber: state.account.e164PhoneNumber || undefined,
 })
 
-export default function QRCodeDisplay({ qrSvgRef }: Props) {
+export default function QRCodeDisplay({ isForScanToSend, content, qrSvgRef }: Props) {
   const data = useSelector(mapStateToProps, shallowEqual)
   const qrContent = useMemo(() => urlFromUriData(data), [
     data.address,
@@ -31,9 +33,9 @@ export default function QRCodeDisplay({ qrSvgRef }: Props) {
   ])
   return (
     <SafeAreaView style={styles.container}>
-      <AvatarSelf iconSize={64} displayNameStyle={fontStyles.h2} />
+      {!isForScanToSend ? <AvatarSelf iconSize={64} displayNameStyle={fontStyles.h2} /> : undefined}
       <View style={styles.qrContainer}>
-        <QRCode value={qrContent} size={variables.width / 2} svgRef={qrSvgRef} />
+        <QRCode value={content ?? qrContent} size={variables.width / 2} svgRef={qrSvgRef} />
       </View>
     </SafeAreaView>
   )

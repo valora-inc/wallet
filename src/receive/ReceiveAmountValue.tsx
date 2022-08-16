@@ -1,6 +1,5 @@
 import BigNumber from 'bignumber.js'
 import React from 'react'
-import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
@@ -16,24 +15,18 @@ interface Props {
   tokenAmount: BigNumber
   usingLocalAmount: boolean
   tokenAddress: string
-  isOutgoingPaymentRequest: boolean
-  onPressMax: () => void
   onSwapInput: () => void
   tokenHasUsdPrice: boolean
 }
 
-function SendAmountValue({
+function ReceiveAmountValue({
   inputAmount,
   tokenAmount,
   usingLocalAmount,
   tokenAddress,
-  isOutgoingPaymentRequest,
-  onPressMax,
   onSwapInput,
   tokenHasUsdPrice,
 }: Props) {
-  const { t } = useTranslation()
-
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const tokenInfo = useTokenInfo(tokenAddress)
@@ -44,20 +37,7 @@ function SendAmountValue({
   return (
     <>
       <View style={styles.container}>
-        {isOutgoingPaymentRequest ? (
-          <View style={styles.placeholder} />
-        ) : (
-          <Touchable
-            borderless={true}
-            onPress={onPressMax}
-            style={styles.pressableButton}
-            testID="MaxButton"
-          >
-            <Text adjustsFontSizeToFit={true} maxFontSizeMultiplier={1.618} style={styles.button}>
-              {t('max')}
-            </Text>
-          </Touchable>
-        )}
+        <View style={styles.placeholder} />
         <View style={styles.valuesContainer}>
           <View style={styles.valueContainer} testID="InputAmountContainer">
             {usingLocalAmount && (
@@ -174,10 +154,6 @@ const styles = StyleSheet.create({
   symbolContainer: {
     justifyContent: 'center',
   },
-  button: {
-    color: colors.gray4,
-    fontSize: 12,
-  },
   mainSymbol: {
     ...fontStyles.regular,
     fontSize: 24,
@@ -217,4 +193,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default SendAmountValue
+export default ReceiveAmountValue

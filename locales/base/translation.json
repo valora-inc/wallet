@@ -831,7 +831,7 @@
   "requestUnavailableBody": "The number {{e164PhoneNumber}} doesn't have an account or hasn't connected it yet. Requests can only be sent to connected numbers.",
   "requestUnavailableNoNumberBody": "Your contact doesn't have an account or hasn't connected it yet. Requests can only be sent to connected numbers.",
   "requesting": "Requesting",
-  "request": "Request",
+  "request": "Receive",
   "requestToken": "Request {{token}}",
   "requestSent": "Request Sent",
   "from": "from",

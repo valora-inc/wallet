@@ -61,6 +61,7 @@ export enum Screens {
   QRScanner = 'QRScanner',
   RaiseLimitScreen = 'RaiseLimitScreen',
   RampScreen = 'RampScreen',
+  ReceiveAmount = 'ReceiveAmount',
   ReclaimPaymentConfirmationScreen = 'ReclaimPaymentConfirmationScreen',
   RegulatoryTerms = 'RegulatoryTerms',
   SelectCountry = 'SelectCountry',

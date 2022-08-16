@@ -17,6 +17,7 @@ import { sortFirstStableThenCeloThenOthersByUsdBalance } from 'src/tokens/utils'
 export enum TokenPickerOrigin {
   Send = 'Send',
   SendConfirmation = 'SendConfirmation',
+  Receive = 'Receive',
   Exchange = 'Exchange',
 }
 
