@@ -718,7 +718,10 @@
   "welcome": {
     "title": "Mergulhe no mundo cripto com a {{appName}}.",
     "createAccount": "Criar nova conta",
-    "restoreAccount": "Restaurar conta existente"
+    "restoreAccount": "Restaurar conta existente",
+    "createNewWallet": "Criar nova carteira",
+    "restoreWallet": "Restaurar a carteira",
+    "iAlreadyHaveAWallet": "Já tenho uma carteira"
   },
   "accessContacts": {
     "disclosure": {
@@ -727,6 +730,7 @@
     }
   },
   "createAccount": "Criar conta",
+  "createProfile": "Criar Perfil",
   "restoreAccount": "Restaurar conta existente",
   "registrationSteps": "Passo {{step}} de {{totalSteps}}",
   "selectCountryCode": "Selecione o código do país",
@@ -1272,24 +1276,24 @@
       "header": "Revisão - Adicionar Fundos",
       "button": "Adicionar Fundos",
       "transactionDetailsAmount": "Preço total",
-      "paymentMethodHeader": "Deposit From"
+      "paymentMethodHeader": "Depositar de"
     },
     "cashOut": {
       "header": "Revisar",
       "button": "Sacar Fundos",
       "transactionDetailsAmount": "Saque total",
       "transactionDetailsAmountConverted": "Quantia retirada",
-      "paymentMethodHeader": "Withdraw To"
+      "paymentMethodHeader": "Sacar para"
     },
     "failedRefetch": {
-      "title": "Connection lost!",
-      "description": "We were not able to establish a connection between your accounts.\n\nThis may be due to a poor internet connection or server issue. Please try to reconnect.",
-      "tryAgain": "Try Again"
+      "title": "Conexão perdida!",
+      "description": "Não foi possível estabelecer uma conexão entre as suas contas.\n\nIsso pode ser devido a uma má conexão de internet ou problema no servidor. Tente reconectar.",
+      "tryAgain": "Repetir"
     },
     "quoteExpiredDialog": {
-      "title": "Review amounts & fees",
-      "body": "Crypto amounts & fees can change due to fluctuations in the crypto market.\n\nPlease review your final amount & fees before submitting",
-      "continue": "Continue"
+      "title": "Revisar quantias e taxas",
+      "body": "Os valores e taxas das criptomoedas podem mudar devido a flutuações no mercado cripto.\n\nRevise sua quantia e taxas finais antes de enviar",
+      "continue": "Continuar"
     }
   },
   "fiatConnectStatusScreen": {
@@ -1332,16 +1336,16 @@
     }
   },
   "fiatDetailsScreen": {
-    "header": "Enter Bank Information",
-    "headerSubTitle": "Powered by {{provider}}",
-    "description": "Add your information to link your bank account to Valora",
+    "header": "Insira os dados bancários",
+    "headerSubTitle": "Desenvolvido por {{provider}}",
+    "description": "Adicione suas informações para vincular sua conta bancária à Valora",
     "selectedPaymentOption": "Opção de pagamento selecionada",
     "addFiatAccountSuccess": "Sua conta foi vinculada ao Valora.",
     "addFiatAccountResourceExist": "Você já vinculou essa conta ao Valora.",
     "addFiatAccountFailed": "Seu conta não foi vinculada, tente novamente ou entre em contato com o suporte.",
     "selectItem": "Selecione uma opção...",
     "selectDone": "Concluído",
-    "submitAndContinue": "Submit & Continue"
+    "submitAndContinue": "Enviar e continuar"
   },
   "fiatAccountSchema": {
     "institutionName": {
