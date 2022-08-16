@@ -103,7 +103,7 @@ function getFormatFunction(formatType: FormatType): FormatFunction {
   }
 }
 
-export function getFullCurrencyName(currency: Currency | null) {
+export function getFullCurrencyName(currency: Currency | 'cREAL' | null) {
   switch (currency) {
     case Currency.Dollar:
       return i18n.t('celoDollars')
@@ -111,6 +111,8 @@ export function getFullCurrencyName(currency: Currency | null) {
       return i18n.t('celoEuros')
     case Currency.Celo:
       return i18n.t('celoGold')
+    case 'cREAL':
+      return i18n.t('celoReales')
     default:
       return null
   }
