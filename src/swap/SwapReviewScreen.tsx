@@ -115,7 +115,6 @@ export function SwapReviewScreen(props: Props) {
       setSwapInfo(await response.json())
     } catch (error) {
       setFetchSwapQuoteError(true)
-      Logger.error(TAG, `Error fetching token swap quote: ${error}`)
     } finally {
       setLoading(false)
     }
