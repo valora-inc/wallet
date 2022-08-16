@@ -22,6 +22,7 @@ import CustomHeader from 'src/components/header/CustomHeader'
 import TokenDisplay, { formatValueToDisplay } from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import InfoIcon from 'src/icons/InfoIcon'
+import { noHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
@@ -360,5 +361,9 @@ const styles = StyleSheet.create({
     textDecorationStyle: 'solid',
   },
 })
+
+SwapReviewScreen.navOptions = {
+  ...noHeader,
+}
 
 export default SwapReviewScreen
