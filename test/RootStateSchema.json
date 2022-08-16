@@ -3640,7 +3640,8 @@
                 "NFT_RECEIVED",
                 "NFT_SENT",
                 "RECEIVED",
-                "SENT"
+                "SENT",
+                "SWAP_TRANSACTION"
             ],
             "type": "string"
         },
