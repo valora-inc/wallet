@@ -299,7 +299,10 @@ interface OnboardingEventsProperties {
   }
 
   [OnboardingEvents.escrow_redeem_start]: undefined
-  [OnboardingEvents.escrow_redeem_complete]: undefined
+  [OnboardingEvents.escrow_redeem_complete]: {
+    paymentId: string | null
+    senderAddress: string
+  }
   [OnboardingEvents.escrow_redeem_error]: {
     error: string
   }
@@ -593,7 +596,9 @@ interface EscrowEventsProperties {
   [EscrowEvents.escrow_transfer_start]: undefined
   [EscrowEvents.escrow_transfer_approve_tx_sent]: undefined
   [EscrowEvents.escrow_transfer_transfer_tx_sent]: undefined
-  [EscrowEvents.escrow_transfer_complete]: undefined
+  [EscrowEvents.escrow_transfer_complete]: {
+    paymentId: string
+  }
   [EscrowEvents.escrow_transfer_error]: {
     error: string
   }
