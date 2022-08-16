@@ -97,7 +97,9 @@ export function SwapReviewScreen(props: Props) {
         buyToken: toToken,
         sellToken: fromToken,
         [swapAmountParam]: swapAmountInWei.toString().split('.')[0],
-        slippagePercentage: maxSlippageDecimal,
+        // Enable when supported by 0xAPI & valora-rest-api
+        // Current Support - https://docs.0x.org/0x-api-swap/advanced-topics/slippage-protection
+        // slippagePercentage: maxSlippageDecimal,
         userAddress: walletAddress,
       }
       const queryParams = new URLSearchParams({ ...(params as Record<string, string>) }).toString()
