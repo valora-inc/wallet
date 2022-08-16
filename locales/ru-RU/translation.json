@@ -277,7 +277,7 @@
   "exchanges": "Криптобиржа",
   "noExchanges": "В вашем регионе отсутствуют доступные Криптобиржа для {{digitalAsset}}.",
   "buySellOnExchanges": "Покупка/продажа на Криптобиржа",
-  "cashOut": "Вывод средства",
+  "cashOut": "Вывести средства",
   "cashOutSubtitle": "Потратьте средства на подарочные сертификаты и другие покупки или отправьте их на Криптобиржа",
   "cashOutComingSoon": "Вывод средства (скоро)",
   "spend": "Потратить",
@@ -1116,7 +1116,7 @@
   "transactionHeaderInviteSent": "$t(inviteSent)",
   "transactionHeaderInviteReceived": "$t(inviteReceived)",
   "transactionHeaderSent": "Платеж отправлен",
-  "transactionHeaderWithdrewCelo": "Снятие CELO",
+  "transactionHeaderWithdrewCelo": "Вывод CELO",
   "transactionHeaderEscrowSent": "Эскроу-платеж отправлен",
   "transactionHeaderReceived": "Получен платеж",
   "transactionHeaderCeloDeposit": "Получен депозит",
@@ -1284,7 +1284,7 @@
     },
     "cashOut": {
       "header": "Проверить",
-      "button": "Вывод средства",
+      "button": "Вывести средства",
       "transactionDetailsAmount": "Всего выведено",
       "transactionDetailsAmountConverted": "Сумма выведено",
       "paymentMethodHeader": "Вывести на"
@@ -1327,9 +1327,9 @@
       "selectProviderHeader": "Выберите способ оплаты"
     },
     "cashOut": {
-      "fiatExchangeTitle": "Вывод средства",
+      "fiatExchangeTitle": "Вывести средства",
       "fiatExchangeSubtitle": "Выведите средства из {{appName}} и переведите на банковский счет, карту, криптовалютную биржу или в мобильный банк.",
-      "selectCurrencyTitle": "Вывод средства",
+      "selectCurrencyTitle": "Вывести средства",
       "exchangeAmountTitle": "Вывести {{currency}}",
       "selectProviderHeader": "Выберите способ вывода средств"
     },
