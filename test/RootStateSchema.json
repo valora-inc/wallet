@@ -4204,7 +4204,6 @@
                                         "exchangeRateChange",
                                         "failedFetchMnemonic",
                                         "fetchFailed",
-                                        "fiatDetailsScreen.addFiatAccountResourceExist",
                                         "firebaseDisabled",
                                         "firebaseFailed",
                                         "gasPriceUpdateFailed",
