@@ -89,9 +89,7 @@ export default function SwapContent({ exchange }: Props) {
       </View>
       <Touchable testID={'txDetails'} borderless={true} onPress={onPressTxDetails}>
         <View style={styles.rowContainer}>
-          <Text style={styles.txDetails}>
-            {t('fiatConnectStatusScreen.withdraw.success.txDetails')}
-          </Text>
+          <Text style={styles.txDetails}>{t('swapContent.txDetails')}</Text>
           <OpenLinkIcon color={colors.gray4} />
         </View>
       </Touchable>

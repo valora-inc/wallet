@@ -1373,6 +1373,7 @@
     "swapFrom": "Swap from",
     "swapTo": "Swap to",
     "rate": "Rate",
-    "estimatedFee": "Estimated Fee"
+    "estimatedFee": "Estimated Fee",
+    "txDetails": "View on CeloExplorer"
   }
 }
