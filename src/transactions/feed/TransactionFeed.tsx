@@ -4,7 +4,6 @@ import SectionHead from 'src/components/SectionHead'
 import useSelector from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import { Spacing } from 'src/styles/styles'
-import ExchangeFeedItem from 'src/transactions/feed/ExchangeFeedItem'
 import NftFeedItem from 'src/transactions/feed/NftFeedItem'
 import { useFetchTransactions } from 'src/transactions/feed/queryHelper'
 import SwapFeedItem from 'src/transactions/feed/SwapFeedItem'
@@ -109,11 +108,7 @@ function TransactionFeed() {
   function renderItem({ item: tx }: { item: FeedTokenTransaction; index: number }) {
     switch (tx.__typename) {
       case 'TokenExchangeV2':
-        if (tx.type == 'SWAP_TRANSACTION') {
-          return <SwapFeedItem key={tx.transactionHash} exchange={tx} />
-        } else {
-          return <ExchangeFeedItem key={tx.transactionHash} exchange={tx} />
-        }
+        return <SwapFeedItem key={tx.transactionHash} exchange={tx} />
       case 'TokenTransferV2':
         return <TransferFeedItem key={tx.transactionHash} transfer={tx} />
       case 'NftTransferV2':
