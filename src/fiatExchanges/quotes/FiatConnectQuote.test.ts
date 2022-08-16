@@ -221,6 +221,17 @@ describe('FiatConnectQuote', () => {
     })
   })
 
+  describe('.getProviderApiKey', () => {
+    it('returns provider api key', () => {
+      const quote = new FiatConnectQuote({
+        flow: CICOFlow.CashIn,
+        quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
+        fiatAccountType: FiatAccountType.BankAccount,
+      })
+      expect(quote.getProviderApiKey()).toEqual('fake-api-key')
+    })
+  })
+
   describe('.getFiatAmount', () => {
     it('returns fiat amount', () => {
       const quote = new FiatConnectQuote({
