@@ -719,8 +719,8 @@
     "title": "Entrez dans le futur des cryptomonnaies avec {{appName}}",
     "createAccount": "Créer un nouveau compte",
     "restoreAccount": "Restaurer mon compte",
-    "createNewWallet": "Crée un nouveau portefeuille",
-    "restoreWallet": "Restaurer le portefeuille",
+    "createNewWallet": "Créer un nouveau portefeuille",
+    "restoreWallet": "Restaurer un portefeuille",
     "iAlreadyHaveAWallet": "J'ai déjà un portefeuille"
   },
   "accessContacts": {
