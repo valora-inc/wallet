@@ -15,6 +15,7 @@ import {
 } from 'src/localCurrency/selectors'
 import useSelector from 'src/redux/useSelector'
 import { CurrencyInfo } from 'src/send/SendConfirmationLegacy'
+import { useTokenInfoBySymbol } from 'src/tokens/hooks'
 import { Currency } from 'src/utils/currencies'
 
 export function useDollarToLocalRate() {
@@ -54,8 +55,15 @@ export function useLocalCurrencySymbol() {
   return useSelector(getLocalCurrencySymbol)
 }
 
-//TODO check/implement cReal compatibility
-export function useLocalAmountToCurrency(amount: BigNumber, currency: Currency): BigNumber | null {
+export function useLocalAmountToCurrency(
+  amount: BigNumber,
+  currency: Currency | 'cREAL'
+): BigNumber | null {
+  if (currency === 'cREAL') {
+    const usdOfLocalCurrency = useLocalAmountToCurrency(amount, Currency.Dollar)
+    const tokenUsdPrice = useTokenInfoBySymbol(currency)?.usdPrice
+    return new BigNumber(usdOfLocalCurrency!).dividedBy(tokenUsdPrice!) || new BigNumber(0)
+  }
   const exchangeRate = useSelector(localCurrencyExchangeRatesSelector)[currency]
   return useMemo(() => convertLocalAmountToCurrency(amount, exchangeRate), [amount, exchangeRate])
 }
@@ -75,7 +83,8 @@ export function convertBetweenCurrencies(
   return convertLocalAmountToCurrency(localAmount, exchangeRates[to])
 }
 
-//TODO check/implement cReal compatibility
+// This hook is exclusively used for `currencyMaxAmount` in `FiatExchangeAmount.tsx`,
+// and has been replaced. Should I remove it?
 export function useConvertBetweenCurrencies(amount: BigNumber, from: Currency, to: Currency) {
   const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)
   return useMemo(() => {
