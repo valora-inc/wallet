@@ -14,7 +14,6 @@ import { useDispatch } from 'react-redux'
 import { showError, showMessage } from 'src/alert/actions'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { ErrorMessages } from 'src/app/ErrorMessages'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes } from 'src/components/Button'
 import CancelButton from 'src/components/CancelButton'
@@ -235,7 +234,11 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
       })
 
       if (result.isOk) {
-        dispatch(showMessage(t('fiatDetailsScreen.addFiatAccountSuccess')))
+        dispatch(
+          showMessage(
+            t('fiatDetailsScreen.addFiatAccountSuccess', { provider: quote.getProviderName() })
+          )
+        )
         ValoraAnalytics.track(FiatExchangeEvents.cico_fiat_details_success, {
           flow,
           provider: quote.getProviderId(),
@@ -273,9 +276,19 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
           error: result.error.message,
         })
         if (result.error.fiatConnectError === FiatConnectError.ResourceExists) {
-          dispatch(showError(ErrorMessages.ADD_FIAT_ACCOUNT_RESOURCE_EXIST))
+          dispatch(
+            showError(
+              t('fiatDetailsScreen.addFiatAccountResourceExist', {
+                provider: quote.getProviderName(),
+              })
+            )
+          )
         } else {
-          dispatch(showError(t('fiatDetailsScreen.addFiatAccountFailed')))
+          dispatch(
+            showError(
+              t('fiatDetailsScreen.addFiatAccountFailed', { provider: quote.getProviderName() })
+            )
+          )
         }
       }
     }
@@ -313,7 +326,6 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
     <SafeAreaView style={styles.container} edges={['bottom']}>
       <KeyboardAwareScrollView contentContainerStyle={styles.contentContainers}>
         <View>
-          <Text style={styles.descriptionText}>{t('fiatDetailsScreen.description')}</Text>
           {formFields.map((field, index) => (
             <FormField
               field={field}
@@ -425,12 +437,6 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     justifyContent: 'space-between',
     paddingHorizontal: 16,
-  },
-  descriptionText: {
-    ...fontStyles.regular,
-    color: colors.gray4,
-    paddingBottom: 12,
-    paddingTop: 24,
   },
   inputLabel: {
     ...fontStyles.regular500,
