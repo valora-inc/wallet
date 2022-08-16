@@ -7,6 +7,7 @@ const Sentry = {
   Severity: {
     Error: 'error',
   },
+  startTransaction: jest.fn(),
 }
 
 module.exports = Sentry
