@@ -1262,15 +1262,15 @@
   },
   "fiatConnectLinkAccountScreen": {
     "bankAccount": {
-      "header": "Collegare un conto bancario",
-      "bodyTitle": "Immetti i dettagli bancari",
-      "description": "Immetti i dettagli bancari per collegare il tuo conto a Valora. Le tue transazioni saranno effettuate da <0>{{providerName}}</0>."
+      "header": "Imposta un conto corrente bancario",
+      "bodyTitle": "Imposta un conto corrente bancario",
+      "description": "Inserisci i dati del conto bancario per trasferire i fondi. Le tue transazioni saranno effettuate da <0>{{providerName}}</0>."
     },
     "continue": "Continua"
   },
   "fiatConnectReviewScreen": {
     "transactionDetails": "Dettagli della transazione",
-    "paymentMethodVia": "Collegati via {{providerName}}",
+    "paymentMethodVia": "Collegato via {{providerName}}",
     "receiveAmount": "Riceverai",
     "cashIn": {
       "header": "Rivedi - Aggiungi fondi",
@@ -1310,8 +1310,8 @@
     },
     "requestNotCompleted": {
       "title": "Non è stato possibile completare la richiesta.",
-      "description": "Non è stato possibile trasferire i tuoi fondi da Valora. Riprova o contatta il nostro team di supporto per ricevere assistenza.",
-      "contactSupportPrefill": "Ho problemi a prelevare i miei fondi da Valora"
+      "description": "Non è stato possibile trasferire i tuoi fondi. Riprova o contatta il nostro team di assistenza per ricevere aiuto.",
+      "contactSupportPrefill": "Ho problemi a prelevare i miei fondi."
     }
   },
   "fiatExchangeFlow": {
@@ -1338,11 +1338,10 @@
   "fiatDetailsScreen": {
     "header": "Immetti i dettagli della banca",
     "headerSubTitle": "Powered by {{provider}}",
-    "description": "Aggiungi le tue informazioni per collegare il tuo conto bancario a Valora",
     "selectedPaymentOption": "Opzione di pagamento selezionata",
-    "addFiatAccountSuccess": "Il tuo conto è stato collegato a Valora.",
-    "addFiatAccountResourceExist": "Hai già collegato questo conto a Valora.",
-    "addFiatAccountFailed": "Il tuo conto non è stato collegato, riprova o contatta il supporto tecnico.",
+    "addFiatAccountSuccess": "Il tuo account è stato collegato a {{provider}}.",
+    "addFiatAccountResourceExist": "Hai già collegato questo account a {{provider}}.",
+    "addFiatAccountFailed": "Il tuo account non è stato collegato a {{provider}}, riprova o contatta l'assistenza.",
     "selectItem": "Seleziona un'opzione...",
     "selectDone": "Fatto",
     "submitAndContinue": "Invia e continua"
