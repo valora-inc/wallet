@@ -1262,15 +1262,15 @@
   },
   "fiatConnectLinkAccountScreen": {
     "bankAccount": {
-      "header": "Bankkonto verknüpfen",
-      "bodyTitle": "Bankkontodaten eingeben",
-      "description": "Gib deine Kontoinformationen ein, um dein Konto mit Valora zu verknüpfen. Deine Transaktionen werden von <0>{{providerName}}</0> unterstützt."
+      "header": "Bankkonto einrichten",
+      "bodyTitle": "Bankkonto einrichten",
+      "description": "Gib die Details deines Bankkontos ein, um Geld zu überweisen. Deine Transaktionen werden durchgeführt von <0>{{providerName}}</0>."
     },
     "continue": "Weiter"
   },
   "fiatConnectReviewScreen": {
     "transactionDetails": "Transaktiondetails",
-    "paymentMethodVia": "Verknüpft über {{providerName}}",
+    "paymentMethodVia": "Über {{providerName}} verbunden",
     "receiveAmount": "Du wirst erhalten",
     "cashIn": {
       "header": "Guthaben hinzufügen überprüfen",
@@ -1310,8 +1310,8 @@
     },
     "requestNotCompleted": {
       "title": "Deine Anfrage konnte nicht abgeschlossen werden.",
-      "description": "Dein Guthaben konnte nicht von Valora überwiesen werden. Bitte versuche es noch einmal oder wende dich an unser Support-Team, um Hilfe zu erhalten.",
-      "contactSupportPrefill": "Ich habe Probleme, mein Guthaben von Valora abzuheben"
+      "description": "Dein Geld konnte nicht überwiesen werden. Bitte versuche es noch einmal oder wende dich an unser Support-Team, um Hilfe zu erhalten.",
+      "contactSupportPrefill": "Ich habe Probleme, mein Geld abzuheben."
     }
   },
   "fiatExchangeFlow": {
@@ -1338,11 +1338,10 @@
   "fiatDetailsScreen": {
     "header": "Bankdaten eingeben",
     "headerSubTitle": "Unterstützt von {{provider}}",
-    "description": "Füge deine Daten hinzu, um dein Bankkonto mit Valora zu verknüpfen.",
     "selectedPaymentOption": "Gewählte Zahlungsoption",
-    "addFiatAccountSuccess": "Dein Konto wurde mit Valora verknüpft.",
-    "addFiatAccountResourceExist": "Du hast dieses Konto bereits mit Valora verknüpft.",
-    "addFiatAccountFailed": "Dein Konto wurde nicht verlinkt. Bitte versuche es erneut oder kontaktiere den Support.",
+    "addFiatAccountSuccess": "Dein Konto wurde mit {{provider}}verbunden.",
+    "addFiatAccountResourceExist": "Du hast dieses Konto bereits mit {{provider}}verbunden.",
+    "addFiatAccountFailed": "Dein Konto wurde nicht mit {{provider}}verbunden. Bitte versuche es erneut oder kontaktiere den Support.",
     "selectItem": "Option auswählen...",
     "selectDone": "Fertig",
     "submitAndContinue": "Senden und fortfahren"
