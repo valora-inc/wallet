@@ -8,7 +8,14 @@ import { getWalletAsync } from 'src/web3/contracts'
 
 const fiatConnectClients: Record<string, { url: string; client: FiatConnectApiClient }> = {}
 
-export function getSigningFunction(wallet: UnlockableWallet): (message: string) => Promise<string> {
+/**
+ * A helper function used by SIWE clients for signing SIWE login messages
+ *
+ * @param wallet
+ */
+export function getSiweSigningFunction(
+  wallet: UnlockableWallet
+): (message: string) => Promise<string> {
   return async function (message: string): Promise<string> {
     const [account] = wallet.getAccounts()
     if (!wallet.isAccountUnlocked(account)) {
@@ -34,7 +41,7 @@ export async function getFiatConnectClient(
           network: FIATCONNECT_NETWORK,
           accountAddress: account,
         },
-        getSigningFunction(wallet)
+        getSiweSigningFunction(wallet)
       ),
     }
   }

@@ -1,5 +1,5 @@
 import { SiweApiClient, SiweClient } from '@fiatconnect/fiatconnect-sdk'
-import { getSigningFunction } from 'src/fiatconnect/clients'
+import { getSiweSigningFunction } from 'src/fiatconnect/clients'
 import { getWalletAsync } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
 
@@ -23,7 +23,7 @@ export const getClient = async (): Promise<SiweApiClient> => {
         loginUrl: `${networkConfig.inHouseLiquidityURL}/auth/login`,
         clockUrl: `${networkConfig.inHouseLiquidityURL}/clock`,
       },
-      getSigningFunction(wallet)
+      getSiweSigningFunction(wallet)
     )
   }
   return ihlClient
