@@ -23,13 +23,13 @@ function SwapFeedItem({ exchange }: Props) {
   const incomingTokenInfo = useTokenInfo(exchange.inAmount.tokenAddress)
   const outgoingTokenInfo = useTokenInfo(exchange.outAmount.tokenAddress)
 
-  const openTransferDetails = () => {
+  const handleTransferDetails = () => {
     navigate(Screens.TransactionDetailsScreen, { transaction: exchange })
     ValoraAnalytics.track(HomeEvents.transaction_feed_item_select)
   }
 
   return (
-    <Touchable disabled={false} onPress={openTransferDetails}>
+    <Touchable onPress={handleTransferDetails}>
       <View style={styles.container}>
         <SwapIcon />
         <View style={styles.contentContainer}>
