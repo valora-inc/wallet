@@ -719,8 +719,8 @@
     "title": "Mergulhe no mundo cripto com a {{appName}}.",
     "createAccount": "Criar nova conta",
     "restoreAccount": "Restaurar conta existente",
-    "createNewWallet": "Criar nova carteira",
-    "restoreWallet": "Restaurar a carteira",
+    "createNewWallet": "Criar carteira",
+    "restoreWallet": "Restaurar carteira",
     "iAlreadyHaveAWallet": "Já tenho uma carteira"
   },
   "accessContacts": {
@@ -730,7 +730,7 @@
     }
   },
   "createAccount": "Criar conta",
-  "createProfile": "Criar Perfil",
+  "createProfile": "Criar o perfil",
   "restoreAccount": "Restaurar conta existente",
   "registrationSteps": "Passo {{step}} de {{totalSteps}}",
   "selectCountryCode": "Selecione o código do país",
