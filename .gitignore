@@ -144,3 +144,4 @@ src/images/*
 # Extras
 balance.tmp
 ios/AppCenter-Config.plist
+.dccache

@@ -48,6 +48,8 @@ interface NetworkConfig {
   fetchExchangesUrl: string
 }
 
+const BLOCKCHAIN_API_TESTNET = 'https://alfajores-dot-kolektivo-backend.uc.r.appspot.com'
+const BLOCKCHAIN_API_MAINNET = 'https://kolektivo-backend.uc.r.appspot.com'
 const KOMENCI_URL_MAINNET = 'https://mainnet-komenci.azurefd.net'
 const KOMENCI_URL_STAGING = 'https://staging-komenci.azurefd.net'
 const CLOUD_FUNCTIONS_STAGING = 'https://us-central1-celo-mobile-alfajores.cloudfunctions.net'
@@ -98,8 +100,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     nodeDir: `.${Testnets.alfajores}`,
     syncMode: DEFAULT_SYNC_MODE,
     initiallyForno: FORNO_ENABLED_INITIALLY,
-    // blockchainApiUrl: 'http://127.0.0.1:8080',
-    blockchainApiUrl: 'https://blockchain-api-dot-celo-mobile-alfajores.appspot.com',
+    blockchainApiUrl: BLOCKCHAIN_API_TESTNET,
     odisUrl: OdisUtils.Query.ODIS_ALFAJORES_CONTEXT.odisUrl,
     odisPubKey: OdisUtils.Query.ODIS_ALFAJORES_CONTEXT.odisPubKey,
     useDiscovery: GETH_USE_FULL_NODE_DISCOVERY,
@@ -128,7 +129,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     nodeDir: `.${Testnets.mainnet}`,
     syncMode: DEFAULT_SYNC_MODE,
     initiallyForno: FORNO_ENABLED_INITIALLY,
-    blockchainApiUrl: 'https://blockchain-api-dot-celo-mobile-mainnet.appspot.com',
+    blockchainApiUrl: BLOCKCHAIN_API_MAINNET,
     odisUrl: OdisUtils.Query.ODIS_MAINNET_CONTEXT.odisUrl,
     odisPubKey: OdisUtils.Query.ODIS_MAINNET_CONTEXT.odisPubKey,
     useDiscovery: GETH_USE_FULL_NODE_DISCOVERY,

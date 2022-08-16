@@ -14,7 +14,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { apolloClient } from 'src/apollo'
 import { TokenTransactionType } from 'src/apollo/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { DOLLAR_MIN_AMOUNT_ACCOUNT_FUNDED, WALLET_BALANCE_UPPER_BOUND } from 'src/config'
+import { DOLLAR_MIN_AMOUNT_ACCOUNT_FUNDED, isE2EEnv, WALLET_BALANCE_UPPER_BOUND } from 'src/config'
 import { FeeInfo } from 'src/fees/saga'
 import { readOnceFromFirebase } from 'src/firebase/firebase'
 import { WEI_PER_TOKEN } from 'src/geth/consts'
@@ -321,7 +321,7 @@ export function* fetchTokenBalancesSaga() {
       return
     }
     // In e2e environment we use a static token list since we can't access Firebase.
-    const tokens: StoredTokenBalances = true
+    const tokens: StoredTokenBalances = isE2EEnv
       ? e2eTokens()
       : yield call(readOnceFromFirebase, 'tokensInfo')
     const tokenBalances: FetchedTokenBalance[] = yield call(fetchTokenBalancesForAddress, address)
