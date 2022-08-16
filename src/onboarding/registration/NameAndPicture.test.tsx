@@ -4,9 +4,11 @@ import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
+import { CreateAccountCopyTestType } from 'src/app/types'
 import { Screens } from 'src/navigator/Screens'
 import NameAndPicture from 'src/onboarding/registration/NameAndPicture'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
+import { mockNavigation } from 'test/values'
 
 expect.extend({ toBeDisabled })
 
@@ -64,5 +66,83 @@ describe('NameAndPictureScreen', () => {
       </Provider>
     )
     expect(queryByTestId('PictureInput')).toBeNull()
+  })
+
+  it('render header title correctly when createAccountCopyTestType is "Account"', () => {
+    const store = createMockStore({
+      account: {
+        choseToRestoreAccount: false,
+      },
+      app: {
+        createAccountCopyTestType: CreateAccountCopyTestType.Account,
+      },
+    })
+
+    let headerTitle: React.ReactNode
+    ;(mockNavigation.setOptions as jest.Mock).mockImplementation((options) => {
+      headerTitle = options.headerTitle()
+    })
+
+    render(
+      <Provider store={store}>
+        <NameAndPicture {...mockScreenProps} />
+      </Provider>
+    )
+
+    const { getByText } = render(<Provider store={store}>{headerTitle}</Provider>)
+
+    expect(getByText('createAccount')).toBeTruthy()
+  })
+
+  it('render header title correctly when createAccountCopyTestType is "Wallet"', () => {
+    const store = createMockStore({
+      account: {
+        choseToRestoreAccount: false,
+      },
+      app: {
+        createAccountCopyTestType: CreateAccountCopyTestType.Wallet,
+      },
+    })
+
+    let headerTitle: React.ReactNode
+    ;(mockNavigation.setOptions as jest.Mock).mockImplementation((options) => {
+      headerTitle = options.headerTitle()
+    })
+
+    render(
+      <Provider store={store}>
+        <NameAndPicture {...mockScreenProps} />
+      </Provider>
+    )
+
+    const { getByText } = render(<Provider store={store}>{headerTitle}</Provider>)
+
+    expect(getByText('createProfile')).toBeTruthy()
+  })
+
+  it('render header title correctly when createAccountCopyTestType is "AlreadyHaveWallet"', () => {
+    const store = createMockStore({
+      account: {
+        choseToRestoreAccount: false,
+      },
+      app: {
+        createAccountCopyTestType: CreateAccountCopyTestType.AlreadyHaveWallet,
+      },
+    })
+
+    let headerTitle: React.ReactNode
+    ;(mockNavigation.setOptions as jest.Mock).mockImplementation((options) => {
+      headerTitle = options.headerTitle()
+    })
+
+    render(
+      <Provider store={store}>
+        <NameAndPicture {...mockScreenProps} />
+      </Provider>
+    )
+
+    const { getByText } = render(<Provider store={store}>{headerTitle}</Provider>)
+
+    expect(getByText('createProfile')).toBeTruthy()
   })
 })
