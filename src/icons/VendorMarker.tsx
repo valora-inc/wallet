@@ -12,7 +12,7 @@ export interface Props {
   onPress?: () => void
 }
 
-function VendorMarker({ color = colors.onboardingBlue, size = 24, ...props }: Props) {
+function VendorMarker({ color = colors.onboardingBlue, size = 32, ...props }: Props) {
   return (
     <Marker {...props}>
       <Svg
