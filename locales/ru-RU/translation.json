@@ -1266,15 +1266,15 @@
   },
   "fiatConnectLinkAccountScreen": {
     "bankAccount": {
-      "header": "Привязать банковский счет",
-      "bodyTitle": "Введите банковские реквизиты",
-      "description": "Введите банковские реквизиты для привязки своего счета к Valora. Ваши транзакции будут осуществляться при поддержке <0>{{providerName}}</0>."
+      "header": "Создайте банковский счет",
+      "bodyTitle": "Установите банковский счет",
+      "description": "Введи реквизиты банковского счета для перевода средств. Твои транзакции будут осуществляться с помощью <0>{{providerName}}</0>."
     },
     "continue": "Продолжить"
   },
   "fiatConnectReviewScreen": {
     "transactionDetails": "Детали транзакции",
-    "paymentMethodVia": "связь через {{providerName}}.",
+    "paymentMethodVia": "Соединение через {{providerName}}",
     "receiveAmount": "Ты получишь",
     "cashIn": {
       "header": "Проверить - Внести средства",
@@ -1314,8 +1314,8 @@
     },
     "requestNotCompleted": {
       "title": "Ваш запрос не удалось выполнить.",
-      "description": "Ваши средства не удалось перевести из Valora. Повторите попытку или обратитесь за помощью в нашу службу поддержки.",
-      "contactSupportPrefill": "У меня возникли проблемы с выводом средств из Valora"
+      "description": "Твои средства не удалось перевести. Пожалуйста, попробуй еще раз или обратись за помощью в нашу службу поддержки.",
+      "contactSupportPrefill": "У меня проблемы с выводом средств."
     }
   },
   "fiatExchangeFlow": {
@@ -1342,11 +1342,10 @@
   "fiatDetailsScreen": {
     "header": "Введите банковскую информацию",
     "headerSubTitle": "При поддержке {{provider}}",
-    "description": "Добавьте свою информацию для привязки своего банковского счета к Valora",
     "selectedPaymentOption": "Выбранный способ оплаты",
-    "addFiatAccountSuccess": "Ваш аккаунт привязан к системе Valora.",
-    "addFiatAccountResourceExist": "Вы уже привязали этот аккаунт к Valora.",
-    "addFiatAccountFailed": "Ваш аккаунт не был привязан, повторите попытку или обратитесь в службу поддержки.",
+    "addFiatAccountSuccess": "Твой аккаунт был подключен к {{provider}}.",
+    "addFiatAccountResourceExist": "Ты уже подключил этот аккаунт к {{provider}}.",
+    "addFiatAccountFailed": "Твой аккаунт не был подключен к {{provider}}, пожалуйста, попробуй еще раз или обратись в службу поддержки.",
     "selectItem": "Выбери опцию...",
     "selectDone": "Готово",
     "submitAndContinue": "Отправить и продолжить"
