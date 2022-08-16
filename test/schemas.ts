@@ -1546,6 +1546,18 @@ export const v70Schema = {
   },
 }
 
+export const v71Schema = {
+  ...v70Schema,
+  _persist: {
+    ...v70Schema._persist,
+    version: 71,
+  },
+  app: {
+    ...v70Schema.app,
+    createAccountCopyTestType: 'ACCOUNT',
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v70Schema as Partial<RootState>
+  return v71Schema as Partial<RootState>
 }
