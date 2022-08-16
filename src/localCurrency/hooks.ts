@@ -22,9 +22,18 @@ export function useDollarToLocalRate() {
   return useSelector(getLocalCurrencyToDollarsExchangeRate)
 }
 
-//TODO check/implement cReal compatibility
 export function useLocalCurrencyToShow(amount: MoneyAmount, currencyInfo?: CurrencyInfo) {
   let localCurrencyCode = useSelector(getLocalCurrencyCode)
+  if (amount.currencyCode === 'cReal') {
+    const usdOfOneLocal = useLocalAmountToCurrency(new BigNumber(1), Currency.Dollar)!
+    const tokenUsdPrice = useTokenInfoBySymbol(amount.currencyCode)?.usdPrice!
+    const localCurrencyExchangeRate = new BigNumber(1).div(usdOfOneLocal).times(tokenUsdPrice)
+    return {
+      localCurrencyCode,
+      localCurrencyExchangeRate,
+      amountCurrency: 'cREAL' as Currency | 'cREAL',
+    }
+  }
   const amountCurrency = amount.currencyCode as Currency
   let localCurrencyExchangeRate = useSelector(localCurrencyExchangeRatesSelector)[amountCurrency]
   if (currencyInfo) {

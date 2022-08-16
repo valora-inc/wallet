@@ -152,7 +152,7 @@ export default function CurrencyDisplay({
   const currencySymbol = displayAmount
     ? shouldShowLocalAmount
       ? LocalCurrencySymbol[displayAmount.currencyCode as LocalCurrencyCode]
-      : CURRENCIES[amountCurrency].symbol
+      : CURRENCIES[amountCurrency as Currency].symbol
     : null
   const value = displayAmount ? new BigNumber(displayAmount.value) : null
   const sign = value?.isNegative() ? '-' : showExplicitPositiveSign ? '+' : ''
