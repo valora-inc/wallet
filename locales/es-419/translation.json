@@ -719,9 +719,9 @@
     "title": "Entra de lleno al futuro de las criptomonedas con {{appName}}.",
     "createAccount": "Crear una cuenta",
     "restoreAccount": "Restaurar cuenta existente",
-    "createNewWallet": "Crear un nuevo monedero",
-    "restoreWallet": "Restaurar la cartera",
-    "iAlreadyHaveAWallet": "Ya tengo una cartera"
+    "createNewWallet": "Crear billetera",
+    "restoreWallet": "Restaurar billetera",
+    "iAlreadyHaveAWallet": "Ya tengo una billetera"
   },
   "accessContacts": {
     "disclosure": {
