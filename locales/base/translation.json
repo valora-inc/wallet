@@ -1108,6 +1108,7 @@
   "feedItemGoldPurchased": "Purchased",
   "feedItemGoldWithdrawal": "Withdrawal to {{displayName}}",
   "feedItemGoldReceived": "Received from {{displayName}}",
+  "feedItemSwapPath": "{{token1}} to {{token2}}",
   "transactionHeaderVerificationFee": "Confirmation",
   "transactionHeaderNetworkFee": "Network",
   "transactionHeaderFaucet": "Faucet",
@@ -1264,15 +1265,15 @@
   },
   "fiatConnectLinkAccountScreen": {
     "bankAccount": {
-      "header": "Link Bank Account",
-      "bodyTitle": "Enter Bank Account Details",
-      "description": "Enter bank account details to link your account to Valora. Your transactions will be powered by <0>{{providerName}}</0>."
+      "header": "Set up Bank Account",
+      "bodyTitle": "Set Up Bank Account",
+      "description": "Enter Bank Account details to transfer funds. Your transactions will be powered by <0>{{providerName}}</0>."
     },
     "continue": "Continue"
   },
   "fiatConnectReviewScreen": {
     "transactionDetails": "Transaction Details",
-    "paymentMethodVia": "Linked via {{providerName}}",
+    "paymentMethodVia": "Connected via {{providerName}}",
     "receiveAmount": "You will receive",
     "cashIn": {
       "header": "Review Add Funds",
@@ -1312,8 +1313,8 @@
     },
     "requestNotCompleted": {
       "title": "Your request could not be completed.",
-      "description": "Your funds were not able to be transferred from Valora. Please try again or contact our support team for help.",
-      "contactSupportPrefill": "I'm having trouble withdrawing my funds from Valora"
+      "description": "Your funds were not able to be transferred. Please try again or contact our support team for help.",
+      "contactSupportPrefill": "I'm having trouble withdrawing my funds."
     }
   },
   "fiatExchangeFlow": {
@@ -1340,11 +1341,10 @@
   "fiatDetailsScreen": {
     "header": "Enter Bank Information",
     "headerSubTitle": "Powered by {{provider}}",
-    "description": "Add your information to link your bank account to Valora",
     "selectedPaymentOption": "Selected payment option",
-    "addFiatAccountSuccess": "Your account has been linked to Valora.",
-    "addFiatAccountResourceExist": "You have already linked this account to Valora.",
-    "addFiatAccountFailed": "Your account was not linked, please try again or contact support.",
+    "addFiatAccountSuccess": "Your account has been connected to {{provider}}.",
+    "addFiatAccountResourceExist": "You have already connected this account to {{provider}}.",
+    "addFiatAccountFailed": "Your account was not connected to {{provider}}, please try again or contact support.",
     "selectItem": "Select an option...",
     "selectDone": "Done",
     "submitAndContinue": "Submit & Continue"
@@ -1372,6 +1372,13 @@
     "insufficientFunds": "Insufficient {{token}} balance. Try a smaller amount or choose a different token.",
     "fetchSwapQuoteFailed": "Sorry for the delay! It's taking longer than usual to get the best exchange rate. Please try again in a few minutes."
   },
+  "swapTransactionDetailPage": {
+    "swapFrom": "Swap from",
+    "swapTo": "Swap to",
+    "rate": "Rate",
+    "estimatedFee": "Estimated Fee",
+    "viewOnExplorer": "View on CeloExplorer"
+  },
   "swapReviewScreen": {
     "title": "Review Swap",
     "complete": "Complete Swap",
@@ -1383,6 +1390,6 @@
     "swapFeeTitle": "What is the {{appName}} Fee?",
     "swapFeeBody": "The {{appName}} fee is the fee that you pay to swap tokens on the {{appName}}. \n\n The fee is {{swapFee}}% of the amount you are exchanging. \n\n {{appName}} fees are free for the next few months.",
     "estimatedAmountTitle": "Estimated Amount",
-    "estimatedAmountBody": "Conversions take place on a third party decentralized exchange that finds you the best rate for your swap. \n\n Your trade will be completed at a price within {{slippagePercent}}% of the estimate or the transaction will be cancelled & funds returned to your wallet. "
+    "estimatedAmountBody": "Conversions take place on a third party decentralized exchange that finds you the best rate for your swap. \n\n Your trade will be completed at a price within {{slippagePercent}}% of the estimate or the transaction will be cancelled & funds returned to your wallet."
   }
 }

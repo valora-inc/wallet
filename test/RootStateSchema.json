@@ -3653,7 +3653,8 @@
                 "NFT_RECEIVED",
                 "NFT_SENT",
                 "RECEIVED",
-                "SENT"
+                "SENT",
+                "SWAP_TRANSACTION"
             ],
             "type": "string"
         },
@@ -4216,7 +4217,6 @@
                                         "exchangeRateChange",
                                         "failedFetchMnemonic",
                                         "fetchFailed",
-                                        "fiatDetailsScreen.addFiatAccountResourceExist",
                                         "firebaseDisabled",
                                         "firebaseFailed",
                                         "gasPriceUpdateFailed",
