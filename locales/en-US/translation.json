@@ -1106,6 +1106,7 @@
   "feedItemGoldPurchased": "Purchased",
   "feedItemGoldWithdrawal": "Withdrawal to {{displayName}}",
   "feedItemGoldReceived": "Received from {{displayName}}",
+  "feedItemSwapPath": "{{token1}} to {{token2}}",
   "transactionHeaderVerificationFee": "Confirmation",
   "transactionHeaderNetworkFee": "Network",
   "transactionHeaderFaucet": "Faucet",
@@ -1368,6 +1369,13 @@
     "swapTo": "To",
     "insufficientFunds": "Insufficient {{token}} balance. Try a smaller amount or choose a different token.",
     "fetchSwapQuoteFailed": "Sorry for the delay! It's taking longer than usual to get the best exchange rate. Please try again in a few minutes."
+  },
+  "swapTransactionDetailPage": {
+    "swapFrom": "Swap from",
+    "swapTo": "Swap to",
+    "rate": "Rate",
+    "estimatedFee": "Estimated Fee",
+    "viewOnExplorer": "View on CeloExplorer"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
