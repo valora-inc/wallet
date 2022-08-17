@@ -1110,6 +1110,7 @@
   "feedItemGoldPurchased": "Kupiono",
   "feedItemGoldWithdrawal": "Wypłata na rzecz {{displayName}}",
   "feedItemGoldReceived": "Otrzymano od {{displayName}}",
+  "feedItemSwapPath": "{{token1}} do {{token2}}",
   "transactionHeaderVerificationFee": "Potwierdzenie",
   "transactionHeaderNetworkFee": "Sieć",
   "transactionHeaderFaucet": "Faucet",
@@ -1372,6 +1373,13 @@
     "swapTo": "Do",
     "insufficientFunds": "Niewystarczające saldo {{token}}. Spróbuj wpłacić mniejszą kwotę lub wybierz inny token.",
     "fetchSwapQuoteFailed": "Przepraszamy za opóźnienie! Przetwarzanie trwa dłużej niż zwykle, aby uzyskać najlepszy kurs wymiany. Spróbuj ponownie za kilka minut."
+  },
+  "swapTransactionDetailPage": {
+    "swapFrom": "Zamień się z",
+    "swapTo": "Zamień się z",
+    "rate": "Oceń .",
+    "estimatedFee": "Opłata szacunkowa",
+    "viewOnExplorer": "Wyświetl w CeloExplorer"
   },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",
