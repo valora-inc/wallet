@@ -93,7 +93,6 @@ export function SwapReviewScreen(props: Props) {
       const requestUrl = `${networkConfig.approveSwapUrl}?${queryParams}`
       const response = await fetch(requestUrl)
       if (!response.ok) {
-        Logger.error(TAG, `Failure response fetching token Swap: ${response}`)
         throw new Error(
           `Failure response fetching token swap quote. ${response.status}  ${response.statusText}`
         )
@@ -104,10 +103,11 @@ export function SwapReviewScreen(props: Props) {
     },
     [shouldFetch],
     {
-      onError: (e) => {
+      onError: (error) => {
         setShouldFetch(false)
         setFetchError(true)
         dispatch(showError(ErrorMessages.FETCH_SWAP_QUOTE_FAILED))
+        Logger.error(TAG, 'Error while fetching transactions', error)
       },
     }
   )
@@ -116,7 +116,7 @@ export function SwapReviewScreen(props: Props) {
     <SafeAreaView style={styles.safeAreaContainer}>
       <CustomHeader title={t('swapReviewScreen.title')} left={<BackButton />} />
       <DisconnectBanner />
-      {(shouldFetch && swapInfo === null) ? (
+      {shouldFetch && swapInfo === null ? (
         <View style={styles.loadingContentContainer}>
           <ActivityIndicator
             size="large"
@@ -173,7 +173,7 @@ export function SwapReviewScreen(props: Props) {
                   style={[styles.amountText, { color: colors.greenUI }]}
                   amount={divideByWei(
                     swapInfo?.unvalidatedSwapTransaction?.buyAmount -
-                    swapInfo?.unvalidatedSwapTransaction?.gas
+                      swapInfo?.unvalidatedSwapTransaction?.gas
                   )}
                   tokenAddress={toToken}
                   showLocalAmount={false}
@@ -214,7 +214,7 @@ export function SwapReviewScreen(props: Props) {
                   style={styles.transactionDetailsRightText}
                   amount={divideByWei(
                     swapInfo?.unvalidatedSwapTransaction?.gas *
-                    swapInfo?.unvalidatedSwapTransaction.gasPrice
+                      swapInfo?.unvalidatedSwapTransaction.gasPrice
                   )}
                   tokenAddress={fromToken}
                   showLocalAmount={false}
