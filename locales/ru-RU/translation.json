@@ -1110,6 +1110,7 @@
   "feedItemGoldPurchased": "Куплено",
   "feedItemGoldWithdrawal": "Снятие на {{displayName}}",
   "feedItemGoldReceived": "Получено от {{displayName}}",
+  "feedItemSwapPath": "{{token1}} на {{token2}}",
   "transactionHeaderVerificationFee": "Подтверждение",
   "transactionHeaderNetworkFee": "Сообщество",
   "transactionHeaderFaucet": "Кран",
@@ -1372,6 +1373,13 @@
     "swapTo": "К",
     "insufficientFunds": "Недостаточный остаток {{token}}. Попробуйте внести меньшую сумму или выберите другой токен.",
     "fetchSwapQuoteFailed": "Извините за задержку! Для получения самого выгодного обменного курса требуется больше времени. Повторите попытку через несколько минут."
+  },
+  "swapTransactionDetailPage": {
+    "swapFrom": "Поменяйтесь местами с",
+    "swapTo": "Поменяйте на",
+    "rate": "Оцените",
+    "estimatedFee": "Оценочная плата",
+    "viewOnExplorer": "Просмотреть в CeloExplorer"
   },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
