@@ -53,7 +53,6 @@ import InviteFriendModal from 'src/invite/InviteFriendModal'
 import DrawerItem from 'src/navigator/DrawerItem'
 import { ensurePincode } from 'src/navigator/NavigationService'
 import { getActiveRouteName } from 'src/navigator/NavigatorWrapper'
-import RewardsPill from 'src/navigator/RewardsPill'
 import { Screens } from 'src/navigator/Screens'
 import TabNavigator from 'src/navigator/TabNavigator'
 import { default as useSelector } from 'src/redux/useSelector'
@@ -162,7 +161,6 @@ function CustomDrawerContent(props: DrawerContentComponentProps<DrawerContentOpt
       <View style={styles.drawerTop}>
         <View style={styles.drawerHeader}>
           <ContactCircleSelf size={64} />
-          <RewardsPill />
         </View>
         <Text style={styles.nameLabel}>{displayName}</Text>
         {e164PhoneNumber && (
