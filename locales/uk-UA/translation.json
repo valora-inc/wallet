@@ -1110,6 +1110,7 @@
   "feedItemGoldPurchased": "Куплено",
   "feedItemGoldWithdrawal": "Зняття на {{displayName}}",
   "feedItemGoldReceived": "Отримано від {{displayName}}",
+  "feedItemSwapPath": "{{token1}} до {{token2}}",
   "transactionHeaderVerificationFee": "Підтвердження",
   "transactionHeaderNetworkFee": "Мережа",
   "transactionHeaderFaucet": "Faucet",
@@ -1372,6 +1373,13 @@
     "swapTo": "До",
     "insufficientFunds": "Недостатньо балансу на {{token}}. Спробуйте меншу суму або виберіть інший токен.",
     "fetchSwapQuoteFailed": "Вибачте за затримку! Це забирає більше часу, ніж зазвичай, щоб отримати найкращий обмінний курс. Будь ласка, спробуйте знову за кілька хвилин."
+  },
+  "swapTransactionDetailPage": {
+    "swapFrom": "Перемістити з",
+    "swapTo": "Поміняти на",
+    "rate": "Оцінка",
+    "estimatedFee": "Передбачувана комісія",
+    "viewOnExplorer": "Переглянути на CeloExplorer"
   },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
