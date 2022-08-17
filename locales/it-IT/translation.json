@@ -1106,7 +1106,7 @@
   "feedItemGoldPurchased": "Acquistati",
   "feedItemGoldWithdrawal": "Prelievo verso {{displayName}}",
   "feedItemGoldReceived": "Ricevuti da {{displayName}}",
-  "feedItemSwapPath": "{{token1}} a {{token2}}",
+  "feedItemSwapPath": "{{token1}} > {{token2}}",
   "transactionHeaderVerificationFee": "Conferma",
   "transactionHeaderNetworkFee": "Rete",
   "transactionHeaderFaucet": "Faucet",
@@ -1263,9 +1263,9 @@
   },
   "fiatConnectLinkAccountScreen": {
     "bankAccount": {
-      "header": "Imposta un conto corrente bancario",
-      "bodyTitle": "Imposta un conto corrente bancario",
-      "description": "Inserisci i dati del conto bancario per trasferire i fondi. Le tue transazioni saranno effettuate da <0>{{providerName}}</0>."
+      "header": "Imposta un conto bancario",
+      "bodyTitle": "Imposta un conto bancario",
+      "description": "Immetti i dettagli bancari per trasferire i fondi. Le tue transazioni saranno effettuate da <0>{{providerName}}</0>."
     },
     "continue": "Continua"
   },
@@ -1311,7 +1311,7 @@
     },
     "requestNotCompleted": {
       "title": "Non è stato possibile completare la richiesta.",
-      "description": "Non è stato possibile trasferire i tuoi fondi. Riprova o contatta il nostro team di assistenza per ricevere aiuto.",
+      "description": "Non è stato possibile trasferire i tuoi fondi. Riprova o contatta il nostro team di supporto per ricevere assistenza.",
       "contactSupportPrefill": "Ho problemi a prelevare i miei fondi."
     }
   },
@@ -1340,9 +1340,9 @@
     "header": "Immetti i dettagli della banca",
     "headerSubTitle": "Powered by {{provider}}",
     "selectedPaymentOption": "Opzione di pagamento selezionata",
-    "addFiatAccountSuccess": "Il tuo account è stato collegato a {{provider}}.",
-    "addFiatAccountResourceExist": "Hai già collegato questo account a {{provider}}.",
-    "addFiatAccountFailed": "Il tuo account non è stato collegato a {{provider}}, riprova o contatta l'assistenza.",
+    "addFiatAccountSuccess": "Il tuo conto è stato collegato a {{provider}}.",
+    "addFiatAccountResourceExist": "Hai già collegato questo conto a {{provider}}.",
+    "addFiatAccountFailed": "Il tuo conto non è stato collegato a {{provider}}, riprova o contatta il team di supporto.",
     "selectItem": "Seleziona un'opzione...",
     "selectDone": "Fatto",
     "submitAndContinue": "Invia e continua"
@@ -1372,9 +1372,9 @@
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Scambia da",
-    "swapTo": "Scambia con",
-    "rate": "Tariffa",
-    "estimatedFee": "Tariffa stimata",
+    "swapTo": "Scambia a",
+    "rate": "Tasso",
+    "estimatedFee": "Commissioni stimate",
     "viewOnExplorer": "Visualizza su CeloExplorer"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
