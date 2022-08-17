@@ -118,7 +118,7 @@ export function SwapReviewScreen(props: Props) {
         setShouldFetch(false)
         setFetchError(true)
         dispatch(showError(ErrorMessages.FETCH_SWAP_QUOTE_FAILED))
-        Logger.error(TAG, 'Error while fetching transactions', error)
+        Logger.debug(TAG, 'Error while fetching transactions', error)
       },
     }
   )
