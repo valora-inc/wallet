@@ -43,11 +43,11 @@ const TAG = 'SWAP_REVIEW_SCREEN'
 
 export function SwapReviewScreen(props: Props) {
   const { toToken, fromToken, swapAmount, updatedField } = props.route.params
-  const [loading, setLoading] = useState(false)
-  const [fetchSwapQuoteError, setFetchSwapQuoteError] = useState(false)
+  const [shouldFetch, setShouldFetch] = useState(false)
   const [estimatedModalVisible, setEstimatedDialogVisible] = useState(false)
   const [swapFeeModalVisible, setSwapFeeModalVisible] = useState(false)
   const [swapInfo, setSwapInfo] = useState(null as any)
+  const [fetchError, setFetchError] = useState(false)
   const coreTokens = useSelector(coreTokensSelector)
   const walletAddress = useSelector(walletAddressSelector)
 
@@ -68,12 +68,7 @@ export function SwapReviewScreen(props: Props) {
   const fromTokenSymbol = coreTokens.find((token) => token.address === fromToken)?.symbol
 
   useEffect(() => {
-    if (fetchSwapQuoteError) {
-      dispatch(showError(ErrorMessages.FETCH_SWAP_QUOTE_FAILED))
-    }
-  }, [fetchSwapQuoteError])
-
-  useEffect(() => {
+    setShouldFetch(true)
     ValoraAnalytics.track(SwapEvents.swap_review_screen_open, {
       toToken,
       fromToken,
@@ -81,10 +76,8 @@ export function SwapReviewScreen(props: Props) {
     })
   }, [])
 
-  const getSwapInfo = async () => {
-    try {
-      setFetchSwapQuoteError(false)
-      setLoading(true)
+  useAsync(
+    async () => {
       const swapAmountInWei = multiplyByWei(swapAmount[updatedField]!)
       const swapAmountParam = updatedField === Field.FROM ? 'sellAmount' : 'buyAmount'
       const params = {
@@ -100,28 +93,30 @@ export function SwapReviewScreen(props: Props) {
       const requestUrl = `${networkConfig.approveSwapUrl}?${queryParams}`
       const response = await fetch(requestUrl)
       if (!response.ok) {
-        setFetchSwapQuoteError(true)
         Logger.error(TAG, `Failure response fetching token Swap: ${response}`)
         throw new Error(
           `Failure response fetching token swap quote. ${response.status}  ${response.statusText}`
         )
       }
       setSwapInfo(await response.json())
-    } catch (error) {
-      setFetchSwapQuoteError(true)
-    } finally {
-      setLoading(false)
+      setShouldFetch(false)
+      setFetchError(false)
+    },
+    [shouldFetch],
+    {
+      onError: (e) => {
+        setShouldFetch(false)
+        setFetchError(true)
+        dispatch(showError(ErrorMessages.FETCH_SWAP_QUOTE_FAILED))
+      },
     }
-  }
-
-  // Get swap info on load
-  useAsync(getSwapInfo, [])
+  )
 
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
       <CustomHeader title={t('swapReviewScreen.title')} left={<BackButton />} />
       <DisconnectBanner />
-      {(loading && swapInfo === null) || fetchSwapQuoteError ? (
+      {(shouldFetch && swapInfo === null) ? (
         <View style={styles.loadingContentContainer}>
           <ActivityIndicator
             size="large"
@@ -137,12 +132,12 @@ export function SwapReviewScreen(props: Props) {
               tintColor="transparent"
               colors={['transparent']}
               style={{ backgroundColor: 'transparent' }}
-              refreshing={loading}
-              onRefresh={getSwapInfo}
+              refreshing={shouldFetch}
+              onRefresh={() => setShouldFetch(true)}
             />
           }
         >
-          {loading && (
+          {shouldFetch && (
             <View style={styles.loadingContentContainer}>
               <ActivityIndicator
                 size="large"
@@ -178,7 +173,7 @@ export function SwapReviewScreen(props: Props) {
                   style={[styles.amountText, { color: colors.greenUI }]}
                   amount={divideByWei(
                     swapInfo?.unvalidatedSwapTransaction?.buyAmount -
-                      swapInfo?.unvalidatedSwapTransaction?.gas
+                    swapInfo?.unvalidatedSwapTransaction?.gas
                   )}
                   tokenAddress={toToken}
                   showLocalAmount={false}
@@ -219,7 +214,7 @@ export function SwapReviewScreen(props: Props) {
                   style={styles.transactionDetailsRightText}
                   amount={divideByWei(
                     swapInfo?.unvalidatedSwapTransaction?.gas *
-                      swapInfo?.unvalidatedSwapTransaction.gasPrice
+                    swapInfo?.unvalidatedSwapTransaction.gasPrice
                   )}
                   tokenAddress={fromToken}
                   showLocalAmount={false}
@@ -258,7 +253,7 @@ export function SwapReviewScreen(props: Props) {
         onPress={() => Logger.debug('TODO Perform Swap!!!')}
         text={t('swapReviewScreen.complete')}
         size={BtnSizes.FULL}
-        disabled={loading || fetchSwapQuoteError}
+        disabled={shouldFetch || fetchError}
       />
       {/** Estimated amount dialog */}
       <Dialog
