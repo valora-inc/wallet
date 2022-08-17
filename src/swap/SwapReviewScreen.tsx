@@ -98,9 +98,9 @@ export function SwapReviewScreen(props: Props) {
         // Enable when supported by 0xAPI & valora-rest-api
         // Current Support - https://docs.0x.org/0x-api-swap/advanced-topics/slippage-protection
         // slippagePercentage: maxSlippageDecimal,
-        userAddress: walletAddress,
+        userAddress: walletAddress ?? '',
       }
-      const queryParams = new URLSearchParams({ ...(params as Record<string, string>) }).toString()
+      const queryParams = new URLSearchParams({ ...params }).toString()
       const requestUrl = `${networkConfig.approveSwapUrl}?${queryParams}`
       const response = await fetch(requestUrl)
       if (!response.ok) {
