@@ -1263,9 +1263,9 @@
   },
   "fiatConnectLinkAccountScreen": {
     "bankAccount": {
-      "header": "Crear una cuenta bancaria",
-      "bodyTitle": "Crear una cuenta bancaria",
-      "description": "Introduce los datos de la cuenta bancaria para transferir fondos. Tus transacciones serán impulsadas por <0>{{providerName}}</0>."
+      "header": "Configurar cuenta bancaria",
+      "bodyTitle": "Configurar cuenta bancaria",
+      "description": "Ingresa los datos bancarios para transferir fondos. Tus transacciones se realizarán con tecnología de <0>{{providerName}}</0>."
     },
     "continue": "Continuar"
   },
@@ -1311,7 +1311,7 @@
     },
     "requestNotCompleted": {
       "title": "No se ha podido completar tu solicitud.",
-      "description": "No se han podido transferir tus fondos. Por favor, inténtalo de nuevo o ponte en contacto con nuestro equipo de soporte para obtener ayuda.",
+      "description": "No se han podido transferir tus fondos. Inténtalo de nuevo o comunícate con nuestro equipo de soporte técnico para obtener ayuda.",
       "contactSupportPrefill": "Tengo problemas para retirar mis fondos."
     }
   },
@@ -1340,8 +1340,8 @@
     "header": "Ingresa los datos bancarios",
     "headerSubTitle": "Con tecnología de {{provider}}",
     "selectedPaymentOption": "Método de pago seleccionado",
-    "addFiatAccountSuccess": "Tu cuenta ha sido conectada a {{provider}}.",
-    "addFiatAccountResourceExist": "Ya has conectado esta cuenta a {{provider}}.",
+    "addFiatAccountSuccess": "Se conectó tu cuenta a {{provider}}.",
+    "addFiatAccountResourceExist": "You have already connected this account to {{provider}}.",
     "addFiatAccountFailed": "Tu cuenta no estaba conectada a {{provider}}, por favor, inténtalo de nuevo o ponte en contacto con el servicio de asistencia.",
     "selectItem": "Selecciona una opción...",
     "selectDone": "Listo",
