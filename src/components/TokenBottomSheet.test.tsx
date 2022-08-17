@@ -14,7 +14,7 @@ const tokens: TokenBalance[] = [
   {
     balance: new BigNumber('10'),
     usdPrice: new BigNumber('1'),
-    staleTokenUsdPrice: null,
+    staleUsdPrice: null,
     symbol: 'cUSD',
     address: mockCusdAddress,
     isCoreToken: true,
@@ -26,7 +26,7 @@ const tokens: TokenBalance[] = [
   {
     balance: new BigNumber('20'),
     usdPrice: new BigNumber('1.2'),
-    staleTokenUsdPrice: null,
+    staleUsdPrice: null,
     symbol: 'cEUR',
     address: mockCeurAddress,
     isCoreToken: true,
@@ -39,7 +39,7 @@ const tokens: TokenBalance[] = [
     balance: new BigNumber('10'),
     symbol: 'TT',
     usdPrice: null,
-    staleTokenUsdPrice: null,
+    staleUsdPrice: null,
     address: mockTestTokenAddress,
     priceFetchedAt: Date.now(),
     decimals: 18,
