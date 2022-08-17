@@ -55,7 +55,7 @@ interface SwapInfo {
 
 export function SwapReviewScreen(props: Props) {
   const { toToken, fromToken, swapAmount, updatedField } = props.route.params
-  const [shouldFetch, setShouldFetch] = useState(false)
+  const [shouldFetch, setShouldFetch] = useState(true)
   const [estimatedModalVisible, setEstimatedDialogVisible] = useState(false)
   const [swapFeeModalVisible, setSwapFeeModalVisible] = useState(false)
   const [swapInfo, setSwapInfo] = useState<SwapInfo | null>(null)
@@ -80,7 +80,6 @@ export function SwapReviewScreen(props: Props) {
   const fromTokenSymbol = coreTokens.find((token) => token.address === fromToken)?.symbol
 
   useEffect(() => {
-    setShouldFetch(true)
     ValoraAnalytics.track(SwapEvents.swap_review_screen_open, {
       toToken,
       fromToken,
