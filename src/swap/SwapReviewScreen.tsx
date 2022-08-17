@@ -89,6 +89,7 @@ export function SwapReviewScreen(props: Props) {
 
   useAsync(
     async () => {
+      if (!shouldFetch) return
       const swapAmountInWei = multiplyByWei(swapAmount[updatedField]!)
       const swapAmountParam = updatedField === Field.FROM ? 'sellAmount' : 'buyAmount'
       const params = {
