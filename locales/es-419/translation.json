@@ -1106,7 +1106,7 @@
   "feedItemGoldPurchased": "Comprados",
   "feedItemGoldWithdrawal": "Transferidos a {{displayName}}",
   "feedItemGoldReceived": "Recibidos de {{displayName}}",
-  "feedItemSwapPath": "{{token1}} a {{token2}}",
+  "feedItemSwapPath": "{{token1}} > {{token2}}",
   "transactionHeaderVerificationFee": "Confirmación",
   "transactionHeaderNetworkFee": "Red",
   "transactionHeaderFaucet": "Faucet",
@@ -1311,7 +1311,7 @@
     },
     "requestNotCompleted": {
       "title": "No se ha podido completar tu solicitud.",
-      "description": "No se han podido transferir tus fondos. Inténtalo de nuevo o comunícate con nuestro equipo de soporte técnico para obtener ayuda.",
+      "description": "No fue posible transferir tus fondos. Inténtalo de nuevo o comunícate con nuestro equipo de soporte técnico para obtener ayuda.",
       "contactSupportPrefill": "Tengo problemas para retirar mis fondos."
     }
   },
@@ -1341,8 +1341,8 @@
     "headerSubTitle": "Con tecnología de {{provider}}",
     "selectedPaymentOption": "Método de pago seleccionado",
     "addFiatAccountSuccess": "Se conectó tu cuenta a {{provider}}.",
-    "addFiatAccountResourceExist": "You have already connected this account to {{provider}}.",
-    "addFiatAccountFailed": "Tu cuenta no estaba conectada a {{provider}}, por favor, inténtalo de nuevo o ponte en contacto con el servicio de asistencia.",
+    "addFiatAccountResourceExist": "Ya has conectado esta cuenta a {{provider}}.",
+    "addFiatAccountFailed": "No fue posible conectar tu cuenta a {{provider}}, inténtalo de nuevo o comunícate con nuestro equipo de soporte técnico.",
     "selectItem": "Selecciona una opción...",
     "selectDone": "Listo",
     "submitAndContinue": "Enviar y continuar"
@@ -1371,10 +1371,10 @@
     "fetchSwapQuoteFailed": "¡Lo sentimos! Conseguir la mejor tasa de cambio nos está llevando más tiempo del habitual. Inténtalo de nuevo más tarde."
   },
   "swapTransactionDetailPage": {
-    "swapFrom": "Intercambio de",
+    "swapFrom": "Cambiar de",
     "swapTo": "Cambiar a",
-    "rate": "Tasa",
-    "estimatedFee": "Tasa estimada",
+    "rate": "Tasas",
+    "estimatedFee": "Tarifas estimadas",
     "viewOnExplorer": "Ver en CeloExplorer"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
