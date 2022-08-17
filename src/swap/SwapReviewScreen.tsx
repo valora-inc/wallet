@@ -41,12 +41,24 @@ type Props = StackScreenProps<StackParamList, Screens.SwapReviewScreen>
 
 const TAG = 'SWAP_REVIEW_SCREEN'
 
+interface SwapInfo {
+  unvalidatedSwapTransaction: {
+    sellToken: string
+    buyToken: string
+    buyAmount: string
+    sellAmount: string
+    price: string
+    gas: string
+    gasPrice: string
+  }
+}
+
 export function SwapReviewScreen(props: Props) {
   const { toToken, fromToken, swapAmount, updatedField } = props.route.params
   const [shouldFetch, setShouldFetch] = useState(false)
   const [estimatedModalVisible, setEstimatedDialogVisible] = useState(false)
   const [swapFeeModalVisible, setSwapFeeModalVisible] = useState(false)
-  const [swapInfo, setSwapInfo] = useState(null as any)
+  const [swapInfo, setSwapInfo] = useState<SwapInfo | null>(null)
   const [fetchError, setFetchError] = useState(false)
   const coreTokens = useSelector(coreTokensSelector)
   const walletAddress = useSelector(walletAddressSelector)
@@ -146,106 +158,115 @@ export function SwapReviewScreen(props: Props) {
               />
             </View>
           )}
-          <View style={styles.subContentContainer}>
-            <View style={styles.tallRow}>
-              <Text style={styles.label}>{t('swapReviewScreen.swapFrom')}</Text>
-              <View style={styles.tokenDisplayView}>
-                <TokenDisplay
-                  style={styles.amountText}
-                  amount={divideByWei(swapInfo?.unvalidatedSwapTransaction?.sellAmount)}
-                  tokenAddress={fromToken}
-                  showLocalAmount={false}
-                  testID={'FromSwapAmountToken'}
-                />
-                <TokenDisplay
-                  style={styles.amountSubText}
-                  amount={divideByWei(swapInfo?.unvalidatedSwapTransaction?.sellAmount)}
-                  tokenAddress={fromToken}
-                  showLocalAmount={true}
-                  testID={`FromSwapAmountTokenLocal`}
-                />
+          {swapInfo !== null && (
+            <>
+              <View style={styles.subContentContainer}>
+                <View style={styles.tallRow}>
+                  <Text style={styles.label}>{t('swapReviewScreen.swapFrom')}</Text>
+                  <View style={styles.tokenDisplayView}>
+                    <TokenDisplay
+                      style={styles.amountText}
+                      amount={divideByWei(swapInfo.unvalidatedSwapTransaction.sellAmount)}
+                      tokenAddress={fromToken}
+                      showLocalAmount={false}
+                      testID={'FromSwapAmountToken'}
+                    />
+                    <TokenDisplay
+                      style={styles.amountSubText}
+                      amount={divideByWei(swapInfo.unvalidatedSwapTransaction.sellAmount)}
+                      tokenAddress={fromToken}
+                      showLocalAmount={true}
+                      testID={`FromSwapAmountTokenLocal`}
+                    />
+                  </View>
+                </View>
+                <View style={styles.tallRow}>
+                  <Text style={styles.label}>{t('swapReviewScreen.swapTo')}</Text>
+                  <View style={styles.tokenDisplayView}>
+                    <TokenDisplay
+                      style={[styles.amountText, { color: colors.greenUI }]}
+                      amount={divideByWei(
+                        new BigNumber(swapInfo.unvalidatedSwapTransaction.buyAmount).minus(
+                          new BigNumber(swapInfo.unvalidatedSwapTransaction.gas)
+                        )
+                      )}
+                      tokenAddress={toToken}
+                      showLocalAmount={false}
+                      testID={'ToSwapAmountToken'}
+                    />
+                    <Touchable
+                      style={styles.touchableRow}
+                      onPress={() => setEstimatedDialogVisible(true)}
+                      hitSlop={variables.iconHitslop}
+                    >
+                      <>
+                        <Text style={[styles.amountSubText, { marginRight: 4 }]}>
+                          {t('swapReviewScreen.estimatedAmountTitle')}
+                        </Text>
+                        <InfoIcon size={12} color={colors.gray4} />
+                      </>
+                    </Touchable>
+                  </View>
+                </View>
+                <View style={styles.separator} />
               </View>
-            </View>
-            <View style={styles.tallRow}>
-              <Text style={styles.label}>{t('swapReviewScreen.swapTo')}</Text>
-              <View style={styles.tokenDisplayView}>
-                <TokenDisplay
-                  style={[styles.amountText, { color: colors.greenUI }]}
-                  amount={divideByWei(
-                    swapInfo?.unvalidatedSwapTransaction?.buyAmount -
-                      swapInfo?.unvalidatedSwapTransaction?.gas
-                  )}
-                  tokenAddress={toToken}
-                  showLocalAmount={false}
-                  testID={'ToSwapAmountToken'}
-                />
-                <Touchable
-                  style={styles.touchableRow}
-                  onPress={() => setEstimatedDialogVisible(true)}
-                  hitSlop={variables.iconHitslop}
-                >
-                  <>
-                    <Text style={[styles.amountSubText, { marginRight: 4 }]}>
-                      {t('swapReviewScreen.estimatedAmountTitle')}
-                    </Text>
-                    <InfoIcon size={12} color={colors.gray4} />
-                  </>
-                </Touchable>
-              </View>
-            </View>
-            <View style={styles.separator} />
-          </View>
-          <View style={styles.subContentContainer}>
-            <Text style={styles.transactionDetailsLabel}>
-              {t('swapReviewScreen.transactionDetails')}
-            </Text>
-            <View style={styles.row}>
-              <Text style={styles.label}>{t('exchangeRate')}</Text>
-              <Text style={styles.transactionDetailsRightText}>
-                {`1 ${fromTokenSymbol} ≈ ${formatValueToDisplay(
-                  new BigNumber(swapInfo?.unvalidatedSwapTransaction?.price)
-                )} ${toTokenSymbol}`}
-              </Text>
-            </View>
-            <View style={styles.row}>
-              <Text style={styles.label}>{t('swapReviewScreen.estimatedGas')}</Text>
-              <View style={styles.tokenDisplayView}>
-                <TokenDisplay
-                  style={styles.transactionDetailsRightText}
-                  amount={divideByWei(
-                    swapInfo?.unvalidatedSwapTransaction?.gas *
-                      swapInfo?.unvalidatedSwapTransaction.gasPrice
-                  )}
-                  tokenAddress={fromToken}
-                  showLocalAmount={false}
-                  testID={'EstimatedGas'}
-                />
-              </View>
-            </View>
-            <View style={styles.row}>
-              <Touchable
-                style={styles.touchableRow}
-                onPress={() => setSwapFeeModalVisible(true)}
-                hitSlop={variables.iconHitslop}
-              >
-                <>
-                  <Text style={{ marginRight: 4, ...fontStyles.regular }}>
-                    {t('swapReviewScreen.swapFee')}
+              <View style={styles.subContentContainer}>
+                <Text style={styles.transactionDetailsLabel}>
+                  {t('swapReviewScreen.transactionDetails')}
+                </Text>
+                <View style={styles.row}>
+                  <Text style={styles.label}>{t('exchangeRate')}</Text>
+                  <Text style={styles.transactionDetailsRightText}>
+                    {`1 ${fromTokenSymbol} ≈ ${formatValueToDisplay(
+                      new BigNumber(swapInfo.unvalidatedSwapTransaction.price)
+                    )} ${toTokenSymbol}`}
                   </Text>
-                  <InfoIcon size={12} color={colors.gray4} />
-                </>
-              </Touchable>
-              <TokenDisplay
-                style={[styles.transactionDetailsRightText, !swapFeeEnabled && styles.feeWaived]}
-                amount={divideByWei(swapInfo?.unvalidatedSwapTransaction?.sellAmount).multipliedBy(
-                  swapFeeDecimal
-                )}
-                tokenAddress={fromToken}
-                showLocalAmount={true}
-                testID={'SwapFee'}
-              />
-            </View>
-          </View>
+                </View>
+                <View style={styles.row}>
+                  <Text style={styles.label}>{t('swapReviewScreen.estimatedGas')}</Text>
+                  <View style={styles.tokenDisplayView}>
+                    <TokenDisplay
+                      style={styles.transactionDetailsRightText}
+                      amount={divideByWei(
+                        new BigNumber(swapInfo.unvalidatedSwapTransaction.gas).multipliedBy(
+                          new BigNumber(swapInfo.unvalidatedSwapTransaction.gasPrice)
+                        )
+                      )}
+                      tokenAddress={fromToken}
+                      showLocalAmount={false}
+                      testID={'EstimatedGas'}
+                    />
+                  </View>
+                </View>
+                <View style={styles.row}>
+                  <Touchable
+                    style={styles.touchableRow}
+                    onPress={() => setSwapFeeModalVisible(true)}
+                    hitSlop={variables.iconHitslop}
+                  >
+                    <>
+                      <Text style={{ marginRight: 4, ...fontStyles.regular }}>
+                        {t('swapReviewScreen.swapFee')}
+                      </Text>
+                      <InfoIcon size={12} color={colors.gray4} />
+                    </>
+                  </Touchable>
+                  <TokenDisplay
+                    style={[
+                      styles.transactionDetailsRightText,
+                      !swapFeeEnabled && styles.feeWaived,
+                    ]}
+                    amount={divideByWei(
+                      swapInfo.unvalidatedSwapTransaction.sellAmount
+                    ).multipliedBy(swapFeeDecimal)}
+                    tokenAddress={fromToken}
+                    showLocalAmount={true}
+                    testID={'SwapFee'}
+                  />
+                </View>
+              </View>
+            </>
+          )}
         </ScrollView>
       )}
       <Button
