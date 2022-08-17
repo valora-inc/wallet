@@ -1106,7 +1106,7 @@
   "feedItemGoldPurchased": "Acheté",
   "feedItemGoldWithdrawal": "Retrait vers {{displayName}}",
   "feedItemGoldReceived": "Reçu de {{displayName}}",
-  "feedItemSwapPath": "{{token1}} à {{token2}}",
+  "feedItemSwapPath": "{{token1}} > {{token2}}",
   "transactionHeaderVerificationFee": "Confirmation",
   "transactionHeaderNetworkFee": "Réseau",
   "transactionHeaderFaucet": "Faucet",
@@ -1263,9 +1263,9 @@
   },
   "fiatConnectLinkAccountScreen": {
     "bankAccount": {
-      "header": "Ouvre un compte bancaire",
-      "bodyTitle": "Crée un compte bancaire",
-      "description": "Saisis les détails du compte bancaire pour transférer des fonds. Tes transactions seront alimentées par <0>{{providerName}}</0>."
+      "header": "Configurer un compte bancaire",
+      "bodyTitle": "Configurer un compte bancaire",
+      "description": "Saisissez les coordonnées bancaires pour transférer des fonds. Vos transactions seront propulsées par <0>{{providerName}}</0>."
     },
     "continue": "Continuer"
   },
@@ -1311,8 +1311,8 @@
     },
     "requestNotCompleted": {
       "title": "Votre demande n'a pas pu être complétée.",
-      "description": "Tes fonds n'ont pas pu être transférés. Essaie à nouveau ou contacte notre équipe d'assistance pour obtenir de l'aide.",
-      "contactSupportPrefill": "J'ai des difficultés à retirer mes fonds."
+      "description": "Vos fonds n'ont pas pu être transférés. Veuillez réessayer ou contactez notre équipe d'assistance pour obtenir de l'aide.",
+      "contactSupportPrefill": "Je n'arrive pas à retirer mes fonds."
     }
   },
   "fiatExchangeFlow": {
@@ -1340,9 +1340,9 @@
     "header": "Saisissez les coordonnées bancaires",
     "headerSubTitle": "Propulsé par {{provider}}",
     "selectedPaymentOption": "Option de paiement sélectionnée",
-    "addFiatAccountSuccess": "Ton compte a été connecté à {{provider}}.",
-    "addFiatAccountResourceExist": "Tu as déjà connecté ce compte à {{provider}}.",
-    "addFiatAccountFailed": "Ton compte n'a pas été connecté à {{provider}}, merci de réessayer ou de contacter l'assistance.",
+    "addFiatAccountSuccess": "Votre compte a bien été associé à {{provider}}.",
+    "addFiatAccountResourceExist": "Vous avez déjà connecté ce compte à {{provider}}.",
+    "addFiatAccountFailed": "Votre compte n'a pas pu être connecté à {{provider}}, veuillez réessayer ou contacter le Support.",
     "selectItem": "Sélectionnez une option...",
     "selectDone": "Terminé",
     "submitAndContinue": "Valider et continuer"
@@ -1371,8 +1371,8 @@
     "fetchSwapQuoteFailed": "Désolé pour le retard ! Obtenir le meilleur taux de change prend plus longtemps que prévu. Veuillez réessayer plus tard."
   },
   "swapTransactionDetailPage": {
-    "swapFrom": "Échange de",
-    "swapTo": "Sw Sw Sw Sw Sw Sw Sw Sw Sw Sw Sw Sw pour",
+    "swapFrom": "Échanger de",
+    "swapTo": "Échanger pour",
     "rate": "Taux",
     "estimatedFee": "Frais estimés",
     "viewOnExplorer": "Voir sur CeloExplorer"
