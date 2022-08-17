@@ -66,7 +66,7 @@ import { ensurePincode } from 'src/navigator/NavigationService'
 import { getActiveRouteName } from 'src/navigator/NavigatorWrapper'
 import RewardsPill from 'src/navigator/RewardsPill'
 import { Screens } from 'src/navigator/Screens'
-import { showSwapMenuInDrawerMenuSelector } from 'src/navigator/selectors'
+import { isAppSwapsEnabledSelector } from 'src/navigator/selectors'
 import { default as useSelector } from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
@@ -211,7 +211,7 @@ export default function DrawerNavigator() {
     <CustomDrawerContent {...props} />
   )
 
-  const shouldShowSwapMenuInDrawerMenu = useSelector(showSwapMenuInDrawerMenuSelector)
+  const shouldShowSwapMenuInDrawerMenu = useSelector(isAppSwapsEnabledSelector)
 
   return (
     <Drawer.Navigator
