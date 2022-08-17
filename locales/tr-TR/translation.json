@@ -1106,6 +1106,7 @@
   "feedItemGoldPurchased": "Alındı",
   "feedItemGoldWithdrawal": "{{displayName}}'a çekim",
   "feedItemGoldReceived": "{{displayName}} alındı",
+  "feedItemSwapPath": "{{token1}} to {{token2}}",
   "transactionHeaderVerificationFee": "Onay",
   "transactionHeaderNetworkFee": "Ağ",
   "transactionHeaderFaucet": "Faucet",
@@ -1368,6 +1369,13 @@
     "swapTo": "Şu Token’a",
     "insufficientFunds": "Yetersiz {{token}}. Lütfen daha küçük bir miktar girin veya farklı bir token seçin.",
     "fetchSwapQuoteFailed": "Gecikme için üzgünüz! En iyi döviz kurunu almak normalden daha uzun sürüyor. Lütfen birkaç dakika içinde tekrar deneyin."
+  },
+  "swapTransactionDetailPage": {
+    "swapFrom": "Swap from",
+    "swapTo": "Swap to",
+    "rate": "Rate",
+    "estimatedFee": "Estimated Fee",
+    "viewOnExplorer": "CeloExplorer'da görüntüle"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
