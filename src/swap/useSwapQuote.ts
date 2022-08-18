@@ -56,9 +56,9 @@ const useSwapQuote = () => {
       buyToken: toToken.address,
       sellToken: fromToken.address,
       [swapAmountParam]: swapAmountInWei.toString().split('.')[0],
-      userAddress: walletAddress,
+      userAddress: walletAddress ?? '',
     }
-    const queryParams = new URLSearchParams({ ...(params as Record<string, string>) }).toString()
+    const queryParams = new URLSearchParams({ ...params }).toString()
     const requestUrl = `${networkConfig.approveSwapUrl}?${queryParams}`
     if (requestUrl === requestUrlRef.current) {
       // do nothing if the previous request url is the same as the current
