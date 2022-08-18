@@ -4,10 +4,10 @@ import Config from 'react-native-config'
 import { CachesDirectoryPath } from 'react-native-fs'
 import { SpendMerchant } from 'src/fiatExchanges/Spend'
 // eslint-disable-next-line import/no-relative-packages
+import { Network } from '@fiatconnect/fiatconnect-types'
+import { LoggerLevel } from 'src/utils/LoggerLevels'
 import * as secretsFile from '../secrets.json'
 import { ONE_HOUR_IN_MILLIS } from './utils/time'
-import { LoggerLevel } from 'src/utils/LoggerLevels'
-import { Network } from '@fiatconnect/fiatconnect-types'
 
 export * from 'src/brandingConfig'
 
@@ -148,3 +148,5 @@ const configLoggerLevels: { [key: string]: LoggerLevel } = {
 }
 
 export const LOGGER_LEVEL = configLoggerLevels[Config.LOGGER_LEVEL] || LoggerLevel.Debug
+
+export const SANCTIONED_COUNTRIES = ['CU', 'IR', 'KP', 'SY', 'US']
