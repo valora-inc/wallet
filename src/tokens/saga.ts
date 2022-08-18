@@ -21,8 +21,8 @@ import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import { e2eTokens } from 'src/tokens/e2eTokens'
 import {
+  lastKnownTokenBalancesSelector,
   stalePriceSelector,
-  staleTokenBalanceSelector,
   tokensListSelector,
   totalTokenBalanceSelector,
 } from 'src/tokens/selectors'
@@ -387,8 +387,8 @@ export function* watchAccountFundedOrLiquidated() {
     const areTokenPricesStale: ReturnType<typeof stalePriceSelector> = yield select(
       stalePriceSelector
     )
-    const staleTokenBalance: ReturnType<typeof staleTokenBalanceSelector> = yield select(
-      staleTokenBalanceSelector
+    const staleTokenBalance: ReturnType<typeof lastKnownTokenBalancesSelector> = yield select(
+      lastKnownTokenBalancesSelector
     )
     // we reset the usd value of all token balances to 0 if the exchange rate is
     // stale, so it is okay to use stale token prices to monitor the account

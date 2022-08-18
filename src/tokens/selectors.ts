@@ -35,7 +35,7 @@ export const tokensByAddressSelector = createSelector(
         ...storedState,
         balance: new BigNumber(storedState.balance),
         usdPrice: usdPrice.isNaN() || tokenUsdPriceIsStale ? null : usdPrice,
-        staleUsdPrice: tokenUsdPriceIsStale && !usdPrice.isNaN() ? usdPrice : null,
+        lastKnownUsdPrice: !usdPrice.isNaN() ? usdPrice : null,
       }
     }
     return tokenBalances
@@ -64,9 +64,11 @@ export const tokensWithUsdValueSelector = createSelector(tokensListSelector, (to
   ) as TokenBalanceWithUsdPrice[]
 })
 
-export const tokensWithStaleUsdValueSelector = createSelector(tokensListSelector, (tokens) => {
+export const tokensWithLastKnownUsdValueSelector = createSelector(tokensListSelector, (tokens) => {
   return tokens.filter((tokenInfo) =>
-    tokenInfo.balance.multipliedBy(tokenInfo.staleUsdPrice ?? 0).gt(STABLE_TRANSACTION_MIN_AMOUNT)
+    tokenInfo.balance
+      .multipliedBy(tokenInfo.lastKnownUsdPrice ?? 0)
+      .gt(STABLE_TRANSACTION_MIN_AMOUNT)
   )
 })
 
@@ -138,18 +140,18 @@ export const defaultTokenToSendSelector = createSelector(
   }
 )
 
-export const staleTokenBalanceSelector = createSelector(
-  [tokensListSelector, tokensWithStaleUsdValueSelector, localCurrencyExchangeRatesSelector],
-  (tokensList, tokensWithStaleUsdValue, exchangeRate) => {
+export const lastKnownTokenBalancesSelector = createSelector(
+  [tokensListSelector, tokensWithLastKnownUsdValueSelector, localCurrencyExchangeRatesSelector],
+  (tokensList, tokensWithLastKnownUsdValue, exchangeRate) => {
     const usdRate = exchangeRate[Currency.Dollar]
     if (!usdRate || tokensList.length === 0) {
       return null
     }
 
     let totalBalance = new BigNumber(0)
-    for (const token of tokensWithStaleUsdValue) {
+    for (const token of tokensWithLastKnownUsdValue) {
       const tokenAmount = new BigNumber(token.balance)
-        .multipliedBy(token.staleUsdPrice ?? 0)
+        .multipliedBy(token.lastKnownUsdPrice ?? 0)
         .multipliedBy(usdRate)
       totalBalance = totalBalance.plus(tokenAmount)
     }

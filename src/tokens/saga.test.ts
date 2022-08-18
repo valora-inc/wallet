@@ -12,8 +12,8 @@ import {
   watchAccountFundedOrLiquidated,
 } from 'src/tokens/saga'
 import {
+  lastKnownTokenBalancesSelector,
   stalePriceSelector,
-  staleTokenBalanceSelector,
   totalTokenBalanceSelector,
 } from 'src/tokens/selectors'
 import { fetchTokenBalancesFailure, setTokenBalances, StoredTokenBalances } from 'src/tokens/slice'
@@ -169,7 +169,7 @@ describe('watchAccountFundedOrLiquidated', () => {
       .provide([
         [select(totalTokenBalanceSelector), dynamic(balances(new BigNumber(0), new BigNumber(10)))],
         [select(stalePriceSelector), false],
-        [select(staleTokenBalanceSelector), null],
+        [select(lastKnownTokenBalancesSelector), null],
       ])
       .dispatch({ type: 'TEST_ACTION_TYPE' })
       .dispatch({ type: 'TEST_ACTION_TYPE' })
@@ -184,7 +184,7 @@ describe('watchAccountFundedOrLiquidated', () => {
       .provide([
         [select(totalTokenBalanceSelector), dynamic(balances(new BigNumber(10), new BigNumber(0)))],
         [select(stalePriceSelector), false],
-        [select(staleTokenBalanceSelector), null],
+        [select(lastKnownTokenBalancesSelector), null],
       ])
       .dispatch({ type: 'TEST_ACTION_TYPE' })
       .dispatch({ type: 'TEST_ACTION_TYPE' })
@@ -199,7 +199,7 @@ describe('watchAccountFundedOrLiquidated', () => {
       .provide([
         [select(totalTokenBalanceSelector), dynamic(balances(null, new BigNumber(10)))],
         [select(stalePriceSelector), false],
-        [select(staleTokenBalanceSelector), null],
+        [select(lastKnownTokenBalancesSelector), null],
       ])
       .dispatch({ type: 'TEST_ACTION_TYPE' })
       .dispatch({ type: 'TEST_ACTION_TYPE' })
@@ -214,7 +214,7 @@ describe('watchAccountFundedOrLiquidated', () => {
         [select(totalTokenBalanceSelector), dynamic(balances(new BigNumber(0), new BigNumber(10)))],
         [select(stalePriceSelector), isStale(true, false)],
         [
-          select(staleTokenBalanceSelector),
+          select(lastKnownTokenBalancesSelector),
           dynamic(balances(new BigNumber(10), new BigNumber(10))),
         ],
       ])
