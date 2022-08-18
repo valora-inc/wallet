@@ -1289,6 +1289,12 @@ interface SwapEventsProperties {
     fromToken: string
     buyAmount: string
   }
+  [SwapEvents.swap_review_submit]: {
+    toToken: string
+    fromToken: string
+    usdTotal: number
+    fee: number
+  }
 }
 
 export type AnalyticsPropertiesList = AppEventsProperties &

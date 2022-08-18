@@ -124,6 +124,24 @@ export function SwapReviewScreen(props: Props) {
     }
   )
 
+  const submitSwap = () => {
+    // Check for swapInfo prior to submitting swap
+    if (!swapInfo) return
+    // Analytics for swap submission
+    ValoraAnalytics.track(SwapEvents.swap_review_submit, {
+      toToken,
+      fromToken,
+      // TODO: Add fee to total when enabled
+      usdTotal: +divideByWei(swapInfo.unvalidatedSwapTransaction.buyAmount).multipliedBy(
+        swapInfo.unvalidatedSwapTransaction.price
+      ),
+      fee: +divideByWei(swapInfo.unvalidatedSwapTransaction.sellAmount).multipliedBy(
+        swapFeeDecimal
+      ),
+    })
+    // TODO: dispatch swap submission
+  }
+
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
       <CustomHeader title={t('swapReviewScreen.title')} left={<BackButton />} />
@@ -271,7 +289,7 @@ export function SwapReviewScreen(props: Props) {
       )}
       <Button
         style={{ padding: Spacing.Regular16 }}
-        onPress={() => Logger.debug('TODO Perform Swap!!!')}
+        onPress={submitSwap}
         text={t('swapReviewScreen.complete')}
         size={BtnSizes.FULL}
         disabled={shouldFetch || fetchError}
