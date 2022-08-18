@@ -140,14 +140,14 @@ export const defaultTokenToSendSelector = createSelector(
 
 export const staleTokenBalanceSelector = createSelector(
   [tokensListSelector, tokensWithStaleUsdValueSelector, localCurrencyExchangeRatesSelector],
-  (tokensList, tokensWithUsdValue, exchangeRate) => {
+  (tokensList, tokensWithStaleUsdValue, exchangeRate) => {
     const usdRate = exchangeRate[Currency.Dollar]
     if (!usdRate || tokensList.length === 0) {
       return null
     }
 
     let totalBalance = new BigNumber(0)
-    for (const token of tokensWithUsdValue) {
+    for (const token of tokensWithStaleUsdValue) {
       const tokenAmount = new BigNumber(token.balance)
         .multipliedBy(token.staleUsdPrice ?? 0)
         .multipliedBy(usdRate)
