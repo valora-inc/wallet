@@ -1110,6 +1110,7 @@
   "feedItemGoldPurchased": "Куплено",
   "feedItemGoldWithdrawal": "Зняття на {{displayName}}",
   "feedItemGoldReceived": "Отримано від {{displayName}}",
+  "feedItemSwapPath": "{{token1}} до {{token2}}",
   "transactionHeaderVerificationFee": "Підтвердження",
   "transactionHeaderNetworkFee": "Мережа",
   "transactionHeaderFaucet": "Faucet",
@@ -1266,15 +1267,15 @@
   },
   "fiatConnectLinkAccountScreen": {
     "bankAccount": {
-      "header": "Прив'язати банківський рахунок",
-      "bodyTitle": "Введіть банківські реквізити",
-      "description": "Введіть реквізити банківського рахунку для під’єднання вашого облікового запису до Valora. Ваші операції здійснюватимуться за підтримки <0>{{providerName}}</0>."
+      "header": "Налаштувати банківський рахунок",
+      "bodyTitle": "Налаштування банківського рахунку",
+      "description": "Для переказу коштів введіть реквізити для переказу коштів. Ваші операції будуть на <0>{{providerName}}</0>."
     },
     "continue": "Продовжити"
   },
   "fiatConnectReviewScreen": {
     "transactionDetails": "Деталі транзакції",
-    "paymentMethodVia": "Пов'язані через {{providerName}}",
+    "paymentMethodVia": "Підключення через {{providerName}}",
     "receiveAmount": "Ви отримаєте",
     "cashIn": {
       "header": "Перегляд - Поповнити кошти",
@@ -1314,8 +1315,8 @@
     },
     "requestNotCompleted": {
       "title": "Неможливо завершити ваш запит.",
-      "description": "Ваші кошти не можуть бути передані з Valora. Просимо спробувати ще раз або звернутися до нашої служби підтримки за допомогою.",
-      "contactSupportPrefill": "Я не можу зняти свої кошти з Valora"
+      "description": "Ваші кошти не можуть бути переведені. Будь ласка, спробуйте ще раз, або зверніться до нашої служби підтримки за допомогою.",
+      "contactSupportPrefill": "Я не можу витримати свої кошти."
     }
   },
   "fiatExchangeFlow": {
@@ -1342,11 +1343,10 @@
   "fiatDetailsScreen": {
     "header": "Введіть дані банку",
     "headerSubTitle": "За підтримки {{provider}}",
-    "description": "Додайте вашу інформацію, щоб пов’язати ваш банківський рахунок із Valora",
     "selectedPaymentOption": "Вибраний спосіб оплати",
-    "addFiatAccountSuccess": "Ваш обліковий запис було зв'язано з Valora.",
-    "addFiatAccountResourceExist": "Ви вже зв'язали цей обліковий запис із Valora.",
-    "addFiatAccountFailed": "Ваш обліковий запис не пов’язано. Спробуйте ще раз або зверніться до служби підтримки.",
+    "addFiatAccountSuccess": "Ваш акаунт був підключений до {{provider}}.",
+    "addFiatAccountResourceExist": "Ви вже підключили цей обліковий запис до {{provider}}.",
+    "addFiatAccountFailed": "Ваш обліковий запис не був підключений до {{provider}}, будь ласка, спробуйте ще раз або зверніться до служби підтримки.",
     "selectItem": "Виберіть варіант...",
     "selectDone": "Виконано",
     "submitAndContinue": "Надіслати та продовжити"
@@ -1373,6 +1373,13 @@
     "swapTo": "До",
     "insufficientFunds": "Недостатньо балансу на {{token}}. Спробуйте меншу суму або виберіть інший токен.",
     "fetchSwapQuoteFailed": "Вибачте за затримку! Це забирає більше часу, ніж зазвичай, щоб отримати найкращий обмінний курс. Будь ласка, спробуйте знову за кілька хвилин."
+  },
+  "swapTransactionDetailPage": {
+    "swapFrom": "Перемістити з",
+    "swapTo": "Поміняти на",
+    "rate": "Оцінка",
+    "estimatedFee": "Передбачувана комісія",
+    "viewOnExplorer": "Переглянути на CeloExplorer"
   },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
