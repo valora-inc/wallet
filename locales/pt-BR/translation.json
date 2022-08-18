@@ -1265,7 +1265,7 @@
     "bankAccount": {
       "header": "Configurar conta bancária",
       "bodyTitle": "Configurar conta bancária",
-      "description": "Insira os dados da conta bancária para transferir fundos. Suas transações serão suportadas por <0>{{providerName}}</0>."
+      "description": "Insira os dados bancários para transferir fundos. Suas transações serão suportadas por <0>{{providerName}}</0>."
     },
     "continue": "Continuar"
   },
