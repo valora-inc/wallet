@@ -20,6 +20,7 @@ import InviteFriendModal from 'src/invite/InviteFriendModal'
 import { navigate, navigationRef, navigatorIsReadyRef } from 'src/navigator/NavigationService'
 import Navigator from 'src/navigator/Navigator'
 import { Screens } from 'src/navigator/Screens'
+import { userInSanctionedCountrySelector } from 'src/networkInfo/selectors'
 import PincodeLock from 'src/pincode/PincodeLock'
 import useTypedSelector from 'src/redux/useSelector'
 import { sentryRoutingInstrumentation } from 'src/sentry/Sentry'
@@ -63,6 +64,7 @@ export const NavigatorWrapper = () => {
   const minRequiredVersion = useTypedSelector((state) => state.app.minVersion)
   const isInviteModalVisible = useTypedSelector((state) => state.app.inviteModalVisible)
   const routeNameRef = React.useRef()
+  const isUserInSanctionedCountry = useSelector(userInSanctionedCountrySelector)
 
   const dispatch = useDispatch()
 
@@ -80,6 +82,12 @@ export const NavigatorWrapper = () => {
 
   const shouldForceBackup = useSelector(shouldForceBackupSelector)
   const doingBackupFlow = useSelector(doingBackupFlowSelector)
+
+  React.useEffect(() => {
+    if (isUserInSanctionedCountry) {
+      navigate(Screens.SanctionedCountryErrorScreen)
+    }
+  }, [])
 
   React.useEffect(() => {
     if (shouldForceBackup && !doingBackupFlow) {
