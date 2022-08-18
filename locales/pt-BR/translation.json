@@ -1263,9 +1263,9 @@
   },
   "fiatConnectLinkAccountScreen": {
     "bankAccount": {
-      "header": "Criação de uma conta bancária",
-      "bodyTitle": "Criar uma conta bancária",
-      "description": "Introduza os dados da conta bancária para transferir fundos. As suas transacções serão alimentadas por <0>{{providerName}}</0>."
+      "header": "Configurar conta bancária",
+      "bodyTitle": "Configurar conta bancária",
+      "description": "Insira os dados da conta bancária para transferir fundos. Suas transações serão suportadas por <0>{{providerName}}</0>."
     },
     "continue": "Continuar"
   },
@@ -1311,8 +1311,8 @@
     },
     "requestNotCompleted": {
       "title": "Sua solicitação não pôde ser concluída.",
-      "description": "Os seus fundos não puderam ser transferidos. Por favor, tente novamente ou contacte a nossa equipa de apoio para obter ajuda.",
-      "contactSupportPrefill": "Estou a ter dificuldades em retirar os meus fundos."
+      "description": "Seus fundos não puderam ser transferidos. Tente novamente ou fale com a nossa equipe de suporte para obter ajuda.",
+      "contactSupportPrefill": "Estou tento dificuldade para sacar meus fundos."
     }
   },
   "fiatExchangeFlow": {
@@ -1340,9 +1340,9 @@
     "header": "Insira os dados bancários",
     "headerSubTitle": "Desenvolvido por {{provider}}",
     "selectedPaymentOption": "Opção de pagamento selecionada",
-    "addFiatAccountSuccess": "A sua conta foi ligada a {{provider}}.",
-    "addFiatAccountResourceExist": "Já ligou esta conta a {{provider}}.",
-    "addFiatAccountFailed": "A sua conta não foi ligada a {{provider}}, por favor tente novamente ou contacte o suporte.",
+    "addFiatAccountSuccess": "Sua conta foi conectada a {{provider}}.",
+    "addFiatAccountResourceExist": "Você já conectou essa conta a {{provider}}.",
+    "addFiatAccountFailed": "Sua conta não foi conectada a {{provider}}, tente novamente ou entre em contato com o suporte.",
     "selectItem": "Selecione uma opção...",
     "selectDone": "Concluído",
     "submitAndContinue": "Enviar e continuar"
@@ -1371,8 +1371,8 @@
     "fetchSwapQuoteFailed": "Lamentamos o atraso! A obtenção da melhor taxa de câmbio está demorando mais do que o normal. Tente novamente mais tarde."
   },
   "swapTransactionDetailPage": {
-    "swapFrom": "Troca de",
-    "swapTo": "Mude para",
+    "swapFrom": "Trocar de",
+    "swapTo": "Trocar para",
     "rate": "Taxa",
     "estimatedFee": "Taxa estimada",
     "viewOnExplorer": "Ver no CeloExplorer"
