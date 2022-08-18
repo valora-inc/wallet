@@ -13,7 +13,7 @@ import Touchable from 'src/components/Touchable'
 import { TIME_OF_SUPPORTED_UNSYNC_HISTORICAL_PRICES } from 'src/config'
 import OpenLinkIcon from 'src/icons/OpenLinkIcon'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
-import { headerWithBackButton } from 'src/navigator/Headers'
+import { HeaderTitleWithSubtitle, headerWithBackButton } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -47,24 +47,20 @@ function TokenBalancesScreen({ navigation }: Props) {
   const walletAddress = useSelector(walletAddressSelector)
 
   const header = () => {
+    const subTitle = tokensAreStale
+      ? `${localCurrencySymbol} -`
+      : totalBalance &&
+        t('totalBalanceWithLocalCurrencySymbol', {
+          localCurrencySymbol,
+          totalBalance: totalBalance.toFormat(2),
+        })
+
     return (
-      <View style={styles.header}>
-        <Text style={fontStyles.navigationHeader}>{t('balances')}</Text>
-        <Text style={styles.subtext}>
-          {tokensAreStale ? (
-            <Text>
-              {localCurrencySymbol}
-              {'-'}
-            </Text>
-          ) : (
-            totalBalance &&
-            t('totalBalanceWithLocalCurrencySymbol', {
-              localCurrencySymbol,
-              totalBalance: totalBalance.toFormat(2),
-            })
-          )}
-        </Text>
-      </View>
+      <HeaderTitleWithSubtitle
+        testID="Header/TokenBalances"
+        title={t('balances')}
+        subTitle={subTitle ?? ''}
+      />
     )
   }
 
