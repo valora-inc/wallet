@@ -563,6 +563,7 @@ export enum SwapEvents {
   swap_screen_review_swap = 'swap_screen_review_swap', // When a user click on the review button to proceed to next step
   swap_feed_detail_view_tx = 'swap_feed_detail_view_tx', // When a user click 'View on CeloExplorer' in the swap feed detail page
   swap_review_screen_open = 'swap_review_screen_open', // When the review screen is mounted
+  swap_review_submit = 'swap_review_submit', // When the user submits the swap
 }
 
 export type AnalyticsEventType =
