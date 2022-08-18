@@ -1263,9 +1263,9 @@
   },
   "fiatConnectLinkAccountScreen": {
     "bankAccount": {
-      "header": "Bankkonto einrichten",
-      "bodyTitle": "Bankkonto einrichten",
-      "description": "Gib die Details deines Bankkontos ein, um Geld zu überweisen. Deine Transaktionen werden durchgeführt von <0>{{providerName}}</0>."
+      "header": "Ein Bankkonto einrichten",
+      "bodyTitle": "Ein Bankkonto einrichten",
+      "description": "Gib deine Kontoinformationen ein, um Guthaben zu überweisen. Deine Transaktionen werden von <0>{{providerName}}</0> unterstützt."
     },
     "continue": "Weiter"
   },
@@ -1311,8 +1311,8 @@
     },
     "requestNotCompleted": {
       "title": "Deine Anfrage konnte nicht abgeschlossen werden.",
-      "description": "Dein Geld konnte nicht überwiesen werden. Bitte versuche es noch einmal oder wende dich an unser Support-Team, um Hilfe zu erhalten.",
-      "contactSupportPrefill": "Ich habe Probleme, mein Geld abzuheben."
+      "description": "Dein Guthaben konnte nicht von überwiesen werden. Bitte versuche es noch einmal oder wende dich an unser Support-Team, um Hilfe zu erhalten.",
+      "contactSupportPrefill": "Ich habe Probleme, mein Guthaben abzuheben."
     }
   },
   "fiatExchangeFlow": {
@@ -1340,9 +1340,9 @@
     "header": "Bankdaten eingeben",
     "headerSubTitle": "Unterstützt von {{provider}}",
     "selectedPaymentOption": "Gewählte Zahlungsoption",
-    "addFiatAccountSuccess": "Dein Konto wurde mit {{provider}}verbunden.",
-    "addFiatAccountResourceExist": "Du hast dieses Konto bereits mit {{provider}}verbunden.",
-    "addFiatAccountFailed": "Dein Konto wurde nicht mit {{provider}}verbunden. Bitte versuche es erneut oder kontaktiere den Support.",
+    "addFiatAccountSuccess": "Dein Konto wurde mit {{provider}} verknüpft.",
+    "addFiatAccountResourceExist": "Du hast dieses Konto bereits mit {{provider}} verknüpft.",
+    "addFiatAccountFailed": "Dein Konto wurde nicht mit {{provider}} verknüpft. Bitte versuche es erneut oder kontaktiere den Support.",
     "selectItem": "Option auswählen...",
     "selectDone": "Fertig",
     "submitAndContinue": "Senden und fortfahren"
@@ -1372,8 +1372,8 @@
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Tausch von",
-    "swapTo": "Wechseln zu",
-    "rate": "Bewerten Sie",
+    "swapTo": "Tausch zu",
+    "rate": "Kurs",
     "estimatedFee": "Geschätzte Gebühr",
     "viewOnExplorer": "Auf CeloExplorer anzeigen"
   },
