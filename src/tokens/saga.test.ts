@@ -156,17 +156,7 @@ describe('watchAccountFundedOrLiquidated', () => {
 
   const balances = (firstValue: BigNumber | null, restValue: BigNumber | null) => {
     let callCount = 0
-    return () => {
-      callCount += 1
-
-      switch (callCount) {
-        case 2:
-        case 3:
-          return restValue
-        default:
-          return firstValue
-      }
-    }
+    return () => (++callCount == 1 ? firstValue : restValue)
   }
 
   const isStale = (firstValue: boolean, restValue: boolean) => {
