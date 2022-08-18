@@ -194,7 +194,7 @@ export function SwapReviewScreen(props: Props) {
                       amount={divideByWei(swapInfo.unvalidatedSwapTransaction.sellAmount)}
                       tokenAddress={fromToken}
                       showLocalAmount={true}
-                      testID={`FromSwapAmountTokenLocal`}
+                      testID={'FromSwapAmountTokenLocal'}
                     />
                   </View>
                 </View>
@@ -367,6 +367,7 @@ const styles = StyleSheet.create({
     lineHeight: 24,
   },
   touchableRow: {
+    flex: 1,
     alignSelf: 'flex-end',
     flexDirection: 'row',
     justifyContent: 'space-between',
