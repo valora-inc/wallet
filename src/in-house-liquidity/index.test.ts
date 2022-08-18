@@ -1,5 +1,5 @@
 import { FetchMock } from 'jest-fetch-mock/types'
-import { createPersonaAccount } from 'src/in-house-liquidity'
+import { createPersonaAccount, verifyWalletAddress } from 'src/in-house-liquidity'
 import networkConfig from 'src/web3/networkConfig'
 import { mockAccount } from 'test/values'
 
@@ -42,6 +42,16 @@ describe('In House Liquidity Calls', () => {
       )
       // Returns nothing
       expect(response).toEqual(undefined)
+    })
+  })
+
+  describe('verifyWalletAddress', () => {
+    it('throws when walletAddress is null', () => {
+      expect(() =>
+        verifyWalletAddress({
+          walletAddress: null,
+        })
+      ).toThrow('Cannot call IHL because walletAddress is null')
     })
   })
 })
