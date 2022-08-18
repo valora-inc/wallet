@@ -1269,13 +1269,13 @@
     "bankAccount": {
       "header": "Załóż konto bankowe",
       "bodyTitle": "Załóż konto bankowe",
-      "description": "Wprowadź dane konta bankowego, aby przelać środki. Twoje transakcje będą realizowane przez <0>{{providerName}}</0>."
+      "description": "Wprowadź szczegóły dotyczące rachunku bankowego, aby przelać środki. Twoje transakcje będą obsługiwane przez <0>{{providerName}}</0>."
     },
     "continue": "Kontynuuj"
   },
   "fiatConnectReviewScreen": {
     "transactionDetails": "Szczegóły transakcji",
-    "paymentMethodVia": "Podłączony przez {{providerName}}",
+    "paymentMethodVia": "Połączono przez {{providerName}}",
     "receiveAmount": "Otrzymasz",
     "cashIn": {
       "header": "Analizuj – Dodaj środki",
@@ -1315,8 +1315,8 @@
     },
     "requestNotCompleted": {
       "title": "Twoje żądanie nie mogło zostać zrealizowane.",
-      "description": "Twoje środki nie mogły zostać przekazane. Spróbuj ponownie lub skontaktuj się z naszym zespołem pomocy technicznej, aby uzyskać pomoc.",
-      "contactSupportPrefill": "Mam problem z wypłatą moich środków."
+      "description": "Twoje środki nie mogły zostać przekazane. Spróbuj ponownie lub skontaktuj się z naszym zespołem obsługi klienta, aby uzyskać pomoc.",
+      "contactSupportPrefill": "Mam problem z wypłatą środków."
     }
   },
   "fiatExchangeFlow": {
@@ -1345,8 +1345,8 @@
     "headerSubTitle": "Obsługiwane przez {{provider}}",
     "selectedPaymentOption": "Wybrana opcja płatności",
     "addFiatAccountSuccess": "Twoje konto zostało połączone z {{provider}}.",
-    "addFiatAccountResourceExist": "Podłączyłeś już to konto do strony {{provider}}.",
-    "addFiatAccountFailed": "Twoje konto nie zostało połączone z {{provider}}. Spróbuj ponownie lub skontaktuj się z pomocą techniczną.",
+    "addFiatAccountResourceExist": "Twoje konto jest już połączone z {{provider}}.",
+    "addFiatAccountFailed": "Twoje konto nie zostało połączone z {{provider}}. Spróbuj ponownie lub skontaktuj się z działem wsparcia.",
     "selectItem": "Wybierz opcję...",
     "selectDone": "Gotowe",
     "submitAndContinue": "Prześlij i kontynuuj"
@@ -1375,10 +1375,10 @@
     "fetchSwapQuoteFailed": "Przepraszamy za opóźnienie! Przetwarzanie trwa dłużej niż zwykle, aby uzyskać najlepszy kurs wymiany. Spróbuj ponownie za kilka minut."
   },
   "swapTransactionDetailPage": {
-    "swapFrom": "Zamień się z",
-    "swapTo": "Zamień się z",
-    "rate": "Oceń .",
-    "estimatedFee": "Opłata szacunkowa",
+    "swapFrom": "Zamień z",
+    "swapTo": "Zamień na",
+    "rate": "Stopa",
+    "estimatedFee": "Szacowana opłata",
     "viewOnExplorer": "Wyświetl w CeloExplorer"
   },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
