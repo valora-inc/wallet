@@ -719,8 +719,8 @@
     "title": "Fai un salto nel futuro delle criptovalute con {{appName}}",
     "createAccount": "Crea nuovo conto",
     "restoreAccount": "Ripristina il mio conto",
-    "createNewWallet": "Crea un nuovo portafoglio",
-    "restoreWallet": "Ripristina il portafoglio",
+    "createNewWallet": "Crea un portafoglio",
+    "restoreWallet": "Ripristina un portafoglio",
     "iAlreadyHaveAWallet": "Ho già un portafoglio"
   },
   "accessContacts": {
@@ -730,7 +730,7 @@
     }
   },
   "createAccount": "Crea conto",
-  "createProfile": "Crea profilo",
+  "createProfile": "Crea un profilo",
   "restoreAccount": "Ripristina il mio conto",
   "registrationSteps": "Passaggio {{step}} di {{totalSteps}}",
   "selectCountryCode": "Seleziona il codice del Paese",
@@ -1106,6 +1106,7 @@
   "feedItemGoldPurchased": "Acquistati",
   "feedItemGoldWithdrawal": "Prelievo verso {{displayName}}",
   "feedItemGoldReceived": "Ricevuti da {{displayName}}",
+  "feedItemSwapPath": "{{token1}} > {{token2}}",
   "transactionHeaderVerificationFee": "Conferma",
   "transactionHeaderNetworkFee": "Rete",
   "transactionHeaderFaucet": "Faucet",
@@ -1262,15 +1263,15 @@
   },
   "fiatConnectLinkAccountScreen": {
     "bankAccount": {
-      "header": "Collegare un conto bancario",
-      "bodyTitle": "Immetti i dettagli bancari",
-      "description": "Immetti i dettagli bancari per collegare il tuo conto a Valora. Le tue transazioni saranno effettuate da <0>{{providerName}}</0>."
+      "header": "Imposta un conto bancario",
+      "bodyTitle": "Imposta un conto bancario",
+      "description": "Immetti i dettagli bancari per trasferire i fondi. Le tue transazioni saranno effettuate da <0>{{providerName}}</0>."
     },
     "continue": "Continua"
   },
   "fiatConnectReviewScreen": {
     "transactionDetails": "Dettagli della transazione",
-    "paymentMethodVia": "Collegati via {{providerName}}",
+    "paymentMethodVia": "Collegato via {{providerName}}",
     "receiveAmount": "Riceverai",
     "cashIn": {
       "header": "Rivedi - Aggiungi fondi",
@@ -1310,8 +1311,8 @@
     },
     "requestNotCompleted": {
       "title": "Non è stato possibile completare la richiesta.",
-      "description": "Non è stato possibile trasferire i tuoi fondi da Valora. Riprova o contatta il nostro team di supporto per ricevere assistenza.",
-      "contactSupportPrefill": "Ho problemi a prelevare i miei fondi da Valora"
+      "description": "Non è stato possibile trasferire i tuoi fondi. Riprova o contatta il nostro team di supporto per ricevere assistenza.",
+      "contactSupportPrefill": "Ho problemi a prelevare i miei fondi."
     }
   },
   "fiatExchangeFlow": {
@@ -1338,11 +1339,10 @@
   "fiatDetailsScreen": {
     "header": "Immetti i dettagli della banca",
     "headerSubTitle": "Powered by {{provider}}",
-    "description": "Aggiungi le tue informazioni per collegare il tuo conto bancario a Valora",
     "selectedPaymentOption": "Opzione di pagamento selezionata",
-    "addFiatAccountSuccess": "Il tuo conto è stato collegato a Valora.",
-    "addFiatAccountResourceExist": "Hai già collegato questo conto a Valora.",
-    "addFiatAccountFailed": "Il tuo conto non è stato collegato, riprova o contatta il supporto tecnico.",
+    "addFiatAccountSuccess": "Il tuo conto è stato collegato a {{provider}}.",
+    "addFiatAccountResourceExist": "Hai già collegato questo conto a {{provider}}.",
+    "addFiatAccountFailed": "Il tuo conto non è stato collegato a {{provider}}, riprova o contatta il team di supporto.",
     "selectItem": "Seleziona un'opzione...",
     "selectDone": "Fatto",
     "submitAndContinue": "Invia e continua"
@@ -1369,6 +1369,13 @@
     "swapTo": "A",
     "insufficientFunds": "Saldo {{token}} insufficiente. Immetti un importo inferiore o scegli un altro token.",
     "fetchSwapQuoteFailed": "Ci scusiamo per il ritardo! Ottenere il miglior tasso di cambio sta richiedendo più tempo del solito. Riprova più tardi."
+  },
+  "swapTransactionDetailPage": {
+    "swapFrom": "Scambia da",
+    "swapTo": "Scambia a",
+    "rate": "Tasso",
+    "estimatedFee": "Commissioni stimate",
+    "viewOnExplorer": "Visualizza su CeloExplorer"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollar"
