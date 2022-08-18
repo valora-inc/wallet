@@ -1110,7 +1110,7 @@
   "feedItemGoldPurchased": "Куплено",
   "feedItemGoldWithdrawal": "Снятие на {{displayName}}",
   "feedItemGoldReceived": "Получено от {{displayName}}",
-  "feedItemSwapPath": "{{token1}} на {{token2}}",
+  "feedItemSwapPath": "{{token1}} в {{token2}}",
   "transactionHeaderVerificationFee": "Подтверждение",
   "transactionHeaderNetworkFee": "Сообщество",
   "transactionHeaderFaucet": "Кран",
@@ -1267,9 +1267,9 @@
   },
   "fiatConnectLinkAccountScreen": {
     "bankAccount": {
-      "header": "Создайте банковский счет",
-      "bodyTitle": "Установите банковский счет",
-      "description": "Введи реквизиты банковского счета для перевода средств. Твои транзакции будут осуществляться с помощью <0>{{providerName}}</0>."
+      "header": "Настроить банковский счет",
+      "bodyTitle": "Настроить банковский счет",
+      "description": "Введите реквизиты банковского счета для перевода средств. Ваши транзакции будут осуществляться при поддержке <0>{{providerName}}</0>."
     },
     "continue": "Продолжить"
   },
@@ -1315,7 +1315,7 @@
     },
     "requestNotCompleted": {
       "title": "Ваш запрос не удалось выполнить.",
-      "description": "Твои средства не удалось перевести. Пожалуйста, попробуй еще раз или обратись за помощью в нашу службу поддержки.",
+      "description": "Не удалось перевести ваши средства. Повторите попытку или обратитесь за помощью в нашу службу поддержки.",
       "contactSupportPrefill": "У меня проблемы с выводом средств."
     }
   },
@@ -1344,9 +1344,9 @@
     "header": "Введите банковскую информацию",
     "headerSubTitle": "При поддержке {{provider}}",
     "selectedPaymentOption": "Выбранный способ оплаты",
-    "addFiatAccountSuccess": "Твой аккаунт был подключен к {{provider}}.",
-    "addFiatAccountResourceExist": "Ты уже подключил этот аккаунт к {{provider}}.",
-    "addFiatAccountFailed": "Твой аккаунт не был подключен к {{provider}}, пожалуйста, попробуй еще раз или обратись в службу поддержки.",
+    "addFiatAccountSuccess": "Ваш аккаунт был подключен к {{provider}}.",
+    "addFiatAccountResourceExist": "Вы уже подключили этот аккаунт к {{provider}}.",
+    "addFiatAccountFailed": "Ваш аккаунт не был подключен к {{provider}}, повторите попытку или обратитесь в службу поддержки.",
     "selectItem": "Выбери опцию...",
     "selectDone": "Готово",
     "submitAndContinue": "Отправить и продолжить"
@@ -1375,10 +1375,10 @@
     "fetchSwapQuoteFailed": "Извините за задержку! Для получения самого выгодного обменного курса требуется больше времени. Повторите попытку через несколько минут."
   },
   "swapTransactionDetailPage": {
-    "swapFrom": "Поменяйтесь местами с",
-    "swapTo": "Поменяйте на",
-    "rate": "Оцените",
-    "estimatedFee": "Оценочная плата",
+    "swapFrom": "Обменять с",
+    "swapTo": "Обменять на",
+    "rate": "Курс",
+    "estimatedFee": "Приблизительная комиссия",
     "viewOnExplorer": "Просмотреть в CeloExplorer"
   },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
