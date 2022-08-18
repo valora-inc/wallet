@@ -38,7 +38,7 @@ function TokenBalancesScreen({ navigation }: Props) {
   const { t } = useTranslation()
   const tokens = useSelector(tokensWithTokenBalanceSelector)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
-  const totalBalance = useSelector(totalTokenBalanceSelector)
+  const totalBalance = useSelector(totalTokenBalanceSelector) ?? new BigNumber(0)
   const tokensAreStale = useSelector(stalePriceSelector)
   const showPriceChangeIndicatorInBalances = useSelector(showPriceChangeIndicatorInBalancesSelector)
   const shouldVisualizeNFTsInHomeAssetsPage = useSelector(
@@ -49,7 +49,7 @@ function TokenBalancesScreen({ navigation }: Props) {
   const header = () => {
     const subTitle = tokensAreStale
       ? `${localCurrencySymbol} -`
-      : totalBalance &&
+      : totalBalance.isGreaterThan(0) &&
         t('totalBalanceWithLocalCurrencySymbol', {
           localCurrencySymbol,
           totalBalance: totalBalance.toFormat(2),
@@ -81,14 +81,14 @@ function TokenBalancesScreen({ navigation }: Props) {
   function getTokenDisplay(token: TokenBalance) {
     return (
       <View key={`Token${token.address}`} style={styles.tokenContainer}>
-        <View style={styles.row}>
+        <View style={[styles.row, { width: '55%' }]}>
           <Image source={{ uri: token.imageUrl }} style={styles.tokenImg} />
           <View style={styles.tokenLabels}>
             <Text style={styles.tokenName}>{token.symbol}</Text>
             <Text style={styles.subtext}>{token.name}</Text>
           </View>
         </View>
-        <View style={styles.balances}>
+        <View style={[styles.balances, { width: '45%' }]}>
           <TokenDisplay
             amount={new BigNumber(token.balance!)}
             tokenAddress={token.address}
@@ -98,7 +98,7 @@ function TokenBalancesScreen({ navigation }: Props) {
             testID={`tokenBalance:${token.symbol}`}
           />
           {token.usdPrice?.gt(0) && (
-            <View style={{ flexDirection: 'row' }}>
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-end' }}>
               {showPriceChangeIndicatorInBalances &&
                 token.historicalUsdPrices &&
                 isHistoricalPriceUpdated(token) && (
@@ -141,11 +141,13 @@ function TokenBalancesScreen({ navigation }: Props) {
           </View>
         </Touchable>
       )}
-      {!shouldVisualizeNFTsInHomeAssetsPage && showPriceChangeIndicatorInBalances && (
-        <View style={styles.lastDayLabel}>
-          <Text style={styles.lastDayText}>{t('lastDay')}</Text>
-        </View>
-      )}
+      {!shouldVisualizeNFTsInHomeAssetsPage &&
+        showPriceChangeIndicatorInBalances &&
+        !tokensAreStale && (
+          <View style={styles.lastDayLabel}>
+            <Text style={styles.lastDayText}>{t('lastDay')}</Text>
+          </View>
+        )}
       <ScrollView style={styles.scrollContainer}>
         {tokens.sort(sortByUsdBalance).map(getTokenDisplay)}
       </ScrollView>
@@ -159,8 +161,6 @@ TokenBalancesScreen.navigationOptions = {
 
 const styles = StyleSheet.create({
   scrollContainer: {
-    flex: 1,
-    flexDirection: 'column',
     paddingHorizontal: variables.contentPadding,
   },
   tokenImg: {
@@ -171,33 +171,22 @@ const styles = StyleSheet.create({
   },
   tokenContainer: {
     flexDirection: 'row',
-    paddingTop: 22,
-    justifyContent: 'space-between',
-    flex: 1,
+    paddingTop: variables.contentPadding,
   },
   tokenLabels: {
     flexShrink: 1,
     flexDirection: 'column',
   },
   balances: {
-    flex: 2,
-    flexDirection: 'column',
     alignItems: 'flex-end',
   },
-  header: {
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
   row: {
-    flex: 3,
     flexDirection: 'row',
   },
   tokenName: {
-    flexShrink: 1,
     ...fontStyles.large600,
   },
   subtext: {
-    flexShrink: 1,
     ...fontStyles.small,
     color: Colors.gray4,
   },
