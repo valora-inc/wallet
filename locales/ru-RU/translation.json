@@ -277,7 +277,7 @@
   "exchanges": "Криптобиржа",
   "noExchanges": "В вашем регионе отсутствуют доступные Криптобиржа для {{digitalAsset}}.",
   "buySellOnExchanges": "Покупка/продажа на Криптобиржа",
-  "cashOut": "Вывод средства",
+  "cashOut": "Вывести средства",
   "cashOutSubtitle": "Потратьте средства на подарочные сертификаты и другие покупки или отправьте их на Криптобиржа",
   "cashOutComingSoon": "Вывод средства (скоро)",
   "spend": "Потратить",
@@ -719,8 +719,8 @@
     "title": "Сделайте шаг в будущее криптовалют с помощью {{appName}}",
     "createAccount": "Создать новый аккаунт",
     "restoreAccount": "Восстановить мой аккаунт",
-    "createNewWallet": "Создайте новый кошелек",
-    "restoreWallet": "Восстановление кошелька",
+    "createNewWallet": "Создать кошелек",
+    "restoreWallet": "Восстановить кошелек",
     "iAlreadyHaveAWallet": "У меня уже есть кошелек"
   },
   "accessContacts": {
@@ -1110,13 +1110,14 @@
   "feedItemGoldPurchased": "Куплено",
   "feedItemGoldWithdrawal": "Снятие на {{displayName}}",
   "feedItemGoldReceived": "Получено от {{displayName}}",
+  "feedItemSwapPath": "{{token1}} на {{token2}}",
   "transactionHeaderVerificationFee": "Подтверждение",
   "transactionHeaderNetworkFee": "Сообщество",
   "transactionHeaderFaucet": "Кран",
   "transactionHeaderInviteSent": "$t(inviteSent)",
   "transactionHeaderInviteReceived": "$t(inviteReceived)",
   "transactionHeaderSent": "Платеж отправлен",
-  "transactionHeaderWithdrewCelo": "Снятие CELO",
+  "transactionHeaderWithdrewCelo": "Вывод CELO",
   "transactionHeaderEscrowSent": "Эскроу-платеж отправлен",
   "transactionHeaderReceived": "Получен платеж",
   "transactionHeaderCeloDeposit": "Получен депозит",
@@ -1266,15 +1267,15 @@
   },
   "fiatConnectLinkAccountScreen": {
     "bankAccount": {
-      "header": "Привязать банковский счет",
-      "bodyTitle": "Введите банковские реквизиты",
-      "description": "Введите банковские реквизиты для привязки своего счета к Valora. Ваши транзакции будут осуществляться при поддержке <0>{{providerName}}</0>."
+      "header": "Создайте банковский счет",
+      "bodyTitle": "Установите банковский счет",
+      "description": "Введи реквизиты банковского счета для перевода средств. Твои транзакции будут осуществляться с помощью <0>{{providerName}}</0>."
     },
     "continue": "Продолжить"
   },
   "fiatConnectReviewScreen": {
     "transactionDetails": "Детали транзакции",
-    "paymentMethodVia": "связь через {{providerName}}.",
+    "paymentMethodVia": "Соединение через {{providerName}}",
     "receiveAmount": "Ты получишь",
     "cashIn": {
       "header": "Проверить - Внести средства",
@@ -1284,7 +1285,7 @@
     },
     "cashOut": {
       "header": "Проверить",
-      "button": "Вывод средства",
+      "button": "Вывести средства",
       "transactionDetailsAmount": "Всего выведено",
       "transactionDetailsAmountConverted": "Сумма выведено",
       "paymentMethodHeader": "Вывести на"
@@ -1314,8 +1315,8 @@
     },
     "requestNotCompleted": {
       "title": "Ваш запрос не удалось выполнить.",
-      "description": "Ваши средства не удалось перевести из Valora. Повторите попытку или обратитесь за помощью в нашу службу поддержки.",
-      "contactSupportPrefill": "У меня возникли проблемы с выводом средств из Valora"
+      "description": "Твои средства не удалось перевести. Пожалуйста, попробуй еще раз или обратись за помощью в нашу службу поддержки.",
+      "contactSupportPrefill": "У меня проблемы с выводом средств."
     }
   },
   "fiatExchangeFlow": {
@@ -1327,9 +1328,9 @@
       "selectProviderHeader": "Выберите способ оплаты"
     },
     "cashOut": {
-      "fiatExchangeTitle": "Вывод средства",
+      "fiatExchangeTitle": "Вывести средства",
       "fiatExchangeSubtitle": "Выведите средства из {{appName}} и переведите на банковский счет, карту, криптовалютную биржу или в мобильный банк.",
-      "selectCurrencyTitle": "Вывод средства",
+      "selectCurrencyTitle": "Вывести средства",
       "exchangeAmountTitle": "Вывести {{currency}}",
       "selectProviderHeader": "Выберите способ вывода средств"
     },
@@ -1342,11 +1343,10 @@
   "fiatDetailsScreen": {
     "header": "Введите банковскую информацию",
     "headerSubTitle": "При поддержке {{provider}}",
-    "description": "Добавьте свою информацию для привязки своего банковского счета к Valora",
     "selectedPaymentOption": "Выбранный способ оплаты",
-    "addFiatAccountSuccess": "Ваш аккаунт привязан к системе Valora.",
-    "addFiatAccountResourceExist": "Вы уже привязали этот аккаунт к Valora.",
-    "addFiatAccountFailed": "Ваш аккаунт не был привязан, повторите попытку или обратитесь в службу поддержки.",
+    "addFiatAccountSuccess": "Твой аккаунт был подключен к {{provider}}.",
+    "addFiatAccountResourceExist": "Ты уже подключил этот аккаунт к {{provider}}.",
+    "addFiatAccountFailed": "Твой аккаунт не был подключен к {{provider}}, пожалуйста, попробуй еще раз или обратись в службу поддержки.",
     "selectItem": "Выбери опцию...",
     "selectDone": "Готово",
     "submitAndContinue": "Отправить и продолжить"
@@ -1373,6 +1373,13 @@
     "swapTo": "К",
     "insufficientFunds": "Недостаточный остаток {{token}}. Попробуйте внести меньшую сумму или выберите другой токен.",
     "fetchSwapQuoteFailed": "Извините за задержку! Для получения самого выгодного обменного курса требуется больше времени. Повторите попытку через несколько минут."
+  },
+  "swapTransactionDetailPage": {
+    "swapFrom": "Поменяйтесь местами с",
+    "swapTo": "Поменяйте на",
+    "rate": "Оцените",
+    "estimatedFee": "Оценочная плата",
+    "viewOnExplorer": "Просмотреть в CeloExplorer"
   },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
