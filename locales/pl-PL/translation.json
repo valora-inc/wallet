@@ -1110,7 +1110,7 @@
   "feedItemGoldPurchased": "Kupiono",
   "feedItemGoldWithdrawal": "Wypłata na rzecz {{displayName}}",
   "feedItemGoldReceived": "Otrzymano od {{displayName}}",
-  "feedItemSwapPath": "{{token1}} do {{token2}}",
+  "feedItemSwapPath": "{{token1}} na {{token2}}",
   "transactionHeaderVerificationFee": "Potwierdzenie",
   "transactionHeaderNetworkFee": "Sieć",
   "transactionHeaderFaucet": "Faucet",
@@ -1377,7 +1377,7 @@
   "swapTransactionDetailPage": {
     "swapFrom": "Zamień z",
     "swapTo": "Zamień na",
-    "rate": "Stopa",
+    "rate": "Stawka",
     "estimatedFee": "Szacowana opłata",
     "viewOnExplorer": "Wyświetl w CeloExplorer"
   },
