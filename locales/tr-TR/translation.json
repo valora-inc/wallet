@@ -1106,7 +1106,7 @@
   "feedItemGoldPurchased": "Alındı",
   "feedItemGoldWithdrawal": "{{displayName}}'a çekim",
   "feedItemGoldReceived": "{{displayName}} alındı",
-  "feedItemSwapPath": "{{token1}} to {{token2}}",
+  "feedItemSwapPath": "{{token1}} - {{token2}}",
   "transactionHeaderVerificationFee": "Onay",
   "transactionHeaderNetworkFee": "Ağ",
   "transactionHeaderFaucet": "Faucet",
@@ -1263,9 +1263,9 @@
   },
   "fiatConnectLinkAccountScreen": {
     "bankAccount": {
-      "header": "Set up Bank Account",
-      "bodyTitle": "Set Up Bank Account",
-      "description": "Enter Bank Account details to transfer funds. Your transactions will be powered by <0>{{providerName}}</0>."
+      "header": "Banka Hesabı Oluştur",
+      "bodyTitle": "Banka Hesabı Oluştur",
+      "description": "Para aktarmak için Banka Hesabı ayrıntılarını girin. İşlemleriniz <0>{{providerName}}</0> tarafından desteklenir."
     },
     "continue": "İleri"
   },
@@ -1311,8 +1311,8 @@
     },
     "requestNotCompleted": {
       "title": "İsteğiniz gerçekleştirilemedi.",
-      "description": "Your funds were not able to be transferred. Please try again or contact our support team for help.",
-      "contactSupportPrefill": "I'm having trouble withdrawing my funds."
+      "description": "Paranız aktarılamadı. Lütfen tekrar deneyin veya yardım için destek ekibimizle iletişime geçin.",
+      "contactSupportPrefill": "Paramı çekerken sorun yaşıyorum."
     }
   },
   "fiatExchangeFlow": {
@@ -1340,9 +1340,9 @@
     "header": "Banka Bilgilerini girin",
     "headerSubTitle": "{{provider}} tarafından desteklenmektedir",
     "selectedPaymentOption": "Seçili ödeme yöntemi",
-    "addFiatAccountSuccess": "Your account has been connected to {{provider}}.",
-    "addFiatAccountResourceExist": "You have already connected this account to {{provider}}.",
-    "addFiatAccountFailed": "Your account was not connected to {{provider}}, please try again or contact support.",
+    "addFiatAccountSuccess": "Hesabınız {{provider}} sağlayıcısına bağlandı.",
+    "addFiatAccountResourceExist": "Bu hesabı zaten {{provider}} sağlayıcısına bağladınız.",
+    "addFiatAccountFailed": "Hesabınız {{provider}} sağlayıcısına bağlanmadı, lütfen tekrar deneyin veya destek ekibiyle iletişime geçin.",
     "selectItem": "Bir seçenek seçin...",
     "selectDone": "Tamamlandı",
     "submitAndContinue": "Gönder ve Devam Et"
@@ -1371,10 +1371,10 @@
     "fetchSwapQuoteFailed": "Gecikme için üzgünüz! En iyi döviz kurunu almak normalden daha uzun sürüyor. Lütfen birkaç dakika içinde tekrar deneyin."
   },
   "swapTransactionDetailPage": {
-    "swapFrom": "Swap from",
-    "swapTo": "Swap to",
-    "rate": "Rate",
-    "estimatedFee": "Estimated Fee",
+    "swapFrom": "Takas kaynağı",
+    "swapTo": "Takas hedefi",
+    "rate": "Oran",
+    "estimatedFee": "Tahmini Ücret",
     "viewOnExplorer": "CeloExplorer'da görüntüle"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
