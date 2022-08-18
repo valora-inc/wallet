@@ -791,4 +791,11 @@ export const migrations = {
       createAccountCopyTestType: REMOTE_CONFIG_VALUES_DEFAULTS.createAccountCopyTestType,
     },
   }),
+  72: (state: any) => ({
+    ...state,
+    identity: {
+      ...state.identity,
+      matchedContacts: undefined,
+    },
+  }),
 }

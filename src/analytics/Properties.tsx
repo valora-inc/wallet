@@ -522,9 +522,6 @@ interface IdentityEventsProperties {
     contactImportCount: number
   }
   [IdentityEvents.contacts_processing_complete]: undefined
-  [IdentityEvents.contacts_matchmaking_complete]: {
-    matchCount: number
-  }
   [IdentityEvents.contacts_import_error]: {
     error: string
   }
