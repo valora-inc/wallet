@@ -5,6 +5,7 @@ import { createBottomSheetNavigator } from '@th3rdwave/react-navigation-bottom-s
 import * as React from 'react'
 import { PixelRatio, Platform } from 'react-native'
 import SplashScreen from 'react-native-splash-screen'
+import { useSelector } from 'react-redux'
 import AccountKeyEducation from 'src/account/AccountKeyEducation'
 import AccounSetupFailureScreen from 'src/account/AccountSetupFailureScreen'
 import GoldEducation from 'src/account/GoldEducation'
@@ -18,6 +19,7 @@ import { CeloExchangeEvents } from 'src/analytics/Events'
 import AppLoading from 'src/app/AppLoading'
 import Debug from 'src/app/Debug'
 import ErrorScreen from 'src/app/ErrorScreen'
+import SanctionedCountryErrorScreen from 'src/app/SanctionedCountryErrorScreen'
 import UpgradeScreen from 'src/app/UpgradeScreen'
 import BackupComplete from 'src/backup/BackupComplete'
 import BackupForceScreen from 'src/backup/BackupForceScreen'
@@ -73,6 +75,7 @@ import { navigateBack, navigateToExchangeHome } from 'src/navigator/NavigationSe
 import QRNavigator from 'src/navigator/QRNavigator'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import OnboardingEducationScreen from 'src/onboarding/education/OnboardingEducationScreen'
 import EnableBiometry from 'src/onboarding/registration/EnableBiometry'
 import NameAndPicture from 'src/onboarding/registration/NameAndPicture'
@@ -160,6 +163,11 @@ const commonScreens = (Navigator: typeof Stack) => {
         name={Screens.TokenBalances}
         component={TokenBalancesScreen}
         options={TokenBalancesScreen.navigationOptions}
+      />
+      <Navigator.Screen
+        name={Screens.SanctionedCountryErrorScreen}
+        component={SanctionedCountryErrorScreen}
+        options={noHeader}
       />
     </>
   )
@@ -696,6 +704,17 @@ function ModalStackScreen() {
 }
 
 function RootStackScreen() {
+  let isSanctionedCountry = false
+  const userCountry = useSelector(userLocationDataSelector)
+  if (
+    userCountry.countryCodeAlpha2 === 'CU' ||
+    userCountry.countryCodeAlpha2 === 'IR' ||
+    userCountry.countryCodeAlpha2 === 'KP' ||
+    userCountry.countryCodeAlpha2 === 'SY'
+  ) {
+    isSanctionedCountry = true
+  }
+
   const renderBackdrop = React.useCallback(
     (props: BottomSheetBackdropProps) => (
       <BottomSheetBackdrop opacity={0.25} appearsOnIndex={0} disappearsOnIndex={-1} {...props} />
@@ -711,7 +730,14 @@ function RootStackScreen() {
     <RootStack.Navigator
       screenOptions={{ snapPoints: ['100%'], backdropComponent: renderBackdrop }}
     >
-      <RootStack.Screen name={Screens.MainModal} component={ModalStackScreen} />
+      {isSanctionedCountry ? (
+        <RootStack.Screen
+          name={Screens.SanctionedCountryErrorScreen}
+          component={SanctionedCountryErrorScreen}
+        />
+      ) : (
+        <RootStack.Screen name={Screens.MainModal} component={ModalStackScreen} />
+      )}
       {nativeBottomSheets(RootStack)}
     </RootStack.Navigator>
   )
