@@ -24,7 +24,7 @@ export function useDollarToLocalRate() {
 
 export function useLocalCurrencyToShow(amount: MoneyAmount, currencyInfo?: CurrencyInfo) {
   let localCurrencyCode = useSelector(getLocalCurrencyCode)
-  if (amount.currencyCode === 'cReal') {
+  if (amount.currencyCode === 'cREAL') {
     const usdOfOneLocal = useLocalAmountToCurrency(new BigNumber(1), Currency.Dollar)!
     const tokenUsdPrice = useTokenInfoBySymbol(amount.currencyCode)?.usdPrice!
     const localCurrencyExchangeRate = new BigNumber(1).div(usdOfOneLocal).times(tokenUsdPrice)
