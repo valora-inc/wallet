@@ -9,7 +9,7 @@ export default abstract class NormalizedQuote {
   abstract getPaymentMethod(): PaymentMethod
   abstract getFeeInFiat(exchangeRates: { [token in Currency]: string | null }): BigNumber | null
   abstract getFeeInCrypto(exchangeRates: { [token in Currency]: string | null }): BigNumber | null
-  abstract getCryptoType(): Currency
+  abstract getCryptoType(): Currency | 'cREAL'
   abstract getKycInfo(): string | null
   abstract getTimeEstimation(): string | null
   abstract getProviderName(): string

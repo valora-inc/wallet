@@ -13,7 +13,7 @@ const DEFAULT_DISPLAY_DECIMALS = 2
 interface Props {
   amount: BigNumber.Value
   tokenAddress?: string
-  currency?: Currency
+  currency?: Currency | 'cREAL'
   showSymbol?: boolean
   showLocalAmount?: boolean
   hideSign?: boolean
