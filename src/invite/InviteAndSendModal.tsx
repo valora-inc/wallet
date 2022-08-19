@@ -3,9 +3,7 @@ import { useTranslation } from 'react-i18next'
 import Dialog from 'src/components/Dialog'
 import { inviteModal } from 'src/images/Images'
 import useSelector from 'src/redux/useSelector'
-import { inviteRewardCusdSelector, inviteRewardsActiveSelector } from 'src/send/selectors'
-import { useCountryFeatures } from 'src/utils/countryFeatures'
-import { Currency } from 'src/utils/currencies'
+import { inviteRewardsActiveSelector } from 'src/send/selectors'
 
 interface Props {
   isVisible: boolean
@@ -16,11 +14,7 @@ interface Props {
 
 export default function InviteAndSendModal({ isVisible, name, onInvite, onCancel }: Props) {
   const { t } = useTranslation()
-  const rewardAmount = useSelector(inviteRewardCusdSelector)
   const inviteRewardsEnabled = useSelector(inviteRewardsActiveSelector)
-
-  const { IS_IN_EUROPE } = useCountryFeatures()
-  const currency = IS_IN_EUROPE ? Currency.Euro : Currency.Dollar
 
   return (
     <Dialog
@@ -34,7 +28,7 @@ export default function InviteAndSendModal({ isVisible, name, onInvite, onCancel
       testID="InviteAndSendModal"
     >
       {inviteRewardsEnabled
-        ? t('inviteAndSendDialog.bodyWithRewards', { name, amount: rewardAmount, currency })
+        ? t('inviteAndSendDialog.bodyWithRewards', { name })
         : t('inviteAndSendDialog.body', { name })}
     </Dialog>
   )

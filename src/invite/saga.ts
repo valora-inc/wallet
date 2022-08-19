@@ -13,7 +13,7 @@ import { getEscrowTxGas } from 'src/escrow/saga'
 import { calculateFee, currencyToFeeCurrency, FeeInfo } from 'src/fees/saga'
 import i18n from 'src/i18n'
 import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
-import { inviteRewardCusdSelector, inviteRewardsActiveSelector } from 'src/send/selectors'
+import { inviteRewardsActiveSelector } from 'src/send/selectors'
 import { tokensListSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { waitForTransactionWithId } from 'src/transactions/saga'
@@ -66,13 +66,10 @@ export function* sendInvite(
 
     const inviteRewardsEnabled = yield select(inviteRewardsActiveSelector)
     const numberVerified = yield select(numberVerifiedSelector)
-    const rewardAmount = yield select(inviteRewardCusdSelector)
     const inviteRewardsActive = inviteRewardsEnabled && numberVerified
 
     const message = inviteRewardsActive
       ? i18n.t('inviteWithRewards', {
-          amount: rewardAmount,
-          token: Currency.Dollar,
           link: DYNAMIC_DOWNLOAD_LINK,
         })
       : i18n.t('inviteWithEscrowedPayment', {
