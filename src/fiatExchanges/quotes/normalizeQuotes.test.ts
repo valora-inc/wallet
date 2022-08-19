@@ -23,11 +23,15 @@ describe('normalizeQuotes', () => {
       normalizedQuotes.map((quote) => [
         quote.getProviderId(),
         quote
-          .getFeeInCrypto({
-            cGLD: '1',
-            cUSD: '1',
-            cEUR: '1',
-          })
+          .getFeeInCrypto(
+            {
+              cGLD: '1',
+              cUSD: '1',
+              cEUR: '1',
+            },
+            undefined,
+            undefined
+          )
           ?.toNumber(),
       ])
     ).toEqual([

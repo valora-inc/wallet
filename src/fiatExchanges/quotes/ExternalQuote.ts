@@ -9,10 +9,9 @@ import {
 } from 'src/fiatExchanges/utils'
 import i18n from 'src/i18n'
 import { convertLocalAmountToCurrency } from 'src/localCurrency/convert'
-import { useLocalAmountToCurrency } from 'src/localCurrency/hooks'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { useTokenInfoBySymbol } from 'src/tokens/hooks'
+import { TokenBalance } from 'src/tokens/slice'
 import { Currency, resolveCurrency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 
@@ -69,14 +68,14 @@ export default class ExternalQuote extends NormalizedQuote {
     return resolveCurrency(this.quote.digitalAsset)!
   }
 
-  getFeeInCrypto(exchangeRates: { [token in Currency]: string | null }): BigNumber | null {
+  getFeeInCrypto(
+    exchangeRates: { [token in Currency]: string | null },
+    tokenInfo: undefined | TokenBalance,
+    usdOfLocalCurrency: undefined | BigNumber
+  ): BigNumber | null {
     const cryptoType = this.getCryptoType()
     if (cryptoType === 'cREAL') {
-      const usdOfLocalCurrency = useLocalAmountToCurrency(
-        this.getFeeInFiat(exchangeRates)!,
-        Currency.Dollar
-      )
-      const tokenUsdPrice = useTokenInfoBySymbol(cryptoType)?.usdPrice
+      const tokenUsdPrice = tokenInfo!.usdPrice
       return usdOfLocalCurrency?.dividedBy(tokenUsdPrice!) || new BigNumber(0)
     }
     return convertLocalAmountToCurrency(

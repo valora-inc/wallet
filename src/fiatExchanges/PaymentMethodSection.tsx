@@ -9,9 +9,12 @@ import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import NormalizedQuote from 'src/fiatExchanges/quotes/NormalizedQuote'
 import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
+import { useLocalAmountToCurrency } from 'src/localCurrency/hooks'
 import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
+import { useTokenInfoBySymbol } from 'src/tokens/hooks'
+import { Currency } from 'src/utils/currencies'
 
 export interface PaymentMethodSectionProps {
   paymentMethod: PaymentMethod
@@ -125,10 +128,16 @@ export function PaymentMethodSection({
         : t('selectProviderScreen.numDays')
     }`
   const renderFeeAmount = (normalizedQuote: NormalizedQuote, postFix: string) => {
+    // obtain value of local currency for fee display
+    const tokenInfo = useTokenInfoBySymbol(normalizedQuote.getCryptoType())
+    const usdOfLocalCurrency = useLocalAmountToCurrency(
+      normalizedQuote.getFeeInFiat(exchangeRates)!,
+      Currency.Dollar
+    )
     return (
       <Text>
         <TokenDisplay
-          amount={normalizedQuote.getFeeInCrypto(exchangeRates)!}
+          amount={normalizedQuote.getFeeInCrypto(exchangeRates, tokenInfo, usdOfLocalCurrency!)!}
           currency={normalizedQuote.getCryptoType()}
           showLocalAmount={flow === CICOFlow.CashIn}
           hideSign={false}
