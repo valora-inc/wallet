@@ -1377,6 +1377,19 @@
     "estimatedFee": "Frais estimés",
     "viewOnExplorer": "Voir sur CeloExplorer"
   },
+  "swapReviewScreen": {
+    "title": "Échange de revues",
+    "complete": "Échange complet",
+    "swapFrom": "Swap De",
+    "swapTo": "Swap To",
+    "transactionDetails": "Détails de transaction",
+    "estimatedGas": "Estimation du gaz",
+    "swapFee": "{{appName}} Droits d'inscription",
+    "swapFeeTitle": "Qu'est-ce que les frais de {{appName}} ?",
+    "swapFeeBody": "Les frais {{appName}} sont les frais que tu paies pour échanger des tokens sur {{appName}}. \n\n Les frais sont de {{swapFee}}% du montant que tu échanges. Les frais de \n\n {{appName}} sont gratuits pendant les prochains mois.",
+    "estimatedAmountTitle": "Estimated Amount",
+    "estimatedAmountBody": "Conversions take place on a third party decentralized exchange that finds you the best rate for your swap. \n\n Your trade will be completed at a price within {{slippagePercent}}% of the estimate or the transaction will be cancelled & funds returned to your wallet."
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
