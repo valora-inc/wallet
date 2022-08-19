@@ -16,7 +16,9 @@ import { useMaxSendAmount } from 'src/fees/hooks'
 import { FeeType } from 'src/fees/reducer'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { styles as headerStyles } from 'src/navigator/Headers'
-import Colors from 'src/styles/colors'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
+import colors from 'src/styles/colors'
 import { Spacing } from 'src/styles/styles'
 import SwapAmountInput from 'src/swap/SwapAmountInput'
 import useSwapQuote, { Field, SwapAmount } from 'src/swap/useSwapQuote'
@@ -98,7 +100,12 @@ export function SwapScreen() {
       setFromSwapAmountError(true)
       dispatch(showError(t('swapScreen.insufficientFunds', { token: fromToken?.symbol })))
     } else {
-      // navigate to the review screen, not yet implemented
+      navigate(Screens.SwapReviewScreen, {
+        toToken: toToken!.address,
+        fromToken: fromToken!.address,
+        swapAmount,
+        updatedField,
+      })
     }
   }
 
@@ -255,7 +262,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 4,
   },
   mutedHeader: {
-    color: Colors.gray3,
+    color: colors.gray3,
   },
 })
 
