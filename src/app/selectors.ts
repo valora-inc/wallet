@@ -140,6 +140,8 @@ export const swapFeeEnabledSelector = (state: RootState) => state.app.swapFeeEna
 
 export const swapFeePercentageSelector = (state: RootState) => state.app.swapFeePercentage
 
+// TODO selector for new feature flag
+
 type StoreWipeRecoveryScreens = Extract<
   Screens,
   | Screens.NameAndPicture

@@ -71,7 +71,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
   const [noPaymentMethods, setNoPaymentMethods] = useState(false)
   const { flow } = route.params
   const { t } = useTranslation()
-  const coinbasePayEnabled = useSelector(coinbasePayEnabledSelector)
+  const coinbasePayEnabled = useSelector(coinbasePayEnabledSelector) // todo imitate this in onboarding screens
   const appIdResponse = useAsync(async () => readOnceFromFirebase('coinbasePay/appId'), [])
   const appId = appIdResponse.result
 

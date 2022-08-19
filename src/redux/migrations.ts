@@ -792,4 +792,5 @@ export const migrations = {
       swapFeePercentage: REMOTE_CONFIG_VALUES_DEFAULTS.swapFeePercentage,
     },
   }),
+  // TODO migration for adding feature flag to app state
 }
