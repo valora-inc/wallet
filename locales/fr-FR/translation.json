@@ -718,7 +718,10 @@
   "welcome": {
     "title": "Entrez dans le futur des cryptomonnaies avec {{appName}}",
     "createAccount": "Créer un nouveau compte",
-    "restoreAccount": "Restaurer mon compte"
+    "restoreAccount": "Restaurer mon compte",
+    "createNewWallet": "Créer un portefeuille",
+    "restoreWallet": "Restaurer un portefeuille",
+    "iAlreadyHaveAWallet": "J'ai déjà un portefeuille"
   },
   "accessContacts": {
     "disclosure": {
@@ -727,6 +730,7 @@
     }
   },
   "createAccount": "Créer un compte",
+  "createProfile": "Créer un profil",
   "restoreAccount": "Restaurer mon compte",
   "registrationSteps": "Étape {{step}} de {{totalSteps}}",
   "selectCountryCode": "Sélectionnez l'indicatif du pays",
@@ -1102,6 +1106,7 @@
   "feedItemGoldPurchased": "Acheté",
   "feedItemGoldWithdrawal": "Retrait vers {{displayName}}",
   "feedItemGoldReceived": "Reçu de {{displayName}}",
+  "feedItemSwapPath": "{{token1}} > {{token2}}",
   "transactionHeaderVerificationFee": "Confirmation",
   "transactionHeaderNetworkFee": "Réseau",
   "transactionHeaderFaucet": "Faucet",
@@ -1258,38 +1263,38 @@
   },
   "fiatConnectLinkAccountScreen": {
     "bankAccount": {
-      "header": "Relier un compte bancaire",
-      "bodyTitle": "Saisissez les coordonnées bancaires",
-      "description": "Saisissez les coordonnées bancaires pour relier votre compte à Valora. Vos transactions seront propulsées par <0>{{providerName}}</0>."
+      "header": "Configurer un compte bancaire",
+      "bodyTitle": "Configurer un compte bancaire",
+      "description": "Saisissez les coordonnées bancaires pour transférer des fonds. Vos transactions seront propulsées par <0>{{providerName}}</0>."
     },
     "continue": "Continuer"
   },
   "fiatConnectReviewScreen": {
     "transactionDetails": "Détails de transaction",
-    "paymentMethodVia": "Relié(e) par {{providerName}}",
+    "paymentMethodVia": "Connexion du {{providerName}}",
     "receiveAmount": "Vous recevrez",
     "cashIn": {
       "header": "Vérifier - Ajouter des fonds",
       "button": "Ajouter des fonds",
       "transactionDetailsAmount": "Prix total",
-      "paymentMethodHeader": "Deposit From"
+      "paymentMethodHeader": "Dépôt de"
     },
     "cashOut": {
       "header": "Vérifier",
       "button": "Retirer des fonds",
       "transactionDetailsAmount": "Retrait total",
       "transactionDetailsAmountConverted": "Montant du retrait",
-      "paymentMethodHeader": "Withdraw To"
+      "paymentMethodHeader": "Retirer vers"
     },
     "failedRefetch": {
-      "title": "Connection lost!",
-      "description": "We were not able to establish a connection between your accounts.\n\nThis may be due to a poor internet connection or server issue. Please try to reconnect.",
-      "tryAgain": "Try Again"
+      "title": "Connexion perdue !",
+      "description": "Nous n'avons pas réussi à établir la connexion entre vos comptes.\n\nCela peut être dû à une mauvaise connexion internet ou à un problème de serveur. Veuillez réessayer de vous connecter.",
+      "tryAgain": "Réessayer"
     },
     "quoteExpiredDialog": {
-      "title": "Review amounts & fees",
-      "body": "Crypto amounts & fees can change due to fluctuations in the crypto market.\n\nPlease review your final amount & fees before submitting",
-      "continue": "Continue"
+      "title": "Vérifier les montants et les frais",
+      "body": "Les montants et frais liés aux cryptomonnaies peuvent changer en raison des fluctuations du marché des cryptomonnaies.\n\nVeuillez vérifier votre montant final et vos frais avant de valider",
+      "continue": "Continuer"
     }
   },
   "fiatConnectStatusScreen": {
@@ -1306,8 +1311,8 @@
     },
     "requestNotCompleted": {
       "title": "Votre demande n'a pas pu être complétée.",
-      "description": "Vos fonds n'ont pas pu être transférés depuis Valora. Veuillez réessayer ou contactez notre équipe d'assistance pour obtenir de l'aide.",
-      "contactSupportPrefill": "Je n'arrive pas à retirer mes fonds de Valora"
+      "description": "Vos fonds n'ont pas pu être transférés. Veuillez réessayer ou contactez notre équipe d'assistance pour obtenir de l'aide.",
+      "contactSupportPrefill": "Je n'arrive pas à retirer mes fonds."
     }
   },
   "fiatExchangeFlow": {
@@ -1332,16 +1337,15 @@
     }
   },
   "fiatDetailsScreen": {
-    "header": "Enter Bank Information",
-    "headerSubTitle": "Powered by {{provider}}",
-    "description": "Add your information to link your bank account to Valora",
+    "header": "Saisissez les coordonnées bancaires",
+    "headerSubTitle": "Propulsé par {{provider}}",
     "selectedPaymentOption": "Option de paiement sélectionnée",
-    "addFiatAccountSuccess": "Votre compte a bien été associé à Valora.",
-    "addFiatAccountResourceExist": "Vous avez déjà lié ce compte à Valora.",
-    "addFiatAccountFailed": "Votre compte n'a pas pu être lié, veuillez réessayer ou contacter le Support.",
+    "addFiatAccountSuccess": "Votre compte a bien été associé à {{provider}}.",
+    "addFiatAccountResourceExist": "Vous avez déjà connecté ce compte à {{provider}}.",
+    "addFiatAccountFailed": "Votre compte n'a pas pu être connecté à {{provider}}, veuillez réessayer ou contacter le Support.",
     "selectItem": "Sélectionnez une option...",
     "selectDone": "Terminé",
-    "submitAndContinue": "Submit & Continue"
+    "submitAndContinue": "Valider et continuer"
   },
   "fiatAccountSchema": {
     "institutionName": {
@@ -1365,6 +1369,13 @@
     "swapTo": "À",
     "insufficientFunds": "{{token}} insuffisants. Veuillez saisir un montant inférieur ou choisissez un autre jeton.",
     "fetchSwapQuoteFailed": "Désolé pour le retard ! Obtenir le meilleur taux de change prend plus longtemps que prévu. Veuillez réessayer plus tard."
+  },
+  "swapTransactionDetailPage": {
+    "swapFrom": "Échanger de",
+    "swapTo": "Échanger pour",
+    "rate": "Taux",
+    "estimatedFee": "Frais estimés",
+    "viewOnExplorer": "Voir sur CeloExplorer"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

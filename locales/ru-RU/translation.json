@@ -277,7 +277,7 @@
   "exchanges": "Криптобиржа",
   "noExchanges": "В вашем регионе отсутствуют доступные Криптобиржа для {{digitalAsset}}.",
   "buySellOnExchanges": "Покупка/продажа на Криптобиржа",
-  "cashOut": "Вывод средства",
+  "cashOut": "Вывести средства",
   "cashOutSubtitle": "Потратьте средства на подарочные сертификаты и другие покупки или отправьте их на Криптобиржа",
   "cashOutComingSoon": "Вывод средства (скоро)",
   "spend": "Потратить",
@@ -718,7 +718,10 @@
   "welcome": {
     "title": "Сделайте шаг в будущее криптовалют с помощью {{appName}}",
     "createAccount": "Создать новый аккаунт",
-    "restoreAccount": "Восстановить мой аккаунт"
+    "restoreAccount": "Восстановить мой аккаунт",
+    "createNewWallet": "Создать кошелек",
+    "restoreWallet": "Восстановить кошелек",
+    "iAlreadyHaveAWallet": "У меня уже есть кошелек"
   },
   "accessContacts": {
     "disclosure": {
@@ -727,6 +730,7 @@
     }
   },
   "createAccount": "Создать аккаунт",
+  "createProfile": "Создать профиль",
   "restoreAccount": "Восстановить мой аккаунт",
   "registrationSteps": "Шаг {{step}} из {{totalSteps}}",
   "selectCountryCode": "Выберите код страны",
@@ -1106,13 +1110,14 @@
   "feedItemGoldPurchased": "Куплено",
   "feedItemGoldWithdrawal": "Снятие на {{displayName}}",
   "feedItemGoldReceived": "Получено от {{displayName}}",
+  "feedItemSwapPath": "{{token1}} на {{token2}}",
   "transactionHeaderVerificationFee": "Подтверждение",
   "transactionHeaderNetworkFee": "Сообщество",
   "transactionHeaderFaucet": "Кран",
   "transactionHeaderInviteSent": "$t(inviteSent)",
   "transactionHeaderInviteReceived": "$t(inviteReceived)",
   "transactionHeaderSent": "Платеж отправлен",
-  "transactionHeaderWithdrewCelo": "Снятие CELO",
+  "transactionHeaderWithdrewCelo": "Вывод CELO",
   "transactionHeaderEscrowSent": "Эскроу-платеж отправлен",
   "transactionHeaderReceived": "Получен платеж",
   "transactionHeaderCeloDeposit": "Получен депозит",
@@ -1262,38 +1267,38 @@
   },
   "fiatConnectLinkAccountScreen": {
     "bankAccount": {
-      "header": "Привязать банковский счет",
-      "bodyTitle": "Введите банковские реквизиты",
-      "description": "Enter bank account details to link your account to Valora. Your transactions will be powered by <0>{{providerName}}</0>."
+      "header": "Создайте банковский счет",
+      "bodyTitle": "Установите банковский счет",
+      "description": "Введи реквизиты банковского счета для перевода средств. Твои транзакции будут осуществляться с помощью <0>{{providerName}}</0>."
     },
     "continue": "Продолжить"
   },
   "fiatConnectReviewScreen": {
     "transactionDetails": "Детали транзакции",
-    "paymentMethodVia": "связь через {{providerName}}.",
+    "paymentMethodVia": "Соединение через {{providerName}}",
     "receiveAmount": "Ты получишь",
     "cashIn": {
       "header": "Проверить - Внести средства",
       "button": "Внести средства",
       "transactionDetailsAmount": "Общая цена",
-      "paymentMethodHeader": "Deposit From"
+      "paymentMethodHeader": "Пополнить с"
     },
     "cashOut": {
       "header": "Проверить",
-      "button": "Вывод средства",
+      "button": "Вывести средства",
       "transactionDetailsAmount": "Всего выведено",
       "transactionDetailsAmountConverted": "Сумма выведено",
-      "paymentMethodHeader": "Withdraw To"
+      "paymentMethodHeader": "Вывести на"
     },
     "failedRefetch": {
-      "title": "Connection lost!",
-      "description": "We were not able to establish a connection between your accounts.\n\nThis may be due to a poor internet connection or server issue. Please try to reconnect.",
-      "tryAgain": "Try Again"
+      "title": "Соединение прервано!",
+      "description": "Мы не смогли установить связь между вашими счетами.\n\nВозможной причиной является плохое интернет-соединение или ошибка сервера. Повторите попытку подключения.",
+      "tryAgain": "Повторить попытку"
     },
     "quoteExpiredDialog": {
-      "title": "Review amounts & fees",
-      "body": "Crypto amounts & fees can change due to fluctuations in the crypto market.\n\nPlease review your final amount & fees before submitting",
-      "continue": "Continue"
+      "title": "Проверка сумм и комиссий",
+      "body": "Суммы и комиссии криптовалют могут изменяться из-за колебаний курсов на рынке криптовалют.\n\nПроверьте окончательную сумму и комиссию перед отправкой",
+      "continue": "Продолжить"
     }
   },
   "fiatConnectStatusScreen": {
@@ -1310,8 +1315,8 @@
     },
     "requestNotCompleted": {
       "title": "Ваш запрос не удалось выполнить.",
-      "description": "Ваши средства не удалось перевести из Valora. Повторите попытку или обратитесь за помощью в нашу службу поддержки.",
-      "contactSupportPrefill": "У меня возникли проблемы с выводом средств из Valora"
+      "description": "Твои средства не удалось перевести. Пожалуйста, попробуй еще раз или обратись за помощью в нашу службу поддержки.",
+      "contactSupportPrefill": "У меня проблемы с выводом средств."
     }
   },
   "fiatExchangeFlow": {
@@ -1323,9 +1328,9 @@
       "selectProviderHeader": "Выберите способ оплаты"
     },
     "cashOut": {
-      "fiatExchangeTitle": "Вывод средства",
+      "fiatExchangeTitle": "Вывести средства",
       "fiatExchangeSubtitle": "Выведите средства из {{appName}} и переведите на банковский счет, карту, криптовалютную биржу или в мобильный банк.",
-      "selectCurrencyTitle": "Вывод средства",
+      "selectCurrencyTitle": "Вывести средства",
       "exchangeAmountTitle": "Вывести {{currency}}",
       "selectProviderHeader": "Выберите способ вывода средств"
     },
@@ -1336,16 +1341,15 @@
     }
   },
   "fiatDetailsScreen": {
-    "header": "Enter Bank Information",
-    "headerSubTitle": "Powered by {{provider}}",
-    "description": "Add your information to link your bank account to Valora",
+    "header": "Введите банковскую информацию",
+    "headerSubTitle": "При поддержке {{provider}}",
     "selectedPaymentOption": "Выбранный способ оплаты",
-    "addFiatAccountSuccess": "Ваш аккаунт привязан к системе Valora.",
-    "addFiatAccountResourceExist": "Вы уже привязали этот аккаунт к Valora.",
-    "addFiatAccountFailed": "Ваш аккаунт не был привязан, повторите попытку или обратитесь в службу поддержки.",
+    "addFiatAccountSuccess": "Твой аккаунт был подключен к {{provider}}.",
+    "addFiatAccountResourceExist": "Ты уже подключил этот аккаунт к {{provider}}.",
+    "addFiatAccountFailed": "Твой аккаунт не был подключен к {{provider}}, пожалуйста, попробуй еще раз или обратись в службу поддержки.",
     "selectItem": "Выбери опцию...",
     "selectDone": "Готово",
-    "submitAndContinue": "Submit & Continue"
+    "submitAndContinue": "Отправить и продолжить"
   },
   "fiatAccountSchema": {
     "institutionName": {
@@ -1368,7 +1372,14 @@
     "swapFrom": "От",
     "swapTo": "К",
     "insufficientFunds": "Недостаточный остаток {{token}}. Попробуйте внести меньшую сумму или выберите другой токен.",
-    "fetchSwapQuoteFailed": "Sorry for the delay! It's taking longer than usual to get the best exchange rate. Please try again in a few minutes."
+    "fetchSwapQuoteFailed": "Извините за задержку! Для получения самого выгодного обменного курса требуется больше времени. Повторите попытку через несколько минут."
+  },
+  "swapTransactionDetailPage": {
+    "swapFrom": "Поменяйтесь местами с",
+    "swapTo": "Поменяйте на",
+    "rate": "Оцените",
+    "estimatedFee": "Оценочная плата",
+    "viewOnExplorer": "Просмотреть в CeloExplorer"
   },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",

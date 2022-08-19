@@ -17,7 +17,6 @@ import { Provider } from 'react-redux'
 import { showError, showMessage } from 'src/alert/actions'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { ErrorMessages } from 'src/app/ErrorMessages'
 import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import { getFiatConnectClient } from 'src/fiatconnect/clients'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
@@ -287,13 +286,16 @@ describe('FiatDetailsScreen', () => {
 
     expect(getFiatConnectClient).toHaveBeenCalledWith(
       quote.getProviderId(),
-      quote.getProviderBaseUrl()
+      quote.getProviderBaseUrl(),
+      quote.getProviderApiKey()
     )
     expect(fiatConnectClient.addFiatAccount).toHaveBeenCalledWith({
       fiatAccountSchema: 'AccountNumber',
       data: expectedBody,
     })
-    expect(showMessage).toHaveBeenCalledWith(i18n.t('fiatDetailsScreen.addFiatAccountSuccess'))
+    expect(showMessage).toHaveBeenCalledWith(
+      i18n.t('fiatDetailsScreen.addFiatAccountSuccess', { provider: quote.getProviderName() })
+    )
     expect(navigate).toHaveBeenCalledWith(Screens.FiatConnectReview, {
       flow: CICOFlow.CashIn,
       normalizedQuote: quote,
@@ -326,7 +328,8 @@ describe('FiatDetailsScreen', () => {
 
     expect(getFiatConnectClient).toHaveBeenCalledWith(
       quote.getProviderId(),
-      quote.getProviderBaseUrl()
+      quote.getProviderBaseUrl(),
+      quote.getProviderApiKey()
     )
     expect(fiatConnectClient.addFiatAccount).toHaveBeenCalledWith({
       fiatAccountSchema: 'AccountNumber',
@@ -337,7 +340,9 @@ describe('FiatDetailsScreen', () => {
       TAG,
       `Error adding fiat account: ${FiatConnectError.ResourceExists}`
     )
-    expect(showError).toHaveBeenCalledWith(ErrorMessages.ADD_FIAT_ACCOUNT_RESOURCE_EXIST)
+    expect(showError).toHaveBeenCalledWith(
+      i18n.t('fiatDetailsScreen.addFiatAccountResourceExist', { provider: quote.getProviderName() })
+    )
     expect(navigate).not.toHaveBeenCalled()
   })
   it('does not navigate to next page when experiencing a general error', async () => {
@@ -364,7 +369,8 @@ describe('FiatDetailsScreen', () => {
 
     expect(getFiatConnectClient).toHaveBeenCalledWith(
       quote.getProviderId(),
-      quote.getProviderBaseUrl()
+      quote.getProviderBaseUrl(),
+      quote.getProviderApiKey()
     )
     expect(fiatConnectClient.addFiatAccount).toHaveBeenCalledWith({
       fiatAccountSchema: 'AccountNumber',
@@ -372,7 +378,9 @@ describe('FiatDetailsScreen', () => {
     })
 
     expect(Logger.error).toHaveBeenCalledWith(TAG, `Error adding fiat account: some message`)
-    expect(showError).toHaveBeenCalledWith(i18n.t('fiatDetailsScreen.addFiatAccountFailed'))
+    expect(showError).toHaveBeenCalledWith(
+      i18n.t('fiatDetailsScreen.addFiatAccountFailed', { provider: quote.getProviderName() })
+    )
     expect(navigate).not.toHaveBeenCalled()
   })
 })

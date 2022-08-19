@@ -12,6 +12,8 @@ import { DappConnectInfo } from 'src/dapps/types'
 import { isBottomSheetVisible, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
+import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
 import RequestContent from 'src/walletConnect/screens/RequestContent'
@@ -41,6 +43,7 @@ const DappKitAccountScreen = ({ route }: Props) => {
       Logger.error(TAG, 'No account set up for this wallet')
       return
     }
+    SentryTransactionHub.startTransaction(SentryTransaction.dappkit_connection)
     dispatch(approveAccountAuth(dappKitRequest))
   }
 

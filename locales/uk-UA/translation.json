@@ -718,7 +718,10 @@
   "welcome": {
     "title": "Крок у майбутнє криптовалюти з {{appName}}",
     "createAccount": "Створити новий обліковий запис",
-    "restoreAccount": "Відновити мій обліковий запис"
+    "restoreAccount": "Відновити мій обліковий запис",
+    "createNewWallet": "Створити гаманець",
+    "restoreWallet": "Відновити гаманець",
+    "iAlreadyHaveAWallet": "У мене вже є гаманець"
   },
   "accessContacts": {
     "disclosure": {
@@ -727,6 +730,7 @@
     }
   },
   "createAccount": "Створити обліковий запис",
+  "createProfile": "Створити профіль",
   "restoreAccount": "Відновити мій обліковий запис",
   "registrationSteps": "Крок {{step}} із {{totalSteps}}",
   "selectCountryCode": "Виберіть код країни",
@@ -1106,6 +1110,7 @@
   "feedItemGoldPurchased": "Куплено",
   "feedItemGoldWithdrawal": "Зняття на {{displayName}}",
   "feedItemGoldReceived": "Отримано від {{displayName}}",
+  "feedItemSwapPath": "{{token1}} до {{token2}}",
   "transactionHeaderVerificationFee": "Підтвердження",
   "transactionHeaderNetworkFee": "Мережа",
   "transactionHeaderFaucet": "Faucet",
@@ -1262,38 +1267,38 @@
   },
   "fiatConnectLinkAccountScreen": {
     "bankAccount": {
-      "header": "Прив'язати банківський рахунок",
-      "bodyTitle": "Введіть банківські реквізити",
-      "description": "Enter bank account details to link your account to Valora. Your transactions will be powered by <0>{{providerName}}</0>."
+      "header": "Налаштувати банківський рахунок",
+      "bodyTitle": "Налаштування банківського рахунку",
+      "description": "Для переказу коштів введіть реквізити для переказу коштів. Ваші операції будуть на <0>{{providerName}}</0>."
     },
     "continue": "Продовжити"
   },
   "fiatConnectReviewScreen": {
     "transactionDetails": "Деталі транзакції",
-    "paymentMethodVia": "Пов'язані через {{providerName}}",
+    "paymentMethodVia": "Підключення через {{providerName}}",
     "receiveAmount": "Ви отримаєте",
     "cashIn": {
       "header": "Перегляд - Поповнити кошти",
       "button": "Додати кошти",
       "transactionDetailsAmount": "Сума",
-      "paymentMethodHeader": "Deposit From"
+      "paymentMethodHeader": "Поповнити з"
     },
     "cashOut": {
       "header": "Перегляд",
       "button": "Вивести кошти",
       "transactionDetailsAmount": "Всього Зняття",
       "transactionDetailsAmountConverted": "Знята сума",
-      "paymentMethodHeader": "Withdraw To"
+      "paymentMethodHeader": "Вивести до"
     },
     "failedRefetch": {
-      "title": "Connection lost!",
-      "description": "We were not able to establish a connection between your accounts.\n\nThis may be due to a poor internet connection or server issue. Please try to reconnect.",
-      "tryAgain": "Try Again"
+      "title": "З’єднання втрачено!",
+      "description": "Нам не вдалося встановити зв’язок між вашими обліковими записами.\n\nЦе може бути через поганий зв'язок з Інтернетом або проблеми з сервером. Будь ласка, спробуйте відновити підключення.",
+      "tryAgain": "Спробувати ще"
     },
     "quoteExpiredDialog": {
-      "title": "Review amounts & fees",
-      "body": "Crypto amounts & fees can change due to fluctuations in the crypto market.\n\nPlease review your final amount & fees before submitting",
-      "continue": "Continue"
+      "title": "Переглянути суми та тарифи",
+      "body": "Суми криптовалют і комісії можуть змінитися через коливання на ринку криптовалюти.\n\nПерегляньте вашу остаточну суму та комісію перед відправленням",
+      "continue": "Продовжити"
     }
   },
   "fiatConnectStatusScreen": {
@@ -1310,8 +1315,8 @@
     },
     "requestNotCompleted": {
       "title": "Неможливо завершити ваш запит.",
-      "description": "Ваші кошти не можуть бути передані з Valora. Просимо спробувати ще раз або звернутися до нашої служби підтримки за допомогою.",
-      "contactSupportPrefill": "Я не можу зняти свої кошти з Valora"
+      "description": "Ваші кошти не можуть бути переведені. Будь ласка, спробуйте ще раз, або зверніться до нашої служби підтримки за допомогою.",
+      "contactSupportPrefill": "Я не можу витримати свої кошти."
     }
   },
   "fiatExchangeFlow": {
@@ -1336,16 +1341,15 @@
     }
   },
   "fiatDetailsScreen": {
-    "header": "Enter Bank Information",
-    "headerSubTitle": "Powered by {{provider}}",
-    "description": "Add your information to link your bank account to Valora",
+    "header": "Введіть дані банку",
+    "headerSubTitle": "За підтримки {{provider}}",
     "selectedPaymentOption": "Вибраний спосіб оплати",
-    "addFiatAccountSuccess": "Ваш обліковий запис було зв'язано з Valora.",
-    "addFiatAccountResourceExist": "Ви вже зв'язали цей обліковий запис із Valora.",
-    "addFiatAccountFailed": "Ваш обліковий запис не пов’язано. Спробуйте ще раз або зверніться до служби підтримки.",
+    "addFiatAccountSuccess": "Ваш акаунт був підключений до {{provider}}.",
+    "addFiatAccountResourceExist": "Ви вже підключили цей обліковий запис до {{provider}}.",
+    "addFiatAccountFailed": "Ваш обліковий запис не був підключений до {{provider}}, будь ласка, спробуйте ще раз або зверніться до служби підтримки.",
     "selectItem": "Виберіть варіант...",
     "selectDone": "Виконано",
-    "submitAndContinue": "Submit & Continue"
+    "submitAndContinue": "Надіслати та продовжити"
   },
   "fiatAccountSchema": {
     "institutionName": {
@@ -1368,7 +1372,14 @@
     "swapFrom": "Від",
     "swapTo": "До",
     "insufficientFunds": "Недостатньо балансу на {{token}}. Спробуйте меншу суму або виберіть інший токен.",
-    "fetchSwapQuoteFailed": "Sorry for the delay! It's taking longer than usual to get the best exchange rate. Please try again in a few minutes."
+    "fetchSwapQuoteFailed": "Вибачте за затримку! Це забирає більше часу, ніж зазвичай, щоб отримати найкращий обмінний курс. Будь ласка, спробуйте знову за кілька хвилин."
+  },
+  "swapTransactionDetailPage": {
+    "swapFrom": "Перемістити з",
+    "swapTo": "Поміняти на",
+    "rate": "Оцінка",
+    "estimatedFee": "Передбачувана комісія",
+    "viewOnExplorer": "Переглянути на CeloExplorer"
   },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",

@@ -20,6 +20,8 @@ import i18n from 'src/i18n'
 import { e164NumberToSaltSelector } from 'src/identity/selectors'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
+import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import { getWeb3 } from 'src/web3/contracts'
@@ -104,6 +106,7 @@ function* respondToAccountAuth(action: ApproveAccountAuthAction) {
     yield call(handleNavigationWithDeeplink, responseDeeplink)
 
     ValoraAnalytics.track(DappKitEvents.dappkit_request_accept_success, defaultTrackedProperties)
+    SentryTransactionHub.finishTransaction(SentryTransaction.dappkit_connection)
   } catch (error) {
     Logger.error(TAG, 'Failed to respond to account auth', error)
     ValoraAnalytics.track(DappKitEvents.dappkit_request_accept_error, {
@@ -122,6 +125,8 @@ function* produceTxSignature(action: RequestTxSignatureAction) {
     Logger.debug(TAG, 'Producing tx signature')
 
     yield call(getConnectedUnlockedAccount)
+    // Call Sentry performance monitoring after entering pin if required
+    SentryTransactionHub.startTransaction(SentryTransaction.dappkit_transaction)
     const web3 = yield call(getWeb3)
 
     const rawTxs = yield Promise.all(
@@ -160,6 +165,7 @@ function* produceTxSignature(action: RequestTxSignatureAction) {
     const responseDeeplink = produceResponseDeeplink(action.request, SignTxResponseSuccess(rawTxs))
     yield call(handleNavigationWithDeeplink, responseDeeplink)
     ValoraAnalytics.track(DappKitEvents.dappkit_request_accept_success, defaultTrackedProperties)
+    SentryTransactionHub.finishTransaction(SentryTransaction.dappkit_transaction)
   } catch (error) {
     Logger.error(TAG, 'Failed to produce tx signature', error)
     ValoraAnalytics.track(DappKitEvents.dappkit_request_accept_error, {

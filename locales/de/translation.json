@@ -718,7 +718,10 @@
   "welcome": {
     "title": "Steige mit {{appName}} in die Zukunft von Krypto ein.",
     "createAccount": "Neues Konto erstellen",
-    "restoreAccount": "Mein Konto wiederherstellen"
+    "restoreAccount": "Mein Konto wiederherstellen",
+    "createNewWallet": "Wallet erstellen",
+    "restoreWallet": "Wallet wiederherstellen",
+    "iAlreadyHaveAWallet": "Ich habe bereits eine Wallet"
   },
   "accessContacts": {
     "disclosure": {
@@ -727,6 +730,7 @@
     }
   },
   "createAccount": "Konto erstellen",
+  "createProfile": "Profil erstellen",
   "restoreAccount": "Mein Konto wiederherstellen",
   "registrationSteps": "Schritt {{step}} von {{totalSteps}}",
   "selectCountryCode": "Ländercode auswählen",
@@ -1102,6 +1106,7 @@
   "feedItemGoldPurchased": "Gekauft",
   "feedItemGoldWithdrawal": "Abhebung an {{displayName}}",
   "feedItemGoldReceived": "Erhalten von {{displayName}}",
+  "feedItemSwapPath": "{{token1}} zu {{token2}}",
   "transactionHeaderVerificationFee": "Bestätigung",
   "transactionHeaderNetworkFee": "Netzwerk",
   "transactionHeaderFaucet": "Faucet",
@@ -1258,38 +1263,38 @@
   },
   "fiatConnectLinkAccountScreen": {
     "bankAccount": {
-      "header": "Bankkonto verknüpfen",
-      "bodyTitle": "Bankkontodaten eingeben",
-      "description": "Enter bank account details to link your account to Valora. Your transactions will be powered by <0>{{providerName}}</0>."
+      "header": "Bankkonto einrichten",
+      "bodyTitle": "Bankkonto einrichten",
+      "description": "Gib die Details deines Bankkontos ein, um Geld zu überweisen. Deine Transaktionen werden durchgeführt von <0>{{providerName}}</0>."
     },
     "continue": "Weiter"
   },
   "fiatConnectReviewScreen": {
     "transactionDetails": "Transaktiondetails",
-    "paymentMethodVia": "Verknüpft über {{providerName}}",
+    "paymentMethodVia": "Über {{providerName}} verbunden",
     "receiveAmount": "Du wirst erhalten",
     "cashIn": {
       "header": "Guthaben hinzufügen überprüfen",
       "button": "Guthaben hinzufügen",
       "transactionDetailsAmount": "Gesamtpreis",
-      "paymentMethodHeader": "Deposit From"
+      "paymentMethodHeader": "Einzahlung von"
     },
     "cashOut": {
       "header": "Überprüfen",
       "button": "Guthaben abheben",
       "transactionDetailsAmount": "Gesamt abgehoben",
       "transactionDetailsAmountConverted": "Betrag abgehoben",
-      "paymentMethodHeader": "Withdraw To"
+      "paymentMethodHeader": "Abheben nach"
     },
     "failedRefetch": {
-      "title": "Connection lost!",
-      "description": "We were not able to establish a connection between your accounts.\n\nThis may be due to a poor internet connection or server issue. Please try to reconnect.",
-      "tryAgain": "Try Again"
+      "title": "Verbindungsfehler!",
+      "description": "Wir konnten deine Konten leider nicht verknüpfen.\n\nDies kann auf eine schlechte Internetverbindung oder ein Server-Problem zurückzuführen sein. Bitte versuche es erneut.",
+      "tryAgain": "Wiederholen"
     },
     "quoteExpiredDialog": {
-      "title": "Review amounts & fees",
-      "body": "Crypto amounts & fees can change due to fluctuations in the crypto market.\n\nPlease review your final amount & fees before submitting",
-      "continue": "Continue"
+      "title": "Beträge und Gebühren prüfen",
+      "body": "Krypto-Beträge und -Gebühren können sich aufgrund von Schwankungen auf dem Krypto-Markt ändern.\n\nBitte überprüfe deine endgültigen Beträge und Gebühren, bevor du sie einreichst.",
+      "continue": "Weiter"
     }
   },
   "fiatConnectStatusScreen": {
@@ -1306,8 +1311,8 @@
     },
     "requestNotCompleted": {
       "title": "Deine Anfrage konnte nicht abgeschlossen werden.",
-      "description": "Dein Guthaben konnte nicht von Valora überwiesen werden. Bitte versuche es noch einmal oder wende dich an unser Support-Team, um Hilfe zu erhalten.",
-      "contactSupportPrefill": "Ich habe Probleme, mein Guthaben von Valora abzuheben"
+      "description": "Dein Geld konnte nicht überwiesen werden. Bitte versuche es noch einmal oder wende dich an unser Support-Team, um Hilfe zu erhalten.",
+      "contactSupportPrefill": "Ich habe Probleme, mein Geld abzuheben."
     }
   },
   "fiatExchangeFlow": {
@@ -1332,16 +1337,15 @@
     }
   },
   "fiatDetailsScreen": {
-    "header": "Enter Bank Information",
-    "headerSubTitle": "Powered by {{provider}}",
-    "description": "Add your information to link your bank account to Valora",
+    "header": "Bankdaten eingeben",
+    "headerSubTitle": "Unterstützt von {{provider}}",
     "selectedPaymentOption": "Gewählte Zahlungsoption",
-    "addFiatAccountSuccess": "Dein Konto wurde mit Valora verknüpft.",
-    "addFiatAccountResourceExist": "Du hast dieses Konto bereits mit Valora verknüpft.",
-    "addFiatAccountFailed": "Dein Konto wurde nicht verlinkt. Bitte versuche es erneut oder kontaktiere den Support.",
+    "addFiatAccountSuccess": "Dein Konto wurde mit {{provider}}verbunden.",
+    "addFiatAccountResourceExist": "Du hast dieses Konto bereits mit {{provider}}verbunden.",
+    "addFiatAccountFailed": "Dein Konto wurde nicht mit {{provider}}verbunden. Bitte versuche es erneut oder kontaktiere den Support.",
     "selectItem": "Option auswählen...",
     "selectDone": "Fertig",
-    "submitAndContinue": "Submit & Continue"
+    "submitAndContinue": "Senden und fortfahren"
   },
   "fiatAccountSchema": {
     "institutionName": {
@@ -1364,7 +1368,14 @@
     "swapFrom": "Von",
     "swapTo": "Zu",
     "insufficientFunds": "Unzureichendes {{token}}-Guthaben. Versuche es mit einem kleineren Betrag oder wähle einen anderen Token.",
-    "fetchSwapQuoteFailed": "Sorry for the delay! It's taking longer than usual to get the best exchange rate. Please try again in a few minutes."
+    "fetchSwapQuoteFailed": "Entschuldige die Verzögerung! Es dauert länger als üblich, um den besten Wechselkurs zu ermitteln. Bitte versuche es in ein paar Minuten erneut."
+  },
+  "swapTransactionDetailPage": {
+    "swapFrom": "Tausch von",
+    "swapTo": "Wechseln zu",
+    "rate": "Bewerten Sie",
+    "estimatedFee": "Geschätzte Gebühr",
+    "viewOnExplorer": "Auf CeloExplorer anzeigen"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

@@ -718,7 +718,10 @@
   "welcome": {
     "title": "Wkrocz w przyszłość kryptowalut z aplikacją {{appName}}",
     "createAccount": "Utwórz nowe konto",
-    "restoreAccount": "Przywróć konto"
+    "restoreAccount": "Przywróć konto",
+    "createNewWallet": "Utwórz portfel",
+    "restoreWallet": "Przywróć portfel",
+    "iAlreadyHaveAWallet": "Mam już portfel"
   },
   "accessContacts": {
     "disclosure": {
@@ -727,6 +730,7 @@
     }
   },
   "createAccount": "Utwórz konto",
+  "createProfile": "Utwórz profil",
   "restoreAccount": "Przywróć konto",
   "registrationSteps": "Krok {{step}} z {{totalSteps}}",
   "selectCountryCode": "Wybierz kod kraju",
@@ -1106,6 +1110,7 @@
   "feedItemGoldPurchased": "Kupiono",
   "feedItemGoldWithdrawal": "Wypłata na rzecz {{displayName}}",
   "feedItemGoldReceived": "Otrzymano od {{displayName}}",
+  "feedItemSwapPath": "{{token1}} do {{token2}}",
   "transactionHeaderVerificationFee": "Potwierdzenie",
   "transactionHeaderNetworkFee": "Sieć",
   "transactionHeaderFaucet": "Faucet",
@@ -1262,38 +1267,38 @@
   },
   "fiatConnectLinkAccountScreen": {
     "bankAccount": {
-      "header": "Powiąż konto bankowe",
-      "bodyTitle": "Wprowadź dane banku",
-      "description": "Enter bank account details to link your account to Valora. Your transactions will be powered by <0>{{providerName}}</0>."
+      "header": "Załóż konto bankowe",
+      "bodyTitle": "Załóż konto bankowe",
+      "description": "Wprowadź dane konta bankowego, aby przelać środki. Twoje transakcje będą realizowane przez <0>{{providerName}}</0>."
     },
     "continue": "Kontynuuj"
   },
   "fiatConnectReviewScreen": {
     "transactionDetails": "Szczegóły transakcji",
-    "paymentMethodVia": "Powiązana przez {{providerName}}",
+    "paymentMethodVia": "Podłączony przez {{providerName}}",
     "receiveAmount": "Otrzymasz",
     "cashIn": {
       "header": "Analizuj – Dodaj środki",
       "button": "Dodaj środki",
       "transactionDetailsAmount": "Cena całkowita",
-      "paymentMethodHeader": "Deposit From"
+      "paymentMethodHeader": "Wpłata z"
     },
     "cashOut": {
       "header": "Analizuj",
       "button": "Wypłać środki",
       "transactionDetailsAmount": "Całkowita wypłata",
       "transactionDetailsAmountConverted": "Wypłacona kwota",
-      "paymentMethodHeader": "Withdraw To"
+      "paymentMethodHeader": "Wypłata na"
     },
     "failedRefetch": {
-      "title": "Connection lost!",
-      "description": "We were not able to establish a connection between your accounts.\n\nThis may be due to a poor internet connection or server issue. Please try to reconnect.",
-      "tryAgain": "Try Again"
+      "title": "Utracono połączenie!",
+      "description": "Nie mogliśmy ustanowić połączenia między kontami.\n\nPrzyczyną może być słaba jakość połączenia internetowego lub błąd serwera. Spróbuj ponownie nawiązać połączenie.",
+      "tryAgain": "Spróbuj ponownie"
     },
     "quoteExpiredDialog": {
-      "title": "Review amounts & fees",
-      "body": "Crypto amounts & fees can change due to fluctuations in the crypto market.\n\nPlease review your final amount & fees before submitting",
-      "continue": "Continue"
+      "title": "Przejrzyj kwoty i opłaty",
+      "body": "Kwoty kryptowalut i opłaty mogą ulegać zmianie z uwagi na wahania kursów na rynku kryptowalutowym.\n\nPrzed przesłaniem przejrzyj końcową kwotę i opłaty.",
+      "continue": "Kontynuuj"
     }
   },
   "fiatConnectStatusScreen": {
@@ -1310,8 +1315,8 @@
     },
     "requestNotCompleted": {
       "title": "Twoje żądanie nie mogło zostać zrealizowane.",
-      "description": "Twoje środki nie mogły zostać przekazane z aplikacji Valora. Spróbuj ponownie lub skontaktuj się z naszym zespołem obsługi klienta, aby uzyskać pomoc.",
-      "contactSupportPrefill": "Mam problem z wypłatą moich środków z aplikacji Valora"
+      "description": "Twoje środki nie mogły zostać przekazane. Spróbuj ponownie lub skontaktuj się z naszym zespołem pomocy technicznej, aby uzyskać pomoc.",
+      "contactSupportPrefill": "Mam problem z wypłatą moich środków."
     }
   },
   "fiatExchangeFlow": {
@@ -1336,16 +1341,15 @@
     }
   },
   "fiatDetailsScreen": {
-    "header": "Enter Bank Information",
-    "headerSubTitle": "Powered by {{provider}}",
-    "description": "Add your information to link your bank account to Valora",
+    "header": "Wprowadź dane banku",
+    "headerSubTitle": "Obsługiwane przez {{provider}}",
     "selectedPaymentOption": "Wybrana opcja płatności",
-    "addFiatAccountSuccess": "Twoje konto zostało połączone z aplikacją Valora.",
-    "addFiatAccountResourceExist": "Twoje konto jest już połączone z aplikacją Valora.",
-    "addFiatAccountFailed": "Twoje konto nie zostało połączone, spróbuj ponownie lub skontaktuj się z Działem wsparcia.",
+    "addFiatAccountSuccess": "Twoje konto zostało połączone z {{provider}}.",
+    "addFiatAccountResourceExist": "Podłączyłeś już to konto do strony {{provider}}.",
+    "addFiatAccountFailed": "Twoje konto nie zostało połączone z {{provider}}. Spróbuj ponownie lub skontaktuj się z pomocą techniczną.",
     "selectItem": "Wybierz opcję...",
     "selectDone": "Gotowe",
-    "submitAndContinue": "Submit & Continue"
+    "submitAndContinue": "Prześlij i kontynuuj"
   },
   "fiatAccountSchema": {
     "institutionName": {
@@ -1368,7 +1372,14 @@
     "swapFrom": "Od",
     "swapTo": "Do",
     "insufficientFunds": "Niewystarczające saldo {{token}}. Spróbuj wpłacić mniejszą kwotę lub wybierz inny token.",
-    "fetchSwapQuoteFailed": "Sorry for the delay! It's taking longer than usual to get the best exchange rate. Please try again in a few minutes."
+    "fetchSwapQuoteFailed": "Przepraszamy za opóźnienie! Przetwarzanie trwa dłużej niż zwykle, aby uzyskać najlepszy kurs wymiany. Spróbuj ponownie za kilka minut."
+  },
+  "swapTransactionDetailPage": {
+    "swapFrom": "Zamień się z",
+    "swapTo": "Zamień się z",
+    "rate": "Oceń .",
+    "estimatedFee": "Opłata szacunkowa",
+    "viewOnExplorer": "Wyświetl w CeloExplorer"
   },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",

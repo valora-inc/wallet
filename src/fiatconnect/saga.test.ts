@@ -205,7 +205,10 @@ describe('Fiatconnect saga', () => {
         selectFiatConnectQuote({ quote: normalizedQuote })
       )
         .provide([
-          [call(getFiatConnectClient, 'provider-two', 'fakewebsite.valoraapp.com'), mockFcClient],
+          [
+            call(getFiatConnectClient, 'provider-two', 'fakewebsite.valoraapp.com', 'fake-api-key'),
+            mockFcClient,
+          ],
           { call: provideDelay },
         ])
         .put(selectFiatConnectQuoteCompleted())
@@ -233,7 +236,10 @@ describe('Fiatconnect saga', () => {
         selectFiatConnectQuote({ quote: normalizedQuote })
       )
         .provide([
-          [call(getFiatConnectClient, 'provider-two', 'fakewebsite.valoraapp.com'), mockFcClient],
+          [
+            call(getFiatConnectClient, 'provider-two', 'fakewebsite.valoraapp.com', 'fake-api-key'),
+            mockFcClient,
+          ],
           { call: provideDelay },
         ])
         .put(
@@ -492,7 +498,10 @@ describe('Fiatconnect saga', () => {
             }),
             expectedNormalizedQuote,
           ],
-          [call(getFiatConnectClient, 'provider-two', 'fakewebsite.valoraapp.com'), mockFcClient],
+          [
+            call(getFiatConnectClient, 'provider-two', 'fakewebsite.valoraapp.com', 'fake-api-key'),
+            mockFcClient,
+          ],
         ])
         .put(attemptReturnUserFlowCompleted())
         .run()
@@ -516,7 +525,7 @@ describe('Fiatconnect saga', () => {
           await expectSaga(fetchFiatAccountsSaga, 'test-provider', 'www.hello.valoraapp.com')
             .provide([
               [
-                call(getFiatConnectClient, 'test-provider', 'www.hello.valoraapp.com'),
+                call(getFiatConnectClient, 'test-provider', 'www.hello.valoraapp.com', undefined),
                 mockFcClient,
               ],
             ])
@@ -538,7 +547,10 @@ describe('Fiatconnect saga', () => {
       )
       await expectSaga(fetchFiatAccountsSaga, 'test-provider', 'www.hello.valoraapp.com')
         .provide([
-          [call(getFiatConnectClient, 'test-provider', 'www.hello.valoraapp.com'), mockFcClient],
+          [
+            call(getFiatConnectClient, 'test-provider', 'www.hello.valoraapp.com', undefined),
+            mockFcClient,
+          ],
         ])
         .returns([
           {
@@ -563,6 +575,7 @@ describe('Fiatconnect saga', () => {
     const quoteId = transferOutFcQuote.getQuoteId()
     const providerId = transferOutFcQuote.getProviderId()
     const providerBaseUrl = transferOutFcQuote.getProviderBaseUrl()
+    const providerApiKey = transferOutFcQuote.getProviderApiKey()
 
     const mockTransferOut = jest.fn()
     const mockFcClient = {
@@ -589,7 +602,7 @@ describe('Fiatconnect saga', () => {
         .provide([
           [select(tokensListSelector), Object.values(mockTokenBalances)],
           [select(feeEstimatesSelector), emptyFees],
-          [call(getFiatConnectClient, providerId, providerBaseUrl), mockFcClient],
+          [call(getFiatConnectClient, providerId, providerBaseUrl, providerApiKey), mockFcClient],
           [matches.call.fn(buildAndSendPayment), { receipt: { transactionHash: '0x12345' } }],
         ])
         .put(
@@ -634,7 +647,7 @@ describe('Fiatconnect saga', () => {
         .provide([
           [select(tokensListSelector), Object.values(mockTokenBalances)],
           [select(feeEstimatesSelector), emptyFees],
-          [call(getFiatConnectClient, providerId, providerBaseUrl), mockFcClient],
+          [call(getFiatConnectClient, providerId, providerBaseUrl, providerApiKey), mockFcClient],
         ])
         .put(
           createFiatConnectTransferFailed({
@@ -679,7 +692,7 @@ describe('Fiatconnect saga', () => {
         .provide([
           [select(tokensListSelector), Object.values(mockTokenBalances)],
           [select(feeEstimatesSelector), emptyFees],
-          [call(getFiatConnectClient, providerId, providerBaseUrl), mockFcClient],
+          [call(getFiatConnectClient, providerId, providerBaseUrl, providerApiKey), mockFcClient],
           [matches.call.fn(buildAndSendPayment), { error: new Error('tx error') }],
         ])
         .put(
