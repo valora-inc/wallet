@@ -1387,8 +1387,8 @@
     "swapFee": "{{appName}} Tassa",
     "swapFeeTitle": "Qual è la tariffa di {{appName}} ?",
     "swapFeeBody": "La commissione di {{appName}} è la commissione che paghi per scambiare i token su {{appName}}. \n\n La commissione è pari al {{swapFee}}% dell'importo che stai scambiando. \n\n {{appName}} commissioni sono gratuite per i prossimi mesi.",
-    "estimatedAmountTitle": "Estimated Amount",
-    "estimatedAmountBody": "Conversions take place on a third party decentralized exchange that finds you the best rate for your swap. \n\n Your trade will be completed at a price within {{slippagePercent}}% of the estimate or the transaction will be cancelled & funds returned to your wallet."
+    "estimatedAmountTitle": "Importo stimato",
+    "estimatedAmountBody": "Le conversioni avvengono su uno scambio decentralizzato di terze parti che trova il miglior tasso per il tuo scambio. \n\n La tua transazione sarà completata a un prezzo compreso tra {{slippagePercent}}% della stima o la transazione sarà annullata e i fondi saranno restituiti al tuo portafoglio."
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollar"
