@@ -14,6 +14,7 @@ const tokens: TokenBalance[] = [
   {
     balance: new BigNumber('10'),
     usdPrice: new BigNumber('1'),
+    lastKnownUsdPrice: new BigNumber('1'),
     symbol: 'cUSD',
     address: mockCusdAddress,
     isCoreToken: true,
@@ -25,6 +26,7 @@ const tokens: TokenBalance[] = [
   {
     balance: new BigNumber('20'),
     usdPrice: new BigNumber('1.2'),
+    lastKnownUsdPrice: new BigNumber('1.2'),
     symbol: 'cEUR',
     address: mockCeurAddress,
     isCoreToken: true,
@@ -37,6 +39,7 @@ const tokens: TokenBalance[] = [
     balance: new BigNumber('10'),
     symbol: 'TT',
     usdPrice: null,
+    lastKnownUsdPrice: new BigNumber('1'),
     address: mockTestTokenAddress,
     priceFetchedAt: Date.now(),
     decimals: 18,
