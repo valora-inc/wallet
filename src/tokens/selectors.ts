@@ -35,6 +35,7 @@ export const tokensByAddressSelector = createSelector(
         ...storedState,
         balance: new BigNumber(storedState.balance),
         usdPrice: usdPrice.isNaN() || tokenUsdPriceIsStale ? null : usdPrice,
+        lastKnownUsdPrice: !usdPrice.isNaN() ? usdPrice : null,
       }
     }
     return tokenBalances
@@ -61,6 +62,14 @@ export const tokensWithUsdValueSelector = createSelector(tokensListSelector, (to
   return tokens.filter((tokenInfo) =>
     tokenInfo.balance.multipliedBy(tokenInfo.usdPrice ?? 0).gt(STABLE_TRANSACTION_MIN_AMOUNT)
   ) as TokenBalanceWithUsdPrice[]
+})
+
+export const tokensWithLastKnownUsdValueSelector = createSelector(tokensListSelector, (tokens) => {
+  return tokens.filter((tokenInfo) =>
+    tokenInfo.balance
+      .multipliedBy(tokenInfo.lastKnownUsdPrice ?? 0)
+      .gt(STABLE_TRANSACTION_MIN_AMOUNT)
+  )
 })
 
 export const stalePriceSelector = createSelector(tokensListSelector, (tokens) => {
@@ -131,6 +140,26 @@ export const defaultTokenToSendSelector = createSelector(
   }
 )
 
+export const lastKnownTokenBalancesSelector = createSelector(
+  [tokensListSelector, tokensWithLastKnownUsdValueSelector, localCurrencyExchangeRatesSelector],
+  (tokensList, tokensWithLastKnownUsdValue, exchangeRate) => {
+    const usdRate = exchangeRate[Currency.Dollar]
+    if (!usdRate || tokensList.length === 0) {
+      return null
+    }
+
+    let totalBalance = new BigNumber(0)
+    for (const token of tokensWithLastKnownUsdValue) {
+      const tokenAmount = new BigNumber(token.balance)
+        .multipliedBy(token.lastKnownUsdPrice ?? 0)
+        .multipliedBy(usdRate)
+      totalBalance = totalBalance.plus(tokenAmount)
+    }
+
+    return totalBalance
+  }
+)
+
 export const totalTokenBalanceSelector = createSelector(
   [
     tokensListSelector,
@@ -140,6 +169,10 @@ export const totalTokenBalanceSelector = createSelector(
     tokenFetchLoadingSelector,
   ],
   (tokensList, tokensWithUsdValue, exchangeRate, tokenFetchError, tokenFetchLoading) => {
+    if (tokenFetchError || tokenFetchLoading) {
+      return null
+    }
+
     const usdRate = exchangeRate[Currency.Dollar]
     if (!usdRate || tokensList.length === 0) {
       return null
@@ -151,10 +184,6 @@ export const totalTokenBalanceSelector = createSelector(
         .multipliedBy(token.usdPrice)
         .multipliedBy(usdRate)
       totalBalance = totalBalance.plus(tokenAmount)
-    }
-
-    if (tokenFetchError || tokenFetchLoading) {
-      return null
     }
 
     return totalBalance
