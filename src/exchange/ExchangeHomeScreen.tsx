@@ -27,6 +27,7 @@ import { getLocalCurrencyToDollarsExchangeRate } from 'src/localCurrency/selecto
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { isAppSwapsEnabledSelector } from 'src/navigator/selectors'
 import { StackParamList } from 'src/navigator/types'
 import { default as useSelector } from 'src/redux/useSelector'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
@@ -89,6 +90,7 @@ function ExchangeHomeScreen({ navigation }: Props) {
   const { t } = useTranslation()
 
   const { RESTRICTED_CP_DOTO } = useCountryFeatures()
+  const inAppSwapsEnabled = useSelector(isAppSwapsEnabledSelector)
 
   // TODO: revert this back to `useLocalCurrencyCode()` when we have history data for cGDL to Local Currency.
   const localCurrencyCode = null
@@ -173,11 +175,12 @@ function ExchangeHomeScreen({ navigation }: Props) {
           </View>
 
           <CeloGoldHistoryChart />
-          {RESTRICTED_CP_DOTO ? (
-            <RestrictedCeloExchange onPressWithdraw={goToWithdrawCelo} />
-          ) : (
-            <CeloExchangeButtons navigation={navigation} />
-          )}
+          {!inAppSwapsEnabled &&
+            (RESTRICTED_CP_DOTO ? (
+              <RestrictedCeloExchange onPressWithdraw={goToWithdrawCelo} />
+            ) : (
+              <CeloExchangeButtons navigation={navigation} />
+            ))}
           <ItemSeparator />
           <CeloGoldOverview testID="ExchangeAccountOverview" />
           <ItemSeparator />

@@ -595,13 +595,13 @@
   "sendAndInvite": "Envía e invita",
   "inviteAndSendDialog": {
     "title": "Completa la invitación de {{name}} a Valora",
-    "bodyWithRewards": "Una vez que tu destinatario descargue la app y conecte su número de teléfono, ambos recibirán {{amount}} {{currency}}. Toca abajo para enviar una invitación personalizada.",
+    "bodyWithRewards": "Una vez que se unan y conecten su número de teléfono, ambos recibiréis una edición especial de NFT. Haz clic abajo para enviar tu invitación por SMS.",
     "body": "Comparte un mensaje de invitación con {{name}} para que se una a {{appName}}. Una vez que tu destinatario descargue la app y conecte su número de teléfono, recibirá tu pago.",
     "button": "Completar invitación"
   },
   "inviteRewardsBanner": {
     "title": "Envía cripto e invita a tus amigos",
-    "body": "Por cada amigo que se una y configure su cuenta, ambos obtendrán un NFT exclusivo de regalo. <0>Más información</0>"
+    "body": "Una vez que configuren su monedero {{appName}} y conecten su número, cada uno obtendrá un NFT exclusivo. <0>Más información</0>"
   },
   "getReward": "Obtén ${{reward}}",
   "welcomeCelo": "Te damos la bienvenida a {{appName}}",
@@ -863,6 +863,7 @@
   "amountCeloWithdrawn": "Monto (CELO)",
   "feeEducation": "La blockchain de Celo cobra una tarifa de transacción para mantener el soporte de la red y que funcione sin problemas.",
   "inviteMoneyEscrow": "Envía un mensaje de invitación a este contacto y recibirá los fondos una vez que conecte su número.",
+  "inviteMoneyEscrowWithRewards": "Envía a este contacto un mensaje de invitación y recibirá los fondos y NFT una vez que conecte su número.",
   "reviewPayment": "Revisar pago",
   "requestPayment": "Solicitar pago",
   "max": "MAX",
@@ -882,7 +883,7 @@
   "walletAddress": "Dirección de billetera",
   "inviteWithoutPayment": "¡Hola! Estoy usando {{appName}} para enviar cripto en todo el mundo. Es fácil de usar y me gustaría invitarte a probarla con este link: {{link}}",
   "inviteWithEscrowedPayment": "¡Hola! Estoy usando {{appName}} para enviar dinero en todo el mundo. Acabo de enviarte {{amount}} {{token}}. Puedes descargar la app de {{appName}} y reclamar tus {{token}} con este link: {{link}}",
-  "inviteWithRewards": "¡Hola! Te acabo de mandar cripto con mi billetera de {{appName}}. Si descargas la app y conectas tu número de teléfono, ambos obtendremos una recompensa de {{amount}} {{token}}. Usa este enlace: {{link}}",
+  "inviteWithRewards": "Hola! Acabo de enviarte cripto con mi monedero {{appName}} . Una vez que descargues la aplicación y conectes tu número de teléfono, ambos recibiremos una edición especial de NFT. Utiliza este enlace: {{link}}",
   "loadingContacts": "Estamos encontrando tus contactos",
   "myCode": "Mi código",
   "scanCode": "Escanear",
@@ -1376,6 +1377,19 @@
     "rate": "Tasas",
     "estimatedFee": "Tarifas estimadas",
     "viewOnExplorer": "Ver en CeloExplorer"
+  },
+  "swapReviewScreen": {
+    "title": "Revisar el intercambio",
+    "complete": "Intercambio completo",
+    "swapFrom": "Intercambio de",
+    "swapTo": "Cambiar a",
+    "transactionDetails": "Detalles de transacción",
+    "estimatedGas": "Gas estimado",
+    "swapFee": "{{appName}} Tasa",
+    "swapFeeTitle": "¿Qué es la tasa {{appName}} ?",
+    "swapFeeBody": "La comisión {{appName}} es la que pagas por intercambiar fichas en {{appName}}. \n\n La comisión es {{swapFee}}% de la cantidad que intercambias. \n\n {{appName}} las comisiones son gratuitas durante los próximos meses.",
+    "estimatedAmountTitle": "Cantidad estimada",
+    "estimatedAmountBody": "Las conversiones tienen lugar en un intercambio descentralizado de terceros que te encuentra la mejor tarifa para tu intercambio. \n\n Tu intercambio se completará a un precio dentro de {{slippagePercent}}% de la estimación o la transacción se cancelará y los fondos se devolverán a tu cartera."
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

@@ -595,13 +595,13 @@
   "sendAndInvite": "Enviar e convidar",
   "inviteAndSendDialog": {
     "title": "Termine de convidar {{name}} para o Valora",
-    "bodyWithRewards": "Depois que seu amigo entrar e conectar um número de celular, vocês dois recebem {{amount}} {{currency}}. Clique abaixo para enviar e personalizar seu convite.",
+    "bodyWithRewards": "Uma vez que se juntem e liguem o seu número de telefone, ambos receberão uma edição especial NFT. Clique abaixo para enviar o seu convite via SMS.",
     "body": "Envie uma mensagem de convite para que {{name}} entre no {{appName}}. Depois que seu amigo entrar e conectar um número de celular, ele receberá o pagamento.",
     "button": "Termine de convidar"
   },
   "inviteRewardsBanner": {
     "title": "Envie criptomoedas para convidar um amigo",
-    "body": "Depois que seu amigo configurar a carteira dele, vocês dois receberão um NFT. <0>Saiba mais</0>"
+    "body": "Uma vez que eles tenham preparado a sua carteira {{appName}} e ligado o seu número, cada um receberá um NFT exclusivo. <0>Saiba mais</0>"
   },
   "getReward": "Receba ${{reward}}",
   "welcomeCelo": "Bem-vindo à {{appName}}",
@@ -863,6 +863,7 @@
   "amountCeloWithdrawn": "Quantia (CELO)",
   "feeEducation": "O blockchain da Celo coleta uma taxa de transação para manter o suporte e o bom funcionamento da sua rede.",
   "inviteMoneyEscrow": "Envie uma mensagem de convite a esse contato e ele receberá os fundos quando conectar seu número.",
+  "inviteMoneyEscrowWithRewards": "Envie este contacto uma mensagem de convite e eles receberão os fundos & NFT assim que ligarem o seu número.",
   "reviewPayment": "Revisar pagamento",
   "requestPayment": "Solicitar pagamento",
   "max": "MAX",
@@ -882,7 +883,7 @@
   "walletAddress": "Endereço da conta",
   "inviteWithoutPayment": "Olá! Estou usando a {{appName}} para enviar cripto para o mundo inteiro. É muito fácil de usar e eu gostaria de convidar você para conferir com este link: {{link}}",
   "inviteWithEscrowedPayment": "Olá! Estou usando a {{appName}} para enviar cripto para o mundo inteiro. Acabei de enviar {{amount}} {{token}} para você. Instale o aplicativo da {{appName}} e resgate seus {{token}} usando este link: {{link}}",
-  "inviteWithRewards": "Oi! Acabei de enviar criptomoedas para você com minha carteira {{appName}}. É só baixar o app e conectar seu número de celular, e nós dois recebemos uma recompensa de {{amount}} {{token}}. Use este link: {{link}}",
+  "inviteWithRewards": "Ei! acabei de vos enviar o criptograma com a minha carteira {{appName}} . Uma vez descarregada a aplicação e ligado o seu número de telefone, ambos recebemos uma edição especial NFT. Utilize este link: {{link}}",
   "loadingContacts": "Encontrar seus contatos",
   "myCode": "Meu código",
   "scanCode": "Escanear",
@@ -1263,9 +1264,9 @@
   },
   "fiatConnectLinkAccountScreen": {
     "bankAccount": {
-      "header": "Criação de uma conta bancária",
-      "bodyTitle": "Criar uma conta bancária",
-      "description": "Introduza os dados da conta bancária para transferir fundos. As suas transacções serão alimentadas por <0>{{providerName}}</0>."
+      "header": "Configurar conta bancária",
+      "bodyTitle": "Configurar conta bancária",
+      "description": "Insira os dados bancários para transferir fundos. Suas transações serão suportadas por <0>{{providerName}}</0>."
     },
     "continue": "Continuar"
   },
@@ -1311,8 +1312,8 @@
     },
     "requestNotCompleted": {
       "title": "Sua solicitação não pôde ser concluída.",
-      "description": "Os seus fundos não puderam ser transferidos. Por favor, tente novamente ou contacte a nossa equipa de apoio para obter ajuda.",
-      "contactSupportPrefill": "Estou a ter dificuldades em retirar os meus fundos."
+      "description": "Seus fundos não puderam ser transferidos. Tente novamente ou fale com a nossa equipe de suporte para obter ajuda.",
+      "contactSupportPrefill": "Estou tento dificuldade para sacar meus fundos."
     }
   },
   "fiatExchangeFlow": {
@@ -1340,9 +1341,9 @@
     "header": "Insira os dados bancários",
     "headerSubTitle": "Desenvolvido por {{provider}}",
     "selectedPaymentOption": "Opção de pagamento selecionada",
-    "addFiatAccountSuccess": "A sua conta foi ligada a {{provider}}.",
-    "addFiatAccountResourceExist": "Já ligou esta conta a {{provider}}.",
-    "addFiatAccountFailed": "A sua conta não foi ligada a {{provider}}, por favor tente novamente ou contacte o suporte.",
+    "addFiatAccountSuccess": "Sua conta foi conectada a {{provider}}.",
+    "addFiatAccountResourceExist": "Você já conectou essa conta a {{provider}}.",
+    "addFiatAccountFailed": "Sua conta não foi conectada a {{provider}}, tente novamente ou entre em contato com o suporte.",
     "selectItem": "Selecione uma opção...",
     "selectDone": "Concluído",
     "submitAndContinue": "Enviar e continuar"
@@ -1371,11 +1372,24 @@
     "fetchSwapQuoteFailed": "Lamentamos o atraso! A obtenção da melhor taxa de câmbio está demorando mais do que o normal. Tente novamente mais tarde."
   },
   "swapTransactionDetailPage": {
-    "swapFrom": "Troca de",
-    "swapTo": "Mude para",
+    "swapFrom": "Trocar de",
+    "swapTo": "Trocar para",
     "rate": "Taxa",
     "estimatedFee": "Taxa estimada",
     "viewOnExplorer": "Ver no CeloExplorer"
+  },
+  "swapReviewScreen": {
+    "title": "Revisão Swap",
+    "complete": "Troca completa",
+    "swapFrom": "Trocar de",
+    "swapTo": "Trocar para",
+    "transactionDetails": "Detalhes de transação",
+    "estimatedGas": "Gás estimado",
+    "swapFee": "{{appName}} Tarifa",
+    "swapFeeTitle": "O que é a taxa {{appName}} ?",
+    "swapFeeBody": "A taxa {{appName}} é a taxa que se paga para trocar fichas em {{appName}}. \n\n A taxa é {{swapFee}}% do montante que está a trocar. \n\n {{appName}} As taxas são gratuitas para os próximos meses.",
+    "estimatedAmountTitle": "Montante estimado",
+    "estimatedAmountBody": "As conversões têm lugar numa troca descentralizada de terceiros que lhe encontra a melhor taxa para a sua troca. \n\n A sua transacção será concluída a um preço dentro de {{slippagePercent}}% da estimativa ou a transacção será cancelada e os fundos serão devolvidos à sua carteira."
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
