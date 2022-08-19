@@ -297,6 +297,7 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     dappConnectInfo: flags.dappConnectInfo.asString() as DappConnectInfo,
     visualizeNFTsEnabledInHomeAssetsPage: flags.visualizeNFTsEnabledInHomeAssetsPage.asBoolean(),
     coinbasePayEnabled: flags.coinbasePayEnabled.asBoolean(),
+    // TODO
     showSwapMenuInDrawerMenu: flags.showSwapMenuInDrawerMenu.asBoolean(),
     shouldShowRecoveryPhraseInSettings: flags.shouldShowRecoveryPhraseInSettings.asBoolean(),
     createAccountCopyTestType: flags.createAccountCopyTestType.asString() as CreateAccountCopyTestType,
