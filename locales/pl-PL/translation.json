@@ -595,13 +595,13 @@
   "sendAndInvite": "Wyślij i zaproś",
   "inviteAndSendDialog": {
     "title": "Dokończ zapraszanie {{name}} do aplikacji Valora",
-    "bodyWithRewards": "Gdy Twój znajomy utworzy konto i podłączy swój numer telefonu, oboje otrzymacie {{amount}} {{currency}}. Kliknij poniżej, aby dostosować i wysłać zaproszenie.",
+    "bodyWithRewards": "Po dołączeniu i podaniu swojego numeru telefonu, oboje otrzymacie specjalną edycję NFT. Kliknij poniżej, aby wysłać zaproszenie SMS-em.",
     "body": "Wyślij do {{name}} wiadomość z zaproszeniem do aplikacji {{appName}}. Gdy utworzy konto i podłączy swój numer telefonu, otrzyma Twoją płatność.",
     "button": "Dokończ zaproszenie"
   },
   "inviteRewardsBanner": {
     "title": "Wyślij kryptowalutę, aby zaprosić znajomego",
-    "body": "Gdy Twój znajomy skonfiguruje swój portfel w aplikacji {{appName}}, każdy z Was otrzyma NFT. <0>Dowiedz się więcej</0>"
+    "body": "Po skonfigurowaniu portfela {{appName}} i podłączeniu swojego numeru, każdy z was otrzyma ekskluzywne NFT. <0>Dowiedz się więcej</0>"
   },
   "getReward": "Otrzymaj ${{reward}}",
   "welcomeCelo": "Witamy w aplikacji {{appName}}",
@@ -867,6 +867,7 @@
   "amountCeloWithdrawn": "Kwota (CELO)",
   "feeEducation": "Blockchain Celo pobiera opłatę transakcyjną, aby umożliwić obsługę sieci i jej płynne działanie.",
   "inviteMoneyEscrow": "Wyślij temu kontaktowi wiadomość z zaproszeniem, a po podłączeniu swojego numeru otrzyma środki.",
+  "inviteMoneyEscrowWithRewards": "Wyślij do tego kontaktu wiadomość z zaproszeniem, a otrzyma on środki i NFT po podłączeniu swojego numeru.",
   "reviewPayment": "Analizuj płatność",
   "requestPayment": "Zażądaj płatności",
   "max": "MAKS.",
@@ -886,7 +887,7 @@
   "walletAddress": "Adres portfela",
   "inviteWithoutPayment": "Cześć! Korzystam z aplikacji {{appName}} do przesyłania kryptowalut z dowolnego miejsca na świecie. To bardzo proste. Może Ty też spróbujesz? Skorzystaj z tego linku: {{link}}",
   "inviteWithEscrowedPayment": "Cześć! Korzystam z aplikacji {{appName}} do przesyłania kryptowalut z dowolnego miejsca na świecie. Przesyłam Ci właśnie {{amount}} {{token}}. Pobierz aplikację {{appName}} i odbierz {{token}}, korzystając z tego linku: {{link}}",
-  "inviteWithRewards": "Cześć! Przesyłam Ci kryptowalutę z portfela w aplikacji {{appName}}. Gdy pobierzesz aplikację i podłączysz do niej swój numer telefonu, oboje otrzymamy nagrodę w wysokości {{amount}} {{token}}. Użyj tego linku: {{link}}",
+  "inviteWithRewards": "Hej! Właśnie wysłałem Ci kryptowalutę za pomocą mojego portfela {{appName}} . Gdy pobierzesz aplikację i podasz swój numer telefonu, obaj dostaniemy specjalną edycję NFT. Użyj tego linku: {{link}}",
   "loadingContacts": "Wyszukiwanie kontaktów",
   "myCode": "Mój kod",
   "scanCode": "Skanuj",
