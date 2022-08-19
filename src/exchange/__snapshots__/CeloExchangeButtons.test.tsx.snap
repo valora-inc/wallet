@@ -7,7 +7,6 @@ exports[`CeloExchangeButtons hides buy button when there's no dollar balance 1`]
       "flexDirection": "row",
       "marginBottom": 28,
       "marginHorizontal": 12,
-      "marginTop": 24,
     }
   }
 >
@@ -93,7 +92,6 @@ exports[`CeloExchangeButtons hides sell button when there's no CELO balance 1`] 
       "flexDirection": "row",
       "marginBottom": 28,
       "marginHorizontal": 12,
-      "marginTop": 24,
     }
   }
 >
@@ -179,7 +177,6 @@ exports[`CeloExchangeButtons renders correctly 1`] = `
       "flexDirection": "row",
       "marginBottom": 28,
       "marginHorizontal": 12,
-      "marginTop": 24,
     }
   }
 >
@@ -330,12 +327,4 @@ exports[`CeloExchangeButtons renders correctly 1`] = `
 </View>
 `;
 
-exports[`CeloExchangeButtons returns null when there's no CELO and dollar balance 1`] = `
-<View
-  style={
-    Object {
-      "marginTop": 24,
-    }
-  }
-/>
-`;
+exports[`CeloExchangeButtons returns null when there's no CELO and dollar balance 1`] = `null`;
