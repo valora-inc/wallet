@@ -155,11 +155,6 @@ describe('watchAccountFundedOrLiquidated', () => {
     return () => (++callCount == 1 ? firstValue : restValue)
   }
 
-  const isStale = (firstValue: boolean, restValue: boolean) => {
-    let callCount = 0
-    return () => (++callCount == 1 ? firstValue : restValue)
-  }
-
   it('dispatches the account funded event if the account is funded', async () => {
     await expectSaga(watchAccountFundedOrLiquidated)
       .provide([
