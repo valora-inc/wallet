@@ -1377,6 +1377,19 @@
     "estimatedFee": "Commissioni stimate",
     "viewOnExplorer": "Visualizza su CeloExplorer"
   },
+  "swapReviewScreen": {
+    "title": "Scambio di recensioni",
+    "complete": "Scambio completo",
+    "swapFrom": "Scambia da",
+    "swapTo": "Scambia con",
+    "transactionDetails": "Dettagli della transazione",
+    "estimatedGas": "Gas stimato",
+    "swapFee": "{{appName}} Tassa",
+    "swapFeeTitle": "Qual è la tariffa di {{appName}} ?",
+    "swapFeeBody": "La commissione di {{appName}} è la commissione che paghi per scambiare i token su {{appName}}. \n\n La commissione è pari al {{swapFee}}% dell'importo che stai scambiando. \n\n {{appName}} commissioni sono gratuite per i prossimi mesi.",
+    "estimatedAmountTitle": "Estimated Amount",
+    "estimatedAmountBody": "Conversions take place on a third party decentralized exchange that finds you the best rate for your swap. \n\n Your trade will be completed at a price within {{slippagePercent}}% of the estimate or the transaction will be cancelled & funds returned to your wallet."
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollar"
 }
