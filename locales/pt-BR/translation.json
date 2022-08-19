@@ -1387,8 +1387,8 @@
     "swapFee": "{{appName}} Tarifa",
     "swapFeeTitle": "O que é a taxa {{appName}} ?",
     "swapFeeBody": "A taxa {{appName}} é a taxa que se paga para trocar fichas em {{appName}}. \n\n A taxa é {{swapFee}}% do montante que está a trocar. \n\n {{appName}} As taxas são gratuitas para os próximos meses.",
-    "estimatedAmountTitle": "Estimated Amount",
-    "estimatedAmountBody": "Conversions take place on a third party decentralized exchange that finds you the best rate for your swap. \n\n Your trade will be completed at a price within {{slippagePercent}}% of the estimate or the transaction will be cancelled & funds returned to your wallet."
+    "estimatedAmountTitle": "Montante estimado",
+    "estimatedAmountBody": "As conversões têm lugar numa troca descentralizada de terceiros que lhe encontra a melhor taxa para a sua troca. \n\n A sua transacção será concluída a um preço dentro de {{slippagePercent}}% da estimativa ou a transacção será cancelada e os fundos serão devolvidos à sua carteira."
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
