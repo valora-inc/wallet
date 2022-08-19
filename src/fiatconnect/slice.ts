@@ -210,6 +210,7 @@ export const slice = createSlice({
     builder.addCase(REHYDRATE, (state, action: RehydrateAction) => ({
       ...state,
       ...getRehydratePayload(action, 'fiatConnect'),
+      quotes: [], // reset quotes since we want to fresh a new set of quotes
       quotesLoading: false,
       quotesError: null,
       transfer: null,
