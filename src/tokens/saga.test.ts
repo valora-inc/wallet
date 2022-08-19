@@ -11,11 +11,7 @@ import {
   tokenAmountInSmallestUnit,
   watchAccountFundedOrLiquidated,
 } from 'src/tokens/saga'
-import {
-  lastKnownTokenBalancesSelector,
-  stalePriceSelector,
-  totalTokenBalanceSelector,
-} from 'src/tokens/selectors'
+import { lastKnownTokenBalancesSelector } from 'src/tokens/selectors'
 import { fetchTokenBalancesFailure, setTokenBalances, StoredTokenBalances } from 'src/tokens/slice'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { createMockStore } from 'test/utils'
@@ -167,9 +163,10 @@ describe('watchAccountFundedOrLiquidated', () => {
   it('dispatches the account funded event if the account is funded', async () => {
     await expectSaga(watchAccountFundedOrLiquidated)
       .provide([
-        [select(totalTokenBalanceSelector), dynamic(balances(new BigNumber(0), new BigNumber(10)))],
-        [select(stalePriceSelector), false],
-        [select(lastKnownTokenBalancesSelector), null],
+        [
+          select(lastKnownTokenBalancesSelector),
+          dynamic(balances(new BigNumber(0), new BigNumber(10))),
+        ],
       ])
       .dispatch({ type: 'TEST_ACTION_TYPE' })
       .dispatch({ type: 'TEST_ACTION_TYPE' })
@@ -182,9 +179,10 @@ describe('watchAccountFundedOrLiquidated', () => {
   it('dispatches the account liquidated event when the account is liquidated', async () => {
     await expectSaga(watchAccountFundedOrLiquidated)
       .provide([
-        [select(totalTokenBalanceSelector), dynamic(balances(new BigNumber(10), new BigNumber(0)))],
-        [select(stalePriceSelector), false],
-        [select(lastKnownTokenBalancesSelector), null],
+        [
+          select(lastKnownTokenBalancesSelector),
+          dynamic(balances(new BigNumber(10), new BigNumber(0))),
+        ],
       ])
       .dispatch({ type: 'TEST_ACTION_TYPE' })
       .dispatch({ type: 'TEST_ACTION_TYPE' })
@@ -197,26 +195,7 @@ describe('watchAccountFundedOrLiquidated', () => {
   it('does not dispatch the account funded event for an account restore', async () => {
     await expectSaga(watchAccountFundedOrLiquidated)
       .provide([
-        [select(totalTokenBalanceSelector), dynamic(balances(null, new BigNumber(10)))],
-        [select(stalePriceSelector), false],
-        [select(lastKnownTokenBalancesSelector), null],
-      ])
-      .dispatch({ type: 'TEST_ACTION_TYPE' })
-      .dispatch({ type: 'TEST_ACTION_TYPE' })
-      .run()
-
-    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(0)
-  })
-
-  it('does not dispatch any event from the balance refresh due to stale token prices', async () => {
-    await expectSaga(watchAccountFundedOrLiquidated)
-      .provide([
-        [select(totalTokenBalanceSelector), dynamic(balances(new BigNumber(0), new BigNumber(10)))],
-        [select(stalePriceSelector), isStale(true, false)],
-        [
-          select(lastKnownTokenBalancesSelector),
-          dynamic(balances(new BigNumber(10), new BigNumber(10))),
-        ],
+        [select(lastKnownTokenBalancesSelector), dynamic(balances(null, new BigNumber(10)))],
       ])
       .dispatch({ type: 'TEST_ACTION_TYPE' })
       .dispatch({ type: 'TEST_ACTION_TYPE' })
