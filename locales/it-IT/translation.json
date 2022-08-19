@@ -595,13 +595,13 @@
   "sendAndInvite": "Invia e invita",
   "inviteAndSendDialog": {
     "title": "Completa l'invito di {{name}} in Valora",
-    "bodyWithRewards": "Una volta che si saranno iscritti e avranno collegato il loro numero di telefono, riceverete entrambi un'edizione speciale di NFT. Clicca qui sotto per inviare il tuo invito via SMS.",
+    "bodyWithRewards": "Dopo che avrà accettato e che avrà collegato un numero telefonico, riceverete entrambi un NFT. Tocca di seguito per inviare il tuo invito.",
     "body": "Condividi con {{name}} un messaggio di invito per entrare a far parte di {{appName}}. Dopo che avrà accettato e che avrà collegato un numero telefonico, riceverà il tuo pagamento.",
     "button": "Completa l'invito"
   },
   "inviteRewardsBanner": {
     "title": "Invia criptovalute per invitare un amico",
-    "body": "Una volta che avranno configurato il loro portafoglio {{appName}} e collegato il loro numero, ognuno di voi riceverà un NFT esclusivo. <0>Per saperne di più</0>"
+    "body": "Riceverete entrambi un NFT dopo che avrà completato la configurazione dell'account. <0>Scopri di più</0>"
   },
   "getReward": "Ricevi ${{reward}}",
   "welcomeCelo": "Ti diamo il benvenuto in {{appName}}",
@@ -863,7 +863,7 @@
   "amountCeloWithdrawn": "Importo (CELO)",
   "feeEducation": "La Blockchain Celo addebita una commissione sulla transazione, per supportare la rete e il suo funzionamento ottimale.",
   "inviteMoneyEscrow": "Invia un messaggio di invito a questo contatto, riceverà i fondi dopo aver collegato il suo numero telefonico.",
-  "inviteMoneyEscrowWithRewards": "Invia a questo contatto un messaggio di invito e riceverà i fondi e l'NFT una volta collegato il suo numero.",
+  "inviteMoneyEscrowWithRewards": "Invia un messaggio di invito a questo contatto, riceverà i fondi e un NFT dopo aver collegato il suo numero telefonico.",
   "reviewPayment": "Rivedi pagamento",
   "requestPayment": "Richiedi pagamento",
   "max": "MAX",
@@ -883,7 +883,7 @@
   "walletAddress": "Indirizzo del wallet",
   "inviteWithoutPayment": "Ciao. Uso {{appName}} per inviare criptovalute in tutto il mondo. Provare l'app è facile e desidero invitarti a scoprirla con questo collegamento: {{link}}",
   "inviteWithEscrowedPayment": "Ciao. Uso {{appName}} per inviare criptovalute in tutto il mondo. Ti ho appena inviato {{amount}} {{token}}. Scarica l’app {{appName}} e riscatta {{token}} tramite questo collegamento: {{link}}",
-  "inviteWithRewards": "Ehi! Ti ho appena inviato delle criptovalute con il mio portafoglio {{appName}} . Una volta scaricata l'applicazione e collegato il tuo numero di telefono, entrambi riceveremo un'edizione speciale di NFT. Usa questo link: {{link}}",
+  "inviteWithRewards": "Ehi! Ti ho appena inviato criptovalute con il mio portafoglio {{appName}}. Dopo che avrai scaricato l'applicazione e che avrai collegato il tuo numero telefonico, riceveremo entrambi un NFT. Usa questo collegamento: {{link}}",
   "loadingContacts": "Ricerca dei contatti in corso",
   "myCode": "Il mio codice",
   "scanCode": "Inquadra",
@@ -1379,14 +1379,14 @@
     "viewOnExplorer": "Visualizza su CeloExplorer"
   },
   "swapReviewScreen": {
-    "title": "Scambio di recensioni",
-    "complete": "Scambio completo",
+    "title": "Rivedi scambio",
+    "complete": "Completa scambio",
     "swapFrom": "Scambia da",
-    "swapTo": "Scambia con",
+    "swapTo": "Scambia a",
     "transactionDetails": "Dettagli della transazione",
-    "estimatedGas": "Gas stimato",
-    "swapFee": "{{appName}} Tassa",
-    "swapFeeTitle": "Qual è la tariffa di {{appName}} ?",
+    "estimatedGas": "Commissioni stimate",
+    "swapFee": "Commissione di {{appName}}",
+    "swapFeeTitle": "Cosa sono le commissione di {{appName}}?",
     "swapFeeBody": "La commissione di {{appName}} è la commissione che paghi per scambiare i token su {{appName}}. \n\n La commissione è pari al {{swapFee}}% dell'importo che stai scambiando. \n\n {{appName}} commissioni sono gratuite per i prossimi mesi.",
     "estimatedAmountTitle": "Importo stimato",
     "estimatedAmountBody": "Le conversioni avvengono su uno scambio decentralizzato di terze parti che trova il miglior tasso per il tuo scambio. \n\n La tua transazione sarà completata a un prezzo compreso tra {{slippagePercent}}% della stima o la transazione sarà annullata e i fondi saranno restituiti al tuo portafoglio."
