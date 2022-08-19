@@ -1377,6 +1377,19 @@
     "estimatedFee": "Geschätzte Gebühr",
     "viewOnExplorer": "Auf CeloExplorer anzeigen"
   },
+  "swapReviewScreen": {
+    "title": "Rückblick Tauschbörse",
+    "complete": "Kompletter Tausch",
+    "swapFrom": "Tausch von",
+    "swapTo": "Wechseln zu",
+    "transactionDetails": "Transaktiondetails",
+    "estimatedGas": "Geschätztes Gas",
+    "swapFee": "{{appName}} Gebühr",
+    "swapFeeTitle": "Wie hoch ist die {{appName}} Gebühr?",
+    "swapFeeBody": "Die {{appName}} Gebühr ist die Gebühr, die du für den Tausch von Token auf {{appName}}zahlst. \n\n Die Gebühr beträgt {{swapFee}}% des Betrags, den du tauschst. \n\n {{appName}} Gebühren sind für die nächsten Monate kostenlos.",
+    "estimatedAmountTitle": "Estimated Amount",
+    "estimatedAmountBody": "Conversions take place on a third party decentralized exchange that finds you the best rate for your swap. \n\n Your trade will be completed at a price within {{slippagePercent}}% of the estimate or the transaction will be cancelled & funds returned to your wallet."
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
