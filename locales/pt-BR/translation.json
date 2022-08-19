@@ -1377,6 +1377,19 @@
     "estimatedFee": "Taxa estimada",
     "viewOnExplorer": "Ver no CeloExplorer"
   },
+  "swapReviewScreen": {
+    "title": "Revisão Swap",
+    "complete": "Troca completa",
+    "swapFrom": "Trocar de",
+    "swapTo": "Trocar para",
+    "transactionDetails": "Detalhes de transação",
+    "estimatedGas": "Gás estimado",
+    "swapFee": "{{appName}} Tarifa",
+    "swapFeeTitle": "O que é a taxa {{appName}} ?",
+    "swapFeeBody": "A taxa {{appName}} é a taxa que se paga para trocar fichas em {{appName}}. \n\n A taxa é {{swapFee}}% do montante que está a trocar. \n\n {{appName}} As taxas são gratuitas para os próximos meses.",
+    "estimatedAmountTitle": "Estimated Amount",
+    "estimatedAmountBody": "Conversions take place on a third party decentralized exchange that finds you the best rate for your swap. \n\n Your trade will be completed at a price within {{slippagePercent}}% of the estimate or the transaction will be cancelled & funds returned to your wallet."
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
