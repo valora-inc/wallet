@@ -1799,6 +1799,7 @@
                 "StoreWipeRecoveryScreen",
                 "Support",
                 "SupportContact",
+                "SwapReviewScreen",
                 "SwapScreen",
                 "Sync",
                 "TokenBalances",
@@ -1956,6 +1957,9 @@
                 "loggedIn": {
                     "type": "boolean"
                 },
+                "maxSwapSlippagePercentage": {
+                    "type": "number"
+                },
                 "minVersion": {
                     "type": [
                         "null",
@@ -2045,6 +2049,12 @@
                         }
                     ]
                 },
+                "swapFeeEnabled": {
+                    "type": "boolean"
+                },
+                "swapFeePercentage": {
+                    "type": "number"
+                },
                 "visualizeNFTsEnabledInHomeAssetsPage": {
                     "type": "boolean"
                 },
@@ -2071,6 +2081,7 @@
                 "locked",
                 "logPhoneNumberTypeEnabled",
                 "loggedIn",
+                "maxSwapSlippagePercentage",
                 "minVersion",
                 "numberVerified",
                 "paymentDeepLinkHandler",
@@ -2089,6 +2100,8 @@
                 "superchargeButtonType",
                 "superchargeTokenConfigByToken",
                 "supportedBiometryType",
+                "swapFeeEnabled",
+                "swapFeePercentage",
                 "visualizeNFTsEnabledInHomeAssetsPage",
                 "walletConnectV1Enabled"
             ],

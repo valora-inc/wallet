@@ -74,4 +74,7 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   showSwapMenuInDrawerMenu: false,
   shouldShowRecoveryPhraseInSettings: false,
   createAccountCopyTestType: CreateAccountCopyTestType.Account,
+  maxSwapSlippagePercentage: 2,
+  swapFeeEnabled: false,
+  swapFeePercentage: 0.743,
 }
