@@ -452,7 +452,7 @@ PODS:
     - React-Core
   - react-native-keep-awake (4.0.0):
     - React-Core
-  - react-native-mail (6.0.0):
+  - react-native-mail (6.1.1):
     - React-Core
   - react-native-netinfo (5.8.0):
     - React-Core
@@ -565,6 +565,8 @@ PODS:
     - React-Core
   - RNCMaskedView (0.2.6):
     - React-Core
+  - RNCPicker (2.4.2):
+    - React-Core
   - RNDeviceInfo (8.3.1):
     - React-Core
   - RNExitApp (1.1.0):
@@ -597,7 +599,7 @@ PODS:
     - Firebase/Storage (= 7.11.0)
     - React-Core
     - RNFBApp
-  - RNFS (2.16.6):
+  - RNFS (2.20.0):
     - React-Core
   - RNGestureHandler (1.9.0):
     - React-Core
@@ -654,9 +656,9 @@ PODS:
     - React-RCTImage
   - RNSecureRandom (1.0.0):
     - React-Core
-  - RNSentry (3.4.3):
+  - RNSentry (4.2.0):
     - React-Core
-    - Sentry (= 7.11.0)
+    - Sentry (= 7.21.0)
   - RNShare (7.3.2):
     - React-Core
   - RNSVG (12.3.0):
@@ -681,9 +683,9 @@ PODS:
     - Firebase (~> 7.7)
     - Firebase/Core (~> 7.7)
     - FirebaseAnalytics (~> 7.7)
-  - Sentry (7.11.0):
-    - Sentry/Core (= 7.11.0)
-  - Sentry/Core (7.11.0)
+  - Sentry (7.21.0):
+    - Sentry/Core (= 7.21.0)
+  - Sentry/Core (7.21.0)
   - Toast (4.0.0)
   - TOCropViewController (2.6.0)
   - Yoga (1.14.0)
@@ -775,6 +777,7 @@ DEPENDENCIES:
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNCClipboard (from `../node_modules/@react-native-community/clipboard`)"
   - "RNCMaskedView (from `../node_modules/@react-native-masked-view/masked-view`)"
+  - "RNCPicker (from `../node_modules/@react-native-picker/picker`)"
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - RNExitApp (from `../node_modules/react-native-exit-app`)
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
@@ -969,6 +972,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/clipboard"
   RNCMaskedView:
     :path: "../node_modules/@react-native-masked-view/masked-view"
+  RNCPicker:
+    :path: "../node_modules/@react-native-picker/picker"
   RNDeviceInfo:
     :path: "../node_modules/react-native-device-info"
   RNExitApp:
@@ -1087,7 +1092,7 @@ SPEC CHECKSUMS:
   react-native-fast-crypto: db61bcb2d1224a180449b886f27426a67d7628c0
   react-native-flipper: b9e2e817604af8da0d5a9ba20a8516e780e30f3c
   react-native-keep-awake: 6c078705f3fb2586963b13588d31148adc6bd128
-  react-native-mail: 88305252f4c3fb0157015ff8a7ac9c41b321a0dd
+  react-native-mail: 8fdcd3aef007c33a6877a18eb4cf7447a1d4ce4a
   react-native-netinfo: f3f52e6d92372003b78d5cafa3557797c7beee47
   react-native-plaid-link-sdk: 33cb904b956dc3b56799ac3027de8aa6fbb4b0ab
   react-native-randombytes: b6677f7d495c27e9ee0dbd77ebc97b3c59173729
@@ -1117,6 +1122,7 @@ SPEC CHECKSUMS:
   RNCAsyncStorage: ea6b5c280997b2b32a587793163b1f10e580c4f7
   RNCClipboard: 546484405eaa1c8a3eccce77b8c8871242e73b20
   RNCMaskedView: c298b644a10c0c142055b3ae24d83879ecb13ccd
+  RNCPicker: 0250e95ad170569a96f5b0555cdd5e65b9084dca
   RNDeviceInfo: 7b82d1467b87f7e74d1c7ba9439a9a57d0c68ee9
   RNExitApp: 3ae738c65a8494df166dee74575f2504d0737a28
   RNFBApp: b8704b700f062ed0aa7bbca459b22dd47507a232
@@ -1126,7 +1132,7 @@ SPEC CHECKSUMS:
   RNFBMessaging: b05aa2a76ed2b9fd50f05f036c96b26189a1fce2
   RNFBRemoteConfig: e8d462f46e1759a5921d0e4b76d0ab89aef9baee
   RNFBStorage: 48f869205eb5537749cdd4f53689a526728421f8
-  RNFS: 7161a36db9bbdaab96d91fff660820f94e29ca58
+  RNFS: 4ac0f0ea233904cb798630b3c077808c06931688
   RNGestureHandler: 9b7e605a741412e20e13c512738a31bd1611759b
   RNImageCropPicker: 9e0bf18cf4184a846fed55747c8e622208b39947
   RNInAppBrowser: 48b95ba7a4eaff5cc223bca338d3e319561dbd1b
@@ -1137,14 +1143,14 @@ SPEC CHECKSUMS:
   RNReanimated: ee33ab40fa252332a36aeed9d936801ed9700b24
   RNScreens: 40a2cb40a02a609938137a1e0acfbf8fc9eebf19
   RNSecureRandom: b0b479d7b934a3e6deea9cb986a9c40cb5f1b360
-  RNSentry: 85f6525b5fe8d2ada065858026b338605b3c09da
+  RNSentry: 227b01d7373289c51b8c31b2c8d6bac49f1a4335
   RNShare: d76b8c9c6e6ffb38fc18f40b4338c9d867592ed3
   RNSVG: 302bfc9905bd8122f08966dc2ce2d07b7b52b9f8
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
   Segment-Adjust: 1a12861ab2e9372fc70af949057490858666cd37
   Segment-CleverTap: 33df087116d5a0a76d2fb3003ed8609c979eac10
   Segment-Firebase: 709fff402c50f74c218482603683edd42785cbf9
-  Sentry: 0c5cd63d714187b4a39c331c1f0eb04ba7868341
+  Sentry: 194d0a2d4d6ef92c9c08c98d998340b0a63efd81
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
   TOCropViewController: 3105367e808b7d3d886a74ff59bf4804e7d3ab38
   Yoga: e7dc4e71caba6472ff48ad7d234389b91dadc280

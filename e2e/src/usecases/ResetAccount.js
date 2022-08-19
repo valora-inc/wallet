@@ -16,6 +16,7 @@ export default ResetAccount = () => {
     // }
 
     // Go to Settings
+    await waitForElementId('Hamburger')
     await element(by.id('Hamburger')).tap()
     await element(by.id('Settings')).tap()
 

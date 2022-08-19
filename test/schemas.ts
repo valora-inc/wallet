@@ -1355,6 +1355,226 @@ export const v56Schema = {
   },
 }
 
+export const v57Schema = {
+  ...v56Schema,
+  _persist: {
+    ...v56Schema._persist,
+    version: 57,
+  },
+  app: {
+    ...v56Schema.app,
+    visualizeNFTsEnabledInHomeAssetsPage: false,
+  },
+}
+
+export const v58Schema = {
+  ...v57Schema,
+  _persist: {
+    ...v57Schema._persist,
+    version: 58,
+  },
+  app: {
+    ...v57Schema.app,
+    coinbasePayEnabled: false,
+  },
+}
+
+export const v59Schema = {
+  ...v58Schema,
+  _persist: {
+    ...v58Schema._persist,
+    version: 59,
+  },
+}
+
+export const v60Schema = {
+  ...v59Schema,
+  _persist: {
+    ...v59Schema._persist,
+    version: 60,
+  },
+  fiatConnect: {
+    quotes: [],
+    quotesLoading: false,
+    quotesError: null,
+  },
+}
+
+export const v61Schema = {
+  ...v60Schema,
+  _persist: {
+    ...v60Schema._persist,
+    version: 61,
+  },
+  app: {
+    ...v60Schema.app,
+    showSwapMenuInDrawerMenu: false,
+  },
+}
+
+export const v62Schema = {
+  ...v61Schema,
+  _persist: {
+    ...v61Schema._persist,
+    version: 62,
+  },
+  fiatConnect: {
+    ...v61Schema.fiatConnect,
+    transfer: null,
+  },
+}
+
+export const v63Schema = {
+  ...v62Schema,
+  _persist: {
+    ...v62Schema._persist,
+    version: 63,
+  },
+  app: {
+    ..._.omit(v62Schema.app, 'superchargeTokens'),
+    superchargeTokenConfigByToken: {
+      [mockCusdAddress]: {
+        minBalance: 10,
+        maxBalance: 1000,
+      },
+      [mockCeurAddress]: {
+        minBalance: 10,
+        maxBalance: 1000,
+      },
+    },
+  },
+}
+
+export const v64Schema = {
+  ...v63Schema,
+  _persist: {
+    ...v63Schema._persist,
+    version: 64,
+  },
+  fiatConnect: {
+    ...v63Schema.fiatConnect,
+    providers: null,
+  },
+}
+
+export const v65Schema = {
+  ...v64Schema,
+  _persist: {
+    ...v64Schema._persist,
+    version: 64,
+  },
+  fees: {
+    ...v64Schema.fees,
+    estimates: Object.entries(v64Schema.fees.estimates).reduce((acc, [address, estimate]) => {
+      return {
+        ...acc,
+        [address]: {
+          ...estimate,
+          swap: undefined,
+        },
+      }
+    }, {}),
+  },
+}
+
+export const v66Schema = {
+  ...v65Schema,
+  _persist: {
+    ...v65Schema._persist,
+    version: 66,
+  },
+  fiatConnect: {
+    ...v65Schema.fiatConnect,
+    cachedFiatAccountUses: [],
+    attemptReturnUserFlowLoading: false,
+  },
+}
+
+export const v67Schema = {
+  ...v66Schema,
+  _persist: {
+    ...v66Schema._persist,
+    version: 67,
+  },
+  fiatConnect: {
+    ...v66Schema.fiatConnect,
+    selectFiatConnectQuoteLoading: false,
+  },
+}
+
+export const v68Schema = {
+  ...v67Schema,
+  _persist: {
+    ...v67Schema._persist,
+    version: 68,
+  },
+  app: _.omit(
+    v67Schema.app,
+    'linkBankAccountEnabled',
+    'linkBankAccountStepTwoEnabled',
+    'finclusiveUnsupportedStates'
+  ),
+  account: _.omit(
+    v67Schema.account,
+    'hasLinkedBankAccount',
+    'finclusiveRegionSupported',
+    'finclusiveKycStatus',
+    'kycStatus'
+  ),
+}
+export const v69Schema = {
+  ...v68Schema,
+  _persist: {
+    ...v68Schema._persist,
+    version: 69,
+  },
+  recipients: {
+    ...v68Schema.recipients,
+    coinbasePaySenders: [],
+  },
+}
+
+export const v70Schema = {
+  ...v69Schema,
+  _persist: {
+    ...v69Schema._persist,
+    version: 70,
+  },
+  app: {
+    ...v69Schema.app,
+    shouldShowRecoveryPhraseInSettings: false,
+  },
+}
+
+export const v71Schema = {
+  ...v70Schema,
+  _persist: {
+    ...v70Schema._persist,
+    version: 71,
+  },
+  app: {
+    ...v70Schema.app,
+    maxSwapSlippagePercentage: 2,
+    swapFeeEnabled: false,
+    swapFeePercentage: 0.743,
+    createAccountCopyTestType: 'ACCOUNT',
+  },
+}
+
+export const v72Schema = {
+  ...v71Schema,
+  _persist: {
+    ...v71Schema._persist,
+    version: 72,
+  },
+  app: {
+    ...v71Schema.app,
+    maxSwapSlippagePercentage: 2,
+    swapFeeEnabled: false,
+    swapFeePercentage: 0.743,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v56Schema as Partial<RootState>
+  return v72Schema as Partial<RootState>
 }

@@ -234,6 +234,45 @@
             ],
             "type": "object"
         },
+        "CICOFlow": {
+            "enum": [
+                "CashIn",
+                "CashOut"
+            ],
+            "type": "string"
+        },
+        "CachedFiatAccountUse": {
+            "additionalProperties": false,
+            "properties": {
+                "cryptoType": {
+                    "$ref": "#/definitions/Currency"
+                },
+                "fiatAccountId": {
+                    "type": "string"
+                },
+                "fiatAccountType": {
+                    "$ref": "#/definitions/FiatAccountType"
+                },
+                "fiatType": {
+                    "$ref": "#/definitions/FiatType"
+                },
+                "flow": {
+                    "type": "string"
+                },
+                "providerId": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "cryptoType",
+                "fiatAccountId",
+                "fiatAccountType",
+                "fiatType",
+                "flow",
+                "providerId"
+            ],
+            "type": "object"
+        },
         "ContactMatches": {
             "additionalProperties": {
                 "additionalProperties": false,
@@ -248,6 +287,23 @@
                 "type": "object"
             },
             "type": "object"
+        },
+        "CreateAccountCopyTestType": {
+            "enum": [
+                "ACCOUNT",
+                "ALREADY_HAVE_WALLET",
+                "WALLET"
+            ],
+            "type": "string"
+        },
+        "CryptoType": {
+            "enum": [
+                "CELO",
+                "cEUR",
+                "cREAL",
+                "cUSD"
+            ],
+            "type": "string"
         },
         "Currency": {
             "enum": [
@@ -684,15 +740,150 @@
             ],
             "type": "object"
         },
-        "FinclusiveKycStatus": {
+        "FiatAccountSchema": {
             "enum": [
-                0,
-                1,
-                2,
-                3,
-                4
+                "AccountNumber",
+                "DuniaWallet",
+                "IBANNumber",
+                "IFSCAccount",
+                "MobileMoney"
             ],
-            "type": "number"
+            "type": "string"
+        },
+        "FiatAccountType": {
+            "enum": [
+                "BankAccount",
+                "DuniaWallet",
+                "MobileMoney"
+            ],
+            "type": "string"
+        },
+        "FiatConnectError": {
+            "enum": [
+                "ContractLoginNotSupported",
+                "CryptoAmountTooHigh",
+                "CryptoAmountTooLow",
+                "CryptoNotSupported",
+                "ExpirationTooLong",
+                "FiatAmountTooHigh",
+                "FiatAmountTooLow",
+                "FiatNotSupported",
+                "GeoNotSupported",
+                "InvalidFiatAccount",
+                "InvalidParameters",
+                "InvalidSchema",
+                "InvalidSignature",
+                "IssuedTooEarly",
+                "KycExpired",
+                "NonceInUse",
+                "ResourceExists",
+                "ResourceNotFound",
+                "SessionExpired",
+                "TransferNotAllowed",
+                "Unauthorized",
+                "UnsupportedSchema"
+            ],
+            "type": "string"
+        },
+        "FiatConnectProviderInfo": {
+            "additionalProperties": false,
+            "properties": {
+                "apiKey": {
+                    "type": "string"
+                },
+                "baseUrl": {
+                    "type": "string"
+                },
+                "iconUrl": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "imageUrl": {
+                    "type": "string"
+                },
+                "providerName": {
+                    "type": "string"
+                },
+                "websiteUrl": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "baseUrl",
+                "iconUrl",
+                "id",
+                "imageUrl",
+                "providerName",
+                "websiteUrl"
+            ],
+            "type": "object"
+        },
+        "FiatConnectTransfer": {
+            "additionalProperties": false,
+            "properties": {
+                "failed": {
+                    "type": "boolean"
+                },
+                "flow": {
+                    "$ref": "#/definitions/CICOFlow"
+                },
+                "isSending": {
+                    "type": "boolean"
+                },
+                "quoteId": {
+                    "type": "string"
+                },
+                "txHash": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                }
+            },
+            "required": [
+                "failed",
+                "flow",
+                "isSending",
+                "quoteId",
+                "txHash"
+            ],
+            "type": "object"
+        },
+        "FiatType": {
+            "enum": [
+                "ARS",
+                "BOB",
+                "BRL",
+                "CLP",
+                "CNY",
+                "COP",
+                "EUR",
+                "FKP",
+                "GBP",
+                "GHS",
+                "GNF",
+                "GYD",
+                "INR",
+                "KES",
+                "MXN",
+                "NGN",
+                "PAB",
+                "PEN",
+                "PHP",
+                "PYG",
+                "RWF",
+                "SRD",
+                "UGX",
+                "USD",
+                "UYU",
+                "VES",
+                "XAF",
+                "XOF",
+                "ZAR"
+            ],
+            "type": "string"
         },
         "HistoricalUsdPrices": {
             "additionalProperties": false,
@@ -1003,6 +1194,44 @@
             ],
             "type": "object"
         },
+        "NftTransfer": {
+            "additionalProperties": false,
+            "properties": {
+                "__typename": {
+                    "enum": [
+                        "NftTransferV2"
+                    ],
+                    "type": "string"
+                },
+                "block": {
+                    "type": "string"
+                },
+                "fees": {
+                    "items": {
+                        "$ref": "#/definitions/Fee"
+                    },
+                    "type": "array"
+                },
+                "timestamp": {
+                    "type": "number"
+                },
+                "transactionHash": {
+                    "type": "string"
+                },
+                "type": {
+                    "$ref": "#/definitions/TokenTransactionTypeV2"
+                }
+            },
+            "required": [
+                "__typename",
+                "block",
+                "fees",
+                "timestamp",
+                "transactionHash",
+                "type"
+            ],
+            "type": "object"
+        },
         "Notification": {
             "additionalProperties": false,
             "properties": {
@@ -1151,6 +1380,183 @@
                         "type": "object"
                     }
                 ]
+            },
+            "type": "object"
+        },
+        "Partial<Record<FiatAccountType,FiatAccountTypeQuoteData>>": {
+            "additionalProperties": false,
+            "properties": {
+                "BankAccount": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "fee": {
+                            "type": "string"
+                        },
+                        "feeFrequency": {
+                            "enum": [
+                                "OneTime",
+                                "Recurring"
+                            ],
+                            "type": "string"
+                        },
+                        "feeType": {
+                            "enum": [
+                                "KycFee",
+                                "PlatformFee"
+                            ],
+                            "type": "string"
+                        },
+                        "fiatAccountSchemas": {
+                            "items": {
+                                "additionalProperties": false,
+                                "properties": {
+                                    "allowedValues": {
+                                        "additionalProperties": {
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "type": "array"
+                                        },
+                                        "type": "object"
+                                    },
+                                    "fiatAccountSchema": {
+                                        "$ref": "#/definitions/FiatAccountSchema"
+                                    }
+                                },
+                                "required": [
+                                    "allowedValues",
+                                    "fiatAccountSchema"
+                                ],
+                                "type": "object"
+                            },
+                            "type": "array"
+                        },
+                        "settlementTimeLowerBound": {
+                            "type": "string"
+                        },
+                        "settlementTimeUpperBound": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "fiatAccountSchemas"
+                    ],
+                    "type": "object"
+                },
+                "DuniaWallet": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "fee": {
+                            "type": "string"
+                        },
+                        "feeFrequency": {
+                            "enum": [
+                                "OneTime",
+                                "Recurring"
+                            ],
+                            "type": "string"
+                        },
+                        "feeType": {
+                            "enum": [
+                                "KycFee",
+                                "PlatformFee"
+                            ],
+                            "type": "string"
+                        },
+                        "fiatAccountSchemas": {
+                            "items": {
+                                "additionalProperties": false,
+                                "properties": {
+                                    "allowedValues": {
+                                        "additionalProperties": {
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "type": "array"
+                                        },
+                                        "type": "object"
+                                    },
+                                    "fiatAccountSchema": {
+                                        "$ref": "#/definitions/FiatAccountSchema"
+                                    }
+                                },
+                                "required": [
+                                    "allowedValues",
+                                    "fiatAccountSchema"
+                                ],
+                                "type": "object"
+                            },
+                            "type": "array"
+                        },
+                        "settlementTimeLowerBound": {
+                            "type": "string"
+                        },
+                        "settlementTimeUpperBound": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "fiatAccountSchemas"
+                    ],
+                    "type": "object"
+                },
+                "MobileMoney": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "fee": {
+                            "type": "string"
+                        },
+                        "feeFrequency": {
+                            "enum": [
+                                "OneTime",
+                                "Recurring"
+                            ],
+                            "type": "string"
+                        },
+                        "feeType": {
+                            "enum": [
+                                "KycFee",
+                                "PlatformFee"
+                            ],
+                            "type": "string"
+                        },
+                        "fiatAccountSchemas": {
+                            "items": {
+                                "additionalProperties": false,
+                                "properties": {
+                                    "allowedValues": {
+                                        "additionalProperties": {
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "type": "array"
+                                        },
+                                        "type": "object"
+                                    },
+                                    "fiatAccountSchema": {
+                                        "$ref": "#/definitions/FiatAccountSchema"
+                                    }
+                                },
+                                "required": [
+                                    "allowedValues",
+                                    "fiatAccountSchema"
+                                ],
+                                "type": "object"
+                            },
+                            "type": "array"
+                        },
+                        "settlementTimeLowerBound": {
+                            "type": "string"
+                        },
+                        "settlementTimeUpperBound": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "fiatAccountSchemas"
+                    ],
+                    "type": "object"
+                }
             },
             "type": "object"
         },
@@ -1324,10 +1730,9 @@
                 "BackupIntroduction",
                 "BackupPhrase",
                 "BackupQuiz",
-                "BankAccounts",
                 "BidaliScreen",
                 "CashInSuccess",
-                "ConnectPhoneNumberScreen",
+                "CoinbasePayScreen",
                 "ConsumerIncentivesHomeScreen",
                 "DAppsExplorerScreen",
                 "DappKitAccountScreen",
@@ -1341,7 +1746,9 @@
                 "ExchangeReview",
                 "ExchangeTradeScreen",
                 "ExternalExchanges",
+                "FiatConnectLinkAccount",
                 "FiatConnectReview",
+                "FiatConnectTransferStatus",
                 "FiatDetailsScreen",
                 "FiatExchange",
                 "FiatExchangeAmount",
@@ -1352,8 +1759,6 @@
                 "Language",
                 "LanguageModal",
                 "Licenses",
-                "LinkBankAccountErrorScreen",
-                "LinkBankAccountScreen",
                 "Main",
                 "MainModal",
                 "MerchantPayment",
@@ -1394,8 +1799,9 @@
                 "StoreWipeRecoveryScreen",
                 "Support",
                 "SupportContact",
+                "SwapReviewScreen",
+                "SwapScreen",
                 "Sync",
-                "SyncBankAccountScreen",
                 "TokenBalances",
                 "TransactionDetailsScreen",
                 "TransactionReview",
@@ -1515,17 +1921,17 @@
                 "celoWithdrawalEnabledInExchange": {
                     "type": "boolean"
                 },
+                "coinbasePayEnabled": {
+                    "type": "boolean"
+                },
+                "createAccountCopyTestType": {
+                    "$ref": "#/definitions/CreateAccountCopyTestType"
+                },
                 "fiatConnectCashInEnabled": {
                     "type": "boolean"
                 },
                 "fiatConnectCashOutEnabled": {
                     "type": "boolean"
-                },
-                "finclusiveUnsupportedStates": {
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array"
                 },
                 "googleMobileServicesAvailable": {
                     "type": "boolean"
@@ -1542,12 +1948,6 @@
                 "lastTimeBackgrounded": {
                     "type": "number"
                 },
-                "linkBankAccountEnabled": {
-                    "type": "boolean"
-                },
-                "linkBankAccountStepTwoEnabled": {
-                    "type": "boolean"
-                },
                 "locked": {
                     "type": "boolean"
                 },
@@ -1556,6 +1956,9 @@
                 },
                 "loggedIn": {
                     "type": "boolean"
+                },
+                "maxSwapSlippagePercentage": {
+                    "type": "number"
                 },
                 "minVersion": {
                     "type": [
@@ -1602,11 +2005,17 @@
                 "sessionId": {
                     "type": "string"
                 },
+                "shouldShowRecoveryPhraseInSettings": {
+                    "type": "boolean"
+                },
                 "showPriceChangeIndicatorInBalances": {
                     "type": "boolean"
                 },
                 "showRaiseDailyLimitTarget": {
                     "type": "string"
+                },
+                "showSwapMenuInDrawerMenu": {
+                    "type": "boolean"
                 },
                 "skipProfilePicture": {
                     "type": "boolean"
@@ -1620,11 +2029,8 @@
                 "superchargeButtonType": {
                     "$ref": "#/definitions/SuperchargeButtonType"
                 },
-                "superchargeTokens": {
-                    "items": {
-                        "$ref": "#/definitions/SuperchargeTokenConfig"
-                    },
-                    "type": "array"
+                "superchargeTokenConfigByToken": {
+                    "$ref": "#/definitions/SuperchargeTokenConfigByToken"
                 },
                 "supportedBiometryType": {
                     "anyOf": [
@@ -1643,6 +2049,15 @@
                         }
                     ]
                 },
+                "swapFeeEnabled": {
+                    "type": "boolean"
+                },
+                "swapFeePercentage": {
+                    "type": "number"
+                },
+                "visualizeNFTsEnabledInHomeAssetsPage": {
+                    "type": "boolean"
+                },
                 "walletConnectV1Enabled": {
                     "type": "boolean"
                 }
@@ -1656,17 +2071,17 @@
                 "celoEducationUri",
                 "celoEuroEnabled",
                 "celoWithdrawalEnabledInExchange",
+                "coinbasePayEnabled",
+                "createAccountCopyTestType",
                 "fiatConnectCashInEnabled",
                 "fiatConnectCashOutEnabled",
-                "finclusiveUnsupportedStates",
                 "hideVerification",
                 "inviteModalVisible",
                 "lastTimeBackgrounded",
-                "linkBankAccountEnabled",
-                "linkBankAccountStepTwoEnabled",
                 "locked",
                 "logPhoneNumberTypeEnabled",
                 "loggedIn",
+                "maxSwapSlippagePercentage",
                 "minVersion",
                 "numberVerified",
                 "paymentDeepLinkHandler",
@@ -1676,13 +2091,18 @@
                 "sentryNetworkErrors",
                 "sentryTracesSampleRate",
                 "sessionId",
+                "shouldShowRecoveryPhraseInSettings",
                 "showPriceChangeIndicatorInBalances",
+                "showSwapMenuInDrawerMenu",
                 "skipProfilePicture",
                 "skipVerification",
                 "superchargeApy",
                 "superchargeButtonType",
-                "superchargeTokens",
+                "superchargeTokenConfigByToken",
                 "supportedBiometryType",
+                "swapFeeEnabled",
+                "swapFeePercentage",
+                "visualizeNFTsEnabledInHomeAssetsPage",
                 "walletConnectV1Enabled"
             ],
             "type": "object"
@@ -2040,31 +2460,8 @@
                         "string"
                     ]
                 },
-                "finclusiveKycStatus": {
-                    "$ref": "#/definitions/FinclusiveKycStatus"
-                },
-                "finclusiveRegionSupported": {
-                    "type": "boolean"
-                },
-                "hasLinkedBankAccount": {
-                    "type": "boolean"
-                },
                 "hasMigratedToNewBip39": {
                     "type": "boolean"
-                },
-                "kycStatus": {
-                    "enum": [
-                        "approved",
-                        "completed",
-                        "created",
-                        "declined",
-                        "expired",
-                        "failed",
-                        "needs-review",
-                        "not-created",
-                        "pending"
-                    ],
-                    "type": "string"
                 },
                 "name": {
                     "type": [
@@ -2106,9 +2503,6 @@
                 "dismissedKeepSupercharging",
                 "dismissedStartSupercharging",
                 "e164PhoneNumber",
-                "finclusiveKycStatus",
-                "finclusiveRegionSupported",
-                "hasLinkedBankAccount",
                 "hasMigratedToNewBip39",
                 "name",
                 "photosNUXClicked",
@@ -2141,7 +2535,7 @@
             "properties": {
                 "estimates": {
                     "additionalProperties": {
-                        "$ref": "#/definitions/{invite:FeeEstimateState|undefined;send:FeeEstimateState|undefined;exchange:FeeEstimateState|undefined;\"reclaim-escrow\":FeeEstimateState|undefined;\"register-dek\":FeeEstimateState|undefined;}"
+                        "$ref": "#/definitions/{invite:FeeEstimateState|undefined;send:FeeEstimateState|undefined;exchange:FeeEstimateState|undefined;\"reclaim-escrow\":FeeEstimateState|undefined;\"register-dek\":FeeEstimateState|undefined;swap:FeeEstimateState|undefined;}"
                     },
                     "type": "object"
                 }
@@ -2154,6 +2548,12 @@
         "State_16": {
             "additionalProperties": false,
             "properties": {
+                "coinbasePaySenders": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
                 "inviteRewardsSenders": {
                     "items": {
                         "type": "string"
@@ -2174,6 +2574,7 @@
                 }
             },
             "required": [
+                "coinbasePaySenders",
                 "inviteRewardsSenders",
                 "phoneRecipientCache",
                 "rewardsSenders",
@@ -2510,6 +2911,220 @@
             ],
             "type": "object"
         },
+        "State_26": {
+            "additionalProperties": false,
+            "properties": {
+                "attemptReturnUserFlowLoading": {
+                    "type": "boolean"
+                },
+                "cachedFiatAccountUses": {
+                    "items": {
+                        "$ref": "#/definitions/CachedFiatAccountUse"
+                    },
+                    "type": "array"
+                },
+                "providers": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "$ref": "#/definitions/FiatConnectProviderInfo"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                },
+                "quotes": {
+                    "items": {
+                        "anyOf": [
+                            {
+                                "additionalProperties": false,
+                                "properties": {
+                                    "error": {
+                                        "$ref": "#/definitions/FiatConnectError"
+                                    },
+                                    "maximumCryptoAmount": {
+                                        "type": "string"
+                                    },
+                                    "maximumFiatAmount": {
+                                        "type": "string"
+                                    },
+                                    "minimumCryptoAmount": {
+                                        "type": "string"
+                                    },
+                                    "minimumFiatAmount": {
+                                        "type": "string"
+                                    },
+                                    "ok": {
+                                        "type": "boolean"
+                                    },
+                                    "provider": {
+                                        "$ref": "#/definitions/FiatConnectProviderInfo"
+                                    }
+                                },
+                                "required": [
+                                    "error",
+                                    "ok",
+                                    "provider"
+                                ],
+                                "type": "object"
+                            },
+                            {
+                                "additionalProperties": false,
+                                "properties": {
+                                    "error": {
+                                        "type": "string"
+                                    },
+                                    "ok": {
+                                        "type": "boolean"
+                                    },
+                                    "provider": {
+                                        "$ref": "#/definitions/FiatConnectProviderInfo"
+                                    }
+                                },
+                                "required": [
+                                    "error",
+                                    "ok",
+                                    "provider"
+                                ],
+                                "type": "object"
+                            },
+                            {
+                                "additionalProperties": false,
+                                "properties": {
+                                    "fiatAccount": {
+                                        "$ref": "#/definitions/Partial<Record<FiatAccountType,FiatAccountTypeQuoteData>>"
+                                    },
+                                    "kyc": {
+                                        "additionalProperties": false,
+                                        "properties": {
+                                            "kycRequired": {
+                                                "type": "boolean"
+                                            },
+                                            "kycSchemas": {
+                                                "items": {
+                                                    "additionalProperties": false,
+                                                    "properties": {
+                                                        "allowedValues": {
+                                                            "additionalProperties": {
+                                                                "items": {
+                                                                    "type": "string"
+                                                                },
+                                                                "type": "array"
+                                                            },
+                                                            "type": "object"
+                                                        },
+                                                        "kycSchema": {
+                                                            "enum": [
+                                                                "PersonalDataAndDocuments"
+                                                            ],
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "allowedValues",
+                                                        "kycSchema"
+                                                    ],
+                                                    "type": "object"
+                                                },
+                                                "type": "array"
+                                            }
+                                        },
+                                        "required": [
+                                            "kycRequired",
+                                            "kycSchemas"
+                                        ],
+                                        "type": "object"
+                                    },
+                                    "ok": {
+                                        "type": "boolean"
+                                    },
+                                    "provider": {
+                                        "$ref": "#/definitions/FiatConnectProviderInfo"
+                                    },
+                                    "quote": {
+                                        "additionalProperties": false,
+                                        "properties": {
+                                            "cryptoAmount": {
+                                                "type": "string"
+                                            },
+                                            "cryptoType": {
+                                                "$ref": "#/definitions/CryptoType"
+                                            },
+                                            "fiatAmount": {
+                                                "type": "string"
+                                            },
+                                            "fiatType": {
+                                                "$ref": "#/definitions/FiatType"
+                                            },
+                                            "guaranteedUntil": {
+                                                "type": "string"
+                                            },
+                                            "quoteId": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "cryptoAmount",
+                                            "cryptoType",
+                                            "fiatAmount",
+                                            "fiatType",
+                                            "guaranteedUntil",
+                                            "quoteId"
+                                        ],
+                                        "type": "object"
+                                    }
+                                },
+                                "required": [
+                                    "fiatAccount",
+                                    "kyc",
+                                    "ok",
+                                    "provider",
+                                    "quote"
+                                ],
+                                "type": "object"
+                            }
+                        ]
+                    },
+                    "type": "array"
+                },
+                "quotesError": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "quotesLoading": {
+                    "type": "boolean"
+                },
+                "selectFiatConnectQuoteLoading": {
+                    "type": "boolean"
+                },
+                "transfer": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/definitions/FiatConnectTransfer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                }
+            },
+            "required": [
+                "attemptReturnUserFlowLoading",
+                "cachedFiatAccountUses",
+                "providers",
+                "quotes",
+                "quotesError",
+                "quotesLoading",
+                "selectFiatConnectQuoteLoading",
+                "transfer"
+            ],
+            "type": "object"
+        },
         "State_4": {
             "additionalProperties": false,
             "properties": {
@@ -2803,6 +3418,9 @@
                             },
                             {
                                 "$ref": "#/definitions/TokenExchange"
+                            },
+                            {
+                                "$ref": "#/definitions/NftTransfer"
                             }
                         ]
                     },
@@ -2917,32 +3535,23 @@
             ],
             "type": "object"
         },
-        "SuperchargeToken": {
-            "enum": [
-                "cEUR",
-                "cREAL",
-                "cUSD"
-            ],
-            "type": "string"
-        },
-        "SuperchargeTokenConfig": {
-            "additionalProperties": false,
-            "properties": {
-                "maxBalance": {
-                    "type": "number"
+        "SuperchargeTokenConfigByToken": {
+            "additionalProperties": {
+                "additionalProperties": false,
+                "properties": {
+                    "maxBalance": {
+                        "type": "number"
+                    },
+                    "minBalance": {
+                        "type": "number"
+                    }
                 },
-                "minBalance": {
-                    "type": "number"
-                },
-                "token": {
-                    "$ref": "#/definitions/SuperchargeToken"
-                }
+                "required": [
+                    "maxBalance",
+                    "minBalance"
+                ],
+                "type": "object"
             },
-            "required": [
-                "maxBalance",
-                "minBalance",
-                "token"
-            ],
             "type": "object"
         },
         "TokenAmount": {
@@ -3041,8 +3650,11 @@
                 "EXCHANGE",
                 "INVITE_RECEIVED",
                 "INVITE_SENT",
+                "NFT_RECEIVED",
+                "NFT_SENT",
                 "RECEIVED",
-                "SENT"
+                "SENT",
+                "SWAP_TRANSACTION"
             ],
             "type": "string"
         },
@@ -3492,7 +4104,7 @@
             ],
             "type": "object"
         },
-        "{invite:FeeEstimateState|undefined;send:FeeEstimateState|undefined;exchange:FeeEstimateState|undefined;\"reclaim-escrow\":FeeEstimateState|undefined;\"register-dek\":FeeEstimateState|undefined;}": {
+        "{invite:FeeEstimateState|undefined;send:FeeEstimateState|undefined;exchange:FeeEstimateState|undefined;\"reclaim-escrow\":FeeEstimateState|undefined;\"register-dek\":FeeEstimateState|undefined;swap:FeeEstimateState|undefined;}": {
             "additionalProperties": false,
             "properties": {
                 "exchange": {
@@ -3508,6 +4120,9 @@
                     "$ref": "#/definitions/FeeEstimateState"
                 },
                 "send": {
+                    "$ref": "#/definitions/FeeEstimateState"
+                },
+                "swap": {
                     "$ref": "#/definitions/FeeEstimateState"
                 }
             },
@@ -3602,7 +4217,6 @@
                                         "exchangeRateChange",
                                         "failedFetchMnemonic",
                                         "fetchFailed",
-                                        "fiatDetailsScreen.addFiatAccountResourceExist",
                                         "firebaseDisabled",
                                         "firebaseFailed",
                                         "gasPriceUpdateFailed",
@@ -3660,6 +4274,7 @@
                                         "simplexPurchaseFetchFailed",
                                         "superchargeClaimFailure",
                                         "superchargeFetchRewardsFailed",
+                                        "swapScreen.fetchSwapQuoteFailed",
                                         "transactionFailed",
                                         "transactionTimeout",
                                         "verificationFailure",
@@ -3699,6 +4314,9 @@
         },
         "fees": {
             "$ref": "#/definitions/State_15"
+        },
+        "fiatConnect": {
+            "$ref": "#/definitions/State_26"
         },
         "fiatExchanges": {
             "$ref": "#/definitions/State_20"
@@ -3764,6 +4382,7 @@
         "escrow",
         "exchange",
         "fees",
+        "fiatConnect",
         "fiatExchanges",
         "goldToken",
         "home",

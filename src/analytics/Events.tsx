@@ -36,13 +36,13 @@ export enum HomeEvents {
   transaction_feed_item_select = 'transaction_feed_item_select',
   transaction_feed_address_copy = 'transaction_feed_address_copy',
   view_token_balances = 'view_token_balances',
+  view_nft_home_assets = 'view_nft_home_assets', // When "NFTs" is clicked in Home Assets Pages
 }
 
 export enum SettingsEvents {
   settings_profile_edit = 'settings_profile_edit',
   settings_profile_name_edit = 'settings_profile_name_edit',
   settings_verify_number = 'settings_verify_number',
-  settings_link_bank_account = 'settings_link_bank_account', // when "Link Bank Account" is pressed
   language_select = 'language_select',
   pin_require_on_load = 'pin_require_on_load',
   licenses_view = 'licenses_view',
@@ -61,6 +61,7 @@ export enum SettingsEvents {
   settings_biometry_opt_in_disable = 'settings_biometry_opt_in_disable',
   // intentionally not tracking analytics opt in/out
   // to avoid tracking through omission
+  settings_recovery_phrase = 'settings_recovery_phrase',
 }
 
 export enum OnboardingEvents {
@@ -157,6 +158,8 @@ export enum VerificationEvents {
   verification_error = 'verification_error',
   verification_cancel = 'verification_cancel',
   verification_timeout = 'verification_timeout',
+  verification_skip = 'verification_skip',
+  verification_skip_confirm = 'verification_skip_confirm',
 
   verification_hash_cached = 'verification_hash_cached',
   verification_hash_retrieved = 'verification_hash_retrieved',
@@ -433,7 +436,34 @@ export enum FiatExchangeEvents {
   cico_non_celo_exchange_send_bar_continue = 'cico_non_celo_exchange_send_bar_continue', // When send bar is tapped from cash out for cUSD & cEUR
 
   // Fiat connect review screen
-  cico_submit_transfer = 'cico_submit_transfer',
+  cico_fc_review_submit = 'cico_fc_review_submit',
+  cico_fc_review_cancel = 'cico_fc_review_cancel',
+  cico_fc_review_back = 'cico_fc_review_back',
+  cico_fc_review_error_contact_support = 'cico_fc_review_error_contact_support',
+  cico_fc_review_error_retry = 'cico_fc_review_error_retry',
+
+  // Fiat Connect link account screen
+  cico_fc_link_account_continue = 'cico_fc_link_account_continue',
+  cico_fc_link_account_back = 'cico_fc_link_account_back',
+  cico_fc_link_account_provider_website = 'cico_fc_link_account_provider_website',
+
+  // Fiat Connect fiat details screen
+  cico_fiat_details_success = 'cico_fiat_details_success',
+  cico_fiat_details_back = 'cico_fiat_details_back',
+  cico_fiat_details_cancel = 'cico_fiat_details_cancel',
+  cico_fiat_details_error = 'cico_fiat_details_error',
+
+  // Fiat Connect transfer analytics
+  cico_fc_transfer_api_error = 'cico_fc_transfer_api_error',
+  cico_fc_transfer_tx_error = 'cico_fc_transfer_tx_error',
+  cico_fc_transfer_success = 'cico_fc_transfer_success',
+
+  // Fiat Connect transfer status screen
+  cico_fc_transfer_error_retry = 'cico_fc_transfer_error_retry',
+  cico_fc_transfer_error_cancel = 'cico_fc_transfer_error_cancel',
+  cico_fc_transfer_error_contact_support = 'cico_fc_transfer_error_contact_support',
+  cico_fc_transfer_success_complete = 'cico_fc_transfer_success_complete',
+  cico_fc_transfer_success_view_tx = 'cico_fc_transfer_success_view_tx',
 }
 
 export enum ContractKitEvents {
@@ -499,25 +529,10 @@ export enum DappKitEvents {
 }
 
 export enum CICOEvents {
-  link_bank_account_cancel = 'link_bank_account_cancel', // when a user who has verified their # presses the X button after entering "Link Bank Account"
-
   persona_kyc_start = 'persona_kyc_start', // when a user begins the Persona KYC process
   persona_kyc_success = 'persona_kyc_success', // when the onSuccess callback is called for a Persona inquiry
   persona_kyc_cancel = 'persona_kyc_cancel', // when the onCancelled callback is called for a Persona inquiry
   persona_kyc_error = 'persona_kyc_error', // when the onError callback is called for a Persona inquiry
-
-  connect_phone_start = 'connect_phone_start', // when a user who has not verified their # presses the "Connect" button after entering "Link Bank Account"
-  connect_phone_cancel = 'connect_phone_cancel', // when a user who has not verified their # presses the "X" button after entering "Link Bank Account"
-
-  add_initial_bank_account_start = 'add_initial_bank_account_start', // When a user who has not added any accounts clicks on the initial “Link Bank Account” button
-  add_bank_account_start = 'add_bank_account_start', // When a user adds another bank account after the first (using the “Add new bank account” button)
-  delete_bank_account = 'delete_bank_account', // When a user deletes a bank account
-  plaid_open_link_flow = 'plaid_open_link_flow', // When a user opens the Plaid Link flow
-  plaid_select_institution = 'plaid_select_institution', // When a user selects an institution within the Plaid Link flow
-  plaid_submit_credentials = 'plaid_submit_credentials', // When a user submits credentials for an institution within the Plaid Link flow
-  plaid_exit = 'plaid_exit', // When a user exits the Plaid Link flow without connecting a bank account
-  plaid_handoff = 'plaid_handoff', // When a user exits the Plaid Link flow after successfully connecting a bank account
-  plaid_error = 'plaid_error', // When the Plaid Link flow encounters an unrecoverable error
 }
 
 export enum DappExplorerEvents {
@@ -534,6 +549,21 @@ export enum DappExplorerEvents {
 export enum WebViewEvents {
   webview_more_options = 'webview_more_options', // when user taps "triple dot icon" from the webview
   webview_open_in_browser = 'webview_open_in_browser', // when user taps "Open in External Browser" from the webview options
+}
+
+export enum CoinbasePayEvents {
+  coinbase_pay_flow_start = 'coinbase_pay_flow_start', // When user is navigated to Coinbase Pay experience
+  coinbase_pay_flow_exit = 'coinbase_pay_flow_exit', // When user exits Coinbase Pay
+}
+
+export enum SwapEvents {
+  swap_screen_open = 'swap_screen_open', // When the screen is mounted
+  swap_screen_select_token = 'swap_screen_select_token', // When a user selects a token, prompting the token select bottom sheet
+  swap_screen_confirm_token = 'swap_screen_confirm_token', // When a user selects a token from the bottom sheet
+  swap_screen_review_swap = 'swap_screen_review_swap', // When a user click on the review button to proceed to next step
+  swap_feed_detail_view_tx = 'swap_feed_detail_view_tx', // When a user click 'View on CeloExplorer' in the swap feed detail page
+  swap_review_screen_open = 'swap_review_screen_open', // When the review screen is mounted
+  swap_review_submit = 'swap_review_submit', // When the user submits the swap
 }
 
 export type AnalyticsEventType =
@@ -560,3 +590,5 @@ export type AnalyticsEventType =
   | CICOEvents
   | DappExplorerEvents
   | WebViewEvents
+  | CoinbasePayEvents
+  | SwapEvents

@@ -189,7 +189,7 @@
     "dismiss": "Відхилити"
   },
   "superchargingTitle": "Ваш {{token}} отримав надбавку",
-  "superchargingDescription": "Щотижня ви отримуватимете повідомлення, коли ваші винагороди будуть готові, повертайтеся сюди, щоб забрати їх.",
+  "superchargingDescription": "Ви отримуєте {{apy}}% річних. Щотижня ви отримуватимете повідомлення, коли ваші винагороди будуть готові, повертайтеся сюди, щоб забрати їх.",
   "superchargeRewardsAvailable": "У вас доступно {{amount}} {{token}} для запиту!",
   "superchargeRewardsAvailableMultipleTokens": "У вас доступно {{amounts}} для запиту!",
   "superchargeClaimText": "Отримайте свої нагороди, щоб додати їх до вашого залишку.",
@@ -207,14 +207,14 @@
   "cashIn": "Додати {{currency}}",
   "connectNumber": "Під’єднати номер",
   "connectToWallet": "Застосунок {{dappName}} хоче під’єднатися до {{appName}}",
-  "confirmTransaction": "{{dappName}} бажає підтвердити операцію",
+  "confirmTransaction": "{{dappName}} бажає підтвердити транзакція",
   "allow": "Дозволити",
   "address": "Адреса рахунку",
   "phoneNumber": "Номер телефону",
   "transaction": {
     "operation": "Операція",
     "data": "Дані",
-    "signTX": "Підписати транзакцію",
+    "signTX": "Транзакція",
     "details": "Показати деталі"
   },
   "shareInfo": "Цей застосунок зможе отримати доступ до такої інформації:",
@@ -354,6 +354,7 @@
   "restrictedRegion": "Обмежена підтримка в регіоні",
   "unsupportedPaymentMethod": "Оплата з {{paymentMethod}} не підтримується у вашому регіоні",
   "noProviders": "У вашому регіоні немає доступних провайдерів для {{digitalAsset}}.",
+  "noPaymentMethods": "У вашому регіоні немає доступних способів оплати для {{digitalAsset}}.",
   "switchCurrency": "Змінити валюту",
   "accept": "Прийняти",
   "at": "в",
@@ -382,11 +383,13 @@
   "notEnoughStableError": "Не вистачає {{token}}, щоб обміняти",
   "notEnoughGoldError": "Не вистачає валюти Celo, щоб обміняти",
   "exchangeFailed": "Обмін не вдався, спробуйте ще раз",
-  "transactionFailed": "Операція не вдалася, спробуйте ще раз",
+  "transactionFailed": "Транзакція не вдалася, спробуйте ще раз",
   "refreshFailedUnexpectedly": "Не вдалося оновити, просимо перевірити ваше під’єднання",
   "paste": "Вставити",
   "choose": "Вибрати",
   "receivedPayment": "Отриманий платіж",
+  "receivedNft": "Отриманий NFT",
+  "sentNft": "Надісланий NFT",
   "getStarted": "Почати роботу",
   "manageCeloDollars": "Керувати Celo Dollars",
   "sendCeloDollars": "Надіслати Celo Dollars",
@@ -592,13 +595,13 @@
   "sendAndInvite": "Надіслати та запросити",
   "inviteAndSendDialog": {
     "title": "Завершення запрошення {{name}} до Valora",
-    "bodyWithRewards": "Як тільки вони приєднаються та під’єднають номер телефону, ви обидва отримаєте {{amount}} {{currency}}. Натисніть нижче, щоб надіслати й налаштувати ваше запрошення.",
+    "bodyWithRewards": "Як тільки вони приєднаються та підключать номер свого телефону, ви обоє отримаєте спеціальне видання NFT. Натисніть нижче, щоб надіслати запрошення через SMS.",
     "body": "Надішліть запрошення {{name}}, щоб приєднатися до {{appName}}. Як тільки вони приєднаються та під'єднають номер телефону, вони отримають ваш платіж.",
     "button": "Завершення запрошення"
   },
   "inviteRewardsBanner": {
-    "title": "Надіслати криптовалюту, щоб запросити друга (бета-версія)",
-    "body": "Щойно вони створять {{appName}} гаманець, ви отримаєте {{amount}} {{currency}} в нагородах. Заробіть до <0>{{maxAmount}} {{currency}}</0>!"
+    "title": "Надіслати криптовалюту, щоб запросити друга",
+    "body": "Після того, як вони налаштують свій {{appName}} гаманець та з'єднають їх кількість, ви отримаєте ексклюзивні NFT. <0>Дізнатися більше</0>"
   },
   "getReward": "Отримати винагороду ${{reward}}",
   "welcomeCelo": "Ласкаво просимо до {{appName}}",
@@ -684,7 +687,7 @@
   },
   "congratsVerified": "Вітаємо, ваш номер телефону під’єднано!",
   "notification": {
-    "body": "Отримувати платежі безпосередньо на ваш номер телефону",
+    "body": "Під’єднати свій номер, щоб отримувати кошти та зв'язуватися з друзями",
     "cta": "Під'єднатися зараз"
   },
   "quotaLookup": {
@@ -715,7 +718,10 @@
   "welcome": {
     "title": "Крок у майбутнє криптовалюти з {{appName}}",
     "createAccount": "Створити новий обліковий запис",
-    "restoreAccount": "Відновити мій обліковий запис"
+    "restoreAccount": "Відновити мій обліковий запис",
+    "createNewWallet": "Створити гаманець",
+    "restoreWallet": "Відновити гаманець",
+    "iAlreadyHaveAWallet": "У мене вже є гаманець"
   },
   "accessContacts": {
     "disclosure": {
@@ -724,6 +730,7 @@
     }
   },
   "createAccount": "Створити обліковий запис",
+  "createProfile": "Створити профіль",
   "restoreAccount": "Відновити мій обліковий запис",
   "registrationSteps": "Крок {{step}} із {{totalSteps}}",
   "selectCountryCode": "Виберіть код країни",
@@ -860,6 +867,7 @@
   "amountCeloWithdrawn": "Сума (CELO)",
   "feeEducation": "Блокчейн Celo збирає плату за транзакцію для підтримки та нормального функціонування мережі.",
   "inviteMoneyEscrow": "Надішліть це повідомлення із запрошенням, і вони отримають кошти, коли під'єднають свій номер.",
+  "inviteMoneyEscrowWithRewards": "Надішліть це повідомлення із запрошенням, і вони отримають кошти та НФТ коли приєднають їх номер.",
   "reviewPayment": "Переглянути платіж",
   "requestPayment": "Запросити платіж",
   "max": "МАКС.",
@@ -879,7 +887,7 @@
   "walletAddress": "Адреса гаманця",
   "inviteWithoutPayment": "Привіт! Я використовую {{appName}}, щоб надсилати криптовалюту по всьому світові. Легко спробувати, я хочу ще раз запросити вас відвідати це посилання: {{link}}",
   "inviteWithEscrowedPayment": "Привіт! Я використовую {{appName}}, щоб надсилати криптовалюту по всьому світові. Я щойно відправив вам {{amount}} {{token}}. Прошу, завантажте застосунок {{appName}} і отримайте {{token}} за допомогою цього посилання: {{link}}",
-  "inviteWithRewards": "Привіт! Я щойно відправив вам криптовалюту в гаманці {{appName}}. Як тільки ви завантажите застосунок і під'єднаєте номер телефону, ми обоє отримаємо нагороду {{amount}} {{token}}. Скористайтеся цим посиланням: {{link}}",
+  "inviteWithRewards": "Гей! Я щойно відправив тобі крипто з моїм гаманцем {{appName}} . Як тільки ви завантажите додаток та підключите номер вашого телефону, ми обидва отримаємо спеціальне видання NFT. Скористайтеся цим посиланням: {{link}}",
   "loadingContacts": "Пошук контактів",
   "myCode": "Мій код",
   "scanCode": "Сканувати",
@@ -966,16 +974,16 @@
   "loadingFromScan": "Сканування",
   "loadingFromDeeplink": "Під’єднання",
   "action": {
-    "asking": "Цей застосунок запрошує виконати такі дії",
+    "asking": "Цей застосунок запрошує виконати такі дії:",
     "askingV1_35": "{{dappName}} запрошує виконати такі дії:",
     "operation": "Операція",
     "data": "Дані",
     "sign": "Підписати корисне навантаження даних",
-    "signTransaction": "Підписати операцію Цело",
-    "sendTransaction": "Відправити Celo транзакцію",
+    "signTransaction": "Транзакція Celo",
+    "sendTransaction": "Надіслати транзакція Celo",
     "decrypt": "Розшифрувати корисне завантаження даних",
     "accounts": "Переглянути адресу облікового запису {{appName}}",
-    "details": "Переглянути дані транзакції",
+    "details": "Дані транзакції",
     "computeSharedSecret": "Генерувати секрети",
     "emptyMessage": "Порожнє повідомлення"
   },
@@ -1019,7 +1027,7 @@
   "dinner": "Обід",
   "bikeParts": "Велосипедні частини",
   "groceryRun": "Продовольчі товари",
-  "transactionsAreLoading": "Операції завантажуються!",
+  "transactionsAreLoading": "Транзакції завантажуються!",
   "pleaseHoldOn": "Будь ласка, зачекайте",
   "welcomeToCeloPayments": "Ласкаво просимо до {{appName}}",
   "letsGetStartedByFirstTransaction": "Почнімо з надсилання вашої першої транзакції",
@@ -1055,6 +1063,9 @@
   },
   "dollarBalance": "<0></0> $t(celoDollars)",
   "feedItemAddress": "Рахунок {{address}}",
+  "feedItemDepositInfo": "{{comment}}",
+  "feedItemDepositInfo_noComment": "Депозит отримано",
+  "feedItemDepositTitle": "Депозит",
   "feedItemExchangeTitle": "CELO",
   "feedItemExchangeInfo_boughtGold": "Куплено <0></0> CELO",
   "feedItemExchangeInfo_soldGold": "Продано <0></0> CELO",
@@ -1100,6 +1111,7 @@
   "feedItemGoldPurchased": "Куплено",
   "feedItemGoldWithdrawal": "Зняття на {{displayName}}",
   "feedItemGoldReceived": "Отримано від {{displayName}}",
+  "feedItemSwapPath": "{{token1}} до {{token2}}",
   "transactionHeaderVerificationFee": "Підтвердження",
   "transactionHeaderNetworkFee": "Мережа",
   "transactionHeaderFaucet": "Faucet",
@@ -1112,6 +1124,8 @@
   "transactionHeaderCeloDeposit": "Депозит отримано",
   "transactionHeaderCeloReward": "Отримано винагороду",
   "transactionHeaderEscrowReceived": "Отримано платіж з ескроу-рахунку",
+  "transactionHeaderNftReceived": "Отриманий NFT",
+  "transactionHeaderNftSent": "Надісланий NFT",
   "feedSectionHeaderRecent": "Нещодавні",
   "cashInBottomSheet": {
     "title": "Поповніть кошти, щоб почати використовувати Valora!",
@@ -1121,8 +1135,11 @@
     "subtitleRamp": "Додати кошти з нульовою комісією через одного з наших довірених зовнішніх постачальників."
   },
   "balances": "Активи",
+  "totalBalanceWithLocalCurrencySymbol": "{{localCurrencySymbol}}{{totalBalance}} Усього",
   "totalValue": "Загальний баланс",
   "viewBalances": "Переглянути активи",
+  "open": "Відкрити",
+  "nftViewer": "Переглядач NFT",
   "whatTotalValue": {
     "title": "Що означає загальний баланс?",
     "body": "Ваш Загальний баланс є приблизною сумою всіх активів Valora. Загальний баланс буде змінюватися при коливанні цін. Він оновлюється кожні 10 хвилин.\nДеякі активи можуть бути не показані в Загальному балансі, оскільки їх ціна недоступна під час розрахунку.",
@@ -1227,7 +1244,7 @@
   "merchantPaymentSetup": "Під час завантаження інформації про продавця сталася помилка, зіскануйте QR-код ще раз",
   "merchantPaymentSubmitSuccess": "Ваш платіж успішно надіслано",
   "merchantWalletUnlockError": "Під час розблокування гаманця сталася помилка, спробуйте ще раз",
-  "noMoreTransactions": "Більше немає Операції",
+  "noMoreTransactions": "Більше немає транзакції",
   "selectProviderScreen": {
     "somePaymentsUnavailable": "Деякі методи оплати недоступні у вашому регіоні",
     "learnMore": "Дізнатися більше.",
@@ -1249,21 +1266,58 @@
     "bestRate": "Найкращий тариф",
     "header": "Виберіть спосіб оплати"
   },
+  "fiatConnectLinkAccountScreen": {
+    "bankAccount": {
+      "header": "Налаштувати банківський рахунок",
+      "bodyTitle": "Налаштувати банківський рахунок",
+      "description": "Введіть реквізити банківського рахунку для переказу коштів. Ваші операції здійснюватимуться за підтримки <0>{{providerName}}</0>."
+    },
+    "continue": "Продовжити"
+  },
   "fiatConnectReviewScreen": {
-    "paymentMethod": "Спосіб оплати",
-    "transactionDetails": "Деталі операції",
-    "paymentMethodVia": "Пов'язані через {{providerName}}",
+    "transactionDetails": "Деталі транзакції",
+    "paymentMethodVia": "Підключення через {{providerName}}",
     "receiveAmount": "Ви отримаєте",
     "cashIn": {
       "header": "Перегляд - Поповнити кошти",
       "button": "Додати кошти",
-      "transactionDetailsAmount": "Сума"
+      "transactionDetailsAmount": "Сума",
+      "paymentMethodHeader": "Поповнити з"
     },
     "cashOut": {
       "header": "Перегляд",
       "button": "Вивести кошти",
       "transactionDetailsAmount": "Всього Зняття",
-      "transactionDetailsAmountConverted": "Знята сума"
+      "transactionDetailsAmountConverted": "Знята сума",
+      "paymentMethodHeader": "Вивести до"
+    },
+    "failedRefetch": {
+      "title": "З’єднання втрачено!",
+      "description": "Нам не вдалося встановити зв’язок між вашими обліковими записами.\n\nЦе може бути через поганий зв'язок з Інтернетом або проблеми з сервером. Будь ласка, спробуйте відновити підключення.",
+      "tryAgain": "Спробувати ще"
+    },
+    "quoteExpiredDialog": {
+      "title": "Переглянути суми та тарифи",
+      "body": "Суми криптовалют і комісії можуть змінитися через коливання на ринку криптовалюти.\n\nПерегляньте вашу остаточну суму та комісію перед відправленням",
+      "continue": "Продовжити"
+    }
+  },
+  "fiatConnectStatusScreen": {
+    "tryAgain": "Спробувати ще",
+    "withdraw": {
+      "cancel": "Скасувати зняття",
+      "success": {
+        "header": "Успіх",
+        "title": "Ваші кошти вже пройшли!",
+        "description": "Ваш запит на транзакцію було відправлено; ваші кошти надійдуть через {{duration}}.",
+        "txDetails": "Переглянути на CeloExplorer",
+        "continue": "Продовжити"
+      }
+    },
+    "requestNotCompleted": {
+      "title": "Неможливо завершити ваш запит.",
+      "description": "Ваші кошти не можуть бути переказані. Просимо спробувати ще раз або звернутися до нашої служби підтримки за допомогою.",
+      "contactSupportPrefill": "Я не можу зняти свої кошти."
     }
   },
   "fiatExchangeFlow": {
@@ -1288,22 +1342,20 @@
     }
   },
   "fiatDetailsScreen": {
-    "header": "Введіть банківські реквізити",
+    "header": "Введіть дані банку",
+    "headerSubTitle": "За підтримки {{provider}}",
     "selectedPaymentOption": "Вибраний спосіб оплати",
-    "addFiatAccountSuccess": "Ваш обліковий запис було зв'язано з Valora.",
-    "addFiatAccountResourceExist": "Ви вже зв'язали цей обліковий запис із Valora.",
-    "addFiatAccountFailed": "Ваш обліковий запис не пов’язано. Спробуйте ще раз або зверніться до служби підтримки."
+    "addFiatAccountSuccess": "Ваш обліковий запис було під’єднано до {{provider}}.",
+    "addFiatAccountResourceExist": "Ви вже під’єднали цей обліковий запис до {{provider}}.",
+    "addFiatAccountFailed": "Ваш обліковий запис не під’єднано до {{provider}}. Спробуйте ще раз або зверніться до служби підтримки.",
+    "selectItem": "Виберіть варіант...",
+    "selectDone": "Виконано",
+    "submitAndContinue": "Надіслати та продовжити"
   },
   "fiatAccountSchema": {
-    "accountName": {
-      "label": "Ім’я облікового запису",
-      "placeholderText": "Ім’я для облікового запису",
-      "errorMessage": "Ім’я облікового запису обов’язкове"
-    },
     "institutionName": {
       "label": "Назва банку",
-      "placeholderText": "Введіть назву банку",
-      "errorMessage": "Назва банку обов’язкова"
+      "placeholderText": "Введіть назву банку"
     },
     "accountNumber": {
       "label": "Номер рахунку",
@@ -1314,7 +1366,35 @@
   "webView": {
     "openExternal": "Відкрити у зовнішньому браузері"
   },
-  "dappNotListed": "Цей додаток не перерахований в {{appName}}. Dapps є сторонніми додатками. Використовуйте на свій страх і ризик.",
+  "dappNotListed": "Цей застосунок не перелічений у {{appName}}. Ці застосунки є сторонніми застосунками. Ви можете використовувати їх на свій страх і ризик.",
+  "swapScreen": {
+    "title": "Заміна",
+    "review": "Перегляд",
+    "swapFrom": "Від",
+    "swapTo": "До",
+    "insufficientFunds": "Недостатньо балансу на {{token}}. Спробуйте меншу суму або виберіть інший токен.",
+    "fetchSwapQuoteFailed": "Вибачте за затримку! Це забирає більше часу, ніж зазвичай, щоб отримати найкращий обмінний курс. Будь ласка, спробуйте знову за кілька хвилин."
+  },
+  "swapTransactionDetailPage": {
+    "swapFrom": "Перемістити з",
+    "swapTo": "Перемістити на",
+    "rate": "Оцінка",
+    "estimatedFee": "Передбачувана комісія",
+    "viewOnExplorer": "Переглянути на CeloExplorer"
+  },
+  "swapReviewScreen": {
+    "title": "Зворотний обмін",
+    "complete": "Complete Swap",
+    "swapFrom": "Обмінювати з",
+    "swapTo": "Поміняти",
+    "transactionDetails": "Деталі транзакції",
+    "estimatedGas": "Оцінний газ",
+    "swapFee": "{{appName}} комісія",
+    "swapFeeTitle": "Що таке {{appName}} комісія?",
+    "swapFeeBody": "Комісія {{appName}} —комісія, що ви сплачуєте за допомогою токенів обміну на {{appName}}. \n\n Комісія {{swapFee}}% від суми, яку ви обміняєте. \n\n {{appName}} комісії безкоштовно на наступні кілька місяців.",
+    "estimatedAmountTitle": "Орієнтовна сума",
+    "estimatedAmountBody": "Конверсія відбувається на сторонньому децентралізованому обміні, який знаходить вас найкращим курсом для вашого обміну. \n\n Ваша торгівля буде завершена за ціною, що перевищує {{slippagePercent}}% від оцінки, або транзакція буде скасована та повернута до вашого гаманця."
+  },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
   "celoDollarAmount_2": "<0></0> Celo Dollars",

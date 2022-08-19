@@ -102,7 +102,7 @@ type TransferTransactionType =
   | TokenTransactionType.InviteReceived
   | TokenTransactionType.NetworkFee
 
-export type TokenTransaction = TokenTransfer | TokenExchange
+export type TokenTransaction = TokenTransfer | TokenExchange | NftTransfer
 
 export interface TokenAmount {
   value: BigNumber.Value
@@ -128,6 +128,9 @@ export enum TokenTransactionTypeV2 {
   Sent = 'SENT',
   InviteSent = 'INVITE_SENT',
   InviteReceived = 'INVITE_RECEIVED',
+  NftReceived = 'NFT_RECEIVED',
+  NftSent = 'NFT_SENT',
+  SwapTransaction = 'SWAP_TRANSACTION',
 }
 
 // Can we optional the fields `transactionHash` and `block`?
@@ -148,6 +151,15 @@ export interface TokenTransferMetadata {
   subtitle?: string
   image?: string
   comment?: string
+}
+
+export interface NftTransfer {
+  __typename: 'NftTransferV2'
+  type: TokenTransactionTypeV2
+  transactionHash: string
+  timestamp: number
+  block: string
+  fees: Fee[]
 }
 
 // Can we optional the fields `transactionHash` and `block`?

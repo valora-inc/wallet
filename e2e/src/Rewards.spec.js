@@ -35,7 +35,8 @@ describe('Given Rewards', () => {
       await expect(element(by.id('ConsumerIncentives/CTA'))).toBeVisible()
     })
 
-    it(':ios: Then should display Valoraapp.com when tapping Learn more', async () => {
+    // Enable when invite rewards v3 is live - est 08/15/2022
+    it.skip(':ios: Then should display Valoraapp.com when tapping Learn more', async () => {
       await waitForElementId('LearnMore')
       await element(by.id('LearnMore')).tap()
       await waitForElementId('RNWebView')

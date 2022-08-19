@@ -37,10 +37,10 @@ import {
   huaweiMobileServicesAvailableSelector,
   sentryNetworkErrorsSelector,
 } from 'src/app/selectors'
-import { SuperchargeButtonType } from 'src/app/types'
+import { CreateAccountCopyTestType, SuperchargeButtonType } from 'src/app/types'
 import { runVerificationMigration } from 'src/app/verificationMigration'
 import { FETCH_TIMEOUT_DURATION } from 'src/config'
-import { SuperchargeTokenConfig } from 'src/consumerIncentives/types'
+import { SuperchargeTokenConfigByToken } from 'src/consumerIncentives/types'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
 import { DappConnectInfo } from 'src/dapps/types'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
@@ -170,7 +170,7 @@ export interface RemoteConfigValues {
   walletConnectV2Enabled: boolean
   logPhoneNumberTypeEnabled: boolean
   superchargeApy: number
-  superchargeTokens: SuperchargeTokenConfig[]
+  superchargeTokenConfigByToken: SuperchargeTokenConfigByToken
   komenciUseLightProxy: boolean
   komenciAllowedDeployers: string[]
   pincodeUseExpandedBlocklist: boolean
@@ -178,8 +178,6 @@ export interface RemoteConfigValues {
   cashInButtonExpEnabled: boolean
   rampCashInButtonExpEnabled: boolean
   allowOtaTranslations: boolean
-  linkBankAccountEnabled: boolean
-  linkBankAccountStepTwoEnabled: boolean
   sentryTracesSampleRate: number
   sentryNetworkErrors: string[]
   biometryEnabled: boolean
@@ -190,11 +188,18 @@ export interface RemoteConfigValues {
   paymentDeepLinkHandler: PaymentDeepLinkHandler
   dappsWebViewEnabled: boolean
   skipProfilePicture: boolean
-  finclusiveUnsupportedStates: string[]
   celoWithdrawalEnabledInExchange: boolean
   fiatConnectCashInEnabled: boolean
   fiatConnectCashOutEnabled: boolean
   dappConnectInfo: DappConnectInfo
+  visualizeNFTsEnabledInHomeAssetsPage: boolean
+  coinbasePayEnabled: boolean
+  showSwapMenuInDrawerMenu: boolean
+  shouldShowRecoveryPhraseInSettings: boolean
+  createAccountCopyTestType: CreateAccountCopyTestType
+  maxSwapSlippagePercentage: number
+  swapFeeEnabled: boolean
+  swapFeePercentage: number
 }
 
 export function* appRemoteFeatureFlagSaga() {

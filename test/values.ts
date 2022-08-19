@@ -22,7 +22,9 @@ import {
   FiatConnectQuoteSuccess,
   GetFiatConnectQuotesResponse,
 } from 'src/fiatconnect'
-import { FetchProvidersOutput, PaymentMethod } from 'src/fiatExchanges/utils'
+import { FiatConnectTransfer } from 'src/fiatconnect/slice'
+import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
+import { CICOFlow, FetchProvidersOutput, PaymentMethod } from 'src/fiatExchanges/utils'
 import { AddressToE164NumberType, E164NumberToAddressType } from 'src/identity/reducer'
 import { AttestationCode } from 'src/identity/verification'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
@@ -97,10 +99,10 @@ export const mockAccount2Invite = '0x8e1Df47B7064D005Ef071a89D0D7dc8634BC8A9C'
 export const mockAccountInvite2PrivKey =
   '0xb33eac631fd3a415f3738649db8cad57da78b99ec92cd8f77b76b5dae2ebdf27'
 
-export const mockCusdAddress = '0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1'
-export const mockCeurAddress = '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F'
-export const mockCeloAddress = '0xF194afDf50B03e69Bd7D057c1Aa9e10c9954E4C9'
-export const mockTestTokenAddress = '0x048F47d358EC521a6cf384461d674750a3cB58C8'
+export const mockCusdAddress = '0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1'.toLowerCase()
+export const mockCeurAddress = '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F'.toLowerCase()
+export const mockCeloAddress = '0xF194afDf50B03e69Bd7D057c1Aa9e10c9954E4C9'.toLowerCase()
+export const mockTestTokenAddress = '0x048F47d358EC521a6cf384461d674750a3cB58C8'.toLowerCase()
 
 export const mockQrCodeData2 = {
   address: mockAccount2Invite,
@@ -560,7 +562,7 @@ export const mockSimplexQuote = {
   fiat_money: {
     currency: 'USD',
     base_amount: 19,
-    total_amount: 6,
+    total_amount: 25,
   },
   valid_until: '2022-05-09T17:18:28.434Z',
   supported_digital_currencies: ['CUSD', 'CELO'],
@@ -643,22 +645,61 @@ export const mockProviders: FetchProvidersOutput[] = [
       { paymentMethod: PaymentMethod.Card, digitalAsset: 'cusd', returnedAmount: 88, fiatFee: 12 },
     ],
   },
+  {
+    name: 'CoinbasePay',
+    restricted: false,
+    unavailable: false,
+    paymentMethods: [PaymentMethod.Coinbase],
+    url: undefined,
+    logo:
+      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2FcbPay-button.png?alt=media',
+    logoWide:
+      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2FcbPay-button.png?alt=media',
+    quote: undefined,
+    cashIn: true,
+    cashOut: false,
+  },
 ]
+
+export const mockFiatConnectProviderImage =
+  'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media'
+export const mockFiatConnectProviderIcon =
+  'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex-icon.jpg?alt=media'
 
 export const mockFiatConnectProviderInfo: FiatConnectProviderInfo[] = [
   {
     id: 'provider-two',
     providerName: 'Provider Two',
-    imageUrl:
-      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
+    imageUrl: mockFiatConnectProviderImage,
     baseUrl: 'fakewebsite.valoraapp.com',
+    websiteUrl: 'https://fakewebsite.valorapp.com',
+    iconUrl: mockFiatConnectProviderIcon,
+    apiKey: 'fake-api-key',
   },
   {
     id: 'provider-one',
     providerName: 'Provider One',
-    imageUrl:
-      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
+    imageUrl: mockFiatConnectProviderImage,
     baseUrl: 'fakewebsite.valoraapp.com',
+    websiteUrl: 'https://fakewebsite.valorapp.com',
+    iconUrl: mockFiatConnectProviderIcon,
+  },
+]
+
+export const mockFiatConnectTransfers: FiatConnectTransfer[] = [
+  {
+    flow: CICOFlow.CashOut,
+    quoteId: 'mock_quote_out_id',
+    isSending: false,
+    failed: false,
+    txHash: '0xc7a9b0f4354e6279cb476d4c91d5bbc5db6ad29aa8611408de7aee6d2e7fe7c72',
+  },
+  {
+    flow: CICOFlow.CashOut,
+    quoteId: 'mock_quote_out_id',
+    isSending: false,
+    failed: true,
+    txHash: null,
   },
 ]
 
@@ -711,9 +752,10 @@ export const mockFiatConnectQuotes: (FiatConnectQuoteSuccess | FiatConnectQuoteE
     provider: {
       id: 'provider-one',
       providerName: 'Provider One',
-      imageUrl:
-        'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
+      imageUrl: mockFiatConnectProviderImage,
       baseUrl: 'fakewebsite.valoraapp.com',
+      websiteUrl: 'https://fakewebsite.valorapp.com',
+      iconUrl: mockFiatConnectProviderIcon,
     },
     ok: false,
     error: FiatConnectError.FiatAmountTooHigh,
@@ -728,9 +770,10 @@ export const mockFiatConnectQuotes: (FiatConnectQuoteSuccess | FiatConnectQuoteE
     provider: {
       id: 'provider-three',
       providerName: 'Provider Three',
-      imageUrl:
-        'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
+      imageUrl: mockFiatConnectProviderImage,
       baseUrl: 'fakewebsite.valoraapp.com',
+      websiteUrl: 'https://fakewebsite.valorapp.com',
+      iconUrl: mockFiatConnectProviderIcon,
     },
     ok: true,
     quote: {
@@ -760,3 +803,24 @@ export const mockFiatConnectQuotes: (FiatConnectQuoteSuccess | FiatConnectQuoteE
 ]
 
 export const mockMaxSendAmount = new BigNumber(999.99995)
+
+export const mockExchanges: ExternalExchangeProvider[] = [
+  {
+    name: 'Bittrex',
+    link: 'https://bittrex.com/Market/Index?MarketName=USD-CELO',
+    currencies: [Currency.Celo, Currency.Dollar],
+    supportedRegions: ['global'],
+  },
+  {
+    name: 'CoinList Pro',
+    link: 'https://coinlist.co/asset/celo',
+    currencies: [Currency.Celo, Currency.Dollar],
+    supportedRegions: ['global'],
+  },
+  {
+    name: 'OKCoin',
+    link: 'https://www.okcoin.com/en/spot/trade/cusd-usd/',
+    currencies: [Currency.Celo, Currency.Dollar],
+    supportedRegions: ['global'],
+  },
+]

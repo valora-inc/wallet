@@ -7,18 +7,13 @@ import { PixelRatio, Platform } from 'react-native'
 import SplashScreen from 'react-native-splash-screen'
 import AccountKeyEducation from 'src/account/AccountKeyEducation'
 import AccounSetupFailureScreen from 'src/account/AccountSetupFailureScreen'
-import BankAccounts from 'src/account/BankAccounts'
-import ConnectPhoneNumberScreen from 'src/account/ConnectPhoneNumberScreen'
 import GoldEducation from 'src/account/GoldEducation'
 import Licenses from 'src/account/Licenses'
-import LinkBankAccountErrorScreen from 'src/account/LinkBankAccountErrorScreen'
-import LinkBankAccountScreen from 'src/account/LinkBankAccountScreen'
 import Profile from 'src/account/Profile'
 import RaiseLimitScreen from 'src/account/RaiseLimitScreen'
 import { PincodeType } from 'src/account/reducer'
 import StoreWipeRecoveryScreen from 'src/account/StoreWipeRecoveryScreen'
 import SupportContact from 'src/account/SupportContact'
-import SyncBankAccountScreen from 'src/account/SyncBankAccountScreen'
 import { CeloExchangeEvents } from 'src/analytics/Events'
 import AppLoading from 'src/app/AppLoading'
 import Debug from 'src/app/Debug'
@@ -26,6 +21,7 @@ import ErrorScreen from 'src/app/ErrorScreen'
 import UpgradeScreen from 'src/app/UpgradeScreen'
 import BackupComplete from 'src/backup/BackupComplete'
 import BackupForceScreen from 'src/backup/BackupForceScreen'
+import BackupIntroduction from 'src/backup/BackupIntroduction'
 import BackupPhrase, { navOptionsForBackupPhrase } from 'src/backup/BackupPhrase'
 import BackupQuiz, { navOptionsForQuiz } from 'src/backup/BackupQuiz'
 import BackButton from 'src/components/BackButton'
@@ -41,9 +37,12 @@ import WithdrawCeloQrScannerScreen from 'src/exchange/WithdrawCeloQrScannerScree
 import WithdrawCeloReviewScreen from 'src/exchange/WithdrawCeloReviewScreen'
 import WithdrawCeloScreen from 'src/exchange/WithdrawCeloScreen'
 import FiatDetailsScreen from 'src/fiatconnect/FiatDetailsScreen'
+import FiatConnectLinkAccountScreen from 'src/fiatconnect/LinkAccountScreen'
 import FiatConnectReviewScreen from 'src/fiatconnect/ReviewScreen'
+import FiatConnectTransferStatusScreen from 'src/fiatconnect/TransferStatusScreen'
 import BidaliScreen from 'src/fiatExchanges/BidaliScreen'
 import CashInSuccess from 'src/fiatExchanges/CashInSuccess'
+import CoinbasePayScreen from 'src/fiatExchanges/CoinbasePayScreen'
 import ExternalExchanges, {
   externalExchangesScreenOptions,
 } from 'src/fiatExchanges/ExternalExchanges'
@@ -67,7 +66,6 @@ import {
   HeaderTitleWithBalance,
   headerWithBackButton,
   headerWithBackEditButtons,
-  headerWithCloseButton,
   noHeader,
   noHeaderGestureDisabled,
 } from 'src/navigator/Headers'
@@ -108,6 +106,8 @@ import ValidateRecipientIntro, {
   validateRecipientIntroScreenNavOptions,
 } from 'src/send/ValidateRecipientIntro'
 import SetClock from 'src/set-clock/SetClock'
+import SwapReviewScreen from 'src/swap/SwapReviewScreen'
+import SwapScreen from 'src/swap/SwapScreen'
 import TokenBalancesScreen from 'src/tokens/TokenBalances'
 import TransactionDetailsScreen from 'src/transactions/feed/TransactionDetailsScreen'
 import TransactionReview from 'src/transactions/TransactionReview'
@@ -405,6 +405,11 @@ const backupScreens = (Navigator: typeof Stack) => (
       component={AccounSetupFailureScreen}
       options={AccounSetupFailureScreen.navOptions}
     />
+    <Navigator.Screen
+      name={Screens.BackupIntroduction}
+      component={BackupIntroduction}
+      options={headerWithBackButton}
+    />
   </>
 )
 
@@ -424,31 +429,6 @@ const settingsScreens = (Navigator: typeof Stack) => (
       name={Screens.SelectLocalCurrency}
       component={SelectLocalCurrency}
       options={headerWithBackButton}
-    />
-    <Navigator.Screen
-      name={Screens.LinkBankAccountScreen}
-      component={LinkBankAccountScreen}
-      options={headerWithBackButton}
-    />
-    <Navigator.Screen
-      name={Screens.LinkBankAccountErrorScreen}
-      component={LinkBankAccountErrorScreen}
-      options={headerWithCloseButton}
-    />
-    <Navigator.Screen
-      name={Screens.SyncBankAccountScreen}
-      component={SyncBankAccountScreen}
-      options={SyncBankAccountScreen.navigationOptions}
-    />
-    <Navigator.Screen
-      name={Screens.BankAccounts}
-      component={BankAccounts}
-      options={BankAccounts.navigationOptions}
-    />
-    <Navigator.Screen
-      name={Screens.ConnectPhoneNumberScreen}
-      component={ConnectPhoneNumberScreen}
-      options={headerWithCloseButton}
     />
     <Navigator.Screen
       name={Screens.WalletConnectSessions}
@@ -512,9 +492,24 @@ const settingsScreens = (Navigator: typeof Stack) => (
       component={FiatConnectReviewScreen}
     />
     <Navigator.Screen
+      options={noHeader}
+      name={Screens.FiatConnectTransferStatus}
+      component={FiatConnectTransferStatusScreen}
+    />
+    <Navigator.Screen
       options={BidaliScreen.navigationOptions}
       name={Screens.BidaliScreen}
       component={BidaliScreen}
+    />
+    <Navigator.Screen
+      name={Screens.CoinbasePayScreen}
+      component={CoinbasePayScreen}
+      options={emptyHeader}
+    />
+    <Navigator.Screen
+      options={FiatConnectLinkAccountScreen.navigationOptions}
+      name={Screens.FiatConnectLinkAccount}
+      component={FiatConnectLinkAccountScreen}
     />
   </>
 )
@@ -535,6 +530,17 @@ const generalScreens = (Navigator: typeof Stack) => (
       name={Screens.TransactionDetailsScreen}
       component={TransactionDetailsScreen}
       options={headerWithBackButton}
+    />
+  </>
+)
+
+const swapScreens = (Navigator: typeof Stack) => (
+  <>
+    <Navigator.Screen name={Screens.SwapScreen} component={SwapScreen} />
+    <Navigator.Screen
+      name={Screens.SwapReviewScreen}
+      component={SwapReviewScreen}
+      options={SwapReviewScreen.navOptions}
     />
   </>
 )
@@ -608,6 +614,7 @@ export function MainStackScreen() {
       {consumerIncentivesScreens(Stack)}
       {settingsScreens(Stack)}
       {generalScreens(Stack)}
+      {swapScreens(Stack)}
     </Stack.Navigator>
   )
 }

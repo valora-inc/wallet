@@ -1,12 +1,52 @@
 import { fireEvent, render } from '@testing-library/react-native'
+import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
+import { TokenBalance } from 'src/tokens/slice'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore, getElementText } from 'test/utils'
 import { mockCeurAddress, mockCusdAddress, mockTestTokenAddress } from 'test/values'
 
 jest.mock('src/components/useShowOrHideAnimation')
+
+const tokens: TokenBalance[] = [
+  {
+    balance: new BigNumber('10'),
+    usdPrice: new BigNumber('1'),
+    lastKnownUsdPrice: new BigNumber('1'),
+    symbol: 'cUSD',
+    address: mockCusdAddress,
+    isCoreToken: true,
+    priceFetchedAt: Date.now(),
+    decimals: 18,
+    name: 'Celo Dollar',
+    imageUrl: '',
+  },
+  {
+    balance: new BigNumber('20'),
+    usdPrice: new BigNumber('1.2'),
+    lastKnownUsdPrice: new BigNumber('1.2'),
+    symbol: 'cEUR',
+    address: mockCeurAddress,
+    isCoreToken: true,
+    priceFetchedAt: Date.now(),
+    decimals: 18,
+    name: 'Celo Euro',
+    imageUrl: '',
+  },
+  {
+    balance: new BigNumber('10'),
+    symbol: 'TT',
+    usdPrice: null,
+    lastKnownUsdPrice: new BigNumber('1'),
+    address: mockTestTokenAddress,
+    priceFetchedAt: Date.now(),
+    decimals: 18,
+    name: 'Test Token',
+    imageUrl: '',
+  },
+]
 
 const mockStore = createMockStore({
   stableToken: {
@@ -58,10 +98,10 @@ describe('TokenBottomSheet', () => {
       <Provider store={mockStore}>
         <TokenBottomSheet
           isVisible={visible}
-          isInvite={isInvite}
           origin={TokenPickerOrigin.Send}
           onTokenSelected={onTokenSelectedMock}
           onClose={onCloseMock}
+          tokens={tokens}
         />
       </Provider>
     )
@@ -78,8 +118,6 @@ describe('TokenBottomSheet', () => {
     expect(getElementText(getByTestId('cEURBalance'))).toBe('20.00 cEUR')
     expect(getElementText(getByTestId('LocalcEURBalance'))).toBe('₱31.92') // 20 * 1.2 (cEUR price) * 1.33 (PHP price)
     expect(getElementText(getByTestId('TTBalance'))).toBe('10.00 TT')
-
-    expect(tree).toMatchSnapshot()
   })
 
   it('handles the choosing of a token correctly', () => {
@@ -105,13 +143,5 @@ describe('TokenBottomSheet', () => {
   it('renders nothing if not visible', () => {
     const { queryByTestId } = renderPicker(false)
     expect(queryByTestId('BottomSheetContainer')).toBeFalsy()
-  })
-
-  it("shows only invite tokens if it's an invite", () => {
-    const { queryByTestId, getByTestId } = renderPicker(true, true)
-
-    expect(getByTestId('BottomSheetContainer')).toBeTruthy()
-    expect(getElementText(getByTestId('cUSDBalance'))).toBe('10.00 cUSD')
-    expect(queryByTestId('TTBalance')).toBeFalsy()
   })
 })

@@ -7,6 +7,7 @@ import SupportContact from 'src/account/SupportContact'
 import { APP_NAME, CELO_SUPPORT_EMAIL_ADDRESS } from 'src/brandingConfig'
 import i18n from 'src/i18n'
 import { Screens } from 'src/navigator/Screens'
+import Logger from 'src/utils/Logger'
 import { createMockStore, flushMicrotasksQueue, getMockStackScreenProps } from 'test/utils'
 
 const mockScreenProps = getMockStackScreenProps(Screens.SupportContact)
@@ -22,6 +23,22 @@ describe('Contact', () => {
   })
 
   it('submits email with logs', async () => {
+    const mockedLogAttachments = Logger.getLogsToAttach as jest.Mock
+    Logger.getCurrentLogFileName = jest.fn(() => 'log2.txt')
+    const logAttachments = [
+      {
+        path: 'logs/log1.txt',
+        type: 'text',
+        name: 'log1.txt',
+      },
+      {
+        path: 'logs/log2.txt',
+        type: 'text',
+        name: 'log2.txt',
+      },
+    ]
+    mockedLogAttachments.mockResolvedValue(logAttachments)
+
     const { getByTestId } = render(
       <Provider store={createMockStore({})}>
         <SupportContact {...mockScreenProps} />
@@ -40,13 +57,7 @@ describe('Contact', () => {
           'Test Message<br/><br/><b>{"version":"0.0.1","buildNumber":"1","apiLevel":-1,"deviceId":"unknown","address":"0x0000000000000000000000000000000000007e57","sessionId":"","numberVerified":false,"network":"alfajores"}</b><br/><br/><b>Support logs are attached...</b>',
         recipients: [CELO_SUPPORT_EMAIL_ADDRESS],
         subject: i18n.t('supportEmailSubject', { appName: APP_NAME, user: '+1415555XXXX' }),
-        attachments: [
-          {
-            path: '__EXTERNAL_DIRECTORY_PATH__/rn_logs.txt',
-            type: 'text',
-            name: '',
-          },
-        ],
+        attachments: logAttachments,
       }),
       expect.any(Function)
     )

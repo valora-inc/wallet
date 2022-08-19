@@ -9,6 +9,7 @@ import dappsReducer, { State as DappsState } from 'src/dapps/slice'
 import { escrowReducer as escrow, State as EscrowState } from 'src/escrow/reducer'
 import { reducer as exchange, State as ExchangeState } from 'src/exchange/reducer'
 import { reducer as fees, State as FeesState } from 'src/fees/reducer'
+import fiatConnectReducer, { State as FiatConnectState } from 'src/fiatconnect/slice'
 import { reducer as fiatExchanges, State as FiatExchangesState } from 'src/fiatExchanges/reducer'
 import { reducer as goldToken, State as GoldTokenState } from 'src/goldToken/reducer'
 import { homeReducer as home, State as HomeState } from 'src/home/reducers'
@@ -21,7 +22,7 @@ import { reducer as paymentRequest, State as PaymentRequestState } from 'src/pay
 import { recipientsReducer as recipients, State as RecipientsState } from 'src/recipients/reducer'
 import { sendReducer as send, State as SendState } from 'src/send/reducers'
 import { reducer as stableToken, State as StableTokenState } from 'src/stableToken/reducer'
-import { reducer as tokens, State as TokensState } from 'src/tokens/reducer'
+import tokenReducer, { State as TokensState } from 'src/tokens/slice'
 import { reducer as transactions, State as TransactionsState } from 'src/transactions/reducer'
 import { reducer as verify, State as VerifyState } from 'src/verify/reducer'
 import { reducer as walletConnect, State as WalletConnectState } from 'src/walletConnect/reducer'
@@ -50,9 +51,10 @@ const appReducer = combineReducers({
   paymentRequest,
   fiatExchanges,
   walletConnect,
-  tokens,
+  tokens: tokenReducer,
   supercharge: superchargeReducer,
   dapps: dappsReducer,
+  fiatConnect: fiatConnectReducer,
 }) as (state: RootState | undefined, action: Action) => RootState
 
 const rootReducer = (state: RootState | undefined, action: Action): RootState => {
@@ -101,6 +103,7 @@ export interface RootState {
   tokens: TokensState
   supercharge: SuperchargeState
   dapps: DappsState
+  fiatConnect: FiatConnectState
 }
 
 export interface PersistedRootState {

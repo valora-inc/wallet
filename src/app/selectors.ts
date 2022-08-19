@@ -81,10 +81,13 @@ export const showRaiseDailyLimitSelector = createSelector(
   }
 )
 
-// Added isE2EEnv to test supercharge behavior in E2E tests
+export const superchargeTokenConfigByTokenSelector = (state: RootState) =>
+  state.app.superchargeTokenConfigByToken
+
 export const rewardsEnabledSelector = createSelector(
-  [accountAddressSelector, (state) => state.app.superchargeTokens],
-  (address, superchargeTokens) => !!address && superchargeTokens.length > 0
+  [accountAddressSelector, superchargeTokenConfigByTokenSelector],
+  (address, superchargeTokenConfigByToken) =>
+    !!address && Object.keys(superchargeTokenConfigByToken).length > 0
 )
 
 export const logPhoneNumberTypeEnabledSelector = (state: RootState) =>
@@ -101,11 +104,6 @@ export const huaweiMobileServicesAvailableSelector = (state: RootState) =>
   state.app.huaweiMobileServicesAvailable
 
 export const rewardPillTextSelector = (state: RootState) => state.app.rewardPillText
-
-export const linkBankAccountEnabledSelector = (state: RootState) => state.app.linkBankAccountEnabled
-
-export const linkBankAccountStepTwoEnabledSelector = (state: RootState) =>
-  state.app.linkBankAccountStepTwoEnabled && state.account.finclusiveRegionSupported
 
 export const sentryTracesSampleRateSelector = (state: RootState) => state.app.sentryTracesSampleRate
 
@@ -125,13 +123,22 @@ export const superchargeButtonTypeSelector = (state: RootState) => state.app.sup
 
 export const skipVerificationSelector = (state: RootState) => state.app.skipVerification
 
-export const finclusiveUnsupportedStatesSelector = (state: RootState) =>
-  state.app.finclusiveUnsupportedStates
-
 export const fiatConnectCashInEnabledSelector = (state: RootState) =>
   state.app.fiatConnectCashInEnabled
 export const fiatConnectCashOutEnabledSelector = (state: RootState) =>
   state.app.fiatConnectCashOutEnabled
+
+export const coinbasePayEnabledSelector = (state: RootState) => state.app.coinbasePayEnabled
+
+export const createAccountCopyTestTypeSelector = (state: RootState) =>
+  state.app.createAccountCopyTestType
+
+export const maxSwapSlippagePercentageSelector = (state: RootState) =>
+  state.app.maxSwapSlippagePercentage
+
+export const swapFeeEnabledSelector = (state: RootState) => state.app.swapFeeEnabled
+
+export const swapFeePercentageSelector = (state: RootState) => state.app.swapFeePercentage
 
 type StoreWipeRecoveryScreens = Extract<
   Screens,

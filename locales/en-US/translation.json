@@ -189,7 +189,7 @@
     "dismiss": "Dismiss"
   },
   "superchargingTitle": "Your {{token}} is being Supercharged",
-  "superchargingDescription": "Every week you'll get a notification when your rewards are ready, come back here to claim them.",
+  "superchargingDescription": "You’re getting {{apy}}% annually. Every week you'll get a notification when your rewards are ready, come back here to claim them.",
   "superchargeRewardsAvailable": "You have {{amount}} {{token}} available to claim!",
   "superchargeRewardsAvailableMultipleTokens": "You have {{amounts}} available to claim!",
   "superchargeClaimText": "Claim your rewards to add them to your balance.",
@@ -354,6 +354,7 @@
   "restrictedRegion": "Limited support in region",
   "unsupportedPaymentMethod": "Paying with a {{paymentMethod}} is not supported in your region",
   "noProviders": "There are no providers available for {{digitalAsset}} in your region.",
+  "noPaymentMethods": "There are no payment methods available for {{digitalAsset}} in your region.",
   "switchCurrency": "Switch Currency",
   "accept": "Accept",
   "at": "at",
@@ -387,6 +388,8 @@
   "paste": "Paste",
   "choose": "Choose",
   "receivedPayment": "Received Payment",
+  "receivedNft": "Received NFT",
+  "sentNft": "Sent NFT",
   "getStarted": "Get Started",
   "manageCeloDollars": "Manage Celo Dollars",
   "sendCeloDollars": "Send Celo Dollars",
@@ -592,13 +595,13 @@
   "sendAndInvite": "Send & Invite",
   "inviteAndSendDialog": {
     "title": "Finish inviting {{name}} to Valora",
-    "bodyWithRewards": "Once they join & connect a phone number, you both receive {{amount}} {{currency}}. Click below to send and customize your invite.",
+    "bodyWithRewards": "Once they join & connect their phone number, you’ll both receive a special edition NFT. Click below to send your invite via SMS.",
     "body": "Share an invitation message with {{name}} to join {{appName}}. Once they join & connect a phone number, they'll receive your payment.",
     "button": "Finish inviting"
   },
   "inviteRewardsBanner": {
-    "title": "Send crypto to invite a friend (beta)",
-    "body": "Once they set up their {{appName}} wallet, you each get {{amount}} {{currency}} in rewards. Earn up to <0>{{maxAmount}} {{currency}}</0>!"
+    "title": "Send crypto to invite a friend",
+    "body": "Once they set up their {{appName}} wallet and connect their number, you’ll each get an exclusive NFT. <0>Learn more</0>"
   },
   "getReward": "Get ${{reward}}",
   "welcomeCelo": "Welcome to {{appName}}",
@@ -684,7 +687,7 @@
   },
   "congratsVerified": "Congratulations, your phone number is now connected!",
   "notification": {
-    "body": "Receive payments directly to your phone number",
+    "body": "Connect your number to claim funds and connect to friends",
     "cta": "Connect Now"
   },
   "quotaLookup": {
@@ -715,7 +718,10 @@
   "welcome": {
     "title": "Step into the future of crypto with {{appName}}",
     "createAccount": "Create new account",
-    "restoreAccount": "Restore my account"
+    "restoreAccount": "Restore my account",
+    "createNewWallet": "Create new wallet",
+    "restoreWallet": "Restore wallet",
+    "iAlreadyHaveAWallet": "I already have a wallet"
   },
   "accessContacts": {
     "disclosure": {
@@ -724,6 +730,7 @@
     }
   },
   "createAccount": "Create Account",
+  "createProfile": "Create Profile",
   "restoreAccount": "Restore My Account",
   "registrationSteps": "Step {{step}} of {{totalSteps}}",
   "selectCountryCode": "Select Country Code",
@@ -856,6 +863,7 @@
   "amountCeloWithdrawn": "Amount (CELO)",
   "feeEducation": "The Celo Blockchain collects a transaction fee to keep the network supported and running smoothly.",
   "inviteMoneyEscrow": "Send this contact an invite message and they’ll receive the funds once they connect their number.",
+  "inviteMoneyEscrowWithRewards": "Send this contact an invite message and they’ll receive the funds & NFT once they connect their number.",
   "reviewPayment": "Review Payment",
   "requestPayment": "Request Payment",
   "max": "MAX",
@@ -875,7 +883,7 @@
   "walletAddress": "Wallet Address",
   "inviteWithoutPayment": "Hi! I’ve been using {{appName}} to send crypto worldwide. It’s easy to try and I want to invite you to check it out with this link: {{link}}",
   "inviteWithEscrowedPayment": "Hi! I’ve been using {{appName}} to send crypto worldwide. I just sent you {{amount}} {{token}}. Please download the {{appName}} App and redeem your {{token}} using this link: {{link}}",
-  "inviteWithRewards": "Hey! I just sent you crypto with my {{appName}} wallet. Once you download the app and connect your phone number, we both get a {{amount}} {{token}} reward. Use this link: {{link}}",
+  "inviteWithRewards": "Hey! I just sent you crypto with my {{appName}} wallet. Once you download the app and connect your phone number, we both get a special edition NFT. Use this link: {{link}}",
   "loadingContacts": "Finding your contacts",
   "myCode": "My Code",
   "scanCode": "Scan",
@@ -1051,6 +1059,9 @@
   },
   "dollarBalance": "<0></0> $t(celoDollars)",
   "feedItemAddress": "Account {{address}}",
+  "feedItemDepositInfo": "{{comment}}",
+  "feedItemDepositInfo_noComment": "Deposit Received",
+  "feedItemDepositTitle": "Deposit",
   "feedItemExchangeTitle": "CELO",
   "feedItemExchangeInfo_boughtGold": "Bought <0></0> CELO",
   "feedItemExchangeInfo_soldGold": "Sold <0></0> CELO",
@@ -1096,6 +1107,7 @@
   "feedItemGoldPurchased": "Purchased",
   "feedItemGoldWithdrawal": "Withdrawal to {{displayName}}",
   "feedItemGoldReceived": "Received from {{displayName}}",
+  "feedItemSwapPath": "{{token1}} to {{token2}}",
   "transactionHeaderVerificationFee": "Confirmation",
   "transactionHeaderNetworkFee": "Network",
   "transactionHeaderFaucet": "Faucet",
@@ -1108,6 +1120,8 @@
   "transactionHeaderCeloDeposit": "Deposit Received",
   "transactionHeaderCeloReward": "Reward Received",
   "transactionHeaderEscrowReceived": "Escrow Payment Received",
+  "transactionHeaderNftReceived": "NFT Received",
+  "transactionHeaderNftSent": "NFT Sent",
   "feedSectionHeaderRecent": "Recent",
   "cashInBottomSheet": {
     "title": "Add funds to start using Valora!",
@@ -1117,8 +1131,11 @@
     "subtitleRamp": "Add funds with zero fees through one of our trusted external providers."
   },
   "balances": "Assets",
+  "totalBalanceWithLocalCurrencySymbol": "{{localCurrencySymbol}}{{totalBalance}} Total",
   "totalValue": "Total Balance",
   "viewBalances": "View Assets",
+  "open": "Open",
+  "nftViewer": "NFT Viewer",
   "whatTotalValue": {
     "title": "What does Total Balance mean?",
     "body": "Your Total Balance is an approximate sum of all your Valora assets. Your Total Balance will change as prices fluctuate. It is updated every 10 minutes.\nSome assets may not be shown in the Total Balance because the price is unavailable at the time of calculation.",
@@ -1245,21 +1262,58 @@
     "bestRate": "Best Rate",
     "header": "Select Payment Method"
   },
+  "fiatConnectLinkAccountScreen": {
+    "bankAccount": {
+      "header": "Set up Bank Account",
+      "bodyTitle": "Set Up Bank Account",
+      "description": "Enter Bank Account details to transfer funds. Your transactions will be powered by <0>{{providerName}}</0>."
+    },
+    "continue": "Continue"
+  },
   "fiatConnectReviewScreen": {
-    "paymentMethod": "Payment Method",
     "transactionDetails": "Transaction Details",
-    "paymentMethodVia": "Linked via {{providerName}}",
+    "paymentMethodVia": "Connected via {{providerName}}",
     "receiveAmount": "You will receive",
     "cashIn": {
       "header": "Review Add Funds",
       "button": "Add Funds",
-      "transactionDetailsAmount": "Total Price"
+      "transactionDetailsAmount": "Total Price",
+      "paymentMethodHeader": "Deposit From"
     },
     "cashOut": {
       "header": "Review",
       "button": "Withdraw Funds",
       "transactionDetailsAmount": "Total Withdraw",
-      "transactionDetailsAmountConverted": "Amount Withdrawn"
+      "transactionDetailsAmountConverted": "Amount Withdrawn",
+      "paymentMethodHeader": "Withdraw To"
+    },
+    "failedRefetch": {
+      "title": "Connection lost!",
+      "description": "We were not able to establish a connection between your accounts.\n\nThis may be due to a poor internet connection or server issue. Please try to reconnect.",
+      "tryAgain": "Try Again"
+    },
+    "quoteExpiredDialog": {
+      "title": "Review amounts & fees",
+      "body": "Crypto amounts & fees can change due to fluctuations in the crypto market.\n\nPlease review your final amount & fees before submitting",
+      "continue": "Continue"
+    }
+  },
+  "fiatConnectStatusScreen": {
+    "tryAgain": "Try Again",
+    "withdraw": {
+      "cancel": "Cancel Withdrawal",
+      "success": {
+        "header": "Success",
+        "title": "Your funds are on their way!",
+        "description": "Your transaction request has been sent & your funds will arrive in {{duration}}.",
+        "txDetails": "View on CeloExplorer",
+        "continue": "Continue"
+      }
+    },
+    "requestNotCompleted": {
+      "title": "Your request could not be completed.",
+      "description": "Your funds were not able to be transferred. Please try again or contact our support team for help.",
+      "contactSupportPrefill": "I'm having trouble withdrawing my funds."
     }
   },
   "fiatExchangeFlow": {
@@ -1284,22 +1338,20 @@
     }
   },
   "fiatDetailsScreen": {
-    "header": "Enter Bank Details",
+    "header": "Enter Bank Information",
+    "headerSubTitle": "Powered by {{provider}}",
     "selectedPaymentOption": "Selected payment option",
-    "addFiatAccountSuccess": "Your account has been linked to Valora.",
-    "addFiatAccountResourceExist": "You have already linked this account to Valora.",
-    "addFiatAccountFailed": "Your account was not linked, please try again or contact support."
+    "addFiatAccountSuccess": "Your account has been connected to {{provider}}.",
+    "addFiatAccountResourceExist": "You have already connected this account to {{provider}}.",
+    "addFiatAccountFailed": "Your account was not connected to {{provider}}, please try again or contact support.",
+    "selectItem": "Select an option...",
+    "selectDone": "Done",
+    "submitAndContinue": "Submit & Continue"
   },
   "fiatAccountSchema": {
-    "accountName": {
-      "label": "Account Name",
-      "placeholderText": "A name for the account",
-      "errorMessage": "An account name is required"
-    },
     "institutionName": {
       "label": "Bank Name",
-      "placeholderText": "Enter Bank Name",
-      "errorMessage": "A bank name is required"
+      "placeholderText": "Enter Bank Name"
     },
     "accountNumber": {
       "label": "Account Number",
@@ -1311,6 +1363,34 @@
     "openExternal": "Open in External Browser"
   },
   "dappNotListed": "This dapp is not listed in {{appName}}. Dapps are third party applications. Use at your own risk.",
+  "swapScreen": {
+    "title": "Swap",
+    "review": "Review",
+    "swapFrom": "From",
+    "swapTo": "To",
+    "insufficientFunds": "Insufficient {{token}} balance. Try a smaller amount or choose a different token.",
+    "fetchSwapQuoteFailed": "Sorry for the delay! It's taking longer than usual to get the best exchange rate. Please try again in a few minutes."
+  },
+  "swapTransactionDetailPage": {
+    "swapFrom": "Swap from",
+    "swapTo": "Swap to",
+    "rate": "Rate",
+    "estimatedFee": "Estimated Fee",
+    "viewOnExplorer": "View on CeloExplorer"
+  },
+  "swapReviewScreen": {
+    "title": "Review Swap",
+    "complete": "Complete Swap",
+    "swapFrom": "Swap From",
+    "swapTo": "Swap To",
+    "transactionDetails": "Transaction Details",
+    "estimatedGas": "Estimated Gas",
+    "swapFee": "{{appName}} Fee",
+    "swapFeeTitle": "What is the {{appName}} Fee?",
+    "swapFeeBody": "The {{appName}} fee is the fee that you pay to swap tokens on {{appName}}. \n\n The fee is {{swapFee}}% of the amount you are exchanging. \n\n {{appName}} fees are free for the next few months.",
+    "estimatedAmountTitle": "Estimated Amount",
+    "estimatedAmountBody": "Conversions take place on a third party decentralized exchange that finds you the best rate for your swap. \n\n Your trade will be completed at a price within {{slippagePercent}}% of the estimate or the transaction will be cancelled & funds returned to your wallet."
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }

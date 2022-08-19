@@ -8,6 +8,7 @@ import { FiatExchangeEvents, HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Dialog from 'src/components/Dialog'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
+import { isE2EEnv } from 'src/config'
 import { refreshAllBalances } from 'src/home/actions'
 import InfoIcon from 'src/icons/InfoIcon'
 import ProgressArrow from 'src/icons/ProgressArrow'
@@ -21,6 +22,7 @@ import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import {
+  stalePriceSelector,
   tokenFetchErrorSelector,
   tokenFetchLoadingSelector,
   tokensInfoUnavailableSelector,
@@ -35,13 +37,14 @@ function TokenBalance({ style = styles.balance }: { style?: StyleProp<TextStyle>
   const totalBalance = useSelector(totalTokenBalanceSelector)
   const tokenFetchLoading = useSelector(tokenFetchLoadingSelector)
   const tokenFetchError = useSelector(tokenFetchErrorSelector)
+  const tokensAreStale = useSelector(stalePriceSelector)
 
-  if (tokensWithUsdValue.length === 0) {
-    // Don't show zero if we haven't fetched the tokens yet.
+  if (tokenFetchError || tokenFetchLoading || tokensAreStale) {
+    // Show '-' if we haven't fetched the tokens yet or prices are stale
     return (
       <Text style={style} testID={'TotalTokenBalance'}>
         {localCurrencySymbol}
-        {tokenFetchError || tokenFetchLoading ? '-' : new BigNumber(0).toFormat(2)}
+        {'-'}
       </Text>
     )
   } else if (tokensWithUsdValue.length === 1) {
@@ -64,7 +67,7 @@ function TokenBalance({ style = styles.balance }: { style?: StyleProp<TextStyle>
     return (
       <Text style={style} testID={'TotalTokenBalance'}>
         {localCurrencySymbol}
-        {totalBalance?.toFormat(2) ?? '-'}
+        {totalBalance?.toFormat(2) ?? new BigNumber(0).toFormat(2)}
       </Text>
     )
   }
@@ -79,7 +82,8 @@ function useErrorMessageWithRefresh() {
 
   const dispatch = useDispatch()
 
-  const shouldShowError = tokensInfoUnavailable && (tokenFetchError || localCurrencyError)
+  const shouldShowError =
+    !isE2EEnv && tokensInfoUnavailable && (tokenFetchError || localCurrencyError)
 
   useEffect(() => {
     if (shouldShowError) {
@@ -139,7 +143,7 @@ export function HomeTokenBalance() {
         >
           {t('whatTotalValue.body')}
         </Dialog>
-        {tokenBalances.length > 1 && (
+        {tokenBalances.length >= 1 && (
           <TouchableOpacity style={styles.row} onPress={onViewBalances} testID="ViewBalances">
             <Text style={styles.viewBalances}>{t('viewBalances')}</Text>
             <ProgressArrow style={styles.arrow} color={Colors.greenUI} />

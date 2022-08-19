@@ -189,7 +189,7 @@
     "dismiss": "Ignorer"
   },
   "superchargingTitle": "Vos {{token}} sont Superchargé",
-  "superchargingDescription": "Chaque semaine, vous recevrez une notification quand vos récompenses seront prêtes, revenez ici pour les demander.",
+  "superchargingDescription": "Vous recevez {{apy}}% par an. Chaque semaine, vous recevrez une notification quand vos récompenses seront prêtes, revenez ici pour les demander.",
   "superchargeRewardsAvailable": "Vous avez {{amount}} {{token}} à réclamer !",
   "superchargeRewardsAvailableMultipleTokens": "Vous avez {{amounts}} à réclamer !",
   "superchargeClaimText": "Réclamez vos récompenses pour les ajouter à votre solde.",
@@ -214,8 +214,8 @@
   "transaction": {
     "operation": "Transaction",
     "data": "Données",
-    "signTX": "Signer la transaction",
-    "details": "Afficher les détails"
+    "signTX": "Effectuer transaction",
+    "details": "Afficher détails"
   },
   "shareInfo": "Cette appli sera en mesure d'accéder aux informations suivantes :",
   "data": "Données",
@@ -354,6 +354,7 @@
   "restrictedRegion": "Prise en charge limitée dans le pays",
   "unsupportedPaymentMethod": "Le paiement avec {{paymentMethod}} n'est pas pris en charge dans votre pays",
   "noProviders": "Il n'y a pas de prestataires disponibles pour {{digitalAsset}} dans votre pays.",
+  "noPaymentMethods": "Il n'y a pas de méthodes de paiement disponibles pour {{digitalAsset}} dans votre pays.",
   "switchCurrency": "Changer de devise",
   "accept": "Accepter",
   "at": "à",
@@ -387,6 +388,8 @@
   "paste": "Coller",
   "choose": "Choisir",
   "receivedPayment": "Paiement reçu",
+  "receivedNft": "NFT reçu",
+  "sentNft": "NFT envoyé",
   "getStarted": "Commencer",
   "manageCeloDollars": "Gérer les Celo Dollars",
   "sendCeloDollars": "Envoyer des Celo Dollars",
@@ -592,13 +595,13 @@
   "sendAndInvite": "Envoyer et inviter",
   "inviteAndSendDialog": {
     "title": "Valider l'invitation de {{name}} sur Valora",
-    "bodyWithRewards": "Une fois que votre invité aura rejoint Valora et aura connecté son numéro de téléphone, vous recevez tous les deux {{amount}} {{currency}}. Cliquez ci-dessous pour envoyer et personnaliser votre invitation.",
+    "bodyWithRewards": "Une fois que votre invité aura rejoint Valora, vous recevrez tous les deux un NFT exclusif. Cliquez ci-dessous pour envoyer votre invitation.",
     "body": "Partagez un message avec {{name}} pour l'inviter à rejoindre {{appName}}. Après son inscription et avoir connecté son numéro de téléphone, votre ami recevra votre paiement.",
     "button": "Valider l'invitation"
   },
   "inviteRewardsBanner": {
-    "title": "Envoyez des crypto pour inviter un ami (bêta)",
-    "body": "Une fois qu'ils ont configuré leur portefeuille {{appName}}, vous recevrez chacun {{amount}} {{currency}}. Gagne jusqu'à <0>{{maxAmount}} {{currency}}</0> !"
+    "title": "Envoyez des crypto pour inviter un ami",
+    "body": "Vous recevrez tous les deux un NFT exclusif une fois qu'il est configuré son compte {{appName}}. <0>En savoir plus</0>"
   },
   "getReward": "Obtenez {{reward}}$",
   "welcomeCelo": "Bienvenue sur {{appName}}",
@@ -684,7 +687,7 @@
   },
   "congratsVerified": "Félicitations, votre numéro de téléphone est maintenant connecté !",
   "notification": {
-    "body": "Recevez des paiements directement grâce à votre numéro de téléphone",
+    "body": "Connectez votre numéro pour réclamer des fonds et vous connecter à des amis",
     "cta": "Connecter maintenant"
   },
   "quotaLookup": {
@@ -715,7 +718,10 @@
   "welcome": {
     "title": "Entrez dans le futur des cryptomonnaies avec {{appName}}",
     "createAccount": "Créer un nouveau compte",
-    "restoreAccount": "Restaurer mon compte"
+    "restoreAccount": "Restaurer mon compte",
+    "createNewWallet": "Créer un portefeuille",
+    "restoreWallet": "Restaurer un portefeuille",
+    "iAlreadyHaveAWallet": "J'ai déjà un portefeuille"
   },
   "accessContacts": {
     "disclosure": {
@@ -724,6 +730,7 @@
     }
   },
   "createAccount": "Créer un compte",
+  "createProfile": "Créer un profil",
   "restoreAccount": "Restaurer mon compte",
   "registrationSteps": "Étape {{step}} de {{totalSteps}}",
   "selectCountryCode": "Sélectionnez l'indicatif du pays",
@@ -856,6 +863,7 @@
   "amountCeloWithdrawn": "Montant (CELO)",
   "feeEducation": "La blockchain Celo perçoit des frais de transaction pour assurer le bon fonctionnement du réseau.",
   "inviteMoneyEscrow": "Envoyez à ce contact un message d'invitation pour lui permettre de recevoir les fonds après avoir connecté son numéro.",
+  "inviteMoneyEscrowWithRewards": "Envoyez à ce contact un message d'invitation pour lui permettre de recevoir les fonds et un NFT après avoir connecté son numéro.",
   "reviewPayment": "Consulter le paiement",
   "requestPayment": "Demander un paiement",
   "max": "MAX.",
@@ -875,7 +883,7 @@
   "walletAddress": "Adresse du portefeuille",
   "inviteWithoutPayment": "Bonjour ! J'utilise {{appName}} pour envoyer des cryptomonnaies dans le monde entier. C'est facile, et je vous invite à découvrir également ce service en utilisant ce lien : {{link}}",
   "inviteWithEscrowedPayment": "Bonjour ! J'utilise {{appName}} pour envoyer des cryptomonnaies dans le monde entier. Je viens juste de vous envoyer {{amount}} {{token}}. Vous pouvez télécharger l'appli {{appName}} et échanger votre {{token}} en utilisant ce lien : {{link}}",
-  "inviteWithRewards": "Bonjour ! Je viens de t'envoyer de la crypto depuis mon portefeuille {{appName}}. Une fois que tu auras téléchargé l'appli et connecté ton numéro de téléphone, nous recevrons tous les deux une récompense de {{amount}} {{token}}. Utilise ce lien : {{link}}",
+  "inviteWithRewards": "Bonjour ! Je viens de t'envoyer de la crypto depuis mon portefeuille {{appName}}. Une fois que tu auras téléchargé l'appli et connecté ton numéro de téléphone, nous recevrons tous les deux une NFT. Utilise ce lien : {{link}}",
   "loadingContacts": "Trouver vos contacts",
   "myCode": "Mon code",
   "scanCode": "Scanner",
@@ -962,16 +970,16 @@
   "loadingFromScan": "Numérisation en cours",
   "loadingFromDeeplink": "Connexion",
   "action": {
-    "asking": "Cette appli demande à effectuer l'action suivante",
-    "askingV1_35": "{{dappName}} demande d'effectuer cette action :",
+    "asking": "Cette appli demande à effectuer l'action suivante :",
+    "askingV1_35": "{{dappName}} demande à effectuer l'action suivante :",
     "operation": "Transaction",
     "data": "Données",
-    "sign": "Signer une charge utile de données",
-    "signTransaction": "Signe une transaction Celo",
-    "sendTransaction": "Envoyer une transaction Celo",
-    "decrypt": "Déchiffrer une charge utile de données",
-    "accounts": "Lire votre Adresse du compte sur {{appName}}",
-    "details": "Afficher les données de la transaction",
+    "sign": "Effectuer charge utile de données",
+    "signTransaction": "Effectuer transaction Celo",
+    "sendTransaction": "Envoyer transaction Celo",
+    "decrypt": "Déchiffrer charge utile de données",
+    "accounts": "Lire votre Adresse du compte {{appName}}",
+    "details": "Afficher données de la transaction",
     "computeSharedSecret": "Générer des secrets",
     "emptyMessage": "Message vide"
   },
@@ -1051,6 +1059,9 @@
   },
   "dollarBalance": "<0></0> $t(celoDollars)",
   "feedItemAddress": "Compte {{address}}",
+  "feedItemDepositInfo": "{{comment}}",
+  "feedItemDepositInfo_noComment": "Dépôt reçu",
+  "feedItemDepositTitle": "Dépôt",
   "feedItemExchangeTitle": "CELO",
   "feedItemExchangeInfo_boughtGold": "Acheté <0></0> CELO",
   "feedItemExchangeInfo_soldGold": "Vendu <0></0> CELO",
@@ -1076,7 +1087,7 @@
   "feedItemSentInfo_noComment": "Paiement envoyé",
   "feedItemCeloRewardReceivedTitle": "CELO gagnés",
   "feedItemRewardReceivedTitle": "Supercharge",
-  "feedItemRewardReceivedInfo": "Récompenses hebdomadaires",
+  "feedItemRewardReceivedInfo": "Récompenses",
   "feedItemInviteRewardReceivedTitle": "{{appName}}",
   "feedItemInviteRewardReceivedInfo": "Récompense reçue",
   "feedItemReceivedTitle": "{{displayName}}",
@@ -1096,6 +1107,7 @@
   "feedItemGoldPurchased": "Acheté",
   "feedItemGoldWithdrawal": "Retrait vers {{displayName}}",
   "feedItemGoldReceived": "Reçu de {{displayName}}",
+  "feedItemSwapPath": "{{token1}} > {{token2}}",
   "transactionHeaderVerificationFee": "Confirmation",
   "transactionHeaderNetworkFee": "Réseau",
   "transactionHeaderFaucet": "Faucet",
@@ -1108,6 +1120,8 @@
   "transactionHeaderCeloDeposit": "Dépôt reçu",
   "transactionHeaderCeloReward": "Récompense reçue",
   "transactionHeaderEscrowReceived": "Paiement du prestataire de séquestre reçu",
+  "transactionHeaderNftReceived": "NFT reçu",
+  "transactionHeaderNftSent": "NFT envoyé",
   "feedSectionHeaderRecent": "Récent",
   "cashInBottomSheet": {
     "title": "Ajoutez des fonds pour commencer à utiliser Valora !",
@@ -1117,8 +1131,11 @@
     "subtitleRamp": "Ajoutez des fonds sans frais grâce à l'un de nos prestataires externes de confiance."
   },
   "balances": "Actifs",
+  "totalBalanceWithLocalCurrencySymbol": "Total {{localCurrencySymbol}}{{totalBalance}}",
   "totalValue": "Solde total",
   "viewBalances": "Voir les actifs",
+  "open": "Ouvrir",
+  "nftViewer": "NFT Viewer",
   "whatTotalValue": {
     "title": "Que signifie Solde total ?",
     "body": "Votre solde total est un montant approximatif de toutes les valeurs que vous détenez sur Valora. Votre solde total changera en fonction de la fluctuation des prix. Il est mis à jour toutes les 10 minutes.\nCertains actifs ne peuvent pas être affichés dans le solde total si leur prix n'est pas disponible au moment du calcul.",
@@ -1243,23 +1260,60 @@
     "numDays": "1-3 jours",
     "oneHour": "Moins d'une heure",
     "bestRate": "Meilleur taux",
-    "header": "Sélectionnez le mode de paiement"
+    "header": "Mode de paiement"
+  },
+  "fiatConnectLinkAccountScreen": {
+    "bankAccount": {
+      "header": "Configurer un compte bancaire",
+      "bodyTitle": "Configurer un compte bancaire",
+      "description": "Saisissez les coordonnées bancaires pour transférer des fonds. Vos transactions seront propulsées par <0>{{providerName}}</0>."
+    },
+    "continue": "Continuer"
   },
   "fiatConnectReviewScreen": {
-    "paymentMethod": "Mode de paiement",
     "transactionDetails": "Détails de transaction",
-    "paymentMethodVia": "Relié(e) par {{providerName}}",
+    "paymentMethodVia": "Connexion du {{providerName}}",
     "receiveAmount": "Vous recevrez",
     "cashIn": {
       "header": "Vérifier - Ajouter des fonds",
       "button": "Ajouter des fonds",
-      "transactionDetailsAmount": "Prix total"
+      "transactionDetailsAmount": "Prix total",
+      "paymentMethodHeader": "Dépôt de"
     },
     "cashOut": {
       "header": "Vérifier",
       "button": "Retirer des fonds",
       "transactionDetailsAmount": "Retrait total",
-      "transactionDetailsAmountConverted": "Montant du retrait"
+      "transactionDetailsAmountConverted": "Montant du retrait",
+      "paymentMethodHeader": "Retirer vers"
+    },
+    "failedRefetch": {
+      "title": "Connexion perdue !",
+      "description": "Nous n'avons pas réussi à établir la connexion entre vos comptes.\n\nCela peut être dû à une mauvaise connexion internet ou à un problème de serveur. Veuillez réessayer de vous connecter.",
+      "tryAgain": "Réessayer"
+    },
+    "quoteExpiredDialog": {
+      "title": "Vérifier les montants et les frais",
+      "body": "Les montants et frais liés aux cryptomonnaies peuvent changer en raison des fluctuations du marché des cryptomonnaies.\n\nVeuillez vérifier votre montant final et vos frais avant de valider",
+      "continue": "Continuer"
+    }
+  },
+  "fiatConnectStatusScreen": {
+    "tryAgain": "Réessayer",
+    "withdraw": {
+      "cancel": "Annuler le retrait",
+      "success": {
+        "header": "Succès",
+        "title": "Vos fonds sont en route !",
+        "description": "Votre demande de transaction a été envoyée et vos fonds arriveront dans {{duration}}.",
+        "txDetails": "Voir sur CeloExplorer",
+        "continue": "Continuer"
+      }
+    },
+    "requestNotCompleted": {
+      "title": "Votre demande n'a pas pu être complétée.",
+      "description": "Vos fonds n'ont pas pu être transférés. Veuillez réessayer ou contactez notre équipe d'assistance pour obtenir de l'aide.",
+      "contactSupportPrefill": "Je n'arrive pas à retirer mes fonds."
     }
   },
   "fiatExchangeFlow": {
@@ -1268,14 +1322,14 @@
       "fiatExchangeSubtitle": "Créditer votre compte {{appName}} depuis une banque, une carte ou un échange.",
       "selectCurrencyTitle": "Ajouter des fonds",
       "exchangeAmountTitle": "Ajouter {{currency}}",
-      "selectProviderHeader": "Sélectionnez le mode de paiement"
+      "selectProviderHeader": "Mode de paiement"
     },
     "cashOut": {
       "fiatExchangeTitle": "Retirer des fonds",
       "fiatExchangeSubtitle": "Retirez vos fonds de {{appName}} et les déposez sur un compte bancaire, une carte, un échange de cryptomonnaie ou sur de l'argent digital.",
       "selectCurrencyTitle": "Retirer des fonds",
       "exchangeAmountTitle": "Retirer {{currency}}",
-      "selectProviderHeader": "Sélectionnez le mode de retrait"
+      "selectProviderHeader": "Mode de retrait"
     },
     "spend": {
       "fiatExchangeTitle": "Dépenser des fonds",
@@ -1284,22 +1338,20 @@
     }
   },
   "fiatDetailsScreen": {
-    "header": "Saisir les coordonnées bancaires",
+    "header": "Saisissez les coordonnées bancaires",
+    "headerSubTitle": "Propulsé par {{provider}}",
     "selectedPaymentOption": "Option de paiement sélectionnée",
-    "addFiatAccountSuccess": "Votre compte a bien été associé à Valora.",
-    "addFiatAccountResourceExist": "Vous avez déjà lié ce compte à Valora.",
-    "addFiatAccountFailed": "Votre compte n'a pas pu être lié, veuillez réessayer ou contacter le Support."
+    "addFiatAccountSuccess": "Votre compte a bien été associé à {{provider}}.",
+    "addFiatAccountResourceExist": "Vous avez déjà connecté ce compte à {{provider}}.",
+    "addFiatAccountFailed": "Votre compte n'a pas pu être connecté à {{provider}}, veuillez réessayer ou contacter le Support.",
+    "selectItem": "Sélectionnez une option...",
+    "selectDone": "Terminé",
+    "submitAndContinue": "Valider et continuer"
   },
   "fiatAccountSchema": {
-    "accountName": {
-      "label": "Nom du compte",
-      "placeholderText": "Un nom pour le compte",
-      "errorMessage": "Un nom de compte est obligatoire"
-    },
     "institutionName": {
       "label": "Nom de la banque",
-      "placeholderText": "Saisissez le nom de la banque",
-      "errorMessage": "Un nom de banque est obligatoire"
+      "placeholderText": "Saisissez le nom de la banque"
     },
     "accountNumber": {
       "label": "Numéro de compte",
@@ -1310,7 +1362,35 @@
   "webView": {
     "openExternal": "Ouvrir dans un navigateur externe"
   },
-  "dappNotListed": "Cette dapp n'est pas répertoriée dans {{appName}}. Les dapps sont des applications tierces. Utilise-les à tes propres risques.",
+  "dappNotListed": "Cette dapp n'est pas répertoriée dans {{appName}}. Les dapps sont des applications tierces. Vous les utilisez à vos propres risques.",
+  "swapScreen": {
+    "title": "Échanger",
+    "review": "Vérifier",
+    "swapFrom": "De",
+    "swapTo": "À",
+    "insufficientFunds": "{{token}} insuffisants. Veuillez saisir un montant inférieur ou choisissez un autre jeton.",
+    "fetchSwapQuoteFailed": "Désolé pour le retard ! Obtenir le meilleur taux de change prend plus longtemps que prévu. Veuillez réessayer plus tard."
+  },
+  "swapTransactionDetailPage": {
+    "swapFrom": "Échanger de",
+    "swapTo": "Échanger pour",
+    "rate": "Taux",
+    "estimatedFee": "Frais estimés",
+    "viewOnExplorer": "Voir sur CeloExplorer"
+  },
+  "swapReviewScreen": {
+    "title": "Vérifier échange",
+    "complete": "Terminer échange",
+    "swapFrom": "Échanger de",
+    "swapTo": "Échanger pour",
+    "transactionDetails": "Détails de transaction",
+    "estimatedGas": "Frais de gas estimés",
+    "swapFee": "Frais de {{appName}}",
+    "swapFeeTitle": "Que sont les frais de {{appName}} ?",
+    "swapFeeBody": "Les frais de {{appName}} sont les frais que vous payez pour échanger des jetons sur {{appName}}. \n\nIls sont de {{swapFee}}% du montant que vous échangez. \n\nLes frais de {{appName}} sont gratuits pour les prochains mois.",
+    "estimatedAmountTitle": "Montant estimé",
+    "estimatedAmountBody": "Les conversions se font sur un échange décentralisé de tiers qui vous trouve le meilleur taux pour votre échange. \n\nVotre échange sera effectué à un prix à moins de {{slippagePercent}}% de l'estimation ou la transaction sera annulée et les fonds retournés à votre portefeuille."
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }

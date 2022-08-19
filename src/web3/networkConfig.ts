@@ -20,8 +20,6 @@ interface NetworkConfig {
   currentMtwImplementationAddress: string
   recaptchaSiteKey: string
   bidaliUrl: string
-  CIP8AuthorizerUrl: string
-  CIP8MetadataUrl: string
   providerFetchUrl: string
   getFiatConnectProvidersUrl: string
   getFiatConnectQuotesUrl: string
@@ -33,6 +31,10 @@ interface NetworkConfig {
   inHouseLiquidityURL: string
   setRegistrationPropertiesUrl: string
   fetchExchangesUrl: string
+  nftsValoraAppUrl: string
+  celoExplorerBaseTxUrl: string
+  approveSwapUrl: string
+  executeSwapUrl: string
 }
 
 const KOMENCI_URL_MAINNET = 'https://mainnet-komenci.azurefd.net'
@@ -52,11 +54,6 @@ const CURRENT_MTW_IMPLEMENTATION_ADDRESS_MAINNET: Address =
   '0x6511FB5DBfe95859d8759AdAd5503D656E2555d7'
 const CURRENT_MTW_IMPLEMENTATION_ADDRESS_STAGING: Address =
   '0x5C9a6E3c3E862eD306E2E3348EBC8b8310A99e5A'
-
-const CIP8_AUTHORIZER_URL_ALFAJORES = 'https://alfajores-stokado.celo-testnet.org/api/authorize'
-const CIP8_METADATA_URL_ALFAJORES = 'https://alfajores-stokado-data.celo-testnet.org'
-const CIP8_AUTHORIZER_URL_MAINNET = 'https://rc1-stokado.celo-testnet.org/api/authorize'
-const CIP8_METADATA_URL_MAINNET = 'https://rc1-stokado-data.celo-testnet.org'
 
 const FETCH_EXCHANGES_URL_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/getExchanges`
 const FETCH_EXCHANGES_URL_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/getExchanges`
@@ -82,6 +79,14 @@ const KOMENCI_LOAD_CHECK_ENDPOINT_PROD = 'https://mainnet-komenci.azurefd.net/v1
 const SET_REGISTRATION_PROPERTIES_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/setRegistrationProperties`
 const SET_REGISTRATION_PROPERTIES_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/setRegistrationProperties`
 
+const CELO_EXPLORER_BASE_TX_URL_ALFAJORES = 'https://alfajores-blockscout.celo-testnet.org/tx/'
+const CELO_EXPLORER_BASE_TX_URL_MAINNET = 'https://explorer.celo.org/tx/'
+
+const NFTS_VALORA_APP_URL = 'https://nfts.valoraapp.com/'
+
+const APPROVE_SWAP_URL = `${CLOUD_FUNCTIONS_MAINNET}/approveSwap`
+const EXECUTE_SWAP_URL = `${CLOUD_FUNCTIONS_MAINNET}/executeSwap`
+
 const networkConfigs: { [testnet: string]: NetworkConfig } = {
   [Testnets.alfajores]: {
     networkId: '44787',
@@ -93,8 +98,6 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     cloudFunctionsUrl: CLOUD_FUNCTIONS_STAGING,
     allowedMtwImplementations: ALLOWED_MTW_IMPLEMENTATIONS_STAGING,
     currentMtwImplementationAddress: CURRENT_MTW_IMPLEMENTATION_ADDRESS_STAGING,
-    CIP8AuthorizerUrl: CIP8_AUTHORIZER_URL_ALFAJORES,
-    CIP8MetadataUrl: CIP8_METADATA_URL_ALFAJORES,
     recaptchaSiteKey: RECAPTCHA_SITE_KEY,
     bidaliUrl: BIDALI_URL,
     providerFetchUrl: PROVIDER_FETCH_URL_ALFAJORES,
@@ -108,6 +111,10 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     inHouseLiquidityURL: 'https://liquidity-dot-celo-mobile-alfajores.appspot.com',
     setRegistrationPropertiesUrl: SET_REGISTRATION_PROPERTIES_ALFAJORES,
     fetchExchangesUrl: FETCH_EXCHANGES_URL_ALFAJORES,
+    nftsValoraAppUrl: NFTS_VALORA_APP_URL,
+    celoExplorerBaseTxUrl: CELO_EXPLORER_BASE_TX_URL_ALFAJORES,
+    approveSwapUrl: APPROVE_SWAP_URL,
+    executeSwapUrl: EXECUTE_SWAP_URL,
   },
   [Testnets.mainnet]: {
     networkId: '42220',
@@ -118,8 +125,6 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     cloudFunctionsUrl: CLOUD_FUNCTIONS_MAINNET,
     allowedMtwImplementations: ALLOWED_MTW_IMPLEMENTATIONS_MAINNET,
     currentMtwImplementationAddress: CURRENT_MTW_IMPLEMENTATION_ADDRESS_MAINNET,
-    CIP8AuthorizerUrl: CIP8_AUTHORIZER_URL_MAINNET,
-    CIP8MetadataUrl: CIP8_METADATA_URL_MAINNET,
     recaptchaSiteKey: RECAPTCHA_SITE_KEY,
     bidaliUrl: BIDALI_URL,
     providerFetchUrl: PROVIDER_FETCH_URL_MAINNET,
@@ -133,6 +138,10 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     inHouseLiquidityURL: 'https://liquidity-dot-celo-mobile-mainnet.appspot.com',
     setRegistrationPropertiesUrl: SET_REGISTRATION_PROPERTIES_MAINNET,
     fetchExchangesUrl: FETCH_EXCHANGES_URL_MAINNET,
+    nftsValoraAppUrl: NFTS_VALORA_APP_URL,
+    celoExplorerBaseTxUrl: CELO_EXPLORER_BASE_TX_URL_MAINNET,
+    approveSwapUrl: APPROVE_SWAP_URL,
+    executeSwapUrl: EXECUTE_SWAP_URL,
   },
 }
 

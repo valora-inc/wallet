@@ -1,8 +1,8 @@
 import { Platform } from 'react-native'
 import { BIOMETRY_TYPE } from 'react-native-keychain'
 import { Actions, ActionTypes, AppState } from 'src/app/actions'
-import { SuperchargeButtonType } from 'src/app/types'
-import { SuperchargeTokenConfig } from 'src/consumerIncentives/types'
+import { CreateAccountCopyTestType, SuperchargeButtonType } from 'src/app/types'
+import { SuperchargeTokenConfigByToken } from 'src/consumerIncentives/types'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { Screens } from 'src/navigator/Screens'
@@ -26,7 +26,7 @@ export interface State {
   showRaiseDailyLimitTarget: string | undefined
   walletConnectV1Enabled: boolean
   superchargeApy: number
-  superchargeTokens: SuperchargeTokenConfig[]
+  superchargeTokenConfigByToken: SuperchargeTokenConfigByToken
   // In 1.13 we had a critical error which requires a migration to fix. See |verificationMigration.ts|
   // for the migration code. We can remove all the code associated with this after some time has passed.
   ranVerificationMigrationAt: number | null | undefined
@@ -39,8 +39,6 @@ export interface State {
   }
   cashInButtonExpEnabled: boolean
   rampCashInButtonExpEnabled: boolean
-  linkBankAccountEnabled: boolean
-  linkBankAccountStepTwoEnabled: boolean
   sentryTracesSampleRate: number
   sentryNetworkErrors: string[]
   supportedBiometryType: BIOMETRY_TYPE | null
@@ -50,10 +48,17 @@ export interface State {
   showPriceChangeIndicatorInBalances: boolean
   paymentDeepLinkHandler: PaymentDeepLinkHandler
   skipProfilePicture: boolean
-  finclusiveUnsupportedStates: string[]
   celoWithdrawalEnabledInExchange: boolean
   fiatConnectCashInEnabled: boolean
   fiatConnectCashOutEnabled: boolean
+  visualizeNFTsEnabledInHomeAssetsPage: boolean
+  coinbasePayEnabled: boolean
+  showSwapMenuInDrawerMenu: boolean
+  shouldShowRecoveryPhraseInSettings: boolean
+  createAccountCopyTestType: CreateAccountCopyTestType
+  maxSwapSlippagePercentage: number
+  swapFeeEnabled: boolean
+  swapFeePercentage: number
 }
 
 const initialState = {
@@ -74,7 +79,7 @@ const initialState = {
   showRaiseDailyLimitTarget: undefined,
   walletConnectV1Enabled: REMOTE_CONFIG_VALUES_DEFAULTS.walletConnectV1Enabled,
   superchargeApy: REMOTE_CONFIG_VALUES_DEFAULTS.superchargeApy,
-  superchargeTokens: [],
+  superchargeTokenConfigByToken: {},
   ranVerificationMigrationAt: null,
   logPhoneNumberTypeEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.logPhoneNumberTypeEnabled,
   googleMobileServicesAvailable: undefined,
@@ -83,8 +88,6 @@ const initialState = {
   rewardPillText: JSON.parse(REMOTE_CONFIG_VALUES_DEFAULTS.rewardPillText),
   cashInButtonExpEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.cashInButtonExpEnabled,
   rampCashInButtonExpEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.rampCashInButtonExpEnabled,
-  linkBankAccountEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.linkBankAccountEnabled,
-  linkBankAccountStepTwoEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.linkBankAccountStepTwoEnabled,
   sentryTracesSampleRate: REMOTE_CONFIG_VALUES_DEFAULTS.sentryTracesSampleRate,
   sentryNetworkErrors: REMOTE_CONFIG_VALUES_DEFAULTS.sentryNetworkErrors.split(','),
   supportedBiometryType: null,
@@ -95,10 +98,19 @@ const initialState = {
     REMOTE_CONFIG_VALUES_DEFAULTS.showPriceChangeIndicatorInBalances,
   paymentDeepLinkHandler: REMOTE_CONFIG_VALUES_DEFAULTS.paymentDeepLinkHandler,
   skipProfilePicture: REMOTE_CONFIG_VALUES_DEFAULTS.skipProfilePicture,
-  finclusiveUnsupportedStates: REMOTE_CONFIG_VALUES_DEFAULTS.finclusiveUnsupportedStates.split(','),
   celoWithdrawalEnabledInExchange: REMOTE_CONFIG_VALUES_DEFAULTS.celoWithdrawalEnabledInExchange,
   fiatConnectCashInEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.fiatConnectCashInEnabled,
   fiatConnectCashOutEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.fiatConnectCashOutEnabled,
+  visualizeNFTsEnabledInHomeAssetsPage:
+    REMOTE_CONFIG_VALUES_DEFAULTS.visualizeNFTsEnabledInHomeAssetsPage,
+  coinbasePayEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.coinbasePayEnabled,
+  showSwapMenuInDrawerMenu: REMOTE_CONFIG_VALUES_DEFAULTS.showSwapMenuInDrawerMenu,
+  shouldShowRecoveryPhraseInSettings:
+    REMOTE_CONFIG_VALUES_DEFAULTS.shouldShowRecoveryPhraseInSettings,
+  createAccountCopyTestType: REMOTE_CONFIG_VALUES_DEFAULTS.createAccountCopyTestType,
+  maxSwapSlippagePercentage: REMOTE_CONFIG_VALUES_DEFAULTS.maxSwapSlippagePercentage,
+  swapFeeEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.swapFeeEnabled,
+  swapFeePercentage: REMOTE_CONFIG_VALUES_DEFAULTS.swapFeePercentage,
 }
 
 export const appReducer = (
@@ -194,14 +206,12 @@ export const appReducer = (
         celoEuroEnabled: action.configValues.celoEuroEnabled,
         walletConnectV1Enabled: action.configValues.walletConnectV1Enabled,
         superchargeApy: action.configValues.superchargeApy,
-        superchargeTokens: action.configValues.superchargeTokens,
+        superchargeTokenConfigByToken: action.configValues.superchargeTokenConfigByToken,
         logPhoneNumberTypeEnabled: action.configValues.logPhoneNumberTypeEnabled,
         pincodeUseExpandedBlocklist: action.configValues.pincodeUseExpandedBlocklist,
         rewardPillText: JSON.parse(action.configValues.rewardPillText),
         cashInButtonExpEnabled: action.configValues.cashInButtonExpEnabled,
         rampCashInButtonExpEnabled: action.configValues.rampCashInButtonExpEnabled,
-        linkBankAccountEnabled: action.configValues.linkBankAccountEnabled,
-        linkBankAccountStepTwoEnabled: action.configValues.linkBankAccountStepTwoEnabled,
         sentryTracesSampleRate: action.configValues.sentryTracesSampleRate,
         sentryNetworkErrors: action.configValues.sentryNetworkErrors,
         biometryEnabled: action.configValues.biometryEnabled,
@@ -210,10 +220,18 @@ export const appReducer = (
         showPriceChangeIndicatorInBalances: action.configValues.showPriceChangeIndicatorInBalances,
         paymentDeepLinkHandler: action.configValues.paymentDeepLinkHandler,
         skipProfilePicture: action.configValues.skipProfilePicture,
-        finclusiveUnsupportedStates: action.configValues.finclusiveUnsupportedStates,
         celoWithdrawalEnabledInExchange: action.configValues.celoWithdrawalEnabledInExchange,
         fiatConnectCashInEnabled: action.configValues.fiatConnectCashInEnabled,
         fiatConnectCashOutEnabled: action.configValues.fiatConnectCashOutEnabled,
+        visualizeNFTsEnabledInHomeAssetsPage:
+          action.configValues.visualizeNFTsEnabledInHomeAssetsPage,
+        coinbasePayEnabled: action.configValues.coinbasePayEnabled,
+        showSwapMenuInDrawerMenu: action.configValues.showSwapMenuInDrawerMenu,
+        shouldShowRecoveryPhraseInSettings: action.configValues.shouldShowRecoveryPhraseInSettings,
+        createAccountCopyTestType: action.configValues.createAccountCopyTestType,
+        maxSwapSlippagePercentage: action.configValues.maxSwapSlippagePercentage,
+        swapFeeEnabled: action.configValues.swapFeeEnabled,
+        swapFeePercentage: action.configValues.swapFeePercentage,
       }
     case Actions.TOGGLE_INVITE_MODAL:
       return {

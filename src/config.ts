@@ -7,6 +7,7 @@ import { SpendMerchant } from 'src/fiatExchanges/Spend'
 import * as secretsFile from '../secrets.json'
 import { ONE_HOUR_IN_MILLIS } from './utils/time'
 import { LoggerLevel } from 'src/utils/LoggerLevels'
+import { Network } from '@fiatconnect/fiatconnect-types'
 
 export * from 'src/brandingConfig'
 
@@ -78,6 +79,10 @@ export const DEFAULT_FORNO_URL =
 export const BLOCKSCOUT_BASE_URL = Config.BLOCKSCOUT_BASE_URL
 
 export const APP_BUNDLE_ID = Config.APP_BUNDLE_ID
+
+// The network that FiatConnect providers operate on
+export const FIATCONNECT_NETWORK =
+  DEFAULT_TESTNET === 'mainnet' ? Network.Mainnet : Network.Alfajores
 
 // FEATURE FLAGS
 export const FIREBASE_ENABLED = stringToBoolean(Config.FIREBASE_ENABLED || 'true')

@@ -89,5 +89,5 @@ export enum ErrorMessages {
   DELETE_BANK_ACCOUNT_FAIL = 'deleteBankAccountFail',
   SUPERCHARGE_FETCH_REWARDS_FAILED = 'superchargeFetchRewardsFailed',
   SUPERCHARGE_CLAIM_FAILED = 'superchargeClaimFailure',
-  ADD_FIAT_ACCOUNT_RESOURCE_EXIST = 'fiatDetailsScreen.addFiatAccountResourceExist',
+  FETCH_SWAP_QUOTE_FAILED = 'swapScreen.fetchSwapQuoteFailed',
 }

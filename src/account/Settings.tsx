@@ -21,8 +21,11 @@ import {
   setPincodeSuccess,
   toggleBackupState,
 } from 'src/account/actions'
-import { KycStatus, PincodeType } from 'src/account/reducer'
-import { pincodeTypeSelector } from 'src/account/selectors'
+import { PincodeType } from 'src/account/reducer'
+import {
+  pincodeTypeSelector,
+  shouldShowRecoveryPhraseInSettingsSelector,
+} from 'src/account/selectors'
 import { SettingsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import {
@@ -34,7 +37,6 @@ import {
 } from 'src/app/actions'
 import {
   biometryEnabledSelector,
-  linkBankAccountStepTwoEnabledSelector,
   sessionIdSelector,
   supportedBiometryTypeSelector,
   verificationPossibleSelector,
@@ -93,10 +95,7 @@ interface StateProps {
   walletConnectEnabled: boolean
   biometryEnabled: boolean
   supportedBiometryType: BIOMETRY_TYPE | null
-  linkBankAccountEnabled: boolean
-  kycStatus: KycStatus | undefined
-  hasLinkedBankAccount: boolean
-  linkBankAccountStepTwoEnabled: boolean
+  shouldShowRecoveryPhraseInSettings: boolean
 }
 
 type OwnProps = StackScreenProps<StackParamList, Screens.Settings>
@@ -121,10 +120,7 @@ const mapStateToProps = (state: RootState): StateProps => {
     walletConnectEnabled: v1,
     biometryEnabled: biometryEnabledSelector(state),
     supportedBiometryType: supportedBiometryTypeSelector(state),
-    linkBankAccountEnabled: state.app.linkBankAccountEnabled,
-    kycStatus: state.account.kycStatus,
-    hasLinkedBankAccount: state.account.hasLinkedBankAccount,
-    linkBankAccountStepTwoEnabled: linkBankAccountStepTwoEnabledSelector(state),
+    shouldShowRecoveryPhraseInSettings: shouldShowRecoveryPhraseInSettingsSelector(state),
   }
 }
 
@@ -163,18 +159,6 @@ export class Account extends React.Component<Props, State> {
     this.props.navigation.navigate(Screens.VerificationEducationScreen, {
       hideOnboardingStep: true,
     })
-  }
-
-  goToLinkBankAccount = () => {
-    ValoraAnalytics.track(SettingsEvents.settings_link_bank_account)
-    navigate(Screens.LinkBankAccountScreen, {
-      kycStatus: this.props.kycStatus,
-    })
-  }
-
-  goToBankAccounts = () => {
-    ValoraAnalytics.track(SettingsEvents.settings_link_bank_account)
-    navigate(Screens.BankAccounts, {})
   }
 
   goToLanguageSetting = () => {
@@ -372,69 +356,16 @@ export class Account extends React.Component<Props, State> {
     }
   }
 
-  getLinkBankAccountSettingItem() {
-    const {
-      kycStatus,
-      linkBankAccountEnabled,
-      hasLinkedBankAccount,
-      linkBankAccountStepTwoEnabled,
-      t,
-    } = this.props
-
-    // Not enabled
-    if (!linkBankAccountEnabled) {
-      return null
+  goToRecoveryPhrase = async () => {
+    try {
+      const pinIsCorrect = await ensurePincode()
+      if (pinIsCorrect) {
+        ValoraAnalytics.track(SettingsEvents.settings_recovery_phrase)
+        navigate(Screens.BackupIntroduction, { navigatedFromSettings: true })
+      }
+    } catch (error) {
+      Logger.error('SettingsItem@onPress', 'PIN ensure error', error)
     }
-
-    // User has not yet fully submitted their KYC info
-    const stillNeedsToDoPersona = [
-      undefined,
-      KycStatus.NotCreated,
-      KycStatus.Created,
-      KycStatus.Pending,
-      KycStatus.Expired,
-    ]
-    if (stillNeedsToDoPersona.includes(kycStatus)) {
-      return (
-        <SettingsItemTextValue
-          title={t('linkBankAccountSettingsTitle')}
-          onPress={this.goToLinkBankAccount}
-          value={t('linkBankAccountSettingsValue')}
-          isValueActionable={true}
-          testID="linkBankAccountSettings"
-        />
-      )
-    }
-    // User has gone through KYC but either KYC has not been Approved or step 2 is not enabled
-    if (kycStatus !== KycStatus.Approved || !linkBankAccountStepTwoEnabled) {
-      return (
-        <SettingsItemTextValue
-          title={t('linkBankAccountSettingsTitle')}
-          onPress={this.goToLinkBankAccount}
-          testID="linkBankAccountSettings"
-        />
-      )
-    }
-    // User has been Approved with KYC and Step 2 is enabled, they have not yet added a bank account
-    if (!hasLinkedBankAccount) {
-      return (
-        <SettingsItemTextValue
-          title={t('linkBankAccountSettingsTitle')}
-          onPress={this.goToLinkBankAccount}
-          value={t('linkBankAccountSettingsValue2')}
-          isValueActionable={true}
-          testID="linkBankAccountSettings"
-        />
-      )
-    }
-    // User has gone through Plaid flow and added a bank account in the past
-    return (
-      <SettingsItemTextValue
-        title={t('linkBankAccountSettingsTitle')}
-        onPress={this.goToBankAccounts}
-        testID="linkBankAccountSettings"
-      />
-    )
   }
 
   render() {
@@ -460,7 +391,6 @@ export class Account extends React.Component<Props, State> {
             {!numberVerified && verificationPossible && (
               <SettingsItemTextValue title={t('confirmNumber')} onPress={this.goToConfirmNumber} />
             )}
-            {this.getLinkBankAccountSettingItem()}
             <SettingsItemTextValue
               title={t('languageSettings')}
               value={currentLanguage?.name ?? t('unknown')}
@@ -480,6 +410,13 @@ export class Account extends React.Component<Props, State> {
               />
             )}
             <SectionHead text={t('security')} style={styles.sectionTitle} />
+            {this.props.shouldShowRecoveryPhraseInSettings && (
+              <SettingsItemTextValue
+                title={t('accountKey')}
+                onPress={this.goToRecoveryPhrase}
+                testID="RecoveryPhrase"
+              />
+            )}
             <SettingsItemTextValue
               title={t('changePin')}
               onPress={this.goToChangePin}

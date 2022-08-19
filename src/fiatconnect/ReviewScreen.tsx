@@ -1,65 +1,189 @@
-import { CryptoType, FiatAccountSchema, FiatAccountSchemas } from '@fiatconnect/fiatconnect-types'
+import { ObfuscatedFiatAccountData } from '@fiatconnect/fiatconnect-types'
 import { RouteProp } from '@react-navigation/native'
 import { StackScreenProps } from '@react-navigation/stack'
-import React from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, BackHandler, SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import { useDispatch, useSelector } from 'react-redux'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import CancelButton from 'src/components/CancelButton'
 import CurrencyDisplay, { FormatType } from 'src/components/CurrencyDisplay'
+import Dialog from 'src/components/Dialog'
 import LineItemRow from 'src/components/LineItemRow'
 import TokenDisplay from 'src/components/TokenDisplay'
+import Touchable from 'src/components/Touchable'
+import {
+  fiatConnectQuotesErrorSelector,
+  fiatConnectQuotesLoadingSelector,
+} from 'src/fiatconnect/selectors'
+import { createFiatConnectTransfer, refetchQuote } from 'src/fiatconnect/slice'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import i18n from 'src/i18n'
+import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
 import { emptyHeader } from 'src/navigator/Headers'
+import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { FiatAccount, StackParamList } from 'src/navigator/types'
+import { StackParamList } from 'src/navigator/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
-import { useTokenInfoBySymbol } from 'src/tokens/hooks'
-import Logger from 'src/utils/Logger'
-
-const TAG = 'FiatConnectReviewScreen'
+import { Currency, resolveCICOCurrency } from 'src/utils/currencies'
 
 type Props = StackScreenProps<StackParamList, Screens.FiatConnectReview>
 
 export default function FiatConnectReviewScreen({ route, navigation }: Props) {
   const { t } = useTranslation()
+  const dispatch = useDispatch()
+  const { flow, normalizedQuote, fiatAccount, shouldRefetchQuote } = route.params
+  const fiatConnectQuotesLoading = useSelector(fiatConnectQuotesLoadingSelector)
+  const fiatConnectQuotesError = useSelector(fiatConnectQuotesErrorSelector)
+  const [showingExpiredQuoteDialog, setShowingExpiredQuoteDialog] = useState(
+    normalizedQuote.getGuaranteedUntil() < new Date()
+  )
 
-  const { flow, normalizedQuote, fiatAccount } = route.params
+  useEffect(() => {
+    if (shouldRefetchQuote) {
+      dispatch(
+        refetchQuote({
+          flow,
+          quote: normalizedQuote,
+          fiatAccount,
+        })
+      )
+    }
+  }, [shouldRefetchQuote])
 
-  const tokenInfo = useTokenInfoBySymbol(normalizedQuote.getCryptoType())
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => <BackButton testID="backButton" onPress={onPressBack} />,
+    })
+  }, [navigation])
 
-  if (!tokenInfo) {
-    Logger.error(TAG, `Token info not found for ${normalizedQuote.getCryptoType()}`)
-    return null
+  useEffect(() => {
+    function hardwareBackPress() {
+      goBack()
+      return true
+    }
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', hardwareBackPress)
+    return function cleanup() {
+      backHandler.remove()
+    }
+  }, [])
+
+  const goBack = () => {
+    // Navigate Back unless the previous screen was FiatDetailsScreen
+    const routes = navigation.getState().routes
+    const previousScreen = routes[routes.length - 2]
+    if (previousScreen?.name === Screens.FiatDetailsScreen) {
+      navigate(Screens.SelectProvider, {
+        flow: normalizedQuote.flow,
+        selectedCrypto: normalizedQuote.getCryptoType(),
+        amount: {
+          fiat: parseFloat(normalizedQuote.getFiatAmount()),
+          crypto: parseFloat(normalizedQuote.getCryptoAmount()),
+        },
+      })
+    } else {
+      navigateBack()
+    }
+  }
+
+  const onPressBack = async () => {
+    ValoraAnalytics.track(FiatExchangeEvents.cico_fc_review_back, {
+      flow,
+      provider: normalizedQuote.getProviderId(),
+    })
+    goBack()
+  }
+
+  const onPressSupport = () => {
+    ValoraAnalytics.track(FiatExchangeEvents.cico_fc_review_error_contact_support, {
+      flow,
+      provider: normalizedQuote.getProviderId(),
+    })
+    navigate(Screens.SupportContact)
+  }
+
+  const onPressTryAgain = () => {
+    ValoraAnalytics.track(FiatExchangeEvents.cico_fc_review_error_retry, {
+      flow,
+      provider: normalizedQuote.getProviderId(),
+    })
+    dispatch(
+      refetchQuote({
+        flow,
+        quote: normalizedQuote,
+        fiatAccount,
+      })
+    )
+  }
+
+  if (fiatConnectQuotesError) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.title}>{t('fiatConnectReviewScreen.failedRefetch.title')}</Text>
+        <Text style={styles.description}>
+          {t('fiatConnectReviewScreen.failedRefetch.description')}
+        </Text>
+        <Button
+          style={styles.button}
+          testID="TryAgain"
+          onPress={onPressTryAgain}
+          text={t('fiatConnectReviewScreen.failedRefetch.tryAgain')}
+          type={BtnTypes.PRIMARY}
+          size={BtnSizes.MEDIUM}
+        />
+        <Button
+          style={styles.button}
+          testID="SupportContactLink"
+          onPress={onPressSupport}
+          text={t('contactSupport')}
+          type={BtnTypes.SECONDARY}
+          size={BtnSizes.MEDIUM}
+        />
+      </View>
+    )
+  }
+
+  if (fiatConnectQuotesLoading) {
+    return (
+      <View style={styles.activityIndicatorContainer}>
+        <ActivityIndicator size="large" color={colors.greenBrand} />
+      </View>
+    )
   }
 
   return (
     <SafeAreaView style={styles.content}>
+      <Dialog
+        testID="expiredQuoteDialog"
+        isVisible={showingExpiredQuoteDialog}
+        title={t('fiatConnectReviewScreen.quoteExpiredDialog.title')}
+        actionText={t('fiatConnectReviewScreen.quoteExpiredDialog.continue')}
+        actionPress={() => {
+          dispatch(
+            refetchQuote({
+              flow,
+              quote: normalizedQuote,
+              fiatAccount,
+            })
+          )
+          setShowingExpiredQuoteDialog(false)
+        }}
+      >
+        {t('fiatConnectReviewScreen.quoteExpiredDialog.body')}
+      </Dialog>
       <View>
-        <ReceiveAmount
-          flow={flow}
-          normalizedQuote={normalizedQuote}
-          tokenAddress={tokenInfo.address}
-        />
-        <TransactionDetails
-          flow={flow}
-          normalizedQuote={normalizedQuote}
-          tokenAddress={tokenInfo.address}
-        />
-        <PaymentMethod
-          normalizedQuote={normalizedQuote}
-          fiatAccount={fiatAccount}
-          fiatAccountSchema={normalizedQuote.getFiatAccountSchema()}
-        />
+        <ReceiveAmount flow={flow} normalizedQuote={normalizedQuote} />
+        <TransactionDetails flow={flow} normalizedQuote={normalizedQuote} />
+        <PaymentMethod flow={flow} normalizedQuote={normalizedQuote} fiatAccount={fiatAccount} />
       </View>
       <Button
+        testID="submitButton"
         style={styles.submitBtn}
         type={BtnTypes.PRIMARY}
         size={BtnSizes.FULL}
@@ -69,9 +193,28 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
             : t('fiatConnectReviewScreen.cashOut.button')
         }
         onPress={() => {
-          ValoraAnalytics.track(FiatExchangeEvents.cico_submit_transfer, { flow })
+          if (normalizedQuote.getGuaranteedUntil() < new Date()) {
+            setShowingExpiredQuoteDialog(true)
+          } else {
+            ValoraAnalytics.track(FiatExchangeEvents.cico_fc_review_submit, {
+              flow,
+              provider: normalizedQuote.getProviderId(),
+            })
 
-          // TODO(any): submit the transfer
+            dispatch(
+              createFiatConnectTransfer({
+                flow,
+                fiatConnectQuote: normalizedQuote,
+                fiatAccountId: fiatAccount.fiatAccountId,
+              })
+            )
+
+            navigate(Screens.FiatConnectTransferStatus, {
+              flow,
+              normalizedQuote,
+              fiatAccount,
+            })
+          }
         }}
       />
     </SafeAreaView>
@@ -81,11 +224,9 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
 function ReceiveAmount({
   flow,
   normalizedQuote,
-  tokenAddress,
 }: {
   flow: CICOFlow
   normalizedQuote: FiatConnectQuote
-  tokenAddress: string
 }) {
   const { t } = useTranslation()
   return (
@@ -98,7 +239,7 @@ function ReceiveAmount({
           flow === CICOFlow.CashIn ? (
             <TokenDisplay
               amount={normalizedQuote.getCryptoAmount()}
-              tokenAddress={tokenAddress}
+              currency={normalizedQuote.getCryptoType()}
               showLocalAmount={false}
               testID="amount-crypto"
             />
@@ -107,7 +248,7 @@ function ReceiveAmount({
               amount={{
                 // The value here doesn't matter since the component will use `localAmount`
                 value: 0,
-                currencyCode: normalizedQuote.getCryptoType(),
+                currencyCode: resolveCICOCurrency(normalizedQuote.getCryptoType()),
                 localAmount: {
                   value: normalizedQuote.getFiatAmount(),
                   currencyCode: normalizedQuote.getFiatType(),
@@ -126,12 +267,12 @@ function ReceiveAmount({
 function TransactionDetails({
   flow,
   normalizedQuote,
-  tokenAddress,
 }: {
   flow: CICOFlow
   normalizedQuote: FiatConnectQuote
-  tokenAddress: string
 }) {
+  const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)!
+
   if (flow === CICOFlow.CashIn) {
     // TODO: update below implementation to support CashIn
     throw new Error('Not implemented')
@@ -140,17 +281,17 @@ function TransactionDetails({
   const { t } = useTranslation()
   let tokenDisplay: string
   switch (normalizedQuote.getCryptoType()) {
-    case CryptoType.cUSD:
+    case Currency.Dollar:
       tokenDisplay = t('celoDollar')
       break
-    case CryptoType.cEUR:
+    case Currency.Euro:
       tokenDisplay = t('celoEuro')
       break
     default:
       tokenDisplay = t('total')
   }
 
-  const fee = normalizedQuote.getFee()
+  const fee = normalizedQuote.getFeeInCrypto(exchangeRates)
   const totalConverted = Number(normalizedQuote.getCryptoAmount()) - Number(fee || 0)
   const exchangeRate = Number(normalizedQuote.getFiatAmount()) / totalConverted
 
@@ -166,7 +307,7 @@ function TransactionDetails({
         amount={
           <TokenDisplay
             amount={normalizedQuote.getCryptoAmount()}
-            tokenAddress={tokenAddress}
+            currency={normalizedQuote.getCryptoType()}
             showLocalAmount={false}
             testID="txDetails-total"
           />
@@ -179,7 +320,7 @@ function TransactionDetails({
         amount={
           <TokenDisplay
             amount={totalConverted}
-            tokenAddress={tokenAddress}
+            currency={normalizedQuote.getCryptoType()}
             showLocalAmount={false}
             testID="txDetails-converted"
           />
@@ -192,7 +333,7 @@ function TransactionDetails({
           amount={
             <TokenDisplay
               amount={fee}
-              tokenAddress={tokenAddress}
+              currency={normalizedQuote.getCryptoType()}
               showLocalAmount={false}
               testID="txDetails-fee"
             />
@@ -208,7 +349,7 @@ function TransactionDetails({
             <CurrencyDisplay
               amount={{
                 value: 1,
-                currencyCode: normalizedQuote.getCryptoType(),
+                currencyCode: resolveCICOCurrency(normalizedQuote.getCryptoType()),
                 localAmount: {
                   value: exchangeRate,
                   currencyCode: normalizedQuote.getFiatType(),
@@ -225,7 +366,7 @@ function TransactionDetails({
             amount={{
               // The value here doesn't matter since the component will use `localAmount`
               value: 0,
-              currencyCode: normalizedQuote.getCryptoType(),
+              currencyCode: resolveCICOCurrency(normalizedQuote.getCryptoType()),
               localAmount: {
                 value: normalizedQuote.getFiatAmount(),
                 currencyCode: normalizedQuote.getFiatType(),
@@ -243,44 +384,49 @@ function TransactionDetails({
 }
 
 function PaymentMethod({
+  flow,
   normalizedQuote,
   fiatAccount,
-  fiatAccountSchema,
 }: {
+  flow: CICOFlow
   normalizedQuote: FiatConnectQuote
-  fiatAccount: FiatAccount
-  fiatAccountSchema: FiatAccountSchema
+  fiatAccount: ObfuscatedFiatAccountData
 }) {
   const { t } = useTranslation()
 
-  // TODO(any): consider merging this with other schema specific stuff in a generic
-  // type and create via a factory
-  let displayText: string
-  switch (fiatAccountSchema) {
-    case FiatAccountSchema.AccountNumber:
-      const account: FiatAccountSchemas[FiatAccountSchema.AccountNumber] = fiatAccount
-      displayText = `${account.institutionName} (...${account.accountNumber.slice(-4)})`
-      break
-    default:
-      throw new Error('Unsupported schema type')
+  const onPress = () => {
+    navigate(Screens.SelectProvider, {
+      flow: normalizedQuote.flow,
+      selectedCrypto: normalizedQuote.getCryptoType(),
+      amount: {
+        fiat: parseFloat(normalizedQuote.getFiatAmount()),
+        crypto: parseFloat(normalizedQuote.getCryptoAmount()),
+      },
+    })
   }
 
   return (
-    <View style={styles.sectionContainer}>
-      <Text style={styles.sectionHeaderText}>{t('fiatConnectReviewScreen.paymentMethod')}</Text>
-      <View style={styles.sectionMainTextContainer}>
-        <Text style={styles.sectionMainText} testID="paymentMethod-text">
-          {displayText}
+    <Touchable onPress={onPress}>
+      <View style={styles.sectionContainer}>
+        <Text style={styles.sectionHeaderText}>
+          {flow === CICOFlow.CashIn
+            ? t('fiatConnectReviewScreen.cashIn.paymentMethodHeader')
+            : t('fiatConnectReviewScreen.cashOut.paymentMethodHeader')}
         </Text>
+        <View style={styles.sectionMainTextContainer}>
+          <Text style={styles.sectionMainText} testID="paymentMethod-text">
+            {fiatAccount.accountName}
+          </Text>
+        </View>
+        <View style={styles.sectionSubTextContainer}>
+          <Text style={styles.sectionSubText} testID="paymentMethod-via">
+            {t('fiatConnectReviewScreen.paymentMethodVia', {
+              providerName: normalizedQuote.getProviderName(),
+            })}
+          </Text>
+        </View>
       </View>
-      <View style={styles.sectionSubTextContainer}>
-        <Text style={styles.sectionSubText} testID="paymentMethod-via">
-          {t('fiatConnectReviewScreen.paymentMethodVia', {
-            providerName: normalizedQuote.getProviderName(),
-          })}
-        </Text>
-      </View>
-    </View>
+    </Touchable>
   )
 }
 
@@ -326,6 +472,30 @@ const styles = StyleSheet.create({
   cancelBtn: {
     color: colors.gray3,
   },
+  activityIndicatorContainer: {
+    paddingVertical: variables.contentPadding,
+    flex: 1,
+    alignContent: 'center',
+    justifyContent: 'center',
+  },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  title: {
+    ...fontStyles.h2,
+  },
+  description: {
+    ...fontStyles.regular,
+    textAlign: 'center',
+    marginTop: 12,
+    paddingHorizontal: 48,
+    paddingBottom: 24,
+  },
+  button: {
+    marginTop: 13,
+  },
 })
 
 FiatConnectReviewScreen.navigationOptions = ({
@@ -336,11 +506,21 @@ FiatConnectReviewScreen.navigationOptions = ({
   ...emptyHeader,
   headerLeft: () => <BackButton />,
   // NOTE: copies for cash in not final
+
   headerTitle:
     route.params.flow === CICOFlow.CashIn
       ? i18n.t(`fiatConnectReviewScreen.cashIn.header`)
       : i18n.t(`fiatConnectReviewScreen.cashOut.header`),
-  // TODO(any): when tying this component to the flow, add `onCancel` prop to
-  // navigate to correct screen.
-  headerRight: () => <CancelButton style={styles.cancelBtn} />,
+  headerRight: () => (
+    <CancelButton
+      onCancel={() => {
+        ValoraAnalytics.track(FiatExchangeEvents.cico_fc_review_cancel, {
+          flow: route.params.flow,
+          provider: route.params.normalizedQuote.getProviderId(),
+        })
+        navigate(Screens.FiatExchange)
+      }}
+      style={styles.cancelBtn}
+    />
+  ),
 })

@@ -28,6 +28,11 @@ import {
   v51Schema,
   v52Schema,
   v53Schema,
+  v56Schema,
+  v57Schema,
+  v58Schema,
+  v59Schema,
+  v62Schema,
   v7Schema,
   v8Schema,
   vNeg1Schema,
@@ -570,5 +575,92 @@ describe('Redux persist migrations', () => {
     expectedSchema.dapps = dappsInfo
 
     expect(migratedSchema).toMatchObject(expectedSchema)
+  })
+
+  it('works for v56 to v57', () => {
+    const oldSchema = v56Schema
+    const migratedSchema = migrations[57](oldSchema)
+
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    expectedSchema.app.visualizeNFTsEnabledInHomeAssetsPage = false
+
+    expect(migratedSchema).toMatchObject(expectedSchema)
+  })
+
+  it('works for v57 to v58', () => {
+    const oldSchema = v57Schema
+    const migratedSchema = migrations[58](oldSchema)
+
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    expectedSchema.app.coinbasePayEnabled = false
+
+    expect(migratedSchema).toMatchObject(expectedSchema)
+  })
+
+  it('works for v58 to v59', () => {
+    const oldTransactions = [
+      {
+        metadata: {
+          title: null,
+          comment: '',
+          subtitle: null,
+          image: null,
+        },
+        __typename: 'TokenTransferV2',
+        block: '14255636',
+        transactionHash: '0xf4e59db43c9051947ffe8a29a09c8f85dcf540699855166aa68f11cda3014b72',
+        type: 'RECEIVED',
+        amount: {
+          value: '0.01',
+          tokenAddress: '0x765de816845861e75a25fca122bb6898b8b1282a',
+          localAmount: {
+            currencyCode: 'USD',
+            exchangeRate: '1',
+            value: '0.01',
+          },
+        },
+        fees: null,
+        timestamp: 1658945996000,
+        address: '0xde33e71faecdead20e6a8af8f362d2236cba005f',
+      },
+      {},
+    ]
+    const oldSchema = {
+      ...v58Schema,
+      transactions: {
+        ...v58Schema.transactions,
+        transactions: oldTransactions,
+      },
+    }
+    const migratedSchema = migrations[59](oldSchema)
+
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    expectedSchema.transactions.transactions = [oldTransactions[0]]
+
+    expect(migratedSchema).toMatchObject(expectedSchema)
+  })
+
+  it('works for v59 to v60', () => {
+    const oldSchema = v59Schema
+    const migratedSchema = migrations[60](oldSchema)
+
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    expectedSchema.fiatConnect = {}
+    expectedSchema.fiatConnect.quotes = []
+    expectedSchema.fiatConnect.quotesLoading = false
+    expectedSchema.fiatConnect.quotesError = null
+
+    expect(migratedSchema).toMatchObject(expectedSchema)
+  })
+
+  it('works for v62 to v63', () => {
+    const oldSchema = v62Schema
+    const migratedSchema = migrations[63](oldSchema)
+
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    expectedSchema.app.superchargeTokenConfigByToken = {}
+    delete expectedSchema.app.superchargeTokens
+
+    expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 })

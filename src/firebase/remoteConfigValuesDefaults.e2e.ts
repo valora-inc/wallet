@@ -1,5 +1,5 @@
 import { RemoteConfigValues } from 'src/app/saga'
-import { SuperchargeButtonType } from 'src/app/types'
+import { CreateAccountCopyTestType, SuperchargeButtonType } from 'src/app/types'
 import { DappConnectInfo } from 'src/dapps/types'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 
@@ -9,8 +9,7 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   | 'celoEducationUri'
   | 'komenciAllowedDeployers'
   | 'sentryNetworkErrors'
-  | 'superchargeTokens'
-  | 'finclusiveUnsupportedStates'
+  | 'superchargeTokenConfigByToken'
 > & {
   komenciAllowedDeployers: string
   sentryNetworkErrors: string
@@ -20,7 +19,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   superchargecEURMax: number
   superchargecREALMin: number
   superchargecREALMax: number
-  finclusiveUnsupportedStates: string
 } = {
   hideVerification: false,
   // cannot set defaults to undefined or null
@@ -34,7 +32,7 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   inviteRewardWeeklyLimit: 20,
   walletConnectV1Enabled: true,
   walletConnectV2Enabled: false,
-  superchargeApy: 25,
+  superchargeApy: 12,
   superchargecUSDMin: 10,
   superchargecUSDMax: 1000,
   superchargecEURMin: 10,
@@ -55,8 +53,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   rampCashInButtonExpEnabled: false,
   logPhoneNumberTypeEnabled: false,
   allowOtaTranslations: false,
-  linkBankAccountEnabled: false,
-  linkBankAccountStepTwoEnabled: false,
   sentryTracesSampleRate: 0.2,
   sentryNetworkErrors: '',
   biometryEnabled: false,
@@ -69,9 +65,16 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   paymentDeepLinkHandler: PaymentDeepLinkHandler.Disabled,
   dappsWebViewEnabled: true,
   skipProfilePicture: false,
-  finclusiveUnsupportedStates: 'NY,TX',
   celoWithdrawalEnabledInExchange: true,
   fiatConnectCashInEnabled: false,
   fiatConnectCashOutEnabled: false,
   dappConnectInfo: DappConnectInfo.Basic,
+  visualizeNFTsEnabledInHomeAssetsPage: false,
+  coinbasePayEnabled: false,
+  showSwapMenuInDrawerMenu: false,
+  shouldShowRecoveryPhraseInSettings: false,
+  createAccountCopyTestType: CreateAccountCopyTestType.Account,
+  maxSwapSlippagePercentage: 2,
+  swapFeeEnabled: false,
+  swapFeePercentage: 0.743,
 }

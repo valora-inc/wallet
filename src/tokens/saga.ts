@@ -17,16 +17,18 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { DOLLAR_MIN_AMOUNT_ACCOUNT_FUNDED, isE2EEnv, WALLET_BALANCE_UPPER_BOUND } from 'src/config'
 import { FeeInfo } from 'src/fees/saga'
 import { readOnceFromFirebase } from 'src/firebase/firebase'
+import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
+import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import { e2eTokens } from 'src/tokens/e2eTokens'
+import { lastKnownTokenBalancesSelector, tokensListSelector } from 'src/tokens/selectors'
 import {
   fetchTokenBalances,
+  fetchTokenBalancesFailure,
   setTokenBalances,
   StoredTokenBalance,
   StoredTokenBalances,
   TokenBalance,
-  tokenBalanceFetchError,
-} from 'src/tokens/reducer'
-import { tokensListSelector, totalTokenBalanceSelector } from 'src/tokens/selectors'
+} from 'src/tokens/slice'
 import { addStandbyTransactionLegacy, removeStandbyTransaction } from 'src/transactions/actions'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import { TransactionContext, TransactionStatus } from 'src/transactions/types'
@@ -320,6 +322,7 @@ export function* fetchTokenBalancesSaga() {
       Logger.debug(TAG, 'Skipping fetching tokens since no address was found')
       return
     }
+    SentryTransactionHub.startTransaction(SentryTransaction.fetch_balances)
     // In e2e environment we use a static token list since we can't access Firebase.
     const tokens: StoredTokenBalances = isE2EEnv
       ? e2eTokens()
@@ -338,9 +341,10 @@ export function* fetchTokenBalancesSaga() {
       }
     }
     yield put(setTokenBalances(tokens))
+    SentryTransactionHub.finishTransaction(SentryTransaction.fetch_balances)
     ValoraAnalytics.track(AppEvents.fetch_balance, {})
   } catch (error) {
-    yield put(tokenBalanceFetchError())
+    yield put(fetchTokenBalancesFailure())
     Logger.error(TAG, 'error fetching user balances', error.message)
     ValoraAnalytics.track(AppEvents.fetch_balance_error, {
       error: error.message,
@@ -372,12 +376,16 @@ export function* watchFetchBalance() {
 export function* watchAccountFundedOrLiquidated() {
   let prevTokenBalance
   while (true) {
-    const tokenBalance: ReturnType<typeof totalTokenBalanceSelector> = yield select(
-      totalTokenBalanceSelector
+    // we reset the usd value of all token balances to 0 if the exchange rate is
+    // stale, so it is okay to use stale token prices to monitor the account
+    // funded / liquidated status in this case
+    const tokenBalance: ReturnType<typeof lastKnownTokenBalancesSelector> = yield select(
+      lastKnownTokenBalancesSelector
     )
-    if (tokenBalance !== prevTokenBalance) {
-      // prevTokenBalance is undefined for the base case and null if token list
-      // is not yet loaded
+
+    if (tokenBalance !== null && tokenBalance !== prevTokenBalance) {
+      // prevTokenBalance is undefined for the base case
+      // tokenBalance is null when not yet loaded / refetching / failed to fetch
       if (prevTokenBalance) {
         const isAccountFundedBefore = prevTokenBalance?.gt(DOLLAR_MIN_AMOUNT_ACCOUNT_FUNDED)
         const isAccountFundedAfter = tokenBalance?.gt(DOLLAR_MIN_AMOUNT_ACCOUNT_FUNDED)

@@ -1,11 +1,19 @@
+import BigNumber from 'bignumber.js'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import ExternalQuote from 'src/fiatExchanges/quotes/ExternalQuote'
 import { CICOFlow, PaymentMethod, RawProviderQuote, SimplexQuote } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { navigateToURI } from 'src/utils/linking'
+import { createMockStore } from 'test/utils'
 import { mockProviders } from 'test/values'
 
 jest.mock('src/analytics/ValoraAnalytics')
+
+const mockExchangeRates = {
+  cGLD: '2',
+  cUSD: '2',
+  cEUR: '2',
+}
 
 describe('ExternalQuote', () => {
   describe('constructor', () => {
@@ -59,14 +67,33 @@ describe('ExternalQuote', () => {
     })
   })
 
-  describe('.getFee', () => {
+  describe('.getFeeInCrypto', () => {
+    it('returns converted fee for simplex', () => {
+      const quote = new ExternalQuote({
+        quote: mockProviders[0].quote as SimplexQuote,
+        provider: mockProviders[0],
+        flow: CICOFlow.CashIn,
+      })
+      expect(quote.getFeeInCrypto(mockExchangeRates)).toEqual(new BigNumber(3))
+    })
+    it('returns converted fee for other', () => {
+      const quote = new ExternalQuote({
+        quote: (mockProviders[1].quote as RawProviderQuote[])[0],
+        provider: mockProviders[1],
+        flow: CICOFlow.CashIn,
+      })
+      expect(quote.getFeeInCrypto(mockExchangeRates)).toEqual(new BigNumber(2.5))
+    })
+  })
+
+  describe('.getFeeInFiat', () => {
     it('returns fee for simplex', () => {
       const quote = new ExternalQuote({
         quote: mockProviders[0].quote as SimplexQuote,
         provider: mockProviders[0],
         flow: CICOFlow.CashIn,
       })
-      expect(quote.getFee()).toEqual(-13)
+      expect(quote.getFeeInFiat(mockExchangeRates)).toEqual(new BigNumber(6))
     })
     it('returns fee for other', () => {
       const quote = new ExternalQuote({
@@ -74,7 +101,7 @@ describe('ExternalQuote', () => {
         provider: mockProviders[1],
         flow: CICOFlow.CashIn,
       })
-      expect(quote.getFee()).toEqual(5)
+      expect(quote.getFeeInFiat(mockExchangeRates)).toEqual(new BigNumber(5))
     })
   })
 
@@ -115,7 +142,7 @@ describe('ExternalQuote', () => {
         provider: mockProviders[0],
         flow: CICOFlow.CashIn,
       })
-      quote.onPress(CICOFlow.CashIn)()
+      quote.onPress(CICOFlow.CashIn, createMockStore().dispatch)()
       expect(ValoraAnalytics.track).toHaveBeenCalled()
     })
   })

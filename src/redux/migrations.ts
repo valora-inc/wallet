@@ -13,6 +13,7 @@ import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDe
 import { AddressToDisplayNameType } from 'src/identity/reducer'
 import { VerificationStatus } from 'src/identity/types'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
+import { TokenTransaction } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 
 export const migrations = {
@@ -574,9 +575,7 @@ export const migrations = {
     },
     app: {
       ...state.app,
-      finclusiveUnsupportedStates: REMOTE_CONFIG_VALUES_DEFAULTS.finclusiveUnsupportedStates.split(
-        ','
-      ),
+      finclusiveUnsupportedStates: ['NY', 'TX'],
     },
   }),
   45: (state: any) => state,
@@ -676,6 +675,129 @@ export const migrations = {
     dapps: {
       ...state.dapps,
       dappConnectInfo: DappConnectInfo.Default,
+    },
+  }),
+  57: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      visualizeNFTsEnabledInHomeAssetsPage:
+        REMOTE_CONFIG_VALUES_DEFAULTS.visualizeNFTsEnabledInHomeAssetsPage,
+    },
+  }),
+  58: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      coinbasePayEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.coinbasePayEnabled,
+    },
+  }),
+  59: (state: any) => ({
+    ...state,
+    transactions: {
+      ...state.transactions,
+      transactions: (state.transactions.transactions || []).filter(
+        (transaction: TokenTransaction) => Object.keys(transaction).length > 0
+      ),
+    },
+  }),
+  60: (state: any) => ({
+    ...state,
+    fiatConnect: {
+      quotes: [],
+      quotesLoading: false,
+      quotesError: null,
+    },
+  }),
+  61: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      showSwapMenuInDrawerMenu: REMOTE_CONFIG_VALUES_DEFAULTS.showSwapMenuInDrawerMenu,
+    },
+  }),
+  62: (state: any) => ({
+    ...state,
+    fiatConnect: {
+      ...state.fiatConnect,
+      transfer: null,
+    },
+  }),
+  63: (state: any) => ({
+    ...state,
+    app: {
+      ..._.omit(state.app, 'superchargeTokens'),
+      superchargeTokenConfigByToken: {},
+    },
+  }),
+  64: (state: any) => ({
+    ...state,
+    fiatConnect: {
+      ...state.fiatConnect,
+      providers: null,
+    },
+  }),
+  65: (state: any) => state,
+  66: (state: any) => ({
+    ...state,
+    fiatConnect: {
+      ...state.fiatConnect,
+      cachedFiatAccountUses: [],
+      attemptReturnUserFlowLoading: false,
+    },
+  }),
+  67: (state: any) => ({
+    ...state,
+    fiatConnect: {
+      ...state.fiatConnect,
+      selectFiatConnectQuoteLoading: false,
+    },
+  }),
+  68: (state: any) => ({
+    ...state,
+    app: _.omit(
+      state.app,
+      'linkBankAccountEnabled',
+      'linkBankAccountStepTwoEnabled',
+      'finclusiveUnsupportedStates'
+    ),
+    account: _.omit(
+      state.account,
+      'hasLinkedBankAccount',
+      'finclusiveRegionSupported',
+      'finclusiveKycStatus',
+      'kycStatus'
+    ),
+  }),
+  69: (state: any) => ({
+    ...state,
+    recipients: {
+      ...state.recipients,
+      coinbasePaySenders: [],
+    },
+  }),
+  70: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      shouldShowRecoveryPhraseInSettings:
+        REMOTE_CONFIG_VALUES_DEFAULTS.shouldShowRecoveryPhraseInSettings,
+    },
+  }),
+  71: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      createAccountCopyTestType: REMOTE_CONFIG_VALUES_DEFAULTS.createAccountCopyTestType,
+    },
+  }),
+  72: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      maxSwapSlippagePercentage: REMOTE_CONFIG_VALUES_DEFAULTS.maxSwapSlippagePercentage,
+      swapFeeEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.swapFeeEnabled,
+      swapFeePercentage: REMOTE_CONFIG_VALUES_DEFAULTS.swapFeePercentage,
     },
   }),
 }
