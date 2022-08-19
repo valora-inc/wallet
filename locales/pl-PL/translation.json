@@ -595,13 +595,13 @@
   "sendAndInvite": "Wyślij i zaproś",
   "inviteAndSendDialog": {
     "title": "Dokończ zapraszanie {{name}} do aplikacji Valora",
-    "bodyWithRewards": "Po dołączeniu i podaniu swojego numeru telefonu, oboje otrzymacie specjalną edycję NFT. Kliknij poniżej, aby wysłać zaproszenie SMS-em.",
+    "bodyWithRewards": "Gdy Twój znajomy utworzy konto i podłączy swój numer telefonu, oboje otrzymacie NFT. Kliknij poniżej, aby wysłać zaproszenie.",
     "body": "Wyślij do {{name}} wiadomość z zaproszeniem do aplikacji {{appName}}. Gdy utworzy konto i podłączy swój numer telefonu, otrzyma Twoją płatność.",
     "button": "Dokończ zaproszenie"
   },
   "inviteRewardsBanner": {
     "title": "Wyślij kryptowalutę, aby zaprosić znajomego",
-    "body": "Po skonfigurowaniu portfela {{appName}} i podłączeniu swojego numeru, każdy z was otrzyma ekskluzywne NFT. <0>Dowiedz się więcej</0>"
+    "body": "Gdy Twój znajomy skonfiguruje swój portfel w aplikacji {{appName}}, każdy z Was otrzyma NFT. <0>Dowiedz się więcej</0>"
   },
   "getReward": "Otrzymaj ${{reward}}",
   "welcomeCelo": "Witamy w aplikacji {{appName}}",
