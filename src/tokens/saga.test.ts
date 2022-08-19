@@ -11,7 +11,7 @@ import {
   tokenAmountInSmallestUnit,
   watchAccountFundedOrLiquidated,
 } from 'src/tokens/saga'
-import { totalTokenBalanceSelector } from 'src/tokens/selectors'
+import { lastKnownTokenBalancesSelector } from 'src/tokens/selectors'
 import { fetchTokenBalancesFailure, setTokenBalances, StoredTokenBalances } from 'src/tokens/slice'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { createMockStore } from 'test/utils'
@@ -152,23 +152,16 @@ describe('watchAccountFundedOrLiquidated', () => {
 
   const balances = (firstValue: BigNumber | null, restValue: BigNumber | null) => {
     let callCount = 0
-    return () => {
-      callCount += 1
-
-      switch (callCount) {
-        case 2:
-        case 3:
-          return restValue
-        default:
-          return firstValue
-      }
-    }
+    return () => (++callCount == 1 ? firstValue : restValue)
   }
 
-  it('dispatches the account funded event', async () => {
+  it('dispatches the account funded event if the account is funded', async () => {
     await expectSaga(watchAccountFundedOrLiquidated)
       .provide([
-        [select(totalTokenBalanceSelector), dynamic(balances(new BigNumber(0), new BigNumber(10)))],
+        [
+          select(lastKnownTokenBalancesSelector),
+          dynamic(balances(new BigNumber(0), new BigNumber(10))),
+        ],
       ])
       .dispatch({ type: 'TEST_ACTION_TYPE' })
       .dispatch({ type: 'TEST_ACTION_TYPE' })
@@ -178,10 +171,13 @@ describe('watchAccountFundedOrLiquidated', () => {
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(AppEvents.account_funded)
   })
 
-  it('dispatches the account liquidated event', async () => {
+  it('dispatches the account liquidated event when the account is liquidated', async () => {
     await expectSaga(watchAccountFundedOrLiquidated)
       .provide([
-        [select(totalTokenBalanceSelector), dynamic(balances(new BigNumber(10), new BigNumber(0)))],
+        [
+          select(lastKnownTokenBalancesSelector),
+          dynamic(balances(new BigNumber(10), new BigNumber(0))),
+        ],
       ])
       .dispatch({ type: 'TEST_ACTION_TYPE' })
       .dispatch({ type: 'TEST_ACTION_TYPE' })
@@ -193,7 +189,9 @@ describe('watchAccountFundedOrLiquidated', () => {
 
   it('does not dispatch the account funded event for an account restore', async () => {
     await expectSaga(watchAccountFundedOrLiquidated)
-      .provide([[select(totalTokenBalanceSelector), dynamic(balances(null, new BigNumber(10)))]])
+      .provide([
+        [select(lastKnownTokenBalancesSelector), dynamic(balances(null, new BigNumber(10)))],
+      ])
       .dispatch({ type: 'TEST_ACTION_TYPE' })
       .dispatch({ type: 'TEST_ACTION_TYPE' })
       .run()
