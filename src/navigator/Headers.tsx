@@ -140,9 +140,11 @@ export function HeaderTitleWithBalance({
   switchTitleAndSubtitle = false,
   displayCrypto = false,
 }: Props) {
-  const tokenInfo = useTokenInfoBySymbol(token == Currency.Celo ? 'CELO' : token)
-  const balance = token === 'cREAL' ? tokenInfo?.balance : useBalance(token as Currency)
-
+  const tokenInfo = useTokenInfoBySymbol(token == Currency.Celo ? 'CELO' : token)!
+  let balance = useBalance(token as Currency)
+  if (token === 'cREAL') {
+    balance = tokenInfo.balance
+  }
   const subTitle =
     balance != null ? (
       <Trans i18nKey="balanceAvailable">

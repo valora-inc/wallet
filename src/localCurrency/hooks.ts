@@ -24,16 +24,14 @@ export function useDollarToLocalRate() {
 
 export function useLocalCurrencyToShow(amount: MoneyAmount, currencyInfo?: CurrencyInfo) {
   let localCurrencyCode = useSelector(getLocalCurrencyCode)
-  if (amount.currencyCode === 'cREAL') {
-    const usdOfOneLocal = useLocalAmountToCurrency(new BigNumber(1), Currency.Dollar)!
-    const tokenUsdPrice = useTokenInfoBySymbol(amount.currencyCode)?.usdPrice!
-    const localCurrencyExchangeRate = new BigNumber(1).div(usdOfOneLocal).times(tokenUsdPrice)
-    return {
-      localCurrencyCode,
-      localCurrencyExchangeRate,
-      amountCurrency: 'cREAL' as Currency | 'cREAL',
-    }
+
+  const usdOfOneLocal = useLocalAmountToCurrency(new BigNumber(1), Currency.Dollar)!
+  const tokenUsdPrice = useTokenInfoBySymbol(amount.currencyCode)?.usdPrice
+  if (!tokenUsdPrice) {
+    throw new Error(`No USD price for ${amount.currencyCode}`)
   }
+  const cRealLocalRate = new BigNumber(1).div(usdOfOneLocal).times(tokenUsdPrice)
+
   const amountCurrency = amount.currencyCode as Currency
   let localCurrencyExchangeRate = useSelector(localCurrencyExchangeRatesSelector)[amountCurrency]
   if (currencyInfo) {
@@ -44,6 +42,14 @@ export function useLocalCurrencyToShow(amount: MoneyAmount, currencyInfo?: Curre
     localCurrencyExchangeRate = amount.localAmount.exchangeRate.toString()
   }
 
+  if (amount.currencyCode === 'cREAL') {
+    return {
+      localCurrencyCode,
+      localCurrencyExchangeRate: cRealLocalRate,
+      amountCurrency: 'cREAL' as Currency | 'cREAL',
+    }
+  }
+  // non-cREAL currency
   return { localCurrencyCode, localCurrencyExchangeRate, amountCurrency }
 }
 
@@ -68,13 +74,19 @@ export function useLocalAmountToCurrency(
   amount: BigNumber,
   currency: Currency | 'cREAL'
 ): BigNumber | null {
+  const usdOfLocalCurrency = useLocalAmountToCurrency(amount, Currency.Dollar)
+  const tokenUsdPrice = useTokenInfoBySymbol(currency)?.usdPrice
+  const cRealResult = usdOfLocalCurrency?.dividedBy(tokenUsdPrice!) || new BigNumber(0)
+
+  const exchangeRate = useSelector(localCurrencyExchangeRatesSelector)[currency as Currency]
+  const result = useMemo(() => convertLocalAmountToCurrency(amount, exchangeRate), [
+    amount,
+    exchangeRate,
+  ])
   if (currency === 'cREAL') {
-    const usdOfLocalCurrency = useLocalAmountToCurrency(amount, Currency.Dollar)
-    const tokenUsdPrice = useTokenInfoBySymbol(currency)?.usdPrice
-    return usdOfLocalCurrency?.dividedBy(tokenUsdPrice!) || new BigNumber(0)
+    return cRealResult
   }
-  const exchangeRate = useSelector(localCurrencyExchangeRatesSelector)[currency]
-  return useMemo(() => convertLocalAmountToCurrency(amount, exchangeRate), [amount, exchangeRate])
+  return result
 }
 
 export function useCurrencyToLocalAmount(amount: BigNumber, currency: Currency): BigNumber | null {
