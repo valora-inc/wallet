@@ -56,6 +56,9 @@ export interface State {
   showSwapMenuInDrawerMenu: boolean
   shouldShowRecoveryPhraseInSettings: boolean
   createAccountCopyTestType: CreateAccountCopyTestType
+  maxSwapSlippagePercentage: number
+  swapFeeEnabled: boolean
+  swapFeePercentage: number
 }
 
 const initialState = {
@@ -105,6 +108,9 @@ const initialState = {
   shouldShowRecoveryPhraseInSettings:
     REMOTE_CONFIG_VALUES_DEFAULTS.shouldShowRecoveryPhraseInSettings,
   createAccountCopyTestType: REMOTE_CONFIG_VALUES_DEFAULTS.createAccountCopyTestType,
+  maxSwapSlippagePercentage: REMOTE_CONFIG_VALUES_DEFAULTS.maxSwapSlippagePercentage,
+  swapFeeEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.swapFeeEnabled,
+  swapFeePercentage: REMOTE_CONFIG_VALUES_DEFAULTS.swapFeePercentage,
 }
 
 export const appReducer = (
@@ -223,6 +229,9 @@ export const appReducer = (
         showSwapMenuInDrawerMenu: action.configValues.showSwapMenuInDrawerMenu,
         shouldShowRecoveryPhraseInSettings: action.configValues.shouldShowRecoveryPhraseInSettings,
         createAccountCopyTestType: action.configValues.createAccountCopyTestType,
+        maxSwapSlippagePercentage: action.configValues.maxSwapSlippagePercentage,
+        swapFeeEnabled: action.configValues.swapFeeEnabled,
+        swapFeePercentage: action.configValues.swapFeePercentage,
       }
     case Actions.TOGGLE_INVITE_MODAL:
       return {
