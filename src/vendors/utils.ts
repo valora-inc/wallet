@@ -90,9 +90,9 @@ export const useInteractiveBottomSheet = (bottomSheetRef: React.RefObject<Bottom
 
   const handleVendorChange = () => {
     if (currentVendor) {
-      bottomSheetRef.current?.snapToIndex(3)
-    } else {
       bottomSheetRef.current?.snapToIndex(2)
+    } else {
+      bottomSheetRef.current?.snapToIndex(0)
     }
   }
   return snapPoints

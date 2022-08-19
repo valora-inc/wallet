@@ -37,4 +37,4 @@ function VendorMarker({ color = colors.onboardingBlue, size = 32, ...props }: Pr
   )
 }
 
-export default React.memo(VendorMarker)
+export default VendorMarker

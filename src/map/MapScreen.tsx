@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { Platform, StyleSheet } from 'react-native'
 import MapView from 'react-native-maps'
 import Animated from 'react-native-reanimated'
@@ -21,11 +21,13 @@ const MapScreen = () => {
   const mapViewRef = useRef<MapView>(null)
   const { currentVendor, location } = useCurrentVendorLocation()
 
-  location &&
-    mapViewRef.current?.animateToRegion({
-      ...location,
-      ...LOCALE_OFFSET,
-    })
+  useEffect(() => {
+    location &&
+      mapViewRef.current?.animateToRegion({
+        ...location,
+        ...LOCALE_OFFSET,
+      })
+  }, [location])
 
   const vendorLocationMarkers = () => (
     <>
