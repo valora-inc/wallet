@@ -595,13 +595,13 @@
   "sendAndInvite": "Envoyer et inviter",
   "inviteAndSendDialog": {
     "title": "Valider l'invitation de {{name}} sur Valora",
-    "bodyWithRewards": "Une fois que votre invité aura rejoint Valora et aura connecté son numéro de téléphone, vous recevez tous les deux {{amount}} {{currency}}. Cliquez ci-dessous pour envoyer et personnaliser votre invitation.",
+    "bodyWithRewards": "Une fois que votre invité aura rejoint Valora, vous recevrez tous les deux un NFT exclusif. Cliquez ci-dessous pour envoyer votre invitation.",
     "body": "Partagez un message avec {{name}} pour l'inviter à rejoindre {{appName}}. Après son inscription et avoir connecté son numéro de téléphone, votre ami recevra votre paiement.",
     "button": "Valider l'invitation"
   },
   "inviteRewardsBanner": {
     "title": "Envoyez des crypto pour inviter un ami",
-    "body": "Vous recevrez tous les deux un NFT une fois qu'ils ont configuré leur compte {{appName}}. <0>En savoir plus</0>"
+    "body": "Vous recevrez tous les deux un NFT exclusif une fois qu'il est configuré son compte {{appName}}. <0>En savoir plus</0>"
   },
   "getReward": "Obtenez {{reward}}$",
   "welcomeCelo": "Bienvenue sur {{appName}}",
@@ -863,6 +863,7 @@
   "amountCeloWithdrawn": "Montant (CELO)",
   "feeEducation": "La blockchain Celo perçoit des frais de transaction pour assurer le bon fonctionnement du réseau.",
   "inviteMoneyEscrow": "Envoyez à ce contact un message d'invitation pour lui permettre de recevoir les fonds après avoir connecté son numéro.",
+  "inviteMoneyEscrowWithRewards": "Envoyez à ce contact un message d'invitation pour lui permettre de recevoir les fonds et un NFT après avoir connecté son numéro.",
   "reviewPayment": "Consulter le paiement",
   "requestPayment": "Demander un paiement",
   "max": "MAX.",
@@ -882,7 +883,7 @@
   "walletAddress": "Adresse du portefeuille",
   "inviteWithoutPayment": "Bonjour ! J'utilise {{appName}} pour envoyer des cryptomonnaies dans le monde entier. C'est facile, et je vous invite à découvrir également ce service en utilisant ce lien : {{link}}",
   "inviteWithEscrowedPayment": "Bonjour ! J'utilise {{appName}} pour envoyer des cryptomonnaies dans le monde entier. Je viens juste de vous envoyer {{amount}} {{token}}. Vous pouvez télécharger l'appli {{appName}} et échanger votre {{token}} en utilisant ce lien : {{link}}",
-  "inviteWithRewards": "Bonjour ! Je viens de t'envoyer de la crypto depuis mon portefeuille {{appName}}. Une fois que tu auras téléchargé l'appli et connecté ton numéro de téléphone, nous recevrons tous les deux une récompense de {{amount}} {{token}}. Utilise ce lien : {{link}}",
+  "inviteWithRewards": "Bonjour ! Je viens de t'envoyer de la crypto depuis mon portefeuille {{appName}}. Une fois que tu auras téléchargé l'appli et connecté ton numéro de téléphone, nous recevrons tous les deux une NFT. Utilise ce lien : {{link}}",
   "loadingContacts": "Trouver vos contacts",
   "myCode": "Mon code",
   "scanCode": "Scanner",
@@ -1376,6 +1377,19 @@
     "rate": "Taux",
     "estimatedFee": "Frais estimés",
     "viewOnExplorer": "Voir sur CeloExplorer"
+  },
+  "swapReviewScreen": {
+    "title": "Vérifier échange",
+    "complete": "Terminer échange",
+    "swapFrom": "Échanger de",
+    "swapTo": "Échanger pour",
+    "transactionDetails": "Détails de transaction",
+    "estimatedGas": "Frais de gas estimés",
+    "swapFee": "Frais de {{appName}}",
+    "swapFeeTitle": "Que sont les frais de {{appName}} ?",
+    "swapFeeBody": "Les frais de {{appName}} sont les frais que vous payez pour échanger des jetons sur {{appName}}. \n\nIls sont de {{swapFee}}% du montant que vous échangez. \n\nLes frais de {{appName}} sont gratuits pour les prochains mois.",
+    "estimatedAmountTitle": "Montant estimé",
+    "estimatedAmountBody": "Les conversions se font sur un échange décentralisé de tiers qui vous trouve le meilleur taux pour votre échange. \n\nVotre échange sera effectué à un prix à moins de {{slippagePercent}}% de l'estimation ou la transaction sera annulée et les fonds retournés à votre portefeuille."
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
