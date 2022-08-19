@@ -52,10 +52,14 @@ const useSwapQuote = () => {
     }
 
     const swapAmountParam = updatedField === Field.FROM ? 'sellAmount' : 'buyAmount'
-    const requestUrl = `${networkConfig.approveSwapUrl}?buyToken=${toToken.address}&sellToken=${
-      fromToken.address
-    }&${swapAmountParam}=${swapAmountInWei.toString().split('.')[0]}&userAddress=${walletAddress}`
-
+    const params = {
+      buyToken: toToken.address,
+      sellToken: fromToken.address,
+      [swapAmountParam]: swapAmountInWei.toString().split('.')[0],
+      userAddress: walletAddress ?? '',
+    }
+    const queryParams = new URLSearchParams({ ...params }).toString()
+    const requestUrl = `${networkConfig.approveSwapUrl}?${queryParams}`
     if (requestUrl === requestUrlRef.current) {
       // do nothing if the previous request url is the same as the current
       return

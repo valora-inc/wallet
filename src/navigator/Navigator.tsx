@@ -107,6 +107,8 @@ import ValidateRecipientIntro, {
   validateRecipientIntroScreenNavOptions,
 } from 'src/send/ValidateRecipientIntro'
 import SetClock from 'src/set-clock/SetClock'
+import SwapReviewScreen from 'src/swap/SwapReviewScreen'
+import SwapScreen from 'src/swap/SwapScreen'
 import TokenBalancesScreen from 'src/tokens/TokenBalances'
 import TransactionDetailsScreen from 'src/transactions/feed/TransactionDetailsScreen'
 import TransactionReview from 'src/transactions/TransactionReview'
@@ -538,6 +540,17 @@ const generalScreens = (Navigator: typeof Stack) => (
   </>
 )
 
+const swapScreens = (Navigator: typeof Stack) => (
+  <>
+    <Navigator.Screen name={Screens.SwapScreen} component={SwapScreen} />
+    <Navigator.Screen
+      name={Screens.SwapReviewScreen}
+      component={SwapReviewScreen}
+      options={SwapReviewScreen.navOptions}
+    />
+  </>
+)
+
 const mapStateToProps = (state: RootState) => {
   return {
     choseToRestoreAccount: state.account.choseToRestoreAccount,
@@ -607,6 +620,7 @@ export function MainStackScreen() {
       {consumerIncentivesScreens(Stack)}
       {settingsScreens(Stack)}
       {generalScreens(Stack)}
+      {swapScreens(Stack)}
     </Stack.Navigator>
   )
 }
