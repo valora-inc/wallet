@@ -12,6 +12,7 @@ import AlertBanner from 'src/alert/AlertBanner'
 import { InviteEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { activeScreenChanged } from 'src/app/actions'
+import SanctionedCountryErrorScreen from 'src/app/SanctionedCountryErrorScreen'
 import { getAppLocked } from 'src/app/selectors'
 import UpgradeScreen from 'src/app/UpgradeScreen'
 import { doingBackupFlowSelector, shouldForceBackupSelector } from 'src/backup/selectors'
@@ -82,12 +83,6 @@ export const NavigatorWrapper = () => {
 
   const shouldForceBackup = useSelector(shouldForceBackupSelector)
   const doingBackupFlow = useSelector(doingBackupFlowSelector)
-
-  React.useEffect(() => {
-    if (isUserInSanctionedCountry) {
-      navigate(Screens.SanctionedCountryErrorScreen)
-    }
-  }, [])
 
   React.useEffect(() => {
     if (shouldForceBackup && !doingBackupFlow) {
@@ -192,17 +187,23 @@ export const NavigatorWrapper = () => {
       initialState={initialState}
       theme={AppTheme}
     >
-      <View style={styles.container}>
-        <Navigator />
-        {(appLocked || updateRequired) && (
-          <View style={styles.locked}>{updateRequired ? <UpgradeScreen /> : <PincodeLock />}</View>
-        )}
-        <View style={styles.floating}>
-          <AlertBanner />
-          <InviteFriendModal isVisible={isInviteModalVisible} onInvite={onInvite} />
+      {isUserInSanctionedCountry ? (
+        <SanctionedCountryErrorScreen />
+      ) : (
+        <View style={styles.container}>
+          <Navigator />
+          {(appLocked || updateRequired) && (
+            <View style={styles.locked}>
+              {updateRequired ? <UpgradeScreen /> : <PincodeLock />}
+            </View>
+          )}
+          <View style={styles.floating}>
+            <AlertBanner />
+            <InviteFriendModal isVisible={isInviteModalVisible} onInvite={onInvite} />
+          </View>
+          <ShakeForSupport />
         </View>
-        <ShakeForSupport />
-      </View>
+      )}
     </NavigationContainer>
   )
 }
