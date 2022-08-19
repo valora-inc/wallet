@@ -1,4 +1,4 @@
-import { FiatAccountType } from '@fiatconnect/fiatconnect-types'
+import { FiatAccountSchema, FiatAccountType } from '@fiatconnect/fiatconnect-types'
 import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
@@ -42,6 +42,7 @@ describe('TransferStatusScreen', () => {
         accountName: 'some-friendly-name',
         institutionName: 'some-bank',
         fiatAccountType: FiatAccountType.BankAccount,
+        fiatAccountSchema: FiatAccountSchema.AccountNumber,
       },
       normalizedQuote: mockQuote,
     })
