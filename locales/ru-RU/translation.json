@@ -1391,8 +1391,8 @@
     "swapFee": "{{appName}} Гонорар",
     "swapFeeTitle": "Что такое {{appName}} Fee?",
     "swapFeeBody": "Комиссия {{appName}} - это плата, которую ты платишь за обмен токенов на {{appName}}. \n\n Комиссия составляет {{swapFee}}% от суммы, которую ты обмениваешь. \n\n {{appName}} комиссии бесплатны в течение следующих нескольких месяцев.",
-    "estimatedAmountTitle": "Estimated Amount",
-    "estimatedAmountBody": "Conversions take place on a third party decentralized exchange that finds you the best rate for your swap. \n\n Your trade will be completed at a price within {{slippagePercent}}% of the estimate or the transaction will be cancelled & funds returned to your wallet."
+    "estimatedAmountTitle": "Оценочная сумма",
+    "estimatedAmountBody": "Конвертации происходят на сторонней децентрализованной бирже, которая находит для тебя лучший курс для твоего свопа. \n\n Твоя сделка будет завершена по цене в пределах {{slippagePercent}}% от оценки, или сделка будет отменена, а средства возвращены на твой кошелек."
   },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
