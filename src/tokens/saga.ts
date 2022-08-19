@@ -20,7 +20,7 @@ import { readOnceFromFirebase } from 'src/firebase/firebase'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import { e2eTokens } from 'src/tokens/e2eTokens'
-import { tokensListSelector, totalTokenBalanceSelector } from 'src/tokens/selectors'
+import { lastKnownTokenBalancesSelector, tokensListSelector } from 'src/tokens/selectors'
 import {
   fetchTokenBalances,
   fetchTokenBalancesFailure,
@@ -376,12 +376,16 @@ export function* watchFetchBalance() {
 export function* watchAccountFundedOrLiquidated() {
   let prevTokenBalance
   while (true) {
-    const tokenBalance: ReturnType<typeof totalTokenBalanceSelector> = yield select(
-      totalTokenBalanceSelector
+    // we reset the usd value of all token balances to 0 if the exchange rate is
+    // stale, so it is okay to use stale token prices to monitor the account
+    // funded / liquidated status in this case
+    const tokenBalance: ReturnType<typeof lastKnownTokenBalancesSelector> = yield select(
+      lastKnownTokenBalancesSelector
     )
-    if (tokenBalance !== prevTokenBalance) {
-      // prevTokenBalance is undefined for the base case and null if token list
-      // is not yet loaded
+
+    if (tokenBalance !== null && tokenBalance !== prevTokenBalance) {
+      // prevTokenBalance is undefined for the base case
+      // tokenBalance is null when not yet loaded / refetching / failed to fetch
       if (prevTokenBalance) {
         const isAccountFundedBefore = prevTokenBalance?.gt(DOLLAR_MIN_AMOUNT_ACCOUNT_FUNDED)
         const isAccountFundedAfter = tokenBalance?.gt(DOLLAR_MIN_AMOUNT_ACCOUNT_FUNDED)
