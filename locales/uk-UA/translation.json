@@ -1381,6 +1381,19 @@
     "estimatedFee": "Передбачувана комісія",
     "viewOnExplorer": "Переглянути на CeloExplorer"
   },
+  "swapReviewScreen": {
+    "title": "Зворотний обмін",
+    "complete": "Complete Swap",
+    "swapFrom": "Обмінювати з",
+    "swapTo": "Поміняти",
+    "transactionDetails": "Деталі транзакції",
+    "estimatedGas": "Оцінний газ",
+    "swapFee": "{{appName}} комісія",
+    "swapFeeTitle": "Що таке {{appName}} комісія?",
+    "swapFeeBody": "Комісія {{appName}} —комісія, що ви сплачуєте за допомогою токенів обміну на {{appName}}. \n\n Комісія {{swapFee}}% від суми, яку ви обміняєте. \n\n {{appName}} комісії безкоштовно на наступні кілька місяців.",
+    "estimatedAmountTitle": "Орієнтовна сума",
+    "estimatedAmountBody": "Конверсія відбувається на сторонньому децентралізованому обміні, який знаходить вас найкращим курсом для вашого обміну. \n\n Ваша торгівля буде завершена за ціною, що перевищує {{slippagePercent}}% від оцінки, або транзакція буде скасована та повернута до вашого гаманця."
+  },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
   "celoDollarAmount_2": "<0></0> Celo Dollars",
