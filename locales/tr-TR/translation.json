@@ -595,13 +595,13 @@
   "sendAndInvite": "Gönder & Davet Et",
   "inviteAndSendDialog": {
     "title": "{{name}} adlı kişiyi Valora'ya davet işlemini tamamlayın",
-    "bodyWithRewards": "Katılıp bir telefon numarasını bağlandıklarında, ikiniz de {{amount}} {{currency}} alırsınız. Davetinizi göndermek ve özelleştirmek için aşağıya tıklayın.",
+    "bodyWithRewards": "Once they join & connect their phone number, you’ll both receive a special edition NFT. Click below to send your invite via SMS.",
     "body": "{{appName}} uygulamasına katılması için {{name}} adlı kişiye bir davet mesajı gönderin. Katılıp bir telefon numarasını bağladığında ödemenizi alacaktır.",
     "button": "Daveti tamamla"
   },
   "inviteRewardsBanner": {
     "title": "Bir arkadaş davet etmek için kripto gönderin",
-    "body": "Hesaplarını ayarlamayı bitirdiklerinden sonra ikiniz de bir NFT alacaksınız. <0>Daha fazla bilgi edinin</0>"
+    "body": "Once they set up their {{appName}} wallet and connect their number, you’ll each get an exclusive NFT. <0>Learn more</0>"
   },
   "getReward": "${{reward}} kazanın",
   "welcomeCelo": "{{appName}} uygulamasına hoş geldiniz",
@@ -863,6 +863,7 @@
   "amountCeloWithdrawn": "Miktar (CELO)",
   "feeEducation": "Celo Blokzinciri, ağı desteklemek ve sorunsuz çalışmasını sağlamak için bir işlem ücreti alır.",
   "inviteMoneyEscrow": "Bu kişiye bir davet mesajı gönderin, numarasını bağladığında parayı alacaktır.",
+  "inviteMoneyEscrowWithRewards": "Send this contact an invite message and they’ll receive the funds & NFT once they connect their number.",
   "reviewPayment": "Ödemeyi Gözden Geçir",
   "requestPayment": "Ödeme İste",
   "max": "MAKS.",
@@ -882,7 +883,7 @@
   "walletAddress": "Cüzdan Adresi",
   "inviteWithoutPayment": "Merhaba, dünyanın her tarafına kripto göndermek için {{appName}} kullanıyorum. Denemen için seni davet etmek isterim. Bu bağlantıya göz atabilirsin: {{link}}",
   "inviteWithEscrowedPayment": "Merhaba, dünyanın her tarafına kripto göndermek için {{appName}} kullanıyorum. Sana az önce {{amount}} {{token}} gönderdim. {{appName}} uygulamasını indirerek {{token}} miktarını alabilmen lütfen şu bağlantıyı tıkla{{link}}",
-  "inviteWithRewards": "Merhaba! Az önce size {{appName}} uygulamamla kripto para gönderdim. Uygulamayı indirip telefon numaranızı bağladığınızda, ikimiz de {{amount}} {{token}} ödül alacağız. Bu bağlantıyı kullanın: {{link}}",
+  "inviteWithRewards": "Hey! I just sent you crypto with my {{appName}} wallet. Once you download the app and connect your phone number, we both get a special edition NFT. Use this link: {{link}}",
   "loadingContacts": "Kişilerinizi bulma",
   "myCode": "Benim Kodum",
   "scanCode": "Tara",
