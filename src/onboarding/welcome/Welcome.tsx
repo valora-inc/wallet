@@ -7,6 +7,7 @@ import { chooseCreateAccount, chooseRestoreAccount } from 'src/account/actions'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { createAccountCopyTestTypeSelector } from 'src/app/selectors'
+import { showGuidedOnboardingSelector } from 'src/app/selectors'
 import { CreateAccountCopyTestType } from 'src/app/types'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import Logo, { LogoTypes } from 'src/icons/Logo'
@@ -53,7 +54,11 @@ export default function Welcome() {
       <Image source={welcomeBackground} style={styles.backgroundImage} />
       <ScrollView contentContainerStyle={styles.contentContainer}>
         <Logo type={LogoTypes.COLOR} height={64} />
-        <Text style={styles.title}>{t('welcome.title')}</Text>
+        {true || useSelector(showGuidedOnboardingSelector) ? (
+          <Text style={styles.title}>{t('welcome.titleGuided')}</Text>
+        ) : (
+          <Text style={styles.title}>{t('welcome.title')}</Text>
+        )}
       </ScrollView>
       <View style={{ marginBottom: Math.max(0, 40 - insets.bottom) }}>
         <Button
