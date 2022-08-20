@@ -717,6 +717,7 @@
   "unlockWithBiometryPrompt": "Authenticate to unlock {{appName}}",
   "welcome": {
     "title": "Step into the future of crypto with {{appName}}",
+    "titleGuided": "Welcome to {{appName}}.\nGet started with crypto by creating a wallet.",
     "createAccount": "Create new account",
     "restoreAccount": "Restore my account",
     "createNewWallet": "Create new wallet",
