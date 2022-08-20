@@ -71,7 +71,7 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   dappConnectInfo: DappConnectInfo.Default,
   visualizeNFTsEnabledInHomeAssetsPage: false,
   coinbasePayEnabled: false,
-  // TODO
+  showGuidedOnboardingCopy: false,
   showSwapMenuInDrawerMenu: false,
   shouldShowRecoveryPhraseInSettings: false,
   createAccountCopyTestType: CreateAccountCopyTestType.Account,

@@ -53,7 +53,7 @@ export interface State {
   fiatConnectCashOutEnabled: boolean
   visualizeNFTsEnabledInHomeAssetsPage: boolean
   coinbasePayEnabled: boolean
-  // todo add feature flag here (probly)
+  showGuidedOnboardingCopy: boolean
   showSwapMenuInDrawerMenu: boolean
   shouldShowRecoveryPhraseInSettings: boolean
   createAccountCopyTestType: CreateAccountCopyTestType
@@ -105,7 +105,7 @@ const initialState = {
   visualizeNFTsEnabledInHomeAssetsPage:
     REMOTE_CONFIG_VALUES_DEFAULTS.visualizeNFTsEnabledInHomeAssetsPage,
   coinbasePayEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.coinbasePayEnabled,
-  // todo
+  showGuidedOnboardingCopy: REMOTE_CONFIG_VALUES_DEFAULTS.showGuidedOnboardingCopy,
   showSwapMenuInDrawerMenu: REMOTE_CONFIG_VALUES_DEFAULTS.showSwapMenuInDrawerMenu,
   shouldShowRecoveryPhraseInSettings:
     REMOTE_CONFIG_VALUES_DEFAULTS.shouldShowRecoveryPhraseInSettings,
