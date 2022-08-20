@@ -194,7 +194,7 @@ export interface RemoteConfigValues {
   dappConnectInfo: DappConnectInfo
   visualizeNFTsEnabledInHomeAssetsPage: boolean
   coinbasePayEnabled: boolean
-  // TODO
+  showGuidedOnboardingCopy: boolean
   showSwapMenuInDrawerMenu: boolean
   createAccountCopyTestType: CreateAccountCopyTestType
   maxSwapSlippagePercentage: number
