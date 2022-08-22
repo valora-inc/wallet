@@ -1249,6 +1249,7 @@ interface DappKitProperties {
 interface CICOEventsProperties {
   [CICOEvents.persona_kyc_start]: undefined
   [CICOEvents.persona_kyc_success]: undefined
+  [CICOEvents.persona_kyc_failed]: undefined
   [CICOEvents.persona_kyc_cancel]: undefined
   [CICOEvents.persona_kyc_error]: undefined
 }
