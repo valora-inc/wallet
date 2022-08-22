@@ -738,6 +738,7 @@
   "pincodeSet": {
     "create": "Create a PIN",
     "createNew": "Create a new PIN",
+    "pinCodeGuide": "Your PIN secures your Valora account and activity",
     "verify": "Enter your PIN again to confirm",
     "changePIN": "Change PIN",
     "pinsDontMatch": "The PINs didn't match",
