@@ -72,14 +72,14 @@ function TokenBalancesScreen({ navigation }: Props) {
   function getTokenDisplay(token: TokenBalance) {
     return (
       <View key={`Token${token.address}`} style={styles.tokenContainer}>
-        <View style={[styles.row]}>
+        <View style={styles.row}>
           <Image source={{ uri: token.imageUrl }} style={styles.tokenImg} />
           <View style={styles.tokenLabels}>
             <Text style={styles.tokenName}>{token.symbol}</Text>
             <Text style={styles.subtext}>{token.name}</Text>
           </View>
         </View>
-        <View style={[styles.balances]}>
+        <View style={styles.balances}>
           <TokenDisplay
             amount={new BigNumber(token.balance!)}
             tokenAddress={token.address}
@@ -134,7 +134,7 @@ function TokenBalancesScreen({ navigation }: Props) {
           testID={'NftViewerBanner'}
           onPress={onPressNFTsBanner}
         >
-          <View style={[styles.bannerContainer]}>
+          <View style={styles.bannerContainer}>
             <Text style={styles.bannerText}>{t('nftViewer')}</Text>
             <View style={styles.rightInnerContainer}>
               <Text style={styles.bannerText}>{t('open')}</Text>
