@@ -22,10 +22,7 @@ import {
   toggleBackupState,
 } from 'src/account/actions'
 import { PincodeType } from 'src/account/reducer'
-import {
-  pincodeTypeSelector,
-  shouldShowRecoveryPhraseInSettingsSelector,
-} from 'src/account/selectors'
+import { pincodeTypeSelector } from 'src/account/selectors'
 import { SettingsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import {
@@ -95,7 +92,6 @@ interface StateProps {
   walletConnectEnabled: boolean
   biometryEnabled: boolean
   supportedBiometryType: BIOMETRY_TYPE | null
-  shouldShowRecoveryPhraseInSettings: boolean
 }
 
 type OwnProps = StackScreenProps<StackParamList, Screens.Settings>
@@ -120,7 +116,6 @@ const mapStateToProps = (state: RootState): StateProps => {
     walletConnectEnabled: v1,
     biometryEnabled: biometryEnabledSelector(state),
     supportedBiometryType: supportedBiometryTypeSelector(state),
-    shouldShowRecoveryPhraseInSettings: shouldShowRecoveryPhraseInSettingsSelector(state),
   }
 }
 
@@ -356,18 +351,6 @@ export class Account extends React.Component<Props, State> {
     }
   }
 
-  goToRecoveryPhrase = async () => {
-    try {
-      const pinIsCorrect = await ensurePincode()
-      if (pinIsCorrect) {
-        ValoraAnalytics.track(SettingsEvents.settings_recovery_phrase)
-        navigate(Screens.BackupIntroduction, { navigatedFromSettings: true })
-      }
-    } catch (error) {
-      Logger.error('SettingsItem@onPress', 'PIN ensure error', error)
-    }
-  }
-
   render() {
     const { t, i18n, numberVerified, verificationPossible } = this.props
     const promptConfirmRemovalModal = this.props.route.params?.promptConfirmRemovalModal ?? false
@@ -410,13 +393,6 @@ export class Account extends React.Component<Props, State> {
               />
             )}
             <SectionHead text={t('security')} style={styles.sectionTitle} />
-            {this.props.shouldShowRecoveryPhraseInSettings && (
-              <SettingsItemTextValue
-                title={t('accountKey')}
-                onPress={this.goToRecoveryPhrase}
-                testID="RecoveryPhrase"
-              />
-            )}
             <SettingsItemTextValue
               title={t('changePin')}
               onPress={this.goToChangePin}

@@ -72,7 +72,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   visualizeNFTsEnabledInHomeAssetsPage: false,
   coinbasePayEnabled: false,
   showSwapMenuInDrawerMenu: false,
-  shouldShowRecoveryPhraseInSettings: false,
   createAccountCopyTestType: CreateAccountCopyTestType.Account,
   maxSwapSlippagePercentage: 2,
   swapFeeEnabled: false,
