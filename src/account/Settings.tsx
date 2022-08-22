@@ -502,9 +502,6 @@ export class Account extends React.Component<Props, State> {
               title={t('editProfile')}
               onPress={this.goToProfile}
             />
-            {!numberVerified && verificationPossible && (
-              <SettingsItemTextValue title={t('confirmNumber')} onPress={this.goToConfirmNumber} />
-            )}
             {this.getLinkBankAccountSettingItem()}
             <SettingsItemTextValue
               title={t('languageSettings')}
