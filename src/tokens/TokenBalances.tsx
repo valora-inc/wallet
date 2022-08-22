@@ -2,7 +2,7 @@ import { StackScreenProps } from '@react-navigation/stack'
 import BigNumber from 'bignumber.js'
 import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Image, PixelRatio, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -46,27 +46,18 @@ function TokenBalancesScreen({ navigation }: Props) {
   )
   const walletAddress = useSelector(walletAddressSelector)
 
-  const header = () => {
+  useLayoutEffect(() => {
     const subTitle = tokensAreStale
       ? `${localCurrencySymbol} -`
-      : totalBalance.isGreaterThan(0) &&
-        t('totalBalanceWithLocalCurrencySymbol', {
+      : totalBalance.gte(0)
+      ? t('totalBalanceWithLocalCurrencySymbol', {
           localCurrencySymbol,
           totalBalance: totalBalance.toFormat(2),
         })
+      : '-'
 
-    return (
-      <HeaderTitleWithSubtitle
-        testID="Header/TokenBalances"
-        title={t('balances')}
-        subTitle={subTitle ?? ''}
-      />
-    )
-  }
-
-  useLayoutEffect(() => {
     navigation.setOptions({
-      headerTitle: header,
+      headerTitle: () => <HeaderTitleWithSubtitle title={t('balances')} subTitle={subTitle} />,
     })
   }, [navigation, totalBalance, localCurrencySymbol])
 
@@ -81,14 +72,14 @@ function TokenBalancesScreen({ navigation }: Props) {
   function getTokenDisplay(token: TokenBalance) {
     return (
       <View key={`Token${token.address}`} style={styles.tokenContainer}>
-        <View style={[styles.row, { width: '55%' }]}>
+        <View style={[styles.row]}>
           <Image source={{ uri: token.imageUrl }} style={styles.tokenImg} />
           <View style={styles.tokenLabels}>
             <Text style={styles.tokenName}>{token.symbol}</Text>
             <Text style={styles.subtext}>{token.name}</Text>
           </View>
         </View>
-        <View style={[styles.balances, { width: '45%' }]}>
+        <View style={[styles.balances]}>
           <TokenDisplay
             amount={new BigNumber(token.balance!)}
             tokenAddress={token.address}
@@ -131,7 +122,18 @@ function TokenBalancesScreen({ navigation }: Props) {
   return (
     <>
       {shouldVisualizeNFTsInHomeAssetsPage && (
-        <Touchable testID={'NftViewerBanner'} borderless={true} onPress={onPressNFTsBanner}>
+        <Touchable
+          style={
+            // For larger fonts we need different marginTop for nft banner
+            PixelRatio.getFontScale() > 1.5
+              ? { marginTop: Spacing.Small12 }
+              : PixelRatio.getFontScale() > 1.25
+              ? { marginTop: Spacing.Smallest8 }
+              : null
+          }
+          testID={'NftViewerBanner'}
+          onPress={onPressNFTsBanner}
+        >
           <View style={[styles.bannerContainer]}>
             <Text style={styles.bannerText}>{t('nftViewer')}</Text>
             <View style={styles.rightInnerContainer}>
@@ -141,13 +143,11 @@ function TokenBalancesScreen({ navigation }: Props) {
           </View>
         </Touchable>
       )}
-      {!shouldVisualizeNFTsInHomeAssetsPage &&
-        showPriceChangeIndicatorInBalances &&
-        !tokensAreStale && (
-          <View style={styles.lastDayLabel}>
-            <Text style={styles.lastDayText}>{t('lastDay')}</Text>
-          </View>
-        )}
+      {!shouldVisualizeNFTsInHomeAssetsPage && showPriceChangeIndicatorInBalances && (
+        <View style={styles.lastDayLabel}>
+          <Text style={styles.lastDayText}>{t('lastDay')}</Text>
+        </View>
+      )}
       <ScrollView style={styles.scrollContainer}>
         {tokens.sort(sortByUsdBalance).map(getTokenDisplay)}
       </ScrollView>
@@ -178,9 +178,11 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   balances: {
+    flex: 9,
     alignItems: 'flex-end',
   },
   row: {
+    flex: 11,
     flexDirection: 'row',
   },
   tokenName: {
@@ -203,11 +205,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row-reverse',
   },
   bannerContainer: {
-    marginTop: Spacing.Smallest8,
-    marginBottom: Spacing.Smallest8,
     paddingHorizontal: Spacing.Thick24,
     justifyContent: 'space-between',
-    height: 40,
+    flexWrap: 'wrap',
     width: '100%',
     alignItems: 'center',
     backgroundColor: Colors.greenUI,
@@ -219,6 +219,7 @@ const styles = StyleSheet.create({
   },
   rightInnerContainer: {
     flexDirection: 'row',
+    alignItems: 'center',
   },
 })
 
