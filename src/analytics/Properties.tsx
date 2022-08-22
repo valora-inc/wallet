@@ -172,7 +172,6 @@ interface SettingsEventsProperties {
   [SettingsEvents.settings_biometry_opt_in_complete]: undefined
   [SettingsEvents.settings_biometry_opt_in_error]: undefined
   [SettingsEvents.settings_biometry_opt_in_disable]: undefined
-  [SettingsEvents.settings_recovery_phrase]: undefined
 }
 
 interface OnboardingEventsProperties {

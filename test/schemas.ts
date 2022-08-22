@@ -1542,7 +1542,7 @@ export const v70Schema = {
   },
   app: {
     ...v69Schema.app,
-    shouldShowRecoveryPhraseInSettings: false,
+    createAccountCopyTestType: 'ACCOUNT',
   },
 }
 
@@ -1557,24 +1557,9 @@ export const v71Schema = {
     maxSwapSlippagePercentage: 2,
     swapFeeEnabled: false,
     swapFeePercentage: 0.743,
-    createAccountCopyTestType: 'ACCOUNT',
-  },
-}
-
-export const v72Schema = {
-  ...v71Schema,
-  _persist: {
-    ...v71Schema._persist,
-    version: 72,
-  },
-  app: {
-    ...v71Schema.app,
-    maxSwapSlippagePercentage: 2,
-    swapFeeEnabled: false,
-    swapFeePercentage: 0.743,
   },
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v72Schema as Partial<RootState>
+  return v71Schema as Partial<RootState>
 }
