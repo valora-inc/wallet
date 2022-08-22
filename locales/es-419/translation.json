@@ -601,7 +601,7 @@
   },
   "inviteRewardsBanner": {
     "title": "Envía cripto e invita a tus amigos",
-    "body": "Una vez que configuren su monedero {{appName}} y conecten su número, cada uno obtendrá un NFT exclusivo. <0>Más información</0>"
+    "body": "Once they set up their {{appName}} wallet and connect their number, you’ll each get an exclusive NFT. You can get up to 3 NFTs. <0>Learn more</0>"
   },
   "getReward": "Obtén ${{reward}}",
   "welcomeCelo": "Te damos la bienvenida a {{appName}}",
