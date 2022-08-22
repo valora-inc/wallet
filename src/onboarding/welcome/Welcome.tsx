@@ -26,7 +26,7 @@ export default function Welcome() {
   const dispatch = useDispatch()
   const acceptedTerms = useSelector((state) => state.account.acceptedTerms)
   const insets = useSafeAreaInsets()
-
+  const guidedOnboardingEnabled = useSelector(showGuidedOnboardingSelector)
   const createAccountCopyTestType = useSelector(createAccountCopyTestTypeSelector)
 
   const navigateNext = () => {
@@ -54,7 +54,7 @@ export default function Welcome() {
       <Image source={welcomeBackground} style={styles.backgroundImage} />
       <ScrollView contentContainerStyle={styles.contentContainer}>
         <Logo type={LogoTypes.COLOR} height={64} />
-        {true || useSelector(showGuidedOnboardingSelector) ? (
+        {guidedOnboardingEnabled ? (
           <Text style={styles.title}>{t('welcome.titleGuided')}</Text>
         ) : (
           <Text style={styles.title}>{t('welcome.title')}</Text>
