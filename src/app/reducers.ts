@@ -225,6 +225,7 @@ export const appReducer = (
         visualizeNFTsEnabledInHomeAssetsPage:
           action.configValues.visualizeNFTsEnabledInHomeAssetsPage,
         coinbasePayEnabled: action.configValues.coinbasePayEnabled,
+        showGuidedOnboardingCopy: action.configValues.showGuidedOnboardingCopy,
         showSwapMenuInDrawerMenu: action.configValues.showSwapMenuInDrawerMenu,
         createAccountCopyTestType: action.configValues.createAccountCopyTestType,
         maxSwapSlippagePercentage: action.configValues.maxSwapSlippagePercentage,
