@@ -3060,6 +3060,9 @@
                                             },
                                             "quoteId": {
                                                 "type": "string"
+                                            },
+                                            "transferType": {
+                                                "$ref": "#/definitions/TransferType"
                                             }
                                         },
                                         "required": [
@@ -3068,7 +3071,8 @@
                                             "fiatAmount",
                                             "fiatType",
                                             "guaranteedUntil",
-                                            "quoteId"
+                                            "quoteId",
+                                            "transferType"
                                         ],
                                         "type": "object"
                                     }
@@ -3855,6 +3859,13 @@
                 "SENT",
                 "VERIFICATION_FEE",
                 "VERIFICATION_REWARD"
+            ],
+            "type": "string"
+        },
+        "TransferType": {
+            "enum": [
+                "TransferIn",
+                "TransferOut"
             ],
             "type": "string"
         },

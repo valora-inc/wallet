@@ -1,5 +1,6 @@
 import {
   CryptoType,
+  FiatAccountSchema,
   FiatAccountType,
   ObfuscatedFiatAccountData,
 } from '@fiatconnect/fiatconnect-types'
@@ -43,6 +44,7 @@ function getProps(
     accountName: 'Chase (...2345)',
     institutionName: 'Chase',
     fiatAccountType: FiatAccountType.BankAccount,
+    fiatAccountSchema: FiatAccountSchema.AccountNumber,
   }
 
   return getMockStackScreenProps(Screens.FiatConnectReview, {
