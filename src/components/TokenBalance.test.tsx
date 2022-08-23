@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
-import { HomeTokenBalance, FiatExchangeTokenBalance } from 'src/components/TokenBalance'
+import { FiatExchangeTokenBalance, HomeTokenBalance } from 'src/components/TokenBalance'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { Currency } from 'src/utils/currencies'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
@@ -67,6 +67,27 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
   )
 
   it.each([HomeTokenBalance, FiatExchangeTokenBalance])(
+    'renders correctly with zero balance',
+    async (TokenBalanceComponent) => {
+      const store = createMockStore({
+        ...defaultStore,
+        tokens: {
+          tokenBalances: {},
+        },
+      })
+
+      const tree = render(
+        <Provider store={store}>
+          <TokenBalanceComponent />
+        </Provider>
+      )
+
+      expect(tree.queryByTestId('ViewBalances')).toBeFalsy()
+      expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('$0.00')
+    }
+  )
+
+  it.each([HomeTokenBalance, FiatExchangeTokenBalance])(
     'renders correctly with one balance',
     async (TokenBalanceComponent) => {
       const store = createMockStore(defaultStore)
@@ -77,7 +98,6 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
         </Provider>
       )
 
-      expect(tree.queryByTestId('ViewBalances')).toBeFalsy()
       expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('$0.50')
     }
   )
@@ -224,7 +244,7 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
       </Provider>
     )
 
-    expect(tree.queryByTestId('ViewBalances')).toBeFalsy()
+    expect(tree.queryByTestId('ViewBalances')).toBeTruthy()
     expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('₱-')
 
     expect(store.getActions()).toMatchInlineSnapshot(`

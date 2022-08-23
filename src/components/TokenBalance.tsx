@@ -143,7 +143,7 @@ export function HomeTokenBalance() {
         >
           {t('whatTotalValue.body')}
         </Dialog>
-        {tokenBalances.length > 1 && (
+        {tokenBalances.length >= 1 && (
           <TouchableOpacity style={styles.row} onPress={onViewBalances} testID="ViewBalances">
             <Text style={styles.viewBalances}>{t('viewBalances')}</Text>
             <ProgressArrow style={styles.arrow} color={Colors.greenUI} />

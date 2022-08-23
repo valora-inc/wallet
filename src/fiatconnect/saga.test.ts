@@ -1,6 +1,11 @@
 import { Result } from '@badrap/result'
 import { ResponseError } from '@fiatconnect/fiatconnect-sdk'
-import { FiatAccountType, FiatConnectError, TransferStatus } from '@fiatconnect/fiatconnect-types'
+import {
+  FiatAccountSchema,
+  FiatAccountType,
+  FiatConnectError,
+  TransferStatus,
+} from '@fiatconnect/fiatconnect-types'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matches from 'redux-saga-test-plan/matchers'
 import { throwError } from 'redux-saga-test-plan/providers'
@@ -309,6 +314,7 @@ describe('Fiatconnect saga', () => {
       accountName: 'provider two',
       institutionName: 'The fun bank',
       fiatAccountType: FiatAccountType.BankAccount,
+      fiatAccountSchema: FiatAccountSchema.AccountNumber,
     }
     const quote = new FiatConnectQuote({
       flow: CICOFlow.CashOut,
