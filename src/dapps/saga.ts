@@ -106,5 +106,4 @@ export function* watchFetchDappsList() {
 export function* dappsSaga() {
   yield spawn(watchDappSelected)
   yield spawn(watchFetchDappsList)
-  yield put(fetchDappsList())
 }
