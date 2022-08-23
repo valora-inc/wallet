@@ -89,13 +89,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: variables.contentPadding,
   },
   contentContainer: {
-    flex: 1,
+    flex: 3,
     paddingHorizontal: variables.contentPadding,
   },
   amountContainer: {
-    flex: 1,
-    marginLeft: variables.contentPadding,
-    paddingLeft: 10,
+    flex: 2,
     alignItems: 'flex-end',
   },
   title: {
