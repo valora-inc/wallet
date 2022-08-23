@@ -1062,7 +1062,7 @@
     "1": "Дружнє нагадування про те, що ви використовуєте мережеву версію {{testnet}} — баланс не є справжнім"
   },
   "dollarBalance": "<0></0> $t(celoDollars)",
-  "feedItemAddress": "{{address}}",
+  "feedItemAddress": "Рахунок {{address}}",
   "feedItemDepositInfo": "{{comment}}",
   "feedItemDepositInfo_noComment": "Депозит отримано",
   "feedItemDepositTitle": "Депозит",

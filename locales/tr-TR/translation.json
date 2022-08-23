@@ -1058,7 +1058,7 @@
     "1": "{{testnet}} test ağını kullandığınıza dair samimi bir hatırlatma - bakiyeler gerçek değil"
   },
   "dollarBalance": "<0></0> $t(celoDollars)",
-  "feedItemAddress": "{{address}}",
+  "feedItemAddress": "Hesap {{address}}",
   "feedItemDepositInfo": "{{comment}}",
   "feedItemDepositInfo_noComment": "Yatırılan",
   "feedItemDepositTitle": "Patra Yatırma",

@@ -1058,7 +1058,7 @@
     "1": "Desideriamo ricordarti che stai usando la versione build della rete {{testnet}}. I saldi non sono reali."
   },
   "dollarBalance": "<0></0> $t(celoDollars)",
-  "feedItemAddress": "{{address}}",
+  "feedItemAddress": "Conto {{address}}",
   "feedItemDepositInfo": "{{comment}}",
   "feedItemDepositInfo_noComment": "Deposito ricevuto",
   "feedItemDepositTitle": "Deposito",

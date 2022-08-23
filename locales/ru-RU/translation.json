@@ -1062,7 +1062,7 @@
     "1": "Напоминаем о том, что вы используете сетевую сборку {{testnet}}. Остатки средств могут быть неточными"
   },
   "dollarBalance": "<0></0> $t(celoDollars)",
-  "feedItemAddress": "{{address}}",
+  "feedItemAddress": "Аккаунт {{address}}",
   "feedItemDepositInfo": "{{comment}}",
   "feedItemDepositInfo_noComment": "Получен депозит",
   "feedItemDepositTitle": "Депозит",

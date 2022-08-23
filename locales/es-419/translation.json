@@ -1058,7 +1058,7 @@
     "1": "Te recordamos que estás utilizando la compilación de red {{testnet}} - los saldos que se muestran no son reales."
   },
   "dollarBalance": "<0></0> $t(celoDollars)",
-  "feedItemAddress": "{{address}}",
+  "feedItemAddress": "Cuenta {{address}}",
   "feedItemDepositInfo": "{{comment}}",
   "feedItemDepositInfo_noComment": "Depósito recibido",
   "feedItemDepositTitle": "Depósito",

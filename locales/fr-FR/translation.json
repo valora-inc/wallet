@@ -1058,7 +1058,7 @@
     "1": "Nous vous envoyons un petit rappel pour vous informer que vous utilisez le réseau bêta {{testnet}}, les soldes affichés ne sont pas réels"
   },
   "dollarBalance": "<0></0> $t(celoDollars)",
-  "feedItemAddress": "{{address}}",
+  "feedItemAddress": "Compte {{address}}",
   "feedItemDepositInfo": "{{comment}}",
   "feedItemDepositInfo_noComment": "Dépôt reçu",
   "feedItemDepositTitle": "Dépôt",
