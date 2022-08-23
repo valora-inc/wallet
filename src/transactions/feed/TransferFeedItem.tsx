@@ -89,12 +89,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: variables.contentPadding,
   },
   contentContainer: {
-    flex: 3,
     paddingHorizontal: variables.contentPadding,
+    flex: 1,
+    flexGrow: 1,
   },
   amountContainer: {
-    flex: 2,
     alignItems: 'flex-end',
+    flex: 0,
+    maxWidth: '35%',
   },
   title: {
     ...fontStyles.regular500,
