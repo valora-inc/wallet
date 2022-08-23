@@ -157,6 +157,7 @@ exports[`TransactionFeed renders correctly when there is a response 1`] = `
             style={
               Object {
                 "flex": 1,
+                "flexGrow": 1,
                 "paddingHorizontal": 16,
               }
             }
@@ -194,9 +195,8 @@ exports[`TransactionFeed renders correctly when there is a response 1`] = `
             style={
               Object {
                 "alignItems": "flex-end",
-                "flex": 1,
-                "marginLeft": 16,
-                "paddingLeft": 10,
+                "flex": 0,
+                "maxWidth": "35%",
               }
             }
           >
