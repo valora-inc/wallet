@@ -10,7 +10,11 @@ import { hideAlert, showError } from 'src/alert/actions'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { createAccountCopyTestTypeSelector, registrationStepsSelector } from 'src/app/selectors'
+import {
+  createAccountCopyTestTypeSelector,
+  registrationStepsSelector,
+  showGuidedOnboardingSelector,
+} from 'src/app/selectors'
 import { CreateAccountCopyTestType } from 'src/app/types'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import DevSkipButton from 'src/components/DevSkipButton'
@@ -44,6 +48,8 @@ function NameAndPicture({ navigation }: Props) {
   const asyncKomenciReadiness = useAsyncKomenciReadiness()
 
   const createAccountCopyTestType = useSelector(createAccountCopyTestTypeSelector)
+
+  const showGuidedOnboarding = useSelector(showGuidedOnboardingSelector)
 
   useLayoutEffect(() => {
     navigation.setOptions({
