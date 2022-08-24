@@ -1058,7 +1058,7 @@
     "1": "Eine freundliche Erinnerung, dass du das {{testnet}} -Netzwerk-Build verwendest - der Guthaben ist nicht real"
   },
   "dollarBalance": "<0></0> $t(celoDollars)",
-  "feedItemAddress": "Konto {{address}}",
+  "feedItemAddress": "{{address}}",
   "feedItemDepositInfo": "{{comment}}",
   "feedItemDepositInfo_noComment": "Anzahlung erhalten",
   "feedItemDepositTitle": "Einzahlung",
