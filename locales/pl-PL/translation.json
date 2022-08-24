@@ -1062,7 +1062,7 @@
     "1": "Nieśmiało przypominamy, że używasz sieci {{testnet}} – salda nie są prawdziwe"
   },
   "dollarBalance": "<0></0> $t(celoDollars)",
-  "feedItemAddress": "Konto {{address}}",
+  "feedItemAddress": "{{address}}",
   "feedItemDepositInfo": "{{comment}}",
   "feedItemDepositInfo_noComment": "Otrzymano wpłatę",
   "feedItemDepositTitle": "Wpłatę",
