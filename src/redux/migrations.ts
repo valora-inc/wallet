@@ -780,10 +780,18 @@ export const migrations = {
     ...state,
     app: {
       ...state.app,
-      createAccountCopyTestType: REMOTE_CONFIG_VALUES_DEFAULTS.createAccountCopyTestType,
+      shouldShowRecoveryPhraseInSettings:
+        REMOTE_CONFIG_VALUES_DEFAULTS.shouldShowRecoveryPhraseInSettings,
     },
   }),
   71: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      createAccountCopyTestType: REMOTE_CONFIG_VALUES_DEFAULTS.createAccountCopyTestType,
+    },
+  }),
+  72: (state: any) => ({
     ...state,
     app: {
       ...state.app,
