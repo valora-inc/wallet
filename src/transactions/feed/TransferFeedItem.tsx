@@ -41,8 +41,12 @@ function TransferFeedItem({ transfer }: Props) {
   return (
     <Touchable disabled={false} onPress={openTransferDetails}>
       <View style={styles.container}>
-        <View>{<ContactCircle recipient={recipient} size={AVATAR_SIZE} />}</View>
-        <View style={styles.descriptionContainer}>
+        <ContactCircle
+          style={{ alignItems: 'flex-start' }}
+          recipient={recipient}
+          size={AVATAR_SIZE}
+        />
+        <View style={styles.contentContainer}>
           <Text style={styles.title} testID={'TransferFeedItem/title'}>
             {title}
           </Text>
@@ -80,19 +84,23 @@ function TransferFeedItem({ transfer }: Props) {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
+    flex: 1,
     paddingVertical: 12,
     paddingHorizontal: variables.contentPadding,
   },
-  descriptionContainer: {
-    marginLeft: variables.contentPadding,
-    width: '55%',
+  contentContainer: {
+    paddingHorizontal: variables.contentPadding,
+    flex: 1,
+    flexGrow: 1,
   },
   amountContainer: {
-    marginLeft: variables.contentPadding,
-    flexShrink: 1,
+    alignItems: 'flex-end',
+    flex: 0,
+    maxWidth: '35%',
   },
   title: {
     ...fontStyles.regular500,
+    flexShrink: 1,
   },
   subtitle: {
     ...fontStyles.small,
@@ -101,15 +109,14 @@ const styles = StyleSheet.create({
   },
   amount: {
     ...fontStyles.regular500,
-    marginLeft: 'auto',
+    flexWrap: 'wrap',
     textAlign: 'right',
   },
   tokenAmount: {
     ...fontStyles.small,
     color: colors.gray4,
     paddingTop: 2,
-    marginLeft: 'auto',
-    minWidth: '40%',
+    flexWrap: 'wrap',
     textAlign: 'right',
   },
 })
