@@ -12,6 +12,7 @@ import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import {
   registrationStepsSelector,
+  showGuidedOnboardingSelector,
   skipVerificationSelector,
   supportedBiometryTypeSelector,
 } from 'src/app/selectors'
@@ -56,6 +57,7 @@ export default function EnableBiometry({ navigation }: Props) {
   const choseToRestoreAccount = useSelector(choseToRestoreAccountSelector)
   const skipVerification = useSelector(skipVerificationSelector)
   const { step, totalSteps } = useSelector(registrationStepsSelector)
+  const guidedOnboardingEnabled = useSelector(showGuidedOnboardingSelector)
 
   useEffect(() => {
     ValoraAnalytics.track(OnboardingEvents.biometry_opt_in_start)
@@ -118,11 +120,26 @@ export default function EnableBiometry({ navigation }: Props) {
     <ScrollView style={styles.contentContainer}>
       <SafeAreaView style={styles.container}>
         <View style={styles.imageContainer}>{biometryImageMap[supportedBiometryType!]}</View>
-        <Text style={styles.description}>
-          {t('enableBiometry.description', {
-            biometryType: t(`biometryType.${supportedBiometryType}`),
-          })}
-        </Text>
+        {guidedOnboardingEnabled ? (
+          <>
+            <Text style={styles.guideTitle}>
+              {t('enableBiometry.guideTitle', {
+                biometryType: t(`biometryType.${supportedBiometryType}`),
+              })}
+            </Text>
+            <Text style={styles.guideText}>
+              {t('enableBiometry.guideDescription', {
+                biometryType: t(`biometryType.${supportedBiometryType}`),
+              })}
+            </Text>
+          </>
+        ) : (
+          <Text style={styles.description}>
+            {t('enableBiometry.description', {
+              biometryType: t(`biometryType.${supportedBiometryType}`),
+            })}
+          </Text>
+        )}
         <Button
           onPress={onPressUseBiometry}
           text={t('enableBiometry.cta', {
@@ -156,5 +173,14 @@ const styles = StyleSheet.create({
     ...fontStyles.regular,
     textAlign: 'center',
     marginBottom: Spacing.Thick24,
+  },
+  guideTitle: {
+    ...fontStyles.h1,
+    marginBottom: Spacing.Thick24,
+  },
+  guideText: {
+    ...fontStyles.regular,
+    marginBottom: Spacing.Thick24,
+    textAlign: 'left',
   },
 })
