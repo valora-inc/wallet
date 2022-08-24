@@ -742,7 +742,7 @@
   "pincodeSet": {
     "create": "Create a PIN",
     "createNew": "Create a new PIN",
-    "pinCodeTitle": "Choose a 6 digit PIN you’ll remember",
+    "guideTitle": "Choose a 6 digit PIN you’ll remember",
     "pinCodeGuide": "Keep your PIN safe, it’s how you’ll keep your wallet secure.",
     "verify": "Enter your PIN again to confirm",
     "changePIN": "Change PIN",
