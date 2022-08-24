@@ -65,7 +65,7 @@ function Pincode({
       <ScrollView contentContainerStyle={styles.contentContainer}>
         {showGuidedOnboarding && (
           <>
-            <Text style={styles.guidedOnbaordingHeader}>
+            <Text style={styles.guidedOnboardingHeader}>
               {'Create a PIN to secure your wallet.'}
             </Text>
             <Text style={styles.guidedOnboardingCopy}>{t('pincodeSet.pinCodeGuide')}</Text>
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
     ...fontStyles.regular,
     textAlign: 'center',
   },
-  guidedOnbaordingHeader: {
+  guidedOnboardingHeader: {
     ...fontStyles.h1,
   },
   contentContainer: {
