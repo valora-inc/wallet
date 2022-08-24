@@ -98,12 +98,14 @@ const styles = StyleSheet.create({
   amount: {
     ...fontStyles.regular500,
     flexWrap: 'wrap',
+    textAlign: 'right',
   },
   tokenAmount: {
     ...fontStyles.small,
     color: colors.gray4,
     paddingTop: 2,
     flexWrap: 'wrap',
+    textAlign: 'right',
   },
 })
 
