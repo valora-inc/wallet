@@ -7,6 +7,5 @@ export const userLocationDataSelector = (state: RootState) => state.networkInfo.
 
 export const userInSanctionedCountrySelector = createSelector(
   userLocationDataSelector,
-  (userLocationData: { countryCodeAlpha2: any }) =>
-    getCountryFeatures(userLocationData.countryCodeAlpha2 ?? '').SANCTIONED_COUNTRY ?? false
+  ({ countryCodeAlpha2 }) => getCountryFeatures(countryCodeAlpha2 ?? '').SANCTIONED_COUNTRY ?? false
 )

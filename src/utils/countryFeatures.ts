@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect'
 import { countryFeatures } from 'src/flags'
-import { userLocationDataSelector } from 'src/networkInfo/selectors'
+import { RootState } from 'src/redux/reducers'
 import useSelector from 'src/redux/useSelector'
 
 type CountryFeatures = typeof countryFeatures
@@ -17,7 +17,7 @@ export function getCountryFeatures(countryCodeAlpha2: string | null): SpecificCo
 }
 
 export const getCountryFeaturesSelector = createSelector(
-  userLocationDataSelector,
+  (state: RootState) => state.networkInfo.userLocationData,
   ({ countryCodeAlpha2 }) => getCountryFeatures(countryCodeAlpha2)
 )
 
