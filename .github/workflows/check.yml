@@ -15,6 +15,9 @@ on:
       default: 'warning'
     tags:
       description: 'Run Checks'
+  # Cron job to run checks @ 8:30 pm daily on the latest commit on the default branch - main
+  schedule:
+    - cron: '30 20 * * *'
 
 # Cancel any in progress run of the workflow for a given PR
 # This avoids building outdated code
@@ -40,9 +43,6 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
       - run: yarn || yarn
       - run: ./scripts/ci_check_vulnerabilities.sh
-  # Cron job to run checks @ 8:30 pm daily on the latest commit on the default branch - main
-  schedule:
-    - cron: '30 20 * * *'
 
   lint:
     name: Lint
