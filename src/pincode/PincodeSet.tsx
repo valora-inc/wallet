@@ -14,6 +14,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import {
   biometryEnabledSelector,
   registrationStepsSelector,
+  showGuidedOnboardingSelector,
   skipVerificationSelector,
 } from 'src/app/selectors'
 import DevSkipButton from 'src/components/DevSkipButton'
@@ -44,6 +45,7 @@ interface StateProps {
   registrationStep: { step: number; totalSteps: number }
   biometryEnabled: boolean
   skipVerification: boolean
+  showGuidedOnboarding: boolean
 }
 
 interface DispatchProps {
@@ -74,6 +76,7 @@ function mapStateToProps(state: RootState): StateProps {
     account: currentAccountSelector(state) ?? '',
     biometryEnabled: biometryEnabledSelector(state),
     skipVerification: skipVerificationSelector(state),
+    showGuidedOnboarding: showGuidedOnboardingSelector(state),
   }
 }
 
