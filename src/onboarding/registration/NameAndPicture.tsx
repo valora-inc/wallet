@@ -180,7 +180,6 @@ const styles = StyleSheet.create({
   },
   guidedOnboardingCopy: {
     ...fontStyles.regular,
-    textAlign: 'left',
   },
   guidedOnboardingHeader: {
     marginTop: 36,
