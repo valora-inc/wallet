@@ -14,7 +14,10 @@ import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { userLocationDataSelector } from 'src/networkInfo/selectors'
+import {
+  userInSanctionedCountrySelector,
+  userLocationDataSelector,
+} from 'src/networkInfo/selectors'
 import useSelector from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
@@ -34,6 +37,7 @@ function CashInBottomSheet() {
   const account = useSelector(currentAccountSelector)
   const localCurrency = useSelector(getLocalCurrencyCode)
   const rampCashInButtonExpEnabled = useSelector((state) => state.app.rampCashInButtonExpEnabled)
+  const inSanctionedCountry = useSelector(userInSanctionedCountrySelector)
 
   useEffect(() => {
     ValoraAnalytics.track(FiatExchangeEvents.cico_add_funds_bottom_sheet_impression)
@@ -114,7 +118,7 @@ function CashInBottomSheet() {
     <Modal
       animationIn="slideInUp"
       animationInTiming={800}
-      isVisible={isModalVisible}
+      isVisible={isModalVisible && !inSanctionedCountry}
       swipeDirection="down"
       style={styles.overlay}
       onBackdropPress={onDismissBottomSheet}
