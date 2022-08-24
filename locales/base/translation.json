@@ -1061,7 +1061,7 @@
     "1": "A friendly reminder you're using the {{testnet}} network build - the balances are not real"
   },
   "dollarBalance": "<0></0> $t(celoDollars)",
-  "feedItemAddress": "Account {{address}}",
+  "feedItemAddress": "{{address}}",
   "feedItemDepositInfo": "{{comment}}",
   "feedItemDepositInfo_noComment": "Deposit Received",
   "feedItemDepositTitle": "Deposit",

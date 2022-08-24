@@ -601,7 +601,7 @@
   },
   "inviteRewardsBanner": {
     "title": "Wyślij kryptowalutę, aby zaprosić znajomego",
-    "body": "Gdy Twój znajomy skonfiguruje swój portfel w aplikacji {{appName}}, każdy z Was otrzyma NFT. <0>Dowiedz się więcej</0>"
+    "body": "Once they set up their {{appName}} wallet and connect their number, you’ll each get an exclusive NFT. <0>Earn up to 3 NFTs</0>"
   },
   "getReward": "Otrzymaj ${{reward}}",
   "welcomeCelo": "Witamy w aplikacji {{appName}}",
@@ -867,7 +867,7 @@
   "amountCeloWithdrawn": "Kwota (CELO)",
   "feeEducation": "Blockchain Celo pobiera opłatę transakcyjną, aby umożliwić obsługę sieci i jej płynne działanie.",
   "inviteMoneyEscrow": "Wyślij temu kontaktowi wiadomość z zaproszeniem, a po podłączeniu swojego numeru otrzyma środki.",
-  "inviteMoneyEscrowWithRewards": "Wyślij do tego kontaktu wiadomość z zaproszeniem, a otrzyma on środki i NFT po podłączeniu swojego numeru.",
+  "inviteMoneyEscrowWithRewards": "Send this contact an invite message and they’ll receive the funds & NFT once they connect their number.",
   "reviewPayment": "Analizuj płatność",
   "requestPayment": "Zażądaj płatności",
   "max": "MAKS.",
@@ -887,7 +887,7 @@
   "walletAddress": "Adres portfela",
   "inviteWithoutPayment": "Cześć! Korzystam z aplikacji {{appName}} do przesyłania kryptowalut z dowolnego miejsca na świecie. To bardzo proste. Może Ty też spróbujesz? Skorzystaj z tego linku: {{link}}",
   "inviteWithEscrowedPayment": "Cześć! Korzystam z aplikacji {{appName}} do przesyłania kryptowalut z dowolnego miejsca na świecie. Przesyłam Ci właśnie {{amount}} {{token}}. Pobierz aplikację {{appName}} i odbierz {{token}}, korzystając z tego linku: {{link}}",
-  "inviteWithRewards": "Hej! Właśnie wysłałem Ci kryptowalutę za pomocą mojego portfela {{appName}} . Gdy pobierzesz aplikację i podasz swój numer telefonu, obaj dostaniemy specjalną edycję NFT. Użyj tego linku: {{link}}",
+  "inviteWithRewards": "Hey! I just sent you crypto with my {{appName}} wallet. Once you download the app and connect your phone number, we both get a special edition NFT. Use this link: {{link}}",
   "loadingContacts": "Wyszukiwanie kontaktów",
   "myCode": "Mój kod",
   "scanCode": "Skanuj",
@@ -1383,17 +1383,17 @@
     "viewOnExplorer": "Wyświetl w CeloExplorer"
   },
   "swapReviewScreen": {
-    "title": "Wymiana recenzji",
-    "complete": "Całkowita zamiana",
-    "swapFrom": "Zamień z",
-    "swapTo": "Zamień na",
+    "title": "Review Swap",
+    "complete": "Complete Swap",
+    "swapFrom": "Swap From",
+    "swapTo": "Swap To",
     "transactionDetails": "Szczegóły transakcji",
-    "estimatedGas": "Szacowana ilość gazu",
-    "swapFee": "{{appName}} Opłata",
-    "swapFeeTitle": "Co to jest opłata za {{appName}} ?",
-    "swapFeeBody": "Opłata {{appName}} to opłata, którą płacisz za wymianę tokenów na stronie {{appName}}. \n\n Opłata wynosi {{swapFee}}% kwoty, którą wymieniasz. \n\n {{appName}} opłaty są bezpłatne przez kilka następnych miesięcy.",
-    "estimatedAmountTitle": "Szacunkowa kwota",
-    "estimatedAmountBody": "Konwersje odbywają się na zdecentralizowanej giełdzie zewnętrznej, która znajdzie dla ciebie najlepszy kurs wymiany. \n\n Twoja transakcja zostanie zrealizowana po cenie mieszczącej się w przedziale {{slippagePercent}}% oszacowania lub transakcja zostanie anulowana, a środki zwrócone do twojego portfela."
+    "estimatedGas": "Estimated Gas",
+    "swapFee": "{{appName}} Fee",
+    "swapFeeTitle": "What is the {{appName}} Fee?",
+    "swapFeeBody": "The {{appName}} fee is the fee that you pay to swap tokens on {{appName}}. \n\n The fee is {{swapFee}}% of the amount you are exchanging. \n\n {{appName}} fees are free for the next few months.",
+    "estimatedAmountTitle": "Estimated Amount",
+    "estimatedAmountBody": "Conversions take place on a third party decentralized exchange that finds you the best rate for your swap. \n\n Your trade will be completed at a price within {{slippagePercent}}% of the estimate or the transaction will be cancelled & funds returned to your wallet."
   },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",

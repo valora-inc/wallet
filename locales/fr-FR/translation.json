@@ -601,7 +601,7 @@
   },
   "inviteRewardsBanner": {
     "title": "Envoyez des crypto pour inviter un ami",
-    "body": "Vous recevrez tous les deux un NFT exclusif une fois qu'il est configuré son compte {{appName}}. <0>En savoir plus</0>"
+    "body": "Vous recevrez tous les deux un NFT exclusif une fois qu'il est configuré son compte {{appName}}. <0>Gagnez jusqu'à 3 NFT</0>"
   },
   "getReward": "Obtenez {{reward}}$",
   "welcomeCelo": "Bienvenue sur {{appName}}",
