@@ -14,7 +14,7 @@ import {
   mockCeloAddress,
   mockCeurAddress,
   mockCusdAddress,
-  mockTestTokenAddress,
+  mockTestTokenAddress
 } from 'test/values'
 
 // Default (version -1 schema)
@@ -1557,9 +1557,36 @@ export const v71Schema = {
     maxSwapSlippagePercentage: 2,
     swapFeeEnabled: false,
     swapFeePercentage: 0.743,
+    createAccountCopyTestType: 'ACCOUNT',
+  },
+}
+
+export const v72Schema = {
+  ...v71Schema,
+  _persist: {
+    ...v71Schema._persist,
+    version: 72,
+  },
+  app: {
+    ...v71Schema.app,
+    maxSwapSlippagePercentage: 2,
+    swapFeeEnabled: false,
+    swapFeePercentage: 0.743,
+  },
+}
+
+export const v73Schema = {
+  ...v72Schema,
+  _persist: {
+    ...v72Schema._persist,
+    version: 73,
+  },
+  app: {
+    ...v72Schema.app,
+    showGuidedOnboardingCopy: false,
   },
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v71Schema as Partial<RootState>
+  return v73Schema as Partial<RootState>
 }
