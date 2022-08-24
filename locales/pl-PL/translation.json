@@ -601,7 +601,7 @@
   },
   "inviteRewardsBanner": {
     "title": "Wyślij kryptowalutę, aby zaprosić znajomego",
-    "body": "Once they set up their {{appName}} wallet and connect their number, you’ll each get an exclusive NFT. <0>Earn up to 3 NFTs</0>"
+    "body": "Kiedy założy portfel w aplikacji {{appName}} i podłączy swój numer, oboje otrzymacie NFT. <0>Zdobądź do 3 NTF</0>"
   },
   "getReward": "Otrzymaj ${{reward}}",
   "welcomeCelo": "Witamy w aplikacji {{appName}}",
@@ -867,7 +867,7 @@
   "amountCeloWithdrawn": "Kwota (CELO)",
   "feeEducation": "Blockchain Celo pobiera opłatę transakcyjną, aby umożliwić obsługę sieci i jej płynne działanie.",
   "inviteMoneyEscrow": "Wyślij temu kontaktowi wiadomość z zaproszeniem, a po podłączeniu swojego numeru otrzyma środki.",
-  "inviteMoneyEscrowWithRewards": "Send this contact an invite message and they’ll receive the funds & NFT once they connect their number.",
+  "inviteMoneyEscrowWithRewards": "Wyślij do tego kontaktu wiadomość z zaproszeniem, aby otrzymał środki i NFT, kiedy podłączy swój numer.",
   "reviewPayment": "Analizuj płatność",
   "requestPayment": "Zażądaj płatności",
   "max": "MAKS.",
@@ -887,7 +887,7 @@
   "walletAddress": "Adres portfela",
   "inviteWithoutPayment": "Cześć! Korzystam z aplikacji {{appName}} do przesyłania kryptowalut z dowolnego miejsca na świecie. To bardzo proste. Może Ty też spróbujesz? Skorzystaj z tego linku: {{link}}",
   "inviteWithEscrowedPayment": "Cześć! Korzystam z aplikacji {{appName}} do przesyłania kryptowalut z dowolnego miejsca na świecie. Przesyłam Ci właśnie {{amount}} {{token}}. Pobierz aplikację {{appName}} i odbierz {{token}}, korzystając z tego linku: {{link}}",
-  "inviteWithRewards": "Hey! I just sent you crypto with my {{appName}} wallet. Once you download the app and connect your phone number, we both get a special edition NFT. Use this link: {{link}}",
+  "inviteWithRewards": "Cześć! Przesyłam Ci kryptowalutę z portfela w aplikacji {{appName}}. Gdy pobierzesz aplikację i podłączysz do niej swój numer telefonu, oboje otrzymamy NFT specjalnej edycji. Użyj tego linku: {{link}}",
   "loadingContacts": "Wyszukiwanie kontaktów",
   "myCode": "Mój kod",
   "scanCode": "Skanuj",
@@ -1383,17 +1383,17 @@
     "viewOnExplorer": "Wyświetl w CeloExplorer"
   },
   "swapReviewScreen": {
-    "title": "Review Swap",
-    "complete": "Complete Swap",
-    "swapFrom": "Swap From",
-    "swapTo": "Swap To",
+    "title": "Analizuj wymianę",
+    "complete": "Zakończ wymianę",
+    "swapFrom": "Zamień z",
+    "swapTo": "Zamień na",
     "transactionDetails": "Szczegóły transakcji",
-    "estimatedGas": "Estimated Gas",
-    "swapFee": "{{appName}} Fee",
-    "swapFeeTitle": "What is the {{appName}} Fee?",
-    "swapFeeBody": "The {{appName}} fee is the fee that you pay to swap tokens on {{appName}}. \n\n The fee is {{swapFee}}% of the amount you are exchanging. \n\n {{appName}} fees are free for the next few months.",
-    "estimatedAmountTitle": "Estimated Amount",
-    "estimatedAmountBody": "Conversions take place on a third party decentralized exchange that finds you the best rate for your swap. \n\n Your trade will be completed at a price within {{slippagePercent}}% of the estimate or the transaction will be cancelled & funds returned to your wallet."
+    "estimatedGas": "Szacowana opłata",
+    "swapFee": "Opłata w aplikacji {{appName}}",
+    "swapFeeTitle": "Czym jest opłata {{appName}}?",
+    "swapFeeBody": "Opłata {{appName}} to opłata, którą płaci się, aby wymienić żetony w {{appName}}.\nOpłata stanowi {{swapFee}}% liczby żetonów, które wymieniasz.\nPrzez następne kilka miesięcy opłaty {{appName}} są darmowe.",
+    "estimatedAmountTitle": "Szacowana kwota",
+    "estimatedAmountBody": "Wymiana waluty odbywa się na zewnętrznej giełdzie, która wyszukuje najlepszy kurs wymian.\n\nKoszt wymiany wyniesie nie więcej niż {{slippagePercent}}% oszacowanej kwoty. W przeciwnym wypadku transakcja zostanie anulowana, a środki powrócą do portfela."
   },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",
