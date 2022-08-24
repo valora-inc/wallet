@@ -52,19 +52,25 @@ function NameAndPicture({ navigation }: Props) {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerTitle: () => (
-        <HeaderTitleWithSubtitle
-          title={t(
-            choseToRestoreAccount
-              ? 'restoreAccount'
-              : createAccountCopyTestType === CreateAccountCopyTestType.Wallet ||
-                createAccountCopyTestType === CreateAccountCopyTestType.AlreadyHaveWallet
-              ? 'createProfile'
-              : 'createAccount'
-          )}
-          subTitle={t('registrationSteps', { step, totalSteps })}
-        />
-      ),
+      headerTitle: () => {
+        let pageTitleTranslationKey
+        if (showGuidedOnboarding) {
+          pageTitleTranslationKey = 'name'
+        } else {
+          pageTitleTranslationKey = choseToRestoreAccount
+            ? 'restoreAccount'
+            : createAccountCopyTestType === CreateAccountCopyTestType.Wallet ||
+              createAccountCopyTestType === CreateAccountCopyTestType.AlreadyHaveWallet
+            ? 'createProfile'
+            : 'createAccount'
+        }
+        return (
+          <HeaderTitleWithSubtitle
+            title={t(pageTitleTranslationKey)}
+            subTitle={t('registrationSteps', { step, totalSteps })}
+          />
+        )
+      },
     })
   }, [navigation, choseToRestoreAccount, step, totalSteps])
 
