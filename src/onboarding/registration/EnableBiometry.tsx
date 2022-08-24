@@ -67,7 +67,11 @@ export default function EnableBiometry({ navigation }: Props) {
     navigation.setOptions({
       headerTitle: () => (
         <HeaderTitleWithSubtitle
-          title={t('enableBiometry.title')}
+          title={
+            guidedOnboardingEnabled
+              ? t(`biometryType.${supportedBiometryType}`)
+              : t('enableBiometry.title')
+          }
           subTitle={t('registrationSteps', { step, totalSteps })}
         />
       ),
