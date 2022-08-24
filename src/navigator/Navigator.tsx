@@ -166,7 +166,7 @@ const commonScreens = (Navigator: typeof Stack) => {
       <Navigator.Screen
         name={Screens.SanctionedCountryErrorScreen}
         component={SanctionedCountryErrorScreen}
-        options={noHeader}
+        options={SanctionedCountryErrorScreen.navigationOptions}
       />
     </>
   )

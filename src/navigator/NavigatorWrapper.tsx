@@ -12,7 +12,6 @@ import AlertBanner from 'src/alert/AlertBanner'
 import { InviteEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { activeScreenChanged } from 'src/app/actions'
-import SanctionedCountryErrorScreen from 'src/app/SanctionedCountryErrorScreen'
 import { getAppLocked } from 'src/app/selectors'
 import UpgradeScreen from 'src/app/UpgradeScreen'
 import { doingBackupFlowSelector, shouldForceBackupSelector } from 'src/backup/selectors'
@@ -21,11 +20,11 @@ import InviteFriendModal from 'src/invite/InviteFriendModal'
 import { navigate, navigationRef, navigatorIsReadyRef } from 'src/navigator/NavigationService'
 import Navigator from 'src/navigator/Navigator'
 import { Screens } from 'src/navigator/Screens'
+import { userInSanctionedCountrySelector } from 'src/networkInfo/selectors'
 import PincodeLock from 'src/pincode/PincodeLock'
 import useTypedSelector from 'src/redux/useSelector'
 import { sentryRoutingInstrumentation } from 'src/sentry/Sentry'
 import colors from 'src/styles/colors'
-import { getCountryFeatures } from 'src/utils/countryFeatures'
 import Logger from 'src/utils/Logger'
 import { isVersionBelowMinimum } from 'src/utils/versionCheck'
 
@@ -65,8 +64,7 @@ export const NavigatorWrapper = () => {
   const minRequiredVersion = useTypedSelector((state) => state.app.minVersion)
   const isInviteModalVisible = useTypedSelector((state) => state.app.inviteModalVisible)
   const routeNameRef = React.useRef()
-  const userLocationData = useTypedSelector((state) => state.networkInfo.userLocationData)
-  const { SANCTIONED_COUNTRY } = getCountryFeatures(userLocationData.countryCodeAlpha2 ?? '')
+  const inSanctionedCountry = useTypedSelector(userInSanctionedCountrySelector)
 
   const dispatch = useDispatch()
 
@@ -90,6 +88,12 @@ export const NavigatorWrapper = () => {
       navigate(Screens.BackupForceScreen)
     }
   }, [shouldForceBackup, doingBackupFlow])
+
+  React.useEffect(() => {
+    if (inSanctionedCountry) {
+      navigate(Screens.SanctionedCountryErrorScreen)
+    }
+  }, [inSanctionedCountry])
 
   React.useEffect(() => {
     if (navigationRef && navigationRef.current) {
@@ -188,23 +192,17 @@ export const NavigatorWrapper = () => {
       initialState={initialState}
       theme={AppTheme}
     >
-      {SANCTIONED_COUNTRY ? (
-        <SanctionedCountryErrorScreen />
-      ) : (
-        <View style={styles.container}>
-          <Navigator />
-          {(appLocked || updateRequired) && (
-            <View style={styles.locked}>
-              {updateRequired ? <UpgradeScreen /> : <PincodeLock />}
-            </View>
-          )}
-          <View style={styles.floating}>
-            <AlertBanner />
-            <InviteFriendModal isVisible={isInviteModalVisible} onInvite={onInvite} />
-          </View>
-          <ShakeForSupport />
+      <View style={styles.container}>
+        <Navigator />
+        {(appLocked || updateRequired) && (
+          <View style={styles.locked}>{updateRequired ? <UpgradeScreen /> : <PincodeLock />}</View>
+        )}
+        <View style={styles.floating}>
+          <AlertBanner />
+          <InviteFriendModal isVisible={isInviteModalVisible} onInvite={onInvite} />
         </View>
-      )}
+        <ShakeForSupport />
+      </View>
     </NavigationContainer>
   )
 }

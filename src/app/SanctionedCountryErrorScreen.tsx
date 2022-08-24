@@ -1,11 +1,21 @@
 import * as React from 'react'
+import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, Text, View } from 'react-native'
+import { BackHandler, StyleSheet, Text, View } from 'react-native'
+import { emptyHeader } from 'src/navigator/Headers'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
 export function SanctionedCountryErrorScreen() {
   const { t } = useTranslation()
+
+  // Prevent back button on Android
+  useEffect(() => {
+    const backPressListener = () => true
+    BackHandler.addEventListener('hardwareBackPress', backPressListener)
+    return () => BackHandler.removeEventListener('hardwareBackPress', backPressListener)
+  }, [])
+
   return (
     <View style={styles.container}>
       <Text style={styles.errorMessage}>{t('unsupportedLocation')}</Text>
@@ -24,5 +34,12 @@ const styles = StyleSheet.create({
     ...fontStyles.regular,
   },
 })
+
+SanctionedCountryErrorScreen.navigationOptions = {
+  ...emptyHeader,
+  // Prevent swiping back on iOS
+  gestureEnabled: false,
+  headerLeft: () => null,
+}
 
 export default SanctionedCountryErrorScreen
