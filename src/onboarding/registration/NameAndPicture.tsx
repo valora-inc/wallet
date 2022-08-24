@@ -1,7 +1,7 @@
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet } from 'react-native'
+import { ScrollView, StyleSheet, Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { setName, setPicture } from 'src/account/actions'
@@ -27,6 +27,7 @@ import { StackParamList } from 'src/navigator/types'
 import PictureInput from 'src/onboarding/registration/PictureInput'
 import { default as useSelector, default as useTypedSelector } from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
 import { saveProfilePicture } from 'src/utils/image'
 import { useAsyncKomenciReadiness } from 'src/verify/hooks'
 
@@ -128,6 +129,12 @@ function NameAndPicture({ navigation }: Props) {
             backgroundColor={colors.onboardingBrownLight}
           />
         )}
+        {showGuidedOnboarding && (
+          <>
+            <Text style={styles.guidedOnboardingHeader}>{t('nameAndPicGuideCopyTitle')}</Text>
+            <Text style={styles.guidedOnboardingCopy}>{t('nameAndPicGuideCopyContent')}</Text>
+          </>
+        )}
         <FormInput
           label={t('fullName')}
           style={styles.name}
@@ -170,5 +177,13 @@ const styles = StyleSheet.create({
   name: {
     marginTop: 24,
     marginBottom: 32,
+  },
+  guidedOnboardingCopy: {
+    ...fontStyles.regular,
+    textAlign: 'left',
+  },
+  guidedOnboardingHeader: {
+    marginTop: 36,
+    ...fontStyles.h1,
   },
 })
