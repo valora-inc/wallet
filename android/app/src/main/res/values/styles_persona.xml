@@ -5,11 +5,11 @@
   <style name="RN.Persona.Text"/>
   <style name="Persona.Inquiry.Theme" parent="Base.Persona.Inquiry.Theme.Light">
     <item name="colorPrimary">#1AB775</item>
-     
-    <item name="colorAccent">#1AB775</item>
-     
-    <item name="colorPrimaryDark">#1AB775</item>
-     
+
+    <item name="colorSecondary">#1AB775</item>
+
+    <item name="colorPrimaryVariant">#1AB775</item>
+
     <item name="personaTitleTextAppearance">@style/RN.Persona.Text.Title</item>
     <item name="personaBodyTextAppearance">@style/RN.Persona.Text.Body</item>
     <item name="editTextStyle">@style/RN.Persona.EditText</item>
