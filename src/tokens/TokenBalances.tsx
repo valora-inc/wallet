@@ -47,14 +47,13 @@ function TokenBalancesScreen({ navigation }: Props) {
   const walletAddress = useSelector(walletAddressSelector)
 
   useLayoutEffect(() => {
-    const subTitle = tokensAreStale
-      ? `${localCurrencySymbol} -`
-      : totalBalance.gte(0)
-      ? t('totalBalanceWithLocalCurrencySymbol', {
-          localCurrencySymbol,
-          totalBalance: totalBalance.toFormat(2),
-        })
-      : '-'
+    const subTitle =
+      !tokensAreStale && totalBalance.gte(0)
+        ? t('totalBalanceWithLocalCurrencySymbol', {
+            localCurrencySymbol,
+            totalBalance: totalBalance.toFormat(2),
+          })
+        : `${localCurrencySymbol} -`
 
     navigation.setOptions({
       headerTitle: () => <HeaderTitleWithSubtitle title={t('balances')} subTitle={subTitle} />,
