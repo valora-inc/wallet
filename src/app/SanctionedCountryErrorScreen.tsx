@@ -1,16 +1,16 @@
 import * as React from 'react'
+import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
-class SanctionedCountryErrorScreen extends React.Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.errorMessage}>{'Sorry, Valora is not supported in your location'}</Text>
-      </View>
-    )
-  }
+export function SanctionedCountryErrorScreen() {
+  const { t } = useTranslation()
+  return (
+    <View style={styles.container}>
+      <Text style={styles.errorMessage}>{t('unsupportedLocation')}</Text>
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
