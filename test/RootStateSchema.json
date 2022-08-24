@@ -2095,6 +2095,7 @@
                 "sentryTracesSampleRate",
                 "sessionId",
                 "shouldShowRecoveryPhraseInSettings",
+                "showGuidedOnboardingCopy",
                 "showPriceChangeIndicatorInBalances",
                 "showSwapMenuInDrawerMenu",
                 "skipProfilePicture",
