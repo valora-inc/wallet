@@ -199,6 +199,7 @@ export interface RemoteConfigValues {
   maxSwapSlippagePercentage: number
   swapFeeEnabled: boolean
   swapFeePercentage: number
+  showGuidedOnboardingCopy: boolean
 }
 
 export function* appRemoteFeatureFlagSaga() {
