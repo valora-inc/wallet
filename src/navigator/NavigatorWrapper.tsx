@@ -17,7 +17,12 @@ import UpgradeScreen from 'src/app/UpgradeScreen'
 import { doingBackupFlowSelector, shouldForceBackupSelector } from 'src/backup/selectors'
 import { DEV_RESTORE_NAV_STATE_ON_RELOAD, DYNAMIC_DOWNLOAD_LINK } from 'src/config'
 import InviteFriendModal from 'src/invite/InviteFriendModal'
-import { navigate, navigationRef, navigatorIsReadyRef } from 'src/navigator/NavigationService'
+import {
+  navigate,
+  navigateClearingStack,
+  navigationRef,
+  navigatorIsReadyRef,
+} from 'src/navigator/NavigationService'
 import Navigator from 'src/navigator/Navigator'
 import { Screens } from 'src/navigator/Screens'
 import { userInSanctionedCountrySelector } from 'src/networkInfo/selectors'
@@ -91,7 +96,7 @@ export const NavigatorWrapper = () => {
 
   React.useEffect(() => {
     if (inSanctionedCountry) {
-      navigate(Screens.SanctionedCountryErrorScreen)
+      navigateClearingStack(Screens.SanctionedCountryErrorScreen)
     }
   }, [inSanctionedCountry])
 
