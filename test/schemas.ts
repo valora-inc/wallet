@@ -1575,6 +1575,17 @@ export const v72Schema = {
   },
 }
 
+export const v73Schema = {
+  ...v72Schema,
+  _persist: {
+    ...v72Schema._persist,
+    version: 73,
+  },
+  app: {
+    ...v72Schema.app,
+    showGuidedOnboardingCopy: false,
+  },
+}
 export function getLatestSchema(): Partial<RootState> {
-  return v72Schema as Partial<RootState>
+  return v73Schema as Partial<RootState>
 }
