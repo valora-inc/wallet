@@ -148,5 +148,3 @@ const configLoggerLevels: { [key: string]: LoggerLevel } = {
 }
 
 export const LOGGER_LEVEL = configLoggerLevels[Config.LOGGER_LEVEL] || LoggerLevel.Debug
-
-export const SANCTIONED_COUNTRIES = ['CU', 'IR', 'KP', 'SY']
