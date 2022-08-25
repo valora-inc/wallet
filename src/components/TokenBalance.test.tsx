@@ -223,13 +223,6 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
           "type": "ALERT/SHOW",
           "underlyingError": undefined,
         },
-        Object {
-          "type": "STABLE_TOKEN/FETCH_BALANCE",
-        },
-        Object {
-          "payload": undefined,
-          "type": "tokens/fetchTokenBalances",
-        },
       ]
     `)
   })
@@ -268,13 +261,6 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
           "title": "outOfSyncBanner.title",
           "type": "ALERT/SHOW",
           "underlyingError": undefined,
-        },
-        Object {
-          "type": "STABLE_TOKEN/FETCH_BALANCE",
-        },
-        Object {
-          "payload": undefined,
-          "type": "tokens/fetchTokenBalances",
         },
       ]
     `)
