@@ -792,4 +792,5 @@ export const migrations = {
       swapFeePercentage: REMOTE_CONFIG_VALUES_DEFAULTS.swapFeePercentage,
     },
   }),
+  72: (state: any) => state,
 }

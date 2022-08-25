@@ -108,6 +108,7 @@ const initialState = {
   maxSwapSlippagePercentage: REMOTE_CONFIG_VALUES_DEFAULTS.maxSwapSlippagePercentage,
   swapFeeEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.swapFeeEnabled,
   swapFeePercentage: REMOTE_CONFIG_VALUES_DEFAULTS.swapFeePercentage,
+  inviteMethod: REMOTE_CONFIG_VALUES_DEFAULTS.inviteMethod,
 }
 
 export const appReducer = (
@@ -228,6 +229,7 @@ export const appReducer = (
         maxSwapSlippagePercentage: action.configValues.maxSwapSlippagePercentage,
         swapFeeEnabled: action.configValues.swapFeeEnabled,
         swapFeePercentage: action.configValues.swapFeePercentage,
+        inviteMethod: action.configValues.inviteMethod,
       }
     case Actions.TOGGLE_INVITE_MODAL:
       return {

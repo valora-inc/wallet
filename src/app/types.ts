@@ -10,3 +10,9 @@ export enum CreateAccountCopyTestType {
   Wallet = 'WALLET',
   AlreadyHaveWallet = 'ALREADY_HAVE_WALLET',
 }
+
+export enum InviteMethodType {
+  Escrow = 'ESCROW',
+  ManualInvite = 'MANUAL_INVITE',
+  ReferralUrl = 'REFERRAL_URL',
+}
