@@ -118,7 +118,6 @@ function useErrorMessageWithRefresh() {
 
 export function HomeTokenBalance() {
   const { t } = useTranslation()
-  const dispatch = useDispatch()
   const totalBalance = useSelector(totalTokenBalanceSelector)
   const tokenBalances = useSelector(tokensWithTokenBalanceSelector)
 
