@@ -18,6 +18,7 @@ import {
 } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { fetchStableBalances } from 'src/stableToken/actions'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
@@ -30,6 +31,8 @@ import {
   tokensWithUsdValueSelector,
   totalTokenBalanceSelector,
 } from 'src/tokens/selectors'
+import { fetchTokenBalances } from 'src/tokens/slice'
+import { transactionsSelector } from 'src/transactions/reducer'
 
 function TokenBalance({ style = styles.balance }: { style?: StyleProp<TextStyle> }) {
   const tokensWithUsdValue = useSelector(tokensWithUsdValueSelector)
@@ -104,8 +107,10 @@ function useErrorMessageWithRefresh() {
 
 export function HomeTokenBalance() {
   const { t } = useTranslation()
+  const dispatch = useDispatch()
   const totalBalance = useSelector(totalTokenBalanceSelector)
   const tokenBalances = useSelector(tokensWithTokenBalanceSelector)
+  const transactions = useSelector(transactionsSelector)
 
   useErrorMessageWithRefresh()
 
@@ -121,6 +126,16 @@ export function HomeTokenBalance() {
   }
 
   const [infoVisible, setInfoVisible] = useState(false)
+  const [lastTransactionHash, setLastTransactionHash] = useState('')
+
+  // Keep balance up to date when new transactions are added
+  useEffect(() => {
+    if (lastTransactionHash !== transactions[0]?.transactionHash ?? '') {
+      setLastTransactionHash(transactions[0]?.transactionHash ?? '')
+      dispatch(fetchStableBalances())
+      dispatch(fetchTokenBalances())
+    }
+  }, [transactions])
 
   return (
     <View style={styles.container} testID="HomeTokenBalance">
