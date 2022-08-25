@@ -10,7 +10,6 @@ import { CICOEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
-import { readOnceFromFirebase } from 'src/firebase/firebase'
 import { createPersonaAccount, verifyWalletAddress } from 'src/in-house-liquidity'
 import Logger from 'src/utils/Logger'
 import networkConfig from 'src/web3/networkConfig'
@@ -37,10 +36,12 @@ const Persona = ({ kycStatus, text, onCanceled, onError, onPress, onSuccess }: P
 
   const dispatch = useDispatch()
 
-  const templateIdResponse = useAsync(async () => readOnceFromFirebase('persona/templateId'), [])
-  const templateId = templateIdResponse.result
+  // const templateIdResponse = useAsync(async () => readOnceFromFirebase('persona/templateId'), [])
+  // const templateId = templateIdResponse.result
+  const templateId = 'itmpl_NfV45JxZR81jZyWDzmyngkcD'
 
   const launchPersonaInquiry = useCallback(() => {
+    console.log('launching persona......')
     if (typeof templateId !== 'string') {
       Logger.error(TAG, `Attempted to initiate Persona with invalid templateId: ${templateId}`)
       return
@@ -75,7 +76,7 @@ const Persona = ({ kycStatus, text, onCanceled, onError, onPress, onSuccess }: P
       .onError((error: Error) => {
         onError?.()
         ValoraAnalytics.track(CICOEvents.persona_kyc_error)
-        Logger.error(TAG, `Error: ${error.message}`)
+        Logger.error(TAG, `Error: ${error.message}`, error)
       })
       .build()
       .start()
