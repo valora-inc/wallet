@@ -11,8 +11,11 @@ import { showError } from 'src/alert/actions'
 import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { inviteMethodSelector } from 'src/app/selectors'
+import { InviteMethodType } from 'src/app/types'
 import AmountKeypad from 'src/components/AmountKeypad'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
+import InviteOptionsModal from 'src/components/InviteOptionsModal'
 import {
   ALERT_BANNER_DURATION,
   NUMBER_INPUT_MAX_DECIMALS,
@@ -26,6 +29,7 @@ import { convertToMaxSupportedPrecision } from 'src/localCurrency/convert'
 import { useCurrencyToLocalAmount } from 'src/localCurrency/hooks'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { noHeader } from 'src/navigator/Headers'
+import { navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { useRecipientVerificationStatus } from 'src/recipients/hooks'
@@ -126,6 +130,7 @@ function SendAmount(props: Props) {
 
   const showInputInLocalAmount = usingLocalAmount && tokenHasUsdPrice
 
+  const inviteMethod = useSelector(inviteMethodSelector)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const recipientVerificationStatus = useRecipientVerificationStatus(recipient)
   const feeType =
@@ -269,13 +274,18 @@ function SendAmount(props: Props) {
         size={BtnSizes.FULL}
         text={t('review')}
         showLoading={
-          recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN && reviewButtonPressed
+          recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN || reviewButtonPressed
         }
         type={BtnTypes.PRIMARY}
         onPress={onReviewButtonPressed}
         disabled={!isAmountValid || reviewButtonPressed}
         testID="Review"
       />
+      {recipientVerificationStatus === RecipientVerificationStatus.UNVERIFIED &&
+      (inviteMethod === InviteMethodType.ManualInvite ||
+        inviteMethod === InviteMethodType.ReferralUrl) ? (
+        <InviteOptionsModal recipient={recipient} onClose={navigateBack} />
+      ) : null}
     </SafeAreaView>
   )
 }

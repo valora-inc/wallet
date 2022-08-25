@@ -259,6 +259,7 @@ export enum InviteEvents {
   invite_method_error = 'invite_method_error',
   invite_from_menu = 'invite_from_menu',
   invite_banner_impression = 'invite_banner_impression',
+  invite_with_share = 'invite_with_share',
 }
 
 export enum EscrowEvents {

@@ -13,6 +13,6 @@ export enum CreateAccountCopyTestType {
 
 export enum InviteMethodType {
   Escrow = 'ESCROW',
-  ManualInvite = 'MANUAL_INVITE',
+  ManualInvite = 'MANUAL_SHARE',
   ReferralUrl = 'REFERRAL_URL',
 }
