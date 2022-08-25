@@ -40,6 +40,10 @@ export interface StoredTokenBalances {
   [address: string]: StoredTokenBalance | undefined
 }
 
+export interface TokenLoading {
+  loading: boolean
+}
+
 export interface TokenBalances {
   [address: string]: TokenBalance | undefined
 }
@@ -66,9 +70,9 @@ const slice = createSlice({
       loading: false,
       error: false,
     }),
-    fetchTokenBalances: (state) => ({
+    fetchTokenBalances: (state, action: PayloadAction<TokenLoading>) => ({
       ...state,
-      loading: true,
+      loading: action.payload.loading,
       error: false,
     }),
     fetchTokenBalancesSuccess: (state) => ({
