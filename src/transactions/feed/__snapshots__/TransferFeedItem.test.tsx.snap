@@ -27,56 +27,58 @@ exports[`TransferFeedItem renders correctly 1`] = `
   <View
     style={
       Object {
+        "flex": 1,
         "flexDirection": "row",
         "paddingHorizontal": 16,
         "paddingVertical": 12,
       }
     }
   >
-    <View>
+    <View
+      style={
+        Array [
+          Object {
+            "alignItems": "center",
+            "flexDirection": "row",
+            "justifyContent": "center",
+          },
+          Object {
+            "alignItems": "flex-start",
+          },
+        ]
+      }
+    >
       <View
         style={
           Array [
             Object {
               "alignItems": "center",
-              "flexDirection": "row",
               "justifyContent": "center",
             },
-            undefined,
+            Object {
+              "backgroundColor": "hsl(101, 53%, 93%)",
+              "borderRadius": 20,
+              "height": 40,
+              "width": 40,
+            },
           ]
         }
       >
-        <View
-          style={
-            Array [
-              Object {
-                "alignItems": "center",
-                "justifyContent": "center",
-              },
-              Object {
-                "backgroundColor": "hsl(101, 53%, 93%)",
-                "borderRadius": 20,
-                "height": 40,
-                "width": 40,
-              },
-            ]
-          }
-        >
-          <svg
-            fill="hsl(101, 53%, 93%)"
-            height="40"
-            style={Object {}}
-            viewBox="0 0 40 40"
-            width="40"
-          />
-        </View>
+        <svg
+          fill="hsl(101, 53%, 93%)"
+          height="40"
+          style={Object {}}
+          viewBox="0 0 40 40"
+          width="40"
+        />
       </View>
     </View>
     <View
       style={
         Object {
-          "marginLeft": 16,
-          "width": "55%",
+          "flex": 1,
+          "flexGrow": 1,
+          "paddingHorizontal": 16,
         }
       }
     >
@@ -84,6 +86,7 @@ exports[`TransferFeedItem renders correctly 1`] = `
         style={
           Object {
             "color": "#2E3338",
+            "flexShrink": 1,
             "fontFamily": "Inter-Medium",
             "fontSize": 16,
             "lineHeight": 22,
@@ -111,8 +114,9 @@ exports[`TransferFeedItem renders correctly 1`] = `
     <View
       style={
         Object {
-          "flexShrink": 1,
-          "marginLeft": 16,
+          "alignItems": "flex-end",
+          "flex": 0,
+          "maxWidth": "35%",
         }
       }
     >
@@ -121,10 +125,10 @@ exports[`TransferFeedItem renders correctly 1`] = `
           Array [
             Object {
               "color": "#2E3338",
+              "flexWrap": "wrap",
               "fontFamily": "Inter-Medium",
               "fontSize": 16,
               "lineHeight": 22,
-              "marginLeft": "auto",
               "textAlign": "right",
             },
             Object {
@@ -142,11 +146,10 @@ exports[`TransferFeedItem renders correctly 1`] = `
         style={
           Object {
             "color": "#9CA4A9",
+            "flexWrap": "wrap",
             "fontFamily": "Inter-Regular",
             "fontSize": 14,
             "lineHeight": 18,
-            "marginLeft": "auto",
-            "minWidth": "40%",
             "paddingTop": 2,
             "textAlign": "right",
           }
