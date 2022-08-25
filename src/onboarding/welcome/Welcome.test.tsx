@@ -88,4 +88,32 @@ describe('Welcome', () => {
     expect(queryByTestId('CreateAccountButton')).toHaveTextContent('welcome.createNewWallet')
     expect(queryByTestId('RestoreAccountButton')).toHaveTextContent('welcome.iAlreadyHaveAWallet')
   })
+
+  it('render welcome text correctly when showGuidedOnboardingCopy is true', () => {
+    const store = createMockStore({
+      app: {
+        showGuidedOnboardingCopy: true,
+      },
+    })
+    const { queryByText } = render(
+      <Provider store={store}>
+        <Welcome />
+      </Provider>
+    )
+    expect(queryByText(/Let’s create your crypto wallet/)).toBeTruthy() //substring match
+  })
+
+  it('render welcome text correctly when showGuidedOnboardingCopy is false', () => {
+    const store = createMockStore({
+      app: {
+        showGuidedOnboardingCopy: false,
+      },
+    })
+    const { queryByText } = render(
+      <Provider store={store}>
+        <Welcome />
+      </Provider>
+    )
+    expect(queryByText(/Step into the future of crypto/)).toBeTruthy() //substring match
+  })
 })
