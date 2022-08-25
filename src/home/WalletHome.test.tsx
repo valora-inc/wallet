@@ -150,6 +150,13 @@ describe('WalletHome', () => {
           "type": "ALERT/HIDE",
         },
         Object {
+          "type": "STABLE_TOKEN/FETCH_BALANCE",
+        },
+        Object {
+          "payload": undefined,
+          "type": "tokens/fetchTokenBalances",
+        },
+        Object {
           "type": "SENTRY/INITIALIZE_SENTRY_USER_CONTEXT",
         },
         Object {
