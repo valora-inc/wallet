@@ -169,6 +169,7 @@ describe('store state', () => {
           "showPriceChangeIndicatorInBalances": false,
           "showRaiseDailyLimitTarget": undefined,
           "showSwapMenuInDrawerMenu": false,
+          "showGuidedOnboardingCopy": false,
           "skipProfilePicture": false,
           "skipVerification": false,
           "superchargeApy": 12,
