@@ -19,7 +19,7 @@ on:
 # This avoids building outdated code
 concurrency:
   # Fallback used github.head_ref as it only defined on pull_request
-  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -34,14 +34,12 @@ jobs:
         with:
           node-version: '16'
           check-latest: true
-          ref: ${{ inputs.ref }}
       - uses: actions/cache@v2
         with:
           path: |
             node_modules
             */*/node_modules
           key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
-          ref: ${{ inputs.ref }}
       - run: yarn || yarn
       - run: ./scripts/ci_check_vulnerabilities.sh
 
@@ -56,7 +54,6 @@ jobs:
         with:
           node-version: '16'
           check-latest: true
-          ref: ${{ inputs.ref }}
       # https://github.com/actions/cache/blob/main/examples.md#node---lerna
       - uses: actions/cache@v2
         with:
@@ -64,7 +61,6 @@ jobs:
             node_modules
             */*/node_modules
           key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
-          ref: ${{ inputs.ref }}
       - run: yarn || yarn
       - run: yarn run prettify:diff
       - run: yarn run lint
@@ -80,7 +76,6 @@ jobs:
         with:
           node-version: '16'
           check-latest: true
-          ref: ${{ inputs.ref }}
       # https://github.com/actions/cache/blob/main/examples.md#node---lerna
       - uses: actions/cache@v2
         with:
@@ -88,7 +83,6 @@ jobs:
             node_modules
             */*/node_modules
           key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
-          ref: ${{ inputs.ref }}
       - run: yarn || yarn
       - run: git diff --exit-code
   licenses:
@@ -102,7 +96,6 @@ jobs:
         with:
           node-version: '12'
           check-latest: true
-          ref: ${{ inputs.ref }}
       # https://github.com/actions/cache/blob/main/examples.md#node---lerna
       - uses: actions/cache@v2
         with:
@@ -110,6 +103,5 @@ jobs:
             node_modules
             */*/node_modules
           key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
-          ref: ${{ inputs.ref }}
       - run: yarn || yarn
       - run: yarn check-licenses
