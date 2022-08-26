@@ -297,6 +297,7 @@ export default function DrawerNavigator() {
           name={Screens.BackupIntroduction}
           component={BackupIntroduction}
           options={{ title: t('accountKey'), drawerIcon: AccountKey }}
+          initialParams={{ showDrawerTopBar: true }}
         />
       )}
       <Drawer.Screen

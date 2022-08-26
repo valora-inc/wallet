@@ -50,10 +50,11 @@ class BackupIntroduction extends React.Component<Props> {
 
   render() {
     const { backupCompleted, route } = this.props
-    const navigatedFromSettings = route.params?.navigatedFromSettings
+    const showDrawerTopBar = route.params?.showDrawerTopBar
+
     return (
       <SafeAreaView style={styles.container}>
-        {!navigatedFromSettings && <DrawerTopBar />}
+        {showDrawerTopBar && <DrawerTopBar />}
         {backupCompleted ? (
           <AccountKeyPostSetup />
         ) : (
