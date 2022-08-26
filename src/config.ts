@@ -1,13 +1,13 @@
 import { stringToBoolean } from '@celo/utils/lib/parsing'
+import { Network } from '@fiatconnect/fiatconnect-types'
 import BigNumber from 'bignumber.js'
 import Config from 'react-native-config'
 import { CachesDirectoryPath } from 'react-native-fs'
 import { SpendMerchant } from 'src/fiatExchanges/Spend'
+import { LoggerLevel } from 'src/utils/LoggerLevels'
 // eslint-disable-next-line import/no-relative-packages
 import * as secretsFile from '../secrets.json'
 import { ONE_HOUR_IN_MILLIS } from './utils/time'
-import { LoggerLevel } from 'src/utils/LoggerLevels'
-import { Network } from '@fiatconnect/fiatconnect-types'
 
 export * from 'src/brandingConfig'
 

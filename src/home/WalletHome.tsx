@@ -32,6 +32,7 @@ import { initializeSentryUserContext } from 'src/sentry/actions'
 import colors from 'src/styles/colors'
 import { celoAddressSelector, coreTokensSelector } from 'src/tokens/selectors'
 import TransactionFeed from 'src/transactions/feed/TransactionFeed'
+import { userInSanctionedCountrySelector } from 'src/utils/countryFeatures'
 import { checkContactsPermission } from 'src/utils/permissions'
 
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
@@ -47,6 +48,7 @@ function WalletHome() {
   const coreTokenBalances = useSelector(coreTokensSelector)
   const celoAddress = useSelector(celoAddressSelector)
   const cashInButtonExpEnabled = useSelector((state) => state.app.cashInButtonExpEnabled)
+  const userInSanctionedCountry = useSelector(userInSanctionedCountrySelector)
 
   const scrollPosition = useRef(new Animated.Value(0)).current
   const onScroll = Animated.event([{ nativeEvent: { contentOffset: { y: scrollPosition } } }])
@@ -102,6 +104,10 @@ function WalletHome() {
   }
 
   const shouldShowCashInBottomSheet = () => {
+    // If user is in a sanctioned country do not show the cash in bottom sheet
+    if (userInSanctionedCountry) {
+      return false
+    }
     // If there are no core tokens then we are either still loading or loading failed.
     if (!coreTokenBalances.length) {
       return false
