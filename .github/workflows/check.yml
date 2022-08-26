@@ -9,12 +9,8 @@ on:
   pull_request:
   workflow_dispatch:
     inputs:
-      logLevel:
-        description: 'Log level'
-        required: true
-        default: 'warning'
-      tags:
-        description: 'Run Checks'
+      ref:
+        description: 'The branch, tag or SHA to checkout (uses the default branch if empty)'
   # Cron job to run checks @ 8:30 pm daily on the latest commit on the default branch - main
   schedule:
     - cron: '30 20 * * *'
@@ -22,7 +18,8 @@ on:
 # Cancel any in progress run of the workflow for a given PR
 # This avoids building outdated code
 concurrency:
-  group: ${{ github.workflow }}-${{ github.head_ref }}
+  # Fallback used github.head_ref as it only defined on pull_request
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
 jobs:
@@ -31,28 +28,39 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          ref: ${{ inputs.ref }}
       - uses: actions/setup-node@v2
         with:
           node-version: '16'
           check-latest: true
+          ref: ${{ inputs.ref }}
       - uses: actions/cache@v2
         with:
           path: |
             node_modules
             */*/node_modules
           key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+          ref: ${{ inputs.ref }}
       - run: yarn || yarn
+        with:
+          ref: ${{ inputs.ref }}
       - run: ./scripts/ci_check_vulnerabilities.sh
+        with:
+          ref: ${{ inputs.ref }}
 
   lint:
     name: Lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          ref: ${{ inputs.ref }}
       - uses: actions/setup-node@v2
         with:
           node-version: '16'
           check-latest: true
+          ref: ${{ inputs.ref }}
       # https://github.com/actions/cache/blob/main/examples.md#node---lerna
       - uses: actions/cache@v2
         with:
@@ -60,19 +68,31 @@ jobs:
             node_modules
             */*/node_modules
           key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+          ref: ${{ inputs.ref }}
       - run: yarn || yarn
+        with:
+          ref: ${{ inputs.ref }}
       - run: yarn run prettify:diff
+        with:
+          ref: ${{ inputs.ref }}
       - run: yarn run lint
+        with:
+          ref: ${{ inputs.ref }}
       - run: yarn tsc -p .github/scripts
+        with:
+          ref: ${{ inputs.ref }}
   yarn-lock:
     name: 'yarn.lock Up-to-date'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          ref: ${{ inputs.ref }}
       - uses: actions/setup-node@v2
         with:
           node-version: '16'
           check-latest: true
+          ref: ${{ inputs.ref }}
       # https://github.com/actions/cache/blob/main/examples.md#node---lerna
       - uses: actions/cache@v2
         with:
@@ -80,17 +100,25 @@ jobs:
             node_modules
             */*/node_modules
           key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+          ref: ${{ inputs.ref }}
       - run: yarn || yarn
+        with:
+          ref: ${{ inputs.ref }}
       - run: git diff --exit-code
+        with:
+          ref: ${{ inputs.ref }}
   licenses:
     name: Licenses
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          ref: ${{ inputs.ref }}
       - uses: actions/setup-node@v2
         with:
           node-version: '12'
           check-latest: true
+          ref: ${{ inputs.ref }}
       # https://github.com/actions/cache/blob/main/examples.md#node---lerna
       - uses: actions/cache@v2
         with:
@@ -98,5 +126,10 @@ jobs:
             node_modules
             */*/node_modules
           key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+          ref: ${{ inputs.ref }}
       - run: yarn || yarn
+        with:
+          ref: ${{ inputs.ref }}
       - run: yarn check-licenses
+        with:
+          ref: ${{ inputs.ref }}
