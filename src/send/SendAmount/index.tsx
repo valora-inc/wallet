@@ -283,7 +283,7 @@ function SendAmount(props: Props) {
         testID="Review"
       />
       {recipientVerificationStatus === RecipientVerificationStatus.UNVERIFIED &&
-      (inviteMethod === InviteMethodType.ManualInvite ||
+      (inviteMethod === InviteMethodType.ManualShare ||
         inviteMethod === InviteMethodType.ReferralUrl) ? (
         <InviteOptionsModal recipient={recipient} onClose={navigateBack} />
       ) : null}
