@@ -7,11 +7,16 @@ on:
       - main
   # ..and any pull request.
   pull_request:
+  workflow_dispatch:
+  # Cron job to run checks @ 8:30 pm daily on the latest commit on the default branch - main
+  schedule:
+    - cron: '30 20 * * *'
 
 # Cancel any in progress run of the workflow for a given PR
 # This avoids building outdated code
 concurrency:
-  group: ${{ github.workflow }}-${{ github.head_ref }}
+  # Fallback used github.head_ref as it only defined on pull_request
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -32,6 +37,7 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
       - run: yarn || yarn
       - run: ./scripts/ci_check_vulnerabilities.sh
+
   lint:
     name: Lint
     runs-on: ubuntu-latest
