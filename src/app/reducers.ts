@@ -1,7 +1,7 @@
 import { Platform } from 'react-native'
 import { BIOMETRY_TYPE } from 'react-native-keychain'
 import { Actions, ActionTypes, AppState } from 'src/app/actions'
-import { CreateAccountCopyTestType, SuperchargeButtonType } from 'src/app/types'
+import { CreateAccountCopyTestType, InviteMethodType, SuperchargeButtonType } from 'src/app/types'
 import { SuperchargeTokenConfigByToken } from 'src/consumerIncentives/types'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
@@ -58,6 +58,7 @@ export interface State {
   maxSwapSlippagePercentage: number
   swapFeeEnabled: boolean
   swapFeePercentage: number
+  inviteMethod: InviteMethodType
 }
 
 const initialState = {
