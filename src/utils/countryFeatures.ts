@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect'
 import { countryFeatures } from 'src/flags'
-import { RootState } from 'src/redux/reducers'
+import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import useSelector from 'src/redux/useSelector'
 
 type CountryFeatures = typeof countryFeatures
@@ -17,10 +17,15 @@ export function getCountryFeatures(countryCodeAlpha2: string | null): SpecificCo
 }
 
 export const getCountryFeaturesSelector = createSelector(
-  (state: RootState) => state.networkInfo.userLocationData,
+  userLocationDataSelector,
   ({ countryCodeAlpha2 }) => getCountryFeatures(countryCodeAlpha2)
 )
 
 export function useCountryFeatures() {
   return useSelector(getCountryFeaturesSelector)
 }
+
+export const userInSanctionedCountrySelector = createSelector(
+  userLocationDataSelector,
+  ({ countryCodeAlpha2 }) => getCountryFeatures(countryCodeAlpha2 ?? '').SANCTIONED_COUNTRY ?? false
+)
