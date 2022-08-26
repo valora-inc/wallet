@@ -1395,7 +1395,7 @@
   },
   "inviteModal": {
     "title": "Looks like {{contactName}} doesn’t have a {{appName}} wallet yet.",
-    "body": "You can still invite them to {{appName}}, or try to send a payment to their wallet address or nom.space. <0>Learn more</0>",
+    "body": "You can still invite them to {{appName}}, or try to send a payment to their wallet address or nom.space.",
     "sendInviteButtonLabel": "Send Invite",
     "shareMessage": "Hey! I’d like to send you some crypto with my {{appName}} wallet. Once you download the app and connect your phone number, we can send crypto as easy as a text. Use this link: {{link}}"
   }

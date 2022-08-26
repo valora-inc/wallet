@@ -1,18 +1,15 @@
 import * as React from 'react'
-import { Trans, useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import { Image, Share, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { InviteEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { INVITE_REWARDS_LEARN_MORE } from 'src/brandingConfig'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import Touchable from 'src/components/Touchable'
 import { DYNAMIC_DOWNLOAD_LINK } from 'src/config'
 import ShareIcon from 'src/icons/Share'
 import Times from 'src/icons/Times'
 import { inviteModal } from 'src/images/Images'
-import { navigate } from 'src/navigator/NavigationService'
-import { Screens } from 'src/navigator/Screens'
 import { getDisplayName, Recipient } from 'src/recipients/recipient'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
@@ -35,11 +32,6 @@ const InviteOptionsModal = ({ recipient, onClose }: Props) => {
     await Share.share({ message })
   }
 
-  const handleLearnMore = () => {
-    // TODO: this is not the right link
-    navigate(Screens.WebViewScreen, { uri: INVITE_REWARDS_LEARN_MORE })
-  }
-
   return (
     <SafeAreaView style={styles.container}>
       <Touchable onPress={onClose} borderless={true} hitSlop={variables.iconHitslop}>
@@ -50,11 +42,7 @@ const InviteOptionsModal = ({ recipient, onClose }: Props) => {
         <Text style={[fontStyles.h2, styles.text]}>
           {t('inviteModal.title', { contactName: getDisplayName(recipient, t) })}
         </Text>
-        <Text style={[fontStyles.regular, styles.text]}>
-          <Trans i18nKey="inviteModal.body">
-            <Text onPress={handleLearnMore} style={styles.learnMore} />
-          </Trans>
-        </Text>
+        <Text style={[fontStyles.regular, styles.text]}>{t('inviteModal.body')}</Text>
         <Button
           buttonStyle={styles.button}
           icon={<ShareIcon color={colors.light} height={24} />}
@@ -90,9 +78,6 @@ const styles = StyleSheet.create({
   text: {
     textAlign: 'center',
     marginBottom: Spacing.Regular16,
-  },
-  learnMore: {
-    textDecorationLine: 'underline',
   },
   button: {
     flexDirection: 'row-reverse',
