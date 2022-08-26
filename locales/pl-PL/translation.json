@@ -352,6 +352,7 @@
     "bodyWithoutProvider": "Dostawca przetwarza Twoje zamówienie. Środki powinny znaleźć się u Ciebie w ciągu kilku dni."
   },
   "restrictedRegion": "Ograniczona obsługa w tym regionie",
+  "unsupportedLocation": "{{appName}} nie jest obsługiwany w Twojej lokalizacji",
   "unsupportedPaymentMethod": "Płatności za pośrednictwem {{paymentMethod}} nie są obsługiwane w Twoim regionie",
   "noProviders": "W Twoim regionie nie ma dostępnych dostawców obsługujących {{digitalAsset}}.",
   "noPaymentMethods": "W Twoim regionie nie ma dostępnych metod płatności obsługujących {{digitalAsset}}.",
