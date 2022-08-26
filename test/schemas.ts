@@ -1542,7 +1542,7 @@ export const v70Schema = {
   },
   app: {
     ...v69Schema.app,
-    shouldShowRecoveryPhraseInSettings: false,
+    createAccountCopyTestType: 'ACCOUNT',
   },
 }
 
@@ -1557,7 +1557,6 @@ export const v71Schema = {
     maxSwapSlippagePercentage: 2,
     swapFeeEnabled: false,
     swapFeePercentage: 0.743,
-    createAccountCopyTestType: 'ACCOUNT',
   },
 }
 
@@ -1569,9 +1568,7 @@ export const v72Schema = {
   },
   app: {
     ...v71Schema.app,
-    maxSwapSlippagePercentage: 2,
-    swapFeeEnabled: false,
-    swapFeePercentage: 0.743,
+    shouldShowRecoveryPhraseInSettings: false,
   },
 }
 
