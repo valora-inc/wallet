@@ -590,6 +590,7 @@ interface InviteEventsProperties {
   [InviteEvents.invite_from_menu]: undefined
   [InviteEvents.invite_banner_impression]: undefined
   [InviteEvents.invite_with_share]: undefined
+  [InviteEvents.invite_with_share_dismiss]: undefined
 }
 
 interface EscrowEventsProperties {

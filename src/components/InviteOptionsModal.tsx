@@ -32,9 +32,14 @@ const InviteOptionsModal = ({ recipient, onClose }: Props) => {
     await Share.share({ message })
   }
 
+  const handleClose = () => {
+    ValoraAnalytics.track(InviteEvents.invite_with_share_dismiss)
+    onClose()
+  }
+
   return (
     <SafeAreaView style={styles.container}>
-      <Touchable onPress={onClose} borderless={true} hitSlop={variables.iconHitslop}>
+      <Touchable onPress={handleClose} borderless={true} hitSlop={variables.iconHitslop}>
         <Times />
       </Touchable>
       <View style={styles.contentContainer}>
