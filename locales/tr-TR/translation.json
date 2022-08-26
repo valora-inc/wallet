@@ -595,13 +595,13 @@
   "sendAndInvite": "Gönder & Davet Et",
   "inviteAndSendDialog": {
     "title": "{{name}} adlı kişiyi Valora'ya davet işlemini tamamlayın",
-    "bodyWithRewards": "Once they join & connect their phone number, you’ll both receive a special edition NFT. Click below to send your invite via SMS.",
+    "bodyWithRewards": "Söz konusu kişi katılıp telefon numarasını bağladında ikiniz de özel bir NFT sürümü alacaksınız. Davetinizi SMS ile göndermek için aşağıya tıklayın.",
     "body": "{{appName}} uygulamasına katılması için {{name}} adlı kişiye bir davet mesajı gönderin. Katılıp bir telefon numarasını bağladığında ödemenizi alacaktır.",
     "button": "Daveti tamamla"
   },
   "inviteRewardsBanner": {
     "title": "Bir arkadaş davet etmek için kripto gönderin",
-    "body": "Once they set up their {{appName}} wallet and connect their number, you’ll each get an exclusive NFT. <0>Earn up to 3 NFTs</0>"
+    "body": "Söz konusu kişi {{appName}} cüzdanını oluşturup numarasını bağladığında ikiniz de özel bir NFT alacaksınız. <0>3 NFT'ye kadar kazanın</0>"
   },
   "getReward": "${{reward}} kazanın",
   "welcomeCelo": "{{appName}} uygulamasına hoş geldiniz",
@@ -863,7 +863,7 @@
   "amountCeloWithdrawn": "Miktar (CELO)",
   "feeEducation": "Celo Blokzinciri, ağı desteklemek ve sorunsuz çalışmasını sağlamak için bir işlem ücreti alır.",
   "inviteMoneyEscrow": "Bu kişiye bir davet mesajı gönderin, numarasını bağladığında parayı alacaktır.",
-  "inviteMoneyEscrowWithRewards": "Send this contact an invite message and they’ll receive the funds & NFT once they connect their number.",
+  "inviteMoneyEscrowWithRewards": "Bu kişiye bir davet mesajı gönderin. Kendi numarasını bağladığında parayı ve NFT'yi alacaktır.",
   "reviewPayment": "Ödemeyi Gözden Geçir",
   "requestPayment": "Ödeme İste",
   "max": "MAKS.",
@@ -883,7 +883,7 @@
   "walletAddress": "Cüzdan Adresi",
   "inviteWithoutPayment": "Merhaba, dünyanın her tarafına kripto göndermek için {{appName}} kullanıyorum. Denemen için seni davet etmek isterim. Bu bağlantıya göz atabilirsin: {{link}}",
   "inviteWithEscrowedPayment": "Merhaba, dünyanın her tarafına kripto göndermek için {{appName}} kullanıyorum. Sana az önce {{amount}} {{token}} gönderdim. {{appName}} uygulamasını indirerek {{token}} miktarını alabilmen lütfen şu bağlantıyı tıkla{{link}}",
-  "inviteWithRewards": "Hey! I just sent you crypto with my {{appName}} wallet. Once you download the app and connect your phone number, we both get a special edition NFT. Use this link: {{link}}",
+  "inviteWithRewards": "Hey! Az önce sana {{appName}} cüzdanımla kripto gönderdim. Uygulamayı indirip telefon numaranı bağladığında, ikimiz de özel bir NFT sürümü alacağız. Bu bağlantıyı kullanabilirsin: {{link}}",
   "loadingContacts": "Kişilerinizi bulma",
   "myCode": "Benim Kodum",
   "scanCode": "Tara",
@@ -1058,7 +1058,7 @@
     "1": "{{testnet}} test ağını kullandığınıza dair samimi bir hatırlatma - bakiyeler gerçek değil"
   },
   "dollarBalance": "<0></0> $t(celoDollars)",
-  "feedItemAddress": "Hesap {{address}}",
+  "feedItemAddress": "{{address}}",
   "feedItemDepositInfo": "{{comment}}",
   "feedItemDepositInfo_noComment": "Yatırılan",
   "feedItemDepositTitle": "Patra Yatırma",
@@ -1379,17 +1379,17 @@
     "viewOnExplorer": "CeloExplorer'da görüntüle"
   },
   "swapReviewScreen": {
-    "title": "Review Swap",
-    "complete": "Complete Swap",
-    "swapFrom": "Swap From",
-    "swapTo": "Swap To",
+    "title": "Takası İncele",
+    "complete": "Takası Tamamla",
+    "swapFrom": "Şuradan Gelen Takas",
+    "swapTo": "Şuraya Giden Takas",
     "transactionDetails": "İşlem detayları",
-    "estimatedGas": "Estimated Gas",
-    "swapFee": "{{appName}} Fee",
-    "swapFeeTitle": "What is the {{appName}} Fee?",
-    "swapFeeBody": "The {{appName}} fee is the fee that you pay to swap tokens on {{appName}}. \n\n The fee is {{swapFee}}% of the amount you are exchanging. \n\n {{appName}} fees are free for the next few months.",
-    "estimatedAmountTitle": "Estimated Amount",
-    "estimatedAmountBody": "Conversions take place on a third party decentralized exchange that finds you the best rate for your swap. \n\n Your trade will be completed at a price within {{slippagePercent}}% of the estimate or the transaction will be cancelled & funds returned to your wallet."
+    "estimatedGas": "Tahmini Gaz",
+    "swapFee": "{{appName}} Ücreti",
+    "swapFeeTitle": "{{appName}} Ücreti nedir?\n",
+    "swapFeeBody": "{{appName}} ücreti, {{appName}} uygulamasında token takas etmek için ödediğiniz ücrettir.\n\nÜcret, takas ettiğiniz miktarın %{{swapFee}} kadarıdır.\n\n{{appName}} uygulamasında önümüzdeki birkaç ay ücret alınmayacaktır.",
+    "estimatedAmountTitle": "Tahmini Tutar",
+    "estimatedAmountBody": "Dönüşümler, takasınız için size en iyi oranı bulan ve merkezi olmayan bir üçüncü taraf borsasında gerçekleşir.\n\nİşleminiz, tahminin %{{slippagePercent}} kadarına kdar bir fiyatla tamamlanacak veya işlem iptal edilip para cüzdanınıza iade edilecektir."
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
