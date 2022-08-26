@@ -242,6 +242,9 @@ function SendAmount(props: Props) {
     setRawAmount(updatedAmount)
   }
 
+  const buttonLoading =
+    recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN || reviewButtonPressed
+
   return (
     <SafeAreaView style={styles.container}>
       <SendAmountHeader
@@ -273,12 +276,10 @@ function SendAmount(props: Props) {
         style={styles.nextBtn}
         size={BtnSizes.FULL}
         text={t('review')}
-        showLoading={
-          recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN || reviewButtonPressed
-        }
+        showLoading={buttonLoading}
         type={BtnTypes.PRIMARY}
         onPress={onReviewButtonPressed}
-        disabled={!isAmountValid || reviewButtonPressed}
+        disabled={!isAmountValid || buttonLoading}
         testID="Review"
       />
       {recipientVerificationStatus === RecipientVerificationStatus.UNVERIFIED &&
