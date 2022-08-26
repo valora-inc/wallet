@@ -1,3 +1,4 @@
+import { getPhoneHash } from '@celo/utils/lib/phoneNumbers'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, Share, StyleSheet, Text, View } from 'react-native'
@@ -28,7 +29,9 @@ const InviteOptionsModal = ({ recipient, onClose }: Props) => {
     const message = t('inviteModal.shareMessage', {
       link: DYNAMIC_DOWNLOAD_LINK,
     })
-    ValoraAnalytics.track(InviteEvents.invite_with_share)
+    ValoraAnalytics.track(InviteEvents.invite_with_share, {
+      phoneNumberHash: recipient.e164PhoneNumber ? getPhoneHash(recipient.e164PhoneNumber) : null,
+    })
     await Share.share({ message })
   }
 
