@@ -8,9 +8,6 @@ on:
   # ..and any pull request.
   pull_request:
   workflow_dispatch:
-    inputs:
-      ref:
-        description: 'The branch, tag or SHA to checkout (uses the default branch if empty)'
   # Cron job to run checks @ 8:30 pm daily on the latest commit on the default branch - main
   schedule:
     - cron: '30 20 * * *'
@@ -28,8 +25,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-        with:
-          ref: ${{ inputs.ref }}
       - uses: actions/setup-node@v2
         with:
           node-version: '16'
@@ -48,8 +43,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-        with:
-          ref: ${{ inputs.ref }}
       - uses: actions/setup-node@v2
         with:
           node-version: '16'
@@ -70,8 +63,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-        with:
-          ref: ${{ inputs.ref }}
       - uses: actions/setup-node@v2
         with:
           node-version: '16'
@@ -90,8 +81,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-        with:
-          ref: ${{ inputs.ref }}
       - uses: actions/setup-node@v2
         with:
           node-version: '12'
