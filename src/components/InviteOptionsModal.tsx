@@ -52,8 +52,8 @@ const InviteOptionsModal = ({ recipient, onClose }: Props) => {
         </Text>
         <Text style={[fontStyles.regular, styles.text]}>{t('inviteModal.body')}</Text>
         <Button
-          buttonStyle={styles.button}
           icon={<ShareIcon color={colors.light} height={24} />}
+          iconPositionLeft={false}
           size={BtnSizes.SMALL}
           text={t('inviteModal.sendInviteButtonLabel')}
           type={BtnTypes.PRIMARY}
@@ -86,9 +86,6 @@ const styles = StyleSheet.create({
   text: {
     textAlign: 'center',
     marginBottom: Spacing.Regular16,
-  },
-  button: {
-    flexDirection: 'row-reverse',
   },
 })
 
