@@ -8,6 +8,7 @@ import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import useInterval from 'src/hooks/useInterval'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
+import { fetchTokenBalances } from 'src/tokens/slice'
 import { updateTransactions } from 'src/transactions/actions'
 import { TokenTransaction } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
@@ -57,6 +58,9 @@ const deduplicateTransactions = (
   return transactionsWithoutDuplicatedHash
 }
 
+// A map of transactions by tx hash
+const transactionMap = new Map<string, TokenTransaction>()
+
 export function useFetchTransactions(): QueryHookResult {
   const { t } = useTranslation()
   const dispatch = useDispatch()
@@ -75,6 +79,7 @@ export function useFetchTransactions(): QueryHookResult {
     hasTransactionsOnCurrentPage: false,
   })
   const [fetchingMoreTransactions, setFetchingMoreTransactions] = useState(false)
+  let hasNewTransactions = false
 
   // Update the counter variable every |POLL_INTERVAL| so that a query is made to the backend.
   const [counter, setCounter] = useState(0)
@@ -101,10 +106,23 @@ export function useFetchTransactions(): QueryHookResult {
 
       if (isPollResult && returnedTransactions.length) {
         // We store the first page in redux to show them to the users when they open the app.
+        // Filter out now empty transactions to avoid redux issues
         const nonEmptyTransactions = returnedTransactions.filter(
           (returnedTransaction) => !isEmpty(returnedTransaction)
         )
         dispatch(updateTransactions(nonEmptyTransactions))
+        // Store the transactions in a map
+        nonEmptyTransactions.forEach((tx) => {
+          if (!transactionMap.has(tx.transactionHash)) {
+            transactionMap.set(tx.transactionHash, tx)
+            hasNewTransactions = true
+          }
+        })
+        // If there are new transactions update transactions in redux and fetch balances
+        if (hasNewTransactions) {
+          dispatch(fetchTokenBalances({ showLoading: false }))
+          hasNewTransactions = false
+        }
       }
     }
   }
