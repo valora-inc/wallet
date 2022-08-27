@@ -50,13 +50,13 @@ export interface TokenBalances {
 
 export interface State {
   tokenBalances: StoredTokenBalances
-  showLoading: boolean
+  loading: boolean
   error: boolean
 }
 
 export const initialState = {
   tokenBalances: {},
-  showLoading: false,
+  loading: false,
   error: false,
 }
 
@@ -67,22 +67,22 @@ const slice = createSlice({
     setTokenBalances: (state, action: PayloadAction<StoredTokenBalances>) => ({
       ...state,
       tokenBalances: action.payload,
-      showLoading: false,
+      loading: false,
       error: false,
     }),
     fetchTokenBalances: (state, action: PayloadAction<TokenLoadingAction>) => ({
       ...state,
-      showLoading: action.payload.showLoading,
+      loading: action.payload.showLoading,
       error: false,
     }),
     fetchTokenBalancesSuccess: (state) => ({
       ...state,
-      showLoading: false,
+      loading: false,
       error: false,
     }),
     fetchTokenBalancesFailure: (state) => ({
       ...state,
-      showLoading: false,
+      loading: false,
       error: true,
     }),
   },
