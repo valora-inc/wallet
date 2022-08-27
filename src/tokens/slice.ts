@@ -36,7 +36,7 @@ export interface TokenBalance extends BaseToken {
   historicalUsdPrices?: HistoricalUsdPrices
 }
 
-export interface StoredTokenBalancesAction {
+export interface StoredTokenBalances {
   [address: string]: StoredTokenBalance | undefined
 }
 
@@ -49,7 +49,7 @@ export interface TokenBalances {
 }
 
 export interface State {
-  tokenBalances: StoredTokenBalancesAction
+  tokenBalances: StoredTokenBalances
   showLoading: boolean
   error: boolean
 }
@@ -64,7 +64,7 @@ const slice = createSlice({
   name: 'tokens',
   initialState,
   reducers: {
-    setTokenBalances: (state, action: PayloadAction<StoredTokenBalancesAction>) => ({
+    setTokenBalances: (state, action: PayloadAction<StoredTokenBalances>) => ({
       ...state,
       tokenBalances: action.payload,
       showLoading: false,
