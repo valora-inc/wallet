@@ -110,7 +110,6 @@ export function useFetchTransactions(): QueryHookResult {
         const nonEmptyTransactions = returnedTransactions.filter(
           (returnedTransaction) => !isEmpty(returnedTransaction)
         )
-        dispatch(updateTransactions(nonEmptyTransactions))
         // Store the transactions in a map
         nonEmptyTransactions.forEach((tx) => {
           if (!transactionMap.has(tx.transactionHash)) {
@@ -120,6 +119,7 @@ export function useFetchTransactions(): QueryHookResult {
         })
         // If there are new transactions update transactions in redux and fetch balances
         if (hasNewTransactions) {
+          dispatch(updateTransactions(nonEmptyTransactions))
           dispatch(fetchTokenBalances({ showLoading: false }))
           hasNewTransactions = false
         }
