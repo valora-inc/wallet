@@ -31,7 +31,7 @@ export default function FeeContainer({ amount }: { amount: BigNumber }) {
   const tokenAddress = tokenInfo?.address
 
   useEffect(() => {
-    dispatch(fetchTokenBalances({ loading: true }))
+    dispatch(fetchTokenBalances({ showLoading: true }))
   }, [dispatch])
 
   useEffect(() => {

@@ -36,12 +36,12 @@ export interface TokenBalance extends BaseToken {
   historicalUsdPrices?: HistoricalUsdPrices
 }
 
-export interface StoredTokenBalances {
+export interface StoredTokenBalancesAction {
   [address: string]: StoredTokenBalance | undefined
 }
 
-export interface TokenLoading {
-  loading: boolean
+export interface TokenLoadingAction {
+  showLoading: boolean
 }
 
 export interface TokenBalances {
@@ -49,14 +49,14 @@ export interface TokenBalances {
 }
 
 export interface State {
-  tokenBalances: StoredTokenBalances
-  loading: boolean
+  tokenBalances: StoredTokenBalancesAction
+  showLoading: boolean
   error: boolean
 }
 
 export const initialState = {
   tokenBalances: {},
-  loading: false,
+  showLoading: false,
   error: false,
 }
 
@@ -64,25 +64,25 @@ const slice = createSlice({
   name: 'tokens',
   initialState,
   reducers: {
-    setTokenBalances: (state, action: PayloadAction<StoredTokenBalances>) => ({
+    setTokenBalances: (state, action: PayloadAction<StoredTokenBalancesAction>) => ({
       ...state,
       tokenBalances: action.payload,
-      loading: false,
+      showLoading: false,
       error: false,
     }),
-    fetchTokenBalances: (state, action: PayloadAction<TokenLoading>) => ({
+    fetchTokenBalances: (state, action: PayloadAction<TokenLoadingAction>) => ({
       ...state,
-      loading: action.payload.loading,
+      showLoading: action.payload.showLoading,
       error: false,
     }),
     fetchTokenBalancesSuccess: (state) => ({
       ...state,
-      loading: false,
+      showLoading: false,
       error: false,
     }),
     fetchTokenBalancesFailure: (state) => ({
       ...state,
-      loading: false,
+      showLoading: false,
       error: true,
     }),
   },

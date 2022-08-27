@@ -43,7 +43,7 @@ export function withLoading<Fn extends (...args: any[]) => any>(fn: Fn, ...args:
 export function* refreshBalances() {
   Logger.debug(TAG, 'Fetching all balances')
   yield call(getConnectedAccount)
-  yield put(fetchTokenBalances({ loading: false }))
+  yield put(fetchTokenBalances({ showLoading: false }))
   yield put(fetchCurrentRate())
   yield put(fetchStableBalances())
   yield put(fetchGoldBalance())
