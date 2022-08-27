@@ -30,8 +30,6 @@ import {
   tokensWithUsdValueSelector,
   totalTokenBalanceSelector,
 } from 'src/tokens/selectors'
-import { fetchTokenBalances } from 'src/tokens/slice'
-import { lastTransactionHashSelector } from 'src/transactions/reducer'
 
 function TokenBalance({ style = styles.balance }: { style?: StyleProp<TextStyle> }) {
   const tokensWithUsdValue = useSelector(tokensWithUsdValueSelector)
@@ -40,18 +38,6 @@ function TokenBalance({ style = styles.balance }: { style?: StyleProp<TextStyle>
   const tokenFetchLoading = useSelector(tokenFetchLoadingSelector)
   const tokenFetchError = useSelector(tokenFetchErrorSelector)
   const tokensAreStale = useSelector(stalePriceSelector)
-
-  // Keep balance up to date when new transactions are added
-  const dispatch = useDispatch()
-  const lastTransactionHash = useSelector(lastTransactionHashSelector)
-  const [localLastTransactionHash, setLocalLastTransactionHash] = useState(lastTransactionHash)
-
-  useEffect(() => {
-    if (localLastTransactionHash !== lastTransactionHash) {
-      setLocalLastTransactionHash(lastTransactionHash)
-      dispatch(fetchTokenBalances({ loading: false }))
-    }
-  }, [lastTransactionHash])
 
   if (tokenFetchError || tokenFetchLoading || tokensAreStale) {
     // Show '-' if we haven't fetched the tokens yet or prices are stale
