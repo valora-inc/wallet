@@ -1,11 +1,19 @@
 import BigNumber from 'bignumber.js'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+import { SwapCache } from 'src/swap/SwapCache'
 import { TokenBalance } from 'src/tokens/slice'
 import { multiplyByWei } from 'src/utils/formatting'
 import Logger from 'src/utils/Logger'
-import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
+
+/**
+ * NOTE: It looks like the 0x integration is wrapped by Valora's cloud functions, so this code should serve more as
+ * a tutorial on integrating with Minima rather than the actual integration.  I imagine if Minima is integrated then
+ * a similar process will be desired as is currently being used for 0x
+ *
+ * See a production use of minima at https://mobius.money
+ */
 
 export enum Field {
   FROM = 'FROM',
@@ -27,16 +35,14 @@ const useSwapQuote = () => {
     setFetchingSwapQuote(false)
   }, [exchangeRate])
 
-  // refreshQuote requests are generated when the swap input amounts are
-  // changed, but the quote response / updated exchange rate updates the swap
-  // input amounts. this variable prevents duplicated requests in this scenario
-  const requestUrlRef = useRef<string>('')
-
   const refreshQuote = async (
     fromToken: TokenBalance,
     toToken: TokenBalance,
     swapAmount: SwapAmount,
-    updatedField: Field
+    updatedField: Field,
+    maxHops = 4,
+    slippageBips = 50,
+    includePriceImpact = true
   ) => {
     setFetchSwapQuoteError(false)
 
@@ -51,29 +57,27 @@ const useSwapQuote = () => {
       return
     }
 
-    const swapAmountParam = updatedField === Field.FROM ? 'sellAmount' : 'buyAmount'
-    const params = {
-      buyToken: toToken.address,
-      sellToken: fromToken.address,
-      [swapAmountParam]: swapAmountInWei.toString().split('.')[0],
-      userAddress: walletAddress ?? '',
-    }
-    const queryParams = new URLSearchParams({ ...params }).toString()
-    const requestUrl = `${networkConfig.approveSwapUrl}?${queryParams}`
-    if (requestUrl === requestUrlRef.current) {
-      // do nothing if the previous request url is the same as the current
-      return
-    }
-
-    requestUrlRef.current = requestUrl
-
     try {
       setFetchingSwapQuote(true)
-      const quoteResponse = await fetch(requestUrlRef.current)
 
-      if (quoteResponse.ok) {
-        const quote = await quoteResponse.json()
-        const swapPrice = quote.unvalidatedSwapTransaction.price
+      const params = {
+        tokenIn: toToken.address,
+        tokenOut: fromToken.address,
+        amountInWei: swapAmountInWei.toFixed(0),
+        from: walletAddress ?? undefined,
+        maxHops,
+        slippageBips,
+        includePriceImpact,
+      }
+      const quoteResponse = await SwapCache.get.fetch(params)
+
+      if (quoteResponse.ok && quoteResponse.json) {
+        const {
+          expectedOut,
+          details: { inputAmount },
+        } = quoteResponse.json
+
+        const swapPrice = new BigNumber(inputAmount).div(new BigNumber(expectedOut)).toString()
         setExchangeRate(
           updatedField === Field.FROM
             ? swapPrice
@@ -82,11 +86,7 @@ const useSwapQuote = () => {
       } else {
         setFetchSwapQuoteError(true)
         setExchangeRate(null)
-        Logger.warn(
-          'SwapScreen@useSwapQuote',
-          'error from approve swap url',
-          await quoteResponse.text()
-        )
+        Logger.warn('SwapScreen@useSwapQuote', 'error from approve swap url', quoteResponse.message)
       }
     } catch (error) {
       setFetchSwapQuoteError(true)

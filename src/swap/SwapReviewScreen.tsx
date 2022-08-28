@@ -30,27 +30,19 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
+import { MinimaResponse, SwapCache } from 'src/swap/SwapCache'
 import { Field } from 'src/swap/useSwapQuote'
 import { coreTokensSelector } from 'src/tokens/selectors'
 import { divideByWei, multiplyByWei } from 'src/utils/formatting'
 import Logger from 'src/utils/Logger'
-import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 
 type Props = StackScreenProps<StackParamList, Screens.SwapReviewScreen>
 
 const TAG = 'SWAP_REVIEW_SCREEN'
 
-interface SwapInfo {
-  unvalidatedSwapTransaction: {
-    sellToken: string
-    buyToken: string
-    buyAmount: string
-    sellAmount: string
-    price: string
-    gas: string
-    gasPrice: string
-  }
+interface SwapInfo extends MinimaResponse {
+  price: string
 }
 
 export function SwapReviewScreen(props: Props) {
@@ -91,25 +83,21 @@ export function SwapReviewScreen(props: Props) {
     async () => {
       if (!shouldFetch) return
       const swapAmountInWei = multiplyByWei(swapAmount[updatedField]!)
-      const swapAmountParam = updatedField === Field.FROM ? 'sellAmount' : 'buyAmount'
       const params = {
-        buyToken: toToken,
-        sellToken: fromToken,
-        [swapAmountParam]: swapAmountInWei.toString().split('.')[0],
-        // Enable when supported by 0xAPI & valora-rest-api
-        // Current Support - https://docs.0x.org/0x-api-swap/advanced-topics/slippage-protection
-        // slippagePercentage: maxSlippageDecimal,
-        userAddress: walletAddress ?? '',
+        tokenIn: toToken,
+        tokenOut: fromToken,
+        amountInWei: swapAmountInWei.toFixed(0),
+        from: walletAddress ?? undefined,
+        slippageBips: maxSlippagePercent * 10000,
       }
-      const queryParams = new URLSearchParams({ ...params }).toString()
-      const requestUrl = `${networkConfig.approveSwapUrl}?${queryParams}`
-      const response = await fetch(requestUrl)
-      if (!response.ok) {
+      const response = await SwapCache.get.fetch(params)
+
+      if (!response.ok || !response.json) {
         throw new Error(
           `Failure response fetching token swap quote. ${response.status}  ${response.statusText}`
         )
       }
-      setSwapInfo(await response.json())
+      setSwapInfo(response.json)
       setShouldFetch(false)
       setFetchError(false)
     },
@@ -124,7 +112,7 @@ export function SwapReviewScreen(props: Props) {
     }
   )
 
-  const submitSwap = () => {
+  const submitSwap = async () => {
     // Check for swapInfo prior to submitting swap
     if (!swapInfo) return
     // Analytics for swap submission
@@ -132,14 +120,15 @@ export function SwapReviewScreen(props: Props) {
       toToken,
       fromToken,
       // TODO: Add fee to total when enabled
-      usdTotal: +divideByWei(swapInfo.unvalidatedSwapTransaction.buyAmount).multipliedBy(
-        swapInfo.unvalidatedSwapTransaction.price
-      ),
-      fee: +divideByWei(swapInfo.unvalidatedSwapTransaction.sellAmount).multipliedBy(
-        swapFeeDecimal
-      ),
+      usdTotal: +divideByWei(swapInfo.expectedOut),
+      fee: +divideByWei(swapInfo.details.inputAmount).multipliedBy(swapFeeDecimal),
     })
     // TODO: dispatch swap submission
+    // dispatch(
+    //   submitTxn(swapInfo.txn, walletAddress, {
+    //     id: swapInfo.txn.nonce,
+    //   })
+    // )
   }
 
   return (
@@ -184,14 +173,14 @@ export function SwapReviewScreen(props: Props) {
                   <View style={styles.tokenDisplayView}>
                     <TokenDisplay
                       style={styles.amountText}
-                      amount={divideByWei(swapInfo.unvalidatedSwapTransaction.sellAmount)}
+                      amount={divideByWei(swapInfo.expectedOut)}
                       tokenAddress={fromToken}
                       showLocalAmount={false}
                       testID={'FromSwapAmountToken'}
                     />
                     <TokenDisplay
                       style={styles.amountSubText}
-                      amount={divideByWei(swapInfo.unvalidatedSwapTransaction.sellAmount)}
+                      amount={divideByWei(swapInfo.expectedOut)}
                       tokenAddress={fromToken}
                       showLocalAmount={true}
                       testID={'FromSwapAmountTokenLocal'}
@@ -203,11 +192,7 @@ export function SwapReviewScreen(props: Props) {
                   <View style={styles.tokenDisplayView}>
                     <TokenDisplay
                       style={[styles.amountText, { color: colors.greenUI }]}
-                      amount={divideByWei(
-                        new BigNumber(swapInfo.unvalidatedSwapTransaction.buyAmount).minus(
-                          new BigNumber(swapInfo.unvalidatedSwapTransaction.gas)
-                        )
-                      )}
+                      amount={divideByWei(swapInfo.details.inputAmount)}
                       tokenAddress={toToken}
                       showLocalAmount={false}
                       testID={'ToSwapAmountToken'}
@@ -236,7 +221,7 @@ export function SwapReviewScreen(props: Props) {
                   <Text style={styles.label}>{t('exchangeRate')}</Text>
                   <Text style={styles.transactionDetailsRightText}>
                     {`1 ${fromTokenSymbol} ≈ ${formatValueToDisplay(
-                      new BigNumber(swapInfo.unvalidatedSwapTransaction.price)
+                      new BigNumber(swapInfo.price)
                     )} ${toTokenSymbol}`}
                   </Text>
                 </View>
@@ -246,8 +231,8 @@ export function SwapReviewScreen(props: Props) {
                     <TokenDisplay
                       style={styles.transactionDetailsRightText}
                       amount={divideByWei(
-                        new BigNumber(swapInfo.unvalidatedSwapTransaction.gas).multipliedBy(
-                          new BigNumber(swapInfo.unvalidatedSwapTransaction.gasPrice)
+                        new BigNumber(swapInfo.txn.gas!).multipliedBy(
+                          new BigNumber(swapInfo.txn.gasPrice!.toString())
                         )
                       )}
                       tokenAddress={fromToken}
@@ -274,9 +259,7 @@ export function SwapReviewScreen(props: Props) {
                       styles.transactionDetailsRightText,
                       !swapFeeEnabled && styles.feeWaived,
                     ]}
-                    amount={divideByWei(
-                      swapInfo.unvalidatedSwapTransaction.sellAmount
-                    ).multipliedBy(swapFeeDecimal)}
+                    amount={divideByWei(swapInfo.details.inputAmount).multipliedBy(swapFeeDecimal)}
                     tokenAddress={fromToken}
                     showLocalAmount={true}
                     testID={'SwapFee'}

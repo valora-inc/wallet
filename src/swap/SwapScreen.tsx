@@ -147,6 +147,10 @@ export function SwapScreen() {
   }
 
   const handleChangeAmount = (fieldType: Field) => (value: string) => {
+    // Minima currently only handles fixed input amount.
+    // Fixed output amount is not as reliable for routing through univ3 and stableswap.
+    if (fieldType === Field.TO) return
+
     if (!value) {
       setSwapAmount(DEFAULT_SWAP_AMOUNT)
     } else {
