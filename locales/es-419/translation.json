@@ -1392,6 +1392,12 @@
     "estimatedAmountTitle": "Monto estimado",
     "estimatedAmountBody": "Las conversiones tienen lugar en un exchange descentralizado de terceros que encontrará la mejor tarifa para tu intercambio. \n\nEl intercambio se completará a un precio dentro del {{slippagePercent}}% del monto estmado o la transacción se cancelará y se devolverán los fondos a tu billetera."
   },
+  "inviteModal": {
+    "title": "Parece que {{contactName}} no tiene todavía una cartera {{appName}} .",
+    "body": "Todavía puedes invitarles a {{appName}}, o intentar enviar un pago a su dirección de monedero o a nom.space.",
+    "sendInviteButtonLabel": "Enviar invitación",
+    "shareMessage": "Me gustaría enviarte cripto con mi monedero {{appName}} . Una vez que descargues la aplicación y conectes tu número de teléfono, podremos enviar cripto tan fácil como un texto. Utiliza este enlace: {{link}}"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
