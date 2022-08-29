@@ -56,9 +56,13 @@ export default function Welcome() {
       <ScrollView contentContainerStyle={styles.contentContainer}>
         <Logo type={LogoTypes.COLOR} height={64} />
         {guidedOnboardingEnabled ? (
-          <Text style={styles.title}>{t('welcome.titleGuided')}</Text>
+          <Text style={styles.title} testID={'WelcomeText'}>
+            {t('welcome.titleGuided')}
+          </Text>
         ) : (
-          <Text style={styles.title}>{t('welcome.title')}</Text>
+          <Text style={styles.title} testID={'WelcomeText'}>
+            {t('welcome.title')}
+          </Text>
         )}
       </ScrollView>
       <View style={{ marginBottom: Math.max(0, 40 - insets.bottom) }}>

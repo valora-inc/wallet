@@ -95,12 +95,12 @@ describe('Welcome', () => {
         showGuidedOnboardingCopy: true,
       },
     })
-    const { queryByText } = render(
+    const { queryByTestId } = render(
       <Provider store={store}>
         <Welcome />
       </Provider>
     )
-    expect(queryByText(/Let’s create your crypto wallet/)).toBeTruthy() //substring match
+    expect(queryByTestId('WelcomeText')).toHaveTextContent('welcome.titleGuided')
   })
 
   it('render welcome text correctly when showGuidedOnboardingCopy is false', () => {
@@ -109,11 +109,11 @@ describe('Welcome', () => {
         showGuidedOnboardingCopy: false,
       },
     })
-    const { queryByText } = render(
+    const { queryByTestId } = render(
       <Provider store={store}>
         <Welcome />
       </Provider>
     )
-    expect(queryByText(/Step into the future of crypto/)).toBeTruthy() //substring match
+    expect(queryByTestId('WelcomeText')).toHaveTextContent('welcome.title')
   })
 })
