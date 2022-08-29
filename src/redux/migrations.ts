@@ -800,4 +800,5 @@ export const migrations = {
         REMOTE_CONFIG_VALUES_DEFAULTS.shouldShowRecoveryPhraseInSettings,
     },
   }),
+  73: (state: any) => state,
 }
