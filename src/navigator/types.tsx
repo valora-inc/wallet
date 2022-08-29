@@ -232,6 +232,7 @@ export type StackParamList = {
     onCancel?: () => void
   }
   [Screens.RegulatoryTerms]: undefined
+  [Screens.SanctionedCountryErrorScreen]: undefined
   [Screens.SelectCountry]: {
     countries: Countries
     selectedCountryCodeAlpha2: string
