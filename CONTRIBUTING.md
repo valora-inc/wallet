@@ -36,6 +36,7 @@ consider the following as examples of substantial changes:
 - Adding support for in-app swaps.
 - Changing how Valora calculates asset value in local fiat.
 - Changing Valora's branding (_e.g.), color palette).
+- Adding a way for Valora users to go through decentralized KYC.
 - Removing screens from on-boarding.
 
 If you're considering making what might be a substantial change, we
