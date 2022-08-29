@@ -470,8 +470,6 @@ PODS:
   - react-native-simple-toast (1.1.3):
     - React-Core
     - Toast (~> 4.0.0)
-  - react-native-sms (1.11.0):
-    - React-Core
   - react-native-splash-screen (3.3.0):
     - React-Core
   - react-native-udp (2.6.1):
@@ -757,7 +755,6 @@ DEPENDENCIES:
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-shake (from `../node_modules/react-native-shake`)
   - react-native-simple-toast (from `../node_modules/react-native-simple-toast`)
-  - react-native-sms (from `../node_modules/react-native-sms`)
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
   - react-native-udp (from `../node_modules/react-native-udp`)
   - react-native-webview (from `../node_modules/react-native-webview`)
@@ -931,8 +928,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-shake"
   react-native-simple-toast:
     :path: "../node_modules/react-native-simple-toast"
-  react-native-sms:
-    :path: "../node_modules/react-native-sms"
   react-native-splash-screen:
     :path: "../node_modules/react-native-splash-screen"
   react-native-udp:
@@ -1105,7 +1100,6 @@ SPEC CHECKSUMS:
   react-native-safe-area-context: 9e40fb181dac02619414ba1294d6c2a807056ab9
   react-native-shake: 41a1ea8ec541fccf3f01566edef8d3cb722b00e3
   react-native-simple-toast: bf002828cf816775a6809f7a9ec3907509bce11f
-  react-native-sms: 9e317eb8712d2f73a0da36953f15239fa535b0c0
   react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
   react-native-udp: f2c3b982aaef764b3c9bb333938f78136906a515
   react-native-webview: 2e8fe70dc32b50d3231c23043f8e8b5a5525d346
