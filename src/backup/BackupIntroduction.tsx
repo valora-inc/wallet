@@ -54,7 +54,7 @@ class BackupIntroduction extends React.Component<Props> {
 
     return (
       <SafeAreaView style={styles.container}>
-        {showDrawerTopBar && <DrawerTopBar />}
+        {showDrawerTopBar && <DrawerTopBar testID="BackupIntroduction/DrawerTopBar" />}
         {backupCompleted ? (
           <AccountKeyPostSetup />
         ) : (
