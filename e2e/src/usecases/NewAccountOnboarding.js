@@ -75,7 +75,7 @@ export default NewAccountOnboarding = () => {
       .withTimeout(10 * 1000)
 
     // Navigated to Home screen
-    await expect(element(by.id('SendOrRequestBar')))
+    await waitFor(element(by.id('SendOrRequestBar')))
       .toBeVisible()
       .withTimeout(10 * 1000)
   })
