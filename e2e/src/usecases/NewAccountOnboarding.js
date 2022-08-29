@@ -74,8 +74,8 @@ export default NewAccountOnboarding = () => {
       .toBeVisible()
       .withTimeout(10 * 1000)
 
-    // Navigated to recovery phrase display
-    await waitFor(element(by.id('RecoveryPhraseContainer')))
+    // Navigated to Home screen
+    await waitFor(element(by.id('SendOrRequestBar')))
       .toBeVisible()
       .withTimeout(10 * 1000)
   })

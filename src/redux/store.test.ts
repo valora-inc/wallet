@@ -167,6 +167,7 @@ describe('store state', () => {
           ],
           "sentryTracesSampleRate": 0.2,
           "sessionId": "",
+          "shouldShowRecoveryPhraseInSettings": false,
           "showPriceChangeIndicatorInBalances": false,
           "showRaiseDailyLimitTarget": undefined,
           "showSwapMenuInDrawerMenu": false,

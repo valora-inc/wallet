@@ -352,6 +352,7 @@
     "bodyWithoutProvider": "O fornecedor de serviços está processando seu pedido. Você deve receber seus fundos dentro de alguns dias."
   },
   "restrictedRegion": "Suporte limitado na região",
+  "unsupportedLocation": "{{appName}} não é suportado na sua localização",
   "unsupportedPaymentMethod": "Não é possível pagar com {{paymentMethod}} na sua região",
   "noProviders": "Não há fornecedores disponíveis para {{digitalAsset}} em sua região.",
   "noPaymentMethods": "Não há métodos de pagamento disponíveis para {{digitalAsset}} em sua região.",
@@ -1058,7 +1059,7 @@
     "1": "Um lembrete amigável de que você está usando a construção de rede {{testnet}} – os saldos não são reais"
   },
   "dollarBalance": "<0></0> $t(celoDollars)",
-  "feedItemAddress": "Conta {{address}}",
+  "feedItemAddress": "{{address}}",
   "feedItemDepositInfo": "{{comment}}",
   "feedItemDepositInfo_noComment": "Depósito recebido",
   "feedItemDepositTitle": "Depósito",
