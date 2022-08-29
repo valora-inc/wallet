@@ -1393,7 +1393,7 @@
     "estimatedAmountBody": "Les conversions se font sur un échange décentralisé de tiers qui vous trouve le meilleur taux pour votre échange. \n\nVotre échange sera effectué à un prix à moins de {{slippagePercent}}% de l'estimation ou la transaction sera annulée et les fonds retournés à votre portefeuille."
   },
   "inviteModal": {
-    "title": "On dirait que {{contactName}} n'a pas encore de portefeuille {{appName}} .",
+    "title": "Il semble que {{contactName}} n'ait pas encore un portefeuille {{appName}}.",
     "body": "Tu peux toujours les inviter à {{appName}}, ou essayer d'envoyer un paiement à leur adresse de portefeuille ou à nom.space.",
     "sendInviteButtonLabel": "Envoyer l'invitation",
     "shareMessage": "Salut ! J'aimerais t'envoyer de la crypto avec mon porte-monnaie {{appName}} . Une fois que tu auras téléchargé l'application et connecté ton numéro de téléphone, nous pourrons envoyer de la crypto aussi facilement qu'un SMS. Utilise ce lien : {{link}}"
