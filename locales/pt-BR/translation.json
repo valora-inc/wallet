@@ -1392,6 +1392,12 @@
     "estimatedAmountTitle": "Montante estimado",
     "estimatedAmountBody": "As conversões têm lugar numa troca descentralizada de terceiros que lhe encontra a melhor taxa para a sua troca. \n\nA sua transação será concluída a um preço de {{slippagePercent}}% da estimativa ou a transação será cancelada e os fundos serão devolvidos à sua carteira."
   },
+  "inviteModal": {
+    "title": "Parece que {{contactName}} ainda não tem uma carteira {{appName}} .",
+    "body": "Pode ainda convidá-los para {{appName}}, ou tentar enviar um pagamento para o seu endereço de carteira ou nom.space.",
+    "sendInviteButtonLabel": "Enviar Convite",
+    "shareMessage": "Ei! gostaria de lhe enviar algum criptograma com a minha carteira {{appName}} . Uma vez descarregada a aplicação e ligado o seu número de telefone, podemos enviar criptogramas tão facilmente como um texto. Utilize esta ligação: {{link}}"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
