@@ -674,19 +674,17 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
         onResponderTerminationRequest={[Function]}
         onStartShouldSetResponder={[Function]}
         style={
-          Array [
-            Object {
-              "alignItems": "center",
-              "backgroundColor": "#97DFC1",
-              "flexDirection": "row",
-              "flexGrow": 1,
-              "height": 48,
-              "justifyContent": "center",
-              "opacity": undefined,
-              "paddingHorizontal": 24,
-              "paddingVertical": 5,
-            },
-          ]
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "#97DFC1",
+            "flexDirection": "row",
+            "flexGrow": 1,
+            "height": 48,
+            "justifyContent": "center",
+            "opacity": undefined,
+            "paddingHorizontal": 24,
+            "paddingVertical": 5,
+          }
         }
         testID="FiatExchangeNextButton"
       >
@@ -1402,19 +1400,17 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
         onResponderTerminationRequest={[Function]}
         onStartShouldSetResponder={[Function]}
         style={
-          Array [
-            Object {
-              "alignItems": "center",
-              "backgroundColor": "#97DFC1",
-              "flexDirection": "row",
-              "flexGrow": 1,
-              "height": 48,
-              "justifyContent": "center",
-              "opacity": undefined,
-              "paddingHorizontal": 24,
-              "paddingVertical": 5,
-            },
-          ]
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "#97DFC1",
+            "flexDirection": "row",
+            "flexGrow": 1,
+            "height": 48,
+            "justifyContent": "center",
+            "opacity": undefined,
+            "paddingHorizontal": 24,
+            "paddingVertical": 5,
+          }
         }
         testID="FiatExchangeNextButton"
       >

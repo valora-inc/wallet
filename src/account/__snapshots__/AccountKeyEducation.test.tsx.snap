@@ -442,19 +442,17 @@ exports[`AccountKeyEducation renders correctly 1`] = `
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
           style={
-            Array [
-              Object {
-                "alignItems": "center",
-                "backgroundColor": "#F1F0EB",
-                "flexDirection": "row",
-                "height": 48,
-                "justifyContent": "center",
-                "minWidth": 120,
-                "opacity": undefined,
-                "paddingHorizontal": 24,
-                "paddingVertical": 5,
-              },
-            ]
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "#F1F0EB",
+              "flexDirection": "row",
+              "height": 48,
+              "justifyContent": "center",
+              "minWidth": 120,
+              "opacity": undefined,
+              "paddingHorizontal": 24,
+              "paddingVertical": 5,
+            }
           }
           testID="Education/progressButton"
         >

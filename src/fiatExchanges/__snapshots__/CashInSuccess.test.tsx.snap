@@ -115,19 +115,17 @@ exports[`CashinInSuccess renders correctly with a provider 1`] = `
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
           style={
-            Array [
-              Object {
-                "alignItems": "center",
-                "backgroundColor": "#1AB775",
-                "flexDirection": "row",
-                "height": 48,
-                "justifyContent": "center",
-                "minWidth": 120,
-                "opacity": undefined,
-                "paddingHorizontal": 24,
-                "paddingVertical": 5,
-              },
-            ]
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "#1AB775",
+              "flexDirection": "row",
+              "height": 48,
+              "justifyContent": "center",
+              "minWidth": 120,
+              "opacity": undefined,
+              "paddingHorizontal": 24,
+              "paddingVertical": 5,
+            }
           }
           testID="SuccessContinue"
         >
@@ -269,19 +267,17 @@ exports[`CashinInSuccess renders correctly without a provider 1`] = `
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
           style={
-            Array [
-              Object {
-                "alignItems": "center",
-                "backgroundColor": "#1AB775",
-                "flexDirection": "row",
-                "height": 48,
-                "justifyContent": "center",
-                "minWidth": 120,
-                "opacity": undefined,
-                "paddingHorizontal": 24,
-                "paddingVertical": 5,
-              },
-            ]
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "#1AB775",
+              "flexDirection": "row",
+              "height": 48,
+              "justifyContent": "center",
+              "minWidth": 120,
+              "opacity": undefined,
+              "paddingHorizontal": 24,
+              "paddingVertical": 5,
+            }
           }
           testID="SuccessContinue"
         >

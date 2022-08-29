@@ -555,19 +555,17 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
             style={
-              Array [
-                Object {
-                  "alignItems": "center",
-                  "backgroundColor": "#D6EAF3",
-                  "flexDirection": "row",
-                  "height": 48,
-                  "justifyContent": "center",
-                  "minWidth": 120,
-                  "opacity": 1,
-                  "paddingHorizontal": 24,
-                  "paddingVertical": 5,
-                },
-              ]
+              Object {
+                "alignItems": "center",
+                "backgroundColor": "#D6EAF3",
+                "flexDirection": "row",
+                "height": 48,
+                "justifyContent": "center",
+                "minWidth": 120,
+                "opacity": 1,
+                "paddingHorizontal": 24,
+                "paddingVertical": 5,
+              }
             }
             testID="VerificationEducationContinue"
           >
@@ -1650,19 +1648,17 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
             style={
-              Array [
-                Object {
-                  "alignItems": "center",
-                  "backgroundColor": "#D6EAF3",
-                  "flexDirection": "row",
-                  "height": 48,
-                  "justifyContent": "center",
-                  "minWidth": 120,
-                  "opacity": 1,
-                  "paddingHorizontal": 24,
-                  "paddingVertical": 5,
-                },
-              ]
+              Object {
+                "alignItems": "center",
+                "backgroundColor": "#D6EAF3",
+                "flexDirection": "row",
+                "height": 48,
+                "justifyContent": "center",
+                "minWidth": 120,
+                "opacity": 1,
+                "paddingHorizontal": 24,
+                "paddingVertical": 5,
+              }
             }
             testID="VerificationEducationContinue"
           >
@@ -2745,19 +2741,17 @@ exports[`VerificationEducationScreen shows the \`skip\` button when already veri
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
             style={
-              Array [
-                Object {
-                  "alignItems": "center",
-                  "backgroundColor": "#D6EAF3",
-                  "flexDirection": "row",
-                  "height": 48,
-                  "justifyContent": "center",
-                  "minWidth": 120,
-                  "opacity": 1,
-                  "paddingHorizontal": 24,
-                  "paddingVertical": 5,
-                },
-              ]
+              Object {
+                "alignItems": "center",
+                "backgroundColor": "#D6EAF3",
+                "flexDirection": "row",
+                "height": 48,
+                "justifyContent": "center",
+                "minWidth": 120,
+                "opacity": 1,
+                "paddingHorizontal": 24,
+                "paddingVertical": 5,
+              }
             }
             testID="VerificationEducationSkip"
           >
@@ -3835,19 +3829,17 @@ exports[`VerificationEducationScreen shows the \`skip\` button when user is not 
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
             style={
-              Array [
-                Object {
-                  "alignItems": "center",
-                  "backgroundColor": "#D6EAF3",
-                  "flexDirection": "row",
-                  "height": 48,
-                  "justifyContent": "center",
-                  "minWidth": 120,
-                  "opacity": 1,
-                  "paddingHorizontal": 24,
-                  "paddingVertical": 5,
-                },
-              ]
+              Object {
+                "alignItems": "center",
+                "backgroundColor": "#D6EAF3",
+                "flexDirection": "row",
+                "height": 48,
+                "justifyContent": "center",
+                "minWidth": 120,
+                "opacity": 1,
+                "paddingHorizontal": 24,
+                "paddingVertical": 5,
+              }
             }
             testID="VerificationEducationSkip"
           >

@@ -53,19 +53,17 @@ exports[`CeloExchangeButtons hides buy button when there's no dollar balance 1`]
         onResponderTerminationRequest={[Function]}
         onStartShouldSetResponder={[Function]}
         style={
-          Array [
-            Object {
-              "alignItems": "center",
-              "backgroundColor": "#EEB93C",
-              "flexDirection": "row",
-              "flexGrow": 1,
-              "height": 48,
-              "justifyContent": "center",
-              "opacity": undefined,
-              "paddingHorizontal": 24,
-              "paddingVertical": 5,
-            },
-          ]
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "#EEB93C",
+            "flexDirection": "row",
+            "flexGrow": 1,
+            "height": 48,
+            "justifyContent": "center",
+            "opacity": undefined,
+            "paddingHorizontal": 24,
+            "paddingVertical": 5,
+          }
         }
         testID="SellCelo"
       >
@@ -143,19 +141,17 @@ exports[`CeloExchangeButtons hides sell button when there's no CELO balance 1`] 
         onResponderTerminationRequest={[Function]}
         onStartShouldSetResponder={[Function]}
         style={
-          Array [
-            Object {
-              "alignItems": "center",
-              "backgroundColor": "#EEB93C",
-              "flexDirection": "row",
-              "flexGrow": 1,
-              "height": 48,
-              "justifyContent": "center",
-              "opacity": undefined,
-              "paddingHorizontal": 24,
-              "paddingVertical": 5,
-            },
-          ]
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "#EEB93C",
+            "flexDirection": "row",
+            "flexGrow": 1,
+            "height": 48,
+            "justifyContent": "center",
+            "opacity": undefined,
+            "paddingHorizontal": 24,
+            "paddingVertical": 5,
+          }
         }
         testID="BuyCelo"
       >
@@ -233,19 +229,17 @@ exports[`CeloExchangeButtons renders correctly 1`] = `
         onResponderTerminationRequest={[Function]}
         onStartShouldSetResponder={[Function]}
         style={
-          Array [
-            Object {
-              "alignItems": "center",
-              "backgroundColor": "#EEB93C",
-              "flexDirection": "row",
-              "flexGrow": 1,
-              "height": 48,
-              "justifyContent": "center",
-              "opacity": undefined,
-              "paddingHorizontal": 24,
-              "paddingVertical": 5,
-            },
-          ]
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "#EEB93C",
+            "flexDirection": "row",
+            "flexGrow": 1,
+            "height": 48,
+            "justifyContent": "center",
+            "opacity": undefined,
+            "paddingHorizontal": 24,
+            "paddingVertical": 5,
+          }
         }
         testID="BuyCelo"
       >
@@ -310,19 +304,17 @@ exports[`CeloExchangeButtons renders correctly 1`] = `
         onResponderTerminationRequest={[Function]}
         onStartShouldSetResponder={[Function]}
         style={
-          Array [
-            Object {
-              "alignItems": "center",
-              "backgroundColor": "#EEB93C",
-              "flexDirection": "row",
-              "flexGrow": 1,
-              "height": 48,
-              "justifyContent": "center",
-              "opacity": undefined,
-              "paddingHorizontal": 24,
-              "paddingVertical": 5,
-            },
-          ]
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "#EEB93C",
+            "flexDirection": "row",
+            "flexGrow": 1,
+            "height": 48,
+            "justifyContent": "center",
+            "opacity": undefined,
+            "paddingHorizontal": 24,
+            "paddingVertical": 5,
+          }
         }
         testID="SellCelo"
       >

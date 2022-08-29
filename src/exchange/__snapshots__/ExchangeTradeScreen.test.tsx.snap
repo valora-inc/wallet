@@ -534,19 +534,17 @@ exports[`ExchangeTradeScreen renders correctly 1`] = `
         onResponderTerminationRequest={[Function]}
         onStartShouldSetResponder={[Function]}
         style={
-          Array [
-            Object {
-              "alignItems": "center",
-              "backgroundColor": "#F1F0EB",
-              "flexDirection": "row",
-              "flexGrow": 1,
-              "height": 48,
-              "justifyContent": "center",
-              "opacity": undefined,
-              "paddingHorizontal": 24,
-              "paddingVertical": 5,
-            },
-          ]
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "#F1F0EB",
+            "flexDirection": "row",
+            "flexGrow": 1,
+            "height": 48,
+            "justifyContent": "center",
+            "opacity": undefined,
+            "paddingHorizontal": 24,
+            "paddingVertical": 5,
+          }
         }
         testID="ExchangeReviewButton"
       >

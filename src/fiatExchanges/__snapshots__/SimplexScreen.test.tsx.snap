@@ -929,19 +929,17 @@ exports[`SimplexScreen renders correctly 1`] = `
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
           style={
-            Array [
-              Object {
-                "alignItems": "center",
-                "backgroundColor": "#97DFC1",
-                "flexDirection": "row",
-                "flexGrow": 1,
-                "height": 48,
-                "justifyContent": "center",
-                "opacity": undefined,
-                "paddingHorizontal": 24,
-                "paddingVertical": 5,
-              },
-            ]
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "#97DFC1",
+              "flexDirection": "row",
+              "flexGrow": 1,
+              "height": 48,
+              "justifyContent": "center",
+              "opacity": undefined,
+              "paddingHorizontal": 24,
+              "paddingVertical": 5,
+            }
           }
         >
           <ActivityIndicator
@@ -1885,19 +1883,17 @@ exports[`SimplexScreen renders correctly 2`] = `
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
           style={
-            Array [
-              Object {
-                "alignItems": "center",
-                "backgroundColor": "#97DFC1",
-                "flexDirection": "row",
-                "flexGrow": 1,
-                "height": 48,
-                "justifyContent": "center",
-                "opacity": undefined,
-                "paddingHorizontal": 24,
-                "paddingVertical": 5,
-              },
-            ]
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "#97DFC1",
+              "flexDirection": "row",
+              "flexGrow": 1,
+              "height": 48,
+              "justifyContent": "center",
+              "opacity": undefined,
+              "paddingHorizontal": 24,
+              "paddingVertical": 5,
+            }
           }
         >
           <Text

@@ -213,19 +213,17 @@ exports[`RegulatoryTermsScreen renders correctly 1`] = `
         onResponderTerminationRequest={[Function]}
         onStartShouldSetResponder={[Function]}
         style={
-          Array [
-            Object {
-              "alignItems": "center",
-              "backgroundColor": "#D6EAF3",
-              "flexDirection": "row",
-              "flexGrow": 1,
-              "height": 48,
-              "justifyContent": "center",
-              "opacity": 1,
-              "paddingHorizontal": 24,
-              "paddingVertical": 5,
-            },
-          ]
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "#D6EAF3",
+            "flexDirection": "row",
+            "flexGrow": 1,
+            "height": 48,
+            "justifyContent": "center",
+            "opacity": 1,
+            "paddingHorizontal": 24,
+            "paddingVertical": 5,
+          }
         }
         testID="AcceptTermsButton"
       >

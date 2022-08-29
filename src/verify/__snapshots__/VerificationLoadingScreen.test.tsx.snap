@@ -316,19 +316,17 @@ exports[`VerificationLoadingScreen renders correctly 1`] = `
               onResponderTerminationRequest={[Function]}
               onStartShouldSetResponder={[Function]}
               style={
-                Array [
-                  Object {
-                    "alignItems": "center",
-                    "backgroundColor": "#FFFFFF",
-                    "flexDirection": "row",
-                    "height": 40,
-                    "justifyContent": "center",
-                    "minWidth": 120,
-                    "opacity": 1,
-                    "paddingHorizontal": 24,
-                    "paddingVertical": 5,
-                  },
-                ]
+                Object {
+                  "alignItems": "center",
+                  "backgroundColor": "#FFFFFF",
+                  "flexDirection": "row",
+                  "height": 40,
+                  "justifyContent": "center",
+                  "minWidth": 120,
+                  "opacity": 1,
+                  "paddingHorizontal": 24,
+                  "paddingVertical": 5,
+                }
               }
             >
               <Text
@@ -1190,19 +1188,17 @@ exports[`VerificationLoadingScreen renders correctly with fail modal 1`] = `
               onResponderTerminationRequest={[Function]}
               onStartShouldSetResponder={[Function]}
               style={
-                Array [
-                  Object {
-                    "alignItems": "center",
-                    "backgroundColor": "#FFFFFF",
-                    "flexDirection": "row",
-                    "height": 40,
-                    "justifyContent": "center",
-                    "minWidth": 120,
-                    "opacity": 1,
-                    "paddingHorizontal": 24,
-                    "paddingVertical": 5,
-                  },
-                ]
+                Object {
+                  "alignItems": "center",
+                  "backgroundColor": "#FFFFFF",
+                  "flexDirection": "row",
+                  "height": 40,
+                  "justifyContent": "center",
+                  "minWidth": 120,
+                  "opacity": 1,
+                  "paddingHorizontal": 24,
+                  "paddingVertical": 5,
+                }
               }
             >
               <Text
