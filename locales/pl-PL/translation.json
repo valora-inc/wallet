@@ -1396,6 +1396,12 @@
     "estimatedAmountTitle": "Szacowana kwota",
     "estimatedAmountBody": "Wymiana waluty odbywa się na zewnętrznej giełdzie, która wyszukuje najlepszy kurs wymian.\n\nKoszt wymiany wyniesie nie więcej niż {{slippagePercent}}% oszacowanej kwoty. W przeciwnym wypadku transakcja zostanie anulowana, a środki powrócą do portfela."
   },
+  "inviteModal": {
+    "title": "Wygląda na to, że {{contactName}} nie ma jeszcze portfela {{appName}} .",
+    "body": "Nadal możesz zaprosić ich na stronę {{appName}}, lub spróbować wysłać płatność na adres ich portfela lub nom.space.",
+    "sendInviteButtonLabel": "Wyślij zaproszenie",
+    "shareMessage": "Hej! Chciałbym wysłać ci trochę kryptowalut za pomocą mojego portfela {{appName}} . Po pobraniu aplikacji i podaniu swojego numeru telefonu możemy wysłać kryptowalutę tak łatwo, jak za pomocą SMS-a. Użyj tego linku: {{link}}"
+  },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",
   "celoDollarAmount_2": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolarów",
