@@ -198,16 +198,19 @@ exports[`ImportWallet renders correctly and is disabled with no text 1`] = `
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
             style={
-              Object {
-                "alignItems": "center",
-                "backgroundColor": "#D6EAF3",
-                "height": 48,
-                "justifyContent": "center",
-                "minWidth": 120,
-                "opacity": 0.5,
-                "paddingHorizontal": 24,
-                "paddingVertical": 5,
-              }
+              Array [
+                Object {
+                  "alignItems": "center",
+                  "backgroundColor": "#D6EAF3",
+                  "flexDirection": "row",
+                  "height": 48,
+                  "justifyContent": "center",
+                  "minWidth": 120,
+                  "opacity": 0.5,
+                  "paddingHorizontal": 24,
+                  "paddingVertical": 5,
+                },
+              ]
             }
             testID="ImportWalletButton"
           >
@@ -219,6 +222,8 @@ exports[`ImportWallet renders correctly and is disabled with no text 1`] = `
                   "fontFamily": "Inter-SemiBold",
                   "fontSize": 16,
                   "lineHeight": 22,
+                  "marginLeft": 0,
+                  "marginRight": 0,
                 }
               }
             >

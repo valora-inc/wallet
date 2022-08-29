@@ -397,16 +397,19 @@ exports[`BackupIntroduction renders correctly when backup not complete 1`] = `
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
             style={
-              Object {
-                "alignItems": "center",
-                "backgroundColor": "#1AB775",
-                "height": 48,
-                "justifyContent": "center",
-                "minWidth": 120,
-                "opacity": undefined,
-                "paddingHorizontal": 24,
-                "paddingVertical": 5,
-              }
+              Array [
+                Object {
+                  "alignItems": "center",
+                  "backgroundColor": "#1AB775",
+                  "flexDirection": "row",
+                  "height": 48,
+                  "justifyContent": "center",
+                  "minWidth": 120,
+                  "opacity": undefined,
+                  "paddingHorizontal": 24,
+                  "paddingVertical": 5,
+                },
+              ]
             }
             testID="SetUpAccountKey"
           >
@@ -418,6 +421,8 @@ exports[`BackupIntroduction renders correctly when backup not complete 1`] = `
                   "fontFamily": "Inter-SemiBold",
                   "fontSize": 16,
                   "lineHeight": 22,
+                  "marginLeft": 0,
+                  "marginRight": 0,
                 }
               }
             >

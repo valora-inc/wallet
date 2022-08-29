@@ -316,16 +316,19 @@ exports[`VerificationLoadingScreen renders correctly 1`] = `
               onResponderTerminationRequest={[Function]}
               onStartShouldSetResponder={[Function]}
               style={
-                Object {
-                  "alignItems": "center",
-                  "backgroundColor": "#FFFFFF",
-                  "height": 40,
-                  "justifyContent": "center",
-                  "minWidth": 120,
-                  "opacity": 1,
-                  "paddingHorizontal": 24,
-                  "paddingVertical": 5,
-                }
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "backgroundColor": "#FFFFFF",
+                    "flexDirection": "row",
+                    "height": 40,
+                    "justifyContent": "center",
+                    "minWidth": 120,
+                    "opacity": 1,
+                    "paddingHorizontal": 24,
+                    "paddingVertical": 5,
+                  },
+                ]
               }
             >
               <Text
@@ -336,6 +339,8 @@ exports[`VerificationLoadingScreen renders correctly 1`] = `
                     "fontFamily": "Inter-SemiBold",
                     "fontSize": 16,
                     "lineHeight": 22,
+                    "marginLeft": 0,
+                    "marginRight": 0,
                   }
                 }
               >
@@ -1185,16 +1190,19 @@ exports[`VerificationLoadingScreen renders correctly with fail modal 1`] = `
               onResponderTerminationRequest={[Function]}
               onStartShouldSetResponder={[Function]}
               style={
-                Object {
-                  "alignItems": "center",
-                  "backgroundColor": "#FFFFFF",
-                  "height": 40,
-                  "justifyContent": "center",
-                  "minWidth": 120,
-                  "opacity": 1,
-                  "paddingHorizontal": 24,
-                  "paddingVertical": 5,
-                }
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "backgroundColor": "#FFFFFF",
+                    "flexDirection": "row",
+                    "height": 40,
+                    "justifyContent": "center",
+                    "minWidth": 120,
+                    "opacity": 1,
+                    "paddingHorizontal": 24,
+                    "paddingVertical": 5,
+                  },
+                ]
               }
             >
               <Text
@@ -1205,6 +1213,8 @@ exports[`VerificationLoadingScreen renders correctly with fail modal 1`] = `
                     "fontFamily": "Inter-SemiBold",
                     "fontSize": 16,
                     "lineHeight": 22,
+                    "marginLeft": 0,
+                    "marginRight": 0,
                   }
                 }
               >

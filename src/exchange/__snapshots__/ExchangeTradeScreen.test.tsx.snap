@@ -534,16 +534,19 @@ exports[`ExchangeTradeScreen renders correctly 1`] = `
         onResponderTerminationRequest={[Function]}
         onStartShouldSetResponder={[Function]}
         style={
-          Object {
-            "alignItems": "center",
-            "backgroundColor": "#F1F0EB",
-            "flexGrow": 1,
-            "height": 48,
-            "justifyContent": "center",
-            "opacity": undefined,
-            "paddingHorizontal": 24,
-            "paddingVertical": 5,
-          }
+          Array [
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "#F1F0EB",
+              "flexDirection": "row",
+              "flexGrow": 1,
+              "height": 48,
+              "justifyContent": "center",
+              "opacity": undefined,
+              "paddingHorizontal": 24,
+              "paddingVertical": 5,
+            },
+          ]
         }
         testID="ExchangeReviewButton"
       >
@@ -556,6 +559,8 @@ exports[`ExchangeTradeScreen renders correctly 1`] = `
               "fontFamily": "Inter-SemiBold",
               "fontSize": 16,
               "lineHeight": 22,
+              "marginLeft": 0,
+              "marginRight": 0,
             }
           }
         >

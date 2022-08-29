@@ -256,16 +256,19 @@ exports[`PhoneNumberLookupQuotaScreen renders correctly 1`] = `
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
           style={
-            Object {
-              "alignItems": "center",
-              "backgroundColor": "#97DFC1",
-              "height": 48,
-              "justifyContent": "center",
-              "minWidth": 120,
-              "opacity": undefined,
-              "paddingHorizontal": 24,
-              "paddingVertical": 5,
-            }
+            Array [
+              Object {
+                "alignItems": "center",
+                "backgroundColor": "#97DFC1",
+                "flexDirection": "row",
+                "height": 48,
+                "justifyContent": "center",
+                "minWidth": 120,
+                "opacity": undefined,
+                "paddingHorizontal": 24,
+                "paddingVertical": 5,
+              },
+            ]
           }
           testID="QuotaBuyButton"
         >
@@ -277,6 +280,8 @@ exports[`PhoneNumberLookupQuotaScreen renders correctly 1`] = `
                 "fontFamily": "Inter-SemiBold",
                 "fontSize": 16,
                 "lineHeight": 22,
+                "marginLeft": 0,
+                "marginRight": 0,
               }
             }
           >
@@ -330,16 +335,19 @@ exports[`PhoneNumberLookupQuotaScreen renders correctly 1`] = `
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
           style={
-            Object {
-              "alignItems": "center",
-              "backgroundColor": "#F1F0EB",
-              "height": 48,
-              "justifyContent": "center",
-              "minWidth": 120,
-              "opacity": undefined,
-              "paddingHorizontal": 24,
-              "paddingVertical": 5,
-            }
+            Array [
+              Object {
+                "alignItems": "center",
+                "backgroundColor": "#F1F0EB",
+                "flexDirection": "row",
+                "height": 48,
+                "justifyContent": "center",
+                "minWidth": 120,
+                "opacity": undefined,
+                "paddingHorizontal": 24,
+                "paddingVertical": 5,
+              },
+            ]
           }
           testID="QuotaSkipButton"
         >
@@ -351,6 +359,8 @@ exports[`PhoneNumberLookupQuotaScreen renders correctly 1`] = `
                 "fontFamily": "Inter-SemiBold",
                 "fontSize": 16,
                 "lineHeight": 22,
+                "marginLeft": 0,
+                "marginRight": 0,
               }
             }
           >

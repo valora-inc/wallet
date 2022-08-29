@@ -213,16 +213,19 @@ exports[`RegulatoryTermsScreen renders correctly 1`] = `
         onResponderTerminationRequest={[Function]}
         onStartShouldSetResponder={[Function]}
         style={
-          Object {
-            "alignItems": "center",
-            "backgroundColor": "#D6EAF3",
-            "flexGrow": 1,
-            "height": 48,
-            "justifyContent": "center",
-            "opacity": 1,
-            "paddingHorizontal": 24,
-            "paddingVertical": 5,
-          }
+          Array [
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "#D6EAF3",
+              "flexDirection": "row",
+              "flexGrow": 1,
+              "height": 48,
+              "justifyContent": "center",
+              "opacity": 1,
+              "paddingHorizontal": 24,
+              "paddingVertical": 5,
+            },
+          ]
         }
         testID="AcceptTermsButton"
       >
@@ -234,6 +237,8 @@ exports[`RegulatoryTermsScreen renders correctly 1`] = `
               "fontFamily": "Inter-SemiBold",
               "fontSize": 16,
               "lineHeight": 22,
+              "marginLeft": 0,
+              "marginRight": 0,
             }
           }
         >

@@ -308,16 +308,19 @@ exports[`ExchangeHomeScreen renders and behaves correctly for CP-DOTO restricted
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
             style={
-              Object {
-                "alignItems": "center",
-                "backgroundColor": "#EEB93C",
-                "flexGrow": 1,
-                "height": 48,
-                "justifyContent": "center",
-                "opacity": undefined,
-                "paddingHorizontal": 24,
-                "paddingVertical": 5,
-              }
+              Array [
+                Object {
+                  "alignItems": "center",
+                  "backgroundColor": "#EEB93C",
+                  "flexDirection": "row",
+                  "flexGrow": 1,
+                  "height": 48,
+                  "justifyContent": "center",
+                  "opacity": undefined,
+                  "paddingHorizontal": 24,
+                  "paddingVertical": 5,
+                },
+              ]
             }
             testID="WithdrawCELO"
           >
@@ -329,6 +332,8 @@ exports[`ExchangeHomeScreen renders and behaves correctly for CP-DOTO restricted
                   "fontFamily": "Inter-SemiBold",
                   "fontSize": 16,
                   "lineHeight": 22,
+                  "marginLeft": 0,
+                  "marginRight": 0,
                 }
               }
             >
@@ -780,16 +785,19 @@ exports[`ExchangeHomeScreen renders and behaves correctly for non CP-DOTO restri
               onResponderTerminationRequest={[Function]}
               onStartShouldSetResponder={[Function]}
               style={
-                Object {
-                  "alignItems": "center",
-                  "backgroundColor": "#EEB93C",
-                  "flexGrow": 1,
-                  "height": 48,
-                  "justifyContent": "center",
-                  "opacity": undefined,
-                  "paddingHorizontal": 24,
-                  "paddingVertical": 5,
-                }
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "backgroundColor": "#EEB93C",
+                    "flexDirection": "row",
+                    "flexGrow": 1,
+                    "height": 48,
+                    "justifyContent": "center",
+                    "opacity": undefined,
+                    "paddingHorizontal": 24,
+                    "paddingVertical": 5,
+                  },
+                ]
               }
               testID="BuyCelo"
             >
@@ -801,6 +809,8 @@ exports[`ExchangeHomeScreen renders and behaves correctly for non CP-DOTO restri
                     "fontFamily": "Inter-SemiBold",
                     "fontSize": 16,
                     "lineHeight": 22,
+                    "marginLeft": 0,
+                    "marginRight": 0,
                   }
                 }
               >
@@ -852,16 +862,19 @@ exports[`ExchangeHomeScreen renders and behaves correctly for non CP-DOTO restri
               onResponderTerminationRequest={[Function]}
               onStartShouldSetResponder={[Function]}
               style={
-                Object {
-                  "alignItems": "center",
-                  "backgroundColor": "#EEB93C",
-                  "flexGrow": 1,
-                  "height": 48,
-                  "justifyContent": "center",
-                  "opacity": undefined,
-                  "paddingHorizontal": 24,
-                  "paddingVertical": 5,
-                }
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "backgroundColor": "#EEB93C",
+                    "flexDirection": "row",
+                    "flexGrow": 1,
+                    "height": 48,
+                    "justifyContent": "center",
+                    "opacity": undefined,
+                    "paddingHorizontal": 24,
+                    "paddingVertical": 5,
+                  },
+                ]
               }
               testID="SellCelo"
             >
@@ -873,6 +886,8 @@ exports[`ExchangeHomeScreen renders and behaves correctly for non CP-DOTO restri
                     "fontFamily": "Inter-SemiBold",
                     "fontSize": 16,
                     "lineHeight": 22,
+                    "marginLeft": 0,
+                    "marginRight": 0,
                   }
                 }
               >

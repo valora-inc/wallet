@@ -176,16 +176,19 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
               onResponderTerminationRequest={[Function]}
               onStartShouldSetResponder={[Function]}
               style={
-                Object {
-                  "alignItems": "center",
-                  "backgroundColor": "#97DFC1",
-                  "height": 48,
-                  "justifyContent": "center",
-                  "minWidth": 120,
-                  "opacity": undefined,
-                  "paddingHorizontal": 24,
-                  "paddingVertical": 5,
-                }
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "backgroundColor": "#97DFC1",
+                    "flexDirection": "row",
+                    "height": 48,
+                    "justifyContent": "center",
+                    "minWidth": 120,
+                    "opacity": undefined,
+                    "paddingHorizontal": 24,
+                    "paddingVertical": 5,
+                  },
+                ]
               }
               testID="ConfirmAccountButton"
             >
@@ -197,6 +200,8 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
                     "fontFamily": "Inter-SemiBold",
                     "fontSize": 16,
                     "lineHeight": 22,
+                    "marginLeft": 0,
+                    "marginRight": 0,
                   }
                 }
               >
@@ -1000,16 +1005,19 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
               onResponderTerminationRequest={[Function]}
               onStartShouldSetResponder={[Function]}
               style={
-                Object {
-                  "alignItems": "center",
-                  "backgroundColor": "#97DFC1",
-                  "height": 48,
-                  "justifyContent": "center",
-                  "minWidth": 120,
-                  "opacity": undefined,
-                  "paddingHorizontal": 24,
-                  "paddingVertical": 5,
-                }
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "backgroundColor": "#97DFC1",
+                    "flexDirection": "row",
+                    "height": 48,
+                    "justifyContent": "center",
+                    "minWidth": 120,
+                    "opacity": undefined,
+                    "paddingHorizontal": 24,
+                    "paddingVertical": 5,
+                  },
+                ]
               }
               testID="ConfirmAccountButton"
             >
@@ -1021,6 +1029,8 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                     "fontFamily": "Inter-SemiBold",
                     "fontSize": 16,
                     "lineHeight": 22,
+                    "marginLeft": 0,
+                    "marginRight": 0,
                   }
                 }
               >

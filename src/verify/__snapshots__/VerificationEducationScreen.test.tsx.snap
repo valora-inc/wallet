@@ -555,16 +555,19 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
             style={
-              Object {
-                "alignItems": "center",
-                "backgroundColor": "#D6EAF3",
-                "height": 48,
-                "justifyContent": "center",
-                "minWidth": 120,
-                "opacity": 1,
-                "paddingHorizontal": 24,
-                "paddingVertical": 5,
-              }
+              Array [
+                Object {
+                  "alignItems": "center",
+                  "backgroundColor": "#D6EAF3",
+                  "flexDirection": "row",
+                  "height": 48,
+                  "justifyContent": "center",
+                  "minWidth": 120,
+                  "opacity": 1,
+                  "paddingHorizontal": 24,
+                  "paddingVertical": 5,
+                },
+              ]
             }
             testID="VerificationEducationContinue"
           >
@@ -576,6 +579,8 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
                   "fontFamily": "Inter-SemiBold",
                   "fontSize": 16,
                   "lineHeight": 22,
+                  "marginLeft": 0,
+                  "marginRight": 0,
                 }
               }
             >
@@ -1645,16 +1650,19 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
             style={
-              Object {
-                "alignItems": "center",
-                "backgroundColor": "#D6EAF3",
-                "height": 48,
-                "justifyContent": "center",
-                "minWidth": 120,
-                "opacity": 1,
-                "paddingHorizontal": 24,
-                "paddingVertical": 5,
-              }
+              Array [
+                Object {
+                  "alignItems": "center",
+                  "backgroundColor": "#D6EAF3",
+                  "flexDirection": "row",
+                  "height": 48,
+                  "justifyContent": "center",
+                  "minWidth": 120,
+                  "opacity": 1,
+                  "paddingHorizontal": 24,
+                  "paddingVertical": 5,
+                },
+              ]
             }
             testID="VerificationEducationContinue"
           >
@@ -1666,6 +1674,8 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
                   "fontFamily": "Inter-SemiBold",
                   "fontSize": 16,
                   "lineHeight": 22,
+                  "marginLeft": 0,
+                  "marginRight": 0,
                 }
               }
             >
@@ -2735,16 +2745,19 @@ exports[`VerificationEducationScreen shows the \`skip\` button when already veri
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
             style={
-              Object {
-                "alignItems": "center",
-                "backgroundColor": "#D6EAF3",
-                "height": 48,
-                "justifyContent": "center",
-                "minWidth": 120,
-                "opacity": 1,
-                "paddingHorizontal": 24,
-                "paddingVertical": 5,
-              }
+              Array [
+                Object {
+                  "alignItems": "center",
+                  "backgroundColor": "#D6EAF3",
+                  "flexDirection": "row",
+                  "height": 48,
+                  "justifyContent": "center",
+                  "minWidth": 120,
+                  "opacity": 1,
+                  "paddingHorizontal": 24,
+                  "paddingVertical": 5,
+                },
+              ]
             }
             testID="VerificationEducationSkip"
           >
@@ -2756,6 +2769,8 @@ exports[`VerificationEducationScreen shows the \`skip\` button when already veri
                   "fontFamily": "Inter-SemiBold",
                   "fontSize": 16,
                   "lineHeight": 22,
+                  "marginLeft": 0,
+                  "marginRight": 0,
                 }
               }
             >
@@ -3820,16 +3835,19 @@ exports[`VerificationEducationScreen shows the \`skip\` button when user is not 
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
             style={
-              Object {
-                "alignItems": "center",
-                "backgroundColor": "#D6EAF3",
-                "height": 48,
-                "justifyContent": "center",
-                "minWidth": 120,
-                "opacity": 1,
-                "paddingHorizontal": 24,
-                "paddingVertical": 5,
-              }
+              Array [
+                Object {
+                  "alignItems": "center",
+                  "backgroundColor": "#D6EAF3",
+                  "flexDirection": "row",
+                  "height": 48,
+                  "justifyContent": "center",
+                  "minWidth": 120,
+                  "opacity": 1,
+                  "paddingHorizontal": 24,
+                  "paddingVertical": 5,
+                },
+              ]
             }
             testID="VerificationEducationSkip"
           >
@@ -3841,6 +3859,8 @@ exports[`VerificationEducationScreen shows the \`skip\` button when user is not 
                   "fontFamily": "Inter-SemiBold",
                   "fontSize": 16,
                   "lineHeight": 22,
+                  "marginLeft": 0,
+                  "marginRight": 0,
                 }
               }
             >
