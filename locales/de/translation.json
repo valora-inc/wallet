@@ -1392,6 +1392,12 @@
     "estimatedAmountTitle": "Geschätzte Betrag",
     "estimatedAmountBody": "Umrechnungen finden an einer dezentralen Börse von Drittanbietern statt, die den besten Kurs für deinen gewünschten Umtausch bieten. \n\n Dein Trade wird zu einem Preis innerhalb von {{slippagePercent}} % des Preises abgeschlossen oder die Transaktion wird storniert und das Guthaben an deine Wallet zurückerstattet."
   },
+  "inviteModal": {
+    "title": "Es sieht so aus, als ob {{contactName}} noch keine {{appName}} Brieftasche hat.",
+    "body": "Du kannst sie trotzdem zu {{appName}}einladen oder versuchen, eine Zahlung an ihre Wallet-Adresse oder nom.space zu senden.",
+    "sendInviteButtonLabel": "Einladung senden",
+    "shareMessage": "Hey! Ich würde dir gerne etwas Krypto mit meiner {{appName}} Brieftasche schicken. Wenn du die App herunterlädst und deine Telefonnummer angibst, können wir Kryptowährungen ganz einfach per SMS verschicken. Benutze diesen Link: {{link}}"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
