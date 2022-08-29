@@ -28,7 +28,6 @@ export enum BtnSizes {
 export interface ButtonProps {
   onPress: () => void
   style?: StyleProp<ViewStyle>
-  buttonStyle?: StyleProp<ViewStyle>
   text: string | ReactNode
   showLoading?: boolean
   loadingColor?: string
@@ -74,7 +73,7 @@ export default React.memo(function Button(props: ButtonProps) {
         <Touchable
           onPress={debouncedOnPress}
           disabled={disabled}
-          style={[getStyle(size, backgroundColor, opacity, iconPositionLeft)]}
+          style={getStyle(size, backgroundColor, opacity, iconPositionLeft)}
           testID={testID}
         >
           {showLoading ? (
