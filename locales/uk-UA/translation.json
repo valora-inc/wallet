@@ -352,6 +352,7 @@
     "bodyWithoutProvider": "Постачальник послуг обробляє ваше замовлення. Ви маєте отримати кошти протягом декількох днів."
   },
   "restrictedRegion": "Обмежена підтримка в регіоні",
+  "unsupportedLocation": "{{appName}} не підтримується вашим розташуванням",
   "unsupportedPaymentMethod": "Оплата з {{paymentMethod}} не підтримується у вашому регіоні",
   "noProviders": "У вашому регіоні немає доступних провайдерів для {{digitalAsset}}.",
   "noPaymentMethods": "У вашому регіоні немає доступних способів оплати для {{digitalAsset}}.",
