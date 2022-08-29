@@ -144,24 +144,41 @@ describe('NameAndPictureScreen', () => {
     const { getByText } = render(<Provider store={store}>{headerTitle}</Provider>)
 
     expect(getByText('createProfile')).toBeTruthy()
-  }),
-    // header title test for showGuidedOnboarding
-    it('render header title correctly when showGuidedOnboarding is true', () => {
-      const store = createMockStore({
-        app: {
-          showGuidedOnboardingCopy: true,
-        },
-      })
-      let headerTitle: React.ReactNode
-      ;(mockNavigation.setOptions as jest.Mock).mockImplementation((options) => {
-        headerTitle = options.headerTitle()
-      }),
-        render(
-          <Provider store={store}>
-            <NameAndPicture {...mockScreenProps} />
-          </Provider>
-        )
-      const { getByText } = render(<Provider store={store}>{headerTitle}</Provider>)
-      expect(getByText('name')).toBeTruthy()
+  })
+
+  // header title test for showGuidedOnboarding
+  it('render header title correctly when showGuidedOnboarding is true', () => {
+    const store = createMockStore({
+      app: {
+        showGuidedOnboardingCopy: true,
+      },
     })
+    let headerTitle: React.ReactNode
+    ;(mockNavigation.setOptions as jest.Mock).mockImplementation((options) => {
+      headerTitle = options.headerTitle()
+    }),
+      render(
+        <Provider store={store}>
+          <NameAndPicture {...mockScreenProps} />
+        </Provider>
+      )
+    const { getByText } = render(<Provider store={store}>{headerTitle}</Provider>)
+    expect(getByText('name')).toBeTruthy()
+  })
+
+  // test for showGuidedOnboarding, page guide copy (above the name entry line) should be shown
+  it('render onboarding guide copy correctly when showGuidedOnboarding is true', () => {
+    const store = createMockStore({
+      app: {
+        showGuidedOnboardingCopy: true,
+      },
+    })
+    const { getByText } = render(
+      <Provider store={store}>
+        <NameAndPicture {...mockScreenProps} />{' '}
+      </Provider>
+    )
+    expect(getByText('nameAndPicGuideCopyTitle')).toBeTruthy()
+    expect(getByText('nameAndPicGuideCopyContent')).toBeTruthy()
+  })
 })
