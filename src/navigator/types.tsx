@@ -64,7 +64,7 @@ export type StackParamList = {
       }
   [Screens.BackupIntroduction]:
     | {
-        navigatedFromSettings?: boolean
+        showDrawerTopBar: boolean
       }
     | undefined
   [Screens.AccountKeyEducation]:
