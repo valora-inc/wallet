@@ -1392,6 +1392,12 @@
     "estimatedAmountTitle": "Importo stimato",
     "estimatedAmountBody": "Le conversioni avvengono su uno scambio decentralizzato di terze parti che trova il miglior tasso per il tuo scambio. \n\nLa tua transazione sarà completata a un prezzo compreso tra {{slippagePercent}}% della stima o la transazione sarà annullata e i fondi saranno restituiti al tuo portafoglio."
   },
+  "inviteModal": {
+    "title": "Sembra che {{contactName}} non abbia ancora un portafoglio {{appName}} .",
+    "body": "Puoi comunque invitarli su {{appName}}o provare a inviare un pagamento al loro indirizzo di portafoglio o a nom.space.",
+    "sendInviteButtonLabel": "Invia l'invito",
+    "shareMessage": "Ehi! Vorrei inviarti delle criptovalute con il mio portafoglio {{appName}} . Una volta scaricata l'applicazione e collegato il tuo numero di telefono, potremo inviare criptovalute con la stessa facilità di un SMS. Usa questo link: {{link}}"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollar"
 }
