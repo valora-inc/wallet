@@ -352,6 +352,7 @@
     "bodyWithoutProvider": "El proveedor de servicios está procesando tu orden. Recibirás tus fondos dentro de un par de días."
   },
   "restrictedRegion": "Soporte limitado en la región",
+  "unsupportedLocation": "{{appName}} no es compatible con tu ubicación",
   "unsupportedPaymentMethod": "No es posible pagar con {{paymentMethod}} en tu región.",
   "noProviders": "No hay proveedores disponibles para {{digitalAsset}} en tu región.",
   "noPaymentMethods": "No hay métodos de pago disponibles para {{digitalAsset}} en tu región.",

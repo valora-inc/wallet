@@ -352,6 +352,7 @@
     "bodyWithoutProvider": "Servis sağlayıcı siparişinizi işliyor. Fonlarınızı birkaç gün içinde alabileceksiniz."
   },
   "restrictedRegion": "Bölgenizde sınırlı destek mevcut",
+  "unsupportedLocation": "{{appName}} is not supported in your location",
   "unsupportedPaymentMethod": "{{paymentMethod}} ile ödeme bölgenizde desteklenmiyor",
   "noProviders": "Bölgenizde {{digitalAsset}} için kullanılabilecek sağlayıcı bulunmuyor.",
   "noPaymentMethods": "Bölgenizde {{digitalAsset}} için kullanılabilecek ödeme yöntemi yok.",
