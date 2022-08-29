@@ -78,7 +78,11 @@ export default React.memo(function Button(props: ButtonProps) {
           testID={testID}
         >
           {showLoading ? (
-            <ActivityIndicator size="small" color={loadingColor ?? textColor} />
+            <ActivityIndicator
+              size="small"
+              color={loadingColor ?? textColor}
+              testID="Button/Loading"
+            />
           ) : (
             <>
               {icon}
