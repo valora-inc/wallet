@@ -19,27 +19,50 @@ import { Spacing } from 'src/styles/styles'
 function useStep() {
   const { t } = useTranslation()
 
+  // Randomize array in-place - Durstenfeld's shuffle algorithm
+  const shuffleArray = (arr: Array<any>) => {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1))
+      let temp = arr[i]
+      arr[i] = arr[j]
+      arr[j] = temp
+    }
+    return arr
+  }
+
   return React.useMemo(() => {
-    return [
+    // ScreenSet 0 is the old onboarding screens
+    // ScreenSet 1 is the new onboarding screens
+    const screenSet = Math.random() < 0.5 ? 0 : 1
+    const variant = screenSet === 0 ? 'old' : 'new'
+    const steps = shuffleArray([
       {
-        title: t('onboardingEducation.step1'),
+        title: [t('onboardingEducation.step1'), t('onboardingEducation.payment')][screenSet],
         isTopTitle: true,
         image: onboardingEducation1,
         topic: EducationTopic.onboarding,
+        valueProp: 'Payment',
+        variant,
       },
       {
-        title: t('onboardingEducation.step2'),
+        title: [t('onboardingEducation.step2'), t('onboardingEducation.impact')][screenSet],
         isTopTitle: true,
         image: onboardingEducation2,
         topic: EducationTopic.onboarding,
+        valueProp: 'Impact',
+        variant,
       },
       {
-        title: t('onboardingEducation.step3'),
+        title: [t('onboardingEducation.step3'), t('onboardingEducation.spend')][screenSet],
         isTopTitle: true,
         image: onboardingEducation3,
         topic: EducationTopic.onboarding,
+        valueProp: 'Spend',
+        variant,
       },
-    ]
+    ])
+    const order = steps.map((item: { valueProp: any }) => item.valueProp).join('-')
+    return { steps, variant, order }
   }, [t])
 }
 
@@ -51,10 +74,20 @@ export default function OnboardingEducationScreen() {
 
   useEffect(() => {
     ValoraAnalytics.track(OnboardingEvents.onboarding_education_start)
+    // This is a sanity check that can be used to verify that the randomization is working
+    ValoraAnalytics.track(OnboardingEvents.onboarding_education_start_experiment, {
+      variant: stepInfo.variant,
+      order: stepInfo.order,
+    })
   }, [])
 
   const onFinish = () => {
     ValoraAnalytics.track(OnboardingEvents.onboarding_education_complete)
+    // This will track which variant and order is the most successful
+    ValoraAnalytics.track(OnboardingEvents.onboarding_education_complete_experiment, {
+      variant: stepInfo.variant,
+      order: stepInfo.order,
+    })
     navigate(Screens.Welcome)
   }
 
@@ -63,7 +96,7 @@ export default function OnboardingEducationScreen() {
       style={[styles.container, headerHeight ? { paddingTop: headerHeight } : undefined]}
       edges={['bottom']}
       embeddedNavBar={null}
-      stepInfo={stepInfo}
+      stepInfo={stepInfo.steps}
       finalButtonType={BtnTypes.ONBOARDING}
       finalButtonText={t('getStarted')}
       buttonType={BtnTypes.ONBOARDING_SECONDARY}

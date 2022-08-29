@@ -700,7 +700,10 @@
   "onboardingEducation": {
     "step1": "If you can text, you can crypto. Starting now, your phone is your crypto wallet.",
     "step2": "With {{appName}}, it’s easy to access and easy to grow your crypto.",
-    "step3": "All you need is a mobile phone to send, spend and explore."
+    "step3": "All you need is a mobile phone to send, spend and explore.",
+    "payment": "Make payments globally with near zero fees",
+    "impact": "Support climate and social change initiatives",
+    "spend": "Use your crypto to shop your favorite brands"
   },
   "enableBiometry": {
     "title": "Secure your wallet",

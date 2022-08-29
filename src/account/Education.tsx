@@ -42,6 +42,8 @@ interface EducationStep {
   // If set to true, title is displayed at the top
   isTopTitle?: boolean
   text?: string
+  valueProp?: string
+  variant?: 'old' | 'new'
 }
 
 export type Props = NativeSafeAreaViewProps & {
@@ -111,7 +113,7 @@ export default class Education extends React.Component<Props, State> {
 
   nextStep = () => {
     const { step } = this.state
-    const { topic } = this.props.stepInfo[this.state.step]
+    const { topic, valueProp, variant } = this.props.stepInfo[this.state.step]
     const isLastStep = step === this.props.stepInfo.length - 1
 
     if (isLastStep) {
@@ -131,6 +133,10 @@ export default class Education extends React.Component<Props, State> {
         ValoraAnalytics.track(OnboardingEvents.onboarding_education_scroll, {
           currentStep: step,
           direction: ScrollDirection.next,
+        })
+        ValoraAnalytics.track(OnboardingEvents.onboarding_education_screen_impression, {
+          valueProp,
+          variant,
         })
       }
       this.swiper?.current?.scrollBy(1, true)
