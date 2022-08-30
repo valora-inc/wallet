@@ -364,10 +364,6 @@ async function fetchListFromFirebase(path: string) {
   })
 }
 
-export async function cUsdDailyLimitChannel(address: string) {
-  return simpleReadChannel(`registrations/${address}/dailyLimitCusd`)
-}
-
 export function simpleReadChannel(key: string) {
   if (!FIREBASE_ENABLED) {
     return null

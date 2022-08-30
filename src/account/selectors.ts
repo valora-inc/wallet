@@ -30,7 +30,6 @@ export const defaultCountryCodeSelector = createSelector(
 export const userContactDetailsSelector = (state: RootState) => state.account.contactDetails
 export const pincodeTypeSelector = (state: RootState) => state.account.pincodeType
 export const isProfileUploadedSelector = (state: RootState) => state.account.profileUploaded
-export const cUsdDailyLimitSelector = (state: RootState) => state.account.dailyLimitCusd
 
 export const currentUserRecipientSelector = createSelector(
   [currentAccountSelector, nameSelector, pictureSelector, userContactDetailsSelector],

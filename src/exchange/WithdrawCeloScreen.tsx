@@ -27,7 +27,6 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import useSelector from 'src/redux/useSelector'
-import { useDailyTransferLimitValidator } from 'src/send/utils'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import { useBalance } from 'src/stableToken/hooks'
 import colors from 'src/styles/colors'
@@ -56,11 +55,6 @@ function WithdrawCeloScreen({ route }: Props) {
 
   const exchangeRates = useSelector(exchangeRatesSelector)
 
-  const [isTransferLimitReached, showLimitReachedBanner] = useDailyTransferLimitValidator(
-    celoToTransfer,
-    Currency.Celo
-  )
-
   const { result } = useSendFee({
     feeType: FeeType.SEND,
     account: RANDOM_ADDRESS,
@@ -73,11 +67,6 @@ function WithdrawCeloScreen({ route }: Props) {
   const feeEstimate = result && divideByWei(result.fee)
 
   const onConfirm = async () => {
-    if (isTransferLimitReached) {
-      showLimitReachedBanner()
-      return
-    }
-
     ValoraAnalytics.track(CeloExchangeEvents.celo_withdraw_review, {
       amount: celoToTransfer.toString(),
     })

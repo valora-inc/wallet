@@ -3,7 +3,6 @@ import { FinclusiveKycStatus, PincodeType } from 'src/account/reducer'
 import { AppState } from 'src/app/actions'
 import { InviteMethodType, SuperchargeButtonType } from 'src/app/types'
 import { CodeInputStatus } from 'src/components/CodeInput'
-import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
 import { DappConnectInfo } from 'src/dapps/types'
 import { NUM_ATTESTATIONS_REQUIRED } from 'src/identity/verification'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
@@ -16,6 +15,8 @@ import {
   mockCusdAddress,
   mockTestTokenAddress,
 } from 'test/values'
+
+export const DEFAULT_DAILY_PAYMENT_LIMIT_CUSD_LEGACY = 1000
 
 // Default (version -1 schema)
 export const vNeg1Schema = {
@@ -362,7 +363,7 @@ export const v7Schema = {
     ...v6Schema.account,
     backupRequiredTime: null,
     pictureUri: null,
-    dailyLimitCusd: DEFAULT_DAILY_PAYMENT_LIMIT_CUSD,
+    dailyLimitCusd: DEFAULT_DAILY_PAYMENT_LIMIT_CUSD_LEGACY,
   },
   home: {
     loading: false,

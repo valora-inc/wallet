@@ -1,7 +1,7 @@
 import { isE164Number } from '@celo/utils/lib/phoneNumbers'
 import { Actions, ActionTypes } from 'src/account/actions'
 import { DAYS_TO_DELAY } from 'src/backup/consts'
-import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD, DEV_SETTINGS_ACTIVE_INITIALLY } from 'src/config'
+import { DEV_SETTINGS_ACTIVE_INITIALLY } from 'src/config'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 import Logger from 'src/utils/Logger'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
@@ -28,7 +28,6 @@ export interface State {
   profileUploaded: boolean | undefined
   recoveringFromStoreWipe: boolean | undefined
   accountToRecoverFromStoreWipe: string | undefined
-  dailyLimitCusd: number
   dismissedKeepSupercharging: boolean
   dismissedStartSupercharging: boolean
 }
@@ -89,7 +88,6 @@ export const initialState: State = {
   profileUploaded: false,
   recoveringFromStoreWipe: false,
   accountToRecoverFromStoreWipe: undefined,
-  dailyLimitCusd: DEFAULT_DAILY_PAYMENT_LIMIT_CUSD,
   dismissedKeepSupercharging: false,
   dismissedStartSupercharging: false,
 }
@@ -106,7 +104,6 @@ export const reducer = (
         ...state,
         ...rehydratedPayload,
         dismissedGetVerified: false,
-        dailyLimitCusd: rehydratedPayload.dailyLimitCusd || state.dailyLimitCusd,
       }
     }
     case Actions.CHOOSE_CREATE_ACCOUNT:
@@ -229,12 +226,6 @@ export const reducer = (
     case Actions.ACCEPT_TERMS: {
       return { ...state, acceptedTerms: true }
     }
-    case Actions.UPDATE_DAILY_LIMIT:
-      return {
-        ...state,
-        // We don't allow minimum daily limits lower than the default to avoid human error when setting them.
-        dailyLimitCusd: Math.max(action.newLimit, DEFAULT_DAILY_PAYMENT_LIMIT_CUSD),
-      }
     case Web3Actions.SET_ACCOUNT: {
       return {
         ...state,
