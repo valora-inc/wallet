@@ -1584,6 +1584,15 @@ export const v73Schema = {
   },
 }
 
+export const v74Schema = {
+  ...v73Schema,
+  _persist: {
+    ...v73Schema._persist,
+    version: 74,
+  },
+  identity: _.omit(v73Schema.identity, 'matchedContacts'),
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v73Schema as Partial<RootState>
+  return v74Schema as Partial<RootState>
 }
