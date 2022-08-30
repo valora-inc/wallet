@@ -56,12 +56,4 @@ describe('Recipient sorting', () => {
       mockRecipient,
     ])
   })
-  it('Sorts recipients with some prioritized', () => {
-    const prioritized = { [mockRecipient.e164PhoneNumber!]: { contactId: 'contactId' } }
-    expect(sortRecipients(recipients, prioritized)).toStrictEqual([
-      mockRecipient,
-      mockRecipient3,
-      mockRecipient2,
-    ])
-  })
 })
