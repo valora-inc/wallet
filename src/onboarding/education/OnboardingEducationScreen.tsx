@@ -41,7 +41,7 @@ function useStep() {
         isTopTitle: true,
         image: onboardingEducation1,
         topic: EducationTopic.onboarding,
-        valueProp: 'Payment',
+        valueProposition: 'Payment',
         variant,
       },
       {
@@ -49,7 +49,7 @@ function useStep() {
         isTopTitle: true,
         image: onboardingEducation2,
         topic: EducationTopic.onboarding,
-        valueProp: 'Impact',
+        valueProposition: 'Impact',
         variant,
       },
       {
@@ -57,11 +57,11 @@ function useStep() {
         isTopTitle: true,
         image: onboardingEducation3,
         topic: EducationTopic.onboarding,
-        valueProp: 'Spend',
+        valueProposition: 'Spend',
         variant,
       },
     ])
-    const order = steps.map((item: { valueProp: any }) => item.valueProp).join('-')
+    const order = steps.map((item: { valueProposition: any }) => item.valueProposition).join('-')
     return { steps, variant, order }
   }, [t])
 }

@@ -42,7 +42,7 @@ interface EducationStep {
   // If set to true, title is displayed at the top
   isTopTitle?: boolean
   text?: string
-  valueProp?: string
+  valueProposition?: string
   variant?: 'old' | 'new'
 }
 
@@ -113,7 +113,7 @@ export default class Education extends React.Component<Props, State> {
 
   nextStep = () => {
     const { step } = this.state
-    const { topic, valueProp, variant } = this.props.stepInfo[this.state.step]
+    const { topic, valueProposition, variant } = this.props.stepInfo[this.state.step]
     const isLastStep = step === this.props.stepInfo.length - 1
 
     if (isLastStep) {
@@ -135,7 +135,7 @@ export default class Education extends React.Component<Props, State> {
           direction: ScrollDirection.next,
         })
         ValoraAnalytics.track(OnboardingEvents.onboarding_education_screen_impression, {
-          valueProp,
+          valueProposition,
           variant,
         })
       }
