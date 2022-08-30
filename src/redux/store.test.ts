@@ -93,7 +93,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 74,
+          "version": 75,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -265,7 +265,6 @@ describe('store state', () => {
             "total": 0,
           },
           "lastRevealAttempt": null,
-          "matchedContacts": Object {},
           "numCompleteAttestations": 0,
           "secureSendPhoneNumberMapping": Object {},
           "verificationStatus": 0,

@@ -814,4 +814,8 @@ export const migrations = {
       inviteMethod: REMOTE_CONFIG_VALUES_DEFAULTS.inviteMethod,
     },
   }),
+  75: (state: any) => ({
+    ...state,
+    identity: _.omit(state.identity, 'matchedContacts'),
+  }),
 }

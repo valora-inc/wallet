@@ -273,21 +273,6 @@
             ],
             "type": "object"
         },
-        "ContactMatches": {
-            "additionalProperties": {
-                "additionalProperties": false,
-                "properties": {
-                    "contactId": {
-                        "type": "string"
-                    }
-                },
-                "required": [
-                    "contactId"
-                ],
-                "type": "object"
-            },
-            "type": "object"
-        },
         "CreateAccountCopyTestType": {
             "enum": [
                 "ACCOUNT",
@@ -1086,7 +1071,6 @@
                 1,
                 2,
                 3,
-                4,
                 5
             ],
             "type": "number"
@@ -2253,9 +2237,6 @@
                         "number"
                     ]
                 },
-                "matchedContacts": {
-                    "$ref": "#/definitions/ContactMatches"
-                },
                 "numCompleteAttestations": {
                     "type": "number"
                 },
@@ -2282,7 +2263,6 @@
                 "hasSeenVerificationNux",
                 "importContactsProgress",
                 "lastRevealAttempt",
-                "matchedContacts",
                 "numCompleteAttestations",
                 "secureSendPhoneNumberMapping",
                 "verificationStatus",

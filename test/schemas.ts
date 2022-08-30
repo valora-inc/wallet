@@ -1593,6 +1593,14 @@ export const v74Schema = {
     inviteMethod: InviteMethodType.Escrow,
   },
 }
+export const v75Schema = {
+  ...v74Schema,
+  _persist: {
+    ...v74Schema._persist,
+    version: 75,
+  },
+  identity: _.omit(v73Schema.identity, 'matchedContacts'),
+}
 export function getLatestSchema(): Partial<RootState> {
-  return v74Schema as Partial<RootState>
+  return v75Schema as Partial<RootState>
 }
