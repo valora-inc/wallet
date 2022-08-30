@@ -108,13 +108,8 @@ describe('Account', () => {
   })
 
   it('navigates to PincodeSet screen if entered PIN is correct', async () => {
-    const store = createMockStore({
-      app: {
-        showGuidedOnboardingCopy: true,
-      },
-    })
     const tree = render(
-      <Provider store={store}>
+      <Provider store={createMockStore({})}>
         <Settings {...getMockStackScreenProps(Screens.Settings)} />
       </Provider>
     )
@@ -123,7 +118,6 @@ describe('Account', () => {
     await flushMicrotasksQueue()
     expect(navigate).toHaveBeenCalledWith(Screens.PincodeSet, {
       changePin: true,
-      showGuidedOnboarding: true,
     })
   })
 
