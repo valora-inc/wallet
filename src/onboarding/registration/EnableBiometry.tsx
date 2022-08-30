@@ -57,7 +57,7 @@ export default function EnableBiometry({ navigation }: Props) {
   const choseToRestoreAccount = useSelector(choseToRestoreAccountSelector)
   const skipVerification = useSelector(skipVerificationSelector)
   const { step, totalSteps } = useSelector(registrationStepsSelector)
-  const guidedOnboardingEnabled = useSelector(showGuidedOnboardingSelector)
+  const showGuidedOnboarding = useSelector(showGuidedOnboardingSelector)
 
   useEffect(() => {
     ValoraAnalytics.track(OnboardingEvents.biometry_opt_in_start)
@@ -68,7 +68,7 @@ export default function EnableBiometry({ navigation }: Props) {
       headerTitle: () => (
         <HeaderTitleWithSubtitle
           title={
-            guidedOnboardingEnabled
+            showGuidedOnboarding
               ? t(`biometryType.${supportedBiometryType}`)
               : t('enableBiometry.title')
           }
@@ -122,9 +122,9 @@ export default function EnableBiometry({ navigation }: Props) {
 
   return (
     <ScrollView style={styles.contentContainer}>
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={showGuidedOnboarding ? styles.containerLeftAligned : styles.container}>
         <View style={styles.imageContainer}>{biometryImageMap[supportedBiometryType!]}</View>
-        {guidedOnboardingEnabled ? (
+        {showGuidedOnboarding ? (
           <>
             <Text style={styles.guideTitle}>
               {t('enableBiometry.guideTitle', {
@@ -165,6 +165,10 @@ const styles = StyleSheet.create({
     paddingTop: 186,
     paddingHorizontal: 40,
     alignItems: 'center',
+  },
+  containerLeftAligned: {
+    paddingTop: 186,
+    paddingHorizontal: 40,
   },
   contentContainer: {
     flex: 1,
