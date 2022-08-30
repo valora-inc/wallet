@@ -89,7 +89,12 @@ const mapDispatchToProps = {
 export class PincodeSet extends React.Component<Props, State> {
   static navigationOptions = ({ route }: ScreenProps) => {
     const changePin = route.params?.changePin
-    const title = changePin ? i18n.t('pincodeSet.changePIN') : i18n.t('pincodeSet.create')
+    const showGuidedOnboarding = route.params?.showGuidedOnboarding
+    const title = changePin
+      ? i18n.t('pincodeSet.changePIN')
+      : showGuidedOnboarding // this should be during onboarding
+      ? i18n.t('selectPIN')
+      : i18n.t('pincodeSet.create')
 
     return {
       ...nuxNavigationOptions,

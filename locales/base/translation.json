@@ -748,7 +748,8 @@
     "pinCodeGuide": "Keep your PIN safe, it’s how you’ll keep your wallet secure.",
     "changePIN": "Change PIN",
     "pinsDontMatch": "The PINs didn't match",
-    "invalidPin": "Please use a stronger PIN"
+    "invalidPin": "Please use a stronger PIN",
+    "selectPIN": "Select PIN"
   },
   "inviteCode": {
     "title": "Invite Code",

@@ -38,6 +38,7 @@ import {
 import {
   biometryEnabledSelector,
   sessionIdSelector,
+  showGuidedOnboardingSelector,
   supportedBiometryTypeSelector,
   verificationPossibleSelector,
   walletConnectEnabledSelector,
@@ -96,6 +97,7 @@ interface StateProps {
   biometryEnabled: boolean
   supportedBiometryType: BIOMETRY_TYPE | null
   shouldShowRecoveryPhraseInSettings: boolean
+  showGuidedOnboarding: boolean
 }
 
 type OwnProps = StackScreenProps<StackParamList, Screens.Settings>
@@ -121,6 +123,7 @@ const mapStateToProps = (state: RootState): StateProps => {
     biometryEnabled: biometryEnabledSelector(state),
     supportedBiometryType: supportedBiometryTypeSelector(state),
     shouldShowRecoveryPhraseInSettings: shouldShowRecoveryPhraseInSettingsSelector(state),
+    showGuidedOnboarding: showGuidedOnboardingSelector(state),
   }
 }
 
@@ -348,6 +351,7 @@ export class Account extends React.Component<Props, State> {
         ValoraAnalytics.track(SettingsEvents.change_pin_current_pin_entered)
         navigate(Screens.PincodeSet, {
           changePin: true,
+          showGuidedOnboarding: this.props.showGuidedOnboarding,
         })
       }
     } catch (error) {
