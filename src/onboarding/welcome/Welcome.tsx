@@ -28,7 +28,7 @@ export default function Welcome() {
 
   const createAccountCopyTestType = useSelector(createAccountCopyTestTypeSelector)
 
-  const guidedOnboardingEnabled = useSelector(showGuidedOnboardingSelector)
+  const showGuidedOnboarding = useSelector(showGuidedOnboardingSelector)
 
   const navigateNext = () => {
     if (!acceptedTerms) {
@@ -55,7 +55,7 @@ export default function Welcome() {
       <Image source={welcomeBackground} style={styles.backgroundImage} />
       <ScrollView contentContainerStyle={styles.contentContainer}>
         <Logo type={LogoTypes.COLOR} height={64} />
-        {guidedOnboardingEnabled ? (
+        {showGuidedOnboarding ? (
           <Text style={styles.title} testID={'WelcomeText'}>
             {t('welcome.titleGuided')}
           </Text>
