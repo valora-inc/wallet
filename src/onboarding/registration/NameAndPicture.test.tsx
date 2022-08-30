@@ -146,7 +146,6 @@ describe('NameAndPictureScreen', () => {
     expect(getByText('createProfile')).toBeTruthy()
   })
 
-  // header title test for showGuidedOnboarding
   it('render header title correctly when showGuidedOnboarding is true', () => {
     const store = createMockStore({
       app: {
@@ -166,7 +165,6 @@ describe('NameAndPictureScreen', () => {
     expect(getByText('name')).toBeTruthy()
   })
 
-  // test for showGuidedOnboarding, page guide copy (above the name entry line) should be shown
   it('render onboarding guide copy correctly when showGuidedOnboarding is true', () => {
     const store = createMockStore({
       app: {
