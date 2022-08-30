@@ -352,6 +352,7 @@
     "bodyWithoutProvider": "The service provider is processing your order. You should receive your funds within a couple of days."
   },
   "restrictedRegion": "Limited support in region",
+  "unsupportedLocation": "{{appName}} is not supported in your location",
   "unsupportedPaymentMethod": "Paying with a {{paymentMethod}} is not supported in your region",
   "noProviders": "There are no providers available for {{digitalAsset}} in your region.",
   "noPaymentMethods": "There are no payment methods available for {{digitalAsset}} in your region.",
@@ -1399,5 +1400,11 @@
     "swapFeeBody": "The {{appName}} fee is the fee that you pay to swap tokens on {{appName}}. \n\n The fee is {{swapFee}}% of the amount you are exchanging. \n\n {{appName}} fees are free for the next few months.",
     "estimatedAmountTitle": "Estimated Amount",
     "estimatedAmountBody": "Conversions take place on a third party decentralized exchange that finds you the best rate for your swap. \n\n Your trade will be completed at a price within {{slippagePercent}}% of the estimate or the transaction will be cancelled & funds returned to your wallet."
+  },
+  "inviteModal": {
+    "title": "Looks like {{contactName}} doesn’t have a {{appName}} wallet yet.",
+    "body": "You can still invite them to {{appName}}, or try to send a payment to their wallet address or nom.space.",
+    "sendInviteButtonLabel": "Send Invite",
+    "shareMessage": "Hey! I’d like to send you some crypto with my {{appName}} wallet. Once you download the app and connect your phone number, we can send crypto as easy as a text. Use this link: {{link}}"
   }
 }

@@ -61,6 +61,7 @@ export enum SettingsEvents {
   settings_biometry_opt_in_disable = 'settings_biometry_opt_in_disable',
   // intentionally not tracking analytics opt in/out
   // to avoid tracking through omission
+  settings_recovery_phrase = 'settings_recovery_phrase',
 }
 
 export enum OnboardingEvents {
@@ -259,6 +260,8 @@ export enum InviteEvents {
   invite_method_error = 'invite_method_error',
   invite_from_menu = 'invite_from_menu',
   invite_banner_impression = 'invite_banner_impression',
+  invite_with_share = 'invite_with_share',
+  invite_with_share_dismiss = 'invite_with_share_dismiss',
 }
 
 export enum EscrowEvents {

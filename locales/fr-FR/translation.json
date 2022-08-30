@@ -352,6 +352,7 @@
     "bodyWithoutProvider": "Le prestataire de services traite votre commande. Vous devriez recevoir vos fonds dans quelques jours."
   },
   "restrictedRegion": "Prise en charge limitée dans le pays",
+  "unsupportedLocation": "{{appName}} n'est pas pris en charge dans ton pays",
   "unsupportedPaymentMethod": "Le paiement avec {{paymentMethod}} n'est pas pris en charge dans votre pays",
   "noProviders": "Il n'y a pas de prestataires disponibles pour {{digitalAsset}} dans votre pays.",
   "noPaymentMethods": "Il n'y a pas de méthodes de paiement disponibles pour {{digitalAsset}} dans votre pays.",
@@ -1058,7 +1059,7 @@
     "1": "Nous vous envoyons un petit rappel pour vous informer que vous utilisez le réseau bêta {{testnet}}, les soldes affichés ne sont pas réels"
   },
   "dollarBalance": "<0></0> $t(celoDollars)",
-  "feedItemAddress": "Compte {{address}}",
+  "feedItemAddress": "{{address}}",
   "feedItemDepositInfo": "{{comment}}",
   "feedItemDepositInfo_noComment": "Dépôt reçu",
   "feedItemDepositTitle": "Dépôt",

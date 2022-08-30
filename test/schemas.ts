@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import { FinclusiveKycStatus, PincodeType } from 'src/account/reducer'
 import { AppState } from 'src/app/actions'
-import { SuperchargeButtonType } from 'src/app/types'
+import { InviteMethodType, SuperchargeButtonType } from 'src/app/types'
 import { CodeInputStatus } from 'src/components/CodeInput'
 import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
 import { DappConnectInfo } from 'src/dapps/types'
@@ -1559,7 +1559,6 @@ export const v71Schema = {
     swapFeePercentage: 0.743,
   },
 }
-
 export const v72Schema = {
   ...v71Schema,
   _persist: {
@@ -1572,6 +1571,28 @@ export const v72Schema = {
   },
 }
 
+export const v73Schema = {
+  ...v72Schema,
+  _persist: {
+    ...v72Schema._persist,
+    version: 73,
+  },
+  app: {
+    ...v72Schema.app,
+    shouldShowRecoveryPhraseInSettings: false,
+  },
+}
+export const v74Schema = {
+  ...v73Schema,
+  _persist: {
+    ...v73Schema._persist,
+    version: 74,
+  },
+  app: {
+    ...v73Schema.app,
+    inviteMethod: InviteMethodType.Escrow,
+  },
+}
 export function getLatestSchema(): Partial<RootState> {
-  return v72Schema as Partial<RootState>
+  return v74Schema as Partial<RootState>
 }
