@@ -73,18 +73,16 @@ export default function OnboardingEducationScreen() {
   const stepInfo = useStep()
 
   useEffect(() => {
-    ValoraAnalytics.track(OnboardingEvents.onboarding_education_start)
     // This is a sanity check that can be used to verify that the randomization is working
-    ValoraAnalytics.track(OnboardingEvents.onboarding_education_start_experiment, {
+    ValoraAnalytics.track(OnboardingEvents.onboarding_education_start, {
       variant: stepInfo.variant,
       order: stepInfo.order,
     })
   }, [])
 
   const onFinish = () => {
-    ValoraAnalytics.track(OnboardingEvents.onboarding_education_complete)
     // This will track which variant and order is the most successful
-    ValoraAnalytics.track(OnboardingEvents.onboarding_education_complete_experiment, {
+    ValoraAnalytics.track(OnboardingEvents.onboarding_education_complete, {
       variant: stepInfo.variant,
       order: stepInfo.order,
     })

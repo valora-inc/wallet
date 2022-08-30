@@ -134,7 +134,7 @@ export default class Education extends React.Component<Props, State> {
           currentStep: step,
           direction: ScrollDirection.next,
         })
-        ValoraAnalytics.track(OnboardingEvents.onboarding_education_screen_impression, {
+        ValoraAnalytics.track(OnboardingEvents.onboarding_education_step_impression, {
           valueProposition,
           variant,
         })

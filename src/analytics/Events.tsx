@@ -66,11 +66,9 @@ export enum SettingsEvents {
 
 export enum OnboardingEvents {
   onboarding_education_start = 'onboarding_education_start',
-  onboarding_education_start_experiment = 'onboarding_education_start_experiment',
   onboarding_education_scroll = 'onboarding_education_scroll',
-  onboarding_education_screen_impression = 'onboarding_education_screen_impression',
+  onboarding_education_step_impression = 'onboarding_education_step_impression',
   onboarding_education_complete = 'onboarding_education_complete',
-  onboarding_education_complete_experiment = 'onboarding_education_complete_experiment',
   onboarding_education_cancel = 'onboarding_education_cancel',
 
   create_account_start = 'create_account_start',

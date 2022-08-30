@@ -176,8 +176,7 @@ interface SettingsEventsProperties {
 }
 
 interface OnboardingEventsProperties {
-  [OnboardingEvents.onboarding_education_start]: undefined
-  [OnboardingEvents.onboarding_education_start_experiment]: {
+  [OnboardingEvents.onboarding_education_start]: {
     variant: string
     order: string
   }
@@ -185,12 +184,11 @@ interface OnboardingEventsProperties {
     currentStep: number
     direction: ScrollDirection
   }
-  [OnboardingEvents.onboarding_education_complete]: undefined
-  [OnboardingEvents.onboarding_education_screen_impression]: {
+  [OnboardingEvents.onboarding_education_step_impression]: {
     valueProposition: string | undefined
     variant: string | undefined
   }
-  [OnboardingEvents.onboarding_education_complete_experiment]: {
+  [OnboardingEvents.onboarding_education_complete]: {
     variant: string
     order: string
   }
