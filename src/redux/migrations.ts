@@ -801,4 +801,8 @@ export const migrations = {
     },
   }),
   73: (state: any) => state,
+  74: (state: any) => ({
+    ...state,
+    identity: _.omit(state.identity, 'matchedContacts'),
+  }),
 }
