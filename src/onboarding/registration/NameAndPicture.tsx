@@ -146,7 +146,9 @@ function NameAndPicture({ navigation }: Props) {
           onChangeText={setNameInput}
           value={nameInput}
           enablesReturnKeyAutomatically={true}
-          placeholder={t('fullNamePlaceholder')}
+          placeholder={
+            showGuidedOnboarding ? t('fullNameOrPseudonymPlaceholder') : t('fullNamePlaceholder')
+          }
           testID={'NameEntry'}
           multiline={false}
         />

@@ -619,6 +619,7 @@
   },
   "fullName": "Name",
   "fullNamePlaceholder": "First & Last name",
+  "fullNameOrPseudonymPlaceholder": "First and last name or pseudonym",
   "nameAndPicGuideCopyTitle": "What’s your name?",
   "nameAndPicGuideCopyContent": "We’d like to know what to call you",
   "importIt": "Restore Wallet",
