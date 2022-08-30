@@ -19,7 +19,6 @@ export const secureSendPhoneNumberMappingSelector = (state: RootState) =>
   state.identity.secureSendPhoneNumberMapping
 export const importContactsProgressSelector = (state: RootState) =>
   state.identity.importContactsProgress
-export const matchedContactsSelector = (state: RootState) => state.identity.matchedContacts
 export const addressToDisplayNameSelector = (state: RootState) =>
   state.identity.addressToDisplayName
 

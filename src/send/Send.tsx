@@ -52,14 +52,11 @@ function Send({ route }: Props) {
   const inviteRewardsEnabled = useSelector(inviteRewardsActiveSelector)
 
   const allRecipients = useSelector(phoneRecipientCacheSelector)
-  const matchedContacts = useSelector((state) => state.identity.matchedContacts)
   const recentRecipients = useSelector((state) => state.send.recentRecipients)
 
   const [searchQuery, setSearchQuery] = useState('')
   const [hasGivenContactPermission, setHasGivenContactPermission] = useState(true)
-  const [allFiltered, setAllFiltered] = useState(() =>
-    sortRecipients(Object.values(allRecipients), matchedContacts)
-  )
+  const [allFiltered, setAllFiltered] = useState(() => sortRecipients(Object.values(allRecipients)))
   const [recentFiltered, setRecentFiltered] = useState(() => recentRecipients)
 
   const verificationPossible = useSelector(verificationPossibleSelector)
@@ -71,7 +68,7 @@ function Send({ route }: Props) {
   ])
 
   const allRecipientsFilter = useMemo(
-    () => filterRecipientFactory(Object.values(allRecipients), true, matchedContacts),
+    () => filterRecipientFactory(Object.values(allRecipients), true),
     [allRecipients]
   )
 
