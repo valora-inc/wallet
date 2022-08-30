@@ -805,4 +805,9 @@ export const migrations = {
     ...state,
     identity: _.omit(state.identity, 'matchedContacts'),
   }),
+  75: (state: any) => ({
+    ...state,
+    app: _.omit(state.app, 'showRaiseDailyLimitTarget'),
+    account: _.omit(state.account, 'dailyLimitRequestStatus'),
+  }),
 }

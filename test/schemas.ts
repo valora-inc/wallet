@@ -1593,6 +1593,16 @@ export const v74Schema = {
   identity: _.omit(v73Schema.identity, 'matchedContacts'),
 }
 
+export const v75Schema = {
+  ...v74Schema,
+  _persist: {
+    ...v74Schema._persist,
+    version: 75,
+  },
+  app: _.omit(v74Schema.app, 'showRaiseDailyLimitTarget'),
+  account: _.omit(v74Schema.account, 'dailyLimitRequestStatus'),
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v74Schema as Partial<RootState>
+  return v75Schema as Partial<RootState>
 }
