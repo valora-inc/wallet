@@ -4252,7 +4252,6 @@
                                         "qrFailedInvalidAddress",
                                         "qrFailedInvalidRecipient",
                                         "qrFailedNoPhoneNumber",
-                                        "raiseLimitEmailNotSent",
                                         "reclaimingEscrowedPaymentFailed",
                                         "redeemFailed",
                                         "redeemInviteTimeout",
