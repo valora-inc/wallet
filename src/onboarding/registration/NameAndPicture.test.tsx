@@ -146,7 +146,6 @@ describe('NameAndPictureScreen', () => {
     expect(getByText('createProfile')).toBeTruthy()
   })
 
-  // header title test for showGuidedOnboarding
   it('render header title correctly when showGuidedOnboarding is true', () => {
     const store = createMockStore({
       app: {
