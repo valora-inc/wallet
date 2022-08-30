@@ -14,7 +14,7 @@ import {
   shouldUseKomenciSelector,
   verificationStatusSelector,
 } from 'src/verify/reducer'
-import { accountAddressSelector, currentAccountSelector } from 'src/web3/selectors'
+import { accountAddressSelector } from 'src/web3/selectors'
 
 export const getRequirePinOnAppOpen = (state: RootState) => {
   return state.app.requirePinOnAppOpen
@@ -67,19 +67,6 @@ export const hideVerificationSelector = (state: RootState) => state.app.hideVeri
 
 export const ranVerificationMigrationSelector = (state: RootState) =>
   state.app.ranVerificationMigrationAt
-
-// showRaiseDailyLimitTarget is an account string that represents the cutoff of which accounts
-// should return true. By doing a string comparison, if the user's account is lower than the
-// target we'll return true and false otherwise.
-export const showRaiseDailyLimitSelector = createSelector(
-  [currentAccountSelector, (state) => state.app.showRaiseDailyLimitTarget],
-  (account, showRaiseDailyLimitTarget) => {
-    if (!showRaiseDailyLimitTarget || !account) {
-      return false
-    }
-    return account < showRaiseDailyLimitTarget
-  }
-)
 
 export const superchargeTokenConfigByTokenSelector = (state: RootState) =>
   state.app.superchargeTokenConfigByToken

@@ -260,7 +260,6 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     // and the default map cannot have a value of undefined or null
     // that is why we still need to check for it before calling a method
     // in the future it would be great to avoid using these as default values
-    showRaiseDailyLimitTarget: flags.showRaiseDailyLimitTargetV2?.asString(),
     celoEducationUri: flags.celoEducationUri?.asString() ?? null,
     celoEuroEnabled: flags.celoEuroEnabled.asBoolean(),
     dappListApiUrl: flags.dappListApiUrl?.asString() ?? null,

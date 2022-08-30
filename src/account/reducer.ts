@@ -29,7 +29,6 @@ export interface State {
   recoveringFromStoreWipe: boolean | undefined
   accountToRecoverFromStoreWipe: string | undefined
   dailyLimitCusd: number
-  dailyLimitRequestStatus: DailyLimitRequestStatus | undefined
   dismissedKeepSupercharging: boolean
   dismissedStartSupercharging: boolean
 }
@@ -43,13 +42,6 @@ export enum PincodeType {
 export interface UserContactDetails {
   contactId: string | null
   thumbnailPath: string | null
-}
-
-export enum DailyLimitRequestStatus {
-  InReview = 'InReview',
-  Approved = 'Approved',
-  Incomplete = 'Incomplete',
-  Denied = 'Denied',
 }
 
 export enum KycStatus {
@@ -98,7 +90,6 @@ export const initialState: State = {
   recoveringFromStoreWipe: false,
   accountToRecoverFromStoreWipe: undefined,
   dailyLimitCusd: DEFAULT_DAILY_PAYMENT_LIMIT_CUSD,
-  dailyLimitRequestStatus: undefined,
   dismissedKeepSupercharging: false,
   dismissedStartSupercharging: false,
 }
@@ -243,11 +234,6 @@ export const reducer = (
         ...state,
         // We don't allow minimum daily limits lower than the default to avoid human error when setting them.
         dailyLimitCusd: Math.max(action.newLimit, DEFAULT_DAILY_PAYMENT_LIMIT_CUSD),
-      }
-    case Actions.UPDATE_DAILY_LIMIT_REQUEST_STATUS:
-      return {
-        ...state,
-        dailyLimitRequestStatus: action.dailyLimitRequestStatus,
       }
     case Web3Actions.SET_ACCOUNT: {
       return {

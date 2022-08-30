@@ -42,8 +42,6 @@ export const currentUserRecipientSelector = createSelector(
     }
   }
 )
-export const dailyLimitRequestStatusSelector = (state: RootState) =>
-  state.account.dailyLimitRequestStatus
 export const recoveringFromStoreWipeSelector = (state: RootState) =>
   state.account.recoveringFromStoreWipe ?? false
 export const accountToRecoverSelector = (state: RootState) =>

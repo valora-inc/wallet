@@ -82,7 +82,6 @@ export enum ErrorMessages {
   SIMPLEX_PURCHASE_FETCH_FAILED = 'simplexPurchaseFetchFailed',
   PROVIDER_FETCH_FAILED = 'providerFetchFailed',
   CASH_OUT_LIMIT_EXCEEDED = 'cashOutLimitExceeded',
-  RAISE_LIMIT_EMAIL_NOT_SENT = 'raiseLimitEmailNotSent',
   PERSONA_ACCOUNT_ENDPOINT_FAIL = 'personaAccountEndpointFail',
   PLAID_CREATE_LINK_TOKEN_FAIL = 'plaidCreateLinkTokenFail',
   GET_BANK_ACCOUNTS_FAIL = 'getBankAccountsFail',

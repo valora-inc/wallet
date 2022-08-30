@@ -6,7 +6,6 @@ import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 
 export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   RemoteConfigValues,
-  | 'showRaiseDailyLimitTarget'
   | 'celoEducationUri'
   | 'komenciAllowedDeployers'
   | 'dappListApiUrl'
@@ -23,12 +22,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   superchargecREALMax: number
 } = {
   hideVerification: false,
-  // cannot set defaults to undefined or null
-  // TODO: maybe a better default is '0xf' ?
-  // showRaiseDailyLimitTarget: undefined,
-  // same here
-  // celoEducationUri: null,
-  // dappListApiUrl: null,
   celoEuroEnabled: true,
   inviteRewardsEnabled: false,
   inviteRewardCusd: 5,

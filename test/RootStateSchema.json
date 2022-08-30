@@ -1787,7 +1787,6 @@
                 "QRCode",
                 "QRNavigator",
                 "QRScanner",
-                "RaiseLimitScreen",
                 "RampScreen",
                 "ReclaimPaymentConfirmationScreen",
                 "RegulatoryTerms",
@@ -2022,9 +2021,6 @@
                 },
                 "showPriceChangeIndicatorInBalances": {
                     "type": "boolean"
-                },
-                "showRaiseDailyLimitTarget": {
-                    "type": "string"
                 },
                 "showSwapMenuInDrawerMenu": {
                     "type": "boolean"
@@ -2433,15 +2429,6 @@
                 },
                 "dailyLimitCusd": {
                     "type": "number"
-                },
-                "dailyLimitRequestStatus": {
-                    "enum": [
-                        "Approved",
-                        "Denied",
-                        "InReview",
-                        "Incomplete"
-                    ],
-                    "type": "string"
                 },
                 "defaultCountryCode": {
                     "type": [
