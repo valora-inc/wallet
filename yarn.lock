@@ -16078,9 +16078,9 @@ react-native-animatable@1.3.3:
     react-native-securerandom "1.0.0"
     unorm "^1.3.3"
 
-"react-native-blind-threshold-bls@https://github.com/celo-org/react-native-blind-threshold-bls#d8c85bd":
+"react-native-blind-threshold-bls@https://github.com/valora-inc/react-native-blind-threshold-bls#a8d19f3":
   version "1.0.0"
-  resolved "https://github.com/celo-org/react-native-blind-threshold-bls#d8c85bd087bd50630fcad536cbe397b06ba84c08"
+  resolved "https://github.com/valora-inc/react-native-blind-threshold-bls#a8d19f3dbd18afdc6379b3b77a1b25fcff610e57"
 
 react-native-camera@^4.2.1:
   version "4.2.1"
@@ -16385,6 +16385,12 @@ react-native-securerandom@1.0.0, react-native-securerandom@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/react-native-securerandom/-/react-native-securerandom-1.0.0.tgz#1cff2f727c90c9ec3318b42dbf825a628b53b49b"
   integrity sha512-lnhcsWloFzMN/HffyDBlh4VlqdhDH8uxEzUIH3aJPgC1PxV6OKZkvAk409EwsAhcmG/z3yZuVKegKpUr5IM9ug==
+  dependencies:
+    base64-js "*"
+
+"react-native-securerandom@git+https://github.com/robhogan/react-native-securerandom#7c01efd":
+  version "1.0.0"
+  resolved "git+https://github.com/robhogan/react-native-securerandom#7c01efd9a5f65e29b769c2efb90cd4ffc6cf3895"
   dependencies:
     base64-js "*"
 
