@@ -167,7 +167,6 @@ describe('WalletHome', () => {
           "type": "HOME/REFRESH_BALANCES",
         },
         Object {
-          "doMatchmaking": false,
           "type": "IDENTITY/IMPORT_CONTACTS",
         },
       ]
