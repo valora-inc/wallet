@@ -15,20 +15,10 @@ import LanguageButton from 'src/onboarding/LanguageButton'
 import colors from 'src/styles/colors'
 import progressDots from 'src/styles/progressDots'
 import { Spacing } from 'src/styles/styles'
+import { shuffleArray } from 'src/utils/array'
 
 function useStep() {
   const { t } = useTranslation()
-
-  // Randomize array in-place - Durstenfeld's shuffle algorithm
-  const shuffleArray = (arr: Array<any>) => {
-    for (let i = arr.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1))
-      const temp = arr[i]
-      arr[i] = arr[j]
-      arr[j] = temp
-    }
-    return arr
-  }
 
   return React.useMemo(() => {
     // ScreenSet 0 is the old onboarding screens
