@@ -792,4 +792,13 @@ export const migrations = {
       swapFeePercentage: REMOTE_CONFIG_VALUES_DEFAULTS.swapFeePercentage,
     },
   }),
+  72: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      shouldShowRecoveryPhraseInSettings:
+        REMOTE_CONFIG_VALUES_DEFAULTS.shouldShowRecoveryPhraseInSettings,
+    },
+  }),
+  73: (state: any) => state,
 }

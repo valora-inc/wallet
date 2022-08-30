@@ -175,4 +175,56 @@ describe('Account', () => {
       SettingsEvents.settings_biometry_opt_in_disable
     )
   })
+
+  it('renders correctly when shouldShowRecoveryPhraseInSettings is false', () => {
+    const store = createMockStore({ app: { shouldShowRecoveryPhraseInSettings: false } })
+
+    const tree = render(
+      <Provider store={store}>
+        <Settings {...getMockStackScreenProps(Screens.Settings)} />
+      </Provider>
+    )
+    expect(tree.queryByTestId('RecoveryPhrase')).toBeFalsy()
+  })
+
+  it('renders correctly when shouldShowRecoveryPhraseInSettings is true', () => {
+    const store = createMockStore({ app: { shouldShowRecoveryPhraseInSettings: true } })
+
+    const tree = render(
+      <Provider store={store}>
+        <Settings {...getMockStackScreenProps(Screens.Settings)} />
+      </Provider>
+    )
+    expect(tree.queryByTestId('RecoveryPhrase')).toBeTruthy()
+  })
+
+  it('navigates to recovery phrase if entered PIN is correct', async () => {
+    const store = createMockStore({ app: { shouldShowRecoveryPhraseInSettings: true } })
+
+    const tree = render(
+      <Provider store={store}>
+        <Settings {...getMockStackScreenProps(Screens.Settings)} />
+      </Provider>
+    )
+    mockedEnsurePincode.mockImplementation(() => Promise.resolve(true))
+    fireEvent.press(tree.getByTestId('RecoveryPhrase'))
+    await flushMicrotasksQueue()
+
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(SettingsEvents.settings_recovery_phrase)
+    expect(navigate).toHaveBeenCalledWith(Screens.BackupIntroduction)
+  })
+
+  it('does not navigate to recovery phrase if entered PIN is incorrect', async () => {
+    const store = createMockStore({ app: { shouldShowRecoveryPhraseInSettings: true } })
+
+    const tree = render(
+      <Provider store={store}>
+        <Settings {...getMockStackScreenProps(Screens.Settings)} />
+      </Provider>
+    )
+    mockedEnsurePincode.mockImplementation(() => Promise.resolve(false))
+    fireEvent.press(tree.getByTestId('RecoveryPhrase'))
+    await flushMicrotasksQueue()
+    expect(navigate).not.toHaveBeenCalled()
+  })
 })

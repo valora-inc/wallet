@@ -598,6 +598,7 @@ exports[`ExchangeReview renders correctly 1`] = `
           Object {
             "alignItems": "center",
             "backgroundColor": "#EEB93C",
+            "flexDirection": "row",
             "flexGrow": 1,
             "height": 48,
             "justifyContent": "center",
@@ -616,6 +617,8 @@ exports[`ExchangeReview renders correctly 1`] = `
               "fontFamily": "Inter-SemiBold",
               "fontSize": 16,
               "lineHeight": 22,
+              "marginLeft": 0,
+              "marginRight": 0,
             }
           }
         >

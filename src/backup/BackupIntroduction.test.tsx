@@ -8,16 +8,19 @@ import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
 describe('BackupIntroduction', () => {
   it('renders correctly when backup not complete', () => {
-    const tree = render(
+    const { getByText, getByTestId } = render(
       <Provider store={createMockStore({})}>
         <BackupIntroduction {...getMockStackScreenProps(Screens.BackupIntroduction)} />
       </Provider>
     )
-    expect(tree).toMatchSnapshot()
+
+    expect(getByText('introTitle')).toBeTruthy()
+    expect(getByText('introBody')).toBeTruthy()
+    expect(getByTestId('SetUpAccountKey')).toBeTruthy()
   })
 
   it('renders correctly when backup completed', () => {
-    const tree = render(
+    const { getByText, getByTestId } = render(
       <Provider
         store={createMockStore({
           account: { backupCompleted: true },
@@ -26,6 +29,25 @@ describe('BackupIntroduction', () => {
         <BackupIntroduction {...getMockStackScreenProps(Screens.BackupIntroduction)} />
       </Provider>
     )
-    expect(tree).toMatchSnapshot()
+
+    expect(getByTestId('RecoveryPhraseContainer')).toBeTruthy()
+    expect(getByText('postSetupBody')).toBeTruthy()
+    expect(getByText('postSetupCTA')).toBeTruthy()
+  })
+
+  it('renders the drawer top bar', () => {
+    const { getByTestId } = render(
+      <Provider
+        store={createMockStore({
+          account: { backupCompleted: true },
+        })}
+      >
+        <BackupIntroduction
+          {...getMockStackScreenProps(Screens.BackupIntroduction, { showDrawerTopBar: true })}
+        />
+      </Provider>
+    )
+
+    expect(getByTestId('BackupIntroduction/DrawerTopBar')).toBeTruthy()
   })
 })

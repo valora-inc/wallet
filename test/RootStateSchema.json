@@ -1091,6 +1091,14 @@
             ],
             "type": "number"
         },
+        "InviteMethodType": {
+            "enum": [
+                "ESCROW",
+                "MANUAL_SHARE",
+                "REFERRAL_URL"
+            ],
+            "type": "string"
+        },
         "InviteTransactions": {
             "additionalProperties": {
                 "additionalProperties": false,
@@ -1943,6 +1951,9 @@
                 "huaweiMobileServicesAvailable": {
                     "type": "boolean"
                 },
+                "inviteMethod": {
+                    "$ref": "#/definitions/InviteMethodType"
+                },
                 "inviteModalVisible": {
                     "type": "boolean"
                 },
@@ -2005,6 +2016,9 @@
                 },
                 "sessionId": {
                     "type": "string"
+                },
+                "shouldShowRecoveryPhraseInSettings": {
+                    "type": "boolean"
                 },
                 "showPriceChangeIndicatorInBalances": {
                     "type": "boolean"
@@ -2074,6 +2088,7 @@
                 "fiatConnectCashInEnabled",
                 "fiatConnectCashOutEnabled",
                 "hideVerification",
+                "inviteMethod",
                 "inviteModalVisible",
                 "lastTimeBackgrounded",
                 "locked",
@@ -2089,6 +2104,7 @@
                 "sentryNetworkErrors",
                 "sentryTracesSampleRate",
                 "sessionId",
+                "shouldShowRecoveryPhraseInSettings",
                 "showPriceChangeIndicatorInBalances",
                 "showSwapMenuInDrawerMenu",
                 "skipProfilePicture",

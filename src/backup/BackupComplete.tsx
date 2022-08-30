@@ -7,7 +7,7 @@ import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { backupCompletedSelector } from 'src/backup/selectors'
 import Checkmark from 'src/icons/Checkmark'
-import { navigate } from 'src/navigator/NavigationService'
+import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import useSelector from 'src/redux/useSelector'
@@ -32,7 +32,7 @@ function BackupComplete({ route }: Props) {
         navigate(Screens.Settings, { promptConfirmRemovalModal: true })
       } else if (backupCompleted) {
         ValoraAnalytics.track(OnboardingEvents.backup_complete)
-        navigate(Screens.BackupIntroduction)
+        navigateHome()
       } else {
         throw new Error('Backup complete screen should not be reachable without completing backup')
       }

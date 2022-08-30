@@ -93,7 +93,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 71,
+          "version": 73,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -141,6 +141,7 @@ describe('store state', () => {
           "googleMobileServicesAvailable": undefined,
           "hideVerification": false,
           "huaweiMobileServicesAvailable": undefined,
+          "inviteMethod": "ESCROW",
           "inviteModalVisible": false,
           "lastTimeBackgrounded": 0,
           "locked": false,
@@ -166,6 +167,7 @@ describe('store state', () => {
           ],
           "sentryTracesSampleRate": 0.2,
           "sessionId": "",
+          "shouldShowRecoveryPhraseInSettings": false,
           "showPriceChangeIndicatorInBalances": false,
           "showRaiseDailyLimitTarget": undefined,
           "showSwapMenuInDrawerMenu": false,

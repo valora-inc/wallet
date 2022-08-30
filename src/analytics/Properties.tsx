@@ -172,6 +172,7 @@ interface SettingsEventsProperties {
   [SettingsEvents.settings_biometry_opt_in_complete]: undefined
   [SettingsEvents.settings_biometry_opt_in_error]: undefined
   [SettingsEvents.settings_biometry_opt_in_disable]: undefined
+  [SettingsEvents.settings_recovery_phrase]: undefined
 }
 
 interface OnboardingEventsProperties {
@@ -336,6 +337,7 @@ interface VerificationEventsProperties {
   [VerificationEvents.verification_complete]:
     | {
         feeless?: boolean
+        phoneNumberHash: string
       }
     | undefined
   [VerificationEvents.verification_error]: {
@@ -589,6 +591,10 @@ interface InviteEventsProperties {
   }
   [InviteEvents.invite_from_menu]: undefined
   [InviteEvents.invite_banner_impression]: undefined
+  [InviteEvents.invite_with_share]: {
+    phoneNumberHash: string | null
+  }
+  [InviteEvents.invite_with_share_dismiss]: undefined
 }
 
 interface EscrowEventsProperties {
