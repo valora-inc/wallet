@@ -42,8 +42,9 @@ consider the following as examples of substantial changes:
 If you're considering making what might be a substantial change, we
 strongly encourage you to reach out to the Valora engineering team
 first. We might have suggestions that guide the implementation and
-make it easier to integrate into Valora. `#valora-dev` on Valora's
-[Discord server](./README.md#community) is a great way to contact us.
+make it easier to implement a high-quality change to Valora with the
+least amount of work. `#valora-dev` on Valora's [Discord
+server](./README.md#community) is a great way to contact us.
 
 ### Please make sure your PR
 
