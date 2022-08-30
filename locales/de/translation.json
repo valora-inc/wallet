@@ -352,6 +352,7 @@
     "bodyWithoutProvider": "Der Dienstleister bearbeitet deine Bestellung. Du solltest dein Guthaben innerhalb weniger Tage erhalten."
   },
   "restrictedRegion": "Begrenzte Unterstützung in der Region",
+  "unsupportedLocation": "{{appName}} an deinem Standort nicht unterstützt wird",
   "unsupportedPaymentMethod": "Die Bezahlung mit {{paymentMethod}} wird in deinem Land nicht unterstützt",
   "noProviders": "In deiner Region gibt es keine Anbieter für {{digitalAsset}}.",
   "noPaymentMethods": "In deiner Region gibt es keine Zahlungsmethoden für {{digitalAsset}}.",
@@ -595,13 +596,13 @@
   "sendAndInvite": "Senden & Einladen",
   "inviteAndSendDialog": {
     "title": "Beende die Einladung von {{name}} zu Valora",
-    "bodyWithRewards": "Sobald sie beitreten und eine Telefonnummer verbinden, erhaltet ihr beide {{amount}} {{currency}}. Klicke unten, um eine Einladung zu senden und zu personalisieren.",
+    "bodyWithRewards": "Sobald sie beitreten und ihre Telefonnummer verbinden, erhaltet ihr beide ein NFT. Klicke unten, um eine Einladung zu senden.",
     "body": "Teile eine Einladungsnachricht mit {{name}}, um {{appName}} beizutreten. Sobald sie beigetreten sind und eine Telefonnummer verbunden haben, erhalten sie ihre Zahlung.",
     "button": "Einladung beenden"
   },
   "inviteRewardsBanner": {
     "title": "Krypto senden, um einen Freund einzuladen",
-    "body": "Ihr erhaltet ein NFT, sobald dein Freund sein {{appName}}-Konto eingerichtet hat. <0>Mehr erfahren</0>"
+    "body": "Ihr erhaltet ein exklusives NFT, sobald dein Freund seine {{appName}}-Wallet eingerichtet hat und seine Nummer damit verknüpft hat. <0>Du kannst dir bis zu drei NFTs verdienen</0>"
   },
   "getReward": "Erhalte ${{reward}}",
   "welcomeCelo": "Willkommen bei {{appName}}",
@@ -863,6 +864,7 @@
   "amountCeloWithdrawn": "Betrag (CELO)",
   "feeEducation": "Die Celo-Blockchain erhebt eine Transaktionsgebühr, um das Netzwerk zu unterstützen und reibungslos arbeiten zu lassen.",
   "inviteMoneyEscrow": "Sende diesen Kontakten eine Einladungsnachricht, damit sie Guthaben erhalten, sobald sie ihre Telefonnummern verbunden haben.",
+  "inviteMoneyEscrowWithRewards": "Sende diesem Kontakt eine Einladungsnachricht, damit sie Guthaben und ein NFT erhalten, sobald sie ihre Telefonnummern verbunden haben.",
   "reviewPayment": "Zahlung überprüfen",
   "requestPayment": "Zahlung anfordern",
   "max": "MAX",
@@ -882,7 +884,7 @@
   "walletAddress": "Wallet-Adresse",
   "inviteWithoutPayment": "Hallo! Ich habe {{appName}} benutzt, um Krypto weltweit zu überweisen. Es ist einfach zu versuchen und ich möchte dich einladen, es mit diesem Link zu sehen: {{link}}",
   "inviteWithEscrowedPayment": "Hallo! Ich habe {{appName}} benutzt, um Krypto weltweit zu überweisen. Ich habe dir gerade {{amount}} {{token}} geschickt. Bitte lade die {{appName}} App herunter und löse dein {{token}} mit diesem Link ein: {{link}}",
-  "inviteWithRewards": "Hey! Ich habe dir gerade Kryptos mit meiner {{appName}}-Wallet überwiesen. Sobald du die App heruntergeladen und deine Telefonnummer verbunden hast, erhalten wir beide {{amount}} {{token}} als Reward. Verwende diesen Link: {{link}}",
+  "inviteWithRewards": "Hey! Ich habe dir gerade Kryptos mit meiner {{appName}}-Wallet überwiesen. Sobald du die App heruntergeladen und deine Telefonnummer verbunden hast, erhalten wir beide ein NFT. Verwende diesen Link: {{link}}",
   "loadingContacts": "Deine Kontakte finden",
   "myCode": "Mein Code",
   "scanCode": "Scannen",
@@ -1057,7 +1059,7 @@
     "1": "Eine freundliche Erinnerung, dass du das {{testnet}} -Netzwerk-Build verwendest - der Guthaben ist nicht real"
   },
   "dollarBalance": "<0></0> $t(celoDollars)",
-  "feedItemAddress": "Konto {{address}}",
+  "feedItemAddress": "{{address}}",
   "feedItemDepositInfo": "{{comment}}",
   "feedItemDepositInfo_noComment": "Anzahlung erhalten",
   "feedItemDepositTitle": "Einzahlung",
@@ -1263,9 +1265,9 @@
   },
   "fiatConnectLinkAccountScreen": {
     "bankAccount": {
-      "header": "Bankkonto einrichten",
-      "bodyTitle": "Bankkonto einrichten",
-      "description": "Gib die Details deines Bankkontos ein, um Geld zu überweisen. Deine Transaktionen werden durchgeführt von <0>{{providerName}}</0>."
+      "header": "Ein Bankkonto einrichten",
+      "bodyTitle": "Ein Bankkonto einrichten",
+      "description": "Gib deine Kontoinformationen ein, um Guthaben zu überweisen. Deine Transaktionen werden von <0>{{providerName}}</0> unterstützt."
     },
     "continue": "Weiter"
   },
@@ -1311,8 +1313,8 @@
     },
     "requestNotCompleted": {
       "title": "Deine Anfrage konnte nicht abgeschlossen werden.",
-      "description": "Dein Geld konnte nicht überwiesen werden. Bitte versuche es noch einmal oder wende dich an unser Support-Team, um Hilfe zu erhalten.",
-      "contactSupportPrefill": "Ich habe Probleme, mein Geld abzuheben."
+      "description": "Dein Guthaben konnte nicht von überwiesen werden. Bitte versuche es noch einmal oder wende dich an unser Support-Team, um Hilfe zu erhalten.",
+      "contactSupportPrefill": "Ich habe Probleme, mein Guthaben abzuheben."
     }
   },
   "fiatExchangeFlow": {
@@ -1340,9 +1342,9 @@
     "header": "Bankdaten eingeben",
     "headerSubTitle": "Unterstützt von {{provider}}",
     "selectedPaymentOption": "Gewählte Zahlungsoption",
-    "addFiatAccountSuccess": "Dein Konto wurde mit {{provider}}verbunden.",
-    "addFiatAccountResourceExist": "Du hast dieses Konto bereits mit {{provider}}verbunden.",
-    "addFiatAccountFailed": "Dein Konto wurde nicht mit {{provider}}verbunden. Bitte versuche es erneut oder kontaktiere den Support.",
+    "addFiatAccountSuccess": "Dein Konto wurde mit {{provider}} verknüpft.",
+    "addFiatAccountResourceExist": "Du hast dieses Konto bereits mit {{provider}} verknüpft.",
+    "addFiatAccountFailed": "Dein Konto wurde nicht mit {{provider}} verknüpft. Bitte versuche es erneut oder kontaktiere den Support.",
     "selectItem": "Option auswählen...",
     "selectDone": "Fertig",
     "submitAndContinue": "Senden und fortfahren"
@@ -1372,10 +1374,23 @@
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Tausch von",
-    "swapTo": "Wechseln zu",
-    "rate": "Bewerten Sie",
+    "swapTo": "Tausch zu",
+    "rate": "Kurs",
     "estimatedFee": "Geschätzte Gebühr",
     "viewOnExplorer": "Auf CeloExplorer anzeigen"
+  },
+  "swapReviewScreen": {
+    "title": "Tauschen überprüfen",
+    "complete": "Tauschen abschließen",
+    "swapFrom": "Tausch von",
+    "swapTo": "Tausch zu",
+    "transactionDetails": "Transaktiondetails",
+    "estimatedGas": "Geschätzte Gas-Gebühren",
+    "swapFee": "{{appName}}-Gebühr",
+    "swapFeeTitle": "Was ist die {{appName}}-Gebühr?",
+    "swapFeeBody": "Die Gebühr für {{appName}} ist die Gebühr, die du bezahlen musst, um Tokens auf {{appName}} zu tauschen. \n\n Die Gebühr beträgt {{swapFee}} % des Umtauschbetrags. \n\n Die Gebühren für {{appName}} entfallen für die nächsten Monate.",
+    "estimatedAmountTitle": "Geschätzte Betrag",
+    "estimatedAmountBody": "Umrechnungen finden an einer dezentralen Börse von Drittanbietern statt, die den besten Kurs für deinen gewünschten Umtausch bieten. \n\n Dein Trade wird zu einem Preis innerhalb von {{slippagePercent}} % des Preises abgeschlossen oder die Transaktion wird storniert und das Guthaben an deine Wallet zurückerstattet."
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

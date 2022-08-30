@@ -179,6 +179,7 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
                 Object {
                   "alignItems": "center",
                   "backgroundColor": "#97DFC1",
+                  "flexDirection": "row",
                   "height": 48,
                   "justifyContent": "center",
                   "minWidth": 120,
@@ -197,6 +198,8 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
                     "fontFamily": "Inter-SemiBold",
                     "fontSize": 16,
                     "lineHeight": 22,
+                    "marginLeft": 0,
+                    "marginRight": 0,
                   }
                 }
               >
@@ -1003,6 +1006,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                 Object {
                   "alignItems": "center",
                   "backgroundColor": "#97DFC1",
+                  "flexDirection": "row",
                   "height": 48,
                   "justifyContent": "center",
                   "minWidth": 120,
@@ -1021,6 +1025,8 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                     "fontFamily": "Inter-SemiBold",
                     "fontSize": 16,
                     "lineHeight": 22,
+                    "marginLeft": 0,
+                    "marginRight": 0,
                   }
                 }
               >

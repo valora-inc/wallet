@@ -337,6 +337,7 @@ interface VerificationEventsProperties {
   [VerificationEvents.verification_complete]:
     | {
         feeless?: boolean
+        phoneNumberHash: string
       }
     | undefined
   [VerificationEvents.verification_error]: {
@@ -587,6 +588,10 @@ interface InviteEventsProperties {
   }
   [InviteEvents.invite_from_menu]: undefined
   [InviteEvents.invite_banner_impression]: undefined
+  [InviteEvents.invite_with_share]: {
+    phoneNumberHash: string | null
+  }
+  [InviteEvents.invite_with_share_dismiss]: undefined
 }
 
 interface EscrowEventsProperties {
@@ -1281,6 +1286,17 @@ interface SwapEventsProperties {
   }
   [SwapEvents.swap_screen_review_swap]: undefined
   [SwapEvents.swap_feed_detail_view_tx]: undefined
+  [SwapEvents.swap_review_screen_open]: {
+    toToken: string
+    fromToken: string
+    buyAmount: string
+  }
+  [SwapEvents.swap_review_submit]: {
+    toToken: string
+    fromToken: string
+    usdTotal: number
+    fee: number
+  }
 }
 
 export type AnalyticsPropertiesList = AppEventsProperties &

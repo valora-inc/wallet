@@ -102,6 +102,7 @@ describe('tokensByUsdBalanceSelector', () => {
         Object {
           "address": "0x1",
           "balance": "10",
+          "lastKnownUsdPrice": "10",
           "priceFetchedAt": 1588200517518,
           "usdPrice": "10",
         },
@@ -109,6 +110,7 @@ describe('tokensByUsdBalanceSelector', () => {
           "address": "0xeur",
           "balance": "50",
           "isSupercharged": true,
+          "lastKnownUsdPrice": "0.5",
           "priceFetchedAt": 1588200517518,
           "symbol": "cEUR",
           "usdPrice": "0.5",
@@ -116,6 +118,7 @@ describe('tokensByUsdBalanceSelector', () => {
         Object {
           "address": "0xusd",
           "balance": "0",
+          "lastKnownUsdPrice": "1",
           "priceFetchedAt": 1588200517518,
           "symbol": "cUSD",
           "usdPrice": "1",
@@ -124,6 +127,7 @@ describe('tokensByUsdBalanceSelector', () => {
           "address": "0x4",
           "balance": "50",
           "isSupercharged": true,
+          "lastKnownUsdPrice": null,
           "priceFetchedAt": 1588200517518,
           "symbol": "TT",
           "usdPrice": null,
@@ -131,6 +135,7 @@ describe('tokensByUsdBalanceSelector', () => {
         Object {
           "address": "0x5",
           "balance": "50",
+          "lastKnownUsdPrice": "500",
           "priceFetchedAt": 1588027717518,
           "usdPrice": null,
         },
@@ -147,6 +152,7 @@ describe('tokensWithUsdValueSelector', () => {
         Object {
           "address": "0x1",
           "balance": "10",
+          "lastKnownUsdPrice": "10",
           "priceFetchedAt": 1588200517518,
           "usdPrice": "10",
         },
@@ -154,6 +160,7 @@ describe('tokensWithUsdValueSelector', () => {
           "address": "0xeur",
           "balance": "50",
           "isSupercharged": true,
+          "lastKnownUsdPrice": "0.5",
           "priceFetchedAt": 1588200517518,
           "symbol": "cEUR",
           "usdPrice": "0.5",

@@ -211,9 +211,7 @@ describe('Account', () => {
     await flushMicrotasksQueue()
 
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(SettingsEvents.settings_recovery_phrase)
-    expect(navigate).toHaveBeenCalledWith(Screens.BackupIntroduction, {
-      navigatedFromSettings: true,
-    })
+    expect(navigate).toHaveBeenCalledWith(Screens.BackupIntroduction)
   })
 
   it('does not navigate to recovery phrase if entered PIN is incorrect', async () => {

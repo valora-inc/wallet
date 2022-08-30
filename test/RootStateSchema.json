@@ -1075,6 +1075,14 @@
             ],
             "type": "number"
         },
+        "InviteMethodType": {
+            "enum": [
+                "ESCROW",
+                "MANUAL_SHARE",
+                "REFERRAL_URL"
+            ],
+            "type": "string"
+        },
         "InviteTransactions": {
             "additionalProperties": {
                 "additionalProperties": false,
@@ -1767,6 +1775,7 @@
                 "RampScreen",
                 "ReclaimPaymentConfirmationScreen",
                 "RegulatoryTerms",
+                "SanctionedCountryErrorScreen",
                 "SelectCountry",
                 "SelectLocalCurrency",
                 "SelectProvider",
@@ -1783,6 +1792,7 @@
                 "StoreWipeRecoveryScreen",
                 "Support",
                 "SupportContact",
+                "SwapReviewScreen",
                 "SwapScreen",
                 "Sync",
                 "TokenBalances",
@@ -1925,6 +1935,9 @@
                 "huaweiMobileServicesAvailable": {
                     "type": "boolean"
                 },
+                "inviteMethod": {
+                    "$ref": "#/definitions/InviteMethodType"
+                },
                 "inviteModalVisible": {
                     "type": "boolean"
                 },
@@ -1939,6 +1952,9 @@
                 },
                 "loggedIn": {
                     "type": "boolean"
+                },
+                "maxSwapSlippagePercentage": {
+                    "type": "number"
                 },
                 "minVersion": {
                     "type": [
@@ -2029,6 +2045,12 @@
                         }
                     ]
                 },
+                "swapFeeEnabled": {
+                    "type": "boolean"
+                },
+                "swapFeePercentage": {
+                    "type": "number"
+                },
                 "visualizeNFTsEnabledInHomeAssetsPage": {
                     "type": "boolean"
                 },
@@ -2050,11 +2072,13 @@
                 "fiatConnectCashInEnabled",
                 "fiatConnectCashOutEnabled",
                 "hideVerification",
+                "inviteMethod",
                 "inviteModalVisible",
                 "lastTimeBackgrounded",
                 "locked",
                 "logPhoneNumberTypeEnabled",
                 "loggedIn",
+                "maxSwapSlippagePercentage",
                 "minVersion",
                 "numberVerified",
                 "paymentDeepLinkHandler",
@@ -2073,6 +2097,8 @@
                 "superchargeButtonType",
                 "superchargeTokenConfigByToken",
                 "supportedBiometryType",
+                "swapFeeEnabled",
+                "swapFeePercentage",
                 "visualizeNFTsEnabledInHomeAssetsPage",
                 "walletConnectV1Enabled"
             ],
@@ -2576,6 +2602,7 @@
                         "MXN",
                         "NGN",
                         "PHP",
+                        "PLN",
                         "RUB",
                         "RWF",
                         "SLL",
@@ -2613,6 +2640,7 @@
                         "MXN",
                         "NGN",
                         "PHP",
+                        "PLN",
                         "RUB",
                         "RWF",
                         "SLL",
@@ -3031,6 +3059,9 @@
                                             },
                                             "quoteId": {
                                                 "type": "string"
+                                            },
+                                            "transferType": {
+                                                "$ref": "#/definitions/TransferType"
                                             }
                                         },
                                         "required": [
@@ -3039,7 +3070,8 @@
                                             "fiatAmount",
                                             "fiatType",
                                             "guaranteedUntil",
-                                            "quoteId"
+                                            "quoteId",
+                                            "transferType"
                                         ],
                                         "type": "object"
                                     }
@@ -3826,6 +3858,13 @@
                 "SENT",
                 "VERIFICATION_FEE",
                 "VERIFICATION_REWARD"
+            ],
+            "type": "string"
+        },
+        "TransferType": {
+            "enum": [
+                "TransferIn",
+                "TransferOut"
             ],
             "type": "string"
         },

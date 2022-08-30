@@ -8,6 +8,7 @@ import {
   FiatConnectError,
   FiatType,
   KycSchema,
+  TransferType,
 } from '@fiatconnect/fiatconnect-types'
 import { StackNavigationProp } from '@react-navigation/stack'
 import BigNumber from 'bignumber.js'
@@ -715,6 +716,7 @@ export const mockGetFiatConnectQuotesResponse: GetFiatConnectQuotesResponse[] = 
         cryptoAmount: '100',
         quoteId: 'mock_quote_in_id',
         guaranteedUntil: '2099-04-27T19:22:36.000Z',
+        transferType: TransferType.TransferIn,
       },
       kyc: {
         kycRequired: false,
@@ -783,6 +785,7 @@ export const mockFiatConnectQuotes: (FiatConnectQuoteSuccess | FiatConnectQuoteE
       cryptoAmount: '100',
       quoteId: 'mock_quote_in_id',
       guaranteedUntil: '2099-04-27T19:22:36.000Z',
+      transferType: TransferType.TransferIn,
     },
     kyc: {
       kycRequired: true,

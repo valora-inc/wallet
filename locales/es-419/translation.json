@@ -352,6 +352,7 @@
     "bodyWithoutProvider": "El proveedor de servicios está procesando tu orden. Recibirás tus fondos dentro de un par de días."
   },
   "restrictedRegion": "Soporte limitado en la región",
+  "unsupportedLocation": "{{appName}} no es compatible con tu ubicación",
   "unsupportedPaymentMethod": "No es posible pagar con {{paymentMethod}} en tu región.",
   "noProviders": "No hay proveedores disponibles para {{digitalAsset}} en tu región.",
   "noPaymentMethods": "No hay métodos de pago disponibles para {{digitalAsset}} en tu región.",
@@ -595,13 +596,13 @@
   "sendAndInvite": "Envía e invita",
   "inviteAndSendDialog": {
     "title": "Completa la invitación de {{name}} a Valora",
-    "bodyWithRewards": "Una vez que tu destinatario descargue la app y conecte su número de teléfono, ambos recibirán {{amount}} {{currency}}. Toca abajo para enviar una invitación personalizada.",
+    "bodyWithRewards": "Una vez que tu destinatario descargue la app y conecte su número de teléfono, ambos recibirán un NFT. Toca para enviar una invitación personalizada.",
     "body": "Comparte un mensaje de invitación con {{name}} para que se una a {{appName}}. Una vez que tu destinatario descargue la app y conecte su número de teléfono, recibirá tu pago.",
     "button": "Completar invitación"
   },
   "inviteRewardsBanner": {
     "title": "Envía cripto e invita a tus amigos",
-    "body": "Por cada amigo que se una y configure su cuenta, ambos obtendrán un NFT exclusivo de regalo. <0>Más información</0>"
+    "body": "Por cada amigo que se una y configure su cuenta, ambos obtendrán un NFT exclusivo de regalo. <0>Puedes ganar hasta 3 NFTs</0>"
   },
   "getReward": "Obtén ${{reward}}",
   "welcomeCelo": "Te damos la bienvenida a {{appName}}",
@@ -863,6 +864,7 @@
   "amountCeloWithdrawn": "Monto (CELO)",
   "feeEducation": "La blockchain de Celo cobra una tarifa de transacción para mantener el soporte de la red y que funcione sin problemas.",
   "inviteMoneyEscrow": "Envía un mensaje de invitación a este contacto y recibirá los fondos una vez que conecte su número.",
+  "inviteMoneyEscrowWithRewards": "Envía un mensaje de invitación a este contacto y recibirá los fondos y un NFT una vez que conecte su número.",
   "reviewPayment": "Revisar pago",
   "requestPayment": "Solicitar pago",
   "max": "MAX",
@@ -882,7 +884,7 @@
   "walletAddress": "Dirección de billetera",
   "inviteWithoutPayment": "¡Hola! Estoy usando {{appName}} para enviar cripto en todo el mundo. Es fácil de usar y me gustaría invitarte a probarla con este link: {{link}}",
   "inviteWithEscrowedPayment": "¡Hola! Estoy usando {{appName}} para enviar dinero en todo el mundo. Acabo de enviarte {{amount}} {{token}}. Puedes descargar la app de {{appName}} y reclamar tus {{token}} con este link: {{link}}",
-  "inviteWithRewards": "¡Hola! Te acabo de mandar cripto con mi billetera de {{appName}}. Si descargas la app y conectas tu número de teléfono, ambos obtendremos una recompensa de {{amount}} {{token}}. Usa este enlace: {{link}}",
+  "inviteWithRewards": "¡Hola! Te acabo de mandar cripto con mi billetera de {{appName}}. Si descargas la app y conectas tu número de teléfono, ambos obtendremos un NFT. Usa este enlace: {{link}}",
   "loadingContacts": "Estamos encontrando tus contactos",
   "myCode": "Mi código",
   "scanCode": "Escanear",
@@ -1057,7 +1059,7 @@
     "1": "Te recordamos que estás utilizando la compilación de red {{testnet}} - los saldos que se muestran no son reales."
   },
   "dollarBalance": "<0></0> $t(celoDollars)",
-  "feedItemAddress": "Cuenta {{address}}",
+  "feedItemAddress": "{{address}}",
   "feedItemDepositInfo": "{{comment}}",
   "feedItemDepositInfo_noComment": "Depósito recibido",
   "feedItemDepositTitle": "Depósito",
@@ -1376,6 +1378,19 @@
     "rate": "Tasas",
     "estimatedFee": "Tarifas estimadas",
     "viewOnExplorer": "Ver en CeloExplorer"
+  },
+  "swapReviewScreen": {
+    "title": "Revisar cambio",
+    "complete": "Completar cambio",
+    "swapFrom": "Cambiar de",
+    "swapTo": "Cambiar a",
+    "transactionDetails": "Detalles de transacción",
+    "estimatedGas": "Tarifas estimadas",
+    "swapFee": "Tarifa de {{appName}}",
+    "swapFeeTitle": "¿Qué es la tarifa de {{appName}}?",
+    "swapFeeBody": "La tarifa de {{appName}} es el costo que pagas por intercambiar tokens en {{appName}}. \n\nLa tarifa es del {{swapFee}}% del monto a intercambiar. \n\nLas tarifas de {{appName}} serán gratuitas los próximos meses.",
+    "estimatedAmountTitle": "Monto estimado",
+    "estimatedAmountBody": "Las conversiones tienen lugar en un exchange descentralizado de terceros que encontrará la mejor tarifa para tu intercambio. \n\nEl intercambio se completará a un precio dentro del {{slippagePercent}}% del monto estmado o la transacción se cancelará y se devolverán los fondos a tu billetera."
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

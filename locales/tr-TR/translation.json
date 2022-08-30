@@ -352,6 +352,7 @@
     "bodyWithoutProvider": "Servis sağlayıcı siparişinizi işliyor. Fonlarınızı birkaç gün içinde alabileceksiniz."
   },
   "restrictedRegion": "Bölgenizde sınırlı destek mevcut",
+  "unsupportedLocation": "{{appName}} is not supported in your location",
   "unsupportedPaymentMethod": "{{paymentMethod}} ile ödeme bölgenizde desteklenmiyor",
   "noProviders": "Bölgenizde {{digitalAsset}} için kullanılabilecek sağlayıcı bulunmuyor.",
   "noPaymentMethods": "Bölgenizde {{digitalAsset}} için kullanılabilecek ödeme yöntemi yok.",
@@ -595,13 +596,13 @@
   "sendAndInvite": "Gönder & Davet Et",
   "inviteAndSendDialog": {
     "title": "{{name}} adlı kişiyi Valora'ya davet işlemini tamamlayın",
-    "bodyWithRewards": "Katılıp bir telefon numarasını bağlandıklarında, ikiniz de {{amount}} {{currency}} alırsınız. Davetinizi göndermek ve özelleştirmek için aşağıya tıklayın.",
+    "bodyWithRewards": "Söz konusu kişi katılıp telefon numarasını bağladında ikiniz de özel bir NFT sürümü alacaksınız. Davetinizi SMS ile göndermek için aşağıya tıklayın.",
     "body": "{{appName}} uygulamasına katılması için {{name}} adlı kişiye bir davet mesajı gönderin. Katılıp bir telefon numarasını bağladığında ödemenizi alacaktır.",
     "button": "Daveti tamamla"
   },
   "inviteRewardsBanner": {
     "title": "Bir arkadaş davet etmek için kripto gönderin",
-    "body": "Hesaplarını ayarlamayı bitirdiklerinden sonra ikiniz de bir NFT alacaksınız. <0>Daha fazla bilgi edinin</0>"
+    "body": "Söz konusu kişi {{appName}} cüzdanını oluşturup numarasını bağladığında ikiniz de özel bir NFT alacaksınız. <0>3 NFT'ye kadar kazanın</0>"
   },
   "getReward": "${{reward}} kazanın",
   "welcomeCelo": "{{appName}} uygulamasına hoş geldiniz",
@@ -863,6 +864,7 @@
   "amountCeloWithdrawn": "Miktar (CELO)",
   "feeEducation": "Celo Blokzinciri, ağı desteklemek ve sorunsuz çalışmasını sağlamak için bir işlem ücreti alır.",
   "inviteMoneyEscrow": "Bu kişiye bir davet mesajı gönderin, numarasını bağladığında parayı alacaktır.",
+  "inviteMoneyEscrowWithRewards": "Bu kişiye bir davet mesajı gönderin. Kendi numarasını bağladığında parayı ve NFT'yi alacaktır.",
   "reviewPayment": "Ödemeyi Gözden Geçir",
   "requestPayment": "Ödeme İste",
   "max": "MAKS.",
@@ -882,7 +884,7 @@
   "walletAddress": "Cüzdan Adresi",
   "inviteWithoutPayment": "Merhaba, dünyanın her tarafına kripto göndermek için {{appName}} kullanıyorum. Denemen için seni davet etmek isterim. Bu bağlantıya göz atabilirsin: {{link}}",
   "inviteWithEscrowedPayment": "Merhaba, dünyanın her tarafına kripto göndermek için {{appName}} kullanıyorum. Sana az önce {{amount}} {{token}} gönderdim. {{appName}} uygulamasını indirerek {{token}} miktarını alabilmen lütfen şu bağlantıyı tıkla{{link}}",
-  "inviteWithRewards": "Merhaba! Az önce size {{appName}} uygulamamla kripto para gönderdim. Uygulamayı indirip telefon numaranızı bağladığınızda, ikimiz de {{amount}} {{token}} ödül alacağız. Bu bağlantıyı kullanın: {{link}}",
+  "inviteWithRewards": "Hey! Az önce sana {{appName}} cüzdanımla kripto gönderdim. Uygulamayı indirip telefon numaranı bağladığında, ikimiz de özel bir NFT sürümü alacağız. Bu bağlantıyı kullanabilirsin: {{link}}",
   "loadingContacts": "Kişilerinizi bulma",
   "myCode": "Benim Kodum",
   "scanCode": "Tara",
@@ -1057,7 +1059,7 @@
     "1": "{{testnet}} test ağını kullandığınıza dair samimi bir hatırlatma - bakiyeler gerçek değil"
   },
   "dollarBalance": "<0></0> $t(celoDollars)",
-  "feedItemAddress": "Hesap {{address}}",
+  "feedItemAddress": "{{address}}",
   "feedItemDepositInfo": "{{comment}}",
   "feedItemDepositInfo_noComment": "Yatırılan",
   "feedItemDepositTitle": "Patra Yatırma",
@@ -1106,7 +1108,7 @@
   "feedItemGoldPurchased": "Alındı",
   "feedItemGoldWithdrawal": "{{displayName}}'a çekim",
   "feedItemGoldReceived": "{{displayName}} alındı",
-  "feedItemSwapPath": "{{token1}} to {{token2}}",
+  "feedItemSwapPath": "{{token1}} - {{token2}}",
   "transactionHeaderVerificationFee": "Onay",
   "transactionHeaderNetworkFee": "Ağ",
   "transactionHeaderFaucet": "Faucet",
@@ -1263,9 +1265,9 @@
   },
   "fiatConnectLinkAccountScreen": {
     "bankAccount": {
-      "header": "Set up Bank Account",
-      "bodyTitle": "Set Up Bank Account",
-      "description": "Enter Bank Account details to transfer funds. Your transactions will be powered by <0>{{providerName}}</0>."
+      "header": "Banka Hesabı Oluştur",
+      "bodyTitle": "Banka Hesabı Oluştur",
+      "description": "Para aktarmak için Banka Hesabı ayrıntılarını girin. İşlemleriniz <0>{{providerName}}</0> tarafından desteklenir."
     },
     "continue": "İleri"
   },
@@ -1311,8 +1313,8 @@
     },
     "requestNotCompleted": {
       "title": "İsteğiniz gerçekleştirilemedi.",
-      "description": "Your funds were not able to be transferred. Please try again or contact our support team for help.",
-      "contactSupportPrefill": "I'm having trouble withdrawing my funds."
+      "description": "Paranız aktarılamadı. Lütfen tekrar deneyin veya yardım için destek ekibimizle iletişime geçin.",
+      "contactSupportPrefill": "Paramı çekerken sorun yaşıyorum."
     }
   },
   "fiatExchangeFlow": {
@@ -1340,9 +1342,9 @@
     "header": "Banka Bilgilerini girin",
     "headerSubTitle": "{{provider}} tarafından desteklenmektedir",
     "selectedPaymentOption": "Seçili ödeme yöntemi",
-    "addFiatAccountSuccess": "Your account has been connected to {{provider}}.",
-    "addFiatAccountResourceExist": "You have already connected this account to {{provider}}.",
-    "addFiatAccountFailed": "Your account was not connected to {{provider}}, please try again or contact support.",
+    "addFiatAccountSuccess": "Hesabınız {{provider}} sağlayıcısına bağlandı.",
+    "addFiatAccountResourceExist": "Bu hesabı zaten {{provider}} sağlayıcısına bağladınız.",
+    "addFiatAccountFailed": "Hesabınız {{provider}} sağlayıcısına bağlanmadı, lütfen tekrar deneyin veya destek ekibiyle iletişime geçin.",
     "selectItem": "Bir seçenek seçin...",
     "selectDone": "Tamamlandı",
     "submitAndContinue": "Gönder ve Devam Et"
@@ -1371,11 +1373,24 @@
     "fetchSwapQuoteFailed": "Gecikme için üzgünüz! En iyi döviz kurunu almak normalden daha uzun sürüyor. Lütfen birkaç dakika içinde tekrar deneyin."
   },
   "swapTransactionDetailPage": {
-    "swapFrom": "Swap from",
-    "swapTo": "Swap to",
-    "rate": "Rate",
-    "estimatedFee": "Estimated Fee",
+    "swapFrom": "Takas kaynağı",
+    "swapTo": "Takas hedefi",
+    "rate": "Oran",
+    "estimatedFee": "Tahmini Ücret",
     "viewOnExplorer": "CeloExplorer'da görüntüle"
+  },
+  "swapReviewScreen": {
+    "title": "Takası İncele",
+    "complete": "Takası Tamamla",
+    "swapFrom": "Şuradan Gelen Takas",
+    "swapTo": "Şuraya Giden Takas",
+    "transactionDetails": "İşlem detayları",
+    "estimatedGas": "Tahmini Gaz",
+    "swapFee": "{{appName}} Ücreti",
+    "swapFeeTitle": "{{appName}} Ücreti nedir?\n",
+    "swapFeeBody": "{{appName}} ücreti, {{appName}} uygulamasında token takas etmek için ödediğiniz ücrettir.\n\nÜcret, takas ettiğiniz miktarın %{{swapFee}} kadarıdır.\n\n{{appName}} uygulamasında önümüzdeki birkaç ay ücret alınmayacaktır.",
+    "estimatedAmountTitle": "Tahmini Tutar",
+    "estimatedAmountBody": "Dönüşümler, takasınız için size en iyi oranı bulan ve merkezi olmayan bir üçüncü taraf borsasında gerçekleşir.\n\nİşleminiz, tahminin %{{slippagePercent}} kadarına kdar bir fiyatla tamamlanacak veya işlem iptal edilip para cüzdanınıza iade edilecektir."
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

@@ -1,5 +1,5 @@
 import { RemoteConfigValues } from 'src/app/saga'
-import { CreateAccountCopyTestType, SuperchargeButtonType } from 'src/app/types'
+import { CreateAccountCopyTestType, InviteMethodType, SuperchargeButtonType } from 'src/app/types'
 import { DEFAULT_SENTRY_NETWORK_ERRORS, DEFAULT_SENTRY_TRACES_SAMPLE_RATE } from 'src/config'
 import { DappConnectInfo } from 'src/dapps/types'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
@@ -74,4 +74,8 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   showSwapMenuInDrawerMenu: false,
   shouldShowRecoveryPhraseInSettings: false,
   createAccountCopyTestType: CreateAccountCopyTestType.Account,
+  maxSwapSlippagePercentage: 2,
+  swapFeeEnabled: false,
+  swapFeePercentage: 0.743,
+  inviteMethod: InviteMethodType.Escrow,
 }
