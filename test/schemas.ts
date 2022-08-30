@@ -1559,6 +1559,7 @@ export const v71Schema = {
     swapFeePercentage: 0.743,
   },
 }
+
 export const v72Schema = {
   ...v71Schema,
   _persist: {
@@ -1567,7 +1568,7 @@ export const v72Schema = {
   },
   app: {
     ...v71Schema.app,
-    showGuidedOnboardingCopy: false,
+    shouldShowRecoveryPhraseInSettings: false,
   },
 }
 
@@ -1579,19 +1580,17 @@ export const v73Schema = {
   },
   app: {
     ...v72Schema.app,
-    shouldShowRecoveryPhraseInSettings: false,
+    inviteMethod: InviteMethodType.Escrow,
   },
 }
+
 export const v74Schema = {
   ...v73Schema,
   _persist: {
     ...v73Schema._persist,
     version: 74,
   },
-  app: {
-    ...v73Schema.app,
-    inviteMethod: InviteMethodType.Escrow,
-  },
+  identity: _.omit(v73Schema.identity, 'matchedContacts'),
 }
 export const v75Schema = {
   ...v74Schema,
@@ -1599,7 +1598,10 @@ export const v75Schema = {
     ...v74Schema._persist,
     version: 75,
   },
-  identity: _.omit(v73Schema.identity, 'matchedContacts'),
+  app: {
+    ...v74Schema.app,
+    showGuidedOnboardingCopy: false,
+  },
 }
 export function getLatestSchema(): Partial<RootState> {
   return v75Schema as Partial<RootState>
