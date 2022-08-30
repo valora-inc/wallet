@@ -352,7 +352,7 @@
     "bodyWithoutProvider": "El proveedor de servicios está procesando tu orden. Recibirás tus fondos dentro de un par de días."
   },
   "restrictedRegion": "Soporte limitado en la región",
-  "unsupportedLocation": "{{appName}} no es compatible con tu ubicación",
+  "unsupportedLocation": "{{appName}} no está disponible en tu ubicación",
   "unsupportedPaymentMethod": "No es posible pagar con {{paymentMethod}} en tu región.",
   "noProviders": "No hay proveedores disponibles para {{digitalAsset}} en tu región.",
   "noPaymentMethods": "No hay métodos de pago disponibles para {{digitalAsset}} en tu región.",
@@ -1393,10 +1393,10 @@
     "estimatedAmountBody": "Las conversiones tienen lugar en un exchange descentralizado de terceros que encontrará la mejor tarifa para tu intercambio. \n\nEl intercambio se completará a un precio dentro del {{slippagePercent}}% del monto estmado o la transacción se cancelará y se devolverán los fondos a tu billetera."
   },
   "inviteModal": {
-    "title": "Parece que {{contactName}} no tiene todavía una cartera {{appName}} .",
-    "body": "Todavía puedes invitarles a {{appName}}, o intentar enviar un pago a su dirección de monedero o a nom.space.",
+    "title": "Parece que {{contactName}} aún no tiene una billetera {{appName}}.",
+    "body": "Puedes enviarle una invitación para que se una, o bien enviar un pago directamente a su dirección de billetera o usuario nom.space.",
     "sendInviteButtonLabel": "Enviar invitación",
-    "shareMessage": "Me gustaría enviarte cripto con mi monedero {{appName}} . Una vez que descargues la aplicación y conectes tu número de teléfono, podremos enviar cripto tan fácil como un texto. Utiliza este enlace: {{link}}"
+    "shareMessage": "Me gustaría enviarte cripto con mi billetera {{appName}}. Una vez que descargues la aplicación y conectes tu número de teléfono, podremos enviar cripto tan fácil como enviar un mensaje. Utiliza este enlace: {{link}}"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
