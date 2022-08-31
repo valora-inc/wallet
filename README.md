@@ -33,7 +33,7 @@ Code owners can be found in [.github/CODEOWNERS](.github/CODEOWNERS).
 
 ## Contributing
 
-We welcome contributions in the form of Issues and PRs. See [CONTRIBUTING.md](CONTRIBUTING.md).
+We welcome contributions in the form of Issues and PRs. Please read [CONTRIBUTING.md](CONTRIBUTING.md) first!
 
 ## Community
 
