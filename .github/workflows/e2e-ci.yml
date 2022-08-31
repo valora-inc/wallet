@@ -45,9 +45,12 @@ jobs:
           export CELO_TEST_CONFIG=e2e
           export ANDROID_SDK_ROOT=$HOME/android-tools
           yarn detox build -c android.release
+      - name: Try bash
+        shell: bash
+        run: java -version
       - name: Run Detox
+        shell: bash
         run: >
-          source ~/.profile &&
           export ANDROID_SDK_ROOT=$HOME/android-tools &&
           export PATH=$ANDROID_SDK_ROOT/platform-tools:$PATH &&
           yarn detox test
