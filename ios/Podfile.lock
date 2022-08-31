@@ -620,8 +620,8 @@ PODS:
     - React-Core
   - RNPermissions (3.0.3):
     - React-Core
-  - RNPersonaInquiry (1.3.1):
-    - PersonaInquirySDK (~> 1.1.25)
+  - RNPersonaInquiry (1.2.0):
+    - PersonaInquirySDK (~> 1.1.7)
     - React-Core
   - RNReanimated (2.5.0):
     - DoubleConversion
@@ -1139,7 +1139,7 @@ SPEC CHECKSUMS:
   RNKeychain: 4f63aada75ebafd26f4bc2c670199461eab85d94
   RNLocalize: f567ea0e35116a641cdffe6683b0d212d568f32a
   RNPermissions: 034db8a73d562766f990c89abbdeaa5d6e204c67
-  RNPersonaInquiry: 2137b5427a040655d994d2b01a5e27c8a81c555a
+  RNPersonaInquiry: e8d8f3fe4807f6a826ff96e7fb64f482ef6c4e97
   RNReanimated: ee33ab40fa252332a36aeed9d936801ed9700b24
   RNScreens: 40a2cb40a02a609938137a1e0acfbf8fc9eebf19
   RNSecureRandom: b0b479d7b934a3e6deea9cb986a9c40cb5f1b360
