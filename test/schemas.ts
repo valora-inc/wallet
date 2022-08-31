@@ -1600,10 +1600,22 @@ export const v75Schema = {
     ...v74Schema._persist,
     version: 75,
   },
-  app: _.omit(v74Schema.app, 'showRaiseDailyLimitTarget'),
-  account: _.omit(v74Schema.account, 'dailyLimitRequestStatus'),
+  app: {
+    ...v74Schema.app,
+    showGuidedOnboardingCopy: false,
+  },
+}
+
+export const v76Schema = {
+  ...v75Schema,
+  _persist: {
+    ...v75Schema._persist,
+    version: 76,
+  },
+  app: _.omit(v75Schema.app, 'showRaiseDailyLimitTarget'),
+  account: _.omit(v75Schema.account, 'dailyLimitRequestStatus', 'dailyLimitCusd'),
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v75Schema as Partial<RootState>
+  return v76Schema as Partial<RootState>
 }

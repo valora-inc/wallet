@@ -2003,6 +2003,9 @@
                 "shouldShowRecoveryPhraseInSettings": {
                     "type": "boolean"
                 },
+                "showGuidedOnboardingCopy": {
+                    "type": "boolean"
+                },
                 "showPriceChangeIndicatorInBalances": {
                     "type": "boolean"
                 },
@@ -2085,6 +2088,7 @@
                 "sentryTracesSampleRate",
                 "sessionId",
                 "shouldShowRecoveryPhraseInSettings",
+                "showGuidedOnboardingCopy",
                 "showPriceChangeIndicatorInBalances",
                 "showSwapMenuInDrawerMenu",
                 "skipProfilePicture",
@@ -2407,9 +2411,6 @@
                 "contactDetails": {
                     "$ref": "#/definitions/UserContactDetails"
                 },
-                "dailyLimitCusd": {
-                    "type": "number"
-                },
                 "defaultCountryCode": {
                     "type": [
                         "null",
@@ -2474,7 +2475,6 @@
                 "backupCompleted",
                 "backupRequiredTime",
                 "contactDetails",
-                "dailyLimitCusd",
                 "defaultCountryCode",
                 "devModeActive",
                 "devModeClickCount",
@@ -4240,7 +4240,6 @@
                                         "notReadyForCode",
                                         "odisInsufficientBalance",
                                         "odisQuotaError",
-                                        "paymentLimitReached",
                                         "paymentRequestFailed",
                                         "paymentRequestUpdateFailed",
                                         "personaAccountEndpointFail",
@@ -4257,7 +4256,6 @@
                                         "redeemInviteTimeout",
                                         "refreshFailedUnexpectedly",
                                         "repeatVerificationCode",
-                                        "requestLimitError",
                                         "revealAttestationFailure",
                                         "saltFetchFailure",
                                         "saltQuotaExceededError",

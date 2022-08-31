@@ -52,6 +52,7 @@ export interface State {
   fiatConnectCashOutEnabled: boolean
   visualizeNFTsEnabledInHomeAssetsPage: boolean
   coinbasePayEnabled: boolean
+  showGuidedOnboardingCopy: boolean
   showSwapMenuInDrawerMenu: boolean
   shouldShowRecoveryPhraseInSettings: boolean
   createAccountCopyTestType: CreateAccountCopyTestType
@@ -106,6 +107,7 @@ const initialState = {
   showSwapMenuInDrawerMenu: REMOTE_CONFIG_VALUES_DEFAULTS.showSwapMenuInDrawerMenu,
   shouldShowRecoveryPhraseInSettings:
     REMOTE_CONFIG_VALUES_DEFAULTS.shouldShowRecoveryPhraseInSettings,
+  showGuidedOnboardingCopy: REMOTE_CONFIG_VALUES_DEFAULTS.showGuidedOnboardingCopy,
   createAccountCopyTestType: REMOTE_CONFIG_VALUES_DEFAULTS.createAccountCopyTestType,
   maxSwapSlippagePercentage: REMOTE_CONFIG_VALUES_DEFAULTS.maxSwapSlippagePercentage,
   swapFeeEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.swapFeeEnabled,
@@ -230,6 +232,7 @@ export const appReducer = (
         createAccountCopyTestType: action.configValues.createAccountCopyTestType,
         maxSwapSlippagePercentage: action.configValues.maxSwapSlippagePercentage,
         swapFeeEnabled: action.configValues.swapFeeEnabled,
+        showGuidedOnboardingCopy: action.configValues.showGuidedOnboardingCopy,
         swapFeePercentage: action.configValues.swapFeePercentage,
         inviteMethod: action.configValues.inviteMethod,
       }
