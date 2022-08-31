@@ -228,7 +228,7 @@ PODS:
     - RNPermissions
   - Permission-Camera (3.0.3):
     - RNPermissions
-  - PersonaInquirySDK (1.1.27)
+  - PersonaInquirySDK (1.1.18)
   - Plaid (2.3.2)
   - PromisesObjC (1.2.12)
   - RCT-Folly (2021.06.28.00-v2):
@@ -1070,7 +1070,7 @@ SPEC CHECKSUMS:
   OpenSSL-Universal: 1aa4f6a6ee7256b83db99ec1ccdaa80d10f9af9b
   Permission-AppTrackingTransparency: 7e4612104f43441744dc472d5b258daee5b71f7b
   Permission-Camera: 6abdb054620b2f6b3bf9e0b3842db246424d4d48
-  PersonaInquirySDK: f451f86d8e7adb93c8668cbc5b0a512c48415110
+  PersonaInquirySDK: d7be5e1ab62e15e5dae2fe715a43765d22e2661c
   Plaid: 4d8d4ff0a6d627f5faf3055a9cba8890ea6b5076
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
   RCT-Folly: a21c126816d8025b547704b777a2ba552f3d9fa9
