@@ -805,4 +805,11 @@ export const migrations = {
     ...state,
     identity: _.omit(state.identity, 'matchedContacts'),
   }),
+  75: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      showGuidedOnboardingCopy: REMOTE_CONFIG_VALUES_DEFAULTS.showGuidedOnboardingCopy,
+    },
+  }),
 }

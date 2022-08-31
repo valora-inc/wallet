@@ -2004,6 +2004,9 @@
                 "shouldShowRecoveryPhraseInSettings": {
                     "type": "boolean"
                 },
+                "showGuidedOnboardingCopy": {
+                    "type": "boolean"
+                },
                 "showPriceChangeIndicatorInBalances": {
                     "type": "boolean"
                 },
@@ -2089,6 +2092,7 @@
                 "sentryTracesSampleRate",
                 "sessionId",
                 "shouldShowRecoveryPhraseInSettings",
+                "showGuidedOnboardingCopy",
                 "showPriceChangeIndicatorInBalances",
                 "showSwapMenuInDrawerMenu",
                 "skipProfilePicture",
