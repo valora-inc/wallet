@@ -273,21 +273,6 @@
             ],
             "type": "object"
         },
-        "ContactMatches": {
-            "additionalProperties": {
-                "additionalProperties": false,
-                "properties": {
-                    "contactId": {
-                        "type": "string"
-                    }
-                },
-                "required": [
-                    "contactId"
-                ],
-                "type": "object"
-            },
-            "type": "object"
-        },
         "CreateAccountCopyTestType": {
             "enum": [
                 "ACCOUNT",
@@ -1086,10 +1071,17 @@
                 1,
                 2,
                 3,
-                4,
                 5
             ],
             "type": "number"
+        },
+        "InviteMethodType": {
+            "enum": [
+                "ESCROW",
+                "MANUAL_SHARE",
+                "REFERRAL_URL"
+            ],
+            "type": "string"
         },
         "InviteTransactions": {
             "additionalProperties": {
@@ -1783,6 +1775,7 @@
                 "RampScreen",
                 "ReclaimPaymentConfirmationScreen",
                 "RegulatoryTerms",
+                "SanctionedCountryErrorScreen",
                 "SelectCountry",
                 "SelectLocalCurrency",
                 "SelectProvider",
@@ -1942,6 +1935,9 @@
                 "huaweiMobileServicesAvailable": {
                     "type": "boolean"
                 },
+                "inviteMethod": {
+                    "$ref": "#/definitions/InviteMethodType"
+                },
                 "inviteModalVisible": {
                     "type": "boolean"
                 },
@@ -2006,6 +2002,9 @@
                     "type": "string"
                 },
                 "shouldShowRecoveryPhraseInSettings": {
+                    "type": "boolean"
+                },
+                "showGuidedOnboardingCopy": {
                     "type": "boolean"
                 },
                 "showPriceChangeIndicatorInBalances": {
@@ -2076,6 +2075,7 @@
                 "fiatConnectCashInEnabled",
                 "fiatConnectCashOutEnabled",
                 "hideVerification",
+                "inviteMethod",
                 "inviteModalVisible",
                 "lastTimeBackgrounded",
                 "locked",
@@ -2092,6 +2092,7 @@
                 "sentryTracesSampleRate",
                 "sessionId",
                 "shouldShowRecoveryPhraseInSettings",
+                "showGuidedOnboardingCopy",
                 "showPriceChangeIndicatorInBalances",
                 "showSwapMenuInDrawerMenu",
                 "skipProfilePicture",
@@ -2236,9 +2237,6 @@
                         "number"
                     ]
                 },
-                "matchedContacts": {
-                    "$ref": "#/definitions/ContactMatches"
-                },
                 "numCompleteAttestations": {
                     "type": "number"
                 },
@@ -2265,7 +2263,6 @@
                 "hasSeenVerificationNux",
                 "importContactsProgress",
                 "lastRevealAttempt",
-                "matchedContacts",
                 "numCompleteAttestations",
                 "secureSendPhoneNumberMapping",
                 "verificationStatus",
@@ -2609,6 +2606,7 @@
                         "MXN",
                         "NGN",
                         "PHP",
+                        "PLN",
                         "RUB",
                         "RWF",
                         "SLL",
@@ -2646,6 +2644,7 @@
                         "MXN",
                         "NGN",
                         "PHP",
+                        "PLN",
                         "RUB",
                         "RWF",
                         "SLL",
@@ -3064,6 +3063,9 @@
                                             },
                                             "quoteId": {
                                                 "type": "string"
+                                            },
+                                            "transferType": {
+                                                "$ref": "#/definitions/TransferType"
                                             }
                                         },
                                         "required": [
@@ -3072,7 +3074,8 @@
                                             "fiatAmount",
                                             "fiatType",
                                             "guaranteedUntil",
-                                            "quoteId"
+                                            "quoteId",
+                                            "transferType"
                                         ],
                                         "type": "object"
                                     }
@@ -3859,6 +3862,13 @@
                 "SENT",
                 "VERIFICATION_FEE",
                 "VERIFICATION_REWARD"
+            ],
+            "type": "string"
+        },
+        "TransferType": {
+            "enum": [
+                "TransferIn",
+                "TransferOut"
             ],
             "type": "string"
         },

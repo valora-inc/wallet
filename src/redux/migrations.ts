@@ -780,24 +780,36 @@ export const migrations = {
     ...state,
     app: {
       ...state.app,
-      shouldShowRecoveryPhraseInSettings:
-        REMOTE_CONFIG_VALUES_DEFAULTS.shouldShowRecoveryPhraseInSettings,
+      createAccountCopyTestType: REMOTE_CONFIG_VALUES_DEFAULTS.createAccountCopyTestType,
     },
   }),
   71: (state: any) => ({
     ...state,
     app: {
       ...state.app,
-      createAccountCopyTestType: REMOTE_CONFIG_VALUES_DEFAULTS.createAccountCopyTestType,
+      maxSwapSlippagePercentage: REMOTE_CONFIG_VALUES_DEFAULTS.maxSwapSlippagePercentage,
+      swapFeeEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.swapFeeEnabled,
+      swapFeePercentage: REMOTE_CONFIG_VALUES_DEFAULTS.swapFeePercentage,
     },
   }),
   72: (state: any) => ({
     ...state,
     app: {
       ...state.app,
-      maxSwapSlippagePercentage: REMOTE_CONFIG_VALUES_DEFAULTS.maxSwapSlippagePercentage,
-      swapFeeEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.swapFeeEnabled,
-      swapFeePercentage: REMOTE_CONFIG_VALUES_DEFAULTS.swapFeePercentage,
+      shouldShowRecoveryPhraseInSettings:
+        REMOTE_CONFIG_VALUES_DEFAULTS.shouldShowRecoveryPhraseInSettings,
+    },
+  }),
+  73: (state: any) => state,
+  74: (state: any) => ({
+    ...state,
+    identity: _.omit(state.identity, 'matchedContacts'),
+  }),
+  75: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      showGuidedOnboardingCopy: REMOTE_CONFIG_VALUES_DEFAULTS.showGuidedOnboardingCopy,
     },
   }),
 }

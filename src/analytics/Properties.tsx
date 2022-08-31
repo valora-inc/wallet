@@ -337,6 +337,7 @@ interface VerificationEventsProperties {
   [VerificationEvents.verification_complete]:
     | {
         feeless?: boolean
+        phoneNumberHash: string
       }
     | undefined
   [VerificationEvents.verification_error]: {
@@ -522,9 +523,6 @@ interface IdentityEventsProperties {
     contactImportCount: number
   }
   [IdentityEvents.contacts_processing_complete]: undefined
-  [IdentityEvents.contacts_matchmaking_complete]: {
-    matchCount: number
-  }
   [IdentityEvents.contacts_import_error]: {
     error: string
   }
@@ -590,6 +588,10 @@ interface InviteEventsProperties {
   }
   [InviteEvents.invite_from_menu]: undefined
   [InviteEvents.invite_banner_impression]: undefined
+  [InviteEvents.invite_with_share]: {
+    phoneNumberHash: string | null
+  }
+  [InviteEvents.invite_with_share_dismiss]: undefined
 }
 
 interface EscrowEventsProperties {

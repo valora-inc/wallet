@@ -352,6 +352,7 @@
     "bodyWithoutProvider": "Der Dienstleister bearbeitet deine Bestellung. Du solltest dein Guthaben innerhalb weniger Tage erhalten."
   },
   "restrictedRegion": "Begrenzte Unterstützung in der Region",
+  "unsupportedLocation": "{{appName}} an deinem Standort nicht unterstützt wird",
   "unsupportedPaymentMethod": "Die Bezahlung mit {{paymentMethod}} wird in deinem Land nicht unterstützt",
   "noProviders": "In deiner Region gibt es keine Anbieter für {{digitalAsset}}.",
   "noPaymentMethods": "In deiner Region gibt es keine Zahlungsmethoden für {{digitalAsset}}.",
@@ -601,7 +602,7 @@
   },
   "inviteRewardsBanner": {
     "title": "Krypto senden, um einen Freund einzuladen",
-    "body": "Ihr erhaltet ein NFT, sobald dein Freund sein {{appName}}-Konto eingerichtet hat. <0>Mehr erfahren</0>"
+    "body": "Ihr erhaltet ein exklusives NFT, sobald dein Freund seine {{appName}}-Wallet eingerichtet hat und seine Nummer damit verknüpft hat. <0>Du kannst dir bis zu drei NFTs verdienen</0>"
   },
   "getReward": "Erhalte ${{reward}}",
   "welcomeCelo": "Willkommen bei {{appName}}",
@@ -1058,7 +1059,7 @@
     "1": "Eine freundliche Erinnerung, dass du das {{testnet}} -Netzwerk-Build verwendest - der Guthaben ist nicht real"
   },
   "dollarBalance": "<0></0> $t(celoDollars)",
-  "feedItemAddress": "Konto {{address}}",
+  "feedItemAddress": "{{address}}",
   "feedItemDepositInfo": "{{comment}}",
   "feedItemDepositInfo_noComment": "Anzahlung erhalten",
   "feedItemDepositTitle": "Einzahlung",
@@ -1387,9 +1388,9 @@
     "estimatedGas": "Geschätzte Gas-Gebühren",
     "swapFee": "{{appName}}-Gebühr",
     "swapFeeTitle": "Was ist die {{appName}}-Gebühr?",
-    "swapFeeBody": "The {{appName}} fee is the fee that you pay to swap tokens on {{appName}}. \n\n The fee is {{swapFee}}% of the amount you are exchanging. \n\n {{appName}} fees are free for the next few months.",
+    "swapFeeBody": "Die Gebühr für {{appName}} ist die Gebühr, die du bezahlen musst, um Tokens auf {{appName}} zu tauschen. \n\n Die Gebühr beträgt {{swapFee}} % des Umtauschbetrags. \n\n Die Gebühren für {{appName}} entfallen für die nächsten Monate.",
     "estimatedAmountTitle": "Geschätzte Betrag",
-    "estimatedAmountBody": "Conversions take place on a third party decentralized exchange that finds you the best rate for your swap. \n\n Your trade will be completed at a price within {{slippagePercent}}% of the estimate or the transaction will be cancelled & funds returned to your wallet."
+    "estimatedAmountBody": "Umrechnungen finden an einer dezentralen Börse von Drittanbietern statt, die den besten Kurs für deinen gewünschten Umtausch bieten. \n\n Dein Trade wird zu einem Preis innerhalb von {{slippagePercent}} % des Preises abgeschlossen oder die Transaktion wird storniert und das Guthaben an deine Wallet zurückerstattet."
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

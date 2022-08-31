@@ -18,6 +18,7 @@ import { CeloExchangeEvents } from 'src/analytics/Events'
 import AppLoading from 'src/app/AppLoading'
 import Debug from 'src/app/Debug'
 import ErrorScreen from 'src/app/ErrorScreen'
+import SanctionedCountryErrorScreen from 'src/app/SanctionedCountryErrorScreen'
 import UpgradeScreen from 'src/app/UpgradeScreen'
 import BackupComplete from 'src/backup/BackupComplete'
 import BackupForceScreen from 'src/backup/BackupForceScreen'
@@ -162,6 +163,11 @@ const commonScreens = (Navigator: typeof Stack) => {
         name={Screens.TokenBalances}
         component={TokenBalancesScreen}
         options={TokenBalancesScreen.navigationOptions}
+      />
+      <Navigator.Screen
+        name={Screens.SanctionedCountryErrorScreen}
+        component={SanctionedCountryErrorScreen}
+        options={SanctionedCountryErrorScreen.navigationOptions}
       />
     </>
   )

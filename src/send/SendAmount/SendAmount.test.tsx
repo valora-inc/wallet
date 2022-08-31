@@ -3,12 +3,13 @@ import { toBeDisabled } from '@testing-library/jest-native'
 import { fireEvent, render, RenderAPI } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
-import { ActivityIndicator } from 'react-native'
+import { Share } from 'react-native'
 import * as RNLocalize from 'react-native-localize'
 import { Provider } from 'react-redux'
 import { ErrorDisplayType } from 'src/alert/reducer'
 import { SendOrigin } from 'src/analytics/types'
-import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
+import { InviteMethodType } from 'src/app/types'
+import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD, DYNAMIC_DOWNLOAD_LINK } from 'src/config'
 import { FeeType } from 'src/fees/reducer'
 import i18n from 'src/i18n'
 import { AddressValidationType, E164NumberToAddressType } from 'src/identity/reducer'
@@ -105,6 +106,8 @@ const enterAmount = (wrapper: RenderAPI, text: string) => {
     fireEvent.press(digitButton)
   }
 }
+
+Share.share = jest.fn()
 
 describe('SendAmount', () => {
   beforeAll(() => {
@@ -351,11 +354,31 @@ describe('SendAmount', () => {
       expect(queryByTestId('HeaderCurrencyPicker')).toBeTruthy()
     })
 
-    it('displays the loading spinner when review button is pressed and verification status is unknown', () => {
-      let store = createMockStore({
+    it('displays the loading spinner when verification status is unknown', () => {
+      const store = createMockStore({
+        ...storeData,
         identity: {
           e164NumberToAddress: {},
           secureSendPhoneNumberMapping: {},
+        },
+      })
+
+      const tree = render(
+        <Provider store={store}>
+          <SendAmount {...mockScreenProps()} />
+        </Provider>
+      )
+
+      expect(tree.getByTestId('Button/Loading')).toBeTruthy()
+    })
+
+    it('displays the invite modal when verification status is unverified', () => {
+      const store = createMockStore({
+        app: {
+          inviteMethod: InviteMethodType.ManualShare,
+        },
+        identity: {
+          e164NumberToAddress: { [mockE164NumberInvite]: null },
         },
         ...storeData,
       })
@@ -366,48 +389,21 @@ describe('SendAmount', () => {
         </Provider>
       )
 
-      enterAmount(tree, AMOUNT_VALID)
-      fireEvent.press(tree.getByTestId('Review'))
+      expect(tree.getByText('inviteModal.title, {"contactName":"Jane Doe"}')).toBeTruthy()
+      expect(tree.getByText('inviteModal.body')).toBeTruthy()
 
-      expect(tree.UNSAFE_getByType(ActivityIndicator)).toBeTruthy()
-
-      store = createMockStore({
-        identity: {
-          e164NumberToAddress: mockE164NumberToAddress,
-          secureSendPhoneNumberMapping: {
-            [mockE164NumberInvite]: {
-              addressValidationType: AddressValidationType.NONE,
-            },
-          },
-        },
-        ...storeData,
-      })
-
-      tree.rerender(
-        <Provider store={store}>
-          <SendAmount {...mockScreenProps()} />
-        </Provider>
-      )
-
-      expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmation, {
-        origin: SendOrigin.AppSendFlow,
-        isFromScan: false,
-        transactionData: {
-          inputAmount: new BigNumber(AMOUNT_VALID),
-          amountIsInLocalCurrency: true,
-          recipient: mockTransactionData.recipient,
-          tokenAddress: mockCusdAddress,
-          tokenAmount: mockTransactionData2.amount, // input amount converted to token amount
-        },
+      fireEvent.press(tree.getByText('inviteModal.sendInviteButtonLabel'))
+      expect(Share.share).toHaveBeenCalledWith({
+        message: `inviteModal.shareMessage, {"link":"${DYNAMIC_DOWNLOAD_LINK}"}`,
       })
     })
 
     it('only allows inviting with core tokens', () => {
       const store = createMockStore({
+        ...storeData,
         identity: {
           e164NumberToAddress: { [mockE164NumberInvite]: null },
         },
-        ...storeData,
       })
       const { queryByTestId, getByTestId } = render(
         <Provider store={store}>

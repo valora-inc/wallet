@@ -12,7 +12,7 @@ import { call, take } from 'redux-saga/effects'
 import { handleUpdateAccountRegistration } from 'src/account/saga'
 import { updateAccountRegistration } from 'src/account/updateAccountRegistration'
 import { RemoteConfigValues } from 'src/app/saga'
-import { CreateAccountCopyTestType, SuperchargeButtonType } from 'src/app/types'
+import { CreateAccountCopyTestType, InviteMethodType, SuperchargeButtonType } from 'src/app/types'
 import { FETCH_TIMEOUT_DURATION, FIREBASE_ENABLED } from 'src/config'
 import { DappConnectInfo } from 'src/dapps/types'
 import { handleNotification } from 'src/firebase/notifications'
@@ -297,12 +297,14 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     dappConnectInfo: flags.dappConnectInfo.asString() as DappConnectInfo,
     visualizeNFTsEnabledInHomeAssetsPage: flags.visualizeNFTsEnabledInHomeAssetsPage.asBoolean(),
     coinbasePayEnabled: flags.coinbasePayEnabled.asBoolean(),
+    showGuidedOnboardingCopy: flags.showGuidedOnboardingCopy.asBoolean(),
     showSwapMenuInDrawerMenu: flags.showSwapMenuInDrawerMenu.asBoolean(),
     shouldShowRecoveryPhraseInSettings: flags.shouldShowRecoveryPhraseInSettings.asBoolean(),
     createAccountCopyTestType: flags.createAccountCopyTestType.asString() as CreateAccountCopyTestType,
     maxSwapSlippagePercentage: flags.maxSwapSlippagePercentage.asNumber(),
     swapFeeEnabled: flags.swapFeeEnabled.asBoolean(),
     swapFeePercentage: flags.swapFeePercentage.asNumber(),
+    inviteMethod: flags.inviteMethod.asString() as InviteMethodType,
   }
 }
 

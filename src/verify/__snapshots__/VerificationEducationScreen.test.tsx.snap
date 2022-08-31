@@ -558,6 +558,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
               Object {
                 "alignItems": "center",
                 "backgroundColor": "#D6EAF3",
+                "flexDirection": "row",
                 "height": 48,
                 "justifyContent": "center",
                 "minWidth": 120,
@@ -576,6 +577,8 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
                   "fontFamily": "Inter-SemiBold",
                   "fontSize": 16,
                   "lineHeight": 22,
+                  "marginLeft": 0,
+                  "marginRight": 0,
                 }
               }
             >
@@ -1648,6 +1651,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
               Object {
                 "alignItems": "center",
                 "backgroundColor": "#D6EAF3",
+                "flexDirection": "row",
                 "height": 48,
                 "justifyContent": "center",
                 "minWidth": 120,
@@ -1666,6 +1670,8 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
                   "fontFamily": "Inter-SemiBold",
                   "fontSize": 16,
                   "lineHeight": 22,
+                  "marginLeft": 0,
+                  "marginRight": 0,
                 }
               }
             >
@@ -2738,6 +2744,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when already veri
               Object {
                 "alignItems": "center",
                 "backgroundColor": "#D6EAF3",
+                "flexDirection": "row",
                 "height": 48,
                 "justifyContent": "center",
                 "minWidth": 120,
@@ -2756,6 +2763,8 @@ exports[`VerificationEducationScreen shows the \`skip\` button when already veri
                   "fontFamily": "Inter-SemiBold",
                   "fontSize": 16,
                   "lineHeight": 22,
+                  "marginLeft": 0,
+                  "marginRight": 0,
                 }
               }
             >
@@ -3823,6 +3832,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when user is not 
               Object {
                 "alignItems": "center",
                 "backgroundColor": "#D6EAF3",
+                "flexDirection": "row",
                 "height": 48,
                 "justifyContent": "center",
                 "minWidth": 120,
@@ -3841,6 +3851,8 @@ exports[`VerificationEducationScreen shows the \`skip\` button when user is not 
                   "fontFamily": "Inter-SemiBold",
                   "fontSize": 16,
                   "lineHeight": 22,
+                  "marginLeft": 0,
+                  "marginRight": 0,
                 }
               }
             >

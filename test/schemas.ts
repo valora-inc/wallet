@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import { FinclusiveKycStatus, PincodeType } from 'src/account/reducer'
 import { AppState } from 'src/app/actions'
-import { SuperchargeButtonType } from 'src/app/types'
+import { InviteMethodType, SuperchargeButtonType } from 'src/app/types'
 import { CodeInputStatus } from 'src/components/CodeInput'
 import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
 import { DappConnectInfo } from 'src/dapps/types'
@@ -1542,7 +1542,7 @@ export const v70Schema = {
   },
   app: {
     ...v69Schema.app,
-    shouldShowRecoveryPhraseInSettings: false,
+    createAccountCopyTestType: 'ACCOUNT',
   },
 }
 
@@ -1557,7 +1557,6 @@ export const v71Schema = {
     maxSwapSlippagePercentage: 2,
     swapFeeEnabled: false,
     swapFeePercentage: 0.743,
-    createAccountCopyTestType: 'ACCOUNT',
   },
 }
 
@@ -1569,12 +1568,41 @@ export const v72Schema = {
   },
   app: {
     ...v71Schema.app,
-    maxSwapSlippagePercentage: 2,
-    swapFeeEnabled: false,
-    swapFeePercentage: 0.743,
+    shouldShowRecoveryPhraseInSettings: false,
   },
 }
 
+export const v73Schema = {
+  ...v72Schema,
+  _persist: {
+    ...v72Schema._persist,
+    version: 73,
+  },
+  app: {
+    ...v72Schema.app,
+    inviteMethod: InviteMethodType.Escrow,
+  },
+}
+
+export const v74Schema = {
+  ...v73Schema,
+  _persist: {
+    ...v73Schema._persist,
+    version: 74,
+  },
+  identity: _.omit(v73Schema.identity, 'matchedContacts'),
+}
+export const v75Schema = {
+  ...v74Schema,
+  _persist: {
+    ...v74Schema._persist,
+    version: 75,
+  },
+  app: {
+    ...v74Schema.app,
+    showGuidedOnboardingCopy: false,
+  },
+}
 export function getLatestSchema(): Partial<RootState> {
-  return v72Schema as Partial<RootState>
+  return v75Schema as Partial<RootState>
 }

@@ -361,7 +361,7 @@ export class Account extends React.Component<Props, State> {
       const pinIsCorrect = await ensurePincode()
       if (pinIsCorrect) {
         ValoraAnalytics.track(SettingsEvents.settings_recovery_phrase)
-        navigate(Screens.BackupIntroduction, { navigatedFromSettings: true })
+        navigate(Screens.BackupIntroduction)
       }
     } catch (error) {
       Logger.error('SettingsItem@onPress', 'PIN ensure error', error)

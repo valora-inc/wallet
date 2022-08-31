@@ -15,6 +15,7 @@ import {
   extractSecurityCodeWithPrefix,
 } from '@celo/utils/lib/attestations'
 import { AttestationRequest } from '@celo/utils/lib/io'
+import { getPhoneHash } from '@celo/utils/lib/phoneNumbers'
 import { FetchError, TxError } from '@komenci/kit/lib/errors'
 import { KomenciKit } from '@komenci/kit/lib/kit'
 import AwaitLock from 'await-lock'
@@ -162,7 +163,10 @@ export function* startVerificationSaga({ withoutRevealing }: StartVerificationAc
     Logger.debug(TAG, 'Verification has been restarted')
     yield put(startVerification(e164Number, false))
   } else if (success) {
-    ValoraAnalytics.track(VerificationEvents.verification_complete, { feeless: shouldUseKomenci })
+    ValoraAnalytics.track(VerificationEvents.verification_complete, {
+      feeless: shouldUseKomenci,
+      phoneNumberHash: getPhoneHash(e164Number),
+    })
     Logger.debug(TAG, 'Verification completed successfully')
   } else if (failure) {
     ValoraAnalytics.track(VerificationEvents.verification_error, {
