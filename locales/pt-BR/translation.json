@@ -618,7 +618,10 @@
     "goldDisclaimer": "Ao criar uma \"conta\" com a Valora você está criando uma carteira digital em que só você possui as chaves. Nenhuma outra pessoa ou entidade, incluindo cLabs e Valora, pode recuperar sua chave, trocar ou desfazer transações, ou recuperar fundos perdidos. Esteja ciente de que CELO, cUSD e cEUR fazem parte de uma nova classe de ativos e apresentam um risco de perda financeira. Considere cuidadosamente sua situação financeira e tolerância ao risco antes de comprar qualquer ativo. Você só pode enviar até {{dailyLimitCUSD}} cUSD por dia através da Valora (o “limite diário”). Você deve entrar em contato com support@valoraapp.com e fornecer informações adicionais e pessoais para solicitar um aumento deste limite diário. Pode haver um atraso para conduzir a conformidade necessária."
   },
   "fullName": "Nome",
+  "fullNameOrPseudonymPlaceholder": "Nome e sobrenome ou pseudónimo",
   "fullNamePlaceholder": "Nome e sobrenome",
+  "nameAndPicGuideCopyTitle": "Qual é o seu nome?",
+  "nameAndPicGuideCopyContent": "Gostaríamos de saber como lhe chamar",
   "importIt": "Restaurar Carteira",
   "important": "Importante",
   "confirmPin": {
@@ -705,7 +708,9 @@
   "enableBiometry": {
     "title": "Proteja sua carteira",
     "description": "{{biometryType}} protege sua conta e faz com que seja mais fácil usar {{appName}}",
-    "cta": "Ativar {{biometryType}}"
+    "cta": "Ativar {{biometryType}}",
+    "guideTitle": "Deseja acrescentar {{biometryType}}?",
+    "guideDescription": "{{biometryType}} torna mais fácil, mais rápido e mais seguro ligar a sua carteira a dapps & assinar transacções."
   },
   "biometryType": {
     "FaceID": "Face ID",
@@ -718,6 +723,7 @@
   "unlockWithBiometryPrompt": "Autenticar para desbloquear {{appName}}",
   "welcome": {
     "title": "Mergulhe no mundo cripto com a {{appName}}.",
+    "titleGuided": "Bem-vindo a {{appName}}!\nVamos criar a sua carteira criptográfica.",
     "createAccount": "Criar nova conta",
     "restoreAccount": "Restaurar conta existente",
     "createNewWallet": "Criar carteira",
@@ -739,9 +745,12 @@
     "create": "Criar um PIN",
     "createNew": "Criar um novo PIN",
     "verify": "Insira seu PIN novamente para confirmar",
+    "guideTitle": "Escolha um PIN de 6 dígitos que se lembrará",
+    "pinCodeGuide": "Mantenha o seu PIN seguro, é como vai manter a sua carteira segura.",
     "changePIN": "Alterar PIN",
     "pinsDontMatch": "Os PINs não coincidem",
-    "invalidPin": "Use um PIN mais forte"
+    "invalidPin": "Use um PIN mais forte",
+    "selectPIN": "Seleccionar PIN"
   },
   "inviteCode": {
     "title": "Código de convite",
