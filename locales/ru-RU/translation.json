@@ -750,7 +750,7 @@
     "changePIN": "Изменить PIN-код",
     "pinsDontMatch": "PIN-код не совпадает",
     "invalidPin": "Используйте более надежный PIN-код",
-    "selectPIN": "Select PIN"
+    "selectPIN": "Выберите PIN-код"
   },
   "inviteCode": {
     "title": "Код приглашения",
