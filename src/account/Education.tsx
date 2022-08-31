@@ -74,6 +74,30 @@ export default class Education extends React.Component<Props, State> {
     step: 0,
   }
 
+  componentDidMount() {
+    const { step } = this.state
+    const { topic, valueProposition, variant } = this.props.stepInfo[this.state.step]
+    if (topic === EducationTopic.onboarding) {
+      ValoraAnalytics.track(OnboardingEvents.onboarding_education_step_impression, {
+        valueProposition,
+        variant,
+        step
+      })
+    }
+  }
+
+  componentDidUpdate() {
+    const { step } = this.state
+    const { topic, valueProposition, variant } = this.props.stepInfo[this.state.step]
+    if (topic === EducationTopic.onboarding) {
+      ValoraAnalytics.track(OnboardingEvents.onboarding_education_step_impression, {
+        valueProposition,
+        variant,
+        step
+      })
+    }
+  }
+
   swiper = React.createRef<Swiper>()
 
   goBack = () => {
@@ -133,10 +157,6 @@ export default class Education extends React.Component<Props, State> {
         ValoraAnalytics.track(OnboardingEvents.onboarding_education_scroll, {
           currentStep: step,
           direction: ScrollDirection.next,
-        })
-        ValoraAnalytics.track(OnboardingEvents.onboarding_education_step_impression, {
-          valueProposition,
-          variant,
         })
       }
       this.swiper?.current?.scrollBy(1, true)

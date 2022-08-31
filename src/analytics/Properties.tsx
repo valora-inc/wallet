@@ -187,6 +187,7 @@ interface OnboardingEventsProperties {
   [OnboardingEvents.onboarding_education_step_impression]: {
     valueProposition: string | undefined
     variant: string | undefined
+    step: number
   }
   [OnboardingEvents.onboarding_education_complete]: {
     variant: string

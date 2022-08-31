@@ -31,7 +31,7 @@ function useStep() {
         isTopTitle: true,
         image: onboardingEducation1,
         topic: EducationTopic.onboarding,
-        valueProposition: 'Payment',
+        valueProposition: 'payment',
         variant,
       },
       {
@@ -39,7 +39,7 @@ function useStep() {
         isTopTitle: true,
         image: onboardingEducation2,
         topic: EducationTopic.onboarding,
-        valueProposition: 'Impact',
+        valueProposition: 'impact',
         variant,
       },
       {
@@ -47,7 +47,7 @@ function useStep() {
         isTopTitle: true,
         image: onboardingEducation3,
         topic: EducationTopic.onboarding,
-        valueProposition: 'Spend',
+        valueProposition: 'spend',
         variant,
       },
     ])
