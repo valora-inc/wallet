@@ -201,6 +201,7 @@ export interface RemoteConfigValues {
   swapFeeEnabled: boolean
   swapFeePercentage: number
   inviteMethod: InviteMethodType
+  showGuidedOnboardingCopy: boolean
 }
 
 export function* appRemoteFeatureFlagSaga() {

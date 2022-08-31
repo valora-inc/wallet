@@ -618,7 +618,10 @@
     "goldDisclaimer": "When you create an \"account\" with Valora you are creating a digital wallet to which only you hold the keys. No other person or entity, including cLabs or Valora, can recover your key, change or undo transactions, or recover lost funds. Be aware that CELO, cUSD and cEUR are part of a new asset class and present a risk of financial loss. Carefully consider your financial circumstance and tolerance for financial risk before purchasing any asset. You can only send up to {{dailyLimitCUSD}} cUSD per day through Valora (the \"Daily Limit\"). You must contact support@valoraapp.com and provide additional, personal information to request increasing this Daily Limit. There could be a delay to conduct required compliance."
   },
   "fullName": "Name",
+  "fullNameOrPseudonymPlaceholder": "First and last name or pseudonym",
   "fullNamePlaceholder": "First & Last name",
+  "nameAndPicGuideCopyTitle": "What’s your name?",
+  "nameAndPicGuideCopyContent": "We’d like to know what to call you",
   "importIt": "Restore Wallet",
   "important": "Important",
   "confirmPin": {
@@ -705,7 +708,9 @@
   "enableBiometry": {
     "title": "Secure your wallet",
     "description": "{{biometryType}} secures your wallet and makes it easier to use {{appName}}",
-    "cta": "Turn on {{biometryType}}"
+    "cta": "Turn on {{biometryType}}",
+    "guideTitle": "Want to add {{biometryType}}?",
+    "guideDescription": "{{biometryType}} makes it easier, quicker, and more secure to connect your wallet to dapps & sign transactions."
   },
   "biometryType": {
     "FaceID": "Face ID",
@@ -718,6 +723,7 @@
   "unlockWithBiometryPrompt": "Authenticate to unlock {{appName}}",
   "welcome": {
     "title": "Step into the future of crypto with {{appName}}",
+    "titleGuided": "Welcome to {{appName}}!\nLet’s create your crypto wallet.",
     "createAccount": "Create new account",
     "restoreAccount": "Restore my account",
     "createNewWallet": "Create new wallet",
@@ -739,9 +745,12 @@
     "create": "Create a PIN",
     "createNew": "Create a new PIN",
     "verify": "Enter your PIN again to confirm",
+    "guideTitle": "Choose a 6 digit PIN you’ll remember",
+    "pinCodeGuide": "Keep your PIN safe, it’s how you’ll keep your wallet secure.",
     "changePIN": "Change PIN",
     "pinsDontMatch": "The PINs didn't match",
-    "invalidPin": "Please use a stronger PIN"
+    "invalidPin": "Please use a stronger PIN",
+    "selectPIN": "Select PIN"
   },
   "inviteCode": {
     "title": "Invite Code",
