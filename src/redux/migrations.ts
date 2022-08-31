@@ -11,7 +11,8 @@ import { VerificationStatus } from 'src/identity/types'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { TokenTransaction } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
-import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD_LEGACY } from 'test/schemas'
+
+const DEFAULT_DAILY_PAYMENT_LIMIT_CUSD_LEGACY = 1000
 
 export const migrations = {
   0: (state: any) => {

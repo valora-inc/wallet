@@ -93,7 +93,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 75,
+          "version": 76,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -106,8 +106,6 @@ describe('store state', () => {
             "contactId": "contactId",
             "thumbnailPath": null,
           },
-          "dailyLimitCusd": 1000,
-          "dailyLimitRequestStatus": undefined,
           "defaultCountryCode": "+1",
           "devModeActive": false,
           "devModeClickCount": 0,
@@ -170,7 +168,6 @@ describe('store state', () => {
           "shouldShowRecoveryPhraseInSettings": false,
           "showGuidedOnboardingCopy": false,
           "showPriceChangeIndicatorInBalances": false,
-          "showRaiseDailyLimitTarget": undefined,
           "showSwapMenuInDrawerMenu": false,
           "skipProfilePicture": false,
           "skipVerification": false,
