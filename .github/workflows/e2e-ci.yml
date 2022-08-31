@@ -40,6 +40,12 @@ jobs:
         run: git diff --exit-code
       - name: Check E2E wallet balance
         run: NODE_OPTIONS='--unhandled-rejections=strict' yarn ts-node ./e2e/scripts/check-e2e-wallet-balance.ts
+      - name: Java version
+        run: java -version
+      - name: which java
+        run: which java
+      - name: which user
+        run: whoami
       - name: Create Detox Build
         run: |
           export CELO_TEST_CONFIG=e2e
