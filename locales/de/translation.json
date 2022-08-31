@@ -618,7 +618,10 @@
     "goldDisclaimer": "Wenn du ein „Konto“ mit Valora erstellst, erstellst du eine digitale Wallet zu der nur du die Schlüssel besitzt. Keine andere Person oder Entität, einschließlich cLabs oder Valora, kann deinen Schlüssel wiederherstellen, Transaktionen ändern oder rückgängig machen oder verloren gegangene Guthaben wiederherstellen. Bitte beachte, dass CELO, cUSD und cEUR Teil einer neuen Anlageklasse sind und ein Risiko finanziellen Verlust darstellen. Berücksichtige deine finanziellen Umstände und Toleranz gegenüber finanziellen Risiken, bevor du Vermögenswerte kaufst. Du kannst nur bis zu {{dailyLimitCUSD}} cUSD pro Tag über Valora versenden (das „Tageslimit“). Du musst dich mit support@valoraapp.com in Verbindung setzen und zusätzliche persönliche Informationen angeben, um eine Erhöhung dieses Tageslimits zu beantragen. Es kann zu Verzögerungen bei der Erfüllung der erforderlichen Einhaltung kommen."
   },
   "fullName": "Name",
+  "fullNameOrPseudonymPlaceholder": "Vor- und Nachname oder Pseudonym",
   "fullNamePlaceholder": "Vollständiger Name",
+  "nameAndPicGuideCopyTitle": "Wie ist dein Name?",
+  "nameAndPicGuideCopyContent": "Wir würden gerne wissen, wie wir dich nennen sollen",
   "importIt": "Wallet wiederherstellen",
   "important": "Wichtig",
   "confirmPin": {
@@ -705,7 +708,9 @@
   "enableBiometry": {
     "title": "Sichere dein Wallet",
     "description": "{{biometryType}} sichert dein Wallet und erleichtert die Verwendung von {{appName}}",
-    "cta": "{{biometryType}} einschalten"
+    "cta": "{{biometryType}} einschalten",
+    "guideTitle": "Möchtest du {{biometryType}}hinzufügen?",
+    "guideDescription": "{{biometryType}} macht es einfacher, schneller und sicherer, deine Wallet mit Dapps zu verbinden und Transaktionen zu signieren."
   },
   "biometryType": {
     "FaceID": "Face-ID",
@@ -718,6 +723,7 @@
   "unlockWithBiometryPrompt": "Authentifizieren, um {{appName}} zu entsperren",
   "welcome": {
     "title": "Steige mit {{appName}} in die Zukunft von Krypto ein.",
+    "titleGuided": "Willkommen bei {{appName}}!\nLass uns deine Krypto-Brieftasche erstellen.",
     "createAccount": "Neues Konto erstellen",
     "restoreAccount": "Mein Konto wiederherstellen",
     "createNewWallet": "Wallet erstellen",
@@ -739,9 +745,12 @@
     "create": "PIN erstellen",
     "createNew": "Neue PIN erstellen",
     "verify": "Zur Bestätigung erneut PIN eingeben",
+    "guideTitle": "Wähle eine 6-stellige PIN, die du dir merken kannst",
+    "pinCodeGuide": "Bewahre deine PIN sicher auf, so schützt du dein Portemonnaie.",
     "changePIN": "PIN ändern",
     "pinsDontMatch": "Die PINs stimmen nicht überein",
-    "invalidPin": "Bitte eine stärkere PIN verwenden"
+    "invalidPin": "Bitte eine stärkere PIN verwenden",
+    "selectPIN": "Select PIN"
   },
   "inviteCode": {
     "title": "Einladungscode",
