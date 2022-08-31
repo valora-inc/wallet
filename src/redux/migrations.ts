@@ -801,4 +801,15 @@ export const migrations = {
     },
   }),
   73: (state: any) => state,
+  74: (state: any) => ({
+    ...state,
+    identity: _.omit(state.identity, 'matchedContacts'),
+  }),
+  75: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      showGuidedOnboardingCopy: REMOTE_CONFIG_VALUES_DEFAULTS.showGuidedOnboardingCopy,
+    },
+  }),
 }

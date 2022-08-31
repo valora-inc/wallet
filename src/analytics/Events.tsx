@@ -222,7 +222,6 @@ export enum IdentityEvents {
   contacts_import_start = 'contacts_import_start',
   contacts_import_complete = 'contacts_import_complete',
   contacts_processing_complete = 'contacts_processing_complete',
-  contacts_matchmaking_complete = 'contacts_matchmaking_complete',
   contacts_import_error = 'contacts_import_error',
 
   phone_number_lookup_start = 'phone_number_lookup_start',
