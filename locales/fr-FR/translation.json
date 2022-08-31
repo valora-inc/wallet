@@ -618,7 +618,10 @@
     "goldDisclaimer": "Lorsque vous créez un compte sur Valora, vous créez un portefeuille numérique dont vous seul détenez les clés. Aucune autre personne ou entité, y compris cLabs ou Valora, ne peut récupérer votre clé, modifier ou annuler des transactions, ou récupérer des fonds perdus. Sachez que CELO, cUSD et cEUR font partie d'une nouvelle catégorie de valeurs présentant un risque de perte financière. Réfléchissez bien à votre situation financière et à votre tolérance au risque financier avant d’acheter une valeur. Vous pouvez envoyer au maximum {{dailyLimitCUSD}} cUSD par jour via Valora (la \"Limite quotidienne\"). Vous devrez contacter support@valoraapp.com et fournir des informations personnelles complémentaires pour demander une augmentation de cette limite quotidienne. Un délai pourra être appliqué afin de réaliser les procédures de vérification et de conformité nécessaires."
   },
   "fullName": "Nom",
+  "fullNameOrPseudonymPlaceholder": "Prénom et nom de famille ou pseudonyme",
   "fullNamePlaceholder": "Prénom et nom",
+  "nameAndPicGuideCopyTitle": "Quel est ton nom ?",
+  "nameAndPicGuideCopyContent": "Nous aimerions savoir comment t'appeler",
   "importIt": "Restaurer le portefeuille",
   "important": "Important",
   "confirmPin": {
@@ -705,7 +708,9 @@
   "enableBiometry": {
     "title": "Sécurisez votre portefeuille",
     "description": "{{biometryType}} sécurise votre compte et simplifie l'utilisation de {{appName}}",
-    "cta": "Activer {{biometryType}}"
+    "cta": "Activer {{biometryType}}",
+    "guideTitle": "Tu veux ajouter {{biometryType}}?",
+    "guideDescription": "{{biometryType}} rend plus facile, plus rapide et plus sûr le fait de connecter ton portefeuille à des dapps et de signer des transactions."
   },
   "biometryType": {
     "FaceID": "Face ID",
@@ -718,6 +723,7 @@
   "unlockWithBiometryPrompt": "Faites l'authentification pour déverrouiller {{appName}}",
   "welcome": {
     "title": "Entrez dans le futur des cryptomonnaies avec {{appName}}",
+    "titleGuided": "Bienvenue sur {{appName}}!\nCréons ton portefeuille de crypto-monnaies.",
     "createAccount": "Créer un nouveau compte",
     "restoreAccount": "Restaurer mon compte",
     "createNewWallet": "Créer un portefeuille",
@@ -739,9 +745,12 @@
     "create": "Créez un code PIN",
     "createNew": "Créez un nouveau code PIN",
     "verify": "Saisissez à nouveau votre code PIN pour confirmer",
+    "guideTitle": "Choisis un code PIN à 6 chiffres dont tu te souviendras",
+    "pinCodeGuide": "Garde ton code PIN en sécurité, c'est ainsi que tu préserveras la sécurité de ton portefeuille.",
     "changePIN": "Modifer le code PIN",
     "pinsDontMatch": "Les codes PIN ne correspondent pas",
-    "invalidPin": "Veuillez utiliser un code PIN plus fort"
+    "invalidPin": "Veuillez utiliser un code PIN plus fort",
+    "selectPIN": "Select PIN"
   },
   "inviteCode": {
     "title": "Code d'invitation",
