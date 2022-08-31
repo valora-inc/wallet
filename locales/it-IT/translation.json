@@ -750,7 +750,7 @@
     "changePIN": "Modifica il PIN",
     "pinsDontMatch": "I PIN non corrispondono",
     "invalidPin": "Usa un PIN più complesso",
-    "selectPIN": "Select PIN"
+    "selectPIN": "Seleziona il PIN"
   },
   "inviteCode": {
     "title": "Codice di invito",
