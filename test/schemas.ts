@@ -16,7 +16,7 @@ import {
   mockTestTokenAddress,
 } from 'test/values'
 
-const DEFAULT_DAILY_PAYMENT_LIMIT_CUSD_LEGACY = 1000
+export const DEFAULT_DAILY_PAYMENT_LIMIT_CUSD_LEGACY = 1000
 
 // Default (version -1 schema)
 export const vNeg1Schema = {

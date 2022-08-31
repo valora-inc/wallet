@@ -23,8 +23,6 @@ import {
 } from 'test/values'
 
 describe('send/utils', () => {
-  const HOURS = 3600 * 1000
-
   describe('handlePaymentDeeplink', () => {
     beforeEach(() => {
       jest.clearAllMocks()
