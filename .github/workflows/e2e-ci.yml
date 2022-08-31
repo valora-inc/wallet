@@ -40,12 +40,10 @@ jobs:
         run: git diff --exit-code
       - name: Check E2E wallet balance
         run: NODE_OPTIONS='--unhandled-rejections=strict' yarn ts-node ./e2e/scripts/check-e2e-wallet-balance.ts
-      - name: Try bash
-        shell: bash
-        run: java -version
       - name: Create Detox Build
         shell: bash
         run: |
+          source ~/.profile
           export CELO_TEST_CONFIG=e2e
           export ANDROID_SDK_ROOT=$HOME/android-tools
           yarn detox build -c android.release
