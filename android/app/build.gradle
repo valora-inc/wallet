@@ -322,6 +322,10 @@ dependencies {
       }
     }
 
+    // this fixes an crash on devices with API level 31+ that requires a
+    // FLAG_IMMUTABLE or FLAG_MUTABLE be specified when creating a PendingIntent
+    implementation 'androidx.work:work-runtime:2.7.1'
+
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
       exclude group:'com.facebook.fbjni'
     }
