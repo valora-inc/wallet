@@ -618,7 +618,10 @@
     "goldDisclaimer": "Zakładając „konto” w aplikacji Valora, tworzysz cyfrowy portfel, do którego klucz dostępu posiadasz tylko Ty. Żadna inna osoba ani żaden podmiot, w tym cLabs czy Valora, nie mogą odzyskać Twojego klucza, zmodyfikować lub cofnąć transakcji ani odzyskać utraconych środków. Należy pamiętać, że CELO, cUSD i cEUR są częścią nowej klasy aktywów i wiążą się z ryzykiem strat finansowych. Przed zakupem jakichkolwiek aktywów dokładnie rozważ swoją sytuację finansową i tolerancję na ryzyko finansowe. Za pośrednictwem aplikacji Valora możesz wysyłać maksymalnie {{dailyLimitCUSD}} cUSD dziennie („Limit dzienny”). Aby wnioskować o zwiększenie Limitu dziennego, musisz skontaktować się z support@valoraapp.com i podać dodatkowe dane osobowe. Wnioski mogą być akceptowane z pewnym opóźnieniem."
   },
   "fullName": "Nazwa",
+  "fullNameOrPseudonymPlaceholder": "Imię i nazwisko lub pseudonim",
   "fullNamePlaceholder": "Imię i nazwisko",
+  "nameAndPicGuideCopyTitle": "Jak masz na imię?",
+  "nameAndPicGuideCopyContent": "Chcielibyśmy wiedzieć, jak cię nazywać",
   "importIt": "Przywróć portfel",
   "important": "Ważne",
   "confirmPin": {
@@ -705,7 +708,9 @@
   "enableBiometry": {
     "title": "Zabezpiecz swój portfel",
     "description": "{{biometryType}} zabezpiecza portfel i ułatwia korzystanie z aplikacji {{appName}}",
-    "cta": "Włącz {{biometryType}}"
+    "cta": "Włącz {{biometryType}}",
+    "guideTitle": "Chcesz dodać {{biometryType}}?",
+    "guideDescription": "{{biometryType}} ułatwia, przyspiesza i zabezpiecza łączenie portfela z dapps i podpisywanie transakcji."
   },
   "biometryType": {
     "FaceID": "Face ID",
@@ -718,6 +723,7 @@
   "unlockWithBiometryPrompt": "Uwierzytelnij, aby odblokować {{appName}}",
   "welcome": {
     "title": "Wkrocz w przyszłość kryptowalut z aplikacją {{appName}}",
+    "titleGuided": "Witamy na {{appName}}!\nStwórzmy twój portfel kryptowalutowy.",
     "createAccount": "Utwórz nowe konto",
     "restoreAccount": "Przywróć konto",
     "createNewWallet": "Utwórz portfel",
@@ -739,9 +745,12 @@
     "create": "Utwórz kod PIN",
     "createNew": "Utwórz nowy kod PIN",
     "verify": "Wprowadź ponownie kod PIN, aby potwierdzić",
+    "guideTitle": "Wybierz 6-cyfrowy kod PIN, który zapamiętasz",
+    "pinCodeGuide": "Trzymaj swój PIN w bezpiecznym miejscu, w ten sposób zabezpieczysz swój portfel.",
     "changePIN": "Zmień kod PIN",
     "pinsDontMatch": "Kody PIN nie zgadzają się",
-    "invalidPin": "Użyj silniejszego kodu PIN"
+    "invalidPin": "Użyj silniejszego kodu PIN",
+    "selectPIN": "Wybierz PIN"
   },
   "inviteCode": {
     "title": "Kod zaproszenia",
