@@ -344,7 +344,8 @@
     "json-schema": "^0.4.0",
     "@celo/utils": "^1.2.4",
     "shell-quote": "^1.7.3",
-    "hermes-engine": "^0.10.0"
+    "hermes-engine": "^0.10.0",
+    "react-native-securerandom": "git+https://github.com/robhogan/react-native-securerandom#7c01efd"
   },
   "detox": {
     "test-runner": "jest",
