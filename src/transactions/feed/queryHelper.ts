@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import Toast from 'react-native-simple-toast'
-import { useDispatch, useSelector } from 'react-redux'
+import { batch, useDispatch, useSelector } from 'react-redux'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import useInterval from 'src/hooks/useInterval'
@@ -109,9 +109,14 @@ export function useFetchTransactions(): QueryHookResult {
           (returnedTransaction) => !isEmpty(returnedTransaction)
         )
         // If there are new transactions update transactions in redux and fetch balances
-        if (nonEmptyTransactions[0].transactionHash !== lastTransactionHash) {
-          dispatch(updateTransactions(nonEmptyTransactions))
-          dispatch(fetchTokenBalances({ showLoading: false }))
+        if (
+          nonEmptyTransactions.length &&
+          nonEmptyTransactions[0].transactionHash !== lastTransactionHash
+        ) {
+          batch(() => {
+            dispatch(updateTransactions(nonEmptyTransactions))
+            dispatch(fetchTokenBalances({ showLoading: false }))
+          })
         }
       }
     }
