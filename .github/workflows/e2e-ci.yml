@@ -40,8 +40,10 @@ jobs:
         run: git diff --exit-code
       - name: Check E2E wallet balance
         run: NODE_OPTIONS='--unhandled-rejections=strict' yarn ts-node ./e2e/scripts/check-e2e-wallet-balance.ts
-      - name: Source profile
-        run: source ~/.profile
+      - name: Source profile & version
+        run: |
+          source ~/.profile
+          java -version
       - name: Java version
         run: java -version
       - name: which java
