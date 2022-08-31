@@ -618,7 +618,10 @@
     "goldDisclaimer": "Cuando creas una cuenta de Valora, estás creando una billetera digital para la que solo tu tienes las claves. Ninguna otra persona o entidad, ni siquiera cLabs o Valora, puede recuperar tu clave, cambiar o deshacer transacciones, o recuperar fondos perdidos. Ten en cuenta que CELO, cUSD y cEUR son parte de una nueva clase de activos y suponen un riesgo de pérdida financiera. Considera cuidadosamente tus circunstancias financieras y tu tolerancia al riesgo financiero antes de comprar. Solo puedes enviar hasta {{dailyLimitCUSD}} cUSD por día a través de Valora (“Límite diario”). Si deseas solicitar un aumento a este límite diario, deberás ponerte en contacto con support@valoraapp.com y proporcionar información personal adicional. Puede llegar a haber un retraso en llevar a cabo la conformidad requerida."
   },
   "fullName": "Nombre",
+  "fullNameOrPseudonymPlaceholder": "Nombre y apellido o seudónimo",
   "fullNamePlaceholder": "Nombre y apellido",
+  "nameAndPicGuideCopyTitle": "¿Cómo te llamas?",
+  "nameAndPicGuideCopyContent": "Nos gustaría saber cómo llamarte",
   "importIt": "Restaurar cuenta",
   "important": "Importante",
   "confirmPin": {
@@ -705,7 +708,9 @@
   "enableBiometry": {
     "title": "Mantén tu billetera segura",
     "description": "{{biometryType}} matiene tu cuenta segura y facilita el uso de {{appName}}",
-    "cta": "Habilitar {{biometryType}}"
+    "cta": "Habilitar {{biometryType}}",
+    "guideTitle": "¿Quieres añadir {{biometryType}}?",
+    "guideDescription": "{{biometryType}} hace que sea más fácil, rápido y seguro conectar tu monedero a dapps y firmar transacciones."
   },
   "biometryType": {
     "FaceID": "Face ID",
@@ -718,6 +723,7 @@
   "unlockWithBiometryPrompt": "Autenticar para desbloquear {{appName}}",
   "welcome": {
     "title": "Entra de lleno al futuro de las criptomonedas con {{appName}}.",
+    "titleGuided": "¡Bienvenido a {{appName}}!\nVamos a crear tu cartera de criptomonedas.",
     "createAccount": "Crear una cuenta",
     "restoreAccount": "Restaurar cuenta existente",
     "createNewWallet": "Crear billetera",
@@ -739,9 +745,12 @@
     "create": "Crea un PIN",
     "createNew": "Crear un nuevo PIN",
     "verify": "Ingresa tu PIN de nuevo para confirmar",
+    "guideTitle": "Elige un PIN de 6 dígitos que recuerdes",
+    "pinCodeGuide": "Mantén tu PIN a salvo, así mantendrás tu cartera segura.",
     "changePIN": "Cambiar PIN",
     "pinsDontMatch": "Los PIN no coinciden",
-    "invalidPin": "Por favor use un PIN más fuerte"
+    "invalidPin": "Por favor use un PIN más fuerte",
+    "selectPIN": "Select PIN"
   },
   "inviteCode": {
     "title": "Código de invitación",
