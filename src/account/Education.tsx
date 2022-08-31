@@ -81,7 +81,7 @@ export default class Education extends React.Component<Props, State> {
       ValoraAnalytics.track(OnboardingEvents.onboarding_education_step_impression, {
         valueProposition,
         variant,
-        step
+        step,
       })
     }
   }
@@ -93,7 +93,7 @@ export default class Education extends React.Component<Props, State> {
       ValoraAnalytics.track(OnboardingEvents.onboarding_education_step_impression, {
         valueProposition,
         variant,
-        step
+        step,
       })
     }
   }
@@ -137,7 +137,7 @@ export default class Education extends React.Component<Props, State> {
 
   nextStep = () => {
     const { step } = this.state
-    const { topic, valueProposition, variant } = this.props.stepInfo[this.state.step]
+    const { topic } = this.props.stepInfo[this.state.step]
     const isLastStep = step === this.props.stepInfo.length - 1
 
     if (isLastStep) {
