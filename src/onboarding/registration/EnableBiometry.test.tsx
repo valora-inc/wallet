@@ -135,4 +135,26 @@ describe('EnableBiometry', () => {
 
     expect(navigate).toHaveBeenCalledWith(Screens.VerificationEducationScreen)
   })
+
+  it('should show guided onboarding explaining faceid when enabled to do so', () => {
+    const store = createMockStore({
+      app: {
+        showGuidedOnboardingCopy: true,
+        supportedBiometryType: BIOMETRY_TYPE.FACE_ID,
+        biometryEnabled: true,
+        activeScreen: Screens.EnableBiometry,
+      },
+    })
+    const { getByText } = render(
+      <Provider store={store}>
+        <MockedNavigator component={EnableBiometry} />
+      </Provider>
+    )
+    expect(
+      getByText('enableBiometry.guideTitle, {"biometryType":"biometryType.FaceID"}')
+    ).toBeTruthy()
+    expect(
+      getByText('enableBiometry.guideDescription, {"biometryType":"biometryType.FaceID"}')
+    ).toBeTruthy()
+  })
 })
