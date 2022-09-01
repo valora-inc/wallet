@@ -75,28 +75,9 @@
   "chooseFromLibrary": "Aus Bibliothek wählen",
   "takePhoto": "Foto machen",
   "removePhoto": "Foto entfernen",
-  "accountSendLimit": "Konto-Sendelimit",
-  "dailyLimitLabel": "Aktuelles tägliches Sendelimit",
-  "dailyLimitValue": "${{dailyLimit}}",
-  "noDailyLimit": "Unbegrenzt",
-  "verifyNumberToRaiseLimit": "Du kannst dein Sendelimit erhöhen, indem du deine Identität überprüfst. Bitte verbinde deine Telefonnummer, bevor du fortfährst.",
-  "verifyIdentityToRaiseLimit": "Du kannst dein Sendelimit erhöhen, indem du deine Identität bestätigst. Bitte gib im folgenden Prozess einige Details an.",
-  "dailyLimitApplicationStatus": "Bewerbungsstatus",
-  "applicationInReview": "Wird geprüft",
-  "applicationInReviewDescription": "Deine Bewerbung wird überprüft. Du wirst benachrichtigt, sobald dieser Vorgang abgeschlossen ist.",
-  "applicationIncomplete": "Unvollständig",
-  "applicationIncompleteDescription": "Die von Dir zur Verfügung gestellten Informationen waren unzureichend. Bitte sei bereit, im folgenden Prozess weitere Details anzugeben.",
-  "applicationDenied": "Verweigert",
-  "applicationDeniedDescription": "Deine Bewerbung wurde abgelehnt. Wenn du der Meinung bist, dass dies ein Fehler war, starte bitte den folgenden Prozess neu.",
   "applicationCompleted": "Fertiggestellt",
   "applicationCompletedDescription": "Deine Bewerbung wurde akzeptiert. Du kannst jetzt täglich einen unbegrenzten Betrag senden.",
-  "raiseLimitConfirmNumber": "Telefonnummer verbinden",
   "raiseLimitBegin": "Identitätsüberprüfung beginnen",
-  "raiseLimitResume": "Identitätsprüfung fortsetzen",
-  "raiseLimitEmailSubject": "Anfrage zur Erhöhung des Konto-Sendelimits",
-  "raiseLimitEmailBody": "Ich möchte eine Erhöhung des Tageslimits von {{dailyLimit}} {{appName}} für Adresse {{address}} beantragen",
-  "raiseLimitEmailSuccess": "Deine Bewerbung wurde erfolgreich gemeldet! Erwarte in Kürze eine E-Mail-Antwort!",
-  "raiseLimitEmailNotSent": "Deine Bewerbung wurde nicht gesendet. Bitte versuche es erneut.",
   "storeRecoveryTitle": "Du musst dein Konto erneut einrichten",
   "storeRecoveryBody": "Es ist ein Fehler aufgetreten. Wir sind uns des Problems bewusst und arbeiten daran, es zu beheben. In der Zwischenzeit musst du den Setup-Prozess erneut durchlaufen.",
   "storeRecoveryButton": "Konto wiederherstellen",
@@ -318,11 +299,6 @@
     "maxAmount": "Unsere Anbieter unterstützen keine Gesamtsummen größer als {{usdLimit}}{{localLimit}}. Bitte gib einen kleineren Betrag ein.",
     "dismiss": "OK"
   },
-  "dailyLimitDialog": {
-    "body": "Du bist dabei, mehr als dein tägliches Sendelimit von {{limit}} zu erwerben. Bitte kontaktiere <0>{{contactEmail}}</0>, wenn du dein tägliches Sendelimit erhöhen möchtest.",
-    "contact": "Kontakt",
-    "continue": "Ich verstehe"
-  },
   "providerFeesDialog": {
     "title": "Anbieter-Gebühren",
     "body1": "Die Anbietergebühren werden von jedem Anbieter individuell festgelegt und beinhalten unter anderem eine Umtauschgebühr und Liquiditätsgebühren. Um mehr zu erfahren, besuche bitte ",
@@ -332,7 +308,6 @@
     "title": "Gebührenrabatt",
     "body": "Als Sonderaktion zur Feier der Markteinführung von Valora werden die Gebühren vorübergehend bezuschusst!"
   },
-  "dailyLimitRequest": "Hallo! Ich möchte mein tägliches Sendelimit erhöhen.",
   "pleaseSelectProvider": "Bitte wähle unten einen Anbieter aus. Diese Links verbinden sich mit einem Drittanbieter.",
   "otherFundingOptions": "Weitere Möglichkeiten zum Hinzufügen und Abheben von Guthaben findest du auf <0>Wie du dein Konto auflädst</0>.",
   "youCanTransferIn": "Du kannst die Börse einer Drittpartei nutzen, um {{digitalAsset}} an dein Valora-Konto zu senden. Dafür benötigst du deine Konto-Adresse.",
@@ -486,8 +461,6 @@
   "maxActionableAttestationsExceededError": "Fehler beim erneuten Senden der Nachricht",
   "odisInsufficientBalance": "Bitte verbinde deine Nummer",
   "matchmakingQuotaExceededError": "Matchmaking kann nur einmal durchgeführt werden",
-  "paymentLimitReached": "Das Tageslimit beträgt {{dailyLimitcUSD}} cUSD ({{currencySymbol}}{{dailyLimit}})\n{{dailyRemainingcUSD}} cUSD ({{currencySymbol}}{{dailyRemaining}}) verbleibend",
-  "requestLimitError": "Kann nicht mehr als {{limit}} cUSD Tageslimit anfordern.",
   "ordinals": [
     "nullte",
     "erste",
@@ -615,7 +588,7 @@
     "heading2": "Celo Vermögen und {{appName}}-Konto",
     "info": "Lese bitte unsere <0>Benutzervereinbarung und Bedingungen</0> und klicke unten auf Akzeptieren um unsere Dienste zu nutzen.",
     "privacy": "Indem du diesem Netzwerk beitrittst, gibst du uns die Erlaubnis, anonyme Informationen über deine Nutzung der App zu sammeln. Wenn du deine Telefonnummer verbindest, wird eine Kopie davon im Celo Netzwerk gespeichert. Wenn du Valora Zugriff auf deine Kontaktliste gewährst, wird Valora den Namen jedes Kontaktes importieren Telefonnummer und Profilbild, um Benutzern die Verbindung über die Valora-App zu ermöglichen. Um zu erfahren, wie wir diese Informationen sammeln und verwenden, lesen unsere <0>Datenschutzrichtlinie</0>.",
-    "goldDisclaimer": "Wenn du ein „Konto“ mit Valora erstellst, erstellst du eine digitale Wallet zu der nur du die Schlüssel besitzt. Keine andere Person oder Entität, einschließlich cLabs oder Valora, kann deinen Schlüssel wiederherstellen, Transaktionen ändern oder rückgängig machen oder verloren gegangene Guthaben wiederherstellen. Bitte beachte, dass CELO, cUSD und cEUR Teil einer neuen Anlageklasse sind und ein Risiko finanziellen Verlust darstellen. Berücksichtige deine finanziellen Umstände und Toleranz gegenüber finanziellen Risiken, bevor du Vermögenswerte kaufst. Du kannst nur bis zu {{dailyLimitCUSD}} cUSD pro Tag über Valora versenden (das „Tageslimit“). Du musst dich mit support@valoraapp.com in Verbindung setzen und zusätzliche persönliche Informationen angeben, um eine Erhöhung dieses Tageslimits zu beantragen. Es kann zu Verzögerungen bei der Erfüllung der erforderlichen Einhaltung kommen."
+    "goldDisclaimer": "Wenn du ein \"Konto\" bei Valora anlegst, erstellst du eine digitale Brieftasche, deren Schlüssel nur du besitzt. Keine andere Person oder Organisation, einschließlich cLabs oder Valora, kann deinen Schlüssel wiederherstellen, Transaktionen ändern oder rückgängig machen oder verlorene Gelder wiedererlangen. Sei dir bewusst, dass CELO, cUSD und cEUR Teil einer neuen Anlageklasse sind und ein Risiko für finanzielle Verluste darstellen. Überlege dir deine finanzielle Situation und deine Risikobereitschaft genau, bevor du einen Vermögenswert kaufst."
   },
   "fullName": "Name",
   "fullNameOrPseudonymPlaceholder": "Vor- und Nachname oder Pseudonym",
