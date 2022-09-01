@@ -591,10 +591,7 @@
     "goldDisclaimer": "Wenn du ein \"Konto\" bei Valora anlegst, erstellst du eine digitale Brieftasche, deren Schlüssel nur du besitzt. Keine andere Person oder Organisation, einschließlich cLabs oder Valora, kann deinen Schlüssel wiederherstellen, Transaktionen ändern oder rückgängig machen oder verlorene Gelder wiedererlangen. Sei dir bewusst, dass CELO, cUSD und cEUR Teil einer neuen Anlageklasse sind und ein Risiko für finanzielle Verluste darstellen. Überlege dir deine finanzielle Situation und deine Risikobereitschaft genau, bevor du einen Vermögenswert kaufst."
   },
   "fullName": "Name",
-  "fullNameOrPseudonymPlaceholder": "Vor- und Nachname oder Pseudonym",
   "fullNamePlaceholder": "Vollständiger Name",
-  "nameAndPicGuideCopyTitle": "Wie ist dein Name?",
-  "nameAndPicGuideCopyContent": "Wir würden gerne wissen, wie wir dich nennen sollen",
   "importIt": "Wallet wiederherstellen",
   "important": "Wichtig",
   "confirmPin": {
@@ -684,9 +681,7 @@
   "enableBiometry": {
     "title": "Sichere dein Wallet",
     "description": "{{biometryType}} sichert dein Wallet und erleichtert die Verwendung von {{appName}}",
-    "cta": "{{biometryType}} einschalten",
-    "guideTitle": "Möchtest du {{biometryType}}hinzufügen?",
-    "guideDescription": "{{biometryType}} macht es einfacher, schneller und sicherer, deine Wallet mit Dapps zu verbinden und Transaktionen zu signieren."
+    "cta": "{{biometryType}} einschalten"
   },
   "biometryType": {
     "FaceID": "Face-ID",
@@ -699,7 +694,6 @@
   "unlockWithBiometryPrompt": "Authentifizieren, um {{appName}} zu entsperren",
   "welcome": {
     "title": "Steige mit {{appName}} in die Zukunft von Krypto ein.",
-    "titleGuided": "Willkommen bei {{appName}}!\nLass uns deine Krypto-Brieftasche erstellen.",
     "createAccount": "Neues Konto erstellen",
     "restoreAccount": "Mein Konto wiederherstellen",
     "createNewWallet": "Wallet erstellen",
@@ -721,12 +715,9 @@
     "create": "PIN erstellen",
     "createNew": "Neue PIN erstellen",
     "verify": "Zur Bestätigung erneut PIN eingeben",
-    "guideTitle": "Wähle eine 6-stellige PIN, die du dir merken kannst",
-    "pinCodeGuide": "Bewahre deine PIN sicher auf, so schützt du dein Portemonnaie.",
     "changePIN": "PIN ändern",
     "pinsDontMatch": "Die PINs stimmen nicht überein",
-    "invalidPin": "Bitte eine stärkere PIN verwenden",
-    "selectPIN": "PIN auswählen"
+    "invalidPin": "Bitte eine stärkere PIN verwenden"
   },
   "inviteCode": {
     "title": "Einladungscode",
