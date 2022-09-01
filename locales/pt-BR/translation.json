@@ -591,10 +591,7 @@
     "goldDisclaimer": "Ao criar uma \"conta\" com a Valora, está a criar uma carteira digital na qual só você detém as chaves. Nenhuma outra pessoa ou entidade, incluindo o cLabs ou a Valora, pode recuperar a sua chave, alterar ou desfazer transacções, ou recuperar fundos perdidos. Esteja ciente de que o CELO, cUSD e cEUR fazem parte de uma nova classe de activos e apresentam um risco de perda financeira. Considere cuidadosamente a sua situação financeira e a tolerância ao risco financeiro antes de adquirir qualquer activo."
   },
   "fullName": "Nome",
-  "fullNameOrPseudonymPlaceholder": "Nome e sobrenome ou pseudónimo",
   "fullNamePlaceholder": "Nome e sobrenome",
-  "nameAndPicGuideCopyTitle": "Qual é o seu nome?",
-  "nameAndPicGuideCopyContent": "Gostaríamos de saber como lhe chamar",
   "importIt": "Restaurar Carteira",
   "important": "Importante",
   "confirmPin": {
@@ -684,9 +681,7 @@
   "enableBiometry": {
     "title": "Proteja sua carteira",
     "description": "{{biometryType}} protege sua conta e faz com que seja mais fácil usar {{appName}}",
-    "cta": "Ativar {{biometryType}}",
-    "guideTitle": "Deseja acrescentar {{biometryType}}?",
-    "guideDescription": "{{biometryType}} torna mais fácil, mais rápido e mais seguro ligar a sua carteira a dapps & assinar transacções."
+    "cta": "Ativar {{biometryType}}"
   },
   "biometryType": {
     "FaceID": "Face ID",
@@ -699,7 +694,6 @@
   "unlockWithBiometryPrompt": "Autenticar para desbloquear {{appName}}",
   "welcome": {
     "title": "Mergulhe no mundo cripto com a {{appName}}.",
-    "titleGuided": "Bem-vindo a {{appName}}!\nVamos criar a sua carteira criptográfica.",
     "createAccount": "Criar nova conta",
     "restoreAccount": "Restaurar conta existente",
     "createNewWallet": "Criar carteira",
@@ -721,12 +715,9 @@
     "create": "Criar um PIN",
     "createNew": "Criar um novo PIN",
     "verify": "Insira seu PIN novamente para confirmar",
-    "guideTitle": "Escolha um PIN de 6 dígitos que se lembrará",
-    "pinCodeGuide": "Mantenha o seu PIN seguro, é como vai manter a sua carteira segura.",
     "changePIN": "Alterar PIN",
     "pinsDontMatch": "Os PINs não coincidem",
-    "invalidPin": "Use um PIN mais forte",
-    "selectPIN": "Seleccionar PIN"
+    "invalidPin": "Use um PIN mais forte"
   },
   "inviteCode": {
     "title": "Código de convite",
