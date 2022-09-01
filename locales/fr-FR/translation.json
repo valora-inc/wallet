@@ -703,7 +703,10 @@
   "onboardingEducation": {
     "step1": "Si vous savez comment envoyer un SMS, vous saurez comprendre les cryptos. Dès maintenant, votre téléphone devient votre portefeuille de cryptomonnaies.",
     "step2": "Avec {{appName}}, se lancer et développer votre portefeuille de cryptomonnaies est plus facile que jamais.",
-    "step3": "Tout ce dont vous avez besoin est un téléphone portable pour envoyer, dépenser et découvrir."
+    "step3": "Tout ce dont vous avez besoin est un téléphone portable pour envoyer, dépenser et découvrir.",
+    "payment": "Fais des paiements dans le monde entier avec des frais presque nuls",
+    "impact": "Soutenir les initiatives en faveur du changement climatique et social",
+    "spend": "Utilise ta crypto pour acheter tes marques préférées"
   },
   "enableBiometry": {
     "title": "Sécurisez votre portefeuille",
