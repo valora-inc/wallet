@@ -75,28 +75,9 @@
   "chooseFromLibrary": "Kitaplıktan Seç",
   "takePhoto": "Fotoğraf Çek",
   "removePhoto": "Fotoğrafı Kaldır",
-  "accountSendLimit": "Hesap Gönderim Limiti",
-  "dailyLimitLabel": "Mevcut Günlük Gönderim Limiti",
-  "dailyLimitValue": "${{dailyLimit}}",
-  "noDailyLimit": "Sınırsız",
-  "verifyNumberToRaiseLimit": "Kimliğinizi doğrulayarak gönderme limitinizi artırabilirsiniz. Devam etmeden önce lütfen telefon numaranızı bağlayın.",
-  "verifyIdentityToRaiseLimit": "Kimliğinizi doğrulayarak gönderme limitinizi artırabilirsiniz. Lütfen süreç içerisinde talep edilen ayrıntıları paylaşmaya hazır olun.",
-  "dailyLimitApplicationStatus": "Uygulama Durumu",
-  "applicationInReview": "İnceleniyor",
-  "applicationInReviewDescription": "Başvurunuz inceleniyor. Bu işlem tamamlandığında bilgilendirileceksiniz.",
-  "applicationIncomplete": "Tamamlanmamış",
-  "applicationIncompleteDescription": "İlettiğiniz bilgiler yetersiz kaldı. Lütfen süreç içerisinde ek ayrıntılar sağlamaya hazır olun. ",
-  "applicationDenied": "Reddedildi",
-  "applicationDeniedDescription": "Başvurunuz reddedildi. Bunun bir hata olduğunu düşünüyorsanız, lütfen işlemi yeniden başlatın.",
   "applicationCompleted": "Tamamlandı",
   "applicationCompletedDescription": "Başvurunuz kabul edildi. Artık gün içerisinde sınırsız miktarda gönderim yapabilirsiniz.",
-  "raiseLimitConfirmNumber": "Telefon numarası bağla",
   "raiseLimitBegin": "Kimlik Doğrulamaya Başla",
-  "raiseLimitResume": "Kimlik Doğrulamaya Devam Et",
-  "raiseLimitEmailSubject": "Hesap gönderme limitini yükseltme talebi",
-  "raiseLimitEmailBody": "{{address}} adresi için {{appName}} {{dailyLimit}} günlük sınırının artırılmasını talep ediyorum",
-  "raiseLimitEmailSuccess": "Talebiniz başarıyla iletildi! Çok yakında size e-posta ile geri dönüş sağlayacağız!",
-  "raiseLimitEmailNotSent": "Talebiniz gönderliemedi. Lütfen tekrar deneyin.",
   "storeRecoveryTitle": "Hesabınızın tekrar kurulması gerekiyor",
   "storeRecoveryBody": "Bir hata oluştu. Sorunun farkındayız ve düzeltmek için çalışıyoruz. Bu arada kurulum sürecinden tekrar geçmeniz gerekecek.",
   "storeRecoveryButton": "Hesabı Geri Yükle",
@@ -318,11 +299,6 @@
     "maxAmount": "Sağlayıcılarımız, {{usdLimit}}{{localLimit}}'den büyük miktarları desteklemez. Lütfen daha küçük bir miktar girin.",
     "dismiss": "Tamam"
   },
-  "dailyLimitDialog": {
-    "body": "Günlük gönderme limitiniz olan {{limit}}'den fazlasını satın almak üzeresiniz. Günlük gönderme limitinizi yükseltmek istiyorsanız lütfen <0>{{contactEmail}}</0> ile iletişime geçin.",
-    "contact": "İletişim",
-    "continue": "Anladım"
-  },
   "providerFeesDialog": {
     "title": "Sağlayıcı Ücretleri",
     "body1": "Sağlayıcı ücretleri, her sağlayıcı tarafından ayrı ayrı belirlenir ve başka ücretlerle birlikte değişim ve likidite ücreti içerir. Daha fazla bilgi edinmek için lütfen ziyaret edin ",
@@ -332,7 +308,6 @@
     "title": "Ücret İndirimi",
     "body": "Valora'nın lansmanını kutlamak için ücretler geçici olarak düşürüldü!"
   },
-  "dailyLimitRequest": "Merhaba! Günlük gönderim limitimi artırmak istiyorum.",
   "pleaseSelectProvider": "Lütfen aşağıdan bir sağlayıcı seçin. Bu bağlantılar bir üçüncü taraf hizmetine bağlanır.",
   "otherFundingOptions": "<0>Hesaba nasıl bakiye yatırılır</0> sayfasını ziyaret ederek bakiye yatırma ve çekme yöntemleri hakkında daha fazla bilgi edinebilirsiniz",
   "youCanTransferIn": "Valora hesabınıza {{digitalAsset}} göndermek için bir üçüncü taraf borsa kullanabilirsiniz. Bunun için Hesap Adresinize ihtiyacınız olacak.",
@@ -486,8 +461,6 @@
   "maxActionableAttestationsExceededError": "Mesajlar yeniden gönderilemedi",
   "odisInsufficientBalance": "Lütfen numaranızı bağlayın",
   "matchmakingQuotaExceededError": "Eşleştirme sadece bir kez yapılabilir",
-  "paymentLimitReached": "Günlük limitiniz {{dailyLimitcUSD}} cUSD ({{currencySymbol}}{{dailyLimit}})\n{{dailyRemainingcUSD}} kalan cUSD ({{currencySymbol}}{{dailyRemaining}})",
-  "requestLimitError": "Günlük limitiniz olan {{limit}} cUSD'den daha fazla talep edilemez.",
   "ordinals": [
     "sıfırıncı",
     "birinci",
@@ -615,7 +588,7 @@
     "heading2": "Celo Varlıkları ve {{appName}} Hesabı",
     "info": "Hizmetlerimizi kullanmak için lütfen <0>Kullanıcı Sözleşmemizi ve Şartlarımızı</0> okuyun ve hemen altındaki kabul et düğmesini tıklayarak kabul edin.",
     "privacy": "Bu ağa katılarak, uygulamayı kullanımınız hakkında anonim bilgi toplamamıza izin veriyorsunuz. Ek olarak, telefon numaranızı bağlarsanız, bunun hash'li bir kopyası Celo Ağı'nda saklanır. Valora'ya kişi listenize erişim izni verirseniz, Valora, kullanıcıların Valora uygulaması aracılığıyla bağlanmasına izin vermek için her kişinin adını, telefon numarasını ve profil resmini içe aktarır. Bu bilgileri nasıl topladığımızı ve kullandığımızı öğrenmek için lütfen <0>Gizlilik Politikamızı</0> inceleyin.",
-    "goldDisclaimer": "Valora ile bir \"hesap\" oluşturduğunuzda, anahtarları yalnızca sizde bulunan bir dijital cüzdan yaratmış olursunuz. cLabs veya Valora dahil olmak üzere başka hiçbir kişi veya kuruluş anahtarınızı geri alamaz, işlemleri değiştiremez, geri döndüremez ya da kaybedilen fonları geri alamaz. CELO, cUSD ve cEUR'un yeni bir varlık sınıfının parçası olduğunu ve finansal kayıp riski taşıdığını unutmayın. Herhangi bir varlık satın almadan önce kendi finansal durumunuzu ve finansal risk toleransınızı dikkatlice değerlendirin. Valora ile günde yalnızca {{dailyLimitCUSD}} cUSD'ye kadar (\"Günlük Limit\") gönderebilirsiniz. Bu Günlük Limitin artırılmasını talep etmek için support@valoraapp.com ile iletişime geçmeli ve ek kişisel bilgiler sağlamalısınız. Gerekli uyumlandırmanın gerçekleştirilmesinde gecikme yaşanabilir."
+    "goldDisclaimer": "When you create an \"account\" with Valora you are creating a digital wallet to which only you hold the keys. No other person or entity, including cLabs or Valora, can recover your key, change or undo transactions, or recover lost funds. Be aware that CELO, cUSD and cEUR are part of a new asset class and present a risk of financial loss. Carefully consider your financial circumstance and tolerance for financial risk before purchasing any asset."
   },
   "fullName": "İsim",
   "fullNameOrPseudonymPlaceholder": "First and last name or pseudonym",
