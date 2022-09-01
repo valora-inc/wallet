@@ -263,6 +263,7 @@ export class PincodeSet extends React.Component<Props, State> {
           />
         ) : (
           <Pincode
+            setPin={true}
             title={changingPin ? t('pincodeSet.createNew') : ' '}
             errorText={errorText}
             pin={pin1}

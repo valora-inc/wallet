@@ -18,6 +18,7 @@ interface Props {
   changePin?: boolean
   errorText?: string
   maxLength?: number
+  setPin?: boolean
   pin: string
   onChangePin: (pin: string) => void
   onCompletePin: (pin: string) => void
@@ -28,6 +29,7 @@ function Pincode({
   errorText,
   maxLength = PIN_LENGTH,
   pin,
+  setPin,
   onChangePin,
   onCompletePin,
 }: Props) {
@@ -64,14 +66,12 @@ function Pincode({
       <View style={styles.spacer} />
       {!errorText && <Text style={styles.title}>{title || ' '}</Text>}
       {!!errorText && <Text style={styles.error}>{errorText}</Text>}
-      <ScrollView contentContainerStyle={styles.contentContainer}>
-        {showGuidedOnboarding && (
-          <>
-            <Text style={styles.guidedOnboardingHeader}>{t('pincodeSet.guideTitle')}</Text>
-            <Text style={styles.guidedOnboardingCopy}>{t('pincodeSet.pinCodeGuide')}</Text>
-          </>
-        )}
-      </ScrollView>
+      {setPin && showGuidedOnboarding && (
+        <ScrollView contentContainerStyle={styles.contentContainer}>
+          <Text style={styles.guidedOnboardingHeader}>{t('pincodeSet.guideTitle')}</Text>
+          <Text style={styles.guidedOnboardingCopy}>{t('pincodeSet.pinCodeGuide')}</Text>
+        </ScrollView>
+      )}
       <View style={styles.pincodeContainer}>
         <PincodeDisplay pin={pin} maxLength={maxLength} />
       </View>
