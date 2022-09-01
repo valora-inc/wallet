@@ -591,10 +591,7 @@
     "goldDisclaimer": "When you create an \"account\" with Valora you are creating a digital wallet to which only you hold the keys. No other person or entity, including cLabs or Valora, can recover your key, change or undo transactions, or recover lost funds. Be aware that CELO, cUSD and cEUR are part of a new asset class and present a risk of financial loss. Carefully consider your financial circumstance and tolerance for financial risk before purchasing any asset."
   },
   "fullName": "İsim",
-  "fullNameOrPseudonymPlaceholder": "First and last name or pseudonym",
   "fullNamePlaceholder": "Ad & Soyad",
-  "nameAndPicGuideCopyTitle": "What’s your name?",
-  "nameAndPicGuideCopyContent": "We’d like to know what to call you",
   "importIt": "Cüzdanı Yeniden Kur",
   "important": "Önemli",
   "confirmPin": {
@@ -684,9 +681,7 @@
   "enableBiometry": {
     "title": "Cüzdanınızı emniyete alın",
     "description": "{{biometryType}}, cüzdanınızın güvenliğini sağlar ve {{appName}} kullanımını kolaylaştırır",
-    "cta": "{{biometryType}} etkinleştir",
-    "guideTitle": "Want to add {{biometryType}}?",
-    "guideDescription": "{{biometryType}} makes it easier, quicker, and more secure to connect your wallet to dapps & sign transactions."
+    "cta": "{{biometryType}} etkinleştir"
   },
   "biometryType": {
     "FaceID": "Face ID",
@@ -699,7 +694,6 @@
   "unlockWithBiometryPrompt": "{{appName}} uygulamasının kilidini açmak için kimlik doğrulaması yapın",
   "welcome": {
     "title": "{{appName}} ile kriptonun geleceğine adım atın",
-    "titleGuided": "Welcome to {{appName}}!\nLet’s create your crypto wallet.",
     "createAccount": "Yeni hesap oluştur",
     "restoreAccount": "Hesabımı geri yükle",
     "createNewWallet": "Cüzdan oluştur",
@@ -721,12 +715,9 @@
     "create": "PIN Oluştur",
     "createNew": "Yeni PIN oluştur",
     "verify": "Doğrulamak için PIN'i tekrar girin",
-    "guideTitle": "Choose a 6 digit PIN you’ll remember",
-    "pinCodeGuide": "Keep your PIN safe, it’s how you’ll keep your wallet secure.",
     "changePIN": "PIN Değiştir",
     "pinsDontMatch": "PIN'ler eşleşmedi",
-    "invalidPin": "Lütfen daha güçlü bir Pin kullanın",
-    "selectPIN": "Select PIN"
+    "invalidPin": "Lütfen daha güçlü bir Pin kullanın"
   },
   "inviteCode": {
     "title": "Davet Kodu",
