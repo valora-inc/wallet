@@ -88,32 +88,4 @@ describe('Welcome', () => {
     expect(queryByTestId('CreateAccountButton')).toHaveTextContent('welcome.createNewWallet')
     expect(queryByTestId('RestoreAccountButton')).toHaveTextContent('welcome.iAlreadyHaveAWallet')
   })
-
-  it('render welcome text correctly when showGuidedOnboardingCopy is true', () => {
-    const store = createMockStore({
-      app: {
-        showGuidedOnboardingCopy: true,
-      },
-    })
-    const { queryByTestId } = render(
-      <Provider store={store}>
-        <Welcome />
-      </Provider>
-    )
-    expect(queryByTestId('WelcomeText')).toHaveTextContent('welcome.titleGuided')
-  })
-
-  it('render welcome text correctly when showGuidedOnboardingCopy is false', () => {
-    const store = createMockStore({
-      app: {
-        showGuidedOnboardingCopy: false,
-      },
-    })
-    const { queryByTestId } = render(
-      <Provider store={store}>
-        <Welcome />
-      </Provider>
-    )
-    expect(queryByTestId('WelcomeText')).toHaveTextContent('welcome.title')
-  })
 })

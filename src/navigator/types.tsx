@@ -216,7 +216,6 @@ export type StackParamList = {
         komenciAvailable?: boolean
         choseToRestoreAccount?: boolean
         registrationStep?: { step: number; totalSteps: number }
-        showGuidedOnboarding?: boolean
       }
     | undefined
   [Screens.PhoneNumberLookupQuota]: {
