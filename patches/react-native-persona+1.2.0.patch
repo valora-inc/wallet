@@ -1,5 +1,5 @@
 diff --git a/node_modules/react-native-persona/android/build.gradle b/node_modules/react-native-persona/android/build.gradle
-index 1c4117d..bffd31c 100644
+index 1c4117d..93fe1f6 100644
 --- a/node_modules/react-native-persona/android/build.gradle
 +++ b/node_modules/react-native-persona/android/build.gradle
 @@ -1,34 +1,15 @@
@@ -104,8 +104,8 @@ index 1c4117d..bffd31c 100644
 +    implementation "com.facebook.react:react-native:+"  // From node_modules
  
      // NOTE: After updating, please update the `sdkVersions.android` in example/package.json
--    implementation 'com.withpersona.sdk:inquiry:1.1.2'
--}
+     implementation 'com.withpersona.sdk:inquiry:1.1.2'
+ }
 -
 -def configureReactNativePom(def pom) {
 -    def packageJson = new groovy.json.JsonSlurper().parseText(file('../package.json').text)
@@ -169,5 +169,4 @@ index 1c4117d..bffd31c 100644
 -            configureReactNativePom pom
 -        }
 -    }
-+    implementation 'com.withpersona.sdk:inquiry:1.1.19'
- }
+-}
