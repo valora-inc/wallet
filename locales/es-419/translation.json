@@ -591,10 +591,7 @@
     "goldDisclaimer": "Cuando creas una \"cuenta\" en Valora, estás creando un monedero digital del que sólo tú tienes las claves. Ninguna otra persona o entidad, incluyendo cLabs o Valora, puede recuperar tu clave, cambiar o deshacer transacciones, o recuperar fondos perdidos. Ten en cuenta que CELO, cUSD y cEUR forman parte de una nueva clase de activos y presentan un riesgo de pérdida financiera. Considera cuidadosamente tu circunstancia financiera y tu tolerancia al riesgo financiero antes de comprar cualquier activo."
   },
   "fullName": "Nombre",
-  "fullNameOrPseudonymPlaceholder": "Nombre y apellido o seudónimo",
   "fullNamePlaceholder": "Nombre y apellido",
-  "nameAndPicGuideCopyTitle": "¿Cómo te llamas?",
-  "nameAndPicGuideCopyContent": "Nos gustaría saber cómo llamarte",
   "importIt": "Restaurar cuenta",
   "important": "Importante",
   "confirmPin": {
@@ -684,9 +681,7 @@
   "enableBiometry": {
     "title": "Mantén tu billetera segura",
     "description": "{{biometryType}} matiene tu cuenta segura y facilita el uso de {{appName}}",
-    "cta": "Habilitar {{biometryType}}",
-    "guideTitle": "¿Quieres añadir {{biometryType}}?",
-    "guideDescription": "{{biometryType}} hace que sea más fácil, rápido y seguro conectar tu monedero a dapps y firmar transacciones."
+    "cta": "Habilitar {{biometryType}}"
   },
   "biometryType": {
     "FaceID": "Face ID",
@@ -699,7 +694,6 @@
   "unlockWithBiometryPrompt": "Autenticar para desbloquear {{appName}}",
   "welcome": {
     "title": "Entra de lleno al futuro de las criptomonedas con {{appName}}.",
-    "titleGuided": "¡Bienvenido a {{appName}}!\nVamos a crear tu cartera de criptomonedas.",
     "createAccount": "Crear una cuenta",
     "restoreAccount": "Restaurar cuenta existente",
     "createNewWallet": "Crear billetera",
@@ -721,12 +715,9 @@
     "create": "Crea un PIN",
     "createNew": "Crear un nuevo PIN",
     "verify": "Ingresa tu PIN de nuevo para confirmar",
-    "guideTitle": "Elige un PIN de 6 dígitos que recuerdes",
-    "pinCodeGuide": "Mantén tu PIN a salvo, así mantendrás tu cartera segura.",
     "changePIN": "Cambiar PIN",
     "pinsDontMatch": "Los PIN no coinciden",
-    "invalidPin": "Por favor use un PIN más fuerte",
-    "selectPIN": "Selecciona el PIN"
+    "invalidPin": "Por favor use un PIN más fuerte"
   },
   "inviteCode": {
     "title": "Código de invitación",
