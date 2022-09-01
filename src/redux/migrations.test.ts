@@ -33,7 +33,6 @@ import {
   v58Schema,
   v59Schema,
   v62Schema,
-  v74Schema,
   v7Schema,
   v8Schema,
   vNeg1Schema,
@@ -662,16 +661,6 @@ describe('Redux persist migrations', () => {
     expectedSchema.app.superchargeTokenConfigByToken = {}
     delete expectedSchema.app.superchargeTokens
 
-    expect(migratedSchema).toStrictEqual(expectedSchema)
-  })
-
-  it('works for v74 to v75', () => {
-    const oldSchema = v74Schema
-    const migratedSchema = migrations[75](oldSchema)
-
-    const expectedSchema: any = _.cloneDeep(oldSchema)
-    expectedSchema.app.showGuidedOnboardingCopy = false
-    // shall be the default value as configured in REMOTE_CONFIG_VALUES_DEFAULTS
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 })

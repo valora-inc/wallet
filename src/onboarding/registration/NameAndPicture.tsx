@@ -1,7 +1,7 @@
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet, Text } from 'react-native'
+import { ScrollView, StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { setName, setPicture } from 'src/account/actions'
@@ -10,11 +10,7 @@ import { hideAlert, showError } from 'src/alert/actions'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import {
-  createAccountCopyTestTypeSelector,
-  registrationStepsSelector,
-  showGuidedOnboardingSelector,
-} from 'src/app/selectors'
+import { createAccountCopyTestTypeSelector, registrationStepsSelector } from 'src/app/selectors'
 import { CreateAccountCopyTestType } from 'src/app/types'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import DevSkipButton from 'src/components/DevSkipButton'
@@ -27,7 +23,6 @@ import { StackParamList } from 'src/navigator/types'
 import PictureInput from 'src/onboarding/registration/PictureInput'
 import { default as useSelector, default as useTypedSelector } from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
 import { saveProfilePicture } from 'src/utils/image'
 import { useAsyncKomenciReadiness } from 'src/verify/hooks'
 
@@ -47,30 +42,24 @@ function NameAndPicture({ navigation }: Props) {
 
   // CB TEMPORARY HOTFIX: Pinging Komenci endpoint to ensure availability
   const asyncKomenciReadiness = useAsyncKomenciReadiness()
-  const showGuidedOnboarding = useSelector(showGuidedOnboardingSelector)
+
   const createAccountCopyTestType = useSelector(createAccountCopyTestTypeSelector)
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerTitle: () => {
-        let pageTitleTranslationKey
-        if (showGuidedOnboarding) {
-          pageTitleTranslationKey = 'name'
-        } else {
-          pageTitleTranslationKey = choseToRestoreAccount
-            ? 'restoreAccount'
-            : createAccountCopyTestType === CreateAccountCopyTestType.Wallet ||
-              createAccountCopyTestType === CreateAccountCopyTestType.AlreadyHaveWallet
-            ? 'createProfile'
-            : 'createAccount'
-        }
-        return (
-          <HeaderTitleWithSubtitle
-            title={t(pageTitleTranslationKey)}
-            subTitle={t('registrationSteps', { step, totalSteps })}
-          />
-        )
-      },
+      headerTitle: () => (
+        <HeaderTitleWithSubtitle
+          title={t(
+            choseToRestoreAccount
+              ? 'restoreAccount'
+              : createAccountCopyTestType === CreateAccountCopyTestType.Wallet ||
+                createAccountCopyTestType === CreateAccountCopyTestType.AlreadyHaveWallet
+              ? 'createProfile'
+              : 'createAccount'
+          )}
+          subTitle={t('registrationSteps', { step, totalSteps })}
+        />
+      ),
     })
   }, [navigation, choseToRestoreAccount, step, totalSteps])
 
@@ -80,7 +69,6 @@ function NameAndPicture({ navigation }: Props) {
     } else {
       navigate(Screens.PincodeSet, {
         komenciAvailable: !!asyncKomenciReadiness.result,
-        showGuidedOnboarding,
       })
     }
   }
@@ -134,21 +122,13 @@ function NameAndPicture({ navigation }: Props) {
             backgroundColor={colors.onboardingBrownLight}
           />
         )}
-        {showGuidedOnboarding && (
-          <>
-            <Text style={styles.guidedOnboardingHeader}>{t('nameAndPicGuideCopyTitle')}</Text>
-            <Text style={styles.guidedOnboardingCopy}>{t('nameAndPicGuideCopyContent')}</Text>
-          </>
-        )}
         <FormInput
           label={t('fullName')}
           style={styles.name}
           onChangeText={setNameInput}
           value={nameInput}
           enablesReturnKeyAutomatically={true}
-          placeholder={
-            showGuidedOnboarding ? t('fullNameOrPseudonymPlaceholder') : t('fullNamePlaceholder')
-          }
+          placeholder={t('fullNamePlaceholder')}
           testID={'NameEntry'}
           multiline={false}
         />
@@ -184,12 +164,5 @@ const styles = StyleSheet.create({
   name: {
     marginTop: 24,
     marginBottom: 32,
-  },
-  guidedOnboardingCopy: {
-    ...fontStyles.regular,
-  },
-  guidedOnboardingHeader: {
-    marginTop: 36,
-    ...fontStyles.h1,
   },
 })
