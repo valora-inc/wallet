@@ -122,7 +122,6 @@ export function useFetchTransactions(): QueryHookResult {
             dispatch(updateTransactions(nonEmptyTransactions))
             dispatch(fetchTokenBalances({ showLoading: false }))
           })
-          hasNewTransaction = false
         }
       }
     }
