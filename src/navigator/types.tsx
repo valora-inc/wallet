@@ -227,7 +227,6 @@ export type StackParamList = {
   [Screens.PhotosNUX]: undefined
   [Screens.Profile]: undefined
   [Screens.QRNavigator]: NestedNavigatorParams<QRTabParamList> | undefined
-  [Screens.RaiseLimitScreen]: undefined
   [Screens.ReclaimPaymentConfirmationScreen]: {
     reclaimPaymentInput: EscrowedPayment
     onCancel?: () => void

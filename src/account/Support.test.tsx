@@ -11,11 +11,7 @@ import { createMockStore } from 'test/utils'
 
 const renderSupport = () =>
   render(
-    <Provider
-      store={createMockStore({
-        app: { showRaiseDailyLimitTarget: '0xf' },
-      })}
-    >
+    <Provider store={createMockStore()}>
       <Support />
     </Provider>
   )
@@ -42,11 +38,5 @@ describe('Support', () => {
     const contact = renderSupport()
     fireEvent.press(contact.getByTestId('SupportContactLink'))
     expect(navigate).toBeCalledWith(Screens.SupportContact)
-  })
-
-  it('navigates to Raise Limit', () => {
-    const contact = renderSupport()
-    fireEvent.press(contact.getByTestId('RaiseLimit'))
-    expect(navigate).toBeCalledWith(Screens.RaiseLimitScreen)
   })
 })

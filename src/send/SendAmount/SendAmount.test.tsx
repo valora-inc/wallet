@@ -9,7 +9,7 @@ import { Provider } from 'react-redux'
 import { ErrorDisplayType } from 'src/alert/reducer'
 import { SendOrigin } from 'src/analytics/types'
 import { InviteMethodType } from 'src/app/types'
-import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD, DYNAMIC_DOWNLOAD_LINK } from 'src/config'
+import { DYNAMIC_DOWNLOAD_LINK } from 'src/config'
 import { FeeType } from 'src/fees/reducer'
 import i18n from 'src/i18n'
 import { AddressValidationType, E164NumberToAddressType } from 'src/identity/reducer'
@@ -36,8 +36,6 @@ const AMOUNT_ZERO = '0.00'
 const AMOUNT_VALID = '4.93'
 const AMOUNT_TOO_MUCH = '106.98'
 const BALANCE_VALID = '23.85'
-const REQUEST_OVER_LIMIT = (DEFAULT_DAILY_PAYMENT_LIMIT_CUSD * 2).toString()
-const LARGE_BALANCE = (DEFAULT_DAILY_PAYMENT_LIMIT_CUSD * 10).toString()
 
 const storeData = {
   tokens: {
@@ -249,54 +247,6 @@ describe('SendAmount', () => {
       // The value expected here is |balance| - the send fee (1 cUSD)
       expect(getElementText(getByTestId('InputAmountContainer'))).toEqual('21.85789012cUSD')
       expect(getElementText(getByTestId('SecondaryAmountContainer'))).toEqual('$21.86')
-    })
-
-    it('shows an error when tapping the send button with an amount over the limit', () => {
-      const store = createMockStore({
-        ...storeData,
-        tokens: {
-          tokenBalances: {
-            [mockCusdAddress]: {
-              address: mockCusdAddress,
-              symbol: 'cUSD',
-              usdPrice: '1',
-              balance: LARGE_BALANCE,
-              priceFetchedAt: Date.now(),
-            },
-          },
-        },
-      })
-      const wrapper = render(
-        <Provider store={store}>
-          <SendAmount {...mockScreenProps()} />
-        </Provider>
-      )
-      enterAmount(wrapper, REQUEST_OVER_LIMIT)
-
-      const sendButton = wrapper.getByTestId('Review')
-      expect(sendButton).not.toBeDisabled()
-
-      store.clearActions()
-      fireEvent.press(sendButton)
-      expect(store.getActions()).toEqual([
-        {
-          action: null,
-          alertType: 'error',
-          buttonMessage: null,
-          dismissAfter: 5000,
-          displayMethod: ErrorDisplayType.BANNER,
-          message: i18n.t('paymentLimitReached', {
-            currencySymbol: '₱',
-            dailyRemaining: '1330',
-            dailyLimit: '1330',
-            dailyRemainingcUSD: '1000.00',
-            dailyLimitcUSD: 1000,
-          }),
-          title: null,
-          type: 'ALERT/SHOW',
-          underlyingError: 'paymentLimitReached',
-        },
-      ])
     })
 
     it('disables the send button with 0 as amount', () => {
