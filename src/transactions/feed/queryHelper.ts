@@ -10,7 +10,7 @@ import useInterval from 'src/hooks/useInterval'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { fetchTokenBalances } from 'src/tokens/slice'
 import { updateTransactions } from 'src/transactions/actions'
-import { lastTransactionHashSelector } from 'src/transactions/reducer'
+import { transactionHashesSelector } from 'src/transactions/reducer'
 import { TokenTransaction } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import config from 'src/web3/networkConfig'
@@ -64,7 +64,7 @@ export function useFetchTransactions(): QueryHookResult {
   const dispatch = useDispatch()
   const address = useSelector(walletAddressSelector)
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
-  const lastTransactionHash = useSelector(lastTransactionHashSelector)
+  const transactionHashes = useSelector(transactionHashesSelector)
 
   // track cumulative transactions and most recent page info in one state, so
   // that they do not become out of sync
@@ -78,6 +78,7 @@ export function useFetchTransactions(): QueryHookResult {
     hasTransactionsOnCurrentPage: false,
   })
   const [fetchingMoreTransactions, setFetchingMoreTransactions] = useState(false)
+  let hasNewTransaction = false
 
   // Update the counter variable every |POLL_INTERVAL| so that a query is made to the backend.
   const [counter, setCounter] = useState(0)
@@ -108,15 +109,20 @@ export function useFetchTransactions(): QueryHookResult {
         const nonEmptyTransactions = returnedTransactions.filter(
           (returnedTransaction) => !isEmpty(returnedTransaction)
         )
+        // Compare the new tx hashes with the ones we already have in redux
+        for (let i = 0; i < nonEmptyTransactions.length; i++) {
+          if (!transactionHashes.includes(nonEmptyTransactions[i].transactionHash)) {
+            hasNewTransaction = true
+            break // We only need one new tx justify a refresh
+          }
+        }
         // If there are new transactions update transactions in redux and fetch balances
-        if (
-          nonEmptyTransactions.length &&
-          nonEmptyTransactions[0].transactionHash !== lastTransactionHash
-        ) {
+        if (hasNewTransaction) {
           batch(() => {
             dispatch(updateTransactions(nonEmptyTransactions))
             dispatch(fetchTokenBalances({ showLoading: false }))
           })
+          hasNewTransaction = false
         }
       }
     }
