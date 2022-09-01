@@ -171,7 +171,7 @@ function SendAmount(props: Props) {
   }
 
   useEffect(() => {
-    dispatch(fetchTokenBalances())
+    dispatch(fetchTokenBalances({ showLoading: true }))
     if (recipient.address) {
       return
     }

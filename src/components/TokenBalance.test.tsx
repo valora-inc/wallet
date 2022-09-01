@@ -1,8 +1,10 @@
-import { render } from '@testing-library/react-native'
+import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { FiatExchangeTokenBalance, HomeTokenBalance } from 'src/components/TokenBalance'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import { Currency } from 'src/utils/currencies'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 import { createMockStore, getElementText } from 'test/utils'
@@ -63,6 +65,43 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
 
       expect(tree.queryByTestId('ViewBalances')).toBeTruthy()
       expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('$8.62')
+    }
+  )
+
+  it.each([HomeTokenBalance, FiatExchangeTokenBalance])(
+    'navigates to TokenBalances screen on View Balances tap',
+    async (TokenBalanceComponent) => {
+      const store = createMockStore({
+        ...defaultStore,
+        tokens: {
+          // FiatExchangeTokenBalance requires 2 balances to display the View Balances button
+          tokenBalances: {
+            '0x00400FcbF0816bebB94654259de7273f4A05c762': {
+              usdPrice: '0.1',
+              address: '0x00400FcbF0816bebB94654259de7273f4A05c762',
+              symbol: 'POOF',
+              balance: '5',
+              priceFetchedAt: Date.now(),
+            },
+            '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F': {
+              usdPrice: '1.16',
+              address: '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F',
+              symbol: 'cEUR',
+              balance: '7',
+              priceFetchedAt: Date.now(),
+            },
+          },
+        },
+      })
+
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <TokenBalanceComponent />
+        </Provider>
+      )
+
+      fireEvent.press(getByTestId('ViewBalances'))
+      expect(navigate).toHaveBeenCalledWith(Screens.TokenBalances)
     }
   )
 
