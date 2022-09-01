@@ -591,10 +591,7 @@
     "goldDisclaimer": "Zakładając \"konto\" w Valora, tworzysz cyfrowy portfel, do którego klucze posiadasz tylko ty. Żadna inna osoba ani podmiot, w tym cLabs lub Valora, nie może odzyskać Twojego klucza, zmienić lub cofnąć transakcji, ani odzyskać utraconych środków. Należy mieć świadomość, że CELO, cUSD i cEUR są częścią nowej klasy aktywów i wiążą się z ryzykiem strat finansowych. Przed zakupem jakichkolwiek aktywów dokładnie rozważ swoją sytuację finansową i tolerancję na ryzyko finansowe."
   },
   "fullName": "Nazwa",
-  "fullNameOrPseudonymPlaceholder": "Imię i nazwisko lub pseudonim",
   "fullNamePlaceholder": "Imię i nazwisko",
-  "nameAndPicGuideCopyTitle": "Jak masz na imię?",
-  "nameAndPicGuideCopyContent": "Chcielibyśmy wiedzieć, jak cię nazywać",
   "importIt": "Przywróć portfel",
   "important": "Ważne",
   "confirmPin": {
@@ -684,9 +681,7 @@
   "enableBiometry": {
     "title": "Zabezpiecz swój portfel",
     "description": "{{biometryType}} zabezpiecza portfel i ułatwia korzystanie z aplikacji {{appName}}",
-    "cta": "Włącz {{biometryType}}",
-    "guideTitle": "Chcesz dodać {{biometryType}}?",
-    "guideDescription": "{{biometryType}} ułatwia, przyspiesza i zabezpiecza łączenie portfela z dapps i podpisywanie transakcji."
+    "cta": "Włącz {{biometryType}}"
   },
   "biometryType": {
     "FaceID": "Face ID",
@@ -699,7 +694,6 @@
   "unlockWithBiometryPrompt": "Uwierzytelnij, aby odblokować {{appName}}",
   "welcome": {
     "title": "Wkrocz w przyszłość kryptowalut z aplikacją {{appName}}",
-    "titleGuided": "Witamy na {{appName}}!\nStwórzmy twój portfel kryptowalutowy.",
     "createAccount": "Utwórz nowe konto",
     "restoreAccount": "Przywróć konto",
     "createNewWallet": "Utwórz portfel",
@@ -721,12 +715,9 @@
     "create": "Utwórz kod PIN",
     "createNew": "Utwórz nowy kod PIN",
     "verify": "Wprowadź ponownie kod PIN, aby potwierdzić",
-    "guideTitle": "Wybierz 6-cyfrowy kod PIN, który zapamiętasz",
-    "pinCodeGuide": "Trzymaj swój PIN w bezpiecznym miejscu, w ten sposób zabezpieczysz swój portfel.",
     "changePIN": "Zmień kod PIN",
     "pinsDontMatch": "Kody PIN nie zgadzają się",
-    "invalidPin": "Użyj silniejszego kodu PIN",
-    "selectPIN": "Wybierz PIN"
+    "invalidPin": "Użyj silniejszego kodu PIN"
   },
   "inviteCode": {
     "title": "Kod zaproszenia",
