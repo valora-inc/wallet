@@ -618,7 +618,10 @@
     "goldDisclaimer": "Zakładając „konto” w aplikacji Valora, tworzysz cyfrowy portfel, do którego klucz dostępu posiadasz tylko Ty. Żadna inna osoba ani żaden podmiot, w tym cLabs czy Valora, nie mogą odzyskać Twojego klucza, zmodyfikować lub cofnąć transakcji ani odzyskać utraconych środków. Należy pamiętać, że CELO, cUSD i cEUR są częścią nowej klasy aktywów i wiążą się z ryzykiem strat finansowych. Przed zakupem jakichkolwiek aktywów dokładnie rozważ swoją sytuację finansową i tolerancję na ryzyko finansowe. Za pośrednictwem aplikacji Valora możesz wysyłać maksymalnie {{dailyLimitCUSD}} cUSD dziennie („Limit dzienny”). Aby wnioskować o zwiększenie Limitu dziennego, musisz skontaktować się z support@valoraapp.com i podać dodatkowe dane osobowe. Wnioski mogą być akceptowane z pewnym opóźnieniem."
   },
   "fullName": "Nazwa",
+  "fullNameOrPseudonymPlaceholder": "Imię i nazwisko lub pseudonim",
   "fullNamePlaceholder": "Imię i nazwisko",
+  "nameAndPicGuideCopyTitle": "Jak masz na imię?",
+  "nameAndPicGuideCopyContent": "Chcielibyśmy wiedzieć, jak cię nazywać",
   "importIt": "Przywróć portfel",
   "important": "Ważne",
   "confirmPin": {
@@ -700,12 +703,17 @@
   "onboardingEducation": {
     "step1": "Jeśli potrafisz pisać SMS-y, potrafisz też inwestować w kryptowaluty. Od teraz Twój telefon jest Twoim portfelem kryptowalutowym.",
     "step2": "Z aplikacją {{appName}} uzyskujesz szybki dostęp do swoich kryptowalut i łatwo je pomnażasz.",
-    "step3": "Aby wysyłać, wydawać i odkrywać, potrzebujesz jedynie telefonu komórkowego."
+    "step3": "Aby wysyłać, wydawać i odkrywać, potrzebujesz jedynie telefonu komórkowego.",
+    "payment": "Dokonuj płatności na całym świecie przy niemal zerowych opłatach",
+    "impact": "Wspieraj inicjatywy dotyczące zmian klimatycznych i społecznych",
+    "spend": "Wykorzystaj swoje kryptowaluty do robienia zakupów u ulubionych marek"
   },
   "enableBiometry": {
     "title": "Zabezpiecz swój portfel",
     "description": "{{biometryType}} zabezpiecza portfel i ułatwia korzystanie z aplikacji {{appName}}",
-    "cta": "Włącz {{biometryType}}"
+    "cta": "Włącz {{biometryType}}",
+    "guideTitle": "Chcesz dodać {{biometryType}}?",
+    "guideDescription": "{{biometryType}} ułatwia, przyspiesza i zabezpiecza łączenie portfela z dapps i podpisywanie transakcji."
   },
   "biometryType": {
     "FaceID": "Face ID",
@@ -718,6 +726,7 @@
   "unlockWithBiometryPrompt": "Uwierzytelnij, aby odblokować {{appName}}",
   "welcome": {
     "title": "Wkrocz w przyszłość kryptowalut z aplikacją {{appName}}",
+    "titleGuided": "Witamy na {{appName}}!\nStwórzmy twój portfel kryptowalutowy.",
     "createAccount": "Utwórz nowe konto",
     "restoreAccount": "Przywróć konto",
     "createNewWallet": "Utwórz portfel",
@@ -739,9 +748,12 @@
     "create": "Utwórz kod PIN",
     "createNew": "Utwórz nowy kod PIN",
     "verify": "Wprowadź ponownie kod PIN, aby potwierdzić",
+    "guideTitle": "Wybierz 6-cyfrowy kod PIN, który zapamiętasz",
+    "pinCodeGuide": "Trzymaj swój PIN w bezpiecznym miejscu, w ten sposób zabezpieczysz swój portfel.",
     "changePIN": "Zmień kod PIN",
     "pinsDontMatch": "Kody PIN nie zgadzają się",
-    "invalidPin": "Użyj silniejszego kodu PIN"
+    "invalidPin": "Użyj silniejszego kodu PIN",
+    "selectPIN": "Wybierz PIN"
   },
   "inviteCode": {
     "title": "Kod zaproszenia",
@@ -1395,6 +1407,12 @@
     "swapFeeBody": "Opłata w aplikacji {{appName}} to opłata, którą płaci się, aby wymienić żetony w {{appName}}.\nOpłata stanowi {{swapFee}}% liczby żetonów, które wymieniasz.\nPrzez następne kilka miesięcy opłaty {{appName}} są darmowe.",
     "estimatedAmountTitle": "Szacowana kwota",
     "estimatedAmountBody": "Wymiana waluty odbywa się na zewnętrznej giełdzie, która wyszukuje najlepszy kurs wymian.\n\nKoszt wymiany wyniesie nie więcej niż {{slippagePercent}}% oszacowanej kwoty. W przeciwnym wypadku transakcja zostanie anulowana, a środki powrócą do portfela."
+  },
+  "inviteModal": {
+    "title": "Wygląda na to, że {{contactName}} nie ma jeszcze portfela {{appName}} .",
+    "body": "Nadal możesz zaprosić ich na stronę {{appName}}, lub spróbować wysłać płatność na adres ich portfela lub nom.space.",
+    "sendInviteButtonLabel": "Wyślij zaproszenie",
+    "shareMessage": "Hej! Chciałbym wysłać ci trochę kryptowalut za pomocą mojego portfela {{appName}} . Po pobraniu aplikacji i podaniu swojego numeru telefonu możemy wysłać kryptowalutę tak łatwo, jak za pomocą SMS-a. Użyj tego linku: {{link}}"
   },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",

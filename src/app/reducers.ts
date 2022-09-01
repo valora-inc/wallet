@@ -23,7 +23,6 @@ export interface State {
   inviteModalVisible: boolean
   activeScreen: Screens
   hideVerification: boolean
-  showRaiseDailyLimitTarget: string | undefined
   walletConnectV1Enabled: boolean
   superchargeApy: number
   superchargeTokenConfigByToken: SuperchargeTokenConfigByToken
@@ -78,7 +77,6 @@ const initialState = {
   inviteModalVisible: false,
   activeScreen: Screens.Main,
   hideVerification: REMOTE_CONFIG_VALUES_DEFAULTS.hideVerification,
-  showRaiseDailyLimitTarget: undefined,
   walletConnectV1Enabled: REMOTE_CONFIG_VALUES_DEFAULTS.walletConnectV1Enabled,
   superchargeApy: REMOTE_CONFIG_VALUES_DEFAULTS.superchargeApy,
   superchargeTokenConfigByToken: {},
@@ -205,7 +203,6 @@ export const appReducer = (
       return {
         ...state,
         hideVerification: action.configValues.hideVerification,
-        showRaiseDailyLimitTarget: action.configValues.showRaiseDailyLimitTarget,
         celoEducationUri: action.configValues.celoEducationUri,
         celoEuroEnabled: action.configValues.celoEuroEnabled,
         walletConnectV1Enabled: action.configValues.walletConnectV1Enabled,

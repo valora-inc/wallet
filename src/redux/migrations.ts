@@ -2,11 +2,7 @@ import _ from 'lodash'
 import { FinclusiveKycStatus } from 'src/account/reducer'
 import { SuperchargeButtonType } from 'src/app/types'
 import { CodeInputStatus } from 'src/components/CodeInput'
-import {
-  DEFAULT_DAILY_PAYMENT_LIMIT_CUSD,
-  DEFAULT_SENTRY_NETWORK_ERRORS,
-  DEFAULT_SENTRY_TRACES_SAMPLE_RATE,
-} from 'src/config'
+import { DEFAULT_SENTRY_NETWORK_ERRORS, DEFAULT_SENTRY_TRACES_SAMPLE_RATE } from 'src/config'
 import { DappConnectInfo } from 'src/dapps/types'
 import { initialState as exchangeInitialState } from 'src/exchange/reducer'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
@@ -15,6 +11,8 @@ import { VerificationStatus } from 'src/identity/types'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { TokenTransaction } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
+
+const DEFAULT_DAILY_PAYMENT_LIMIT_CUSD_LEGACY = 1000
 
 export const migrations = {
   0: (state: any) => {
@@ -174,7 +172,7 @@ export const migrations = {
     }
   },
   9: (state: any) => {
-    if (state.account.dailyLimitCusd >= DEFAULT_DAILY_PAYMENT_LIMIT_CUSD) {
+    if (state.account.dailyLimitCusd >= DEFAULT_DAILY_PAYMENT_LIMIT_CUSD_LEGACY) {
       return state
     }
 
@@ -182,7 +180,7 @@ export const migrations = {
       ...state,
       account: {
         ...state.account,
-        dailyLimitCusd: DEFAULT_DAILY_PAYMENT_LIMIT_CUSD,
+        dailyLimitCusd: DEFAULT_DAILY_PAYMENT_LIMIT_CUSD_LEGACY,
       },
     }
   },
@@ -811,5 +809,10 @@ export const migrations = {
       ...state.app,
       showGuidedOnboardingCopy: REMOTE_CONFIG_VALUES_DEFAULTS.showGuidedOnboardingCopy,
     },
+  }),
+  76: (state: any) => ({
+    ...state,
+    app: _.omit(state.app, 'showRaiseDailyLimitTarget'),
+    account: _.omit(state.account, 'dailyLimitRequestStatus', 'dailyLimitCusd'),
   }),
 }

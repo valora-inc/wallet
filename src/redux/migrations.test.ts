@@ -1,10 +1,10 @@
 import _ from 'lodash'
 import { FinclusiveKycStatus } from 'src/account/reducer'
-import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
 import { initialState as exchangeInitialState } from 'src/exchange/reducer'
 import { migrations } from 'src/redux/migrations'
 import { Currency } from 'src/utils/currencies'
 import {
+  DEFAULT_DAILY_PAYMENT_LIMIT_CUSD_LEGACY,
   v0Schema,
   v13Schema,
   v14Schema,
@@ -192,7 +192,7 @@ describe('Redux persist migrations', () => {
       },
     }
     const migratedSchema = migrations[9](v8Stub)
-    expect(migratedSchema.account.dailyLimitCusd).toEqual(DEFAULT_DAILY_PAYMENT_LIMIT_CUSD)
+    expect(migratedSchema.account.dailyLimitCusd).toEqual(DEFAULT_DAILY_PAYMENT_LIMIT_CUSD_LEGACY)
   })
   it('works for v9 to v10', () => {
     const v9Stub = v7Schema
