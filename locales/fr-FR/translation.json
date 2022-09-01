@@ -352,7 +352,7 @@
     "bodyWithoutProvider": "Le prestataire de services traite votre commande. Vous devriez recevoir vos fonds dans quelques jours."
   },
   "restrictedRegion": "Prise en charge limitée dans le pays",
-  "unsupportedLocation": "{{appName}} n'est pas pris en charge dans ton pays",
+  "unsupportedLocation": "{{appName}} n'est pas pris en charge dans votre pays",
   "unsupportedPaymentMethod": "Le paiement avec {{paymentMethod}} n'est pas pris en charge dans votre pays",
   "noProviders": "Il n'y a pas de prestataires disponibles pour {{digitalAsset}} dans votre pays.",
   "noPaymentMethods": "Il n'y a pas de méthodes de paiement disponibles pour {{digitalAsset}} dans votre pays.",
@@ -618,7 +618,10 @@
     "goldDisclaimer": "Lorsque vous créez un compte sur Valora, vous créez un portefeuille numérique dont vous seul détenez les clés. Aucune autre personne ou entité, y compris cLabs ou Valora, ne peut récupérer votre clé, modifier ou annuler des transactions, ou récupérer des fonds perdus. Sachez que CELO, cUSD et cEUR font partie d'une nouvelle catégorie de valeurs présentant un risque de perte financière. Réfléchissez bien à votre situation financière et à votre tolérance au risque financier avant d’acheter une valeur. Vous pouvez envoyer au maximum {{dailyLimitCUSD}} cUSD par jour via Valora (la \"Limite quotidienne\"). Vous devrez contacter support@valoraapp.com et fournir des informations personnelles complémentaires pour demander une augmentation de cette limite quotidienne. Un délai pourra être appliqué afin de réaliser les procédures de vérification et de conformité nécessaires."
   },
   "fullName": "Nom",
+  "fullNameOrPseudonymPlaceholder": "Prénom et nom de famille ou pseudonyme",
   "fullNamePlaceholder": "Prénom et nom",
+  "nameAndPicGuideCopyTitle": "Quel est ton nom ?",
+  "nameAndPicGuideCopyContent": "Nous aimerions savoir comment t'appeler",
   "importIt": "Restaurer le portefeuille",
   "important": "Important",
   "confirmPin": {
@@ -700,12 +703,17 @@
   "onboardingEducation": {
     "step1": "Si vous savez comment envoyer un SMS, vous saurez comprendre les cryptos. Dès maintenant, votre téléphone devient votre portefeuille de cryptomonnaies.",
     "step2": "Avec {{appName}}, se lancer et développer votre portefeuille de cryptomonnaies est plus facile que jamais.",
-    "step3": "Tout ce dont vous avez besoin est un téléphone portable pour envoyer, dépenser et découvrir."
+    "step3": "Tout ce dont vous avez besoin est un téléphone portable pour envoyer, dépenser et découvrir.",
+    "payment": "Fais des paiements dans le monde entier avec des frais presque nuls",
+    "impact": "Soutenir les initiatives en faveur du changement climatique et social",
+    "spend": "Utilise ta crypto pour acheter tes marques préférées"
   },
   "enableBiometry": {
     "title": "Sécurisez votre portefeuille",
     "description": "{{biometryType}} sécurise votre compte et simplifie l'utilisation de {{appName}}",
-    "cta": "Activer {{biometryType}}"
+    "cta": "Activer {{biometryType}}",
+    "guideTitle": "Tu veux ajouter {{biometryType}}?",
+    "guideDescription": "{{biometryType}} rend plus facile, plus rapide et plus sûr le fait de connecter ton portefeuille à des dapps et de signer des transactions."
   },
   "biometryType": {
     "FaceID": "Face ID",
@@ -718,6 +726,7 @@
   "unlockWithBiometryPrompt": "Faites l'authentification pour déverrouiller {{appName}}",
   "welcome": {
     "title": "Entrez dans le futur des cryptomonnaies avec {{appName}}",
+    "titleGuided": "Bienvenue sur {{appName}}!\nCréons ton portefeuille de crypto-monnaies.",
     "createAccount": "Créer un nouveau compte",
     "restoreAccount": "Restaurer mon compte",
     "createNewWallet": "Créer un portefeuille",
@@ -739,9 +748,12 @@
     "create": "Créez un code PIN",
     "createNew": "Créez un nouveau code PIN",
     "verify": "Saisissez à nouveau votre code PIN pour confirmer",
+    "guideTitle": "Choisis un code PIN à 6 chiffres dont tu te souviendras",
+    "pinCodeGuide": "Garde ton code PIN en sécurité, c'est ainsi que tu préserveras la sécurité de ton portefeuille.",
     "changePIN": "Modifer le code PIN",
     "pinsDontMatch": "Les codes PIN ne correspondent pas",
-    "invalidPin": "Veuillez utiliser un code PIN plus fort"
+    "invalidPin": "Veuillez utiliser un code PIN plus fort",
+    "selectPIN": "Sélectionner le NIP"
   },
   "inviteCode": {
     "title": "Code d'invitation",
@@ -1391,6 +1403,12 @@
     "swapFeeBody": "Les frais de {{appName}} sont les frais que vous payez pour échanger des jetons sur {{appName}}. \n\nIls sont de {{swapFee}}% du montant que vous échangez. \n\nLes frais de {{appName}} sont gratuits pour les prochains mois.",
     "estimatedAmountTitle": "Montant estimé",
     "estimatedAmountBody": "Les conversions se font sur un échange décentralisé de tiers qui vous trouve le meilleur taux pour votre échange. \n\nVotre échange sera effectué à un prix à moins de {{slippagePercent}}% de l'estimation ou la transaction sera annulée et les fonds retournés à votre portefeuille."
+  },
+  "inviteModal": {
+    "title": "Il semble que {{contactName}} n'ait pas encore un portefeuille {{appName}}.",
+    "body": "Tu peux toujours les inviter à {{appName}}, ou essayer d'envoyer un paiement à leur adresse de portefeuille ou à nom.space.",
+    "sendInviteButtonLabel": "Envoyer l'invitation",
+    "shareMessage": "Salut ! J'aimerais t'envoyer de la crypto avec mon porte-monnaie {{appName}} . Une fois que tu auras téléchargé l'application et connecté ton numéro de téléphone, nous pourrons envoyer de la crypto aussi facilement qu'un SMS. Utilise ce lien : {{link}}"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
