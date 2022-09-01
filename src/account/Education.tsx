@@ -42,6 +42,8 @@ interface EducationStep {
   // If set to true, title is displayed at the top
   isTopTitle?: boolean
   text?: string
+  valueProposition?: string
+  variant?: 'old' | 'new'
 }
 
 export type Props = NativeSafeAreaViewProps & {
@@ -70,6 +72,30 @@ export default class Education extends React.Component<Props, State> {
 
   state = {
     step: 0,
+  }
+
+  componentDidMount() {
+    const { step } = this.state
+    const { topic, valueProposition, variant } = this.props.stepInfo[this.state.step]
+    if (topic === EducationTopic.onboarding) {
+      ValoraAnalytics.track(OnboardingEvents.onboarding_education_step_impression, {
+        valueProposition,
+        variant,
+        step,
+      })
+    }
+  }
+
+  componentDidUpdate() {
+    const { step } = this.state
+    const { topic, valueProposition, variant } = this.props.stepInfo[this.state.step]
+    if (topic === EducationTopic.onboarding) {
+      ValoraAnalytics.track(OnboardingEvents.onboarding_education_step_impression, {
+        valueProposition,
+        variant,
+        step,
+      })
+    }
   }
 
   swiper = React.createRef<Swiper>()
