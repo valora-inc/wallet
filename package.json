@@ -135,7 +135,7 @@
     "lodash": "^4.17.14",
     "lottie-ios": "^3.2.3",
     "lottie-react-native": "^5.0.1",
-    "moment-timezone": "^0.5.23",
+    "moment-timezone": "^0.5.35",
     "node-libs-react-native": "^1.2.0",
     "qrcode": "^1.4.4",
     "react": "17.0.2",
@@ -344,7 +344,8 @@
     "json-schema": "^0.4.0",
     "@celo/utils": "^1.2.4",
     "shell-quote": "^1.7.3",
-    "hermes-engine": "^0.10.0"
+    "hermes-engine": "^0.10.0",
+    "react-native-securerandom": "git+https://github.com/robhogan/react-native-securerandom#7c01efd"
   },
   "detox": {
     "test-runner": "jest",
