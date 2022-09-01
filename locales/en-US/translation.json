@@ -75,28 +75,9 @@
   "chooseFromLibrary": "Choose from Library",
   "takePhoto": "Take Photo",
   "removePhoto": "Remove Photo",
-  "accountSendLimit": "Account Send Limit",
-  "dailyLimitLabel": "Current Daily Send Limit",
-  "dailyLimitValue": "${{dailyLimit}}",
-  "noDailyLimit": "Unlimited",
-  "verifyNumberToRaiseLimit": "You can increase your send limit by verifying your identity. Please connect your phone number before continuing.",
-  "verifyIdentityToRaiseLimit": "You can increase your send limit by verifying your identity.  Please be ready to provide some details in the following process.",
-  "dailyLimitApplicationStatus": "Application Status",
-  "applicationInReview": "In Review",
-  "applicationInReviewDescription": "Your application is being reviewed. You will be notified when this process is completed.",
-  "applicationIncomplete": "Incomplete",
-  "applicationIncompleteDescription": "The information you provided was insufficient. Please be ready to provide additional details in the following process. ",
-  "applicationDenied": "Denied",
-  "applicationDeniedDescription": "Your application was denied. If you feel this was a mistake, please restart the process below.",
   "applicationCompleted": "Completed",
   "applicationCompletedDescription": "Your application was accepted. You are now able to send an unlimited amount daily.",
-  "raiseLimitConfirmNumber": "Connect phone number",
   "raiseLimitBegin": "Begin Identity Verification",
-  "raiseLimitResume": "Resume Identity Verification",
-  "raiseLimitEmailSubject": "Request to raise account send limit",
-  "raiseLimitEmailBody": "I would like to request an increase to the {{dailyLimit}} {{appName}} daily limit for address {{address}}",
-  "raiseLimitEmailSuccess": "Your request has been sent successfully! Expect an email response soon!",
-  "raiseLimitEmailNotSent": "Your request was not sent. Please try again.",
   "storeRecoveryTitle": "We need you to setup your account again",
   "storeRecoveryBody": "There’s been an error. We’re aware of the issue and working to fix it. In the meantime, you will need to go through the setup process again.",
   "storeRecoveryButton": "Restore Account",
@@ -318,11 +299,6 @@
     "maxAmount": "Our providers do not support totals larger than {{usdLimit}}{{localLimit}}. Please enter a smaller amount.",
     "dismiss": "OK"
   },
-  "dailyLimitDialog": {
-    "body": "You are about to purchase more than your daily send limit of {{limit}}. Please contact <0>{{contactEmail}}</0> if you want to raise your daily send limit.",
-    "contact": "Contact",
-    "continue": "I Understand"
-  },
   "providerFeesDialog": {
     "title": "Provider Fees",
     "body1": "Provider fees are set by each provider individually and include an exchange fee and liquidity fee, among others. To learn more please visit ",
@@ -332,7 +308,6 @@
     "title": "Fee Discount",
     "body": "As a promotion, fees are temporarily subsidized to celebrate the launch of Valora!"
   },
-  "dailyLimitRequest": "Hi! I'd like to increase my daily send limit please.",
   "pleaseSelectProvider": "Please select a provider below. These links connect to a third party service.",
   "otherFundingOptions": "For more ways to add and withdraw funds, visit <0>How to fund your account</0>",
   "youCanTransferIn": "You can use a third party exchange to send {{digitalAsset}} to your Valora account. You'll need your Account Address for this.",
@@ -486,8 +461,6 @@
   "maxActionableAttestationsExceededError": "Failed to resend messages",
   "odisInsufficientBalance": "Please connect your number",
   "matchmakingQuotaExceededError": "Matchmaking can be done only once",
-  "paymentLimitReached": "The daily limit is {{dailyLimitcUSD}} cUSD ({{currencySymbol}}{{dailyLimit}})\n{{dailyRemainingcUSD}} cUSD ({{currencySymbol}}{{dailyRemaining}}) remaining",
-  "requestLimitError": "Can't request more than the {{limit}} cUSD daily limit.",
   "ordinals": [
     "zeroth",
     "first",
@@ -615,7 +588,7 @@
     "heading2": "Celo Assets and {{appName}} Account",
     "info": "In order to use our services, please read and accept our <0>User Agreement and Terms</0> by clicking the accept button below.",
     "privacy": "By joining this network, you give us permission to collect anonymous information about your use of the app. Additionally, if you connect your phone number, a hashed copy of it will be stored on the Celo Network. If you grant Valora access to your contact list, Valora will import each contact's name, phone number and profile picture to allow users to connect through the Valora app. To learn how we collect and use this information please review our <0>Privacy Policy</0>.",
-    "goldDisclaimer": "When you create an \"account\" with Valora you are creating a digital wallet to which only you hold the keys. No other person or entity, including cLabs or Valora, can recover your key, change or undo transactions, or recover lost funds. Be aware that CELO, cUSD and cEUR are part of a new asset class and present a risk of financial loss. Carefully consider your financial circumstance and tolerance for financial risk before purchasing any asset. You can only send up to {{dailyLimitCUSD}} cUSD per day through Valora (the \"Daily Limit\"). You must contact support@valoraapp.com and provide additional, personal information to request increasing this Daily Limit. There could be a delay to conduct required compliance."
+    "goldDisclaimer": "When you create an \"account\" with Valora you are creating a digital wallet to which only you hold the keys. No other person or entity, including cLabs or Valora, can recover your key, change or undo transactions, or recover lost funds. Be aware that CELO, cUSD and cEUR are part of a new asset class and present a risk of financial loss. Carefully consider your financial circumstance and tolerance for financial risk before purchasing any asset."
   },
   "fullName": "Name",
   "fullNameOrPseudonymPlaceholder": "First and last name or pseudonym",
