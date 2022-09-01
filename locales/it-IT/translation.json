@@ -591,10 +591,7 @@
     "goldDisclaimer": "Quando crei un \"account\" con Valora stai creando un portafoglio digitale di cui solo tu possiedi le chiavi. Nessun'altra persona o entità, compresi cLabs o Valora, può recuperare la tua chiave, modificare o annullare le transazioni o recuperare i fondi persi. Tieni presente che CELO, cUSD e cEUR fanno parte di una nuova classe di attività e presentano un rischio di perdita finanziaria. Valuta attentamente la tua situazione finanziaria e la tua tolleranza al rischio finanziario prima di acquistare qualsiasi asset."
   },
   "fullName": "Nome",
-  "fullNameOrPseudonymPlaceholder": "Nome e cognome o pseudonimo",
   "fullNamePlaceholder": "Nome e cognome",
-  "nameAndPicGuideCopyTitle": "Come ti chiami?",
-  "nameAndPicGuideCopyContent": "Vorremmo sapere come chiamarti",
   "importIt": "Ripristina wallet",
   "important": "Importante",
   "confirmPin": {
@@ -684,9 +681,7 @@
   "enableBiometry": {
     "title": "Proteggi il tuo portafoglio",
     "description": "{{biometryType}} protegge il tuo portafoglio e rende più facile usare {{appName}}",
-    "cta": "Abilita {{biometryType}}",
-    "guideTitle": "Vuoi aggiungere {{biometryType}}?",
-    "guideDescription": "{{biometryType}} rende più facile, veloce e sicura la connessione del tuo portafoglio alle dapps e la firma delle transazioni."
+    "cta": "Abilita {{biometryType}}"
   },
   "biometryType": {
     "FaceID": "Face ID",
@@ -699,7 +694,6 @@
   "unlockWithBiometryPrompt": "Autentica per sbloccare {{appName}}",
   "welcome": {
     "title": "Fai un salto nel futuro delle criptovalute con {{appName}}",
-    "titleGuided": "Benvenuto su {{appName}}!\nCreiamo il tuo portafoglio di criptovalute.",
     "createAccount": "Crea nuovo conto",
     "restoreAccount": "Ripristina il mio conto",
     "createNewWallet": "Crea un portafoglio",
@@ -721,12 +715,9 @@
     "create": "Crea un PIN",
     "createNew": "Crea un nuovo PIN",
     "verify": "Immetti nuovamente il PIN per confermarlo",
-    "guideTitle": "Scegli un PIN di 6 cifre che ricorderai",
-    "pinCodeGuide": "Tieni al sicuro il tuo PIN: è così che terrai al sicuro il tuo portafoglio.",
     "changePIN": "Modifica il PIN",
     "pinsDontMatch": "I PIN non corrispondono",
-    "invalidPin": "Usa un PIN più complesso",
-    "selectPIN": "Seleziona il PIN"
+    "invalidPin": "Usa un PIN più complesso"
   },
   "inviteCode": {
     "title": "Codice di invito",
