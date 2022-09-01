@@ -618,7 +618,10 @@
     "goldDisclaimer": "Valora ile bir \"hesap\" oluşturduğunuzda, anahtarları yalnızca sizde bulunan bir dijital cüzdan yaratmış olursunuz. cLabs veya Valora dahil olmak üzere başka hiçbir kişi veya kuruluş anahtarınızı geri alamaz, işlemleri değiştiremez, geri döndüremez ya da kaybedilen fonları geri alamaz. CELO, cUSD ve cEUR'un yeni bir varlık sınıfının parçası olduğunu ve finansal kayıp riski taşıdığını unutmayın. Herhangi bir varlık satın almadan önce kendi finansal durumunuzu ve finansal risk toleransınızı dikkatlice değerlendirin. Valora ile günde yalnızca {{dailyLimitCUSD}} cUSD'ye kadar (\"Günlük Limit\") gönderebilirsiniz. Bu Günlük Limitin artırılmasını talep etmek için support@valoraapp.com ile iletişime geçmeli ve ek kişisel bilgiler sağlamalısınız. Gerekli uyumlandırmanın gerçekleştirilmesinde gecikme yaşanabilir."
   },
   "fullName": "İsim",
+  "fullNameOrPseudonymPlaceholder": "First and last name or pseudonym",
   "fullNamePlaceholder": "Ad & Soyad",
+  "nameAndPicGuideCopyTitle": "What’s your name?",
+  "nameAndPicGuideCopyContent": "We’d like to know what to call you",
   "importIt": "Cüzdanı Yeniden Kur",
   "important": "Önemli",
   "confirmPin": {
@@ -700,12 +703,17 @@
   "onboardingEducation": {
     "step1": "Eğer mesaj gönderebiliyorsanız, kripto da kullanabilirsiniz. Şu andan itibaren telefonunuz aynı zamanda sizin kripto cüzdanınız.",
     "step2": "{{appName}} ile kriptoya erişmek ve kripto bakiyenizi artırmak çok kolay.",
-    "step3": "Fon göndermek, harcama yapmak ve daha fazlasını keşfetmek için ihtiyacınız olan tek şey bir cep telefonu."
+    "step3": "Fon göndermek, harcama yapmak ve daha fazlasını keşfetmek için ihtiyacınız olan tek şey bir cep telefonu.",
+    "payment": "Make payments globally with near zero fees",
+    "impact": "Support climate and social change initiatives",
+    "spend": "Use your crypto to shop your favorite brands"
   },
   "enableBiometry": {
     "title": "Cüzdanınızı emniyete alın",
     "description": "{{biometryType}}, cüzdanınızın güvenliğini sağlar ve {{appName}} kullanımını kolaylaştırır",
-    "cta": "{{biometryType}} etkinleştir"
+    "cta": "{{biometryType}} etkinleştir",
+    "guideTitle": "Want to add {{biometryType}}?",
+    "guideDescription": "{{biometryType}} makes it easier, quicker, and more secure to connect your wallet to dapps & sign transactions."
   },
   "biometryType": {
     "FaceID": "Face ID",
@@ -718,6 +726,7 @@
   "unlockWithBiometryPrompt": "{{appName}} uygulamasının kilidini açmak için kimlik doğrulaması yapın",
   "welcome": {
     "title": "{{appName}} ile kriptonun geleceğine adım atın",
+    "titleGuided": "Welcome to {{appName}}!\nLet’s create your crypto wallet.",
     "createAccount": "Yeni hesap oluştur",
     "restoreAccount": "Hesabımı geri yükle",
     "createNewWallet": "Cüzdan oluştur",
@@ -739,9 +748,12 @@
     "create": "PIN Oluştur",
     "createNew": "Yeni PIN oluştur",
     "verify": "Doğrulamak için PIN'i tekrar girin",
+    "guideTitle": "Choose a 6 digit PIN you’ll remember",
+    "pinCodeGuide": "Keep your PIN safe, it’s how you’ll keep your wallet secure.",
     "changePIN": "PIN Değiştir",
     "pinsDontMatch": "PIN'ler eşleşmedi",
-    "invalidPin": "Lütfen daha güçlü bir Pin kullanın"
+    "invalidPin": "Lütfen daha güçlü bir Pin kullanın",
+    "selectPIN": "Select PIN"
   },
   "inviteCode": {
     "title": "Davet Kodu",
@@ -1391,6 +1403,12 @@
     "swapFeeBody": "{{appName}} ücreti, {{appName}} uygulamasında token takas etmek için ödediğiniz ücrettir.\n\nÜcret, takas ettiğiniz miktarın %{{swapFee}} kadarıdır.\n\n{{appName}} uygulamasında önümüzdeki birkaç ay ücret alınmayacaktır.",
     "estimatedAmountTitle": "Tahmini Tutar",
     "estimatedAmountBody": "Dönüşümler, takasınız için size en iyi oranı bulan ve merkezi olmayan bir üçüncü taraf borsasında gerçekleşir.\n\nİşleminiz, tahminin %{{slippagePercent}} kadarına kdar bir fiyatla tamamlanacak veya işlem iptal edilip para cüzdanınıza iade edilecektir."
+  },
+  "inviteModal": {
+    "title": "Looks like {{contactName}} doesn’t have a {{appName}} wallet yet.",
+    "body": "You can still invite them to {{appName}}, or try to send a payment to their wallet address or nom.space.",
+    "sendInviteButtonLabel": "Send Invite",
+    "shareMessage": "Hey! I’d like to send you some crypto with my {{appName}} wallet. Once you download the app and connect your phone number, we can send crypto as easy as a text. Use this link: {{link}}"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

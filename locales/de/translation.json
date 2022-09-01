@@ -618,7 +618,10 @@
     "goldDisclaimer": "Wenn du ein „Konto“ mit Valora erstellst, erstellst du eine digitale Wallet zu der nur du die Schlüssel besitzt. Keine andere Person oder Entität, einschließlich cLabs oder Valora, kann deinen Schlüssel wiederherstellen, Transaktionen ändern oder rückgängig machen oder verloren gegangene Guthaben wiederherstellen. Bitte beachte, dass CELO, cUSD und cEUR Teil einer neuen Anlageklasse sind und ein Risiko finanziellen Verlust darstellen. Berücksichtige deine finanziellen Umstände und Toleranz gegenüber finanziellen Risiken, bevor du Vermögenswerte kaufst. Du kannst nur bis zu {{dailyLimitCUSD}} cUSD pro Tag über Valora versenden (das „Tageslimit“). Du musst dich mit support@valoraapp.com in Verbindung setzen und zusätzliche persönliche Informationen angeben, um eine Erhöhung dieses Tageslimits zu beantragen. Es kann zu Verzögerungen bei der Erfüllung der erforderlichen Einhaltung kommen."
   },
   "fullName": "Name",
+  "fullNameOrPseudonymPlaceholder": "Vor- und Nachname oder Pseudonym",
   "fullNamePlaceholder": "Vollständiger Name",
+  "nameAndPicGuideCopyTitle": "Wie ist dein Name?",
+  "nameAndPicGuideCopyContent": "Wir würden gerne wissen, wie wir dich nennen sollen",
   "importIt": "Wallet wiederherstellen",
   "important": "Wichtig",
   "confirmPin": {
@@ -700,12 +703,17 @@
   "onboardingEducation": {
     "step1": "Krypto so einfach wie eine SMS. Ab sofort ist dein Handy dein Krypto-Wallet.",
     "step2": "Mit {{appName}} ist es ein einfach, auf dein Krypto zuzugreifen und sie zu vermehren.",
-    "step3": "Alles, was du brauchst, ist ein Mobiltelefon zum Entdecken."
+    "step3": "Alles, was du brauchst, ist ein Mobiltelefon zum Entdecken.",
+    "payment": "Zahlungen weltweit und fast ohne Gebühren durchführen",
+    "impact": "Unterstützung von Initiativen zum Klimaschutz und sozialen Wandel",
+    "spend": "Verwende deine Kryptowährung, um deine Lieblingsmarken zu kaufen"
   },
   "enableBiometry": {
     "title": "Sichere dein Wallet",
     "description": "{{biometryType}} sichert dein Wallet und erleichtert die Verwendung von {{appName}}",
-    "cta": "{{biometryType}} einschalten"
+    "cta": "{{biometryType}} einschalten",
+    "guideTitle": "Möchtest du {{biometryType}}hinzufügen?",
+    "guideDescription": "{{biometryType}} macht es einfacher, schneller und sicherer, deine Wallet mit Dapps zu verbinden und Transaktionen zu signieren."
   },
   "biometryType": {
     "FaceID": "Face-ID",
@@ -718,6 +726,7 @@
   "unlockWithBiometryPrompt": "Authentifizieren, um {{appName}} zu entsperren",
   "welcome": {
     "title": "Steige mit {{appName}} in die Zukunft von Krypto ein.",
+    "titleGuided": "Willkommen bei {{appName}}!\nLass uns deine Krypto-Brieftasche erstellen.",
     "createAccount": "Neues Konto erstellen",
     "restoreAccount": "Mein Konto wiederherstellen",
     "createNewWallet": "Wallet erstellen",
@@ -739,9 +748,12 @@
     "create": "PIN erstellen",
     "createNew": "Neue PIN erstellen",
     "verify": "Zur Bestätigung erneut PIN eingeben",
+    "guideTitle": "Wähle eine 6-stellige PIN, die du dir merken kannst",
+    "pinCodeGuide": "Bewahre deine PIN sicher auf, so schützt du dein Portemonnaie.",
     "changePIN": "PIN ändern",
     "pinsDontMatch": "Die PINs stimmen nicht überein",
-    "invalidPin": "Bitte eine stärkere PIN verwenden"
+    "invalidPin": "Bitte eine stärkere PIN verwenden",
+    "selectPIN": "PIN auswählen"
   },
   "inviteCode": {
     "title": "Einladungscode",
@@ -1391,6 +1403,12 @@
     "swapFeeBody": "Die Gebühr für {{appName}} ist die Gebühr, die du bezahlen musst, um Tokens auf {{appName}} zu tauschen. \n\n Die Gebühr beträgt {{swapFee}} % des Umtauschbetrags. \n\n Die Gebühren für {{appName}} entfallen für die nächsten Monate.",
     "estimatedAmountTitle": "Geschätzte Betrag",
     "estimatedAmountBody": "Umrechnungen finden an einer dezentralen Börse von Drittanbietern statt, die den besten Kurs für deinen gewünschten Umtausch bieten. \n\n Dein Trade wird zu einem Preis innerhalb von {{slippagePercent}} % des Preises abgeschlossen oder die Transaktion wird storniert und das Guthaben an deine Wallet zurückerstattet."
+  },
+  "inviteModal": {
+    "title": "Es sieht so aus, als ob {{contactName}} noch keine {{appName}} Brieftasche hat.",
+    "body": "Du kannst sie trotzdem zu {{appName}}einladen oder versuchen, eine Zahlung an ihre Wallet-Adresse oder nom.space zu senden.",
+    "sendInviteButtonLabel": "Einladung senden",
+    "shareMessage": "Hey! Ich würde dir gerne etwas Krypto mit meiner {{appName}} Brieftasche schicken. Wenn du die App herunterlädst und deine Telefonnummer angibst, können wir Kryptowährungen ganz einfach per SMS verschicken. Benutze diesen Link: {{link}}"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
