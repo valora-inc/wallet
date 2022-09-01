@@ -174,7 +174,7 @@
     "react-native-public-ip": "^1.0.2",
     "react-native-qrcode-svg": "^6.0.6",
     "react-native-randombytes": "^3.6.0",
-    "react-native-reanimated": "^2.6.0",
+    "react-native-reanimated": "^2.5.0",
     "react-native-restart-android": "^0.0.7",
     "react-native-safe-area-context": "^3.3.2",
     "react-native-screens": "^3.13.1",
