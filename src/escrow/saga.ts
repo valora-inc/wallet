@@ -358,7 +358,7 @@ function* withdrawFromEscrow(komenciActive: boolean = false) {
     }
 
     yield put(fetchStableBalances())
-    yield put(fetchTokenBalances())
+    yield put(fetchTokenBalances({ showLoading: true }))
     Logger.showMessage(i18n.t('transferDollarsToAccount'))
   } catch (e) {
     Logger.error(TAG + '@withdrawFromEscrow', 'Error withdrawing payment from escrow', e)

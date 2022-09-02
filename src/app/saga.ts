@@ -165,7 +165,6 @@ export interface RemoteConfigValues {
   inviteRewardWeeklyLimit: number
   inviteRewardsEnabled: boolean
   hideVerification: boolean
-  showRaiseDailyLimitTarget: string | undefined
   walletConnectV1Enabled: boolean
   walletConnectV2Enabled: boolean
   logPhoneNumberTypeEnabled: boolean
@@ -201,7 +200,6 @@ export interface RemoteConfigValues {
   swapFeeEnabled: boolean
   swapFeePercentage: number
   inviteMethod: InviteMethodType
-  showGuidedOnboardingCopy: boolean
 }
 
 export function* appRemoteFeatureFlagSaga() {

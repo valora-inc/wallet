@@ -1771,7 +1771,6 @@
                 "QRCode",
                 "QRNavigator",
                 "QRScanner",
-                "RaiseLimitScreen",
                 "RampScreen",
                 "ReclaimPaymentConfirmationScreen",
                 "RegulatoryTerms",
@@ -2004,14 +2003,8 @@
                 "shouldShowRecoveryPhraseInSettings": {
                     "type": "boolean"
                 },
-                "showGuidedOnboardingCopy": {
-                    "type": "boolean"
-                },
                 "showPriceChangeIndicatorInBalances": {
                     "type": "boolean"
-                },
-                "showRaiseDailyLimitTarget": {
-                    "type": "string"
                 },
                 "showSwapMenuInDrawerMenu": {
                     "type": "boolean"
@@ -2092,7 +2085,6 @@
                 "sentryTracesSampleRate",
                 "sessionId",
                 "shouldShowRecoveryPhraseInSettings",
-                "showGuidedOnboardingCopy",
                 "showPriceChangeIndicatorInBalances",
                 "showSwapMenuInDrawerMenu",
                 "skipProfilePicture",
@@ -2415,18 +2407,6 @@
                 "contactDetails": {
                     "$ref": "#/definitions/UserContactDetails"
                 },
-                "dailyLimitCusd": {
-                    "type": "number"
-                },
-                "dailyLimitRequestStatus": {
-                    "enum": [
-                        "Approved",
-                        "Denied",
-                        "InReview",
-                        "Incomplete"
-                    ],
-                    "type": "string"
-                },
                 "defaultCountryCode": {
                     "type": [
                         "null",
@@ -2491,7 +2471,6 @@
                 "backupCompleted",
                 "backupRequiredTime",
                 "contactDetails",
-                "dailyLimitCusd",
                 "defaultCountryCode",
                 "devModeActive",
                 "devModeClickCount",
@@ -4257,7 +4236,6 @@
                                         "notReadyForCode",
                                         "odisInsufficientBalance",
                                         "odisQuotaError",
-                                        "paymentLimitReached",
                                         "paymentRequestFailed",
                                         "paymentRequestUpdateFailed",
                                         "personaAccountEndpointFail",
@@ -4269,13 +4247,11 @@
                                         "qrFailedInvalidAddress",
                                         "qrFailedInvalidRecipient",
                                         "qrFailedNoPhoneNumber",
-                                        "raiseLimitEmailNotSent",
                                         "reclaimingEscrowedPaymentFailed",
                                         "redeemFailed",
                                         "redeemInviteTimeout",
                                         "refreshFailedUnexpectedly",
                                         "repeatVerificationCode",
-                                        "requestLimitError",
                                         "revealAttestationFailure",
                                         "saltFetchFailure",
                                         "saltQuotaExceededError",

@@ -260,7 +260,6 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     // and the default map cannot have a value of undefined or null
     // that is why we still need to check for it before calling a method
     // in the future it would be great to avoid using these as default values
-    showRaiseDailyLimitTarget: flags.showRaiseDailyLimitTargetV2?.asString(),
     celoEducationUri: flags.celoEducationUri?.asString() ?? null,
     celoEuroEnabled: flags.celoEuroEnabled.asBoolean(),
     dappListApiUrl: flags.dappListApiUrl?.asString() ?? null,
@@ -297,7 +296,6 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     dappConnectInfo: flags.dappConnectInfo.asString() as DappConnectInfo,
     visualizeNFTsEnabledInHomeAssetsPage: flags.visualizeNFTsEnabledInHomeAssetsPage.asBoolean(),
     coinbasePayEnabled: flags.coinbasePayEnabled.asBoolean(),
-    showGuidedOnboardingCopy: flags.showGuidedOnboardingCopy.asBoolean(),
     showSwapMenuInDrawerMenu: flags.showSwapMenuInDrawerMenu.asBoolean(),
     shouldShowRecoveryPhraseInSettings: flags.shouldShowRecoveryPhraseInSettings.asBoolean(),
     createAccountCopyTestType: flags.createAccountCopyTestType.asString() as CreateAccountCopyTestType,
@@ -364,10 +362,6 @@ async function fetchListFromFirebase(path: string) {
 
     return () => firebase.database().ref(path).off(VALUE_CHANGE_HOOK, onValueChange)
   })
-}
-
-export async function cUsdDailyLimitChannel(address: string) {
-  return simpleReadChannel(`registrations/${address}/dailyLimitCusd`)
 }
 
 export function simpleReadChannel(key: string) {

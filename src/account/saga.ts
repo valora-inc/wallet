@@ -2,15 +2,13 @@ import { ContractKit } from '@celo/contractkit'
 import { EIP712TypedData } from '@celo/utils/lib/sign-typed-data-utils'
 import { UnlockableWallet } from '@celo/wallet-base'
 import firebase from '@react-native-firebase/app'
-import _ from 'lodash'
 import DeviceInfo from 'react-native-device-info'
-import { call, cancelled, put, select, spawn, take, takeLeading } from 'redux-saga/effects'
+import { call, put, select, spawn, take, takeLeading } from 'redux-saga/effects'
 import {
   Actions,
   ClearStoredAccountAction,
   initializeAccountSuccess,
   saveSignedMessage,
-  updateCusdDailyLimit,
 } from 'src/account/actions'
 import { updateAccountRegistration } from 'src/account/updateAccountRegistration'
 import { showError } from 'src/alert/actions'
@@ -19,7 +17,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { clearStoredMnemonic } from 'src/backup/utils'
 import { FIREBASE_ENABLED } from 'src/config'
-import { cUsdDailyLimitChannel, firebaseSignOut } from 'src/firebase/firebase'
+import { firebaseSignOut } from 'src/firebase/firebase'
 import { refreshAllBalances } from 'src/home/actions'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { navigateClearingStack } from 'src/navigator/NavigationService'
@@ -36,7 +34,7 @@ import Logger from 'src/utils/Logger'
 import { getContractKit, getWallet } from 'src/web3/contracts'
 import { registerAccountDek } from 'src/web3/dataEncryptionKey'
 import { clearStoredAccounts } from 'src/web3/KeychainSigner'
-import { getOrCreateAccount, getWalletAddress, unlockAccount } from 'src/web3/saga'
+import { getOrCreateAccount, unlockAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 
 const TAG = 'account/saga'
@@ -83,30 +81,6 @@ function* initializeAccount() {
     Logger.error(TAG, 'Failed to initialize account', e)
     ValoraAnalytics.track(OnboardingEvents.initialize_account_error, { error: e.message })
     navigateClearingStack(Screens.AccounSetupFailureScreen)
-  }
-}
-
-export function* watchDailyLimit() {
-  const account = yield call(getWalletAddress)
-  const channel = yield call(cUsdDailyLimitChannel, account)
-  if (!channel) {
-    return
-  }
-  try {
-    while (true) {
-      const dailyLimit = yield take(channel)
-      if (_.isNumber(dailyLimit)) {
-        yield put(updateCusdDailyLimit(dailyLimit))
-      } else {
-        Logger.warn(`${TAG}@watchDailyLimit`, 'Daily limit must be a number', dailyLimit)
-      }
-    }
-  } catch (error) {
-    Logger.error(`${TAG}@watchDailyLimit`, 'Failed to watch daily limit', error)
-  } finally {
-    if (yield cancelled()) {
-      channel.close()
-    }
   }
 }
 
@@ -204,7 +178,6 @@ export function* watchSignedMessage() {
 export function* accountSaga() {
   yield spawn(watchClearStoredAccount)
   yield spawn(watchInitializeAccount)
-  yield spawn(watchDailyLimit)
   yield spawn(registerAccountDek)
   yield spawn(watchSignedMessage)
 }
