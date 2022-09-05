@@ -25,9 +25,8 @@ import { useRecipientVerificationStatus } from 'src/recipients/hooks'
 import { Recipient } from 'src/recipients/recipient'
 import useSelector from 'src/redux/useSelector'
 import { TransactionDataInput } from 'src/send/SendAmount'
-import { getFeeType, useDailyTransferLimitValidator } from 'src/send/utils'
+import { getFeeType } from 'src/send/utils'
 import { useTokenInfo } from 'src/tokens/hooks'
-import { Currency } from 'src/utils/currencies'
 import { roundUp } from 'src/utils/formatting'
 
 interface Props {
@@ -103,11 +102,6 @@ function useTransactionCallbacks({
     secureSendPhoneNumberMapping
   )
 
-  const [isTransferLimitReached, showLimitReachedBanner] = useDailyTransferLimitValidator(
-    usdAmount,
-    Currency.Dollar
-  )
-
   const feeType = getFeeType(recipientVerificationStatus)
   const estimateFeeDollars =
     useSelector(getFeeEstimateDollars(feeType, transferTokenAddress)) ?? new BigNumber(0)
@@ -135,11 +129,6 @@ function useTransactionCallbacks({
           currencySymbol: localCurrencySymbol,
         })
       )
-      return
-    }
-
-    if (isTransferLimitReached && usdAmount) {
-      showLimitReachedBanner()
       return
     }
 

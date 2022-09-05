@@ -5,7 +5,6 @@ import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 
 export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   RemoteConfigValues,
-  | 'showRaiseDailyLimitTarget'
   | 'celoEducationUri'
   | 'komenciAllowedDeployers'
   | 'sentryNetworkErrors'
@@ -21,11 +20,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   superchargecREALMax: number
 } = {
   hideVerification: false,
-  // cannot set defaults to undefined or null
-  // TODO: maybe a better default is '0xf' ?
-  // showRaiseDailyLimitTarget: undefined,
-  // same here
-  // celoEducationUri: null,
   celoEuroEnabled: true,
   inviteRewardsEnabled: false,
   inviteRewardCusd: 1,
@@ -71,7 +65,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   dappConnectInfo: DappConnectInfo.Basic,
   visualizeNFTsEnabledInHomeAssetsPage: false,
   coinbasePayEnabled: false,
-  showGuidedOnboardingCopy: false,
   showSwapMenuInDrawerMenu: false,
   shouldShowRecoveryPhraseInSettings: false,
   createAccountCopyTestType: CreateAccountCopyTestType.Account,

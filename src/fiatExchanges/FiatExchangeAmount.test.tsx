@@ -2,20 +2,13 @@ import { FiatAccountType, FiatType } from '@fiatconnect/fiatconnect-types'
 // @ts-ignore
 import { toBeDisabled } from '@testing-library/jest-native'
 import { fireEvent, render } from '@testing-library/react-native'
-import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD, DOLLAR_ADD_FUNDS_MAX_AMOUNT } from 'src/config'
 import { attemptReturnUserFlow } from 'src/fiatconnect/slice'
 import FiatExchangeAmount from 'src/fiatExchanges/FiatExchangeAmount'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
-import {
-  convertCurrencyToLocalAmount,
-  convertLocalAmountToCurrency,
-} from 'src/localCurrency/convert'
-import { convertBetweenCurrencies } from 'src/localCurrency/hooks'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { Currency } from 'src/utils/currencies'
@@ -180,167 +173,6 @@ describe('FiatExchangeAmount cashIn', () => {
 
     fireEvent.changeText(tree.getByTestId('FiatExchangeInput'), '5')
     expect(tree.getByTestId('FiatExchangeNextButton')).not.toBeDisabled()
-  })
-
-  it('opens a dialog when the cUSD amount is higher than the limit', () => {
-    const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
-      currency: Currency.Dollar,
-      flow: CICOFlow.CashIn,
-    })
-    const tree = render(
-      <Provider store={storeWithUSD}>
-        <FiatExchangeAmount {...mockScreenProps} />
-      </Provider>
-    )
-
-    fireEvent.changeText(
-      tree.getByTestId('FiatExchangeInput'),
-      (DOLLAR_ADD_FUNDS_MAX_AMOUNT + 1).toString()
-    )
-    fireEvent.press(tree.getByTestId('FiatExchangeNextButton'))
-    expect(tree.getByTestId('invalidAmountDialog/PrimaryAction')).toBeTruthy()
-    fireEvent.press(tree.getByTestId('invalidAmountDialog/PrimaryAction'))
-    expect(navigate).not.toHaveBeenCalled()
-  })
-
-  it('opens a dialog when the cEUR amount is higher than the limit', () => {
-    const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
-      currency: Currency.Euro,
-      flow: CICOFlow.CashIn,
-    })
-    const tree = render(
-      <Provider store={storeWithPHP}>
-        <FiatExchangeAmount {...mockScreenProps} />
-      </Provider>
-    )
-
-    const maxAmountInLocalCurrency =
-      convertCurrencyToLocalAmount(
-        new BigNumber(DOLLAR_ADD_FUNDS_MAX_AMOUNT),
-        phpExchangeRates[Currency.Dollar]
-      ) || new BigNumber(0)
-
-    fireEvent.changeText(
-      tree.getByTestId('FiatExchangeInput'),
-      maxAmountInLocalCurrency.plus(1).toString()
-    )
-    fireEvent.press(tree.getByTestId('FiatExchangeNextButton'))
-    expect(tree.getByTestId('invalidAmountDialog/PrimaryAction')).toBeTruthy()
-    fireEvent.press(tree.getByTestId('invalidAmountDialog/PrimaryAction'))
-    expect(navigate).not.toHaveBeenCalled()
-  })
-
-  it('opens a dialog when the CELO amount is higher than the limit', () => {
-    const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
-      currency: Currency.Celo,
-      flow: CICOFlow.CashIn,
-    })
-    const tree = render(
-      <Provider store={storeWithUSD}>
-        <FiatExchangeAmount {...mockScreenProps} />
-      </Provider>
-    )
-
-    const maxAmountInCelo =
-      convertBetweenCurrencies(
-        new BigNumber(DOLLAR_ADD_FUNDS_MAX_AMOUNT),
-        Currency.Dollar,
-        Currency.Celo,
-        usdExchangeRates
-      ) || new BigNumber(0)
-
-    const overLimitAmount = maxAmountInCelo.plus(1)
-
-    fireEvent.changeText(tree.getByTestId('FiatExchangeInput'), overLimitAmount.toString())
-    fireEvent.press(tree.getByTestId('FiatExchangeNextButton'))
-    expect(tree.getByTestId('invalidAmountDialog/PrimaryAction')).toBeTruthy()
-    fireEvent.press(tree.getByTestId('invalidAmountDialog/PrimaryAction'))
-    expect(navigate).not.toHaveBeenCalled()
-  })
-
-  it('opens a dialog when the cUSD amount is higher than the daily limit', () => {
-    const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
-      currency: Currency.Dollar,
-      flow: CICOFlow.CashIn,
-    })
-    const tree = render(
-      <Provider store={storeWithUSD}>
-        <FiatExchangeAmount {...mockScreenProps} />
-      </Provider>
-    )
-
-    const overLimitAmount = DEFAULT_DAILY_PAYMENT_LIMIT_CUSD + 1
-
-    fireEvent.changeText(tree.getByTestId('FiatExchangeInput'), overLimitAmount.toString())
-    fireEvent.press(tree.getByTestId('FiatExchangeNextButton'))
-    expect(tree.getByTestId('DailyLimitDialog/PrimaryAction')).toBeTruthy()
-    fireEvent.press(tree.getByTestId('DailyLimitDialog/PrimaryAction'))
-
-    expect(navigate).toHaveBeenCalledWith(Screens.SelectProvider, {
-      flow: CICOFlow.CashIn,
-      selectedCrypto: Currency.Dollar,
-      amount: {
-        fiat: overLimitAmount,
-        crypto: overLimitAmount,
-      },
-    })
-  })
-
-  it('opens a dialog when the cEUR amount is higher than the daily limit', () => {
-    const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
-      currency: Currency.Euro,
-      flow: CICOFlow.CashIn,
-    })
-    const tree = render(
-      <Provider store={storeWithPHP}>
-        <FiatExchangeAmount {...mockScreenProps} />
-      </Provider>
-    )
-
-    const dailyLimitInLocalCurrency =
-      convertCurrencyToLocalAmount(
-        new BigNumber(DEFAULT_DAILY_PAYMENT_LIMIT_CUSD),
-        phpExchangeRates[Currency.Dollar]
-      ) || new BigNumber(0)
-
-    const overLimitAmount = dailyLimitInLocalCurrency.plus(1)
-    const overLimitAmountInCurrency =
-      convertLocalAmountToCurrency(overLimitAmount, phpExchangeRates[Currency.Euro]) ||
-      new BigNumber(0)
-
-    fireEvent.changeText(tree.getByTestId('FiatExchangeInput'), overLimitAmount.toString())
-    fireEvent.press(tree.getByTestId('FiatExchangeNextButton'))
-    expect(tree.getByTestId('DailyLimitDialog/PrimaryAction')).toBeTruthy()
-    fireEvent.press(tree.getByTestId('DailyLimitDialog/PrimaryAction'))
-
-    expect(navigate).toHaveBeenCalledWith(Screens.SelectProvider, {
-      flow: CICOFlow.CashIn,
-      selectedCrypto: Currency.Euro,
-      amount: {
-        fiat: overLimitAmount.toNumber(),
-        crypto: overLimitAmountInCurrency.toNumber(),
-      },
-    })
-  })
-
-  it('redirects to contact screen when that option is pressed with a prefilled message', () => {
-    const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
-      currency: Currency.Dollar,
-      flow: CICOFlow.CashIn,
-    })
-    const tree = render(
-      <Provider store={storeWithUSD}>
-        <FiatExchangeAmount {...mockScreenProps} />
-      </Provider>
-    )
-
-    fireEvent.changeText(tree.getByTestId('FiatExchangeInput'), '600')
-    fireEvent.press(tree.getByTestId('FiatExchangeNextButton'))
-    fireEvent.press(tree.getByTestId('DailyLimitDialog/SecondaryAction'))
-
-    expect(navigate).toHaveBeenCalledWith(Screens.SupportContact, {
-      prefilledText: 'dailyLimitRequest',
-    })
   })
 })
 

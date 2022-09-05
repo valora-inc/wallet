@@ -1,4 +1,4 @@
-import { DailyLimitRequestStatus, PincodeType } from 'src/account/reducer'
+import { PincodeType } from 'src/account/reducer'
 
 export enum Actions {
   CHOOSE_CREATE_ACCOUNT = 'ACCOUNT/CHOOSE_CREATE',
@@ -26,8 +26,6 @@ export enum Actions {
   ACCEPT_TERMS = 'ACCOUNT/ACCEPT_TERMS',
   CLEAR_STORED_ACCOUNT = 'ACCOUNT/CLEAR_STORED_ACCOUNT',
   PROFILE_UPLOADED = 'ACCOUNT/PROFILE_UPLOADED',
-  UPDATE_DAILY_LIMIT = 'ACCOUNT/UPDATE_DAILY_LIMIT',
-  UPDATE_DAILY_LIMIT_REQUEST_STATUS = 'ACCOUNT/UPDATE_DAILY_LIMIT_REQUEST_STATUS',
   SET_REWARDS_ENABLED = 'ACCOUNT/SET_REWARDS_ENABLED',
   DISMISS_KEEP_SUPERCHARGING = 'ACCOUNT/DISMISS_KEEP_SUPERCHARGING',
   DISMISS_START_SUPERCHARGING = 'ACCOUNT/DISMISS_START_SUPERCHARGING',
@@ -143,16 +141,6 @@ export interface ProfileUploadedAction {
   type: Actions.PROFILE_UPLOADED
 }
 
-export interface UpdateDailyLimitAction {
-  type: Actions.UPDATE_DAILY_LIMIT
-  newLimit: number
-}
-
-export interface UpdateDailyLimitRequestStatusAction {
-  type: Actions.UPDATE_DAILY_LIMIT_REQUEST_STATUS
-  dailyLimitRequestStatus: DailyLimitRequestStatus
-}
-
 export interface DismissKeepSuperchargingAction {
   type: Actions.DISMISS_KEEP_SUPERCHARGING
 }
@@ -190,8 +178,6 @@ export type ActionTypes =
   | AcceptTermsAction
   | ClearStoredAccountAction
   | ProfileUploadedAction
-  | UpdateDailyLimitAction
-  | UpdateDailyLimitRequestStatusAction
   | DismissKeepSuperchargingAction
   | DismissStartSuperchargingAction
   | SaveSignedMessage
@@ -331,16 +317,6 @@ export const clearStoredAccount = (
 
 export const profileUploaded = (): ProfileUploadedAction => ({
   type: Actions.PROFILE_UPLOADED,
-})
-
-export const updateCusdDailyLimit = (newLimit: number): UpdateDailyLimitAction => ({
-  type: Actions.UPDATE_DAILY_LIMIT,
-  newLimit,
-})
-
-export const updateDailyLimitRequestStatus = (status: DailyLimitRequestStatus) => ({
-  type: Actions.UPDATE_DAILY_LIMIT_REQUEST_STATUS,
-  dailyLimitRequestStatus: status,
 })
 
 export const dismissKeepSupercharging = (): DismissKeepSuperchargingAction => ({

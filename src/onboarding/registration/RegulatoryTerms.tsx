@@ -9,7 +9,7 @@ import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import DevSkipButton from 'src/components/DevSkipButton'
-import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD, PRIVACY_LINK, TOS_LINK } from 'src/config'
+import { PRIVACY_LINK, TOS_LINK } from 'src/config'
 import { withTranslation } from 'src/i18n'
 import Logo, { LogoTypes } from 'src/icons/Logo'
 import { nuxNavigationOptions } from 'src/navigator/Headers'
@@ -81,9 +81,7 @@ export class RegulatoryTerms extends React.Component<Props> {
             </Trans>
           </Text>
           <Text style={styles.header}>{t('terms.heading2')}</Text>
-          <Text style={styles.disclaimer}>
-            {t('terms.goldDisclaimer', { dailyLimitCUSD: DEFAULT_DAILY_PAYMENT_LIMIT_CUSD })}
-          </Text>
+          <Text style={styles.disclaimer}>{t('terms.goldDisclaimer')}</Text>
         </ScrollView>
         <SafeAreaInsetsContext.Consumer>
           {(insets) => (
