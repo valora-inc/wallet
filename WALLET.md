@@ -236,16 +236,14 @@ Now follow [the steps for iOS installation](#install-cocopods-bundler-and-downlo
 
 #### Install Java
 
-We need Java to be able to build and deploy the mobile app to Android devices. Android currently only builds correctly with Java 8. (Using OpenJDK because of [Oracle being Oracle][oracle being oracle]).
+We need Java to be able to build and deploy the mobile app to Android devices. Android currently builds with Java 11.
 
 ##### MacOS
 
 Install by running the following:
 
 ```bash
-brew install cask
-brew tap homebrew/cask-versions
-brew install --cask homebrew/cask-versions/adoptopenjdk8
+brew install java11
 ```
 
 Optionally, install Jenv to manage multiple Java versions:
@@ -254,7 +252,7 @@ Optionally, install Jenv to manage multiple Java versions:
 brew install jenv
 eval "$(jenv init -)"
 # next step assumes openjdk8 already installed
-jenv add /Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home/
+jenv add <path-to-java>
 ```
 
 ##### Linux
@@ -716,7 +714,6 @@ $ adb kill-server && adb start-server
 [android ndk]: https://developer.android.com/studio/projects/install-ndk
 [android studio]: https://developer.android.com/studio
 [approve kernel extension]: https://developer.apple.com/library/content/technotes/tn2459/_index.html
-[oracle being oracle]: https://github.com/Homebrew/homebrew-cask-versions/issues/7253
 [device unauthorized]: https://stackoverflow.com/questions/23081263/adb-android-device-unauthorized
 [watchman]: https://facebook.github.io/watchman/docs/install/
 [jq]: https://stedolan.github.io/jq/
