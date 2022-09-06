@@ -92,7 +92,7 @@ export default class FiatConnectQuote extends NormalizedQuote {
   }
 
   _getFee(): BigNumber | null {
-    const feeString = this.quote.fiatAccount[this.fiatAccountType]?.fee
+    const feeString = this.quote.quote.fee
     return feeString !== undefined ? new BigNumber(feeString) : null
   }
   // FiatConnect quotes denominate fees in fiat & crypto for CashIn & CashOut respectively
