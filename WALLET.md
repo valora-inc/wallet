@@ -251,8 +251,8 @@ Optionally, install Jenv to manage multiple Java versions:
 ```bash
 brew install jenv
 eval "$(jenv init -)"
-# next step assumes openjdk8 already installed
-jenv add <path-to-java>
+# next step assumes jdk already installed
+jenv add <path-to-jdk-11>
 ```
 
 ##### Linux
