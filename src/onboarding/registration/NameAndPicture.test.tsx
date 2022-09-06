@@ -145,38 +145,4 @@ describe('NameAndPictureScreen', () => {
 
     expect(getByText('createProfile')).toBeTruthy()
   })
-
-  it('render header title correctly when showGuidedOnboarding is true', () => {
-    const store = createMockStore({
-      app: {
-        showGuidedOnboardingCopy: true,
-      },
-    })
-    let headerTitle: React.ReactNode
-    ;(mockNavigation.setOptions as jest.Mock).mockImplementation((options) => {
-      headerTitle = options.headerTitle()
-    }),
-      render(
-        <Provider store={store}>
-          <NameAndPicture {...mockScreenProps} />
-        </Provider>
-      )
-    const { getByText } = render(<Provider store={store}>{headerTitle}</Provider>)
-    expect(getByText('name')).toBeTruthy()
-  })
-
-  it('render onboarding guide copy correctly when showGuidedOnboarding is true', () => {
-    const store = createMockStore({
-      app: {
-        showGuidedOnboardingCopy: true,
-      },
-    })
-    const { getByText } = render(
-      <Provider store={store}>
-        <NameAndPicture {...mockScreenProps} />{' '}
-      </Provider>
-    )
-    expect(getByText('nameAndPicGuideCopyTitle')).toBeTruthy()
-    expect(getByText('nameAndPicGuideCopyContent')).toBeTruthy()
-  })
 })

@@ -805,13 +805,6 @@ export const migrations = {
   }),
   75: (state: any) => ({
     ...state,
-    app: {
-      ...state.app,
-      showGuidedOnboardingCopy: REMOTE_CONFIG_VALUES_DEFAULTS.showGuidedOnboardingCopy,
-    },
-  }),
-  76: (state: any) => ({
-    ...state,
     app: _.omit(state.app, 'showRaiseDailyLimitTarget'),
     account: _.omit(state.account, 'dailyLimitRequestStatus', 'dailyLimitCusd'),
   }),
