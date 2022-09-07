@@ -53,7 +53,8 @@
     "keys:decrypt": "bash scripts/key_placer.sh decrypt",
     "keys:encrypt": "bash scripts/key_placer.sh encrypt",
     "check:packages": "node ./scripts/check-packages.js",
-    "audit:fix": "bash scripts/yarn_audit_fix.sh"
+    "audit:fix": "bash scripts/yarn_audit_fix.sh",
+    "deploy:codepush": "sh scripts/deploy_codepush.sh"
   },
   "husky": {
     "hooks": {

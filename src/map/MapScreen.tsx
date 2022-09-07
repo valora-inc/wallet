@@ -5,29 +5,21 @@ import Animated from 'react-native-reanimated'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import VendorMarker from 'src/icons/VendorMarker'
-import { GMAP_STYLE, LOCALE_OFFSET, LOCALE_REGION } from 'src/map/constants'
+import { GMAP_STYLE, LOCALE_REGION } from 'src/map/constants'
+import { useMap } from 'src/map/hooks'
 import MapBottomSheet from 'src/map/MapBottomSheet'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import Colors from 'src/styles/colors'
 import { setCurrentVendor } from 'src/vendors/actions'
 import { vendorsWithLocationSelector } from 'src/vendors/selector'
 import { VendorWithLocation } from 'src/vendors/types'
-import { useCurrentVendorLocation } from 'src/vendors/utils'
 
 const MapScreen = () => {
   const scrollPosition = useRef(new Animated.Value(0)).current
   const dispatch = useDispatch()
   const vendors = useSelector(vendorsWithLocationSelector)
-  const mapViewRef = useRef<MapView>(null)
-  const { currentVendor, location } = useCurrentVendorLocation()
-
-  useEffect(() => {
-    location &&
-      mapViewRef.current?.animateToRegion({
-        ...location,
-        ...LOCALE_OFFSET,
-      })
-  }, [location])
+  const { mapRef, ...vendorData } = useMap()
+  const { currentVendor } = vendorData
 
   const vendorLocationMarkers = () => (
     <>
@@ -47,8 +39,9 @@ const MapScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <MapView
-        ref={mapViewRef}
+        ref={mapRef}
         style={styles.map}
+        showsUserLocation={true}
         initialRegion={LOCALE_REGION}
         customMapStyle={Platform.OS === 'android' ? GMAP_STYLE : undefined}
       >
