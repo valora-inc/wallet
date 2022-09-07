@@ -27,6 +27,7 @@ concurrency:
 jobs:
   android:
     name: Android
+    # TODO: change the group back to main once all machines are upgraded to java 11
     runs-on: android-e2e-group-test
     steps:
       - uses: actions/checkout@v2
@@ -40,16 +41,8 @@ jobs:
         run: git diff --exit-code
       - name: Check E2E wallet balance
         run: NODE_OPTIONS='--unhandled-rejections=strict' yarn ts-node ./e2e/scripts/check-e2e-wallet-balance.ts
-      - name: Java version
-        run: java -version
-      - name: Profile and then java version
-        run: |
-          source ~/.profile
-          java -version
-      - name: Java version on bash
-        run: java -version
-        shell: bash
       - name: Create Detox Build
+        # TODO: remove source once we get default version to be java 11
         run: |
           source ~/.profile
           export CELO_TEST_CONFIG=e2e
