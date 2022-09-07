@@ -1381,23 +1381,6 @@
                 "BankAccount": {
                     "additionalProperties": false,
                     "properties": {
-                        "fee": {
-                            "type": "string"
-                        },
-                        "feeFrequency": {
-                            "enum": [
-                                "OneTime",
-                                "Recurring"
-                            ],
-                            "type": "string"
-                        },
-                        "feeType": {
-                            "enum": [
-                                "KycFee",
-                                "PlatformFee"
-                            ],
-                            "type": "string"
-                        },
                         "fiatAccountSchemas": {
                             "items": {
                                 "additionalProperties": false,
@@ -1438,23 +1421,6 @@
                 "DuniaWallet": {
                     "additionalProperties": false,
                     "properties": {
-                        "fee": {
-                            "type": "string"
-                        },
-                        "feeFrequency": {
-                            "enum": [
-                                "OneTime",
-                                "Recurring"
-                            ],
-                            "type": "string"
-                        },
-                        "feeType": {
-                            "enum": [
-                                "KycFee",
-                                "PlatformFee"
-                            ],
-                            "type": "string"
-                        },
                         "fiatAccountSchemas": {
                             "items": {
                                 "additionalProperties": false,
@@ -1495,23 +1461,6 @@
                 "MobileMoney": {
                     "additionalProperties": false,
                     "properties": {
-                        "fee": {
-                            "type": "string"
-                        },
-                        "feeFrequency": {
-                            "enum": [
-                                "OneTime",
-                                "Recurring"
-                            ],
-                            "type": "string"
-                        },
-                        "feeType": {
-                            "enum": [
-                                "KycFee",
-                                "PlatformFee"
-                            ],
-                            "type": "string"
-                        },
                         "fiatAccountSchemas": {
                             "items": {
                                 "additionalProperties": false,
@@ -3030,6 +2979,23 @@
                                             },
                                             "cryptoType": {
                                                 "$ref": "#/definitions/CryptoType"
+                                            },
+                                            "fee": {
+                                                "type": "string"
+                                            },
+                                            "feeFrequency": {
+                                                "enum": [
+                                                    "OneTime",
+                                                    "Recurring"
+                                                ],
+                                                "type": "string"
+                                            },
+                                            "feeType": {
+                                                "enum": [
+                                                    "KycFee",
+                                                    "PlatformFee"
+                                                ],
+                                                "type": "string"
                                             },
                                             "fiatAmount": {
                                                 "type": "string"
