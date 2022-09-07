@@ -243,7 +243,9 @@ We need Java to be able to build and deploy the mobile app to Android devices. A
 Install by running the following:
 
 ```bash
-brew install java11
+brew install cask
+brew tap homebrew/cask-versions
+brew install --cask zulu11
 ```
 
 Optionally, install Jenv to manage multiple Java versions:
@@ -252,7 +254,7 @@ Optionally, install Jenv to manage multiple Java versions:
 brew install jenv
 eval "$(jenv init -)"
 # next step assumes jdk already installed
-jenv add <path-to-jdk-11>
+jenv add /Library/Java/JavaVirtualMachines/zulu-11.jdk/Contents/Home
 ```
 
 ##### Linux
