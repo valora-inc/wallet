@@ -28,7 +28,7 @@ function getProps(
 ) {
   const quoteData = _.cloneDeep(mockFiatConnectQuotes[1]) as FiatConnectQuoteSuccess
   if (!withFee) {
-    delete quoteData.fiatAccount.BankAccount?.fee
+    delete quoteData.quote.fee
   }
   if (quoteExpireMs) {
     quoteData.quote.guaranteedUntil = new Date(Date.now() + quoteExpireMs).toISOString()

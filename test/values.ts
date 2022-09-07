@@ -717,6 +717,9 @@ export const mockGetFiatConnectQuotesResponse: GetFiatConnectQuotesResponse[] = 
         quoteId: 'mock_quote_in_id',
         guaranteedUntil: '2099-04-27T19:22:36.000Z',
         transferType: TransferType.TransferIn,
+        fee: '0.53',
+        feeType: QuoteFeeType.PlatformFee,
+        feeFrequency: FeeFrequency.OneTime,
       },
       kyc: {
         kycRequired: false,
@@ -730,9 +733,6 @@ export const mockGetFiatConnectQuotesResponse: GetFiatConnectQuotesResponse[] = 
               allowedValues: { institutionName: ['Bank A', 'Bank B'] },
             },
           ],
-          fee: '0.53',
-          feeType: QuoteFeeType.PlatformFee,
-          feeFrequency: FeeFrequency.OneTime,
           settlementTimeLowerBound: `300`, // Five minutes
           settlementTimeUpperBound: `7200`, // Two hours
         },
@@ -786,6 +786,7 @@ export const mockFiatConnectQuotes: (FiatConnectQuoteSuccess | FiatConnectQuoteE
       quoteId: 'mock_quote_in_id',
       guaranteedUntil: '2099-04-27T19:22:36.000Z',
       transferType: TransferType.TransferIn,
+      fee: '4.22',
     },
     kyc: {
       kycRequired: true,
@@ -799,7 +800,6 @@ export const mockFiatConnectQuotes: (FiatConnectQuoteSuccess | FiatConnectQuoteE
             allowedValues: {},
           },
         ],
-        fee: '4.22',
       },
     },
   },
