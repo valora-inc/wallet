@@ -1,6 +1,8 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
+import Persona from 'src/account/Persona'
+import { KycStatus } from 'src/account/reducer'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes } from 'src/components/Button'
@@ -56,6 +58,8 @@ export default function SendOrRequestBar() {
       <Touchable borderless={true} onPress={onPressQrCode} testID="SendOrRequestBar/QRCode">
         <QRCodeBorderlessIcon height={32} color={colors.greenUI} />
       </Touchable>
+
+      <Persona kycStatus={KycStatus.NotCreated} />
     </View>
   )
 }
