@@ -46,6 +46,9 @@ jobs:
         run: |
           source ~/.profile
           java -version
+      - name: Java version on bash
+        run: java -version
+        shell: bash
       - name: Create Detox Build
         run: |
           source ~/.profile
