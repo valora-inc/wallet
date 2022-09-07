@@ -15,7 +15,6 @@ export interface State {
 const initialState = {
   isLoading: false,
   error: false,
-  preferredCurrencyCode: LocalCurrencyCode.TTD,
   exchangeRates: {
     [Currency.Celo]: null,
     [Currency.Dollar]: null,
