@@ -53,7 +53,7 @@ export default function Welcome() {
     <SafeAreaView style={styles.container}>
       <Image source={welcomeBackground} style={styles.backgroundImage} />
       <ScrollView contentContainerStyle={styles.contentContainer}>
-        <Logo type={LogoTypes.COLOR} height={64} />{' '}
+        <Logo type={LogoTypes.COLOR} height={64} />
         {showGuidedOnboarding ? (
           <Text style={styles.title} testID={'WelcomeText'}>
             {t('welcome.titleGuided')}
