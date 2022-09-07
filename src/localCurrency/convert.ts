@@ -62,5 +62,5 @@ export function convertLocalAmountToDollars(
 //   If the user enters `2.99` cUSD, this function has no impact
 //   and `2.99` is still displayed in the confirmation screen.
 export function convertToMaxSupportedPrecision(amount: BigNumber) {
-  return new BigNumber(amount.toFixed(18, BigNumber.ROUND_UP))
+  return new BigNumber((amount ?? new BigNumber(0)).toFixed(18, BigNumber.ROUND_UP))
 }

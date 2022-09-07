@@ -1,4 +1,3 @@
-import { ActionSheetIOS } from 'react-native'
 import { REHYDRATE } from 'redux-persist'
 import { createSelector } from 'reselect'
 import { getRehydratePayload, RehydrateAction } from 'src/redux/persist-helper'

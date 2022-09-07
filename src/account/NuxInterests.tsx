@@ -2,6 +2,7 @@ import { useFocusEffect } from '@react-navigation/native'
 import { StackScreenProps, useHeaderHeight } from '@react-navigation/stack'
 import { includes } from 'lodash'
 import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react'
+import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
@@ -9,17 +10,13 @@ import Modal from 'react-native-modal'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { FlatGrid } from 'react-native-super-grid'
 import { useDispatch, useSelector } from 'react-redux'
-import { addUserInterest, removeUserInterest } from 'src/account/actions'
+import { addUserInterest, initializeAccount, removeUserInterest } from 'src/account/actions'
 import InterestsLearnMoreDialog from 'src/account/InterestsLearnMoreDialog'
 import { NuxInterestChoice } from 'src/account/reducer'
-import { choseToRestoreAccountSelector, currentInterestsSelector } from 'src/account/selectors'
+import { currentInterestsSelector } from 'src/account/selectors'
 import { VerificationEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import {
-  hideVerificationSelector,
-  numberVerifiedSelector,
-  registrationStepsSelector,
-} from 'src/app/selectors'
+import { registrationStepsSelector } from 'src/app/selectors'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import TextButton from 'src/components/TextButton'
@@ -38,13 +35,13 @@ import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
-import useTypedSelector from 'src/redux/useSelector'
+import { waitUntilSagasFinishLoading } from 'src/redux/sagas'
 import colors, { Colors } from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
-import { useAsyncKomenciReadiness } from 'src/verify/hooks'
 import {
+  checkIfKomenciAvailable,
   currentStateSelector,
   reset,
   setKomenciContext,
@@ -55,7 +52,6 @@ import {
   verificationStatusSelector,
 } from 'src/verify/reducer'
 import VerificationSkipDialog from 'src/verify/VerificationSkipDialog'
-import { currentAccountSelector } from 'src/web3/selectors'
 
 type ScreenProps = StackScreenProps<StackParamList, Screens.NuxInterests>
 
@@ -63,18 +59,15 @@ type Props = ScreenProps
 
 function NuxInterestsScreen({ route, navigation }: Props) {
   const showSkipDialog = route.params?.showSkipDialog || false
-  const account = useTypedSelector(currentAccountSelector)
   const [showLearnMoreDialog, setShowLearnMoreDialog] = useState(false)
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const headerHeight = useHeaderHeight()
   const insets = useSafeAreaInsets()
-  const numberVerified = useSelector(numberVerifiedSelector)
   const partOfOnboarding = !route.params?.hideOnboardingStep
   const currentState = useSelector(currentStateSelector)
   const shouldUseKomenci = useSelector(shouldUseKomenciSelector)
   const verificationStatus = useSelector(verificationStatusSelector)
-  const choseToRestoreAccount = useSelector(choseToRestoreAccountSelector)
   const { step, totalSteps } = useSelector(registrationStepsSelector)
   const currentInterests = useSelector(currentInterestsSelector)
   const [allowContinue, showContinue] = useState(false)
@@ -99,11 +92,6 @@ function NuxInterestsScreen({ route, navigation }: Props) {
     } else {
       navigateHome()
     }
-  }
-
-  const onPressContinueWhenVerificationUnavailable = () => {
-    dispatch(setHasSeenVerificationNux(true))
-    navigateHome()
   }
 
   const onPressLearnMore = () => {
@@ -148,9 +136,11 @@ function NuxInterestsScreen({ route, navigation }: Props) {
     showContinue(currentInterests.length > 0)
   }, [currentInterests])
 
-  // CB TEMPORARY HOTFIX: Pinging Komenci endpoint to ensure availability
-  const hideVerification = useSelector(hideVerificationSelector)
-  const asyncKomenciReadiness = useAsyncKomenciReadiness()
+  useAsync(async () => {
+    await waitUntilSagasFinishLoading()
+    dispatch(initializeAccount())
+    dispatch(checkIfKomenciAvailable())
+  }, [])
 
   useFocusEffect(
     // useCallback is needed here: https://bit.ly/2G0WKTJ

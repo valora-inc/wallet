@@ -3,8 +3,8 @@ import { LatLng, Region } from 'react-native-maps'
 export const BASE_TAG = 'MapScreen'
 
 export const LOCALE_LATLNG: LatLng = {
-  latitude: 12.1224,
-  longitude: -68.8824,
+  latitude: 12.1696,
+  longitude: -68.99,
 }
 
 export const LOCALE_OFFSET: Omit<Region, 'longitude' | 'latitude'> = {

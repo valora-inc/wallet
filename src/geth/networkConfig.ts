@@ -5,6 +5,7 @@ import {
   BIDALI_URL,
   DEFAULT_SYNC_MODE,
   DEFAULT_TESTNET,
+  FIREBASE_DB_URL,
   FORNO_ENABLED_INITIALLY,
   GETH_USE_FULL_NODE_DISCOVERY,
   GETH_USE_STATIC_NODES,
@@ -46,8 +47,12 @@ interface NetworkConfig {
   inHouseLiquidityURL: string
   setRegistrationPropertiesUrl: string
   fetchExchangesUrl: string
+  vendorServiceUrl: string
+  firebaseDbUrl: string
 }
 
+const VENDOR_CMS_TESTNET = 'https://api.kolektivo.cw/api'
+const VENDOR_CMS_MAINNET = 'https://vendors-production-dot-kolektivo-backend.uc.r.appspot.com/api'
 const BLOCKCHAIN_API_TESTNET = 'https://alfajores-dot-kolektivo-backend.uc.r.appspot.com'
 const BLOCKCHAIN_API_MAINNET = 'https://kolektivo-backend.uc.r.appspot.com'
 const KOMENCI_URL_MAINNET = 'https://mainnet-komenci.azurefd.net'
@@ -123,6 +128,8 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     inHouseLiquidityURL: 'https://liquidity-dot-celo-mobile-alfajores.appspot.com',
     setRegistrationPropertiesUrl: SET_REGISTRATION_PROPERTIES_ALFAJORES,
     fetchExchangesUrl: FETCH_EXCHANGES_URL_ALFAJORES,
+    vendorServiceUrl: VENDOR_CMS_TESTNET,
+    firebaseDbUrl: FIREBASE_DB_URL,
   },
   [Testnets.mainnet]: {
     networkId: '42220',
@@ -152,6 +159,8 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     inHouseLiquidityURL: 'https://liquidity-dot-celo-mobile-mainnet.appspot.com',
     setRegistrationPropertiesUrl: SET_REGISTRATION_PROPERTIES_MAINNET,
     fetchExchangesUrl: FETCH_EXCHANGES_URL_MAINNET,
+    vendorServiceUrl: VENDOR_CMS_MAINNET,
+    firebaseDbUrl: FIREBASE_DB_URL,
   },
 }
 

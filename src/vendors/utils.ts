@@ -1,9 +1,7 @@
 import BottomSheet from '@gorhom/bottom-sheet'
 import { map } from 'lodash'
-import React, { useEffect, useState } from 'react'
-import { LatLng } from 'react-native-maps'
+import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { LOCALE_LATLNG } from 'src/map/constants'
 import { currentVendorSelector } from 'src/vendors/selector'
 import { Vendor, Vendors, VendorWithLocation } from 'src/vendors/types'
 
@@ -60,23 +58,6 @@ export const hasValidLocation = (vendor: VendorWithLocation): boolean => {
   return !!latitude && !!longitude
 }
 
-/**
- * This custom hook will return the latest vendor selected from the
- * redux store as well as its computed location. If the location of
- * the latest vendor is invalid, it will return the latest location
- * from the local state of this hook.
- */
-export const useCurrentVendorLocation = () => {
-  const currentVendor = useSelector(currentVendorSelector) as VendorWithLocation
-  const [location, setLocation] = useState<LatLng>(LOCALE_LATLNG)
-  useEffect(() => {
-    if (currentVendor && hasValidLocation(currentVendor)) {
-      setLocation(currentVendor.location)
-    }
-  }, [currentVendor])
-  return { currentVendor, location }
-}
-
 export const useInteractiveBottomSheet = (bottomSheetRef: React.RefObject<BottomSheet>) => {
   const snapPoints = React.useMemo(() => ['8%', '25%', '50%', '80%'], [])
   const currentVendor = useSelector(currentVendorSelector)
@@ -90,9 +71,9 @@ export const useInteractiveBottomSheet = (bottomSheetRef: React.RefObject<Bottom
 
   const handleVendorChange = () => {
     if (currentVendor) {
-      bottomSheetRef.current?.snapToIndex(3)
-    } else {
       bottomSheetRef.current?.snapToIndex(2)
+    } else {
+      bottomSheetRef.current?.snapToIndex(0)
     }
   }
   return snapPoints

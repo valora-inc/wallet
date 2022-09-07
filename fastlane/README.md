@@ -26,16 +26,31 @@ Clean the Android application
 fastlane android build
 ```
 Build the Android application - requires environment param
+### android upload
+```
+fastlane android upload
+```
+Upload to the Play Store
 ### android alfajores
 ```
 fastlane android alfajores
 ```
 Ship Alfajores to Playstore Internal
+### android alfajoresnightly
+```
+fastlane android alfajoresnightly
+```
+Ship Alfajores Nightly to Playstore Internal
 ### android mainnet
 ```
 fastlane android mainnet
 ```
 Ship Mainnet to Playstore Internal
+### android mainnetnightly
+```
+fastlane android mainnetnightly
+```
+Ship Mainnet Nightly to Playstore Internal
 ### android build_apk
 ```
 fastlane android build_apk
@@ -55,19 +70,34 @@ Build an Android bundle
 fastlane ios build
 ```
 Build the iOS application - requires environment param
+### ios upload
+```
+fastlane ios upload
+```
+Upload to TestFlight
 ### ios alfajores
 ```
 fastlane ios alfajores
 ```
 Ship Alfajores to TestFlight
+### ios alfajoresnightly
+```
+fastlane ios alfajoresnightly
+```
+Ship Alfajores Nightly to TestFlight
 ### ios mainnet
 ```
 fastlane ios mainnet
 ```
 Ship Mainnet to TestFlight
+### ios mainnetnightly
+```
+fastlane ios mainnetnightly
+```
+Ship Mainnet Nightly to TestFlight
 
 ----
 
-This README.md is auto-generated and will be re-generated every time [fastlane](https://fastlane.tools) is run.
+This README.md is auto-generated and will be re-generated every time [_fastlane_](https://fastlane.tools) is run.
 More information about fastlane can be found on [fastlane.tools](https://fastlane.tools).
 The documentation of fastlane can be found on [docs.fastlane.tools](https://docs.fastlane.tools).

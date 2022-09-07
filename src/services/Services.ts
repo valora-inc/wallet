@@ -1,8 +1,6 @@
 import { Dapp } from 'src/app/types'
 import MobileTopUp from 'src/icons/MobileTopUp'
 import Swap from 'src/icons/Swap'
-import Vendors from 'src/icons/Vendors'
-import { Screens } from 'src/navigator/Screens'
 
 const Dapps: Dapp[] = [
   {
@@ -30,11 +28,6 @@ export const CoreServices = [
     title: 'servicesList.swap',
     icon: Swap,
     dapp: Dapps[0],
-  },
-  {
-    title: 'servicesList.vendors',
-    icon: Vendors,
-    screen: Screens.VendorsScreen,
   },
   {
     title: 'servicesList.mobileTopUp',

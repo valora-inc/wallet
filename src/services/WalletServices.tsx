@@ -1,4 +1,3 @@
-import _ from 'lodash'
 import React, { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SectionList, StyleSheet, Text, View } from 'react-native'
@@ -6,10 +5,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 import Animated from 'react-native-reanimated'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { FlatGrid } from 'react-native-super-grid'
-import { useDispatch } from 'react-redux'
-import { showMessage } from 'src/alert/actions'
 import { DappSection } from 'src/app/reducers'
-import { ALERT_BANNER_DURATION, DEFAULT_TESTNET } from 'src/config'
 import useOpenDapp from 'src/dappsExplorer/useOpenDapp'
 import Logo from 'src/icons/Logo'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
@@ -29,22 +25,6 @@ function WalletServices() {
   const { onSelectDapp, ConfirmOpenDappBottomSheet } = useOpenDapp()
   const scrollPosition = useRef(new Animated.Value(0)).current
   const onScroll = Animated.event([{ nativeEvent: { contentOffset: { y: scrollPosition } } }])
-
-  const dispatch = useDispatch()
-
-  const showTestnetBanner = () => {
-    dispatch(
-      showMessage(
-        t('testnetAlert.1', { testnet: _.startCase(DEFAULT_TESTNET) }),
-        ALERT_BANNER_DURATION,
-        null,
-        null,
-        t('testnetAlert.0', { testnet: _.startCase(DEFAULT_TESTNET) })
-      )
-    )
-  }
-
-  showTestnetBanner()
 
   const keyExtractor = (_item: any, index: number) => {
     return index.toString()
