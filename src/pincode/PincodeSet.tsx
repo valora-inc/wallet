@@ -15,6 +15,7 @@ import {
   biometryEnabledSelector,
   registrationStepsSelector,
   skipVerificationSelector,
+  showGuidedOnboardingSelector,
 } from 'src/app/selectors'
 import DevSkipButton from 'src/components/DevSkipButton'
 import i18n, { withTranslation } from 'src/i18n'
@@ -44,6 +45,7 @@ interface StateProps {
   registrationStep: { step: number; totalSteps: number }
   biometryEnabled: boolean
   skipVerification: boolean
+  showGuidedOnboarding: boolean
 }
 
 interface DispatchProps {
@@ -74,6 +76,7 @@ function mapStateToProps(state: RootState): StateProps {
     account: currentAccountSelector(state) ?? '',
     biometryEnabled: biometryEnabledSelector(state),
     skipVerification: skipVerificationSelector(state),
+    showGuidedOnboarding: showGuidedOnboardingSelector(state),
   }
 }
 
@@ -254,11 +257,13 @@ export class PincodeSet extends React.Component<Props, State> {
         <DevSkipButton onSkip={this.navigateToNextScreen} />
         {isVerifying ? (
           <Pincode
-            title={t('pincodeSet.verify')}
+            title={this.props.showGuidedOnboarding ? ' ' : t('pincodeSet.verify')}
             errorText={errorText}
             pin={pin2}
             onChangePin={this.onChangePin2}
             onCompletePin={this.onCompletePin2}
+            onBoardingSetPin={!changingPin}
+            verifyPin={true}
           />
         ) : (
           <Pincode
@@ -267,6 +272,7 @@ export class PincodeSet extends React.Component<Props, State> {
             pin={pin1}
             onChangePin={this.onChangePin1}
             onCompletePin={this.onCompletePin1}
+            onBoardingSetPin={!changingPin}
           />
         )}
       </SafeAreaView>

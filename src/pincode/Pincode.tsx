@@ -16,6 +16,8 @@ import fontStyles from 'src/styles/fonts'
 interface Props {
   title?: string
   changePin?: boolean
+  onBoardingSetPin?: boolean
+  verifyPin?: boolean
   errorText?: string
   maxLength?: number
   pin: string
@@ -28,6 +30,8 @@ function Pincode({
   errorText,
   maxLength = PIN_LENGTH,
   pin,
+  onBoardingSetPin,
+  verifyPin, // true during onboarding pin re-entry
   onChangePin,
   onCompletePin,
 }: Props) {
@@ -65,14 +69,14 @@ function Pincode({
       <View style={styles.spacer} />
       {!errorText && <Text style={styles.title}>{title || ' '}</Text>}
       {!!errorText && <Text style={styles.error}>{errorText}</Text>}
-      <ScrollView contentContainerStyle={styles.contentContainer}>
-        {showGuidedOnboarding && (
-          <>
-            <Text style={styles.guidedOnboardingHeader}>{t('pincodeSet.guideTitle')}</Text>
-            <Text style={styles.guidedOnboardingCopy}>{t('pincodeSet.pinCodeGuide')}</Text>
-          </>
-        )}
-      </ScrollView>
+      {showGuidedOnboarding && onBoardingSetPin && (
+        <ScrollView contentContainerStyle={styles.contentContainer}>
+          <Text style={styles.guidedOnboardingHeader}>
+            {verifyPin ? t('pincodeSet.guideConfirm') : t('pincodeSet.guideTitle')}
+          </Text>
+          <Text style={styles.guidedOnboardingCopy}>{t('pincodeSet.pinCodeGuide')}</Text>
+        </ScrollView>
+      )}
       <View style={styles.pincodeContainer}>
         <PincodeDisplay pin={pin} maxLength={maxLength} />
       </View>
@@ -107,9 +111,12 @@ const styles = StyleSheet.create({
   },
   guidedOnboardingCopy: {
     ...fontStyles.regular,
+    textAlign: 'center',
   },
   guidedOnboardingHeader: {
     ...fontStyles.h1,
+    textAlign: 'center',
+    marginBottom: 24,
   },
   contentContainer: {
     flexGrow: 1,
