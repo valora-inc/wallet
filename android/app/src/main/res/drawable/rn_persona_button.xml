@@ -3,7 +3,7 @@
   <item android:state_enabled="false">
     <shape android:shape="rectangle">
       <corners android:radius="30dp"/>
-      <padding android:left="8dp" android:top="4dp" android:right="8dp" android:bottom="4dp"/>
+      <padding android:left="@dimen/abc_button_padding_horizontal_material" android:top="@dimen/abc_button_padding_vertical_material" android:right="@dimen/abc_button_padding_horizontal_material" android:bottom="@dimen/abc_button_padding_vertical_material"/>
       <solid android:color="#97DFC1"/>
     </shape>
   </item>
@@ -11,14 +11,14 @@
     <shape android:shape="rectangle">
       <corners android:radius="30dp"/>
       <solid android:color="#97DFC1"/>
-      <padding android:left="8dp" android:top="4dp" android:right="8dp" android:bottom="4dp"/>
+      <padding android:left="@dimen/abc_button_padding_horizontal_material" android:top="@dimen/abc_button_padding_vertical_material" android:right="@dimen/abc_button_padding_horizontal_material" android:bottom="@dimen/abc_button_padding_vertical_material"/>
     </shape>
   </item>
   <item>
     <shape android:shape="rectangle">
       <corners android:radius="30dp"/>
       <solid android:color="#1AB775"/>
-      <padding android:left="8dp" android:top="4dp" android:right="8dp" android:bottom="4dp"/>
+      <padding android:left="@dimen/abc_button_padding_horizontal_material" android:top="@dimen/abc_button_padding_vertical_material" android:right="@dimen/abc_button_padding_horizontal_material" android:bottom="@dimen/abc_button_padding_vertical_material"/>
     </shape>
   </item>
 </selector>
