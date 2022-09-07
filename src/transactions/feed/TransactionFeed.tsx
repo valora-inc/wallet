@@ -1,9 +1,15 @@
 import React, { useMemo } from 'react'
 import { ActivityIndicator, SectionList, StyleSheet, View } from 'react-native'
 import SectionHead from 'src/components/SectionHead'
+import TextButton from 'src/components/TextButton'
+import ProgressArrow from 'src/icons/ProgressArrow'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import useSelector from 'src/redux/useSelector'
-import colors from 'src/styles/colors'
+import colors, { Colors } from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import variables from 'src/styles/variables'
 import ExchangeFeedItem from 'src/transactions/feed/ExchangeFeedItem'
 import { useFetchTransactions } from 'src/transactions/feed/queryHelper'
 import TransferFeedItem from 'src/transactions/feed/TransferFeedItem'
@@ -113,11 +119,26 @@ function TransactionFeed() {
     }
   }
 
+  function renderSectionHeader(item: any) {
+    return <SectionHead text={item.section.title} right={renderSectionFilterButton(item)} />
+  }
+
+  function renderSectionFilterButton(item: any) {
+    return (
+      <TextButton
+        hitSlop={variables.iconHitslop}
+        style={styles.trxFilterBtn}
+        onPress={() => navigate(Screens.TransactionHistoryFiltered, { month: item.section.month })}
+        children={<ProgressArrow color={Colors.greenUI} />}
+      />
+    )
+  }
+
   return (
     <>
       <SectionList
         renderItem={renderItem}
-        renderSectionHeader={(item) => <SectionHead text={item.section.title} />}
+        renderSectionHeader={renderSectionHeader}
         sections={sections}
         keyExtractor={(item) => `${item.transactionHash}-${item.timestamp.toString()}`}
         keyboardShouldPersistTaps="always"
@@ -143,6 +164,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flex: 1,
+  },
+  trxFilterBtn: {
+    ...fontStyles.small400,
+    color: Colors.greenUI,
   },
 })
 

@@ -9,6 +9,7 @@ export default {
   height: Platform.OS === 'ios' ? height : height - status,
   borderWidth: 1 / PixelRatio.getPixelSizeForLayoutSize(1),
   contentPadding: 16,
+  headerPadding: 22,
   footerHeight: 60,
   fontSizeBase: 15,
   iconHitslop,

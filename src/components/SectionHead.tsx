@@ -6,13 +6,15 @@ import variables from 'src/styles/variables'
 
 interface Props {
   text: string
+  right?: React.ReactNode
   style?: StyleProp<ViewStyle>
 }
 
-export default function SectionheadNew({ text, style }: Props) {
+export default function SectionheadNew({ right, text, style }: Props) {
   return (
     <View style={[styles.container, style]}>
       <Text style={styles.text}>{text}</Text>
+      {right ? right : null}
     </View>
   )
 }

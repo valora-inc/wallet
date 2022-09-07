@@ -1,8 +1,16 @@
+import BigNumber from 'bignumber.js'
+import { filter, forEach } from 'lodash'
+import { useSelector } from 'react-redux'
 import { TokenTransactionType } from 'src/apollo/types'
+import { formatValueToDisplay } from 'src/components/TokenDisplay'
 import { ExchangeConfirmationCardProps } from 'src/exchange/ExchangeConfirmationCard'
 import i18n from 'src/i18n'
 import { AddressToDisplayNameType } from 'src/identity/reducer'
+import { localCurrencyToUsdSelector } from 'src/localCurrency/selectors'
+import { useTokenInfo } from 'src/tokens/hooks'
+import { FeedTokenTransaction } from 'src/transactions/feed/TransactionFeed'
 import { TransferConfirmationCardProps } from 'src/transactions/TransferConfirmationCard'
+import { TokenTransfer } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import { formatFeedSectionTitle, timeDeltaInDays } from 'src/utils/time'
 
@@ -16,6 +24,7 @@ export function groupFeedItemsInSections<T extends { timestamp: number }>(items:
   const sectionsMap: {
     [key: string]: {
       data: T[]
+      month: string
       daysSinceTransaction: number
     }
   } = {}
@@ -28,6 +37,7 @@ export function groupFeedItemsInSections<T extends { timestamp: number }>(items:
         : formatFeedSectionTitle(item.timestamp, i18n)
     sections[key] = sections[key] || {
       daysSinceTransaction,
+      month: formatFeedSectionTitle(item.timestamp, i18n),
       data: [],
     }
     sections[key].data.push(item)
@@ -38,6 +48,7 @@ export function groupFeedItemsInSections<T extends { timestamp: number }>(items:
     .sort((a, b) => a[1].daysSinceTransaction - b[1].daysSinceTransaction)
     .map(([key, value]) => ({
       title: key,
+      month: value.month,
       data: value.data,
     }))
 }
@@ -94,4 +105,56 @@ export const transferReviewHeader = (
   }
 
   return headerText
+}
+
+export const filterTxByMonth = (
+  transactions: FeedTokenTransaction[],
+  month: string | undefined
+) => {
+  if (!month) return transactions
+  return filter(transactions, (tx) => {
+    const target = formatFeedSectionTitle(tx.timestamp, i18n)
+    return target === month
+  })
+}
+
+export const filterTxByAmount = (
+  transactions: FeedTokenTransaction[],
+  minAmount = Number.MIN_SAFE_INTEGER,
+  maxAmount = Number.MAX_SAFE_INTEGER
+) => {
+  if (minAmount === Number.MIN_SAFE_INTEGER && maxAmount === Number.MAX_SAFE_INTEGER)
+    return transactions
+  return filter(transactions, (tx: TokenTransfer) => {
+    const amount = Math.abs(tx.amount.localAmount?.value as number)
+    return amount >= minAmount && amount <= maxAmount
+  }) as FeedTokenTransaction[]
+}
+
+export const filterTxByRecipient = (
+  transactions: FeedTokenTransaction[],
+  recipient: string | undefined
+) => {
+  return recipient
+    ? (filter(transactions, (tx: TokenTransfer) => {
+        return tx.address === recipient
+      }) as FeedTokenTransaction[])
+    : transactions
+}
+
+export function calculateTransactionSubtotal(transactions: FeedTokenTransaction[]) {
+  let total: BigNumber = new BigNumber(1)
+  forEach(transactions, (transaction: FeedTokenTransaction) => {
+    const transfer = transaction as TokenTransfer
+    const tokenAmount = transfer.amount.value
+    const tokenAddress = transfer.amount.tokenAddress
+    const tokenInfo = useTokenInfo(tokenAddress)
+    const localCurrencyExchangeRate = useSelector(localCurrencyToUsdSelector)
+    const amountInUsd = tokenInfo?.usdPrice?.multipliedBy(tokenAmount)
+    const amountInLocalCurrency = new BigNumber(localCurrencyExchangeRate ?? 0).multipliedBy(
+      amountInUsd ?? 0
+    )
+    total = total.plus(amountInLocalCurrency)
+  })
+  return formatValueToDisplay(total)
 }

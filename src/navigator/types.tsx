@@ -288,6 +288,15 @@ export type StackParamList = {
     transaction: TokenTransaction
   }
   [Screens.TransactionHistory]: undefined
+  [Screens.TransactionHistoryFiltered]:
+    | {
+        month?: string
+        minAmount?: number
+        maxAmount?: number
+        recipient?: string
+        isExporting?: boolean
+      }
+    | undefined
   [Screens.TransactionReview]: {
     reviewProps: ReviewProps
     confirmationProps: TransferConfirmationCardProps | ExchangeConfirmationCardProps

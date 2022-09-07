@@ -4,6 +4,7 @@ import WalletHome from 'src/home/WalletHome'
 import { headerWithBackButton, noHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import TransactionDetailsScreen from 'src/transactions/feed/TransactionDetailsScreen'
+import TransactionHistoryFiltered from 'src/transactions/TransactionHistoryFiltered'
 
 const Home = createStackNavigator()
 
@@ -15,6 +16,11 @@ export default function HomeStackNavigator() {
         name={Screens.TransactionDetailsScreen}
         component={TransactionDetailsScreen}
         options={{ ...headerWithBackButton }}
+      />
+      <Home.Screen
+        name={Screens.TransactionHistoryFiltered}
+        component={TransactionHistoryFiltered}
+        options={TransactionHistoryFiltered.navigationOptions}
       />
     </Home.Navigator>
   )
