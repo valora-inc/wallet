@@ -4,6 +4,7 @@ import { StoredTokenBalances } from 'src/tokens/slice'
 const cUSD = '0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1'
 const cEUR = '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F'
 const CELO = '0xF194afDf50B03e69Bd7D057c1Aa9e10c9954E4C9'
+const cREAL = '0xC5375c73a627105eb4DF00867717F6e301966C32'
 
 export function e2eTokens(): StoredTokenBalances {
   return {

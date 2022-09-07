@@ -815,4 +815,13 @@ export const migrations = {
     app: _.omit(state.app, 'showRaiseDailyLimitTarget'),
     account: _.omit(state.account, 'dailyLimitRequestStatus', 'dailyLimitCusd'),
   }),
+  77: (state: any) => ({
+    ...state,
+    localCurrency: {
+      ...state.localCurrency,
+      exchangeRates: {
+        [Currency.Real]: null,
+      },
+    },
+  }),
 }

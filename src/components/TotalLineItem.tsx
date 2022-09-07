@@ -26,6 +26,7 @@ const totalAmountKey = {
   [Currency.Dollar]: 'totalInDollars',
   [Currency.Euro]: 'totalInEuros',
   [Currency.Celo]: 'totalInCelo',
+  [Currency.Real]: 'totalInReales',
 }
 
 export default function TotalLineItem({

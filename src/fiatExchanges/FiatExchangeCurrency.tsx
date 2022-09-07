@@ -141,6 +141,18 @@ function FiatExchangeCurrency({ route, navigation }: Props) {
             testID="radio/cEUR"
           />
           <CurrencyRadioItem
+            title={t('celoReal')}
+            body="(cREAL)"
+            selected={selectedCurrency === Currency.Real}
+            onSelect={() => setSelectedCurrency(Currency.Real)}
+            enabled={flow === FiatExchangeFlow.CashIn}
+            containerStyle={{
+              borderTopWidth: 0.5,
+              borderBottomWidth: 0.5,
+            }}
+            testID="radio/cREAL"
+          />
+          <CurrencyRadioItem
             title="CELO"
             selected={selectedCurrency === Currency.Celo}
             onSelect={() => setSelectedCurrency(Currency.Celo)}

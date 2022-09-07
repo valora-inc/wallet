@@ -133,6 +133,7 @@ export const fetchProviders = async (
   requestData: ProviderRequestData
 ): Promise<FetchProvidersOutput[] | undefined> => {
   try {
+    console.log(requestData)
     const response = await fetchWithTimeout(
       networkConfig.providerFetchUrl,
       composePostObject(requestData)

@@ -103,6 +103,7 @@ export const mockAccountInvite2PrivKey =
 export const mockCusdAddress = '0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1'.toLowerCase()
 export const mockCeurAddress = '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F'.toLowerCase()
 export const mockCeloAddress = '0xF194afDf50B03e69Bd7D057c1Aa9e10c9954E4C9'.toLowerCase()
+export const mockCrealAddress = '0xC5375c73a627105eb4DF00867717F6e301966C32'.toLowerCase()
 export const mockTestTokenAddress = '0x048F47d358EC521a6cf384461d674750a3cB58C8'.toLowerCase()
 
 export const mockQrCodeData2 = {
@@ -447,16 +448,25 @@ export const makeExchangeRates = (
     [Currency.Dollar]: celoToDollarExchangeRate,
     [Currency.Euro]: '',
     [Currency.Celo]: '',
+    [Currency.Real]: '',
   },
   [Currency.Dollar]: {
     [Currency.Celo]: dollarToCeloExchangeRate,
     [Currency.Euro]: '',
     [Currency.Dollar]: '',
+    [Currency.Real]: '',
   },
   [Currency.Euro]: {
     [Currency.Celo]: '',
     [Currency.Euro]: '',
     [Currency.Dollar]: '',
+    [Currency.Real]: '',
+  },
+  [Currency.Real]: {
+    [Currency.Celo]: '',
+    [Currency.Euro]: '',
+    [Currency.Dollar]: '',
+    [Currency.Real]: '',
   },
 })
 
@@ -610,6 +620,7 @@ export const mockProviders: FetchProvidersOutput[] = [
       'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
     quote: [
       { paymentMethod: PaymentMethod.Card, digitalAsset: 'cusd', returnedAmount: 100, fiatFee: 0 },
+      { paymentMethod: PaymentMethod.Card, digitalAsset: 'creal', returnedAmount: 90, fiatFee: 5 },
     ],
     cashIn: true,
     cashOut: false,

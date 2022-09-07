@@ -103,7 +103,9 @@ function FiatExchangeAmount({ route }: Props) {
       ? 'subtotal'
       : currency === Currency.Dollar
       ? 'celoDollar'
-      : 'celoEuro'
+      : currency === Currency.Euro
+      ? 'celoEuro'
+      : 'celoReal'
 
   const localCurrencyMaxAmount =
     useCurrencyToLocalAmount(new BigNumber(DOLLAR_ADD_FUNDS_MAX_AMOUNT), Currency.Dollar) ||

@@ -111,6 +111,8 @@ export function getFullCurrencyName(currency: Currency | null) {
       return i18n.t('celoEuros')
     case Currency.Celo:
       return i18n.t('celoGold')
+    case Currency.Real:
+      return i18n.t('celoReales')
     default:
       return null
   }

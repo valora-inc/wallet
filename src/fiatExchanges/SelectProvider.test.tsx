@@ -199,6 +199,25 @@ describe(SelectProviderScreen, () => {
     expect(queryByText('selectProviderScreen.cryptoExchange')).toBeFalsy()
     expect(queryByText('selectProviderScreen.mobileMoney')).toBeFalsy()
   })
+  it('shows Ramp when cReal is selected for cash in', async () => {
+    mocked(fetchProviders).mockResolvedValue(mockProviders)
+    mocked(fetchLegacyMobileMoneyProviders).mockResolvedValue(mockLegacyProviders)
+    mocked(fetchExchanges).mockResolvedValue(mockExchanges)
+    const { queryByText } = render(
+      <Provider store={mockStore}>
+        <SelectProviderScreen {...mockScreenProps(CICOFlow.CashIn, Currency.Real)} />
+      </Provider>
+    )
+    await waitFor(() => expect(fetchLegacyMobileMoneyProviders).toHaveBeenCalled())
+
+    expect(queryByText('selectProviderScreen.bank')).toBeFalsy()
+    expect(queryByText('selectProviderScreen.card')).toBeTruthy() // Ramp should be the only provider available
+    expect(queryByText('selectProviderScreen.cryptoExchange')).toBeFalsy()
+    expect(queryByText('selectProviderScreen.mobileMoney')).toBeFalsy()
+
+    // Not visible because bank & card both have providers
+    expect(queryByText('selectProviderScreen.somePaymentsUnavailable')).toBeFalsy()
+  })
 
   describe('SelectProviderScreen CBPay Card', () => {
     beforeEach(() => {

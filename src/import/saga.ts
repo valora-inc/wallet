@@ -256,6 +256,7 @@ function* walletHasBalance(address: string) {
     yield fork(fetchTokenBalanceInWeiWithRetry, Currency.Euro, address),
     yield fork(fetchTokenBalanceInWeiWithRetry, Currency.Dollar, address),
     yield fork(fetchTokenBalanceInWeiWithRetry, Currency.Celo, address),
+    yield fork(fetchTokenBalanceInWeiWithRetry, Currency.Real, address),
   ]
   while (requests.length > 0) {
     const balances = yield race(requests.map((req) => join(req)))

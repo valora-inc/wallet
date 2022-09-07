@@ -19,6 +19,7 @@ const initialState = {
     [Currency.Celo]: null,
     [Currency.Dollar]: null,
     [Currency.Euro]: null,
+    [Currency.Real]: null,
   },
 }
 

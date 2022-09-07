@@ -118,11 +118,13 @@ export const celoAddressSelector = createSelector(coreTokensSelector, (tokens) =
 export const tokensByCurrencySelector = createSelector(tokensListSelector, (tokens) => {
   const cUsdTokenInfo = tokens.find((token) => token?.symbol === Currency.Dollar)
   const cEurTokenInfo = tokens.find((token) => token?.symbol === Currency.Euro)
+  const cRealTokenInfo = tokens.find((token) => token?.symbol === Currency.Real)
   // Currency.Celo === 'cGLD' for legacy reasons, so we just use a hard-coded string.
   const celoTokenInfo = tokens.find((token) => token?.symbol === 'CELO')
   return {
     [Currency.Dollar]: cUsdTokenInfo,
     [Currency.Euro]: cEurTokenInfo,
+    [Currency.Real]: cRealTokenInfo,
     [Currency.Celo]: celoTokenInfo,
   }
 })

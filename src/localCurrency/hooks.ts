@@ -32,7 +32,6 @@ export function useLocalCurrencyToShow(amount: MoneyAmount, currencyInfo?: Curre
     localCurrencyCode = amount.localAmount.currencyCode as LocalCurrencyCode
     localCurrencyExchangeRate = amount.localAmount.exchangeRate.toString()
   }
-
   return { localCurrencyCode, localCurrencyExchangeRate, amountCurrency }
 }
 

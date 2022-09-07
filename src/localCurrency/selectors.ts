@@ -62,9 +62,9 @@ export const localCurrencyExchangeRatesSelector = createSelector(
         [Currency.Dollar]: null,
         [Currency.Euro]: null,
         [Currency.Celo]: null,
+        [Currency.Real]: null,
       }
     }
-
     return exchangeRates
   }
 )

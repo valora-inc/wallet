@@ -1616,6 +1616,31 @@ export const v76Schema = {
   account: _.omit(v75Schema.account, 'dailyLimitRequestStatus', 'dailyLimitCusd'),
 }
 
+export const v77Schema = {
+  ...v76Schema,
+  _persist: {
+    ...v76Schema._persist,
+    version: 77,
+  },
+  localCurrency: {
+    ...v76Schema.localCurrency,
+    exchangeRates: {
+      [Currency.Real]: '1',
+      [Currency.Euro]: '2',
+      [Currency.Celo]: '3',
+      [Currency.Dollar]: '4',
+    },
+  },
+  stableToken: {
+    ...v76Schema.stableToken,
+    balances: {
+      [Currency.Real]: null,
+      [Currency.Euro]: null,
+      [Currency.Dollar]: null,
+    },
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v76Schema as Partial<RootState>
+  return v77Schema as Partial<RootState>
 }

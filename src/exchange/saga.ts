@@ -112,6 +112,8 @@ export async function getExchangeContract(token: StableCurrency) {
       return contractKit.contracts.getExchange(StableToken.cUSD)
     case Currency.Euro:
       return contractKit.contracts.getExchange(StableToken.cEUR)
+    case Currency.Real:
+      return contractKit.contracts.getExchange(StableToken.cREAL)
     default:
       throw new Error(`Could not fetch contract for unknown token ${token}`)
   }
@@ -161,6 +163,7 @@ export function* doFetchExchangeRate(action: FetchExchangeRateAction) {
         [Currency.Celo]: '',
         [Currency.Euro]: '',
         [Currency.Dollar]: '',
+        [Currency.Real]: '',
       }
       return rates
     }, {} as Record<Currency, Record<Currency, string>>)
@@ -201,7 +204,6 @@ export function* doFetchExchangeRate(action: FetchExchangeRateAction) {
         exchangeRate: stableSellExchangeRate.toNumber(),
       })
     }
-
     yield put(setExchangeRate(exchangeRates))
   } catch (error) {
     ValoraAnalytics.track(CeloExchangeEvents.celo_fetch_exchange_rate_error, {

@@ -4,6 +4,7 @@ import { all, call, put, select, spawn, take, takeLatest } from 'redux-saga/effe
 import { Actions as AccountActions } from 'src/account/actions'
 import { apolloClient } from 'src/apollo'
 import { ExchangeRateQuery, ExchangeRateQueryVariables } from 'src/apollo/types'
+import { exchangeRatesSelector } from 'src/exchange/reducer'
 import {
   Actions,
   fetchCurrentRate,
@@ -45,6 +46,16 @@ export async function fetchExchangeRate(
   return new BigNumber(rate).toString()
 }
 
+function* fetchCRealExchangeRate(localCurrencyCode: string) {
+  const realCeloExchangeRate = new BigNumber(
+    (yield select(exchangeRatesSelector))[Currency.Real][Currency.Celo]
+  )
+  const celoLocalExchangeRate = new BigNumber(
+    yield call(fetchExchangeRate, Currency.Celo, localCurrencyCode)
+  )
+  return celoLocalExchangeRate.div(realCeloExchangeRate).toString()
+}
+
 // @ts-ignore return type issue, couldn't figure it out
 export function* fetchLocalCurrencyRateSaga() {
   try {
@@ -53,18 +64,21 @@ export function* fetchLocalCurrencyRateSaga() {
       throw new Error("Can't fetch local currency rate without a currency code")
     }
     // TODO: Remove EUR and CELO rates, everything is based off dollar now.
-    const [usdRate, euroRate, celoRate]: [string, string, string] = yield all([
+    const [usdRate, euroRate, celoRate, realRate]: [string, string, string, string] = yield all([
       call(fetchExchangeRate, Currency.Dollar, localCurrencyCode),
       call(fetchExchangeRate, Currency.Euro, localCurrencyCode),
       call(fetchExchangeRate, Currency.Celo, localCurrencyCode),
+      call(fetchCRealExchangeRate, localCurrencyCode),
     ])
     yield put(
       fetchCurrentRateSuccess(
         localCurrencyCode,
+
         {
           [Currency.Dollar]: usdRate,
           [Currency.Euro]: euroRate,
           [Currency.Celo]: celoRate,
+          [Currency.Real]: realRate,
         },
         Date.now()
       )

@@ -339,7 +339,9 @@ function SendConfirmationLegacy(props: Props) {
         ? Currency.Celo
         : feeToken.symbol === 'cUSD'
         ? Currency.Dollar
-        : Currency.Euro
+        : feeToken.symbol === 'cEURO'
+        ? Currency.Euro
+        : Currency.Real
 
       return (
         <View style={styles.feeContainer}>

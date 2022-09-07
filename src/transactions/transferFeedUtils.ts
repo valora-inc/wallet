@@ -196,6 +196,9 @@ export function getTransferFeedParams(
           case 'ceur':
             info = t('cEurDeposit')
             break
+          case 'creal':
+            info = t('cRealDeposit')
+            break
           default:
             info = t('celoDeposit')
             break

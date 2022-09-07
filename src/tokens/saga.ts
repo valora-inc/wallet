@@ -47,6 +47,7 @@ const contractWeiPerUnit: Record<Currency, BigNumber> = {
   [Currency.Celo]: WEI_PER_TOKEN,
   [Currency.Dollar]: WEI_PER_TOKEN,
   [Currency.Euro]: WEI_PER_TOKEN,
+  [Currency.Real]: WEI_PER_TOKEN,
 }
 
 function* getWeiPerUnit(token: Currency) {
@@ -80,6 +81,8 @@ export async function getTokenContract(token: Currency) {
       return contractKit.contracts.getStableToken(StableToken.cUSD)
     case Currency.Euro:
       return contractKit.contracts.getStableToken(StableToken.cEUR)
+    case Currency.Real:
+      return contractKit.contracts.getStableToken(StableToken.cREAL)
     default:
       throw new Error(`Could not fetch contract for unknown token ${token}`)
   }
@@ -92,6 +95,7 @@ export async function getTokenContractFromAddress(tokenAddress: string) {
     contractKit.contracts.getGoldToken(),
     contractKit.contracts.getStableToken(StableToken.cUSD),
     contractKit.contracts.getStableToken(StableToken.cEUR),
+    contractKit.contracts.getStableToken(StableToken.cREAL),
   ])
   return contracts.find((contract) => contract.address.toLowerCase() === tokenAddress.toLowerCase())
 }
@@ -101,10 +105,11 @@ export async function getTokenContractFromAddress(tokenAddress: string) {
 // is a good moment to clean this up.
 export async function getStableCurrencyFromAddress(tokenAddress: string): Promise<Currency | null> {
   const contractKit = await getContractKitAsync()
-  const [celoContract, cUsdContract, cEurContract] = await Promise.all([
+  const [celoContract, cUsdContract, cEurContract, cRealContract] = await Promise.all([
     contractKit.contracts.getGoldToken(),
     contractKit.contracts.getStableToken(StableToken.cUSD),
     contractKit.contracts.getStableToken(StableToken.cEUR),
+    contractKit.contracts.getStableToken(StableToken.cREAL),
   ])
   if (celoContract.address === tokenAddress) {
     return Currency.Celo
@@ -112,6 +117,8 @@ export async function getStableCurrencyFromAddress(tokenAddress: string): Promis
     return Currency.Dollar
   } else if (cEurContract.address === tokenAddress) {
     return Currency.Euro
+  } else if (cRealContract.address === tokenAddress) {
+    return Currency.Real
   }
   return null
 }
