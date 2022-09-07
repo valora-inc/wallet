@@ -90,7 +90,7 @@ export class PincodeSet extends React.Component<Props, State> {
     const title = changePin // changePin has priority
       ? i18n.t('pincodeSet.changePIN')
       : showGuidedOnboarding // this should be during onboarding
-      ? i18n.t('selectPIN')
+      ? i18n.t('pincodeSet.selectPIN')
       : i18n.t('pincodeSet.create')
     return {
       ...nuxNavigationOptions,
