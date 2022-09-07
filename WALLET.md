@@ -262,7 +262,7 @@ jenv add /Library/Java/JavaVirtualMachines/zulu-11.jdk/Contents/Home
 Install by running the following:
 
 ```
-sudo apt install openjdk-8-jdk
+sudo apt install openjdk-11-jdk
 ```
 
 #### Install Android Dev Tools
