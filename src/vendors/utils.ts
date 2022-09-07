@@ -1,5 +1,5 @@
 import BottomSheet from '@gorhom/bottom-sheet'
-import { map, orderBy } from 'lodash'
+import { map } from 'lodash'
 import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { currentVendorSelector } from 'src/vendors/selector'
@@ -14,7 +14,7 @@ export const formatVendors = (vendorObject: any): Vendors => {
   const { data } = vendorObject
   const result = Object.assign(
     {},
-    ...orderBy(data, ['attributes.name'], ['desc']).map((v: any) => {
+    ...data.map((v: any) => {
       const {
         name,
         subtitle,
