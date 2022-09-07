@@ -10,7 +10,6 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import TokenListItem from 'src/swap/TokenListItem'
 import AlfajoresTokens from 'src/tokens/tokenList'
-import Logger from 'src/utils/Logger'
 
 type OwnProps = {}
 

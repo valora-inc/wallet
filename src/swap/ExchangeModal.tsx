@@ -9,7 +9,6 @@ import fontStyles from 'src/styles/fonts'
 import ExchangeAssetField from 'src/swap/ExchangeAssetField'
 import { fetchSelectedSwapAssets } from 'src/swap/reducer'
 import { SwapDirection } from 'src/swap/types'
-import Logger from 'src/utils/Logger'
 
 type Props = {
   defaultInputAsset?: any
