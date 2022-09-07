@@ -80,6 +80,7 @@ function NameAndPicture({ navigation }: Props) {
     } else {
       navigate(Screens.PincodeSet, {
         komenciAvailable: !!asyncKomenciReadiness.result,
+        showGuidedOnboarding,
       })
     }
   }
