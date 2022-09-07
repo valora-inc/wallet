@@ -725,7 +725,8 @@
     "pinsDontMatch": "The PINs didn't match",
     "invalidPin": "Please use a stronger PIN",
     "guideTitle": "Choose a 6 digit PIN you’ll remember",
-    "pinCodeGuide": "Keep your PIN safe, it’s how you’ll keep your wallet secure.",
+    "guideConfirm": "Enter your PIN again to confirm.",
+    "pinCodeGuide": "Your PIN is how you’ll secure your wallet.",
     "selectPIN": "Select PIN"
   },
   "inviteCode": {
