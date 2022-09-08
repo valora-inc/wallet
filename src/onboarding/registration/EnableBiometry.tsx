@@ -122,7 +122,11 @@ export default function EnableBiometry({ navigation }: Props) {
 
   return (
     <ScrollView style={styles.contentContainer}>
-      <SafeAreaView style={showGuidedOnboarding ? styles.containerLeftAligned : styles.container}>
+      <SafeAreaView
+        style={
+          showGuidedOnboarding ? [styles.container, styles.containerLeftAligned] : styles.container
+        }
+      >
         <View style={styles.imageContainer}>{biometryImageMap[supportedBiometryType!]}</View>
         {showGuidedOnboarding ? (
           <>
@@ -167,8 +171,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   containerLeftAligned: {
-    paddingTop: 186,
-    paddingHorizontal: 40,
+    alignItems: 'flex-start',
   },
   contentContainer: {
     flex: 1,
