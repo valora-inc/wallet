@@ -27,7 +27,6 @@ concurrency:
 jobs:
   android:
     name: Android
-    # TODO: change the group back to main once all machines are upgraded to java 11
     runs-on: android-e2e-group
     steps:
       - uses: actions/checkout@v2
