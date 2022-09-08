@@ -35,8 +35,12 @@ import Support from 'src/account/Support'
 import { HomeEvents, RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { toggleInviteModal } from 'src/app/actions'
-import { rewardsEnabledSelector, superchargeButtonTypeSelector } from 'src/app/selectors'
-import { SuperchargeButtonType } from 'src/app/types'
+import {
+  inviteMethodSelector,
+  rewardsEnabledSelector,
+  superchargeButtonTypeSelector,
+} from 'src/app/selectors'
+import { InviteMethodType, SuperchargeButtonType } from 'src/app/types'
 import BackupIntroduction from 'src/backup/BackupIntroduction'
 import AccountNumber from 'src/components/AccountNumber'
 import ContactCircleSelf from 'src/components/ContactCircleSelf'
@@ -47,7 +51,6 @@ import { dappsListApiUrlSelector } from 'src/dapps/selectors'
 import DAppsExplorerScreen from 'src/dappsExplorer/DAppsExplorerScreen'
 import { fetchExchangeRate } from 'src/exchange/actions'
 import ExchangeHomeScreen from 'src/exchange/ExchangeHomeScreen'
-import { features } from 'src/flags'
 import WalletHome from 'src/home/WalletHome'
 import { Home } from 'src/icons/Home'
 import { AccountKey } from 'src/icons/navigator/AccountKey'
@@ -199,6 +202,7 @@ export default function DrawerNavigator() {
   const { t } = useTranslation()
   const isCeloEducationComplete = useSelector((state) => state.goldToken.educationCompleted)
   const dappsListUrl = useSelector(dappsListApiUrlSelector)
+  const inviteMethod = useSelector(inviteMethodSelector)
 
   const rewardsEnabled = useSelector(rewardsEnabledSelector)
   const superchargeButtonType = useSelector(superchargeButtonTypeSelector)
@@ -305,7 +309,7 @@ export default function DrawerNavigator() {
         component={FiatExchange}
         options={{ title: t('addAndWithdraw'), drawerIcon: AddWithdraw }}
       />
-      {features.SHOW_INVITE_MENU_ITEM && (
+      {inviteMethod === InviteMethodType.ReferralUrl && (
         <Drawer.Screen
           name={'InviteModal'}
           component={InviteFriendModal}
