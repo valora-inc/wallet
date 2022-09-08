@@ -673,10 +673,7 @@
   "onboardingEducation": {
     "step1": "A cripto tão fácil quanto enviar mensagens. Seu celular é a sua carteira.",
     "step2": "Com a {{appName}}, acesse e multiplique suas criptomoedas facilmente.",
-    "step3": "Tudo o que você precisa é de um celular para enviar, gastar e explorar o mundo cripto.",
-    "payment": "Fazer pagamentos a nível mundial com taxas quase nulas",
-    "impact": "Apoiar iniciativas em matéria de alterações climáticas e sociais",
-    "spend": "Use o seu crypto para comprar as suas marcas favoritas"
+    "step3": "Tudo o que você precisa é de um celular para enviar, gastar e explorar o mundo cripto."
   },
   "enableBiometry": {
     "title": "Proteja sua carteira",
