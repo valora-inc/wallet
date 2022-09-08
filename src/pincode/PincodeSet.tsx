@@ -14,8 +14,8 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import {
   biometryEnabledSelector,
   registrationStepsSelector,
-  skipVerificationSelector,
   showGuidedOnboardingSelector,
+  skipVerificationSelector,
 } from 'src/app/selectors'
 import DevSkipButton from 'src/components/DevSkipButton'
 import i18n, { withTranslation } from 'src/i18n'
@@ -90,11 +90,12 @@ export class PincodeSet extends React.Component<Props, State> {
   static navigationOptions = ({ route }: ScreenProps) => {
     const changePin = route.params?.changePin
     const showGuidedOnboarding = route.params?.showGuidedOnboarding
-    const title = changePin // changePin has priority
-      ? i18n.t('pincodeSet.changePIN')
-      : showGuidedOnboarding // this should be during onboarding
-      ? i18n.t('pincodeSet.selectPIN')
-      : i18n.t('pincodeSet.create')
+    let title = i18n.t('pincodeSet.create')
+    if (changePin) {
+      title = i18n.t('pincodeSet.changePIN')
+    } else if (showGuidedOnboarding) {
+      title = i18n.t('pincodeSet.selectPIN')
+    }
     return {
       ...nuxNavigationOptions,
       headerTitle: () => (

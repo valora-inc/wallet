@@ -54,15 +54,9 @@ export default function Welcome() {
       <Image source={welcomeBackground} style={styles.backgroundImage} />
       <ScrollView contentContainerStyle={styles.contentContainer}>
         <Logo type={LogoTypes.COLOR} height={64} />
-        {showGuidedOnboarding ? (
-          <Text style={styles.title} testID={'WelcomeText'}>
-            {t('welcome.titleGuided')}
-          </Text>
-        ) : (
-          <Text style={styles.title} testID={'WelcomeText'}>
-            {t('welcome.title')}
-          </Text>
-        )}
+        <Text style={styles.title} testID={'WelcomeText'}>
+          {t(showGuidedOnboarding ? 'welcome.titleGuided' : 'welcome.title')}
+        </Text>
       </ScrollView>
       <View style={{ marginBottom: Math.max(0, 40 - insets.bottom) }}>
         <Button
