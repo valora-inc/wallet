@@ -673,10 +673,7 @@
   "onboardingEducation": {
     "step1": "Se puoi inviare un SMS, puoi operare con le criptovalute. Da ora il tuo telefono sarà il tuo Crypto-wallet!",
     "step2": "Con {{appName}}, è facile accedere alle tue criptovalute e farle crescere.",
-    "step3": "È sufficiente un cellulare per inviare, comprare ed esplorare.",
-    "payment": "Effettua pagamenti a livello globale con commissioni quasi nulle",
-    "impact": "Sostenere le iniziative di cambiamento climatico e sociale",
-    "spend": "Usa la tua criptovaluta per acquistare i tuoi marchi preferiti"
+    "step3": "È sufficiente un cellulare per inviare, comprare ed esplorare."
   },
   "enableBiometry": {
     "title": "Proteggi il tuo portafoglio",
