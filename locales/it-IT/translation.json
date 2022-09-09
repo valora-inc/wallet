@@ -327,7 +327,7 @@
     "bodyWithoutProvider": "Il service provider sta elaborando il tuo ordine. Dovresti ricevere i fondi entro un paio di giorni."
   },
   "restrictedRegion": "Supporto limitato nell'area",
-  "unsupportedLocation": "{{appName}} non è supportato nella tua zona",
+  "unsupportedLocation": "{{appName}} non è supportata nella tua zona",
   "unsupportedPaymentMethod": "Il pagamento con un {{paymentMethod}} non è supportato nella tua area.",
   "noProviders": "Nella tua area non sono presenti provider disponibili per {{digitalAsset}}.",
   "noPaymentMethods": "Nella tua area non sono presenti metodi di pagamento disponibili per {{digitalAsset}}.",
@@ -588,7 +588,7 @@
     "heading2": "Asset Celo e conto {{appName}}",
     "info": "Per usare i nostri servizi, leggi e accetta il nostro <0>Accordo con l’utente e termini</0> facendo clic sull’apposito pulsante di seguito.",
     "privacy": "Unendosi a questa rete, l’utente autorizza la raccolta di informazioni anonime riguardanti il suo utilizzo dell’app. Inoltre, se l’utente collega il proprio numero telefonico, una copia con hash sarà memorizzata nella rete Celo. Se l’utente concede a Valora l'accesso al proprio elenco di contatti, Valora importerà il nome, il numero telefonico e l’immagine del profilo di ciascun contatto per consentire agli utenti di collegarsi attraverso l’app Valora. Per informazioni su come raccogliamo e utilizziamo questi dati, leggere la nostra <0>Informativa sulla privacy</0>.",
-    "goldDisclaimer": "Quando crei un “account” con Valora, crei un portafoglio digitale (“wallet”) del quale solo tu hai le chiavi. Nessun’altra persona, fisica o giuridica, compresi cLabs o Valora, può recuperare tali chiavi, modificare o annullare transazioni oppure recuperare fondi persi. Tieni presente che CELO, cUSD e cEUR fanno parte di una nuova classe di asset e presentano il rischio di perdite finanziarie. Prima di acquistare qualsiasi asset, considera con attenzione la tua situazione finanziaria e la tua tolleranza al rischio finanziario."
+    "goldDisclaimer": "Quando crei un “account” con Valora, crei un portafoglio digitale (“wallet”) del quale solo tu hai le chiavi. Nessun’altra persona, fisica o giuridica, compresi cLabs o Valora, può recuperare tali chiavi, modificare o annullare transazioni oppure recuperare fondi persi. Tieni presente che le criptovalute sono una nuova classe di asset e presentano il rischio di perdite finanziarie. Prima di acquistare qualsiasi asset, considera la tua situazione finanziaria e la tua tolleranza al rischio finanziario."
   },
   "fullName": "Nome",
   "fullNamePlaceholder": "Nome e cognome",
@@ -1367,9 +1367,9 @@
   },
   "inviteModal": {
     "title": "Sembra che {{contactName}} non abbia ancora un portafoglio {{appName}}.",
-    "body": "Puoi comunque invitarli su {{appName}} o provare a inviare un pagamento al loro indirizzo di portafoglio o a nom.space.",
+    "body": "Puoi comunque invitarlo/invitarla su {{appName}} o provare a inviare un pagamento al suo indirizzo di portafoglio o nom.space.",
     "sendInviteButtonLabel": "Invia l'invito",
-    "shareMessage": "Ehi! Vorrei inviarti delle criptovalute con il mio portafoglio {{appName}}. Una volta scaricata l'applicazione e collegato il tuo numero telefonico, potremo inviare criptovalute con la stessa facilità di un SMS. Usa questo collegamento: {{link}}"
+    "shareMessage": "Ehi! Vorrei inviarti delle criptovalute con il mio portafoglio {{appName}}. Una volta scaricata l'applicazione e collegato il tuo numero telefonico, potremo inviare criptovalute con la stessa facilità di un messaggio di testo. Usa questo collegamento: {{link}}"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollar"
