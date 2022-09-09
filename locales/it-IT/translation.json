@@ -588,7 +588,7 @@
     "heading2": "Asset Celo e conto {{appName}}",
     "info": "Per usare i nostri servizi, leggi e accetta il nostro <0>Accordo con l’utente e termini</0> facendo clic sull’apposito pulsante di seguito.",
     "privacy": "Unendosi a questa rete, l’utente autorizza la raccolta di informazioni anonime riguardanti il suo utilizzo dell’app. Inoltre, se l’utente collega il proprio numero telefonico, una copia con hash sarà memorizzata nella rete Celo. Se l’utente concede a Valora l'accesso al proprio elenco di contatti, Valora importerà il nome, il numero telefonico e l’immagine del profilo di ciascun contatto per consentire agli utenti di collegarsi attraverso l’app Valora. Per informazioni su come raccogliamo e utilizziamo questi dati, leggere la nostra <0>Informativa sulla privacy</0>.",
-    "goldDisclaimer": "Quando crei un \"account\" con Valora stai creando un portafoglio digitale di cui solo tu possiedi le chiavi. Nessun'altra persona o entità, compresi cLabs o Valora, può recuperare la tua chiave, modificare o annullare le transazioni o recuperare i fondi persi. Tieni presente che CELO, cUSD e cEUR fanno parte di una nuova classe di attività e presentano un rischio di perdita finanziaria. Valuta attentamente la tua situazione finanziaria e la tua tolleranza al rischio finanziario prima di acquistare qualsiasi asset."
+    "goldDisclaimer": "Quando crei un “account” con Valora, crei un portafoglio digitale (“wallet”) del quale solo tu hai le chiavi. Nessun’altra persona, fisica o giuridica, compresi cLabs o Valora, può recuperare tali chiavi, modificare o annullare transazioni oppure recuperare fondi persi. Tieni presente che CELO, cUSD e cEUR fanno parte di una nuova classe di asset e presentano il rischio di perdite finanziarie. Prima di acquistare qualsiasi asset, considera con attenzione la tua situazione finanziaria e la tua tolleranza al rischio finanziario."
   },
   "fullName": "Nome",
   "fullNamePlaceholder": "Nome e cognome",
@@ -1366,10 +1366,10 @@
     "estimatedAmountBody": "Le conversioni avvengono su uno scambio decentralizzato di terze parti che trova il miglior tasso per il tuo scambio. \n\nLa tua transazione sarà completata a un prezzo compreso tra {{slippagePercent}}% della stima o la transazione sarà annullata e i fondi saranno restituiti al tuo portafoglio."
   },
   "inviteModal": {
-    "title": "Sembra che {{contactName}} non abbia ancora un portafoglio {{appName}} .",
-    "body": "Puoi comunque invitarli su {{appName}}o provare a inviare un pagamento al loro indirizzo di portafoglio o a nom.space.",
+    "title": "Sembra che {{contactName}} non abbia ancora un portafoglio {{appName}}.",
+    "body": "Puoi comunque invitarli su {{appName}} o provare a inviare un pagamento al loro indirizzo di portafoglio o a nom.space.",
     "sendInviteButtonLabel": "Invia l'invito",
-    "shareMessage": "Ehi! Vorrei inviarti delle criptovalute con il mio portafoglio {{appName}} . Una volta scaricata l'applicazione e collegato il tuo numero di telefono, potremo inviare criptovalute con la stessa facilità di un SMS. Usa questo link: {{link}}"
+    "shareMessage": "Ehi! Vorrei inviarti delle criptovalute con il mio portafoglio {{appName}}. Una volta scaricata l'applicazione e collegato il tuo numero telefonico, potremo inviare criptovalute con la stessa facilità di un SMS. Usa questo collegamento: {{link}}"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollar"
