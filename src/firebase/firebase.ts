@@ -303,6 +303,7 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     swapFeeEnabled: flags.swapFeeEnabled.asBoolean(),
     swapFeePercentage: flags.swapFeePercentage.asNumber(),
     inviteMethod: flags.inviteMethod.asString() as InviteMethodType,
+    showGuidedOnboardingCopy: flags.showGuidedOnboardingCopy.asBoolean(),
   }
 }
 

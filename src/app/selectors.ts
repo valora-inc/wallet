@@ -129,6 +129,8 @@ export const swapFeePercentageSelector = (state: RootState) => state.app.swapFee
 
 export const inviteMethodSelector = (state: RootState) => state.app.inviteMethod
 
+export const showGuidedOnboardingSelector = (state: RootState) => state.app.showGuidedOnboardingCopy
+
 type StoreWipeRecoveryScreens = Extract<
   Screens,
   | Screens.NameAndPicture
