@@ -577,6 +577,11 @@
     "title": "Send crypto to invite a friend",
     "body": "Once they set up their {{appName}} wallet and connect their number, you’ll each get an exclusive NFT. <0>Earn up to 3 NFTs</0>"
   },
+  "inviteWithUrl": {
+    "title": "Invite a friend",
+    "body": "Connect and share value with your friends and family on {{appName}}.",
+    "button": "Share Invite"
+  },
   "getReward": "Get ${{reward}}",
   "welcomeCelo": "Welcome to {{appName}}",
   "chooseCountryCode": "Country Code",
