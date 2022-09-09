@@ -16305,10 +16305,10 @@ react-native-permissions@^3.0.3:
   resolved "https://registry.yarnpkg.com/react-native-permissions/-/react-native-permissions-3.0.3.tgz#aa90649728a9720b0de9cfcfdb447b35a6630de0"
   integrity sha512-8xiEnU29qHZcT05XXwhPHiLChTt82Pn5Z/nFdDOYGNFZ+IYSbYeGmIxFpratCRO6dgLptNaDFDPiyw2X7UZTeg==
 
-react-native-persona@^2.2.21:
-  version "2.2.21"
-  resolved "https://registry.yarnpkg.com/react-native-persona/-/react-native-persona-2.2.21.tgz#bbdedb249f0ce58d4392f58e3d4f33b704f28e10"
-  integrity sha512-wRH8aH6UJSobLXQyLMJmn/6Um3Yx7wS6vM1lDDYmSY5ofJpzvI/UJviv2Ro1Mb9t9tb1F1h8jVjzaTqXqd093g==
+react-native-persona@^2.2.23:
+  version "2.2.23"
+  resolved "https://registry.yarnpkg.com/react-native-persona/-/react-native-persona-2.2.23.tgz#a7a4bb524de827b2a8177daaad0ee81074c89752"
+  integrity sha512-DZ/lz63uTVNbLbTNn5Xw/nBX/gQuPIJxzhtzBi+0VyAYKCRPJlnvVLdBCC5RayBgjh8p9/3vOhPM9JN1jxctjg==
   dependencies:
     chalk "^4.0.0"
     cli-table "^0.3.1"
