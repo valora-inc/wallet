@@ -34,7 +34,6 @@ import SettingsScreen from 'src/account/Settings'
 import Support from 'src/account/Support'
 import { HomeEvents, RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { toggleInviteModal } from 'src/app/actions'
 import {
   inviteMethodSelector,
   rewardsEnabledSelector,
@@ -58,12 +57,12 @@ import { AddWithdraw } from 'src/icons/navigator/AddWithdraw'
 import { DappsExplorer } from 'src/icons/navigator/DappsExplorer'
 import { Gold } from 'src/icons/navigator/Gold'
 import { Help } from 'src/icons/navigator/Help'
-import { Invite } from 'src/icons/navigator/Invite'
+import { Invite as InviteIcon } from 'src/icons/navigator/Invite'
 import { MenuRings } from 'src/icons/navigator/MenuRings'
 import { MenuSupercharge } from 'src/icons/navigator/MenuSupercharge'
 import { Settings } from 'src/icons/navigator/Settings'
 import { Swap } from 'src/icons/navigator/Swap'
-import InviteFriendModal from 'src/invite/InviteFriendModal'
+import Invite from 'src/invite/Invite'
 import DrawerItem from 'src/navigator/DrawerItem'
 import { ensurePincode } from 'src/navigator/NavigationService'
 import { getActiveRouteName } from 'src/navigator/NavigatorWrapper'
@@ -203,10 +202,8 @@ export default function DrawerNavigator() {
   const isCeloEducationComplete = useSelector((state) => state.goldToken.educationCompleted)
   const dappsListUrl = useSelector(dappsListApiUrlSelector)
   const inviteMethod = useSelector(inviteMethodSelector)
-
   const rewardsEnabled = useSelector(rewardsEnabledSelector)
   const superchargeButtonType = useSelector(superchargeButtonTypeSelector)
-  const dispatch = useDispatch()
 
   const shouldShowRecoveryPhraseInSettings = useSelector(shouldShowRecoveryPhraseInSettingsSelector)
   const backupCompleted = useSelector(backupCompletedSelector)
@@ -311,12 +308,9 @@ export default function DrawerNavigator() {
       />
       {inviteMethod === InviteMethodType.ReferralUrl && (
         <Drawer.Screen
-          name={'InviteModal'}
-          component={InviteFriendModal}
-          initialParams={{
-            onPress: () => dispatch(toggleInviteModal(true)),
-          }}
-          options={{ title: t('invite'), drawerIcon: Invite }}
+          name={'Invite'}
+          component={Invite}
+          options={{ title: t('invite'), drawerIcon: InviteIcon }}
         />
       )}
       {shouldShowSwapMenuInDrawerMenu && (
