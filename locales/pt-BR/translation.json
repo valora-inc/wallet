@@ -592,6 +592,9 @@
   },
   "fullName": "Nome",
   "fullNamePlaceholder": "Nome e sobrenome",
+  "fullNameOrPseudonymPlaceholder": "Nome e sobrenome ou pseudónimo",
+  "nameAndPicGuideCopyTitle": "Qual é o seu nome?",
+  "nameAndPicGuideCopyContent": "Gostaríamos de saber como lhe chamar",
   "importIt": "Restaurar Carteira",
   "important": "Importante",
   "confirmPin": {
@@ -678,7 +681,9 @@
   "enableBiometry": {
     "title": "Proteja sua carteira",
     "description": "{{biometryType}} protege sua conta e faz com que seja mais fácil usar {{appName}}",
-    "cta": "Ativar {{biometryType}}"
+    "cta": "Ativar {{biometryType}}",
+    "guideTitle": "Deseja acrescentar {{biometryType}}?",
+    "guideDescription": "{{biometryType}} torna mais fácil, mais rápido e mais seguro ligar a sua carteira a dapps & assinar transacções."
   },
   "biometryType": {
     "FaceID": "Face ID",
@@ -691,6 +696,7 @@
   "unlockWithBiometryPrompt": "Autenticar para desbloquear {{appName}}",
   "welcome": {
     "title": "Mergulhe no mundo cripto com a {{appName}}.",
+    "titleGuided": "Bem-vindo a {{appName}}!\nVamos criar a sua carteira criptográfica.",
     "createAccount": "Criar nova conta",
     "restoreAccount": "Restaurar conta existente",
     "createNewWallet": "Criar carteira",
@@ -714,7 +720,11 @@
     "verify": "Insira seu PIN novamente para confirmar",
     "changePIN": "Alterar PIN",
     "pinsDontMatch": "Os PINs não coincidem",
-    "invalidPin": "Use um PIN mais forte"
+    "invalidPin": "Use um PIN mais forte",
+    "guideTitle": "Escolha um PIN de 6 dígitos que se lembrará",
+    "guideConfirm": "Insira seu PIN novamente para confirmar.",
+    "pinCodeGuide": "O seu PIN é a forma de proteger a sua carteira.",
+    "selectPIN": "Seleccionar PIN"
   },
   "inviteCode": {
     "title": "Código de convite",
