@@ -592,6 +592,9 @@
   },
   "fullName": "Name",
   "fullNamePlaceholder": "Vollständiger Name",
+  "fullNameOrPseudonymPlaceholder": "Vor- und Nachname oder Pseudonym",
+  "nameAndPicGuideCopyTitle": "Wie ist dein Name?",
+  "nameAndPicGuideCopyContent": "Wir würden gerne wissen, wie wir dich nennen sollen",
   "importIt": "Wallet wiederherstellen",
   "important": "Wichtig",
   "confirmPin": {
@@ -678,7 +681,9 @@
   "enableBiometry": {
     "title": "Sichere dein Wallet",
     "description": "{{biometryType}} sichert dein Wallet und erleichtert die Verwendung von {{appName}}",
-    "cta": "{{biometryType}} einschalten"
+    "cta": "{{biometryType}} einschalten",
+    "guideTitle": "Möchtest du {{biometryType}}hinzufügen?",
+    "guideDescription": "{{biometryType}} macht es einfacher, schneller und sicherer, deine Wallet mit Dapps zu verbinden und Transaktionen zu signieren."
   },
   "biometryType": {
     "FaceID": "Face-ID",
@@ -691,6 +696,7 @@
   "unlockWithBiometryPrompt": "Authentifizieren, um {{appName}} zu entsperren",
   "welcome": {
     "title": "Steige mit {{appName}} in die Zukunft von Krypto ein.",
+    "titleGuided": "Willkommen bei {{appName}}!\nLass uns deine Krypto-Brieftasche erstellen.",
     "createAccount": "Neues Konto erstellen",
     "restoreAccount": "Mein Konto wiederherstellen",
     "createNewWallet": "Wallet erstellen",
@@ -714,7 +720,11 @@
     "verify": "Zur Bestätigung erneut PIN eingeben",
     "changePIN": "PIN ändern",
     "pinsDontMatch": "Die PINs stimmen nicht überein",
-    "invalidPin": "Bitte eine stärkere PIN verwenden"
+    "invalidPin": "Bitte eine stärkere PIN verwenden",
+    "guideTitle": "Choose a 6 digit PIN you’ll remember",
+    "guideConfirm": "Zur Bestätigung erneut PIN eingeben.",
+    "pinCodeGuide": "Mit deiner PIN sicherst du dein Portemonnaie.",
+    "selectPIN": "Select PIN"
   },
   "inviteCode": {
     "title": "Einladungscode",
