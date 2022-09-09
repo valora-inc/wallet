@@ -592,6 +592,9 @@
   },
   "fullName": "Имя",
   "fullNamePlaceholder": "Имя и фамилия",
+  "fullNameOrPseudonymPlaceholder": "Имя и фамилия или псевдоним",
+  "nameAndPicGuideCopyTitle": "Как тебя зовут?",
+  "nameAndPicGuideCopyContent": "Мы хотели бы знать, как вас называть.",
   "importIt": "Восстановить кошелек",
   "important": "Важно",
   "confirmPin": {
@@ -678,7 +681,9 @@
   "enableBiometry": {
     "title": "Защитите ваш кошелек",
     "description": "{{biometryType}} поможет защитить ваш кошелек и упростить использование {{appName}}",
-    "cta": "Включить {{biometryType}}"
+    "cta": "Включить {{biometryType}}",
+    "guideTitle": "Хочешь добавить {{biometryType}}?",
+    "guideDescription": "{{biometryType}} позволяет проще, быстрее и безопаснее подключать свой кошелек к dapps и подписывать транзакции."
   },
   "biometryType": {
     "FaceID": "Face ID",
@@ -691,6 +696,7 @@
   "unlockWithBiometryPrompt": "Авторизуйтесь для разблокировки {{appName}}",
   "welcome": {
     "title": "Сделайте шаг в будущее криптовалют с помощью {{appName}}",
+    "titleGuided": "Добро пожаловать на {{appName}}!\nДавай создадим твой криптокошелек.",
     "createAccount": "Создать новый аккаунт",
     "restoreAccount": "Восстановить мой аккаунт",
     "createNewWallet": "Создать кошелек",
@@ -714,7 +720,11 @@
     "verify": "Повторно введите PIN-код для подтверждения",
     "changePIN": "Изменить PIN-код",
     "pinsDontMatch": "PIN-код не совпадает",
-    "invalidPin": "Используйте более надежный PIN-код"
+    "invalidPin": "Используйте более надежный PIN-код",
+    "guideTitle": "Выберите 6-значный PIN-код, который вы будете помнить",
+    "guideConfirm": "Повторно введите PIN-код для подтверждения.",
+    "pinCodeGuide": "Твой PIN-код - это то, как ты обезопасишь свой кошелек.",
+    "selectPIN": "Выберите PIN-код"
   },
   "inviteCode": {
     "title": "Код приглашения",
