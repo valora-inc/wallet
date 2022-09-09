@@ -327,7 +327,7 @@
     "bodyWithoutProvider": "O fornecedor de serviços está processando seu pedido. Você deve receber seus fundos dentro de alguns dias."
   },
   "restrictedRegion": "Suporte limitado na região",
-  "unsupportedLocation": "{{appName}} não é suportado na sua localização",
+  "unsupportedLocation": "Não há suporte para {{appName}} na sua localização",
   "unsupportedPaymentMethod": "Não é possível pagar com {{paymentMethod}} na sua região",
   "noProviders": "Não há fornecedores disponíveis para {{digitalAsset}} em sua região.",
   "noPaymentMethods": "Não há métodos de pagamento disponíveis para {{digitalAsset}} em sua região.",
@@ -588,7 +588,7 @@
     "heading2": "Ativos Celo e Conta da {{appName}}",
     "info": "Para usar nossos serviços, leia nosso <0>Termos de serviço e contrato do usuário</0> e toque no botão Aceitar para indicar que concorda.",
     "privacy": "Ao entrar nesta rede, você nos dá permissão para coletar informações anônimas sobre o seu uso do aplicativo. Além disso, se você conectar seu número de celular, uma cópia hash dele será armazenada na rede Celo. Se você conceder acesso à sua lista de contatos, a Valora irá importar o nome, número de celular e foto de perfil de cada contato para permitir que os usuários se conectem com eles através da Valora. Para saber como coletamos e usamos essas informações, consulte nossa <0>Política de privacidade</0>.",
-    "goldDisclaimer": "Ao criar uma \"conta\" com a Valora, está a criar uma carteira digital na qual só você detém as chaves. Nenhuma outra pessoa ou entidade, incluindo o cLabs ou a Valora, pode recuperar a sua chave, alterar ou desfazer transacções, ou recuperar fundos perdidos. Esteja ciente de que o CELO, cUSD e cEUR fazem parte de uma nova classe de activos e apresentam um risco de perda financeira. Considere cuidadosamente a sua situação financeira e a tolerância ao risco financeiro antes de adquirir qualquer activo."
+    "goldDisclaimer": "Ao criar uma \"conta\" com a Valora, você está criando uma carteira digital da qual só você detém as chaves. Nenhuma outra pessoa ou empresa, incluindo o cLabs ou a Valora, pode recuperar a sua chave, alterar ou desfazer transações ou recuperar fundos perdidos. Esteja ciente de que o CELO, cUSD e cEUR fazem parte de uma nova classe de ativos e apresentam um risco de perda financeira. Considere cuidadosamente a sua situação financeira e a tolerância ao risco financeiro antes de adquirir qualquer ativo."
   },
   "fullName": "Nome",
   "fullNamePlaceholder": "Nome e sobrenome",
@@ -1366,10 +1366,10 @@
     "estimatedAmountBody": "As conversões têm lugar numa troca descentralizada de terceiros que lhe encontra a melhor taxa para a sua troca. \n\nA sua transação será concluída a um preço de {{slippagePercent}}% da estimativa ou a transação será cancelada e os fundos serão devolvidos à sua carteira."
   },
   "inviteModal": {
-    "title": "Parece que {{contactName}} ainda não tem uma carteira {{appName}} .",
-    "body": "Pode ainda convidá-los para {{appName}}, ou tentar enviar um pagamento para o seu endereço de carteira ou nom.space.",
-    "sendInviteButtonLabel": "Enviar Convite",
-    "shareMessage": "Ei! gostaria de lhe enviar algum criptograma com a minha carteira {{appName}} . Uma vez descarregada a aplicação e ligado o seu número de telefone, podemos enviar criptogramas tão facilmente como um texto. Utilize esta ligação: {{link}}"
+    "title": "Parece que {{contactName}} ainda não tem uma carteira no {{appName}}.",
+    "body": "Você ainda pode convidar esse contato para o {{appName}} ou tentar enviar um pagamento para o endereço de carteira ou nom.space dele.",
+    "sendInviteButtonLabel": "Enviar convite",
+    "shareMessage": "Olá, eu gostaria de lhe enviar algumas criptomoedas com a minha carteira do {{appName}}. Depois de baixar o aplicativo e conectar seu número de telefone, enviar criptomoedas será tão fácil quanto enviar um SMS. Utilize este link: {{link}}"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
