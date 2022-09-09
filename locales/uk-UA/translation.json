@@ -592,6 +592,9 @@
   },
   "fullName": "Ім’я",
   "fullNamePlaceholder": "Ім’я та прізвище",
+  "fullNameOrPseudonymPlaceholder": "Ім'я або прізвище або псевдонім",
+  "nameAndPicGuideCopyTitle": "Як Вас звуть?",
+  "nameAndPicGuideCopyContent": "Ми хотіли б знати, як вам зателефонувати",
   "importIt": "Відновити гаманець",
   "important": "Важливо",
   "confirmPin": {
@@ -678,7 +681,9 @@
   "enableBiometry": {
     "title": "Захистіть свій гаманець",
     "description": "{{biometryType}} захищає ваш гаманець і полегшує використання {{appName}}",
-    "cta": "Увімкнути {{biometryType}}"
+    "cta": "Увімкнути {{biometryType}}",
+    "guideTitle": "Хочете додати {{biometryType}}?",
+    "guideDescription": "{{biometryType}} робить це простішим, швидшим і безпечнішим, щоб підключити свій гаманець до операцій з застосунками і підписом."
   },
   "biometryType": {
     "FaceID": "Ідентифікатор обличчя",
@@ -691,6 +696,7 @@
   "unlockWithBiometryPrompt": "Автентифікуйтеся для розблокування {{appName}}",
   "welcome": {
     "title": "Крок у майбутнє криптовалюти з {{appName}}",
+    "titleGuided": "Ласкаво просимо на {{appName}}!\nДавайте створимо ваш криптовалютний гаманець.",
     "createAccount": "Створити новий обліковий запис",
     "restoreAccount": "Відновити мій обліковий запис",
     "createNewWallet": "Створити гаманець",
@@ -714,7 +720,11 @@
     "verify": "Введіть PIN-код ще раз для підтвердження",
     "changePIN": "Змінити PIN-код",
     "pinsDontMatch": "PIN-коди не збігаються",
-    "invalidPin": "Просимо використовувати сильніший PIN-код"
+    "invalidPin": "Просимо використовувати сильніший PIN-код",
+    "guideTitle": "Виберіть 6-значний PIN-код, який ви пам'ятатимете",
+    "guideConfirm": "Введіть PIN-код ще раз для підтвердження.",
+    "pinCodeGuide": "Ваш PIN-код - це спосіб захисту вашого гаманця.",
+    "selectPIN": "Виберіть PIN-код"
   },
   "inviteCode": {
     "title": "Код запрошення",
