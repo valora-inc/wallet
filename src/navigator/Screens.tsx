@@ -32,6 +32,7 @@ export enum Screens {
   FiatConnectTransferStatus = 'FiatConnectTransferStatus',
   GoldEducation = 'GoldEducation',
   ImportWallet = 'ImportWallet',
+  Invite = 'Invite',
   IncomingPaymentRequestListScreen = 'IncomingPaymentRequestListScreen',
   Language = 'Language',
   LanguageModal = 'LanguageModal',

@@ -57,6 +57,7 @@ import i18n from 'src/i18n'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import PhoneNumberLookupQuotaScreen from 'src/identity/PhoneNumberLookupQuotaScreen'
 import ImportWallet from 'src/import/ImportWallet'
+import Invite from 'src/invite/Invite'
 import Language from 'src/language/Language'
 import SelectLocalCurrency from 'src/localCurrency/SelectLocalCurrency'
 import MerchantPaymentScreen from 'src/merchantPayment/MerchantPaymentScreen'
@@ -382,6 +383,16 @@ const consumerIncentivesScreens = (Navigator: typeof Stack) => (
   </>
 )
 
+const inviteScreens = (Navigator: typeof Stack) => (
+  <>
+    <Navigator.Screen
+      name={Screens.Invite}
+      component={Invite}
+      options={ConsumerIncentivesHomeScreen.navOptions}
+    />
+  </>
+)
+
 const backupScreens = (Navigator: typeof Stack) => (
   <>
     <Navigator.Screen
@@ -612,6 +623,7 @@ export function MainStackScreen() {
       {exchangeScreens(Stack)}
       {backupScreens(Stack)}
       {consumerIncentivesScreens(Stack)}
+      {inviteScreens(Stack)}
       {settingsScreens(Stack)}
       {generalScreens(Stack)}
       {swapScreens(Stack)}

@@ -346,6 +346,7 @@ export type StackParamList = {
     recipientAddress?: string
   }
   [Screens.TokenBalances]: undefined
+  [Screens.Invite]: undefined
 }
 
 export type QRTabParamList = {
