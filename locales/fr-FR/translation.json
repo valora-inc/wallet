@@ -721,10 +721,10 @@
     "changePIN": "Modifer le code PIN",
     "pinsDontMatch": "Les codes PIN ne correspondent pas",
     "invalidPin": "Veuillez utiliser un code PIN plus fort",
-    "guideTitle": "Choose a 6 digit PIN you’ll remember",
+    "guideTitle": "Choisis un code PIN à 6 chiffres dont tu te souviendras",
     "guideConfirm": "Saisissez à nouveau votre code PIN pour confirmer.",
     "pinCodeGuide": "Ton code PIN est la façon dont tu sécuriseras ton portefeuille.",
-    "selectPIN": "Select PIN"
+    "selectPIN": "Sélectionner le NIP"
   },
   "inviteCode": {
     "title": "Code d'invitation",
