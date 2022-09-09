@@ -592,6 +592,9 @@
   },
   "fullName": "Nom",
   "fullNamePlaceholder": "Prénom et nom",
+  "fullNameOrPseudonymPlaceholder": "Prénom et nom de famille ou pseudonyme",
+  "nameAndPicGuideCopyTitle": "Quel est ton nom ?",
+  "nameAndPicGuideCopyContent": "Nous aimerions savoir comment t'appeler",
   "importIt": "Restaurer le portefeuille",
   "important": "Important",
   "confirmPin": {
@@ -678,7 +681,9 @@
   "enableBiometry": {
     "title": "Sécurisez votre portefeuille",
     "description": "{{biometryType}} sécurise votre compte et simplifie l'utilisation de {{appName}}",
-    "cta": "Activer {{biometryType}}"
+    "cta": "Activer {{biometryType}}",
+    "guideTitle": "Tu veux ajouter {{biometryType}}?",
+    "guideDescription": "{{biometryType}} rend plus facile, plus rapide et plus sûr le fait de connecter ton portefeuille à des dapps et de signer des transactions."
   },
   "biometryType": {
     "FaceID": "Face ID",
@@ -691,6 +696,7 @@
   "unlockWithBiometryPrompt": "Faites l'authentification pour déverrouiller {{appName}}",
   "welcome": {
     "title": "Entrez dans le futur des cryptomonnaies avec {{appName}}",
+    "titleGuided": "Bienvenue sur {{appName}}!\nCréons ton portefeuille de crypto-monnaies.",
     "createAccount": "Créer un nouveau compte",
     "restoreAccount": "Restaurer mon compte",
     "createNewWallet": "Créer un portefeuille",
@@ -714,7 +720,11 @@
     "verify": "Saisissez à nouveau votre code PIN pour confirmer",
     "changePIN": "Modifer le code PIN",
     "pinsDontMatch": "Les codes PIN ne correspondent pas",
-    "invalidPin": "Veuillez utiliser un code PIN plus fort"
+    "invalidPin": "Veuillez utiliser un code PIN plus fort",
+    "guideTitle": "Choose a 6 digit PIN you’ll remember",
+    "guideConfirm": "Saisissez à nouveau votre code PIN pour confirmer.",
+    "pinCodeGuide": "Ton code PIN est la façon dont tu sécuriseras ton portefeuille.",
+    "selectPIN": "Select PIN"
   },
   "inviteCode": {
     "title": "Code d'invitation",
