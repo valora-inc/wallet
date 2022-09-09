@@ -721,10 +721,10 @@
     "changePIN": "PIN ändern",
     "pinsDontMatch": "Die PINs stimmen nicht überein",
     "invalidPin": "Bitte eine stärkere PIN verwenden",
-    "guideTitle": "Choose a 6 digit PIN you’ll remember",
+    "guideTitle": "Wähle eine 6-stellige PIN, die du dir merken kannst",
     "guideConfirm": "Zur Bestätigung erneut PIN eingeben.",
     "pinCodeGuide": "Mit deiner PIN sicherst du dein Portemonnaie.",
-    "selectPIN": "Select PIN"
+    "selectPIN": "PIN auswählen"
   },
   "inviteCode": {
     "title": "Einladungscode",
