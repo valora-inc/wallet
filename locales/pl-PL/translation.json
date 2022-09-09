@@ -1373,7 +1373,7 @@
     "title": "Wygląda na to, że {{contactName}} nie ma jeszcze portfela w {{appName}}.",
     "body": "Nadal możesz wysłać zaproszenie do {{appName}} lub spróbować wysłać płatność na adres portfela albo nom.space.",
     "sendInviteButtonLabel": "Wyślij zaproszenie",
-    "shareMessage": "Hej! Chciałbym wysłać ci trochę kryptowalut za pomocą mojego portfela {{appName}} . Po pobraniu aplikacji i podaniu swojego numeru telefonu możemy wysłać kryptowalutę tak łatwo, jak za pomocą SMS-a. Użyj tego linku: {{link}}"
+    "shareMessage": "Witaj! Chcę wysłać Ci trochę kryptowaluty za pomocą mojego portfela {{appName}}. Gdy pobierzesz aplikację i podasz swój numer telefonu, możemy wysłać kryptowalutę tak łatwo, jak za pomocą SMS-a. Użyj tego linku: {{link}}"
   },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",
