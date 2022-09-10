@@ -74,8 +74,8 @@ const Education = (props: Props) => {
   } = props
 
   const [currentIndex, setCurrentIndex] = useState(0)
-  // This variable tracks the last scrolled to notification, so that impression
-  // events are not dispatched twice for the same notification
+  // This variable tracks the last scrolled to carousel screen, so that impression
+  // events are not dispatched twice for the same carousel screen
   const lastViewedIndex = useRef(-1)
   // Scroll View Ref for button clicks
   const scrollViewRef = useRef<ScrollView>(null)
