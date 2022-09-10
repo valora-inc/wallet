@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
 import {
-  Dimensions,
   Image,
   ImageSourcePropType,
   NativeScrollEvent,
@@ -80,8 +79,6 @@ const Education = (props: Props) => {
   const lastViewedIndex = useRef(-1)
   // Scroll View Ref for button clicks
   const scrollViewRef = useRef<ScrollView>(null)
-  // Get the width of the screen
-  const windowWidth = Dimensions.get('window').width
 
   const handleScroll = (event: { nativeEvent: NativeScrollEvent }) => {
     const { topic } = stepInfo[currentIndex]
@@ -132,7 +129,7 @@ const Education = (props: Props) => {
       }
       navigateBack()
     } else {
-      scrollViewRef.current?.scrollTo({ x: windowWidth * (currentIndex - 1), animated: true })
+      scrollViewRef.current?.scrollTo({ x: variables.width * (currentIndex - 1), animated: true })
     }
   }
 
@@ -140,7 +137,7 @@ const Education = (props: Props) => {
     // If we are on the last step, call the onFinish function otherwise scroll to the next step
     currentIndex === stepInfo.length - 1
       ? onFinish()
-      : scrollViewRef.current?.scrollTo({ x: windowWidth * (currentIndex + 1), animated: true })
+      : scrollViewRef.current?.scrollTo({ x: variables.width * (currentIndex + 1), animated: true })
   }
 
   const renderEmbeddedNavBar = () => {
