@@ -706,7 +706,7 @@
 				"${BUILT_PRODUCTS_DIR}/CTNotificationService/CTNotificationService.framework",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/double-conversion/double-conversion.framework/double-conversion",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL/OpenSSL.framework/OpenSSL",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/Persona2/Persona2.framework/Persona2",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/PersonaInquirySDK2/Persona2.framework/Persona2",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/LinkKit/LinkKit.framework/LinkKit",
 			);
 			name = "[CP] Embed Pods Frameworks";
