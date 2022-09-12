@@ -49,12 +49,12 @@ interface EducationStep {
 export type Props = NativeSafeAreaViewProps & {
   embeddedNavBar: EmbeddedNavBar | null
   stepInfo: EducationStep[]
-  buttonType: BtnTypes
+  buttonType?: BtnTypes
   buttonText: string
-  finalButtonType: BtnTypes
+  finalButtonType?: BtnTypes
   finalButtonText: string
-  dotStyle: StyleProp<ViewStyle>
-  activeDotStyle: StyleProp<ViewStyle>
+  dotStyle?: StyleProp<ViewStyle>
+  activeDotStyle?: StyleProp<ViewStyle>
   onFinish: () => void
 }
 
