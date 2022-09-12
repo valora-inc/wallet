@@ -63,12 +63,12 @@ const Education = (props: Props) => {
     style,
     embeddedNavBar,
     stepInfo,
-    buttonType,
+    buttonType = BtnTypes.SECONDARY,
     buttonText,
-    finalButtonType,
+    finalButtonType = BtnTypes.PRIMARY,
     finalButtonText,
-    dotStyle,
-    activeDotStyle,
+    dotStyle = progressDots.circlePassive,
+    activeDotStyle = progressDots.circleActive,
     onFinish,
     ...passThroughProps
   } = props
@@ -205,13 +205,6 @@ const Education = (props: Props) => {
       </View>
     </SafeAreaView>
   )
-}
-
-Education.defaultProps = {
-  buttonType: BtnTypes.SECONDARY,
-  finalButtonType: BtnTypes.PRIMARY,
-  dotStyle: progressDots.circlePassive,
-  activeDotStyle: progressDots.circleActive,
 }
 
 const styles = StyleSheet.create({
