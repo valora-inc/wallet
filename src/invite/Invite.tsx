@@ -1,11 +1,12 @@
-import React from 'react'
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import React, { useMemo } from 'react'
+import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 import Button, { BtnSizes } from 'src/components/Button'
 import Touchable from 'src/components/Touchable'
 import ShareIcon from 'src/icons/Share'
 import Times from 'src/icons/Times'
+import { inviteModal } from 'src/images/Images'
 import { noHeader } from 'src/navigator/Headers'
 import { navigateBack } from 'src/navigator/NavigationService'
 import fontStyles from 'src/styles/fonts'
@@ -26,24 +27,11 @@ function Header() {
   )
 }
 
-function Art() {
-  // TODO: Add actual art
-  return (
-    <View
-      style={{
-        width: 136,
-        height: 120,
-        backgroundColor: 'purple',
-      }}
-    />
-  )
-}
-
 function Content() {
   return (
     <View style={styles.outerContentContainer}>
       <View style={styles.innerContentContainer}>
-        <Art />
+        <Image style={styles.art} source={inviteModal} />
         <Text style={styles.title}>Invite a Friend</Text>
         <Text style={styles.body}>
           Connect and share value with your friends and family on Valora
@@ -74,6 +62,10 @@ export default function Invite() {
 Invite.navOptions = noHeader
 
 const styles = StyleSheet.create({
+  art: {
+    width: 136,
+    height: 120,
+  },
   outerContentContainer: {
     flex: 1,
     justifyContent: 'center',
