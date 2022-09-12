@@ -75,28 +75,9 @@
   "chooseFromLibrary": "Elegir de la galería de fotos",
   "takePhoto": "Tomar foto",
   "removePhoto": "Eliminar foto",
-  "accountSendLimit": "Límite de envío de cuenta",
-  "dailyLimitLabel": "Límite de envío diario actual",
-  "dailyLimitValue": "${{dailyLimit}}",
-  "noDailyLimit": "Ilimitado",
-  "verifyNumberToRaiseLimit": "Puedes aumentar tu límite de envío con solo verificar tu identidad. Conecta tu número de teléfono antes de continuar.",
-  "verifyIdentityToRaiseLimit": "Puedes aumentar tu límite de envío con solo verificar tu identidad. Prepárate para proporcionar algunos detalles en el siguiente proceso.",
-  "dailyLimitApplicationStatus": "Estado de la solicitud",
-  "applicationInReview": "En revisión",
-  "applicationInReviewDescription": "Tu solicitud está siendo revisada. Se te notificará cuando este proceso se haya completado.",
-  "applicationIncomplete": "Incompleta",
-  "applicationIncompleteDescription": "La información proporcionada fue insuficiente. Prepárate para proporcionar detalles adicionales en el siguiente proceso. ",
-  "applicationDenied": "Denegada",
-  "applicationDeniedDescription": "Tu solicitud fue denegada. Si crees que esto fue un error, reinicia el proceso a continuación.",
   "applicationCompleted": "Finalizada",
   "applicationCompletedDescription": "Tu solicitud fue aceptada. Ya puedes enviar una cantidad ilimitada diariamente.",
-  "raiseLimitConfirmNumber": "Conectar número de teléfono",
   "raiseLimitBegin": "Comenzar verificación de identidad",
-  "raiseLimitResume": "Reanudar la verificación de identidad",
-  "raiseLimitEmailSubject": "Solicitar aumento del límite de envío de la cuenta",
-  "raiseLimitEmailBody": "Me gustaría solicitar un aumento del límite diario de {{dailyLimit}} de {{appName}} para la dirección {{address}}.",
-  "raiseLimitEmailSuccess": "Tu solicitud se envió con éxito. Espera una respuesta por correo electrónico pronto.",
-  "raiseLimitEmailNotSent": "Tu solicitud no fue enviada. Vuelve a intentarlo.",
   "storeRecoveryTitle": "Necesitamos que vuelvas a configurar tu cuenta.",
   "storeRecoveryBody": "Ha habido un error. Estamos al tanto del problema y estamos trabajamos para solucionarlo. Mientras tanto, tendrás que volver a completar el proceso de configuración.",
   "storeRecoveryButton": "Restaurar cuenta",
@@ -318,11 +299,6 @@
     "maxAmount": "Nuestros proveedores no permiten montos totales superiores a {{usdLimit}}{{localLimit}}. Por favor, ingresa un monto más pequeño.",
     "dismiss": "OK"
   },
-  "dailyLimitDialog": {
-    "body": "Estás por comprar una cantidad superior al límite de envío diario de {{limit}}. Escríbenos a <0>{{contactEmail}}</0> si quieres aumentar tu límite diario.",
-    "contact": "Contactar",
-    "continue": "Entiendo"
-  },
   "providerFeesDialog": {
     "title": "Tarifas de proveedores",
     "body1": "Cada proveedor fija sus tarifas de forma individual, y estas incluyen una tasa de cambio y una tasa de liquidez, entre otras. Para obtener más información, visita ",
@@ -332,7 +308,6 @@
     "title": "Descuento de tarifa",
     "body": "Como promoción, las tarifas están temporalmente subvencionadas para celebrar el lanzamiento de Valora."
   },
-  "dailyLimitRequest": "¡Hola! Me gustaría aumentar mi límite de envío diario.",
   "pleaseSelectProvider": "Selecciona un proveedor de la lista a continuación. Estos enlaces te conectarán a servicios proporcionados por terceros.",
   "otherFundingOptions": "Para conocer más formas de agregar y retirar fondos, consulta <0>¿Cómo puedo agregar fondos a mi cuenta de Valora?</0>",
   "youCanTransferIn": "Puedes usar un exchange de terceros para enviar {{digitalAsset}} a tu cuenta de Valora. Necesitarás tu Dirección de cuenta para esto.",
@@ -486,8 +461,6 @@
   "maxActionableAttestationsExceededError": "Error al reenviar mensajes",
   "odisInsufficientBalance": "Conecta tu número de teléfono",
   "matchmakingQuotaExceededError": "Solo puedes conectar tus contactos una vez",
-  "paymentLimitReached": "El límite diario es de {{dailyLimitcUSD}} cUSD ({{currencySymbol}}{{dailyLimit}})\n{{dailyRemainingcUSD}} cUSD ({{currencySymbol}}{{dailyRemaining}}) restantes",
-  "requestLimitError": "No se puede solicitar más del límite diario de {{limit}} cUSD.",
   "ordinals": [
     "cero",
     "primera",
@@ -615,11 +588,11 @@
     "heading2": "Activos Celo y cuenta de {{appName}}",
     "info": "Para poder usar nuestros servicios, lee nuestro <0>Acuerdo de condiciones de uso</0> y toca el botón Aceptar para indicar que estás de acuerdo.",
     "privacy": "Al unirte a esta red, nos das permiso para recopilar información anónima sobre tu uso de la aplicación. Además, si conectas tu número de teléfono, se guardará una copia cifrada en la red Celo. Si decides conectar tu lista de contactos, Valora importará el nombre, número de teléfono y foto de perfil de tus contactos para permitirte conectar con ellos a través de Valora. Para obtener más información sobre cómo recopilamos y usamos tus datos, consulta nuestra <0>Política de privacidad</0>.",
-    "goldDisclaimer": "Cuando creas una cuenta de Valora, estás creando una billetera digital para la que solo tu tienes las claves. Ninguna otra persona o entidad, ni siquiera cLabs o Valora, puede recuperar tu clave, cambiar o deshacer transacciones, o recuperar fondos perdidos. Ten en cuenta que CELO, cUSD y cEUR son parte de una nueva clase de activos y suponen un riesgo de pérdida financiera. Considera cuidadosamente tus circunstancias financieras y tu tolerancia al riesgo financiero antes de comprar. Solo puedes enviar hasta {{dailyLimitCUSD}} cUSD por día a través de Valora (“Límite diario”). Si deseas solicitar un aumento a este límite diario, deberás ponerte en contacto con support@valoraapp.com y proporcionar información personal adicional. Puede llegar a haber un retraso en llevar a cabo la conformidad requerida."
+    "goldDisclaimer": "Cuando creas una \"cuenta\" en Valora, estás creando una billetera digital de la que sólo tú tienes la clave. Ninguna otra persona o entidad, incluidos cLabs o Valora, puede recuperar tu clave, cambiar o deshacer transacciones, o recuperar fondos perdidos. Ten en cuenta que CELO y las stablecoins Celo forman parte de una nueva clase de activos y suponen un riesgo de pérdida financiera. Considera cuidadosamente tu circunstancia financiera y tu tolerancia al riesgo antes de comprar un activo."
   },
   "fullName": "Nombre",
-  "fullNameOrPseudonymPlaceholder": "Nombre y apellido o seudónimo",
   "fullNamePlaceholder": "Nombre y apellido",
+  "fullNameOrPseudonymPlaceholder": "Nombre y apellido o seudónimo",
   "nameAndPicGuideCopyTitle": "¿Cómo te llamas?",
   "nameAndPicGuideCopyContent": "Nos gustaría saber cómo llamarte",
   "importIt": "Restaurar cuenta",
@@ -703,10 +676,7 @@
   "onboardingEducation": {
     "step1": "Cripto tan fácil como enviar mensajes. Convierte tu teléfono en una billetera cripto.",
     "step2": "Con {{appName}}, accede y multiplica tus criptomonedas en pocos pasos.",
-    "step3": "Solo necesitas tu teléfono para enviar, gastar y explorar el mundo cripto.",
-    "payment": "Realiza pagos en todo el mundo con tasas casi nulas",
-    "impact": "Apoyar las iniciativas de cambio climático y social",
-    "spend": "Usa tu cripto para comprar tus marcas favoritas"
+    "step3": "Solo necesitas tu teléfono para enviar, gastar y explorar el mundo cripto."
   },
   "enableBiometry": {
     "title": "Mantén tu billetera segura",
@@ -748,11 +718,12 @@
     "create": "Crea un PIN",
     "createNew": "Crear un nuevo PIN",
     "verify": "Ingresa tu PIN de nuevo para confirmar",
-    "guideTitle": "Elige un PIN de 6 dígitos que recuerdes",
-    "pinCodeGuide": "Mantén tu PIN a salvo, así mantendrás tu cartera segura.",
     "changePIN": "Cambiar PIN",
     "pinsDontMatch": "Los PIN no coinciden",
     "invalidPin": "Por favor use un PIN más fuerte",
+    "guideTitle": "Elige un PIN de 6 dígitos que recuerdes",
+    "guideConfirm": "Ingresa tu PIN de nuevo para confirmar.",
+    "pinCodeGuide": "Tu PIN es la forma de asegurar tu cartera.",
     "selectPIN": "Selecciona el PIN"
   },
   "inviteCode": {
