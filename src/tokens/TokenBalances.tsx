@@ -205,6 +205,7 @@ const styles = StyleSheet.create({
   },
   bannerContainer: {
     paddingHorizontal: Spacing.Thick24,
+    paddingVertical: 4,
     justifyContent: 'space-between',
     flexWrap: 'wrap',
     width: '100%',
