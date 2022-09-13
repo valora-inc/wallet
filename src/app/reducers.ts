@@ -52,6 +52,7 @@ export interface State {
   fiatConnectCashOutEnabled: boolean
   visualizeNFTsEnabledInHomeAssetsPage: boolean
   coinbasePayEnabled: boolean
+  showGuidedOnboardingCopy: boolean
   showSwapMenuInDrawerMenu: boolean
   shouldShowRecoveryPhraseInSettings: boolean
   createAccountCopyTestType: CreateAccountCopyTestType
@@ -103,6 +104,7 @@ const initialState = {
   visualizeNFTsEnabledInHomeAssetsPage:
     REMOTE_CONFIG_VALUES_DEFAULTS.visualizeNFTsEnabledInHomeAssetsPage,
   coinbasePayEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.coinbasePayEnabled,
+  showGuidedOnboardingCopy: REMOTE_CONFIG_VALUES_DEFAULTS.showGuidedOnboardingCopy,
   showSwapMenuInDrawerMenu: REMOTE_CONFIG_VALUES_DEFAULTS.showSwapMenuInDrawerMenu,
   shouldShowRecoveryPhraseInSettings:
     REMOTE_CONFIG_VALUES_DEFAULTS.shouldShowRecoveryPhraseInSettings,
@@ -232,6 +234,7 @@ export const appReducer = (
         swapFeeEnabled: action.configValues.swapFeeEnabled,
         swapFeePercentage: action.configValues.swapFeePercentage,
         inviteMethod: action.configValues.inviteMethod,
+        showGuidedOnboardingCopy: action.configValues.showGuidedOnboardingCopy,
       }
     case Actions.TOGGLE_INVITE_MODAL:
       return {

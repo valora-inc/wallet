@@ -88,7 +88,7 @@ describe('FiatConnectQuote', () => {
   describe('.getFeeInCrypto', () => {
     it('returns null if there is no fee', () => {
       const quoteData = _.cloneDeep(mockFiatConnectQuotes[1]) as FiatConnectQuoteSuccess
-      delete quoteData.fiatAccount.BankAccount?.fee
+      delete quoteData.quote.fee
       const quote = new FiatConnectQuote({
         flow: CICOFlow.CashIn,
         quote: quoteData,
@@ -117,7 +117,7 @@ describe('FiatConnectQuote', () => {
   describe('.getFeeInFiat', () => {
     it('returns null if there is no fee', () => {
       const quoteData = _.cloneDeep(mockFiatConnectQuotes[1]) as FiatConnectQuoteSuccess
-      delete quoteData.fiatAccount.BankAccount?.fee
+      delete quoteData.quote.fee
       const quote = new FiatConnectQuote({
         flow: CICOFlow.CashIn,
         quote: quoteData,

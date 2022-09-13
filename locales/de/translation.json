@@ -75,28 +75,9 @@
   "chooseFromLibrary": "Aus Bibliothek wählen",
   "takePhoto": "Foto machen",
   "removePhoto": "Foto entfernen",
-  "accountSendLimit": "Konto-Sendelimit",
-  "dailyLimitLabel": "Aktuelles tägliches Sendelimit",
-  "dailyLimitValue": "${{dailyLimit}}",
-  "noDailyLimit": "Unbegrenzt",
-  "verifyNumberToRaiseLimit": "Du kannst dein Sendelimit erhöhen, indem du deine Identität überprüfst. Bitte verbinde deine Telefonnummer, bevor du fortfährst.",
-  "verifyIdentityToRaiseLimit": "Du kannst dein Sendelimit erhöhen, indem du deine Identität bestätigst. Bitte gib im folgenden Prozess einige Details an.",
-  "dailyLimitApplicationStatus": "Bewerbungsstatus",
-  "applicationInReview": "Wird geprüft",
-  "applicationInReviewDescription": "Deine Bewerbung wird überprüft. Du wirst benachrichtigt, sobald dieser Vorgang abgeschlossen ist.",
-  "applicationIncomplete": "Unvollständig",
-  "applicationIncompleteDescription": "Die von Dir zur Verfügung gestellten Informationen waren unzureichend. Bitte sei bereit, im folgenden Prozess weitere Details anzugeben.",
-  "applicationDenied": "Verweigert",
-  "applicationDeniedDescription": "Deine Bewerbung wurde abgelehnt. Wenn du der Meinung bist, dass dies ein Fehler war, starte bitte den folgenden Prozess neu.",
   "applicationCompleted": "Fertiggestellt",
   "applicationCompletedDescription": "Deine Bewerbung wurde akzeptiert. Du kannst jetzt täglich einen unbegrenzten Betrag senden.",
-  "raiseLimitConfirmNumber": "Telefonnummer verbinden",
   "raiseLimitBegin": "Identitätsüberprüfung beginnen",
-  "raiseLimitResume": "Identitätsprüfung fortsetzen",
-  "raiseLimitEmailSubject": "Anfrage zur Erhöhung des Konto-Sendelimits",
-  "raiseLimitEmailBody": "Ich möchte eine Erhöhung des Tageslimits von {{dailyLimit}} {{appName}} für Adresse {{address}} beantragen",
-  "raiseLimitEmailSuccess": "Deine Bewerbung wurde erfolgreich gemeldet! Erwarte in Kürze eine E-Mail-Antwort!",
-  "raiseLimitEmailNotSent": "Deine Bewerbung wurde nicht gesendet. Bitte versuche es erneut.",
   "storeRecoveryTitle": "Du musst dein Konto erneut einrichten",
   "storeRecoveryBody": "Es ist ein Fehler aufgetreten. Wir sind uns des Problems bewusst und arbeiten daran, es zu beheben. In der Zwischenzeit musst du den Setup-Prozess erneut durchlaufen.",
   "storeRecoveryButton": "Konto wiederherstellen",
@@ -318,11 +299,6 @@
     "maxAmount": "Unsere Anbieter unterstützen keine Gesamtsummen größer als {{usdLimit}}{{localLimit}}. Bitte gib einen kleineren Betrag ein.",
     "dismiss": "OK"
   },
-  "dailyLimitDialog": {
-    "body": "Du bist dabei, mehr als dein tägliches Sendelimit von {{limit}} zu erwerben. Bitte kontaktiere <0>{{contactEmail}}</0>, wenn du dein tägliches Sendelimit erhöhen möchtest.",
-    "contact": "Kontakt",
-    "continue": "Ich verstehe"
-  },
   "providerFeesDialog": {
     "title": "Anbieter-Gebühren",
     "body1": "Die Anbietergebühren werden von jedem Anbieter individuell festgelegt und beinhalten unter anderem eine Umtauschgebühr und Liquiditätsgebühren. Um mehr zu erfahren, besuche bitte ",
@@ -332,7 +308,6 @@
     "title": "Gebührenrabatt",
     "body": "Als Sonderaktion zur Feier der Markteinführung von Valora werden die Gebühren vorübergehend bezuschusst!"
   },
-  "dailyLimitRequest": "Hallo! Ich möchte mein tägliches Sendelimit erhöhen.",
   "pleaseSelectProvider": "Bitte wähle unten einen Anbieter aus. Diese Links verbinden sich mit einem Drittanbieter.",
   "otherFundingOptions": "Weitere Möglichkeiten zum Hinzufügen und Abheben von Guthaben findest du auf <0>Wie du dein Konto auflädst</0>.",
   "youCanTransferIn": "Du kannst die Börse einer Drittpartei nutzen, um {{digitalAsset}} an dein Valora-Konto zu senden. Dafür benötigst du deine Konto-Adresse.",
@@ -352,7 +327,7 @@
     "bodyWithoutProvider": "Der Dienstleister bearbeitet deine Bestellung. Du solltest dein Guthaben innerhalb weniger Tage erhalten."
   },
   "restrictedRegion": "Begrenzte Unterstützung in der Region",
-  "unsupportedLocation": "{{appName}} an deinem Standort nicht unterstützt wird",
+  "unsupportedLocation": "{{appName}} wird an deinem Standort nicht unterstützt",
   "unsupportedPaymentMethod": "Die Bezahlung mit {{paymentMethod}} wird in deinem Land nicht unterstützt",
   "noProviders": "In deiner Region gibt es keine Anbieter für {{digitalAsset}}.",
   "noPaymentMethods": "In deiner Region gibt es keine Zahlungsmethoden für {{digitalAsset}}.",
@@ -486,8 +461,6 @@
   "maxActionableAttestationsExceededError": "Fehler beim erneuten Senden der Nachricht",
   "odisInsufficientBalance": "Bitte verbinde deine Nummer",
   "matchmakingQuotaExceededError": "Matchmaking kann nur einmal durchgeführt werden",
-  "paymentLimitReached": "Das Tageslimit beträgt {{dailyLimitcUSD}} cUSD ({{currencySymbol}}{{dailyLimit}})\n{{dailyRemainingcUSD}} cUSD ({{currencySymbol}}{{dailyRemaining}}) verbleibend",
-  "requestLimitError": "Kann nicht mehr als {{limit}} cUSD Tageslimit anfordern.",
   "ordinals": [
     "nullte",
     "erste",
@@ -615,11 +588,11 @@
     "heading2": "Celo Vermögen und {{appName}}-Konto",
     "info": "Lese bitte unsere <0>Benutzervereinbarung und Bedingungen</0> und klicke unten auf Akzeptieren um unsere Dienste zu nutzen.",
     "privacy": "Indem du diesem Netzwerk beitrittst, gibst du uns die Erlaubnis, anonyme Informationen über deine Nutzung der App zu sammeln. Wenn du deine Telefonnummer verbindest, wird eine Kopie davon im Celo Netzwerk gespeichert. Wenn du Valora Zugriff auf deine Kontaktliste gewährst, wird Valora den Namen jedes Kontaktes importieren Telefonnummer und Profilbild, um Benutzern die Verbindung über die Valora-App zu ermöglichen. Um zu erfahren, wie wir diese Informationen sammeln und verwenden, lesen unsere <0>Datenschutzrichtlinie</0>.",
-    "goldDisclaimer": "Wenn du ein „Konto“ mit Valora erstellst, erstellst du eine digitale Wallet zu der nur du die Schlüssel besitzt. Keine andere Person oder Entität, einschließlich cLabs oder Valora, kann deinen Schlüssel wiederherstellen, Transaktionen ändern oder rückgängig machen oder verloren gegangene Guthaben wiederherstellen. Bitte beachte, dass CELO, cUSD und cEUR Teil einer neuen Anlageklasse sind und ein Risiko finanziellen Verlust darstellen. Berücksichtige deine finanziellen Umstände und Toleranz gegenüber finanziellen Risiken, bevor du Vermögenswerte kaufst. Du kannst nur bis zu {{dailyLimitCUSD}} cUSD pro Tag über Valora versenden (das „Tageslimit“). Du musst dich mit support@valoraapp.com in Verbindung setzen und zusätzliche persönliche Informationen angeben, um eine Erhöhung dieses Tageslimits zu beantragen. Es kann zu Verzögerungen bei der Erfüllung der erforderlichen Einhaltung kommen."
+    "goldDisclaimer": "Wenn du ein „Konto“ bei Valora anlegst, erstellst du ein digitales Wallet, dessen Schlüssel nur du besitzt. Keine andere Person oder Organisation, einschließlich cLabs oder Valora, kann deinen Schlüssel wiederherstellen, Transaktionen ändern oder rückgängig machen oder verlorene Gelder wiedererlangen. Sei dir bewusst, dass CELO, cUSD und cEUR Teil einer neuen Vermögensklasse sind und ein Risiko für finanzielle Verluste darstellen. Überlege dir deine finanzielle Situation und deine Risikobereitschaft genau, bevor du einen Vermögenswert kaufst."
   },
   "fullName": "Name",
-  "fullNameOrPseudonymPlaceholder": "Vor- und Nachname oder Pseudonym",
   "fullNamePlaceholder": "Vollständiger Name",
+  "fullNameOrPseudonymPlaceholder": "Vor- und Nachname oder Pseudonym",
   "nameAndPicGuideCopyTitle": "Wie ist dein Name?",
   "nameAndPicGuideCopyContent": "Wir würden gerne wissen, wie wir dich nennen sollen",
   "importIt": "Wallet wiederherstellen",
@@ -703,10 +676,7 @@
   "onboardingEducation": {
     "step1": "Krypto so einfach wie eine SMS. Ab sofort ist dein Handy dein Krypto-Wallet.",
     "step2": "Mit {{appName}} ist es ein einfach, auf dein Krypto zuzugreifen und sie zu vermehren.",
-    "step3": "Alles, was du brauchst, ist ein Mobiltelefon zum Entdecken.",
-    "payment": "Zahlungen weltweit und fast ohne Gebühren durchführen",
-    "impact": "Unterstützung von Initiativen zum Klimaschutz und sozialen Wandel",
-    "spend": "Verwende deine Kryptowährung, um deine Lieblingsmarken zu kaufen"
+    "step3": "Alles, was du brauchst, ist ein Mobiltelefon zum Entdecken."
   },
   "enableBiometry": {
     "title": "Sichere dein Wallet",
@@ -748,11 +718,12 @@
     "create": "PIN erstellen",
     "createNew": "Neue PIN erstellen",
     "verify": "Zur Bestätigung erneut PIN eingeben",
-    "guideTitle": "Wähle eine 6-stellige PIN, die du dir merken kannst",
-    "pinCodeGuide": "Bewahre deine PIN sicher auf, so schützt du dein Portemonnaie.",
     "changePIN": "PIN ändern",
     "pinsDontMatch": "Die PINs stimmen nicht überein",
     "invalidPin": "Bitte eine stärkere PIN verwenden",
+    "guideTitle": "Wähle eine 6-stellige PIN, die du dir merken kannst",
+    "guideConfirm": "Zur Bestätigung erneut PIN eingeben.",
+    "pinCodeGuide": "Mit deiner PIN sicherst du dein Portemonnaie.",
     "selectPIN": "PIN auswählen"
   },
   "inviteCode": {
@@ -1405,10 +1376,10 @@
     "estimatedAmountBody": "Umrechnungen finden an einer dezentralen Börse von Drittanbietern statt, die den besten Kurs für deinen gewünschten Umtausch bieten. \n\n Dein Trade wird zu einem Preis innerhalb von {{slippagePercent}} % des Preises abgeschlossen oder die Transaktion wird storniert und das Guthaben an deine Wallet zurückerstattet."
   },
   "inviteModal": {
-    "title": "Es sieht so aus, als ob {{contactName}} noch keine {{appName}} Brieftasche hat.",
-    "body": "Du kannst sie trotzdem zu {{appName}}einladen oder versuchen, eine Zahlung an ihre Wallet-Adresse oder nom.space zu senden.",
+    "title": "Sieht so aus, als ob {{contactName}} noch kein {{appName}}-Wallet hat.",
+    "body": "Du kannst sie trotzdem zu {{appName}} einladen oder versuchen, eine Zahlung an ihre Wallet-Adresse oder nom.space zu senden.",
     "sendInviteButtonLabel": "Einladung senden",
-    "shareMessage": "Hey! Ich würde dir gerne etwas Krypto mit meiner {{appName}} Brieftasche schicken. Wenn du die App herunterlädst und deine Telefonnummer angibst, können wir Kryptowährungen ganz einfach per SMS verschicken. Benutze diesen Link: {{link}}"
+    "shareMessage": "Hey! Ich würde dir gerne etwas Krypto mit meinem {{appName}}-Wallet schicken. Wenn du die App herunterlädst und deine Telefonnummer angibst, können wir Kryptowährungen so einfach wie eine SMS versenden. Verwende diesen Link: {{link}}"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
