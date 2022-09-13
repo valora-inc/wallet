@@ -284,9 +284,10 @@ export function* handleSelectFiatConnectQuote({
   try {
     // If KYC is required for the quote, check that the user has correct KYC on file
     // with the quote's provider
+    let getKycStatusResponse: GetKycStatusResponse
     if (quote.requiresKyc()) {
       const kycSchema = quote.getKycSchema()!
-      const getKycStatusResponse: GetKycStatusResponse = yield call(getKycStatus, {
+      getKycStatusResponse = yield call(getKycStatus, {
         providerInfo: quote.quote.provider,
         kycSchemas: [kycSchema],
       })
@@ -329,6 +330,7 @@ export function* handleSelectFiatConnectQuote({
       providerId: quote.getProviderId(),
       fiatAccountType: quote.getFiatAccountType(),
     })
+
     if (!fiatAccount) {
       // This is expected when the user has not yet created a fiatAccount with the provider
       navigate(Screens.FiatConnectLinkAccount, {
@@ -350,11 +352,21 @@ export function* handleSelectFiatConnectQuote({
         fiatType: quote.getFiatType(),
       })
     )
-    navigate(Screens.FiatConnectReview, {
-      flow: quote.flow,
-      normalizedQuote: quote,
-      fiatAccount,
-    })
+
+    // If the quote required KYC, only proceed to the Review screen if it's approved
+    if (
+      quote.requiresKyc() &&
+      getKycStatusResponse!.kycStatus[quote.getKycSchema()!] !== FiatConnectKycStatus.KycApproved
+    ) {
+      navigate(Screens.KycStatusScreen)
+    } else {
+      navigate(Screens.FiatConnectReview, {
+        flow: quote.flow,
+        normalizedQuote: quote,
+        fiatAccount,
+      })
+    }
+
     yield delay(500) // to avoid a screen flash
     yield put(selectFiatConnectQuoteCompleted())
   } catch (error) {

@@ -9,7 +9,6 @@ import {
   AUTH_COOKIE,
 } from 'src/in-house-liquidity/index'
 import networkConfig from 'src/web3/networkConfig'
-import { mockAccount } from 'test/values'
 import { getFiatConnectClient } from 'src/fiatconnect/clients'
 import { FiatConnectApiClient } from '@fiatconnect/fiatconnect-sdk'
 import { KycSchema, KycStatus as FiatConnectKycStatus } from '@fiatconnect/fiatconnect-types'
@@ -146,7 +145,7 @@ describe('In House Liquidity Calls', () => {
         status: 418,
       }
       ;(makeRequest as jest.Mock).mockResolvedValueOnce(mockResponse)
-      expect(
+      await expect(
         getKycStatus({
           providerInfo: mockProviderInfo,
           kycSchemas: [KycSchema.PersonalDataAndDocuments],
@@ -191,7 +190,7 @@ describe('In House Liquidity Calls', () => {
         status: 418,
       }
       ;(makeRequest as jest.Mock).mockResolvedValueOnce(mockResponse)
-      expect(
+      await expect(
         postKyc({
           providerInfo: mockProviderInfo,
           kycSchema: KycSchema.PersonalDataAndDocuments,
@@ -228,7 +227,7 @@ describe('In House Liquidity Calls', () => {
         status: 418,
       }
       ;(makeRequest as jest.Mock).mockResolvedValueOnce(mockResponse)
-      expect(
+      await expect(
         createPersonaAccount({
           walletAddress: 'some-address',
         })
