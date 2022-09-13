@@ -11,7 +11,6 @@
 
 const CROWDIN_BRANCH = 'l10n/main'
 const CROWDIN_PR_USER = 'valora-bot-crowdin'
-const AUTOMERGE_LABEL = 'automerge'
 
 const ALLOWED_UPDATED_FILE_MATCHER = `locales\/.*\/translation\.json`
 const DISALLOWED_UPDATED_FILE = 'locales/base/translation.json'
@@ -38,41 +37,46 @@ module.exports = async ({ github, context }) => {
     return
   }
 
-  console.log(`Verifying that only expected files are modified for PR #${pr.number}`)
-  const listFiles = await github.rest.pulls.listFiles({
-    owner,
-    repo,
-    pull_number: pr.number,
-  })
-  const unexpectedFiles = listFiles.data.filter(
-    ({ filename }) =>
-      filename === DISALLOWED_UPDATED_FILE ||
-      !filename.match(new RegExp(ALLOWED_UPDATED_FILE_MATCHER))
-  )
-  if (unexpectedFiles.length > 0) {
-    console.log(
-      `Files updated in PR #${pr.number} do not match the expectation, please check manually`
-    )
-    await github.rest.pulls.createReview({
-      owner,
-      repo,
-      pull_number: pr.number,
-      event: 'REQUEST_CHANGES',
-      body: `Changes requested from [${context.workflow} #${context.runNumber}](${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}), as the updated files in this PR did not match the expectation. Please check.`,
-    })
-    return
-  }
-
   console.log(`Fetching reviews for ${pr.number}`)
   const listReviews = await github.rest.pulls.listReviews({
     owner,
     repo,
     pull_number: pr.number,
   })
-  const isReviewed = listReviews.data.some(
-    (review) => review.state === 'APPROVED' || review.state === 'REQUEST_CHANGES'
-  )
-  if (!isReviewed) {
+  const isRejected = listReviews.data.some((review) => review.state === 'REQUEST_CHANGES')
+  const isApproved = listReviews.data.some((review) => review.state === 'APPROVED')
+
+  if (isRejected) {
+    console.log('Changes requested for this PR already, ending workflow')
+    return
+  } else if (isApproved) {
+    console.log('Already approved')
+  } else {
+    console.log(`Verifying that only expected files are modified for PR #${pr.number}`)
+    const listFiles = await github.rest.pulls.listFiles({
+      owner,
+      repo,
+      pull_number: pr.number,
+    })
+    const unexpectedFiles = listFiles.data.filter(
+      ({ filename }) =>
+        filename === DISALLOWED_UPDATED_FILE ||
+        !filename.match(new RegExp(ALLOWED_UPDATED_FILE_MATCHER))
+    )
+    if (unexpectedFiles.length > 0) {
+      console.log(
+        `Files updated in PR #${pr.number} do not match the expectation, please check manually`
+      )
+      await github.rest.pulls.createReview({
+        owner,
+        repo,
+        pull_number: pr.number,
+        event: 'REQUEST_CHANGES',
+        body: `Changes requested from [${context.workflow} #${context.runNumber}](${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}), as the updated files in this PR did not match the expectation. Please check.`,
+      })
+      return
+    }
+
     console.log(`Approving Crowdin PR: ${pr.number}`)
     await github.rest.pulls.createReview({
       owner,
@@ -81,21 +85,30 @@ module.exports = async ({ github, context }) => {
       event: 'APPROVE',
       body: `Approved from [${context.workflow} #${context.runNumber}](${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}).`,
     })
-  } else {
-    console.log(`Already reviewed`)
   }
 
-  const hasAutomergeLabel = pr.labels.some((label) => label.name === AUTOMERGE_LABEL)
-  if (!hasAutomergeLabel) {
-    console.log(`Adding ${AUTOMERGE_LABEL} label`)
-    await github.rest.issues.addLabels({
+  const ref = pr.head.sha
+  console.log(`Getting CI status for latest commit hash on branch: ${ref}`)
+  const checks = await github.rest.checks.listForRef({
+    owner,
+    repo,
+    ref,
+  })
+
+  const hasCIPassed = checks.data.check_runs.every(
+    (run) => run.conclusion === 'success' && run.status === 'completed'
+  )
+  if (hasCIPassed) {
+    console.log(`Merging #${pr.number}`)
+    await github.rest.pulls.merge({
       owner,
       repo,
-      issue_number: pr.number,
-      labels: [AUTOMERGE_LABEL],
+      pull_number: pr.number,
+      merge_method: 'squash',
     })
   } else {
-    console.log(`Already labelled with ${AUTOMERGE_LABEL}`)
+    console.log(`Skipping merge of #${pr.number} due to pending or unsuccessful CI`)
   }
+
   console.log('Done')
 }
