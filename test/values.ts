@@ -801,7 +801,6 @@ export const mockFiatConnectQuotes: (FiatConnectQuoteSuccess | FiatConnectQuoteE
             allowedValues: {},
           },
         ],
-        fee: '4.22',
       },
     },
   },
@@ -816,6 +815,7 @@ export const mockFiatConnectQuotes: (FiatConnectQuoteSuccess | FiatConnectQuoteE
       quoteId: 'mock_quote_out_id',
       guaranteedUntil: '2099-04-27T19:22:36.000Z',
       transferType: TransferType.TransferOut,
+      fee: '4.22',
     },
     kyc: {
       kycRequired: true,
