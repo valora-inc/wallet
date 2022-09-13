@@ -14,6 +14,18 @@ const CROWDIN_PR_USER = 'valora-bot-crowdin'
 
 const ALLOWED_UPDATED_FILE_MATCHER = `locales\/.*\/translation\.json`
 const DISALLOWED_UPDATED_FILE = 'locales/base/translation.json'
+const enableAutomergeQuery = `mutation ($pullRequestId: ID!, $mergeMethod: PullRequestMergeMethod!) {
+  enablePullRequestAutoMerge(input: {
+    pullRequestId: $pullRequestId,
+    mergeMethod: $mergeMethod
+  }) {
+    pullRequest {
+      autoMergeRequest {
+        enabledAt
+      }
+    }
+  }
+}`
 
 /**
  * @param {Object} obj - An object.
@@ -95,18 +107,6 @@ module.exports = async ({ github, context }) => {
   })
 
   console.log(`Enabling automerge on PR #${pr.number}`)
-  const enableAutomergeQuery = `mutation ($pullRequestId: ID!, $mergeMethod: PullRequestMergeMethod!) {
-    enablePullRequestAutoMerge(input: {
-      pullRequestId: $pullRequestId,
-      mergeMethod: $mergeMethod
-    }) {
-      pullRequest {
-        autoMergeRequest {
-          enabledAt
-        }
-      }
-    }
-  }`
   await github.graphql(enableAutomergeQuery, {
     pullRequestId: pr.node_id,
     mergeMethod: 'SQUASH',
