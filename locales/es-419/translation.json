@@ -592,7 +592,7 @@
   },
   "fullName": "Nombre",
   "fullNamePlaceholder": "Nombre y apellido",
-  "fullNameOrPseudonymPlaceholder": "Nombre y apellido o seudónimo",
+  "fullNameOrPseudonymPlaceholder": "Nombre y apellido o alias",
   "nameAndPicGuideCopyTitle": "¿Cómo te llamas?",
   "nameAndPicGuideCopyContent": "Nos gustaría saber cómo llamarte",
   "importIt": "Restaurar cuenta",
@@ -683,7 +683,7 @@
     "description": "{{biometryType}} matiene tu cuenta segura y facilita el uso de {{appName}}",
     "cta": "Habilitar {{biometryType}}",
     "guideTitle": "¿Te gustaría habilitar {{biometryType}}?",
-    "guideDescription": "{{biometryType}} hace que sea más fácil, rápido y seguro conectar tu monedero a dapps y firmar transacciones."
+    "guideDescription": "{{biometryType}} hace que conectar tu wallet a las dapps y firmar transacciones sea más fácil, rápido y seguro."
   },
   "biometryType": {
     "FaceID": "Face ID",
@@ -696,7 +696,7 @@
   "unlockWithBiometryPrompt": "Autenticar para desbloquear {{appName}}",
   "welcome": {
     "title": "Entra de lleno al futuro de las criptomonedas con {{appName}}.",
-    "titleGuided": "¡Bienvenido a {{appName}}!\nVamos a crear tu cartera de criptomonedas.",
+    "titleGuided": "¡Te damos la bienvenida a {{appName}}!\nDemos el primer paso juntos, creemos tu wallet.",
     "createAccount": "Crear una cuenta",
     "restoreAccount": "Restaurar cuenta existente",
     "createNewWallet": "Crear billetera",
@@ -721,9 +721,9 @@
     "changePIN": "Cambiar PIN",
     "pinsDontMatch": "Los PIN no coinciden",
     "invalidPin": "Por favor use un PIN más fuerte",
-    "guideTitle": "Elige un PIN de 6 dígitos que recuerdes",
+    "guideTitle": "Elige un PIN de 6 dígitos",
     "guideConfirm": "Ingresa tu PIN de nuevo para confirmar.",
-    "pinCodeGuide": "Tu PIN es la forma de asegurar tu cartera.",
+    "pinCodeGuide": "El PIN es la forma de asegurar tu wallet.",
     "selectPIN": "Selecciona el PIN"
   },
   "inviteCode": {
@@ -1112,7 +1112,7 @@
     "subtitle": "Actualmente tu cuenta está vacía",
     "addFunds": "Agregar fondos",
     "titleRamp": "¡Agrega {{currency}} para empezar a usar Valora!",
-    "subtitleRamp": "Agrega fondos sin comisión con alguno de nuestros proveedores externos."
+    "subtitleRamp": "Agrega fondos con comisión bajísimas gracias a nuestros proveedores externos."
   },
   "balances": "Activos",
   "totalBalanceWithLocalCurrencySymbol": "Total {{localCurrencySymbol}}{{totalBalance}}",
