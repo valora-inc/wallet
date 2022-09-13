@@ -592,7 +592,7 @@
   },
   "fullName": "Nom",
   "fullNamePlaceholder": "Prénom et nom",
-  "fullNameOrPseudonymPlaceholder": "Prénom et nom de famille ou pseudonyme",
+  "fullNameOrPseudonymPlaceholder": "Prénom et nom ou pseudonyme",
   "nameAndPicGuideCopyTitle": "Quel est ton nom ?",
   "nameAndPicGuideCopyContent": "Nous aimerions savoir comment t'appeler",
   "importIt": "Restaurer le portefeuille",
