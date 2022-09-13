@@ -1,4 +1,3 @@
-//import * as index from './index' // Workaround for unit testing: https://stackoverflow.com/a/52770749/5170256
 import { getClient } from 'src/in-house-liquidity/client'
 import networkConfig from 'src/web3/networkConfig'
 import { FiatConnectProviderInfo } from 'src/fiatconnect'
