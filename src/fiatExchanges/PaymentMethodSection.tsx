@@ -175,7 +175,7 @@ export function PaymentMethodSection({
                   {renderFeeAmount(normalizedQuote, t('selectProviderScreen.fee'))}
                 </Text>
                 <Text style={styles.expandedInfo}>{renderInfoText()}</Text>
-                {index === 0 && (
+                {index === 0 && normalizedQuote.getFeeInCrypto(exchangeRates) && (
                   <Text testID={`${paymentMethod}/bestRate`} style={styles.expandedTag}>
                     {t('selectProviderScreen.bestRate')}
                   </Text>
