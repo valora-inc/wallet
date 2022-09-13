@@ -349,7 +349,7 @@
   "tip": "Dica: ",
   "warning": "Aviso ",
   "downloadRewards": "Baixar Recompensas Celo",
-  "wallet": "Conta",
+  "wallet": "Carteira",
   "send": "Enviar",
   "search": "Pesquisar",
   "namePhoneAddress": "Nome, celular ou endereço",
@@ -732,7 +732,7 @@
     "label": "Código de convite",
     "codePlaceholder": "Insira o código de convite",
     "noCode": "Não tenho um código de convite",
-    "nodeCodeInviteLink": "Não tem um código de convite? Solicite um em <0>celo.org/developers/wallet</0> ou <1>continue sem</1>",
+    "nodeCodeInviteLink": "Não tem um código de convite? Solicite um em <0>celo.org/developers/carteira</0> ou <1>continue sem</1>",
     "loadingHeader": "Criando conta...",
     "loadingBody": "Isso pode levar até 90 segundos"
   },
