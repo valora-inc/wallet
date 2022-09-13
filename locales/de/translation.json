@@ -1112,7 +1112,7 @@
     "subtitle": "Dein Konto ist derzeit leer",
     "addFunds": "Guthaben hinzufügen",
     "titleRamp": "Füge {{currency}} hinzu, um loszulegen",
-    "subtitleRamp": "Füge Guthaben mit Nullgebühren durch einen unserer vertrauenswürdigen externen Anbieter hinzu."
+    "subtitleRamp": "Füge Fonds mit niedrigen Gebühren über einen unserer vertrauenswürdigen externen Anbieter hinzu."
   },
   "balances": "Vermögen",
   "totalBalanceWithLocalCurrencySymbol": "{{localCurrencySymbol}}{{totalBalance}} Gesamt",
