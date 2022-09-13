@@ -125,16 +125,24 @@ export function PaymentMethodSection({
         : t('selectProviderScreen.numDays')
     }`
   const renderFeeAmount = (normalizedQuote: NormalizedQuote, postFix: string) => {
+    const feeAmount = normalizedQuote.getFeeInCrypto(exchangeRates)
+
     return (
-      <Text>
-        <TokenDisplay
-          amount={normalizedQuote.getFeeInCrypto(exchangeRates)!}
-          currency={normalizedQuote.getCryptoType()}
-          showLocalAmount={flow === CICOFlow.CashIn}
-          hideSign={false}
-        />{' '}
-        {postFix}
-      </Text>
+      <>
+        {feeAmount ? (
+          <Text>
+            <TokenDisplay
+              amount={feeAmount}
+              currency={normalizedQuote.getCryptoType()}
+              showLocalAmount={flow === CICOFlow.CashIn}
+              hideSign={false}
+            />{' '}
+            {postFix}
+          </Text>
+        ) : (
+          <Text>{t('selectProviderScreen.feesVary')}</Text>
+        )}
+      </>
     )
   }
   return (
