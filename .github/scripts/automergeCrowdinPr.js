@@ -87,8 +87,14 @@ module.exports = async ({ github, context }) => {
     })
   }
 
-  // TODO: bring branch up to date with main before automerge?
+  console.log(`Bringing PR #${pr.number} up to date with main branch`)
+  await github.rest.pulls.updateBranch({
+    owner,
+    repo,
+    pull_number: pr.number,
+  })
 
+  console.log(`Enabling automerge on PR #${pr.number}`)
   const enableAutomergeQuery = `mutation ($pullRequestId: ID!, $mergeMethod: PullRequestMergeMethod!) {
     enablePullRequestAutoMerge(input: {
       pullRequestId: $pullRequestId,
