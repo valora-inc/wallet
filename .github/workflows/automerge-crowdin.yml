@@ -7,9 +7,6 @@ on:
   # 1 hour before the nightly build
   schedule:
     - cron: '0 2 * * *'
-  push:
-    branches:
-      - kathy/remove-mergify
 
 jobs:
   automerge-crowdin-pr:
