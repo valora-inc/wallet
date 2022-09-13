@@ -1112,7 +1112,7 @@
     "subtitle": "Hesabınız şu anda boş",
     "addFunds": "Bakiye Ekle",
     "titleRamp": "Valora'yı kullanmaya başlamak için {{currency}} ekleyin",
-    "subtitleRamp": "Güvenilir harici sağlayıcılarımızdan biri aracılığıyla işlem ücreti olmadan fon ekleyin."
+    "subtitleRamp": "Add funds with low fees through one of our trusted external providers."
   },
   "balances": "Varlıklar",
   "totalBalanceWithLocalCurrencySymbol": "Toplam {{localCurrencySymbol}}{{totalBalance}}",
