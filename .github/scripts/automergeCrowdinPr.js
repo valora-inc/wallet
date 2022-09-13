@@ -102,7 +102,7 @@ module.exports = async ({ github, context }) => {
     }
   }`
   await github.graphql(enableAutomergeQuery, {
-    pullRequestId: pr.number,
+    pullRequestId: pr.id,
     mergeMethod: 'SQUASH',
   })
 
