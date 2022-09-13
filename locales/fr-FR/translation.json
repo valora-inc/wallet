@@ -593,8 +593,8 @@
   "fullName": "Nom",
   "fullNamePlaceholder": "Prénom et nom",
   "fullNameOrPseudonymPlaceholder": "Prénom et nom ou pseudonyme",
-  "nameAndPicGuideCopyTitle": "Quel est ton nom ?",
-  "nameAndPicGuideCopyContent": "Nous aimerions savoir comment t'appeler",
+  "nameAndPicGuideCopyTitle": "Comment vous appelez-vous ?",
+  "nameAndPicGuideCopyContent": "Nous voudrions savoir comment vous appeler",
   "importIt": "Restaurer le portefeuille",
   "important": "Important",
   "confirmPin": {
@@ -682,8 +682,8 @@
     "title": "Sécurisez votre portefeuille",
     "description": "{{biometryType}} sécurise votre compte et simplifie l'utilisation de {{appName}}",
     "cta": "Activer {{biometryType}}",
-    "guideTitle": "Tu veux ajouter {{biometryType}}?",
-    "guideDescription": "{{biometryType}} rend plus facile, plus rapide et plus sûr le fait de connecter ton portefeuille à des dapps et de signer des transactions."
+    "guideTitle": "Vous voulez activer {{biometryType}} ?",
+    "guideDescription": "{{biometryType}} facilite, accélère et sécurise la connexion de votre portefeuille aux dapps pour effectuer des transactions."
   },
   "biometryType": {
     "FaceID": "Face ID",
@@ -696,7 +696,7 @@
   "unlockWithBiometryPrompt": "Faites l'authentification pour déverrouiller {{appName}}",
   "welcome": {
     "title": "Entrez dans le futur des cryptomonnaies avec {{appName}}",
-    "titleGuided": "Bienvenue sur {{appName}}!\nCréons ton portefeuille de crypto-monnaies.",
+    "titleGuided": "Bienvenue sur {{appName}} !\nCréons votre portefeuille crypto.",
     "createAccount": "Créer un nouveau compte",
     "restoreAccount": "Restaurer mon compte",
     "createNewWallet": "Créer un portefeuille",
@@ -721,10 +721,10 @@
     "changePIN": "Modifer le code PIN",
     "pinsDontMatch": "Les codes PIN ne correspondent pas",
     "invalidPin": "Veuillez utiliser un code PIN plus fort",
-    "guideTitle": "Choisis un code PIN à 6 chiffres dont tu te souviendras",
+    "guideTitle": "Choisissez un code PIN de 6 chiffres dont vous vous souviendrez",
     "guideConfirm": "Saisissez à nouveau votre code PIN pour confirmer.",
-    "pinCodeGuide": "Ton code PIN est la façon dont tu sécuriseras ton portefeuille.",
-    "selectPIN": "Sélectionner le NIP"
+    "pinCodeGuide": "Votre code PIN est la façon dont vous sécurisez votre portefeuille.",
+    "selectPIN": "Sélectionnez le PIN"
   },
   "inviteCode": {
     "title": "Code d'invitation",
@@ -1112,7 +1112,7 @@
     "subtitle": "Votre compte est actuellement vide",
     "addFunds": "Ajouter des fonds",
     "titleRamp": "Ajoutez des {{currency}} pour commencer à utiliser Valora",
-    "subtitleRamp": "Ajoutez des fonds sans frais grâce à l'un de nos prestataires externes de confiance."
+    "subtitleRamp": "Ajoutez des fonds à frais réduits grâce à l'un de nos prestataires externes."
   },
   "balances": "Actifs",
   "totalBalanceWithLocalCurrencySymbol": "Total {{localCurrencySymbol}}{{totalBalance}}",
