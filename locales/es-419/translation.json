@@ -682,7 +682,7 @@
     "title": "Mantén tu billetera segura",
     "description": "{{biometryType}} matiene tu cuenta segura y facilita el uso de {{appName}}",
     "cta": "Habilitar {{biometryType}}",
-    "guideTitle": "¿Quieres añadir {{biometryType}}?",
+    "guideTitle": "¿Te gustaría habilitar {{biometryType}}?",
     "guideDescription": "{{biometryType}} hace que sea más fácil, rápido y seguro conectar tu monedero a dapps y firmar transacciones."
   },
   "biometryType": {
