@@ -349,7 +349,7 @@
   "tip": "Consejo: ",
   "warning": "Advertencia ",
   "downloadRewards": "Descargar Recompensas Celo",
-  "wallet": "Billetera",
+  "wallet": "Wallet",
   "send": "Enviar",
   "search": "Buscar",
   "namePhoneAddress": "Nombre, teléfono o dirección",
@@ -370,7 +370,7 @@
   "manageCeloDollars": "Administrar Celo Dollars",
   "sendCeloDollars": "Enviar Celo Dollars",
   "startEarning": "Comienza a ganar",
-  "backToWallet": "Volver a la billetera",
+  "backToWallet": "Volver a la wallet",
   "exchangeForGold": "Intercambiar por CELO",
   "missingFullName": "El nombre no puede estar vacío",
   "invalidPhone": "Número de teléfono inválido",
@@ -433,8 +433,8 @@
   "appUpdateAvailable": "Actualización disponible",
   "appIsOutdated": "Tu versión actual está desactualizada, actualiza la app para usar la última versión",
   "update": "Actualizar",
-  "qrFailedNoAddress": "Error al leer el código QR. Motivo: no se encontró la dirección de billetera.",
-  "qrFailedInvalidAddress": "Error al leer el código QR. Motivo: dirección de la billetera inválida.",
+  "qrFailedNoAddress": "Error al leer el código QR. Motivo: no se encontró la dirección de wallet.",
+  "qrFailedInvalidAddress": "Error al leer el código QR. Motivo: dirección de la wallet inválida.",
   "qrFailedInvalidRecipient": "El código QR no pertenece al destinatario seleccionado.",
   "qrFailedNoPhoneNumber": "El código QR no está asociado al número de teléfono de tu contacto.",
   "corruptedChainDeleted": "Se ha borrado información corrupta, reinicia la aplicación.",
@@ -524,7 +524,7 @@
   "providerFetchFailed": "No pudimos conectarnos con el servicio. Comunícate con el equipo de soporte.",
   "ok": "OK",
   "cashOutLimitExceeded": "No puedes retirar más de tu saldo de {{balance}} {{currency}}.",
-  "appDescription": "Una billetera de pagos móvil que funciona en todo el mundo",
+  "appDescription": "Una wallet de pagos móvil que funciona en todo el mundo",
   "earn": "Gana",
   "free": "Gratis",
   "notNow": "Omitir",
@@ -588,7 +588,7 @@
     "heading2": "Activos Celo y cuenta de {{appName}}",
     "info": "Para poder usar nuestros servicios, lee nuestro <0>Acuerdo de condiciones de uso</0> y toca el botón Aceptar para indicar que estás de acuerdo.",
     "privacy": "Al unirte a esta red, nos das permiso para recopilar información anónima sobre tu uso de la aplicación. Además, si conectas tu número de teléfono, se guardará una copia cifrada en la red Celo. Si decides conectar tu lista de contactos, Valora importará el nombre, número de teléfono y foto de perfil de tus contactos para permitirte conectar con ellos a través de Valora. Para obtener más información sobre cómo recopilamos y usamos tus datos, consulta nuestra <0>Política de privacidad</0>.",
-    "goldDisclaimer": "Cuando creas una \"cuenta\" en Valora, estás creando una billetera digital de la que sólo tú tienes la clave. Ninguna otra persona o entidad, incluidos cLabs o Valora, puede recuperar tu clave, cambiar o deshacer transacciones, o recuperar fondos perdidos. Ten en cuenta que CELO y las stablecoins Celo forman parte de una nueva clase de activos y suponen un riesgo de pérdida financiera. Considera cuidadosamente tu circunstancia financiera y tu tolerancia al riesgo antes de comprar un activo."
+    "goldDisclaimer": "Cuando creas una \"cuenta\" en Valora, estás creando una wallet digital de la que sólo tú tienes la clave. Ninguna otra persona o entidad, incluidos cLabs o Valora, puede recuperar tu clave, cambiar o deshacer transacciones, o recuperar fondos perdidos. Ten en cuenta que CELO y las stablecoins Celo forman parte de una nueva clase de activos y suponen un riesgo de pérdida financiera. Considera cuidadosamente tu circunstancia financiera y tu tolerancia al riesgo antes de comprar un activo."
   },
   "fullName": "Nombre",
   "fullNamePlaceholder": "Nombre y apellido",
@@ -674,12 +674,12 @@
     "cta": "Comprar búsquedas (2)"
   },
   "onboardingEducation": {
-    "step1": "Cripto tan fácil como enviar mensajes. Convierte tu teléfono en una billetera cripto.",
+    "step1": "Cripto tan fácil como enviar mensajes. Convierte tu teléfono en una wallet cripto.",
     "step2": "Con {{appName}}, accede y multiplica tus criptomonedas en pocos pasos.",
     "step3": "Solo necesitas tu teléfono para enviar, gastar y explorar el mundo cripto."
   },
   "enableBiometry": {
-    "title": "Mantén tu billetera segura",
+    "title": "Mantén tu wallet segura",
     "description": "{{biometryType}} matiene tu cuenta segura y facilita el uso de {{appName}}",
     "cta": "Habilitar {{biometryType}}",
     "guideTitle": "¿Te gustaría habilitar {{biometryType}}?",
@@ -699,9 +699,9 @@
     "titleGuided": "¡Te damos la bienvenida a {{appName}}!\nDemos el primer paso juntos, creemos tu wallet.",
     "createAccount": "Crear una cuenta",
     "restoreAccount": "Restaurar cuenta existente",
-    "createNewWallet": "Crear billetera",
-    "restoreWallet": "Restaurar billetera",
-    "iAlreadyHaveAWallet": "Ya tengo una billetera"
+    "createNewWallet": "Crear wallet",
+    "restoreWallet": "Restaurar wallet",
+    "iAlreadyHaveAWallet": "Ya tengo una wallet"
   },
   "accessContacts": {
     "disclosure": {
@@ -745,7 +745,7 @@
     "resume": "Reanudar",
     "doINeedToConfirm": "¿Necesito conectar mi número?",
     "skipForNow": "Omitir por ahora",
-    "bodyInsufficientBalance": "Tu saldo actual no es suficiente para completar el proceso de confirmación.\n\nVuelve a intentarlo cuando hayas agregado fondos a tu billetera.",
+    "bodyInsufficientBalance": "Tu saldo actual no es suficiente para completar el proceso de confirmación.\n\nVuelve a intentarlo cuando hayas agregado fondos a tu wallet.",
     "bodyAlreadyVerified": "¡Tu número ya está conectado!"
   },
   "verificationSkipDialog": {
@@ -864,10 +864,10 @@
   "sendToMobileNumber": "Enviar a número de teléfono",
   "requestFromMobileNumber": "propietario del número de teléfono",
   "sendToAddress": "Enviar a dirección",
-  "walletAddress": "Dirección de billetera",
+  "walletAddress": "Dirección de wallet",
   "inviteWithoutPayment": "¡Hola! Estoy usando {{appName}} para enviar cripto en todo el mundo. Es fácil de usar y me gustaría invitarte a probarla con este link: {{link}}",
   "inviteWithEscrowedPayment": "¡Hola! Estoy usando {{appName}} para enviar dinero en todo el mundo. Acabo de enviarte {{amount}} {{token}}. Puedes descargar la app de {{appName}} y reclamar tus {{token}} con este link: {{link}}",
-  "inviteWithRewards": "¡Hola! Te acabo de mandar cripto con mi billetera de {{appName}}. Si descargas la app y conectas tu número de teléfono, ambos obtendremos un NFT. Usa este enlace: {{link}}",
+  "inviteWithRewards": "¡Hola! Te acabo de mandar cripto con mi wallet de {{appName}}. Si descargas la app y conectas tu número de teléfono, ambos obtendremos un NFT. Usa este enlace: {{link}}",
   "loadingContacts": "Estamos encontrando tus contactos",
   "myCode": "Mi código",
   "scanCode": "Escanear",
@@ -1223,7 +1223,7 @@
   "merchantPaymentSubmitFail": "Hubo un error al completar el pago",
   "merchantPaymentSetup": "Hubo un error al cargar la información del comerciante, intenta escanear el código QR de nuevo",
   "merchantPaymentSubmitSuccess": "Tu pago se ha enviado correctamente",
-  "merchantWalletUnlockError": "Algo salió mal al desbloquear tu billetera, vuelve a intentarlo",
+  "merchantWalletUnlockError": "Algo salió mal al desbloquear tu wallet, vuelve a intentarlo",
   "noMoreTransactions": "No hay más transacciones",
   "selectProviderScreen": {
     "somePaymentsUnavailable": "Algunos métodos de pago no están disponibles en tu región",
@@ -1373,13 +1373,13 @@
     "swapFeeTitle": "¿Qué es la tarifa de {{appName}}?",
     "swapFeeBody": "La tarifa de {{appName}} es el costo que pagas por intercambiar tokens en {{appName}}. \n\nLa tarifa es del {{swapFee}}% del monto a intercambiar. \n\nLas tarifas de {{appName}} serán gratuitas los próximos meses.",
     "estimatedAmountTitle": "Monto estimado",
-    "estimatedAmountBody": "Las conversiones tienen lugar en un exchange descentralizado de terceros que encontrará la mejor tarifa para tu intercambio. \n\nEl intercambio se completará a un precio dentro del {{slippagePercent}}% del monto estmado o la transacción se cancelará y se devolverán los fondos a tu billetera."
+    "estimatedAmountBody": "Las conversiones tienen lugar en un exchange descentralizado de terceros que encontrará la mejor tarifa para tu intercambio. \n\nEl intercambio se completará a un precio dentro del {{slippagePercent}}% del monto estmado o la transacción se cancelará y se devolverán los fondos a tu wallet."
   },
   "inviteModal": {
-    "title": "Parece que {{contactName}} aún no tiene una billetera {{appName}}.",
-    "body": "Puedes enviarle una invitación para que se una, o bien enviar un pago directamente a su dirección de billetera o usuario nom.space.",
+    "title": "Parece que {{contactName}} aún no tiene una wallet {{appName}}.",
+    "body": "Puedes enviarle una invitación para que se una, o bien enviar un pago directamente a su dirección de wallet o usuario nom.space.",
     "sendInviteButtonLabel": "Enviar invitación",
-    "shareMessage": "Me gustaría enviarte cripto con mi billetera {{appName}}. Una vez que descargues la aplicación y conectes tu número de teléfono, podremos enviar cripto tan fácil como enviar un mensaje. Utiliza este enlace: {{link}}"
+    "shareMessage": "Me gustaría enviarte cripto con mi wallet {{appName}}. Una vez que descargues la aplicación y conectes tu número de teléfono, podremos enviar cripto tan fácil como enviar un mensaje. Utiliza este enlace: {{link}}"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
