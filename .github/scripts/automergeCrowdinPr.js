@@ -87,28 +87,24 @@ module.exports = async ({ github, context }) => {
     })
   }
 
-  const ref = pr.head.sha
-  console.log(`Getting CI status for latest commit hash on branch: ${ref}`)
-  const checks = await github.rest.checks.listForRef({
-    owner,
-    repo,
-    ref,
-  })
+  // TODO: bring branch up to date with main before automerge?
 
-  const hasCIPassed = checks.data.check_runs.every(
-    (run) => run.conclusion === 'success' && run.status === 'completed'
-  )
-  if (hasCIPassed) {
-    console.log(`Merging #${pr.number}`)
-    await github.rest.pulls.merge({
-      owner,
-      repo,
-      pull_number: pr.number,
-      merge_method: 'squash',
-    })
-  } else {
-    console.log(`Skipping merge of #${pr.number} due to pending or unsuccessful CI`)
-  }
+  const enableAutomergeQuery = `mutation ($pullRequestId: ID!, $mergeMethod: PullRequestMergeMethod!) {
+    enablePullRequestAutoMerge(input: {
+      pullRequestId: $pullRequestId,
+      mergeMethod: $mergeMethod
+    }) {
+      pullRequest {
+        autoMergeRequest {
+          enabledAt
+        }
+      }
+    }
+  }`
+  await github.graphql(enableAutomergeQuery, {
+    pullRequestId: pr.number,
+    mergeMethod: 'SQUASH',
+  })
 
   console.log('Done')
 }
