@@ -1114,7 +1114,7 @@
     "subtitle": "Your account is currently empty",
     "addFunds": "Add Funds",
     "titleRamp": "Add {{currency}} to start using Valora",
-    "subtitleRamp": "Add funds with zero fees through one of our trusted external providers."
+    "subtitleRamp": "Add funds with low fees through one of our trusted external providers."
   },
   "balances": "Assets",
   "totalBalanceWithLocalCurrencySymbol": "{{localCurrencySymbol}}{{totalBalance}} Total",
