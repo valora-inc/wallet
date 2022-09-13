@@ -12,6 +12,7 @@ import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import {
   registrationStepsSelector,
+  showGuidedOnboardingSelector,
   skipVerificationSelector,
   supportedBiometryTypeSelector,
 } from 'src/app/selectors'
@@ -56,6 +57,7 @@ export default function EnableBiometry({ navigation }: Props) {
   const choseToRestoreAccount = useSelector(choseToRestoreAccountSelector)
   const skipVerification = useSelector(skipVerificationSelector)
   const { step, totalSteps } = useSelector(registrationStepsSelector)
+  const showGuidedOnboarding = useSelector(showGuidedOnboardingSelector)
 
   useEffect(() => {
     ValoraAnalytics.track(OnboardingEvents.biometry_opt_in_start)
@@ -65,7 +67,11 @@ export default function EnableBiometry({ navigation }: Props) {
     navigation.setOptions({
       headerTitle: () => (
         <HeaderTitleWithSubtitle
-          title={t('enableBiometry.title')}
+          title={
+            showGuidedOnboarding
+              ? t(`biometryType.${supportedBiometryType}`)
+              : t('enableBiometry.title')
+          }
           subTitle={t('registrationSteps', { step, totalSteps })}
         />
       ),
@@ -116,13 +122,32 @@ export default function EnableBiometry({ navigation }: Props) {
 
   return (
     <ScrollView style={styles.contentContainer}>
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView
+        style={
+          showGuidedOnboarding ? [styles.container, styles.containerLeftAligned] : styles.container
+        }
+      >
         <View style={styles.imageContainer}>{biometryImageMap[supportedBiometryType!]}</View>
-        <Text style={styles.description}>
-          {t('enableBiometry.description', {
-            biometryType: t(`biometryType.${supportedBiometryType}`),
-          })}
-        </Text>
+        {showGuidedOnboarding ? (
+          <>
+            <Text style={styles.guideTitle}>
+              {t('enableBiometry.guideTitle', {
+                biometryType: t(`biometryType.${supportedBiometryType}`),
+              })}
+            </Text>
+            <Text style={styles.guideText}>
+              {t('enableBiometry.guideDescription', {
+                biometryType: t(`biometryType.${supportedBiometryType}`),
+              })}
+            </Text>
+          </>
+        ) : (
+          <Text style={styles.description}>
+            {t('enableBiometry.description', {
+              biometryType: t(`biometryType.${supportedBiometryType}`),
+            })}
+          </Text>
+        )}
         <Button
           onPress={onPressUseBiometry}
           text={t('enableBiometry.cta', {
@@ -145,6 +170,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 40,
     alignItems: 'center',
   },
+  containerLeftAligned: {
+    alignItems: 'flex-start',
+  },
   contentContainer: {
     flex: 1,
     backgroundColor: colors.onboardingBackground,
@@ -156,5 +184,14 @@ const styles = StyleSheet.create({
     ...fontStyles.regular,
     textAlign: 'center',
     marginBottom: Spacing.Thick24,
+  },
+  guideTitle: {
+    ...fontStyles.h1,
+    marginBottom: Spacing.Thick24,
+  },
+  guideText: {
+    ...fontStyles.regular,
+    marginBottom: Spacing.Thick24,
+    textAlign: 'left',
   },
 })

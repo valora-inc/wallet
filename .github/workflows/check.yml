@@ -35,7 +35,7 @@ jobs:
             node_modules
             */*/node_modules
           key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
-      - run: yarn || yarn
+      - run: yarn || yarn --network-concurrency 1
       - run: ./scripts/ci_check_vulnerabilities.sh
 
   lint:
@@ -54,7 +54,7 @@ jobs:
             node_modules
             */*/node_modules
           key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
-      - run: yarn || yarn
+      - run: yarn || yarn --network-concurrency 1
       - run: yarn run prettify:diff
       - run: yarn run lint
       - run: yarn tsc -p .github/scripts
@@ -74,7 +74,7 @@ jobs:
             node_modules
             */*/node_modules
           key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
-      - run: yarn || yarn
+      - run: yarn || yarn --network-concurrency 1
       - run: git diff --exit-code
   licenses:
     name: Licenses
@@ -92,5 +92,5 @@ jobs:
             node_modules
             */*/node_modules
           key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
-      - run: yarn || yarn
+      - run: yarn || yarn --network-concurrency 1
       - run: yarn check-licenses
