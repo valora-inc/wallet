@@ -1,4 +1,9 @@
-import { FiatAccountSchema, FiatAccountType, FiatType } from '@fiatconnect/fiatconnect-types'
+import {
+  FiatAccountSchema,
+  FiatAccountType,
+  FiatType,
+  KycSchema,
+} from '@fiatconnect/fiatconnect-types'
 import BigNumber from 'bignumber.js'
 import _ from 'lodash'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -58,7 +63,7 @@ describe('FiatConnectQuote', () => {
           })
       ).toThrow()
     })
-    it('throws an error if at least one kycSchema is not supported', () => {
+    it('throws an error if KYC is required but not one of the supported schemas', () => {
       expect(
         () =>
           new FiatConnectQuote({
@@ -297,6 +302,44 @@ describe('FiatConnectQuote', () => {
       expect(quote.getFiatAccountSchemaAllowedValues()).toEqual({
         institutionName: ['Bank A', 'Bank B'],
       })
+    })
+  })
+
+  describe('.getKycSchema', () => {
+    it('returns required KYC schema when one exists', () => {
+      const quote = new FiatConnectQuote({
+        flow: CICOFlow.CashOut,
+        quote: mockFiatConnectQuotes[3] as FiatConnectQuoteSuccess,
+        fiatAccountType: FiatAccountType.BankAccount,
+      })
+      expect(quote.getKycSchema()).toEqual(KycSchema.PersonalDataAndDocuments)
+    })
+    it('returns nothing when KYC is not required', () => {
+      const quote = new FiatConnectQuote({
+        flow: CICOFlow.CashIn,
+        quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
+        fiatAccountType: FiatAccountType.BankAccount,
+      })
+      expect(quote.getKycSchema()).toBeUndefined()
+    })
+  })
+
+  describe('.requiresKyc', () => {
+    it('returns true when KYC is required', () => {
+      const quote = new FiatConnectQuote({
+        flow: CICOFlow.CashOut,
+        quote: mockFiatConnectQuotes[3] as FiatConnectQuoteSuccess,
+        fiatAccountType: FiatAccountType.BankAccount,
+      })
+      expect(quote.requiresKyc()).toEqual(true)
+    })
+    it('returns false when KYC is not required', () => {
+      const quote = new FiatConnectQuote({
+        flow: CICOFlow.CashIn,
+        quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
+        fiatAccountType: FiatAccountType.BankAccount,
+      })
+      expect(quote.requiresKyc()).toEqual(false)
     })
   })
 })

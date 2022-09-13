@@ -9,6 +9,7 @@ import {
   FiatAccountType,
   GetFiatAccountsResponse,
   TransferResponse,
+  KycStatus as FiatConnectKycStatus,
 } from '@fiatconnect/fiatconnect-types'
 import BigNumber from 'bignumber.js'
 import { all, call, delay, put, select, spawn, takeLeading } from 'redux-saga/effects'
@@ -67,6 +68,8 @@ import { CiCoCurrency, Currency, resolveCICOCurrency } from 'src/utils/currencie
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
 import { v4 as uuidv4 } from 'uuid'
+import { getKycStatus, postKyc, GetKycStatusResponse } from 'src/in-house-liquidity'
+import { KycStatus as PersonaKycStatus } from 'src/account/reducer'
 
 const TAG = 'FiatConnectSaga'
 
@@ -277,7 +280,48 @@ export function* handleSelectFiatConnectQuote({
   payload: params,
 }: ReturnType<typeof selectFiatConnectQuote>) {
   const { quote } = params
+
   try {
+    // If KYC is required for the quote, check that the user has correct KYC on file
+    // with the quote's provider
+    if (quote.requiresKyc()) {
+      const kycSchema = quote.getKycSchema()!
+      const getKycStatusResponse: GetKycStatusResponse = yield call(getKycStatus, {
+        providerInfo: quote.quote.provider,
+        kycSchemas: [kycSchema],
+      })
+      const fiatConnectKycStatus = getKycStatusResponse.kycStatus[kycSchema]
+      switch (fiatConnectKycStatus) {
+        case FiatConnectKycStatus.KycNotCreated:
+          if (getKycStatusResponse.persona === PersonaKycStatus.Approved) {
+            // If user has Persona KYC on file, just submit it and continue to account management
+            yield call(postKyc, {
+              providerInfo: quote.quote.provider,
+              kycSchema,
+            })
+            break
+          } else {
+            // If no Persona KYC on file, navigate to Persona
+            navigate(Screens.Persona, {
+              kycStatus: getKycStatusResponse.persona,
+            })
+            yield put(selectFiatConnectQuoteCompleted())
+            return
+          }
+        // If approved or pending, continue as normal and handle account management
+        case FiatConnectKycStatus.KycApproved:
+        case FiatConnectKycStatus.KycPending:
+          break
+        // If denied or expired, skip account management and
+        // navigate to the KYC status screen
+        case FiatConnectKycStatus.KycDenied:
+        case FiatConnectKycStatus.KycExpired:
+          navigate(Screens.KycStatusScreen)
+          yield put(selectFiatConnectQuoteCompleted())
+          return
+      }
+    }
+
     // Check for an existing fiatAccount and navigate to Review if we find one
     // TODO: Also verify that fiatSchemaType matches once it is added to the fiatAccount spec
     const fiatAccount: FiatAccount = yield call(_getFiatAccount, {
@@ -317,7 +361,7 @@ export function* handleSelectFiatConnectQuote({
     // Error while attempting fetching the fiatConnect account
     Logger.debug(
       TAG,
-      `handleSelectFiatConnectQuote* Error while attempting to fetch the fiatAccount for provider ${quote.getProviderId()}`,
+      `handleSelectFiatConnectQuote* Error while attempting to handle quote selection for provider ${quote.getProviderId()}`,
       error
     )
     yield put(selectFiatConnectQuoteCompleted())

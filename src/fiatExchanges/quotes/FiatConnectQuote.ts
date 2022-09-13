@@ -3,6 +3,8 @@ import {
   FiatAccountType,
   FiatType,
   QuoteResponseFiatAccountSchema,
+  KycSchema,
+  QuoteResponseKycSchema,
 } from '@fiatconnect/fiatconnect-types'
 import BigNumber from 'bignumber.js'
 import { Dispatch } from 'redux'
@@ -20,18 +22,23 @@ import { Currency, resolveCurrency } from 'src/utils/currencies'
 const strings = {
   oneHour: i18n.t('selectProviderScreen.oneHour'),
   numDays: i18n.t('selectProviderScreen.numDays'),
-  idRequired: i18n.t('selectProviderScreen.idRequired'),
+}
+
+const kycStrings = {
+  [KycSchema.PersonalDataAndDocuments]: i18n.t('selectProviderScreen.idRequired'),
 }
 
 // TODO: When we add support for more types be sure to add more unit tests to the FiatConnectQuotes class
 const SUPPORTED_FIAT_ACCOUNT_TYPES = new Set<FiatAccountType>([FiatAccountType.BankAccount])
 const SUPPORTED_FIAT_ACCOUNT_SCHEMAS = new Set<FiatAccountSchema>([FiatAccountSchema.AccountNumber])
+const SUPPORTED_KYC_SCHEMAS = new Set<KycSchema>([KycSchema.PersonalDataAndDocuments])
 
 export default class FiatConnectQuote extends NormalizedQuote {
   quote: FiatConnectQuoteSuccess
   fiatAccountType: FiatAccountType
   flow: CICOFlow
   quoteResponseFiatAccountSchema: QuoteResponseFiatAccountSchema
+  quoteResponseKycSchema?: QuoteResponseKycSchema
 
   constructor({
     quote,
@@ -64,11 +71,19 @@ export default class FiatConnectQuote extends NormalizedQuote {
       )
     }
 
-    // Check if at least one of the KYC schemas is supported
-    const isKycSchemaSupported = !quote.kyc.kycRequired // Currently we don't support kyc
-    if (!isKycSchemaSupported) {
-      throw new Error(`Error: ${quote.provider.id}. We don't support KYC for fiatconnect yet`)
+    // Check if at least one of the KYC schemas is supported; if multiple are allowed for the quote,
+    // choose the first supported one for now.
+    if (quote.kyc.kycRequired) {
+      this.quoteResponseKycSchema = quote.kyc.kycSchemas.find((kycSchemaInfo) =>
+        SUPPORTED_KYC_SCHEMAS.has(kycSchemaInfo.kycSchema)
+      )
+      if (!this.quoteResponseKycSchema) {
+        throw new Error(
+          `Error: ${quote.provider.id}. Quote requires KYC, but only unsupported schemas.`
+        )
+      }
     }
+
     this.quote = quote
     this.fiatAccountType = fiatAccountType
     this.flow = flow
@@ -111,9 +126,16 @@ export default class FiatConnectQuote extends NormalizedQuote {
     return convertCurrencyToLocalAmount(this._getFee(), exchangeRates[this.getCryptoType()])
   }
 
-  // TODO: make kyc info dynamic based on kyc schema
   getKycInfo(): string | null {
-    return this.quote.kyc.kycRequired ? strings.idRequired : null
+    return this.quoteResponseKycSchema ? kycStrings[this.quoteResponseKycSchema.kycSchema] : null
+  }
+
+  getKycSchema(): KycSchema | undefined {
+    return this.quoteResponseKycSchema?.kycSchema
+  }
+
+  requiresKyc(): boolean {
+    return !!this.quoteResponseKycSchema
   }
 
   getTimeEstimation(): string | null {
