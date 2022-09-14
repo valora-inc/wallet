@@ -1116,7 +1116,7 @@
     "subtitle": "Наразі ваш обліковий запис порожній",
     "addFunds": "Додати кошти",
     "titleRamp": "Додати {{currency}}, щоб почати використовувати Valora",
-    "subtitleRamp": "Додати кошти з нульовою комісією через одного з наших довірених зовнішніх постачальників."
+    "subtitleRamp": "Поповнюйте кошти з низькою комісією через одного з наших довірених зовнішніх провайдерів."
   },
   "balances": "Активи",
   "totalBalanceWithLocalCurrencySymbol": "{{localCurrencySymbol}}{{totalBalance}} Усього",

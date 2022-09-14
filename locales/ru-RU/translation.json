@@ -1116,7 +1116,7 @@
     "subtitle": "На вашем аккаунте в настоящее время нет средств",
     "addFunds": "Внести средства",
     "titleRamp": "Внести {{currency}}, чтобы начать использовать Valora",
-    "subtitleRamp": "Внесите средства с нулевой комиссией через одного из доверенных внешних поставщиков."
+    "subtitleRamp": "Добавь фонды с низкой комиссией через одного из наших доверенных внешних провайдеров."
   },
   "balances": "Активы",
   "totalBalanceWithLocalCurrencySymbol": "{{localCurrencySymbol}}{{totalBalance}} Всего",
