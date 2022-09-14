@@ -9,7 +9,18 @@
  * @typedef {import('@actions/github').context} Context
  */
 
-const AUTOMERGE_LABEL = 'automerge'
+const enableAutomergeQuery = `mutation ($pullRequestId: ID!, $mergeMethod: PullRequestMergeMethod!) {
+  enablePullRequestAutoMerge(input: {
+    pullRequestId: $pullRequestId,
+    mergeMethod: $mergeMethod
+  }) {
+    pullRequest {
+      autoMergeRequest {
+        enabledAt
+      }
+    }
+  }
+}`
 
 /**
  * @param {Object} obj - An object.
@@ -77,12 +88,17 @@ module.exports = async ({ github, context, allowedUpdatedFiles }) => {
     body: `Approved from [${context.workflow} #${context.runNumber}](${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}).`,
   })
 
-  console.log(`Adding ${AUTOMERGE_LABEL} label`)
-  await github.rest.issues.addLabels({
+  console.log(`Bringing PR #${pr.number} up to date with main branch`)
+  await github.rest.pulls.updateBranch({
     owner,
     repo,
-    issue_number: pr.number,
-    labels: [AUTOMERGE_LABEL],
+    pull_number: pr.number,
+  })
+
+  console.log(`Enabling automerge on PR #${pr.number}`)
+  await github.graphql(enableAutomergeQuery, {
+    pullRequestId: pr.node_id,
+    mergeMethod: 'SQUASH',
   })
 
   console.log('Done')
