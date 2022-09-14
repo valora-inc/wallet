@@ -1116,7 +1116,7 @@
     "subtitle": "Nie masz teraz żadnych środków na koncie",
     "addFunds": "Dodaj środki",
     "titleRamp": "Dodaj {{currency}}, aby rozpocząć korzystanie z aplikacji Valora",
-    "subtitleRamp": "Dodawaj środki z zerowymi opłatami za pośrednictwem jednego z naszych zaufanych partnerów."
+    "subtitleRamp": "Dodaj fundusze o niskich opłatach za pośrednictwem jednego z naszych zaufanych zewnętrznych dostawców."
   },
   "balances": "Aktywa",
   "totalBalanceWithLocalCurrencySymbol": "Razem {{totalBalance}} {{localCurrencySymbol}}",

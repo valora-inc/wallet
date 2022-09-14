@@ -349,7 +349,7 @@
   "tip": "Dica: ",
   "warning": "Aviso ",
   "downloadRewards": "Baixar Recompensas Celo",
-  "wallet": "Conta",
+  "wallet": "Carteira",
   "send": "Enviar",
   "search": "Pesquisar",
   "namePhoneAddress": "Nome, celular ou endereço",
@@ -592,9 +592,9 @@
   },
   "fullName": "Nome",
   "fullNamePlaceholder": "Nome e sobrenome",
-  "fullNameOrPseudonymPlaceholder": "Nome e sobrenome ou pseudónimo",
+  "fullNameOrPseudonymPlaceholder": "Nome e sobrenome ou pseudônimo",
   "nameAndPicGuideCopyTitle": "Qual é o seu nome?",
-  "nameAndPicGuideCopyContent": "Gostaríamos de saber como lhe chamar",
+  "nameAndPicGuideCopyContent": "Queremos saber como te chamar",
   "importIt": "Restaurar Carteira",
   "important": "Importante",
   "confirmPin": {
@@ -682,8 +682,8 @@
     "title": "Proteja sua carteira",
     "description": "{{biometryType}} protege sua conta e faz com que seja mais fácil usar {{appName}}",
     "cta": "Ativar {{biometryType}}",
-    "guideTitle": "Deseja acrescentar {{biometryType}}?",
-    "guideDescription": "{{biometryType}} torna mais fácil, mais rápido e mais seguro ligar a sua carteira a dapps & assinar transacções."
+    "guideTitle": "Deseja ativar {{biometryType}}?",
+    "guideDescription": "{{biometryType}} torna mais fácil, rápido e seguro conectar sua carteira aos dapps e assinar transações."
   },
   "biometryType": {
     "FaceID": "Face ID",
@@ -696,7 +696,7 @@
   "unlockWithBiometryPrompt": "Autenticar para desbloquear {{appName}}",
   "welcome": {
     "title": "Mergulhe no mundo cripto com a {{appName}}.",
-    "titleGuided": "Bem-vindo a {{appName}}!\nVamos criar a sua carteira criptográfica.",
+    "titleGuided": "Nossas boas-vindas!\nVamos criar a sua carteira cripto.",
     "createAccount": "Criar nova conta",
     "restoreAccount": "Restaurar conta existente",
     "createNewWallet": "Criar carteira",
@@ -721,10 +721,10 @@
     "changePIN": "Alterar PIN",
     "pinsDontMatch": "Os PINs não coincidem",
     "invalidPin": "Use um PIN mais forte",
-    "guideTitle": "Escolha um PIN de 6 dígitos que se lembrará",
-    "guideConfirm": "Insira seu PIN novamente para confirmar.",
+    "guideTitle": "Escolha um PIN de 6 dígitos que se lembrará",
+    "guideConfirm": "Insira o seu PIN novamente para confirmar.",
     "pinCodeGuide": "O seu PIN é a forma de proteger a sua carteira.",
-    "selectPIN": "Seleccionar PIN"
+    "selectPIN": "Selecione o PIN"
   },
   "inviteCode": {
     "title": "Código de convite",
@@ -732,7 +732,7 @@
     "label": "Código de convite",
     "codePlaceholder": "Insira o código de convite",
     "noCode": "Não tenho um código de convite",
-    "nodeCodeInviteLink": "Não tem um código de convite? Solicite um em <0>celo.org/developers/wallet</0> ou <1>continue sem</1>",
+    "nodeCodeInviteLink": "Não tem um código de convite? Solicite um em <0>celo.org/developers/carteira</0> ou <1>continue sem</1>",
     "loadingHeader": "Criando conta...",
     "loadingBody": "Isso pode levar até 90 segundos"
   },
@@ -1112,7 +1112,7 @@
     "subtitle": "Atualmente sua conta está vazia",
     "addFunds": "Adicionar Fundos",
     "titleRamp": "Adicione {{currency}} para começar a usar Valora",
-    "subtitleRamp": "Adicione fundos sem taxas com um de nossos provedores externos de confiança."
+    "subtitleRamp": "Adicione fundos com taxas baixas com um de nossos provedores externos."
   },
   "balances": "Ativos",
   "totalBalanceWithLocalCurrencySymbol": "Total {{localCurrencySymbol}}{{totalBalance}}",

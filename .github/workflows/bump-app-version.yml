@@ -36,6 +36,7 @@ jobs:
           VALORA_BOT_TOKEN: ${{ steps.google-secrets.outputs.VALORA_BOT_TOKEN }}
       - uses: actions/github-script@v5
         with:
+          github-token: ${{ steps.google-secrets.outputs.VALORA_BOT_TOKEN }}
           script: |
             const allowedUpdatedFiles = [
               'android/app/build.gradle',
