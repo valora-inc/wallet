@@ -261,6 +261,8 @@ export enum InviteEvents {
   invite_banner_impression = 'invite_banner_impression',
   invite_with_share = 'invite_with_share',
   invite_with_share_dismiss = 'invite_with_share_dismiss',
+  invite_with_referral_url = 'invite_with_referral_url',
+  opened_via_invite_url = 'opened_via_invite_url',
 }
 
 export enum EscrowEvents {

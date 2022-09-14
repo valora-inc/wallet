@@ -13,9 +13,9 @@ import {
   spawn,
   take,
   takeEvery,
-  takeLatest,
+  takeLatest
 } from 'redux-saga/effects'
-import { AppEvents } from 'src/analytics/Events'
+import { AppEvents, InviteEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import {
   Actions,
@@ -28,14 +28,14 @@ import {
   SetAppState,
   setAppState,
   setSupportedBiometryType,
-  updateRemoteConfigValues,
+  updateRemoteConfigValues
 } from 'src/app/actions'
 import {
   getLastTimeBackgrounded,
   getRequirePinOnAppOpen,
   googleMobileServicesAvailableSelector,
   huaweiMobileServicesAvailableSelector,
-  sentryNetworkErrorsSelector,
+  sentryNetworkErrorsSelector
 } from 'src/app/selectors'
 import { CreateAccountCopyTestType, InviteMethodType, SuperchargeButtonType } from 'src/app/types'
 import { runVerificationMigration } from 'src/app/verificationMigration'
@@ -60,7 +60,7 @@ import { clockInSync } from 'src/utils/time'
 import { isWalletConnectEnabled } from 'src/walletConnect/saga'
 import {
   handleWalletConnectDeepLink,
-  isWalletConnectDeepLink,
+  isWalletConnectDeepLink
 } from 'src/walletConnect/walletConnect'
 import { parse } from 'url'
 
@@ -265,6 +265,7 @@ export function* handleDeepLink(action: OpenDeepLink) {
 
   const rawParams = parse(deepLink)
   if (rawParams.path) {
+    const pathParts = rawParams.path.split('/')
     if (rawParams.path.startsWith('/v/')) {
       yield put(receiveAttestationMessage(rawParams.path.substr(3), CodeInputType.DEEP_LINK))
     } else if (rawParams.path.startsWith('/payment')) {
@@ -291,6 +292,10 @@ export function* handleDeepLink(action: OpenDeepLink) {
       // of our own notifications for security reasons.
       const params = convertQueryToScreenParams(rawParams.query)
       navigate(params.screen as keyof StackParamList, params)
+    } else if (pathParts.length === 3 && pathParts[1] === 'share') {
+      ValoraAnalytics.track(InviteEvents.opened_via_invite_url, {
+        inviterAddress: pathParts[2],
+      })
     }
   }
 }

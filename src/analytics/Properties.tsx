@@ -28,20 +28,20 @@ import {
   TransactionEvents,
   VerificationEvents,
   WalletConnectEvents,
-  WebViewEvents,
+  WebViewEvents
 } from 'src/analytics/Events'
 import {
   BackQuizProgress,
   DappRequestOrigin,
   ScrollDirection,
   SendOrigin,
-  WalletConnectPairingOrigin,
+  WalletConnectPairingOrigin
 } from 'src/analytics/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import {
   RewardsScreenCta,
-  RewardsScreenOrigin,
+  RewardsScreenOrigin
 } from 'src/consumerIncentives/analyticsEventsTracker'
 import { DappSection } from 'src/dapps/types'
 import { InputToken } from 'src/exchange/ExchangeTradeScreen'
@@ -592,6 +592,13 @@ interface InviteEventsProperties {
     phoneNumberHash: string | null
   }
   [InviteEvents.invite_with_share_dismiss]: undefined
+  [InviteEvents.invite_with_referral_url]: {
+    action: 'sharedAction' | 'dismissedAction'
+    activityType?: string | undefined
+  }
+  [InviteEvents.opened_via_invite_url]: {
+    inviterAddress: string
+  }
 }
 
 interface EscrowEventsProperties {
