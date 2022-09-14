@@ -1,3 +1,4 @@
+import dynamicLinks from '@react-native-firebase/dynamic-links'
 import * as Sentry from '@sentry/react-native'
 import BigNumber from 'bignumber.js'
 import CleverTap from 'clevertap-react-native'
@@ -98,9 +99,17 @@ export class App extends React.Component<Props> {
 
     Linking.addEventListener('url', this.handleOpenURL)
 
+    dynamicLinks().onLink(({ url }) => this.handleOpenURL(url))
+
     const url = await Linking.getInitialURL()
     if (url) {
       await this.handleOpenURL({ url })
+    }
+
+    const firebaseUrl = await dynamicLinks().getInitialLink()
+
+    if (firebaseUrl) {
+      await this.handleOpenURL({ url: firebaseUrl.url })
     }
 
     this.logAppLoadTime()
