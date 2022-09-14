@@ -1,4 +1,4 @@
-import { noop } from 'lodash'
+import { isNil, noop } from 'lodash'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
@@ -15,6 +15,8 @@ import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 
+import { useShareUrl } from './hooks'
+
 function Header() {
   return (
     <View style={styles.headerContainer}>
@@ -27,6 +29,8 @@ function Header() {
 
 function Content() {
   const { t } = useTranslation()
+  const shareUrl = useShareUrl()
+
   return (
     <View style={styles.outerContentContainer}>
       <View style={styles.innerContentContainer}>
@@ -38,7 +42,8 @@ function Content() {
           icon={<ShareIcon height={24} color="white" />}
           text={t('inviteWithUrl.button')}
           size={BtnSizes.SMALL}
-          onPress={noop}
+          disabled={isNil(shareUrl)}
+          onPress={shareUrl ?? noop}
         />
       </View>
     </View>
