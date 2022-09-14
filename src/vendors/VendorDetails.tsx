@@ -2,6 +2,9 @@ import { map } from 'lodash'
 import React from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
+import { useDispatch } from 'react-redux'
+import { showError } from 'src/alert/actions'
+import { ErrorMessages } from 'src/app/ErrorMessages'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import Touchable from 'src/components/Touchable'
 import Directions from 'src/icons/Directions'
@@ -16,6 +19,7 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import { navigateToURI } from 'src/utils/linking'
+import Logger from 'src/utils/Logger'
 import { Vendor, VendorWithLocation } from 'src/vendors/types'
 
 type Props = {
@@ -25,8 +29,31 @@ type Props = {
 }
 
 const VendorDetails = ({ vendor, close, action }: Props) => {
-  const { title, subtitle, address, siteURI, description, tags, logoURI, phoneNumber } = vendor
+  const {
+    title,
+    subtitle,
+    street,
+    building_number,
+    city,
+    siteURI,
+    description,
+    tags,
+    logoURI,
+    phoneNumber,
+  } = vendor
   const { location } = vendor as VendorWithLocation
+  const dispatch = useDispatch()
+
+  const handleOpenMap = (): void => {
+    try {
+      initiateDirection({ title, coordinate: location, building_number, street, city })
+    } catch (error) {
+      Logger.warn('Directions', error)
+      dispatch(showError(ErrorMessages.FAILED_OPEN_DIRECTION))
+      return
+    }
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.sheetHeader}>
@@ -47,8 +74,8 @@ const VendorDetails = ({ vendor, close, action }: Props) => {
               <Phone />
             </TouchableOpacity>
           )}
-          {location && (
-            <TouchableOpacity onPress={() => initiateDirection({ coordinate: location })}>
+          {((location.latitude !== 0 && location.longitude !== 0) || street) && (
+            <TouchableOpacity onPress={handleOpenMap}>
               <Directions />
             </TouchableOpacity>
           )}
@@ -64,10 +91,12 @@ const VendorDetails = ({ vendor, close, action }: Props) => {
           )}
         </View>
         <View style={styles.furtherDetailsRow}>
-          {address && (
-            <View>
+          {street && (
+            <View style={styles.streetContainer}>
               <Pin />
-              <Text>{address}</Text>
+              <Text style={styles.street}>{`${street} ${building_number}${
+                city ? `,${city}` : ''
+              }`}</Text>
             </View>
           )}
         </View>
@@ -156,6 +185,20 @@ const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
   furtherDetailsRow: {},
+  streetContainer: {
+    ...fontStyles.regular,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: 20,
+  },
+  street: {
+    ...fontStyles.regular,
+    color: colors.gray5,
+    textAlign: 'justify',
+    fontSize: 14,
+  },
   tags: {
     flexDirection: 'row',
     flexWrap: 'wrap',

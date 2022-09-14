@@ -2,7 +2,7 @@ import * as React from 'react'
 import Svg, { G, Path } from 'react-native-svg'
 import colors from 'src/styles/colors'
 
-function Pin({ size = 25, color = colors.dark as string }) {
+function Pin({ size = 25, color = colors.gray5 as string }) {
   return (
     <Svg width={size} height={size} viewBox="0 0 95 107">
       <G id="Kolektivo" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">

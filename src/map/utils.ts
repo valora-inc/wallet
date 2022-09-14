@@ -1,14 +1,16 @@
-import { Linking, Share } from 'react-native'
+import { Linking, Platform, Share } from 'react-native'
 import { LatLng } from 'react-native-maps'
+import Logger from 'src/utils/Logger'
 
 export async function initiatePhoneCall(phonenumber: string) {
   await Linking.openURL(`tel:${phonenumber}`)
 }
 
 export type LinkingDirectionsOptions = {
+  title: string
   coordinate: LatLng
-  buildingNumber?: number
-  streetName?: string
+  building_number?: string
+  street?: string
   city?: string
 }
 
@@ -32,15 +34,33 @@ export type LinkingShareOptions = {
 }
 
 export function initiateDirection({
+  title,
   coordinate,
-  buildingNumber,
-  streetName,
+  building_number,
+  street,
   city,
 }: LinkingDirectionsOptions) {
-  if (coordinate) {
-    // @todo Use coordinates
-  } else if (buildingNumber && streetName && city) {
-    // @todo Use address to open maps
+  if (coordinate.latitude !== 0 && coordinate.longitude !== 0) {
+    const scheme = Platform.select({ ios: 'maps:0,0?q=', android: 'geo:0,0?q=' })
+    const latLng = `${coordinate.latitude},${coordinate.longitude}`
+    const url = Platform.select({
+      ios: `${scheme}${title}@${latLng}`,
+      android: `${scheme}${latLng}(${title})`,
+    }) as string
+
+    Linking.openURL(url).catch((e) =>
+      Logger.error('DirectionsError', `Directions could not be opened.`, e)
+    )
+  } else if (street) {
+    const destination = encodeURIComponent(`${street} ${building_number}, ${city}`)
+    const url = Platform.select({
+      ios: `maps:0,0?q=${destination}`,
+      android: `geo:0,0?q=${destination}`,
+    }) as string
+
+    Linking.openURL(url).catch((e) =>
+      Logger.error('DirectionsError', `Directions could not be opened.`, e)
+    )
   } else {
     throw new Error('Directions could not be found.')
   }
