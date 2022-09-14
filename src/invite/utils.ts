@@ -78,3 +78,10 @@ export const extractValuesFromDeepLink = async (): Promise<ExtractedInviteCodeAn
   }
   return null
 }
+
+export async function createDynamicLink(address: string) {
+  return dynamicLinks().buildLink({
+    link: `https://vlra.app/share/${address}`,
+    domainUriPrefix: 'https://vlra.app',
+  })
+}

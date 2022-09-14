@@ -580,7 +580,8 @@
   "inviteWithUrl": {
     "title": "Invite a friend",
     "body": "Connect and share value with your friends and family on {{appName}}.",
-    "button": "Share Invite"
+    "button": "Share Invite",
+    "share": "Hi! I’ve been using {{appName}} as my crypto wallet. It’s easy to try and I want to invite you to check it out with this link: {{shareUrl}}"
   },
   "getReward": "Get ${{reward}}",
   "welcomeCelo": "Welcome to {{appName}}",
