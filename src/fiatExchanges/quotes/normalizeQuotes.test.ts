@@ -33,6 +33,7 @@ describe('normalizeQuotes', () => {
     ).toEqual([
       ['Ramp', 0],
       ['provider-two', 0.53],
+      ['provider-three', 4.22],
       ['Moonpay', 5],
       ['Simplex', 6],
       ['Moonpay', 10],
@@ -61,16 +62,17 @@ describe('normalizeFiatConnectQuotes', () => {
     ])
     expect(Logger.warn).toHaveBeenCalledWith(
       'NormalizeQuotes',
-      Error(`Error: provider-three. We don't support KYC for fiatconnect yet`)
+      Error(`Error: provider-three. Quote requires KYC, but only unsupported schemas.`)
     )
     expect(normalizedFiatConnectQuotes).toHaveLength(0)
   })
   it('returns normalized quotes', () => {
     const normalizedFiatConnectQuotes = normalizeFiatConnectQuotes(CICOFlow.CashIn, [
       mockFiatConnectQuotes[1],
+      mockFiatConnectQuotes[3],
     ])
     expect(Logger.warn).not.toHaveBeenCalled()
-    expect(normalizedFiatConnectQuotes).toHaveLength(1)
+    expect(normalizedFiatConnectQuotes).toHaveLength(2)
   })
 })
 
