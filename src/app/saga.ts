@@ -15,7 +15,7 @@ import {
   takeEvery,
   takeLatest,
 } from 'redux-saga/effects'
-import { AppEvents } from 'src/analytics/Events'
+import { AppEvents, InviteEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import {
   Actions,
@@ -265,6 +265,7 @@ export function* handleDeepLink(action: OpenDeepLink) {
 
   const rawParams = parse(deepLink)
   if (rawParams.path) {
+    const pathParts = rawParams.path.split('/')
     if (rawParams.path.startsWith('/v/')) {
       yield put(receiveAttestationMessage(rawParams.path.substr(3), CodeInputType.DEEP_LINK))
     } else if (rawParams.path.startsWith('/payment')) {
@@ -291,6 +292,10 @@ export function* handleDeepLink(action: OpenDeepLink) {
       // of our own notifications for security reasons.
       const params = convertQueryToScreenParams(rawParams.query)
       navigate(params.screen as keyof StackParamList, params)
+    } else if (pathParts[1] === 'share' && pathParts.length === 3) {
+      ValoraAnalytics.track(InviteEvents.opened_via_invite_url, {
+        inviterAddress: pathParts[2],
+      })
     }
   }
 }

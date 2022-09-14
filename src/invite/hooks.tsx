@@ -4,6 +4,8 @@ import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { Share } from 'react-native'
 import { useSelector } from 'react-redux'
+import { InviteEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 
 import { walletAddressSelector } from 'src/web3/selectors'
 
@@ -23,5 +25,10 @@ export function useShareUrl() {
     setShareUrl(url)
   }, [address])
 
-  return isNil(message) ? null : () => Share.share({ message })
+  return isNil(message)
+    ? null
+    : async () => {
+        const result = await Share.share({ message })
+        ValoraAnalytics.track(InviteEvents.invite_with_url, result)
+      }
 }

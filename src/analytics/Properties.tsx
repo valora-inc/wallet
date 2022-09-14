@@ -592,6 +592,13 @@ interface InviteEventsProperties {
     phoneNumberHash: string | null
   }
   [InviteEvents.invite_with_share_dismiss]: undefined
+  [InviteEvents.invite_with_url]: {
+    action: 'sharedAction' | 'dismissedAction'
+    activityType?: string | undefined
+  }
+  [InviteEvents.opened_via_invite_url]: {
+    inviterAddress: string
+  }
 }
 
 interface EscrowEventsProperties {
