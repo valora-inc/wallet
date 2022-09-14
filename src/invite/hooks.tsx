@@ -1,0 +1,27 @@
+import { isNil } from 'lodash'
+import { useState } from 'react'
+import { useAsync } from 'react-async-hook'
+import { useTranslation } from 'react-i18next'
+import { Share } from 'react-native'
+import { useSelector } from 'react-redux'
+
+import { walletAddressSelector } from 'src/web3/selectors'
+
+import { createDynamicLink } from './utils'
+
+export function useShareUrl() {
+  const [shareUrl, setShareUrl] = useState<string | null>(null)
+
+  const address = useSelector(walletAddressSelector)
+  const { t } = useTranslation()
+
+  const message = isNil(shareUrl) ? null : t('inviteWithUrl.share', { shareUrl })
+
+  useAsync(async () => {
+    if (isNil(address)) return
+    const url = await createDynamicLink(address)
+    setShareUrl(url)
+  }, [address])
+
+  return isNil(message) ? null : () => Share.share({ message })
+}
