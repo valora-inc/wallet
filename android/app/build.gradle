@@ -336,7 +336,6 @@ dependencies {
     debugImplementation("com.facebook.flipper:flipper-fresco-plugin:${FLIPPER_VERSION}") {
         exclude group:'com.facebook.flipper'
     }
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.9.1'
 
     if (enableHermes) {
         def hermesPath = "../../node_modules/hermes-engine/android/";

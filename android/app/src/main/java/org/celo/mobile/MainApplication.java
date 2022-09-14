@@ -17,17 +17,6 @@ import com.facebook.soloader.SoLoader;
 import com.swmansion.reanimated.ReanimatedJSIModulePackage;
 import io.sentry.react.RNSentryPackage;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import leakcanary.AppWatcher;
-import leakcanary.DefaultOnHeapAnalyzedListener;
-import leakcanary.LeakCanary;
-import shark.AndroidMetadataExtractor;
-import shark.AndroidObjectInspectors;
-import shark.AndroidReferenceMatchers;
-import shark.KeyedWeakReferenceFinder;
-import shark.ReferenceMatcher;
 
 public class MainApplication
   extends MultiDexApplication
@@ -70,25 +59,6 @@ public class MainApplication
     ActivityLifecycleCallback.register(this);
 
     super.onCreate();
-
-    // Known leaks
-    ReferenceMatcher REACT_NATIVE_SCREENS = createExcludedLeak(
-      "com.swmansion.reanimated.NativeProxy",
-      "mNodesManager",
-      "Well known bug with react-native-screens"
-    );
-
-    // Add known memory leaks to 'referenceMatchers'
-    List<ReferenceMatcher> referenceMatchers = new ArrayList<>();
-    referenceMatchers.add(REACT_NATIVE_SCREENS);
-
-    matchKnownMemoryLeaks(referenceMatchers);
-
-    // AppWatcher manual install if not already installed
-    if (!AppWatcher.INSTANCE.isInstalled()) {
-      AppWatcher.INSTANCE.manualInstall(this);
-    }
-
     SoLoader.init(this, /* native exopackage */false);
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
   }
@@ -130,37 +100,5 @@ public class MainApplication
         e.printStackTrace();
       }
     }
-  }
-
-  /**
-   * Matching known library leaks or leaks which have been already reported previously.
-   */
-  private void matchKnownMemoryLeaks(List<ReferenceMatcher> knownLeaks) {
-    List<ReferenceMatcher> referenceMatchers = AndroidReferenceMatchers.Companion.getAppDefaults();
-    referenceMatchers.addAll(knownLeaks);
-
-    // Passing default values will not be required after migration to Kotlin.
-    LeakCanary.Config config = LeakCanary
-      .getConfig()
-      .newBuilder()
-      .referenceMatchers(referenceMatchers)
-      .build();
-    LeakCanary.setConfig(config);
-  }
-
-  /**
-   * createExcludedLeak - creates a ReferenceMatcher to exclude.
-   */
-  private static ReferenceMatcher createExcludedLeak(
-    String className,
-    String fieldName,
-    String description
-  ) {
-    return AndroidReferenceMatchers.Companion.staticFieldLeak(
-      className,
-      fieldName,
-      description,
-      pattern -> true
-    );
   }
 }
