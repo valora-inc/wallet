@@ -171,7 +171,7 @@ export function PaymentMethodSection({
           >
             <View style={styles.expandedContainer}>
               <View style={styles.left}>
-                <Text style={styles.expandedFee}>
+                <Text style={styles.expandedFee} testID={`${paymentMethod}/fee-${index}`}>
                   {renderFeeAmount(normalizedQuote, t('selectProviderScreen.fee'))}
                 </Text>
                 <Text style={styles.expandedInfo}>{renderInfoText()}</Text>
