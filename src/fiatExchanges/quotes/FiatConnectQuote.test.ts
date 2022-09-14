@@ -323,23 +323,4 @@ describe('FiatConnectQuote', () => {
       expect(quote.getKycSchema()).toBeUndefined()
     })
   })
-
-  describe('.requiresKyc', () => {
-    it('returns true when KYC is required', () => {
-      const quote = new FiatConnectQuote({
-        flow: CICOFlow.CashOut,
-        quote: mockFiatConnectQuotes[3] as FiatConnectQuoteSuccess,
-        fiatAccountType: FiatAccountType.BankAccount,
-      })
-      expect(quote.requiresKyc()).toEqual(true)
-    })
-    it('returns false when KYC is not required', () => {
-      const quote = new FiatConnectQuote({
-        flow: CICOFlow.CashIn,
-        quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
-        fiatAccountType: FiatAccountType.BankAccount,
-      })
-      expect(quote.requiresKyc()).toEqual(false)
-    })
-  })
 })

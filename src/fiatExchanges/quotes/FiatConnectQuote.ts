@@ -134,10 +134,6 @@ export default class FiatConnectQuote extends NormalizedQuote {
     return this.quoteResponseKycSchema?.kycSchema
   }
 
-  requiresKyc(): boolean {
-    return !!this.quoteResponseKycSchema
-  }
-
   getTimeEstimation(): string | null {
     return this.getSettlementEstimation(
       this.quote.fiatAccount[this.fiatAccountType]?.settlementTimeLowerBound,

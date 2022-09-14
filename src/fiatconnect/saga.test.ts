@@ -364,6 +364,29 @@ describe('Fiatconnect saga', () => {
         flow: normalizedQuoteKyc.flow,
       })
     })
+    it('shows an error if FC KYC status is not recognized', async () => {
+      await expectSaga(
+        handleSelectFiatConnectQuote,
+        selectFiatConnectQuote({ quote: normalizedQuoteKyc })
+      )
+        .provide([
+          [
+            matches.call.fn(getKycStatus),
+            {
+              providerId: normalizedQuoteKyc.quote.provider.id,
+              persona: PersonaKycStatus.Approved,
+              kycStatus: {
+                [KycSchema.PersonalDataAndDocuments]: 'badKyc',
+              },
+            },
+          ],
+          { call: provideDelay },
+        ])
+        .put(selectFiatConnectQuoteCompleted())
+        .put(showError(ErrorMessages.PROVIDER_FETCH_FAILED))
+        .run()
+      expect(navigate).not.toHaveBeenCalled()
+    })
     it('navigates to link account screen if the fiatAccount is not found', async () => {
       const fiatAccount = {
         fiatAccountId: '123',
