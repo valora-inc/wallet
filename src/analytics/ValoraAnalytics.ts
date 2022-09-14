@@ -9,10 +9,17 @@ import { check, PERMISSIONS, request, RESULTS } from 'react-native-permissions'
 import { AppEvents } from 'src/analytics/Events'
 import { AnalyticsPropertiesList } from 'src/analytics/Properties'
 import { getCurrentUserTraits } from 'src/analytics/selectors'
-import { DEFAULT_TESTNET, FIREBASE_ENABLED, isE2EEnv, SEGMENT_API_KEY } from 'src/config'
+import {
+  DEFAULT_TESTNET,
+  FIREBASE_ENABLED,
+  isE2EEnv,
+  SEGMENT_API_KEY,
+  STATSIG_API_KEY,
+} from 'src/config'
 import { store } from 'src/redux/store'
 import Logger from 'src/utils/Logger'
 import { isPresent } from 'src/utils/typescript'
+import { Statsig } from 'statsig-react-native'
 
 const TAG = 'ValoraAnalytics'
 
@@ -73,6 +80,7 @@ class ValoraAnalytics {
         throw Error('API Key not present, likely due to environment. Skipping enabling')
       }
       await Analytics.setup(SEGMENT_API_KEY, SEGMENT_OPTIONS)
+      await Statsig.initialize(STATSIG_API_KEY)
 
       try {
         const deviceInfo = await getDeviceInfo()

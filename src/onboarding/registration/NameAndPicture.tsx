@@ -1,5 +1,5 @@
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -25,10 +25,23 @@ import { default as useSelector, default as useTypedSelector } from 'src/redux/u
 import colors from 'src/styles/colors'
 import { saveProfilePicture } from 'src/utils/image'
 import { useAsyncKomenciReadiness } from 'src/verify/hooks'
+import { Statsig, useLayer } from 'statsig-react-native'
 
 type Props = StackScreenProps<StackParamList, Screens.NameAndPicture>
 
 function NameAndPicture({ navigation }: Props) {
+  const showSkipButton = useLayer('name_and_picture_screen').layer.get('showSkipButton', false)
+  const nameType = useLayer('name_and_picture_screen').layer.get('nameType', 'first_and_last')
+
+  console.log('Statsig exp: getter', useLayer('name_and_picture_screen').layer)
+  console.log('Statsig exp: showSkip', showSkipButton)
+  console.log('Statsig exp: name type', nameType)
+  useEffect(() => {
+    if (showSkipButton) {
+      Statsig.logEvent('name_step_complete')
+    }
+  }, [])
+
   const [nameInput, setNameInput] = useState('')
   const cachedName = useTypedSelector((state) => state.account.name)
   const picture = useTypedSelector((state) => state.account.pictureUri)
