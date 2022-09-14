@@ -17,7 +17,6 @@ import { Provider } from 'react-redux'
 import { showError, showMessage } from 'src/alert/actions'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { ErrorMessages } from 'src/app/ErrorMessages'
 import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import { getFiatConnectClient } from 'src/fiatconnect/clients'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
@@ -58,6 +57,7 @@ jest.mock('@fiatconnect/fiatconnect-sdk', () => ({
   })),
 }))
 jest.mock('src/fiatconnect/clients')
+jest.useFakeTimers()
 
 const store = createMockStore({})
 const quoteWithAllowedValues = new FiatConnectQuote({
@@ -131,9 +131,11 @@ describe('FiatDetailsScreen', () => {
     expect(queryByText('fiatAccountSchema.accountNumber.label')).toBeTruthy()
     expect(queryByTestId('input-accountNumber')).toBeTruthy()
 
-    expect(queryByTestId('errorMessage')).toBeFalsy()
+    expect(queryByTestId(/errorMessage-.+/)).toBeFalsy()
 
-    expect(queryByTestId('nextButton')).toBeTruthy()
+    expect(queryByTestId('submitButton')).toBeTruthy()
+    expect(queryByTestId('submitButton')).toBeDisabled()
+    expect(queryByText('fiatDetailsScreen.submitAndContinue')).toBeTruthy()
   })
   it('renders header with provider image', () => {
     let headerTitle: React.ReactNode
@@ -207,7 +209,7 @@ describe('FiatDetailsScreen', () => {
       fiatAccountSchema: quoteWithAllowedValues.getFiatAccountSchema(),
     })
   })
-  it('shows validation error if the input field does not fulfill the requirement', () => {
+  it('button remains disabled if required input field is empty', () => {
     const { queryByText, getByTestId, queryByTestId } = render(
       <Provider store={store}>
         <FiatDetailsScreen {...mockScreenPropsWithAllowedValues} />
@@ -216,13 +218,52 @@ describe('FiatDetailsScreen', () => {
 
     expect(queryByText('fiatAccountSchema.institutionName.label')).toBeTruthy()
     expect(queryByText('fiatAccountSchema.accountNumber.label')).toBeTruthy()
-    expect(queryByTestId('errorMessage')).toBeFalsy()
+    expect(queryByTestId(/errorMessage-.+/)).toBeFalsy()
+
+    fireEvent.changeText(getByTestId('input-accountNumber'), fakeAccountNumber)
+
+    expect(queryByTestId('submitButton')).toBeDisabled()
+  })
+  it('shows validation error if the input field does not fulfill the requirement after delay', () => {
+    const { queryByText, getByTestId, queryByTestId } = render(
+      <Provider store={store}>
+        <FiatDetailsScreen {...mockScreenPropsWithAllowedValues} />
+      </Provider>
+    )
+
+    expect(queryByText('fiatAccountSchema.institutionName.label')).toBeTruthy()
+    expect(queryByText('fiatAccountSchema.accountNumber.label')).toBeTruthy()
+    expect(queryByTestId(/errorMessage-.+/)).toBeFalsy()
 
     fireEvent.changeText(getByTestId('input-accountNumber'), '12dtfa')
 
     // Should see an error message saying the account number field is invalid
-    expect(queryByTestId('errorMessage')).toBeTruthy()
+    // after delay
+    expect(queryByTestId(/errorMessage-.+/)).toBeFalsy()
+    jest.advanceTimersByTime(1500)
+    expect(queryByTestId('errorMessage-accountNumber')).toBeTruthy()
     expect(queryByText('fiatAccountSchema.accountNumber.errorMessage')).toBeTruthy()
+    expect(queryByTestId('submitButton')).toBeDisabled()
+  })
+  it('shows validation error if the input field does not fulfill the requirement immediately on blur', () => {
+    const { queryByText, getByTestId, queryByTestId } = render(
+      <Provider store={store}>
+        <FiatDetailsScreen {...mockScreenProps} />
+      </Provider>
+    )
+
+    expect(queryByText('fiatAccountSchema.institutionName.label')).toBeTruthy()
+    expect(queryByText('fiatAccountSchema.accountNumber.label')).toBeTruthy()
+    expect(queryByTestId(/errorMessage-.+/)).toBeFalsy()
+
+    fireEvent.changeText(getByTestId('input-accountNumber'), '12dtfa')
+    fireEvent(getByTestId('input-accountNumber'), 'blur')
+
+    // Should see an error message saying the account number field is invalid
+    // immediately since the field loses focus
+    expect(queryByTestId('errorMessage-accountNumber')).toBeTruthy()
+    expect(queryByText('fiatAccountSchema.accountNumber.errorMessage')).toBeTruthy()
+    expect(queryByTestId('submitButton')).toBeDisabled()
   })
   it('sends a successful request to add new fiat account after pressing the next button [Schema: AccountName]', async () => {
     const { getByTestId } = render(
@@ -241,17 +282,20 @@ describe('FiatDetailsScreen', () => {
       country: 'US',
       fiatAccountType: 'BankAccount',
     }
-    await fireEvent.press(getByTestId('nextButton'))
+    await fireEvent.press(getByTestId('submitButton'))
 
     expect(getFiatConnectClient).toHaveBeenCalledWith(
       quote.getProviderId(),
-      quote.getProviderBaseUrl()
+      quote.getProviderBaseUrl(),
+      quote.getProviderApiKey()
     )
     expect(fiatConnectClient.addFiatAccount).toHaveBeenCalledWith({
       fiatAccountSchema: 'AccountNumber',
       data: expectedBody,
     })
-    expect(showMessage).toHaveBeenCalledWith(i18n.t('fiatDetailsScreen.addFiatAccountSuccess'))
+    expect(showMessage).toHaveBeenCalledWith(
+      i18n.t('fiatDetailsScreen.addFiatAccountSuccess', { provider: quote.getProviderName() })
+    )
     expect(navigate).toHaveBeenCalledWith(Screens.FiatConnectReview, {
       flow: CICOFlow.CashIn,
       normalizedQuote: quote,
@@ -280,11 +324,12 @@ describe('FiatDetailsScreen', () => {
       fiatAccountType: 'BankAccount',
     }
 
-    await fireEvent.press(getByTestId('nextButton'))
+    await fireEvent.press(getByTestId('submitButton'))
 
     expect(getFiatConnectClient).toHaveBeenCalledWith(
       quote.getProviderId(),
-      quote.getProviderBaseUrl()
+      quote.getProviderBaseUrl(),
+      quote.getProviderApiKey()
     )
     expect(fiatConnectClient.addFiatAccount).toHaveBeenCalledWith({
       fiatAccountSchema: 'AccountNumber',
@@ -295,7 +340,9 @@ describe('FiatDetailsScreen', () => {
       TAG,
       `Error adding fiat account: ${FiatConnectError.ResourceExists}`
     )
-    expect(showError).toHaveBeenCalledWith(ErrorMessages.ADD_FIAT_ACCOUNT_RESOURCE_EXIST)
+    expect(showError).toHaveBeenCalledWith(
+      i18n.t('fiatDetailsScreen.addFiatAccountResourceExist', { provider: quote.getProviderName() })
+    )
     expect(navigate).not.toHaveBeenCalled()
   })
   it('does not navigate to next page when experiencing a general error', async () => {
@@ -318,11 +365,12 @@ describe('FiatDetailsScreen', () => {
       fiatAccountType: 'BankAccount',
     }
 
-    await fireEvent.press(getByTestId('nextButton'))
+    await fireEvent.press(getByTestId('submitButton'))
 
     expect(getFiatConnectClient).toHaveBeenCalledWith(
       quote.getProviderId(),
-      quote.getProviderBaseUrl()
+      quote.getProviderBaseUrl(),
+      quote.getProviderApiKey()
     )
     expect(fiatConnectClient.addFiatAccount).toHaveBeenCalledWith({
       fiatAccountSchema: 'AccountNumber',
@@ -330,7 +378,9 @@ describe('FiatDetailsScreen', () => {
     })
 
     expect(Logger.error).toHaveBeenCalledWith(TAG, `Error adding fiat account: some message`)
-    expect(showError).toHaveBeenCalledWith(i18n.t('fiatDetailsScreen.addFiatAccountFailed'))
+    expect(showError).toHaveBeenCalledWith(
+      i18n.t('fiatDetailsScreen.addFiatAccountFailed', { provider: quote.getProviderName() })
+    )
     expect(navigate).not.toHaveBeenCalled()
   })
 })

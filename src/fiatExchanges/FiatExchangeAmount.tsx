@@ -8,7 +8,6 @@ import { Platform, StyleSheet, Text, TextInput, View } from 'react-native'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
-import { cUsdDailyLimitSelector } from 'src/account/selectors'
 import { showError } from 'src/alert/actions'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 // import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -21,11 +20,7 @@ import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import LineItemRow from 'src/components/LineItemRow'
 import TokenDisplay from 'src/components/TokenDisplay'
-import {
-  ALERT_BANNER_DURATION,
-  CELO_SUPPORT_EMAIL_ADDRESS,
-  DOLLAR_ADD_FUNDS_MAX_AMOUNT,
-} from 'src/config'
+import { ALERT_BANNER_DURATION, DOLLAR_ADD_FUNDS_MAX_AMOUNT } from 'src/config'
 import { fetchExchangeRate } from 'src/exchange/actions'
 import { useMaxSendAmount } from 'src/fees/hooks'
 import { FeeType } from 'src/fees/reducer'
@@ -53,7 +48,7 @@ import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import { useTokenInfoBySymbol } from 'src/tokens/hooks'
 import { Currency } from 'src/utils/currencies'
-import { roundDown, roundUp } from 'src/utils/formatting'
+import { roundUp } from 'src/utils/formatting'
 import Logger from 'src/utils/Logger'
 import { CICOFlow } from './utils'
 
@@ -78,8 +73,6 @@ function FiatExchangeAmount({ route }: Props) {
   const closeInvalidAmountDialog = () => {
     setShowingInvalidAmountDialog(false)
   }
-  const [showingDailyLimitDialog, setShowingDailyLimitDialog] = useState(false)
-
   const [inputAmount, setInputAmount] = useState('')
   const parsedInputAmount = parseInputAmount(inputAmount, decimalSeparator)
   const inputConvertedToCrypto =
@@ -88,7 +81,6 @@ function FiatExchangeAmount({ route }: Props) {
   const inputConvertedToLocalCurrency =
     useCurrencyToLocalAmount(parsedInputAmount, currency as Currency) || new BigNumber(0)
   const localCurrencyCode = useLocalCurrencyCode()
-  const dailyLimitCusd = useSelector(cUsdDailyLimitSelector)
   const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)
   const cachedFiatAccountUses = useSelector(cachedFiatAccountUsesSelector)
   const attemptReturnUserFlowLoading = useSelector(attemptReturnUserFlowLoadingSelector)
@@ -125,9 +117,6 @@ function FiatExchangeAmount({ route }: Props) {
   const localCurrencyMaxAmount =
     useCurrencyToLocalAmount(new BigNumber(DOLLAR_ADD_FUNDS_MAX_AMOUNT), Currency.Dollar) ||
     new BigNumber(0)
-
-  const localCurrencyDailyLimitAmount =
-    useCurrencyToLocalAmount(new BigNumber(dailyLimitCusd), Currency.Dollar) || new BigNumber(0)
 
   const currencyMaxAmount = usdPrice
     ? new BigNumber(DOLLAR_ADD_FUNDS_MAX_AMOUNT).dividedBy(usdPrice)
@@ -225,13 +214,6 @@ function FiatExchangeAmount({ route }: Props) {
         */
         return
       }
-      if (
-        currency !== Currency.Celo &&
-        inputLocalCurrencyAmount.isGreaterThan(localCurrencyDailyLimitAmount)
-      ) {
-        setShowingDailyLimitDialog(true)
-        return
-      }
     } else if (maxWithdrawAmount.isLessThan(inputCryptoAmount)) {
       dispatch(
         showError(ErrorMessages.CASH_OUT_LIMIT_EXCEEDED, ALERT_BANNER_DURATION, {
@@ -243,16 +225,6 @@ function FiatExchangeAmount({ route }: Props) {
     }
 
     goToProvidersScreen()
-  }
-
-  const closeDailyLimitDialogAndContinue = () => {
-    setShowingDailyLimitDialog(false)
-    goToProvidersScreen()
-  }
-
-  const closeDailyLimitDialogAndContact = () => {
-    setShowingDailyLimitDialog(false)
-    navigate(Screens.SupportContact, { prefilledText: t('dailyLimitRequest') })
   }
 
   return (
@@ -269,27 +241,6 @@ function FiatExchangeAmount({ route }: Props) {
           usdLimit: `$${DOLLAR_ADD_FUNDS_MAX_AMOUNT}`,
           localLimit: overLocalLimitDisplayString,
         })}
-      </Dialog>
-      <Dialog
-        isVisible={showingDailyLimitDialog}
-        actionText={t('dailyLimitDialog.continue')}
-        actionPress={closeDailyLimitDialogAndContinue}
-        secondaryActionDisabled={false}
-        secondaryActionText={t('dailyLimitDialog.contact')}
-        secondaryActionPress={closeDailyLimitDialogAndContact}
-        testID={'DailyLimitDialog'}
-      >
-        {
-          <Trans
-            i18nKey={'dailyLimitDialog.body'}
-            tOptions={{
-              limit: `${localCurrencySymbol}${roundDown(localCurrencyDailyLimitAmount)}`,
-              contactEmail: CELO_SUPPORT_EMAIL_ADDRESS,
-            }}
-          >
-            <Text style={styles.emailLink} />
-          </Trans>
-        }
       </Dialog>
       <DisconnectBanner />
       <KeyboardAwareScrollView
@@ -421,9 +372,6 @@ const styles = StyleSheet.create({
     minHeight: 48, // setting height manually b.c. of bug causing text to jump on Android
   },
   fiatCurrencyColor: {
-    color: colors.greenUI,
-  },
-  emailLink: {
     color: colors.greenUI,
   },
   reviewBtn: {

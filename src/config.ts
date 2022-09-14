@@ -1,13 +1,13 @@
 import { stringToBoolean } from '@celo/utils/lib/parsing'
+import { Network } from '@fiatconnect/fiatconnect-types'
 import BigNumber from 'bignumber.js'
 import Config from 'react-native-config'
 import { CachesDirectoryPath } from 'react-native-fs'
 import { SpendMerchant } from 'src/fiatExchanges/Spend'
+import { LoggerLevel } from 'src/utils/LoggerLevels'
 // eslint-disable-next-line import/no-relative-packages
 import * as secretsFile from '../secrets.json'
 import { ONE_HOUR_IN_MILLIS } from './utils/time'
-import { LoggerLevel } from 'src/utils/LoggerLevels'
-import { Network } from '@fiatconnect/fiatconnect-types'
 
 export * from 'src/brandingConfig'
 
@@ -53,7 +53,6 @@ export const DOLLAR_MIN_AMOUNT_ACCOUNT_FUNDED = 0.01
 // The number of seconds before the sender can reclaim the payment.
 export const ESCROW_PAYMENT_EXPIRY_SECONDS = 1 // The contract doesn't allow 0 seconds.
 export const DEFAULT_TESTNET = Config.DEFAULT_TESTNET
-export const DEFAULT_DAILY_PAYMENT_LIMIT_CUSD = 1000
 export const SMS_RETRIEVER_APP_SIGNATURE = Config.SMS_RETRIEVER_APP_SIGNATURE
 // ODIS minimum dollar balance for pepper quota retrieval
 // TODO change this to new ODIS minimum dollar balance once deployed

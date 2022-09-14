@@ -75,28 +75,9 @@
   "chooseFromLibrary": "Aus Bibliothek wählen",
   "takePhoto": "Foto machen",
   "removePhoto": "Foto entfernen",
-  "accountSendLimit": "Konto-Sendelimit",
-  "dailyLimitLabel": "Aktuelles tägliches Sendelimit",
-  "dailyLimitValue": "${{dailyLimit}}",
-  "noDailyLimit": "Unbegrenzt",
-  "verifyNumberToRaiseLimit": "Du kannst dein Sendelimit erhöhen, indem du deine Identität überprüfst. Bitte verbinde deine Telefonnummer, bevor du fortfährst.",
-  "verifyIdentityToRaiseLimit": "Du kannst dein Sendelimit erhöhen, indem du deine Identität bestätigst. Bitte gib im folgenden Prozess einige Details an.",
-  "dailyLimitApplicationStatus": "Bewerbungsstatus",
-  "applicationInReview": "Wird geprüft",
-  "applicationInReviewDescription": "Deine Bewerbung wird überprüft. Du wirst benachrichtigt, sobald dieser Vorgang abgeschlossen ist.",
-  "applicationIncomplete": "Unvollständig",
-  "applicationIncompleteDescription": "Die von Dir zur Verfügung gestellten Informationen waren unzureichend. Bitte sei bereit, im folgenden Prozess weitere Details anzugeben.",
-  "applicationDenied": "Verweigert",
-  "applicationDeniedDescription": "Deine Bewerbung wurde abgelehnt. Wenn du der Meinung bist, dass dies ein Fehler war, starte bitte den folgenden Prozess neu.",
   "applicationCompleted": "Fertiggestellt",
   "applicationCompletedDescription": "Deine Bewerbung wurde akzeptiert. Du kannst jetzt täglich einen unbegrenzten Betrag senden.",
-  "raiseLimitConfirmNumber": "Telefonnummer verbinden",
   "raiseLimitBegin": "Identitätsüberprüfung beginnen",
-  "raiseLimitResume": "Identitätsprüfung fortsetzen",
-  "raiseLimitEmailSubject": "Anfrage zur Erhöhung des Konto-Sendelimits",
-  "raiseLimitEmailBody": "Ich möchte eine Erhöhung des Tageslimits von {{dailyLimit}} {{appName}} für Adresse {{address}} beantragen",
-  "raiseLimitEmailSuccess": "Deine Bewerbung wurde erfolgreich gemeldet! Erwarte in Kürze eine E-Mail-Antwort!",
-  "raiseLimitEmailNotSent": "Deine Bewerbung wurde nicht gesendet. Bitte versuche es erneut.",
   "storeRecoveryTitle": "Du musst dein Konto erneut einrichten",
   "storeRecoveryBody": "Es ist ein Fehler aufgetreten. Wir sind uns des Problems bewusst und arbeiten daran, es zu beheben. In der Zwischenzeit musst du den Setup-Prozess erneut durchlaufen.",
   "storeRecoveryButton": "Konto wiederherstellen",
@@ -318,11 +299,6 @@
     "maxAmount": "Unsere Anbieter unterstützen keine Gesamtsummen größer als {{usdLimit}}{{localLimit}}. Bitte gib einen kleineren Betrag ein.",
     "dismiss": "OK"
   },
-  "dailyLimitDialog": {
-    "body": "Du bist dabei, mehr als dein tägliches Sendelimit von {{limit}} zu erwerben. Bitte kontaktiere <0>{{contactEmail}}</0>, wenn du dein tägliches Sendelimit erhöhen möchtest.",
-    "contact": "Kontakt",
-    "continue": "Ich verstehe"
-  },
   "providerFeesDialog": {
     "title": "Anbieter-Gebühren",
     "body1": "Die Anbietergebühren werden von jedem Anbieter individuell festgelegt und beinhalten unter anderem eine Umtauschgebühr und Liquiditätsgebühren. Um mehr zu erfahren, besuche bitte ",
@@ -332,7 +308,6 @@
     "title": "Gebührenrabatt",
     "body": "Als Sonderaktion zur Feier der Markteinführung von Valora werden die Gebühren vorübergehend bezuschusst!"
   },
-  "dailyLimitRequest": "Hallo! Ich möchte mein tägliches Sendelimit erhöhen.",
   "pleaseSelectProvider": "Bitte wähle unten einen Anbieter aus. Diese Links verbinden sich mit einem Drittanbieter.",
   "otherFundingOptions": "Weitere Möglichkeiten zum Hinzufügen und Abheben von Guthaben findest du auf <0>Wie du dein Konto auflädst</0>.",
   "youCanTransferIn": "Du kannst die Börse einer Drittpartei nutzen, um {{digitalAsset}} an dein Valora-Konto zu senden. Dafür benötigst du deine Konto-Adresse.",
@@ -352,6 +327,7 @@
     "bodyWithoutProvider": "Der Dienstleister bearbeitet deine Bestellung. Du solltest dein Guthaben innerhalb weniger Tage erhalten."
   },
   "restrictedRegion": "Begrenzte Unterstützung in der Region",
+  "unsupportedLocation": "{{appName}} wird an deinem Standort nicht unterstützt",
   "unsupportedPaymentMethod": "Die Bezahlung mit {{paymentMethod}} wird in deinem Land nicht unterstützt",
   "noProviders": "In deiner Region gibt es keine Anbieter für {{digitalAsset}}.",
   "noPaymentMethods": "In deiner Region gibt es keine Zahlungsmethoden für {{digitalAsset}}.",
@@ -485,8 +461,6 @@
   "maxActionableAttestationsExceededError": "Fehler beim erneuten Senden der Nachricht",
   "odisInsufficientBalance": "Bitte verbinde deine Nummer",
   "matchmakingQuotaExceededError": "Matchmaking kann nur einmal durchgeführt werden",
-  "paymentLimitReached": "Das Tageslimit beträgt {{dailyLimitcUSD}} cUSD ({{currencySymbol}}{{dailyLimit}})\n{{dailyRemainingcUSD}} cUSD ({{currencySymbol}}{{dailyRemaining}}) verbleibend",
-  "requestLimitError": "Kann nicht mehr als {{limit}} cUSD Tageslimit anfordern.",
   "ordinals": [
     "nullte",
     "erste",
@@ -595,13 +569,13 @@
   "sendAndInvite": "Senden & Einladen",
   "inviteAndSendDialog": {
     "title": "Beende die Einladung von {{name}} zu Valora",
-    "bodyWithRewards": "Sobald sie beitreten und eine Telefonnummer verbinden, erhaltet ihr beide {{amount}} {{currency}}. Klicke unten, um eine Einladung zu senden und zu personalisieren.",
+    "bodyWithRewards": "Sobald sie beitreten und ihre Telefonnummer verbinden, erhaltet ihr beide ein NFT. Klicke unten, um eine Einladung zu senden.",
     "body": "Teile eine Einladungsnachricht mit {{name}}, um {{appName}} beizutreten. Sobald sie beigetreten sind und eine Telefonnummer verbunden haben, erhalten sie ihre Zahlung.",
     "button": "Einladung beenden"
   },
   "inviteRewardsBanner": {
     "title": "Krypto senden, um einen Freund einzuladen",
-    "body": "Ihr erhaltet ein NFT, sobald dein Freund sein {{appName}}-Konto eingerichtet hat. <0>Mehr erfahren</0>"
+    "body": "Ihr erhaltet ein exklusives NFT, sobald dein Freund seine {{appName}}-Wallet eingerichtet hat und seine Nummer damit verknüpft hat. <0>Du kannst dir bis zu drei NFTs verdienen</0>"
   },
   "getReward": "Erhalte ${{reward}}",
   "welcomeCelo": "Willkommen bei {{appName}}",
@@ -614,10 +588,13 @@
     "heading2": "Celo Vermögen und {{appName}}-Konto",
     "info": "Lese bitte unsere <0>Benutzervereinbarung und Bedingungen</0> und klicke unten auf Akzeptieren um unsere Dienste zu nutzen.",
     "privacy": "Indem du diesem Netzwerk beitrittst, gibst du uns die Erlaubnis, anonyme Informationen über deine Nutzung der App zu sammeln. Wenn du deine Telefonnummer verbindest, wird eine Kopie davon im Celo Netzwerk gespeichert. Wenn du Valora Zugriff auf deine Kontaktliste gewährst, wird Valora den Namen jedes Kontaktes importieren Telefonnummer und Profilbild, um Benutzern die Verbindung über die Valora-App zu ermöglichen. Um zu erfahren, wie wir diese Informationen sammeln und verwenden, lesen unsere <0>Datenschutzrichtlinie</0>.",
-    "goldDisclaimer": "Wenn du ein „Konto“ mit Valora erstellst, erstellst du eine digitale Wallet zu der nur du die Schlüssel besitzt. Keine andere Person oder Entität, einschließlich cLabs oder Valora, kann deinen Schlüssel wiederherstellen, Transaktionen ändern oder rückgängig machen oder verloren gegangene Guthaben wiederherstellen. Bitte beachte, dass CELO, cUSD und cEUR Teil einer neuen Anlageklasse sind und ein Risiko finanziellen Verlust darstellen. Berücksichtige deine finanziellen Umstände und Toleranz gegenüber finanziellen Risiken, bevor du Vermögenswerte kaufst. Du kannst nur bis zu {{dailyLimitCUSD}} cUSD pro Tag über Valora versenden (das „Tageslimit“). Du musst dich mit support@valoraapp.com in Verbindung setzen und zusätzliche persönliche Informationen angeben, um eine Erhöhung dieses Tageslimits zu beantragen. Es kann zu Verzögerungen bei der Erfüllung der erforderlichen Einhaltung kommen."
+    "goldDisclaimer": "Wenn du ein „Konto“ bei Valora anlegst, erstellst du ein digitales Wallet, dessen Schlüssel nur du besitzt. Keine andere Person oder Organisation, einschließlich cLabs oder Valora, kann deinen Schlüssel wiederherstellen, Transaktionen ändern oder rückgängig machen oder verlorene Gelder wiedererlangen. Sei dir bewusst, dass CELO, cUSD und cEUR Teil einer neuen Vermögensklasse sind und ein Risiko für finanzielle Verluste darstellen. Überlege dir deine finanzielle Situation und deine Risikobereitschaft genau, bevor du einen Vermögenswert kaufst."
   },
   "fullName": "Name",
   "fullNamePlaceholder": "Vollständiger Name",
+  "fullNameOrPseudonymPlaceholder": "Vollständiger Name oder Alias",
+  "nameAndPicGuideCopyTitle": "Wie heißt du?",
+  "nameAndPicGuideCopyContent": "Wir würden gerne wissen, wie wir dich nennen sollen",
   "importIt": "Wallet wiederherstellen",
   "important": "Wichtig",
   "confirmPin": {
@@ -704,7 +681,9 @@
   "enableBiometry": {
     "title": "Sichere dein Wallet",
     "description": "{{biometryType}} sichert dein Wallet und erleichtert die Verwendung von {{appName}}",
-    "cta": "{{biometryType}} einschalten"
+    "cta": "{{biometryType}} einschalten",
+    "guideTitle": "Willst du {{biometryType}} einschalten?",
+    "guideDescription": "{{biometryType}} macht es einfacher, schneller und sicherer, deine Wallet mit Dapps zu verbinden und Transaktionen zu signieren."
   },
   "biometryType": {
     "FaceID": "Face-ID",
@@ -717,8 +696,12 @@
   "unlockWithBiometryPrompt": "Authentifizieren, um {{appName}} zu entsperren",
   "welcome": {
     "title": "Steige mit {{appName}} in die Zukunft von Krypto ein.",
+    "titleGuided": "Willkommen bei {{appName}}!\nLass uns deine Wallet erstellen.",
     "createAccount": "Neues Konto erstellen",
-    "restoreAccount": "Mein Konto wiederherstellen"
+    "restoreAccount": "Mein Konto wiederherstellen",
+    "createNewWallet": "Wallet erstellen",
+    "restoreWallet": "Wallet wiederherstellen",
+    "iAlreadyHaveAWallet": "Ich habe bereits eine Wallet"
   },
   "accessContacts": {
     "disclosure": {
@@ -727,6 +710,7 @@
     }
   },
   "createAccount": "Konto erstellen",
+  "createProfile": "Profil erstellen",
   "restoreAccount": "Mein Konto wiederherstellen",
   "registrationSteps": "Schritt {{step}} von {{totalSteps}}",
   "selectCountryCode": "Ländercode auswählen",
@@ -736,7 +720,11 @@
     "verify": "Zur Bestätigung erneut PIN eingeben",
     "changePIN": "PIN ändern",
     "pinsDontMatch": "Die PINs stimmen nicht überein",
-    "invalidPin": "Bitte eine stärkere PIN verwenden"
+    "invalidPin": "Bitte eine stärkere PIN verwenden",
+    "guideTitle": "Gib eine 6-stellige PIN ein, die du dir merken kannst",
+    "guideConfirm": "Zur Bestätigung erneut PIN eingeben.",
+    "pinCodeGuide": "Mit deiner PIN sicherst du deine Wallet.",
+    "selectPIN": "PIN auswählen"
   },
   "inviteCode": {
     "title": "Einladungscode",
@@ -859,6 +847,7 @@
   "amountCeloWithdrawn": "Betrag (CELO)",
   "feeEducation": "Die Celo-Blockchain erhebt eine Transaktionsgebühr, um das Netzwerk zu unterstützen und reibungslos arbeiten zu lassen.",
   "inviteMoneyEscrow": "Sende diesen Kontakten eine Einladungsnachricht, damit sie Guthaben erhalten, sobald sie ihre Telefonnummern verbunden haben.",
+  "inviteMoneyEscrowWithRewards": "Sende diesem Kontakt eine Einladungsnachricht, damit sie Guthaben und ein NFT erhalten, sobald sie ihre Telefonnummern verbunden haben.",
   "reviewPayment": "Zahlung überprüfen",
   "requestPayment": "Zahlung anfordern",
   "max": "MAX",
@@ -878,7 +867,7 @@
   "walletAddress": "Wallet-Adresse",
   "inviteWithoutPayment": "Hallo! Ich habe {{appName}} benutzt, um Krypto weltweit zu überweisen. Es ist einfach zu versuchen und ich möchte dich einladen, es mit diesem Link zu sehen: {{link}}",
   "inviteWithEscrowedPayment": "Hallo! Ich habe {{appName}} benutzt, um Krypto weltweit zu überweisen. Ich habe dir gerade {{amount}} {{token}} geschickt. Bitte lade die {{appName}} App herunter und löse dein {{token}} mit diesem Link ein: {{link}}",
-  "inviteWithRewards": "Hey! Ich habe dir gerade Kryptos mit meiner {{appName}}-Wallet überwiesen. Sobald du die App heruntergeladen und deine Telefonnummer verbunden hast, erhalten wir beide {{amount}} {{token}} als Reward. Verwende diesen Link: {{link}}",
+  "inviteWithRewards": "Hey! Ich habe dir gerade Kryptos mit meiner {{appName}}-Wallet überwiesen. Sobald du die App heruntergeladen und deine Telefonnummer verbunden hast, erhalten wir beide ein NFT. Verwende diesen Link: {{link}}",
   "loadingContacts": "Deine Kontakte finden",
   "myCode": "Mein Code",
   "scanCode": "Scannen",
@@ -1053,7 +1042,7 @@
     "1": "Eine freundliche Erinnerung, dass du das {{testnet}} -Netzwerk-Build verwendest - der Guthaben ist nicht real"
   },
   "dollarBalance": "<0></0> $t(celoDollars)",
-  "feedItemAddress": "Konto {{address}}",
+  "feedItemAddress": "{{address}}",
   "feedItemDepositInfo": "{{comment}}",
   "feedItemDepositInfo_noComment": "Anzahlung erhalten",
   "feedItemDepositTitle": "Einzahlung",
@@ -1102,6 +1091,7 @@
   "feedItemGoldPurchased": "Gekauft",
   "feedItemGoldWithdrawal": "Abhebung an {{displayName}}",
   "feedItemGoldReceived": "Erhalten von {{displayName}}",
+  "feedItemSwapPath": "{{token1}} zu {{token2}}",
   "transactionHeaderVerificationFee": "Bestätigung",
   "transactionHeaderNetworkFee": "Netzwerk",
   "transactionHeaderFaucet": "Faucet",
@@ -1122,7 +1112,7 @@
     "subtitle": "Dein Konto ist derzeit leer",
     "addFunds": "Guthaben hinzufügen",
     "titleRamp": "Füge {{currency}} hinzu, um loszulegen",
-    "subtitleRamp": "Füge Guthaben mit Nullgebühren durch einen unserer vertrauenswürdigen externen Anbieter hinzu."
+    "subtitleRamp": "Füge Guthaben mit niedrigen Gebühren durch einen unserer externen Anbieter hinzu."
   },
   "balances": "Vermögen",
   "totalBalanceWithLocalCurrencySymbol": "{{localCurrencySymbol}}{{totalBalance}} Gesamt",
@@ -1258,27 +1248,38 @@
   },
   "fiatConnectLinkAccountScreen": {
     "bankAccount": {
-      "header": "Bankkonto verknüpfen",
-      "bodyTitle": "Bankkontodaten eingeben",
-      "description": "Enter bank account details to link your account to Valora. Your transactions will be powered by <0>{{providerName}}</0>."
+      "header": "Ein Bankkonto einrichten",
+      "bodyTitle": "Ein Bankkonto einrichten",
+      "description": "Gib deine Kontoinformationen ein, um Guthaben zu überweisen. Deine Transaktionen werden von <0>{{providerName}}</0> unterstützt."
     },
     "continue": "Weiter"
   },
   "fiatConnectReviewScreen": {
-    "paymentMethod": "Zahlungsmethode",
     "transactionDetails": "Transaktiondetails",
-    "paymentMethodVia": "Verknüpft über {{providerName}}",
+    "paymentMethodVia": "Über {{providerName}} verbunden",
     "receiveAmount": "Du wirst erhalten",
     "cashIn": {
       "header": "Guthaben hinzufügen überprüfen",
       "button": "Guthaben hinzufügen",
-      "transactionDetailsAmount": "Gesamtpreis"
+      "transactionDetailsAmount": "Gesamtpreis",
+      "paymentMethodHeader": "Einzahlung von"
     },
     "cashOut": {
       "header": "Überprüfen",
       "button": "Guthaben abheben",
       "transactionDetailsAmount": "Gesamt abgehoben",
-      "transactionDetailsAmountConverted": "Betrag abgehoben"
+      "transactionDetailsAmountConverted": "Betrag abgehoben",
+      "paymentMethodHeader": "Abheben nach"
+    },
+    "failedRefetch": {
+      "title": "Verbindungsfehler!",
+      "description": "Wir konnten deine Konten leider nicht verknüpfen.\n\nDies kann auf eine schlechte Internetverbindung oder ein Server-Problem zurückzuführen sein. Bitte versuche es erneut.",
+      "tryAgain": "Wiederholen"
+    },
+    "quoteExpiredDialog": {
+      "title": "Beträge und Gebühren prüfen",
+      "body": "Krypto-Beträge und -Gebühren können sich aufgrund von Schwankungen auf dem Krypto-Markt ändern.\n\nBitte überprüfe deine endgültigen Beträge und Gebühren, bevor du sie einreichst.",
+      "continue": "Weiter"
     }
   },
   "fiatConnectStatusScreen": {
@@ -1295,8 +1296,8 @@
     },
     "requestNotCompleted": {
       "title": "Deine Anfrage konnte nicht abgeschlossen werden.",
-      "description": "Dein Guthaben konnte nicht von Valora überwiesen werden. Bitte versuche es noch einmal oder wende dich an unser Support-Team, um Hilfe zu erhalten.",
-      "contactSupportPrefill": "Ich habe Probleme, mein Guthaben von Valora abzuheben"
+      "description": "Dein Guthaben konnte nicht von überwiesen werden. Bitte versuche es noch einmal oder wende dich an unser Support-Team, um Hilfe zu erhalten.",
+      "contactSupportPrefill": "Ich habe Probleme, mein Guthaben abzuheben."
     }
   },
   "fiatExchangeFlow": {
@@ -1322,23 +1323,19 @@
   },
   "fiatDetailsScreen": {
     "header": "Bankdaten eingeben",
+    "headerSubTitle": "Unterstützt von {{provider}}",
     "selectedPaymentOption": "Gewählte Zahlungsoption",
-    "addFiatAccountSuccess": "Dein Konto wurde mit Valora verknüpft.",
-    "addFiatAccountResourceExist": "Du hast dieses Konto bereits mit Valora verknüpft.",
-    "addFiatAccountFailed": "Dein Konto wurde nicht verlinkt. Bitte versuche es erneut oder kontaktiere den Support.",
+    "addFiatAccountSuccess": "Dein Konto wurde mit {{provider}} verknüpft.",
+    "addFiatAccountResourceExist": "Du hast dieses Konto bereits mit {{provider}} verknüpft.",
+    "addFiatAccountFailed": "Dein Konto wurde nicht mit {{provider}} verknüpft. Bitte versuche es erneut oder kontaktiere den Support.",
     "selectItem": "Option auswählen...",
-    "selectDone": "Fertig"
+    "selectDone": "Fertig",
+    "submitAndContinue": "Senden und fortfahren"
   },
   "fiatAccountSchema": {
-    "accountName": {
-      "label": "Kontoname",
-      "placeholderText": "Ein Name für das Konto",
-      "errorMessage": "Ein Kontoname ist erforderlich"
-    },
     "institutionName": {
       "label": "Bankname",
-      "placeholderText": "Bankname eingeben",
-      "errorMessage": "Ein Bankname ist erforderlich"
+      "placeholderText": "Bankname eingeben"
     },
     "accountNumber": {
       "label": "Kontonummer",
@@ -1356,7 +1353,33 @@
     "swapFrom": "Von",
     "swapTo": "Zu",
     "insufficientFunds": "Unzureichendes {{token}}-Guthaben. Versuche es mit einem kleineren Betrag oder wähle einen anderen Token.",
-    "fetchSwapQuoteFailed": "Sorry for the delay! It's taking longer than usual to get the best exchange rate. Please try again in a few minutes."
+    "fetchSwapQuoteFailed": "Entschuldige die Verzögerung! Es dauert länger als üblich, um den besten Wechselkurs zu ermitteln. Bitte versuche es in ein paar Minuten erneut."
+  },
+  "swapTransactionDetailPage": {
+    "swapFrom": "Tausch von",
+    "swapTo": "Tausch zu",
+    "rate": "Kurs",
+    "estimatedFee": "Geschätzte Gebühr",
+    "viewOnExplorer": "Auf CeloExplorer anzeigen"
+  },
+  "swapReviewScreen": {
+    "title": "Tauschen überprüfen",
+    "complete": "Tauschen abschließen",
+    "swapFrom": "Tausch von",
+    "swapTo": "Tausch zu",
+    "transactionDetails": "Transaktiondetails",
+    "estimatedGas": "Geschätzte Gas-Gebühren",
+    "swapFee": "{{appName}}-Gebühr",
+    "swapFeeTitle": "Was ist die {{appName}}-Gebühr?",
+    "swapFeeBody": "Die Gebühr für {{appName}} ist die Gebühr, die du bezahlen musst, um Tokens auf {{appName}} zu tauschen. \n\n Die Gebühr beträgt {{swapFee}} % des Umtauschbetrags. \n\n Die Gebühren für {{appName}} entfallen für die nächsten Monate.",
+    "estimatedAmountTitle": "Geschätzte Betrag",
+    "estimatedAmountBody": "Umrechnungen finden an einer dezentralen Börse von Drittanbietern statt, die den besten Kurs für deinen gewünschten Umtausch bieten. \n\n Dein Trade wird zu einem Preis innerhalb von {{slippagePercent}} % des Preises abgeschlossen oder die Transaktion wird storniert und das Guthaben an deine Wallet zurückerstattet."
+  },
+  "inviteModal": {
+    "title": "Sieht so aus, als ob {{contactName}} noch kein {{appName}}-Wallet hat.",
+    "body": "Du kannst sie trotzdem zu {{appName}} einladen oder versuchen, eine Zahlung an ihre Wallet-Adresse oder nom.space zu senden.",
+    "sendInviteButtonLabel": "Einladung senden",
+    "shareMessage": "Hey! Ich würde dir gerne etwas Krypto mit meinem {{appName}}-Wallet schicken. Wenn du die App herunterlädst und deine Telefonnummer angibst, können wir Kryptowährungen so einfach wie eine SMS versenden. Verwende diesen Link: {{link}}"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

@@ -2,7 +2,7 @@ import { StackScreenProps } from '@react-navigation/stack'
 import BigNumber from 'bignumber.js'
 import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Image, PixelRatio, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -13,7 +13,7 @@ import Touchable from 'src/components/Touchable'
 import { TIME_OF_SUPPORTED_UNSYNC_HISTORICAL_PRICES } from 'src/config'
 import OpenLinkIcon from 'src/icons/OpenLinkIcon'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
-import { headerWithBackButton } from 'src/navigator/Headers'
+import { HeaderTitleWithSubtitle, headerWithBackButton } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -38,7 +38,7 @@ function TokenBalancesScreen({ navigation }: Props) {
   const { t } = useTranslation()
   const tokens = useSelector(tokensWithTokenBalanceSelector)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
-  const totalBalance = useSelector(totalTokenBalanceSelector)
+  const totalBalance = useSelector(totalTokenBalanceSelector) ?? new BigNumber(0)
   const tokensAreStale = useSelector(stalePriceSelector)
   const showPriceChangeIndicatorInBalances = useSelector(showPriceChangeIndicatorInBalancesSelector)
   const shouldVisualizeNFTsInHomeAssetsPage = useSelector(
@@ -46,31 +46,17 @@ function TokenBalancesScreen({ navigation }: Props) {
   )
   const walletAddress = useSelector(walletAddressSelector)
 
-  const header = () => {
-    return (
-      <View style={styles.header}>
-        <Text style={fontStyles.navigationHeader}>{t('balances')}</Text>
-        <Text style={styles.subtext}>
-          {tokensAreStale ? (
-            <Text>
-              {localCurrencySymbol}
-              {'-'}
-            </Text>
-          ) : (
-            totalBalance &&
-            t('totalBalanceWithLocalCurrencySymbol', {
-              localCurrencySymbol,
-              totalBalance: totalBalance.toFormat(2),
-            })
-          )}
-        </Text>
-      </View>
-    )
-  }
-
   useLayoutEffect(() => {
+    const subTitle =
+      !tokensAreStale && totalBalance.gte(0)
+        ? t('totalBalanceWithLocalCurrencySymbol', {
+            localCurrencySymbol,
+            totalBalance: totalBalance.toFormat(2),
+          })
+        : `${localCurrencySymbol} -`
+
     navigation.setOptions({
-      headerTitle: header,
+      headerTitle: () => <HeaderTitleWithSubtitle title={t('balances')} subTitle={subTitle} />,
     })
   }, [navigation, totalBalance, localCurrencySymbol])
 
@@ -102,7 +88,7 @@ function TokenBalancesScreen({ navigation }: Props) {
             testID={`tokenBalance:${token.symbol}`}
           />
           {token.usdPrice?.gt(0) && (
-            <View style={{ flexDirection: 'row' }}>
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-end' }}>
               {showPriceChangeIndicatorInBalances &&
                 token.historicalUsdPrices &&
                 isHistoricalPriceUpdated(token) && (
@@ -135,8 +121,19 @@ function TokenBalancesScreen({ navigation }: Props) {
   return (
     <>
       {shouldVisualizeNFTsInHomeAssetsPage && (
-        <Touchable testID={'NftViewerBanner'} borderless={true} onPress={onPressNFTsBanner}>
-          <View style={[styles.bannerContainer]}>
+        <Touchable
+          style={
+            // For larger fonts we need different marginTop for nft banner
+            PixelRatio.getFontScale() > 1.5
+              ? { marginTop: Spacing.Small12 }
+              : PixelRatio.getFontScale() > 1.25
+              ? { marginTop: Spacing.Smallest8 }
+              : null
+          }
+          testID={'NftViewerBanner'}
+          onPress={onPressNFTsBanner}
+        >
+          <View style={styles.bannerContainer}>
             <Text style={styles.bannerText}>{t('nftViewer')}</Text>
             <View style={styles.rightInnerContainer}>
               <Text style={styles.bannerText}>{t('open')}</Text>
@@ -163,8 +160,6 @@ TokenBalancesScreen.navigationOptions = {
 
 const styles = StyleSheet.create({
   scrollContainer: {
-    flex: 1,
-    flexDirection: 'column',
     paddingHorizontal: variables.contentPadding,
   },
   tokenImg: {
@@ -175,33 +170,24 @@ const styles = StyleSheet.create({
   },
   tokenContainer: {
     flexDirection: 'row',
-    paddingTop: 22,
-    justifyContent: 'space-between',
-    flex: 1,
+    paddingTop: variables.contentPadding,
   },
   tokenLabels: {
     flexShrink: 1,
     flexDirection: 'column',
   },
   balances: {
-    flex: 2,
-    flexDirection: 'column',
+    flex: 9,
     alignItems: 'flex-end',
   },
-  header: {
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
   row: {
-    flex: 3,
+    flex: 11,
     flexDirection: 'row',
   },
   tokenName: {
-    flexShrink: 1,
     ...fontStyles.large600,
   },
   subtext: {
-    flexShrink: 1,
     ...fontStyles.small,
     color: Colors.gray4,
   },
@@ -218,11 +204,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row-reverse',
   },
   bannerContainer: {
-    marginTop: Spacing.Smallest8,
-    marginBottom: Spacing.Smallest8,
     paddingHorizontal: Spacing.Thick24,
+    paddingVertical: 4,
     justifyContent: 'space-between',
-    height: 40,
+    flexWrap: 'wrap',
     width: '100%',
     alignItems: 'center',
     backgroundColor: Colors.greenUI,
@@ -234,6 +219,7 @@ const styles = StyleSheet.create({
   },
   rightInnerContainer: {
     flexDirection: 'row',
+    alignItems: 'center',
   },
 })
 

@@ -1,10 +1,10 @@
 import _ from 'lodash'
 import { FinclusiveKycStatus } from 'src/account/reducer'
-import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
 import { initialState as exchangeInitialState } from 'src/exchange/reducer'
 import { migrations } from 'src/redux/migrations'
 import { Currency } from 'src/utils/currencies'
 import {
+  DEFAULT_DAILY_PAYMENT_LIMIT_CUSD_LEGACY,
   v0Schema,
   v13Schema,
   v14Schema,
@@ -34,6 +34,7 @@ import {
   v59Schema,
   v62Schema,
   v7Schema,
+  v75Schema,
   v8Schema,
   vNeg1Schema,
 } from 'test/schemas'
@@ -191,7 +192,7 @@ describe('Redux persist migrations', () => {
       },
     }
     const migratedSchema = migrations[9](v8Stub)
-    expect(migratedSchema.account.dailyLimitCusd).toEqual(DEFAULT_DAILY_PAYMENT_LIMIT_CUSD)
+    expect(migratedSchema.account.dailyLimitCusd).toEqual(DEFAULT_DAILY_PAYMENT_LIMIT_CUSD_LEGACY)
   })
   it('works for v9 to v10', () => {
     const v9Stub = v7Schema
@@ -661,6 +662,16 @@ describe('Redux persist migrations', () => {
     expectedSchema.app.superchargeTokenConfigByToken = {}
     delete expectedSchema.app.superchargeTokens
 
+    expect(migratedSchema).toStrictEqual(expectedSchema)
+  })
+
+  it('works for v75 to v76', () => {
+    const oldSchema = v75Schema
+    const migratedSchema = migrations[76](oldSchema)
+
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    expectedSchema.app.showGuidedOnboardingCopy = false
+    // shall be the default value as configured in REMOTE_CONFIG_VALUES_DEFAULTS
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 })

@@ -5,7 +5,7 @@ exports[`renders properly 1`] = `
   onTouchStart={[Function]}
   style={
     Object {
-      "marginBottom": 0,
+      "marginBottom": 24,
     }
   }
   testID="SnapshotCeloGoldOverview"
@@ -190,7 +190,7 @@ exports[`renders while update is in progress 1`] = `
   onTouchStart={[Function]}
   style={
     Object {
-      "marginBottom": 0,
+      "marginBottom": 24,
     }
   }
   testID="SnapshotCeloGoldOverview"

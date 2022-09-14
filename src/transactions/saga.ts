@@ -184,7 +184,7 @@ export function* sendAndMonitorTransaction<T>(
 
     yield put(fetchGoldBalance())
     yield put(fetchStableBalances())
-    yield put(fetchTokenBalances())
+    yield put(fetchTokenBalances({ showLoading: true }))
     return { receipt: txReceipt }
   } catch (error) {
     Logger.error(TAG + '@sendAndMonitorTransaction', `Error sending tx ${context.id}`, error)

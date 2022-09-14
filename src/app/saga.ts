@@ -37,7 +37,7 @@ import {
   huaweiMobileServicesAvailableSelector,
   sentryNetworkErrorsSelector,
 } from 'src/app/selectors'
-import { SuperchargeButtonType } from 'src/app/types'
+import { CreateAccountCopyTestType, InviteMethodType, SuperchargeButtonType } from 'src/app/types'
 import { runVerificationMigration } from 'src/app/verificationMigration'
 import { FETCH_TIMEOUT_DURATION } from 'src/config'
 import { SuperchargeTokenConfigByToken } from 'src/consumerIncentives/types'
@@ -165,7 +165,6 @@ export interface RemoteConfigValues {
   inviteRewardWeeklyLimit: number
   inviteRewardsEnabled: boolean
   hideVerification: boolean
-  showRaiseDailyLimitTarget: string | undefined
   walletConnectV1Enabled: boolean
   walletConnectV2Enabled: boolean
   logPhoneNumberTypeEnabled: boolean
@@ -196,6 +195,12 @@ export interface RemoteConfigValues {
   coinbasePayEnabled: boolean
   showSwapMenuInDrawerMenu: boolean
   shouldShowRecoveryPhraseInSettings: boolean
+  createAccountCopyTestType: CreateAccountCopyTestType
+  maxSwapSlippagePercentage: number
+  swapFeeEnabled: boolean
+  swapFeePercentage: number
+  inviteMethod: InviteMethodType
+  showGuidedOnboardingCopy: boolean
 }
 
 export function* appRemoteFeatureFlagSaga() {

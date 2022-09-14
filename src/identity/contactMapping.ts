@@ -19,13 +19,11 @@ import {
   endFetchingAddresses,
   endImportContacts,
   FetchAddressesAndValidateAction,
-  ImportContactsAction,
   requireSecureSend,
   updateE164PhoneNumberAddresses,
   updateImportContactsProgress,
   updateWalletToAccountAddress,
 } from 'src/identity/actions'
-import { fetchContactMatches } from 'src/identity/matchmaking'
 import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
 import {
   AddressToE164NumberType,
@@ -37,12 +35,13 @@ import {
 import { checkIfValidationRequired } from 'src/identity/secureSend'
 import {
   e164NumberToAddressSelector,
-  matchedContactsSelector,
   secureSendPhoneNumberMappingSelector,
 } from 'src/identity/selectors'
 import { ImportContactsStatus } from 'src/identity/types'
 import { contactsToRecipients, NumberToRecipient } from 'src/recipients/recipient'
 import { setPhoneRecipientCache } from 'src/recipients/reducer'
+import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
+import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import { getAllContacts } from 'src/utils/contacts'
 import Logger from 'src/utils/Logger'
 import { checkContactsPermission } from 'src/utils/permissions'
@@ -53,13 +52,13 @@ import { currentAccountSelector } from 'src/web3/selectors'
 const TAG = 'identity/contactMapping'
 export const IMPORT_CONTACTS_TIMEOUT = 1 * 60 * 1000 // 1 minute
 
-export function* doImportContactsWrapper({ doMatchmaking }: ImportContactsAction) {
+export function* doImportContactsWrapper() {
   yield call(getConnectedAccount)
   try {
     Logger.debug(TAG, 'Importing user contacts')
 
     const { result, cancel, timeout } = yield race({
-      result: call(doImportContacts, doMatchmaking),
+      result: call(doImportContacts),
       cancel: take(Actions.CANCEL_IMPORT_CONTACTS),
       timeout: delay(IMPORT_CONTACTS_TIMEOUT),
     })
@@ -83,7 +82,7 @@ export function* doImportContactsWrapper({ doMatchmaking }: ImportContactsAction
   }
 }
 
-function* doImportContacts(doMatchmaking: boolean) {
+function* doImportContacts() {
   const hasGivenContactPermission: boolean = yield call(checkContactsPermission)
   if (!hasGivenContactPermission) {
     Logger.warn(TAG, 'Contact permissions denied. Skipping import.')
@@ -93,6 +92,7 @@ function* doImportContacts(doMatchmaking: boolean) {
 
   ValoraAnalytics.track(IdentityEvents.contacts_import_start)
 
+  SentryTransactionHub.startTransaction(SentryTransaction.import_contacts)
   yield put(updateImportContactsProgress(ImportContactsStatus.Importing))
 
   const contacts: MinimalContact[] = yield call(getAllContacts)
@@ -118,16 +118,8 @@ function* doImportContacts(doMatchmaking: boolean) {
   yield put(setPhoneRecipientCache(e164NumberToRecipients))
 
   ValoraAnalytics.track(IdentityEvents.contacts_processing_complete)
+  SentryTransactionHub.finishTransaction(SentryTransaction.import_contacts)
 
-  if (!doMatchmaking) {
-    return true
-  }
-  yield put(updateImportContactsProgress(ImportContactsStatus.Matchmaking))
-  yield call(fetchContactMatches, e164NumberToRecipients)
-  const matchContacts = yield select(matchedContactsSelector)
-  ValoraAnalytics.track(IdentityEvents.contacts_matchmaking_complete, {
-    matchCount: Object.keys(matchContacts).length,
-  })
   return true
 }
 

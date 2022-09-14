@@ -1,9 +1,8 @@
 import _ from 'lodash'
 import { FinclusiveKycStatus, PincodeType } from 'src/account/reducer'
 import { AppState } from 'src/app/actions'
-import { SuperchargeButtonType } from 'src/app/types'
+import { InviteMethodType, SuperchargeButtonType } from 'src/app/types'
 import { CodeInputStatus } from 'src/components/CodeInput'
-import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
 import { DappConnectInfo } from 'src/dapps/types'
 import { NUM_ATTESTATIONS_REQUIRED } from 'src/identity/verification'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
@@ -16,6 +15,8 @@ import {
   mockCusdAddress,
   mockTestTokenAddress,
 } from 'test/values'
+
+export const DEFAULT_DAILY_PAYMENT_LIMIT_CUSD_LEGACY = 1000
 
 // Default (version -1 schema)
 export const vNeg1Schema = {
@@ -362,7 +363,7 @@ export const v7Schema = {
     ...v6Schema.account,
     backupRequiredTime: null,
     pictureUri: null,
-    dailyLimitCusd: DEFAULT_DAILY_PAYMENT_LIMIT_CUSD,
+    dailyLimitCusd: DEFAULT_DAILY_PAYMENT_LIMIT_CUSD_LEGACY,
   },
   home: {
     loading: false,
@@ -1542,10 +1543,79 @@ export const v70Schema = {
   },
   app: {
     ...v69Schema.app,
+    createAccountCopyTestType: 'ACCOUNT',
+  },
+}
+
+export const v71Schema = {
+  ...v70Schema,
+  _persist: {
+    ...v70Schema._persist,
+    version: 71,
+  },
+  app: {
+    ...v70Schema.app,
+    maxSwapSlippagePercentage: 2,
+    swapFeeEnabled: false,
+    swapFeePercentage: 0.743,
+  },
+}
+
+export const v72Schema = {
+  ...v71Schema,
+  _persist: {
+    ...v71Schema._persist,
+    version: 72,
+  },
+  app: {
+    ...v71Schema.app,
     shouldShowRecoveryPhraseInSettings: false,
   },
 }
 
+export const v73Schema = {
+  ...v72Schema,
+  _persist: {
+    ...v72Schema._persist,
+    version: 73,
+  },
+  app: {
+    ...v72Schema.app,
+    inviteMethod: InviteMethodType.Escrow,
+  },
+}
+
+export const v74Schema = {
+  ...v73Schema,
+  _persist: {
+    ...v73Schema._persist,
+    version: 74,
+  },
+  identity: _.omit(v73Schema.identity, 'matchedContacts'),
+}
+
+export const v75Schema = {
+  ...v74Schema,
+  _persist: {
+    ...v74Schema._persist,
+    version: 75,
+  },
+  app: _.omit(v74Schema.app, 'showRaiseDailyLimitTarget'),
+  account: _.omit(v74Schema.account, 'dailyLimitRequestStatus', 'dailyLimitCusd'),
+}
+
+export const v76Schema = {
+  ...v75Schema,
+  _persist: {
+    ...v75Schema._persist,
+    version: 76,
+  },
+  app: {
+    ...v75Schema.app,
+    showGuidedOnboardingCopy: false,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v70Schema as Partial<RootState>
+  return v76Schema as Partial<RootState>
 }

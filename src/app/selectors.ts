@@ -14,7 +14,7 @@ import {
   shouldUseKomenciSelector,
   verificationStatusSelector,
 } from 'src/verify/reducer'
-import { accountAddressSelector, currentAccountSelector } from 'src/web3/selectors'
+import { accountAddressSelector } from 'src/web3/selectors'
 
 export const getRequirePinOnAppOpen = (state: RootState) => {
   return state.app.requirePinOnAppOpen
@@ -68,19 +68,6 @@ export const hideVerificationSelector = (state: RootState) => state.app.hideVeri
 export const ranVerificationMigrationSelector = (state: RootState) =>
   state.app.ranVerificationMigrationAt
 
-// showRaiseDailyLimitTarget is an account string that represents the cutoff of which accounts
-// should return true. By doing a string comparison, if the user's account is lower than the
-// target we'll return true and false otherwise.
-export const showRaiseDailyLimitSelector = createSelector(
-  [currentAccountSelector, (state) => state.app.showRaiseDailyLimitTarget],
-  (account, showRaiseDailyLimitTarget) => {
-    if (!showRaiseDailyLimitTarget || !account) {
-      return false
-    }
-    return account < showRaiseDailyLimitTarget
-  }
-)
-
 export const superchargeTokenConfigByTokenSelector = (state: RootState) =>
   state.app.superchargeTokenConfigByToken
 
@@ -129,6 +116,20 @@ export const fiatConnectCashOutEnabledSelector = (state: RootState) =>
   state.app.fiatConnectCashOutEnabled
 
 export const coinbasePayEnabledSelector = (state: RootState) => state.app.coinbasePayEnabled
+
+export const createAccountCopyTestTypeSelector = (state: RootState) =>
+  state.app.createAccountCopyTestType
+
+export const maxSwapSlippagePercentageSelector = (state: RootState) =>
+  state.app.maxSwapSlippagePercentage
+
+export const swapFeeEnabledSelector = (state: RootState) => state.app.swapFeeEnabled
+
+export const swapFeePercentageSelector = (state: RootState) => state.app.swapFeePercentage
+
+export const inviteMethodSelector = (state: RootState) => state.app.inviteMethod
+
+export const showGuidedOnboardingSelector = (state: RootState) => state.app.showGuidedOnboardingCopy
 
 type StoreWipeRecoveryScreens = Extract<
   Screens,

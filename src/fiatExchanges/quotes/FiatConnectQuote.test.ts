@@ -83,7 +83,7 @@ describe('FiatConnectQuote', () => {
   describe('.getFeeInCrypto', () => {
     it('returns null if there is no fee', () => {
       const quoteData = _.cloneDeep(mockFiatConnectQuotes[1]) as FiatConnectQuoteSuccess
-      delete quoteData.fiatAccount.BankAccount?.fee
+      delete quoteData.quote.fee
       const quote = new FiatConnectQuote({
         flow: CICOFlow.CashIn,
         quote: quoteData,
@@ -112,7 +112,7 @@ describe('FiatConnectQuote', () => {
   describe('.getFeeInFiat', () => {
     it('returns null if there is no fee', () => {
       const quoteData = _.cloneDeep(mockFiatConnectQuotes[1]) as FiatConnectQuoteSuccess
-      delete quoteData.fiatAccount.BankAccount?.fee
+      delete quoteData.quote.fee
       const quote = new FiatConnectQuote({
         flow: CICOFlow.CashIn,
         quote: quoteData,
@@ -218,6 +218,17 @@ describe('FiatConnectQuote', () => {
         fiatAccountType: FiatAccountType.BankAccount,
       })
       expect(quote.getProviderId()).toEqual('provider-two')
+    })
+  })
+
+  describe('.getProviderApiKey', () => {
+    it('returns provider api key', () => {
+      const quote = new FiatConnectQuote({
+        flow: CICOFlow.CashIn,
+        quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
+        fiatAccountType: FiatAccountType.BankAccount,
+      })
+      expect(quote.getProviderApiKey()).toEqual('fake-api-key')
     })
   })
 

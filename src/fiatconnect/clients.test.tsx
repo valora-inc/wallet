@@ -1,5 +1,5 @@
 import { FiatConnectClient } from '@fiatconnect/fiatconnect-sdk'
-import { getFiatConnectClient, getSigningFunction } from 'src/fiatconnect/clients'
+import { getFiatConnectClient, getSiweSigningFunction } from 'src/fiatconnect/clients'
 import { getPassword } from 'src/pincode/authentication'
 import { getWalletAsync } from 'src/web3/contracts'
 import { KeychainWallet } from 'src/web3/KeychainWallet'
@@ -24,7 +24,7 @@ describe('getSigningFunction', () => {
     wallet.unlockAccount = jest.fn().mockResolvedValue(undefined)
   })
   it('returns a signing function that signs a message', async () => {
-    const signingFunction = getSigningFunction(wallet)
+    const signingFunction = getSiweSigningFunction(wallet)
     const signedMessage = await signingFunction('test')
     expect(wallet.signPersonalMessage).toHaveBeenCalled()
     expect(wallet.unlockAccount).not.toHaveBeenCalled()
@@ -32,7 +32,7 @@ describe('getSigningFunction', () => {
   })
   it('returns a signing function that attempts to unlock accout if locked', async () => {
     wallet.isAccountUnlocked = jest.fn().mockReturnValue(false)
-    const signingFunction = getSigningFunction(wallet)
+    const signingFunction = getSiweSigningFunction(wallet)
     const signedMessage = await signingFunction('test')
     expect(wallet.signPersonalMessage).toHaveBeenCalled()
     expect(wallet.unlockAccount).toHaveBeenCalled()
@@ -60,6 +60,12 @@ describe('getFiatConnectClient', () => {
 
   it('returns a new client if provider url changes', async () => {
     const fcClient = await getFiatConnectClient('provider1', 'https://provider1.url/v2')
+    expect(getWalletAsync).toHaveBeenCalled()
+    expect(fcClient).toBeInstanceOf(FiatConnectClient)
+  })
+
+  it('returns a new client if provider API key changes', async () => {
+    const fcClient = await getFiatConnectClient('provider1', 'api-key', 'https://provider1.url/v2')
     expect(getWalletAsync).toHaveBeenCalled()
     expect(fcClient).toBeInstanceOf(FiatConnectClient)
   })

@@ -24,6 +24,7 @@ import {
 import {
   mockAccount,
   mockCeloAddress,
+  mockCeurAddress,
   mockCusdAddress,
   mockDisplayNumber2,
   mockE164Number2,
@@ -133,6 +134,36 @@ describe('TransactionDetailsScreen', () => {
       transactionHash: '0x544367eaf2b01622dd1c7b75a6b19bf278d72127aecfb2e5106424c40c268e8b',
       timestamp: 1542306118,
       block: '8648978',
+      inAmount,
+      outAmount,
+      metadata,
+      fees,
+    }
+  }
+
+  function swapTransaction({
+    inAmount = {
+      value: 34,
+      tokenAddress: mockCeurAddress,
+    },
+    outAmount = {
+      value: 17,
+      tokenAddress: mockCusdAddress,
+    },
+    metadata = {},
+    fees = [],
+  }: {
+    inAmount?: TokenAmount
+    outAmount?: TokenAmount
+    metadata?: TokenExchangeMetadata
+    fees?: Fee[]
+  }): TokenExchange {
+    return {
+      __typename: 'TokenExchangeV2',
+      type: TokenTransactionTypeV2.SwapTransaction,
+      transactionHash: '0xf5J440sML02q2z8q92Vyt3psStjBACc3825KmFGB2Zk1zMil6wrI306097C1Rps2',
+      timestamp: 1531306119,
+      block: '7523159',
       inAmount,
       outAmount,
       metadata,
@@ -289,5 +320,35 @@ describe('TransactionDetailsScreen', () => {
 
     const subtotal = getByTestId('TotalLineItem/Subtotal')
     expect(getElementText(subtotal)).toEqual('10.10 cUSD')
+  })
+
+  it('renders correctly for cUSD to cEUR swap', async () => {
+    const { getByTestId } = renderScreen({
+      transaction: swapTransaction({
+        fees: [
+          {
+            type: FeeType.SecurityFee,
+            amount: {
+              value: 0.1,
+              tokenAddress: mockCusdAddress,
+            },
+          },
+        ],
+      }),
+      storeOverrides: {},
+    })
+
+    const swapTo = getByTestId('SwapContent/swapTo')
+    expect(getElementText(swapTo)).toEqual('34.00 cEUR')
+
+    const swapFrom = getByTestId('SwapContent/swapFrom')
+    expect(getElementText(swapFrom)).toEqual('17.00 cUSD')
+
+    const rate = getByTestId('SwapContent/rate')
+    expect(getElementText(rate)).toEqual('1 cUSD ≈ 2.00 cEUR')
+
+    // Includes the fee
+    const estimatedFee = getByTestId('SwapContent/estimatedFee')
+    expect(getElementText(estimatedFee)).toEqual('0.10 cUSD')
   })
 })

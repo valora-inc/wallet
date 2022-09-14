@@ -14,7 +14,6 @@ import { useDispatch } from 'react-redux'
 import { showError, showMessage } from 'src/alert/actions'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { ErrorMessages } from 'src/app/ErrorMessages'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes } from 'src/components/Button'
 import CancelButton from 'src/components/CancelButton'
@@ -42,12 +41,14 @@ type ScreenProps = StackScreenProps<StackParamList, Screens.FiatDetailsScreen>
 
 type Props = ScreenProps
 
+const SHOW_ERROR_DELAY_MS = 1500
+
 interface FormFieldParam {
   name: string
   label: string
   regex: RegExp
   placeholderText: string
-  errorMessage: string
+  errorMessage?: string
   keyboardType: KeyboardType
 }
 interface ImplicitParam<T, K extends keyof T> {
@@ -74,9 +75,8 @@ const getAccountNumberSchema = (implicitParams: {
   institutionName: {
     name: 'institutionName',
     label: i18n.t('fiatAccountSchema.institutionName.label'),
-    regex: /.*?/,
+    regex: /.+/,
     placeholderText: i18n.t('fiatAccountSchema.institutionName.placeholderText'),
-    errorMessage: i18n.t('fiatAccountSchema.institutionName.errorMessage'),
     keyboardType: 'default',
   },
   accountNumber: {
@@ -101,9 +101,8 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
   const { flow, quote } = route.params
   const [isSending, setIsSending] = useState(false)
   const [validInputs, setValidInputs] = useState(false)
-  const [textValue, setTextValue] = useState('')
-  const [errors, setErrors] = useState(new Set<string>())
-  const inputRefs = useRef<string[]>([textValue])
+  const [errors, setErrors] = useState(new Set<number>())
+  const fieldValues = useRef<string[]>([])
   const userCountry = useSelector(userLocationDataSelector)
   const dispatch = useDispatch()
 
@@ -173,7 +172,7 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
   function isFormFieldParam<T, K extends keyof T>(
     item: FormFieldParam | ImplicitParam<T, K> | ComputedParam<T, K>
   ): item is FormFieldParam {
-    return 'errorMessage' in item
+    return 'keyboardType' in item
   }
   function isImplicitParam<T, K extends keyof T>(
     item: FormFieldParam | ImplicitParam<T, K> | ComputedParam<T, K>
@@ -186,12 +185,12 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
     return 'computeValue' in item
   }
 
-  const schema = getSchema(fiatAccountSchema)
+  const schema = useMemo(() => getSchema(fiatAccountSchema), [fiatAccountSchema])
 
   const formFields = useMemo(() => {
     const fields = Object.values(schema).filter(isFormFieldParam)
     for (let i = 0; i < fields.length; i++) {
-      inputRefs.current.push('')
+      fieldValues.current.push('')
     }
     return fields
   }, [fiatAccountSchema])
@@ -204,14 +203,15 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
     return Object.values(schema).filter(isComputedParam)
   }, [fiatAccountSchema])
 
-  const onPressNext = async () => {
+  const onPressSubmit = async () => {
     validateInput()
 
     if (validInputs) {
+      // TODO: move this to a saga
       setIsSending(true)
       const body: Record<string, any> = {}
       for (let i = 0; i < formFields.length; i++) {
-        body[formFields[i].name] = inputRefs.current[i]
+        body[formFields[i].name] = fieldValues.current[i]
       }
 
       implicitParameters.forEach((param) => {
@@ -226,7 +226,8 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
 
       const fiatConnectClient = await getFiatConnectClient(
         quote.getProviderId(),
-        quote.getProviderBaseUrl()
+        quote.getProviderBaseUrl(),
+        quote.getProviderApiKey()
       )
       const result = await fiatConnectClient.addFiatAccount({
         fiatAccountSchema: fiatAccountSchema,
@@ -234,7 +235,11 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
       })
 
       if (result.isOk) {
-        dispatch(showMessage(t('fiatDetailsScreen.addFiatAccountSuccess')))
+        dispatch(
+          showMessage(
+            t('fiatDetailsScreen.addFiatAccountSuccess', { provider: quote.getProviderName() })
+          )
+        )
         ValoraAnalytics.track(FiatExchangeEvents.cico_fiat_details_success, {
           flow,
           provider: quote.getProviderId(),
@@ -272,9 +277,19 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
           error: result.error.message,
         })
         if (result.error.fiatConnectError === FiatConnectError.ResourceExists) {
-          dispatch(showError(ErrorMessages.ADD_FIAT_ACCOUNT_RESOURCE_EXIST))
+          dispatch(
+            showError(
+              t('fiatDetailsScreen.addFiatAccountResourceExist', {
+                provider: quote.getProviderName(),
+              })
+            )
+          )
         } else {
-          dispatch(showError(t('fiatDetailsScreen.addFiatAccountFailed')))
+          dispatch(
+            showError(
+              t('fiatDetailsScreen.addFiatAccountFailed', { provider: quote.getProviderName() })
+            )
+          )
         }
       }
     }
@@ -282,27 +297,20 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
 
   const validateInput = () => {
     setValidInputs(false)
-    const newErrorSet = new Set<string>()
+    const newErrorSet = new Set<number>()
 
-    let hasEmptyFields = false
     formFields.forEach((field, index) => {
-      const fieldVal = inputRefs.current[index]?.trim()
-
-      if (!fieldVal) {
-        hasEmptyFields = true
-      } else if (!field.regex.test(fieldVal)) {
-        newErrorSet.add(field.name)
+      if (!field.regex.test(fieldValues.current[index]?.trim())) {
+        newErrorSet.add(index)
       }
     })
 
     setErrors(newErrorSet)
-    setValidInputs(!hasEmptyFields && newErrorSet.size === 0)
+    setValidInputs(newErrorSet.size === 0)
   }
 
   const setInputValue = (value: string, index: number) => {
-    inputRefs.current[index] = value
-    setTextValue(value)
-
+    fieldValues.current[index] = value
     validateInput()
   }
 
@@ -318,76 +326,118 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>
       <KeyboardAwareScrollView contentContainerStyle={styles.contentContainers}>
-        <Text style={styles.descriptionText}>{t('fiatDetailsScreen.description')}</Text>
-        {formFields.map((field, index) => {
-          return (
-            <View style={styles.inputView} key={`inputField-${index}`}>
-              <Text style={styles.inputLabel}>{field.label}</Text>
-              {field.name in allowedValues ? (
-                <PickerSelect
-                  style={{
-                    inputIOS: styles.formSelectInput,
-                    inputAndroid: styles.formSelectInput,
-                  }}
-                  // NOTE: the below allows customizing the field to look
-                  // similar to other free form text fields
-                  useNativeAndroidPickerStyle={false}
-                  onValueChange={(value) => {
-                    setInputValue(value, index)
-                  }}
-                  placeholder={{ label: t('fiatDetailsScreen.selectItem'), value: null }}
-                  items={allowedValues[field.name].map((item) => ({
-                    label: item,
-                    value: item,
-                  }))}
-                  doneText={t('fiatDetailsScreen.selectDone')}
-                />
-              ) : (
-                <TextInput
-                  testID={`input-${field.name}`}
-                  style={styles.formInput}
-                  value={inputRefs.current[index]}
-                  placeholder={field.placeholderText}
-                  onChangeText={(value) => setInputValue(value, index)}
-                  keyboardType={field.keyboardType}
-                />
-              )}
-              {errors.has(field.name) && (
-                <Text testID="errorMessage" style={styles.error}>
-                  {field.errorMessage}
-                </Text>
-              )}
-            </View>
-          )
-        })}
+        <View>
+          {formFields.map((field, index) => (
+            <FormField
+              field={field}
+              index={index}
+              value={fieldValues.current[index]}
+              hasError={errors.has(index)}
+              onChange={(value) => {
+                setInputValue(value, index)
+              }}
+              allowedValues={allowedValues[field.name]}
+            />
+          ))}
+        </View>
+        <Button
+          testID="submitButton"
+          text={t('fiatDetailsScreen.submitAndContinue')}
+          onPress={onPressSubmit}
+          disabled={!validInputs}
+          style={styles.submitButton}
+          size={BtnSizes.FULL}
+        />
       </KeyboardAwareScrollView>
-
-      <Button
-        testID="nextButton"
-        text={t('next')}
-        onPress={onPressNext}
-        disabled={!validInputs}
-        style={styles.nextButton}
-        size={BtnSizes.FULL}
-      />
       <KeyboardSpacer />
     </SafeAreaView>
+  )
+}
+
+function FormField({
+  field,
+  index,
+  value,
+  allowedValues,
+  hasError,
+  onChange,
+}: {
+  field: FormFieldParam
+  index: number
+  value: string
+  allowedValues?: string[]
+  hasError: boolean
+  onChange: (value: any) => void
+}) {
+  const { t } = useTranslation()
+  const [showError, setShowError] = useState(false)
+  const typingTimer = useRef<ReturnType<typeof setTimeout>>()
+
+  const onInputChange = (value: any) => {
+    if (!showError) {
+      if (typingTimer.current) {
+        clearTimeout(typingTimer.current)
+      }
+      typingTimer.current = setTimeout(() => {
+        setShowError(true)
+      }, SHOW_ERROR_DELAY_MS)
+    }
+    onChange(value)
+  }
+
+  return (
+    <View style={styles.inputView} key={`inputField-${index}`}>
+      <Text style={styles.inputLabel}>{field.label}</Text>
+      {allowedValues ? (
+        <PickerSelect
+          style={{
+            inputIOS: styles.formSelectInput,
+            inputAndroid: styles.formSelectInput,
+          }}
+          // NOTE: the below allows customizing the field to look
+          // similar to other free form text fields
+          useNativeAndroidPickerStyle={false}
+          onValueChange={onInputChange}
+          placeholder={{ label: t('fiatDetailsScreen.selectItem'), value: null }}
+          items={allowedValues.map((item) => ({
+            label: item,
+            value: item,
+          }))}
+          doneText={t('fiatDetailsScreen.selectDone')}
+        />
+      ) : (
+        <TextInput
+          testID={`input-${field.name}`}
+          style={styles.formInputContainer}
+          inputStyle={styles.formInput}
+          value={value}
+          placeholder={field.placeholderText}
+          onChangeText={onInputChange}
+          keyboardType={field.keyboardType}
+          onBlur={() => {
+            // set show error to true if field loses focus only if the field has
+            // been typed at least once
+            setShowError(!!typingTimer.current)
+          }}
+        />
+      )}
+      {field.errorMessage && hasError && showError && (
+        <Text testID={`errorMessage-${field.name}`} style={styles.error}>
+          {field.errorMessage}
+        </Text>
+      )}
+    </View>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'space-between',
   },
   contentContainers: {
+    flexGrow: 1,
+    justifyContent: 'space-between',
     paddingHorizontal: 16,
-  },
-  descriptionText: {
-    ...fontStyles.regular,
-    color: colors.gray4,
-    paddingBottom: 12,
-    paddingTop: 24,
   },
   inputLabel: {
     ...fontStyles.regular500,
@@ -396,15 +446,16 @@ const styles = StyleSheet.create({
   inputView: {
     paddingVertical: 12,
   },
-  formInput: {
-    ...fontStyles.regular,
+  formInputContainer: {
     borderRadius: 4,
     borderWidth: 1.5,
     borderColor: colors.gray2,
     marginBottom: 4,
-    color: colors.dark,
-    alignItems: 'flex-start',
     paddingHorizontal: 8,
+  },
+  formInput: {
+    ...fontStyles.regular,
+    color: colors.dark,
   },
   formSelectInput: {
     ...fontStyles.regular,
@@ -413,7 +464,6 @@ const styles = StyleSheet.create({
     borderColor: colors.gray2,
     marginBottom: 4,
     color: colors.dark,
-    alignItems: 'flex-start',
     paddingHorizontal: 8,
     paddingVertical: 12,
     lineHeight: LINE_HEIGHT,
@@ -422,7 +472,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#FF0000', // color red
   },
-  nextButton: {
+  submitButton: {
     padding: variables.contentPadding,
   },
   activityIndicatorContainer: {

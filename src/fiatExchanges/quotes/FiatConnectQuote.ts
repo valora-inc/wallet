@@ -92,7 +92,7 @@ export default class FiatConnectQuote extends NormalizedQuote {
   }
 
   _getFee(): BigNumber | null {
-    const feeString = this.quote.fiatAccount[this.fiatAccountType]?.fee
+    const feeString = this.quote.quote.fee
     return feeString !== undefined ? new BigNumber(feeString) : null
   }
   // FiatConnect quotes denominate fees in fiat & crypto for CashIn & CashOut respectively
@@ -125,6 +125,10 @@ export default class FiatConnectQuote extends NormalizedQuote {
 
   navigate(dispatch: Dispatch): void {
     dispatch(selectFiatConnectQuote({ quote: this }))
+  }
+
+  getProviderApiKey(): string | undefined {
+    return this.quote.provider.apiKey
   }
 
   getProviderName(): string {
@@ -181,5 +185,9 @@ export default class FiatConnectQuote extends NormalizedQuote {
 
   getQuoteId(): string {
     return this.quote.quote.quoteId
+  }
+
+  getGuaranteedUntil(): Date {
+    return new Date(this.quote.quote.guaranteedUntil)
   }
 }

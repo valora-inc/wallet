@@ -18,6 +18,7 @@ import { isDeepLink } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import { isWalletConnectEnabled } from 'src/walletConnect/saga'
 import { isWalletConnectDeepLink } from 'src/walletConnect/walletConnect'
+import { Actions } from 'src/web3/actions'
 import { walletAddressSelector } from 'src/web3/selectors'
 
 const TAG = 'DappsSaga'
@@ -49,6 +50,11 @@ export function* handleOpenDapp(action: PayloadAction<DappSelectedAction>) {
 
 export function* handleFetchDappsList() {
   const dappsListApiUrl = yield select(dappsListApiUrlSelector)
+  if (!dappsListApiUrl) {
+    Logger.warn(TAG, 'dappsListApiUrl not found')
+    return
+  }
+
   const address = yield select(walletAddressSelector)
   const language = yield select(currentLanguageSelector)
   const shortLanguage = language.split('-')[0]
@@ -100,7 +106,7 @@ export function* watchDappSelected() {
 }
 
 export function* watchFetchDappsList() {
-  yield takeLeading(fetchDappsList.type, handleFetchDappsList)
+  yield takeLeading([fetchDappsList.type, Actions.SET_ACCOUNT], handleFetchDappsList)
 }
 
 export function* dappsSaga() {

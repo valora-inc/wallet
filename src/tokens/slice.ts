@@ -32,11 +32,16 @@ export interface StoredTokenBalance extends BaseToken {
 export interface TokenBalance extends BaseToken {
   balance: BigNumber
   usdPrice: BigNumber | null
+  lastKnownUsdPrice: BigNumber | null
   historicalUsdPrices?: HistoricalUsdPrices
 }
 
 export interface StoredTokenBalances {
   [address: string]: StoredTokenBalance | undefined
+}
+
+export interface TokenLoadingAction {
+  showLoading: boolean
 }
 
 export interface TokenBalances {
@@ -65,9 +70,9 @@ const slice = createSlice({
       loading: false,
       error: false,
     }),
-    fetchTokenBalances: (state) => ({
+    fetchTokenBalances: (state, action: PayloadAction<TokenLoadingAction>) => ({
       ...state,
-      loading: true,
+      loading: action.payload.showLoading,
       error: false,
     }),
     fetchTokenBalancesSuccess: (state) => ({

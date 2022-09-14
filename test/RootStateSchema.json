@@ -273,20 +273,13 @@
             ],
             "type": "object"
         },
-        "ContactMatches": {
-            "additionalProperties": {
-                "additionalProperties": false,
-                "properties": {
-                    "contactId": {
-                        "type": "string"
-                    }
-                },
-                "required": [
-                    "contactId"
-                ],
-                "type": "object"
-            },
-            "type": "object"
+        "CreateAccountCopyTestType": {
+            "enum": [
+                "ACCOUNT",
+                "ALREADY_HAVE_WALLET",
+                "WALLET"
+            ],
+            "type": "string"
         },
         "CryptoType": {
             "enum": [
@@ -780,6 +773,9 @@
         "FiatConnectProviderInfo": {
             "additionalProperties": false,
             "properties": {
+                "apiKey": {
+                    "type": "string"
+                },
                 "baseUrl": {
                     "type": "string"
                 },
@@ -1075,10 +1071,17 @@
                 1,
                 2,
                 3,
-                4,
                 5
             ],
             "type": "number"
+        },
+        "InviteMethodType": {
+            "enum": [
+                "ESCROW",
+                "MANUAL_SHARE",
+                "REFERRAL_URL"
+            ],
+            "type": "string"
         },
         "InviteTransactions": {
             "additionalProperties": {
@@ -1378,23 +1381,6 @@
                 "BankAccount": {
                     "additionalProperties": false,
                     "properties": {
-                        "fee": {
-                            "type": "string"
-                        },
-                        "feeFrequency": {
-                            "enum": [
-                                "OneTime",
-                                "Recurring"
-                            ],
-                            "type": "string"
-                        },
-                        "feeType": {
-                            "enum": [
-                                "KycFee",
-                                "PlatformFee"
-                            ],
-                            "type": "string"
-                        },
                         "fiatAccountSchemas": {
                             "items": {
                                 "additionalProperties": false,
@@ -1435,23 +1421,6 @@
                 "DuniaWallet": {
                     "additionalProperties": false,
                     "properties": {
-                        "fee": {
-                            "type": "string"
-                        },
-                        "feeFrequency": {
-                            "enum": [
-                                "OneTime",
-                                "Recurring"
-                            ],
-                            "type": "string"
-                        },
-                        "feeType": {
-                            "enum": [
-                                "KycFee",
-                                "PlatformFee"
-                            ],
-                            "type": "string"
-                        },
                         "fiatAccountSchemas": {
                             "items": {
                                 "additionalProperties": false,
@@ -1492,23 +1461,6 @@
                 "MobileMoney": {
                     "additionalProperties": false,
                     "properties": {
-                        "fee": {
-                            "type": "string"
-                        },
-                        "feeFrequency": {
-                            "enum": [
-                                "OneTime",
-                                "Recurring"
-                            ],
-                            "type": "string"
-                        },
-                        "feeType": {
-                            "enum": [
-                                "KycFee",
-                                "PlatformFee"
-                            ],
-                            "type": "string"
-                        },
                         "fiatAccountSchemas": {
                             "items": {
                                 "additionalProperties": false,
@@ -1768,10 +1720,10 @@
                 "QRCode",
                 "QRNavigator",
                 "QRScanner",
-                "RaiseLimitScreen",
                 "RampScreen",
                 "ReclaimPaymentConfirmationScreen",
                 "RegulatoryTerms",
+                "SanctionedCountryErrorScreen",
                 "SelectCountry",
                 "SelectLocalCurrency",
                 "SelectProvider",
@@ -1788,6 +1740,7 @@
                 "StoreWipeRecoveryScreen",
                 "Support",
                 "SupportContact",
+                "SwapReviewScreen",
                 "SwapScreen",
                 "Sync",
                 "TokenBalances",
@@ -1912,6 +1865,9 @@
                 "coinbasePayEnabled": {
                     "type": "boolean"
                 },
+                "createAccountCopyTestType": {
+                    "$ref": "#/definitions/CreateAccountCopyTestType"
+                },
                 "fiatConnectCashInEnabled": {
                     "type": "boolean"
                 },
@@ -1927,6 +1883,9 @@
                 "huaweiMobileServicesAvailable": {
                     "type": "boolean"
                 },
+                "inviteMethod": {
+                    "$ref": "#/definitions/InviteMethodType"
+                },
                 "inviteModalVisible": {
                     "type": "boolean"
                 },
@@ -1941,6 +1900,9 @@
                 },
                 "loggedIn": {
                     "type": "boolean"
+                },
+                "maxSwapSlippagePercentage": {
+                    "type": "number"
                 },
                 "minVersion": {
                     "type": [
@@ -1990,11 +1952,11 @@
                 "shouldShowRecoveryPhraseInSettings": {
                     "type": "boolean"
                 },
-                "showPriceChangeIndicatorInBalances": {
+                "showGuidedOnboardingCopy": {
                     "type": "boolean"
                 },
-                "showRaiseDailyLimitTarget": {
-                    "type": "string"
+                "showPriceChangeIndicatorInBalances": {
+                    "type": "boolean"
                 },
                 "showSwapMenuInDrawerMenu": {
                     "type": "boolean"
@@ -2031,6 +1993,12 @@
                         }
                     ]
                 },
+                "swapFeeEnabled": {
+                    "type": "boolean"
+                },
+                "swapFeePercentage": {
+                    "type": "number"
+                },
                 "visualizeNFTsEnabledInHomeAssetsPage": {
                     "type": "boolean"
                 },
@@ -2048,14 +2016,17 @@
                 "celoEuroEnabled",
                 "celoWithdrawalEnabledInExchange",
                 "coinbasePayEnabled",
+                "createAccountCopyTestType",
                 "fiatConnectCashInEnabled",
                 "fiatConnectCashOutEnabled",
                 "hideVerification",
+                "inviteMethod",
                 "inviteModalVisible",
                 "lastTimeBackgrounded",
                 "locked",
                 "logPhoneNumberTypeEnabled",
                 "loggedIn",
+                "maxSwapSlippagePercentage",
                 "minVersion",
                 "numberVerified",
                 "paymentDeepLinkHandler",
@@ -2066,6 +2037,7 @@
                 "sentryTracesSampleRate",
                 "sessionId",
                 "shouldShowRecoveryPhraseInSettings",
+                "showGuidedOnboardingCopy",
                 "showPriceChangeIndicatorInBalances",
                 "showSwapMenuInDrawerMenu",
                 "skipProfilePicture",
@@ -2074,6 +2046,8 @@
                 "superchargeButtonType",
                 "superchargeTokenConfigByToken",
                 "supportedBiometryType",
+                "swapFeeEnabled",
+                "swapFeePercentage",
                 "visualizeNFTsEnabledInHomeAssetsPage",
                 "walletConnectV1Enabled"
             ],
@@ -2208,9 +2182,6 @@
                         "number"
                     ]
                 },
-                "matchedContacts": {
-                    "$ref": "#/definitions/ContactMatches"
-                },
                 "numCompleteAttestations": {
                     "type": "number"
                 },
@@ -2237,7 +2208,6 @@
                 "hasSeenVerificationNux",
                 "importContactsProgress",
                 "lastRevealAttempt",
-                "matchedContacts",
                 "numCompleteAttestations",
                 "secureSendPhoneNumberMapping",
                 "verificationStatus",
@@ -2390,18 +2360,6 @@
                 "contactDetails": {
                     "$ref": "#/definitions/UserContactDetails"
                 },
-                "dailyLimitCusd": {
-                    "type": "number"
-                },
-                "dailyLimitRequestStatus": {
-                    "enum": [
-                        "Approved",
-                        "Denied",
-                        "InReview",
-                        "Incomplete"
-                    ],
-                    "type": "string"
-                },
                 "defaultCountryCode": {
                     "type": [
                         "null",
@@ -2466,7 +2424,6 @@
                 "backupCompleted",
                 "backupRequiredTime",
                 "contactDetails",
-                "dailyLimitCusd",
                 "defaultCountryCode",
                 "devModeActive",
                 "devModeClickCount",
@@ -2581,6 +2538,7 @@
                         "MXN",
                         "NGN",
                         "PHP",
+                        "PLN",
                         "RUB",
                         "RWF",
                         "SLL",
@@ -2618,6 +2576,7 @@
                         "MXN",
                         "NGN",
                         "PHP",
+                        "PLN",
                         "RUB",
                         "RWF",
                         "SLL",
@@ -3025,6 +2984,23 @@
                                             "cryptoType": {
                                                 "$ref": "#/definitions/CryptoType"
                                             },
+                                            "fee": {
+                                                "type": "string"
+                                            },
+                                            "feeFrequency": {
+                                                "enum": [
+                                                    "OneTime",
+                                                    "Recurring"
+                                                ],
+                                                "type": "string"
+                                            },
+                                            "feeType": {
+                                                "enum": [
+                                                    "KycFee",
+                                                    "PlatformFee"
+                                                ],
+                                                "type": "string"
+                                            },
                                             "fiatAmount": {
                                                 "type": "string"
                                             },
@@ -3036,6 +3012,9 @@
                                             },
                                             "quoteId": {
                                                 "type": "string"
+                                            },
+                                            "transferType": {
+                                                "$ref": "#/definitions/TransferType"
                                             }
                                         },
                                         "required": [
@@ -3044,7 +3023,8 @@
                                             "fiatAmount",
                                             "fiatType",
                                             "guaranteedUntil",
-                                            "quoteId"
+                                            "quoteId",
+                                            "transferType"
                                         ],
                                         "type": "object"
                                     }
@@ -3625,7 +3605,8 @@
                 "NFT_RECEIVED",
                 "NFT_SENT",
                 "RECEIVED",
-                "SENT"
+                "SENT",
+                "SWAP_TRANSACTION"
             ],
             "type": "string"
         },
@@ -3830,6 +3811,13 @@
                 "SENT",
                 "VERIFICATION_FEE",
                 "VERIFICATION_REWARD"
+            ],
+            "type": "string"
+        },
+        "TransferType": {
+            "enum": [
+                "TransferIn",
+                "TransferOut"
             ],
             "type": "string"
         },
@@ -4188,7 +4176,6 @@
                                         "exchangeRateChange",
                                         "failedFetchMnemonic",
                                         "fetchFailed",
-                                        "fiatDetailsScreen.addFiatAccountResourceExist",
                                         "firebaseDisabled",
                                         "firebaseFailed",
                                         "gasPriceUpdateFailed",
@@ -4219,7 +4206,6 @@
                                         "notReadyForCode",
                                         "odisInsufficientBalance",
                                         "odisQuotaError",
-                                        "paymentLimitReached",
                                         "paymentRequestFailed",
                                         "paymentRequestUpdateFailed",
                                         "personaAccountEndpointFail",
@@ -4231,13 +4217,11 @@
                                         "qrFailedInvalidAddress",
                                         "qrFailedInvalidRecipient",
                                         "qrFailedNoPhoneNumber",
-                                        "raiseLimitEmailNotSent",
                                         "reclaimingEscrowedPaymentFailed",
                                         "redeemFailed",
                                         "redeemInviteTimeout",
                                         "refreshFailedUnexpectedly",
                                         "repeatVerificationCode",
-                                        "requestLimitError",
                                         "revealAttestationFailure",
                                         "saltFetchFailure",
                                         "saltQuotaExceededError",

@@ -1,12 +1,11 @@
 import { RemoteConfigValues } from 'src/app/saga'
-import { SuperchargeButtonType } from 'src/app/types'
+import { CreateAccountCopyTestType, InviteMethodType, SuperchargeButtonType } from 'src/app/types'
 import { DEFAULT_SENTRY_NETWORK_ERRORS, DEFAULT_SENTRY_TRACES_SAMPLE_RATE } from 'src/config'
 import { DappConnectInfo } from 'src/dapps/types'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 
 export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   RemoteConfigValues,
-  | 'showRaiseDailyLimitTarget'
   | 'celoEducationUri'
   | 'komenciAllowedDeployers'
   | 'dappListApiUrl'
@@ -23,12 +22,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   superchargecREALMax: number
 } = {
   hideVerification: false,
-  // cannot set defaults to undefined or null
-  // TODO: maybe a better default is '0xf' ?
-  // showRaiseDailyLimitTarget: undefined,
-  // same here
-  // celoEducationUri: null,
-  // dappListApiUrl: null,
   celoEuroEnabled: true,
   inviteRewardsEnabled: false,
   inviteRewardCusd: 5,
@@ -73,4 +66,10 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   coinbasePayEnabled: false,
   showSwapMenuInDrawerMenu: false,
   shouldShowRecoveryPhraseInSettings: false,
+  createAccountCopyTestType: CreateAccountCopyTestType.Account,
+  maxSwapSlippagePercentage: 2,
+  swapFeeEnabled: false,
+  swapFeePercentage: 0.743,
+  inviteMethod: InviteMethodType.Escrow,
+  showGuidedOnboardingCopy: false,
 }

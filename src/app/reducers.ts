@@ -1,7 +1,7 @@
 import { Platform } from 'react-native'
 import { BIOMETRY_TYPE } from 'react-native-keychain'
 import { Actions, ActionTypes, AppState } from 'src/app/actions'
-import { SuperchargeButtonType } from 'src/app/types'
+import { CreateAccountCopyTestType, InviteMethodType, SuperchargeButtonType } from 'src/app/types'
 import { SuperchargeTokenConfigByToken } from 'src/consumerIncentives/types'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
@@ -23,7 +23,6 @@ export interface State {
   inviteModalVisible: boolean
   activeScreen: Screens
   hideVerification: boolean
-  showRaiseDailyLimitTarget: string | undefined
   walletConnectV1Enabled: boolean
   superchargeApy: number
   superchargeTokenConfigByToken: SuperchargeTokenConfigByToken
@@ -53,8 +52,14 @@ export interface State {
   fiatConnectCashOutEnabled: boolean
   visualizeNFTsEnabledInHomeAssetsPage: boolean
   coinbasePayEnabled: boolean
+  showGuidedOnboardingCopy: boolean
   showSwapMenuInDrawerMenu: boolean
   shouldShowRecoveryPhraseInSettings: boolean
+  createAccountCopyTestType: CreateAccountCopyTestType
+  maxSwapSlippagePercentage: number
+  swapFeeEnabled: boolean
+  swapFeePercentage: number
+  inviteMethod: InviteMethodType
 }
 
 const initialState = {
@@ -72,7 +77,6 @@ const initialState = {
   inviteModalVisible: false,
   activeScreen: Screens.Main,
   hideVerification: REMOTE_CONFIG_VALUES_DEFAULTS.hideVerification,
-  showRaiseDailyLimitTarget: undefined,
   walletConnectV1Enabled: REMOTE_CONFIG_VALUES_DEFAULTS.walletConnectV1Enabled,
   superchargeApy: REMOTE_CONFIG_VALUES_DEFAULTS.superchargeApy,
   superchargeTokenConfigByToken: {},
@@ -100,9 +104,15 @@ const initialState = {
   visualizeNFTsEnabledInHomeAssetsPage:
     REMOTE_CONFIG_VALUES_DEFAULTS.visualizeNFTsEnabledInHomeAssetsPage,
   coinbasePayEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.coinbasePayEnabled,
+  showGuidedOnboardingCopy: REMOTE_CONFIG_VALUES_DEFAULTS.showGuidedOnboardingCopy,
   showSwapMenuInDrawerMenu: REMOTE_CONFIG_VALUES_DEFAULTS.showSwapMenuInDrawerMenu,
   shouldShowRecoveryPhraseInSettings:
     REMOTE_CONFIG_VALUES_DEFAULTS.shouldShowRecoveryPhraseInSettings,
+  createAccountCopyTestType: REMOTE_CONFIG_VALUES_DEFAULTS.createAccountCopyTestType,
+  maxSwapSlippagePercentage: REMOTE_CONFIG_VALUES_DEFAULTS.maxSwapSlippagePercentage,
+  swapFeeEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.swapFeeEnabled,
+  swapFeePercentage: REMOTE_CONFIG_VALUES_DEFAULTS.swapFeePercentage,
+  inviteMethod: REMOTE_CONFIG_VALUES_DEFAULTS.inviteMethod,
 }
 
 export const appReducer = (
@@ -193,7 +203,6 @@ export const appReducer = (
       return {
         ...state,
         hideVerification: action.configValues.hideVerification,
-        showRaiseDailyLimitTarget: action.configValues.showRaiseDailyLimitTarget,
         celoEducationUri: action.configValues.celoEducationUri,
         celoEuroEnabled: action.configValues.celoEuroEnabled,
         walletConnectV1Enabled: action.configValues.walletConnectV1Enabled,
@@ -220,6 +229,12 @@ export const appReducer = (
         coinbasePayEnabled: action.configValues.coinbasePayEnabled,
         showSwapMenuInDrawerMenu: action.configValues.showSwapMenuInDrawerMenu,
         shouldShowRecoveryPhraseInSettings: action.configValues.shouldShowRecoveryPhraseInSettings,
+        createAccountCopyTestType: action.configValues.createAccountCopyTestType,
+        maxSwapSlippagePercentage: action.configValues.maxSwapSlippagePercentage,
+        swapFeeEnabled: action.configValues.swapFeeEnabled,
+        swapFeePercentage: action.configValues.swapFeePercentage,
+        inviteMethod: action.configValues.inviteMethod,
+        showGuidedOnboardingCopy: action.configValues.showGuidedOnboardingCopy,
       }
     case Actions.TOGGLE_INVITE_MODAL:
       return {

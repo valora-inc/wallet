@@ -206,3 +206,6 @@ export const transactionsSelector = (state: RootState) => state.transactions.tra
 
 export const inviteTransactionsSelector = (state: RootState) =>
   state.transactions.inviteTransactions
+
+export const transactionHashesSelector = (state: RootState) =>
+  state.transactions.transactions.map((tx) => tx.transactionHash)

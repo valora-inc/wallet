@@ -299,7 +299,10 @@ interface OnboardingEventsProperties {
   }
 
   [OnboardingEvents.escrow_redeem_start]: undefined
-  [OnboardingEvents.escrow_redeem_complete]: undefined
+  [OnboardingEvents.escrow_redeem_complete]: {
+    paymentId: string | null
+    senderAddress: string
+  }
   [OnboardingEvents.escrow_redeem_error]: {
     error: string
   }
@@ -334,6 +337,7 @@ interface VerificationEventsProperties {
   [VerificationEvents.verification_complete]:
     | {
         feeless?: boolean
+        phoneNumberHash: string
       }
     | undefined
   [VerificationEvents.verification_error]: {
@@ -519,9 +523,6 @@ interface IdentityEventsProperties {
     contactImportCount: number
   }
   [IdentityEvents.contacts_processing_complete]: undefined
-  [IdentityEvents.contacts_matchmaking_complete]: {
-    matchCount: number
-  }
   [IdentityEvents.contacts_import_error]: {
     error: string
   }
@@ -587,13 +588,19 @@ interface InviteEventsProperties {
   }
   [InviteEvents.invite_from_menu]: undefined
   [InviteEvents.invite_banner_impression]: undefined
+  [InviteEvents.invite_with_share]: {
+    phoneNumberHash: string | null
+  }
+  [InviteEvents.invite_with_share_dismiss]: undefined
 }
 
 interface EscrowEventsProperties {
   [EscrowEvents.escrow_transfer_start]: undefined
   [EscrowEvents.escrow_transfer_approve_tx_sent]: undefined
   [EscrowEvents.escrow_transfer_transfer_tx_sent]: undefined
-  [EscrowEvents.escrow_transfer_complete]: undefined
+  [EscrowEvents.escrow_transfer_complete]: {
+    paymentId: string
+  }
   [EscrowEvents.escrow_transfer_error]: {
     error: string
   }
@@ -1278,6 +1285,18 @@ interface SwapEventsProperties {
     tokenSymbol: string
   }
   [SwapEvents.swap_screen_review_swap]: undefined
+  [SwapEvents.swap_feed_detail_view_tx]: undefined
+  [SwapEvents.swap_review_screen_open]: {
+    toToken: string
+    fromToken: string
+    buyAmount: string
+  }
+  [SwapEvents.swap_review_submit]: {
+    toToken: string
+    fromToken: string
+    usdTotal: number
+    fee: number
+  }
 }
 
 export type AnalyticsPropertiesList = AppEventsProperties &

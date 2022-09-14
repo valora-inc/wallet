@@ -8,6 +8,7 @@ import {
   FiatConnectError,
   FiatType,
   KycSchema,
+  TransferType,
 } from '@fiatconnect/fiatconnect-types'
 import { StackNavigationProp } from '@react-navigation/stack'
 import BigNumber from 'bignumber.js'
@@ -674,6 +675,7 @@ export const mockFiatConnectProviderInfo: FiatConnectProviderInfo[] = [
     baseUrl: 'fakewebsite.valoraapp.com',
     websiteUrl: 'https://fakewebsite.valorapp.com',
     iconUrl: mockFiatConnectProviderIcon,
+    apiKey: 'fake-api-key',
   },
   {
     id: 'provider-one',
@@ -714,6 +716,10 @@ export const mockGetFiatConnectQuotesResponse: GetFiatConnectQuotesResponse[] = 
         cryptoAmount: '100',
         quoteId: 'mock_quote_in_id',
         guaranteedUntil: '2099-04-27T19:22:36.000Z',
+        transferType: TransferType.TransferIn,
+        fee: '0.53',
+        feeType: QuoteFeeType.PlatformFee,
+        feeFrequency: FeeFrequency.OneTime,
       },
       kyc: {
         kycRequired: false,
@@ -727,9 +733,6 @@ export const mockGetFiatConnectQuotesResponse: GetFiatConnectQuotesResponse[] = 
               allowedValues: { institutionName: ['Bank A', 'Bank B'] },
             },
           ],
-          fee: '0.53',
-          feeType: QuoteFeeType.PlatformFee,
-          feeFrequency: FeeFrequency.OneTime,
           settlementTimeLowerBound: `300`, // Five minutes
           settlementTimeUpperBound: `7200`, // Two hours
         },
@@ -782,6 +785,8 @@ export const mockFiatConnectQuotes: (FiatConnectQuoteSuccess | FiatConnectQuoteE
       cryptoAmount: '100',
       quoteId: 'mock_quote_in_id',
       guaranteedUntil: '2099-04-27T19:22:36.000Z',
+      transferType: TransferType.TransferIn,
+      fee: '4.22',
     },
     kyc: {
       kycRequired: true,
@@ -795,7 +800,6 @@ export const mockFiatConnectQuotes: (FiatConnectQuoteSuccess | FiatConnectQuoteE
             allowedValues: {},
           },
         ],
-        fee: '4.22',
       },
     },
   },

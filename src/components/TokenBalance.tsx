@@ -8,6 +8,7 @@ import { FiatExchangeEvents, HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Dialog from 'src/components/Dialog'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
+import { isE2EEnv } from 'src/config'
 import { refreshAllBalances } from 'src/home/actions'
 import InfoIcon from 'src/icons/InfoIcon'
 import ProgressArrow from 'src/icons/ProgressArrow'
@@ -81,7 +82,8 @@ function useErrorMessageWithRefresh() {
 
   const dispatch = useDispatch()
 
-  const shouldShowError = tokensInfoUnavailable && (tokenFetchError || localCurrencyError)
+  const shouldShowError =
+    !isE2EEnv && tokensInfoUnavailable && (tokenFetchError || localCurrencyError)
 
   useEffect(() => {
     if (shouldShowError) {
@@ -141,7 +143,7 @@ export function HomeTokenBalance() {
         >
           {t('whatTotalValue.body')}
         </Dialog>
-        {tokenBalances.length > 1 && (
+        {tokenBalances.length >= 1 && (
           <TouchableOpacity style={styles.row} onPress={onViewBalances} testID="ViewBalances">
             <Text style={styles.viewBalances}>{t('viewBalances')}</Text>
             <ProgressArrow style={styles.arrow} color={Colors.greenUI} />

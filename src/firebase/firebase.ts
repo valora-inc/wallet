@@ -12,7 +12,7 @@ import { call, take } from 'redux-saga/effects'
 import { handleUpdateAccountRegistration } from 'src/account/saga'
 import { updateAccountRegistration } from 'src/account/updateAccountRegistration'
 import { RemoteConfigValues } from 'src/app/saga'
-import { SuperchargeButtonType } from 'src/app/types'
+import { CreateAccountCopyTestType, InviteMethodType, SuperchargeButtonType } from 'src/app/types'
 import { FETCH_TIMEOUT_DURATION, FIREBASE_ENABLED } from 'src/config'
 import { DappConnectInfo } from 'src/dapps/types'
 import { handleNotification } from 'src/firebase/notifications'
@@ -260,7 +260,6 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     // and the default map cannot have a value of undefined or null
     // that is why we still need to check for it before calling a method
     // in the future it would be great to avoid using these as default values
-    showRaiseDailyLimitTarget: flags.showRaiseDailyLimitTargetV2?.asString(),
     celoEducationUri: flags.celoEducationUri?.asString() ?? null,
     celoEuroEnabled: flags.celoEuroEnabled.asBoolean(),
     dappListApiUrl: flags.dappListApiUrl?.asString() ?? null,
@@ -299,6 +298,12 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     coinbasePayEnabled: flags.coinbasePayEnabled.asBoolean(),
     showSwapMenuInDrawerMenu: flags.showSwapMenuInDrawerMenu.asBoolean(),
     shouldShowRecoveryPhraseInSettings: flags.shouldShowRecoveryPhraseInSettings.asBoolean(),
+    createAccountCopyTestType: flags.createAccountCopyTestType.asString() as CreateAccountCopyTestType,
+    maxSwapSlippagePercentage: flags.maxSwapSlippagePercentage.asNumber(),
+    swapFeeEnabled: flags.swapFeeEnabled.asBoolean(),
+    swapFeePercentage: flags.swapFeePercentage.asNumber(),
+    inviteMethod: flags.inviteMethod.asString() as InviteMethodType,
+    showGuidedOnboardingCopy: flags.showGuidedOnboardingCopy.asBoolean(),
   }
 }
 
@@ -358,10 +363,6 @@ async function fetchListFromFirebase(path: string) {
 
     return () => firebase.database().ref(path).off(VALUE_CHANGE_HOOK, onValueChange)
   })
-}
-
-export async function cUsdDailyLimitChannel(address: string) {
-  return simpleReadChannel(`registrations/${address}/dailyLimitCusd`)
 }
 
 export function simpleReadChannel(key: string) {
