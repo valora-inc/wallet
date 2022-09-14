@@ -9,7 +9,7 @@ import { normalizeQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
 import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { createMockStore } from 'test/utils'
-import { mockProviders } from 'test/values'
+import { mockFiatConnectQuotesWithUnknownFees, mockProviders } from 'test/values'
 
 const mockStore = createMockStore({
   localCurrency: {
@@ -62,5 +62,23 @@ describe('PaymentMethodSection', () => {
     // Expand works
     fireEvent.press(getByText('selectProviderScreen.numProviders, {"count":3}'))
     expect(queryByTestId(`image-Ramp`)).toBeTruthy()
+  })
+
+  it('shows "Fees Vary" when a provider does not return fees in its quote', async () => {
+    props.normalizedQuotes = normalizeQuotes(
+      CICOFlow.CashIn,
+      mockFiatConnectQuotesWithUnknownFees,
+      []
+    )
+    props.paymentMethod = PaymentMethod.Bank
+    const { queryByText, queryByTestId } = render(
+      <Provider store={mockStore}>
+        <PaymentMethodSection {...props} />
+      </Provider>
+    )
+    const expandElement = queryByText('selectProviderScreen.numProviders, {"count":2}')
+    expect(expandElement).toBeTruthy()
+    fireEvent.press(expandElement!)
+    expect(queryByTestId('Bank/fee-1')).toHaveTextContent('selectProviderScreen.feesVary')
   })
 })

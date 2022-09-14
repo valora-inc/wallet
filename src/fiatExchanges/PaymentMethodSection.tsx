@@ -125,16 +125,24 @@ export function PaymentMethodSection({
         : t('selectProviderScreen.numDays')
     }`
   const renderFeeAmount = (normalizedQuote: NormalizedQuote, postFix: string) => {
+    const feeAmount = normalizedQuote.getFeeInCrypto(exchangeRates)
+
     return (
-      <Text>
-        <TokenDisplay
-          amount={normalizedQuote.getFeeInCrypto(exchangeRates)!}
-          currency={normalizedQuote.getCryptoType()}
-          showLocalAmount={flow === CICOFlow.CashIn}
-          hideSign={false}
-        />{' '}
-        {postFix}
-      </Text>
+      <>
+        {feeAmount ? (
+          <Text>
+            <TokenDisplay
+              amount={feeAmount}
+              currency={normalizedQuote.getCryptoType()}
+              showLocalAmount={flow === CICOFlow.CashIn}
+              hideSign={false}
+            />{' '}
+            {postFix}
+          </Text>
+        ) : (
+          <Text>{t('selectProviderScreen.feesVary')}</Text>
+        )}
+      </>
     )
   }
   return (
@@ -163,11 +171,11 @@ export function PaymentMethodSection({
           >
             <View style={styles.expandedContainer}>
               <View style={styles.left}>
-                <Text style={styles.expandedFee}>
+                <Text style={styles.expandedFee} testID={`${paymentMethod}/fee-${index}`}>
                   {renderFeeAmount(normalizedQuote, t('selectProviderScreen.fee'))}
                 </Text>
                 <Text style={styles.expandedInfo}>{renderInfoText()}</Text>
-                {index === 0 && (
+                {index === 0 && normalizedQuote.getFeeInCrypto(exchangeRates) && (
                   <Text testID={`${paymentMethod}/bestRate`} style={styles.expandedTag}>
                     {t('selectProviderScreen.bestRate')}
                   </Text>
