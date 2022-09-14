@@ -592,7 +592,7 @@
   },
   "fullName": "Nome",
   "fullNamePlaceholder": "Nome e cognome",
-  "fullNameOrPseudonymPlaceholder": "Nome e cognome o pseudonimo",
+  "fullNameOrPseudonymPlaceholder": "Nome e cognome o alias",
   "nameAndPicGuideCopyTitle": "Come ti chiami?",
   "nameAndPicGuideCopyContent": "Vorremmo sapere come chiamarti",
   "importIt": "Ripristina wallet",
@@ -682,8 +682,8 @@
     "title": "Proteggi il tuo portafoglio",
     "description": "{{biometryType}} protegge il tuo portafoglio e rende più facile usare {{appName}}",
     "cta": "Abilita {{biometryType}}",
-    "guideTitle": "Vuoi aggiungere {{biometryType}}?",
-    "guideDescription": "{{biometryType}} rende più facile, veloce e sicura la connessione del tuo portafoglio alle dapps e la firma delle transazioni."
+    "guideTitle": "Vuoi abilitare {{biometryType}}?",
+    "guideDescription": "{{biometryType}} rende più facile, veloce e sicuro collegare il tuo portafoglio a dapps e firmare transazioni."
   },
   "biometryType": {
     "FaceID": "Face ID",
@@ -696,7 +696,7 @@
   "unlockWithBiometryPrompt": "Autentica per sbloccare {{appName}}",
   "welcome": {
     "title": "Fai un salto nel futuro delle criptovalute con {{appName}}",
-    "titleGuided": "Benvenuto su {{appName}}!\nCreiamo il tuo portafoglio di criptovalute.",
+    "titleGuided": "Ti diamo il benvenuto in {{appName}}!\nCreiamo il tuo portafoglio cripto.",
     "createAccount": "Crea nuovo conto",
     "restoreAccount": "Ripristina il mio conto",
     "createNewWallet": "Crea un portafoglio",
@@ -721,7 +721,7 @@
     "changePIN": "Modifica il PIN",
     "pinsDontMatch": "I PIN non corrispondono",
     "invalidPin": "Usa un PIN più complesso",
-    "guideTitle": "Scegli un PIN di 6 cifre che ricorderai",
+    "guideTitle": "Scegli un PIN di 6 cifre che ricorderai",
     "guideConfirm": "Immetti nuovamente il PIN per confermarlo.",
     "pinCodeGuide": "Il PIN è il modo in cui proteggerai il tuo portafoglio.",
     "selectPIN": "Seleziona il PIN"
@@ -1112,7 +1112,7 @@
     "subtitle": "Il tuo conto è attualmente vuoto",
     "addFunds": "Aggiungi fondi",
     "titleRamp": "Aggiungi {{currency}} per iniziare a usare Valora",
-    "subtitleRamp": "Aggiungi fondi senza pagare commissioni tramite uno dei nostri provider esterni attendibili."
+    "subtitleRamp": "Aggiungi fondi con commissioni basse tramite uno dei nostri provider esterni."
   },
   "balances": "Assets",
   "totalBalanceWithLocalCurrencySymbol": "Totale {{localCurrencySymbol}}{{totalBalance}}",
