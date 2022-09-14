@@ -12,7 +12,7 @@
 const CROWDIN_BRANCH = 'l10n/main'
 const CROWDIN_PR_USER = 'valora-bot-crowdin'
 
-const ALLOWED_UPDATED_FILE_MATCHER = `locales\/.*\/translation\.json`
+const ALLOWED_UPDATED_FILE_MATCHER = new RegExp(`locales\/.*\/translation\.json`)
 const DISALLOWED_UPDATED_FILE = 'locales/base/translation.json'
 const enableAutomergeQuery = `mutation ($pullRequestId: ID!, $mergeMethod: PullRequestMergeMethod!) {
   enablePullRequestAutoMerge(input: {
@@ -72,8 +72,7 @@ module.exports = async ({ github, context }) => {
     })
     const unexpectedFiles = listFiles.data.filter(
       ({ filename }) =>
-        filename === DISALLOWED_UPDATED_FILE ||
-        !filename.match(new RegExp(ALLOWED_UPDATED_FILE_MATCHER))
+        filename === DISALLOWED_UPDATED_FILE || !filename.match(ALLOWED_UPDATED_FILE_MATCHER)
     )
     if (unexpectedFiles.length > 0) {
       console.log(
