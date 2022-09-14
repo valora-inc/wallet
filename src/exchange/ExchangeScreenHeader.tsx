@@ -50,8 +50,10 @@ function ExchangeTradeScreenHeader({ currency, isCeloPurchase, onChangeCurrency 
       titleText = t('tokenBalance', { token: currency })
       title = (
         <View style={styles.titleContainer} testID="HeaderCurrencyPicker">
-          <Text style={headerStyles.headerSubTitle}>{titleText}</Text>
-          <DownArrowIcon color={colors.gray3} />
+          <Text style={headerStyles.headerSubTitle} allowFontScaling={false}>
+            {titleText}
+          </Text>
+          <DownArrowIcon color={colors.gray3} height={16} />
         </View>
       )
     }
@@ -88,6 +90,8 @@ function ExchangeTradeScreenHeader({ currency, isCeloPurchase, onChangeCurrency 
 const styles = StyleSheet.create({
   titleContainer: {
     flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 })
 
