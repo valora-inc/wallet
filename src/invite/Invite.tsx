@@ -1,6 +1,8 @@
-import React, { useMemo } from 'react'
+import { isNil, noop } from 'lodash'
+import React from 'react'
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { useSelector } from 'react-redux'
 
 import Button, { BtnSizes } from 'src/components/Button'
 import Touchable from 'src/components/Touchable'
@@ -11,11 +13,15 @@ import { noHeader } from 'src/navigator/Headers'
 import { navigateBack } from 'src/navigator/NavigationService'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
+import { walletAddressSelector } from 'src/web3/selectors'
 
 /**
  * TODO:
  * - Translate text.
  */
+
+import { useShareUrl } from './Invite.hooks'
+import { share } from './Invite.utils'
 
 function Header() {
   return (
@@ -28,6 +34,9 @@ function Header() {
 }
 
 function Content() {
+  const address = useSelector(walletAddressSelector)
+  const shareUrl = useShareUrl(address)
+
   return (
     <View style={styles.outerContentContainer}>
       <View style={styles.innerContentContainer}>
@@ -41,7 +50,8 @@ function Content() {
           icon={<ShareIcon height={24} color="white" />}
           text={'Share Invite'}
           size={BtnSizes.SMALL}
-          onPress={() => console.log('button pressed')}
+          disabled={isNil(shareUrl)}
+          onPress={() => (isNil(shareUrl) ? noop : share(shareUrl))}
         />
       </View>
     </View>
