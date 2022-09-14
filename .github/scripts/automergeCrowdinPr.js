@@ -61,7 +61,19 @@ module.exports = async ({ github, context }) => {
   if (isRejected) {
     console.log('Changes requested for this PR already, ending workflow')
     return
-  } else if (isApproved) {
+  }
+
+  // often the base translation file shows as changed due to the crowdin PR
+  // becoming out of date with main, so update the branch before checking
+  // the files changed
+  console.log(`Bringing PR #${pr.number} up to date with main branch`)
+  await github.rest.pulls.updateBranch({
+    owner,
+    repo,
+    pull_number: pr.number,
+  })
+
+  if (isApproved) {
     console.log('Already approved')
   } else {
     console.log(`Verifying that only expected files are modified for PR #${pr.number}`)
@@ -97,13 +109,6 @@ module.exports = async ({ github, context }) => {
       body: `Approved from [${context.workflow} #${context.runNumber}](${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}).`,
     })
   }
-
-  console.log(`Bringing PR #${pr.number} up to date with main branch`)
-  await github.rest.pulls.updateBranch({
-    owner,
-    repo,
-    pull_number: pr.number,
-  })
 
   console.log(`Enabling automerge on PR #${pr.number}`)
   await github.graphql(enableAutomergeQuery, {
