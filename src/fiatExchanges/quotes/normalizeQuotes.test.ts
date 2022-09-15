@@ -5,7 +5,11 @@ import {
 } from 'src/fiatExchanges/quotes/normalizeQuotes'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import Logger from 'src/utils/Logger'
-import { mockFiatConnectQuotes, mockProviders } from 'test/values'
+import {
+  mockFiatConnectQuotes,
+  mockFiatConnectQuotesWithUnknownFees,
+  mockProviders,
+} from 'test/values'
 
 jest.mock('src/utils/Logger', () => ({
   __esModule: true,
@@ -37,6 +41,29 @@ describe('normalizeQuotes', () => {
       ['Moonpay', 5],
       ['Simplex', 6],
       ['Moonpay', 10],
+    ])
+  })
+
+  it('sorts FiatConnect quotes with no fee returned at the end of quotes', () => {
+    const normalizedQuotes = normalizeQuotes(
+      CICOFlow.CashIn,
+      mockFiatConnectQuotesWithUnknownFees,
+      []
+    )
+    expect(
+      normalizedQuotes.map((quote) => [
+        quote.getProviderId(),
+        quote
+          .getFeeInCrypto({
+            cGLD: '1',
+            cUSD: '1',
+            cEUR: '1',
+          })
+          ?.toNumber(),
+      ])
+    ).toEqual([
+      ['provider-one', 0.97],
+      ['provider-two', undefined],
     ])
   })
 })
