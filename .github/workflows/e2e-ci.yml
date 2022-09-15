@@ -88,7 +88,8 @@ jobs:
       # See https://docs.github.com/en/actions/security-guides/encrypted-secrets#using-encrypted-secrets-in-a-workflow
       SECRETS_AVAILABLE: ${{ secrets.SECRETS_AVAILABLE }}
     name: iOS
-    runs-on: ios-e2e-group
+    # TODO(satish): revert this once all machines are upgraded
+    runs-on: ios-e2e-group-xcode-13
     steps:
       - name: Google Secrets
         if: ${{ env.SECRETS_AVAILABLE }}
