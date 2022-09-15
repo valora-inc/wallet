@@ -17,7 +17,7 @@
   <item>
     <shape android:shape="rectangle">
       <corners android:radius="25dp"/>
-      <solid android:color="#00AAFF"/>
+      <solid android:color="#1AB775"/>
       <padding android:left="@dimen/abc_button_padding_horizontal_material" android:top="@dimen/abc_button_padding_vertical_material" android:right="@dimen/abc_button_padding_horizontal_material" android:bottom="@dimen/abc_button_padding_vertical_material"/>
     </shape>
   </item>
