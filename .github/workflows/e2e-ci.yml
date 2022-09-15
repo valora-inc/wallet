@@ -109,7 +109,10 @@ jobs:
       - name: Fail if someone forgot to commit "yarn.lock"
         run: git diff --exit-code
       - name: Install Ruby dependencies
-        run: bundle install --path vendor/bundle
+        run: |
+          ruby -v
+          which ruby
+          bundle install --path vendor/bundle
       - name: Fail if someone forgot to commit "Gemfile.lock"
         run: git diff --exit-code
       - name: Install CocoaPods dependencies
