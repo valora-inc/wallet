@@ -67,7 +67,7 @@ describe('In House Liquidity Calls', () => {
   })
 
   describe('makeRequest', () => {
-    it('makes a FC authenticated call', async () => {
+    it('makes a FC authenticated call if provider info is passed', async () => {
       ;(getAuthHeaders as jest.Mock).mockResolvedValueOnce({ 'header-key': 'header-val' })
       mockFetch.mockResponseOnce(JSON.stringify({}), { status: 201 })
       await makeRequest({
@@ -89,7 +89,7 @@ describe('In House Liquidity Calls', () => {
         body: { some: 'data' },
       })
     })
-    it('makes a FC unauthenticated call', async () => {
+    it('makes a FC unauthenticated call if provider info is not passed', async () => {
       mockFetch.mockResponseOnce(JSON.stringify({}), { status: 201 })
       await makeRequest({
         path: '/some/path',

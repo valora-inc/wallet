@@ -2,7 +2,7 @@ import * as React from 'react'
 import { StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
-function KycStatusScreen() {
+function KycStatus() {
   return <SafeAreaView style={styles.container} />
 }
 
@@ -13,4 +13,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default KycStatusScreen
+export default KycStatus

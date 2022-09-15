@@ -43,7 +43,7 @@ export function verifyWalletAddress({
  *
  * @param {FiatConnectProviderInfo} params.providerInfo - Optional information about a FiatConnect provider.
  * @param {string} params.path - Path to append to in-house-liquidity origin.
- * @param {Record<string, any>} params.options - Options object to include in request.
+ * @param {Record<string, any>} params.options - Options object to include in request. Headers and content-type cannot be overridden.
  * @returns {Promise<Response>} Response object.
  */
 export async function makeRequest({

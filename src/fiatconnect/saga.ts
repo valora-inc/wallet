@@ -303,8 +303,10 @@ export function* handleSelectFiatConnectQuote({
             break
           } else {
             // If no Persona KYC on file, navigate to Persona
-            navigate(Screens.Persona, {
-              kycStatus: getKycStatusResponse.persona,
+            navigate(Screens.KycLanding, {
+              personaKycStatus: getKycStatusResponse.persona,
+              flow: quote.flow,
+              quote,
             })
             yield put(selectFiatConnectQuoteCompleted())
             return
@@ -317,7 +319,7 @@ export function* handleSelectFiatConnectQuote({
         // navigate to the KYC status screen
         case FiatConnectKycStatus.KycDenied:
         case FiatConnectKycStatus.KycExpired:
-          navigate(Screens.KycStatusScreen)
+          navigate(Screens.KycStatus)
           yield put(selectFiatConnectQuoteCompleted())
           return
         default:
@@ -361,7 +363,7 @@ export function* handleSelectFiatConnectQuote({
       kycSchema &&
       getKycStatusResponse!.kycStatus[kycSchema] !== FiatConnectKycStatus.KycApproved
     ) {
-      navigate(Screens.KycStatusScreen)
+      navigate(Screens.KycStatus)
     } else {
       navigate(Screens.FiatConnectReview, {
         flow: quote.flow,

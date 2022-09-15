@@ -288,7 +288,7 @@ describe('Fiatconnect saga', () => {
         ])
         .put(selectFiatConnectQuoteCompleted())
         .run()
-      expect(navigate).toHaveBeenCalledWith(Screens.KycStatusScreen)
+      expect(navigate).toHaveBeenCalledWith(Screens.KycStatus)
     })
     it('navigates to KYC status screen early if KYC is required and is denied/expired', async () => {
       await expectSaga(
@@ -310,9 +310,9 @@ describe('Fiatconnect saga', () => {
         ])
         .put(selectFiatConnectQuoteCompleted())
         .run()
-      expect(navigate).toHaveBeenCalledWith(Screens.KycStatusScreen)
+      expect(navigate).toHaveBeenCalledWith(Screens.KycStatus)
     })
-    it('navigates to Persona screen early if KYC is required and does not exist in Persona', async () => {
+    it('navigates to KYC landing screen early if KYC is required and does not exist in Persona', async () => {
       await expectSaga(
         handleSelectFiatConnectQuote,
         selectFiatConnectQuote({ quote: normalizedQuoteKyc })
@@ -332,8 +332,10 @@ describe('Fiatconnect saga', () => {
         ])
         .put(selectFiatConnectQuoteCompleted())
         .run()
-      expect(navigate).toHaveBeenCalledWith(Screens.Persona, {
-        kycStatus: PersonaKycStatus.NotCreated,
+      expect(navigate).toHaveBeenCalledWith(Screens.KycLanding, {
+        personaKycStatus: PersonaKycStatus.NotCreated,
+        flow: normalizedQuoteKyc.flow,
+        quote: normalizedQuoteKyc,
       })
     })
     it('posts KYC to provider and proceeds with saga if KYC required and exists in Persona', async () => {
