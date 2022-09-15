@@ -16,6 +16,7 @@ exports[`SendConfirmationLegacy renders correctly 1`] = `
         "flexDirection": "row",
         "height": 56,
         "justifyContent": "space-between",
+        "overflow": "hidden",
         "width": "100%",
       }
     }
