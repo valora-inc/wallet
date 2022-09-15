@@ -75,7 +75,7 @@ describe('In House Liquidity Calls', () => {
         path: '/some/path',
         options: {
           method: 'POST',
-          body: { some: 'data' },
+          body: "{ some: 'data' }",
         },
       })
 
@@ -86,7 +86,7 @@ describe('In House Liquidity Calls', () => {
           'header-key': 'header-val',
         },
         method: 'POST',
-        body: { some: 'data' },
+        body: "{ some: 'data' }",
       })
     })
     it('makes a FC unauthenticated call if provider info is not passed', async () => {
