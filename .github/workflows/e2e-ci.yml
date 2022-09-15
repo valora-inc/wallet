@@ -112,6 +112,9 @@ jobs:
         run: |
           ruby -v
           which ruby
+          source ~/.bash_profile
+          which ruby
+          ruby -v
           bundle install --path vendor/bundle
       - name: Fail if someone forgot to commit "Gemfile.lock"
         run: git diff --exit-code
