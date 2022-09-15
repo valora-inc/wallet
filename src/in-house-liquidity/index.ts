@@ -53,7 +53,7 @@ export async function makeRequest({
 }: {
   providerInfo?: FiatConnectProviderInfo
   path: string
-  options: Record<string, any>
+  options: RequestInit
 }): Promise<Response> {
   const ihlClient = await getClient()
   const authHeaders = providerInfo ? await exports.getAuthHeaders({ providerInfo }) : {}
