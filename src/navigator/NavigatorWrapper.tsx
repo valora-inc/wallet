@@ -15,7 +15,7 @@ import { activeScreenChanged } from 'src/app/actions'
 import { getAppLocked } from 'src/app/selectors'
 import UpgradeScreen from 'src/app/UpgradeScreen'
 import { doingBackupFlowSelector, shouldForceBackupSelector } from 'src/backup/selectors'
-import { DEV_RESTORE_NAV_STATE_ON_RELOAD, DYNAMIC_DOWNLOAD_LINK } from 'src/config'
+import { DEV_RESTORE_NAV_STATE_ON_RELOAD, DYNAMIC_DOWNLOAD_LINK, STATSIG_API_KEY } from 'src/config'
 import InviteFriendModal from 'src/invite/InviteFriendModal'
 import {
   navigate,
@@ -32,6 +32,8 @@ import colors from 'src/styles/colors'
 import { userInSanctionedCountrySelector } from 'src/utils/countryFeatures'
 import Logger from 'src/utils/Logger'
 import { isVersionBelowMinimum } from 'src/utils/versionCheck'
+import { StatsigProvider, useLayer } from 'statsig-react-native'
+import { walletAddressSelector } from '../web3/selectors'
 
 // This uses RN Navigation's experimental nav state persistence
 // to improve the hot reloading experience when in DEV mode
@@ -70,6 +72,12 @@ export const NavigatorWrapper = () => {
   const isInviteModalVisible = useTypedSelector((state) => state.app.inviteModalVisible)
   const routeNameRef = React.useRef()
   const inSanctionedCountry = useTypedSelector(userInSanctionedCountrySelector)
+  Logger.info(
+    'NavigatorWrapper',
+    'Statsig exp layer: isLoading',
+    useLayer('name_and_picture_screen').isLoading
+  )
+  const walletAddress = useSelector(walletAddressSelector)
 
   const dispatch = useDispatch()
 
@@ -190,25 +198,33 @@ export const NavigatorWrapper = () => {
   }
 
   return (
-    <NavigationContainer
-      ref={navigationRef}
-      onReady={onReady}
-      onStateChange={handleStateChange}
-      initialState={initialState}
-      theme={AppTheme}
+    <StatsigProvider
+      sdkKey={STATSIG_API_KEY}
+      user={walletAddress ? { userID: walletAddress } : {}}
+      waitForInitialization={true}
     >
-      <View style={styles.container}>
-        <Navigator />
-        {(appLocked || updateRequired) && (
-          <View style={styles.locked}>{updateRequired ? <UpgradeScreen /> : <PincodeLock />}</View>
-        )}
-        <View style={styles.floating}>
-          <AlertBanner />
-          <InviteFriendModal isVisible={isInviteModalVisible} onInvite={onInvite} />
+      <NavigationContainer
+        ref={navigationRef}
+        onReady={onReady}
+        onStateChange={handleStateChange}
+        initialState={initialState}
+        theme={AppTheme}
+      >
+        <View style={styles.container}>
+          <Navigator />
+          {(appLocked || updateRequired) && (
+            <View style={styles.locked}>
+              {updateRequired ? <UpgradeScreen /> : <PincodeLock />}
+            </View>
+          )}
+          <View style={styles.floating}>
+            <AlertBanner />
+            <InviteFriendModal isVisible={isInviteModalVisible} onInvite={onInvite} />
+          </View>
+          <ShakeForSupport />
         </View>
-        <ShakeForSupport />
-      </View>
-    </NavigationContainer>
+      </NavigationContainer>
+    </StatsigProvider>
   )
 }
 
