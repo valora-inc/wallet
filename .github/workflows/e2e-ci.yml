@@ -110,17 +110,15 @@ jobs:
         run: git diff --exit-code
       - name: Install Ruby dependencies
         run: |
-          ruby -v
-          which ruby
           source ~/.bash_profile
-          which ruby
-          ruby -v
           bundle install --path vendor/bundle
       - name: Fail if someone forgot to commit "Gemfile.lock"
         run: git diff --exit-code
       - name: Install CocoaPods dependencies
         working-directory: ios
-        run: bundle exec pod install || bundle exec pod install --repo-update
+        run: |
+          source ~/.bash_profile
+          bundle exec pod install || bundle exec pod install --repo-update
       - name: Fail if someone forgot to commit "Podfile.lock"
         run: git diff --exit-code
       - name: Check E2E wallet balance
