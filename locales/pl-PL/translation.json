@@ -75,28 +75,9 @@
   "chooseFromLibrary": "Wybierz z Biblioteki",
   "takePhoto": "Zrób zdjęcie",
   "removePhoto": "Usuń zdjęcie",
-  "accountSendLimit": "Limit wysyłania",
-  "dailyLimitLabel": "Aktualny dzienny limit wysyłania",
-  "dailyLimitValue": "${{dailyLimit}}",
-  "noDailyLimit": "Bez limitu",
-  "verifyNumberToRaiseLimit": "Możesz zwiększyć swój limit wysyłania, weryfikując swoją tożsamość. Zanim przejdziesz dalej, podłącz swój numer telefonu.",
-  "verifyIdentityToRaiseLimit": "Możesz zwiększyć swój limit wysyłania, weryfikując swoją tożsamość. W kolejnym kroku musisz podać kilka dodatkowych informacji.",
-  "dailyLimitApplicationStatus": "Status wniosku",
-  "applicationInReview": "Rozpatrywane",
-  "applicationInReviewDescription": "Twój wniosek jest rozpatrywany. Powiadomimy Cię o zakończeniu tego etapu.",
-  "applicationIncomplete": "Niekompletne",
-  "applicationIncompleteDescription": "Podane przez Ciebie informacje były niewystarczające. W kolejnym kroku musisz podać kilka dodatkowych informacji. ",
-  "applicationDenied": "Odrzucone",
-  "applicationDeniedDescription": "Twój wniosek został odrzucony. Jeśli uważasz, że nastąpiła pomyłka, poniżej możesz rozpocząć proces od nowa.",
   "applicationCompleted": "Zakończono",
   "applicationCompletedDescription": "Twój wniosek został rozpatrzony pozytywnie. Możesz teraz wysyłać środki bez dziennego limitu.",
-  "raiseLimitConfirmNumber": "Podłącz numer telefonu",
   "raiseLimitBegin": "Rozpocznij weryfikację tożsamości",
-  "raiseLimitResume": "Wznów weryfikację tożsamości",
-  "raiseLimitEmailSubject": "Wnioskuj o zwiększenie limitu wysyłania na koncie",
-  "raiseLimitEmailBody": "Chcę zwiększyć dzienny limit wysyłania w aplikacji {{appName}} do {{dailyLimit}} dla adresu {{address}}",
-  "raiseLimitEmailSuccess": "Twój wniosek został przesłany pomyślnie. Wkrótce otrzymasz wiadomość e-mail z odpowiedzią!",
-  "raiseLimitEmailNotSent": "Nie udało się przesłać wniosku. Spróbuj ponownie.",
   "storeRecoveryTitle": "Musisz ponownie skonfigurować swoje konto",
   "storeRecoveryBody": "Wystąpił błąd. Odkryliśmy problem i pracujemy nad jego rozwiązaniem. W międzyczasie musisz ponownie przejść przez proces konfiguracji.",
   "storeRecoveryButton": "Przywróć konto",
@@ -318,11 +299,6 @@
     "maxAmount": "Nasi dostawcy nie obsługują sum większych niż {{usdLimit}}{{localLimit}}. Wprowadź mniejszą kwotę.",
     "dismiss": "OK"
   },
-  "dailyLimitDialog": {
-    "body": "Chcesz kupić więcej, niż wynosi Twój dzienny limit wysyłania, czyli {{limit}}. Skontaktuj się z <0>{{contactEmail}}</0>, aby zwiększyć swój dzienny limit wysyłania.",
-    "contact": "Kontakt",
-    "continue": "Rozumiem"
-  },
   "providerFeesDialog": {
     "title": "Opłaty dostawców",
     "body1": "Opłaty dostawców są ustalane indywidualnie przez każdego z nich i obejmują między innymi opłatę za wymianę oraz opłatę za płynność. Aby dowiedzieć się więcej, odwiedź ",
@@ -332,7 +308,6 @@
     "title": "Obniżone opłaty",
     "body": "W ramach promocji z okazji uruchomienia aplikacji Valora opłaty zostają tymczasowo obniżone!"
   },
-  "dailyLimitRequest": "Dzień dobry, proszę o zwiększenie mojego dziennego limitu wysyłania.",
   "pleaseSelectProvider": "Wybierz dostawcę poniżej. Te linki łączą z usługami innych firm.",
   "otherFundingOptions": "Więcej sposobów dodawania i wypłacania środków znajdziesz na stronie <0>Jak zasilić konto</0>",
   "youCanTransferIn": "Możesz skorzystać z innej giełdy kryptowalut, aby przesłać {{digitalAsset}} na swoje konto Valora. Będziesz do tego potrzebować adresu swojego konta.",
@@ -352,7 +327,7 @@
     "bodyWithoutProvider": "Dostawca przetwarza Twoje zamówienie. Środki powinny znaleźć się u Ciebie w ciągu kilku dni."
   },
   "restrictedRegion": "Ograniczona obsługa w tym regionie",
-  "unsupportedLocation": "{{appName}} nie jest obsługiwany w Twojej lokalizacji",
+  "unsupportedLocation": "Aplikacja {{appName}} nie jest obsługiwana w Twojej lokalizacji",
   "unsupportedPaymentMethod": "Płatności za pośrednictwem {{paymentMethod}} nie są obsługiwane w Twoim regionie",
   "noProviders": "W Twoim regionie nie ma dostępnych dostawców obsługujących {{digitalAsset}}.",
   "noPaymentMethods": "W Twoim regionie nie ma dostępnych metod płatności obsługujących {{digitalAsset}}.",
@@ -486,8 +461,6 @@
   "maxActionableAttestationsExceededError": "Nie udało się ponownie wysłać wiadomości",
   "odisInsufficientBalance": "Podłącz swój numer",
   "matchmakingQuotaExceededError": "Dopasowanie można wykonać tylko raz",
-  "paymentLimitReached": "Dzienny limit wynosi {{dailyLimitcUSD}} cUSD ({{dailyLimit}}{{currencySymbol}})\nPozostało {{dailyRemainingcUSD}} cUSD ({{dailyRemaining}}{{currencySymbol}})",
-  "requestLimitError": "Twój dzienny limit nie może wynosić więcej niż {{limit}} cUSD.",
   "ordinals": [
     "zerowe",
     "pierwsze",
@@ -615,11 +588,11 @@
     "heading2": "Aktywa Celo i konto {{appName}}",
     "info": "Aby móc korzystać z naszych usług, przeczytaj <0>Umowę z użytkownikiem i Regulamin</0> oraz zaakceptuj je, klikając poniższy przycisk akceptacji.",
     "privacy": "Dołączając do tej sieci, zezwalasz nam na gromadzenie anonimowych informacji na temat sposobu, w jaki korzystasz z naszej aplikacji. Dodatkowo, jeśli podłączysz swój numer telefonu, jego zaszyfrowana kopia będzie przechowywana w Celo Network. Jeśli udzielisz aplikacji Valora dostępu do swojej listy kontaktów, aplikacja Valora zaimportuje nazwę, numer telefonu i zdjęcie profilowe każdego kontaktu, aby umożliwić użytkownikom komunikowanie się przez aplikację Valora. Aby dowiedzieć się, w jaki sposób zbieramy i wykorzystujemy te dane, zapoznaj się z naszą <0>Polityką prywatności</0>.",
-    "goldDisclaimer": "Zakładając „konto” w aplikacji Valora, tworzysz cyfrowy portfel, do którego klucz dostępu posiadasz tylko Ty. Żadna inna osoba ani żaden podmiot, w tym cLabs czy Valora, nie mogą odzyskać Twojego klucza, zmodyfikować lub cofnąć transakcji ani odzyskać utraconych środków. Należy pamiętać, że CELO, cUSD i cEUR są częścią nowej klasy aktywów i wiążą się z ryzykiem strat finansowych. Przed zakupem jakichkolwiek aktywów dokładnie rozważ swoją sytuację finansową i tolerancję na ryzyko finansowe. Za pośrednictwem aplikacji Valora możesz wysyłać maksymalnie {{dailyLimitCUSD}} cUSD dziennie („Limit dzienny”). Aby wnioskować o zwiększenie Limitu dziennego, musisz skontaktować się z support@valoraapp.com i podać dodatkowe dane osobowe. Wnioski mogą być akceptowane z pewnym opóźnieniem."
+    "goldDisclaimer": "Zakładając „konto” w Valora, tworzysz cyfrowy portfel, do którego klucze posiadasz tylko Ty. Żadna inna osoba ani podmiot, w tym cLabs lub Valora, nie może odzyskać Twojego klucza, zmienić go lub cofnąć transakcji ani odzyskać utraconych środków. Należy mieć świadomość, że kryptowaluty są nową klasą aktywów\n i wiążą się z ryzykiem strat finansowych. Przed zakupem jakichkolwiek aktywów dokładnie rozważ swoją sytuację finansową i tolerancję na ryzyko finansowe."
   },
   "fullName": "Nazwa",
-  "fullNameOrPseudonymPlaceholder": "Imię i nazwisko lub pseudonim",
   "fullNamePlaceholder": "Imię i nazwisko",
+  "fullNameOrPseudonymPlaceholder": "Imię i nazwisko lub pseudonim",
   "nameAndPicGuideCopyTitle": "Jak masz na imię?",
   "nameAndPicGuideCopyContent": "Chcielibyśmy wiedzieć, jak cię nazywać",
   "importIt": "Przywróć portfel",
@@ -703,10 +676,7 @@
   "onboardingEducation": {
     "step1": "Jeśli potrafisz pisać SMS-y, potrafisz też inwestować w kryptowaluty. Od teraz Twój telefon jest Twoim portfelem kryptowalutowym.",
     "step2": "Z aplikacją {{appName}} uzyskujesz szybki dostęp do swoich kryptowalut i łatwo je pomnażasz.",
-    "step3": "Aby wysyłać, wydawać i odkrywać, potrzebujesz jedynie telefonu komórkowego.",
-    "payment": "Dokonuj płatności na całym świecie przy niemal zerowych opłatach",
-    "impact": "Wspieraj inicjatywy dotyczące zmian klimatycznych i społecznych",
-    "spend": "Wykorzystaj swoje kryptowaluty do robienia zakupów u ulubionych marek"
+    "step3": "Aby wysyłać, wydawać i odkrywać, potrzebujesz jedynie telefonu komórkowego."
   },
   "enableBiometry": {
     "title": "Zabezpiecz swój portfel",
@@ -748,11 +718,12 @@
     "create": "Utwórz kod PIN",
     "createNew": "Utwórz nowy kod PIN",
     "verify": "Wprowadź ponownie kod PIN, aby potwierdzić",
-    "guideTitle": "Wybierz 6-cyfrowy kod PIN, który zapamiętasz",
-    "pinCodeGuide": "Trzymaj swój PIN w bezpiecznym miejscu, w ten sposób zabezpieczysz swój portfel.",
     "changePIN": "Zmień kod PIN",
     "pinsDontMatch": "Kody PIN nie zgadzają się",
     "invalidPin": "Użyj silniejszego kodu PIN",
+    "guideTitle": "Wybierz 6-cyfrowy kod PIN, który zapamiętasz",
+    "guideConfirm": "Wprowadź ponownie kod PIN, aby potwierdzić.",
+    "pinCodeGuide": "PIN to sposób, w jaki zabezpieczasz swój portfel.",
     "selectPIN": "Wybierz PIN"
   },
   "inviteCode": {
@@ -1145,7 +1116,7 @@
     "subtitle": "Nie masz teraz żadnych środków na koncie",
     "addFunds": "Dodaj środki",
     "titleRamp": "Dodaj {{currency}}, aby rozpocząć korzystanie z aplikacji Valora",
-    "subtitleRamp": "Dodawaj środki z zerowymi opłatami za pośrednictwem jednego z naszych zaufanych partnerów."
+    "subtitleRamp": "Dodaj fundusze o niskich opłatach za pośrednictwem jednego z naszych zaufanych zewnętrznych dostawców."
   },
   "balances": "Aktywa",
   "totalBalanceWithLocalCurrencySymbol": "Razem {{totalBalance}} {{localCurrencySymbol}}",
@@ -1409,10 +1380,10 @@
     "estimatedAmountBody": "Wymiana waluty odbywa się na zewnętrznej giełdzie, która wyszukuje najlepszy kurs wymian.\n\nKoszt wymiany wyniesie nie więcej niż {{slippagePercent}}% oszacowanej kwoty. W przeciwnym wypadku transakcja zostanie anulowana, a środki powrócą do portfela."
   },
   "inviteModal": {
-    "title": "Wygląda na to, że {{contactName}} nie ma jeszcze portfela {{appName}} .",
-    "body": "Nadal możesz zaprosić ich na stronę {{appName}}, lub spróbować wysłać płatność na adres ich portfela lub nom.space.",
+    "title": "Wygląda na to, że {{contactName}} nie ma jeszcze portfela w {{appName}}.",
+    "body": "Nadal możesz wysłać zaproszenie do {{appName}} lub spróbować wysłać płatność na adres portfela albo nom.space.",
     "sendInviteButtonLabel": "Wyślij zaproszenie",
-    "shareMessage": "Hej! Chciałbym wysłać ci trochę kryptowalut za pomocą mojego portfela {{appName}} . Po pobraniu aplikacji i podaniu swojego numeru telefonu możemy wysłać kryptowalutę tak łatwo, jak za pomocą SMS-a. Użyj tego linku: {{link}}"
+    "shareMessage": "Witaj! Chcę wysłać Ci trochę kryptowaluty za pomocą mojego portfela {{appName}}. Gdy pobierzesz aplikację i podasz swój numer telefonu, możemy wysłać kryptowalutę tak łatwo, jak za pomocą SMS-a. Użyj tego linku: {{link}}"
   },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",

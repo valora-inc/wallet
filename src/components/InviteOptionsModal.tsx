@@ -1,7 +1,7 @@
 import { getPhoneHash } from '@celo/utils/lib/phoneNumbers'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Image, Share, StyleSheet, Text, View } from 'react-native'
+import { Dimensions, Image, Share, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { InviteEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -63,13 +63,15 @@ const InviteOptionsModal = ({ recipient, onClose }: Props) => {
     </SafeAreaView>
   )
 }
+const { height, width } = Dimensions.get('window')
 
 const styles = StyleSheet.create({
   container: {
-    height: variables.height,
-    width: variables.width,
+    height,
+    width,
     flex: 1,
     position: 'absolute',
+    bottom: 0,
     backgroundColor: colors.light,
     padding: Spacing.Thick24,
   },

@@ -75,28 +75,9 @@
   "chooseFromLibrary": "Scegli dalla raccolta",
   "takePhoto": "Scatta foto",
   "removePhoto": "Rimuovi foto",
-  "accountSendLimit": "Limite di invio del conto",
-  "dailyLimitLabel": "Limite di invio quotidiano attuale",
-  "dailyLimitValue": "${{dailyLimit}}",
-  "noDailyLimit": "Illimitato",
-  "verifyNumberToRaiseLimit": "Puoi aumentare il tuo limite di invio verificando la tua identità. Collega il tuo numero telefonico prima di continuare.",
-  "verifyIdentityToRaiseLimit": "Puoi aumentare il limite di invio verificando la tua identità. Durante la seguente procedura dovrai fornire alcune informazioni.",
-  "dailyLimitApplicationStatus": "Stato domanda",
-  "applicationInReview": "In fase di revisione",
-  "applicationInReviewDescription": "La tua domanda è in fase di revisione. Ti avviseremo una volta completata questa procedura.",
-  "applicationIncomplete": "Incompleta",
-  "applicationIncompleteDescription": "Le informazioni fornite non erano sufficienti. Durante la seguente procedura dovrai fornire ulteriori informazioni. ",
-  "applicationDenied": "Respinta",
-  "applicationDeniedDescription": "La tua domanda è stata respinta. Se ritieni che si sia trattato di un errore, riavvia la procedura di seguito.",
   "applicationCompleted": "Completata",
   "applicationCompletedDescription": "La tua domanda è stata accettata. Ora puoi inviare un importo quotidiano illimitato.",
-  "raiseLimitConfirmNumber": "Collega numero telefonico",
   "raiseLimitBegin": "Inizia la verifica dell’identità",
-  "raiseLimitResume": "Riprendi la verifica dell’identità",
-  "raiseLimitEmailSubject": "Richiesta di aumento del limite di invio del conto",
-  "raiseLimitEmailBody": "Desidero richiedere un aumento del limite quotidiano di {{dailyLimit}} di {{appName}} per l’indirizzo {{address}}.",
-  "raiseLimitEmailSuccess": "La tua richiesta è stata inviata. Fra poco riceverai una risposta per e-mail.",
-  "raiseLimitEmailNotSent": "La tua richiesta non è stata inviata. Riprova.",
   "storeRecoveryTitle": "Devi configurare nuovamente il tuo conto",
   "storeRecoveryBody": "Si è verificato un errore. È in corso un intervento per risolvere il problema. Nel frattempo, dovrai eseguire nuovo la procedura di configurazione.",
   "storeRecoveryButton": "Ripristina conto",
@@ -318,11 +299,6 @@
     "maxAmount": "I nostri provider non supportano totali superiori a {{usdLimit}}{{localLimit}}. Immetti un importo minore.",
     "dismiss": "OK"
   },
-  "dailyLimitDialog": {
-    "body": "Stai per acquistare una somma superiore al tuo limite di invio quotidiano di {{limit}}. Per aumentare il tuo limite di invio quotidiano, contatta <0>{{contactEmail}}</0>.",
-    "contact": "Contatti",
-    "continue": "Ho capito"
-  },
   "providerFeesDialog": {
     "title": "Commissioni del provider",
     "body1": "Le commissioni di ciascun provider sono stabilite individualmente dallo stesso e includono, fra le altre, una commissione di cambio e una commissione di liquidità. Per ulteriori informazioni, visita ",
@@ -332,7 +308,6 @@
     "title": "Sconto sulle commissioni",
     "body": "Nell’ambito di una promozione, le commissioni sono temporaneamente ridotte per celebrare il lancio di Valora."
   },
-  "dailyLimitRequest": "Salve. Desidero aumentare il mio limite di invio quotidiano.",
   "pleaseSelectProvider": "Seleziona uno dei provider di seguito. Questi collegamenti rimandano a un servizio terze parti.",
   "otherFundingOptions": "Per ulteriori modalità per aggiungere e prelevare fondi, visita <0>Come aggiungere fondi al tuo conto</0>.",
   "youCanTransferIn": "Puoi utilizzare un exchange di terze parti per inviare {{digitalAsset}} al tuo conto Valora. A questo scopo, ti servirà il tuo Indirizzo del conto.",
@@ -352,7 +327,7 @@
     "bodyWithoutProvider": "Il service provider sta elaborando il tuo ordine. Dovresti ricevere i fondi entro un paio di giorni."
   },
   "restrictedRegion": "Supporto limitato nell'area",
-  "unsupportedLocation": "{{appName}} non è supportato nella tua zona",
+  "unsupportedLocation": "{{appName}} non è supportata nella tua zona",
   "unsupportedPaymentMethod": "Il pagamento con un {{paymentMethod}} non è supportato nella tua area.",
   "noProviders": "Nella tua area non sono presenti provider disponibili per {{digitalAsset}}.",
   "noPaymentMethods": "Nella tua area non sono presenti metodi di pagamento disponibili per {{digitalAsset}}.",
@@ -486,8 +461,6 @@
   "maxActionableAttestationsExceededError": "Impossibile inviare nuovamente i messaggi.",
   "odisInsufficientBalance": "Collega il tuo numero telefonico",
   "matchmakingQuotaExceededError": "Il matchmaking può essere eseguito solo una volta.",
-  "paymentLimitReached": "Il limite quotidiano è pari a {{dailyLimitcUSD}} cUSD ({{currencySymbol}}{{dailyLimit}}).\nRimangono {{dailyRemainingcUSD}} cUSD ({{currencySymbol}}{{dailyRemaining}}).",
-  "requestLimitError": "Impossibile richiedere un importo superiore al limite quotidiano di {{limit}} cUSD.",
   "ordinals": [
     "la parola che precede la prima",
     "prima",
@@ -615,11 +588,11 @@
     "heading2": "Asset Celo e conto {{appName}}",
     "info": "Per usare i nostri servizi, leggi e accetta il nostro <0>Accordo con l’utente e termini</0> facendo clic sull’apposito pulsante di seguito.",
     "privacy": "Unendosi a questa rete, l’utente autorizza la raccolta di informazioni anonime riguardanti il suo utilizzo dell’app. Inoltre, se l’utente collega il proprio numero telefonico, una copia con hash sarà memorizzata nella rete Celo. Se l’utente concede a Valora l'accesso al proprio elenco di contatti, Valora importerà il nome, il numero telefonico e l’immagine del profilo di ciascun contatto per consentire agli utenti di collegarsi attraverso l’app Valora. Per informazioni su come raccogliamo e utilizziamo questi dati, leggere la nostra <0>Informativa sulla privacy</0>.",
-    "goldDisclaimer": "Quando l’utente crea un “conto” con Valora, crea un portafoglio digitale (“wallet”) del quale solo l’utente ha la chiave. Nessun’altra persona, fisica o giuridica, compresi cLabs o Valora, può recuperare tale chiave, modificare o annullare transazioni oppure recuperare fondi persi. L’utente deve tenere presente che CELO, cUSD e cEUR fanno parte di una nuova classe di asset e presentano il rischio di perdite finanziarie. Prima di acquistare qualsiasi asset, l’utente deve considerare con attenzione la propria situazione finanziaria e la propria tolleranza al rischio finanziario. L’utente può inviare solo un massimo di {{dailyLimitCUSD}} cUSD al giorno tramite Valora (il “Limite quotidiano”). Per richiedere l'aumento di tale Limite quotidiano, l'utente deve contattare support@valoraapp.com e fornire ulteriori dati personali. Potrebbe verificarsi un ritardo causato dalla necessità di verificare la conformità necessaria."
+    "goldDisclaimer": "Quando crei un “account” con Valora, crei un portafoglio digitale (“wallet”) del quale solo tu hai le chiavi. Nessun’altra persona, fisica o giuridica, compresi cLabs o Valora, può recuperare tali chiavi, modificare o annullare transazioni oppure recuperare fondi persi. Tieni presente che le criptovalute sono una nuova classe di asset e presentano il rischio di perdite finanziarie. Prima di acquistare qualsiasi asset, considera la tua situazione finanziaria e la tua tolleranza al rischio finanziario."
   },
   "fullName": "Nome",
-  "fullNameOrPseudonymPlaceholder": "Nome e cognome o pseudonimo",
   "fullNamePlaceholder": "Nome e cognome",
+  "fullNameOrPseudonymPlaceholder": "Nome e cognome o alias",
   "nameAndPicGuideCopyTitle": "Come ti chiami?",
   "nameAndPicGuideCopyContent": "Vorremmo sapere come chiamarti",
   "importIt": "Ripristina wallet",
@@ -703,17 +676,14 @@
   "onboardingEducation": {
     "step1": "Se puoi inviare un SMS, puoi operare con le criptovalute. Da ora il tuo telefono sarà il tuo Crypto-wallet!",
     "step2": "Con {{appName}}, è facile accedere alle tue criptovalute e farle crescere.",
-    "step3": "È sufficiente un cellulare per inviare, comprare ed esplorare.",
-    "payment": "Effettua pagamenti a livello globale con commissioni quasi nulle",
-    "impact": "Sostenere le iniziative di cambiamento climatico e sociale",
-    "spend": "Usa la tua criptovaluta per acquistare i tuoi marchi preferiti"
+    "step3": "È sufficiente un cellulare per inviare, comprare ed esplorare."
   },
   "enableBiometry": {
     "title": "Proteggi il tuo portafoglio",
     "description": "{{biometryType}} protegge il tuo portafoglio e rende più facile usare {{appName}}",
     "cta": "Abilita {{biometryType}}",
-    "guideTitle": "Vuoi aggiungere {{biometryType}}?",
-    "guideDescription": "{{biometryType}} rende più facile, veloce e sicura la connessione del tuo portafoglio alle dapps e la firma delle transazioni."
+    "guideTitle": "Vuoi abilitare {{biometryType}}?",
+    "guideDescription": "{{biometryType}} rende più facile, veloce e sicuro collegare il tuo portafoglio a dapps e firmare transazioni."
   },
   "biometryType": {
     "FaceID": "Face ID",
@@ -726,7 +696,7 @@
   "unlockWithBiometryPrompt": "Autentica per sbloccare {{appName}}",
   "welcome": {
     "title": "Fai un salto nel futuro delle criptovalute con {{appName}}",
-    "titleGuided": "Benvenuto su {{appName}}!\nCreiamo il tuo portafoglio di criptovalute.",
+    "titleGuided": "Ti diamo il benvenuto in {{appName}}!\nCreiamo il tuo portafoglio cripto.",
     "createAccount": "Crea nuovo conto",
     "restoreAccount": "Ripristina il mio conto",
     "createNewWallet": "Crea un portafoglio",
@@ -748,11 +718,12 @@
     "create": "Crea un PIN",
     "createNew": "Crea un nuovo PIN",
     "verify": "Immetti nuovamente il PIN per confermarlo",
-    "guideTitle": "Scegli un PIN di 6 cifre che ricorderai",
-    "pinCodeGuide": "Tieni al sicuro il tuo PIN: è così che terrai al sicuro il tuo portafoglio.",
     "changePIN": "Modifica il PIN",
     "pinsDontMatch": "I PIN non corrispondono",
     "invalidPin": "Usa un PIN più complesso",
+    "guideTitle": "Scegli un PIN di 6 cifre che ricorderai",
+    "guideConfirm": "Immetti nuovamente il PIN per confermarlo.",
+    "pinCodeGuide": "Il PIN è il modo in cui proteggerai il tuo portafoglio.",
     "selectPIN": "Seleziona il PIN"
   },
   "inviteCode": {
@@ -1141,7 +1112,7 @@
     "subtitle": "Il tuo conto è attualmente vuoto",
     "addFunds": "Aggiungi fondi",
     "titleRamp": "Aggiungi {{currency}} per iniziare a usare Valora",
-    "subtitleRamp": "Aggiungi fondi senza pagare commissioni tramite uno dei nostri provider esterni attendibili."
+    "subtitleRamp": "Aggiungi fondi con commissioni basse tramite uno dei nostri provider esterni."
   },
   "balances": "Assets",
   "totalBalanceWithLocalCurrencySymbol": "Totale {{localCurrencySymbol}}{{totalBalance}}",
@@ -1405,10 +1376,10 @@
     "estimatedAmountBody": "Le conversioni avvengono su uno scambio decentralizzato di terze parti che trova il miglior tasso per il tuo scambio. \n\nLa tua transazione sarà completata a un prezzo compreso tra {{slippagePercent}}% della stima o la transazione sarà annullata e i fondi saranno restituiti al tuo portafoglio."
   },
   "inviteModal": {
-    "title": "Sembra che {{contactName}} non abbia ancora un portafoglio {{appName}} .",
-    "body": "Puoi comunque invitarli su {{appName}}o provare a inviare un pagamento al loro indirizzo di portafoglio o a nom.space.",
+    "title": "Sembra che {{contactName}} non abbia ancora un portafoglio {{appName}}.",
+    "body": "Puoi comunque invitarlo/invitarla su {{appName}} o provare a inviare un pagamento al suo indirizzo di portafoglio o nom.space.",
     "sendInviteButtonLabel": "Invia l'invito",
-    "shareMessage": "Ehi! Vorrei inviarti delle criptovalute con il mio portafoglio {{appName}} . Una volta scaricata l'applicazione e collegato il tuo numero di telefono, potremo inviare criptovalute con la stessa facilità di un SMS. Usa questo link: {{link}}"
+    "shareMessage": "Ehi! Vorrei inviarti delle criptovalute con il mio portafoglio {{appName}}. Una volta scaricata l'applicazione e collegato il tuo numero telefonico, potremo inviare criptovalute con la stessa facilità di un messaggio di testo. Usa questo collegamento: {{link}}"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollar"

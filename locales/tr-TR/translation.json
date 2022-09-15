@@ -75,28 +75,9 @@
   "chooseFromLibrary": "Kitaplıktan Seç",
   "takePhoto": "Fotoğraf Çek",
   "removePhoto": "Fotoğrafı Kaldır",
-  "accountSendLimit": "Hesap Gönderim Limiti",
-  "dailyLimitLabel": "Mevcut Günlük Gönderim Limiti",
-  "dailyLimitValue": "${{dailyLimit}}",
-  "noDailyLimit": "Sınırsız",
-  "verifyNumberToRaiseLimit": "Kimliğinizi doğrulayarak gönderme limitinizi artırabilirsiniz. Devam etmeden önce lütfen telefon numaranızı bağlayın.",
-  "verifyIdentityToRaiseLimit": "Kimliğinizi doğrulayarak gönderme limitinizi artırabilirsiniz. Lütfen süreç içerisinde talep edilen ayrıntıları paylaşmaya hazır olun.",
-  "dailyLimitApplicationStatus": "Uygulama Durumu",
-  "applicationInReview": "İnceleniyor",
-  "applicationInReviewDescription": "Başvurunuz inceleniyor. Bu işlem tamamlandığında bilgilendirileceksiniz.",
-  "applicationIncomplete": "Tamamlanmamış",
-  "applicationIncompleteDescription": "İlettiğiniz bilgiler yetersiz kaldı. Lütfen süreç içerisinde ek ayrıntılar sağlamaya hazır olun. ",
-  "applicationDenied": "Reddedildi",
-  "applicationDeniedDescription": "Başvurunuz reddedildi. Bunun bir hata olduğunu düşünüyorsanız, lütfen işlemi yeniden başlatın.",
   "applicationCompleted": "Tamamlandı",
   "applicationCompletedDescription": "Başvurunuz kabul edildi. Artık gün içerisinde sınırsız miktarda gönderim yapabilirsiniz.",
-  "raiseLimitConfirmNumber": "Telefon numarası bağla",
   "raiseLimitBegin": "Kimlik Doğrulamaya Başla",
-  "raiseLimitResume": "Kimlik Doğrulamaya Devam Et",
-  "raiseLimitEmailSubject": "Hesap gönderme limitini yükseltme talebi",
-  "raiseLimitEmailBody": "{{address}} adresi için {{appName}} {{dailyLimit}} günlük sınırının artırılmasını talep ediyorum",
-  "raiseLimitEmailSuccess": "Talebiniz başarıyla iletildi! Çok yakında size e-posta ile geri dönüş sağlayacağız!",
-  "raiseLimitEmailNotSent": "Talebiniz gönderliemedi. Lütfen tekrar deneyin.",
   "storeRecoveryTitle": "Hesabınızın tekrar kurulması gerekiyor",
   "storeRecoveryBody": "Bir hata oluştu. Sorunun farkındayız ve düzeltmek için çalışıyoruz. Bu arada kurulum sürecinden tekrar geçmeniz gerekecek.",
   "storeRecoveryButton": "Hesabı Geri Yükle",
@@ -318,11 +299,6 @@
     "maxAmount": "Sağlayıcılarımız, {{usdLimit}}{{localLimit}}'den büyük miktarları desteklemez. Lütfen daha küçük bir miktar girin.",
     "dismiss": "Tamam"
   },
-  "dailyLimitDialog": {
-    "body": "Günlük gönderme limitiniz olan {{limit}}'den fazlasını satın almak üzeresiniz. Günlük gönderme limitinizi yükseltmek istiyorsanız lütfen <0>{{contactEmail}}</0> ile iletişime geçin.",
-    "contact": "İletişim",
-    "continue": "Anladım"
-  },
   "providerFeesDialog": {
     "title": "Sağlayıcı Ücretleri",
     "body1": "Sağlayıcı ücretleri, her sağlayıcı tarafından ayrı ayrı belirlenir ve başka ücretlerle birlikte değişim ve likidite ücreti içerir. Daha fazla bilgi edinmek için lütfen ziyaret edin ",
@@ -332,7 +308,6 @@
     "title": "Ücret İndirimi",
     "body": "Valora'nın lansmanını kutlamak için ücretler geçici olarak düşürüldü!"
   },
-  "dailyLimitRequest": "Merhaba! Günlük gönderim limitimi artırmak istiyorum.",
   "pleaseSelectProvider": "Lütfen aşağıdan bir sağlayıcı seçin. Bu bağlantılar bir üçüncü taraf hizmetine bağlanır.",
   "otherFundingOptions": "<0>Hesaba nasıl bakiye yatırılır</0> sayfasını ziyaret ederek bakiye yatırma ve çekme yöntemleri hakkında daha fazla bilgi edinebilirsiniz",
   "youCanTransferIn": "Valora hesabınıza {{digitalAsset}} göndermek için bir üçüncü taraf borsa kullanabilirsiniz. Bunun için Hesap Adresinize ihtiyacınız olacak.",
@@ -352,7 +327,7 @@
     "bodyWithoutProvider": "Servis sağlayıcı siparişinizi işliyor. Fonlarınızı birkaç gün içinde alabileceksiniz."
   },
   "restrictedRegion": "Bölgenizde sınırlı destek mevcut",
-  "unsupportedLocation": "{{appName}} is not supported in your location",
+  "unsupportedLocation": "{{appName}}, bulunduğunuz yerde desteklenmiyor",
   "unsupportedPaymentMethod": "{{paymentMethod}} ile ödeme bölgenizde desteklenmiyor",
   "noProviders": "Bölgenizde {{digitalAsset}} için kullanılabilecek sağlayıcı bulunmuyor.",
   "noPaymentMethods": "Bölgenizde {{digitalAsset}} için kullanılabilecek ödeme yöntemi yok.",
@@ -486,8 +461,6 @@
   "maxActionableAttestationsExceededError": "Mesajlar yeniden gönderilemedi",
   "odisInsufficientBalance": "Lütfen numaranızı bağlayın",
   "matchmakingQuotaExceededError": "Eşleştirme sadece bir kez yapılabilir",
-  "paymentLimitReached": "Günlük limitiniz {{dailyLimitcUSD}} cUSD ({{currencySymbol}}{{dailyLimit}})\n{{dailyRemainingcUSD}} kalan cUSD ({{currencySymbol}}{{dailyRemaining}})",
-  "requestLimitError": "Günlük limitiniz olan {{limit}} cUSD'den daha fazla talep edilemez.",
   "ordinals": [
     "sıfırıncı",
     "birinci",
@@ -615,11 +588,11 @@
     "heading2": "Celo Varlıkları ve {{appName}} Hesabı",
     "info": "Hizmetlerimizi kullanmak için lütfen <0>Kullanıcı Sözleşmemizi ve Şartlarımızı</0> okuyun ve hemen altındaki kabul et düğmesini tıklayarak kabul edin.",
     "privacy": "Bu ağa katılarak, uygulamayı kullanımınız hakkında anonim bilgi toplamamıza izin veriyorsunuz. Ek olarak, telefon numaranızı bağlarsanız, bunun hash'li bir kopyası Celo Ağı'nda saklanır. Valora'ya kişi listenize erişim izni verirseniz, Valora, kullanıcıların Valora uygulaması aracılığıyla bağlanmasına izin vermek için her kişinin adını, telefon numarasını ve profil resmini içe aktarır. Bu bilgileri nasıl topladığımızı ve kullandığımızı öğrenmek için lütfen <0>Gizlilik Politikamızı</0> inceleyin.",
-    "goldDisclaimer": "Valora ile bir \"hesap\" oluşturduğunuzda, anahtarları yalnızca sizde bulunan bir dijital cüzdan yaratmış olursunuz. cLabs veya Valora dahil olmak üzere başka hiçbir kişi veya kuruluş anahtarınızı geri alamaz, işlemleri değiştiremez, geri döndüremez ya da kaybedilen fonları geri alamaz. CELO, cUSD ve cEUR'un yeni bir varlık sınıfının parçası olduğunu ve finansal kayıp riski taşıdığını unutmayın. Herhangi bir varlık satın almadan önce kendi finansal durumunuzu ve finansal risk toleransınızı dikkatlice değerlendirin. Valora ile günde yalnızca {{dailyLimitCUSD}} cUSD'ye kadar (\"Günlük Limit\") gönderebilirsiniz. Bu Günlük Limitin artırılmasını talep etmek için support@valoraapp.com ile iletişime geçmeli ve ek kişisel bilgiler sağlamalısınız. Gerekli uyumlandırmanın gerçekleştirilmesinde gecikme yaşanabilir."
+    "goldDisclaimer": "Valora ile bir \"hesap\" oluşturduğunuzda, anahtarlarını yalnızca sizin tuttuğunuz bir dijital cüzdan yaratmış olursunuz. cLabs veya Valora dahil olmak üzere başka hiçbir kişi veya kuruluş anahtarınızı geri alamaz, işlemleri değiştiremez veya geri alamaz ya da kaybedilen parayı geri alamaz. CELO, cUSD ve cEUR'un yeni bir varlık sınıfının parçası olduğunu ve finansal kayıp riski taşıdığını unutmayın. Herhangi bir varlık satın almadan önce finansal durumunuzu ve finansal risk toleransınızı dikkatlice değerlendirin."
   },
   "fullName": "İsim",
-  "fullNameOrPseudonymPlaceholder": "First and last name or pseudonym",
   "fullNamePlaceholder": "Ad & Soyad",
+  "fullNameOrPseudonymPlaceholder": "First and last name or pseudonym",
   "nameAndPicGuideCopyTitle": "What’s your name?",
   "nameAndPicGuideCopyContent": "We’d like to know what to call you",
   "importIt": "Cüzdanı Yeniden Kur",
@@ -703,10 +676,7 @@
   "onboardingEducation": {
     "step1": "Eğer mesaj gönderebiliyorsanız, kripto da kullanabilirsiniz. Şu andan itibaren telefonunuz aynı zamanda sizin kripto cüzdanınız.",
     "step2": "{{appName}} ile kriptoya erişmek ve kripto bakiyenizi artırmak çok kolay.",
-    "step3": "Fon göndermek, harcama yapmak ve daha fazlasını keşfetmek için ihtiyacınız olan tek şey bir cep telefonu.",
-    "payment": "Make payments globally with near zero fees",
-    "impact": "Support climate and social change initiatives",
-    "spend": "Use your crypto to shop your favorite brands"
+    "step3": "Fon göndermek, harcama yapmak ve daha fazlasını keşfetmek için ihtiyacınız olan tek şey bir cep telefonu."
   },
   "enableBiometry": {
     "title": "Cüzdanınızı emniyete alın",
@@ -748,11 +718,12 @@
     "create": "PIN Oluştur",
     "createNew": "Yeni PIN oluştur",
     "verify": "Doğrulamak için PIN'i tekrar girin",
-    "guideTitle": "Choose a 6 digit PIN you’ll remember",
-    "pinCodeGuide": "Keep your PIN safe, it’s how you’ll keep your wallet secure.",
     "changePIN": "PIN Değiştir",
     "pinsDontMatch": "PIN'ler eşleşmedi",
     "invalidPin": "Lütfen daha güçlü bir Pin kullanın",
+    "guideTitle": "Choose a 6 digit PIN you’ll remember",
+    "guideConfirm": "Doğrulamak için PIN'i tekrar girin.",
+    "pinCodeGuide": "Your PIN is how you’ll secure your wallet.",
     "selectPIN": "Select PIN"
   },
   "inviteCode": {
@@ -1141,7 +1112,7 @@
     "subtitle": "Hesabınız şu anda boş",
     "addFunds": "Bakiye Ekle",
     "titleRamp": "Valora'yı kullanmaya başlamak için {{currency}} ekleyin",
-    "subtitleRamp": "Güvenilir harici sağlayıcılarımızdan biri aracılığıyla işlem ücreti olmadan fon ekleyin."
+    "subtitleRamp": "Add funds with low fees through one of our trusted external providers."
   },
   "balances": "Varlıklar",
   "totalBalanceWithLocalCurrencySymbol": "Toplam {{localCurrencySymbol}}{{totalBalance}}",
@@ -1405,10 +1376,10 @@
     "estimatedAmountBody": "Dönüşümler, takasınız için size en iyi oranı bulan ve merkezi olmayan bir üçüncü taraf borsasında gerçekleşir.\n\nİşleminiz, tahminin %{{slippagePercent}} kadarına kdar bir fiyatla tamamlanacak veya işlem iptal edilip para cüzdanınıza iade edilecektir."
   },
   "inviteModal": {
-    "title": "Looks like {{contactName}} doesn’t have a {{appName}} wallet yet.",
-    "body": "You can still invite them to {{appName}}, or try to send a payment to their wallet address or nom.space.",
-    "sendInviteButtonLabel": "Send Invite",
-    "shareMessage": "Hey! I’d like to send you some crypto with my {{appName}} wallet. Once you download the app and connect your phone number, we can send crypto as easy as a text. Use this link: {{link}}"
+    "title": "Görünüşe göre {{contactName}} henüz {{appName}} cüzdanına sahip değil.",
+    "body": "Yine de onları {{appName}}'ya davet edebilir veya cüzdan adreslerine ya da nom.space'e bir ödeme göndermeyi deneyebilirsiniz.",
+    "sendInviteButtonLabel": "Davet gönder",
+    "shareMessage": "Hey! {{appName}} cüzdanımla sana biraz kripto göndermek istiyorum. Uygulamayı indirip telefon numaranızı bağladığınızda, bir metin gönderebileceğimiz kadar kolay kripto gönderebiliriz. Bu bağlantıyı kullanın: {{link}}"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

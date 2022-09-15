@@ -14,6 +14,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import {
   biometryEnabledSelector,
   registrationStepsSelector,
+  showGuidedOnboardingSelector,
   skipVerificationSelector,
 } from 'src/app/selectors'
 import DevSkipButton from 'src/components/DevSkipButton'
@@ -44,6 +45,7 @@ interface StateProps {
   registrationStep: { step: number; totalSteps: number }
   biometryEnabled: boolean
   skipVerification: boolean
+  showGuidedOnboarding: boolean
 }
 
 interface DispatchProps {
@@ -74,6 +76,7 @@ function mapStateToProps(state: RootState): StateProps {
     account: currentAccountSelector(state) ?? '',
     biometryEnabled: biometryEnabledSelector(state),
     skipVerification: skipVerificationSelector(state),
+    showGuidedOnboarding: showGuidedOnboardingSelector(state),
   }
 }
 
@@ -86,8 +89,13 @@ const mapDispatchToProps = {
 export class PincodeSet extends React.Component<Props, State> {
   static navigationOptions = ({ route }: ScreenProps) => {
     const changePin = route.params?.changePin
-    const title = changePin ? i18n.t('pincodeSet.changePIN') : i18n.t('pincodeSet.create')
-
+    const showGuidedOnboarding = route.params?.showGuidedOnboarding
+    let title = i18n.t('pincodeSet.create')
+    if (changePin) {
+      title = i18n.t('pincodeSet.changePIN')
+    } else if (showGuidedOnboarding) {
+      title = i18n.t('pincodeSet.selectPIN')
+    }
     return {
       ...nuxNavigationOptions,
       headerTitle: () => (
@@ -250,11 +258,13 @@ export class PincodeSet extends React.Component<Props, State> {
         <DevSkipButton onSkip={this.navigateToNextScreen} />
         {isVerifying ? (
           <Pincode
-            title={t('pincodeSet.verify')}
+            title={this.props.showGuidedOnboarding ? ' ' : t('pincodeSet.verify')}
             errorText={errorText}
             pin={pin2}
             onChangePin={this.onChangePin2}
             onCompletePin={this.onCompletePin2}
+            onBoardingSetPin={!changingPin}
+            verifyPin={true}
           />
         ) : (
           <Pincode
@@ -263,6 +273,7 @@ export class PincodeSet extends React.Component<Props, State> {
             pin={pin1}
             onChangePin={this.onChangePin1}
             onCompletePin={this.onCompletePin1}
+            onBoardingSetPin={!changingPin}
           />
         )}
       </SafeAreaView>

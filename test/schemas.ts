@@ -1604,6 +1604,18 @@ export const v75Schema = {
   account: _.omit(v74Schema.account, 'dailyLimitRequestStatus', 'dailyLimitCusd'),
 }
 
+export const v76Schema = {
+  ...v75Schema,
+  _persist: {
+    ...v75Schema._persist,
+    version: 76,
+  },
+  app: {
+    ...v75Schema.app,
+    showGuidedOnboardingCopy: false,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v75Schema as Partial<RootState>
+  return v76Schema as Partial<RootState>
 }
