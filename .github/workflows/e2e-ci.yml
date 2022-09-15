@@ -111,6 +111,7 @@ jobs:
         run: git diff --exit-code
       - name: Install Ruby dependencies
         run: |
+          ruby -v
           source ~/.bash_profile
           bundle install --path vendor/bundle
       - name: Fail if someone forgot to commit "Gemfile.lock"
