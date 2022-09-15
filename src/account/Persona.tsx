@@ -39,8 +39,6 @@ const Persona = ({ kycStatus, text, onCanceled, onError, onPress, onSuccess }: P
 
   const templateIdResponse = useAsync(async () => readOnceFromFirebase('persona/templateId'), [])
   const templateId = templateIdResponse.result
-  // const templateId = 'itmpl_NfV45JxZR81jZyWDzmyngkcD'
-  // const templateId = 'itmpl_5FYHGGFhdAYvfd7FvSpNADcC'
 
   const launchPersonaInquiry = useCallback(() => {
     if (typeof templateId !== 'string') {
