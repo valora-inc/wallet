@@ -87,7 +87,6 @@ jobs:
       # `if` conditions can't directly access secrets, so we use a workaround
       # See https://docs.github.com/en/actions/security-guides/encrypted-secrets#using-encrypted-secrets-in-a-workflow
       SECRETS_AVAILABLE: ${{ secrets.SECRETS_AVAILABLE }}
-      BASH_ENV: '/Users/administrator/.bash_profile'
     name: iOS
     # TODO(satish): revert this once all machines are upgraded
     runs-on: ios-e2e-group-xcode-13
@@ -111,7 +110,6 @@ jobs:
         run: git diff --exit-code
       - name: Install Ruby dependencies
         run: |
-          ruby -v
           source ~/.bash_profile
           bundle install --path vendor/bundle
       - name: Fail if someone forgot to commit "Gemfile.lock"
@@ -127,6 +125,7 @@ jobs:
         run: NODE_OPTIONS='--unhandled-rejections=strict' yarn ts-node ./e2e/scripts/check-e2e-wallet-balance.ts
       - name: Create Detox Build
         run: |
+          source ~/.bash_profile
           export CELO_TEST_CONFIG=e2e
           yarn detox build -c ios.release
       - name: Upload Detox Build to Emerge
