@@ -132,12 +132,15 @@ jobs:
         if: |
           env.SECRETS_AVAILABLE
             && (github.event_name == 'pull_request' || github.event_name == 'push')
-        run: yarn ts-node .github/scripts/uploadE2eBuildToEmerge.ts
+        run: |
+          source ~/.bash_profile
+          yarn ts-node .github/scripts/uploadE2eBuildToEmerge.ts
         env:
           EMERGE_API_TOKEN: ${{ steps.google-secrets.outputs.EMERGE_API_TOKEN }}
           DETOX_CONFIG: ios.release
       - name: Run Detox
         run: >
+          source ~/.bash_profile &&
           yarn detox test
           --configuration ios.release
           --artifacts-location e2e/artifacts
