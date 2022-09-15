@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, Text, View } from 'react-native'
+import { Text } from 'react-native'
 import { RequestEvents, SendEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
 import CustomHeader from 'src/components/header/CustomHeader'
@@ -59,11 +59,7 @@ function SendAmountHeader({
       title = titleText
     } else {
       titleText = t('send')
-      title = (
-        <View style={styles.titleContainer} testID="HeaderCurrencyPicker">
-          <Text style={headerStyles.headerTitle}>{titleText}</Text>
-        </View>
-      )
+      title = t('send')
     }
     return isOutgoingPaymentRequest ? (
       <Text style={headerStyles.headerTitle}>{titleText}</Text>
@@ -93,11 +89,5 @@ function SendAmountHeader({
     </>
   )
 }
-
-const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-  },
-})
 
 export default SendAmountHeader
