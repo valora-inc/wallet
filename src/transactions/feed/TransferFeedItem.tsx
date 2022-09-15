@@ -3,7 +3,6 @@ import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import ContactCircle from 'src/components/ContactCircle'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import { navigate } from 'src/navigator/NavigationService'
@@ -13,10 +12,9 @@ import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import { useTokenInfo } from 'src/tokens/hooks'
 import { FeedTokenProperties } from 'src/transactions/feed/TransactionFeed'
+import TransferFeedIcon from 'src/transactions/feed/TransferFeedIcon'
 import { useTransferFeedDetails } from 'src/transactions/transferFeedUtils'
 import { TokenTransfer } from 'src/transactions/types'
-
-const AVATAR_SIZE = 40
 
 export type FeedTokenTransfer = TokenTransfer & FeedTokenProperties
 
@@ -34,18 +32,14 @@ function TransferFeedItem({ transfer }: Props) {
 
   const tokenInfo = useTokenInfo(amount.tokenAddress)
   const showTokenAmount = !amount.localAmount && !tokenInfo?.usdPrice
-  const { title, subtitle, recipient } = useTransferFeedDetails(transfer)
+  const { title, subtitle } = useTransferFeedDetails(transfer)
 
   const colorStyle = new BigNumber(amount.value).isPositive() ? { color: colors.greenUI } : {}
 
   return (
     <Touchable disabled={false} onPress={openTransferDetails}>
       <View style={styles.container}>
-        <ContactCircle
-          style={{ alignItems: 'flex-start' }}
-          recipient={recipient}
-          size={AVATAR_SIZE}
-        />
+        <TransferFeedIcon transfer={transfer} />
         <View style={styles.contentContainer}>
           <Text style={styles.title} testID={'TransferFeedItem/title'}>
             {title}

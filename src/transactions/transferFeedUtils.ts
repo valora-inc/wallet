@@ -376,7 +376,7 @@ export function useTransferFeedDetails(transfer: FeedTokenTransfer) {
     subtitle = t('confirmingTransaction')
   }
 
-  return { title, subtitle, recipient }
+  return { title, subtitle }
 }
 
 export function getTxsFromUserTxQuery(data?: UserTransactionsQuery) {

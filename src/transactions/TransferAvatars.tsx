@@ -3,7 +3,10 @@ import { StyleSheet, View } from 'react-native'
 import ContactCircle from 'src/components/ContactCircle'
 import ContactCircleSelf from 'src/components/ContactCircleSelf'
 import CircleArrowIcon from 'src/icons/CircleArrowIcon'
+import CoinbasePayIcon from 'src/icons/CoinbasePayIcon'
 import { Recipient } from 'src/recipients/recipient'
+import { coinbasePaySendersSelector } from 'src/recipients/reducer'
+import useSelector from 'src/redux/useSelector'
 
 interface Props {
   type: 'sent' | 'received'
@@ -11,7 +14,15 @@ interface Props {
 }
 
 export default function TransferAvatars({ type, recipient }: Props) {
-  const userAvatar = <ContactCircle recipient={recipient} />
+  const coinbasePaySenders = useSelector(coinbasePaySendersSelector)
+  const isCoinbasePaySender = recipient?.address && coinbasePaySenders.includes(recipient.address)
+
+  let userAvatar
+  if (isCoinbasePaySender) {
+    userAvatar = <CoinbasePayIcon />
+  } else {
+    userAvatar = <ContactCircle recipient={recipient} />
+  }
 
   const selfAvatar = <ContactCircleSelf />
 
