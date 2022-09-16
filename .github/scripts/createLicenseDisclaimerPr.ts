@@ -31,7 +31,7 @@ exec(
     -d '${JSON.stringify({
       head: branchName,
       base: 'main',
-      title: 'Update licenses and disclaimer',
+      title: 'chore: update licenses and disclaimer',
     })}'
 `
 )

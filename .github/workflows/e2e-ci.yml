@@ -87,10 +87,9 @@ jobs:
       # `if` conditions can't directly access secrets, so we use a workaround
       # See https://docs.github.com/en/actions/security-guides/encrypted-secrets#using-encrypted-secrets-in-a-workflow
       SECRETS_AVAILABLE: ${{ secrets.SECRETS_AVAILABLE }}
-      BASH_ENV: /Users/administrator/.profile
+      BASH_ENV: ~/.profile
     name: iOS
-    # TODO(satish): revert this once all machines are upgraded
-    runs-on: ios-e2e-group-xcode-13
+    runs-on: ios-e2e-group
     steps:
       - name: Google Secrets
         if: ${{ env.SECRETS_AVAILABLE }}
