@@ -87,6 +87,7 @@ jobs:
       # `if` conditions can't directly access secrets, so we use a workaround
       # See https://docs.github.com/en/actions/security-guides/encrypted-secrets#using-encrypted-secrets-in-a-workflow
       SECRETS_AVAILABLE: ${{ secrets.SECRETS_AVAILABLE }}
+      BASH_ENV: /Users/administrator/.bash_profile
     name: iOS
     # TODO(satish): revert this once all machines are upgraded
     runs-on: ios-e2e-group-xcode-13
@@ -109,38 +110,30 @@ jobs:
       - name: Fail if someone forgot to commit "yarn.lock"
         run: git diff --exit-code
       - name: Install Ruby dependencies
-        run: |
-          source ~/.bash_profile
-          bundle install --path vendor/bundle
+        run: bundle install --path vendor/bundle
       - name: Fail if someone forgot to commit "Gemfile.lock"
         run: git diff --exit-code
       - name: Install CocoaPods dependencies
         working-directory: ios
-        run: |
-          source ~/.bash_profile
-          bundle exec pod install || bundle exec pod install --repo-update
+        run: bundle exec pod install || bundle exec pod install --repo-update
       - name: Fail if someone forgot to commit "Podfile.lock"
         run: git diff --exit-code
       - name: Check E2E wallet balance
         run: NODE_OPTIONS='--unhandled-rejections=strict' yarn ts-node ./e2e/scripts/check-e2e-wallet-balance.ts
       - name: Create Detox Build
         run: |
-          source ~/.bash_profile
           export CELO_TEST_CONFIG=e2e
           yarn detox build -c ios.release
       - name: Upload Detox Build to Emerge
         if: |
           env.SECRETS_AVAILABLE
             && (github.event_name == 'pull_request' || github.event_name == 'push')
-        run: |
-          source ~/.bash_profile
-          yarn ts-node .github/scripts/uploadE2eBuildToEmerge.ts
+        run: yarn ts-node .github/scripts/uploadE2eBuildToEmerge.ts
         env:
           EMERGE_API_TOKEN: ${{ steps.google-secrets.outputs.EMERGE_API_TOKEN }}
           DETOX_CONFIG: ios.release
       - name: Run Detox
         run: >
-          source ~/.bash_profile &&
           yarn detox test
           --configuration ios.release
           --artifacts-location e2e/artifacts
