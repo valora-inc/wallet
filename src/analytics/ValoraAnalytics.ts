@@ -171,6 +171,7 @@ class ValoraAnalytics {
     Analytics.identify(userID, traits).catch((err) => {
       Logger.error(TAG, `Failed to identify user ${userID}`, err)
     })
+    // TODO add user info to StatSig too?
   }
 
   page(screenId: string, eventProperties = {}) {

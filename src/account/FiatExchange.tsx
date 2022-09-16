@@ -21,22 +21,26 @@ import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
-import { Statsig, useLayer } from 'statsig-react-native'
+import { useLayer } from 'statsig-react-native'
 
 function FiatExchange() {
+  Logger.info(
+    'FiatExchange',
+    'Statsig exp layer: isLoading',
+    useLayer('name_and_picture_screen').isLoading
+  )
   const showSkipButton = useLayer('name_and_picture_screen').layer.get('showSkipButton', false)
   const nameType = useLayer('name_and_picture_screen').layer.get('nameType', 'first_and_last')
 
-  console.log('Statsig exp: getter', useLayer('name_and_picture_screen').layer)
-  console.log('Statsig exp: showSkip', showSkipButton)
-  console.log('Statsig exp: name type', nameType)
-  useEffect(() => {
-    if (showSkipButton) {
-      Statsig.logEvent('name_step_complete')
-    }
-  }, [])
+  Logger.info('FiatExchange', 'Statsig exp: showSkip', showSkipButton)
+  Logger.info('FiatExchange', 'Statsig exp: name type', nameType)
+  // useEffect(() => {
+  //   if (showSkipButton) {
+  //     Statsig.logEvent('name_step_complete')
+  //   }
+  // }, [])
 
-  console.log('Statsig exp: should show skip button is', showSkipButton)
+  Logger.info('FiatExchange', 'Statsig exp: should show skip button is', showSkipButton)
 
   const [timestamp, setTimestamp] = useState<number | null>(null)
   const appState = useTypedSelector((state) => state.app.appState)

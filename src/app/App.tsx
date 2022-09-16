@@ -15,14 +15,13 @@ import { apolloClient } from 'src/apollo/index'
 import { appMounted, appUnmounted, openDeepLink } from 'src/app/actions'
 import AppLoading from 'src/app/AppLoading'
 import ErrorBoundary from 'src/app/ErrorBoundary'
-import { isE2EEnv, STATSIG_API_KEY } from 'src/config'
+import { isE2EEnv } from 'src/config'
 import i18n from 'src/i18n'
 import I18nGate from 'src/i18n/I18nGate'
 import NavigatorWrapper from 'src/navigator/NavigatorWrapper'
 import { waitUntilSagasFinishLoading } from 'src/redux/sagas'
 import { persistor, store } from 'src/redux/store'
 import Logger from 'src/utils/Logger'
-import { StatsigProvider } from 'statsig-react-native'
 
 Logger.debug('App/init', 'Current Language: ' + i18n.language)
 
@@ -148,9 +147,7 @@ export class App extends React.Component<Props> {
               <I18nGate loading={<AppLoading />}>
                 <StatusBar backgroundColor="transparent" barStyle="dark-content" />
                 <ErrorBoundary>
-                  <StatsigProvider sdkKey={STATSIG_API_KEY} user={{}}>
-                    <NavigatorWrapper />
-                  </StatsigProvider>
+                  <NavigatorWrapper />
                 </ErrorBoundary>
               </I18nGate>
             </PersistGate>
