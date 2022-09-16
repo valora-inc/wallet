@@ -31,7 +31,7 @@ jobs:
           ssh-private-key: ${{ steps.google-secrets.outputs.BOT_SSH_KEY }}
       - uses: actions/checkout@v2
         with:
-          ref: main
+          ref: kathy/fix-automerge-permissions
       - run: yarn || yarn --network-concurrency 1
       - run: yarn ts-node .github/scripts/createAppVersionPr.ts
         env:
