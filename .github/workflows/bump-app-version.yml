@@ -39,6 +39,7 @@ jobs:
       - uses: actions/github-script@v5
         with:
           script: |
+            const allowedUpdatedFiles = []
             const script = require('.github/scripts/autoApprovePr.js')
             await script({github, context, core, allowedUpdatedFiles})
       - uses: actions/github-script@v5
