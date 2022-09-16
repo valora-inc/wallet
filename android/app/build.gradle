@@ -166,7 +166,7 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode appVersionCode
-        versionName "1.41.0"
+        versionName "1.42.0"
         multiDexEnabled true
         testBuildType System.getProperty('testBuildType', 'debug')
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -336,7 +336,6 @@ dependencies {
     debugImplementation("com.facebook.flipper:flipper-fresco-plugin:${FLIPPER_VERSION}") {
         exclude group:'com.facebook.flipper'
     }
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.7'
 
     if (enableHermes) {
         def hermesPath = "../../node_modules/hermes-engine/android/";

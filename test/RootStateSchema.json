@@ -1697,6 +1697,8 @@
                 "GoldEducation",
                 "ImportWallet",
                 "IncomingPaymentRequestListScreen",
+                "KycLanding",
+                "KycStatus",
                 "Language",
                 "LanguageModal",
                 "Licenses",

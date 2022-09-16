@@ -9,9 +9,20 @@
  * @typedef {import('@actions/github').context} Context
  */
 
-const AUTOMERGE_LABEL = 'automerge'
-const TRANSLATION_USERS = ['mpgaarciaa', 'lukasawagner']
+const TRANSLATION_USERS = ['mpgaarciaa']
 const BASE_TRANSLATION_FILENAME = 'locales/base/translation.json'
+const enableAutomergeQuery = `mutation ($pullRequestId: ID!, $mergeMethod: PullRequestMergeMethod!) {
+  enablePullRequestAutoMerge(input: {
+    pullRequestId: $pullRequestId,
+    mergeMethod: $mergeMethod
+  }) {
+    pullRequest {
+      autoMergeRequest {
+        enabledAt
+      }
+    }
+  }
+}`
 
 /**
  * @param {Object} obj - An object.
@@ -70,18 +81,18 @@ module.exports = async ({ github, context }) => {
       console.log(`Already approved`)
     }
 
-    const hasAutomergeLabel = translationPr.labels.some((label) => label.name === AUTOMERGE_LABEL)
-    if (!hasAutomergeLabel) {
-      console.log(`Adding ${AUTOMERGE_LABEL} label`)
-      await github.rest.issues.addLabels({
-        owner,
-        repo,
-        issue_number: translationPr.number,
-        labels: [AUTOMERGE_LABEL],
-      })
-    } else {
-      console.log(`Already labelled with ${AUTOMERGE_LABEL}`)
-    }
+    console.log(`Bringing PR #${translationPr.number} up to date with main branch`)
+    await github.rest.pulls.updateBranch({
+      owner,
+      repo,
+      pull_number: translationPr.number,
+    })
+
+    console.log(`Enabling automerge on PR #${translationPr.number}`)
+    await github.graphql(enableAutomergeQuery, {
+      pullRequestId: translationPr.node_id,
+      mergeMethod: 'SQUASH',
+    })
   }
 
   console.log('Done')

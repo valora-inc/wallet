@@ -592,9 +592,9 @@
   },
   "fullName": "Ім’я",
   "fullNamePlaceholder": "Ім’я та прізвище",
-  "fullNameOrPseudonymPlaceholder": "Ім'я або прізвище або псевдонім",
-  "nameAndPicGuideCopyTitle": "Як Вас звуть?",
-  "nameAndPicGuideCopyContent": "Ми хотіли б знати, як вам зателефонувати",
+  "fullNameOrPseudonymPlaceholder": "Ім’я та прізвище або псевдонім",
+  "nameAndPicGuideCopyTitle": "Як вас звати?",
+  "nameAndPicGuideCopyContent": "Ми хотіли б знати, як до вас звертатися",
   "importIt": "Відновити гаманець",
   "important": "Важливо",
   "confirmPin": {
@@ -682,8 +682,8 @@
     "title": "Захистіть свій гаманець",
     "description": "{{biometryType}} захищає ваш гаманець і полегшує використання {{appName}}",
     "cta": "Увімкнути {{biometryType}}",
-    "guideTitle": "Хочете додати {{biometryType}}?",
-    "guideDescription": "{{biometryType}} робить це простішим, швидшим і безпечнішим, щоб підключити свій гаманець до операцій з застосунками і підписом."
+    "guideTitle": "Бажаєте додати {{biometryType}}?",
+    "guideDescription": "{{biometryType}} допомагає спростити, пришвидшити й зробити безпечнішим під’єднання вашого гаманця до транзакцій у застосунках dapps із підписом."
   },
   "biometryType": {
     "FaceID": "Ідентифікатор обличчя",
@@ -696,7 +696,7 @@
   "unlockWithBiometryPrompt": "Автентифікуйтеся для розблокування {{appName}}",
   "welcome": {
     "title": "Крок у майбутнє криптовалюти з {{appName}}",
-    "titleGuided": "Ласкаво просимо на {{appName}}!\nДавайте створимо ваш криптовалютний гаманець.",
+    "titleGuided": "Ласкаво просимо до {{appName}}!\nСтворімо ваш криптогаманець.",
     "createAccount": "Створити новий обліковий запис",
     "restoreAccount": "Відновити мій обліковий запис",
     "createNewWallet": "Створити гаманець",
@@ -721,9 +721,9 @@
     "changePIN": "Змінити PIN-код",
     "pinsDontMatch": "PIN-коди не збігаються",
     "invalidPin": "Просимо використовувати сильніший PIN-код",
-    "guideTitle": "Виберіть 6-значний PIN-код, який ви пам'ятатимете",
+    "guideTitle": "Виберіть 6-значний PIN-код, який легко запам’ятати",
     "guideConfirm": "Введіть PIN-код ще раз для підтвердження.",
-    "pinCodeGuide": "Ваш PIN-код - це спосіб захисту вашого гаманця.",
+    "pinCodeGuide": "Ваш PIN-код ― це спосіб захисту вашого гаманця.",
     "selectPIN": "Виберіть PIN-код"
   },
   "inviteCode": {
@@ -1116,7 +1116,7 @@
     "subtitle": "Наразі ваш обліковий запис порожній",
     "addFunds": "Додати кошти",
     "titleRamp": "Додати {{currency}}, щоб почати використовувати Valora",
-    "subtitleRamp": "Додати кошти з нульовою комісією через одного з наших довірених зовнішніх постачальників."
+    "subtitleRamp": "Додати кошти з низькою комісією через одного з наших довірених зовнішніх постачальників."
   },
   "balances": "Активи",
   "totalBalanceWithLocalCurrencySymbol": "{{localCurrencySymbol}}{{totalBalance}} Усього",

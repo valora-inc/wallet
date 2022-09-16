@@ -594,7 +594,7 @@
   "fullNamePlaceholder": "Imię i nazwisko",
   "fullNameOrPseudonymPlaceholder": "Imię i nazwisko lub pseudonim",
   "nameAndPicGuideCopyTitle": "Jak masz na imię?",
-  "nameAndPicGuideCopyContent": "Chcielibyśmy wiedzieć, jak cię nazywać",
+  "nameAndPicGuideCopyContent": "Chcielibyśmy wiedzieć, jak Cię nazywać",
   "importIt": "Przywróć portfel",
   "important": "Ważne",
   "confirmPin": {
@@ -696,7 +696,7 @@
   "unlockWithBiometryPrompt": "Uwierzytelnij, aby odblokować {{appName}}",
   "welcome": {
     "title": "Wkrocz w przyszłość kryptowalut z aplikacją {{appName}}",
-    "titleGuided": "Witamy na {{appName}}!\nStwórzmy twój portfel kryptowalutowy.",
+    "titleGuided": "Witamy w {{appName}}!\nStwórzmy Twój portfel kryptowalutowy.",
     "createAccount": "Utwórz nowe konto",
     "restoreAccount": "Przywróć konto",
     "createNewWallet": "Utwórz portfel",
@@ -723,7 +723,7 @@
     "invalidPin": "Użyj silniejszego kodu PIN",
     "guideTitle": "Wybierz 6-cyfrowy kod PIN, który zapamiętasz",
     "guideConfirm": "Wprowadź ponownie kod PIN, aby potwierdzić.",
-    "pinCodeGuide": "PIN to sposób, w jaki zabezpieczasz swój portfel.",
+    "pinCodeGuide": "PIN to sposób na zabezpieczenie Twojego portfela.",
     "selectPIN": "Wybierz PIN"
   },
   "inviteCode": {
@@ -1116,7 +1116,7 @@
     "subtitle": "Nie masz teraz żadnych środków na koncie",
     "addFunds": "Dodaj środki",
     "titleRamp": "Dodaj {{currency}}, aby rozpocząć korzystanie z aplikacji Valora",
-    "subtitleRamp": "Dodawaj środki z zerowymi opłatami za pośrednictwem jednego z naszych zaufanych partnerów."
+    "subtitleRamp": "Dodawaj środki z niskimi opłatami za pośrednictwem jednego z naszych zaufanych partnerów."
   },
   "balances": "Aktywa",
   "totalBalanceWithLocalCurrencySymbol": "Razem {{totalBalance}} {{localCurrencySymbol}}",

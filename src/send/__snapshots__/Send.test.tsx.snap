@@ -20,6 +20,7 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
         "flexDirection": "row",
         "height": 56,
         "justifyContent": "space-between",
+        "overflow": "hidden",
         "width": "100%",
       }
     }

@@ -22,6 +22,7 @@ exports[`ExchangeTradeScreen renders correctly 1`] = `
         "flexDirection": "row",
         "height": 56,
         "justifyContent": "space-between",
+        "overflow": "hidden",
         "width": "100%",
       }
     }
@@ -69,6 +70,7 @@ exports[`ExchangeTradeScreen renders correctly 1`] = `
           }
         >
           <Text
+            allowFontScaling={false}
             numberOfLines={1}
             style={
               Object {
@@ -104,6 +106,7 @@ exports[`ExchangeTradeScreen renders correctly 1`] = `
             </Text>
           </Text>
           <Text
+            allowFontScaling={false}
             numberOfLines={1}
             style={
               Object {
@@ -115,12 +118,15 @@ exports[`ExchangeTradeScreen renders correctly 1`] = `
             <View
               style={
                 Object {
+                  "alignItems": "center",
                   "flexDirection": "row",
+                  "justifyContent": "center",
                 }
               }
               testID="HeaderCurrencyPicker"
             >
               <Text
+                allowFontScaling={false}
                 style={
                   Object {
                     "color": "#9CA4A9",

@@ -26,6 +26,7 @@ import {
   WalletConnectRequestType,
   WalletConnectSessionRequest,
 } from 'src/walletConnect/types'
+import { Props as KycLandingProps } from 'src/fiatconnect/KycLanding'
 
 // Typed nested navigator params
 type NestedNavigatorParams<ParamList> = {
@@ -204,6 +205,8 @@ export type StackParamList = {
     transactionData: TransactionDataInputLegacy
     addressJustValidated?: boolean
   }
+  [Screens.KycLanding]: KycLandingProps
+  [Screens.KycStatus]: undefined
   [Screens.PincodeEnter]: {
     withVerification?: boolean
     onSuccess: (pin: string) => void

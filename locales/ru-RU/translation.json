@@ -593,8 +593,8 @@
   "fullName": "Имя",
   "fullNamePlaceholder": "Имя и фамилия",
   "fullNameOrPseudonymPlaceholder": "Имя и фамилия или псевдоним",
-  "nameAndPicGuideCopyTitle": "Как тебя зовут?",
-  "nameAndPicGuideCopyContent": "Мы хотели бы знать, как вас называть.",
+  "nameAndPicGuideCopyTitle": "Как вас зовут?",
+  "nameAndPicGuideCopyContent": "Мы хотели бы знать, как к вам обращаться",
   "importIt": "Восстановить кошелек",
   "important": "Важно",
   "confirmPin": {
@@ -682,7 +682,7 @@
     "title": "Защитите ваш кошелек",
     "description": "{{biometryType}} поможет защитить ваш кошелек и упростить использование {{appName}}",
     "cta": "Включить {{biometryType}}",
-    "guideTitle": "Хочешь добавить {{biometryType}}?",
+    "guideTitle": "Хотите добавить {{biometryType}}?",
     "guideDescription": "{{biometryType}} позволяет проще, быстрее и безопаснее подключать свой кошелек к dapps и подписывать транзакции."
   },
   "biometryType": {
@@ -696,7 +696,7 @@
   "unlockWithBiometryPrompt": "Авторизуйтесь для разблокировки {{appName}}",
   "welcome": {
     "title": "Сделайте шаг в будущее криптовалют с помощью {{appName}}",
-    "titleGuided": "Добро пожаловать на {{appName}}!\nДавай создадим твой криптокошелек.",
+    "titleGuided": "Добро пожаловать в {{appName}}!\nДавайте создадим ваш криптовалютный кошелек.",
     "createAccount": "Создать новый аккаунт",
     "restoreAccount": "Восстановить мой аккаунт",
     "createNewWallet": "Создать кошелек",
@@ -721,10 +721,10 @@
     "changePIN": "Изменить PIN-код",
     "pinsDontMatch": "PIN-код не совпадает",
     "invalidPin": "Используйте более надежный PIN-код",
-    "guideTitle": "Выберите 6-значный PIN-код, который вы будете помнить",
+    "guideTitle": "Придумайте 6-значный PIN-код, который вы запомните",
     "guideConfirm": "Повторно введите PIN-код для подтверждения.",
-    "pinCodeGuide": "Твой PIN-код - это то, как ты обезопасишь свой кошелек.",
-    "selectPIN": "Выберите PIN-код"
+    "pinCodeGuide": "Ваш PIN-код — это средство защиты вашего кошелька.",
+    "selectPIN": "Придумайте PIN-код"
   },
   "inviteCode": {
     "title": "Код приглашения",
@@ -1116,7 +1116,7 @@
     "subtitle": "На вашем аккаунте в настоящее время нет средств",
     "addFunds": "Внести средства",
     "titleRamp": "Внести {{currency}}, чтобы начать использовать Valora",
-    "subtitleRamp": "Внесите средства с нулевой комиссией через одного из доверенных внешних поставщиков."
+    "subtitleRamp": "Вносите средства с низкой комиссией через одного из доверенных внешних поставщиков."
   },
   "balances": "Активы",
   "totalBalanceWithLocalCurrencySymbol": "{{localCurrencySymbol}}{{totalBalance}} Всего",

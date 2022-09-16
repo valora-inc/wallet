@@ -685,6 +685,14 @@ export const mockFiatConnectProviderInfo: FiatConnectProviderInfo[] = [
     websiteUrl: 'https://fakewebsite.valorapp.com',
     iconUrl: mockFiatConnectProviderIcon,
   },
+  {
+    id: 'provider-three',
+    providerName: 'Provider Three',
+    imageUrl: mockFiatConnectProviderImage,
+    baseUrl: 'fakewebsite.valoraapp.com',
+    websiteUrl: 'https://fakewebsite.valorapp.com',
+    iconUrl: mockFiatConnectProviderIcon,
+  },
 ]
 
 export const mockFiatConnectTransfers: FiatConnectTransfer[] = [
@@ -769,14 +777,7 @@ export const mockFiatConnectQuotes: (FiatConnectQuoteSuccess | FiatConnectQuoteE
     ...mockGetFiatConnectQuotesResponse[0].val,
   },
   {
-    provider: {
-      id: 'provider-three',
-      providerName: 'Provider Three',
-      imageUrl: mockFiatConnectProviderImage,
-      baseUrl: 'fakewebsite.valoraapp.com',
-      websiteUrl: 'https://fakewebsite.valorapp.com',
-      iconUrl: mockFiatConnectProviderIcon,
-    },
+    provider: mockFiatConnectProviderInfo[2],
     ok: true,
     quote: {
       fiatType: FiatType.USD,
@@ -786,6 +787,34 @@ export const mockFiatConnectQuotes: (FiatConnectQuoteSuccess | FiatConnectQuoteE
       quoteId: 'mock_quote_in_id',
       guaranteedUntil: '2099-04-27T19:22:36.000Z',
       transferType: TransferType.TransferIn,
+      fee: '4.22',
+    },
+    kyc: {
+      kycRequired: true,
+      kycSchemas: [{ kycSchema: 'fake-schema' as KycSchema, allowedValues: {} }],
+    },
+    fiatAccount: {
+      BankAccount: {
+        fiatAccountSchemas: [
+          {
+            fiatAccountSchema: FiatAccountSchema.AccountNumber,
+            allowedValues: {},
+          },
+        ],
+      },
+    },
+  },
+  {
+    provider: mockFiatConnectProviderInfo[2],
+    ok: true,
+    quote: {
+      fiatType: FiatType.USD,
+      cryptoType: CryptoType.cUSD,
+      fiatAmount: '100',
+      cryptoAmount: '100',
+      quoteId: 'mock_quote_out_id',
+      guaranteedUntil: '2099-04-27T19:22:36.000Z',
+      transferType: TransferType.TransferOut,
       fee: '4.22',
     },
     kyc: {
@@ -800,6 +829,71 @@ export const mockFiatConnectQuotes: (FiatConnectQuoteSuccess | FiatConnectQuoteE
             allowedValues: {},
           },
         ],
+      },
+    },
+  },
+]
+export const mockFiatConnectQuotesWithUnknownFees: FiatConnectQuoteSuccess[] = [
+  {
+    // provider-two with no fee given
+    provider: mockFiatConnectProviderInfo[0],
+    ok: true,
+    quote: {
+      fiatType: FiatType.USD,
+      cryptoType: CryptoType.cUSD,
+      fiatAmount: '100',
+      cryptoAmount: '100',
+      quoteId: 'mock_quote_in_id',
+      guaranteedUntil: '2099-04-27T19:22:36.000Z',
+      transferType: TransferType.TransferIn,
+    },
+    kyc: {
+      kycRequired: false,
+      kycSchemas: [],
+    },
+    fiatAccount: {
+      BankAccount: {
+        fiatAccountSchemas: [
+          {
+            fiatAccountSchema: FiatAccountSchema.AccountNumber,
+            allowedValues: { institutionName: ['Bank A', 'Bank B'] },
+          },
+        ],
+        settlementTimeLowerBound: `300`, // Five minutes
+        settlementTimeUpperBound: `7200`, // Two hours
+      },
+    },
+  },
+  {
+    // provider-one with a platform fee
+    provider: mockFiatConnectProviderInfo[1],
+    ok: true,
+    quote: {
+      fiatType: FiatType.USD,
+      cryptoType: CryptoType.cUSD,
+      fiatAmount: '100',
+      cryptoAmount: '100',
+      quoteId: 'mock_quote_in_id',
+      guaranteedUntil: '2099-04-27T19:22:36.000Z',
+      transferType: TransferType.TransferIn,
+      fee: '0.97',
+      feeType: QuoteFeeType.PlatformFee,
+      feeFrequency: FeeFrequency.OneTime,
+    },
+    kyc: {
+      kycRequired: false,
+      kycSchemas: [],
+    },
+    fiatAccount: {
+      BankAccount: {
+        fiatAccountSchemas: [
+          {
+            fiatAccountSchema: FiatAccountSchema.AccountNumber,
+            allowedValues: { institutionName: ['Bank A', 'Bank B'] },
+          },
+        ],
+        settlementTimeLowerBound: `300`, // Five minutes
+        settlementTimeUpperBound: `7200`, // Two hours
       },
     },
   },

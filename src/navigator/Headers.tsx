@@ -214,12 +214,22 @@ export function HeaderTitleWithSubtitle({
   return (
     <View style={styles.header} testID={testID}>
       {title && (
-        <Text testID="HeaderTitle" style={styles.headerTitle} numberOfLines={1}>
+        <Text
+          testID="HeaderTitle"
+          style={styles.headerTitle}
+          numberOfLines={1}
+          allowFontScaling={false}
+        >
           {title}
         </Text>
       )}
       {subTitle && (
-        <Text testID="HeaderSubTitle" style={styles.headerSubTitle} numberOfLines={1}>
+        <Text
+          testID="HeaderSubTitle"
+          style={styles.headerSubTitle}
+          numberOfLines={1}
+          allowFontScaling={false}
+        >
           {subTitle}
         </Text>
       )}

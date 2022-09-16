@@ -9,8 +9,6 @@
  * @typedef {import('@actions/github').context} Context
  */
 
-const AUTOMERGE_LABEL = 'automerge'
-
 /**
  * @param {Object} obj - An object.
  * @param {GitHub} obj.github
@@ -75,14 +73,6 @@ module.exports = async ({ github, context, allowedUpdatedFiles }) => {
     pull_number: pr.number,
     event: 'APPROVE',
     body: `Approved from [${context.workflow} #${context.runNumber}](${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}).`,
-  })
-
-  console.log(`Adding ${AUTOMERGE_LABEL} label`)
-  await github.rest.issues.addLabels({
-    owner,
-    repo,
-    issue_number: pr.number,
-    labels: [AUTOMERGE_LABEL],
   })
 
   console.log('Done')
