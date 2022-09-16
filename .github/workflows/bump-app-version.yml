@@ -33,9 +33,9 @@ jobs:
       #   with:
       #     ref: kathy/fix-automerge-permissions
       # - run: yarn || yarn --network-concurrency 1
-      - run: yarn ts-node .github/scripts/createAppVersionPr.ts
-        env:
-          VALORA_BOT_TOKEN: ${{ steps.google-secrets.outputs.VALORA_BOT_TOKEN }}
+      # - run: yarn ts-node .github/scripts/createAppVersionPr.ts
+      #   env:
+      #     VALORA_BOT_TOKEN: ${{ steps.google-secrets.outputs.VALORA_BOT_TOKEN }}
       - uses: actions/github-script@v5
         with:
           script: |
