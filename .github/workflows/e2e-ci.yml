@@ -89,8 +89,7 @@ jobs:
       SECRETS_AVAILABLE: ${{ secrets.SECRETS_AVAILABLE }}
       BASH_ENV: ~/.profile
     name: iOS
-    # TODO: revert below line once all machines have xcode 13.1
-    runs-on: ios-e2e-group-xcode-13
+    runs-on: ios-e2e-group
     steps:
       - name: Google Secrets
         if: ${{ env.SECRETS_AVAILABLE }}
