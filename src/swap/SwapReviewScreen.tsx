@@ -30,6 +30,7 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
+import { swapStart } from 'src/swap/slice'
 import { Field } from 'src/swap/useSwapQuote'
 import { coreTokensSelector } from 'src/tokens/selectors'
 import { divideByWei, multiplyByWei } from 'src/utils/formatting'
@@ -109,7 +110,7 @@ export function SwapReviewScreen(props: Props) {
           `Failure response fetching token swap quote. ${response.status}  ${response.statusText}`
         )
       }
-      setSwapInfo(await response.json())
+      setSwapInfo({ ...(await response.json()), userInput: params })
       setShouldFetch(false)
       setFetchError(false)
     },
@@ -127,6 +128,7 @@ export function SwapReviewScreen(props: Props) {
   const submitSwap = () => {
     // Check for swapInfo prior to submitting swap
     if (!swapInfo) return
+
     // Analytics for swap submission
     ValoraAnalytics.track(SwapEvents.swap_review_submit, {
       toToken,
@@ -140,6 +142,7 @@ export function SwapReviewScreen(props: Props) {
       ),
     })
     // TODO: dispatch swap submission
+    dispatch(swapStart(swapInfo))
   }
 
   return (
@@ -370,7 +373,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignSelf: 'flex-end',
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     alignItems: 'center',
   },
   transactionDetailsLabel: {

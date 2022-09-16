@@ -276,6 +276,7 @@ export type StackParamList = {
     | undefined
   [Screens.Sync]: undefined
   [Screens.SwapScreen]: undefined
+  [Screens.SwapPending]: undefined
   [Screens.SwapReviewScreen]: {
     toToken: string
     fromToken: string
