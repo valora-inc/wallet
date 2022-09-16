@@ -31,7 +31,7 @@ exec(
   -d '${JSON.stringify({
     head: branchName,
     base: 'main',
-    title: `Bump app version to ${appVersion}`,
+    title: `chore: bump app version to ${appVersion}`,
   })}'
 `
 )
