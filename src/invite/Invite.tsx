@@ -38,6 +38,7 @@ function Content() {
         <Text style={styles.title}>{t('inviteWithUrl.title')}</Text>
         <Text style={styles.body}>{t('inviteWithUrl.body')}</Text>
         <Button
+          testID="invite"
           iconPositionLeft={false}
           icon={<ShareIcon height={24} color="white" />}
           text={t('inviteWithUrl.button')}
