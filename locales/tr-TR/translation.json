@@ -592,9 +592,9 @@
   },
   "fullName": "İsim",
   "fullNamePlaceholder": "Ad & Soyad",
-  "fullNameOrPseudonymPlaceholder": "First and last name or pseudonym",
-  "nameAndPicGuideCopyTitle": "What’s your name?",
-  "nameAndPicGuideCopyContent": "We’d like to know what to call you",
+  "fullNameOrPseudonymPlaceholder": "Adı ve soyadı veya takma ad",
+  "nameAndPicGuideCopyTitle": "Adınız nedir?",
+  "nameAndPicGuideCopyContent": "Size nasıl hitap edeceğimizi bilmek istiyoruz",
   "importIt": "Cüzdanı Yeniden Kur",
   "important": "Önemli",
   "confirmPin": {
@@ -682,8 +682,8 @@
     "title": "Cüzdanınızı emniyete alın",
     "description": "{{biometryType}}, cüzdanınızın güvenliğini sağlar ve {{appName}} kullanımını kolaylaştırır",
     "cta": "{{biometryType}} etkinleştir",
-    "guideTitle": "Want to add {{biometryType}}?",
-    "guideDescription": "{{biometryType}} makes it easier, quicker, and more secure to connect your wallet to dapps & sign transactions."
+    "guideTitle": "{{biometryType}} eklemek ister misiniz?",
+    "guideDescription": "{{biometryType}}, cüzdanınızı dapps (merkeziyetsiz uygulama) ve imzalama işlemlerine bağlamayı daha kolay, daha hızlı ve daha güvenli hale getirir."
   },
   "biometryType": {
     "FaceID": "Face ID",
@@ -696,7 +696,7 @@
   "unlockWithBiometryPrompt": "{{appName}} uygulamasının kilidini açmak için kimlik doğrulaması yapın",
   "welcome": {
     "title": "{{appName}} ile kriptonun geleceğine adım atın",
-    "titleGuided": "Welcome to {{appName}}!\nLet’s create your crypto wallet.",
+    "titleGuided": "{{appName}} uygulamasına hoş geldiniz!\nKripto cüzdanınızı oluşturalım.",
     "createAccount": "Yeni hesap oluştur",
     "restoreAccount": "Hesabımı geri yükle",
     "createNewWallet": "Cüzdan oluştur",
@@ -721,10 +721,10 @@
     "changePIN": "PIN Değiştir",
     "pinsDontMatch": "PIN'ler eşleşmedi",
     "invalidPin": "Lütfen daha güçlü bir Pin kullanın",
-    "guideTitle": "Choose a 6 digit PIN you’ll remember",
+    "guideTitle": "Unutmayacağınız 6 haneli bir PIN seçin",
     "guideConfirm": "Doğrulamak için PIN'i tekrar girin.",
-    "pinCodeGuide": "Your PIN is how you’ll secure your wallet.",
-    "selectPIN": "Select PIN"
+    "pinCodeGuide": "PIN'iniz, cüzdanınızı güvence altına almak içindir.",
+    "selectPIN": "PIN seçin"
   },
   "inviteCode": {
     "title": "Davet Kodu",
@@ -1112,7 +1112,7 @@
     "subtitle": "Hesabınız şu anda boş",
     "addFunds": "Bakiye Ekle",
     "titleRamp": "Valora'yı kullanmaya başlamak için {{currency}} ekleyin",
-    "subtitleRamp": "Add funds with low fees through one of our trusted external providers."
+    "subtitleRamp": "Güvenilir harici sağlayıcılarımızdan biri aracılığıyla düşük ücretlerle para ekleyin."
   },
   "balances": "Varlıklar",
   "totalBalanceWithLocalCurrencySymbol": "Toplam {{localCurrencySymbol}}{{totalBalance}}",
