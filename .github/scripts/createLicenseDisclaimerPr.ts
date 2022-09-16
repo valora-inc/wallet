@@ -21,7 +21,7 @@ exec('git config user.name "valora-bot"')
 exec('git commit -m "Update licenses and disclaimer"')
 exec(`git push --set-upstream origin ${branchName}`)
 
-echo('Open licenses and disclaimer PR')
+echo('chore: open licenses and disclaimer PR')
 exec(
   `
   curl -u "valora-bot:${VALORA_BOT_TOKEN}" \
