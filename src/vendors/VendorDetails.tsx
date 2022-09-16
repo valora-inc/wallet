@@ -1,5 +1,6 @@
 import { map } from 'lodash'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { useDispatch } from 'react-redux'
@@ -13,6 +14,7 @@ import Pin from 'src/icons/Pin'
 import QRCodeBorderless from 'src/icons/QRCodeBorderless'
 import Share from 'src/icons/Share'
 import Times from 'src/icons/Times'
+import VerifiedIcon from 'src/icons/VerifiedIcon'
 import Website from 'src/icons/Website'
 import { initiateDirection, initiatePhoneCall, initiateShare } from 'src/map/utils'
 import colors from 'src/styles/colors'
@@ -40,8 +42,11 @@ const VendorDetails = ({ vendor, close, action }: Props) => {
     tags,
     logoURI,
     phoneNumber,
+    acceptsGuilder,
+    providesGuilder,
   } = vendor
   const { location } = vendor as VendorWithLocation
+  const { t } = useTranslation()
   const dispatch = useDispatch()
 
   const handleOpenMap = (): void => {
@@ -68,6 +73,21 @@ const VendorDetails = ({ vendor, close, action }: Props) => {
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.subtitle}>{subtitle}</Text>
         <Text style={styles.description}>{description}</Text>
+        <View style={[styles.cico, acceptsGuilder && providesGuilder ? styles.cicoPartner : null]}>
+          {acceptsGuilder && (
+            <View style={styles.verifiedRow}>
+              <VerifiedIcon />
+              <Text style={styles.verified}>{t('acceptsGuilder')}</Text>
+            </View>
+          )}
+          {providesGuilder && (
+            <View style={styles.verifiedRow}>
+              <VerifiedIcon />
+              <Text style={styles.verified}>{t('providesGuilder')}</Text>
+            </View>
+          )}
+        </View>
+
         <View style={styles.contactRow}>
           {phoneNumber && (
             <TouchableOpacity onPress={() => initiatePhoneCall(phoneNumber)}>
@@ -147,6 +167,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: 36,
     marginBottom: 16,
   },
+  cico: {},
+  cicoPartner: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+  },
+  verified: {
+    ...fontStyles.regular,
+    textAlign: 'center',
+    color: colors.gray5,
+    paddingHorizontal: 10,
+    marginBottom: 16,
+  },
   description: {
     ...fontStyles.regular,
     textAlign: 'justify',
@@ -183,6 +215,10 @@ const styles = StyleSheet.create({
     borderBottomColor: colors.gray3,
     borderTopWidth: StyleSheet.hairlineWidth,
     borderBottomWidth: StyleSheet.hairlineWidth,
+  },
+  verifiedRow: {
+    display: 'flex',
+    flexDirection: 'row',
   },
   furtherDetailsRow: {},
   streetContainer: {
