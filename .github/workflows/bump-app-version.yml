@@ -29,9 +29,9 @@ jobs:
       - uses: webfactory/ssh-agent@v0.5.3
         with:
           ssh-private-key: ${{ steps.google-secrets.outputs.BOT_SSH_KEY }}
-      # - uses: actions/checkout@v2
-      #   with:
-      #     ref: kathy/fix-automerge-permissions
+      - uses: actions/checkout@v2
+        with:
+          ref: kathy/fix-automerge-permissions
       # - run: yarn || yarn --network-concurrency 1
       # - run: yarn ts-node .github/scripts/createAppVersionPr.ts
       #   env:
