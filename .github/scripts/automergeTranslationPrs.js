@@ -9,7 +9,7 @@
  * @typedef {import('@actions/github').context} Context
  */
 
-const TRANSLATION_USERS = ['mpgaarciaa']
+const TRANSLATION_USERS = ['mpgaarciaa', 'kathaypacific']
 const BASE_TRANSLATION_FILENAME = 'locales/base/translation.json'
 const enableAutomergeQuery = `mutation ($pullRequestId: ID!, $mergeMethod: PullRequestMergeMethod!) {
   enablePullRequestAutoMerge(input: {
