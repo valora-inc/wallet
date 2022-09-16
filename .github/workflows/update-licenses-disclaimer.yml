@@ -4,10 +4,9 @@ on:
   push:
     # trigger only when the yarn.lock file is modified in main
     branches:
-      # - main
-      - kathy/fix-automerge-permissions
-    # paths:
-    #   - 'yarn.lock'
+      - main
+    paths:
+      - 'yarn.lock'
 
 jobs:
   update-licenses-and-disclaimer:
