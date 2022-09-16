@@ -40,7 +40,7 @@ export const tokensListSelector = createSelector(tokensByAddressSelector, (token
   return Object.values(tokens).map((token) => token!)
 })
 
-type TokenBalanceWithUsdPrice = TokenBalance & {
+export type TokenBalanceWithUsdPrice = TokenBalance & {
   usdPrice: BigNumber
 }
 

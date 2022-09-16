@@ -33,6 +33,7 @@ import { importSaga } from 'src/import/saga'
 import { localCurrencySaga } from 'src/localCurrency/saga'
 import { networkInfoSaga } from 'src/networkInfo/saga'
 import { paymentRequestSaga } from 'src/paymentRequest/saga'
+import { pdfSaga } from 'src/pdf/saga'
 import { setPhoneRecipientCache, updateValoraRecipientCache } from 'src/recipients/reducer'
 import { recipientsSaga } from 'src/recipients/saga'
 import { waitForRehydrate } from 'src/redux/persist-helper'
@@ -139,6 +140,7 @@ export function* rootSaga() {
     yield spawn(superchargeSaga)
     yield spawn(checkAndroidMobileServicesSaga)
     yield spawn(vendorsSaga)
+    yield spawn(pdfSaga)
   } catch (error) {
     Logger.error('@rootSaga', 'Error while initializing sagas', error)
     // Propagate so it's handled by Sentry

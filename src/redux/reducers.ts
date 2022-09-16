@@ -18,6 +18,7 @@ import { reducer as imports, State as ImportState } from 'src/import/reducer'
 import { reducer as localCurrency, State as LocalCurrencyState } from 'src/localCurrency/reducer'
 import { reducer as networkInfo, State as NetworkInfoState } from 'src/networkInfo/reducer'
 import { reducer as paymentRequest, State as PaymentRequestState } from 'src/paymentRequest/reducer'
+import { reducer as pdf, State as PdfState } from 'src/pdf/reducer'
 import { recipientsReducer as recipients, State as RecipientsState } from 'src/recipients/reducer'
 import { sendReducer as send, State as SendState } from 'src/send/reducers'
 import { reducer as stableToken, State as StableTokenState } from 'src/stableToken/reducer'
@@ -57,6 +58,7 @@ const appReducer = combineReducers({
   supercharge: superchargeReducer,
   swap: swap,
   vendors,
+  pdf: pdf,
 }) as (state: RootState | undefined, action: Action) => RootState
 
 const rootReducer = (state: RootState | undefined, action: Action): RootState => {
@@ -107,6 +109,7 @@ export interface RootState {
   supercharge: SuperchargeState
   swap: SwapState
   vendors: VendorState
+  pdf: PdfState
 }
 
 export interface PersistedRootState {

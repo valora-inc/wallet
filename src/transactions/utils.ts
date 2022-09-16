@@ -1,16 +1,18 @@
 import BigNumber from 'bignumber.js'
-import { filter, forEach } from 'lodash'
+import { filter, find, forEach, map } from 'lodash'
 import { useSelector } from 'react-redux'
 import { TokenTransactionType } from 'src/apollo/types'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
 import { ExchangeConfirmationCardProps } from 'src/exchange/ExchangeConfirmationCard'
 import i18n from 'src/i18n'
 import { AddressToDisplayNameType } from 'src/identity/reducer'
+import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { localCurrencyToUsdSelector } from 'src/localCurrency/selectors'
 import { useTokenInfo } from 'src/tokens/hooks'
+import { TokenBalanceWithUsdPrice } from 'src/tokens/selectors'
 import { FeedTokenTransaction } from 'src/transactions/feed/TransactionFeed'
 import { TransferConfirmationCardProps } from 'src/transactions/TransferConfirmationCard'
-import { TokenTransfer } from 'src/transactions/types'
+import { TokenTransaction, TokenTransfer } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import { formatFeedSectionTitle, timeDeltaInDays } from 'src/utils/time'
 
@@ -157,4 +159,36 @@ export function calculateTransactionSubtotal(transactions: FeedTokenTransaction[
     total = total.plus(amountInLocalCurrency)
   })
   return formatValueToDisplay(total)
+}
+
+export const transactionsWithUsdPrice = (
+  transactions: TokenTransaction[],
+  tokenInfos: TokenBalanceWithUsdPrice[],
+  localCurrencyCode: LocalCurrencyCode,
+  localCurrencyExchangeRate: BigNumber
+) => {
+  const TAG = '@transactionsWithUsdPrice'
+  return map(transactions, (tx: TokenTransfer) => {
+    const tokenInfoWithUsdPrice = find(tokenInfos, (tokenInfo) => {
+      return tokenInfo.address == tx.amount.tokenAddress
+    }) as TokenBalanceWithUsdPrice
+    const usdAmount = (tokenInfoWithUsdPrice?.usdPrice ?? new BigNumber(0)).multipliedBy(
+      tx.amount.value
+    )
+    const localCurrencyAmount = new BigNumber(localCurrencyExchangeRate ?? 0).multipliedBy(
+      usdAmount
+    )
+    const result: TokenTransfer = {
+      ...tx,
+      amount: {
+        ...tx.amount,
+        localAmount: {
+          value: localCurrencyAmount,
+          exchangeRate: localCurrencyExchangeRate.toString(),
+          currencyCode: localCurrencyCode,
+        },
+      },
+    }
+    return result
+  })
 }

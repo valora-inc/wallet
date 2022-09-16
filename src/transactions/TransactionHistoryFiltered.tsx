@@ -1,14 +1,17 @@
 import BottomSheet, { BottomSheetBackdrop } from '@gorhom/bottom-sheet'
 import { StackNavigationOptions, StackScreenProps } from '@react-navigation/stack'
-import React, { useCallback } from 'react'
-import { useTranslation } from 'react-i18next'
+import React, { useCallback, useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
+import { useDispatch, useSelector } from 'react-redux'
 import TextButton from 'src/components/TextButton'
+import ExportSuccess from 'src/export/ExportSuccess'
+import ExportTransactions from 'src/export/ExportTransactions'
 import { headerWithBackButton } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import { closeExport, generatePdf } from 'src/pdf/actions'
+import { currentPdfLocationSelector, pdfLoadingSelector } from 'src/pdf/reducer'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
@@ -17,10 +20,15 @@ import StaticTransactionFeed from 'src/transactions/feed/TransactionFeedCached'
 type Props = StackScreenProps<StackParamList, Screens.TransactionHistoryFiltered>
 
 function TransactionHistory({ navigation, route }: Props) {
-  const { t } = useTranslation()
+  const dispatch = useDispatch()
+  const [content, setContent] = useState<any>(null)
   const { isExporting, month, minAmount, maxAmount, recipient } = route.params || {}
 
+  const loading = useSelector(pdfLoadingSelector)
+  const savedPdfLocation = useSelector(currentPdfLocationSelector)
+
   const handleClose = () => {
+    dispatch(closeExport())
     navigation.setParams({ isExporting: false })
   }
 
@@ -29,6 +37,10 @@ function TransactionHistory({ navigation, route }: Props) {
     []
   )
 
+  const handleExport = () => {
+    dispatch(generatePdf(content))
+  }
+  
   return (
     <SafeAreaView style={styles.container}>
       <StaticTransactionFeed
@@ -36,6 +48,7 @@ function TransactionHistory({ navigation, route }: Props) {
         minAmount={minAmount}
         maxAmount={maxAmount}
         recipient={recipient}
+        generate={setContent}
       />
       {isExporting ? (
         <BottomSheet
@@ -44,19 +57,10 @@ function TransactionHistory({ navigation, route }: Props) {
           backdropComponent={renderBackdrop}
           onClose={handleClose}
         >
-          <View style={styles.innerContainer}>
-            <Text style={styles.title}>{t('exportPrompt.title')}</Text>
-            <Text style={styles.details}>
-              {t('exportPrompt.details', { month: route.params?.month })}
-            </Text>
-            <Button
-              style={styles.button}
-              type={BtnTypes.BRAND_SECONDARY}
-              size={BtnSizes.FULL}
-              text={t('exportPrompt.continue')}
-              onPress={() => {}}
-            />
-          </View>
+          {!loading && !savedPdfLocation && (
+            <ExportTransactions month={route.params?.month} handleExport={handleExport} />
+          )}
+          {!loading && savedPdfLocation && <ExportSuccess location={savedPdfLocation} />}
         </BottomSheet>
       ) : null}
     </SafeAreaView>
@@ -86,22 +90,6 @@ TransactionHistory.navigationOptions = ({
 const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
-  },
-  title: {
-    ...fontStyles.h1,
-    textAlign: 'center',
-  },
-  details: {
-    ...fontStyles.regular,
-    padding: variables.contentPadding,
-  },
-  innerContainer: {
-    height: '100%',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-  },
-  button: {
-    padding: variables.contentPadding,
   },
   exportButton: {
     ...fontStyles.small400,

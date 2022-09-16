@@ -1,5 +1,5 @@
 import { map } from 'lodash'
-import React from 'react'
+import React, { Dispatch, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SectionList, StyleSheet } from 'react-native'
 import { useSelector } from 'react-redux'
@@ -31,6 +31,7 @@ type Props = {
   minAmount?: number
   maxAmount?: number
   recipient?: string
+  generate: Dispatch<any>
 }
 
 const StaticTransactionFeed = ({
@@ -38,6 +39,7 @@ const StaticTransactionFeed = ({
   minAmount: min,
   maxAmount: max,
   recipient: recipient,
+  generate,
 }: Props) => {
   const { t } = useTranslation()
   const cachedTransactions = useSelector(transactionsSelector)
@@ -56,6 +58,10 @@ const StaticTransactionFeed = ({
   const subtotal = calculateTransactionSubtotal(result)
   const grouped = groupFeedItemsInSections(result)
   const [total, sections] = [subtotal, grouped]
+
+  useEffect(() => {
+    generate(result)
+  }, [])
 
   function renderItem({ item: tx }: { item: FeedTokenTransaction; index: number }) {
     switch (tx.__typename) {

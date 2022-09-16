@@ -1330,5 +1330,15 @@
     "title": "You're About to Export!",
     "details": "You're about the export all transactions for the {{month}} period.",
     "continue": "Export"
+  },
+  "txSummary": {
+    "0": "Type",
+    "1": "Date",
+    "2": "Sender",
+    "3": "Receiver",
+    "4": "Contract",
+    "5": "Name",
+    "6": "Amount",
+    "7": "Local Amount"
   }
 }

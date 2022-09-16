@@ -459,6 +459,8 @@ PODS:
     - glog
   - react-native-blind-threshold-bls (1.0.0):
     - React-Core
+  - react-native-blob-util (0.16.2):
+    - React-Core
   - react-native-camera (4.2.1):
     - React-Core
     - react-native-camera/RCT (= 4.2.1)
@@ -481,6 +483,8 @@ PODS:
   - react-native-geth (1.0.0):
     - CeloBlockchain
     - React-Core
+  - react-native-html-to-pdf (0.12.0):
+    - React-Core
   - react-native-keep-awake (4.0.0):
     - React-Core
   - react-native-mail (6.0.0):
@@ -488,6 +492,8 @@ PODS:
   - react-native-maps (1.1.0):
     - React-Core
   - react-native-netinfo (5.8.0):
+    - React-Core
+  - react-native-pdf (6.6.2):
     - React-Core
   - react-native-plaid-link-sdk (7.2.1):
     - Plaid (~> 2.3.2)
@@ -784,16 +790,19 @@ DEPENDENCIES:
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - react-native-blind-threshold-bls (from `../node_modules/react-native-blind-threshold-bls`)
+  - react-native-blob-util (from `../node_modules/react-native-blob-util`)
   - react-native-camera (from `../node_modules/react-native-camera`)
   - react-native-config (from `../node_modules/react-native-config`)
   - react-native-contacts (from `../node_modules/react-native-contacts`)
   - react-native-fast-crypto (from `../node_modules/react-native-fast-crypto`)
   - react-native-flipper (from `../node_modules/react-native-flipper`)
   - react-native-geth (from `../node_modules/react-native-geth`)
+  - react-native-html-to-pdf (from `../node_modules/react-native-html-to-pdf`)
   - react-native-keep-awake (from `../node_modules/react-native-keep-awake`)
   - react-native-mail (from `../node_modules/react-native-mail`)
   - react-native-maps (from `../node_modules/react-native-maps`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
+  - react-native-pdf (from `../node_modules/react-native-pdf`)
   - react-native-plaid-link-sdk (from `../node_modules/react-native-plaid-link-sdk`)
   - react-native-randombytes (from `../node_modules/react-native-randombytes`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
@@ -962,6 +971,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/logger"
   react-native-blind-threshold-bls:
     :path: "../node_modules/react-native-blind-threshold-bls"
+  react-native-blob-util:
+    :path: "../node_modules/react-native-blob-util"
   react-native-camera:
     :path: "../node_modules/react-native-camera"
   react-native-config:
@@ -974,6 +985,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-flipper"
   react-native-geth:
     :path: "../node_modules/react-native-geth"
+  react-native-html-to-pdf:
+    :path: "../node_modules/react-native-html-to-pdf"
   react-native-keep-awake:
     :path: "../node_modules/react-native-keep-awake"
   react-native-mail:
@@ -982,6 +995,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-maps"
   react-native-netinfo:
     :path: "../node_modules/@react-native-community/netinfo"
+  react-native-pdf:
+    :path: "../node_modules/react-native-pdf"
   react-native-plaid-link-sdk:
     :path: "../node_modules/react-native-plaid-link-sdk"
   react-native-randombytes:
@@ -1164,16 +1179,19 @@ SPEC CHECKSUMS:
   React-jsinspector: d0374f7509d407d2264168b6d0fad0b54e300b85
   React-logger: 933f80c97c633ee8965d609876848148e3fef438
   react-native-blind-threshold-bls: 96b94b001aca9386ab033b26741614046044e80d
+  react-native-blob-util: c3b0faecd2919db568e9d552084396f3e50b57c7
   react-native-camera: 3eae183c1d111103963f3dd913b65d01aef8110f
   react-native-config: e8c71f602c92ddd2f5c24b0b7a90d239ecab8d9f
   react-native-contacts: fd1614c74777089ebb6b0a0e3847dd78130ef9f4
   react-native-fast-crypto: db61bcb2d1224a180449b886f27426a67d7628c0
   react-native-flipper: b9e2e817604af8da0d5a9ba20a8516e780e30f3c
   react-native-geth: b64bf7962e345c3c2cc437756ae01d854f508230
+  react-native-html-to-pdf: 4c5c6e26819fe202971061594058877aa9b25265
   react-native-keep-awake: 6c078705f3fb2586963b13588d31148adc6bd128
   react-native-mail: 88305252f4c3fb0157015ff8a7ac9c41b321a0dd
   react-native-maps: de23d141fa0289d1896739d0ddc8c5d11d9ca800
   react-native-netinfo: f3f52e6d92372003b78d5cafa3557797c7beee47
+  react-native-pdf: 33c622cbdf776a649929e8b9d1ce2d313347c4fa
   react-native-plaid-link-sdk: 33cb904b956dc3b56799ac3027de8aa6fbb4b0ab
   react-native-randombytes: b6677f7d495c27e9ee0dbd77ebc97b3c59173729
   react-native-safe-area-context: 9e40fb181dac02619414ba1294d6c2a807056ab9
