@@ -5,7 +5,11 @@ import {
 } from 'src/fiatExchanges/quotes/normalizeQuotes'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import Logger from 'src/utils/Logger'
-import { mockFiatConnectQuotes, mockProviders } from 'test/values'
+import {
+  mockFiatConnectQuotes,
+  mockFiatConnectQuotesWithUnknownFees,
+  mockProviders,
+} from 'test/values'
 
 jest.mock('src/utils/Logger', () => ({
   __esModule: true,
@@ -33,9 +37,33 @@ describe('normalizeQuotes', () => {
     ).toEqual([
       ['Ramp', 0],
       ['provider-two', 0.53],
+      ['provider-three', 4.22],
       ['Moonpay', 5],
       ['Simplex', 6],
       ['Moonpay', 10],
+    ])
+  })
+
+  it('sorts FiatConnect quotes with no fee returned at the end of quotes', () => {
+    const normalizedQuotes = normalizeQuotes(
+      CICOFlow.CashIn,
+      mockFiatConnectQuotesWithUnknownFees,
+      []
+    )
+    expect(
+      normalizedQuotes.map((quote) => [
+        quote.getProviderId(),
+        quote
+          .getFeeInCrypto({
+            cGLD: '1',
+            cUSD: '1',
+            cEUR: '1',
+          })
+          ?.toNumber(),
+      ])
+    ).toEqual([
+      ['provider-one', 0.97],
+      ['provider-two', undefined],
     ])
   })
 })
@@ -61,16 +89,17 @@ describe('normalizeFiatConnectQuotes', () => {
     ])
     expect(Logger.warn).toHaveBeenCalledWith(
       'NormalizeQuotes',
-      Error(`Error: provider-three. We don't support KYC for fiatconnect yet`)
+      Error(`Error: provider-three. Quote requires KYC, but only unsupported schemas.`)
     )
     expect(normalizedFiatConnectQuotes).toHaveLength(0)
   })
   it('returns normalized quotes', () => {
     const normalizedFiatConnectQuotes = normalizeFiatConnectQuotes(CICOFlow.CashIn, [
       mockFiatConnectQuotes[1],
+      mockFiatConnectQuotes[3],
     ])
     expect(Logger.warn).not.toHaveBeenCalled()
-    expect(normalizedFiatConnectQuotes).toHaveLength(1)
+    expect(normalizedFiatConnectQuotes).toHaveLength(2)
   })
 })
 
