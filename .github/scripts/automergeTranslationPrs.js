@@ -81,12 +81,12 @@ module.exports = async ({ github, context }) => {
       console.log(`Already approved`)
     }
 
-    console.log(`Bringing PR #${translationPr.number} up to date with main branch`)
-    await github.rest.pulls.updateBranch({
-      owner,
-      repo,
-      pull_number: translationPr.number,
-    })
+    // console.log(`Bringing PR #${translationPr.number} up to date with main branch`)
+    // await github.rest.pulls.updateBranch({
+    //   owner,
+    //   repo,
+    //   pull_number: translationPr.number,
+    // })
 
     console.log(`Enabling automerge on PR #${translationPr.number}`)
     await github.graphql(enableAutomergeQuery, {
