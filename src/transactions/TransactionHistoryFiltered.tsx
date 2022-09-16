@@ -40,7 +40,7 @@ function TransactionHistory({ navigation, route }: Props) {
   const handleExport = () => {
     dispatch(generatePdf(content))
   }
-  
+
   return (
     <SafeAreaView style={styles.container}>
       <StaticTransactionFeed
