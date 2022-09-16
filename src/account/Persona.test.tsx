@@ -116,7 +116,7 @@ describe('Persona', () => {
 
     expect(mockInquiryBuilder.onComplete).toHaveBeenCalled()
     expect(personaProps.onSuccess).not.toHaveBeenCalled()
-    mockInquiryBuilder.onComplete.mock.calls?.[0]?.[0]?.('', 'success') // simulate Persona invoking the onSuccess callback with success
+    mockInquiryBuilder.onComplete.mock.calls?.[0]?.[0]?.('', 'completed') // simulate Persona invoking the onSuccess callback with success
     expect(personaProps.onSuccess).toHaveBeenCalled()
   })
   it('calls onCanceled callback on inquiry cancel', async () => {

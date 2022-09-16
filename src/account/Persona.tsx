@@ -29,6 +29,11 @@ export interface Props {
   onSuccess?: () => any
 }
 
+enum Status {
+  completed = 'completed',
+  failed = 'failed',
+}
+
 const Persona = ({ kycStatus, text, onCanceled, onError, onPress, onSuccess }: Props) => {
   const { t } = useTranslation()
   const [personaAccountCreated, setPersonaAccountCreated] = useState(!!kycStatus)
@@ -56,8 +61,7 @@ const Persona = ({ kycStatus, text, onCanceled, onError, onPress, onSuccess }: P
       .environment(networkConfig.personaEnvironment)
       .iosTheme(pjson.persona.iosTheme)
       .onComplete((inquiryId: string, status: string, _fields: Fields) => {
-        // status can be completed or failed
-        if (status === 'failed') {
+        if (status === Status.failed) {
           onError?.()
           ValoraAnalytics.track(CICOEvents.persona_kyc_failed)
           Logger.error(TAG, `Inquiry failed for ${inquiryId}`)
