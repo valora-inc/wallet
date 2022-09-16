@@ -6,9 +6,6 @@ on:
   # https://crontab.guru/#0_*_*_*_1-5
   schedule:
     - cron: '0 * * * 1-5'
-  push:
-    branches:
-      - kathy/fix-automerge-permissions
 
 jobs:
   automerge-translation-prs:

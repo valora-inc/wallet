@@ -4,9 +4,10 @@ on:
   push:
     # trigger only when the yarn.lock file is modified in main
     branches:
-      - main
-    paths:
-      - 'yarn.lock'
+      # - main
+      - kathy/fix-automerge-permissions
+    # paths:
+    #   - 'yarn.lock'
 
 jobs:
   update-licenses-and-disclaimer:
@@ -34,8 +35,13 @@ jobs:
           VALORA_BOT_TOKEN: ${{ steps.google-secrets.outputs.VALORA_BOT_TOKEN }}
       - uses: actions/github-script@v5
         with:
-          github-token: ${{ steps.google-secrets.outputs.VALORA_BOT_TOKEN }}
           script: |
-            const script = require('.github/scripts/automergePR.js')
+            const script = require('.github/scripts/autoApprovePr.js')
             const allowedUpdatedFiles = ['src/account/LicenseDisclaimer.txt']
             await script({github, context, core, allowedUpdatedFiles})
+      - uses: actions/github-script@v5
+        with:
+          github-token: ${{ steps.google-secrets.outputs.VALORA_BOT_TOKEN }}
+          script: |
+            const script = require('.github/scripts/enableAutomergeOnPr.js')
+            await script({github, context, core})
