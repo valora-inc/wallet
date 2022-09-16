@@ -1,5 +1,5 @@
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { useEffect, useLayoutEffect, useState } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -7,7 +7,9 @@ import { useDispatch } from 'react-redux'
 import { setName, setPicture } from 'src/account/actions'
 import { recoveringFromStoreWipeSelector } from 'src/account/selectors'
 import { hideAlert, showError } from 'src/alert/actions'
+import { ExperimentParams } from 'src/analytics/constants'
 import { OnboardingEvents } from 'src/analytics/Events'
+import { StatsigLayers } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { createAccountCopyTestTypeSelector, registrationStepsSelector } from 'src/app/selectors'
@@ -24,23 +26,26 @@ import PictureInput from 'src/onboarding/registration/PictureInput'
 import { default as useSelector, default as useTypedSelector } from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import { saveProfilePicture } from 'src/utils/image'
+import Logger from 'src/utils/Logger'
 import { useAsyncKomenciReadiness } from 'src/verify/hooks'
 import { Statsig, useLayer } from 'statsig-react-native'
 
 type Props = StackScreenProps<StackParamList, Screens.NameAndPicture>
 
 function NameAndPicture({ navigation }: Props) {
-  const showSkipButton = useLayer('name_and_picture_screen').layer.get('showSkipButton', false)
-  const nameType = useLayer('name_and_picture_screen').layer.get('nameType', 'first_and_last')
+  const statsigLayer = StatsigLayers.NAME_AND_PICTURE_SCREEN
+  const showSkipButton = useLayer(statsigLayer).layer.get(
+    ExperimentParams[statsigLayer].showSkipButton.paramName,
+    ExperimentParams[statsigLayer].showSkipButton.defaultValue
+  )
+  const nameType = useLayer(statsigLayer).layer.get(
+    ExperimentParams[statsigLayer].nameType.paramName,
+    ExperimentParams[statsigLayer].nameType.defaultValue
+  )
 
-  console.log('Statsig exp: getter', useLayer('name_and_picture_screen').layer)
-  console.log('Statsig exp: showSkip', showSkipButton)
-  console.log('Statsig exp: name type', nameType)
-  useEffect(() => {
-    if (showSkipButton) {
-      Statsig.logEvent('name_step_complete')
-    }
-  }, [])
+  //TODO: use these in an experiment
+  Logger.info('NameAndPicture', 'Statsig experiment showSkipButton', showSkipButton)
+  Logger.info('NameAndPicture', 'Statsig experiment nameType', nameType)
 
   const [nameInput, setNameInput] = useState('')
   const cachedName = useTypedSelector((state) => state.account.name)
@@ -101,6 +106,7 @@ function NameAndPicture({ navigation }: Props) {
       return
     }
 
+    Statsig.logEvent('name_step_complete')
     ValoraAnalytics.track(OnboardingEvents.name_and_picture_set, {
       includesPhoto: false,
       profilePictureSkipped: shouldSkipProfilePicture,
