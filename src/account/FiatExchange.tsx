@@ -24,14 +24,14 @@ import Logger from 'src/utils/Logger'
 import { useLayer } from 'statsig-react-native'
 
 function FiatExchange() {
-  const showSkipButton = useLayer('name_and_picture_screen').layer.get('showSkipButton', false)
-  const nameType = useLayer('name_and_picture_screen').layer.get('nameType', 'first_and_last')
-
   Logger.info(
     'FiatExchange',
     'Statsig exp layer: isLoading',
     useLayer('name_and_picture_screen').isLoading
   )
+  const showSkipButton = useLayer('name_and_picture_screen').layer.get('showSkipButton', false)
+  const nameType = useLayer('name_and_picture_screen').layer.get('nameType', 'first_and_last')
+
   Logger.info('FiatExchange', 'Statsig exp: showSkip', showSkipButton)
   Logger.info('FiatExchange', 'Statsig exp: name type', nameType)
   // useEffect(() => {

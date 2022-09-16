@@ -202,6 +202,7 @@ export const NavigatorWrapper = () => {
       sdkKey={STATSIG_API_KEY}
       user={walletAddress ? { userID: walletAddress } : {}}
       waitForInitialization={true}
+      // options={{environment: {tier: 'development'}}} // TODO load in env dynamically
     >
       <NavigationContainer
         ref={navigationRef}
