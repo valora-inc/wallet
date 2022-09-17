@@ -532,7 +532,8 @@ export enum DappKitEvents {
 
 export enum CICOEvents {
   persona_kyc_start = 'persona_kyc_start', // when a user begins the Persona KYC process
-  persona_kyc_success = 'persona_kyc_success', // when the onSuccess callback is called for a Persona inquiry
+  persona_kyc_success = 'persona_kyc_success', // when the onComplete callback is called for a Persona inquiry with success status
+  persona_kyc_failed = 'persona_kyc_failed', // when the onComplete callback is called for a Persona inquiry with failed status
   persona_kyc_cancel = 'persona_kyc_cancel', // when the onCancelled callback is called for a Persona inquiry
   persona_kyc_error = 'persona_kyc_error', // when the onError callback is called for a Persona inquiry
 }
