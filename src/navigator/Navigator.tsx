@@ -591,7 +591,8 @@ export function MainStackScreen() {
 
     if (!language) {
       initialRoute = Screens.Language
-    } else if (!name || !acceptedTerms || pincodeType === PincodeType.Unset) {
+    } else if (!acceptedTerms || pincodeType === PincodeType.Unset) {
+      // allow empty username
       // User didn't go far enough in onboarding, start again from education
       initialRoute = Screens.OnboardingEducationScreen
     } else if (!account) {

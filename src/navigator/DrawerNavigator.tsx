@@ -176,7 +176,7 @@ function CustomDrawerContent(props: DrawerContentComponentProps<DrawerContentOpt
           <ContactCircleSelf size={64} />
           <RewardsPill />
         </View>
-        <Text style={styles.nameLabel}>{displayName}</Text>
+        {!!displayName && <Text style={styles.nameLabel}>{displayName}</Text>}
         {e164PhoneNumber && (
           <PhoneNumberWithFlag
             e164PhoneNumber={e164PhoneNumber}

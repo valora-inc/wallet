@@ -5,7 +5,7 @@ import { ScrollView, StyleSheet, Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { setName, setPicture } from 'src/account/actions'
-import { recoveringFromStoreWipeSelector } from 'src/account/selectors'
+import { nameSelector, recoveringFromStoreWipeSelector } from 'src/account/selectors'
 import { hideAlert, showError } from 'src/alert/actions'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -23,6 +23,7 @@ import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import PictureInput from 'src/onboarding/registration/PictureInput'
 import { default as useSelector, default as useTypedSelector } from 'src/redux/useSelector'
@@ -35,7 +36,7 @@ type Props = StackScreenProps<StackParamList, Screens.NameAndPicture>
 
 function NameAndPicture({ navigation }: Props) {
   const [nameInput, setNameInput] = useState('')
-  const cachedName = useTypedSelector((state) => state.account.name)
+  const cachedName = useTypedSelector(nameSelector)
   const picture = useTypedSelector((state) => state.account.pictureUri)
   const choseToRestoreAccount = useTypedSelector((state) => state.account.choseToRestoreAccount)
   const recoveringFromStoreWipe = useTypedSelector(recoveringFromStoreWipeSelector)
@@ -49,7 +50,7 @@ function NameAndPicture({ navigation }: Props) {
   const asyncKomenciReadiness = useAsyncKomenciReadiness()
   const showGuidedOnboarding = useSelector(showGuidedOnboardingSelector)
   const createAccountCopyTestType = useSelector(createAccountCopyTestTypeSelector)
-
+  const skipUsername = true //TODO use statsig variable
   useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => {
@@ -71,6 +72,15 @@ function NameAndPicture({ navigation }: Props) {
           />
         )
       },
+      headerRight: () =>
+        skipUsername && (
+          <TopBarTextButton
+            title={t('skip')}
+            testID="EnableBiometrySkipHeader"
+            onPress={onPressSkip}
+            titleStyle={{ color: colors.goldDark }}
+          />
+        ),
     })
   }, [navigation, choseToRestoreAccount, step, totalSteps])
 
@@ -84,8 +94,15 @@ function NameAndPicture({ navigation }: Props) {
       })
     }
   }
-
+  const onPressSkip = () => {
+    // TODO additional anlytics
+    handleNewName({ skipped: true })
+  }
   const onPressContinue = () => {
+    handleNewName({ skipped: false })
+  }
+
+  const handleNewName = ({ skipped }: { skipped: boolean }) => {
     dispatch(hideAlert())
 
     const newName = nameInput.trim()
@@ -95,7 +112,7 @@ function NameAndPicture({ navigation }: Props) {
       return
     }
 
-    if (!newName) {
+    if (!newName && !skipped) {
       dispatch(showError(ErrorMessages.MISSING_FULL_NAME))
       return
     }
