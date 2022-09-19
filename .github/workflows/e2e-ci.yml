@@ -26,8 +26,10 @@ concurrency:
 
 jobs:
   android:
+    env:
+      BASH_ENV: ~/.profile
     name: Android
-    runs-on: android-e2e-group
+    runs-on: android-e2e-group-test # TODO(satish): revert this once all machines are updated
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
@@ -41,9 +43,7 @@ jobs:
       - name: Check E2E wallet balance
         run: NODE_OPTIONS='--unhandled-rejections=strict' yarn ts-node ./e2e/scripts/check-e2e-wallet-balance.ts
       - name: Create Detox Build
-        # TODO: remove source once we get default version to be java 11
         run: |
-          source ~/.profile
           export CELO_TEST_CONFIG=e2e
           export ANDROID_SDK_ROOT=$HOME/android-tools
           yarn detox build -c android.release
