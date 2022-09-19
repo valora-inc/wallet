@@ -166,7 +166,7 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode appVersionCode
-        versionName "1.41.0"
+        versionName "1.42.0"
         multiDexEnabled true
         testBuildType System.getProperty('testBuildType', 'debug')
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -363,3 +363,14 @@ if (enableFirebase.toBoolean()){
 }
 
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
+
+// This is to fix a duplicate class error
+// Duplicate class org.bouncycastle.LICENSE found in modules jetified-bcprov-jdk15to18-1.69 (org.bouncycastle:bcprov-jdk15to18:1.69) and jetified-bcprov-jdk18on-1.71 (org.bouncycastle:bcprov-jdk18on:1.71)
+configurations.all {
+  c -> c.resolutionStrategy.eachDependency {
+    DependencyResolveDetails dependency ->
+      if (dependency.requested.group == 'org.bouncycastle') {
+        dependency.useTarget 'org.bouncycastle:bcprov-jdk15to18:1.69'
+      }
+  }
+}

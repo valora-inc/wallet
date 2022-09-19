@@ -121,6 +121,8 @@ import VerificationLoadingScreen from 'src/verify/VerificationLoadingScreen'
 import WalletConnectSessionsScreen from 'src/walletConnect/screens/Sessions'
 import WalletConnectRequest from 'src/walletConnect/screens/WalletConnectRequest'
 import WebViewScreen from 'src/webview/WebViewScreen'
+import KycLanding from 'src/fiatconnect/KycLanding'
+import KycStatus from 'src/fiatconnect/KycStatus'
 
 const TAG = 'Navigator'
 
@@ -511,6 +513,16 @@ const settingsScreens = (Navigator: typeof Stack) => (
       options={FiatConnectLinkAccountScreen.navigationOptions}
       name={Screens.FiatConnectLinkAccount}
       component={FiatConnectLinkAccountScreen}
+    />
+    <Navigator.Screen
+      options={headerWithBackButton}
+      name={Screens.KycLanding}
+      component={KycLanding}
+    />
+    <Navigator.Screen
+      options={headerWithBackButton}
+      name={Screens.KycStatus}
+      component={KycStatus}
     />
   </>
 )

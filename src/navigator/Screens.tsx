@@ -33,6 +33,8 @@ export enum Screens {
   GoldEducation = 'GoldEducation',
   ImportWallet = 'ImportWallet',
   IncomingPaymentRequestListScreen = 'IncomingPaymentRequestListScreen',
+  KycLanding = 'KycLanding',
+  KycStatus = 'KycStatus',
   Language = 'Language',
   LanguageModal = 'LanguageModal',
   Licenses = 'Licenses',

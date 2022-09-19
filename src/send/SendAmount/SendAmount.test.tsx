@@ -284,24 +284,24 @@ describe('SendAmount', () => {
           },
         },
       })
-      const { queryByTestId } = render(
+      const { queryByText } = render(
         <Provider store={store}>
           <SendAmount {...mockScreenProps()} />
         </Provider>
       )
 
-      expect(queryByTestId('HeaderCurrencyPicker')).toBeFalsy()
+      expect(queryByText('send')).toBeFalsy()
     })
 
     it("allows choosing the currency when there's balance for more than one token", () => {
       const store = createMockStore(storeData)
-      const { queryByTestId } = render(
+      const { getByText } = render(
         <Provider store={store}>
           <SendAmount {...mockScreenProps()} />
         </Provider>
       )
 
-      expect(queryByTestId('HeaderCurrencyPicker')).toBeTruthy()
+      expect(getByText('send')).toBeTruthy()
     })
 
     it('displays the loading spinner when verification status is unknown', () => {
