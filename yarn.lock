@@ -4034,10 +4034,10 @@
   dependencies:
     "@octokit/openapi-types" "^11.2.0"
 
-"@oozcitak/dom@1.15.8":
-  version "1.15.8"
-  resolved "https://registry.yarnpkg.com/@oozcitak/dom/-/dom-1.15.8.tgz#0c0c7bb54cfdaadc07fd637913e706101721d15d"
-  integrity sha512-MoOnLBNsF+ok0HjpAvxYxR4piUhRDCEWK0ot3upwOOHYudJd30j6M+LNcE8RKpwfnclAX9T66nXXzkytd29XSw==
+"@oozcitak/dom@1.15.10":
+  version "1.15.10"
+  resolved "https://registry.yarnpkg.com/@oozcitak/dom/-/dom-1.15.10.tgz#dca7289f2b292cff2a901ea4fbbcc0a1ab0b05c2"
+  integrity sha512-0JT29/LaxVgRcGKvHmSrUTEvZ8BXvZhGl2LASRUgHqDTC1M5g1pLmVv56IYNyt3bG2CUjDkc67wnyZC14pbQrQ==
   dependencies:
     "@oozcitak/infra" "1.0.8"
     "@oozcitak/url" "1.0.4"
@@ -8001,7 +8001,7 @@ cosmiconfig@5.2.1, cosmiconfig@^5.0.5, cosmiconfig@^5.0.6, cosmiconfig@^5.1.0, c
     js-yaml "^3.13.1"
     parse-json "^4.0.0"
 
-cosmiconfig@6.0.0, cosmiconfig@^6.0.0:
+cosmiconfig@6.0.0:
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/cosmiconfig/-/cosmiconfig-6.0.0.tgz#da4fee853c52f6b1e6935f41c1a2fc50bd4a9982"
   integrity sha512-xb3ZL6+L8b9JLLCx3ZdoZy4+2ECphCMo2PwqgP1tlfVq6M6YReyzBJtvWWtbDSpNr9hn96pkCiZqUcFEc+54Qg==
@@ -8011,6 +8011,17 @@ cosmiconfig@6.0.0, cosmiconfig@^6.0.0:
     parse-json "^5.0.0"
     path-type "^4.0.0"
     yaml "^1.7.2"
+
+cosmiconfig@^7.0.0:
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/cosmiconfig/-/cosmiconfig-7.0.1.tgz#714d756522cace867867ccb4474c5d01bbae5d6d"
+  integrity sha512-a1YWNUV2HwGimB7dU2s1wUMurNKjpx60HxBB6xUM8Re+2s1g1IIfJvFR0/iCF+XHdE0GMTKTuLR32UQff4TEyQ==
+  dependencies:
+    "@types/parse-json" "^4.0.0"
+    import-fresh "^3.2.1"
+    parse-json "^5.0.0"
+    path-type "^4.0.0"
+    yaml "^1.10.0"
 
 country-data@^0.0.31:
   version "0.0.31"
@@ -14822,7 +14833,7 @@ object-keys@^1.0.11, object-keys@^1.0.12, object-keys@^1.1.1:
   resolved "https://registry.yarnpkg.com/object-keys/-/object-keys-1.1.1.tgz#1c47f272df277f3b1daf061677d9c82e2322c60e"
   integrity sha512-NuAESUOUMrlIXOfHKzD6bpPu3tYt3xvjNdRIQ+FeT0lNb4K8WR70CaDxhuNguS2XG+GjkyMwOzsN5ZktImfhLA==
 
-object-path@^0.11.4:
+object-path@^0.11.8:
   version "0.11.8"
   resolved "https://registry.yarnpkg.com/object-path/-/object-path-0.11.8.tgz#ed002c02bbdd0070b78a27455e8ae01fc14d4742"
   integrity sha512-YJjNZrlXJFM42wTBn6zgOJVar9KFJvzx6sTWDte8sWZF//cnjl0BxHNpfZx+ZffXX63A9q0b1zsFiBX4g4X5KA==
@@ -16294,19 +16305,19 @@ react-native-permissions@^3.0.3:
   resolved "https://registry.yarnpkg.com/react-native-permissions/-/react-native-permissions-3.0.3.tgz#aa90649728a9720b0de9cfcfdb447b35a6630de0"
   integrity sha512-8xiEnU29qHZcT05XXwhPHiLChTt82Pn5Z/nFdDOYGNFZ+IYSbYeGmIxFpratCRO6dgLptNaDFDPiyw2X7UZTeg==
 
-react-native-persona@1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/react-native-persona/-/react-native-persona-1.2.0.tgz#dfac527f345e879a3920b23b0896696acca6cdf7"
-  integrity sha512-3Ff3fOV8leV4R/bHQkha5b8rCHbQuw9krW9TQwC9QOYHUgfoYHgDFobu9unSwoMNdrIQQ5DKhYPOe9PHYcT0sw==
+react-native-persona@^2.2.23:
+  version "2.2.23"
+  resolved "https://registry.yarnpkg.com/react-native-persona/-/react-native-persona-2.2.23.tgz#a7a4bb524de827b2a8177daaad0ee81074c89752"
+  integrity sha512-DZ/lz63uTVNbLbTNn5Xw/nBX/gQuPIJxzhtzBi+0VyAYKCRPJlnvVLdBCC5RayBgjh8p9/3vOhPM9JN1jxctjg==
   dependencies:
     chalk "^4.0.0"
     cli-table "^0.3.1"
-    cosmiconfig "^6.0.0"
+    cosmiconfig "^7.0.0"
     inquirer "^7.1.0"
     minimist "^1.2.5"
-    object-path "^0.11.4"
+    object-path "^0.11.8"
     pkg-up "^3.1.0"
-    xmlbuilder2 "^2.1.2"
+    xmlbuilder2 "^3.0.0"
 
 react-native-picker-select@^8.0.4:
   version "8.0.4"
@@ -20761,12 +20772,12 @@ xml@^1.0.1:
   resolved "https://registry.yarnpkg.com/xml/-/xml-1.0.1.tgz#78ba72020029c5bc87b8a81a3cfcd74b4a2fc1e5"
   integrity sha1-eLpyAgApxbyHuKgaPPzXS0ovweU=
 
-xmlbuilder2@^2.1.2:
-  version "2.4.1"
-  resolved "https://registry.yarnpkg.com/xmlbuilder2/-/xmlbuilder2-2.4.1.tgz#899c783a833188c5a5aa6f3c5428a3963f3e479d"
-  integrity sha512-vliUplZsk5vJnhxXN/mRcij/AE24NObTUm/Zo4vkLusgayO6s3Et5zLEA14XZnY1c3hX5o1ToR0m0BJOPy0UvQ==
+xmlbuilder2@^3.0.0:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/xmlbuilder2/-/xmlbuilder2-3.0.2.tgz#fc499688b35a916f269e7b459c2fa02bb5c0822a"
+  integrity sha512-h4MUawGY21CTdhV4xm3DG9dgsqyhDkZvVJBx88beqX8wJs3VgyGQgAn5VreHuae6unTQxh115aMK5InCVmOIKw==
   dependencies:
-    "@oozcitak/dom" "1.15.8"
+    "@oozcitak/dom" "1.15.10"
     "@oozcitak/infra" "1.0.8"
     "@oozcitak/util" "8.3.8"
     "@types/node" "*"
@@ -20845,6 +20856,11 @@ yaml-ast-parser@^0.0.40:
   version "0.0.40"
   resolved "https://registry.yarnpkg.com/yaml-ast-parser/-/yaml-ast-parser-0.0.40.tgz#08536d4e73d322b1c9ce207ab8dd70e04d20ae6e"
   integrity sha1-CFNtTnPTIrHJziB6uN1w4E0grm4=
+
+yaml@^1.10.0:
+  version "1.10.2"
+  resolved "https://registry.yarnpkg.com/yaml/-/yaml-1.10.2.tgz#2301c5ffbf12b467de8da2333a459e29e7920e4b"
+  integrity sha512-r3vXyErRCYJ7wg28yvBY5VSoAF8ZvlcW9/BwUzEtUsjvX/DKs24dIkuwjtuprwJJHsbyUbLApepYTR1BN4uHrg==
 
 yaml@^1.7.2:
   version "1.7.2"
