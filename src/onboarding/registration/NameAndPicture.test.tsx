@@ -5,8 +5,10 @@ import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
 import { CreateAccountCopyTestType } from 'src/app/types'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import NameAndPicture from 'src/onboarding/registration/NameAndPicture'
+import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockNavigation } from 'test/values'
 
@@ -178,5 +180,16 @@ describe('NameAndPictureScreen', () => {
     )
     expect(getByText('nameAndPicGuideCopyTitle')).toBeTruthy()
     expect(getByText('nameAndPicGuideCopyContent')).toBeTruthy()
+  })
+
+  it('renders skip button when (always) and skipping works', () => {
+    const { queryByText } = render(
+      <Provider store={createMockStore()}>
+        <MockedNavigator component={NameAndPicture} />
+      </Provider>
+    )
+    expect(queryByText('skip')).toBeTruthy()
+    fireEvent.press(queryByText('skip')!)
+    expect(navigate).toHaveBeenCalledWith(Screens.PincodeSet, expect.anything())
   })
 })

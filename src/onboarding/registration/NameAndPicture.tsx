@@ -76,7 +76,6 @@ function NameAndPicture({ navigation }: Props) {
         skipUsername && (
           <TopBarTextButton
             title={t('skip')}
-            testID="EnableBiometrySkipHeader"
             onPress={onPressSkip}
             titleStyle={{ color: colors.goldDark }}
           />
