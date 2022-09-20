@@ -1,10 +1,10 @@
-import 'react-native'
-import * as React from 'react'
 import { render } from '@testing-library/react-native'
+import * as React from 'react'
+import 'react-native'
 import { Provider } from 'react-redux'
 import DrawerNavigator from 'src/navigator/DrawerNavigator'
+import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
-import NavigatorWrapper from 'src/navigator/NavigatorWrapper'
 
 // This avoids rendering WalletHome as we're mostly interested in testing the menu here
 jest.mock('src/home/WalletHome')
@@ -19,8 +19,7 @@ describe('DrawerNavigator', () => {
     })
     const { queryByTestId } = render(
       <Provider store={store}>
-        <NavigatorWrapper />
-        {/* <DrawerNavigator/> */}
+        <MockedNavigator component={DrawerNavigator}></MockedNavigator>
       </Provider>
     )
     expect(queryByTestId('Drawer/Header')).toBeTruthy()
