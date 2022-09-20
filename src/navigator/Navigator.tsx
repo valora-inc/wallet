@@ -11,7 +11,6 @@ import GoldEducation from 'src/account/GoldEducation'
 import Licenses from 'src/account/Licenses'
 import Profile from 'src/account/Profile'
 import { PincodeType } from 'src/account/reducer'
-import { nameSelector } from 'src/account/selectors'
 import StoreWipeRecoveryScreen from 'src/account/StoreWipeRecoveryScreen'
 import SupportContact from 'src/account/SupportContact'
 import { CeloExchangeEvents } from 'src/analytics/Events'
@@ -562,7 +561,6 @@ const mapStateToProps = (state: RootState) => {
   return {
     choseToRestoreAccount: state.account.choseToRestoreAccount,
     language: currentLanguageSelector(state),
-    name: nameSelector(state),
     acceptedTerms: state.account.acceptedTerms,
     pincodeType: state.account.pincodeType,
     account: state.web3.account,
@@ -580,7 +578,6 @@ export function MainStackScreen() {
     const {
       choseToRestoreAccount,
       language,
-      name,
       acceptedTerms,
       pincodeType,
       account,
