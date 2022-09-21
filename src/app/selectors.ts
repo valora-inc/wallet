@@ -232,3 +232,6 @@ export const registrationStepsSelector = createSelector(
     }
   }
 )
+
+export const centralPhoneVerificationEnabledSelector = (state: RootState) =>
+  state.app.centralPhoneVerificationEnabled
