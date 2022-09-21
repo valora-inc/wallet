@@ -4,6 +4,13 @@ import dynamicLinks from '@react-native-firebase/dynamic-links'
 import URLSearchParamsReal from '@ungap/url-search-params'
 import url from 'url'
 
+import {
+  APP_BUNDLE_ID as bundleId,
+  APP_STORE_ID as appStoreId,
+  DYNAMIC_LINK_DOMAIN_URI_PREFIX as baseURI,
+  WEB_LINK as fallbackUrl,
+} from 'src/config'
+
 export type ExtractedInviteCodeAndPrivateKey = null | {
   inviteCode: string
   privateKey: string
@@ -81,7 +88,16 @@ export const extractValuesFromDeepLink = async (): Promise<ExtractedInviteCodeAn
 
 export async function createDynamicLink(address: string) {
   return dynamicLinks().buildLink({
-    link: `https://vlra.app/share/${address}`,
-    domainUriPrefix: 'https://vlra.app',
+    link: `${baseURI}/share/${address}`,
+    domainUriPrefix: baseURI,
+    ios: {
+      appStoreId,
+      bundleId,
+      fallbackUrl,
+    },
+    android: {
+      packageName: bundleId,
+      fallbackUrl,
+    },
   })
 }
