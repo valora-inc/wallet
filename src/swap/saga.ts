@@ -1,34 +1,44 @@
+import { CeloTx } from '@celo/connect'
+import { TxParamsNormalizer } from '@celo/connect/lib/utils/tx-params-normalizer'
 import { ContractKit } from '@celo/contractkit'
 import { call, put, takeEvery } from 'redux-saga/effects'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { swapApprove, swapError, swapExecute, swapStart, swapSuccess } from 'src/swap/slice'
+import { sendTransaction } from 'src/transactions/send'
+import { newTransactionContext } from 'src/transactions/types'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import Logger from 'src/utils/Logger'
 import { getContractKit } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
-import { TransactionConfig } from 'web3-core'
+import { applyChainIdWorkaround, buildTxo } from 'src/web3/utils'
 
 const TAG = 'swap/saga'
 
-// TODO Tomm: create a real types
 function* SwapSaga(data: any) {
   try {
-    // Navigate to completeSwap screen
+    // Navigate to swap pending screen
     yield call(navigate, Screens.SwapPending)
 
-    // Get contract kit, wallet address and
+    // Set contract kit, wallet address and normalizer
     const kit: ContractKit = yield call(getContractKit)
     const walletAddress: string = yield call(getConnectedUnlockedAccount)
+    const normalizer = new TxParamsNormalizer(kit.connection)
 
-    // Approve Transaction - TODO handle fees not paid in CELO
+    // Approve transaction
     yield put(swapApprove())
     Logger.debug(TAG, `Starting to swap approval for address: ${walletAddress}`)
-    yield call(kit.web3.eth.sendTransaction, {
-      ...data.payload.approveTransaction,
-      from: walletAddress,
-    } as TransactionConfig)
+    const rawApproveTx = { ...data.payload.approveTransaction, from: walletAddress }
+    applyChainIdWorkaround(rawApproveTx, yield call([kit.connection, 'chainId']))
+    const approveTx: CeloTx = yield call(normalizer.populate.bind(normalizer), rawApproveTx)
+    const approveTxo = buildTxo(kit, approveTx)
+    yield call(
+      sendTransaction,
+      approveTxo,
+      walletAddress,
+      newTransactionContext(TAG, 'Swap/Approve')
+    )
 
     // Query the execute swap endpoint
     const amountType: string = data.payload.userInput.buyAmount ? 'buyAmount' : 'sellAmount'
@@ -51,12 +61,19 @@ function* SwapSaga(data: any) {
 
     // TODO Tomm: Check the if the results of the approve transaction and within acceptable ranges
 
-    // Execute Swap - TODO handle fees not paid in CELO
+    // Execute transaction
     yield put(swapExecute())
-    yield call(kit.web3.eth.sendTransaction, {
-      ...responseJson.validatedSwapTransaction,
-      from: walletAddress,
-    } as TransactionConfig)
+    Logger.debug(TAG, `Starting to swap execute for address: ${walletAddress}`)
+    const rawExecuteTx = responseJson.validatedSwapTransaction
+    applyChainIdWorkaround(rawExecuteTx, yield call([kit.connection, 'chainId']))
+    const executeTx: CeloTx = yield call(normalizer.populate.bind(normalizer), rawExecuteTx)
+    const executeTxo = buildTxo(kit, executeTx)
+    yield call(
+      sendTransaction,
+      executeTxo,
+      walletAddress,
+      newTransactionContext(TAG, 'Swap/Execute')
+    )
 
     // TODO Tomm: should we check that transaction was successful on the chain e.g the transaction isn't reverted.
     yield put(swapSuccess())
