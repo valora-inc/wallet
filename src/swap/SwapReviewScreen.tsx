@@ -51,7 +51,7 @@ interface SwapInfo {
 }
 
 export function SwapReviewScreen() {
-  const { toToken, fromToken, swapAmount, updatedField } = useSelector(swapUserInputSelector) || {
+  const initialUserInput = {
     toToken: '',
     fromToken: '',
     swapAmount: {
@@ -60,6 +60,8 @@ export function SwapReviewScreen() {
     },
     updatedField: Field.TO,
   }
+  const swapUserState = useSelector(swapUserInputSelector)
+  const { toToken, fromToken, swapAmount, updatedField } = swapUserState || initialUserInput
   const [shouldFetch, setShouldFetch] = useState(true)
   const [estimatedModalVisible, setEstimatedDialogVisible] = useState(false)
   const [swapFeeModalVisible, setSwapFeeModalVisible] = useState(false)
