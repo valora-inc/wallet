@@ -76,6 +76,7 @@ export class App extends React.Component<Props> {
     await ValoraAnalytics.init()
 
     // Handles opening Clevertap deeplinks when app is closed / in background
+    // Also handles Firebase DynamcicLinks on Android
     CleverTap.getInitialUrl(async (err: any, url) => {
       if (err) {
         if (/CleverTap initialUrl is (nil|null)/gi.test(err)) {
@@ -99,23 +100,29 @@ export class App extends React.Component<Props> {
 
     Linking.addEventListener('url', this.handleOpenURL)
 
-    dynamicLinks().onLink(({ url }) => this.handleOpenURL(url))
+    this.dynamicLinksRemoveListener = dynamicLinks().onLink(({ url }) =>
+      this.handleOpenURL({ url })
+    )
 
     const url = await Linking.getInitialURL()
     if (url) {
       await this.handleOpenURL({ url })
     }
 
-    const firebaseUrl = await dynamicLinks().getInitialLink()
+    if (Platform.OS === 'ios') {
+      const firebaseUrl = await dynamicLinks().getInitialLink()
 
-    if (firebaseUrl) {
-      await this.handleOpenURL({ url: firebaseUrl.url })
+      if (firebaseUrl) {
+        await this.handleOpenURL({ url: firebaseUrl.url })
+      }
     }
 
     this.logAppLoadTime()
 
     store.dispatch(appMounted())
   }
+
+  dynamicLinksRemoveListener: (() => void) | undefined
 
   logAppLoadTime() {
     const { appStartedMillis } = this.props
@@ -139,6 +146,7 @@ export class App extends React.Component<Props> {
   componentWillUnmount() {
     CleverTap.removeListener('CleverTapPushNotificationClicked')
     Linking.removeEventListener('url', this.handleOpenURL)
+    this.dynamicLinksRemoveListener?.()
     store.dispatch(appUnmounted())
   }
 
