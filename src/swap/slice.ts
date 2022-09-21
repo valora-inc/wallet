@@ -1,35 +1,78 @@
-import { createSlice } from '@reduxjs/toolkit'
-
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { Field, SwapAmount } from 'src/swap/useSwapQuote'
+export enum SwapState {
+  USER_INPUT = 'user-input',
+  QUOTE = 'quote',
+  START = 'start',
+  APPROVE = 'approve',
+  EXECUTE = 'execute',
+  COMPLETE = 'complete',
+  PRICE_CHANGE = 'price-change',
+  ERROR = 'error',
+}
+interface SwapUserInput {
+  toToken: string
+  fromToken: string
+  swapAmount: SwapAmount
+  updatedField: Field
+}
 export interface State {
-  swapLoading: boolean
-  swapError: boolean
+  swapState: SwapState
   swapInfo: {} | null
+  swapUserInput: SwapUserInput | null
 }
 
 const initialState: State = {
-  swapLoading: false,
-  swapError: false,
+  swapState: SwapState.QUOTE,
   swapInfo: null,
+  swapUserInput: null,
 }
 
 export const slice = createSlice({
   name: 'swap',
   initialState,
   reducers: {
+    setSwapUserInput: (state, action: PayloadAction<SwapUserInput>) => {
+      state.swapState = SwapState.USER_INPUT
+      state.swapUserInput = action.payload
+    },
     swapStart: (state, payload) => {
-      state.swapLoading = true
+      state.swapState = SwapState.START
       state.swapInfo = payload
     },
-    swapError: (state) => {
-      state.swapLoading = false
-      state.swapError = true
+    swapApprove: (state) => {
+      state.swapState = SwapState.APPROVE
+    },
+    swapExecute: (state) => {
+      state.swapState = SwapState.EXECUTE
     },
     swapSuccess: (state) => {
-      ;(state.swapLoading = false), (state.swapError = false)
+      state.swapState = SwapState.COMPLETE
+      state.swapInfo = null
+    },
+    swapReset: (state) => {
+      state.swapState = SwapState.USER_INPUT
+      state.swapInfo = null
+    },
+    swapPriceChange: (state) => {
+      state.swapState = SwapState.PRICE_CHANGE
+    },
+    swapError: (state) => {
+      state.swapState = SwapState.ERROR
+      state.swapInfo = null
     },
   },
 })
 
-export const { swapStart, swapError, swapSuccess } = slice.actions
+export const {
+  setSwapUserInput,
+  swapStart,
+  swapApprove,
+  swapExecute,
+  swapSuccess,
+  swapReset,
+  swapPriceChange,
+  swapError,
+} = slice.actions
 
 export default slice.reducer

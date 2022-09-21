@@ -280,12 +280,7 @@ export type StackParamList = {
   [Screens.Sync]: undefined
   [Screens.SwapScreen]: undefined
   [Screens.SwapPending]: undefined
-  [Screens.SwapReviewScreen]: {
-    toToken: string
-    fromToken: string
-    swapAmount: SwapAmount
-    updatedField: Field
-  }
+  [Screens.SwapReviewScreen]: undefined
   [Screens.TransactionDetailsScreen]: {
     transaction: TokenTransaction
   }

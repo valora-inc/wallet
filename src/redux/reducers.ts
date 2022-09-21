@@ -22,6 +22,7 @@ import { reducer as paymentRequest, State as PaymentRequestState } from 'src/pay
 import { recipientsReducer as recipients, State as RecipientsState } from 'src/recipients/reducer'
 import { sendReducer as send, State as SendState } from 'src/send/reducers'
 import { reducer as stableToken, State as StableTokenState } from 'src/stableToken/reducer'
+import swapReducer, { State as SwapState } from 'src/swap/slice'
 import tokenReducer, { State as TokensState } from 'src/tokens/slice'
 import { reducer as transactions, State as TransactionsState } from 'src/transactions/reducer'
 import { reducer as verify, State as VerifyState } from 'src/verify/reducer'
@@ -55,6 +56,7 @@ const appReducer = combineReducers({
   supercharge: superchargeReducer,
   dapps: dappsReducer,
   fiatConnect: fiatConnectReducer,
+  swap: swapReducer,
 }) as (state: RootState | undefined, action: Action) => RootState
 
 const rootReducer = (state: RootState | undefined, action: Action): RootState => {
@@ -104,6 +106,7 @@ export interface RootState {
   supercharge: SuperchargeState
   dapps: DappsState
   fiatConnect: FiatConnectState
+  swap: SwapState
 }
 
 export interface PersistedRootState {

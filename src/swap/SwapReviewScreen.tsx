@@ -1,4 +1,3 @@
-import { StackScreenProps } from '@react-navigation/stack'
 import BigNumber from 'bignumber.js'
 import React, { useEffect, useState } from 'react'
 import { useAsync } from 'react-async-hook'
@@ -23,13 +22,12 @@ import TokenDisplay, { formatValueToDisplay } from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import InfoIcon from 'src/icons/InfoIcon'
 import { noHeader } from 'src/navigator/Headers'
-import { Screens } from 'src/navigator/Screens'
-import { StackParamList } from 'src/navigator/types'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
+import { swapUserInputSelector } from 'src/swap/selectors'
 import { swapStart } from 'src/swap/slice'
 import { Field } from 'src/swap/useSwapQuote'
 import { coreTokensSelector } from 'src/tokens/selectors'
@@ -37,8 +35,6 @@ import { divideByWei, multiplyByWei } from 'src/utils/formatting'
 import Logger from 'src/utils/Logger'
 import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
-
-type Props = StackScreenProps<StackParamList, Screens.SwapReviewScreen>
 
 const TAG = 'SWAP_REVIEW_SCREEN'
 
@@ -54,8 +50,16 @@ interface SwapInfo {
   }
 }
 
-export function SwapReviewScreen(props: Props) {
-  const { toToken, fromToken, swapAmount, updatedField } = props.route.params
+export function SwapReviewScreen() {
+  const { toToken, fromToken, swapAmount, updatedField } = useSelector(swapUserInputSelector) || {
+    toToken: '',
+    fromToken: '',
+    swapAmount: {
+      [Field.FROM]: null,
+      [Field.TO]: null,
+    },
+    updatedField: Field.TO,
+  }
   const [shouldFetch, setShouldFetch] = useState(true)
   const [estimatedModalVisible, setEstimatedDialogVisible] = useState(false)
   const [swapFeeModalVisible, setSwapFeeModalVisible] = useState(false)
@@ -64,11 +68,10 @@ export function SwapReviewScreen(props: Props) {
   const coreTokens = useSelector(coreTokensSelector)
   const walletAddress = useSelector(walletAddressSelector)
 
-  // Items set for remote config
+  // Items set from remote config
   const maxSlippagePercent = useSelector(maxSwapSlippagePercentageSelector)
   const swapFeeEnabled = useSelector(swapFeeEnabledSelector)
   const swapFeePercentage = useSelector(swapFeePercentageSelector)
-
   // Remote configs converted to decimals strings
   // const maxSlippageDecimal = `${maxSlippagePercent / 100}`
   const swapFeeDecimal = `${swapFeePercentage / 100}`
@@ -141,7 +144,7 @@ export function SwapReviewScreen(props: Props) {
         swapFeeDecimal
       ),
     })
-    // TODO: dispatch swap submission
+    // Dispatch swap submission
     dispatch(swapStart(swapInfo))
   }
 
