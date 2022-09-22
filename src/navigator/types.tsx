@@ -4,6 +4,7 @@ import BigNumber from 'bignumber.js'
 import { SendOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { ExchangeConfirmationCardProps } from 'src/exchange/ExchangeConfirmationCard'
+import { Props as KycLandingProps } from 'src/fiatconnect/KycLanding'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow, FiatExchangeFlow, SimplexQuote } from 'src/fiatExchanges/utils'
@@ -26,7 +27,6 @@ import {
   WalletConnectRequestType,
   WalletConnectSessionRequest,
 } from 'src/walletConnect/types'
-import { Props as KycLandingProps } from 'src/fiatconnect/KycLanding'
 
 // Typed nested navigator params
 type NestedNavigatorParams<ParamList> = {
@@ -316,6 +316,11 @@ export type StackParamList = {
       }
     | undefined
   [Screens.VerificationInputScreen]:
+    | {
+        registrationStep?: { step: number; totalSteps: number }
+      }
+    | undefined
+  [Screens.PhoneVerificationInputScreen]:
     | {
         showHelpDialog?: boolean
         choseToRestoreAccount?: boolean

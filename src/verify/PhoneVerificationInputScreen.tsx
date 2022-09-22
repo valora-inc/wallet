@@ -2,9 +2,8 @@ import { StackScreenProps, useHeaderHeight } from '@react-navigation/stack'
 import React, { useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text } from 'react-native'
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
-import { useDispatch, useSelector } from 'react-redux'
-import { registrationStepsSelector } from 'src/app/selectors'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { useDispatch } from 'react-redux'
 import BackButton from 'src/components/BackButton'
 import Dialog from 'src/components/Dialog'
 import { HeaderTitleWithSubtitle } from 'src/navigator/Headers'
@@ -18,15 +17,12 @@ import { Spacing } from 'src/styles/styles'
 function PhoneVerificationInpuScreen({
   route,
   navigation,
-}: StackScreenProps<StackParamList, Screens.VerificationEducationScreen>) {
+}: StackScreenProps<StackParamList, Screens.PhoneVerificationInputScreen>) {
   const [showHelpDialog, setShowHelpDialog] = useState(false)
 
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const headerHeight = useHeaderHeight()
-  const insets = useSafeAreaInsets()
-
-  const { step, totalSteps } = useSelector(registrationStepsSelector)
 
   const onPressSkip = () => {
     // TODO handle skip
@@ -41,12 +37,16 @@ function PhoneVerificationInpuScreen({
   }
 
   useLayoutEffect(() => {
-    const title = route.params?.hideOnboardingStep
+    const registrationStep = route.params?.registrationStep
+    const title = !registrationStep
       ? t('phoneVerificationInput.title')
       : () => (
           <HeaderTitleWithSubtitle
             title={t('phoneVerificationInput.title')}
-            subTitle={t('registrationSteps', { step, totalSteps })}
+            subTitle={t('registrationSteps', {
+              step: registrationStep.step,
+              totalSteps: registrationStep.totalSteps,
+            })}
           />
         )
 
@@ -60,15 +60,15 @@ function PhoneVerificationInpuScreen({
           titleStyle={{ color: colors.goldDark }}
         />
       ),
-      headerLeft: () => route.params?.hideOnboardingStep && <BackButton />,
+      headerLeft: () => <BackButton />,
+      headerTransparent: true,
     })
-  }, [navigation, step, totalSteps, route.params])
+  }, [navigation, route.params])
 
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>
       <ScrollView
-        style={headerHeight ? { marginTop: headerHeight } : undefined}
-        contentContainerStyle={[styles.scrollContainer, insets && { marginBottom: insets.bottom }]}
+        style={[styles.scrollContainer, headerHeight ? { marginTop: headerHeight } : undefined]}
       >
         <Text style={styles.body}>{t('phoneVerificationInput.description')}</Text>
         {/* TODO put in code here */}
@@ -81,7 +81,6 @@ function PhoneVerificationInpuScreen({
         actionPress={onPressHelpDismiss}
         secondaryActionPress={onPressSkip}
         secondaryActionText={t('phoneVerificationInput.helpDialog.skip')}
-        isActionHighlighted={false}
         onBackgroundPress={onPressHelpDismiss}
       >
         {t('phoneVerificationInput.helpDialog.body')}
@@ -98,9 +97,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   scrollContainer: {
-    flexGrow: 1,
-    paddingHorizontal: 20,
-    paddingTop: 32,
+    flex: 1,
+    padding: Spacing.Thick24,
+    width: '100%',
   },
   body: {
     ...fontStyles.regular,

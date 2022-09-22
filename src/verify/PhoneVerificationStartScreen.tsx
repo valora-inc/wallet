@@ -5,7 +5,7 @@ import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native'
 import * as RNLocalize from 'react-native-localize'
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { initializeAccount, setPhoneNumber } from 'src/account/actions'
 import { defaultCountryCodeSelector, e164NumberSelector } from 'src/account/selectors'
@@ -20,7 +20,7 @@ import Dialog from 'src/components/Dialog'
 import PhoneNumberInput from 'src/components/PhoneNumberInput'
 import TextButton from 'src/components/TextButton'
 import i18n from 'src/i18n'
-import { setHasSeenVerificationNux } from 'src/identity/actions'
+import { setHasSeenVerificationNux, startPhoneVerification } from 'src/identity/actions'
 import { HeaderTitleWithSubtitle } from 'src/navigator/Headers'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -51,7 +51,6 @@ function PhoneVerificationStartScreen({
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const headerHeight = useHeaderHeight()
-  const insets = useSafeAreaInsets()
 
   const account = useSelector(walletAddressSelector)
   const cachedNumber = useSelector(e164NumberSelector)
@@ -68,8 +67,12 @@ function PhoneVerificationStartScreen({
     if (!canUsePhoneNumber()) {
       return
     }
+    // TODO figure out what this nux thing does
     dispatch(setHasSeenVerificationNux(true))
-    // TODO: start centralised phone verification
+    dispatch(startPhoneVerification())
+    navigate(Screens.PhoneVerificationInputScreen, {
+      registrationStep: route.params?.hideOnboardingStep ? undefined : { step, totalSteps },
+    })
   }
 
   const onPressSkip = () => {
@@ -196,8 +199,10 @@ function PhoneVerificationStartScreen({
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>
       <ScrollView
-        style={headerHeight ? { marginTop: headerHeight } : undefined}
-        contentContainerStyle={[styles.scrollContainer, insets && { marginBottom: insets.bottom }]}
+        contentContainerStyle={[
+          styles.scrollContainer,
+          headerHeight ? { marginTop: headerHeight } : undefined,
+        ]}
       >
         <Text style={styles.header} testID="PhoneVerificationHeader">
           {t('verificationEducation.header')}
@@ -264,8 +269,9 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     flexGrow: 1,
-    paddingHorizontal: 20,
-    paddingTop: 32,
+    padding: Spacing.Thick24,
+    width: '100%',
+    borderWidth: 3,
   },
   header: {
     ...fontStyles.h2,
