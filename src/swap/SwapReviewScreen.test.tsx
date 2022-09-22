@@ -5,11 +5,10 @@ import { Provider } from 'react-redux'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
-import { Screens } from 'src/navigator/Screens'
 import SwapReviewScreen from 'src/swap/SwapReviewScreen'
 import { Field } from 'src/swap/useSwapQuote'
 import { Currency } from 'src/utils/currencies'
-import { createMockStore, getMockStackScreenProps } from 'test/utils'
+import { createMockStore } from 'test/utils'
 import { mockAccount, mockCeloAddress, mockCeurAddress, mockCusdAddress } from 'test/values'
 
 const mockFetch = fetch as FetchMock
@@ -29,6 +28,17 @@ const store = createMockStore({
   },
   stableToken: {
     balances: { [Currency.Dollar]: '10', [Currency.Euro]: '20' },
+  },
+  swap: {
+    swapUserInput: {
+      toToken: mockCusdAddress,
+      fromToken: mockCeloAddress,
+      swapAmount: {
+        FROM: '1000000000000000000',
+        TO: '3000000000000000000',
+      },
+      updatedField: Field.FROM,
+    },
   },
   tokens: {
     tokenBalances: {
@@ -60,16 +70,6 @@ const store = createMockStore({
   },
 })
 
-const mockScreenProps = getMockStackScreenProps(Screens.SwapReviewScreen, {
-  toToken: mockCusdAddress,
-  fromToken: mockCeloAddress,
-  swapAmount: {
-    FROM: '1000000000000000000',
-    TO: '3000000000000000000',
-  },
-  updatedField: Field.FROM,
-})
-
 describe('SwapReviewScreen', () => {
   beforeEach(() => {
     jest.useRealTimers()
@@ -94,7 +94,7 @@ describe('SwapReviewScreen', () => {
 
     const { getByTestId, getByText } = render(
       <Provider store={store}>
-        <SwapReviewScreen {...mockScreenProps} />
+        <SwapReviewScreen />
       </Provider>
     )
 
@@ -119,7 +119,7 @@ describe('SwapReviewScreen', () => {
 
     render(
       <Provider store={store}>
-        <SwapReviewScreen {...mockScreenProps} />
+        <SwapReviewScreen />
       </Provider>
     )
 
