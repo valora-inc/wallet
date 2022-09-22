@@ -1,6 +1,5 @@
 import { Result } from '@badrap/result'
-import { FiatConnectApiClient, FiatConnectClient } from '@fiatconnect/fiatconnect-sdk'
-import { FiatAccountSchema, FiatAccountType, Network } from '@fiatconnect/fiatconnect-types'
+import { FiatAccountSchema, FiatAccountType } from '@fiatconnect/fiatconnect-types'
 import { fireEvent, render } from '@testing-library/react-native'
 import _ from 'lodash'
 import * as React from 'react'
@@ -80,8 +79,6 @@ const mockScreenProps = getMockStackScreenProps(Screens.FiatDetailsScreen, {
 })
 
 describe('FiatDetailsScreen', () => {
-  let fiatConnectClient: FiatConnectApiClient
-
   beforeEach(() => {
     mockResult = Result.ok({
       fiatAccountId: '1234',
@@ -89,14 +86,6 @@ describe('FiatDetailsScreen', () => {
       institutionName: fakeInstitutionName,
       fiatAccountType: FiatAccountType.BankAccount,
     })
-    fiatConnectClient = new FiatConnectClient(
-      {
-        baseUrl: 'some-url',
-        network: Network.Alfajores,
-        accountAddress: 'some-address',
-      },
-      (msg: string) => Promise.resolve(msg)
-    )
     store.dispatch = jest.fn()
   })
   afterEach(() => {
