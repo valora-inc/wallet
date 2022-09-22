@@ -189,7 +189,7 @@ export function* handleSubmitFiatAccount({
       error: postFiatAccountResponse.error.message,
     })
     if (postFiatAccountResponse.error.fiatConnectError === FiatConnectError.ResourceExists) {
-      put(
+      yield put(
         showError(
           i18n.t('fiatDetailsScreen.addFiatAccountResourceExist', {
             provider: quote.getProviderName(),
@@ -197,7 +197,7 @@ export function* handleSubmitFiatAccount({
         )
       )
     } else {
-      put(
+      yield put(
         showError(
           i18n.t('fiatDetailsScreen.addFiatAccountFailed', { provider: quote.getProviderName() })
         )

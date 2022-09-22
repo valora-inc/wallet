@@ -193,7 +193,6 @@ describe('Fiatconnect saga', () => {
           )
         )
         .run()
-      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(
         FiatExchangeEvents.cico_fiat_details_error,
         {
@@ -226,7 +225,6 @@ describe('Fiatconnect saga', () => {
           )
         )
         .run()
-      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(
         FiatExchangeEvents.cico_fiat_details_error,
         {
