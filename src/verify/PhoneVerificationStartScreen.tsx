@@ -34,7 +34,7 @@ import { getCountryFeatures } from 'src/utils/countryFeatures'
 import { getPhoneNumberState } from 'src/verify/utils'
 import { walletAddressSelector } from 'src/web3/selectors'
 
-function PhoneVerification({
+function PhoneVerificationStartScreen({
   route,
   navigation,
 }: StackScreenProps<StackParamList, Screens.VerificationEducationScreen>) {
@@ -291,4 +291,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default PhoneVerification
+export default PhoneVerificationStartScreen

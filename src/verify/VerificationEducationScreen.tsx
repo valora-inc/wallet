@@ -41,7 +41,7 @@ import { Spacing } from 'src/styles/styles'
 import { getCountryFeatures } from 'src/utils/countryFeatures'
 import Logger from 'src/utils/Logger'
 import { useAsyncKomenciReadiness } from 'src/verify/hooks'
-import PhoneVerification from 'src/verify/PhoneVerification'
+import PhoneVerificationStartScreen from 'src/verify/PhoneVerificationStartScreen'
 import {
   actionableAttestationsSelector,
   checkIfKomenciAvailable,
@@ -68,7 +68,7 @@ function VerificationEducationScreen(props: Props) {
   const centralPhoneVerificationEnabled = useSelector(centralPhoneVerificationEnabledSelector)
 
   return centralPhoneVerificationEnabled ? (
-    <PhoneVerification {...props} />
+    <PhoneVerificationStartScreen {...props} />
   ) : (
     <VerificationEducationScreenDecentralised {...props} />
   )
