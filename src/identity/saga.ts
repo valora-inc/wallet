@@ -90,14 +90,9 @@ export function* validateRecipientAddressSaga({
   }
 }
 
-function* startPhoneVerificationSaga() {
-  // TODO call service
-}
-
 function* watchVerification() {
   yield takeLatest(Actions.START_VERIFICATION, startVerificationSaga)
   yield takeLeading(Actions.REVOKE_VERIFICATION, revokeVerificationSaga)
-  yield takeLatest(Actions.START_PHONE_VERIFICATION, startPhoneVerificationSaga)
 }
 
 function* watchContactMapping() {

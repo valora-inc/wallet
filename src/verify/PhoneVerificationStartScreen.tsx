@@ -20,7 +20,7 @@ import Dialog from 'src/components/Dialog'
 import PhoneNumberInput from 'src/components/PhoneNumberInput'
 import TextButton from 'src/components/TextButton'
 import i18n from 'src/i18n'
-import { setHasSeenVerificationNux, startPhoneVerification } from 'src/identity/actions'
+import { setHasSeenVerificationNux } from 'src/identity/actions'
 import { HeaderTitleWithSubtitle } from 'src/navigator/Headers'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -69,7 +69,7 @@ function PhoneVerificationStartScreen({
     }
     // TODO figure out what this nux thing does
     dispatch(setHasSeenVerificationNux(true))
-    dispatch(startPhoneVerification())
+    // TODO dispatch action to call start verification service
     navigate(Screens.PhoneVerificationInputScreen, {
       registrationStep: route.params?.hideOnboardingStep ? undefined : { step, totalSteps },
       e164Number: phoneNumberInfo.e164Number,
