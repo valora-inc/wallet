@@ -1,6 +1,6 @@
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, BackHandler, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import Button from 'src/components/Button'
@@ -87,6 +87,9 @@ export function SwapPending() {
             {t('swapCompleteScreen.swapPriceModal.body2')}
           </Dialog>
         )
+      // These states are the first and last of the swap flow
+      // Avoids a flicker when resetting state.swap.swapInfo
+      case SwapState.USER_INPUT:
       case SwapState.COMPLETE:
         return (
           <>
@@ -97,10 +100,17 @@ export function SwapPending() {
     }
   }, [swapState])
 
+  // Prevent back button on Android
+  useEffect(() => {
+    const backPressListener = () => true
+    BackHandler.addEventListener('hardwareBackPress', backPressListener)
+    return () => BackHandler.removeEventListener('hardwareBackPress', backPressListener)
+  }, [])
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.contentContainer}>
-        {![SwapState.COMPLETE, SwapState.START].includes(swapState) ? (
+        {![SwapState.COMPLETE, SwapState.USER_INPUT].includes(swapState) ? (
           <ActivityIndicator
             size="large"
             color={colors.greenBrand}
@@ -137,6 +147,8 @@ const styles = StyleSheet.create({
 
 SwapPending.navOptions = {
   ...noHeader,
+  // Prevent swiping back on iOS
+  gestureEnabled: false,
 }
 
 export default SwapPending
