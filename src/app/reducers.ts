@@ -60,6 +60,7 @@ export interface State {
   swapFeeEnabled: boolean
   swapFeePercentage: number
   inviteMethod: InviteMethodType
+  centralPhoneVerificationEnabled: boolean
 }
 
 const initialState = {
@@ -113,6 +114,7 @@ const initialState = {
   swapFeeEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.swapFeeEnabled,
   swapFeePercentage: REMOTE_CONFIG_VALUES_DEFAULTS.swapFeePercentage,
   inviteMethod: REMOTE_CONFIG_VALUES_DEFAULTS.inviteMethod,
+  centralPhoneVerificationEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.centralPhoneVerificationEnabled,
 }
 
 export const appReducer = (
@@ -235,6 +237,7 @@ export const appReducer = (
         swapFeePercentage: action.configValues.swapFeePercentage,
         inviteMethod: action.configValues.inviteMethod,
         showGuidedOnboardingCopy: action.configValues.showGuidedOnboardingCopy,
+        centralPhoneVerificationEnabled: action.configValues.centralPhoneVerificationEnabled,
       }
     case Actions.TOGGLE_INVITE_MODAL:
       return {
