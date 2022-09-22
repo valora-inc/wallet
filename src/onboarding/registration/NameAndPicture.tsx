@@ -50,7 +50,7 @@ function NameAndPicture({ navigation }: Props) {
   const asyncKomenciReadiness = useAsyncKomenciReadiness()
   const showGuidedOnboarding = useSelector(showGuidedOnboardingSelector)
   const createAccountCopyTestType = useSelector(createAccountCopyTestTypeSelector)
-  const skipUsername = true //TODO use statsig variable
+  const skipUsername = false //TODO use statsig variable
   useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => {

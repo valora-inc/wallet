@@ -181,8 +181,16 @@ describe('NameAndPictureScreen', () => {
     expect(getByText('nameAndPicGuideCopyTitle')).toBeTruthy()
     expect(getByText('nameAndPicGuideCopyContent')).toBeTruthy()
   })
-
-  it('renders skip button when (always) and skipping works', () => {
+  it('does not render skip button when ', () => {
+    const { queryByText } = render(
+      <Provider store={createMockStore()}>
+        <MockedNavigator component={NameAndPicture} />
+      </Provider>
+    )
+    expect(queryByText('skip')).toBeNull()
+  })
+  it.skip('renders skip button when mocked and skipping works', () => {
+    // skipped because the switch is hard-coded to false before statsig integration
     const { queryByText } = render(
       <Provider store={createMockStore()}>
         <MockedNavigator component={NameAndPicture} />
