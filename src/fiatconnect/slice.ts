@@ -193,7 +193,6 @@ export const slice = createSlice({
     ) => {
       state.transfer = {
         quoteId: action.payload.quoteId,
-
         flow: action.payload.flow,
         isSending: false,
         failed: true,
