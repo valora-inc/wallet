@@ -10,8 +10,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { initializeAccount, setPhoneNumber } from 'src/account/actions'
 import { defaultCountryCodeSelector, e164NumberSelector } from 'src/account/selectors'
 import { showError } from 'src/alert/actions'
-import { OnboardingEvents, VerificationEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { registrationStepsSelector } from 'src/app/selectors'
 import BackButton from 'src/components/BackButton'
@@ -77,7 +75,6 @@ function PhoneVerificationStartScreen({
   }
 
   const onPressSkip = () => {
-    ValoraAnalytics.track(VerificationEvents.verification_skip)
     setShowSkipDialog(true)
   }
 
@@ -87,7 +84,6 @@ function PhoneVerificationStartScreen({
 
   const onPressSkipConfirm = () => {
     dispatch(setHasSeenVerificationNux(true))
-    ValoraAnalytics.track(VerificationEvents.verification_skip_confirm)
     navigateHome()
   }
 
@@ -161,10 +157,6 @@ function PhoneVerificationStartScreen({
       return false
     }
 
-    ValoraAnalytics.track(OnboardingEvents.phone_number_set, {
-      country: country?.displayNameNoDiacritics || '',
-      countryCode: countryCallingCode,
-    })
     dispatch(setPhoneNumber(phoneNumberInfo.e164Number, countryCallingCode))
     return true
   }
