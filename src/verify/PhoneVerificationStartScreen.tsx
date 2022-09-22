@@ -97,10 +97,10 @@ function PhoneVerificationStartScreen({
 
   useLayoutEffect(() => {
     const title = route.params?.hideOnboardingStep
-      ? t('verificationEducation.title')
+      ? t('phoneVerificationScreen.screenTitle')
       : () => (
           <HeaderTitleWithSubtitle
-            title={t('verificationEducation.title')}
+            title={t('phoneVerificationScreen.screenTitle')}
             subTitle={t('registrationSteps', { step, totalSteps })}
           />
         )
@@ -111,7 +111,7 @@ function PhoneVerificationStartScreen({
         !route.params?.hideOnboardingStep && (
           <TopBarTextButton
             title={t('skip')}
-            testID="VerificationEducationSkipHeader"
+            testID="PhoneVerificationSkipHeader"
             onPress={onPressSkip}
             titleStyle={{ color: colors.goldDark }}
           />
@@ -198,9 +198,9 @@ function PhoneVerificationStartScreen({
         ]}
       >
         <Text style={styles.header} testID="PhoneVerificationHeader">
-          {t('verificationEducation.header')}
+          {t('phoneVerificationScreen.title')}
         </Text>
-        <Text style={styles.body}>{t('phoneVerification.description')}</Text>
+        <Text style={styles.body}>{t('phoneVerificationScreen.description')}</Text>
         <PhoneNumberInput
           label={t('phoneNumber')}
           style={styles.phoneNumber}
@@ -210,7 +210,7 @@ function PhoneVerificationStartScreen({
           onChange={onChangePhoneNumberInput}
         />
         <Button
-          text={t('verificationEducation.start')}
+          text={t('phoneVerificationScreen.startButtonLabel')}
           onPress={onPressStart}
           type={BtnTypes.ONBOARDING}
           style={styles.startButton}
@@ -220,34 +220,34 @@ function PhoneVerificationStartScreen({
         <View style={styles.bottomButtonContainer}>
           <TextButton
             testID="PhoneVerificationLearnMore"
-            style={styles.doINeedToConfirmButton}
+            style={styles.learnMore}
             onPress={onPressLearnMore}
           >
-            {t('verificationEducation.doINeedToConfirm')}
+            {t('phoneVerificationScreen.learnMore.title')}
           </TextButton>
         </View>
       </ScrollView>
       <Dialog
-        title={t('phoneVerification.title')}
+        title={t('phoneVerificationScreen.title')}
         isVisible={showSkipDialog}
-        actionText={t('phoneVerification.confirm')}
+        actionText={t('phoneVerificationScreen.confirm')}
         actionPress={onPressSkipConfirm}
         secondaryActionPress={onPressSkipCancel}
-        secondaryActionText={t('phoneVerification.cancel')}
-        testID="phoneVerificationSkipDialog"
+        secondaryActionText={t('phoneVerificationScreen.cancel')}
+        testID="PhoneVerificationSkipDialog"
       >
-        {t('phoneVerification.body')}
+        {t('phoneVerificationScreen.body')}
       </Dialog>
       <Dialog
         testID="PhoneVerificationLearnMoreDialog"
-        title={t('phoneVerification.learnMore.title')}
+        title={t('phoneVerificationScreen.learnMore.title')}
         isVisible={showLearnMoreDialog}
         actionText={t('dismiss')}
         actionPress={onPressLearnMoreDismiss}
         isActionHighlighted={false}
         onBackgroundPress={onPressLearnMoreDismiss}
       >
-        {t('phoneVerification.learnMore.body')}
+        {t('phoneVerificationScreen.learnMore.body')}
       </Dialog>
     </SafeAreaView>
   )
@@ -284,7 +284,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'center',
   },
-  doINeedToConfirmButton: {
+  learnMore: {
     color: colors.onboardingBrownLight,
   },
 })

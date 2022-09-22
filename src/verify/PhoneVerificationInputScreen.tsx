@@ -3,12 +3,12 @@ import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { useDispatch } from 'react-redux'
 import BackButton from 'src/components/BackButton'
 import CodeInput, { CodeInputStatus } from 'src/components/CodeInput'
 import Dialog from 'src/components/Dialog'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import { HeaderTitleWithSubtitle } from 'src/navigator/Headers'
+import { navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
@@ -27,11 +27,10 @@ function PhoneVerificationInpuScreen({
   const [codeInputStatus, setCodeInputStatus] = useState(CodeInputStatus.Inputting)
 
   const { t } = useTranslation()
-  const dispatch = useDispatch()
   const headerHeight = useHeaderHeight()
 
   const onPressSkip = () => {
-    // TODO handle skip
+    navigateHome()
   }
 
   const onPressHelp = () => {
