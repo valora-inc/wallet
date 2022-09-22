@@ -1,66 +1,40 @@
 import { Countries } from '@celo/utils/lib/countries'
-import { useFocusEffect } from '@react-navigation/native'
 import { StackScreenProps, useHeaderHeight } from '@react-navigation/stack'
-import React, { useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native'
 import * as RNLocalize from 'react-native-localize'
-import Modal from 'react-native-modal'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { initializeAccount, setPhoneNumber } from 'src/account/actions'
-import { choseToRestoreAccountSelector, defaultCountryCodeSelector } from 'src/account/selectors'
+import { defaultCountryCodeSelector, e164NumberSelector } from 'src/account/selectors'
 import { showError } from 'src/alert/actions'
-import { OnboardingEvents, VerificationEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import {
   centralPhoneVerificationEnabledSelector,
-  hideVerificationSelector,
-  numberVerifiedSelector,
   registrationStepsSelector,
 } from 'src/app/selectors'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnTypes } from 'src/components/Button'
+import Dialog from 'src/components/Dialog'
 import PhoneNumberInput from 'src/components/PhoneNumberInput'
 import TextButton from 'src/components/TextButton'
-import { isE2EEnv, WEB_LINK } from 'src/config'
 import i18n from 'src/i18n'
-import { setHasSeenVerificationNux, startVerification } from 'src/identity/actions'
+import { setHasSeenVerificationNux } from 'src/identity/actions'
 import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import { waitUntilSagasFinishLoading } from 'src/redux/sagas'
-import useTypedSelector from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { getCountryFeatures } from 'src/utils/countryFeatures'
-import Logger from 'src/utils/Logger'
-import { useAsyncKomenciReadiness } from 'src/verify/hooks'
-import PhoneVerificationStartScreen from 'src/verify/PhoneVerificationStartScreen'
-import {
-  actionableAttestationsSelector,
-  checkIfKomenciAvailable,
-  currentStateSelector,
-  isBalanceSufficientSelector,
-  reset,
-  setKomenciContext,
-  shouldUseKomenciSelector,
-  startKomenciSession,
-  StateType,
-  stop,
-  verificationStatusSelector,
-} from 'src/verify/reducer'
-import GoogleReCaptcha from 'src/verify/safety/GoogleReCaptcha'
 import { getPhoneNumberState } from 'src/verify/utils'
-import VerificationLearnMoreDialog from 'src/verify/VerificationLearnMoreDialog'
-import VerificationSkipDialog from 'src/verify/VerificationSkipDialog'
-import networkConfig from 'src/web3/networkConfig'
-import { currentAccountSelector, walletAddressSelector } from 'src/web3/selectors'
+import VerificationEducationScreenDecentralised from 'src/verify/VerificationEducationScreenDecentralised'
+import { walletAddressSelector } from 'src/web3/selectors'
 
 type Props = StackScreenProps<StackParamList, Screens.VerificationEducationScreen>
 
@@ -74,19 +48,12 @@ function VerificationEducationScreen(props: Props) {
   )
 }
 
-function VerificationEducationScreenDecentralised({ route, navigation }: Props) {
-  const showSkipDialog = route.params?.showSkipDialog || false
-  const account = useTypedSelector(currentAccountSelector)
+function PhoneVerificationStartScreen({
+  route,
+  navigation,
+}: StackScreenProps<StackParamList, Screens.VerificationEducationScreen>) {
   const [showLearnMoreDialog, setShowLearnMoreDialog] = useState(false)
-  const { t } = useTranslation()
-  const dispatch = useDispatch()
-  const headerHeight = useHeaderHeight()
-  const insets = useSafeAreaInsets()
-  const numberVerified = useSelector(numberVerifiedSelector)
-  const partOfOnboarding = !route.params?.hideOnboardingStep
-
-  const cachedNumber = useTypedSelector((state) => state.account.e164PhoneNumber)
-  const cachedCountryCallingCode = useTypedSelector(defaultCountryCodeSelector)
+  const [showSkipDialog, setShowSkipDialog] = useState(false)
   const [phoneNumberInfo, setPhoneNumberInfo] = useState(() =>
     getPhoneNumberState(
       cachedNumber || '',
@@ -94,54 +61,44 @@ function VerificationEducationScreenDecentralised({ route, navigation }: Props) 
       route.params?.selectedCountryCodeAlpha2 || RNLocalize.getCountry()
     )
   )
+
+  const { t } = useTranslation()
+  const dispatch = useDispatch()
+  const headerHeight = useHeaderHeight()
+
+  const account = useSelector(walletAddressSelector)
+  const cachedNumber = useSelector(e164NumberSelector)
+  const cachedCountryCallingCode = useSelector(defaultCountryCodeSelector)
+  const walletAddress = useSelector(walletAddressSelector)
+  const { step, totalSteps } = useSelector(registrationStepsSelector)
+
   const countries = useMemo(() => new Countries(i18n.language), [i18n.language])
   const country = phoneNumberInfo.countryCodeAlpha2
     ? countries.getCountryByCodeAlpha2(phoneNumberInfo.countryCodeAlpha2)
     : undefined
-  const currentState = useSelector(currentStateSelector)
-  const shouldUseKomenci = useSelector(shouldUseKomenciSelector)
-  const verificationStatus = useSelector(verificationStatusSelector)
-  const choseToRestoreAccount = useSelector(choseToRestoreAccountSelector)
-  const walletAddress = useSelector(walletAddressSelector)
-  const { step, totalSteps } = useSelector(registrationStepsSelector)
 
   const onPressStart = async () => {
     if (!canUsePhoneNumber()) {
       return
     }
+    // TODO figure out what this nux thing does
     dispatch(setHasSeenVerificationNux(true))
-    dispatch(startVerification(phoneNumberInfo.e164Number, noActionIsRequired))
+    // TODO dispatch action to call start verification service
+    navigate(Screens.PhoneVerificationInputScreen, {
+      registrationStep: route.params?.hideOnboardingStep ? undefined : { step, totalSteps },
+      e164Number: phoneNumberInfo.e164Number,
+    })
   }
 
   const onPressSkip = () => {
-    ValoraAnalytics.track(VerificationEvents.verification_skip)
-    navigation.setParams({ showSkipDialog: true })
+    setShowSkipDialog(true)
   }
 
   const onPressSkipCancel = () => {
-    navigation.setParams({ showSkipDialog: false })
+    setShowSkipDialog(false)
   }
 
   const onPressSkipConfirm = () => {
-    dispatch(setHasSeenVerificationNux(true))
-    ValoraAnalytics.track(VerificationEvents.verification_skip_confirm)
-    navigateHome()
-  }
-
-  const onPressContinue = () => {
-    dispatch(setHasSeenVerificationNux(true))
-    if (partOfOnboarding) {
-      navigate(Screens.OnboardingSuccessScreen)
-    } else {
-      navigateHome()
-    }
-  }
-
-  const onPressContinueWhenVerificationUnavailable = () => {
-    if (!canUsePhoneNumber()) {
-      return
-    }
-
     dispatch(setHasSeenVerificationNux(true))
     navigateHome()
   }
@@ -152,11 +109,6 @@ function VerificationEducationScreenDecentralised({ route, navigation }: Props) 
 
   const onPressLearnMoreDismiss = () => {
     setShowLearnMoreDialog(false)
-  }
-
-  const cancelCaptcha = () => {
-    dispatch(stop())
-    ValoraAnalytics.track(VerificationEvents.verification_recaptcha_canceled)
   }
 
   useLayoutEffect(() => {
@@ -199,30 +151,12 @@ function VerificationEducationScreenDecentralised({ route, navigation }: Props) 
     }
   }, [route.params?.selectedCountryCodeAlpha2])
 
-  useEffect(() => {
-    navigation.setParams({ choseToRestoreAccount })
-  }, [choseToRestoreAccount])
-
   useAsync(async () => {
     await waitUntilSagasFinishLoading()
-    if (walletAddress === null) dispatch(initializeAccount())
-    dispatch(checkIfKomenciAvailable())
+    if (walletAddress === null) {
+      dispatch(initializeAccount())
+    }
   }, [])
-
-  // CB TEMPORARY HOTFIX: Pinging Komenci endpoint to ensure availability
-  const hideVerification = useSelector(hideVerificationSelector)
-  const asyncKomenciReadiness = useAsyncKomenciReadiness()
-
-  useFocusEffect(
-    // useCallback is needed here: https://bit.ly/2G0WKTJ
-    useCallback(() => {
-      if (shouldUseKomenci !== undefined && verificationStatus.komenci !== shouldUseKomenci) {
-        dispatch(reset({ komenci: shouldUseKomenci }))
-      }
-    }, [shouldUseKomenci])
-  )
-  const actionableAttestations = useSelector(actionableAttestationsSelector)
-  const { numAttestationsRemaining } = useSelector(verificationStatusSelector)
 
   const canUsePhoneNumber = () => {
     const countryCallingCode = country?.countryCallingCode || ''
@@ -239,38 +173,9 @@ function VerificationEducationScreenDecentralised({ route, navigation }: Props) 
       return false
     }
 
-    ValoraAnalytics.track(OnboardingEvents.phone_number_set, {
-      country: country?.displayNameNoDiacritics || '',
-      countryCode: countryCallingCode,
-    })
     dispatch(setPhoneNumber(phoneNumberInfo.e164Number, countryCallingCode))
     return true
   }
-
-  const noActionIsRequired = numAttestationsRemaining <= actionableAttestations.length
-
-  const handleCaptchaResolved = (res: any) => {
-    const captchaToken = res?.nativeEvent?.data
-    if (captchaToken !== 'cancel' && captchaToken !== 'error') {
-      Logger.info('Captcha token received: ', captchaToken)
-      dispatch(setKomenciContext({ captchaToken }))
-      dispatch(startKomenciSession())
-      ValoraAnalytics.track(VerificationEvents.verification_recaptcha_success)
-    } else {
-      dispatch(stop())
-      ValoraAnalytics.track(VerificationEvents.verification_recaptcha_failure)
-    }
-  }
-
-  useEffect(() => {
-    if (isE2EEnv && currentState.type === StateType.EnsuringRealHumanUser) {
-      handleCaptchaResolved({
-        nativeEvent: {
-          data: 'special-captcha-bypass-token',
-        },
-      })
-    }
-  }, [currentState.type])
 
   const onPressCountry = () => {
     navigate(Screens.SelectCountry, {
@@ -290,96 +195,28 @@ function VerificationEducationScreenDecentralised({ route, navigation }: Props) 
         phoneNumberInfo.countryCodeAlpha2
       )
     )
-    if (noActionIsRequired) {
-      dispatch(reset({ komenci: shouldUseKomenci ?? true }))
-    }
   }
 
-  const isBalanceSufficient = useSelector(isBalanceSufficientSelector)
-
-  if (asyncKomenciReadiness.loading || shouldUseKomenci === undefined || !account) {
+  if (!account) {
     return (
-      <View style={styles.loader}>
-        {account && (
-          <VerificationSkipDialog
-            isVisible={showSkipDialog}
-            onPressCancel={onPressSkipCancel}
-            onPressConfirm={onPressSkipConfirm}
-          />
-        )}
+      <SafeAreaView style={styles.container}>
         <ActivityIndicator size="large" color={colors.greenBrand} />
-      </View>
-    )
-  }
-
-  let bodyText
-  let firstButton
-  const continueButtonDisabled = !phoneNumberInfo.isValidNumber
-
-  if (numberVerified) {
-    // Already verified
-    bodyText = t('verificationEducation.bodyAlreadyVerified')
-    firstButton = (
-      <Button
-        text={partOfOnboarding ? t('continue') : t('goBack')}
-        onPress={onPressContinue}
-        type={BtnTypes.ONBOARDING}
-        style={styles.startButton}
-        disabled={continueButtonDisabled}
-        testID="VerificationEducationSkip"
-      />
-    )
-  } else if (!asyncKomenciReadiness.result || hideVerification) {
-    bodyText = t('verificationUnavailable')
-    firstButton = (
-      <Button
-        text={t('continue')}
-        onPress={onPressContinueWhenVerificationUnavailable}
-        type={BtnTypes.ONBOARDING}
-        style={styles.startButton}
-        disabled={continueButtonDisabled}
-        testID="VerificationEducationSkip"
-      />
-    )
-  } else if (shouldUseKomenci || isBalanceSufficient) {
-    // Sufficient balance
-    bodyText = t(`verificationEducation.${shouldUseKomenci ? 'feelessBody' : 'body'}`)
-    firstButton = (
-      <Button
-        text={
-          noActionIsRequired ? t('verificationEducation.resume') : t('verificationEducation.start')
-        }
-        onPress={onPressStart}
-        type={BtnTypes.ONBOARDING}
-        style={styles.startButton}
-        disabled={continueButtonDisabled}
-        testID="VerificationEducationContinue"
-      />
-    )
-  } else {
-    // Insufficient balance
-    bodyText = t('verificationEducation.bodyInsufficientBalance')
-    firstButton = (
-      <Button
-        text={t('verificationEducation.skipForNow')}
-        onPress={onPressSkipConfirm}
-        type={BtnTypes.ONBOARDING}
-        style={styles.startButton}
-        testID="VerificationEducationSkip"
-      />
+      </SafeAreaView>
     )
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['bottom']}>
       <ScrollView
-        style={headerHeight ? { marginTop: headerHeight } : undefined}
-        contentContainerStyle={[styles.scrollContainer, insets && { marginBottom: insets.bottom }]}
+        contentContainerStyle={[
+          styles.scrollContainer,
+          headerHeight ? { marginTop: headerHeight } : undefined,
+        ]}
       >
-        <Text style={styles.header} testID="VerificationEducationHeader">
+        <Text style={styles.header} testID="PhoneVerificationHeader">
           {t('verificationEducation.header')}
         </Text>
-        <Text style={styles.body}>{bodyText}</Text>
+        <Text style={styles.body}>{t('phoneVerification.description')}</Text>
         <PhoneNumberInput
           label={t('phoneNumber')}
           style={styles.phoneNumber}
@@ -388,79 +225,61 @@ function VerificationEducationScreenDecentralised({ route, navigation }: Props) 
           onPressCountry={onPressCountry}
           onChange={onChangePhoneNumberInput}
         />
-        {firstButton}
-        <View style={styles.spacer} />
-        <TextButton
-          testID="doINeedToConfirm"
-          style={styles.doINeedToConfirmButton}
-          onPress={onPressLearnMore}
-        >
-          {t('verificationEducation.doINeedToConfirm')}
-        </TextButton>
+        <Button
+          text={t('verificationEducation.start')}
+          onPress={onPressStart}
+          type={BtnTypes.ONBOARDING}
+          style={styles.startButton}
+          disabled={!phoneNumberInfo.isValidNumber}
+          testID="PhoneVerificationContinue"
+        />
+        <View style={styles.bottomButtonContainer}>
+          <TextButton
+            testID="PhoneVerificationLearnMore"
+            style={styles.doINeedToConfirmButton}
+            onPress={onPressLearnMore}
+          >
+            {t('verificationEducation.doINeedToConfirm')}
+          </TextButton>
+        </View>
       </ScrollView>
-      <Modal
-        isVisible={currentState.type === StateType.EnsuringRealHumanUser}
-        style={styles.recaptchaModal}
-        useNativeDriverForBackdrop={true}
-        useNativeDriver={true}
-        hideModalContentWhileAnimating={true}
-        backdropTransitionOutTiming={0}
-      >
-        <TopBarTextButton
-          onPress={cancelCaptcha}
-          titleStyle={[
-            {
-              marginTop: insets.top,
-              height: headerHeight - insets.top,
-            },
-            styles.recaptchaClose,
-          ]}
-          title={t('close')}
-        />
-        <GoogleReCaptcha
-          siteKey={networkConfig.recaptchaSiteKey}
-          url={WEB_LINK}
-          languageCode={i18n.language}
-          onMessage={handleCaptchaResolved}
-          style={styles.recaptcha}
-        />
-      </Modal>
-      <VerificationSkipDialog
+      <Dialog
+        title={t('phoneVerification.title')}
         isVisible={showSkipDialog}
-        onPressCancel={onPressSkipCancel}
-        onPressConfirm={onPressSkipConfirm}
-      />
-      <VerificationLearnMoreDialog
+        actionText={t('phoneVerification.confirm')}
+        actionPress={onPressSkipConfirm}
+        secondaryActionPress={onPressSkipCancel}
+        secondaryActionText={t('phoneVerification.cancel')}
+        testID="phoneVerificationSkipDialog"
+      >
+        {t('phoneVerification.body')}
+      </Dialog>
+      <Dialog
+        testID="PhoneVerificationLearnMoreDialog"
+        title={t('phoneVerification.learnMore.title')}
         isVisible={showLearnMoreDialog}
-        onPressDismiss={onPressLearnMoreDismiss}
-      />
-    </View>
+        actionText={t('dismiss')}
+        actionPress={onPressLearnMoreDismiss}
+        isActionHighlighted={false}
+        onBackgroundPress={onPressLearnMoreDismiss}
+      >
+        {t('phoneVerification.learnMore.body')}
+      </Dialog>
+    </SafeAreaView>
   )
 }
-
-VerificationEducationScreen.navigationOptions = nuxNavigationOptions
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.onboardingBackground,
-  },
-  recaptchaModal: {
-    margin: 0,
-    backgroundColor: 'rgba(249, 243, 240, 0.9)',
-  },
-  recaptchaClose: {
+    alignItems: 'center',
     justifyContent: 'center',
-    alignItems: 'flex-start',
-    color: colors.dark,
-  },
-  recaptcha: {
-    backgroundColor: 'transparent',
   },
   scrollContainer: {
     flexGrow: 1,
-    paddingHorizontal: 20,
-    paddingTop: 32,
+    padding: Spacing.Thick24,
+    width: '100%',
   },
   header: {
     ...fontStyles.h2,
@@ -476,20 +295,16 @@ const styles = StyleSheet.create({
   phoneNumber: {
     marginBottom: Spacing.Thick24,
   },
-  spacer: {
+  bottomButtonContainer: {
     flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
   },
   doINeedToConfirmButton: {
-    textAlign: 'center',
     color: colors.onboardingBrownLight,
-    padding: Spacing.Regular16,
-  },
-  loader: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-    backgroundColor: colors.onboardingBackground,
   },
 })
+
+VerificationEducationScreen.navigationOptions = nuxNavigationOptions
 
 export default VerificationEducationScreen
