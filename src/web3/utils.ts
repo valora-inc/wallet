@@ -1,4 +1,5 @@
-import { CeloTx, CeloTxObject, CeloTxReceipt } from '@celo/connect'
+import { CeloTx, CeloTxObject, CeloTxReceipt, PromiEvent } from '@celo/connect'
+import { ContractKit } from '@celo/contractkit'
 import BigNumber from 'bignumber.js'
 import { call } from 'redux-saga/effects'
 import { GAS_INFLATION_FACTOR } from 'src/config'
