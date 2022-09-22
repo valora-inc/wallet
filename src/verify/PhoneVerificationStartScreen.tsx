@@ -72,6 +72,7 @@ function PhoneVerificationStartScreen({
     dispatch(startPhoneVerification())
     navigate(Screens.PhoneVerificationInputScreen, {
       registrationStep: route.params?.hideOnboardingStep ? undefined : { step, totalSteps },
+      e164Number: phoneNumberInfo.e164Number,
     })
   }
 
@@ -271,7 +272,6 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     padding: Spacing.Thick24,
     width: '100%',
-    borderWidth: 3,
   },
   header: {
     ...fontStyles.h2,

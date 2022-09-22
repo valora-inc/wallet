@@ -777,6 +777,7 @@
     "title": "Enter the code",
     "description": "We sent a code to {{phoneNumber}}, please enter it below.",
     "help": "Help",
+    "codeInputPlaceholder": "12345678",
     "helpDialog": {
       "title": "Help",
       "body": "We sent an SMS to your phone number. Please check your text messages to find the 8 digit code. If you’re having trouble receiving messages, you can skip this step for now and try again later.",
