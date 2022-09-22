@@ -16,7 +16,6 @@ import {
   CurrencyInfo,
   TransactionDataInput as TransactionDataInputLegacy,
 } from 'src/send/SendConfirmationLegacy'
-import { Field, SwapAmount } from 'src/swap/useSwapQuote'
 import { ReviewProps } from 'src/transactions/TransactionReview'
 import { TransferConfirmationCardProps } from 'src/transactions/TransferConfirmationCard'
 import { TokenTransaction } from 'src/transactions/types'
