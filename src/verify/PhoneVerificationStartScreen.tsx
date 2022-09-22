@@ -3,7 +3,7 @@ import { StackScreenProps, useHeaderHeight } from '@react-navigation/stack'
 import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
-import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
 import * as RNLocalize from 'react-native-localize'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
@@ -15,6 +15,7 @@ import { registrationStepsSelector } from 'src/app/selectors'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnTypes } from 'src/components/Button'
 import Dialog from 'src/components/Dialog'
+import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import PhoneNumberInput from 'src/components/PhoneNumberInput'
 import TextButton from 'src/components/TextButton'
 import i18n from 'src/i18n'
@@ -191,7 +192,7 @@ function PhoneVerificationStartScreen({
 
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>
-      <ScrollView
+      <KeyboardAwareScrollView
         contentContainerStyle={[
           styles.scrollContainer,
           headerHeight ? { marginTop: headerHeight } : undefined,
@@ -226,7 +227,7 @@ function PhoneVerificationStartScreen({
             {t('phoneVerificationScreen.learnMore.title')}
           </TextButton>
         </View>
-      </ScrollView>
+      </KeyboardAwareScrollView>
       <Dialog
         title={t('phoneVerificationScreen.title')}
         isVisible={showSkipDialog}
