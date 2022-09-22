@@ -68,7 +68,7 @@ function PhoneVerificationStartScreen({
     // TODO figure out what this nux thing does
     dispatch(setHasSeenVerificationNux(true))
     // TODO dispatch action to call start verification service
-    navigate(Screens.PhoneVerificationInputScreen, {
+    navigate(Screens.VerificationInputScreen, {
       registrationStep: route.params?.hideOnboardingStep ? undefined : { step, totalSteps },
       e164Number: phoneNumberInfo.e164Number,
     })

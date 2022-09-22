@@ -21,7 +21,7 @@ const VERIFICATION_CODE_LENGTH = 8
 function PhoneVerificationInpuScreen({
   route,
   navigation,
-}: StackScreenProps<StackParamList, Screens.PhoneVerificationInputScreen>) {
+}: StackScreenProps<StackParamList, Screens.VerificationInputScreen>) {
   const [showHelpDialog, setShowHelpDialog] = useState(false)
   const [code, setCode] = useState('')
   const [codeInputStatus, setCodeInputStatus] = useState(CodeInputStatus.Inputting)
@@ -42,7 +42,7 @@ function PhoneVerificationInpuScreen({
   }
 
   useLayoutEffect(() => {
-    const { registrationStep } = route.params
+    const registrationStep = route.params?.registrationStep
     const title = !registrationStep
       ? t('phoneVerificationInput.title')
       : () => (
@@ -84,7 +84,7 @@ function PhoneVerificationInpuScreen({
         keyboardShouldPersistTaps="always"
       >
         <Text style={styles.body}>
-          {t('phoneVerificationInput.description', { phoneNumber: route.params.e164Number })}
+          {t('phoneVerificationInput.description', { phoneNumber: route.params?.e164Number })}
         </Text>
         <CodeInput
           status={codeInputStatus}

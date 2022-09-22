@@ -320,12 +320,9 @@ export type StackParamList = {
         showHelpDialog?: boolean
         choseToRestoreAccount?: boolean
         registrationStep?: { step: number; totalSteps: number }
+        e164Number?: string
       }
     | undefined
-  [Screens.PhoneVerificationInputScreen]: {
-    registrationStep?: { step: number; totalSteps: number }
-    e164Number: string
-  }
   [Screens.VerificationLoadingScreen]: { withoutRevealing: boolean }
   [Screens.OnboardingEducationScreen]: undefined
   [Screens.OnboardingSuccessScreen]: undefined

@@ -9,11 +9,14 @@ import * as React from 'react'
 import { WithTranslation } from 'react-i18next'
 import { Platform, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaInsetsContext } from 'react-native-safe-area-context'
-import { connect, useDispatch } from 'react-redux'
+import { connect, useDispatch, useSelector } from 'react-redux'
 import { hideAlert, showError, showMessage } from 'src/alert/actions'
 import { errorSelector } from 'src/alert/reducer'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { registrationStepsSelector } from 'src/app/selectors'
+import {
+  centralPhoneVerificationEnabledSelector,
+  registrationStepsSelector,
+} from 'src/app/selectors'
 import BackButton from 'src/components/BackButton'
 import { CodeInputStatus } from 'src/components/CodeInput'
 import DevSkipButton from 'src/components/DevSkipButton'
@@ -42,6 +45,7 @@ import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
 import { timeDeltaInSeconds } from 'src/utils/time'
+import PhoneVerificationInpuScreen from 'src/verify/PhoneVerificationInputScreen'
 import { isCodeRepeated } from 'src/verify/utils'
 import VerificationCodeInput from 'src/verify/VerificationCodeInput'
 import VerificationInputHelpDialog from 'src/verify/VerificationInputHelpDialog'
@@ -49,6 +53,16 @@ import VerificationInputHelpDialog from 'src/verify/VerificationInputHelpDialog'
 const TAG = 'VerificationInputScreen'
 
 type ScreenProps = StackScreenProps<StackParamList, Screens.VerificationInputScreen>
+
+function VerificationInputScreen(props: Props) {
+  const centralPhoneVerificationEnabled = useSelector(centralPhoneVerificationEnabledSelector)
+
+  return centralPhoneVerificationEnabled ? (
+    <PhoneVerificationInpuScreen {...props} />
+  ) : (
+    <VerificationInputScreenDecentralised {...props} />
+  )
+}
 
 interface StateProps {
   e164Number: string | null
@@ -114,7 +128,7 @@ function HeaderLeftButton() {
   return <BackButton onPress={onCancel} />
 }
 
-class VerificationInputScreen extends React.Component<Props, State> {
+class VerificationInputScreenDecentralised extends React.Component<Props, State> {
   static navigationOptions = ({ navigation, route }: ScreenProps) => ({
     ...nuxNavigationOptions,
     gestureEnabled: false,
