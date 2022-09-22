@@ -1616,6 +1616,19 @@ export const v76Schema = {
   },
 }
 
+export const v77Schema = {
+  ...v76Schema,
+  _persist: {
+    ...v76Schema._persist,
+    version: 77,
+  },
+  swap: {
+    swapState: 'quote',
+    swapInfo: null,
+    swapUserInput: null,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v76Schema as Partial<RootState>
+  return v77Schema as Partial<RootState>
 }

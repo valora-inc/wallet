@@ -870,6 +870,13 @@
             ],
             "type": "string"
         },
+        "Field": {
+            "enum": [
+                "FROM",
+                "TO"
+            ],
+            "type": "string"
+        },
         "HistoricalUsdPrices": {
             "additionalProperties": false,
             "properties": {
@@ -1742,6 +1749,7 @@
                 "StoreWipeRecoveryScreen",
                 "Support",
                 "SupportContact",
+                "SwapPendingScreen",
                 "SwapReviewScreen",
                 "SwapScreen",
                 "Sync",
@@ -3079,6 +3087,41 @@
             ],
             "type": "object"
         },
+        "State_27": {
+            "additionalProperties": false,
+            "properties": {
+                "swapInfo": {
+                    "anyOf": [
+                        {
+                            "properties": {},
+                            "type": "object"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                },
+                "swapState": {
+                    "$ref": "#/definitions/SwapState"
+                },
+                "swapUserInput": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/definitions/SwapUserInput"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                }
+            },
+            "required": [
+                "swapInfo",
+                "swapState",
+                "swapUserInput"
+            ],
+            "type": "object"
+        },
         "State_4": {
             "additionalProperties": false,
             "properties": {
@@ -3506,6 +3549,44 @@
                 ],
                 "type": "object"
             },
+            "type": "object"
+        },
+        "SwapState": {
+            "enum": [
+                "approve",
+                "complete",
+                "error",
+                "execute",
+                "price-change",
+                "quote",
+                "start",
+                "user-input"
+            ],
+            "type": "string"
+        },
+        "SwapUserInput": {
+            "additionalProperties": false,
+            "properties": {
+                "fromToken": {
+                    "type": "string"
+                },
+                "swapAmount": {
+                    "properties": {},
+                    "type": "object"
+                },
+                "toToken": {
+                    "type": "string"
+                },
+                "updatedField": {
+                    "$ref": "#/definitions/Field"
+                }
+            },
+            "required": [
+                "fromToken",
+                "swapAmount",
+                "toToken",
+                "updatedField"
+            ],
             "type": "object"
         },
         "TokenAmount": {
@@ -4315,6 +4396,9 @@
         "supercharge": {
             "$ref": "#/definitions/State_24"
         },
+        "swap": {
+            "$ref": "#/definitions/State_27"
+        },
         "tokens": {
             "$ref": "#/definitions/State_23"
         },
@@ -4354,6 +4438,7 @@
         "send",
         "stableToken",
         "supercharge",
+        "swap",
         "tokens",
         "transactions",
         "verify",
