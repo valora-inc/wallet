@@ -181,7 +181,8 @@ describe('NameAndPictureScreen', () => {
     expect(getByText('nameAndPicGuideCopyTitle')).toBeTruthy()
     expect(getByText('nameAndPicGuideCopyContent')).toBeTruthy()
   })
-  it('does not render skip button when ', () => {
+  it('does not render skip button when configured so', () => {
+    // TODO add mock Statsig flag
     const { queryByText } = render(
       <Provider store={createMockStore()}>
         <MockedNavigator component={NameAndPicture} />
@@ -189,6 +190,7 @@ describe('NameAndPictureScreen', () => {
     )
     expect(queryByText('skip')).toBeNull()
   })
+  // eslint-disable-next-line jest/no-disabled-tests
   it.skip('renders skip button when mocked and skipping works', () => {
     // skipped because the switch is hard-coded to false before statsig integration
     const { queryByText } = render(
