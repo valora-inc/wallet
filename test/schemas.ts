@@ -1620,14 +1620,26 @@ export const v77Schema = {
   ...v76Schema,
   _persist: {
     ...v76Schema._persist,
-    version: 76,
+    version: 77,
+  },
+  app: {
+    ...v76Schema.app,
+    centralPhoneVerificationEnabled: false,
+  },
+}
+
+export const v78Schema = {
+  ...v77Schema,
+  _persist: {
+    ...v77Schema._persist,
+    version: 78,
   },
   fiatConnect: {
-    ...v76Schema.fiatConnect,
+    ...v77Schema.fiatConnect,
     sendingFiatAccount: false,
   },
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v77Schema as Partial<RootState>
+  return v78Schema as Partial<RootState>
 }

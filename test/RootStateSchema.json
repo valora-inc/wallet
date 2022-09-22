@@ -1864,6 +1864,9 @@
                 "celoWithdrawalEnabledInExchange": {
                     "type": "boolean"
                 },
+                "centralPhoneVerificationEnabled": {
+                    "type": "boolean"
+                },
                 "coinbasePayEnabled": {
                     "type": "boolean"
                 },
@@ -2017,6 +2020,7 @@
                 "celoEducationUri",
                 "celoEuroEnabled",
                 "celoWithdrawalEnabledInExchange",
+                "centralPhoneVerificationEnabled",
                 "coinbasePayEnabled",
                 "createAccountCopyTestType",
                 "fiatConnectCashInEnabled",
