@@ -166,7 +166,13 @@ class ValoraAnalytics {
   }
 
   page(screenId: string, eventProperties = {}) {
-    if (!this.isEnabled || !SEGMENT_API_KEY) {
+    if (!this.isEnabled()) {
+      Logger.debug(TAG, `Analytics is disabled, not tracking screen ${screenId}`)
+      return
+    }
+
+    if (!SEGMENT_API_KEY) {
+      Logger.debug(TAG, `No API key, not tracking screen ${screenId}`)
       return
     }
 

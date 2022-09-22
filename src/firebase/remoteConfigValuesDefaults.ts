@@ -72,4 +72,5 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   swapFeePercentage: 0.743,
   inviteMethod: InviteMethodType.Escrow,
   showGuidedOnboardingCopy: false,
+  centralPhoneVerificationEnabled: false,
 }
