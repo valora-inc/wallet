@@ -2,6 +2,7 @@ import {
   FiatAccountType,
   FiatType,
   ObfuscatedFiatAccountData,
+  FiatAccountSchemas,
 } from '@fiatconnect/fiatconnect-types'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { isEqual } from 'lodash'
@@ -31,6 +32,7 @@ export interface State {
   cachedFiatAccountUses: CachedFiatAccountUse[]
   attemptReturnUserFlowLoading: boolean
   selectFiatConnectQuoteLoading: boolean
+  sendingFiatAccount: boolean
 }
 
 const initialState: State = {
@@ -42,6 +44,7 @@ const initialState: State = {
   cachedFiatAccountUses: [],
   attemptReturnUserFlowLoading: false,
   selectFiatConnectQuoteLoading: false,
+  sendingFiatAccount: false,
 }
 
 export type FiatAccount = ObfuscatedFiatAccountData & {
@@ -111,10 +114,22 @@ interface RefetchQuoteAction {
   fiatAccount: ObfuscatedFiatAccountData
 }
 
+interface SubmitFiatAccountAction {
+  flow: CICOFlow
+  quote: FiatConnectQuote
+  fiatAccountData: Record<string, any>
+}
+
 export const slice = createSlice({
   name: 'fiatConnect',
   initialState,
   reducers: {
+    submitFiatAccount: (state, action: PayloadAction<SubmitFiatAccountAction>) => {
+      state.sendingFiatAccount = true
+    },
+    submitFiatAccountCompleted: (state) => {
+      state.sendingFiatAccount = false
+    },
     fetchFiatConnectQuotes: (state, action: PayloadAction<FetchQuotesAction>) => {
       state.quotesLoading = true
       state.quotesError = null
@@ -178,6 +193,7 @@ export const slice = createSlice({
     ) => {
       state.transfer = {
         quoteId: action.payload.quoteId,
+
         flow: action.payload.flow,
         isSending: false,
         failed: true,
@@ -237,6 +253,8 @@ export const {
   createFiatConnectTransferCompleted,
   fetchFiatConnectProviders,
   fetchFiatConnectProvidersCompleted,
+  submitFiatAccount,
+  submitFiatAccountCompleted,
 } = slice.actions
 
 export default slice.reducer

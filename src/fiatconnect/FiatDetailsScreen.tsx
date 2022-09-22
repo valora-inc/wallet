@@ -2,7 +2,6 @@ import {
   FiatAccountSchema,
   FiatAccountSchemas,
   FiatAccountType,
-  FiatConnectError,
 } from '@fiatconnect/fiatconnect-types'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useLayoutEffect, useMemo, useRef, useState } from 'react'
@@ -11,7 +10,6 @@ import { ActivityIndicator, Image, KeyboardType, StyleSheet, Text, View } from '
 import PickerSelect from 'react-native-picker-select'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
-import { showError, showMessage } from 'src/alert/actions'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
@@ -20,8 +18,8 @@ import CancelButton from 'src/components/CancelButton'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import TextInput, { LINE_HEIGHT } from 'src/components/TextInput'
-import { getFiatConnectClient } from 'src/fiatconnect/clients'
-import { fiatAccountUsed } from 'src/fiatconnect/slice'
+import { submitFiatAccount } from 'src/fiatconnect/slice'
+import { sendingFiatAccountSelector } from 'src/fiatconnect/selectors'
 import i18n from 'src/i18n'
 import { styles as headerStyles } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
@@ -32,7 +30,6 @@ import useSelector from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
-import Logger from 'src/utils/Logger'
 import { getObfuscatedAccountNumber } from './index'
 
 export const TAG = 'FIATCONNECT/FiatDetailsScreen'
@@ -99,7 +96,7 @@ const getAccountNumberSchema = (implicitParams: {
 const FiatDetailsScreen = ({ route, navigation }: Props) => {
   const { t } = useTranslation()
   const { flow, quote } = route.params
-  const [isSending, setIsSending] = useState(false)
+  const isSending = useSelector(sendingFiatAccountSelector)
   const [validInputs, setValidInputs] = useState(false)
   const [errors, setErrors] = useState(new Set<number>())
   const fieldValues = useRef<string[]>([])
@@ -207,8 +204,6 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
     validateInput()
 
     if (validInputs) {
-      // TODO: move this to a saga
-      setIsSending(true)
       const body: Record<string, any> = {}
       for (let i = 0; i < formFields.length; i++) {
         body[formFields[i].name] = fieldValues.current[i]
@@ -217,81 +212,17 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
       implicitParameters.forEach((param) => {
         body[param.name] = param.value
       })
-
       computedParameters.forEach((param) => {
         body[param.name] = param.computeValue(body)
       })
 
-      const fiatAccountSchema = quote.getFiatAccountSchema()
-
-      const fiatConnectClient = await getFiatConnectClient(
-        quote.getProviderId(),
-        quote.getProviderBaseUrl(),
-        quote.getProviderApiKey()
+      dispatch(
+        submitFiatAccount({
+          flow,
+          quote,
+          fiatAccountData: body,
+        })
       )
-      const result = await fiatConnectClient.addFiatAccount({
-        fiatAccountSchema: fiatAccountSchema,
-        data: body as FiatAccountSchemas[typeof fiatAccountSchema],
-      })
-
-      if (result.isOk) {
-        dispatch(
-          showMessage(
-            t('fiatDetailsScreen.addFiatAccountSuccess', { provider: quote.getProviderName() })
-          )
-        )
-        ValoraAnalytics.track(FiatExchangeEvents.cico_fiat_details_success, {
-          flow,
-          provider: quote.getProviderId(),
-          fiatAccountSchema,
-        })
-        // Record this fiat account as the most recently used
-        const { fiatAccountId, fiatAccountType } = result.value
-        dispatch(
-          fiatAccountUsed({
-            providerId: quote.getProviderId(),
-            fiatAccountId,
-            fiatAccountType,
-            flow,
-            cryptoType: quote.getCryptoType(),
-            fiatType: quote.getFiatType(),
-          })
-        )
-        navigate(Screens.FiatConnectReview, {
-          flow,
-          normalizedQuote: quote,
-          fiatAccount: result.value,
-        })
-        setTimeout(() => setIsSending(false), 500)
-      } else {
-        setIsSending(false)
-        Logger.error(
-          TAG,
-          `Error adding fiat account: ${result.error.fiatConnectError ?? result.error.message}`
-        )
-        ValoraAnalytics.track(FiatExchangeEvents.cico_fiat_details_error, {
-          flow,
-          provider: quote.getProviderId(),
-          fiatAccountSchema,
-          fiatConnectError: result.error.fiatConnectError,
-          error: result.error.message,
-        })
-        if (result.error.fiatConnectError === FiatConnectError.ResourceExists) {
-          dispatch(
-            showError(
-              t('fiatDetailsScreen.addFiatAccountResourceExist', {
-                provider: quote.getProviderName(),
-              })
-            )
-          )
-        } else {
-          dispatch(
-            showError(
-              t('fiatDetailsScreen.addFiatAccountFailed', { provider: quote.getProviderName() })
-            )
-          )
-        }
-      }
     }
   }
 
