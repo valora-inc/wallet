@@ -13,7 +13,7 @@ import * as matches from 'redux-saga-test-plan/matchers'
 import { throwError } from 'redux-saga-test-plan/providers'
 import { call, select } from 'redux-saga/effects'
 import { KycStatus as PersonaKycStatus } from 'src/account/reducer'
-import { showError } from 'src/alert/actions'
+import { showError, showMessage } from 'src/alert/actions'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
@@ -32,6 +32,7 @@ import {
   handleFetchFiatConnectQuotes,
   handleRefetchQuote,
   handleSelectFiatConnectQuote,
+  handleSubmitFiatAccount,
   _getQuotes,
   _getSpecificQuote,
 } from 'src/fiatconnect/saga'
@@ -52,10 +53,13 @@ import {
   refetchQuoteFailed,
   selectFiatConnectQuote,
   selectFiatConnectQuoteCompleted,
+  submitFiatAccount,
+  submitFiatAccountCompleted,
 } from 'src/fiatconnect/slice'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { normalizeFiatConnectQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
 import { CICOFlow } from 'src/fiatExchanges/utils'
+import i18n from 'src/i18n'
 import { getKycStatus, postKyc } from 'src/in-house-liquidity'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
@@ -91,6 +95,7 @@ jest.mock('src/utils/Logger', () => ({
 jest.mock('src/fiatconnect/clients', () => ({
   getFiatConnectClient: jest.fn(() => ({
     getFiatAccounts: jest.fn(),
+    addFiatAccount: jest.fn(),
   })),
 }))
 
@@ -102,6 +107,138 @@ jest.mock('src/in-house-liquidity', () => ({
 describe('Fiatconnect saga', () => {
   beforeEach(() => {
     jest.clearAllMocks()
+  })
+  describe('handleSubmitFiatAccount', () => {
+    const mockAddFiatAccount = jest.fn()
+    const mockFcClient = {
+      addFiatAccount: mockAddFiatAccount,
+    }
+    const normalizedQuote = new FiatConnectQuote({
+      quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
+      fiatAccountType: FiatAccountType.BankAccount,
+      flow: CICOFlow.CashOut,
+    })
+    const mockObfuscatedAccount = {
+      fiatAccountId: 'some id',
+      accountName: 'some account name',
+      institutionName: 'some institution',
+      fiatAccountType: FiatAccountType.BankAccount,
+      fiatAccountSchema: FiatAccountSchema.AccountNumber,
+    }
+    const provideDelay = ({ fn }: { fn: any }, next: any) => (fn.name === 'delayP' ? null : next())
+    it('successfully submits account and navigates to review', async () => {
+      mockAddFiatAccount.mockResolvedValueOnce(Result.ok(mockObfuscatedAccount))
+      await expectSaga(
+        handleSubmitFiatAccount,
+        submitFiatAccount({
+          flow: normalizedQuote.flow,
+          quote: normalizedQuote,
+          fiatAccountData: { random: 'data' },
+        })
+      )
+        .provide([[matches.call.fn(getFiatConnectClient), mockFcClient], { call: provideDelay }])
+        .put(
+          showMessage(
+            i18n.t('fiatDetailsScreen.addFiatAccountSuccess', {
+              provider: normalizedQuote.getProviderName(),
+            })
+          )
+        )
+        .put(
+          fiatAccountUsed({
+            providerId: normalizedQuote.getProviderId(),
+            fiatAccountId: mockObfuscatedAccount.fiatAccountId,
+            fiatAccountType: mockObfuscatedAccount.fiatAccountType,
+            flow: normalizedQuote.flow,
+            cryptoType: normalizedQuote.getCryptoType(),
+            fiatType: normalizedQuote.getFiatType(),
+          })
+        )
+        .put(submitFiatAccountCompleted())
+        .run()
+      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+        FiatExchangeEvents.cico_fiat_details_success,
+        {
+          flow: normalizedQuote.flow,
+          provider: normalizedQuote.getProviderId(),
+          fiatAccountSchema: normalizedQuote.getFiatAccountSchema(),
+        }
+      )
+      expect(navigate).toHaveBeenCalledWith(Screens.FiatConnectReview, {
+        normalizedQuote: normalizedQuote,
+        flow: normalizedQuote.flow,
+        fiatAccount: mockObfuscatedAccount,
+      })
+    })
+    it('does not navigate to review when account already exists', async () => {
+      mockAddFiatAccount.mockResolvedValueOnce(
+        Result.err(
+          new ResponseError('FiatConnect API Error', { error: FiatConnectError.ResourceExists })
+        )
+      )
+      await expectSaga(
+        handleSubmitFiatAccount,
+        submitFiatAccount({
+          flow: normalizedQuote.flow,
+          quote: normalizedQuote,
+          fiatAccountData: { random: 'data' },
+        })
+      )
+        .provide([[matches.call.fn(getFiatConnectClient), mockFcClient]])
+        .put(submitFiatAccountCompleted())
+        .put(
+          showError(
+            i18n.t('fiatDetailsScreen.addFiatAccountResourceExist', {
+              provider: normalizedQuote.getProviderName(),
+            })
+          )
+        )
+        .run()
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+        FiatExchangeEvents.cico_fiat_details_error,
+        {
+          flow: normalizedQuote.flow,
+          provider: normalizedQuote.getProviderId(),
+          fiatAccountSchema: normalizedQuote.getFiatAccountSchema(),
+          fiatConnectError: FiatConnectError.ResourceExists,
+          error: 'FiatConnect API Error',
+        }
+      )
+      expect(navigate).not.toHaveBeenCalled()
+    })
+    it('does not navigate to review when experiencing a general error', async () => {
+      mockAddFiatAccount.mockResolvedValueOnce(Result.err(new ResponseError('some error')))
+      await expectSaga(
+        handleSubmitFiatAccount,
+        submitFiatAccount({
+          flow: normalizedQuote.flow,
+          quote: normalizedQuote,
+          fiatAccountData: { random: 'data' },
+        })
+      )
+        .provide([[matches.call.fn(getFiatConnectClient), mockFcClient]])
+        .put(submitFiatAccountCompleted())
+        .put(
+          showError(
+            i18n.t('fiatDetailsScreen.addFiatAccountFailed', {
+              provider: normalizedQuote.getProviderName(),
+            })
+          )
+        )
+        .run()
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+        FiatExchangeEvents.cico_fiat_details_error,
+        {
+          flow: normalizedQuote.flow,
+          provider: normalizedQuote.getProviderId(),
+          fiatAccountSchema: normalizedQuote.getFiatAccountSchema(),
+          fiatConnectError: undefined,
+          error: 'some error',
+        }
+      )
+      expect(navigate).not.toHaveBeenCalled()
+    })
   })
   describe('handleFetchFiatConnectQuotes', () => {
     it('saves quotes when fetch is successful', async () => {

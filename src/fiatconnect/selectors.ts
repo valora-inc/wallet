@@ -13,3 +13,4 @@ export const selectFiatConnectQuoteLoadingSelector = (state: RootState) =>
   state.fiatConnect.selectFiatConnectQuoteLoading
 export const fiatConnectTransferSelector = (state: RootState) => state.fiatConnect.transfer
 export const fiatConnectProvidersSelector = (state: RootState) => state.fiatConnect.providers
+export const sendingFiatAccountSelector = (state: RootState) => state.fiatConnect.sendingFiatAccount

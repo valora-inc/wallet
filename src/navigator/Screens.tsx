@@ -89,6 +89,7 @@ export enum Screens {
   UpgradeScreen = 'UpgradeScreen',
   ValidateRecipientAccount = 'ValidateRecipientAccount',
   ValidateRecipientIntro = 'ValidateRecipientIntro',
+  VerificationCodeInputScreen = 'VerificationCodeInputScreen',
   VerificationEducationScreen = 'VerificationEducationScreen',
   VerificationInputScreen = 'VerificationInputScreen',
   VerificationLoadingScreen = 'VerificationLoadingScreen',

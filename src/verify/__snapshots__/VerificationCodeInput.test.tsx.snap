@@ -32,12 +32,15 @@ exports[`VerificationCodeInput renders correctly 1`] = `
   >
     <View
       style={
-        Object {
-          "alignItems": "center",
-          "flex": 1,
-          "flexDirection": "row",
-          "padding": 20,
-        }
+        Array [
+          Object {
+            "alignItems": "center",
+            "flex": 1,
+            "flexDirection": "row",
+            "padding": 16,
+          },
+          undefined,
+        ]
       }
     >
       <View
@@ -78,6 +81,7 @@ exports[`VerificationCodeInput renders correctly 1`] = `
               "fontFamily": "Inter-Regular",
               "fontSize": 18,
               "lineHeight": 24,
+              "paddingVertical": 12,
               "textAlign": "center",
             }
           }
