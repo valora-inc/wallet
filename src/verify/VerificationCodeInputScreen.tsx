@@ -7,6 +7,7 @@ import BackButton from 'src/components/BackButton'
 import CodeInput, { CodeInputStatus } from 'src/components/CodeInput'
 import Dialog from 'src/components/Dialog'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
+import { PHONE_NUMBER_VERIFICATION_CODE_LENGTH } from 'src/config'
 import { HeaderTitleWithSubtitle } from 'src/navigator/Headers'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -15,8 +16,7 @@ import { StackParamList } from 'src/navigator/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-
-const VERIFICATION_CODE_LENGTH = 8
+import { PhoneNumberVerificationStatus, useVerifyPhoneNumber } from 'src/verify/hooks'
 
 function VerificationCodeInputScreen({
   route,
@@ -28,6 +28,11 @@ function VerificationCodeInputScreen({
 
   const { t } = useTranslation()
   const headerHeight = useHeaderHeight()
+  const {
+    validateVerificationCode,
+    requestVerificationCode,
+    verificationStatus,
+  } = useVerifyPhoneNumber(route.params.e164Number)
 
   const onPressSkip = () => {
     navigateHome()
@@ -71,11 +76,23 @@ function VerificationCodeInputScreen({
   }, [navigation, route.params])
 
   useEffect(() => {
-    if (code.length === VERIFICATION_CODE_LENGTH) {
+    if (code.length === PHONE_NUMBER_VERIFICATION_CODE_LENGTH) {
       setCodeInputStatus(CodeInputStatus.Processing)
-      // TODO dispatch verifying phone code action
+      void validateVerificationCode(code)
     }
   }, [code])
+
+  useEffect(() => {
+    void requestVerificationCode()
+  }, [])
+
+  useEffect(() => {
+    if (verificationStatus === PhoneNumberVerificationStatus.SUCCESSFUL) {
+      setCodeInputStatus(CodeInputStatus.Accepted)
+    } else if (verificationStatus === PhoneNumberVerificationStatus.FAILED) {
+      setCodeInputStatus(CodeInputStatus.Error)
+    }
+  }, [verificationStatus])
 
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>
@@ -92,7 +109,7 @@ function VerificationCodeInputScreen({
           inputPlaceholder={t('phoneVerificationInput.codeInputPlaceholder')}
           onInputChange={setCode}
           shouldShowClipboard={(content) =>
-            !!content && content.length === VERIFICATION_CODE_LENGTH
+            !!content && content.length === PHONE_NUMBER_VERIFICATION_CODE_LENGTH
           }
           testID="PhoneVerificationCode"
           style={{ marginHorizontal: Spacing.Thick24 }}

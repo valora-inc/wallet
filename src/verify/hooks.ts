@@ -1,6 +1,12 @@
+import { useState } from 'react'
 import { useAsync } from 'react-async-hook'
-import networkConfig from 'src/web3/networkConfig'
+import { Platform } from 'react-native'
+import DeviceInfo from 'react-native-device-info'
+import { useSelector } from 'react-redux'
+import { retrieveSignedMessage } from 'src/pincode/authentication'
 import Logger from 'src/utils/Logger'
+import networkConfig from 'src/web3/networkConfig'
+import { walletAddressSelector } from 'src/web3/selectors'
 
 const TAG = 'verify/hooks'
 
@@ -26,4 +32,88 @@ export function useAsyncKomenciReadiness() {
       throw error
     }
   }, [])
+}
+
+export enum PhoneNumberVerificationStatus {
+  NONE,
+  REQUESTING_VERIFICATION_CODE,
+  AWAITING_USER_INPUT,
+  VERIFYING,
+  SUCCESSFUL,
+  FAILED,
+}
+
+export function useVerifyPhoneNumber(phoneNumber: string) {
+  const address = useSelector(walletAddressSelector)
+
+  const [verificationStatus, setVerificationStatus] = useState(PhoneNumberVerificationStatus.NONE)
+  const [verificationId, setVerificationId] = useState('')
+
+  const requestVerificationCode = async () => {
+    setVerificationStatus(PhoneNumberVerificationStatus.REQUESTING_VERIFICATION_CODE)
+
+    const signedMessage = await retrieveSignedMessage()
+    const response: Response = await fetch(networkConfig.verifyPhoneNumberUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `Valora ${address}:${signedMessage}`,
+      },
+      body: JSON.stringify({
+        phoneNumber,
+        clientPlatform: Platform.OS,
+        clientVersion: DeviceInfo.getVersion(),
+      }),
+    })
+
+    if (response.ok) {
+      const result = await response.json()
+      setVerificationId(result.verificationId)
+      setVerificationStatus(PhoneNumberVerificationStatus.AWAITING_USER_INPUT)
+    } else {
+      Logger.debug(
+        TAG,
+        'startPhoneNumberVerificationSaga received error from verify phone number service'
+      )
+      setVerificationStatus(PhoneNumberVerificationStatus.FAILED)
+      // dispatch(showError(ErrorMessages.START_PHONE_VERIFICATION_FAILURE))
+    }
+  }
+
+  const validateVerificationCode = async (smsCode: string) => {
+    setVerificationStatus(PhoneNumberVerificationStatus.VERIFYING)
+
+    const signedMessage = await retrieveSignedMessage()
+    const response: Response = await fetch(networkConfig.verifyPhoneNumberUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `Valora ${address}:${signedMessage}`,
+      },
+      body: JSON.stringify({
+        phoneNumber,
+        verificationId,
+        smsCode,
+        clientPlatform: Platform.OS,
+        clientVersion: DeviceInfo.getVersion(),
+      }),
+    })
+
+    if (response.ok) {
+      setVerificationStatus(PhoneNumberVerificationStatus.SUCCESSFUL)
+    } else {
+      Logger.debug(
+        TAG,
+        'startPhoneNumberVerificationSaga received error from verify phone number service'
+      )
+      setVerificationStatus(PhoneNumberVerificationStatus.FAILED)
+      // dispatch(showError(ErrorMessages.START_PHONE_VERIFICATION_FAILURE))
+    }
+  }
+
+  return {
+    requestVerificationCode,
+    validateVerificationCode,
+    verificationStatus,
+  }
 }
