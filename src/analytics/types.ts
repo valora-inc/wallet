@@ -30,3 +30,7 @@ export enum DappRequestOrigin {
 export enum StatsigLayers {
   NAME_AND_PICTURE_SCREEN = 'name_and_picture_screen',
 }
+
+export enum StatsigEvents {
+  NAME_STEP_COMPLETE = 'name_step_complete',
+}

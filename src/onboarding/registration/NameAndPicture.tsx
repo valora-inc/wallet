@@ -9,7 +9,7 @@ import { recoveringFromStoreWipeSelector } from 'src/account/selectors'
 import { hideAlert, showError } from 'src/alert/actions'
 import { ExperimentParams } from 'src/analytics/constants'
 import { OnboardingEvents } from 'src/analytics/Events'
-import { StatsigLayers } from 'src/analytics/types'
+import { StatsigEvents, StatsigLayers } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import {
@@ -38,19 +38,15 @@ import statsig from 'statsig-js'
 type Props = StackScreenProps<StackParamList, Screens.NameAndPicture>
 
 function NameAndPicture({ navigation }: Props) {
-  const statsigLayer = StatsigLayers.NAME_AND_PICTURE_SCREEN
-  const showSkipButton = statsig
-    .getLayer(statsigLayer)
-    .get(
-      ExperimentParams[statsigLayer].showSkipButton.paramName,
-      ExperimentParams[statsigLayer].showSkipButton.defaultValue
-    )
-  const nameType = statsig
-    .getLayer(statsigLayer)
-    .get(
-      ExperimentParams[statsigLayer].nameType.paramName,
-      ExperimentParams[statsigLayer].nameType.defaultValue
-    )
+  const statsigLayer = statsig.getLayer(StatsigLayers.NAME_AND_PICTURE_SCREEN)
+  const showSkipButton = statsigLayer.get(
+    ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].showSkipButton.paramName,
+    ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].showSkipButton.defaultValue
+  )
+  const nameType = statsigLayer.get(
+    ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].nameType.paramName,
+    ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].nameType.defaultValue
+  )
 
   //TODO: use these in an experiment
   Logger.info('NameAndPicture', 'Statsig experiment showSkipButton', showSkipButton)
@@ -122,7 +118,7 @@ function NameAndPicture({ navigation }: Props) {
       return
     }
 
-    statsig.logEvent('name_step_complete')
+    statsig.logEvent(StatsigEvents.NAME_STEP_COMPLETE)
     ValoraAnalytics.track(OnboardingEvents.name_and_picture_set, {
       includesPhoto: false,
       profilePictureSkipped: shouldSkipProfilePicture,

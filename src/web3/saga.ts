@@ -97,6 +97,7 @@ export function* getOrCreateAccount() {
     }
 
     yield call(storeMnemonic, mnemonic, accountAddress)
+    yield call(statsig.updateUser, { userID: accountAddress.toLowerCase() })
 
     return accountAddress
   } catch (error) {
@@ -132,7 +133,6 @@ export function* assignAccountFromPrivateKey(privateKey: string, mnemonic: strin
     yield put(setAccount(account))
     yield put(setAccountCreationTime(Date.now()))
     yield call(createAccountDek, mnemonic)
-    yield statsig.updateUser({ userID: account.toLowerCase() })
     return account
   } catch (e) {
     Logger.error(TAG + '@assignAccountFromPrivateKey', 'Error assigning account', e)
