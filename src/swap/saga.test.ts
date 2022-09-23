@@ -1,7 +1,8 @@
 import { expectSaga } from 'redux-saga-test-plan'
+import { throwError } from 'redux-saga-test-plan/providers'
 import { call } from 'redux-saga/effects'
 import { swapSubmitSaga } from 'src/swap/saga'
-import { swapApprove, swapExecute } from 'src/swap/slice'
+import { swapApprove, swapError, swapExecute } from 'src/swap/slice'
 import { sendTransaction } from 'src/transactions/send'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import Logger from 'src/utils/Logger'
@@ -74,7 +75,29 @@ describe(swapSubmitSaga, () => {
     expect(loggerErrorSpy).not.toHaveBeenCalled()
   })
 
-  it.todo('should set swap state correctly on price change')
+  it('should set swap state correctly on error', async () => {
+    await expectSaga(swapSubmitSaga, mockSwap)
+      .provide([
+        [call(getContractKit), contractKit],
+        [call(getConnectedUnlockedAccount), mockAccount],
+        [call(fetchWithTimeout, executeSwapUri), throwError(new Error('Error Fetching'))],
+      ])
+      .put(swapApprove())
+      .put(swapError())
+      .run()
+  })
 
-  it.todo('should set swap state correctly on error')
+  it('should set swap state correctly when response ok is false', async () => {
+    await expectSaga(swapSubmitSaga, mockSwap)
+      .provide([
+        [call(getContractKit), contractKit],
+        [call(getConnectedUnlockedAccount), mockAccount],
+        [call(fetchWithTimeout, executeSwapUri), { ok: false }],
+      ])
+      .put(swapApprove())
+      .put(swapError())
+      .run()
+  })
+
+  it.todo('should set swap state correctly on price change')
 })
