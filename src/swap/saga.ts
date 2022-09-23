@@ -4,7 +4,14 @@ import { ContractKit } from '@celo/contractkit'
 import { call, put, takeEvery } from 'redux-saga/effects'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { swapApprove, swapError, swapExecute, swapStart, swapSuccess } from 'src/swap/slice'
+import {
+  swapApprove,
+  swapError,
+  swapExecute,
+  swapPriceChange,
+  swapStart,
+  swapSuccess,
+} from 'src/swap/slice'
 import { sendTransaction } from 'src/transactions/send'
 import { newTransactionContext } from 'src/transactions/types'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
@@ -16,10 +23,25 @@ import { applyChainIdWorkaround, buildTxo } from 'src/web3/utils'
 
 const TAG = 'swap/saga'
 
+function getPriceDiff(price1: number, price2: number) {
+  return (Math.abs(price1 - price2) / ((price1 + price2) / 2)) * 100
+}
+
 export function* swapSubmitSaga(data: any) {
   try {
     // Navigate to swap pending screen
     yield call(navigate, Screens.SwapPending)
+
+    // Check that prices are within 2% of each other
+    const priceDiff: number = yield call(
+      getPriceDiff,
+      +data.payload.unvalidatedSwapTransaction.price,
+      +data.payload.unvalidatedSwapTransaction.guaranteedPrice
+    )
+    if (priceDiff >= 2) {
+      yield put(swapPriceChange())
+      return
+    }
 
     // Set contract kit, wallet address and normalizer
     const kit: ContractKit = yield call(getContractKit)
@@ -58,8 +80,6 @@ export function* swapSubmitSaga(data: any) {
       return
     }
     const responseJson: { validatedSwapTransaction: any } = yield call([response, 'json'])
-
-    // TODO Tomm: Check the if the results of the approve transaction and within acceptable ranges
 
     // Execute transaction
     yield put(swapExecute())

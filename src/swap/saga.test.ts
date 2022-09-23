@@ -2,7 +2,7 @@ import { expectSaga } from 'redux-saga-test-plan'
 import { throwError } from 'redux-saga-test-plan/providers'
 import { call } from 'redux-saga/effects'
 import { swapSubmitSaga } from 'src/swap/saga'
-import { swapApprove, swapError, swapExecute } from 'src/swap/slice'
+import { swapApprove, swapError, swapExecute, swapPriceChange } from 'src/swap/slice'
 import { sendTransaction } from 'src/transactions/send'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import Logger from 'src/utils/Logger'
@@ -39,6 +39,8 @@ const mockSwap = {
       buyAmount: '10000000000000000',
       buyTokenAddress: '0xd8763cba276a3738e6de85b4b3bf5fded6d6ca73',
       sellTokenAddress: '0xe8537a3d056da446677b9e9d6c5db704eaab4787',
+      price: '1',
+      guaranteedPrice: '1.02',
     },
   },
 }
@@ -99,5 +101,15 @@ describe(swapSubmitSaga, () => {
       .run()
   })
 
-  it.todo('should set swap state correctly on price change')
+  it('should set swap state correctly on price change', async () => {
+    mockSwap.payload.unvalidatedSwapTransaction.guaranteedPrice = '1.021'
+    await expectSaga(swapSubmitSaga, mockSwap)
+      .provide([
+        [call(getContractKit), contractKit],
+        [call(getConnectedUnlockedAccount), mockAccount],
+        [call(fetchWithTimeout, executeSwapUri), mockResponse],
+      ])
+      .put(swapPriceChange())
+      .run()
+  })
 })
