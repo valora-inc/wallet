@@ -226,7 +226,7 @@ export function* handleAttemptReturnUserFlow({
     fiatConnectProvidersSelector
   )
   try {
-    const [normalizedQuote, fiatAccount] = yield all([
+    const [normalizedQuote, fiatAccount]: [FiatConnectQuote, FiatAccount | null] = yield all([
       call(_getSpecificQuote, {
         digitalAsset,
         cryptoAmount: amount.crypto,
@@ -242,6 +242,36 @@ export function* handleAttemptReturnUserFlow({
     ])
     if (!fiatAccount) {
       throw new Error('Could not find fiat account')
+    }
+    const kycSchema = normalizedQuote.getKycSchema()
+    if (kycSchema) {
+      const getKycStatusResponse: GetKycStatusResponse = yield call(getKycStatus, {
+        providerInfo: normalizedQuote.getProviderInfo(),
+        kycSchemas: [kycSchema],
+      })
+
+      const kycStatus = getKycStatusResponse.kycStatus[kycSchema]
+
+      switch (kycStatus) {
+        case FiatConnectKycStatus.KycNotCreated:
+          // If no KYC with stored provider, navigate to SelectProvider
+          throw new Error('KYC not created')
+        case FiatConnectKycStatus.KycApproved:
+          // If KYC approved with provider, continue to FiatConnectReview
+          break
+        case FiatConnectKycStatus.KycPending:
+        case FiatConnectKycStatus.KycDenied:
+        case FiatConnectKycStatus.KycExpired:
+          // On all other states, navigate to KycStatus screen
+          // TODO: navigate to different screens
+          yield put(attemptReturnUserFlowCompleted())
+          navigate(Screens.KycStatus)
+          return
+        default:
+          throw new Error(
+            `Unrecognized FiatConnect KYC status "${kycStatus}" while attempting to handle quote selection for provider ${normalizedQuote.getProviderId()}`
+          )
+      }
     }
     // Successfully found quote and fiatAccount
     yield put(attemptReturnUserFlowCompleted())
@@ -376,7 +406,7 @@ export function* handleSelectFiatConnectQuote({
     const kycSchema = quote.getKycSchema()
     if (kycSchema) {
       getKycStatusResponse = yield call(getKycStatus, {
-        providerInfo: quote.quote.provider,
+        providerInfo: quote.getProviderInfo(),
         kycSchemas: [kycSchema],
       })
       const fiatConnectKycStatus = getKycStatusResponse.kycStatus[kycSchema]
@@ -421,8 +451,9 @@ export function* handleSelectFiatConnectQuote({
           yield put(selectFiatConnectQuoteCompleted())
           return
         default:
-          throw new Error(`Unrecognized FiatConnect KYC status "${fiatConnectKycStatus}"
-	    while attempting to handle quote selection for provider ${quote.getProviderId()}`)
+          throw new Error(
+            `Unrecognized FiatConnect KYC status "${fiatConnectKycStatus}" while attempting to handle quote selection for provider ${quote.getProviderId()}`
+          )
       }
     }
 
