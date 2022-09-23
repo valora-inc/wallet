@@ -8,7 +8,7 @@ import {
 } from '@fiatconnect/fiatconnect-types'
 import BigNumber from 'bignumber.js'
 import { Dispatch } from 'redux'
-import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
+import { FiatConnectProviderInfo, FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import { selectFiatConnectQuote } from 'src/fiatconnect/slice'
 import NormalizedQuote from 'src/fiatExchanges/quotes/NormalizedQuote'
 import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
@@ -172,7 +172,9 @@ export default class FiatConnectQuote extends NormalizedQuote {
   getProviderIcon(): string {
     return this.quote.provider.iconUrl
   }
-
+  getProvider(): FiatConnectProviderInfo {
+    return this.quote.provider
+  }
   getFiatAmount(): string {
     return this.quote.quote.fiatAmount
   }

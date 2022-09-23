@@ -13,19 +13,23 @@ export interface Props {
   quote: FiatConnectQuote
 }
 
-function KycLanding(_props: Props) {
+function KycLanding(props: Props) {
   const sendKYCSchema = async () => {
-    if (!_props.quote.quoteResponseKycSchema) {
-      throw 'expected KYC schema to send is nullish'
+    // getKycSchema
+    const schema = props.quote.getKycSchema()
+    const provider = props.quote.getProvider()
+    if (!schema) {
+      // should not happen if the flow is properly user-reached
+      throw new Error('expected KYC schema to send is nullish')
     }
     await postKyc({
-      providerInfo: _props.quote.quote.provider,
-      kycSchema: _props.quote.quoteResponseKycSchema.kycSchema,
+      providerInfo: provider,
+      kycSchema: schema,
     })
   }
   return (
     <SafeAreaView style={styles.container}>
-      <Persona kycStatus={_props.personaKycStatus} onSuccess={sendKYCSchema} />
+      <Persona kycStatus={props.personaKycStatus} onSuccess={sendKYCSchema} />
     </SafeAreaView>
   )
 }
