@@ -783,9 +783,9 @@
     "codeInputPlaceholder": "12345678",
     "helpDialog": {
       "title": "Hilfe",
-      "body": "We sent an SMS to your phone number. Please check your text messages to find the 8 digit code. If you’re having trouble receiving messages, you can skip this step for now and try again later.",
+      "body": "Wir haben eine SMS an deine Telefonnummer geschickt. Bitte überprüfe deine SMS, um den 8-stelligen Code zu finden. Wenn du Probleme beim Empfang von Nachrichten hast, kannst du diesen Schritt überspringen und es später noch einmal versuchen.",
       "skip": "Überspringen",
-      "dismiss": "Go back"
+      "dismiss": "Zurückgehen"
     }
   },
   "importExistingKey": {
