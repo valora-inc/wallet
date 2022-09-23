@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
-import { Field, SwapAmount } from 'src/swap/useSwapQuote'
+import { SwapUserInput } from 'src/swap/types'
 
 export enum SwapState {
   USER_INPUT = 'user-input',
@@ -12,12 +12,7 @@ export enum SwapState {
   PRICE_CHANGE = 'price-change',
   ERROR = 'error',
 }
-interface SwapUserInput {
-  toToken: string
-  fromToken: string
-  swapAmount: SwapAmount
-  updatedField: Field
-}
+
 export interface State {
   swapState: SwapState
   swapInfo: {} | null

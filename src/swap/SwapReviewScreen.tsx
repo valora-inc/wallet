@@ -29,7 +29,7 @@ import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { swapUserInputSelector } from 'src/swap/selectors'
 import { swapStart } from 'src/swap/slice'
-import { Field } from 'src/swap/useSwapQuote'
+import { Field, SwapInfo } from 'src/swap/types'
 import { coreTokensSelector } from 'src/tokens/selectors'
 import { divideByWei, multiplyByWei } from 'src/utils/formatting'
 import Logger from 'src/utils/Logger'
@@ -37,19 +37,6 @@ import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 
 const TAG = 'SWAP_REVIEW_SCREEN'
-
-interface SwapInfo {
-  unvalidatedSwapTransaction: {
-    sellToken: string
-    buyToken: string
-    buyAmount: string
-    sellAmount: string
-    price: string
-    gas: string
-    gasPrice: string
-  }
-}
-
 export function SwapReviewScreen() {
   const initialUserInput = {
     toToken: '',

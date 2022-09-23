@@ -23,7 +23,8 @@ import { Spacing } from 'src/styles/styles'
 import { swapInfoSelector } from 'src/swap/selectors'
 import { setSwapUserInput } from 'src/swap/slice'
 import SwapAmountInput from 'src/swap/SwapAmountInput'
-import useSwapQuote, { Field, SwapAmount } from 'src/swap/useSwapQuote'
+import { Field, SwapAmount } from 'src/swap/types'
+import useSwapQuote from 'src/swap/useSwapQuote'
 import { coreTokensSelector } from 'src/tokens/selectors'
 
 const FETCH_UPDATED_QUOTE_DEBOUNCE_TIME = 500
