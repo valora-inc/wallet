@@ -13,8 +13,6 @@ export interface SwapUserInput {
   fromToken: string
   swapAmount: SwapAmount
   updatedField: Field
-  buyAmount?: string
-  sellAmount?: string
 }
 
 export interface SwapInfo {

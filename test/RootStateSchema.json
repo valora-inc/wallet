@@ -3562,6 +3562,28 @@
             },
             "type": "object"
         },
+        "SwapAmount": {
+            "additionalProperties": false,
+            "properties": {
+                "FROM": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "TO": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                }
+            },
+            "required": [
+                "FROM",
+                "TO"
+            ],
+            "type": "object"
+        },
         "SwapState": {
             "enum": [
                 "approve",
@@ -3582,8 +3604,7 @@
                     "type": "string"
                 },
                 "swapAmount": {
-                    "properties": {},
-                    "type": "object"
+                    "$ref": "#/definitions/SwapAmount"
                 },
                 "toToken": {
                     "type": "string"
