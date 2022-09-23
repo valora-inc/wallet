@@ -318,8 +318,18 @@ export function* handleSelectFiatConnectQuote({
         // If denied or expired, skip account management and
         // navigate to the KYC status screen
         case FiatConnectKycStatus.KycDenied:
+          navigate(Screens.KycDenied, {
+            flow: quote.flow,
+            quote,
+            retryable: true, // TODO: Get this dynamically once IHL supports it
+          })
+          yield put(selectFiatConnectQuoteCompleted())
+          return
         case FiatConnectKycStatus.KycExpired:
-          navigate(Screens.KycStatus)
+          navigate(Screens.KycExpired, {
+            flow: quote.flow,
+            quote,
+          })
           yield put(selectFiatConnectQuoteCompleted())
           return
         default:
@@ -363,7 +373,10 @@ export function* handleSelectFiatConnectQuote({
       kycSchema &&
       getKycStatusResponse!.kycStatus[kycSchema] !== FiatConnectKycStatus.KycApproved
     ) {
-      navigate(Screens.KycStatus)
+      navigate(Screens.KycPending, {
+        flow: quote.flow,
+        quote,
+      })
     } else {
       navigate(Screens.FiatConnectReview, {
         flow: quote.flow,
