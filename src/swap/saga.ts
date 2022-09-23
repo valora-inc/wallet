@@ -16,7 +16,7 @@ import { applyChainIdWorkaround, buildTxo } from 'src/web3/utils'
 
 const TAG = 'swap/saga'
 
-function* SwapSaga(data: any) {
+export function* swapSubmitSaga(data: any) {
   try {
     // Navigate to swap pending screen
     yield call(navigate, Screens.SwapPending)
@@ -57,7 +57,7 @@ function* SwapSaga(data: any) {
       yield put(swapError())
       return
     }
-    const responseJson = yield call([response, response.json])
+    const responseJson: { validatedSwapTransaction: any } = yield call([response, 'json'])
 
     // TODO Tomm: Check the if the results of the approve transaction and within acceptable ranges
 
@@ -85,5 +85,5 @@ function* SwapSaga(data: any) {
 
 export function* swapSaga() {
   Logger.debug(TAG, 'Initializing swap sagas')
-  yield takeEvery(swapStart.type, SwapSaga)
+  yield takeEvery(swapStart.type, swapSubmitSaga)
 }

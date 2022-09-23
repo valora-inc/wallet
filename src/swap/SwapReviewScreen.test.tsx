@@ -98,7 +98,6 @@ describe('SwapReviewScreen', () => {
       </Provider>
     )
 
-    // Another solution - Preferred
     await waitFor(() => {
       // Swap From
       expect(getByTestId('FromSwapAmountToken')).toHaveTextContent('1.00 CELO')
@@ -129,4 +128,7 @@ describe('SwapReviewScreen', () => {
       )
     })
   })
+
+  it.todo('should correctly dispatch swapStart')
+  it.todo('should have correct analytics on swap submission')
 })
