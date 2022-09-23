@@ -764,28 +764,28 @@
     "screenTitle": "Numéro de téléphone",
     "title": "Connectez votre numéro de téléphone",
     "description": "Pour connecter ton numéro de téléphone, tu recevras un message texte.",
-    "startButtonLabel": "Start",
+    "startButtonLabel": "Commencer",
     "learnMore": {
       "title": "Est-ce que je dois connecter mon téléphone ?",
       "body": "En connectant ton numéro de téléphone, tu pourras envoyer de l'argent aux amis de ton carnet d'adresses et à d'autres numéros de téléphone. \n \n Si tu choisis de sauter cette étape, tu ne pourras pas accéder à tes contacts et tu ne pourras envoyer de l'argent que par code QR ou numéro de compte."
     },
     "skip": {
-      "title": "Are you sure?",
+      "title": "Êtes-vous sûr ?",
       "body": "La connexion te permet d'envoyer et de recevoir des fonds à partir de ton numéro de téléphone.",
-      "cancel": "Go Back",
-      "confirm": "Skip for now"
+      "cancel": "Retour",
+      "confirm": "Ignorer pour l'instant"
     }
   },
   "phoneVerificationInput": {
     "title": "Saisis le code",
-    "description": "We sent a code to {{phoneNumber}}, please enter it below.",
-    "help": "Help",
+    "description": "Nous avons envoyé un code à {{phoneNumber}}, merci de le saisir ci-dessous.",
+    "help": "Aide",
     "codeInputPlaceholder": "12345678",
     "helpDialog": {
-      "title": "Help",
-      "body": "We sent an SMS to your phone number. Please check your text messages to find the 8 digit code. If you’re having trouble receiving messages, you can skip this step for now and try again later.",
-      "skip": "Skip",
-      "dismiss": "Go back"
+      "title": "Aide",
+      "body": "Nous avons envoyé un SMS à ton numéro de téléphone. Vérifie tes SMS pour trouver le code à 8 chiffres. Si tu as des difficultés à recevoir des messages, tu peux sauter cette étape pour l'instant et réessayer plus tard.",
+      "skip": "Ignorer",
+      "dismiss": "Retourner"
     }
   },
   "importExistingKey": {
