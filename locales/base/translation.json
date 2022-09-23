@@ -780,13 +780,14 @@
     "title": "Enter the code",
     "description": "We sent a code to {{phoneNumber}}, please enter it below.",
     "help": "Help",
-    "codeInputPlaceholder": "12345678",
+    "codeInputPlaceholder": "123456",
     "helpDialog": {
       "title": "Help",
-      "body": "We sent an SMS to your phone number. Please check your text messages to find the 8 digit code. If you’re having trouble receiving messages, you can skip this step for now and try again later.",
+      "body": "We sent an SMS to your phone number. Please check your text messages to find the 6 digit code. If you’re having trouble receiving messages, you can skip this step for now and try again later.",
       "skip": "Skip",
       "dismiss": "Go back"
-    }
+    },
+    "verificationFailure": "Oops! Something went wrong, please try again later."
   },
   "importExistingKey": {
     "explanation": "Your Recovery Phrase is a 24-word phrase that you wrote down and saved when you set up your account. Please enter it here to restore your account.",

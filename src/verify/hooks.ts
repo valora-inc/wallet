@@ -2,7 +2,9 @@ import { useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { showError } from 'src/alert/actions'
+import { ErrorMessages } from 'src/app/ErrorMessages'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
 import Logger from 'src/utils/Logger'
 import networkConfig from 'src/web3/networkConfig'
@@ -36,22 +38,19 @@ export function useAsyncKomenciReadiness() {
 
 export enum PhoneNumberVerificationStatus {
   NONE,
-  REQUESTING_VERIFICATION_CODE,
-  AWAITING_USER_INPUT,
   VERIFYING,
   SUCCESSFUL,
   FAILED,
 }
 
 export function useVerifyPhoneNumber(phoneNumber: string) {
+  const dispatch = useDispatch()
   const address = useSelector(walletAddressSelector)
 
   const [verificationStatus, setVerificationStatus] = useState(PhoneNumberVerificationStatus.NONE)
   const [verificationId, setVerificationId] = useState('')
 
   const requestVerificationCode = async () => {
-    setVerificationStatus(PhoneNumberVerificationStatus.REQUESTING_VERIFICATION_CODE)
-
     const signedMessage = await retrieveSignedMessage()
     const response: Response = await fetch(networkConfig.verifyPhoneNumberUrl, {
       method: 'POST',
@@ -69,14 +68,13 @@ export function useVerifyPhoneNumber(phoneNumber: string) {
     if (response.ok) {
       const result = await response.json()
       setVerificationId(result.verificationId)
-      setVerificationStatus(PhoneNumberVerificationStatus.AWAITING_USER_INPUT)
     } else {
       Logger.debug(
         TAG,
         'startPhoneNumberVerificationSaga received error from verify phone number service'
       )
       setVerificationStatus(PhoneNumberVerificationStatus.FAILED)
-      // dispatch(showError(ErrorMessages.START_PHONE_VERIFICATION_FAILURE))
+      dispatch(showError(ErrorMessages.PHONE_NUMBER_VERIFICATION_FAILURE))
     }
   }
 
@@ -101,13 +99,14 @@ export function useVerifyPhoneNumber(phoneNumber: string) {
 
     if (response.ok) {
       setVerificationStatus(PhoneNumberVerificationStatus.SUCCESSFUL)
+      // dispatch action to store the phone number and verification status in redux
     } else {
       Logger.debug(
         TAG,
         'startPhoneNumberVerificationSaga received error from verify phone number service'
       )
       setVerificationStatus(PhoneNumberVerificationStatus.FAILED)
-      // dispatch(showError(ErrorMessages.START_PHONE_VERIFICATION_FAILURE))
+      dispatch(showError(ErrorMessages.PHONE_NUMBER_VERIFICATION_FAILURE))
     }
   }
 

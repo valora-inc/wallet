@@ -1,7 +1,7 @@
 import { StackScreenProps, useHeaderHeight } from '@react-navigation/stack'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, Text } from 'react-native'
+import { Platform, StyleSheet, Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import BackButton from 'src/components/BackButton'
 import CodeInput, { CodeInputStatus } from 'src/components/CodeInput'
@@ -9,7 +9,7 @@ import Dialog from 'src/components/Dialog'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import { PHONE_NUMBER_VERIFICATION_CODE_LENGTH } from 'src/config'
 import { HeaderTitleWithSubtitle } from 'src/navigator/Headers'
-import { navigateHome } from 'src/navigator/NavigationService'
+import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
@@ -89,6 +89,9 @@ function VerificationCodeInputScreen({
   useEffect(() => {
     if (verificationStatus === PhoneNumberVerificationStatus.SUCCESSFUL) {
       setCodeInputStatus(CodeInputStatus.Accepted)
+      setTimeout(() => {
+        navigate(Screens.OnboardingSuccessScreen)
+      }, 500)
     } else if (verificationStatus === PhoneNumberVerificationStatus.FAILED) {
       setCodeInputStatus(CodeInputStatus.Error)
     }
@@ -109,7 +112,9 @@ function VerificationCodeInputScreen({
           inputPlaceholder={t('phoneVerificationInput.codeInputPlaceholder')}
           onInputChange={setCode}
           shouldShowClipboard={(content) =>
-            !!content && content.length === PHONE_NUMBER_VERIFICATION_CODE_LENGTH
+            Platform.OS === 'android' &&
+            !!content &&
+            content.length === PHONE_NUMBER_VERIFICATION_CODE_LENGTH
           }
           testID="PhoneVerificationCode"
           style={{ marginHorizontal: Spacing.Thick24 }}
