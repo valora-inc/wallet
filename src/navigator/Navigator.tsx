@@ -116,6 +116,7 @@ import TransactionReview from 'src/transactions/TransactionReview'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { ExtractProps } from 'src/utils/typescript'
+import VerificationCodeInputScreen from 'src/verify/VerificationCodeInputScreen'
 import VerificationEducationScreen from 'src/verify/VerificationEducationScreen'
 import VerificationInputScreen from 'src/verify/VerificationInputScreen'
 import VerificationLoadingScreen from 'src/verify/VerificationLoadingScreen'
@@ -190,6 +191,11 @@ const verificationScreens = (Navigator: typeof Stack) => {
       <Navigator.Screen
         name={Screens.VerificationInputScreen}
         component={VerificationInputScreen}
+        options={VerificationInputScreen.navigationOptions}
+      />
+      <Navigator.Screen
+        name={Screens.VerificationCodeInputScreen}
+        component={VerificationCodeInputScreen}
       />
     </>
   )

@@ -18,10 +18,10 @@ import { Spacing } from 'src/styles/styles'
 
 const VERIFICATION_CODE_LENGTH = 8
 
-function PhoneVerificationInpuScreen({
+function VerificationCodeInputScreen({
   route,
   navigation,
-}: StackScreenProps<StackParamList, Screens.VerificationInputScreen>) {
+}: StackScreenProps<StackParamList, Screens.VerificationCodeInputScreen>) {
   const [showHelpDialog, setShowHelpDialog] = useState(false)
   const [code, setCode] = useState('')
   const [codeInputStatus, setCodeInputStatus] = useState(CodeInputStatus.Inputting)
@@ -42,7 +42,7 @@ function PhoneVerificationInpuScreen({
   }
 
   useLayoutEffect(() => {
-    const registrationStep = route.params?.registrationStep
+    const registrationStep = route.params.registrationStep
     const title = !registrationStep
       ? t('phoneVerificationInput.title')
       : () => (
@@ -84,7 +84,7 @@ function PhoneVerificationInpuScreen({
         keyboardShouldPersistTaps="always"
       >
         <Text style={styles.body}>
-          {t('phoneVerificationInput.description', { phoneNumber: route.params?.e164Number })}
+          {t('phoneVerificationInput.description', { phoneNumber: route.params.e164Number })}
         </Text>
         <CodeInput
           status={codeInputStatus}
@@ -132,4 +132,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default PhoneVerificationInpuScreen
+export default VerificationCodeInputScreen

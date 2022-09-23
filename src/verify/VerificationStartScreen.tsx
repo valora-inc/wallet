@@ -33,7 +33,7 @@ import { getCountryFeatures } from 'src/utils/countryFeatures'
 import { getPhoneNumberState } from 'src/verify/utils'
 import { walletAddressSelector } from 'src/web3/selectors'
 
-function PhoneVerificationStartScreen({
+function VerificationStartScreen({
   route,
   navigation,
 }: StackScreenProps<StackParamList, Screens.VerificationEducationScreen>) {
@@ -69,7 +69,7 @@ function PhoneVerificationStartScreen({
     // TODO figure out what this nux thing does
     dispatch(setHasSeenVerificationNux(true))
     // TODO dispatch action to call start verification service
-    navigate(Screens.VerificationInputScreen, {
+    navigate(Screens.VerificationCodeInputScreen, {
       registrationStep: route.params?.hideOnboardingStep ? undefined : { step, totalSteps },
       e164Number: phoneNumberInfo.e164Number,
     })
@@ -290,4 +290,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default PhoneVerificationStartScreen
+export default VerificationStartScreen

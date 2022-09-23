@@ -41,7 +41,6 @@ import { Spacing } from 'src/styles/styles'
 import { getCountryFeatures } from 'src/utils/countryFeatures'
 import Logger from 'src/utils/Logger'
 import { useAsyncKomenciReadiness } from 'src/verify/hooks'
-import PhoneVerificationStartScreen from 'src/verify/PhoneVerificationStartScreen'
 import {
   actionableAttestationsSelector,
   checkIfKomenciAvailable,
@@ -59,6 +58,7 @@ import GoogleReCaptcha from 'src/verify/safety/GoogleReCaptcha'
 import { getPhoneNumberState } from 'src/verify/utils'
 import VerificationLearnMoreDialog from 'src/verify/VerificationLearnMoreDialog'
 import VerificationSkipDialog from 'src/verify/VerificationSkipDialog'
+import VerificationStartScreen from 'src/verify/VerificationStartScreen'
 import networkConfig from 'src/web3/networkConfig'
 import { currentAccountSelector, walletAddressSelector } from 'src/web3/selectors'
 
@@ -68,7 +68,7 @@ function VerificationEducationScreen(props: Props) {
   const centralPhoneVerificationEnabled = useSelector(centralPhoneVerificationEnabledSelector)
 
   return centralPhoneVerificationEnabled ? (
-    <PhoneVerificationStartScreen {...props} />
+    <VerificationStartScreen {...props} />
   ) : (
     <VerificationEducationScreenDecentralised {...props} />
   )
