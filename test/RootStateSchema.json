@@ -3061,6 +3061,9 @@
                 "selectFiatConnectQuoteLoading": {
                     "type": "boolean"
                 },
+                "sendingFiatAccount": {
+                    "type": "boolean"
+                },
                 "transfer": {
                     "anyOf": [
                         {
@@ -3080,6 +3083,7 @@
                 "quotesError",
                 "quotesLoading",
                 "selectFiatConnectQuoteLoading",
+                "sendingFiatAccount",
                 "transfer"
             ],
             "type": "object"

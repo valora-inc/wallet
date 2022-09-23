@@ -1,34 +1,20 @@
 import { Result } from '@badrap/result'
-import {
-  FiatConnectApiClient,
-  FiatConnectClient,
-  ResponseError,
-} from '@fiatconnect/fiatconnect-sdk'
-import {
-  FiatAccountSchema,
-  FiatAccountType,
-  FiatConnectError,
-  Network,
-} from '@fiatconnect/fiatconnect-types'
+import { FiatAccountSchema, FiatAccountType } from '@fiatconnect/fiatconnect-types'
 import { fireEvent, render } from '@testing-library/react-native'
 import _ from 'lodash'
 import * as React from 'react'
 import { Provider } from 'react-redux'
-import { showError, showMessage } from 'src/alert/actions'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
-import { getFiatConnectClient } from 'src/fiatconnect/clients'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
-import i18n from 'src/i18n'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import Logger from 'src/utils/Logger'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockFiatConnectProviderIcon, mockFiatConnectQuotes, mockNavigation } from 'test/values'
-import { mocked } from 'ts-jest/utils'
-import FiatDetailsScreen, { TAG } from './FiatDetailsScreen'
+import FiatDetailsScreen from './FiatDetailsScreen'
+import { submitFiatAccount } from 'src/fiatconnect/slice'
 
 jest.mock('src/alert/actions')
 jest.mock('src/analytics/ValoraAnalytics')
@@ -93,8 +79,6 @@ const mockScreenProps = getMockStackScreenProps(Screens.FiatDetailsScreen, {
 })
 
 describe('FiatDetailsScreen', () => {
-  let fiatConnectClient: FiatConnectApiClient
-
   beforeEach(() => {
     mockResult = Result.ok({
       fiatAccountId: '1234',
@@ -102,16 +86,7 @@ describe('FiatDetailsScreen', () => {
       institutionName: fakeInstitutionName,
       fiatAccountType: FiatAccountType.BankAccount,
     })
-    fiatConnectClient = new FiatConnectClient(
-      {
-        baseUrl: 'some-url',
-        network: Network.Alfajores,
-        accountAddress: 'some-address',
-      },
-      (msg: string) => Promise.resolve(msg)
-    )
     store.dispatch = jest.fn()
-    mocked(getFiatConnectClient).mockResolvedValue(fiatConnectClient)
   })
   afterEach(() => {
     jest.clearAllMocks()
@@ -265,7 +240,7 @@ describe('FiatDetailsScreen', () => {
     expect(queryByText('fiatAccountSchema.accountNumber.errorMessage')).toBeTruthy()
     expect(queryByTestId('submitButton')).toBeDisabled()
   })
-  it('sends a successful request to add new fiat account after pressing the next button [Schema: AccountName]', async () => {
+  it('dispatches to saga when validation passes after pressing submit', async () => {
     const { getByTestId } = render(
       <Provider store={store}>
         <FiatDetailsScreen {...mockScreenProps} />
@@ -275,48 +250,7 @@ describe('FiatDetailsScreen', () => {
     fireEvent.changeText(getByTestId('input-institutionName'), fakeInstitutionName)
     fireEvent.changeText(getByTestId('input-accountNumber'), fakeAccountNumber)
 
-    const expectedBody = {
-      accountName: 'CapitalTwo Bank (...7890)',
-      institutionName: fakeInstitutionName,
-      accountNumber: fakeAccountNumber,
-      country: 'US',
-      fiatAccountType: 'BankAccount',
-    }
-    await fireEvent.press(getByTestId('submitButton'))
-
-    expect(getFiatConnectClient).toHaveBeenCalledWith(
-      quote.getProviderId(),
-      quote.getProviderBaseUrl(),
-      quote.getProviderApiKey()
-    )
-    expect(fiatConnectClient.addFiatAccount).toHaveBeenCalledWith({
-      fiatAccountSchema: 'AccountNumber',
-      data: expectedBody,
-    })
-    expect(showMessage).toHaveBeenCalledWith(
-      i18n.t('fiatDetailsScreen.addFiatAccountSuccess', { provider: quote.getProviderName() })
-    )
-    expect(navigate).toHaveBeenCalledWith(Screens.FiatConnectReview, {
-      flow: CICOFlow.CashIn,
-      normalizedQuote: quote,
-      fiatAccount: mockResult.isOk && mockResult.value,
-    })
-  })
-  it('does not navigate to next page when account already exists', async () => {
-    const { getByTestId } = render(
-      <Provider store={store}>
-        <FiatDetailsScreen {...mockScreenProps} />
-      </Provider>
-    )
-    mockResult = Result.err(
-      new ResponseError('some message', { error: FiatConnectError.ResourceExists })
-    )
-    const fakeInstitutionName = 'CapitalTwo Bank'
-    const fakeAccountNumber = '1234567890'
-    fireEvent.changeText(getByTestId('input-institutionName'), fakeInstitutionName)
-    fireEvent.changeText(getByTestId('input-accountNumber'), fakeAccountNumber)
-
-    const expectedBody = {
+    const mockFiatAccountData = {
       accountName: 'CapitalTwo Bank (...7890)',
       institutionName: fakeInstitutionName,
       accountNumber: fakeAccountNumber,
@@ -326,61 +260,12 @@ describe('FiatDetailsScreen', () => {
 
     await fireEvent.press(getByTestId('submitButton'))
 
-    expect(getFiatConnectClient).toHaveBeenCalledWith(
-      quote.getProviderId(),
-      quote.getProviderBaseUrl(),
-      quote.getProviderApiKey()
+    expect(store.dispatch).toHaveBeenCalledWith(
+      submitFiatAccount({
+        flow: CICOFlow.CashIn,
+        quote,
+        fiatAccountData: mockFiatAccountData,
+      })
     )
-    expect(fiatConnectClient.addFiatAccount).toHaveBeenCalledWith({
-      fiatAccountSchema: 'AccountNumber',
-      data: expectedBody,
-    })
-
-    expect(Logger.error).toHaveBeenCalledWith(
-      TAG,
-      `Error adding fiat account: ${FiatConnectError.ResourceExists}`
-    )
-    expect(showError).toHaveBeenCalledWith(
-      i18n.t('fiatDetailsScreen.addFiatAccountResourceExist', { provider: quote.getProviderName() })
-    )
-    expect(navigate).not.toHaveBeenCalled()
-  })
-  it('does not navigate to next page when experiencing a general error', async () => {
-    const { getByTestId } = render(
-      <Provider store={store}>
-        <FiatDetailsScreen {...mockScreenProps} />
-      </Provider>
-    )
-    mockResult = Result.err(new ResponseError('some message'))
-    const fakeInstitutionName = 'CapitalTwo Bank'
-    const fakeAccountNumber = '1234567890'
-    fireEvent.changeText(getByTestId('input-institutionName'), fakeInstitutionName)
-    fireEvent.changeText(getByTestId('input-accountNumber'), fakeAccountNumber)
-
-    const expectedBody = {
-      accountName: 'CapitalTwo Bank (...7890)',
-      institutionName: fakeInstitutionName,
-      accountNumber: fakeAccountNumber,
-      country: 'US',
-      fiatAccountType: 'BankAccount',
-    }
-
-    await fireEvent.press(getByTestId('submitButton'))
-
-    expect(getFiatConnectClient).toHaveBeenCalledWith(
-      quote.getProviderId(),
-      quote.getProviderBaseUrl(),
-      quote.getProviderApiKey()
-    )
-    expect(fiatConnectClient.addFiatAccount).toHaveBeenCalledWith({
-      fiatAccountSchema: 'AccountNumber',
-      data: expectedBody,
-    })
-
-    expect(Logger.error).toHaveBeenCalledWith(TAG, `Error adding fiat account: some message`)
-    expect(showError).toHaveBeenCalledWith(
-      i18n.t('fiatDetailsScreen.addFiatAccountFailed', { provider: quote.getProviderName() })
-    )
-    expect(navigate).not.toHaveBeenCalled()
   })
 })
