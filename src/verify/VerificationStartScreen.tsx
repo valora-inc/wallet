@@ -194,10 +194,8 @@ function VerificationStartScreen({
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>
       <KeyboardAwareScrollView
-        contentContainerStyle={[
-          styles.scrollContainer,
-          headerHeight ? { marginTop: headerHeight } : undefined,
-        ]}
+        style={[styles.scrollContainer, headerHeight ? { marginTop: headerHeight } : undefined]}
+        contentContainerStyle={styles.scrollContentContainer}
       >
         <Text style={styles.header} testID="PhoneVerificationHeader">
           {t('phoneVerificationScreen.title')}
@@ -263,9 +261,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   scrollContainer: {
+    width: '100%',
+  },
+  scrollContentContainer: {
     flexGrow: 1,
     padding: Spacing.Thick24,
-    width: '100%',
   },
   header: {
     ...fontStyles.h2,

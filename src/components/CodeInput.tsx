@@ -123,7 +123,7 @@ export default function CodeInput({
 
             {showInput ? (
               <TextInput
-                textContentType={shortVerificationCodesEnabled ? 'username' : undefined}
+                textContentType={shortVerificationCodesEnabled ? 'oneTimeCode' : undefined}
                 showClearButton={false}
                 value={inputValue}
                 placeholder={

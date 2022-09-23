@@ -147,3 +147,4 @@ const configLoggerLevels: { [key: string]: LoggerLevel } = {
 }
 
 export const LOGGER_LEVEL = configLoggerLevels[Config.LOGGER_LEVEL] || LoggerLevel.Debug
+export const PHONE_NUMBER_VERIFICATION_CODE_LENGTH = 6
