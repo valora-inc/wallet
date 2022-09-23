@@ -1,4 +1,5 @@
 import { Platform } from 'react-native'
+import DeviceInfo from 'react-native-device-info'
 import {
   call,
   cancelled,
@@ -107,7 +108,7 @@ function* startPhoneNumberVerificationSaga({ e164Number }: StartPhoneNumberVerif
     body: JSON.stringify({
       phoneNumber: e164Number,
       clientPlatform: Platform.OS,
-      clientVersion: Platform.Version.toString(),
+      clientVersion: DeviceInfo.getVersion(),
     }),
   })
 
