@@ -51,6 +51,7 @@ export function useVerifyPhoneNumber(phoneNumber: string) {
   const [verificationId, setVerificationId] = useState('')
 
   const requestVerificationCode = async () => {
+    Logger.debug(`${TAG}/requestVerificationCode`, 'Initiating request to verifyPhoneNumber')
     const signedMessage = await retrieveSignedMessage()
     const response: Response = await fetch(networkConfig.verifyPhoneNumberUrl, {
       method: 'POST',
@@ -66,12 +67,17 @@ export function useVerifyPhoneNumber(phoneNumber: string) {
     })
 
     if (response.ok) {
+      Logger.debug(
+        `${TAG}/requestVerificationCode`,
+        'Successfully initiated phone number verification with verificationId: ',
+        verificationId
+      )
       const result = await response.json()
       setVerificationId(result.verificationId)
     } else {
       Logger.debug(
-        TAG,
-        'startPhoneNumberVerificationSaga received error from verify phone number service'
+        `${TAG}/requestVerificationCode`,
+        'Received error from verifyPhoneNumber service'
       )
       setVerificationStatus(PhoneNumberVerificationStatus.FAILED)
       dispatch(showError(ErrorMessages.PHONE_NUMBER_VERIFICATION_FAILURE))
@@ -79,6 +85,7 @@ export function useVerifyPhoneNumber(phoneNumber: string) {
   }
 
   const validateVerificationCode = async (smsCode: string) => {
+    Logger.debug(`${TAG}/validateVerificationCode`, 'Initiating request to verifySmsCode')
     setVerificationStatus(PhoneNumberVerificationStatus.VERIFYING)
 
     const signedMessage = await retrieveSignedMessage()
@@ -98,13 +105,11 @@ export function useVerifyPhoneNumber(phoneNumber: string) {
     })
 
     if (response.ok) {
+      Logger.debug(`${TAG}/validateVerificationCode`, 'Successfully verified phone number')
       setVerificationStatus(PhoneNumberVerificationStatus.SUCCESSFUL)
       // dispatch action to store the phone number and verification status in redux
     } else {
-      Logger.debug(
-        TAG,
-        'startPhoneNumberVerificationSaga received error from verify phone number service'
-      )
+      Logger.debug(TAG, 'Received error from verifySmsCode service')
       setVerificationStatus(PhoneNumberVerificationStatus.FAILED)
       dispatch(showError(ErrorMessages.PHONE_NUMBER_VERIFICATION_FAILURE))
     }
