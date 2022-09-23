@@ -9,7 +9,7 @@ type Props = StackScreenProps<StackParamList, Screens.KycExpired>
 
 // TODO implement designs:
 // https://www.figma.com/file/bwIY7peeykI8K4wTrXs4iN/Fiat-Connect?node-id=2945%3A41941
-function KycExpired({}: Props) {
+function KycExpired(_props: Props) {
   return (
     <SafeAreaView style={styles.container}>
       <Text>KYC Expired</Text>

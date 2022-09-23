@@ -10,7 +10,7 @@ type Props = StackScreenProps<StackParamList, Screens.KycDenied>
 // TODO implement designs:
 // (retryable): https://www.figma.com/file/bwIY7peeykI8K4wTrXs4iN/Fiat-Connect?node-id=2887%3A41469
 // (final attempt): https://www.figma.com/file/bwIY7peeykI8K4wTrXs4iN/Fiat-Connect?node-id=2885%3A41683
-function KycDenied({}: Props) {
+function KycDenied(_props: Props) {
   return (
     <SafeAreaView style={styles.container}>
       <Text>KYC Denied</Text>

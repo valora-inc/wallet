@@ -9,7 +9,7 @@ type Props = StackScreenProps<StackParamList, Screens.KycPending>
 
 // TODO implement designs:
 // https://www.figma.com/file/bwIY7peeykI8K4wTrXs4iN/Fiat-Connect?node-id=2885%3A40789
-function KycPending({}: Props) {
+function KycPending(_props: Props) {
   return (
     <SafeAreaView style={styles.container}>
       <Text>KYC Pending</Text>
