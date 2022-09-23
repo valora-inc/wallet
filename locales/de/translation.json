@@ -760,6 +760,34 @@
     "body": "Das Verbinden ermöglicht es, Guthaben mit deiner Telefonnummer zu versenden und zu empfangen.\n\n<0>Kann ich das später machen? </0>\n\nJa, aber nicht verbundene Wallets können nur Zahlungen mit QR-Codes oder Konto-Adressen senden.\n\n<1>Sicher und privat</1>\n\nValora verwendet modernste Kryptographie, um deine Telefonnummer privat zu halten.",
     "dismiss": "Verwerfen"
   },
+  "phoneVerificationScreen": {
+    "screenTitle": "Telefonnummer",
+    "title": "Verbinde deine Telefonnummer",
+    "description": "Um deine Telefonnummer zu verbinden, erhältst du eine Textnachricht.",
+    "startButtonLabel": "Start",
+    "learnMore": {
+      "title": "Muss ich mein Telefon anschließen?",
+      "body": "Wenn du deine Telefonnummer verbindest, kannst du Geld an Freunde in deinem Adressbuch und an andere Telefonnummern senden. \n \n Wenn du diesen Schritt überspringst, kannst du nicht auf deine Kontakte zugreifen und nur per QR-Code oder Kontonummer Geld senden."
+    },
+    "skip": {
+      "title": "Bist du sicher?",
+      "body": "Mit Connecting kannst du von deiner Telefonnummer aus Geld senden und empfangen.",
+      "cancel": "Zurück",
+      "confirm": "Vorerst überspringen"
+    }
+  },
+  "phoneVerificationInput": {
+    "title": "Gib den Code ein",
+    "description": "Wir haben einen Code an {{phoneNumber}}geschickt, bitte gib ihn unten ein.",
+    "help": "Hilfe",
+    "codeInputPlaceholder": "12345678",
+    "helpDialog": {
+      "title": "Hilfe",
+      "body": "We sent an SMS to your phone number. Please check your text messages to find the 8 digit code. If you’re having trouble receiving messages, you can skip this step for now and try again later.",
+      "skip": "Überspringen",
+      "dismiss": "Go back"
+    }
+  },
   "importExistingKey": {
     "explanation": "Deine Wiederherstellungsphrase ist eine 24-Wort-Phrase, die du bei der Einrichtung deines Kontos aufgeschrieben und gespeichert hast. Bitte gib es hier ein, um dein Konto wiederherzustellen.",
     "keyPlaceholder": "horse leopard dog monkey ..."
