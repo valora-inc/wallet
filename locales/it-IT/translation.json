@@ -41,7 +41,7 @@
   },
   "promptConfirmRevokeModal": {
     "header": "Sei sicuro di voler scollegare il tuo numero telefonico?",
-    "body": "Dopo aver scollegato il tuo numero telefonico, non potrai più collegarlo nuovamente a questo portafoglio.",
+    "body": "Dopo aver scollegato il tuo numero telefonico, non potrai più collegarlo nuovamente a questo wallet.",
     "revoke": "Disconnetti"
   },
   "testFaqLink": "Domande frequenti su {{appName}}",
@@ -588,7 +588,7 @@
     "heading2": "Asset Celo e conto {{appName}}",
     "info": "Per usare i nostri servizi, leggi e accetta il nostro <0>Accordo con l’utente e termini</0> facendo clic sull’apposito pulsante di seguito.",
     "privacy": "Unendosi a questa rete, l’utente autorizza la raccolta di informazioni anonime riguardanti il suo utilizzo dell’app. Inoltre, se l’utente collega il proprio numero telefonico, una copia con hash sarà memorizzata nella rete Celo. Se l’utente concede a Valora l'accesso al proprio elenco di contatti, Valora importerà il nome, il numero telefonico e l’immagine del profilo di ciascun contatto per consentire agli utenti di collegarsi attraverso l’app Valora. Per informazioni su come raccogliamo e utilizziamo questi dati, leggere la nostra <0>Informativa sulla privacy</0>.",
-    "goldDisclaimer": "Quando crei un “account” con Valora, crei un portafoglio digitale (“wallet”) del quale solo tu hai le chiavi. Nessun’altra persona, fisica o giuridica, compresi cLabs o Valora, può recuperare tali chiavi, modificare o annullare transazioni oppure recuperare fondi persi. Tieni presente che le criptovalute sono una nuova classe di asset e presentano il rischio di perdite finanziarie. Prima di acquistare qualsiasi asset, considera la tua situazione finanziaria e la tua tolleranza al rischio finanziario."
+    "goldDisclaimer": "Quando crei un “account” con Valora, crei un wallet digitale (“wallet”) del quale solo tu hai le chiavi. Nessun’altra persona, fisica o giuridica, compresi cLabs o Valora, può recuperare tali chiavi, modificare o annullare transazioni oppure recuperare fondi persi. Tieni presente che le criptovalute sono una nuova classe di asset e presentano il rischio di perdite finanziarie. Prima di acquistare qualsiasi asset, considera la tua situazione finanziaria e la tua tolleranza al rischio finanziario."
   },
   "fullName": "Nome",
   "fullNamePlaceholder": "Nome e cognome",
@@ -679,11 +679,11 @@
     "step3": "È sufficiente un cellulare per inviare, comprare ed esplorare."
   },
   "enableBiometry": {
-    "title": "Proteggi il tuo portafoglio",
-    "description": "{{biometryType}} protegge il tuo portafoglio e rende più facile usare {{appName}}",
+    "title": "Proteggi il tuo wallet",
+    "description": "{{biometryType}} protegge il tuo wallet e rende più facile usare {{appName}}",
     "cta": "Abilita {{biometryType}}",
     "guideTitle": "Vuoi abilitare {{biometryType}}?",
-    "guideDescription": "{{biometryType}} rende più facile, veloce e sicuro collegare il tuo portafoglio a dapps e firmare transazioni."
+    "guideDescription": "{{biometryType}} rende più facile, veloce e sicuro collegare il tuo wallet a dapps e firmare transazioni."
   },
   "biometryType": {
     "FaceID": "Face ID",
@@ -696,12 +696,12 @@
   "unlockWithBiometryPrompt": "Autentica per sbloccare {{appName}}",
   "welcome": {
     "title": "Fai un salto nel futuro delle criptovalute con {{appName}}",
-    "titleGuided": "Ti diamo il benvenuto in {{appName}}!\nCreiamo il tuo portafoglio cripto.",
+    "titleGuided": "Ti diamo il benvenuto in {{appName}}!\nCreiamo il tuo wallet cripto.",
     "createAccount": "Crea nuovo conto",
     "restoreAccount": "Ripristina il mio conto",
-    "createNewWallet": "Crea un portafoglio",
-    "restoreWallet": "Ripristina un portafoglio",
-    "iAlreadyHaveAWallet": "Ho già un portafoglio"
+    "createNewWallet": "Crea un wallet",
+    "restoreWallet": "Ripristina un wallet",
+    "iAlreadyHaveAWallet": "Ho già un wallet"
   },
   "accessContacts": {
     "disclosure": {
@@ -723,7 +723,7 @@
     "invalidPin": "Usa un PIN più complesso",
     "guideTitle": "Scegli un PIN di 6 cifre che ricorderai",
     "guideConfirm": "Immetti nuovamente il PIN per confermarlo.",
-    "pinCodeGuide": "Il PIN è il modo in cui proteggerai il tuo portafoglio.",
+    "pinCodeGuide": "Il PIN è il modo in cui proteggerai il tuo wallet.",
     "selectPIN": "Seleziona il PIN"
   },
   "inviteCode": {
@@ -757,8 +757,36 @@
   "verificationPrematureRevealMessage": "Attendi un minuto prima di inviare nuovamente",
   "verificationLearnMoreDialog": {
     "title": "Numeri telefonici e {{appName}}",
-    "body": "Il collegamento ti consente di inviare e ricevere fondi tramite il tuo numero telefonico.\n\n<0>Posso farlo più tardi?</0>\n\nSì, ma un portafoglio non collegato può inviare pagamenti solo con codici QR o Indirizzi del conto.\n\n<1>Sicuro e privato</1>\n\nValora utilizza una crittografia all'avanguardia per mantenere privato il tuo numero telefonico.",
+    "body": "Il collegamento ti consente di inviare e ricevere fondi tramite il tuo numero telefonico.\n\n<0>Posso farlo più tardi?</0>\n\nSì, ma un wallet non collegato può inviare pagamenti solo con codici QR o Indirizzi del conto.\n\n<1>Sicuro e privato</1>\n\nValora utilizza una crittografia all'avanguardia per mantenere privato il tuo numero telefonico.",
     "dismiss": "Ignora"
+  },
+  "phoneVerificationScreen": {
+    "screenTitle": "Numero telefonico",
+    "title": "Collega il tuo numero telefonico",
+    "description": "Per collegare il tuo numero di telefono, riceverai un messaggio di testo.",
+    "startButtonLabel": "Inizia",
+    "learnMore": {
+      "title": "Devo collegare il mio telefono?",
+      "body": "Collegando il tuo numero di telefono potrai inviare denaro agli amici della tua rubrica e ad altri numeri di telefono. \n \n Se scegli di saltare questo passaggio non potrai accedere ai tuoi contatti e potrai inviare denaro solo tramite codice QR o numero di conto."
+    },
+    "skip": {
+      "title": "Sei sicuro?",
+      "body": "La connessione ti permette di inviare e ricevere fondi dal tuo numero di telefono.",
+      "cancel": "Indietro",
+      "confirm": "Salta per il momento"
+    }
+  },
+  "phoneVerificationInput": {
+    "title": "Inserisci il codice",
+    "description": "Abbiamo inviato un codice a {{phoneNumber}}, inseriscilo qui sotto.",
+    "help": "Guida",
+    "codeInputPlaceholder": "12345678",
+    "helpDialog": {
+      "title": "Guida",
+      "body": "We sent an SMS to your phone number. Please check your text messages to find the 8 digit code. If you’re having trouble receiving messages, you can skip this step for now and try again later.",
+      "skip": "Salta",
+      "dismiss": "Go back"
+    }
   },
   "importExistingKey": {
     "explanation": "La tua Frase di recupero è composta da 24 parole e dovresti averla annotata quando hai configurato il tuo conto. Immettila qui per ripristinarlo.",
@@ -867,7 +895,7 @@
   "walletAddress": "Indirizzo del wallet",
   "inviteWithoutPayment": "Ciao. Uso {{appName}} per inviare criptovalute in tutto il mondo. Provare l'app è facile e desidero invitarti a scoprirla con questo collegamento: {{link}}",
   "inviteWithEscrowedPayment": "Ciao. Uso {{appName}} per inviare criptovalute in tutto il mondo. Ti ho appena inviato {{amount}} {{token}}. Scarica l’app {{appName}} e riscatta {{token}} tramite questo collegamento: {{link}}",
-  "inviteWithRewards": "Ehi! Ti ho appena inviato criptovalute con il mio portafoglio {{appName}}. Dopo che avrai scaricato l'applicazione e che avrai collegato il tuo numero telefonico, riceveremo entrambi un NFT. Usa questo collegamento: {{link}}",
+  "inviteWithRewards": "Ehi! Ti ho appena inviato criptovalute con il mio wallet {{appName}}. Dopo che avrai scaricato l'applicazione e che avrai collegato il tuo numero telefonico, riceveremo entrambi un NFT. Usa questo collegamento: {{link}}",
   "loadingContacts": "Ricerca dei contatti in corso",
   "myCode": "Il mio codice",
   "scanCode": "Inquadra",
@@ -1223,7 +1251,7 @@
   "merchantPaymentSubmitFail": "Impossibile inviare il pagamento",
   "merchantPaymentSetup": "Si è verificato un errore durante il caricamento delle informazioni del commerciante, prova a inquadrare nuovamente il codice QR",
   "merchantPaymentSubmitSuccess": "Pagamento inviato correttamente",
-  "merchantWalletUnlockError": "Si è verificato un errore durante lo sbloccaggio del tuo portafoglio, riprova",
+  "merchantWalletUnlockError": "Si è verificato un errore durante lo sbloccaggio del tuo wallet, riprova",
   "noMoreTransactions": "Non ci sono altre transazioni",
   "selectProviderScreen": {
     "somePaymentsUnavailable": "Alcuni metodi di pagamento non sono disponibili nella tua area",
@@ -1373,13 +1401,13 @@
     "swapFeeTitle": "Cosa sono le commissione di {{appName}}?",
     "swapFeeBody": "La commissione di {{appName}} è la commissione che paghi per scambiare i token su {{appName}}. \n\nLa commissione è pari al {{swapFee}}% dell'importo che stai scambiando. \n\nLe commissioni di {{appName}} sono gratuite per i prossimi mesi.",
     "estimatedAmountTitle": "Importo stimato",
-    "estimatedAmountBody": "Le conversioni avvengono su uno scambio decentralizzato di terze parti che trova il miglior tasso per il tuo scambio. \n\nLa tua transazione sarà completata a un prezzo compreso tra {{slippagePercent}}% della stima o la transazione sarà annullata e i fondi saranno restituiti al tuo portafoglio."
+    "estimatedAmountBody": "Le conversioni avvengono su uno scambio decentralizzato di terze parti che trova il miglior tasso per il tuo scambio. \n\nLa tua transazione sarà completata a un prezzo compreso tra {{slippagePercent}}% della stima o la transazione sarà annullata e i fondi saranno restituiti al tuo wallet."
   },
   "inviteModal": {
-    "title": "Sembra che {{contactName}} non abbia ancora un portafoglio {{appName}}.",
-    "body": "Puoi comunque invitarlo/invitarla su {{appName}} o provare a inviare un pagamento al suo indirizzo di portafoglio o nom.space.",
+    "title": "Sembra che {{contactName}} non abbia ancora un wallet {{appName}}.",
+    "body": "Puoi comunque invitarlo/invitarla su {{appName}} o provare a inviare un pagamento al suo indirizzo di wallet o nom.space.",
     "sendInviteButtonLabel": "Invia l'invito",
-    "shareMessage": "Ehi! Vorrei inviarti delle criptovalute con il mio portafoglio {{appName}}. Una volta scaricata l'applicazione e collegato il tuo numero telefonico, potremo inviare criptovalute con la stessa facilità di un messaggio di testo. Usa questo collegamento: {{link}}"
+    "shareMessage": "Ehi! Vorrei inviarti delle criptovalute con il mio wallet {{appName}}. Una volta scaricata l'applicazione e collegato il tuo numero telefonico, potremo inviare criptovalute con la stessa facilità di un messaggio di testo. Usa questo collegamento: {{link}}"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollar"
