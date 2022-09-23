@@ -7,10 +7,8 @@ import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
 import * as RNLocalize from 'react-native-localize'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
-import { initializeAccount, setPhoneNumber } from 'src/account/actions'
+import { initializeAccount } from 'src/account/actions'
 import { defaultCountryCodeSelector, e164NumberSelector } from 'src/account/selectors'
-import { showError } from 'src/alert/actions'
-import { ErrorMessages } from 'src/app/ErrorMessages'
 import { registrationStepsSelector } from 'src/app/selectors'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnTypes } from 'src/components/Button'
@@ -29,7 +27,6 @@ import { waitUntilSagasFinishLoading } from 'src/redux/sagas'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { getCountryFeatures } from 'src/utils/countryFeatures'
 import { getPhoneNumberState } from 'src/verify/utils'
 import { walletAddressSelector } from 'src/web3/selectors'
 
@@ -63,10 +60,6 @@ function VerificationStartScreen({
     : undefined
 
   const onPressStart = async () => {
-    if (!canUsePhoneNumber()) {
-      // TODO probably display an error here
-      return
-    }
     // TODO figure out what this nux thing does
     dispatch(setHasSeenVerificationNux(true))
     dispatch(startPhoneNumberVerification(phoneNumberInfo.e164Number))
@@ -143,25 +136,6 @@ function VerificationStartScreen({
       dispatch(initializeAccount())
     }
   }, [])
-
-  const canUsePhoneNumber = () => {
-    const countryCallingCode = country?.countryCallingCode || ''
-    if (
-      cachedNumber === phoneNumberInfo.e164Number &&
-      cachedCountryCallingCode === countryCallingCode
-    ) {
-      return true
-    }
-
-    const { SANCTIONED_COUNTRY } = getCountryFeatures(phoneNumberInfo.countryCodeAlpha2)
-    if (SANCTIONED_COUNTRY) {
-      dispatch(showError(ErrorMessages.COUNTRY_NOT_AVAILABLE))
-      return false
-    }
-
-    dispatch(setPhoneNumber(phoneNumberInfo.e164Number, countryCallingCode))
-    return true
-  }
 
   const onPressCountry = () => {
     navigate(Screens.SelectCountry, {
