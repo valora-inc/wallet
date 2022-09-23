@@ -26,6 +26,7 @@ export enum ErrorMessages {
   VERIFICATION_FAILURE = 'verificationFailure',
   CANT_VERIFY_REVOKED_ACCOUNT = 'cantVerifyRevokedAccount',
   VERIFICATION_TIMEOUT = 'verificationTimeout',
+  START_PHONE_VERIFICATION_FAILURE = 'phoneVerificationScreen.startPhoneVerificationFailure',
   ADDRESS_LOOKUP_FAILURE = 'addressLookupFailure',
   ODIS_QUOTA_ERROR = 'odisQuotaError',
   SALT_FETCH_FAILURE = 'saltFetchFailure',

@@ -47,6 +47,7 @@ export enum Actions {
   SET_LAST_REVEAL_ATTEMPT = 'IDENTITY/SET_LAST_REVEAL_ATTEMPT',
   REPORT_REVEAL_STATUS = 'IDENTITY/REPORT_REVEAL_STATUS',
   SET_ATTESTATION_INPUT_STATUS = 'IDENTITY/SET_ATTESTATION_INPUT_STATUS',
+  START_PHONE_NUMBER_VERIFICATiON = 'IDENTITY/START_PHONE_NUMBER_VERIFICATiON',
 }
 
 export interface StartVerificationAction {
@@ -222,6 +223,11 @@ export interface SetAttestationStatusAction {
   status: CodeInputStatus
 }
 
+export interface StartPhoneNumberVerificationAction {
+  type: Actions.START_PHONE_NUMBER_VERIFICATiON
+  e164Number: string
+}
+
 export type ActionTypes =
   | StartVerificationAction
   | CancelVerificationAction
@@ -253,6 +259,7 @@ export type ActionTypes =
   | ReportRevealStatusAction
   | RevokeVerificationStateAction
   | SetAttestationStatusAction
+  | StartPhoneNumberVerificationAction
 
 export const startVerification = (
   e164Number: string,
@@ -493,4 +500,11 @@ export const setAttestationInputStatus = (
   type: Actions.SET_ATTESTATION_INPUT_STATUS,
   index,
   status,
+})
+
+export const startPhoneNumberVerification = (
+  e164Number: string
+): StartPhoneNumberVerificationAction => ({
+  type: Actions.START_PHONE_NUMBER_VERIFICATiON,
+  e164Number,
 })

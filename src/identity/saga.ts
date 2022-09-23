@@ -1,4 +1,6 @@
+import { Platform } from 'react-native'
 import {
+  call,
   cancelled,
   put,
   select,
@@ -7,12 +9,13 @@ import {
   takeLatest,
   takeLeading,
 } from 'redux-saga/effects'
-import { showErrorInline } from 'src/alert/actions'
+import { showError, showErrorInline } from 'src/alert/actions'
 import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import {
   Actions,
+  StartPhoneNumberVerificationAction,
   ValidateRecipientAddressAction,
   validateRecipientAddressSuccess,
 } from 'src/identity/actions'
@@ -23,11 +26,13 @@ import { revokeVerificationSaga } from 'src/identity/revoke'
 import { validateAndReturnMatch } from 'src/identity/secureSend'
 import { e164NumberToAddressSelector } from 'src/identity/selectors'
 import { reportRevealStatusSaga, startVerificationSaga } from 'src/identity/verification'
+import { retrieveSignedMessage } from 'src/pincode/authentication'
 import { recipientHasNumber } from 'src/recipients/recipient'
 import { Actions as TransactionActions } from 'src/transactions/actions'
 import Logger from 'src/utils/Logger'
 import { fetchDataEncryptionKeyWrapper } from 'src/web3/dataEncryptionKey'
-import { currentAccountSelector } from 'src/web3/selectors'
+import networkConfig from 'src/web3/networkConfig'
+import { currentAccountSelector, walletAddressSelector } from 'src/web3/selectors'
 
 const TAG = 'identity/saga'
 
@@ -90,9 +95,35 @@ export function* validateRecipientAddressSaga({
   }
 }
 
+function* startPhoneNumberVerificationSaga({ e164Number }: StartPhoneNumberVerificationAction) {
+  const signedMessage = yield call(retrieveSignedMessage)
+  const address = yield select(walletAddressSelector)
+  const response: Response = yield call(fetch, networkConfig.verifyPhoneNumberUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      authorization: `Valora ${address}:${signedMessage}`,
+    },
+    body: JSON.stringify({
+      phoneNumber: e164Number,
+      clientPlatform: Platform.OS,
+      clientVersion: Platform.Version.toString(),
+    }),
+  })
+
+  if (response.ok) {
+    const { verificationId } = yield call([response, 'json'])
+    Logger.debug(TAG, 'startPhoneNumberVerificationSaga received verificationId: ', verificationId)
+  } else {
+    Logger.debug(TAG, 'startPhoneNumberVerificationSaga received error from verify service')
+    yield put(showError(ErrorMessages.START_PHONE_VERIFICATION_FAILURE))
+  }
+}
+
 function* watchVerification() {
   yield takeLatest(Actions.START_VERIFICATION, startVerificationSaga)
   yield takeLeading(Actions.REVOKE_VERIFICATION, revokeVerificationSaga)
+  yield takeLatest(Actions.START_PHONE_NUMBER_VERIFICATiON, startPhoneNumberVerificationSaga)
 }
 
 function* watchContactMapping() {

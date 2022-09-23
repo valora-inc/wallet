@@ -774,7 +774,8 @@
       "body": "Connecting allows you to send and receive funds from your phone number.",
       "cancel": "Go Back",
       "confirm": "Skip for now"
-    }
+    },
+    "startPhoneVerificationFailure": "Oops! Something went wrong, please try again later."
   },
   "phoneVerificationInput": {
     "title": "Enter the code",
