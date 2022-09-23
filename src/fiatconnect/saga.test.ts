@@ -4,14 +4,15 @@ import {
   FiatAccountSchema,
   FiatAccountType,
   FiatConnectError,
-  TransferStatus,
-  KycStatus as FiatConnectKycStatus,
   KycSchema,
+  KycStatus as FiatConnectKycStatus,
+  TransferStatus,
 } from '@fiatconnect/fiatconnect-types'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matches from 'redux-saga-test-plan/matchers'
 import { throwError } from 'redux-saga-test-plan/providers'
 import { call, select } from 'redux-saga/effects'
+import { KycStatus as PersonaKycStatus } from 'src/account/reducer'
 import { showError } from 'src/alert/actions'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -53,6 +54,7 @@ import {
 } from 'src/fiatconnect/slice'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
+import { getKycStatus, postKyc } from 'src/in-house-liquidity'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -70,8 +72,6 @@ import {
 } from 'test/values'
 import { mocked } from 'ts-jest/utils'
 import { v4 as uuidv4 } from 'uuid'
-import { getKycStatus, postKyc } from 'src/in-house-liquidity'
-import { KycStatus as PersonaKycStatus } from 'src/account/reducer'
 
 jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/fiatconnect')
@@ -336,6 +336,7 @@ describe('Fiatconnect saga', () => {
         personaKycStatus: PersonaKycStatus.NotCreated,
         flow: normalizedQuoteKyc.flow,
         quote: normalizedQuoteKyc,
+        step: 'one',
       })
     })
     it('posts KYC to provider and proceeds with saga if KYC required and exists in Persona', async () => {
