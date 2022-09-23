@@ -760,6 +760,34 @@
     "body": "Подключение позволяет отправлять и получать средства с помощью вашего номера телефона.\n\n<0>Можно ли это сделать позднее?</0>\n\nДа, но с неподтвержденных аккаунтов можно отправлять платежи только с использованием QR-кодов или адресов аккаунтов.\n\n<1>Безопасность и конфиденциальность</1>\n\nВ Valora используется современная криптография для сохранения конфиденциальности вашего номера телефона.",
     "dismiss": "Закрыть"
   },
+  "phoneVerificationScreen": {
+    "screenTitle": "Номер телефона",
+    "title": "Подключите свой номер телефона",
+    "description": "To connect your phone number, you'll receive a text message.",
+    "startButtonLabel": "Начать",
+    "learnMore": {
+      "title": "Do I need to connect my phone?",
+      "body": "Connecting your phone number will allow you to send money to friends in your address book and other phone numbers. \n \n If you choose to skip this step you won’t be able to access your contacts and you will only be able to send money via QR code or account number."
+    },
+    "skip": {
+      "title": "Вы уверены?",
+      "body": "Connecting allows you to send and receive funds from your phone number.",
+      "cancel": "Назад",
+      "confirm": "Пропустить"
+    }
+  },
+  "phoneVerificationInput": {
+    "title": "Enter the code",
+    "description": "We sent a code to {{phoneNumber}}, please enter it below.",
+    "help": "Справка",
+    "codeInputPlaceholder": "12345678",
+    "helpDialog": {
+      "title": "Справка",
+      "body": "We sent an SMS to your phone number. Please check your text messages to find the 8 digit code. If you’re having trouble receiving messages, you can skip this step for now and try again later.",
+      "skip": "Пропустить",
+      "dismiss": "Go back"
+    }
+  },
   "importExistingKey": {
     "explanation": "Ваша фраза восстановления представляет собой фразу из 24 слов, которую вы записали и сохранили при настройке аккаунта. Введите ее здесь, чтобы восстановить свой аккаунт.",
     "keyPlaceholder": "лошадь леопард собака обезьяна..."
