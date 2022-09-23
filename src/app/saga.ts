@@ -201,6 +201,7 @@ export interface RemoteConfigValues {
   swapFeePercentage: number
   inviteMethod: InviteMethodType
   showGuidedOnboardingCopy: boolean
+  centralPhoneVerificationEnabled: boolean
 }
 
 export function* appRemoteFeatureFlagSaga() {

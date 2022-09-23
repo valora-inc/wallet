@@ -4,6 +4,7 @@ import BigNumber from 'bignumber.js'
 import { SendOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { ExchangeConfirmationCardProps } from 'src/exchange/ExchangeConfirmationCard'
+import { Props as KycLandingProps } from 'src/fiatconnect/KycLanding'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow, FiatExchangeFlow, SimplexQuote } from 'src/fiatExchanges/utils'
@@ -25,7 +26,6 @@ import {
   WalletConnectRequestType,
   WalletConnectSessionRequest,
 } from 'src/walletConnect/types'
-import { Props as KycLandingProps } from 'src/fiatconnect/KycLanding'
 
 // Typed nested navigator params
 type NestedNavigatorParams<ParamList> = {
@@ -146,6 +146,19 @@ export type StackParamList = {
     normalizedQuote: FiatConnectQuote
     fiatAccount: ObfuscatedFiatAccountData
   }
+  [Screens.KycDenied]: {
+    flow: CICOFlow
+    quote: FiatConnectQuote
+    retryable: boolean
+  }
+  [Screens.KycExpired]: {
+    flow: CICOFlow
+    quote: FiatConnectQuote
+  }
+  [Screens.KycPending]: {
+    flow: CICOFlow
+    quote: FiatConnectQuote
+  }
   [Screens.MoonPayScreen]: {
     localAmount: number
     currencyCode: LocalCurrencyCode
@@ -205,7 +218,6 @@ export type StackParamList = {
     addressJustValidated?: boolean
   }
   [Screens.KycLanding]: KycLandingProps
-  [Screens.KycStatus]: undefined
   [Screens.PincodeEnter]: {
     withVerification?: boolean
     onSuccess: (pin: string) => void
@@ -317,6 +329,10 @@ export type StackParamList = {
         registrationStep?: { step: number; totalSteps: number }
       }
     | undefined
+  [Screens.VerificationCodeInputScreen]: {
+    registrationStep?: { step: number; totalSteps: number }
+    e164Number?: string
+  }
   [Screens.VerificationLoadingScreen]: { withoutRevealing: boolean }
   [Screens.OnboardingEducationScreen]: undefined
   [Screens.OnboardingSuccessScreen]: undefined

@@ -304,6 +304,7 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     swapFeePercentage: flags.swapFeePercentage.asNumber(),
     inviteMethod: flags.inviteMethod.asString() as InviteMethodType,
     showGuidedOnboardingCopy: flags.showGuidedOnboardingCopy.asBoolean(),
+    centralPhoneVerificationEnabled: flags.centralPhoneVerificationEnabled.asBoolean(),
   }
 }
 

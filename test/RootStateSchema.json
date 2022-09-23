@@ -1704,8 +1704,10 @@
                 "GoldEducation",
                 "ImportWallet",
                 "IncomingPaymentRequestListScreen",
+                "KycDenied",
+                "KycExpired",
                 "KycLanding",
-                "KycStatus",
+                "KycPending",
                 "Language",
                 "LanguageModal",
                 "Licenses",
@@ -1760,6 +1762,7 @@
                 "UpgradeScreen",
                 "ValidateRecipientAccount",
                 "ValidateRecipientIntro",
+                "VerificationCodeInputScreen",
                 "VerificationEducationScreen",
                 "VerificationInputScreen",
                 "VerificationLoadingScreen",
@@ -1870,6 +1873,9 @@
                     "type": "boolean"
                 },
                 "celoWithdrawalEnabledInExchange": {
+                    "type": "boolean"
+                },
+                "centralPhoneVerificationEnabled": {
                     "type": "boolean"
                 },
                 "coinbasePayEnabled": {
@@ -2025,6 +2031,7 @@
                 "celoEducationUri",
                 "celoEuroEnabled",
                 "celoWithdrawalEnabledInExchange",
+                "centralPhoneVerificationEnabled",
                 "coinbasePayEnabled",
                 "createAccountCopyTestType",
                 "fiatConnectCashInEnabled",
@@ -3064,6 +3071,9 @@
                 "selectFiatConnectQuoteLoading": {
                     "type": "boolean"
                 },
+                "sendingFiatAccount": {
+                    "type": "boolean"
+                },
                 "transfer": {
                     "anyOf": [
                         {
@@ -3083,6 +3093,7 @@
                 "quotesError",
                 "quotesLoading",
                 "selectFiatConnectQuoteLoading",
+                "sendingFiatAccount",
                 "transfer"
             ],
             "type": "object"

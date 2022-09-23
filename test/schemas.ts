@@ -1622,6 +1622,30 @@ export const v77Schema = {
     ...v76Schema._persist,
     version: 77,
   },
+  app: {
+    ...v76Schema.app,
+    centralPhoneVerificationEnabled: false,
+  },
+}
+
+export const v78Schema = {
+  ...v77Schema,
+  _persist: {
+    ...v77Schema._persist,
+    version: 78,
+  },
+  fiatConnect: {
+    ...v77Schema.fiatConnect,
+    sendingFiatAccount: false,
+  },
+}
+
+export const v79Schema = {
+  ...v78Schema,
+  _persist: {
+    ...v78Schema._persist,
+    version: 79,
+  },
   swap: {
     swapState: 'quote',
     swapInfo: null,
@@ -1630,5 +1654,5 @@ export const v77Schema = {
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v77Schema as Partial<RootState>
+  return v79Schema as Partial<RootState>
 }

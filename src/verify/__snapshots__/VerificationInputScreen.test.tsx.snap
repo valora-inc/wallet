@@ -112,12 +112,16 @@ exports[`VerificationInputScreen renders correctly 1`] = `
             >
               <View
                 style={
-                  Object {
-                    "alignItems": "center",
-                    "flexDirection": "row",
-                    "padding": 20,
-                    "paddingBottom": 4,
-                  }
+                  Array [
+                    Object {
+                      "alignItems": "center",
+                      "flexDirection": "row",
+                      "padding": 16,
+                    },
+                    Object {
+                      "paddingBottom": 4,
+                    },
+                  ]
                 }
               >
                 <View
@@ -227,12 +231,15 @@ exports[`VerificationInputScreen renders correctly 1`] = `
             >
               <View
                 style={
-                  Object {
-                    "alignItems": "center",
-                    "flex": 1,
-                    "flexDirection": "row",
-                    "padding": 20,
-                  }
+                  Array [
+                    Object {
+                      "alignItems": "center",
+                      "flex": 1,
+                      "flexDirection": "row",
+                      "padding": 16,
+                    },
+                    undefined,
+                  ]
                 }
               >
                 <View
@@ -265,6 +272,7 @@ exports[`VerificationInputScreen renders correctly 1`] = `
                         "fontFamily": "Inter-Regular",
                         "fontSize": 18,
                         "lineHeight": 24,
+                        "paddingVertical": 12,
                         "textAlign": "center",
                       }
                     }
@@ -310,12 +318,15 @@ exports[`VerificationInputScreen renders correctly 1`] = `
             >
               <View
                 style={
-                  Object {
-                    "alignItems": "center",
-                    "flex": 1,
-                    "flexDirection": "row",
-                    "padding": 20,
-                  }
+                  Array [
+                    Object {
+                      "alignItems": "center",
+                      "flex": 1,
+                      "flexDirection": "row",
+                      "padding": 16,
+                    },
+                    undefined,
+                  ]
                 }
               >
                 <View
@@ -348,6 +359,7 @@ exports[`VerificationInputScreen renders correctly 1`] = `
                         "fontFamily": "Inter-Regular",
                         "fontSize": 18,
                         "lineHeight": 24,
+                        "paddingVertical": 12,
                         "textAlign": "center",
                       }
                     }
