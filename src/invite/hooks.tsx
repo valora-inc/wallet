@@ -6,6 +6,7 @@ import { Share } from 'react-native'
 import { useSelector } from 'react-redux'
 import { InviteEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { FIREBASE_ENABLED } from 'src/config'
 
 import { walletAddressSelector } from 'src/web3/selectors'
 
@@ -20,7 +21,7 @@ export function useShareUrl() {
   const message = isNil(shareUrl) ? null : t('inviteWithUrl.share', { shareUrl })
 
   useAsync(async () => {
-    if (isNil(address)) return
+    if (isNil(address) || !FIREBASE_ENABLED) return
     const url = await createDynamicLink(address)
     setShareUrl(url)
   }, [address])
