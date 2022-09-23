@@ -760,6 +760,34 @@
     "body": "Podłączenie pozwala na wysyłanie i odbieranie środków za pomocą numeru telefonu.\n\n<0>Czy mogę to zrobić później?</0>\n\nTak, ale niepodłączone portfele mogą wysyłać płatności tylko za pomocą kodów QR lub adresów kont.\n\n<1>Bezpieczeństwo i ochrona prywatności</1>\n\nValora wykorzystuje najnowocześniejsze technologie kryptograficzne, aby zachować poufność Twojego numeru telefonu.",
     "dismiss": "Odrzuć"
   },
+  "phoneVerificationScreen": {
+    "screenTitle": "Numer telefonu",
+    "title": "Podłącz swój numer telefonu",
+    "description": "Aby połączyć swój numer telefonu, otrzymasz wiadomość tekstową.",
+    "startButtonLabel": "Start",
+    "learnMore": {
+      "title": "Czy muszę podłączyć telefon?",
+      "body": "Podłączenie numeru telefonu pozwoli Ci na wysyłanie pieniędzy do znajomych z książki adresowej i innych numerów telefonów. \n \n Jeśli pominiesz ten krok, nie będziesz miał dostępu do swoich kontaktów i będziesz mógł wysyłać pieniądze tylko za pomocą kodu QR lub numeru konta."
+    },
+    "skip": {
+      "title": "Czy na pewno?",
+      "body": "Połączenie pozwala na wysyłanie i odbieranie pieniędzy z twojego numeru telefonu.",
+      "cancel": "Wróć",
+      "confirm": "Na razie pomiń"
+    }
+  },
+  "phoneVerificationInput": {
+    "title": "Wprowadź kod",
+    "description": "Wysłaliśmy kod na adres {{phoneNumber}}, wpisz go poniżej.",
+    "help": "Pomoc",
+    "codeInputPlaceholder": "12345678",
+    "helpDialog": {
+      "title": "Pomoc",
+      "body": "We sent an SMS to your phone number. Please check your text messages to find the 8 digit code. If you’re having trouble receiving messages, you can skip this step for now and try again later.",
+      "skip": "Pomiń",
+      "dismiss": "Go back"
+    }
+  },
   "importExistingKey": {
     "explanation": "Twoja fraza odzyskiwania to 24 słowa, które ustawiłeś(-aś) i zapisałeś(-aś) podczas zakładania konta. Wpisz je tutaj, aby przywrócić konto.",
     "keyPlaceholder": "koń lampart pies małpa ..."
