@@ -37,8 +37,6 @@ import WithdrawCeloQrScannerScreen from 'src/exchange/WithdrawCeloQrScannerScree
 import WithdrawCeloReviewScreen from 'src/exchange/WithdrawCeloReviewScreen'
 import WithdrawCeloScreen from 'src/exchange/WithdrawCeloScreen'
 import FiatDetailsScreen from 'src/fiatconnect/FiatDetailsScreen'
-import KycLanding from 'src/fiatconnect/KycLanding'
-import KycStatus from 'src/fiatconnect/KycStatus'
 import FiatConnectLinkAccountScreen from 'src/fiatconnect/LinkAccountScreen'
 import FiatConnectReviewScreen from 'src/fiatconnect/ReviewScreen'
 import FiatConnectTransferStatusScreen from 'src/fiatconnect/TransferStatusScreen'
@@ -123,6 +121,10 @@ import VerificationLoadingScreen from 'src/verify/VerificationLoadingScreen'
 import WalletConnectSessionsScreen from 'src/walletConnect/screens/Sessions'
 import WalletConnectRequest from 'src/walletConnect/screens/WalletConnectRequest'
 import WebViewScreen from 'src/webview/WebViewScreen'
+import KycLanding from 'src/fiatconnect/KycLanding'
+import KycDenied from 'src/fiatconnect/kyc/KycDenied'
+import KycPending from 'src/fiatconnect/kyc/KycPending'
+import KycExpired from 'src/fiatconnect/kyc/KycExpired'
 
 const TAG = 'Navigator'
 
@@ -525,8 +527,18 @@ const settingsScreens = (Navigator: typeof Stack) => (
     />
     <Navigator.Screen
       options={headerWithBackButton}
-      name={Screens.KycStatus}
-      component={KycStatus}
+      name={Screens.KycDenied}
+      component={KycDenied}
+    />
+    <Navigator.Screen
+      options={headerWithBackButton}
+      name={Screens.KycExpired}
+      component={KycExpired}
+    />
+    <Navigator.Screen
+      options={headerWithBackButton}
+      name={Screens.KycPending}
+      component={KycPending}
     />
   </>
 )

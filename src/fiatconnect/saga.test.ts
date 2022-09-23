@@ -427,9 +427,12 @@ describe('Fiatconnect saga', () => {
         ])
         .put(selectFiatConnectQuoteCompleted())
         .run()
-      expect(navigate).toHaveBeenCalledWith(Screens.KycStatus)
+      expect(navigate).toHaveBeenCalledWith(Screens.KycPending, {
+        flow: normalizedQuoteKyc.flow,
+        quote: normalizedQuoteKyc,
+      })
     })
-    it('navigates to KYC status screen early if KYC is required and is denied/expired', async () => {
+    it('navigates to KycExpired screen early if KYC is required and is expired', async () => {
       await expectSaga(
         handleSelectFiatConnectQuote,
         selectFiatConnectQuote({ quote: normalizedQuoteKyc })
@@ -449,7 +452,36 @@ describe('Fiatconnect saga', () => {
         ])
         .put(selectFiatConnectQuoteCompleted())
         .run()
-      expect(navigate).toHaveBeenCalledWith(Screens.KycStatus)
+      expect(navigate).toHaveBeenCalledWith(Screens.KycExpired, {
+        flow: normalizedQuoteKyc.flow,
+        quote: normalizedQuoteKyc,
+      })
+    })
+    it('navigates to KycDenied screen early if KYC is required and is denied', async () => {
+      await expectSaga(
+        handleSelectFiatConnectQuote,
+        selectFiatConnectQuote({ quote: normalizedQuoteKyc })
+      )
+        .provide([
+          [
+            matches.call.fn(getKycStatus),
+            {
+              providerId: normalizedQuoteKyc.quote.provider.id,
+              persona: PersonaKycStatus.Approved,
+              kycStatus: {
+                [KycSchema.PersonalDataAndDocuments]: FiatConnectKycStatus.KycDenied,
+              },
+            },
+          ],
+          { call: provideDelay },
+        ])
+        .put(selectFiatConnectQuoteCompleted())
+        .run()
+      expect(navigate).toHaveBeenCalledWith(Screens.KycDenied, {
+        flow: normalizedQuoteKyc.flow,
+        quote: normalizedQuoteKyc,
+        retryable: true,
+      })
     })
     it('navigates to KYC landing screen early if KYC is required and does not exist in Persona', async () => {
       await expectSaga(
