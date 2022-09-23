@@ -32,13 +32,16 @@ exports[`CodeInput renders correctly for all CodeInputStatus states 1`] = `
   >
     <View
       style={
-        Object {
-          "alignItems": "center",
-          "flex": 1,
-          "flexDirection": "row",
-          "padding": 16,
-          "paddingVertical": 12,
-        }
+        Array [
+          Object {
+            "alignItems": "center",
+            "flex": 1,
+            "flexDirection": "row",
+            "padding": 16,
+            "paddingVertical": 12,
+          },
+          undefined,
+        ]
       }
     >
       <View
@@ -121,12 +124,15 @@ exports[`CodeInput renders correctly for all CodeInputStatus states 2`] = `
   >
     <View
       style={
-        Object {
-          "alignItems": "center",
-          "flexDirection": "row",
-          "padding": 16,
-          "paddingBottom": 4,
-        }
+        Array [
+          Object {
+            "alignItems": "center",
+            "flexDirection": "row",
+            "padding": 16,
+            "paddingBottom": 4,
+          },
+          undefined,
+        ]
       }
     >
       <View
@@ -227,13 +233,16 @@ exports[`CodeInput renders correctly for all CodeInputStatus states 3`] = `
   >
     <View
       style={
-        Object {
-          "alignItems": "center",
-          "flex": 1,
-          "flexDirection": "row",
-          "padding": 16,
-          "paddingVertical": 12,
-        }
+        Array [
+          Object {
+            "alignItems": "center",
+            "flex": 1,
+            "flexDirection": "row",
+            "padding": 16,
+            "paddingVertical": 12,
+          },
+          undefined,
+        ]
       }
     >
       <View
@@ -321,13 +330,16 @@ exports[`CodeInput renders correctly for all CodeInputStatus states 4`] = `
   >
     <View
       style={
-        Object {
-          "alignItems": "center",
-          "flex": 1,
-          "flexDirection": "row",
-          "padding": 16,
-          "paddingVertical": 12,
-        }
+        Array [
+          Object {
+            "alignItems": "center",
+            "flex": 1,
+            "flexDirection": "row",
+            "padding": 16,
+            "paddingVertical": 12,
+          },
+          undefined,
+        ]
       }
     >
       <View
@@ -415,13 +427,16 @@ exports[`CodeInput renders correctly for all CodeInputStatus states 5`] = `
   >
     <View
       style={
-        Object {
-          "alignItems": "center",
-          "flex": 1,
-          "flexDirection": "row",
-          "padding": 16,
-          "paddingVertical": 12,
-        }
+        Array [
+          Object {
+            "alignItems": "center",
+            "flex": 1,
+            "flexDirection": "row",
+            "padding": 16,
+            "paddingVertical": 12,
+          },
+          undefined,
+        ]
       }
     >
       <View
@@ -518,13 +533,16 @@ exports[`CodeInput renders correctly for all CodeInputStatus states 6`] = `
   >
     <View
       style={
-        Object {
-          "alignItems": "center",
-          "flex": 1,
-          "flexDirection": "row",
-          "padding": 16,
-          "paddingVertical": 12,
-        }
+        Array [
+          Object {
+            "alignItems": "center",
+            "flex": 1,
+            "flexDirection": "row",
+            "padding": 16,
+            "paddingVertical": 12,
+          },
+          undefined,
+        ]
       }
     >
       <View
@@ -599,12 +617,15 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
   >
     <View
       style={
-        Object {
-          "alignItems": "center",
-          "flex": 1,
-          "flexDirection": "row",
-          "padding": 20,
-        }
+        Array [
+          Object {
+            "alignItems": "center",
+            "flex": 1,
+            "flexDirection": "row",
+            "padding": 16,
+          },
+          undefined,
+        ]
       }
     >
       <View
@@ -637,6 +658,7 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
               "fontFamily": "Inter-Regular",
               "fontSize": 18,
               "lineHeight": 24,
+              "paddingVertical": 12,
               "textAlign": "center",
             }
           }
@@ -689,12 +711,16 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
   >
     <View
       style={
-        Object {
-          "alignItems": "center",
-          "flexDirection": "row",
-          "padding": 20,
-          "paddingBottom": 4,
-        }
+        Array [
+          Object {
+            "alignItems": "center",
+            "flexDirection": "row",
+            "padding": 16,
+          },
+          Object {
+            "paddingBottom": 4,
+          },
+        ]
       }
     >
       <View
@@ -802,12 +828,15 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
   >
     <View
       style={
-        Object {
-          "alignItems": "center",
-          "flex": 1,
-          "flexDirection": "row",
-          "padding": 20,
-        }
+        Array [
+          Object {
+            "alignItems": "center",
+            "flex": 1,
+            "flexDirection": "row",
+            "padding": 16,
+          },
+          undefined,
+        ]
       }
     >
       <View
@@ -848,6 +877,7 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
               "fontFamily": "Inter-Regular",
               "fontSize": 18,
               "lineHeight": 24,
+              "paddingVertical": 12,
               "textAlign": "center",
             }
           }
@@ -905,12 +935,15 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
   >
     <View
       style={
-        Object {
-          "alignItems": "center",
-          "flex": 1,
-          "flexDirection": "row",
-          "padding": 20,
-        }
+        Array [
+          Object {
+            "alignItems": "center",
+            "flex": 1,
+            "flexDirection": "row",
+            "padding": 16,
+          },
+          undefined,
+        ]
       }
     >
       <View
@@ -951,6 +984,7 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
               "fontFamily": "Inter-Regular",
               "fontSize": 18,
               "lineHeight": 24,
+              "paddingVertical": 12,
               "textAlign": "center",
             }
           }
@@ -1008,12 +1042,15 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
   >
     <View
       style={
-        Object {
-          "alignItems": "center",
-          "flex": 1,
-          "flexDirection": "row",
-          "padding": 20,
-        }
+        Array [
+          Object {
+            "alignItems": "center",
+            "flex": 1,
+            "flexDirection": "row",
+            "padding": 16,
+          },
+          undefined,
+        ]
       }
     >
       <View
@@ -1054,6 +1091,7 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
               "fontFamily": "Inter-Regular",
               "fontSize": 18,
               "lineHeight": 24,
+              "paddingVertical": 12,
               "textAlign": "center",
             }
           }
@@ -1120,12 +1158,15 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
   >
     <View
       style={
-        Object {
-          "alignItems": "center",
-          "flex": 1,
-          "flexDirection": "row",
-          "padding": 20,
-        }
+        Array [
+          Object {
+            "alignItems": "center",
+            "flex": 1,
+            "flexDirection": "row",
+            "padding": 16,
+          },
+          undefined,
+        ]
       }
     >
       <View
@@ -1158,6 +1199,7 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
               "fontFamily": "Inter-Regular",
               "fontSize": 18,
               "lineHeight": 24,
+              "paddingVertical": 12,
               "textAlign": "center",
             }
           }

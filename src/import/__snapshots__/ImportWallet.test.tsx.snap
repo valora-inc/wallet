@@ -60,12 +60,15 @@ exports[`ImportWallet renders correctly and is disabled with no text 1`] = `
         >
           <View
             style={
-              Object {
-                "alignItems": "center",
-                "flexDirection": "row",
-                "padding": 16,
-                "paddingBottom": 4,
-              }
+              Array [
+                Object {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "padding": 16,
+                  "paddingBottom": 4,
+                },
+                undefined,
+              ]
             }
           >
             <View
