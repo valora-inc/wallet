@@ -760,6 +760,34 @@
     "body": "Conectar tu número de teléfono hace que interactuar con tus amigos sea aún más fácil, y te permite enviar y recibir fondos con tu número de teléfono.\n\n<0>¿Puedo hacerlo más tarde?</0>\n\nSí, pero las cuentas que no tienen un número de teléfono conectado solo pueden enviar y recibir pagos con direcciones de cuenta o códigos QR.\n\n<1>Seguridad y privacidad</1>\n\nValora utiliza la criptografía más moderna para mantener tu número de teléfono privado.",
     "dismiss": "Omitir"
   },
+  "phoneVerificationScreen": {
+    "screenTitle": "Número de teléfono",
+    "title": "Conecta tu número de teléfono",
+    "description": "Para conectar tu número de teléfono, recibirás un mensaje de texto.",
+    "startButtonLabel": "Comenzar",
+    "learnMore": {
+      "title": "¿Necesito conectar mi teléfono?",
+      "body": "Conectar tu número de teléfono te permitirá enviar dinero a los amigos de tu agenda y a otros números de teléfono. \n \n Si decides omitir este paso, no podrás acceder a tus contactos y sólo podrás enviar dinero mediante el código QR o el número de cuenta."
+    },
+    "skip": {
+      "title": "¿Quieres omitir este paso?",
+      "body": "La conexión te permite enviar y recibir fondos desde tu número de teléfono.",
+      "cancel": "Regresa",
+      "confirm": "Omitir por ahora"
+    }
+  },
+  "phoneVerificationInput": {
+    "title": "Introduce el código",
+    "description": "Hemos enviado un código a {{phoneNumber}}, por favor, introdúcelo a continuación.",
+    "help": "Help",
+    "codeInputPlaceholder": "12345678",
+    "helpDialog": {
+      "title": "Help",
+      "body": "We sent an SMS to your phone number. Please check your text messages to find the 8 digit code. If you’re having trouble receiving messages, you can skip this step for now and try again later.",
+      "skip": "Skip",
+      "dismiss": "Go back"
+    }
+  },
   "importExistingKey": {
     "explanation": "Tu Frase de recuperación es la frase de 24 palabras que escribiste y guardaste cuando configuraste tu cuenta. Por favor, ingrésala para restaurar tu cuenta.",
     "keyPlaceholder": "caballo leopardo perro mono..."
