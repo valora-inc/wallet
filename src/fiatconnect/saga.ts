@@ -324,9 +324,7 @@ export function* _getSpecificQuote({
     providerIds: [providerId],
   })
   const normalizedQuotes = normalizeFiatConnectQuotes(flow, quotes)
-  const normalizedQuote = normalizedQuotes.find(
-    (q) => q.getFiatAccountType() === fiatAccountType && q.getProviderId() === providerId
-  )
+  const normalizedQuote = normalizedQuotes.find((q) => q.getFiatAccountType() === fiatAccountType)
   if (!normalizedQuote) {
     throw new Error('Could not find quote')
   }

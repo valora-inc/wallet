@@ -1110,29 +1110,5 @@ describe('Fiatconnect saga', () => {
             .run()
       ).rejects.toThrow('Could not find quote')
     })
-    it('throws if no quote with matching provider ID is found', async () => {
-      await expect(
-        async () =>
-          await expectSaga(_getSpecificQuote, {
-            digitalAsset: CiCoCurrency.CUSD,
-            cryptoAmount: 2,
-            flow: CICOFlow.CashOut,
-            providerId: 'provider-fake',
-            fiatAccountType: FiatAccountType.BankAccount,
-          })
-            .provide([
-              [
-                call(_getQuotes, {
-                  flow: CICOFlow.CashOut,
-                  digitalAsset: CiCoCurrency.CUSD,
-                  cryptoAmount: 2,
-                  providerIds: ['provider-fake'],
-                }),
-                [mockFiatConnectQuotes[1]],
-              ],
-            ])
-            .run()
-      ).rejects.toThrow('Could not find quote')
-    })
   })
 })
