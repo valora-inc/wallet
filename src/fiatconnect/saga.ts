@@ -486,6 +486,17 @@ export function* handleSelectFiatConnectQuote({
     )
     yield put(selectFiatConnectQuoteCompleted())
     yield put(showError(ErrorMessages.PROVIDER_FETCH_FAILED))
+    const amount = {
+      crypto: new BigNumber(quote.getCryptoAmount()).toNumber(),
+      // Rounding up to avoid decimal errors from providers. Won't be
+      // necessary once we support inputting an amount in both crypto and fiat
+      fiat: Math.round(new BigNumber(quote.getFiatAmount()).toNumber()),
+    }
+    navigate(Screens.SelectProvider, {
+      flow: quote.flow,
+      selectedCrypto: quote.getCryptoType(),
+      amount: amount,
+    })
   }
 }
 
