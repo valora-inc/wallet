@@ -259,13 +259,28 @@ export function* handleAttemptReturnUserFlow({
         case FiatConnectKycStatus.KycApproved:
           // If KYC approved with provider, continue to FiatConnectReview
           break
+        // On any other KYC state, navigate to corresponding KYC screen
         case FiatConnectKycStatus.KycPending:
-        case FiatConnectKycStatus.KycDenied:
-        case FiatConnectKycStatus.KycExpired:
-          // On all other states, navigate to KycStatus screen
-          // TODO: navigate to different screens
           yield put(attemptReturnUserFlowCompleted())
-          navigate(Screens.KycStatus)
+          navigate(Screens.KycPending, {
+            flow: normalizedQuote.flow,
+            quote: normalizedQuote,
+          })
+          return
+        case FiatConnectKycStatus.KycDenied:
+          yield put(attemptReturnUserFlowCompleted())
+          navigate(Screens.KycDenied, {
+            flow: normalizedQuote.flow,
+            quote: normalizedQuote,
+            retryable: true,
+          })
+          return
+        case FiatConnectKycStatus.KycExpired:
+          yield put(attemptReturnUserFlowCompleted())
+          navigate(Screens.KycExpired, {
+            flow: normalizedQuote.flow,
+            quote: normalizedQuote,
+          })
           return
         default:
           throw new Error(
