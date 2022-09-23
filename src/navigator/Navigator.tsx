@@ -37,8 +37,6 @@ import WithdrawCeloQrScannerScreen from 'src/exchange/WithdrawCeloQrScannerScree
 import WithdrawCeloReviewScreen from 'src/exchange/WithdrawCeloReviewScreen'
 import WithdrawCeloScreen from 'src/exchange/WithdrawCeloScreen'
 import FiatDetailsScreen from 'src/fiatconnect/FiatDetailsScreen'
-import KycLanding from 'src/fiatconnect/KycLanding'
-import KycStatus from 'src/fiatconnect/KycStatus'
 import FiatConnectLinkAccountScreen from 'src/fiatconnect/LinkAccountScreen'
 import FiatConnectReviewScreen from 'src/fiatconnect/ReviewScreen'
 import FiatConnectTransferStatusScreen from 'src/fiatconnect/TransferStatusScreen'
@@ -116,12 +114,17 @@ import TransactionReview from 'src/transactions/TransactionReview'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { ExtractProps } from 'src/utils/typescript'
+import VerificationCodeInputScreen from 'src/verify/VerificationCodeInputScreen'
 import VerificationEducationScreen from 'src/verify/VerificationEducationScreen'
 import VerificationInputScreen from 'src/verify/VerificationInputScreen'
 import VerificationLoadingScreen from 'src/verify/VerificationLoadingScreen'
 import WalletConnectSessionsScreen from 'src/walletConnect/screens/Sessions'
 import WalletConnectRequest from 'src/walletConnect/screens/WalletConnectRequest'
 import WebViewScreen from 'src/webview/WebViewScreen'
+import KycLanding from 'src/fiatconnect/KycLanding'
+import KycDenied from 'src/fiatconnect/kyc/KycDenied'
+import KycPending from 'src/fiatconnect/kyc/KycPending'
+import KycExpired from 'src/fiatconnect/kyc/KycExpired'
 
 const TAG = 'Navigator'
 
@@ -191,6 +194,10 @@ const verificationScreens = (Navigator: typeof Stack) => {
         name={Screens.VerificationInputScreen}
         component={VerificationInputScreen}
         options={VerificationInputScreen.navigationOptions}
+      />
+      <Navigator.Screen
+        name={Screens.VerificationCodeInputScreen}
+        component={VerificationCodeInputScreen}
       />
     </>
   )
@@ -520,8 +527,18 @@ const settingsScreens = (Navigator: typeof Stack) => (
     />
     <Navigator.Screen
       options={headerWithBackButton}
-      name={Screens.KycStatus}
-      component={KycStatus}
+      name={Screens.KycDenied}
+      component={KycDenied}
+    />
+    <Navigator.Screen
+      options={headerWithBackButton}
+      name={Screens.KycExpired}
+      component={KycExpired}
+    />
+    <Navigator.Screen
+      options={headerWithBackButton}
+      name={Screens.KycPending}
+      component={KycPending}
     />
   </>
 )
