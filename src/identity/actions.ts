@@ -47,7 +47,11 @@ export enum Actions {
   SET_LAST_REVEAL_ATTEMPT = 'IDENTITY/SET_LAST_REVEAL_ATTEMPT',
   REPORT_REVEAL_STATUS = 'IDENTITY/REPORT_REVEAL_STATUS',
   SET_ATTESTATION_INPUT_STATUS = 'IDENTITY/SET_ATTESTATION_INPUT_STATUS',
-  START_PHONE_NUMBER_VERIFICATiON = 'IDENTITY/START_PHONE_NUMBER_VERIFICATiON',
+  START_PHONE_NUMBER_VERIFICATION = 'IDENTITY/START_PHONE_NUMBER_VERIFICATION',
+  VERIFICATION_CODE_REQUESTED = 'IDENTITY/VERIFICATION_CODE_REQUESTED',
+  VERIFY_PHONE_VERIFICATION_CODE = 'IDENTITY/VERIFY_PHONE_VERIFICATION_CODE',
+  PHONE_NUMBER_VERIFICATION_SUCCESS = 'IDENTITY/PHONE_NUMBER_VERIFICATION_SUCCESS',
+  PHONE_NUMBER_VERIFICATION_FAILURE = 'IDENTITY/PHONE_NUMBER_VERIFICATION_FAILURE',
 }
 
 export interface StartVerificationAction {
@@ -224,8 +228,28 @@ export interface SetAttestationStatusAction {
 }
 
 export interface StartPhoneNumberVerificationAction {
-  type: Actions.START_PHONE_NUMBER_VERIFICATiON
+  type: Actions.START_PHONE_NUMBER_VERIFICATION
   e164Number: string
+}
+
+export interface VerificationCodeRequestedAction {
+  type: Actions.VERIFICATION_CODE_REQUESTED
+  verificationId: string
+}
+
+export interface VerifyPhoneVerificationCodeAction {
+  type: Actions.VERIFY_PHONE_VERIFICATION_CODE
+  smsCode: string
+  phoneNumber: string
+}
+
+export interface PhoneNumberVerificationSuccessAction {
+  type: Actions.PHONE_NUMBER_VERIFICATION_SUCCESS
+  e164Number: string
+}
+
+export interface PhoneNumberVerificationFailureAction {
+  type: Actions.PHONE_NUMBER_VERIFICATION_FAILURE
 }
 
 export type ActionTypes =
@@ -260,6 +284,10 @@ export type ActionTypes =
   | RevokeVerificationStateAction
   | SetAttestationStatusAction
   | StartPhoneNumberVerificationAction
+  | VerificationCodeRequestedAction
+  | VerifyPhoneVerificationCodeAction
+  | PhoneNumberVerificationSuccessAction
+  | PhoneNumberVerificationFailureAction
 
 export const startVerification = (
   e164Number: string,
@@ -505,6 +533,33 @@ export const setAttestationInputStatus = (
 export const startPhoneNumberVerification = (
   e164Number: string
 ): StartPhoneNumberVerificationAction => ({
-  type: Actions.START_PHONE_NUMBER_VERIFICATiON,
+  type: Actions.START_PHONE_NUMBER_VERIFICATION,
   e164Number,
+})
+
+export const verificationCodeRequested = (
+  verificationId: string
+): VerificationCodeRequestedAction => ({
+  type: Actions.VERIFICATION_CODE_REQUESTED,
+  verificationId,
+})
+
+export const verifyPhoneVerificationCode = (
+  smsCode: string,
+  phoneNumber: string
+): VerifyPhoneVerificationCodeAction => ({
+  type: Actions.VERIFY_PHONE_VERIFICATION_CODE,
+  smsCode,
+  phoneNumber,
+})
+
+export const phoneNumberVerificationSuccess = (
+  e164Number: string
+): PhoneNumberVerificationSuccessAction => ({
+  type: Actions.PHONE_NUMBER_VERIFICATION_SUCCESS,
+  e164Number,
+})
+
+export const phoneNumberVerificationFailure = (): PhoneNumberVerificationFailureAction => ({
+  type: Actions.PHONE_NUMBER_VERIFICATION_FAILURE,
 })

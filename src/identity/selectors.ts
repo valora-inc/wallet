@@ -36,3 +36,9 @@ export const identifierToE164NumberSelector = createSelector(
     return identifierToE164Numbers
   }
 )
+
+export const phoneNumberVerificationIdSelector = (state: RootState) =>
+  state.identity.phoneNumberVerificationId
+
+export const phoneNumberVerificationStatusSelector = (state: RootState) =>
+  state.identity.phoneNumberVerificationStatus

@@ -16,16 +16,23 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import {
   Actions,
+  phoneNumberVerificationFailure,
+  phoneNumberVerificationSuccess,
   StartPhoneNumberVerificationAction,
   ValidateRecipientAddressAction,
   validateRecipientAddressSuccess,
+  verificationCodeRequested,
+  VerifyPhoneVerificationCodeAction,
 } from 'src/identity/actions'
 import { checkTxsForIdentityMetadata } from 'src/identity/commentEncryption'
 import { doImportContactsWrapper, fetchAddressesAndValidateSaga } from 'src/identity/contactMapping'
 import { AddressValidationType } from 'src/identity/reducer'
 import { revokeVerificationSaga } from 'src/identity/revoke'
 import { validateAndReturnMatch } from 'src/identity/secureSend'
-import { e164NumberToAddressSelector } from 'src/identity/selectors'
+import {
+  e164NumberToAddressSelector,
+  phoneNumberVerificationIdSelector,
+} from 'src/identity/selectors'
 import { reportRevealStatusSaga, startVerificationSaga } from 'src/identity/verification'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
 import { recipientHasNumber } from 'src/recipients/recipient'
@@ -114,17 +121,54 @@ function* startPhoneNumberVerificationSaga({ e164Number }: StartPhoneNumberVerif
 
   if (response.ok) {
     const { verificationId } = yield call([response, 'json'])
+    yield put(verificationCodeRequested(verificationId))
     Logger.debug(TAG, 'startPhoneNumberVerificationSaga received verificationId: ', verificationId)
   } else {
-    Logger.debug(TAG, 'startPhoneNumberVerificationSaga received error from verify service')
+    Logger.debug(
+      TAG,
+      'startPhoneNumberVerificationSaga received error from verify phone number service'
+    )
+    yield put(phoneNumberVerificationFailure())
     yield put(showError(ErrorMessages.START_PHONE_VERIFICATION_FAILURE))
+  }
+}
+
+function* verifyPhoneVerificationCodeSaga({
+  smsCode,
+  phoneNumber,
+}: VerifyPhoneVerificationCodeAction) {
+  const signedMessage = yield call(retrieveSignedMessage)
+  const address = yield select(walletAddressSelector)
+  const verificationId = yield select(phoneNumberVerificationIdSelector)
+
+  const response: Response = yield call(fetch, networkConfig.verifySmsCodeUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      authorization: `Valora ${address}:${signedMessage}`,
+    },
+    body: JSON.stringify({
+      phoneNumber,
+      verificationId,
+      smsCode,
+      clientPlatform: Platform.OS,
+      clientVersion: DeviceInfo.getVersion(),
+    }),
+  })
+
+  if (response.ok) {
+    yield put(phoneNumberVerificationSuccess(phoneNumber))
+  } else {
+    Logger.debug(TAG, 'verifyPhoneVerificationCodeSaga received error from verify sms service')
+    yield put(phoneNumberVerificationFailure())
   }
 }
 
 function* watchVerification() {
   yield takeLatest(Actions.START_VERIFICATION, startVerificationSaga)
   yield takeLeading(Actions.REVOKE_VERIFICATION, revokeVerificationSaga)
-  yield takeLatest(Actions.START_PHONE_NUMBER_VERIFICATiON, startPhoneNumberVerificationSaga)
+  yield takeLatest(Actions.START_PHONE_NUMBER_VERIFICATION, startPhoneNumberVerificationSaga)
+  yield takeLatest(Actions.VERIFY_PHONE_VERIFICATION_CODE, verifyPhoneVerificationCodeSaga)
 }
 
 function* watchContactMapping() {

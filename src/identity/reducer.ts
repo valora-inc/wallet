@@ -13,6 +13,14 @@ import { isCodeRepeated } from 'src/verify/utils'
 export const ATTESTATION_CODE_PLACEHOLDER = 'ATTESTATION_CODE_PLACEHOLDER'
 export const ATTESTATION_ISSUER_PLACEHOLDER = 'ATTESTATION_ISSUER_PLACEHOLDER'
 
+export enum PhoneNumberVerificationStatus {
+  NONE,
+  REQUESTING_VERIFICATION_CODE,
+  AWAITING_USER_INPUT,
+  VERIFYING,
+  SUCCESSFUL,
+  FAILED,
+}
 export interface AddressToE164NumberType {
   [address: string]: string | null
 }
@@ -101,6 +109,8 @@ export interface State {
   // Contacts found during the matchmaking process
   secureSendPhoneNumberMapping: SecureSendPhoneNumberMapping
   lastRevealAttempt: number | null
+  phoneNumberVerificationStatus: PhoneNumberVerificationStatus
+  phoneNumberVerificationId: string | null
 }
 
 const initialState: State = {
@@ -128,6 +138,8 @@ const initialState: State = {
   },
   secureSendPhoneNumberMapping: {},
   lastRevealAttempt: null,
+  phoneNumberVerificationStatus: PhoneNumberVerificationStatus.NONE,
+  phoneNumberVerificationId: null,
 }
 
 export const reducer = (
@@ -351,6 +363,32 @@ export const reducer = (
       return {
         ...state,
         attestationInputStatus: updatedInputStatuses(state, action.index, action.status),
+      }
+    case Actions.START_PHONE_NUMBER_VERIFICATION:
+      return {
+        ...state,
+        phoneNumberVerificationStatus: PhoneNumberVerificationStatus.REQUESTING_VERIFICATION_CODE,
+      }
+    case Actions.VERIFICATION_CODE_REQUESTED:
+      return {
+        ...state,
+        phoneNumberVerificationStatus: PhoneNumberVerificationStatus.AWAITING_USER_INPUT,
+        phoneNumberVerificationId: action.verificationId,
+      }
+    case Actions.VERIFY_PHONE_VERIFICATION_CODE:
+      return {
+        ...state,
+        phoneNumberVerificationStatus: PhoneNumberVerificationStatus.VERIFYING,
+      }
+    case Actions.PHONE_NUMBER_VERIFICATION_SUCCESS:
+      return {
+        ...state,
+        phoneNumberVerificationStatus: PhoneNumberVerificationStatus.SUCCESSFUL,
+      }
+    case Actions.PHONE_NUMBER_VERIFICATION_FAILURE:
+      return {
+        ...state,
+        phoneNumberVerificationStatus: PhoneNumberVerificationStatus.FAILED,
       }
     default:
       return state

@@ -3,11 +3,15 @@ import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { useDispatch, useSelector } from 'react-redux'
 import BackButton from 'src/components/BackButton'
 import CodeInput, { CodeInputStatus } from 'src/components/CodeInput'
 import Dialog from 'src/components/Dialog'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import { PHONE_NUMBER_VERIFICATION_CODE_LENGTH } from 'src/config'
+import { verifyPhoneVerificationCode } from 'src/identity/actions'
+import { PhoneNumberVerificationStatus } from 'src/identity/reducer'
+import { phoneNumberVerificationStatusSelector } from 'src/identity/selectors'
 import { HeaderTitleWithSubtitle } from 'src/navigator/Headers'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -27,6 +31,8 @@ function VerificationCodeInputScreen({
 
   const { t } = useTranslation()
   const headerHeight = useHeaderHeight()
+  const dispatch = useDispatch()
+  const verificationStatus = useSelector(phoneNumberVerificationStatusSelector)
 
   const onPressSkip = () => {
     navigateHome()
@@ -72,9 +78,17 @@ function VerificationCodeInputScreen({
   useEffect(() => {
     if (code.length === PHONE_NUMBER_VERIFICATION_CODE_LENGTH) {
       setCodeInputStatus(CodeInputStatus.Processing)
-      // TODO dispatch verifying phone code action
+      dispatch(verifyPhoneVerificationCode(code, route.params.e164Number))
     }
   }, [code])
+
+  useEffect(() => {
+    if (verificationStatus === PhoneNumberVerificationStatus.SUCCESSFUL) {
+      setCodeInputStatus(CodeInputStatus.Accepted)
+    } else if (verificationStatus === PhoneNumberVerificationStatus.FAILED) {
+      setCodeInputStatus(CodeInputStatus.Error)
+    }
+  }, [verificationStatus])
 
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>

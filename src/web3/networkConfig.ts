@@ -36,6 +36,7 @@ interface NetworkConfig {
   approveSwapUrl: string
   executeSwapUrl: string
   verifyPhoneNumberUrl: string
+  verifySmsCodeUrl: string
 }
 
 const KOMENCI_URL_MAINNET = 'https://mainnet-komenci.azurefd.net'
@@ -83,6 +84,9 @@ const SET_REGISTRATION_PROPERTIES_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/setRegis
 const VERIFY_PHONE_NUMBER_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/verifyPhoneNumber`
 const VERIFY_PHONE_NUMBER_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/verifyPhoneNumber`
 
+const VERIFY_SMS_CODE_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/verifySmsCode`
+const VERIFY_SMS_CODE_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/verifySmsCode`
+
 const CELO_EXPLORER_BASE_TX_URL_ALFAJORES = 'https://alfajores-blockscout.celo-testnet.org/tx/'
 const CELO_EXPLORER_BASE_TX_URL_MAINNET = 'https://explorer.celo.org/tx/'
 
@@ -120,6 +124,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     approveSwapUrl: APPROVE_SWAP_URL,
     executeSwapUrl: EXECUTE_SWAP_URL,
     verifyPhoneNumberUrl: VERIFY_PHONE_NUMBER_ALFAJORES,
+    verifySmsCodeUrl: VERIFY_SMS_CODE_ALFAJORES,
   },
   [Testnets.mainnet]: {
     networkId: '42220',
@@ -148,6 +153,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     approveSwapUrl: APPROVE_SWAP_URL,
     executeSwapUrl: EXECUTE_SWAP_URL,
     verifyPhoneNumberUrl: VERIFY_PHONE_NUMBER_MAINNET,
+    verifySmsCodeUrl: VERIFY_SMS_CODE_MAINNET,
   },
 }
 

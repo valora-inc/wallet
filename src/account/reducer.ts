@@ -2,6 +2,10 @@ import { isE164Number } from '@celo/utils/lib/phoneNumbers'
 import { Actions, ActionTypes } from 'src/account/actions'
 import { DAYS_TO_DELAY } from 'src/backup/consts'
 import { DEV_SETTINGS_ACTIVE_INITIALLY } from 'src/config'
+import {
+  Actions as IdentityActions,
+  ActionTypes as IdentityActionTypes,
+} from 'src/identity/actions'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 import Logger from 'src/utils/Logger'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
@@ -94,7 +98,7 @@ export const initialState: State = {
 
 export const reducer = (
   state: State | undefined = initialState,
-  action: ActionTypes | RehydrateAction | Web3ActionTypes
+  action: ActionTypes | RehydrateAction | Web3ActionTypes | IdentityActionTypes
 ): State => {
   switch (action.type) {
     case REHYDRATE: {
@@ -247,6 +251,11 @@ export const reducer = (
       return {
         ...state,
         dismissedStartSupercharging: true,
+      }
+    case IdentityActions.PHONE_NUMBER_VERIFICATION_SUCCESS:
+      return {
+        ...state,
+        e164PhoneNumber: action.e164Number,
       }
     default:
       return state
