@@ -1628,6 +1628,18 @@ export const v77Schema = {
   },
 }
 
+export const v78Schema = {
+  ...v77Schema,
+  _persist: {
+    ...v77Schema._persist,
+    version: 78,
+  },
+  fiatConnect: {
+    ...v77Schema.fiatConnect,
+    sendingFiatAccount: false,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v77Schema as Partial<RootState>
+  return v78Schema as Partial<RootState>
 }

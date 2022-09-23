@@ -16,6 +16,7 @@ import { OnboardingEvents, VerificationEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import {
+  centralPhoneVerificationEnabledSelector,
   hideVerificationSelector,
   numberVerifiedSelector,
   registrationStepsSelector,
@@ -57,14 +58,23 @@ import GoogleReCaptcha from 'src/verify/safety/GoogleReCaptcha'
 import { getPhoneNumberState } from 'src/verify/utils'
 import VerificationLearnMoreDialog from 'src/verify/VerificationLearnMoreDialog'
 import VerificationSkipDialog from 'src/verify/VerificationSkipDialog'
+import VerificationStartScreen from 'src/verify/VerificationStartScreen'
 import networkConfig from 'src/web3/networkConfig'
 import { currentAccountSelector, walletAddressSelector } from 'src/web3/selectors'
 
-type ScreenProps = StackScreenProps<StackParamList, Screens.VerificationEducationScreen>
+type Props = StackScreenProps<StackParamList, Screens.VerificationEducationScreen>
 
-type Props = ScreenProps
+function VerificationEducationScreen(props: Props) {
+  const centralPhoneVerificationEnabled = useSelector(centralPhoneVerificationEnabledSelector)
 
-function VerificationEducationScreen({ route, navigation }: Props) {
+  return centralPhoneVerificationEnabled ? (
+    <VerificationStartScreen {...props} />
+  ) : (
+    <VerificationEducationScreenDecentralised {...props} />
+  )
+}
+
+function VerificationEducationScreenDecentralised({ route, navigation }: Props) {
   const showSkipDialog = route.params?.showSkipDialog || false
   const account = useTypedSelector(currentAccountSelector)
   const [showLearnMoreDialog, setShowLearnMoreDialog] = useState(false)
