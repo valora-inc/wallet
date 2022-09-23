@@ -779,13 +779,13 @@
   "phoneVerificationInput": {
     "title": "Introduce el código",
     "description": "Hemos enviado un código a {{phoneNumber}}, por favor, introdúcelo a continuación.",
-    "help": "Help",
+    "help": "Ayuda",
     "codeInputPlaceholder": "12345678",
     "helpDialog": {
-      "title": "Help",
-      "body": "We sent an SMS to your phone number. Please check your text messages to find the 8 digit code. If you’re having trouble receiving messages, you can skip this step for now and try again later.",
-      "skip": "Skip",
-      "dismiss": "Go back"
+      "title": "Ayuda",
+      "body": "Hemos enviado un SMS a tu número de teléfono. Comprueba tus mensajes de texto para encontrar el código de 8 dígitos. Si tienes problemas para recibir los mensajes, puedes omitir este paso por ahora e intentarlo más tarde.",
+      "skip": "Omitir",
+      "dismiss": "Volver"
     }
   },
   "importExistingKey": {
