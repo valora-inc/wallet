@@ -9,10 +9,17 @@ import { check, PERMISSIONS, request, RESULTS } from 'react-native-permissions'
 import { AppEvents } from 'src/analytics/Events'
 import { AnalyticsPropertiesList } from 'src/analytics/Properties'
 import { getCurrentUserTraits } from 'src/analytics/selectors'
-import { DEFAULT_TESTNET, FIREBASE_ENABLED, isE2EEnv, SEGMENT_API_KEY } from 'src/config'
+import {
+  DEFAULT_TESTNET,
+  FIREBASE_ENABLED,
+  isE2EEnv,
+  SEGMENT_API_KEY,
+  STATSIG_API_KEY,
+} from 'src/config'
 import { store } from 'src/redux/store'
 import Logger from 'src/utils/Logger'
 import { isPresent } from 'src/utils/typescript'
+import statsig from 'statsig-js'
 
 const TAG = 'ValoraAnalytics'
 
@@ -68,6 +75,7 @@ class ValoraAnalytics {
   private prevScreenId: string | undefined
 
   async init() {
+    let deviceInfo
     try {
       if (!SEGMENT_API_KEY) {
         throw Error('API Key not present, likely due to environment. Skipping enabling')
@@ -75,7 +83,7 @@ class ValoraAnalytics {
       await Analytics.setup(SEGMENT_API_KEY, SEGMENT_OPTIONS)
 
       try {
-        const deviceInfo = await getDeviceInfo()
+        deviceInfo = await getDeviceInfo()
         this.deviceInfo = deviceInfo
         this.sessionId = sha256FromString(
           '0x' + deviceInfo.UniqueID.split('-').join('') + String(Date.now())
@@ -89,6 +97,24 @@ class ValoraAnalytics {
       Logger.info(TAG, 'Segment Analytics Integration initialized!')
     } catch (error) {
       Logger.error(TAG, `Segment setup error: ${error.message}\n`, error)
+    }
+
+    try {
+      const { accountAddress } = getCurrentUserTraits(store.getState())
+      const stasigUser = accountAddress
+        ? {
+            userID: accountAddress,
+          }
+        : null
+
+      await statsig.initialize(STATSIG_API_KEY, stasigUser, {
+        overrideStableID: deviceInfo?.UniqueID,
+        environment: {
+          tier: DEFAULT_TESTNET === 'mainnet' ? 'production' : 'development',
+        },
+      })
+    } catch (error) {
+      Logger.error(TAG, `Statsig setup error: ${error.message}\n`, error)
     }
   }
 

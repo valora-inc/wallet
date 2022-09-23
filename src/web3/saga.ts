@@ -25,6 +25,7 @@ import {
   mtwAddressSelector,
   walletAddressSelector,
 } from 'src/web3/selectors'
+import statsig from 'statsig-js'
 import { RootState } from '../redux/reducers'
 
 const TAG = 'web3/saga'
@@ -131,6 +132,7 @@ export function* assignAccountFromPrivateKey(privateKey: string, mnemonic: strin
     yield put(setAccount(account))
     yield put(setAccountCreationTime(Date.now()))
     yield call(createAccountDek, mnemonic)
+    yield statsig.updateUser({ userID: account.toLowerCase() })
     return account
   } catch (e) {
     Logger.error(TAG + '@assignAccountFromPrivateKey', 'Error assigning account', e)

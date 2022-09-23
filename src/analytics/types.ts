@@ -26,3 +26,7 @@ export enum DappRequestOrigin {
   InAppWebView = 'in_app_web_view',
   External = 'external',
 }
+
+export enum StatsigLayers {
+  NAME_AND_PICTURE_SCREEN = 'name_and_picture_screen',
+}

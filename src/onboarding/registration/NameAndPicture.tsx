@@ -7,7 +7,9 @@ import { useDispatch } from 'react-redux'
 import { setName, setPicture } from 'src/account/actions'
 import { recoveringFromStoreWipeSelector } from 'src/account/selectors'
 import { hideAlert, showError } from 'src/alert/actions'
+import { ExperimentParams } from 'src/analytics/constants'
 import { OnboardingEvents } from 'src/analytics/Events'
+import { StatsigLayers } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import {
@@ -29,11 +31,31 @@ import { default as useSelector, default as useTypedSelector } from 'src/redux/u
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { saveProfilePicture } from 'src/utils/image'
+import Logger from 'src/utils/Logger'
 import { useAsyncKomenciReadiness } from 'src/verify/hooks'
+import statsig from 'statsig-js'
 
 type Props = StackScreenProps<StackParamList, Screens.NameAndPicture>
 
 function NameAndPicture({ navigation }: Props) {
+  const statsigLayer = StatsigLayers.NAME_AND_PICTURE_SCREEN
+  const showSkipButton = statsig
+    .getLayer(statsigLayer)
+    .get(
+      ExperimentParams[statsigLayer].showSkipButton.paramName,
+      ExperimentParams[statsigLayer].showSkipButton.defaultValue
+    )
+  const nameType = statsig
+    .getLayer(statsigLayer)
+    .get(
+      ExperimentParams[statsigLayer].nameType.paramName,
+      ExperimentParams[statsigLayer].nameType.defaultValue
+    )
+
+  //TODO: use these in an experiment
+  Logger.info('NameAndPicture', 'Statsig experiment showSkipButton', showSkipButton)
+  Logger.info('NameAndPicture', 'Statsig experiment nameType', nameType)
+
   const [nameInput, setNameInput] = useState('')
   const cachedName = useTypedSelector((state) => state.account.name)
   const picture = useTypedSelector((state) => state.account.pictureUri)
@@ -100,6 +122,7 @@ function NameAndPicture({ navigation }: Props) {
       return
     }
 
+    statsig.logEvent('name_step_complete')
     ValoraAnalytics.track(OnboardingEvents.name_and_picture_set, {
       includesPhoto: false,
       profilePictureSkipped: shouldSkipProfilePicture,
