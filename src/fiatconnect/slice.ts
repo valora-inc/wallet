@@ -31,6 +31,7 @@ export interface State {
   cachedFiatAccountUses: CachedFiatAccountUse[]
   attemptReturnUserFlowLoading: boolean
   selectFiatConnectQuoteLoading: boolean
+  sendingFiatAccount: boolean
 }
 
 const initialState: State = {
@@ -42,6 +43,7 @@ const initialState: State = {
   cachedFiatAccountUses: [],
   attemptReturnUserFlowLoading: false,
   selectFiatConnectQuoteLoading: false,
+  sendingFiatAccount: false,
 }
 
 export type FiatAccount = ObfuscatedFiatAccountData & {
@@ -111,10 +113,22 @@ interface RefetchQuoteAction {
   fiatAccount: ObfuscatedFiatAccountData
 }
 
+interface SubmitFiatAccountAction {
+  flow: CICOFlow
+  quote: FiatConnectQuote
+  fiatAccountData: Record<string, any>
+}
+
 export const slice = createSlice({
   name: 'fiatConnect',
   initialState,
   reducers: {
+    submitFiatAccount: (state, action: PayloadAction<SubmitFiatAccountAction>) => {
+      state.sendingFiatAccount = true
+    },
+    submitFiatAccountCompleted: (state) => {
+      state.sendingFiatAccount = false
+    },
     fetchFiatConnectQuotes: (state, action: PayloadAction<FetchQuotesAction>) => {
       state.quotesLoading = true
       state.quotesError = null
@@ -237,6 +251,8 @@ export const {
   createFiatConnectTransferCompleted,
   fetchFiatConnectProviders,
   fetchFiatConnectProvidersCompleted,
+  submitFiatAccount,
+  submitFiatAccountCompleted,
 } = slice.actions
 
 export default slice.reducer
