@@ -11,9 +11,10 @@ import NameAndPicture from 'src/onboarding/registration/NameAndPicture'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockNavigation } from 'test/values'
+import * as AccountActions from 'src/account/actions'
 
 expect.extend({ toBeDisabled })
-
+jest.spyOn(AccountActions, 'setName')
 const mockScreenProps = getMockStackScreenProps(Screens.NameAndPicture)
 
 describe('NameAndPictureScreen', () => {
@@ -192,6 +193,7 @@ describe('NameAndPictureScreen', () => {
   })
   // eslint-disable-next-line jest/no-disabled-tests
   it.skip('renders skip button when mocked and skipping works', () => {
+    // TODO add mock Statsig flag
     // skipped because the switch is hard-coded to false before statsig integration
     const { queryByText } = render(
       <Provider store={createMockStore()}>
@@ -201,5 +203,18 @@ describe('NameAndPictureScreen', () => {
     expect(queryByText('skip')).toBeTruthy()
     fireEvent.press(queryByText('skip')!)
     expect(navigate).toHaveBeenCalledWith(Screens.PincodeSet, expect.anything())
+  })
+  it('saves empty name reardless of what is in the inputbox when skip is used', () => {
+    // TODO add mock Statsig flag
+    const { getByText, getByTestId } = render(
+      <Provider store={createMockStore()}>
+        <MockedNavigator component={NameAndPicture} />
+      </Provider>
+    )
+    fireEvent.changeText(getByTestId('NameEntry'), 'Some Name')
+
+    fireEvent.press(getByText('skip'))
+    // fireEvent.press(getByTestId('NameAndPictureContinueButton'))
+    expect(AccountActions.setName).toBeCalledWith('')
   })
 })
