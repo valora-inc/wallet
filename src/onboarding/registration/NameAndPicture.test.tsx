@@ -212,9 +212,7 @@ describe('NameAndPictureScreen', () => {
       </Provider>
     )
     fireEvent.changeText(getByTestId('NameEntry'), 'Some Name')
-
     fireEvent.press(getByText('skip'))
-    // fireEvent.press(getByTestId('NameAndPictureContinueButton'))
     expect(AccountActions.setName).toBeCalledWith('')
   })
 })
