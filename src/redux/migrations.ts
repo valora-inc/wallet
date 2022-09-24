@@ -815,4 +815,12 @@ export const migrations = {
       showGuidedOnboardingCopy: REMOTE_CONFIG_VALUES_DEFAULTS.showGuidedOnboardingCopy,
     },
   }),
+  77: (state: any) => state,
+  78: (state: any) => ({
+    ...state,
+    fiatConnect: {
+      ...state.fiatConnect,
+      sendingFiatAccount: false,
+    },
+  }),
 }

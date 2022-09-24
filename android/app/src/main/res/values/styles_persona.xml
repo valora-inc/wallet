@@ -3,26 +3,27 @@
   <style name="RN"/>
   <style name="RN.Persona"/>
   <style name="RN.Persona.Text"/>
-  <style name="Persona.Inquiry.Theme" parent="Base.Persona.Inquiry.Theme.Light">
+  <style name="Persona.Inquiry2.Theme" parent="Base.Persona.Inquiry2.Theme">
     <item name="colorPrimary">#1AB775</item>
-     
-    <item name="colorAccent">#1AB775</item>
-     
-    <item name="colorPrimaryDark">#1AB775</item>
-     
-    <item name="personaTitleTextAppearance">@style/RN.Persona.Text.Title</item>
-    <item name="personaBodyTextAppearance">@style/RN.Persona.Text.Body</item>
+
+    <item name="colorSecondary">#97DFC1</item>
+
+    <item name="colorPrimaryVariant">#1AB775</item>
+
+    <item name="textAppearanceHeadline6">@style/RN.Persona.Text.Title</item>
+    <item name="textAppearanceSubtitle1">@style/RN.Persona.Text.Body</item>
     <item name="editTextStyle">@style/RN.Persona.EditText</item>
+    <item name="spinnerStyle">@style/RN.Persona.Spinner</item>
+    <item name="spinnerDropDownItemStyle">@style/RN.Persona.DropDownItem.Spinner</item>
     <item name="buttonStyle">@style/RN.Persona.Button</item>
-    <item name="colorControlActivated">#1AB775</item>
   </style>
-  <style name="RN.Persona.Text.Title" parent="Persona.Text.Body">
+  <style name="RN.Persona.Text.Title" parent="Persona.Inquiry2.Text.Body">
     <item name="android:textColor">#2E3338</item>
-    <item name="android:fontFamily">Inter-Regular</item>
+    <item name="android:fontFamily">Inter-Bold</item>
     <item name="android:textSize">26sp</item>
     <item name="android:textStyle">bold</item>
   </style>
-  <style name="RN.Persona.Text.Body" parent="Persona.Text.Body">
+  <style name="RN.Persona.Text.Body" parent="Persona.Inquiry2.Text.Body">
     <item name="android:textColor">#2E3338</item>
     <item name="android:fontFamily">Inter-Regular</item>
     <item name="android:textSize">18sp</item>
@@ -32,15 +33,27 @@
     <item name="android:textColor">#2E3338</item>
     <item name="android:fontFamily">Inter-Regular</item>
   </style>
-  <style name="RN.Persona.EditText" parent="Widget.AppCompat.EditText">
+  <style name="RN.Persona.EditText" parent="Persona.Inquiry2.EditText">
     <item name="android:textAppearance">@style/RN.Persona.EditText.TextAppearance</item>
     <item name="android:textColor">#2E3338</item>
   </style>
-  <style name="RN.Persona.EditText.TextAppearance" parent="Base.TextAppearance.AppCompat.Medium">
+  <style name="RN.Persona.EditText.TextAppearance" parent="TextAppearance.MaterialComponents.Body1">
     <item name="android:textSize">18sp</item>
     <item name="android:fontFamily">Inter-Regular</item>
   </style>
-  <style name="RN.Persona.Button" parent="android:style/Widget.Button">
+  <style name="RN.Persona.Spinner" parent="Persona.Inquiry2.Spinner">
+    <item name="android:textColor">#2E3338</item>
+    <item name="android:textAppearance">@style/RN.Persona.Text.Spinner</item>
+  </style>
+  <style name="RN.Persona.DropDownItem.Spinner" parent="Persona.Inquiry2.Spinner">
+    <item name="android:textColor">#2E3338</item>
+    <item name="android:textAppearance">@style/RN.Persona.Text.Spinner</item>
+  </style>
+  <style name="RN.Persona.Text.Spinner">
+    <item name="android:textColor">#2E3338</item>
+    <item name="android:fontFamily">Inter-Regular</item>
+  </style>
+  <style name="RN.Persona.Button" parent="Persona.Inquiry2.Button">
     <item name="android:minHeight">48dip</item>
     <item name="android:minWidth">88dip</item>
     <item name="android:textSize">18sp</item>
