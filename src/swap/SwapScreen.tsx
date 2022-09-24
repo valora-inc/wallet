@@ -129,11 +129,14 @@ export function SwapScreen() {
 
   const handleShowTokenSelect = (fieldType: Field) => () => {
     ValoraAnalytics.track(SwapEvents.swap_screen_select_token, { fieldType })
-    Keyboard.dismiss()
     // ensure that the keyboard is dismissed before animating token bottom sheet
-    setTimeout(() => {
-      setSelectingToken(fieldType)
-    }, 100)
+    Keyboard.addListener('keyboardDidHide', onKeyboardDidHide(fieldType))
+    Keyboard.dismiss()
+  }
+
+  const onKeyboardDidHide: any = (fieldType: Field) => {
+    Keyboard.removeListener('keyboardDidHide', onKeyboardDidHide)
+    setSelectingToken(fieldType)
   }
 
   const handleCloseTokenSelect = () => {
