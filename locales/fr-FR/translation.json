@@ -760,6 +760,34 @@
     "body": "La connexion vous permet d'envoyer et de recevoir des fonds via votre numéro de téléphone.\n\n<0>Puis-je faire cela plus tard ?</0>\n\nOui, mais les wallets non connectés peuvent uniquement envoyer des paiements avec des codes QR ou des Adresses de compte.\n\n<1>Sécurisé et privé</1>\n\nValora utilise un chiffrement de pointe pour assurer la confidentialité de votre numéro de téléphone.",
     "dismiss": "Ignorer"
   },
+  "phoneVerificationScreen": {
+    "screenTitle": "Numéro de téléphone",
+    "title": "Connectez votre numéro de téléphone",
+    "description": "Pour connecter ton numéro de téléphone, tu recevras un message texte.",
+    "startButtonLabel": "Commencer",
+    "learnMore": {
+      "title": "Est-ce que je dois connecter mon téléphone ?",
+      "body": "En connectant ton numéro de téléphone, tu pourras envoyer de l'argent aux amis de ton carnet d'adresses et à d'autres numéros de téléphone. \n \n Si tu choisis de sauter cette étape, tu ne pourras pas accéder à tes contacts et tu ne pourras envoyer de l'argent que par code QR ou numéro de compte."
+    },
+    "skip": {
+      "title": "Êtes-vous sûr ?",
+      "body": "La connexion te permet d'envoyer et de recevoir des fonds à partir de ton numéro de téléphone.",
+      "cancel": "Retour",
+      "confirm": "Ignorer pour l'instant"
+    }
+  },
+  "phoneVerificationInput": {
+    "title": "Saisis le code",
+    "description": "Nous avons envoyé un code à {{phoneNumber}}, merci de le saisir ci-dessous.",
+    "help": "Aide",
+    "codeInputPlaceholder": "12345678",
+    "helpDialog": {
+      "title": "Aide",
+      "body": "Nous avons envoyé un SMS à ton numéro de téléphone. Vérifie tes SMS pour trouver le code à 8 chiffres. Si tu as des difficultés à recevoir des messages, tu peux sauter cette étape pour l'instant et réessayer plus tard.",
+      "skip": "Ignorer",
+      "dismiss": "Retourner"
+    }
+  },
   "importExistingKey": {
     "explanation": "Votre Phrase de récupération est une phrase de 24 mots que vous avez écrite et enregistrée lorsque vous avez créé votre compte. Veuillez la saisir ici pour restaurer votre compte.",
     "keyPlaceholder": "cheval léopard chien singe ..."
