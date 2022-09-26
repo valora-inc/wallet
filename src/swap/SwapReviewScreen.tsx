@@ -37,16 +37,17 @@ import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 
 const TAG = 'SWAP_REVIEW_SCREEN'
+const initialUserInput = {
+  toToken: '',
+  fromToken: '',
+  swapAmount: {
+    [Field.FROM]: null,
+    [Field.TO]: null,
+  },
+  updatedField: Field.TO,
+}
+
 export function SwapReviewScreen() {
-  const initialUserInput = {
-    toToken: '',
-    fromToken: '',
-    swapAmount: {
-      [Field.FROM]: null,
-      [Field.TO]: null,
-    },
-    updatedField: Field.TO,
-  }
   const swapUserState = useSelector(swapUserInputSelector)
   const { toToken, fromToken, swapAmount, updatedField } = swapUserState || initialUserInput
   const [shouldFetch, setShouldFetch] = useState(true)
