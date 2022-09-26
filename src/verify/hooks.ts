@@ -68,12 +68,12 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCode: string) {
     })
 
     if (response.ok) {
-      const result = await response.json()
-      setVerificationId(result.verificationId)
+      const { data } = await response.json()
+      setVerificationId(data.verificationId)
       Logger.debug(
         `${TAG}/requestVerificationCode`,
         'Successfully initiated phone number verification with verificationId: ',
-        result.verificationId
+        data.verificationId
       )
     } else {
       Logger.debug(
@@ -85,7 +85,11 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCode: string) {
   }
 
   const validateVerificationCode = async (smsCode: string) => {
-    Logger.debug(`${TAG}/validateVerificationCode`, 'Initiating request to verifySmsCode')
+    Logger.debug(
+      `${TAG}/validateVerificationCode`,
+      'Initiating request to verifySmsCode with verificationId: ',
+      verificationId
+    )
     setVerificationStatus(PhoneNumberVerificationStatus.VERIFYING)
 
     const signedMessage = await retrieveSignedMessage()
