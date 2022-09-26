@@ -1278,7 +1278,7 @@
     "bankAccount": {
       "header": "Ein Bankkonto einrichten",
       "bodyTitle": "Ein Bankkonto einrichten",
-      "description": "Gib deine Kontoinformationen ein, um Guthaben zu überweisen. Deine Transaktionen werden von <0>{{providerName}}</0> unterstützt."
+      "description": "Gib die Details deines Bankkontos ein, um Geld zu überweisen. Deine Transaktionen werden durchgeführt von <0>{{providerName}}</0>. Wenn du auf \"Weiter\" klickst, erklärst du dich mit den <1>Allgemeinen</1> Geschäftsbedingungen und der <2>Datenschutzerklärung</2> einverstanden."
     },
     "continue": "Weiter"
   },
