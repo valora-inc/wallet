@@ -108,7 +108,7 @@ export function SwapPending() {
   }, [])
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={styles.safeAreaView}>
       <View style={styles.contentContainer}>
         {![SwapState.COMPLETE, SwapState.USER_INPUT].includes(swapState) ? (
           <ActivityIndicator
@@ -127,6 +127,9 @@ export function SwapPending() {
 }
 
 const styles = StyleSheet.create({
+  safeAreaView: {
+    flex: 1,
+  },
   contentContainer: {
     alignItems: 'center',
     justifyContent: 'center',
