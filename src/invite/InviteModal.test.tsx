@@ -3,7 +3,7 @@ import * as React from 'react'
 import InviteModal from 'src/invite/InviteModal'
 
 describe('InviteModal', () => {
-  it('renders the correctly elements', () => {
+  it('renders correctly', () => {
     const { getByText } = render(
       <InviteModal
         title="some title"
