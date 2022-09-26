@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 import { SwapUserInput } from 'src/swap/types'
 
 export enum SwapState {
@@ -58,15 +57,6 @@ export const slice = createSlice({
       state.swapState = SwapState.ERROR
       state.swapInfo = null
     },
-  },
-  extraReducers: (builder) => {
-    builder.addCase(REHYDRATE, (state, action: RehydrateAction) => ({
-      ...state,
-      ...getRehydratePayload(action, 'swap'),
-      swapState: SwapState.QUOTE,
-      swapInfo: null,
-      swapUserInput: null,
-    }))
   },
 })
 
