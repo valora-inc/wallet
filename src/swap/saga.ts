@@ -1,7 +1,7 @@
 import { CeloTx } from '@celo/connect'
 import { TxParamsNormalizer } from '@celo/connect/lib/utils/tx-params-normalizer'
 import { ContractKit } from '@celo/contractkit'
-import { call, put, select, takeEvery } from 'redux-saga/effects'
+import { call, put, select, takeLatest } from 'redux-saga/effects'
 import { maxSwapSlippagePercentageSelector } from 'src/app/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -107,5 +107,5 @@ export function* swapSubmitSaga(data: any) {
 
 export function* swapSaga() {
   Logger.debug(TAG, 'Initializing swap sagas')
-  yield takeEvery(swapStart.type, swapSubmitSaga)
+  yield takeLatest(swapStart.type, swapSubmitSaga)
 }
