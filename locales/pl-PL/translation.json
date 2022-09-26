@@ -1282,7 +1282,7 @@
     "bankAccount": {
       "header": "Załóż konto bankowe",
       "bodyTitle": "Załóż konto bankowe",
-      "description": "Wprowadź szczegóły dotyczące rachunku bankowego, aby przelać środki. Twoje transakcje będą obsługiwane przez <0>{{providerName}}</0>."
+      "description": "Wprowadź dane konta bankowego, aby przelać środki. Twoje transakcje będą realizowane przez <0>{{providerName}}</0>. Klikając dalej, zgadzasz się z Regulaminem <1>i</1> <2>Polityką Prywatności</2>."
     },
     "continue": "Kontynuuj"
   },
