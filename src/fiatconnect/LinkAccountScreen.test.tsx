@@ -44,45 +44,22 @@ describe('LinkAccountScreen', () => {
     expect(queryByTestId('privacyPolicyText')).toBeTruthy()
   })
 
-  it('navigates to provider site on clicking provider name', async () => {
+  it.each`
+    testId                      | uri
+    ${'providerNameText'}       | ${'https://fakewebsite.valorapp.com'}
+    ${'termsAndConditionsText'} | ${'https://fakewebsite.valorapp.com/terms'}
+    ${'privacyPolicyText'}      | ${'https://fakewebsite.valorapp.com/privacy'}
+  `('Navigate to $uri when tapping text with testId $testId', async ({ testId, uri }) => {
     const { getByTestId } = render(
       <Provider store={store}>
         <FiatConnectLinkAccountScreen {...props} />
       </Provider>
     )
 
-    await fireEvent.press(getByTestId('providerNameText'))
+    await fireEvent.press(getByTestId(testId))
 
     expect(navigate).toHaveBeenCalledWith(Screens.WebViewScreen, {
-      uri: 'https://fakewebsite.valorapp.com',
-    })
-  })
-
-  it('navigates to provider terms and conditions site on clicking terms and conditions', async () => {
-    const { getByTestId } = render(
-      <Provider store={store}>
-        <FiatConnectLinkAccountScreen {...props} />
-      </Provider>
-    )
-
-    await fireEvent.press(getByTestId('termsAndConditionsText'))
-
-    expect(navigate).toHaveBeenCalledWith(Screens.WebViewScreen, {
-      uri: 'https://fakewebsite.valorapp.com/terms',
-    })
-  })
-
-  it('navigates to provider privacy policy site on clicking privacy policy', async () => {
-    const { getByTestId } = render(
-      <Provider store={store}>
-        <FiatConnectLinkAccountScreen {...props} />
-      </Provider>
-    )
-
-    await fireEvent.press(getByTestId('privacyPolicyText'))
-
-    expect(navigate).toHaveBeenCalledWith(Screens.WebViewScreen, {
-      uri: 'https://fakewebsite.valorapp.com/privacy',
+      uri,
     })
   })
 
