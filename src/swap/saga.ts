@@ -1,7 +1,8 @@
 import { CeloTx } from '@celo/connect'
 import { TxParamsNormalizer } from '@celo/connect/lib/utils/tx-params-normalizer'
 import { ContractKit } from '@celo/contractkit'
-import { call, put, takeEvery } from 'redux-saga/effects'
+import { call, put, select, takeEvery } from 'redux-saga/effects'
+import { maxSwapSlippagePercentageSelector } from 'src/app/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import {
@@ -32,13 +33,14 @@ export function* swapSubmitSaga(data: any) {
     // Navigate to swap pending screen
     yield call(navigate, Screens.SwapPending)
 
-    // Check that prices are within 2% of each other
+    // Check that our guaranteedPrice is within 2%, maxSwapSlippagePercentage, of of the price
+    const maxSlippagePercent = yield select(maxSwapSlippagePercentageSelector)
     const priceDiff: number = yield call(
       getPriceDiff,
       +data.payload.unvalidatedSwapTransaction.price,
       +data.payload.unvalidatedSwapTransaction.guaranteedPrice
     )
-    if (priceDiff >= 2) {
+    if (priceDiff >= maxSlippagePercent) {
       yield put(swapPriceChange())
       return
     }
