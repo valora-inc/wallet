@@ -68,19 +68,18 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCode: string) {
     })
 
     if (response.ok) {
+      const result = await response.json()
+      setVerificationId(result.verificationId)
       Logger.debug(
         `${TAG}/requestVerificationCode`,
         'Successfully initiated phone number verification with verificationId: ',
-        verificationId
+        result.verificationId
       )
-      const result = await response.json()
-      setVerificationId(result.verificationId)
     } else {
       Logger.debug(
         `${TAG}/requestVerificationCode`,
         'Received error from verifyPhoneNumber service'
       )
-      setVerificationStatus(PhoneNumberVerificationStatus.FAILED)
       dispatch(showError(ErrorMessages.PHONE_NUMBER_VERIFICATION_FAILURE))
     }
   }
@@ -112,9 +111,12 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCode: string) {
       // TODO store verification status in new redux variable so that the
       // existing one can be used for background migration
     } else {
-      Logger.debug(TAG, 'Received error from verifySmsCode service')
+      Logger.debug(
+        TAG,
+        'Received error from verifySmsCode service for verificationId: ',
+        verificationId
+      )
       setVerificationStatus(PhoneNumberVerificationStatus.FAILED)
-      dispatch(showError(ErrorMessages.PHONE_NUMBER_VERIFICATION_FAILURE))
     }
   }
 

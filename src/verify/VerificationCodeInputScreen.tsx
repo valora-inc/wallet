@@ -1,5 +1,5 @@
 import { StackScreenProps, useHeaderHeight } from '@react-navigation/stack'
-import React, { useEffect, useLayoutEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -22,6 +22,8 @@ function VerificationCodeInputScreen({
   route,
   navigation,
 }: StackScreenProps<StackParamList, Screens.VerificationCodeInputScreen>) {
+  const verificationCodeRequested = useRef(false)
+
   const [showHelpDialog, setShowHelpDialog] = useState(false)
   const [code, setCode] = useState('')
   const [codeInputStatus, setCodeInputStatus] = useState(CodeInputStatus.Inputting)
@@ -83,7 +85,11 @@ function VerificationCodeInputScreen({
   }, [code])
 
   useEffect(() => {
-    void requestVerificationCode()
+    if (!verificationCodeRequested.current) {
+      void requestVerificationCode()
+      // prevent request from being fired multiple times
+      verificationCodeRequested.current = true
+    }
   }, [])
 
   useEffect(() => {
