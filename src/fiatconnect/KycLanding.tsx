@@ -16,19 +16,9 @@ export interface Props {
 
 function KycLanding(props: Props) {
   const dispatch = useDispatch()
-  const sendKYCSchema = async () => {
+  const sendKYCSchema = () => {
     dispatch(selectFiatConnectQuote({ quote: props.quote }))
-    // getKycSchema
-    const schema = props.quote.getKycSchema()
-    const provider = props.quote.getProvider()
-    if (!schema) {
-      // should not happen if the flow is properly user-reached
-      throw new Error('expected KYC schema to send is nullish')
-    }
-    await postKyc({
-      providerInfo: provider,
-      kycSchema: schema,
-    })
+    // will navigate to FiatConnectReview by saga
   }
   return (
     <SafeAreaView style={styles.container}>

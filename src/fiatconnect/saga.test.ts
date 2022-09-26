@@ -558,7 +558,6 @@ describe('Fiatconnect saga', () => {
         .put(selectFiatConnectQuoteCompleted())
         .put(showError(ErrorMessages.PROVIDER_FETCH_FAILED))
         .run()
-      expect(navigate).not.toHaveBeenCalled()
     })
     it('navigates to link account screen if the fiatAccount is not found', async () => {
       const fiatAccount = {
