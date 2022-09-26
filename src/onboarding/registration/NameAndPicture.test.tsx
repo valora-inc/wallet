@@ -204,6 +204,7 @@ describe('NameAndPictureScreen', () => {
     fireEvent.press(queryByText('skip')!)
     expect(navigate).toHaveBeenCalledWith(Screens.PincodeSet, expect.anything())
   })
+  // eslint-disable-next-line jest/no-disabled-tests
   it.skip('saves empty name reardless of what is in the inputbox when skip is used', () => {
     // TODO add mock Statsig flag
     const { getByText, getByTestId } = render(
