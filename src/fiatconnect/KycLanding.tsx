@@ -1,18 +1,23 @@
 import { TouchableOpacity } from '@gorhom/bottom-sheet'
+import { RouteProp } from '@react-navigation/native'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import Persona from 'src/account/Persona'
 import { KycStatus } from 'src/account/reducer'
-import { CICOEvents } from 'src/analytics/Events'
+import { CICOEvents, FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { PRIVACY_LINK } from 'src/brandingConfig'
-import FiatConnectLinkAccountScreen, { LinkAccountSection } from 'src/fiatconnect/LinkAccountScreen'
+import BackButton from 'src/components/BackButton'
+import { LinkAccountSection } from 'src/fiatconnect/LinkAccountScreen'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
+import i18n from 'src/i18n'
 import CheckBox from 'src/icons/CheckBox'
 import GreyOut from 'src/icons/GreyOut'
+import { emptyHeader } from 'src/navigator/Headers'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import Colors from 'src/styles/colors'
@@ -30,17 +35,40 @@ export default function KycLanding(props: StackScreenProps<StackParamList, Scree
   const { quote, flow, step, personaKycStatus: kycStatus } = props.route.params
   return (
     <ScrollView>
-      <StepOne disabled={step !== 'one'} kycStatus={kycStatus} />
+      <StepOne disabled={step !== 'one'} kycStatus={kycStatus} quote={quote} flow={flow} />
       <StepTwo quote={quote} flow={flow} disabled={step !== 'two'} />
     </ScrollView>
   )
 }
 
-KycLanding.navigationOptions = FiatConnectLinkAccountScreen.navigationOptions
+KycLanding.navigationOptions = ({
+  route,
+}: {
+  route: RouteProp<StackParamList, Screens.FiatConnectLinkAccount | Screens.KycLanding>
+}) => ({
+  ...emptyHeader,
+  headerLeft: () => (
+    <BackButton
+      eventName={FiatExchangeEvents.cico_fc_link_account_back}
+      eventProperties={{
+        flow: route.params.flow,
+        provider: route.params.quote.getProviderId(),
+        fiatAccountSchema: route.params.quote.getFiatAccountSchema(),
+      }}
+    />
+  ),
+  // NOTE: title should be dynamic when we support multiple fiat account types
+  headerTitle: i18n.t('fiatConnectLinkAccountScreen.bankAccount.header'),
+})
 
-function StepOne(props: { disabled: boolean; kycStatus: KycStatus | undefined }) {
+function StepOne(props: {
+  disabled: boolean
+  kycStatus: KycStatus | undefined
+  quote: FiatConnectQuote
+  flow: CICOFlow
+}) {
   const { t } = useTranslation()
-  const { disabled, kycStatus } = props
+  const { disabled, kycStatus, quote, flow } = props
   const [dimensions, setDimensions] = useState({
     height: 0,
     width: 0,
@@ -54,7 +82,7 @@ function StepOne(props: { disabled: boolean; kycStatus: KycStatus | undefined })
     >
       {disabled && <GreyOut {...dimensions} />}
       <Text style={styles.stepText}>{t('fiatConnectKycLandingScreen.stepOne')}</Text>
-      <KycAgreement kycStatus={kycStatus} />
+      <KycAgreement kycStatus={kycStatus} quote={quote} flow={flow} />
     </View>
   )
 }
@@ -80,9 +108,13 @@ function StepTwo(props: { quote: FiatConnectQuote; flow: CICOFlow; disabled: boo
   )
 }
 
-export function KycAgreement(props: { kycStatus: KycStatus | undefined }) {
+export function KycAgreement(props: {
+  kycStatus: KycStatus | undefined
+  quote: FiatConnectQuote
+  flow: CICOFlow
+}) {
   const { t } = useTranslation()
-  const { kycStatus } = props
+  const { kycStatus, quote, flow } = props
   const [agreementChecked, toggleAgreementChecked] = useState(false)
 
   const onPressPrivacyPolicy = () => {
@@ -117,6 +149,14 @@ export function KycAgreement(props: { kycStatus: KycStatus | undefined }) {
         kycStatus={kycStatus}
         disabled={!agreementChecked}
         onPress={() => ValoraAnalytics.track(CICOEvents.persona_kyc_start)}
+        onSuccess={() =>
+          navigate(Screens.KycLanding, {
+            quote,
+            flow,
+            step: 'two',
+            personaKycStatus: kycStatus,
+          })
+        }
       />
     </SafeAreaView>
   )
