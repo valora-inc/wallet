@@ -1,0 +1,44 @@
+import { fireEvent, render } from '@testing-library/react-native'
+import * as React from 'react'
+import InviteModal from 'src/invite/InviteModal'
+
+describe('InviteModal', () => {
+  it('renders the correctly elements', () => {
+    const { getByText } = render(
+      <InviteModal
+        title="some title"
+        description="some description"
+        buttonLabel="some button label"
+        disabled
+        onClose={jest.fn()}
+        onShareInvite={jest.fn()}
+      />
+    )
+
+    expect(getByText('some title')).toBeTruthy()
+    expect(getByText('some description')).toBeTruthy()
+    expect(getByText('some button label')).toBeDisabled()
+  })
+
+  it('fires the correct callbacks', () => {
+    const onCloseSpy = jest.fn()
+    const onShareInviteSpy = jest.fn()
+
+    const { getByText, getByTestId } = render(
+      <InviteModal
+        title="some title"
+        description="some description"
+        buttonLabel="some button label"
+        disabled={false}
+        onClose={jest.fn()}
+        onShareInvite={jest.fn()}
+      />
+    )
+
+    fireEvent.press(getByText('someButtonLabel'))
+    fireEvent.press(getByTestId('InviteModalCloseButton'))
+
+    expect(onShareInviteSpy).toHaveBeenCalledTimes(1)
+    expect(onCloseSpy).toHaveBeenCalledTimes(1)
+  })
+})
