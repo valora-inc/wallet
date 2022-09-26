@@ -30,12 +30,12 @@ describe('InviteModal', () => {
         description="some description"
         buttonLabel="some button label"
         disabled={false}
-        onClose={jest.fn()}
-        onShareInvite={jest.fn()}
+        onClose={onCloseSpy}
+        onShareInvite={onShareInviteSpy}
       />
     )
 
-    fireEvent.press(getByText('someButtonLabel'))
+    fireEvent.press(getByText('some button label'))
     fireEvent.press(getByTestId('InviteModalCloseButton'))
 
     expect(onShareInviteSpy).toHaveBeenCalledTimes(1)
