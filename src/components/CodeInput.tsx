@@ -28,7 +28,7 @@ export enum CodeInputStatus {
 }
 
 export interface Props {
-  label: string
+  label?: string
   status: CodeInputStatus
   inputValue: string
   inputPlaceholder: string
@@ -92,31 +92,34 @@ export default function CodeInput({
       {/* These views cannot be combined as it will cause the shadow to be clipped on iOS */}
       <View style={styles.containRadius}>
         <View
-          style={
+          style={[
             showInput
               ? shortVerificationCodesEnabled
                 ? styles.contentActive
                 : styles.contentActiveLong
               : shortVerificationCodesEnabled
               ? styles.content
-              : styles.contentLong
-          }
+              : styles.contentLong,
+            showInput && shortVerificationCodesEnabled && label ? { paddingBottom: 4 } : undefined,
+          ]}
         >
           {showStatus && shortVerificationCodesEnabled && <View style={styles.statusContainer} />}
           <View style={styles.innerContent}>
-            <Text
-              style={
-                showInput
-                  ? shortVerificationCodesEnabled
-                    ? styles.labelActive
-                    : styles.labelActiveLong
-                  : shortVerificationCodesEnabled
-                  ? styles.label
-                  : styles.labelLong
-              }
-            >
-              {label}
-            </Text>
+            {label && (
+              <Text
+                style={
+                  showInput
+                    ? shortVerificationCodesEnabled
+                      ? styles.labelActive
+                      : styles.labelActiveLong
+                    : shortVerificationCodesEnabled
+                    ? styles.label
+                    : styles.labelLong
+                }
+              >
+                {label}
+              </Text>
+            )}
 
             {showInput ? (
               <TextInput
@@ -215,14 +218,12 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 20,
-    // paddingVertical: Spacing.Small12,
+    padding: Spacing.Regular16,
   },
   contentActive: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 20,
-    paddingBottom: 4,
+    padding: Spacing.Regular16,
   },
   innerContent: {
     flex: 1,
@@ -256,6 +257,7 @@ const styles = StyleSheet.create({
     ...fontStyles.large,
     color: colors.onboardingBrownLight,
     textAlign: 'center',
+    paddingVertical: Spacing.Small12,
   },
   statusContainer: {
     width: 32,

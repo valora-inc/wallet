@@ -6,15 +6,18 @@ import {
   ResponseError,
 } from '@fiatconnect/fiatconnect-sdk'
 import {
+  FiatAccountSchemas,
   FiatAccountType,
+  FiatConnectError,
   GetFiatAccountsResponse,
   KycStatus as FiatConnectKycStatus,
+  PostFiatAccountResponse,
   TransferResponse,
 } from '@fiatconnect/fiatconnect-types'
 import BigNumber from 'bignumber.js'
 import { all, call, delay, put, select, spawn, takeLeading } from 'redux-saga/effects'
 import { KycStatus as PersonaKycStatus } from 'src/account/reducer'
-import { showError } from 'src/alert/actions'
+import { showError, showMessage } from 'src/alert/actions'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
@@ -51,10 +54,13 @@ import {
   refetchQuoteFailed,
   selectFiatConnectQuote,
   selectFiatConnectQuoteCompleted,
+  submitFiatAccount,
+  submitFiatAccountCompleted,
 } from 'src/fiatconnect/slice'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { normalizeFiatConnectQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
 import { CICOFlow } from 'src/fiatExchanges/utils'
+import i18n from 'src/i18n'
 import { getKycStatus, GetKycStatusResponse, postKyc } from 'src/in-house-liquidity'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
@@ -117,6 +123,89 @@ export function* handleRefetchQuote({ payload: params }: ReturnType<typeof refet
   }
 }
 
+export function* handleSubmitFiatAccount({
+  payload: params,
+}: ReturnType<typeof submitFiatAccount>): any {
+  const { flow, quote, fiatAccountData } = params
+  const fiatAccountSchema = quote.getFiatAccountSchema()
+
+  const fiatConnectClient: FiatConnectApiClient = yield call(
+    getFiatConnectClient,
+    quote.getProviderId(),
+    quote.getProviderBaseUrl(),
+    quote.getProviderApiKey()
+  )
+  const postFiatAccountResponse: Result<PostFiatAccountResponse, ResponseError> = yield call(
+    [fiatConnectClient, 'addFiatAccount'],
+    {
+      fiatAccountSchema,
+      data: fiatAccountData as FiatAccountSchemas[typeof fiatAccountSchema],
+    }
+  )
+
+  if (postFiatAccountResponse.isOk) {
+    yield put(
+      showMessage(
+        i18n.t('fiatDetailsScreen.addFiatAccountSuccess', { provider: quote.getProviderName() })
+      )
+    )
+    ValoraAnalytics.track(FiatExchangeEvents.cico_fiat_details_success, {
+      flow,
+      provider: quote.getProviderId(),
+      fiatAccountSchema,
+    })
+    // Record this fiat account as the most recently used
+    const { fiatAccountId, fiatAccountType } = postFiatAccountResponse.value
+    yield put(
+      fiatAccountUsed({
+        providerId: quote.getProviderId(),
+        fiatAccountId,
+        fiatAccountType,
+        flow,
+        cryptoType: quote.getCryptoType(),
+        fiatType: quote.getFiatType(),
+      })
+    )
+    navigate(Screens.FiatConnectReview, {
+      flow,
+      normalizedQuote: quote,
+      fiatAccount: postFiatAccountResponse.value,
+    })
+    yield delay(500) // to avoid a screen flash
+    yield put(submitFiatAccountCompleted())
+  } else {
+    yield put(submitFiatAccountCompleted())
+    Logger.error(
+      TAG,
+      `Error adding fiat account: ${
+        postFiatAccountResponse.error.fiatConnectError ?? postFiatAccountResponse.error.message
+      }`
+    )
+    ValoraAnalytics.track(FiatExchangeEvents.cico_fiat_details_error, {
+      flow,
+      provider: quote.getProviderId(),
+      fiatAccountSchema,
+      fiatConnectError: postFiatAccountResponse.error.fiatConnectError,
+      error: postFiatAccountResponse.error.message,
+    })
+    if (postFiatAccountResponse.error.fiatConnectError === FiatConnectError.ResourceExists) {
+      yield put(
+        showError(
+          i18n.t('fiatDetailsScreen.addFiatAccountResourceExist', {
+            provider: quote.getProviderName(),
+          })
+        )
+      )
+    } else {
+      yield put(
+        showError(
+          i18n.t('fiatDetailsScreen.addFiatAccountFailed', { provider: quote.getProviderName() })
+        )
+      )
+    }
+  }
+}
+
 /**
  * This saga attempts to fetch a quote and matching fiatAccount for a provider that the user
  * has previously used in the CICO flow.
@@ -132,6 +221,7 @@ export function* handleAttemptReturnUserFlow({
     [Currency.Dollar]: CiCoCurrency.CUSD,
     [Currency.Euro]: CiCoCurrency.CEUR,
   }[selectedCrypto]
+
   const fiatConnectProviders: FiatConnectProviderInfo[] | null = yield select(
     fiatConnectProvidersSelector
   )
@@ -234,9 +324,7 @@ export function* _getSpecificQuote({
     providerIds: [providerId],
   })
   const normalizedQuotes = normalizeFiatConnectQuotes(flow, quotes)
-  const normalizedQuote = normalizedQuotes.find(
-    (q) => q.getFiatAccountType() === fiatAccountType && q.getProviderId() === providerId
-  )
+  const normalizedQuote = normalizedQuotes.find((q) => q.getFiatAccountType() === fiatAccountType)
   if (!normalizedQuote) {
     throw new Error('Could not find quote')
   }
@@ -319,8 +407,18 @@ export function* handleSelectFiatConnectQuote({
         // If denied or expired, skip account management and
         // navigate to the KYC status screen
         case FiatConnectKycStatus.KycDenied:
+          navigate(Screens.KycDenied, {
+            flow: quote.flow,
+            quote,
+            retryable: true, // TODO: Get this dynamically once IHL supports it
+          })
+          yield put(selectFiatConnectQuoteCompleted())
+          return
         case FiatConnectKycStatus.KycExpired:
-          navigate(Screens.KycStatus)
+          navigate(Screens.KycExpired, {
+            flow: quote.flow,
+            quote,
+          })
           yield put(selectFiatConnectQuoteCompleted())
           return
         default:
@@ -364,7 +462,10 @@ export function* handleSelectFiatConnectQuote({
       kycSchema &&
       getKycStatusResponse!.kycStatus[kycSchema] !== FiatConnectKycStatus.KycApproved
     ) {
-      navigate(Screens.KycStatus)
+      navigate(Screens.KycPending, {
+        flow: quote.flow,
+        quote,
+      })
     } else {
       navigate(Screens.FiatConnectReview, {
         flow: quote.flow,
@@ -547,6 +648,9 @@ function* watchRefetchQuote() {
   yield takeLeading(refetchQuote.type, handleRefetchQuote)
 }
 
+function* watchSubmitFiatAccount() {
+  yield takeLeading(submitFiatAccount.type, handleSubmitFiatAccount)
+}
 export function* fiatConnectSaga() {
   yield spawn(watchFetchFiatConnectQuotes)
   yield spawn(watchFiatConnectTransfers)
@@ -554,4 +658,5 @@ export function* fiatConnectSaga() {
   yield spawn(watchAttemptReturnUserFlow)
   yield spawn(watchSelectFiatConnectQuote)
   yield spawn(watchRefetchQuote)
+  yield spawn(watchSubmitFiatAccount)
 }

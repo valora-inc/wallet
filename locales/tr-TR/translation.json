@@ -760,6 +760,34 @@
     "body": "Bağlanmak, telefon numaranızla para gönderip almanıza olanak tanır.\n\n<0>Bunu daha sonra yapabilir miyim?</0>\n\nEvet, ancak bağlı olmayan cüzdanlar yalnızca QR kodları veya Hesap Adresleri ile ödeme gönderebilir.\n\n<1>Güvenli ve Gizli</1>\n\nValora, telefon numaranızı gizli tutmak için son teknoloji şifreleme tekniği kullanır.",
     "dismiss": "Yoksay"
   },
+  "phoneVerificationScreen": {
+    "screenTitle": "Telefon Numarası",
+    "title": "Telefon numaranı bağla",
+    "description": "To connect your phone number, you'll receive a text message.",
+    "startButtonLabel": "Başla",
+    "learnMore": {
+      "title": "Do I need to connect my phone?",
+      "body": "Connecting your phone number will allow you to send money to friends in your address book and other phone numbers. \n \n If you choose to skip this step you won’t be able to access your contacts and you will only be able to send money via QR code or account number."
+    },
+    "skip": {
+      "title": "Emin misiniz?",
+      "body": "Connecting allows you to send and receive funds from your phone number.",
+      "cancel": "Geri Dön",
+      "confirm": "Şimdilik atla"
+    }
+  },
+  "phoneVerificationInput": {
+    "title": "Enter the code",
+    "description": "We sent a code to {{phoneNumber}}, please enter it below.",
+    "help": "Yardım",
+    "codeInputPlaceholder": "12345678",
+    "helpDialog": {
+      "title": "Yardım",
+      "body": "We sent an SMS to your phone number. Please check your text messages to find the 8 digit code. If you’re having trouble receiving messages, you can skip this step for now and try again later.",
+      "skip": "Atla",
+      "dismiss": "Go back"
+    }
+  },
   "importExistingKey": {
     "explanation": "Kurtarma Kelimeleriniz, hesabınızı oluştururken not ettiğiniz ve kaydettiğiniz 24 kelimelik bir ifadedir. Hesabınızı geri yüklemek için kelimeleri lütfen buraya girin.",
     "keyPlaceholder": "horse leopard dog monkey ..."
