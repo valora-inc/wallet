@@ -60,11 +60,11 @@ function VerificationStartScreen({
     : undefined
 
   const onPressStart = async () => {
-    // TODO figure out what this nux thing does
     dispatch(setHasSeenVerificationNux(true))
     navigate(Screens.VerificationCodeInputScreen, {
       registrationStep: route.params?.hideOnboardingStep ? undefined : { step, totalSteps },
       e164Number: phoneNumberInfo.e164Number,
+      countryCode: country?.countryCallingCode || '',
     })
   }
 

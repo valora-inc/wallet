@@ -3,6 +3,7 @@ import { useAsync } from 'react-async-hook'
 import { Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
 import { useDispatch, useSelector } from 'react-redux'
+import { setPhoneNumber } from 'src/account/actions'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
@@ -43,7 +44,7 @@ export enum PhoneNumberVerificationStatus {
   FAILED,
 }
 
-export function useVerifyPhoneNumber(phoneNumber: string) {
+export function useVerifyPhoneNumber(phoneNumber: string, countryCode: string) {
   const dispatch = useDispatch()
   const address = useSelector(walletAddressSelector)
 
@@ -89,7 +90,7 @@ export function useVerifyPhoneNumber(phoneNumber: string) {
     setVerificationStatus(PhoneNumberVerificationStatus.VERIFYING)
 
     const signedMessage = await retrieveSignedMessage()
-    const response: Response = await fetch(networkConfig.verifyPhoneNumberUrl, {
+    const response: Response = await fetch(networkConfig.verifySmsCodeUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -107,7 +108,9 @@ export function useVerifyPhoneNumber(phoneNumber: string) {
     if (response.ok) {
       Logger.debug(`${TAG}/validateVerificationCode`, 'Successfully verified phone number')
       setVerificationStatus(PhoneNumberVerificationStatus.SUCCESSFUL)
-      // dispatch action to store the phone number and verification status in redux
+      dispatch(setPhoneNumber(phoneNumber, countryCode))
+      // TODO store verification status in new redux variable so that the
+      // existing one can be used for background migration
     } else {
       Logger.debug(TAG, 'Received error from verifySmsCode service')
       setVerificationStatus(PhoneNumberVerificationStatus.FAILED)

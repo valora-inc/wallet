@@ -32,7 +32,7 @@ function VerificationCodeInputScreen({
     validateVerificationCode,
     requestVerificationCode,
     verificationStatus,
-  } = useVerifyPhoneNumber(route.params.e164Number)
+  } = useVerifyPhoneNumber(route.params.e164Number, route.params.countryCode)
 
   const onPressSkip = () => {
     navigateHome()
