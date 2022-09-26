@@ -44,16 +44,17 @@ export default function KycLanding(props: StackScreenProps<StackParamList, Scree
 KycLanding.navigationOptions = ({
   route,
 }: {
-  route: RouteProp<StackParamList, Screens.FiatConnectLinkAccount | Screens.KycLanding>
+  route: RouteProp<StackParamList, Screens.KycLanding>
 }) => ({
   ...emptyHeader,
   headerLeft: () => (
     <BackButton
-      eventName={FiatExchangeEvents.cico_fc_link_account_back}
+      eventName={FiatExchangeEvents.cico_fc_link_kyc_account_back}
       eventProperties={{
         flow: route.params.flow,
         provider: route.params.quote.getProviderId(),
         fiatAccountSchema: route.params.quote.getFiatAccountSchema(),
+        step: route.params.step,
       }}
     />
   ),
@@ -80,7 +81,7 @@ function StepOne(props: {
       }}
       style={styles.stepOne}
     >
-      {disabled && <GreyOut {...dimensions} />}
+      {disabled && <GreyOut testID="step-one-grey" {...dimensions} />}
       <Text style={styles.stepText}>{t('fiatConnectKycLandingScreen.stepOne')}</Text>
       <KycAgreement kycStatus={kycStatus} quote={quote} flow={flow} />
     </View>
@@ -101,7 +102,7 @@ function StepTwo(props: { quote: FiatConnectQuote; flow: CICOFlow; disabled: boo
       }}
       style={styles.stepTwo}
     >
-      {disabled && <GreyOut {...dimensions} />}
+      {disabled && <GreyOut testID="step-two-grey" {...dimensions} />}
       <Text style={styles.stepText}>{t('fiatConnectKycLandingScreen.stepTwo')}</Text>
       <LinkAccountSection quote={quote} flow={flow} disabled={disabled} />
     </View>
@@ -132,7 +133,7 @@ export function KycAgreement(props: {
           onPress={() => toggleAgreementChecked(!agreementChecked)}
           style={styles.checkBoxContainer}
         >
-          <CheckBox checked={agreementChecked} />
+          <CheckBox testID="checkbox" checked={agreementChecked} />
         </TouchableOpacity>
         <Text style={styles.disclaimer}>
           <Trans i18nKey={'fiatConnectKycLandingScreen.disclaimer'}>

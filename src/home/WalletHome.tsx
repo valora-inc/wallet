@@ -1,9 +1,3 @@
-import {
-  CryptoType,
-  FiatAccountSchema,
-  FiatType,
-  TransferType,
-} from '@fiatconnect/fiatconnect-types'
 import _ from 'lodash'
 import React, { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -11,11 +5,9 @@ import { RefreshControl, RefreshControlProps, SectionList, StyleSheet } from 're
 import Animated from 'react-native-reanimated'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
-import { KycStatus } from 'src/account/reducer'
 import { showMessage } from 'src/alert/actions'
 import { AppState } from 'src/app/actions'
 import { appStateSelector } from 'src/app/selectors'
-import Button from 'src/components/Button'
 import { HomeTokenBalance } from 'src/components/TokenBalance'
 import {
   ALERT_BANNER_DURATION,
@@ -26,8 +18,6 @@ import {
 } from 'src/config'
 import { maxNumRecentDappsSelector } from 'src/dapps/selectors'
 import useOpenDapp from 'src/dappsExplorer/useOpenDapp'
-import { normalizeFiatConnectQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
-import { CICOFlow } from 'src/fiatExchanges/utils'
 import { refreshAllBalances } from 'src/home/actions'
 import CashInBottomSheet from 'src/home/CashInBottomSheet'
 import NotificationBox from 'src/home/NotificationBox'
@@ -36,8 +26,6 @@ import SendOrRequestBar from 'src/home/SendOrRequestBar'
 import Logo from 'src/icons/Logo'
 import { importContacts } from 'src/identity/actions'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
-import { navigate } from 'src/navigator/NavigationService'
-import { Screens } from 'src/navigator/Screens'
 import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import useSelector from 'src/redux/useSelector'
 import { initializeSentryUserContext } from 'src/sentry/actions'
@@ -61,46 +49,6 @@ function WalletHome() {
   const celoAddress = useSelector(celoAddressSelector)
   const cashInButtonExpEnabled = useSelector((state) => state.app.cashInButtonExpEnabled)
   const userInSanctionedCountry = useSelector(userInSanctionedCountrySelector)
-
-  const quote = normalizeFiatConnectQuotes(CICOFlow.CashOut, [
-    {
-      provider: {
-        id: 'provider-one',
-        providerName: 'Provider One',
-        imageUrl:
-          'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
-        baseUrl: 'fakewebsite.valoraapp.com',
-        websiteUrl: 'https://fakewebsite.valorapp.com',
-        iconUrl:
-          'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
-      },
-      ok: true,
-      quote: {
-        fiatType: FiatType.USD,
-        cryptoType: CryptoType.cUSD,
-        fiatAmount: '100',
-        cryptoAmount: '100',
-        quoteId: 'mock_quote_in_id',
-        guaranteedUntil: '2099-04-27T19:22:36.000Z',
-        transferType: TransferType.TransferIn,
-        fee: '4.22',
-      },
-      kyc: {
-        kycRequired: false,
-        kycSchemas: [],
-      },
-      fiatAccount: {
-        BankAccount: {
-          fiatAccountSchemas: [
-            {
-              fiatAccountSchema: FiatAccountSchema.AccountNumber,
-              allowedValues: {},
-            },
-          ],
-        },
-      },
-    },
-  ])
 
   const scrollPosition = useRef(new Animated.Value(0)).current
   const onScroll = Animated.event([{ nativeEvent: { contentOffset: { y: scrollPosition } } }])
@@ -211,17 +159,6 @@ function WalletHome() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Button
-        onPress={() =>
-          navigate(Screens.KycLanding, {
-            quote: quote[0],
-            flow: CICOFlow.CashOut,
-            step: 'one',
-            personaKycStatus: KycStatus.Expired,
-          })
-        }
-        text="hello"
-      />
       <DrawerTopBar middleElement={<Logo />} scrollPosition={scrollPosition} />
       <AnimatedSectionList
         scrollEventThrottle={16}

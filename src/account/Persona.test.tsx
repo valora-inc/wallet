@@ -84,6 +84,20 @@ describe('Persona', () => {
     expect(createPersonaAccount).toHaveBeenCalledTimes(1)
   })
 
+  it('disables the button when the disabled prop is true', async () => {
+    const personaProps: Props = {
+      kycStatus: KycStatus.Created,
+      disabled: true,
+    }
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <Persona {...personaProps} />
+      </Provider>
+    )
+
+    await waitFor(() => expect(getByTestId('PersonaButton')).toBeDisabled())
+  })
+
   it('launches persona on button press', async () => {
     const personaProps: Props = {
       kycStatus: KycStatus.Created,

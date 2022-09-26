@@ -72,10 +72,10 @@ function* initializeAccount() {
   try {
     ValoraAnalytics.track(OnboardingEvents.initialize_account_start)
     yield call(getOrCreateAccount)
-    Logger.debug(TAG + '@initializeAccount', 'Account creation success')
-    ValoraAnalytics.track(OnboardingEvents.initialize_account_complete)
     yield call(generateSignedMessage)
     yield put(refreshAllBalances())
+    Logger.debug(TAG + '@initializeAccount', 'Account creation success')
+    ValoraAnalytics.track(OnboardingEvents.initialize_account_complete)
     yield put(initializeAccountSuccess())
   } catch (e) {
     Logger.error(TAG, 'Failed to initialize account', e)

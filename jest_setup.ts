@@ -35,3 +35,6 @@ jest.mock('react-native/Libraries/Utilities/PixelRatio.js', () => ({
   getPixelSizeForLayoutSize: jest.fn(() => 1),
   getFontScale: jest.fn(() => 1),
 }))
+
+// @ts-ignore
+global.__reanimatedWorkletInit = jest.fn()

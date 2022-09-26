@@ -2,8 +2,8 @@ import * as React from 'react'
 import { StyleSheet, View } from 'react-native'
 import Svg, { Defs, LinearGradient, Path, Stop } from 'react-native-svg'
 
-const SvgComponent = (props: { height: number; width: number }) => (
-  <View style={styles.container}>
+const SvgComponent = (props: { height: number; width: number; testID?: string }) => (
+  <View testID={props.testID} style={styles.container}>
     <Svg width={props.width} height={props.height} fill="none">
       <Path fill="url(#a)" d={`M0 0h${props.width}v${props.height}H0z`} />
       <Defs>

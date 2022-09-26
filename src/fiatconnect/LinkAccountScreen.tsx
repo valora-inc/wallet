@@ -76,7 +76,7 @@ export function LinkAccountSection(props: {
 FiatConnectLinkAccountScreen.navigationOptions = ({
   route,
 }: {
-  route: RouteProp<StackParamList, Screens.FiatConnectLinkAccount | Screens.KycLanding>
+  route: RouteProp<StackParamList, Screens.FiatConnectLinkAccount>
 }) => ({
   ...emptyHeader,
   headerLeft: () => (
