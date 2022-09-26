@@ -763,6 +763,34 @@
     "body": "Connecting allows you to send and receive funds with your phone number.\n\n<0>Can I do this later?</0>\n\nYes, but wallets that aren’t connected can only send payments with QR codes or Account Addresses.\n\n<1>Secure and Private</1>\n\nValora uses state of the art cryptography to keep your phone number private.",
     "dismiss": "Dismiss"
   },
+  "phoneVerificationScreen": {
+    "screenTitle": "Phone Number",
+    "title": "Connect your phone number",
+    "description": "To connect your phone number, you'll receive a text message.",
+    "startButtonLabel": "Start",
+    "learnMore": {
+      "title": "Do I need to connect my phone?",
+      "body": "Connecting your phone number will allow you to send money to friends in your address book and other phone numbers. \n \n If you choose to skip this step you won’t be able to access your contacts and you will only be able to send money via QR code or account number."
+    },
+    "skip": {
+      "title": "Are you sure?",
+      "body": "Connecting allows you to send and receive funds from your phone number.",
+      "cancel": "Go Back",
+      "confirm": "Skip for now"
+    }
+  },
+  "phoneVerificationInput": {
+    "title": "Enter the code",
+    "description": "We sent a code to {{phoneNumber}}, please enter it below.",
+    "help": "Help",
+    "codeInputPlaceholder": "12345678",
+    "helpDialog": {
+      "title": "Help",
+      "body": "We sent an SMS to your phone number. Please check your text messages to find the 8 digit code. If you’re having trouble receiving messages, you can skip this step for now and try again later.",
+      "skip": "Skip",
+      "dismiss": "Go back"
+    }
+  },
   "importExistingKey": {
     "explanation": "Your Recovery Phrase is a 24-word phrase that you wrote down and saved when you set up your account. Please enter it here to restore your account.",
     "keyPlaceholder": "horse leopard dog monkey ..."
