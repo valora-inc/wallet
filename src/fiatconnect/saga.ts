@@ -6,16 +6,17 @@ import {
   ResponseError,
 } from '@fiatconnect/fiatconnect-sdk'
 import {
+  FiatAccountSchemas,
   FiatAccountType,
+  FiatConnectError,
   GetFiatAccountsResponse,
-  TransferResponse,
   KycStatus as FiatConnectKycStatus,
   PostFiatAccountResponse,
-  FiatAccountSchemas,
-  FiatConnectError,
+  TransferResponse,
 } from '@fiatconnect/fiatconnect-types'
 import BigNumber from 'bignumber.js'
 import { all, call, delay, put, select, spawn, takeLeading } from 'redux-saga/effects'
+import { KycStatus as PersonaKycStatus } from 'src/account/reducer'
 import { showError, showMessage } from 'src/alert/actions'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -59,6 +60,8 @@ import {
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { normalizeFiatConnectQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
 import { CICOFlow } from 'src/fiatExchanges/utils'
+import i18n from 'src/i18n'
+import { getKycStatus, GetKycStatusResponse, postKyc } from 'src/in-house-liquidity'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
@@ -73,9 +76,6 @@ import { CiCoCurrency, Currency, resolveCICOCurrency } from 'src/utils/currencie
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
 import { v4 as uuidv4 } from 'uuid'
-import { getKycStatus, postKyc, GetKycStatusResponse } from 'src/in-house-liquidity'
-import { KycStatus as PersonaKycStatus } from 'src/account/reducer'
-import i18n from 'src/i18n'
 
 const TAG = 'FiatConnectSaga'
 
@@ -324,9 +324,7 @@ export function* _getSpecificQuote({
     providerIds: [providerId],
   })
   const normalizedQuotes = normalizeFiatConnectQuotes(flow, quotes)
-  const normalizedQuote = normalizedQuotes.find(
-    (q) => q.getFiatAccountType() === fiatAccountType && q.getProviderId() === providerId
-  )
+  const normalizedQuote = normalizedQuotes.find((q) => q.getFiatAccountType() === fiatAccountType)
   if (!normalizedQuote) {
     throw new Error('Could not find quote')
   }
