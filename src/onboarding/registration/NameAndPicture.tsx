@@ -95,6 +95,7 @@ function NameAndPicture({ navigation }: Props) {
   }
   const onPressSkip = () => {
     // TODO additional anlytics
+    setNameInput('')
     handleNewName({ skipped: true })
   }
   const onPressContinue = () => {
