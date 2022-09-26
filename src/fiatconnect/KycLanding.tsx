@@ -5,7 +5,6 @@ import Persona from 'src/account/Persona'
 import { KycStatus as PersonaKycStatus } from 'src/account/reducer'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
-import { postKyc } from 'src/in-house-liquidity'
 import { useDispatch } from 'react-redux'
 import { selectFiatConnectQuote } from 'src/fiatconnect/slice'
 export interface Props {
