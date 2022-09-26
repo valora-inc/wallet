@@ -1800,6 +1800,14 @@
             },
             "type": "object"
         },
+        "SendingFiatAccountStatus": {
+            "enum": [
+                "KycApproved",
+                "NotSending",
+                "Sending"
+            ],
+            "type": "string"
+        },
         "StableBalances": {
             "additionalProperties": false,
             "properties": {
@@ -3063,8 +3071,8 @@
                 "selectFiatConnectQuoteLoading": {
                     "type": "boolean"
                 },
-                "sendingFiatAccount": {
-                    "type": "boolean"
+                "sendingFiatAccountStatus": {
+                    "$ref": "#/definitions/SendingFiatAccountStatus"
                 },
                 "transfer": {
                     "anyOf": [
@@ -3085,7 +3093,7 @@
                 "quotesError",
                 "quotesLoading",
                 "selectFiatConnectQuoteLoading",
-                "sendingFiatAccount",
+                "sendingFiatAccountStatus",
                 "transfer"
             ],
             "type": "object"

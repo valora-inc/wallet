@@ -55,6 +55,7 @@ import {
   selectFiatConnectQuote,
   selectFiatConnectQuoteCompleted,
   submitFiatAccount,
+  submitFiatAccountKycApproved,
   submitFiatAccountCompleted,
 } from 'src/fiatconnect/slice'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
@@ -78,6 +79,8 @@ import { currentAccountSelector } from 'src/web3/selectors'
 import { v4 as uuidv4 } from 'uuid'
 
 const TAG = 'FiatConnectSaga'
+
+const KYC_WAIT_TIME_MILLIS = 3000
 
 export function* handleFetchFiatConnectQuotes({
   payload: params,
@@ -166,6 +169,64 @@ export function* handleSubmitFiatAccount({
         fiatType: quote.getFiatType(),
       })
     )
+
+    // If KYC is required, only proceed to Review screen if it's been approved.
+    // If any unexpected error is encountered, just show the pending screen,
+    // since the account has already been added. Otherwise, show the appropriate
+    // status screen.
+    const kycSchema = quote.getKycSchema()
+    if (kycSchema) {
+      try {
+        // If and only if KYC is required, we wait a bit to give KYC some time to process.
+        yield delay(KYC_WAIT_TIME_MILLIS)
+        const getKycStatusResponse = yield call(getKycStatus, {
+          providerInfo: quote.quote.provider,
+          kycSchemas: [kycSchema],
+        })
+        const fiatConnectKycStatus = getKycStatusResponse.kycStatus[kycSchema]
+        // const fiatConnectKycStatus = FiatConnectKycStatus.KycApproved as FiatConnectKycStatus
+        switch (fiatConnectKycStatus) {
+          case FiatConnectKycStatus.KycApproved:
+            yield put(submitFiatAccountKycApproved())
+            yield delay(500) // Allow user to admire green checkmark
+            break
+          // Denied, Expired, and Pending all fall through to the default case.
+          case FiatConnectKycStatus.KycDenied:
+            navigate(Screens.KycDenied, {
+              flow,
+              quote,
+              retryable: true, // TODO: Get this dynamically once IHL supports it
+            })
+          case FiatConnectKycStatus.KycExpired:
+            navigate(Screens.KycExpired, {
+              flow,
+              quote,
+            })
+          case FiatConnectKycStatus.KycPending:
+            navigate(Screens.KycPending, {
+              flow,
+              quote,
+            })
+          default:
+            yield delay(500) // to avoid a screen flash
+            yield put(submitFiatAccountCompleted())
+            return
+        }
+      } catch (error) {
+        Logger.error(
+          TAG,
+          `Error while checking KYC status after successfully submitting fiat account: ${error}`
+        )
+        navigate(Screens.KycPending, {
+          flow,
+          quote,
+        })
+        yield delay(500) // to avoid a screen flash
+        yield put(submitFiatAccountCompleted())
+        return
+      }
+    }
+
     navigate(Screens.FiatConnectReview, {
       flow,
       normalizedQuote: quote,

@@ -22,6 +22,13 @@ export interface FiatConnectTransfer {
   failed: boolean
   txHash: string | null // only for cash outs, the hash of the tx to send crypto to the provider
 }
+
+export enum SendingFiatAccountStatus {
+  NotSending = 'NotSending',
+  Sending = 'Sending',
+  KycApproved = 'KycApproved',
+}
+
 export interface State {
   quotes: (FiatConnectQuoteSuccess | FiatConnectQuoteError)[]
   quotesLoading: boolean
@@ -31,7 +38,7 @@ export interface State {
   cachedFiatAccountUses: CachedFiatAccountUse[]
   attemptReturnUserFlowLoading: boolean
   selectFiatConnectQuoteLoading: boolean
-  sendingFiatAccount: boolean
+  sendingFiatAccountStatus: SendingFiatAccountStatus
 }
 
 const initialState: State = {
@@ -43,7 +50,7 @@ const initialState: State = {
   cachedFiatAccountUses: [],
   attemptReturnUserFlowLoading: false,
   selectFiatConnectQuoteLoading: false,
-  sendingFiatAccount: false,
+  sendingFiatAccountStatus: SendingFiatAccountStatus.NotSending,
 }
 
 export type FiatAccount = ObfuscatedFiatAccountData & {
@@ -124,10 +131,13 @@ export const slice = createSlice({
   initialState,
   reducers: {
     submitFiatAccount: (state, action: PayloadAction<SubmitFiatAccountAction>) => {
-      state.sendingFiatAccount = true
+      state.sendingFiatAccountStatus = SendingFiatAccountStatus.Sending
+    },
+    submitFiatAccountKycApproved: (state) => {
+      state.sendingFiatAccountStatus = SendingFiatAccountStatus.KycApproved
     },
     submitFiatAccountCompleted: (state) => {
-      state.sendingFiatAccount = false
+      state.sendingFiatAccountStatus = SendingFiatAccountStatus.NotSending
     },
     fetchFiatConnectQuotes: (state, action: PayloadAction<FetchQuotesAction>) => {
       state.quotesLoading = true
@@ -252,6 +262,7 @@ export const {
   fetchFiatConnectProviders,
   fetchFiatConnectProvidersCompleted,
   submitFiatAccount,
+  submitFiatAccountKycApproved,
   submitFiatAccountCompleted,
 } = slice.actions
 
