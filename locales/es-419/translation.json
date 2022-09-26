@@ -1278,7 +1278,7 @@
     "bankAccount": {
       "header": "Configurar cuenta bancaria",
       "bodyTitle": "Configurar cuenta bancaria",
-      "description": "Ingresa los datos bancarios para transferir fondos. Tus transacciones se realizarán con tecnología de <0>{{providerName}}</0>."
+      "description": "Introduce los datos de la cuenta bancaria para transferir fondos. Tus transacciones serán impulsadas por <0>{{providerName}}</0>. Al hacer clic en continuar, aceptas sus <1>Términos y Condiciones</1> y su <2>Política de Privacidad</2>"
     },
     "continue": "Continuar"
   },
