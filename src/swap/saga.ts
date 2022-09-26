@@ -97,7 +97,6 @@ export function* swapSubmitSaga(data: any) {
       newTransactionContext(TAG, 'Swap/Execute')
     )
 
-    // TODO Tomm: should we check that transaction was successful on the chain e.g the transaction isn't reverted.
     yield put(swapSuccess())
   } catch (error) {
     Logger.error(TAG, 'Error while swapping', error)
