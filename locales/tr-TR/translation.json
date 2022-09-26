@@ -1278,7 +1278,7 @@
     "bankAccount": {
       "header": "Banka Hesabı Oluştur",
       "bodyTitle": "Banka Hesabı Oluştur",
-      "description": "Para aktarmak için Banka Hesabı ayrıntılarını girin. İşlemleriniz <0>{{providerName}}</0> tarafından desteklenir."
+      "description": "Enter Bank Account details to transfer funds. Your transactions will be powered by <0>{{providerName}}</0>. By clicking continue, you agree to their <1>Terms and Conditions</1> and <2>Privacy Policy</2>"
     },
     "continue": "İleri"
   },
