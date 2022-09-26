@@ -147,6 +147,19 @@ export type StackParamList = {
     normalizedQuote: FiatConnectQuote
     fiatAccount: ObfuscatedFiatAccountData
   }
+  [Screens.KycDenied]: {
+    flow: CICOFlow
+    quote: FiatConnectQuote
+    retryable: boolean
+  }
+  [Screens.KycExpired]: {
+    flow: CICOFlow
+    quote: FiatConnectQuote
+  }
+  [Screens.KycPending]: {
+    flow: CICOFlow
+    quote: FiatConnectQuote
+  }
   [Screens.MoonPayScreen]: {
     localAmount: number
     currencyCode: LocalCurrencyCode
@@ -206,7 +219,6 @@ export type StackParamList = {
     addressJustValidated?: boolean
   }
   [Screens.KycLanding]: KycLandingProps
-  [Screens.KycStatus]: undefined
   [Screens.PincodeEnter]: {
     withVerification?: boolean
     onSuccess: (pin: string) => void

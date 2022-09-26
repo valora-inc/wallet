@@ -1697,8 +1697,10 @@
                 "GoldEducation",
                 "ImportWallet",
                 "IncomingPaymentRequestListScreen",
+                "KycDenied",
+                "KycExpired",
                 "KycLanding",
-                "KycStatus",
+                "KycPending",
                 "Language",
                 "LanguageModal",
                 "Licenses",
@@ -3061,6 +3063,9 @@
                 "selectFiatConnectQuoteLoading": {
                     "type": "boolean"
                 },
+                "sendingFiatAccount": {
+                    "type": "boolean"
+                },
                 "transfer": {
                     "anyOf": [
                         {
@@ -3080,6 +3085,7 @@
                 "quotesError",
                 "quotesLoading",
                 "selectFiatConnectQuoteLoading",
+                "sendingFiatAccount",
                 "transfer"
             ],
             "type": "object"
