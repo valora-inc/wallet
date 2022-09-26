@@ -34,7 +34,7 @@ export function* swapSubmitSaga(data: any) {
     yield call(navigate, Screens.SwapPending)
 
     // Check that our guaranteedPrice is within 2%, maxSwapSlippagePercentage, of of the price
-    const maxSlippagePercent = yield select(maxSwapSlippagePercentageSelector)
+    const maxSlippagePercent: number = yield select(maxSwapSlippagePercentageSelector)
     const priceDiff: number = yield call(
       getPriceDiff,
       +data.payload.unvalidatedSwapTransaction.price,

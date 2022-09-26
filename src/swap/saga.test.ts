@@ -1,6 +1,7 @@
 import { expectSaga } from 'redux-saga-test-plan'
 import { throwError } from 'redux-saga-test-plan/providers'
 import { call } from 'redux-saga/effects'
+import { store } from 'src/redux/store'
 import { swapSubmitSaga } from 'src/swap/saga'
 import { swapApprove, swapError, swapExecute, swapPriceChange } from 'src/swap/slice'
 import { sendTransaction } from 'src/transactions/send'
@@ -65,6 +66,7 @@ describe(swapSubmitSaga, () => {
 
   it('should complete swap', async () => {
     await expectSaga(swapSubmitSaga, mockSwap)
+      .withState(store.getState())
       .provide([
         [call(getContractKit), contractKit],
         [call(getConnectedUnlockedAccount), mockAccount],
@@ -79,6 +81,7 @@ describe(swapSubmitSaga, () => {
 
   it('should set swap state correctly on error', async () => {
     await expectSaga(swapSubmitSaga, mockSwap)
+      .withState(store.getState())
       .provide([
         [call(getContractKit), contractKit],
         [call(getConnectedUnlockedAccount), mockAccount],
@@ -91,6 +94,7 @@ describe(swapSubmitSaga, () => {
 
   it('should set swap state correctly when response ok is false', async () => {
     await expectSaga(swapSubmitSaga, mockSwap)
+      .withState(store.getState())
       .provide([
         [call(getContractKit), contractKit],
         [call(getConnectedUnlockedAccount), mockAccount],
@@ -104,6 +108,7 @@ describe(swapSubmitSaga, () => {
   it('should set swap state correctly on price change', async () => {
     mockSwap.payload.unvalidatedSwapTransaction.guaranteedPrice = '1.021'
     await expectSaga(swapSubmitSaga, mockSwap)
+      .withState(store.getState())
       .provide([
         [call(getContractKit), contractKit],
         [call(getConnectedUnlockedAccount), mockAccount],
