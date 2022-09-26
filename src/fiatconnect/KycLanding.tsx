@@ -17,7 +17,7 @@ function KycLanding(props: Props) {
   const dispatch = useDispatch()
   const sendKYCSchema = () => {
     dispatch(selectFiatConnectQuote({ quote: props.quote }))
-    // will navigate to FiatConnectReview by saga
+    // will continue with quote selection flow by saga
   }
   return (
     <SafeAreaView style={styles.container}>
