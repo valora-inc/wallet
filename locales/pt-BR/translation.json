@@ -760,6 +760,34 @@
     "body": "A conexão permite que você envie e receba fundos com o seu número de celular.\n\n<0>Posso fazer isso mais tarde?</0>\n\nSim, mas carteiras que não estiverem conectadas podem enviar pagamentos apenas com códigos QR e Endereços de conta.\n\n<1>Seguro e privado</1>\n\nO Valora usa criptografia de ponta para manter o seu número de celular privado.",
     "dismiss": "Ignorar"
   },
+  "phoneVerificationScreen": {
+    "screenTitle": "Número de celular",
+    "title": "Conecte seu número de celular",
+    "description": "Para ligar o seu número de telefone, receberá uma mensagem de texto.",
+    "startButtonLabel": "Iniciar",
+    "learnMore": {
+      "title": "Preciso de ligar o meu telefone?",
+      "body": "A ligação do seu número de telefone permitir-lhe-á enviar dinheiro a amigos na sua agenda de endereços e outros números de telefone. \n \n Se escolher saltar este passo, não poderá aceder aos seus contactos e só poderá enviar dinheiro através do código QR ou número de conta."
+    },
+    "skip": {
+      "title": "Tem certeza?",
+      "body": "A ligação permite-lhe enviar e receber fundos do seu número de telefone.",
+      "cancel": "Voltar",
+      "confirm": "Pular por enquanto"
+    }
+  },
+  "phoneVerificationInput": {
+    "title": "Introduza o código",
+    "description": "Enviámos um código para {{phoneNumber}}, por favor introduza-o abaixo.",
+    "help": "Ajuda",
+    "codeInputPlaceholder": "12345678",
+    "helpDialog": {
+      "title": "Ajuda",
+      "body": "Enviámos um SMS para o seu número de telefone. Por favor verifique as suas mensagens de texto para encontrar o código de 8 dígitos. Se tiver problemas em receber mensagens, pode saltar este passo por agora e tentar novamente mais tarde.",
+      "skip": "Pular",
+      "dismiss": "Voltar atrás"
+    }
+  },
   "importExistingKey": {
     "explanation": "Sua Frase de Recuperação é uma frase de 24 palavras que você anotou e salvou ao configurar sua conta. Insira-a aqui para restaurar sua conta.",
     "keyPlaceholder": "cavalo leopardo cachorro macaco..."
