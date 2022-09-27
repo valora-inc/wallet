@@ -72,15 +72,14 @@ function NameAndPicture({ navigation, route }: Props) {
           />
         )
       },
-      headerRight: () => {
+      headerRight: () =>
         skipUsername && (
           <TopBarTextButton
             title={t('skip')}
             onPress={onPressSkip}
             titleStyle={{ color: colors.goldDark }}
           />
-        )
-      },
+        ),
     })
   }, [navigation, choseToRestoreAccount, step, totalSteps, nameInput])
 
