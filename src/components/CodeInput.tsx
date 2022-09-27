@@ -173,8 +173,13 @@ export default function CodeInput({
           {showStatus && (
             <View style={styles.statusContainer}>
               {showSpinner && <ActivityIndicator size="small" color={colors.greenUI} />}
-              {showCheckmark && <Checkmark testID={`${testID}/CheckIcon`} />}
-              {showError && <InfoIcon color={colors.warning} testID={`${testID}/ErrorIcon`} />}
+              {showCheckmark && <Checkmark testID={testID ? `${testID}/CheckIcon` : undefined} />}
+              {showError && (
+                <InfoIcon
+                  color={colors.warning}
+                  testID={testID ? `${testID}/ErrorIcon` : undefined}
+                />
+              )}
             </View>
           )}
         </View>

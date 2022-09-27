@@ -70,6 +70,7 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCode: string) {
       error
     )
     setVerificationStatus(PhoneNumberVerificationStatus.FAILED)
+    setSmsCode('')
   }
 
   useAsync(
@@ -126,6 +127,10 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCode: string) {
   useAsync(
     async () => {
       if (!smsCode) {
+        Logger.debug(
+          `${TAG}/validateVerificationCode`,
+          'Not initiating request to verifySmsCode since smsCode is empty'
+        )
         return
       }
 

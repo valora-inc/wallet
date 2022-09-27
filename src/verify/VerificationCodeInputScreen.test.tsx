@@ -47,7 +47,6 @@ describe('VerificationCodeInputScreen', () => {
     jest.clearAllMocks()
     mockFetch.resetMocks()
     store.clearActions()
-    jest.useFakeTimers()
   })
 
   it('displays the correct components and requests for the verification code on mount', async () => {
@@ -151,10 +150,10 @@ describe('VerificationCodeInputScreen', () => {
     expect(navigate).not.toHaveBeenCalled()
   })
 
-  it('shows the help dialog', () => {
+  it('shows the help dialog', async () => {
     const { getByTestId, getByText } = renderComponent()
 
-    act(() => {
+    await act(() => {
       fireEvent.press(getByText('phoneVerificationInput.help'))
     })
 
@@ -163,7 +162,7 @@ describe('VerificationCodeInputScreen', () => {
     expect(within(HelpDialog).getByText('phoneVerificationInput.helpDialog.title')).toBeTruthy()
     expect(within(HelpDialog).getByText('phoneVerificationInput.helpDialog.body')).toBeTruthy()
 
-    act(() => {
+    await act(() => {
       fireEvent.press(getByText('phoneVerificationInput.helpDialog.skip'))
     })
 

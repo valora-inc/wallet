@@ -47,10 +47,10 @@ describe('VerificationStartScreen', () => {
     expect(getByTestId('PhoneVerificationSkipDialog').props.visible).toBe(false)
   })
 
-  it('shows the learn more dialog', () => {
+  it('shows the learn more dialog', async () => {
     const { getByTestId, getByText } = renderComponent()
 
-    act(() => {
+    await act(() => {
       fireEvent.press(getByText('phoneVerificationScreen.learnMore.buttonLabel'))
     })
 
@@ -65,7 +65,7 @@ describe('VerificationStartScreen', () => {
   it('shows the skip dialog', async () => {
     const { getByText, getByTestId } = renderComponent({ hideOnboardingStep: false })
 
-    act(() => {
+    await act(() => {
       fireEvent.press(getByText('skip'))
     })
 
@@ -74,7 +74,7 @@ describe('VerificationStartScreen', () => {
     expect(within(SkipDialog).getByText('phoneVerificationScreen.skip.title')).toBeTruthy()
     expect(within(SkipDialog).getByText('phoneVerificationScreen.skip.body')).toBeTruthy()
 
-    act(() => {
+    await act(() => {
       fireEvent.press(getByText('phoneVerificationScreen.skip.confirm'))
     })
 
@@ -84,7 +84,7 @@ describe('VerificationStartScreen', () => {
   it('proceeds to the next verification step', async () => {
     const { getByText, getByTestId } = renderComponent({ hideOnboardingStep: false })
 
-    act(() => {
+    await act(() => {
       fireEvent.changeText(getByTestId('PhoneNumberField'), '619123456')
     })
 
