@@ -184,7 +184,6 @@ export function* handleSubmitFiatAccount({
           kycSchemas: [kycSchema],
         })
         const fiatConnectKycStatus = getKycStatusResponse.kycStatus[kycSchema]
-        // const fiatConnectKycStatus = FiatConnectKycStatus.KycApproved as FiatConnectKycStatus
         switch (fiatConnectKycStatus) {
           case FiatConnectKycStatus.KycApproved:
             yield put(submitFiatAccountKycApproved())

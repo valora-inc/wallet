@@ -240,6 +240,7 @@ export const slice = createSlice({
       transfer: null,
       attemptReturnUserFlowLoading: false,
       selectFiatConnectQuoteLoading: false,
+      sendingFiatAccountStatus: SendingFiatAccountStatus.NotSending,
     }))
   },
 })
