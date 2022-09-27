@@ -23,6 +23,8 @@ export interface FiatConnectProviderInfo {
   imageUrl: string
   baseUrl: string
   websiteUrl: string
+  termsAndConditionsUrl: string
+  privacyPolicyUrl: string
   iconUrl: string
   apiKey?: string
 }
