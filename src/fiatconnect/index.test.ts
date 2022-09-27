@@ -64,6 +64,8 @@ describe('FiatConnect helpers', () => {
         imageUrl: 'https://fake-icon.valoraapp.com',
         websiteUrl: 'https://fake-provider.valoraapp.com',
         iconUrl: 'https://fake-icon.valoraapp.com',
+        privacyPolicyUrl: 'https://fake-provider.valoraapp.com/privacy',
+        termsAndConditionsUrl: 'https://fake-provider.valoraapp.com/terms',
       }
       mockFetch.mockResponseOnce(JSON.stringify({ providers: [fakeProviderInfo] }), { status: 200 })
       const providers = await getFiatConnectProviders(mockAccount)
@@ -95,6 +97,8 @@ describe('FiatConnect helpers', () => {
           websiteUrl: 'https://fake-provider.valoraapp.com',
           iconUrl: 'https://fake-icon.valoraapp.com',
           apiKey: 'fake-api-key',
+          privacyPolicyUrl: 'https://fake-provider.valoraapp.com/privacy',
+          termsAndConditionsUrl: 'https://fake-provider.valoraapp.com/terms',
         },
       ],
     }
