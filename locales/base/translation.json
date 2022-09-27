@@ -766,6 +766,7 @@
     "description": "To connect your phone number, you'll receive a text message.",
     "startButtonLabel": "Start",
     "learnMore": {
+      "buttonLabel": "Do I need to connect my phone?",
       "title": "Do I need to connect my phone?",
       "body": "Connecting your phone number will allow you to send money to friends in your address book and other phone numbers. \n \n If you choose to skip this step you won’t be able to access your contacts and you will only be able to send money via QR code or account number."
     },

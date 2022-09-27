@@ -196,20 +196,20 @@ function VerificationStartScreen({
             style={styles.learnMore}
             onPress={onPressLearnMore}
           >
-            {t('phoneVerificationScreen.learnMore.title')}
+            {t('phoneVerificationScreen.learnMore.buttonLabel')}
           </TextButton>
         </View>
       </KeyboardAwareScrollView>
       <Dialog
-        title={t('phoneVerificationScreen.title')}
+        title={t('phoneVerificationScreen.skip.title')}
         isVisible={showSkipDialog}
-        actionText={t('phoneVerificationScreen.confirm')}
+        actionText={t('phoneVerificationScreen.skip.confirm')}
         actionPress={onPressSkipConfirm}
         secondaryActionPress={onPressSkipCancel}
-        secondaryActionText={t('phoneVerificationScreen.cancel')}
+        secondaryActionText={t('phoneVerificationScreen.skip.cancel')}
         testID="PhoneVerificationSkipDialog"
       >
-        {t('phoneVerificationScreen.body')}
+        {t('phoneVerificationScreen.skip.body')}
       </Dialog>
       <Dialog
         testID="PhoneVerificationLearnMoreDialog"

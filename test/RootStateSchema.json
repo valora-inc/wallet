@@ -4222,6 +4222,7 @@
                                         "paymentRequestFailed",
                                         "paymentRequestUpdateFailed",
                                         "personaAccountEndpointFail",
+                                        "phoneVerificationInput.verificationFailure",
                                         "pictureLoadFailed",
                                         "pinInputCanceled",
                                         "plaidCreateLinkTokenFail",
