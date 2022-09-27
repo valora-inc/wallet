@@ -143,6 +143,9 @@ describe('VerificationCodeInputScreen', () => {
         '{"phoneNumber":"+31619123456","verificationId":"someId","smsCode":"123456","clientPlatform":"android","clientVersion":"0.0.1"}',
     })
     expect(getByTestId('PhoneVerificationCode/ErrorIcon')).toBeTruthy()
+    expect(store.getActions()).toEqual(
+      expect.not.arrayContaining([showError(ErrorMessages.PHONE_NUMBER_VERIFICATION_FAILURE)])
+    )
 
     jest.runOnlyPendingTimers()
     expect(navigate).not.toHaveBeenCalled()
