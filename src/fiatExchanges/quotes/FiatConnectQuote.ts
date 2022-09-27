@@ -169,6 +169,14 @@ export default class FiatConnectQuote extends NormalizedQuote {
     return this.quote.provider.websiteUrl
   }
 
+  getProviderTermsAndConditionsUrl(): string {
+    return this.quote.provider.termsAndConditionsUrl
+  }
+
+  getProviderPrivacyPolicyUrl(): string {
+    return this.quote.provider.privacyPolicyUrl
+  }
+
   getProviderIcon(): string {
     return this.quote.provider.iconUrl
   }

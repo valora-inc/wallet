@@ -14,7 +14,7 @@ import { Screens } from 'src/navigator/Screens'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockFiatConnectProviderIcon, mockFiatConnectQuotes, mockNavigation } from 'test/values'
 import FiatDetailsScreen from './FiatDetailsScreen'
-import { submitFiatAccount } from 'src/fiatconnect/slice'
+import { submitFiatAccount, SendingFiatAccountStatus } from 'src/fiatconnect/slice'
 
 jest.mock('src/alert/actions')
 jest.mock('src/analytics/ValoraAnalytics')
@@ -267,5 +267,27 @@ describe('FiatDetailsScreen', () => {
         fiatAccountData: mockFiatAccountData,
       })
     )
+  })
+  it('shows spinner while fiat account is sending', () => {
+    const mockStore = createMockStore({
+      fiatConnect: { sendingFiatAccountStatus: SendingFiatAccountStatus.Sending },
+    })
+    const { queryByTestId } = render(
+      <Provider store={mockStore}>
+        <FiatDetailsScreen {...mockScreenProps} />
+      </Provider>
+    )
+    expect(queryByTestId('spinner')).toBeTruthy()
+  })
+  it('shows checkmark if fiat account and KYC have been approved', () => {
+    const mockStore = createMockStore({
+      fiatConnect: { sendingFiatAccountStatus: SendingFiatAccountStatus.KycApproved },
+    })
+    const { queryByTestId } = render(
+      <Provider store={mockStore}>
+        <FiatDetailsScreen {...mockScreenProps} />
+      </Provider>
+    )
+    expect(queryByTestId('checkmark')).toBeTruthy()
   })
 })
