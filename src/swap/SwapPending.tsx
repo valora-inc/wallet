@@ -68,6 +68,7 @@ export function SwapPending() {
             actionPress={navigateToSwapStart}
             secondaryActionText={t('swapCompleteScreen.swapErrorModal.action2')}
             secondaryActionPress={navigateToSupport}
+            testID="ErrorModal"
           >
             {t('swapCompleteScreen.swapErrorModal.body')}
           </Dialog>
