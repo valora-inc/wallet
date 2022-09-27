@@ -772,7 +772,7 @@
     "skip": {
       "title": "¿Quieres omitir este paso?",
       "body": "Esta conexión te permite enviar y recibir fondos con tu número de teléfono.",
-      "cancel": "Regresa",
+      "cancel": "Regresar",
       "confirm": "Omitir por ahora"
     }
   },
