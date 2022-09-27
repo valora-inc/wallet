@@ -50,6 +50,8 @@ describe('In House Liquidity Calls', () => {
     baseUrl: 'some-url',
     websiteUrl: 'website-url',
     iconUrl: 'icon-url',
+    termsAndConditionsUrl: 'terms-url',
+    privacyPolicyUrl: 'privacy-url',
   }
   beforeEach(() => {
     mockFetch.resetMocks()
