@@ -34,8 +34,29 @@ export default function FiatConnectLinkAccountScreen({ route }: Props) {
       flow,
       provider: quote.getProviderId(),
       fiatAccountSchema: quote.getFiatAccountSchema(),
+      page: 'home',
     })
     navigate(Screens.WebViewScreen, { uri: quote.getProviderWebsiteUrl() })
+  }
+
+  const onPressTermsAndConditions = () => {
+    ValoraAnalytics.track(FiatExchangeEvents.cico_fc_link_account_provider_website, {
+      flow,
+      provider: quote.getProviderId(),
+      fiatAccountSchema: quote.getFiatAccountSchema(),
+      page: 'termsAndConditions',
+    })
+    navigate(Screens.WebViewScreen, { uri: quote.getProviderTermsAndConditionsUrl() })
+  }
+
+  const onPressPrivacyPolicy = () => {
+    ValoraAnalytics.track(FiatExchangeEvents.cico_fc_link_account_provider_website, {
+      flow,
+      provider: quote.getProviderId(),
+      fiatAccountSchema: quote.getFiatAccountSchema(),
+      page: 'privacyPolicy',
+    })
+    navigate(Screens.WebViewScreen, { uri: quote.getProviderPrivacyPolicyUrl() })
   }
 
   return (
@@ -47,6 +68,16 @@ export default function FiatConnectLinkAccountScreen({ route }: Props) {
           values={{ providerName: quote.getProviderName() }}
         >
           <Text testID="providerNameText" style={styles.providerLink} onPress={onPressProvider} />
+          <Text
+            testID="termsAndConditionsText"
+            style={styles.providerLink}
+            onPress={onPressTermsAndConditions}
+          />
+          <Text
+            testID="privacyPolicyText"
+            style={styles.providerLink}
+            onPress={onPressPrivacyPolicy}
+          />
         </Trans>
       </Text>
       <Button
