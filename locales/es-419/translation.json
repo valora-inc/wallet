@@ -766,26 +766,26 @@
     "description": "Para conectar tu número de teléfono, recibirás un mensaje de texto.",
     "startButtonLabel": "Comenzar",
     "learnMore": {
-      "title": "¿Necesito conectar mi teléfono?",
-      "body": "Conectar tu número de teléfono te permitirá enviar dinero a los amigos de tu agenda y a otros números de teléfono. \n \n Si decides omitir este paso, no podrás acceder a tus contactos y sólo podrás enviar dinero mediante el código QR o el número de cuenta."
+      "title": "¿Es necesario conectar mi teléfono?",
+      "body": "Conectar tu número de teléfono te permitirá enviar dinero a tus contactos y a otros números de teléfono. \n \nSi prefieres omitir este paso, no podrás acceder a tus contactos y solo podrás enviar dinero mediante el código QR o la Dirección de cuenta."
     },
     "skip": {
       "title": "¿Quieres omitir este paso?",
-      "body": "La conexión te permite enviar y recibir fondos desde tu número de teléfono.",
+      "body": "Esta conexión te permite enviar y recibir fondos con tu número de teléfono.",
       "cancel": "Regresa",
       "confirm": "Omitir por ahora"
     }
   },
   "phoneVerificationInput": {
-    "title": "Introduce el código",
-    "description": "Hemos enviado un código a {{phoneNumber}}, por favor, introdúcelo a continuación.",
+    "title": "Ingresa el código",
+    "description": "Hemos enviado un código a {{phoneNumber}}. Ingrésalo a continuación.",
     "help": "Ayuda",
     "codeInputPlaceholder": "12345678",
     "helpDialog": {
       "title": "Ayuda",
-      "body": "Hemos enviado un SMS a tu número de teléfono. Comprueba tus mensajes de texto para encontrar el código de 8 dígitos. Si tienes problemas para recibir los mensajes, puedes omitir este paso por ahora e intentarlo más tarde.",
+      "body": "Hemos enviado un SMS a tu número de teléfono. Busca el código de 8 dígitos en tus mensajes. Si tienes problemas para recibir los mensajes, puedes omitir este paso por ahora e intentarlo más tarde.",
       "skip": "Omitir",
-      "dismiss": "Volver"
+      "dismiss": "Regresar"
     }
   },
   "importExistingKey": {
@@ -1278,7 +1278,7 @@
     "bankAccount": {
       "header": "Configurar cuenta bancaria",
       "bodyTitle": "Configurar cuenta bancaria",
-      "description": "Introduce los datos de la cuenta bancaria para transferir fondos. Tus transacciones serán impulsadas por <0>{{providerName}}</0>. Al hacer clic en continuar, aceptas sus <1>Términos y Condiciones</1> y su <2>Política de Privacidad</2>"
+      "description": "Ingresa los datos bancarios para transferir fondos. Tus transacciones se realizarán con tecnología de <0>{{providerName}}</0>. Si eliges continuar, aceptas sus <1>Términos y condiciones</1> y su <2>Política de privacidad</2>."
     },
     "continue": "Continuar"
   },
