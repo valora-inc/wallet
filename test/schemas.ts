@@ -9,6 +9,7 @@ import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { RootState } from 'src/redux/reducers'
 import { Currency } from 'src/utils/currencies'
 import { idle, KomenciAvailable } from 'src/verify/reducer'
+import { SendingFiatAccountStatus } from 'src/fiatconnect/slice'
 import {
   mockCeloAddress,
   mockCeurAddress,
@@ -1640,6 +1641,18 @@ export const v78Schema = {
   },
 }
 
+export const v79Schema = {
+  ...v78Schema,
+  _persist: {
+    ...v78Schema._persist,
+    version: 79,
+  },
+  fiatConnect: {
+    ..._.omit(v78Schema.fiatConnect, 'sendingFiatAccount'),
+    sendingFiatAccountStatus: SendingFiatAccountStatus.NotSending,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v78Schema as Partial<RootState>
+  return v79Schema as Partial<RootState>
 }
