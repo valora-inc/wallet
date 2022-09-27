@@ -435,8 +435,19 @@ export function* handleSelectFiatConnectQuote({
       fiatAccountType: quote.getFiatAccountType(),
     })
 
+    // This is expected when the user has not yet created a fiatAccount with the provider
     if (!fiatAccount) {
-      // This is expected when the user has not yet created a fiatAccount with the provider
+      // If the quote has kyc, navigate to the second step of the KycLanding page
+      if (kycSchema) {
+        navigate(Screens.KycLanding, {
+          quote,
+          flow: quote.flow,
+          step: 'two',
+        })
+        yield put(selectFiatConnectQuoteCompleted())
+        return
+      }
+      // else, navigate to the FiatConnectLinkAccount page
       navigate(Screens.FiatConnectLinkAccount, {
         quote,
         flow: quote.flow,
