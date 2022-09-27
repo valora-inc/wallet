@@ -1,5 +1,5 @@
 import { StackScreenProps, useHeaderHeight } from '@react-navigation/stack'
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -22,19 +22,16 @@ function VerificationCodeInputScreen({
   route,
   navigation,
 }: StackScreenProps<StackParamList, Screens.VerificationCodeInputScreen>) {
-  const verificationCodeRequested = useRef(false)
-
   const [showHelpDialog, setShowHelpDialog] = useState(false)
   const [code, setCode] = useState('')
   const [codeInputStatus, setCodeInputStatus] = useState(CodeInputStatus.Inputting)
 
   const { t } = useTranslation()
   const headerHeight = useHeaderHeight()
-  const {
-    validateVerificationCode,
-    requestVerificationCode,
-    verificationStatus,
-  } = useVerifyPhoneNumber(route.params.e164Number, route.params.countryCode)
+  const { setSmsCode, verificationStatus } = useVerifyPhoneNumber(
+    route.params.e164Number,
+    route.params.countryCode
+  )
 
   const onPressSkip = () => {
     navigateHome()
@@ -80,17 +77,9 @@ function VerificationCodeInputScreen({
   useEffect(() => {
     if (code.length === PHONE_NUMBER_VERIFICATION_CODE_LENGTH) {
       setCodeInputStatus(CodeInputStatus.Processing)
-      void validateVerificationCode(code)
+      setSmsCode(code)
     }
   }, [code])
-
-  useEffect(() => {
-    if (!verificationCodeRequested.current) {
-      void requestVerificationCode()
-      // prevent request from being fired multiple times
-      verificationCodeRequested.current = true
-    }
-  }, [])
 
   useEffect(() => {
     if (verificationStatus === PhoneNumberVerificationStatus.SUCCESSFUL) {

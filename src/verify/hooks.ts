@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
@@ -45,18 +45,48 @@ export enum PhoneNumberVerificationStatus {
 }
 
 export function useVerifyPhoneNumber(phoneNumber: string, countryCode: string) {
+  const verificationCodeRequested = useRef(false)
+
   const dispatch = useDispatch()
   const address = useSelector(walletAddressSelector)
 
   const [verificationStatus, setVerificationStatus] = useState(PhoneNumberVerificationStatus.NONE)
   const [verificationId, setVerificationId] = useState('')
+  const [smsCode, setSmsCode] = useState('')
 
-  const requestVerificationCode = async () => {
-    Logger.debug(`${TAG}/requestVerificationCode`, 'Initiating request to verifyPhoneNumber')
-    const signedMessage = await retrieveSignedMessage()
+  const handleRequestVerificationCodeError = (error: Error) => {
+    Logger.debug(
+      `${TAG}/requestVerificationCode`,
+      'Received error from verifyPhoneNumber service',
+      error
+    )
+    dispatch(showError(ErrorMessages.PHONE_NUMBER_VERIFICATION_FAILURE))
+  }
 
-    try {
-      const response: Response = await fetch(networkConfig.verifyPhoneNumberUrl, {
+  const handleVerifySmsError = (error: Error) => {
+    Logger.debug(
+      `${TAG}/validateVerificationCode`,
+      `Received error from verifySmsCode service for verificationId: ${verificationId}`,
+      error
+    )
+    setVerificationStatus(PhoneNumberVerificationStatus.FAILED)
+  }
+
+  useAsync(
+    async () => {
+      if (verificationCodeRequested.current) {
+        Logger.debug(
+          `${TAG}/requestVerificationCode`,
+          'Skipping request to verifyPhoneNumber since a request was already initiated'
+        )
+        // prevent request from being fired multiple times
+        return
+      }
+
+      Logger.debug(`${TAG}/requestVerificationCode`, 'Initiating request to verifyPhoneNumber')
+      const signedMessage = await retrieveSignedMessage()
+
+      return fetch(networkConfig.verifyPhoneNumberUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -68,40 +98,46 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCode: string) {
           clientVersion: DeviceInfo.getVersion(),
         }),
       })
+    },
+    [],
+    {
+      onError: handleRequestVerificationCodeError,
+      onSuccess: async (response?: Response) => {
+        if (!response) {
+          return
+        }
 
-      if (response.ok) {
-        const { data } = await response.json()
-        setVerificationId(data.verificationId)
-        Logger.debug(
-          `${TAG}/requestVerificationCode`,
-          'Successfully initiated phone number verification with verificationId: ',
-          data.verificationId
-        )
-      } else {
-        throw new Error(await response.text())
-      }
-    } catch (error) {
-      Logger.debug(
-        `${TAG}/requestVerificationCode`,
-        'Received error from verifyPhoneNumber service',
-        error
-      )
-      dispatch(showError(ErrorMessages.PHONE_NUMBER_VERIFICATION_FAILURE))
+        if (response.ok) {
+          const { data } = await response.json()
+          setVerificationId(data.verificationId)
+          verificationCodeRequested.current = true
+          Logger.debug(
+            `${TAG}/requestVerificationCode`,
+            'Successfully initiated phone number verification with verificationId: ',
+            data.verificationId
+          )
+        } else {
+          handleRequestVerificationCodeError(new Error(await response.text()))
+        }
+      },
     }
-  }
+  )
 
-  const validateVerificationCode = async (smsCode: string) => {
-    Logger.debug(
-      `${TAG}/validateVerificationCode`,
-      'Initiating request to verifySmsCode with verificationId: ',
-      verificationId
-    )
-    setVerificationStatus(PhoneNumberVerificationStatus.VERIFYING)
+  useAsync(
+    async () => {
+      if (!smsCode) {
+        return
+      }
 
-    const signedMessage = await retrieveSignedMessage()
+      Logger.debug(
+        `${TAG}/validateVerificationCode`,
+        'Initiating request to verifySmsCode with verificationId: ',
+        verificationId
+      )
+      setVerificationStatus(PhoneNumberVerificationStatus.VERIFYING)
 
-    try {
-      const response: Response = await fetch(networkConfig.verifySmsCodeUrl, {
+      const signedMessage = await retrieveSignedMessage()
+      return fetch(networkConfig.verifySmsCodeUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -115,29 +151,30 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCode: string) {
           clientVersion: DeviceInfo.getVersion(),
         }),
       })
+    },
+    [smsCode],
+    {
+      onSuccess: async (response?: Response) => {
+        if (!response) {
+          return
+        }
 
-      if (response.ok) {
-        Logger.debug(`${TAG}/validateVerificationCode`, 'Successfully verified phone number')
-        setVerificationStatus(PhoneNumberVerificationStatus.SUCCESSFUL)
-        dispatch(setPhoneNumber(phoneNumber, countryCode))
-        // TODO store verification status in new redux variable so that the
-        // existing one can be used for background migration
-      } else {
-        throw new Error(await response.text())
-      }
-    } catch (error) {
-      Logger.debug(
-        `${TAG}/validateVerificationCode`,
-        `Received error from verifySmsCode service for verificationId: ${verificationId}`,
-        error
-      )
-      setVerificationStatus(PhoneNumberVerificationStatus.FAILED)
+        if (response.ok) {
+          Logger.debug(`${TAG}/validateVerificationCode`, 'Successfully verified phone number')
+          setVerificationStatus(PhoneNumberVerificationStatus.SUCCESSFUL)
+          dispatch(setPhoneNumber(phoneNumber, countryCode))
+          // TODO store verification status in new redux variable so that the
+          // existing one can be used for background migration
+        } else {
+          handleVerifySmsError(new Error(await response.text()))
+        }
+      },
+      onError: handleVerifySmsError,
     }
-  }
+  )
 
   return {
-    requestVerificationCode,
-    validateVerificationCode,
+    setSmsCode,
     verificationStatus,
   }
 }
