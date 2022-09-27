@@ -3,6 +3,8 @@ import { FetchMock } from 'jest-fetch-mock/types'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { showError } from 'src/alert/actions'
+import { SwapEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import SwapReviewScreen from 'src/swap/SwapReviewScreen'
@@ -12,6 +14,8 @@ import { createMockStore } from 'test/utils'
 import { mockAccount, mockCeloAddress, mockCeurAddress, mockCusdAddress } from 'test/values'
 
 const mockFetch = fetch as FetchMock
+
+jest.mock('src/analytics/ValoraAnalytics')
 
 const store = createMockStore({
   localCurrency: {
@@ -126,6 +130,36 @@ describe('SwapReviewScreen', () => {
       expect(store.getActions()).toEqual(
         expect.arrayContaining([showError(ErrorMessages.FETCH_SWAP_QUOTE_FAILED)])
       )
+    })
+  })
+
+  it('should have correct analytics on screen open', () => {
+    const mockBuyAmount = '3000000000000000000'
+    const mockSellAmount = '1000000000000000000'
+    mockFetch.mockResponse(
+      JSON.stringify({
+        unvalidatedSwapTransaction: {
+          sellToken: mockCeloAddress,
+          buyToken: mockCusdAddress,
+          buyAmount: mockBuyAmount,
+          sellAmount: mockSellAmount,
+          price: '3.00',
+          gas: '300000',
+          gasPrice: '500000000',
+        },
+      })
+    )
+
+    render(
+      <Provider store={store}>
+        <SwapReviewScreen />
+      </Provider>
+    )
+
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_review_screen_open, {
+      buyAmount: mockBuyAmount,
+      fromToken: mockCeloAddress,
+      toToken: mockCusdAddress,
     })
   })
 
