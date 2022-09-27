@@ -81,7 +81,7 @@ function NameAndPicture({ navigation }: Props) {
           />
         ),
     })
-  }, [navigation, choseToRestoreAccount, step, totalSteps])
+  }, [navigation, choseToRestoreAccount, step, totalSteps, nameInput])
 
   const goToNextScreen = () => {
     if (recoveringFromStoreWipe) {
