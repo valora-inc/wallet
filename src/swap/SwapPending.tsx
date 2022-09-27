@@ -82,9 +82,7 @@ export function SwapPending() {
             testID="PriceChangeModal"
             onBackgroundPress={navigateToReviewScreen}
           >
-            {t('swapCompleteScreen.swapPriceModal.body1')}
-            {'\n\n'}
-            {t('swapCompleteScreen.swapPriceModal.body2')}
+            {t('swapCompleteScreen.swapPriceModal.body')}
           </Dialog>
         )
       // These states are the first and last of the swap flow
