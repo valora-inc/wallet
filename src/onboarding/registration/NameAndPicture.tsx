@@ -50,7 +50,7 @@ function NameAndPicture({ navigation }: Props) {
   const asyncKomenciReadiness = useAsyncKomenciReadiness()
   const showGuidedOnboarding = useSelector(showGuidedOnboardingSelector)
   const createAccountCopyTestType = useSelector(createAccountCopyTestTypeSelector)
-  const skipUsername = false //TODO use statsig variable
+  const skipUsername = true //TODO use statsig variable
   useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => {
@@ -81,7 +81,7 @@ function NameAndPicture({ navigation }: Props) {
           />
         ),
     })
-  }, [navigation, choseToRestoreAccount, step, totalSteps])
+  }, [navigation, choseToRestoreAccount, step, totalSteps, nameInput])
 
   const goToNextScreen = () => {
     if (recoveringFromStoreWipe) {
@@ -95,7 +95,7 @@ function NameAndPicture({ navigation }: Props) {
   }
   const onPressSkip = () => {
     // TODO additional anlytics
-    setNameInput('')
+    // setNameInput('')
     handleNewName({ skipped: true })
   }
   const onPressContinue = () => {
