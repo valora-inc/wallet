@@ -34,7 +34,7 @@ import { useAsyncKomenciReadiness } from 'src/verify/hooks'
 
 type Props = StackScreenProps<StackParamList, Screens.NameAndPicture>
 
-function NameAndPicture({ navigation }: Props) {
+function NameAndPicture({ navigation, route }: Props) {
   const [nameInput, setNameInput] = useState('')
   const cachedName = useTypedSelector(nameSelector)
   const picture = useTypedSelector((state) => state.account.pictureUri)
@@ -50,7 +50,7 @@ function NameAndPicture({ navigation }: Props) {
   const asyncKomenciReadiness = useAsyncKomenciReadiness()
   const showGuidedOnboarding = useSelector(showGuidedOnboardingSelector)
   const createAccountCopyTestType = useSelector(createAccountCopyTestTypeSelector)
-  const skipUsername = false //TODO use statsig variable
+  const skipUsername = route.params?.skipUsername //TODO repalce with statsig variable
   useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => {
@@ -72,14 +72,15 @@ function NameAndPicture({ navigation }: Props) {
           />
         )
       },
-      headerRight: () =>
+      headerRight: () => {
         skipUsername && (
           <TopBarTextButton
             title={t('skip')}
             onPress={onPressSkip}
             titleStyle={{ color: colors.goldDark }}
           />
-        ),
+        )
+      },
     })
   }, [navigation, choseToRestoreAccount, step, totalSteps, nameInput])
 
@@ -95,14 +96,10 @@ function NameAndPicture({ navigation }: Props) {
   }
   const onPressSkip = () => {
     // TODO additional anlytics
-    setNameInput('')
-    handleNewName({ skipped: true })
-  }
-  const onPressContinue = () => {
-    handleNewName({ skipped: false })
+    goToNextScreen()
   }
 
-  const handleNewName = ({ skipped }: { skipped: boolean }) => {
+  const onPressContinue = () => {
     dispatch(hideAlert())
 
     const newName = nameInput.trim()
@@ -112,7 +109,7 @@ function NameAndPicture({ navigation }: Props) {
       return
     }
 
-    if (!newName && !skipped) {
+    if (!newName) {
       dispatch(showError(ErrorMessages.MISSING_FULL_NAME))
       return
     }

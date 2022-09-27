@@ -4,6 +4,7 @@ import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
+import * as AccountActions from 'src/account/actions'
 import { CreateAccountCopyTestType } from 'src/app/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -11,7 +12,6 @@ import NameAndPicture from 'src/onboarding/registration/NameAndPicture'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockNavigation } from 'test/values'
-import * as AccountActions from 'src/account/actions'
 
 expect.extend({ toBeDisabled })
 jest.spyOn(AccountActions, 'setName')
@@ -183,37 +183,36 @@ describe('NameAndPictureScreen', () => {
     expect(getByText('nameAndPicGuideCopyContent')).toBeTruthy()
   })
   it('does not render skip button when configured so', () => {
-    // TODO add mock Statsig flag
+    // TODO replace route param with mock Statsig flag
     const { queryByText } = render(
       <Provider store={createMockStore()}>
-        <MockedNavigator component={NameAndPicture} />
+        <MockedNavigator component={NameAndPicture} params={{ skipUsername: false }} />
       </Provider>
     )
     expect(queryByText('skip')).toBeNull()
   })
-  // eslint-disable-next-line jest/no-disabled-tests
-  it.skip('renders skip button when mocked and skipping works', () => {
-    // TODO add mock Statsig flag
-    // skipped because the switch is hard-coded to false before statsig integration
+
+  it('renders skip button when mocked and skipping works', () => {
+    // TODO replace route param with mock Statsig flag
     const { queryByText } = render(
       <Provider store={createMockStore()}>
-        <MockedNavigator component={NameAndPicture} />
+        <MockedNavigator component={NameAndPicture} params={{ skipUsername: true }} />
       </Provider>
     )
     expect(queryByText('skip')).toBeTruthy()
     fireEvent.press(queryByText('skip')!)
     expect(navigate).toHaveBeenCalledWith(Screens.PincodeSet, expect.anything())
   })
-  // eslint-disable-next-line jest/no-disabled-tests
-  it.skip('saves empty name reardless of what is in the inputbox when skip is used', () => {
-    // TODO add mock Statsig flag
+
+  it('saves empty name regardless of what is in the inputbox when skip is used', () => {
+    // TODO replace route param with mock Statsig flag
     const { getByText, getByTestId } = render(
       <Provider store={createMockStore()}>
-        <MockedNavigator component={NameAndPicture} />
+        <MockedNavigator component={NameAndPicture} params={{ skipUsername: true }} />
       </Provider>
     )
     fireEvent.changeText(getByTestId('NameEntry'), 'Some Name')
     fireEvent.press(getByText('skip'))
-    expect(AccountActions.setName).toBeCalledWith('')
+    expect(AccountActions.setName).not.toHaveBeenCalled()
   })
 })
