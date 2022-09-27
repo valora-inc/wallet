@@ -50,9 +50,8 @@ function VerificationCodeInputScreen({
 
   useLayoutEffect(() => {
     const registrationStep = route.params.registrationStep
-    const title = !registrationStep
-      ? t('phoneVerificationInput.title')
-      : () => (
+    const title = registrationStep
+      ? () => (
           <HeaderTitleWithSubtitle
             title={t('phoneVerificationInput.title')}
             subTitle={t('registrationSteps', {
@@ -61,6 +60,7 @@ function VerificationCodeInputScreen({
             })}
           />
         )
+      : t('phoneVerificationInput.title')
 
     navigation.setOptions({
       headerTitle: title,

@@ -54,31 +54,37 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCode: string) {
   const requestVerificationCode = async () => {
     Logger.debug(`${TAG}/requestVerificationCode`, 'Initiating request to verifyPhoneNumber')
     const signedMessage = await retrieveSignedMessage()
-    const response: Response = await fetch(networkConfig.verifyPhoneNumberUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        authorization: `Valora ${address}:${signedMessage}`,
-      },
-      body: JSON.stringify({
-        phoneNumber,
-        clientPlatform: Platform.OS,
-        clientVersion: DeviceInfo.getVersion(),
-      }),
-    })
 
-    if (response.ok) {
-      const { data } = await response.json()
-      setVerificationId(data.verificationId)
+    try {
+      const response: Response = await fetch(networkConfig.verifyPhoneNumberUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Valora ${address}:${signedMessage}`,
+        },
+        body: JSON.stringify({
+          phoneNumber,
+          clientPlatform: Platform.OS,
+          clientVersion: DeviceInfo.getVersion(),
+        }),
+      })
+
+      if (response.ok) {
+        const { data } = await response.json()
+        setVerificationId(data.verificationId)
+        Logger.debug(
+          `${TAG}/requestVerificationCode`,
+          'Successfully initiated phone number verification with verificationId: ',
+          data.verificationId
+        )
+      } else {
+        throw new Error(await response.text())
+      }
+    } catch (error) {
       Logger.debug(
         `${TAG}/requestVerificationCode`,
-        'Successfully initiated phone number verification with verificationId: ',
-        data.verificationId
-      )
-    } else {
-      Logger.debug(
-        `${TAG}/requestVerificationCode`,
-        'Received error from verifyPhoneNumber service'
+        'Received error from verifyPhoneNumber service',
+        error
       )
       dispatch(showError(ErrorMessages.PHONE_NUMBER_VERIFICATION_FAILURE))
     }
@@ -93,32 +99,37 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCode: string) {
     setVerificationStatus(PhoneNumberVerificationStatus.VERIFYING)
 
     const signedMessage = await retrieveSignedMessage()
-    const response: Response = await fetch(networkConfig.verifySmsCodeUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        authorization: `Valora ${address}:${signedMessage}`,
-      },
-      body: JSON.stringify({
-        phoneNumber,
-        verificationId,
-        smsCode,
-        clientPlatform: Platform.OS,
-        clientVersion: DeviceInfo.getVersion(),
-      }),
-    })
 
-    if (response.ok) {
-      Logger.debug(`${TAG}/validateVerificationCode`, 'Successfully verified phone number')
-      setVerificationStatus(PhoneNumberVerificationStatus.SUCCESSFUL)
-      dispatch(setPhoneNumber(phoneNumber, countryCode))
-      // TODO store verification status in new redux variable so that the
-      // existing one can be used for background migration
-    } else {
+    try {
+      const response: Response = await fetch(networkConfig.verifySmsCodeUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Valora ${address}:${signedMessage}`,
+        },
+        body: JSON.stringify({
+          phoneNumber,
+          verificationId,
+          smsCode,
+          clientPlatform: Platform.OS,
+          clientVersion: DeviceInfo.getVersion(),
+        }),
+      })
+
+      if (response.ok) {
+        Logger.debug(`${TAG}/validateVerificationCode`, 'Successfully verified phone number')
+        setVerificationStatus(PhoneNumberVerificationStatus.SUCCESSFUL)
+        dispatch(setPhoneNumber(phoneNumber, countryCode))
+        // TODO store verification status in new redux variable so that the
+        // existing one can be used for background migration
+      } else {
+        throw new Error(await response.text())
+      }
+    } catch (error) {
       Logger.debug(
-        TAG,
-        'Received error from verifySmsCode service for verificationId: ',
-        verificationId
+        `${TAG}/validateVerificationCode`,
+        `Received error from verifySmsCode service for verificationId: ${verificationId}`,
+        error
       )
       setVerificationStatus(PhoneNumberVerificationStatus.FAILED)
     }

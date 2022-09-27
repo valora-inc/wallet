@@ -1,7 +1,6 @@
-import { fireEvent, render, within } from '@testing-library/react-native'
+import { act, fireEvent, render, within } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
-import { act } from 'react-test-renderer'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -76,7 +75,6 @@ describe('VerificationStartScreen', () => {
     expect(within(SkipDialog).getByText('phoneVerificationScreen.skip.body')).toBeTruthy()
 
     act(() => {
-      fireEvent.press(getByText('skip'))
       fireEvent.press(getByText('phoneVerificationScreen.skip.confirm'))
     })
 
