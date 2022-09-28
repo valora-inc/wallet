@@ -577,6 +577,13 @@
     "title": "Send crypto to invite a friend",
     "body": "Once they set up their {{appName}} wallet and connect their number, you’ll each get an exclusive NFT. <0>Earn up to 3 NFTs</0>"
   },
+  "inviteWithUrl": {
+    "title": "Invite a friend",
+    "body": "Connect and share value with your friends and family on {{appName}}.",
+    "button": "Share Invite",
+    "error": "There was issue an creating a sharable link",
+    "share": "Hi! I’ve been using {{appName}} as my crypto wallet. It’s easy to try and I want to invite you to check it out with this link: {{shareUrl}}"
+  },
   "getReward": "Get ${{reward}}",
   "welcomeCelo": "Welcome to {{appName}}",
   "chooseCountryCode": "Country Code",
@@ -770,7 +777,7 @@
     "startButtonLabel": "Start",
     "learnMore": {
       "title": "Do I need to connect my phone?",
-      "body": "Connecting your phone number will allow you to send money to friends in your address book and other phone numbers. \n \n If you choose to skip this step you won’t be able to access your contacts and you will only be able to send money via QR code or account number."
+      "body": "Connecting your phone number will allow you to send money to friends in your address book and other phone numbers. \n \n If you choose to skip this step you won’t be able to access your contacts and you will only be able to send money via QR code or Account Address."
     },
     "skip": {
       "title": "Are you sure?",
@@ -1286,6 +1293,14 @@
       "description": "Enter Bank Account details to transfer funds. Your transactions will be powered by <0>{{providerName}}</0>. By clicking continue, you agree to their <1>Terms and Conditions</1> and <2>Privacy Policy</2>"
     },
     "continue": "Continue"
+  },
+  "fiatConnectKycLandingScreen": {
+    "stepOne": "Step 1",
+    "stepTwo": "Step 2",
+    "title": "Verify your Identity",
+    "description": "This step will take about 5 minutes.",
+    "disclaimer": "You acknowledge and agree that your Personal Data will be provided to us and shared with third-parties for verification purposes as stated in the <0>Privacy Policy</0>",
+    "button": "Set up ID Verification"
   },
   "fiatConnectReviewScreen": {
     "transactionDetails": "Transaction Details",

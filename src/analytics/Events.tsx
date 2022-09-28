@@ -262,6 +262,8 @@ export enum InviteEvents {
   invite_banner_impression = 'invite_banner_impression',
   invite_with_share = 'invite_with_share',
   invite_with_share_dismiss = 'invite_with_share_dismiss',
+  invite_with_referral_url = 'invite_with_referral_url',
+  opened_via_invite_url = 'opened_via_invite_url',
 }
 
 export enum EscrowEvents {
@@ -448,6 +450,10 @@ export enum FiatExchangeEvents {
   cico_fc_link_account_continue = 'cico_fc_link_account_continue',
   cico_fc_link_account_back = 'cico_fc_link_account_back',
   cico_fc_link_account_provider_website = 'cico_fc_link_account_provider_website',
+
+  // Fiat Connect link KYC & account page
+  cico_fc_link_kyc_account_back = 'cico_fc_link_kyc_account_back',
+  // persona_kyc_start is fired when the 'Set up ID Verification' button is clicked
 
   // Fiat Connect fiat details screen
   cico_fiat_details_success = 'cico_fiat_details_success',
