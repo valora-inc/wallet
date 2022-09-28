@@ -1,3 +1,4 @@
+[![Crowdin](https://badges.crowdin.net/kolektivo-wallet/localized.svg)](https://crowdin.com)
 # Kolektivo Mobile Wallet
 
 ![Checks](https://github.com/valora-inc/wallet/actions/workflows/check.yml/badge.svg)
