@@ -767,7 +767,7 @@
     "startButtonLabel": "Inizia",
     "learnMore": {
       "title": "Devo collegare il mio telefono?",
-      "body": "Collegando il tuo numero di telefono potrai inviare denaro agli amici della tua rubrica e ad altri numeri di telefono. \n \n Se scegli di saltare questo passaggio, non potrai accedere ai tuoi contatti e potrai inviare denaro solo tramite codice QR o indirizzo dell'account."
+      "body": "Collegando il tuo numero di telefono potrai scambiare denaro con i tuoi amici ad altri numeri di telefono.\n\nSe scegli di saltare questo passaggio, non potrai accedere ai tuoi contatti e potrai inviare denaro solo tramite codice QR o Indirizzo del conto."
     },
     "skip": {
       "title": "Sei sicuro?",
@@ -1288,7 +1288,7 @@
     "title": "Verifica della tua identità",
     "description": "Questo passaggio richiede circa 5 minuti.",
     "disclaimer": "L'utente riconosce e accetta che i suoi Dati personali saranno forniti a noi e condivisi con terze parti a scopo di verifica, come indicato nell'<0>Informativa sulla privacy</0>.",
-    "button": "Configura verifica dell'ID"
+    "button": "Configura la verifica dell’identità"
   },
   "fiatConnectReviewScreen": {
     "transactionDetails": "Dettagli della transazione",
