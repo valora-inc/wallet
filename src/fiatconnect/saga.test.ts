@@ -798,9 +798,10 @@ describe('Fiatconnect saga', () => {
         personaKycStatus: PersonaKycStatus.NotCreated,
         flow: normalizedQuoteKyc.flow,
         quote: normalizedQuoteKyc,
+        step: 'one',
       })
     })
-    it('posts KYC to provider and proceeds with saga if KYC required and exists in Persona', async () => {
+    it('posts KYC to provider and proceeds with saga by navigating to KycLanding step 2 if KYC required and exists in Persona', async () => {
       mockGetFiatAccounts.mockResolvedValue(Result.ok({}))
       await expectSaga(
         handleSelectFiatConnectQuote,
@@ -823,9 +824,10 @@ describe('Fiatconnect saga', () => {
         ])
         .put(selectFiatConnectQuoteCompleted())
         .run()
-      expect(navigate).toHaveBeenCalledWith(Screens.FiatConnectLinkAccount, {
-        quote: normalizedQuoteKyc,
+      expect(navigate).toHaveBeenCalledWith(Screens.KycLanding, {
         flow: normalizedQuoteKyc.flow,
+        quote: normalizedQuoteKyc,
+        step: 'two',
       })
     })
     it('shows an error if FC KYC status is not recognized', async () => {

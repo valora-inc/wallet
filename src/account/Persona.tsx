@@ -22,6 +22,7 @@ const TAG = 'PERSONA'
 
 export interface Props {
   kycStatus: KycStatus | undefined
+  disabled: boolean
   text?: string | undefined
   onPress?: () => any
   onCanceled?: () => any
@@ -34,7 +35,7 @@ enum Status {
   failed = 'failed',
 }
 
-const Persona = ({ kycStatus, text, onCanceled, onError, onPress, onSuccess }: Props) => {
+const Persona = ({ kycStatus, text, onCanceled, onError, onPress, onSuccess, disabled }: Props) => {
   const { t } = useTranslation()
   const [personaAccountCreated, setPersonaAccountCreated] = useState(!!kycStatus)
 
@@ -96,7 +97,6 @@ const Persona = ({ kycStatus, text, onCanceled, onError, onPress, onSuccess }: P
       }
     }
   }, [])
-
   return (
     <Button
       onPress={launchPersonaInquiry}
@@ -104,7 +104,7 @@ const Persona = ({ kycStatus, text, onCanceled, onError, onPress, onSuccess }: P
       type={BtnTypes.PRIMARY}
       size={BtnSizes.MEDIUM}
       testID="PersonaButton"
-      disabled={!personaAccountCreated || !templateId}
+      disabled={!personaAccountCreated || !templateId || disabled}
     />
   )
 }

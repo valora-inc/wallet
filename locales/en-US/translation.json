@@ -1278,9 +1278,17 @@
     "bankAccount": {
       "header": "Set up Bank Account",
       "bodyTitle": "Set Up Bank Account",
-      "description": "Enter Bank Account details to transfer funds. Your transactions will be powered by <0>{{providerName}}</0>."
+      "description": "Enter Bank Account details to transfer funds. Your transactions will be powered by <0>{{providerName}}</0>. By clicking continue, you agree to their <1>Terms and Conditions</1> and <2>Privacy Policy</2>"
     },
     "continue": "Continue"
+  },
+  "fiatConnectKycLandingScreen": {
+    "stepOne": "Step 1",
+    "stepTwo": "Step 2",
+    "title": "Verify your Identity",
+    "description": "This step will take about 5 minutes.",
+    "disclaimer": "You acknowledge and agree that your Personal Data will be provided to us and shared with third-parties for verification purposes as stated in the <0>Privacy Policy</0>",
+    "button": "Set up ID Verification"
   },
   "fiatConnectReviewScreen": {
     "transactionDetails": "Transaction Details",

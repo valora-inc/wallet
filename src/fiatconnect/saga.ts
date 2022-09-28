@@ -497,9 +497,10 @@ export function* handleSelectFiatConnectQuote({
           } else {
             // If no Persona KYC on file, navigate to Persona
             navigate(Screens.KycLanding, {
-              personaKycStatus: getKycStatusResponse.persona,
               flow: quote.flow,
               quote,
+              personaKycStatus: getKycStatusResponse.persona,
+              step: 'one',
             })
             yield put(selectFiatConnectQuoteCompleted())
             return
@@ -540,13 +541,23 @@ export function* handleSelectFiatConnectQuote({
       fiatAccountType: quote.getFiatAccountType(),
     })
 
+    // This is expected when the user has not yet created a fiatAccount with the provider
     if (!fiatAccount) {
-      // This is expected when the user has not yet created a fiatAccount with the provider
-      navigate(Screens.FiatConnectLinkAccount, {
-        quote,
-        flow: quote.flow,
-      })
-      yield delay(500) // to avoid a screen flash
+      // If the quote has kyc, navigate to the second step of the KycLanding page
+      if (kycSchema) {
+        navigate(Screens.KycLanding, {
+          quote,
+          flow: quote.flow,
+          step: 'two',
+        })
+      } else {
+        navigate(Screens.FiatConnectLinkAccount, {
+          quote,
+          flow: quote.flow,
+        })
+        yield delay(500) // to avoid a screen flash
+      }
+
       yield put(selectFiatConnectQuoteCompleted())
       return
     }
