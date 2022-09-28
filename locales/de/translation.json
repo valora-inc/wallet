@@ -577,6 +577,13 @@
     "title": "Krypto senden, um einen Freund einzuladen",
     "body": "Ihr erhaltet ein exklusives NFT, sobald dein Freund seine {{appName}}-Wallet eingerichtet hat und seine Nummer damit verknüpft hat. <0>Du kannst dir bis zu drei NFTs verdienen</0>"
   },
+  "inviteWithUrl": {
+    "title": "Einen Freund einladen",
+    "body": "Verbinde dich mit deinen Freunden und deiner Familie auf {{appName}}und teile deine Werte mit ihnen.",
+    "button": "Einladen teilen",
+    "error": "Es gab ein Problem beim Erstellen eines teilbaren Links",
+    "share": "Hallo! Ich benutze {{appName}} als meine Krypto-Brieftasche. Es ist einfach auszuprobieren und ich möchte dich einladen, es mit diesem Link auszuprobieren: {{shareUrl}}"
+  },
   "getReward": "Erhalte ${{reward}}",
   "welcomeCelo": "Willkommen bei {{appName}}",
   "chooseCountryCode": "Ländercode",
