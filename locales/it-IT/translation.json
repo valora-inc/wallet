@@ -1278,9 +1278,17 @@
     "bankAccount": {
       "header": "Imposta un conto bancario",
       "bodyTitle": "Imposta un conto bancario",
-      "description": "Immetti i dettagli bancari per trasferire i fondi. Le tue transazioni saranno effettuate da <0>{{providerName}}</0>."
+      "description": "Inserisci i dati del conto bancario per trasferire i fondi. Le tue transazioni saranno effettuate da <0>{{providerName}}</0>. Cliccando su \"Continua\", accetti i <1>Termini e le Condizioni</1> e l'<2>Informativa sulla Privacy</2>."
     },
     "continue": "Continua"
+  },
+  "fiatConnectKycLandingScreen": {
+    "stepOne": "Passaggio 1",
+    "stepTwo": "Passaggio 2",
+    "title": "Verifica della tua identità",
+    "description": "Questo passaggio richiede circa 5 minuti.",
+    "disclaimer": "L'utente riconosce e accetta che i suoi Dati Personali saranno forniti a noi e condivisi con terze parti a scopo di verifica, come indicato nell'<0>Informativa sulla Privacy</0>.",
+    "button": "Imposta la verifica dell'ID"
   },
   "fiatConnectReviewScreen": {
     "transactionDetails": "Dettagli della transazione",

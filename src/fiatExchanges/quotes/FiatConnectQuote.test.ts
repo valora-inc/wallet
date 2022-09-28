@@ -191,6 +191,17 @@ describe('FiatConnectQuote', () => {
     })
   })
 
+  describe('.getProviderInfo', () => {
+    it('returns provider info', () => {
+      const quote = new FiatConnectQuote({
+        flow: CICOFlow.CashIn,
+        quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
+        fiatAccountType: FiatAccountType.BankAccount,
+      })
+      expect(quote.getProviderInfo()).toEqual(mockFiatConnectProviderInfo[0])
+    })
+  })
+
   describe('.getProviderName', () => {
     it('returns provider name', () => {
       const quote = new FiatConnectQuote({

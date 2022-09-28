@@ -1278,9 +1278,17 @@
     "bankAccount": {
       "header": "Configurer un compte bancaire",
       "bodyTitle": "Configurer un compte bancaire",
-      "description": "Saisissez les coordonnées bancaires pour transférer des fonds. Vos transactions seront propulsées par <0>{{providerName}}</0>."
+      "description": "Saisis les détails du compte bancaire pour transférer des fonds. Tes transactions seront alimentées par <0>{{providerName}}</0>. En cliquant sur continuer, tu acceptes leurs <1>conditions générales et</1> leur <2>politique de confidentialité</2>."
     },
     "continue": "Continuer"
+  },
+  "fiatConnectKycLandingScreen": {
+    "stepOne": "Étape 1",
+    "stepTwo": "Étape 2",
+    "title": "Vérifiez votre identité",
+    "description": "Cette étape prendra environ 5 minutes.",
+    "disclaimer": "Tu reconnais et acceptes que tes données personnelles nous soient fournies et soient partagées avec des tiers à des fins de vérification, comme indiqué dans la <0>politique de confidentialité</0>.",
+    "button": "Configurer la vérification d'identité"
   },
   "fiatConnectReviewScreen": {
     "transactionDetails": "Détails de transaction",

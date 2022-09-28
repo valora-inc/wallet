@@ -1,9 +1,9 @@
-import { getClient } from 'src/in-house-liquidity/client'
-import networkConfig from 'src/web3/networkConfig'
-import { FiatConnectProviderInfo } from 'src/fiatconnect'
-import { getFiatConnectClient } from 'src/fiatconnect/clients'
 import { KycSchema, KycStatus as FiatConnectKycStatus } from '@fiatconnect/fiatconnect-types'
 import { KycStatus as PersonaKycStatus } from 'src/account/reducer'
+import { FiatConnectProviderInfo } from 'src/fiatconnect'
+import { getFiatConnectClient } from 'src/fiatconnect/clients'
+import { getClient } from 'src/in-house-liquidity/client'
+import networkConfig from 'src/web3/networkConfig'
 
 export interface GetKycStatusResponse {
   providerId: string
@@ -11,7 +11,7 @@ export interface GetKycStatusResponse {
   persona: PersonaKycStatus
 }
 
-export const AUTH_COOKIE = 'FIATCONNECT_PROVIDER_COOKIE'
+export const AUTH_COOKIE = 'FIATCONNECT-PROVIDER-COOKIE'
 
 /**
  * Checks that a the wallet address is defined.

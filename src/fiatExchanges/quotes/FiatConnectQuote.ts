@@ -2,8 +2,8 @@ import {
   FiatAccountSchema,
   FiatAccountType,
   FiatType,
-  QuoteResponseFiatAccountSchema,
   KycSchema,
+  QuoteResponseFiatAccountSchema,
   QuoteResponseKycSchema,
 } from '@fiatconnect/fiatconnect-types'
 import BigNumber from 'bignumber.js'
@@ -145,6 +145,10 @@ export default class FiatConnectQuote extends NormalizedQuote {
     dispatch(selectFiatConnectQuote({ quote: this }))
   }
 
+  getProviderInfo(): FiatConnectProviderInfo {
+    return this.quote.provider
+  }
+
   getProviderApiKey(): string | undefined {
     return this.quote.provider.apiKey
   }
@@ -167,6 +171,14 @@ export default class FiatConnectQuote extends NormalizedQuote {
 
   getProviderWebsiteUrl(): string {
     return this.quote.provider.websiteUrl
+  }
+
+  getProviderTermsAndConditionsUrl(): string {
+    return this.quote.provider.termsAndConditionsUrl
+  }
+
+  getProviderPrivacyPolicyUrl(): string {
+    return this.quote.provider.privacyPolicyUrl
   }
 
   getProviderIcon(): string {
