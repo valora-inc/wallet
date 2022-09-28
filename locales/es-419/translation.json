@@ -577,6 +577,13 @@
     "title": "Envía cripto e invita a tus amigos",
     "body": "Por cada amigo que se una y configure su cuenta, ambos obtendrán un NFT exclusivo de regalo. <0>Puedes ganar hasta 3 NFTs</0>"
   },
+  "inviteWithUrl": {
+    "title": "Invita a un amigo",
+    "body": "Conecta y comparte valores con tus amigos y familiares en {{appName}}.",
+    "button": "Comparte la invitación",
+    "error": "Hubo un problema al crear un enlace compartible",
+    "share": "Hola! He estado usando {{appName}} como mi criptobilletera. Es fácil de probar y quiero invitarte a que lo compruebes con este enlace: {{shareUrl}}"
+  },
   "getReward": "Obtén ${{reward}}",
   "welcomeCelo": "Te damos la bienvenida a {{appName}}",
   "chooseCountryCode": "Código de país",
