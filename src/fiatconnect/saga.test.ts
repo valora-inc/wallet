@@ -798,9 +798,10 @@ describe('Fiatconnect saga', () => {
         personaKycStatus: PersonaKycStatus.NotCreated,
         flow: normalizedQuoteKyc.flow,
         quote: normalizedQuoteKyc,
+        step: 'one',
       })
     })
-    it('posts KYC to provider and proceeds with saga if KYC required and exists in Persona', async () => {
+    it('posts KYC to provider and proceeds with saga by navigating to KycLanding step 2 if KYC required and exists in Persona', async () => {
       mockGetFiatAccounts.mockResolvedValue(Result.ok({}))
       await expectSaga(
         handleSelectFiatConnectQuote,
@@ -823,9 +824,10 @@ describe('Fiatconnect saga', () => {
         ])
         .put(selectFiatConnectQuoteCompleted())
         .run()
-      expect(navigate).toHaveBeenCalledWith(Screens.FiatConnectLinkAccount, {
-        quote: normalizedQuoteKyc,
+      expect(navigate).toHaveBeenCalledWith(Screens.KycLanding, {
         flow: normalizedQuoteKyc.flow,
+        quote: normalizedQuoteKyc,
+        step: 'two',
       })
     })
     it('shows an error if FC KYC status is not recognized', async () => {
@@ -1049,6 +1051,28 @@ describe('Fiatconnect saga', () => {
       fiatAccountType: FiatAccountType.BankAccount,
       quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
     })
+    const paramsKyc = attemptReturnUserFlow({
+      ...selectProviderParams,
+      providerId: 'provider-three',
+      fiatAccountId: '123',
+      fiatAccountType: FiatAccountType.BankAccount,
+    })
+    const normalizedQuoteKyc = new FiatConnectQuote({
+      flow: CICOFlow.CashOut,
+      fiatAccountType: FiatAccountType.BankAccount,
+      quote: mockFiatConnectQuotes[3] as FiatConnectQuoteSuccess,
+    })
+    const fiatAccount = {
+      fiatAccountId: '123',
+      providerId: 'provider-two',
+      accountName: 'My account',
+      institutionName: 'The fun bank',
+      FiatAccountType: FiatAccountType.BankAccount,
+    }
+    const fiatAccountKyc = {
+      ...fiatAccount,
+      providerId: 'provider-three',
+    }
     it('navigates to SelectProvider when there is no quote', async () => {
       await expectSaga(handleAttemptReturnUserFlow, params)
         .provide([
@@ -1106,14 +1130,7 @@ describe('Fiatconnect saga', () => {
         new Error('Could not find fiat account')
       )
     })
-    it('navigates to FiatConnectReview when everything is found and matches', async () => {
-      const fiatAccount = {
-        fiatAccountId: '123',
-        providerId: 'provider-two',
-        accountName: 'provider two',
-        institutionName: 'The fun bank',
-        FiatAccountType: FiatAccountType.BankAccount,
-      }
+    it('navigates to FiatConnectReview when everything is found and matches for non KYC quote', async () => {
       await expectSaga(handleAttemptReturnUserFlow, params)
         .provide([
           [select(fiatConnectProvidersSelector), mockFiatConnectProviderInfo],
@@ -1143,6 +1160,200 @@ describe('Fiatconnect saga', () => {
         flow: CICOFlow.CashOut,
         normalizedQuote,
         fiatAccount,
+      })
+    })
+    it('navigates to SelectProvider if quote requires KYC but KYC is not created with provider', async () => {
+      await expectSaga(handleAttemptReturnUserFlow, paramsKyc)
+        .provide([
+          [select(fiatConnectProvidersSelector), mockFiatConnectProviderInfo],
+          [
+            call(_getSpecificQuote, {
+              digitalAsset: CiCoCurrency.CUSD,
+              cryptoAmount: 2,
+              flow: paramsKyc.payload.flow,
+              providerId: paramsKyc.payload.providerId,
+              fiatAccountType: paramsKyc.payload.fiatAccountType,
+            }),
+            normalizedQuoteKyc,
+          ],
+          [
+            call(fetchFiatAccountsSaga, 'provider-three', 'fakewebsite.valoraapp.com', undefined),
+            [fiatAccountKyc],
+          ],
+          [
+            call(getKycStatus, {
+              providerInfo: normalizedQuoteKyc.getProviderInfo(),
+              kycSchemas: [KycSchema.PersonalDataAndDocuments],
+            }),
+            {
+              providerId: normalizedQuoteKyc.getProviderId(),
+              kycStatus: {
+                [KycSchema.PersonalDataAndDocuments]: FiatConnectKycStatus.KycNotCreated,
+              },
+            },
+          ],
+        ])
+        .put(attemptReturnUserFlowCompleted())
+        .run()
+      expect(navigate).toHaveBeenCalledWith(Screens.SelectProvider, selectProviderParams)
+      expect(Logger.debug).toHaveBeenCalledWith(
+        'FiatConnectSaga',
+        'Failed to use previous fiatAccount to take user directly to Review Screen',
+        new Error('KYC not created')
+      )
+    })
+    it('navigates to FiatConnectReview when everything is found and matches for KYC quote', async () => {
+      await expectSaga(handleAttemptReturnUserFlow, paramsKyc)
+        .provide([
+          [select(fiatConnectProvidersSelector), mockFiatConnectProviderInfo],
+          [
+            call(_getSpecificQuote, {
+              digitalAsset: CiCoCurrency.CUSD,
+              cryptoAmount: 2,
+              flow: paramsKyc.payload.flow,
+              providerId: paramsKyc.payload.providerId,
+              fiatAccountType: paramsKyc.payload.fiatAccountType,
+            }),
+            normalizedQuoteKyc,
+          ],
+          [
+            call(fetchFiatAccountsSaga, 'provider-three', 'fakewebsite.valoraapp.com', undefined),
+            [fiatAccountKyc],
+          ],
+          [
+            call(getKycStatus, {
+              providerInfo: normalizedQuoteKyc.getProviderInfo(),
+              kycSchemas: [KycSchema.PersonalDataAndDocuments],
+            }),
+            {
+              providerId: normalizedQuoteKyc.getProviderId(),
+              kycStatus: {
+                [KycSchema.PersonalDataAndDocuments]: FiatConnectKycStatus.KycApproved,
+              },
+            },
+          ],
+        ])
+        .put(attemptReturnUserFlowCompleted())
+        .run()
+      expect(navigate).toHaveBeenCalledWith(Screens.FiatConnectReview, {
+        flow: CICOFlow.CashOut,
+        normalizedQuote: normalizedQuoteKyc,
+        fiatAccount: fiatAccountKyc,
+      })
+    })
+    it('navigates to KycPending if KYC is pending', async () => {
+      await expectSaga(handleAttemptReturnUserFlow, paramsKyc)
+        .provide([
+          [select(fiatConnectProvidersSelector), mockFiatConnectProviderInfo],
+          [
+            call(_getSpecificQuote, {
+              digitalAsset: CiCoCurrency.CUSD,
+              cryptoAmount: 2,
+              flow: paramsKyc.payload.flow,
+              providerId: paramsKyc.payload.providerId,
+              fiatAccountType: paramsKyc.payload.fiatAccountType,
+            }),
+            normalizedQuoteKyc,
+          ],
+          [
+            call(fetchFiatAccountsSaga, 'provider-three', 'fakewebsite.valoraapp.com', undefined),
+            [fiatAccountKyc],
+          ],
+          [
+            call(getKycStatus, {
+              providerInfo: normalizedQuoteKyc.getProviderInfo(),
+              kycSchemas: [KycSchema.PersonalDataAndDocuments],
+            }),
+            {
+              providerId: normalizedQuoteKyc.getProviderId(),
+              kycStatus: {
+                [KycSchema.PersonalDataAndDocuments]: FiatConnectKycStatus.KycPending,
+              },
+            },
+          ],
+        ])
+        .put(attemptReturnUserFlowCompleted())
+        .run()
+      expect(navigate).toHaveBeenCalledWith(Screens.KycPending, {
+        flow: paramsKyc.payload.flow,
+        quote: normalizedQuoteKyc,
+      })
+    })
+    it('navigates to KycExpired if KYC is expired', async () => {
+      await expectSaga(handleAttemptReturnUserFlow, paramsKyc)
+        .provide([
+          [select(fiatConnectProvidersSelector), mockFiatConnectProviderInfo],
+          [
+            call(_getSpecificQuote, {
+              digitalAsset: CiCoCurrency.CUSD,
+              cryptoAmount: 2,
+              flow: paramsKyc.payload.flow,
+              providerId: paramsKyc.payload.providerId,
+              fiatAccountType: paramsKyc.payload.fiatAccountType,
+            }),
+            normalizedQuoteKyc,
+          ],
+          [
+            call(fetchFiatAccountsSaga, 'provider-three', 'fakewebsite.valoraapp.com', undefined),
+            [fiatAccountKyc],
+          ],
+          [
+            call(getKycStatus, {
+              providerInfo: normalizedQuoteKyc.getProviderInfo(),
+              kycSchemas: [KycSchema.PersonalDataAndDocuments],
+            }),
+            {
+              providerId: normalizedQuoteKyc.getProviderId(),
+              kycStatus: {
+                [KycSchema.PersonalDataAndDocuments]: FiatConnectKycStatus.KycExpired,
+              },
+            },
+          ],
+        ])
+        .put(attemptReturnUserFlowCompleted())
+        .run()
+      expect(navigate).toHaveBeenCalledWith(Screens.KycExpired, {
+        flow: paramsKyc.payload.flow,
+        quote: normalizedQuoteKyc,
+      })
+    })
+    it('navigates to KycDenied if KYC is denied', async () => {
+      await expectSaga(handleAttemptReturnUserFlow, paramsKyc)
+        .provide([
+          [select(fiatConnectProvidersSelector), mockFiatConnectProviderInfo],
+          [
+            call(_getSpecificQuote, {
+              digitalAsset: CiCoCurrency.CUSD,
+              cryptoAmount: 2,
+              flow: paramsKyc.payload.flow,
+              providerId: paramsKyc.payload.providerId,
+              fiatAccountType: paramsKyc.payload.fiatAccountType,
+            }),
+            normalizedQuoteKyc,
+          ],
+          [
+            call(fetchFiatAccountsSaga, 'provider-three', 'fakewebsite.valoraapp.com', undefined),
+            [fiatAccountKyc],
+          ],
+          [
+            call(getKycStatus, {
+              providerInfo: normalizedQuoteKyc.getProviderInfo(),
+              kycSchemas: [KycSchema.PersonalDataAndDocuments],
+            }),
+            {
+              providerId: normalizedQuoteKyc.getProviderId(),
+              kycStatus: {
+                [KycSchema.PersonalDataAndDocuments]: FiatConnectKycStatus.KycDenied,
+              },
+            },
+          ],
+        ])
+        .put(attemptReturnUserFlowCompleted())
+        .run()
+      expect(navigate).toHaveBeenCalledWith(Screens.KycDenied, {
+        flow: paramsKyc.payload.flow,
+        quote: normalizedQuoteKyc,
+        retryable: true,
       })
     })
   })

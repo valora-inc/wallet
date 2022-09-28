@@ -34,6 +34,7 @@
         <category android:name="android.intent.category.DEFAULT" />
         <category android:name="android.intent.category.BROWSABLE" />
         <data android:scheme="https" android:host="valoraapp.com" />
+        <data android:scheme="https" android:host="vlra.app" />
         <data android:pathPrefix="/wc" />
         <data android:path="/plaid-oauth-redirect" />
         <data android:scheme="http" />
