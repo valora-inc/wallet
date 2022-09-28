@@ -121,7 +121,7 @@ export function KycAgreement(props: { personaKycStatus?: KycStatus; quote: FiatC
   }
 
   const personaSuccessCallback = () => {
-    dispatch(selectFiatConnectQuote({ quote }))
+    dispatch(selectFiatConnectQuote({ quote })) // continue with flow through saga
   }
 
   return (
