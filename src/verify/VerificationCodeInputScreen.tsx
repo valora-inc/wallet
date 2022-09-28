@@ -1,7 +1,7 @@
 import { StackScreenProps, useHeaderHeight } from '@react-navigation/stack'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, Text } from 'react-native'
+import { Platform, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import BackButton from 'src/components/BackButton'
 import CodeInput, { CodeInputStatus } from 'src/components/CodeInput'
@@ -17,6 +17,7 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { PhoneNumberVerificationStatus, useVerifyPhoneNumber } from 'src/verify/hooks'
+import ResendButtonWithDelay from 'src/verify/ResendButtonWithDelay'
 
 function VerificationCodeInputScreen({
   route,
@@ -43,6 +44,10 @@ function VerificationCodeInputScreen({
 
   const onPressHelpDismiss = () => {
     setShowHelpDialog(false)
+  }
+
+  const handleResendCode = () => {
+    setSmsCode(code)
   }
 
   useLayoutEffect(() => {
@@ -96,6 +101,7 @@ function VerificationCodeInputScreen({
     <SafeAreaView style={styles.container} edges={['bottom']}>
       <KeyboardAwareScrollView
         style={[styles.scrollContainer, headerHeight ? { marginTop: headerHeight } : undefined]}
+        contentContainerStyle={styles.scrollContentContainer}
         keyboardShouldPersistTaps="always"
       >
         <Text style={styles.body}>
@@ -114,6 +120,9 @@ function VerificationCodeInputScreen({
           testID="PhoneVerificationCode"
           style={{ marginHorizontal: Spacing.Thick24 }}
         />
+        <View style={styles.bottomButtonContainer}>
+          <ResendButtonWithDelay onPress={handleResendCode} />
+        </View>
       </KeyboardAwareScrollView>
       <Dialog
         testID="PhoneVerificationInputHelpDialog"
@@ -139,13 +148,20 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   scrollContainer: {
-    flex: 1,
-    padding: Spacing.Thick24,
     width: '100%',
+  },
+  scrollContentContainer: {
+    flexGrow: 1,
+    padding: Spacing.Thick24,
   },
   body: {
     ...fontStyles.regular,
     marginBottom: Spacing.Thick24,
+  },
+  bottomButtonContainer: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
   },
 })
 
