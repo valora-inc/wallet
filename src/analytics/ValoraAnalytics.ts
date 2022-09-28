@@ -19,7 +19,7 @@ import {
 import { store } from 'src/redux/store'
 import Logger from 'src/utils/Logger'
 import { isPresent } from 'src/utils/typescript'
-import statsig from 'statsig-js'
+import { Statsig } from 'statsig-react-native'
 
 const TAG = 'ValoraAnalytics'
 
@@ -76,6 +76,7 @@ class ValoraAnalytics {
 
   async init() {
     let deviceInfo
+    let uniqueID
     try {
       if (!SEGMENT_API_KEY) {
         throw Error('API Key not present, likely due to environment. Skipping enabling')
@@ -85,9 +86,8 @@ class ValoraAnalytics {
       try {
         deviceInfo = await getDeviceInfo()
         this.deviceInfo = deviceInfo
-        this.sessionId = sha256FromString(
-          '0x' + deviceInfo.UniqueID.split('-').join('') + String(Date.now())
-        )
+        uniqueID = await deviceInfo.UniqueID
+        this.sessionId = sha256FromString('0x' + uniqueID.split('-').join('') + String(Date.now()))
           .toString('hex')
           .slice(2)
       } catch (error) {
@@ -107,8 +107,8 @@ class ValoraAnalytics {
           }
         : null
 
-      await statsig.initialize(STATSIG_API_KEY, stasigUser, {
-        overrideStableID: deviceInfo?.UniqueID,
+      await Statsig.initialize(STATSIG_API_KEY, stasigUser, {
+        overrideStableID: uniqueID,
         environment: {
           tier: DEFAULT_TESTNET === 'mainnet' ? 'production' : 'development',
         },

@@ -25,7 +25,7 @@ import {
   mtwAddressSelector,
   walletAddressSelector,
 } from 'src/web3/selectors'
-import statsig from 'statsig-js'
+import { Statsig } from 'statsig-react-native'
 import { RootState } from '../redux/reducers'
 
 const TAG = 'web3/saga'
@@ -97,7 +97,11 @@ export function* getOrCreateAccount() {
     }
 
     yield call(storeMnemonic, mnemonic, accountAddress)
-    yield call(statsig.updateUser, { userID: accountAddress.toLowerCase() })
+    try {
+      Statsig.updateUser({ userID: accountAddress.toLowerCase() })
+    } catch (error) {
+      Logger.error(TAG, 'Error updating statsig user', error)
+    }
 
     return accountAddress
   } catch (error) {

@@ -24,11 +24,11 @@ import {
   mtwAddressSelector,
   walletAddressSelector,
 } from 'src/web3/selectors'
-import statsig from 'statsig-js'
+import { Statsig } from 'statsig-react-native'
 import { createMockStore } from 'test/utils'
 import { mockAccount, mockAccount2, mockAccount3 } from 'test/values'
 
-statsig.updateUser = jest.fn().mockImplementation(() => Promise.resolve(true))
+Statsig.updateUser = jest.fn().mockImplementation(() => Promise.resolve(true))
 
 jest.unmock('src/pincode/authentication')
 

@@ -1,5 +1,5 @@
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -33,18 +33,15 @@ import fontStyles from 'src/styles/fonts'
 import { saveProfilePicture } from 'src/utils/image'
 import Logger from 'src/utils/Logger'
 import { useAsyncKomenciReadiness } from 'src/verify/hooks'
-import statsig from 'statsig-js'
+import { Statsig } from 'statsig-react-native'
 
 type Props = StackScreenProps<StackParamList, Screens.NameAndPicture>
 
 function NameAndPicture({ navigation }: Props) {
-  const statsigLayer = statsig.getLayer(StatsigLayers.NAME_AND_PICTURE_SCREEN)
-  const showSkipButton = statsigLayer.get(
-    ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].showSkipButton.paramName,
+  const [showSkipButton, setShowSkipButton] = useState(
     ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].showSkipButton.defaultValue
   )
-  const nameType = statsigLayer.get(
-    ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].nameType.paramName,
+  const [nameType, setNameType] = useState(
     ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].nameType.defaultValue
   )
 
@@ -67,6 +64,26 @@ function NameAndPicture({ navigation }: Props) {
   const asyncKomenciReadiness = useAsyncKomenciReadiness()
   const showGuidedOnboarding = useSelector(showGuidedOnboardingSelector)
   const createAccountCopyTestType = useSelector(createAccountCopyTestTypeSelector)
+
+  useEffect(() => {
+    try {
+      const statsigLayer = Statsig.getLayer(StatsigLayers.NAME_AND_PICTURE_SCREEN)
+      setShowSkipButton(
+        statsigLayer.get(
+          ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].showSkipButton.paramName,
+          ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].showSkipButton.defaultValue
+        )
+      )
+      setNameType(
+        statsigLayer.get(
+          ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].nameType.paramName,
+          ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].nameType.defaultValue
+        )
+      )
+    } catch (error) {
+      Logger.error('NameAndPicture', 'error gettting Statsig experiment', error)
+    }
+  }, [])
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -118,7 +135,11 @@ function NameAndPicture({ navigation }: Props) {
       return
     }
 
-    statsig.logEvent(StatsigEvents.NAME_STEP_COMPLETE)
+    try {
+      Statsig.logEvent(StatsigEvents.NAME_STEP_COMPLETE)
+    } catch (error) {
+      Logger.error('NameAndPicture', 'error logging Statsig event', error)
+    }
     ValoraAnalytics.track(OnboardingEvents.name_and_picture_set, {
       includesPhoto: false,
       profilePictureSkipped: shouldSkipProfilePicture,

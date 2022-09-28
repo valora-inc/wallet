@@ -3,7 +3,7 @@ import { PincodeType } from 'src/account/reducer'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalyticsModule from 'src/analytics/ValoraAnalytics'
 import { store } from 'src/redux/store'
-import statsig from 'statsig-js'
+import { Statsig } from 'statsig-react-native'
 import { getMockStoreData } from 'test/utils'
 import {
   mockCeloAddress,
@@ -138,7 +138,7 @@ describe('ValoraAnalytics', () => {
   beforeEach(() => {
     jest.clearAllMocks()
     jest.unmock('src/analytics/ValoraAnalytics')
-    statsig.initialize = jest.fn().mockImplementation(() => Promise.resolve())
+    Statsig.initialize = jest.fn().mockImplementation(() => Promise.resolve())
     jest.isolateModules(() => {
       ValoraAnalytics = require('src/analytics/ValoraAnalytics').default
     })
