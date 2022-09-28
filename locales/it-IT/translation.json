@@ -1282,6 +1282,14 @@
     },
     "continue": "Continua"
   },
+  "fiatConnectKycLandingScreen": {
+    "stepOne": "Passaggio 1",
+    "stepTwo": "Passaggio 2",
+    "title": "Verifica della tua identità",
+    "description": "Questo passaggio richiede circa 5 minuti.",
+    "disclaimer": "L'utente riconosce e accetta che i suoi Dati Personali saranno forniti a noi e condivisi con terze parti a scopo di verifica, come indicato nell'<0>Informativa sulla Privacy</0>.",
+    "button": "Imposta la verifica dell'ID"
+  },
   "fiatConnectReviewScreen": {
     "transactionDetails": "Dettagli della transazione",
     "paymentMethodVia": "Collegato via {{providerName}}",
