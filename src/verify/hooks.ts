@@ -5,6 +5,8 @@ import DeviceInfo from 'react-native-device-info'
 import { useDispatch, useSelector } from 'react-redux'
 import { setPhoneNumber } from 'src/account/actions'
 import { showError } from 'src/alert/actions'
+import { PhoneVerificationEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
 import Logger from 'src/utils/Logger'
@@ -64,6 +66,7 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCode: string) {
   }
 
   const handleVerifySmsError = (error: Error) => {
+    ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_code_verify_error)
     Logger.debug(
       `${TAG}/validateVerificationCode`,
       `Received error from verifySmsCode service for verificationId: ${verificationId}`,
@@ -109,6 +112,8 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCode: string) {
         }
 
         if (response.ok) {
+          ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_code_request_success)
+
           const { data } = await response.json()
           setVerificationId(data.verificationId)
           verificationCodeRequested.current = true
@@ -133,6 +138,8 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCode: string) {
         )
         return
       }
+
+      ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_code_verify_start)
 
       Logger.debug(
         `${TAG}/validateVerificationCode`,
@@ -165,6 +172,7 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCode: string) {
         }
 
         if (response.ok) {
+          ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_code_verify_success)
           Logger.debug(`${TAG}/validateVerificationCode`, 'Successfully verified phone number')
           setVerificationStatus(PhoneNumberVerificationStatus.SUCCESSFUL)
           dispatch(setPhoneNumber(phoneNumber, countryCode))
