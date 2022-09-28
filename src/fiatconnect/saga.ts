@@ -444,15 +444,14 @@ export function* handleSelectFiatConnectQuote({
           flow: quote.flow,
           step: 'two',
         })
-        yield put(selectFiatConnectQuoteCompleted())
-        return
+      } else {
+        navigate(Screens.FiatConnectLinkAccount, {
+          quote,
+          flow: quote.flow,
+        })
+        yield delay(500) // to avoid a screen flash
       }
-      // else, navigate to the FiatConnectLinkAccount page
-      navigate(Screens.FiatConnectLinkAccount, {
-        quote,
-        flow: quote.flow,
-      })
-      yield delay(500) // to avoid a screen flash
+
       yield put(selectFiatConnectQuoteCompleted())
       return
     }
