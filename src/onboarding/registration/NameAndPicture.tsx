@@ -81,7 +81,7 @@ function NameAndPicture({ navigation }: Props) {
         )
       )
     } catch (error) {
-      Logger.error('NameAndPicture', 'error gettting Statsig experiment', error)
+      Logger.error('NameAndPicture', 'error getting Statsig experiment', error)
     }
   }, [])
 
