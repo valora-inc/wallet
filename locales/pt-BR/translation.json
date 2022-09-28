@@ -767,7 +767,7 @@
     "startButtonLabel": "Iniciar",
     "learnMore": {
       "title": "Preciso conectar meu telefone?",
-      "body": "A ligação do seu número de telefone permitir-lhe-á enviar dinheiro a amigos na sua agenda de endereços e outros números de telefone. \n \n Se optar por saltar este passo, não poderá aceder aos seus contactos e só poderá enviar dinheiro através do código QR ou endereço de conta."
+      "body": "Conectar seu número de telefone permitirá que você envie dinheiro para amigos em sua agenda de endereços e outros números de telefone. \n \nSe você optar por pular esta etapa, não poderá acessar seus contatos e só poderá enviar dinheiro via código QR ou Endereço de Conta."
     },
     "skip": {
       "title": "Tem certeza?",
