@@ -767,7 +767,7 @@
     "startButtonLabel": "Start",
     "learnMore": {
       "title": "Muss ich mein Telefon anschließen?",
-      "body": "Wenn du deine Telefonnummer verbindest, kannst du Geld an Freunde in deinem Adressbuch und an andere Telefonnummern senden. \n \n Wenn du diesen Schritt überspringst, kannst du nicht auf deine Kontakte zugreifen und nur per QR-Code oder Kontonummer Geld senden."
+      "body": "Wenn du deine Telefonnummer verbindest, kannst du Geld an Freunde in deinem Adressbuch und an andere Telefonnummern senden. \n \n Wenn du diesen Schritt überspringst, kannst du nicht auf deine Kontakte zugreifen und nur über den QR-Code oder die Kontoadresse Geld senden."
     },
     "skip": {
       "title": "Bist du sicher?",
