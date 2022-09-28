@@ -56,6 +56,7 @@ describe('Persona', () => {
   it('renders correctly', () => {
     const personaProps: Props = {
       kycStatus: KycStatus.Created,
+      disabled: false,
     }
 
     const { toJSON } = render(
@@ -69,6 +70,7 @@ describe('Persona', () => {
   it('calls IHL to create a persona account if launching the first time', async () => {
     const personaProps: Props = {
       kycStatus: undefined,
+      disabled: false,
     }
     const { getByTestId } = render(
       <Provider store={store}>
@@ -82,9 +84,24 @@ describe('Persona', () => {
     expect(createPersonaAccount).toHaveBeenCalledTimes(1)
   })
 
+  it('disables the button when the disabled prop is true', async () => {
+    const personaProps: Props = {
+      kycStatus: KycStatus.Created,
+      disabled: true,
+    }
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <Persona {...personaProps} />
+      </Provider>
+    )
+
+    await waitFor(() => expect(getByTestId('PersonaButton')).toBeDisabled())
+  })
+
   it('launches persona on button press', async () => {
     const personaProps: Props = {
       kycStatus: KycStatus.Created,
+      disabled: false,
     }
     const { getByTestId } = render(
       <Provider store={store}>
@@ -102,6 +119,7 @@ describe('Persona', () => {
     const personaProps: Props = {
       kycStatus: KycStatus.Created,
       onSuccess: jest.fn(),
+      disabled: false,
     }
     const { getByTestId } = render(
       <Provider store={store}>
@@ -123,6 +141,7 @@ describe('Persona', () => {
     const personaProps: Props = {
       kycStatus: KycStatus.Created,
       onCanceled: jest.fn(),
+      disabled: false,
     }
     const { getByTestId } = render(
       <Provider store={store}>
@@ -144,6 +163,7 @@ describe('Persona', () => {
     const personaProps: Props = {
       kycStatus: KycStatus.Created,
       onError: jest.fn(),
+      disabled: false,
     }
     const { getByTestId } = render(
       <Provider store={store}>
@@ -165,6 +185,7 @@ describe('Persona', () => {
     const personaProps: Props = {
       kycStatus: KycStatus.Created,
       onError: jest.fn(),
+      disabled: false,
     }
     const { getByTestId } = render(
       <Provider store={store}>
