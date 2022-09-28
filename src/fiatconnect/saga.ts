@@ -27,6 +27,9 @@ import {
 } from 'src/app/selectors'
 import { FeeType, State as FeeEstimatesState } from 'src/fees/reducer'
 import { feeEstimatesSelector } from 'src/fees/selectors'
+import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
+import { normalizeFiatConnectQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
+import { CICOFlow } from 'src/fiatExchanges/utils'
 import {
   fetchQuotes,
   FiatConnectProviderInfo,
@@ -55,12 +58,9 @@ import {
   selectFiatConnectQuote,
   selectFiatConnectQuoteCompleted,
   submitFiatAccount,
-  submitFiatAccountKycApproved,
   submitFiatAccountCompleted,
+  submitFiatAccountKycApproved,
 } from 'src/fiatconnect/slice'
-import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
-import { normalizeFiatConnectQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
-import { CICOFlow } from 'src/fiatExchanges/utils'
 import i18n from 'src/i18n'
 import { getKycStatus, GetKycStatusResponse, postKyc } from 'src/in-house-liquidity'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
@@ -73,8 +73,8 @@ import { buildAndSendPayment } from 'src/send/saga'
 import { tokensListSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { newTransactionContext } from 'src/transactions/types'
-import { CiCoCurrency, Currency, resolveCICOCurrency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
+import { CiCoCurrency, Currency, resolveCICOCurrency } from 'src/utils/currencies'
 import { currentAccountSelector } from 'src/web3/selectors'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -332,7 +332,7 @@ export function* handleAttemptReturnUserFlow({
           navigate(Screens.KycDenied, {
             flow: normalizedQuote.flow,
             quote: normalizedQuote,
-            retryable: true,
+            retryable: true, // TODO: Get this dynamically once IHL supports it
           })
           return
         case FiatConnectKycStatus.KycExpired:
