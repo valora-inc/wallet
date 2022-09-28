@@ -763,27 +763,27 @@
   "phoneVerificationScreen": {
     "screenTitle": "Numer telefonu",
     "title": "Podłącz swój numer telefonu",
-    "description": "Aby połączyć swój numer telefonu, otrzymasz wiadomość tekstową.",
+    "description": "Aby podłączyć swój numer telefonu, otrzymasz wiadomość tekstową.",
     "startButtonLabel": "Start",
     "learnMore": {
       "title": "Czy muszę podłączyć telefon?",
-      "body": "Podłączenie numeru telefonu pozwoli Ci na wysyłanie pieniędzy do znajomych z książki adresowej i innych numerów telefonów. \n \n Jeśli pominiesz ten krok, nie będziesz miał dostępu do swoich kontaktów i będziesz mógł wysyłać pieniądze tylko za pomocą kodu QR lub numeru konta."
+      "body": "Podłączenie numeru telefonu pozwoli Ci na wysyłanie pieniędzy do znajomych z Twojej książki adresowej oraz na inne numery telefonów. \n \n Jeśli pominiesz ten krok, nie będziesz miał dostępu do swoich kontaktów i będziesz mógł wysyłać pieniądze tylko za pomocą kodu QR lub adresu konta."
     },
     "skip": {
       "title": "Czy na pewno?",
-      "body": "Połączenie pozwala na wysyłanie i odbieranie pieniędzy z twojego numeru telefonu.",
+      "body": "Podłączenie pozwala na wysyłanie i odbieranie pieniędzy z Twojego numeru telefonu.",
       "cancel": "Wróć",
       "confirm": "Na razie pomiń"
     }
   },
   "phoneVerificationInput": {
     "title": "Wprowadź kod",
-    "description": "Wysłaliśmy kod na adres {{phoneNumber}}, wpisz go poniżej.",
+    "description": "Wysłaliśmy kod pod numer {{phoneNumber}}, wpisz go poniżej.",
     "help": "Pomoc",
     "codeInputPlaceholder": "12345678",
     "helpDialog": {
       "title": "Pomoc",
-      "body": "Wysłaliśmy wiadomość SMS na Twój numer telefonu. Sprawdź swoje wiadomości tekstowe, aby znaleźć 8-cyfrowy kod. Jeśli masz problemy z odbieraniem wiadomości, możesz pominąć ten krok i spróbować ponownie później.",
+      "body": "Wysłaliśmy wiadomość SMS pod Twój numer telefonu. Sprawdź swoje wiadomości tekstowe, aby znaleźć 8-cyfrowy kod. Jeśli masz problemy z odbieraniem wiadomości, możesz pominąć ten krok i spróbować ponownie później.",
       "skip": "Pomiń",
       "dismiss": "Wróć"
     }
@@ -1282,7 +1282,7 @@
     "bankAccount": {
       "header": "Załóż konto bankowe",
       "bodyTitle": "Załóż konto bankowe",
-      "description": "Wprowadź dane konta bankowego, aby przelać środki. Twoje transakcje będą realizowane przez <0>{{providerName}}</0>. Klikając dalej, zgadzasz się z Regulaminem <1>i</1> <2>Polityką Prywatności</2>."
+      "description": "Wprowadź dane konta bankowego, aby przelać środki. Twoje transakcje będą realizowane przez <0>{{providerName}}</0>. Klikając przycisk Kontynuuj, zgadzasz się z <1>Warunkami</1> oraz <2>Polityką prywatności</2>"
     },
     "continue": "Kontynuuj"
   },
