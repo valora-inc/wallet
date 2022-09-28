@@ -1292,6 +1292,33 @@
     "disclaimer": "You acknowledge and agree that your Personal Data will be provided to us and shared with third-parties for verification purposes as stated in the <0>Privacy Policy</0>",
     "button": "Set up ID Verification"
   },
+  "fiatConnectKycStatusScreen": {
+    "contactSupportPrefill": "I'm having trouble verifying my identity with Valora.",
+    "contactSupport": "Contact Support",
+    "pending": {
+      "title": "Your ID verification is in review.",
+      "description": "After the review is complete, you can return to the Add & Withdraw page to complete your transaction.",
+      "close": "Close"
+    },
+    "denied": {
+      "switch": "Switch withdraw method",
+      "retryable": {
+        "title": "ID verification was not accepted.",
+        "description": "Please verify again or try a different way to withdraw funds.",
+        "tryAgain": "Try again"
+      },
+      "final": {
+        "title": "Verification denied.",
+        "description": "Please try a different way to withdraw funds, or contact support."
+      }
+    },
+    "expired": {
+      "title": "ID verification expired.",
+      "description": "Please verify again or try a different way to withdraw funds.",
+      "tryAgain": "Try again",
+      "switch": "Switch withdraw method"
+    }
+  },
   "fiatConnectReviewScreen": {
     "transactionDetails": "Transaction Details",
     "paymentMethodVia": "Connected via {{providerName}}",
