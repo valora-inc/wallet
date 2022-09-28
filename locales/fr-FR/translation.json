@@ -767,7 +767,7 @@
     "startButtonLabel": "Commencer",
     "learnMore": {
       "title": "Dois-je connecter mon téléphone ?",
-      "body": "La connexion de ton numéro de téléphone te permettra d'envoyer de l'argent aux amis de ton carnet d'adresses et à d'autres numéros de téléphone. \n \n Si tu choisis de sauter cette étape, tu ne pourras pas accéder à tes contacts et tu ne pourras envoyer de l'argent que via le code QR ou l'adresse du compte."
+      "body": "Connecter votre numéro de téléphone vous permettra d'envoyer de l'argent à vos contacts et d'autres numéros de téléphone. \n \nSi vous choisissez de sauter cette étape, vous ne pourrez pas accéder à vos contacts, et vous ne pourrez envoyer de l’argent que via le code QR ou l’Adresse du compte."
     },
     "skip": {
       "title": "Êtes-vous sûr ?",
