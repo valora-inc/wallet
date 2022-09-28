@@ -1282,6 +1282,14 @@
     },
     "continue": "İleri"
   },
+  "fiatConnectKycLandingScreen": {
+    "stepOne": "1. Adım",
+    "stepTwo": "2. Adım",
+    "title": "Kimliğinizi doğrulayın",
+    "description": "This step will take about 5 minutes.",
+    "disclaimer": "You acknowledge and agree that your Personal Data will be provided to us and shared with third-parties for verification purposes as stated in the <0>Privacy Policy</0>",
+    "button": "Set up ID Verification"
+  },
   "fiatConnectReviewScreen": {
     "transactionDetails": "İşlem detayları",
     "paymentMethodVia": "{{providerName}} üzerinden bağlantı",
