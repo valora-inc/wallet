@@ -1,7 +1,9 @@
 import { FiatAccountType } from '@fiatconnect/fiatconnect-types'
 import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
+import { View } from 'react-native'
 import { Provider } from 'react-redux'
+import * as Persona from 'src/account/Persona'
 import { KycStatus } from 'src/account/reducer'
 import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import KycLanding from 'src/fiatconnect/KycLanding'
@@ -59,6 +61,20 @@ describe('KycLanding', () => {
       expect(getByTestId('PersonaButton')).toBeDisabled()
       fireEvent.press(getByTestId('checkbox'))
       expect(getByTestId('PersonaButton')).not.toBeDisabled()
+    })
+    it('passes a callback function for successful persona result', () => {
+      const mockPersonaButton = jest.fn(() => <View></View>)
+      jest.spyOn(Persona, 'default').mockImplementation(mockPersonaButton)
+      render(
+        <Provider store={store}>
+          <KycLanding {...props} />
+        </Provider>
+      )
+      expect(Persona.default).toHaveBeenCalledWith(
+        expect.objectContaining({ onSuccess: expect.any(Function) }), // props for Persona
+        expect.anything()
+      )
+      jest.restoreAllMocks()
     })
   })
 
