@@ -577,6 +577,13 @@
     "title": "Envoyez des crypto pour inviter un ami",
     "body": "Vous recevrez tous les deux un NFT exclusif une fois qu'il est configuré son compte {{appName}}. <0>Gagnez jusqu'à 3 NFT</0>"
   },
+  "inviteWithUrl": {
+    "title": "Inv inviter un ami",
+    "body": "Connecte-toi et partage de la valeur avec tes amis et ta famille sur {{appName}}.",
+    "button": "Partager l'invitation",
+    "error": "Il y avait un problème pour créer un lien partageable.",
+    "share": "Salut ! J'utilise {{appName}} comme mon portefeuille de crypto-monnaies. C'est facile à essayer et je veux t'inviter à le tester avec ce lien : {{shareUrl}}"
+  },
   "getReward": "Obtenez {{reward}}$",
   "welcomeCelo": "Bienvenue sur {{appName}}",
   "chooseCountryCode": "Code pays",
