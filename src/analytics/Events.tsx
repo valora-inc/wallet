@@ -448,6 +448,10 @@ export enum FiatExchangeEvents {
   cico_fc_link_account_back = 'cico_fc_link_account_back',
   cico_fc_link_account_provider_website = 'cico_fc_link_account_provider_website',
 
+  // Fiat Connect link KYC & account page
+  cico_fc_link_kyc_account_back = 'cico_fc_link_kyc_account_back',
+  // persona_kyc_start is fired when the 'Set up ID Verification' button is clicked
+
   // Fiat Connect fiat details screen
   cico_fiat_details_success = 'cico_fiat_details_success',
   cico_fiat_details_back = 'cico_fiat_details_back',
