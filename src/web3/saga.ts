@@ -98,7 +98,9 @@ export function* getOrCreateAccount() {
 
     yield call(storeMnemonic, mnemonic, accountAddress)
     try {
-      yield Statsig.updateUser({ userID: accountAddress.toLowerCase() })
+      yield call(async () => {
+        await Statsig.updateUser({ userID: accountAddress.toLowerCase() })
+      })
     } catch (error) {
       Logger.error(TAG, 'Error updating statsig user', error)
     }
