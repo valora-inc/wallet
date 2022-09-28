@@ -767,7 +767,7 @@
     "startButtonLabel": "Comenzar",
     "learnMore": {
       "title": "¿Es necesario conectar mi teléfono?",
-      "body": "Conectar tu número de teléfono te permitirá enviar dinero a los amigos de tu agenda y a otros números de teléfono. \n \n Si decides omitir este paso, no podrás acceder a tus contactos y sólo podrás enviar dinero a través del código QR o de la dirección de la cuenta."
+      "body": "Conectar tu número de teléfono te permitirá enviar dinero a tus contactos y a otros números de teléfono. \n \nSi prefieres omitir este paso, no podrás acceder a tus contactos y solo podrás enviar dinero mediante el código QR o la Dirección de cuenta."
     },
     "skip": {
       "title": "¿Quieres omitir este paso?",
