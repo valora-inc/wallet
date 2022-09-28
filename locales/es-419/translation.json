@@ -767,7 +767,7 @@
     "startButtonLabel": "Comenzar",
     "learnMore": {
       "title": "¿Es necesario conectar mi teléfono?",
-      "body": "Conectar tu número de teléfono te permitirá enviar dinero a tus contactos y a otros números de teléfono. \n \nSi prefieres omitir este paso, no podrás acceder a tus contactos y solo podrás enviar dinero mediante el código QR o la Dirección de cuenta."
+      "body": "Conectar tu número de teléfono te permitirá enviar dinero a los amigos de tu agenda y a otros números de teléfono. \n \n Si decides omitir este paso, no podrás acceder a tus contactos y sólo podrás enviar dinero a través del código QR o de la dirección de la cuenta."
     },
     "skip": {
       "title": "¿Quieres omitir este paso?",
@@ -1283,12 +1283,12 @@
     "continue": "Continuar"
   },
   "fiatConnectKycLandingScreen": {
-    "stepOne": "Paso 1",
-    "stepTwo": "Paso 2",
+    "stepOne": "Paso 1",
+    "stepTwo": "Paso 2",
     "title": "Verifica tu identidad",
     "description": "Este paso te llevará unos 5 minutos.",
-    "disclaimer": "Reconoces y aceptas que tus Datos Personales nos serán proporcionados y compartidos con terceros para fines de verificación como se indica en la <0>Política de Privacidad</0>",
-    "button": "Establecer la verificación de la identidad"
+    "disclaimer": "Reconoces y aceptas que tus Datos personales nos serán proporcionados y compartidos con terceros con fines de verificación como se indica en la <0>Política de Privacidad</0>.",
+    "button": "Establecer verificación de identidad"
   },
   "fiatConnectReviewScreen": {
     "transactionDetails": "Detalles de transacción",
