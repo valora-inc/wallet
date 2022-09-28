@@ -98,7 +98,7 @@ export function* getOrCreateAccount() {
 
     yield call(storeMnemonic, mnemonic, accountAddress)
     try {
-      Statsig.updateUser({ userID: accountAddress.toLowerCase() })
+      yield Statsig.updateUser({ userID: accountAddress.toLowerCase() })
     } catch (error) {
       Logger.error(TAG, 'Error updating statsig user', error)
     }
