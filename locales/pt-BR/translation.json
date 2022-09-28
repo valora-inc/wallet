@@ -1278,9 +1278,17 @@
     "bankAccount": {
       "header": "Configurar conta bancária",
       "bodyTitle": "Configurar conta bancária",
-      "description": "Insira os dados bancários para transferir fundos. Suas transações serão suportadas por <0>{{providerName}}</0>."
+      "description": "Introduza os dados da conta bancária para transferir fundos. As suas transacções serão alimentadas por <0>{{providerName}}</0>. Ao clicar em continuar, concorda com os seus <1>Termos e Condições</1> e <2>Política de Privacidade</2>"
     },
     "continue": "Continuar"
+  },
+  "fiatConnectKycLandingScreen": {
+    "stepOne": "Passo 1",
+    "stepTwo": "Passo 2",
+    "title": "Verifique a sua identidade",
+    "description": "Este passo demorará cerca de 5 minutos.",
+    "disclaimer": "Reconhece e concorda que os seus Dados Pessoais nos serão fornecidos e partilhados com terceiros para fins de verificação, tal como estabelecido na <0>Política de Privacidade</0>",
+    "button": "Verificação de identificação"
   },
   "fiatConnectReviewScreen": {
     "transactionDetails": "Detalhes de transação",
