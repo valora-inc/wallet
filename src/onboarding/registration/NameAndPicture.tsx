@@ -136,7 +136,7 @@ function NameAndPicture({ navigation }: Props) {
     }
 
     try {
-      Statsig.logEvent(StatsigEvents.NAME_STEP_COMPLETE)
+      Statsig.logEvent(StatsigEvents.ONBOARDING_NAME_STEP_COMPLETE)
     } catch (error) {
       Logger.error('NameAndPicture', 'error logging Statsig event', error)
     }

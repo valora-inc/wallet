@@ -32,5 +32,5 @@ export enum StatsigLayers {
 }
 
 export enum StatsigEvents {
-  NAME_STEP_COMPLETE = 'name_step_complete',
+  ONBOARDING_NAME_STEP_COMPLETE = 'onboarding_name_step_complete',
 }

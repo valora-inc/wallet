@@ -78,6 +78,7 @@ describe(getOrCreateAccount, () => {
       .put(setDataEncryptionKey(EXPECTED_DEK))
       .returns(EXPECTED_ADDRESS)
       .run()
+    expect(Statsig.updateUser).toBeCalledWith({ userID: EXPECTED_ADDRESS.toLowerCase() })
   })
 
   it.each`
