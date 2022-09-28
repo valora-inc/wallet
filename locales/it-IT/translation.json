@@ -763,29 +763,29 @@
   "phoneVerificationScreen": {
     "screenTitle": "Numero telefonico",
     "title": "Collega il tuo numero telefonico",
-    "description": "Per collegare il tuo numero di telefono, riceverai un messaggio di testo.",
+    "description": "Per collegare il tuo numero telefonico, riceverai un messaggio di testo.",
     "startButtonLabel": "Inizia",
     "learnMore": {
       "title": "Devo collegare il mio telefono?",
-      "body": "Collegando il tuo numero di telefono potrai inviare denaro agli amici della tua rubrica e ad altri numeri di telefono. \n \n Se scegli di saltare questo passaggio non potrai accedere ai tuoi contatti e potrai inviare denaro solo tramite codice QR o numero di conto."
+      "body": "Collegando il tuo numero di telefono potrai inviare denaro agli amici della tua rubrica e ad altri numeri di telefono. \n \n Se scegli di saltare questo passaggio, non potrai accedere ai tuoi contatti e potrai inviare denaro solo tramite codice QR o indirizzo dell'account."
     },
     "skip": {
       "title": "Sei sicuro?",
-      "body": "La connessione ti permette di inviare e ricevere fondi dal tuo numero di telefono.",
+      "body": "Il collegamento ti consente di inviare e ricevere fondi dal tuo numero telefonico.",
       "cancel": "Indietro",
       "confirm": "Salta per il momento"
     }
   },
   "phoneVerificationInput": {
     "title": "Inserisci il codice",
-    "description": "Abbiamo inviato un codice a {{phoneNumber}}, inseriscilo qui sotto.",
+    "description": "Abbiamo inviato un codice a {{phoneNumber}}, inseriscilo di seguito.",
     "help": "Guida",
     "codeInputPlaceholder": "12345678",
     "helpDialog": {
       "title": "Guida",
-      "body": "Abbiamo inviato un SMS al tuo numero di telefono. Controlla i tuoi messaggi per trovare il codice di 8 cifre. Se hai problemi a ricevere i messaggi, puoi saltare questo passaggio e riprovare più tardi.",
+      "body": "Abbiamo inviato un SMS al tuo numero telefonico. Controlla i tuoi SMS per trovare il codice di 8 cifre. Se hai problemi a ricevere i messaggi, puoi saltare questo passaggio e riprovare più tardi.",
       "skip": "Salta",
-      "dismiss": "Torna indietro"
+      "dismiss": "Indietro"
     }
   },
   "importExistingKey": {
@@ -1278,7 +1278,7 @@
     "bankAccount": {
       "header": "Imposta un conto bancario",
       "bodyTitle": "Imposta un conto bancario",
-      "description": "Inserisci i dati del conto bancario per trasferire i fondi. Le tue transazioni saranno effettuate da <0>{{providerName}}</0>. Cliccando su \"Continua\", accetti i <1>Termini e le Condizioni</1> e l'<2>Informativa sulla Privacy</2>."
+      "description": "Inserisci i dettagli del Conto bancario per trasferire fondi. Le transazioni saranno effettuate da <0>{{providerName}}</0>. Facendo clic su Continua, accetterai i <1>Termini e condizioni</1> e l'<2>Informativa sulla privacy</2>."
     },
     "continue": "Continua"
   },
@@ -1287,8 +1287,8 @@
     "stepTwo": "Passaggio 2",
     "title": "Verifica della tua identità",
     "description": "Questo passaggio richiede circa 5 minuti.",
-    "disclaimer": "L'utente riconosce e accetta che i suoi Dati Personali saranno forniti a noi e condivisi con terze parti a scopo di verifica, come indicato nell'<0>Informativa sulla Privacy</0>.",
-    "button": "Imposta la verifica dell'ID"
+    "disclaimer": "L'utente riconosce e accetta che i suoi Dati personali saranno forniti a noi e condivisi con terze parti a scopo di verifica, come indicato nell'<0>Informativa sulla privacy</0>.",
+    "button": "Configura verifica dell'ID"
   },
   "fiatConnectReviewScreen": {
     "transactionDetails": "Dettagli della transazione",
