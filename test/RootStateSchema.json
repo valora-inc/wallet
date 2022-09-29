@@ -2879,6 +2879,9 @@
                     },
                     "type": "array"
                 },
+                "kycTryAgainLoading": {
+                    "type": "boolean"
+                },
                 "providers": {
                     "anyOf": [
                         {
@@ -3096,6 +3099,7 @@
             "required": [
                 "attemptReturnUserFlowLoading",
                 "cachedFiatAccountUses",
+                "kycTryAgainLoading",
                 "providers",
                 "quotes",
                 "quotesError",
@@ -4205,6 +4209,7 @@
                                         "exchangeRateChange",
                                         "failedFetchMnemonic",
                                         "fetchFailed",
+                                        "fiatConnectKycStatusScreen.tryAgainFailed",
                                         "firebaseDisabled",
                                         "firebaseFailed",
                                         "gasPriceUpdateFailed",

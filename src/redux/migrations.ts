@@ -5,13 +5,13 @@ import { CodeInputStatus } from 'src/components/CodeInput'
 import { DEFAULT_SENTRY_NETWORK_ERRORS, DEFAULT_SENTRY_TRACES_SAMPLE_RATE } from 'src/config'
 import { DappConnectInfo } from 'src/dapps/types'
 import { initialState as exchangeInitialState } from 'src/exchange/reducer'
+import { SendingFiatAccountStatus } from 'src/fiatconnect/slice'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { AddressToDisplayNameType } from 'src/identity/reducer'
 import { VerificationStatus } from 'src/identity/types'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { TokenTransaction } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
-import { SendingFiatAccountStatus } from 'src/fiatconnect/slice'
 
 const DEFAULT_DAILY_PAYMENT_LIMIT_CUSD_LEGACY = 1000
 
@@ -829,6 +829,13 @@ export const migrations = {
     fiatConnect: {
       ..._.omit(state.fiatConnect, 'sendingFiatAccount'),
       sendingFiatAccountStatus: SendingFiatAccountStatus.NotSending,
+    },
+  }),
+  80: (state: any) => ({
+    ...state,
+    fiatConnect: {
+      ...state.fiatConnect,
+      kycTryAgainLoading: false,
     },
   }),
 }
