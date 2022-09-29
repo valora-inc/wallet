@@ -499,16 +499,7 @@ describe('Fiatconnect saga', () => {
         .provide([
           [matches.call.fn(getFiatConnectClient), mockFcClient],
           { call: provideDelay },
-          [
-            matches.call.fn(getKycStatus),
-            {
-              providerId: normalizedQuoteKyc.quote.provider.id,
-              persona: PersonaKycStatus.Approved,
-              kycStatus: {
-                [KycSchema.PersonalDataAndDocuments]: 'bad-status!',
-              },
-            },
-          ],
+          [matches.call.fn(getKycStatus), new Error('uh oh!')],
           { call: provideDelay },
         ])
         .put(
@@ -558,7 +549,16 @@ describe('Fiatconnect saga', () => {
         .provide([
           [matches.call.fn(getFiatConnectClient), mockFcClient],
           { call: provideDelay },
-          [matches.call.fn(getKycStatus), new Error('uh oh!')],
+          [
+            matches.call.fn(getKycStatus),
+            {
+              providerId: normalizedQuoteKyc.quote.provider.id,
+              persona: PersonaKycStatus.Approved,
+              kycStatus: {
+                [KycSchema.PersonalDataAndDocuments]: 'bad-status!',
+              },
+            },
+          ],
           { call: provideDelay },
         ])
         .put(
