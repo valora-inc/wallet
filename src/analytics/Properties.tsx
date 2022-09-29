@@ -232,6 +232,7 @@ interface OnboardingEventsProperties {
     includesPhoto: boolean
     profilePictureSkipped: boolean
   }
+  [OnboardingEvents.username_skipped]: undefined
   [OnboardingEvents.phone_number_set]: {
     countryCode: string
     country?: string

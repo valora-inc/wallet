@@ -84,6 +84,8 @@ function NameAndPicture({ navigation }: Props) {
       })
     }
   }
+  // onPressSkip
+  // ValoraAnalytics.track(OnboardingEvents.username_skipped)
 
   const onPressContinue = () => {
     dispatch(hideAlert())
