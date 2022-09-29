@@ -85,7 +85,7 @@ describe('VerificationCodeInputScreen', () => {
     )
   })
 
-  it('verifies the sms code service', async () => {
+  it('verifies the sms code', async () => {
     mockFetch.mockResponseOnce(JSON.stringify({ data: { verificationId: 'someId' } }), {
       status: 200,
     })

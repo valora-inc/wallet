@@ -337,7 +337,7 @@ export type StackParamList = {
   [Screens.VerificationCodeInputScreen]: {
     registrationStep?: { step: number; totalSteps: number }
     e164Number: string
-    countryCode: string
+    countryCallingCode: string
   }
   [Screens.VerificationLoadingScreen]: { withoutRevealing: boolean }
   [Screens.OnboardingEducationScreen]: undefined
