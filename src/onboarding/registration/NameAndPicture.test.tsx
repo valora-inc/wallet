@@ -7,7 +7,6 @@ import { Provider } from 'react-redux'
 import { CreateAccountCopyTestType } from 'src/app/types'
 import { Screens } from 'src/navigator/Screens'
 import NameAndPicture from 'src/onboarding/registration/NameAndPicture'
-import { Statsig } from 'statsig-react-native'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockNavigation } from 'test/values'
 
@@ -16,8 +15,6 @@ expect.extend({ toBeDisabled })
 const mockScreenProps = getMockStackScreenProps(Screens.NameAndPicture)
 
 describe('NameAndPictureScreen', () => {
-  Statsig.getLayer = jest.fn().mockReturnValue({ get: () => null })
-
   it('disable button when no name', () => {
     const store = createMockStore()
     const { getByTestId } = render(

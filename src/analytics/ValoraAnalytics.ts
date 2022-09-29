@@ -75,7 +75,6 @@ class ValoraAnalytics {
   private prevScreenId: string | undefined
 
   async init() {
-    let deviceInfo
     let uniqueID
     try {
       if (!SEGMENT_API_KEY) {
@@ -84,7 +83,7 @@ class ValoraAnalytics {
       await Analytics.setup(SEGMENT_API_KEY, SEGMENT_OPTIONS)
 
       try {
-        deviceInfo = await getDeviceInfo()
+        const deviceInfo = await getDeviceInfo()
         this.deviceInfo = deviceInfo
         uniqueID = await deviceInfo.UniqueID
         this.sessionId = sha256FromString('0x' + uniqueID.split('-').join('') + String(Date.now()))
@@ -114,7 +113,7 @@ class ValoraAnalytics {
         },
       })
     } catch (error) {
-      Logger.error(TAG, `Statsig setup error: ${error.message}\n`, error)
+      Logger.error(TAG, `Statsig setup error`, error)
     }
   }
 
