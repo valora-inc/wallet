@@ -27,9 +27,6 @@ import {
 } from 'src/app/selectors'
 import { FeeType, State as FeeEstimatesState } from 'src/fees/reducer'
 import { feeEstimatesSelector } from 'src/fees/selectors'
-import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
-import { normalizeFiatConnectQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
-import { CICOFlow } from 'src/fiatExchanges/utils'
 import {
   fetchQuotes,
   FiatConnectProviderInfo,
@@ -52,6 +49,8 @@ import {
   fetchFiatConnectQuotesFailed,
   FiatAccount,
   fiatAccountUsed,
+  kycTryAgain,
+  kycTryAgainCompleted,
   refetchQuote,
   refetchQuoteCompleted,
   refetchQuoteFailed,
@@ -61,8 +60,11 @@ import {
   submitFiatAccountCompleted,
   submitFiatAccountKycApproved,
 } from 'src/fiatconnect/slice'
+import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
+import { normalizeFiatConnectQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
+import { CICOFlow } from 'src/fiatExchanges/utils'
 import i18n from 'src/i18n'
-import { getKycStatus, GetKycStatusResponse, postKyc } from 'src/in-house-liquidity'
+import { deleteKyc, getKycStatus, GetKycStatusResponse, postKyc } from 'src/in-house-liquidity'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
@@ -73,8 +75,8 @@ import { buildAndSendPayment } from 'src/send/saga'
 import { tokensListSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { newTransactionContext } from 'src/transactions/types'
-import Logger from 'src/utils/Logger'
 import { CiCoCurrency, Currency, resolveCICOCurrency } from 'src/utils/currencies'
+import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -740,6 +742,24 @@ export function* handleCreateFiatConnectTransfer({
   }
 }
 
+export function* handleKycTryAgain({ payload }: ReturnType<typeof kycTryAgain>) {
+  const { quote, flow } = payload
+
+  try {
+    yield call(deleteKyc, {
+      providerInfo: quote.getProviderInfo(),
+      kycSchema: quote.getKycSchema()!, // it is impossible for kyc schema to be undefined on the quote
+    })
+
+    navigate(Screens.KycLanding, { quote, flow, step: 'one' })
+  } catch (error) {
+    Logger.error(TAG, 'Kyc delete failed', error)
+    yield put(showError(ErrorMessages.KYC_TRY_AGAIN_FAILED))
+  } finally {
+    yield put(kycTryAgainCompleted())
+  }
+}
+
 function* watchFiatConnectTransfers() {
   yield takeLeading(createFiatConnectTransfer.type, handleCreateFiatConnectTransfer)
 }
@@ -767,6 +787,11 @@ function* watchRefetchQuote() {
 function* watchSubmitFiatAccount() {
   yield takeLeading(submitFiatAccount.type, handleSubmitFiatAccount)
 }
+
+function* watchKycTryAgain() {
+  yield takeLeading(kycTryAgain.type, handleKycTryAgain)
+}
+
 export function* fiatConnectSaga() {
   yield spawn(watchFetchFiatConnectQuotes)
   yield spawn(watchFiatConnectTransfers)
@@ -775,4 +800,5 @@ export function* fiatConnectSaga() {
   yield spawn(watchSelectFiatConnectQuote)
   yield spawn(watchRefetchQuote)
   yield spawn(watchSubmitFiatAccount)
+  yield spawn(watchKycTryAgain)
 }

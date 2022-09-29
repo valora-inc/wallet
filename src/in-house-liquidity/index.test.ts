@@ -1,18 +1,20 @@
-import { FetchMock } from 'jest-fetch-mock/types'
-import {
-  createPersonaAccount,
-  verifyWalletAddress,
-  getAuthHeaders,
-  makeRequest,
-  getKycStatus,
-  postKyc,
-  AUTH_COOKIE,
-} from 'src/in-house-liquidity/index'
-import networkConfig from 'src/web3/networkConfig'
-import { getFiatConnectClient } from 'src/fiatconnect/clients'
 import { FiatConnectApiClient } from '@fiatconnect/fiatconnect-sdk'
 import { KycSchema, KycStatus as FiatConnectKycStatus } from '@fiatconnect/fiatconnect-types'
+import { FetchMock } from 'jest-fetch-mock/types'
 import { KycStatus as PersonaKycStatus } from 'src/account/reducer'
+import { getFiatConnectClient } from 'src/fiatconnect/clients'
+import {
+  AUTH_COOKIE,
+  createPersonaAccount,
+  deleteKyc,
+  getAuthHeaders,
+  getKycStatus,
+  makeRequest,
+  postKyc,
+  verifyWalletAddress,
+} from 'src/in-house-liquidity/index'
+import networkConfig from 'src/web3/networkConfig'
+import { mocked } from 'ts-jest/utils'
 
 const mockFetch = fetch as FetchMock
 
@@ -70,7 +72,7 @@ describe('In House Liquidity Calls', () => {
 
   describe('makeRequest', () => {
     it('makes a FC authenticated call if provider info is passed', async () => {
-      ;(getAuthHeaders as jest.Mock).mockResolvedValueOnce({ 'header-key': 'header-val' })
+      mocked(getAuthHeaders).mockResolvedValueOnce({ 'header-key': 'header-val' })
       mockFetch.mockResponseOnce(JSON.stringify({}), { status: 201 })
       await makeRequest({
         providerInfo: mockProviderInfo,
@@ -142,11 +144,7 @@ describe('In House Liquidity Calls', () => {
 
   describe('getKycStatus', () => {
     it('throws if response not OK', async () => {
-      const mockResponse = {
-        ok: false,
-        status: 418,
-      }
-      ;(makeRequest as jest.Mock).mockResolvedValueOnce(mockResponse)
+      mocked(makeRequest).mockResolvedValueOnce(new Response('', { status: 418 }))
       await expect(
         getKycStatus({
           providerInfo: mockProviderInfo,
@@ -167,11 +165,9 @@ describe('In House Liquidity Calls', () => {
         },
         persona: PersonaKycStatus.Approved,
       }
-      const mockResponse = {
-        ok: true,
-        json: async () => mockGetKycStatusResponse,
-      }
-      ;(makeRequest as jest.Mock).mockResolvedValueOnce(mockResponse)
+      mocked(makeRequest).mockResolvedValueOnce(
+        new Response(JSON.stringify(mockGetKycStatusResponse))
+      )
       const getKycStatusResponse = await getKycStatus({
         providerInfo: mockProviderInfo,
         kycSchemas: [KycSchema.PersonalDataAndDocuments],
@@ -187,11 +183,7 @@ describe('In House Liquidity Calls', () => {
 
   describe('postKyc', () => {
     it('throws if response not OK', async () => {
-      const mockResponse = {
-        ok: false,
-        status: 418,
-      }
-      ;(makeRequest as jest.Mock).mockResolvedValueOnce(mockResponse)
+      mocked(makeRequest).mockResolvedValueOnce(new Response('', { status: 418 }))
       await expect(
         postKyc({
           providerInfo: mockProviderInfo,
@@ -205,10 +197,7 @@ describe('In House Liquidity Calls', () => {
       })
     })
     it('silently succeeds if response is OK', async () => {
-      const mockResponse = {
-        ok: true,
-      }
-      ;(makeRequest as jest.Mock).mockResolvedValueOnce(mockResponse)
+      mocked(makeRequest).mockResolvedValueOnce(new Response())
       const postKycResponse = await postKyc({
         providerInfo: mockProviderInfo,
         kycSchema: KycSchema.PersonalDataAndDocuments,
@@ -222,13 +211,39 @@ describe('In House Liquidity Calls', () => {
     })
   })
 
+  describe('deleteKyc', () => {
+    it('throws if response not OK', async () => {
+      mocked(makeRequest).mockResolvedValueOnce(new Response('', { status: 400 }))
+      await expect(
+        deleteKyc({
+          providerInfo: mockProviderInfo,
+          kycSchema: KycSchema.PersonalDataAndDocuments,
+        })
+      ).rejects.toEqual(new Error('Got non-ok response from IHL while deleting KYC: 400'))
+      expect(makeRequest).toHaveBeenCalledWith({
+        providerInfo: mockProviderInfo,
+        path: '/fiatconnect/kyc/provider-id/PersonalDataAndDocuments',
+        options: { method: 'DELETE' },
+      })
+    })
+    it('silently succeeds if response is OK', async () => {
+      mocked(makeRequest).mockResolvedValueOnce(new Response())
+      const deleteKycResponse = await deleteKyc({
+        providerInfo: mockProviderInfo,
+        kycSchema: KycSchema.PersonalDataAndDocuments,
+      })
+      expect(deleteKycResponse).toBeUndefined()
+      expect(makeRequest).toHaveBeenCalledWith({
+        providerInfo: mockProviderInfo,
+        path: '/fiatconnect/kyc/provider-id/PersonalDataAndDocuments',
+        options: { method: 'DELETE' },
+      })
+    })
+  })
+
   describe('createPersonaAccount', () => {
     it('throws if response is not OK or 409', async () => {
-      const mockResponse = {
-        ok: false,
-        status: 418,
-      }
-      ;(makeRequest as jest.Mock).mockResolvedValueOnce(mockResponse)
+      mocked(makeRequest).mockResolvedValueOnce(new Response('', { status: 418 }))
       await expect(
         createPersonaAccount({
           walletAddress: 'some-address',
@@ -245,10 +260,7 @@ describe('In House Liquidity Calls', () => {
       })
     })
     it('silently succeeds if response is OK', async () => {
-      const mockResponse = {
-        ok: true,
-      }
-      ;(makeRequest as jest.Mock).mockResolvedValueOnce(mockResponse)
+      mocked(makeRequest).mockResolvedValueOnce(new Response())
       const createPersonaAccountResponse = await createPersonaAccount({
         walletAddress: 'some-address',
       })
@@ -262,11 +274,7 @@ describe('In House Liquidity Calls', () => {
       })
     })
     it('silently succeeds if response is 409', async () => {
-      const mockResponse = {
-        ok: false,
-        status: 409,
-      }
-      ;(makeRequest as jest.Mock).mockResolvedValueOnce(mockResponse)
+      mocked(makeRequest).mockResolvedValueOnce(new Response('', { status: 409 }))
       const createPersonaAccountResponse = await createPersonaAccount({
         walletAddress: 'some-address',
       })

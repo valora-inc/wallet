@@ -1345,6 +1345,7 @@
       "contactSupportPrefill": "I'm having trouble withdrawing my funds."
     }
   },
+  "fiatConnectKycTryAgainFailed": "There was an error clearing KYC information. Please try again",
   "fiatExchangeFlow": {
     "cashIn": {
       "fiatExchangeTitle": "Add Funds",

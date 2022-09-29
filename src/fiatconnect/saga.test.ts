@@ -30,6 +30,7 @@ import {
   handleCreateFiatConnectTransfer,
   handleFetchFiatConnectProviders,
   handleFetchFiatConnectQuotes,
+  handleKycTryAgain,
   handleRefetchQuote,
   handleSelectFiatConnectQuote,
   handleSubmitFiatAccount,
@@ -48,6 +49,8 @@ import {
   fetchFiatConnectQuotesCompleted,
   fetchFiatConnectQuotesFailed,
   fiatAccountUsed,
+  kycTryAgain,
+  kycTryAgainCompleted,
   refetchQuote,
   refetchQuoteCompleted,
   refetchQuoteFailed,
@@ -61,7 +64,7 @@ import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { normalizeFiatConnectQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import i18n from 'src/i18n'
-import { getKycStatus, postKyc } from 'src/in-house-liquidity'
+import { deleteKyc, getKycStatus, postKyc } from 'src/in-house-liquidity'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -103,6 +106,7 @@ jest.mock('src/fiatconnect/clients', () => ({
 jest.mock('src/in-house-liquidity', () => ({
   getKycStatus: jest.fn(),
   postKyc: jest.fn(),
+  deleteKyc: jest.fn(),
 }))
 
 describe('Fiatconnect saga', () => {
@@ -1611,6 +1615,33 @@ describe('Fiatconnect saga', () => {
             ])
             .run()
       ).rejects.toThrow('Could not find quote')
+    })
+  })
+
+  describe('handleKycTryAgain', () => {
+    const quote = new FiatConnectQuote({
+      quote: mockFiatConnectQuotes[3] as FiatConnectQuoteSuccess,
+      fiatAccountType: FiatAccountType.BankAccount,
+      flow: CICOFlow.CashOut,
+    })
+    const flow = CICOFlow.CashOut
+
+    it('deletes kyc status and navigates to kyc landing screen', async () => {
+      mocked(deleteKyc).mockResolvedValueOnce()
+      await expectSaga(handleKycTryAgain, kycTryAgain({ flow, quote }))
+        .put(kycTryAgainCompleted())
+        .run()
+      expect(navigate).toHaveBeenCalledTimes(1)
+      expect(navigate).toHaveBeenCalledWith(Screens.KycLanding, { quote, flow, step: 'one' })
+    })
+
+    it('shows error message on delete kyc failure', async () => {
+      mocked(deleteKyc).mockRejectedValueOnce(new Error('failed'))
+      await expectSaga(handleKycTryAgain, kycTryAgain({ flow, quote }))
+        .put(kycTryAgainCompleted())
+        .run()
+      expect(navigate).not.toHaveBeenCalled()
+      expect(Logger.error).toHaveBeenCalled()
     })
   })
 })
