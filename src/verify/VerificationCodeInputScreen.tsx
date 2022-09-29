@@ -1,12 +1,19 @@
 import { StackScreenProps, useHeaderHeight } from '@react-navigation/stack'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, Text, View } from 'react-native'
+import {
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import BackButton from 'src/components/BackButton'
 import CodeInput, { CodeInputStatus } from 'src/components/CodeInput'
 import Dialog from 'src/components/Dialog'
-import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import { PHONE_NUMBER_VERIFICATION_CODE_LENGTH } from 'src/config'
 import { HeaderTitleWithSubtitle } from 'src/navigator/Headers'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
@@ -99,31 +106,37 @@ function VerificationCodeInputScreen({
 
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>
-      <KeyboardAwareScrollView
-        style={[styles.scrollContainer, headerHeight ? { marginTop: headerHeight } : undefined]}
-        contentContainerStyle={styles.scrollContentContainer}
-        keyboardShouldPersistTaps="always"
+      <KeyboardAvoidingView
+        style={[
+          styles.keyboardAvoidingContainer,
+          headerHeight ? { marginTop: headerHeight } : undefined,
+        ]}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
-        <Text style={styles.body}>
-          {t('phoneVerificationInput.description', { phoneNumber: route.params.e164Number })}
-        </Text>
-        <CodeInput
-          status={codeInputStatus}
-          inputValue={code}
-          inputPlaceholder={t('phoneVerificationInput.codeInputPlaceholder')}
-          onInputChange={setCode}
-          shouldShowClipboard={(content) =>
-            Platform.OS === 'android' &&
-            !!content &&
-            content.length === PHONE_NUMBER_VERIFICATION_CODE_LENGTH
-          }
-          testID="PhoneVerificationCode"
-          style={{ marginHorizontal: Spacing.Thick24 }}
-        />
-        <View style={styles.bottomButtonContainer}>
-          <ResendButtonWithDelay onPress={handleResendCode} />
-        </View>
-      </KeyboardAwareScrollView>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={styles.contentContainer}>
+            <Text style={styles.body}>
+              {t('phoneVerificationInput.description', { phoneNumber: route.params.e164Number })}
+            </Text>
+            <CodeInput
+              status={codeInputStatus}
+              inputValue={code}
+              inputPlaceholder={t('phoneVerificationInput.codeInputPlaceholder')}
+              onInputChange={setCode}
+              shouldShowClipboard={(content) =>
+                Platform.OS === 'android' &&
+                !!content &&
+                content.length === PHONE_NUMBER_VERIFICATION_CODE_LENGTH
+              }
+              testID="PhoneVerificationCode"
+              style={styles.codeInput}
+            />
+            <View style={styles.bottomButtonContainer}>
+              <ResendButtonWithDelay onPress={handleResendCode} />
+            </View>
+          </View>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
       <Dialog
         testID="PhoneVerificationInputHelpDialog"
         title={t('phoneVerificationInput.helpDialog.title')}
@@ -144,22 +157,26 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.onboardingBackground,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
-  scrollContainer: {
+  keyboardAvoidingContainer: {
+    flex: 1,
     width: '100%',
   },
-  scrollContentContainer: {
-    flexGrow: 1,
+  contentContainer: {
+    flex: 1,
     padding: Spacing.Thick24,
   },
   body: {
     ...fontStyles.regular,
     marginBottom: Spacing.Thick24,
   },
+  codeInput: {
+    marginHorizontal: Spacing.Thick24,
+    padding: Spacing.Thick24,
+  },
   bottomButtonContainer: {
     flex: 1,
+    width: '100%',
     justifyContent: 'flex-end',
     alignItems: 'center',
   },
