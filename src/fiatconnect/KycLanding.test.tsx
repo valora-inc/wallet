@@ -5,6 +5,8 @@ import { View } from 'react-native'
 import { Provider } from 'react-redux'
 import * as Persona from 'src/account/Persona'
 import { KycStatus } from 'src/account/reducer'
+import { CICOEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import KycLanding from 'src/fiatconnect/KycLanding'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
@@ -14,6 +16,7 @@ import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockAccount, mockFiatConnectQuotes, mockPrivateDEK } from 'test/values'
 
 jest.mock('src/account/Persona')
+jest.mock('src/analytics/ValoraAnalytics')
 
 describe('KycLanding', () => {
   const normalizedQuote = new FiatConnectQuote({
@@ -75,6 +78,17 @@ describe('KycLanding', () => {
         expect.anything()
       )
       jest.restoreAllMocks()
+    })
+    it('triggers analytics when persona button is pressed', () => {
+      jest.spyOn(ValoraAnalytics, 'track')
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <KycLanding {...props} />
+        </Provider>
+      )
+      fireEvent.press(getByTestId('PersonaButton'))
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(CICOEvents.persona_kyc_start)
+      jest.clearAllMocks()
     })
   })
 
