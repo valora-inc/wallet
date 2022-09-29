@@ -578,11 +578,11 @@
     "body": "Depois que seu amigo configurar a carteira dele, vocês dois receberão um NFT. <0>Ganhe até 3 NFTs</0>"
   },
   "inviteWithUrl": {
-    "title": "Convidar um amigo",
-    "body": "Ligue-se e partilhe valor com os seus amigos e família em {{appName}}.",
-    "button": "Partilhar Convite",
-    "error": "Houve um problema que criou uma ligação compartilhável",
-    "share": "Olá! tenho usado {{appName}} como minha carteira criptográfica. É fácil de tentar e quero convidá-los a verificá-la com este link: {{shareUrl}}"
+    "title": "Convide um amigo",
+    "body": "Conecte-se e compartilhe valor com seus amigos e familiares na {{appName}}.",
+    "button": "Enviar convite",
+    "error": "Ocorreu um erro ao criar um link compartilhável",
+    "share": "Olá! Estou usando a carteira cripto {{appName}}. É muito fácil de usar e eu gostaria de convidar você para conferir com este link: {{shareUrl}}"
   },
   "getReward": "Receba ${{reward}}",
   "welcomeCelo": "Bem-vindo à {{appName}}",
