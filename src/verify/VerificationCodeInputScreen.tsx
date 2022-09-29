@@ -30,7 +30,7 @@ function VerificationCodeInputScreen({
   const headerHeight = useHeaderHeight()
   const { setSmsCode, verificationStatus } = useVerifyPhoneNumber(
     route.params.e164Number,
-    route.params.countryCode
+    route.params.countryCallingCode
   )
 
   const onPressSkip = () => {
