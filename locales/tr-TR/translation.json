@@ -578,11 +578,11 @@
     "body": "Söz konusu kişi {{appName}} cüzdanını oluşturup numarasını bağladığında ikiniz de özel bir NFT alacaksınız. <0>3 NFT'ye kadar kazanın</0>"
   },
   "inviteWithUrl": {
-    "title": "Invite a friend",
-    "body": "Connect and share value with your friends and family on {{appName}}.",
-    "button": "Share Invite",
-    "error": "There was issue an creating a sharable link",
-    "share": "Hi! I’ve been using {{appName}} as my crypto wallet. It’s easy to try and I want to invite you to check it out with this link: {{shareUrl}}"
+    "title": "Arkadaşını davet et",
+    "body": "{{appName}}'da arkadaşlarınız ve ailenizle bağlantı kurun ve varlıklar paylaşın.",
+    "button": "Davet gönder",
+    "error": "Bağlantı oluşturulurken bir sorun oluştu",
+    "share": "Merhaba, kripto para cüzdanıdır {{appName}} kullanıyorum. Denemen için seni davet etmek isterim. Bu bağlantıya göz atabilirsin: {{shareUrl}}"
   },
   "getReward": "${{reward}} kazanın",
   "welcomeCelo": "{{appName}} uygulamasına hoş geldiniz",
