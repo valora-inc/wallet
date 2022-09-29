@@ -9,7 +9,12 @@ import { normalizeQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
 import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { createMockStore } from 'test/utils'
-import { mockFiatConnectQuotesWithUnknownFees, mockProviders } from 'test/values'
+import {
+  mockFiatConnectQuotesWithUnknownFees,
+  mockProviders,
+  mockFiatConnectQuotes,
+} from 'test/values'
+import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
 
 const mockStore = createMockStore({
   localCurrency: {
@@ -80,5 +85,41 @@ describe('PaymentMethodSection', () => {
     expect(expandElement).toBeTruthy()
     fireEvent.press(expandElement!)
     expect(queryByTestId('Bank/fee-1')).toHaveTextContent('selectProviderScreen.feesVary')
+  })
+
+  it('shows "ID required" when KYC is required', async () => {
+    props.normalizedQuotes = normalizeQuotes(
+      CICOFlow.CashIn,
+      [mockFiatConnectQuotes[3]] as FiatConnectQuoteSuccess[],
+      []
+    )
+    props.paymentMethod = PaymentMethod.Bank
+    const { queryByTestId } = render(
+      <Provider store={mockStore}>
+        <PaymentMethodSection {...props} />
+      </Provider>
+    )
+    const infoElement = queryByTestId('Bank/provider-0/info')
+    expect(infoElement).toBeTruthy()
+    expect(infoElement).toHaveTextContent(
+      'selectProviderScreen.idRequired | selectProviderScreen.numDays'
+    )
+  })
+
+  it('shows no ID requirement when KYC not required', async () => {
+    props.normalizedQuotes = normalizeQuotes(
+      CICOFlow.CashIn,
+      [mockFiatConnectQuotes[1]] as FiatConnectQuoteSuccess[],
+      []
+    )
+    props.paymentMethod = PaymentMethod.Bank
+    const { queryByTestId } = render(
+      <Provider store={mockStore}>
+        <PaymentMethodSection {...props} />
+      </Provider>
+    )
+    const infoElement = queryByTestId('Bank/provider-0/info')
+    expect(infoElement).toBeTruthy()
+    expect(infoElement).toHaveTextContent('selectProviderScreen.numDays')
   })
 })
