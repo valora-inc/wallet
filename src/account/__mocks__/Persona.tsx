@@ -1,6 +1,8 @@
 import React from 'react'
-import Button from 'src/components/Button'
+import { Button } from 'react-native'
 
-const MockPersona = (props: any) => <Button testID="PersonaButton" {...props} />
+const MockPersona = (props: any) => {
+  return <Button title={'mock Persona button'} testID="PersonaButton" onPress={props.onPress} />
+}
 
 export default MockPersona

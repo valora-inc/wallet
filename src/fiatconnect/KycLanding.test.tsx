@@ -80,7 +80,7 @@ describe('KycLanding', () => {
       jest.restoreAllMocks()
     })
     it('triggers analytics when persona button is pressed', () => {
-      jest.spyOn(ValoraAnalytics, 'track')
+      ValoraAnalytics.track = jest.fn()
       const { getByTestId } = render(
         <Provider store={store}>
           <KycLanding {...props} />
