@@ -8621,10 +8621,10 @@ detect-newline@^3.0.0:
   resolved "https://registry.yarnpkg.com/detect-newline/-/detect-newline-3.1.0.tgz#576f5dfc63ae1a192ff192d8ad3af6308991b651"
   integrity sha512-TLz+x/vEXm/Y7P7wn1EJFNLxYpUD4TgMosxY6fAVJUnJMbupHBOncxyWUG9OpTaH9EBD7uFI5LfEgmMOc54DsA==
 
-detox@^19.10.0:
-  version "19.10.0"
-  resolved "https://registry.yarnpkg.com/detox/-/detox-19.10.0.tgz#a47a1b4f5a4a08f267a86847ab5a48cbe1f9468e"
-  integrity sha512-SVJK/EPi6F2Grm4vSl+uP6xDuDT1gABwypZ3MU+/glylo8ibm3ddTHovXVBd4YDIE1rzD4eQpC8gM2lzJFvWrA==
+detox@^19.12.3:
+  version "19.12.3"
+  resolved "https://registry.yarnpkg.com/detox/-/detox-19.12.3.tgz#d353346c5813a330862b0f71dc410e51c1533706"
+  integrity sha512-zIlTUAnur99Oj1mfLC+WV/hx2scJGW2eXG2oWOKKVm97dhb9NrlvHSMB0vNYkKPL8KU/j2pO3zoPpJpH74tPoQ==
   dependencies:
     ajv "^8.6.3"
     bunyan "^1.8.12"
