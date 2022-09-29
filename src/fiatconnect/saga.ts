@@ -189,27 +189,35 @@ export function* handleSubmitFiatAccount({
             yield put(submitFiatAccountKycApproved())
             yield delay(500) // Allow user to admire green checkmark
             break
-          // Denied, Expired, and Pending all fall through to the default case.
           case FiatConnectKycStatus.KycDenied:
             navigate(Screens.KycDenied, {
               flow,
               quote,
               retryable: true, // TODO: Get this dynamically once IHL supports it
             })
+            yield delay(500) // to avoid a screen flash
+            yield put(submitFiatAccountCompleted())
+            return
           case FiatConnectKycStatus.KycExpired:
             navigate(Screens.KycExpired, {
               flow,
               quote,
             })
+            yield delay(500) // to avoid a screen flash
+            yield put(submitFiatAccountCompleted())
+            return
           case FiatConnectKycStatus.KycPending:
             navigate(Screens.KycPending, {
               flow,
               quote,
             })
-          default:
             yield delay(500) // to avoid a screen flash
             yield put(submitFiatAccountCompleted())
             return
+          default:
+            throw new Error(
+              `Unrecognized FiatConnect KYC status "${fiatConnectKycStatus}" while attempting to handle quote selection for provider ${quote.getProviderId()}`
+            )
         }
       } catch (error) {
         Logger.error(
