@@ -86,6 +86,7 @@ describe('KycLanding', () => {
           <KycLanding {...props} />
         </Provider>
       )
+      fireEvent.press(getByTestId('checkbox'))
       fireEvent.press(getByTestId('PersonaButton'))
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(CICOEvents.persona_kyc_start)
       jest.clearAllMocks()
