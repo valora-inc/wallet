@@ -683,7 +683,10 @@
   "onboardingEducation": {
     "step1": "Krypto so einfach wie eine SMS. Ab sofort ist dein Handy dein Krypto-Wallet.",
     "step2": "Mit {{appName}} ist es ein einfach, auf dein Krypto zuzugreifen und sie zu vermehren.",
-    "step3": "Alles, was du brauchst, ist ein Mobiltelefon zum Entdecken."
+    "step3": "Alles, was du brauchst, ist ein Mobiltelefon zum Entdecken.",
+    "payment": "Zahlungen weltweit und fast ohne Gebühren durchführen",
+    "impact": "Unterstützung von Initiativen zum Klimaschutz und sozialen Wandel",
+    "spend": "Verwende deine Kryptowährung, um deine Lieblingsmarken zu kaufen"
   },
   "enableBiometry": {
     "title": "Sichere dein Wallet",
