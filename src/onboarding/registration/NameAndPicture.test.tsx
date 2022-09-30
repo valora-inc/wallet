@@ -4,14 +4,17 @@ import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
+import * as AccountActions from 'src/account/actions'
 import { CreateAccountCopyTestType } from 'src/app/types'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import NameAndPicture from 'src/onboarding/registration/NameAndPicture'
+import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockNavigation } from 'test/values'
 
 expect.extend({ toBeDisabled })
-
+jest.spyOn(AccountActions, 'setName')
 const mockScreenProps = getMockStackScreenProps(Screens.NameAndPicture)
 
 describe('NameAndPictureScreen', () => {
@@ -178,5 +181,38 @@ describe('NameAndPictureScreen', () => {
     )
     expect(getByText('nameAndPicGuideCopyTitle')).toBeTruthy()
     expect(getByText('nameAndPicGuideCopyContent')).toBeTruthy()
+  })
+  it('does not render skip button when configured so', () => {
+    // TODO replace route param with mock Statsig flag
+    const { queryByText } = render(
+      <Provider store={createMockStore()}>
+        <MockedNavigator component={NameAndPicture} params={{ skipUsername: false }} />
+      </Provider>
+    )
+    expect(queryByText('skip')).toBeNull()
+  })
+
+  it('renders skip button when mocked and skipping works', () => {
+    // TODO replace route param with mock Statsig flag
+    const { queryByText } = render(
+      <Provider store={createMockStore()}>
+        <MockedNavigator component={NameAndPicture} params={{ skipUsername: true }} />
+      </Provider>
+    )
+    expect(queryByText('skip')).toBeTruthy()
+    fireEvent.press(queryByText('skip')!)
+    expect(navigate).toHaveBeenCalledWith(Screens.PincodeSet, expect.anything())
+  })
+
+  it('saves empty name regardless of what is in the inputbox when skip is used', () => {
+    // TODO replace route param with mock Statsig flag
+    const { getByText, getByTestId } = render(
+      <Provider store={createMockStore()}>
+        <MockedNavigator component={NameAndPicture} params={{ skipUsername: true }} />
+      </Provider>
+    )
+    fireEvent.changeText(getByTestId('NameEntry'), 'Some Name')
+    fireEvent.press(getByText('skip'))
+    expect(AccountActions.setName).not.toHaveBeenCalled()
   })
 })

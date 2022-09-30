@@ -188,7 +188,7 @@ exports[`VerificationInputScreen renders correctly 1`] = `
                         ]
                       }
                       testID="VerificationCode0"
-                      textContentType="username"
+                      textContentType="oneTimeCode"
                       value=""
                     />
                   </View>
