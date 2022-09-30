@@ -20,6 +20,7 @@ import {
   NavigationEvents,
   OnboardingEvents,
   PerformanceEvents,
+  PhoneVerificationEvents,
   RequestEvents,
   RewardsEvents,
   SendEvents,
@@ -511,6 +512,23 @@ interface VerificationEventsProperties {
   }
   [VerificationEvents.verification_skip]: undefined
   [VerificationEvents.verification_skip_confirm]: undefined
+}
+
+interface PhoneVerificationEventsProperties {
+  [PhoneVerificationEvents.phone_verification_skip]: undefined
+  [PhoneVerificationEvents.phone_verification_skip_confirm]: undefined
+  [PhoneVerificationEvents.phone_verification_learn_more]: undefined
+  [PhoneVerificationEvents.phone_verification_start]: {
+    country: string
+    countryCallingCode: string
+  }
+  [PhoneVerificationEvents.phone_verification_code_request_success]: undefined
+  [PhoneVerificationEvents.phone_verification_code_verify_start]: undefined
+  [PhoneVerificationEvents.phone_verification_code_verify_success]: undefined
+  [PhoneVerificationEvents.phone_verification_code_verify_error]: undefined
+  [PhoneVerificationEvents.phone_verification_input_help]: undefined
+  [PhoneVerificationEvents.phone_verification_input_help_continue]: undefined
+  [PhoneVerificationEvents.phone_verification_input_help_skip]: undefined
 }
 
 interface IdentityEventsProperties {
@@ -1319,6 +1337,7 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   SettingsEventsProperties &
   OnboardingEventsProperties &
   VerificationEventsProperties &
+  PhoneVerificationEventsProperties &
   IdentityEventsProperties &
   AuthenticationEventsProperties &
   InviteEventsProperties &

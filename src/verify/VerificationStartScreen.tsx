@@ -7,10 +7,10 @@ import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
 import * as RNLocalize from 'react-native-localize'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
-import { initializeAccount, setPhoneNumber } from 'src/account/actions'
+import { initializeAccount } from 'src/account/actions'
 import { defaultCountryCodeSelector, e164NumberSelector } from 'src/account/selectors'
-import { showError } from 'src/alert/actions'
-import { ErrorMessages } from 'src/app/ErrorMessages'
+import { PhoneVerificationEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { registrationStepsSelector } from 'src/app/selectors'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnTypes } from 'src/components/Button'
@@ -29,7 +29,6 @@ import { waitUntilSagasFinishLoading } from 'src/redux/sagas'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { getCountryFeatures } from 'src/utils/countryFeatures'
 import { getPhoneNumberState } from 'src/verify/utils'
 import { walletAddressSelector } from 'src/web3/selectors'
 
@@ -62,20 +61,22 @@ function VerificationStartScreen({
     ? countries.getCountryByCodeAlpha2(phoneNumberInfo.countryCodeAlpha2)
     : undefined
 
-  const onPressStart = async () => {
-    if (!canUsePhoneNumber()) {
-      return
-    }
-    // TODO figure out what this nux thing does
+  const onPressStart = () => {
+    ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_start, {
+      country: country?.displayNameNoDiacritics || '',
+      countryCallingCode: country?.countryCallingCode || '',
+    })
+
     dispatch(setHasSeenVerificationNux(true))
-    // TODO dispatch action to call start verification service
     navigate(Screens.VerificationCodeInputScreen, {
       registrationStep: route.params?.hideOnboardingStep ? undefined : { step, totalSteps },
       e164Number: phoneNumberInfo.e164Number,
+      countryCallingCode: country?.countryCallingCode || '',
     })
   }
 
   const onPressSkip = () => {
+    ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_skip)
     setShowSkipDialog(true)
   }
 
@@ -85,10 +86,12 @@ function VerificationStartScreen({
 
   const onPressSkipConfirm = () => {
     dispatch(setHasSeenVerificationNux(true))
+    ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_skip_confirm)
     navigateHome()
   }
 
   const onPressLearnMore = () => {
+    ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_learn_more)
     setShowLearnMoreDialog(true)
   }
 
@@ -143,25 +146,6 @@ function VerificationStartScreen({
     }
   }, [])
 
-  const canUsePhoneNumber = () => {
-    const countryCallingCode = country?.countryCallingCode || ''
-    if (
-      cachedNumber === phoneNumberInfo.e164Number &&
-      cachedCountryCallingCode === countryCallingCode
-    ) {
-      return true
-    }
-
-    const { SANCTIONED_COUNTRY } = getCountryFeatures(phoneNumberInfo.countryCodeAlpha2)
-    if (SANCTIONED_COUNTRY) {
-      dispatch(showError(ErrorMessages.COUNTRY_NOT_AVAILABLE))
-      return false
-    }
-
-    dispatch(setPhoneNumber(phoneNumberInfo.e164Number, countryCallingCode))
-    return true
-  }
-
   const onPressCountry = () => {
     navigate(Screens.SelectCountry, {
       countries,
@@ -193,10 +177,8 @@ function VerificationStartScreen({
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>
       <KeyboardAwareScrollView
-        contentContainerStyle={[
-          styles.scrollContainer,
-          headerHeight ? { marginTop: headerHeight } : undefined,
-        ]}
+        style={[styles.scrollContainer, headerHeight ? { marginTop: headerHeight } : undefined]}
+        contentContainerStyle={styles.scrollContentContainer}
       >
         <Text style={styles.header} testID="PhoneVerificationHeader">
           {t('phoneVerificationScreen.title')}
@@ -224,20 +206,20 @@ function VerificationStartScreen({
             style={styles.learnMore}
             onPress={onPressLearnMore}
           >
-            {t('phoneVerificationScreen.learnMore.title')}
+            {t('phoneVerificationScreen.learnMore.buttonLabel')}
           </TextButton>
         </View>
       </KeyboardAwareScrollView>
       <Dialog
-        title={t('phoneVerificationScreen.title')}
+        title={t('phoneVerificationScreen.skip.title')}
         isVisible={showSkipDialog}
-        actionText={t('phoneVerificationScreen.confirm')}
+        actionText={t('phoneVerificationScreen.skip.confirm')}
         actionPress={onPressSkipConfirm}
         secondaryActionPress={onPressSkipCancel}
-        secondaryActionText={t('phoneVerificationScreen.cancel')}
+        secondaryActionText={t('phoneVerificationScreen.skip.cancel')}
         testID="PhoneVerificationSkipDialog"
       >
-        {t('phoneVerificationScreen.body')}
+        {t('phoneVerificationScreen.skip.body')}
       </Dialog>
       <Dialog
         testID="PhoneVerificationLearnMoreDialog"
@@ -262,9 +244,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   scrollContainer: {
+    width: '100%',
+  },
+  scrollContentContainer: {
     flexGrow: 1,
     padding: Spacing.Thick24,
-    width: '100%',
   },
   header: {
     ...fontStyles.h2,
