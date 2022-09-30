@@ -581,7 +581,7 @@
     "title": "Zaproś znajomego",
     "body": "Kontaktuj i dziel się środkami z przyjaciółmi i rodziną dzięki aplikacji {{appName}}.",
     "button": "Wyślij zaproszenie",
-    "error": "Wystąpił błąd z tworzeniem linku",
+    "error": "Wystąpił problem z tworzeniem linku do udostępniania",
     "share": "Cześć! Korzystam z portfel kryptowalutowy {{appName}}. To bardzo proste. Może Ty też spróbujesz? Skorzystaj z tego linku: {{shareUrl}}"
   },
   "getReward": "Otrzymaj ${{reward}}",
