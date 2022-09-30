@@ -219,7 +219,7 @@ describe('In House Liquidity Calls', () => {
           providerInfo: mockProviderInfo,
           kycSchema: KycSchema.PersonalDataAndDocuments,
         })
-      ).rejects.toEqual(new Error('Got non-ok response from IHL while deleting KYC: 400'))
+      ).rejects.toEqual(new Error('Got non-ok/404 response from IHL while deleting KYC: 400'))
       expect(makeRequest).toHaveBeenCalledWith({
         providerInfo: mockProviderInfo,
         path: '/fiatconnect/kyc/provider-id/PersonalDataAndDocuments',
@@ -228,6 +228,19 @@ describe('In House Liquidity Calls', () => {
     })
     it('silently succeeds if response is OK', async () => {
       mocked(makeRequest).mockResolvedValueOnce(new Response())
+      const deleteKycResponse = await deleteKyc({
+        providerInfo: mockProviderInfo,
+        kycSchema: KycSchema.PersonalDataAndDocuments,
+      })
+      expect(deleteKycResponse).toBeUndefined()
+      expect(makeRequest).toHaveBeenCalledWith({
+        providerInfo: mockProviderInfo,
+        path: '/fiatconnect/kyc/provider-id/PersonalDataAndDocuments',
+        options: { method: 'DELETE' },
+      })
+    })
+    it('silently succeeds if response is 404', async () => {
+      mocked(makeRequest).mockResolvedValueOnce(new Response('', { status: 404 }))
       const deleteKycResponse = await deleteKyc({
         providerInfo: mockProviderInfo,
         kycSchema: KycSchema.PersonalDataAndDocuments,

@@ -1631,17 +1631,49 @@ describe('Fiatconnect saga', () => {
       await expectSaga(handleKycTryAgain, kycTryAgain({ flow, quote }))
         .put(kycTryAgainCompleted())
         .run()
+      expect(deleteKyc).toHaveBeenCalledTimes(1)
+      expect(deleteKyc).toHaveBeenCalledWith({
+        providerInfo: quote.getProviderInfo(),
+        kycSchema: quote.getKycSchema(),
+      })
       expect(navigate).toHaveBeenCalledTimes(1)
       expect(navigate).toHaveBeenCalledWith(Screens.KycLanding, { quote, flow, step: 'one' })
     })
 
     it('shows error message on delete kyc failure', async () => {
-      mocked(deleteKyc).mockRejectedValueOnce(new Error('failed'))
+      mocked(deleteKyc).mockRejectedValueOnce(new Error('delete failed'))
       await expectSaga(handleKycTryAgain, kycTryAgain({ flow, quote }))
         .put(kycTryAgainCompleted())
         .run()
       expect(navigate).not.toHaveBeenCalled()
-      expect(Logger.error).toHaveBeenCalled()
+      expect(Logger.error).toHaveBeenCalledWith(
+        'FiatConnectSaga',
+        'Kyc try again failed',
+        new Error('delete failed')
+      )
+    })
+
+    it('shows error message if quote is missing kyc schema', async () => {
+      await expectSaga(
+        handleKycTryAgain,
+        kycTryAgain({
+          flow,
+          quote: new FiatConnectQuote({
+            quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
+            fiatAccountType: FiatAccountType.BankAccount,
+            flow,
+          }),
+        })
+      )
+        .put(kycTryAgainCompleted())
+        .run()
+      expect(deleteKyc).not.toHaveBeenCalled()
+      expect(navigate).not.toHaveBeenCalled()
+      expect(Logger.error).toHaveBeenCalledWith(
+        'FiatConnectSaga',
+        'Kyc try again failed',
+        new Error('No KYC Schema found in quote')
+      )
     })
   })
 })

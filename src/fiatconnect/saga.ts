@@ -746,14 +746,20 @@ export function* handleKycTryAgain({ payload }: ReturnType<typeof kycTryAgain>) 
   const { quote, flow } = payload
 
   try {
+    const kycSchema = quote.getKycSchema()
+    if (!kycSchema) {
+      // it is impossible for kyc schema to be undefined on the quote, but
+      // throwing explicitly so its logged
+      throw new Error('No KYC Schema found in quote')
+    }
     yield call(deleteKyc, {
       providerInfo: quote.getProviderInfo(),
-      kycSchema: quote.getKycSchema()!, // it is impossible for kyc schema to be undefined on the quote
+      kycSchema,
     })
 
     navigate(Screens.KycLanding, { quote, flow, step: 'one' })
   } catch (error) {
-    Logger.error(TAG, 'Kyc delete failed', error)
+    Logger.error(TAG, 'Kyc try again failed', error)
     yield put(showError(ErrorMessages.KYC_TRY_AGAIN_FAILED))
   } finally {
     yield put(kycTryAgainCompleted())

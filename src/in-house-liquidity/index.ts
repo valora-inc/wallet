@@ -184,8 +184,9 @@ export async function deleteKyc({
     options: { method: 'DELETE' },
   })
 
-  if (!response.ok) {
-    throw new Error(`Got non-ok response from IHL while deleting KYC: ${response.status}`)
+  if (!response.ok && response.status !== 404) {
+    // 404 means the resource is already deleted or the providerId is invalid
+    throw new Error(`Got non-ok/404 response from IHL while deleting KYC: ${response.status}`)
   }
 }
 
