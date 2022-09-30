@@ -683,7 +683,10 @@
   "onboardingEducation": {
     "step1": "Jeśli potrafisz pisać SMS-y, potrafisz też inwestować w kryptowaluty. Od teraz Twój telefon jest Twoim portfelem kryptowalutowym.",
     "step2": "Z aplikacją {{appName}} uzyskujesz szybki dostęp do swoich kryptowalut i łatwo je pomnażasz.",
-    "step3": "Aby wysyłać, wydawać i odkrywać, potrzebujesz jedynie telefonu komórkowego."
+    "step3": "Aby wysyłać, wydawać i odkrywać, potrzebujesz jedynie telefonu komórkowego.",
+    "payment": "Dokonuj płatności na całym świecie przy niemal zerowych opłatach",
+    "impact": "Wspieraj inicjatywy dotyczące zmian klimatycznych i społecznych",
+    "spend": "Wykorzystaj swoje kryptowaluty do robienia zakupów u ulubionych marek"
   },
   "enableBiometry": {
     "title": "Zabezpiecz swój portfel",
