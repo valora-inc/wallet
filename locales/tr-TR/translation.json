@@ -795,7 +795,7 @@
       "skip": "Atla",
       "dismiss": "Geri dön"
     },
-    "verificationFailure": "Oops! Something went wrong, please try again later."
+    "verificationFailure": "Bir şeyler ters gitti. Lütfen daha sonra tekrar deneyiniz."
   },
   "importExistingKey": {
     "explanation": "Kurtarma Kelimeleriniz, hesabınızı oluştururken not ettiğiniz ve kaydettiğiniz 24 kelimelik bir ifadedir. Hesabınızı geri yüklemek için kelimeleri lütfen buraya girin.",
