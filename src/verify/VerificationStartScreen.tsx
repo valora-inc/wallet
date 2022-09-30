@@ -64,7 +64,7 @@ function VerificationStartScreen({
   const onPressStart = () => {
     ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_start, {
       country: country?.displayNameNoDiacritics || '',
-      countryCode: country?.countryCallingCode || '',
+      countryCallingCode: country?.countryCallingCode || '',
     })
 
     dispatch(setHasSeenVerificationNux(true))

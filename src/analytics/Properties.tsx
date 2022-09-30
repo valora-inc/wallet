@@ -520,7 +520,7 @@ interface PhoneVerificationEventsProperties {
   [PhoneVerificationEvents.phone_verification_learn_more]: undefined
   [PhoneVerificationEvents.phone_verification_start]: {
     country: string
-    countryCode: string
+    countryCallingCode: string
   }
   [PhoneVerificationEvents.phone_verification_code_request_success]: undefined
   [PhoneVerificationEvents.phone_verification_code_verify_start]: undefined
