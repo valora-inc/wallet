@@ -1302,6 +1302,9 @@
     "disclaimer": "Du bestätigst und erklärst dich damit einverstanden, dass deine persönlichen Daten uns zur Verfügung gestellt und mit Dritten zu Überprüfungszwecken geteilt werden, wie in der <0>Datenschutzerklärung</0> angegeben.",
     "button": "Du bestätigst und erklärst dich damit einverstanden, dass deine persönlichen Daten uns zur Verfügung gestellt und mit Dritten zu Überprüfungszwecken geteilt werden, wie in der <0>Datenschutzerklärung</0> angegeben."
   },
+  "fiatConnectKycStatusScreen": {
+    "tryAgainFailed": "Beim Löschen der KYC-Informationen ist ein Fehler aufgetreten. Bitte versuche es erneut"
+  },
   "fiatConnectReviewScreen": {
     "transactionDetails": "Transaktiondetails",
     "paymentMethodVia": "Über {{providerName}} verbunden",
