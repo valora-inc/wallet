@@ -1,7 +1,7 @@
 import { StackScreenProps, useHeaderHeight } from '@react-navigation/stack'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, Text } from 'react-native'
+import { StyleSheet, Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { PhoneVerificationEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -32,7 +32,7 @@ function VerificationCodeInputScreen({
   const headerHeight = useHeaderHeight()
   const { setSmsCode, verificationStatus } = useVerifyPhoneNumber(
     route.params.e164Number,
-    route.params.countryCode
+    route.params.countryCallingCode
   )
 
   const onPressSkip = () => {
@@ -112,9 +112,7 @@ function VerificationCodeInputScreen({
           inputPlaceholder={t('phoneVerificationInput.codeInputPlaceholder')}
           onInputChange={setCode}
           shouldShowClipboard={(content) =>
-            Platform.OS === 'android' &&
-            !!content &&
-            content.length === PHONE_NUMBER_VERIFICATION_CODE_LENGTH
+            !!content && content.length === PHONE_NUMBER_VERIFICATION_CODE_LENGTH
           }
           testID="PhoneVerificationCode"
           style={{ marginHorizontal: Spacing.Thick24 }}

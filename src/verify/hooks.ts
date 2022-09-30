@@ -41,12 +41,11 @@ export function useAsyncKomenciReadiness() {
 
 export enum PhoneNumberVerificationStatus {
   NONE,
-  VERIFYING,
   SUCCESSFUL,
   FAILED,
 }
 
-export function useVerifyPhoneNumber(phoneNumber: string, countryCode: string) {
+export function useVerifyPhoneNumber(phoneNumber: string, countryCallingCode: string) {
   const verificationCodeRequested = useRef(false)
 
   const dispatch = useDispatch()
@@ -83,14 +82,15 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCode: string) {
           `${TAG}/requestVerificationCode`,
           'Skipping request to verifyPhoneNumber since a request was already initiated'
         )
-        // prevent request from being fired multiple times
+        // prevent request from being fired multiple times, due to hot reloading
+        // during development only
         return
       }
 
       Logger.debug(`${TAG}/requestVerificationCode`, 'Initiating request to verifyPhoneNumber')
       const signedMessage = await retrieveSignedMessage()
 
-      return fetch(networkConfig.verifyPhoneNumberUrl, {
+      const response = await fetch(networkConfig.verifyPhoneNumberUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -102,8 +102,14 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCode: string) {
           clientVersion: DeviceInfo.getVersion(),
         }),
       })
+      if (response.ok) {
+        return response
+      } else {
+        throw new Error(await response.text())
+      }
     },
-    [],
+
+    [phoneNumber],
     {
       onError: handleRequestVerificationCodeError,
       onSuccess: async (response?: Response) => {
@@ -111,20 +117,16 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCode: string) {
           return
         }
 
-        if (response.ok) {
-          ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_code_request_success)
+        const { data } = await response.json()
+        setVerificationId(data.verificationId)
+        verificationCodeRequested.current = true
 
-          const { data } = await response.json()
-          setVerificationId(data.verificationId)
-          verificationCodeRequested.current = true
-          Logger.debug(
-            `${TAG}/requestVerificationCode`,
-            'Successfully initiated phone number verification with verificationId: ',
-            data.verificationId
-          )
-        } else {
-          handleRequestVerificationCodeError(new Error(await response.text()))
-        }
+        ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_code_request_success)
+        Logger.debug(
+          `${TAG}/requestVerificationCode`,
+          'Successfully initiated phone number verification with verificationId: ',
+          data.verificationId
+        )
       },
     }
   )
@@ -132,10 +134,6 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCode: string) {
   useAsync(
     async () => {
       if (!smsCode) {
-        Logger.debug(
-          `${TAG}/validateVerificationCode`,
-          'Not initiating request to verifySmsCode since smsCode is empty'
-        )
         return
       }
 
@@ -146,10 +144,9 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCode: string) {
         'Initiating request to verifySmsCode with verificationId: ',
         verificationId
       )
-      setVerificationStatus(PhoneNumberVerificationStatus.VERIFYING)
 
       const signedMessage = await retrieveSignedMessage()
-      return fetch(networkConfig.verifySmsCodeUrl, {
+      const response = await fetch(networkConfig.verifySmsCodeUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -163,24 +160,26 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCode: string) {
           clientVersion: DeviceInfo.getVersion(),
         }),
       })
+
+      if (response.ok) {
+        return response
+      } else {
+        throw new Error(await response.text())
+      }
     },
-    [smsCode],
+    [smsCode, phoneNumber],
     {
       onSuccess: async (response?: Response) => {
         if (!response) {
           return
         }
 
-        if (response.ok) {
-          ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_code_verify_success)
-          Logger.debug(`${TAG}/validateVerificationCode`, 'Successfully verified phone number')
-          setVerificationStatus(PhoneNumberVerificationStatus.SUCCESSFUL)
-          dispatch(setPhoneNumber(phoneNumber, countryCode))
-          // TODO store verification status in new redux variable so that the
-          // existing one can be used for background migration
-        } else {
-          handleVerifySmsError(new Error(await response.text()))
-        }
+        ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_code_verify_success)
+        Logger.debug(`${TAG}/validateVerificationCode`, 'Successfully verified phone number')
+        setVerificationStatus(PhoneNumberVerificationStatus.SUCCESSFUL)
+        dispatch(setPhoneNumber(phoneNumber, countryCallingCode))
+        // TODO store verification status in new redux variable so that the
+        // existing one can be used for background migration
       },
       onError: handleVerifySmsError,
     }

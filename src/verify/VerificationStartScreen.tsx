@@ -71,7 +71,7 @@ function VerificationStartScreen({
     navigate(Screens.VerificationCodeInputScreen, {
       registrationStep: route.params?.hideOnboardingStep ? undefined : { step, totalSteps },
       e164Number: phoneNumberInfo.e164Number,
-      countryCode: country?.countryCallingCode || '',
+      countryCallingCode: country?.countryCallingCode || '',
     })
   }
 
