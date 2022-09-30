@@ -114,6 +114,7 @@ function VerificationCodeInputScreen({
           <ScrollView
             style={styles.scrollContainer}
             contentContainerStyle={styles.contentContainer}
+            keyboardShouldPersistTaps="always"
           >
             <Text style={styles.body}>
               {t('phoneVerificationInput.description', { phoneNumber: route.params.e164Number })}
