@@ -601,6 +601,15 @@ export function* handleSelectFiatConnectQuote({
     )
     yield put(selectFiatConnectQuoteCompleted())
     yield put(showError(ErrorMessages.PROVIDER_FETCH_FAILED))
+    const amount = {
+      crypto: parseFloat(quote.getCryptoAmount()),
+      fiat: parseFloat(quote.getFiatAmount()),
+    }
+    navigate(Screens.SelectProvider, {
+      flow: quote.flow,
+      selectedCrypto: quote.getCryptoType(),
+      amount: amount,
+    })
   }
 }
 
