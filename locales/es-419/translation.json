@@ -581,7 +581,7 @@
     "title": "Invita a tus amigos",
     "body": "Conéctate y comparte valor con tus amigos y familiares en {{appName}}.",
     "button": "Enviar invitación",
-    "error": "Hubo un problema al crear un enlace compartible",
+    "error": "Hubo un error al crear el enlace compartible",
     "share": "¡Hola! Estoy usando la wallet cripto {{appName}}. Es fácil de usar y me gustaría invitarte a probarla con este link: {{shareUrl}}"
   },
   "getReward": "Obtén ${{reward}}",
@@ -773,6 +773,7 @@
     "description": "Para conectar tu número de teléfono, recibirás un mensaje de texto.",
     "startButtonLabel": "Comenzar",
     "learnMore": {
+      "buttonLabel": "¿Es necesario conectar mi teléfono?",
       "title": "¿Es necesario conectar mi teléfono?",
       "body": "Conectar tu número de teléfono te permitirá enviar dinero a tus contactos y a otros números de teléfono. \n \nSi prefieres omitir este paso, no podrás acceder a tus contactos y solo podrás enviar dinero mediante el código QR o la Dirección de cuenta."
     },
@@ -787,13 +788,14 @@
     "title": "Ingresa el código",
     "description": "Hemos enviado un código a {{phoneNumber}}. Ingrésalo a continuación.",
     "help": "Ayuda",
-    "codeInputPlaceholder": "12345678",
+    "codeInputPlaceholder": "123456",
     "helpDialog": {
       "title": "Ayuda",
-      "body": "Hemos enviado un SMS a tu número de teléfono. Busca el código de 8 dígitos en tus mensajes. Si tienes problemas para recibir los mensajes, puedes omitir este paso por ahora e intentarlo más tarde.",
+      "body": "Hemos enviado un SMS a tu número de teléfono. Busca el código de 6 dígitos en tus mensajes. Si tienes problemas para recibir los mensajes, puedes omitir este paso por ahora e intentarlo más tarde.",
       "skip": "Omitir",
       "dismiss": "Regresar"
-    }
+    },
+    "verificationFailure": "¡Ups! Algo ha ido mal, por favor, inténtalo de nuevo más tarde."
   },
   "importExistingKey": {
     "explanation": "Tu Frase de recuperación es la frase de 24 palabras que escribiste y guardaste cuando configuraste tu cuenta. Por favor, ingrésala para restaurar tu cuenta.",
