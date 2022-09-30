@@ -128,10 +128,6 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCallingCode: st
   useAsync(
     async () => {
       if (!smsCode) {
-        Logger.debug(
-          `${TAG}/validateVerificationCode`,
-          'Not initiating request to verifySmsCode since smsCode is empty'
-        )
         return
       }
 
