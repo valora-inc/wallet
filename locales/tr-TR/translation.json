@@ -577,6 +577,13 @@
     "title": "Bir arkadaş davet etmek için kripto gönderin",
     "body": "Söz konusu kişi {{appName}} cüzdanını oluşturup numarasını bağladığında ikiniz de özel bir NFT alacaksınız. <0>3 NFT'ye kadar kazanın</0>"
   },
+  "inviteWithUrl": {
+    "title": "Arkadaşını davet et",
+    "body": "{{appName}}'da arkadaşlarınız ve ailenizle bağlantı kurun ve varlıklar paylaşın.",
+    "button": "Davet gönder",
+    "error": "There was an issue creating a sharable link",
+    "share": "Merhaba, kripto para cüzdanıdır {{appName}} kullanıyorum. Denemen için seni davet etmek isterim. Bu bağlantıya göz atabilirsin: {{shareUrl}}"
+  },
   "getReward": "${{reward}} kazanın",
   "welcomeCelo": "{{appName}} uygulamasına hoş geldiniz",
   "chooseCountryCode": "Ülke Kodu",
@@ -763,29 +770,29 @@
   "phoneVerificationScreen": {
     "screenTitle": "Telefon Numarası",
     "title": "Telefon numaranı bağla",
-    "description": "To connect your phone number, you'll receive a text message.",
+    "description": "Telefon numaranızı bağlamak için bir kısa mesaj alacaksınız.",
     "startButtonLabel": "Başla",
     "learnMore": {
-      "title": "Do I need to connect my phone?",
-      "body": "Connecting your phone number will allow you to send money to friends in your address book and other phone numbers. \n \n If you choose to skip this step you won’t be able to access your contacts and you will only be able to send money via QR code or account number."
+      "title": "Telefonumu bağlamam gerekiyor mu?",
+      "body": "Telefon numaranızı bağlamanız, adres defterinizdeki ve diğer telefon numaralarınızdaki arkadaşlarınıza para göndermenize olanak tanır.\n \nBu adımı atlarsanız, kişilerinize erişemezsiniz ve yalnızca QR kodu veya hesap adresi aracılığıyla para gönderebilirsiniz."
     },
     "skip": {
       "title": "Emin misiniz?",
-      "body": "Connecting allows you to send and receive funds from your phone number.",
+      "body": "Bağlanmak, telefon numaranızdan para gönderip almanıza olanak tanır.",
       "cancel": "Geri Dön",
       "confirm": "Şimdilik atla"
     }
   },
   "phoneVerificationInput": {
-    "title": "Enter the code",
-    "description": "We sent a code to {{phoneNumber}}, please enter it below.",
+    "title": "Kodu girin",
+    "description": "{{phoneNumber}} numaralı telefona bir kod gönderdik, lütfen o kodu aşağıya girin.",
     "help": "Yardım",
     "codeInputPlaceholder": "12345678",
     "helpDialog": {
       "title": "Yardım",
-      "body": "We sent an SMS to your phone number. Please check your text messages to find the 8 digit code. If you’re having trouble receiving messages, you can skip this step for now and try again later.",
+      "body": "Telefon numaranıza bir SMS gönderdik. Lütfen 8 haneli kodu bulmak için kısa mesajlarınızı kontrol edin. Mesaj almakta sorun yaşıyorsanız şimdilik bu adımı atlayabilir ve daha sonra tekrar deneyebilirsiniz.",
       "skip": "Atla",
-      "dismiss": "Go back"
+      "dismiss": "Geri dön"
     }
   },
   "importExistingKey": {
@@ -1278,9 +1285,17 @@
     "bankAccount": {
       "header": "Banka Hesabı Oluştur",
       "bodyTitle": "Banka Hesabı Oluştur",
-      "description": "Para aktarmak için Banka Hesabı ayrıntılarını girin. İşlemleriniz <0>{{providerName}}</0> tarafından desteklenir."
+      "description": "Para transfer etmek için Banka Hesabı ayrıntılarını girin. İşlemleriniz <0>{{providerName}}</0> tarafından desteklenir. Devam'ı tıklayarak, sağlayıcının <1>Şartlar ve Koşulları</1> ile <2>Gizlilik Politikasını</2> kabul etmiş olursunuz."
     },
     "continue": "İleri"
+  },
+  "fiatConnectKycLandingScreen": {
+    "stepOne": "1. Adım",
+    "stepTwo": "2. Adım",
+    "title": "Kimliğinizi doğrulayın",
+    "description": "Bu adım yaklaşık 5 dakika sürer.",
+    "disclaimer": "<0>Gizlilik Politikası</0>'nda belirtildiği gibi, Kişisel Verilerinizin doğrulama amacıyla bize sağlanacağını ve üçüncü taraflarla paylaşılacağını onaylar ve kabul edersiniz.",
+    "button": "Kimlik Doğrulamayı Ayarla"
   },
   "fiatConnectReviewScreen": {
     "transactionDetails": "İşlem detayları",

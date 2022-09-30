@@ -9,6 +9,8 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { initializeAccount } from 'src/account/actions'
 import { defaultCountryCodeSelector, e164NumberSelector } from 'src/account/selectors'
+import { PhoneVerificationEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { registrationStepsSelector } from 'src/app/selectors'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnTypes } from 'src/components/Button'
@@ -59,7 +61,12 @@ function VerificationStartScreen({
     ? countries.getCountryByCodeAlpha2(phoneNumberInfo.countryCodeAlpha2)
     : undefined
 
-  const onPressStart = async () => {
+  const onPressStart = () => {
+    ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_start, {
+      country: country?.displayNameNoDiacritics || '',
+      countryCallingCode: country?.countryCallingCode || '',
+    })
+
     dispatch(setHasSeenVerificationNux(true))
     navigate(Screens.VerificationCodeInputScreen, {
       registrationStep: route.params?.hideOnboardingStep ? undefined : { step, totalSteps },
@@ -69,6 +76,7 @@ function VerificationStartScreen({
   }
 
   const onPressSkip = () => {
+    ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_skip)
     setShowSkipDialog(true)
   }
 
@@ -78,10 +86,12 @@ function VerificationStartScreen({
 
   const onPressSkipConfirm = () => {
     dispatch(setHasSeenVerificationNux(true))
+    ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_skip_confirm)
     navigateHome()
   }
 
   const onPressLearnMore = () => {
+    ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_learn_more)
     setShowLearnMoreDialog(true)
   }
 

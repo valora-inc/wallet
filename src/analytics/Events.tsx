@@ -216,6 +216,25 @@ export enum VerificationEvents {
   verification_fetch_on_chain_data_success = 'verification_fetch_on_chain_data_success',
 }
 
+// Events emitted in the CPV flow
+export enum PhoneVerificationEvents {
+  phone_verification_skip = 'phone_verification_skip', // when skip is pressed in the phone number input screen
+  phone_verification_skip_confirm = 'phone_verification_skip_confirm', // when skip is confirmed from the dialog in the phone number input screen
+  phone_verification_learn_more = 'phone_verification_learn_more', // when the learn more dialog is launched in the phone number input screen
+  phone_verification_start = 'phone_verification_start', // when the start button is pressed in the phone number input screen
+
+  phone_verification_code_request_success = 'phone_verification_code_request_success', // when the verifyPhoneNumber endpoint returns successfully
+  phone_verification_code_verify_start = 'phone_verification_code_verify_start', // when the user has entered the sms code and we start to validate on the backend
+  phone_verification_code_verify_success = 'phone_verification_code_verify_success', // when the backend confirms that the sms code is successfully validated
+  phone_verification_code_verify_error = 'phone_verification_code_verify_error', // when the backend throws an error and the sms code is cannot be validated
+
+  phone_verification_input_help = 'phone_verification_input_help', // when the help button is pressed
+  phone_verification_input_help_skip = 'phone_verification_input_help_skip', // when the user presses skip on the help dialog to skip verification
+  phone_verification_input_help_continue = 'phone_verification_input_help_continue', // when the user presses continue on the help dialog to continue verification
+
+  phone_verification_resend_message = 'phone_verification_resend_message', // when the user triggers a resend of the sms code
+}
+
 export enum IdentityEvents {
   contacts_connect = 'contacts_connect', // when connect button is pressed
   contacts_import_permission_denied = 'contacts_import_permission_denied',
@@ -261,6 +280,8 @@ export enum InviteEvents {
   invite_banner_impression = 'invite_banner_impression',
   invite_with_share = 'invite_with_share',
   invite_with_share_dismiss = 'invite_with_share_dismiss',
+  invite_with_referral_url = 'invite_with_referral_url',
+  opened_via_invite_url = 'opened_via_invite_url',
 }
 
 export enum EscrowEvents {
@@ -447,6 +468,10 @@ export enum FiatExchangeEvents {
   cico_fc_link_account_continue = 'cico_fc_link_account_continue',
   cico_fc_link_account_back = 'cico_fc_link_account_back',
   cico_fc_link_account_provider_website = 'cico_fc_link_account_provider_website',
+
+  // Fiat Connect link KYC & account page
+  cico_fc_link_kyc_account_back = 'cico_fc_link_kyc_account_back',
+  // persona_kyc_start is fired when the 'Set up ID Verification' button is clicked
 
   // Fiat Connect fiat details screen
   cico_fiat_details_success = 'cico_fiat_details_success',

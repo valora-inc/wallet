@@ -12,6 +12,8 @@ import {
   View,
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { PhoneVerificationEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
 import CodeInput, { CodeInputStatus } from 'src/components/CodeInput'
 import Dialog from 'src/components/Dialog'
@@ -43,14 +45,17 @@ function VerificationCodeInputScreen({
   )
 
   const onPressSkip = () => {
+    ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_input_help_skip)
     navigateHome()
   }
 
   const onPressHelp = () => {
+    ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_input_help)
     setShowHelpDialog(true)
   }
 
   const onPressHelpDismiss = () => {
+    ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_input_help_continue)
     setShowHelpDialog(false)
   }
 
