@@ -683,7 +683,10 @@
   "onboardingEducation": {
     "step1": "Eğer mesaj gönderebiliyorsanız, kripto da kullanabilirsiniz. Şu andan itibaren telefonunuz aynı zamanda sizin kripto cüzdanınız.",
     "step2": "{{appName}} ile kriptoya erişmek ve kripto bakiyenizi artırmak çok kolay.",
-    "step3": "Fon göndermek, harcama yapmak ve daha fazlasını keşfetmek için ihtiyacınız olan tek şey bir cep telefonu."
+    "step3": "Fon göndermek, harcama yapmak ve daha fazlasını keşfetmek için ihtiyacınız olan tek şey bir cep telefonu.",
+    "payment": "Make payments globally with near zero fees",
+    "impact": "Support climate and social change initiatives",
+    "spend": "Use your crypto to shop your favorite brands"
   },
   "enableBiometry": {
     "title": "Cüzdanınızı emniyete alın",
