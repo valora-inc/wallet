@@ -180,7 +180,7 @@ class ValoraAnalytics {
     }
 
     try {
-      Statsig.updateUser({ userID })
+      void Statsig.updateUser({ userID })
     } catch (error) {
       Logger.warn(TAG, 'Error updating statsig user', error)
     }
