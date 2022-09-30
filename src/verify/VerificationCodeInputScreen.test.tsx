@@ -59,6 +59,7 @@ describe('VerificationCodeInputScreen', () => {
     expect(getByText('phoneVerificationInput.help')).toBeTruthy()
     expect(getByTestId('PhoneVerificationCode')).toBeTruthy()
     expect(getByTestId('PhoneVerificationInputHelpDialog').props.visible).toBe(false)
+    expect(getByTestId('PhoneVerificationResendSmsBtn')).toBeDisabled()
 
     await act(flushMicrotasksQueue)
 
@@ -148,6 +149,31 @@ describe('VerificationCodeInputScreen', () => {
 
     jest.runOnlyPendingTimers()
     expect(navigate).not.toHaveBeenCalled()
+  })
+
+  it('makes a request to resend the sms code', async () => {
+    const { getByTestId } = renderComponent()
+
+    await act(async () => {
+      await act(flushMicrotasksQueue)
+      jest.advanceTimersByTime(30000) // 30 seconds, matching default resend delay time in ResendButtonWithDelay component
+    })
+
+    expect(mockFetch).toHaveBeenCalledTimes(1)
+
+    fireEvent.press(getByTestId('PhoneVerificationResendSmsBtn'))
+
+    await act(flushMicrotasksQueue)
+
+    expect(mockFetch).toHaveBeenCalledTimes(2)
+    expect(mockFetch).toHaveBeenNthCalledWith(2, `${networkConfig.verifyPhoneNumberUrl}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: 'Valora 0xabc:someSignedMessage',
+      },
+      body: `{"phoneNumber":"${e164Number}","clientPlatform":"android","clientVersion":"0.0.1"}`,
+    })
   })
 
   it('shows the help dialog', async () => {
