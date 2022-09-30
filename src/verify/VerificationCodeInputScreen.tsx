@@ -5,6 +5,7 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   Platform,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableWithoutFeedback,
@@ -114,7 +115,10 @@ function VerificationCodeInputScreen({
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View style={styles.contentContainer}>
+          <ScrollView
+            style={styles.scrollContainer}
+            contentContainerStyle={styles.contentContainer}
+          >
             <Text style={styles.body}>
               {t('phoneVerificationInput.description', { phoneNumber: route.params.e164Number })}
             </Text>
@@ -132,7 +136,7 @@ function VerificationCodeInputScreen({
             <View style={styles.bottomButtonContainer}>
               <ResendButtonWithDelay onPress={handleResendCode} />
             </View>
-          </View>
+          </ScrollView>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
       <Dialog
@@ -160,9 +164,12 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
   },
-  contentContainer: {
+  scrollContainer: {
     flex: 1,
     padding: Spacing.Thick24,
+  },
+  contentContainer: {
+    flexGrow: 1,
   },
   body: {
     ...fontStyles.regular,
@@ -170,7 +177,6 @@ const styles = StyleSheet.create({
   },
   codeInput: {
     marginHorizontal: Spacing.Thick24,
-    padding: Spacing.Thick24,
   },
   bottomButtonContainer: {
     flex: 1,
