@@ -529,6 +529,7 @@ interface PhoneVerificationEventsProperties {
   [PhoneVerificationEvents.phone_verification_input_help]: undefined
   [PhoneVerificationEvents.phone_verification_input_help_continue]: undefined
   [PhoneVerificationEvents.phone_verification_input_help_skip]: undefined
+  [PhoneVerificationEvents.phone_verification_resend_message]: undefined
 }
 
 interface IdentityEventsProperties {

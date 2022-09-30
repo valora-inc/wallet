@@ -44,6 +44,11 @@ function VerificationCodeInputScreen({
     route.params.countryCallingCode
   )
 
+  const onResendSms = () => {
+    ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_resend_message)
+    resendSms()
+  }
+
   const onPressSkip = () => {
     ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_input_help_skip)
     navigateHome()
@@ -136,7 +141,7 @@ function VerificationCodeInputScreen({
               style={styles.codeInput}
             />
             <View style={styles.bottomButtonContainer}>
-              <ResendButtonWithDelay onPress={resendSms} />
+              <ResendButtonWithDelay onPress={onResendSms} />
             </View>
           </ScrollView>
         </TouchableWithoutFeedback>
