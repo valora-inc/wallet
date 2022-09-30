@@ -683,7 +683,10 @@
   "onboardingEducation": {
     "step1": "Cripto tan fácil como enviar mensajes. Convierte tu teléfono en una wallet cripto.",
     "step2": "Con {{appName}}, accede y multiplica tus criptomonedas en pocos pasos.",
-    "step3": "Solo necesitas tu teléfono para enviar, gastar y explorar el mundo cripto."
+    "step3": "Solo necesitas tu teléfono para enviar, gastar y explorar el mundo cripto.",
+    "payment": "Realiza pagos en todo el mundo con tasas casi nulas",
+    "impact": "Apoyar las iniciativas de cambio climático y social",
+    "spend": "Usa tu cripto para comprar tus marcas favoritas"
   },
   "enableBiometry": {
     "title": "Mantén tu wallet segura",
