@@ -13,6 +13,7 @@ import Card from 'src/components/Card'
 import ClipboardAwarePasteButton from 'src/components/ClipboardAwarePasteButton'
 import TextInput, { LINE_HEIGHT } from 'src/components/TextInput'
 import Checkmark from 'src/icons/Checkmark'
+import InfoIcon from 'src/icons/InfoIcon'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Shadow, Spacing } from 'src/styles/styles'
@@ -73,10 +74,11 @@ export default function CodeInput({
     )
   }
 
-  const showInput = status === CodeInputStatus.Inputting
+  const showInput = status === CodeInputStatus.Inputting || status === CodeInputStatus.Error
   const showSpinner = status === CodeInputStatus.Processing || status === CodeInputStatus.Received
   const showCheckmark = status === CodeInputStatus.Accepted
-  const showStatus = showCheckmark || showSpinner
+  const showError = status === CodeInputStatus.Error
+  const showStatus = showCheckmark || showSpinner || showError
   const keyboardType = shortVerificationCodesEnabled
     ? 'number-pad'
     : Platform.OS === 'android'
@@ -123,7 +125,7 @@ export default function CodeInput({
 
             {showInput ? (
               <TextInput
-                textContentType={shortVerificationCodesEnabled ? 'username' : undefined}
+                textContentType={shortVerificationCodesEnabled ? 'oneTimeCode' : undefined}
                 showClearButton={false}
                 value={inputValue}
                 placeholder={
@@ -171,7 +173,13 @@ export default function CodeInput({
           {showStatus && (
             <View style={styles.statusContainer}>
               {showSpinner && <ActivityIndicator size="small" color={colors.greenUI} />}
-              {showCheckmark && <Checkmark />}
+              {showCheckmark && <Checkmark testID={testID ? `${testID}/CheckIcon` : undefined} />}
+              {showError && (
+                <InfoIcon
+                  color={colors.warning}
+                  testID={testID ? `${testID}/ErrorIcon` : undefined}
+                />
+              )}
             </View>
           )}
         </View>
