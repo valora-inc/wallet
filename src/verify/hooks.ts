@@ -79,7 +79,8 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCallingCode: st
           `${TAG}/requestVerificationCode`,
           'Skipping request to verifyPhoneNumber since a request was already initiated'
         )
-        // prevent request from being fired multiple times
+        // prevent request from being fired multiple times, due to hot reloading
+        // during development only
         return
       }
 
