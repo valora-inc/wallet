@@ -581,7 +581,7 @@
     "title": "Invita un amico",
     "body": "Collegati e condividi valore con amici e familiari su {{appName}}.",
     "button": "Invia l'invito",
-    "error": "Si è verificato un errore nella creazione di un link condivisibile",
+    "error": "C'è stato un problema nella creazione di un link condivisibile",
     "share": "Ciao. Uso {{appName}} come wallet di criptovalute. Provare l'app è facile e desidero invitarti a scoprirla con questo collegamento: {{shareUrl}}"
   },
   "getReward": "Ricevi ${{reward}}",
