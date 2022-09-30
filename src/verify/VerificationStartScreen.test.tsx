@@ -92,7 +92,7 @@ describe('VerificationStartScreen', () => {
 
     expect(navigate).toHaveBeenCalledTimes(1)
     expect(navigate).toHaveBeenCalledWith(Screens.VerificationCodeInputScreen, {
-      countryCode: '+31',
+      countryCallingCode: '+31',
       e164Number: '+31619123456',
       registrationStep: { step: 3, totalSteps: 3 },
     })
