@@ -581,7 +581,7 @@
     "title": "Invitez des amis",
     "body": "Connectez et partagez des valeurs avec vos amis et votre famille sur {{appName}}.",
     "button": "Envoyer l'invitation",
-    "error": "Il y a eu un problème pour créer un lien partageable",
+    "error": "Une erreur s'est produite lors de la création d'un lien partageable.",
     "share": "Bonjour ! J'utilise {{appName}} comme mon portefeuille crypto. C'est facile, et je vous invite à découvrir également ce service en utilisant ce lien : {{shareUrl}}"
   },
   "getReward": "Obtenez {{reward}}$",
@@ -773,6 +773,7 @@
     "description": "Pour connecter votre numéro de téléphone, vous recevrez un SMS.",
     "startButtonLabel": "Commencer",
     "learnMore": {
+      "buttonLabel": "Dois-je connecter mon téléphone ?",
       "title": "Dois-je connecter mon téléphone ?",
       "body": "Connecter votre numéro de téléphone vous permettra d'envoyer de l'argent à vos contacts et d'autres numéros de téléphone. \n \nSi vous choisissez de sauter cette étape, vous ne pourrez pas accéder à vos contacts, et vous ne pourrez envoyer de l’argent que via le code QR ou l’Adresse du compte."
     },
@@ -787,13 +788,14 @@
     "title": "Saisir le code",
     "description": "Nous avons envoyé un code au numéro {{phoneNumber}}, veuillez le saisir ci-dessous.",
     "help": "Aide",
-    "codeInputPlaceholder": "12345678",
+    "codeInputPlaceholder": "123456",
     "helpDialog": {
       "title": "Aide",
-      "body": "Nous avons envoyé un SMS à votre numéro de téléphone. Veuillez consulter vos SMS, un code à 8 chiffres devrait s'y trouver. Si vous ne recevez pas nos messages, vous pouvez sauter cette étape pour le moment et réessayer plus tard.",
+      "body": "Nous avons envoyé un SMS à votre numéro de téléphone. Veuillez consulter vos SMS, un code à 6 chiffres devrait s'y trouver. Si vous ne recevez pas nos messages, vous pouvez sauter cette étape pour le moment et réessayer plus tard.",
       "skip": "Ignorer",
       "dismiss": "Retour"
-    }
+    },
+    "verificationFailure": "Oups ! Quelque chose s'est mal passé, essaie à nouveau plus tard."
   },
   "importExistingKey": {
     "explanation": "Votre Phrase de récupération est une phrase de 24 mots que vous avez écrite et enregistrée lorsque vous avez créé votre compte. Veuillez la saisir ici pour restaurer votre compte.",
