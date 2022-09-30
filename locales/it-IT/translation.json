@@ -795,7 +795,7 @@
       "skip": "Salta",
       "dismiss": "Indietro"
     },
-    "verificationFailure": "Oops! Qualcosa è andato storto, riprova più tardi."
+    "verificationFailure": "Si è verificato un errore, riprova più tardi."
   },
   "importExistingKey": {
     "explanation": "La tua Frase di recupero è composta da 24 parole e dovresti averla annotata quando hai configurato il tuo conto. Immettila qui per ripristinarlo.",
