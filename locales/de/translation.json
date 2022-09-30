@@ -795,7 +795,7 @@
       "skip": "Überspringen",
       "dismiss": "Zurück"
     },
-    "verificationFailure": "Oops! Es ist etwas schief gelaufen, bitte versuche es später noch einmal."
+    "verificationFailure": "Etwas ist schief gelaufen, bitte versuche es später erneut."
   },
   "importExistingKey": {
     "explanation": "Deine Wiederherstellungsphrase ist eine 24-Wort-Phrase, die du bei der Einrichtung deines Kontos aufgeschrieben und gespeichert hast. Bitte gib es hier ein, um dein Konto wiederherzustellen.",
