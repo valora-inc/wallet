@@ -773,6 +773,7 @@
     "description": "Um deine Telefonnummer zu verbinden, erhältst du eine Textnachricht.",
     "startButtonLabel": "Start",
     "learnMore": {
+      "buttonLabel": "Muss ich mein Telefon verbinden?",
       "title": "Muss ich mein Telefon verbinden?",
       "body": "Wenn du deine Telefonnummer verbindest, kannst du Geld an Freunde in deinem Adressbuch sowie an andere Telefonnummern senden.\n\nWenn du diesen Schritt überspringst, kannst du nicht auf deine Kontakte zugreifen. Du kannst dann nur Geld per QR-Code oder über die Konto-Adressen versenden."
     },
@@ -787,13 +788,14 @@
     "title": "Code eingeben",
     "description": "Wir haben einen Code an {{phoneNumber}} gesendet, bitte gib ihn unten ein.",
     "help": "Hilfe",
-    "codeInputPlaceholder": "12345678",
+    "codeInputPlaceholder": "123456",
     "helpDialog": {
       "title": "Hilfe",
-      "body": "Wir haben eine SMS an deine Telefonnummer geschickt. Bitte überprüfe deine SMS, um den 8-stelligen Code zu finden. Wenn du Probleme beim Empfang von Nachrichten hast, kannst du diesen Schritt überspringen und es später noch einmal versuchen.",
+      "body": "Wir haben eine SMS an deine Telefonnummer geschickt. Bitte überprüfe deine SMS, um den 6-stelligen Code zu finden. Wenn du Probleme beim Empfang von Nachrichten hast, kannst du diesen Schritt überspringen und es später noch einmal versuchen.",
       "skip": "Überspringen",
       "dismiss": "Zurück"
-    }
+    },
+    "verificationFailure": "Oops! Es ist etwas schief gelaufen, bitte versuche es später noch einmal."
   },
   "importExistingKey": {
     "explanation": "Deine Wiederherstellungsphrase ist eine 24-Wort-Phrase, die du bei der Einrichtung deines Kontos aufgeschrieben und gespeichert hast. Bitte gib es hier ein, um dein Konto wiederherzustellen.",
