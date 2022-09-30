@@ -37,7 +37,7 @@ function VerificationCodeInputScreen({
 
   const { t } = useTranslation()
   const headerHeight = useHeaderHeight()
-  const { setSmsCode, verificationStatus } = useVerifyPhoneNumber(
+  const { resendSms, setSmsCode, verificationStatus } = useVerifyPhoneNumber(
     route.params.e164Number,
     route.params.countryCallingCode
   )
@@ -52,10 +52,6 @@ function VerificationCodeInputScreen({
 
   const onPressHelpDismiss = () => {
     setShowHelpDialog(false)
-  }
-
-  const handleResendCode = () => {
-    setSmsCode(code)
   }
 
   useLayoutEffect(() => {
@@ -134,7 +130,7 @@ function VerificationCodeInputScreen({
               style={styles.codeInput}
             />
             <View style={styles.bottomButtonContainer}>
-              <ResendButtonWithDelay onPress={handleResendCode} />
+              <ResendButtonWithDelay onPress={resendSms} />
             </View>
           </ScrollView>
         </TouchableWithoutFeedback>

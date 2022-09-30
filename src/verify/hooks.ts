@@ -52,6 +52,12 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCallingCode: st
   const [verificationStatus, setVerificationStatus] = useState(PhoneNumberVerificationStatus.NONE)
   const [verificationId, setVerificationId] = useState('')
   const [smsCode, setSmsCode] = useState('')
+  const [shouldResendSms, setShouldResendSms] = useState(false)
+
+  const resendSms = () => {
+    verificationCodeRequested.current = false
+    setShouldResendSms(true)
+  }
 
   const handleRequestVerificationCodeError = (error: Error) => {
     Logger.debug(
@@ -59,6 +65,7 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCallingCode: st
       'Received error from verifyPhoneNumber service',
       error
     )
+    setShouldResendSms(false)
     dispatch(showError(ErrorMessages.PHONE_NUMBER_VERIFICATION_FAILURE))
   }
 
@@ -74,13 +81,13 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCallingCode: st
 
   useAsync(
     async () => {
-      if (verificationCodeRequested.current) {
+      if (verificationCodeRequested.current && !shouldResendSms) {
+        // prevent the verification request from being fired multiple times, due
+        // to hot reloading during development only
         Logger.debug(
           `${TAG}/requestVerificationCode`,
           'Skipping request to verifyPhoneNumber since a request was already initiated'
         )
-        // prevent request from being fired multiple times, due to hot reloading
-        // during development only
         return
       }
 
@@ -106,7 +113,7 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCallingCode: st
       }
     },
 
-    [phoneNumber],
+    [phoneNumber, shouldResendSms],
     {
       onError: handleRequestVerificationCodeError,
       onSuccess: async (response?: Response) => {
@@ -116,6 +123,7 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCallingCode: st
 
         const { data } = await response.json()
         setVerificationId(data.verificationId)
+        setShouldResendSms(false)
         verificationCodeRequested.current = true
         Logger.debug(
           `${TAG}/requestVerificationCode`,
@@ -178,6 +186,7 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCallingCode: st
   )
 
   return {
+    resendSms,
     setSmsCode,
     verificationStatus,
   }
