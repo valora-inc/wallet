@@ -43,6 +43,7 @@ const InviteModal = ({
         <Text style={[fontStyles.h2, styles.text]}>{title}</Text>
         <Text style={[fontStyles.regular, styles.text]}>{description}</Text>
         <Button
+          testID="InviteModalShareButton"
           icon={<ShareIcon color={colors.light} height={24} />}
           iconPositionLeft={false}
           size={BtnSizes.SMALL}

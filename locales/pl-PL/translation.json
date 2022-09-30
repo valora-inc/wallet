@@ -577,6 +577,13 @@
     "title": "Wyślij kryptowalutę, aby zaprosić znajomego",
     "body": "Kiedy założy portfel w aplikacji {{appName}} i podłączy swój numer, oboje otrzymacie NFT. <0>Zdobądź do 3 NTF</0>"
   },
+  "inviteWithUrl": {
+    "title": "Zaproś znajomego",
+    "body": "Kontaktuj i dziel się środkami z przyjaciółmi i rodziną dzięki aplikacji {{appName}}.",
+    "button": "Wyślij zaproszenie",
+    "error": "Wystąpił problem z tworzeniem linku do udostępniania",
+    "share": "Cześć! Korzystam z portfel kryptowalutowy {{appName}}. To bardzo proste. Może Ty też spróbujesz? Skorzystaj z tego linku: {{shareUrl}}"
+  },
   "getReward": "Otrzymaj ${{reward}}",
   "welcomeCelo": "Witamy w aplikacji {{appName}}",
   "chooseCountryCode": "Kod kraju",
@@ -763,27 +770,27 @@
   "phoneVerificationScreen": {
     "screenTitle": "Numer telefonu",
     "title": "Podłącz swój numer telefonu",
-    "description": "Aby połączyć swój numer telefonu, otrzymasz wiadomość tekstową.",
+    "description": "Aby podłączyć swój numer telefonu, otrzymasz wiadomość tekstową.",
     "startButtonLabel": "Start",
     "learnMore": {
       "title": "Czy muszę podłączyć telefon?",
-      "body": "Podłączenie numeru telefonu pozwoli Ci na wysyłanie pieniędzy do znajomych z książki adresowej i innych numerów telefonów. \n \n Jeśli pominiesz ten krok, nie będziesz miał dostępu do swoich kontaktów i będziesz mógł wysyłać pieniądze tylko za pomocą kodu QR lub numeru konta."
+      "body": "Podłączenie numeru telefonu pozwoli Ci na wysyłanie pieniędzy do znajomych z książki adresowej i innych numerów telefonów. \n \n Jeśli pominiesz ten krok, nie będziesz mieć dostępu do swoich kontaktów i będziesz w stanie wysyłać pieniądze tylko za pomocą kodu QR lub adres konta."
     },
     "skip": {
       "title": "Czy na pewno?",
-      "body": "Połączenie pozwala na wysyłanie i odbieranie pieniędzy z twojego numeru telefonu.",
+      "body": "Podłączenie pozwala na wysyłanie i odbieranie pieniędzy z Twojego numeru telefonu.",
       "cancel": "Wróć",
       "confirm": "Na razie pomiń"
     }
   },
   "phoneVerificationInput": {
     "title": "Wprowadź kod",
-    "description": "Wysłaliśmy kod na adres {{phoneNumber}}, wpisz go poniżej.",
+    "description": "Wysłaliśmy kod pod numer {{phoneNumber}}, wpisz go poniżej.",
     "help": "Pomoc",
     "codeInputPlaceholder": "12345678",
     "helpDialog": {
       "title": "Pomoc",
-      "body": "Wysłaliśmy wiadomość SMS na Twój numer telefonu. Sprawdź swoje wiadomości tekstowe, aby znaleźć 8-cyfrowy kod. Jeśli masz problemy z odbieraniem wiadomości, możesz pominąć ten krok i spróbować ponownie później.",
+      "body": "Wysłaliśmy wiadomość SMS pod Twój numer telefonu. Sprawdź swoje wiadomości tekstowe, aby znaleźć 8-cyfrowy kod. Jeśli masz problemy z odbieraniem wiadomości, możesz pominąć ten krok i spróbować ponownie później.",
       "skip": "Pomiń",
       "dismiss": "Wróć"
     }
@@ -1282,9 +1289,17 @@
     "bankAccount": {
       "header": "Załóż konto bankowe",
       "bodyTitle": "Załóż konto bankowe",
-      "description": "Wprowadź szczegóły dotyczące rachunku bankowego, aby przelać środki. Twoje transakcje będą obsługiwane przez <0>{{providerName}}</0>."
+      "description": "Wprowadź dane konta bankowego, aby przelać środki. Twoje transakcje będą realizowane przez <0>{{providerName}}</0>. Klikając przycisk Kontynuuj, zgadzasz się z <1>Warunkami</1> oraz <2>Polityką prywatności</2>"
     },
     "continue": "Kontynuuj"
+  },
+  "fiatConnectKycLandingScreen": {
+    "stepOne": "Krok 1",
+    "stepTwo": "Krok 2",
+    "title": "Zweryfikuj swoją tożsamość",
+    "description": "Ten krok zajmie około 5 minut.",
+    "disclaimer": "Przyjmujesz do wiadomości i zgadzasz się na to, że Twoje dane osobowe zostaną nam przekazane i udostępnione osobom trzecim w celu weryfikacji, jak określono w <0>Polityce prywatności</0>",
+    "button": "Ustaw weryfikację tożsamości"
   },
   "fiatConnectReviewScreen": {
     "transactionDetails": "Szczegóły transakcji",
