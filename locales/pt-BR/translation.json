@@ -581,7 +581,7 @@
     "title": "Convide um amigo",
     "body": "Conecte-se e compartilhe valor com seus amigos e familiares na {{appName}}.",
     "button": "Enviar convite",
-    "error": "Ocorreu um erro ao criar um link compartilhável",
+    "error": "Houve um problema que criou uma ligação partilhável",
     "share": "Olá! Estou usando a carteira cripto {{appName}}. É muito fácil de usar e eu gostaria de convidar você para conferir com este link: {{shareUrl}}"
   },
   "getReward": "Receba ${{reward}}",
