@@ -10086,6 +10086,13 @@ fast-levenshtein@^2.0.6, fast-levenshtein@~2.0.6:
   resolved "https://registry.yarnpkg.com/fast-levenshtein/-/fast-levenshtein-2.0.6.tgz#3d8a5c66883a16a30ca8643e851f19baa7797917"
   integrity sha1-PYpcZog6FqMMqGQ+hR8Zuqd5eRc=
 
+fast-shuffle@^5.0.2:
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/fast-shuffle/-/fast-shuffle-5.0.2.tgz#41b87979a8b37350c75a2a7fb52205a7553b2764"
+  integrity sha512-YcFRFQfNJZ43G7M0Qig4Bg88U96EVXVryXFM1VYO4cAwe6PgELiyR2gNBKxXC1Be6t2eu1d8ptaLA9TtExFgvw==
+  dependencies:
+    fn-mt "1.2.1"
+
 fast-text-encoding@^1.0.0:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/fast-text-encoding/-/fast-text-encoding-1.0.3.tgz#ec02ac8e01ab8a319af182dae2681213cfe9ce53"
@@ -10315,6 +10322,11 @@ flow-parser@^0.121.0:
   version "0.121.0"
   resolved "https://registry.yarnpkg.com/flow-parser/-/flow-parser-0.121.0.tgz#9f9898eaec91a9f7c323e9e992d81ab5c58e618f"
   integrity sha512-1gIBiWJNR0tKUNv8gZuk7l9rVX06OuLzY9AoGio7y/JT4V1IZErEMEq2TJS+PFcw/y0RshZ1J/27VfK1UQzYVg==
+
+fn-mt@1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/fn-mt/-/fn-mt-1.2.1.tgz#4a87a44164ec4a2a77525599b6fd86ece9109d40"
+  integrity sha512-pH4wCsSEfuaffWysGvOds36E9qVAoUK9Up9dWqNTx/qLTQobdOxriINVxd1xoQjMNn+ozMifc425mvgOgK21pQ==
 
 follow-redirects@^1.14.0:
   version "1.14.9"
