@@ -795,7 +795,7 @@
       "skip": "Pomiń",
       "dismiss": "Wróć"
     },
-    "verificationFailure": "Ups! Coś poszło nie tak, spróbuj ponownie później."
+    "verificationFailure": "Coś poszło nie tak, spróbuj ponownie później."
   },
   "importExistingKey": {
     "explanation": "Twoja fraza odzyskiwania to 24 słowa, które ustawiłeś(-aś) i zapisałeś(-aś) podczas zakładania konta. Wpisz je tutaj, aby przywrócić konto.",
