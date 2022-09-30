@@ -795,7 +795,7 @@
       "skip": "Pular",
       "dismiss": "Voltar"
     },
-    "verificationFailure": "Oops! Alguma coisa correu mal, por favor tente novamente mais tarde."
+    "verificationFailure": "Algo deu errado, tente novamente mais tarde."
   },
   "importExistingKey": {
     "explanation": "Sua Frase de Recuperação é uma frase de 24 palavras que você anotou e salvou ao configurar sua conta. Insira-a aqui para restaurar sua conta.",
