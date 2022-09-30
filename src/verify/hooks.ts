@@ -146,7 +146,6 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCallingCode: st
       }
 
       ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_code_verify_start)
-
       Logger.debug(
         `${TAG}/validateVerificationCode`,
         'Initiating request to verifySmsCode with verificationId: ',
