@@ -578,11 +578,11 @@
     "body": "Kiedy założy portfel w aplikacji {{appName}} i podłączy swój numer, oboje otrzymacie NFT. <0>Zdobądź do 3 NTF</0>"
   },
   "inviteWithUrl": {
-    "title": "Zaproś przyjaciela",
-    "body": "Połącz się i podziel się wartościami ze swoimi przyjaciółmi i rodziną na stronie {{appName}}.",
-    "button": "Podziel się zaproszeniem",
-    "error": "Wystąpił problem z utworzeniem udostępnianego linku",
-    "share": "Cześć! Używam {{appName}} jako mojego portfela kryptowalutowego. Jest łatwy do wypróbowania i chcę Cię zaprosić do sprawdzenia go za pomocą tego linku: {{shareUrl}}"
+    "title": "Zaproś znajomego",
+    "body": "Kontaktuj i dziel się środkami z przyjaciółmi i rodziną dzięki aplikacji {{appName}}.",
+    "button": "Wyślij zaproszenie",
+    "error": "Wystąpił problem z tworzeniem linku do udostępniania",
+    "share": "Cześć! Korzystam z portfel kryptowalutowy {{appName}}. To bardzo proste. Może Ty też spróbujesz? Skorzystaj z tego linku: {{shareUrl}}"
   },
   "getReward": "Otrzymaj ${{reward}}",
   "welcomeCelo": "Witamy w aplikacji {{appName}}",
@@ -774,7 +774,7 @@
     "startButtonLabel": "Start",
     "learnMore": {
       "title": "Czy muszę podłączyć telefon?",
-      "body": "Podłączenie numeru telefonu pozwoli Ci na wysyłanie pieniędzy do znajomych z Twojej książki adresowej oraz na inne numery telefonów. \n \n Jeśli pominiesz ten krok, nie będziesz miał dostępu do swoich kontaktów i będziesz mógł wysyłać pieniądze tylko za pomocą kodu QR lub adresu konta."
+      "body": "Podłączenie numeru telefonu pozwoli Ci na wysyłanie pieniędzy do znajomych z książki adresowej i innych numerów telefonów. \n \n Jeśli pominiesz ten krok, nie będziesz mieć dostępu do swoich kontaktów i będziesz w stanie wysyłać pieniądze tylko za pomocą kodu QR lub adres konta."
     },
     "skip": {
       "title": "Czy na pewno?",

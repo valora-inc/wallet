@@ -141,7 +141,7 @@ export async function getKycStatus({
  * Silently returns on success. If response is non-OK, throws.
  *
  * @param {FiatConnectProviderInfo} params.providerInfo - Information about the FiatConnect provider to submit KYC to.
- * @param {KycSchema[]} params.kycSchemas - The `KycSchema` to submit to the selected provider.
+ * @param {KycSchema} params.kycSchema - The `KycSchema` to submit to the selected provider.
  * @returns {Promise<void>}
  */
 export async function postKyc({
