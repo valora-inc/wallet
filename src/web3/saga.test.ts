@@ -24,11 +24,8 @@ import {
   mtwAddressSelector,
   walletAddressSelector,
 } from 'src/web3/selectors'
-import { Statsig } from 'statsig-react-native'
 import { createMockStore } from 'test/utils'
 import { mockAccount, mockAccount2, mockAccount3 } from 'test/values'
-
-Statsig.updateUser = jest.fn().mockImplementation(() => Promise.resolve(true))
 
 jest.unmock('src/pincode/authentication')
 
@@ -78,7 +75,6 @@ describe(getOrCreateAccount, () => {
       .put(setDataEncryptionKey(EXPECTED_DEK))
       .returns(EXPECTED_ADDRESS)
       .run()
-    expect(Statsig.updateUser).toBeCalledWith({ userID: EXPECTED_ADDRESS.toLowerCase() })
   })
 
   it.each`

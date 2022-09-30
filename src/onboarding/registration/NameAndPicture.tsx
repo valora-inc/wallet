@@ -38,10 +38,10 @@ import { Statsig } from 'statsig-react-native'
 type Props = StackScreenProps<StackParamList, Screens.NameAndPicture>
 
 function NameAndPicture({ navigation }: Props) {
-  const [_showSkipButton, setShowSkipButton] = useState(
+  const [, setShowSkipButton] = useState(
     ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].showSkipButton.defaultValue
   )
-  const [_nameType, setNameType] = useState(
+  const [, setNameType] = useState(
     ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].nameType.defaultValue
   )
   const [nameInput, setNameInput] = useState('')

@@ -174,13 +174,19 @@ class ValoraAnalytics {
       return
     }
 
-    if (!SEGMENT_API_KEY) {
-      Logger.debug(TAG, `No API key, not tracking user ${userID}`)
+    // Only identify user if userID (walletAddress) is set
+    if (!userID) {
       return
     }
 
-    // Only identify user if userID (walletAddress) is set
-    if (!userID) {
+    try {
+      Statsig.updateUser({ userID })
+    } catch (error) {
+      Logger.warn(TAG, 'Error updating statsig user', error)
+    }
+
+    if (!SEGMENT_API_KEY) {
+      Logger.debug(TAG, `No API key, not tracking user ${userID}`)
       return
     }
 
