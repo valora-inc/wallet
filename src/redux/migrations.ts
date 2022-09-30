@@ -11,6 +11,7 @@ import { VerificationStatus } from 'src/identity/types'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { TokenTransaction } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
+import { SendingFiatAccountStatus } from 'src/fiatconnect/slice'
 
 const DEFAULT_DAILY_PAYMENT_LIMIT_CUSD_LEGACY = 1000
 
@@ -821,6 +822,13 @@ export const migrations = {
     fiatConnect: {
       ...state.fiatConnect,
       sendingFiatAccount: false,
+    },
+  }),
+  79: (state: any) => ({
+    ...state,
+    fiatConnect: {
+      ..._.omit(state.fiatConnect, 'sendingFiatAccount'),
+      sendingFiatAccountStatus: SendingFiatAccountStatus.NotSending,
     },
   }),
 }

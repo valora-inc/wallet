@@ -18,8 +18,8 @@ import CancelButton from 'src/components/CancelButton'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import TextInput, { LINE_HEIGHT } from 'src/components/TextInput'
-import { submitFiatAccount } from 'src/fiatconnect/slice'
-import { sendingFiatAccountSelector } from 'src/fiatconnect/selectors'
+import { submitFiatAccount, SendingFiatAccountStatus } from 'src/fiatconnect/slice'
+import { sendingFiatAccountStatusSelector } from 'src/fiatconnect/selectors'
 import i18n from 'src/i18n'
 import { styles as headerStyles } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
@@ -31,6 +31,7 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import { getObfuscatedAccountNumber } from './index'
+import Checkmark from 'src/icons/Checkmark'
 
 export const TAG = 'FIATCONNECT/FiatDetailsScreen'
 
@@ -96,7 +97,7 @@ const getAccountNumberSchema = (implicitParams: {
 const FiatDetailsScreen = ({ route, navigation }: Props) => {
   const { t } = useTranslation()
   const { flow, quote } = route.params
-  const isSending = useSelector(sendingFiatAccountSelector)
+  const sendingFiatAccountStatus = useSelector(sendingFiatAccountStatusSelector)
   const [validInputs, setValidInputs] = useState(false)
   const [errors, setErrors] = useState(new Set<number>())
   const fieldValues = useRef<string[]>([])
@@ -246,43 +247,51 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
   }
 
   const allowedValues = quote.getFiatAccountSchemaAllowedValues()
-  if (isSending) {
-    return (
-      <View style={styles.activityIndicatorContainer}>
-        <ActivityIndicator size="large" color={colors.greenBrand} />
-      </View>
-    )
-  }
-
-  return (
-    <SafeAreaView style={styles.container} edges={['bottom']}>
-      <KeyboardAwareScrollView contentContainerStyle={styles.contentContainers}>
-        <View>
-          {formFields.map((field, index) => (
-            <FormField
-              field={field}
-              index={index}
-              value={fieldValues.current[index]}
-              hasError={errors.has(index)}
-              onChange={(value) => {
-                setInputValue(value, index)
-              }}
-              allowedValues={allowedValues[field.name]}
-            />
-          ))}
+  switch (sendingFiatAccountStatus) {
+    case SendingFiatAccountStatus.Sending:
+      return (
+        <View testID="spinner" style={styles.activityIndicatorContainer}>
+          <ActivityIndicator size="large" color={colors.greenBrand} />
         </View>
-        <Button
-          testID="submitButton"
-          text={t('fiatDetailsScreen.submitAndContinue')}
-          onPress={onPressSubmit}
-          disabled={!validInputs}
-          style={styles.submitButton}
-          size={BtnSizes.FULL}
-        />
-      </KeyboardAwareScrollView>
-      <KeyboardSpacer />
-    </SafeAreaView>
-  )
+      )
+    case SendingFiatAccountStatus.KycApproved:
+      return (
+        <View testID="checkmark" style={styles.activityIndicatorContainer}>
+          <Checkmark color={colors.greenBrand} />
+        </View>
+      )
+    case SendingFiatAccountStatus.NotSending:
+    default:
+      return (
+        <SafeAreaView style={styles.container} edges={['bottom']}>
+          <KeyboardAwareScrollView contentContainerStyle={styles.contentContainers}>
+            <View>
+              {formFields.map((field, index) => (
+                <FormField
+                  field={field}
+                  index={index}
+                  value={fieldValues.current[index]}
+                  hasError={errors.has(index)}
+                  onChange={(value) => {
+                    setInputValue(value, index)
+                  }}
+                  allowedValues={allowedValues[field.name]}
+                />
+              ))}
+            </View>
+            <Button
+              testID="submitButton"
+              text={t('fiatDetailsScreen.submitAndContinue')}
+              onPress={onPressSubmit}
+              disabled={!validInputs}
+              style={styles.submitButton}
+              size={BtnSizes.FULL}
+            />
+          </KeyboardAwareScrollView>
+          <KeyboardSpacer />
+        </SafeAreaView>
+      )
+  }
 }
 
 function FormField({
