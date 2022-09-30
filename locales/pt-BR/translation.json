@@ -1302,6 +1302,9 @@
     "disclaimer": "Você reconhece e concorda que seus Dados Pessoais serão fornecidos a nós e compartilhados com terceiros para fins de verificação, conforme indicado na <0>Política de Privacidade</0>",
     "button": "Configurar verificação de identidade"
   },
+  "fiatConnectKycStatusScreen": {
+    "tryAgainFailed": "Houve um erro ao limpar a informação KYC. Por favor, tente novamente"
+  },
   "fiatConnectReviewScreen": {
     "transactionDetails": "Detalhes de transação",
     "paymentMethodVia": "Conexão de {{providerName}}",
