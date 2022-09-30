@@ -579,10 +579,10 @@
   },
   "inviteWithUrl": {
     "title": "Invita un amico",
-    "body": "Connettiti e condividi il tuo valore con i tuoi amici e familiari su {{appName}}.",
-    "button": "Condividi l'invito",
+    "body": "Collegati e condividi valore con amici e familiari su {{appName}}.",
+    "button": "Invia l'invito",
     "error": "C'è stato un problema nella creazione di un link condivisibile",
-    "share": "Ciao! Ho utilizzato {{appName}} come portafoglio di criptovalute. È facile da provare e voglio invitarti a dare un'occhiata a questo link: {{shareUrl}}"
+    "share": "Ciao. Uso {{appName}} come wallet di criptovalute. Provare l'app è facile e desidero invitarti a scoprirla con questo collegamento: {{shareUrl}}"
   },
   "getReward": "Ricevi ${{reward}}",
   "welcomeCelo": "Ti diamo il benvenuto in {{appName}}",
