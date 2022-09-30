@@ -830,7 +830,7 @@ describe('Fiatconnect saga', () => {
         step: 'two',
       })
     })
-    it('shows an error if FC KYC status is not recognized', async () => {
+    it('goes back to SelectProvider if FC KYC status is not recognized', async () => {
       await expectSaga(
         handleSelectFiatConnectQuote,
         selectFiatConnectQuote({ quote: normalizedQuoteKyc })
@@ -851,7 +851,14 @@ describe('Fiatconnect saga', () => {
         .put(selectFiatConnectQuoteCompleted())
         .put(showError(ErrorMessages.PROVIDER_FETCH_FAILED))
         .run()
-      expect(navigate).not.toHaveBeenCalled()
+      expect(navigate).toHaveBeenCalledWith(Screens.SelectProvider, {
+        flow: normalizedQuoteKyc.flow,
+        selectedCrypto: normalizedQuoteKyc.getCryptoType(),
+        amount: {
+          crypto: parseFloat(normalizedQuoteKyc.getCryptoAmount()),
+          fiat: parseFloat(normalizedQuoteKyc.getFiatAmount()),
+        },
+      })
     })
     it('navigates to link account screen if the fiatAccount is not found', async () => {
       const fiatAccount = {
