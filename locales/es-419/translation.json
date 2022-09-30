@@ -795,7 +795,7 @@
       "skip": "Omitir",
       "dismiss": "Regresar"
     },
-    "verificationFailure": "¡Ups! Algo ha ido mal, por favor, inténtalo de nuevo más tarde."
+    "verificationFailure": "Algo salió mal, inténtalo de nuevo más tarde."
   },
   "importExistingKey": {
     "explanation": "Tu Frase de recuperación es la frase de 24 palabras que escribiste y guardaste cuando configuraste tu cuenta. Por favor, ingrésala para restaurar tu cuenta.",
