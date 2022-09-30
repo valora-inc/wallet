@@ -107,6 +107,21 @@ describe('App saga', () => {
     expect(navigate).not.toHaveBeenCalled()
   })
 
+  it('Handles share deep link', async () => {
+    const deepLink = 'https://vlra.app/share/abc123'
+    await expectSaga(handleDeepLink, openDeepLink(deepLink)).run()
+
+    expect(MockedAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(MockedAnalytics.track.mock.calls[0]).toMatchInlineSnapshot(`
+      Array [
+        "opened_via_invite_url",
+        Object {
+          "inviterAddress": "abc123",
+        },
+      ]
+    `)
+  })
+
   describe('WalletConnect deeplinks', () => {
     const connectionString = encodeURIComponent(
       'wc:79a02f869d0f921e435a5e0643304548ebfa4a0430f9c66fe8b1a9254db7ef77@1?controller=false&publicKey=f661b0a9316a4ce0b6892bdce42bea0f45037f2c1bee9e118a3a4bc868a32a39&relay={"protocol":"waku"}'

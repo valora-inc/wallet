@@ -2,13 +2,13 @@ import {
   FiatAccountSchema,
   FiatAccountType,
   FiatType,
-  QuoteResponseFiatAccountSchema,
   KycSchema,
+  QuoteResponseFiatAccountSchema,
   QuoteResponseKycSchema,
 } from '@fiatconnect/fiatconnect-types'
 import BigNumber from 'bignumber.js'
 import { Dispatch } from 'redux'
-import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
+import { FiatConnectProviderInfo, FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import { selectFiatConnectQuote } from 'src/fiatconnect/slice'
 import NormalizedQuote from 'src/fiatExchanges/quotes/NormalizedQuote'
 import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
@@ -143,6 +143,10 @@ export default class FiatConnectQuote extends NormalizedQuote {
 
   navigate(dispatch: Dispatch): void {
     dispatch(selectFiatConnectQuote({ quote: this }))
+  }
+
+  getProviderInfo(): FiatConnectProviderInfo {
+    return this.quote.provider
   }
 
   getProviderApiKey(): string | undefined {
