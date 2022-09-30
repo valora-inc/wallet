@@ -1302,6 +1302,9 @@
     "disclaimer": "L'utente riconosce e accetta che i suoi Dati personali saranno forniti a noi e condivisi con terze parti a scopo di verifica, come indicato nell'<0>Informativa sulla privacy</0>.",
     "button": "Configura la verifica dell’identità"
   },
+  "fiatConnectKycStatusScreen": {
+    "tryAgainFailed": "Si è verificato un errore nella cancellazione delle informazioni KYC. Riprova"
+  },
   "fiatConnectReviewScreen": {
     "transactionDetails": "Dettagli della transazione",
     "paymentMethodVia": "Collegato via {{providerName}}",
