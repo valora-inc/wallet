@@ -38,7 +38,7 @@ function VerificationCodeInputScreen({
   const headerHeight = useHeaderHeight()
   const { setSmsCode, verificationStatus } = useVerifyPhoneNumber(
     route.params.e164Number,
-    route.params.countryCode
+    route.params.countryCallingCode
   )
 
   const onPressSkip = () => {
@@ -124,9 +124,7 @@ function VerificationCodeInputScreen({
               inputPlaceholder={t('phoneVerificationInput.codeInputPlaceholder')}
               onInputChange={setCode}
               shouldShowClipboard={(content) =>
-                Platform.OS === 'android' &&
-                !!content &&
-                content.length === PHONE_NUMBER_VERIFICATION_CODE_LENGTH
+                !!content && content.length === PHONE_NUMBER_VERIFICATION_CODE_LENGTH
               }
               testID="PhoneVerificationCode"
               style={styles.codeInput}
