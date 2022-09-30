@@ -20,6 +20,7 @@ import {
   NavigationEvents,
   OnboardingEvents,
   PerformanceEvents,
+  PhoneVerificationEvents,
   RequestEvents,
   RewardsEvents,
   SendEvents,
@@ -176,12 +177,23 @@ interface SettingsEventsProperties {
 }
 
 interface OnboardingEventsProperties {
-  [OnboardingEvents.onboarding_education_start]: undefined
+  [OnboardingEvents.onboarding_education_start]: {
+    variant: string
+    order: string
+  }
   [OnboardingEvents.onboarding_education_scroll]: {
     currentStep: number
     direction: ScrollDirection
   }
-  [OnboardingEvents.onboarding_education_complete]: undefined
+  [OnboardingEvents.onboarding_education_step_impression]: {
+    valueProposition: string | undefined
+    variant: string | undefined
+    step: number
+  }
+  [OnboardingEvents.onboarding_education_complete]: {
+    variant: string
+    order: string
+  }
   [OnboardingEvents.onboarding_education_cancel]: undefined
 
   [OnboardingEvents.create_account_start]: undefined
@@ -513,6 +525,23 @@ interface VerificationEventsProperties {
   [VerificationEvents.verification_skip_confirm]: undefined
 }
 
+interface PhoneVerificationEventsProperties {
+  [PhoneVerificationEvents.phone_verification_skip]: undefined
+  [PhoneVerificationEvents.phone_verification_skip_confirm]: undefined
+  [PhoneVerificationEvents.phone_verification_learn_more]: undefined
+  [PhoneVerificationEvents.phone_verification_start]: {
+    country: string
+    countryCallingCode: string
+  }
+  [PhoneVerificationEvents.phone_verification_code_request_success]: undefined
+  [PhoneVerificationEvents.phone_verification_code_verify_start]: undefined
+  [PhoneVerificationEvents.phone_verification_code_verify_success]: undefined
+  [PhoneVerificationEvents.phone_verification_code_verify_error]: undefined
+  [PhoneVerificationEvents.phone_verification_input_help]: undefined
+  [PhoneVerificationEvents.phone_verification_input_help_continue]: undefined
+  [PhoneVerificationEvents.phone_verification_input_help_skip]: undefined
+}
+
 interface IdentityEventsProperties {
   [IdentityEvents.contacts_connect]: {
     matchMakingEnabled: boolean
@@ -592,6 +621,13 @@ interface InviteEventsProperties {
     phoneNumberHash: string | null
   }
   [InviteEvents.invite_with_share_dismiss]: undefined
+  [InviteEvents.invite_with_referral_url]: {
+    action: 'sharedAction' | 'dismissedAction'
+    activityType?: string | undefined
+  }
+  [InviteEvents.opened_via_invite_url]: {
+    inviterAddress: string
+  }
 }
 
 interface EscrowEventsProperties {
@@ -1028,6 +1064,12 @@ interface FiatExchangeEventsProperties {
     provider: string
     flow: CICOFlow
   }
+  [FiatExchangeEvents.cico_fc_link_kyc_account_back]: {
+    fiatAccountSchema: FiatAccountSchema
+    provider: string
+    flow: CICOFlow
+    step: 'one' | 'two'
+  }
   [FiatExchangeEvents.cico_fc_link_account_provider_website]: {
     fiatAccountSchema: FiatAccountSchema
     provider: string
@@ -1306,6 +1348,7 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   SettingsEventsProperties &
   OnboardingEventsProperties &
   VerificationEventsProperties &
+  PhoneVerificationEventsProperties &
   IdentityEventsProperties &
   AuthenticationEventsProperties &
   InviteEventsProperties &

@@ -37,6 +37,10 @@ import WithdrawCeloQrScannerScreen from 'src/exchange/WithdrawCeloQrScannerScree
 import WithdrawCeloReviewScreen from 'src/exchange/WithdrawCeloReviewScreen'
 import WithdrawCeloScreen from 'src/exchange/WithdrawCeloScreen'
 import FiatDetailsScreen from 'src/fiatconnect/FiatDetailsScreen'
+import KycDenied from 'src/fiatconnect/kyc/KycDenied'
+import KycExpired from 'src/fiatconnect/kyc/KycExpired'
+import KycPending from 'src/fiatconnect/kyc/KycPending'
+import KycLanding from 'src/fiatconnect/KycLanding'
 import FiatConnectLinkAccountScreen from 'src/fiatconnect/LinkAccountScreen'
 import FiatConnectReviewScreen from 'src/fiatconnect/ReviewScreen'
 import FiatConnectTransferStatusScreen from 'src/fiatconnect/TransferStatusScreen'
@@ -121,10 +125,6 @@ import VerificationLoadingScreen from 'src/verify/VerificationLoadingScreen'
 import WalletConnectSessionsScreen from 'src/walletConnect/screens/Sessions'
 import WalletConnectRequest from 'src/walletConnect/screens/WalletConnectRequest'
 import WebViewScreen from 'src/webview/WebViewScreen'
-import KycLanding from 'src/fiatconnect/KycLanding'
-import KycDenied from 'src/fiatconnect/kyc/KycDenied'
-import KycPending from 'src/fiatconnect/kyc/KycPending'
-import KycExpired from 'src/fiatconnect/kyc/KycExpired'
 
 const TAG = 'Navigator'
 
@@ -521,7 +521,7 @@ const settingsScreens = (Navigator: typeof Stack) => (
       component={FiatConnectLinkAccountScreen}
     />
     <Navigator.Screen
-      options={headerWithBackButton}
+      options={KycLanding.navigationOptions}
       name={Screens.KycLanding}
       component={KycLanding}
     />
@@ -582,7 +582,6 @@ const mapStateToProps = (state: RootState) => {
   return {
     choseToRestoreAccount: state.account.choseToRestoreAccount,
     language: currentLanguageSelector(state),
-    name: state.account.name,
     acceptedTerms: state.account.acceptedTerms,
     pincodeType: state.account.pincodeType,
     account: state.web3.account,
@@ -600,7 +599,6 @@ export function MainStackScreen() {
     const {
       choseToRestoreAccount,
       language,
-      name,
       acceptedTerms,
       pincodeType,
       account,
@@ -611,7 +609,8 @@ export function MainStackScreen() {
 
     if (!language) {
       initialRoute = Screens.Language
-    } else if (!name || !acceptedTerms || pincodeType === PincodeType.Unset) {
+    } else if (!acceptedTerms || pincodeType === PincodeType.Unset) {
+      // allow empty username
       // User didn't go far enough in onboarding, start again from education
       initialRoute = Screens.OnboardingEducationScreen
     } else if (!account) {

@@ -2,6 +2,7 @@ import React, { useMemo } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { shallowEqual, useSelector } from 'react-redux'
+import { nameSelector } from 'src/account/selectors'
 import { AvatarSelf } from 'src/components/AvatarSelf'
 import QRCode from 'src/qrcode/QRGen'
 import { UriData, urlFromUriData } from 'src/qrcode/schema'
@@ -18,7 +19,7 @@ interface Props {
 
 const mapStateToProps = (state: RootState): Partial<UriData> => ({
   address: currentAccountSelector(state)!,
-  displayName: state.account.name || undefined,
+  displayName: nameSelector(state) || undefined,
   e164PhoneNumber: state.account.e164PhoneNumber || undefined,
 })
 

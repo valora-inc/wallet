@@ -5,6 +5,7 @@ import { CodeInputStatus } from 'src/components/CodeInput'
 import { DEFAULT_SENTRY_NETWORK_ERRORS, DEFAULT_SENTRY_TRACES_SAMPLE_RATE } from 'src/config'
 import { DappConnectInfo } from 'src/dapps/types'
 import { initialState as exchangeInitialState } from 'src/exchange/reducer'
+import { SendingFiatAccountStatus } from 'src/fiatconnect/slice'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { AddressToDisplayNameType } from 'src/identity/reducer'
 import { VerificationStatus } from 'src/identity/types'
@@ -824,6 +825,20 @@ export const migrations = {
     },
   }),
   79: (state: any) => ({
+    ...state,
+    fiatConnect: {
+      ..._.omit(state.fiatConnect, 'sendingFiatAccount'),
+      sendingFiatAccountStatus: SendingFiatAccountStatus.NotSending,
+    },
+  }),
+  80: (state: any) => ({
+    ...state,
+    fiatConnect: {
+      ...state.fiatConnect,
+      kycTryAgainLoading: false,
+    },
+  }),
+  81: (state: any) => ({
     ...state,
     swap: {
       swapState: 'quote',

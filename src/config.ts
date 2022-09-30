@@ -125,6 +125,7 @@ export const CASH_IN_FAILURE_DEEPLINK = 'celo://wallet/cash-in-failure'
 
 export const APP_STORE_ID = Config.APP_STORE_ID
 export const DYNAMIC_DOWNLOAD_LINK = Config.DYNAMIC_DOWNLOAD_LINK
+export const DYNAMIC_LINK_DOMAIN_URI_PREFIX = 'https://vlra.app'
 export const CROWDIN_DISTRIBUTION_HASH = 'e-f9f6869461793b9d1a353b2v7c'
 export const OTA_TRANSLATIONS_FILEPATH = `file://${CachesDirectoryPath}/translations`
 
@@ -147,3 +148,5 @@ const configLoggerLevels: { [key: string]: LoggerLevel } = {
 }
 
 export const LOGGER_LEVEL = configLoggerLevels[Config.LOGGER_LEVEL] || LoggerLevel.Debug
+
+export const PHONE_NUMBER_VERIFICATION_CODE_LENGTH = 6

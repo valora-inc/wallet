@@ -4,6 +4,7 @@ import { AppState } from 'src/app/actions'
 import { InviteMethodType, SuperchargeButtonType } from 'src/app/types'
 import { CodeInputStatus } from 'src/components/CodeInput'
 import { DappConnectInfo } from 'src/dapps/types'
+import { SendingFiatAccountStatus } from 'src/fiatconnect/slice'
 import { NUM_ATTESTATIONS_REQUIRED } from 'src/identity/verification'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { RootState } from 'src/redux/reducers'
@@ -1646,6 +1647,30 @@ export const v79Schema = {
     ...v78Schema._persist,
     version: 79,
   },
+  fiatConnect: {
+    ..._.omit(v78Schema.fiatConnect, 'sendingFiatAccount'),
+    sendingFiatAccountStatus: SendingFiatAccountStatus.NotSending,
+  },
+}
+
+export const v80Schema = {
+  ...v79Schema,
+  _persist: {
+    ...v79Schema._persist,
+    version: 80,
+  },
+  fiatConnect: {
+    ...v79Schema.fiatConnect,
+    kycTryAgainLoading: false,
+  },
+}
+
+export const v81Schema = {
+  ...v80Schema,
+  _persist: {
+    ...v80Schema._persist,
+    version: 81,
+  },
   swap: {
     swapState: 'quote',
     swapInfo: null,
@@ -1654,5 +1679,5 @@ export const v79Schema = {
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v79Schema as Partial<RootState>
+  return v81Schema as Partial<RootState>
 }

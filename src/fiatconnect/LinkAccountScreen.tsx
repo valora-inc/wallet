@@ -7,6 +7,8 @@ import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
+import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
+import { CICOFlow } from 'src/fiatExchanges/utils'
 import i18n from 'src/i18n'
 import { emptyHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
@@ -17,8 +19,17 @@ import fontStyles from 'src/styles/fonts'
 type Props = StackScreenProps<StackParamList, Screens.FiatConnectLinkAccount>
 
 export default function FiatConnectLinkAccountScreen({ route }: Props) {
-  const { t } = useTranslation()
   const { quote, flow } = route.params
+  return <LinkAccountSection quote={quote} flow={flow} />
+}
+
+export function LinkAccountSection(props: {
+  quote: FiatConnectQuote
+  flow: CICOFlow
+  disabled?: boolean
+}) {
+  const { t } = useTranslation()
+  const { quote, flow, disabled } = props
 
   const onPressContinue = () => {
     ValoraAnalytics.track(FiatExchangeEvents.cico_fc_link_account_continue, {
@@ -87,6 +98,7 @@ export default function FiatConnectLinkAccountScreen({ route }: Props) {
         text={t('fiatConnectLinkAccountScreen.continue')}
         type={BtnTypes.PRIMARY}
         size={BtnSizes.MEDIUM}
+        disabled={disabled}
       />
     </SafeAreaView>
   )

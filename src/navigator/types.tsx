@@ -190,7 +190,11 @@ export type StackParamList = {
       }
     | undefined
   [Screens.IncomingPaymentRequestListScreen]: undefined
-  [Screens.NameAndPicture]: undefined
+  [Screens.NameAndPicture]:
+    | {
+        skipUsername?: boolean
+      }
+    | undefined
   [Screens.EnableBiometry]: undefined
   [Screens.Language]:
     | {
@@ -331,7 +335,8 @@ export type StackParamList = {
     | undefined
   [Screens.VerificationCodeInputScreen]: {
     registrationStep?: { step: number; totalSteps: number }
-    e164Number?: string
+    e164Number: string
+    countryCallingCode: string
   }
   [Screens.VerificationLoadingScreen]: { withoutRevealing: boolean }
   [Screens.OnboardingEducationScreen]: undefined

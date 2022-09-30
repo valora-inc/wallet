@@ -5,13 +5,13 @@ import {
 } from '@fiatconnect/fiatconnect-types'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { isEqual } from 'lodash'
+import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
+import { CICOFlow } from 'src/fiatExchanges/utils'
 import {
   FiatConnectProviderInfo,
   FiatConnectQuoteError,
   FiatConnectQuoteSuccess,
 } from 'src/fiatconnect'
-import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
-import { CICOFlow } from 'src/fiatExchanges/utils'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 
@@ -22,6 +22,13 @@ export interface FiatConnectTransfer {
   failed: boolean
   txHash: string | null // only for cash outs, the hash of the tx to send crypto to the provider
 }
+
+export enum SendingFiatAccountStatus {
+  NotSending = 'NotSending',
+  Sending = 'Sending',
+  KycApproved = 'KycApproved',
+}
+
 export interface State {
   quotes: (FiatConnectQuoteSuccess | FiatConnectQuoteError)[]
   quotesLoading: boolean
@@ -31,7 +38,8 @@ export interface State {
   cachedFiatAccountUses: CachedFiatAccountUse[]
   attemptReturnUserFlowLoading: boolean
   selectFiatConnectQuoteLoading: boolean
-  sendingFiatAccount: boolean
+  sendingFiatAccountStatus: SendingFiatAccountStatus
+  kycTryAgainLoading: boolean
 }
 
 const initialState: State = {
@@ -43,7 +51,8 @@ const initialState: State = {
   cachedFiatAccountUses: [],
   attemptReturnUserFlowLoading: false,
   selectFiatConnectQuoteLoading: false,
-  sendingFiatAccount: false,
+  sendingFiatAccountStatus: SendingFiatAccountStatus.NotSending,
+  kycTryAgainLoading: false,
 }
 
 export type FiatAccount = ObfuscatedFiatAccountData & {
@@ -119,15 +128,23 @@ interface SubmitFiatAccountAction {
   fiatAccountData: Record<string, any>
 }
 
+interface KycTryAgainAction {
+  flow: CICOFlow
+  quote: FiatConnectQuote
+}
+
 export const slice = createSlice({
   name: 'fiatConnect',
   initialState,
   reducers: {
     submitFiatAccount: (state, action: PayloadAction<SubmitFiatAccountAction>) => {
-      state.sendingFiatAccount = true
+      state.sendingFiatAccountStatus = SendingFiatAccountStatus.Sending
+    },
+    submitFiatAccountKycApproved: (state) => {
+      state.sendingFiatAccountStatus = SendingFiatAccountStatus.KycApproved
     },
     submitFiatAccountCompleted: (state) => {
-      state.sendingFiatAccount = false
+      state.sendingFiatAccountStatus = SendingFiatAccountStatus.NotSending
     },
     fetchFiatConnectQuotes: (state, action: PayloadAction<FetchQuotesAction>) => {
       state.quotesLoading = true
@@ -219,6 +236,12 @@ export const slice = createSlice({
     ) => {
       state.providers = action.payload.providers
     },
+    kycTryAgain: (state, action: PayloadAction<KycTryAgainAction>) => {
+      state.kycTryAgainLoading = true
+    },
+    kycTryAgainCompleted: (state) => {
+      state.kycTryAgainLoading = false
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(REHYDRATE, (state, action: RehydrateAction) => ({
@@ -230,6 +253,8 @@ export const slice = createSlice({
       transfer: null,
       attemptReturnUserFlowLoading: false,
       selectFiatConnectQuoteLoading: false,
+      sendingFiatAccountStatus: SendingFiatAccountStatus.NotSending,
+      kycTryAgainLoading: false,
     }))
   },
 })
@@ -252,7 +277,10 @@ export const {
   fetchFiatConnectProviders,
   fetchFiatConnectProvidersCompleted,
   submitFiatAccount,
+  submitFiatAccountKycApproved,
   submitFiatAccountCompleted,
+  kycTryAgain,
+  kycTryAgainCompleted,
 } = slice.actions
 
 export default slice.reducer

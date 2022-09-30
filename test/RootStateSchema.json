@@ -1816,6 +1816,14 @@
             },
             "type": "object"
         },
+        "SendingFiatAccountStatus": {
+            "enum": [
+                "KycApproved",
+                "NotSending",
+                "Sending"
+            ],
+            "type": "string"
+        },
         "StableBalances": {
             "additionalProperties": false,
             "properties": {
@@ -2879,6 +2887,9 @@
                     },
                     "type": "array"
                 },
+                "kycTryAgainLoading": {
+                    "type": "boolean"
+                },
                 "providers": {
                     "anyOf": [
                         {
@@ -3079,8 +3090,8 @@
                 "selectFiatConnectQuoteLoading": {
                     "type": "boolean"
                 },
-                "sendingFiatAccount": {
-                    "type": "boolean"
+                "sendingFiatAccountStatus": {
+                    "$ref": "#/definitions/SendingFiatAccountStatus"
                 },
                 "transfer": {
                     "anyOf": [
@@ -3096,12 +3107,13 @@
             "required": [
                 "attemptReturnUserFlowLoading",
                 "cachedFiatAccountUses",
+                "kycTryAgainLoading",
                 "providers",
                 "quotes",
                 "quotesError",
                 "quotesLoading",
                 "selectFiatConnectQuoteLoading",
-                "sendingFiatAccount",
+                "sendingFiatAccountStatus",
                 "transfer"
             ],
             "type": "object"
@@ -4299,6 +4311,7 @@
                                         "exchangeRateChange",
                                         "failedFetchMnemonic",
                                         "fetchFailed",
+                                        "fiatConnectKycStatusScreen.tryAgainFailed",
                                         "firebaseDisabled",
                                         "firebaseFailed",
                                         "gasPriceUpdateFailed",
@@ -4332,6 +4345,7 @@
                                         "paymentRequestFailed",
                                         "paymentRequestUpdateFailed",
                                         "personaAccountEndpointFail",
+                                        "phoneVerificationInput.verificationFailure",
                                         "pictureLoadFailed",
                                         "pinInputCanceled",
                                         "plaidCreateLinkTokenFail",

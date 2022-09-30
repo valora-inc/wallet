@@ -35,9 +35,9 @@ import {
   v62Schema,
   v7Schema,
   v75Schema,
-  v78Schema,
   v8Schema,
   vNeg1Schema,
+  v80Schema,
 } from 'test/schemas'
 
 describe('Redux persist migrations', () => {
@@ -676,9 +676,9 @@ describe('Redux persist migrations', () => {
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 
-  it('works from v78 to v79', () => {
-    const oldSchema = v78Schema
-    const migratedSchema = migrations[79](oldSchema)
+  it('works from v80 to v81', () => {
+    const oldSchema = v80Schema
+    const migratedSchema = migrations[81](oldSchema)
 
     const expectedSchema: any = _.cloneDeep(oldSchema)
     expectedSchema.swap = {}
