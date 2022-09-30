@@ -83,6 +83,10 @@ export const APP_BUNDLE_ID = Config.APP_BUNDLE_ID
 export const FIATCONNECT_NETWORK =
   DEFAULT_TESTNET === 'mainnet' ? Network.Mainnet : Network.Alfajores
 
+export const STATSIG_ENV = {
+  tier: DEFAULT_TESTNET === 'mainnet' ? 'production' : 'development',
+}
+
 // FEATURE FLAGS
 export const FIREBASE_ENABLED = stringToBoolean(Config.FIREBASE_ENABLED || 'true')
 export const SHOW_TESTNET_BANNER = stringToBoolean(Config.SHOW_TESTNET_BANNER || 'false')

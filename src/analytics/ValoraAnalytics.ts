@@ -15,6 +15,7 @@ import {
   isE2EEnv,
   SEGMENT_API_KEY,
   STATSIG_API_KEY,
+  STATSIG_ENV,
 } from 'src/config'
 import { store } from 'src/redux/store'
 import Logger from 'src/utils/Logger'
@@ -108,12 +109,10 @@ class ValoraAnalytics {
 
       await Statsig.initialize(STATSIG_API_KEY, stasigUser, {
         overrideStableID: uniqueID,
-        environment: {
-          tier: DEFAULT_TESTNET === 'mainnet' ? 'production' : 'development',
-        },
+        environment: STATSIG_ENV,
       })
     } catch (error) {
-      Logger.error(TAG, `Statsig setup error`, error)
+      Logger.warn(TAG, `Statsig setup error`, error)
     }
   }
 

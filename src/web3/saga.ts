@@ -102,7 +102,7 @@ export function* getOrCreateAccount() {
         await Statsig.updateUser({ userID })
       }, accountAddress.toLowerCase())
     } catch (error) {
-      Logger.error(TAG, 'Error updating statsig user', error)
+      Logger.warn(TAG, 'Error updating statsig user', error)
     }
 
     return accountAddress

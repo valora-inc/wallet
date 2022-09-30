@@ -38,17 +38,12 @@ import { Statsig } from 'statsig-react-native'
 type Props = StackScreenProps<StackParamList, Screens.NameAndPicture>
 
 function NameAndPicture({ navigation }: Props) {
-  const [showSkipButton, setShowSkipButton] = useState(
+  const [_showSkipButton, setShowSkipButton] = useState(
     ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].showSkipButton.defaultValue
   )
-  const [nameType, setNameType] = useState(
+  const [_nameType, setNameType] = useState(
     ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].nameType.defaultValue
   )
-
-  //TODO: use these in an experiment
-  Logger.info('NameAndPicture', 'Statsig experiment showSkipButton', showSkipButton)
-  Logger.info('NameAndPicture', 'Statsig experiment nameType', nameType)
-
   const [nameInput, setNameInput] = useState('')
   const cachedName = useTypedSelector((state) => state.account.name)
   const picture = useTypedSelector((state) => state.account.pictureUri)
@@ -138,7 +133,7 @@ function NameAndPicture({ navigation }: Props) {
     try {
       Statsig.logEvent(StatsigEvents.ONBOARDING_NAME_STEP_COMPLETE)
     } catch (error) {
-      Logger.error('NameAndPicture', 'error logging Statsig event', error)
+      Logger.warn('NameAndPicture', 'error logging Statsig event', error)
     }
     ValoraAnalytics.track(OnboardingEvents.name_and_picture_set, {
       includesPhoto: false,
