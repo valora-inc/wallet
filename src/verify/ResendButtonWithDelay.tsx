@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import TextButton from 'src/components/TextButton'
 import colors from 'src/styles/colors'
 
-const RESEND_DELAY_TIME = 60
+const RESEND_DELAY_TIME = 30 // recommended timeout for Twilio
 
 interface Props {
   onPress(): void
