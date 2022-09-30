@@ -1306,6 +1306,9 @@
     "disclaimer": "Przyjmujesz do wiadomości i zgadzasz się na to, że Twoje dane osobowe zostaną nam przekazane i udostępnione osobom trzecim w celu weryfikacji, jak określono w <0>Polityce prywatności</0>",
     "button": "Ustaw weryfikację tożsamości"
   },
+  "fiatConnectKycStatusScreen": {
+    "tryAgainFailed": "Wystąpił błąd podczas sprawdzania informacji KYC. Proszę spróbować ponownie"
+  },
   "fiatConnectReviewScreen": {
     "transactionDetails": "Szczegóły transakcji",
     "paymentMethodVia": "Połączono przez {{providerName}}",
