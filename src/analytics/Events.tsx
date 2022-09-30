@@ -226,7 +226,7 @@ export enum PhoneVerificationEvents {
   phone_verification_code_request_success = 'phone_verification_code_request_success', // when the verifyPhoneNumber endpoint returns successfully
   phone_verification_code_verify_start = 'phone_verification_code_verify_start', // when the user has entered the sms code and we start to validate on the backend
   phone_verification_code_verify_success = 'phone_verification_code_verify_success', // when the backend confirms that the sms code is successfully validated
-  phone_verification_code_verify_error = 'phone_verification_code_verify_error', // when the backend throws an error and the sms code is cannot be validated
+  phone_verification_code_verify_error = 'phone_verification_code_verify_error', // when the backend throws an error and the sms code cannot be validated
 
   phone_verification_input_help = 'phone_verification_input_help', // when the help button is pressed
   phone_verification_input_help_skip = 'phone_verification_input_help_skip', // when the user presses skip on the help dialog to skip verification
