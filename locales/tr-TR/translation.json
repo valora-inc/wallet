@@ -581,7 +581,7 @@
     "title": "Arkadaşını davet et",
     "body": "{{appName}}'da arkadaşlarınız ve ailenizle bağlantı kurun ve varlıklar paylaşın.",
     "button": "Davet gönder",
-    "error": "Bağlantı oluşturulurken bir sorun oluştu",
+    "error": "There was an issue creating a sharable link",
     "share": "Merhaba, kripto para cüzdanıdır {{appName}} kullanıyorum. Denemen için seni davet etmek isterim. Bu bağlantıya göz atabilirsin: {{shareUrl}}"
   },
   "getReward": "${{reward}} kazanın",
