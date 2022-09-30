@@ -581,7 +581,7 @@
     "title": "Invitez des amis",
     "body": "Connectez et partagez des valeurs avec vos amis et votre famille sur {{appName}}.",
     "button": "Envoyer l'invitation",
-    "error": "Une erreur s'est produite lors de la création d'un lien partageable.",
+    "error": "Il y a eu un problème pour créer un lien partageable",
     "share": "Bonjour ! J'utilise {{appName}} comme mon portefeuille crypto. C'est facile, et je vous invite à découvrir également ce service en utilisant ce lien : {{shareUrl}}"
   },
   "getReward": "Obtenez {{reward}}$",
