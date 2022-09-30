@@ -3,20 +3,22 @@ import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { PhoneVerificationEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
 import CodeInput, { CodeInputStatus } from 'src/components/CodeInput'
 import Dialog from 'src/components/Dialog'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
+import { PHONE_NUMBER_VERIFICATION_CODE_LENGTH } from 'src/config'
 import { HeaderTitleWithSubtitle } from 'src/navigator/Headers'
-import { navigateHome } from 'src/navigator/NavigationService'
+import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-
-const VERIFICATION_CODE_LENGTH = 8
+import { PhoneNumberVerificationStatus, useVerifyPhoneNumber } from 'src/verify/hooks'
 
 function VerificationCodeInputScreen({
   route,
@@ -28,24 +30,30 @@ function VerificationCodeInputScreen({
 
   const { t } = useTranslation()
   const headerHeight = useHeaderHeight()
+  const { setSmsCode, verificationStatus } = useVerifyPhoneNumber(
+    route.params.e164Number,
+    route.params.countryCallingCode
+  )
 
   const onPressSkip = () => {
+    ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_input_help_skip)
     navigateHome()
   }
 
   const onPressHelp = () => {
+    ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_input_help)
     setShowHelpDialog(true)
   }
 
   const onPressHelpDismiss = () => {
+    ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_input_help_continue)
     setShowHelpDialog(false)
   }
 
   useLayoutEffect(() => {
     const registrationStep = route.params.registrationStep
-    const title = !registrationStep
-      ? t('phoneVerificationInput.title')
-      : () => (
+    const title = registrationStep
+      ? () => (
           <HeaderTitleWithSubtitle
             title={t('phoneVerificationInput.title')}
             subTitle={t('registrationSteps', {
@@ -54,6 +62,7 @@ function VerificationCodeInputScreen({
             })}
           />
         )
+      : t('phoneVerificationInput.title')
 
     navigation.setOptions({
       headerTitle: title,
@@ -71,11 +80,22 @@ function VerificationCodeInputScreen({
   }, [navigation, route.params])
 
   useEffect(() => {
-    if (code.length === VERIFICATION_CODE_LENGTH) {
+    if (code.length === PHONE_NUMBER_VERIFICATION_CODE_LENGTH) {
       setCodeInputStatus(CodeInputStatus.Processing)
-      // TODO dispatch verifying phone code action
+      setSmsCode(code)
     }
   }, [code])
+
+  useEffect(() => {
+    if (verificationStatus === PhoneNumberVerificationStatus.SUCCESSFUL) {
+      setCodeInputStatus(CodeInputStatus.Accepted)
+      setTimeout(() => {
+        navigate(Screens.OnboardingSuccessScreen)
+      }, 500)
+    } else if (verificationStatus === PhoneNumberVerificationStatus.FAILED) {
+      setCodeInputStatus(CodeInputStatus.Error)
+    }
+  }, [verificationStatus])
 
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>
@@ -92,7 +112,7 @@ function VerificationCodeInputScreen({
           inputPlaceholder={t('phoneVerificationInput.codeInputPlaceholder')}
           onInputChange={setCode}
           shouldShowClipboard={(content) =>
-            !!content && content.length === VERIFICATION_CODE_LENGTH
+            !!content && content.length === PHONE_NUMBER_VERIFICATION_CODE_LENGTH
           }
           testID="PhoneVerificationCode"
           style={{ marginHorizontal: Spacing.Thick24 }}
