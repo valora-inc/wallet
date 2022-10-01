@@ -22,7 +22,7 @@ describe('bug demo', () => {
       </Provider>
     )
     debug()
-    fireEvent.press(getByTestId('PersonaView')) // this test fails (as one would expect, since the onPress handler is ignored in the mock component)
+    fireEvent.press(getByTestId('PersonaView')) // this test passes (even though onPress is not passed to the View)
     expect(onPress).toHaveBeenCalled()
   })
 
@@ -34,7 +34,7 @@ describe('bug demo', () => {
       </Provider>
     )
     debug()
-    fireEvent.press(getByTestId('PersonaButton')) // this test fails (as one would expect, since the onPress handler is ignored in the mock component)
+    fireEvent.press(getByTestId('PersonaButton')) // this test fails (as one would expect, since the Button overrides onPress)
     expect(onPress).toHaveBeenCalled()
   })
 
@@ -46,7 +46,7 @@ describe('bug demo', () => {
       </Provider>
     )
     debug()
-    fireEvent.press(getByTestId('PersonaOuterView')) // this test fails (as one would expect, since the onPress handler is ignored in the mock component)
+    fireEvent.press(getByTestId('PersonaOuterView')) // this test passes (even though onPress is not passed to the View)
     expect(onPress).toHaveBeenCalled()
   })
 })
