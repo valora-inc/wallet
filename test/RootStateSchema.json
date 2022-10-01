@@ -3124,8 +3124,7 @@
                 "swapInfo": {
                     "anyOf": [
                         {
-                            "properties": {},
-                            "type": "object"
+                            "$ref": "#/definitions/SwapInfo"
                         },
                         {
                             "type": "null"
@@ -3604,6 +3603,65 @@
             ],
             "type": "object"
         },
+        "SwapInfo": {
+            "additionalProperties": false,
+            "properties": {
+                "approveTransaction": {},
+                "unvalidatedSwapTransaction": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "buyAmount": {
+                            "type": "string"
+                        },
+                        "buyTokenAddress": {
+                            "type": "string"
+                        },
+                        "gas": {
+                            "type": "string"
+                        },
+                        "gasPrice": {
+                            "type": "string"
+                        },
+                        "guaranteedPrice": {
+                            "type": "string"
+                        },
+                        "price": {
+                            "type": "string"
+                        },
+                        "sellAmount": {
+                            "type": "string"
+                        },
+                        "sellToken": {
+                            "type": "string"
+                        },
+                        "sellTokenAddress": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "buyAmount",
+                        "buyTokenAddress",
+                        "gas",
+                        "gasPrice",
+                        "guaranteedPrice",
+                        "price",
+                        "sellAmount",
+                        "sellToken",
+                        "sellTokenAddress"
+                    ],
+                    "type": "object"
+                },
+                "userInput": {
+                    "$ref": "#/definitions/SwapUserInput"
+                }
+            },
+            "required": [
+                "approveTransaction",
+                "unvalidatedSwapTransaction",
+                "userInput"
+            ],
+            "type": "object"
+        },
         "SwapState": {
             "enum": [
                 "approve",
@@ -3620,7 +3678,13 @@
         "SwapUserInput": {
             "additionalProperties": false,
             "properties": {
+                "buyAmount": {
+                    "type": "string"
+                },
                 "fromToken": {
+                    "type": "string"
+                },
+                "sellAmount": {
                     "type": "string"
                 },
                 "swapAmount": {
