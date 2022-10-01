@@ -1,26 +1,31 @@
-import React, { useMemo } from 'react'
-import { StyleSheet, Text } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { StackScreenProps } from '@react-navigation/stack'
-import { StackParamList } from 'src/navigator/types'
-import { Screens } from 'src/navigator/Screens'
-import { navigate } from 'src/navigator/NavigationService'
-import { useTranslation } from 'react-i18next'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { FiatExchangeEvents } from 'src/analytics/Events'
 import { KycStatus as FiatConnectKycStatus } from '@fiatconnect/fiatconnect-types'
-import { convertCurrencyToLocalAmount } from 'src/localCurrency/convert'
-import fontStyles from 'src/styles/fonts'
+import { StackScreenProps } from '@react-navigation/stack'
+import React, { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
+import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { useDispatch, useSelector } from 'react-redux'
+import { FiatExchangeEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
-
-import { useSelector } from 'react-redux'
-import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
 import getNavigationOptions from 'src/fiatconnect/kyc/getNavigationOptions'
+import { kycTryAgainLoadingSelector } from 'src/fiatconnect/selectors'
+import { kycTryAgain } from 'src/fiatconnect/slice'
+import { convertCurrencyToLocalAmount } from 'src/localCurrency/convert'
+import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
+import { StackParamList } from 'src/navigator/types'
+import colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
+import variables from 'src/styles/variables'
 
 type Props = StackScreenProps<StackParamList, Screens.KycDenied>
 
 function KycDenied({ route, navigation }: Props) {
   const { quote, flow, retryable } = route.params
+  const dispatch = useDispatch()
+  const tryAgainLoading = useSelector(kycTryAgainLoadingSelector)
 
   const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)
   useMemo(() => {
@@ -41,11 +46,7 @@ function KycDenied({ route, navigation }: Props) {
       flow,
       fiatConnectKycStatus: FiatConnectKycStatus.KycDenied,
     })
-    navigate(Screens.KycLanding, {
-      quote,
-      flow,
-      step: 'one',
-    })
+    dispatch(kycTryAgain({ quote, flow }))
   }
   const onPressSwitch = () => {
     ValoraAnalytics.track(FiatExchangeEvents.cico_fc_kyc_status_switch_method, {
@@ -66,6 +67,13 @@ function KycDenied({ route, navigation }: Props) {
         ),
       },
     })
+  }
+  if (tryAgainLoading) {
+    return (
+      <View style={styles.activityIndicatorContainer}>
+        <ActivityIndicator size="large" color={colors.greenBrand} />
+      </View>
+    )
   }
   if (retryable) {
     return (
@@ -134,6 +142,12 @@ const styles = StyleSheet.create({
   },
   switchButton: {
     marginTop: 12,
+  },
+  activityIndicatorContainer: {
+    paddingVertical: variables.contentPadding,
+    flex: 1,
+    alignContent: 'center',
+    justifyContent: 'center',
   },
 })
 
