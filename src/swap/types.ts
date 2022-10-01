@@ -9,6 +9,8 @@ export interface SwapAmount {
 }
 
 export interface SwapUserInput {
+  buyAmount?: string
+  sellAmount?: string
   toToken: string
   fromToken: string
   swapAmount: SwapAmount
@@ -18,11 +20,15 @@ export interface SwapUserInput {
 export interface SwapInfo {
   unvalidatedSwapTransaction: {
     sellToken: string
-    buyToken: string
+    buyTokenAddress: string
+    sellTokenAddress: string
     buyAmount: string
     sellAmount: string
     price: string
     gas: string
     gasPrice: string
+    guaranteedPrice: string
   }
+  userInput: SwapUserInput
+  approveTransaction: any
 }

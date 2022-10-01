@@ -1,6 +1,7 @@
 import { CeloTx } from '@celo/connect'
 import { TxParamsNormalizer } from '@celo/connect/lib/utils/tx-params-normalizer'
 import { ContractKit } from '@celo/contractkit'
+import { PayloadAction } from '@reduxjs/toolkit'
 import { call, put, select, takeLatest } from 'redux-saga/effects'
 import { maxSwapSlippagePercentageSelector } from 'src/app/selectors'
 import { navigate } from 'src/navigator/NavigationService'
@@ -13,6 +14,7 @@ import {
   swapStart,
   swapSuccess,
 } from 'src/swap/slice'
+import { SwapInfo } from 'src/swap/types'
 import { sendTransaction } from 'src/transactions/send'
 import { newTransactionContext } from 'src/transactions/types'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
@@ -28,7 +30,7 @@ function getPriceDiff(price1: number, price2: number) {
   return (Math.abs(price1 - price2) / ((price1 + price2) / 2)) * 100
 }
 
-export function* swapSubmitSaga(data: any) {
+export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
   try {
     // Navigate to swap pending screen
     yield call(navigate, Screens.SwapPending)
@@ -37,8 +39,8 @@ export function* swapSubmitSaga(data: any) {
     const maxSlippagePercent: number = yield select(maxSwapSlippagePercentageSelector)
     const priceDiff: number = yield call(
       getPriceDiff,
-      +data.payload.unvalidatedSwapTransaction.price,
-      +data.payload.unvalidatedSwapTransaction.guaranteedPrice
+      +action.payload.unvalidatedSwapTransaction.price,
+      +action.payload.unvalidatedSwapTransaction.guaranteedPrice
     )
     if (priceDiff >= maxSlippagePercent) {
       yield put(swapPriceChange())
@@ -53,7 +55,7 @@ export function* swapSubmitSaga(data: any) {
     // Approve transaction
     yield put(swapApprove())
     Logger.debug(TAG, `Starting to swap approval for address: ${walletAddress}`)
-    const rawApproveTx = { ...data.payload.approveTransaction, from: walletAddress }
+    const rawApproveTx = { ...action.payload.approveTransaction, from: walletAddress }
     applyChainIdWorkaround(rawApproveTx, yield call([kit.connection, 'chainId']))
     const approveTx: CeloTx = yield call(normalizer.populate.bind(normalizer), rawApproveTx)
     const approveTxo = buildTxo(kit, approveTx)
@@ -65,11 +67,12 @@ export function* swapSubmitSaga(data: any) {
     )
 
     // Query the execute swap endpoint
-    const amountType: string = data.payload.userInput.buyAmount ? 'buyAmount' : 'sellAmount'
-    const amount = data.payload.unvalidatedSwapTransaction[amountType]
+    const amountType: string = action.payload.userInput.buyAmount ? 'buyAmount' : 'sellAmount'
+    // @ts-ignore
+    const amount = action.payload.unvalidatedSwapTransaction[amountType]
     const params = {
-      buyToken: data.payload.unvalidatedSwapTransaction.buyTokenAddress,
-      sellToken: data.payload.unvalidatedSwapTransaction.sellTokenAddress,
+      buyToken: action.payload.unvalidatedSwapTransaction.buyTokenAddress,
+      sellToken: action.payload.unvalidatedSwapTransaction.sellTokenAddress,
       [amountType]: amount,
       userAddress: walletAddress,
     }

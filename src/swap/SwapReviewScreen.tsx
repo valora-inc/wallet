@@ -48,8 +48,8 @@ const initialUserInput = {
 }
 
 export function SwapReviewScreen() {
-  const swapUserState = useSelector(swapUserInputSelector)
-  const { toToken, fromToken, swapAmount, updatedField } = swapUserState || initialUserInput
+  const userInput = useSelector(swapUserInputSelector)
+  const { toToken, fromToken, swapAmount, updatedField } = userInput || initialUserInput
   const [shouldFetch, setShouldFetch] = useState(true)
   const [estimatedModalVisible, setEstimatedDialogVisible] = useState(false)
   const [swapFeeModalVisible, setSwapFeeModalVisible] = useState(false)
@@ -81,6 +81,7 @@ export function SwapReviewScreen() {
     })
   }, [])
 
+  // We refetch from the API to ensure the quote is most up to date and the user can refresh if the quote is stale
   useAsync(
     async () => {
       if (!shouldFetch) return
@@ -103,7 +104,8 @@ export function SwapReviewScreen() {
           `Failure response fetching token swap quote. ${response.status}  ${response.statusText}`
         )
       }
-      setSwapInfo({ ...(await response.json()), userInput: params })
+      const json: SwapInfo = await response.json()
+      setSwapInfo(json)
       setShouldFetch(false)
       setFetchError(false)
     },
@@ -135,7 +137,7 @@ export function SwapReviewScreen() {
       ),
     })
     // Dispatch swap submission
-    dispatch(swapStart(swapInfo))
+    dispatch(swapStart({ ...swapInfo, userInput } as SwapInfo))
   }
 
   return (
