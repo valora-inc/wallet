@@ -14,7 +14,7 @@ describe('bug demo', () => {
       dataEncryptionKey: mockPrivateDEK,
     },
   })
-  it('uses onClick provided', () => {
+  it('uses onClick provided for inner view', () => {
     const onPress = jest.fn()
     const { debug, getByTestId } = render(
       <Provider store={store}>
@@ -26,7 +26,7 @@ describe('bug demo', () => {
     expect(onPress).toHaveBeenCalled()
   })
 
-  it('uses onClick provided 2', () => {
+  it('uses onClick provided for button', () => {
     const onPress = jest.fn()
     const { debug, getByTestId } = render(
       <Provider store={store}>
@@ -35,6 +35,18 @@ describe('bug demo', () => {
     )
     debug()
     fireEvent.press(getByTestId('PersonaButton')) // this test fails (as one would expect, since the onPress handler is ignored in the mock component)
+    expect(onPress).toHaveBeenCalled()
+  })
+
+  it('uses onClick provided for outer view', () => {
+    const onPress = jest.fn()
+    const { debug, getByTestId } = render(
+      <Provider store={store}>
+        <Persona onPress={onPress} kycStatus={KycStatus.Approved} disabled={false} />
+      </Provider>
+    )
+    debug()
+    fireEvent.press(getByTestId('PersonaOuterView')) // this test fails (as one would expect, since the onPress handler is ignored in the mock component)
     expect(onPress).toHaveBeenCalled()
   })
 })

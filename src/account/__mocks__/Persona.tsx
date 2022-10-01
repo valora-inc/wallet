@@ -3,7 +3,7 @@ import { Button, View } from 'react-native'
 
 const MockPersona = (props: any) => {
   return (
-    <>
+    <View testID="PersonaOuterView">
       <View testID="PersonaView"></View>
       <Button
         title={'mock Persona button'}
@@ -12,7 +12,7 @@ const MockPersona = (props: any) => {
           console.log('something else')
         }}
       />
-    </>
+    </View>
   ) // onPress not passed thru from props
 }
 
