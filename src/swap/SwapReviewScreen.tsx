@@ -115,7 +115,7 @@ export function SwapReviewScreen() {
         setShouldFetch(false)
         setFetchError(true)
         dispatch(showError(ErrorMessages.FETCH_SWAP_QUOTE_FAILED))
-        Logger.debug(TAG, 'Error while fetching transactions', error)
+        Logger.debug(TAG, 'Error while fetching swap quote', error)
       },
     }
   )
