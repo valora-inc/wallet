@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { SwapUserInput } from 'src/swap/types'
+import { SwapInfo, SwapUserInput } from 'src/swap/types'
 
 export enum SwapState {
   USER_INPUT = 'user-input',
@@ -14,7 +14,7 @@ export enum SwapState {
 
 export interface State {
   swapState: SwapState
-  swapInfo: {} | null
+  swapInfo: SwapInfo | null
   swapUserInput: SwapUserInput | null
 }
 
@@ -32,9 +32,9 @@ export const slice = createSlice({
       state.swapState = SwapState.USER_INPUT
       state.swapUserInput = action.payload
     },
-    swapStart: (state, payload) => {
+    swapStart: (state, action: PayloadAction<SwapInfo>) => {
       state.swapState = SwapState.START
-      state.swapInfo = payload
+      state.swapInfo = action.payload
     },
     swapApprove: (state) => {
       state.swapState = SwapState.APPROVE
