@@ -87,7 +87,7 @@ describe('KycLanding', () => {
         </Provider>
       )
       fireEvent.press(getByTestId('checkbox'))
-      fireEvent.press(getByTestId('PersonaButton'))
+      fireEvent.press(getByTestId('PersonaButton')) // fixme why does this test pass?
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(CICOEvents.persona_kyc_start)
       jest.clearAllMocks()
     })
