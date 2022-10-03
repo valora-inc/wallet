@@ -38,8 +38,8 @@ import { Statsig } from 'statsig-react-native'
 
 type Props = StackScreenProps<StackParamList, Screens.NameAndPicture>
 
-function NameAndPicture({ navigation }: Props) {
-  const [showSkipButton, setShowSkipButton] = useState(
+function NameAndPicture({ navigation, route }: Props) {
+  const [, setShowSkipButton] = useState(
     ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].showSkipButton.defaultValue
   )
   const [, setNameType] = useState(
@@ -61,6 +61,7 @@ function NameAndPicture({ navigation }: Props) {
   const asyncKomenciReadiness = useAsyncKomenciReadiness()
   const showGuidedOnboarding = useSelector(showGuidedOnboardingSelector)
   const createAccountCopyTestType = useSelector(createAccountCopyTestTypeSelector)
+  const skipUsername = route.params?.skipUsername //TODO repalce with statsig variable
 
   useEffect(() => {
     try {
@@ -104,7 +105,7 @@ function NameAndPicture({ navigation }: Props) {
         )
       },
       headerRight: () =>
-        showSkipButton && (
+        skipUsername && (
           <TopBarTextButton
             title={t('skip')}
             onPress={onPressSkip}

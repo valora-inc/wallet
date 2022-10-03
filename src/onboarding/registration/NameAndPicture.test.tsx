@@ -5,20 +5,18 @@ import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
 import * as AccountActions from 'src/account/actions'
-import { ExperimentParams } from 'src/analytics/constants'
-import { StatsigLayers } from 'src/analytics/types'
 import { CreateAccountCopyTestType } from 'src/app/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import NameAndPicture from 'src/onboarding/registration/NameAndPicture'
-import { Statsig } from 'statsig-react-native'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockNavigation } from 'test/values'
 
+const mockStatsigGet = jest.fn().mockReturnValue(null) // default implementation
 jest.mock('statsig-react-native', () => ({
   Statsig: {
-    getLayer: jest.fn().mockImplementation(() => ({ get: jest.fn().mockReturnValue(null) })),
+    getLayer: jest.fn().mockImplementation(() => ({ get: mockStatsigGet })),
   },
 }))
 
@@ -192,26 +190,20 @@ describe('NameAndPictureScreen', () => {
     expect(getByText('nameAndPicGuideCopyContent')).toBeTruthy()
   })
   it('does not render skip button when configured so', () => {
-    ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].showSkipButton.defaultValue = false
-    Statsig.getLayer = jest
-      .fn()
-      .mockImplementation(() => ({ get: jest.fn().mockReturnValue(false) }))
+    // TODO replace route param with mock Statsig flag
     const { queryByText } = render(
       <Provider store={createMockStore()}>
-        <MockedNavigator component={NameAndPicture} />
+        <MockedNavigator component={NameAndPicture} params={{ skipUsername: false }} />
       </Provider>
     )
     expect(queryByText('skip')).toBeNull()
   })
 
   it('renders skip button when mocked and skipping works', async () => {
-    ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].showSkipButton.defaultValue = true
-    Statsig.getLayer = jest
-      .fn()
-      .mockImplementation(() => ({ get: jest.fn().mockReturnValue(true) }))
+    // TODO replace route param with mock Statsig flag
     const { queryByText } = render(
       <Provider store={createMockStore()}>
-        <MockedNavigator component={NameAndPicture} />
+        <MockedNavigator component={NameAndPicture} params={{ skipUsername: true }} />
       </Provider>
     )
 
@@ -221,13 +213,10 @@ describe('NameAndPictureScreen', () => {
   })
 
   it('saves empty name regardless of what is in the inputbox when skip is used', () => {
-    ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].showSkipButton.defaultValue = true
-    Statsig.getLayer = jest
-      .fn()
-      .mockImplementation(() => ({ get: jest.fn().mockReturnValue(true) }))
+    // TODO replace route param with mock Statsig flag
     const { getByText, getByTestId } = render(
       <Provider store={createMockStore()}>
-        <MockedNavigator component={NameAndPicture} />
+        <MockedNavigator component={NameAndPicture} params={{ skipUsername: true }} />
       </Provider>
     )
     fireEvent.changeText(getByTestId('NameEntry'), 'Some Name')

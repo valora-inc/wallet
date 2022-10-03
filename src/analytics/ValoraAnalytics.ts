@@ -46,7 +46,7 @@ async function getDeviceInfo() {
     SystemVersion: DeviceInfo.getSystemVersion(),
     TotalDiskCapacity: await DeviceInfo.getTotalDiskCapacity(),
     TotalMemory: await DeviceInfo.getTotalMemory(),
-    UniqueID: DeviceInfo.getUniqueId(),
+    UniqueID: await DeviceInfo.getUniqueId(),
     UserAgent: await DeviceInfo.getUserAgent(),
     Version: DeviceInfo.getVersion(),
     isEmulator: await DeviceInfo.isEmulator(),
@@ -86,7 +86,7 @@ class ValoraAnalytics {
       try {
         const deviceInfo = await getDeviceInfo()
         this.deviceInfo = deviceInfo
-        uniqueID = await deviceInfo.UniqueID
+        uniqueID = deviceInfo.UniqueID
         this.sessionId = sha256FromString('0x' + uniqueID.split('-').join('') + String(Date.now()))
           .toString('hex')
           .slice(2)
