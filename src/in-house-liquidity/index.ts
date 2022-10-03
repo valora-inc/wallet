@@ -141,7 +141,7 @@ export async function getKycStatus({
  * Silently returns on success. If response is non-OK, throws.
  *
  * @param {FiatConnectProviderInfo} params.providerInfo - Information about the FiatConnect provider to submit KYC to.
- * @param {KycSchema[]} params.kycSchemas - The `KycSchema` to submit to the selected provider.
+ * @param {KycSchema} params.kycSchema - The `KycSchema` to submit to the selected provider.
  * @returns {Promise<void>}
  */
 export async function postKyc({
@@ -159,6 +159,34 @@ export async function postKyc({
 
   if (!response.ok) {
     throw new Error(`Got non-ok response from IHL while posting KYC: ${response.status}`)
+  }
+}
+
+/**
+ * Calls DELETE /fiatconnect/kyc/:providerId/:kycSchema on in-house-liquidity.
+ *
+ * This deletes any stored KYC information and allows the user to retry KYC
+ *
+ * @param {FiatConnectProviderInfo} params.providerInfo - Information about the FiatConnect provider to submit KYC to.
+ * @param {KycSchema} params.kycSchema - The `KycSchema` to submit to the selected provider.
+ * @returns {Promise<void>}
+ */
+export async function deleteKyc({
+  providerInfo,
+  kycSchema,
+}: {
+  providerInfo: FiatConnectProviderInfo
+  kycSchema: KycSchema
+}): Promise<void> {
+  const response = await exports.makeRequest({
+    providerInfo,
+    path: `/fiatconnect/kyc/${providerInfo.id}/${kycSchema}`,
+    options: { method: 'DELETE' },
+  })
+
+  if (!response.ok && response.status !== 404) {
+    // 404 means the resource is already deleted or the providerId is invalid
+    throw new Error(`Got non-ok/404 response from IHL while deleting KYC: ${response.status}`)
   }
 }
 

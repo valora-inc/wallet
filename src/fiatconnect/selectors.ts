@@ -15,3 +15,4 @@ export const fiatConnectTransferSelector = (state: RootState) => state.fiatConne
 export const fiatConnectProvidersSelector = (state: RootState) => state.fiatConnect.providers
 export const sendingFiatAccountStatusSelector = (state: RootState) =>
   state.fiatConnect.sendingFiatAccountStatus
+export const kycTryAgainLoadingSelector = (state: RootState) => state.fiatConnect.kycTryAgainLoading

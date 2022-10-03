@@ -1,8 +1,12 @@
 import { FiatAccountType } from '@fiatconnect/fiatconnect-types'
 import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
+import { View } from 'react-native'
 import { Provider } from 'react-redux'
+import * as Persona from 'src/account/Persona'
 import { KycStatus } from 'src/account/reducer'
+import { CICOEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import KycLanding from 'src/fiatconnect/KycLanding'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
@@ -12,6 +16,7 @@ import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockAccount, mockFiatConnectQuotes, mockPrivateDEK } from 'test/values'
 
 jest.mock('src/account/Persona')
+jest.mock('src/analytics/ValoraAnalytics')
 
 describe('KycLanding', () => {
   const normalizedQuote = new FiatConnectQuote({
@@ -59,6 +64,32 @@ describe('KycLanding', () => {
       expect(getByTestId('PersonaButton')).toBeDisabled()
       fireEvent.press(getByTestId('checkbox'))
       expect(getByTestId('PersonaButton')).not.toBeDisabled()
+    })
+    it('passes a callback function for successful persona result', () => {
+      const mockPersonaButton = jest.fn(() => <View></View>)
+      jest.spyOn(Persona, 'default').mockImplementation(mockPersonaButton)
+      render(
+        <Provider store={store}>
+          <KycLanding {...props} />
+        </Provider>
+      )
+      expect(Persona.default).toHaveBeenCalledWith(
+        expect.objectContaining({ onSuccess: expect.any(Function) }), // props for Persona
+        expect.anything()
+      )
+      jest.restoreAllMocks()
+    })
+    it('triggers analytics when persona button is pressed', () => {
+      ValoraAnalytics.track = jest.fn()
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <KycLanding {...props} />
+        </Provider>
+      )
+      fireEvent.press(getByTestId('checkbox'))
+      fireEvent.press(getByTestId('PersonaButton'))
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(CICOEvents.persona_kyc_start)
+      jest.clearAllMocks()
     })
   })
 
