@@ -215,4 +215,23 @@ describe('NameAndPictureScreen', () => {
     fireEvent.press(getByText('skip'))
     expect(AccountActions.setName).not.toHaveBeenCalled()
   })
+  it('saves empty name regardless of what is in the inputbox when skip is used', () => {
+    // TODO replace route param with mock Statsig flag
+    const { getByText, getByTestId } = render(
+      <Provider store={createMockStore()}>
+        <MockedNavigator component={NameAndPicture} params={{ skipUsername: true }} />
+      </Provider>
+    )
+    fireEvent.changeText(getByTestId('NameEntry'), 'Some Name')
+    fireEvent.press(getByText('skip'))
+    expect(AccountActions.setName).not.toHaveBeenCalled()
+  })
+  it('shows alternate placeholder username', () => {
+    const { getByTestId } = render(
+      <Provider store={createMockStore()}>
+        <NameAndPicture {...mockScreenProps} />
+      </Provider>
+    )
+    expect(getByTestId('NameEntry').props.placeholder).toEqual('MyCryptoAlterEgo')
+  })
 })
