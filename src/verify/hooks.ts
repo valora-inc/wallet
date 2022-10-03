@@ -85,8 +85,8 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCallingCode: st
   useAsync(
     async () => {
       if (verificationCodeRequested.current && !shouldResendSms) {
-        // prevent the verification request from being fired multiple times, due
-        // to hot reloading during development only
+        // verificationCodeRequested prevents the verification request from
+        // being fired multiple times, due to hot reloading during development
         Logger.debug(
           `${TAG}/requestVerificationCode`,
           'Skipping request to verifyPhoneNumber since a request was already initiated'

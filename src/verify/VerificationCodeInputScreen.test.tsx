@@ -1,5 +1,6 @@
 import { act, fireEvent, render, within } from '@testing-library/react-native'
 import { FetchMock } from 'jest-fetch-mock/types'
+import MockDate from 'mockdate'
 import React from 'react'
 import * as Keychain from 'react-native-keychain'
 import { Provider } from 'react-redux'
@@ -47,6 +48,7 @@ describe('VerificationCodeInputScreen', () => {
     jest.clearAllMocks()
     mockFetch.resetMocks()
     store.clearActions()
+    MockDate.reset()
   })
 
   it('displays the correct components and requests for the verification code on mount', async () => {
@@ -151,12 +153,15 @@ describe('VerificationCodeInputScreen', () => {
     expect(navigate).not.toHaveBeenCalled()
   })
 
-  it('makes a request to resend the sms code', async () => {
+  it('makes a request to resend the sms code and resets the timer', async () => {
+    const dateNow = Date.now()
+    MockDate.set(dateNow)
     const { getByTestId } = renderComponent()
 
     await act(async () => {
       await act(flushMicrotasksQueue)
-      jest.advanceTimersByTime(30000) // 30 seconds, matching default resend delay time in ResendButtonWithDelay component
+      MockDate.set(dateNow + 30000) // 30 seconds, matching default resend delay time in ResendButtonWithDelay component
+      jest.advanceTimersByTime(1000) // 1 second, to update the timer
     })
 
     expect(mockFetch).toHaveBeenCalledTimes(1)
@@ -174,6 +179,8 @@ describe('VerificationCodeInputScreen', () => {
       },
       body: `{"phoneNumber":"${e164Number}","clientPlatform":"android","clientVersion":"0.0.1"}`,
     })
+
+    expect(getByTestId('PhoneVerificationResendSmsBtn')).toBeDisabled()
   })
 
   it('shows the help dialog', async () => {
