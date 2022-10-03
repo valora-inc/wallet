@@ -4,12 +4,12 @@ import { AppState } from 'src/app/actions'
 import { InviteMethodType, SuperchargeButtonType } from 'src/app/types'
 import { CodeInputStatus } from 'src/components/CodeInput'
 import { DappConnectInfo } from 'src/dapps/types'
+import { SendingFiatAccountStatus } from 'src/fiatconnect/slice'
 import { NUM_ATTESTATIONS_REQUIRED } from 'src/identity/verification'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { RootState } from 'src/redux/reducers'
 import { Currency } from 'src/utils/currencies'
 import { idle, KomenciAvailable } from 'src/verify/reducer'
-import { SendingFiatAccountStatus } from 'src/fiatconnect/slice'
 import {
   mockCeloAddress,
   mockCeurAddress,
@@ -1653,6 +1653,18 @@ export const v79Schema = {
   },
 }
 
+export const v80Schema = {
+  ...v79Schema,
+  _persist: {
+    ...v79Schema._persist,
+    version: 80,
+  },
+  fiatConnect: {
+    ...v79Schema.fiatConnect,
+    kycTryAgainLoading: false,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v79Schema as Partial<RootState>
+  return v80Schema as Partial<RootState>
 }
