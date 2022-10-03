@@ -29,7 +29,7 @@ jobs:
     env:
       BASH_ENV: ~/.profile
     name: Android
-    runs-on: android-e2e-group
+    runs-on: android-e2e-group-test
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
