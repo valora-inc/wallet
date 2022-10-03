@@ -581,7 +581,7 @@
     "title": "Invita a tus amigos",
     "body": "Conéctate y comparte valor con tus amigos y familiares en {{appName}}.",
     "button": "Enviar invitación",
-    "error": "Hubo un problema al crear un enlace compartible",
+    "error": "Hubo un error al crear el enlace compartible",
     "share": "¡Hola! Estoy usando la wallet cripto {{appName}}. Es fácil de usar y me gustaría invitarte a probarla con este link: {{shareUrl}}"
   },
   "getReward": "Obtén ${{reward}}",
@@ -683,7 +683,10 @@
   "onboardingEducation": {
     "step1": "Cripto tan fácil como enviar mensajes. Convierte tu teléfono en una wallet cripto.",
     "step2": "Con {{appName}}, accede y multiplica tus criptomonedas en pocos pasos.",
-    "step3": "Solo necesitas tu teléfono para enviar, gastar y explorar el mundo cripto."
+    "step3": "Solo necesitas tu teléfono para enviar, gastar y explorar el mundo cripto.",
+    "payment": "Realiza pagos en todo el mundo con tasas casi nulas",
+    "impact": "Apoyar las iniciativas de cambio climático y social",
+    "spend": "Usa tu cripto para comprar tus marcas favoritas"
   },
   "enableBiometry": {
     "title": "Mantén tu wallet segura",
@@ -773,6 +776,7 @@
     "description": "Para conectar tu número de teléfono, recibirás un mensaje de texto.",
     "startButtonLabel": "Comenzar",
     "learnMore": {
+      "buttonLabel": "¿Es necesario conectar mi teléfono?",
       "title": "¿Es necesario conectar mi teléfono?",
       "body": "Conectar tu número de teléfono te permitirá enviar dinero a tus contactos y a otros números de teléfono. \n \nSi prefieres omitir este paso, no podrás acceder a tus contactos y solo podrás enviar dinero mediante el código QR o la Dirección de cuenta."
     },
@@ -787,13 +791,14 @@
     "title": "Ingresa el código",
     "description": "Hemos enviado un código a {{phoneNumber}}. Ingrésalo a continuación.",
     "help": "Ayuda",
-    "codeInputPlaceholder": "12345678",
+    "codeInputPlaceholder": "123456",
     "helpDialog": {
       "title": "Ayuda",
-      "body": "Hemos enviado un SMS a tu número de teléfono. Busca el código de 8 dígitos en tus mensajes. Si tienes problemas para recibir los mensajes, puedes omitir este paso por ahora e intentarlo más tarde.",
+      "body": "Hemos enviado un SMS a tu número de teléfono. Busca el código de 6 dígitos en tus mensajes. Si tienes problemas para recibir los mensajes, puedes omitir este paso por ahora e intentarlo más tarde.",
       "skip": "Omitir",
       "dismiss": "Regresar"
-    }
+    },
+    "verificationFailure": "Algo salió mal, inténtalo de nuevo más tarde."
   },
   "importExistingKey": {
     "explanation": "Tu Frase de recuperación es la frase de 24 palabras que escribiste y guardaste cuando configuraste tu cuenta. Por favor, ingrésala para restaurar tu cuenta.",
@@ -1296,6 +1301,9 @@
     "description": "Este paso te llevará unos 5 minutos.",
     "disclaimer": "Reconoces y aceptas que tus Datos personales nos serán proporcionados y compartidos con terceros con fines de verificación como se indica en la <0>Política de Privacidad</0>.",
     "button": "Establecer verificación de identidad"
+  },
+  "fiatConnectKycStatusScreen": {
+    "tryAgainFailed": "Se ha producido un error al borrar la información de KYC. Por favor, inténtalo de nuevo"
   },
   "fiatConnectReviewScreen": {
     "transactionDetails": "Detalles de transacción",

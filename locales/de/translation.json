@@ -683,7 +683,10 @@
   "onboardingEducation": {
     "step1": "Krypto so einfach wie eine SMS. Ab sofort ist dein Handy dein Krypto-Wallet.",
     "step2": "Mit {{appName}} ist es ein einfach, auf dein Krypto zuzugreifen und sie zu vermehren.",
-    "step3": "Alles, was du brauchst, ist ein Mobiltelefon zum Entdecken."
+    "step3": "Alles, was du brauchst, ist ein Mobiltelefon zum Entdecken.",
+    "payment": "Zahlungen weltweit und fast ohne Gebühren durchführen",
+    "impact": "Unterstützung von Initiativen zum Klimaschutz und sozialen Wandel",
+    "spend": "Verwende deine Kryptowährung, um deine Lieblingsmarken zu kaufen"
   },
   "enableBiometry": {
     "title": "Sichere dein Wallet",
@@ -773,6 +776,7 @@
     "description": "Um deine Telefonnummer zu verbinden, erhältst du eine Textnachricht.",
     "startButtonLabel": "Start",
     "learnMore": {
+      "buttonLabel": "Muss ich mein Telefon verbinden?",
       "title": "Muss ich mein Telefon verbinden?",
       "body": "Wenn du deine Telefonnummer verbindest, kannst du Geld an Freunde in deinem Adressbuch sowie an andere Telefonnummern senden.\n\nWenn du diesen Schritt überspringst, kannst du nicht auf deine Kontakte zugreifen. Du kannst dann nur Geld per QR-Code oder über die Konto-Adressen versenden."
     },
@@ -787,13 +791,14 @@
     "title": "Code eingeben",
     "description": "Wir haben einen Code an {{phoneNumber}} gesendet, bitte gib ihn unten ein.",
     "help": "Hilfe",
-    "codeInputPlaceholder": "12345678",
+    "codeInputPlaceholder": "123456",
     "helpDialog": {
       "title": "Hilfe",
-      "body": "Wir haben eine SMS an deine Telefonnummer geschickt. Bitte überprüfe deine SMS, um den 8-stelligen Code zu finden. Wenn du Probleme beim Empfang von Nachrichten hast, kannst du diesen Schritt überspringen und es später noch einmal versuchen.",
+      "body": "Wir haben eine SMS an deine Telefonnummer geschickt. Bitte überprüfe deine SMS, um den 6-stelligen Code zu finden. Wenn du Probleme beim Empfang von Nachrichten hast, kannst du diesen Schritt überspringen und es später noch einmal versuchen.",
       "skip": "Überspringen",
       "dismiss": "Zurück"
-    }
+    },
+    "verificationFailure": "Etwas ist schief gelaufen, bitte versuche es später erneut."
   },
   "importExistingKey": {
     "explanation": "Deine Wiederherstellungsphrase ist eine 24-Wort-Phrase, die du bei der Einrichtung deines Kontos aufgeschrieben und gespeichert hast. Bitte gib es hier ein, um dein Konto wiederherzustellen.",
@@ -1296,6 +1301,9 @@
     "description": "Dieser Schritt dauert etwa fünf Minuten.",
     "disclaimer": "Du bestätigst und erklärst dich damit einverstanden, dass deine persönlichen Daten uns zur Verfügung gestellt und mit Dritten zu Überprüfungszwecken geteilt werden, wie in der <0>Datenschutzerklärung</0> angegeben.",
     "button": "Du bestätigst und erklärst dich damit einverstanden, dass deine persönlichen Daten uns zur Verfügung gestellt und mit Dritten zu Überprüfungszwecken geteilt werden, wie in der <0>Datenschutzerklärung</0> angegeben."
+  },
+  "fiatConnectKycStatusScreen": {
+    "tryAgainFailed": "Beim Löschen der KYC-Informationen ist ein Fehler aufgetreten. Bitte versuche es erneut"
   },
   "fiatConnectReviewScreen": {
     "transactionDetails": "Transaktiondetails",

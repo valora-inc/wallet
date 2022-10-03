@@ -581,7 +581,7 @@
     "title": "Zaproś znajomego",
     "body": "Kontaktuj i dziel się środkami z przyjaciółmi i rodziną dzięki aplikacji {{appName}}.",
     "button": "Wyślij zaproszenie",
-    "error": "Wystąpił problem z tworzeniem linku do udostępniania",
+    "error": "Wystąpił błąd z tworzeniem linku",
     "share": "Cześć! Korzystam z portfel kryptowalutowy {{appName}}. To bardzo proste. Może Ty też spróbujesz? Skorzystaj z tego linku: {{shareUrl}}"
   },
   "getReward": "Otrzymaj ${{reward}}",
@@ -683,7 +683,10 @@
   "onboardingEducation": {
     "step1": "Jeśli potrafisz pisać SMS-y, potrafisz też inwestować w kryptowaluty. Od teraz Twój telefon jest Twoim portfelem kryptowalutowym.",
     "step2": "Z aplikacją {{appName}} uzyskujesz szybki dostęp do swoich kryptowalut i łatwo je pomnażasz.",
-    "step3": "Aby wysyłać, wydawać i odkrywać, potrzebujesz jedynie telefonu komórkowego."
+    "step3": "Aby wysyłać, wydawać i odkrywać, potrzebujesz jedynie telefonu komórkowego.",
+    "payment": "Dokonuj płatności na całym świecie przy niemal zerowych opłatach",
+    "impact": "Wspieraj inicjatywy dotyczące zmian klimatycznych i społecznych",
+    "spend": "Wykorzystaj swoje kryptowaluty do robienia zakupów u ulubionych marek"
   },
   "enableBiometry": {
     "title": "Zabezpiecz swój portfel",
@@ -773,6 +776,7 @@
     "description": "Aby podłączyć swój numer telefonu, otrzymasz wiadomość tekstową.",
     "startButtonLabel": "Start",
     "learnMore": {
+      "buttonLabel": "Czy muszę podłączyć telefon?",
       "title": "Czy muszę podłączyć telefon?",
       "body": "Podłączenie numeru telefonu pozwoli Ci na wysyłanie pieniędzy do znajomych z książki adresowej i innych numerów telefonów. \n \n Jeśli pominiesz ten krok, nie będziesz mieć dostępu do swoich kontaktów i będziesz w stanie wysyłać pieniądze tylko za pomocą kodu QR lub adres konta."
     },
@@ -787,13 +791,14 @@
     "title": "Wprowadź kod",
     "description": "Wysłaliśmy kod pod numer {{phoneNumber}}, wpisz go poniżej.",
     "help": "Pomoc",
-    "codeInputPlaceholder": "12345678",
+    "codeInputPlaceholder": "123456",
     "helpDialog": {
       "title": "Pomoc",
-      "body": "Wysłaliśmy wiadomość SMS pod Twój numer telefonu. Sprawdź swoje wiadomości tekstowe, aby znaleźć 8-cyfrowy kod. Jeśli masz problemy z odbieraniem wiadomości, możesz pominąć ten krok i spróbować ponownie później.",
+      "body": "Wysłaliśmy wiadomość SMS pod Twój numer telefonu. Sprawdź swoje wiadomości tekstowe, aby znaleźć 6-cyfrowy kod. Jeśli masz problemy z odbieraniem wiadomości, możesz pominąć ten krok i spróbować ponownie później.",
       "skip": "Pomiń",
       "dismiss": "Wróć"
-    }
+    },
+    "verificationFailure": "Coś poszło nie tak, spróbuj ponownie później."
   },
   "importExistingKey": {
     "explanation": "Twoja fraza odzyskiwania to 24 słowa, które ustawiłeś(-aś) i zapisałeś(-aś) podczas zakładania konta. Wpisz je tutaj, aby przywrócić konto.",
@@ -1300,6 +1305,9 @@
     "description": "Ten krok zajmie około 5 minut.",
     "disclaimer": "Przyjmujesz do wiadomości i zgadzasz się na to, że Twoje dane osobowe zostaną nam przekazane i udostępnione osobom trzecim w celu weryfikacji, jak określono w <0>Polityce prywatności</0>",
     "button": "Ustaw weryfikację tożsamości"
+  },
+  "fiatConnectKycStatusScreen": {
+    "tryAgainFailed": "Wystąpił błąd podczas sprawdzania informacji KYC. Proszę spróbować ponownie"
   },
   "fiatConnectReviewScreen": {
     "transactionDetails": "Szczegóły transakcji",
