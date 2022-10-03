@@ -1304,6 +1304,9 @@
     "disclaimer": "You acknowledge and agree that your Personal Data will be provided to us and shared with third-parties for verification purposes as stated in the <0>Privacy Policy</0>",
     "button": "Set up ID Verification"
   },
+  "fiatConnectKycStatusScreen": {
+    "tryAgainFailed": "There was an error clearing KYC information. Please try again"
+  },
   "fiatConnectReviewScreen": {
     "transactionDetails": "Transaction Details",
     "paymentMethodVia": "Connected via {{providerName}}",
