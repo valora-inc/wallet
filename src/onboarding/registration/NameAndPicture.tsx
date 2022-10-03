@@ -51,6 +51,15 @@ function NameAndPicture({ navigation, route }: Props) {
   const showGuidedOnboarding = useSelector(showGuidedOnboardingSelector)
   const createAccountCopyTestType = useSelector(createAccountCopyTestTypeSelector)
   const skipUsername = route.params?.skipUsername //TODO repalce with statsig variable
+  const showAlternatePlaceholder = true
+  let placeholderUsername = t('fullNamePlaceholder')
+  if (showGuidedOnboarding) {
+    placeholderUsername = t('fullNameOrPseudonymPlaceholder')
+  }
+  if (showAlternatePlaceholder) {
+    placeholderUsername = 'MyCryptoAlterEgo' // not localized
+  }
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => {
@@ -159,9 +168,7 @@ function NameAndPicture({ navigation, route }: Props) {
           onChangeText={setNameInput}
           value={nameInput}
           enablesReturnKeyAutomatically={true}
-          placeholder={
-            showGuidedOnboarding ? t('fullNameOrPseudonymPlaceholder') : t('fullNamePlaceholder')
-          }
+          placeholder={placeholderUsername}
           testID={'NameEntry'}
           multiline={false}
         />
