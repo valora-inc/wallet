@@ -137,7 +137,9 @@ export function SwapReviewScreen() {
       ),
     })
     // Dispatch swap submission
-    dispatch(swapStart({ ...swapInfo, userInput } as SwapInfo))
+    if (userInput !== null) {
+      dispatch(swapStart({ ...swapInfo, userInput }))
+    }
   }
 
   return (

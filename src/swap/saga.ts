@@ -14,7 +14,7 @@ import {
   swapStart,
   swapSuccess,
 } from 'src/swap/slice'
-import { SwapInfo } from 'src/swap/types'
+import { Field, SwapInfo, SwapTransaction } from 'src/swap/types'
 import { sendTransaction } from 'src/transactions/send'
 import { newTransactionContext } from 'src/transactions/types'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
@@ -67,8 +67,8 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
     )
 
     // Query the execute swap endpoint
-    const amountType: string = action.payload.userInput.buyAmount ? 'buyAmount' : 'sellAmount'
-    // @ts-ignore
+    const amountType =
+      action.payload.userInput.updatedField === Field.FROM ? 'buyAmount' : 'sellAmount'
     const amount = action.payload.unvalidatedSwapTransaction[amountType]
     const params = {
       buyToken: action.payload.unvalidatedSwapTransaction.buyTokenAddress,
@@ -84,7 +84,10 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       yield put(swapError())
       return
     }
-    const responseJson: { validatedSwapTransaction: any } = yield call([response, 'json'])
+    const responseJson: { validatedSwapTransaction: SwapTransaction } = yield call([
+      response,
+      'json',
+    ])
 
     // Execute transaction
     yield put(swapExecute())
