@@ -18,6 +18,8 @@ const appVersion = exec('node -p "require(\'./package.json\').version"')
 
 echo('Push changes to branch')
 exec('git add .')
+exec('git config user.email "valorabot@valoraapp.com"')
+exec('git config user.name "valora-bot"')
 exec('git commit -m "Bump app version to $app_version"')
 exec(`git push --set-upstream origin ${branchName}`)
 
