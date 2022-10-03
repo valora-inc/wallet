@@ -120,6 +120,10 @@ export function KycAgreement(props: { personaKycStatus?: KycStatus; quote: FiatC
     navigateToURI(PRIVACY_LINK)
   }
 
+  const personaSuccessCallback = () => {
+    dispatch(selectFiatConnectQuote({ quote })) // continue with flow through saga
+  }
+
   return (
     <SafeAreaView style={styles.content}>
       <Text style={styles.title}>{t('fiatConnectKycLandingScreen.title')}</Text>
@@ -147,8 +151,10 @@ export function KycAgreement(props: { personaKycStatus?: KycStatus; quote: FiatC
         text={t('fiatConnectKycLandingScreen.button')}
         kycStatus={personaKycStatus}
         disabled={!agreementChecked}
-        onPress={() => ValoraAnalytics.track(CICOEvents.persona_kyc_start)}
-        onSuccess={() => dispatch(selectFiatConnectQuote({ quote }))}
+        onPress={() => {
+          ValoraAnalytics.track(CICOEvents.persona_kyc_start)
+        }}
+        onSuccess={personaSuccessCallback}
       />
     </SafeAreaView>
   )

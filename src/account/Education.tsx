@@ -44,6 +44,8 @@ interface EducationStep {
   // If set to true, title is displayed at the top
   isTopTitle?: boolean
   text?: string
+  valueProposition?: string
+  variant?: 'old' | 'new'
 }
 
 export type Props = NativeSafeAreaViewProps & {
@@ -109,8 +111,16 @@ const Education = (props: Props) => {
   }
 
   useEffect(() => {
+    const { topic, valueProposition, variant } = stepInfo[currentIndex]
     if (stepInfo.length > 0 && lastViewedIndex.current < currentIndex) {
       lastViewedIndex.current = currentIndex
+    }
+    if (topic === EducationTopic.onboarding) {
+      ValoraAnalytics.track(OnboardingEvents.onboarding_education_step_impression, {
+        valueProposition,
+        variant,
+        step: currentIndex,
+      })
     }
   }, [currentIndex])
 
