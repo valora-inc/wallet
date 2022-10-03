@@ -1,5 +1,5 @@
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { useEffect, useLayoutEffect, useState } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -7,9 +7,8 @@ import { useDispatch } from 'react-redux'
 import { setName, setPicture } from 'src/account/actions'
 import { nameSelector, recoveringFromStoreWipeSelector } from 'src/account/selectors'
 import { hideAlert, showError } from 'src/alert/actions'
-import { ExperimentParams } from 'src/analytics/constants'
 import { OnboardingEvents } from 'src/analytics/Events'
-import { StatsigEvents, StatsigLayers } from 'src/analytics/types'
+import { StatsigEvents } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import {
@@ -39,13 +38,6 @@ import { Statsig } from 'statsig-react-native'
 type Props = StackScreenProps<StackParamList, Screens.NameAndPicture>
 
 function NameAndPicture({ navigation, route }: Props) {
-  const [, setShowSkipButton] = useState(
-    ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].showSkipButton.defaultValue
-  )
-  const [, setNameType] = useState(
-    ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].nameType.defaultValue
-  )
-
   const [nameInput, setNameInput] = useState('')
   const cachedName = useTypedSelector(nameSelector)
   const picture = useTypedSelector((state) => state.account.pictureUri)
@@ -62,26 +54,6 @@ function NameAndPicture({ navigation, route }: Props) {
   const showGuidedOnboarding = useSelector(showGuidedOnboardingSelector)
   const createAccountCopyTestType = useSelector(createAccountCopyTestTypeSelector)
   const skipUsername = route.params?.skipUsername //TODO repalce with statsig variable
-
-  useEffect(() => {
-    try {
-      const statsigLayer = Statsig.getLayer(StatsigLayers.NAME_AND_PICTURE_SCREEN)
-      setShowSkipButton(
-        statsigLayer.get(
-          ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].showSkipButton.paramName,
-          ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].showSkipButton.defaultValue
-        )
-      )
-      setNameType(
-        statsigLayer.get(
-          ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].nameType.paramName,
-          ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].nameType.defaultValue
-        )
-      )
-    } catch (error) {
-      Logger.warn('NameAndPicture', 'error getting Statsig experiment', error)
-    }
-  }, [])
 
   useLayoutEffect(() => {
     navigation.setOptions({

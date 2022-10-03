@@ -13,13 +13,6 @@ import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockNavigation } from 'test/values'
 
-const mockStatsigGet = jest.fn().mockReturnValue(null) // default implementation
-jest.mock('statsig-react-native', () => ({
-  Statsig: {
-    getLayer: jest.fn().mockImplementation(() => ({ get: mockStatsigGet })),
-  },
-}))
-
 expect.extend({ toBeDisabled })
 jest.spyOn(AccountActions, 'setName')
 const mockScreenProps = getMockStackScreenProps(Screens.NameAndPicture)
