@@ -581,7 +581,7 @@
     "title": "Invite a friend",
     "body": "Connect and share value with your friends and family on {{appName}}.",
     "button": "Share Invite",
-    "error": "There was issue an creating a sharable link",
+    "error": "There was an issue creating a sharable link",
     "share": "Hi! I’ve been using {{appName}} as my crypto wallet. It’s easy to try and I want to invite you to check it out with this link: {{shareUrl}}"
   },
   "getReward": "Get ${{reward}}",
@@ -683,7 +683,10 @@
   "onboardingEducation": {
     "step1": "If you can text, you can crypto. Starting now, your phone is your crypto wallet.",
     "step2": "With {{appName}}, it’s easy to access and easy to grow your crypto.",
-    "step3": "All you need is a mobile phone to send, spend and explore."
+    "step3": "All you need is a mobile phone to send, spend and explore.",
+    "payment": "Make payments globally with near zero fees",
+    "impact": "Support climate and social change initiatives",
+    "spend": "Use your crypto to shop your favorite brands"
   },
   "enableBiometry": {
     "title": "Secure your wallet",
@@ -773,6 +776,7 @@
     "description": "To connect your phone number, you'll receive a text message.",
     "startButtonLabel": "Start",
     "learnMore": {
+      "buttonLabel": "Do I need to connect my phone?",
       "title": "Do I need to connect my phone?",
       "body": "Connecting your phone number will allow you to send money to friends in your address book and other phone numbers. \n \n If you choose to skip this step you won’t be able to access your contacts and you will only be able to send money via QR code or Account Address."
     },
@@ -787,13 +791,14 @@
     "title": "Enter the code",
     "description": "We sent a code to {{phoneNumber}}, please enter it below.",
     "help": "Help",
-    "codeInputPlaceholder": "12345678",
+    "codeInputPlaceholder": "123456",
     "helpDialog": {
       "title": "Help",
-      "body": "We sent an SMS to your phone number. Please check your text messages to find the 8 digit code. If you’re having trouble receiving messages, you can skip this step for now and try again later.",
+      "body": "We sent an SMS to your phone number. Please check your text messages to find the 6 digit code. If you’re having trouble receiving messages, you can skip this step for now and try again later.",
       "skip": "Skip",
       "dismiss": "Go back"
-    }
+    },
+    "verificationFailure": "Oops! Something went wrong, please try again later."
   },
   "importExistingKey": {
     "explanation": "Your Recovery Phrase is a 24-word phrase that you wrote down and saved when you set up your account. Please enter it here to restore your account.",
@@ -1324,7 +1329,8 @@
       "description": "Please verify again or try a different way to withdraw funds.",
       "tryAgain": "Try again",
       "switch": "Switch withdraw method"
-    }
+    },
+    "tryAgainFailed": "There was an error clearing KYC information. Please try again"
   },
   "fiatConnectReviewScreen": {
     "transactionDetails": "Transaction Details",

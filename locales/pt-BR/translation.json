@@ -577,6 +577,13 @@
     "title": "Envie criptomoedas para convidar um amigo",
     "body": "Depois que seu amigo configurar a carteira dele, vocês dois receberão um NFT. <0>Ganhe até 3 NFTs</0>"
   },
+  "inviteWithUrl": {
+    "title": "Convide um amigo",
+    "body": "Conecte-se e compartilhe valor com seus amigos e familiares na {{appName}}.",
+    "button": "Enviar convite",
+    "error": "Houve um problema que criou uma ligação partilhável",
+    "share": "Olá! Estou usando a carteira cripto {{appName}}. É muito fácil de usar e eu gostaria de convidar você para conferir com este link: {{shareUrl}}"
+  },
   "getReward": "Receba ${{reward}}",
   "welcomeCelo": "Bem-vindo à {{appName}}",
   "chooseCountryCode": "Código do país",
@@ -763,29 +770,29 @@
   "phoneVerificationScreen": {
     "screenTitle": "Número de celular",
     "title": "Conecte seu número de celular",
-    "description": "Para ligar o seu número de telefone, receberá uma mensagem de texto.",
+    "description": "Para conectar seu número de celular, você receberá uma mensagem de texto.",
     "startButtonLabel": "Iniciar",
     "learnMore": {
-      "title": "Preciso de ligar o meu telefone?",
-      "body": "A ligação do seu número de telefone permitir-lhe-á enviar dinheiro a amigos na sua agenda de endereços e outros números de telefone. \n \n Se escolher saltar este passo, não poderá aceder aos seus contactos e só poderá enviar dinheiro através do código QR ou número de conta."
+      "title": "Preciso conectar meu telefone?",
+      "body": "Conectar seu número de telefone permitirá que você envie dinheiro para amigos em sua agenda de endereços e outros números de telefone. \n \nSe você optar por pular esta etapa, não poderá acessar seus contatos e só poderá enviar dinheiro via código QR ou Endereço de Conta."
     },
     "skip": {
       "title": "Tem certeza?",
-      "body": "A ligação permite-lhe enviar e receber fundos do seu número de telefone.",
+      "body": "A conexão permitirá que você envie e receba fundos do seu número de celular.",
       "cancel": "Voltar",
       "confirm": "Pular por enquanto"
     }
   },
   "phoneVerificationInput": {
-    "title": "Introduza o código",
-    "description": "Enviámos um código para {{phoneNumber}}, por favor introduza-o abaixo.",
+    "title": "Insira o código",
+    "description": "Enviamos um código para {{phoneNumber}}, insira-o abaixo.",
     "help": "Ajuda",
     "codeInputPlaceholder": "12345678",
     "helpDialog": {
       "title": "Ajuda",
-      "body": "Enviámos um SMS para o seu número de telefone. Por favor verifique as suas mensagens de texto para encontrar o código de 8 dígitos. Se tiver problemas em receber mensagens, pode saltar este passo por agora e tentar novamente mais tarde.",
+      "body": "Enviamos um SMS para o seu número de celular. Verifique suas mensagens de texto para encontrar o código de 8 dígitos. Se você estiver tendo problemas para receber mensagens, pode pular esta etapa e tentar novamente mais tarde.",
       "skip": "Pular",
-      "dismiss": "Voltar atrás"
+      "dismiss": "Voltar"
     }
   },
   "importExistingKey": {
@@ -1278,7 +1285,7 @@
     "bankAccount": {
       "header": "Configurar conta bancária",
       "bodyTitle": "Configurar conta bancária",
-      "description": "Introduza os dados da conta bancária para transferir fundos. As suas transacções serão alimentadas por <0>{{providerName}}</0>. Ao clicar em continuar, concorda com os seus <1>Termos e Condições</1> e <2>Política de Privacidade</2>"
+      "description": "Insira os dados da conta bancária para transferir fundos. Suas transações serão suportadas por <0>{{providerName}}</0>. Ao clicar em continuar, você concorda com seus <1>Termos e Condições</1> e <2>Política de Privacidade</2>"
     },
     "continue": "Continuar"
   },
@@ -1286,9 +1293,9 @@
     "stepOne": "Passo 1",
     "stepTwo": "Passo 2",
     "title": "Verifique a sua identidade",
-    "description": "Este passo demorará cerca de 5 minutos.",
-    "disclaimer": "Reconhece e concorda que os seus Dados Pessoais nos serão fornecidos e partilhados com terceiros para fins de verificação, tal como estabelecido na <0>Política de Privacidade</0>",
-    "button": "Verificação de identificação"
+    "description": "Esta etapa levará cerca de 5 minutos.",
+    "disclaimer": "Você reconhece e concorda que seus Dados Pessoais serão fornecidos a nós e compartilhados com terceiros para fins de verificação, conforme indicado na <0>Política de Privacidade</0>",
+    "button": "Configurar verificação de identidade"
   },
   "fiatConnectReviewScreen": {
     "transactionDetails": "Detalhes de transação",

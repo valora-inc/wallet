@@ -577,6 +577,13 @@
     "title": "Envoyez des crypto pour inviter un ami",
     "body": "Vous recevrez tous les deux un NFT exclusif une fois qu'il est configuré son compte {{appName}}. <0>Gagnez jusqu'à 3 NFT</0>"
   },
+  "inviteWithUrl": {
+    "title": "Invitez des amis",
+    "body": "Connectez et partagez des valeurs avec vos amis et votre famille sur {{appName}}.",
+    "button": "Envoyer l'invitation",
+    "error": "Il y a eu un problème pour créer un lien partageable",
+    "share": "Bonjour ! J'utilise {{appName}} comme mon portefeuille crypto. C'est facile, et je vous invite à découvrir également ce service en utilisant ce lien : {{shareUrl}}"
+  },
   "getReward": "Obtenez {{reward}}$",
   "welcomeCelo": "Bienvenue sur {{appName}}",
   "chooseCountryCode": "Code pays",
@@ -763,29 +770,29 @@
   "phoneVerificationScreen": {
     "screenTitle": "Numéro de téléphone",
     "title": "Connectez votre numéro de téléphone",
-    "description": "Pour connecter ton numéro de téléphone, tu recevras un message texte.",
+    "description": "Pour connecter votre numéro de téléphone, vous recevrez un SMS.",
     "startButtonLabel": "Commencer",
     "learnMore": {
-      "title": "Est-ce que je dois connecter mon téléphone ?",
-      "body": "En connectant ton numéro de téléphone, tu pourras envoyer de l'argent aux amis de ton carnet d'adresses et à d'autres numéros de téléphone. \n \n Si tu choisis de sauter cette étape, tu ne pourras pas accéder à tes contacts et tu ne pourras envoyer de l'argent que par code QR ou numéro de compte."
+      "title": "Dois-je connecter mon téléphone ?",
+      "body": "Connecter votre numéro de téléphone vous permettra d'envoyer de l'argent à vos contacts et d'autres numéros de téléphone. \n \nSi vous choisissez de sauter cette étape, vous ne pourrez pas accéder à vos contacts, et vous ne pourrez envoyer de l’argent que via le code QR ou l’Adresse du compte."
     },
     "skip": {
       "title": "Êtes-vous sûr ?",
-      "body": "La connexion te permet d'envoyer et de recevoir des fonds à partir de ton numéro de téléphone.",
+      "body": "En connectant votre téléphone, vous pourrez envoyer et de recevoir des fonds simplement avec votre numéro de téléphone.",
       "cancel": "Retour",
       "confirm": "Ignorer pour l'instant"
     }
   },
   "phoneVerificationInput": {
-    "title": "Saisis le code",
-    "description": "Nous avons envoyé un code à {{phoneNumber}}, merci de le saisir ci-dessous.",
+    "title": "Saisir le code",
+    "description": "Nous avons envoyé un code au numéro {{phoneNumber}}, veuillez le saisir ci-dessous.",
     "help": "Aide",
     "codeInputPlaceholder": "12345678",
     "helpDialog": {
       "title": "Aide",
-      "body": "Nous avons envoyé un SMS à ton numéro de téléphone. Vérifie tes SMS pour trouver le code à 8 chiffres. Si tu as des difficultés à recevoir des messages, tu peux sauter cette étape pour l'instant et réessayer plus tard.",
+      "body": "Nous avons envoyé un SMS à votre numéro de téléphone. Veuillez consulter vos SMS, un code à 8 chiffres devrait s'y trouver. Si vous ne recevez pas nos messages, vous pouvez sauter cette étape pour le moment et réessayer plus tard.",
       "skip": "Ignorer",
-      "dismiss": "Retourner"
+      "dismiss": "Retour"
     }
   },
   "importExistingKey": {
@@ -1278,7 +1285,7 @@
     "bankAccount": {
       "header": "Configurer un compte bancaire",
       "bodyTitle": "Configurer un compte bancaire",
-      "description": "Saisis les détails du compte bancaire pour transférer des fonds. Tes transactions seront alimentées par <0>{{providerName}}</0>. En cliquant sur continuer, tu acceptes leurs <1>conditions générales et</1> leur <2>politique de confidentialité</2>."
+      "description": "Entrez les coordonnées du compte bancaire pour transférer des fonds. Vos transactions seront réalisées par <0>{{providerName}}</0>. En cliquant sur Continuer, vous acceptez leurs <1>Conditions Générales</1> et <2>Politique de confidentialité</2>"
     },
     "continue": "Continuer"
   },
@@ -1286,8 +1293,8 @@
     "stepOne": "Étape 1",
     "stepTwo": "Étape 2",
     "title": "Vérifiez votre identité",
-    "description": "Cette étape prendra environ 5 minutes.",
-    "disclaimer": "Tu reconnais et acceptes que tes données personnelles nous soient fournies et soient partagées avec des tiers à des fins de vérification, comme indiqué dans la <0>politique de confidentialité</0>.",
+    "description": "Cette étape vous prendra environ 5 minutes.",
+    "disclaimer": "Vous reconnaissez et acceptez que vos données personnelles nous seront fournies et partagées avec des tiers à des fins de vérification, tel que cela est indiqué dans la <0>Politique de confidentialité</0>",
     "button": "Configurer la vérification d'identité"
   },
   "fiatConnectReviewScreen": {

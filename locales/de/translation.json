@@ -577,6 +577,13 @@
     "title": "Krypto senden, um einen Freund einzuladen",
     "body": "Ihr erhaltet ein exklusives NFT, sobald dein Freund seine {{appName}}-Wallet eingerichtet hat und seine Nummer damit verknüpft hat. <0>Du kannst dir bis zu drei NFTs verdienen</0>"
   },
+  "inviteWithUrl": {
+    "title": "Lade deine Freunde ein",
+    "body": "Verbinde und teile Wert mit deinen Freunden und Familie auf {{appName}}.",
+    "button": "Einladung senden",
+    "error": "Es gab ein Problem beim Erstellen eines teilbaren Links",
+    "share": "Hallo! Ich habe {{appName}} Krypto Wallet benutzt. Es ist einfach zu versuchen und ich möchte dich einladen, es mit diesem Link zu sehen: {{shareUrl}}"
+  },
   "getReward": "Erhalte ${{reward}}",
   "welcomeCelo": "Willkommen bei {{appName}}",
   "chooseCountryCode": "Ländercode",
@@ -766,26 +773,26 @@
     "description": "Um deine Telefonnummer zu verbinden, erhältst du eine Textnachricht.",
     "startButtonLabel": "Start",
     "learnMore": {
-      "title": "Muss ich mein Telefon anschließen?",
-      "body": "Wenn du deine Telefonnummer verbindest, kannst du Geld an Freunde in deinem Adressbuch und an andere Telefonnummern senden. \n \n Wenn du diesen Schritt überspringst, kannst du nicht auf deine Kontakte zugreifen und nur per QR-Code oder Kontonummer Geld senden."
+      "title": "Muss ich mein Telefon verbinden?",
+      "body": "Wenn du deine Telefonnummer verbindest, kannst du Geld an Freunde in deinem Adressbuch sowie an andere Telefonnummern senden.\n\nWenn du diesen Schritt überspringst, kannst du nicht auf deine Kontakte zugreifen. Du kannst dann nur Geld per QR-Code oder über die Konto-Adressen versenden."
     },
     "skip": {
       "title": "Bist du sicher?",
-      "body": "Mit Connecting kannst du von deiner Telefonnummer aus Geld senden und empfangen.",
+      "body": "Dank der Verbindung kannst du über deine Telefonnummer Geld senden und empfangen.",
       "cancel": "Zurück",
       "confirm": "Vorerst überspringen"
     }
   },
   "phoneVerificationInput": {
-    "title": "Gib den Code ein",
-    "description": "Wir haben einen Code an {{phoneNumber}}geschickt, bitte gib ihn unten ein.",
+    "title": "Code eingeben",
+    "description": "Wir haben einen Code an {{phoneNumber}} gesendet, bitte gib ihn unten ein.",
     "help": "Hilfe",
     "codeInputPlaceholder": "12345678",
     "helpDialog": {
       "title": "Hilfe",
       "body": "Wir haben eine SMS an deine Telefonnummer geschickt. Bitte überprüfe deine SMS, um den 8-stelligen Code zu finden. Wenn du Probleme beim Empfang von Nachrichten hast, kannst du diesen Schritt überspringen und es später noch einmal versuchen.",
       "skip": "Überspringen",
-      "dismiss": "Zurückgehen"
+      "dismiss": "Zurück"
     }
   },
   "importExistingKey": {
@@ -1278,7 +1285,7 @@
     "bankAccount": {
       "header": "Ein Bankkonto einrichten",
       "bodyTitle": "Ein Bankkonto einrichten",
-      "description": "Gib die Details deines Bankkontos ein, um Geld zu überweisen. Deine Transaktionen werden durchgeführt von <0>{{providerName}}</0>. Wenn du auf \"Weiter\" klickst, erklärst du dich mit den <1>Allgemeinen</1> Geschäftsbedingungen und der <2>Datenschutzerklärung</2> einverstanden."
+      "description": "Gib die Details deines Bankkontos ein, um Guthaben zu überweisen. Deine Transaktionen werden durchgeführt von <0>{{providerName}}</0>. Wenn du auf \"Weiter\" klickst, erklärst du dich mit den <1>Allgemeinen Geschäftsbedingungen</1> und der <2>Datenschutzerklärung</2> einverstanden."
     },
     "continue": "Weiter"
   },
@@ -1286,9 +1293,9 @@
     "stepOne": "Schritt 1",
     "stepTwo": "Schritt 2",
     "title": "Verifiziere deine Identität",
-    "description": "Dieser Schritt dauert etwa 5 Minuten.",
-    "disclaimer": "Du nimmst zur Kenntnis und erklärst dich damit einverstanden, dass deine persönlichen Daten uns zur Verfügung gestellt und mit Dritten zu Überprüfungszwecken geteilt werden, wie in der <0>Datenschutzrichtlinie</0> angegeben",
-    "button": "ID-Prüfung einrichten"
+    "description": "Dieser Schritt dauert etwa fünf Minuten.",
+    "disclaimer": "Du bestätigst und erklärst dich damit einverstanden, dass deine persönlichen Daten uns zur Verfügung gestellt und mit Dritten zu Überprüfungszwecken geteilt werden, wie in der <0>Datenschutzerklärung</0> angegeben.",
+    "button": "Du bestätigst und erklärst dich damit einverstanden, dass deine persönlichen Daten uns zur Verfügung gestellt und mit Dritten zu Überprüfungszwecken geteilt werden, wie in der <0>Datenschutzerklärung</0> angegeben."
   },
   "fiatConnectReviewScreen": {
     "transactionDetails": "Transaktiondetails",

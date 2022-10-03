@@ -45,7 +45,7 @@ export function Avatar(props: Props) {
           defaultCountryCode={defaultCountryCode}
         />
       )}
-      {!e164NumberToShow && address && (
+      {!e164NumberToShow && address && recipient.name && (
         <Text style={[fontStyles.small, styles.contactName]} numberOfLines={1} ellipsizeMode="tail">
           {formatShortenedAddress(address)}
         </Text>
