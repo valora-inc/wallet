@@ -192,14 +192,13 @@ describe('NameAndPictureScreen', () => {
     expect(queryByText('skip')).toBeNull()
   })
 
-  it('renders skip button when mocked and skipping works', async () => {
+  it('renders skip button when mocked and skipping works', () => {
     // TODO replace route param with mock Statsig flag
     const { queryByText } = render(
       <Provider store={createMockStore()}>
         <MockedNavigator component={NameAndPicture} params={{ skipUsername: true }} />
       </Provider>
     )
-
     expect(queryByText('skip')).toBeTruthy()
     fireEvent.press(queryByText('skip')!)
     expect(navigate).toHaveBeenCalledWith(Screens.PincodeSet, expect.anything())

@@ -54,7 +54,6 @@ function NameAndPicture({ navigation, route }: Props) {
   const showGuidedOnboarding = useSelector(showGuidedOnboardingSelector)
   const createAccountCopyTestType = useSelector(createAccountCopyTestTypeSelector)
   const skipUsername = route.params?.skipUsername //TODO repalce with statsig variable
-
   useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => {
