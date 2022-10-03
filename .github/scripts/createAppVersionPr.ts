@@ -8,6 +8,7 @@ const VALORA_BOT_TOKEN = new ShellString(env.VALORA_BOT_TOKEN ?? '')
 // ensure that we are using ssh
 exec('git remote set-url origin git@github.com:valora-inc/wallet.git')
 
+echo("KATHY'S BRANCH")
 echo('Create version bump branch from main')
 exec(`git checkout -b ${branchName}`)
 
