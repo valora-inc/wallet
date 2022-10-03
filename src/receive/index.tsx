@@ -7,7 +7,7 @@ import { StyleSheet, View } from 'react-native'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
-import { nameSelector } from 'src/account/selectors'
+import { e164NumberSelector, nameSelector } from 'src/account/selectors'
 import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import AmountKeypad from 'src/components/AmountKeypad'
@@ -103,6 +103,7 @@ function ReceiveAmount(props: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const qrSvgRef = useRef<SVG>()
+  const phoneNumber = useSelector(e164NumberSelector)
   const [amount, setAmount] = useState('')
   const [rawAmount, setRawAmount] = useState('')
   const [usingLocalAmount, setUsingLocalAmount] = useState(true)
@@ -124,11 +125,10 @@ function ReceiveAmount(props: Props) {
   )
 
   const [qrContent, setQrContent] = useState<Partial<UriData>>({
-    address: account || '',
-    displayName: displayName || account || '',
-    currencyCode: localCurrencyCode,
+    address: account!,
+    displayName: displayName || account || undefined,
     amount: amount,
-    comment: '',
+    e164PhoneNumber: phoneNumber || undefined,
     token: tokenInfo.symbol,
   })
 
@@ -161,23 +161,10 @@ function ReceiveAmount(props: Props) {
   useEffect(() => {
     setQrContent({
       ...qrContent,
-      currencyCode: localCurrencyCode,
       amount: amount,
-      comment: '',
       token: tokenInfo.symbol,
     })
   }, [localCurrencyCode, amount, tokenInfo])
-
-  // const { onSend, onRequest } = useTransactionCallbacks({
-  //   recipient,
-  //   localAmount,
-  //   tokenAmount,
-  //   usdAmount,
-  //   inputIsInLocalCurrency: showInputInLocalAmount,
-  //   transferTokenAddress,
-  //   origin,
-  //   isFromScan: !!props.route.params?.isFromScan,
-  // })
 
   return (
     <SafeAreaView style={styles.container}>
@@ -190,7 +177,6 @@ function ReceiveAmount(props: Props) {
       <View style={styles.contentContainer}>
         <QRCode isForScanToSend={true} content={urlFromUriData(qrContent)} qrSvgRef={qrSvgRef} />
         <ReceiveAmountValue
-          isOutgoingPaymentRequest={!!props.route.params?.isOutgoingPaymentRequest}
           inputAmount={amount}
           tokenAmount={tokenAmount}
           usingLocalAmount={showInputInLocalAmount}
