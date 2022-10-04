@@ -4,8 +4,3 @@ export const shallShowAlternatePlaceholder = () => {
 export const shallSkipUsername = () => {
   return false
 }
-// default StatSigFlags
-// export default {
-//   shallShowAlternatePlaceholder,
-//   shallSkipUsername,
-// }

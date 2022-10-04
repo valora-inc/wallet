@@ -28,7 +28,7 @@ import { StackParamList } from 'src/navigator/types'
 import {
   shallShowAlternatePlaceholder,
   shallSkipUsername,
-} from 'src/onboarding/registration/MockedStatSigfeatureFlag'
+} from 'src/onboarding/registration/MockedStatSigFeatureFlag'
 import PictureInput from 'src/onboarding/registration/PictureInput'
 import { default as useSelector, default as useTypedSelector } from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
