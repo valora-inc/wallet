@@ -83,6 +83,10 @@ export const APP_BUNDLE_ID = Config.APP_BUNDLE_ID
 export const FIATCONNECT_NETWORK =
   DEFAULT_TESTNET === 'mainnet' ? Network.Mainnet : Network.Alfajores
 
+export const STATSIG_ENV = {
+  tier: DEFAULT_TESTNET === 'mainnet' ? 'production' : 'development',
+}
+
 // FEATURE FLAGS
 export const FIREBASE_ENABLED = stringToBoolean(Config.FIREBASE_ENABLED || 'true')
 export const SHOW_TESTNET_BANNER = stringToBoolean(Config.SHOW_TESTNET_BANNER || 'false')
@@ -91,6 +95,7 @@ export const SENTRY_ENABLED = stringToBoolean(Config.SENTRY_ENABLED || 'false')
 export const SUPERCHARGE_AVAILABLE_REWARDS_URL = Config.SUPERCHARGE_AVAILABLE_REWARDS_URL
 
 // SECRETS
+export const STATSIG_API_KEY = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'STATSIG_API_KEY')
 export const SEGMENT_API_KEY = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'SEGMENT_API_KEY')
 export const SENTRY_CLIENT_URL = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'SENTRY_CLIENT_URL')
 export const RECAPTCHA_SITE_KEY = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'RECAPTCHA_SITE_KEY')

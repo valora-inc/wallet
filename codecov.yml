@@ -11,6 +11,11 @@ coverage:
         target: 75% # the required coverage value
         threshold: 5% # the leniency in hitting the target
         base: auto
+    patch:
+      default:
+        target: 75% # the required coverage value
+        threshold: 5% # the leniency in hitting the target
+        base: auto
 
 parsers:
   gcov:

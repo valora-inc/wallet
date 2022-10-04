@@ -692,6 +692,7 @@
 				"${BUILT_PRODUCTS_DIR}/react-native-contacts/react_native_contacts.framework",
 				"${BUILT_PRODUCTS_DIR}/react-native-cookies/react_native_cookies.framework",
 				"${BUILT_PRODUCTS_DIR}/react-native-fast-crypto/react_native_fast_crypto.framework",
+				"${BUILT_PRODUCTS_DIR}/react-native-get-random-values/react_native_get_random_values.framework",
 				"${BUILT_PRODUCTS_DIR}/react-native-keep-awake/react_native_keep_awake.framework",
 				"${BUILT_PRODUCTS_DIR}/react-native-mail/react_native_mail.framework",
 				"${BUILT_PRODUCTS_DIR}/react-native-netinfo/react_native_netinfo.framework",
@@ -791,6 +792,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/react_native_contacts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/react_native_cookies.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/react_native_fast_crypto.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/react_native_get_random_values.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/react_native_keep_awake.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/react_native_mail.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/react_native_netinfo.framework",
@@ -1282,7 +1284,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 107;
+				CURRENT_PROJECT_VERSION = 108;
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64 ";
@@ -1301,7 +1303,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
-				MARKETING_VERSION = 1.42.0;
+				MARKETING_VERSION = 1.43.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -1328,7 +1330,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
-				CURRENT_PROJECT_VERSION = 107;
+				CURRENT_PROJECT_VERSION = 108;
 				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1341,7 +1343,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
-				MARKETING_VERSION = 1.42.0;
+				MARKETING_VERSION = 1.43.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
