@@ -101,7 +101,7 @@ function NameAndPicture({ navigation, route }: Props) {
         showSkipButton && (
           <TopBarTextButton
             title={t('skip')}
-            onPress={onPressSkip}
+            onPress={goToNextScreen}
             titleStyle={{ color: colors.goldDark }}
           />
         ),
@@ -109,6 +109,11 @@ function NameAndPicture({ navigation, route }: Props) {
   }, [navigation, choseToRestoreAccount, step, totalSteps, nameInput])
 
   const goToNextScreen = () => {
+    try {
+      Statsig.logEvent(StatsigEvents.ONBOARDING_NAME_STEP_COMPLETE)
+    } catch (error) {
+      Logger.warn('NameAndPicture', 'error logging Statsig event', error)
+    }
     if (recoveringFromStoreWipe) {
       navigate(Screens.ImportWallet)
     } else {
@@ -117,10 +122,6 @@ function NameAndPicture({ navigation, route }: Props) {
         showGuidedOnboarding,
       })
     }
-  }
-  const onPressSkip = () => {
-    // TODO additional anlytics
-    goToNextScreen()
   }
 
   const onPressContinue = () => {
@@ -138,11 +139,6 @@ function NameAndPicture({ navigation, route }: Props) {
       return
     }
 
-    try {
-      Statsig.logEvent(StatsigEvents.ONBOARDING_NAME_STEP_COMPLETE)
-    } catch (error) {
-      Logger.warn('NameAndPicture', 'error logging Statsig event', error)
-    }
     ValoraAnalytics.track(OnboardingEvents.name_and_picture_set, {
       includesPhoto: false,
       profilePictureSkipped: shouldSkipProfilePicture,
