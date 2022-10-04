@@ -227,18 +227,6 @@ describe('NameAndPictureScreen', () => {
     fireEvent.press(getByText('skip'))
     expect(AccountActions.setName).not.toHaveBeenCalled()
   })
-  it('saves empty name regardless of what is in the inputbox when skip is used', () => {
-    // TODO replace with mock Statsig flag
-    spiedSkipUsername.mockReturnValue(true)
-    const { getByText, getByTestId } = render(
-      <Provider store={createMockStore()}>
-        <MockedNavigator component={NameAndPicture} />
-      </Provider>
-    )
-    fireEvent.changeText(getByTestId('NameEntry'), 'Some Name')
-    fireEvent.press(getByText('skip'))
-    expect(AccountActions.setName).not.toHaveBeenCalled()
-  })
   it('shows alternate placeholder username', () => {
     // TODO replace with mock Statsig flag
     spiedShowAlternateNamePlaceholder.mockReturnValue(true)
