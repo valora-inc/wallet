@@ -452,6 +452,8 @@ PODS:
     - React-Core
   - react-native-flipper (0.127.0):
     - React-Core
+  - react-native-get-random-values (1.8.0):
+    - React-Core
   - react-native-keep-awake (4.0.0):
     - React-Core
   - react-native-mail (6.1.1):
@@ -559,7 +561,7 @@ PODS:
     - React-Core
     - RNAnalytics
     - Segment-Firebase (~> 2.7.7)
-  - RNCAsyncStorage (1.15.14):
+  - RNCAsyncStorage (1.17.10):
     - React-Core
   - RNCClipboard (1.2.3):
     - React-Core
@@ -567,7 +569,7 @@ PODS:
     - React-Core
   - RNCPicker (2.4.2):
     - React-Core
-  - RNDeviceInfo (8.3.1):
+  - RNDeviceInfo (10.2.0):
     - React-Core
   - RNExitApp (1.1.0):
     - React-Core
@@ -747,6 +749,7 @@ DEPENDENCIES:
   - "react-native-cookies (from `../node_modules/@react-native-cookies/cookies`)"
   - react-native-fast-crypto (from `../node_modules/react-native-fast-crypto`)
   - react-native-flipper (from `../node_modules/react-native-flipper`)
+  - react-native-get-random-values (from `../node_modules/react-native-get-random-values`)
   - react-native-keep-awake (from `../node_modules/react-native-keep-awake`)
   - react-native-mail (from `../node_modules/react-native-mail`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
@@ -912,6 +915,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-fast-crypto"
   react-native-flipper:
     :path: "../node_modules/react-native-flipper"
+  react-native-get-random-values:
+    :path: "../node_modules/react-native-get-random-values"
   react-native-keep-awake:
     :path: "../node_modules/react-native-keep-awake"
   react-native-mail:
@@ -1092,6 +1097,7 @@ SPEC CHECKSUMS:
   react-native-cookies: f54fcded06bb0cda05c11d86788020b43528a26c
   react-native-fast-crypto: db61bcb2d1224a180449b886f27426a67d7628c0
   react-native-flipper: b9e2e817604af8da0d5a9ba20a8516e780e30f3c
+  react-native-get-random-values: a6ea6a8a65dc93e96e24a11105b1a9c8cfe1d72a
   react-native-keep-awake: 6c078705f3fb2586963b13588d31148adc6bd128
   react-native-mail: 8fdcd3aef007c33a6877a18eb4cf7447a1d4ce4a
   react-native-netinfo: f3f52e6d92372003b78d5cafa3557797c7beee47
@@ -1119,11 +1125,11 @@ SPEC CHECKSUMS:
   RNAnalyticsIntegration-Adjust: 99f3f892818a2cb666f9ca6f1d35c3997560208b
   RNAnalyticsIntegration-CleverTap: 924d284c088c6008e7599c06dda472742de22c89
   RNAnalyticsIntegration-Firebase: 27eb53875cc0208cc64ec35f06fb0f9e3c012add
-  RNCAsyncStorage: ea6b5c280997b2b32a587793163b1f10e580c4f7
+  RNCAsyncStorage: 0c357f3156fcb16c8589ede67cc036330b6698ca
   RNCClipboard: 546484405eaa1c8a3eccce77b8c8871242e73b20
   RNCMaskedView: c298b644a10c0c142055b3ae24d83879ecb13ccd
   RNCPicker: 0250e95ad170569a96f5b0555cdd5e65b9084dca
-  RNDeviceInfo: 7b82d1467b87f7e74d1c7ba9439a9a57d0c68ee9
+  RNDeviceInfo: 8b83e99e290deaf1bab71673cc636776ef647b6f
   RNExitApp: 3ae738c65a8494df166dee74575f2504d0737a28
   RNFBApp: b8704b700f062ed0aa7bbca459b22dd47507a232
   RNFBAuth: 3236f64982a98f4b6cd33405261a7b2d4892f8b1
