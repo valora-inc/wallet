@@ -1,5 +1,6 @@
 import { act, fireEvent, render, within } from '@testing-library/react-native'
 import { FetchMock } from 'jest-fetch-mock/types'
+import MockDate from 'mockdate'
 import React from 'react'
 import * as Keychain from 'react-native-keychain'
 import { Provider } from 'react-redux'
@@ -47,6 +48,7 @@ describe('VerificationCodeInputScreen', () => {
     jest.clearAllMocks()
     mockFetch.resetMocks()
     store.clearActions()
+    MockDate.reset()
   })
 
   it('displays the correct components and requests for the verification code on mount', async () => {
@@ -59,6 +61,7 @@ describe('VerificationCodeInputScreen', () => {
     expect(getByText('phoneVerificationInput.help')).toBeTruthy()
     expect(getByTestId('PhoneVerificationCode')).toBeTruthy()
     expect(getByTestId('PhoneVerificationInputHelpDialog').props.visible).toBe(false)
+    expect(getByTestId('PhoneVerificationResendSmsBtn')).toBeDisabled()
 
     await act(flushMicrotasksQueue)
 
@@ -148,6 +151,36 @@ describe('VerificationCodeInputScreen', () => {
 
     jest.runOnlyPendingTimers()
     expect(navigate).not.toHaveBeenCalled()
+  })
+
+  it('makes a request to resend the sms code and resets the timer', async () => {
+    const dateNow = Date.now()
+    MockDate.set(dateNow)
+    const { getByTestId } = renderComponent()
+
+    await act(async () => {
+      await act(flushMicrotasksQueue)
+      MockDate.set(dateNow + 30000) // 30 seconds, matching default resend delay time in ResendButtonWithDelay component
+      jest.advanceTimersByTime(1000) // 1 second, to update the timer
+    })
+
+    expect(mockFetch).toHaveBeenCalledTimes(1)
+
+    fireEvent.press(getByTestId('PhoneVerificationResendSmsBtn'))
+
+    await act(flushMicrotasksQueue)
+
+    expect(mockFetch).toHaveBeenCalledTimes(2)
+    expect(mockFetch).toHaveBeenNthCalledWith(2, `${networkConfig.verifyPhoneNumberUrl}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: 'Valora 0xabc:someSignedMessage',
+      },
+      body: `{"phoneNumber":"${e164Number}","clientPlatform":"android","clientVersion":"0.0.1"}`,
+    })
+
+    expect(getByTestId('PhoneVerificationResendSmsBtn')).toBeDisabled()
   })
 
   it('shows the help dialog', async () => {
