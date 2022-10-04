@@ -1,7 +1,7 @@
 import { StackScreenProps, useHeaderHeight } from '@react-navigation/stack'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, Text } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { PhoneVerificationEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -9,6 +9,7 @@ import BackButton from 'src/components/BackButton'
 import CodeInput, { CodeInputStatus } from 'src/components/CodeInput'
 import Dialog from 'src/components/Dialog'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
+import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import { PHONE_NUMBER_VERIFICATION_CODE_LENGTH } from 'src/config'
 import { HeaderTitleWithSubtitle } from 'src/navigator/Headers'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
@@ -19,6 +20,7 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { PhoneNumberVerificationStatus, useVerifyPhoneNumber } from 'src/verify/hooks'
+import ResendButtonWithDelay from 'src/verify/ResendButtonWithDelay'
 
 function VerificationCodeInputScreen({
   route,
@@ -30,10 +32,15 @@ function VerificationCodeInputScreen({
 
   const { t } = useTranslation()
   const headerHeight = useHeaderHeight()
-  const { setSmsCode, verificationStatus } = useVerifyPhoneNumber(
+  const { resendSms, setSmsCode, verificationStatus } = useVerifyPhoneNumber(
     route.params.e164Number,
     route.params.countryCallingCode
   )
+
+  const onResendSms = () => {
+    ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_resend_message)
+    resendSms()
+  }
 
   const onPressSkip = () => {
     ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_input_help_skip)
@@ -115,9 +122,13 @@ function VerificationCodeInputScreen({
             !!content && content.length === PHONE_NUMBER_VERIFICATION_CODE_LENGTH
           }
           testID="PhoneVerificationCode"
-          style={{ marginHorizontal: Spacing.Thick24 }}
+          style={styles.codeInput}
         />
       </KeyboardAwareScrollView>
+      <View style={styles.resendButtonContainer}>
+        <ResendButtonWithDelay onPress={onResendSms} />
+      </View>
+      <KeyboardSpacer />
       <Dialog
         testID="PhoneVerificationInputHelpDialog"
         title={t('phoneVerificationInput.helpDialog.title')}
@@ -138,8 +149,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.onboardingBackground,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   scrollContainer: {
     flex: 1,
@@ -149,6 +158,13 @@ const styles = StyleSheet.create({
   body: {
     ...fontStyles.regular,
     marginBottom: Spacing.Thick24,
+  },
+  codeInput: {
+    marginHorizontal: Spacing.Thick24,
+  },
+  resendButtonContainer: {
+    padding: Spacing.Thick24,
+    alignItems: 'center',
   },
 })
 
