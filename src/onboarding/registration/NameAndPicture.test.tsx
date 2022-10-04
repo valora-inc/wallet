@@ -16,8 +16,8 @@ import { mockNavigation } from 'test/values'
 
 expect.extend({ toBeDisabled })
 jest.spyOn(AccountActions, 'setName')
-const spiedSkipUsername = jest.spyOn(StatSigFlags, 'shallSkipUsername')
-const spiedShowAlternateNamePlaceholder = jest.spyOn(StatSigFlags, 'shallShowAlternatePlaceholder')
+const spiedSkipUsername = jest.spyOn(StatSigFlags, 'shouldSkipUsername')
+const spiedShowAlternateNamePlaceholder = jest.spyOn(StatSigFlags, 'shouldShowAlternatePlaceholder')
 const mockScreenProps = getMockStackScreenProps(Screens.NameAndPicture)
 
 describe('NameAndPictureScreen', () => {
@@ -192,8 +192,6 @@ describe('NameAndPictureScreen', () => {
   })
 
   it('does not render skip button when configured so', () => {
-    // TODO replace route param with mock Statsig flag
-    // StatSigFlags.shallSkipUsername = jest.fn().mockReturnValue(true)
     const { queryByText } = render(
       <Provider store={createMockStore()}>
         <MockedNavigator component={NameAndPicture} />
@@ -203,7 +201,6 @@ describe('NameAndPictureScreen', () => {
   })
 
   it('renders skip button when mocked and skipping works', () => {
-    // TODO replace with mock Statsig flag
     spiedSkipUsername.mockReturnValue(true)
     const { queryByText } = render(
       <Provider store={createMockStore()}>
@@ -216,7 +213,6 @@ describe('NameAndPictureScreen', () => {
   })
 
   it('saves empty name regardless of what is in the inputbox when skip is used', () => {
-    // TODO replace with mock Statsig flag
     spiedSkipUsername.mockReturnValue(true)
     const { getByText, getByTestId } = render(
       <Provider store={createMockStore()}>
@@ -228,7 +224,6 @@ describe('NameAndPictureScreen', () => {
     expect(AccountActions.setName).not.toHaveBeenCalled()
   })
   it('shows alternate placeholder username', () => {
-    // TODO replace with mock Statsig flag
     spiedShowAlternateNamePlaceholder.mockReturnValue(true)
     const { getByTestId } = render(
       <Provider store={createMockStore()}>

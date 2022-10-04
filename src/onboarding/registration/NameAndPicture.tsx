@@ -26,8 +26,8 @@ import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import {
-  shallShowAlternatePlaceholder,
-  shallSkipUsername,
+  shouldShowAlternatePlaceholder,
+  shouldSkipUsername,
 } from 'src/onboarding/registration/MockedStatSigFeatureFlag'
 import PictureInput from 'src/onboarding/registration/PictureInput'
 import { default as useSelector, default as useTypedSelector } from 'src/redux/useSelector'
@@ -54,8 +54,8 @@ function NameAndPicture({ navigation, route }: Props) {
   const asyncKomenciReadiness = useAsyncKomenciReadiness()
   const showGuidedOnboarding = useSelector(showGuidedOnboardingSelector)
   const createAccountCopyTestType = useSelector(createAccountCopyTestTypeSelector)
-  const skipUsername = shallSkipUsername() //TODO repalce with statsig variable
-  const showAlternatePlaceholder = shallShowAlternatePlaceholder() //TODO repalce with statsig variable
+  const skipUsername = shouldSkipUsername() //TODO repalce with statsig variable
+  const showAlternatePlaceholder = shouldShowAlternatePlaceholder() //TODO repalce with statsig variable
   let placeholderUsername = t('fullNamePlaceholder')
   if (showGuidedOnboarding) {
     placeholderUsername = t('fullNameOrPseudonymPlaceholder')

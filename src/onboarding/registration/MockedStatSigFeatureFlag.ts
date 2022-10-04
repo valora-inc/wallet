@@ -1,6 +1,6 @@
-export const shallShowAlternatePlaceholder = () => {
+export const shouldShowAlternatePlaceholder = () => {
   return false
 }
-export const shallSkipUsername = () => {
+export const shouldSkipUsername = () => {
   return false
 }
