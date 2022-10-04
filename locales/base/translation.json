@@ -1443,8 +1443,8 @@
     "swapErrorModal": {
       "title": "We couldn’t complete this transaction.",
       "body": "Please wait and try again later or contact our support team for help.",
-      "action1": "Dismiss",
-      "action2": "Contact Support"
+      "swapRestart": "Dismiss",
+      "contactSupport": "Contact Support"
     }
   },
   "inviteModal": {

@@ -3,9 +3,10 @@ import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, BackHandler, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
-import Button from 'src/components/Button'
+import Button, { BtnTypes } from 'src/components/Button'
 import Dialog from 'src/components/Dialog'
 import Checkmark from 'src/icons/Checkmark'
+import Times from 'src/icons/Times'
 import { noHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -64,9 +65,9 @@ export function SwapPending() {
           <Dialog
             isVisible={true}
             title={t('swapCompleteScreen.swapErrorModal.title')}
-            actionText={t('swapCompleteScreen.swapErrorModal.action1')}
+            actionText={t('swapCompleteScreen.swapErrorModal.swapRestart')}
             actionPress={navigateToSwapStart}
-            secondaryActionText={t('swapCompleteScreen.swapErrorModal.action2')}
+            secondaryActionText={t('swapCompleteScreen.swapErrorModal.contactSupport')}
             secondaryActionPress={navigateToSupport}
             testID="ErrorModal"
           >
@@ -93,8 +94,49 @@ export function SwapPending() {
         return (
           <>
             <Text style={styles.text}>{t('swapCompleteScreen.swapSuccess')}</Text>
-            <Button text={t('swapCompleteScreen.swapAgain')} onPress={navigateToSwapStart} />
+            <Button
+              type={BtnTypes.SECONDARY}
+              text={t('swapCompleteScreen.swapAgain')}
+              onPress={navigateToSwapStart}
+            />
           </>
+        )
+    }
+  }, [swapState])
+
+  const swapIcon = useMemo(() => {
+    switch (swapState) {
+      default:
+      case SwapState.USER_INPUT:
+      case SwapState.START:
+      case SwapState.APPROVE:
+      case SwapState.EXECUTE:
+        return (
+          <ActivityIndicator
+            size="large"
+            color={colors.greenBrand}
+            testID="SwapPending/loadingIcon"
+            style={styles.activityIndicator}
+          />
+        )
+      case SwapState.ERROR:
+      case SwapState.PRICE_CHANGE:
+        return (
+          <View
+            testID="SwapPending/errorIcon"
+            style={[styles.iconContainer, { backgroundColor: colors.warning }]}
+          >
+            <Times color={colors.light} />
+          </View>
+        )
+      case SwapState.COMPLETE:
+        return (
+          <View
+            testID="SwapPending/completeIcon"
+            style={[styles.iconContainer, { backgroundColor: colors.greenUI }]}
+          >
+            <Checkmark color={colors.light} />
+          </View>
         )
     }
   }, [swapState])
@@ -109,16 +151,7 @@ export function SwapPending() {
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <View style={styles.contentContainer}>
-        {![SwapState.COMPLETE, SwapState.USER_INPUT].includes(swapState) ? (
-          <ActivityIndicator
-            size="large"
-            color={colors.greenBrand}
-            testID="SwapPending/loading"
-            style={styles.activityIndicator}
-          />
-        ) : (
-          <Checkmark height={32} />
-        )}
+        {swapIcon}
         {swapDisplay}
       </View>
     </SafeAreaView>
@@ -136,7 +169,13 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   activityIndicator: {
-    marginBottom: 30,
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 16,
   },
   text: {
     ...fontStyles.h2,
@@ -144,6 +183,14 @@ const styles = StyleSheet.create({
   },
   subText: {
     ...fontStyles.regular,
+  },
+  iconContainer: {
+    width: 44,
+    height: 44,
+    marginBottom: 16,
+    borderRadius: 100,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 })
 
