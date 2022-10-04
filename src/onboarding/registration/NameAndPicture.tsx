@@ -1,5 +1,5 @@
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useLayoutEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -7,7 +7,9 @@ import { useDispatch } from 'react-redux'
 import { setName, setPicture } from 'src/account/actions'
 import { nameSelector, recoveringFromStoreWipeSelector } from 'src/account/selectors'
 import { hideAlert, showError } from 'src/alert/actions'
+import { ExperimentParams } from 'src/analytics/constants'
 import { OnboardingEvents } from 'src/analytics/Events'
+import { StatsigEvents, StatsigLayers } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import {
@@ -30,12 +32,36 @@ import { default as useSelector, default as useTypedSelector } from 'src/redux/u
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { saveProfilePicture } from 'src/utils/image'
+import Logger from 'src/utils/Logger'
 import { useAsyncKomenciReadiness } from 'src/verify/hooks'
+import { Statsig } from 'statsig-react-native'
 
 type Props = StackScreenProps<StackParamList, Screens.NameAndPicture>
 
+const getExperimentParams = () => {
+  try {
+    const statsigLayer = Statsig.getLayer(StatsigLayers.NAME_AND_PICTURE_SCREEN)
+    const showSkipButton = statsigLayer.get(
+      ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].showSkipButton.paramName,
+      ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].showSkipButton.defaultValue
+    )
+    const nameType = statsigLayer.get(
+      ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].nameType.paramName,
+      ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].nameType.defaultValue
+    )
+    return [showSkipButton, nameType]
+  } catch (error) {
+    Logger.warn('NameAndPicture', 'error getting Statsig experiment', error)
+  }
+  return [
+    ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].showSkipButton.defaultValue,
+    ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].nameType.defaultValue,
+  ]
+}
+
 function NameAndPicture({ navigation, route }: Props) {
   const [nameInput, setNameInput] = useState('')
+  const [showSkipButton] = useMemo(getExperimentParams, [])
   const cachedName = useTypedSelector(nameSelector)
   const picture = useTypedSelector((state) => state.account.pictureUri)
   const choseToRestoreAccount = useTypedSelector((state) => state.account.choseToRestoreAccount)
@@ -50,7 +76,6 @@ function NameAndPicture({ navigation, route }: Props) {
   const asyncKomenciReadiness = useAsyncKomenciReadiness()
   const showGuidedOnboarding = useSelector(showGuidedOnboardingSelector)
   const createAccountCopyTestType = useSelector(createAccountCopyTestTypeSelector)
-  const skipUsername = route.params?.skipUsername //TODO repalce with statsig variable
   useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => {
@@ -73,7 +98,7 @@ function NameAndPicture({ navigation, route }: Props) {
         )
       },
       headerRight: () =>
-        skipUsername && (
+        showSkipButton && (
           <TopBarTextButton
             title={t('skip')}
             onPress={onPressSkip}
@@ -113,6 +138,11 @@ function NameAndPicture({ navigation, route }: Props) {
       return
     }
 
+    try {
+      Statsig.logEvent(StatsigEvents.ONBOARDING_NAME_STEP_COMPLETE)
+    } catch (error) {
+      Logger.warn('NameAndPicture', 'error logging Statsig event', error)
+    }
     ValoraAnalytics.track(OnboardingEvents.name_and_picture_set, {
       includesPhoto: false,
       profilePictureSkipped: shouldSkipProfilePicture,

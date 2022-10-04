@@ -13,6 +13,13 @@ import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockNavigation } from 'test/values'
 
+let mockStatsigGet = jest.fn().mockReturnValue(null) // default implementation
+jest.mock('statsig-react-native', () => ({
+  Statsig: {
+    getLayer: jest.fn().mockImplementation(() => ({ get: mockStatsigGet })),
+  },
+}))
+
 expect.extend({ toBeDisabled })
 jest.spyOn(AccountActions, 'setName')
 const mockScreenProps = getMockStackScreenProps(Screens.NameAndPicture)
@@ -183,20 +190,20 @@ describe('NameAndPictureScreen', () => {
     expect(getByText('nameAndPicGuideCopyContent')).toBeTruthy()
   })
   it('does not render skip button when configured so', () => {
-    // TODO replace route param with mock Statsig flag
+    mockStatsigGet = jest.fn().mockReturnValue(false)
     const { queryByText } = render(
       <Provider store={createMockStore()}>
-        <MockedNavigator component={NameAndPicture} params={{ skipUsername: false }} />
+        <MockedNavigator component={NameAndPicture} />
       </Provider>
     )
     expect(queryByText('skip')).toBeNull()
   })
 
   it('renders skip button when mocked and skipping works', () => {
-    // TODO replace route param with mock Statsig flag
+    mockStatsigGet = jest.fn().mockReturnValue(true)
     const { queryByText } = render(
       <Provider store={createMockStore()}>
-        <MockedNavigator component={NameAndPicture} params={{ skipUsername: true }} />
+        <MockedNavigator component={NameAndPicture} />
       </Provider>
     )
     expect(queryByText('skip')).toBeTruthy()
@@ -205,10 +212,10 @@ describe('NameAndPictureScreen', () => {
   })
 
   it('saves empty name regardless of what is in the inputbox when skip is used', () => {
-    // TODO replace route param with mock Statsig flag
+    mockStatsigGet = jest.fn().mockReturnValue(true)
     const { getByText, getByTestId } = render(
       <Provider store={createMockStore()}>
-        <MockedNavigator component={NameAndPicture} params={{ skipUsername: true }} />
+        <MockedNavigator component={NameAndPicture} />
       </Provider>
     )
     fireEvent.changeText(getByTestId('NameEntry'), 'Some Name')
