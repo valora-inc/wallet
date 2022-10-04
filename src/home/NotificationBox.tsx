@@ -13,7 +13,11 @@ import { HomeEvents, RewardsEvents } from 'src/analytics/Events'
 import { ScrollDirection } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { openUrl } from 'src/app/actions'
-import { rewardsEnabledSelector, verificationPossibleSelector } from 'src/app/selectors'
+import {
+  numberVerifiedCentrallySelector,
+  rewardsEnabledSelector,
+  verificationPossibleSelector,
+} from 'src/app/selectors'
 import Pagination from 'src/components/Pagination'
 import SimpleMessagingCard, {
   Props as SimpleMessagingCardProps,
@@ -91,7 +95,10 @@ function useSimpleActions() {
     dismissedStartSupercharging,
   } = useSelector((state) => state.account)
 
-  const numberVerified = useSelector((state) => state.app.numberVerified)
+  const numberVerifiedDecentrally = useSelector((state) => state.app.numberVerified)
+  const numberVerifiedCentrally = useSelector(numberVerifiedCentrallySelector)
+  const numberVerified = numberVerifiedCentrally || numberVerifiedDecentrally
+
   const goldEducationCompleted = useSelector((state) => state.goldToken.educationCompleted)
 
   const extraNotifications = useSelector(getExtraNotifications)
