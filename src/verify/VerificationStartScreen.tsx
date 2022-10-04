@@ -16,6 +16,7 @@ import BackButton from 'src/components/BackButton'
 import Button, { BtnTypes } from 'src/components/Button'
 import Dialog from 'src/components/Dialog'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
+import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import PhoneNumberInput from 'src/components/PhoneNumberInput'
 import TextButton from 'src/components/TextButton'
 import i18n from 'src/i18n'
@@ -178,7 +179,7 @@ function VerificationStartScreen({
     <SafeAreaView style={styles.container} edges={['bottom']}>
       <KeyboardAwareScrollView
         style={[styles.scrollContainer, headerHeight ? { marginTop: headerHeight } : undefined]}
-        contentContainerStyle={styles.scrollContentContainer}
+        keyboardShouldPersistTaps="always"
       >
         <Text style={styles.header} testID="PhoneVerificationHeader">
           {t('phoneVerificationScreen.title')}
@@ -200,16 +201,17 @@ function VerificationStartScreen({
           disabled={!phoneNumberInfo.isValidNumber}
           testID="PhoneVerificationContinue"
         />
-        <View style={styles.bottomButtonContainer}>
-          <TextButton
-            testID="PhoneVerificationLearnMore"
-            style={styles.learnMore}
-            onPress={onPressLearnMore}
-          >
-            {t('phoneVerificationScreen.learnMore.buttonLabel')}
-          </TextButton>
-        </View>
       </KeyboardAwareScrollView>
+      <View style={styles.bottomButtonContainer}>
+        <TextButton
+          testID="PhoneVerificationLearnMore"
+          style={styles.learnMore}
+          onPress={onPressLearnMore}
+        >
+          {t('phoneVerificationScreen.learnMore.buttonLabel')}
+        </TextButton>
+      </View>
+      <KeyboardSpacer />
       <Dialog
         title={t('phoneVerificationScreen.skip.title')}
         isVisible={showSkipDialog}
@@ -240,15 +242,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.onboardingBackground,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   scrollContainer: {
-    width: '100%',
-  },
-  scrollContentContainer: {
-    flexGrow: 1,
+    flex: 1,
     padding: Spacing.Thick24,
+    width: '100%',
   },
   header: {
     ...fontStyles.h2,
@@ -265,8 +263,7 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.Thick24,
   },
   bottomButtonContainer: {
-    flex: 1,
-    justifyContent: 'flex-end',
+    padding: Spacing.Thick24,
     alignItems: 'center',
   },
   learnMore: {

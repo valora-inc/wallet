@@ -1,22 +1,15 @@
 import { StackScreenProps, useHeaderHeight } from '@react-navigation/stack'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import {
-  Keyboard,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableWithoutFeedback,
-  View,
-} from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { PhoneVerificationEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
 import CodeInput, { CodeInputStatus } from 'src/components/CodeInput'
 import Dialog from 'src/components/Dialog'
+import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
+import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import { PHONE_NUMBER_VERIFICATION_CODE_LENGTH } from 'src/config'
 import { HeaderTitleWithSubtitle } from 'src/navigator/Headers'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
@@ -113,39 +106,29 @@ function VerificationCodeInputScreen({
 
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>
-      <KeyboardAvoidingView
-        style={[
-          styles.keyboardAvoidingContainer,
-          headerHeight ? { marginTop: headerHeight } : undefined,
-        ]}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      <KeyboardAwareScrollView
+        style={[styles.scrollContainer, headerHeight ? { marginTop: headerHeight } : undefined]}
+        keyboardShouldPersistTaps="always"
       >
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <ScrollView
-            style={styles.scrollContainer}
-            contentContainerStyle={styles.contentContainer}
-            keyboardShouldPersistTaps="always"
-          >
-            <Text style={styles.body}>
-              {t('phoneVerificationInput.description', { phoneNumber: route.params.e164Number })}
-            </Text>
-            <CodeInput
-              status={codeInputStatus}
-              inputValue={code}
-              inputPlaceholder={t('phoneVerificationInput.codeInputPlaceholder')}
-              onInputChange={setCode}
-              shouldShowClipboard={(content) =>
-                !!content && content.length === PHONE_NUMBER_VERIFICATION_CODE_LENGTH
-              }
-              testID="PhoneVerificationCode"
-              style={styles.codeInput}
-            />
-            <View style={styles.bottomButtonContainer}>
-              <ResendButtonWithDelay onPress={onResendSms} />
-            </View>
-          </ScrollView>
-        </TouchableWithoutFeedback>
-      </KeyboardAvoidingView>
+        <Text style={styles.body}>
+          {t('phoneVerificationInput.description', { phoneNumber: route.params.e164Number })}
+        </Text>
+        <CodeInput
+          status={codeInputStatus}
+          inputValue={code}
+          inputPlaceholder={t('phoneVerificationInput.codeInputPlaceholder')}
+          onInputChange={setCode}
+          shouldShowClipboard={(content) =>
+            !!content && content.length === PHONE_NUMBER_VERIFICATION_CODE_LENGTH
+          }
+          testID="PhoneVerificationCode"
+          style={styles.codeInput}
+        />
+      </KeyboardAwareScrollView>
+      <View style={styles.resendButtonContainer}>
+        <ResendButtonWithDelay onPress={onResendSms} />
+      </View>
+      <KeyboardSpacer />
       <Dialog
         testID="PhoneVerificationInputHelpDialog"
         title={t('phoneVerificationInput.helpDialog.title')}
@@ -167,16 +150,10 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.onboardingBackground,
   },
-  keyboardAvoidingContainer: {
-    flex: 1,
-    width: '100%',
-  },
   scrollContainer: {
     flex: 1,
     padding: Spacing.Thick24,
-  },
-  contentContainer: {
-    flexGrow: 1,
+    width: '100%',
   },
   body: {
     ...fontStyles.regular,
@@ -185,10 +162,8 @@ const styles = StyleSheet.create({
   codeInput: {
     marginHorizontal: Spacing.Thick24,
   },
-  bottomButtonContainer: {
-    flex: 1,
-    width: '100%',
-    justifyContent: 'flex-end',
+  resendButtonContainer: {
+    padding: Spacing.Thick24,
     alignItems: 'center',
   },
 })
