@@ -8,7 +8,6 @@ import { setName, setPicture } from 'src/account/actions'
 import { nameSelector, recoveringFromStoreWipeSelector } from 'src/account/selectors'
 import { hideAlert, showError } from 'src/alert/actions'
 import { OnboardingEvents } from 'src/analytics/Events'
-import { StatsigEvents } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import {
@@ -31,9 +30,7 @@ import { default as useSelector, default as useTypedSelector } from 'src/redux/u
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { saveProfilePicture } from 'src/utils/image'
-import Logger from 'src/utils/Logger'
 import { useAsyncKomenciReadiness } from 'src/verify/hooks'
-import { Statsig } from 'statsig-react-native'
 
 type Props = StackScreenProps<StackParamList, Screens.NameAndPicture>
 
@@ -116,11 +113,6 @@ function NameAndPicture({ navigation, route }: Props) {
       return
     }
 
-    try {
-      Statsig.logEvent(StatsigEvents.ONBOARDING_NAME_STEP_COMPLETE)
-    } catch (error) {
-      Logger.warn('NameAndPicture', 'error logging Statsig event', error)
-    }
     ValoraAnalytics.track(OnboardingEvents.name_and_picture_set, {
       includesPhoto: false,
       profilePictureSkipped: shouldSkipProfilePicture,

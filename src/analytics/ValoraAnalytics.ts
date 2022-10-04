@@ -108,7 +108,7 @@ class ValoraAnalytics {
         : null
 
       await Statsig.initialize(STATSIG_API_KEY, stasigUser, {
-        overrideStableID: uniqueID,
+        overrideStableID: uniqueID, //Received an error if Stable ID not manually specified
         environment: STATSIG_ENV,
       })
     } catch (error) {

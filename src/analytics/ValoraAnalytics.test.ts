@@ -138,7 +138,7 @@ describe('ValoraAnalytics', () => {
   beforeEach(() => {
     jest.clearAllMocks()
     jest.unmock('src/analytics/ValoraAnalytics')
-    Statsig.initialize = jest.fn().mockImplementation(() => Promise.resolve())
+    Statsig.initialize = jest.fn()
     jest.isolateModules(() => {
       ValoraAnalytics = require('src/analytics/ValoraAnalytics').default
     })
