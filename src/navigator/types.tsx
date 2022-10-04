@@ -191,11 +191,7 @@ export type StackParamList = {
       }
     | undefined
   [Screens.IncomingPaymentRequestListScreen]: undefined
-  [Screens.NameAndPicture]:
-    | {
-        skipUsername?: boolean
-      }
-    | undefined
+  [Screens.NameAndPicture]: undefined
   [Screens.EnableBiometry]: undefined
   [Screens.Language]:
     | {

@@ -25,6 +25,10 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
+import {
+  shallShowAlternatePlaceholder,
+  shallSkipUsername,
+} from 'src/onboarding/registration/MockedStatSigfeatureFlag'
 import PictureInput from 'src/onboarding/registration/PictureInput'
 import { default as useSelector, default as useTypedSelector } from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
@@ -50,8 +54,8 @@ function NameAndPicture({ navigation, route }: Props) {
   const asyncKomenciReadiness = useAsyncKomenciReadiness()
   const showGuidedOnboarding = useSelector(showGuidedOnboardingSelector)
   const createAccountCopyTestType = useSelector(createAccountCopyTestTypeSelector)
-  const skipUsername = route.params?.skipUsername //TODO repalce with statsig variable
-  const showAlternatePlaceholder = true
+  const skipUsername = shallSkipUsername() //TODO repalce with statsig variable
+  const showAlternatePlaceholder = shallShowAlternatePlaceholder() //TODO repalce with statsig variable
   let placeholderUsername = t('fullNamePlaceholder')
   if (showGuidedOnboarding) {
     placeholderUsername = t('fullNameOrPseudonymPlaceholder')

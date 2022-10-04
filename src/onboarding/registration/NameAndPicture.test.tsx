@@ -8,6 +8,7 @@ import * as AccountActions from 'src/account/actions'
 import { CreateAccountCopyTestType } from 'src/app/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import * as StatSigFlags from 'src/onboarding/registration/MockedStatSigFeatureFlag'
 import NameAndPicture from 'src/onboarding/registration/NameAndPicture'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
@@ -15,9 +16,16 @@ import { mockNavigation } from 'test/values'
 
 expect.extend({ toBeDisabled })
 jest.spyOn(AccountActions, 'setName')
+const spiedSkipUsername = jest.spyOn(StatSigFlags, 'shallSkipUsername')
+const spiedShowAlternateNamePlaceholder = jest.spyOn(StatSigFlags, 'shallShowAlternatePlaceholder')
 const mockScreenProps = getMockStackScreenProps(Screens.NameAndPicture)
 
 describe('NameAndPictureScreen', () => {
+  afterEach(() => {
+    spiedSkipUsername.mockClear()
+    spiedShowAlternateNamePlaceholder.mockClear()
+  })
+
   it('disable button when no name', () => {
     const store = createMockStore()
     const { getByTestId } = render(
@@ -182,21 +190,24 @@ describe('NameAndPictureScreen', () => {
     expect(getByText('nameAndPicGuideCopyTitle')).toBeTruthy()
     expect(getByText('nameAndPicGuideCopyContent')).toBeTruthy()
   })
+
   it('does not render skip button when configured so', () => {
     // TODO replace route param with mock Statsig flag
+    // StatSigFlags.shallSkipUsername = jest.fn().mockReturnValue(true)
     const { queryByText } = render(
       <Provider store={createMockStore()}>
-        <MockedNavigator component={NameAndPicture} params={{ skipUsername: false }} />
+        <MockedNavigator component={NameAndPicture} />
       </Provider>
     )
     expect(queryByText('skip')).toBeNull()
   })
 
   it('renders skip button when mocked and skipping works', () => {
-    // TODO replace route param with mock Statsig flag
+    // TODO replace with mock Statsig flag
+    spiedSkipUsername.mockReturnValue(true)
     const { queryByText } = render(
       <Provider store={createMockStore()}>
-        <MockedNavigator component={NameAndPicture} params={{ skipUsername: true }} />
+        <MockedNavigator component={NameAndPicture} />
       </Provider>
     )
     expect(queryByText('skip')).toBeTruthy()
@@ -205,10 +216,11 @@ describe('NameAndPictureScreen', () => {
   })
 
   it('saves empty name regardless of what is in the inputbox when skip is used', () => {
-    // TODO replace route param with mock Statsig flag
+    // TODO replace with mock Statsig flag
+    spiedSkipUsername.mockReturnValue(true)
     const { getByText, getByTestId } = render(
       <Provider store={createMockStore()}>
-        <MockedNavigator component={NameAndPicture} params={{ skipUsername: true }} />
+        <MockedNavigator component={NameAndPicture} />
       </Provider>
     )
     fireEvent.changeText(getByTestId('NameEntry'), 'Some Name')
@@ -216,10 +228,11 @@ describe('NameAndPictureScreen', () => {
     expect(AccountActions.setName).not.toHaveBeenCalled()
   })
   it('saves empty name regardless of what is in the inputbox when skip is used', () => {
-    // TODO replace route param with mock Statsig flag
+    // TODO replace with mock Statsig flag
+    spiedSkipUsername.mockReturnValue(true)
     const { getByText, getByTestId } = render(
       <Provider store={createMockStore()}>
-        <MockedNavigator component={NameAndPicture} params={{ skipUsername: true }} />
+        <MockedNavigator component={NameAndPicture} />
       </Provider>
     )
     fireEvent.changeText(getByTestId('NameEntry'), 'Some Name')
@@ -227,6 +240,8 @@ describe('NameAndPictureScreen', () => {
     expect(AccountActions.setName).not.toHaveBeenCalled()
   })
   it('shows alternate placeholder username', () => {
+    // TODO replace with mock Statsig flag
+    spiedShowAlternateNamePlaceholder.mockReturnValue(true)
     const { getByTestId } = render(
       <Provider store={createMockStore()}>
         <NameAndPicture {...mockScreenProps} />
