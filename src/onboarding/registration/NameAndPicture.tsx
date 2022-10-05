@@ -153,8 +153,8 @@ function NameAndPicture({ navigation, route }: Props) {
       ? t('fullNameOrPseudonymPlaceholder')
       : t('fullNamePlaceholder')
     switch (nameType) {
-      case OnboardingNameType.FirstAndLast:
-        return defaultPlaceholder
+      case OnboardingNameType.FirstAndLast: // StatSig default
+        return defaultPlaceholder // default on StatSig allows Firebase flags to take over
       case OnboardingNameType.FirstAndLastOrPseudonym:
         return t('fullNameOrPseudonymPlaceholder')
       case OnboardingNameType.CryptoAlterEgo:
