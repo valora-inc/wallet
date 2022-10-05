@@ -17,6 +17,7 @@ const mockStatsigGet = jest.fn()
 jest.mock('statsig-react-native', () => ({
   Statsig: {
     getLayer: jest.fn().mockImplementation(() => ({ get: mockStatsigGet })),
+    logEvent: jest.fn(),
   },
 }))
 
