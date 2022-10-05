@@ -36,7 +36,7 @@ export function SwapPending() {
     navigate(Screens.SupportContact)
   }
 
-  const swapDisplay = useMemo(() => {
+  const SwapDisplay = useMemo(() => {
     switch (swapState) {
       default:
       case SwapState.START:
@@ -104,7 +104,7 @@ export function SwapPending() {
     }
   }, [swapState])
 
-  const swapIcon = useMemo(() => {
+  const SwapIcon = useMemo(() => {
     switch (swapState) {
       default:
       case SwapState.USER_INPUT:
@@ -151,8 +151,8 @@ export function SwapPending() {
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <View style={styles.contentContainer}>
-        {swapIcon}
-        {swapDisplay}
+        {SwapIcon}
+        {SwapDisplay}
       </View>
     </SafeAreaView>
   )
