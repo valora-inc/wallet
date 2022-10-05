@@ -111,6 +111,5 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
 }
 
 export function* swapSaga() {
-  Logger.debug(TAG, 'Initializing swap sagas')
   yield takeLatest(swapStart.type, swapSubmitSaga)
 }
