@@ -26,7 +26,7 @@ import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import {
-  shouldShowAlternatePlaceholder,
+  getOnboardingNameType,
   shouldSkipUsername,
 } from 'src/onboarding/registration/MockedStatSigFeatureFlag'
 import PictureInput from 'src/onboarding/registration/PictureInput'
@@ -37,6 +37,12 @@ import { saveProfilePicture } from 'src/utils/image'
 import { useAsyncKomenciReadiness } from 'src/verify/hooks'
 
 type Props = StackScreenProps<StackParamList, Screens.NameAndPicture>
+
+enum OnboardingNameType {
+  FirstAndLast = 'first_and_last',
+  FirstAndLastOrPseudonym = 'first_and_last_or_pseudonym',
+  CryptoAlterEgo = 'crypto_alter_ego',
+}
 
 function NameAndPicture({ navigation, route }: Props) {
   const [nameInput, setNameInput] = useState('')
@@ -55,14 +61,7 @@ function NameAndPicture({ navigation, route }: Props) {
   const showGuidedOnboarding = useSelector(showGuidedOnboardingSelector)
   const createAccountCopyTestType = useSelector(createAccountCopyTestTypeSelector)
   const skipUsername = shouldSkipUsername() //TODO repalce with statsig variable
-  const showAlternatePlaceholder = shouldShowAlternatePlaceholder() //TODO repalce with statsig variable
-  let placeholderUsername = t('fullNamePlaceholder')
-  if (showGuidedOnboarding) {
-    placeholderUsername = t('fullNameOrPseudonymPlaceholder')
-  }
-  if (showAlternatePlaceholder) {
-    placeholderUsername = 'MyCryptoAlterEgo' // not localized
-  }
+  const nameType = getOnboardingNameType() as OnboardingNameType //TODO repalce with statsig variable
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -148,6 +147,22 @@ function NameAndPicture({ navigation, route }: Props) {
       }
     }
   }
+  const getUsernamePlaceholder = (nameType: OnboardingNameType) => {
+    if (showGuidedOnboarding) {
+      // Firebase trusted-guide onboarding experiment
+      nameType = OnboardingNameType.FirstAndLastOrPseudonym
+    }
+    switch (nameType) {
+      case OnboardingNameType.FirstAndLast:
+        return t('fullNamePlaceholder')
+      case OnboardingNameType.FirstAndLastOrPseudonym:
+        return t('fullNameOrPseudonymPlaceholder')
+      case OnboardingNameType.CryptoAlterEgo:
+        return 'MyCryptoAlterEgo' // not localized
+      default:
+        return t('fullNamePlaceholder')
+    }
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -172,7 +187,7 @@ function NameAndPicture({ navigation, route }: Props) {
           onChangeText={setNameInput}
           value={nameInput}
           enablesReturnKeyAutomatically={true}
-          placeholder={placeholderUsername}
+          placeholder={getUsernamePlaceholder(nameType)}
           testID={'NameEntry'}
           multiline={false}
         />

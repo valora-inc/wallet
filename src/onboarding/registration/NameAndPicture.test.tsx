@@ -17,13 +17,13 @@ import { mockNavigation } from 'test/values'
 expect.extend({ toBeDisabled })
 jest.spyOn(AccountActions, 'setName')
 const spiedSkipUsername = jest.spyOn(StatSigFlags, 'shouldSkipUsername')
-const spiedShowAlternateNamePlaceholder = jest.spyOn(StatSigFlags, 'shouldShowAlternatePlaceholder')
+const spiedGetOnboardingNameType = jest.spyOn(StatSigFlags, 'getOnboardingNameType')
 const mockScreenProps = getMockStackScreenProps(Screens.NameAndPicture)
 
 describe('NameAndPictureScreen', () => {
   afterEach(() => {
     spiedSkipUsername.mockClear()
-    spiedShowAlternateNamePlaceholder.mockClear()
+    spiedGetOnboardingNameType.mockClear()
   })
 
   it('disable button when no name', () => {
@@ -224,7 +224,7 @@ describe('NameAndPictureScreen', () => {
     expect(AccountActions.setName).not.toHaveBeenCalled()
   })
   it('shows alternate placeholder username', () => {
-    spiedShowAlternateNamePlaceholder.mockReturnValue(true)
+    spiedGetOnboardingNameType.mockReturnValue('crypto_alter_ego')
     const { getByTestId } = render(
       <Provider store={createMockStore()}>
         <NameAndPicture {...mockScreenProps} />
