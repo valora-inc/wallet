@@ -681,10 +681,11 @@ describe('Redux persist migrations', () => {
     const migratedSchema = migrations[81](oldSchema)
 
     const expectedSchema: any = _.cloneDeep(oldSchema)
-    expectedSchema.swap = {}
-    expectedSchema.swap.swapState = 'quote'
-    expectedSchema.swap.swapInfo = null
-    expectedSchema.swap.swapUserInput = null
+    expectedSchema.swap = {
+      swapState: 'quote',
+      swapInfo: null,
+      swapUserInput: null,
+    }
 
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
