@@ -29,6 +29,11 @@ jobs:
     env:
       BASH_ENV: ~/.profile
     name: Android
+    strategy:
+      max-parallel: 2
+      fail-fast: false
+      matrix:
+        android-api-level: [29, 30, 31]
     runs-on: android-e2e-group
     steps:
       - uses: actions/checkout@v2
@@ -52,6 +57,7 @@ jobs:
           export ANDROID_SDK_ROOT=$HOME/android-tools &&
           export PATH=$ANDROID_SDK_ROOT/platform-tools:$PATH &&
           yarn detox test
+          --device-name Pixel_API_${{ matrix.android-api-level }}_AOSP_x86_64
           --configuration android.release
           --artifacts-location e2e/artifacts
           --take-screenshots=failing
