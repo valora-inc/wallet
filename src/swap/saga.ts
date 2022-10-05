@@ -68,7 +68,8 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
     // Approve transaction
     yield put(swapApprove())
     Logger.debug(TAG, `Starting to swap approval for address: ${walletAddress}`)
-    sendSwapTransaction(
+    yield call(
+      sendSwapTransaction,
       { ...action.payload.approveTransaction },
       newTransactionContext(TAG, 'Swap/Approve'),
       kit,
@@ -102,7 +103,8 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
     // Execute transaction
     yield put(swapExecute())
     Logger.debug(TAG, `Starting to swap execute for address: ${walletAddress}`)
-    sendSwapTransaction(
+    yield call(
+      sendSwapTransaction,
       { ...responseJson.validatedSwapTransaction },
       newTransactionContext(TAG, 'Swap/Execute'),
       kit,
