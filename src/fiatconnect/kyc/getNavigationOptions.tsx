@@ -10,8 +10,6 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import { KycStatus as FiatConnectKycStatus } from '@fiatconnect/fiatconnect-types'
 import { Screens } from 'src/navigator/Screens'
-import { Currency } from 'src/utils/currencies'
-import { convertCurrencyToLocalAmount } from 'src/localCurrency/convert'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import colors from 'src/styles/colors'
@@ -19,11 +17,9 @@ import colors from 'src/styles/colors'
 const getNavigationOptions = ({
   fiatConnectKycStatus,
   quote,
-  exchangeRates,
 }: {
   fiatConnectKycStatus: FiatConnectKycStatus
   quote: FiatConnectQuote
-  exchangeRates: { [token in Currency]: string | null }
 }) => {
   const onPressSupport = () => {
     ValoraAnalytics.track(FiatExchangeEvents.cico_fc_kyc_status_contact_support, {
@@ -47,12 +43,7 @@ const getNavigationOptions = ({
       selectedCrypto: quote.getCryptoType(),
       amount: {
         crypto: Number(quote.getCryptoAmount()),
-        fiat: Number(
-          convertCurrencyToLocalAmount(
-            quote.getCryptoAmount(),
-            exchangeRates[quote.getCryptoType()]
-          )
-        ),
+        fiat: Number(quote.getFiatAmount()),
       },
     })
   }

@@ -1,6 +1,6 @@
 import { KycStatus as FiatConnectKycStatus } from '@fiatconnect/fiatconnect-types'
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { useMemo } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -11,8 +11,6 @@ import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import getNavigationOptions from 'src/fiatconnect/kyc/getNavigationOptions'
 import { kycTryAgainLoadingSelector } from 'src/fiatconnect/selectors'
 import { kycTryAgain } from 'src/fiatconnect/slice'
-import { convertCurrencyToLocalAmount } from 'src/localCurrency/convert'
-import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -27,16 +25,12 @@ function KycExpired({ route, navigation }: Props) {
   const dispatch = useDispatch()
   const tryAgainLoading = useSelector(kycTryAgainLoadingSelector)
 
-  const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)
-  useMemo(() => {
-    navigation.setOptions(
-      getNavigationOptions({
-        fiatConnectKycStatus: FiatConnectKycStatus.KycExpired,
-        quote,
-        exchangeRates,
-      })
-    )
-  }, [exchangeRates])
+  navigation.setOptions(
+    getNavigationOptions({
+      fiatConnectKycStatus: FiatConnectKycStatus.KycExpired,
+      quote,
+    })
+  )
 
   const { t } = useTranslation()
 
@@ -59,19 +53,14 @@ function KycExpired({ route, navigation }: Props) {
       selectedCrypto: quote.getCryptoType(),
       amount: {
         crypto: Number(quote.getCryptoAmount()),
-        fiat: Number(
-          convertCurrencyToLocalAmount(
-            quote.getCryptoAmount(),
-            exchangeRates[quote.getCryptoType()]
-          )
-        ),
+        fiat: Number(quote.getFiatAmount()),
       },
     })
   }
 
   if (tryAgainLoading) {
     return (
-      <View style={styles.activityIndicatorContainer}>
+      <View testID="spinnerContainer" style={styles.activityIndicatorContainer}>
         <ActivityIndicator size="large" color={colors.greenBrand} />
       </View>
     )

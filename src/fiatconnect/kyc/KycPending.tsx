@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { StackScreenProps } from '@react-navigation/stack'
@@ -15,28 +15,22 @@ import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import ClockIcon from 'src/icons/ClockIcon'
 import CircledIcon from 'src/icons/CircledIcon'
 import BankIcon from 'src/icons/BankIcon'
-import { useSelector } from 'react-redux'
-import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
 import getNavigationOptions from 'src/fiatconnect/kyc/getNavigationOptions'
 
 type Props = StackScreenProps<StackParamList, Screens.KycPending>
 
 function KycPending({ route, navigation }: Props) {
-  const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)
-  useMemo(() => {
-    navigation.setOptions(
-      getNavigationOptions({
-        fiatConnectKycStatus: FiatConnectKycStatus.KycPending,
-        quote: route.params.quote,
-        exchangeRates,
-      })
-    )
-  }, [exchangeRates])
+  navigation.setOptions(
+    getNavigationOptions({
+      fiatConnectKycStatus: FiatConnectKycStatus.KycPending,
+      quote: route.params.quote,
+    })
+  )
 
   const { t } = useTranslation()
 
   const onPressClose = () => {
-    ValoraAnalytics.track(FiatExchangeEvents.cico_fc_kyc_status_contact_support, {
+    ValoraAnalytics.track(FiatExchangeEvents.cico_fc_kyc_status_close, {
       provider: route.params.quote.getProviderId(),
       flow: route.params.flow,
       fiatConnectKycStatus: FiatConnectKycStatus.KycPending,

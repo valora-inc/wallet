@@ -1139,31 +1139,17 @@ interface FiatExchangeEventsProperties {
     flow: CICOFlow
     txHash?: string
   }
-  [FiatExchangeEvents.cico_fc_kyc_status_contact_support]: {
-    provider: string
-    flow: CICOFlow
-    fiatConnectKycStatus: FiatConnectKycStatus
-  }
-  [FiatExchangeEvents.cico_fc_kyc_status_back]: {
-    provider: string
-    flow: CICOFlow
-    fiatConnectKycStatus: FiatConnectKycStatus
-  }
-  [FiatExchangeEvents.cico_fc_kyc_status_close]: {
-    provider: string
-    flow: CICOFlow
-    fiatConnectKycStatus: FiatConnectKycStatus
-  }
-  [FiatExchangeEvents.cico_fc_kyc_status_try_again]: {
-    provider: string
-    flow: CICOFlow
-    fiatConnectKycStatus: FiatConnectKycStatus
-  }
-  [FiatExchangeEvents.cico_fc_kyc_status_switch_method]: {
-    provider: string
-    flow: CICOFlow
-    fiatConnectKycStatus: FiatConnectKycStatus
-  }
+  [FiatExchangeEvents.cico_fc_kyc_status_contact_support]: FiatConnectKycProperties
+  [FiatExchangeEvents.cico_fc_kyc_status_back]: FiatConnectKycProperties
+  [FiatExchangeEvents.cico_fc_kyc_status_close]: FiatConnectKycProperties
+  [FiatExchangeEvents.cico_fc_kyc_status_try_again]: FiatConnectKycProperties
+  [FiatExchangeEvents.cico_fc_kyc_status_switch_method]: FiatConnectKycProperties
+}
+
+interface FiatConnectKycProperties {
+  provider: string
+  flow: CICOFlow
+  fiatConnectKycStatus: FiatConnectKycStatus
 }
 
 interface ContractKitEventsProperties {
