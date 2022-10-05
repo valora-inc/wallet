@@ -3,7 +3,7 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { swapReset, SwapState } from 'src/swap/slice'
+import { SwapState } from 'src/swap/slice'
 import SwapPending from 'src/swap/SwapPending'
 import { createMockStore } from 'test/utils'
 
@@ -91,7 +91,6 @@ describe('SwapPending', () => {
           swapState: SwapState.ERROR,
         },
       })
-      store.dispatch = jest.fn()
       const { getByText } = render(
         <Provider store={store}>
           <SwapPending />
@@ -99,7 +98,6 @@ describe('SwapPending', () => {
       )
 
       fireEvent.press(getByText('swapCompleteScreen.swapErrorModal.swapRestart'))
-      expect(store.dispatch).toHaveBeenCalledWith(swapReset())
       expect(navigate).toHaveBeenCalledWith(Screens.SwapScreen)
     })
 
@@ -109,7 +107,6 @@ describe('SwapPending', () => {
           swapState: SwapState.ERROR,
         },
       })
-      store.dispatch = jest.fn()
       const { getByText } = render(
         <Provider store={store}>
           <SwapPending />
@@ -117,7 +114,6 @@ describe('SwapPending', () => {
       )
 
       fireEvent.press(getByText('swapCompleteScreen.swapErrorModal.contactSupport'))
-      expect(store.dispatch).toHaveBeenCalledWith(swapReset())
       expect(navigate).toHaveBeenCalledWith(Screens.SwapScreen)
       expect(navigate).toHaveBeenCalledWith(Screens.SupportContact)
     })
@@ -181,14 +177,12 @@ describe('SwapPending', () => {
         swapState: SwapState.COMPLETE,
       },
     })
-    store.dispatch = jest.fn()
     const { getByText } = render(
       <Provider store={store}>
         <SwapPending />
       </Provider>
     )
     fireEvent.press(getByText('swapCompleteScreen.swapAgain'))
-    expect(store.dispatch).toHaveBeenCalledWith(swapReset())
     expect(navigate).toHaveBeenCalledWith(Screens.SwapScreen)
   })
 })

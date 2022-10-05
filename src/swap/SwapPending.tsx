@@ -2,7 +2,7 @@ import React, { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, BackHandler, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import Button, { BtnTypes } from 'src/components/Button'
 import Dialog from 'src/components/Dialog'
 import Checkmark from 'src/icons/Checkmark'
@@ -14,15 +14,13 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { swapStateSelector } from 'src/swap/selectors'
-import { swapReset, SwapState } from 'src/swap/slice'
+import { SwapState } from 'src/swap/slice'
 
 export function SwapPending() {
   const swapState = useSelector(swapStateSelector)
-  const dispatch = useDispatch()
   const { t } = useTranslation()
 
   const navigateToSwapStart = () => {
-    dispatch(swapReset())
     navigate(Screens.SwapScreen)
   }
 
@@ -31,7 +29,6 @@ export function SwapPending() {
   }
 
   const navigateToSupport = () => {
-    dispatch(swapReset())
     navigate(Screens.SwapScreen)
     navigate(Screens.SupportContact)
   }
