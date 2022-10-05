@@ -14,6 +14,14 @@ import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockNavigation } from 'test/values'
 
+const mockStatsigGet = jest.fn()
+jest.mock('statsig-react-native', () => ({
+  Statsig: {
+    getLayer: jest.fn().mockImplementation(() => ({ get: mockStatsigGet })),
+    logEvent: jest.fn(),
+  },
+}))
+
 expect.extend({ toBeDisabled })
 jest.spyOn(AccountActions, 'setName')
 const spiedSkipUsername = jest.spyOn(StatSigFlags, 'shouldSkipUsername')
@@ -192,6 +200,7 @@ describe('NameAndPictureScreen', () => {
   })
 
   it('does not render skip button when configured so', () => {
+    mockStatsigGet.mockReturnValue(false)
     const { queryByText } = render(
       <Provider store={createMockStore()}>
         <MockedNavigator component={NameAndPicture} />
@@ -201,7 +210,7 @@ describe('NameAndPictureScreen', () => {
   })
 
   it('renders skip button when mocked and skipping works', () => {
-    spiedSkipUsername.mockReturnValue(true)
+    mockStatsigGet.mockReturnValue(true)
     const { queryByText } = render(
       <Provider store={createMockStore()}>
         <MockedNavigator component={NameAndPicture} />
@@ -213,7 +222,7 @@ describe('NameAndPictureScreen', () => {
   })
 
   it('saves empty name regardless of what is in the inputbox when skip is used', () => {
-    spiedSkipUsername.mockReturnValue(true)
+    mockStatsigGet.mockReturnValue(true)
     const { getByText, getByTestId } = render(
       <Provider store={createMockStore()}>
         <MockedNavigator component={NameAndPicture} />
