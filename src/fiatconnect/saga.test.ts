@@ -175,6 +175,7 @@ describe('Fiatconnect saga', () => {
           fiatAccountSchema: normalizedQuote.getFiatAccountSchema(),
         }
       )
+      expect(navigate).toBeCalledTimes(1)
       expect(navigate).toHaveBeenCalledWith(Screens.FiatConnectReview, {
         normalizedQuote: normalizedQuote,
         flow: normalizedQuote.flow,
@@ -304,6 +305,7 @@ describe('Fiatconnect saga', () => {
           fiatAccountSchema: normalizedQuoteKyc.getFiatAccountSchema(),
         }
       )
+      expect(navigate).toBeCalledTimes(1)
       expect(navigate).toHaveBeenCalledWith(Screens.FiatConnectReview, {
         normalizedQuote: normalizedQuoteKyc,
         flow: normalizedQuoteKyc.flow,
@@ -363,6 +365,7 @@ describe('Fiatconnect saga', () => {
           fiatAccountSchema: normalizedQuoteKyc.getFiatAccountSchema(),
         }
       )
+      expect(navigate).toBeCalledTimes(1)
       expect(navigate).toHaveBeenCalledWith(Screens.KycDenied, {
         quote: normalizedQuoteKyc,
         flow: normalizedQuoteKyc.flow,
@@ -422,6 +425,7 @@ describe('Fiatconnect saga', () => {
           fiatAccountSchema: normalizedQuoteKyc.getFiatAccountSchema(),
         }
       )
+      expect(navigate).toBeCalledTimes(1)
       expect(navigate).toHaveBeenCalledWith(Screens.KycExpired, {
         quote: normalizedQuoteKyc,
         flow: normalizedQuoteKyc.flow,
@@ -480,6 +484,7 @@ describe('Fiatconnect saga', () => {
           fiatAccountSchema: normalizedQuoteKyc.getFiatAccountSchema(),
         }
       )
+      expect(navigate).toBeCalledTimes(1)
       expect(navigate).toHaveBeenCalledWith(Screens.KycPending, {
         quote: normalizedQuoteKyc,
         flow: normalizedQuoteKyc.flow,
@@ -529,6 +534,66 @@ describe('Fiatconnect saga', () => {
           fiatAccountSchema: normalizedQuoteKyc.getFiatAccountSchema(),
         }
       )
+      expect(navigate).toBeCalledTimes(1)
+      expect(navigate).toHaveBeenCalledWith(Screens.KycPending, {
+        quote: normalizedQuoteKyc,
+        flow: normalizedQuoteKyc.flow,
+      })
+    })
+    it('successfully submits account and navigates to pending screen when KYC is required but unexpected status is returned', async () => {
+      mockAddFiatAccount.mockResolvedValueOnce(Result.ok(mockObfuscatedAccount))
+      await expectSaga(
+        handleSubmitFiatAccount,
+        submitFiatAccount({
+          flow: normalizedQuoteKyc.flow,
+          quote: normalizedQuoteKyc,
+          fiatAccountData: { random: 'data' },
+        })
+      )
+        .provide([
+          [matches.call.fn(getFiatConnectClient), mockFcClient],
+          { call: provideDelay },
+          [
+            matches.call.fn(getKycStatus),
+            {
+              providerId: normalizedQuoteKyc.quote.provider.id,
+              persona: PersonaKycStatus.Approved,
+              kycStatus: {
+                [KycSchema.PersonalDataAndDocuments]: 'bad-status!',
+              },
+            },
+          ],
+          { call: provideDelay },
+        ])
+        .put(
+          showMessage(
+            i18n.t('fiatDetailsScreen.addFiatAccountSuccess', {
+              provider: normalizedQuoteKyc.getProviderName(),
+            })
+          )
+        )
+        .put(
+          fiatAccountUsed({
+            providerId: normalizedQuoteKyc.getProviderId(),
+            fiatAccountId: mockObfuscatedAccount.fiatAccountId,
+            fiatAccountType: mockObfuscatedAccount.fiatAccountType,
+            flow: normalizedQuoteKyc.flow,
+            cryptoType: normalizedQuoteKyc.getCryptoType(),
+            fiatType: normalizedQuoteKyc.getFiatType(),
+          })
+        )
+        .put(submitFiatAccountCompleted())
+        .run()
+      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+        FiatExchangeEvents.cico_fiat_details_success,
+        {
+          flow: normalizedQuoteKyc.flow,
+          provider: normalizedQuoteKyc.getProviderId(),
+          fiatAccountSchema: normalizedQuoteKyc.getFiatAccountSchema(),
+        }
+      )
+      expect(navigate).toBeCalledTimes(1)
       expect(navigate).toHaveBeenCalledWith(Screens.KycPending, {
         quote: normalizedQuoteKyc,
         flow: normalizedQuoteKyc.flow,
