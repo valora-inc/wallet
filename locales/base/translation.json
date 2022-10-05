@@ -798,7 +798,9 @@
       "skip": "Skip",
       "dismiss": "Go back"
     },
-    "verificationFailure": "Oops! Something went wrong, please try again later."
+    "verificationFailure": "Oops! Something went wrong, please try again later.",
+    "resendButtonNotYetAvailable": "Resend available in {{secondsRemaining}} second(s)",
+    "resendButton": "Resend text message"
   },
   "importExistingKey": {
     "explanation": "Your Recovery Phrase is a 24-word phrase that you wrote down and saved when you set up your account. Please enter it here to restore your account.",
