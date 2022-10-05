@@ -68,7 +68,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
 
     // Query the execute swap endpoint
     const amountType =
-      action.payload.userInput.updatedField === Field.FROM ? 'buyAmount' : 'sellAmount'
+      action.payload.userInput.updatedField === Field.TO ? 'buyAmount' : 'sellAmount'
     const amount = action.payload.unvalidatedSwapTransaction[amountType]
     const params = {
       buyToken: action.payload.unvalidatedSwapTransaction.buyTokenAddress,
