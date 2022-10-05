@@ -148,19 +148,19 @@ function NameAndPicture({ navigation, route }: Props) {
     }
   }
   const getUsernamePlaceholder = (nameType: OnboardingNameType) => {
-    if (showGuidedOnboarding) {
-      // Firebase trusted-guide onboarding experiment
-      nameType = OnboardingNameType.FirstAndLastOrPseudonym
-    }
+    // Firebase trusted-guide onboarding experiment
+    const defaultPlaceholder = showGuidedOnboarding
+      ? t('fullNameOrPseudonymPlaceholder')
+      : t('fullNamePlaceholder')
     switch (nameType) {
       case OnboardingNameType.FirstAndLast:
-        return t('fullNamePlaceholder')
+        return defaultPlaceholder
       case OnboardingNameType.FirstAndLastOrPseudonym:
         return t('fullNameOrPseudonymPlaceholder')
       case OnboardingNameType.CryptoAlterEgo:
         return 'MyCryptoAlterEgo' // not localized
       default:
-        return t('fullNamePlaceholder')
+        return defaultPlaceholder
     }
   }
 
