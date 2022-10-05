@@ -109,11 +109,7 @@ function NameAndPicture({ navigation, route }: Props) {
   }, [navigation, choseToRestoreAccount, step, totalSteps, nameInput])
 
   const goToNextScreen = () => {
-    try {
-      Statsig.logEvent(StatsigEvents.ONBOARDING_NAME_STEP_COMPLETE)
-    } catch (error) {
-      Logger.warn('NameAndPicture', 'error logging Statsig event', error)
-    }
+    Statsig.logEvent(StatsigEvents.ONBOARDING_NAME_STEP_COMPLETE)
     if (recoveringFromStoreWipe) {
       navigate(Screens.ImportWallet)
     } else {

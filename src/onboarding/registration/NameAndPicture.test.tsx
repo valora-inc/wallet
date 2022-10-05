@@ -13,7 +13,7 @@ import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockNavigation } from 'test/values'
 
-let mockStatsigGet = jest.fn().mockReturnValue(null) // default implementation
+const mockStatsigGet = jest.fn()
 jest.mock('statsig-react-native', () => ({
   Statsig: {
     getLayer: jest.fn().mockImplementation(() => ({ get: mockStatsigGet })),
@@ -190,7 +190,7 @@ describe('NameAndPictureScreen', () => {
     expect(getByText('nameAndPicGuideCopyContent')).toBeTruthy()
   })
   it('does not render skip button when configured so', () => {
-    mockStatsigGet = jest.fn().mockReturnValue(false)
+    mockStatsigGet.mockReturnValue(false)
     const { queryByText } = render(
       <Provider store={createMockStore()}>
         <MockedNavigator component={NameAndPicture} />
@@ -200,7 +200,7 @@ describe('NameAndPictureScreen', () => {
   })
 
   it('renders skip button when mocked and skipping works', () => {
-    mockStatsigGet = jest.fn().mockReturnValue(true)
+    mockStatsigGet.mockReturnValue(true)
     const { queryByText } = render(
       <Provider store={createMockStore()}>
         <MockedNavigator component={NameAndPicture} />
@@ -212,7 +212,7 @@ describe('NameAndPictureScreen', () => {
   })
 
   it('saves empty name regardless of what is in the inputbox when skip is used', () => {
-    mockStatsigGet = jest.fn().mockReturnValue(true)
+    mockStatsigGet.mockReturnValue(true)
     const { getByText, getByTestId } = render(
       <Provider store={createMockStore()}>
         <MockedNavigator component={NameAndPicture} />
