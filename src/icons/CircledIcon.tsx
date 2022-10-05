@@ -8,7 +8,7 @@ interface Props {
   style?: StyleProp<ViewStyle>
 }
 
-export default class CheckmarkCircle extends React.PureComponent<Props> {
+export default class CircledIcon extends React.PureComponent<Props> {
   static defaultProps = {
     backgroundColor: colors.greenUI,
     radius: 50,
@@ -24,7 +24,7 @@ export default class CheckmarkCircle extends React.PureComponent<Props> {
             width: this.props.radius,
             borderRadius: this.props.radius,
           },
-          styles.checkmarkContainer,
+          styles.container,
           this.props.style,
         ]}
       >
@@ -35,7 +35,7 @@ export default class CheckmarkCircle extends React.PureComponent<Props> {
 }
 
 const styles = StyleSheet.create({
-  checkmarkContainer: {
+  container: {
     justifyContent: 'center',
     alignItems: 'center',
   },

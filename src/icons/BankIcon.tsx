@@ -8,7 +8,7 @@ interface Props {
   color?: string
 }
 
-export default class ClockIcon extends React.PureComponent<Props> {
+export default class BankIcon extends React.PureComponent<Props> {
   static defaultProps = {
     height: 32,
     width: 32,
