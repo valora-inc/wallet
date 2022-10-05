@@ -34,7 +34,7 @@ const mockSwap = {
       gas: '59480',
     },
     userInput: {
-      updatedField: 'FROM',
+      updatedField: 'TO',
     },
     unvalidatedSwapTransaction: {
       buyAmount: '10000000000000000',
