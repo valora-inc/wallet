@@ -598,6 +598,8 @@ We try to minimise the differences between running Valora in different modes and
 
 We have a script to [check for vulnerabilities](scripts/ci_check_vulnerabilities.sh) in our dependencies.
 
+The script reports all vulnerabilities found; compare its output with [yarn-audit-known-issues](/yarn-audit-known-issues) to see which ones are new.
+
 In case vulnerabilities are reported, check to see if they apply to production and if they have fixes available.
 
 If they apply to production, start a discussion in our [#on-call](https://valora-app.slack.com/archives/C02N3AR2P2S) channel.
