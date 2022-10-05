@@ -18,7 +18,7 @@ import { FiatExchangeEvents } from 'src/analytics/Events'
 jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/fiatconnect/kyc/getNavigationOptions')
 
-describe('KycDenied', () => {
+describe('KycPending', () => {
   const mockStore = (overrides: any = {}) => {
     const store = createMockStore({
       fiatConnect: {
