@@ -16,7 +16,7 @@ import {
 } from 'src/swap/slice'
 import { Field, SwapInfo, SwapTransaction } from 'src/swap/types'
 import { sendTransaction } from 'src/transactions/send'
-import { newTransactionContext } from 'src/transactions/types'
+import { newTransactionContext, TransactionContext } from 'src/transactions/types'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import Logger from 'src/utils/Logger'
 import { getContractKit } from 'src/web3/contracts'
@@ -28,6 +28,19 @@ const TAG = 'swap/saga'
 
 function getPercentageDifference(price1: number, price2: number) {
   return (Math.abs(price1 - price2) / ((price1 + price2) / 2)) * 100
+}
+
+async function sendSwapTransaction(
+  rawTx: CeloTx,
+  txContext: TransactionContext,
+  kit: ContractKit,
+  normalizer: TxParamsNormalizer,
+  walletAddress: string
+) {
+  applyChainIdWorkaround(rawTx, await kit.connection.chainId())
+  const tx: CeloTx = (normalizer.populate.bind(normalizer), rawTx)
+  const txo = buildTxo(kit, tx)
+  sendTransaction(txo, walletAddress, txContext)
 }
 
 export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
@@ -55,15 +68,12 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
     // Approve transaction
     yield put(swapApprove())
     Logger.debug(TAG, `Starting to swap approval for address: ${walletAddress}`)
-    const rawApproveTx = { ...action.payload.approveTransaction, from: walletAddress }
-    applyChainIdWorkaround(rawApproveTx, yield call([kit.connection, 'chainId']))
-    const approveTx: CeloTx = yield call(normalizer.populate.bind(normalizer), rawApproveTx)
-    const approveTxo = buildTxo(kit, approveTx)
-    yield call(
-      sendTransaction,
-      approveTxo,
-      walletAddress,
-      newTransactionContext(TAG, 'Swap/Approve')
+    sendSwapTransaction(
+      { ...action.payload.approveTransaction },
+      newTransactionContext(TAG, 'Swap/Approve'),
+      kit,
+      normalizer,
+      walletAddress
     )
 
     // Query the execute swap endpoint
@@ -92,17 +102,13 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
     // Execute transaction
     yield put(swapExecute())
     Logger.debug(TAG, `Starting to swap execute for address: ${walletAddress}`)
-    const rawExecuteTx = responseJson.validatedSwapTransaction
-    applyChainIdWorkaround(rawExecuteTx, yield call([kit.connection, 'chainId']))
-    const executeTx: CeloTx = yield call(normalizer.populate.bind(normalizer), rawExecuteTx)
-    const executeTxo = buildTxo(kit, executeTx)
-    yield call(
-      sendTransaction,
-      executeTxo,
-      walletAddress,
-      newTransactionContext(TAG, 'Swap/Execute')
+    sendSwapTransaction(
+      { ...responseJson.validatedSwapTransaction },
+      newTransactionContext(TAG, 'Swap/Execute'),
+      kit,
+      normalizer,
+      walletAddress
     )
-
     yield put(swapSuccess())
   } catch (error) {
     Logger.error(TAG, 'Error while swapping', error)
