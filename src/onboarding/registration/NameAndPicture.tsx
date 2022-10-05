@@ -175,6 +175,12 @@ function NameAndPicture({ navigation, route }: Props) {
           showLoading={asyncKomenciReadiness.loading}
         />
       </ScrollView>
+      <Button
+        onPress={onPressContinue}
+        text={t('generateUsername')}
+        size={BtnSizes.MEDIUM}
+        type={BtnTypes.ONBOARDING_SECONDARY}
+      />
       <KeyboardSpacer />
     </SafeAreaView>
   )
