@@ -26,7 +26,7 @@ import { applyChainIdWorkaround, buildTxo } from 'src/web3/utils'
 
 const TAG = 'swap/saga'
 
-function getPriceDiff(price1: number, price2: number) {
+function getPercentageDifference(price1: number, price2: number) {
   return (Math.abs(price1 - price2) / ((price1 + price2) / 2)) * 100
 }
 
@@ -38,7 +38,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
     // Check that our guaranteedPrice is within 2%, maxSwapSlippagePercentage, of of the price
     const maxSlippagePercent: number = yield select(maxSwapSlippagePercentageSelector)
     const priceDiff: number = yield call(
-      getPriceDiff,
+      getPercentageDifference,
       +action.payload.unvalidatedSwapTransaction.price,
       +action.payload.unvalidatedSwapTransaction.guaranteedPrice
     )
