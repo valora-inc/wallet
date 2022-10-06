@@ -33,6 +33,12 @@ interface FillData {
 }
 
 interface Order {
+  type: number
+  source: string
+  makerToken: string
+  takeToken: string
+  makerAmount: string
+  takerAmount: string
   fill: Fill
   fillData: FillData
 }
