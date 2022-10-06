@@ -1433,6 +1433,7 @@
   "swapCompleteScreen": {
     "swapPending": "Swap Pending",
     "swapSuccess": "Swap Successful!",
+    "swapError": "Swap Error",
     "exchangeRateSubtext": "Finding the best exchange rate...",
     "approvingSubtext": "Approving funds...",
     "completingSubtext": "Completing swap...",
