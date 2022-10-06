@@ -798,7 +798,9 @@
       "skip": "Ignorer",
       "dismiss": "Retour"
     },
-    "verificationFailure": "Une erreur s'est produite, veuillez réessayer plus tard."
+    "verificationFailure": "Une erreur s'est produite, veuillez réessayer plus tard.",
+    "resendButtonNotYetAvailable": "Renvoi disponible dans {{secondsRemaining}} seconde(s)",
+    "resendButton": "Renvoyer le message texte"
   },
   "importExistingKey": {
     "explanation": "Votre Phrase de récupération est une phrase de 24 mots que vous avez écrite et enregistrée lorsque vous avez créé votre compte. Veuillez la saisir ici pour restaurer votre compte.",

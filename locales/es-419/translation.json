@@ -798,7 +798,9 @@
       "skip": "Omitir",
       "dismiss": "Regresar"
     },
-    "verificationFailure": "Algo salió mal, inténtalo de nuevo más tarde."
+    "verificationFailure": "Algo salió mal, inténtalo de nuevo más tarde.",
+    "resendButtonNotYetAvailable": "Reenvío disponible en {{secondsRemaining}} segundo(s)",
+    "resendButton": "Reenviar mensaje de texto"
   },
   "importExistingKey": {
     "explanation": "Tu Frase de recuperación es la frase de 24 palabras que escribiste y guardaste cuando configuraste tu cuenta. Por favor, ingrésala para restaurar tu cuenta.",
