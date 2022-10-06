@@ -59,17 +59,20 @@ export function SwapPending() {
         )
       case SwapState.ERROR:
         return (
-          <Dialog
-            isVisible={true}
-            title={t('swapCompleteScreen.swapErrorModal.title')}
-            actionText={t('swapCompleteScreen.swapErrorModal.swapRestart')}
-            actionPress={navigateToSwapStart}
-            secondaryActionText={t('swapCompleteScreen.swapErrorModal.contactSupport')}
-            secondaryActionPress={navigateToSupport}
-            testID="ErrorModal"
-          >
-            {t('swapCompleteScreen.swapErrorModal.body')}
-          </Dialog>
+          <>
+            <Text style={styles.text}>{t('swapCompleteScreen.swapError')}</Text>
+            <Dialog
+              isVisible={true}
+              title={t('swapCompleteScreen.swapErrorModal.title')}
+              actionText={t('swapCompleteScreen.swapErrorModal.swapRestart')}
+              actionPress={navigateToSwapStart}
+              secondaryActionText={t('swapCompleteScreen.swapErrorModal.contactSupport')}
+              secondaryActionPress={navigateToSupport}
+              testID="ErrorModal"
+            >
+              {t('swapCompleteScreen.swapErrorModal.body')}
+            </Dialog>
+          </>
         )
       case SwapState.PRICE_CHANGE:
         return (
