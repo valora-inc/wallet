@@ -8,10 +8,11 @@ import * as AccountActions from 'src/account/actions'
 import { CreateAccountCopyTestType } from 'src/app/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import NameAndPicture from 'src/onboarding/registration/NameAndPicture'
+import NameAndPicture, { generateUsername } from 'src/onboarding/registration/NameAndPicture'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockNavigation } from 'test/values'
+import { ADJECTIVES, NOUNS } from './constants'
 
 const mockStatsigGet = jest.fn()
 jest.mock('statsig-react-native', () => ({
@@ -222,5 +223,12 @@ describe('NameAndPictureScreen', () => {
     fireEvent.changeText(getByTestId('NameEntry'), 'Some Name')
     fireEvent.press(getByText('skip'))
     expect(AccountActions.setName).not.toHaveBeenCalled()
+  })
+
+  it('usernames appear as expected', () => {
+    const username = generateUsername()
+    const [adjective, noun] = username.split(' ')
+    expect(ADJECTIVES.includes(adjective)).toEqual(true)
+    expect(NOUNS.includes(noun)).toEqual(true)
   })
 })

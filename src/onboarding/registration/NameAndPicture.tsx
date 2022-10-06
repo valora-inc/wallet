@@ -39,7 +39,8 @@ import { ADJECTIVES, NOUNS } from './constants'
 
 type Props = StackScreenProps<StackParamList, Screens.NameAndPicture>
 
-const generateUsername = (): string => {
+//Exported for testing purposes only
+export const generateUsername = (): string => {
   const adjective = ADJECTIVES[Math.floor(Math.random() * ADJECTIVES.length)]
   const noun = NOUNS[Math.floor(Math.random() * NOUNS.length)]
   const username = `${adjective} ${noun}`
