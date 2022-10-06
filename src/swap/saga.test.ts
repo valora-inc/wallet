@@ -32,6 +32,7 @@ const mockSwap = {
   payload: {
     approveTransaction: {
       gas: '59480',
+      from: mockAccount,
     },
     userInput: {
       updatedField: 'TO',
