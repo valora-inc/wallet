@@ -83,8 +83,12 @@ export interface ApproveTransaction {
 }
 
 export interface SwapInfo {
-  approveTransaction?: ApproveTransaction
+  approveTransaction: ApproveTransaction
   unvalidatedSwapTransaction: SwapTransaction
   userInput: SwapUserInput
-  validatedSwapTransaction?: SwapTransaction
+}
+
+export interface ZeroExResponse {
+  approveTransaction: ApproveTransaction
+  unvalidatedSwapTransaction: SwapTransaction
 }
