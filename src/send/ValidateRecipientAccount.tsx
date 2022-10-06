@@ -263,11 +263,13 @@ export class ValidateRecipientAccount extends React.Component<Props, State> {
   }
 
   render = () => {
-    const { t, recipient, error } = this.props
-    const { singleDigitInputValueArr } = this.state
+    const { t, recipient, error, addressValidationType } = this.props
+    const { singleDigitInputValueArr, inputValue } = this.state
     const displayName = getDisplayName(recipient, t)
     const isFilled =
-      singleDigitInputValueArr.filter((entry) => /[a-f0-9]/gi.test(entry)).length === 4
+      addressValidationType === AddressValidationType.FULL
+        ? inputValue.length > 0
+        : singleDigitInputValueArr.filter((entry) => /[a-f0-9]/gi.test(entry)).length === 4
 
     return (
       <SafeAreaView style={styles.container}>

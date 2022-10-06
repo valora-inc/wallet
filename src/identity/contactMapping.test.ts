@@ -1,12 +1,14 @@
 import { eqAddress, NULL_ADDRESS } from '@celo/base'
 import { AttestationStat } from '@celo/contractkit/lib/wrappers/Attestations'
+import { FetchMock } from 'jest-fetch-mock/types'
 import { expectSaga } from 'redux-saga-test-plan'
 import { throwError } from 'redux-saga-test-plan/providers'
 import { call, select } from 'redux-saga/effects'
 import { setUserContactDetails } from 'src/account/actions'
 import { defaultCountryCodeSelector, e164NumberSelector } from 'src/account/selectors'
-import { showError } from 'src/alert/actions'
+import { showError, showErrorOrFallback } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { centralPhoneVerificationEnabledSelector } from 'src/app/selectors'
 import { fetchLostAccounts } from 'src/firebase/firebase'
 import {
   requireSecureSend,
@@ -20,12 +22,13 @@ import {
   e164NumberToAddressSelector,
   secureSendPhoneNumberMappingSelector,
 } from 'src/identity/selectors'
+import { retrieveSignedMessage } from 'src/pincode/authentication'
 import { contactsToRecipients } from 'src/recipients/recipient'
 import { setPhoneRecipientCache } from 'src/recipients/reducer'
 import { getAllContacts } from 'src/utils/contacts'
 import { getContractKitAsync } from 'src/web3/contracts'
 import { getConnectedAccount } from 'src/web3/saga'
-import { currentAccountSelector } from 'src/web3/selectors'
+import { walletAddressSelector } from 'src/web3/selectors'
 import {
   mockAccount,
   mockAccount2,
@@ -38,6 +41,8 @@ import {
 } from 'test/values'
 
 const recipients = contactsToRecipients(mockContactList, '+1')
+const mockFetch = fetch as FetchMock
+jest.unmock('src/pincode/authentication')
 
 describe('Import Contacts Saga', () => {
   it('imports contacts and creates contact mappings correctly', async () => {
@@ -72,6 +77,96 @@ describe('Import Contacts Saga', () => {
 })
 
 describe('Fetch Addresses Saga', () => {
+  describe('central lookup', () => {
+    beforeEach(() => {
+      mockFetch.resetMocks()
+    })
+
+    it('fetches and caches addresses correctly', async () => {
+      const mockE164NumberToAddress = {
+        [mockE164Number]: [mockAccount.toLowerCase()],
+      }
+      const updatedAccount = '0xAbC'
+      mockFetch.mockResponse(JSON.stringify({ addresses: [updatedAccount] }))
+
+      await expectSaga(fetchAddressesAndValidateSaga, {
+        e164Number: mockE164Number,
+      })
+        .provide([
+          [select(e164NumberToAddressSelector), mockE164NumberToAddress],
+          [select(centralPhoneVerificationEnabledSelector), true],
+          [select(walletAddressSelector), '0xxyz'],
+          [call(retrieveSignedMessage), 'some signed message'],
+          [select(secureSendPhoneNumberMappingSelector), {}],
+        ])
+        .put(updateE164PhoneNumberAddresses({ [mockE164Number]: undefined }, {}))
+        .put(
+          updateE164PhoneNumberAddresses(
+            { [mockE164Number]: [updatedAccount] },
+            { [updatedAccount]: mockE164Number }
+          )
+        )
+        .run()
+
+      expect(mockFetch).toHaveBeenCalledTimes(1)
+      expect(mockFetch).toHaveBeenCalledWith({
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Valora 0xxyz:some signed message`,
+        },
+        body: `{"phoneNumber":"${mockE164Number}","clientPlatform":"android","clientVersion":"0.0.1"}`,
+      })
+    })
+
+    it('fetches and caches multiple addresses correctly', async () => {
+      const mockE164NumberToAddress = {
+        [mockE164Number]: [mockAccount.toLowerCase()],
+      }
+      const updatedAccounts = ['0xAbC', '0xdef']
+      mockFetch.mockResponse(JSON.stringify({ addresses: updatedAccounts }))
+
+      await expectSaga(fetchAddressesAndValidateSaga, {
+        e164Number: mockE164Number,
+      })
+        .provide([
+          [select(e164NumberToAddressSelector), mockE164NumberToAddress],
+          [select(centralPhoneVerificationEnabledSelector), true],
+          [select(walletAddressSelector), mockAccount],
+          [call(retrieveSignedMessage), 'some signed message'],
+          [select(secureSendPhoneNumberMappingSelector), {}],
+        ])
+        .put(updateE164PhoneNumberAddresses({ [mockE164Number]: undefined }, {}))
+        .put(
+          updateE164PhoneNumberAddresses(
+            { [mockE164Number]: updatedAccounts },
+            { [updatedAccounts[0]]: mockE164Number, [updatedAccounts[1]]: mockE164Number }
+          )
+        )
+        .put(requireSecureSend(mockE164Number, AddressValidationType.PARTIAL))
+        .run()
+    })
+
+    it('handles lookup errors correctly', async () => {
+      const mockE164NumberToAddress = {
+        [mockE164Number]: [mockAccount.toLowerCase()],
+      }
+      mockFetch.mockReject()
+
+      await expectSaga(fetchAddressesAndValidateSaga, {
+        e164Number: mockE164Number,
+      })
+        .provide([
+          [select(e164NumberToAddressSelector), mockE164NumberToAddress],
+          [select(centralPhoneVerificationEnabledSelector), true],
+          [select(walletAddressSelector), mockAccount],
+          [call(retrieveSignedMessage), 'some signed message'],
+        ])
+        .put(showErrorOrFallback(expect.anything(), ErrorMessages.ADDRESS_LOOKUP_FAILURE))
+        .run()
+    })
+  })
+
   it('fetches and caches addresses correctly when walletAddress === accountAddress', async () => {
     const contractKit = await getContractKitAsync()
 
@@ -102,6 +197,7 @@ describe('Fetch Addresses Saga', () => {
     })
       .provide([
         [select(e164NumberToAddressSelector), mockE164NumberToAddress],
+        [select(centralPhoneVerificationEnabledSelector), false],
         [call(fetchLostAccounts), []],
         [call(fetchPhoneHashPrivate, mockE164Number), { phoneHash: mockE164NumberHash }],
         [
@@ -109,7 +205,7 @@ describe('Fetch Addresses Saga', () => {
           mockAttestationsWrapper,
         ],
         [call([contractKit.contracts, contractKit.contracts.getAccounts]), mockAccountsWrapper],
-        [select(currentAccountSelector), mockAccount],
+        [select(walletAddressSelector), mockAccount],
         [select(secureSendPhoneNumberMappingSelector), {}],
       ])
       .put(updateE164PhoneNumberAddresses({ [mockE164Number]: undefined }, {}))
@@ -157,6 +253,7 @@ describe('Fetch Addresses Saga', () => {
     })
       .provide([
         [select(e164NumberToAddressSelector), mockE164NumberToAddress],
+        [select(centralPhoneVerificationEnabledSelector), false],
         [call(fetchLostAccounts), []],
         [call(fetchPhoneHashPrivate, mockE164Number), { phoneHash: mockE164NumberHash }],
         [
@@ -164,7 +261,7 @@ describe('Fetch Addresses Saga', () => {
           mockAttestationsWrapper,
         ],
         [call([contractKit.contracts, contractKit.contracts.getAccounts]), mockAccountsWrapper],
-        [select(currentAccountSelector), mockAccount],
+        [select(walletAddressSelector), mockAccount],
         [select(secureSendPhoneNumberMappingSelector), {}],
       ])
       .put(updateE164PhoneNumberAddresses({ [mockE164Number]: undefined }, {}))
@@ -210,6 +307,7 @@ describe('Fetch Addresses Saga', () => {
     })
       .provide([
         [select(e164NumberToAddressSelector), mockE164NumberToAddress],
+        [select(centralPhoneVerificationEnabledSelector), false],
         [call(fetchLostAccounts), []],
         [call(fetchPhoneHashPrivate, mockE164Number), { phoneHash: mockE164NumberHash }],
         [
@@ -217,7 +315,7 @@ describe('Fetch Addresses Saga', () => {
           mockAttestationsWrapper,
         ],
         [call([contractKit.contracts, contractKit.contracts.getAccounts]), mockAccountsWrapper],
-        [select(currentAccountSelector), mockAccount],
+        [select(walletAddressSelector), mockAccount],
         [select(secureSendPhoneNumberMappingSelector), {}],
       ])
       .put(updateE164PhoneNumberAddresses({ [mockE164Number]: undefined }, {}))
@@ -272,6 +370,7 @@ describe('Fetch Addresses Saga', () => {
     })
       .provide([
         [select(e164NumberToAddressSelector), {}],
+        [select(centralPhoneVerificationEnabledSelector), false],
         [call(fetchLostAccounts), []],
         [call(fetchPhoneHashPrivate, mockE164Number), { phoneHash: mockE164NumberHash }],
         [
@@ -279,7 +378,7 @@ describe('Fetch Addresses Saga', () => {
           mockAttestationsWrapper,
         ],
         [call([contractKit.contracts, contractKit.contracts.getAccounts]), mockAccountsWrapper],
-        [select(currentAccountSelector), mockAccountInvite],
+        [select(walletAddressSelector), mockAccountInvite],
         [select(secureSendPhoneNumberMappingSelector), {}],
       ])
       .put(updateE164PhoneNumberAddresses({ [mockE164Number]: undefined }, {}))
@@ -341,6 +440,7 @@ describe('Fetch Addresses Saga', () => {
     })
       .provide([
         [select(e164NumberToAddressSelector), {}],
+        [select(centralPhoneVerificationEnabledSelector), false],
         [call(fetchLostAccounts), []],
         [call(fetchPhoneHashPrivate, mockE164Number), { phoneHash: mockE164NumberHash }],
         [
@@ -348,7 +448,7 @@ describe('Fetch Addresses Saga', () => {
           mockAttestationsWrapper,
         ],
         [call([contractKit.contracts, contractKit.contracts.getAccounts]), mockAccountsWrapper],
-        [select(currentAccountSelector), mockAccountInvite],
+        [select(walletAddressSelector), mockAccountInvite],
         [select(secureSendPhoneNumberMappingSelector), {}],
       ])
       .put(updateE164PhoneNumberAddresses({ [mockE164Number]: undefined }, {}))
