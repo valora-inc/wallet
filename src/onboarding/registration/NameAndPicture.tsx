@@ -162,6 +162,10 @@ function NameAndPicture({ navigation, route }: Props) {
     }
   }
 
+  const onPressGenerateUsername = () => {
+    setNameInput('generatedUsername') // TODO use generate username
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <DevSkipButton nextScreen={Screens.PincodeSet} />
@@ -202,7 +206,7 @@ function NameAndPicture({ navigation, route }: Props) {
         />
       </ScrollView>
       <Button
-        onPress={onPressContinue}
+        onPress={onPressGenerateUsername}
         text={t('generateUsername')}
         size={BtnSizes.MEDIUM}
         type={BtnTypes.ONBOARDING_SECONDARY}
