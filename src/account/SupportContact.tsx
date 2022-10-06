@@ -37,8 +37,8 @@ function SupportContact({ route }: Props) {
   const e164PhoneNumber = useSelector(e164NumberSelector)
   const currentAccount = useSelector(currentAccountSelector)
   const sessionId = useSelector(sessionIdSelector)
-  const numberVerifiedDecentrally = useSelector(numberVerifiedSelector)
-  const numberVerifiedCentrally = useSelector(numberVerifiedCentrallySelector)
+  const numberVerifiedDecentralized = useSelector(numberVerifiedSelector)
+  const numberVerifiedCentralized = useSelector(numberVerifiedCentrallySelector)
   const dispatch = useDispatch()
 
   const prefilledText = route.params?.prefilledText
@@ -62,8 +62,8 @@ function SupportContact({ route }: Props) {
       deviceId: DeviceInfo.getDeviceId(),
       address: currentAccount,
       sessionId,
-      numberVerifiedDecentralised: numberVerifiedDecentrally,
-      numberVerifiedCentralised: numberVerifiedCentrally,
+      numberVerifiedDecentralized,
+      numberVerifiedCentralized,
       network: DEFAULT_TESTNET,
     }
     const userId = e164PhoneNumber ? anonymizedPhone(e164PhoneNumber) : t('unknown')
