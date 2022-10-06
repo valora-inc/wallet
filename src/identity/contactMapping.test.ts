@@ -15,7 +15,11 @@ import {
   updateE164PhoneNumberAddresses,
   updateWalletToAccountAddress,
 } from 'src/identity/actions'
-import { doImportContactsWrapper, fetchAddressesAndValidateSaga } from 'src/identity/contactMapping'
+import {
+  doImportContactsWrapper,
+  fetchAddressesAndValidateSaga,
+  fetchWalletAddressesDecentralised,
+} from 'src/identity/contactMapping'
 import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
 import { AddressValidationType } from 'src/identity/reducer'
 import {
@@ -27,6 +31,7 @@ import { contactsToRecipients } from 'src/recipients/recipient'
 import { setPhoneRecipientCache } from 'src/recipients/reducer'
 import { getAllContacts } from 'src/utils/contacts'
 import { getContractKitAsync } from 'src/web3/contracts'
+import networkConfig from 'src/web3/networkConfig'
 import { getConnectedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import {
@@ -109,7 +114,7 @@ describe('Fetch Addresses Saga', () => {
         .run()
 
       expect(mockFetch).toHaveBeenCalledTimes(1)
-      expect(mockFetch).toHaveBeenCalledWith({
+      expect(mockFetch).toHaveBeenCalledWith(networkConfig.lookupPhoneNumberUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -163,6 +168,33 @@ describe('Fetch Addresses Saga', () => {
           [call(retrieveSignedMessage), 'some signed message'],
         ])
         .put(showErrorOrFallback(expect.anything(), ErrorMessages.ADDRESS_LOOKUP_FAILURE))
+        .run()
+    })
+
+    it('checks the decentralized mapping if no addresses are found', async () => {
+      const mockE164NumberToAddress = {
+        [mockE164Number]: [mockAccount.toLowerCase()],
+      }
+      mockFetch.mockResponse(JSON.stringify({ addresses: [] }))
+
+      await expectSaga(fetchAddressesAndValidateSaga, {
+        e164Number: mockE164Number,
+      })
+        .provide([
+          [select(e164NumberToAddressSelector), mockE164NumberToAddress],
+          [select(centralPhoneVerificationEnabledSelector), true],
+          [select(walletAddressSelector), mockAccount],
+          [call(retrieveSignedMessage), 'some signed message'],
+          [call(fetchWalletAddressesDecentralised, mockE164Number), ['0xabc']],
+          [select(secureSendPhoneNumberMappingSelector), {}],
+        ])
+        .call(fetchWalletAddressesDecentralised, mockE164Number)
+        .put(
+          updateE164PhoneNumberAddresses(
+            { [mockE164Number]: ['0xabc'] },
+            { '0xabc': mockE164Number }
+          )
+        )
         .run()
     })
   })
