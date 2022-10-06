@@ -16,7 +16,7 @@ import {
 } from 'src/swap/slice'
 import { Field, SwapInfo, SwapTransaction } from 'src/swap/types'
 import { sendTransaction } from 'src/transactions/send'
-import { newTransactionContext, TransactionContext } from 'src/transactions/types'
+import { newTransactionContext } from 'src/transactions/types'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import Logger from 'src/utils/Logger'
 import { getContractKit } from 'src/web3/contracts'
