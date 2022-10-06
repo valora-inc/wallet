@@ -93,7 +93,7 @@ export function PaymentMethodSection({
     </>
   )
 
-  const renderNonExpandableSection = () => (
+  const renderNonExpandableSection = (quote: NormalizedQuote) => (
     <>
       <View testID={`${paymentMethod}/singleProvider`} style={styles.left}>
         <Text style={styles.category}>
@@ -104,7 +104,9 @@ export function PaymentMethodSection({
         <Text testID={`${paymentMethod}/provider-0`} style={styles.fee}>
           {renderFeeAmount(sectionQuotes[0], t('selectProviderScreen.fee'))}
         </Text>
-        <Text style={styles.topInfo}>{renderInfoText()}</Text>
+        <Text testID={`${paymentMethod}/provider-0/info`} style={styles.topInfo}>
+          {renderInfoText(quote)}
+        </Text>
       </View>
 
       <View style={styles.imageContainer}>
@@ -118,12 +120,16 @@ export function PaymentMethodSection({
     </>
   )
 
-  const renderInfoText = () =>
-    `${t('selectProviderScreen.idRequired')} | ${
+  const renderInfoText = (quote: NormalizedQuote) => {
+    const kycInfo = quote.getKycInfo()
+    const kycString = kycInfo ? `${kycInfo} | ` : ''
+    return `${kycString}${
       paymentMethod === PaymentMethod.Card
         ? t('selectProviderScreen.oneHour')
         : t('selectProviderScreen.numDays')
     }`
+  }
+
   const renderFeeAmount = (normalizedQuote: NormalizedQuote, postFix: string) => {
     const feeAmount = normalizedQuote.getFeeInCrypto(exchangeRates)
 
@@ -158,7 +164,9 @@ export function PaymentMethodSection({
             isExpandable={isExpandable}
             isExpanded={expanded}
           >
-            {isExpandable ? renderExpandableSection() : renderNonExpandableSection()}
+            {isExpandable
+              ? renderExpandableSection()
+              : renderNonExpandableSection(sectionQuotes[0])}
           </Expandable>
         </View>
       </Touchable>
@@ -174,7 +182,7 @@ export function PaymentMethodSection({
                 <Text style={styles.expandedFee} testID={`${paymentMethod}/fee-${index}`}>
                   {renderFeeAmount(normalizedQuote, t('selectProviderScreen.fee'))}
                 </Text>
-                <Text style={styles.expandedInfo}>{renderInfoText()}</Text>
+                <Text style={styles.expandedInfo}>{renderInfoText(normalizedQuote)}</Text>
                 {index === 0 && normalizedQuote.getFeeInCrypto(exchangeRates) && (
                   <Text testID={`${paymentMethod}/bestRate`} style={styles.expandedTag}>
                     {t('selectProviderScreen.bestRate')}
