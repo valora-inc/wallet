@@ -30,11 +30,13 @@ function getPercentageDifference(price1: number, price2: number) {
   return (Math.abs(price1 - price2) / ((price1 + price2) / 2)) * 100
 }
 
-export function* swapSubmitSaga(action: PayloadAction<{
-  unvalidatedSwapTransaction: SwapTransaction
-  approveTransaction: ApproveTransaction
-  userInput: SwapUserInput
-}>) {
+export function* swapSubmitSaga(
+  action: PayloadAction<{
+    unvalidatedSwapTransaction: SwapTransaction
+    approveTransaction: ApproveTransaction
+    userInput: SwapUserInput
+  }>
+) {
   try {
     // Navigate to swap pending screen
     yield call(navigate, Screens.SwapPending)

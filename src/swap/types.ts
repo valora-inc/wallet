@@ -74,7 +74,7 @@ export interface SwapTransaction {
   to: string
   value: string
 }
-interface ApproveTransaction {
+export interface ApproveTransaction {
   chainId: number
   data: string
   from: string
