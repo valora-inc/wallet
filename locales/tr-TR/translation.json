@@ -798,7 +798,9 @@
       "skip": "Atla",
       "dismiss": "Geri dön"
     },
-    "verificationFailure": "Bir şeyler ters gitti. Lütfen daha sonra tekrar deneyiniz."
+    "verificationFailure": "Bir şeyler ters gitti. Lütfen daha sonra tekrar deneyiniz.",
+    "resendButtonNotYetAvailable": "Resend available in {{secondsRemaining}} second(s)",
+    "resendButton": "Resend text message"
   },
   "importExistingKey": {
     "explanation": "Kurtarma Kelimeleriniz, hesabınızı oluştururken not ettiğiniz ve kaydettiğiniz 24 kelimelik bir ifadedir. Hesabınızı geri yüklemek için kelimeleri lütfen buraya girin.",
