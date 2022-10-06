@@ -35,8 +35,20 @@ import { saveProfilePicture } from 'src/utils/image'
 import Logger from 'src/utils/Logger'
 import { useAsyncKomenciReadiness } from 'src/verify/hooks'
 import { Statsig } from 'statsig-react-native'
+import { ADJECTIVES, NOUNS } from './constants'
 
 type Props = StackScreenProps<StackParamList, Screens.NameAndPicture>
+
+const generateUsername = (): string => {
+  const adjective = ADJECTIVES[Math.floor(Math.random() * ADJECTIVES.length)]
+  const noun = NOUNS[Math.floor(Math.random() * NOUNS.length)]
+  const username = `${adjective} ${noun}`
+  const forbiddenUsernames: string[] = [] //TODO: Obtain username blacklist from Firebase Remote Config
+  if (forbiddenUsernames.includes(username)) {
+    return generateUsername()
+  }
+  return username
+}
 
 const getExperimentParams = () => {
   try {
