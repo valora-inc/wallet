@@ -221,7 +221,7 @@ function* getAccountAddresses(e164Number: string) {
   return yield call(filterNonVerifiedAddresses, accountAddresses, phoneHash)
 }
 
-function* fetchWalletAddressesDecentralised(e164Number: string) {
+export function* fetchWalletAddressesDecentralised(e164Number: string) {
   const contractKit = yield call(getContractKit)
   const accountsWrapper: AccountsWrapper = yield call([
     contractKit.contracts,
@@ -277,6 +277,11 @@ function* fetchWalletAddresses(e164Number: string) {
 
     if (response.ok) {
       const { addresses } = yield call([response, 'json'])
+      if (addresses.length === 0) {
+        // check decentralised mapping if non exists on the centralised mapping,
+        // in case this user has not migrated yet
+        return yield call(fetchWalletAddressesDecentralised, e164Number)
+      }
       return addresses
     } else {
       throw new Error(`Received response from lookupPhoneNumber service ${response.text()}`)
