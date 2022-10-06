@@ -69,13 +69,6 @@ export function SwapReviewScreen() {
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
-  // Workaround for buying Celo
-  const CELO_ADDRESS = '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE'
-  const toCeloWorkAround = (token: string) => {
-    const symbol = coreTokens.find((token) => token.address === toToken)?.symbol
-    return symbol === 'CELO' ? CELO_ADDRESS : token
-  }
-
   // Token Symbols
   const toTokenSymbol = coreTokens.find((token) => token.address === toToken)?.symbol
   const fromTokenSymbol = coreTokens.find((token) => token.address === fromToken)?.symbol
@@ -95,7 +88,7 @@ export function SwapReviewScreen() {
       const swapAmountInWei = multiplyByWei(swapAmount[updatedField]!)
       const swapAmountParam = updatedField === Field.FROM ? 'sellAmount' : 'buyAmount'
       const params = {
-        buyToken: toCeloWorkAround(toToken),
+        buyToken: toToken,
         sellToken: fromToken,
         [swapAmountParam]: swapAmountInWei.toString().split('.')[0],
         // Enable when supported by 0xAPI & valora-rest-api
