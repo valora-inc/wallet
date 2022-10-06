@@ -1484,11 +1484,35 @@
                 },
                 "fillData": {
                     "$ref": "#/definitions/FillData"
+                },
+                "makerAmount": {
+                    "type": "string"
+                },
+                "makerToken": {
+                    "type": "string"
+                },
+                "source": {
+                    "type": "string"
+                },
+                "takeToken": {
+                    "type": "string"
+                },
+                "takerAmount": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "number"
                 }
             },
             "required": [
                 "fill",
-                "fillData"
+                "fillData",
+                "makerAmount",
+                "makerToken",
+                "source",
+                "takeToken",
+                "takerAmount",
+                "type"
             ],
             "type": "object"
         },
