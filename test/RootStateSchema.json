@@ -3756,12 +3756,10 @@
                 },
                 "userInput": {
                     "$ref": "#/definitions/SwapUserInput"
-                },
-                "validatedSwapTransaction": {
-                    "$ref": "#/definitions/SwapTransaction"
                 }
             },
             "required": [
+                "approveTransaction",
                 "unvalidatedSwapTransaction",
                 "userInput"
             ],
