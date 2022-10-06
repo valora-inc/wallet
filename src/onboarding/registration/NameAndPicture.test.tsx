@@ -8,7 +8,6 @@ import * as AccountActions from 'src/account/actions'
 import { CreateAccountCopyTestType } from 'src/app/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import * as StatSigFlags from 'src/onboarding/registration/MockedStatSigFeatureFlag'
 import NameAndPicture from 'src/onboarding/registration/NameAndPicture'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
@@ -24,14 +23,11 @@ jest.mock('statsig-react-native', () => ({
 
 expect.extend({ toBeDisabled })
 jest.spyOn(AccountActions, 'setName')
-const spiedSkipUsername = jest.spyOn(StatSigFlags, 'shouldSkipUsername')
-const spiedGetOnboardingNameType = jest.spyOn(StatSigFlags, 'getOnboardingNameType')
 const mockScreenProps = getMockStackScreenProps(Screens.NameAndPicture)
 
 describe('NameAndPictureScreen', () => {
   afterEach(() => {
-    spiedSkipUsername.mockClear()
-    spiedGetOnboardingNameType.mockClear()
+    mockStatsigGet.mockClear()
   })
 
   it('disable button when no name', () => {
@@ -233,7 +229,7 @@ describe('NameAndPictureScreen', () => {
     expect(AccountActions.setName).not.toHaveBeenCalled()
   })
   it('shows alternate placeholder username', () => {
-    spiedGetOnboardingNameType.mockReturnValue('crypto_alter_ego')
+    mockStatsigGet.mockReturnValueOnce(false).mockReturnValueOnce('crypto_alter_ego')
     const { getByTestId } = render(
       <Provider store={createMockStore()}>
         <NameAndPicture {...mockScreenProps} />
