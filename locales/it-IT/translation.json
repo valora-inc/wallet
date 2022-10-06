@@ -798,7 +798,9 @@
       "skip": "Salta",
       "dismiss": "Indietro"
     },
-    "verificationFailure": "Si è verificato un errore, riprova più tardi."
+    "verificationFailure": "Si è verificato un errore, riprova più tardi.",
+    "resendButtonNotYetAvailable": "Reinvio disponibile in {{secondsRemaining}} secondo(i)",
+    "resendButton": "Reinvia il messaggio di testo"
   },
   "importExistingKey": {
     "explanation": "La tua Frase di recupero è composta da 24 parole e dovresti averla annotata quando hai configurato il tuo conto. Immettila qui per ripristinarlo.",
