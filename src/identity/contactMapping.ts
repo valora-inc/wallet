@@ -221,7 +221,7 @@ function* getAccountAddresses(e164Number: string) {
   return yield call(filterNonVerifiedAddresses, accountAddresses, phoneHash)
 }
 
-export function* fetchWalletAddressesDecentralised(e164Number: string) {
+export function* fetchWalletAddressesDecentralized(e164Number: string) {
   const contractKit = yield call(getContractKit)
   const accountsWrapper: AccountsWrapper = yield call([
     contractKit.contracts,
@@ -253,9 +253,14 @@ export function* fetchWalletAddressesDecentralised(e164Number: string) {
 }
 
 function* fetchWalletAddresses(e164Number: string) {
+  const addressesFromDecentralisedMapping: string[] = yield call(
+    fetchWalletAddressesDecentralized,
+    e164Number
+  )
   const centralPhoneVerificationEnabled = yield select(centralPhoneVerificationEnabledSelector)
+
   if (!centralPhoneVerificationEnabled) {
-    return yield call(fetchWalletAddressesDecentralised, e164Number)
+    return addressesFromDecentralisedMapping
   }
 
   try {
@@ -276,13 +281,16 @@ function* fetchWalletAddresses(e164Number: string) {
     })
 
     if (response.ok) {
-      const { addresses } = yield call([response, 'json'])
-      if (addresses.length === 0) {
-        // check decentralised mapping if non exists on the centralised mapping,
-        // in case this user has not migrated yet
-        return yield call(fetchWalletAddressesDecentralised, e164Number)
-      }
-      return addresses
+      const { addresses }: { addresses: string[] } = yield call([response, 'json'])
+
+      // combine with addresses found in decentralised mapping to maintain
+      // backwards compatibilty with accounts that have not migrated to CPV
+      return [
+        ...new Set([
+          ...addresses.map((address) => address.toLowerCase()),
+          ...addressesFromDecentralisedMapping.map((address) => address.toLowerCase()),
+        ]),
+      ]
     } else {
       throw new Error(`Received response from lookupPhoneNumber service ${response.text()}`)
     }

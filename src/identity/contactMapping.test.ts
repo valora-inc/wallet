@@ -18,7 +18,7 @@ import {
 import {
   doImportContactsWrapper,
   fetchAddressesAndValidateSaga,
-  fetchWalletAddressesDecentralised,
+  fetchWalletAddressesDecentralized,
 } from 'src/identity/contactMapping'
 import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
 import { AddressValidationType } from 'src/identity/reducer'
@@ -98,6 +98,7 @@ describe('Fetch Addresses Saga', () => {
         e164Number: mockE164Number,
       })
         .provide([
+          [call(fetchWalletAddressesDecentralized, mockE164Number), []],
           [select(e164NumberToAddressSelector), mockE164NumberToAddress],
           [select(centralPhoneVerificationEnabledSelector), true],
           [select(walletAddressSelector), '0xxyz'],
@@ -107,8 +108,8 @@ describe('Fetch Addresses Saga', () => {
         .put(updateE164PhoneNumberAddresses({ [mockE164Number]: undefined }, {}))
         .put(
           updateE164PhoneNumberAddresses(
-            { [mockE164Number]: [updatedAccount] },
-            { [updatedAccount]: mockE164Number }
+            { [mockE164Number]: ['0xabc'] },
+            { '0xabc': mockE164Number }
           )
         )
         .run()
@@ -135,6 +136,7 @@ describe('Fetch Addresses Saga', () => {
         e164Number: mockE164Number,
       })
         .provide([
+          [call(fetchWalletAddressesDecentralized, mockE164Number), []],
           [select(e164NumberToAddressSelector), mockE164NumberToAddress],
           [select(centralPhoneVerificationEnabledSelector), true],
           [select(walletAddressSelector), mockAccount],
@@ -144,8 +146,8 @@ describe('Fetch Addresses Saga', () => {
         .put(updateE164PhoneNumberAddresses({ [mockE164Number]: undefined }, {}))
         .put(
           updateE164PhoneNumberAddresses(
-            { [mockE164Number]: updatedAccounts },
-            { [updatedAccounts[0]]: mockE164Number, [updatedAccounts[1]]: mockE164Number }
+            { [mockE164Number]: ['0xabc', '0xdef'] },
+            { '0xabc': mockE164Number, '0xdef': mockE164Number }
           )
         )
         .put(requireSecureSend(mockE164Number, AddressValidationType.PARTIAL))
@@ -162,6 +164,7 @@ describe('Fetch Addresses Saga', () => {
         e164Number: mockE164Number,
       })
         .provide([
+          [call(fetchWalletAddressesDecentralized, mockE164Number), []],
           [select(e164NumberToAddressSelector), mockE164NumberToAddress],
           [select(centralPhoneVerificationEnabledSelector), true],
           [select(walletAddressSelector), mockAccount],
@@ -171,30 +174,32 @@ describe('Fetch Addresses Saga', () => {
         .run()
     })
 
-    it('checks the decentralized mapping if no addresses are found', async () => {
+    it('combines addresses fetched from central and decentral mapping correctly', async () => {
       const mockE164NumberToAddress = {
         [mockE164Number]: [mockAccount.toLowerCase()],
       }
-      mockFetch.mockResponse(JSON.stringify({ addresses: [] }))
+      const updatedAccounts = ['0xAbC', '0xdef']
+      mockFetch.mockResponse(JSON.stringify({ addresses: updatedAccounts }))
 
       await expectSaga(fetchAddressesAndValidateSaga, {
         e164Number: mockE164Number,
       })
         .provide([
+          [call(fetchWalletAddressesDecentralized, mockE164Number), ['0xabc', '0xXyz']],
           [select(e164NumberToAddressSelector), mockE164NumberToAddress],
           [select(centralPhoneVerificationEnabledSelector), true],
           [select(walletAddressSelector), mockAccount],
           [call(retrieveSignedMessage), 'some signed message'],
-          [call(fetchWalletAddressesDecentralised, mockE164Number), ['0xabc']],
           [select(secureSendPhoneNumberMappingSelector), {}],
         ])
-        .call(fetchWalletAddressesDecentralised, mockE164Number)
+        .put(updateE164PhoneNumberAddresses({ [mockE164Number]: undefined }, {}))
         .put(
           updateE164PhoneNumberAddresses(
-            { [mockE164Number]: ['0xabc'] },
-            { '0xabc': mockE164Number }
+            { [mockE164Number]: ['0xabc', '0xdef', '0xxyz'] },
+            { '0xabc': mockE164Number, '0xdef': mockE164Number, '0xxyz': mockE164Number }
           )
         )
+        .put(requireSecureSend(mockE164Number, AddressValidationType.PARTIAL))
         .run()
     })
   })
