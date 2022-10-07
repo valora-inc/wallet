@@ -1,3 +1,5 @@
+import { hexToBuffer } from '@celo/utils/lib/address'
+import { compressedPubKey } from '@celo/utils/lib/dataEncryptionKey'
 import { useRef, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { Platform } from 'react-native'
@@ -11,7 +13,7 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
 import Logger from 'src/utils/Logger'
 import networkConfig from 'src/web3/networkConfig'
-import { walletAddressSelector } from 'src/web3/selectors'
+import { dataEncryptionKeySelector, walletAddressSelector } from 'src/web3/selectors'
 
 const TAG = 'verify/hooks'
 
@@ -50,6 +52,8 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCallingCode: st
 
   const dispatch = useDispatch()
   const address = useSelector(walletAddressSelector)
+  const privateDataKey = useSelector(dataEncryptionKeySelector)
+  const publicDataKey = privateDataKey ? compressedPubKey(hexToBuffer(privateDataKey)) : null
 
   const [verificationStatus, setVerificationStatus] = useState(PhoneNumberVerificationStatus.NONE)
   const [verificationId, setVerificationId] = useState('')
@@ -107,6 +111,8 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCallingCode: st
           phoneNumber,
           clientPlatform: Platform.OS,
           clientVersion: DeviceInfo.getVersion(),
+          clientBundleId: DeviceInfo.getBundleId(),
+          publicDataKey,
         }),
       })
       if (response.ok) {
