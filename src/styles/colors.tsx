@@ -75,6 +75,8 @@ export enum Colors {
   greenBrand = '#45ADA8',
   onboardingGreen = '#45ADA8',
   onboardingLightGreen = '#FFF',
+  notificationBackground = '#F9F6F0',
+  notificationButton = '#45ADA8',
 
   currentVendor = '#307582',
   inactiveVendor = '#D55C38',

@@ -563,6 +563,11 @@ export enum DappExplorerEvents {
   dapp_view_all = 'dapp_view_all', // when user taps "view all dapps" from recently used dapps section
 }
 
+export enum KolektivoNotificationEvents {
+  view_cico_prompt = 'view_cico_prompt',
+  cico_prompt_complete = 'cico_prompt_complete',
+}
+
 export type AnalyticsEventType =
   | AppEvents
   | HomeEvents
@@ -588,3 +593,4 @@ export type AnalyticsEventType =
   | DappKitEvents
   | CICOEvents
   | DappExplorerEvents
+  | KolektivoNotificationEvents

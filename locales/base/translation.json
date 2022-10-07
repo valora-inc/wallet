@@ -1331,6 +1331,27 @@
     "details": "You're about the export all transactions for the {{month}} period.",
     "continue": "Export"
   },
+  "cicoPrompt": {
+    "text": "Buy your kGuilder today and shop with local merchants"
+  },
+  "cicoSteps": [
+    {
+      "title": "",
+      "text": "Top up at any of the vendors to load balance in your {{appName}}."
+    },
+    {
+      "title": "",
+      "text": "You can use your kGuilder to support local small businesses with easy payments."
+    },
+    {
+      "title": "",
+      "text": "Use the {{appName}} to top up your phone with any of the local telecom providers."
+    },
+    {
+      "title": "",
+      "text": "Send some kGuilder to family and friends."
+    }
+  ],
   "txSummary": {
     "0": "Type",
     "1": "Date",

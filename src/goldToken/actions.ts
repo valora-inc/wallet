@@ -5,6 +5,7 @@ export enum Actions {
   SET_EDUCATION_COMPLETED = 'GOLD/SET_EDUCATION_COMPLETED',
   FETCH_BALANCE = 'GOLD/FETCH_BALANCE',
   TRANSFER = 'GOLD/TRANSFER',
+  SET_CICO_COMPLETED = 'GOLD/SET_CICO_COMPLETED',
 }
 
 export interface SetBalanceAction {
@@ -25,11 +26,17 @@ export type TransferAction = {
   type: Actions.TRANSFER
 } & TokenTransferAction
 
+export interface SetCicoCompletedAction {
+  type: Actions.SET_CICO_COMPLETED
+  cicoPrompt: boolean
+}
+
 export type ActionTypes =
   | SetBalanceAction
   | SetEducationCompletedAction
   | FetchBalanceAction
   | TransferAction
+  | SetCicoCompletedAction
 
 export const fetchGoldBalance = (): FetchBalanceAction => ({
   type: Actions.FETCH_BALANCE,
@@ -60,4 +67,9 @@ export const transferGoldToken = ({
 export const setEducationCompleted = (): SetEducationCompletedAction => ({
   type: Actions.SET_EDUCATION_COMPLETED,
   educationCompleted: true,
+})
+
+export const setCicoCompleted = (): SetCicoCompletedAction => ({
+  type: Actions.SET_CICO_COMPLETED,
+  cicoPrompt: false,
 })

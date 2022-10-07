@@ -371,6 +371,7 @@ export type StackParamList = {
     recipientAddress?: string
   }
   [Screens.TokenBalances]: undefined
+  [Screens.CicoPromptScreen]: undefined
 }
 
 export type QRTabParamList = {

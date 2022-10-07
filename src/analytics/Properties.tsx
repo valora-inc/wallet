@@ -16,6 +16,7 @@ import {
   HomeEvents,
   IdentityEvents,
   InviteEvents,
+  KolektivoNotificationEvents,
   NavigationEvents,
   NetworkEvents,
   OnboardingEvents,
@@ -1246,6 +1247,11 @@ interface DappExplorerEventsProperties {
   [DappExplorerEvents.dapp_bottom_sheet_dismiss]: DappEventProperties
 }
 
+interface KolektivoNotificationEventsProperties {
+  [KolektivoNotificationEvents.view_cico_prompt]: undefined
+  [KolektivoNotificationEvents.cico_prompt_complete]: undefined
+}
+
 export type AnalyticsPropertiesList = AppEventsProperties &
   HomeEventsProperties &
   SettingsEventsProperties &
@@ -1270,4 +1276,5 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   WalletConnectProperties &
   DappKitProperties &
   CICOEventsProperties &
-  DappExplorerEventsProperties
+  DappExplorerEventsProperties &
+  KolektivoNotificationEventsProperties

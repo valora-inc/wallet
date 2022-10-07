@@ -28,6 +28,7 @@ import BackupComplete from 'src/backup/BackupComplete'
 import BackupForceScreen from 'src/backup/BackupForceScreen'
 import BackupPhrase, { navOptionsForBackupPhrase } from 'src/backup/BackupPhrase'
 import BackupQuiz, { navOptionsForQuiz } from 'src/backup/BackupQuiz'
+import CicoPromptScreen from 'src/cicoPrompt/CicoPromptScreen'
 import BackButton from 'src/components/BackButton'
 import CancelButton from 'src/components/CancelButton'
 import ConsumerIncentivesHomeScreen from 'src/consumerIncentives/ConsumerIncentivesHomeScreen'
@@ -141,6 +142,18 @@ export const modalScreenOptions = ({ route, navigation }: NavigationOptions) =>
       ...TransitionPresets.ModalPresentationIOS,
     },
   })
+
+const kolektivoNotificationScreens = (Navigator: typeof Stack) => {
+  return (
+    <>
+      <Navigator.Screen
+        name={Screens.CicoPromptScreen}
+        component={CicoPromptScreen}
+        options={noHeader}
+      />
+    </>
+  )
+}
 
 const commonScreens = (Navigator: typeof Stack) => {
   return (
@@ -695,6 +708,7 @@ export function MainStackScreen() {
   return (
     <Stack.Navigator initialRouteName={initialRouteName} screenOptions={emptyHeader}>
       <Stack.Screen name={Screens.DrawerNavigator} component={DrawerNavigator} options={noHeader} />
+      {kolektivoNotificationScreens(Stack)}
       {commonScreens(Stack)}
       {sendScreens(Stack)}
       {nuxScreens(Stack)}

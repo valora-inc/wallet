@@ -37,6 +37,7 @@ import Logger from 'src/utils/Logger'
 const TAG = 'NotificationBox'
 // Priority of static notifications
 const BACKUP_PRIORITY = 1000
+const KOLEKTIVO_NOTIFICATTION_PRIORITY = 975
 const VERIFICATION_PRIORITY = 100
 const INVITES_PRIORITY = 400
 const INCOMING_PAYMENT_REQUESTS_PRIORITY = 900
@@ -58,9 +59,11 @@ export enum NotificationBannerTypes {
   remote_notification = 'remote_notification',
   supercharging = 'supercharging',
   start_supercharging = 'start_supercharging',
+  kolektivo_cico = 'kolektivo_cico',
 }
 
 export enum NotificationBannerCTATypes {
+  read_more = 'read_more',
   accept = 'accept',
   decline = 'decline',
   review = 'review',
@@ -83,6 +86,9 @@ function useSimpleActions() {
   const goldEducationCompleted = useSelector((state) => state.goldToken.educationCompleted)
 
   const extraNotifications = useSelector(getExtraNotifications)
+
+  const kolektivoNotifications = useSelector((state) => state.goldToken.kolektivoNotifications)
+
   const verificationPossible = useSelector(verificationPossibleSelector)
 
   const { hasBalanceForSupercharge } = useHasBalanceForSupercharge()
@@ -103,6 +109,28 @@ function useSimpleActions() {
   const superchargeRewards = useSelector((state) => state.supercharge.availableRewards)
 
   const actions: SimpleMessagingCardProps[] = []
+
+  if (kolektivoNotifications.cicoPrompt) {
+    actions.push({
+      id: 'cico',
+      text: t('cicoPrompt.text'),
+      icon: boostRewards,
+      priority: KOLEKTIVO_NOTIFICATTION_PRIORITY,
+      callToActions: [
+        {
+          text: 'Read More',
+          onPress: () => {
+            ValoraAnalytics.track(HomeEvents.notification_select, {
+              notificationType: NotificationBannerTypes.kolektivo_cico,
+              selectedAction: NotificationBannerCTATypes.read_more,
+            })
+            navigate(Screens.CicoPromptScreen)
+          },
+        },
+      ],
+    })
+  }
+
   if (!backupCompleted) {
     actions.push({
       id: 'backup',

@@ -20,6 +20,8 @@ export enum BtnTypes {
   TERTIARY = 'Tertiary',
   ONBOARDING = 'Onboarding',
   ONBOARDING_SECONDARY = 'OnboardingSecondary',
+  NOTIFICATION = 'Notification',
+  NOTIFICATION_SECONDARY = 'NotificationSecondary',
 }
 
 export enum BtnSizes {
@@ -168,6 +170,16 @@ function getColors(type: BtnTypes, disabled: boolean | undefined) {
       break
     case BtnTypes.ONBOARDING_SECONDARY:
       textColor = colors.onboardingGreen
+      backgroundColor = colors.light
+      opacity = disabled ? 0.5 : 1.0
+      break
+    case BtnTypes.NOTIFICATION:
+      textColor = colors.light
+      backgroundColor = colors.notificationButton
+      opacity = disabled ? 0.5 : 1.0
+      break
+    case BtnTypes.NOTIFICATION_SECONDARY:
+      textColor = colors.notificationButton
       backgroundColor = colors.light
       opacity = disabled ? 0.5 : 1.0
       break
