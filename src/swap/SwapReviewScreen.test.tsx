@@ -1,4 +1,4 @@
-import { render, waitFor } from '@testing-library/react-native'
+import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import { FetchMock } from 'jest-fetch-mock/types'
 import React from 'react'
 import { Provider } from 'react-redux'
@@ -7,6 +7,7 @@ import { SwapEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
+import { swapStart } from 'src/swap/slice'
 import SwapReviewScreen from 'src/swap/SwapReviewScreen'
 import { Field } from 'src/swap/types'
 import { Currency } from 'src/utils/currencies'
@@ -16,6 +17,9 @@ import { mockAccount, mockCeloAddress, mockCeurAddress, mockCusdAddress } from '
 const mockFetch = fetch as FetchMock
 
 jest.mock('src/analytics/ValoraAnalytics')
+
+const mockBuyAmount = '3000000000000000000'
+const mockSellAmount = '1000000000000000000'
 
 const store = createMockStore({
   localCurrency: {
@@ -38,8 +42,8 @@ const store = createMockStore({
       toToken: mockCusdAddress,
       fromToken: mockCeloAddress,
       swapAmount: {
-        FROM: '1000000000000000000',
-        TO: '3000000000000000000',
+        FROM: mockSellAmount,
+        TO: mockBuyAmount,
       },
       updatedField: Field.FROM,
     },
@@ -73,6 +77,45 @@ const store = createMockStore({
     },
   },
 })
+
+const unvalidatedSwapTransaction = {
+  sellToken: mockCeloAddress,
+  buyToken: mockCusdAddress,
+  buyAmount: mockBuyAmount,
+  sellAmount: mockSellAmount,
+  price: '3.00',
+  gas: '300000',
+  gasPrice: '500000000',
+}
+
+const approveTransaction = {
+  chainId: 42220,
+  data: '0xData',
+  from: mockAccount,
+  gas: '300000',
+  to: '0xMockAddress',
+}
+
+const userInput = {
+  toToken: mockCusdAddress,
+  fromToken: mockCeloAddress,
+  swapAmount: {
+    FROM: mockSellAmount,
+    TO: mockBuyAmount,
+  },
+  updatedField: Field.FROM,
+}
+
+const mockSwap = {
+  approveTransaction,
+  userInput,
+  unvalidatedSwapTransaction,
+}
+
+const mock0xResponse = {
+  unvalidatedSwapTransaction,
+  approveTransaction,
+}
 
 describe('SwapReviewScreen', () => {
   beforeEach(() => {
@@ -134,21 +177,7 @@ describe('SwapReviewScreen', () => {
   })
 
   it('should have correct analytics on screen open', () => {
-    const mockBuyAmount = '3000000000000000000'
-    const mockSellAmount = '1000000000000000000'
-    mockFetch.mockResponse(
-      JSON.stringify({
-        unvalidatedSwapTransaction: {
-          sellToken: mockCeloAddress,
-          buyToken: mockCusdAddress,
-          buyAmount: mockBuyAmount,
-          sellAmount: mockSellAmount,
-          price: '3.00',
-          gas: '300000',
-          gasPrice: '500000000',
-        },
-      })
-    )
+    mockFetch.mockResponse(JSON.stringify(mock0xResponse))
 
     render(
       <Provider store={store}>
@@ -163,6 +192,40 @@ describe('SwapReviewScreen', () => {
     })
   })
 
-  it.todo('should correctly dispatch swapStart')
-  it.todo('should have correct analytics on swap submission')
+  it('should correctly dispatch swapStart', async () => {
+    store.dispatch = jest.fn()
+    mockFetch.mockResponse(JSON.stringify(mock0xResponse))
+
+    const { getByText } = render(
+      <Provider store={store}>
+        <SwapReviewScreen />
+      </Provider>
+    )
+
+    await waitFor(() => expect(getByText('swapReviewScreen.complete')).not.toBeDisabled())
+
+    fireEvent.press(getByText('swapReviewScreen.complete'))
+    expect(store.dispatch).toHaveBeenCalledWith(swapStart(mockSwap as any))
+  })
+
+  it('should have correct analytics on swap submission', async () => {
+    store.dispatch = jest.fn()
+    mockFetch.mockResponse(JSON.stringify(mock0xResponse))
+
+    const { getByText } = render(
+      <Provider store={store}>
+        <SwapReviewScreen />
+      </Provider>
+    )
+
+    await waitFor(() => expect(getByText('swapReviewScreen.complete')).not.toBeDisabled())
+
+    fireEvent.press(getByText('swapReviewScreen.complete'))
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_review_submit, {
+      fee: 0.00743,
+      toToken: mockCusdAddress,
+      fromToken: mockCeloAddress,
+      usdTotal: 9,
+    })
+  })
 })
