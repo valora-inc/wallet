@@ -102,7 +102,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
     )
     yield put(swapSuccess())
   } catch (error) {
-    Logger.error(TAG, 'Error while swapping', error)
+    Logger.debug(TAG, 'Error while swapping', error)
     yield put(swapError())
   }
 }
