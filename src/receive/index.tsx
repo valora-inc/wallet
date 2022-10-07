@@ -7,11 +7,11 @@ import { StyleSheet, View } from 'react-native'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
-import { nameSelector } from 'src/account/selectors'
+import { e164NumberSelector, nameSelector } from 'src/account/selectors'
 import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import AmountKeypad from 'src/components/AmountKeypad'
-import { NUMBER_INPUT_MAX_DECIMALS, STABLE_TRANSACTION_MIN_AMOUNT } from 'src/config'
+import { NUMBER_INPUT_MAX_DECIMALS } from 'src/config'
 import { convertToMaxSupportedPrecision } from 'src/localCurrency/convert'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { noHeader } from 'src/navigator/Headers'
@@ -87,18 +87,6 @@ export function useInputAmounts(
   }
 }
 
-function formatWithMaxDecimals(value: BigNumber | null, decimals: number) {
-  if (!value || value.isNaN() || value.isZero()) {
-    return ''
-  }
-  // The first toFormat limits the number of desired decimals and the second
-  // removes trailing zeros.
-  return parseInputAmount(
-    value.toFormat(decimals, BigNumber.ROUND_DOWN),
-    decimalSeparator
-  ).toFormat()
-}
-
 function ReceiveAmount(props: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
@@ -111,7 +99,7 @@ function ReceiveAmount(props: Props) {
   const [reviewButtonPressed, setReviewButtonPressed] = useState(false)
   const tokenInfo = useTokenInfo(transferTokenAddress)!
   const tokenHasUsdPrice = !!tokenInfo?.usdPrice
-
+  const phoneNumber = useSelector(e164NumberSelector)
   const showInputInLocalAmount = usingLocalAmount && tokenHasUsdPrice
 
   const displayName = useSelector(nameSelector)
@@ -124,11 +112,11 @@ function ReceiveAmount(props: Props) {
   )
 
   const [qrContent, setQrContent] = useState<Partial<UriData>>({
-    address: account || '',
-    displayName: displayName || account || '',
+    address: account!,
+    displayName: displayName || account || undefined,
+    e164PhoneNumber: phoneNumber || undefined,
     currencyCode: localCurrencyCode,
     amount: amount,
-    comment: '',
     token: tokenInfo.symbol,
   })
 
@@ -145,10 +133,6 @@ function ReceiveAmount(props: Props) {
     setAmount(updatedAmount)
     setRawAmount(updatedAmount)
   }
-
-  const onReviewButtonPressed = () => setReviewButtonPressed(true)
-
-  const isAmountValid = localAmount?.isGreaterThanOrEqualTo(STABLE_TRANSACTION_MIN_AMOUNT) ?? true
 
   useEffect(() => {
     dispatch(fetchTokenBalances())
@@ -168,17 +152,6 @@ function ReceiveAmount(props: Props) {
     })
   }, [localCurrencyCode, amount, tokenInfo])
 
-  // const { onSend, onRequest } = useTransactionCallbacks({
-  //   recipient,
-  //   localAmount,
-  //   tokenAmount,
-  //   usdAmount,
-  //   inputIsInLocalCurrency: showInputInLocalAmount,
-  //   transferTokenAddress,
-  //   origin,
-  //   isFromScan: !!props.route.params?.isFromScan,
-  // })
-
   return (
     <SafeAreaView style={styles.container}>
       <ReceiveAmountHeader
@@ -190,7 +163,6 @@ function ReceiveAmount(props: Props) {
       <View style={styles.contentContainer}>
         <QRCode isForScanToSend={true} content={urlFromUriData(qrContent)} qrSvgRef={qrSvgRef} />
         <ReceiveAmountValue
-          isOutgoingPaymentRequest={!!props.route.params?.isOutgoingPaymentRequest}
           inputAmount={amount}
           tokenAmount={tokenAmount}
           usingLocalAmount={showInputInLocalAmount}

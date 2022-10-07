@@ -114,7 +114,7 @@ export function* estimateFeeSaga({
         usdFee: usdFee.toString(),
       })
     }
-  } catch (error) {
+  } catch (error: any) {
     Logger.error(`${TAG}/estimateFeeSaga`, 'Error estimating fee', error)
     ValoraAnalytics.track(FeeEvents.estimate_fee_failed, {
       error: error.message,

@@ -11,11 +11,14 @@ help () {
   exit 1
 }
 
-while getopts "v:e:" opt
+MANDATORY=false
+
+while getopts "v:e:m:" opt
 do
   case "$opt" in
     v) VERSION="$OPTARG" ;;
     e) ENV="$OPTARG" ;;
+    m) MANDATORY="$OPTARG" ;;
     *) help;;
   esac
 done
@@ -34,12 +37,15 @@ codePush () {
   ENVIRONMENT=$3
   PRIVATE_KEY=$4
 
-  appcenter codepush release-react -a $DEPLOYMENT -t $TARGET_VERSION -d $ENVIRONMENT
+  if [ "$MANDATORY" = "false" ]; then
+    appcenter codepush release-react -a $DEPLOYMENT -t $TARGET_VERSION -d $ENVIRONMENT
+  else
+    appcenter codepush release-react -a $DEPLOYMENT -t $TARGET_VERSION -d $ENVIRONMENT -m
+  fi
 }
 
 echo $VERSION $ENV
 echo "This will push a new version of the bundled js to $VERSION of the app on $ENV"
-
 read -p "Press any key to continue... " -n1 -s
 
 codePush $IOS_DEPLOYMENT_TARGET $VERSION $ENV
