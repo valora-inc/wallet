@@ -79,7 +79,7 @@ describe('VerificationCodeInputScreen', () => {
         authorization: 'Valora 0xabc:someSignedMessage',
       },
       body:
-        '{"phoneNumber":"+31619123456","clientPlatform":"android","clientVersion":"0.0.1","clientBundleId":"org.celo.mobile.debug","publicDataKey":"somePublicKey"}',
+        '{"phoneNumber":"+31619123456","clientPlatform":"android","clientVersion":"0.0.1","clientBundleId":"org.celo.mobile.debug","publicDataEncryptionKey":"somePublicKey"}',
     })
   })
 
@@ -184,7 +184,7 @@ describe('VerificationCodeInputScreen', () => {
         'Content-Type': 'application/json',
         authorization: 'Valora 0xabc:someSignedMessage',
       },
-      body: `{"phoneNumber":"${e164Number}","clientPlatform":"android","clientVersion":"0.0.1","clientBundleId":"org.celo.mobile.debug","publicDataKey":"somePublicKey"}`,
+      body: `{"phoneNumber":"${e164Number}","clientPlatform":"android","clientVersion":"0.0.1","clientBundleId":"org.celo.mobile.debug","publicDataEncryptionKey":"somePublicKey"}`,
     })
 
     expect(getByTestId('PhoneVerificationResendSmsBtn')).toBeDisabled()

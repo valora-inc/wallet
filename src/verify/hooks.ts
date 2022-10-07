@@ -53,9 +53,6 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCallingCode: st
   const dispatch = useDispatch()
   const address = useSelector(walletAddressSelector)
   const privateDataEncryptionKey = useSelector(dataEncryptionKeySelector)
-  const publicDataEncryptionKey = privateDataEncryptionKey
-    ? compressedPubKey(hexToBuffer(privateDataEncryptionKey))
-    : null
 
   const [verificationStatus, setVerificationStatus] = useState(PhoneNumberVerificationStatus.NONE)
   const [verificationId, setVerificationId] = useState('')
@@ -100,7 +97,7 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCallingCode: st
         return
       }
 
-      if (!publicDataEncryptionKey) {
+      if (!privateDataEncryptionKey) {
         throw new Error('No data encryption key was found in the store. This should never happen.')
       }
 
@@ -118,7 +115,7 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCallingCode: st
           clientPlatform: Platform.OS,
           clientVersion: DeviceInfo.getVersion(),
           clientBundleId: DeviceInfo.getBundleId(),
-          publicDataEncryptionKey,
+          publicDataEncryptionKey: compressedPubKey(hexToBuffer(privateDataEncryptionKey)),
         }),
       })
       if (response.ok) {
