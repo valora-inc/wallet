@@ -96,7 +96,6 @@ function useSimpleActions() {
   } = useSelector((state) => state.account)
 
   const numberVerified = useSelector(phoneNumberVerifiedSelector)
-
   const goldEducationCompleted = useSelector((state) => state.goldToken.educationCompleted)
 
   const extraNotifications = useSelector(getExtraNotifications)

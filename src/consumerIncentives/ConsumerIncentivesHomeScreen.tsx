@@ -7,7 +7,6 @@ import { useDispatch } from 'react-redux'
 import { RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import {
-  numberVerifiedCentrallySelector,
   phoneNumberVerifiedSelector,
   superchargeTokenConfigByTokenSelector,
 } from 'src/app/selectors'
@@ -206,13 +205,11 @@ export default function ConsumerIncentivesHomeScreen() {
     dispatch(fetchAvailableRewards())
   }, [])
 
-  const numberVerifiedDecentrally = useSelector((state) => state.app.numberVerified)
-  const numberVerifiedCentrally = useSelector(numberVerifiedCentrallySelector)
+  const userIsVerified = useSelector(phoneNumberVerifiedSelector)
   const { hasBalanceForSupercharge, superchargingTokenConfig, hasMaxBalance } = useSelector(
     superchargeInfoSelector
   )
 
-  const userIsVerified = numberVerifiedCentrally || numberVerifiedDecentrally
   const isSupercharging = userIsVerified && hasBalanceForSupercharge
   const defaultTokenConfigToSupercharge = useDefaultTokenConfigToSupercharge()
   const tokenConfigToSupercharge = superchargingTokenConfig ?? defaultTokenConfigToSupercharge
