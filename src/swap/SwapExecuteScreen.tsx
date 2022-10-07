@@ -8,7 +8,7 @@ import Dialog from 'src/components/Dialog'
 import Checkmark from 'src/icons/Checkmark'
 import Times from 'src/icons/Times'
 import { noHeader } from 'src/navigator/Headers'
-import { navigate } from 'src/navigator/NavigationService'
+import { navigate, replace } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
@@ -29,8 +29,7 @@ export function SwapExecuteScreen() {
   }
 
   const navigateToSupport = () => {
-    navigate(Screens.SwapScreen)
-    navigate(Screens.SupportContact)
+    replace(Screens.SupportContact)
   }
 
   const SwapDisplay = useMemo(() => {

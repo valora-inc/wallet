@@ -1,7 +1,7 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
-import { navigate } from 'src/navigator/NavigationService'
+import { navigate, replace } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { SwapState } from 'src/swap/slice'
 import SwapExecuteScreen from 'src/swap/SwapExecuteScreen'
@@ -114,8 +114,7 @@ describe('SwapExecuteScreen', () => {
       )
 
       fireEvent.press(getByText('SwapExecuteScreen.swapErrorModal.contactSupport'))
-      expect(navigate).toHaveBeenCalledWith(Screens.SwapScreen)
-      expect(navigate).toHaveBeenCalledWith(Screens.SupportContact)
+      expect(replace).toHaveBeenCalledWith(Screens.SupportContact)
     })
   })
 
