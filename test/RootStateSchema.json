@@ -2090,6 +2090,9 @@
                 "paymentDeepLinkHandler": {
                     "$ref": "#/definitions/PaymentDeepLinkHandler"
                 },
+                "phoneNumberVerified": {
+                    "type": "boolean"
+                },
                 "pincodeUseExpandedBlocklist": {
                     "type": "boolean"
                 },
@@ -2205,6 +2208,7 @@
                 "minVersion",
                 "numberVerified",
                 "paymentDeepLinkHandler",
+                "phoneNumberVerified",
                 "pincodeUseExpandedBlocklist",
                 "rampCashInButtonExpEnabled",
                 "requirePinOnAppOpen",

@@ -37,6 +37,7 @@ import {
 } from 'src/app/actions'
 import {
   biometryEnabledSelector,
+  phoneNumberVerifiedSelector,
   sessionIdSelector,
   supportedBiometryTypeSelector,
   verificationPossibleSelector,
@@ -110,7 +111,7 @@ const mapStateToProps = (state: RootState): StateProps => {
     devModeActive: state.account.devModeActive || false,
     e164PhoneNumber: state.account.e164PhoneNumber,
     analyticsEnabled: state.app.analyticsEnabled,
-    numberVerified: state.app.numberVerified,
+    numberVerified: phoneNumberVerifiedSelector(state),
     verificationPossible: verificationPossibleSelector(state),
     pincodeType: pincodeTypeSelector(state),
     requirePinOnAppOpen: state.app.requirePinOnAppOpen,

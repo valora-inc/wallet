@@ -70,11 +70,11 @@ function VerificationEducationScreen(props: Props) {
   return centralPhoneVerificationEnabled ? (
     <VerificationStartScreen {...props} />
   ) : (
-    <VerificationEducationScreenDecentralised {...props} />
+    <VerificationEducationScreenDecentralized {...props} />
   )
 }
 
-function VerificationEducationScreenDecentralised({ route, navigation }: Props) {
+function VerificationEducationScreenDecentralized({ route, navigation }: Props) {
   const showSkipDialog = route.params?.showSkipDialog || false
   const account = useTypedSelector(currentAccountSelector)
   const [showLearnMoreDialog, setShowLearnMoreDialog] = useState(false)

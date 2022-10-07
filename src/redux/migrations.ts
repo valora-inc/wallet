@@ -838,7 +838,8 @@ export const migrations = {
       kycTryAgainLoading: false,
     },
   }),
-  81: (state: any) => ({
+  81: (state: any) => state,
+  82: (state: any) => ({
     ...state,
     swap: {
       swapState: 'quote',
