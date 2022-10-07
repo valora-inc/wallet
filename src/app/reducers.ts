@@ -10,7 +10,8 @@ import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persi
 
 export interface State {
   loggedIn: boolean
-  numberVerified: boolean
+  numberVerified: boolean // decentrally verified
+  phoneNumberVerified: boolean // centrally verified
   analyticsEnabled: boolean
   requirePinOnAppOpen: boolean
   appState: AppState
@@ -66,6 +67,7 @@ export interface State {
 const initialState = {
   loggedIn: false,
   numberVerified: false,
+  phoneNumberVerified: false,
   analyticsEnabled: true,
   requirePinOnAppOpen: false,
   appState: AppState.Active,
@@ -265,6 +267,11 @@ export const appReducer = (
       return {
         ...state,
         supportedBiometryType: action.supportedBiometryType,
+      }
+    case Actions.PHONE_NUMBER_VERIFICATION_COMPLETED:
+      return {
+        ...state,
+        phoneNumberVerified: true,
       }
     default:
       return state

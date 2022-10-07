@@ -5,10 +5,10 @@ import { useAsync } from 'react-async-hook'
 import { Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
 import { useDispatch, useSelector } from 'react-redux'
-import { setPhoneNumber } from 'src/account/actions'
 import { showError } from 'src/alert/actions'
 import { PhoneVerificationEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { phoneNumberVerificationCompleted } from 'src/app/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
 import Logger from 'src/utils/Logger'
@@ -190,9 +190,7 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCallingCode: st
         ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_code_verify_success)
         Logger.debug(`${TAG}/validateVerificationCode`, 'Successfully verified phone number')
         setVerificationStatus(PhoneNumberVerificationStatus.SUCCESSFUL)
-        dispatch(setPhoneNumber(phoneNumber, countryCallingCode))
-        // TODO store verification status in new redux variable so that the
-        // existing one can be used for background migration
+        dispatch(phoneNumberVerificationCompleted(phoneNumber, countryCallingCode))
       },
       onError: handleVerifySmsError,
     }
