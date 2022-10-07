@@ -100,6 +100,10 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCallingCode: st
         return
       }
 
+      if (!publicDataEncryptionKey) {
+        throw new Error('No data encryption key was found in the store. This should never happen.')
+      }
+
       Logger.debug(`${TAG}/requestVerificationCode`, 'Initiating request to verifyPhoneNumber')
       const signedMessage = await retrieveSignedMessage()
 
