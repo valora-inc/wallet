@@ -122,7 +122,11 @@ export function SwapReviewScreen() {
 
   const submitSwap = () => {
     // Check for swapResponse prior to submitting swap
-    if (!swapResponse) return
+    if (!swapResponse) {
+      dispatch(showError(ErrorMessages.SWAP_SUBMIT_FAILED))
+      Logger.error(TAG, 'No swap response found')
+      return
+    }
 
     // Analytics for swap submission
     ValoraAnalytics.track(SwapEvents.swap_review_submit, {

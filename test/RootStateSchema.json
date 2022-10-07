@@ -4646,6 +4646,7 @@
                                         "superchargeClaimFailure",
                                         "superchargeFetchRewardsFailed",
                                         "swapScreen.fetchSwapQuoteFailed",
+                                        "swapScreen.swapSubmitFailed",
                                         "transactionFailed",
                                         "transactionTimeout",
                                         "verificationFailure",

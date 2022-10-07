@@ -1424,6 +1424,7 @@
     "swapTo": "Swap To",
     "transactionDetails": "Transaction Details",
     "estimatedGas": "Estimated Gas",
+    "swapSubmitError": "Sorry, we were unable to complete your swap. Please try again or contact support.",
     "swapFee": "{{appName}} Fee",
     "swapFeeTitle": "What is the {{appName}} Fee?",
     "swapFeeBody": "The {{appName}} fee is the fee that you pay to swap tokens on {{appName}}. \n\n The fee is {{swapFee}}% of the amount you are exchanging. \n\n {{appName}} fees are free for the next few months.",
