@@ -16,7 +16,7 @@ import {
   swapStart,
   swapSuccess,
 } from 'src/swap/slice'
-import { Field, SwapInfo, SwapTransaction } from 'src/swap/types'
+import { ApproveTransaction, Field, SwapInfo, SwapTransaction } from 'src/swap/types'
 import { sendTransaction } from 'src/transactions/send'
 import { newTransactionContext } from 'src/transactions/types'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
@@ -30,6 +30,18 @@ const TAG = 'swap/saga'
 
 function getPercentageDifference(price1: number, price2: number) {
   return (Math.abs(price1 - price2) / ((price1 + price2) / 2)) * 100
+}
+
+function* sendSwapTransaction(rawTx: ApproveTransaction | SwapTransaction, tagDescription: string) {
+  // Set contract kit, wallet address and normalizer
+  const kit: ContractKit = yield call(getContractKit)
+  const walletAddress: string = yield call(getConnectedUnlockedAccount)
+  const normalizer = new TxParamsNormalizer(kit.connection)
+
+  applyChainIdWorkaround(rawTx, yield call([kit.connection, 'chainId']))
+  const tx: CeloTx = yield call(normalizer.populate.bind(normalizer), rawTx)
+  const txo = buildTxo(kit, tx)
+  yield call(sendTransaction, txo, walletAddress, newTransactionContext(TAG, tagDescription))
 }
 
 export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
@@ -57,24 +69,11 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       return
     }
 
-    // Set contract kit, wallet address and normalizer
-    const kit: ContractKit = yield call(getContractKit)
     const walletAddress: string = yield call(getConnectedUnlockedAccount)
-    const normalizer = new TxParamsNormalizer(kit.connection)
 
     // Approve transaction
     yield put(swapApprove())
-    Logger.debug(TAG, `Starting to swap approval for address: ${walletAddress}`)
-    const rawApproveTx = { ...action.payload.approveTransaction }
-    applyChainIdWorkaround(rawApproveTx, yield call([kit.connection, 'chainId']))
-    const approveTx: CeloTx = yield call(normalizer.populate.bind(normalizer), rawApproveTx)
-    const approveTxo = buildTxo(kit, approveTx)
-    yield call(
-      sendTransaction,
-      approveTxo,
-      walletAddress,
-      newTransactionContext(TAG, 'Swap/Approve')
-    )
+    yield call(sendSwapTransaction, action.payload.approveTransaction, 'Swap/Approve')
 
     // Query the execute swap endpoint
     const amountType =
@@ -99,17 +98,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
 
     // Execute transaction
     yield put(swapExecute())
-    Logger.debug(TAG, `Starting to swap execute for address: ${walletAddress}`)
-    const rawExecuteTx = responseJson.validatedSwapTransaction
-    applyChainIdWorkaround(rawExecuteTx, yield call([kit.connection, 'chainId']))
-    const executeTx: CeloTx = yield call(normalizer.populate.bind(normalizer), rawExecuteTx)
-    const executeTxo = buildTxo(kit, executeTx)
-    yield call(
-      sendTransaction,
-      executeTxo,
-      walletAddress,
-      newTransactionContext(TAG, 'Swap/Execute')
-    )
+    yield call(sendSwapTransaction, responseJson.validatedSwapTransaction, 'Swap/Execute')
     yield put(swapSuccess())
     ValoraAnalytics.track(SwapEvents.swap_execute_success, {
       toToken: responseJson.validatedSwapTransaction.buyTokenAddress,
