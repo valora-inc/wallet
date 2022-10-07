@@ -52,8 +52,10 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCallingCode: st
 
   const dispatch = useDispatch()
   const address = useSelector(walletAddressSelector)
-  const privateDataKey = useSelector(dataEncryptionKeySelector)
-  const publicDataKey = privateDataKey ? compressedPubKey(hexToBuffer(privateDataKey)) : null
+  const privateDataEncryptionKey = useSelector(dataEncryptionKeySelector)
+  const publicDataEncryptionKey = privateDataEncryptionKey
+    ? compressedPubKey(hexToBuffer(privateDataEncryptionKey))
+    : null
 
   const [verificationStatus, setVerificationStatus] = useState(PhoneNumberVerificationStatus.NONE)
   const [verificationId, setVerificationId] = useState('')
@@ -112,7 +114,7 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCallingCode: st
           clientPlatform: Platform.OS,
           clientVersion: DeviceInfo.getVersion(),
           clientBundleId: DeviceInfo.getBundleId(),
-          publicDataKey,
+          publicDataEncryptionKey,
         }),
       })
       if (response.ok) {
