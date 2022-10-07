@@ -80,9 +80,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
     const requestUrl = `${networkConfig.executeSwapUrl}?${queryParams}`
     const response: Response = yield call(fetchWithTimeout, requestUrl)
     if (!response.ok) {
-      Logger.error(TAG, `Swap failed with status: ${response.status}`)
-      yield put(swapError())
-      return
+      throw new Error(`Got non-ok response from executeSwap: ${response.status}`)
     }
     const responseJson: { validatedSwapTransaction: SwapTransaction } = yield call([
       response,
