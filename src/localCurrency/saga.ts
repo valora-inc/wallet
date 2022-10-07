@@ -4,6 +4,7 @@ import { all, call, put, select, spawn, take, takeLatest } from 'redux-saga/effe
 import { Actions as AccountActions } from 'src/account/actions'
 import { apolloClient } from 'src/apollo'
 import { ExchangeRateQuery, ExchangeRateQueryVariables } from 'src/apollo/types'
+import { Actions as AppActions } from 'src/app/actions'
 import {
   Actions,
   fetchCurrentRate,
@@ -82,7 +83,11 @@ export function* watchFetchCurrentRate() {
 export function* watchSelectPreferredCurrency() {
   yield put(fetchCurrentRate())
   while (true) {
-    yield take([Actions.SELECT_PREFERRED_CURRENCY, AccountActions.SET_PHONE_NUMBER])
+    yield take([
+      Actions.SELECT_PREFERRED_CURRENCY,
+      AccountActions.SET_PHONE_NUMBER,
+      AppActions.PHONE_NUMBER_VERIFICATION_COMPLETED,
+    ])
     yield put(fetchCurrentRate())
   }
 }

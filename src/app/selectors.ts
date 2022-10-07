@@ -37,6 +37,11 @@ export const sessionIdSelector = (state: RootState) => {
 }
 
 export const verificationPossibleSelector = (state: RootState): boolean => {
+  const centralPhoneVerificationEnabled = centralPhoneVerificationEnabledSelector(state)
+  if (centralPhoneVerificationEnabled) {
+    return true
+  }
+
   const e164Number = e164NumberSelector(state)
   const saltCache = e164NumberToSaltSelector(state)
   const shouldUseKomenci = shouldUseKomenciSelector(state)
@@ -235,3 +240,17 @@ export const registrationStepsSelector = createSelector(
 
 export const centralPhoneVerificationEnabledSelector = (state: RootState) =>
   state.app.centralPhoneVerificationEnabled
+
+export const numberVerifiedCentrallySelector = (state: RootState) => state.app.phoneNumberVerified
+
+export const phoneNumberVerifiedSelector = createSelector(
+  [
+    centralPhoneVerificationEnabledSelector,
+    numberVerifiedCentrallySelector,
+    numberVerifiedSelector,
+  ],
+  (centralPhoneVerificationEnabled, numberVerifiedCentrally, numberVerifiedDecentrally) =>
+    centralPhoneVerificationEnabled
+      ? numberVerifiedCentrally || numberVerifiedDecentrally
+      : numberVerifiedDecentrally
+)
