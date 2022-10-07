@@ -4,6 +4,7 @@ import { Actions, ActionTypes, AppState } from 'src/app/actions'
 import { Dapp, SuperchargeButtonType } from 'src/app/types'
 import { SuperchargeTokenConfig } from 'src/consumerIncentives/types'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
+import { MapCategory } from 'src/map/constants'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { Screens } from 'src/navigator/Screens'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
@@ -67,6 +68,7 @@ export interface State {
   skipProfilePicture: boolean
   finclusiveUnsupportedStates: string[]
   celoWithdrawalEnabledInExchange: boolean
+  mapCategory: MapCategory
 }
 
 const initialState = {
@@ -115,6 +117,7 @@ const initialState = {
   skipProfilePicture: REMOTE_CONFIG_VALUES_DEFAULTS.skipProfilePicture,
   finclusiveUnsupportedStates: REMOTE_CONFIG_VALUES_DEFAULTS.finclusiveUnsupportedStates.split(','),
   celoWithdrawalEnabledInExchange: REMOTE_CONFIG_VALUES_DEFAULTS.celoWithdrawalEnabledInExchange,
+  mapCategory: MapCategory.All,
 }
 
 export const appReducer = (

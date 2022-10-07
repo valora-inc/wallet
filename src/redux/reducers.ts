@@ -16,6 +16,7 @@ import i18nReducer, { State as I18nState } from 'src/i18n/slice'
 import { reducer as identity, State as IdentityState } from 'src/identity/reducer'
 import { reducer as imports, State as ImportState } from 'src/import/reducer'
 import { reducer as localCurrency, State as LocalCurrencyState } from 'src/localCurrency/reducer'
+import { reducer as map, State as MapState } from 'src/map/reducer'
 import { reducer as networkInfo, State as NetworkInfoState } from 'src/networkInfo/reducer'
 import { reducer as paymentRequest, State as PaymentRequestState } from 'src/paymentRequest/reducer'
 import { reducer as pdf, State as PdfState } from 'src/pdf/reducer'
@@ -58,6 +59,7 @@ const appReducer = combineReducers({
   supercharge: superchargeReducer,
   swap: swap,
   vendors,
+  map,
   pdf: pdf,
 }) as (state: RootState | undefined, action: Action) => RootState
 
@@ -110,6 +112,7 @@ export interface RootState {
   swap: SwapState
   vendors: VendorState
   pdf: PdfState
+  map: MapState
 }
 
 export interface PersistedRootState {

@@ -1,6 +1,8 @@
+import { some } from 'lodash'
 import { Linking, Platform, Share } from 'react-native'
 import { LatLng } from 'react-native-maps'
 import Logger from 'src/utils/Logger'
+import { Vendor, Vendors, VendorWithLocation } from 'src/vendors/types'
 
 export async function initiatePhoneCall(phonenumber: string) {
   await Linking.openURL(`tel:${phonenumber}`)
@@ -83,4 +85,15 @@ export async function initiateShare(
   } catch (error) {
     // @todo handle share error
   }
+}
+
+export function filterVendors(search: string, vendors: Vendors): (Vendor | VendorWithLocation)[] {
+  const vendorsList = Object.values(vendors)
+
+  const filteredVendors = vendorsList.filter(
+    (vendor) =>
+      vendor.title.toLowerCase().includes(search.toLowerCase()) ||
+      some(vendor.tags, (tag) => tag.toLowerCase().includes(search.toLowerCase()))
+  )
+  return filteredVendors
 }

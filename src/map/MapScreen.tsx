@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useRef } from 'react'
 import { Platform, StyleSheet } from 'react-native'
 import MapView from 'react-native-maps'
 import Animated from 'react-native-reanimated'
@@ -47,8 +47,8 @@ const MapScreen = () => {
       >
         {vendors && vendorLocationMarkers()}
       </MapView>
-      <MapBottomSheet />
       <DrawerTopBar scrollPosition={scrollPosition} />
+      <MapBottomSheet />
     </SafeAreaView>
   )
 }

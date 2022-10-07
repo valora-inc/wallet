@@ -1,8 +1,10 @@
 import BottomSheet, { BottomSheetFlatList } from '@gorhom/bottom-sheet'
-import React, { useRef } from 'react'
-import { ListRenderItemInfo, StyleSheet, Text } from 'react-native'
+import React, { useCallback, useRef } from 'react'
+import { ListRenderItemInfo, StyleSheet } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
-import fontStyles from 'src/styles/fonts'
+import { MapCategory } from 'src/map/constants'
+import MapSheetHandle from 'src/map/MapSheetHandle'
+import { filteredVendorsSelector, searchQuerySelector } from 'src/map/selector'
 import { setCurrentVendor } from 'src/vendors/actions'
 import { currentVendorSelector, vendorsSelector } from 'src/vendors/selector'
 import { Vendor, VendorWithLocation } from 'src/vendors/types'
@@ -15,6 +17,9 @@ type Props = {}
 const MapBottomSheet = () => {
   const dispatch = useDispatch()
   const vendors = Object.values(useSelector(vendorsSelector))
+  const filteredVendors = Object.values(useSelector(filteredVendorsSelector))
+  const searchQuery = Object.values(useSelector(searchQuerySelector))
+
   const currentVendor = useSelector(currentVendorSelector)
 
   const bottomSheetRef = useRef<BottomSheet>(null)
@@ -30,12 +35,21 @@ const MapBottomSheet = () => {
     )
   }
 
+  const renderHandle = useCallback(
+    (props) => <MapSheetHandle title={MapCategory.All} {...props} />,
+    []
+  )
+
   return (
-    <BottomSheet ref={bottomSheetRef} index={0} snapPoints={snapPoints}>
-      <Text style={styles.header}>{!currentVendor && `Vendors`}</Text>
+    <BottomSheet
+      ref={bottomSheetRef}
+      index={0}
+      snapPoints={snapPoints}
+      handleComponent={renderHandle}
+    >
       {!currentVendor && (
         <BottomSheetFlatList
-          data={vendors}
+          data={searchQuery.length > 0 ? filteredVendors : vendors}
           keyExtractor={(vendor: Vendor) => vendor.title}
           renderItem={renderVendorItem}
           contentContainerStyle={styles.innerContainer}
@@ -53,10 +67,6 @@ const MapBottomSheet = () => {
 }
 
 const styles = StyleSheet.create({
-  header: {
-    marginHorizontal: 16,
-    ...fontStyles.h1,
-  },
   innerContainer: {},
 })
 

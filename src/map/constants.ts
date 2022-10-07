@@ -1,6 +1,15 @@
 import { LatLng, Region } from 'react-native-maps'
+import Skerpene from 'src/map/forests/skerpene.json'
+import Organic from 'src/map/forests/organic.json'
+import Hofinan from 'src/map/forests/hofinan.json'
 
 export const BASE_TAG = 'MapScreen'
+
+export enum MapCategory {
+  All = 'All',
+  Vendor = 'Vendor',
+  FoodForest = 'FoodForest',
+}
 
 export const LOCALE_LATLNG: LatLng = {
   latitude: 12.1696,
@@ -50,3 +59,9 @@ export const GMAP_STYLE = [
     ],
   },
 ]
+
+export const FoodForest = {
+  Skerpene: Skerpene,
+  Hofinan: Hofinan,
+  Organic: Organic,
+}

@@ -31,6 +31,7 @@ import { identitySaga } from 'src/identity/saga'
 import { Actions as ImportActions } from 'src/import/actions'
 import { importSaga } from 'src/import/saga'
 import { localCurrencySaga } from 'src/localCurrency/saga'
+import { mapSaga } from 'src/map/saga'
 import { networkInfoSaga } from 'src/networkInfo/saga'
 import { paymentRequestSaga } from 'src/paymentRequest/saga'
 import { pdfSaga } from 'src/pdf/saga'
@@ -141,6 +142,7 @@ export function* rootSaga() {
     yield spawn(checkAndroidMobileServicesSaga)
     yield spawn(vendorsSaga)
     yield spawn(pdfSaga)
+    yield spawn(mapSaga)
   } catch (error) {
     Logger.error('@rootSaga', 'Error while initializing sagas', error)
     // Propagate so it's handled by Sentry

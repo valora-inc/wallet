@@ -88,7 +88,7 @@ export default React.memo(function Button(props: ButtonProps) {
               <Text
                 maxFontSizeMultiplier={1}
                 accessibilityLabel={accessibilityLabel}
-                style={{ ...fontStyles.regular600, color: textColor }}
+                style={{ ...getFontStyle(size), color: textColor }}
               >
                 {text}
               </Text>
@@ -117,8 +117,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
   },
   tiny: {
-    height: 40,
-    minWidth: 40,
+    height: 28,
+    minWidth: 32,
+    paddingVertical: 3,
+    paddingHorizontal: 16,
   },
   small: {
     height: 40,
@@ -133,6 +135,21 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
 })
+
+function getFontStyle(size: BtnSizes | undefined) {
+  let fontStyle
+  switch (size) {
+    case BtnSizes.SMALL || BtnSizes.TINY: {
+      fontStyle = { ...fontStyles.small }
+      break
+    }
+    default: {
+      fontStyle = { ...fontStyles.regular600 }
+      break
+    }
+  }
+  return { ...fontStyle }
+}
 
 function getColors(type: BtnTypes, disabled: boolean | undefined) {
   let textColor
@@ -195,7 +212,13 @@ function getStyle(
 ) {
   switch (size) {
     case BtnSizes.TINY:
-      return { ...styles.button, ...styles.buttonPadding, ...styles.tiny, backgroundColor, opacity }
+      return {
+        ...styles.button,
+        ...styles.buttonPadding,
+        ...styles.tiny,
+        backgroundColor,
+        opacity,
+      }
     case BtnSizes.SMALL:
       return {
         ...styles.button,
@@ -205,7 +228,13 @@ function getStyle(
         opacity,
       }
     case BtnSizes.FULL:
-      return { ...styles.button, ...styles.buttonPadding, ...styles.full, backgroundColor, opacity }
+      return {
+        ...styles.button,
+        ...styles.buttonPadding,
+        ...styles.full,
+        backgroundColor,
+        opacity,
+      }
     default:
       return {
         ...styles.button,
