@@ -253,14 +253,14 @@ export function* fetchWalletAddressesDecentralized(e164Number: string) {
 }
 
 function* fetchWalletAddresses(e164Number: string) {
-  const addressesFromDecentralisedMapping: string[] = yield call(
+  const addressesFromDecentralizedMapping: string[] = yield call(
     fetchWalletAddressesDecentralized,
     e164Number
   )
   const centralPhoneVerificationEnabled = yield select(centralPhoneVerificationEnabledSelector)
 
   if (!centralPhoneVerificationEnabled) {
-    return addressesFromDecentralisedMapping
+    return addressesFromDecentralizedMapping
   }
 
   try {
@@ -283,12 +283,12 @@ function* fetchWalletAddresses(e164Number: string) {
     if (response.ok) {
       const { addresses }: { addresses: string[] } = yield call([response, 'json'])
 
-      // combine with addresses found in decentralised mapping to maintain
+      // combine with addresses found in decentralized mapping to maintain
       // backwards compatibilty with accounts that have not migrated to CPV
       return [
         ...new Set([
           ...addresses.map((address) => address.toLowerCase()),
-          ...addressesFromDecentralisedMapping.map((address) => address.toLowerCase()),
+          ...addressesFromDecentralizedMapping.map((address) => address.toLowerCase()),
         ]),
       ]
     } else {
