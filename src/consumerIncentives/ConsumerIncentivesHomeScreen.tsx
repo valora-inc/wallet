@@ -8,6 +8,7 @@ import { RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import {
   numberVerifiedCentrallySelector,
+  phoneNumberVerifiedSelector,
   superchargeTokenConfigByTokenSelector,
 } from 'src/app/selectors'
 import { SUPERCHARGE_LEARN_MORE } from 'src/brandingConfig'
@@ -79,10 +80,7 @@ function SuperchargeInstructions() {
   const { t } = useTranslation()
   const [tokenDetailsVisible, setTokenDetailsVisible] = useState(false)
 
-  const numberVerifiedDecentrally = useSelector((state) => state.app.numberVerified)
-  const numberVerifiedCentrally = useSelector(numberVerifiedCentrallySelector)
-  const userIsVerified = numberVerifiedDecentrally || numberVerifiedCentrally
-
+  const userIsVerified = useSelector(phoneNumberVerifiedSelector)
   const { superchargeApy } = useSelector((state) => state.app)
   const { hasBalanceForSupercharge, superchargingTokenConfig } = useSelector(
     superchargeInfoSelector

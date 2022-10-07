@@ -14,7 +14,7 @@ import { ScrollDirection } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { openUrl } from 'src/app/actions'
 import {
-  numberVerifiedCentrallySelector,
+  phoneNumberVerifiedSelector,
   rewardsEnabledSelector,
   verificationPossibleSelector,
 } from 'src/app/selectors'
@@ -95,9 +95,7 @@ function useSimpleActions() {
     dismissedStartSupercharging,
   } = useSelector((state) => state.account)
 
-  const numberVerifiedDecentrally = useSelector((state) => state.app.numberVerified)
-  const numberVerifiedCentrally = useSelector(numberVerifiedCentrallySelector)
-  const numberVerified = numberVerifiedCentrally || numberVerifiedDecentrally
+  const numberVerified = useSelector(phoneNumberVerifiedSelector)
 
   const goldEducationCompleted = useSelector((state) => state.goldToken.educationCompleted)
 

@@ -250,5 +250,7 @@ export const phoneNumberVerifiedSelector = createSelector(
     numberVerifiedSelector,
   ],
   (centralPhoneVerificationEnabled, numberVerifiedCentrally, numberVerifiedDecentrally) =>
-    centralPhoneVerificationEnabled ? numberVerifiedCentrally : numberVerifiedDecentrally
+    centralPhoneVerificationEnabled
+      ? numberVerifiedCentrally || numberVerifiedDecentrally
+      : numberVerifiedDecentrally
 )
