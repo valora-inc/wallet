@@ -1430,7 +1430,7 @@
     "estimatedAmountTitle": "Estimated Amount",
     "estimatedAmountBody": "Conversions take place on a third party decentralized exchange that finds you the best rate for your swap. \n\n Your trade will be completed at a price within {{slippagePercent}}% of the estimate or the transaction will be cancelled & funds returned to your wallet."
   },
-  "swapCompleteScreen": {
+  "SwapExecuteScreen": {
     "swapPending": "Swap Pending",
     "swapSuccess": "Swap Successful!",
     "swapError": "Swap Error",

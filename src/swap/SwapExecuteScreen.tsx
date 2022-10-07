@@ -16,7 +16,7 @@ import { Spacing } from 'src/styles/styles'
 import { swapStateSelector } from 'src/swap/selectors'
 import { SwapState } from 'src/swap/slice'
 
-export function SwapPending() {
+export function SwapExecuteScreen() {
   const swapState = useSelector(swapStateSelector)
   const { t } = useTranslation()
 
@@ -39,38 +39,38 @@ export function SwapPending() {
       case SwapState.START:
         return (
           <>
-            <Text style={styles.text}>{t('swapCompleteScreen.swapPending')}</Text>
-            <Text style={styles.subText}>{t('swapCompleteScreen.exchangeRateSubtext')}</Text>
+            <Text style={styles.text}>{t('SwapExecuteScreen.swapPending')}</Text>
+            <Text style={styles.subText}>{t('SwapExecuteScreen.exchangeRateSubtext')}</Text>
           </>
         )
       case SwapState.APPROVE:
         return (
           <>
-            <Text style={styles.text}>{t('swapCompleteScreen.swapPending')}</Text>
-            <Text style={styles.subText}>{t('swapCompleteScreen.approvingSubtext')}</Text>
+            <Text style={styles.text}>{t('SwapExecuteScreen.swapPending')}</Text>
+            <Text style={styles.subText}>{t('SwapExecuteScreen.approvingSubtext')}</Text>
           </>
         )
       case SwapState.EXECUTE:
         return (
           <>
-            <Text style={styles.text}>{t('swapCompleteScreen.swapPending')}</Text>
-            <Text style={styles.subText}>{t('swapCompleteScreen.completingSubtext')}</Text>
+            <Text style={styles.text}>{t('SwapExecuteScreen.swapPending')}</Text>
+            <Text style={styles.subText}>{t('SwapExecuteScreen.completingSubtext')}</Text>
           </>
         )
       case SwapState.ERROR:
         return (
           <>
-            <Text style={styles.text}>{t('swapCompleteScreen.swapError')}</Text>
+            <Text style={styles.text}>{t('SwapExecuteScreen.swapError')}</Text>
             <Dialog
               isVisible={true}
-              title={t('swapCompleteScreen.swapErrorModal.title')}
-              actionText={t('swapCompleteScreen.swapErrorModal.swapRestart')}
+              title={t('SwapExecuteScreen.swapErrorModal.title')}
+              actionText={t('SwapExecuteScreen.swapErrorModal.swapRestart')}
               actionPress={navigateToSwapStart}
-              secondaryActionText={t('swapCompleteScreen.swapErrorModal.contactSupport')}
+              secondaryActionText={t('SwapExecuteScreen.swapErrorModal.contactSupport')}
               secondaryActionPress={navigateToSupport}
               testID="ErrorModal"
             >
-              {t('swapCompleteScreen.swapErrorModal.body')}
+              {t('SwapExecuteScreen.swapErrorModal.body')}
             </Dialog>
           </>
         )
@@ -78,13 +78,13 @@ export function SwapPending() {
         return (
           <Dialog
             isVisible={true}
-            title={t('swapCompleteScreen.swapPriceModal.title')}
-            actionText={t('swapCompleteScreen.swapPriceModal.action')}
+            title={t('SwapExecuteScreen.swapPriceModal.title')}
+            actionText={t('SwapExecuteScreen.swapPriceModal.action')}
             actionPress={navigateToReviewScreen}
             testID="PriceChangeModal"
             onBackgroundPress={navigateToReviewScreen}
           >
-            {t('swapCompleteScreen.swapPriceModal.body')}
+            {t('SwapExecuteScreen.swapPriceModal.body')}
           </Dialog>
         )
       // These states are the first and last of the swap flow
@@ -93,10 +93,10 @@ export function SwapPending() {
       case SwapState.COMPLETE:
         return (
           <>
-            <Text style={styles.text}>{t('swapCompleteScreen.swapSuccess')}</Text>
+            <Text style={styles.text}>{t('SwapExecuteScreen.swapSuccess')}</Text>
             <Button
               type={BtnTypes.SECONDARY}
-              text={t('swapCompleteScreen.swapAgain')}
+              text={t('SwapExecuteScreen.swapAgain')}
               onPress={navigateToSwapStart}
             />
           </>
@@ -115,7 +115,7 @@ export function SwapPending() {
           <ActivityIndicator
             size="large"
             color={colors.greenBrand}
-            testID="SwapPending/loadingIcon"
+            testID="SwapExecuteScreen/loadingIcon"
             style={styles.activityIndicator}
           />
         )
@@ -123,7 +123,7 @@ export function SwapPending() {
       case SwapState.PRICE_CHANGE:
         return (
           <View
-            testID="SwapPending/errorIcon"
+            testID="SwapExecuteScreen/errorIcon"
             style={[styles.iconContainer, { backgroundColor: colors.warning }]}
           >
             <Times color={colors.light} />
@@ -132,7 +132,7 @@ export function SwapPending() {
       case SwapState.COMPLETE:
         return (
           <View
-            testID="SwapPending/completeIcon"
+            testID="SwapExecuteScreen/completeIcon"
             style={[styles.iconContainer, { backgroundColor: colors.greenUI }]}
           >
             <Checkmark color={colors.light} />
@@ -194,10 +194,10 @@ const styles = StyleSheet.create({
   },
 })
 
-SwapPending.navOptions = {
+SwapExecuteScreen.navOptions = {
   ...noHeader,
   // Prevent swiping back on iOS
   gestureEnabled: false,
 }
 
-export default SwapPending
+export default SwapExecuteScreen
