@@ -33,7 +33,7 @@ function getPercentageDifference(price1: number, price2: number) {
 export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
   try {
     // Navigate to swap pending screen
-    yield call(navigate, Screens.SwapPending)
+    yield call(navigate, Screens.SwapExecuteScreen)
 
     // Check that our guaranteedPrice is within 2%, maxSwapSlippagePercentage, of of the price
     const maxSlippagePercent: number = yield select(maxSwapSlippagePercentageSelector)

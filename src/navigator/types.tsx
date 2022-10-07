@@ -294,7 +294,7 @@ export type StackParamList = {
     | undefined
   [Screens.Sync]: undefined
   [Screens.SwapScreen]: undefined
-  [Screens.SwapPending]: undefined
+  [Screens.SwapExecuteScreen]: undefined
   [Screens.SwapReviewScreen]: undefined
   [Screens.TransactionDetailsScreen]: {
     transaction: TokenTransaction
