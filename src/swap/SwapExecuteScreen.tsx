@@ -88,7 +88,6 @@ export function SwapExecuteScreen() {
         )
       // These states are the first and last of the swap flow
       // Avoids a flicker when resetting state.swap.swapInfo
-      case SwapState.USER_INPUT:
       case SwapState.COMPLETE:
         return (
           <>
@@ -106,7 +105,6 @@ export function SwapExecuteScreen() {
   const SwapIcon = useMemo(() => {
     switch (swapState) {
       default:
-      case SwapState.USER_INPUT:
       case SwapState.START:
       case SwapState.APPROVE:
       case SwapState.EXECUTE:
