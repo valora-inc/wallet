@@ -146,7 +146,7 @@ export function SwapReviewScreen() {
     <SafeAreaView style={styles.safeAreaContainer}>
       <CustomHeader title={t('swapReviewScreen.title')} left={<BackButton />} />
       <DisconnectBanner />
-      {shouldFetch && swapResponse === null ? (
+      {shouldFetch ? (
         <View style={styles.loadingContentContainer}>
           <ActivityIndicator
             size="large"
