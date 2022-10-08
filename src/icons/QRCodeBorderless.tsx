@@ -1,6 +1,6 @@
 import * as React from 'react'
 import colors from 'src/styles/colors'
-import Svg, { Path, Rect } from 'svgs'
+import Svg, { Path } from 'svgs'
 
 interface Props {
   height?: number
@@ -16,16 +16,37 @@ export default class QRCodeBorderless extends React.PureComponent<Props> {
   render() {
     const { color, height } = this.props
     return (
-      <Svg width={height} height={height} viewBox="0 0 32 32" fill="none">
-        <Rect x={4} y={4} width={10} height={10} rx={3} stroke={color} strokeWidth={2.75} />
-        <Rect x={18} y={4} width={10} height={10} rx={3} stroke={color} strokeWidth={2.75} />
+      <Svg width={height} height={height} viewBox="0 0 36 36" fill="none">
         <Path
-          d="M18 25v1a2 2 0 002 2h1M28 21v-1a2 2 0 00-2-2h-1M21 18h-1a2 2 0 00-2 2v1M25 28h1a2 2 0 002-2v-1"
-          stroke={color}
-          strokeWidth={2.75}
-          strokeLinecap="round"
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M34.125 20.9326H2.625C2.004 20.9326 1.5 20.4286 1.5 19.8076C1.5 19.1866 2.004 18.6826 2.625 18.6826H34.125C34.746 18.6826 35.25 19.1866 35.25 19.8076C35.25 20.4286 34.746 20.9326 34.125 20.9326Z"
+          fill={color}
         />
-        <Rect x={4} y={18} width={10} height={10} rx={3} stroke={color} strokeWidth={2.75} />
+        <Path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M31.3191 14.6175C30.6981 14.6175 30.1941 14.1135 30.1941 13.4925V11.2215C30.1941 8.757 28.1871 6.75 25.7196 6.75H23.9121C23.2911 6.75 22.7871 6.246 22.7871 5.625C22.7871 5.004 23.2911 4.5 23.9121 4.5H25.7196C29.4276 4.5 32.4441 7.5165 32.4441 11.2215V13.4925C32.4441 14.1135 31.9401 14.6175 31.3191 14.6175Z"
+          fill={color}
+        />
+        <Path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M5.42969 14.6175C4.80869 14.6175 4.30469 14.1135 4.30469 13.4925V11.2215C4.30469 7.5165 7.32119 4.5 11.0292 4.5H12.8832C13.5042 4.5 14.0082 5.004 14.0082 5.625C14.0082 6.246 13.5042 6.75 12.8832 6.75H11.0292C8.56169 6.75 6.55469 8.757 6.55469 11.2215V13.4925C6.55469 14.1135 6.05069 14.6175 5.42969 14.6175Z"
+          fill={color}
+        />
+        <Path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M25.7196 32.6407H23.9121C23.2911 32.6407 22.7871 32.1367 22.7871 31.5157C22.7871 30.8947 23.2911 30.3907 23.9121 30.3907H25.7196C28.1871 30.3907 30.1941 28.3837 30.1941 25.9177V19.8052C30.1941 19.1842 30.6981 18.6802 31.3191 18.6802C31.9401 18.6802 32.4441 19.1842 32.4441 19.8052V25.9177C32.4441 29.6242 29.4276 32.6407 25.7196 32.6407Z"
+          fill={color}
+        />
+        <Path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M12.8832 32.6407H11.0292C7.32119 32.6407 4.30469 29.6242 4.30469 25.9177V19.8052C4.30469 19.1842 4.80869 18.6802 5.42969 18.6802C6.05069 18.6802 6.55469 19.1842 6.55469 19.8052V25.9177C6.55469 28.3837 8.56169 30.3907 11.0292 30.3907H12.8832C13.5042 30.3907 14.0082 30.8947 14.0082 31.5157C14.0082 32.1367 13.5042 32.6407 12.8832 32.6407Z"
+          fill={color}
+        />
       </Svg>
     )
   }

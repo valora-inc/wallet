@@ -1,0 +1,17 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "fonts/Kaleko105Bold.ttf",
+      "sha1": "501240e8c7bc3578d414f61615b203186ec63890"
+    },
+    {
+      "path": "fonts/Lato-Bold.ttf",
+      "sha1": "542498221d97bee5bdbccf86ee8890bf8e8005c9"
+    },
+    {
+      "path": "fonts/Lato-Regular.ttf",
+      "sha1": "e923c72eda5e50a87e18ff5c71e9ef4b3b6455a3"
+    }
+  ]
+}

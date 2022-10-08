@@ -120,11 +120,16 @@ export function HomeTokenBalance() {
 
   return (
     <View style={styles.container} testID="HomeTokenBalance">
+      <TokenBalance />
       <View style={styles.title}>
         <View style={styles.row}>
           <Text style={styles.totalValue}>{t('totalValue')}</Text>
           {tokenBalances.length > 0 && (
-            <TouchableOpacity onPress={() => setInfoVisible(true)} hitSlop={variables.iconHitslop}>
+            <TouchableOpacity
+              style={styles.infoHandle}
+              onPress={() => setInfoVisible(true)}
+              hitSlop={variables.iconHitslop}
+            >
               <InfoIcon size={14} color={Colors.gray3} />
             </TouchableOpacity>
           )}
@@ -146,7 +151,6 @@ export function HomeTokenBalance() {
           </TouchableOpacity>
         )}
       </View>
-      <TokenBalance />
     </View>
   )
 }
@@ -225,6 +229,8 @@ const styles = StyleSheet.create({
   },
   balance: {
     ...fontStyles.largeNumber,
+    fontSize: 54,
+    lineHeight: 0,
     textAlign: 'center',
   },
   exchangeBalance: {
@@ -245,5 +251,9 @@ const styles = StyleSheet.create({
   tokenBalance: {
     ...fontStyles.label,
     color: Colors.gray4,
+  },
+  infoHandle: {
+    flexDirection: 'column',
+    justifyContent: 'center',
   },
 })

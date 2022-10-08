@@ -52,4 +52,4 @@ const CPOptions = {
   updateDialog: true,
   installMode: CodePush.InstallMode.ON_NEXT_RESTART,
 }
-AppRegistry.registerComponent('celo', () => CodePush(CPOptions)(App))
+AppRegistry.registerComponent('celo', () => (__DEV__ ? App : CodePush(CPOptions)(App)))

@@ -1,8 +1,8 @@
 import { StyleSheet } from 'react-native'
 import colors from 'src/styles/colors'
 
-const Poppins = {
-  SemiBold: 'Lato-Bold',
+const Kaleko = {
+  Bold: 'Kaleko105-Bold',
 }
 
 const Lato = {
@@ -11,7 +11,7 @@ const Lato = {
   Bold: 'Lato-Bold',
 }
 
-export const fontFamily = Poppins.SemiBold
+export const fontFamily = Lato.Bold
 
 const standards = {
   large: {
@@ -35,12 +35,12 @@ const fontStyles = StyleSheet.create({
   h1: {
     fontSize: 24,
     lineHeight: 28,
-    fontFamily: Poppins.SemiBold,
+    fontFamily: Lato.Bold,
     color: colors.dark,
   },
   h2: {
     ...standards.regular,
-    fontFamily: Poppins.SemiBold,
+    fontFamily: Lato.Bold,
     color: colors.dark,
   },
   sectionHeader: {
@@ -50,7 +50,7 @@ const fontStyles = StyleSheet.create({
   },
   navigationHeader: {
     ...standards.regular,
-    fontFamily: Poppins.SemiBold,
+    fontFamily: Lato.Bold,
     color: colors.dark,
   },
   notificationHeadline: {
@@ -82,31 +82,31 @@ const fontStyles = StyleSheet.create({
     ...standards.small,
     fontFamily: Lato.Regular,
   },
-  large600: { ...standards.large, fontFamily: Poppins.SemiBold },
-  regular600: { ...standards.regular, fontFamily: Poppins.SemiBold },
-  small600: { ...standards.small, fontFamily: Poppins.SemiBold },
-  large500: { ...standards.large, fontFamily: Poppins.SemiBold },
-  regular500: { ...standards.regular, fontFamily: Poppins.SemiBold },
-  small500: { ...standards.small, fontFamily: Poppins.SemiBold },
-  small400: { ...standards.small, fontFamily: Poppins.SemiBold },
+  large600: { ...standards.large, fontFamily: Lato.Bold },
+  regular600: { ...standards.regular, fontFamily: Lato.Bold },
+  small600: { ...standards.small, fontFamily: Lato.Bold },
+  large500: { ...standards.large, fontFamily: Lato.Bold },
+  regular500: { ...standards.regular, fontFamily: Lato.Bold },
+  small500: { ...standards.small, fontFamily: Lato.Bold },
+  small400: { ...standards.small, fontFamily: Lato.Regular },
   center: {
     textAlign: 'center',
   },
   mediumNumber: {
     lineHeight: 27,
     fontSize: 24,
-    fontFamily: Poppins.SemiBold,
+    fontFamily: Lato.Bold,
     color: colors.dark,
   },
   largeNumber: {
     lineHeight: 40,
     fontSize: 32,
-    fontFamily: Poppins.SemiBold,
+    fontFamily: Kaleko.Bold,
     color: colors.dark,
   },
   iconText: {
     fontSize: 16,
-    fontFamily: Poppins.SemiBold,
+    fontFamily: Lato.Bold,
     color: colors.light,
   },
   emptyState: {

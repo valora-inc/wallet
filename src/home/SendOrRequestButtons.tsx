@@ -8,6 +8,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import useSelector from 'src/redux/useSelector'
 import { canSendTokensSelector } from 'src/send/selectors'
+import colors from 'src/styles/colors'
 import variables from 'src/styles/variables'
 import { tokensListSelector } from 'src/tokens/selectors'
 
@@ -38,7 +39,7 @@ export default function SendOrRequestButtons() {
         testID="SendOrRequestButtons/SendButton"
       />
       <Button
-        style={[styles.button, styles.requestButton]}
+        style={[styles.button]}
         size={BtnSizes.MEDIUM}
         type={BtnTypes.PRIMARY2}
         text={t('request')}
@@ -53,15 +54,14 @@ export default function SendOrRequestButtons() {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: variables.contentPadding,
-    paddingVertical: 12,
+    justifyContent: 'space-evenly',
+    padding: variables.contentPadding,
+    borderTopColor: colors.gray2,
+    borderTopWidth: StyleSheet.hairlineWidth,
   },
   button: {
     flex: 1,
     flexDirection: 'column',
-  },
-  requestButton: {
-    marginHorizontal: 12,
+    marginHorizontal: 5,
   },
 })

@@ -1,3 +1,4 @@
+import { TouchableOpacity } from '@gorhom/bottom-sheet'
 import _ from 'lodash'
 import React, { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -6,8 +7,11 @@ import Animated from 'react-native-reanimated'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { showMessage } from 'src/alert/actions'
+import { HomeEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { AppState } from 'src/app/actions'
 import { appStateSelector } from 'src/app/selectors'
+import AccountNumber from 'src/components/AccountNumber'
 import { HomeTokenBalance } from 'src/components/TokenBalance'
 import {
   ALERT_BANNER_DURATION,
@@ -21,8 +25,11 @@ import CashInBottomSheet from 'src/home/CashInBottomSheet'
 import NotificationBox from 'src/home/NotificationBox'
 import SendOrRequestButtons from 'src/home/SendOrRequestButtons'
 import Logo from 'src/icons/Logo'
+import QRCodeBorderless from 'src/icons/QRCodeBorderless'
 import { importContacts } from 'src/identity/actions'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import useSelector from 'src/redux/useSelector'
 import { initializeSentryUserContext } from 'src/sentry/actions'
@@ -30,12 +37,14 @@ import colors from 'src/styles/colors'
 import { celoAddressSelector, coreTokensSelector } from 'src/tokens/selectors'
 import TransactionFeed from 'src/transactions/feed/TransactionFeed'
 import { checkContactsPermission } from 'src/utils/permissions'
+import { accountAddressSelector } from 'src/web3/selectors'
 
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
 
 function WalletHome() {
   const { t } = useTranslation()
 
+  const account = useSelector(accountAddressSelector)
   const appState = useSelector(appStateSelector)
   const isLoading = useSelector((state) => state.home.loading)
   const recipientCache = useSelector(phoneRecipientCacheSelector)
@@ -130,12 +139,12 @@ function WalletHome() {
 
   sections.push({
     data: [{}],
-    renderItem: () => <HomeTokenBalance key={'HomeTokenBalance'} />,
+    renderItem: () => <AccountNumber key={'NotificationBox'} address={account || ''} short />,
   })
 
   sections.push({
     data: [{}],
-    renderItem: () => <SendOrRequestButtons key={'SendOrRequestButtons'} />,
+    renderItem: () => <HomeTokenBalance key={'HomeTokenBalance'} />,
   })
 
   sections.push({
@@ -143,9 +152,28 @@ function WalletHome() {
     renderItem: () => <TransactionFeed key={'TransactionList'} />,
   })
 
+  const onPressQrCode = () => {
+    ValoraAnalytics.track(HomeEvents.home_qr)
+    navigate(Screens.QRNavigator, {
+      screen: Screens.QRScanner,
+    })
+  }
+
+  const renderScanButton = () => {
+    return (
+      <TouchableOpacity onPress={onPressQrCode}>
+        <QRCodeBorderless />
+      </TouchableOpacity>
+    )
+  }
+
   return (
-    <SafeAreaView style={styles.container}>
-      <DrawerTopBar middleElement={<Logo />} scrollPosition={scrollPosition} />
+    <SafeAreaView style={[styles.container]} edges={['top', 'left', 'right']}>
+      <DrawerTopBar
+        middleElement={<Logo />}
+        scrollPosition={scrollPosition}
+        rightElement={renderScanButton()}
+      />
       <AnimatedSectionList
         scrollEventThrottle={16}
         onScroll={onScroll}
@@ -156,6 +184,7 @@ function WalletHome() {
         sections={sections}
         keyExtractor={keyExtractor}
       />
+      <SendOrRequestButtons key={'SendOrRequestButtons'} />
       {shouldShowCashInBottomSheet() && <CashInBottomSheet />}
     </SafeAreaView>
   )
