@@ -63,7 +63,7 @@ describe('KycDenied', () => {
       })
     )
   })
-  it('shows spinner if loading', () => {
+  it('shows a spinner if loading', () => {
     const store = mockStore({ kycTryAgainLoading: true })
     const mockProps = mockScreenProps()
     const { queryByTestId } = render(
