@@ -29,7 +29,17 @@
 			<string/>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>celo</string>
+				<string>kolektivo</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>BundleID</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 			</array>
 		</dict>
 	</array>
@@ -43,8 +53,7 @@
 	<string>Ijkke5lN0tH1Cb1fxWoUeDmtf8tp5CzAics2F</string>
 	<key>FirebaseDynamicLinksCustomDomains</key>
 	<array>
-		<string>https://l.celo.org</string>
-		<string>https://vlra.app</string>
+		<string>https://kolektivo.app</string>
 	</array>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>

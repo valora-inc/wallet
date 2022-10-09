@@ -44,13 +44,13 @@ describe('App saga', () => {
   })
 
   it('Handles Dappkit deep link', async () => {
-    const deepLink = 'celo://wallet/dappkit?abcdsa'
+    const deepLink = 'kolektivo://wallet/dappkit?abcdsa'
     await expectSaga(handleDeepLink, openDeepLink(deepLink)).run()
     expect(handleDappkitDeepLink).toHaveBeenCalledWith(deepLink)
   })
 
   it('Handles verification deep link', async () => {
-    await expectSaga(handleDeepLink, openDeepLink('celo://wallet/v/12345'))
+    await expectSaga(handleDeepLink, openDeepLink('kolektivo://wallet/v/12345'))
       .put(receiveAttestationMessage('12345', CodeInputType.DEEP_LINK))
       .run()
   })
@@ -65,7 +65,7 @@ describe('App saga', () => {
     }
 
     const params = new URLSearchParams(data)
-    const deepLink = `celo://wallet/pay?${params.toString()}`
+    const deepLink = `kolektivo://wallet/pay?${params.toString()}`
 
     await expectSaga(handleDeepLink, openDeepLink(deepLink))
       .provide([[matchers.call.fn(handlePaymentDeeplink), deepLink]])
@@ -73,7 +73,7 @@ describe('App saga', () => {
   })
 
   it('Handles cash in deep link', async () => {
-    const deepLink = 'celo://wallet/cashIn'
+    const deepLink = 'kolektivo://wallet/cashIn'
     await expectSaga(handleDeepLink, openDeepLink(deepLink)).run()
     expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeCurrency, {
       flow: FiatExchangeFlow.CashIn,
@@ -81,25 +81,25 @@ describe('App saga', () => {
   })
 
   it('Handles Bidali deep link', async () => {
-    const deepLink = 'celo://wallet/bidali'
+    const deepLink = 'kolektivo://wallet/bidali'
     await expectSaga(handleDeepLink, openDeepLink(deepLink)).run()
     expect(navigate).toHaveBeenCalledWith(Screens.BidaliScreen, { currency: undefined })
   })
 
   it('Handles cash-in-success deep link', async () => {
-    const deepLink = 'celo://wallet/cash-in-success/simplex'
+    const deepLink = 'kolektivo://wallet/cash-in-success/simplex'
     await expectSaga(handleDeepLink, openDeepLink(deepLink)).run()
     expect(navigate).toHaveBeenCalledWith(Screens.CashInSuccess, { provider: 'simplex' })
   })
 
   it('Handles cash-in-success deep link with query params', async () => {
-    const deepLink = 'celo://wallet/cash-in-success/simplex?isApproved=true'
+    const deepLink = 'kolektivo://wallet/cash-in-success/simplex?isApproved=true'
     await expectSaga(handleDeepLink, openDeepLink(deepLink)).run()
     expect(navigate).toHaveBeenCalledWith(Screens.CashInSuccess, { provider: 'simplex' })
   })
 
   it('Handles openScreen deep link with safe origin', async () => {
-    const deepLink = `celo://wallet/openScreen?screen=${Screens.FiatExchangeCurrency}&flow=CashIn`
+    const deepLink = `kolektivo://wallet/openScreen?screen=${Screens.FiatExchangeCurrency}&flow=CashIn`
     await expectSaga(handleDeepLink, openDeepLink(deepLink, true)).run()
     expect(navigate).toHaveBeenCalledWith(
       Screens.FiatExchangeCurrency,
@@ -108,7 +108,7 @@ describe('App saga', () => {
   })
 
   it('Handles openScreen deep link without safe origin', async () => {
-    const deepLink = `celo://wallet/openScreen?screen=${Screens.FiatExchangeCurrency}&flow=CashIn`
+    const deepLink = `kolektivo://wallet/openScreen?screen=${Screens.FiatExchangeCurrency}&flow=CashIn`
     await expectSaga(handleDeepLink, openDeepLink(deepLink, false)).run()
     expect(navigate).not.toHaveBeenCalled()
   })
@@ -124,7 +124,7 @@ describe('App saga', () => {
       },
       {
         name: 'iOS deeplink',
-        link: `celo://wallet/wc?uri=${connectionString}`,
+        link: `kolektivo://wallet/wc?uri=${connectionString}`,
       },
       {
         name: 'iOS universal link',
@@ -199,7 +199,7 @@ describe('App saga', () => {
     const actionString = 'wc:1234'
     const actionLinks = [
       { name: 'Android', link: actionString },
-      { name: 'iOS deeplink', link: `celo://wallet/wc?uri=${actionString}` },
+      { name: 'iOS deeplink', link: `kolektivo://wallet/wc?uri=${actionString}` },
       { name: 'iOS universal link', link: `https://valoraapp.com/wc?uri=${actionString}` },
     ]
     for (const { name, link } of actionLinks) {
@@ -233,7 +233,7 @@ describe('App saga', () => {
   describe(handleOpenUrl, () => {
     const httpLink = 'http://example.com'
     const httpsLink = 'https://example.com'
-    const celoLink = 'celo://something'
+    const celoLink = 'kolektivo://something'
     const otherDeepLink = 'other://deeplink'
 
     describe('when openExternal is `false` or not specified', () => {
@@ -367,7 +367,7 @@ describe('App saga', () => {
         handleOpenDapp,
         dappSelected({
           ...baseDapp,
-          dappUrl: 'celo://wallet/bidali',
+          dappUrl: 'kolektivo://wallet/bidali',
           openedFrom: DappSection.All,
         })
       )

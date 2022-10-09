@@ -17,11 +17,12 @@
         <action android:name="android.intent.action.MAIN" />
         <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
+      <!-- Handle native url schemes from koleketivo://wallet/pay?{...} -->
       <intent-filter>
         <action android:name="android.intent.action.VIEW" />
         <category android:name="android.intent.category.DEFAULT" />
         <category android:name="android.intent.category.BROWSABLE" />
-        <data android:scheme="celo" android:host="wallet" />
+        <data android:scheme="kolektivo" android:host="wallet" />
       </intent-filter>
       <intent-filter>
         <action android:name="android.intent.action.VIEW" />
@@ -29,14 +30,23 @@
         <category android:name="android.intent.category.BROWSABLE" />
         <data android:scheme="wc" />
       </intent-filter>
+      <!-- Handle universal links from https://kolektivo.app/wallet/pay -->
+      <!-- This filter may not handle https://www.kolektivo.app/wallet/pay -->
       <intent-filter android:autoVerify="true">
         <action android:name="android.intent.action.VIEW" />
         <category android:name="android.intent.category.DEFAULT" />
         <category android:name="android.intent.category.BROWSABLE" />
-        <data android:scheme="https" android:host="valoraapp.com" />
+        <data android:scheme="https" android:host="kolektivo.app" />
+        <data android:pathPrefix="/wallet" />
+        <data android:path="/pay" />
+      </intent-filter>
+      <intent-filter android:autoVerify="true">
+        <action android:name="android.intent.action.VIEW" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <category android:name="android.intent.category.BROWSABLE" />
+        <data android:scheme="https" android:host="kolektivo.app" />
         <data android:pathPrefix="/wc" />
         <data android:path="/plaid-oauth-redirect" />
-        <data android:scheme="http" />
       </intent-filter>
     </activity>
 

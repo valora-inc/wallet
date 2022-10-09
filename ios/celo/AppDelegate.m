@@ -91,7 +91,7 @@ static NSString * const kHasRunBeforeKey = @"RnSksIsAppInstalled";
   
   NSString *env = [ReactNativeConfig envFor:@"FIREBASE_ENABLED"];
   if (env.boolValue) {
-    [FIROptions defaultOptions].deepLinkURLScheme = @"celo";
+    [FIROptions defaultOptions].deepLinkURLScheme = @"kolektivo";
     [FIRApp configure];
   }
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];

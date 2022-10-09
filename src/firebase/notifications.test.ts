@@ -80,7 +80,7 @@ describe(handleNotification, () => {
   describe("with a notification with an 'open url' semantic and a deep link", () => {
     const message = {
       notification: { title: 'My title', body: 'My Body' },
-      data: { ou: `celo://wallet/openScreen?screen=${Screens.WalletHome}` },
+      data: { ou: `kolektivo://wallet/openScreen?screen=${Screens.WalletHome}` },
     }
 
     it('fires  an event to open the deep link', async () => {

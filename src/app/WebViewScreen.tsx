@@ -120,7 +120,7 @@ function WebViewScreen({ route, navigation }: Props) {
   }, [canGoBack, webViewRef.current, navigation])
 
   const handleLoadRequest = (event: ShouldStartLoadRequest): boolean => {
-    if (event.url.startsWith('celo://') || isWalletConnectDeepLink(event.url)) {
+    if (event.url.startsWith('kolektivo://') || isWalletConnectDeepLink(event.url)) {
       dispatch(openDeepLink(event.url))
       return false
     }
@@ -143,7 +143,7 @@ function WebViewScreen({ route, navigation }: Props) {
     <SafeAreaView style={styles.container} edges={['bottom']}>
       <WebView
         ref={webViewRef}
-        originWhitelist={['https://*', 'celo://*']}
+        originWhitelist={['https://*', 'kolektivo://*']}
         onShouldStartLoadWithRequest={handleLoadRequest}
         source={{ uri }}
         startInLoadingState={true}

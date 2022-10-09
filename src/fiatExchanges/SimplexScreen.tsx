@@ -49,7 +49,7 @@ function SimplexScreen({ route, navigation }: Props) {
   const onNavigationStateChange = ({ url }: any) => {
     if (url?.includes('/payments/new')) {
       setRedirected(true)
-    } else if (url?.startsWith('celo://wallet')) {
+    } else if (url?.startsWith('kolektivo://wallet')) {
       navigateToURI(url)
     }
   }

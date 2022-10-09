@@ -117,7 +117,7 @@ export function* handleBarcode(
     yield call(initialiseWalletConnect, barcode.data, WalletConnectPairingOrigin.Scan)
     return
   }
-  if (barcode.data.startsWith('celo://wallet/payment')) {
+  if (barcode.data.startsWith('kolektivo://wallet/payment')) {
     const handler: PaymentDeepLinkHandler = yield select(paymentDeepLinkHandlerSelector)
     yield call(paymentDeepLinkHandlers[handler], barcode.data)
     return

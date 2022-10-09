@@ -35,7 +35,7 @@ const mockResponseWithoutFeaturedDapp = {
       categoryId: '2',
       description: 'Lend and borrow tokens!',
       logoUrl: 'https://raw.githubusercontent.com/valora-inc/app-list/main/assets/moola.png',
-      url: 'celo://wallet/moolaScreen',
+      url: 'kolektivo://wallet/moolaScreen',
     },
   ],
 }
@@ -164,7 +164,7 @@ describe(DAppsExplorerScreen, () => {
         Object {
           "dapp": Object {
             "categoryId": "2",
-            "dappUrl": "celo://wallet/moolaScreen",
+            "dappUrl": "kolektivo://wallet/moolaScreen",
             "description": "Lend and borrow tokens!",
             "iconUrl": "https://raw.githubusercontent.com/valora-inc/app-list/main/assets/moola.png",
             "id": "2",

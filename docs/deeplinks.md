@@ -9,7 +9,7 @@ There are three different types of deeplinks that we support:
 
 You can create a deeplink that will prompt the user to make a payment to an address.
 
-The deeplink will look like this `celo://wallet/pay?{...queryParams}`
+The deeplink will look like this `kolektivo://wallet/pay?{...queryParams}`
 where the query parameters can be:
 - `address` (required): The address that will be the recipient of the payment.
 - `displayName` (optional): The URL-encoded name of the recipient. If you leave this empty the address will be shown instead.
@@ -23,11 +23,11 @@ To URL encode a text you can use the [encodeURI](https://developer.mozilla.org/e
 
 Example payment deeplink:
 
-`celo://wallet/pay?address=0x4b371df8d05abd2954564b54faf10b8c8f1bc3a2&displayName=Example%20name&amount=9.50&comment=Burger%20with%20fries&token=cUSD&currencyCode=USD`
+`kolektivo://wallet/pay?address=0x4b371df8d05abd2954564b54faf10b8c8f1bc3a2&displayName=Example%20name&amount=9.50&comment=Burger%20with%20fries&token=cUSD&currencyCode=USD`
 
 Smallest possible payment deeplink:
 
-`celo://wallet/pay?address=0x4b371df8d05abd2954564b54faf10b8c8f1bc3a2`
+`kolektivo://wallet/pay?address=0x4b371df8d05abd2954564b54faf10b8c8f1bc3a2`
 
 ## DAppKit
 

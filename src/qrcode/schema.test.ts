@@ -93,12 +93,12 @@ describe('qrcode/schema', () => {
 
   describe('#urlFromUriData', () => {
     it('should strip undefined values', () => {
-      expect(url1).toBe(`celo://wallet/pay?address=${data1.address}`)
+      expect(url1).toBe(`kolektivo://wallet/pay?address=${data1.address}`)
     })
 
     it('should include defined values', () => {
       const params = new URLSearchParams(Object(data2))
-      expect(url2).toBe(encodeURI(`celo://wallet/pay?${params.toString()}`))
+      expect(url2).toBe(encodeURI(`kolektivo://wallet/pay?${params.toString()}`))
     })
   })
 

@@ -3,11 +3,11 @@ import { inputNumberKeypad, quote } from '../utils/utils'
 
 const deepLinks = {
   withAll:
-    'celo://wallet/pay?address=0xC0509a7dcc69a0B28c7Ca73feD2FF06b9d59E5b9&amount=0.1&currencyCode=USD&token=cUSD&displayName=TestFaucet&comment=sending+usd:+0.1+to+my+wallet',
+    'kolektivo://wallet/pay?address=0xC0509a7dcc69a0B28c7Ca73feD2FF06b9d59E5b9&amount=0.1&currencyCode=USD&token=cUSD&displayName=TestFaucet&comment=sending+usd:+0.1+to+my+wallet',
   withoutAmount:
-    'celo://wallet/pay?address=0xC0509a7dcc69a0B28c7Ca73feD2FF06b9d59E5b9&currencyCode=USD&token=cUSD&displayName=TestFaucet&comment=sending+usd:+0.1+to+my+wallet',
+    'kolektivo://wallet/pay?address=0xC0509a7dcc69a0B28c7Ca73feD2FF06b9d59E5b9&currencyCode=USD&token=cUSD&displayName=TestFaucet&comment=sending+usd:+0.1+to+my+wallet',
   withoutAddress:
-    'celo://wallet/pay?amount=0.1&currencyCode=USD&token=cUSD&displayName=TestFaucet&comment=sending+usd:+0.1+to+my+wallet',
+    'kolektivo://wallet/pay?amount=0.1&currencyCode=USD&token=cUSD&displayName=TestFaucet&comment=sending+usd:+0.1+to+my+wallet',
 }
 
 // Helper functions

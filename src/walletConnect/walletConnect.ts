@@ -14,9 +14,9 @@ import { initialiseWalletConnect } from 'src/walletConnect/saga'
 import { selectHasPendingState } from 'src/walletConnect/selectors'
 
 const WC_PREFIX = 'wc:'
-const DEEPLINK_PREFIX = 'celo://wallet/wc?uri='
-const UNIVERSAL_LINK_PREFIX = 'https://valoraapp.com/wc?uri='
-const UNIVERSAL_LINK_PREFIX_WITHOUT_URI = 'https://valoraapp.com/wc'
+const DEEPLINK_PREFIX = 'kolektivo://wallet/wc?uri='
+const UNIVERSAL_LINK_PREFIX = 'https://kolektivo.app/wc?uri='
+const UNIVERSAL_LINK_PREFIX_WITHOUT_URI = 'https://kolektivo.app/wc'
 const CONNECTION_TIMEOUT = 10_000
 
 /**
