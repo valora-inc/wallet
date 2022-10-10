@@ -6,7 +6,7 @@ import { showError } from 'src/alert/actions'
 import { InviteEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { numberVerifiedSelector } from 'src/app/selectors'
+import { phoneNumberVerifiedSelector } from 'src/app/selectors'
 import { DYNAMIC_DOWNLOAD_LINK } from 'src/config'
 import { transferEscrowedPayment } from 'src/escrow/actions'
 import { getEscrowTxGas } from 'src/escrow/saga'
@@ -65,7 +65,7 @@ export function* sendInvite(
     }
 
     const inviteRewardsEnabled = yield select(inviteRewardsActiveSelector)
-    const numberVerified = yield select(numberVerifiedSelector)
+    const numberVerified = yield select(phoneNumberVerifiedSelector)
     const inviteRewardsActive = inviteRewardsEnabled && numberVerified
 
     const message = inviteRewardsActive

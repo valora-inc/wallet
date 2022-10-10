@@ -11,7 +11,7 @@ import { hideAlert } from 'src/alert/actions'
 import { RequestEvents, SendEvents } from 'src/analytics/Events'
 import { SendOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { numberVerifiedSelector, verificationPossibleSelector } from 'src/app/selectors'
+import { phoneNumberVerifiedSelector, verificationPossibleSelector } from 'src/app/selectors'
 import ContactPermission from 'src/icons/ContactPermission'
 import VerifyPhone from 'src/icons/VerifyPhone'
 import { importContacts } from 'src/identity/actions'
@@ -48,7 +48,7 @@ function Send({ route }: Props) {
   const { t } = useTranslation()
 
   const defaultCountryCode = useSelector(defaultCountryCodeSelector)
-  const numberVerified = useSelector(numberVerifiedSelector)
+  const numberVerified = useSelector(phoneNumberVerifiedSelector)
   const inviteRewardsEnabled = useSelector(inviteRewardsActiveSelector)
 
   const allRecipients = useSelector(phoneRecipientCacheSelector)

@@ -32,6 +32,7 @@ export enum Actions {
   APP_UNMOUNTED = 'APP/APP_UNMOUNTED',
   VERIFICATION_MIGRATION_RAN = 'APP/VERIFICATION_MIGRATION_RAN',
   ANDROID_MOBILE_SERVICES_AVAILABILITY_CHECKED = 'APP/ANDROID_MOBILE_SERVICES_AVAILABILITY_CHECKED',
+  PHONE_NUMBER_VERIFICATION_COMPLETED = 'APP/PHONE_NUMBER_VERIFICATION_COMPLETED',
 }
 
 export interface SetAppState {
@@ -135,6 +136,12 @@ export interface AndroidMobileServicesAvailabilityChecked {
   huaweiIsAvailable: boolean | undefined
 }
 
+export interface PhoneNumberVerificationCompleted {
+  type: Actions.PHONE_NUMBER_VERIFICATION_COMPLETED
+  e164PhoneNumber: string
+  countryCode: string
+}
+
 export type ActionTypes =
   | SetAppState
   | SetLoggedIn
@@ -156,6 +163,7 @@ export type ActionTypes =
   | AppUnmounted
   | VerificationMigrationRanAction
   | AndroidMobileServicesAvailabilityChecked
+  | PhoneNumberVerificationCompleted
 
 export const setAppState = (state: string) => ({
   type: Actions.SET_APP_STATE,
@@ -273,3 +281,14 @@ export const androidMobileServicesAvailabilityChecked = (
   googleIsAvailable,
   huaweiIsAvailable,
 })
+
+export const phoneNumberVerificationCompleted = (
+  e164PhoneNumber: string,
+  countryCode: string
+): PhoneNumberVerificationCompleted => {
+  return {
+    type: Actions.PHONE_NUMBER_VERIFICATION_COMPLETED,
+    e164PhoneNumber,
+    countryCode,
+  }
+}
