@@ -230,6 +230,7 @@ export class ValidateRecipientAccount extends React.Component<Props, State> {
             inputPlaceholder={FULL_ADDRESS_PLACEHOLDER}
             onInputChange={this.onInputChange}
             shouldShowClipboard={this.shouldShowClipboard}
+            testID="ValidateRecipientAccount/TextInput"
           />
         </View>
       )
