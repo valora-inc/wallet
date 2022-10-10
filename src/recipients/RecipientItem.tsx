@@ -12,6 +12,7 @@ import {
 } from 'src/recipients/recipient'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 
 interface Props {
@@ -61,7 +62,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    minHeight: 64,
+    paddingVertical: Spacing.Small12,
     paddingHorizontal: variables.contentPadding,
     flexWrap: 'wrap',
   },
