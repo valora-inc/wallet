@@ -49,7 +49,7 @@ const initialUserInput = {
 
 // Workaround for buying Celo - Mainnet only
 const toCeloWorkaround = (tokenAddress: string) => {
-  // Check if the token is CELO 
+  // Check if the token is CELO
   return tokenAddress.toLowerCase() === '0x471ece3750da237f93b8e339c536989b8978a438'
     ? '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE'
     : tokenAddress
