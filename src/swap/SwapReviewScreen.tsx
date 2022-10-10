@@ -158,7 +158,8 @@ export function SwapReviewScreen() {
     <SafeAreaView style={styles.safeAreaContainer}>
       <CustomHeader title={t('swapReviewScreen.title')} left={<BackButton />} />
       <DisconnectBanner />
-      {shouldFetch ? (
+      {/* Display only load indicator on initial load */}
+      {shouldFetch && swapResponse === null ? (
         <View style={styles.loadingContentContainer}>
           <ActivityIndicator
             size="large"
@@ -170,6 +171,7 @@ export function SwapReviewScreen() {
         <ScrollView
           style={styles.contentContainer}
           refreshControl={
+            /* Transparent refresh control - display ActivityIndicator instead */
             <RefreshControl
               tintColor="transparent"
               colors={['transparent']}
@@ -179,6 +181,7 @@ export function SwapReviewScreen() {
             />
           }
         >
+          {/* Display load indicator and previous swapResponse refresh */}
           {shouldFetch && (
             <View style={styles.loadingContentContainer}>
               <ActivityIndicator
