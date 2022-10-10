@@ -263,33 +263,38 @@ function* fetchWalletAddresses(e164Number: string) {
     const address = yield select(walletAddressSelector)
     const signedMessage = yield call(retrieveSignedMessage)
 
+    const centralisedLookupQueryParams = new URLSearchParams({
+      phoneNumber: e164Number,
+      clientPlatform: Platform.OS,
+      clientVersion: DeviceInfo.getVersion(),
+    }).toString()
+
     const [centralisedLookupResponse, addressesFromDecentralizedMapping]: [
       Response,
       string[]
     ] = yield all([
-      call(fetch, networkConfig.lookupPhoneNumberUrl, {
-        method: 'POST',
+      call(fetch, `${networkConfig.lookupPhoneNumberUrl}?${centralisedLookupQueryParams}`, {
+        method: 'GET',
         headers: {
           'Content-Type': 'application/json',
           authorization: `Valora ${address}:${signedMessage}`,
         },
-        body: JSON.stringify({
-          phoneNumber: e164Number,
-          clientPlatform: Platform.OS,
-          clientVersion: DeviceInfo.getVersion(),
-        }),
       }),
       call(fetchWalletAddressesDecentralized, e164Number),
     ])
 
     if (centralisedLookupResponse.ok) {
-      const { addresses }: { addresses: string[] } = yield call([centralisedLookupResponse, 'json'])
+      const { data }: { data: { addresses: string[] } } = yield call([
+        centralisedLookupResponse,
+        'json',
+      ])
+
       // combine with addresses found in decentralized mapping to maintain
       // backwards compatibilty with accounts that have not migrated to CPV
       return [
         ...new Set([
-          ...addresses.map((address) => address.toLowerCase()),
-          ...addressesFromDecentralizedMapping.map((address: string) => address.toLowerCase()),
+          ...data.addresses.map((address) => address.toLowerCase()),
+          ...addressesFromDecentralizedMapping.map((address) => address.toLowerCase()),
         ]),
       ]
     } else {
