@@ -92,7 +92,7 @@ const LOOKUP_PHONE_NUMBER_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/lookupPhoneNum
 const LOOKUP_PHONE_NUMBER_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/lookupPhoneNumber`
 
 const CELO_EXPLORER_BASE_TX_URL_ALFAJORES = 'https://alfajores-blockscout.celo-testnet.org/tx/'
-const CELO_EXPLORER_BASE_TX_URL_MAINNET = 'https://explorer.celo.org/tx/'
+const CELO_EXPLORER_BASE_TX_URL_MAINNET = 'https://explorer.celo.org/mainnet/tx/'
 
 const NFTS_VALORA_APP_URL = 'https://nfts.valoraapp.com/'
 
