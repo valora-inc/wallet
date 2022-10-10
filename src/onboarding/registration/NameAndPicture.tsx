@@ -17,7 +17,7 @@ import {
   registrationStepsSelector,
   showGuidedOnboardingSelector,
 } from 'src/app/selectors'
-import { CreateAccountCopyTestType } from 'src/app/types'
+import { CreateAccountCopyTestType, OnboardingNameType } from 'src/app/types'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import DevSkipButton from 'src/components/DevSkipButton'
 import FormInput from 'src/components/FormInput'
@@ -37,11 +37,6 @@ import { useAsyncKomenciReadiness } from 'src/verify/hooks'
 import { Statsig } from 'statsig-react-native'
 
 type Props = StackScreenProps<StackParamList, Screens.NameAndPicture>
-
-enum OnboardingNameType {
-  AutoGen = 'autogenerator',
-  FirstAndLast = 'first_and_last',
-}
 
 export const generateUsername = (): string => {
   return 'generatedUsername'
@@ -101,6 +96,13 @@ function NameAndPicture({ navigation, route }: Props) {
               createAccountCopyTestType === CreateAccountCopyTestType.AlreadyHaveWallet
             ? 'createProfile'
             : 'createAccount'
+          if (
+            nameType === OnboardingNameType.AutoGen ||
+            nameType === OnboardingNameType.Placeholder
+          ) {
+            // experimental group of Onboarding Name Step experiment
+            pageTitleTranslationKey = 'createProfile'
+          }
         }
         return (
           <HeaderTitleWithSubtitle
