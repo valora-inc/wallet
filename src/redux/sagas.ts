@@ -7,6 +7,7 @@ import { Actions as AccountActions } from 'src/account/actions'
 import { accountSaga } from 'src/account/saga'
 import { devModeSelector } from 'src/account/selectors'
 import { analyticsSaga } from 'src/analytics/saga'
+import { Actions as AppActions } from 'src/app/actions'
 import {
   appInit,
   appRemoteFeatureFlagSaga,
@@ -51,6 +52,7 @@ import { web3Saga } from 'src/web3/saga'
 
 const loggerBlocklist = [
   REHYDRATE,
+  AppActions.PHONE_NUMBER_VERIFICATION_COMPLETED,
   AccountActions.SET_PHONE_NUMBER,
   ExchangeActions.UPDATE_CELO_GOLD_EXCHANGE_RATE_HISTORY, // Not private, just noisy
   ImportActions.IMPORT_BACKUP_PHRASE,

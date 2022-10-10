@@ -1665,6 +1665,18 @@ export const v80Schema = {
   },
 }
 
+export const v81Schema = {
+  ...v80Schema,
+  _persist: {
+    ...v80Schema._persist,
+    version: 81,
+  },
+  app: {
+    ...v80Schema.app,
+    phoneNumberVerified: false,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v80Schema as Partial<RootState>
+  return v81Schema as Partial<RootState>
 }
