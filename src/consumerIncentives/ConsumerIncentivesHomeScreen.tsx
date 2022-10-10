@@ -6,7 +6,10 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { superchargeTokenConfigByTokenSelector } from 'src/app/selectors'
+import {
+  phoneNumberVerifiedSelector,
+  superchargeTokenConfigByTokenSelector,
+} from 'src/app/selectors'
 import { SUPERCHARGE_LEARN_MORE } from 'src/brandingConfig'
 import Button, { BtnSizes } from 'src/components/Button'
 import Dialog from 'src/components/Dialog'
@@ -76,7 +79,7 @@ function SuperchargeInstructions() {
   const { t } = useTranslation()
   const [tokenDetailsVisible, setTokenDetailsVisible] = useState(false)
 
-  const userIsVerified = useSelector((state) => state.app.numberVerified)
+  const userIsVerified = useSelector(phoneNumberVerifiedSelector)
   const { superchargeApy } = useSelector((state) => state.app)
   const { hasBalanceForSupercharge, superchargingTokenConfig } = useSelector(
     superchargeInfoSelector
@@ -202,10 +205,11 @@ export default function ConsumerIncentivesHomeScreen() {
     dispatch(fetchAvailableRewards())
   }, [])
 
-  const userIsVerified = useSelector((state) => state.app.numberVerified)
+  const userIsVerified = useSelector(phoneNumberVerifiedSelector)
   const { hasBalanceForSupercharge, superchargingTokenConfig, hasMaxBalance } = useSelector(
     superchargeInfoSelector
   )
+
   const isSupercharging = userIsVerified && hasBalanceForSupercharge
   const defaultTokenConfigToSupercharge = useDefaultTokenConfigToSupercharge()
   const tokenConfigToSupercharge = superchargingTokenConfig ?? defaultTokenConfigToSupercharge

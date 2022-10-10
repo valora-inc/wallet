@@ -838,4 +838,5 @@ export const migrations = {
       kycTryAgainLoading: false,
     },
   }),
+  81: (state: any) => state,
 }

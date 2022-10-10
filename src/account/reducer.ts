@@ -1,5 +1,6 @@
 import { isE164Number } from '@celo/utils/lib/phoneNumbers'
 import { Actions, ActionTypes } from 'src/account/actions'
+import { Actions as AppActions, ActionTypes as AppActionTypes } from 'src/app/actions'
 import { DAYS_TO_DELAY } from 'src/backup/consts'
 import { DEV_SETTINGS_ACTIVE_INITIALLY } from 'src/config'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
@@ -94,7 +95,7 @@ export const initialState: State = {
 
 export const reducer = (
   state: State | undefined = initialState,
-  action: ActionTypes | RehydrateAction | Web3ActionTypes
+  action: ActionTypes | RehydrateAction | Web3ActionTypes | AppActionTypes
 ): State => {
   switch (action.type) {
     case REHYDRATE: {
@@ -148,6 +149,7 @@ export const reducer = (
         name: action.name,
         pictureUri: action.pictureUri,
       }
+    case AppActions.PHONE_NUMBER_VERIFICATION_COMPLETED:
     case Actions.SET_PHONE_NUMBER:
       if (!isE164Number(action.e164PhoneNumber)) {
         return state
