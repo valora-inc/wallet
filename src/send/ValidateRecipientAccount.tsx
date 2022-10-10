@@ -2,7 +2,6 @@ import { StackScreenProps } from '@react-navigation/stack'
 import * as React from 'react'
 import { WithTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
 import { SendEvents } from 'src/analytics/Events'
 import { SendOrigin } from 'src/analytics/types'
@@ -270,7 +269,7 @@ export class ValidateRecipientAccount extends React.Component<Props, State> {
       singleDigitInputValueArr.filter((entry) => /[a-f0-9]/gi.test(entry)).length === 4
 
     return (
-      <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
         <KeyboardAwareScrollView
           contentContainerStyle={styles.scrollContainer}
           keyboardShouldPersistTaps={'always'}
@@ -314,7 +313,7 @@ export class ValidateRecipientAccount extends React.Component<Props, State> {
             <TextButton onPress={this.toggleModal}>{t('dismiss')}</TextButton>
           </View>
         </Modal>
-      </SafeAreaView>
+      </View>
     )
   }
 }
