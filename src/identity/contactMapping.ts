@@ -253,46 +253,49 @@ export function* fetchWalletAddressesDecentralized(e164Number: string) {
 }
 
 function* fetchWalletAddresses(e164Number: string) {
-  const addressesFromDecentralizedMapping: string[] = yield call(
-    fetchWalletAddressesDecentralized,
-    e164Number
-  )
   const centralPhoneVerificationEnabled = yield select(centralPhoneVerificationEnabledSelector)
 
   if (!centralPhoneVerificationEnabled) {
-    return addressesFromDecentralizedMapping
+    return yield call(fetchWalletAddressesDecentralized, e164Number)
   }
 
   try {
     const address = yield select(walletAddressSelector)
     const signedMessage = yield call(retrieveSignedMessage)
 
-    const response: Response = yield call(fetch, networkConfig.lookupPhoneNumberUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        authorization: `Valora ${address}:${signedMessage}`,
-      },
-      body: JSON.stringify({
-        phoneNumber: e164Number,
-        clientPlatform: Platform.OS,
-        clientVersion: DeviceInfo.getVersion(),
+    const [centralisedLookupResponse, addressesFromDecentralizedMapping]: [
+      Response,
+      string[]
+    ] = yield all([
+      call(fetch, networkConfig.lookupPhoneNumberUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Valora ${address}:${signedMessage}`,
+        },
+        body: JSON.stringify({
+          phoneNumber: e164Number,
+          clientPlatform: Platform.OS,
+          clientVersion: DeviceInfo.getVersion(),
+        }),
       }),
-    })
+      call(fetchWalletAddressesDecentralized, e164Number),
+    ])
 
-    if (response.ok) {
-      const { addresses }: { addresses: string[] } = yield call([response, 'json'])
-
+    if (centralisedLookupResponse.ok) {
+      const { addresses }: { addresses: string[] } = yield call([centralisedLookupResponse, 'json'])
       // combine with addresses found in decentralized mapping to maintain
       // backwards compatibilty with accounts that have not migrated to CPV
       return [
         ...new Set([
           ...addresses.map((address) => address.toLowerCase()),
-          ...addressesFromDecentralizedMapping.map((address) => address.toLowerCase()),
+          ...addressesFromDecentralizedMapping.map((address: string) => address.toLowerCase()),
         ]),
       ]
     } else {
-      throw new Error(`Received response from lookupPhoneNumber service ${response.text()}`)
+      throw new Error(
+        `Received response from lookupPhoneNumber service ${centralisedLookupResponse.text()}`
+      )
     }
   } catch (error) {
     Logger.debug(`${TAG}/fetchWalletAddresses`, 'Unable to look up phone number', error)
