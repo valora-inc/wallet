@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
+import seedrandom from 'seedrandom'
 import { setName, setPicture } from 'src/account/actions'
 import { nameSelector, recoveringFromStoreWipeSelector } from 'src/account/selectors'
 import { hideAlert, showError } from 'src/alert/actions'
@@ -39,16 +40,19 @@ import { ADJECTIVES, NOUNS } from './constants'
 
 type Props = StackScreenProps<StackParamList, Screens.NameAndPicture>
 
-//Exported for testing purposes only
-export const generateUsername = (): string => {
-  const adjective = ADJECTIVES[Math.floor(Math.random() * ADJECTIVES.length)]
-  const noun = NOUNS[Math.floor(Math.random() * NOUNS.length)]
-  const username = `${adjective} ${noun}`
-  const forbiddenUsernames: string[] = [] //TODO: Obtain username blacklist from Firebase Remote Config
-  if (forbiddenUsernames.includes(username)) {
-    return generateUsername()
-  }
-  return username
+export const _chooseRandomWord = (wordList: string[], randomSeed?: string) => {
+  const rng = seedrandom(randomSeed)
+  return wordList[Math.floor(rng() * wordList.length)]
+}
+
+//TODO: Obtain forbidden words from Firebase Remote Config
+export const _generateUsername = (
+  forbiddenAdjectives: Set<string>,
+  forbiddenNouns: Set<string>
+): string => {
+  const adjectiveList = ADJECTIVES.filter((adj) => !forbiddenAdjectives.has(adj))
+  const nounList = NOUNS.filter((noun) => !forbiddenNouns.has(noun))
+  return `${_chooseRandomWord(adjectiveList)} ${_chooseRandomWord(nounList)}`
 }
 
 const getExperimentParams = () => {

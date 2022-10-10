@@ -8,11 +8,13 @@ import * as AccountActions from 'src/account/actions'
 import { CreateAccountCopyTestType } from 'src/app/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import NameAndPicture, { generateUsername } from 'src/onboarding/registration/NameAndPicture'
+import NameAndPicture, {
+  _chooseRandomWord,
+  _generateUsername,
+} from 'src/onboarding/registration/NameAndPicture'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockNavigation } from 'test/values'
-import { ADJECTIVES, NOUNS } from './constants'
 
 const mockStatsigGet = jest.fn()
 jest.mock('statsig-react-native', () => ({
@@ -20,6 +22,17 @@ jest.mock('statsig-react-native', () => ({
     getLayer: jest.fn().mockImplementation(() => ({ get: mockStatsigGet })),
     logEvent: jest.fn(),
   },
+}))
+
+const mockRng = jest.fn()
+jest.mock('seedrandom', () => ({
+  __esModule: true,
+  default: jest.fn().mockImplementation(() => mockRng),
+}))
+
+jest.mock('src/onboarding/registration/constants', () => ({
+  ADJECTIVES: ['Adjective_1', 'Adjective_2', 'Bad_Adjective'],
+  NOUNS: ['Noun_1', 'Noun_2', 'Bad_Noun'],
 }))
 
 expect.extend({ toBeDisabled })
@@ -225,10 +238,22 @@ describe('NameAndPictureScreen', () => {
     expect(AccountActions.setName).not.toHaveBeenCalled()
   })
 
+  it('random word selector behaves as expected', () => {
+    mockRng.mockReturnValue(0.3)
+    expect(_chooseRandomWord(['a', 'b', 'c', 'd'], 'seedStr')).toEqual('b')
+    mockRng.mockReturnValue(0.8)
+    expect(_chooseRandomWord(['a', 'b', 'c', 'd'], 'seedStr')).toEqual('d')
+  })
+
   it('usernames appear as expected', () => {
-    const username = generateUsername()
-    const [adjective, noun] = username.split(' ')
-    expect(ADJECTIVES.includes(adjective)).toEqual(true)
-    expect(NOUNS.includes(noun)).toEqual(true)
+    mockRng.mockReturnValueOnce(0.1).mockReturnValueOnce(0.4)
+    const username = _generateUsername(new Set(), new Set())
+    expect(username).toEqual('Adjective_1 Noun_2')
+  })
+
+  it('bad usernames do not appear', () => {
+    mockRng.mockReturnValue(0.9)
+    const username = _generateUsername(new Set(['Bad_Adjective']), new Set(['Bad_Noun']))
+    expect(username).toEqual('Adjective_2 Noun_2')
   })
 })
