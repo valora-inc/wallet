@@ -24,12 +24,6 @@ jest.mock('statsig-react-native', () => ({
   },
 }))
 
-const mockRng = jest.fn()
-jest.mock('seedrandom', () => ({
-  __esModule: true,
-  default: jest.fn().mockImplementation(() => mockRng),
-}))
-
 const ADJECTIVES = ['Adjective_1', 'Adjective_2', 'Bad_Adjective']
 const NOUNS = ['Noun_1', 'Noun_2', 'Bad_Noun']
 jest.mock('src/onboarding/registration/constants', () => ({
@@ -42,6 +36,15 @@ jest.spyOn(AccountActions, 'setName')
 const mockScreenProps = getMockStackScreenProps(Screens.NameAndPicture)
 
 describe('NameAndPictureScreen', () => {
+  const mockRandom = jest.fn()
+  beforeEach(() => {
+    jest.spyOn(global.Math, 'random').mockImplementation(mockRandom)
+  })
+
+  afterEach(() => {
+    jest.spyOn(global.Math, 'random').mockRestore()
+  })
+
   it('disable button when no name', () => {
     const store = createMockStore()
     const { getByTestId } = render(
@@ -243,18 +246,18 @@ describe('NameAndPictureScreen', () => {
   it('random word selector behaves as expected', () => {
     const wordList = ['a', 'b', 'c', 'd']
     const bIndex = 1
-    mockRng.mockReturnValue(bIndex / wordList.length)
-    expect(_chooseRandomWord(wordList, 'seedStr')).toEqual('b')
+    mockRandom.mockReturnValue(bIndex / wordList.length)
+    expect(_chooseRandomWord(wordList)).toEqual('b')
 
     const dIndex = 3
-    mockRng.mockReturnValue(dIndex / wordList.length)
-    expect(_chooseRandomWord(wordList, 'seedStr')).toEqual('d')
+    mockRandom.mockReturnValue(dIndex / wordList.length)
+    expect(_chooseRandomWord(wordList)).toEqual('d')
   })
 
   it('usernames appear as expected', () => {
     const adjectiveIndex = 0
     const nounIndex = 1
-    mockRng
+    mockRandom
       .mockReturnValueOnce(adjectiveIndex / ADJECTIVES.length)
       .mockReturnValueOnce(nounIndex / NOUNS.length)
     const username = _generateUsername(new Set(), new Set())
@@ -264,7 +267,7 @@ describe('NameAndPictureScreen', () => {
   it('bad usernames do not appear', () => {
     const badAdjIndex = 2
     const badNounIndex = 2
-    mockRng
+    mockRandom
       .mockReturnValueOnce(badAdjIndex / ADJECTIVES.length)
       .mockReturnValueOnce(badNounIndex / NOUNS.length)
     const username = _generateUsername(

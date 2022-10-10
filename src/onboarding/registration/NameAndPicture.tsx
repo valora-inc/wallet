@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
-import seedrandom from 'seedrandom'
 import { setName, setPicture } from 'src/account/actions'
 import { nameSelector, recoveringFromStoreWipeSelector } from 'src/account/selectors'
 import { hideAlert, showError } from 'src/alert/actions'
@@ -41,8 +40,7 @@ import { ADJECTIVES, NOUNS } from './constants'
 type Props = StackScreenProps<StackParamList, Screens.NameAndPicture>
 
 export const _chooseRandomWord = (wordList: string[]) => {
-  const rng = seedrandom()
-  return wordList[Math.floor(rng() * wordList.length)]
+  return wordList[Math.floor(Math.random() * wordList.length)]
 }
 
 //TODO: Obtain forbidden words from Firebase Remote Config
