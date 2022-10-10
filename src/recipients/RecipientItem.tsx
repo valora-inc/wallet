@@ -60,14 +60,11 @@ function RecipientItem({ recipient, onSelectRecipient }: Props) {
 const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
     paddingVertical: Spacing.Small12,
     paddingHorizontal: variables.contentPadding,
-    flexWrap: 'wrap',
   },
   avatar: {
-    marginRight: 12,
+    marginRight: Spacing.Small12,
   },
   contentContainer: {
     flex: 1,
