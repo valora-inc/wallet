@@ -24,6 +24,8 @@ jobs:
         run: git diff --exit-code
       - name: Check E2E wallet balance
         run: NODE_OPTIONS='--unhandled-rejections=strict' yarn ts-node ./e2e/scripts/check-e2e-wallet-balance.ts
+      - name: Copy Emulator Config
+        run: mkdir -p ~/.android/avd/Pixel_API_${{ inputs.android-api-level }}_AOSP_x86_64.avd/ && cp e2e/conf/ci_avd_conf.ini ~/.android/avd/Pixel_API_${{ inputs.android-api-level }}_AOSP_x86_64.avd/config.ini
       - name: Create Detox Build
         run: |
           export CELO_TEST_CONFIG=e2e
