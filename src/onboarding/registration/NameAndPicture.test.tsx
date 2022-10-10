@@ -30,9 +30,11 @@ jest.mock('seedrandom', () => ({
   default: jest.fn().mockImplementation(() => mockRng),
 }))
 
+const ADJECTIVES = ['Adjective_1', 'Adjective_2', 'Bad_Adjective']
+const NOUNS = ['Noun_1', 'Noun_2', 'Bad_Noun']
 jest.mock('src/onboarding/registration/constants', () => ({
-  ADJECTIVES: ['Adjective_1', 'Adjective_2', 'Bad_Adjective'],
-  NOUNS: ['Noun_1', 'Noun_2', 'Bad_Noun'],
+  ADJECTIVES,
+  NOUNS,
 }))
 
 expect.extend({ toBeDisabled })
@@ -239,21 +241,36 @@ describe('NameAndPictureScreen', () => {
   })
 
   it('random word selector behaves as expected', () => {
-    mockRng.mockReturnValue(0.3)
-    expect(_chooseRandomWord(['a', 'b', 'c', 'd'], 'seedStr')).toEqual('b')
-    mockRng.mockReturnValue(0.8)
-    expect(_chooseRandomWord(['a', 'b', 'c', 'd'], 'seedStr')).toEqual('d')
+    const wordList = ['a', 'b', 'c', 'd']
+    const bIndex = 1
+    mockRng.mockReturnValue(bIndex / wordList.length)
+    expect(_chooseRandomWord(wordList, 'seedStr')).toEqual('b')
+
+    const dIndex = 3
+    mockRng.mockReturnValue(dIndex / wordList.length)
+    expect(_chooseRandomWord(wordList, 'seedStr')).toEqual('d')
   })
 
   it('usernames appear as expected', () => {
-    mockRng.mockReturnValueOnce(0.1).mockReturnValueOnce(0.4)
+    const adjectiveIndex = 0
+    const nounIndex = 1
+    mockRng
+      .mockReturnValueOnce(adjectiveIndex / ADJECTIVES.length)
+      .mockReturnValueOnce(nounIndex / NOUNS.length)
     const username = _generateUsername(new Set(), new Set())
-    expect(username).toEqual('Adjective_1 Noun_2')
+    expect(username).toEqual(`${ADJECTIVES[adjectiveIndex]} ${NOUNS[nounIndex]}`)
   })
 
   it('bad usernames do not appear', () => {
-    mockRng.mockReturnValue(0.9)
-    const username = _generateUsername(new Set(['Bad_Adjective']), new Set(['Bad_Noun']))
-    expect(username).toEqual('Adjective_2 Noun_2')
+    const badAdjIndex = 2
+    const badNounIndex = 2
+    mockRng
+      .mockReturnValueOnce(badAdjIndex / ADJECTIVES.length)
+      .mockReturnValueOnce(badNounIndex / NOUNS.length)
+    const username = _generateUsername(
+      new Set([ADJECTIVES[badAdjIndex]]),
+      new Set([NOUNS[badNounIndex]])
+    )
+    expect(username).not.toEqual(`${ADJECTIVES[badAdjIndex]} ${NOUNS[badNounIndex]}`)
   })
 })
