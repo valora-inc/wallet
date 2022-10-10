@@ -40,8 +40,8 @@ import { ADJECTIVES, NOUNS } from './constants'
 
 type Props = StackScreenProps<StackParamList, Screens.NameAndPicture>
 
-export const _chooseRandomWord = (wordList: string[], randomSeed?: string) => {
-  const rng = seedrandom(randomSeed)
+export const _chooseRandomWord = (wordList: string[]) => {
+  const rng = seedrandom()
   return wordList[Math.floor(rng() * wordList.length)]
 }
 
