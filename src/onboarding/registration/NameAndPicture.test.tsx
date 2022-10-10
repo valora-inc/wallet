@@ -223,4 +223,24 @@ describe('NameAndPictureScreen', () => {
     fireEvent.press(getByText('skip'))
     expect(AccountActions.setName).not.toHaveBeenCalled()
   })
+
+  it('shows generator button and generator button puts random username in', () => {
+    mockStatsigGet.mockReturnValueOnce(false).mockReturnValueOnce('autogenerator')
+    const { getByText, getByTestId } = render(
+      <Provider store={createMockStore()}>
+        <NameAndPicture {...mockScreenProps} />
+      </Provider>
+    )
+    expect(getByText('generateUsername')).toBeTruthy()
+    const nameField = getByTestId('NameEntry')
+    fireEvent.press(getByText('generateUsername'))
+    const text = nameField.props.value
+    expect(text).toBeTruthy()
+    // TODO enable this test when generator function is available
+    /*
+    fireEvent.press(getByText('generateUsername'))
+    // different name on second press
+    expect(nameField.props.value).not.toEqual(text)
+    */
+  })
 })

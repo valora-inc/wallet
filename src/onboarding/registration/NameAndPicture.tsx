@@ -38,6 +38,16 @@ import { Statsig } from 'statsig-react-native'
 
 type Props = StackScreenProps<StackParamList, Screens.NameAndPicture>
 
+enum OnboardingNameType {
+  AutoGen = 'autogenerator',
+  FirstAndLast = 'first_and_last',
+}
+
+export const generateUsername = (): string => {
+  return 'generatedUsername'
+  // TODO replace with actual implementation in separate PR
+}
+
 const getExperimentParams = () => {
   try {
     const statsigLayer = Statsig.getLayer(StatsigLayers.NAME_AND_PICTURE_SCREEN)
@@ -61,7 +71,7 @@ const getExperimentParams = () => {
 
 function NameAndPicture({ navigation, route }: Props) {
   const [nameInput, setNameInput] = useState('')
-  const [showSkipButton] = useMemo(getExperimentParams, [])
+  const [showSkipButton, nameType] = useMemo(getExperimentParams, [])
   const cachedName = useTypedSelector(nameSelector)
   const picture = useTypedSelector((state) => state.account.pictureUri)
   const choseToRestoreAccount = useTypedSelector((state) => state.account.choseToRestoreAccount)
@@ -76,6 +86,8 @@ function NameAndPicture({ navigation, route }: Props) {
   const asyncKomenciReadiness = useAsyncKomenciReadiness()
   const showGuidedOnboarding = useSelector(showGuidedOnboardingSelector)
   const createAccountCopyTestType = useSelector(createAccountCopyTestTypeSelector)
+  const showNameGeneratorButton = nameType === OnboardingNameType.AutoGen
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => {
@@ -163,7 +175,7 @@ function NameAndPicture({ navigation, route }: Props) {
   }
 
   const onPressGenerateUsername = () => {
-    setNameInput('generatedUsername') // TODO use generate username
+    setNameInput(generateUsername())
   }
 
   return (
@@ -205,12 +217,15 @@ function NameAndPicture({ navigation, route }: Props) {
           showLoading={asyncKomenciReadiness.loading}
         />
       </ScrollView>
-      <Button
-        onPress={onPressGenerateUsername}
-        text={t('generateUsername')}
-        size={BtnSizes.MEDIUM}
-        type={BtnTypes.ONBOARDING_SECONDARY}
-      />
+      {showNameGeneratorButton && (
+        <Button
+          onPress={onPressGenerateUsername}
+          text={t('generateUsername')}
+          size={BtnSizes.MEDIUM}
+          type={BtnTypes.ONBOARDING_SECONDARY}
+          style={styles.generateUsernameButton}
+        />
+      )}
       <KeyboardSpacer />
     </SafeAreaView>
   )
@@ -240,5 +255,9 @@ const styles = StyleSheet.create({
   guidedOnboardingHeader: {
     marginTop: 36,
     ...fontStyles.h1,
+  },
+  generateUsernameButton: {
+    alignSelf: 'center',
+    marginBottom: 24,
   },
 })
