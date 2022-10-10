@@ -7,7 +7,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { showMessage } from 'src/alert/actions'
 import { AppState } from 'src/app/actions'
-import { appStateSelector } from 'src/app/selectors'
+import { appStateSelector, phoneNumberVerifiedSelector } from 'src/app/selectors'
 import { HomeTokenBalance } from 'src/components/TokenBalance'
 import {
   ALERT_BANNER_DURATION,
@@ -43,7 +43,7 @@ function WalletHome() {
   const appState = useSelector(appStateSelector)
   const isLoading = useSelector((state) => state.home.loading)
   const recipientCache = useSelector(phoneRecipientCacheSelector)
-  const isNumberVerified = useSelector((state) => state.app.numberVerified)
+  const isNumberVerified = useSelector(phoneNumberVerifiedSelector)
   const maxNumRecentDapps = useSelector(maxNumRecentDappsSelector)
   const coreTokenBalances = useSelector(coreTokensSelector)
   const celoAddress = useSelector(celoAddressSelector)
