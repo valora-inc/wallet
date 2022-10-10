@@ -92,7 +92,7 @@ describe('Fetch Addresses Saga', () => {
         [mockE164Number]: [mockAccount.toLowerCase()],
       }
       const updatedAccount = '0xAbC'
-      mockFetch.mockResponse(JSON.stringify({ addresses: [updatedAccount] }))
+      mockFetch.mockResponse(JSON.stringify({ data: { addresses: [updatedAccount] } }))
 
       await expectSaga(fetchAddressesAndValidateSaga, {
         e164Number: mockE164Number,
@@ -115,14 +115,16 @@ describe('Fetch Addresses Saga', () => {
         .run()
 
       expect(mockFetch).toHaveBeenCalledTimes(1)
-      expect(mockFetch).toHaveBeenCalledWith(networkConfig.lookupPhoneNumberUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          authorization: `Valora 0xxyz:some signed message`,
-        },
-        body: `{"phoneNumber":"${mockE164Number}","clientPlatform":"android","clientVersion":"0.0.1"}`,
-      })
+      expect(mockFetch).toHaveBeenCalledWith(
+        `${networkConfig.lookupPhoneNumberUrl}?phoneNumber=%2B14155550000&clientPlatform=android&clientVersion=0.0.1`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            authorization: `Valora 0xxyz:some signed message`,
+          },
+        }
+      )
     })
 
     it('fetches and caches multiple addresses correctly', async () => {
@@ -130,7 +132,7 @@ describe('Fetch Addresses Saga', () => {
         [mockE164Number]: [mockAccount.toLowerCase()],
       }
       const updatedAccounts = ['0xAbC', '0xdef']
-      mockFetch.mockResponse(JSON.stringify({ addresses: updatedAccounts }))
+      mockFetch.mockResponse(JSON.stringify({ data: { addresses: updatedAccounts } }))
 
       await expectSaga(fetchAddressesAndValidateSaga, {
         e164Number: mockE164Number,
@@ -174,12 +176,39 @@ describe('Fetch Addresses Saga', () => {
         .run()
     })
 
+    it('returns the decentralised mapping if the centralised service fails', async () => {
+      const mockE164NumberToAddress = {
+        [mockE164Number]: [mockAccount.toLowerCase()],
+      }
+      mockFetch.mockResponse('', { status: 403 })
+
+      await expectSaga(fetchAddressesAndValidateSaga, {
+        e164Number: mockE164Number,
+      })
+        .provide([
+          [call(fetchWalletAddressesDecentralized, mockE164Number), ['0x123']],
+          [select(e164NumberToAddressSelector), mockE164NumberToAddress],
+          [select(centralPhoneVerificationEnabledSelector), true],
+          [select(walletAddressSelector), mockAccount],
+          [call(retrieveSignedMessage), 'some signed message'],
+          [select(secureSendPhoneNumberMappingSelector), {}],
+        ])
+        .put(updateE164PhoneNumberAddresses({ [mockE164Number]: undefined }, {}))
+        .put(
+          updateE164PhoneNumberAddresses(
+            { [mockE164Number]: ['0x123'] },
+            { '0x123': mockE164Number }
+          )
+        )
+        .run()
+    })
+
     it('combines addresses fetched from central and decentral mapping correctly', async () => {
       const mockE164NumberToAddress = {
         [mockE164Number]: [mockAccount.toLowerCase()],
       }
       const updatedAccounts = ['0xAbC', '0xdef']
-      mockFetch.mockResponse(JSON.stringify({ addresses: updatedAccounts }))
+      mockFetch.mockResponse(JSON.stringify({ data: { addresses: updatedAccounts } }))
 
       await expectSaga(fetchAddressesAndValidateSaga, {
         e164Number: mockE164Number,

@@ -298,9 +298,13 @@ function* fetchWalletAddresses(e164Number: string) {
         ]),
       ]
     } else {
-      throw new Error(
-        `Received response from lookupPhoneNumber service ${centralisedLookupResponse.text()}`
+      Logger.debug(
+        `${TAG}/fetchWalletAddresses`,
+        `lookupPhoneNumber service failed with status ${centralisedLookupResponse.status}`
       )
+      // in the case that the user failed to migrate to CPV, the centralised
+      // service will throw an error so we can only return the decentralised mapping
+      return addressesFromDecentralizedMapping
     }
   } catch (error) {
     Logger.debug(`${TAG}/fetchWalletAddresses`, 'Unable to look up phone number', error)
