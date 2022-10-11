@@ -684,9 +684,9 @@
     "step1": "A cripto tão fácil quanto enviar mensagens. Seu celular é a sua carteira.",
     "step2": "Com a {{appName}}, acesse e multiplique suas criptomoedas facilmente.",
     "step3": "Tudo o que você precisa é de um celular para enviar, gastar e explorar o mundo cripto.",
-    "payment": "Fazer pagamentos a nível mundial com taxas quase nulas",
-    "impact": "Apoiar iniciativas em matéria de alterações climáticas e sociais",
-    "spend": "Use o seu crypto para comprar as suas marcas favoritas"
+    "payment": "Faça pagamentos globalmente com taxas quase nulas",
+    "impact": "Apoie iniciativas de alterações climáticas e sociais",
+    "spend": "Use suas criptos para comprar suas marcas favoritas"
   },
   "enableBiometry": {
     "title": "Proteja sua carteira",
@@ -799,7 +799,7 @@
       "dismiss": "Voltar"
     },
     "verificationFailure": "Algo deu errado, tente novamente mais tarde.",
-    "resendButtonNotYetAvailable": "Reenviar disponível em {{secondsRemaining}} segundo(s)",
+    "resendButtonNotYetAvailable": "Reenvio disponível em {{secondsRemaining}} segundo(s)",
     "resendButton": "Reenviar mensagem de texto"
   },
   "importExistingKey": {
@@ -1305,7 +1305,7 @@
     "button": "Configurar verificação de identidade"
   },
   "fiatConnectKycStatusScreen": {
-    "tryAgainFailed": "Houve um erro ao limpar a informação KYC. Por favor, tente novamente"
+    "tryAgainFailed": "Ocorreu um erro ao limpar as informações de Conheça o Seu Cliente (KYC). Tente novamente"
   },
   "fiatConnectReviewScreen": {
     "transactionDetails": "Detalhes de transação",
