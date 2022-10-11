@@ -684,9 +684,9 @@
     "step1": "Jeśli potrafisz pisać SMS-y, potrafisz też inwestować w kryptowaluty. Od teraz Twój telefon jest Twoim portfelem kryptowalutowym.",
     "step2": "Z aplikacją {{appName}} uzyskujesz szybki dostęp do swoich kryptowalut i łatwo je pomnażasz.",
     "step3": "Aby wysyłać, wydawać i odkrywać, potrzebujesz jedynie telefonu komórkowego.",
-    "payment": "Dokonuj płatności na całym świecie przy niemal zerowych opłatach",
-    "impact": "Wspieraj inicjatywy dotyczące zmian klimatycznych i społecznych",
-    "spend": "Wykorzystaj swoje kryptowaluty do robienia zakupów u ulubionych marek"
+    "payment": "Realizuj płatności na całym świecie przy niemal zerowych opłatach",
+    "impact": "Wspieraj inicjatywy skupione na zmianach klimatycznych i społecznych",
+    "spend": "Wykorzystuj swoje kryptowaluty do zakupu ulubionych marek"
   },
   "enableBiometry": {
     "title": "Zabezpiecz swój portfel",
@@ -799,8 +799,8 @@
       "dismiss": "Wróć"
     },
     "verificationFailure": "Coś poszło nie tak, spróbuj ponownie później.",
-    "resendButtonNotYetAvailable": "Możliwość ponownego wysłania za {{secondsRemaining}} sekund(y)",
-    "resendButton": "Wyślij ponownie wiadomość tekstową"
+    "resendButtonNotYetAvailable": "Możliwość ponownego wysłania za {{secondsRemaining}} sek.",
+    "resendButton": "Ponownie wyślij wiadomość tekstową"
   },
   "importExistingKey": {
     "explanation": "Twoja fraza odzyskiwania to 24 słowa, które ustawiłeś(-aś) i zapisałeś(-aś) podczas zakładania konta. Wpisz je tutaj, aby przywrócić konto.",
@@ -1309,7 +1309,7 @@
     "button": "Ustaw weryfikację tożsamości"
   },
   "fiatConnectKycStatusScreen": {
-    "tryAgainFailed": "Wystąpił błąd podczas sprawdzania informacji KYC. Proszę spróbować ponownie"
+    "tryAgainFailed": "Wystąpił błąd podczas usuwania informacji KYC. Spróbuj ponownie"
   },
   "fiatConnectReviewScreen": {
     "transactionDetails": "Szczegóły transakcji",
