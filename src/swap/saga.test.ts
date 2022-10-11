@@ -30,6 +30,16 @@ jest.mock('src/transactions/send', () => ({
   sendTransaction: jest.fn(() => ({ transactionHash: '0x123' })),
 }))
 
+const mockSwapTransaction = {
+  buyAmount: '10000000000000000',
+  buyTokenAddress: '0xd8763cba276a3738e6de85b4b3bf5fded6d6ca73',
+  sellTokenAddress: '0xe8537a3d056da446677b9e9d6c5db704eaab4787',
+  price: '1',
+  guaranteedPrice: '1.02',
+  from: '0x078e54ad49b0865fff9086fd084b92b3dac0857d',
+  gas: '460533',
+}
+
 const mockSwap = {
   payload: {
     approveTransaction: {
@@ -40,25 +50,20 @@ const mockSwap = {
       updatedField: 'TO',
     },
     unvalidatedSwapTransaction: {
-      buyAmount: '10000000000000000',
-      buyTokenAddress: '0xd8763cba276a3738e6de85b4b3bf5fded6d6ca73',
-      sellTokenAddress: '0xe8537a3d056da446677b9e9d6c5db704eaab4787',
-      price: '1',
-      guaranteedPrice: '1.02',
+      ...mockSwapTransaction,
     },
   },
 }
 
 describe(swapSubmitSaga, () => {
-  const mockResponseAPI = {
-    from: '0x078e54ad49b0865fff9086fd084b92b3dac0857d',
-    gas: '460533',
-  }
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
 
   const mockResponse = {
     ok: true,
     json: () => {
-      return { validatedSwapTransaction: mockResponseAPI }
+      return { validatedSwapTransaction: mockSwapTransaction }
     },
   }
 
@@ -80,6 +85,14 @@ describe(swapSubmitSaga, () => {
       .run()
     expect(sendTransaction).toHaveBeenCalledTimes(2)
     expect(loggerErrorSpy).not.toHaveBeenCalled()
+
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_execute_success, {
+      toToken: '0xd8763cba276a3738e6de85b4b3bf5fded6d6ca73',
+      fromToken: '0xe8537a3d056da446677b9e9d6c5db704eaab4787',
+      buyAmount: '10000000000000000',
+      price: '1',
+    })
   })
 
   it('should set swap state correctly on error', async () => {

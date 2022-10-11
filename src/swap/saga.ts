@@ -111,6 +111,12 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       newTransactionContext(TAG, 'Swap/Execute')
     )
     yield put(swapSuccess())
+    ValoraAnalytics.track(SwapEvents.swap_execute_success, {
+      [amountType]: responseJson.validatedSwapTransaction[amountType],
+      toToken: responseJson.validatedSwapTransaction.buyTokenAddress,
+      fromToken: responseJson.validatedSwapTransaction.sellTokenAddress,
+      price: responseJson.validatedSwapTransaction.price,
+    })
   } catch (error) {
     Logger.debug(TAG, 'Error while swapping', error)
     yield put(swapError())

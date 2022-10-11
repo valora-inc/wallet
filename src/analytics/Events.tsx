@@ -593,6 +593,7 @@ export enum SwapEvents {
   swap_review_screen_open = 'swap_review_screen_open', // When the review screen is mounted
   swap_review_submit = 'swap_review_submit', // When the user submits the swap
   swap_execute_price_change = 'swap_execute_price_change', // When guaranteed is greater than 2% difference than the quoted price.
+  swap_execute_success = 'swap_swap_execute_success', // When the swap is executed successfully
 }
 
 export type AnalyticsEventType =
