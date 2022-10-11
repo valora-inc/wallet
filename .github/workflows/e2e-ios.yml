@@ -59,8 +59,7 @@ jobs:
       - name: Run Detox
         run: >
           yarn detox test
-          --device-name "iPhone 11 (${{ inputs.ios-version }})"
-          --configuration ios.release
+          --configuration ios.release.${{ inputs.ios-version }}
           --artifacts-location e2e/artifacts
           --take-screenshots=failing
           --record-videos=failing
