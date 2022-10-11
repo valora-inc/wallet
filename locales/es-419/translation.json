@@ -684,8 +684,8 @@
     "step1": "Cripto tan fácil como enviar mensajes. Convierte tu teléfono en una wallet cripto.",
     "step2": "Con {{appName}}, accede y multiplica tus criptomonedas en pocos pasos.",
     "step3": "Solo necesitas tu teléfono para enviar, gastar y explorar el mundo cripto.",
-    "payment": "Realiza pagos en todo el mundo con tasas casi nulas",
-    "impact": "Apoyar las iniciativas de cambio climático y social",
+    "payment": "Haz pagos globalmente con tarifas casi nulas",
+    "impact": "Apoya las iniciativas de cambio climático y social",
     "spend": "Usa tu cripto para comprar tus marcas favoritas"
   },
   "enableBiometry": {
@@ -1305,7 +1305,7 @@
     "button": "Establecer verificación de identidad"
   },
   "fiatConnectKycStatusScreen": {
-    "tryAgainFailed": "Se ha producido un error al borrar la información de KYC. Por favor, inténtalo de nuevo"
+    "tryAgainFailed": "Hubo un error al borrar la información de KYC. Por favor, inténtalo de nuevo"
   },
   "fiatConnectReviewScreen": {
     "transactionDetails": "Detalles de transacción",
