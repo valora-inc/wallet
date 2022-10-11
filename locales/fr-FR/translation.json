@@ -684,9 +684,9 @@
     "step1": "Si vous savez comment envoyer un SMS, vous saurez comprendre les cryptos. Dès maintenant, votre téléphone devient votre wallet de cryptomonnaies.",
     "step2": "Avec {{appName}}, se lancer et développer votre wallet de cryptomonnaies est plus facile que jamais.",
     "step3": "Tout ce dont vous avez besoin est un téléphone portable pour envoyer, dépenser et découvrir.",
-    "payment": "Effectuer des paiements partout dans le monde avec des frais proches de zéro",
-    "impact": "Soutenir les actions en faveur du climat et du changement social",
-    "spend": "Utiliser vos cryptomonnaies pour acheter vos marques préférées"
+    "payment": "Effectuez des paiements partout dans le monde avec des frais proches de zéro",
+    "impact": "Soutenez les actions en faveur du climat et du changement social",
+    "spend": "Utilisez vos cryptomonnaies pour acheter vos marques préférées"
   },
   "enableBiometry": {
     "title": "Sécurisez votre wallet",
@@ -1292,7 +1292,7 @@
     "bankAccount": {
       "header": "Configurer un compte bancaire",
       "bodyTitle": "Configurer un compte bancaire",
-      "description": "Entrez les coordonnées du compte bancaire pour transférer des fonds. Vos transactions seront réalisées par <0>{{providerName}}</0>. En cliquant sur Continuer, vous acceptez leurs <1>Conditions Générales</1> et <2>Politique de confidentialité</2>"
+      "description": "Saisis les coordonnées du compte bancaire pour transférer des fonds. Ces services te seront fournis par <0>{{providerName}}</0>.\n\nEn cliquant sur continuer, tu acceptes leurs <1>conditions générales et</1> leur <2>politique de confidentialité</2>."
     },
     "continue": "Continuer"
   },
@@ -1305,7 +1305,7 @@
     "button": "Configurer la vérification d'identité"
   },
   "fiatConnectKycStatusScreen": {
-    "tryAgainFailed": "Une erreur s'est produite lors de la suppression des informations KYC. Veuillez réessayer."
+    "tryAgainFailed": "Une erreur s'est produite lors de la suppression des informations KYC, veuillez réessayer."
   },
   "fiatConnectReviewScreen": {
     "transactionDetails": "Détails de transaction",
