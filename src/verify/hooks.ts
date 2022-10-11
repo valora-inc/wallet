@@ -238,7 +238,6 @@ export function useAndroidSmsCodeRetriever(onSmsCodeRetrieved: (code: string) =>
     if (Platform.OS !== 'android') {
       return
     }
-    startSmsRetriever()
     addSmsListener((event: SmsEvent) => {
       if (event.message) {
         const code = event.message.match(`\\d{${PHONE_NUMBER_VERIFICATION_CODE_LENGTH}}`)?.[0]
@@ -247,6 +246,9 @@ export function useAndroidSmsCodeRetriever(onSmsCodeRetrieved: (code: string) =>
         }
       }
     })
+    // We don't need to wait for this promise to finish, hence the void
+    void startSmsRetriever()
+
     return removeSmsListener
   }, [])
 }
