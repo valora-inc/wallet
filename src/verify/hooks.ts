@@ -85,6 +85,17 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCallingCode: st
     setSmsCode('')
   }
 
+  const handleAlreadyVerified = () => {
+    Logger.debug(`${TAG}/requestVerificationCode`, 'Phone number already verified')
+
+    setShouldResendSms(false)
+    verificationCodeRequested.current = true
+    ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_code_request_success)
+
+    setVerificationStatus(PhoneNumberVerificationStatus.SUCCESSFUL)
+    dispatch(phoneNumberVerificationCompleted(phoneNumber, countryCallingCode))
+  }
+
   useAsync(
     async () => {
       if (verificationCodeRequested.current && !shouldResendSms) {
@@ -127,7 +138,13 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCallingCode: st
 
     [phoneNumber, shouldResendSms],
     {
-      onError: handleRequestVerificationCodeError,
+      onError: (error: Error) => {
+        if (error?.message.includes('Phone number already verified')) {
+          handleAlreadyVerified()
+        } else {
+          handleRequestVerificationCodeError(error)
+        }
+      },
       onSuccess: async (response?: Response) => {
         if (!response) {
           return
