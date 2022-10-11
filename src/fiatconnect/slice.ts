@@ -51,7 +51,7 @@ export interface State {
   kycTryAgainLoading: boolean
   cachedQuoteParams: {
     [providerId: string]: {
-      [kycSchema in KycSchema]: CachedQuoteParams
+      [kycSchema: string]: CachedQuoteParams
     }
   }
 }

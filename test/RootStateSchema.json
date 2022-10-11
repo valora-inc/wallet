@@ -2913,7 +2913,10 @@
                 },
                 "cachedQuoteParams": {
                     "additionalProperties": {
-                        "$ref": "#/definitions/{PersonalDataAndDocuments:CachedQuoteParams;}"
+                        "additionalProperties": {
+                            "$ref": "#/definitions/CachedQuoteParams"
+                        },
+                        "type": "object"
                     },
                     "type": "object"
                 },
@@ -4103,18 +4106,6 @@
                 "c",
                 "e",
                 "s"
-            ],
-            "type": "object"
-        },
-        "{PersonalDataAndDocuments:CachedQuoteParams;}": {
-            "additionalProperties": false,
-            "properties": {
-                "PersonalDataAndDocuments": {
-                    "$ref": "#/definitions/CachedQuoteParams"
-                }
-            },
-            "required": [
-                "PersonalDataAndDocuments"
             ],
             "type": "object"
         },
