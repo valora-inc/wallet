@@ -97,23 +97,22 @@ function NameAndPicture({ navigation, route }: Props) {
     navigation.setOptions({
       headerTitle: () => {
         let pageTitleTranslationKey
-        if (showGuidedOnboarding) {
+        pageTitleTranslationKey = choseToRestoreAccount
+          ? 'restoreAccount'
+          : createAccountCopyTestType === CreateAccountCopyTestType.Wallet ||
+            createAccountCopyTestType === CreateAccountCopyTestType.AlreadyHaveWallet
+          ? 'createProfile'
+          : 'createAccount'
+        if (
+          nameType === OnboardingNameType.AutoGen ||
+          nameType === OnboardingNameType.Placeholder
+        ) {
+          // experimental group of Onboarding Name Step experiment
+          pageTitleTranslationKey = 'createProfile'
+        } else if (showGuidedOnboarding) {
           pageTitleTranslationKey = 'name'
-        } else {
-          pageTitleTranslationKey = choseToRestoreAccount
-            ? 'restoreAccount'
-            : createAccountCopyTestType === CreateAccountCopyTestType.Wallet ||
-              createAccountCopyTestType === CreateAccountCopyTestType.AlreadyHaveWallet
-            ? 'createProfile'
-            : 'createAccount'
-          if (
-            nameType === OnboardingNameType.AutoGen ||
-            nameType === OnboardingNameType.Placeholder
-          ) {
-            // experimental group of Onboarding Name Step experiment
-            pageTitleTranslationKey = 'createProfile'
-          }
         }
+
         return (
           <HeaderTitleWithSubtitle
             title={t(pageTitleTranslationKey)}
