@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ValidateRecipientAccount renders correctly when full validation required 1`] = `
-<RNCSafeAreaView
+<View
   style={
     Object {
       "flex": 1,
@@ -14,7 +14,7 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
       Object {
         "flexGrow": 1,
         "justifyContent": "space-between",
-        "padding": 16,
+        "paddingHorizontal": 16,
       }
     }
     keyboardShouldPersistTaps="always"
@@ -638,11 +638,11 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
       </RNCSafeAreaView>
     </View>
   </Modal>
-</RNCSafeAreaView>
+</View>
 `;
 
 exports[`ValidateRecipientAccount renders correctly when partial validation required 1`] = `
-<RNCSafeAreaView
+<View
   style={
     Object {
       "flex": 1,
@@ -655,7 +655,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
       Object {
         "flexGrow": 1,
         "justifyContent": "space-between",
-        "padding": 16,
+        "paddingHorizontal": 16,
       }
     }
     keyboardShouldPersistTaps="always"
@@ -1465,5 +1465,5 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
       </RNCSafeAreaView>
     </View>
   </Modal>
-</RNCSafeAreaView>
+</View>
 `;
