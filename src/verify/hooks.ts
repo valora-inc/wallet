@@ -239,11 +239,9 @@ export function useAndroidSmsCodeRetriever(onSmsCodeRetrieved: (code: string) =>
       return
     }
     addSmsListener((event: SmsEvent) => {
-      if (event.message) {
-        const code = event.message.match(`\\d{${PHONE_NUMBER_VERIFICATION_CODE_LENGTH}}`)?.[0]
-        if (code) {
-          callbackRef.current(code)
-        }
+      const code = event.message?.match(`\\d{${PHONE_NUMBER_VERIFICATION_CODE_LENGTH}}`)?.[0]
+      if (code) {
+        callbackRef.current(code)
       }
     })
     // We don't need to wait for this promise to finish, hence the void
