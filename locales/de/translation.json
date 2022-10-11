@@ -684,9 +684,9 @@
     "step1": "Krypto so einfach wie eine SMS. Ab sofort ist dein Handy dein Krypto-Wallet.",
     "step2": "Mit {{appName}} ist es ein einfach, auf dein Krypto zuzugreifen und sie zu vermehren.",
     "step3": "Alles, was du brauchst, ist ein Mobiltelefon zum Entdecken.",
-    "payment": "Zahlungen weltweit und fast ohne Gebühren durchführen",
-    "impact": "Unterstützung von Initiativen zum Klimaschutz und sozialen Wandel",
-    "spend": "Verwende deine Kryptowährung, um deine Lieblingsmarken zu kaufen"
+    "payment": "Zahlungen weltweit und mit nahezu null Gebühren tätigen",
+    "impact": "Initiativen zum Klimaschutz und sozialen Wandel unterstützen",
+    "spend": "Verwende Krypto, um deine Lieblingsmarken zu kaufen"
   },
   "enableBiometry": {
     "title": "Sichere dein Wallet",
@@ -799,7 +799,7 @@
       "dismiss": "Zurück"
     },
     "verificationFailure": "Etwas ist schief gelaufen, bitte versuche es später erneut.",
-    "resendButtonNotYetAvailable": "Erneut senden verfügbar in {{secondsRemaining}} Sekunde(n)",
+    "resendButtonNotYetAvailable": "„Erneut senden“ in {{secondsRemaining}} Sekunde(n) verfügbar",
     "resendButton": "Textnachricht erneut senden"
   },
   "importExistingKey": {
@@ -1305,7 +1305,7 @@
     "button": "Du bestätigst und erklärst dich damit einverstanden, dass deine persönlichen Daten uns zur Verfügung gestellt und mit Dritten zu Überprüfungszwecken geteilt werden, wie in der <0>Datenschutzerklärung</0> angegeben."
   },
   "fiatConnectKycStatusScreen": {
-    "tryAgainFailed": "Beim Löschen der KYC-Informationen ist ein Fehler aufgetreten. Bitte versuche es erneut"
+    "tryAgainFailed": "Beim Löschen der KYC-Informationen ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut"
   },
   "fiatConnectReviewScreen": {
     "transactionDetails": "Transaktiondetails",
