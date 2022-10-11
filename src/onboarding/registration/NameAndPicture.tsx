@@ -179,9 +179,7 @@ function NameAndPicture({ navigation, route }: Props) {
   }
   const getUsernamePlaceholder = (nameType: OnboardingNameType) => {
     // Firebase trusted-guide onboarding experiment
-    if (showGuidedOnboarding) {
-      return t('fullNameOrPseudonymPlaceholder')
-    }
+
     switch (nameType) {
       case OnboardingNameType.Placeholder:
       case OnboardingNameType.AutoGen:
@@ -190,7 +188,7 @@ function NameAndPicture({ navigation, route }: Props) {
       case OnboardingNameType.FirstAndLast:
       // onboarding name step control group
       default:
-        return t('fullNamePlaceholder')
+        return showGuidedOnboarding ? t('fullNameOrPseudonymPlaceholder') : t('fullNamePlaceholder')
     }
   }
 
