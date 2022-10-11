@@ -255,7 +255,7 @@ describe('NameAndPictureScreen', () => {
     const nameField = getByTestId('NameEntry')
     fireEvent.press(getByText('generateUsername'))
     const text = nameField.props.value
-    mockRandom.mockReturnValue(1)
+    mockRandom.mockReturnValue(0.9)
     expect(text).toBeTruthy()
     fireEvent.press(getByText('generateUsername'))
     // different name on second press
