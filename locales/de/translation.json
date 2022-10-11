@@ -1305,6 +1305,31 @@
     "button": "Du bestätigst und erklärst dich damit einverstanden, dass deine persönlichen Daten uns zur Verfügung gestellt und mit Dritten zu Überprüfungszwecken geteilt werden, wie in der <0>Datenschutzerklärung</0> angegeben."
   },
   "fiatConnectKycStatusScreen": {
+    "contactSupportPrefill": "Ich habe Probleme, meine Identität bei Valora zu verifizieren.",
+    "contactSupport": "Support kontaktieren",
+    "pending": {
+      "title": "Deine ID-Verifizierung wird gerade überprüft.",
+      "description": "Nachdem die Prüfung abgeschlossen ist, kannst du zur Seite Hinzufügen & Abheben zurückkehren, um deine Transaktion abzuschließen.",
+      "close": "Schließen"
+    },
+    "denied": {
+      "switch": "Rückzugsmethode wechseln",
+      "retryable": {
+        "title": "Die Ausweiskontrolle wurde nicht akzeptiert.",
+        "description": "Bitte überprüfe es noch einmal oder versuche einen anderen Weg, um Geld abzuheben.",
+        "tryAgain": "Nochmal versuchen"
+      },
+      "final": {
+        "title": "Verifizierung verweigert.",
+        "description": "Bitte versuche einen anderen Weg, um Geld abzuheben, oder kontaktiere den Support."
+      }
+    },
+    "expired": {
+      "title": "Die ID-Überprüfung ist abgelaufen.",
+      "description": "Bitte überprüfe es noch einmal oder versuche einen anderen Weg, um Geld abzuheben.",
+      "tryAgain": "Nochmal versuchen",
+      "switch": "Rückzugsmethode wechseln"
+    },
     "tryAgainFailed": "Beim Löschen der KYC-Informationen ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut"
   },
   "fiatConnectReviewScreen": {
