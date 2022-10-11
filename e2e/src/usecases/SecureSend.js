@@ -46,7 +46,6 @@ export default SecureSend = () => {
       await element(by.id(`SingleDigitInput/digit${index}`)).replaceText(character)
     }
 
-    await sleep(3000)
     await element(by.id('ConfirmAccountButton')).tap()
 
     // Write a comment.
