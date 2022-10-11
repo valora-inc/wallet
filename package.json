@@ -392,6 +392,20 @@
           "type": "iPhone 11"
         }
       },
+      "simulator.15.0": {
+        "type": "ios.simulator",
+        "device": {
+          "type": "iPhone 11",
+          "os": "iOS 15.0"
+        }
+      },
+      "simulator.14.5": {
+        "type": "ios.simulator",
+        "device": {
+          "type": "iPhone 11",
+          "os": "iOS 14.5"
+        }
+      },
       "emulator": {
         "type": "android.emulator",
         "device": {
