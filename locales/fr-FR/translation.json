@@ -1305,6 +1305,31 @@
     "button": "Configurer la vérification d'identité"
   },
   "fiatConnectKycStatusScreen": {
+    "contactSupportPrefill": "J'ai du mal à vérifier mon identité auprès de Valora.",
+    "contactSupport": "Contacter l'Assistance",
+    "pending": {
+      "title": "La vérification de ton identité est en cours de révision.",
+      "description": "Une fois l'examen terminé, tu peux retourner sur la page Ajouter et retirer pour terminer ta transaction.",
+      "close": "Fermer"
+    },
+    "denied": {
+      "switch": "Change de méthode de retrait",
+      "retryable": {
+        "title": "La vérification d'identité n'a pas été acceptée.",
+        "description": "Veuillez vérifier à nouveau ou essayer un autre moyen de retirer des fonds.",
+        "tryAgain": "Essaie à nouveau"
+      },
+      "final": {
+        "title": "Vérification refusée.",
+        "description": "Veuillez essayer un autre moyen de retirer des fonds, ou contactez l'assistance."
+      }
+    },
+    "expired": {
+      "title": "La vérification de l'identité a expiré.",
+      "description": "Veuillez vérifier à nouveau ou essayer un autre moyen de retirer des fonds.",
+      "tryAgain": "Essaie à nouveau",
+      "switch": "Change de méthode de retrait"
+    },
     "tryAgainFailed": "Une erreur s'est produite lors de la suppression des informations KYC, veuillez réessayer."
   },
   "fiatConnectReviewScreen": {
