@@ -65,7 +65,7 @@ export function* fetchDataEncryptionKeyWrapper({ address }: FetchDataEncryptionK
   yield call(doFetchDataEncryptionKey, address)
 }
 
-function* fetchDEKDecentrally(walletAddress: string) {
+export function* fetchDEKDecentrally(walletAddress: string) {
   // TODO consider caching here
   // We could use the values in the DekMap instead of looking up each time
   // But Deks can change, how should we invalidate the cache?
