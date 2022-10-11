@@ -37,7 +37,9 @@ enum Status {
 
 const Persona = ({ kycStatus, text, onCanceled, onError, onPress, onSuccess, disabled }: Props) => {
   const { t } = useTranslation()
-  const [personaAccountCreated, setPersonaAccountCreated] = useState(!!kycStatus)
+  const [personaAccountCreated, setPersonaAccountCreated] = useState(
+    kycStatus !== undefined && kycStatus !== KycStatus.NotCreated
+  )
 
   const walletAddress = useSelector(walletAddressSelector)
 
