@@ -1296,7 +1296,7 @@
     "bankAccount": {
       "header": "Załóż konto bankowe",
       "bodyTitle": "Załóż konto bankowe",
-      "description": "Wprowadź dane konta bankowego, aby przelać środki. Twoje transakcje będą realizowane przez <0>{{providerName}}</0>. Klikając przycisk Kontynuuj, zgadzasz się z <1>Warunkami</1> oraz <2>Polityką prywatności</2>"
+      "description": "Wprowadź dane konta bankowego, aby dokonać przelewu środków. Usługi te będą świadczone przez <0>{{providerName}}</0>.\n\nKlikając dalej, zgadzasz się z Warunkami umowy <1>i</1> <2>Polityką prywatności</2>."
     },
     "continue": "Kontynuuj"
   },
