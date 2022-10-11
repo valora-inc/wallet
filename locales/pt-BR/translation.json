@@ -1292,7 +1292,7 @@
     "bankAccount": {
       "header": "Configurar conta bancária",
       "bodyTitle": "Configurar conta bancária",
-      "description": "Insira os dados da conta bancária para transferir fundos. Suas transações serão suportadas por <0>{{providerName}}</0>. Ao clicar em continuar, você concorda com seus <1>Termos e Condições</1> e <2>Política de Privacidade</2>"
+      "description": "Introduza os dados da conta bancária para transferir fundos. Estes serviços ser-lhe-ão fornecidos por <0>{{providerName}}</0>.\n\nAo clicar em continuar, concorda com os seus <1>Termos e Condições</1> e <2>Política de Privacidade</2>"
     },
     "continue": "Continuar"
   },
