@@ -1305,6 +1305,31 @@
     "button": "Configurar verificação de identidade"
   },
   "fiatConnectKycStatusScreen": {
+    "contactSupportPrefill": "Estou a ter dificuldades em verificar a minha identidade com a Valora.",
+    "contactSupport": "Contate o suporte",
+    "pending": {
+      "title": "A sua verificação de identificação está em revisão.",
+      "description": "Após a revisão estar concluída, pode voltar à página Adicionar e Retirar para completar a sua transacção.",
+      "close": "Fechar"
+    },
+    "denied": {
+      "switch": "Método de retirada do interruptor",
+      "retryable": {
+        "title": "A verificação da identificação não foi aceite.",
+        "description": "Por favor, verifique novamente ou tente uma forma diferente de levantar fundos.",
+        "tryAgain": "Tente novamente"
+      },
+      "final": {
+        "title": "Verificação negada.",
+        "description": "Por favor, tente uma forma diferente de retirar fundos, ou contacte o apoio."
+      }
+    },
+    "expired": {
+      "title": "A verificação da identificação expirou.",
+      "description": "Por favor, verifique novamente ou tente uma forma diferente de levantar fundos.",
+      "tryAgain": "Tente novamente",
+      "switch": "Método de retirada do interruptor"
+    },
     "tryAgainFailed": "Ocorreu um erro ao limpar as informações de Conheça o Seu Cliente (KYC). Tente novamente"
   },
   "fiatConnectReviewScreen": {
