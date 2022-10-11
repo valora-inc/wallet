@@ -37,6 +37,7 @@ interface NetworkConfig {
   executeSwapUrl: string
   verifyPhoneNumberUrl: string
   verifySmsCodeUrl: string
+  getPublicDEKUrl: string
 }
 
 const KOMENCI_URL_MAINNET = 'https://mainnet-komenci.azurefd.net'
@@ -87,6 +88,9 @@ const VERIFY_PHONE_NUMBER_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/verifyPhoneNumbe
 const VERIFY_SMS_CODE_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/verifySmsCode`
 const VERIFY_SMS_CODE_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/verifySmsCode`
 
+const GET_PUBLIC_DEK_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/getPublicDataEncryptionKey`
+const GET_PUBLIC_DEK_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/getPublicDataEncryptionKey`
+
 const CELO_EXPLORER_BASE_TX_URL_ALFAJORES = 'https://alfajores-blockscout.celo-testnet.org/tx/'
 const CELO_EXPLORER_BASE_TX_URL_MAINNET = 'https://explorer.celo.org/mainnet/tx/'
 
@@ -125,6 +129,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     executeSwapUrl: EXECUTE_SWAP_URL,
     verifyPhoneNumberUrl: VERIFY_PHONE_NUMBER_ALFAJORES,
     verifySmsCodeUrl: VERIFY_SMS_CODE_ALFAJORES,
+    getPublicDEKUrl: GET_PUBLIC_DEK_ALFAJORES,
   },
   [Testnets.mainnet]: {
     networkId: '42220',
@@ -154,6 +159,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     executeSwapUrl: EXECUTE_SWAP_URL,
     verifyPhoneNumberUrl: VERIFY_PHONE_NUMBER_MAINNET,
     verifySmsCodeUrl: VERIFY_SMS_CODE_MAINNET,
+    getPublicDEKUrl: GET_PUBLIC_DEK_MAINNET,
   },
 }
 
