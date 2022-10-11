@@ -45,6 +45,7 @@ export default SecureSend = () => {
       const character = LAST_ACCOUNT_CHARACTERS[index]
       await element(by.id(`SingleDigitInput/digit${index}`)).replaceText(character)
     }
+
     await element(by.id('ConfirmAccountButton')).tap()
 
     // Write a comment.
