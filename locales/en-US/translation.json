@@ -1292,7 +1292,7 @@
     "bankAccount": {
       "header": "Set up Bank Account",
       "bodyTitle": "Set Up Bank Account",
-      "description": "Enter Bank Account details to transfer funds. Your transactions will be powered by <0>{{providerName}}</0>. By clicking continue, you agree to their <1>Terms and Conditions</1> and <2>Privacy Policy</2>"
+      "description": "Enter Bank Account details to transfer funds. These services will be provided to you by <0>{{providerName}}</0>.\n\nBy clicking continue, you agree to their <1>Terms and Conditions</1> and <2>Privacy Policy</2>"
     },
     "continue": "Continue"
   },
