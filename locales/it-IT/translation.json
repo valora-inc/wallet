@@ -684,9 +684,9 @@
     "step1": "Se puoi inviare un SMS, puoi operare con le criptovalute. Da ora il tuo telefono sarà il tuo Crypto-wallet!",
     "step2": "Con {{appName}}, è facile accedere alle tue criptovalute e farle crescere.",
     "step3": "È sufficiente un cellulare per inviare, comprare ed esplorare.",
-    "payment": "Effettua pagamenti a livello globale con commissioni quasi nulle",
-    "impact": "Sostenere le iniziative di cambiamento climatico e sociale",
-    "spend": "Usa la tua criptovaluta per acquistare i tuoi marchi preferiti"
+    "payment": "Effettua pagamenti a livello globale con commissioni quasi pari a zero",
+    "impact": "Sostieni le iniziative sul cambiamento climatico e sociale",
+    "spend": "Usa le tue criptovalute per acquistare i tuoi marchi preferiti"
   },
   "enableBiometry": {
     "title": "Proteggi il tuo wallet",
@@ -799,8 +799,8 @@
       "dismiss": "Indietro"
     },
     "verificationFailure": "Si è verificato un errore, riprova più tardi.",
-    "resendButtonNotYetAvailable": "Reinvio disponibile in {{secondsRemaining}} secondo(i)",
-    "resendButton": "Reinvia il messaggio di testo"
+    "resendButtonNotYetAvailable": "Nuovo invio disponibile tra {{secondsRemaining}} secondo/i",
+    "resendButton": "Invia nuovamente messaggio di testo"
   },
   "importExistingKey": {
     "explanation": "La tua Frase di recupero è composta da 24 parole e dovresti averla annotata quando hai configurato il tuo conto. Immettila qui per ripristinarlo.",
@@ -1305,7 +1305,7 @@
     "button": "Configura la verifica dell’identità"
   },
   "fiatConnectKycStatusScreen": {
-    "tryAgainFailed": "Si è verificato un errore nella cancellazione delle informazioni KYC. Riprova"
+    "tryAgainFailed": "Si è verificato un errore durante la cancellazione delle informazioni KYC. Riprova."
   },
   "fiatConnectReviewScreen": {
     "transactionDetails": "Dettagli della transazione",
