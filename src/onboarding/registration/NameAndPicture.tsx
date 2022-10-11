@@ -17,7 +17,7 @@ import {
   registrationStepsSelector,
   showGuidedOnboardingSelector,
 } from 'src/app/selectors'
-import { CreateAccountCopyTestType } from 'src/app/types'
+import { CreateAccountCopyTestType, OnboardingNameType } from 'src/app/types'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import DevSkipButton from 'src/components/DevSkipButton'
 import FormInput from 'src/components/FormInput'
@@ -35,8 +35,23 @@ import { saveProfilePicture } from 'src/utils/image'
 import Logger from 'src/utils/Logger'
 import { useAsyncKomenciReadiness } from 'src/verify/hooks'
 import { Statsig } from 'statsig-react-native'
+import { ADJECTIVES, NOUNS } from './constants'
 
 type Props = StackScreenProps<StackParamList, Screens.NameAndPicture>
+
+export const _chooseRandomWord = (wordList: string[]) => {
+  return wordList[Math.floor(Math.random() * wordList.length)]
+}
+
+//TODO: Obtain forbidden words from Firebase Remote Config
+export const _generateUsername = (
+  forbiddenAdjectives: Set<string>,
+  forbiddenNouns: Set<string>
+): string => {
+  const adjectiveList = ADJECTIVES.filter((adj) => !forbiddenAdjectives.has(adj))
+  const nounList = NOUNS.filter((noun) => !forbiddenNouns.has(noun))
+  return `${_chooseRandomWord(adjectiveList)} ${_chooseRandomWord(nounList)}`
+}
 
 const getExperimentParams = () => {
   try {
@@ -61,7 +76,7 @@ const getExperimentParams = () => {
 
 function NameAndPicture({ navigation, route }: Props) {
   const [nameInput, setNameInput] = useState('')
-  const [showSkipButton] = useMemo(getExperimentParams, [])
+  const [showSkipButton, nameType] = useMemo(getExperimentParams, [])
   const cachedName = useTypedSelector(nameSelector)
   const picture = useTypedSelector((state) => state.account.pictureUri)
   const choseToRestoreAccount = useTypedSelector((state) => state.account.choseToRestoreAccount)
@@ -76,6 +91,7 @@ function NameAndPicture({ navigation, route }: Props) {
   const asyncKomenciReadiness = useAsyncKomenciReadiness()
   const showGuidedOnboarding = useSelector(showGuidedOnboardingSelector)
   const createAccountCopyTestType = useSelector(createAccountCopyTestTypeSelector)
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => {
@@ -161,6 +177,20 @@ function NameAndPicture({ navigation, route }: Props) {
       }
     }
   }
+  const getUsernamePlaceholder = (nameType: OnboardingNameType) => {
+    // Firebase trusted-guide onboarding experiment
+
+    switch (nameType) {
+      case OnboardingNameType.Placeholder:
+      case OnboardingNameType.AutoGen:
+        // onboarding name step experimental group
+        return 'MyCryptoAlterEgo' // not localized
+      case OnboardingNameType.FirstAndLast:
+      // onboarding name step control group
+      default:
+        return showGuidedOnboarding ? t('fullNameOrPseudonymPlaceholder') : t('fullNamePlaceholder')
+    }
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -185,9 +215,7 @@ function NameAndPicture({ navigation, route }: Props) {
           onChangeText={setNameInput}
           value={nameInput}
           enablesReturnKeyAutomatically={true}
-          placeholder={
-            showGuidedOnboarding ? t('fullNameOrPseudonymPlaceholder') : t('fullNamePlaceholder')
-          }
+          placeholder={getUsernamePlaceholder(nameType as OnboardingNameType)}
           testID={'NameEntry'}
           multiline={false}
         />
