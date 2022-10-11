@@ -1309,6 +1309,31 @@
     "button": "Ustaw weryfikację tożsamości"
   },
   "fiatConnectKycStatusScreen": {
+    "contactSupportPrefill": "Mam problem z weryfikacją mojej tożsamości w Valorze.",
+    "contactSupport": "Skontaktuj się z Działem wsparcia",
+    "pending": {
+      "title": "Trwa weryfikacja Twojego ID.",
+      "description": "Po zakończeniu przeglądu możesz wrócić na stronę dodawania i wypłacania środków, aby dokończyć transakcję.",
+      "close": "Zamknij"
+    },
+    "denied": {
+      "switch": "Zmień metodę wypłaty",
+      "retryable": {
+        "title": "Weryfikacja tożsamości nie została zaakceptowana.",
+        "description": "Proszę zweryfikować ponownie lub spróbować innego sposobu wypłaty środków.",
+        "tryAgain": "Spróbuj ponownie"
+      },
+      "final": {
+        "title": "Weryfikacja odrzucona.",
+        "description": "Spróbuj innego sposobu wypłacania środków lub skontaktuj się z pomocą techniczną."
+      }
+    },
+    "expired": {
+      "title": "Wygasła weryfikacja tożsamości.",
+      "description": "Proszę zweryfikować ponownie lub spróbować innego sposobu wypłaty środków.",
+      "tryAgain": "Spróbuj ponownie",
+      "switch": "Zmień metodę wypłaty"
+    },
     "tryAgainFailed": "Wystąpił błąd podczas usuwania informacji KYC. Spróbuj ponownie"
   },
   "fiatConnectReviewScreen": {
