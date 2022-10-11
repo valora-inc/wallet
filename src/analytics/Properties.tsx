@@ -1340,7 +1340,6 @@ interface SwapEventsProperties {
     toToken: string
     fromToken: string
     usdTotal: number
-    fee: number
   }
 }
 

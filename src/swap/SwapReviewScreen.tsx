@@ -144,9 +144,6 @@ export function SwapReviewScreen() {
       usdTotal: +divideByWei(swapResponse.unvalidatedSwapTransaction.buyAmount).multipliedBy(
         swapResponse.unvalidatedSwapTransaction.price
       ),
-      fee: +divideByWei(swapResponse.unvalidatedSwapTransaction.sellAmount).multipliedBy(
-        swapFeeDecimal
-      ),
     })
     // Dispatch swap submission
     if (userInput !== null) {

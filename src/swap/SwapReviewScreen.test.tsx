@@ -222,7 +222,6 @@ describe('SwapReviewScreen', () => {
 
     fireEvent.press(getByText('swapReviewScreen.complete'))
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_review_submit, {
-      fee: 0.00743,
       toToken: mockCusdAddress,
       fromToken: mockCeloAddress,
       usdTotal: 9,
