@@ -684,8 +684,8 @@
     "step1": "Cripto tan fácil como enviar mensajes. Convierte tu teléfono en una wallet cripto.",
     "step2": "Con {{appName}}, accede y multiplica tus criptomonedas en pocos pasos.",
     "step3": "Solo necesitas tu teléfono para enviar, gastar y explorar el mundo cripto.",
-    "payment": "Haz pagos globalmente con tarifas casi nulas",
-    "impact": "Apoya las iniciativas de cambio climático y social",
+    "payment": "Paga en segundos y a tarifas bajísimas",
+    "impact": "Apoya iniciativas de cambio climático y social",
     "spend": "Usa tu cripto para comprar tus marcas favoritas"
   },
   "enableBiometry": {
@@ -800,7 +800,7 @@
     },
     "verificationFailure": "Algo salió mal, inténtalo de nuevo más tarde.",
     "resendButtonNotYetAvailable": "Reenvío disponible en {{secondsRemaining}} segundo(s)",
-    "resendButton": "Reenviar mensaje de texto"
+    "resendButton": "Reenviar mensaje"
   },
   "importExistingKey": {
     "explanation": "Tu Frase de recuperación es la frase de 24 palabras que escribiste y guardaste cuando configuraste tu cuenta. Por favor, ingrésala para restaurar tu cuenta.",
@@ -1292,7 +1292,7 @@
     "bankAccount": {
       "header": "Configurar cuenta bancaria",
       "bodyTitle": "Configurar cuenta bancaria",
-      "description": "Ingresa los datos bancarios para transferir fondos. Tus transacciones se realizarán con tecnología de <0>{{providerName}}</0>. Si eliges continuar, aceptas sus <1>Términos y condiciones</1> y su <2>Política de privacidad</2>."
+      "description": "Introduce los datos de la cuenta bancaria para transferir fondos. Estos servicios te serán proporcionados por <0>{{providerName}}</0>.\n\nAl hacer clic en continuar, aceptas sus <1>Términos y Condiciones</1> y su <2>Política de Privacidad</2>"
     },
     "continue": "Continuar"
   },
@@ -1305,7 +1305,7 @@
     "button": "Establecer verificación de identidad"
   },
   "fiatConnectKycStatusScreen": {
-    "tryAgainFailed": "Hubo un error al borrar la información de KYC. Por favor, inténtalo de nuevo"
+    "tryAgainFailed": "Hubo un error al borrar la información de KYC. Vuelve a intentarlo."
   },
   "fiatConnectReviewScreen": {
     "transactionDetails": "Detalles de transacción",
