@@ -684,9 +684,9 @@
     "step1": "Si vous savez comment envoyer un SMS, vous saurez comprendre les cryptos. Dès maintenant, votre téléphone devient votre wallet de cryptomonnaies.",
     "step2": "Avec {{appName}}, se lancer et développer votre wallet de cryptomonnaies est plus facile que jamais.",
     "step3": "Tout ce dont vous avez besoin est un téléphone portable pour envoyer, dépenser et découvrir.",
-    "payment": "Fais des paiements dans le monde entier avec des frais presque nuls",
-    "impact": "Soutenir les initiatives en faveur du changement climatique et social",
-    "spend": "Utilise ta crypto pour acheter tes marques préférées"
+    "payment": "Effectuer des paiements partout dans le monde avec des frais proches de zéro",
+    "impact": "Soutenir les actions en faveur du climat et du changement social",
+    "spend": "Utiliser vos cryptomonnaies pour acheter vos marques préférées"
   },
   "enableBiometry": {
     "title": "Sécurisez votre wallet",
@@ -800,7 +800,7 @@
     },
     "verificationFailure": "Une erreur s'est produite, veuillez réessayer plus tard.",
     "resendButtonNotYetAvailable": "Renvoi disponible dans {{secondsRemaining}} seconde(s)",
-    "resendButton": "Renvoyer le message texte"
+    "resendButton": "Renvoyer le SMS"
   },
   "importExistingKey": {
     "explanation": "Votre Phrase de récupération est une phrase de 24 mots que vous avez écrite et enregistrée lorsque vous avez créé votre compte. Veuillez la saisir ici pour restaurer votre compte.",
@@ -1305,7 +1305,7 @@
     "button": "Configurer la vérification d'identité"
   },
   "fiatConnectKycStatusScreen": {
-    "tryAgainFailed": "Une erreur s'est produite lors de l'effacement des informations KYC. Veuillez réessayer"
+    "tryAgainFailed": "Une erreur s'est produite lors de la suppression des informations KYC. Veuillez réessayer."
   },
   "fiatConnectReviewScreen": {
     "transactionDetails": "Détails de transaction",
