@@ -35,12 +35,22 @@ import { saveProfilePicture } from 'src/utils/image'
 import Logger from 'src/utils/Logger'
 import { useAsyncKomenciReadiness } from 'src/verify/hooks'
 import { Statsig } from 'statsig-react-native'
+import { ADJECTIVES, NOUNS } from './constants'
 
 type Props = StackScreenProps<StackParamList, Screens.NameAndPicture>
 
-export const generateUsername = (): string => {
-  return 'generatedUsername'
-  // TODO replace with actual implementation in separate PR
+export const _chooseRandomWord = (wordList: string[]) => {
+  return wordList[Math.floor(Math.random() * wordList.length)]
+}
+
+//TODO: Obtain forbidden words from Firebase Remote Config
+export const _generateUsername = (
+  forbiddenAdjectives: Set<string>,
+  forbiddenNouns: Set<string>
+): string => {
+  const adjectiveList = ADJECTIVES.filter((adj) => !forbiddenAdjectives.has(adj))
+  const nounList = NOUNS.filter((noun) => !forbiddenNouns.has(noun))
+  return `${_chooseRandomWord(adjectiveList)} ${_chooseRandomWord(nounList)}`
 }
 
 const getExperimentParams = () => {
@@ -177,7 +187,8 @@ function NameAndPicture({ navigation, route }: Props) {
   }
 
   const onPressGenerateUsername = () => {
-    setNameInput(generateUsername())
+    //TODO: Obtain forbidden words from Firebase Remote Config
+    setNameInput(_generateUsername(new Set<string>(), new Set<string>()))
   }
 
   return (
