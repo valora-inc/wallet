@@ -2027,16 +2027,16 @@
                     "type": "number"
                 },
                 "usernameAdjectiveBlocklist": {
-                  "items": {
-                    "type": "string"
-                  },
-                  "type": "array"
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
                 },
                 "usernameNounBlocklist": {
-                  "items": {
-                    "type": "string"
-                  },
-                  "type": "array"
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
                 },
                 "visualizeNFTsEnabledInHomeAssetsPage": {
                     "type": "boolean"
