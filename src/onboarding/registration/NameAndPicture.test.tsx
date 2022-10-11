@@ -42,6 +42,7 @@ describe('NameAndPictureScreen', () => {
   })
 
   afterEach(() => {
+    mockStatsigGet.mockClear()
     jest.spyOn(global.Math, 'random').mockRestore()
   })
 
@@ -209,6 +210,7 @@ describe('NameAndPictureScreen', () => {
     expect(getByText('nameAndPicGuideCopyTitle')).toBeTruthy()
     expect(getByText('nameAndPicGuideCopyContent')).toBeTruthy()
   })
+
   it('does not render skip button when configured so', () => {
     mockStatsigGet.mockReturnValue(false)
     const { queryByText } = render(
@@ -241,6 +243,26 @@ describe('NameAndPictureScreen', () => {
     fireEvent.changeText(getByTestId('NameEntry'), 'Some Name')
     fireEvent.press(getByText('skip'))
     expect(AccountActions.setName).not.toHaveBeenCalled()
+  })
+
+  it('shows alternate placeholder username for experimental group', () => {
+    mockStatsigGet.mockReturnValueOnce(false).mockReturnValueOnce('autogenerator')
+    const { getByTestId } = render(
+      <Provider store={createMockStore()}>
+        <NameAndPicture {...mockScreenProps} />
+      </Provider>
+    )
+    expect(getByTestId('NameEntry').props.placeholder).toEqual('MyCryptoAlterEgo')
+  })
+
+  it('does not show alternate placeholder username for control group', () => {
+    mockStatsigGet.mockReturnValueOnce(false).mockReturnValueOnce('first_and_last')
+    const { getByTestId } = render(
+      <Provider store={createMockStore()}>
+        <NameAndPicture {...mockScreenProps} />
+      </Provider>
+    )
+    expect(getByTestId('NameEntry').props.placeholder).toEqual('fullNamePlaceholder')
   })
 
   it('random word selector behaves as expected', () => {
