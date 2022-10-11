@@ -800,7 +800,7 @@
     },
     "verificationFailure": "Si è verificato un errore, riprova più tardi.",
     "resendButtonNotYetAvailable": "Nuovo invio disponibile tra {{secondsRemaining}} secondo/i",
-    "resendButton": "Invia nuovamente messaggio di testo"
+    "resendButton": "Invia nuovamente messaggio"
   },
   "importExistingKey": {
     "explanation": "La tua Frase di recupero è composta da 24 parole e dovresti averla annotata quando hai configurato il tuo conto. Immettila qui per ripristinarlo.",
@@ -1292,7 +1292,7 @@
     "bankAccount": {
       "header": "Imposta un conto bancario",
       "bodyTitle": "Imposta un conto bancario",
-      "description": "Inserisci i dettagli del Conto bancario per trasferire fondi. Le transazioni saranno effettuate da <0>{{providerName}}</0>. Facendo clic su Continua, accetterai i <1>Termini e condizioni</1> e l'<2>Informativa sulla privacy</2>."
+      "description": "Inserisci i dati del conto corrente bancario per trasferire i fondi. Questi servizi ti saranno forniti da <0>{{providerName}}</0>.\n\nCliccando su \"Continua\", accetti i <1>termini e le condizioni</1> e l'<2>informativa sulla privacy</2>."
     },
     "continue": "Continua"
   },
