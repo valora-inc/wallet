@@ -1292,7 +1292,7 @@
     "bankAccount": {
       "header": "Ein Bankkonto einrichten",
       "bodyTitle": "Ein Bankkonto einrichten",
-      "description": "Gib die Details deines Bankkontos ein, um Guthaben zu überweisen. Deine Transaktionen werden durchgeführt von <0>{{providerName}}</0>. Wenn du auf \"Weiter\" klickst, erklärst du dich mit den <1>Allgemeinen Geschäftsbedingungen</1> und der <2>Datenschutzerklärung</2> einverstanden."
+      "description": "Gib deine Kontodaten ein, um Geld zu überweisen. Diese Dienste werden dir zur Verfügung gestellt von <0>{{providerName}}</0>.\n\nWenn du auf \"Weiter\" klickst, erklärst du dich mit den <1>Allgemeinen</1> Geschäftsbedingungen und der <2>Datenschutzerklärung</2> einverstanden."
     },
     "continue": "Weiter"
   },
