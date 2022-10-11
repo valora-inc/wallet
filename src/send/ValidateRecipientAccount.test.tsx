@@ -67,6 +67,28 @@ describe('ValidateRecipientAccount', () => {
     expect(tree.getByTestId('ConfirmAccountButton')).not.toBeDisabled()
   })
 
+  it('enables submit button for full validation', () => {
+    const store = createMockStore()
+    const tree = render(
+      <Provider store={store}>
+        <ValidateRecipientAccount
+          {...getMockStackScreenProps(Screens.ValidateRecipientAccount, {
+            transactionData: mockTransactionData,
+            addressValidationType: AddressValidationType.FULL,
+            origin: SendOrigin.AppSendFlow,
+          })}
+        />
+      </Provider>
+    )
+
+    expect(tree.getByTestId('ConfirmAccountButton')).toBeDisabled()
+    fireEvent.changeText(
+      tree.getByTestId('ValidateRecipientAccount/TextInput'),
+      mockCusdAddress[38]
+    )
+    expect(tree.getByTestId('ConfirmAccountButton')).not.toBeDisabled()
+  })
+
   it('navigates to send confirmation when validation successful for send flow', () => {
     const store = createMockStore({
       identity: {
