@@ -1341,6 +1341,12 @@ interface SwapEventsProperties {
     fromToken: string
     usdTotal: number
   }
+  [SwapEvents.swap_execute_price_change]: {
+    price: string
+    guaranteedPrice: string
+    toToken: string
+    fromToken: string
+  }
 }
 
 export type AnalyticsPropertiesList = AppEventsProperties &

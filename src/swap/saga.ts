@@ -3,6 +3,8 @@ import { TxParamsNormalizer } from '@celo/connect/lib/utils/tx-params-normalizer
 import { ContractKit } from '@celo/contractkit'
 import { PayloadAction } from '@reduxjs/toolkit'
 import { call, put, select, takeLatest } from 'redux-saga/effects'
+import { SwapEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { maxSwapSlippagePercentageSelector } from 'src/app/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -37,13 +39,21 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
 
     // Check that our guaranteedPrice is within 2%, maxSwapSlippagePercentage, of of the price
     const maxSlippagePercent: number = yield select(maxSwapSlippagePercentageSelector)
-    const priceDiff: number = yield call(
-      getPercentageDifference,
-      +action.payload.unvalidatedSwapTransaction.price,
-      +action.payload.unvalidatedSwapTransaction.guaranteedPrice
-    )
+    const {
+      price,
+      guaranteedPrice,
+      buyTokenAddress,
+      sellTokenAddress,
+    } = action.payload.unvalidatedSwapTransaction
+    const priceDiff: number = yield call(getPercentageDifference, +price, +guaranteedPrice)
     if (priceDiff >= maxSlippagePercent) {
       yield put(swapPriceChange())
+      ValoraAnalytics.track(SwapEvents.swap_execute_price_change, {
+        price,
+        guaranteedPrice,
+        toToken: buyTokenAddress,
+        fromToken: sellTokenAddress,
+      })
       return
     }
 

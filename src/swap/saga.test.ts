@@ -1,6 +1,8 @@
 import { expectSaga } from 'redux-saga-test-plan'
 import { throwError } from 'redux-saga-test-plan/providers'
 import { call } from 'redux-saga/effects'
+import { SwapEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { store } from 'src/redux/store'
 import { swapSubmitSaga } from 'src/swap/saga'
 import { swapApprove, swapError, swapExecute, swapPriceChange } from 'src/swap/slice'
@@ -117,5 +119,13 @@ describe(swapSubmitSaga, () => {
       ])
       .put(swapPriceChange())
       .run()
+
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_execute_price_change, {
+      price: '1',
+      guaranteedPrice: '1.021',
+      toToken: '0xd8763cba276a3738e6de85b4b3bf5fded6d6ca73',
+      fromToken: '0xe8537a3d056da446677b9e9d6c5db704eaab4787',
+    })
   })
 })
