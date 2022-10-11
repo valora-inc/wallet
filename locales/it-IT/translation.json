@@ -1305,6 +1305,31 @@
     "button": "Configura la verifica dell’identità"
   },
   "fiatConnectKycStatusScreen": {
+    "contactSupportPrefill": "Ho problemi a verificare la mia identità con Valora.",
+    "contactSupport": "Contatta il supporto tecnico",
+    "pending": {
+      "title": "La verifica del tuo ID è in corso.",
+      "description": "Al termine della revisione, puoi tornare alla pagina Aggiungi e preleva per completare la transazione.",
+      "close": "Chiudi"
+    },
+    "denied": {
+      "switch": "Cambia metodo di prelievo",
+      "retryable": {
+        "title": "La verifica del documento d'identità non è stata accettata.",
+        "description": "Verifica di nuovo o prova un altro modo per prelevare i fondi.",
+        "tryAgain": "Riprova"
+      },
+      "final": {
+        "title": "Verifica respinta.",
+        "description": "Prova a scegliere un altro modo per prelevare i fondi o contatta l'assistenza."
+      }
+    },
+    "expired": {
+      "title": "La verifica dell'ID è scaduta.",
+      "description": "Verifica di nuovo o prova un altro modo per prelevare i fondi.",
+      "tryAgain": "Riprova",
+      "switch": "Cambia metodo di prelievo"
+    },
     "tryAgainFailed": "Si è verificato un errore durante la cancellazione delle informazioni KYC. Riprova."
   },
   "fiatConnectReviewScreen": {
