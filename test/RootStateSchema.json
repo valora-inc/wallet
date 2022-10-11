@@ -273,6 +273,34 @@
             ],
             "type": "object"
         },
+        "CachedQuoteParams": {
+            "additionalProperties": false,
+            "properties": {
+                "cryptoAmount": {
+                    "type": "string"
+                },
+                "cryptoType": {
+                    "$ref": "#/definitions/Currency"
+                },
+                "fiatAmount": {
+                    "type": "string"
+                },
+                "fiatType": {
+                    "$ref": "#/definitions/FiatType"
+                },
+                "flow": {
+                    "$ref": "#/definitions/CICOFlow"
+                }
+            },
+            "required": [
+                "cryptoAmount",
+                "cryptoType",
+                "fiatAmount",
+                "fiatType",
+                "flow"
+            ],
+            "type": "object"
+        },
         "CreateAccountCopyTestType": {
             "enum": [
                 "ACCOUNT",
@@ -2883,6 +2911,12 @@
                     },
                     "type": "array"
                 },
+                "cachedQuoteParams": {
+                    "additionalProperties": {
+                        "$ref": "#/definitions/{PersonalDataAndDocuments:CachedQuoteParams;}"
+                    },
+                    "type": "object"
+                },
                 "kycTryAgainLoading": {
                     "type": "boolean"
                 },
@@ -3103,6 +3137,7 @@
             "required": [
                 "attemptReturnUserFlowLoading",
                 "cachedFiatAccountUses",
+                "cachedQuoteParams",
                 "kycTryAgainLoading",
                 "providers",
                 "quotes",
@@ -4068,6 +4103,18 @@
                 "c",
                 "e",
                 "s"
+            ],
+            "type": "object"
+        },
+        "{PersonalDataAndDocuments:CachedQuoteParams;}": {
+            "additionalProperties": false,
+            "properties": {
+                "PersonalDataAndDocuments": {
+                    "$ref": "#/definitions/CachedQuoteParams"
+                }
+            },
+            "required": [
+                "PersonalDataAndDocuments"
             ],
             "type": "object"
         },

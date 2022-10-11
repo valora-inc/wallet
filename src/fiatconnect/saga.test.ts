@@ -59,6 +59,7 @@ import {
   submitFiatAccount,
   submitFiatAccountCompleted,
   submitFiatAccountKycApproved,
+  cacheQuoteParams,
 } from 'src/fiatconnect/slice'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { normalizeFiatConnectQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
@@ -891,6 +892,19 @@ describe('Fiatconnect saga', () => {
           [matches.call.fn(getFiatConnectClient), mockFcClient],
           { call: provideDelay },
         ])
+        .put(
+          cacheQuoteParams({
+            providerId: normalizedQuoteKyc.getProviderId(),
+            kycSchema: normalizedQuoteKyc.getKycSchema()!,
+            cachedQuoteParams: {
+              cryptoAmount: normalizedQuoteKyc.getCryptoAmount(),
+              fiatAmount: normalizedQuoteKyc.getFiatAmount(),
+              flow: normalizedQuoteKyc.flow,
+              cryptoType: normalizedQuoteKyc.getCryptoType(),
+              fiatType: normalizedQuoteKyc.getFiatType(),
+            },
+          })
+        )
         .put(selectFiatConnectQuoteCompleted())
         .run()
       expect(navigate).toHaveBeenCalledWith(Screens.KycLanding, {
