@@ -1305,6 +1305,31 @@
     "button": "Establecer verificación de identidad"
   },
   "fiatConnectKycStatusScreen": {
+    "contactSupportPrefill": "Tengo problemas para verificar mi identidad con Valora.",
+    "contactSupport": "Contactar a Soporte",
+    "pending": {
+      "title": "Tu verificación de identidad está en revisión.",
+      "description": "Una vez completada la revisión, puedes volver a la página de Añadir y Retirar para completar tu transacción.",
+      "close": "Cerrar"
+    },
+    "denied": {
+      "switch": "Cambiar el método de retirada",
+      "retryable": {
+        "title": "No se aceptó la verificación del DNI.",
+        "description": "Por favor, verifica de nuevo o intenta una forma diferente de retirar fondos.",
+        "tryAgain": "Inténtalo de nuevo"
+      },
+      "final": {
+        "title": "Verificación denegada.",
+        "description": "Por favor, intenta una forma diferente de retirar fondos, o ponte en contacto con el servicio de asistencia."
+      }
+    },
+    "expired": {
+      "title": "La verificación de la identidad ha caducado.",
+      "description": "Por favor, verifica de nuevo o intenta una forma diferente de retirar fondos.",
+      "tryAgain": "Inténtalo de nuevo",
+      "switch": "Cambiar el método de retirada"
+    },
     "tryAgainFailed": "Hubo un error al borrar la información de KYC. Vuelve a intentarlo."
   },
   "fiatConnectReviewScreen": {
