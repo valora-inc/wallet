@@ -228,13 +228,24 @@ describe('NameAndPictureScreen', () => {
     fireEvent.press(getByText('skip'))
     expect(AccountActions.setName).not.toHaveBeenCalled()
   })
-  it('shows alternate placeholder username', () => {
-    mockStatsigGet.mockReturnValueOnce(false).mockReturnValueOnce('crypto_alter_ego')
+
+  it('shows alternate placeholder username for experimental group', () => {
+    mockStatsigGet.mockReturnValueOnce(false).mockReturnValueOnce('autogenerator')
     const { getByTestId } = render(
       <Provider store={createMockStore()}>
         <NameAndPicture {...mockScreenProps} />
       </Provider>
     )
     expect(getByTestId('NameEntry').props.placeholder).toEqual('MyCryptoAlterEgo')
+  })
+
+  it('does not show alternate placeholder username for control group', () => {
+    mockStatsigGet.mockReturnValueOnce(false).mockReturnValueOnce('first_and_last')
+    const { getByTestId } = render(
+      <Provider store={createMockStore()}>
+        <NameAndPicture {...mockScreenProps} />
+      </Provider>
+    )
+    expect(getByTestId('NameEntry').props.placeholder).toEqual('fullNamePlaceholder')
   })
 })

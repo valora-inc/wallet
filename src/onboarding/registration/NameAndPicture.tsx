@@ -17,7 +17,7 @@ import {
   registrationStepsSelector,
   showGuidedOnboardingSelector,
 } from 'src/app/selectors'
-import { CreateAccountCopyTestType } from 'src/app/types'
+import { CreateAccountCopyTestType, OnboardingNameType } from 'src/app/types'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import DevSkipButton from 'src/components/DevSkipButton'
 import FormInput from 'src/components/FormInput'
@@ -37,12 +37,6 @@ import { useAsyncKomenciReadiness } from 'src/verify/hooks'
 import { Statsig } from 'statsig-react-native'
 
 type Props = StackScreenProps<StackParamList, Screens.NameAndPicture>
-
-enum OnboardingNameType {
-  FirstAndLast = 'first_and_last',
-  FirstAndLastOrPseudonym = 'first_and_last_or_pseudonym',
-  CryptoAlterEgo = 'crypto_alter_ego',
-}
 
 const getExperimentParams = () => {
   try {
@@ -170,18 +164,18 @@ function NameAndPicture({ navigation, route }: Props) {
   }
   const getUsernamePlaceholder = (nameType: OnboardingNameType) => {
     // Firebase trusted-guide onboarding experiment
-    const defaultPlaceholder = showGuidedOnboarding
-      ? t('fullNameOrPseudonymPlaceholder')
-      : t('fullNamePlaceholder')
+    if (showGuidedOnboarding) {
+      return t('fullNameOrPseudonymPlaceholder')
+    }
     switch (nameType) {
-      case OnboardingNameType.FirstAndLast: // StatSig default
-        return defaultPlaceholder // default on StatSig allows Firebase flags to take over
-      case OnboardingNameType.FirstAndLastOrPseudonym:
-        return t('fullNameOrPseudonymPlaceholder')
-      case OnboardingNameType.CryptoAlterEgo:
+      case OnboardingNameType.Placeholder:
+      case OnboardingNameType.AutoGen:
+        // onboarding name step experimental group
         return 'MyCryptoAlterEgo' // not localized
+      case OnboardingNameType.FirstAndLast:
+      // onboarding name step control group
       default:
-        return defaultPlaceholder
+        return t('fullNamePlaceholder')
     }
   }
 
