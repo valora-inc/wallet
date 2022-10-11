@@ -62,6 +62,8 @@ export interface State {
   swapFeePercentage: number
   inviteMethod: InviteMethodType
   centralPhoneVerificationEnabled: boolean
+  usernameAdjectiveBlocklist: string[]
+  usernameNounBlocklist: string[]
 }
 
 const initialState = {
@@ -117,6 +119,12 @@ const initialState = {
   swapFeePercentage: REMOTE_CONFIG_VALUES_DEFAULTS.swapFeePercentage,
   inviteMethod: REMOTE_CONFIG_VALUES_DEFAULTS.inviteMethod,
   centralPhoneVerificationEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.centralPhoneVerificationEnabled,
+  usernameAdjectiveBlocklist: REMOTE_CONFIG_VALUES_DEFAULTS.usernameAdjectiveBlocklist
+    .split(',')
+    .filter((word) => word), //Filter to get rid of empty string in array
+  usernameNounBlocklist: REMOTE_CONFIG_VALUES_DEFAULTS.usernameNounBlocklist
+    .split(',')
+    .filter((word) => word),
 }
 
 export const appReducer = (
@@ -240,6 +248,8 @@ export const appReducer = (
         inviteMethod: action.configValues.inviteMethod,
         showGuidedOnboardingCopy: action.configValues.showGuidedOnboardingCopy,
         centralPhoneVerificationEnabled: action.configValues.centralPhoneVerificationEnabled,
+        usernameAdjectiveBlocklist: action.configValues.usernameAdjectiveBlocklist,
+        usernameNounBlocklist: action.configValues.usernameNounBlocklist,
       }
     case Actions.TOGGLE_INVITE_MODAL:
       return {

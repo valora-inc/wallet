@@ -9,10 +9,14 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   | 'celoEducationUri'
   | 'komenciAllowedDeployers'
   | 'dappListApiUrl'
+  | 'usernameAdjectiveBlocklist'
+  | 'usernameNounBlocklist'
   | 'sentryNetworkErrors'
   | 'superchargeTokenConfigByToken'
 > & {
   komenciAllowedDeployers: string
+  usernameAdjectiveBlocklist: string
+  usernameNounBlocklist: string
   sentryNetworkErrors: string
   superchargecUSDMin: number
   superchargecUSDMax: number
@@ -73,4 +77,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   inviteMethod: InviteMethodType.Escrow,
   showGuidedOnboardingCopy: false,
   centralPhoneVerificationEnabled: false,
+  usernameAdjectiveBlocklist: '',
+  usernameNounBlocklist: '',
 }

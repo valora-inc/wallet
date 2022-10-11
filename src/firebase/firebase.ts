@@ -305,6 +305,14 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     inviteMethod: flags.inviteMethod.asString() as InviteMethodType,
     showGuidedOnboardingCopy: flags.showGuidedOnboardingCopy.asBoolean(),
     centralPhoneVerificationEnabled: flags.centralPhoneVerificationEnabled.asBoolean(),
+    usernameAdjectiveBlocklist: flags.usernameAdjectiveBlocklist
+      .asString()
+      .split(',')
+      .filter((word) => word), //Filter to get rid of empty string in array
+    usernameNounBlocklist: flags.usernameNounBlocklist
+      .asString()
+      .split(',')
+      .filter((word) => word),
   }
 }
 

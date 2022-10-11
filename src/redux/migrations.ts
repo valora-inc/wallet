@@ -839,4 +839,11 @@ export const migrations = {
     },
   }),
   81: (state: any) => state,
+  82: (state: any) => ({
+    app: {
+      ...state.app,
+      usernameAdjectiveBlocklist: [],
+      usernameNounBlocklist: [],
+    },
+  }),
 }
