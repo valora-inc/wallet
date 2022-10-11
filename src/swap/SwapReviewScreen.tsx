@@ -281,18 +281,9 @@ export function SwapReviewScreen() {
                       <InfoIcon size={12} color={colors.gray4} />
                     </>
                   </Touchable>
-                  <TokenDisplay
-                    style={[
-                      styles.transactionDetailsRightText,
-                      !swapFeeEnabled && styles.feeWaived,
-                    ]}
-                    amount={divideByWei(
-                      swapResponse.unvalidatedSwapTransaction.sellAmount
-                    ).multipliedBy(swapFeeDecimal)}
-                    tokenAddress={fromToken}
-                    showLocalAmount={true}
-                    testID={'SwapFee'}
-                  />
+                  <Text testID={'SwapFee'} style={styles.transactionDetailsRightText}>
+                    {t('swapReviewScreen.free')}
+                  </Text>
                 </View>
               </View>
             </>
@@ -328,9 +319,7 @@ export function SwapReviewScreen() {
         isActionHighlighted={false}
         onBackgroundPress={() => setSwapFeeModalVisible(false)}
       >
-        {t('swapReviewScreen.swapFeeBody', {
-          swapFee: swapFeePercentage,
-        })}
+        {t('swapReviewScreen.swapFeeBodyFree')}
       </Dialog>
     </SafeAreaView>
   )
