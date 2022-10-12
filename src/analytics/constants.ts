@@ -10,5 +10,13 @@ export const ExperimentParams = {
       paramName: 'nameType',
       defaultValue: 'first_and_last',
     },
+    showNameGeneratorButton: {
+      paramName: 'showNameGeneratorButton',
+      defaultValue: false,
+    },
+    namePlaceholder: {
+      paramName: 'namePlaceholder',
+      defaultValue: 'fullNamePlaceholder',
+    },
   },
 }

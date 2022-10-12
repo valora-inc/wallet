@@ -12,12 +12,8 @@ import { OnboardingEvents } from 'src/analytics/Events'
 import { StatsigEvents, StatsigLayers } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import {
-  createAccountCopyTestTypeSelector,
-  registrationStepsSelector,
-  showGuidedOnboardingSelector,
-} from 'src/app/selectors'
-import { CreateAccountCopyTestType, OnboardingNameType } from 'src/app/types'
+import { registrationStepsSelector, showGuidedOnboardingSelector } from 'src/app/selectors'
+import { OnboardingNamePlaceholderType } from 'src/app/types'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import DevSkipButton from 'src/components/DevSkipButton'
 import FormInput from 'src/components/FormInput'
@@ -60,11 +56,15 @@ const getExperimentParams = () => {
       ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].showSkipButton.paramName,
       ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].showSkipButton.defaultValue
     )
-    const nameType = statsigLayer.get(
-      ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].nameType.paramName,
-      ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].nameType.defaultValue
+    const showNameGeneratorButton = statsigLayer.get(
+      ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].showNameGeneratorButton.paramName,
+      ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].showNameGeneratorButton.defaultValue
     )
-    return [showSkipButton, nameType]
+    const namePlaceholder = statsigLayer.get(
+      ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].namePlaceholder.paramName,
+      ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].namePlaceholder.defaultValue
+    )
+    return [showSkipButton, showNameGeneratorButton, namePlaceholder]
   } catch (error) {
     Logger.warn('NameAndPicture', 'error getting Statsig experiment', error)
   }
@@ -76,7 +76,10 @@ const getExperimentParams = () => {
 
 function NameAndPicture({ navigation, route }: Props) {
   const [nameInput, setNameInput] = useState('')
-  const [showSkipButton, nameType] = useMemo(getExperimentParams, [])
+  const [showSkipButton, showNameGeneratorButton, namePlaceholder] = useMemo(
+    getExperimentParams,
+    []
+  )
   const cachedName = useTypedSelector(nameSelector)
   const picture = useTypedSelector((state) => state.account.pictureUri)
   const choseToRestoreAccount = useTypedSelector((state) => state.account.choseToRestoreAccount)
@@ -90,29 +93,14 @@ function NameAndPicture({ navigation, route }: Props) {
   // CB TEMPORARY HOTFIX: Pinging Komenci endpoint to ensure availability
   const asyncKomenciReadiness = useAsyncKomenciReadiness()
   const showGuidedOnboarding = useSelector(showGuidedOnboardingSelector)
-  const createAccountCopyTestType = useSelector(createAccountCopyTestTypeSelector)
-  const showNameGeneratorButton = nameType === OnboardingNameType.AutoGen
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => {
-        let pageTitleTranslationKey
-        pageTitleTranslationKey = choseToRestoreAccount
-          ? 'restoreAccount'
-          : createAccountCopyTestType === CreateAccountCopyTestType.Wallet ||
-            createAccountCopyTestType === CreateAccountCopyTestType.AlreadyHaveWallet
-          ? 'createProfile'
-          : 'createAccount'
-        if (
-          nameType === OnboardingNameType.AutoGen ||
-          nameType === OnboardingNameType.Placeholder
-        ) {
-          // experimental group of Onboarding Name Step experiment
-          pageTitleTranslationKey = 'createProfile'
-        } else if (showGuidedOnboarding) {
+        let pageTitleTranslationKey = choseToRestoreAccount ? 'restoreAccount' : 'createProfile'
+        if (showGuidedOnboarding) {
           pageTitleTranslationKey = 'name'
         }
-
         return (
           <HeaderTitleWithSubtitle
             title={t(pageTitleTranslationKey)}
@@ -190,6 +178,15 @@ function NameAndPicture({ navigation, route }: Props) {
     setNameInput(_generateUsername(new Set<string>(), new Set<string>()))
   }
 
+  const getUsernamePlaceholder = (namePlaceholder: OnboardingNamePlaceholderType) => {
+    switch (namePlaceholder) {
+      case OnboardingNamePlaceholderType.AlterEgo:
+        return 'MyCryptoAlterEgo' // not localized
+      case OnboardingNamePlaceholderType.FullName:
+      default:
+        return showGuidedOnboarding ? t('fullNameOrPseudonymPlaceholder') : t('fullNamePlaceholder')
+    }
+  }
   return (
     <SafeAreaView style={styles.container}>
       <DevSkipButton nextScreen={Screens.PincodeSet} />
@@ -213,9 +210,7 @@ function NameAndPicture({ navigation, route }: Props) {
           onChangeText={setNameInput}
           value={nameInput}
           enablesReturnKeyAutomatically={true}
-          placeholder={
-            showGuidedOnboarding ? t('fullNameOrPseudonymPlaceholder') : t('fullNamePlaceholder')
-          }
+          placeholder={getUsernamePlaceholder(namePlaceholder as OnboardingNamePlaceholderType)}
           testID={'NameEntry'}
           multiline={false}
         />

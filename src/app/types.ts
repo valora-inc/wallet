@@ -17,8 +17,7 @@ export enum InviteMethodType {
   ReferralUrl = 'REFERRAL_URL',
 }
 
-export enum OnboardingNameType {
-  AutoGen = 'autogenerator',
-  FirstAndLast = 'first_and_last',
-  Placeholder = 'placeholder',
+export enum OnboardingNamePlaceholderType {
+  AlterEgo = 'myCryptoAlterEgo',
+  FullName = 'fullNamePlaceholder',
 }

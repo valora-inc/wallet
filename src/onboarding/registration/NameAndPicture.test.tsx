@@ -42,6 +42,7 @@ describe('NameAndPictureScreen', () => {
   })
 
   afterEach(() => {
+    mockStatsigGet.mockClear()
     jest.spyOn(global.Math, 'random').mockRestore()
   })
 
@@ -209,6 +210,7 @@ describe('NameAndPictureScreen', () => {
     expect(getByText('nameAndPicGuideCopyTitle')).toBeTruthy()
     expect(getByText('nameAndPicGuideCopyContent')).toBeTruthy()
   })
+
   it('does not render skip button when configured so', () => {
     mockStatsigGet.mockReturnValue(false)
     const { queryByText } = render(
@@ -243,8 +245,24 @@ describe('NameAndPictureScreen', () => {
     expect(AccountActions.setName).not.toHaveBeenCalled()
   })
 
+  it('shows alternate placeholder username for experimental group', () => {
+    mockStatsigGet
+      .mockReturnValueOnce(false)
+      .mockReturnValueOnce(false) // generator button
+      .mockReturnValueOnce('myCryptoAlterEgo')
+    const { getByTestId } = render(
+      <Provider store={createMockStore()}>
+        <NameAndPicture {...mockScreenProps} />
+      </Provider>
+    )
+    expect(getByTestId('NameEntry').props.placeholder).toEqual('MyCryptoAlterEgo')
+  })
+
   it('shows generator button and generator button puts random username in', () => {
-    mockStatsigGet.mockReturnValueOnce(false).mockReturnValueOnce('autogenerator')
+    mockStatsigGet
+      .mockReturnValueOnce(false)
+      .mockReturnValueOnce(true) // generator button
+      .mockReturnValueOnce('fullNamePlaceholder') // placeholder type
     const { getByText, getByTestId } = render(
       <Provider store={createMockStore()}>
         <NameAndPicture {...mockScreenProps} />
