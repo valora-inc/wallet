@@ -602,6 +602,7 @@
   "fullNameOrPseudonymPlaceholder": "名和姓或假名",
   "nameAndPicGuideCopyTitle": "你叫什么名字？",
   "nameAndPicGuideCopyContent": "我们想知道该怎么称呼你",
+  "generateUsername": "生成一个名字",
   "importIt": "恢复钱包",
   "important": "重要的是",
   "confirmPin": {
@@ -1290,7 +1291,7 @@
     "bankAccount": {
       "header": "开设银行账户",
       "bodyTitle": "开设银行账户",
-      "description": "输入银行账户信息以转移资金。这些服务将由以下方面提供给你 <0>{{providerName}}</0>.\n\n通过点击继续，你同意他们的<1>条款和条件</1>以及<2>隐私政策</2>。"
+      "description": "Enter Bank Account details to transfer funds. These services will be provided to you by <0>{{providerName}}</0>.\n\nBy clicking continue, you agree to their <1>Terms and Conditions</1> and <2>Privacy Policy</2>"
     },
     "continue": "继续"
   },
@@ -1303,30 +1304,30 @@
     "button": "设置身份验证"
   },
   "fiatConnectKycStatusScreen": {
-    "contactSupportPrefill": "我在验证我的身份时遇到了麻烦，在Valora那里。",
-    "contactSupport": "联系支持",
+    "contactSupportPrefill": "I'm having trouble verifying my identity with Valora.",
+    "contactSupport": "Contact Support",
     "pending": {
-      "title": "您的身份验证正在审查中。",
-      "description": "审查完成后，你可以返回添加和提取页面，完成你的交易。",
-      "close": "关闭"
+      "title": "Your ID verification is in review.",
+      "description": "After the review is complete, you can return to the Add & Withdraw page to complete your transaction.",
+      "close": "Close"
     },
     "denied": {
-      "switch": "切换提款方式",
+      "switch": "Switch withdraw method",
       "retryable": {
-        "title": "身份证验证不被接受。",
-        "description": "请再次验证或尝试其他方式提取资金。",
-        "tryAgain": "再试一次"
+        "title": "ID verification was not accepted.",
+        "description": "Please verify again or try a different way to withdraw funds.",
+        "tryAgain": "Try again"
       },
       "final": {
-        "title": "核实被拒绝。",
-        "description": "请尝试其他方式提取资金，或联系支持。"
+        "title": "Verification denied.",
+        "description": "Please try a different way to withdraw funds, or contact support."
       }
     },
     "expired": {
-      "title": "身份证验证过期。",
-      "description": "请再次验证或尝试其他方式提取资金。",
-      "tryAgain": "再试一次",
-      "switch": "切换提款方式"
+      "title": "ID verification expired.",
+      "description": "Please verify again or try a different way to withdraw funds.",
+      "tryAgain": "Try again",
+      "switch": "Switch withdraw method"
     },
     "tryAgainFailed": "清除KYC信息时出现错误。请再试一次"
   },
@@ -1445,33 +1446,33 @@
     "swapTo": "调换到",
     "transactionDetails": "交易细节",
     "estimatedGas": "估计的气体",
-    "swapSubmitError": "对不起，我们无法完成您的交换。请再试一次或联系技术支持。",
+    "swapSubmitError": "Sorry, we were unable to complete your swap. Please try again or contact support.",
     "swapFee": "{{appName}} 费用",
     "swapFeeTitle": "什么是 {{appName}} 费用？",
     "swapFeeBody": "{{appName}} 费用是你在 {{appName}}上交换代币所支付的费用。 \n\n 该费用是你所交换的金额的 {{swapFee}}%。 \n\n {{appName}} 费用在接下来的几个月是免费的。",
-    "swapFeeBodyFree": "{{appName}} 费用是你在 {{appName}}上交换代币所支付的费用。 {{appName}} 费用在接下来的几个月里是免费的。",
+    "swapFeeBodyFree": "The {{appName}} fee is the fee that you pay to swap tokens on {{appName}}. {{appName}} fees are free for the next few months.",
     "estimatedAmountTitle": "估计金额",
     "estimatedAmountBody": "转换在第三方分散的交易所进行，为你的交换找到最好的价格。 \n\n 你的交易将在估价的 {{slippagePercent}}%范围内完成，否则交易将被取消，资金将返回你的钱包。",
-    "free": "免费"
+    "free": "Free"
   },
   "SwapExecuteScreen": {
-    "swapPending": "待定的互换",
-    "swapSuccess": "互换成功!",
-    "swapError": "互换错误",
-    "exchangeRateSubtext": "寻找最佳汇率...",
-    "approvingSubtext": "批准资金...",
-    "completingSubtext": "完成调换...",
-    "swapAgain": "再次互换",
+    "swapPending": "Swap Pending",
+    "swapSuccess": "Swap Successful!",
+    "swapError": "Swap Error",
+    "exchangeRateSubtext": "Finding the best exchange rate...",
+    "approvingSubtext": "Approving funds...",
+    "completingSubtext": "Completing swap...",
+    "swapAgain": "Swap Again",
     "swapPriceModal": {
-      "title": "价格已经改变",
-      "action": "继续",
-      "body": "由于加密货币市场的波动，加密货币金额和费用可能会发生变化。 \n\n 请审查您的最终金额和费用并重新提交。"
+      "title": "Prices have changed",
+      "action": "Continue",
+      "body": "Crypto amounts & fees can change due to fluctuations in the crypto market. \n\n Please review your final amount & fees and resubmit."
     },
     "swapErrorModal": {
-      "title": "我们无法完成这项交易。",
-      "body": "请等待并稍后再试，或联系我们的支持团队寻求帮助。",
-      "swapRestart": "解散",
-      "contactSupport": "联系支持"
+      "title": "We couldn’t complete this transaction.",
+      "body": "Please wait and try again later or contact our support team for help.",
+      "swapRestart": "Dismiss",
+      "contactSupport": "Contact Support"
     }
   },
   "inviteModal": {
