@@ -1690,6 +1690,18 @@ export const v82Schema = {
   },
 }
 
+export const v83Schema = {
+  ...v82Schema,
+  _persist: {
+    ...v82Schema._persist,
+    version: 83,
+  },
+  fiatConnect: {
+    ...v82Schema.fiatConnect,
+    cachedQuoteParams: {},
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v82Schema as Partial<RootState>
+  return v83Schema as Partial<RootState>
 }
