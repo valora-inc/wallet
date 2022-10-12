@@ -112,6 +112,7 @@ function NameAndPicture({ navigation, route }: Props) {
         if (showGuidedOnboarding) {
           pageTitleTranslationKey = 'name'
         }
+
         return (
           <HeaderTitleWithSubtitle
             title={t(pageTitleTranslationKey)}

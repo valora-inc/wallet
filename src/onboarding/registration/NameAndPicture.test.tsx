@@ -178,6 +178,7 @@ describe('NameAndPictureScreen', () => {
     expect(nameField.props.value).toEqual('Generated Name')
     nameGen.mockRestore()
   })
+
   it('shows alternate placeholder username for experimental group', () => {
     mockStatsigGet.mockImplementation((key: string, _) => {
       if (key === 'showSkipButton') {
