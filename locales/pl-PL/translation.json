@@ -1422,8 +1422,9 @@
     },
     "accountNumber": {
       "label": "Numer konta",
-      "placeholderText": "Wpisz 10-cyfrowy numer konta",
-      "errorMessage": "Numer konta powinien składać się z 10 cyfr i zawierać tylko cyfry"
+      "placeholderText": "Wprowadź numer konta",
+      "errorMessageDigitLength": "Numer konta musi składać się z {{length}} cyfr",
+      "errorMessageDigit": "Numer konta musi zawierać tylko cyfry"
     }
   },
   "webView": {
