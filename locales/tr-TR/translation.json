@@ -1418,8 +1418,9 @@
     },
     "accountNumber": {
       "label": "Hesap Numarası",
-      "placeholderText": "10 haneli hesap numaranızı girin",
-      "errorMessage": "Hesap numarası 10 haneli olmalı ve sadece rakamlardan oluşmalıdır"
+      "placeholderText": "Hesap Numarasını Girin",
+      "errorMessageDigitLength": "Hesap numarası {{length}} haneli olmalıdır",
+      "errorMessageDigit": "Hesap numarası yalnızca rakam içermelidir"
     }
   },
   "webView": {
