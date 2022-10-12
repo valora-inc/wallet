@@ -1345,12 +1345,13 @@ interface SwapEventsProperties {
   [SwapEvents.swap_review_screen_open]: {
     toToken: string
     fromToken: string
-    buyAmount: string
+    amount: string
   }
   [SwapEvents.swap_review_submit]: {
     toToken: string
     fromToken: string
     usdTotal: number
+    amount: string
   }
   [SwapEvents.swap_execute_price_change]: {
     price: string

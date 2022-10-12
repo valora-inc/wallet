@@ -81,11 +81,15 @@ export function SwapReviewScreen() {
   const toTokenSymbol = coreTokens.find((token) => token.address === toToken)?.symbol
   const fromTokenSymbol = coreTokens.find((token) => token.address === fromToken)?.symbol
 
+  // BuyAmount or SellAmount
+  const swapAmountParam = updatedField === Field.FROM ? 'sellAmount' : 'buyAmount'
+  const swapAmountInWei = multiplyByWei(swapAmount[updatedField]!)
+
   useEffect(() => {
     ValoraAnalytics.track(SwapEvents.swap_review_screen_open, {
       toToken,
       fromToken,
-      buyAmount: swapAmount[Field.TO] ?? '',
+      amount: swapAmount[updatedField] ?? '',
     })
   }, [])
 
@@ -93,8 +97,6 @@ export function SwapReviewScreen() {
   useAsync(
     async () => {
       if (!shouldFetch) return
-      const swapAmountInWei = multiplyByWei(swapAmount[updatedField]!)
-      const swapAmountParam = updatedField === Field.FROM ? 'sellAmount' : 'buyAmount'
       const params = {
         buyToken: toCeloWorkaround(toToken),
         sellToken: fromToken,
@@ -140,10 +142,10 @@ export function SwapReviewScreen() {
     ValoraAnalytics.track(SwapEvents.swap_review_submit, {
       toToken,
       fromToken,
-      // TODO: Add fee to total when enabled
-      usdTotal: +divideByWei(swapResponse.unvalidatedSwapTransaction.buyAmount).multipliedBy(
+      usdTotal: +divideByWei(swapResponse.unvalidatedSwapTransaction[swapAmountParam]).multipliedBy(
         swapResponse.unvalidatedSwapTransaction.price
       ),
+      amount: swapAmount[updatedField] ?? '',
     })
     // Dispatch swap submission
     if (userInput !== null) {
