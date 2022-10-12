@@ -73,17 +73,17 @@ jobs:
         if: always()
         uses: mikepenz/action-junit-report@v2
         with:
-          check_name: iOS (${{ inputs.ios-level }}) e2e Test Report
+          check_name: iOS (${{ inputs.ios-version }}) e2e Test Report
           report_paths: 'e2e/test-results/junit.xml'
       - name: 'Upload iOS E2E Artifacts'
         if: failure()
         uses: actions/upload-artifact@v2
         with:
-          name: ios-${{ inputs.ios-level }}-e2e-artifact
+          name: ios-${{ inputs.ios-version }}-e2e-artifact
           path: e2e/artifacts
       - name: 'Upload iOS E2E HTML Report'
         if: always()
         uses: actions/upload-artifact@v2
         with:
-          name: ios-${{ inputs.ios-level }}-test-report
+          name: ios-${{ inputs.ios-version }}-test-report
           path: e2e/test-results
