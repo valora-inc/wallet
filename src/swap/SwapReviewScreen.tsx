@@ -383,10 +383,6 @@ const styles = StyleSheet.create({
     ...fontStyles.small,
     color: colors.gray4,
   },
-  feeWaived: {
-    textDecorationLine: 'line-through',
-    textDecorationStyle: 'solid',
-  },
 })
 
 SwapReviewScreen.navOptions = {
