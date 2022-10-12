@@ -83,13 +83,14 @@ export function SwapReviewScreen() {
 
   // BuyAmount or SellAmount
   const swapAmountParam = updatedField === Field.FROM ? 'sellAmount' : 'buyAmount'
-  const swapAmountInWei = multiplyByWei(swapAmount[updatedField]!)
+  const swapAmountInWei = multiplyByWei(swapAmount[updatedField] ?? 0)
 
   useEffect(() => {
     ValoraAnalytics.track(SwapEvents.swap_review_screen_open, {
       toToken,
       fromToken,
-      amount: swapAmount[updatedField] ?? '',
+      amount: swapAmount[updatedField],
+      amountType: swapAmountParam
     })
   }, [])
 
@@ -142,10 +143,11 @@ export function SwapReviewScreen() {
     ValoraAnalytics.track(SwapEvents.swap_review_submit, {
       toToken,
       fromToken,
+      amount: swapAmount[updatedField],
+      amountType: swapAmountParam,
       usdTotal: +divideByWei(swapResponse.unvalidatedSwapTransaction[swapAmountParam]).multipliedBy(
         swapResponse.unvalidatedSwapTransaction.price
       ),
-      amount: swapAmount[updatedField] ?? '',
     })
     // Dispatch swap submission
     if (userInput !== null) {

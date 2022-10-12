@@ -1331,6 +1331,13 @@ interface CoinbasePayEventsProperties {
   [CoinbasePayEvents.coinbase_pay_flow_exit]: undefined
 }
 
+interface SwapEvent {
+  toToken: string
+  fromToken: string
+  amount: string | null
+  amountType: 'buyAmount' | 'sellAmount'
+}
+
 interface SwapEventsProperties {
   [SwapEvents.swap_screen_open]: undefined
   [SwapEvents.swap_screen_select_token]: {
@@ -1342,16 +1349,9 @@ interface SwapEventsProperties {
   }
   [SwapEvents.swap_screen_review_swap]: undefined
   [SwapEvents.swap_feed_detail_view_tx]: undefined
-  [SwapEvents.swap_review_screen_open]: {
-    toToken: string
-    fromToken: string
-    amount: string
-  }
-  [SwapEvents.swap_review_submit]: {
-    toToken: string
-    fromToken: string
+  [SwapEvents.swap_review_screen_open]: SwapEvent
+  [SwapEvents.swap_review_submit]: SwapEvent & {
     usdTotal: number
-    amount: string
   }
   [SwapEvents.swap_execute_price_change]: {
     price: string
@@ -1359,12 +1359,8 @@ interface SwapEventsProperties {
     toToken: string
     fromToken: string
   }
-  [SwapEvents.swap_execute_success]: {
-    toToken: string
-    fromToken: string
+  [SwapEvents.swap_execute_success]: SwapEvent & {
     price: string
-    buyAmount?: string
-    sellAmount?: string
   }
   [SwapEvents.swap_execute_error]: {
     error: string
