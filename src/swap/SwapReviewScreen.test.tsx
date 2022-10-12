@@ -156,7 +156,7 @@ describe('SwapReviewScreen', () => {
       // Estimated Gas
       expect(getByTestId('EstimatedGas')).toHaveTextContent('0.00015 CELO')
       // Swap Fee
-      expect(getByTestId('SwapFee')).toHaveTextContent('Free')
+      expect(getByTestId('SwapFee')).toHaveTextContent('swapReviewScreen.free')
     })
   })
 
