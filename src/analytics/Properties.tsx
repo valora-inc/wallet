@@ -1366,6 +1366,9 @@ interface SwapEventsProperties {
     buyAmount?: string
     sellAmount?: string
   }
+  [SwapEvents.swap_execute_error]: {
+    error: string
+  }
 }
 
 export type AnalyticsPropertiesList = AppEventsProperties &

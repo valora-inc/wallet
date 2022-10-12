@@ -119,6 +119,9 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
     })
   } catch (error) {
     Logger.debug(TAG, 'Error while swapping', error)
+    ValoraAnalytics.track(SwapEvents.swap_execute_error, {
+      error: error.message,
+    })
     yield put(swapError())
   }
 }

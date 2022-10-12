@@ -119,6 +119,10 @@ describe(swapSubmitSaga, () => {
       .put(swapApprove())
       .put(swapError())
       .run()
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_execute_error, {
+      error: 'Got non-ok response from executeSwap: undefined'
+    })
   })
 
   it('should set swap state correctly on price change', async () => {
