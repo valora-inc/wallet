@@ -1422,8 +1422,9 @@
     },
     "accountNumber": {
       "label": "Номер рахунку",
-      "placeholderText": "Уведіть свій 10-значний номер рахунку",
-      "errorMessage": "Номер рахунку має складатися з 10 цифр і містити лише цифри"
+      "placeholderText": "Введіть номер рахунку",
+      "errorMessageDigitLength": "Номер рахунку має бути {{length}} цифр",
+      "errorMessageDigit": "Номер рахунку має містити лише цифри"
     }
   },
   "webView": {
