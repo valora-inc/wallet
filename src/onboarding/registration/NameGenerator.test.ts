@@ -1,4 +1,4 @@
-import { chooseRandomWord, generateUsername } from 'src/onboarding/registration/NameGenerator'
+import { chooseRandomWord, generateRandomUsername } from 'src/onboarding/registration/NameGenerator'
 
 const ADJECTIVES = ['Adjective_1', 'Adjective_2', 'Bad_Adjective']
 const NOUNS = ['Noun_1', 'Noun_2', 'Bad_Noun']
@@ -35,7 +35,7 @@ describe('NameGenerator', () => {
     mockRandom
       .mockReturnValueOnce(adjectiveIndex / ADJECTIVES.length)
       .mockReturnValueOnce(nounIndex / NOUNS.length)
-    const username = generateUsername(new Set(), new Set())
+    const username = generateRandomUsername(new Set(), new Set())
     expect(username).toEqual(`${ADJECTIVES[adjectiveIndex]} ${NOUNS[nounIndex]}`)
   })
 
@@ -45,7 +45,7 @@ describe('NameGenerator', () => {
     mockRandom
       .mockReturnValueOnce(badAdjIndex / ADJECTIVES.length)
       .mockReturnValueOnce(badNounIndex / NOUNS.length)
-    const username = generateUsername(
+    const username = generateRandomUsername(
       new Set([ADJECTIVES[badAdjIndex]]),
       new Set([NOUNS[badNounIndex]])
     )
