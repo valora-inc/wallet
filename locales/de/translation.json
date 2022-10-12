@@ -1418,8 +1418,9 @@
     },
     "accountNumber": {
       "label": "Kontonummer",
-      "placeholderText": "Gib deine 10-stellige Kontonummer ein",
-      "errorMessage": "Die Kontonummer muss zehn Ziffern lang sein und darf nur Zahlen enthalten"
+      "placeholderText": "Kontonummer eingeben",
+      "errorMessageDigitLength": "Die Kontonummer muss {{length}} Ziffern haben.",
+      "errorMessageDigit": "Die Kontonummer darf nur Ziffern enthalten"
     }
   },
   "webView": {
