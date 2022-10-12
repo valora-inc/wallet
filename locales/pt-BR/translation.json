@@ -602,6 +602,7 @@
   "fullNameOrPseudonymPlaceholder": "Nome e sobrenome ou pseudônimo",
   "nameAndPicGuideCopyTitle": "Qual é o seu nome?",
   "nameAndPicGuideCopyContent": "Queremos saber como te chamar",
+  "generateUsername": "Gerar um nome",
   "importIt": "Restaurar Carteira",
   "important": "Importante",
   "confirmPin": {
@@ -1447,33 +1448,33 @@
     "swapTo": "Trocar para",
     "transactionDetails": "Detalhes de transação",
     "estimatedGas": "Taxas estimadas",
-    "swapSubmitError": "Lamentamos, mas não conseguimos completar a sua troca. Por favor, tente novamente ou contacte o apoio.",
+    "swapSubmitError": "Sorry, we were unable to complete your swap. Please try again or contact support.",
     "swapFee": "Taxa da {{appName}}",
     "swapFeeTitle": "O que é a taxa da {{appName}}?",
     "swapFeeBody": "A taxa da {{appName}} é a taxa que se paga para trocar tokens na {{appName}}. \n\nA taxa é {{swapFee}}% do montante da troca. \n\nAs taxas da {{appName}} são gratuitas para os próximos meses.",
-    "swapFeeBodyFree": "A taxa {{appName}} é a taxa que se paga para trocar fichas em {{appName}}. {{appName}} as taxas são gratuitas para os próximos meses.",
+    "swapFeeBodyFree": "The {{appName}} fee is the fee that you pay to swap tokens on {{appName}}. {{appName}} fees are free for the next few months.",
     "estimatedAmountTitle": "Montante estimado",
     "estimatedAmountBody": "As conversões têm lugar numa troca descentralizada de terceiros que lhe encontra a melhor taxa para a sua troca. \n\nA sua transação será concluída a um preço de {{slippagePercent}}% da estimativa ou a transação será cancelada e os fundos serão devolvidos à sua carteira.",
-    "free": "Grátis"
+    "free": "Free"
   },
   "SwapExecuteScreen": {
-    "swapPending": "Swap Pendente",
-    "swapSuccess": "Troca bem sucedida!",
-    "swapError": "Erro de Troca",
-    "exchangeRateSubtext": "Encontrar a melhor taxa de câmbio...",
-    "approvingSubtext": "Aprovação de fundos...",
-    "completingSubtext": "A completar a troca...",
-    "swapAgain": "Trocar novamente",
+    "swapPending": "Swap Pending",
+    "swapSuccess": "Swap Successful!",
+    "swapError": "Swap Error",
+    "exchangeRateSubtext": "Finding the best exchange rate...",
+    "approvingSubtext": "Approving funds...",
+    "completingSubtext": "Completing swap...",
+    "swapAgain": "Swap Again",
     "swapPriceModal": {
-      "title": "Os preços mudaram",
-      "action": "Continuar",
-      "body": "As quantias e taxas criptográficas podem mudar devido a flutuações no mercado criptográfico. \n\n Por favor, reveja o seu montante final & taxas e submeta novamente."
+      "title": "Prices have changed",
+      "action": "Continue",
+      "body": "Crypto amounts & fees can change due to fluctuations in the crypto market. \n\n Please review your final amount & fees and resubmit."
     },
     "swapErrorModal": {
-      "title": "Não foi possível concluir esta transacção.",
-      "body": "Por favor aguarde e tente novamente mais tarde ou contacte a nossa equipa de apoio para obter ajuda.",
-      "swapRestart": "Ignorar",
-      "contactSupport": "Contate o suporte"
+      "title": "We couldn’t complete this transaction.",
+      "body": "Please wait and try again later or contact our support team for help.",
+      "swapRestart": "Dismiss",
+      "contactSupport": "Contact Support"
     }
   },
   "inviteModal": {
