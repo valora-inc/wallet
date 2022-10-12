@@ -273,6 +273,11 @@ export const appReducer = (
         ...state,
         phoneNumberVerified: true,
       }
+    case Actions.PHONE_NUMBER_REVOKED:
+      return {
+        ...state,
+        phoneNumberVerified: false,
+      }
     default:
       return state
   }

@@ -33,6 +33,7 @@ export enum Actions {
   VERIFICATION_MIGRATION_RAN = 'APP/VERIFICATION_MIGRATION_RAN',
   ANDROID_MOBILE_SERVICES_AVAILABILITY_CHECKED = 'APP/ANDROID_MOBILE_SERVICES_AVAILABILITY_CHECKED',
   PHONE_NUMBER_VERIFICATION_COMPLETED = 'APP/PHONE_NUMBER_VERIFICATION_COMPLETED',
+  PHONE_NUMBER_REVOKED = 'APP/PHONE_NUMBER_REVOKED',
 }
 
 export interface SetAppState {
@@ -142,6 +143,11 @@ export interface PhoneNumberVerificationCompleted {
   countryCode: string | null
 }
 
+export interface PhoneNumberRevoked {
+  type: Actions.PHONE_NUMBER_REVOKED
+  e164PhoneNumber: string
+}
+
 export type ActionTypes =
   | SetAppState
   | SetLoggedIn
@@ -164,6 +170,7 @@ export type ActionTypes =
   | VerificationMigrationRanAction
   | AndroidMobileServicesAvailabilityChecked
   | PhoneNumberVerificationCompleted
+  | PhoneNumberRevoked
 
 export const setAppState = (state: string) => ({
   type: Actions.SET_APP_STATE,
@@ -290,5 +297,12 @@ export const phoneNumberVerificationCompleted = (
     type: Actions.PHONE_NUMBER_VERIFICATION_COMPLETED,
     e164PhoneNumber,
     countryCode,
+  }
+}
+
+export const phoneNumberRevoked = (e164PhoneNumber: string): PhoneNumberVerificationCompleted => {
+  return {
+    type: Actions.PHONE_NUMBER_REVOKED,
+    e164PhoneNumber,
   }
 }
