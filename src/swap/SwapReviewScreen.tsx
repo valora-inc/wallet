@@ -90,7 +90,7 @@ export function SwapReviewScreen() {
       toToken,
       fromToken,
       amount: swapAmount[updatedField],
-      amountType: swapAmountParam
+      amountType: swapAmountParam,
     })
   }, [])
 
