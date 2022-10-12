@@ -4,7 +4,7 @@ export const chooseRandomWord = (wordList: string[]) => {
   return wordList[Math.floor(Math.random() * wordList.length)]
 }
 
-export const generateUsername = (
+export const generateRandomUsername = (
   forbiddenAdjectives: Set<string>,
   forbiddenNouns: Set<string>
 ): string => {

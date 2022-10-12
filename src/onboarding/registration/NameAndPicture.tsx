@@ -27,7 +27,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
-import { generateUsername } from 'src/onboarding/registration/NameGenerator'
+import { generateRandomUsername } from 'src/onboarding/registration/NameGenerator'
 import PictureInput from 'src/onboarding/registration/PictureInput'
 import { default as useSelector, default as useTypedSelector } from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
@@ -211,7 +211,7 @@ function NameAndPicture({ navigation, route }: Props) {
   }
 
   const onPressGenerateUsername = () => {
-    setNameInput(generateUsername(new Set(blockedAdjectives), new Set(blockedNouns)))
+    setNameInput(generateRandomUsername(new Set(blockedAdjectives), new Set(blockedNouns)))
   }
 
   return (
@@ -246,7 +246,7 @@ function NameAndPicture({ navigation, route }: Props) {
           text={t('next')}
           size={BtnSizes.MEDIUM}
           type={BtnTypes.ONBOARDING}
-          disabled={!nameInput.trim()}
+          disabled={!nameInput?.trim()}
           testID={'NameAndPictureContinueButton'}
           showLoading={asyncKomenciReadiness.loading}
         />
