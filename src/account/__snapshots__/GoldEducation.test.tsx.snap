@@ -121,6 +121,7 @@ exports[`renders correctly 1`] = `
               "alignItems": "center",
               "flexGrow": 1,
               "justifyContent": "center",
+              "paddingHorizontal": 12,
             }
           }
           showsVerticalScrollIndicator={false}
@@ -192,6 +193,7 @@ exports[`renders correctly 1`] = `
               "alignItems": "center",
               "flexGrow": 1,
               "justifyContent": "center",
+              "paddingHorizontal": 12,
             }
           }
           showsVerticalScrollIndicator={false}
@@ -263,6 +265,7 @@ exports[`renders correctly 1`] = `
               "alignItems": "center",
               "flexGrow": 1,
               "justifyContent": "center",
+              "paddingHorizontal": 12,
             }
           }
           showsVerticalScrollIndicator={false}
@@ -334,6 +337,7 @@ exports[`renders correctly 1`] = `
               "alignItems": "center",
               "flexGrow": 1,
               "justifyContent": "center",
+              "paddingHorizontal": 12,
             }
           }
           showsVerticalScrollIndicator={false}

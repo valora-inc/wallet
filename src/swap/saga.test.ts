@@ -90,7 +90,8 @@ describe(swapSubmitSaga, () => {
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_execute_success, {
       toToken: '0xd8763cba276a3738e6de85b4b3bf5fded6d6ca73',
       fromToken: '0xe8537a3d056da446677b9e9d6c5db704eaab4787',
-      buyAmount: '10000000000000000',
+      amount: '10000000000000000',
+      amountType: 'buyAmount',
       price: '1',
     })
   })
@@ -119,6 +120,10 @@ describe(swapSubmitSaga, () => {
       .put(swapApprove())
       .put(swapError())
       .run()
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_execute_error, {
+      error: 'Got non-ok response from executeSwap: undefined',
+    })
   })
 
   it('should set swap state correctly on price change', async () => {

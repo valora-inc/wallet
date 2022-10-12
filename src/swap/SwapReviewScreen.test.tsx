@@ -186,9 +186,10 @@ describe('SwapReviewScreen', () => {
     )
 
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_review_screen_open, {
-      buyAmount: mockBuyAmount,
+      amount: mockSellAmount,
       fromToken: mockCeloAddress,
       toToken: mockCusdAddress,
+      amountType: 'sellAmount',
     })
   })
 
@@ -224,7 +225,9 @@ describe('SwapReviewScreen', () => {
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_review_submit, {
       toToken: mockCusdAddress,
       fromToken: mockCeloAddress,
-      usdTotal: 9,
+      amount: mockSellAmount,
+      amountType: 'sellAmount',
+      usdTotal: 3,
     })
   })
 })

@@ -72,11 +72,16 @@ export function SwapReviewScreen() {
   const toTokenSymbol = coreTokens.find((token) => token.address === toToken)?.symbol
   const fromTokenSymbol = coreTokens.find((token) => token.address === fromToken)?.symbol
 
+  // BuyAmount or SellAmount
+  const swapAmountParam = updatedField === Field.FROM ? 'sellAmount' : 'buyAmount'
+  const swapAmountInWei = multiplyByWei(swapAmount[updatedField] ?? 0)
+
   useEffect(() => {
     ValoraAnalytics.track(SwapEvents.swap_review_screen_open, {
       toToken,
       fromToken,
-      buyAmount: swapAmount[Field.TO] ?? '',
+      amount: swapAmount[updatedField],
+      amountType: swapAmountParam,
     })
   }, [])
 
@@ -84,8 +89,6 @@ export function SwapReviewScreen() {
   useAsync(
     async () => {
       if (!shouldFetch) return
-      const swapAmountInWei = multiplyByWei(swapAmount[updatedField]!)
-      const swapAmountParam = updatedField === Field.FROM ? 'sellAmount' : 'buyAmount'
       const params = {
         buyToken: toCeloWorkaround(toToken),
         sellToken: fromToken,
@@ -131,8 +134,9 @@ export function SwapReviewScreen() {
     ValoraAnalytics.track(SwapEvents.swap_review_submit, {
       toToken,
       fromToken,
-      // TODO: Add fee to total when enabled
-      usdTotal: +divideByWei(swapResponse.unvalidatedSwapTransaction.buyAmount).multipliedBy(
+      amount: swapAmount[updatedField],
+      amountType: swapAmountParam,
+      usdTotal: +divideByWei(swapResponse.unvalidatedSwapTransaction[swapAmountParam]).multipliedBy(
         swapResponse.unvalidatedSwapTransaction.price
       ),
     })
@@ -146,141 +150,129 @@ export function SwapReviewScreen() {
     <SafeAreaView style={styles.safeAreaContainer}>
       <CustomHeader title={t('swapReviewScreen.title')} left={<BackButton />} />
       <DisconnectBanner />
-      {/* Display only load indicator on initial load */}
-      {shouldFetch && swapResponse === null ? (
-        <View style={styles.loadingContentContainer}>
-          <ActivityIndicator
-            size="large"
-            color={colors.greenBrand}
-            testID="SwapReviewScreen/loading"
+      <ScrollView
+        style={styles.contentContainer}
+        refreshControl={
+          /* Transparent refresh control - display ActivityIndicator instead */
+          <RefreshControl
+            tintColor="transparent"
+            colors={['transparent']}
+            style={{ backgroundColor: 'transparent' }}
+            refreshing={shouldFetch}
+            onRefresh={() => setShouldFetch(true)}
           />
-        </View>
-      ) : (
-        <ScrollView
-          style={styles.contentContainer}
-          refreshControl={
-            /* Transparent refresh control - display ActivityIndicator instead */
-            <RefreshControl
-              tintColor="transparent"
-              colors={['transparent']}
-              style={{ backgroundColor: 'transparent' }}
-              refreshing={shouldFetch}
-              onRefresh={() => setShouldFetch(true)}
+        }
+      >
+        {shouldFetch && (
+          <View style={styles.loadingContentContainer}>
+            <ActivityIndicator
+              size="large"
+              color={colors.greenBrand}
+              testID="SwapReviewScreen/loading"
             />
-          }
-        >
-          {/* Display load indicator and previous swapResponse refresh */}
-          {shouldFetch && (
-            <View style={styles.loadingContentContainer}>
-              <ActivityIndicator
-                size="large"
-                color={colors.greenBrand}
-                testID="SwapReviewScreen/loading"
-              />
-            </View>
-          )}
-          {swapResponse !== null && (
-            <>
-              <View style={styles.subContentContainer}>
-                <View style={styles.tallRow}>
-                  <Text style={styles.label}>{t('swapReviewScreen.swapFrom')}</Text>
-                  <View style={styles.tokenDisplayView}>
-                    <TokenDisplay
-                      style={styles.amountText}
-                      amount={divideByWei(swapResponse.unvalidatedSwapTransaction.sellAmount)}
-                      tokenAddress={fromToken}
-                      showLocalAmount={false}
-                      testID={'FromSwapAmountToken'}
-                    />
-                    <TokenDisplay
-                      style={styles.amountSubText}
-                      amount={divideByWei(swapResponse.unvalidatedSwapTransaction.sellAmount)}
-                      tokenAddress={fromToken}
-                      showLocalAmount={true}
-                      testID={'FromSwapAmountTokenLocal'}
-                    />
-                  </View>
+          </View>
+        )}
+        {swapResponse !== null && (
+          <>
+            <View style={styles.subContentContainer}>
+              <View style={styles.tallRow}>
+                <Text style={styles.label}>{t('swapReviewScreen.swapFrom')}</Text>
+                <View style={styles.tokenDisplayView}>
+                  <TokenDisplay
+                    style={styles.amountText}
+                    amount={divideByWei(swapResponse.unvalidatedSwapTransaction.sellAmount)}
+                    tokenAddress={fromToken}
+                    showLocalAmount={false}
+                    testID={'FromSwapAmountToken'}
+                  />
+                  <TokenDisplay
+                    style={styles.amountSubText}
+                    amount={divideByWei(swapResponse.unvalidatedSwapTransaction.sellAmount)}
+                    tokenAddress={fromToken}
+                    showLocalAmount={true}
+                    testID={'FromSwapAmountTokenLocal'}
+                  />
                 </View>
-                <View style={styles.tallRow}>
-                  <Text style={styles.label}>{t('swapReviewScreen.swapTo')}</Text>
-                  <View style={styles.tokenDisplayView}>
-                    <TokenDisplay
-                      style={[styles.amountText, { color: colors.greenUI }]}
-                      amount={divideByWei(
-                        new BigNumber(swapResponse.unvalidatedSwapTransaction.buyAmount).minus(
-                          new BigNumber(swapResponse.unvalidatedSwapTransaction.gas)
-                        )
-                      )}
-                      tokenAddress={toToken}
-                      showLocalAmount={false}
-                      testID={'ToSwapAmountToken'}
-                    />
-                    <Touchable
-                      style={styles.touchableRow}
-                      onPress={() => setEstimatedDialogVisible(true)}
-                      hitSlop={variables.iconHitslop}
-                    >
-                      <>
-                        <Text style={[styles.amountSubText, { marginRight: 4 }]}>
-                          {t('swapReviewScreen.estimatedAmountTitle')}
-                        </Text>
-                        <InfoIcon size={12} color={colors.gray4} />
-                      </>
-                    </Touchable>
-                  </View>
-                </View>
-                <View style={styles.separator} />
               </View>
-              <View style={styles.subContentContainer}>
-                <Text style={styles.transactionDetailsLabel}>
-                  {t('swapReviewScreen.transactionDetails')}
-                </Text>
-                <View style={styles.row}>
-                  <Text style={styles.label}>{t('exchangeRate')}</Text>
-                  <Text style={styles.transactionDetailsRightText}>
-                    {`1 ${fromTokenSymbol} ≈ ${formatValueToDisplay(
-                      new BigNumber(swapResponse.unvalidatedSwapTransaction.price)
-                    )} ${toTokenSymbol}`}
-                  </Text>
-                </View>
-                <View style={styles.row}>
-                  <Text style={styles.label}>{t('swapReviewScreen.estimatedGas')}</Text>
-                  <View style={styles.tokenDisplayView}>
-                    <TokenDisplay
-                      style={styles.transactionDetailsRightText}
-                      amount={divideByWei(
-                        new BigNumber(swapResponse.unvalidatedSwapTransaction.gas).multipliedBy(
-                          new BigNumber(swapResponse.unvalidatedSwapTransaction.gasPrice)
-                        )
-                      )}
-                      tokenAddress={fromToken}
-                      showLocalAmount={false}
-                      testID={'EstimatedGas'}
-                    />
-                  </View>
-                </View>
-                <View style={styles.row}>
+              <View style={styles.tallRow}>
+                <Text style={styles.label}>{t('swapReviewScreen.swapTo')}</Text>
+                <View style={styles.tokenDisplayView}>
+                  <TokenDisplay
+                    style={[styles.amountText, { color: colors.greenUI }]}
+                    amount={divideByWei(
+                      new BigNumber(swapResponse.unvalidatedSwapTransaction.buyAmount).minus(
+                        new BigNumber(swapResponse.unvalidatedSwapTransaction.gas)
+                      )
+                    )}
+                    tokenAddress={toToken}
+                    showLocalAmount={false}
+                    testID={'ToSwapAmountToken'}
+                  />
                   <Touchable
                     style={styles.touchableRow}
-                    onPress={() => setSwapFeeModalVisible(true)}
+                    onPress={() => setEstimatedDialogVisible(true)}
                     hitSlop={variables.iconHitslop}
                   >
                     <>
-                      <Text style={{ marginRight: 4, ...fontStyles.regular }}>
-                        {t('swapReviewScreen.swapFee')}
+                      <Text style={[styles.amountSubText, { marginRight: 4 }]}>
+                        {t('swapReviewScreen.estimatedAmountTitle')}
                       </Text>
                       <InfoIcon size={12} color={colors.gray4} />
                     </>
                   </Touchable>
-                  <Text testID={'SwapFee'} style={styles.transactionDetailsRightText}>
-                    {t('swapReviewScreen.free')}
-                  </Text>
                 </View>
               </View>
-            </>
-          )}
-        </ScrollView>
-      )}
+              <View style={styles.separator} />
+            </View>
+            <View style={styles.subContentContainer}>
+              <Text style={styles.transactionDetailsLabel}>
+                {t('swapReviewScreen.transactionDetails')}
+              </Text>
+              <View style={styles.row}>
+                <Text style={styles.label}>{t('exchangeRate')}</Text>
+                <Text style={styles.transactionDetailsRightText}>
+                  {`1 ${fromTokenSymbol} ≈ ${formatValueToDisplay(
+                    new BigNumber(swapResponse.unvalidatedSwapTransaction.price)
+                  )} ${toTokenSymbol}`}
+                </Text>
+              </View>
+              <View style={styles.row}>
+                <Text style={styles.label}>{t('swapReviewScreen.estimatedGas')}</Text>
+                <View style={styles.tokenDisplayView}>
+                  <TokenDisplay
+                    style={styles.transactionDetailsRightText}
+                    amount={divideByWei(
+                      new BigNumber(swapResponse.unvalidatedSwapTransaction.gas).multipliedBy(
+                        new BigNumber(swapResponse.unvalidatedSwapTransaction.gasPrice)
+                      )
+                    )}
+                    tokenAddress={fromToken}
+                    showLocalAmount={false}
+                    testID={'EstimatedGas'}
+                  />
+                </View>
+              </View>
+              <View style={styles.row}>
+                <Touchable
+                  style={styles.touchableRow}
+                  onPress={() => setSwapFeeModalVisible(true)}
+                  hitSlop={variables.iconHitslop}
+                >
+                  <>
+                    <Text style={{ marginRight: 4, ...fontStyles.regular }}>
+                      {t('swapReviewScreen.swapFee')}
+                    </Text>
+                    <InfoIcon size={12} color={colors.gray4} />
+                  </>
+                </Touchable>
+                <Text testID={'SwapFee'} style={styles.transactionDetailsRightText}>
+                  {t('swapReviewScreen.free')}
+                </Text>
+              </View>
+            </View>
+          </>
+        )}
+      </ScrollView>
       <Button
         style={{ padding: Spacing.Regular16 }}
         onPress={submitSwap}

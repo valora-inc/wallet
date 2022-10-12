@@ -139,7 +139,7 @@ export interface AndroidMobileServicesAvailabilityChecked {
 export interface PhoneNumberVerificationCompleted {
   type: Actions.PHONE_NUMBER_VERIFICATION_COMPLETED
   e164PhoneNumber: string
-  countryCode: string
+  countryCode: string | null
 }
 
 export type ActionTypes =
@@ -284,7 +284,7 @@ export const androidMobileServicesAvailabilityChecked = (
 
 export const phoneNumberVerificationCompleted = (
   e164PhoneNumber: string,
-  countryCode: string
+  countryCode: string | null
 ): PhoneNumberVerificationCompleted => {
   return {
     type: Actions.PHONE_NUMBER_VERIFICATION_COMPLETED,
