@@ -1292,7 +1292,7 @@
     "bankAccount": {
       "header": "Configurar conta bancária",
       "bodyTitle": "Configurar conta bancária",
-      "description": "Introduza os dados da conta bancária para transferir fundos. Estes serviços ser-lhe-ão fornecidos por <0>{{providerName}}</0>.\n\nAo clicar em continuar, concorda com os seus <1>Termos e Condições</1> e <2>Política de Privacidade</2>"
+      "description": "Insira os dados da conta bancária para transferir fundos. Esses serviços serão fornecidos a você por <0>{{providerName}}</0>.\n\nAo clicar em continuar, você concorda com os <1>Termos e condições</1> e a <2>Política de privacidade</2>"
     },
     "continue": "Continuar"
   },
@@ -1305,30 +1305,30 @@
     "button": "Configurar verificação de identidade"
   },
   "fiatConnectKycStatusScreen": {
-    "contactSupportPrefill": "Estou a ter dificuldades em verificar a minha identidade com a Valora.",
+    "contactSupportPrefill": "Estou tendo dificuldade para verificar minha identidade na Valora.",
     "contactSupport": "Contate o suporte",
     "pending": {
-      "title": "A sua verificação de identificação está em revisão.",
-      "description": "Após a revisão estar concluída, pode voltar à página Adicionar e Retirar para completar a sua transacção.",
+      "title": "Sua verificação de identidade está em análise.",
+      "description": "Depois que a análise for concluída, você pode retornar à página Adicionar e Sacar Fundos para concluir sua transação.",
       "close": "Fechar"
     },
     "denied": {
-      "switch": "Método de retirada do interruptor",
+      "switch": "Trocar método de saque",
       "retryable": {
-        "title": "A verificação da identificação não foi aceite.",
-        "description": "Por favor, verifique novamente ou tente uma forma diferente de levantar fundos.",
-        "tryAgain": "Tente novamente"
+        "title": "A verificação da identidade não foi aceita.",
+        "description": "Verifique novamente ou tente uma forma diferente de sacar fundos.",
+        "tryAgain": "Tentar novamente"
       },
       "final": {
         "title": "Verificação negada.",
-        "description": "Por favor, tente uma forma diferente de retirar fundos, ou contacte o apoio."
+        "description": "Tente uma forma diferente de sacar fundos ou fale com a Equipe de Suporte."
       }
     },
     "expired": {
-      "title": "A verificação da identificação expirou.",
-      "description": "Por favor, verifique novamente ou tente uma forma diferente de levantar fundos.",
-      "tryAgain": "Tente novamente",
-      "switch": "Método de retirada do interruptor"
+      "title": "A verificação da identidade expirou.",
+      "description": "Verifique novamente ou tente uma forma diferente de sacar fundos.",
+      "tryAgain": "Tentar novamente",
+      "switch": "Trocar método de saque"
     },
     "tryAgainFailed": "Ocorreu um erro ao limpar as informações de Conheça o Seu Cliente (KYC). Tente novamente"
   },
