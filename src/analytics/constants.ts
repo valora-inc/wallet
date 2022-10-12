@@ -6,10 +6,6 @@ export const ExperimentParams = {
       paramName: 'showSkipButton',
       defaultValue: false,
     },
-    nameType: {
-      paramName: 'nameType',
-      defaultValue: 'first_and_last',
-    },
     showNameGeneratorButton: {
       paramName: 'showNameGeneratorButton',
       defaultValue: false,
