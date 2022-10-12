@@ -9,7 +9,6 @@ import { CreateAccountCopyTestType } from 'src/app/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import NameAndPicture from 'src/onboarding/registration/NameAndPicture'
-import * as NameGenerator from 'src/onboarding/registration/NameGenerator'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockNavigation } from 'test/values'
@@ -30,13 +29,6 @@ jest.mock('src/onboarding/registration/NameAndPicture', () => {
     generateUsername: mockgenerateUsername,
   }
 })
-
-const ADJECTIVES = ['Adjective_1', 'Adjective_2', 'Bad_Adjective']
-const NOUNS = ['Noun_1', 'Noun_2', 'Bad_Noun']
-jest.mock('src/onboarding/registration/constants', () => ({
-  ADJECTIVES,
-  NOUNS,
-}))
 
 expect.extend({ toBeDisabled })
 jest.spyOn(AccountActions, 'setName')
@@ -310,39 +302,5 @@ describe('NameAndPictureScreen', () => {
       </Provider>
     )
     expect(getByTestId('NameEntry').props.placeholder).toEqual('fullNamePlaceholder')
-  })
-
-  it('random word selector behaves as expected', () => {
-    const wordList = ['a', 'b', 'c', 'd']
-    const bIndex = 1
-    mockRandom.mockReturnValue(bIndex / wordList.length)
-    expect(NameGenerator.chooseRandomWord(wordList)).toEqual('b')
-
-    const dIndex = 3
-    mockRandom.mockReturnValue(dIndex / wordList.length)
-    expect(NameGenerator.chooseRandomWord(wordList)).toEqual('d')
-  })
-
-  it('usernames appear as expected', () => {
-    const adjectiveIndex = 0
-    const nounIndex = 1
-    mockRandom
-      .mockReturnValueOnce(adjectiveIndex / ADJECTIVES.length)
-      .mockReturnValueOnce(nounIndex / NOUNS.length)
-    const username = NameGenerator.generateUsername(new Set(), new Set())
-    expect(username).toEqual(`${ADJECTIVES[adjectiveIndex]} ${NOUNS[nounIndex]}`)
-  })
-
-  it('bad usernames do not appear', () => {
-    const badAdjIndex = 2
-    const badNounIndex = 2
-    mockRandom
-      .mockReturnValueOnce(badAdjIndex / ADJECTIVES.length)
-      .mockReturnValueOnce(badNounIndex / NOUNS.length)
-    const username = NameGenerator.generateUsername(
-      new Set([ADJECTIVES[badAdjIndex]]),
-      new Set([NOUNS[badNounIndex]])
-    )
-    expect(username).not.toEqual(`${ADJECTIVES[badAdjIndex]} ${NOUNS[badNounIndex]}`)
   })
 })
