@@ -1447,11 +1447,32 @@
     "swapTo": "Échanger pour",
     "transactionDetails": "Détails de transaction",
     "estimatedGas": "Frais de gas estimés",
+    "swapSubmitError": "Désolé, nous n'avons pas pu compléter ton échange. Réessaie ou contacte l'assistance.",
     "swapFee": "Frais de {{appName}}",
     "swapFeeTitle": "Que sont les frais de {{appName}} ?",
     "swapFeeBody": "Les frais de {{appName}} sont les frais que vous payez pour échanger des jetons sur {{appName}}. \n\nIls sont de {{swapFee}}% du montant que vous échangez. \n\nLes frais de {{appName}} sont gratuits pour les prochains mois.",
     "estimatedAmountTitle": "Montant estimé",
     "estimatedAmountBody": "Les conversions se font sur un échange décentralisé de tiers qui vous trouve le meilleur taux pour votre échange. \n\nVotre échange sera effectué à un prix à moins de {{slippagePercent}}% de l'estimation ou la transaction sera annulée et les fonds retournés à votre wallet."
+  },
+  "SwapExecuteScreen": {
+    "swapPending": "Swap en cours",
+    "swapSuccess": "Swap réussi !",
+    "swapError": "Erreur de Swap",
+    "exchangeRateSubtext": "Trouver le meilleur taux de change...",
+    "approvingSubtext": "Approuver les fonds...",
+    "completingSubtext": "Compléter le swap...",
+    "swapAgain": "Échanger à nouveau",
+    "swapPriceModal": {
+      "title": "Les prix ont changé",
+      "action": "Continuer",
+      "body": "Les montants et les frais de crypto peuvent changer en raison des fluctuations du marché de la crypto. \n\n Vérifie le montant final et les frais et soumets à nouveau."
+    },
+    "swapErrorModal": {
+      "title": "Nous n'avons pas pu terminer cette transaction.",
+      "body": "Veuillez patienter et réessayer plus tard ou contacter notre équipe d'assistance pour obtenir de l'aide.",
+      "swapRestart": "Ignorer",
+      "contactSupport": "Contacter l'Assistance"
+    }
   },
   "inviteModal": {
     "title": "Il semble que {{contactName}} n'ait pas encore un wallet {{appName}}.",
