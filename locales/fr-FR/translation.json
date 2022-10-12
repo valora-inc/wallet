@@ -1451,8 +1451,10 @@
     "swapFee": "Frais de {{appName}}",
     "swapFeeTitle": "Que sont les frais de {{appName}} ?",
     "swapFeeBody": "Les frais de {{appName}} sont les frais que vous payez pour échanger des jetons sur {{appName}}. \n\nIls sont de {{swapFee}}% du montant que vous échangez. \n\nLes frais de {{appName}} sont gratuits pour les prochains mois.",
+    "swapFeeBodyFree": "Les frais de {{appName}} sont les frais que tu paies pour échanger des jetons sur {{appName}}. Les frais de {{appName}} sont gratuits pendant les prochains mois.",
     "estimatedAmountTitle": "Montant estimé",
-    "estimatedAmountBody": "Les conversions se font sur un échange décentralisé de tiers qui vous trouve le meilleur taux pour votre échange. \n\nVotre échange sera effectué à un prix à moins de {{slippagePercent}}% de l'estimation ou la transaction sera annulée et les fonds retournés à votre wallet."
+    "estimatedAmountBody": "Les conversions se font sur un échange décentralisé de tiers qui vous trouve le meilleur taux pour votre échange. \n\nVotre échange sera effectué à un prix à moins de {{slippagePercent}}% de l'estimation ou la transaction sera annulée et les fonds retournés à votre wallet.",
+    "free": "Gratuit"
   },
   "SwapExecuteScreen": {
     "swapPending": "Swap en cours",
