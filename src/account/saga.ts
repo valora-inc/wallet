@@ -125,7 +125,7 @@ function* handlePreviouslyVerifiedPhoneNumber() {
           yield put(
             phoneNumberVerificationCompleted(
               phoneDetails.e164Number,
-              phoneDetails.countryCodeAlpha2
+              phoneDetails.countryCode ? `+${phoneDetails.countryCode}` : null
             )
           )
         } else {
