@@ -1292,7 +1292,7 @@
     "bankAccount": {
       "header": "Imposta un conto bancario",
       "bodyTitle": "Imposta un conto bancario",
-      "description": "Inserisci i dati del conto corrente bancario per trasferire i fondi. Questi servizi ti saranno forniti da <0>{{providerName}}</0>.\n\nCliccando su \"Continua\", accetti i <1>termini e le condizioni</1> e l'<2>informativa sulla privacy</2>."
+      "description": "Inserisci i dati del Conto bancario per trasferire fondi. Questi servizi saranno forniti da <0>{{providerName}}</0>.\n\nFacendo clic su Continua, accetti i relativi <1>Termini e condizioni</1> e l'<2>Informativa sulla privacy</2>"
     },
     "continue": "Continua"
   },
@@ -1305,10 +1305,10 @@
     "button": "Configura la verifica dell’identità"
   },
   "fiatConnectKycStatusScreen": {
-    "contactSupportPrefill": "Ho problemi a verificare la mia identità con Valora.",
+    "contactSupportPrefill": "Sto avendo difficoltà a verificare la mia identità con Valora.",
     "contactSupport": "Contatta il supporto tecnico",
     "pending": {
-      "title": "La verifica del tuo ID è in corso.",
+      "title": "La verifica del documento di identità è in corso.",
       "description": "Al termine della revisione, puoi tornare alla pagina Aggiungi e preleva per completare la transazione.",
       "close": "Chiudi"
     },
@@ -1316,17 +1316,17 @@
       "switch": "Cambia metodo di prelievo",
       "retryable": {
         "title": "La verifica del documento d'identità non è stata accettata.",
-        "description": "Verifica di nuovo o prova un altro modo per prelevare i fondi.",
+        "description": "Esegui nuovamente la verifica o prova un altro modo per prelevare i fondi.",
         "tryAgain": "Riprova"
       },
       "final": {
         "title": "Verifica respinta.",
-        "description": "Prova a scegliere un altro modo per prelevare i fondi o contatta l'assistenza."
+        "description": "Prova un altro modo per prelevare i fondi o contatta il Supporto tecnico."
       }
     },
     "expired": {
-      "title": "La verifica dell'ID è scaduta.",
-      "description": "Verifica di nuovo o prova un altro modo per prelevare i fondi.",
+      "title": "La verifica del documento di identità è scaduta.",
+      "description": "Esegui nuovamente la verifica o prova un altro modo per prelevare i fondi.",
       "tryAgain": "Riprova",
       "switch": "Cambia metodo di prelievo"
     },
