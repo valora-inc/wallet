@@ -1422,8 +1422,9 @@
     },
     "accountNumber": {
       "label": "Номер счета",
-      "placeholderText": "Введите 10-значный номер счета",
-      "errorMessage": "Номер счета должен состоять из 10 цифр и содержать только цифры"
+      "placeholderText": "Введите номер счета",
+      "errorMessageDigitLength": "Номер счета должен состоять из {{length}} цифр",
+      "errorMessageDigit": "Номер счета должен содержать только цифры"
     }
   },
   "webView": {
