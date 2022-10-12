@@ -184,6 +184,20 @@ function NameAndPicture({ navigation, route }: Props) {
       }
     }
   }
+  const getUsernamePlaceholder = (nameType: OnboardingNameType) => {
+    // Firebase trusted-guide onboarding experiment
+
+    switch (nameType) {
+      case OnboardingNameType.Placeholder:
+      case OnboardingNameType.AutoGen:
+        // onboarding name step experimental group
+        return 'MyCryptoAlterEgo' // not localized
+      case OnboardingNameType.FirstAndLast:
+      // onboarding name step control group
+      default:
+        return showGuidedOnboarding ? t('fullNameOrPseudonymPlaceholder') : t('fullNamePlaceholder')
+    }
+  }
 
   const onPressGenerateUsername = () => {
     //TODO: Obtain forbidden words from Firebase Remote Config
@@ -213,9 +227,7 @@ function NameAndPicture({ navigation, route }: Props) {
           onChangeText={setNameInput}
           value={nameInput}
           enablesReturnKeyAutomatically={true}
-          placeholder={
-            showGuidedOnboarding ? t('fullNameOrPseudonymPlaceholder') : t('fullNamePlaceholder')
-          }
+          placeholder={getUsernamePlaceholder(nameType as OnboardingNameType)}
           testID={'NameEntry'}
           multiline={false}
         />
