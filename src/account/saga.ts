@@ -136,7 +136,7 @@ function* handlePreviouslyVerifiedPhoneNumber() {
       throw new Error(yield call([response, 'text']))
     }
   } catch (error) {
-    Logger.debug(
+    Logger.warn(
       `${TAG}@importBackupPhraseSaga`,
       `Failed to lookup and store verified phone numbers for this wallet address`,
       error
