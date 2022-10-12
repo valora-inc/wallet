@@ -1296,7 +1296,7 @@
     "bankAccount": {
       "header": "Załóż konto bankowe",
       "bodyTitle": "Załóż konto bankowe",
-      "description": "Wprowadź dane konta bankowego, aby dokonać przelewu środków. Usługi te będą świadczone przez <0>{{providerName}}</0>.\n\nKlikając dalej, zgadzasz się z Warunkami umowy <1>i</1> <2>Polityką prywatności</2>."
+      "description": "Wprowadź dane konta bankowego, aby przelać środki. Te usługi będą świadczone przez <0>{{providerName}}</0>. \n\nKlikając przycisk Kontynuuj, zgadzasz się z <1>Warunkami</1> oraz <2>Polityką prywatności</2>"
     },
     "continue": "Kontynuuj"
   },
@@ -1312,25 +1312,25 @@
     "contactSupportPrefill": "Mam problem z weryfikacją mojej tożsamości w Valorze.",
     "contactSupport": "Skontaktuj się z Działem wsparcia",
     "pending": {
-      "title": "Trwa weryfikacja Twojego ID.",
-      "description": "Po zakończeniu przeglądu możesz wrócić na stronę dodawania i wypłacania środków, aby dokończyć transakcję.",
+      "title": "Trwa weryfikacja Twojej tożsamości.",
+      "description": "Po zakończeniu weryfikacji możesz wrócić na stronę dodawania i wypłacania środków, aby dokończyć transakcję.",
       "close": "Zamknij"
     },
     "denied": {
       "switch": "Zmień metodę wypłaty",
       "retryable": {
         "title": "Weryfikacja tożsamości nie została zaakceptowana.",
-        "description": "Proszę zweryfikować ponownie lub spróbować innego sposobu wypłaty środków.",
+        "description": "Dokonaj weryfikacji ponownie lub spróbuj innego sposobu wypłaty środków.",
         "tryAgain": "Spróbuj ponownie"
       },
       "final": {
         "title": "Weryfikacja odrzucona.",
-        "description": "Spróbuj innego sposobu wypłacania środków lub skontaktuj się z pomocą techniczną."
+        "description": "Spróbuj innego sposobu wypłaty środków lub skontaktuj się z pomocą techniczną."
       }
     },
     "expired": {
-      "title": "Wygasła weryfikacja tożsamości.",
-      "description": "Proszę zweryfikować ponownie lub spróbować innego sposobu wypłaty środków.",
+      "title": "Weryfikacja tożsamości wygasła.",
+      "description": "Dokonaj weryfikacji ponownie lub spróbuj innego sposobu wypłaty środków.",
       "tryAgain": "Spróbuj ponownie",
       "switch": "Zmień metodę wypłaty"
     },
