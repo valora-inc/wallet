@@ -1,7 +1,7 @@
 import {
-  FiatAccountSchemas,
   FiatAccountType,
   FiatType,
+  KycSchema,
   ObfuscatedFiatAccountData,
 } from '@fiatconnect/fiatconnect-types'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
@@ -12,7 +12,7 @@ import {
   FiatConnectQuoteError,
   FiatConnectQuoteSuccess,
 } from 'src/fiatconnect'
-import { FiatConnectSchemaCountryOverrides } from 'src/fiatconnect/types'
+import { FiatAccountSchemaCountryOverrides } from 'src/fiatconnect/types'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
@@ -32,6 +32,14 @@ export enum SendingFiatAccountStatus {
   KycApproved = 'KycApproved',
 }
 
+export interface CachedQuoteParams {
+  cryptoAmount: string
+  fiatAmount: string
+  flow: CICOFlow
+  cryptoType: Currency
+  fiatType: FiatType
+}
+
 export interface State {
   quotes: (FiatConnectQuoteSuccess | FiatConnectQuoteError)[]
   quotesLoading: boolean
@@ -43,9 +51,12 @@ export interface State {
   selectFiatConnectQuoteLoading: boolean
   sendingFiatAccountStatus: SendingFiatAccountStatus
   kycTryAgainLoading: boolean
-  schemaCountryOverrides: {
-    [Property in keyof Partial<FiatAccountSchemas>]: FiatConnectSchemaCountryOverrides<Property>
+  cachedQuoteParams: {
+    [providerId: string]: {
+      [kycSchema: string]: CachedQuoteParams
+    }
   }
+  schemaCountryOverrides: FiatAccountSchemaCountryOverrides
 }
 
 const initialState: State = {
@@ -59,6 +70,7 @@ const initialState: State = {
   selectFiatConnectQuoteLoading: false,
   sendingFiatAccountStatus: SendingFiatAccountStatus.NotSending,
   kycTryAgainLoading: false,
+  cachedQuoteParams: {},
   schemaCountryOverrides: {},
 }
 
@@ -140,10 +152,20 @@ interface KycTryAgainAction {
   quote: FiatConnectQuote
 }
 
+interface CacheQuoteParamsAction {
+  providerId: string
+  kycSchema: KycSchema
+  cachedQuoteParams: CachedQuoteParams
+}
+
 export const slice = createSlice({
   name: 'fiatConnect',
   initialState,
   reducers: {
+    cacheQuoteParams: (state, action: PayloadAction<CacheQuoteParamsAction>) => {
+      state.cachedQuoteParams[action.payload.providerId][action.payload.kycSchema] =
+        action.payload.cachedQuoteParams
+    },
     submitFiatAccount: (state, action: PayloadAction<SubmitFiatAccountAction>) => {
       state.sendingFiatAccountStatus = SendingFiatAccountStatus.Sending
     },
@@ -295,6 +317,7 @@ export const {
   submitFiatAccountCompleted,
   kycTryAgain,
   kycTryAgainCompleted,
+  cacheQuoteParams,
 } = slice.actions
 
 export default slice.reducer

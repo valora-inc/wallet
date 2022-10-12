@@ -851,6 +851,13 @@ export const migrations = {
     ...state,
     fiatConnect: {
       ...state.fiatConnect,
+      cachedQuoteParams: {},
+    },
+  }),
+  84: (state: any) => ({
+    ...state,
+    fiatConnect: {
+      ...state.fiatConnect,
       schemaCountryOverrides: {},
     },
   }),

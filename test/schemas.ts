@@ -1698,10 +1698,22 @@ export const v83Schema = {
   },
   fiatConnect: {
     ...v82Schema.fiatConnect,
+    cachedQuoteParams: {},
+  },
+}
+
+export const v84Schema = {
+  ...v83Schema,
+  _persist: {
+    ...v83Schema._persist,
+    version: 84,
+  },
+  fiatConnect: {
+    ...v83Schema.fiatConnect,
     schemaCountryOverrides: {},
   },
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v83Schema as Partial<RootState>
+  return v84Schema as Partial<RootState>
 }
