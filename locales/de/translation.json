@@ -1451,8 +1451,10 @@
     "swapFee": "{{appName}}-Gebühr",
     "swapFeeTitle": "Was ist die {{appName}}-Gebühr?",
     "swapFeeBody": "Die Gebühr für {{appName}} ist die Gebühr, die du bezahlen musst, um Tokens auf {{appName}} zu tauschen. \n\n Die Gebühr beträgt {{swapFee}} % des Umtauschbetrags. \n\n Die Gebühren für {{appName}} entfallen für die nächsten Monate.",
+    "swapFeeBodyFree": "Die {{appName}} Gebühr ist die Gebühr, die du für den Tausch von Token auf {{appName}}bezahlst. {{appName}} Gebühren sind für die nächsten Monate kostenlos.",
     "estimatedAmountTitle": "Geschätzte Betrag",
-    "estimatedAmountBody": "Umrechnungen finden an einer dezentralen Börse von Drittanbietern statt, die den besten Kurs für deinen gewünschten Umtausch bieten. \n\n Dein Trade wird zu einem Preis innerhalb von {{slippagePercent}} % des Preises abgeschlossen oder die Transaktion wird storniert und das Guthaben an deine Wallet zurückerstattet."
+    "estimatedAmountBody": "Umrechnungen finden an einer dezentralen Börse von Drittanbietern statt, die den besten Kurs für deinen gewünschten Umtausch bieten. \n\n Dein Trade wird zu einem Preis innerhalb von {{slippagePercent}} % des Preises abgeschlossen oder die Transaktion wird storniert und das Guthaben an deine Wallet zurückerstattet.",
+    "free": "Gratis"
   },
   "SwapExecuteScreen": {
     "swapPending": "Tausch ausstehend",
