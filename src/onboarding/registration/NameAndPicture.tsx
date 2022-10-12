@@ -50,14 +50,18 @@ const getExperimentParams = () => {
       ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].namePlaceholder.paramName,
       ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].namePlaceholder.defaultValue
     )
-    return [showSkipButton, showNameGeneratorButton, namePlaceholder]
+    return { showSkipButton, showNameGeneratorButton, namePlaceholder }
   } catch (error) {
     Logger.warn('NameAndPicture', 'error getting Statsig experiment', error)
   }
-  return [
-    ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].showSkipButton.defaultValue,
-    ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].nameType.defaultValue,
-  ]
+  return {
+    showSkipButton:
+      ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].showSkipButton.defaultValue,
+    showNameGeneratorButton:
+      ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].showNameGeneratorButton.defaultValue,
+    namePlaceholder:
+      ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].namePlaceholder.defaultValue,
+  }
 }
 
 const getBlockedUsernames = (): {
@@ -86,7 +90,7 @@ const getBlockedUsernames = (): {
 
 function NameAndPicture({ navigation, route }: Props) {
   const [nameInput, setNameInput] = useState('')
-  const [showSkipButton, showNameGeneratorButton, namePlaceholder] = useMemo(
+  const { showSkipButton, showNameGeneratorButton, namePlaceholder } = useMemo(
     getExperimentParams,
     []
   )
