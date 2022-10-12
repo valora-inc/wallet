@@ -93,7 +93,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 81,
+          "version": 83,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -216,6 +216,7 @@ describe('store state', () => {
         "fiatConnect": Object {
           "attemptReturnUserFlowLoading": false,
           "cachedFiatAccountUses": Array [],
+          "cachedQuoteParams": Object {},
           "kycTryAgainLoading": false,
           "providers": null,
           "quotes": Array [],
@@ -329,6 +330,11 @@ describe('store state', () => {
           "fetchAvailableRewardsError": false,
           "fetchAvailableRewardsLoading": false,
           "loading": false,
+        },
+        "swap": Object {
+          "swapInfo": null,
+          "swapState": "quote",
+          "swapUserInput": null,
         },
         "tokens": Object {
           "error": false,

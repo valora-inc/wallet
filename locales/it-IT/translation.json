@@ -684,9 +684,9 @@
     "step1": "Se puoi inviare un SMS, puoi operare con le criptovalute. Da ora il tuo telefono sarà il tuo Crypto-wallet!",
     "step2": "Con {{appName}}, è facile accedere alle tue criptovalute e farle crescere.",
     "step3": "È sufficiente un cellulare per inviare, comprare ed esplorare.",
-    "payment": "Effettua pagamenti a livello globale con commissioni quasi nulle",
-    "impact": "Sostenere le iniziative di cambiamento climatico e sociale",
-    "spend": "Usa la tua criptovaluta per acquistare i tuoi marchi preferiti"
+    "payment": "Effettua pagamenti a livello globale con commissioni quasi pari a zero",
+    "impact": "Sostieni le iniziative sul cambiamento climatico e sociale",
+    "spend": "Usa le tue criptovalute per acquistare i tuoi marchi preferiti"
   },
   "enableBiometry": {
     "title": "Proteggi il tuo wallet",
@@ -799,8 +799,8 @@
       "dismiss": "Indietro"
     },
     "verificationFailure": "Si è verificato un errore, riprova più tardi.",
-    "resendButtonNotYetAvailable": "Reinvio disponibile in {{secondsRemaining}} secondo(i)",
-    "resendButton": "Reinvia il messaggio di testo"
+    "resendButtonNotYetAvailable": "Nuovo invio disponibile tra {{secondsRemaining}} secondo/i",
+    "resendButton": "Invia nuovamente messaggio"
   },
   "importExistingKey": {
     "explanation": "La tua Frase di recupero è composta da 24 parole e dovresti averla annotata quando hai configurato il tuo conto. Immettila qui per ripristinarlo.",
@@ -1292,7 +1292,7 @@
     "bankAccount": {
       "header": "Imposta un conto bancario",
       "bodyTitle": "Imposta un conto bancario",
-      "description": "Inserisci i dettagli del Conto bancario per trasferire fondi. Le transazioni saranno effettuate da <0>{{providerName}}</0>. Facendo clic su Continua, accetterai i <1>Termini e condizioni</1> e l'<2>Informativa sulla privacy</2>."
+      "description": "Inserisci i dati del conto corrente bancario per trasferire i fondi. Questi servizi ti saranno forniti da <0>{{providerName}}</0>.\n\nCliccando su \"Continua\", accetti i <1>termini e le condizioni</1> e l'<2>informativa sulla privacy</2>."
     },
     "continue": "Continua"
   },
@@ -1305,7 +1305,32 @@
     "button": "Configura la verifica dell’identità"
   },
   "fiatConnectKycStatusScreen": {
-    "tryAgainFailed": "Si è verificato un errore nella cancellazione delle informazioni KYC. Riprova"
+    "contactSupportPrefill": "Ho problemi a verificare la mia identità con Valora.",
+    "contactSupport": "Contatta il supporto tecnico",
+    "pending": {
+      "title": "La verifica del tuo ID è in corso.",
+      "description": "Al termine della revisione, puoi tornare alla pagina Aggiungi e preleva per completare la transazione.",
+      "close": "Chiudi"
+    },
+    "denied": {
+      "switch": "Cambia metodo di prelievo",
+      "retryable": {
+        "title": "La verifica del documento d'identità non è stata accettata.",
+        "description": "Verifica di nuovo o prova un altro modo per prelevare i fondi.",
+        "tryAgain": "Riprova"
+      },
+      "final": {
+        "title": "Verifica respinta.",
+        "description": "Prova a scegliere un altro modo per prelevare i fondi o contatta l'assistenza."
+      }
+    },
+    "expired": {
+      "title": "La verifica dell'ID è scaduta.",
+      "description": "Verifica di nuovo o prova un altro modo per prelevare i fondi.",
+      "tryAgain": "Riprova",
+      "switch": "Cambia metodo di prelievo"
+    },
+    "tryAgainFailed": "Si è verificato un errore durante la cancellazione delle informazioni KYC. Riprova."
   },
   "fiatConnectReviewScreen": {
     "transactionDetails": "Dettagli della transazione",

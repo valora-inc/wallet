@@ -8,7 +8,10 @@ import * as AccountActions from 'src/account/actions'
 import { CreateAccountCopyTestType } from 'src/app/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import NameAndPicture from 'src/onboarding/registration/NameAndPicture'
+import NameAndPicture, {
+  _chooseRandomWord,
+  _generateUsername,
+} from 'src/onboarding/registration/NameAndPicture'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockNavigation } from 'test/values'
@@ -21,11 +24,28 @@ jest.mock('statsig-react-native', () => ({
   },
 }))
 
+const ADJECTIVES = ['Adjective_1', 'Adjective_2', 'Bad_Adjective']
+const NOUNS = ['Noun_1', 'Noun_2', 'Bad_Noun']
+jest.mock('src/onboarding/registration/constants', () => ({
+  ADJECTIVES,
+  NOUNS,
+}))
+
 expect.extend({ toBeDisabled })
 jest.spyOn(AccountActions, 'setName')
 const mockScreenProps = getMockStackScreenProps(Screens.NameAndPicture)
 
 describe('NameAndPictureScreen', () => {
+  const mockRandom = jest.fn()
+  beforeEach(() => {
+    jest.spyOn(global.Math, 'random').mockImplementation(mockRandom)
+  })
+
+  afterEach(() => {
+    mockStatsigGet.mockClear()
+    jest.spyOn(global.Math, 'random').mockRestore()
+  })
+
   it('disable button when no name', () => {
     const store = createMockStore()
     const { getByTestId } = render(
@@ -190,6 +210,7 @@ describe('NameAndPictureScreen', () => {
     expect(getByText('nameAndPicGuideCopyTitle')).toBeTruthy()
     expect(getByText('nameAndPicGuideCopyContent')).toBeTruthy()
   })
+
   it('does not render skip button when configured so', () => {
     mockStatsigGet.mockReturnValue(false)
     const { queryByText } = render(
@@ -222,5 +243,59 @@ describe('NameAndPictureScreen', () => {
     fireEvent.changeText(getByTestId('NameEntry'), 'Some Name')
     fireEvent.press(getByText('skip'))
     expect(AccountActions.setName).not.toHaveBeenCalled()
+  })
+
+  it('shows alternate placeholder username for experimental group', () => {
+    mockStatsigGet.mockReturnValueOnce(false).mockReturnValueOnce('autogenerator')
+    const { getByTestId } = render(
+      <Provider store={createMockStore()}>
+        <NameAndPicture {...mockScreenProps} />
+      </Provider>
+    )
+    expect(getByTestId('NameEntry').props.placeholder).toEqual('MyCryptoAlterEgo')
+  })
+
+  it('does not show alternate placeholder username for control group', () => {
+    mockStatsigGet.mockReturnValueOnce(false).mockReturnValueOnce('first_and_last')
+    const { getByTestId } = render(
+      <Provider store={createMockStore()}>
+        <NameAndPicture {...mockScreenProps} />
+      </Provider>
+    )
+    expect(getByTestId('NameEntry').props.placeholder).toEqual('fullNamePlaceholder')
+  })
+
+  it('random word selector behaves as expected', () => {
+    const wordList = ['a', 'b', 'c', 'd']
+    const bIndex = 1
+    mockRandom.mockReturnValue(bIndex / wordList.length)
+    expect(_chooseRandomWord(wordList)).toEqual('b')
+
+    const dIndex = 3
+    mockRandom.mockReturnValue(dIndex / wordList.length)
+    expect(_chooseRandomWord(wordList)).toEqual('d')
+  })
+
+  it('usernames appear as expected', () => {
+    const adjectiveIndex = 0
+    const nounIndex = 1
+    mockRandom
+      .mockReturnValueOnce(adjectiveIndex / ADJECTIVES.length)
+      .mockReturnValueOnce(nounIndex / NOUNS.length)
+    const username = _generateUsername(new Set(), new Set())
+    expect(username).toEqual(`${ADJECTIVES[adjectiveIndex]} ${NOUNS[nounIndex]}`)
+  })
+
+  it('bad usernames do not appear', () => {
+    const badAdjIndex = 2
+    const badNounIndex = 2
+    mockRandom
+      .mockReturnValueOnce(badAdjIndex / ADJECTIVES.length)
+      .mockReturnValueOnce(badNounIndex / NOUNS.length)
+    const username = _generateUsername(
+      new Set([ADJECTIVES[badAdjIndex]]),
+      new Set([NOUNS[badNounIndex]])
+    )
+    expect(username).not.toEqual(`${ADJECTIVES[badAdjIndex]} ${NOUNS[badNounIndex]}`)
   })
 })

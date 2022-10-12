@@ -267,14 +267,6 @@ describe('SwapScreen', () => {
     })
 
     fireEvent.press(getByText('swapScreen.review'))
-    expect(navigate).toHaveBeenCalledWith(Screens.SwapReviewScreen, {
-      toToken: mockCusdAddress,
-      fromToken: mockCeloAddress,
-      updatedField: 'FROM',
-      swapAmount: {
-        FROM: '10',
-        TO: '12.345678',
-      },
-    })
+    expect(navigate).toHaveBeenCalledWith(Screens.SwapReviewScreen)
   })
 })
