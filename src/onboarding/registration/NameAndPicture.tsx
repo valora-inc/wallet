@@ -197,6 +197,8 @@ function NameAndPicture({ navigation, route }: Props) {
     switch (namePlaceholder) {
       case OnboardingNamePlaceholderType.AlterEgo:
         return 'MyCryptoAlterEgo' // not localized
+      case OnboardingNamePlaceholderType.GuidedOnboarding:
+        return t('fullNameOrPseudonymPlaceholder')
       case OnboardingNamePlaceholderType.FullName:
       default:
         return showGuidedOnboarding ? t('fullNameOrPseudonymPlaceholder') : t('fullNamePlaceholder')

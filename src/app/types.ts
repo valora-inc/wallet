@@ -20,4 +20,5 @@ export enum InviteMethodType {
 export enum OnboardingNamePlaceholderType {
   AlterEgo = 'myCryptoAlterEgo',
   FullName = 'fullNamePlaceholder',
+  GuidedOnboarding = 'fullNameOrPseudonym',
 }
