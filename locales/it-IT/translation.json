@@ -1451,8 +1451,10 @@
     "swapFee": "Commissione di {{appName}}",
     "swapFeeTitle": "Cosa sono le commissione di {{appName}}?",
     "swapFeeBody": "La commissione di {{appName}} è la commissione che paghi per scambiare i token su {{appName}}. \n\nLa commissione è pari al {{swapFee}}% dell'importo che stai scambiando. \n\nLe commissioni di {{appName}} sono gratuite per i prossimi mesi.",
+    "swapFeeBodyFree": "La tariffa di {{appName}} è la tariffa che paghi per scambiare i gettoni su {{appName}}. Le tariffe di {{appName}} sono gratuite per i prossimi mesi.",
     "estimatedAmountTitle": "Importo stimato",
-    "estimatedAmountBody": "Le conversioni avvengono su uno scambio decentralizzato di terze parti che trova il miglior tasso per il tuo scambio. \n\nLa tua transazione sarà completata a un prezzo compreso tra {{slippagePercent}}% della stima o la transazione sarà annullata e i fondi saranno restituiti al tuo wallet."
+    "estimatedAmountBody": "Le conversioni avvengono su uno scambio decentralizzato di terze parti che trova il miglior tasso per il tuo scambio. \n\nLa tua transazione sarà completata a un prezzo compreso tra {{slippagePercent}}% della stima o la transazione sarà annullata e i fondi saranno restituiti al tuo wallet.",
+    "free": "Gratuito"
   },
   "SwapExecuteScreen": {
     "swapPending": "Scambio in attesa",
