@@ -8,10 +8,8 @@ import * as AccountActions from 'src/account/actions'
 import { CreateAccountCopyTestType } from 'src/app/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import NameAndPicture, {
-  _chooseRandomWord,
-  _generateUsername,
-} from 'src/onboarding/registration/NameAndPicture'
+import NameAndPicture from 'src/onboarding/registration/NameAndPicture'
+import * as NameGenerator from 'src/onboarding/registration/NameGenerator'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockNavigation } from 'test/values'
@@ -23,6 +21,15 @@ jest.mock('statsig-react-native', () => ({
     logEvent: jest.fn(),
   },
 }))
+
+const mockgenerateUsername = jest.fn()
+jest.mock('src/onboarding/registration/NameAndPicture', () => {
+  const original = jest.requireActual('src/onboarding/registration/NameAndPicture') // Step 2.
+  return {
+    ...original,
+    generateUsername: mockgenerateUsername,
+  }
+})
 
 const ADJECTIVES = ['Adjective_1', 'Adjective_2', 'Bad_Adjective']
 const NOUNS = ['Noun_1', 'Noun_2', 'Bad_Noun']
@@ -246,26 +253,39 @@ describe('NameAndPictureScreen', () => {
   })
 
   it('shows generator button and generator button puts random username in', () => {
-    mockStatsigGet.mockReturnValueOnce(false).mockReturnValueOnce('autogenerator')
+    mockStatsigGet.mockImplementation((key: string, _) => {
+      if (key === 'showSkipButton') {
+        return true
+      }
+      if (key === 'nameType') {
+        return 'autogenerator'
+      }
+      return undefined
+    })
     const { getByText, getByTestId } = render(
       <Provider store={createMockStore()}>
         <NameAndPicture {...mockScreenProps} />
       </Provider>
     )
-    mockRandom.mockReturnValue(0)
     expect(getByText('generateUsername')).toBeTruthy()
     const nameField = getByTestId('NameEntry')
     fireEvent.press(getByText('generateUsername'))
-    const text = nameField.props.value
-    mockRandom.mockReturnValue(0.9)
-    expect(text).toBeTruthy()
+    expect(nameField.props.value).toBeTruthy()
+    mockgenerateUsername.mockReturnValueOnce('Generated Name')
     fireEvent.press(getByText('generateUsername'))
-    // different name on second press
-    expect(nameField.props.value).not.toEqual(text)
+    expect(nameField.props.value).toEqual('Generated Name')
   })
 
   it('shows alternate placeholder username for experimental group', () => {
-    mockStatsigGet.mockReturnValueOnce(false).mockReturnValueOnce('autogenerator')
+    mockStatsigGet.mockImplementation((key: string, _) => {
+      if (key === 'showSkipButton') {
+        return false
+      }
+      if (key === 'nameType') {
+        return 'autogenerator'
+      }
+      return undefined
+    })
     const { getByTestId } = render(
       <Provider store={createMockStore()}>
         <NameAndPicture {...mockScreenProps} />
@@ -275,7 +295,15 @@ describe('NameAndPictureScreen', () => {
   })
 
   it('does not show alternate placeholder username for control group', () => {
-    mockStatsigGet.mockReturnValueOnce(false).mockReturnValueOnce('first_and_last')
+    mockStatsigGet.mockImplementation((key: string, _) => {
+      if (key === 'showSkipButton') {
+        return true
+      }
+      if (key === 'nameType') {
+        return 'first_and_last'
+      }
+      return undefined
+    })
     const { getByTestId } = render(
       <Provider store={createMockStore()}>
         <NameAndPicture {...mockScreenProps} />
@@ -288,11 +316,11 @@ describe('NameAndPictureScreen', () => {
     const wordList = ['a', 'b', 'c', 'd']
     const bIndex = 1
     mockRandom.mockReturnValue(bIndex / wordList.length)
-    expect(_chooseRandomWord(wordList)).toEqual('b')
+    expect(NameGenerator.chooseRandomWord(wordList)).toEqual('b')
 
     const dIndex = 3
     mockRandom.mockReturnValue(dIndex / wordList.length)
-    expect(_chooseRandomWord(wordList)).toEqual('d')
+    expect(NameGenerator.chooseRandomWord(wordList)).toEqual('d')
   })
 
   it('usernames appear as expected', () => {
@@ -301,7 +329,7 @@ describe('NameAndPictureScreen', () => {
     mockRandom
       .mockReturnValueOnce(adjectiveIndex / ADJECTIVES.length)
       .mockReturnValueOnce(nounIndex / NOUNS.length)
-    const username = _generateUsername(new Set(), new Set())
+    const username = NameGenerator.generateUsername(new Set(), new Set())
     expect(username).toEqual(`${ADJECTIVES[adjectiveIndex]} ${NOUNS[nounIndex]}`)
   })
 
@@ -311,7 +339,7 @@ describe('NameAndPictureScreen', () => {
     mockRandom
       .mockReturnValueOnce(badAdjIndex / ADJECTIVES.length)
       .mockReturnValueOnce(badNounIndex / NOUNS.length)
-    const username = _generateUsername(
+    const username = NameGenerator.generateUsername(
       new Set([ADJECTIVES[badAdjIndex]]),
       new Set([NOUNS[badNounIndex]])
     )

@@ -27,6 +27,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
+import { generateUsername } from 'src/onboarding/registration/NameGenerator'
 import PictureInput from 'src/onboarding/registration/PictureInput'
 import { default as useSelector, default as useTypedSelector } from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
@@ -35,21 +36,28 @@ import { saveProfilePicture } from 'src/utils/image'
 import Logger from 'src/utils/Logger'
 import { useAsyncKomenciReadiness } from 'src/verify/hooks'
 import { Statsig } from 'statsig-react-native'
-import { ADJECTIVES, NOUNS } from './constants'
 
 type Props = StackScreenProps<StackParamList, Screens.NameAndPicture>
 
-export const _chooseRandomWord = (wordList: string[]) => {
-  return wordList[Math.floor(Math.random() * wordList.length)]
-}
-
-export const _generateUsername = (
-  forbiddenAdjectives: Set<string>,
-  forbiddenNouns: Set<string>
-): string => {
-  const adjectiveList = ADJECTIVES.filter((adj) => !forbiddenAdjectives.has(adj))
-  const nounList = NOUNS.filter((noun) => !forbiddenNouns.has(noun))
-  return `${_chooseRandomWord(adjectiveList)} ${_chooseRandomWord(nounList)}`
+const getExperimentParams = () => {
+  try {
+    const statsigLayer = Statsig.getLayer(StatsigLayers.NAME_AND_PICTURE_SCREEN)
+    const showSkipButton = statsigLayer.get(
+      ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].showSkipButton.paramName,
+      ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].showSkipButton.defaultValue
+    )
+    const nameType = statsigLayer.get(
+      ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].nameType.paramName,
+      ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].nameType.defaultValue
+    )
+    return [showSkipButton, nameType]
+  } catch (error) {
+    Logger.warn('NameAndPicture', 'error getting Statsig experiment', error)
+  }
+  return [
+    ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].showSkipButton.defaultValue,
+    ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].nameType.defaultValue,
+  ]
 }
 
 const getBlockedUsernames = (): {
@@ -74,27 +82,6 @@ const getBlockedUsernames = (): {
     blockedAdjectives: [],
     blockedNouns: [],
   }
-}
-
-const getExperimentParams = () => {
-  try {
-    const statsigLayer = Statsig.getLayer(StatsigLayers.NAME_AND_PICTURE_SCREEN)
-    const showSkipButton = statsigLayer.get(
-      ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].showSkipButton.paramName,
-      ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].showSkipButton.defaultValue
-    )
-    const nameType = statsigLayer.get(
-      ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].nameType.paramName,
-      ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].nameType.defaultValue
-    )
-    return [showSkipButton, nameType]
-  } catch (error) {
-    Logger.warn('NameAndPicture', 'error getting Statsig experiment', error)
-  }
-  return [
-    ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].showSkipButton.defaultValue,
-    ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].nameType.defaultValue,
-  ]
 }
 
 function NameAndPicture({ navigation, route }: Props) {
@@ -224,7 +211,7 @@ function NameAndPicture({ navigation, route }: Props) {
   }
 
   const onPressGenerateUsername = () => {
-    setNameInput(_generateUsername(new Set(blockedAdjectives), new Set(blockedNouns)))
+    setNameInput(generateUsername(new Set(blockedAdjectives), new Set(blockedNouns)))
   }
 
   return (
