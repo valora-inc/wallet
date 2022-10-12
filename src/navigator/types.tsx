@@ -17,7 +17,6 @@ import {
   CurrencyInfo,
   TransactionDataInput as TransactionDataInputLegacy,
 } from 'src/send/SendConfirmationLegacy'
-import { Field, SwapAmount } from 'src/swap/useSwapQuote'
 import { ReviewProps } from 'src/transactions/TransactionReview'
 import { TransferConfirmationCardProps } from 'src/transactions/TransferConfirmationCard'
 import { TokenTransaction } from 'src/transactions/types'
@@ -291,12 +290,8 @@ export type StackParamList = {
     | undefined
   [Screens.Sync]: undefined
   [Screens.SwapScreen]: undefined
-  [Screens.SwapReviewScreen]: {
-    toToken: string
-    fromToken: string
-    swapAmount: SwapAmount
-    updatedField: Field
-  }
+  [Screens.SwapExecuteScreen]: undefined
+  [Screens.SwapReviewScreen]: undefined
   [Screens.TransactionDetailsScreen]: {
     transaction: TokenTransaction
   }
