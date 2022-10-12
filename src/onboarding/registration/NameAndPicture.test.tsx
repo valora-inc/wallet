@@ -9,6 +9,7 @@ import { CreateAccountCopyTestType } from 'src/app/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import NameAndPicture from 'src/onboarding/registration/NameAndPicture'
+import * as NameGenerator from 'src/onboarding/registration/NameGenerator'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockNavigation } from 'test/values'
@@ -27,14 +28,8 @@ jest.spyOn(AccountActions, 'setName')
 const mockScreenProps = getMockStackScreenProps(Screens.NameAndPicture)
 
 describe('NameAndPictureScreen', () => {
-  const mockRandom = jest.fn()
-  beforeEach(() => {
-    // jest.spyOn(global.Math, 'random').mockImplementation(mockRandom)
-  })
-
   afterEach(() => {
     mockStatsigGet.mockClear()
-    // jest.spyOn(global.Math, 'random').mockRestore()
   })
 
   it('disable button when no name', () => {
