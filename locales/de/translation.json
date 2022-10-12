@@ -1292,7 +1292,7 @@
     "bankAccount": {
       "header": "Ein Bankkonto einrichten",
       "bodyTitle": "Ein Bankkonto einrichten",
-      "description": "Gib deine Kontodaten ein, um Geld zu überweisen. Diese Dienste werden dir zur Verfügung gestellt von <0>{{providerName}}</0>.\n\nWenn du auf \"Weiter\" klickst, erklärst du dich mit den <1>Allgemeinen</1> Geschäftsbedingungen und der <2>Datenschutzerklärung</2> einverstanden."
+      "description": "Gib deine Kontodaten ein, um Geld zu überweisen. Diese Dienste werden dir zur Verfügung gestellt von <0>{{providerName}}</0>.\n\nWenn du auf „Weiter“ klickst, erklärst du dich mit den <1>Allgemeinen Geschäftsbedingungen</1> und der <2>Datenschutzerklärung</2> einverstanden."
     },
     "continue": "Weiter"
   },
@@ -1309,15 +1309,15 @@
     "contactSupport": "Support kontaktieren",
     "pending": {
       "title": "Deine ID-Verifizierung wird gerade überprüft.",
-      "description": "Nachdem die Prüfung abgeschlossen ist, kannst du zur Seite Hinzufügen & Abheben zurückkehren, um deine Transaktion abzuschließen.",
+      "description": "Nachdem die Überprüfung abgeschlossen ist, kannst du zur Seite Hinzufügen & Abheben zurückkehren, um deine Transaktion abzuschließen.",
       "close": "Schließen"
     },
     "denied": {
-      "switch": "Rückzugsmethode wechseln",
+      "switch": "Auszahlungsmethode wechseln",
       "retryable": {
-        "title": "Die Ausweiskontrolle wurde nicht akzeptiert.",
+        "title": "Die ID-Verifizierung wurde nicht akzeptiert.",
         "description": "Bitte überprüfe es noch einmal oder versuche einen anderen Weg, um Geld abzuheben.",
-        "tryAgain": "Nochmal versuchen"
+        "tryAgain": "Erneut versuchen"
       },
       "final": {
         "title": "Verifizierung verweigert.",
@@ -1327,8 +1327,8 @@
     "expired": {
       "title": "Die ID-Überprüfung ist abgelaufen.",
       "description": "Bitte überprüfe es noch einmal oder versuche einen anderen Weg, um Geld abzuheben.",
-      "tryAgain": "Nochmal versuchen",
-      "switch": "Rückzugsmethode wechseln"
+      "tryAgain": "Erneut versuchen",
+      "switch": "Auszahlungsmethode wechseln"
     },
     "tryAgainFailed": "Beim Löschen der KYC-Informationen ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut"
   },
