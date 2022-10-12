@@ -27,6 +27,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
+import { generateRandomUsername } from 'src/onboarding/registration/NameGenerator'
 import PictureInput from 'src/onboarding/registration/PictureInput'
 import { default as useSelector, default as useTypedSelector } from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
@@ -35,44 +36,8 @@ import { saveProfilePicture } from 'src/utils/image'
 import Logger from 'src/utils/Logger'
 import { useAsyncKomenciReadiness } from 'src/verify/hooks'
 import { Statsig } from 'statsig-react-native'
-import { ADJECTIVES, NOUNS } from './constants'
 
 type Props = StackScreenProps<StackParamList, Screens.NameAndPicture>
-
-export const _chooseRandomWord = (wordList: string[]) => {
-  return wordList[Math.floor(Math.random() * wordList.length)]
-}
-
-//TODO: Obtain forbidden words from Firebase Remote Config
-export const _generateUsername = (
-  forbiddenAdjectives: Set<string>,
-  forbiddenNouns: Set<string>
-): string => {
-  const adjectiveList = ADJECTIVES.filter((adj) => !forbiddenAdjectives.has(adj))
-  const nounList = NOUNS.filter((noun) => !forbiddenNouns.has(noun))
-  return `${_chooseRandomWord(adjectiveList)} ${_chooseRandomWord(nounList)}`
-}
-
-const getBlockedUsernames = () => {
-  try {
-    const config = Statsig.getConfig(StatsigDynamicConfigs.USERNAME_BLOCK_LIST)
-    const blockedAdjectives = config.get(
-      ConfigParams[StatsigDynamicConfigs.USERNAME_BLOCK_LIST].blockedAdjectives.paramName,
-      ConfigParams[StatsigDynamicConfigs.USERNAME_BLOCK_LIST].blockedAdjectives.defaultValue
-    )
-    const blockedNouns = config.get(
-      ConfigParams[StatsigDynamicConfigs.USERNAME_BLOCK_LIST].blockedNouns.paramName,
-      ConfigParams[StatsigDynamicConfigs.USERNAME_BLOCK_LIST].blockedNouns.defaultValue
-    )
-    return { blockedAdjectives, blockedNouns }
-  } catch (error) {
-    Logger.warn('NameAndPicture', 'error getting Statsig blocked usernames', error)
-  }
-  return {
-    blockedAdjectives: [],
-    blockedNouns: [],
-  }
-}
 
 const getExperimentParams = () => {
   try {
@@ -95,11 +60,34 @@ const getExperimentParams = () => {
   ]
 }
 
+const getBlockedUsernames = (): {
+  blockedAdjectives: string[]
+  blockedNouns: string[]
+} => {
+  try {
+    const config = Statsig.getConfig(StatsigDynamicConfigs.USERNAME_BLOCK_LIST)
+    const blockedAdjectives = config.get(
+      ConfigParams[StatsigDynamicConfigs.USERNAME_BLOCK_LIST].blockedAdjectives.paramName,
+      ConfigParams[StatsigDynamicConfigs.USERNAME_BLOCK_LIST].blockedAdjectives.defaultValue
+    )
+    const blockedNouns = config.get(
+      ConfigParams[StatsigDynamicConfigs.USERNAME_BLOCK_LIST].blockedNouns.paramName,
+      ConfigParams[StatsigDynamicConfigs.USERNAME_BLOCK_LIST].blockedNouns.defaultValue
+    )
+    return { blockedAdjectives, blockedNouns }
+  } catch (error) {
+    Logger.warn('NameAndPicture', 'error getting Statsig blocked usernames', error)
+  }
+  return {
+    blockedAdjectives: [],
+    blockedNouns: [],
+  }
+}
+
 function NameAndPicture({ navigation, route }: Props) {
   const [nameInput, setNameInput] = useState('')
   const [showSkipButton, nameType] = useMemo(getExperimentParams, [])
-  //TODO: use blocked adjectives and nouns
-  useMemo(getBlockedUsernames, [])
+  const { blockedAdjectives, blockedNouns } = useMemo(getBlockedUsernames, [])
   const cachedName = useTypedSelector(nameSelector)
   const picture = useTypedSelector((state) => state.account.pictureUri)
   const choseToRestoreAccount = useTypedSelector((state) => state.account.choseToRestoreAccount)
@@ -114,21 +102,28 @@ function NameAndPicture({ navigation, route }: Props) {
   const asyncKomenciReadiness = useAsyncKomenciReadiness()
   const showGuidedOnboarding = useSelector(showGuidedOnboardingSelector)
   const createAccountCopyTestType = useSelector(createAccountCopyTestTypeSelector)
+  const showNameGeneratorButton = nameType === OnboardingNameType.AutoGen
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => {
         let pageTitleTranslationKey
-        if (showGuidedOnboarding) {
+        pageTitleTranslationKey = choseToRestoreAccount
+          ? 'restoreAccount'
+          : createAccountCopyTestType === CreateAccountCopyTestType.Wallet ||
+            createAccountCopyTestType === CreateAccountCopyTestType.AlreadyHaveWallet
+          ? 'createProfile'
+          : 'createAccount'
+        if (
+          nameType === OnboardingNameType.AutoGen ||
+          nameType === OnboardingNameType.Placeholder
+        ) {
+          // experimental group of Onboarding Name Step experiment
+          pageTitleTranslationKey = 'createProfile'
+        } else if (showGuidedOnboarding) {
           pageTitleTranslationKey = 'name'
-        } else {
-          pageTitleTranslationKey = choseToRestoreAccount
-            ? 'restoreAccount'
-            : createAccountCopyTestType === CreateAccountCopyTestType.Wallet ||
-              createAccountCopyTestType === CreateAccountCopyTestType.AlreadyHaveWallet
-            ? 'createProfile'
-            : 'createAccount'
         }
+
         return (
           <HeaderTitleWithSubtitle
             title={t(pageTitleTranslationKey)}
@@ -215,6 +210,10 @@ function NameAndPicture({ navigation, route }: Props) {
     }
   }
 
+  const onPressGenerateUsername = () => {
+    setNameInput(generateRandomUsername(new Set(blockedAdjectives), new Set(blockedNouns)))
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <DevSkipButton nextScreen={Screens.PincodeSet} />
@@ -247,11 +246,20 @@ function NameAndPicture({ navigation, route }: Props) {
           text={t('next')}
           size={BtnSizes.MEDIUM}
           type={BtnTypes.ONBOARDING}
-          disabled={!nameInput.trim()}
+          disabled={!nameInput?.trim()}
           testID={'NameAndPictureContinueButton'}
           showLoading={asyncKomenciReadiness.loading}
         />
       </ScrollView>
+      {showNameGeneratorButton && (
+        <Button
+          onPress={onPressGenerateUsername}
+          text={t('generateUsername')}
+          size={BtnSizes.MEDIUM}
+          type={BtnTypes.ONBOARDING_SECONDARY}
+          style={styles.generateUsernameButton}
+        />
+      )}
       <KeyboardSpacer />
     </SafeAreaView>
   )
@@ -281,5 +289,9 @@ const styles = StyleSheet.create({
   guidedOnboardingHeader: {
     marginTop: 36,
     ...fontStyles.h1,
+  },
+  generateUsernameButton: {
+    alignSelf: 'center',
+    marginBottom: 24,
   },
 })
