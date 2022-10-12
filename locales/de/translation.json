@@ -1447,11 +1447,32 @@
     "swapTo": "Tausch zu",
     "transactionDetails": "Transaktiondetails",
     "estimatedGas": "Geschätzte Gas-Gebühren",
+    "swapSubmitError": "Es tut uns leid, wir konnten deinen Tausch nicht abschließen. Bitte versuche es erneut oder kontaktiere den Support.",
     "swapFee": "{{appName}}-Gebühr",
     "swapFeeTitle": "Was ist die {{appName}}-Gebühr?",
     "swapFeeBody": "Die Gebühr für {{appName}} ist die Gebühr, die du bezahlen musst, um Tokens auf {{appName}} zu tauschen. \n\n Die Gebühr beträgt {{swapFee}} % des Umtauschbetrags. \n\n Die Gebühren für {{appName}} entfallen für die nächsten Monate.",
     "estimatedAmountTitle": "Geschätzte Betrag",
     "estimatedAmountBody": "Umrechnungen finden an einer dezentralen Börse von Drittanbietern statt, die den besten Kurs für deinen gewünschten Umtausch bieten. \n\n Dein Trade wird zu einem Preis innerhalb von {{slippagePercent}} % des Preises abgeschlossen oder die Transaktion wird storniert und das Guthaben an deine Wallet zurückerstattet."
+  },
+  "SwapExecuteScreen": {
+    "swapPending": "Tausch ausstehend",
+    "swapSuccess": "Tausch erfolgreich!",
+    "swapError": "Swap-Fehler",
+    "exchangeRateSubtext": "Die Suche nach dem besten Wechselkurs...",
+    "approvingSubtext": "Die Bewilligung von Geldern...",
+    "completingSubtext": "Tauschgeschäfte abschließen...",
+    "swapAgain": "Wieder tauschen",
+    "swapPriceModal": {
+      "title": "Die Preise haben sich geändert",
+      "action": "Weiter",
+      "body": "Krypto-Beträge und -Gebühren können sich aufgrund von Schwankungen auf dem Krypto-Markt ändern. \n\n Bitte überprüfe deinen endgültigen Betrag und deine Gebühren und reiche ihn erneut ein."
+    },
+    "swapErrorModal": {
+      "title": "Wir konnten die Transaktion nicht abschließen.",
+      "body": "Bitte warte und versuche es später noch einmal oder wende dich an unser Support-Team, um Hilfe zu erhalten.",
+      "swapRestart": "Verwerfen",
+      "contactSupport": "Support kontaktieren"
+    }
   },
   "inviteModal": {
     "title": "Sieht so aus, als ob {{contactName}} noch kein {{appName}}-Wallet hat.",
