@@ -93,7 +93,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 82,
+          "version": 81,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -179,8 +179,6 @@ describe('store state', () => {
           "supportedBiometryType": null,
           "swapFeeEnabled": false,
           "swapFeePercentage": 0.743,
-          "usernameAdjectiveBlocklist": Array [],
-          "usernameNounBlocklist": Array [],
           "visualizeNFTsEnabledInHomeAssetsPage": false,
           "walletConnectV1Enabled": true,
         },

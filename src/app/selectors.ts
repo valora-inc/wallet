@@ -136,11 +136,6 @@ export const inviteMethodSelector = (state: RootState) => state.app.inviteMethod
 
 export const showGuidedOnboardingSelector = (state: RootState) => state.app.showGuidedOnboardingCopy
 
-export const usernameAdjectiveBlocklistSelector = (state: RootState) =>
-  state.app.usernameAdjectiveBlocklist
-
-export const usernameNounBlocklistSelector = (state: RootState) => state.app.usernameNounBlocklist
-
 type StoreWipeRecoveryScreens = Extract<
   Screens,
   | Screens.NameAndPicture

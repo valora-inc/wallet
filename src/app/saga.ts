@@ -202,8 +202,6 @@ export interface RemoteConfigValues {
   inviteMethod: InviteMethodType
   showGuidedOnboardingCopy: boolean
   centralPhoneVerificationEnabled: boolean
-  usernameAdjectiveBlocklist: string[]
-  usernameNounBlocklist: string[]
 }
 
 export function* appRemoteFeatureFlagSaga() {
