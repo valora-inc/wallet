@@ -43,7 +43,6 @@ export const _chooseRandomWord = (wordList: string[]) => {
   return wordList[Math.floor(Math.random() * wordList.length)]
 }
 
-//TODO: Obtain forbidden words from Firebase Remote Config
 export const _generateUsername = (
   forbiddenAdjectives: Set<string>,
   forbiddenNouns: Set<string>
@@ -53,7 +52,10 @@ export const _generateUsername = (
   return `${_chooseRandomWord(adjectiveList)} ${_chooseRandomWord(nounList)}`
 }
 
-const getBlockedUsernames = () => {
+const getBlockedUsernames = (): {
+  blockedAdjectives: string[]
+  blockedNouns: string[]
+} => {
   try {
     const config = Statsig.getConfig(StatsigDynamicConfigs.USERNAME_BLOCK_LIST)
     const blockedAdjectives = config.get(
@@ -98,8 +100,7 @@ const getExperimentParams = () => {
 function NameAndPicture({ navigation, route }: Props) {
   const [nameInput, setNameInput] = useState('')
   const [showSkipButton, nameType] = useMemo(getExperimentParams, [])
-  //TODO: use blocked adjectives and nouns
-  useMemo(getBlockedUsernames, [])
+  const { blockedAdjectives, blockedNouns } = useMemo(getBlockedUsernames, [])
   const cachedName = useTypedSelector(nameSelector)
   const picture = useTypedSelector((state) => state.account.pictureUri)
   const choseToRestoreAccount = useTypedSelector((state) => state.account.choseToRestoreAccount)
@@ -223,8 +224,7 @@ function NameAndPicture({ navigation, route }: Props) {
   }
 
   const onPressGenerateUsername = () => {
-    //TODO: Obtain forbidden words from Firebase Remote Config
-    setNameInput(_generateUsername(new Set<string>(), new Set<string>()))
+    setNameInput(_generateUsername(new Set(blockedAdjectives), new Set(blockedNouns)))
   }
 
   return (
