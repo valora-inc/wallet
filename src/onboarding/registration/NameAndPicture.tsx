@@ -7,9 +7,9 @@ import { useDispatch } from 'react-redux'
 import { setName, setPicture } from 'src/account/actions'
 import { nameSelector, recoveringFromStoreWipeSelector } from 'src/account/selectors'
 import { hideAlert, showError } from 'src/alert/actions'
-import { ExperimentParams } from 'src/analytics/constants'
+import { ConfigParams, ExperimentParams } from 'src/analytics/constants'
 import { OnboardingEvents } from 'src/analytics/Events'
-import { StatsigEvents, StatsigLayers } from 'src/analytics/types'
+import { StatsigDynamicConfigs, StatsigEvents, StatsigLayers } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import {
@@ -53,6 +53,27 @@ export const _generateUsername = (
   return `${_chooseRandomWord(adjectiveList)} ${_chooseRandomWord(nounList)}`
 }
 
+const getBlockedUsernames = () => {
+  try {
+    const config = Statsig.getConfig(StatsigDynamicConfigs.USERNAME_BLOCK_LIST)
+    const blockedAdjectives = config.get(
+      ConfigParams[StatsigDynamicConfigs.USERNAME_BLOCK_LIST].blockedAdjectives.paramName,
+      ConfigParams[StatsigDynamicConfigs.USERNAME_BLOCK_LIST].blockedAdjectives.defaultValue
+    )
+    const blockedNouns = config.get(
+      ConfigParams[StatsigDynamicConfigs.USERNAME_BLOCK_LIST].blockedNouns.paramName,
+      ConfigParams[StatsigDynamicConfigs.USERNAME_BLOCK_LIST].blockedNouns.defaultValue
+    )
+    return { blockedAdjectives, blockedNouns }
+  } catch (error) {
+    Logger.warn('NameAndPicture', 'error getting Statsig blocked usernames', error)
+  }
+  return {
+    blockedAdjectives: [],
+    blockedNouns: [],
+  }
+}
+
 const getExperimentParams = () => {
   try {
     const statsigLayer = Statsig.getLayer(StatsigLayers.NAME_AND_PICTURE_SCREEN)
@@ -77,6 +98,8 @@ const getExperimentParams = () => {
 function NameAndPicture({ navigation, route }: Props) {
   const [nameInput, setNameInput] = useState('')
   const [showSkipButton, nameType] = useMemo(getExperimentParams, [])
+  //TODO: use blocked adjectives and nouns
+  useMemo(getBlockedUsernames, [])
   const cachedName = useTypedSelector(nameSelector)
   const picture = useTypedSelector((state) => state.account.pictureUri)
   const choseToRestoreAccount = useTypedSelector((state) => state.account.choseToRestoreAccount)
