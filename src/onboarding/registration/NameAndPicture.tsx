@@ -7,9 +7,9 @@ import { useDispatch } from 'react-redux'
 import { setName, setPicture } from 'src/account/actions'
 import { nameSelector, recoveringFromStoreWipeSelector } from 'src/account/selectors'
 import { hideAlert, showError } from 'src/alert/actions'
-import { ExperimentParams } from 'src/analytics/constants'
+import { ConfigParams, ExperimentParams } from 'src/analytics/constants'
 import { OnboardingEvents } from 'src/analytics/Events'
-import { StatsigEvents, StatsigLayers } from 'src/analytics/types'
+import { StatsigDynamicConfigs, StatsigEvents, StatsigLayers } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { registrationStepsSelector, showGuidedOnboardingSelector } from 'src/app/selectors'
@@ -23,6 +23,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
+import { generateRandomUsername } from 'src/onboarding/registration/NameGenerator'
 import PictureInput from 'src/onboarding/registration/PictureInput'
 import { default as useSelector, default as useTypedSelector } from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
@@ -31,23 +32,8 @@ import { saveProfilePicture } from 'src/utils/image'
 import Logger from 'src/utils/Logger'
 import { useAsyncKomenciReadiness } from 'src/verify/hooks'
 import { Statsig } from 'statsig-react-native'
-import { ADJECTIVES, NOUNS } from './constants'
 
 type Props = StackScreenProps<StackParamList, Screens.NameAndPicture>
-
-export const _chooseRandomWord = (wordList: string[]) => {
-  return wordList[Math.floor(Math.random() * wordList.length)]
-}
-
-//TODO: Obtain forbidden words from Firebase Remote Config
-export const _generateUsername = (
-  forbiddenAdjectives: Set<string>,
-  forbiddenNouns: Set<string>
-): string => {
-  const adjectiveList = ADJECTIVES.filter((adj) => !forbiddenAdjectives.has(adj))
-  const nounList = NOUNS.filter((noun) => !forbiddenNouns.has(noun))
-  return `${_chooseRandomWord(adjectiveList)} ${_chooseRandomWord(nounList)}`
-}
 
 const getExperimentParams = () => {
   try {
@@ -74,12 +60,37 @@ const getExperimentParams = () => {
   ]
 }
 
+const getBlockedUsernames = (): {
+  blockedAdjectives: string[]
+  blockedNouns: string[]
+} => {
+  try {
+    const config = Statsig.getConfig(StatsigDynamicConfigs.USERNAME_BLOCK_LIST)
+    const blockedAdjectives = config.get(
+      ConfigParams[StatsigDynamicConfigs.USERNAME_BLOCK_LIST].blockedAdjectives.paramName,
+      ConfigParams[StatsigDynamicConfigs.USERNAME_BLOCK_LIST].blockedAdjectives.defaultValue
+    )
+    const blockedNouns = config.get(
+      ConfigParams[StatsigDynamicConfigs.USERNAME_BLOCK_LIST].blockedNouns.paramName,
+      ConfigParams[StatsigDynamicConfigs.USERNAME_BLOCK_LIST].blockedNouns.defaultValue
+    )
+    return { blockedAdjectives, blockedNouns }
+  } catch (error) {
+    Logger.warn('NameAndPicture', 'error getting Statsig blocked usernames', error)
+  }
+  return {
+    blockedAdjectives: [],
+    blockedNouns: [],
+  }
+}
+
 function NameAndPicture({ navigation, route }: Props) {
   const [nameInput, setNameInput] = useState('')
   const [showSkipButton, showNameGeneratorButton, namePlaceholder] = useMemo(
     getExperimentParams,
     []
   )
+  const { blockedAdjectives, blockedNouns } = useMemo(getBlockedUsernames, [])
   const cachedName = useTypedSelector(nameSelector)
   const picture = useTypedSelector((state) => state.account.pictureUri)
   const choseToRestoreAccount = useTypedSelector((state) => state.account.choseToRestoreAccount)
@@ -174,8 +185,7 @@ function NameAndPicture({ navigation, route }: Props) {
   }
 
   const onPressGenerateUsername = () => {
-    //TODO: Obtain forbidden words from Firebase Remote Config
-    setNameInput(_generateUsername(new Set<string>(), new Set<string>()))
+    setNameInput(generateRandomUsername(new Set(blockedAdjectives), new Set(blockedNouns)))
   }
 
   const getUsernamePlaceholder = (namePlaceholder: OnboardingNamePlaceholderType) => {
@@ -219,7 +229,7 @@ function NameAndPicture({ navigation, route }: Props) {
           text={t('next')}
           size={BtnSizes.MEDIUM}
           type={BtnTypes.ONBOARDING}
-          disabled={!nameInput.trim()}
+          disabled={!nameInput?.trim()}
           testID={'NameAndPictureContinueButton'}
           showLoading={asyncKomenciReadiness.loading}
         />

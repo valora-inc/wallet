@@ -59,6 +59,7 @@ import {
   submitFiatAccount,
   submitFiatAccountCompleted,
   submitFiatAccountKycApproved,
+  cacheQuoteParams,
 } from 'src/fiatconnect/slice'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { normalizeFiatConnectQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
@@ -498,11 +499,26 @@ export function* handleSelectFiatConnectQuote({
       switch (fiatConnectKycStatus) {
         case FiatConnectKycStatus.KycNotCreated:
           if (getKycStatusResponse.persona === PersonaKycStatus.Approved) {
-            // If user has Persona KYC on file, just submit it and continue to account management
+            // If user has Persona KYC on file, just submit it and continue to account management.
             yield call(postKyc, {
               providerInfo: quote.quote.provider,
               kycSchema,
             })
+            // We also need to save a user's quote parameters so we can re-fetch if KYC takes a long
+            // time to process.
+            yield put(
+              cacheQuoteParams({
+                providerId: quote.getProviderId(),
+                kycSchema,
+                cachedQuoteParams: {
+                  cryptoAmount: quote.getCryptoAmount(),
+                  fiatAmount: quote.getFiatAmount(),
+                  flow: quote.flow,
+                  cryptoType: quote.getCryptoType(),
+                  fiatType: quote.getFiatType(),
+                },
+              })
+            )
             break
           } else {
             // If no Persona KYC on file, navigate to Persona

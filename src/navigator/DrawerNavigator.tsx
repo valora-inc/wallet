@@ -228,7 +228,7 @@ export default function DrawerNavigator() {
         activeBackgroundColor: colors.gray2,
       }}
       // Reloads the screen when the user comes back to it - resetting navigation state
-      defaultScreenOptions={{
+      screenOptions={{
         unmountOnBlur: true,
       }}
       // Whether inactive screens should be detached from the view hierarchy to save memory.

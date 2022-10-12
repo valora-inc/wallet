@@ -1,21 +1,12 @@
 import BigNumber from 'bignumber.js'
 import { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
+import { Field, SwapAmount } from 'src/swap/types'
 import { TokenBalance } from 'src/tokens/slice'
 import { multiplyByWei } from 'src/utils/formatting'
 import Logger from 'src/utils/Logger'
 import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
-
-export enum Field {
-  FROM = 'FROM',
-  TO = 'TO',
-}
-
-export type SwapAmount = {
-  [Field.FROM]: null | string
-  [Field.TO]: null | string
-}
 
 const useSwapQuote = () => {
   const walletAddress = useSelector(walletAddressSelector)
