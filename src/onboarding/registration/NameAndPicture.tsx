@@ -99,7 +99,7 @@ function NameAndPicture({ navigation, route }: Props) {
   const [nameInput, setNameInput] = useState('')
   const [showSkipButton, nameType] = useMemo(getExperimentParams, [])
   //TODO: use blocked adjectives and nouns
-  const {} = useMemo(getBlockedUsernames, [])
+  useMemo(getBlockedUsernames, [])
   const cachedName = useTypedSelector(nameSelector)
   const picture = useTypedSelector((state) => state.account.pictureUri)
   const choseToRestoreAccount = useTypedSelector((state) => state.account.choseToRestoreAccount)
