@@ -1447,11 +1447,32 @@
     "swapTo": "Şuraya Giden Takas",
     "transactionDetails": "İşlem detayları",
     "estimatedGas": "Tahmini Gaz",
+    "swapSubmitError": "Sorry, we were unable to complete your swap. Please try again or contact support.",
     "swapFee": "{{appName}} Ücreti",
     "swapFeeTitle": "{{appName}} Ücreti nedir?\n",
     "swapFeeBody": "{{appName}} ücreti, {{appName}} uygulamasında token takas etmek için ödediğiniz ücrettir.\n\nÜcret, takas ettiğiniz miktarın %{{swapFee}} kadarıdır.\n\n{{appName}} uygulamasında önümüzdeki birkaç ay ücret alınmayacaktır.",
     "estimatedAmountTitle": "Tahmini Tutar",
     "estimatedAmountBody": "Dönüşümler, takasınız için size en iyi oranı bulan ve merkezi olmayan bir üçüncü taraf borsasında gerçekleşir.\n\nİşleminiz, tahminin %{{slippagePercent}} kadarına kdar bir fiyatla tamamlanacak veya işlem iptal edilip para cüzdanınıza iade edilecektir."
+  },
+  "SwapExecuteScreen": {
+    "swapPending": "Swap Pending",
+    "swapSuccess": "Swap Successful!",
+    "swapError": "Swap Error",
+    "exchangeRateSubtext": "Finding the best exchange rate...",
+    "approvingSubtext": "Approving funds...",
+    "completingSubtext": "Completing swap...",
+    "swapAgain": "Swap Again",
+    "swapPriceModal": {
+      "title": "Prices have changed",
+      "action": "İleri",
+      "body": "Crypto amounts & fees can change due to fluctuations in the crypto market. \n\n Please review your final amount & fees and resubmit."
+    },
+    "swapErrorModal": {
+      "title": "We couldn’t complete this transaction.",
+      "body": "Please wait and try again later or contact our support team for help.",
+      "swapRestart": "Yoksay",
+      "contactSupport": "Destek ile İletişime Geç"
+    }
   },
   "inviteModal": {
     "title": "Görünüşe göre {{contactName}} henüz {{appName}} cüzdanına sahip değil.",
