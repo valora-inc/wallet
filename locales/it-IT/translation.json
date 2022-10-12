@@ -1447,11 +1447,32 @@
     "swapTo": "Scambia a",
     "transactionDetails": "Dettagli della transazione",
     "estimatedGas": "Commissioni stimate",
+    "swapSubmitError": "Siamo spiacenti, non siamo riusciti a completare il tuo scambio. Riprova o contatta l'assistenza.",
     "swapFee": "Commissione di {{appName}}",
     "swapFeeTitle": "Cosa sono le commissione di {{appName}}?",
     "swapFeeBody": "La commissione di {{appName}} è la commissione che paghi per scambiare i token su {{appName}}. \n\nLa commissione è pari al {{swapFee}}% dell'importo che stai scambiando. \n\nLe commissioni di {{appName}} sono gratuite per i prossimi mesi.",
     "estimatedAmountTitle": "Importo stimato",
     "estimatedAmountBody": "Le conversioni avvengono su uno scambio decentralizzato di terze parti che trova il miglior tasso per il tuo scambio. \n\nLa tua transazione sarà completata a un prezzo compreso tra {{slippagePercent}}% della stima o la transazione sarà annullata e i fondi saranno restituiti al tuo wallet."
+  },
+  "SwapExecuteScreen": {
+    "swapPending": "Scambio in attesa",
+    "swapSuccess": "Scambio riuscito!",
+    "swapError": "Errore di scambio",
+    "exchangeRateSubtext": "Trovare il miglior tasso di cambio...",
+    "approvingSubtext": "Approvare i fondi...",
+    "completingSubtext": "Completare lo scambio...",
+    "swapAgain": "Scambia di nuovo",
+    "swapPriceModal": {
+      "title": "I prezzi sono cambiati",
+      "action": "Continua",
+      "body": "Gli importi e le commissioni delle criptovalute possono cambiare a causa delle fluttuazioni del mercato delle criptovalute. \n\n Ti invitiamo a rivedere l'importo finale e le commissioni e a inviarlo nuovamente."
+    },
+    "swapErrorModal": {
+      "title": "Non siamo riusciti a completare la transazione.",
+      "body": "Attendi e riprova più tardi o contatta il nostro team di assistenza per ricevere aiuto.",
+      "swapRestart": "Ignora",
+      "contactSupport": "Contatta il supporto tecnico"
+    }
   },
   "inviteModal": {
     "title": "Sembra che {{contactName}} non abbia ancora un wallet {{appName}}.",
