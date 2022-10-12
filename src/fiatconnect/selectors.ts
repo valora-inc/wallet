@@ -17,3 +17,5 @@ export const sendingFiatAccountStatusSelector = (state: RootState) =>
   state.fiatConnect.sendingFiatAccountStatus
 export const kycTryAgainLoadingSelector = (state: RootState) => state.fiatConnect.kycTryAgainLoading
 export const cachedQuoteParamsSelector = (state: RootState) => state.fiatConnect.cachedQuoteParams
+export const schemaCountryOverridesSelector = (state: RootState) =>
+  state.fiatConnect.schemaCountryOverrides
