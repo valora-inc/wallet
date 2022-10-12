@@ -1455,8 +1455,10 @@
     "swapFee": "Opłata w aplikacji {{appName}}",
     "swapFeeTitle": "Czym jest opłata w aplikacji {{appName}}?",
     "swapFeeBody": "Opłata w aplikacji {{appName}} to opłata, którą płaci się, aby wymienić żetony w {{appName}}.\nOpłata stanowi {{swapFee}}% liczby żetonów, które wymieniasz.\nPrzez następne kilka miesięcy opłaty {{appName}} są darmowe.",
+    "swapFeeBodyFree": "Opłata {{appName}} to opłata, którą płacisz za wymianę tokenów na stronie {{appName}}. Opłaty {{appName}} są bezpłatne przez kilka następnych miesięcy.",
     "estimatedAmountTitle": "Szacowana kwota",
-    "estimatedAmountBody": "Wymiana waluty odbywa się na zewnętrznej giełdzie, która wyszukuje najlepszy kurs wymian.\n\nKoszt wymiany wyniesie nie więcej niż {{slippagePercent}}% oszacowanej kwoty. W przeciwnym wypadku transakcja zostanie anulowana, a środki powrócą do portfela."
+    "estimatedAmountBody": "Wymiana waluty odbywa się na zewnętrznej giełdzie, która wyszukuje najlepszy kurs wymian.\n\nKoszt wymiany wyniesie nie więcej niż {{slippagePercent}}% oszacowanej kwoty. W przeciwnym wypadku transakcja zostanie anulowana, a środki powrócą do portfela.",
+    "free": "Bezpłatnie"
   },
   "SwapExecuteScreen": {
     "swapPending": "Zamiana w toku",
