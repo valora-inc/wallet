@@ -1418,8 +1418,9 @@
     },
     "accountNumber": {
       "label": "Account Number",
-      "placeholderText": "Enter your 10 digit account number",
-      "errorMessage": "Account number should be 10 digits long and only contain numbers"
+      "placeholderText": "Enter Account Number",
+      "errorMessageDigitLength": "Account number must be {{length}} digits",
+      "errorMessageDigit": "Account number must contain only digits"
     }
   },
   "webView": {
