@@ -684,9 +684,9 @@
     "step1": "Eğer mesaj gönderebiliyorsanız, kripto da kullanabilirsiniz. Şu andan itibaren telefonunuz aynı zamanda sizin kripto cüzdanınız.",
     "step2": "{{appName}} ile kriptoya erişmek ve kripto bakiyenizi artırmak çok kolay.",
     "step3": "Fon göndermek, harcama yapmak ve daha fazlasını keşfetmek için ihtiyacınız olan tek şey bir cep telefonu.",
-    "payment": "Make payments globally with near zero fees",
-    "impact": "Support climate and social change initiatives",
-    "spend": "Use your crypto to shop your favorite brands"
+    "payment": "Neredeyse sıfır ücretlerle global olarak ödeme yapın",
+    "impact": "İklim ve sosyal değişim girişimlerini destekleyin",
+    "spend": "Alışveriş için kripto kullanın"
   },
   "enableBiometry": {
     "title": "Cüzdanınızı emniyete alın",
@@ -799,8 +799,8 @@
       "dismiss": "Geri dön"
     },
     "verificationFailure": "Bir şeyler ters gitti. Lütfen daha sonra tekrar deneyiniz.",
-    "resendButtonNotYetAvailable": "Resend available in {{secondsRemaining}} second(s)",
-    "resendButton": "Resend text message"
+    "resendButtonNotYetAvailable": "{{secondsRemaining}} saniye sonra tekrar gönderilebilir",
+    "resendButton": "Kısa mesajı tekrar gönder"
   },
   "importExistingKey": {
     "explanation": "Kurtarma Kelimeleriniz, hesabınızı oluştururken not ettiğiniz ve kaydettiğiniz 24 kelimelik bir ifadedir. Hesabınızı geri yüklemek için kelimeleri lütfen buraya girin.",
@@ -1292,7 +1292,7 @@
     "bankAccount": {
       "header": "Banka Hesabı Oluştur",
       "bodyTitle": "Banka Hesabı Oluştur",
-      "description": "Enter Bank Account details to transfer funds. These services will be provided to you by <0>{{providerName}}</0>.\n\nBy clicking continue, you agree to their <1>Terms and Conditions</1> and <2>Privacy Policy</2>"
+      "description": "Para transfer etmek için Banka Hesabı ayrıntılarını girin. Bu hizmetler size <0>{{providerName}}</0> tarafından sağlanır.\n\nDevam'ı tıklayarak, sağlayıcının <1>Şartlar ve Koşulları</1> ile <2>Gizlilik Politikasını</2> kabul etmiş olursunuz."
     },
     "continue": "İleri"
   },
@@ -1305,32 +1305,32 @@
     "button": "Kimlik Doğrulamayı Ayarla"
   },
   "fiatConnectKycStatusScreen": {
-    "contactSupportPrefill": "I'm having trouble verifying my identity with Valora.",
+    "contactSupportPrefill": "Valora ile kimliğimi doğrulamada sorun yaşıyorum.",
     "contactSupport": "Destek ile İletişime Geç",
     "pending": {
-      "title": "Your ID verification is in review.",
-      "description": "After the review is complete, you can return to the Add & Withdraw page to complete your transaction.",
+      "title": "Kimlik doğrulamanız inceleniyor.",
+      "description": "İnceleme tamamlandıktan sonra, işleminizi tamamlamak için Ekle & Çek sayfasına dönebilirsiniz.",
       "close": "Kapat"
     },
     "denied": {
-      "switch": "Switch withdraw method",
+      "switch": "Para çekme yöntemini değiştir",
       "retryable": {
-        "title": "ID verification was not accepted.",
-        "description": "Please verify again or try a different way to withdraw funds.",
-        "tryAgain": "Try again"
+        "title": "Kimlik doğrulaması kabul edilmedi.",
+        "description": "Lütfen tekrar doğrulayın veya fonları çekmek için farklı bir yol deneyin.",
+        "tryAgain": "Tekrar deneyin"
       },
       "final": {
         "title": "Doğrulama reddedildi.",
-        "description": "Please try a different way to withdraw funds, or contact support."
+        "description": "Lütfen fonları çekmek için farklı bir yol deneyin veya destek ile iletişime geçin."
       }
     },
     "expired": {
-      "title": "ID verification expired.",
-      "description": "Please verify again or try a different way to withdraw funds.",
-      "tryAgain": "Try again",
-      "switch": "Switch withdraw method"
+      "title": "Kimlik doğrulamasının süresi doldu.",
+      "description": "Lütfen tekrar doğrulayın veya fonları çekmek için farklı bir yol deneyin.",
+      "tryAgain": "Tekrar deneyin",
+      "switch": "Para çekme yöntemini değiştir"
     },
-    "tryAgainFailed": "There was an error clearing KYC information. Please try again"
+    "tryAgainFailed": "KYC bilgileri silinirken bir hata oluştu. Lütfen tekrar deneyin"
   },
   "fiatConnectReviewScreen": {
     "transactionDetails": "İşlem detayları",
