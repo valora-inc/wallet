@@ -1416,8 +1416,9 @@
     },
     "accountNumber": {
       "label": "帐户号码",
-      "placeholderText": "输入你的10位数账户号码",
-      "errorMessage": "帐户号码应该是10位数，并且只包含数字"
+      "placeholderText": "输入账户号码",
+      "errorMessageDigitLength": "帐户号码必须是 {{length}} 位数",
+      "errorMessageDigit": "帐户号码必须只包含数字"
     }
   },
   "webView": {
