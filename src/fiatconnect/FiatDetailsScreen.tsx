@@ -23,7 +23,7 @@ import {
   sendingFiatAccountStatusSelector,
 } from 'src/fiatconnect/selectors'
 import { SendingFiatAccountStatus, submitFiatAccount } from 'src/fiatconnect/slice'
-import { FiatConnectSchemaCountryOverrides } from 'src/fiatconnect/types'
+import { FiatAccountSchemaCountryOverrides } from 'src/fiatconnect/types'
 import i18n from 'src/i18n'
 import Checkmark from 'src/icons/Checkmark'
 import { styles as headerStyles } from 'src/navigator/Headers'
@@ -75,14 +75,14 @@ const getAccountNumberSchema = (
     country: string
     fiatAccountType: FiatAccountType
   },
-  countryOverrides?: FiatConnectSchemaCountryOverrides<FiatAccountSchema.AccountNumber>
+  countryOverrides?: FiatAccountSchemaCountryOverrides
 ): FiatAccountFormSchema<FiatAccountSchema.AccountNumber> => {
   // NOTE: the schema for overrides supports overriding any field's regex or
   // errorMessage, but the below currently applies it to just the
   // `accountNumber` field in the `AccountNumber` schema.
   // This can be extended to support overriding other params and applied more
   // generically if more fields/schemas require it.
-  const overrides = countryOverrides?.[implicitParams.country]
+  const overrides = countryOverrides?.[implicitParams.country]?.[FiatAccountSchema.AccountNumber]
 
   return {
     institutionName: {
@@ -187,7 +187,7 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
             country: userCountry.countryCodeAlpha2 || 'US',
             fiatAccountType: quote.getFiatAccountType(),
           },
-          schemaCountryOverrides[FiatAccountSchema.AccountNumber]
+          schemaCountryOverrides
         )
       default:
         throw new Error('Unsupported schema type')

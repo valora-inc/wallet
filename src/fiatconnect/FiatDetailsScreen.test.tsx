@@ -8,7 +8,7 @@ import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import { SendingFiatAccountStatus, submitFiatAccount } from 'src/fiatconnect/slice'
-import { FiatConnectSchemaCountryOverrides } from 'src/fiatconnect/types'
+import { FiatAccountSchemaCountryOverrides } from 'src/fiatconnect/types'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
@@ -46,19 +46,17 @@ jest.mock('@fiatconnect/fiatconnect-sdk', () => ({
 jest.mock('src/fiatconnect/clients')
 jest.useFakeTimers()
 
-const accountNumberOverrides: FiatConnectSchemaCountryOverrides<FiatAccountSchema.AccountNumber> = {
+const schemaCountryOverrides: FiatAccountSchemaCountryOverrides = {
   NG: {
-    accountNumber: {
-      regex: '^[0-9]{10}$',
-      errorString: 'errorMessageDigitLength',
+    [FiatAccountSchema.AccountNumber]: {
+      accountNumber: {
+        regex: '^[0-9]{10}$',
+        errorString: 'errorMessageDigitLength',
+      },
     },
   },
 }
-const store = createMockStore({
-  fiatConnect: {
-    schemaCountryOverrides: { [FiatAccountSchema.AccountNumber]: accountNumberOverrides },
-  },
-})
+const store = createMockStore({ fiatConnect: { schemaCountryOverrides } })
 const quoteWithAllowedValues = new FiatConnectQuote({
   quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
   fiatAccountType: FiatAccountType.BankAccount,
@@ -255,9 +253,7 @@ describe('FiatDetailsScreen', () => {
   })
   it('shows country specific validation error using overrides', () => {
     const mockStore = createMockStore({
-      fiatConnect: {
-        schemaCountryOverrides: { [FiatAccountSchema.AccountNumber]: accountNumberOverrides },
-      },
+      fiatConnect: { schemaCountryOverrides },
       networkInfo: { userLocationData: { countryCodeAlpha2: 'NG' } },
     })
     const { queryByText, getByTestId, queryByTestId } = render(
@@ -311,7 +307,7 @@ describe('FiatDetailsScreen', () => {
     const mockStore = createMockStore({
       fiatConnect: {
         sendingFiatAccountStatus: SendingFiatAccountStatus.Sending,
-        schemaCountryOverrides: { [FiatAccountSchema.AccountNumber]: accountNumberOverrides },
+        schemaCountryOverrides,
       },
     })
     const { queryByTestId } = render(
@@ -325,7 +321,7 @@ describe('FiatDetailsScreen', () => {
     const mockStore = createMockStore({
       fiatConnect: {
         sendingFiatAccountStatus: SendingFiatAccountStatus.KycApproved,
-        schemaCountryOverrides: { [FiatAccountSchema.AccountNumber]: accountNumberOverrides },
+        schemaCountryOverrides,
       },
     })
     const { queryByTestId } = render(

@@ -1,5 +1,4 @@
 import {
-  FiatAccountSchema,
   FiatAccountSchemas,
   FiatAccountType,
   FiatType,
@@ -256,8 +255,7 @@ export const slice = createSlice({
       .addCase(
         AppActions.UPDATE_REMOTE_CONFIG_VALUES,
         (state, action: UpdateConfigValuesAction) => {
-          state.schemaCountryOverrides[FiatAccountSchema.AccountNumber] =
-            action.configValues.fiatConnectAccountNumberCountryOverrides
+          state.schemaCountryOverrides = action.configValues.fiatAccountSchemaCountryOverrides
         }
       )
       .addCase(REHYDRATE, (state, action: RehydrateAction) => ({

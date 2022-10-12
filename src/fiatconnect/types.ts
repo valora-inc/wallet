@@ -1,11 +1,13 @@
-import { FiatAccountSchema, FiatAccountSchemas } from '@fiatconnect/fiatconnect-types'
+import { FiatAccountSchemas } from '@fiatconnect/fiatconnect-types'
 
-export interface FiatConnectSchemaCountryOverrides<T extends FiatAccountSchema> {
+export interface FiatAccountSchemaCountryOverrides {
   [country: string]: {
-    [Property in keyof Partial<FiatAccountSchemas[T]>]: {
-      regex: string
-      errorString: string
-      errorParams?: Record<string, any>
+    [Schema in keyof Partial<FiatAccountSchemas>]: {
+      [Property in keyof Partial<FiatAccountSchemas[Schema]>]: {
+        regex: string
+        errorString: string
+        errorParams?: Record<string, any>
+      }
     }
   }
 }

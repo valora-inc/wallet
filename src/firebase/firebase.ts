@@ -253,7 +253,7 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
   // RemoteConfigValues is in app/saga.ts
 
   const superchargeConfigByTokenString = flags.superchargeTokenConfigByToken?.asString()
-  const fiatConnectAccountNumberCountryOverrides = flags.fiatConnectAccountNumberCountryOverrides?.asString()
+  const fiatAccountSchemaCountryOverrides = flags.fiatAccountSchemaCountryOverrides?.asString()
 
   return {
     hideVerification: flags.hideVerification.asBoolean(),
@@ -294,8 +294,8 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     celoWithdrawalEnabledInExchange: flags.celoWithdrawalEnabledInExchange.asBoolean(),
     fiatConnectCashInEnabled: flags.fiatConnectCashInEnabled.asBoolean(),
     fiatConnectCashOutEnabled: flags.fiatConnectCashOutEnabled.asBoolean(),
-    fiatConnectAccountNumberCountryOverrides: fiatConnectAccountNumberCountryOverrides
-      ? JSON.parse(fiatConnectAccountNumberCountryOverrides)
+    fiatAccountSchemaCountryOverrides: fiatAccountSchemaCountryOverrides
+      ? JSON.parse(fiatAccountSchemaCountryOverrides)
       : {},
     dappConnectInfo: flags.dappConnectInfo.asString() as DappConnectInfo,
     visualizeNFTsEnabledInHomeAssetsPage: flags.visualizeNFTsEnabledInHomeAssetsPage.asBoolean(),
