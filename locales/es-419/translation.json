@@ -1292,7 +1292,7 @@
     "bankAccount": {
       "header": "Configurar cuenta bancaria",
       "bodyTitle": "Configurar cuenta bancaria",
-      "description": "Introduce los datos de la Cuenta bancaria para transferir fondos. Estos servicios te serán proporcionados por <0>{{providerName}}</0>.\n\nAl hacer clic en continuar, aceptas sus <1>Términos y Condiciones</1> y su <2>Política de Privacidad</2>"
+      "description": "Ingresa los datos bancarios para transferir fondos. Estos servicios te serán proporcionados por <0>{{providerName}}</0>. Si eliges continuar, aceptas sus <1>Términos y condiciones</1> y su <2>Política de privacidad</2>."
     },
     "continue": "Continuar"
   },
@@ -1309,26 +1309,26 @@
     "contactSupport": "Contactar a Soporte",
     "pending": {
       "title": "Tu verificación de identidad está en revisión.",
-      "description": "Una vez completada la revisión, puedes volver a la página Añadir y Retirar para completar tu transacción.",
+      "description": "Una vez completada la revisión, puedes volver a la página Agregar y retirar para completar tu transacción.",
       "close": "Cerrar"
     },
     "denied": {
-      "switch": "Cambiar el método para retirar",
+      "switch": "Cambiar método de retiro",
       "retryable": {
-        "title": "No se aceptó la verificación de identidad.",
-        "description": "Por favor, verifica de nuevo o intenta una forma diferente de retirar fondos.",
-        "tryAgain": "Inténtalo de nuevo"
+        "title": "Verificación de identidad denegada",
+        "description": "Haz una nueva verificación o intenta una forma alternativa de retirar fondos.",
+        "tryAgain": "Intentar de nuevo"
       },
       "final": {
-        "title": "Verificación denegada.",
-        "description": "Por favor, intenta una forma diferente de retirar fondos, o ponte en contacto con el equipo de soporte técnico."
+        "title": "Verificación de identidad denegada",
+        "description": "Intenta una forma alternativa de retirar fondos, o ponte en contacto con el equipo de soporte técnico."
       }
     },
     "expired": {
-      "title": "La verificación de identidad ha caducado.",
-      "description": "Por favor, verifica de nuevo o intenta una forma diferente de retirar fondos.",
-      "tryAgain": "Inténtalo de nuevo",
-      "switch": "Cambiar el método para retirar"
+      "title": "Verificación de identidad caducada",
+      "description": "Haz una nueva verificación o intenta una forma alternativa de retirar fondos.",
+      "tryAgain": "Intentar de nuevo",
+      "switch": "Cambiar método de retiro"
     },
     "tryAgainFailed": "Hubo un error al borrar la información de KYC. Vuelve a intentarlo."
   },
