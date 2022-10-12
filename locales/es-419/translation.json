@@ -1451,8 +1451,10 @@
     "swapFee": "Tarifa de {{appName}}",
     "swapFeeTitle": "¿Qué es la tarifa de {{appName}}?",
     "swapFeeBody": "La tarifa de {{appName}} es el costo que pagas por intercambiar tokens en {{appName}}. \n\nLa tarifa es del {{swapFee}}% del monto a intercambiar. \n\nLas tarifas de {{appName}} serán gratuitas los próximos meses.",
+    "swapFeeBodyFree": "La cuota de {{appName}} es la cuota que pagas para intercambiar fichas en {{appName}}. Las cuotas de {{appName}} son gratuitas durante los próximos meses.",
     "estimatedAmountTitle": "Monto estimado",
-    "estimatedAmountBody": "Las conversiones tienen lugar en un exchange descentralizado de terceros que encontrará la mejor tarifa para tu intercambio. \n\nEl intercambio se completará a un precio dentro del {{slippagePercent}}% del monto estmado o la transacción se cancelará y se devolverán los fondos a tu wallet."
+    "estimatedAmountBody": "Las conversiones tienen lugar en un exchange descentralizado de terceros que encontrará la mejor tarifa para tu intercambio. \n\nEl intercambio se completará a un precio dentro del {{slippagePercent}}% del monto estmado o la transacción se cancelará y se devolverán los fondos a tu wallet.",
+    "free": "Gratis"
   },
   "SwapExecuteScreen": {
     "swapPending": "Intercambio pendiente",
