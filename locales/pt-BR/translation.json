@@ -1447,11 +1447,32 @@
     "swapTo": "Trocar para",
     "transactionDetails": "Detalhes de transação",
     "estimatedGas": "Taxas estimadas",
+    "swapSubmitError": "Lamentamos, mas não conseguimos completar a sua troca. Por favor, tente novamente ou contacte o apoio.",
     "swapFee": "Taxa da {{appName}}",
     "swapFeeTitle": "O que é a taxa da {{appName}}?",
     "swapFeeBody": "A taxa da {{appName}} é a taxa que se paga para trocar tokens na {{appName}}. \n\nA taxa é {{swapFee}}% do montante da troca. \n\nAs taxas da {{appName}} são gratuitas para os próximos meses.",
     "estimatedAmountTitle": "Montante estimado",
     "estimatedAmountBody": "As conversões têm lugar numa troca descentralizada de terceiros que lhe encontra a melhor taxa para a sua troca. \n\nA sua transação será concluída a um preço de {{slippagePercent}}% da estimativa ou a transação será cancelada e os fundos serão devolvidos à sua carteira."
+  },
+  "SwapExecuteScreen": {
+    "swapPending": "Swap Pendente",
+    "swapSuccess": "Troca bem sucedida!",
+    "swapError": "Erro de Troca",
+    "exchangeRateSubtext": "Encontrar a melhor taxa de câmbio...",
+    "approvingSubtext": "Aprovação de fundos...",
+    "completingSubtext": "A completar a troca...",
+    "swapAgain": "Trocar novamente",
+    "swapPriceModal": {
+      "title": "Os preços mudaram",
+      "action": "Continuar",
+      "body": "As quantias e taxas criptográficas podem mudar devido a flutuações no mercado criptográfico. \n\n Por favor, reveja o seu montante final & taxas e submeta novamente."
+    },
+    "swapErrorModal": {
+      "title": "Não foi possível concluir esta transacção.",
+      "body": "Por favor aguarde e tente novamente mais tarde ou contacte a nossa equipa de apoio para obter ajuda.",
+      "swapRestart": "Ignorar",
+      "contactSupport": "Contate o suporte"
+    }
   },
   "inviteModal": {
     "title": "Parece que {{contactName}} ainda não tem uma carteira na {{appName}}.",
