@@ -1292,7 +1292,7 @@
     "bankAccount": {
       "header": "Banka Hesabı Oluştur",
       "bodyTitle": "Banka Hesabı Oluştur",
-      "description": "Para transfer etmek için Banka Hesabı ayrıntılarını girin. İşlemleriniz <0>{{providerName}}</0> tarafından desteklenir. Devam'ı tıklayarak, sağlayıcının <1>Şartlar ve Koşulları</1> ile <2>Gizlilik Politikasını</2> kabul etmiş olursunuz."
+      "description": "Enter Bank Account details to transfer funds. These services will be provided to you by <0>{{providerName}}</0>.\n\nBy clicking continue, you agree to their <1>Terms and Conditions</1> and <2>Privacy Policy</2>"
     },
     "continue": "İleri"
   },
@@ -1305,6 +1305,31 @@
     "button": "Kimlik Doğrulamayı Ayarla"
   },
   "fiatConnectKycStatusScreen": {
+    "contactSupportPrefill": "I'm having trouble verifying my identity with Valora.",
+    "contactSupport": "Destek ile İletişime Geç",
+    "pending": {
+      "title": "Your ID verification is in review.",
+      "description": "After the review is complete, you can return to the Add & Withdraw page to complete your transaction.",
+      "close": "Kapat"
+    },
+    "denied": {
+      "switch": "Switch withdraw method",
+      "retryable": {
+        "title": "ID verification was not accepted.",
+        "description": "Please verify again or try a different way to withdraw funds.",
+        "tryAgain": "Try again"
+      },
+      "final": {
+        "title": "Doğrulama reddedildi.",
+        "description": "Please try a different way to withdraw funds, or contact support."
+      }
+    },
+    "expired": {
+      "title": "ID verification expired.",
+      "description": "Please verify again or try a different way to withdraw funds.",
+      "tryAgain": "Try again",
+      "switch": "Switch withdraw method"
+    },
     "tryAgainFailed": "There was an error clearing KYC information. Please try again"
   },
   "fiatConnectReviewScreen": {

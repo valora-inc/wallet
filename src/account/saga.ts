@@ -1,7 +1,9 @@
 import { ContractKit } from '@celo/contractkit'
+import { parsePhoneNumber } from '@celo/utils/lib/phoneNumbers'
 import { EIP712TypedData } from '@celo/utils/lib/sign-typed-data-utils'
 import { UnlockableWallet } from '@celo/wallet-base'
 import firebase from '@react-native-firebase/app'
+import { Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
 import { call, put, select, spawn, take, takeLeading } from 'redux-saga/effects'
 import {
@@ -10,11 +12,14 @@ import {
   initializeAccountSuccess,
   saveSignedMessage,
 } from 'src/account/actions'
+import { choseToRestoreAccountSelector } from 'src/account/selectors'
 import { updateAccountRegistration } from 'src/account/updateAccountRegistration'
 import { showError } from 'src/alert/actions'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { phoneNumberVerificationCompleted } from 'src/app/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { centralPhoneVerificationEnabledSelector } from 'src/app/selectors'
 import { clearStoredMnemonic } from 'src/backup/utils'
 import { FIREBASE_ENABLED } from 'src/config'
 import { firebaseSignOut } from 'src/firebase/firebase'
@@ -34,6 +39,7 @@ import Logger from 'src/utils/Logger'
 import { getContractKit, getWallet } from 'src/web3/contracts'
 import { registerAccountDek } from 'src/web3/dataEncryptionKey'
 import { clearStoredAccounts } from 'src/web3/KeychainSigner'
+import networkConfig from 'src/web3/networkConfig'
 import { getOrCreateAccount, unlockAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 
@@ -67,20 +73,74 @@ function* clearStoredAccountSaga({ account, onlyReduxState }: ClearStoredAccount
   }
 }
 
-function* initializeAccount() {
-  Logger.debug(TAG + '@initializeAccount', 'Creating account')
+export function* initializeAccountSaga() {
+  Logger.debug(TAG + '@initializeAccountSaga', 'Creating account')
   try {
     ValoraAnalytics.track(OnboardingEvents.initialize_account_start)
     yield call(getOrCreateAccount)
     yield call(generateSignedMessage)
     yield put(refreshAllBalances())
-    Logger.debug(TAG + '@initializeAccount', 'Account creation success')
+
+    const choseToRestoreAccount = yield select(choseToRestoreAccountSelector)
+    const centralPhoneVerificationEnabled = yield select(centralPhoneVerificationEnabledSelector)
+    if (centralPhoneVerificationEnabled && choseToRestoreAccount) {
+      yield call(handlePreviouslyVerifiedPhoneNumber)
+    }
+
+    Logger.debug(TAG + '@initializeAccountSaga', 'Account creation success')
     ValoraAnalytics.track(OnboardingEvents.initialize_account_complete)
     yield put(initializeAccountSuccess())
   } catch (e) {
     Logger.error(TAG, 'Failed to initialize account', e)
     ValoraAnalytics.track(OnboardingEvents.initialize_account_error, { error: e.message })
     navigateClearingStack(Screens.AccounSetupFailureScreen)
+  }
+}
+
+function* handlePreviouslyVerifiedPhoneNumber() {
+  const address = yield select(walletAddressSelector)
+
+  try {
+    const signedMessage = yield call(retrieveSignedMessage)
+    const queryParams = new URLSearchParams({
+      clientPlatform: Platform.OS,
+      clientVersion: DeviceInfo.getVersion(),
+    }).toString()
+
+    const response = yield call(fetch, `${networkConfig.lookupAddressUrl}?${queryParams}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `Valora ${address}:${signedMessage}`,
+      },
+    })
+
+    const result = yield call([response, 'json'])
+    if (response.ok && result.data?.phoneNumbers) {
+      // if phoneNumbers length is 0, there are no verified numbers so do nothing
+      if (result.data.phoneNumbers.length > 0) {
+        const lastVerifiedNumber = result.data.phoneNumbers[result.data.phoneNumbers.length - 1]
+        const phoneDetails = yield call(parsePhoneNumber, lastVerifiedNumber)
+        if (phoneDetails) {
+          yield put(
+            phoneNumberVerificationCompleted(
+              phoneDetails.e164Number,
+              phoneDetails.countryCode ? `+${phoneDetails.countryCode}` : null
+            )
+          )
+        } else {
+          throw new Error('Could not parse verified phone number')
+        }
+      }
+    } else {
+      throw new Error(yield call([response, 'text']))
+    }
+  } catch (error) {
+    Logger.warn(
+      `${TAG}@importBackupPhraseSaga`,
+      `Failed to lookup and store verified phone numbers for this wallet address`,
+      error
+    )
   }
 }
 
@@ -167,7 +227,7 @@ export function* watchClearStoredAccount() {
 }
 
 export function* watchInitializeAccount() {
-  yield takeLeading(Actions.INITIALIZE_ACCOUNT, initializeAccount)
+  yield takeLeading(Actions.INITIALIZE_ACCOUNT, initializeAccountSaga)
 }
 
 export function* watchSignedMessage() {

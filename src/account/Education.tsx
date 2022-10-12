@@ -225,6 +225,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexGrow: 1,
+    paddingHorizontal: 12,
   },
   container: {
     flex: 1,
@@ -241,6 +242,7 @@ const styles = StyleSheet.create({
   headingTop: {
     ...fontStyles.h1,
     marginTop: 26,
+    alignSelf: 'flex-start',
   },
   bodyText: {
     ...fontStyles.regular,
