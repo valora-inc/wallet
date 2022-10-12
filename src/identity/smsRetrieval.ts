@@ -7,7 +7,7 @@ import Logger from 'src/utils/Logger'
 
 const TAG = 'identity/smsRetrieval'
 
-interface SmsEvent {
+export interface SmsEvent {
   error?: string
   timeout?: string
   message?: string
@@ -18,7 +18,8 @@ export function* startAutoSmsRetrieval() {
     addSmsListener(emitter)
     return removeSmsListener
   })
-  yield call(startSmsRetriever)
+  // TODO(Rossy) Remove the *2 here once the SmsRetriever can filter dupes on its own
+  yield call(startSmsRetriever, NUM_ATTESTATIONS_REQUIRED * 2)
   try {
     const messages: string[] = []
     while (true) {
@@ -35,11 +36,10 @@ export function* startAutoSmsRetrieval() {
   }
 }
 
-async function startSmsRetriever() {
+export async function startSmsRetriever(numMessages = 1) {
   Logger.debug(TAG + '@SmsRetriever', 'Starting sms retriever')
   try {
-    // TODO(Rossy) Remove the *2 here once the SmsRetriever can filter dupes on its own
-    const result = await SmsRetriever.startSmsRetriever(NUM_ATTESTATIONS_REQUIRED * 2)
+    const result = await SmsRetriever.startSmsRetriever(numMessages)
     if (result) {
       Logger.debug(TAG + '@SmsRetriever', 'Retriever started successfully')
     } else {
@@ -50,7 +50,7 @@ async function startSmsRetriever() {
   }
 }
 
-function addSmsListener(onSmsRetrieved: (message: SmsEvent) => void) {
+export function addSmsListener(onSmsRetrieved: (message: SmsEvent) => void) {
   Logger.debug(TAG + '@SmsRetriever', 'Adding sms listener')
   try {
     SmsRetriever.addSmsListener((event: SmsEvent) => {
@@ -79,7 +79,7 @@ function addSmsListener(onSmsRetrieved: (message: SmsEvent) => void) {
   }
 }
 
-function removeSmsListener() {
+export function removeSmsListener() {
   try {
     Logger.debug(TAG + '@SmsRetriever', 'Removing sms listener')
     SmsRetriever.removeSmsListener()

@@ -117,6 +117,7 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
                     undefined,
                   ]
                 }
+                testID="ValidateRecipientAccount/TextInput"
                 value=""
               />
             </View>
