@@ -1,3 +1,4 @@
+import * as DEK from '@celo/utils/lib/dataEncryptionKey'
 import { act, fireEvent, render, within } from '@testing-library/react-native'
 import { FetchMock } from 'jest-fetch-mock/types'
 import MockDate from 'mockdate'
@@ -14,6 +15,8 @@ import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore, flushMicrotasksQueue } from 'test/utils'
 import { mocked } from 'ts-jest/utils'
 
+const mockFetch = fetch as FetchMock
+
 const mockedKeychain = mocked(Keychain)
 mockedKeychain.getGenericPassword.mockResolvedValue({
   username: 'some username',
@@ -22,12 +25,17 @@ mockedKeychain.getGenericPassword.mockResolvedValue({
   storage: 'some string',
 })
 
+const mockedDEK = mocked(DEK)
+mockedDEK.compressedPubKey = jest.fn().mockReturnValue('somePublicKey')
+
 const e164Number = '+31619123456'
 const store = createMockStore({
   web3: {
     account: '0xabc',
+    dataEncryptionKey: 'someDEK',
   },
 })
+
 const renderComponent = () =>
   render(
     <Provider store={store}>
@@ -42,8 +50,6 @@ const renderComponent = () =>
   )
 
 describe('VerificationCodeInputScreen', () => {
-  const mockFetch = fetch as FetchMock
-
   beforeEach(() => {
     jest.clearAllMocks()
     mockFetch.resetMocks()
@@ -72,12 +78,13 @@ describe('VerificationCodeInputScreen', () => {
         'Content-Type': 'application/json',
         authorization: 'Valora 0xabc:someSignedMessage',
       },
-      body: `{"phoneNumber":"${e164Number}","clientPlatform":"android","clientVersion":"0.0.1"}`,
+      body:
+        '{"phoneNumber":"+31619123456","clientPlatform":"android","clientVersion":"0.0.1","clientBundleId":"org.celo.mobile.debug","publicDataEncryptionKey":"somePublicKey"}',
     })
   })
 
   it('displays an error if verification code request fails', async () => {
-    mockFetch.mockRejectOnce()
+    mockFetch.mockResponseOnce(JSON.stringify({ message: 'something went wrong' }), { status: 500 })
     renderComponent()
 
     await act(flushMicrotasksQueue)
@@ -115,6 +122,30 @@ describe('VerificationCodeInputScreen', () => {
         '{"phoneNumber":"+31619123456","verificationId":"someId","smsCode":"123456","clientPlatform":"android","clientVersion":"0.0.1"}',
     })
     expect(getByTestId('PhoneVerificationCode/CheckIcon')).toBeTruthy()
+
+    jest.runOnlyPendingTimers()
+    expect(navigate).toHaveBeenCalledWith(Screens.OnboardingSuccessScreen)
+  })
+
+  it('handles when phone number already verified', async () => {
+    mockFetch.mockResponse(JSON.stringify({ message: 'Phone number already verified' }), {
+      status: 400,
+    })
+
+    renderComponent()
+
+    await act(flushMicrotasksQueue)
+
+    expect(mockFetch).toHaveBeenCalledTimes(1)
+    expect(mockFetch).toHaveBeenCalledWith(`${networkConfig.verifyPhoneNumberUrl}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: 'Valora 0xabc:someSignedMessage',
+      },
+      body:
+        '{"phoneNumber":"+31619123456","clientPlatform":"android","clientVersion":"0.0.1","clientBundleId":"org.celo.mobile.debug","publicDataEncryptionKey":"somePublicKey"}',
+    })
 
     jest.runOnlyPendingTimers()
     expect(navigate).toHaveBeenCalledWith(Screens.OnboardingSuccessScreen)
@@ -177,7 +208,7 @@ describe('VerificationCodeInputScreen', () => {
         'Content-Type': 'application/json',
         authorization: 'Valora 0xabc:someSignedMessage',
       },
-      body: `{"phoneNumber":"${e164Number}","clientPlatform":"android","clientVersion":"0.0.1"}`,
+      body: `{"phoneNumber":"${e164Number}","clientPlatform":"android","clientVersion":"0.0.1","clientBundleId":"org.celo.mobile.debug","publicDataEncryptionKey":"somePublicKey"}`,
     })
 
     expect(getByTestId('PhoneVerificationResendSmsBtn')).toBeDisabled()

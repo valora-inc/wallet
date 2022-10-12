@@ -2,7 +2,6 @@ import { StackScreenProps } from '@react-navigation/stack'
 import * as React from 'react'
 import { WithTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
 import { SendEvents } from 'src/analytics/Events'
 import { SendOrigin } from 'src/analytics/types'
@@ -230,6 +229,7 @@ export class ValidateRecipientAccount extends React.Component<Props, State> {
             inputPlaceholder={FULL_ADDRESS_PLACEHOLDER}
             onInputChange={this.onInputChange}
             shouldShowClipboard={this.shouldShowClipboard}
+            testID="ValidateRecipientAccount/TextInput"
           />
         </View>
       )
@@ -263,14 +263,16 @@ export class ValidateRecipientAccount extends React.Component<Props, State> {
   }
 
   render = () => {
-    const { t, recipient, error } = this.props
-    const { singleDigitInputValueArr } = this.state
+    const { t, recipient, error, addressValidationType } = this.props
+    const { singleDigitInputValueArr, inputValue } = this.state
     const displayName = getDisplayName(recipient, t)
     const isFilled =
-      singleDigitInputValueArr.filter((entry) => /[a-f0-9]/gi.test(entry)).length === 4
+      addressValidationType === AddressValidationType.FULL
+        ? inputValue.length > 0
+        : singleDigitInputValueArr.filter((entry) => /[a-f0-9]/gi.test(entry)).length === 4
 
     return (
-      <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
         <KeyboardAwareScrollView
           contentContainerStyle={styles.scrollContainer}
           keyboardShouldPersistTaps={'always'}
@@ -314,7 +316,7 @@ export class ValidateRecipientAccount extends React.Component<Props, State> {
             <TextButton onPress={this.toggleModal}>{t('dismiss')}</TextButton>
           </View>
         </Modal>
-      </SafeAreaView>
+      </View>
     )
   }
 }
@@ -326,7 +328,7 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     flexGrow: 1,
-    padding: 16,
+    paddingHorizontal: 16,
     justifyContent: 'space-between',
   },
   singleDigitInputContainer: {
