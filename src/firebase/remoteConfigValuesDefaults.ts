@@ -11,6 +11,7 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   | 'dappListApiUrl'
   | 'sentryNetworkErrors'
   | 'superchargeTokenConfigByToken'
+  | 'fiatAccountSchemaCountryOverrides'
 > & {
   komenciAllowedDeployers: string
   sentryNetworkErrors: string
