@@ -1418,8 +1418,9 @@
     },
     "accountNumber": {
       "label": "Numéro de compte",
-      "placeholderText": "Saisissez votre numéro de compte à 10 chiffres",
-      "errorMessage": "Le numéro de compte doit comporter 10 chiffres et ne contenir que des chiffres"
+      "placeholderText": "Saisis le numéro de compte",
+      "errorMessageDigitLength": "Le numéro de compte doit être {{length}} chiffres",
+      "errorMessageDigit": "Le numéro de compte doit contenir uniquement des chiffres"
     }
   },
   "webView": {
