@@ -684,9 +684,9 @@
     "step1": "A cripto tão fácil quanto enviar mensagens. Seu celular é a sua carteira.",
     "step2": "Com a {{appName}}, acesse e multiplique suas criptomoedas facilmente.",
     "step3": "Tudo o que você precisa é de um celular para enviar, gastar e explorar o mundo cripto.",
-    "payment": "Fazer pagamentos a nível mundial com taxas quase nulas",
-    "impact": "Apoiar iniciativas em matéria de alterações climáticas e sociais",
-    "spend": "Use o seu crypto para comprar as suas marcas favoritas"
+    "payment": "Faça pagamentos globalmente com taxas quase nulas",
+    "impact": "Apoie iniciativas de alterações climáticas e sociais",
+    "spend": "Use suas criptos para comprar suas marcas favoritas"
   },
   "enableBiometry": {
     "title": "Proteja sua carteira",
@@ -799,7 +799,7 @@
       "dismiss": "Voltar"
     },
     "verificationFailure": "Algo deu errado, tente novamente mais tarde.",
-    "resendButtonNotYetAvailable": "Reenviar disponível em {{secondsRemaining}} segundo(s)",
+    "resendButtonNotYetAvailable": "Reenvio disponível em {{secondsRemaining}} segundo(s)",
     "resendButton": "Reenviar mensagem de texto"
   },
   "importExistingKey": {
@@ -1292,7 +1292,7 @@
     "bankAccount": {
       "header": "Configurar conta bancária",
       "bodyTitle": "Configurar conta bancária",
-      "description": "Insira os dados da conta bancária para transferir fundos. Suas transações serão suportadas por <0>{{providerName}}</0>. Ao clicar em continuar, você concorda com seus <1>Termos e Condições</1> e <2>Política de Privacidade</2>"
+      "description": "Introduza os dados da conta bancária para transferir fundos. Estes serviços ser-lhe-ão fornecidos por <0>{{providerName}}</0>.\n\nAo clicar em continuar, concorda com os seus <1>Termos e Condições</1> e <2>Política de Privacidade</2>"
     },
     "continue": "Continuar"
   },
@@ -1305,7 +1305,32 @@
     "button": "Configurar verificação de identidade"
   },
   "fiatConnectKycStatusScreen": {
-    "tryAgainFailed": "Houve um erro ao limpar a informação KYC. Por favor, tente novamente"
+    "contactSupportPrefill": "Estou a ter dificuldades em verificar a minha identidade com a Valora.",
+    "contactSupport": "Contate o suporte",
+    "pending": {
+      "title": "A sua verificação de identificação está em revisão.",
+      "description": "Após a revisão estar concluída, pode voltar à página Adicionar e Retirar para completar a sua transacção.",
+      "close": "Fechar"
+    },
+    "denied": {
+      "switch": "Método de retirada do interruptor",
+      "retryable": {
+        "title": "A verificação da identificação não foi aceite.",
+        "description": "Por favor, verifique novamente ou tente uma forma diferente de levantar fundos.",
+        "tryAgain": "Tente novamente"
+      },
+      "final": {
+        "title": "Verificação negada.",
+        "description": "Por favor, tente uma forma diferente de retirar fundos, ou contacte o apoio."
+      }
+    },
+    "expired": {
+      "title": "A verificação da identificação expirou.",
+      "description": "Por favor, verifique novamente ou tente uma forma diferente de levantar fundos.",
+      "tryAgain": "Tente novamente",
+      "switch": "Método de retirada do interruptor"
+    },
+    "tryAgainFailed": "Ocorreu um erro ao limpar as informações de Conheça o Seu Cliente (KYC). Tente novamente"
   },
   "fiatConnectReviewScreen": {
     "transactionDetails": "Detalhes de transação",

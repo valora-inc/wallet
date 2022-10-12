@@ -1,3 +1,4 @@
+import SmsRetriever from '@celo/react-native-sms-retriever'
 import * as DEK from '@celo/utils/lib/dataEncryptionKey'
 import { act, fireEvent, render, within } from '@testing-library/react-native'
 import { FetchMock } from 'jest-fetch-mock/types'
@@ -27,6 +28,8 @@ mockedKeychain.getGenericPassword.mockResolvedValue({
 
 const mockedDEK = mocked(DEK)
 mockedDEK.compressedPubKey = jest.fn().mockReturnValue('somePublicKey')
+
+const mockedSmsRetriever = mocked(SmsRetriever)
 
 const e164Number = '+31619123456'
 const store = createMockStore({
@@ -121,6 +124,49 @@ describe('VerificationCodeInputScreen', () => {
       body:
         '{"phoneNumber":"+31619123456","verificationId":"someId","smsCode":"123456","clientPlatform":"android","clientVersion":"0.0.1"}',
     })
+    expect(getByTestId('PhoneVerificationCode/CheckIcon')).toBeTruthy()
+
+    jest.runOnlyPendingTimers()
+    expect(navigate).toHaveBeenCalledWith(Screens.OnboardingSuccessScreen)
+  })
+
+  it('reads the SMS code on Android automatically', async () => {
+    mockFetch.mockResponseOnce(JSON.stringify({ data: { verificationId: 'someId' } }), {
+      status: 200,
+    })
+    mockFetch.mockResponseOnce(JSON.stringify({ message: 'OK' }), {
+      status: 200,
+    })
+
+    const { getByTestId, getByText } = renderComponent()
+
+    await act(async () => {
+      await flushMicrotasksQueue()
+    })
+
+    // Check that the SmsRetriever is started
+    expect(mockedSmsRetriever.startSmsRetriever).toHaveBeenCalledTimes(1)
+    expect(mockedSmsRetriever.addSmsListener).toHaveBeenCalledTimes(1)
+
+    const smsListener = mockedSmsRetriever.addSmsListener.mock.calls[0][0]
+
+    await act(async () => {
+      // Simulate the SMS code being received
+      smsListener({ message: 'Your verification code for Valora is: 123456 5yaJvJcZt2P' })
+      await flushMicrotasksQueue()
+    })
+
+    expect(mockFetch).toHaveBeenCalledTimes(2)
+    expect(mockFetch).toHaveBeenNthCalledWith(2, `${networkConfig.verifySmsCodeUrl}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: 'Valora 0xabc:someSignedMessage',
+      },
+      body:
+        '{"phoneNumber":"+31619123456","verificationId":"someId","smsCode":"123456","clientPlatform":"android","clientVersion":"0.0.1"}',
+    })
+    expect(getByText('123456')).toBeTruthy()
     expect(getByTestId('PhoneVerificationCode/CheckIcon')).toBeTruthy()
 
     jest.runOnlyPendingTimers()
