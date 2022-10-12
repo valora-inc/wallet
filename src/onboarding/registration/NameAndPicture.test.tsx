@@ -152,27 +152,6 @@ describe('NameAndPictureScreen', () => {
     expect(AccountActions.setName).not.toHaveBeenCalled()
   })
 
-  it('shows alternate placeholder username for experimental group', () => {
-    mockStatsigGet.mockImplementation((key: string, _) => {
-      if (key === 'showSkipButton') {
-        return false
-      }
-      if (key === 'showNameGeneratorButton') {
-        return 'true'
-      }
-      if (key === 'namePlaceholder') {
-        return 'myCryptoAlterEgo'
-      }
-      return undefined
-    })
-    const { getByTestId } = render(
-      <Provider store={createMockStore()}>
-        <NameAndPicture {...mockScreenProps} />
-      </Provider>
-    )
-    expect(getByTestId('NameEntry').props.placeholder).toEqual('MyCryptoAlterEgo')
-  })
-
   it('shows generator button and generator button puts random username in', () => {
     mockStatsigGet.mockImplementation((key: string, _) => {
       if (key === 'showSkipButton') {
@@ -199,14 +178,13 @@ describe('NameAndPictureScreen', () => {
     expect(nameField.props.value).toEqual('Generated Name')
     nameGen.mockRestore()
   })
-
   it('shows alternate placeholder username for experimental group', () => {
     mockStatsigGet.mockImplementation((key: string, _) => {
       if (key === 'showSkipButton') {
         return false
       }
       if (key === 'showNameGeneratorButton') {
-        return 'false'
+        return 'true'
       }
       if (key === 'namePlaceholder') {
         return 'myCryptoAlterEgo'
