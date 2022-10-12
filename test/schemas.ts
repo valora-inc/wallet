@@ -1683,9 +1683,10 @@ export const v82Schema = {
     ...v81Schema._persist,
     version: 82,
   },
-  app: {
-    ...v81Schema.app,
-    fiatConnectAccountNumberCountryOverrides: {},
+  swap: {
+    swapState: 'quote',
+    swapInfo: null,
+    swapUserInput: null,
   },
 }
 

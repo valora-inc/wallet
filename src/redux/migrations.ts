@@ -841,9 +841,10 @@ export const migrations = {
   81: (state: any) => state,
   82: (state: any) => ({
     ...state,
-    app: {
-      ...state.app,
-      fiatConnectAccountNumberCountryOverrides: {},
+    swap: {
+      swapState: 'quote',
+      swapInfo: null,
+      swapUserInput: null,
     },
   }),
 }

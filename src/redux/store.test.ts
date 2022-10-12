@@ -331,6 +331,11 @@ describe('store state', () => {
           "fetchAvailableRewardsLoading": false,
           "loading": false,
         },
+        "swap": Object {
+          "swapInfo": null,
+          "swapState": "quote",
+          "swapUserInput": null,
+        },
         "tokens": Object {
           "error": false,
           "loading": false,

@@ -1,18 +1,25 @@
-import { render, waitFor } from '@testing-library/react-native'
+import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import { FetchMock } from 'jest-fetch-mock/types'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { showError } from 'src/alert/actions'
+import { SwapEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
-import { Screens } from 'src/navigator/Screens'
+import { swapStart } from 'src/swap/slice'
 import SwapReviewScreen from 'src/swap/SwapReviewScreen'
-import { Field } from 'src/swap/useSwapQuote'
+import { Field } from 'src/swap/types'
 import { Currency } from 'src/utils/currencies'
-import { createMockStore, getMockStackScreenProps } from 'test/utils'
+import { createMockStore } from 'test/utils'
 import { mockAccount, mockCeloAddress, mockCeurAddress, mockCusdAddress } from 'test/values'
 
 const mockFetch = fetch as FetchMock
+
+jest.mock('src/analytics/ValoraAnalytics')
+
+const mockBuyAmount = '3000000000000000000'
+const mockSellAmount = '1000000000000000000'
 
 const store = createMockStore({
   localCurrency: {
@@ -29,6 +36,17 @@ const store = createMockStore({
   },
   stableToken: {
     balances: { [Currency.Dollar]: '10', [Currency.Euro]: '20' },
+  },
+  swap: {
+    swapUserInput: {
+      toToken: mockCusdAddress,
+      fromToken: mockCeloAddress,
+      swapAmount: {
+        FROM: mockSellAmount,
+        TO: mockBuyAmount,
+      },
+      updatedField: Field.FROM,
+    },
   },
   tokens: {
     tokenBalances: {
@@ -60,15 +78,44 @@ const store = createMockStore({
   },
 })
 
-const mockScreenProps = getMockStackScreenProps(Screens.SwapReviewScreen, {
+const unvalidatedSwapTransaction = {
+  sellToken: mockCeloAddress,
+  buyToken: mockCusdAddress,
+  buyAmount: mockBuyAmount,
+  sellAmount: mockSellAmount,
+  price: '3.00',
+  gas: '300000',
+  gasPrice: '500000000',
+}
+
+const approveTransaction = {
+  chainId: 42220,
+  data: '0xData',
+  from: mockAccount,
+  gas: '300000',
+  to: '0xMockAddress',
+}
+
+const userInput = {
   toToken: mockCusdAddress,
   fromToken: mockCeloAddress,
   swapAmount: {
-    FROM: '1000000000000000000',
-    TO: '3000000000000000000',
+    FROM: mockSellAmount,
+    TO: mockBuyAmount,
   },
   updatedField: Field.FROM,
-})
+}
+
+const mockSwap = {
+  approveTransaction,
+  userInput,
+  unvalidatedSwapTransaction,
+}
+
+const mock0xResponse = {
+  unvalidatedSwapTransaction,
+  approveTransaction,
+}
 
 describe('SwapReviewScreen', () => {
   beforeEach(() => {
@@ -94,11 +141,10 @@ describe('SwapReviewScreen', () => {
 
     const { getByTestId, getByText } = render(
       <Provider store={store}>
-        <SwapReviewScreen {...mockScreenProps} />
+        <SwapReviewScreen />
       </Provider>
     )
 
-    // Another solution - Preferred
     await waitFor(() => {
       // Swap From
       expect(getByTestId('FromSwapAmountToken')).toHaveTextContent('1.00 CELO')
@@ -119,7 +165,7 @@ describe('SwapReviewScreen', () => {
 
     render(
       <Provider store={store}>
-        <SwapReviewScreen {...mockScreenProps} />
+        <SwapReviewScreen />
       </Provider>
     )
 
@@ -127,6 +173,61 @@ describe('SwapReviewScreen', () => {
       expect(store.getActions()).toEqual(
         expect.arrayContaining([showError(ErrorMessages.FETCH_SWAP_QUOTE_FAILED)])
       )
+    })
+  })
+
+  it('should have correct analytics on screen open', () => {
+    mockFetch.mockResponse(JSON.stringify(mock0xResponse))
+
+    render(
+      <Provider store={store}>
+        <SwapReviewScreen />
+      </Provider>
+    )
+
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_review_screen_open, {
+      amount: mockSellAmount,
+      fromToken: mockCeloAddress,
+      toToken: mockCusdAddress,
+      amountType: 'sellAmount',
+    })
+  })
+
+  it('should correctly dispatch swapStart', async () => {
+    store.dispatch = jest.fn()
+    mockFetch.mockResponse(JSON.stringify(mock0xResponse))
+
+    const { getByText } = render(
+      <Provider store={store}>
+        <SwapReviewScreen />
+      </Provider>
+    )
+
+    await waitFor(() => expect(getByText('swapReviewScreen.complete')).not.toBeDisabled())
+
+    fireEvent.press(getByText('swapReviewScreen.complete'))
+    expect(store.dispatch).toHaveBeenCalledWith(swapStart(mockSwap as any))
+  })
+
+  it('should have correct analytics on swap submission', async () => {
+    store.dispatch = jest.fn()
+    mockFetch.mockResponse(JSON.stringify(mock0xResponse))
+
+    const { getByText } = render(
+      <Provider store={store}>
+        <SwapReviewScreen />
+      </Provider>
+    )
+
+    await waitFor(() => expect(getByText('swapReviewScreen.complete')).not.toBeDisabled())
+
+    fireEvent.press(getByText('swapReviewScreen.complete'))
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_review_submit, {
+      toToken: mockCusdAddress,
+      fromToken: mockCeloAddress,
+      amount: mockSellAmount,
+      amountType: 'sellAmount',
+      usdTotal: 3,
     })
   })
 })

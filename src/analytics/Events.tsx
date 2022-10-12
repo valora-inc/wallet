@@ -599,6 +599,9 @@ export enum SwapEvents {
   swap_feed_detail_view_tx = 'swap_feed_detail_view_tx', // When a user click 'View on CeloExplorer' in the swap feed detail page
   swap_review_screen_open = 'swap_review_screen_open', // When the review screen is mounted
   swap_review_submit = 'swap_review_submit', // When the user submits the swap
+  swap_execute_price_change = 'swap_execute_price_change', // When guaranteed is greater than 2% difference than the quoted price.
+  swap_execute_success = 'swap_execute_success', // When the swap is executed successfully
+  swap_execute_error = 'swap_execute_error', // When the swap returns an error
 }
 
 export type AnalyticsEventType =

@@ -37,6 +37,7 @@ import {
   v75Schema,
   v8Schema,
   vNeg1Schema,
+  v81Schema,
 } from 'test/schemas'
 
 describe('Redux persist migrations', () => {
@@ -672,6 +673,20 @@ describe('Redux persist migrations', () => {
     const expectedSchema: any = _.cloneDeep(oldSchema)
     expectedSchema.app.showGuidedOnboardingCopy = false
     // shall be the default value as configured in REMOTE_CONFIG_VALUES_DEFAULTS
+    expect(migratedSchema).toStrictEqual(expectedSchema)
+  })
+
+  it('works from v81 to v82', () => {
+    const oldSchema = v81Schema
+    const migratedSchema = migrations[82](oldSchema)
+
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    expectedSchema.swap = {
+      swapState: 'quote',
+      swapInfo: null,
+      swapUserInput: null,
+    }
+
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 })
