@@ -88,5 +88,6 @@ export enum ErrorMessages {
   SUPERCHARGE_FETCH_REWARDS_FAILED = 'superchargeFetchRewardsFailed',
   SUPERCHARGE_CLAIM_FAILED = 'superchargeClaimFailure',
   FETCH_SWAP_QUOTE_FAILED = 'swapScreen.fetchSwapQuoteFailed',
+  SWAP_SUBMIT_FAILED = 'swapScreen.swapSubmitFailed',
   KYC_TRY_AGAIN_FAILED = 'fiatConnectKycStatusScreen.tryAgainFailed',
 }

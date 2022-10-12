@@ -841,6 +841,14 @@ export const migrations = {
   81: (state: any) => state,
   82: (state: any) => ({
     ...state,
+    swap: {
+      swapState: 'quote',
+      swapInfo: null,
+      swapUserInput: null,
+    },
+  }),
+  83: (state: any) => ({
+    ...state,
     fiatConnect: {
       ...state.fiatConnect,
       cachedQuoteParams: {},

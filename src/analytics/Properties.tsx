@@ -51,7 +51,7 @@ import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/No
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { NotificationReceiveState } from 'src/notifications/types'
 import { RecipientType } from 'src/recipients/recipient'
-import { Field } from 'src/swap/useSwapQuote'
+import { Field } from 'src/swap/types'
 import { Currency, StableCurrency } from 'src/utils/currencies'
 import { Awaited } from 'src/utils/typescript'
 import { KycStatus as FiatConnectKycStatus } from '@fiatconnect/fiatconnect-types'
@@ -1331,6 +1331,13 @@ interface CoinbasePayEventsProperties {
   [CoinbasePayEvents.coinbase_pay_flow_exit]: undefined
 }
 
+interface SwapEvent {
+  toToken: string
+  fromToken: string
+  amount: string | null
+  amountType: 'buyAmount' | 'sellAmount'
+}
+
 interface SwapEventsProperties {
   [SwapEvents.swap_screen_open]: undefined
   [SwapEvents.swap_screen_select_token]: {
@@ -1342,16 +1349,21 @@ interface SwapEventsProperties {
   }
   [SwapEvents.swap_screen_review_swap]: undefined
   [SwapEvents.swap_feed_detail_view_tx]: undefined
-  [SwapEvents.swap_review_screen_open]: {
-    toToken: string
-    fromToken: string
-    buyAmount: string
-  }
-  [SwapEvents.swap_review_submit]: {
-    toToken: string
-    fromToken: string
+  [SwapEvents.swap_review_screen_open]: SwapEvent
+  [SwapEvents.swap_review_submit]: SwapEvent & {
     usdTotal: number
-    fee: number
+  }
+  [SwapEvents.swap_execute_price_change]: {
+    price: string
+    guaranteedPrice: string
+    toToken: string
+    fromToken: string
+  }
+  [SwapEvents.swap_execute_success]: SwapEvent & {
+    price: string
+  }
+  [SwapEvents.swap_execute_error]: {
+    error: string
   }
 }
 

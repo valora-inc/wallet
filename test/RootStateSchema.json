@@ -212,6 +212,34 @@
             ],
             "type": "string"
         },
+        "ApproveTransaction": {
+            "additionalProperties": false,
+            "properties": {
+                "chainId": {
+                    "type": "number"
+                },
+                "data": {
+                    "type": "string"
+                },
+                "from": {
+                    "type": "string"
+                },
+                "gas": {
+                    "type": "string"
+                },
+                "to": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "chainId",
+                "data",
+                "from",
+                "gas",
+                "to"
+            ],
+            "type": "object"
+        },
         "AttestationCode": {
             "additionalProperties": false,
             "properties": {
@@ -906,6 +934,71 @@
             ],
             "type": "string"
         },
+        "Field": {
+            "enum": [
+                "FROM",
+                "TO"
+            ],
+            "type": "string"
+        },
+        "Fill": {
+            "additionalProperties": false,
+            "properties": {
+                "adjustedOutput": {
+                    "type": "string"
+                },
+                "gas": {
+                    "type": "number"
+                },
+                "input": {
+                    "type": "string"
+                },
+                "outPut": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "adjustedOutput",
+                "gas",
+                "input",
+                "outPut"
+            ],
+            "type": "object"
+        },
+        "FillData": {
+            "additionalProperties": false,
+            "properties": {
+                "makerAmount": {
+                    "type": "string"
+                },
+                "makerToken": {
+                    "type": "string"
+                },
+                "router": {
+                    "type": "string"
+                },
+                "takerAmount": {
+                    "type": "string"
+                },
+                "takerToken": {
+                    "type": "string"
+                },
+                "tokenAddress": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "type": {
+                    "type": "number"
+                }
+            },
+            "required": [
+                "router",
+                "tokenAddress"
+            ],
+            "type": "object"
+        },
         "HistoricalUsdPrices": {
             "additionalProperties": false,
             "properties": {
@@ -1411,6 +1504,46 @@
             },
             "type": "object"
         },
+        "Order": {
+            "additionalProperties": false,
+            "properties": {
+                "fill": {
+                    "$ref": "#/definitions/Fill"
+                },
+                "fillData": {
+                    "$ref": "#/definitions/FillData"
+                },
+                "makerAmount": {
+                    "type": "string"
+                },
+                "makerToken": {
+                    "type": "string"
+                },
+                "source": {
+                    "type": "string"
+                },
+                "takeToken": {
+                    "type": "string"
+                },
+                "takerAmount": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "number"
+                }
+            },
+            "required": [
+                "fill",
+                "fillData",
+                "makerAmount",
+                "makerToken",
+                "source",
+                "takeToken",
+                "takerAmount",
+                "type"
+            ],
+            "type": "object"
+        },
         "Partial<Record<FiatAccountType,FiatAccountTypeQuoteData>>": {
             "additionalProperties": false,
             "properties": {
@@ -1780,6 +1913,7 @@
                 "StoreWipeRecoveryScreen",
                 "Support",
                 "SupportContact",
+                "SwapExecuteScreen",
                 "SwapReviewScreen",
                 "SwapScreen",
                 "Sync",
@@ -1843,6 +1977,22 @@
                 "Sending"
             ],
             "type": "string"
+        },
+        "Source": {
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "proportion": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "proportion"
+            ],
+            "type": "object"
         },
         "StableBalances": {
             "additionalProperties": false,
@@ -3152,6 +3302,40 @@
             ],
             "type": "object"
         },
+        "State_27": {
+            "additionalProperties": false,
+            "properties": {
+                "swapInfo": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/definitions/SwapInfo"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                },
+                "swapState": {
+                    "$ref": "#/definitions/SwapState"
+                },
+                "swapUserInput": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/definitions/SwapUserInput"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                }
+            },
+            "required": [
+                "swapInfo",
+                "swapState",
+                "swapUserInput"
+            ],
+            "type": "object"
+        },
         "State_4": {
             "additionalProperties": false,
             "properties": {
@@ -3579,6 +3763,198 @@
                 ],
                 "type": "object"
             },
+            "type": "object"
+        },
+        "SwapAmount": {
+            "additionalProperties": false,
+            "properties": {
+                "FROM": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "TO": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                }
+            },
+            "required": [
+                "FROM",
+                "TO"
+            ],
+            "type": "object"
+        },
+        "SwapInfo": {
+            "additionalProperties": false,
+            "properties": {
+                "approveTransaction": {
+                    "$ref": "#/definitions/ApproveTransaction"
+                },
+                "unvalidatedSwapTransaction": {
+                    "$ref": "#/definitions/SwapTransaction"
+                },
+                "userInput": {
+                    "$ref": "#/definitions/SwapUserInput"
+                }
+            },
+            "required": [
+                "approveTransaction",
+                "unvalidatedSwapTransaction",
+                "userInput"
+            ],
+            "type": "object"
+        },
+        "SwapState": {
+            "enum": [
+                "approve",
+                "complete",
+                "error",
+                "execute",
+                "price-change",
+                "quote",
+                "start",
+                "user-input"
+            ],
+            "type": "string"
+        },
+        "SwapTransaction": {
+            "additionalProperties": false,
+            "properties": {
+                "allowanceTarget": {
+                    "type": "string"
+                },
+                "buyAmount": {
+                    "type": "string"
+                },
+                "buyTokenAddress": {
+                    "type": "string"
+                },
+                "buyTokenToEthRate": {
+                    "type": "string"
+                },
+                "chainId": {
+                    "type": "number"
+                },
+                "data": {
+                    "type": "string"
+                },
+                "decodedUniqueId": {
+                    "type": "string"
+                },
+                "estimatedGas": {
+                    "type": "string"
+                },
+                "estimatedPriceImpact": {
+                    "type": "string"
+                },
+                "expectedSlippage": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "from": {
+                    "type": "string"
+                },
+                "gas": {
+                    "type": "string"
+                },
+                "gasPrice": {
+                    "type": "string"
+                },
+                "guaranteedPrice": {
+                    "type": "string"
+                },
+                "minimumProtocolFee": {
+                    "type": "string"
+                },
+                "orders": {
+                    "items": {
+                        "$ref": "#/definitions/Order"
+                    },
+                    "type": "array"
+                },
+                "price": {
+                    "type": "string"
+                },
+                "protocolFee": {
+                    "type": "string"
+                },
+                "sellAmount": {
+                    "type": "string"
+                },
+                "sellTokenAddress": {
+                    "type": "string"
+                },
+                "sellTokenToEthRate": {
+                    "type": "string"
+                },
+                "sources": {
+                    "items": {
+                        "$ref": "#/definitions/Source"
+                    },
+                    "type": "array"
+                },
+                "to": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "allowanceTarget",
+                "buyAmount",
+                "buyTokenAddress",
+                "buyTokenToEthRate",
+                "chainId",
+                "data",
+                "decodedUniqueId",
+                "estimatedGas",
+                "estimatedPriceImpact",
+                "expectedSlippage",
+                "from",
+                "gas",
+                "gasPrice",
+                "guaranteedPrice",
+                "minimumProtocolFee",
+                "orders",
+                "price",
+                "protocolFee",
+                "sellAmount",
+                "sellTokenAddress",
+                "sellTokenToEthRate",
+                "sources",
+                "to",
+                "value"
+            ],
+            "type": "object"
+        },
+        "SwapUserInput": {
+            "additionalProperties": false,
+            "properties": {
+                "fromToken": {
+                    "type": "string"
+                },
+                "swapAmount": {
+                    "$ref": "#/definitions/SwapAmount"
+                },
+                "toToken": {
+                    "type": "string"
+                },
+                "updatedField": {
+                    "$ref": "#/definitions/Field"
+                }
+            },
+            "required": [
+                "fromToken",
+                "swapAmount",
+                "toToken",
+                "updatedField"
+            ],
             "type": "object"
         },
         "TokenAmount": {
@@ -4308,6 +4684,7 @@
                                         "superchargeClaimFailure",
                                         "superchargeFetchRewardsFailed",
                                         "swapScreen.fetchSwapQuoteFailed",
+                                        "swapScreen.swapSubmitFailed",
                                         "transactionFailed",
                                         "transactionTimeout",
                                         "verificationFailure",
@@ -4390,6 +4767,9 @@
         "supercharge": {
             "$ref": "#/definitions/State_24"
         },
+        "swap": {
+            "$ref": "#/definitions/State_27"
+        },
         "tokens": {
             "$ref": "#/definitions/State_23"
         },
@@ -4429,6 +4809,7 @@
         "send",
         "stableToken",
         "supercharge",
+        "swap",
         "tokens",
         "transactions",
         "verify",
