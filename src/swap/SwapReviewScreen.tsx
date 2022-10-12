@@ -9,11 +9,7 @@ import { showError } from 'src/alert/actions'
 import { SwapEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import {
-  maxSwapSlippagePercentageSelector,
-  swapFeeEnabledSelector,
-  swapFeePercentageSelector,
-} from 'src/app/selectors'
+import { maxSwapSlippagePercentageSelector } from 'src/app/selectors'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes } from 'src/components/Button'
 import Dialog from 'src/components/Dialog'
@@ -68,11 +64,6 @@ export function SwapReviewScreen() {
 
   // Items set from remote config
   const maxSlippagePercent = useSelector(maxSwapSlippagePercentageSelector)
-  const swapFeeEnabled = useSelector(swapFeeEnabledSelector)
-  const swapFeePercentage = useSelector(swapFeePercentageSelector)
-  // Remote configs converted to decimals strings
-  // const maxSlippageDecimal = `${maxSlippagePercent / 100}`
-  const swapFeeDecimal = `${swapFeePercentage / 100}`
 
   const { t } = useTranslation()
   const dispatch = useDispatch()
@@ -274,15 +265,9 @@ export function SwapReviewScreen() {
                     <InfoIcon size={12} color={colors.gray4} />
                   </>
                 </Touchable>
-                <TokenDisplay
-                  style={[styles.transactionDetailsRightText, !swapFeeEnabled && styles.feeWaived]}
-                  amount={divideByWei(
-                    swapResponse.unvalidatedSwapTransaction.sellAmount
-                  ).multipliedBy(swapFeeDecimal)}
-                  tokenAddress={fromToken}
-                  showLocalAmount={true}
-                  testID={'SwapFee'}
-                />
+                <Text testID={'SwapFee'} style={styles.transactionDetailsRightText}>
+                  {t('swapReviewScreen.free')}
+                </Text>
               </View>
             </View>
           </>
@@ -317,9 +302,7 @@ export function SwapReviewScreen() {
         isActionHighlighted={false}
         onBackgroundPress={() => setSwapFeeModalVisible(false)}
       >
-        {t('swapReviewScreen.swapFeeBody', {
-          swapFee: swapFeePercentage,
-        })}
+        {t('swapReviewScreen.swapFeeBodyFree')}
       </Dialog>
     </SafeAreaView>
   )
@@ -391,10 +374,6 @@ const styles = StyleSheet.create({
     textAlign: 'right',
     ...fontStyles.small,
     color: colors.gray4,
-  },
-  feeWaived: {
-    textDecorationLine: 'line-through',
-    textDecorationStyle: 'solid',
   },
 })
 
