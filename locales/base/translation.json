@@ -1478,26 +1478,6 @@
       "contactSupport": "Contact Support"
     }
   },
-  "SwapExecuteScreen": {
-    "swapPending": "Swap Pending",
-    "swapSuccess": "Swap Successful!",
-    "swapError": "Swap Error",
-    "exchangeRateSubtext": "Finding the best exchange rate...",
-    "approvingSubtext": "Approving funds...",
-    "completingSubtext": "Completing swap...",
-    "swapAgain": "Swap Again",
-    "swapPriceModal": {
-      "title": "Prices have changed",
-      "action": "Continue",
-      "body": "Crypto amounts & fees can change due to fluctuations in the crypto market. \n\n Please review your final amount & fees and resubmit."
-    },
-    "swapErrorModal": {
-      "title": "We couldn’t complete this transaction.",
-      "body": "Please wait and try again later or contact our support team for help.",
-      "swapRestart": "Dismiss",
-      "contactSupport": "Contact Support"
-    }
-  },
   "inviteModal": {
     "title": "Looks like {{contactName}} doesn’t have a {{appName}} wallet yet.",
     "body": "You can still invite them to {{appName}}, or try to send a payment to their wallet address or nom.space.",
