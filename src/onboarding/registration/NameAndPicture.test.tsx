@@ -153,10 +153,18 @@ describe('NameAndPictureScreen', () => {
   })
 
   it('shows alternate placeholder username for experimental group', () => {
-    mockStatsigGet
-      .mockReturnValueOnce(false)
-      .mockReturnValueOnce(false) // generator button
-      .mockReturnValueOnce('myCryptoAlterEgo')
+    mockStatsigGet.mockImplementation((key: string, _) => {
+      if (key === 'showSkipButton') {
+        return false
+      }
+      if (key === 'showNameGeneratorButton') {
+        return 'true'
+      }
+      if (key === 'namePlaceholder') {
+        return 'myCryptoAlterEgo'
+      }
+      return undefined
+    })
     const { getByTestId } = render(
       <Provider store={createMockStore()}>
         <NameAndPicture {...mockScreenProps} />
@@ -168,10 +176,13 @@ describe('NameAndPictureScreen', () => {
   it('shows generator button and generator button puts random username in', () => {
     mockStatsigGet.mockImplementation((key: string, _) => {
       if (key === 'showSkipButton') {
-        return true
+        return false
       }
-      if (key === 'nameType') {
-        return 'autogenerator'
+      if (key === 'showNameGeneratorButton') {
+        return 'true'
+      }
+      if (key === 'namePlaceholder') {
+        return 'myCryptoAlterEgo'
       }
       return undefined
     })
@@ -194,8 +205,11 @@ describe('NameAndPictureScreen', () => {
       if (key === 'showSkipButton') {
         return false
       }
-      if (key === 'nameType') {
-        return 'autogenerator'
+      if (key === 'showNameGeneratorButton') {
+        return 'false'
+      }
+      if (key === 'namePlaceholder') {
+        return 'myCryptoAlterEgo'
       }
       return undefined
     })
@@ -210,10 +224,13 @@ describe('NameAndPictureScreen', () => {
   it('does not show alternate placeholder username for control group', () => {
     mockStatsigGet.mockImplementation((key: string, _) => {
       if (key === 'showSkipButton') {
-        return true
+        return false
       }
-      if (key === 'nameType') {
-        return 'first_and_last'
+      if (key === 'showNameGeneratorButton') {
+        return 'false'
+      }
+      if (key === 'namePlaceholder') {
+        return 'fullNamePlaceholder'
       }
       return undefined
     })
