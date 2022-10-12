@@ -843,7 +843,31 @@
         },
         "FiatConnectSchemaCountryOverrides<FiatAccountSchema.AccountNumber>": {
             "additionalProperties": {
-                "$ref": "#/definitions/{[PropertyinkeyofPartial<FiatAccountSchemas[T]>]:{regex?:string|undefined;errorString?:string|undefined;errorParams?:Record<string,any>|undefined;};}"
+                "$ref": "#/definitions/{[PropertyinkeyofPartial<FiatAccountSchemas[T]>]:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;};}"
+            },
+            "type": "object"
+        },
+        "FiatConnectSchemaCountryOverrides<FiatAccountSchema.DuniaWallet>": {
+            "additionalProperties": {
+                "$ref": "#/definitions/{[PropertyinkeyofPartial<FiatAccountSchemas[T]>]:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;};}"
+            },
+            "type": "object"
+        },
+        "FiatConnectSchemaCountryOverrides<FiatAccountSchema.IBANNumber>": {
+            "additionalProperties": {
+                "$ref": "#/definitions/{[PropertyinkeyofPartial<FiatAccountSchemas[T]>]:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;};}"
+            },
+            "type": "object"
+        },
+        "FiatConnectSchemaCountryOverrides<FiatAccountSchema.IFSCAccount>": {
+            "additionalProperties": {
+                "$ref": "#/definitions/{[PropertyinkeyofPartial<FiatAccountSchemas[T]>]:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;};}"
+            },
+            "type": "object"
+        },
+        "FiatConnectSchemaCountryOverrides<FiatAccountSchema.MobileMoney>": {
+            "additionalProperties": {
+                "$ref": "#/definitions/{[PropertyinkeyofPartial<FiatAccountSchemas[T]>]:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;};}"
             },
             "type": "object"
         },
@@ -2052,9 +2076,6 @@
                 "createAccountCopyTestType": {
                     "$ref": "#/definitions/CreateAccountCopyTestType"
                 },
-                "fiatConnectAccountNumberCountryOverrides": {
-                    "$ref": "#/definitions/FiatConnectSchemaCountryOverrides<FiatAccountSchema.AccountNumber>"
-                },
                 "fiatConnectCashInEnabled": {
                     "type": "boolean"
                 },
@@ -2208,7 +2229,6 @@
                 "centralPhoneVerificationEnabled",
                 "coinbasePayEnabled",
                 "createAccountCopyTestType",
-                "fiatConnectAccountNumberCountryOverrides",
                 "fiatConnectCashInEnabled",
                 "fiatConnectCashOutEnabled",
                 "hideVerification",
@@ -3247,6 +3267,9 @@
                 "quotesLoading": {
                     "type": "boolean"
                 },
+                "schemaCountryOverrides": {
+                    "$ref": "#/definitions/{AccountNumber?:FiatConnectSchemaCountryOverrides<FiatAccountSchema.AccountNumber>|undefined;MobileMoney?:FiatConnectSchemaCountryOverrides<FiatAccountSchema.MobileMoney>|undefined;DuniaWallet?:FiatConnectSchemaCountryOverrides<FiatAccountSchema.DuniaWallet>|undefined;IBANNumber?:FiatConnectSchemaCountryOverrides<FiatAccountSchema.IBANNumber>|undefined;IFSCAccount?:FiatConnectSchemaCountryOverrides<FiatAccountSchema.IFSCAccount>|undefined;}"
+                },
                 "selectFiatConnectQuoteLoading": {
                     "type": "boolean"
                 },
@@ -3272,6 +3295,7 @@
                 "quotes",
                 "quotesError",
                 "quotesLoading",
+                "schemaCountryOverrides",
                 "selectFiatConnectQuoteLoading",
                 "sendingFiatAccountStatus",
                 "transfer"
@@ -4461,7 +4485,28 @@
             ],
             "type": "object"
         },
-        "{[PropertyinkeyofPartial<FiatAccountSchemas[T]>]:{regex?:string|undefined;errorString?:string|undefined;errorParams?:Record<string,any>|undefined;};}": {
+        "{AccountNumber?:FiatConnectSchemaCountryOverrides<FiatAccountSchema.AccountNumber>|undefined;MobileMoney?:FiatConnectSchemaCountryOverrides<FiatAccountSchema.MobileMoney>|undefined;DuniaWallet?:FiatConnectSchemaCountryOverrides<FiatAccountSchema.DuniaWallet>|undefined;IBANNumber?:FiatConnectSchemaCountryOverrides<FiatAccountSchema.IBANNumber>|undefined;IFSCAccount?:FiatConnectSchemaCountryOverrides<FiatAccountSchema.IFSCAccount>|undefined;}": {
+            "additionalProperties": false,
+            "properties": {
+                "AccountNumber": {
+                    "$ref": "#/definitions/FiatConnectSchemaCountryOverrides<FiatAccountSchema.AccountNumber>"
+                },
+                "DuniaWallet": {
+                    "$ref": "#/definitions/FiatConnectSchemaCountryOverrides<FiatAccountSchema.DuniaWallet>"
+                },
+                "IBANNumber": {
+                    "$ref": "#/definitions/FiatConnectSchemaCountryOverrides<FiatAccountSchema.IBANNumber>"
+                },
+                "IFSCAccount": {
+                    "$ref": "#/definitions/FiatConnectSchemaCountryOverrides<FiatAccountSchema.IFSCAccount>"
+                },
+                "MobileMoney": {
+                    "$ref": "#/definitions/FiatConnectSchemaCountryOverrides<FiatAccountSchema.MobileMoney>"
+                }
+            },
+            "type": "object"
+        },
+        "{[PropertyinkeyofPartial<FiatAccountSchemas[T]>]:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;};}": {
             "additionalProperties": false,
             "properties": {
                 "accountName": {
@@ -4477,6 +4522,10 @@
                             "type": "string"
                         }
                     },
+                    "required": [
+                        "errorString",
+                        "regex"
+                    ],
                     "type": "object"
                 },
                 "fiatAccountType": {
@@ -4492,6 +4541,10 @@
                             "type": "string"
                         }
                     },
+                    "required": [
+                        "errorString",
+                        "regex"
+                    ],
                     "type": "object"
                 },
                 "institutionName": {
@@ -4507,6 +4560,10 @@
                             "type": "string"
                         }
                     },
+                    "required": [
+                        "errorString",
+                        "regex"
+                    ],
                     "type": "object"
                 }
             },

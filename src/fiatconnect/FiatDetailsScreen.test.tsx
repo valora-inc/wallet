@@ -55,7 +55,9 @@ const accountNumberOverrides: FiatConnectSchemaCountryOverrides<FiatAccountSchem
   },
 }
 const store = createMockStore({
-  app: { fiatConnectAccountNumberCountryOverrides: accountNumberOverrides },
+  fiatConnect: {
+    schemaCountryOverrides: { [FiatAccountSchema.AccountNumber]: accountNumberOverrides },
+  },
 })
 const quoteWithAllowedValues = new FiatConnectQuote({
   quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
@@ -253,7 +255,9 @@ describe('FiatDetailsScreen', () => {
   })
   it('shows country specific validation error using overrides', () => {
     const mockStore = createMockStore({
-      app: { fiatConnectAccountNumberCountryOverrides: accountNumberOverrides },
+      fiatConnect: {
+        schemaCountryOverrides: { [FiatAccountSchema.AccountNumber]: accountNumberOverrides },
+      },
       networkInfo: { userLocationData: { countryCodeAlpha2: 'NG' } },
     })
     const { queryByText, getByTestId, queryByTestId } = render(
@@ -305,8 +309,10 @@ describe('FiatDetailsScreen', () => {
   })
   it('shows spinner while fiat account is sending', () => {
     const mockStore = createMockStore({
-      fiatConnect: { sendingFiatAccountStatus: SendingFiatAccountStatus.Sending },
-      app: { fiatConnectAccountNumberCountryOverrides: accountNumberOverrides },
+      fiatConnect: {
+        sendingFiatAccountStatus: SendingFiatAccountStatus.Sending,
+        schemaCountryOverrides: { [FiatAccountSchema.AccountNumber]: accountNumberOverrides },
+      },
     })
     const { queryByTestId } = render(
       <Provider store={mockStore}>
@@ -317,8 +323,10 @@ describe('FiatDetailsScreen', () => {
   })
   it('shows checkmark if fiat account and KYC have been approved', () => {
     const mockStore = createMockStore({
-      fiatConnect: { sendingFiatAccountStatus: SendingFiatAccountStatus.KycApproved },
-      app: { fiatConnectAccountNumberCountryOverrides: accountNumberOverrides },
+      fiatConnect: {
+        sendingFiatAccountStatus: SendingFiatAccountStatus.KycApproved,
+        schemaCountryOverrides: { [FiatAccountSchema.AccountNumber]: accountNumberOverrides },
+      },
     })
     const { queryByTestId } = render(
       <Provider store={mockStore}>

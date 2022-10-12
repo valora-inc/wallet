@@ -119,8 +119,6 @@ export const fiatConnectCashInEnabledSelector = (state: RootState) =>
   state.app.fiatConnectCashInEnabled
 export const fiatConnectCashOutEnabledSelector = (state: RootState) =>
   state.app.fiatConnectCashOutEnabled
-export const fiatConnectAccountNumberCountryOverridesSelector = (state: RootState) =>
-  state.app.fiatConnectAccountNumberCountryOverrides
 
 export const coinbasePayEnabledSelector = (state: RootState) => state.app.coinbasePayEnabled
 

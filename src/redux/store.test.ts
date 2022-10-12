@@ -93,7 +93,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 82,
+          "version": 83,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -135,7 +135,6 @@ describe('store state', () => {
           "centralPhoneVerificationEnabled": false,
           "coinbasePayEnabled": false,
           "createAccountCopyTestType": "ACCOUNT",
-          "fiatConnectAccountNumberCountryOverrides": Object {},
           "fiatConnectCashInEnabled": false,
           "fiatConnectCashOutEnabled": false,
           "googleMobileServicesAvailable": undefined,
@@ -222,6 +221,7 @@ describe('store state', () => {
           "quotes": Array [],
           "quotesError": null,
           "quotesLoading": false,
+          "schemaCountryOverrides": Object {},
           "selectFiatConnectQuoteLoading": false,
           "sendingFiatAccountStatus": "NotSending",
           "transfer": null,

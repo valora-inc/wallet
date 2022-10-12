@@ -192,6 +192,7 @@ export interface RemoteConfigValues {
   celoWithdrawalEnabledInExchange: boolean
   fiatConnectCashInEnabled: boolean
   fiatConnectCashOutEnabled: boolean
+  fiatConnectAccountNumberCountryOverrides: FiatConnectSchemaCountryOverrides<FiatAccountSchema.AccountNumber>
   dappConnectInfo: DappConnectInfo
   visualizeNFTsEnabledInHomeAssetsPage: boolean
   coinbasePayEnabled: boolean
@@ -204,7 +205,6 @@ export interface RemoteConfigValues {
   inviteMethod: InviteMethodType
   showGuidedOnboardingCopy: boolean
   centralPhoneVerificationEnabled: boolean
-  fiatConnectAccountNumberCountryOverrides: FiatConnectSchemaCountryOverrides<FiatAccountSchema.AccountNumber>
 }
 
 export function* appRemoteFeatureFlagSaga() {

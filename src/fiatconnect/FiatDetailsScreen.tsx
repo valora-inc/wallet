@@ -12,14 +12,16 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { fiatConnectAccountNumberCountryOverridesSelector } from 'src/app/selectors'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes } from 'src/components/Button'
 import CancelButton from 'src/components/CancelButton'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import TextInput, { LINE_HEIGHT } from 'src/components/TextInput'
-import { sendingFiatAccountStatusSelector } from 'src/fiatconnect/selectors'
+import {
+  schemaCountryOverridesSelector,
+  sendingFiatAccountStatusSelector,
+} from 'src/fiatconnect/selectors'
 import { SendingFiatAccountStatus, submitFiatAccount } from 'src/fiatconnect/slice'
 import { FiatConnectSchemaCountryOverrides } from 'src/fiatconnect/types'
 import i18n from 'src/i18n'
@@ -73,14 +75,14 @@ const getAccountNumberSchema = (
     country: string
     fiatAccountType: FiatAccountType
   },
-  countryOverrides: FiatConnectSchemaCountryOverrides<FiatAccountSchema.AccountNumber>
+  countryOverrides?: FiatConnectSchemaCountryOverrides<FiatAccountSchema.AccountNumber>
 ): FiatAccountFormSchema<FiatAccountSchema.AccountNumber> => {
   // NOTE: the schema for overrides supports overriding any field's regex or
   // errorMessage, but the below currently applies it to just the
   // `accountNumber` field in the `AccountNumber` schema.
   // This can be extended to support overriding other params and applied more
   // generically if more fields/schemas require it.
-  const overrides = countryOverrides[implicitParams.country]
+  const overrides = countryOverrides?.[implicitParams.country]
 
   return {
     institutionName: {
@@ -124,9 +126,7 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
   const fieldValues = useRef<string[]>([])
   const userCountry = useSelector(userLocationDataSelector)
   const dispatch = useDispatch()
-  const accountNumberCountryOverrides = useSelector(
-    fiatConnectAccountNumberCountryOverridesSelector
-  )
+  const schemaCountryOverrides = useSelector(schemaCountryOverridesSelector)
 
   const fiatAccountSchema = quote.getFiatAccountSchema()
 
@@ -187,7 +187,7 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
             country: userCountry.countryCodeAlpha2 || 'US',
             fiatAccountType: quote.getFiatAccountType(),
           },
-          accountNumberCountryOverrides
+          schemaCountryOverrides[FiatAccountSchema.AccountNumber]
         )
       default:
         throw new Error('Unsupported schema type')
