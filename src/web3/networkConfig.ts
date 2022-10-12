@@ -38,6 +38,7 @@ interface NetworkConfig {
   verifyPhoneNumberUrl: string
   verifySmsCodeUrl: string
   lookupPhoneNumberUrl: string
+  lookupAddressUrl: string
 }
 
 const KOMENCI_URL_MAINNET = 'https://mainnet-komenci.azurefd.net'
@@ -91,6 +92,9 @@ const VERIFY_SMS_CODE_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/verifySmsCode`
 const LOOKUP_PHONE_NUMBER_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/lookupPhoneNumber`
 const LOOKUP_PHONE_NUMBER_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/lookupPhoneNumber`
 
+const LOOKUP_ADDRESS_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/lookupAddress`
+const LOOKUP_ADDRESS_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/lookupAddress`
+
 const CELO_EXPLORER_BASE_TX_URL_ALFAJORES = 'https://alfajores-blockscout.celo-testnet.org/tx/'
 const CELO_EXPLORER_BASE_TX_URL_MAINNET = 'https://explorer.celo.org/mainnet/tx/'
 
@@ -130,6 +134,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     verifyPhoneNumberUrl: VERIFY_PHONE_NUMBER_ALFAJORES,
     verifySmsCodeUrl: VERIFY_SMS_CODE_ALFAJORES,
     lookupPhoneNumberUrl: LOOKUP_PHONE_NUMBER_ALFAJORES,
+    lookupAddressUrl: LOOKUP_ADDRESS_ALFAJORES,
   },
   [Testnets.mainnet]: {
     networkId: '42220',
@@ -160,6 +165,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     verifyPhoneNumberUrl: VERIFY_PHONE_NUMBER_MAINNET,
     verifySmsCodeUrl: VERIFY_SMS_CODE_MAINNET,
     lookupPhoneNumberUrl: LOOKUP_PHONE_NUMBER_MAINNET,
+    lookupAddressUrl: LOOKUP_ADDRESS_MAINNET,
   },
 }
 
