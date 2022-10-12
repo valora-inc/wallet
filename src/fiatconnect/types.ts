@@ -3,8 +3,8 @@ import { FiatAccountSchema, FiatAccountSchemas } from '@fiatconnect/fiatconnect-
 export interface FiatConnectSchemaCountryOverrides<T extends FiatAccountSchema> {
   [country: string]: {
     [Property in keyof Partial<FiatAccountSchemas[T]>]: {
-      regex?: string
-      errorString?: string
+      regex: string
+      errorString: string
       errorParams?: Record<string, any>
     }
   }

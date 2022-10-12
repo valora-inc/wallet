@@ -76,7 +76,8 @@ const getAccountNumberSchema = (
   countryOverrides: FiatConnectSchemaCountryOverrides<FiatAccountSchema.AccountNumber>
 ): FiatAccountFormSchema<FiatAccountSchema.AccountNumber> => {
   // NOTE: the schema for overrides supports overriding any field's regex or
-  // errorMessage, but the below currently applies it to just accountNumber.
+  // errorMessage, but the below currently applies it to just the
+  // `accountNumber` field in the `AccountNumber` schema.
   // This can be extended to support overriding other params and applied more
   // generically if more fields/schemas require it.
   const overrides = countryOverrides[implicitParams.country]
