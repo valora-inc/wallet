@@ -813,6 +813,12 @@
             ],
             "type": "object"
         },
+        "FiatConnectSchemaCountryOverrides<FiatAccountSchema.AccountNumber>": {
+            "additionalProperties": {
+                "$ref": "#/definitions/{[PropertyinkeyofPartial<FiatAccountSchemas[T]>]:{regex?:string|undefined;errorString?:string|undefined;errorParams?:Record<string,any>|undefined;};}"
+            },
+            "type": "object"
+        },
         "FiatConnectTransfer": {
             "additionalProperties": false,
             "properties": {
@@ -1669,6 +1675,10 @@
             ],
             "type": "object"
         },
+        "Record<string,any>": {
+            "additionalProperties": false,
+            "type": "object"
+        },
         "Screens": {
             "enum": [
                 "AccounSetupFailureScreen",
@@ -1892,6 +1902,9 @@
                 "createAccountCopyTestType": {
                     "$ref": "#/definitions/CreateAccountCopyTestType"
                 },
+                "fiatConnectAccountNumberCountryOverrides": {
+                    "$ref": "#/definitions/FiatConnectSchemaCountryOverrides<FiatAccountSchema.AccountNumber>"
+                },
                 "fiatConnectCashInEnabled": {
                     "type": "boolean"
                 },
@@ -2045,6 +2058,7 @@
                 "centralPhoneVerificationEnabled",
                 "coinbasePayEnabled",
                 "createAccountCopyTestType",
+                "fiatConnectAccountNumberCountryOverrides",
                 "fiatConnectCashInEnabled",
                 "fiatConnectCashOutEnabled",
                 "hideVerification",
@@ -4069,6 +4083,57 @@
                 "e",
                 "s"
             ],
+            "type": "object"
+        },
+        "{[PropertyinkeyofPartial<FiatAccountSchemas[T]>]:{regex?:string|undefined;errorString?:string|undefined;errorParams?:Record<string,any>|undefined;};}": {
+            "additionalProperties": false,
+            "properties": {
+                "accountName": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "errorParams": {
+                            "$ref": "#/definitions/Record<string,any>"
+                        },
+                        "errorString": {
+                            "type": "string"
+                        },
+                        "regex": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                "fiatAccountType": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "errorParams": {
+                            "$ref": "#/definitions/Record<string,any>"
+                        },
+                        "errorString": {
+                            "type": "string"
+                        },
+                        "regex": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                "institutionName": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "errorParams": {
+                            "$ref": "#/definitions/Record<string,any>"
+                        },
+                        "errorString": {
+                            "type": "string"
+                        },
+                        "regex": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                }
+            },
             "type": "object"
         },
         "{cGLD:string|null;cUSD:string|null;cEUR:string|null;}": {

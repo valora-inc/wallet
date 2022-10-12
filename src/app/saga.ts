@@ -1,3 +1,4 @@
+import { FiatAccountSchema } from '@fiatconnect/fiatconnect-types'
 import URLSearchParamsReal from '@ungap/url-search-params'
 import { AppState, Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
@@ -43,6 +44,7 @@ import { FETCH_TIMEOUT_DURATION } from 'src/config'
 import { SuperchargeTokenConfigByToken } from 'src/consumerIncentives/types'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
 import { DappConnectInfo } from 'src/dapps/types'
+import { FiatConnectSchemaCountryOverrides } from 'src/fiatconnect/types'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import { appVersionDeprecationChannel, fetchRemoteConfigValues } from 'src/firebase/firebase'
 import { receiveAttestationMessage } from 'src/identity/actions'
@@ -202,6 +204,7 @@ export interface RemoteConfigValues {
   inviteMethod: InviteMethodType
   showGuidedOnboardingCopy: boolean
   centralPhoneVerificationEnabled: boolean
+  fiatConnectAccountNumberCountryOverrides: FiatConnectSchemaCountryOverrides<FiatAccountSchema.AccountNumber>
 }
 
 export function* appRemoteFeatureFlagSaga() {

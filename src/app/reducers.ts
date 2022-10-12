@@ -1,8 +1,10 @@
+import { FiatAccountSchema } from '@fiatconnect/fiatconnect-types'
 import { Platform } from 'react-native'
 import { BIOMETRY_TYPE } from 'react-native-keychain'
 import { Actions, ActionTypes, AppState } from 'src/app/actions'
 import { CreateAccountCopyTestType, InviteMethodType, SuperchargeButtonType } from 'src/app/types'
 import { SuperchargeTokenConfigByToken } from 'src/consumerIncentives/types'
+import { FiatConnectSchemaCountryOverrides } from 'src/fiatconnect/types'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { Screens } from 'src/navigator/Screens'
@@ -51,6 +53,7 @@ export interface State {
   celoWithdrawalEnabledInExchange: boolean
   fiatConnectCashInEnabled: boolean
   fiatConnectCashOutEnabled: boolean
+  fiatConnectAccountNumberCountryOverrides: FiatConnectSchemaCountryOverrides<FiatAccountSchema.AccountNumber>
   visualizeNFTsEnabledInHomeAssetsPage: boolean
   coinbasePayEnabled: boolean
   showGuidedOnboardingCopy: boolean
@@ -228,6 +231,8 @@ export const appReducer = (
         celoWithdrawalEnabledInExchange: action.configValues.celoWithdrawalEnabledInExchange,
         fiatConnectCashInEnabled: action.configValues.fiatConnectCashInEnabled,
         fiatConnectCashOutEnabled: action.configValues.fiatConnectCashOutEnabled,
+        fiatConnectAccountNumberCountryOverrides:
+          action.configValues.fiatConnectAccountNumberCountryOverrides,
         visualizeNFTsEnabledInHomeAssetsPage:
           action.configValues.visualizeNFTsEnabledInHomeAssetsPage,
         coinbasePayEnabled: action.configValues.coinbasePayEnabled,

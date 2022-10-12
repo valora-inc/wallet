@@ -12,15 +12,18 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { fiatConnectAccountNumberCountryOverridesSelector } from 'src/app/selectors'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes } from 'src/components/Button'
 import CancelButton from 'src/components/CancelButton'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import TextInput, { LINE_HEIGHT } from 'src/components/TextInput'
-import { submitFiatAccount, SendingFiatAccountStatus } from 'src/fiatconnect/slice'
 import { sendingFiatAccountStatusSelector } from 'src/fiatconnect/selectors'
+import { SendingFiatAccountStatus, submitFiatAccount } from 'src/fiatconnect/slice'
+import { FiatConnectSchemaCountryOverrides } from 'src/fiatconnect/types'
 import i18n from 'src/i18n'
+import Checkmark from 'src/icons/Checkmark'
 import { styles as headerStyles } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -31,7 +34,6 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import { getObfuscatedAccountNumber } from './index'
-import Checkmark from 'src/icons/Checkmark'
 
 export const TAG = 'FIATCONNECT/FiatDetailsScreen'
 
@@ -66,33 +68,51 @@ type FiatAccountFormSchema<T extends FiatAccountSchema> = {
     | ComputedParam<FiatAccountSchemas[T], Property>
 }
 
-const getAccountNumberSchema = (implicitParams: {
-  country: string
-  fiatAccountType: FiatAccountType
-}): FiatAccountFormSchema<FiatAccountSchema.AccountNumber> => ({
-  institutionName: {
-    name: 'institutionName',
-    label: i18n.t('fiatAccountSchema.institutionName.label'),
-    regex: /.+/,
-    placeholderText: i18n.t('fiatAccountSchema.institutionName.placeholderText'),
-    keyboardType: 'default',
+const getAccountNumberSchema = (
+  implicitParams: {
+    country: string
+    fiatAccountType: FiatAccountType
   },
-  accountNumber: {
-    name: 'accountNumber',
-    label: i18n.t('fiatAccountSchema.accountNumber.label'),
-    regex: /^[0-9]{10}$/,
-    placeholderText: i18n.t('fiatAccountSchema.accountNumber.placeholderText'),
-    errorMessage: i18n.t('fiatAccountSchema.accountNumber.errorMessage'),
-    keyboardType: 'number-pad',
-  },
-  country: { name: 'country', value: implicitParams.country },
-  fiatAccountType: { name: 'fiatAccountType', value: FiatAccountType.BankAccount },
-  accountName: {
-    name: 'accountName',
-    computeValue: ({ institutionName, accountNumber }) =>
-      `${institutionName} (${getObfuscatedAccountNumber(accountNumber!)})`,
-  },
-})
+  countryOverrides: FiatConnectSchemaCountryOverrides<FiatAccountSchema.AccountNumber>
+): FiatAccountFormSchema<FiatAccountSchema.AccountNumber> => {
+  // NOTE: the schema for overrides supports overriding any field's regex or
+  // errorMessage, but the below currently applies it to just accountNumber.
+  // This can be extended to support overriding other params and applied more
+  // generically if more fields/schemas require it.
+  const overrides = countryOverrides[implicitParams.country]
+
+  return {
+    institutionName: {
+      name: 'institutionName',
+      label: i18n.t('fiatAccountSchema.institutionName.label'),
+      regex: /.+/,
+      placeholderText: i18n.t('fiatAccountSchema.institutionName.placeholderText'),
+      keyboardType: 'default',
+    },
+    accountNumber: {
+      name: 'accountNumber',
+      label: i18n.t('fiatAccountSchema.accountNumber.label'),
+      regex: overrides?.accountNumber?.regex
+        ? new RegExp(overrides.accountNumber.regex)
+        : /^[0-9]+$/,
+      placeholderText: i18n.t('fiatAccountSchema.accountNumber.placeholderText'),
+      errorMessage: overrides?.accountNumber?.errorString
+        ? i18n.t(
+            `fiatAccountSchema.accountNumber.${overrides.accountNumber.errorString}`,
+            overrides.accountNumber.errorParams
+          )
+        : i18n.t('fiatAccountSchema.accountNumber.errorMessageDigit'),
+      keyboardType: 'number-pad',
+    },
+    country: { name: 'country', value: implicitParams.country },
+    fiatAccountType: { name: 'fiatAccountType', value: FiatAccountType.BankAccount },
+    accountName: {
+      name: 'accountName',
+      computeValue: ({ institutionName, accountNumber }) =>
+        `${institutionName} (${getObfuscatedAccountNumber(accountNumber!)})`,
+    },
+  }
+}
 
 const FiatDetailsScreen = ({ route, navigation }: Props) => {
   const { t } = useTranslation()
@@ -103,6 +123,9 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
   const fieldValues = useRef<string[]>([])
   const userCountry = useSelector(userLocationDataSelector)
   const dispatch = useDispatch()
+  const accountNumberCountryOverrides = useSelector(
+    fiatConnectAccountNumberCountryOverridesSelector
+  )
 
   const fiatAccountSchema = quote.getFiatAccountSchema()
 
@@ -158,10 +181,13 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
   const getSchema = (fiatAccountSchema: FiatAccountSchema) => {
     switch (fiatAccountSchema) {
       case FiatAccountSchema.AccountNumber:
-        return getAccountNumberSchema({
-          country: userCountry.countryCodeAlpha2 || 'US',
-          fiatAccountType: quote.getFiatAccountType(),
-        })
+        return getAccountNumberSchema(
+          {
+            country: userCountry.countryCodeAlpha2 || 'US',
+            fiatAccountType: quote.getFiatAccountType(),
+          },
+          accountNumberCountryOverrides
+        )
       default:
         throw new Error('Unsupported schema type')
     }
