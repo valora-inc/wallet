@@ -500,12 +500,12 @@ export function* handleSelectFiatConnectQuote({
         case FiatConnectKycStatus.KycNotCreated:
           if (getKycStatusResponse.persona === PersonaKycStatus.Approved) {
             // If user has Persona KYC on file, just submit it and continue to account management.
-            // We also need to save a user's quote parameters so we can re-fetch if KYC takes a long
-            // time to process.
             yield call(postKyc, {
               providerInfo: quote.quote.provider,
               kycSchema,
             })
+            // We also need to save a user's quote parameters so we can re-fetch if KYC takes a long
+            // time to process.
             yield put(
               cacheQuoteParams({
                 providerId: quote.getProviderId(),
