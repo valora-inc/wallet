@@ -1451,8 +1451,10 @@
     "swapFee": "Taxa da {{appName}}",
     "swapFeeTitle": "O que é a taxa da {{appName}}?",
     "swapFeeBody": "A taxa da {{appName}} é a taxa que se paga para trocar tokens na {{appName}}. \n\nA taxa é {{swapFee}}% do montante da troca. \n\nAs taxas da {{appName}} são gratuitas para os próximos meses.",
+    "swapFeeBodyFree": "A taxa {{appName}} é a taxa que se paga para trocar fichas em {{appName}}. {{appName}} as taxas são gratuitas para os próximos meses.",
     "estimatedAmountTitle": "Montante estimado",
-    "estimatedAmountBody": "As conversões têm lugar numa troca descentralizada de terceiros que lhe encontra a melhor taxa para a sua troca. \n\nA sua transação será concluída a um preço de {{slippagePercent}}% da estimativa ou a transação será cancelada e os fundos serão devolvidos à sua carteira."
+    "estimatedAmountBody": "As conversões têm lugar numa troca descentralizada de terceiros que lhe encontra a melhor taxa para a sua troca. \n\nA sua transação será concluída a um preço de {{slippagePercent}}% da estimativa ou a transação será cancelada e os fundos serão devolvidos à sua carteira.",
+    "free": "Grátis"
   },
   "SwapExecuteScreen": {
     "swapPending": "Swap Pendente",
