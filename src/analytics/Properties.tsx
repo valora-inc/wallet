@@ -54,7 +54,7 @@ import { RecipientType } from 'src/recipients/recipient'
 import { Field } from 'src/swap/useSwapQuote'
 import { Currency, StableCurrency } from 'src/utils/currencies'
 import { Awaited } from 'src/utils/typescript'
-
+import { KycStatus as FiatConnectKycStatus } from '@fiatconnect/fiatconnect-types'
 type PermissionStatus = Awaited<ReturnType<typeof check>>
 
 interface AppEventsProperties {
@@ -1139,6 +1139,17 @@ interface FiatExchangeEventsProperties {
     flow: CICOFlow
     txHash?: string
   }
+  [FiatExchangeEvents.cico_fc_kyc_status_contact_support]: FiatConnectKycProperties
+  [FiatExchangeEvents.cico_fc_kyc_status_back]: FiatConnectKycProperties
+  [FiatExchangeEvents.cico_fc_kyc_status_close]: FiatConnectKycProperties
+  [FiatExchangeEvents.cico_fc_kyc_status_try_again]: FiatConnectKycProperties
+  [FiatExchangeEvents.cico_fc_kyc_status_switch_method]: FiatConnectKycProperties
+}
+
+interface FiatConnectKycProperties {
+  provider: string
+  flow: CICOFlow
+  fiatConnectKycStatus: FiatConnectKycStatus
 }
 
 interface ContractKitEventsProperties {
