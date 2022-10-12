@@ -602,6 +602,7 @@
   "fullNameOrPseudonymPlaceholder": "First and last name or pseudonym",
   "nameAndPicGuideCopyTitle": "What’s your name?",
   "nameAndPicGuideCopyContent": "We’d like to know what to call you",
+  "generateUsername": "Generate a name",
   "importIt": "Restore Wallet",
   "important": "Important",
   "confirmPin": {
