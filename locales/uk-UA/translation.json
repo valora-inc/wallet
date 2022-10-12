@@ -602,6 +602,7 @@
   "fullNameOrPseudonymPlaceholder": "Ім’я та прізвище або псевдонім",
   "nameAndPicGuideCopyTitle": "Як вас звати?",
   "nameAndPicGuideCopyContent": "Ми хотіли б знати, як до вас звертатися",
+  "generateUsername": "Згенерувати ім'я",
   "importIt": "Відновити гаманець",
   "important": "Важливо",
   "confirmPin": {
@@ -1451,33 +1452,33 @@
     "swapTo": "Обміняти на",
     "transactionDetails": "Деталі транзакції",
     "estimatedGas": "Орієнтовний газ",
-    "swapSubmitError": "На жаль, не вдалося завершити ваш обмін. Будь ласка, спробуйте ще раз або зверніться до служби підтримки.",
+    "swapSubmitError": "Sorry, we were unable to complete your swap. Please try again or contact support.",
     "swapFee": "Комісія {{appName}}",
     "swapFeeTitle": "Яка комісія {{appName}}?",
     "swapFeeBody": "Комісія {{appName}} — це комісія, яку ви сплачуєте за обмін токенів у застосунку {{appName}}.\nКомісія становить {{swapFee}}% від суми обміну.\nНаступні кілька місяців комісії {{appName}} не стягуватимуться.",
-    "swapFeeBodyFree": "Комісія {{appName}} —комісія, що ви сплачуєте за своп токени {{appName}}, {{appName}} безкоштовна протягом наступних кількох місяців.",
+    "swapFeeBodyFree": "The {{appName}} fee is the fee that you pay to swap tokens on {{appName}}. {{appName}} fees are free for the next few months.",
     "estimatedAmountTitle": "Орієнтовна сума",
     "estimatedAmountBody": "Конверсії здійснюються на сторонній децентралізованій біржі. Там виконується пошук кращого курсу для обміну. \n\n Торгову операцію буде завершено за ціною в межах {{slippagePercent}}% від орієнтовної, або ж транзакцію буде скасовано, і кошти повернуться до вашого гаманця.",
-    "free": "Безплатно"
+    "free": "Free"
   },
   "SwapExecuteScreen": {
-    "swapPending": "Очікування підкачки",
-    "swapSuccess": "Зміна успішна!",
-    "swapError": "Помилка зміни",
-    "exchangeRateSubtext": "Пошук кращих обмінних курсів...",
-    "approvingSubtext": "Затвердження коштів...",
-    "completingSubtext": "Завершення перебігу...",
-    "swapAgain": "Поміняти місцями знову",
+    "swapPending": "Swap Pending",
+    "swapSuccess": "Swap Successful!",
+    "swapError": "Swap Error",
+    "exchangeRateSubtext": "Finding the best exchange rate...",
+    "approvingSubtext": "Approving funds...",
+    "completingSubtext": "Completing swap...",
+    "swapAgain": "Swap Again",
     "swapPriceModal": {
-      "title": "Ціни змінились",
-      "action": "Продовжити",
-      "body": "Криптові суми та збори можуть змінитися через коливання на ринку криптовалют. \n\n Будь ласка, перегляньте вашу остаточну суму & комісію та повторне виконання."
+      "title": "Prices have changed",
+      "action": "Continue",
+      "body": "Crypto amounts & fees can change due to fluctuations in the crypto market. \n\n Please review your final amount & fees and resubmit."
     },
     "swapErrorModal": {
-      "title": "Ми не змогли завершити цю угоду.",
-      "body": "Будь ласка, зачекайте та спробуйте ще раз пізніше або зверніться до нашої служби підтримки за допомогою.",
-      "swapRestart": "Відхилити",
-      "contactSupport": "Звернутися до служби підтримки"
+      "title": "We couldn’t complete this transaction.",
+      "body": "Please wait and try again later or contact our support team for help.",
+      "swapRestart": "Dismiss",
+      "contactSupport": "Contact Support"
     }
   },
   "inviteModal": {
