@@ -19,7 +19,11 @@ import { StackParamList } from 'src/navigator/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { PhoneNumberVerificationStatus, useVerifyPhoneNumber } from 'src/verify/hooks'
+import {
+  PhoneNumberVerificationStatus,
+  useAndroidSmsCodeRetriever,
+  useVerifyPhoneNumber,
+} from 'src/verify/hooks'
 import ResendButtonWithDelay from 'src/verify/ResendButtonWithDelay'
 
 function VerificationCodeInputScreen({
@@ -36,6 +40,8 @@ function VerificationCodeInputScreen({
     route.params.e164Number,
     route.params.countryCallingCode
   )
+  // Android uses the SMS Retriever API to automatically fill in the verification code
+  useAndroidSmsCodeRetriever(setCode)
 
   const onResendSms = () => {
     ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_resend_message)
