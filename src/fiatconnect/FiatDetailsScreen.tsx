@@ -4,6 +4,7 @@ import {
   FiatAccountType,
 } from '@fiatconnect/fiatconnect-types'
 import { StackScreenProps } from '@react-navigation/stack'
+import { validateIBAN } from 'ibantools'
 import React, { useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, Image, KeyboardType, StyleSheet, Text, View } from 'react-native'
@@ -48,9 +49,13 @@ const SHOW_ERROR_DELAY_MS = 1500
 interface FormFieldParam {
   name: string
   label: string
-  regex: RegExp
+  validate(
+    input: string
+  ): {
+    isValid: boolean
+    errorMessage?: string
+  }
   placeholderText: string
-  errorMessage?: string
   keyboardType: KeyboardType
 }
 interface ImplicitParam<T, K extends keyof T> {
@@ -70,6 +75,16 @@ type FiatAccountFormSchema<T extends FiatAccountSchema> = {
     | ComputedParam<FiatAccountSchemas[T], Property>
 }
 
+const INSITUTION_NAME_FIELD: FormFieldParam = {
+  name: 'institutionName',
+  label: i18n.t('fiatAccountSchema.institutionName.label'),
+  validate: (input: string) => ({
+    isValid: input.length > 0,
+  }),
+  placeholderText: i18n.t('fiatAccountSchema.institutionName.placeholderText'),
+  keyboardType: 'default',
+}
+
 const getAccountNumberSchema = (
   implicitParams: {
     country: string
@@ -83,28 +98,30 @@ const getAccountNumberSchema = (
   // This can be extended to support overriding other params and applied more
   // generically if more fields/schemas require it.
   const overrides = countryOverrides?.[implicitParams.country]?.[FiatAccountSchema.AccountNumber]
+  const accountNumberValidator = (input: string) => {
+    const regex = overrides?.accountNumber?.regex
+      ? new RegExp(overrides.accountNumber.regex)
+      : /^[0-9]+$/
+    const isValid = regex.test(input)
+    const errorMessageText = overrides?.accountNumber?.errorString
+      ? i18n.t(
+          `fiatAccountSchema.accountNumber.${overrides.accountNumber.errorString}`,
+          overrides.accountNumber.errorParams
+        )
+      : i18n.t('fiatAccountSchema.accountNumber.errorMessageDigit')
+    return {
+      isValid,
+      errorMessage: isValid ? undefined : errorMessageText,
+    }
+  }
 
   return {
-    institutionName: {
-      name: 'institutionName',
-      label: i18n.t('fiatAccountSchema.institutionName.label'),
-      regex: /.+/,
-      placeholderText: i18n.t('fiatAccountSchema.institutionName.placeholderText'),
-      keyboardType: 'default',
-    },
+    institutionName: INSITUTION_NAME_FIELD,
     accountNumber: {
       name: 'accountNumber',
       label: i18n.t('fiatAccountSchema.accountNumber.label'),
-      regex: overrides?.accountNumber?.regex
-        ? new RegExp(overrides.accountNumber.regex)
-        : /^[0-9]+$/,
+      validate: accountNumberValidator,
       placeholderText: i18n.t('fiatAccountSchema.accountNumber.placeholderText'),
-      errorMessage: overrides?.accountNumber?.errorString
-        ? i18n.t(
-            `fiatAccountSchema.accountNumber.${overrides.accountNumber.errorString}`,
-            overrides.accountNumber.errorParams
-          )
-        : i18n.t('fiatAccountSchema.accountNumber.errorMessageDigit'),
       keyboardType: 'number-pad',
     },
     country: { name: 'country', value: implicitParams.country },
@@ -117,18 +134,69 @@ const getAccountNumberSchema = (
   }
 }
 
+const getIbanNumberSchema = (
+  implicitParams: {
+    country: string
+    fiatAccountType: FiatAccountType
+  },
+  countryOverrides?: FiatAccountSchemaCountryOverrides
+): FiatAccountFormSchema<FiatAccountSchema.IBANNumber> => {
+  const overrides = countryOverrides?.[implicitParams.country]?.[FiatAccountSchema.IBANNumber]
+  const ibanNumberValidator = (input: string) => {
+    if (overrides?.iban?.regex) {
+      const isValid = new RegExp(overrides.iban.regex).test(input)
+      return {
+        isValid,
+        errorMessage: i18n.t(`fiatAccountSchema.ibanNumber.errorMessage`),
+      }
+    }
+    const { valid, errorCodes } = validateIBAN(input)
+    if (!valid && input.length) {
+      switch (errorCodes?.[0]) {
+        default:
+          return {
+            isValid: valid,
+            errorMessage: i18n.t(`fiatAccountSchema.ibanNumber.errorMessage`),
+          }
+      }
+    }
+    return {
+      isValid: valid,
+    }
+  }
+
+  return {
+    institutionName: INSITUTION_NAME_FIELD,
+    iban: {
+      name: 'iban',
+      label: i18n.t('fiatAccountSchema.ibanNumber.label'),
+      validate: ibanNumberValidator,
+      placeholderText: i18n.t('fiatAccountSchema.ibanNumber.placeholderText'),
+      keyboardType: 'default',
+    },
+    country: { name: 'country', value: implicitParams.country },
+    fiatAccountType: { name: 'fiatAccountType', value: FiatAccountType.BankAccount },
+    accountName: {
+      name: 'accountName',
+      computeValue: ({ institutionName, iban }) =>
+        //TODO change to getObfuscatedIbanNumber
+        `${institutionName} (${getObfuscatedAccountNumber(iban!)})`,
+    },
+  }
+}
+
 const FiatDetailsScreen = ({ route, navigation }: Props) => {
   const { t } = useTranslation()
   const { flow, quote } = route.params
   const sendingFiatAccountStatus = useSelector(sendingFiatAccountStatusSelector)
   const [validInputs, setValidInputs] = useState(false)
-  const [errors, setErrors] = useState(new Set<number>())
+  const [errors, setErrors] = useState(new Map<number, string | undefined>())
   const fieldValues = useRef<string[]>([])
   const userCountry = useSelector(userLocationDataSelector)
   const dispatch = useDispatch()
   const schemaCountryOverrides = useSelector(schemaCountryOverridesSelector)
 
-  const fiatAccountSchema = quote.getFiatAccountSchema()
+  const fiatAccountSchema = quote.getFiatAccountSchema() //FiatAccountSchema.IBANNumber // quote.getFiatAccountSchema()
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -189,6 +257,11 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
           },
           schemaCountryOverrides
         )
+      case FiatAccountSchema.IBANNumber:
+        return getIbanNumberSchema({
+          country: userCountry.countryCodeAlpha2 || 'US',
+          fiatAccountType: quote.getFiatAccountType(),
+        })
       default:
         throw new Error('Unsupported schema type')
     }
@@ -256,16 +329,17 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
 
   const validateInput = () => {
     setValidInputs(false)
-    const newErrorSet = new Set<number>()
+    const newErrorMap = new Map<number, string | undefined>()
 
     formFields.forEach((field, index) => {
-      if (!field.regex.test(fieldValues.current[index]?.trim())) {
-        newErrorSet.add(index)
+      const { isValid, errorMessage } = field.validate(fieldValues.current[index]?.trim())
+      if (!isValid) {
+        newErrorMap.set(index, errorMessage)
       }
     })
 
-    setErrors(newErrorSet)
-    setValidInputs(newErrorSet.size === 0)
+    setErrors(newErrorMap)
+    setValidInputs(newErrorMap.size === 0)
   }
 
   const setInputValue = (value: string, index: number) => {
@@ -299,6 +373,7 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
                   index={index}
                   value={fieldValues.current[index]}
                   hasError={errors.has(index)}
+                  errorMessage={errors.get(index)}
                   onChange={(value) => {
                     setInputValue(value, index)
                   }}
@@ -327,6 +402,7 @@ function FormField({
   value,
   allowedValues,
   hasError,
+  errorMessage,
   onChange,
 }: {
   field: FormFieldParam
@@ -334,6 +410,7 @@ function FormField({
   value: string
   allowedValues?: string[]
   hasError: boolean
+  errorMessage: string | undefined
   onChange: (value: any) => void
 }) {
   const { t } = useTranslation()
@@ -388,9 +465,9 @@ function FormField({
           }}
         />
       )}
-      {field.errorMessage && hasError && showError && (
+      {errorMessage && hasError && showError && (
         <Text testID={`errorMessage-${field.name}`} style={styles.error}>
-          {field.errorMessage}
+          {errorMessage}
         </Text>
       )}
     </View>
