@@ -76,8 +76,8 @@ module.exports = async ({ github, context }) => {
   if (isApproved) {
     console.log('Already approved')
   } else {
-    // wait some seconds before proceeding, or else the checks will be done
-    // before the branch is properly updated from main
+    // wait some seconds before proceeding, to ensure that the checks are done
+    // after the branch is updated with main
     await new Promise((resolve) => setTimeout(resolve, 5000))
 
     console.log(`Verifying that only expected files are modified for PR #${pr.number}`)
