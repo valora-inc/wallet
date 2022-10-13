@@ -103,7 +103,7 @@ const LOOKUP_ADDRESS_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/lookupAddress`
 const REVOKE_PHONE_NUMBER_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/revokePhoneNumber`
 const REVOKE_PHONE_NUMBER_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/revokePhoneNumber`
 
-const CELO_EXPLORER_BASE_TX_URL_ALFAJORES = 'https://alfajores-blockscout.celo-testnet.org/tx/'
+const CELO_EXPLORER_BASE_TX_URL_ALFAJORES = 'https://explorer.celo.org/alfajores/tx/'
 const CELO_EXPLORER_BASE_TX_URL_MAINNET = 'https://explorer.celo.org/mainnet/tx/'
 
 const NFTS_VALORA_APP_URL = 'https://nfts.valoraapp.com/'
