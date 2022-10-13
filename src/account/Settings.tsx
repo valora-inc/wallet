@@ -66,6 +66,7 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
+import { RevokePhoneNumber } from 'src/verify/RevokePhoneNumber'
 
 interface DispatchProps {
   revokeVerification: typeof revokeVerification
@@ -232,8 +233,20 @@ export class Account extends React.Component<Props, State> {
             </TouchableOpacity>
           </View>
           <View style={styles.devSettingsItem}>
+            <RevokePhoneNumber>
+              {(revokePhoneNumber) => (
+                <TouchableOpacity
+                  onPress={revokePhoneNumber.execute}
+                  disabled={revokePhoneNumber.loading}
+                >
+                  <Text>Revoke Number Verification (centralized)</Text>
+                </TouchableOpacity>
+              )}
+            </RevokePhoneNumber>
+          </View>
+          <View style={styles.devSettingsItem}>
             <TouchableOpacity onPress={this.showConfirmRevokeModal}>
-              <Text>Revoke Number Verification</Text>
+              <Text>Revoke Number Verification (on-chain)</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.devSettingsItem}>
