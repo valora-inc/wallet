@@ -81,8 +81,7 @@ module.exports = async ({ github, context }) => {
   if (isApproved) {
     console.log('Already approved')
   } else {
-    // wait some seconds before proceeding, to ensure that the checks are done
-    // after the branch is updated with main
+    // wait until the branch is properly updated
     await new Promise((resolve) => setTimeout(resolve, 5000))
 
     console.log(`Verifying that only expected files are modified for PR #${pr.number}`)
@@ -98,7 +97,7 @@ module.exports = async ({ github, context }) => {
     if (unexpectedFiles.length > 0) {
       console.log(
         `The following files updated do not match the expectation: 
-        ${unexpectedFiles.map((file) => file.filename).join(', ')}.
+        ${unexpectedFiles.map((file) => file.filename).join('\n')}.
         Please check manually.`
       )
       await github.rest.pulls.createReview({
