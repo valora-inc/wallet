@@ -76,6 +76,10 @@ module.exports = async ({ github, context }) => {
   if (isApproved) {
     console.log('Already approved')
   } else {
+    // wait some seconds before proceeding, or else the checks will be done
+    // before the branch is properly updated from main
+    await new Promise((resolve) => setTimeout(resolve, 5000))
+
     console.log(`Verifying that only expected files are modified for PR #${pr.number}`)
     const listFiles = await github.rest.pulls.listFiles({
       owner,
@@ -88,7 +92,9 @@ module.exports = async ({ github, context }) => {
     )
     if (unexpectedFiles.length > 0) {
       console.log(
-        `Files updated in PR #${pr.number} do not match the expectation, please check manually`
+        `The following files updated do not match the expectation: 
+        ${unexpectedFiles.map((file) => file.filename).join(', ')}.
+        Please check manually.`
       )
       await github.rest.pulls.createReview({
         owner,
