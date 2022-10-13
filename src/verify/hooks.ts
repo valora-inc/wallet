@@ -252,6 +252,8 @@ export function useAndroidSmsCodeRetriever(onSmsCodeRetrieved: (code: string) =>
   }, [])
 }
 
+// This is only used from the dev menu for now
+// TODO: use i18n if this need to be used in prod
 export function useRevokeCurrentPhoneNumber() {
   const address = useSelector(walletAddressSelector)
   const e164Number = useSelector(e164NumberSelector)
@@ -269,6 +271,7 @@ export function useRevokeCurrentPhoneNumber() {
         throw new Error('No phone number in the store')
       }
 
+      Logger.showMessage('Revoking phone number')
       const signedMessage = await retrieveSignedMessage()
       const response = await fetch(networkConfig.revokePhoneNumberUrl, {
         method: 'POST',
@@ -292,11 +295,11 @@ export function useRevokeCurrentPhoneNumber() {
     {
       onSuccess: (e164Number) => {
         dispatch(phoneNumberRevoked(e164Number))
+        Logger.showMessage('Phone number revoke was successful')
       },
       onError: (error: Error) => {
         Logger.warn(`${TAG}/revokeVerification`, 'Error revoking verification', error)
-        // TODO i18n and use showError banner
-        Logger.showError('Failed to revoke verification')
+        Logger.showError('Failed to revoke phone number')
       },
     }
   )
