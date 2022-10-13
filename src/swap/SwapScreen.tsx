@@ -20,8 +20,11 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import colors from 'src/styles/colors'
 import { Spacing } from 'src/styles/styles'
+import { swapInfoSelector } from 'src/swap/selectors'
+import { setSwapUserInput } from 'src/swap/slice'
 import SwapAmountInput from 'src/swap/SwapAmountInput'
-import useSwapQuote, { Field, SwapAmount } from 'src/swap/useSwapQuote'
+import { Field, SwapAmount } from 'src/swap/types'
+import useSwapQuote from 'src/swap/useSwapQuote'
 import { coreTokensSelector } from 'src/tokens/selectors'
 
 const FETCH_UPDATED_QUOTE_DEBOUNCE_TIME = 500
@@ -37,6 +40,7 @@ export function SwapScreen() {
   const dispatch = useDispatch()
 
   const coreTokens = useSelector(coreTokensSelector)
+  const swapInfo = useSelector(swapInfoSelector)
 
   const [toToken, setToToken] = useState(
     coreTokens.find((token) => token.symbol === DEFAULT_TO_TOKEN)
@@ -51,6 +55,17 @@ export function SwapScreen() {
 
   const maxFromAmount = useMaxSendAmount(fromToken?.address || '', FeeType.SWAP)
   const { exchangeRate, refreshQuote, fetchSwapQuoteError, fetchingSwapQuote } = useSwapQuote()
+
+  // Used to reset the swap when after a successful swap or error
+  useEffect(() => {
+    if (swapInfo === null) {
+      setSwapAmount(DEFAULT_SWAP_AMOUNT)
+      setUpdatedField(Field.FROM)
+      setSelectingToken(null)
+      setFromToken(coreTokens.find((token) => token.symbol === DEFAULT_FROM_TOKEN))
+      setToToken(coreTokens.find((token) => token.symbol === DEFAULT_TO_TOKEN))
+    }
+  }, [swapInfo])
 
   useEffect(() => {
     ValoraAnalytics.track(SwapEvents.swap_screen_open)
@@ -100,22 +115,28 @@ export function SwapScreen() {
       setFromSwapAmountError(true)
       dispatch(showError(t('swapScreen.insufficientFunds', { token: fromToken?.symbol })))
     } else {
-      navigate(Screens.SwapReviewScreen, {
-        toToken: toToken!.address,
-        fromToken: fromToken!.address,
-        swapAmount,
-        updatedField,
-      })
+      dispatch(
+        setSwapUserInput({
+          toToken: toToken!.address,
+          fromToken: fromToken!.address,
+          swapAmount,
+          updatedField,
+        })
+      )
+      navigate(Screens.SwapReviewScreen)
     }
   }
 
   const handleShowTokenSelect = (fieldType: Field) => () => {
     ValoraAnalytics.track(SwapEvents.swap_screen_select_token, { fieldType })
-    Keyboard.dismiss()
     // ensure that the keyboard is dismissed before animating token bottom sheet
-    setTimeout(() => {
-      setSelectingToken(fieldType)
-    }, 100)
+    Keyboard.addListener('keyboardDidHide', onKeyboardDidHide(fieldType))
+    Keyboard.dismiss()
+  }
+
+  const onKeyboardDidHide: any = (fieldType: Field) => {
+    Keyboard.removeListener('keyboardDidHide', onKeyboardDidHide)
+    setSelectingToken(fieldType)
   }
 
   const handleCloseTokenSelect = () => {
@@ -224,15 +245,14 @@ export function SwapScreen() {
           disabled={!allowReview}
         />
         <KeyboardSpacer topSpacing={Spacing.Regular16} />
-
-        <TokenBottomSheet
-          isVisible={!!selectingToken}
-          origin={TokenPickerOrigin.Swap}
-          onTokenSelected={handleSelectToken}
-          onClose={handleCloseTokenSelect}
-          tokens={Object.values(coreTokens)}
-        />
       </KeyboardAwareScrollView>
+      <TokenBottomSheet
+        isVisible={!!selectingToken}
+        origin={TokenPickerOrigin.Swap}
+        onTokenSelected={handleSelectToken}
+        onClose={handleCloseTokenSelect}
+        tokens={Object.values(coreTokens)}
+      />
     </SafeAreaView>
   )
 }
