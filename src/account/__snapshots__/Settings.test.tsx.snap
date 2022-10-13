@@ -3267,6 +3267,11 @@ exports[`Account renders correctly when dev mode active 1`] = `
           }
         >
           <View
+            accessibilityState={
+              Object {
+                "disabled": false,
+              }
+            }
             accessible={true}
             focusable={true}
             onClick={[Function]}
@@ -3286,7 +3291,39 @@ exports[`Account renders correctly when dev mode active 1`] = `
             }
           >
             <Text>
-              Revoke Number Verification
+              Revoke Number Verification (centralized)
+            </Text>
+          </View>
+        </View>
+        <View
+          style={
+            Object {
+              "alignSelf": "stretch",
+              "margin": 4,
+            }
+          }
+        >
+          <View
+            accessible={true}
+            focusable={true}
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Array [
+                undefined,
+                Object {
+                  "opacity": 1,
+                },
+              ]
+            }
+          >
+            <Text>
+              Revoke Number Verification (on-chain)
             </Text>
           </View>
         </View>

@@ -602,6 +602,7 @@
   "fullNameOrPseudonymPlaceholder": "Prénom et nom ou pseudonyme",
   "nameAndPicGuideCopyTitle": "Comment vous appelez-vous ?",
   "nameAndPicGuideCopyContent": "Nous voudrions savoir comment vous appeler",
+  "generateUsername": "Génère un nom",
   "importIt": "Restaurer le wallet",
   "important": "Important",
   "confirmPin": {
@@ -1292,7 +1293,7 @@
     "bankAccount": {
       "header": "Configurer un compte bancaire",
       "bodyTitle": "Configurer un compte bancaire",
-      "description": "Saisis les coordonnées du compte bancaire pour transférer des fonds. Ces services te seront fournis par <0>{{providerName}}</0>.\n\nEn cliquant sur continuer, tu acceptes leurs <1>conditions générales et</1> leur <2>politique de confidentialité</2>."
+      "description": "Entrez les coordonnées du compte bancaire pour transférer des fonds. Ces services sont fournis par <0>{{providerName}}</0>. \n\nEn cliquant sur Continuer, vous acceptez leurs <1>Conditions Générales</1> et <2>Politique de confidentialité</2>"
     },
     "continue": "Continuer"
   },
@@ -1308,27 +1309,27 @@
     "contactSupportPrefill": "J'ai du mal à vérifier mon identité auprès de Valora.",
     "contactSupport": "Contacter l'Assistance",
     "pending": {
-      "title": "La vérification de ton identité est en cours de révision.",
-      "description": "Une fois l'examen terminé, tu peux retourner sur la page Ajouter et retirer pour terminer ta transaction.",
+      "title": "La vérification de votre pièce d'identité est en cours de vérification.",
+      "description": "Une fois la vérification terminée, vous pourrez revenir sur la page Ajouter et Retirer pour finaliser votre transaction.",
       "close": "Fermer"
     },
     "denied": {
-      "switch": "Change de méthode de retrait",
+      "switch": "Changer de mode de retrait",
       "retryable": {
-        "title": "La vérification d'identité n'a pas été acceptée.",
-        "description": "Veuillez vérifier à nouveau ou essayer un autre moyen de retirer des fonds.",
-        "tryAgain": "Essaie à nouveau"
+        "title": "La vérification de la pièce d'identité n'a pas été concluante.",
+        "description": "Veuillez faire une nouvelle vérification ou essayez un autre moyen de retirer des fonds.",
+        "tryAgain": "Veuillez réessayer"
       },
       "final": {
         "title": "Vérification refusée.",
-        "description": "Veuillez essayer un autre moyen de retirer des fonds, ou contactez l'assistance."
+        "description": "Veuillez essayer un autre moyen pour retirer des fonds ou contactez l'assistance."
       }
     },
     "expired": {
-      "title": "La vérification de l'identité a expiré.",
-      "description": "Veuillez vérifier à nouveau ou essayer un autre moyen de retirer des fonds.",
-      "tryAgain": "Essaie à nouveau",
-      "switch": "Change de méthode de retrait"
+      "title": "La vérification de la pièce d'identité a expiré.",
+      "description": "Veuillez faire une nouvelle vérification ou essayez un autre moyen de retirer des fonds.",
+      "tryAgain": "Veuillez réessayer",
+      "switch": "Changer de mode de retrait"
     },
     "tryAgainFailed": "Une erreur s'est produite lors de la suppression des informations KYC, veuillez réessayer."
   },
@@ -1417,8 +1418,9 @@
     },
     "accountNumber": {
       "label": "Numéro de compte",
-      "placeholderText": "Saisissez votre numéro de compte à 10 chiffres",
-      "errorMessage": "Le numéro de compte doit comporter 10 chiffres et ne contenir que des chiffres"
+      "placeholderText": "Saisis le numéro de compte",
+      "errorMessageDigitLength": "Le numéro de compte doit être {{length}} chiffres",
+      "errorMessageDigit": "Le numéro de compte doit contenir uniquement des chiffres"
     }
   },
   "webView": {
@@ -1447,11 +1449,34 @@
     "swapTo": "Échanger pour",
     "transactionDetails": "Détails de transaction",
     "estimatedGas": "Frais de gas estimés",
+    "swapSubmitError": "Sorry, we were unable to complete your swap. Please try again or contact support.",
     "swapFee": "Frais de {{appName}}",
     "swapFeeTitle": "Que sont les frais de {{appName}} ?",
     "swapFeeBody": "Les frais de {{appName}} sont les frais que vous payez pour échanger des jetons sur {{appName}}. \n\nIls sont de {{swapFee}}% du montant que vous échangez. \n\nLes frais de {{appName}} sont gratuits pour les prochains mois.",
+    "swapFeeBodyFree": "The {{appName}} fee is the fee that you pay to swap tokens on {{appName}}. {{appName}} fees are free for the next few months.",
     "estimatedAmountTitle": "Montant estimé",
-    "estimatedAmountBody": "Les conversions se font sur un échange décentralisé de tiers qui vous trouve le meilleur taux pour votre échange. \n\nVotre échange sera effectué à un prix à moins de {{slippagePercent}}% de l'estimation ou la transaction sera annulée et les fonds retournés à votre wallet."
+    "estimatedAmountBody": "Les conversions se font sur un échange décentralisé de tiers qui vous trouve le meilleur taux pour votre échange. \n\nVotre échange sera effectué à un prix à moins de {{slippagePercent}}% de l'estimation ou la transaction sera annulée et les fonds retournés à votre wallet.",
+    "free": "Free"
+  },
+  "SwapExecuteScreen": {
+    "swapPending": "Swap Pending",
+    "swapSuccess": "Swap Successful!",
+    "swapError": "Swap Error",
+    "exchangeRateSubtext": "Finding the best exchange rate...",
+    "approvingSubtext": "Approving funds...",
+    "completingSubtext": "Completing swap...",
+    "swapAgain": "Swap Again",
+    "swapPriceModal": {
+      "title": "Prices have changed",
+      "action": "Continue",
+      "body": "Crypto amounts & fees can change due to fluctuations in the crypto market. \n\n Please review your final amount & fees and resubmit."
+    },
+    "swapErrorModal": {
+      "title": "We couldn’t complete this transaction.",
+      "body": "Please wait and try again later or contact our support team for help.",
+      "swapRestart": "Dismiss",
+      "contactSupport": "Contact Support"
+    }
   },
   "inviteModal": {
     "title": "Il semble que {{contactName}} n'ait pas encore un wallet {{appName}}.",

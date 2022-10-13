@@ -602,6 +602,7 @@
   "fullNameOrPseudonymPlaceholder": "Nome e sobrenome ou pseudônimo",
   "nameAndPicGuideCopyTitle": "Qual é o seu nome?",
   "nameAndPicGuideCopyContent": "Queremos saber como te chamar",
+  "generateUsername": "Gerar um nome",
   "importIt": "Restaurar Carteira",
   "important": "Importante",
   "confirmPin": {
@@ -1292,7 +1293,7 @@
     "bankAccount": {
       "header": "Configurar conta bancária",
       "bodyTitle": "Configurar conta bancária",
-      "description": "Introduza os dados da conta bancária para transferir fundos. Estes serviços ser-lhe-ão fornecidos por <0>{{providerName}}</0>.\n\nAo clicar em continuar, concorda com os seus <1>Termos e Condições</1> e <2>Política de Privacidade</2>"
+      "description": "Insira os dados da conta bancária para transferir fundos. Esses serviços serão fornecidos a você por <0>{{providerName}}</0>.\n\nAo clicar em continuar, você concorda com os <1>Termos e condições</1> e a <2>Política de privacidade</2>."
     },
     "continue": "Continuar"
   },
@@ -1305,30 +1306,30 @@
     "button": "Configurar verificação de identidade"
   },
   "fiatConnectKycStatusScreen": {
-    "contactSupportPrefill": "Estou a ter dificuldades em verificar a minha identidade com a Valora.",
+    "contactSupportPrefill": "Estou tendo dificuldade para verificar minha identidade na Valora.",
     "contactSupport": "Contate o suporte",
     "pending": {
-      "title": "A sua verificação de identificação está em revisão.",
-      "description": "Após a revisão estar concluída, pode voltar à página Adicionar e Retirar para completar a sua transacção.",
+      "title": "Sua verificação de identidade está em análise.",
+      "description": "Depois que a análise for concluída, você pode retornar à página Adicionar e Sacar Fundos para concluir sua transação.",
       "close": "Fechar"
     },
     "denied": {
-      "switch": "Método de retirada do interruptor",
+      "switch": "Trocar método de saque",
       "retryable": {
-        "title": "A verificação da identificação não foi aceite.",
-        "description": "Por favor, verifique novamente ou tente uma forma diferente de levantar fundos.",
-        "tryAgain": "Tente novamente"
+        "title": "A verificação da identidade não foi aceita.",
+        "description": "Verifique novamente ou tente uma forma diferente de sacar fundos.",
+        "tryAgain": "Tentar novamente"
       },
       "final": {
         "title": "Verificação negada.",
-        "description": "Por favor, tente uma forma diferente de retirar fundos, ou contacte o apoio."
+        "description": "Tente uma forma diferente de sacar fundos ou fale com a Equipe de Suporte."
       }
     },
     "expired": {
-      "title": "A verificação da identificação expirou.",
-      "description": "Por favor, verifique novamente ou tente uma forma diferente de levantar fundos.",
-      "tryAgain": "Tente novamente",
-      "switch": "Método de retirada do interruptor"
+      "title": "A verificação da identidade expirou.",
+      "description": "Verifique novamente ou tente uma forma diferente de sacar fundos.",
+      "tryAgain": "Tentar novamente",
+      "switch": "Trocar método de saque"
     },
     "tryAgainFailed": "Ocorreu um erro ao limpar as informações de Conheça o Seu Cliente (KYC). Tente novamente"
   },
@@ -1417,8 +1418,9 @@
     },
     "accountNumber": {
       "label": "Número da conta",
-      "placeholderText": "Insira seu número da conta de 10 dígitos",
-      "errorMessage": "O número da conta deve ter 10 dígitos e conter apenas números"
+      "placeholderText": "Introduza o número da conta",
+      "errorMessageDigitLength": "O número de conta deve ser {{length}} dígitos",
+      "errorMessageDigit": "O número da conta deve conter apenas dígitos"
     }
   },
   "webView": {
@@ -1447,11 +1449,34 @@
     "swapTo": "Trocar para",
     "transactionDetails": "Detalhes de transação",
     "estimatedGas": "Taxas estimadas",
+    "swapSubmitError": "Sorry, we were unable to complete your swap. Please try again or contact support.",
     "swapFee": "Taxa da {{appName}}",
     "swapFeeTitle": "O que é a taxa da {{appName}}?",
     "swapFeeBody": "A taxa da {{appName}} é a taxa que se paga para trocar tokens na {{appName}}. \n\nA taxa é {{swapFee}}% do montante da troca. \n\nAs taxas da {{appName}} são gratuitas para os próximos meses.",
+    "swapFeeBodyFree": "The {{appName}} fee is the fee that you pay to swap tokens on {{appName}}. {{appName}} fees are free for the next few months.",
     "estimatedAmountTitle": "Montante estimado",
-    "estimatedAmountBody": "As conversões têm lugar numa troca descentralizada de terceiros que lhe encontra a melhor taxa para a sua troca. \n\nA sua transação será concluída a um preço de {{slippagePercent}}% da estimativa ou a transação será cancelada e os fundos serão devolvidos à sua carteira."
+    "estimatedAmountBody": "As conversões têm lugar numa troca descentralizada de terceiros que lhe encontra a melhor taxa para a sua troca. \n\nA sua transação será concluída a um preço de {{slippagePercent}}% da estimativa ou a transação será cancelada e os fundos serão devolvidos à sua carteira.",
+    "free": "Free"
+  },
+  "SwapExecuteScreen": {
+    "swapPending": "Swap Pending",
+    "swapSuccess": "Swap Successful!",
+    "swapError": "Swap Error",
+    "exchangeRateSubtext": "Finding the best exchange rate...",
+    "approvingSubtext": "Approving funds...",
+    "completingSubtext": "Completing swap...",
+    "swapAgain": "Swap Again",
+    "swapPriceModal": {
+      "title": "Prices have changed",
+      "action": "Continue",
+      "body": "Crypto amounts & fees can change due to fluctuations in the crypto market. \n\n Please review your final amount & fees and resubmit."
+    },
+    "swapErrorModal": {
+      "title": "We couldn’t complete this transaction.",
+      "body": "Please wait and try again later or contact our support team for help.",
+      "swapRestart": "Dismiss",
+      "contactSupport": "Contact Support"
+    }
   },
   "inviteModal": {
     "title": "Parece que {{contactName}} ainda não tem uma carteira na {{appName}}.",
