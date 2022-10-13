@@ -602,6 +602,7 @@
   "fullNameOrPseudonymPlaceholder": "Имя и фамилия или псевдоним",
   "nameAndPicGuideCopyTitle": "Как вас зовут?",
   "nameAndPicGuideCopyContent": "Мы хотели бы знать, как к вам обращаться",
+  "generateUsername": "Сгенерируйте имя",
   "importIt": "Восстановить кошелек",
   "important": "Важно",
   "confirmPin": {
@@ -1296,7 +1297,7 @@
     "bankAccount": {
       "header": "Настроить банковский счет",
       "bodyTitle": "Настроить банковский счет",
-      "description": "Введи реквизиты банковского счета для перевода средств. Эти услуги будут предоставляться тебе по <0>{{providerName}}</0>.\n\nНажимая продолжить, ты соглашаешься с их <1>Условиями и положения</1> ми и <2>Политикой конфиденциальности</2>"
+      "description": "Введите реквизиты банковского счета для перевода средств. Ваши транзакции будут осуществляться с помощью <0>{{providerName}}</0>. \n\nПриняв решение продолжить, вы соглашаетесь с <1>Положениями и условиями</1> и <2>Политикой конфиденциальности</2>."
     },
     "continue": "Продолжить"
   },
@@ -1309,30 +1310,30 @@
     "button": "Настроить подтверждение личности"
   },
   "fiatConnectKycStatusScreen": {
-    "contactSupportPrefill": "У меня проблемы с подтверждением моей личности в Valora.",
+    "contactSupportPrefill": "У меня возникли проблемы с проверкой личности в Valora.",
     "contactSupport": "Обратитесь в службу поддержки",
     "pending": {
-      "title": "Проверка твоего удостоверения личности находится на рассмотрении.",
-      "description": "После завершения проверки ты можешь вернуться на страницу добавления и снятия средств, чтобы завершить транзакцию.",
+      "title": "Проверка вашей личности находится на рассмотрении.",
+      "description": "После завершения проверки вы сможете вернуться на страницу добавления и снятия средств, чтобы завершить транзакцию.",
       "close": "Закрыть"
     },
     "denied": {
-      "switch": "Переключение способа вывода средств",
+      "switch": "Выбрать способ вывода средств",
       "retryable": {
-        "title": "Проверка удостоверения личности не была принята.",
-        "description": "Пожалуйста, проверь еще раз или попробуй другой способ вывода средств.",
-        "tryAgain": "Попробуй еще раз"
+        "title": "Процедура подтверждения личности не пройдена.",
+        "description": "Повторите процедуру проверки или попробуйте другой способ вывода средств.",
+        "tryAgain": "Повторить попытку"
       },
       "final": {
         "title": "Проверка отклонена.",
-        "description": "Пожалуйста, попробуй другой способ вывода средств или обратись в службу поддержки."
+        "description": "Воспользуйтесь другим способом вывода средств или обратитесь в службу поддержки."
       }
     },
     "expired": {
-      "title": "Проверка удостоверения личности истекла.",
-      "description": "Пожалуйста, проверь еще раз или попробуй другой способ вывода средств.",
-      "tryAgain": "Попробуй еще раз",
-      "switch": "Переключение способа вывода средств"
+      "title": "Истекло время на проверку личности.",
+      "description": "Повторите процедуру проверки или попробуйте другой способ вывода средств.",
+      "tryAgain": "Повторить попытку",
+      "switch": "Выбрать способ вывода средств"
     },
     "tryAgainFailed": "Произошла ошибка при очистке информации KYC. Повторите попытку."
   },
@@ -1421,8 +1422,9 @@
     },
     "accountNumber": {
       "label": "Номер счета",
-      "placeholderText": "Введите 10-значный номер счета",
-      "errorMessage": "Номер счета должен состоять из 10 цифр и содержать только цифры"
+      "placeholderText": "Введите номер счета",
+      "errorMessageDigitLength": "Номер счета должен состоять из {{length}} цифр",
+      "errorMessageDigit": "Номер счета должен содержать только цифры"
     }
   },
   "webView": {
@@ -1451,11 +1453,34 @@
     "swapTo": "Обменять на",
     "transactionDetails": "Детали транзакции",
     "estimatedGas": "Приблизительный газ",
+    "swapSubmitError": "Sorry, we were unable to complete your swap. Please try again or contact support.",
     "swapFee": "Комиссия {{appName}}",
     "swapFeeTitle": "Что представляет собой комиссия {{appName}}?",
     "swapFeeBody": "Комиссия {{appName}} представляет собой сбор, который вы вносите за обмен токенами в {{appName}}. \n\n Комиссия составляет {{swapFee}}% от суммы обмена. \n\n Комиссии {{appName}} не взимаются в течение последующих нескольких месяцев.",
+    "swapFeeBodyFree": "The {{appName}} fee is the fee that you pay to swap tokens on {{appName}}. {{appName}} fees are free for the next few months.",
     "estimatedAmountTitle": "Расчетная сумма",
-    "estimatedAmountBody": "Конвертации выполняются на сторонних децентрализованных биржах, которые выполняют поиск наилучшего курса для обмена. \n\n Ваша сделка будет завершена по цене в пределах {{slippagePercent}}% от расчетной стоимости или транзакция будет отменена и средства возвращены в ваш кошелек."
+    "estimatedAmountBody": "Конвертации выполняются на сторонних децентрализованных биржах, которые выполняют поиск наилучшего курса для обмена. \n\n Ваша сделка будет завершена по цене в пределах {{slippagePercent}}% от расчетной стоимости или транзакция будет отменена и средства возвращены в ваш кошелек.",
+    "free": "Free"
+  },
+  "SwapExecuteScreen": {
+    "swapPending": "Swap Pending",
+    "swapSuccess": "Swap Successful!",
+    "swapError": "Swap Error",
+    "exchangeRateSubtext": "Finding the best exchange rate...",
+    "approvingSubtext": "Approving funds...",
+    "completingSubtext": "Completing swap...",
+    "swapAgain": "Swap Again",
+    "swapPriceModal": {
+      "title": "Prices have changed",
+      "action": "Continue",
+      "body": "Crypto amounts & fees can change due to fluctuations in the crypto market. \n\n Please review your final amount & fees and resubmit."
+    },
+    "swapErrorModal": {
+      "title": "We couldn’t complete this transaction.",
+      "body": "Please wait and try again later or contact our support team for help.",
+      "swapRestart": "Dismiss",
+      "contactSupport": "Contact Support"
+    }
   },
   "inviteModal": {
     "title": "Похоже, {{contactName}} еще не имеет кошелька {{appName}}.",

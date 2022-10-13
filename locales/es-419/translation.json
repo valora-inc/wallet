@@ -602,6 +602,7 @@
   "fullNameOrPseudonymPlaceholder": "Nombre y apellido o alias",
   "nameAndPicGuideCopyTitle": "¿Cómo te llamas?",
   "nameAndPicGuideCopyContent": "Nos gustaría saber cómo llamarte",
+  "generateUsername": "Generar un nombre",
   "importIt": "Restaurar cuenta",
   "important": "Importante",
   "confirmPin": {
@@ -1292,7 +1293,7 @@
     "bankAccount": {
       "header": "Configurar cuenta bancaria",
       "bodyTitle": "Configurar cuenta bancaria",
-      "description": "Introduce los datos de la cuenta bancaria para transferir fondos. Estos servicios te serán proporcionados por <0>{{providerName}}</0>.\n\nAl hacer clic en continuar, aceptas sus <1>Términos y Condiciones</1> y su <2>Política de Privacidad</2>"
+      "description": "Ingresa los datos bancarios para transferir fondos. Estos servicios te serán proporcionados por <0>{{providerName}}</0>. Si eliges continuar, aceptas sus <1>Términos y condiciones</1> y su <2>Política de privacidad</2>."
     },
     "continue": "Continuar"
   },
@@ -1309,26 +1310,26 @@
     "contactSupport": "Contactar a Soporte",
     "pending": {
       "title": "Tu verificación de identidad está en revisión.",
-      "description": "Una vez completada la revisión, puedes volver a la página de Añadir y Retirar para completar tu transacción.",
+      "description": "Una vez completada la revisión, puedes volver a la página Agregar y retirar para completar tu transacción.",
       "close": "Cerrar"
     },
     "denied": {
-      "switch": "Cambiar el método de retirada",
+      "switch": "Cambiar método de retiro",
       "retryable": {
-        "title": "No se aceptó la verificación del DNI.",
-        "description": "Por favor, verifica de nuevo o intenta una forma diferente de retirar fondos.",
-        "tryAgain": "Inténtalo de nuevo"
+        "title": "Verificación de identidad denegada",
+        "description": "Haz una nueva verificación o intenta una forma alternativa de retirar fondos.",
+        "tryAgain": "Intentar de nuevo"
       },
       "final": {
-        "title": "Verificación denegada.",
-        "description": "Por favor, intenta una forma diferente de retirar fondos, o ponte en contacto con el servicio de asistencia."
+        "title": "Verificación de identidad denegada",
+        "description": "Intenta una forma alternativa de retirar fondos, o ponte en contacto con el equipo de soporte técnico."
       }
     },
     "expired": {
-      "title": "La verificación de la identidad ha caducado.",
-      "description": "Por favor, verifica de nuevo o intenta una forma diferente de retirar fondos.",
-      "tryAgain": "Inténtalo de nuevo",
-      "switch": "Cambiar el método de retirada"
+      "title": "Verificación de identidad caducada",
+      "description": "Haz una nueva verificación o intenta una forma alternativa de retirar fondos.",
+      "tryAgain": "Intentar de nuevo",
+      "switch": "Cambiar método de retiro"
     },
     "tryAgainFailed": "Hubo un error al borrar la información de KYC. Vuelve a intentarlo."
   },
@@ -1417,8 +1418,9 @@
     },
     "accountNumber": {
       "label": "Número de cuenta",
-      "placeholderText": "Ingresa tu número de cuenta de 10 dígitos",
-      "errorMessage": "El número de cuenta debe tener 10 dígitos y solo debe contener números."
+      "placeholderText": "Introduce el número de cuenta",
+      "errorMessageDigitLength": "El número de cuenta debe ser {{length}} dígitos",
+      "errorMessageDigit": "El número de cuenta debe contener sólo dígitos"
     }
   },
   "webView": {
@@ -1447,11 +1449,34 @@
     "swapTo": "Cambiar a",
     "transactionDetails": "Detalles de transacción",
     "estimatedGas": "Tarifas estimadas",
+    "swapSubmitError": "Sorry, we were unable to complete your swap. Please try again or contact support.",
     "swapFee": "Tarifa de {{appName}}",
     "swapFeeTitle": "¿Qué es la tarifa de {{appName}}?",
     "swapFeeBody": "La tarifa de {{appName}} es el costo que pagas por intercambiar tokens en {{appName}}. \n\nLa tarifa es del {{swapFee}}% del monto a intercambiar. \n\nLas tarifas de {{appName}} serán gratuitas los próximos meses.",
+    "swapFeeBodyFree": "The {{appName}} fee is the fee that you pay to swap tokens on {{appName}}. {{appName}} fees are free for the next few months.",
     "estimatedAmountTitle": "Monto estimado",
-    "estimatedAmountBody": "Las conversiones tienen lugar en un exchange descentralizado de terceros que encontrará la mejor tarifa para tu intercambio. \n\nEl intercambio se completará a un precio dentro del {{slippagePercent}}% del monto estmado o la transacción se cancelará y se devolverán los fondos a tu wallet."
+    "estimatedAmountBody": "Las conversiones tienen lugar en un exchange descentralizado de terceros que encontrará la mejor tarifa para tu intercambio. \n\nEl intercambio se completará a un precio dentro del {{slippagePercent}}% del monto estmado o la transacción se cancelará y se devolverán los fondos a tu wallet.",
+    "free": "Free"
+  },
+  "SwapExecuteScreen": {
+    "swapPending": "Swap Pending",
+    "swapSuccess": "Swap Successful!",
+    "swapError": "Swap Error",
+    "exchangeRateSubtext": "Finding the best exchange rate...",
+    "approvingSubtext": "Approving funds...",
+    "completingSubtext": "Completing swap...",
+    "swapAgain": "Swap Again",
+    "swapPriceModal": {
+      "title": "Prices have changed",
+      "action": "Continue",
+      "body": "Crypto amounts & fees can change due to fluctuations in the crypto market. \n\n Please review your final amount & fees and resubmit."
+    },
+    "swapErrorModal": {
+      "title": "We couldn’t complete this transaction.",
+      "body": "Please wait and try again later or contact our support team for help.",
+      "swapRestart": "Dismiss",
+      "contactSupport": "Contact Support"
+    }
   },
   "inviteModal": {
     "title": "Parece que {{contactName}} aún no tiene una wallet {{appName}}.",

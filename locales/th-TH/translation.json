@@ -142,7 +142,7 @@
     }
   ],
   "consumerIncentivesTitle": "Get started with Supercharge",
-  "consumerIncentivesSummary": "Supercharge is here! Get 12% annual rewards on your highest stablecoin balance (cUSD, cEUR, or cREAL). Available for a limited time. Here's how it works:",
+  "consumerIncentivesSummary": "Supercharge is here! Get {{percent}}% annual rewards on your highest stablecoin balance (cUSD, cEUR, or cREAL). Available for a limited time. Here's how it works:",
   "earnWeekly": {
     "header": "Connect your phone number",
     "text": "Tap Connect Number if you haven't connected it yet."
@@ -158,7 +158,7 @@
   },
   "conclusion": "It’s that simple. Supercharge your crypto today!",
   "superchargeTitle": "Start Supercharging",
-  "superchargeDescription": "Get 12% annual rewards on your {{token}} balance. Here's how to start:",
+  "superchargeDescription": "Get {{apy}}% annual rewards on your {{token}} balance. Here's how to start:",
   "superchargeConnectNumber": "Connect your phone number",
   "superchargeMinimumBalance": "Add a minimum balance of {{amount}} {{token}}",
   "superchargeDisclaimer": "Max-out rewards by adding up to {{amount}} {{token}}",
@@ -180,7 +180,7 @@
   "superchargeClaimFailure": "There was an issue claiming your Supercharge rewards.",
   "superchargeNotificationBody": "Your Supercharge rewards are here! Claim them now.",
   "superchargeNotificationStart": "Claim rewards",
-  "superchargingNotificationBody": "You're getting rewards with Supercharge ⚡",
+  "superchargingNotificationBody": "You're getting 25% rewards with Supercharge ⚡",
   "superchargingNotificationBodyV1_33": "You're getting {{apy}}% rewards with Supercharge ⚡",
   "superchargingNotificationStart": "Learn more",
   "startSuperchargingNotificationBody": "Get rewarded with crypto weekly. Start Supercharging!",
@@ -823,8 +823,7 @@
     "codePlaceholder3_ios": "Tap or copy the third message",
     "codePlaceholderWithCodeInClipboard": "Great! Paste it here",
     "resendMessages_all": "Resend all messages",
-    "resendMessages": "Resend last message",
-    "resendMessages_plural": "Resend {{count}} messages"
+    "resendMessages_0": "Resend {{count}} messages"
   },
   "verificationInputHelpDialog": {
     "title": "Help",
@@ -836,8 +835,7 @@
       "title": "Missing some or all messages?",
       "defaultContent": "If you’re having trouble receiving messages, you can skip this step for now and try again later. Sometimes it can take a few minutes for messages to arrive.",
       "content": "$t(verificationInputHelpDialog.bodySection2.defaultContent)",
-      "content_countdown": "$t(verificationInputHelpDialog.bodySection2.defaultContent) The skip option below will be available in {{count}} second.",
-      "content_countdown_plural": "$t(verificationInputHelpDialog.bodySection2.defaultContent) The skip option below will be available in {{count}} seconds."
+      "content_countdown_0": "$t(verificationInputHelpDialog.bodySection2.defaultContent) The skip option below will be available in {{count}} seconds."
     },
     "body": "<0>$t(verificationInputHelpDialog.bodySection1.title)</0>\n\n$t(verificationInputHelpDialog.bodySection1.content)\n\n<1>$t(verificationInputHelpDialog.bodySection2.title)</1>\n\n$t(verificationInputHelpDialog.bodySection2.content)",
     "skip": "Skip for now",
@@ -1484,6 +1482,5 @@
     "sendInviteButtonLabel": "Send Invite",
     "shareMessage": "Hey! I’d like to send you some crypto with my {{appName}} wallet. Once you download the app and connect your phone number, we can send crypto as easy as a text. Use this link: {{link}}"
   },
-  "celoDollarAmount": "<0></0> Celo Dollar",
-  "celoDollarAmount_plural": "<0></0> Celo Dollars"
+  "celoDollarAmount_0": "<0></0> Celo Dollars"
 }
