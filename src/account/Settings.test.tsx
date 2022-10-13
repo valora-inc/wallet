@@ -20,6 +20,14 @@ const mockedEnsurePincode = ensurePincode as jest.Mock
 
 jest.mock('src/analytics/ValoraAnalytics')
 
+const mockRevokePhoneNumber = jest.fn()
+jest.mock('src/verify/hooks', () => ({
+  useRevokeCurrentPhoneNumber: () => ({
+    execute: mockRevokePhoneNumber,
+    loading: false,
+  }),
+}))
+
 describe('Account', () => {
   beforeEach(() => {
     jest.clearAllMocks()
@@ -226,5 +234,18 @@ describe('Account', () => {
     fireEvent.press(tree.getByTestId('RecoveryPhrase'))
     await flushMicrotasksQueue()
     expect(navigate).not.toHaveBeenCalled()
+  })
+
+  it('can trigger the action to revoke the phone number', async () => {
+    const store = createMockStore({ account: { devModeActive: true } })
+
+    const tree = render(
+      <Provider store={store}>
+        <Settings {...getMockStackScreenProps(Screens.Settings)} />
+      </Provider>
+    )
+
+    fireEvent.press(tree.getByText('Revoke Number Verification (centralized)'))
+    expect(mockRevokePhoneNumber).toHaveBeenCalled()
   })
 })
