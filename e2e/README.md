@@ -1,6 +1,6 @@
 # End-to-End tests
 
-![E2E](https://github.com/valora-inc/wallet/actions/workflows/e2e-ci.yml/badge.svg)
+![E2E](https://github.com/valora-inc/wallet/actions/workflows/e2e-main.yml/badge.svg)
 
 These are the End-to-End (e2e) tests for the wallet mobile app. They run an emulator and simulate a user clicking through the app.
 
@@ -198,7 +198,7 @@ It is recommended to follow the scheme parentID/ChildDescription.
 
 ## The e2e banner
 
-In the readme files, wallet root and this one, there are banners for the e2e tests. The test status is saved in GitHub Actions [E2E](https://github.com/valora-inc/wallet/actions/workflows/e2e-ci.yml)
+In the readme files, wallet root and this one, there are banners for the e2e tests. The test status is saved in GitHub Actions [E2E](https://github.com/valora-inc/wallet/actions/workflows/e2e-main.yml)
 
 There are reports for ci e2e runs and an additional artifacts for failing runs. These reports can be accessed from Actions > Android E2E or iOS E2E > select a run.
 
