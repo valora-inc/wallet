@@ -300,7 +300,7 @@ export const phoneNumberVerificationCompleted = (
   }
 }
 
-export const phoneNumberRevoked = (e164PhoneNumber: string): PhoneNumberVerificationCompleted => {
+export const phoneNumberRevoked = (e164PhoneNumber: string): PhoneNumberRevoked => {
   return {
     type: Actions.PHONE_NUMBER_REVOKED,
     e164PhoneNumber,
