@@ -7,6 +7,8 @@ import { Provider } from 'react-redux'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
+import { SendingFiatAccountStatus, submitFiatAccount } from 'src/fiatconnect/slice'
+import { FiatAccountSchemaCountryOverrides } from 'src/fiatconnect/types'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
@@ -14,7 +16,6 @@ import { Screens } from 'src/navigator/Screens'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockFiatConnectProviderIcon, mockFiatConnectQuotes, mockNavigation } from 'test/values'
 import FiatDetailsScreen from './FiatDetailsScreen'
-import { submitFiatAccount, SendingFiatAccountStatus } from 'src/fiatconnect/slice'
 
 jest.mock('src/alert/actions')
 jest.mock('src/analytics/ValoraAnalytics')
@@ -29,7 +30,7 @@ jest.mock('src/utils/Logger', () => ({
 }))
 
 const fakeInstitutionName = 'CapitalTwo Bank'
-const fakeAccountNumber = '1234567890'
+const fakeAccountNumber = '1234567'
 let mockResult = Result.ok({
   fiatAccountId: '1234',
   accountName: '7890',
@@ -45,7 +46,17 @@ jest.mock('@fiatconnect/fiatconnect-sdk', () => ({
 jest.mock('src/fiatconnect/clients')
 jest.useFakeTimers()
 
-const store = createMockStore({})
+const schemaCountryOverrides: FiatAccountSchemaCountryOverrides = {
+  NG: {
+    [FiatAccountSchema.AccountNumber]: {
+      accountNumber: {
+        regex: '^[0-9]{10}$',
+        errorString: 'errorMessageDigitLength',
+      },
+    },
+  },
+}
+const store = createMockStore({ fiatConnect: { schemaCountryOverrides } })
 const quoteWithAllowedValues = new FiatConnectQuote({
   quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
   fiatAccountType: FiatAccountType.BankAccount,
@@ -93,24 +104,24 @@ describe('FiatDetailsScreen', () => {
   })
 
   it('can view a list of bank fields', () => {
-    const { queryByText, queryByTestId } = render(
+    const { getByText, getByTestId, queryByTestId } = render(
       <Provider store={store}>
         <FiatDetailsScreen {...mockScreenPropsWithAllowedValues} />
       </Provider>
     )
 
-    expect(queryByText('fiatAccountSchema.institutionName.label')).toBeTruthy()
+    expect(getByText('fiatAccountSchema.institutionName.label')).toBeTruthy()
     // checks presence of picker, testID is hardcoded and not customizable
-    expect(queryByTestId('android_touchable_wrapper')).toBeTruthy()
+    expect(getByTestId('android_touchable_wrapper')).toBeTruthy()
 
-    expect(queryByText('fiatAccountSchema.accountNumber.label')).toBeTruthy()
-    expect(queryByTestId('input-accountNumber')).toBeTruthy()
+    expect(getByText('fiatAccountSchema.accountNumber.label')).toBeTruthy()
+    expect(getByTestId('input-accountNumber')).toBeTruthy()
 
     expect(queryByTestId(/errorMessage-.+/)).toBeFalsy()
 
-    expect(queryByTestId('submitButton')).toBeTruthy()
-    expect(queryByTestId('submitButton')).toBeDisabled()
-    expect(queryByText('fiatDetailsScreen.submitAndContinue')).toBeTruthy()
+    expect(getByTestId('submitButton')).toBeTruthy()
+    expect(getByTestId('submitButton')).toBeDisabled()
+    expect(getByText('fiatDetailsScreen.submitAndContinue')).toBeTruthy()
   })
   it('renders header with provider image', () => {
     let headerTitle: React.ReactNode
@@ -124,15 +135,11 @@ describe('FiatDetailsScreen', () => {
       </Provider>
     )
 
-    const { queryByTestId, getByTestId, queryByText } = render(
-      <Provider store={store}>{headerTitle}</Provider>
-    )
+    const { getByTestId, getByText } = render(<Provider store={store}>{headerTitle}</Provider>)
 
-    expect(queryByText('fiatDetailsScreen.header')).toBeTruthy()
-    expect(
-      queryByText('fiatDetailsScreen.headerSubTitle, {"provider":"Provider Two"}')
-    ).toBeTruthy()
-    expect(queryByTestId('headerProviderIcon')).toBeTruthy()
+    expect(getByText('fiatDetailsScreen.header')).toBeTruthy()
+    expect(getByText('fiatDetailsScreen.headerSubTitle, {"provider":"Provider Two"}')).toBeTruthy()
+    expect(getByTestId('headerProviderIcon')).toBeTruthy()
     expect(getByTestId('headerProviderIcon').props.source.uri).toEqual(mockFiatConnectProviderIcon)
   })
   it('cancel button navigates to fiat exchange screen and fires analytics event', () => {
@@ -147,9 +154,8 @@ describe('FiatDetailsScreen', () => {
       </Provider>
     )
 
-    const { getByText, queryByText } = render(<Provider store={store}>{headerRight}</Provider>)
+    const { getByText } = render(<Provider store={store}>{headerRight}</Provider>)
 
-    expect(queryByText('cancel')).toBeTruthy()
     fireEvent.press(getByText('cancel'))
     expect(navigate).toHaveBeenCalledWith(Screens.FiatExchange)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
@@ -173,9 +179,9 @@ describe('FiatDetailsScreen', () => {
       </Provider>
     )
 
-    const { getByTestId, queryByTestId } = render(<Provider store={store}>{headerLeft}</Provider>)
+    const { getByTestId } = render(<Provider store={store}>{headerLeft}</Provider>)
 
-    expect(queryByTestId('backButton')).toBeTruthy()
+    expect(getByTestId('backButton')).toBeTruthy()
     fireEvent.press(getByTestId('backButton'))
     expect(navigateBack).toHaveBeenCalledWith()
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(FiatExchangeEvents.cico_fiat_details_back, {
@@ -185,29 +191,29 @@ describe('FiatDetailsScreen', () => {
     })
   })
   it('button remains disabled if required input field is empty', () => {
-    const { queryByText, getByTestId, queryByTestId } = render(
+    const { getByText, getByTestId, queryByTestId } = render(
       <Provider store={store}>
         <FiatDetailsScreen {...mockScreenPropsWithAllowedValues} />
       </Provider>
     )
 
-    expect(queryByText('fiatAccountSchema.institutionName.label')).toBeTruthy()
-    expect(queryByText('fiatAccountSchema.accountNumber.label')).toBeTruthy()
+    expect(getByText('fiatAccountSchema.institutionName.label')).toBeTruthy()
+    expect(getByText('fiatAccountSchema.accountNumber.label')).toBeTruthy()
     expect(queryByTestId(/errorMessage-.+/)).toBeFalsy()
 
     fireEvent.changeText(getByTestId('input-accountNumber'), fakeAccountNumber)
 
-    expect(queryByTestId('submitButton')).toBeDisabled()
+    expect(getByTestId('submitButton')).toBeDisabled()
   })
   it('shows validation error if the input field does not fulfill the requirement after delay', () => {
-    const { queryByText, getByTestId, queryByTestId } = render(
+    const { getByText, getByTestId, queryByTestId } = render(
       <Provider store={store}>
         <FiatDetailsScreen {...mockScreenPropsWithAllowedValues} />
       </Provider>
     )
 
-    expect(queryByText('fiatAccountSchema.institutionName.label')).toBeTruthy()
-    expect(queryByText('fiatAccountSchema.accountNumber.label')).toBeTruthy()
+    expect(getByText('fiatAccountSchema.institutionName.label')).toBeTruthy()
+    expect(getByText('fiatAccountSchema.accountNumber.label')).toBeTruthy()
     expect(queryByTestId(/errorMessage-.+/)).toBeFalsy()
 
     fireEvent.changeText(getByTestId('input-accountNumber'), '12dtfa')
@@ -216,19 +222,19 @@ describe('FiatDetailsScreen', () => {
     // after delay
     expect(queryByTestId(/errorMessage-.+/)).toBeFalsy()
     jest.advanceTimersByTime(1500)
-    expect(queryByTestId('errorMessage-accountNumber')).toBeTruthy()
-    expect(queryByText('fiatAccountSchema.accountNumber.errorMessage')).toBeTruthy()
-    expect(queryByTestId('submitButton')).toBeDisabled()
+    expect(getByTestId('errorMessage-accountNumber')).toBeTruthy()
+    expect(getByText('fiatAccountSchema.accountNumber.errorMessageDigit')).toBeTruthy()
+    expect(getByTestId('submitButton')).toBeDisabled()
   })
   it('shows validation error if the input field does not fulfill the requirement immediately on blur', () => {
-    const { queryByText, getByTestId, queryByTestId } = render(
+    const { getByText, getByTestId, queryByTestId } = render(
       <Provider store={store}>
         <FiatDetailsScreen {...mockScreenProps} />
       </Provider>
     )
 
-    expect(queryByText('fiatAccountSchema.institutionName.label')).toBeTruthy()
-    expect(queryByText('fiatAccountSchema.accountNumber.label')).toBeTruthy()
+    expect(getByText('fiatAccountSchema.institutionName.label')).toBeTruthy()
+    expect(getByText('fiatAccountSchema.accountNumber.label')).toBeTruthy()
     expect(queryByTestId(/errorMessage-.+/)).toBeFalsy()
 
     fireEvent.changeText(getByTestId('input-accountNumber'), '12dtfa')
@@ -236,9 +242,33 @@ describe('FiatDetailsScreen', () => {
 
     // Should see an error message saying the account number field is invalid
     // immediately since the field loses focus
-    expect(queryByTestId('errorMessage-accountNumber')).toBeTruthy()
-    expect(queryByText('fiatAccountSchema.accountNumber.errorMessage')).toBeTruthy()
-    expect(queryByTestId('submitButton')).toBeDisabled()
+    expect(getByTestId('errorMessage-accountNumber')).toBeTruthy()
+    expect(getByText('fiatAccountSchema.accountNumber.errorMessageDigit')).toBeTruthy()
+    expect(getByTestId('submitButton')).toBeDisabled()
+  })
+  it('shows country specific validation error using overrides', () => {
+    const mockStore = createMockStore({
+      fiatConnect: { schemaCountryOverrides },
+      networkInfo: { userLocationData: { countryCodeAlpha2: 'NG' } },
+    })
+    const { getByText, getByTestId, queryByTestId } = render(
+      <Provider store={mockStore}>
+        <FiatDetailsScreen {...mockScreenProps} />
+      </Provider>
+    )
+
+    expect(getByText('fiatAccountSchema.institutionName.label')).toBeTruthy()
+    expect(getByText('fiatAccountSchema.accountNumber.label')).toBeTruthy()
+    expect(queryByTestId(/errorMessage-.+/)).toBeFalsy()
+
+    fireEvent.changeText(getByTestId('input-accountNumber'), '123456')
+    fireEvent(getByTestId('input-accountNumber'), 'blur')
+
+    // Should see an error message saying the account number field is invalid
+    // immediately since the field loses focus
+    expect(getByTestId('errorMessage-accountNumber')).toBeTruthy()
+    expect(getByText('fiatAccountSchema.accountNumber.errorMessageDigitLength')).toBeTruthy()
+    expect(getByTestId('submitButton')).toBeDisabled()
   })
   it('dispatches to saga when validation passes after pressing submit', async () => {
     const { getByTestId } = render(
@@ -251,7 +281,7 @@ describe('FiatDetailsScreen', () => {
     fireEvent.changeText(getByTestId('input-accountNumber'), fakeAccountNumber)
 
     const mockFiatAccountData = {
-      accountName: 'CapitalTwo Bank (...7890)',
+      accountName: 'CapitalTwo Bank (...4567)',
       institutionName: fakeInstitutionName,
       accountNumber: fakeAccountNumber,
       country: 'US',
@@ -270,24 +300,30 @@ describe('FiatDetailsScreen', () => {
   })
   it('shows spinner while fiat account is sending', () => {
     const mockStore = createMockStore({
-      fiatConnect: { sendingFiatAccountStatus: SendingFiatAccountStatus.Sending },
+      fiatConnect: {
+        sendingFiatAccountStatus: SendingFiatAccountStatus.Sending,
+        schemaCountryOverrides,
+      },
     })
-    const { queryByTestId } = render(
+    const { getByTestId } = render(
       <Provider store={mockStore}>
         <FiatDetailsScreen {...mockScreenProps} />
       </Provider>
     )
-    expect(queryByTestId('spinner')).toBeTruthy()
+    expect(getByTestId('spinner')).toBeTruthy()
   })
   it('shows checkmark if fiat account and KYC have been approved', () => {
     const mockStore = createMockStore({
-      fiatConnect: { sendingFiatAccountStatus: SendingFiatAccountStatus.KycApproved },
+      fiatConnect: {
+        sendingFiatAccountStatus: SendingFiatAccountStatus.KycApproved,
+        schemaCountryOverrides,
+      },
     })
-    const { queryByTestId } = render(
+    const { getByTestId } = render(
       <Provider store={mockStore}>
         <FiatDetailsScreen {...mockScreenProps} />
       </Provider>
     )
-    expect(queryByTestId('checkmark')).toBeTruthy()
+    expect(getByTestId('checkmark')).toBeTruthy()
   })
 })

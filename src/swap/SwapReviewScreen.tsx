@@ -1,4 +1,3 @@
-import { StackScreenProps } from '@react-navigation/stack'
 import BigNumber from 'bignumber.js'
 import React, { useEffect, useState } from 'react'
 import { useAsync } from 'react-async-hook'
@@ -10,11 +9,7 @@ import { showError } from 'src/alert/actions'
 import { SwapEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import {
-  maxSwapSlippagePercentageSelector,
-  swapFeeEnabledSelector,
-  swapFeePercentageSelector,
-} from 'src/app/selectors'
+import { maxSwapSlippagePercentageSelector } from 'src/app/selectors'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes } from 'src/components/Button'
 import Dialog from 'src/components/Dialog'
@@ -23,54 +18,52 @@ import TokenDisplay, { formatValueToDisplay } from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import InfoIcon from 'src/icons/InfoIcon'
 import { noHeader } from 'src/navigator/Headers'
-import { Screens } from 'src/navigator/Screens'
-import { StackParamList } from 'src/navigator/types'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
-import { Field } from 'src/swap/useSwapQuote'
+import { swapUserInputSelector } from 'src/swap/selectors'
+import { swapStart } from 'src/swap/slice'
+import { Field, ZeroExResponse } from 'src/swap/types'
 import { coreTokensSelector } from 'src/tokens/selectors'
 import { divideByWei, multiplyByWei } from 'src/utils/formatting'
 import Logger from 'src/utils/Logger'
 import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 
-type Props = StackScreenProps<StackParamList, Screens.SwapReviewScreen>
-
 const TAG = 'SWAP_REVIEW_SCREEN'
-
-interface SwapInfo {
-  unvalidatedSwapTransaction: {
-    sellToken: string
-    buyToken: string
-    buyAmount: string
-    sellAmount: string
-    price: string
-    gas: string
-    gasPrice: string
-  }
+const initialUserInput = {
+  toToken: '',
+  fromToken: '',
+  swapAmount: {
+    [Field.FROM]: null,
+    [Field.TO]: null,
+  },
+  updatedField: Field.TO,
 }
 
-export function SwapReviewScreen(props: Props) {
-  const { toToken, fromToken, swapAmount, updatedField } = props.route.params
+// Workaround for buying Celo - Mainnet only
+const toCeloWorkaround = (tokenAddress: string) => {
+  // Check if the token is CELO
+  return tokenAddress.toLowerCase() === '0x471ece3750da237f93b8e339c536989b8978a438'
+    ? '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE'
+    : tokenAddress
+}
+
+export function SwapReviewScreen() {
+  const userInput = useSelector(swapUserInputSelector)
+  const { toToken, fromToken, swapAmount, updatedField } = userInput || initialUserInput
   const [shouldFetch, setShouldFetch] = useState(true)
   const [estimatedModalVisible, setEstimatedDialogVisible] = useState(false)
   const [swapFeeModalVisible, setSwapFeeModalVisible] = useState(false)
-  const [swapInfo, setSwapInfo] = useState<SwapInfo | null>(null)
+  const [swapResponse, setSwapResponse] = useState<ZeroExResponse | null>(null)
   const [fetchError, setFetchError] = useState(false)
   const coreTokens = useSelector(coreTokensSelector)
   const walletAddress = useSelector(walletAddressSelector)
 
-  // Items set for remote config
+  // Items set from remote config
   const maxSlippagePercent = useSelector(maxSwapSlippagePercentageSelector)
-  const swapFeeEnabled = useSelector(swapFeeEnabledSelector)
-  const swapFeePercentage = useSelector(swapFeePercentageSelector)
-
-  // Remote configs converted to decimals strings
-  // const maxSlippageDecimal = `${maxSlippagePercent / 100}`
-  const swapFeeDecimal = `${swapFeePercentage / 100}`
 
   const { t } = useTranslation()
   const dispatch = useDispatch()
@@ -79,21 +72,25 @@ export function SwapReviewScreen(props: Props) {
   const toTokenSymbol = coreTokens.find((token) => token.address === toToken)?.symbol
   const fromTokenSymbol = coreTokens.find((token) => token.address === fromToken)?.symbol
 
+  // BuyAmount or SellAmount
+  const swapAmountParam = updatedField === Field.FROM ? 'sellAmount' : 'buyAmount'
+  const swapAmountInWei = multiplyByWei(swapAmount[updatedField] ?? 0)
+
   useEffect(() => {
     ValoraAnalytics.track(SwapEvents.swap_review_screen_open, {
       toToken,
       fromToken,
-      buyAmount: swapAmount[Field.TO] ?? '',
+      amount: swapAmount[updatedField],
+      amountType: swapAmountParam,
     })
   }, [])
 
+  // We refetch from the API to ensure the quote is most up to date and the user can refresh if the quote is stale
   useAsync(
     async () => {
       if (!shouldFetch) return
-      const swapAmountInWei = multiplyByWei(swapAmount[updatedField]!)
-      const swapAmountParam = updatedField === Field.FROM ? 'sellAmount' : 'buyAmount'
       const params = {
-        buyToken: toToken,
+        buyToken: toCeloWorkaround(toToken),
         sellToken: fromToken,
         [swapAmountParam]: swapAmountInWei.toString().split('.')[0],
         // Enable when supported by 0xAPI & valora-rest-api
@@ -109,7 +106,8 @@ export function SwapReviewScreen(props: Props) {
           `Failure response fetching token swap quote. ${response.status}  ${response.statusText}`
         )
       }
-      setSwapInfo(await response.json())
+      const json: ZeroExResponse = await response.json()
+      setSwapResponse(json)
       setShouldFetch(false)
       setFetchError(false)
     },
@@ -119,174 +117,162 @@ export function SwapReviewScreen(props: Props) {
         setShouldFetch(false)
         setFetchError(true)
         dispatch(showError(ErrorMessages.FETCH_SWAP_QUOTE_FAILED))
-        Logger.debug(TAG, 'Error while fetching transactions', error)
+        Logger.debug(TAG, 'Error while fetching swap quote', error)
       },
     }
   )
 
   const submitSwap = () => {
-    // Check for swapInfo prior to submitting swap
-    if (!swapInfo) return
+    // Check for swapResponse prior to submitting swap
+    if (!swapResponse) {
+      dispatch(showError(ErrorMessages.SWAP_SUBMIT_FAILED))
+      Logger.error(TAG, 'No swap response found')
+      return
+    }
+
     // Analytics for swap submission
     ValoraAnalytics.track(SwapEvents.swap_review_submit, {
       toToken,
       fromToken,
-      // TODO: Add fee to total when enabled
-      usdTotal: +divideByWei(swapInfo.unvalidatedSwapTransaction.buyAmount).multipliedBy(
-        swapInfo.unvalidatedSwapTransaction.price
-      ),
-      fee: +divideByWei(swapInfo.unvalidatedSwapTransaction.sellAmount).multipliedBy(
-        swapFeeDecimal
+      amount: swapAmount[updatedField],
+      amountType: swapAmountParam,
+      usdTotal: +divideByWei(swapResponse.unvalidatedSwapTransaction[swapAmountParam]).multipliedBy(
+        swapResponse.unvalidatedSwapTransaction.price
       ),
     })
-    // TODO: dispatch swap submission
+    // Dispatch swap submission
+    if (userInput !== null) {
+      dispatch(swapStart({ ...swapResponse, userInput }))
+    }
   }
 
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
       <CustomHeader title={t('swapReviewScreen.title')} left={<BackButton />} />
       <DisconnectBanner />
-      {shouldFetch && swapInfo === null ? (
-        <View style={styles.loadingContentContainer}>
-          <ActivityIndicator
-            size="large"
-            color={colors.greenBrand}
-            testID="SwapReviewScreen/loading"
+      <ScrollView
+        style={styles.contentContainer}
+        refreshControl={
+          /* Transparent refresh control - display ActivityIndicator instead */
+          <RefreshControl
+            tintColor="transparent"
+            colors={['transparent']}
+            style={{ backgroundColor: 'transparent' }}
+            refreshing={shouldFetch}
+            onRefresh={() => setShouldFetch(true)}
           />
-        </View>
-      ) : (
-        <ScrollView
-          style={styles.contentContainer}
-          refreshControl={
-            <RefreshControl
-              tintColor="transparent"
-              colors={['transparent']}
-              style={{ backgroundColor: 'transparent' }}
-              refreshing={shouldFetch}
-              onRefresh={() => setShouldFetch(true)}
+        }
+      >
+        {shouldFetch && (
+          <View style={styles.loadingContentContainer}>
+            <ActivityIndicator
+              size="large"
+              color={colors.greenBrand}
+              testID="SwapReviewScreen/loading"
             />
-          }
-        >
-          {shouldFetch && (
-            <View style={styles.loadingContentContainer}>
-              <ActivityIndicator
-                size="large"
-                color={colors.greenBrand}
-                testID="SwapReviewScreen/loading"
-              />
-            </View>
-          )}
-          {swapInfo !== null && (
-            <>
-              <View style={styles.subContentContainer}>
-                <View style={styles.tallRow}>
-                  <Text style={styles.label}>{t('swapReviewScreen.swapFrom')}</Text>
-                  <View style={styles.tokenDisplayView}>
-                    <TokenDisplay
-                      style={styles.amountText}
-                      amount={divideByWei(swapInfo.unvalidatedSwapTransaction.sellAmount)}
-                      tokenAddress={fromToken}
-                      showLocalAmount={false}
-                      testID={'FromSwapAmountToken'}
-                    />
-                    <TokenDisplay
-                      style={styles.amountSubText}
-                      amount={divideByWei(swapInfo.unvalidatedSwapTransaction.sellAmount)}
-                      tokenAddress={fromToken}
-                      showLocalAmount={true}
-                      testID={'FromSwapAmountTokenLocal'}
-                    />
-                  </View>
+          </View>
+        )}
+        {swapResponse !== null && (
+          <>
+            <View style={styles.subContentContainer}>
+              <View style={styles.tallRow}>
+                <Text style={styles.label}>{t('swapReviewScreen.swapFrom')}</Text>
+                <View style={styles.tokenDisplayView}>
+                  <TokenDisplay
+                    style={styles.amountText}
+                    amount={divideByWei(swapResponse.unvalidatedSwapTransaction.sellAmount)}
+                    tokenAddress={fromToken}
+                    showLocalAmount={false}
+                    testID={'FromSwapAmountToken'}
+                  />
+                  <TokenDisplay
+                    style={styles.amountSubText}
+                    amount={divideByWei(swapResponse.unvalidatedSwapTransaction.sellAmount)}
+                    tokenAddress={fromToken}
+                    showLocalAmount={true}
+                    testID={'FromSwapAmountTokenLocal'}
+                  />
                 </View>
-                <View style={styles.tallRow}>
-                  <Text style={styles.label}>{t('swapReviewScreen.swapTo')}</Text>
-                  <View style={styles.tokenDisplayView}>
-                    <TokenDisplay
-                      style={[styles.amountText, { color: colors.greenUI }]}
-                      amount={divideByWei(
-                        new BigNumber(swapInfo.unvalidatedSwapTransaction.buyAmount).minus(
-                          new BigNumber(swapInfo.unvalidatedSwapTransaction.gas)
-                        )
-                      )}
-                      tokenAddress={toToken}
-                      showLocalAmount={false}
-                      testID={'ToSwapAmountToken'}
-                    />
-                    <Touchable
-                      style={styles.touchableRow}
-                      onPress={() => setEstimatedDialogVisible(true)}
-                      hitSlop={variables.iconHitslop}
-                    >
-                      <>
-                        <Text style={[styles.amountSubText, { marginRight: 4 }]}>
-                          {t('swapReviewScreen.estimatedAmountTitle')}
-                        </Text>
-                        <InfoIcon size={12} color={colors.gray4} />
-                      </>
-                    </Touchable>
-                  </View>
-                </View>
-                <View style={styles.separator} />
               </View>
-              <View style={styles.subContentContainer}>
-                <Text style={styles.transactionDetailsLabel}>
-                  {t('swapReviewScreen.transactionDetails')}
-                </Text>
-                <View style={styles.row}>
-                  <Text style={styles.label}>{t('exchangeRate')}</Text>
-                  <Text style={styles.transactionDetailsRightText}>
-                    {`1 ${fromTokenSymbol} ≈ ${formatValueToDisplay(
-                      new BigNumber(swapInfo.unvalidatedSwapTransaction.price)
-                    )} ${toTokenSymbol}`}
-                  </Text>
-                </View>
-                <View style={styles.row}>
-                  <Text style={styles.label}>{t('swapReviewScreen.estimatedGas')}</Text>
-                  <View style={styles.tokenDisplayView}>
-                    <TokenDisplay
-                      style={styles.transactionDetailsRightText}
-                      amount={divideByWei(
-                        new BigNumber(swapInfo.unvalidatedSwapTransaction.gas).multipliedBy(
-                          new BigNumber(swapInfo.unvalidatedSwapTransaction.gasPrice)
-                        )
-                      )}
-                      tokenAddress={fromToken}
-                      showLocalAmount={false}
-                      testID={'EstimatedGas'}
-                    />
-                  </View>
-                </View>
-                <View style={styles.row}>
+              <View style={styles.tallRow}>
+                <Text style={styles.label}>{t('swapReviewScreen.swapTo')}</Text>
+                <View style={styles.tokenDisplayView}>
+                  <TokenDisplay
+                    style={[styles.amountText, { color: colors.greenUI }]}
+                    amount={divideByWei(
+                      new BigNumber(swapResponse.unvalidatedSwapTransaction.buyAmount).minus(
+                        new BigNumber(swapResponse.unvalidatedSwapTransaction.gas)
+                      )
+                    )}
+                    tokenAddress={toToken}
+                    showLocalAmount={false}
+                    testID={'ToSwapAmountToken'}
+                  />
                   <Touchable
                     style={styles.touchableRow}
-                    onPress={() => setSwapFeeModalVisible(true)}
+                    onPress={() => setEstimatedDialogVisible(true)}
                     hitSlop={variables.iconHitslop}
                   >
                     <>
-                      <Text style={{ marginRight: 4, ...fontStyles.regular }}>
-                        {t('swapReviewScreen.swapFee')}
+                      <Text style={[styles.amountSubText, { marginRight: 4 }]}>
+                        {t('swapReviewScreen.estimatedAmountTitle')}
                       </Text>
                       <InfoIcon size={12} color={colors.gray4} />
                     </>
                   </Touchable>
+                </View>
+              </View>
+              <View style={styles.separator} />
+            </View>
+            <View style={styles.subContentContainer}>
+              <Text style={styles.transactionDetailsLabel}>
+                {t('swapReviewScreen.transactionDetails')}
+              </Text>
+              <View style={styles.row}>
+                <Text style={styles.label}>{t('exchangeRate')}</Text>
+                <Text style={styles.transactionDetailsRightText}>
+                  {`1 ${fromTokenSymbol} ≈ ${formatValueToDisplay(
+                    new BigNumber(swapResponse.unvalidatedSwapTransaction.price)
+                  )} ${toTokenSymbol}`}
+                </Text>
+              </View>
+              <View style={styles.row}>
+                <Text style={styles.label}>{t('swapReviewScreen.estimatedGas')}</Text>
+                <View style={styles.tokenDisplayView}>
                   <TokenDisplay
-                    style={[
-                      styles.transactionDetailsRightText,
-                      !swapFeeEnabled && styles.feeWaived,
-                    ]}
+                    style={styles.transactionDetailsRightText}
                     amount={divideByWei(
-                      swapInfo.unvalidatedSwapTransaction.sellAmount
-                    ).multipliedBy(swapFeeDecimal)}
+                      new BigNumber(swapResponse.unvalidatedSwapTransaction.gas).multipliedBy(
+                        new BigNumber(swapResponse.unvalidatedSwapTransaction.gasPrice)
+                      )
+                    )}
                     tokenAddress={fromToken}
-                    showLocalAmount={true}
-                    testID={'SwapFee'}
+                    showLocalAmount={false}
+                    testID={'EstimatedGas'}
                   />
                 </View>
               </View>
-            </>
-          )}
-        </ScrollView>
-      )}
+              <View style={styles.row}>
+                <Touchable
+                  style={styles.touchableRow}
+                  onPress={() => setSwapFeeModalVisible(true)}
+                  hitSlop={variables.iconHitslop}
+                >
+                  <>
+                    <Text style={{ marginRight: 4, ...fontStyles.regular }}>
+                      {t('swapReviewScreen.swapFee')}
+                    </Text>
+                    <InfoIcon size={12} color={colors.gray4} />
+                  </>
+                </Touchable>
+                <Text testID={'SwapFee'} style={styles.transactionDetailsRightText}>
+                  {t('swapReviewScreen.free')}
+                </Text>
+              </View>
+            </View>
+          </>
+        )}
+      </ScrollView>
       <Button
         style={{ padding: Spacing.Regular16 }}
         onPress={submitSwap}
@@ -316,9 +302,7 @@ export function SwapReviewScreen(props: Props) {
         isActionHighlighted={false}
         onBackgroundPress={() => setSwapFeeModalVisible(false)}
       >
-        {t('swapReviewScreen.swapFeeBody', {
-          swapFee: swapFeePercentage,
-        })}
+        {t('swapReviewScreen.swapFeeBodyFree')}
       </Dialog>
     </SafeAreaView>
   )
@@ -370,7 +354,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignSelf: 'flex-end',
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     alignItems: 'center',
   },
   transactionDetailsLabel: {
@@ -390,10 +374,6 @@ const styles = StyleSheet.create({
     textAlign: 'right',
     ...fontStyles.small,
     color: colors.gray4,
-  },
-  feeWaived: {
-    textDecorationLine: 'line-through',
-    textDecorationStyle: 'solid',
   },
 })
 

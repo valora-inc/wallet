@@ -84,6 +84,23 @@ describe('Persona', () => {
     expect(createPersonaAccount).toHaveBeenCalledTimes(1)
   })
 
+  it('calls IHL to create a persona account if persona account not created', async () => {
+    const personaProps: Props = {
+      kycStatus: KycStatus.NotCreated,
+      disabled: false,
+    }
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <Persona {...personaProps} />
+      </Provider>
+    )
+    // Should be disabled to start because we don't know if they have an account until the IHL call happens
+    expect(getByTestId('PersonaButton')).toBeDisabled()
+
+    await waitFor(() => expect(getByTestId('PersonaButton')).not.toBeDisabled())
+    expect(createPersonaAccount).toHaveBeenCalledTimes(1)
+  })
+
   it('disables the button when the disabled prop is true', async () => {
     const personaProps: Props = {
       kycStatus: KycStatus.Created,
