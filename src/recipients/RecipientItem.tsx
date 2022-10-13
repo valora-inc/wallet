@@ -38,6 +38,7 @@ function RecipientItem({ recipient, onSelectRecipient }: Props) {
     })
   }
 
+  // if (recipient.recipientType == RecipientType.Address)
   return (
     <Touchable onPress={onPress} testID="RecipientItem">
       <View style={styles.row}>
@@ -54,6 +55,8 @@ function RecipientItem({ recipient, onSelectRecipient }: Props) {
       </View>
     </Touchable>
   )
+
+  // return <></>
 }
 
 const styles = StyleSheet.create({

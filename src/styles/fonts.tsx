@@ -82,6 +82,10 @@ const fontStyles = StyleSheet.create({
     ...standards.small,
     fontFamily: Lato.Regular,
   },
+  smallNumber: {
+    ...standards.small,
+    fontFamily: Kaleko.Bold,
+  },
   large600: { ...standards.large, fontFamily: Lato.Bold },
   regular600: { ...standards.regular, fontFamily: Lato.Bold },
   small600: { ...standards.small, fontFamily: Lato.Bold },

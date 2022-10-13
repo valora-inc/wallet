@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   digit: {
-    ...fontStyles.regular500,
+    ...fontStyles.largeNumber,
     width: 64,
     padding: 24,
     fontSize: 22,

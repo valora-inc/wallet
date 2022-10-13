@@ -139,7 +139,7 @@ function WalletHome() {
 
   sections.push({
     data: [{}],
-    renderItem: () => <AccountNumber key={'NotificationBox'} address={account || ''} short />,
+    renderItem: () => <AccountNumber key={'AccountNumber'} address={account || ''} short />,
   })
 
   sections.push({

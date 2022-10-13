@@ -11,6 +11,7 @@ import { showError } from 'src/alert/actions'
 import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import AccountNumber from 'src/components/AccountNumber'
 import AmountKeypad from 'src/components/AmountKeypad'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import {
@@ -312,6 +313,7 @@ function SendAmount(props: Props) {
       />
       <DisconnectBanner />
       <View style={styles.contentContainer}>
+        {recipient.address && <AccountNumber address={recipient.address || ''} short />}
         <SendAmountValue
           isOutgoingPaymentRequest={!!props.route.params?.isOutgoingPaymentRequest}
           inputAmount={amount}

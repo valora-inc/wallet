@@ -53,7 +53,7 @@ function ReceiveAmountHeader({ tokenAddress, onChangeToken, disallowCurrencyChan
         }
       />
       <TokenBottomSheet
-        isOutgoingPaymentRequest={true}
+        isOutgoingPaymentRequest={false}
         isInvite={false}
         isVisible={showingCurrencyPicker}
         origin={TokenPickerOrigin.Receive}

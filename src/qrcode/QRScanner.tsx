@@ -9,6 +9,7 @@ import Modal from 'src/components/Modal'
 import TextButton from 'src/components/TextButton'
 import NotAuthorizedView from 'src/qrcode/NotAuthorizedView'
 import { QrCode } from 'src/send/actions'
+import SendSheet from 'src/send/SendSheet'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 
@@ -127,6 +128,7 @@ export default function QRScanner({ onBarCodeDetected }: QRScannerProps) {
           </TextButton>
         </View>
       </Modal>
+      <SendSheet />
     </RNCamera>
   )
 }
