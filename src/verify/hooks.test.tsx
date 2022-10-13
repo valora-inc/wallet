@@ -9,7 +9,7 @@ import Touchable from 'src/components/Touchable'
 import Logger from 'src/utils/Logger'
 import { useRevokeCurrentPhoneNumber } from 'src/verify/hooks'
 import networkConfig from 'src/web3/networkConfig'
-import { createMockStore } from 'test/utils'
+import { createMockStore, flushMicrotasksQueue } from 'test/utils'
 import { mocked } from 'ts-jest/utils'
 
 const mockFetch = fetch as FetchMock
@@ -49,6 +49,7 @@ describe('useRevokeCurrentPhoneNumber', () => {
 
     await act(async () => {
       fireEvent.press(getByText('Revoke'))
+      await flushMicrotasksQueue()
     })
 
     expect(mockFetch).toHaveBeenNthCalledWith(1, `${networkConfig.revokePhoneNumberUrl}`, {
@@ -78,6 +79,7 @@ describe('useRevokeCurrentPhoneNumber', () => {
 
     await act(async () => {
       fireEvent.press(getByText('Revoke'))
+      await flushMicrotasksQueue()
     })
 
     expect(mockFetch).toHaveBeenNthCalledWith(1, `${networkConfig.revokePhoneNumberUrl}`, {
