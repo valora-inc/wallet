@@ -154,10 +154,13 @@ const styles = StyleSheet.create({
   symbolContainer: {
     justifyContent: 'center',
   },
+  button: {
+    ...fontStyles.smallNumber,
+    color: colors.gray4,
+    fontSize: 12,
+  },
   mainSymbol: {
-    ...fontStyles.regular,
-    fontSize: 24,
-    lineHeight: 64,
+    ...fontStyles.largeNumber,
   },
   secondarySymbol: {
     ...fontStyles.small,
@@ -165,10 +168,9 @@ const styles = StyleSheet.create({
   },
   // font family, font weight and width are fixes for truncated text on Android https://github.com/facebook/react-native/issues/15114
   mainAmount: {
-    ...fontStyles.regular,
+    ...fontStyles.largeNumber,
     fontSize: 64,
     lineHeight: undefined,
-    fontWeight: 'normal',
     width: '100%',
     paddingRight: 2,
   },
