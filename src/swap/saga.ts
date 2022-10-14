@@ -24,6 +24,7 @@ import Logger from 'src/utils/Logger'
 import { getContractKit } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
+import { walletAddressSelector } from 'src/web3/selectors'
 import { applyChainIdWorkaround, buildTxo } from 'src/web3/utils'
 
 const TAG = 'swap/saga'
@@ -32,8 +33,10 @@ function getPercentageDifference(price1: number, price2: number) {
   return (Math.abs(price1 - price2) / ((price1 + price2) / 2)) * 100
 }
 
-function* sendSwapTransaction(rawTx: ApproveTransaction | SwapTransaction, tagDescription: string) {
-  // Set contract kit, wallet address and normalizer
+function* handleSendSwapTransaction(
+  rawTx: ApproveTransaction | SwapTransaction,
+  tagDescription: string
+) {
   const kit: ContractKit = yield call(getContractKit)
   const walletAddress: string = yield call(getConnectedUnlockedAccount)
   const normalizer = new TxParamsNormalizer(kit.connection)
@@ -69,11 +72,12 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       return
     }
 
-    const walletAddress: string = yield call(getConnectedUnlockedAccount)
+    const walletAddress: string = yield select(walletAddressSelector)
 
     // Approve transaction
     yield put(swapApprove())
-    yield call(sendSwapTransaction, action.payload.approveTransaction, 'Swap/Approve')
+    Logger.debug(TAG, `Starting to swap approval for address: ${walletAddress}`)
+    yield call(handleSendSwapTransaction, { ...action.payload.approveTransaction }, 'Swap/Approve')
 
     // Query the execute swap endpoint
     const amountType =
@@ -98,7 +102,9 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
 
     // Execute transaction
     yield put(swapExecute())
-    yield call(sendSwapTransaction, responseJson.validatedSwapTransaction, 'Swap/Execute')
+    Logger.debug(TAG, `Starting to swap execute for address: ${walletAddress}`)
+    yield call(handleSendSwapTransaction, responseJson.validatedSwapTransaction, 'Swap/Execute')
+
     yield put(swapSuccess())
     ValoraAnalytics.track(SwapEvents.swap_execute_success, {
       toToken: responseJson.validatedSwapTransaction.buyTokenAddress,
