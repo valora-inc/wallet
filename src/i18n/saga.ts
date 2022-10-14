@@ -23,8 +23,14 @@ export function* handleFetchOtaTranslations() {
   const allowOtaTranslations = yield select(allowOtaTranslationsSelector)
   if (allowOtaTranslations) {
     try {
-      const lastFetchLanguage = yield select(otaTranslationsLanguageSelector)
       const currentLanguage = yield select(currentLanguageSelector)
+      if (!currentLanguage) {
+        // this is true on first app install if the language cannot be
+        // automatically detected, we should not proceed without a language
+        return
+      }
+
+      const lastFetchLanguage = yield select(otaTranslationsLanguageSelector)
       const lastFetchTime = yield select(otaTranslationsLastUpdateSelector)
       const timestamp = yield call([otaClient, otaClient.getManifestTimestamp])
       const lastFetchAppVersion = yield select(otaTranslationsAppVersionSelector)
