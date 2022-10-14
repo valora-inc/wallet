@@ -296,16 +296,17 @@ export function* handleDeepLink(action: OpenDeepLink) {
       const params = convertQueryToScreenParams(rawParams.query)
       navigate(params.screen as keyof StackParamList, params)
     } else if (pathParts.length === 3 && pathParts[1] === 'share') {
+      // maintains backwards compatibility with invites sent with app v1.42
       ValoraAnalytics.track(InviteEvents.opened_via_invite_url, {
         inviterAddress: pathParts[2],
       })
     } else {
-      const dynamicLink = yield call(decodeShortDynamicLink, rawParams.path)
-      if (dynamicLink) {
-        const pathParts = dynamicLink.path.split('/')
-        if (pathParts.length === 3 && pathParts[1] === 'share') {
+      const dynamicShortLink = yield call(decodeShortDynamicLink, rawParams.path)
+      if (dynamicShortLink) {
+        const shortLinkParts = dynamicShortLink.path.split('/')
+        if (shortLinkParts.length === 3 && shortLinkParts[1] === 'share') {
           ValoraAnalytics.track(InviteEvents.opened_via_invite_url, {
-            inviterAddress: pathParts[2],
+            inviterAddress: shortLinkParts[2],
           })
         }
       }
