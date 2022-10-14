@@ -449,14 +449,7 @@ The flame graph provides a view of each component and sub-component. The width i
 
 The [Android Profiler (standalone)][AndroidProfilerStandalone] is useful for viewing memory, CPU, and energy consumption. Run the profiler either from Android Studio or following the standalone instructions.
 
-Release mode is preferred for profiling as memory usage can be significantly higher in development builds. To enable profiling in a local release build add `<profileable android:shell="true"/>` to the `<application ...>` block of the `android/app/src/main/AndroidManifest.xml` and force the use of the debug.keystore in `android/app/build.gradle`. Then create a mainnet release build with `yarn dev:android -e mainnet -r`. Finally, once both the app and profiler are launched attach add new session selecting your device and debuggable process.
-
-```.gradle
-# Force use of debug.keystore
-signingConfigs {
-    release {
-        if (isDetoxTestBuild || true) {
-```
+Release mode is preferred for profiling as memory usage can be significantly higher in development builds. To create a  local mainnet release build for profiling run the app with `yarn dev:android -e mainnet -r -t`. Once both the app and profiler are launched attach new session selecting your device and debuggable process.
 
 ## Testing
 
