@@ -2,13 +2,13 @@ import { trimLeading0x } from '@celo/utils/lib/address'
 import { sanitizeMessageBase64 } from '@celo/utils/lib/attestations'
 import dynamicLinks from '@react-native-firebase/dynamic-links'
 import URLSearchParamsReal from '@ungap/url-search-params'
-import url from 'url'
-
 import {
   APP_BUNDLE_ID as bundleId,
   APP_STORE_ID as appStoreId,
   DYNAMIC_LINK_DOMAIN_URI_PREFIX as baseURI,
 } from 'src/config'
+import Logger from 'src/utils/Logger'
+import url from 'url'
 
 export type ExtractedInviteCodeAndPrivateKey = null | {
   inviteCode: string
@@ -97,4 +97,14 @@ export async function createDynamicLink(address: string) {
       packageName: bundleId,
     },
   })
+}
+
+export async function decodeShortDynamicLink(link: string) {
+  try {
+    const resolvedLink = await dynamicLinks().resolveLink(link)
+    return resolvedLink.url
+  } catch (error) {
+    Logger.debug('Invite/utils/decodeShortDynamicLink', 'Link could not be resolved', error)
+  }
+  return null
 }

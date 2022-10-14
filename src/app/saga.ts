@@ -48,6 +48,7 @@ import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import { appVersionDeprecationChannel, fetchRemoteConfigValues } from 'src/firebase/firebase'
 import { receiveAttestationMessage } from 'src/identity/actions'
 import { CodeInputType } from 'src/identity/verification'
+import { decodeShortDynamicLink } from 'src/invite/utils'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -267,7 +268,6 @@ export function* handleDeepLink(action: OpenDeepLink) {
 
   const rawParams = parse(deepLink)
   if (rawParams.path) {
-    const pathParts = rawParams.path.split('/')
     if (rawParams.path.startsWith('/v/')) {
       yield put(receiveAttestationMessage(rawParams.path.substr(3), CodeInputType.DEEP_LINK))
     } else if (rawParams.path.startsWith('/payment')) {
@@ -294,10 +294,16 @@ export function* handleDeepLink(action: OpenDeepLink) {
       // of our own notifications for security reasons.
       const params = convertQueryToScreenParams(rawParams.query)
       navigate(params.screen as keyof StackParamList, params)
-    } else if (pathParts.length === 3 && pathParts[1] === 'share') {
-      ValoraAnalytics.track(InviteEvents.opened_via_invite_url, {
-        inviterAddress: pathParts[2],
-      })
+    } else {
+      const dynamicLink = yield call(decodeShortDynamicLink, rawParams.path)
+      if (dynamicLink) {
+        const pathParts = dynamicLink.path.split('/')
+        if (pathParts.length === 3 && pathParts[1] === 'share') {
+          ValoraAnalytics.track(InviteEvents.opened_via_invite_url, {
+            inviterAddress: pathParts[2],
+          })
+        }
+      }
     }
   }
 }
