@@ -1,3 +1,4 @@
+import { Actions as MapActions } from 'src/map/actions'
 import { Actions, ActionTypes } from 'src/vendors/actions'
 import { Vendor, Vendors } from 'src/vendors/types'
 
@@ -31,6 +32,11 @@ export const reducer = (state: State | undefined = initialState, action: ActionT
       return {
         ...state,
         currentVendor: action.currentVendor,
+      }
+    case MapActions.SET_CURRENT_FOOD_FOREST:
+      return {
+        ...state,
+        currentVendor: undefined,
       }
     default:
       return state

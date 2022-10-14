@@ -22,5 +22,5 @@ export function* watchFetchVendors(): any {
 }
 
 export function* vendorsSaga() {
-  yield spawn(watchFetchVendors)
+  // yield spawn(watchFetchVendors)
 }

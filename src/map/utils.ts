@@ -97,3 +97,13 @@ export function filterVendors(search: string, vendors: Vendors): (Vendor | Vendo
   )
   return filteredVendors
 }
+
+export function formatAge(date: number | Date | undefined) {
+  if (date === null || date === undefined) return [0, 0, 0]
+  date = new Date(date)
+  const now = new Date()
+  const years = Math.abs(date.getFullYear() - now.getFullYear())
+  const months = Math.abs(date.getMonth() - now.getMonth())
+  const days = Math.abs(date.getDate() - now.getDate())
+  return [years, months, days]
+}

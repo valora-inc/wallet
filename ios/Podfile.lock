@@ -480,6 +480,8 @@ PODS:
     - React-Core
   - react-native-flipper (0.127.0):
     - React-Core
+  - react-native-geolocation (3.0.2):
+    - React-Core
   - react-native-geth (1.0.0):
     - CeloBlockchain
     - React-Core
@@ -796,6 +798,7 @@ DEPENDENCIES:
   - react-native-contacts (from `../node_modules/react-native-contacts`)
   - react-native-fast-crypto (from `../node_modules/react-native-fast-crypto`)
   - react-native-flipper (from `../node_modules/react-native-flipper`)
+  - "react-native-geolocation (from `../node_modules/@react-native-community/geolocation`)"
   - react-native-geth (from `../node_modules/react-native-geth`)
   - react-native-html-to-pdf (from `../node_modules/react-native-html-to-pdf`)
   - react-native-keep-awake (from `../node_modules/react-native-keep-awake`)
@@ -983,6 +986,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-fast-crypto"
   react-native-flipper:
     :path: "../node_modules/react-native-flipper"
+  react-native-geolocation:
+    :path: "../node_modules/@react-native-community/geolocation"
   react-native-geth:
     :path: "../node_modules/react-native-geth"
   react-native-html-to-pdf:
@@ -1185,6 +1190,7 @@ SPEC CHECKSUMS:
   react-native-contacts: fd1614c74777089ebb6b0a0e3847dd78130ef9f4
   react-native-fast-crypto: db61bcb2d1224a180449b886f27426a67d7628c0
   react-native-flipper: b9e2e817604af8da0d5a9ba20a8516e780e30f3c
+  react-native-geolocation: 878f8df870bacc7572f0883d1d7b439502e9727d
   react-native-geth: b64bf7962e345c3c2cc437756ae01d854f508230
   react-native-html-to-pdf: 4c5c6e26819fe202971061594058877aa9b25265
   react-native-keep-awake: 6c078705f3fb2586963b13588d31148adc6bd128

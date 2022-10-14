@@ -1,3 +1,4 @@
+import { SetCurrentFoodForestAction } from 'src/map/actions'
 import { Vendor, Vendors } from 'src/vendors/types'
 
 export enum Actions {
@@ -49,3 +50,4 @@ export type ActionTypes =
   | setVendorsAction
   | SetLoadingAction
   | SetCurrentVendorAction
+  | SetCurrentFoodForestAction

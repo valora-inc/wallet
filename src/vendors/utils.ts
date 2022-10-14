@@ -68,9 +68,12 @@ export const hasValidLocation = (vendor: VendorWithLocation): boolean => {
   return !!latitude && !!longitude
 }
 
-export const useInteractiveBottomSheet = (bottomSheetRef: React.RefObject<BottomSheet>) => {
-  const snapPoints = React.useMemo(() => ['8%', '25%', '50%', '80%'], [])
+export const useInteractiveBottomSheet = (
+  bottomSheetRef: React.RefObject<BottomSheet>
+): [string[]] => {
+  const snapPoints = React.useMemo(() => ['10%', '24%', '50%', '80%'], [])
   const currentVendor = useSelector(currentVendorSelector)
+
   useEffect(() => {
     handleVendorChange()
   }, [])
@@ -82,9 +85,8 @@ export const useInteractiveBottomSheet = (bottomSheetRef: React.RefObject<Bottom
   const handleVendorChange = () => {
     if (currentVendor) {
       bottomSheetRef.current?.snapToIndex(2)
-    } else {
-      bottomSheetRef.current?.snapToIndex(0)
     }
   }
-  return snapPoints
+
+  return [snapPoints]
 }

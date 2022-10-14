@@ -126,8 +126,7 @@ secrets.json
 
 # Branding
 # See scripts/sync_branding.sh
-branding/valora
-branding/celo/
+branding/
 android/app/src/main/res/drawable*
 android/app/src/main/res/layout*
 android/app/src/main/res/mipmap*

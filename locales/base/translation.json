@@ -1361,5 +1361,9 @@
     "5": "Name",
     "6": "Amount",
     "7": "Local Amount"
+  },
+  "foodForestDetails": {
+    "area": "{{area}} m²",
+    "age": "{{years}} years {{months}} months {{days}} days"
   }
 }

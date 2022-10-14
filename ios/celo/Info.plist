@@ -81,6 +81,12 @@
 			</dict>
 		</dict>
 	</dict>
+  <key>NSLocationWhenInUseUsageDescription</key>
+  <string>We use your location so that you can find Vendors near you.</string>
+  <key>NSLocationAlwaysUsageDescription</key>
+  <string>We use your location so that you can find Vendors near you.</string>
+  <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+  <string>We use your location so that you can find Vendors near you.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Connecting your camera allows you to scan codes for payments.</string>
 	<key>NSContactsUsageDescription</key>

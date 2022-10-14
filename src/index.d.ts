@@ -3,6 +3,11 @@ declare module '*.json' {
   export default value
 }
 
+declare module '*.geojson' {
+  const value: any
+  export default value
+}
+
 declare module '*.png'
 declare module '*.jpg'
 

@@ -4307,6 +4307,11 @@
   resolved "https://registry.yarnpkg.com/@react-native-community/eslint-plugin/-/eslint-plugin-1.1.0.tgz#e42b1bef12d2415411519fd528e64b593b1363dc"
   integrity sha512-W/J0fNYVO01tioHjvYWQ9m6RgndVtbElzYozBq1ZPrHO/iCzlqoySHl4gO/fpCl9QEFjvJfjPgtPMTMlsoq5DQ==
 
+"@react-native-community/geolocation@^3.0.2":
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/@react-native-community/geolocation/-/geolocation-3.0.2.tgz#b1c8cb92bd89c34e24444bfa4a5d5b8c829c9a73"
+  integrity sha512-eEvX8U0V0WYszO734aUqq8OGriZEsQMlTaykt9cORCfFemlHqAOQe97Don4wsbLy9igb6xeHBttozLWTxq/hCA==
+
 "@react-native-community/netinfo@^5.8.0":
   version "5.8.0"
   resolved "https://registry.yarnpkg.com/@react-native-community/netinfo/-/netinfo-5.8.0.tgz#6afdc9fb8cc6ecf964949f39d03776f57017303a"

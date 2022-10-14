@@ -86,6 +86,7 @@
     "@pedrouid/environment": "^1.0.1",
     "@react-native-async-storage/async-storage": "^1.15.14",
     "@react-native-community/clipboard": "git+https://github.com/celo-org/clipboard#5afb848",
+    "@react-native-community/geolocation": "^3.0.2",
     "@react-native-community/netinfo": "^5.8.0",
     "@react-native-firebase/app": "11.5.0",
     "@react-native-firebase/auth": "11.5.0",

@@ -31,6 +31,7 @@ import { identitySaga } from 'src/identity/saga'
 import { Actions as ImportActions } from 'src/import/actions'
 import { importSaga } from 'src/import/saga'
 import { localCurrencySaga } from 'src/localCurrency/saga'
+import { Actions as MapActions } from 'src/map/actions'
 import { mapSaga } from 'src/map/saga'
 import { networkInfoSaga } from 'src/networkInfo/saga'
 import { paymentRequestSaga } from 'src/paymentRequest/saga'
@@ -65,6 +66,7 @@ const loggerBlocklist = [
   TransactionActions.UPDATE_RECENT_TX_RECIPIENT_CACHE,
   TransactionActions.UPDATE_TRANSACTIONS,
   Web3Actions.SET_DATA_ENCRYPTION_KEY,
+  MapActions.SET_FOOD_FORESTS,
 ]
 
 function* loggerSaga() {
