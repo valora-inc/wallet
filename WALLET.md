@@ -441,7 +441,7 @@ location points to the same location as the $ANDROID_HOME environment variable.
 
 ### App Profiling with react-devtools
 
-From Flipper select React DevTools Plugin then while the app is running locally, or run `yarn run react-devtools` in the wallet root folder. It should automatically connect to the running app and includes a profiler (second tab). Start recording with the profiler, use the app and then stop recording. If running from the terminal, Flipper cannot be run at the same time.
+From Flipper select React DevTools Plugin while the app is running locally, or run `yarn run react-devtools` in the wallet root folder. It should automatically connect to the running app and includes a profiler (second tab). Start recording with the profiler, use the app and then stop recording. If running from the terminal, Flipper cannot be run at the same time.
 
 The flame graph provides a view of each component and sub-component. The width is proportional to how long it took to load. If it is grey, it was not re-rendered at that 'commit' or DOM change. Details on the react native profiler are [here][rn profiler]. The biggest thing to look for are large number of renders when no state has changed. Reducing renders can be done via pure components in React or overloading the should component update method [example here][rn optimize example].
 
@@ -449,7 +449,7 @@ The flame graph provides a view of each component and sub-component. The width i
 
 The [Android Profiler (standalone)][AndroidProfilerStandalone] is useful for viewing memory, CPU, and energy consumption. Run the profiler either from Android Studio or following the standalone instructions.
 
-Release mode is preferred for profiling as memory usage can be significantly higher in development builds. To create a  local mainnet release build for profiling run the app with `yarn dev:android -e mainnet -r -t`. Once both the app and profiler are launched attach new session selecting your device and debuggable process.
+Release mode is preferred for profiling as memory usage can be significantly higher in development builds. To create a  local mainnet release build for profiling run the app with `yarn dev:android -e mainnet -r -t`; this supplies an env flag: `-e <environment>`, the release flag: `-r` and the profile flag: `-t`. After both the app and profiler are launched, in the profiler attach a new session by selecting your device and a debuggable process e.g. `co.clabs.valora`.
 
 ## Testing
 
