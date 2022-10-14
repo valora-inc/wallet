@@ -15,7 +15,7 @@ PLATFORM=""
 ENV_NAME="alfajoresdev"
 RELEASE=false
 SIMULATOR=""
-PROFILE=false
+PROFILING_ENABLED=false
 
 while getopts 'p:e:s:rt' flag; do
   case "${flag}" in
@@ -23,7 +23,7 @@ while getopts 'p:e:s:rt' flag; do
     e) ENV_NAME="$OPTARG" ;;
     s) SIMULATOR="$OPTARG" ;;
     r) RELEASE=true ;;
-    t) PROFILE=true ;;
+    t) PROFILING_ENABLED=true ;;
     *) error "Unexpected option ${flag}" ;;
   esac
 done
@@ -108,7 +108,7 @@ if [ "$PLATFORM" = "android" ]; then
 
   # Launch our packager directly as RN launchPackager doesn't work correctly with monorepos
   startPackager
-  IS_PROFILING_BUILD=${PROFILE} yarn react-native run-android --variant "${ENV_NAME}${BUILD_TYPE}" --appId "$APP_BUNDLE_ID" --no-packager
+  IS_PROFILING_BUILD=${PROFILING_ENABLED} yarn react-native run-android --variant "${ENV_NAME}${BUILD_TYPE}" --appId "$APP_BUNDLE_ID" --no-packager
 
 elif [ "$PLATFORM" = "ios" ]; then
 
