@@ -267,6 +267,7 @@ export function* handleDeepLink(action: OpenDeepLink) {
   }
 
   const rawParams = parse(deepLink)
+  const pathParts = rawParams.path.split('/')
   if (rawParams.path) {
     if (rawParams.path.startsWith('/v/')) {
       yield put(receiveAttestationMessage(rawParams.path.substr(3), CodeInputType.DEEP_LINK))
@@ -294,6 +295,10 @@ export function* handleDeepLink(action: OpenDeepLink) {
       // of our own notifications for security reasons.
       const params = convertQueryToScreenParams(rawParams.query)
       navigate(params.screen as keyof StackParamList, params)
+    } else if (pathParts.length === 3 && pathParts[1] === 'share') {
+      ValoraAnalytics.track(InviteEvents.opened_via_invite_url, {
+        inviterAddress: pathParts[2],
+      })
     } else {
       const dynamicLink = yield call(decodeShortDynamicLink, rawParams.path)
       if (dynamicLink) {
