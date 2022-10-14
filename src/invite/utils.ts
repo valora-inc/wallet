@@ -86,7 +86,7 @@ export const extractValuesFromDeepLink = async (): Promise<ExtractedInviteCodeAn
 }
 
 export async function createDynamicLink(address: string) {
-  return dynamicLinks().buildLink({
+  return dynamicLinks().buildShortLink({
     link: `${baseURI}/share/${address}`,
     domainUriPrefix: baseURI,
     ios: {
