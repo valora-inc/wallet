@@ -1,7 +1,7 @@
 # Valora Mobile App
 
 ![Checks](https://github.com/valora-inc/wallet/actions/workflows/check.yml/badge.svg)
-![E2E](https://github.com/valora-inc/wallet/actions/workflows/e2e-ci.yml/badge.svg)
+![E2E](https://github.com/valora-inc/wallet/actions/workflows/e2e-main.yml/badge.svg)
 ![Mobile Tests](https://github.com/valora-inc/wallet/actions/workflows/test.yml/badge.svg)
 [![Codecov](https://img.shields.io/codecov/c/github/valora-inc/wallet)](https://codecov.io/gh/valora-inc/wallet)
 [![GitHub contributors](https://img.shields.io/github/contributors/valora-inc/wallet)](https://github.com/valora-inc/wallet/graphs/contributors)
