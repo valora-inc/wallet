@@ -12,8 +12,13 @@
 const CROWDIN_BRANCH = 'l10n/main'
 const CROWDIN_PR_USER = 'valora-bot-crowdin'
 
-const ALLOWED_UPDATED_FILE_MATCHER = new RegExp(`locales\/.*\/translation\.json`)
-const DISALLOWED_UPDATED_FILE = 'locales/base/translation.json'
+const ALLOWED_UPDATED_FILE_MATCHER = new RegExp(
+  `locales\/.*\/translation\.json|ios/celo\/.*\/InfoPlist.strings`
+)
+const DISALLOWED_UPDATED_FILES = [
+  'locales/base/translation.json',
+  'ios/celo/Base.lproj/InfoPlist.strings',
+]
 const enableAutomergeQuery = `mutation ($pullRequestId: ID!, $mergeMethod: PullRequestMergeMethod!) {
   enablePullRequestAutoMerge(input: {
     pullRequestId: $pullRequestId,
@@ -76,6 +81,9 @@ module.exports = async ({ github, context }) => {
   if (isApproved) {
     console.log('Already approved')
   } else {
+    // wait until the branch is properly updated
+    await new Promise((resolve) => setTimeout(resolve, 5000))
+
     console.log(`Verifying that only expected files are modified for PR #${pr.number}`)
     const listFiles = await github.rest.pulls.listFiles({
       owner,
@@ -84,11 +92,13 @@ module.exports = async ({ github, context }) => {
     })
     const unexpectedFiles = listFiles.data.filter(
       ({ filename }) =>
-        filename === DISALLOWED_UPDATED_FILE || !filename.match(ALLOWED_UPDATED_FILE_MATCHER)
+        DISALLOWED_UPDATED_FILES.includes(filename) || !filename.match(ALLOWED_UPDATED_FILE_MATCHER)
     )
     if (unexpectedFiles.length > 0) {
       console.log(
-        `Files updated in PR #${pr.number} do not match the expectation, please check manually`
+        `The following files updated do not match the expectation: 
+        ${unexpectedFiles.map((file) => file.filename).join('\n')}.
+        Please check manually.`
       )
       await github.rest.pulls.createReview({
         owner,
