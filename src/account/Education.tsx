@@ -36,7 +36,7 @@ export enum EducationTopic {
   celo = 'celo',
 }
 
-interface EducationStep {
+export interface EducationStep {
   image: ImageSourcePropType | null
   topic: EducationTopic
   title: string
@@ -197,7 +197,6 @@ export default class Education extends React.Component<Props, State> {
                     {step.image && (
                       <Image source={step.image} style={styles.bodyImage} resizeMode="contain" />
                     )}
-                    {!step.isTopTitle && <Logo height={50} />}
                     {!step.isTopTitle && <Text style={styles.heading}>{step.title}</Text>}
                     {!!step.text && <Text style={styles.bodyText}>{step.text}</Text>}
                   </View>
@@ -237,7 +236,7 @@ const styles = StyleSheet.create({
   heading: {
     marginTop: 24,
     ...fontStyles.h2,
-    textAlign: 'left',
+    textAlign: 'center',
   },
   headingTop: {
     ...fontStyles.h1,
@@ -252,6 +251,7 @@ const styles = StyleSheet.create({
   bodyImage: {
     alignSelf: 'center',
     marginBottom: 24,
+    height: '80%',
   },
   swipedContent: {
     marginBottom: 24,
@@ -259,8 +259,7 @@ const styles = StyleSheet.create({
     overflow: 'scroll',
   },
   swipedContentInner: {
-    flex: 1,
-    justifyContent: 'center',
+    width: '100%',
   },
   top: {
     paddingLeft: 24,

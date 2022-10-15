@@ -2,11 +2,17 @@ import { useHeaderHeight } from '@react-navigation/stack'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
-import Education, { EducationTopic } from 'src/account/Education'
+import Education, { EducationStep, EducationTopic } from 'src/account/Education'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { BtnTypes } from 'src/components/Button'
 import Logo, { LogoTypes } from 'src/icons/Logo'
+import {
+  onboardingEducation1,
+  onboardingEducation2,
+  onboardingEducation3,
+  onboardingEducation4,
+} from 'src/images/Images'
 import { nuxNavigationOptions } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -22,25 +28,29 @@ function useStep() {
     return [
       {
         title: t('onboardingEducation.step1'),
-        isTopTitle: true,
+        isTopTitle: false,
         topic: EducationTopic.onboarding,
+        image: onboardingEducation1,
       },
       {
         title: t('onboardingEducation.step2'),
-        isTopTitle: true,
+        isTopTitle: false,
         topic: EducationTopic.onboarding,
+        image: onboardingEducation2,
       },
       {
         title: t('onboardingEducation.step3'),
-        isTopTitle: true,
+        isTopTitle: false,
         topic: EducationTopic.onboarding,
+        image: onboardingEducation3,
       },
       {
         title: t('onboardingEducation.step4'),
-        isTopTitle: true,
+        isTopTitle: false,
         topic: EducationTopic.onboarding,
+        image: onboardingEducation4,
       },
-    ]
+    ] as EducationStep[]
   }, [t])
 }
 
