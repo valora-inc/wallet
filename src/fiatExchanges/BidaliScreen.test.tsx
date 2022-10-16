@@ -13,14 +13,14 @@ const mockScreenProps = getMockStackScreenProps(Screens.BidaliScreen, {
 
 declare global {
   interface Window {
-    valora: any
+    bidaliProvider: any
   }
 }
 
 describe(BidaliScreen, () => {
   beforeEach(() => {
     // Reset injected JS effect
-    window.valora = undefined
+    window.bidaliProvider = undefined
   })
 
   it('renders correctly when no phone number is provided', () => {
@@ -39,15 +39,16 @@ describe(BidaliScreen, () => {
     expect(webView).toBeDefined()
     // eslint-disable-next-line no-eval
     expect(eval(webView.props.injectedJavaScriptBeforeContentLoaded)).toBe(true)
-    expect(window.valora).toMatchInlineSnapshot(`
+    expect(window.bidaliProvider).toMatchInlineSnapshot(`
       Object {
+        "name": "kolektivo"
         "balances": Object {
           "CEUR": "5",
           "CUSD": "10",
         },
         "onPaymentRequest": [Function],
         "openUrl": [Function],
-        "paymentCurrency": "CUSD",
+        "paymentCurrencies": ["CUSD"],
         "phoneNumber": null,
       }
     `)
@@ -68,15 +69,16 @@ describe(BidaliScreen, () => {
     expect(webView).toBeDefined()
     // eslint-disable-next-line no-eval
     expect(eval(webView.props.injectedJavaScriptBeforeContentLoaded)).toBe(true)
-    expect(window.valora).toMatchInlineSnapshot(`
+    expect(window.bidaliProvider).toMatchInlineSnapshot(`
       Object {
+        "name": "kolektivo"
         "balances": Object {
           "CEUR": "5",
           "CUSD": "10",
         },
         "onPaymentRequest": [Function],
         "openUrl": [Function],
-        "paymentCurrency": "CUSD",
+        "paymentCurrencies": ["CUSD"],
         "phoneNumber": "+14155556666",
       }
     `)
@@ -101,16 +103,17 @@ describe(BidaliScreen, () => {
     expect(webView).toBeDefined()
     // eslint-disable-next-line no-eval
     expect(eval(webView.props.injectedJavaScriptBeforeContentLoaded)).toBe(true)
-    // `paymentCurrency` is CEUR here because it has the highest balance in the local currency
-    expect(window.valora).toMatchInlineSnapshot(`
+    // `paymentCurrencies` is CEUR here because it has the highest balance in the local currency
+    expect(window.bidaliProvider).toMatchInlineSnapshot(`
       Object {
+        "name": "kolektivo"
         "balances": Object {
           "CEUR": "9",
           "CUSD": "10",
         },
         "onPaymentRequest": [Function],
         "openUrl": [Function],
-        "paymentCurrency": "CEUR",
+        "paymentCurrencies": ["CEUR"],
         "phoneNumber": "+14155556666",
       }
     `)

@@ -42,8 +42,9 @@ function useInitialJavaScript(
     // When a new url needs to be open (currently for FAQ, Terms of Service), `openUrl` is called by Bidali.
     // See also the comment in the `onMessage` handler
     setInitialJavaScript(`
-      window.valora = {
-        paymentCurrency: "${currency.toUpperCase()}",
+      window.bidaliProvider = {
+        name: 'kolektivo'
+        paymentCurrencies: ["${currency.toUpperCase()}"],
         phoneNumber: ${JSON.stringify(e164PhoneNumber)},
         balances: ${jsonBalances},
         onPaymentRequest: function (paymentRequest) {
@@ -87,10 +88,10 @@ function BidaliScreen({ route, navigation }: Props) {
         // These 2 callbacks needs to be called to notify Bidali of the status of the payment request
         // so it can update the WebView accordingly.
         const onPaymentSent = () => {
-          webViewRef.current?.injectJavaScript(`window.valora.paymentSent();`)
+          webViewRef.current?.injectJavaScript(`window.bidaliProvider.paymentSent();`)
         }
         const onCancelled = () => {
-          webViewRef.current?.injectJavaScript(`window.valora.paymentCancelled();`)
+          webViewRef.current?.injectJavaScript(`window.bidaliProvider.paymentCancelled();`)
         }
         dispatch(
           bidaliPaymentRequested(
@@ -138,7 +139,7 @@ function BidaliScreen({ route, navigation }: Props) {
   // Update balances when they change
   useEffect(() => {
     webViewRef.current?.injectJavaScript(`
-      window.valora.balances = ${jsonBalances}
+      window.bidaliProvider.balances = ${jsonBalances}
     `)
   }, [jsonBalances])
 
