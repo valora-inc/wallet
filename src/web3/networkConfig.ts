@@ -41,6 +41,7 @@ interface NetworkConfig {
   lookupPhoneNumberUrl: string
   lookupAddressUrl: string
   revokePhoneNumberUrl: string
+  migratePhoneVerificationUrl: string
 }
 
 const KOMENCI_URL_MAINNET = 'https://mainnet-komenci.azurefd.net'
@@ -103,6 +104,9 @@ const LOOKUP_ADDRESS_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/lookupAddress`
 const REVOKE_PHONE_NUMBER_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/revokePhoneNumber`
 const REVOKE_PHONE_NUMBER_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/revokePhoneNumber`
 
+const MIGRATE_PHONE_VERIFICATION_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/placeholder`
+const MIGRATE_PHONE_VERIFICATION_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/placeholder`
+
 const CELO_EXPLORER_BASE_TX_URL_ALFAJORES = 'https://explorer.celo.org/alfajores/tx/'
 const CELO_EXPLORER_BASE_TX_URL_MAINNET = 'https://explorer.celo.org/mainnet/tx/'
 
@@ -145,6 +149,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     lookupPhoneNumberUrl: LOOKUP_PHONE_NUMBER_ALFAJORES,
     lookupAddressUrl: LOOKUP_ADDRESS_ALFAJORES,
     revokePhoneNumberUrl: REVOKE_PHONE_NUMBER_ALFAJORES,
+    migratePhoneVerificationUrl: MIGRATE_PHONE_VERIFICATION_ALFAJORES,
   },
   [Testnets.mainnet]: {
     networkId: '42220',
@@ -178,6 +183,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     lookupPhoneNumberUrl: LOOKUP_PHONE_NUMBER_MAINNET,
     lookupAddressUrl: LOOKUP_ADDRESS_MAINNET,
     revokePhoneNumberUrl: REVOKE_PHONE_NUMBER_MAINNET,
+    migratePhoneVerificationUrl: MIGRATE_PHONE_VERIFICATION_MAINNET,
   },
 }
 

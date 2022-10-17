@@ -1,3 +1,6 @@
+import { PhoneNumberHashDetails } from '@celo/identity/lib/odis/phone-number-identifier'
+import { hexToBuffer } from '@celo/utils/lib/address'
+import { compressedPubKey } from '@celo/utils/lib/dataEncryptionKey'
 import URLSearchParamsReal from '@ungap/url-search-params'
 import { AppState, Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
@@ -15,6 +18,7 @@ import {
   takeEvery,
   takeLatest,
 } from 'redux-saga/effects'
+import { e164NumberSelector } from 'src/account/selectors'
 import { AppEvents, InviteEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import {
@@ -25,6 +29,7 @@ import {
   OpenDeepLink,
   openDeepLink,
   OpenUrlAction,
+  phoneNumberVerificationMigrated,
   SetAppState,
   setAppState,
   setSupportedBiometryType,
@@ -36,6 +41,7 @@ import {
   googleMobileServicesAvailableSelector,
   huaweiMobileServicesAvailableSelector,
   sentryNetworkErrorsSelector,
+  shouldRunVerificationMigrationSelector,
 } from 'src/app/selectors'
 import { CreateAccountCopyTestType, InviteMethodType, SuperchargeButtonType } from 'src/app/types'
 import { runVerificationMigration } from 'src/app/verificationMigration'
@@ -47,11 +53,13 @@ import { FiatAccountSchemaCountryOverrides } from 'src/fiatconnect/types'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import { appVersionDeprecationChannel, fetchRemoteConfigValues } from 'src/firebase/firebase'
 import { receiveAttestationMessage } from 'src/identity/actions'
+import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
 import { CodeInputType } from 'src/identity/verification'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import { retrieveSignedMessage } from 'src/pincode/authentication'
 import { paymentDeepLinkHandlerMerchant } from 'src/qrcode/utils'
 import { handlePaymentDeeplink } from 'src/send/utils'
 import { initializeSentry } from 'src/sentry/Sentry'
@@ -63,6 +71,8 @@ import {
   handleWalletConnectDeepLink,
   isWalletConnectDeepLink,
 } from 'src/walletConnect/walletConnect'
+import networkConfig from 'src/web3/networkConfig'
+import { dataEncryptionKeySelector, walletAddressSelector } from 'src/web3/selectors'
 import { parse } from 'url'
 
 const TAG = 'app/saga'
@@ -366,10 +376,71 @@ export function* handleSetAppState(action: SetAppState) {
   }
 }
 
+export function* runCentralPhoneVerificationMigration() {
+  const privateDataEncryptionKey = yield select(dataEncryptionKeySelector)
+  if (!privateDataEncryptionKey) {
+    Logger.warn(
+      `${TAG}@runCentralPhoneVerificationMigration`,
+      'No data encryption key was found in the store. This should never happen.'
+    )
+    return
+  }
+
+  const shouldRunVerificationMigration = yield select(shouldRunVerificationMigrationSelector)
+  if (shouldRunVerificationMigration) {
+    Logger.debug(
+      `${TAG}@runCentralPhoneVerificationMigration`,
+      'Starting to run central phone verification migration'
+    )
+
+    const address = yield select(walletAddressSelector)
+    const e164Number = yield select(e164NumberSelector)
+    const publicDataEncryptionKey = compressedPubKey(hexToBuffer(privateDataEncryptionKey))
+
+    try {
+      const signedMessage = yield call(retrieveSignedMessage)
+      const phoneHashDetails: PhoneNumberHashDetails = yield call(fetchPhoneHashPrivate, e164Number)
+
+      const response = yield call(fetch, networkConfig.migratePhoneVerificationUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Valora ${address}:${signedMessage}`,
+        },
+        body: JSON.stringify({
+          clientPlatform: Platform.OS,
+          clientVersion: DeviceInfo.getVersion(),
+          publicDataEncryptionKey,
+          e164Number,
+          ODISPepper: phoneHashDetails.pepper,
+          ODISPhoneHash: phoneHashDetails.phoneHash,
+        }),
+      })
+
+      if (response.ok) {
+        yield put(phoneNumberVerificationMigrated())
+        Logger.debug(
+          `${TAG}@runCentralPhoneVerificationMigration`,
+          'Central phone verification migration completed successfully'
+        )
+      } else {
+        throw new Error(yield call([response, 'text']))
+      }
+    } catch (error) {
+      Logger.warn(
+        `${TAG}@runCentralPhoneVerificationMigration`,
+        'Could not complete central phone verification migration',
+        error
+      )
+    }
+  }
+}
+
 export function* appSaga() {
   yield spawn(watchDeepLinks)
   yield spawn(watchOpenUrl)
   yield spawn(watchAppState)
   yield spawn(runVerificationMigration)
+  yield spawn(runCentralPhoneVerificationMigration)
   yield takeLatest(Actions.SET_APP_STATE, handleSetAppState)
 }
