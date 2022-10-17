@@ -341,47 +341,49 @@ describe('handleOpenUrl', () => {
   })
 })
 
-describe('handleSetAppState', async () => {
-  await expectSaga(handleSetAppState, setAppState('active'))
-    .provide([
-      [select(getAppLocked), false],
-      [select(getLastTimeBackgrounded), 0],
-      [select(getRequirePinOnAppOpen), true],
-    ])
-    .put(appLock())
-    .run()
+describe('handleSetAppState', () => {
+  it('handles setting app state', async () => {
+    await expectSaga(handleSetAppState, setAppState('active'))
+      .provide([
+        [select(getAppLocked), false],
+        [select(getLastTimeBackgrounded), 0],
+        [select(getRequirePinOnAppOpen), true],
+      ])
+      .put(appLock())
+      .run()
 
-  await expectSaga(handleSetAppState, setAppState('active'))
-    .provide([
-      [select(getAppLocked), true],
-      [select(getLastTimeBackgrounded), 0],
-      [select(getRequirePinOnAppOpen), true],
-    ])
-    .run()
+    await expectSaga(handleSetAppState, setAppState('active'))
+      .provide([
+        [select(getAppLocked), true],
+        [select(getLastTimeBackgrounded), 0],
+        [select(getRequirePinOnAppOpen), true],
+      ])
+      .run()
 
-  await expectSaga(handleSetAppState, setAppState('active'))
-    .provide([
-      [select(getAppLocked), false],
-      [select(getLastTimeBackgrounded), Date.now()],
-      [select(getRequirePinOnAppOpen), true],
-    ])
-    .run()
+    await expectSaga(handleSetAppState, setAppState('active'))
+      .provide([
+        [select(getAppLocked), false],
+        [select(getLastTimeBackgrounded), Date.now()],
+        [select(getRequirePinOnAppOpen), true],
+      ])
+      .run()
 
-  await expectSaga(handleSetAppState, setAppState('active'))
-    .provide([
-      [select(getAppLocked), false],
-      [select(getLastTimeBackgrounded), 0],
-      [select(getRequirePinOnAppOpen), false],
-    ])
-    .run()
+    await expectSaga(handleSetAppState, setAppState('active'))
+      .provide([
+        [select(getAppLocked), false],
+        [select(getLastTimeBackgrounded), 0],
+        [select(getRequirePinOnAppOpen), false],
+      ])
+      .run()
 
-  await expectSaga(handleSetAppState, setAppState('active'))
-    .provide([
-      [select(getAppLocked), false],
-      [select(getLastTimeBackgrounded), 0],
-      [select(getRequirePinOnAppOpen), true],
-    ])
-    .run()
+    await expectSaga(handleSetAppState, setAppState('active'))
+      .provide([
+        [select(getAppLocked), false],
+        [select(getLastTimeBackgrounded), 0],
+        [select(getRequirePinOnAppOpen), true],
+      ])
+      .run()
+  })
 })
 
 describe('runCentralPhoneVerificationMigration', () => {
