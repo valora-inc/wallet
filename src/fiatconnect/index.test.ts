@@ -7,6 +7,7 @@ import { getPassword } from 'src/pincode/authentication'
 import { CiCoCurrency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { KeychainWallet } from 'src/web3/KeychainWallet'
+import networkConfig from 'src/web3/networkConfig'
 import {
   mockAccount,
   mockFiatConnectProviderInfo,
@@ -68,7 +69,10 @@ describe('FiatConnect helpers', () => {
         termsAndConditionsUrl: 'https://fake-provider.valoraapp.com/terms',
       }
       mockFetch.mockResponseOnce(JSON.stringify({ providers: [fakeProviderInfo] }), { status: 200 })
-      const providers = await getFiatConnectProviders(mockAccount)
+      const providers = await getFiatConnectProviders(mockAccount, 'fake-provider')
+      expect(mockFetch).toHaveBeenCalledWith(
+        `${networkConfig.getFiatConnectProvidersUrl}?address=0x0000000000000000000000000000000000007E57&providers=fake-provider`
+      )
       expect(providers).toMatchObject([fakeProviderInfo])
     })
     it('Throws an error on failure', async () => {
@@ -76,6 +80,13 @@ describe('FiatConnect helpers', () => {
       await expect(async () => await getFiatConnectProviders(mockAccount)).rejects.toThrow()
 
       expect(Logger.error).toHaveBeenCalled()
+    })
+    it('Does not call with providers query param if there are no providers', async () => {
+      mockFetch.mockResponseOnce(JSON.stringify({ providers: [] }), { status: 200 })
+      await getFiatConnectProviders(mockAccount)
+      expect(mockFetch).toHaveBeenCalledWith(
+        `${networkConfig.getFiatConnectProvidersUrl}?address=0x0000000000000000000000000000000000007E57`
+      )
     })
   })
 
