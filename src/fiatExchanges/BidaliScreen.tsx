@@ -84,7 +84,7 @@ function BidaliScreen({ route, navigation }: Props) {
     const { method, data } = JSON.parse(event.nativeEvent.data)
     switch (method) {
       case 'onPaymentRequest':
-        const { amount, address, currency, description, chargeId } = data
+        const { amount, address, symbol, description, chargeId } = data
         // These 2 callbacks needs to be called to notify Bidali of the status of the payment request
         // so it can update the WebView accordingly.
         const onPaymentSent = () => {
@@ -97,7 +97,7 @@ function BidaliScreen({ route, navigation }: Props) {
           bidaliPaymentRequested(
             address,
             amount,
-            currency,
+            symbol,
             description,
             chargeId,
             onPaymentSent,
