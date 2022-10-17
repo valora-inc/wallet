@@ -270,6 +270,10 @@ describe('WalletConnect deeplinks', () => {
 })
 
 describe('handleOpenUrl', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
   const httpLink = 'http://example.com'
   const httpsLink = 'https://example.com'
   const celoLink = 'celo://something'
