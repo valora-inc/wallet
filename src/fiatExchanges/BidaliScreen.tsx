@@ -44,7 +44,7 @@ function useInitialJavaScript(
     setInitialJavaScript(`
       window.bidaliProvider = {
         name: 'kolektivo'
-        paymentCurrencies: ["${currency.toUpperCase()}"],
+        paymentCurrencies: ["${currency.toLowerCase()}"],
         phoneNumber: ${JSON.stringify(e164PhoneNumber)},
         balances: ${jsonBalances},
         onPaymentRequest: function (paymentRequest) {
@@ -120,7 +120,7 @@ function BidaliScreen({ route, navigation }: Props) {
         // Maps supported currencies to an object with their balance
         // Example: [cUSD, cEUR] to { CUSD: X, CEUR: Y }
         Object.fromEntries(
-          BIDALI_CURRENCIES.map((currency) => [currency.toUpperCase(), balances[currency]])
+          BIDALI_CURRENCIES.map((currency) => [currency.toLowerCase(), balances[currency]])
         )
       ),
     [balances]
