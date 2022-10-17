@@ -304,8 +304,6 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     shouldShowRecoveryPhraseInSettings: flags.shouldShowRecoveryPhraseInSettings.asBoolean(),
     createAccountCopyTestType: flags.createAccountCopyTestType.asString() as CreateAccountCopyTestType,
     maxSwapSlippagePercentage: flags.maxSwapSlippagePercentage.asNumber(),
-    swapFeeEnabled: flags.swapFeeEnabled.asBoolean(),
-    swapFeePercentage: flags.swapFeePercentage.asNumber(),
     inviteMethod: flags.inviteMethod.asString() as InviteMethodType,
     showGuidedOnboardingCopy: flags.showGuidedOnboardingCopy.asBoolean(),
     centralPhoneVerificationEnabled: flags.centralPhoneVerificationEnabled.asBoolean(),

@@ -2208,12 +2208,6 @@
                         }
                     ]
                 },
-                "swapFeeEnabled": {
-                    "type": "boolean"
-                },
-                "swapFeePercentage": {
-                    "type": "number"
-                },
                 "visualizeNFTsEnabledInHomeAssetsPage": {
                     "type": "boolean"
                 },
@@ -2263,8 +2257,6 @@
                 "superchargeButtonType",
                 "superchargeTokenConfigByToken",
                 "supportedBiometryType",
-                "swapFeeEnabled",
-                "swapFeePercentage",
                 "visualizeNFTsEnabledInHomeAssetsPage",
                 "walletConnectV1Enabled"
             ],
