@@ -5,12 +5,12 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 import Animated from 'react-native-reanimated'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { FlatGrid } from 'react-native-super-grid'
-import { DappSection } from 'src/app/reducers'
 import useOpenDapp from 'src/dappsExplorer/useOpenDapp'
 import Logo from 'src/icons/Logo'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
-import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import useSelector from 'src/redux/useSelector'
+import { useServices } from 'src/services/hooks'
 import { CoreServices } from 'src/services/Services'
 import fontStyles from 'src/styles/fonts'
 
@@ -22,6 +22,7 @@ function WalletServices() {
   const { t } = useTranslation()
 
   const isLoading = useSelector((state) => state.home.loading)
+  const { openBidali } = useServices()
   const { onSelectDapp, ConfirmOpenDappBottomSheet } = useOpenDapp()
   const scrollPosition = useRef(new Animated.Value(0)).current
   const onScroll = Animated.event([{ nativeEvent: { contentOffset: { y: scrollPosition } } }])
@@ -35,10 +36,10 @@ function WalletServices() {
   }
 
   const handleVendorSelect = (item: any) => {
-    if (item.dapp) {
-      onSelectDapp({ ...item.dapp, openedFrom: DappSection.All })
-    } else if (item.screen) {
-      navigate(item.screen)
+    if (item.screen == Screens.BidaliScreen) {
+      openBidali()
+    } else if (item.dapp) {
+      onSelectDapp(item.dapp)
     }
   }
 

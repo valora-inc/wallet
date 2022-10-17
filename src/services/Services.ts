@@ -1,8 +1,9 @@
 import { Dapp } from 'src/app/types'
 import MobileTopUp from 'src/icons/MobileTopUp'
 import Swap from 'src/icons/Swap'
+import { Screens } from 'src/navigator/Screens'
 
-const Dapps: Dapp[] = [
+export const ServiceDapps: Dapp[] = [
   {
     id: 'symmetric-dex',
     categoryId: 'swap',
@@ -27,12 +28,12 @@ export const CoreServices = [
   {
     title: 'servicesList.swap',
     icon: Swap,
-    dapp: Dapps[0],
+    dapp: ServiceDapps[0],
   },
   {
     title: 'servicesList.mobileTopUp',
     icon: MobileTopUp,
-    dapp: Dapps[1],
+    screen: Screens.BidaliScreen,
   },
 ]
 
