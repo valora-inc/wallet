@@ -200,8 +200,6 @@ export interface RemoteConfigValues {
   shouldShowRecoveryPhraseInSettings: boolean
   createAccountCopyTestType: CreateAccountCopyTestType
   maxSwapSlippagePercentage: number
-  swapFeeEnabled: boolean
-  swapFeePercentage: number
   inviteMethod: InviteMethodType
   showGuidedOnboardingCopy: boolean
   centralPhoneVerificationEnabled: boolean
