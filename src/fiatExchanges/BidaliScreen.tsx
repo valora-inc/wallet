@@ -8,8 +8,9 @@ import { createSelector } from 'reselect'
 import { e164NumberSelector } from 'src/account/selectors'
 import { openUrl } from 'src/app/actions'
 import WebView, { WebViewRef } from 'src/components/WebView'
+import { DEFAULT_TESTNET } from 'src/config'
 import { bidaliPaymentRequested } from 'src/fiatExchanges/actions'
-import networkConfig from 'src/geth/networkConfig'
+import networkConfig, { Testnets } from 'src/geth/networkConfig'
 import i18n from 'src/i18n'
 import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
 import { emptyHeader } from 'src/navigator/Headers'
@@ -24,6 +25,12 @@ import { Currency } from 'src/utils/currencies'
 
 // Note for later when adding CELO: make sure that Currency.Celo maps to CELO and not cGLD
 export const BIDALI_CURRENCIES = [Currency.Dollar, Currency.Euro]
+
+function bidaliPrefix(currency: string): string {
+  return DEFAULT_TESTNET === Testnets.alfajores
+    ? `test${currency.toLowerCase()}`
+    : currency.toLowerCase()
+}
 
 function useInitialJavaScript(
   currency: Currency,
@@ -44,7 +51,7 @@ function useInitialJavaScript(
     setInitialJavaScript(`
       window.bidaliProvider = {
         name: 'kolektivo',
-        paymentCurrencies: ["${currency.toLowerCase()}"],
+        paymentCurrency: "${bidaliPrefix(currency)}",
         phoneNumber: ${JSON.stringify(e164PhoneNumber)},
         balances: ${jsonBalances},
         onPaymentRequest: function (paymentRequest) {
@@ -120,7 +127,7 @@ function BidaliScreen({ route, navigation }: Props) {
         // Maps supported currencies to an object with their balance
         // Example: [cUSD, cEUR] to { CUSD: X, CEUR: Y }
         Object.fromEntries(
-          BIDALI_CURRENCIES.map((currency) => [currency.toLowerCase(), balances[currency]])
+          BIDALI_CURRENCIES.map((currency) => [bidaliPrefix(currency), balances[currency]])
         )
       ),
     [balances]
