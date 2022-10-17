@@ -787,8 +787,8 @@ export const migrations = {
     app: {
       ...state.app,
       maxSwapSlippagePercentage: REMOTE_CONFIG_VALUES_DEFAULTS.maxSwapSlippagePercentage,
-      swapFeeEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.swapFeeEnabled,
-      swapFeePercentage: REMOTE_CONFIG_VALUES_DEFAULTS.swapFeePercentage,
+      swapFeeEnabled: false,
+      swapFeePercentage: false,
     },
   }),
   72: (state: any) => ({
@@ -860,5 +860,9 @@ export const migrations = {
       ...state.fiatConnect,
       schemaCountryOverrides: {},
     },
+  }),
+  85: (state: any) => ({
+    ...state,
+    app: _.omit(state.app, 'swapFeeEnabled', 'swapFeePercentage'),
   }),
 }
