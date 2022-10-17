@@ -43,7 +43,7 @@ function useInitialJavaScript(
     // See also the comment in the `onMessage` handler
     setInitialJavaScript(`
       window.bidaliProvider = {
-        name: 'kolektivo'
+        name: 'kolektivo',
         paymentCurrencies: ["${currency.toLowerCase()}"],
         phoneNumber: ${JSON.stringify(e164PhoneNumber)},
         balances: ${jsonBalances},
