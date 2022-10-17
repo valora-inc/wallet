@@ -131,7 +131,7 @@ export function KycAgreement(props: { personaKycStatus?: KycStatus; quote: FiatC
   }
 
   const personaSuccessCallback = () => {
-    // optimistally navigate to step 2 to reduce flash
+    // optimistically navigate to step 2 to reduce flash
     // The subsequent saga may direct the user elsewhere if there is an error or edge case
     navigate(Screens.KycLanding, {
       quote,
