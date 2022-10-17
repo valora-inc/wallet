@@ -54,7 +54,7 @@ describe('Contact', () => {
       expect.objectContaining({
         isHTML: true,
         body:
-          'Test Message<br/><br/><b>{"version":"0.0.1","buildNumber":"1","apiLevel":-1,"deviceId":"unknown","address":"0x0000000000000000000000000000000000007e57","sessionId":"","numberVerifiedDecentralized":false,"numberVerifiedCentralized":false,"network":"alfajores"}</b><br/><br/><b>Support logs are attached...</b>',
+          'Test Message<br/><br/><b>{"version":"0.0.1","buildNumber":"1","apiLevel":-1,"deviceId":"someDeviceId","deviceBrand":"someBrand","deviceModel":"someModel","address":"0x0000000000000000000000000000000000007e57","sessionId":"","numberVerifiedDecentralized":false,"numberVerifiedCentralized":false,"network":"alfajores"}</b><br/><br/><b>Support logs are attached...</b>',
         recipients: [CELO_SUPPORT_EMAIL_ADDRESS],
         subject: i18n.t('supportEmailSubject', { appName: APP_NAME, user: '+1415555XXXX' }),
         attachments: logAttachments,
