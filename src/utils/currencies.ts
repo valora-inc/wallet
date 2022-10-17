@@ -66,6 +66,8 @@ export function resolveCurrency(currencyCode: string): Currency | undefined {
     CGLD: Currency.Celo,
     CUSD: Currency.Dollar,
     CEUR: Currency.Euro,
+    TESTCUSD: Currency.Dollar,
+    TESTCEUR: Currency.Euro,
   }
   return mapping[currencyCode.toUpperCase()]
 }
