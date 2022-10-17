@@ -267,8 +267,8 @@ export function* handleDeepLink(action: OpenDeepLink) {
   }
 
   const rawParams = parse(deepLink)
-  const pathParts = rawParams.path.split('/')
   if (rawParams.path) {
+    const pathParts = rawParams.path.split('/')
     if (rawParams.path.startsWith('/v/')) {
       yield put(receiveAttestationMessage(rawParams.path.substr(3), CodeInputType.DEEP_LINK))
     } else if (rawParams.path.startsWith('/payment')) {
