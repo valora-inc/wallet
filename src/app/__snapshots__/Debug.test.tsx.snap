@@ -20,7 +20,7 @@ exports[`Debug renders correctly 1`] = `
       }
     }
   >
-    Device Id: unknown | Phone Number: +14155556666
+    Device Id: someDeviceId | Phone Number: +14155556666
   </Text>
   <Text
     onPress={[Function]}

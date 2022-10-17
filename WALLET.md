@@ -18,7 +18,8 @@
 - [Debugging & App Profiling](#debugging--app-profiling)
   - [Debugging](#debugging)
     - [Optional: Install React Native Debugger](#optional-install-react-native-debugger)
-  - [App Profiling](#app-profiling)
+  - [App Profiling with react-devtools](#app-profiling-with-react-devtools)
+  - [App Profiling with android-profiler](#app-profiling-with-android-profiler)
 - [Testing](#testing)
   - [Snapshot testing](#snapshot-testing)
   - [React component unit testing](#react-component-unit-testing)
@@ -438,11 +439,17 @@ If you're using an Android simulator and the device / app is not showing up,
 navigate to settings (gear icon in the bottom left) and ensure the Android SDK
 location points to the same location as the $ANDROID_HOME environment variable.
 
-### App Profiling
+### App Profiling with react-devtools
 
-Run `yarn run react-devtools`. It should automatically connect to the running app, and includes a profiler (second tab). Start recording with the profiler, use the app, and then stop recording.
+From Flipper select React DevTools Plugin while the app is running locally, or run `yarn run react-devtools` in the wallet root folder. It should automatically connect to the running app and includes a profiler (second tab). Start recording with the profiler, use the app and then stop recording. If running from the terminal, Flipper cannot be run at the same time.
 
 The flame graph provides a view of each component and sub-component. The width is proportional to how long it took to load. If it is grey, it was not re-rendered at that 'commit' or DOM change. Details on the react native profiler are [here][rn profiler]. The biggest thing to look for are large number of renders when no state has changed. Reducing renders can be done via pure components in React or overloading the should component update method [example here][rn optimize example].
+
+### App Profiling with Android Profiler
+
+The [Android Profiler (standalone)][AndroidProfilerStandalone] is useful for viewing memory, CPU, and energy consumption. Run the profiler either from Android Studio or following the standalone instructions.
+
+Release mode is preferred for profiling as memory usage can be significantly higher in development builds. To create a  local mainnet release build for profiling run the app with `yarn dev:android -e mainnet -r -t`; this supplies an env flag: `-e <environment>`, the release flag: `-r` and the profile flag: `-t`. After both the app and profiler are launched, in the profiler attach a new session by selecting your device and a debuggable process e.g. `co.clabs.valora`.
 
 ## Testing
 
@@ -723,3 +730,4 @@ $ adb kill-server && adb start-server
 [jq]: https://stedolan.github.io/jq/
 [rootstate]: src/redux/reducers.ts#L79
 [rootstateschema]: test/RootStateSchema.json
+[AndroidProfilerStandalone]: https://developer.android.com/studio/profile/android-profiler#standalone-profilers
