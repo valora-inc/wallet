@@ -2,6 +2,7 @@ import { trimLeading0x } from '@celo/utils/lib/address'
 import { sanitizeMessageBase64 } from '@celo/utils/lib/attestations'
 import dynamicLinks from '@react-native-firebase/dynamic-links'
 import URLSearchParamsReal from '@ungap/url-search-params'
+import { WEB_LINK } from 'src/brandingConfig'
 import {
   APP_BUNDLE_ID as bundleId,
   APP_STORE_ID as appStoreId,
@@ -87,7 +88,7 @@ export const extractValuesFromDeepLink = async (): Promise<ExtractedInviteCodeAn
 
 export async function createDynamicLink(address: string) {
   return dynamicLinks().buildShortLink({
-    link: `${baseURI}/share/${address}`,
+    link: `${WEB_LINK}/share/${address}`,
     domainUriPrefix: baseURI,
     ios: {
       appStoreId,
@@ -104,7 +105,7 @@ export async function decodeShortDynamicLink(link: string) {
     const resolvedLink = await dynamicLinks().resolveLink(link)
     return resolvedLink.url
   } catch (error) {
-    Logger.debug('Invite/utils/decodeShortDynamicLink', 'Link could not be resolved', error)
+    Logger.warn('Invite/utils/decodeShortDynamicLink', 'Link could not be resolved', error)
+    return null
   }
-  return null
 }

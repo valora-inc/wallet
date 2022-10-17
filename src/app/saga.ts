@@ -270,16 +270,10 @@ export function* handleDeepLink(action: OpenDeepLink) {
   if (rawParams.path) {
     // handle dynamic link
     if (rawParams.hostname === 'vlra.app') {
-      const dynamicShortLink = yield call(decodeShortDynamicLink, rawParams.href)
-      // invite referral urls were generated using `buildLink` rather than
-      // `buildShortLink` in app versions 1.42 and 1.43. Handling both here for
-      // backwards compability
-      const pathParts = dynamicShortLink
-        ? new URL(dynamicShortLink).pathname.split('/')
-        : rawParams.path.split('/')
+      const decodedDynamicLink = yield call(decodeShortDynamicLink, rawParams.href)
+      const pathParts = decodedDynamicLink ? new URL(decodedDynamicLink).pathname.split('/') : []
 
       if (pathParts.length === 3 && pathParts[1] === 'share') {
-        // maintains backwards compatibility with invites sent with app v1.42
         ValoraAnalytics.track(InviteEvents.opened_via_invite_url, {
           inviterAddress: pathParts[2],
         })

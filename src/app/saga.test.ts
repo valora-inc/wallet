@@ -111,7 +111,7 @@ describe('App saga', () => {
   it('Handles long share deep link', async () => {
     const deepLink = 'https://vlra.app/share/abc123'
     await expectSaga(handleDeepLink, openDeepLink(deepLink))
-      .provide([[call(decodeShortDynamicLink, deepLink), null]])
+      .provide([[call(decodeShortDynamicLink, deepLink), deepLink]])
       .run()
 
     expect(MockedAnalytics.track).toHaveBeenCalledTimes(1)
@@ -128,7 +128,7 @@ describe('App saga', () => {
   it('Handles short share deep link', async () => {
     const deepLink = 'https://vlra.app/someShortLink'
     await expectSaga(handleDeepLink, openDeepLink(deepLink))
-      .provide([[call(decodeShortDynamicLink, deepLink), 'https://vlra.app/share/abc123']])
+      .provide([[call(decodeShortDynamicLink, deepLink), 'https:/valoraapp.com/share/abc123']])
       .run()
 
     expect(MockedAnalytics.track).toHaveBeenCalledTimes(1)
