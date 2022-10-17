@@ -60,6 +60,8 @@ function SupportContact({ route }: Props) {
       buildNumber: DeviceInfo.getBuildNumber(),
       apiLevel: DeviceInfo.getApiLevelSync(),
       deviceId: DeviceInfo.getDeviceId(),
+      deviceBrand: DeviceInfo.getBrand(),
+      deviceModel: DeviceInfo.getModel(),
       address: currentAccount,
       sessionId,
       numberVerifiedDecentralized,
