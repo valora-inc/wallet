@@ -268,8 +268,23 @@ export function* handleDeepLink(action: OpenDeepLink) {
 
   const rawParams = parse(deepLink)
   if (rawParams.path) {
-    const pathParts = rawParams.path.split('/')
-    if (rawParams.path.startsWith('/v/')) {
+    // handle dynamic link
+    if (rawParams.hostname === 'vlra.app') {
+      const dynamicShortLink = yield call(decodeShortDynamicLink, rawParams.href)
+      // invite referral urls were generated using `buildLink` rather than
+      // `buildShortLink` in app versions 1.42 and 1.43. Handling both here for
+      // backwards compability
+      const pathParts = dynamicShortLink
+        ? new URL(dynamicShortLink).pathname.split('/')
+        : rawParams.path.split('/')
+
+      if (pathParts.length === 3 && pathParts[1] === 'share') {
+        // maintains backwards compatibility with invites sent with app v1.42
+        ValoraAnalytics.track(InviteEvents.opened_via_invite_url, {
+          inviterAddress: pathParts[2],
+        })
+      }
+    } else if (rawParams.path.startsWith('/v/')) {
       yield put(receiveAttestationMessage(rawParams.path.substr(3), CodeInputType.DEEP_LINK))
     } else if (rawParams.path.startsWith('/payment')) {
       // TODO: contact our merchant partner and come up
@@ -295,21 +310,6 @@ export function* handleDeepLink(action: OpenDeepLink) {
       // of our own notifications for security reasons.
       const params = convertQueryToScreenParams(rawParams.query)
       navigate(params.screen as keyof StackParamList, params)
-    } else if (pathParts.length === 3 && pathParts[1] === 'share') {
-      // maintains backwards compatibility with invites sent with app v1.42
-      ValoraAnalytics.track(InviteEvents.opened_via_invite_url, {
-        inviterAddress: pathParts[2],
-      })
-    } else {
-      const dynamicShortLink = yield call(decodeShortDynamicLink, rawParams.path)
-      if (dynamicShortLink) {
-        const shortLinkParts = dynamicShortLink.path.split('/')
-        if (shortLinkParts.length === 3 && shortLinkParts[1] === 'share') {
-          ValoraAnalytics.track(InviteEvents.opened_via_invite_url, {
-            inviterAddress: shortLinkParts[2],
-          })
-        }
-      }
     }
   }
 }
