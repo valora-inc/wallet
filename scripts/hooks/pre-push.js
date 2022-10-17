@@ -22,7 +22,7 @@ function getCommitRange(change, remoteName) {
   if (change.remoteSHA === '0000000000000000000000000000000000000000') {
     // pushing a new branch
     // => commit range = changes from main
-    const fromSHA = mergeBaseFor(`${remoteName}/main`, change.localSHA)
+    const fromSHA = mergeBaseFor(`${remoteName}/develop`, change.localSHA)
     return [fromSHA, change.localSHA]
   } else {
     // push can be fast forward or not (push -f)
