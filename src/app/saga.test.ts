@@ -1,6 +1,6 @@
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
-import { select } from 'redux-saga/effects'
+import { call, select } from 'redux-saga/effects'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { appLock, openDeepLink, openUrl, setAppState } from 'src/app/actions'
@@ -11,6 +11,7 @@ import { activeDappSelector } from 'src/dapps/selectors'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import { receiveAttestationMessage } from 'src/identity/actions'
 import { CodeInputType } from 'src/identity/verification'
+import { decodeShortDynamicLink } from 'src/invite/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { handlePaymentDeeplink } from 'src/send/utils'
@@ -107,9 +108,28 @@ describe('App saga', () => {
     expect(navigate).not.toHaveBeenCalled()
   })
 
-  it('Handles share deep link', async () => {
+  it('Handles long share deep link', async () => {
     const deepLink = 'https://vlra.app/share/abc123'
-    await expectSaga(handleDeepLink, openDeepLink(deepLink)).run()
+    await expectSaga(handleDeepLink, openDeepLink(deepLink))
+      .provide([[call(decodeShortDynamicLink, deepLink), null]])
+      .run()
+
+    expect(MockedAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(MockedAnalytics.track.mock.calls[0]).toMatchInlineSnapshot(`
+      Array [
+        "opened_via_invite_url",
+        Object {
+          "inviterAddress": "abc123",
+        },
+      ]
+    `)
+  })
+
+  it('Handles short share deep link', async () => {
+    const deepLink = 'https://vlra.app/someShortLink'
+    await expectSaga(handleDeepLink, openDeepLink(deepLink))
+      .provide([[call(decodeShortDynamicLink, deepLink), 'https://vlra.app/share/abc123']])
+      .run()
 
     expect(MockedAnalytics.track).toHaveBeenCalledTimes(1)
     expect(MockedAnalytics.track.mock.calls[0]).toMatchInlineSnapshot(`
