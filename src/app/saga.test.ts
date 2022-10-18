@@ -11,7 +11,7 @@ import { activeDappSelector } from 'src/dapps/selectors'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import { receiveAttestationMessage } from 'src/identity/actions'
 import { CodeInputType } from 'src/identity/verification'
-import { decodeShortDynamicLink } from 'src/invite/utils'
+import { resolveDynamicLink } from 'src/invite/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { handlePaymentDeeplink } from 'src/send/utils'
@@ -111,7 +111,7 @@ describe('App saga', () => {
   it('Handles long share deep link', async () => {
     const deepLink = 'https://vlra.app/share/abc123'
     await expectSaga(handleDeepLink, openDeepLink(deepLink))
-      .provide([[call(decodeShortDynamicLink, deepLink), deepLink]])
+      .provide([[call(resolveDynamicLink, deepLink), deepLink]])
       .run()
 
     expect(MockedAnalytics.track).toHaveBeenCalledTimes(1)
@@ -128,7 +128,7 @@ describe('App saga', () => {
   it('Handles short share deep link', async () => {
     const deepLink = 'https://vlra.app/someShortLink'
     await expectSaga(handleDeepLink, openDeepLink(deepLink))
-      .provide([[call(decodeShortDynamicLink, deepLink), 'https:/valoraapp.com/share/abc123']])
+      .provide([[call(resolveDynamicLink, deepLink), 'https:/valoraapp.com/share/abc123']])
       .run()
 
     expect(MockedAnalytics.track).toHaveBeenCalledTimes(1)

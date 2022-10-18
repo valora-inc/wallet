@@ -100,12 +100,12 @@ export async function createDynamicLink(address: string) {
   })
 }
 
-export async function decodeShortDynamicLink(link: string) {
+export async function resolveDynamicLink(link: string) {
   try {
     const resolvedLink = await dynamicLinks().resolveLink(link)
     return resolvedLink.url
   } catch (error) {
-    Logger.warn('Invite/utils/decodeShortDynamicLink', 'Link could not be resolved', error)
+    Logger.warn('invite/utils/resolveDynamicLink', 'Link could not be resolved', error)
     return null
   }
 }

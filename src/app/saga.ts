@@ -48,7 +48,7 @@ import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import { appVersionDeprecationChannel, fetchRemoteConfigValues } from 'src/firebase/firebase'
 import { receiveAttestationMessage } from 'src/identity/actions'
 import { CodeInputType } from 'src/identity/verification'
-import { decodeShortDynamicLink } from 'src/invite/utils'
+import { resolveDynamicLink } from 'src/invite/utils'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -268,7 +268,7 @@ export function* handleDeepLink(action: OpenDeepLink) {
   if (rawParams.path) {
     // handle dynamic link
     if (rawParams.hostname === 'vlra.app') {
-      const decodedDynamicLink = yield call(decodeShortDynamicLink, rawParams.href)
+      const decodedDynamicLink = yield call(resolveDynamicLink, rawParams.href)
       const pathParts = decodedDynamicLink ? new URL(decodedDynamicLink).pathname.split('/') : []
 
       if (pathParts.length === 3 && pathParts[1] === 'share') {
