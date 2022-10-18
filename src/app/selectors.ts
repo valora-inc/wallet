@@ -128,10 +128,6 @@ export const createAccountCopyTestTypeSelector = (state: RootState) =>
 export const maxSwapSlippagePercentageSelector = (state: RootState) =>
   state.app.maxSwapSlippagePercentage
 
-export const swapFeeEnabledSelector = (state: RootState) => state.app.swapFeeEnabled
-
-export const swapFeePercentageSelector = (state: RootState) => state.app.swapFeePercentage
-
 export const inviteMethodSelector = (state: RootState) => state.app.inviteMethod
 
 export const showGuidedOnboardingSelector = (state: RootState) => state.app.showGuidedOnboardingCopy
