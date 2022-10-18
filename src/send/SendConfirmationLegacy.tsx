@@ -1,4 +1,4 @@
-import { StackScreenProps } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -83,7 +83,7 @@ export interface CurrencyInfo {
   localExchangeRate: string | null
 }
 
-type OwnProps = StackScreenProps<
+type OwnProps = NativeStackScreenProps<
   StackParamList,
   Screens.SendConfirmationLegacy | Screens.SendConfirmationLegacyModal
 >

@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import Logo, { LogoTypes } from 'src/icons/Logo'
 import { background } from 'src/images/Images'
-import { nuxNavigationOptionsNoBackButton } from 'src/navigator/Headers'
+import { onboardingHeaderOptionsNoBackButton } from 'src/navigator/Headers'
 import { navigateHome } from 'src/navigator/NavigationService'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
@@ -27,7 +27,7 @@ function OnboardingSuccessScreen() {
   )
 }
 
-OnboardingSuccessScreen.navigationOptions = nuxNavigationOptionsNoBackButton
+OnboardingSuccessScreen.navigationOptions = onboardingHeaderOptionsNoBackButton
 
 const styles = StyleSheet.create({
   container: {

@@ -1,4 +1,4 @@
-import { StackScreenProps } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { useEffect } from 'react'
@@ -29,7 +29,7 @@ import { currentAccountSelector } from 'src/web3/selectors'
 
 const TAG = 'escrow/ReclaimPaymentConfirmationScreen'
 
-type Props = StackScreenProps<StackParamList, Screens.ReclaimPaymentConfirmationScreen>
+type Props = NativeStackScreenProps<StackParamList, Screens.ReclaimPaymentConfirmationScreen>
 
 export default function ReclaimPaymentConfirmationScreen({ navigation, route }: Props) {
   const { t } = useTranslation()

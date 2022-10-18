@@ -1,23 +1,23 @@
+import { KycStatus as FiatConnectKycStatus } from '@fiatconnect/fiatconnect-types'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { StackScreenProps } from '@react-navigation/stack'
-import { StackParamList } from 'src/navigator/types'
-import { Screens } from 'src/navigator/Screens'
-import { navigateHome } from 'src/navigator/NavigationService'
-import { useTranslation } from 'react-i18next'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { FiatExchangeEvents } from 'src/analytics/Events'
-import { KycStatus as FiatConnectKycStatus } from '@fiatconnect/fiatconnect-types'
-import fontStyles from 'src/styles/fonts'
-import colors from 'src/styles/colors'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
-import ClockIcon from 'src/icons/ClockIcon'
-import CircledIcon from 'src/icons/CircledIcon'
-import BankIcon from 'src/icons/BankIcon'
 import getNavigationOptions from 'src/fiatconnect/kyc/getNavigationOptions'
+import BankIcon from 'src/icons/BankIcon'
+import CircledIcon from 'src/icons/CircledIcon'
+import ClockIcon from 'src/icons/ClockIcon'
+import { navigateHome } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
+import { StackParamList } from 'src/navigator/types'
+import colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
 
-type Props = StackScreenProps<StackParamList, Screens.KycPending>
+type Props = NativeStackScreenProps<StackParamList, Screens.KycPending>
 
 function KycPending({ route, navigation }: Props) {
   navigation.setOptions(

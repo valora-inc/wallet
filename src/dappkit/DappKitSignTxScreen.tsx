@@ -1,4 +1,4 @@
-import { StackScreenProps } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
@@ -21,7 +21,7 @@ import RequestContent from 'src/walletConnect/screens/RequestContent'
 
 const TAG = 'dappkit/DappKitSignTxScreen'
 
-type Props = StackScreenProps<StackParamList, Screens.DappKitSignTxScreen>
+type Props = NativeStackScreenProps<StackParamList, Screens.DappKitSignTxScreen>
 
 const DappKitSignTxScreen = ({ route }: Props) => {
   const { dappKitRequest } = route.params

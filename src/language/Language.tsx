@@ -1,4 +1,4 @@
-import { StackScreenProps, TransitionPresets } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { localesList } from 'locales'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -14,7 +14,7 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import fontStyles from 'src/styles/fonts'
 
-type ScreenProps = StackScreenProps<StackParamList, Screens.Language | Screens.LanguageModal>
+type ScreenProps = NativeStackScreenProps<StackParamList, Screens.Language | Screens.LanguageModal>
 type Props = ScreenProps
 
 interface Language {
@@ -79,7 +79,8 @@ LanguageScreen.navigationOptions = (withAnimation: boolean) => ({ navigation }: 
   return navigation.canGoBack()
     ? {
         ...headerWithBackButton,
-        ...(withAnimation ? TransitionPresets.ModalTransition : {}),
+        // TODO: Tom investigate replacing this with https://reactnavigation.org/docs/native-stack-navigator/#animation
+        // ...(withAnimation ? TransitionPresets.ModalTransition : {}),
       }
     : emptyHeader
 }

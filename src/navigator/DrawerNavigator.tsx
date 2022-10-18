@@ -15,7 +15,6 @@ import {
   ParamListBase,
   useLinkBuilder,
 } from '@react-navigation/native'
-import { TransitionPresets } from '@react-navigation/stack'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
@@ -261,7 +260,8 @@ export default function DrawerNavigator() {
               options={{
                 title: t('celoGold'),
                 drawerIcon: Gold,
-                ...TransitionPresets.ModalTransition,
+                // TODO: Tom investigate replacing this with https://reactnavigation.org/docs/native-stack-navigator/#presentation
+                // ...TransitionPresets.ModalTransition,
               }}
             />
           )}
@@ -332,7 +332,8 @@ export default function DrawerNavigator() {
               options={{
                 title: t('celoGold'),
                 drawerIcon: Gold,
-                ...TransitionPresets.ModalTransition,
+                // TODO: Tom investigate replacing this with https://reactnavigation.org/docs/native-stack-navigator/#presentation
+                // ...TransitionPresets.ModalTransition,
               }}
             />
           )}

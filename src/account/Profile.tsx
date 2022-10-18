@@ -1,4 +1,4 @@
-import { StackScreenProps } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, View } from 'react-native'
@@ -21,7 +21,7 @@ import colors from 'src/styles/colors'
 import { saveProfilePicture } from 'src/utils/image'
 import Logger from 'src/utils/Logger'
 
-type Props = StackScreenProps<StackParamList, Screens.Profile>
+type Props = NativeStackScreenProps<StackParamList, Screens.Profile>
 
 function Profile({ navigation, route }: Props) {
   const { t } = useTranslation()

@@ -1,4 +1,4 @@
-import { StackScreenProps } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useLayoutEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text } from 'react-native'
@@ -22,7 +22,7 @@ import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import DevSkipButton from 'src/components/DevSkipButton'
 import FormInput from 'src/components/FormInput'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
-import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
+import { HeaderTitleWithSubtitle, onboardingHeaderOptions } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
@@ -37,7 +37,7 @@ import Logger from 'src/utils/Logger'
 import { useAsyncKomenciReadiness } from 'src/verify/hooks'
 import { Statsig } from 'statsig-react-native'
 
-type Props = StackScreenProps<StackParamList, Screens.NameAndPicture>
+type Props = NativeStackScreenProps<StackParamList, Screens.NameAndPicture>
 
 const getExperimentParams = () => {
   try {
@@ -265,7 +265,7 @@ function NameAndPicture({ navigation, route }: Props) {
   )
 }
 
-NameAndPicture.navOptions = nuxNavigationOptions
+NameAndPicture.navOptions = onboardingHeaderOptions
 
 export default NameAndPicture
 

@@ -1,5 +1,6 @@
 import { Countries } from '@celo/utils/lib/countries'
-import { StackScreenProps, useHeaderHeight } from '@react-navigation/stack'
+import { useHeaderHeight } from '@react-navigation/elements'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
@@ -36,7 +37,7 @@ import { walletAddressSelector } from 'src/web3/selectors'
 function VerificationStartScreen({
   route,
   navigation,
-}: StackScreenProps<StackParamList, Screens.VerificationEducationScreen>) {
+}: NativeStackScreenProps<StackParamList, Screens.VerificationEducationScreen>) {
   const [showLearnMoreDialog, setShowLearnMoreDialog] = useState(false)
   const [showSkipDialog, setShowSkipDialog] = useState(false)
   const [phoneNumberInfo, setPhoneNumberInfo] = useState(() =>

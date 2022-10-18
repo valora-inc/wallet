@@ -1,5 +1,5 @@
 import { RouteProp } from '@react-navigation/native'
-import { StackScreenProps } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useEffect, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
@@ -55,7 +55,7 @@ import {
 
 const TAG = 'SelectProviderScreen'
 
-type Props = StackScreenProps<StackParamList, Screens.SelectProvider>
+type Props = NativeStackScreenProps<StackParamList, Screens.SelectProvider>
 
 export default function SelectProviderScreen({ route, navigation }: Props) {
   const dispatch = useDispatch()

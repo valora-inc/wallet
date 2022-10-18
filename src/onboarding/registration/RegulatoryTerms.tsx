@@ -1,4 +1,3 @@
-import { TransitionPresets } from '@react-navigation/stack'
 import * as React from 'react'
 import { Trans, WithTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text } from 'react-native'
@@ -34,7 +33,8 @@ type Props = WithTranslation & DispatchProps
 export class RegulatoryTerms extends React.Component<Props> {
   static navigationOptions = {
     ...nuxNavigationOptions,
-    ...TransitionPresets.ModalTransition,
+    // TODO: Tom investigate replacing this with https://reactnavigation.org/docs/native-stack-navigator/#presentation
+    // ...TransitionPresets.ModalTransition,
   }
 
   onPressAccept = () => {

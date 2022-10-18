@@ -1,5 +1,5 @@
 import { useFocusEffect, useIsFocused } from '@react-navigation/native'
-import { StackScreenProps } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import LottieView from 'lottie-react-native'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -46,7 +46,7 @@ const mapStateToProps = (state: RootState) => {
   }
 }
 
-type Props = StackScreenProps<StackParamList, Screens.VerificationLoadingScreen>
+type Props = NativeStackScreenProps<StackParamList, Screens.VerificationLoadingScreen>
 
 export default function VerificationLoadingScreen({ route }: Props) {
   const verificationStatusRef = useRef<VerificationStatus | undefined>()

@@ -2,7 +2,7 @@
  * This is a react navigation SCREEN to which we navigate,
  * when we need to fetch a PIN from a user.
  */
-import { StackScreenProps } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
@@ -21,7 +21,7 @@ import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import { currentAccountSelector } from 'src/web3/selectors'
 
-type Props = StackScreenProps<StackParamList, Screens.PincodeEnter>
+type Props = NativeStackScreenProps<StackParamList, Screens.PincodeEnter>
 
 export const PincodeEnter = ({ route }: Props) => {
   const { t } = useTranslation()

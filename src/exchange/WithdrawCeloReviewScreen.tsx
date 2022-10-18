@@ -2,7 +2,7 @@
 // and confirm.
 
 import { NavigationProp, RouteProp } from '@react-navigation/native'
-import { StackScreenProps } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { PixelRatio, StyleSheet, View } from 'react-native'
@@ -38,7 +38,7 @@ import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import { Currency } from 'src/utils/currencies'
 
-type Props = StackScreenProps<StackParamList, Screens.WithdrawCeloReviewScreen>
+type Props = NativeStackScreenProps<StackParamList, Screens.WithdrawCeloReviewScreen>
 
 function WithdrawCeloReviewScreen({ route }: Props) {
   const { amount, recipientAddress, feeEstimate, isCashOut } = route.params

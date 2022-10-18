@@ -1,4 +1,4 @@
-import { StackScreenProps } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
@@ -17,7 +17,7 @@ import fontStyles from 'src/styles/fonts'
 
 const AVATAR_SIZE = 64
 
-type Props = StackScreenProps<StackParamList, Screens.ValidateRecipientIntro>
+type Props = NativeStackScreenProps<StackParamList, Screens.ValidateRecipientIntro>
 
 export const validateRecipientIntroScreenNavOptions = () => ({
   ...emptyHeader,

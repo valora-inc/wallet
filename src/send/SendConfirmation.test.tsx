@@ -1,4 +1,4 @@
-import { StackScreenProps } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { fireEvent, render } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
@@ -57,7 +57,7 @@ const mockInviteScreenProps = getMockStackScreenProps(Screens.SendConfirmation, 
   origin: SendOrigin.AppSendFlow,
 })
 
-type ScreenProps = StackScreenProps<
+type ScreenProps = NativeStackScreenProps<
   StackParamList,
   Screens.SendConfirmation | Screens.SendConfirmationModal
 >

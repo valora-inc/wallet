@@ -3,7 +3,7 @@ import {
   FiatAccountSchemas,
   FiatAccountType,
 } from '@fiatconnect/fiatconnect-types'
-import { StackScreenProps } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, Image, KeyboardType, StyleSheet, Text, View } from 'react-native'
@@ -39,7 +39,7 @@ import { getObfuscatedAccountNumber } from './index'
 
 export const TAG = 'FIATCONNECT/FiatDetailsScreen'
 
-type ScreenProps = StackScreenProps<StackParamList, Screens.FiatDetailsScreen>
+type ScreenProps = NativeStackScreenProps<StackParamList, Screens.FiatDetailsScreen>
 
 type Props = ScreenProps
 

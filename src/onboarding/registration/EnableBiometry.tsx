@@ -1,4 +1,4 @@
-import { StackScreenProps } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useEffect, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
@@ -23,7 +23,7 @@ import Fingerprint from 'src/icons/biometry/Fingerprint'
 import { Iris } from 'src/icons/biometry/Iris'
 import TouchID from 'src/icons/biometry/TouchID'
 import { setHasSeenVerificationNux } from 'src/identity/actions'
-import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
+import { HeaderTitleWithSubtitle, onboardingHeaderOptions } from 'src/navigator/Headers'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
@@ -38,7 +38,7 @@ import Logger from 'src/utils/Logger'
 
 const TAG = 'EnableBiometry'
 
-type Props = StackScreenProps<StackParamList, Screens.EnableBiometry>
+type Props = NativeStackScreenProps<StackParamList, Screens.EnableBiometry>
 
 const biometryImageMap: { [key in Keychain.BIOMETRY_TYPE]: JSX.Element } = {
   [Keychain.BIOMETRY_TYPE.FACE_ID]: <FaceID />,
@@ -162,7 +162,7 @@ export default function EnableBiometry({ navigation }: Props) {
   )
 }
 
-EnableBiometry.navigationOptions = nuxNavigationOptions
+EnableBiometry.navigationOptions = onboardingHeaderOptions
 
 const styles = StyleSheet.create({
   container: {

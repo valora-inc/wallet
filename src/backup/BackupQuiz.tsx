@@ -1,4 +1,4 @@
-import { StackScreenProps } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { chunk, flatMap, shuffle, times } from 'lodash'
 import * as React from 'react'
 import { Trans, WithTranslation } from 'react-i18next'
@@ -62,7 +62,7 @@ interface DispatchProps {
   showError: typeof showError
 }
 
-type OwnProps = StackScreenProps<StackParamList, Screens.BackupQuiz>
+type OwnProps = NativeStackScreenProps<StackParamList, Screens.BackupQuiz>
 
 type Props = WithTranslation & StateProps & DispatchProps & OwnProps
 

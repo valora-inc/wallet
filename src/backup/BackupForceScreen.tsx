@@ -1,4 +1,4 @@
-import { StackScreenProps } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { BackHandler, ScrollView, StyleSheet, Text } from 'react-native'
@@ -22,7 +22,7 @@ import Logger from 'src/utils/Logger'
 
 const TAG = 'BackupForceScreen'
 
-type Props = StackScreenProps<StackParamList, Screens.BackupForceScreen>
+type Props = NativeStackScreenProps<StackParamList, Screens.BackupForceScreen>
 
 function BackupForceScreen({ navigation }: Props) {
   const { t } = useTranslation()

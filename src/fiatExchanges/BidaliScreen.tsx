@@ -1,4 +1,4 @@
-import { StackScreenProps } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { ActivityIndicator, StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -69,7 +69,7 @@ const higherBalanceCurrencySelector = createSelector(
     getHigherBalanceCurrency(BIDALI_CURRENCIES, balances, exchangeRates) ?? Currency.Dollar
 )
 
-type RouteProps = StackScreenProps<StackParamList, Screens.BidaliScreen>
+type RouteProps = NativeStackScreenProps<StackParamList, Screens.BidaliScreen>
 type Props = RouteProps
 
 function BidaliScreen({ route, navigation }: Props) {

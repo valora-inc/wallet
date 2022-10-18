@@ -1,6 +1,6 @@
 import { BottomSheetBackdrop, BottomSheetBackdropProps } from '@gorhom/bottom-sheet'
 import { RouteProp } from '@react-navigation/core'
-import { createStackNavigator, TransitionPresets } from '@react-navigation/stack'
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { createBottomSheetNavigator } from '@th3rdwave/react-navigation-bottom-sheet'
 import * as React from 'react'
 import { PixelRatio, Platform } from 'react-native'
@@ -128,8 +128,8 @@ import WebViewScreen from 'src/webview/WebViewScreen'
 
 const TAG = 'Navigator'
 
-const Stack = createStackNavigator<StackParamList>()
-const ModalStack = createStackNavigator<StackParamList>()
+const Stack = createNativeStackNavigator<StackParamList>()
+const ModalStack = createNativeStackNavigator<StackParamList>()
 const RootStack = createBottomSheetNavigator<StackParamList>()
 
 export const modalScreenOptions = () =>
@@ -139,7 +139,7 @@ export const modalScreenOptions = () =>
       gestureEnabled: true,
       cardOverlayEnabled: true,
       headerStatusBarHeight: 0,
-      ...TransitionPresets.ModalPresentationIOS,
+      // ...TransitionPresets.ModalPresentationIOS,
     },
   })
 

@@ -1,6 +1,7 @@
 import { Countries } from '@celo/utils/lib/countries'
+import { useHeaderHeight } from '@react-navigation/elements'
 import { useFocusEffect } from '@react-navigation/native'
-import { StackScreenProps, useHeaderHeight } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
@@ -28,7 +29,7 @@ import TextButton from 'src/components/TextButton'
 import { isE2EEnv, WEB_LINK } from 'src/config'
 import i18n from 'src/i18n'
 import { setHasSeenVerificationNux, startVerification } from 'src/identity/actions'
-import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
+import { HeaderTitleWithSubtitle, onboardingHeaderOptions } from 'src/navigator/Headers'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
@@ -62,7 +63,7 @@ import VerificationStartScreen from 'src/verify/VerificationStartScreen'
 import networkConfig from 'src/web3/networkConfig'
 import { currentAccountSelector, walletAddressSelector } from 'src/web3/selectors'
 
-type Props = StackScreenProps<StackParamList, Screens.VerificationEducationScreen>
+type Props = NativeStackScreenProps<StackParamList, Screens.VerificationEducationScreen>
 
 function VerificationEducationScreen(props: Props) {
   const centralPhoneVerificationEnabled = useSelector(centralPhoneVerificationEnabledSelector)
@@ -438,7 +439,7 @@ function VerificationEducationScreenDecentralized({ route, navigation }: Props) 
   )
 }
 
-VerificationEducationScreen.navigationOptions = nuxNavigationOptions
+VerificationEducationScreen.navigationOptions = onboardingHeaderOptions
 
 const styles = StyleSheet.create({
   container: {

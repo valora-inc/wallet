@@ -1,4 +1,4 @@
-import { StackScreenProps } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -51,7 +51,7 @@ import { isStablecoin } from 'src/tokens/utils'
 import { Currency } from 'src/utils/currencies'
 import { isDekRegisteredSelector } from 'src/web3/selectors'
 
-type OwnProps = StackScreenProps<
+type OwnProps = NativeStackScreenProps<
   StackParamList,
   Screens.SendConfirmation | Screens.SendConfirmationModal
 >

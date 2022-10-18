@@ -1,4 +1,4 @@
-import { StackScreenProps } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
@@ -27,7 +27,7 @@ interface StateProps {
   backupCompleted: boolean
 }
 
-type NavigationProps = StackScreenProps<StackParamList, Screens.BackupIntroduction>
+type NavigationProps = NativeStackScreenProps<StackParamList, Screens.BackupIntroduction>
 
 type Props = StateProps & NavigationProps
 

@@ -1,5 +1,5 @@
 import { isE164Number } from '@celo/utils/lib/phoneNumbers'
-import { StackScreenProps } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import * as Sentry from '@sentry/react-native'
 import locales from 'locales'
 import * as React from 'react'
@@ -100,7 +100,7 @@ interface StateProps {
   shouldShowRecoveryPhraseInSettings: boolean
 }
 
-type OwnProps = StackScreenProps<StackParamList, Screens.Settings>
+type OwnProps = NativeStackScreenProps<StackParamList, Screens.Settings>
 
 type Props = StateProps & DispatchProps & WithTranslation & OwnProps
 

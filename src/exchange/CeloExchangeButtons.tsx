@@ -1,6 +1,6 @@
 // VIEW which contains buy and sell buttons for CELO.
 
-import { StackNavigationProp } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
@@ -16,7 +16,7 @@ import { balancesSelector } from 'src/stableToken/selectors'
 import { Currency, STABLE_CURRENCIES } from 'src/utils/currencies'
 
 interface Props {
-  navigation: StackNavigationProp<StackParamList, Screens.ExchangeHomeScreen>
+  navigation: NativeStackScreenProps<StackParamList, Screens.ExchangeHomeScreen>
 }
 
 export default function CeloExchangeButtons({ navigation }: Props) {

@@ -1,4 +1,4 @@
-import { StackScreenProps } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import React, { useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -40,7 +40,7 @@ import { useCountryFeatures } from 'src/utils/countryFeatures'
 import { goldToDollarAmount } from 'src/utils/currencyExchange'
 import { getLocalCurrencyDisplayValue } from 'src/utils/formatting'
 
-type Props = StackScreenProps<StackParamList, Screens.ExchangeHomeScreen>
+type Props = NativeStackScreenProps<StackParamList, Screens.ExchangeHomeScreen>
 
 function navigateToGuide() {
   ValoraAnalytics.track(CeloExchangeEvents.celo_home_info)

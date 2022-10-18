@@ -3,7 +3,7 @@ import {
   MaterialTopTabBarProps,
 } from '@react-navigation/material-top-tabs'
 import { useIsFocused } from '@react-navigation/native'
-import { StackScreenProps, TransitionPresets } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
@@ -27,7 +27,7 @@ const Tab = createMaterialTopTabNavigator()
 const width = Dimensions.get('window').width
 const initialLayout = { width }
 
-type AnimatedScannerSceneProps = StackScreenProps<QRTabParamList, Screens.QRScanner> & {
+type AnimatedScannerSceneProps = NativeStackScreenProps<QRTabParamList, Screens.QRScanner> & {
   position: Animated.Value<number>
 }
 
@@ -157,7 +157,8 @@ export default function QRNavigator() {
 
 QRNavigator.navigationOptions = {
   ...noHeader,
-  ...TransitionPresets.ModalTransition,
+  // TODO: Tom investigate replacing this with https://reactnavigation.org/docs/native-stack-navigator/#presentation
+  // ...TransitionPresets.ModalTransition,
 }
 
 const styles = StyleSheet.create({

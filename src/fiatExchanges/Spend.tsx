@@ -1,4 +1,4 @@
-import { StackScreenProps } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
@@ -33,7 +33,7 @@ export interface SpendMerchant {
   subtitleKey?: string
 }
 
-type Props = StackScreenProps<StackParamList, Screens.Spend>
+type Props = NativeStackScreenProps<StackParamList, Screens.Spend>
 
 function Spend(props: Props) {
   const goToMerchant = (merchant: SpendMerchant) => {

@@ -1,6 +1,6 @@
 import { ObfuscatedFiatAccountData } from '@fiatconnect/fiatconnect-types'
 import { RouteProp } from '@react-navigation/native'
-import { StackScreenProps } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, BackHandler, SafeAreaView, StyleSheet, Text, View } from 'react-native'
@@ -33,7 +33,7 @@ import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import { Currency, resolveCICOCurrency } from 'src/utils/currencies'
 
-type Props = StackScreenProps<StackParamList, Screens.FiatConnectReview>
+type Props = NativeStackScreenProps<StackParamList, Screens.FiatConnectReview>
 
 export default function FiatConnectReviewScreen({ route, navigation }: Props) {
   const { t } = useTranslation()

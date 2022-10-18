@@ -11,7 +11,7 @@ import { CreateAccountCopyTestType } from 'src/app/types'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import Logo, { LogoTypes } from 'src/icons/Logo'
 import { welcomeBackground } from 'src/images/Images'
-import { nuxNavigationOptions } from 'src/navigator/Headers'
+import { onboardingHeaderOptions } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import LanguageButton from 'src/onboarding/LanguageButton'
@@ -91,7 +91,7 @@ export default function Welcome() {
 }
 
 Welcome.navigationOptions = {
-  ...nuxNavigationOptions,
+  ...onboardingHeaderOptions,
   headerRight: () => <LanguageButton />,
 }
 

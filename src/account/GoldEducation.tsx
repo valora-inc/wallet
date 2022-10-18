@@ -1,4 +1,3 @@
-import { TransitionPresets } from '@react-navigation/stack'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
@@ -51,7 +50,8 @@ export default function GoldEducation() {
 
 GoldEducation.navigationOptions = {
   ...noHeader,
-  ...TransitionPresets.ModalTransition,
+  // TODO: Tom investigate replacing this with https://reactnavigation.org/docs/native-stack-navigator/#presentation
+  // ...TransitionPresets.ModalTransition,
 }
 
 function useStep() {

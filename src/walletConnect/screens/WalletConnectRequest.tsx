@@ -1,4 +1,4 @@
-import { StackScreenProps } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
@@ -13,7 +13,7 @@ import ConnectionTimedOut from 'src/walletConnect/screens/ConnectionTimedOut'
 import SessionRequest from 'src/walletConnect/screens/SessionRequest'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
 
-type Props = StackScreenProps<StackParamList, Screens.WalletConnectRequest>
+type Props = NativeStackScreenProps<StackParamList, Screens.WalletConnectRequest>
 
 function WalletConnectRequest({ navigation, route: { params } }: Props) {
   const { t } = useTranslation()

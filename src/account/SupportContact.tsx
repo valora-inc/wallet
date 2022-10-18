@@ -1,5 +1,5 @@
 import { anonymizedPhone } from '@celo/utils/lib/phoneNumbers'
-import { StackScreenProps } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native'
@@ -27,7 +27,7 @@ import fontStyles from 'src/styles/fonts'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
 
-type Props = StackScreenProps<StackParamList, Screens.SupportContact>
+type Props = NativeStackScreenProps<StackParamList, Screens.SupportContact>
 
 function SupportContact({ route }: Props) {
   const { t } = useTranslation()

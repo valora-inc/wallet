@@ -1,4 +1,4 @@
-import { StackScreenProps } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { useEffect } from 'react'
@@ -27,7 +27,7 @@ import variables from 'src/styles/variables'
 import { Currency } from 'src/utils/currencies'
 import { getRateForMakerToken } from 'src/utils/currencyExchange'
 
-type Props = StackScreenProps<StackParamList, Screens.ExchangeReview>
+type Props = NativeStackScreenProps<StackParamList, Screens.ExchangeReview>
 
 export default function ExchangeReview({ route }: Props) {
   const { t } = useTranslation()

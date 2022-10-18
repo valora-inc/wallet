@@ -1,4 +1,4 @@
-import { StackScreenProps } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import * as React from 'react'
 import { useTranslation, WithTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
@@ -46,7 +46,7 @@ interface DispatchProps {
 type Props = StateProps &
   DispatchProps &
   WithTranslation &
-  StackScreenProps<StackParamList, Screens.BackupPhrase>
+  NativeStackScreenProps<StackParamList, Screens.BackupPhrase>
 
 const mapStateToProps = (state: RootState): StateProps => {
   return {
@@ -57,7 +57,7 @@ const mapStateToProps = (state: RootState): StateProps => {
 
 export const navOptionsForBackupPhrase = ({
   route,
-}: StackScreenProps<StackParamList, Screens.BackupPhrase>) => {
+}: NativeStackScreenProps<StackParamList, Screens.BackupPhrase>) => {
   const navigatedFromSettings = route.params?.navigatedFromSettings
   return {
     headerLeft: () => {

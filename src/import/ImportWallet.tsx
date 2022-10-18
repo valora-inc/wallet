@@ -1,4 +1,5 @@
-import { HeaderHeightContext, StackScreenProps } from '@react-navigation/stack'
+import { HeaderHeightContext } from '@react-navigation/elements'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
@@ -24,7 +25,7 @@ import Dialog from 'src/components/Dialog'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import { importBackupPhrase } from 'src/import/actions'
-import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
+import { HeaderTitleWithSubtitle, onboardingHeaderOptions } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -42,7 +43,7 @@ const AVERAGE_SEED_WIDTH = AVERAGE_WORD_WIDTH * 24
 // Estimated number of lines needed to enter the Recovery Phrase
 const NUMBER_OF_LINES = Math.ceil(AVERAGE_SEED_WIDTH / Dimensions.get('window').width)
 
-type Props = StackScreenProps<StackParamList, Screens.ImportWallet>
+type Props = NativeStackScreenProps<StackParamList, Screens.ImportWallet>
 
 /**
  * Component shown to users when they are onboarding to the application through the import / recover
@@ -243,7 +244,7 @@ function ImportWallet({ navigation, route }: Props) {
   )
 }
 
-ImportWallet.navigationOptions = nuxNavigationOptions
+ImportWallet.navigationOptions = onboardingHeaderOptions
 
 const styles = StyleSheet.create({
   container: {

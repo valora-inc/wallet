@@ -1,4 +1,4 @@
-import { StackScreenProps } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useEffect } from 'react'
 import { CoinbasePayEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -6,7 +6,7 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import WebViewScreen from 'src/webview/WebViewScreen'
 
-type RouteProps = StackScreenProps<StackParamList, Screens.WebViewScreen>
+type RouteProps = NativeStackScreenProps<StackParamList, Screens.WebViewScreen>
 type Props = RouteProps
 
 // Created specifically to hook into the removal of CBPay Screen for analytics

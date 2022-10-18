@@ -1,4 +1,4 @@
-import { useHeaderHeight } from '@react-navigation/stack'
+import { useHeaderHeight } from '@react-navigation/elements'
 import { shuffle } from 'fast-shuffle'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -9,7 +9,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { BtnTypes } from 'src/components/Button'
 import Logo, { LogoTypes } from 'src/icons/Logo'
 import { onboardingEducation1, onboardingEducation2, onboardingEducation3 } from 'src/images/Images'
-import { nuxNavigationOptions } from 'src/navigator/Headers'
+import { onboardingHeaderOptions } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import LanguageButton from 'src/onboarding/LanguageButton'
@@ -95,7 +95,7 @@ export default function OnboardingEducationScreen() {
 }
 
 OnboardingEducationScreen.navigationOptions = {
-  ...nuxNavigationOptions,
+  ...onboardingHeaderOptions,
   headerLeft: () => {
     return <Logo type={LogoTypes.DARK} />
   },

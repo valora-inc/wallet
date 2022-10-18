@@ -1,4 +1,4 @@
-import { StackScreenProps, TransitionPresets } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { throttle } from 'lodash'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useAsync } from 'react-async-hook'
@@ -39,7 +39,7 @@ interface Section {
   data: Recipient[]
 }
 
-type Props = StackScreenProps<StackParamList, Screens.Send>
+type Props = NativeStackScreenProps<StackParamList, Screens.Send>
 
 function Send({ route }: Props) {
   const skipContactsImport = route.params?.skipContactsImport ?? false
@@ -193,7 +193,8 @@ function Send({ route }: Props) {
 
 Send.navigationOptions = {
   ...noHeader,
-  ...TransitionPresets.ModalTransition,
+  // TODO: Tom investigate replacing this with https://reactnavigation.org/docs/native-stack-navigator/#presentation
+  // ...TransitionPresets.ModalTransition,
 }
 
 const styles = StyleSheet.create({

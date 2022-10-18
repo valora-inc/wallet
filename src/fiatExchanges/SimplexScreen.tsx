@@ -1,4 +1,4 @@
-import { StackScreenProps } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useLayoutEffect, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
@@ -25,7 +25,7 @@ import { resolveCICOCurrency, resolveCurrency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 import { currentAccountSelector } from 'src/web3/selectors'
 
-type RouteProps = StackScreenProps<StackParamList, Screens.Simplex>
+type RouteProps = NativeStackScreenProps<StackParamList, Screens.Simplex>
 type Props = RouteProps
 
 function SimplexScreen({ route, navigation }: Props) {

@@ -1,4 +1,4 @@
-import { StackScreenProps } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet } from 'react-native'
@@ -25,7 +25,7 @@ import RewardReceivedContent from './detailContent/RewardReceivedContent'
 import SwapContent from './detailContent/SwapContent'
 import TransferReceivedContent from './detailContent/TransferReceivedContent'
 
-type Props = StackScreenProps<StackParamList, Screens.TransactionDetailsScreen>
+type Props = NativeStackScreenProps<StackParamList, Screens.TransactionDetailsScreen>
 
 function useHeaderTitle(transaction: TokenTransaction) {
   const { t } = useTranslation()

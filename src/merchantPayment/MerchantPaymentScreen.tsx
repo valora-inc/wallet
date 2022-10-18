@@ -1,6 +1,6 @@
 import { AbortCodes } from '@celo/payments-types'
 import { useNavigation } from '@react-navigation/native'
-import { StackScreenProps } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useCallback, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
@@ -22,7 +22,7 @@ import { useTokenInfoBySymbol } from 'src/tokens/hooks'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 
-type Props = StackScreenProps<StackParamList, Screens.MerchantPayment>
+type Props = NativeStackScreenProps<StackParamList, Screens.MerchantPayment>
 
 function MerchantPaymentScreen({ route }: Props) {
   const LOG_TAG = BASE_TAG + 'Screen'
