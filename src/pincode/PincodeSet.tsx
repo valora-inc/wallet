@@ -95,7 +95,7 @@ export class PincodeSet extends React.Component<Props, State> {
     const changePin = route.params?.changePin
     const showGuidedOnboarding = route.params?.showGuidedOnboarding
     let title = i18n.t('pincodeSet.create')
-    let navOptions = changePin ? nuxNavigationOptions : onboardingHeaderOptions
+    const navOptions = changePin ? nuxNavigationOptions : onboardingHeaderOptions
     if (changePin) {
       title = i18n.t('pincodeSet.changePIN')
     } else if (showGuidedOnboarding) {
