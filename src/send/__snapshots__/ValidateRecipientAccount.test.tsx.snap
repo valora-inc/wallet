@@ -18,6 +18,7 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
       }
     }
     keyboardShouldPersistTaps="always"
+    testID="KeyboardAwareScrollView"
   >
     <View>
       <View>
@@ -661,6 +662,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
       }
     }
     keyboardShouldPersistTaps="always"
+    testID="KeyboardAwareScrollView"
   >
     <View>
       <View>
