@@ -83,6 +83,14 @@ export const APP_BUNDLE_ID = Config.APP_BUNDLE_ID
 export const FIATCONNECT_NETWORK =
   DEFAULT_TESTNET === 'mainnet' ? Network.Mainnet : Network.Alfajores
 
+// Whether to show FiatConnect providers. Called "default" because the setting can be over-ridden via Remote Config
+export const DEFAULT_FIAT_CONNECT_CASH_IN_ENABLED = stringToBoolean(
+  Config.DEFAULT_FIAT_CONNECT_CASH_IN_ENABLED ?? 'false'
+)
+export const DEFAULT_FIAT_CONNECT_CASH_OUT_ENABLED = stringToBoolean(
+  Config.DEFAULT_FIAT_CONNECT_CASH_OUT_ENABLED ?? 'false'
+)
+
 export const STATSIG_ENV = {
   tier: DEFAULT_TESTNET === 'mainnet' ? 'production' : 'development',
 }
