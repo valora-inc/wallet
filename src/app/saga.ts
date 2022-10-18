@@ -72,7 +72,11 @@ import {
   isWalletConnectDeepLink,
 } from 'src/walletConnect/walletConnect'
 import networkConfig from 'src/web3/networkConfig'
-import { dataEncryptionKeySelector, walletAddressSelector } from 'src/web3/selectors'
+import {
+  dataEncryptionKeySelector,
+  mtwAddressSelector,
+  walletAddressSelector,
+} from 'src/web3/selectors'
 import { parse } from 'url'
 
 const TAG = 'app/saga'
@@ -392,12 +396,16 @@ export function* runCentralPhoneVerificationMigration() {
     )
 
     const address = yield select(walletAddressSelector)
-    const e164Number = yield select(e164NumberSelector)
+    const mtwAddress = yield select(mtwAddressSelector)
+    const phoneNumber = yield select(e164NumberSelector)
     const publicDataEncryptionKey = compressedPubKey(hexToBuffer(privateDataEncryptionKey))
 
     try {
       const signedMessage = yield call(retrieveSignedMessage)
-      const phoneHashDetails: PhoneNumberHashDetails = yield call(fetchPhoneHashPrivate, e164Number)
+      const phoneHashDetails: PhoneNumberHashDetails = yield call(
+        fetchPhoneHashPrivate,
+        phoneNumber
+      )
 
       const response = yield call(fetch, networkConfig.migratePhoneVerificationUrl, {
         method: 'POST',
@@ -409,9 +417,10 @@ export function* runCentralPhoneVerificationMigration() {
           clientPlatform: Platform.OS,
           clientVersion: DeviceInfo.getVersion(),
           publicDataEncryptionKey,
-          e164Number,
-          ODISPepper: phoneHashDetails.pepper,
-          ODISPhoneHash: phoneHashDetails.phoneHash,
+          phoneNumber,
+          pepper: phoneHashDetails.pepper,
+          phoneHash: phoneHashDetails.phoneHash,
+          mtwAddress: mtwAddress ?? undefined,
         }),
       })
 

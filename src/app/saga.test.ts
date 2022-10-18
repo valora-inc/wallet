@@ -43,7 +43,11 @@ import { selectHasPendingState } from 'src/walletConnect/selectors'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
 import { handleWalletConnectDeepLink } from 'src/walletConnect/walletConnect'
 import networkConfig from 'src/web3/networkConfig'
-import { dataEncryptionKeySelector, walletAddressSelector } from 'src/web3/selectors'
+import {
+  dataEncryptionKeySelector,
+  mtwAddressSelector,
+  walletAddressSelector,
+} from 'src/web3/selectors'
 import { mocked } from 'ts-jest/utils'
 
 jest.mock('src/utils/time', () => ({
@@ -402,6 +406,7 @@ describe('runCentralPhoneVerificationMigration', () => {
       .provide([
         [select(dataEncryptionKeySelector), 'someDEK'],
         [select(shouldRunVerificationMigrationSelector), true],
+        [select(mtwAddressSelector), '0x123'],
         [select(walletAddressSelector), '0xabc'],
         [select(e164NumberSelector), '+31619777888'],
         [call(retrieveSignedMessage), 'someSignedMessage'],
@@ -421,7 +426,7 @@ describe('runCentralPhoneVerificationMigration', () => {
         authorization: 'Valora 0xabc:someSignedMessage',
       },
       body:
-        '{"clientPlatform":"android","clientVersion":"0.0.1","publicDataEncryptionKey":"publicKeyForUser","e164Number":"+31619777888","ODISPepper":"somePepper","ODISPhoneHash":"somePhoneHash"}',
+        '{"clientPlatform":"android","clientVersion":"0.0.1","publicDataEncryptionKey":"publicKeyForUser","phoneNumber":"+31619777888","pepper":"somePepper","phoneHash":"somePhoneHash","mtwAddress":"0x123"}',
     })
   })
 
@@ -432,6 +437,7 @@ describe('runCentralPhoneVerificationMigration', () => {
       .provide([
         [select(dataEncryptionKeySelector), 'someDEK'],
         [select(shouldRunVerificationMigrationSelector), true],
+        [select(mtwAddressSelector), '0x123'],
         [select(walletAddressSelector), '0xabc'],
         [select(e164NumberSelector), '+31619777888'],
         [call(retrieveSignedMessage), 'someSignedMessage'],
@@ -451,7 +457,7 @@ describe('runCentralPhoneVerificationMigration', () => {
         authorization: 'Valora 0xabc:someSignedMessage',
       },
       body:
-        '{"clientPlatform":"android","clientVersion":"0.0.1","publicDataEncryptionKey":"publicKeyForUser","e164Number":"+31619777888","ODISPepper":"somePepper","ODISPhoneHash":"somePhoneHash"}',
+        '{"clientPlatform":"android","clientVersion":"0.0.1","publicDataEncryptionKey":"publicKeyForUser","phoneNumber":"+31619777888","pepper":"somePepper","phoneHash":"somePhoneHash","mtwAddress":"0x123"}',
     })
     expect(loggerWarnSpy).toHaveBeenCalled()
   })
