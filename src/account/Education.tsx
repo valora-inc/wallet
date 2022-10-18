@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { useState } from 'react'
 import {
   Image,
   ImageSourcePropType,
@@ -48,36 +49,35 @@ export interface EducationStep {
 export type Props = NativeSafeAreaViewProps & {
   embeddedNavBar: EmbeddedNavBar | null
   stepInfo: EducationStep[]
-  buttonType: BtnTypes
+  buttonType?: BtnTypes
   buttonText: string
-  finalButtonType: BtnTypes
+  finalButtonType?: BtnTypes
   finalButtonText: string
-  dotStyle: StyleProp<ViewStyle>
-  activeDotStyle: StyleProp<ViewStyle>
+  dotStyle?: StyleProp<ViewStyle>
+  activeDotStyle?: StyleProp<ViewStyle>
   onFinish: () => void
+  experimentalSwiper?: boolean
 }
 
-interface State {
-  step: number
-}
+const Education = ({
+  style,
+  embeddedNavBar,
+  stepInfo,
+  buttonText,
+  finalButtonText,
+  onFinish,
+  experimentalSwiper = false,
+  buttonType = BtnTypes.SECONDARY,
+  finalButtonType = BtnTypes.PRIMARY,
+  dotStyle = progressDots.circlePassive,
+  activeDotStyle = progressDots.circleActive,
+  ...passThroughProps
+}: Props) => {
+  const [step, setStep] = useState<number>(0)
+  const swipeRef = React.createRef<Swiper>()
 
-export default class Education extends React.Component<Props, State> {
-  static defaultProps = {
-    buttonType: BtnTypes.SECONDARY,
-    finalButtonType: BtnTypes.PRIMARY,
-    dotStyle: progressDots.circlePassive,
-    activeDotStyle: progressDots.circleActive,
-  }
-
-  state = {
-    step: 0,
-  }
-
-  swiper = React.createRef<Swiper>()
-
-  goBack = () => {
-    const { step } = this.state
-    const { topic } = this.props.stepInfo[this.state.step]
+  const goBack = () => {
+    const { topic } = stepInfo[step]
     if (step === 0) {
       if (topic === EducationTopic.backup) {
         ValoraAnalytics.track(OnboardingEvents.backup_education_cancel)
@@ -102,21 +102,16 @@ export default class Education extends React.Component<Props, State> {
           direction: ScrollDirection.previous,
         })
       }
-      this.swiper?.current?.scrollBy(-1, true)
+      swipeRef?.current?.scrollBy(-1, true)
     }
   }
 
-  setStep = (step: number) => {
-    this.setState({ step })
-  }
-
-  nextStep = () => {
-    const { step } = this.state
-    const { topic } = this.props.stepInfo[this.state.step]
-    const isLastStep = step === this.props.stepInfo.length - 1
+  const nextStep = () => {
+    const { topic } = stepInfo[step]
+    const isLastStep = step === stepInfo.length - 1
 
     if (isLastStep) {
-      this.props.onFinish()
+      onFinish()
     } else {
       if (topic === EducationTopic.backup) {
         ValoraAnalytics.track(OnboardingEvents.backup_education_scroll, {
@@ -134,19 +129,23 @@ export default class Education extends React.Component<Props, State> {
           direction: ScrollDirection.next,
         })
       }
-      this.swiper?.current?.scrollBy(1, true)
+      swipeRef?.current?.scrollBy(1, true)
     }
   }
 
-  renderEmbeddedNavBar() {
-    switch (this.props.embeddedNavBar) {
+  const renderEmbeddedNavBar = () => {
+    const color = experimentalSwiper ? colors.light : colors.dark
+    switch (embeddedNavBar) {
       case EmbeddedNavBar.Close:
         return (
-          <View style={styles.top} testID="Education/top">
+          <View
+            style={[styles.top, experimentalSwiper ? styles.experimental : null]}
+            testID="Education/top"
+          >
             <TopBarIconButton
               testID="Education/CloseIcon"
-              onPress={this.goBack}
-              icon={this.state.step === 0 ? <Times /> : <BackChevron color={colors.dark} />}
+              onPress={goBack}
+              icon={step === 0 ? <Times color={color} /> : <BackChevron color={color} />}
             />
           </View>
         )
@@ -157,64 +156,52 @@ export default class Education extends React.Component<Props, State> {
     }
   }
 
-  render() {
-    const {
-      style,
-      embeddedNavBar,
-      stepInfo,
-      buttonType,
-      buttonText,
-      finalButtonType,
-      finalButtonText,
-      dotStyle,
-      activeDotStyle,
-      ...passThroughProps
-    } = this.props
-    const isLastStep = this.state.step === stepInfo.length - 1
-    // @todo Replace screen layout with a better layout
-    return (
-      <SafeAreaView style={[styles.root, style]} {...passThroughProps}>
-        {this.renderEmbeddedNavBar()}
-        <View style={styles.container}>
-          <Swiper
-            ref={this.swiper}
-            onIndexChanged={this.setStep}
-            loop={false}
-            dotStyle={dotStyle}
-            activeDotStyle={activeDotStyle}
-            removeClippedSubviews={false}
-          >
-            {stepInfo.map((step: EducationStep, i: number) => {
-              return (
-                <ScrollView
-                  contentContainerStyle={styles.contentContainer}
-                  style={styles.swipedContent}
-                  key={i}
-                >
-                  <View style={styles.swipedContentInner}>
-                    {step.isTopTitle && <Logo height={64} />}
-                    {step.isTopTitle && <Text style={styles.headingTop}>{step.title}</Text>}
-                    {step.image && (
-                      <Image source={step.image} style={styles.bodyImage} resizeMode="contain" />
-                    )}
-                    {!step.isTopTitle && <Text style={styles.heading}>{step.title}</Text>}
-                    {!!step.text && <Text style={styles.bodyText}>{step.text}</Text>}
-                  </View>
-                </ScrollView>
-              )
-            })}
-          </Swiper>
-          <Button
-            testID="Education/progressButton"
-            onPress={this.nextStep}
-            text={isLastStep ? finalButtonText : buttonText}
-            type={isLastStep ? finalButtonType : buttonType}
-          />
-        </View>
-      </SafeAreaView>
-    )
-  }
+  const isLastStep = step === stepInfo.length
+
+  return (
+    <SafeAreaView style={[styles.root, style]} edges={['bottom']} {...passThroughProps}>
+      {renderEmbeddedNavBar()}
+      <View style={styles.container}>
+        <Swiper
+          ref={swipeRef}
+          onIndexChanged={setStep}
+          loop={false}
+          dotStyle={dotStyle}
+          activeDotStyle={activeDotStyle}
+          removeClippedSubviews={false}
+        >
+          {stepInfo.map((step: EducationStep, i: number) => {
+            return (
+              <ScrollView
+                contentContainerStyle={styles.contentContainer}
+                style={styles.swipedContent}
+                key={i}
+              >
+                <View style={styles.swipedContentInner}>
+                  {step.isTopTitle && <Logo height={64} />}
+                  {step.isTopTitle && <Text style={styles.headingTop}>{step.title}</Text>}
+                  {step.image && !experimentalSwiper && (
+                    <Image source={step.image} style={styles.bodyImage} resizeMode="contain" />
+                  )}
+                  {!step.isTopTitle && <Text style={styles.heading}>{step.title}</Text>}
+                  {!!step.text && <Text style={styles.bodyText}>{step.text}</Text>}
+                </View>
+              </ScrollView>
+            )
+          })}
+        </Swiper>
+        <Button
+          testID="Education/progressButton"
+          onPress={nextStep}
+          text={isLastStep ? finalButtonText : buttonText}
+          type={isLastStep ? finalButtonType : buttonType}
+        />
+      </View>
+    </SafeAreaView>
+  )
 }
+
+export default Education
 
 const styles = StyleSheet.create({
   root: {
@@ -263,8 +250,13 @@ const styles = StyleSheet.create({
   },
   top: {
     paddingLeft: 24,
+    paddingTop: 48,
     paddingVertical: 16,
-    flexDirection: 'row',
+    flexDirection: 'column',
     width: '100%',
+  },
+  experimental: {
+    height: '50%',
+    backgroundColor: colors.greenUI,
   },
 })

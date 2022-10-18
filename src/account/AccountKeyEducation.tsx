@@ -5,7 +5,6 @@ import Education, { EducationTopic, EmbeddedNavBar } from 'src/account/Education
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { BtnTypes } from 'src/components/Button'
-import { accountKey1, accountKey2, accountKey3, accountKey4 } from 'src/images/Images'
 import { noHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -36,6 +35,7 @@ export default function AccountKeyEducation(props: Props) {
       embeddedNavBar={EmbeddedNavBar.Close}
       stepInfo={steps}
       onFinish={onComplete}
+      experimentalSwiper={true}
       finalButtonText={t('completeEducation')}
       buttonText={t('next')}
       finalButtonType={BtnTypes.PRIMARY}
@@ -53,10 +53,10 @@ function useSteps() {
   return React.useMemo(
     () =>
       [
-        { image: accountKey1, topic: EducationTopic.backup },
-        { image: accountKey2, topic: EducationTopic.backup },
-        { image: accountKey3, topic: EducationTopic.backup },
-        { image: accountKey4, topic: EducationTopic.backup },
+        { image: null, topic: EducationTopic.backup },
+        { image: null, topic: EducationTopic.backup },
+        { image: null, topic: EducationTopic.backup },
+        { image: null, topic: EducationTopic.backup },
       ].map((step, index) => {
         return {
           ...step,
