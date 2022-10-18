@@ -110,6 +110,12 @@ if (!isDetoxTestBuild) {
 }
 
 /**
+ * Build used for Android Release Profiling
+ * Use passed property to recognize the build is for profiling
+ */
+def isProfilingBuild = Boolean.valueOf(System.env.IS_PROFILING_BUILD ?: 'false')
+
+/**
  * Set this to true to create two separate APKs instead of one:
  *   - An APK that only works on ARM devices
  *   - An APK that only works on x86 devices
@@ -166,7 +172,7 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode appVersionCode
-        versionName "1.43.0"
+        versionName "1.44.0"
         multiDexEnabled true
         testBuildType System.getProperty('testBuildType', 'debug')
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -174,10 +180,11 @@ android {
         resValue "string", "build_config_package", "org.celo.mobile"
         missingDimensionStrategy 'react-native-camera', 'general'
         vectorDrawables.useSupportLibrary = true
+        resValue "bool", "is_profiling_build", System.getenv("IS_PROFILING_BUILD") ?: "false"
     }
     signingConfigs {
         release {
-            if (isDetoxTestBuild) {
+            if (isDetoxTestBuild || isProfilingBuild) {
                 storeFile file('debug.keystore')
                 storePassword 'android'
                 keyAlias 'androiddebugkey'

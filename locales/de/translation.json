@@ -602,6 +602,7 @@
   "fullNameOrPseudonymPlaceholder": "Vollständiger Name oder Alias",
   "nameAndPicGuideCopyTitle": "Wie heißt du?",
   "nameAndPicGuideCopyContent": "Wir würden gerne wissen, wie wir dich nennen sollen",
+  "generateUsername": "Einen Namen generieren",
   "importIt": "Wallet wiederherstellen",
   "important": "Wichtig",
   "confirmPin": {
@@ -1292,7 +1293,7 @@
     "bankAccount": {
       "header": "Ein Bankkonto einrichten",
       "bodyTitle": "Ein Bankkonto einrichten",
-      "description": "Gib deine Kontodaten ein, um Geld zu überweisen. Diese Dienste werden dir zur Verfügung gestellt von <0>{{providerName}}</0>.\n\nWenn du auf \"Weiter\" klickst, erklärst du dich mit den <1>Allgemeinen</1> Geschäftsbedingungen und der <2>Datenschutzerklärung</2> einverstanden."
+      "description": "Gib deine Kontodaten ein, um Geld zu überweisen. Diese Dienste werden dir zur Verfügung gestellt von <0>{{providerName}}</0>.\n\nWenn du auf „Weiter“ klickst, erklärst du dich mit den <1>Allgemeinen Geschäftsbedingungen</1> und der <2>Datenschutzerklärung</2> einverstanden."
     },
     "continue": "Weiter"
   },
@@ -1309,15 +1310,15 @@
     "contactSupport": "Support kontaktieren",
     "pending": {
       "title": "Deine ID-Verifizierung wird gerade überprüft.",
-      "description": "Nachdem die Prüfung abgeschlossen ist, kannst du zur Seite Hinzufügen & Abheben zurückkehren, um deine Transaktion abzuschließen.",
+      "description": "Nachdem die Überprüfung abgeschlossen ist, kannst du zur Seite Hinzufügen & Abheben zurückkehren, um deine Transaktion abzuschließen.",
       "close": "Schließen"
     },
     "denied": {
-      "switch": "Rückzugsmethode wechseln",
+      "switch": "Auszahlungsmethode wechseln",
       "retryable": {
-        "title": "Die Ausweiskontrolle wurde nicht akzeptiert.",
+        "title": "Die ID-Verifizierung wurde nicht akzeptiert.",
         "description": "Bitte überprüfe es noch einmal oder versuche einen anderen Weg, um Geld abzuheben.",
-        "tryAgain": "Nochmal versuchen"
+        "tryAgain": "Erneut versuchen"
       },
       "final": {
         "title": "Verifizierung verweigert.",
@@ -1327,8 +1328,8 @@
     "expired": {
       "title": "Die ID-Überprüfung ist abgelaufen.",
       "description": "Bitte überprüfe es noch einmal oder versuche einen anderen Weg, um Geld abzuheben.",
-      "tryAgain": "Nochmal versuchen",
-      "switch": "Rückzugsmethode wechseln"
+      "tryAgain": "Erneut versuchen",
+      "switch": "Auszahlungsmethode wechseln"
     },
     "tryAgainFailed": "Beim Löschen der KYC-Informationen ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut"
   },
@@ -1417,8 +1418,9 @@
     },
     "accountNumber": {
       "label": "Kontonummer",
-      "placeholderText": "Gib deine 10-stellige Kontonummer ein",
-      "errorMessage": "Die Kontonummer muss zehn Ziffern lang sein und darf nur Zahlen enthalten"
+      "placeholderText": "Kontonummer eingeben",
+      "errorMessageDigitLength": "Die Kontonummer muss {{length}} Ziffern haben.",
+      "errorMessageDigit": "Die Kontonummer darf nur Ziffern enthalten"
     }
   },
   "webView": {
@@ -1447,11 +1449,34 @@
     "swapTo": "Tausch zu",
     "transactionDetails": "Transaktiondetails",
     "estimatedGas": "Geschätzte Gas-Gebühren",
+    "swapSubmitError": "Sorry, we were unable to complete your swap. Please try again or contact support.",
     "swapFee": "{{appName}}-Gebühr",
     "swapFeeTitle": "Was ist die {{appName}}-Gebühr?",
     "swapFeeBody": "Die Gebühr für {{appName}} ist die Gebühr, die du bezahlen musst, um Tokens auf {{appName}} zu tauschen. \n\n Die Gebühr beträgt {{swapFee}} % des Umtauschbetrags. \n\n Die Gebühren für {{appName}} entfallen für die nächsten Monate.",
+    "swapFeeBodyFree": "The {{appName}} fee is the fee that you pay to swap tokens on {{appName}}. {{appName}} fees are free for the next few months.",
     "estimatedAmountTitle": "Geschätzte Betrag",
-    "estimatedAmountBody": "Umrechnungen finden an einer dezentralen Börse von Drittanbietern statt, die den besten Kurs für deinen gewünschten Umtausch bieten. \n\n Dein Trade wird zu einem Preis innerhalb von {{slippagePercent}} % des Preises abgeschlossen oder die Transaktion wird storniert und das Guthaben an deine Wallet zurückerstattet."
+    "estimatedAmountBody": "Umrechnungen finden an einer dezentralen Börse von Drittanbietern statt, die den besten Kurs für deinen gewünschten Umtausch bieten. \n\n Dein Trade wird zu einem Preis innerhalb von {{slippagePercent}} % des Preises abgeschlossen oder die Transaktion wird storniert und das Guthaben an deine Wallet zurückerstattet.",
+    "free": "Free"
+  },
+  "SwapExecuteScreen": {
+    "swapPending": "Swap Pending",
+    "swapSuccess": "Swap Successful!",
+    "swapError": "Swap Error",
+    "exchangeRateSubtext": "Finding the best exchange rate...",
+    "approvingSubtext": "Approving funds...",
+    "completingSubtext": "Completing swap...",
+    "swapAgain": "Swap Again",
+    "swapPriceModal": {
+      "title": "Prices have changed",
+      "action": "Continue",
+      "body": "Crypto amounts & fees can change due to fluctuations in the crypto market. \n\n Please review your final amount & fees and resubmit."
+    },
+    "swapErrorModal": {
+      "title": "We couldn’t complete this transaction.",
+      "body": "Please wait and try again later or contact our support team for help.",
+      "swapRestart": "Dismiss",
+      "contactSupport": "Contact Support"
+    }
   },
   "inviteModal": {
     "title": "Sieht so aus, als ob {{contactName}} noch kein {{appName}}-Wallet hat.",

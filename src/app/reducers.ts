@@ -58,8 +58,6 @@ export interface State {
   shouldShowRecoveryPhraseInSettings: boolean
   createAccountCopyTestType: CreateAccountCopyTestType
   maxSwapSlippagePercentage: number
-  swapFeeEnabled: boolean
-  swapFeePercentage: number
   inviteMethod: InviteMethodType
   centralPhoneVerificationEnabled: boolean
 }
@@ -113,8 +111,6 @@ const initialState = {
     REMOTE_CONFIG_VALUES_DEFAULTS.shouldShowRecoveryPhraseInSettings,
   createAccountCopyTestType: REMOTE_CONFIG_VALUES_DEFAULTS.createAccountCopyTestType,
   maxSwapSlippagePercentage: REMOTE_CONFIG_VALUES_DEFAULTS.maxSwapSlippagePercentage,
-  swapFeeEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.swapFeeEnabled,
-  swapFeePercentage: REMOTE_CONFIG_VALUES_DEFAULTS.swapFeePercentage,
   inviteMethod: REMOTE_CONFIG_VALUES_DEFAULTS.inviteMethod,
   centralPhoneVerificationEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.centralPhoneVerificationEnabled,
 }
@@ -235,8 +231,6 @@ export const appReducer = (
         shouldShowRecoveryPhraseInSettings: action.configValues.shouldShowRecoveryPhraseInSettings,
         createAccountCopyTestType: action.configValues.createAccountCopyTestType,
         maxSwapSlippagePercentage: action.configValues.maxSwapSlippagePercentage,
-        swapFeeEnabled: action.configValues.swapFeeEnabled,
-        swapFeePercentage: action.configValues.swapFeePercentage,
         inviteMethod: action.configValues.inviteMethod,
         showGuidedOnboardingCopy: action.configValues.showGuidedOnboardingCopy,
         centralPhoneVerificationEnabled: action.configValues.centralPhoneVerificationEnabled,
@@ -272,6 +266,11 @@ export const appReducer = (
       return {
         ...state,
         phoneNumberVerified: true,
+      }
+    case Actions.PHONE_NUMBER_REVOKED:
+      return {
+        ...state,
+        phoneNumberVerified: false,
       }
     default:
       return state

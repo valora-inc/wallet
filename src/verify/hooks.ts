@@ -1,14 +1,15 @@
 import { hexToBuffer } from '@celo/utils/lib/address'
 import { compressedPubKey } from '@celo/utils/lib/dataEncryptionKey'
 import { useEffect, useRef, useState } from 'react'
-import { useAsync } from 'react-async-hook'
+import { useAsync, useAsyncCallback } from 'react-async-hook'
 import { Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
 import { useDispatch, useSelector } from 'react-redux'
+import { e164NumberSelector } from 'src/account/selectors'
 import { showError } from 'src/alert/actions'
 import { PhoneVerificationEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { phoneNumberVerificationCompleted } from 'src/app/actions'
+import { phoneNumberRevoked, phoneNumberVerificationCompleted } from 'src/app/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { PHONE_NUMBER_VERIFICATION_CODE_LENGTH } from 'src/config'
 import {
@@ -249,4 +250,59 @@ export function useAndroidSmsCodeRetriever(onSmsCodeRetrieved: (code: string) =>
 
     return removeSmsListener
   }, [])
+}
+
+// This is only used from the dev menu for now
+// TODO: use i18n if this need to be used in prod
+export function useRevokeCurrentPhoneNumber() {
+  const address = useSelector(walletAddressSelector)
+  const e164Number = useSelector(e164NumberSelector)
+  const dispatch = useDispatch()
+
+  const revokePhoneNumber = useAsyncCallback(
+    async () => {
+      Logger.debug(
+        `${TAG}/revokeVerification`,
+        'Initiating request to revoke phone number verification',
+        { address, e164Number }
+      )
+
+      if (!address || !e164Number) {
+        throw new Error('No phone number in the store')
+      }
+
+      Logger.showMessage('Revoking phone number')
+      const signedMessage = await retrieveSignedMessage()
+      const response = await fetch(networkConfig.revokePhoneNumberUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Valora ${address}:${signedMessage}`,
+        },
+        body: JSON.stringify({
+          phoneNumber: e164Number,
+          clientPlatform: Platform.OS,
+          clientVersion: DeviceInfo.getVersion(),
+        }),
+      })
+
+      if (!response.ok) {
+        throw new Error(await response.text())
+      }
+
+      return e164Number
+    },
+    {
+      onSuccess: (e164Number) => {
+        dispatch(phoneNumberRevoked(e164Number))
+        Logger.showMessage('Phone number revoke was successful')
+      },
+      onError: (error: Error) => {
+        Logger.warn(`${TAG}/revokeVerification`, 'Error revoking verification', error)
+        Logger.showError('Failed to revoke phone number')
+      },
+    }
+  )
+
+  return revokePhoneNumber
 }

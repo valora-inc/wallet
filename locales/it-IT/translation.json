@@ -602,6 +602,7 @@
   "fullNameOrPseudonymPlaceholder": "Nome e cognome o alias",
   "nameAndPicGuideCopyTitle": "Come ti chiami?",
   "nameAndPicGuideCopyContent": "Vorremmo sapere come chiamarti",
+  "generateUsername": "Generare un nome",
   "importIt": "Ripristina wallet",
   "important": "Importante",
   "confirmPin": {
@@ -1292,7 +1293,7 @@
     "bankAccount": {
       "header": "Imposta un conto bancario",
       "bodyTitle": "Imposta un conto bancario",
-      "description": "Inserisci i dati del conto corrente bancario per trasferire i fondi. Questi servizi ti saranno forniti da <0>{{providerName}}</0>.\n\nCliccando su \"Continua\", accetti i <1>termini e le condizioni</1> e l'<2>informativa sulla privacy</2>."
+      "description": "Inserisci i dati del Conto bancario per trasferire fondi. Questi servizi saranno forniti da <0>{{providerName}}</0>.\n\nFacendo clic su Continua, accetti i relativi <1>Termini e condizioni</1> e l'<2>Informativa sulla privacy</2>"
     },
     "continue": "Continua"
   },
@@ -1305,10 +1306,10 @@
     "button": "Configura la verifica dell’identità"
   },
   "fiatConnectKycStatusScreen": {
-    "contactSupportPrefill": "Ho problemi a verificare la mia identità con Valora.",
+    "contactSupportPrefill": "Sto avendo difficoltà a verificare la mia identità con Valora.",
     "contactSupport": "Contatta il supporto tecnico",
     "pending": {
-      "title": "La verifica del tuo ID è in corso.",
+      "title": "La verifica del documento di identità è in corso.",
       "description": "Al termine della revisione, puoi tornare alla pagina Aggiungi e preleva per completare la transazione.",
       "close": "Chiudi"
     },
@@ -1316,17 +1317,17 @@
       "switch": "Cambia metodo di prelievo",
       "retryable": {
         "title": "La verifica del documento d'identità non è stata accettata.",
-        "description": "Verifica di nuovo o prova un altro modo per prelevare i fondi.",
+        "description": "Esegui nuovamente la verifica o prova un altro modo per prelevare i fondi.",
         "tryAgain": "Riprova"
       },
       "final": {
         "title": "Verifica respinta.",
-        "description": "Prova a scegliere un altro modo per prelevare i fondi o contatta l'assistenza."
+        "description": "Prova un altro modo per prelevare i fondi o contatta il Supporto tecnico."
       }
     },
     "expired": {
-      "title": "La verifica dell'ID è scaduta.",
-      "description": "Verifica di nuovo o prova un altro modo per prelevare i fondi.",
+      "title": "La verifica del documento di identità è scaduta.",
+      "description": "Esegui nuovamente la verifica o prova un altro modo per prelevare i fondi.",
       "tryAgain": "Riprova",
       "switch": "Cambia metodo di prelievo"
     },
@@ -1417,8 +1418,9 @@
     },
     "accountNumber": {
       "label": "Numero di conto",
-      "placeholderText": "Inserisci il tuo numero di conto a 10 cifre",
-      "errorMessage": "Il numero di conto deve essere di 10 cifre e deve contenere solo numeri."
+      "placeholderText": "Inserisci il numero di conto corrente",
+      "errorMessageDigitLength": "Il numero di conto deve essere di {{length}} cifre",
+      "errorMessageDigit": "Il numero di conto deve contenere solo cifre"
     }
   },
   "webView": {
@@ -1447,11 +1449,34 @@
     "swapTo": "Scambia a",
     "transactionDetails": "Dettagli della transazione",
     "estimatedGas": "Commissioni stimate",
+    "swapSubmitError": "Sorry, we were unable to complete your swap. Please try again or contact support.",
     "swapFee": "Commissione di {{appName}}",
     "swapFeeTitle": "Cosa sono le commissione di {{appName}}?",
     "swapFeeBody": "La commissione di {{appName}} è la commissione che paghi per scambiare i token su {{appName}}. \n\nLa commissione è pari al {{swapFee}}% dell'importo che stai scambiando. \n\nLe commissioni di {{appName}} sono gratuite per i prossimi mesi.",
+    "swapFeeBodyFree": "The {{appName}} fee is the fee that you pay to swap tokens on {{appName}}. {{appName}} fees are free for the next few months.",
     "estimatedAmountTitle": "Importo stimato",
-    "estimatedAmountBody": "Le conversioni avvengono su uno scambio decentralizzato di terze parti che trova il miglior tasso per il tuo scambio. \n\nLa tua transazione sarà completata a un prezzo compreso tra {{slippagePercent}}% della stima o la transazione sarà annullata e i fondi saranno restituiti al tuo wallet."
+    "estimatedAmountBody": "Le conversioni avvengono su uno scambio decentralizzato di terze parti che trova il miglior tasso per il tuo scambio. \n\nLa tua transazione sarà completata a un prezzo compreso tra {{slippagePercent}}% della stima o la transazione sarà annullata e i fondi saranno restituiti al tuo wallet.",
+    "free": "Free"
+  },
+  "SwapExecuteScreen": {
+    "swapPending": "Swap Pending",
+    "swapSuccess": "Swap Successful!",
+    "swapError": "Swap Error",
+    "exchangeRateSubtext": "Finding the best exchange rate...",
+    "approvingSubtext": "Approving funds...",
+    "completingSubtext": "Completing swap...",
+    "swapAgain": "Swap Again",
+    "swapPriceModal": {
+      "title": "Prices have changed",
+      "action": "Continue",
+      "body": "Crypto amounts & fees can change due to fluctuations in the crypto market. \n\n Please review your final amount & fees and resubmit."
+    },
+    "swapErrorModal": {
+      "title": "We couldn’t complete this transaction.",
+      "body": "Please wait and try again later or contact our support team for help.",
+      "swapRestart": "Dismiss",
+      "contactSupport": "Contact Support"
+    }
   },
   "inviteModal": {
     "title": "Sembra che {{contactName}} non abbia ancora un wallet {{appName}}.",

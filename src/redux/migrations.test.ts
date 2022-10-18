@@ -38,6 +38,7 @@ import {
   v8Schema,
   vNeg1Schema,
   v81Schema,
+  v84Schema,
 } from 'test/schemas'
 
 describe('Redux persist migrations', () => {
@@ -687,6 +688,16 @@ describe('Redux persist migrations', () => {
       swapUserInput: null,
     }
 
+    expect(migratedSchema).toStrictEqual(expectedSchema)
+  })
+
+  it('works from v84 to v85', () => {
+    const oldSchema = v84Schema
+    const migratedSchema = migrations[85](oldSchema)
+
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    delete expectedSchema.app.swapFeeEnabled
+    delete expectedSchema.app.swapFeePercentage
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 })

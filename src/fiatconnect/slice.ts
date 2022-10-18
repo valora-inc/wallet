@@ -163,6 +163,9 @@ export const slice = createSlice({
   initialState,
   reducers: {
     cacheQuoteParams: (state, action: PayloadAction<CacheQuoteParamsAction>) => {
+      if (!state.cachedQuoteParams[action.payload.providerId]) {
+        state.cachedQuoteParams[action.payload.providerId] = {}
+      }
       state.cachedQuoteParams[action.payload.providerId][action.payload.kycSchema] =
         action.payload.cachedQuoteParams
     },
