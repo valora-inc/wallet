@@ -102,6 +102,7 @@ export async function createDynamicLink(address: string) {
 
 export async function resolveDynamicLink(link: string) {
   try {
+    // resolve short and long dynamic links
     const resolvedLink = await dynamicLinks().resolveLink(link)
     return resolvedLink.url
   } catch (error) {

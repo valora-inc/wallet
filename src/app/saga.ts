@@ -268,8 +268,8 @@ export function* handleDeepLink(action: OpenDeepLink) {
   if (rawParams.path) {
     // handle dynamic link
     if (rawParams.hostname === 'vlra.app') {
-      const decodedDynamicLink = yield call(resolveDynamicLink, rawParams.href)
-      const pathParts = decodedDynamicLink ? new URL(decodedDynamicLink).pathname.split('/') : []
+      const dynamicLink = yield call(resolveDynamicLink, rawParams.href)
+      const pathParts = dynamicLink ? new URL(dynamicLink).pathname.split('/') : []
 
       if (pathParts.length === 3 && pathParts[1] === 'share') {
         ValoraAnalytics.track(InviteEvents.opened_via_invite_url, {
