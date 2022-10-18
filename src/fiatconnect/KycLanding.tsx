@@ -3,7 +3,15 @@ import { RouteProp } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useCallback, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { LayoutChangeEvent, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
+import {
+  Dimensions,
+  LayoutChangeEvent,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native'
 import { useDispatch } from 'react-redux'
 import Persona from 'src/account/Persona'
 import { KycStatus } from 'src/account/reducer'
@@ -19,6 +27,7 @@ import i18n from 'src/i18n'
 import CheckBox from 'src/icons/CheckBox'
 import GreyOut from 'src/icons/GreyOut'
 import { emptyHeader } from 'src/navigator/Headers'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import Colors from 'src/styles/colors'
@@ -69,9 +78,10 @@ const useComponentSize = (): [
   { width: number; height: number },
   (event: LayoutChangeEvent) => void
 ] => {
+  const { width, height } = Dimensions.get('window')
   const [size, setSize] = useState({
-    height: 0,
-    width: 0,
+    height,
+    width,
   })
 
   const onLayout = useCallback((event: LayoutChangeEvent) => {
@@ -123,6 +133,13 @@ export function KycAgreement(props: { personaKycStatus?: KycStatus; quote: FiatC
   }
 
   const personaSuccessCallback = () => {
+    // optimistically navigate to step 2 to reduce flash
+    // The subsequent saga may direct the user elsewhere if there is an error or edge case
+    navigate(Screens.KycLanding, {
+      quote,
+      flow: quote.flow,
+      step: 'two',
+    })
     dispatch(selectFiatConnectQuote({ quote })) // continue with flow through saga
   }
 
