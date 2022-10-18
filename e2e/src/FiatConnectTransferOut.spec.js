@@ -1,10 +1,10 @@
+import { fiatConnectNonKycTransferOut } from './usecases/FiatConnectTransferOut'
 import { quickOnboarding } from './utils/utils'
-import { fiatConnectTransferOut } from './usecases/FiatConnectTransferOut'
 
 describe('FiatConnect Transfer Out', () => {
-  beforeAll(async () => {
+  beforeEach(async () => {
     await quickOnboarding()
   })
-
-  describe('Non KYC', fiatConnectTransferOut)
+  // deliberately not doing onboarding in beforeEach (since we sometimes want to re-use an account for returning user flow testing)
+  describe('Non KYC', fiatConnectNonKycTransferOut)
 })
