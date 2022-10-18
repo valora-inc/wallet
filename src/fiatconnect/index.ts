@@ -57,7 +57,11 @@ export async function getFiatConnectProviders(
   providerList?: string
 ): Promise<FiatConnectProviderInfo[]> {
   const response = await fetch(
-    `${networkConfig.getFiatConnectProvidersUrl}?address=${address}&providers=${providerList}`
+    `${networkConfig.getFiatConnectProvidersUrl}?` +
+      new URLSearchParams({
+        address,
+        ...(!!providerList && { providers: providerList }),
+      })
   )
   if (!response.ok) {
     Logger.error(TAG, `Failure response fetching FiatConnect providers: ${response}`)
