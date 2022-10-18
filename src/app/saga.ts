@@ -389,57 +389,56 @@ export function* runCentralPhoneVerificationMigration() {
   }
 
   const shouldRunVerificationMigration = yield select(shouldRunVerificationMigrationSelector)
-  if (shouldRunVerificationMigration) {
-    Logger.debug(
-      `${TAG}@runCentralPhoneVerificationMigration`,
-      'Starting to run central phone verification migration'
-    )
+  if (!shouldRunVerificationMigration) {
+    return
+  }
 
-    const address = yield select(walletAddressSelector)
-    const mtwAddress = yield select(mtwAddressSelector)
-    const phoneNumber = yield select(e164NumberSelector)
-    const publicDataEncryptionKey = compressedPubKey(hexToBuffer(privateDataEncryptionKey))
+  Logger.debug(
+    `${TAG}@runCentralPhoneVerificationMigration`,
+    'Starting to run central phone verification migration'
+  )
 
-    try {
-      const signedMessage = yield call(retrieveSignedMessage)
-      const phoneHashDetails: PhoneNumberHashDetails = yield call(
-        fetchPhoneHashPrivate,
-        phoneNumber
-      )
+  const address = yield select(walletAddressSelector)
+  const mtwAddress = yield select(mtwAddressSelector)
+  const phoneNumber = yield select(e164NumberSelector)
+  const publicDataEncryptionKey = compressedPubKey(hexToBuffer(privateDataEncryptionKey))
 
-      const response = yield call(fetch, networkConfig.migratePhoneVerificationUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          authorization: `Valora ${address}:${signedMessage}`,
-        },
-        body: JSON.stringify({
-          clientPlatform: Platform.OS,
-          clientVersion: DeviceInfo.getVersion(),
-          publicDataEncryptionKey,
-          phoneNumber,
-          pepper: phoneHashDetails.pepper,
-          phoneHash: phoneHashDetails.phoneHash,
-          mtwAddress: mtwAddress ?? undefined,
-        }),
-      })
+  try {
+    const signedMessage = yield call(retrieveSignedMessage)
+    const phoneHashDetails: PhoneNumberHashDetails = yield call(fetchPhoneHashPrivate, phoneNumber)
 
-      if (response.ok) {
-        yield put(phoneNumberVerificationMigrated())
-        Logger.debug(
-          `${TAG}@runCentralPhoneVerificationMigration`,
-          'Central phone verification migration completed successfully'
-        )
-      } else {
-        throw new Error(yield call([response, 'text']))
-      }
-    } catch (error) {
-      Logger.warn(
+    const response = yield call(fetch, networkConfig.migratePhoneVerificationUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `Valora ${address}:${signedMessage}`,
+      },
+      body: JSON.stringify({
+        clientPlatform: Platform.OS,
+        clientVersion: DeviceInfo.getVersion(),
+        publicDataEncryptionKey,
+        phoneNumber,
+        pepper: phoneHashDetails.pepper,
+        phoneHash: phoneHashDetails.phoneHash,
+        mtwAddress: mtwAddress ?? undefined,
+      }),
+    })
+
+    if (response.ok) {
+      yield put(phoneNumberVerificationMigrated())
+      Logger.debug(
         `${TAG}@runCentralPhoneVerificationMigration`,
-        'Could not complete central phone verification migration',
-        error
+        'Central phone verification migration completed successfully'
       )
+    } else {
+      throw new Error(yield call([response, 'text']))
     }
+  } catch (error) {
+    Logger.warn(
+      `${TAG}@runCentralPhoneVerificationMigration`,
+      'Could not complete central phone verification migration',
+      error
+    )
   }
 }
 
