@@ -31,6 +31,7 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
               "paddingVertical": 16,
             }
           }
+          testID="ConfirmAccountNumber/Title"
         >
           confirmAccountNumber.title
         </Text>
@@ -673,6 +674,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
               "paddingVertical": 16,
             }
           }
+          testID="ConfirmAccountNumber/Title"
         >
           confirmAccountNumber.title
         </Text>
