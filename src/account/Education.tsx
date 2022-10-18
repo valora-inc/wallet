@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { useState } from 'react'
 import {
+  Dimensions,
   Image,
   ImageSourcePropType,
   ScrollView,
@@ -10,6 +11,7 @@ import {
   View,
   ViewStyle,
 } from 'react-native'
+import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 import { NativeSafeAreaViewProps, SafeAreaView } from 'react-native-safe-area-context'
 import Swiper from 'react-native-swiper'
 import { OnboardingEvents } from 'src/analytics/Events'
@@ -17,7 +19,7 @@ import { ScrollDirection } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnTypes } from 'src/components/Button'
 import BackChevron from 'src/icons/BackChevron'
-import Logo from 'src/icons/Logo'
+import Logo, { LogoTypes } from 'src/icons/Logo'
 import Times from 'src/icons/Times'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { navigateBack } from 'src/navigator/NavigationService'
@@ -133,6 +135,23 @@ const Education = ({
     }
   }
 
+  const progress = useSharedValue(0)
+  const width = Dimensions.get('window').width
+
+  const logoAnimatedStyle = useAnimatedStyle(() => {
+    const padding = 24
+    const start = 0 + padding
+    const end = width - padding
+    const distance = Math.abs(start - end)
+    return {
+      transform: [{ translateX: progress.value * (distance / 4) }],
+    }
+  }, [progress.value])
+
+  React.useEffect(() => {
+    progress.value = withTiming(step)
+  }, [step])
+
   const renderEmbeddedNavBar = () => {
     const color = experimentalSwiper ? colors.light : colors.dark
     switch (embeddedNavBar) {
@@ -147,6 +166,13 @@ const Education = ({
               onPress={goBack}
               icon={step === 0 ? <Times color={color} /> : <BackChevron color={color} />}
             />
+            {experimentalSwiper && (
+              <View style={styles.logoContainer}>
+                <Animated.View style={logoAnimatedStyle}>
+                  <Logo height={60} type={LogoTypes.LIGHT} />
+                </Animated.View>
+              </View>
+            )}
           </View>
         )
       case EmbeddedNavBar.Drawer:
@@ -249,7 +275,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   top: {
-    paddingLeft: 24,
+    paddingHorizontal: 24,
     paddingTop: 48,
     paddingVertical: 16,
     flexDirection: 'column',
@@ -258,5 +284,9 @@ const styles = StyleSheet.create({
   experimental: {
     height: '50%',
     backgroundColor: colors.greenUI,
+  },
+  logoContainer: {
+    flexGrow: 1,
+    justifyContent: 'flex-end',
   },
 })
