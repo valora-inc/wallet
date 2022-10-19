@@ -156,7 +156,7 @@ describe('handleDeepLink', () => {
   it('Handles short share deep link', async () => {
     const deepLink = 'https://vlra.app/someShortLink'
     await expectSaga(handleDeepLink, openDeepLink(deepLink))
-      .provide([[call(resolveDynamicLink, deepLink), 'https:/valoraapp.com/share/abc123']])
+      .provide([[call(resolveDynamicLink, deepLink), 'https://valoraapp.com/share/abc123']])
       .run()
 
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
