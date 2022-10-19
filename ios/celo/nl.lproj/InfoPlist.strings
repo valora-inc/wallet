@@ -1,7 +1,7 @@
 /* DO NOT EDIT MANUALLY, SEE scripts/sync_ios_info_plist_strings.sh */
 
 NSCameraUsageDescription = "Door uw camera aan te sluiten, kunt u codes voor betalingen scannen.";
-NSContactsUsageDescription = "Door uw contacten toe te voegen, kunt u gemakkelijk betalingen met uw vrienden verzenden en aanvragen.";
+NSContactsUsageDescription = "Door uw contacten toe te voegen, kunt u gemakkelijk betalingen naar uw vrienden verzenden en aanvragen.";
 NSPhotoLibraryAddUsageDescription = "Door uw fotobibliotheek aan te sluiten, kunt u uw code bij uw foto's opslaan.";
 NSPhotoLibraryUsageDescription = "Dit is nodig om een profielfoto te kunnen kiezen.";
 NSUserTrackingUsageDescription = "We gebruiken de advertentie-ID om app-installaties van advertentiecampagnes nauwkeurig toe te schrijven.";
