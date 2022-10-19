@@ -180,21 +180,24 @@ export async function quickOnboarding(mnemonic = SAMPLE_BACKUP_KEY) {
       .withTimeout(1000 * 5)
     await element(by.id('ImportWalletButton')).tap()
 
-    // case where account not yet funded
-    if (isElementVisible('ConfirmUseAccountDialog')) {
-      await element(by.id('ConfirmUseAccountDialog/SecondaryAction')).tap()
-    }
+    try {
+      // case where account not funded yet. continue with onboarding.
+      await element(by.id('ConfirmUseAccountDialog/PrimaryAction')).tap()
+    } catch {}
 
     // Verify Education
     await waitForElementId('VerificationEducationSkipHeader')
     // Skip
     await element(by.id('VerificationEducationSkipHeader')).tap()
     // Confirmation popup skip
+    await waitForElementId('VerificationSkipDialog/PrimaryAction')
     await element(by.id('VerificationSkipDialog/PrimaryAction')).tap()
 
     // Assert on Wallet Home Screen
     await expect(element(by.id('SendOrRequestBar'))).toBeVisible()
-  } catch {}
+  } catch (e) {
+    console.error(e)
+  }
 }
 
 export async function pixelDiff(imagePath, expectedImagePath, acceptableDiffPercent = 2.5) {
