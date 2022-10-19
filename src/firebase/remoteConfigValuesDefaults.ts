@@ -1,11 +1,6 @@
 import { RemoteConfigValues } from 'src/app/saga'
 import { CreateAccountCopyTestType, InviteMethodType, SuperchargeButtonType } from 'src/app/types'
-import {
-  DEFAULT_FIAT_CONNECT_CASH_IN_ENABLED,
-  DEFAULT_FIAT_CONNECT_CASH_OUT_ENABLED,
-  DEFAULT_SENTRY_NETWORK_ERRORS,
-  DEFAULT_SENTRY_TRACES_SAMPLE_RATE,
-} from 'src/config'
+import { DEFAULT_SENTRY_NETWORK_ERRORS, DEFAULT_SENTRY_TRACES_SAMPLE_RATE } from 'src/config'
 import { DappConnectInfo } from 'src/dapps/types'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 
@@ -65,8 +60,8 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   dappsWebViewEnabled: false,
   skipProfilePicture: false,
   celoWithdrawalEnabledInExchange: true,
-  fiatConnectCashInEnabled: DEFAULT_FIAT_CONNECT_CASH_IN_ENABLED,
-  fiatConnectCashOutEnabled: DEFAULT_FIAT_CONNECT_CASH_OUT_ENABLED,
+  fiatConnectCashInEnabled: false,
+  fiatConnectCashOutEnabled: false,
   dappConnectInfo: DappConnectInfo.Default,
   visualizeNFTsEnabledInHomeAssetsPage: false,
   coinbasePayEnabled: false,
