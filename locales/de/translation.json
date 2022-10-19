@@ -173,7 +173,7 @@
   "superchargingDescription": "Du erhältst jährlich {{apy}} %. Du erhältst jede Woche eine Benachrichtigung, wenn deine Rewards bereit sind – komm hierher zurück, um sie in Anspruch zu nehmen.",
   "superchargeRewardsAvailable": "Du hast {{amount}} {{token}} verfügbar zum Abholen!",
   "superchargeRewardsAvailableMultipleTokens": "Du hast {{amounts}} verfügbar zum Abholen!",
-  "superchargeClaimText": "Beanspruche deine Rewards, um sie deinem Guthaben hinzuzufügen.",
+  "superchargeClaimText": "Beanspruche deine Rewards, um sie deinem Guthaben hinzuzufügen./n/nWenn du mit Moola Stablecoins an Supercharge teilnimmst, kannst du alle deine Rewards einfordern, sobald Moola wieder online ist. Bitte wende dich an den Support, wenn du Hilfe brauchst.",
   "superchargeClaimButton": "Rewards beanspruchen",
   "superchargeFetchRewardsFailed": "Fehler beim Abrufen ausstehender Supercharge-Rewards. Bitte versuche es später erneut.",
   "superchargeClaimSuccess": "Deine Supercharge-Rewards wurden deinem Gesamtguthaben hinzugefügt.",
