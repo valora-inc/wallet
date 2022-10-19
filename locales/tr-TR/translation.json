@@ -173,7 +173,7 @@
   "superchargingDescription": "Yıllık %{{apy}} alıyorsunuz. Ödülleriniz hazır olduğunda her hafta bir bildirim alacaksınız, onları almak için buraya geri gelin.",
   "superchargeRewardsAvailable": "{{amount}} {{token}} almaya hak kazandınız!",
   "superchargeRewardsAvailableMultipleTokens": "{{amounts}} almaya hak kazandınız!",
-  "superchargeClaimText": "Ödüllerinizi alın ve bakiyenize ekleyin.",
+  "superchargeClaimText": "Ödüllerinizi alın ve bakiyenize ekleyin./n/nMoola stabil kripto ile Supercharge'a katılırsanız, Moola tekrar çevrimiçi olduğunda tüm ödüllerinizi talep edebileceksiniz. Lütfen yardım için destek ekibine ulaşın.",
   "superchargeClaimButton": "Ödüllerinizi Alın",
   "superchargeFetchRewardsFailed": "Bekleyen Supercharge ödüllerini alırken bir hata oluştu. Lütfen tekrar deneyin.",
   "superchargeClaimSuccess": "Supercharge ödülleriniz Toplam Bakiyenize eklendi.",
