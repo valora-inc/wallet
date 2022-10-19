@@ -476,7 +476,10 @@ describe('runCentralPhoneVerificationMigration', () => {
 
   it('should not run if no DEK can be found', async () => {
     await expectSaga(runCentralPhoneVerificationMigration)
-      .provide([[select(dataEncryptionKeySelector), null]])
+      .provide([
+        [select(dataEncryptionKeySelector), null],
+        [select(shouldRunVerificationMigrationSelector), true],
+      ])
       .not.put(phoneNumberVerificationMigrated())
       .run()
 
