@@ -379,17 +379,17 @@ export function* handleSetAppState(action: SetAppState) {
 }
 
 export function* runCentralPhoneVerificationMigration() {
+  const shouldRunVerificationMigration = yield select(shouldRunVerificationMigrationSelector)
+  if (!shouldRunVerificationMigration) {
+    return
+  }
+
   const privateDataEncryptionKey = yield select(dataEncryptionKeySelector)
   if (!privateDataEncryptionKey) {
     Logger.warn(
       `${TAG}@runCentralPhoneVerificationMigration`,
       'No data encryption key was found in the store. This should never happen.'
     )
-    return
-  }
-
-  const shouldRunVerificationMigration = yield select(shouldRunVerificationMigrationSelector)
-  if (!shouldRunVerificationMigration) {
     return
   }
 
@@ -448,5 +448,6 @@ export function* appSaga() {
   yield spawn(watchAppState)
   yield spawn(runVerificationMigration)
   yield spawn(runCentralPhoneVerificationMigration)
+  yield takeLatest(Actions.UPDATE_REMOTE_CONFIG_VALUES, runCentralPhoneVerificationMigration)
   yield takeLatest(Actions.SET_APP_STATE, handleSetAppState)
 }
