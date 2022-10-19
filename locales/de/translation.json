@@ -1318,7 +1318,7 @@
       "retryable": {
         "title": "Die ID-Verifizierung wurde nicht akzeptiert.",
         "description": "Bitte überprüfe es noch einmal oder versuche einen anderen Weg, um Geld abzuheben.",
-        "tryAgain": "Erneut versuchen"
+        "tryAgain": "Nochmals überprüfen"
       },
       "final": {
         "title": "Verifizierung verweigert.",
@@ -1328,7 +1328,7 @@
     "expired": {
       "title": "Die ID-Überprüfung ist abgelaufen.",
       "description": "Bitte überprüfe es noch einmal oder versuche einen anderen Weg, um Geld abzuheben.",
-      "tryAgain": "Erneut versuchen",
+      "tryAgain": "Nochmals überprüfen",
       "switch": "Auszahlungsmethode wechseln"
     },
     "tryAgainFailed": "Beim Löschen der KYC-Informationen ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut"
