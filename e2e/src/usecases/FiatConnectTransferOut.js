@@ -1,10 +1,8 @@
 import { reloadReactNative } from '../utils/retries'
-import { enterPinUiIfNecessary, quickOnboarding, sleep, waitForElementId } from '../utils/utils'
+import { enterPinUiIfNecessary, quickOnboarding, waitForElementId } from '../utils/utils'
 import { ALFAJORES_FORNO_URL, SAMPLE_PRIVATE_KEY } from '../utils/consts'
 import { newKit } from '@celo/contractkit'
 import { generateKeys, generateMnemonic } from '@celo/utils/lib/account'
-
-// const jestExpect = require('expect')
 
 async function navigateToFiatExchangeScreen() {
   await reloadReactNative()
@@ -40,7 +38,7 @@ export const fiatConnectNonKycTransferOut = () => {
     // FiatExchange
     await waitFor(element(by.text('0.025 cUSD'))) // need a balance to withdraw
       .toBeVisible()
-      .withTimeout(10000) // block time plus buffer, in case funding tx is still pending
+      .withTimeout(15000) // in case funding tx is still pending. balance must be updated before amount can be selected.
     await waitForElementId('cashOut')
     await element(by.id('cashOut')).tap()
 
@@ -80,13 +78,13 @@ export const fiatConnectNonKycTransferOut = () => {
     await element(by.id('submitButton')).tap()
 
     // ReviewScreen
-    await expect(element(by.text('Review'))).toBeVisible()
+    await waitForElementId('submitButton')
     await element(by.id('submitButton')).tap()
 
     // TransferStatusScreen
     await waitFor(element(by.id('loadingTransferStatus'))).not.toBeVisible()
     await expect(element(by.text('Your funds are on their way!'))).toBeVisible()
-    await expect(element(by.text('Continue'))).toBeVisible()
+    await expect(element(by.id('Continue'))).toBeVisible()
     await element(by.id('Continue')).tap()
 
     // WalletHome
