@@ -20,6 +20,17 @@ const locales: Locales = {
       return require('date-fns/locale/en-US')
     },
   },
+  'nl-NL': {
+    name: 'Dutch',
+    get strings() {
+      return {
+        translation: require('./nl-NL/translation.json'),
+      }
+    },
+    get dateFns() {
+      return require('date-fns/locale/nl')
+    },
+  },
   'es-419': {
     name: 'Español',
     get strings() {
