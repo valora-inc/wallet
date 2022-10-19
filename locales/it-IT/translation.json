@@ -173,7 +173,7 @@
   "superchargingDescription": "Stai ricevendo ricompense pari al {{apy}}% annuo. Ogni settimana riceverai una notifica quando le tue ricompense saranno pronte, torna qui per richiederle.",
   "superchargeRewardsAvailable": "Hai {{amount}} {{token}} disponibili per reclamare!",
   "superchargeRewardsAvailableMultipleTokens": "Hai {{amounts}} disponibili per reclamare!",
-  "superchargeClaimText": "Richiedi le tue ricompense per aggiungerle al tuo saldo./n/nSe partecipi a Supercharge con stablecoin Moola, potrai richiedere tutti i tuoi ricompense quando Moola tornerà online. Contattate il supporto per ricevere assistenza.",
+  "superchargeClaimText": "Richiedi le tue ricompense per aggiungerle al tuo saldo. Se partecipi a Supercharge con stablecoin Moola, potrai richiedere tutti i tuoi ricompense quando Moola tornerà online. Contatta il supporto tecnico per ricevere assistenza.",
   "superchargeClaimButton": "Richiedi ricompense",
   "superchargeFetchRewardsFailed": "Si è verificato un errore durante il recupero delle ricompense Supercharge. Riprova più tardi.",
   "superchargeClaimSuccess": "Le tue ricompense Supercharge sono state aggiunte al tuo saldo totale.",
