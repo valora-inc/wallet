@@ -193,7 +193,7 @@ export default function FiatConnectTransferStatusScreen({ route, navigation }: P
   if (fiatConnectTransfer.isSending) {
     return (
       <View style={styles.activityIndicatorContainer}>
-        <ActivityIndicator size="large" color={colors.greenBrand} />
+        <ActivityIndicator testID="loadingTransferStatus" size="large" color={colors.greenBrand} />
       </View>
     )
   }
