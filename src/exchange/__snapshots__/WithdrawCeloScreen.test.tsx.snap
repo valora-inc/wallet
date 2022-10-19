@@ -21,6 +21,7 @@ exports[`WithdrawCeloScreen renders correctly 1`] = `
       }
     }
     keyboardShouldPersistTaps="always"
+    testID="KeyboardAwareScrollView"
   >
     <View>
       <Text
