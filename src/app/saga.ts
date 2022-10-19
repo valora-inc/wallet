@@ -424,7 +424,7 @@ export function* runCentralPhoneVerificationMigration() {
       }),
     })
 
-    if (response.ok) {
+    if (response.status === 200) {
       yield put(phoneNumberVerificationMigrated())
       Logger.debug(
         `${TAG}@runCentralPhoneVerificationMigration`,
