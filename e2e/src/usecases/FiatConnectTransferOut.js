@@ -1,23 +1,42 @@
 import { reloadReactNative } from '../utils/retries'
 import { enterPinUiIfNecessary, waitForElementId } from '../utils/utils'
+import { SAMPLE_BACKUP_KEY } from '../utils/consts'
+import { ALFAJORES_CUSD_ADDRESS } from '../../scripts/consts'
 
 // const jestExpect = require('expect')
 
 // TODO after initiating transfer out, recover funds from account with this mnemonic: https://console.cloud.google.com/security/secret-manager/secret/fiatconnect-test-walllet-mnemonic/versions?project=celo-mobile-alfajores
 //  (accountAddress: 0x678AA7a27B17795917a9Dc615fE62201A51DcA95)
 
+async function prepCashOutScreen() {
+  await reloadReactNative()
+  await waitForElementId('Hamburger')
+  await element(by.id('Hamburger')).tap()
+  await element(by.id('add-and-withdraw')).tap()
+  await waitForElementId('cashOut')
+  await element(by.id('cashOut')).tap()
+}
+
+async function onboardNewWallet() {
+  // TODO create new wallet and go thru onboarding with it
+  return 'new_wallet_address'
+}
+
+async function fundWallet(senderMnemonic, recipientAddress, tokenAddress, amount) {
+  // TODO fund the new wallet
+  return
+}
+
+// TODO return funds if test fails before crypto is sent? could do this by wrapping pre-transfer steps in a try/catch, then returning funds to test wallet in the "catch" block before re-throwing
+
 export const fiatConnectNonKycTransferOut = () => {
-  beforeEach(async () => {
-    await reloadReactNative()
-    await waitForElementId('Hamburger')
-    await element(by.id('Hamburger')).tap()
-    await element(by.id('add-and-withdraw')).tap()
-    await waitForElementId('cashOut')
-    await element(by.id('cashOut')).tap()
-  })
   it('First time FiatConnect cash out', async () => {
-    const token = 'cUSD'
+    const walletAddress = await onboardNewWallet()
     const amount = '0.02'
+    await fundWallet(SAMPLE_BACKUP_KEY, walletAddress, ALFAJORES_CUSD_ADDRESS, amount)
+
+    await prepCashOutScreen()
+    const token = 'cUSD'
     await waitForElementId(`radio/${token}`)
     await element(by.id(`radio/${token}`)).tap()
     await element(by.text('Next')).tap()
