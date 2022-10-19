@@ -4,6 +4,11 @@ import { ALFAJORES_FORNO_URL, SAMPLE_PRIVATE_KEY } from '../utils/consts'
 import { newKit } from '@celo/contractkit'
 import { generateKeys, generateMnemonic } from '@celo/utils/lib/account'
 
+/**
+ * From the home screen, navigate to the FiatExchange screen (add/withdraw)
+ *
+ * @return {{result: Error}}
+ */
 async function navigateToFiatExchangeScreen() {
   await reloadReactNative()
   await waitForElementId('Hamburger')
@@ -11,15 +16,22 @@ async function navigateToFiatExchangeScreen() {
   await element(by.id('add-and-withdraw')).tap()
 }
 
-async function fundWallet(senderPrivateKey, recipientAddress, token, amountEth) {
+/**
+ * Fund a wallet, using some existing wallet.
+ *
+ * @param senderPrivateKey: private key for wallet with funds
+ * @param recipientAddress: wallet to receive funds
+ * @param stableToken: ContractKit-recognized stable token
+ * @param amountEther: amount in "ethers" (as opposed to wei)
+ */
+async function fundWallet(senderPrivateKey, recipientAddress, stableToken, amountEther) {
   const kit = newKit(ALFAJORES_FORNO_URL)
   const { address: senderAddress } = kit.web3.eth.accounts.privateKeyToAccount(senderPrivateKey)
   kit.connection.addAccount(senderPrivateKey)
-  const tokenContract = await kit.contracts.getStableToken(token)
-  const amountWei = kit.web3.utils.toWei(amountEth, 'ether')
+  const tokenContract = await kit.contracts.getStableToken(stableToken)
+  const amountWei = kit.web3.utils.toWei(amountEther, 'ether')
   await tokenContract.transfer(recipientAddress, amountWei.toString()).send({ from: senderAddress })
 }
-
 
 export const fiatConnectNonKycTransferOut = () => {
   it('First time FiatConnect cash out', async () => {
