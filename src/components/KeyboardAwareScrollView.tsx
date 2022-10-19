@@ -92,6 +92,13 @@ export default class KeyboardAwareScrollView extends React.Component<Props> {
   render() {
     const { hasNavBar, ...other } = this.props
 
-    return <ScrollView ref={this.scrollViewRef} keyboardShouldPersistTaps="handled" {...other} />
+    return (
+      <ScrollView
+        testID="KeyboardAwareScrollView"
+        ref={this.scrollViewRef}
+        keyboardShouldPersistTaps="handled"
+        {...other}
+      />
+    )
   }
 }
