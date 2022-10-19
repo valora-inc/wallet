@@ -1318,7 +1318,7 @@
       "retryable": {
         "title": "La verifica del documento d'identità non è stata accettata.",
         "description": "Esegui nuovamente la verifica o prova un altro modo per prelevare i fondi.",
-        "tryAgain": "Riprova"
+        "tryAgain": "Verifica di nuovo"
       },
       "final": {
         "title": "Verifica respinta.",
@@ -1328,7 +1328,7 @@
     "expired": {
       "title": "La verifica del documento di identità è scaduta.",
       "description": "Esegui nuovamente la verifica o prova un altro modo per prelevare i fondi.",
-      "tryAgain": "Riprova",
+      "tryAgain": "Verifica di nuovo",
       "switch": "Cambia metodo di prelievo"
     },
     "tryAgainFailed": "Si è verificato un errore durante la cancellazione delle informazioni KYC. Riprova."

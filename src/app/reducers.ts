@@ -262,6 +262,7 @@ export const appReducer = (
         ...state,
         supportedBiometryType: action.supportedBiometryType,
       }
+    case Actions.PHONE_NUMBER_VERIFICATION_MIGRATED:
     case Actions.PHONE_NUMBER_VERIFICATION_COMPLETED:
       return {
         ...state,

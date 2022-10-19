@@ -131,6 +131,7 @@ const styles = StyleSheet.create({
   },
   switchButton: {
     marginTop: 12,
+    marginBottom: 100,
   },
   activityIndicatorContainer: {
     paddingVertical: variables.contentPadding,
