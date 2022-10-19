@@ -180,6 +180,11 @@ export async function quickOnboarding(mnemonic = SAMPLE_BACKUP_KEY) {
       .withTimeout(1000 * 5)
     await element(by.id('ImportWalletButton')).tap()
 
+    // case where account not yet funded
+    if (isElementVisible('ConfirmUseAccountDialog')) {
+      await element(by.id('ConfirmUseAccountDialog/SecondaryAction')).tap()
+    }
+
     // Verify Education
     await waitForElementId('VerificationEducationSkipHeader')
     // Skip
