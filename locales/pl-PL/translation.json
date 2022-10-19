@@ -1322,7 +1322,7 @@
       "retryable": {
         "title": "Weryfikacja tożsamości nie została zaakceptowana.",
         "description": "Dokonaj weryfikacji ponownie lub spróbuj innego sposobu wypłaty środków.",
-        "tryAgain": "Spróbuj ponownie"
+        "tryAgain": "Zweryfikuj ponownie"
       },
       "final": {
         "title": "Weryfikacja odrzucona.",
@@ -1332,7 +1332,7 @@
     "expired": {
       "title": "Weryfikacja tożsamości wygasła.",
       "description": "Dokonaj weryfikacji ponownie lub spróbuj innego sposobu wypłaty środków.",
-      "tryAgain": "Spróbuj ponownie",
+      "tryAgain": "Zweryfikuj ponownie",
       "switch": "Zmień metodę wypłaty"
     },
     "tryAgainFailed": "Wystąpił błąd podczas usuwania informacji KYC. Spróbuj ponownie"
