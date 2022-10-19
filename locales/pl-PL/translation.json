@@ -173,7 +173,7 @@
   "superchargingDescription": "Otrzymujesz {{apy}}% rocznie. Co tydzień otrzymasz powiadomienie, gdy nagrody będą gotowe. Wróć tutaj, aby je odebrać.",
   "superchargeRewardsAvailable": "Masz {{amount}} {{token}} dostępne do odbioru!",
   "superchargeRewardsAvailableMultipleTokens": "Masz {{amounts}} dostępne do odbioru!",
-  "superchargeClaimText": "Odbierz nagrody, aby dodać je do swojego salda.",
+  "superchargeClaimText": "Odbierz nagrody, aby dodać je do swojego salda./n/nJeśli uczestniczysz w Supercharge za pomocą stablecoinów Moola, będziesz mógł odebrać wszystkie swoje nagrody, gdy Moola będzie z powrotem online. Prosimy o kontakt z obsługą techniczną w celu uzyskania pomocy.",
   "superchargeClaimButton": "Odbierz nagrody",
   "superchargeFetchRewardsFailed": "Wystąpił błąd podczas pobierania oczekujących nagród w ramach programu Supercharge. Spróbuj ponownie później.",
   "superchargeClaimSuccess": "Twoje nagrody Supercharge zostały dodane do Twojego salda całkowitego.",
