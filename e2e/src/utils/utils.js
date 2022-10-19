@@ -131,7 +131,7 @@ export function quote(s) {
   return device.getPlatform() === 'ios' ? s : `"${s}"`
 }
 
-export async function quickOnboarding() {
+export async function quickOnboarding(mnemonic = SAMPLE_BACKUP_KEY) {
   try {
     // Quickly pass through openning slides
     for (let i = 0; i < 3; i++) {
@@ -165,7 +165,7 @@ export async function quickOnboarding() {
     // Input Wallet Backup Key
     await sleep(3000)
     await element(by.id('ImportWalletBackupKeyInputField')).tap()
-    await element(by.id('ImportWalletBackupKeyInputField')).replaceText(`${SAMPLE_BACKUP_KEY}`)
+    await element(by.id('ImportWalletBackupKeyInputField')).replaceText(mnemonic)
     if (device.getPlatform() === 'ios') {
       // On iOS, type one more space to workaround onChangeText not being triggered with replaceText above
       // and leaving the restore button disabled
@@ -180,16 +180,24 @@ export async function quickOnboarding() {
       .withTimeout(1000 * 5)
     await element(by.id('ImportWalletButton')).tap()
 
+    try {
+      // case where account not funded yet. continue with onboarding.
+      await element(by.id('ConfirmUseAccountDialog/PrimaryAction')).tap()
+    } catch {}
+
     // Verify Education
     await waitForElementId('VerificationEducationSkipHeader')
     // Skip
     await element(by.id('VerificationEducationSkipHeader')).tap()
     // Confirmation popup skip
+    await waitForElementId('VerificationSkipDialog/PrimaryAction')
     await element(by.id('VerificationSkipDialog/PrimaryAction')).tap()
 
     // Assert on Wallet Home Screen
     await expect(element(by.id('SendOrRequestBar'))).toBeVisible()
-  } catch {}
+  } catch (e) {
+    console.error(e)
+  }
 }
 
 export async function pixelDiff(imagePath, expectedImagePath, acceptableDiffPercent = 2.5) {
