@@ -223,6 +223,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
       }
     }
     keyboardShouldPersistTaps="always"
+    testID="KeyboardAwareScrollView"
   >
     <View>
       <View
@@ -699,6 +700,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
       }
     }
     keyboardShouldPersistTaps="always"
+    testID="KeyboardAwareScrollView"
   >
     <View>
       <View
