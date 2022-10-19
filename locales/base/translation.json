@@ -1320,7 +1320,7 @@
       "retryable": {
         "title": "ID verification was not accepted.",
         "description": "Please verify again or try a different way to withdraw funds.",
-        "tryAgain": "Try again"
+        "tryAgain": "Verify again"
       },
       "final": {
         "title": "Verification denied.",
@@ -1330,7 +1330,7 @@
     "expired": {
       "title": "ID verification expired.",
       "description": "Please verify again or try a different way to withdraw funds.",
-      "tryAgain": "Try again",
+      "tryAgain": "Verify again",
       "switch": "Switch withdraw method"
     },
     "tryAgainFailed": "There was an error clearing KYC information. Please try again"

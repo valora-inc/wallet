@@ -111,8 +111,8 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
       getSchema({
         fiatAccountSchema,
         country: countryCodeAlpha2,
-        fiatAccountType: quote.getFiatAccountType(),
         schemaCountryOverrides,
+        fiatAccountType: quote.getFiatAccountType(),
       }),
     [fiatAccountSchema]
   )

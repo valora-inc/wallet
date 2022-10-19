@@ -1318,7 +1318,7 @@
       "retryable": {
         "title": "Verificación de identidad denegada",
         "description": "Haz una nueva verificación o intenta una forma alternativa de retirar fondos.",
-        "tryAgain": "Intentar de nuevo"
+        "tryAgain": "Verifica de nuevo"
       },
       "final": {
         "title": "Verificación de identidad denegada",
@@ -1328,7 +1328,7 @@
     "expired": {
       "title": "Verificación de identidad caducada",
       "description": "Haz una nueva verificación o intenta una forma alternativa de retirar fondos.",
-      "tryAgain": "Intentar de nuevo",
+      "tryAgain": "Verifica de nuevo",
       "switch": "Cambiar método de retiro"
     },
     "tryAgainFailed": "Hubo un error al borrar la información de KYC. Vuelve a intentarlo."
