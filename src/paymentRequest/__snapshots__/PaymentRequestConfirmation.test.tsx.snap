@@ -32,6 +32,7 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
         }
       }
       keyboardShouldPersistTaps="handled"
+      testID="KeyboardAwareScrollView"
     >
       <View>
         <View

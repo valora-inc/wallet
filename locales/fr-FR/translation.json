@@ -1318,7 +1318,7 @@
       "retryable": {
         "title": "La vérification de la pièce d'identité n'a pas été concluante.",
         "description": "Veuillez faire une nouvelle vérification ou essayez un autre moyen de retirer des fonds.",
-        "tryAgain": "Veuillez réessayer"
+        "tryAgain": "Vérifie à nouveau"
       },
       "final": {
         "title": "Vérification refusée.",
@@ -1328,7 +1328,7 @@
     "expired": {
       "title": "La vérification de la pièce d'identité a expiré.",
       "description": "Veuillez faire une nouvelle vérification ou essayez un autre moyen de retirer des fonds.",
-      "tryAgain": "Veuillez réessayer",
+      "tryAgain": "Vérifie à nouveau",
       "switch": "Changer de mode de retrait"
     },
     "tryAgainFailed": "Une erreur s'est produite lors de la suppression des informations KYC, veuillez réessayer."

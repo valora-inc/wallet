@@ -1318,7 +1318,7 @@
       "retryable": {
         "title": "A verificação da identidade não foi aceita.",
         "description": "Verifique novamente ou tente uma forma diferente de sacar fundos.",
-        "tryAgain": "Tentar novamente"
+        "tryAgain": "Verificar novamente"
       },
       "final": {
         "title": "Verificação negada.",
@@ -1328,7 +1328,7 @@
     "expired": {
       "title": "A verificação da identidade expirou.",
       "description": "Verifique novamente ou tente uma forma diferente de sacar fundos.",
-      "tryAgain": "Tentar novamente",
+      "tryAgain": "Verificar novamente",
       "switch": "Trocar método de saque"
     },
     "tryAgainFailed": "Ocorreu um erro ao limpar as informações de Conheça o Seu Cliente (KYC). Tente novamente"
