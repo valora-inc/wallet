@@ -1318,7 +1318,7 @@
       "retryable": {
         "title": "Kimlik doğrulaması kabul edilmedi.",
         "description": "Lütfen tekrar doğrulayın veya fonları çekmek için farklı bir yol deneyin.",
-        "tryAgain": "Tekrar deneyin"
+        "tryAgain": "Tekrar doğrulayın"
       },
       "final": {
         "title": "Doğrulama reddedildi.",
@@ -1328,7 +1328,7 @@
     "expired": {
       "title": "Kimlik doğrulamasının süresi doldu.",
       "description": "Lütfen tekrar doğrulayın veya fonları çekmek için farklı bir yol deneyin.",
-      "tryAgain": "Tekrar deneyin",
+      "tryAgain": "Tekrar doğrulayın",
       "switch": "Para çekme yöntemini değiştir"
     },
     "tryAgainFailed": "KYC bilgileri silinirken bir hata oluştu. Lütfen tekrar deneyin"
