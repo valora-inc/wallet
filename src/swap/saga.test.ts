@@ -1,6 +1,6 @@
 import { expectSaga } from 'redux-saga-test-plan'
 import { throwError } from 'redux-saga-test-plan/providers'
-import { call } from 'redux-saga/effects'
+import { call, select } from 'redux-saga/effects'
 import { SwapEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { store } from 'src/redux/store'
@@ -12,6 +12,7 @@ import Logger from 'src/utils/Logger'
 import { getContractKit } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
+import { walletAddressSelector } from 'src/web3/selectors'
 import { mockAccount } from 'test/values'
 
 const loggerErrorSpy = jest.spyOn(Logger, 'error')
@@ -76,6 +77,7 @@ describe(swapSubmitSaga, () => {
     await expectSaga(swapSubmitSaga, mockSwap)
       .withState(store.getState())
       .provide([
+        [select(walletAddressSelector), mockAccount],
         [call(getContractKit), contractKit],
         [call(getConnectedUnlockedAccount), mockAccount],
         [call(fetchWithTimeout, executeSwapUri), mockResponse],
@@ -100,6 +102,7 @@ describe(swapSubmitSaga, () => {
     await expectSaga(swapSubmitSaga, mockSwap)
       .withState(store.getState())
       .provide([
+        [select(walletAddressSelector), mockAccount],
         [call(getContractKit), contractKit],
         [call(getConnectedUnlockedAccount), mockAccount],
         [call(fetchWithTimeout, executeSwapUri), throwError(new Error('Error Fetching'))],
@@ -113,6 +116,7 @@ describe(swapSubmitSaga, () => {
     await expectSaga(swapSubmitSaga, mockSwap)
       .withState(store.getState())
       .provide([
+        [select(walletAddressSelector), mockAccount],
         [call(getContractKit), contractKit],
         [call(getConnectedUnlockedAccount), mockAccount],
         [call(fetchWithTimeout, executeSwapUri), { ok: false }],
@@ -131,6 +135,7 @@ describe(swapSubmitSaga, () => {
     await expectSaga(swapSubmitSaga, mockSwap)
       .withState(store.getState())
       .provide([
+        [select(walletAddressSelector), mockAccount],
         [call(getContractKit), contractKit],
         [call(getConnectedUnlockedAccount), mockAccount],
         [call(fetchWithTimeout, executeSwapUri), mockResponse],
