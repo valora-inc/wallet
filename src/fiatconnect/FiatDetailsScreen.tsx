@@ -204,7 +204,6 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
                   field={field}
                   index={index}
                   value={fieldValues.current[index]}
-                  hasError={errors.has(index)}
                   errorMessage={errors.get(index)}
                   onChange={(value) => {
                     setInputValue(value, index)
@@ -233,7 +232,6 @@ function FormField({
   index,
   value,
   allowedValues,
-  hasError,
   errorMessage,
   onChange,
 }: {
@@ -241,7 +239,6 @@ function FormField({
   index: number
   value: string
   allowedValues?: string[]
-  hasError: boolean
   errorMessage: string | undefined
   onChange: (value: any) => void
 }) {
@@ -297,7 +294,7 @@ function FormField({
           }}
         />
       )}
-      {errorMessage && hasError && showError && (
+      {errorMessage && showError && (
         <Text testID={`errorMessage-${field.name}`} style={styles.error}>
           {errorMessage}
         </Text>

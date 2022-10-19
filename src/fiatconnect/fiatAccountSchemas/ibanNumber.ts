@@ -14,33 +14,22 @@ export const getIbanNumberSchema = (
   countryOverrides?: FiatAccountSchemaCountryOverrides
 ): FiatAccountFormSchema<FiatAccountSchema.IBANNumber> => {
   const overrides = countryOverrides?.[implicitParams.country]?.[FiatAccountSchema.IBANNumber]
-  //Ensure spaces/lower case don't lead to invalid input
-  const cleanInput = (input: string) => input.replace(/\s/g, '').toUpperCase()
-
+  // Ensure spaces/lower case don't lead to invalid input
+  const clean = (input: string) => input.replace(/\s/g, '').toUpperCase()
   const ibanNumberValidator = (input: string) => {
-    input = cleanInput(input)
+    const cleanInput = clean(input)
+    const isValid = overrides?.iban?.regex
+      ? new RegExp(overrides.iban.regex).test(cleanInput)
+      : validateIBAN(cleanInput).valid
+    const errorMessageText = overrides?.iban?.errorString
+      ? i18n.t(`fiatAccountSchema.ibanNumber.${overrides.iban.errorString}`)
+      : i18n.t(`fiatAccountSchema.ibanNumber.errorMessage`)
 
-    if (overrides?.iban?.regex) {
-      const isValid = new RegExp(overrides.iban.regex).test(input)
-      return {
-        isValid,
-        errorMessage: i18n.t(`fiatAccountSchema.ibanNumber.errorMessage`),
-      }
-    }
-
-    const { valid, errorCodes } = validateIBAN(input)
-    if (!valid && input.length) {
-      switch (errorCodes?.[0]) {
-        //Option to add more error messages depending on error codes
-        default:
-          return {
-            isValid: valid,
-            errorMessage: i18n.t(`fiatAccountSchema.ibanNumber.errorMessage`),
-          }
-      }
-    }
+    // If we want more descriptive error messages in the future we can look at
+    // validateIBAN(cleanInput).errorCodes to show the user more helpful messages
     return {
-      isValid: valid,
+      isValid,
+      errorMessage: isValid ? undefined : errorMessageText,
     }
   }
 
@@ -58,8 +47,7 @@ export const getIbanNumberSchema = (
     accountName: {
       name: 'accountName',
       computeValue: ({ institutionName, iban }) =>
-        //TODO: should I use a different obfuscation method? The account number approach seems good enough.
-        `${institutionName} (${getObfuscatedAccountNumber(cleanInput(iban!))})`,
+        `${institutionName} (${getObfuscatedAccountNumber(clean(iban!))})`,
     },
   }
 }
