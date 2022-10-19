@@ -62,7 +62,7 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   skipProfilePicture: false,
   celoWithdrawalEnabledInExchange: true,
   fiatConnectCashInEnabled: false,
-  fiatConnectCashOutEnabled: false,
+  fiatConnectCashOutEnabled: true,
   dappConnectInfo: DappConnectInfo.Basic,
   visualizeNFTsEnabledInHomeAssetsPage: false,
   coinbasePayEnabled: false,
