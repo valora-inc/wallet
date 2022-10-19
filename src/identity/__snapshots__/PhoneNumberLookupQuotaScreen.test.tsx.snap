@@ -19,6 +19,7 @@ exports[`PhoneNumberLookupQuotaScreen renders correctly 1`] = `
       }
     }
     keyboardShouldPersistTaps="always"
+    testID="KeyboardAwareScrollView"
   >
     <View>
       <svg
