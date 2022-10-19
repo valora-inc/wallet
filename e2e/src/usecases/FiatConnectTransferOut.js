@@ -21,7 +21,6 @@ async function fundWallet(senderPrivateKey, recipientAddress, token, amountEth) 
   await tokenContract.transfer(recipientAddress, amountWei.toString()).send({ from: senderAddress })
 }
 
-// TODO return funds if test fails before crypto is sent? could do this by wrapping pre-transfer steps in a try/catch, then returning funds to test wallet in the "catch" block before re-throwing
 
 export const fiatConnectNonKycTransferOut = () => {
   it('First time FiatConnect cash out', async () => {
