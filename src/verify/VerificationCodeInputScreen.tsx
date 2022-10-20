@@ -120,6 +120,7 @@ function VerificationCodeInputScreen({
           {t('phoneVerificationInput.description', { phoneNumber: route.params.e164Number })}
         </Text>
         <CodeInput
+          autoFocus
           status={codeInputStatus}
           inputValue={code}
           inputPlaceholder={t('phoneVerificationInput.codeInputPlaceholder')}
