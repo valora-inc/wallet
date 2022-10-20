@@ -162,9 +162,9 @@ export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackup
     ValoraAnalytics.track(OnboardingEvents.wallet_import_success)
     yield call(initializeAccountSaga)
 
-    const phoneNumberCentrallyVerified = yield select(numberVerifiedCentrallySelector)
+    const numberAlreadyVerifiedCentrally = yield select(numberVerifiedCentrallySelector)
     const skipVerification = yield select(skipVerificationSelector)
-    if (skipVerification || phoneNumberCentrallyVerified) {
+    if (skipVerification || numberAlreadyVerifiedCentrally) {
       yield put(setHasSeenVerificationNux(true))
       navigateHome()
     } else {
