@@ -60,7 +60,7 @@ import VerificationLearnMoreDialog from 'src/verify/VerificationLearnMoreDialog'
 import VerificationSkipDialog from 'src/verify/VerificationSkipDialog'
 import VerificationStartScreen from 'src/verify/VerificationStartScreen'
 import networkConfig from 'src/web3/networkConfig'
-import { currentAccountSelector, walletAddressSelector } from 'src/web3/selectors'
+import { currentAccountSelector } from 'src/web3/selectors'
 
 type Props = StackScreenProps<StackParamList, Screens.VerificationEducationScreen>
 
@@ -102,7 +102,6 @@ function VerificationEducationScreenDecentralized({ route, navigation }: Props) 
   const shouldUseKomenci = useSelector(shouldUseKomenciSelector)
   const verificationStatus = useSelector(verificationStatusSelector)
   const choseToRestoreAccount = useSelector(choseToRestoreAccountSelector)
-  const walletAddress = useSelector(walletAddressSelector)
   const { step, totalSteps } = useSelector(registrationStepsSelector)
 
   const onPressStart = async () => {
