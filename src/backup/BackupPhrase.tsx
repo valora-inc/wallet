@@ -15,8 +15,10 @@ import CancelConfirm from 'src/backup/CancelConfirm'
 import { getStoredMnemonic, onGetMnemonicFail } from 'src/backup/utils'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import CancelButton from 'src/components/CancelButton'
+import CustomHeader from 'src/components/header/CustomHeader'
 import Switch from 'src/components/Switch'
 import { withTranslation } from 'src/i18n'
+import { noHeader } from 'src/navigator/Headers'
 import { navigate, pushToStack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
@@ -24,6 +26,7 @@ import { StackParamList } from 'src/navigator/types'
 import { RootState } from 'src/redux/reducers'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
+import variables from 'src/styles/variables'
 import { currentAccountSelector } from 'src/web3/selectors'
 
 const TAG = 'backup/BackupPhrase'
@@ -52,22 +55,6 @@ const mapStateToProps = (state: RootState): StateProps => {
   return {
     account: currentAccountSelector(state),
     backupCompleted: state.account.backupCompleted,
-  }
-}
-
-export const navOptionsForBackupPhrase = ({
-  route,
-}: StackScreenProps<StackParamList, Screens.BackupPhrase>) => {
-  const navigatedFromSettings = route.params?.navigatedFromSettings
-  return {
-    headerLeft: () => {
-      return navigatedFromSettings ? (
-        <CancelButton style={styles.cancelButton} />
-      ) : (
-        <CancelConfirm screen={TAG} />
-      )
-    },
-    headerRight: () => <HeaderRight />,
   }
 }
 
@@ -123,6 +110,16 @@ class BackupPhrase extends React.Component<Props, State> {
     const navigatedFromSettings = this.navigatedFromSettings()
     return (
       <SafeAreaView style={styles.container}>
+        <CustomHeader
+          left={
+            navigatedFromSettings ? (
+              <CancelButton style={styles.cancelButton} />
+            ) : (
+              <CancelConfirm screen={TAG} />
+            )
+          }
+          right={<HeaderRight />}
+        />
         <ScrollView contentContainerStyle={styles.scrollContainer}>
           <BackupPhraseContainer
             value={mnemonic}
@@ -150,12 +147,17 @@ class BackupPhrase extends React.Component<Props, State> {
               size={BtnSizes.FULL}
               type={BtnTypes.SECONDARY}
               testID="backupKeyContinue"
+              style={styles.continueButton}
             />
           </>
         )}
       </SafeAreaView>
     )
   }
+}
+
+export const navOptionsForBackupPhrase = {
+  ...noHeader,
 }
 
 function HeaderRight() {
@@ -171,11 +173,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'space-between',
-    padding: 16,
   },
   scrollContainer: {
     flexGrow: 1,
     paddingBottom: 16,
+    justifyContent: 'space-between',
+    padding: variables.contentPadding,
   },
   body: {
     ...fontStyles.regular,
@@ -185,6 +188,7 @@ const styles = StyleSheet.create({
     marginVertical: 16,
     flexDirection: 'row',
     alignItems: 'center',
+    paddingHorizontal: variables.contentPadding,
   },
   confirmationSwitchLabel: {
     flex: 1,
@@ -193,6 +197,9 @@ const styles = StyleSheet.create({
   },
   cancelButton: {
     color: colors.gray4,
+  },
+  continueButton: {
+    paddingHorizontal: variables.contentPadding,
   },
 })
 
