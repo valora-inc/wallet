@@ -1,4 +1,3 @@
-import { reloadReactNative } from '../utils/retries'
 import { enterPinUiIfNecessary, quickOnboarding, waitForElementId } from '../utils/utils'
 import { ALFAJORES_FORNO_URL, SAMPLE_PRIVATE_KEY } from '../utils/consts'
 import { newKit } from '@celo/contractkit'
@@ -10,7 +9,6 @@ import { generateKeys, generateMnemonic } from '@celo/utils/lib/account'
  * @return {{result: Error}}
  */
 async function navigateToFiatExchangeScreen() {
-  await reloadReactNative()
   await waitForElementId('Hamburger')
   await element(by.id('Hamburger')).tap()
   await element(by.id('add-and-withdraw')).tap()
@@ -34,19 +32,20 @@ async function fundWallet(senderPrivateKey, recipientAddress, stableToken, amoun
 }
 
 export const fiatConnectNonKycTransferOut = () => {
-  it('First time FiatConnect cash out', async () => {
+  it('FiatConnect cash out', async () => {
+    // ******** First time experience ************
     const cashOutAmount = 0.02
-    const amountPlusGas = `${cashOutAmount + 0.005}`
+    const gasAmount = 0.005
+    const fundingAmount = `${2 * cashOutAmount + gasAmount}`
     const token = 'cUSD'
     const mnemonic = await generateMnemonic()
     const { address: walletAddress } = await generateKeys(mnemonic)
     await quickOnboarding(mnemonic) // ends on home screen
-    await fundWallet(SAMPLE_PRIVATE_KEY, walletAddress, token, amountPlusGas)
-
+    await fundWallet(SAMPLE_PRIVATE_KEY, walletAddress, token, fundingAmount)
     await navigateToFiatExchangeScreen()
 
     // FiatExchange
-    await waitFor(element(by.text('0.025 cUSD'))) // need a balance to withdraw
+    await waitFor(element(by.text(`${fundingAmount} cUSD`))) // need a balance to withdraw
       .toBeVisible()
       .withTimeout(15000) // in case funding tx is still pending. balance must be updated before amount can be selected.
     await waitForElementId('cashOut')
@@ -99,7 +98,33 @@ export const fiatConnectNonKycTransferOut = () => {
 
     // WalletHome
     await expect(element(by.id('SendOrRequestBar'))).toBeVisible() // proxy for reaching home screen, imitating NewAccountOnboarding e2e test
-  })
 
-  // TODO return user flow
+    // ******** Returning user experience ************
+    await navigateToFiatExchangeScreen()
+    await waitForElementId('cashOut')
+    await element(by.id('cashOut')).tap()
+
+    // FiatExchangeCurrency
+    await waitForElementId(`radio/${token}`)
+    await element(by.id(`radio/${token}`)).tap()
+    await element(by.text('Next')).tap()
+
+    // FiatExchangeAmount
+    await waitForElementId('FiatExchangeInput')
+    await element(by.id('FiatExchangeInput')).replaceText(`${cashOutAmount}`)
+    await element(by.id('FiatExchangeNextButton')).tap()
+
+    // ReviewScreen
+    await waitForElementId('submitButton')
+    await element(by.id('submitButton')).tap()
+
+    // TransferStatusScreen
+    await waitFor(element(by.id('loadingTransferStatus'))).not.toBeVisible()
+    await expect(element(by.text('Your funds are on their way!'))).toBeVisible()
+    await expect(element(by.id('Continue'))).toBeVisible()
+    await element(by.id('Continue')).tap()
+
+    // WalletHome
+    await expect(element(by.id('SendOrRequestBar'))).toBeVisible() // proxy for reaching home screen, imitating NewAccountOnboarding e2e test
+  })
 }
