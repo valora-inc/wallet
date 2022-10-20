@@ -41,6 +41,7 @@ export interface Props {
   testID?: string
   style?: StyleProp<ViewStyle>
   shortVerificationCodesEnabled?: boolean
+  autoFocus?: boolean
 }
 
 export default function CodeInput({
@@ -56,6 +57,7 @@ export default function CodeInput({
   testID,
   style,
   shortVerificationCodesEnabled = true,
+  autoFocus,
 }: Props) {
   const [forceShowingPasteIcon, clipboardContent, getFreshClipboardContent] = useClipboard()
 
@@ -159,6 +161,7 @@ export default function CodeInput({
                       : undefined,
                 }}
                 autoCapitalize="none"
+                autoFocus={autoFocus}
                 testID={testID}
               />
             ) : (
