@@ -9,7 +9,7 @@ import * as RNLocalize from 'react-native-localize'
 import Modal from 'react-native-modal'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
-import { setPhoneNumber } from 'src/account/actions'
+import { initializeAccount, setPhoneNumber } from 'src/account/actions'
 import { choseToRestoreAccountSelector, defaultCountryCodeSelector } from 'src/account/selectors'
 import { showError } from 'src/alert/actions'
 import { OnboardingEvents, VerificationEvents } from 'src/analytics/Events'
@@ -60,7 +60,7 @@ import VerificationLearnMoreDialog from 'src/verify/VerificationLearnMoreDialog'
 import VerificationSkipDialog from 'src/verify/VerificationSkipDialog'
 import VerificationStartScreen from 'src/verify/VerificationStartScreen'
 import networkConfig from 'src/web3/networkConfig'
-import { currentAccountSelector } from 'src/web3/selectors'
+import { currentAccountSelector, walletAddressSelector } from 'src/web3/selectors'
 
 type Props = StackScreenProps<StackParamList, Screens.VerificationEducationScreen>
 
@@ -102,6 +102,7 @@ function VerificationEducationScreenDecentralized({ route, navigation }: Props) 
   const shouldUseKomenci = useSelector(shouldUseKomenciSelector)
   const verificationStatus = useSelector(verificationStatusSelector)
   const choseToRestoreAccount = useSelector(choseToRestoreAccountSelector)
+  const walletAddress = useSelector(walletAddressSelector)
   const { step, totalSteps } = useSelector(registrationStepsSelector)
 
   const onPressStart = async () => {
@@ -204,6 +205,7 @@ function VerificationEducationScreenDecentralized({ route, navigation }: Props) 
 
   useAsync(async () => {
     await waitUntilSagasFinishLoading()
+    if (walletAddress === null) dispatch(initializeAccount())
     dispatch(checkIfKomenciAvailable())
   }, [])
 

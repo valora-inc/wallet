@@ -1,11 +1,13 @@
 import { Countries } from '@celo/utils/lib/countries'
 import { StackScreenProps, useHeaderHeight } from '@react-navigation/stack'
 import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react'
+import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
 import * as RNLocalize from 'react-native-localize'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
+import { initializeAccount } from 'src/account/actions'
 import { defaultCountryCodeSelector, e164NumberSelector } from 'src/account/selectors'
 import { PhoneVerificationEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -24,6 +26,7 @@ import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
+import { waitUntilSagasFinishLoading } from 'src/redux/sagas'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -51,6 +54,7 @@ function VerificationStartScreen({
   const account = useSelector(walletAddressSelector)
   const cachedNumber = useSelector(e164NumberSelector)
   const cachedCountryCallingCode = useSelector(defaultCountryCodeSelector)
+  const walletAddress = useSelector(walletAddressSelector)
   const { step, totalSteps } = useSelector(registrationStepsSelector)
 
   const countries = useMemo(() => new Countries(i18n.language), [i18n.language])
@@ -135,6 +139,13 @@ function VerificationStartScreen({
       )
     }
   }, [route.params?.selectedCountryCodeAlpha2])
+
+  useAsync(async () => {
+    await waitUntilSagasFinishLoading()
+    if (walletAddress === null) {
+      dispatch(initializeAccount())
+    }
+  }, [])
 
   const onPressCountry = () => {
     navigate(Screens.SelectCountry, {
