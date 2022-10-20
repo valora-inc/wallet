@@ -30,4 +30,31 @@ export default Settings = () => {
     // TODO replace this with an ID selector
     await expect(element(by.text(`${randomName}`))).toBeVisible()
   })
+
+  it('Change Language', async () => {
+    await element(by.id('ChangeLanguage')).tap()
+    await element(by.id('ChooseLanguage/es-419')).tap()
+    await waitFor(element(by.id('SettingsTitle')))
+      .toHaveText('Configuración')
+      .withTimeout(1000 * 15)
+    await element(by.id('ChangeLanguage')).tap()
+    await element(by.id('ChooseLanguage/en-US')).tap()
+    await waitFor(element(by.id('SettingsTitle')))
+      .toHaveText('Settings')
+      .withTimeout(1000 * 15)
+  })
+
+  it('Change Currency', async () => {
+    await element(by.id('ChangeCurrency')).tap()
+    await element(by.id('SelectLocalCurrency/AUD')).tap()
+    await waitFor(element(by.text('AUD')))
+      .toBeVisible()
+      .withTimeout(1000 * 15)
+    await element(by.id('ChangeCurrency')).tap()
+    await scrollIntoView('USD', 'SelectLocalCurrencyScrollView')
+    await element(by.id('SelectLocalCurrency/USD')).tap()
+    await waitFor(element(by.text('USD')))
+      .toBeVisible()
+      .withTimeout(1000 * 15)
+  })
 }
