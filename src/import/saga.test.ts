@@ -108,6 +108,29 @@ describe('Import wallet saga', () => {
     expect(navigateHome).toHaveBeenCalledWith()
   })
 
+  it('initializes account and navigates to home if the phone number is already verified', async () => {
+    await expectSaga(importBackupPhraseSaga, {
+      phrase: mockPhraseValid,
+      useEmptyWallet: false,
+    })
+      .provide([
+        [matchers.fork.fn(fetchTokenBalanceInWeiWithRetry), dynamic(mockBalanceTask(10))],
+        [matchers.call.fn(assignAccountFromPrivateKey), mockAccount],
+        [call(storeMnemonic, mockPhraseValid, mockAccount), true],
+        [select(recoveringFromStoreWipeSelector), false],
+        [select(skipVerificationSelector), false],
+        [call(initializeAccountSaga), undefined],
+        [select(numberVerifiedCentrallySelector), true],
+      ])
+      .put(setBackupCompleted())
+      .put(refreshAllBalances())
+      .call(initializeAccountSaga)
+      .put(setHasSeenVerificationNux(true))
+      .put(importBackupPhraseSuccess())
+      .run()
+    expect(navigateHome).toHaveBeenCalledWith()
+  })
+
   it('fails for a phrase invalid checksum', async () => {
     await expectSaga(importBackupPhraseSaga, {
       phrase: mockPhraseInvalidChecksum,
