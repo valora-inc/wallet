@@ -602,7 +602,7 @@
   "fullNameOrPseudonymPlaceholder": "Имя и фамилия или псевдоним",
   "nameAndPicGuideCopyTitle": "Как вас зовут?",
   "nameAndPicGuideCopyContent": "Мы хотели бы знать, как к вам обращаться",
-  "generateUsername": "Сгенерируйте имя",
+  "generateUsername": "Сгенерировать имя",
   "importIt": "Восстановить кошелек",
   "important": "Важно",
   "confirmPin": {
@@ -1453,31 +1453,31 @@
     "swapTo": "Обменять на",
     "transactionDetails": "Детали транзакции",
     "estimatedGas": "Приблизительный газ",
-    "swapSubmitError": "Sorry, we were unable to complete your swap. Please try again or contact support.",
+    "swapSubmitError": "К сожалению, нам не удалось выполнить обмен. Повторите попытку или обратитесь в службу поддержки.",
     "swapFee": "Комиссия {{appName}}",
     "swapFeeTitle": "Что представляет собой комиссия {{appName}}?",
     "swapFeeBody": "Комиссия {{appName}} представляет собой сбор, который вы вносите за обмен токенами в {{appName}}. \n\n Комиссия составляет {{swapFee}}% от суммы обмена. \n\n Комиссии {{appName}} не взимаются в течение последующих нескольких месяцев.",
-    "swapFeeBodyFree": "The {{appName}} fee is the fee that you pay to swap tokens on {{appName}}. {{appName}} fees are free for the next few months.",
+    "swapFeeBodyFree": "Комиссия {{appName}} — это плата за обмен токенов в {{appName}}. Комиссии {{appName}} не взимаются в течение последующих нескольких месяцев.",
     "estimatedAmountTitle": "Расчетная сумма",
     "estimatedAmountBody": "Конвертации выполняются на сторонних децентрализованных биржах, которые выполняют поиск наилучшего курса для обмена. \n\n Ваша сделка будет завершена по цене в пределах {{slippagePercent}}% от расчетной стоимости или транзакция будет отменена и средства возвращены в ваш кошелек.",
     "free": "Free"
   },
   "SwapExecuteScreen": {
-    "swapPending": "Swap Pending",
-    "swapSuccess": "Swap Successful!",
-    "swapError": "Swap Error",
-    "exchangeRateSubtext": "Finding the best exchange rate...",
-    "approvingSubtext": "Approving funds...",
-    "completingSubtext": "Completing swap...",
-    "swapAgain": "Swap Again",
+    "swapPending": "Ожидание обмена",
+    "swapSuccess": "Обмен выполнен успешно!",
+    "swapError": "Ошибка обмена",
+    "exchangeRateSubtext": "Поиск лучшего обменного курса...",
+    "approvingSubtext": "Утверждение средств...",
+    "completingSubtext": "Завершение обмена...",
+    "swapAgain": "Поменять еще раз",
     "swapPriceModal": {
-      "title": "Prices have changed",
+      "title": "Цены изменились",
       "action": "Continue",
-      "body": "Crypto amounts & fees can change due to fluctuations in the crypto market. \n\n Please review your final amount & fees and resubmit."
+      "body": "Суммы в криптовалюте и комиссии могут меняться из-за колебаний криптовалютного рынка. \n\n Проверьте окончательные суммы и комиссии и отправьте повторно."
     },
     "swapErrorModal": {
-      "title": "We couldn’t complete this transaction.",
-      "body": "Please wait and try again later or contact our support team for help.",
+      "title": "Нам не удалось выполнить эту транзакцию.",
+      "body": "Подождите и повторите попытку позже или обратитесь в нашу службу поддержки.",
       "swapRestart": "Dismiss",
       "contactSupport": "Contact Support"
     }
