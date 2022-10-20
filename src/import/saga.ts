@@ -20,13 +20,14 @@ import {
   spawn,
   takeLeading,
 } from 'redux-saga/effects'
-import { initializeAccount, setBackupCompleted } from 'src/account/actions'
+import { setBackupCompleted } from 'src/account/actions'
+import { initializeAccountSaga } from 'src/account/saga'
 import { recoveringFromStoreWipeSelector } from 'src/account/selectors'
 import { showError } from 'src/alert/actions'
 import { AppEvents, OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { skipVerificationSelector } from 'src/app/selectors'
+import { numberVerifiedCentrallySelector, skipVerificationSelector } from 'src/app/selectors'
 import { countMnemonicWords, storeMnemonic } from 'src/backup/utils'
 import { refreshAllBalances } from 'src/home/actions'
 import { setHasSeenVerificationNux } from 'src/identity/actions'
@@ -159,9 +160,11 @@ export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackup
       ValoraAnalytics.track(AppEvents.redux_store_recovery_success, { account })
     }
     ValoraAnalytics.track(OnboardingEvents.wallet_import_success)
+    yield call(initializeAccountSaga)
+
+    const phoneNumberCentrallyVerified = yield select(numberVerifiedCentrallySelector)
     const skipVerification = yield select(skipVerificationSelector)
-    if (skipVerification) {
-      yield put(initializeAccount())
+    if (skipVerification || phoneNumberCentrallyVerified) {
       yield put(setHasSeenVerificationNux(true))
       navigateHome()
     } else {
