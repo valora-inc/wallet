@@ -173,7 +173,7 @@
   "superchargingDescription": "You’re getting {{apy}}% annually. Every week you'll get a notification when your rewards are ready, come back here to claim them.",
   "superchargeRewardsAvailable": "You have {{amount}} {{token}} available to claim!",
   "superchargeRewardsAvailableMultipleTokens": "You have {{amounts}} available to claim!",
-  "superchargeClaimText": "Claim your rewards to add them to your balance.",
+  "superchargeClaimText": "Claim your rewards to add them to your balance. If you have outstanding Moola stablecoin rewards, you can claim them when Moola's network is back online.",
   "superchargeClaimButton": "Claim Rewards",
   "superchargeFetchRewardsFailed": "Error while fetching pending Supercharge rewards. Please try again later.",
   "superchargeClaimSuccess": "Your Supercharge rewards have been added to your Total Balance.",
