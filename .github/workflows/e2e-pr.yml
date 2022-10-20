@@ -17,10 +17,10 @@ jobs:
       max-parallel: 2
       fail-fast: false
       matrix:
-        android-api-level: [29, 30, 31]
+        level: [29, 30, 31]
     uses: ./.github/workflows/e2e-android.yml
     with:
-      android-api-level: ${{ matrix.android-api-level }}
+      android-api-level: ${{ matrix.level }}
     secrets: inherit
   ios:
     env:
