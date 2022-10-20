@@ -92,7 +92,7 @@ export const fiatConnectNonKycTransferOut = () => {
 
     // TransferStatusScreen
     await waitFor(element(by.id('loadingTransferStatus'))).not.toBeVisible()
-    await expect(element(by.text('Your funds are on their way!'))).toBeVisible()
+    await waitFor(element(by.text('Your funds are on their way!'))).toBeVisible()
     await expect(element(by.id('Continue'))).toBeVisible()
     await element(by.id('Continue')).tap()
 
@@ -120,7 +120,7 @@ export const fiatConnectNonKycTransferOut = () => {
 
     // TransferStatusScreen
     await waitFor(element(by.id('loadingTransferStatus'))).not.toBeVisible()
-    await expect(element(by.text('Your funds are on their way!'))).toBeVisible()
+    await waitFor(element(by.text('Your funds are on their way!'))).toBeVisible()
     await expect(element(by.id('Continue'))).toBeVisible()
     await element(by.id('Continue')).tap()
 
