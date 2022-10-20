@@ -173,7 +173,7 @@
   "superchargingDescription": "Vous recevez {{apy}}% par an. Chaque semaine, vous recevrez une notification quand vos récompenses seront prêtes, revenez ici pour les demander.",
   "superchargeRewardsAvailable": "Vous avez {{amount}} {{token}} à réclamer !",
   "superchargeRewardsAvailableMultipleTokens": "Vous avez {{amounts}} à réclamer !",
-  "superchargeClaimText": "Réclamez vos récompenses pour les ajouter à votre solde.",
+  "superchargeClaimText": "Réclamez vos récompenses pour les ajouter à votre solde. Si vous participez à Supercharge avec des stablecoins Moola, vous pourrez réclamer toutes vos récompenses lorsque Moola sera de nouveau en ligne.",
   "superchargeClaimButton": "Réclamer des récompenses",
   "superchargeFetchRewardsFailed": "Une erreur s'est produite lors de la récupération des récompenses. Veuillez réessayer plus tard.",
   "superchargeClaimSuccess": "Vos récompenses Supercharge ont été ajoutées à votre solde total.",
