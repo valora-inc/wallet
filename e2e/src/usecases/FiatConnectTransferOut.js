@@ -47,7 +47,7 @@ export const fiatConnectNonKycTransferOut = () => {
     // FiatExchange
     await waitFor(element(by.text(`${fundingAmount} cUSD`))) // need a balance to withdraw
       .toBeVisible()
-      .withTimeout(15000) // in case funding tx is still pending. balance must be updated before amount can be selected.
+      .withTimeout(20000) // in case funding tx is still pending. balance must be updated before amount can be selected.
     await waitForElementId('cashOut')
     await element(by.id('cashOut')).tap()
 
