@@ -21,6 +21,7 @@ export const getSchema = ({
   schemaCountryOverrides: FiatAccountSchemaCountryOverrides
 }) => {
   if (!country) {
+    // should never happen
     throw new Error('Country not supported')
   }
   switch (fiatAccountSchema) {
@@ -33,11 +34,15 @@ export const getSchema = ({
         schemaCountryOverrides
       )
     case FiatAccountSchema.IBANNumber:
-      return getIbanNumberSchema({
-        country,
-        fiatAccountType,
-      })
+      return getIbanNumberSchema(
+        {
+          country,
+          fiatAccountType,
+        },
+        schemaCountryOverrides
+      )
     default:
+      // should never happen
       throw new Error('Unsupported schema type')
   }
 }

@@ -22,7 +22,10 @@ export const getIbanNumberSchema = (
       ? new RegExp(overrides.iban.regex).test(cleanInput)
       : validateIBAN(cleanInput).valid
     const errorMessageText = overrides?.iban?.errorString
-      ? i18n.t(`fiatAccountSchema.ibanNumber.${overrides.iban.errorString}`)
+      ? i18n.t(
+          `fiatAccountSchema.ibanNumber.${overrides.iban.errorString}`,
+          overrides.iban.errorParams
+        )
       : i18n.t(`fiatAccountSchema.ibanNumber.errorMessage`)
 
     // If we want more descriptive error messages in the future we can look at
