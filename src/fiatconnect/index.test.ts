@@ -101,6 +101,7 @@ describe('FiatConnect helpers', () => {
           termsAndConditionsUrl: 'https://fake-provider.valoraapp.com/terms',
         },
       ],
+      address: '0xabc',
     }
     it('returns an empty array if fiatConnectCashInEnabled is false with cash in', async () => {
       const quotes = await fetchQuotes(fetchQuotesInput)
@@ -120,6 +121,7 @@ describe('FiatConnect helpers', () => {
       cryptoAmount: 100,
       country: 'US',
       fiatConnectProviders: mockFiatConnectProviderInfo,
+      address: '0xabc',
     }
     it('returns an empty array if fiatType is not supported', async () => {
       const quotes = await getFiatConnectQuotes({
