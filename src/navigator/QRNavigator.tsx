@@ -125,7 +125,7 @@ function AnimatedScannerScene({ route, position, ...props }: AnimatedScannerScen
 
 // Use ScrollPager on iOS as it gives a better native feeling
 const pager: ExtractProps<typeof Tab.Navigator>['pager'] =
-  Platform.OS === 'ios' ? (props) => <ScrollPager {...props} /> : undefined
+  Platform.OS === 'ios' ? (props: any) => <ScrollPager {...props} /> : undefined
 
 export default function QRNavigator() {
   const position = useRef(new Animated.Value(0)).current

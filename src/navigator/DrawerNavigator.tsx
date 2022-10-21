@@ -250,7 +250,7 @@ export default function DrawerNavigator() {
           {(isCeloEducationComplete && (
             <Drawer.Screen
               name={Screens.ExchangeHomeScreen}
-              component={ExchangeHomeScreen}
+              component={ExchangeHomeScreen as any}
               options={{ title: t('celoGold'), drawerIcon: Gold }}
             />
           )) || (
@@ -300,7 +300,7 @@ export default function DrawerNavigator() {
       {(!backupCompleted || !shouldShowRecoveryPhraseInSettings) && (
         <Drawer.Screen
           name={Screens.BackupIntroduction}
-          component={BackupIntroduction}
+          component={BackupIntroduction as any}
           options={{ title: t('accountKey'), drawerIcon: AccountKey }}
           initialParams={{ showDrawerTopBar: true }}
         />
@@ -322,7 +322,7 @@ export default function DrawerNavigator() {
           {(isCeloEducationComplete && (
             <Drawer.Screen
               name={Screens.ExchangeHomeScreen}
-              component={ExchangeHomeScreen}
+              component={ExchangeHomeScreen as any}
               options={{ title: t('celoGold'), drawerIcon: Gold }}
             />
           )) || (

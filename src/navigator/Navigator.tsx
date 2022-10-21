@@ -1,6 +1,9 @@
 import { BottomSheetBackdrop, BottomSheetBackdropProps } from '@gorhom/bottom-sheet'
 import { RouteProp } from '@react-navigation/core'
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import {
+  createNativeStackNavigator,
+  NativeStackNavigationOptions,
+} from '@react-navigation/native-stack'
 import { createBottomSheetNavigator } from '@th3rdwave/react-navigation-bottom-sheet'
 import * as React from 'react'
 import { PixelRatio, Platform } from 'react-native'
@@ -288,12 +291,12 @@ const sendScreens = (Navigator: typeof Stack) => (
     />
     <Navigator.Screen
       name={Screens.IncomingPaymentRequestListScreen}
-      component={IncomingPaymentRequestListScreen}
+      component={IncomingPaymentRequestListScreen as any}
       options={headerWithBackButton}
     />
     <Navigator.Screen
       name={Screens.OutgoingPaymentRequestListScreen}
-      component={OutgoingPaymentRequestListScreen}
+      component={OutgoingPaymentRequestListScreen as any}
       options={headerWithBackButton}
     />
     <Navigator.Screen
@@ -437,7 +440,7 @@ const settingsScreens = (Navigator: typeof Stack) => (
     <Navigator.Screen
       name={Screens.Language}
       component={Language}
-      options={Language.navigationOptions(false)}
+      options={Language.navigationOptions(false) as NativeStackNavigationOptions}
     />
     <Navigator.Screen
       name={Screens.SelectLocalCurrency}
@@ -512,7 +515,7 @@ const settingsScreens = (Navigator: typeof Stack) => (
     />
     <Navigator.Screen
       name={Screens.CoinbasePayScreen}
-      component={CoinbasePayScreen}
+      component={CoinbasePayScreen as any}
       options={emptyHeader}
     />
     <Navigator.Screen
@@ -656,7 +659,7 @@ const modalAnimatedScreens = (Navigator: typeof Stack) => (
     <Navigator.Screen
       name={Screens.PincodeEnter}
       component={PincodeEnter}
-      options={PincodeEnter.navigationOptions}
+      options={PincodeEnter.navigationOptions as NativeStackNavigationOptions}
     />
     <Navigator.Screen
       name={Screens.QRNavigator}
@@ -665,8 +668,8 @@ const modalAnimatedScreens = (Navigator: typeof Stack) => (
     />
     <Navigator.Screen
       name={Screens.RegulatoryTerms}
-      component={RegulatoryTerms}
-      options={RegulatoryTerms.navigationOptions}
+      component={RegulatoryTerms as any}
+      options={RegulatoryTerms.navigationOptions as NativeStackNavigationOptions}
     />
     <Navigator.Screen
       name={Screens.GoldEducation}
@@ -681,12 +684,12 @@ const modalAnimatedScreens = (Navigator: typeof Stack) => (
     <Navigator.Screen
       name={Screens.LanguageModal}
       component={Language}
-      options={Language.navigationOptions(true)}
+      options={Language.navigationOptions(true) as NativeStackNavigationOptions}
     />
     <Navigator.Screen
       name={Screens.SelectCountry}
       component={SelectCountry}
-      options={SelectCountry.navigationOptions}
+      options={SelectCountry.navigationOptions as NativeStackNavigationOptions}
     />
     <Navigator.Screen
       name={Screens.SendConfirmationModal}
@@ -730,7 +733,7 @@ function nativeBottomSheets(BottomSheet: typeof RootStack) {
 
 function ModalStackScreen() {
   return (
-    <ModalStack.Navigator mode="modal">
+    <ModalStack.Navigator>
       <ModalStack.Screen
         name={Screens.Main}
         component={MainStackScreen}

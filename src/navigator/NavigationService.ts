@@ -199,7 +199,7 @@ export async function isScreenOnForeground(screen: Screens) {
 export async function isBottomSheetVisible(screen: Screens) {
   await ensureNavigator()
   const state = navigationRef.current?.getRootState()
-  return !!state?.routes.find((route) => route.name === screen)
+  return !!state?.routes.find((route: any) => route.name === screen)
 }
 
 interface NavigateHomeOptions {

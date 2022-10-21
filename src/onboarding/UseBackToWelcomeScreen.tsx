@@ -32,8 +32,8 @@ export function useBackToWelcomeScreen({ backAnalyticsEvents }: Props) {
 
       navigation.dispatch((state) => {
         // Find Welcome screen
-        let routes = state.routes
-        const index = routes.findIndex((r) => r.name === Screens.Welcome)
+        let routes = state.routes as any
+        const index = routes.findIndex((r: any) => r.name === Screens.Welcome)
         routes =
           index === -1
             ? // Welcome screen was not in the stack, add it before this screen
