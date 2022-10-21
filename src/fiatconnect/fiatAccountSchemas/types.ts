@@ -4,9 +4,13 @@ import { KeyboardType } from 'react-native'
 export interface FormFieldParam {
   name: string
   label: string
-  regex: RegExp
+  validate(
+    input: string
+  ): {
+    isValid: boolean
+    errorMessage?: string
+  }
   placeholderText: string
-  errorMessage?: string
   keyboardType: KeyboardType
 }
 export interface ImplicitParam<T, K extends keyof T> {
