@@ -33,6 +33,7 @@ type Props = WithTranslation & DispatchProps
 export class RegulatoryTerms extends React.Component<Props> {
   static navigationOptions = {
     ...nuxNavigationOptions,
+    animation: 'slide_from_bottom',
     // TODO: Tom investigate replacing this with https://reactnavigation.org/docs/native-stack-navigator/#presentation
     // ...TransitionPresets.ModalTransition,
   }

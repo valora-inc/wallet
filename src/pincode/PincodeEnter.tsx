@@ -97,7 +97,7 @@ PincodeEnter.navigationOptions = () => ({
   headerStyle: {
     backgroundColor: colors.light,
   },
-  animation: 'slide_from_bottom',
+  animation: 'fade',
 })
 
 const styles = StyleSheet.create({
