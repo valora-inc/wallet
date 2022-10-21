@@ -1322,7 +1322,7 @@
       "retryable": {
         "title": "Weryfikacja tożsamości nie została zaakceptowana.",
         "description": "Dokonaj weryfikacji ponownie lub spróbuj innego sposobu wypłaty środków.",
-        "tryAgain": "Zweryfikuj ponownie"
+        "tryAgain": "Spróbuj ponownie"
       },
       "final": {
         "title": "Weryfikacja odrzucona.",
@@ -1332,7 +1332,7 @@
     "expired": {
       "title": "Weryfikacja tożsamości wygasła.",
       "description": "Dokonaj weryfikacji ponownie lub spróbuj innego sposobu wypłaty środków.",
-      "tryAgain": "Zweryfikuj ponownie",
+      "tryAgain": "Spróbuj ponownie",
       "switch": "Zmień metodę wypłaty"
     },
     "tryAgainFailed": "Wystąpił błąd podczas usuwania informacji KYC. Spróbuj ponownie"
@@ -1460,7 +1460,7 @@
     "swapFeeBodyFree": "Opłata {{appName}} to opłata za wymianę tokenów w aplikacji {{appName}}. Opłaty {{appName}} nie będą obowiązywać przez następne kilka miesięcy.",
     "estimatedAmountTitle": "Szacowana kwota",
     "estimatedAmountBody": "Wymiana waluty odbywa się na zewnętrznej giełdzie, która wyszukuje najlepszy kurs wymian.\n\nKoszt wymiany wyniesie nie więcej niż {{slippagePercent}}% oszacowanej kwoty. W przeciwnym wypadku transakcja zostanie anulowana, a środki powrócą do portfela.",
-    "free": "Free"
+    "free": "Bezpłatnie"
   },
   "SwapExecuteScreen": {
     "swapPending": "Oczekiwanie na wymianę",
@@ -1472,14 +1472,14 @@
     "swapAgain": "Wymień ponownie",
     "swapPriceModal": {
       "title": "Ceny uległy zmianie",
-      "action": "Continue",
+      "action": "Kontynuuj",
       "body": "Kwoty kryptowalut i opłaty mogą ulegać zmianie z uwagi na wahania kursów na rynku kryptowalutowym.\n\nPrzed przesłaniem sprawdź końcową kwotę i opłaty."
     },
     "swapErrorModal": {
       "title": "Nie mogliśmy sfinalizować tej transakcji.",
       "body": "Poczekaj i spróbuj ponownie później lub skontaktuj się z naszym działem wsparcia, aby uzyskać pomoc.",
-      "swapRestart": "Dismiss",
-      "contactSupport": "Contact Support"
+      "swapRestart": "Odrzuć",
+      "contactSupport": "Skontaktuj się z Działem wsparcia"
     }
   },
   "inviteModal": {
