@@ -25,7 +25,7 @@ import Dialog from 'src/components/Dialog'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import { importBackupPhrase } from 'src/import/actions'
-import { HeaderTitleWithSubtitle, onboardingHeaderOptions } from 'src/navigator/Headers'
+import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -89,6 +89,9 @@ function ImportWallet({ navigation, route }: Props) {
           subTitle={t('registrationSteps', { step, totalSteps })}
         />
       ),
+      headerStyle: {
+        backgroundColor: 'transparent',
+      },
     })
   }, [navigation, step, totalSteps])
 
@@ -245,7 +248,7 @@ function ImportWallet({ navigation, route }: Props) {
   )
 }
 
-ImportWallet.navigationOptions = onboardingHeaderOptions
+ImportWallet.navigationOptions = nuxNavigationOptions
 
 const styles = StyleSheet.create({
   container: {
