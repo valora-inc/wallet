@@ -1318,7 +1318,7 @@
       "retryable": {
         "title": "Verificación de identidad denegada",
         "description": "Haz una nueva verificación o intenta una forma alternativa de retirar fondos.",
-        "tryAgain": "Verifica de nuevo"
+        "tryAgain": "Reintentar"
       },
       "final": {
         "title": "Verificación de identidad denegada",
@@ -1328,7 +1328,7 @@
     "expired": {
       "title": "Verificación de identidad caducada",
       "description": "Haz una nueva verificación o intenta una forma alternativa de retirar fondos.",
-      "tryAgain": "Verifica de nuevo",
+      "tryAgain": "Reintentar",
       "switch": "Cambiar método de retiro"
     },
     "tryAgainFailed": "Hubo un error al borrar la información de KYC. Vuelve a intentarlo."
@@ -1456,7 +1456,7 @@
     "swapFeeBodyFree": "La tarifa de {{appName}} es la tarifa que pagas para intercambiar tokens en {{appName}}. Las tarifas de {{appName}} son gratuitas durante los próximos meses.",
     "estimatedAmountTitle": "Monto estimado",
     "estimatedAmountBody": "Las conversiones tienen lugar en un exchange descentralizado de terceros que encontrará la mejor tarifa para tu intercambio. \n\nEl intercambio se completará a un precio dentro del {{slippagePercent}}% del monto estmado o la transacción se cancelará y se devolverán los fondos a tu wallet.",
-    "free": "Free"
+    "free": "Gratis"
   },
   "SwapExecuteScreen": {
     "swapPending": "Intercambio pendiente",
@@ -1468,14 +1468,14 @@
     "swapAgain": "Volver a intercambiar",
     "swapPriceModal": {
       "title": "Los precios han cambiado",
-      "action": "Continue",
+      "action": "Continuar",
       "body": "Los montos y las tarifas de cripto pueden fluctuar con el mercado de cripto.\n\nRevisa el monto y las tarifas finales y vuelve a enviar."
     },
     "swapErrorModal": {
       "title": "No pudimos completar esta transacción.",
       "body": "Espera y vuelve a intentarlo más tarde o ponte en contacto con nuestro equipo de soporte técnico para obtener ayuda.",
-      "swapRestart": "Dismiss",
-      "contactSupport": "Contact Support"
+      "swapRestart": "Ignorar",
+      "contactSupport": "Contactar a Soporte"
     }
   },
   "inviteModal": {
