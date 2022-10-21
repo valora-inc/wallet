@@ -8,7 +8,6 @@ import {
   APP_STORE_ID as appStoreId,
   DYNAMIC_LINK_DOMAIN_URI_PREFIX as baseURI,
 } from 'src/config'
-import Logger from 'src/utils/Logger'
 import url from 'url'
 
 export type ExtractedInviteCodeAndPrivateKey = null | {
@@ -98,15 +97,4 @@ export async function createDynamicLink(address: string) {
       packageName: bundleId,
     },
   })
-}
-
-export async function resolveDynamicLink(link: string) {
-  try {
-    // resolve short and long dynamic links
-    const resolvedLink = await dynamicLinks().resolveLink(link)
-    return resolvedLink.url
-  } catch (error) {
-    Logger.warn('invite/utils/resolveDynamicLink', 'Link could not be resolved', error)
-    return null
-  }
 }
