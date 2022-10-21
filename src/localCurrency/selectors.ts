@@ -1,13 +1,8 @@
 import { getRegionCode } from '@celo/utils/lib/phoneNumbers'
 import CountryData from 'country-data'
-import { getCurrencies } from 'react-native-localize'
 import { createSelector } from 'reselect'
 import { e164NumberSelector } from 'src/account/selectors'
-import {
-  LocalCurrencyCode,
-  LocalCurrencySymbol,
-  LOCAL_CURRENCY_CODES,
-} from 'src/localCurrency/consts'
+import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts'
 import { RootState } from 'src/redux/reducers'
 import { Currency } from 'src/utils/currencies'
 
@@ -28,16 +23,16 @@ const getDefaultLocalCurrencyCode = createSelector(
     // but the problem is some Android versions don't make it possible to select the appropriate language/country
     // from the device settings.
     // So here we use the country of the phone number
-    const countryCurrencies = e164PhoneNumber
-      ? getCountryCurrencies(e164PhoneNumber)
-      : getCurrencies()
-    const supportedCurrenciesSet = new Set(LOCAL_CURRENCY_CODES)
+    // const countryCurrencies = e164PhoneNumber
+    //   ? getCountryCurrencies(e164PhoneNumber)
+    //   : getCurrencies()
+    // const supportedCurrenciesSet = new Set(LOCAL_CURRENCY_CODES)
 
-    for (const countryCurrency of countryCurrencies) {
-      if (supportedCurrenciesSet.has(countryCurrency as LocalCurrencyCode)) {
-        return countryCurrency as LocalCurrencyCode
-      }
-    }
+    // for (const countryCurrency of countryCurrencies) {
+    //   if (supportedCurrenciesSet.has(countryCurrency as LocalCurrencyCode)) {
+    //     return countryCurrency as LocalCurrencyCode
+    //   }
+    // }
 
     return LocalCurrencyCode.ANG
   }
