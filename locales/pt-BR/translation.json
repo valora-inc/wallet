@@ -1318,7 +1318,7 @@
       "retryable": {
         "title": "A verificação da identidade não foi aceita.",
         "description": "Verifique novamente ou tente uma forma diferente de sacar fundos.",
-        "tryAgain": "Verificar novamente"
+        "tryAgain": "Tentar novamente"
       },
       "final": {
         "title": "Verificação negada.",
@@ -1328,7 +1328,7 @@
     "expired": {
       "title": "A verificação da identidade expirou.",
       "description": "Verifique novamente ou tente uma forma diferente de sacar fundos.",
-      "tryAgain": "Verificar novamente",
+      "tryAgain": "Tentar novamente",
       "switch": "Trocar método de saque"
     },
     "tryAgainFailed": "Ocorreu um erro ao limpar as informações de Conheça o Seu Cliente (KYC). Tente novamente"
@@ -1456,7 +1456,7 @@
     "swapFeeBodyFree": "A taxa de {{appName}} é a taxa paga para trocar tokens em {{appName}}. As taxas de {{appName}} são gratuitas nos próximos meses.",
     "estimatedAmountTitle": "Montante estimado",
     "estimatedAmountBody": "As conversões têm lugar numa troca descentralizada de terceiros que lhe encontra a melhor taxa para a sua troca. \n\nA sua transação será concluída a um preço de {{slippagePercent}}% da estimativa ou a transação será cancelada e os fundos serão devolvidos à sua carteira.",
-    "free": "Free"
+    "free": "Grátis"
   },
   "SwapExecuteScreen": {
     "swapPending": "Troca pendente",
@@ -1468,14 +1468,14 @@
     "swapAgain": "Trocar novamente",
     "swapPriceModal": {
       "title": "Os preços mudaram",
-      "action": "Continue",
+      "action": "Continuar",
       "body": "As quantias e taxas de cripto podem mudar devido a flutuações no mercado cripto.\n\nRevise a quantia e as taxas finais e reenvie."
     },
     "swapErrorModal": {
       "title": "Não foi possível concluir esta transação.",
       "body": "Aguarde e tente de novo depois ou contate o suporte para obter ajuda.",
-      "swapRestart": "Dismiss",
-      "contactSupport": "Contact Support"
+      "swapRestart": "Ignorar",
+      "contactSupport": "Contate o suporte"
     }
   },
   "inviteModal": {
