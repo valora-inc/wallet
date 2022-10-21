@@ -1318,7 +1318,7 @@
       "retryable": {
         "title": "La verifica del documento d'identità non è stata accettata.",
         "description": "Esegui nuovamente la verifica o prova un altro modo per prelevare i fondi.",
-        "tryAgain": "Verifica di nuovo"
+        "tryAgain": "Riprova"
       },
       "final": {
         "title": "Verifica respinta.",
@@ -1328,7 +1328,7 @@
     "expired": {
       "title": "La verifica del documento di identità è scaduta.",
       "description": "Esegui nuovamente la verifica o prova un altro modo per prelevare i fondi.",
-      "tryAgain": "Verifica di nuovo",
+      "tryAgain": "Riprova",
       "switch": "Cambia metodo di prelievo"
     },
     "tryAgainFailed": "Si è verificato un errore durante la cancellazione delle informazioni KYC. Riprova."
@@ -1456,7 +1456,7 @@
     "swapFeeBodyFree": "La commissione di {{appName}} è la commissione che paghi per scambiare token su {{appName}}. Le commissioni di {{appName}} sono gratuite per i prossimi mesi.",
     "estimatedAmountTitle": "Importo stimato",
     "estimatedAmountBody": "Le conversioni avvengono su uno scambio decentralizzato di terze parti che trova il miglior tasso per il tuo scambio. \n\nLa tua transazione sarà completata a un prezzo compreso tra {{slippagePercent}}% della stima o la transazione sarà annullata e i fondi saranno restituiti al tuo wallet.",
-    "free": "Free"
+    "free": "Gratuito"
   },
   "SwapExecuteScreen": {
     "swapPending": "Scambio in sospeso",
@@ -1468,14 +1468,14 @@
     "swapAgain": "Effettua un altro scambio",
     "swapPriceModal": {
       "title": "I prezzi sono cambiati",
-      "action": "Continue",
+      "action": "Continua",
       "body": "Gli importi e le commissioni possono cambiare a causa di oscillazioni nel mercato delle criptovalute. \n\nEsamina l'importo e le commissioni finali e invia nuovamente."
     },
     "swapErrorModal": {
       "title": "Non siamo stati in grado di completare la transazione.",
       "body": "Attendi e riprova in un secondo momento o contatta il team del nostro supporto tecnico per richiedere assistenza.",
-      "swapRestart": "Dismiss",
-      "contactSupport": "Contact Support"
+      "swapRestart": "Ignora",
+      "contactSupport": "Contatta il supporto tecnico"
     }
   },
   "inviteModal": {
