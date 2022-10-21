@@ -129,6 +129,7 @@
     "fuzzysort": "^1.1.4",
     "graphql": "^14.1.1",
     "i18next": "^19.4.3",
+    "ibantools": "^4.1.6",
     "io-ts": "2.0.1",
     "js-sha3": "^0.8.0",
     "jsonwebtoken": "^8.5.1",
