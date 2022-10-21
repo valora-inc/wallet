@@ -112,6 +112,7 @@ describe('FiatConnect helpers', () => {
           termsAndConditionsUrl: 'https://fake-provider.valoraapp.com/terms',
         },
       ],
+      address: '0xabc',
     }
     it('returns an empty array if fiatConnectCashInEnabled is false with cash in', async () => {
       const quotes = await fetchQuotes(fetchQuotesInput)
