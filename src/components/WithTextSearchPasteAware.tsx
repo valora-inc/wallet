@@ -41,6 +41,7 @@ export default function withTextSearchPasteAware<P extends TextInputProps>(
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
     minHeight: HEIGHT,
     borderRadius: HEIGHT / 2,

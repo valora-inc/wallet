@@ -1,12 +1,12 @@
 import { isValidAddress } from '@celo/utils/lib/address'
+import { BottomSheetTextInput } from '@gorhom/bottom-sheet'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
-import TextInput from 'src/components/TextInput'
 import withTextSearchPasteAware from 'src/components/WithTextSearchPasteAware'
 import colors from 'src/styles/colors'
 
-const SearchInput = withTextSearchPasteAware(TextInput)
+const SearchInput = withTextSearchPasteAware(BottomSheetTextInput)
 
 interface SendSearchInputProps {
   input: string
