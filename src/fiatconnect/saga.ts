@@ -39,6 +39,7 @@ import { fiatConnectProvidersSelector } from 'src/fiatconnect/selectors'
 import {
   attemptReturnUserFlow,
   attemptReturnUserFlowCompleted,
+  cacheQuoteParams,
   createFiatConnectTransfer,
   createFiatConnectTransferCompleted,
   createFiatConnectTransferFailed,
@@ -59,7 +60,6 @@ import {
   submitFiatAccount,
   submitFiatAccountCompleted,
   submitFiatAccountKycApproved,
-  cacheQuoteParams,
 } from 'src/fiatconnect/slice'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { normalizeFiatConnectQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
@@ -78,7 +78,7 @@ import { TokenBalance } from 'src/tokens/slice'
 import { newTransactionContext } from 'src/transactions/types'
 import { CiCoCurrency, Currency, resolveCICOCurrency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
-import { currentAccountSelector } from 'src/web3/selectors'
+import { walletAddressSelector } from 'src/web3/selectors'
 import { v4 as uuidv4 } from 'uuid'
 
 const TAG = 'FiatConnectSaga'
@@ -401,9 +401,13 @@ export function* _getQuotes({
   const fiatConnectProviders: FiatConnectProviderInfo[] | null = yield select(
     fiatConnectProvidersSelector
   )
+  const address: string | null = yield select(walletAddressSelector)
   // null fiatConnectProviders means the providers have never successfully been fetched
   if (!fiatConnectProviders) {
     throw new Error('Error fetching fiatconnect providers')
+  }
+  if (!address) {
+    throw new Error('Cannot fetch quotes without an address')
   }
   const quotes: (FiatConnectQuoteSuccess | FiatConnectQuoteError)[] = yield call(fetchQuotes, {
     localCurrency,
@@ -416,6 +420,7 @@ export function* _getQuotes({
     fiatConnectProviders: providerIds
       ? fiatConnectProviders.filter(({ id }) => providerIds.includes(id))
       : fiatConnectProviders,
+    address,
   })
   return quotes
 }
@@ -669,7 +674,7 @@ export function* fetchFiatAccountsSaga(
 }
 
 export function* handleFetchFiatConnectProviders() {
-  const account: string = yield select(currentAccountSelector)
+  const account: string | null = yield select(walletAddressSelector)
   try {
     if (!account) {
       throw new Error('Cannot fetch fiatconnect providers without an account')
