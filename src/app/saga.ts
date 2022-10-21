@@ -45,7 +45,8 @@ import {
 } from 'src/app/selectors'
 import { CreateAccountCopyTestType, InviteMethodType, SuperchargeButtonType } from 'src/app/types'
 import { runVerificationMigration } from 'src/app/verificationMigration'
-import { FETCH_TIMEOUT_DURATION } from 'src/config'
+import { WEB_LINK } from 'src/brandingConfig'
+import { DYNAMIC_LINK_DOMAIN_URI_PREFIX, FETCH_TIMEOUT_DURATION } from 'src/config'
 import { SuperchargeTokenConfigByToken } from 'src/consumerIncentives/types'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
 import { DappConnectInfo } from 'src/dapps/types'
@@ -280,8 +281,12 @@ export function* handleDeepLink(action: OpenDeepLink) {
 
   const rawParams = parse(deepLink)
   if (rawParams.path) {
-    // handle dynamic link
-    if (rawParams.hostname === 'vlra.app') {
+    // android resolves dynamic links to the `link`, iOS handles the plain
+    // dynamic link
+    if (
+      rawParams.hostname === new URL(DYNAMIC_LINK_DOMAIN_URI_PREFIX).hostname ||
+      rawParams.hostname === new URL(WEB_LINK).hostname
+    ) {
       const dynamicLink = yield call(resolveDynamicLink, rawParams.href)
       const pathParts = dynamicLink ? new URL(dynamicLink).pathname.split('/') : []
 
