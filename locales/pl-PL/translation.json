@@ -1425,6 +1425,11 @@
       "placeholderText": "Wprowadź numer konta",
       "errorMessageDigitLength": "Numer konta musi składać się z {{length}} cyfr",
       "errorMessageDigit": "Numer konta musi zawierać tylko cyfry"
+    },
+    "ibanNumber": {
+      "label": "IBAN",
+      "placeholderText": "Wprowadź numer IBAN",
+      "errorMessage": "Nieważny IBAN"
     }
   },
   "webView": {
