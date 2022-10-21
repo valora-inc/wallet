@@ -41,14 +41,15 @@ function SelectLocalCurrency() {
         onSelect={onSelect}
         isSelected={code === selectedCurrencyCode}
         data={code}
+        testID={`SelectLocalCurrency/${code}`}
       />
     )
   }
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container} testID="SelectLocalCurrencyScrollView">
       <SafeAreaView edges={['bottom']}>
-        <Text style={styles.title} testID={'ChooseLanguageTitle'}>
+        <Text style={styles.title} testID={'ChooseCurrencyTitle'}>
           {t('selectCurrency')}
         </Text>
         <FlatList
