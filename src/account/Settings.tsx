@@ -407,11 +407,13 @@ export class Account extends React.Component<Props, State> {
             )}
             <SettingsItemTextValue
               title={t('languageSettings')}
+              testID="ChangeLanguage"
               value={currentLanguage?.name ?? t('unknown')}
               onPress={this.goToLanguageSetting}
             />
             <SettingsItemTextValue
               title={t('localCurrencySetting')}
+              testID="ChangeCurrency"
               value={this.props.preferredCurrencyCode}
               onPress={this.goToLocalCurrencySetting}
             />
