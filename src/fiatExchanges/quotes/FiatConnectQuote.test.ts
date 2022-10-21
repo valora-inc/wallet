@@ -63,6 +63,32 @@ describe('FiatConnectQuote', () => {
           })
       ).toThrow()
     })
+    it.each([FiatAccountSchema.AccountNumber, FiatAccountSchema.IBANNumber])(
+      'does not throw an error if at least one fiatAccountSchema is supported',
+      (fiatAccountSchema) => {
+        const quoteData = {
+          ...mockFiatConnectQuotes[1],
+          fiatAccount: {
+            BankAccount: {
+              fiatAccountSchemas: [
+                {
+                  fiatAccountSchema,
+                  allowedValues: {},
+                },
+              ],
+            },
+          },
+        }
+        expect(
+          () =>
+            new FiatConnectQuote({
+              flow: CICOFlow.CashIn,
+              quote: quoteData as FiatConnectQuoteSuccess,
+              fiatAccountType: FiatAccountType.BankAccount,
+            })
+        ).not.toThrow()
+      }
+    )
     it('throws an error if KYC is required but not one of the supported schemas', () => {
       expect(
         () =>
