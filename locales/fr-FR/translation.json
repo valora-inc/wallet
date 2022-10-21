@@ -1456,7 +1456,7 @@
     "swapFeeBodyFree": "Les frais de {{appName}} sont ceux que vous payez pour l'échange de jetons sur {{appName}}. Les frais de {{appName}} seront gratuits pour les prochains mois.",
     "estimatedAmountTitle": "Montant estimé",
     "estimatedAmountBody": "Les conversions se font sur un échange décentralisé de tiers qui vous trouve le meilleur taux pour votre échange. \n\nVotre échange sera effectué à un prix à moins de {{slippagePercent}}% de l'estimation ou la transaction sera annulée et les fonds retournés à votre wallet.",
-    "free": "Free"
+    "free": "Gratuit"
   },
   "SwapExecuteScreen": {
     "swapPending": "Échange en attente",
@@ -1468,14 +1468,14 @@
     "swapAgain": "Échanger à nouveau",
     "swapPriceModal": {
       "title": "Les prix ont été modifiés",
-      "action": "Continue",
+      "action": "Continuer",
       "body": "Les montants et frais liés aux cryptomonnaies peuvent changer en raison des fluctuations du marché des cryptomonnaies.\n\nVeuillez vérifier votre montant final et vos frais et validez à nouveau."
     },
     "swapErrorModal": {
       "title": "Nous n'avons pas pu finaliser cette transaction.",
       "body": "Veuillez patienter et réessayer plus tard ou contactez notre équipe support pour obtenir de l'aide.",
-      "swapRestart": "Dismiss",
-      "contactSupport": "Contact Support"
+      "swapRestart": "Ignorer",
+      "contactSupport": "Contacter l'Assistance"
     }
   },
   "inviteModal": {
