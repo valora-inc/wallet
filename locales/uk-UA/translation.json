@@ -1425,6 +1425,11 @@
       "placeholderText": "Введіть номер рахунку",
       "errorMessageDigitLength": "Номер рахунку повинен складатися з {{length}} цифр",
       "errorMessageDigit": "Номер рахунку повинен містити лише цифри"
+    },
+    "ibanNumber": {
+      "label": "МНБР",
+      "placeholderText": "Введіть номер IBAN",
+      "errorMessage": "Невірний IBAN"
     }
   },
   "webView": {
