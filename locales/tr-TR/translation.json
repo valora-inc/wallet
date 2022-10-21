@@ -1421,6 +1421,11 @@
       "placeholderText": "Hesap Numarasını Girin",
       "errorMessageDigitLength": "Hesap numarası {{length}} haneli olmalıdır",
       "errorMessageDigit": "Hesap numarası yalnızca rakam içermelidir"
+    },
+    "ibanNumber": {
+      "label": "IBAN",
+      "placeholderText": "IBAN Numarasını Girin",
+      "errorMessage": "Geçersiz IBAN"
     }
   },
   "webView": {
