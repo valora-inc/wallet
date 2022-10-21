@@ -19,6 +19,7 @@ import Pincode from 'src/pincode/Pincode'
 import useSelector from 'src/redux/useSelector'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
+import colors from 'src/styles/colors'
 import { currentAccountSelector } from 'src/web3/selectors'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.PincodeEnter>
@@ -93,6 +94,10 @@ PincodeEnter.navigationOptions = () => ({
   ...modalScreenOptions(),
   ...headerWithBackButton,
   gestureEnabled: false,
+  headerStyle: {
+    backgroundColor: colors.light,
+  },
+  animation: 'slide_from_bottom',
 })
 
 const styles = StyleSheet.create({
