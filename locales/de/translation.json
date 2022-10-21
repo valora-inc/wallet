@@ -1421,6 +1421,11 @@
       "placeholderText": "Kontonummer eingeben",
       "errorMessageDigitLength": "Die Kontonummer muss {{length}} Ziffern haben",
       "errorMessageDigit": "Die Kontonummer darf nur Ziffern enthalten"
+    },
+    "ibanNumber": {
+      "label": "IBAN",
+      "placeholderText": "IBAN-Nummer eingeben",
+      "errorMessage": "Ungültige IBAN"
     }
   },
   "webView": {
