@@ -124,7 +124,7 @@ function useSimpleActions() {
               notificationType: NotificationBannerTypes.kolektivo_cico,
               selectedAction: NotificationBannerCTATypes.read_more,
             })
-            navigate(Screens.CicoPromptScreen)
+            navigate(Screens.GuilderEducation)
           },
         },
       ],

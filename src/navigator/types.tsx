@@ -372,7 +372,11 @@ export type StackParamList = {
     recipientAddress?: string
   }
   [Screens.TokenBalances]: undefined
-  [Screens.CicoPromptScreen]: undefined
+  [Screens.GuilderEducation]:
+    | undefined
+    | {
+        nextScreen: keyof StackParamList
+      }
 }
 
 export type QRTabParamList = {

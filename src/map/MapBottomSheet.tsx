@@ -12,6 +12,8 @@ import {
   filteredVendorsSelector,
   searchQuerySelector,
 } from 'src/map/selector'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import { setCurrentVendor } from 'src/vendors/actions'
 import { currentVendorSelector, vendorsSelector } from 'src/vendors/selector'
 import { Vendor, VendorWithLocation } from 'src/vendors/types'
@@ -63,6 +65,13 @@ const MapBottomSheet = ({ mapRef }: Props) => {
     []
   )
 
+  /** */
+  const handleVendorAction = () => {
+    navigate(Screens.QRNavigator, {
+      screen: Screens.QRScanner,
+    })
+  }
+
   return (
     <BottomSheet
       ref={bottomSheetRef}
@@ -86,14 +95,14 @@ const MapBottomSheet = ({ mapRef }: Props) => {
         <VendorDetails
           vendor={currentVendor}
           close={() => dispatch(setCurrentVendor(undefined))}
-          action={() => {}}
+          action={handleVendorAction}
         />
       )}
       {currentForest && (
         <FoodForestDetails
           forest={currentForest}
           close={() => dispatch(setFoodForest(undefined))}
-          action={() => {}}
+          action={handleVendorAction}
         />
       )}
     </BottomSheet>

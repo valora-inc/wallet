@@ -12,13 +12,14 @@ export enum MapCategory {
 }
 
 export const LOCALE_LATLNG: LatLng = {
-  latitude: 12.1696,
-  longitude: -68.99,
+  latitude: 12.110233362463978,
+  longitude: -68.90342857777937,
 }
 
 export const LOCALE_OFFSET: Omit<Region, 'longitude' | 'latitude'> = {
-  latitudeDelta: 0.1922,
-  longitudeDelta: 0.1421,
+  // 12.110233362463978, -68.90342857777937
+  latitudeDelta: 0.0025,
+  longitudeDelta: 0.0025,
 }
 
 export const FOREST_OFFSET: Omit<Region, 'longitude' | 'latitude'> = {

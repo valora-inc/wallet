@@ -110,5 +110,5 @@ export enum Screens {
   WithdrawCeloQrScannerScreen = 'WithdrawCeloQrScannerScreen',
   WithdrawCeloReviewScreen = 'WithdrawCeloReviewScreen',
   WithdrawCeloScreen = 'WithdrawCeloScreen',
-  CicoPromptScreen = 'CicoPromptScreen',
+  GuilderEducation = 'GuilderEducation',
 }

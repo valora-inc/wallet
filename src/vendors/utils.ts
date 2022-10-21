@@ -2,6 +2,7 @@ import BottomSheet from '@gorhom/bottom-sheet'
 import { map } from 'lodash'
 import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
+import { currentForestSelector } from 'src/map/selector'
 import { currentVendorSelector } from 'src/vendors/selector'
 import { Vendor, Vendors, VendorWithLocation } from 'src/vendors/types'
 
@@ -73,6 +74,7 @@ export const useInteractiveBottomSheet = (
 ): [string[]] => {
   const snapPoints = React.useMemo(() => ['10%', '24%', '50%', '80%'], [])
   const currentVendor = useSelector(currentVendorSelector)
+  const currentForest = useSelector(currentForestSelector)
 
   useEffect(() => {
     handleVendorChange()
@@ -80,10 +82,10 @@ export const useInteractiveBottomSheet = (
 
   useEffect(() => {
     handleVendorChange()
-  }, [currentVendor])
+  }, [currentVendor, currentForest])
 
   const handleVendorChange = () => {
-    if (currentVendor) {
+    if (currentVendor || currentForest) {
       bottomSheetRef.current?.snapToIndex(2)
     }
   }

@@ -28,7 +28,6 @@ import BackupComplete from 'src/backup/BackupComplete'
 import BackupForceScreen from 'src/backup/BackupForceScreen'
 import BackupPhrase, { navOptionsForBackupPhrase } from 'src/backup/BackupPhrase'
 import BackupQuiz, { navOptionsForQuiz } from 'src/backup/BackupQuiz'
-import CicoPromptScreen from 'src/cicoPrompt/CicoPromptScreen'
 import BackButton from 'src/components/BackButton'
 import CancelButton from 'src/components/CancelButton'
 import ConsumerIncentivesHomeScreen from 'src/consumerIncentives/ConsumerIncentivesHomeScreen'
@@ -54,6 +53,7 @@ import FiatExchangeCurrency, {
 import SelectProviderScreen from 'src/fiatExchanges/SelectProvider'
 import SimplexScreen from 'src/fiatExchanges/SimplexScreen'
 import Spend, { spendScreenOptions } from 'src/fiatExchanges/Spend'
+import GuilderEducation from 'src/goldToken/GuilderEducation'
 import i18n from 'src/i18n'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import PhoneNumberLookupQuotaScreen from 'src/identity/PhoneNumberLookupQuotaScreen'
@@ -147,8 +147,8 @@ const kolektivoNotificationScreens = (Navigator: typeof Stack) => {
   return (
     <>
       <Navigator.Screen
-        name={Screens.CicoPromptScreen}
-        component={CicoPromptScreen}
+        name={Screens.GuilderEducation}
+        component={GuilderEducation}
         options={noHeader}
       />
     </>
