@@ -1318,7 +1318,7 @@
       "retryable": {
         "title": "Die ID-Verifizierung wurde nicht akzeptiert.",
         "description": "Bitte überprüfe es noch einmal oder versuche einen anderen Weg, um Geld abzuheben.",
-        "tryAgain": "Nochmals überprüfen"
+        "tryAgain": "Erneut versuchen"
       },
       "final": {
         "title": "Verifizierung verweigert.",
@@ -1328,7 +1328,7 @@
     "expired": {
       "title": "Die ID-Überprüfung ist abgelaufen.",
       "description": "Bitte überprüfe es noch einmal oder versuche einen anderen Weg, um Geld abzuheben.",
-      "tryAgain": "Nochmals überprüfen",
+      "tryAgain": "Erneut versuchen",
       "switch": "Auszahlungsmethode wechseln"
     },
     "tryAgainFailed": "Beim Löschen der KYC-Informationen ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut"
@@ -1456,7 +1456,7 @@
     "swapFeeBodyFree": "Die Gebühr für die {{appName}} ist die Gebühr, die du für den Tausch von Tokens auf {{appName}} bezahlen musst. Die Gebühren für {{appName}} entfallen in den nächsten Monaten.",
     "estimatedAmountTitle": "Geschätzte Betrag",
     "estimatedAmountBody": "Umrechnungen finden an einer dezentralen Börse von Drittanbietern statt, die den besten Kurs für deinen gewünschten Umtausch bieten. \n\n Dein Trade wird zu einem Preis innerhalb von {{slippagePercent}} % des Preises abgeschlossen oder die Transaktion wird storniert und das Guthaben an deine Wallet zurückerstattet.",
-    "free": "Free"
+    "free": "Kostenlos"
   },
   "SwapExecuteScreen": {
     "swapPending": "Tausch ausstehend",
@@ -1468,14 +1468,14 @@
     "swapAgain": "Erneut tauschen",
     "swapPriceModal": {
       "title": "Preise haben sich geändert",
-      "action": "Continue",
+      "action": "Weiter",
       "body": "Krypto-Beträge und -Gebühren können sich aufgrund von Schwankungen auf dem Krypto-Markt ändern. \n\n Bitte überprüfe deine endgültigen Beträge und Gebühren und reiche sie erneut ein."
     },
     "swapErrorModal": {
       "title": "Wir konnten diese Transaktion nicht abschließen.",
       "body": "Bitte warte und versuche es später erneut oder kontaktiere unser Support-Team für Hilfe.",
-      "swapRestart": "Dismiss",
-      "contactSupport": "Contact Support"
+      "swapRestart": "Verwerfen",
+      "contactSupport": "Support kontaktieren"
     }
   },
   "inviteModal": {
