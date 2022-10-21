@@ -3262,24 +3262,19 @@
   resolved "https://registry.yarnpkg.com/@faker-js/faker/-/faker-5.5.3.tgz#18e3af6b8eae7984072bbeb0c0858474d7c4cefe"
   integrity sha512-R11tGE6yIFwqpaIqcfkcg7AICXzFg14+5h5v0TfF/9+RMDL6jhzCy/pxHVOfbALGdtVYdt6JdR21tuxEgl34dw==
 
-"@fiatconnect/fiatconnect-sdk@^0.3.9":
-  version "0.3.9"
-  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-sdk/-/fiatconnect-sdk-0.3.9.tgz#ce7f9ea373251428c4bad1ac6208e424dcff5cb9"
-  integrity sha512-29vDo+cUPNEewDaeUCJUecZV6rwDPT10JoGkKt3FVAGEGUIsyb1Ad6SBYon0wjoj8suLjH6X3JA+LV/TnvR3RA==
+"@fiatconnect/fiatconnect-sdk@^0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-sdk/-/fiatconnect-sdk-0.4.0.tgz#dd5c79cc4c84ded86b42fa9aa52f75ef5f02714f"
+  integrity sha512-Es/rl2pGNs2G5tviRcz7WmBdtFqAyVom77jIHvqMXdCqsTNK/IifxcHQ78jmxY/IO6Mbstaar9p9kmMe6Qg7bw==
   dependencies:
     "@badrap/result" "^0.2.12"
-    "@fiatconnect/fiatconnect-types" "^7.0.3"
+    "@fiatconnect/fiatconnect-types" "^8.0.0"
     cross-fetch "^3.1.5"
     ethers "^5.7.1"
     fetch-cookie "^2.0.3"
     siwe "^1.1.6"
     tough-cookie "^4.0.0"
     tslib "^2.4.0"
-
-"@fiatconnect/fiatconnect-types@^7.0.3":
-  version "7.0.3"
-  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-types/-/fiatconnect-types-7.0.3.tgz#1fa8b840fd21f56b861af985d50c2b32847f7242"
-  integrity sha512-q5OIHatju8jMjghMoC68u+ZkSPL8GYpZv+FgQvFVCBRxXMy3SoBlAU6PGO2Cm6OMJRZG299rBPkq07zObm0gWQ==
 
 "@fiatconnect/fiatconnect-types@^8.0.0":
   version "8.0.0"
