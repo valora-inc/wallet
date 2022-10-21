@@ -35,7 +35,7 @@ export interface FiatConnectProviderInfo {
 export function convertToFiatConnectFiatCurrency(
   localCurrency: LocalCurrencyCode
 ): FiatType | undefined {
-  return FiatType[(localCurrency as unknown) as FiatType]
+  return FiatType[localCurrency as unknown as FiatType]
 }
 
 function convertToFiatConnectCryptoCurrency(cicoCurrency: CiCoCurrency): CryptoType {

@@ -39,9 +39,8 @@ import fontStyles from 'src/styles/fonts'
 import { Shadow, Spacing } from 'src/styles/styles'
 
 // @ts-ignore
-const AnimatedSectionList = Animated.createAnimatedComponent<SectionListProps<ItemT, SectionT>>(
-  SectionList
-)
+const AnimatedSectionList =
+  Animated.createAnimatedComponent<SectionListProps<ItemT, SectionT>>(SectionList)
 
 const SECTION_HEADER_MARGIN_TOP = 32
 
