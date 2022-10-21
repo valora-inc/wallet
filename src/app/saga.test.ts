@@ -142,7 +142,7 @@ describe('handleDeepLink', () => {
   })
 
   it('Handles long share deep link', async () => {
-    const deepLink = 'https://valoraapp.com/share/abc123'
+    const deepLink = 'https://celo.org/share/abc123'
     await expectSaga(handleDeepLink, openDeepLink(deepLink))
       .provide([[call(resolveDynamicLink, deepLink), deepLink]])
       .run()
