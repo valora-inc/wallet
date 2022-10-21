@@ -12,6 +12,7 @@ import { emptyHeader, headerWithBackButton } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 
 type ScreenProps = NativeStackScreenProps<StackParamList, Screens.Language | Screens.LanguageModal>
@@ -79,8 +80,11 @@ LanguageScreen.navigationOptions = (withAnimation: boolean) => ({ navigation }: 
   return navigation.canGoBack()
     ? {
         ...headerWithBackButton,
-        // TODO: Tom investigate replacing this with https://reactnavigation.org/docs/native-stack-navigator/#animation
-        // ...(withAnimation ? TransitionPresets.ModalTransition : {}),
+        headerStyle: {
+          backgroundColor: colors.light,
+        },
+        presentation: 'modal',
+        animation: 'slide_from_bottom',
       }
     : emptyHeader
 }
