@@ -30,7 +30,10 @@ const kycStrings = {
 
 // TODO: When we add support for more types be sure to add more unit tests to the FiatConnectQuotes class
 const SUPPORTED_FIAT_ACCOUNT_TYPES = new Set<FiatAccountType>([FiatAccountType.BankAccount])
-const SUPPORTED_FIAT_ACCOUNT_SCHEMAS = new Set<FiatAccountSchema>([FiatAccountSchema.AccountNumber])
+const SUPPORTED_FIAT_ACCOUNT_SCHEMAS = new Set<FiatAccountSchema>([
+  FiatAccountSchema.AccountNumber,
+  FiatAccountSchema.IBANNumber,
+])
 const SUPPORTED_KYC_SCHEMAS = new Set<KycSchema>([KycSchema.PersonalDataAndDocuments])
 
 export default class FiatConnectQuote extends NormalizedQuote {

@@ -49,7 +49,7 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
   const { flow, quote } = route.params
   const sendingFiatAccountStatus = useSelector(sendingFiatAccountStatusSelector)
   const [validInputs, setValidInputs] = useState(false)
-  const [errors, setErrors] = useState(new Set<number>())
+  const [errors, setErrors] = useState(new Map<number, string | undefined>())
   const fieldValues = useRef<string[]>([])
   const { countryCodeAlpha2 } = useSelector(userLocationDataSelector)
   const dispatch = useDispatch()
@@ -161,16 +161,17 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
 
   const validateInput = () => {
     setValidInputs(false)
-    const newErrorSet = new Set<number>()
+    const newErrorMap = new Map<number, string | undefined>()
 
     formFields.forEach((field, index) => {
-      if (!field.regex.test(fieldValues.current[index]?.trim())) {
-        newErrorSet.add(index)
+      const { isValid, errorMessage } = field.validate(fieldValues.current[index]?.trim())
+      if (!isValid) {
+        newErrorMap.set(index, errorMessage)
       }
     })
 
-    setErrors(newErrorSet)
-    setValidInputs(newErrorSet.size === 0)
+    setErrors(newErrorMap)
+    setValidInputs(newErrorMap.size === 0)
   }
 
   const setInputValue = (value: string, index: number) => {
@@ -203,7 +204,7 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
                   field={field}
                   index={index}
                   value={fieldValues.current[index]}
-                  hasError={errors.has(index)}
+                  errorMessage={errors.get(index)}
                   onChange={(value) => {
                     setInputValue(value, index)
                   }}
@@ -231,14 +232,14 @@ function FormField({
   index,
   value,
   allowedValues,
-  hasError,
+  errorMessage,
   onChange,
 }: {
   field: FormFieldParam
   index: number
   value: string
   allowedValues?: string[]
-  hasError: boolean
+  errorMessage: string | undefined
   onChange: (value: any) => void
 }) {
   const { t } = useTranslation()
@@ -293,9 +294,9 @@ function FormField({
           }}
         />
       )}
-      {field.errorMessage && hasError && showError && (
+      {errorMessage && showError && (
         <Text testID={`errorMessage-${field.name}`} style={styles.error}>
-          {field.errorMessage}
+          {errorMessage}
         </Text>
       )}
     </View>
