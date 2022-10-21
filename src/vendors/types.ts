@@ -15,6 +15,7 @@ export type Vendor = {
   street: string
   building_number: string
   city: string
+  account?: string
 }
 
 export type VendorWithLocation = Vendor & {

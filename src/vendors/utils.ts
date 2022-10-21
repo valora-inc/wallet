@@ -30,6 +30,7 @@ export const formatVendors = (vendorObject: any): Vendors => {
         street,
         building_number,
         city,
+        account,
       } = v.attributes
       return {
         [name]: {
@@ -51,6 +52,7 @@ export const formatVendors = (vendorObject: any): Vendors => {
           },
           acceptsGuilder: Boolean(acceptsGuilder),
           providesGuilder: Boolean(providesGuilder),
+          account: account,
         } as Vendor | VendorWithLocation,
       }
     })

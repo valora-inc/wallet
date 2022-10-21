@@ -5,6 +5,7 @@ import { Image, StyleSheet, Text, View } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { useDispatch } from 'react-redux'
 import { showError } from 'src/alert/actions'
+import { SendOrigin } from 'src/analytics/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import Touchable from 'src/components/Touchable'
@@ -17,6 +18,9 @@ import Times from 'src/icons/Times'
 import VerifiedIcon from 'src/icons/VerifiedIcon'
 import Website from 'src/icons/Website'
 import { initiateDirection, initiatePhoneCall, initiateShare } from 'src/map/utils'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
+import { Recipient } from 'src/recipients/recipient'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
@@ -44,6 +48,7 @@ const VendorDetails = ({ vendor, close, action }: Props) => {
     phoneNumber,
     acceptsGuilder,
     providesGuilder,
+    account,
   } = vendor
   const { location } = vendor as VendorWithLocation
   const { t } = useTranslation()
@@ -57,6 +62,11 @@ const VendorDetails = ({ vendor, close, action }: Props) => {
       dispatch(showError(ErrorMessages.FAILED_OPEN_DIRECTION))
       return
     }
+  }
+
+  const navigateToSend = (account: string) => {
+    const recipient: Recipient = { address: account as string }
+    navigate(Screens.SendAmount, { recipient, origin: SendOrigin.AppSendFlow })
   }
 
   return (
@@ -110,6 +120,7 @@ const VendorDetails = ({ vendor, close, action }: Props) => {
             </TouchableOpacity>
           )}
         </View>
+        <View style={styles.actionButtons}></View>
         <View style={styles.furtherDetailsRow}>
           {street && (
             <View style={styles.streetContainer}>
@@ -133,6 +144,14 @@ const VendorDetails = ({ vendor, close, action }: Props) => {
         </View>
         {/* @todo Add Send button */}
         <View style={styles.actionButtons}>
+          {account && (
+            <Button
+              type={BtnTypes.PRIMARY}
+              size={BtnSizes.MEDIUM}
+              text={t('payVendor')}
+              onPress={() => navigateToSend(account)}
+            />
+          )}
           <TouchableOpacity onPress={action}>
             <QRCodeBorderless />
           </TouchableOpacity>
