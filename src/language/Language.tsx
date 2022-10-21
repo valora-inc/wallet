@@ -83,8 +83,6 @@ LanguageScreen.navigationOptions = (withAnimation: boolean) => ({ navigation }: 
         headerStyle: {
           backgroundColor: colors.light,
         },
-        presentation: 'modal',
-        animation: 'slide_from_bottom',
       }
     : emptyHeader
 }
