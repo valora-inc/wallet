@@ -1425,7 +1425,7 @@
     "ibanNumber": {
       "label": "IBAN",
       "placeholderText": "Saisis le numéro IBAN",
-      "errorMessage": "Invalid IBAN"
+      "errorMessage": "IBAN non valide"
     }
   },
   "webView": {
