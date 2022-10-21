@@ -377,6 +377,9 @@ export type StackParamList = {
     | {
         nextScreen: keyof StackParamList
       }
+  [Screens.TransactionSent]: {
+    transactionData: TransactionDataInput
+  }
 }
 
 export type QRTabParamList = {

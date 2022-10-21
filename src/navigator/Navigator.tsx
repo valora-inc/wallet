@@ -102,6 +102,7 @@ import SendConfirmation, { sendConfirmationScreenNavOptions } from 'src/send/Sen
 import SendConfirmationLegacy, {
   sendConfirmationLegacyScreenNavOptions,
 } from 'src/send/SendConfirmationLegacy'
+import TransactionSent from 'src/send/TransactionSent'
 import ValidateRecipientAccount, {
   validateRecipientAccountScreenNavOptions,
 } from 'src/send/ValidateRecipientAccount'
@@ -618,6 +619,11 @@ const settingsScreens = (Navigator: typeof Stack) => (
       options={BidaliScreen.navigationOptions}
       name={Screens.BidaliScreen}
       component={BidaliScreen}
+    />
+    <Navigator.Screen
+      name={Screens.TransactionSent}
+      component={TransactionSent}
+      options={TransactionSent.navigationOptions}
     />
   </>
 )

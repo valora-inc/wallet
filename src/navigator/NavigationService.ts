@@ -208,6 +208,18 @@ export function navigateHome(options?: NavigateHomeOptions) {
   })
 }
 
+interface NavigateTrxCompleteOptions {
+  params?: StackParamList[Screens.TransactionSent]
+}
+
+export function navigateTrxComplete(options?: NavigateTrxCompleteOptions) {
+  const { params } = options ?? {}
+  navigationRef.current?.reset({
+    index: 0,
+    routes: [{ name: Screens.TransactionSent, params }],
+  })
+}
+
 interface NavigateInterestOptions {
   params: StackParamList[Screens.NuxInterests]
 }

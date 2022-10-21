@@ -12,7 +12,8 @@ import { transferGoldToken } from 'src/goldToken/actions'
 import { encryptComment } from 'src/identity/commentEncryption'
 import { e164NumberToAddressSelector } from 'src/identity/selectors'
 import { sendInvite } from 'src/invite/saga'
-import { navigateBack, navigateHome } from 'src/navigator/NavigationService'
+import { navigate, navigateBack, navigateHome } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import { completePaymentRequest } from 'src/paymentRequest/actions'
 import { handleBarcode, shareSVGImage } from 'src/qrcode/utils'
 import { recipientHasNumber, RecipientInfo } from 'src/recipients/recipient'
@@ -406,6 +407,15 @@ export function* sendPaymentOrInviteSaga({
       navigateBack()
     } else {
       navigateHome()
+      navigate(Screens.TransactionSent, {
+        transactionData: {
+          recipient,
+          inputAmount: usdAmount ?? amount,
+          tokenAddress,
+          amountIsInLocalCurrency: !!usdAmount,
+          tokenAmount: amount,
+        },
+      })
     }
 
     yield put(sendPaymentOrInviteSuccess(amount))

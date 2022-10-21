@@ -111,4 +111,5 @@ export enum Screens {
   WithdrawCeloReviewScreen = 'WithdrawCeloReviewScreen',
   WithdrawCeloScreen = 'WithdrawCeloScreen',
   GuilderEducation = 'GuilderEducation',
+  TransactionSent = 'TransactionSent',
 }
