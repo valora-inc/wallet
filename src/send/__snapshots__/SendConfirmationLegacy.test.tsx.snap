@@ -35,7 +35,6 @@ exports[`SendConfirmationLegacy renders correctly 1`] = `
           Object {
             "alignItems": "center",
             "justifyContent": "center",
-            "paddingLeft": 22,
           }
         }
       >
@@ -64,6 +63,11 @@ exports[`SendConfirmationLegacy renders correctly 1`] = `
           onResponderTerminate={[Function]}
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "paddingLeft": 16,
+            }
+          }
         >
           <svg
             fill="none"
