@@ -5,11 +5,11 @@ import { getIbanNumberSchema } from 'src/fiatconnect/fiatAccountSchemas/ibanNumb
 import { FiatAccountSchemaCountryOverrides } from 'src/fiatconnect/types'
 
 jest.mock('src/fiatconnect/fiatAccountSchemas/accountNumber', () => ({
-  getAccountNumberSchema: jest.fn(),
+  getAccountNumberSchema: jest.fn(() => 'account-number-schema'),
 }))
 
 jest.mock('src/fiatconnect/fiatAccountSchemas/ibanNumber', () => ({
-  getIbanNumberSchema: jest.fn(),
+  getIbanNumberSchema: jest.fn(() => 'iban-number-schema'),
 }))
 
 describe(getSchema, () => {
@@ -43,7 +43,7 @@ describe(getSchema, () => {
     ).toThrow()
   })
   it('calls getAccountNumberSchema for  AccountNumber schema', () => {
-    getSchema(params)
+    const schema = getSchema(params)
     expect(getAccountNumberSchema).toHaveBeenCalledWith(
       {
         country: params.country,
@@ -51,9 +51,10 @@ describe(getSchema, () => {
       },
       params.schemaCountryOverrides
     )
+    expect(schema).toEqual('account-number-schema')
   })
   it('calls getIbanNumberSchema for IbanNumber schema', () => {
-    getSchema({
+    const schema = getSchema({
       ...params,
       fiatAccountSchema: FiatAccountSchema.IBANNumber,
     })
@@ -64,5 +65,6 @@ describe(getSchema, () => {
       },
       params.schemaCountryOverrides
     )
+    expect(schema).toEqual('iban-number-schema')
   })
 })

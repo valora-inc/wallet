@@ -49,8 +49,8 @@ export const getIbanNumberSchema = (
     fiatAccountType: { name: 'fiatAccountType', value: FiatAccountType.BankAccount },
     accountName: {
       name: 'accountName',
-      computeValue: ({ institutionName, iban }) =>
-        `${institutionName} (${getObfuscatedAccountNumber(clean(iban!))})`,
+      computeValue: ({ institutionName, iban = '' }) =>
+        `${institutionName} (${getObfuscatedAccountNumber(clean(iban))})`,
     },
   }
 }

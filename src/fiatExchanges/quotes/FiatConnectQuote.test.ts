@@ -72,7 +72,7 @@ describe('FiatConnectQuote', () => {
             BankAccount: {
               fiatAccountSchemas: [
                 {
-                  fiatAccountSchema: FiatAccountSchema.AccountNumber,
+                  fiatAccountSchema,
                   allowedValues: {},
                 },
               ],
