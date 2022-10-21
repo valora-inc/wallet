@@ -104,6 +104,7 @@ exports[`SendConfirmationLegacy renders correctly 1`] = `
         }
       }
       keyboardShouldPersistTaps="handled"
+      testID="KeyboardAwareScrollView"
     >
       <View>
         <View

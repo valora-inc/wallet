@@ -233,6 +233,7 @@ function ImportWallet({ navigation, route }: Props) {
                 actionPress={onPressRestore}
                 secondaryActionPress={onPressTryAnotherKey}
                 secondaryActionText={t('goBack')}
+                testID="ConfirmUseAccountDialog"
               >
                 {t('emptyAccount.description')}
               </Dialog>

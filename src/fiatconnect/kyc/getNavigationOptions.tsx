@@ -1,18 +1,18 @@
+import { KycStatus as FiatConnectKycStatus } from '@fiatconnect/fiatconnect-types'
 import * as React from 'react'
 import { StyleSheet, View } from 'react-native'
-import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
-import TextButton from 'src/components/TextButton'
-import i18n from 'src/i18n'
-import CancelButton from 'src/components/CancelButton'
-import { emptyHeader } from 'src/navigator/Headers'
-import { navigate } from 'src/navigator/NavigationService'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { FiatExchangeEvents } from 'src/analytics/Events'
-import { KycStatus as FiatConnectKycStatus } from '@fiatconnect/fiatconnect-types'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import CancelButton from 'src/components/CancelButton'
+import TextButton from 'src/components/TextButton'
+import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
+import i18n from 'src/i18n'
+import { emptyHeader } from 'src/navigator/Headers'
+import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import colors from 'src/styles/colors'
 
 const getNavigationOptions = ({
   fiatConnectKycStatus,
@@ -32,26 +32,23 @@ const getNavigationOptions = ({
     })
   }
 
-  const onPressBack = () => {
+  const onPressCancel = () => {
     ValoraAnalytics.track(FiatExchangeEvents.cico_fc_kyc_status_back, {
       provider: quote.getProviderId(),
       flow: quote.flow,
       fiatConnectKycStatus,
     })
-    navigate(Screens.SelectProvider, {
-      flow: quote.flow,
-      selectedCrypto: quote.getCryptoType(),
-      amount: {
-        crypto: Number(quote.getCryptoAmount()),
-        fiat: Number(quote.getFiatAmount()),
-      },
-    })
+    navigateHome()
   }
   return {
     ...emptyHeader,
     headerLeft: () => (
       <View style={styles.cancelBtnContainer}>
-        <CancelButton buttonType="icon" style={styles.cancelBtnContainer} onCancel={onPressBack} />
+        <CancelButton
+          buttonType="icon"
+          style={styles.cancelBtnContainer}
+          onCancel={onPressCancel}
+        />
       </View>
     ),
     headerRight: () => (

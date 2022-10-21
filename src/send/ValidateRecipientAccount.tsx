@@ -278,7 +278,9 @@ export class ValidateRecipientAccount extends React.Component<Props, State> {
           keyboardShouldPersistTaps={'always'}
         >
           <View>
-            <Text style={styles.h2}>{t('confirmAccountNumber.title')}</Text>
+            <Text testID="ConfirmAccountNumber/Title" style={styles.h2}>
+              {t('confirmAccountNumber.title')}
+            </Text>
             <View>{this.renderInstructionsAndInputField()}</View>
             <ErrorMessageInline error={error} />
             <Button

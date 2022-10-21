@@ -173,7 +173,7 @@
   "superchargingDescription": "Yıllık %{{apy}} alıyorsunuz. Ödülleriniz hazır olduğunda her hafta bir bildirim alacaksınız, onları almak için buraya geri gelin.",
   "superchargeRewardsAvailable": "{{amount}} {{token}} almaya hak kazandınız!",
   "superchargeRewardsAvailableMultipleTokens": "{{amounts}} almaya hak kazandınız!",
-  "superchargeClaimText": "Ödüllerinizi alın ve bakiyenize ekleyin.",
+  "superchargeClaimText": "Ödüllerinizi alın ve bakiyenize ekleyin. Moola stabil kripto ile Supercharge'a katılırsanız, Moola tekrar çevrimiçi olduğunda tüm ödüllerinizi talep edebileceksiniz.",
   "superchargeClaimButton": "Ödüllerinizi Alın",
   "superchargeFetchRewardsFailed": "Bekleyen Supercharge ödüllerini alırken bir hata oluştu. Lütfen tekrar deneyin.",
   "superchargeClaimSuccess": "Supercharge ödülleriniz Toplam Bakiyenize eklendi.",
@@ -1318,7 +1318,7 @@
       "retryable": {
         "title": "Kimlik doğrulaması kabul edilmedi.",
         "description": "Lütfen tekrar doğrulayın veya fonları çekmek için farklı bir yol deneyin.",
-        "tryAgain": "Tekrar deneyin"
+        "tryAgain": "Tekrar doğrulayın"
       },
       "final": {
         "title": "Doğrulama reddedildi.",
@@ -1328,7 +1328,7 @@
     "expired": {
       "title": "Kimlik doğrulamasının süresi doldu.",
       "description": "Lütfen tekrar doğrulayın veya fonları çekmek için farklı bir yol deneyin.",
-      "tryAgain": "Tekrar deneyin",
+      "tryAgain": "Tekrar doğrulayın",
       "switch": "Para çekme yöntemini değiştir"
     },
     "tryAgainFailed": "KYC bilgileri silinirken bir hata oluştu. Lütfen tekrar deneyin"

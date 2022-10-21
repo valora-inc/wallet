@@ -19,6 +19,7 @@ exports[`ImportWallet renders correctly and is disabled with no text 1`] = `
       ]
     }
     keyboardShouldPersistTaps="always"
+    testID="KeyboardAwareScrollView"
   >
     <View>
       <View
@@ -291,6 +292,7 @@ exports[`ImportWallet renders correctly and is disabled with no text 1`] = `
       ]
     }
     swipeThreshold={100}
+    testID="ConfirmUseAccountDialog"
     transparent={true}
     visible={false}
   >
@@ -470,6 +472,7 @@ exports[`ImportWallet renders correctly and is disabled with no text 1`] = `
               onResponderTerminate={[Function]}
               onResponderTerminationRequest={[Function]}
               onStartShouldSetResponder={[Function]}
+              testID="ConfirmUseAccountDialog/SecondaryAction"
             >
               <Text
                 style={
@@ -507,6 +510,7 @@ exports[`ImportWallet renders correctly and is disabled with no text 1`] = `
               onResponderTerminate={[Function]}
               onResponderTerminationRequest={[Function]}
               onStartShouldSetResponder={[Function]}
+              testID="ConfirmUseAccountDialog/PrimaryAction"
             >
               <Text
                 style={

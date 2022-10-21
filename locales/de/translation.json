@@ -173,7 +173,7 @@
   "superchargingDescription": "Du erhältst jährlich {{apy}} %. Du erhältst jede Woche eine Benachrichtigung, wenn deine Rewards bereit sind – komm hierher zurück, um sie in Anspruch zu nehmen.",
   "superchargeRewardsAvailable": "Du hast {{amount}} {{token}} verfügbar zum Abholen!",
   "superchargeRewardsAvailableMultipleTokens": "Du hast {{amounts}} verfügbar zum Abholen!",
-  "superchargeClaimText": "Beanspruche deine Rewards, um sie deinem Guthaben hinzuzufügen.",
+  "superchargeClaimText": "Beanspruche deine Rewards, um sie deinem Guthaben hinzuzufügen. Wenn du mit Moola Stablecoins an Supercharge teilnimmst, kannst du alle deine Rewards einfordern, sobald Moola wieder online ist.",
   "superchargeClaimButton": "Rewards beanspruchen",
   "superchargeFetchRewardsFailed": "Fehler beim Abrufen ausstehender Supercharge-Rewards. Bitte versuche es später erneut.",
   "superchargeClaimSuccess": "Deine Supercharge-Rewards wurden deinem Gesamtguthaben hinzugefügt.",
@@ -1318,7 +1318,7 @@
       "retryable": {
         "title": "Die ID-Verifizierung wurde nicht akzeptiert.",
         "description": "Bitte überprüfe es noch einmal oder versuche einen anderen Weg, um Geld abzuheben.",
-        "tryAgain": "Erneut versuchen"
+        "tryAgain": "Nochmals überprüfen"
       },
       "final": {
         "title": "Verifizierung verweigert.",
@@ -1328,7 +1328,7 @@
     "expired": {
       "title": "Die ID-Überprüfung ist abgelaufen.",
       "description": "Bitte überprüfe es noch einmal oder versuche einen anderen Weg, um Geld abzuheben.",
-      "tryAgain": "Erneut versuchen",
+      "tryAgain": "Nochmals überprüfen",
       "switch": "Auszahlungsmethode wechseln"
     },
     "tryAgainFailed": "Beim Löschen der KYC-Informationen ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut"

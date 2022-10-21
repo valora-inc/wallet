@@ -173,7 +173,7 @@
   "superchargingDescription": "Você recebe {{apy}}% anualmente. Toda semana você receberá uma notificação avisando quando as suas recompensas estiverem pronta. Basta voltar aqui para resgatá-las.",
   "superchargeRewardsAvailable": "Você tem {{amount}} {{token}} disponíveis para resgatar!",
   "superchargeRewardsAvailableMultipleTokens": "Você tem {{amounts}} disponíveis para resgatar!",
-  "superchargeClaimText": "Resgate suas recompensas para adicioná-las ao seu saldo.",
+  "superchargeClaimText": "Resgate suas recompensas para adicioná-las ao seu saldo. Se você participar do Supercharge com stablecoins Moola, você poderá reclamar todas as suas recompensas quando o Moola estiver de volta on-line.",
   "superchargeClaimButton": "Resgatar recompensas",
   "superchargeFetchRewardsFailed": "Ocorreu um erro ao resgatar recompensas de Supercharge pendentes. Tente novamente mais tarde.",
   "superchargeClaimSuccess": "Suas recompensas de Supercharge foram adicionadas ao seu saldo total.",
@@ -1318,7 +1318,7 @@
       "retryable": {
         "title": "A verificação da identidade não foi aceita.",
         "description": "Verifique novamente ou tente uma forma diferente de sacar fundos.",
-        "tryAgain": "Tentar novamente"
+        "tryAgain": "Verificar novamente"
       },
       "final": {
         "title": "Verificação negada.",
@@ -1328,7 +1328,7 @@
     "expired": {
       "title": "A verificação da identidade expirou.",
       "description": "Verifique novamente ou tente uma forma diferente de sacar fundos.",
-      "tryAgain": "Tentar novamente",
+      "tryAgain": "Verificar novamente",
       "switch": "Trocar método de saque"
     },
     "tryAgainFailed": "Ocorreu um erro ao limpar as informações de Conheça o Seu Cliente (KYC). Tente novamente"
