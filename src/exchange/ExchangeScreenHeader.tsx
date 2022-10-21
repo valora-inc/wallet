@@ -13,6 +13,7 @@ import { HeaderTitleWithBalance, styles as headerStyles } from 'src/navigator/He
 import useSelector from 'src/redux/useSelector'
 import { balancesSelector } from 'src/stableToken/selectors'
 import colors from 'src/styles/colors'
+import variables from 'src/styles/variables'
 import { Currency, STABLE_CURRENCIES } from 'src/utils/currencies'
 
 interface Props {
@@ -76,7 +77,15 @@ function ExchangeTradeScreenHeader({ currency, isCeloPurchase, onChangeCurrency 
 
   return (
     <>
-      <CustomHeader left={<BackButton eventName={cancelEventName} />} title={title} />
+      <CustomHeader
+        left={
+          <BackButton
+            style={{ paddingLeft: variables.contentPadding }}
+            eventName={cancelEventName}
+          />
+        }
+        title={title}
+      />
       <TokenBottomSheetLegacy
         isVisible={showingTokenPicker}
         origin={TokenPickerOrigin.Exchange}
