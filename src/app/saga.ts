@@ -45,7 +45,6 @@ import {
 } from 'src/app/selectors'
 import { CreateAccountCopyTestType, InviteMethodType, SuperchargeButtonType } from 'src/app/types'
 import { runVerificationMigration } from 'src/app/verificationMigration'
-import { WEB_LINK } from 'src/brandingConfig'
 import { DYNAMIC_LINK_DOMAIN_URI_PREFIX, FETCH_TIMEOUT_DURATION } from 'src/config'
 import { SuperchargeTokenConfigByToken } from 'src/consumerIncentives/types'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
@@ -271,7 +270,8 @@ function convertQueryToScreenParams(query: string) {
 }
 
 export function* handleDeepLink(action: OpenDeepLink) {
-  const { deepLink, isSecureOrigin } = action
+  let { deepLink } = action
+  const { isSecureOrigin } = action
   Logger.debug(TAG, 'Handling deep link', deepLink)
 
   if (isWalletConnectDeepLink(deepLink)) {
@@ -279,26 +279,18 @@ export function* handleDeepLink(action: OpenDeepLink) {
     return
   }
 
+  // Try resolve dynamic links
+  if (deepLink.startsWith(DYNAMIC_LINK_DOMAIN_URI_PREFIX)) {
+    const resolvedDynamicLink: string | null = yield call(resolveDynamicLink, deepLink)
+    if (resolvedDynamicLink) {
+      deepLink = resolvedDynamicLink
+    }
+  }
+
   const rawParams = parse(deepLink)
   if (rawParams.path) {
-    if (
-      rawParams.hostname === new URL(DYNAMIC_LINK_DOMAIN_URI_PREFIX).hostname ||
-      rawParams.hostname === new URL(WEB_LINK).hostname
-    ) {
-      // android resolves dynamic links to the `link`, iOS receives the plain
-      // dynamic link
-      const dynamicLink =
-        rawParams.hostname === new URL(WEB_LINK).hostname
-          ? rawParams.href
-          : yield call(resolveDynamicLink, rawParams.href)
-      const pathParts = dynamicLink ? new URL(dynamicLink).pathname.split('/') : []
-
-      if (pathParts.length === 3 && pathParts[1] === 'share') {
-        ValoraAnalytics.track(InviteEvents.opened_via_invite_url, {
-          inviterAddress: pathParts[2],
-        })
-      }
-    } else if (rawParams.path.startsWith('/v/')) {
+    const pathParts = rawParams.path.split('/')
+    if (rawParams.path.startsWith('/v/')) {
       yield put(receiveAttestationMessage(rawParams.path.substr(3), CodeInputType.DEEP_LINK))
     } else if (rawParams.path.startsWith('/payment')) {
       // TODO: contact our merchant partner and come up
@@ -324,6 +316,10 @@ export function* handleDeepLink(action: OpenDeepLink) {
       // of our own notifications for security reasons.
       const params = convertQueryToScreenParams(rawParams.query)
       navigate(params.screen as keyof StackParamList, params)
+    } else if (pathParts.length === 3 && pathParts[1] === 'share') {
+      ValoraAnalytics.track(InviteEvents.opened_via_invite_url, {
+        inviterAddress: pathParts[2],
+      })
     }
   }
 }
