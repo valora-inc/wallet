@@ -29,7 +29,7 @@ import TextButton from 'src/components/TextButton'
 import { isE2EEnv, WEB_LINK } from 'src/config'
 import i18n from 'src/i18n'
 import { setHasSeenVerificationNux, startVerification } from 'src/identity/actions'
-import { HeaderTitleWithSubtitle, onboardingHeaderOptions } from 'src/navigator/Headers'
+import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
@@ -439,7 +439,7 @@ function VerificationEducationScreenDecentralized({ route, navigation }: Props) 
   )
 }
 
-VerificationEducationScreen.navigationOptions = onboardingHeaderOptions
+VerificationEducationScreen.navigationOptions = nuxNavigationOptions
 
 const styles = StyleSheet.create({
   container: {

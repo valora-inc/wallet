@@ -44,18 +44,6 @@ export const styles = StyleSheet.create({
   },
 })
 
-export const onboardingHeaderOptions: NativeStackNavigationOptions = {
-  headerShown: true,
-  headerTransparent: true,
-  headerBackVisible: false,
-  headerLeft: ({ canGoBack }) => (canGoBack ? <BackButton /> : <View />),
-  headerRight: () => <View />,
-  headerTitle: () => <DisconnectBanner />,
-  headerStyle: {
-    backgroundColor: colors.onboardingBackground,
-  },
-}
-
 export const nuxNavigationOptions: NativeStackNavigationOptions = {
   headerShown: true,
   headerTransparent: true,
@@ -63,23 +51,13 @@ export const nuxNavigationOptions: NativeStackNavigationOptions = {
   headerLeft: ({ canGoBack }) => (canGoBack ? <BackButton /> : <View />),
   headerRight: () => <View />,
   headerTitle: () => <DisconnectBanner />,
-  // headerTitleContainerStyle: {
-  //   alignItems: 'center',
-  //   flex: 1,
-  //   justifyContent: 'center',
-  // },
   headerStyle: {
-    backgroundColor: colors.light,
+    backgroundColor: 'transparent',
   },
 }
 
 export const nuxNavigationOptionsNoBackButton: NativeStackNavigationOptions = {
   ...nuxNavigationOptions,
-  headerLeft: () => <View />,
-}
-
-export const onboardingHeaderOptionsNoBackButton: NativeStackNavigationOptions = {
-  ...onboardingHeaderOptions,
   headerLeft: () => <View />,
 }
 

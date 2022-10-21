@@ -22,7 +22,7 @@ import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import DevSkipButton from 'src/components/DevSkipButton'
 import FormInput from 'src/components/FormInput'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
-import { HeaderTitleWithSubtitle, onboardingHeaderOptions } from 'src/navigator/Headers'
+import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
@@ -265,7 +265,7 @@ function NameAndPicture({ navigation, route }: Props) {
   )
 }
 
-NameAndPicture.navOptions = onboardingHeaderOptions
+NameAndPicture.navOptions = nuxNavigationOptions
 
 export default NameAndPicture
 

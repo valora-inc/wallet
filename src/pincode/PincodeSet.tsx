@@ -20,11 +20,7 @@ import {
 import DevSkipButton from 'src/components/DevSkipButton'
 import i18n, { withTranslation } from 'src/i18n'
 import { setHasSeenVerificationNux } from 'src/identity/actions'
-import {
-  HeaderTitleWithSubtitle,
-  nuxNavigationOptions,
-  onboardingHeaderOptions,
-} from 'src/navigator/Headers'
+import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
 import { navigate, navigateClearingStack, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -95,14 +91,13 @@ export class PincodeSet extends React.Component<Props, State> {
     const changePin = route.params?.changePin
     const showGuidedOnboarding = route.params?.showGuidedOnboarding
     let title = i18n.t('pincodeSet.create')
-    const navOptions = changePin ? nuxNavigationOptions : onboardingHeaderOptions
     if (changePin) {
       title = i18n.t('pincodeSet.changePIN')
     } else if (showGuidedOnboarding) {
       title = i18n.t('pincodeSet.selectPIN')
     }
     return {
-      ...navOptions,
+      ...nuxNavigationOptions,
       headerTitle: () => (
         <HeaderTitleWithSubtitle
           title={title}
