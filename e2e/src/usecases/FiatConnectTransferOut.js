@@ -96,6 +96,7 @@ export const fiatConnectNonKycTransferOut = () => {
     await waitFor(element(by.text('Your funds are on their way!')))
       .toBeVisible()
       .withTimeout(10000)
+    await expect(element(by.id('Continue'))).toBeVisible()
     await element(by.id('Continue')).tap()
 
     // WalletHome
