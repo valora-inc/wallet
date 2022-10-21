@@ -281,13 +281,16 @@ export function* handleDeepLink(action: OpenDeepLink) {
 
   const rawParams = parse(deepLink)
   if (rawParams.path) {
-    // android resolves dynamic links to the `link`, iOS handles the plain
-    // dynamic link
     if (
       rawParams.hostname === new URL(DYNAMIC_LINK_DOMAIN_URI_PREFIX).hostname ||
       rawParams.hostname === new URL(WEB_LINK).hostname
     ) {
-      const dynamicLink = yield call(resolveDynamicLink, rawParams.href)
+      // android resolves dynamic links to the `link`, iOS receives the plain
+      // dynamic link
+      const dynamicLink =
+        rawParams.hostname === new URL(WEB_LINK).hostname
+          ? rawParams.href
+          : yield call(resolveDynamicLink, rawParams.href)
       const pathParts = dynamicLink ? new URL(dynamicLink).pathname.split('/') : []
 
       if (pathParts.length === 3 && pathParts[1] === 'share') {

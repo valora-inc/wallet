@@ -143,9 +143,7 @@ describe('handleDeepLink', () => {
 
   it('Handles long share deep link', async () => {
     const deepLink = 'https://celo.org/share/abc123'
-    await expectSaga(handleDeepLink, openDeepLink(deepLink))
-      .provide([[call(resolveDynamicLink, deepLink), deepLink]])
-      .run()
+    await expectSaga(handleDeepLink, openDeepLink(deepLink)).run()
 
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(InviteEvents.opened_via_invite_url, {
@@ -156,7 +154,7 @@ describe('handleDeepLink', () => {
   it('Handles short share deep link', async () => {
     const deepLink = 'https://vlra.app/someShortLink'
     await expectSaga(handleDeepLink, openDeepLink(deepLink))
-      .provide([[call(resolveDynamicLink, deepLink), 'https://valoraapp.com/share/abc123']])
+      .provide([[call(resolveDynamicLink, deepLink), 'https://celo.org/share/abc123']])
       .run()
 
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
