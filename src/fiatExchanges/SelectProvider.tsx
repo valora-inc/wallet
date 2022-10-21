@@ -310,7 +310,8 @@ function ExchangesSection({
   exchanges = [],
   flow,
   selectedCurrency,
-}: {
+}: // TODO add other provider metadata to pass thru to select exchanges track event
+{
   exchanges: ExternalExchangeProvider[]
   flow: CICOFlow
   selectedCurrency: Currency
@@ -355,7 +356,8 @@ function LegacyMobileMoneySection({
   providers,
   digitalAsset,
   flow,
-}: {
+}: // TODO add other provider metadata to pass thru to select quote track event
+{
   providers: LegacyMobileMoneyProvider[]
   digitalAsset: CiCoCurrency
   flow: CICOFlow

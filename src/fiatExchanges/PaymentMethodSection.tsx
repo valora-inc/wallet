@@ -25,7 +25,8 @@ export function PaymentMethodSection({
   normalizedQuotes,
   setNoPaymentMethods,
   flow,
-}: PaymentMethodSectionProps) {
+}: // TODO add other provider metadata to pass thru to select quote track event
+PaymentMethodSectionProps) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const sectionQuotes = normalizedQuotes.filter(

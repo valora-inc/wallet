@@ -8,6 +8,8 @@ import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import Logger from 'src/utils/Logger'
 import networkConfig from 'src/web3/networkConfig'
+import NormalizedQuote from './quotes/NormalizedQuote'
+import BigNumber from 'bignumber.js'
 
 const TAG = 'fiatExchanges:utils'
 
@@ -64,6 +66,7 @@ export interface RawProviderQuote {
   returnedAmount: number
   fiatFee: number
 }
+
 export interface LegacyMobileMoneyProvider {
   name: string
   celo: {
@@ -290,4 +293,50 @@ export const filterProvidersByPaymentMethod = (
   externalProviders: FetchProvidersOutput[] | undefined
 ) => {
   return externalProviders?.find((quote) => quote.paymentMethods.includes(paymentMethod))
+}
+
+export function getQuoteSelectionAnalyticsData({
+  normalizedQuotes,
+  legacyMobileMoneyProviders,
+  exchangeRates,
+}: {
+  normalizedQuotes: NormalizedQuote[]
+  legacyMobileMoneyProviders: LegacyMobileMoneyProvider[]
+  exchangeRates: { [token in Currency]: string | null }
+}) {
+  // TODO boolean for if centralized exchanges shown as option
+
+  let lowestFeePaymentMethod: PaymentMethod | undefined = undefined
+  let lowestFeeProvider: string | undefined = undefined
+  let lowestFeeCrypto: BigNumber | null = null
+  let lowestFeeKycRequired: boolean | undefined = undefined
+  const providersAvailable = new Set(legacyMobileMoneyProviders.map((provider) => provider.name))
+  const paymentMethodsAvailable: Record<PaymentMethod, boolean> = {
+    [PaymentMethod.Bank]: false,
+    [PaymentMethod.Card]: false,
+    [PaymentMethod.MobileMoney]: false,
+    [PaymentMethod.Coinbase]: false,
+    [PaymentMethod.MobileMoney]: legacyMobileMoneyProviders.length > 0,
+  }
+
+  for (const quote of normalizedQuotes) {
+    providersAvailable.add(quote.getProviderId())
+    paymentMethodsAvailable[quote.getPaymentMethod()] = true
+    const fee = quote.getFeeInCrypto(exchangeRates)
+    if (fee && (lowestFeeCrypto === null || fee.isLessThan(lowestFeeCrypto))) {
+      lowestFeeCrypto = fee
+      lowestFeePaymentMethod = quote.getPaymentMethod()
+      lowestFeeProvider = quote.getProviderId()
+      lowestFeeKycRequired = !!quote.getKycInfo()
+    }
+  }
+
+  return {
+    paymentMethodsAvailable,
+    lowestFeePaymentMethod,
+    lowestFeeProvider,
+    lowestFeeKycRequired,
+    providersAvailable: providersAvailable.size,
+    lowestFeeCrypto: lowestFeeCrypto?.toFixed(2) ?? undefined,
+  }
 }
