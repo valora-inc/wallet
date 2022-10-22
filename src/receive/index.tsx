@@ -33,7 +33,7 @@ import {
   useTokenToLocalAmount,
 } from 'src/tokens/hooks'
 import { fetchTokenBalances } from 'src/tokens/reducer'
-import { defaultTokenToSendSelector } from 'src/tokens/selectors'
+import { defaultTokenToReceiveSelector } from 'src/tokens/selectors'
 import { currentAccountSelector } from 'src/web3/selectors'
 
 const MAX_ESCROW_VALUE = new BigNumber(20)
@@ -94,7 +94,7 @@ function ReceiveAmount(props: Props) {
   const [amount, setAmount] = useState('')
   const [rawAmount, setRawAmount] = useState('')
   const [usingLocalAmount, setUsingLocalAmount] = useState(true)
-  const defaultToken = useSelector(defaultTokenToSendSelector)
+  const defaultToken = useSelector(defaultTokenToReceiveSelector)
   const [transferTokenAddress, setTransferToken] = useState(defaultToken)
   const [reviewButtonPressed, setReviewButtonPressed] = useState(false)
   const tokenInfo = useTokenInfo(transferTokenAddress)!

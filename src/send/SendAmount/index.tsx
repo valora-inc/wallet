@@ -156,7 +156,7 @@ function SendAmount(props: Props) {
   } = props.route.params
   const [amount, setAmount] = useState(forceInputAmount ?? '')
   const [rawAmount, setRawAmount] = useState(forceInputAmount ?? '')
-  const [usingLocalAmount, setUsingLocalAmount] = useState(true)
+  const [usingLocalAmount, setUsingLocalAmount] = useState(!isFromScan && !forceInputAmount)
   const defaultToken = useSelector(defaultTokenToSendSelector)
   const inviteTokens = useSelector(stablecoinsSelector)
   const [transferTokenAddress, setTransferToken] = useState(forceTokenAddress ?? defaultToken)
@@ -199,7 +199,7 @@ function SendAmount(props: Props) {
   }
   const onSwapInput = () => {
     onAmountChange('')
-    setUsingLocalAmount(!usingLocalAmount)
+    if (!forceInputAmount) setUsingLocalAmount(!usingLocalAmount)
     ValoraAnalytics.track(SendEvents.swap_input_pressed, {
       tokenAddress: transferTokenAddress,
       swapToLocalAmount: !usingLocalAmount,

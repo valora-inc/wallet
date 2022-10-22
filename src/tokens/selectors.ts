@@ -36,6 +36,20 @@ export const tokensByAddressSelector = createSelector(
   }
 )
 
+export const kGuilderTokenSelector = createSelector(
+  (state: RootState) => state.tokens.tokenBalances,
+  (tokensInfo) => {
+    const tokens: TokenBalance = {}
+    for (const [tokenAddress, storedState] of Object.entries(tokensInfo)) {
+      if (!storedState || storedState.symbol !== 'kG') continue
+      tokens[tokenAddress] = {
+        ...storedState,
+      }
+    }
+    return Object.values(tokens).map((token) => token!)
+  }
+)
+
 export const tokensListSelector = createSelector(tokensByAddressSelector, (tokens) => {
   return Object.values(tokens).map((token) => token!)
 })
@@ -86,6 +100,13 @@ export const tokensByCurrencySelector = createSelector(tokensListSelector, (toke
     [Currency.Euro]: cEurTokenInfo,
     [Currency.Celo]: celoTokenInfo,
   }
+})
+
+export const defaultTokenToReceiveSelector = createSelector(kGuilderTokenSelector, (tokens) => {
+  if (tokens.length === 0) {
+    return tokens.find((token) => token.symbol === 'kG')?.address ?? ''
+  }
+  return tokens[0].address
 })
 
 // Returns the token with the highest usd balance to use as default.

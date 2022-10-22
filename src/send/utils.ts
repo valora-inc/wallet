@@ -207,7 +207,7 @@ export function* handleSendPaymentData(
   const tokenInfo = tokens.find((token) => token?.symbol === (data.token ?? Currency.Dollar))
 
   navigate(Screens.SendAmount, {
-    forceInputAmount: data.amount,
+    forceInputAmount: data.amount > 0 ? data.amount : undefined,
     recipient,
     isFromScan,
     isOutgoingPaymentRequest,
