@@ -37,7 +37,9 @@ export const fetchStableBalances = (): FetchBalanceAction => ({
 })
 
 export const setBalance = (
-  balances: { [currency in StableCurrency]: string | null }
+  balances: {
+    [currency in StableCurrency]: string | null
+  }
 ): SetBalanceAction => ({
   type: Actions.SET_BALANCE,
   balances,

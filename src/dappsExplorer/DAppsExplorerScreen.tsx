@@ -38,8 +38,7 @@ import colors, { Colors } from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Shadow, Spacing } from 'src/styles/styles'
 
-// @ts-ignore
-const AnimatedSectionList = Animated.createAnimatedComponent<SectionListProps<ItemT, SectionT>>(
+const AnimatedSectionList = Animated.createAnimatedComponent<SectionListProps<ItemT, SectionT>>( // @ts-ignore
   SectionList
 )
 

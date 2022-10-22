@@ -25,7 +25,9 @@ export function verifyWalletAddress({
   walletAddress,
 }: {
   walletAddress: string | null
-}): { walletAddress: string } {
+}): {
+  walletAddress: string
+} {
   if (!walletAddress) {
     throw new Error('Cannot call IHL because walletAddress is null')
   }
