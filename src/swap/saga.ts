@@ -54,12 +54,8 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
 
     // Check that our guaranteedPrice is within 2%, maxSwapSlippagePercentage, of of the price
     const maxSlippagePercent: number = yield select(maxSwapSlippagePercentageSelector)
-    const {
-      price,
-      guaranteedPrice,
-      buyTokenAddress,
-      sellTokenAddress,
-    } = action.payload.unvalidatedSwapTransaction
+    const { price, guaranteedPrice, buyTokenAddress, sellTokenAddress } =
+      action.payload.unvalidatedSwapTransaction
     const priceDiff: number = yield call(getPercentageDifference, +price, +guaranteedPrice)
     if (priceDiff >= maxSlippagePercent) {
       yield put(swapPriceChange())

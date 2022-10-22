@@ -70,13 +70,8 @@ function mapStandbyTransactionToFeedTokenTransaction(tx: StandbyTransaction): Fe
 }
 
 function TransactionFeed() {
-  const {
-    loading,
-    error,
-    transactions,
-    fetchingMoreTransactions,
-    fetchMoreTransactions,
-  } = useFetchTransactions()
+  const { loading, error, transactions, fetchingMoreTransactions, fetchMoreTransactions } =
+    useFetchTransactions()
 
   const cachedTransactions = useSelector(transactionsSelector)
 
