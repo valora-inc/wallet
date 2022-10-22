@@ -5,6 +5,7 @@ import {
   Image,
   SectionList,
   SectionListData,
+  SectionListProps,
   StyleSheet,
   Text,
   View,
@@ -37,7 +38,8 @@ import colors, { Colors } from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Shadow, Spacing } from 'src/styles/styles'
 
-const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
+const AnimatedSectionList =
+  Animated.createAnimatedComponent<SectionListProps<Dapp, SectionData>>(SectionList)
 
 const SECTION_HEADER_MARGIN_TOP = 32
 
