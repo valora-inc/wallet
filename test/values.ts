@@ -247,7 +247,7 @@ export const mockRecipientWithPhoneNumber: MobileRecipient = {
   e164PhoneNumber: mockE164Number,
 }
 
-export const mockNavigation: StackNavigationProp<StackParamList, any> = ({
+export const mockNavigation: StackNavigationProp<StackParamList, any> = {
   navigate: jest.fn(),
   reset: jest.fn(),
   goBack: jest.fn(),
@@ -257,7 +257,7 @@ export const mockNavigation: StackNavigationProp<StackParamList, any> = ({
   isFocused: jest.fn(),
   addListener: jest.fn(),
   removeListener: jest.fn(),
-} as unknown) as StackNavigationProp<StackParamList, any>
+} as unknown as StackNavigationProp<StackParamList, any>
 
 export const mockAddressToE164Number: AddressToE164NumberType = {
   [mockAccount]: mockE164Number,
@@ -272,8 +272,7 @@ export const mockE164NumberToAddress: E164NumberToAddressType = {
 }
 
 export const mockAttestationMessage: AttestationCode = {
-  code:
-    'ab8049b95ac02e989aae8b61fddc10fe9b3ac3c6aebcd3e68be495570b2d3da15aabc691ab88de69648f988fab653ac943f67404e532cfd1013627f56365f36501',
+  code: 'ab8049b95ac02e989aae8b61fddc10fe9b3ac3c6aebcd3e68be495570b2d3da15aabc691ab88de69648f988fab653ac943f67404e532cfd1013627f56365f36501',
   issuer: '848920b14154b6508b8d98e7ee8159aa84b579a4',
 }
 
@@ -575,8 +574,7 @@ export const mockProviders: FetchProvidersOutput[] = [
     restricted: false,
     unavailable: false,
     paymentMethods: [PaymentMethod.Card],
-    logo:
-      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
+    logo: 'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
     logoWide:
       'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
     cashIn: true,
@@ -588,8 +586,7 @@ export const mockProviders: FetchProvidersOutput[] = [
     restricted: false,
     paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
     url: 'https://www.moonpay.com/',
-    logo:
-      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fmoonpay.png?alt=media',
+    logo: 'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fmoonpay.png?alt=media',
     logoWide:
       'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
     cashIn: true,
@@ -604,8 +601,7 @@ export const mockProviders: FetchProvidersOutput[] = [
     restricted: false,
     paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
     url: 'www.fakewebsite.com',
-    logo:
-      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Framp.png?alt=media',
+    logo: 'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Framp.png?alt=media',
     logoWide:
       'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
     quote: [
@@ -619,8 +615,7 @@ export const mockProviders: FetchProvidersOutput[] = [
     restricted: true,
     paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
     url: 'www.fakewebsite.com',
-    logo:
-      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fxanpool.png?alt=media',
+    logo: 'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fxanpool.png?alt=media',
     logoWide:
       'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
     cashIn: true,
@@ -635,8 +630,7 @@ export const mockProviders: FetchProvidersOutput[] = [
     unavailable: true,
     paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
     url: 'www.fakewebsite.com',
-    logo:
-      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Ftransak.png?alt=media',
+    logo: 'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Ftransak.png?alt=media',
     logoWide:
       'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
     cashIn: true,
@@ -652,8 +646,7 @@ export const mockProviders: FetchProvidersOutput[] = [
     unavailable: false,
     paymentMethods: [PaymentMethod.Coinbase],
     url: undefined,
-    logo:
-      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2FcbPay-button.png?alt=media',
+    logo: 'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2FcbPay-button.png?alt=media',
     logoWide:
       'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2FcbPay-button.png?alt=media',
     quote: undefined,

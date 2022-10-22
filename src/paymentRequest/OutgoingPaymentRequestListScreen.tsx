@@ -36,25 +36,27 @@ const mapStateToProps = (state: RootState): StateProps => ({
 
 type Props = WithTranslation & StateProps & DispatchProps
 
-export const listItemRenderer = (params: {
-  recipientInfo: RecipientInfo
-  cancelPaymentRequest: typeof cancelPaymentRequest
-  updatePaymentRequestNotified: typeof updatePaymentRequestNotified
-}) => (request: PaymentRequest, key: number | undefined = undefined) => {
-  const requestee = getRecipientFromAddress(request.requesteeAddress, params.recipientInfo)
-  return (
-    <View key={key}>
-      <OutgoingPaymentRequestListItem
-        id={request.uid || ''}
-        amount={request.amount}
-        requestee={requestee}
-        comment={request.comment}
-        cancelPaymentRequest={params.cancelPaymentRequest}
-        updatePaymentRequestNotified={params.updatePaymentRequestNotified}
-      />
-    </View>
-  )
-}
+export const listItemRenderer =
+  (params: {
+    recipientInfo: RecipientInfo
+    cancelPaymentRequest: typeof cancelPaymentRequest
+    updatePaymentRequestNotified: typeof updatePaymentRequestNotified
+  }) =>
+  (request: PaymentRequest, key: number | undefined = undefined) => {
+    const requestee = getRecipientFromAddress(request.requesteeAddress, params.recipientInfo)
+    return (
+      <View key={key}>
+        <OutgoingPaymentRequestListItem
+          id={request.uid || ''}
+          amount={request.amount}
+          requestee={requestee}
+          comment={request.comment}
+          cancelPaymentRequest={params.cancelPaymentRequest}
+          updatePaymentRequestNotified={params.updatePaymentRequestNotified}
+        />
+      </View>
+    )
+  }
 
 const OutgoingPaymentRequestListScreen = (props: Props) => {
   return (

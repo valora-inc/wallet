@@ -21,11 +21,9 @@ export const AUTH_COOKIE = 'FIATCONNECT-PROVIDER-COOKIE'
  * @param {string | null} params.walletAddress - Wallet address to check.
  * @returns {{walletAddress: string}} The wallet address.
  */
-export function verifyWalletAddress({
-  walletAddress,
-}: {
-  walletAddress: string | null
-}): { walletAddress: string } {
+export function verifyWalletAddress({ walletAddress }: { walletAddress: string | null }): {
+  walletAddress: string
+} {
   if (!walletAddress) {
     throw new Error('Cannot call IHL because walletAddress is null')
   }

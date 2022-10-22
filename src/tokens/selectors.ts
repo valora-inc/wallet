@@ -46,17 +46,22 @@ export const tokensListSelector = createSelector(tokensByAddressSelector, (token
   return Object.values(tokens).map((token) => token!)
 })
 
-export const tokensBySymbolSelector = createSelector(tokensListSelector, (tokens): {
-  [symbol: string]: TokenBalance
-} => {
-  return tokens.reduce(
-    (acc, token) => ({
-      ...acc,
-      [token.symbol]: token,
-    }),
-    {}
-  )
-})
+export const tokensBySymbolSelector = createSelector(
+  tokensListSelector,
+  (
+    tokens
+  ): {
+    [symbol: string]: TokenBalance
+  } => {
+    return tokens.reduce(
+      (acc, token) => ({
+        ...acc,
+        [token.symbol]: token,
+      }),
+      {}
+    )
+  }
+)
 
 export const tokensWithUsdValueSelector = createSelector(tokensListSelector, (tokens) => {
   return tokens.filter((tokenInfo) =>

@@ -542,13 +542,11 @@ export function* fetchOrDeployMtwSaga() {
         // if a wallet was already deployed in a session. This is only fatal if
         // we can't recover the MTW address or there is no quota left on the session
         try {
-          const deployWalletResult: Result<
-            string,
-            FetchError | TxError | InvalidWallet
-          > = yield call(
-            [komenciKit, komenciKit.deployWallet],
-            networkConfig.currentMtwImplementationAddress
-          )
+          const deployWalletResult: Result<string, FetchError | TxError | InvalidWallet> =
+            yield call(
+              [komenciKit, komenciKit.deployWallet],
+              networkConfig.currentMtwImplementationAddress
+            )
 
           if (!deployWalletResult.ok) {
             Logger.debug(TAG, '@fetchOrDeployMtw', 'Unable to deploy MTW')

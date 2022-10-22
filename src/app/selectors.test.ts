@@ -180,9 +180,9 @@ describe('registrationStepsSelector', () => {
       [Screens.VerificationInputScreen]: 3,
     }
 
-    ;(Object.keys(expectedCreateAccountSteps) as Array<
-      keyof typeof expectedCreateAccountSteps
-    >).forEach((screen) => {
+    ;(
+      Object.keys(expectedCreateAccountSteps) as Array<keyof typeof expectedCreateAccountSteps>
+    ).forEach((screen) => {
       expect(
         registrationStepsSelectorWithMockStore(screen, {
           app: {
