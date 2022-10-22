@@ -106,6 +106,7 @@ export type QuotesInput = {
   digitalAsset: CiCoCurrency
   cryptoAmount: number
   country: string
+  address: string
 }
 
 export type GetFiatConnectQuotesResponse = {
@@ -127,7 +128,15 @@ export type FiatConnectQuoteSuccess = {
 export async function getFiatConnectQuotes(
   params: QuotesInput
 ): Promise<(FiatConnectQuoteSuccess | FiatConnectQuoteError)[]> {
-  const { fiatConnectProviders, localCurrency, digitalAsset, cryptoAmount, country, flow } = params
+  const {
+    fiatConnectProviders,
+    localCurrency,
+    digitalAsset,
+    cryptoAmount,
+    country,
+    flow,
+    address,
+  } = params
   const fiatType = convertToFiatConnectFiatCurrency(localCurrency)
   if (!fiatType) return []
   const cryptoType = convertToFiatConnectCryptoCurrency(digitalAsset)
@@ -136,6 +145,7 @@ export async function getFiatConnectQuotes(
     cryptoType,
     cryptoAmount: cryptoAmount.toString(),
     country,
+    address,
   }
   const providers = fiatConnectProviders.map((provider) => provider.id).join(',')
   const queryParams = new URLSearchParams({
