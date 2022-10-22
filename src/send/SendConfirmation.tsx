@@ -261,7 +261,8 @@ function SendConfirmation(props: Props) {
         comment,
         recipient,
         feeEstimate.feeInfo,
-        fromModal
+        fromModal,
+        localAmount
       )
     )
   }

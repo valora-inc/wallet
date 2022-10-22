@@ -1,9 +1,60 @@
 import * as React from 'react'
-import Svg, { Ellipse, G, Path } from 'react-native-svg'
+import Svg, { Path } from 'react-native-svg'
 import Colors from 'src/styles/colors'
+import { G, Mask } from 'svgs'
 
-const Wallet = ({ size = 24, color = Colors.dark as string }) => {
+const Wallet = ({ focused = false, size = 24, color = Colors.dark as string }) => {
   const width = Math.floor((86 / 81) * size)
+
+  if (!focused) {
+    return (
+      <Svg width={width} height={size} viewBox="0 0 33 32" fill="none">
+        <Path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M31.656 21.168H25.2467C22.2431 21.168 19.7985 18.7249 19.7969 15.7229C19.7969 12.7177 22.2415 10.2731 25.2467 10.2715H31.656C32.3115 10.2715 32.8435 10.8035 32.8435 11.459C32.8435 12.1145 32.3115 12.6465 31.656 12.6465H25.2467C23.551 12.6481 22.1719 14.0272 22.1719 15.7213C22.1719 17.4139 23.5525 18.793 25.2467 18.793H31.656C32.3115 18.793 32.8435 19.325 32.8435 19.9805C32.8435 20.636 32.3115 21.168 31.656 21.168Z"
+          fill={color}
+        />
+        <Path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M25.9706 16.811H25.4766C24.8211 16.811 24.2891 16.279 24.2891 15.6235C24.2891 14.968 24.8211 14.436 25.4766 14.436H25.9706C26.6261 14.436 27.1581 14.968 27.1581 15.6235C27.1581 16.279 26.6261 16.811 25.9706 16.811Z"
+          fill={color}
+        />
+        <Mask
+          id="mask0_1853_37435"
+          style="mask-type:alpha"
+          maskUnits="userSpaceOnUse"
+          x="0"
+          y="0"
+          width="33"
+          height="32"
+        >
+          <Path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M0.166016 0.75H32.8438V31.1071H0.166016V0.75Z"
+            fill="white"
+          />
+        </Mask>
+        <G mask="url(#mask0_1853_37435)">
+          <Path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M9.66273 3.125C5.73606 3.125 2.54089 6.32017 2.54089 10.2468V21.6104C2.54089 25.5371 5.73606 28.7323 9.66273 28.7323H23.3491C27.2757 28.7323 30.4693 25.5371 30.4693 21.6104V10.2468C30.4693 6.32017 27.2757 3.125 23.3491 3.125H9.66273ZM23.3492 31.1073H9.66285C4.42677 31.1073 0.166016 26.8465 0.166016 21.6104V10.2468C0.166016 5.00917 4.42677 0.75 9.66285 0.75H23.3492C28.5853 0.75 32.8444 5.00917 32.8444 10.2468V21.6104C32.8444 26.8465 28.5853 31.1073 23.3492 31.1073Z"
+            fill={color}
+          />
+        </G>
+        <Path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M17.0816 10.3105H8.5332C7.8777 10.3105 7.3457 9.77855 7.3457 9.12305C7.3457 8.46755 7.8777 7.93555 8.5332 7.93555H17.0816C17.7371 7.93555 18.2691 8.46755 18.2691 9.12305C18.2691 9.77855 17.7371 10.3105 17.0816 10.3105Z"
+          fill={color}
+        />
+      </Svg>
+    )
+  }
+  color = Colors.black
   return (
     <Svg width={width} height={size} viewBox="0 0 32 30" fill="none">
       <Path

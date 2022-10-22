@@ -67,7 +67,7 @@ const TransactionSent = ({ route }: Props) => {
           <View style={[styles.group]}>
             <View style={[styles.label]}></View>
             <Text style={[styles.line]}>
-              {tokenAmount.toString()} {tokenInfo?.symbol}
+              {tokenAmount.toFormat(2)} {tokenInfo?.symbol}
             </Text>
           </View>
         )}

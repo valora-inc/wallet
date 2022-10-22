@@ -34,6 +34,7 @@ export enum Colors2 {
 }
 
 export enum Colors {
+  black = '#000000',
   // greenFaint = '#97DFC1', // green disabled
   // greenBrand = '#42D689',
   // greenUI = '#1AB775',

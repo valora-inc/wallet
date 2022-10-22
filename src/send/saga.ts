@@ -386,6 +386,7 @@ export function* sendPaymentOrInviteSaga({
   recipient,
   feeInfo,
   fromModal,
+  localAmount,
 }: SendPaymentOrInviteAction) {
   try {
     yield call(getConnectedUnlockedAccount)
@@ -410,9 +411,9 @@ export function* sendPaymentOrInviteSaga({
       navigate(Screens.TransactionSent, {
         transactionData: {
           recipient,
-          inputAmount: usdAmount ?? amount,
+          inputAmount: localAmount ?? amount,
           tokenAddress,
-          amountIsInLocalCurrency: !!usdAmount,
+          amountIsInLocalCurrency: !!localAmount,
           tokenAmount: amount,
         },
       })

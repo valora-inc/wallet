@@ -59,6 +59,7 @@ export interface SendPaymentOrInviteAction {
   recipient: Recipient
   feeInfo: FeeInfo
   fromModal: boolean
+  localAmount: BigNumber | null
 }
 
 export interface SendPaymentOrInviteSuccessAction {

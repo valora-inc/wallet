@@ -1,8 +1,21 @@
 import * as React from 'react'
 import Svg, { G, Path } from 'react-native-svg'
-import colors from 'src/styles/colors'
+import Colors from 'src/styles/colors'
 
-function Pin({ size = 25, color = colors.gray5 as string }) {
+function Pin({ focused = false, size = 25, color = Colors.black as string }) {
+  if (focused) {
+    color = Colors.black
+    return (
+      <Svg width={size} height={size} viewBox="0 0 30 34" fill="none">
+        <Path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M0.833984 14.1964C0.833984 6.52998 7.24045 0.333496 14.9897 0.333496C22.7608 0.333496 29.1673 6.52998 29.1673 14.1964C29.1673 18.0596 27.7623 21.6462 25.4498 24.6861C22.8987 28.0394 19.7542 30.9609 16.2149 33.2542C15.4048 33.7842 14.6738 33.8242 13.7847 33.2542C10.2252 30.9609 7.0808 28.0394 4.55148 24.6861C2.23729 21.6462 0.833984 18.0596 0.833984 14.1964ZM10.3236 14.6283C10.3236 17.1965 12.4193 19.2165 14.9889 19.2165C17.5603 19.2165 19.6761 17.1965 19.6761 14.6283C19.6761 12.08 17.5603 9.96175 14.9889 9.96175C12.4193 9.96175 10.3236 12.08 10.3236 14.6283Z"
+          fill={color}
+        />
+      </Svg>
+    )
+  }
   return (
     <Svg width={size} height={size} viewBox="0 0 95 107">
       <G id="Kolektivo" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
