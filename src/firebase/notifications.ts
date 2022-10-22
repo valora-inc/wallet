@@ -118,7 +118,7 @@ export function* handleNotification(
     case NotificationTypes.PAYMENT_REQUESTED:
       yield call(
         handlePaymentRequested,
-        (message.data as unknown) as PaymentRequest,
+        message.data as unknown as PaymentRequest,
         notificationState
       )
       break
@@ -126,7 +126,7 @@ export function* handleNotification(
     case NotificationTypes.PAYMENT_RECEIVED:
       yield call(
         handlePaymentReceived,
-        (message.data as unknown) as TransferNotificationData,
+        message.data as unknown as TransferNotificationData,
         notificationState
       )
       break

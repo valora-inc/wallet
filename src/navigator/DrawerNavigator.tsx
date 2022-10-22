@@ -103,7 +103,7 @@ function CustomDrawerItemList({
 }: CustomDrawerItemListProps) {
   const buildLink = useLinkBuilder()
 
-  return (state.routes.map((route, i) => {
+  return state.routes.map((route, i) => {
     const focused = i === state.index
     const { title, drawerLabel, drawerIcon } = descriptors[route.key].options
     const navigateToItem = () => {
@@ -154,7 +154,7 @@ function CustomDrawerItemList({
         onPress={onPress}
       />
     )
-  }) as React.ReactNode) as React.ReactElement
+  }) as React.ReactNode as React.ReactElement
 }
 
 function CustomDrawerContent(props: DrawerContentComponentProps<DrawerContentOptions>) {

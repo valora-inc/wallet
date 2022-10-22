@@ -21,11 +21,7 @@ export const AUTH_COOKIE = 'FIATCONNECT-PROVIDER-COOKIE'
  * @param {string | null} params.walletAddress - Wallet address to check.
  * @returns {{walletAddress: string}} The wallet address.
  */
-export function verifyWalletAddress({
-  walletAddress,
-}: {
-  walletAddress: string | null
-}): {
+export function verifyWalletAddress({ walletAddress }: { walletAddress: string | null }): {
   walletAddress: string
 } {
   if (!walletAddress) {
