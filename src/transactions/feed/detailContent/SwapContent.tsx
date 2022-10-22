@@ -29,8 +29,9 @@ export default function SwapContent({ exchange }: Props) {
   const fromTokenSymbol = tokensList.find(
     (token) => token.address === exchange.outAmount.tokenAddress
   )?.symbol
-  const toTokenSymbol = tokensList.find((token) => token.address === exchange.inAmount.tokenAddress)
-    ?.symbol
+  const toTokenSymbol = tokensList.find(
+    (token) => token.address === exchange.inAmount.tokenAddress
+  )?.symbol
 
   const onPressTxDetails = () => {
     ValoraAnalytics.track(SwapEvents.swap_feed_detail_view_tx)

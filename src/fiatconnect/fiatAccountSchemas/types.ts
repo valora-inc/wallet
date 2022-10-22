@@ -4,9 +4,7 @@ import { KeyboardType } from 'react-native'
 export interface FormFieldParam {
   name: string
   label: string
-  validate(
-    input: string
-  ): {
+  validate(input: string): {
     isValid: boolean
     errorMessage?: string
   }
