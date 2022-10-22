@@ -1,11 +1,13 @@
 import { FiatAccountSchema, FiatAccountType } from '@fiatconnect/fiatconnect-types'
 import { getAccountNumberSchema } from 'src/fiatconnect/fiatAccountSchemas/accountNumber'
+import { getIbanNumberSchema } from 'src/fiatconnect/fiatAccountSchemas/ibanNumber'
 import {
   ComputedParam,
   FormFieldParam,
   ImplicitParam,
 } from 'src/fiatconnect/fiatAccountSchemas/types'
 import { FiatAccountSchemaCountryOverrides } from 'src/fiatconnect/types'
+import i18n from 'src/i18n'
 
 export const getSchema = ({
   fiatAccountSchema,
@@ -19,6 +21,7 @@ export const getSchema = ({
   schemaCountryOverrides: FiatAccountSchemaCountryOverrides
 }) => {
   if (!country) {
+    // should never happen
     throw new Error('Country not supported')
   }
   switch (fiatAccountSchema) {
@@ -30,9 +33,28 @@ export const getSchema = ({
         },
         schemaCountryOverrides
       )
+    case FiatAccountSchema.IBANNumber:
+      return getIbanNumberSchema(
+        {
+          country,
+          fiatAccountType,
+        },
+        schemaCountryOverrides
+      )
     default:
+      // should never happen
       throw new Error('Unsupported schema type')
   }
+}
+
+export const INSTITUTION_NAME_FIELD: FormFieldParam = {
+  name: 'institutionName',
+  label: i18n.t('fiatAccountSchema.institutionName.label'),
+  validate: (input: string) => ({
+    isValid: input.length > 0,
+  }),
+  placeholderText: i18n.t('fiatAccountSchema.institutionName.placeholderText'),
+  keyboardType: 'default',
 }
 
 export function isFormFieldParam<T, K extends keyof T>(

@@ -81,9 +81,8 @@ function SuperchargeInstructions() {
 
   const userIsVerified = useSelector(phoneNumberVerifiedSelector)
   const { superchargeApy } = useSelector((state) => state.app)
-  const { hasBalanceForSupercharge, superchargingTokenConfig } = useSelector(
-    superchargeInfoSelector
-  )
+  const { hasBalanceForSupercharge, superchargingTokenConfig } =
+    useSelector(superchargeInfoSelector)
   const defaultTokenConfigToSupercharge = useDefaultTokenConfigToSupercharge()
   const tokenConfigToSupercharge = superchargingTokenConfig ?? defaultTokenConfigToSupercharge
 
@@ -206,9 +205,8 @@ export default function ConsumerIncentivesHomeScreen() {
   }, [])
 
   const userIsVerified = useSelector(phoneNumberVerifiedSelector)
-  const { hasBalanceForSupercharge, superchargingTokenConfig, hasMaxBalance } = useSelector(
-    superchargeInfoSelector
-  )
+  const { hasBalanceForSupercharge, superchargingTokenConfig, hasMaxBalance } =
+    useSelector(superchargeInfoSelector)
 
   const isSupercharging = userIsVerified && hasBalanceForSupercharge
   const defaultTokenConfigToSupercharge = useDefaultTokenConfigToSupercharge()

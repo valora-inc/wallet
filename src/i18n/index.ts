@@ -70,8 +70,9 @@ export async function initI18n(
 
 // Create HOC wrapper that hoists statics
 // https://react.i18next.com/latest/withtranslation-hoc#hoist-non-react-statics
-export const withTranslation = <P extends WithTranslation>() => <C extends React.ComponentType<P>>(
-  component: C
-) => hoistStatics(withTranslationI18Next()(component), component)
+export const withTranslation =
+  <P extends WithTranslation>() =>
+  <C extends React.ComponentType<P>>(component: C) =>
+    hoistStatics(withTranslationI18Next()(component), component)
 
 export default i18n

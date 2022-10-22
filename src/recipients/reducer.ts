@@ -44,7 +44,7 @@ export const recipientsReducer = createReducer(initialState, (builder) => {
   builder
     .addCase(rehydrate, (state, action) => {
       // hack to allow rehydrate actions here
-      const hydrated = getRehydratePayload((action as unknown) as RehydrateAction, 'recipients')
+      const hydrated = getRehydratePayload(action as unknown as RehydrateAction, 'recipients')
       return {
         ...initialState,
         ...state,
