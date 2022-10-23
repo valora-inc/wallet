@@ -50,7 +50,9 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
       dispatch(
         refetchQuote({
           flow,
-          quote: normalizedQuote,
+          cryptoType: normalizedQuote.getCryptoType(),
+          cryptoAmount: normalizedQuote.getCryptoAmount(),
+          providerId: normalizedQuote.getProviderId(),
           fiatAccount,
         })
       )
@@ -116,7 +118,9 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
     dispatch(
       refetchQuote({
         flow,
-        quote: normalizedQuote,
+        cryptoType: normalizedQuote.getCryptoType(),
+        cryptoAmount: normalizedQuote.getCryptoAmount(),
+        providerId: normalizedQuote.getProviderId(),
         fiatAccount,
       })
     )
@@ -168,7 +172,9 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
           dispatch(
             refetchQuote({
               flow,
-              quote: normalizedQuote,
+              cryptoType: normalizedQuote.getCryptoType(),
+              cryptoAmount: normalizedQuote.getCryptoAmount(),
+              providerId: normalizedQuote.getProviderId(),
               fiatAccount,
             })
           )

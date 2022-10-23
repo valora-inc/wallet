@@ -43,6 +43,7 @@ describe('TransferStatusScreen', () => {
         institutionName: 'some-bank',
         fiatAccountType: FiatAccountType.BankAccount,
         fiatAccountSchema: FiatAccountSchema.AccountNumber,
+        providerId: mockQuote.getProviderId(),
       },
       normalizedQuote: mockQuote,
     })

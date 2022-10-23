@@ -137,8 +137,10 @@ export interface CreateFiatConnectTransferCompletedAction {
 
 interface RefetchQuoteAction {
   flow: CICOFlow
-  quote: FiatConnectQuote
-  fiatAccount: ObfuscatedFiatAccountData
+  cryptoType: Currency
+  cryptoAmount: string
+  providerId: string
+  fiatAccount?: FiatAccount
 }
 
 interface SubmitFiatAccountAction {

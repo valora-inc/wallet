@@ -7,6 +7,7 @@ import {
   KycSchema,
   KycStatus as FiatConnectKycStatus,
   TransferStatus,
+  FiatType,
 } from '@fiatconnect/fiatconnect-types'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matches from 'redux-saga-test-plan/matchers'
@@ -36,8 +37,12 @@ import {
   handleSubmitFiatAccount,
   _getQuotes,
   _getSpecificQuote,
+  _getFiatAccount,
 } from 'src/fiatconnect/saga'
-import { fiatConnectProvidersSelector } from 'src/fiatconnect/selectors'
+import {
+  fiatConnectProvidersSelector,
+  cachedFiatAccountUsesSelector,
+} from 'src/fiatconnect/selectors'
 import {
   attemptReturnUserFlow,
   attemptReturnUserFlowCompleted,
@@ -1078,40 +1083,32 @@ describe('Fiatconnect saga', () => {
     })
     const params = refetchQuote({
       flow: CICOFlow.CashOut,
-      quote,
+      cryptoType: quote.getCryptoType(),
+      cryptoAmount: quote.getCryptoAmount(),
+      providerId: quote.getProviderId(),
       fiatAccount,
     })
-    it('calls refetchQuoteFailed if the _getQuote throws an error', async () => {
-      await expectSaga(handleRefetchQuote, params)
+    it('selects a cached fiat account from _getSpecificQuote if none is provided', async () => {
+      const paramsWithoutFiatAccount = refetchQuote({
+        flow: CICOFlow.CashOut,
+        cryptoType: quote.getCryptoType(),
+        cryptoAmount: quote.getCryptoAmount(),
+        providerId: quote.getProviderId(),
+      })
+      await expectSaga(handleRefetchQuote, paramsWithoutFiatAccount)
         .provide([
-          [select(fiatConnectProvidersSelector), mockFiatConnectProviderInfo],
           [
             call(_getSpecificQuote, {
+              flow: params.payload.flow,
               digitalAsset: CiCoCurrency.CUSD,
               cryptoAmount: 100,
-              flow: params.payload.flow,
-              providerId: params.payload.quote.getProviderId(),
-              fiatAccountType: params.payload.fiatAccount.fiatAccountType,
+              providerId: params.payload.providerId,
+              fiatAccount: undefined,
             }),
-            throwError(new Error('Could not find quote')),
-          ],
-        ])
-        .put(refetchQuoteFailed({ error: 'could not refetch quote' }))
-        .run()
-    })
-    it('navigates to FiatConnectReview when _getQuote returns the quote', async () => {
-      await expectSaga(handleRefetchQuote, params)
-        .provide([
-          [select(fiatConnectProvidersSelector), mockFiatConnectProviderInfo],
-          [
-            call(_getSpecificQuote, {
-              digitalAsset: CiCoCurrency.CUSD,
-              cryptoAmount: 100,
-              flow: params.payload.flow,
-              providerId: params.payload.quote.getProviderId(),
-              fiatAccountType: params.payload.fiatAccount.fiatAccountType,
-            }),
-            quote,
+            {
+              normalizedQuote: quote,
+              selectedFiatAccount: fiatAccount,
+            },
           ],
         ])
         .put(refetchQuoteCompleted())
@@ -1119,8 +1116,51 @@ describe('Fiatconnect saga', () => {
       expect(navigate).toHaveBeenCalledWith(Screens.FiatConnectReview, {
         flow: params.payload.flow,
         normalizedQuote: quote,
-        fiatAccount,
         shouldRefetchQuote: false,
+        fiatAccount,
+      })
+    })
+    it('calls refetchQuoteFailed if the _getSpecificQuote throws an error', async () => {
+      await expectSaga(handleRefetchQuote, params)
+        .provide([
+          [
+            call(_getSpecificQuote, {
+              digitalAsset: CiCoCurrency.CUSD,
+              cryptoAmount: 100,
+              flow: params.payload.flow,
+              providerId: params.payload.providerId,
+              fiatAccount,
+            }),
+            throwError(new Error('Could not find quote')),
+          ],
+        ])
+        .put(refetchQuoteFailed({ error: 'could not refetch quote' }))
+        .run()
+    })
+    it('navigates to FiatConnectReview when _getSpecificQuote returns the quote', async () => {
+      await expectSaga(handleRefetchQuote, params)
+        .provide([
+          [
+            call(_getSpecificQuote, {
+              flow: params.payload.flow,
+              digitalAsset: CiCoCurrency.CUSD,
+              cryptoAmount: 100,
+              providerId: params.payload.providerId,
+              fiatAccount,
+            }),
+            {
+              normalizedQuote: quote,
+              selectedFiatAccount: fiatAccount,
+            },
+          ],
+        ])
+        .put(refetchQuoteCompleted())
+        .run()
+      expect(navigate).toHaveBeenCalledWith(Screens.FiatConnectReview, {
+        flow: params.payload.flow,
+        normalizedQuote: quote,
+        shouldRefetchQuote: false,
+        fiatAccount,
       })
     })
   })
@@ -1158,11 +1198,13 @@ describe('Fiatconnect saga', () => {
     })
     const fiatAccount = {
       fiatAccountId: '123',
-      providerId: 'provider-two',
       accountName: 'My account',
       institutionName: 'The fun bank',
-      FiatAccountType: FiatAccountType.BankAccount,
+      providerId: 'provider-two',
+      fiatAccountType: FiatAccountType.BankAccount,
+      fiatAccountSchema: FiatAccountSchema.AccountNumber,
     }
+
     const fiatAccountKyc = {
       ...fiatAccount,
       providerId: 'provider-three',
@@ -1172,12 +1214,21 @@ describe('Fiatconnect saga', () => {
         .provide([
           [select(fiatConnectProvidersSelector), mockFiatConnectProviderInfo],
           [
+            call(
+              fetchFiatAccountsSaga,
+              'provider-two',
+              'fakewebsite.valoraapp.com',
+              'fake-api-key'
+            ),
+            [fiatAccount],
+          ],
+          [
             call(_getSpecificQuote, {
               digitalAsset: CiCoCurrency.CUSD,
               cryptoAmount: 2,
               flow: params.payload.flow,
               providerId: params.payload.providerId,
-              fiatAccountType: params.payload.fiatAccountType,
+              fiatAccount,
             }),
             throwError(new Error('Could not find quote')),
           ],
@@ -1201,9 +1252,12 @@ describe('Fiatconnect saga', () => {
               cryptoAmount: 2,
               flow: params.payload.flow,
               providerId: params.payload.providerId,
-              fiatAccountType: params.payload.fiatAccountType,
+              fiatAccount,
             }),
-            normalizedQuote,
+            {
+              normalizedQuote,
+              selectedFiatAccount: fiatAccount,
+            },
           ],
           [
             call(
@@ -1234,9 +1288,12 @@ describe('Fiatconnect saga', () => {
               cryptoAmount: 2,
               flow: params.payload.flow,
               providerId: params.payload.providerId,
-              fiatAccountType: params.payload.fiatAccountType,
+              fiatAccount,
             }),
-            normalizedQuote,
+            {
+              normalizedQuote,
+              selectedFiatAccount: fiatAccount,
+            },
           ],
           [
             call(
@@ -1266,9 +1323,12 @@ describe('Fiatconnect saga', () => {
               cryptoAmount: 2,
               flow: paramsKyc.payload.flow,
               providerId: paramsKyc.payload.providerId,
-              fiatAccountType: paramsKyc.payload.fiatAccountType,
+              fiatAccount: fiatAccountKyc,
             }),
-            normalizedQuoteKyc,
+            {
+              normalizedQuote: normalizedQuoteKyc,
+              selectedFiatAccount: fiatAccountKyc,
+            },
           ],
           [
             call(fetchFiatAccountsSaga, 'provider-three', 'fakewebsite.valoraapp.com', undefined),
@@ -1306,9 +1366,12 @@ describe('Fiatconnect saga', () => {
               cryptoAmount: 2,
               flow: paramsKyc.payload.flow,
               providerId: paramsKyc.payload.providerId,
-              fiatAccountType: paramsKyc.payload.fiatAccountType,
+              fiatAccount: fiatAccountKyc,
             }),
-            normalizedQuoteKyc,
+            {
+              normalizedQuote: normalizedQuoteKyc,
+              selectedFiatAccount: fiatAccountKyc,
+            },
           ],
           [
             call(fetchFiatAccountsSaga, 'provider-three', 'fakewebsite.valoraapp.com', undefined),
@@ -1345,9 +1408,12 @@ describe('Fiatconnect saga', () => {
               cryptoAmount: 2,
               flow: paramsKyc.payload.flow,
               providerId: paramsKyc.payload.providerId,
-              fiatAccountType: paramsKyc.payload.fiatAccountType,
+              fiatAccount: fiatAccountKyc,
             }),
-            normalizedQuoteKyc,
+            {
+              normalizedQuote: normalizedQuoteKyc,
+              selectedFiatAccount: fiatAccountKyc,
+            },
           ],
           [
             call(fetchFiatAccountsSaga, 'provider-three', 'fakewebsite.valoraapp.com', undefined),
@@ -1383,9 +1449,12 @@ describe('Fiatconnect saga', () => {
               cryptoAmount: 2,
               flow: paramsKyc.payload.flow,
               providerId: paramsKyc.payload.providerId,
-              fiatAccountType: paramsKyc.payload.fiatAccountType,
+              fiatAccount: fiatAccountKyc,
             }),
-            normalizedQuoteKyc,
+            {
+              normalizedQuote: normalizedQuoteKyc,
+              selectedFiatAccount: fiatAccountKyc,
+            },
           ],
           [
             call(fetchFiatAccountsSaga, 'provider-three', 'fakewebsite.valoraapp.com', undefined),
@@ -1421,9 +1490,12 @@ describe('Fiatconnect saga', () => {
               cryptoAmount: 2,
               flow: paramsKyc.payload.flow,
               providerId: paramsKyc.payload.providerId,
-              fiatAccountType: paramsKyc.payload.fiatAccountType,
+              fiatAccount: fiatAccountKyc,
             }),
-            normalizedQuoteKyc,
+            {
+              normalizedQuote: normalizedQuoteKyc,
+              selectedFiatAccount: fiatAccountKyc,
+            },
           ],
           [
             call(fetchFiatAccountsSaga, 'provider-three', 'fakewebsite.valoraapp.com', undefined),
@@ -1660,13 +1732,148 @@ describe('Fiatconnect saga', () => {
   })
 
   describe('_getSpecificQuote', () => {
+    const fiatAccount = {
+      fiatAccountId: '789',
+      accountName: 'some account name',
+      institutionName: 'some institution',
+      fiatAccountType: FiatAccountType.BankAccount,
+      fiatAccountSchema: FiatAccountSchema.AccountNumber,
+      providerId: 'provider-c',
+    }
+
+    const cachedFiatAccountUses = [
+      {
+        fiatAccountId: '123',
+        providerId: 'provider-a',
+        flow: CICOFlow.CashOut,
+        cryptoType: Currency.Dollar,
+        fiatType: FiatType.USD,
+        fiatAccountType: FiatAccountType.DuniaWallet,
+      },
+      {
+        fiatAccountId: '456',
+        providerId: 'provider-b',
+        flow: CICOFlow.CashOut,
+        cryptoType: Currency.Dollar,
+        fiatType: FiatType.USD,
+        fiatAccountType: FiatAccountType.BankAccount,
+      },
+      {
+        fiatAccountId: '789',
+        providerId: 'provider-two',
+        flow: CICOFlow.CashOut,
+        cryptoType: Currency.Dollar,
+        fiatType: FiatType.USD,
+        fiatAccountType: FiatAccountType.BankAccount,
+      },
+    ]
+
+    it('finds a suitable fiat account from cached accounts if none is provided', async () => {
+      await expectSaga(_getSpecificQuote, {
+        digitalAsset: CiCoCurrency.CUSD,
+        cryptoAmount: 2,
+        flow: CICOFlow.CashOut,
+        providerId: 'provider-two',
+      })
+        .provide([
+          [
+            call(_getQuotes, {
+              flow: CICOFlow.CashOut,
+              digitalAsset: CiCoCurrency.CUSD,
+              cryptoAmount: 2,
+              providerIds: ['provider-two'],
+            }),
+            [mockFiatConnectQuotes[1]],
+          ],
+          [select(cachedFiatAccountUsesSelector), cachedFiatAccountUses],
+          [select(fiatConnectProvidersSelector), []],
+          [
+            call(_getFiatAccount, {
+              fiatConnectProviders: [],
+              providerId: 'provider-two',
+              fiatAccountId: '789',
+              fiatAccountType: FiatAccountType.BankAccount,
+            }),
+            fiatAccount,
+          ],
+        ])
+        .returns({
+          normalizedQuote: normalizeFiatConnectQuotes(CICOFlow.CashOut, [
+            mockFiatConnectQuotes[1],
+          ])[0],
+          selectedFiatAccount: fiatAccount,
+        })
+        .run()
+    })
+    it('throws an error if no fiat account is provided and no suitable cached account is found', async () => {
+      await expect(
+        async () =>
+          await expectSaga(_getSpecificQuote, {
+            digitalAsset: CiCoCurrency.CUSD,
+            cryptoAmount: 2,
+            flow: CICOFlow.CashOut,
+            providerId: 'provider-two',
+          })
+            .provide([
+              [
+                call(_getQuotes, {
+                  flow: CICOFlow.CashOut,
+                  digitalAsset: CiCoCurrency.CUSD,
+                  cryptoAmount: 2,
+                  providerIds: ['provider-two'],
+                }),
+                [mockFiatConnectQuotes[1]],
+              ],
+              [select(cachedFiatAccountUsesSelector), cachedFiatAccountUses.slice(0, 2)],
+            ])
+            .run()
+      ).rejects.toThrow('Could not find appropriate fiat account on file')
+    })
+    it('throws if error is encountered while fetching fiat account from provider', async () => {
+      await expect(
+        async () =>
+          await expectSaga(_getSpecificQuote, {
+            digitalAsset: CiCoCurrency.CUSD,
+            cryptoAmount: 2,
+            flow: CICOFlow.CashOut,
+            providerId: 'provider-two',
+          })
+            .provide([
+              [
+                call(_getQuotes, {
+                  flow: CICOFlow.CashOut,
+                  digitalAsset: CiCoCurrency.CUSD,
+                  cryptoAmount: 2,
+                  providerIds: ['provider-two'],
+                }),
+                [mockFiatConnectQuotes[1]],
+              ],
+              [select(cachedFiatAccountUsesSelector), cachedFiatAccountUses],
+              [select(fiatConnectProvidersSelector), []],
+              [
+                call(_getFiatAccount, {
+                  fiatConnectProviders: [],
+                  providerId: 'provider-two',
+                  fiatAccountId: '789',
+                  fiatAccountType: FiatAccountType.BankAccount,
+                }),
+                throwError(new Error('some error')),
+              ],
+            ])
+            .run()
+      ).rejects.toThrow(
+        `Found a suitable cached account on file, but encountered error while fetching from provider: ${new Error(
+          'some error'
+        )}`
+      )
+    })
     it('fetches and returns a quote if fiat account type and provider ID matches', async () => {
       await expectSaga(_getSpecificQuote, {
         digitalAsset: CiCoCurrency.CUSD,
         cryptoAmount: 2,
         flow: CICOFlow.CashOut,
         providerId: 'provider-two',
-        fiatAccountType: FiatAccountType.BankAccount,
+        fiatAccount,
       })
         .provide([
           [
@@ -1679,10 +1886,18 @@ describe('Fiatconnect saga', () => {
             [mockFiatConnectQuotes[1]],
           ],
         ])
-        .returns(normalizeFiatConnectQuotes(CICOFlow.CashOut, [mockFiatConnectQuotes[1]])[0])
+        .returns({
+          normalizedQuote: normalizeFiatConnectQuotes(CICOFlow.CashOut, [
+            mockFiatConnectQuotes[1],
+          ])[0],
+          selectedFiatAccount: fiatAccount,
+        })
         .run()
     })
     it('throws if no quote with matching fiatAccountType is found', async () => {
+      const duniaFiatAccount = Object.assign(fiatAccount, {
+        fiatAccountType: FiatAccountType.DuniaWallet,
+      })
       await expect(
         async () =>
           await expectSaga(_getSpecificQuote, {
@@ -1690,7 +1905,7 @@ describe('Fiatconnect saga', () => {
             cryptoAmount: 2,
             flow: CICOFlow.CashOut,
             providerId: 'provider-two',
-            fiatAccountType: FiatAccountType.DuniaWallet,
+            fiatAccount: duniaFiatAccount,
           })
             .provide([
               [

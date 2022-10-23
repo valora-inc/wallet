@@ -29,6 +29,7 @@ export enum Screens {
   FiatExchangeCurrency = 'FiatExchangeCurrency',
   FiatConnectLinkAccount = 'FiatConnectLinkAccount',
   FiatConnectReview = 'FiatConnectReview',
+  FiatConnectReviewWrapper = 'FiatConnectReviewWrapper',
   FiatConnectTransferStatus = 'FiatConnectTransferStatus',
   GoldEducation = 'GoldEducation',
   ImportWallet = 'ImportWallet',
