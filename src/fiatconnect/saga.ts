@@ -466,11 +466,10 @@ export function* _getSpecificQuote({
   if (!selectedFiatAccount) {
     const cachedFiatAccounts: CachedFiatAccountUse[] = yield select(cachedFiatAccountUsesSelector)
     // If defined, cachedFiatAccount is a Fiat Account whose providerId and fiatAccountType match one of our quotes.
-    // We perform a reverse lookup later to recover the matching quote.
     const cachedFiatAccount = cachedFiatAccounts.find((a) =>
-      normalizedQuotes
-        .map((q) => q.getFiatAccountType())
-        .find((t) => t === a.fiatAccountType && providerId === a.providerId)
+      normalizedQuotes.find(
+        (q) => q.getFiatAccountType() === a.fiatAccountType && providerId === a.providerId
+      )
     )
     if (cachedFiatAccount) {
       try {
