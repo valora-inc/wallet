@@ -13,6 +13,7 @@ import {
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import {
+  KycApprovedData,
   NotificationReceiveState,
   NotificationTypes,
   TransferNotificationData,
@@ -27,14 +28,7 @@ import Logger from 'src/utils/Logger'
 
 const TAG = 'FirebaseNotifications'
 
-function* handlePaymentRequested(
-  paymentRequest: PaymentRequest,
-  notificationState: NotificationReceiveState
-) {
-  if (notificationState === NotificationReceiveState.AppAlreadyOpen) {
-    return
-  }
-
+function* handlePaymentRequested(paymentRequest: PaymentRequest) {
   if (!paymentRequest.requesterAddress) {
     Logger.error(TAG, 'Payment request must specify a requester address')
     return
@@ -53,34 +47,29 @@ function* handlePaymentRequested(
   })
 }
 
-function* handlePaymentReceived(
-  transferNotification: TransferNotificationData,
-  notificationState: NotificationReceiveState
-) {
-  if (notificationState !== NotificationReceiveState.AppAlreadyOpen) {
-    const address = transferNotification.sender.toLowerCase()
+function* handlePaymentReceived(transferNotification: TransferNotificationData) {
+  const address = transferNotification.sender.toLowerCase()
 
-    yield call(navigate, Screens.TransactionDetailsScreen, {
-      transaction: {
-        __typename: 'TokenTransferV2',
-        type: TokenTransactionTypeV2.Received,
-        transactionHash: transferNotification.txHash,
-        timestamp: new BigNumber(transferNotification.timestamp).toNumber(),
-        block: transferNotification.blockNumber,
-        address,
-        amount: {
-          value: transferNotification.value,
-          tokenAddress: transferNotification.tokenAddress,
-        },
-        metadata: {
-          title: transferNotification.name,
-          image: transferNotification.imageUrl,
-          comment: transferNotification.comment,
-        },
-        fees: [],
+  yield call(navigate, Screens.TransactionDetailsScreen, {
+    transaction: {
+      __typename: 'TokenTransferV2',
+      type: TokenTransactionTypeV2.Received,
+      transactionHash: transferNotification.txHash,
+      timestamp: new BigNumber(transferNotification.timestamp).toNumber(),
+      block: transferNotification.blockNumber,
+      address,
+      amount: {
+        value: transferNotification.value,
+        tokenAddress: transferNotification.tokenAddress,
       },
-    })
-  }
+      metadata: {
+        title: transferNotification.name,
+        image: transferNotification.imageUrl,
+        comment: transferNotification.comment,
+      },
+      fees: [],
+    },
+  })
 }
 
 export function* handleNotification(
@@ -105,6 +94,7 @@ export function* handleNotification(
     if (title) {
       yield put(showMessage(body || title, undefined, null, openUrlAction, body ? title : null))
     }
+    return
   } else {
     // Notification was received while app wasn't already open (i.e. tapped to act on it)
     // So directly handle the action if any
@@ -116,19 +106,15 @@ export function* handleNotification(
 
   switch (message.data?.type) {
     case NotificationTypes.PAYMENT_REQUESTED:
-      yield call(
-        handlePaymentRequested,
-        message.data as unknown as PaymentRequest,
-        notificationState
-      )
+      yield call(handlePaymentRequested, message.data as unknown as PaymentRequest)
       break
 
     case NotificationTypes.PAYMENT_RECEIVED:
-      yield call(
-        handlePaymentReceived,
-        message.data as unknown as TransferNotificationData,
-        notificationState
-      )
+      yield call(handlePaymentReceived, message.data as unknown as TransferNotificationData)
+      break
+
+    case NotificationTypes.KYC_APPROVED:
+      navigate(Screens.FiatConnectReviewWrapper, message.data as unknown as KycApprovedData)
       break
 
     default:
