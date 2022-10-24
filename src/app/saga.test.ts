@@ -29,6 +29,7 @@ import {
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
 import { activeDappSelector } from 'src/dapps/selectors'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
+import { resolveDynamicLink } from 'src/firebase/firebase'
 import { receiveAttestationMessage } from 'src/identity/actions'
 import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
 import { CodeInputType } from 'src/identity/verification'
@@ -140,9 +141,21 @@ describe('handleDeepLink', () => {
     expect(navigate).not.toHaveBeenCalled()
   })
 
-  it('Handles share deep link', async () => {
-    const deepLink = 'https://vlra.app/share/abc123'
+  it('Handles long share deep link', async () => {
+    const deepLink = 'https://celo.org/share/abc123'
     await expectSaga(handleDeepLink, openDeepLink(deepLink)).run()
+
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(InviteEvents.opened_via_invite_url, {
+      inviterAddress: 'abc123',
+    })
+  })
+
+  it('Handles short share deep link', async () => {
+    const deepLink = 'https://vlra.app/someShortLink'
+    await expectSaga(handleDeepLink, openDeepLink(deepLink))
+      .provide([[call(resolveDynamicLink, deepLink), 'https://celo.org/share/abc123']])
+      .run()
 
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(InviteEvents.opened_via_invite_url, {
