@@ -1424,8 +1424,8 @@
     },
     "ibanNumber": {
       "label": "IBAN",
-      "placeholderText": "Inserisci il numero IBAN",
-      "errorMessage": "IBAN non valido"
+      "placeholderText": "Inserisci il codice IBAN",
+      "errorMessage": "Codice IBAN non valido"
     }
   },
   "webView": {
