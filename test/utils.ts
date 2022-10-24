@@ -42,9 +42,11 @@ interface MockContract {
   }
 }
 
-type MockMethod = (
-  ...params: any
-) => { call: () => any; estimateGas: () => number; send: SendMethod }
+type MockMethod = (...params: any) => {
+  call: () => any
+  estimateGas: () => number
+  send: SendMethod
+}
 type SendMethod = (...params: any) => { on: (...params: any) => any }
 
 /**

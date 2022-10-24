@@ -76,16 +76,18 @@ function LanguageScreen({ route }: Props) {
   )
 }
 
-LanguageScreen.navigationOptions = (withAnimation: boolean) => ({ navigation }: ScreenProps) => {
-  return navigation.canGoBack()
-    ? {
-        ...headerWithBackButton,
-        headerStyle: {
-          backgroundColor: colors.light,
-        },
-      }
-    : emptyHeader
-}
+LanguageScreen.navigationOptions =
+  () =>
+  ({ navigation }: ScreenProps) => {
+    return navigation.canGoBack()
+      ? {
+          ...headerWithBackButton,
+          headerStyle: {
+            backgroundColor: colors.light,
+          },
+        }
+      : emptyHeader
+  }
 
 const styles = StyleSheet.create({
   container: {

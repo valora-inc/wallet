@@ -1421,6 +1421,11 @@
       "placeholderText": "Hesap Numarasını Girin",
       "errorMessageDigitLength": "Hesap numarası {{length}} haneli olmalıdır",
       "errorMessageDigit": "Hesap numarası yalnızca rakam içermelidir"
+    },
+    "ibanNumber": {
+      "label": "IBAN",
+      "placeholderText": "IBAN Numarasını Girin",
+      "errorMessage": "Geçersiz IBAN"
     }
   },
   "webView": {
@@ -1449,33 +1454,33 @@
     "swapTo": "Şuraya Giden Takas",
     "transactionDetails": "İşlem detayları",
     "estimatedGas": "Tahmini Gaz",
-    "swapSubmitError": "Sorry, we were unable to complete your swap. Please try again or contact support.",
+    "swapSubmitError": "Üzgünüz, takas işleminizi tamamlayamadık. Lütfen tekrar deneyin veya destek ile iletişime geçin.",
     "swapFee": "{{appName}} Ücreti",
     "swapFeeTitle": "{{appName}} Ücreti nedir?\n",
     "swapFeeBody": "{{appName}} ücreti, {{appName}} uygulamasında token takas etmek için ödediğiniz ücrettir.\n\nÜcret, takas ettiğiniz miktarın %{{swapFee}} kadarıdır.\n\n{{appName}} uygulamasında önümüzdeki birkaç ay ücret alınmayacaktır.",
-    "swapFeeBodyFree": "The {{appName}} fee is the fee that you pay to swap tokens on {{appName}}. {{appName}} fees are free for the next few months.",
+    "swapFeeBodyFree": "{{appName}} ücreti, {{appName}} uygulamasında token takas etmek için ödediğiniz ücrettir. {{appName}} ücretleri önümüzdeki birkaç ay ücretsizdir.",
     "estimatedAmountTitle": "Tahmini Tutar",
     "estimatedAmountBody": "Dönüşümler, takasınız için size en iyi oranı bulan ve merkezi olmayan bir üçüncü taraf borsasında gerçekleşir.\n\nİşleminiz, tahminin %{{slippagePercent}} kadarına kdar bir fiyatla tamamlanacak veya işlem iptal edilip para cüzdanınıza iade edilecektir.",
-    "free": "Free"
+    "free": "Ücretsiz"
   },
   "SwapExecuteScreen": {
-    "swapPending": "Swap Pending",
-    "swapSuccess": "Swap Successful!",
-    "swapError": "Swap Error",
-    "exchangeRateSubtext": "Finding the best exchange rate...",
-    "approvingSubtext": "Approving funds...",
-    "completingSubtext": "Completing swap...",
-    "swapAgain": "Swap Again",
+    "swapPending": "Takas Bekliyor",
+    "swapSuccess": "Takas Başarılı!",
+    "swapError": "Takas Hatası",
+    "exchangeRateSubtext": "En iyi döviz kuru bulunuyor...",
+    "approvingSubtext": "Fonlar onaylanıyor...",
+    "completingSubtext": "Takas tamamlanıyor...",
+    "swapAgain": "Tekrar Takas Yapın",
     "swapPriceModal": {
-      "title": "Prices have changed",
-      "action": "Continue",
-      "body": "Crypto amounts & fees can change due to fluctuations in the crypto market. \n\n Please review your final amount & fees and resubmit."
+      "title": "Fiyatlar değişti",
+      "action": "İleri",
+      "body": "Kripto para piyasasındaki dalgalanmalar nedeniyle kripto tutarları ve ücretleri değişebilir. \n\n Lütfen tekrar göndermeden önce nihai tutarınızı ve ücretlerinizi gözden geçirin."
     },
     "swapErrorModal": {
-      "title": "We couldn’t complete this transaction.",
-      "body": "Please wait and try again later or contact our support team for help.",
-      "swapRestart": "Dismiss",
-      "contactSupport": "Contact Support"
+      "title": "Bu işlemi tamamlayamadık.",
+      "body": "Lütfen bekleyip daha sonra tekrar deneyin veya yardım için destek ekibimizle iletişime geçin.",
+      "swapRestart": "Yoksay",
+      "contactSupport": "Destek ile İletişime Geç"
     }
   },
   "inviteModal": {

@@ -180,7 +180,7 @@ const getActiveRouteState = function (route: NavigationState): NavigationState {
     return route.state
   }
 
-  const childActiveRoute = (route.routes[route.index] as unknown) as NavigationState
+  const childActiveRoute = route.routes[route.index] as unknown as NavigationState
   return getActiveRouteState(childActiveRoute)
 }
 
