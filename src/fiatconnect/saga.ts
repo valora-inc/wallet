@@ -13,6 +13,7 @@ import {
   KycStatus as FiatConnectKycStatus,
   PostFiatAccountResponse,
   TransferResponse,
+  FiatAccountSchema,
 } from '@fiatconnect/fiatconnect-types'
 import BigNumber from 'bignumber.js'
 import { all, call, delay, put, select, spawn, takeLeading } from 'redux-saga/effects'
@@ -453,16 +454,18 @@ export function* _getSpecificQuote({
   return normalizedQuote
 }
 
-function* _getFiatAccount({
+export function* _getFiatAccount({
   fiatConnectProviders,
   providerId,
   fiatAccountId,
   fiatAccountType,
+  fiatAccountSchema,
 }: {
   fiatConnectProviders: FiatConnectProviderInfo[] | null
   providerId: string
   fiatAccountId?: string
   fiatAccountType?: FiatAccountType
+  fiatAccountSchema?: FiatAccountSchema
 }) {
   // Get the provider info
   const fiatConnectProvider = fiatConnectProviders?.find((provider) => provider.id === providerId)
@@ -470,20 +473,23 @@ function* _getFiatAccount({
     throw new Error('Could not find provider')
   }
   // Fetch Fiat Account associated with the cached providerId / fiatAccountId
-  const fiatAccounts: FiatAccount[] = yield call(
+  let fiatAccounts: FiatAccount[] = yield call(
     fetchFiatAccountsSaga,
     providerId,
     fiatConnectProvider.baseUrl,
     fiatConnectProvider.apiKey
   )
 
-  let fiatAccount: FiatAccount | undefined
   if (fiatAccountType) {
-    fiatAccount = fiatAccounts.find((account) => account.fiatAccountType === fiatAccountType)
-  } else if (fiatAccountId) {
-    fiatAccount = fiatAccounts.find((account) => account.fiatAccountId === fiatAccountId)
+    fiatAccounts = fiatAccounts.filter((account) => account.fiatAccountType === fiatAccountType)
   }
-  return fiatAccount || null
+  if (fiatAccountSchema) {
+    fiatAccounts = fiatAccounts.filter((account) => account.fiatAccountSchema === fiatAccountSchema)
+  }
+  if (fiatAccountId) {
+    fiatAccounts = fiatAccounts.filter((account) => account.fiatAccountId === fiatAccountId)
+  }
+  return fiatAccounts[0] || null
 }
 
 export function* handleSelectFiatConnectQuote({
@@ -565,12 +571,11 @@ export function* handleSelectFiatConnectQuote({
       }
     }
 
-    // Check for an existing fiatAccount and navigate to Review if we find one
-    // TODO: Also verify that fiatSchemaType matches once it is added to the fiatAccount spec
     const fiatAccount: FiatAccount = yield call(_getFiatAccount, {
       fiatConnectProviders: [quote.quote.provider],
       providerId: quote.getProviderId(),
       fiatAccountType: quote.getFiatAccountType(),
+      fiatAccountSchema: quote.getFiatAccountSchema(),
     })
 
     // This is expected when the user has not yet created a fiatAccount with the provider
