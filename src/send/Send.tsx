@@ -63,9 +63,10 @@ function Send({ route }: Props) {
 
   const dispatch = useDispatch()
 
-  const recentRecipientsFilter = useMemo(() => filterRecipientFactory(recentRecipients, false), [
-    recentRecipients,
-  ])
+  const recentRecipientsFilter = useMemo(
+    () => filterRecipientFactory(recentRecipients, false),
+    [recentRecipients]
+  )
 
   const allRecipientsFilter = useMemo(
     () => filterRecipientFactory(Object.values(allRecipients), true),
