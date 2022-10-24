@@ -269,19 +269,17 @@ function* fetchWalletAddresses(e164Number: string) {
       clientVersion: DeviceInfo.getVersion(),
     }).toString()
 
-    const [centralisedLookupResponse, addressesFromDecentralizedMapping]: [
-      Response,
-      string[]
-    ] = yield all([
-      call(fetch, `${networkConfig.lookupPhoneNumberUrl}?${centralisedLookupQueryParams}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          authorization: `Valora ${address}:${signedMessage}`,
-        },
-      }),
-      call(fetchWalletAddressesDecentralized, e164Number),
-    ])
+    const [centralisedLookupResponse, addressesFromDecentralizedMapping]: [Response, string[]] =
+      yield all([
+        call(fetch, `${networkConfig.lookupPhoneNumberUrl}?${centralisedLookupQueryParams}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            authorization: `Valora ${address}:${signedMessage}`,
+          },
+        }),
+        call(fetchWalletAddressesDecentralized, e164Number),
+      ])
 
     if (centralisedLookupResponse.ok) {
       const { data }: { data: { addresses: string[] } } = yield call([

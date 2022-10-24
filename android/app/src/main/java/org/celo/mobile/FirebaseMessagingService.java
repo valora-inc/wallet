@@ -9,6 +9,7 @@ import io.invertase.firebase.messaging.ReactNativeFirebaseMessagingService;
 import java.util.Map;
 
 public class FirebaseMessagingService extends ReactNativeFirebaseMessagingService {
+
   static final String TAG = "FirebaseMessagingService";
 
   @Override

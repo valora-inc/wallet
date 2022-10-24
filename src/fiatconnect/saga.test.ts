@@ -41,6 +41,7 @@ import { fiatConnectProvidersSelector } from 'src/fiatconnect/selectors'
 import {
   attemptReturnUserFlow,
   attemptReturnUserFlowCompleted,
+  cacheQuoteParams,
   createFiatConnectTransfer,
   createFiatConnectTransferCompleted,
   createFiatConnectTransferFailed,
@@ -59,7 +60,6 @@ import {
   submitFiatAccount,
   submitFiatAccountCompleted,
   submitFiatAccountKycApproved,
-  cacheQuoteParams,
 } from 'src/fiatconnect/slice'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { normalizeFiatConnectQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
@@ -74,7 +74,7 @@ import { buildAndSendPayment } from 'src/send/saga'
 import { tokensListSelector } from 'src/tokens/selectors'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
-import { currentAccountSelector } from 'src/web3/selectors'
+import { walletAddressSelector } from 'src/web3/selectors'
 import {
   emptyFees,
   mockFiatConnectProviderInfo,
@@ -619,6 +619,7 @@ describe('Fiatconnect saga', () => {
           [select(fiatConnectCashInEnabledSelector), false],
           [select(fiatConnectCashOutEnabledSelector), true],
           [select(fiatConnectProvidersSelector), mockFiatConnectProviderInfo],
+          [select(walletAddressSelector), '0xabc'],
         ])
         .put(fetchFiatConnectQuotesCompleted({ quotes: mockFiatConnectQuotes }))
         .run()
@@ -632,6 +633,7 @@ describe('Fiatconnect saga', () => {
         flow: CICOFlow.CashIn,
         localCurrency: 'USD',
         fiatConnectProviders: [mockFiatConnectProviderInfo[1]],
+        address: '0xabc',
       })
     })
 
@@ -651,6 +653,7 @@ describe('Fiatconnect saga', () => {
           [select(fiatConnectCashInEnabledSelector), false],
           [select(fiatConnectCashOutEnabledSelector), true],
           [select(fiatConnectProvidersSelector), mockFiatConnectProviderInfo],
+          [select(walletAddressSelector), '0xabc'],
         ])
         .put(fetchFiatConnectQuotesFailed({ error: 'Could not fetch fiatconnect quotes' }))
         .run()
@@ -664,6 +667,7 @@ describe('Fiatconnect saga', () => {
         flow: CICOFlow.CashIn,
         localCurrency: 'USD',
         fiatConnectProviders: mockFiatConnectProviderInfo,
+        address: '0xabc',
       })
     })
     it('saves an error when providers is null', async () => {
@@ -1035,7 +1039,7 @@ describe('Fiatconnect saga', () => {
     it('saves on success', async () => {
       mocked(getFiatConnectProviders).mockResolvedValue(mockFiatConnectProviderInfo)
       await expectSaga(handleFetchFiatConnectProviders)
-        .provide([[select(currentAccountSelector), '0xabc']])
+        .provide([[select(walletAddressSelector), '0xabc']])
         .put(fetchFiatConnectProvidersCompleted({ providers: mockFiatConnectProviderInfo }))
         .run()
       expect(getFiatConnectProviders).toHaveBeenCalledWith('0xabc')
@@ -1043,7 +1047,7 @@ describe('Fiatconnect saga', () => {
     it('fails when account is null', async () => {
       mocked(getFiatConnectProviders).mockResolvedValue(mockFiatConnectProviderInfo)
       await expectSaga(handleFetchFiatConnectProviders)
-        .provide([[select(currentAccountSelector), null]])
+        .provide([[select(walletAddressSelector), null]])
         .run()
       expect(getFiatConnectProviders).not.toHaveBeenCalled()
       expect(Logger.error).toHaveBeenCalled()
@@ -1051,7 +1055,7 @@ describe('Fiatconnect saga', () => {
     it('fails when getProviders fails', async () => {
       mocked(getFiatConnectProviders).mockRejectedValue(new Error('error'))
       await expectSaga(handleFetchFiatConnectProviders)
-        .provide([[select(currentAccountSelector), '0xabc']])
+        .provide([[select(walletAddressSelector), '0xabc']])
         .run()
       expect(getFiatConnectProviders).toHaveBeenCalledWith('0xabc')
       expect(Logger.error).toHaveBeenCalled()
