@@ -199,7 +199,7 @@ describe(handleNotification, () => {
       expect(navigate).not.toHaveBeenCalled()
     })
 
-    it('navigates to the send confirmation screen if the app is not already in the foreground', async () => {
+    it('navigates to the review screen if the app is not already in the foreground', async () => {
       await expectSaga(handleNotification, message, NotificationReceiveState.AppColdStart)
         .provide([[select(recipientInfoSelector), mockRecipientInfo]])
         .run()
