@@ -473,7 +473,6 @@ export function* _selectQuoteAndFiatAccount({
   normalizedQuotes: FiatConnectQuote[]
   providerId: string
 }) {
-  // Get the provider info
   const fiatConnectProviders: FiatConnectProviderInfo[] | null = yield select(
     fiatConnectProvidersSelector
   )
@@ -482,7 +481,6 @@ export function* _selectQuoteAndFiatAccount({
     throw new Error('Could not find provider')
   }
 
-  // Fetch Fiat Account associated with the cached providerId / fiatAccountId
   const fiatAccounts: FiatAccount[] = yield call(
     fetchFiatAccountsSaga,
     providerId,
