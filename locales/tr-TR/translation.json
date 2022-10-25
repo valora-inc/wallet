@@ -1424,8 +1424,8 @@
     },
     "ibanNumber": {
       "label": "IBAN",
-      "placeholderText": "IBAN Numarasını Girin",
-      "errorMessage": "Geçersiz IBAN"
+      "placeholderText": "IBAN numarasını Girin",
+      "errorMessage": "Geçersiz IBAN numarasını"
     }
   },
   "webView": {
