@@ -1,5 +1,3 @@
-// @ts-ignore
-import { toBeDisabled } from '@testing-library/jest-native'
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
@@ -10,8 +8,6 @@ import { Screens } from 'src/navigator/Screens'
 import ValidateRecipientAccount from 'src/send/ValidateRecipientAccount'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockCusdAddress, mockE164NumberInvite, mockTransactionData } from 'test/values'
-
-expect.extend({ toBeDisabled })
 
 describe('ValidateRecipientAccount', () => {
   it('renders correctly when full validation required', () => {

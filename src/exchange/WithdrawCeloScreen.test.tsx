@@ -1,5 +1,3 @@
-// @ts-ignore
-import { toBeDisabled } from '@testing-library/jest-native'
 import { fireEvent, render } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
@@ -10,8 +8,6 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
-
-expect.extend({ toBeDisabled })
 
 const SAMPLE_ADDRESS = '0xcc642068bdbbdeb91f348213492d2a80ab1ed23c'
 const SAMPLE_BALANCE = '55.00001'
