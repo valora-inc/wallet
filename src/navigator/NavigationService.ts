@@ -1,6 +1,10 @@
 // (https://github.com/react-navigation/react-navigation/issues/1439)
 import { StackActions } from '@react-navigation/core'
-import { CommonActions, createNavigationContainerRef, NavigationState } from '@react-navigation/native'
+import {
+  CommonActions,
+  createNavigationContainerRef,
+  NavigationState,
+} from '@react-navigation/native'
 import { createRef, MutableRefObject } from 'react'
 import sleep from 'sleep-promise'
 import { PincodeType } from 'src/account/reducer'
