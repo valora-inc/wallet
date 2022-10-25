@@ -1318,7 +1318,7 @@
       "retryable": {
         "title": "A verificação da identidade não foi aceita.",
         "description": "Verifique novamente ou tente uma forma diferente de sacar fundos.",
-        "tryAgain": "Verificar novamente"
+        "tryAgain": "Tentar novamente"
       },
       "final": {
         "title": "Verificação negada.",
@@ -1328,7 +1328,7 @@
     "expired": {
       "title": "A verificação da identidade expirou.",
       "description": "Verifique novamente ou tente uma forma diferente de sacar fundos.",
-      "tryAgain": "Verificar novamente",
+      "tryAgain": "Tentar novamente",
       "switch": "Trocar método de saque"
     },
     "tryAgainFailed": "Ocorreu um erro ao limpar as informações de Conheça o Seu Cliente (KYC). Tente novamente"
@@ -1414,13 +1414,18 @@
   "fiatAccountSchema": {
     "institutionName": {
       "label": "Nome do banco",
-      "placeholderText": "Inserir nome do banco"
+      "placeholderText": "Insira o nome do banco"
     },
     "accountNumber": {
       "label": "Número da conta",
-      "placeholderText": "Introduza o número da conta",
-      "errorMessageDigitLength": "O número de conta deve ser {{length}} dígitos",
+      "placeholderText": "Insira o número da conta",
+      "errorMessageDigitLength": "O número de conta deve ter {{length}} dígitos",
       "errorMessageDigit": "O número da conta deve conter apenas dígitos"
+    },
+    "ibanNumber": {
+      "label": "IBAN",
+      "placeholderText": "Insira o número IBAN",
+      "errorMessage": "IBAN inválido"
     }
   },
   "webView": {
@@ -1449,33 +1454,33 @@
     "swapTo": "Trocar para",
     "transactionDetails": "Detalhes de transação",
     "estimatedGas": "Taxas estimadas",
-    "swapSubmitError": "Sorry, we were unable to complete your swap. Please try again or contact support.",
+    "swapSubmitError": "Não é possível concluir sua troca. Tente novamente ou contate o suporte.",
     "swapFee": "Taxa da {{appName}}",
     "swapFeeTitle": "O que é a taxa da {{appName}}?",
     "swapFeeBody": "A taxa da {{appName}} é a taxa que se paga para trocar tokens na {{appName}}. \n\nA taxa é {{swapFee}}% do montante da troca. \n\nAs taxas da {{appName}} são gratuitas para os próximos meses.",
-    "swapFeeBodyFree": "The {{appName}} fee is the fee that you pay to swap tokens on {{appName}}. {{appName}} fees are free for the next few months.",
+    "swapFeeBodyFree": "A taxa de {{appName}} é a taxa paga para trocar tokens em {{appName}}. As taxas de {{appName}} são gratuitas nos próximos meses.",
     "estimatedAmountTitle": "Montante estimado",
     "estimatedAmountBody": "As conversões têm lugar numa troca descentralizada de terceiros que lhe encontra a melhor taxa para a sua troca. \n\nA sua transação será concluída a um preço de {{slippagePercent}}% da estimativa ou a transação será cancelada e os fundos serão devolvidos à sua carteira.",
-    "free": "Free"
+    "free": "Grátis"
   },
   "SwapExecuteScreen": {
-    "swapPending": "Swap Pending",
-    "swapSuccess": "Swap Successful!",
-    "swapError": "Swap Error",
-    "exchangeRateSubtext": "Finding the best exchange rate...",
-    "approvingSubtext": "Approving funds...",
-    "completingSubtext": "Completing swap...",
-    "swapAgain": "Swap Again",
+    "swapPending": "Troca pendente",
+    "swapSuccess": "Troca bem-sucedida!",
+    "swapError": "Erro na troca",
+    "exchangeRateSubtext": "Encontrando a melhor taxa de câmbio...",
+    "approvingSubtext": "Aprovando fundos...",
+    "completingSubtext": "Concluindo a troca...",
+    "swapAgain": "Trocar novamente",
     "swapPriceModal": {
-      "title": "Prices have changed",
-      "action": "Continue",
-      "body": "Crypto amounts & fees can change due to fluctuations in the crypto market. \n\n Please review your final amount & fees and resubmit."
+      "title": "Os preços mudaram",
+      "action": "Continuar",
+      "body": "As quantias e taxas de cripto podem mudar devido a flutuações no mercado cripto.\n\nRevise a quantia e as taxas finais e reenvie."
     },
     "swapErrorModal": {
-      "title": "We couldn’t complete this transaction.",
-      "body": "Please wait and try again later or contact our support team for help.",
-      "swapRestart": "Dismiss",
-      "contactSupport": "Contact Support"
+      "title": "Não foi possível concluir esta transação.",
+      "body": "Aguarde e tente de novo depois ou contate o suporte para obter ajuda.",
+      "swapRestart": "Ignorar",
+      "contactSupport": "Contate o suporte"
     }
   },
   "inviteModal": {

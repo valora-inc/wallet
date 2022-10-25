@@ -29,6 +29,7 @@ import {
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
 import { activeDappSelector } from 'src/dapps/selectors'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
+import { resolveDynamicLink } from 'src/firebase/firebase'
 import { receiveAttestationMessage } from 'src/identity/actions'
 import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
 import { CodeInputType } from 'src/identity/verification'
@@ -140,9 +141,21 @@ describe('handleDeepLink', () => {
     expect(navigate).not.toHaveBeenCalled()
   })
 
-  it('Handles share deep link', async () => {
-    const deepLink = 'https://vlra.app/share/abc123'
+  it('Handles long share deep link', async () => {
+    const deepLink = 'https://celo.org/share/abc123'
     await expectSaga(handleDeepLink, openDeepLink(deepLink)).run()
+
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(InviteEvents.opened_via_invite_url, {
+      inviterAddress: 'abc123',
+    })
+  })
+
+  it('Handles short share deep link', async () => {
+    const deepLink = 'https://vlra.app/someShortLink'
+    await expectSaga(handleDeepLink, openDeepLink(deepLink))
+      .provide([[call(resolveDynamicLink, deepLink), 'https://celo.org/share/abc123']])
+      .run()
 
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(InviteEvents.opened_via_invite_url, {
@@ -425,8 +438,7 @@ describe('runCentralPhoneVerificationMigration', () => {
         'Content-Type': 'application/json',
         authorization: 'Valora 0xabc:someSignedMessage',
       },
-      body:
-        '{"clientPlatform":"android","clientVersion":"0.0.1","publicDataEncryptionKey":"publicKeyForUser","phoneNumber":"+31619777888","pepper":"somePepper","phoneHash":"somePhoneHash","mtwAddress":"0x123"}',
+      body: '{"clientPlatform":"android","clientVersion":"0.0.1","publicDataEncryptionKey":"publicKeyForUser","phoneNumber":"+31619777888","pepper":"somePepper","phoneHash":"somePhoneHash","mtwAddress":"0x123"}',
     })
   })
 
@@ -456,8 +468,7 @@ describe('runCentralPhoneVerificationMigration', () => {
         'Content-Type': 'application/json',
         authorization: 'Valora 0xabc:someSignedMessage',
       },
-      body:
-        '{"clientPlatform":"android","clientVersion":"0.0.1","publicDataEncryptionKey":"publicKeyForUser","phoneNumber":"+31619777888","pepper":"somePepper","phoneHash":"somePhoneHash","mtwAddress":"0x123"}',
+      body: '{"clientPlatform":"android","clientVersion":"0.0.1","publicDataEncryptionKey":"publicKeyForUser","phoneNumber":"+31619777888","pepper":"somePepper","phoneHash":"somePhoneHash","mtwAddress":"0x123"}',
     })
     expect(loggerWarnSpy).toHaveBeenCalled()
   })

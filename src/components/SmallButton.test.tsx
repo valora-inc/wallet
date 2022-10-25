@@ -35,7 +35,7 @@ describe('SmallButton', () => {
 
   describe('when passed accessibilityLabel', () => {
     it('sets it', () => {
-      const { getByA11yLabel } = render(
+      const { getByLabelText } = render(
         <SmallButton
           solid={true}
           accessibilityLabel="link"
@@ -44,7 +44,7 @@ describe('SmallButton', () => {
         />
       )
 
-      expect(getByA11yLabel('link')).toBeTruthy()
+      expect(getByLabelText('link')).toBeTruthy()
     })
   })
 })

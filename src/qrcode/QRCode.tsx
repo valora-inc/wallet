@@ -25,11 +25,10 @@ const mapStateToProps = (state: RootState): Partial<UriData> => ({
 
 export default function QRCodeDisplay({ qrSvgRef }: Props) {
   const data = useSelector(mapStateToProps, shallowEqual)
-  const qrContent = useMemo(() => urlFromUriData(data), [
-    data.address,
-    data.displayName,
-    data.e164PhoneNumber,
-  ])
+  const qrContent = useMemo(
+    () => urlFromUriData(data),
+    [data.address, data.displayName, data.e164PhoneNumber]
+  )
   return (
     <SafeAreaView style={styles.container}>
       <AvatarSelf iconSize={64} displayNameStyle={fontStyles.h2} />

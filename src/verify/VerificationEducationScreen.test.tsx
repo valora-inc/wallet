@@ -1,5 +1,3 @@
-// @ts-ignore
-import { toBeDisabled } from '@testing-library/jest-native'
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { ActivityIndicator } from 'react-native'
@@ -12,8 +10,6 @@ import { useAsyncKomenciReadiness } from 'src/verify/hooks'
 import { idle, KomenciAvailable } from 'src/verify/reducer'
 import VerificationEducationScreen from 'src/verify/VerificationEducationScreen'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
-
-expect.extend({ toBeDisabled })
 
 const mockedUseAsyncKomenciReadiness = useAsyncKomenciReadiness as jest.Mock
 

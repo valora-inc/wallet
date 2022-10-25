@@ -1080,7 +1080,11 @@ export function* tryRevealPhoneNumber(
 
       yield delay(REVEAL_RETRY_DELAY)
 
-      const { ok: retryOk, status: retryStatus, body: retryBody } = yield call(
+      const {
+        ok: retryOk,
+        status: retryStatus,
+        body: retryBody,
+      } = yield call(
         postToAttestationService,
         attestationsWrapper,
         attestation.attestationServiceURL,

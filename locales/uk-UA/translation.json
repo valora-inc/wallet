@@ -1322,7 +1322,7 @@
       "retryable": {
         "title": "Верифікацію особи не погоджено.",
         "description": "Будь ласка, пройдіть верифікацію ще раз або спробуйте інший спосіб виведення коштів.",
-        "tryAgain": "Перевірити знову"
+        "tryAgain": "Перевірити ще раз"
       },
       "final": {
         "title": "Перевірку відхилено.",
@@ -1332,7 +1332,7 @@
     "expired": {
       "title": "Час на верифікацію особи вичерпано.",
       "description": "Будь ласка, пройдіть верифікацію ще раз або спробуйте інший спосіб виведення коштів.",
-      "tryAgain": "Перевірити знову",
+      "tryAgain": "Перевірити ще раз",
       "switch": "Змініть спосіб виведення коштів"
     },
     "tryAgainFailed": "Під час очищення інформації «Знай свого клієнта» сталася помилка. Будь ласка, спробуйте ще раз"
@@ -1423,8 +1423,13 @@
     "accountNumber": {
       "label": "Номер рахунку",
       "placeholderText": "Введіть номер рахунку",
-      "errorMessageDigitLength": "Номер рахунку має бути {{length}} цифр",
-      "errorMessageDigit": "Номер рахунку має містити лише цифри"
+      "errorMessageDigitLength": "Номер рахунку повинен складатися з {{length}} цифр",
+      "errorMessageDigit": "Номер рахунку повинен містити лише цифри"
+    },
+    "ibanNumber": {
+      "label": "IBAN",
+      "placeholderText": "Введіть номер IBAN",
+      "errorMessage": "Неправильний IBAN"
     }
   },
   "webView": {
@@ -1453,33 +1458,33 @@
     "swapTo": "Обміняти на",
     "transactionDetails": "Деталі транзакції",
     "estimatedGas": "Орієнтовний газ",
-    "swapSubmitError": "Sorry, we were unable to complete your swap. Please try again or contact support.",
+    "swapSubmitError": "На жаль, не вдалося завершити ваш обмін. Будь ласка, спробуйте ще раз або зверніться до служби підтримки.",
     "swapFee": "Комісія {{appName}}",
     "swapFeeTitle": "Яка комісія {{appName}}?",
     "swapFeeBody": "Комісія {{appName}} — це комісія, яку ви сплачуєте за обмін токенів у застосунку {{appName}}.\nКомісія становить {{swapFee}}% від суми обміну.\nНаступні кілька місяців комісії {{appName}} не стягуватимуться.",
-    "swapFeeBodyFree": "The {{appName}} fee is the fee that you pay to swap tokens on {{appName}}. {{appName}} fees are free for the next few months.",
+    "swapFeeBodyFree": "Комісія {{appName}} — це комісія, яку ви сплачуєте за обмін токенів у {{appName}}. {{appName}} є безплатним застосунком протягом наступних кількох місяців.",
     "estimatedAmountTitle": "Орієнтовна сума",
     "estimatedAmountBody": "Конверсії здійснюються на сторонній децентралізованій біржі. Там виконується пошук кращого курсу для обміну. \n\n Торгову операцію буде завершено за ціною в межах {{slippagePercent}}% від орієнтовної, або ж транзакцію буде скасовано, і кошти повернуться до вашого гаманця.",
-    "free": "Free"
+    "free": "Безплатно"
   },
   "SwapExecuteScreen": {
-    "swapPending": "Swap Pending",
-    "swapSuccess": "Swap Successful!",
-    "swapError": "Swap Error",
-    "exchangeRateSubtext": "Finding the best exchange rate...",
-    "approvingSubtext": "Approving funds...",
-    "completingSubtext": "Completing swap...",
-    "swapAgain": "Swap Again",
+    "swapPending": "Очікування обміну",
+    "swapSuccess": "Обмін успішний!",
+    "swapError": "Помилка обміну",
+    "exchangeRateSubtext": "Пошук кращого обмінного курсу...",
+    "approvingSubtext": "Затвердження коштів...",
+    "completingSubtext": "Завершення обміну...",
+    "swapAgain": "Обміняти знову",
     "swapPriceModal": {
-      "title": "Prices have changed",
-      "action": "Continue",
-      "body": "Crypto amounts & fees can change due to fluctuations in the crypto market. \n\n Please review your final amount & fees and resubmit."
+      "title": "Ціни змінилися",
+      "action": "Продовжити",
+      "body": "Суми криптовалют і комісії можуть змінитися через коливання на ринку криптовалюти.\n\nПерегляньте вашу остаточну суму та комісію і надішліть повторно."
     },
     "swapErrorModal": {
-      "title": "We couldn’t complete this transaction.",
-      "body": "Please wait and try again later or contact our support team for help.",
-      "swapRestart": "Dismiss",
-      "contactSupport": "Contact Support"
+      "title": "Ми не змогли завершити цю угоду.",
+      "body": "Будь ласка, зачекайте та спробуйте ще раз пізніше або зверніться до нашої служби підтримки за допомогою.",
+      "swapRestart": "Відхилити",
+      "contactSupport": "Звернутися до служби підтримки"
     }
   },
   "inviteModal": {

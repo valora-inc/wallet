@@ -311,6 +311,7 @@ exports[`Account renders correctly 1`] = `
             onResponderTerminate={[Function]}
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
+            testID="ChangeLanguage"
           >
             <View
               style={
@@ -373,7 +374,7 @@ exports[`Account renders correctly 1`] = `
                         "marginRight": 8,
                       }
                     }
-                    testID="languageSettings/value"
+                    testID="ChangeLanguage/value"
                   >
                     unknown
                   </Text>
@@ -423,6 +424,7 @@ exports[`Account renders correctly 1`] = `
             onResponderTerminate={[Function]}
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
+            testID="ChangeCurrency"
           >
             <View
               style={
@@ -485,7 +487,7 @@ exports[`Account renders correctly 1`] = `
                         "marginRight": 8,
                       }
                     }
-                    testID="localCurrencySetting/value"
+                    testID="ChangeCurrency/value"
                   >
                     PHP
                   </Text>
@@ -2276,6 +2278,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
             onResponderTerminate={[Function]}
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
+            testID="ChangeLanguage"
           >
             <View
               style={
@@ -2338,7 +2341,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
                         "marginRight": 8,
                       }
                     }
-                    testID="languageSettings/value"
+                    testID="ChangeLanguage/value"
                   >
                     unknown
                   </Text>
@@ -2388,6 +2391,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
             onResponderTerminate={[Function]}
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
+            testID="ChangeCurrency"
           >
             <View
               style={
@@ -2450,7 +2454,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
                         "marginRight": 8,
                       }
                     }
-                    testID="localCurrencySetting/value"
+                    testID="ChangeCurrency/value"
                   >
                     PHP
                   </Text>
@@ -4519,6 +4523,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
             onResponderTerminate={[Function]}
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
+            testID="ChangeLanguage"
           >
             <View
               style={
@@ -4581,7 +4586,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
                         "marginRight": 8,
                       }
                     }
-                    testID="languageSettings/value"
+                    testID="ChangeLanguage/value"
                   >
                     unknown
                   </Text>
@@ -4631,6 +4636,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
             onResponderTerminate={[Function]}
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
+            testID="ChangeCurrency"
           >
             <View
               style={
@@ -4693,7 +4699,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
                         "marginRight": 8,
                       }
                     }
-                    testID="localCurrencySetting/value"
+                    testID="ChangeCurrency/value"
                   >
                     PHP
                   </Text>
@@ -6404,6 +6410,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
             onResponderTerminate={[Function]}
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
+            testID="ChangeLanguage"
           >
             <View
               style={
@@ -6466,7 +6473,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
                         "marginRight": 8,
                       }
                     }
-                    testID="languageSettings/value"
+                    testID="ChangeLanguage/value"
                   >
                     unknown
                   </Text>
@@ -6516,6 +6523,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
             onResponderTerminate={[Function]}
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
+            testID="ChangeCurrency"
           >
             <View
               style={
@@ -6578,7 +6586,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
                         "marginRight": 8,
                       }
                     }
-                    testID="localCurrencySetting/value"
+                    testID="ChangeCurrency/value"
                   >
                     PHP
                   </Text>
