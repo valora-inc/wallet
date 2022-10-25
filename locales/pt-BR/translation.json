@@ -1414,17 +1414,17 @@
   "fiatAccountSchema": {
     "institutionName": {
       "label": "Nome do banco",
-      "placeholderText": "Inserir nome do banco"
+      "placeholderText": "Insira o nome do banco"
     },
     "accountNumber": {
       "label": "Número da conta",
-      "placeholderText": "Inserir número da conta",
+      "placeholderText": "Insira o número da conta",
       "errorMessageDigitLength": "O número de conta deve ter {{length}} dígitos",
       "errorMessageDigit": "O número da conta deve conter apenas dígitos"
     },
     "ibanNumber": {
       "label": "IBAN",
-      "placeholderText": "Introduza o número IBAN",
+      "placeholderText": "Insira o número IBAN",
       "errorMessage": "IBAN inválido"
     }
   },
