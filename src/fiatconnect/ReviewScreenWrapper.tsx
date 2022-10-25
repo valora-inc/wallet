@@ -36,7 +36,7 @@ export default function FiatConnectReviewScreenWrapper({ route }: Props) {
         })
       )
     }
-  }, [cachedQuoteParamsList])
+  }, [cachedQuoteParamsList, providerId, kycSchema])
 
   if (fiatConnectQuotesError) {
     // We have a cached quote, but there was some error while re-fetching; go to beginning of CICO flow
