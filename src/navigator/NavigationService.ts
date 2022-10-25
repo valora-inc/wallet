@@ -1,8 +1,6 @@
 // (https://github.com/react-navigation/react-navigation/issues/1439)
-
-import { NavigationActions } from '@react-navigation/compat'
-import { CommonActions, StackActions } from '@react-navigation/core'
-import { createNavigationContainerRef, NavigationState } from '@react-navigation/native'
+import { StackActions } from '@react-navigation/core'
+import { CommonActions, createNavigationContainerRef, NavigationState } from '@react-navigation/native'
 import { createRef, MutableRefObject } from 'react'
 import sleep from 'sleep-promise'
 import { PincodeType } from 'src/account/reducer'
@@ -80,8 +78,8 @@ export function navigate<RouteName extends keyof StackParamList>(
     .then(() => {
       Logger.debug(`${TAG}@navigate`, `Dispatch ${routeName}`)
       navigationRef.current?.dispatch(
-        NavigationActions.navigate({
-          routeName,
+        CommonActions.navigate({
+          name: routeName,
           params,
         })
       )
@@ -161,12 +159,11 @@ export function navigateToExchangeHome() {
   }
 }
 
-export function navigateBack(params?: object) {
+export function navigateBack() {
   ensureNavigator()
     .then(() => {
       Logger.debug(`${TAG}@navigateBack`, `Dispatch navigate back`)
-      // @ts-ignore
-      navigationRef.current?.dispatch(NavigationActions.back(params))
+      navigationRef.current?.dispatch(CommonActions.goBack())
     })
     .catch((reason) => {
       Logger.error(`${TAG}@navigateBack`, 'Navigation failure', reason)
