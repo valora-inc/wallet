@@ -105,14 +105,6 @@ export class App extends React.Component<Props> {
         this.handleOpenURL({ url })
       )
 
-      if (Platform.OS === 'ios') {
-        const firebaseUrl = await dynamicLinks().getInitialLink()
-
-        if (firebaseUrl) {
-          await this.handleOpenURL({ url: firebaseUrl.url })
-        }
-      }
-
       // On Android, initial deep links are picked up by CleverTap - even if they were created by Firebase DynamicLinks.
       // Breaking out here on Android avoids events being tracked multiple times.
       if (Platform.OS === 'ios') {
