@@ -19,16 +19,8 @@ const TOUCH_OVERFLOW = 7
 
 export default class SmallButton extends React.Component<ButtonProps> {
   render() {
-    const {
-      onPress,
-      text,
-      accessibilityLabel,
-      solid,
-      disabled,
-      style,
-      textStyle,
-      children,
-    } = this.props
+    const { onPress, text, accessibilityLabel, solid, disabled, style, textStyle, children } =
+      this.props
     return (
       <Touchable
         testID={this.props.testID}

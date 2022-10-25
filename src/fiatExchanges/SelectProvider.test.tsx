@@ -269,9 +269,8 @@ describe(SelectProviderScreen, () => {
       'does not show coinbase card if %s is selected',
       async (currency) => {
         const mockProvidersAdjusted = mockProviders
-        mockProvidersAdjusted.find(
-          (provider) => provider.name === 'CoinbasePay'
-        )!.restricted = false
+        mockProvidersAdjusted.find((provider) => provider.name === 'CoinbasePay')!.restricted =
+          false
         mocked(fetchProviders).mockResolvedValue(mockProvidersAdjusted)
         mockStore = createMockStore({
           ...mockStore,

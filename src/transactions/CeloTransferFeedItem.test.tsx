@@ -1,5 +1,3 @@
-// @ts-ignore
-import { toBeDisabled } from '@testing-library/jest-native'
 import { render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
@@ -9,8 +7,6 @@ import CeloTransferFeedItem from 'src/transactions/CeloTransferFeedItem'
 import { TransactionStatus } from 'src/transactions/types'
 import { createMockStore, getMockI18nProps } from 'test/utils'
 import { mockAccount } from 'test/values'
-
-expect.extend({ toBeDisabled })
 
 const SAMPLE_ADDRESS = '0xcc642068bdbbdeb91f348213492d2a80ab1ed23c'
 

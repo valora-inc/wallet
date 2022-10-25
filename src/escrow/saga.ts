@@ -329,14 +329,12 @@ function* withdrawFromEscrow(komenciActive: boolean = false) {
           const komenci = yield select(komenciContextSelector)
           const komenciKit = yield call(getKomenciKit, contractKit, walletAddress, komenci)
 
-          const withdrawAndTransferTxResult: Result<
-            CeloTxReceipt,
-            FetchError | TxError
-          > = yield call(
-            [komenciKit, komenciKit.submitMetaTransaction],
-            mtwAddress,
-            withdrawAndTransferTx
-          )
+          const withdrawAndTransferTxResult: Result<CeloTxReceipt, FetchError | TxError> =
+            yield call(
+              [komenciKit, komenciKit.submitMetaTransaction],
+              mtwAddress,
+              withdrawAndTransferTx
+            )
 
           if (!withdrawAndTransferTxResult.ok) {
             throw withdrawAndTransferTxResult.error

@@ -1419,6 +1419,11 @@
       "placeholderText": "Enter Account Number",
       "errorMessageDigitLength": "Account number must be {{length}} digits",
       "errorMessageDigit": "Account number must contain only digits"
+    },
+    "ibanNumber": {
+      "label": "IBAN",
+      "placeholderText": "Enter IBAN Number",
+      "errorMessage": "Invalid IBAN"
     }
   },
   "webView": {

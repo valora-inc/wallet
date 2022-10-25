@@ -137,10 +137,12 @@ export function* chooseTxFeeDetails(
   const userAddress: string = yield select(walletAddressSelector)
   const feeCurrency = tokenInfo.symbol === 'CELO' ? undefined : tokenInfo.address
   if (!gas) {
-    gas = ((yield call(estimateGas, tx, {
-      from: userAddress,
-      feeCurrency,
-    })) as BigNumber).toNumber()
+    gas = (
+      (yield call(estimateGas, tx, {
+        from: userAddress,
+        feeCurrency,
+      })) as BigNumber
+    ).toNumber()
   }
   if (!gasPrice) {
     gasPrice = yield getGasPrice(feeCurrency)

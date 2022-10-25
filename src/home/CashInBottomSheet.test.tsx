@@ -14,8 +14,7 @@ const mockRampProvider = {
   restricted: false,
   paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
   url: 'www.fakewebsite.com',
-  logo:
-    'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Framp.png?alt=media',
+  logo: 'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Framp.png?alt=media',
   quote: [
     { paymentMethod: PaymentMethod.Card, digitalAsset: 'cusd', returnedAmount: 100, fiatFee: 0 },
   ],
