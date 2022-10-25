@@ -1,5 +1,5 @@
-// @ts-ignore
-const svgMock = require('react-native-svg-mock')
+import '@testing-library/jest-native/extend-expect'
+import 'react-native-svg-mock'
 
 jest.useFakeTimers()
 

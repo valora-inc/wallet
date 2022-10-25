@@ -1,6 +1,4 @@
 import { FiatAccountType, FiatType } from '@fiatconnect/fiatconnect-types'
-// @ts-ignore
-import { toBeDisabled } from '@testing-library/jest-native'
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
@@ -19,8 +17,6 @@ import { CICOFlow } from './utils'
 jest.mock('src/fees/hooks', () => ({
   useMaxSendAmount: () => mockMaxSendAmount,
 }))
-
-expect.extend({ toBeDisabled })
 
 const usdExchangeRates = {
   [Currency.Dollar]: '1',
