@@ -1418,13 +1418,13 @@
     },
     "accountNumber": {
       "label": "Número de cuenta",
-      "placeholderText": "Introduce el número de cuenta",
+      "placeholderText": "Ingresa el número de cuenta",
       "errorMessageDigitLength": "El número de cuenta debe tener {{length}} dígitos",
       "errorMessageDigit": "El número de cuenta debe contener sólo dígitos"
     },
     "ibanNumber": {
       "label": "IBAN",
-      "placeholderText": "Introduce el número IBAN",
+      "placeholderText": "Ingresa el número IBAN",
       "errorMessage": "IBAN inválido"
     }
   },
