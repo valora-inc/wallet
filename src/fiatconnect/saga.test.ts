@@ -165,6 +165,7 @@ describe('Fiatconnect saga', () => {
             providerId: normalizedQuote.getProviderId(),
             fiatAccountId: mockObfuscatedAccount.fiatAccountId,
             fiatAccountType: mockObfuscatedAccount.fiatAccountType,
+            fiatAccountSchema: mockObfuscatedAccount.fiatAccountSchema,
             flow: normalizedQuote.flow,
             cryptoType: normalizedQuote.getCryptoType(),
             fiatType: normalizedQuote.getFiatType(),
@@ -294,6 +295,7 @@ describe('Fiatconnect saga', () => {
             providerId: normalizedQuoteKyc.getProviderId(),
             fiatAccountId: mockObfuscatedAccount.fiatAccountId,
             fiatAccountType: mockObfuscatedAccount.fiatAccountType,
+            fiatAccountSchema: mockObfuscatedAccount.fiatAccountSchema,
             flow: normalizedQuoteKyc.flow,
             cryptoType: normalizedQuoteKyc.getCryptoType(),
             fiatType: normalizedQuoteKyc.getFiatType(),
@@ -355,6 +357,7 @@ describe('Fiatconnect saga', () => {
             providerId: normalizedQuoteKyc.getProviderId(),
             fiatAccountId: mockObfuscatedAccount.fiatAccountId,
             fiatAccountType: mockObfuscatedAccount.fiatAccountType,
+            fiatAccountSchema: mockObfuscatedAccount.fiatAccountSchema,
             flow: normalizedQuoteKyc.flow,
             cryptoType: normalizedQuoteKyc.getCryptoType(),
             fiatType: normalizedQuoteKyc.getFiatType(),
@@ -415,6 +418,7 @@ describe('Fiatconnect saga', () => {
             providerId: normalizedQuoteKyc.getProviderId(),
             fiatAccountId: mockObfuscatedAccount.fiatAccountId,
             fiatAccountType: mockObfuscatedAccount.fiatAccountType,
+            fiatAccountSchema: mockObfuscatedAccount.fiatAccountSchema,
             flow: normalizedQuoteKyc.flow,
             cryptoType: normalizedQuoteKyc.getCryptoType(),
             fiatType: normalizedQuoteKyc.getFiatType(),
@@ -474,6 +478,7 @@ describe('Fiatconnect saga', () => {
             providerId: normalizedQuoteKyc.getProviderId(),
             fiatAccountId: mockObfuscatedAccount.fiatAccountId,
             fiatAccountType: mockObfuscatedAccount.fiatAccountType,
+            fiatAccountSchema: mockObfuscatedAccount.fiatAccountSchema,
             flow: normalizedQuoteKyc.flow,
             cryptoType: normalizedQuoteKyc.getCryptoType(),
             fiatType: normalizedQuoteKyc.getFiatType(),
@@ -524,6 +529,7 @@ describe('Fiatconnect saga', () => {
             providerId: normalizedQuoteKyc.getProviderId(),
             fiatAccountId: mockObfuscatedAccount.fiatAccountId,
             fiatAccountType: mockObfuscatedAccount.fiatAccountType,
+            fiatAccountSchema: mockObfuscatedAccount.fiatAccountSchema,
             flow: normalizedQuoteKyc.flow,
             cryptoType: normalizedQuoteKyc.getCryptoType(),
             fiatType: normalizedQuoteKyc.getFiatType(),
@@ -583,6 +589,7 @@ describe('Fiatconnect saga', () => {
             providerId: normalizedQuoteKyc.getProviderId(),
             fiatAccountId: mockObfuscatedAccount.fiatAccountId,
             fiatAccountType: mockObfuscatedAccount.fiatAccountType,
+            fiatAccountSchema: mockObfuscatedAccount.fiatAccountSchema,
             flow: normalizedQuoteKyc.flow,
             cryptoType: normalizedQuoteKyc.getCryptoType(),
             fiatType: normalizedQuoteKyc.getFiatType(),
@@ -722,6 +729,7 @@ describe('Fiatconnect saga', () => {
         accountName: 'Provider Three',
         institutionName: 'The fun bank',
         fiatAccountType: FiatAccountType.BankAccount,
+        fiatAccountSchema: FiatAccountSchema.AccountNumber,
       }
       mockGetFiatAccounts.mockResolvedValue(
         Result.ok({
@@ -751,6 +759,7 @@ describe('Fiatconnect saga', () => {
             providerId: normalizedQuoteKyc.getProviderId(),
             fiatAccountId: fiatAccount.fiatAccountId,
             fiatAccountType: normalizedQuoteKyc.getFiatAccountType(),
+            fiatAccountSchema: normalizedQuoteKyc.getFiatAccountSchema(),
             flow: normalizedQuoteKyc.flow,
             cryptoType: normalizedQuoteKyc.getCryptoType(),
             fiatType: normalizedQuoteKyc.getFiatType(),
@@ -771,6 +780,7 @@ describe('Fiatconnect saga', () => {
         accountName: 'Provider Three',
         institutionName: 'The fun bank',
         fiatAccountType: FiatAccountType.BankAccount,
+        fiatAccountSchema: FiatAccountSchema.AccountNumber,
       }
       mockGetFiatAccounts.mockResolvedValue(
         Result.ok({
@@ -990,6 +1000,7 @@ describe('Fiatconnect saga', () => {
         accountName: 'provider two',
         institutionName: 'The fun bank',
         fiatAccountType: FiatAccountType.BankAccount, // matching fiatAccount type
+        fiatAccountSchema: FiatAccountSchema.AccountNumber,
       }
       mockGetFiatAccounts.mockResolvedValue(
         Result.ok({
@@ -1012,6 +1023,7 @@ describe('Fiatconnect saga', () => {
             providerId: normalizedQuote.getProviderId(),
             fiatAccountId: fiatAccount.fiatAccountId,
             fiatAccountType: normalizedQuote.getFiatAccountType(),
+            fiatAccountSchema: normalizedQuote.getFiatAccountSchema(),
             flow: normalizedQuote.flow,
             cryptoType: normalizedQuote.getCryptoType(),
             fiatType: normalizedQuote.getFiatType(),
@@ -1728,6 +1740,144 @@ describe('Fiatconnect saga', () => {
           error: 'tx error',
         }
       )
+    })
+  })
+
+  describe('_getFiatAccount', () => {
+    const mockFiatAccounts = [
+      {
+        fiatAccountId: '123',
+        accountName: 'some account name',
+        institutionName: 'some institution',
+        fiatAccountType: FiatAccountType.BankAccount,
+        fiatAccountSchema: FiatAccountSchema.AccountNumber,
+      },
+      {
+        fiatAccountId: '456',
+        accountName: 'some account name',
+        institutionName: 'some institution',
+        fiatAccountType: FiatAccountType.BankAccount,
+        fiatAccountSchema: FiatAccountSchema.DuniaWallet,
+      },
+      {
+        fiatAccountId: '789',
+        accountName: 'some account name',
+        institutionName: 'some institution',
+        fiatAccountType: FiatAccountType.MobileMoney,
+        fiatAccountSchema: FiatAccountSchema.MobileMoney,
+      },
+    ]
+
+    it('throws an error when no matching provider is given', async () => {
+      await expect(
+        async () =>
+          await expectSaga(_getFiatAccount, {
+            fiatConnectProviders: mockFiatConnectProviderInfo,
+            providerId: 'fake-provider',
+          }).run()
+      ).rejects.toThrow('Could not find provider')
+    })
+    it('returns account with matching ID', async () => {
+      await expectSaga(_getFiatAccount, {
+        fiatConnectProviders: mockFiatConnectProviderInfo,
+        providerId: 'provider-two',
+        fiatAccountId: '789',
+      })
+        .provide([
+          [
+            call(
+              fetchFiatAccountsSaga,
+              'provider-two',
+              'fakewebsite.valoraapp.com',
+              'fake-api-key'
+            ),
+            mockFiatAccounts,
+          ],
+        ])
+        .returns(mockFiatAccounts[2])
+        .run()
+    })
+    it('returns account with matching type', async () => {
+      await expectSaga(_getFiatAccount, {
+        fiatConnectProviders: mockFiatConnectProviderInfo,
+        providerId: 'provider-two',
+        fiatAccountType: FiatAccountType.BankAccount,
+      })
+        .provide([
+          [
+            call(
+              fetchFiatAccountsSaga,
+              'provider-two',
+              'fakewebsite.valoraapp.com',
+              'fake-api-key'
+            ),
+            mockFiatAccounts,
+          ],
+        ])
+        .returns(mockFiatAccounts[0])
+        .run()
+    })
+    it('returns account with matching schema', async () => {
+      await expectSaga(_getFiatAccount, {
+        fiatConnectProviders: mockFiatConnectProviderInfo,
+        providerId: 'provider-two',
+        fiatAccountSchema: FiatAccountSchema.DuniaWallet,
+      })
+        .provide([
+          [
+            call(
+              fetchFiatAccountsSaga,
+              'provider-two',
+              'fakewebsite.valoraapp.com',
+              'fake-api-key'
+            ),
+            mockFiatAccounts,
+          ],
+        ])
+        .returns(mockFiatAccounts[1])
+        .run()
+    })
+    it('returns account when all filters defined', async () => {
+      await expectSaga(_getFiatAccount, {
+        fiatConnectProviders: mockFiatConnectProviderInfo,
+        providerId: 'provider-two',
+        fiatAccountType: FiatAccountType.BankAccount,
+        fiatAccountSchema: FiatAccountSchema.DuniaWallet,
+        fiatAccountId: '456',
+      })
+        .provide([
+          [
+            call(
+              fetchFiatAccountsSaga,
+              'provider-two',
+              'fakewebsite.valoraapp.com',
+              'fake-api-key'
+            ),
+            mockFiatAccounts,
+          ],
+        ])
+        .returns(mockFiatAccounts[1])
+        .run()
+    })
+    it('returns null when no accounts match', async () => {
+      await expectSaga(_getFiatAccount, {
+        fiatConnectProviders: mockFiatConnectProviderInfo,
+        providerId: 'provider-two',
+        fiatAccountSchema: FiatAccountSchema.IBANNumber,
+      })
+        .provide([
+          [
+            call(
+              fetchFiatAccountsSaga,
+              'provider-two',
+              'fakewebsite.valoraapp.com',
+              'fake-api-key'
+            ),
+            mockFiatAccounts,
+          ],
+        ])
+        .returns(null)
+        .run()
     })
   })
 
