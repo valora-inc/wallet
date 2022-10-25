@@ -45,13 +45,17 @@ import {
 } from 'src/app/selectors'
 import { CreateAccountCopyTestType, InviteMethodType, SuperchargeButtonType } from 'src/app/types'
 import { runVerificationMigration } from 'src/app/verificationMigration'
-import { FETCH_TIMEOUT_DURATION } from 'src/config'
+import { DYNAMIC_LINK_DOMAIN_URI_PREFIX, FETCH_TIMEOUT_DURATION } from 'src/config'
 import { SuperchargeTokenConfigByToken } from 'src/consumerIncentives/types'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
 import { DappConnectInfo } from 'src/dapps/types'
 import { FiatAccountSchemaCountryOverrides } from 'src/fiatconnect/types'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
-import { appVersionDeprecationChannel, fetchRemoteConfigValues } from 'src/firebase/firebase'
+import {
+  appVersionDeprecationChannel,
+  fetchRemoteConfigValues,
+  resolveDynamicLink,
+} from 'src/firebase/firebase'
 import { receiveAttestationMessage } from 'src/identity/actions'
 import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
 import { CodeInputType } from 'src/identity/verification'
@@ -269,12 +273,21 @@ function convertQueryToScreenParams(query: string) {
 }
 
 export function* handleDeepLink(action: OpenDeepLink) {
-  const { deepLink, isSecureOrigin } = action
+  let { deepLink } = action
+  const { isSecureOrigin } = action
   Logger.debug(TAG, 'Handling deep link', deepLink)
 
   if (isWalletConnectDeepLink(deepLink)) {
     yield call(handleWalletConnectDeepLink, deepLink)
     return
+  }
+
+  // Try resolve dynamic links
+  if (deepLink.startsWith(DYNAMIC_LINK_DOMAIN_URI_PREFIX)) {
+    const resolvedDynamicLink: string | null = yield call(resolveDynamicLink, deepLink)
+    if (resolvedDynamicLink) {
+      deepLink = resolvedDynamicLink
+    }
   }
 
   const rawParams = parse(deepLink)

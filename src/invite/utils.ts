@@ -2,13 +2,13 @@ import { trimLeading0x } from '@celo/utils/lib/address'
 import { sanitizeMessageBase64 } from '@celo/utils/lib/attestations'
 import dynamicLinks from '@react-native-firebase/dynamic-links'
 import URLSearchParamsReal from '@ungap/url-search-params'
-import url from 'url'
-
+import { WEB_LINK } from 'src/brandingConfig'
 import {
   APP_BUNDLE_ID as bundleId,
   APP_STORE_ID as appStoreId,
   DYNAMIC_LINK_DOMAIN_URI_PREFIX as baseURI,
 } from 'src/config'
+import url from 'url'
 
 export type ExtractedInviteCodeAndPrivateKey = null | {
   inviteCode: string
@@ -86,8 +86,8 @@ export const extractValuesFromDeepLink = async (): Promise<ExtractedInviteCodeAn
 }
 
 export async function createDynamicLink(address: string) {
-  return dynamicLinks().buildLink({
-    link: `${baseURI}/share/${address}`,
+  return dynamicLinks().buildShortLink({
+    link: `${WEB_LINK}share/${address}`,
     domainUriPrefix: baseURI,
     ios: {
       appStoreId,

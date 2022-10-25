@@ -127,11 +127,9 @@ export function* doFetchExchangeRate(action: FetchExchangeRateAction) {
 
     let makerAmountInWei: BigNumber | null = null
     if (makerAmount && makerToken) {
-      makerAmountInWei = ((yield call(
-        convertToContractDecimals,
-        makerAmount,
-        makerToken
-      )) as BigNumber).integerValue()
+      makerAmountInWei = (
+        (yield call(convertToContractDecimals, makerAmount, makerToken)) as BigNumber
+      ).integerValue()
     }
 
     // If makerAmount and makerToken are given, use them to estimate the exchange rate,

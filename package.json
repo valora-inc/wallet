@@ -73,8 +73,8 @@
     "@celo/wallet-rpc": "~1.2.0",
     "@coinbase/cbpay-js": "^1.0.2",
     "@crowdin/ota-client": "^0.4.0",
-    "@fiatconnect/fiatconnect-sdk": "^0.3.9",
-    "@fiatconnect/fiatconnect-types": "^7.0.3",
+    "@fiatconnect/fiatconnect-sdk": "^0.4.0",
+    "@fiatconnect/fiatconnect-types": "^8.0.0",
     "@google-cloud/storage": "^5.16.1",
     "@gorhom/bottom-sheet": "^4.3.2",
     "@komenci/contracts": "1.1.0",
@@ -275,9 +275,8 @@
     "patch-package": "^6.2.2",
     "pixelmatch": "^5.2.1",
     "postinstall-prepare": "^1.0.1",
-    "prettier": "2.2.1",
-    "prettier-plugin-java": "^0.6.0",
-    "prettier-plugin-solidity": "1.0.0-alpha.35",
+    "prettier": "2.7.1",
+    "prettier-plugin-java": "^1.6.2",
     "pretty-quick": "^2.0.1",
     "react-devtools": "^4.26.0",
     "react-native-debugger-open": "^0.3.17",
@@ -313,8 +312,8 @@
     "**/extend": "^3.0.2",
     "**/cross-fetch": "^3.0.2",
     "bignumber.js": "9.0.0",
-    "prettier": "^2.2.1",
-    "@types/prettier": "^2.2.1",
+    "prettier": "2.7.1",
+    "@types/prettier": "^2.7.1",
     "eslint-utils": "^1.4.1",
     "set-value": "^4.0.1",
     "https-proxy-agent": "^5.0.0",
@@ -393,6 +392,20 @@
           "type": "iPhone 11"
         }
       },
+      "simulator.15.0": {
+        "type": "ios.simulator",
+        "device": {
+          "type": "iPhone 11",
+          "os": "iOS 15.0"
+        }
+      },
+      "simulator.14.5": {
+        "type": "ios.simulator",
+        "device": {
+          "type": "iPhone 11",
+          "os": "iOS 14.5"
+        }
+      },
       "emulator": {
         "type": "android.emulator",
         "device": {
@@ -410,6 +423,14 @@
       },
       "ios.release": {
         "device": "simulator",
+        "app": "ios.release"
+      },
+      "ios.release.14.5": {
+        "device": "simulator.14.5",
+        "app": "ios.release"
+      },
+      "ios.release.15.0": {
+        "device": "simulator.15.0",
         "app": "ios.release"
       },
       "android.debug": {

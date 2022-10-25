@@ -103,7 +103,7 @@ describe(getOrCreateAccount, () => {
         .call(
           generateMnemonic,
           MnemonicStrength.s256_24words,
-          (MnemonicLanguages[expectedMnemonicLang] as unknown) as MnemonicLanguages,
+          MnemonicLanguages[expectedMnemonicLang] as unknown as MnemonicLanguages,
           bip39
         )
         .run()
