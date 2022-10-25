@@ -440,7 +440,7 @@ const settingsScreens = (Navigator: typeof Stack) => (
     <Navigator.Screen
       name={Screens.Language}
       component={Language}
-      options={Language.navigationOptions(false) as NativeStackNavigationOptions}
+      options={Language.navigationOptions()}
     />
     <Navigator.Screen
       name={Screens.SelectLocalCurrency}
