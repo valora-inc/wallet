@@ -28,7 +28,10 @@ import { PaymentMethodSection } from 'src/fiatExchanges/PaymentMethodSection'
 import { normalizeQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
 import { readOnceFromFirebase } from 'src/firebase/firebase'
 import i18n from 'src/i18n'
-import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
+import {
+  getLocalCurrencyCode,
+  localCurrencyExchangeRatesSelector,
+} from 'src/localCurrency/selectors'
 import { emptyHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -49,8 +52,10 @@ import {
   FiatExchangeFlow,
   filterLegacyMobileMoneyProviders,
   filterProvidersByPaymentMethod,
+  getQuoteSelectionAnalyticsData,
   LegacyMobileMoneyProvider,
   PaymentMethod,
+  ProviderSelectionAnalyticsData,
 } from './utils'
 
 const TAG = 'SelectProviderScreen'
@@ -67,6 +72,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
   const fiatConnectQuotesError = useSelector(fiatConnectQuotesErrorSelector)
   const fiatConnectProviders = useSelector(fiatConnectProvidersSelector)
   const selectFiatConnectQuoteLoading = useSelector(selectFiatConnectQuoteLoadingSelector)
+  const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)
 
   const [noPaymentMethods, setNoPaymentMethods] = useState(false)
   const { flow } = route.params
@@ -224,6 +230,13 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
     )
   }
 
+  const analyticsData = getQuoteSelectionAnalyticsData({
+    normalizedQuotes,
+    legacyMobileMoneyProviders,
+    exchangeRates,
+    centralizedExchanges: exchanges,
+  })
+
   return (
     <ScrollView>
       <PaymentMethodSection
@@ -231,17 +244,20 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
         paymentMethod={PaymentMethod.Card}
         setNoPaymentMethods={setNoPaymentMethods}
         flow={flow}
+        analyticsData={analyticsData}
       />
       <PaymentMethodSection
         normalizedQuotes={normalizedQuotes}
         paymentMethod={PaymentMethod.Bank}
         setNoPaymentMethods={setNoPaymentMethods}
         flow={flow}
+        analyticsData={analyticsData}
       />
       <LegacyMobileMoneySection
         providers={legacyMobileMoneyProviders || []}
         digitalAsset={digitalAsset}
         flow={flow}
+        analyticsData={analyticsData}
       />
       {coinbaseProvider && coinbasePayVisible && (
         <CoinbasePaymentSection
@@ -254,6 +270,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
         exchanges={exchanges}
         selectedCurrency={route.params.selectedCrypto}
         flow={flow}
+        analyticsData={analyticsData}
       />
       <LimitedPaymentMethods visible={noPaymentMethods} flow={flow} />
     </ScrollView>
@@ -310,11 +327,13 @@ function ExchangesSection({
   exchanges = [],
   flow,
   selectedCurrency,
+  analyticsData,
 }: // TODO add other provider metadata to pass thru to select exchanges track event
 {
   exchanges: ExternalExchangeProvider[]
   flow: CICOFlow
   selectedCurrency: Currency
+  analyticsData: ProviderSelectionAnalyticsData
 }) {
   const { t } = useTranslation()
 
@@ -325,6 +344,7 @@ function ExchangesSection({
   const goToExchangesScreen = () => {
     ValoraAnalytics.track(FiatExchangeEvents.cico_providers_exchanges_selected, {
       flow,
+      ...analyticsData,
     })
     navigate(Screens.ExternalExchanges, {
       currency: selectedCurrency,
@@ -356,11 +376,12 @@ function LegacyMobileMoneySection({
   providers,
   digitalAsset,
   flow,
-}: // TODO add other provider metadata to pass thru to select quote track event
-{
+  analyticsData,
+}: {
   providers: LegacyMobileMoneyProvider[]
   digitalAsset: CiCoCurrency
   flow: CICOFlow
+  analyticsData: ProviderSelectionAnalyticsData
 }) {
   const { t } = useTranslation()
 
@@ -387,6 +408,7 @@ function LegacyMobileMoneySection({
       flow,
       paymentMethod: PaymentMethod.MobileMoney,
       provider: provider.name,
+      ...analyticsData,
     })
     navigateToURI(provider[digitalAsset === CiCoCurrency.CUSD ? 'cusd' : 'celo'].url)
   }

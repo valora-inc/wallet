@@ -46,7 +46,12 @@ import {
 } from 'src/consumerIncentives/analyticsEventsTracker'
 import { DappSection } from 'src/dapps/types'
 import { InputToken } from 'src/exchange/ExchangeTradeScreen'
-import { CICOFlow, FiatExchangeFlow, PaymentMethod } from 'src/fiatExchanges/utils'
+import {
+  CICOFlow,
+  FiatExchangeFlow,
+  PaymentMethod,
+  ProviderSelectionAnalyticsData,
+} from 'src/fiatExchanges/utils'
 import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { NotificationReceiveState } from 'src/notifications/types'
@@ -1029,13 +1034,15 @@ interface FiatExchangeEventsProperties {
     paymentMethod: PaymentMethod
     flow: CICOFlow
   }
-  [FiatExchangeEvents.cico_providers_quote_selected]: {
+  [FiatExchangeEvents.cico_providers_quote_selected]: ProviderSelectionAnalyticsData & {
     paymentMethod: PaymentMethod
     provider: string
     flow: CICOFlow
   }
   [FiatExchangeEvents.cico_providers_back]: { flow: CICOFlow }
-  [FiatExchangeEvents.cico_providers_exchanges_selected]: { flow: CICOFlow }
+  [FiatExchangeEvents.cico_providers_exchanges_selected]: ProviderSelectionAnalyticsData & {
+    flow: CICOFlow
+  }
   [FiatExchangeEvents.cico_providers_unavailable_impression]: { flow: CICOFlow }
   [FiatExchangeEvents.cico_providers_unavailable_selected]: { flow: CICOFlow }
   [FiatExchangeEvents.cico_fc_review_submit]: { flow: CICOFlow; provider: string }

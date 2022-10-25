@@ -295,36 +295,46 @@ export const filterProvidersByPaymentMethod = (
   return externalProviders?.find((quote) => quote.paymentMethods.includes(paymentMethod))
 }
 
+export interface ProviderSelectionAnalyticsData {
+  centralizedExchangesAvailable: number
+  providersAvailable: number
+  paymentMethodsAvailable: Record<PaymentMethod, boolean>
+  lowestFeeKycRequired: boolean | undefined
+  lowestFeeCryptoAmount: string | undefined
+  lowestFeeProvider: string | undefined
+  lowestFeePaymentMethod: PaymentMethod | undefined
+}
+
 export function getQuoteSelectionAnalyticsData({
   normalizedQuotes,
-  legacyMobileMoneyProviders,
   exchangeRates,
+  legacyMobileMoneyProviders,
+  centralizedExchanges,
 }: {
   normalizedQuotes: NormalizedQuote[]
-  legacyMobileMoneyProviders: LegacyMobileMoneyProvider[]
   exchangeRates: { [token in Currency]: string | null }
-}) {
-  // TODO boolean for if centralized exchanges shown as option
-
+  legacyMobileMoneyProviders?: LegacyMobileMoneyProvider[]
+  centralizedExchanges?: ExternalExchangeProvider[]
+}): ProviderSelectionAnalyticsData {
   let lowestFeePaymentMethod: PaymentMethod | undefined = undefined
   let lowestFeeProvider: string | undefined = undefined
-  let lowestFeeCrypto: BigNumber | null = null
+  let lowestFeeCryptoAmount: BigNumber | null = null
   let lowestFeeKycRequired: boolean | undefined = undefined
-  const providersAvailable = new Set(legacyMobileMoneyProviders.map((provider) => provider.name))
+  const providersAvailable = new Set(legacyMobileMoneyProviders?.map((provider) => provider.name))
   const paymentMethodsAvailable: Record<PaymentMethod, boolean> = {
     [PaymentMethod.Bank]: false,
     [PaymentMethod.Card]: false,
-    [PaymentMethod.MobileMoney]: false,
     [PaymentMethod.Coinbase]: false,
-    [PaymentMethod.MobileMoney]: legacyMobileMoneyProviders.length > 0,
+    [PaymentMethod.MobileMoney]:
+      !!legacyMobileMoneyProviders && legacyMobileMoneyProviders.length > 0,
   }
 
   for (const quote of normalizedQuotes) {
     providersAvailable.add(quote.getProviderId())
     paymentMethodsAvailable[quote.getPaymentMethod()] = true
     const fee = quote.getFeeInCrypto(exchangeRates)
-    if (fee && (lowestFeeCrypto === null || fee.isLessThan(lowestFeeCrypto))) {
-      lowestFeeCrypto = fee
+    if (fee && (lowestFeeCryptoAmount === null || fee.isLessThan(lowestFeeCryptoAmount))) {
+      lowestFeeCryptoAmount = fee
       lowestFeePaymentMethod = quote.getPaymentMethod()
       lowestFeeProvider = quote.getProviderId()
       lowestFeeKycRequired = !!quote.getKycInfo()
@@ -336,7 +346,8 @@ export function getQuoteSelectionAnalyticsData({
     lowestFeePaymentMethod,
     lowestFeeProvider,
     lowestFeeKycRequired,
+    centralizedExchangesAvailable: centralizedExchanges?.length ?? 0,
     providersAvailable: providersAvailable.size,
-    lowestFeeCrypto: lowestFeeCrypto?.toFixed(2) ?? undefined,
+    lowestFeeCryptoAmount: lowestFeeCryptoAmount?.toFixed(2) ?? undefined,
   }
 }

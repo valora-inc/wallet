@@ -8,7 +8,7 @@ import Expandable from 'src/components/Expandable'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import NormalizedQuote from 'src/fiatExchanges/quotes/NormalizedQuote'
-import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
+import { CICOFlow, PaymentMethod, ProviderSelectionAnalyticsData } from 'src/fiatExchanges/utils'
 import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
@@ -18,6 +18,7 @@ export interface PaymentMethodSectionProps {
   normalizedQuotes: NormalizedQuote[]
   setNoPaymentMethods: React.Dispatch<React.SetStateAction<boolean>>
   flow: CICOFlow
+  analyticsData: ProviderSelectionAnalyticsData
 }
 
 export function PaymentMethodSection({
@@ -25,8 +26,8 @@ export function PaymentMethodSection({
   normalizedQuotes,
   setNoPaymentMethods,
   flow,
-}: // TODO add other provider metadata to pass thru to select quote track event
-PaymentMethodSectionProps) {
+  analyticsData,
+}: PaymentMethodSectionProps) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const sectionQuotes = normalizedQuotes.filter(
@@ -154,7 +155,11 @@ PaymentMethodSectionProps) {
   }
   return (
     <View style={styles.container}>
-      <Touchable onPress={isExpandable ? toggleExpanded : sectionQuotes[0].onPress(flow, dispatch)}>
+      <Touchable
+        onPress={
+          isExpandable ? toggleExpanded : sectionQuotes[0].onPress(flow, dispatch, analyticsData)
+        }
+      >
         <View>
           <Expandable
             arrowColor={colors.greenUI}
@@ -176,7 +181,7 @@ PaymentMethodSectionProps) {
           <Touchable
             key={index}
             testID={`${paymentMethod}/provider-${index}`}
-            onPress={normalizedQuote.onPress(flow, dispatch)}
+            onPress={normalizedQuote.onPress(flow, dispatch, analyticsData)}
           >
             <View style={styles.expandedContainer}>
               <View style={styles.left}>
