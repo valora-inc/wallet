@@ -185,7 +185,7 @@ describe(handleNotification, () => {
     const message = {
       notification: { title: 'KYC', body: 'Kyc Approved' },
       data: {
-        type: NotificationTypes.KYC_APPROVED,
+        type: NotificationTypes.FIAT_CONNECT_KYC_APPROVED,
         kycSchema: KycSchema.PersonalDataAndDocuments,
         providerId: 'test-provider',
       },
@@ -207,7 +207,7 @@ describe(handleNotification, () => {
       expect(navigate).toHaveBeenCalledWith(Screens.FiatConnectReviewWrapper, {
         kycSchema: KycSchema.PersonalDataAndDocuments,
         providerId: 'test-provider',
-        type: NotificationTypes.KYC_APPROVED,
+        type: NotificationTypes.FIAT_CONNECT_KYC_APPROVED,
       })
     })
   })

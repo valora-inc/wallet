@@ -113,7 +113,7 @@ export function* handleNotification(
       yield call(handlePaymentReceived, message.data as unknown as TransferNotificationData)
       break
 
-    case NotificationTypes.KYC_APPROVED:
+    case NotificationTypes.FIAT_CONNECT_KYC_APPROVED:
       navigate(Screens.FiatConnectReviewWrapper, message.data as unknown as KycApprovedData)
       break
 
