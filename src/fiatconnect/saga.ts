@@ -35,7 +35,6 @@ import {
   FiatConnectQuoteSuccess,
   getFiatConnectProviders,
 } from 'src/fiatconnect'
-import { cachedFiatAccountUsesSelector } from 'src/fiatconnect/selectors'
 import { getFiatConnectClient } from 'src/fiatconnect/clients'
 import { fiatConnectProvidersSelector } from 'src/fiatconnect/selectors'
 import {
@@ -62,7 +61,6 @@ import {
   submitFiatAccount,
   submitFiatAccountCompleted,
   submitFiatAccountKycApproved,
-  CachedFiatAccountUse,
 } from 'src/fiatconnect/slice'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { normalizeFiatConnectQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
@@ -107,7 +105,7 @@ export function* handleFetchFiatConnectQuotes({
 }
 
 /**
- * Handles Refetching a single quote for the Review Screen
+ * Handles Refetching a single quote for the Review Screen.
  */
 export function* handleRefetchQuote({ payload: params }: ReturnType<typeof refetchQuote>) {
   const { flow, cryptoType, cryptoAmount, providerId, fiatAccount } = params
@@ -441,6 +439,80 @@ export function* _getQuotes({
   return quotes
 }
 
+/**
+ * Given a Fiat Account to use and a list of possible quotes to select, attempts to find a quote
+ * for which the given Fiat Account is allowed to be used. Returns the first match, or null if
+ * none is found.
+ **/
+export function _selectQuoteFromFiatAccount({
+  normalizedQuotes,
+  fiatAccount,
+}: {
+  normalizedQuotes: FiatConnectQuote[]
+  fiatAccount: FiatAccount
+}) {
+  for (const normalizedQuote of normalizedQuotes) {
+    if (
+      normalizedQuote.getFiatAccountType() === fiatAccount.fiatAccountType &&
+      normalizedQuote.getFiatAccountSchema() === fiatAccount.fiatAccountSchema
+    ) {
+      return normalizedQuote
+    }
+  }
+}
+
+/**
+ * Given a list of FiatConnectQuote objects, finds the first quote for which the user has a matching
+ * Fiat Account on file and returns it, along with the Fiat Account that matches. Useful for return
+ * flows where we know which provider to use, but not which Fiat Account.
+ **/
+export function* _selectQuoteAndFiatAccount({
+  normalizedQuotes,
+  providerId,
+}: {
+  normalizedQuotes: FiatConnectQuote[]
+  providerId: string
+}) {
+  // Get the provider info
+  const fiatConnectProviders: FiatConnectProviderInfo[] | null = yield select(
+    fiatConnectProvidersSelector
+  )
+  const fiatConnectProvider = fiatConnectProviders?.find((provider) => provider.id === providerId)
+  if (!fiatConnectProvider) {
+    throw new Error('Could not find provider')
+  }
+
+  // Fetch Fiat Account associated with the cached providerId / fiatAccountId
+  const fiatAccounts: FiatAccount[] = yield call(
+    fetchFiatAccountsSaga,
+    providerId,
+    fiatConnectProvider.baseUrl,
+    fiatConnectProvider.apiKey
+  )
+
+  for (const fiatAccount of fiatAccounts) {
+    const normalizedQuote = _selectQuoteFromFiatAccount({
+      normalizedQuotes,
+      fiatAccount,
+    })
+    if (normalizedQuote) return { normalizedQuote, selectedFiatAccount: fiatAccount }
+  }
+
+  throw new Error('Could not find a fiat account matching any provided quote')
+}
+
+/**
+ * Given some quote parameters, fetches quotes from a single provider and returns the quote to use
+ * as well as a suitable fiat account that the user has on file that can be used for the quote.
+ *
+ * If a fiat account is provided to this function, a quote will be selected from the provider's list
+ * of returned quotes which is eligible to be used with the given fiat account. If no quote is found
+ * that matches the given fiat account, throws an error.
+ *
+ * If no fiat account is provided, both quotes and on-file fiat accounts will be fetched from
+ * the chosen provider, and will be tested against eachother to find a match. If multiple quote-account
+ * matches exist, one will be chosen at random. If no matching pair exists, throws an error.
+ **/
 export function* _getSpecificQuote({
   digitalAsset,
   cryptoAmount,
@@ -462,52 +534,36 @@ export function* _getSpecificQuote({
   })
   const normalizedQuotes = normalizeFiatConnectQuotes(flow, quotes)
 
-  // If no account was provided, we need to check cached accounts for a possible match, and fetch the obfuscated account
-  // from the selected provider.
-  let selectedFiatAccount = fiatAccount
-  if (!selectedFiatAccount) {
-    const cachedFiatAccounts: CachedFiatAccountUse[] = yield select(cachedFiatAccountUsesSelector)
-    // If defined, cachedFiatAccount is a Fiat Account whose providerId and fiatAccountType match one of our quotes.
-    const cachedFiatAccount = cachedFiatAccounts.find((a) =>
-      normalizedQuotes.find(
-        (q) => q.getFiatAccountType() === a.fiatAccountType && providerId === a.providerId
-      )
-    )
-    if (cachedFiatAccount) {
-      try {
-        const fiatConnectProviders: FiatConnectProviderInfo[] | null = yield select(
-          fiatConnectProvidersSelector
-        )
-        selectedFiatAccount = yield call(_getFiatAccount, {
-          fiatConnectProviders,
-          providerId,
-          fiatAccountId: cachedFiatAccount.fiatAccountId,
-          fiatAccountType: cachedFiatAccount.fiatAccountType,
-        })
-      } catch (error) {
-        throw new Error(
-          `Found a suitable cached account on file, but encountered error while fetching from provider: ${error}`
-        )
-      }
+  // If no account was provided, we need to fetch accounts from the provider and find a matching quote-account pair
+  if (!fiatAccount) {
+    return (yield call(_selectQuoteAndFiatAccount, {
+      normalizedQuotes,
+      providerId,
+    })) as {
+      normalizedQuote: FiatConnectQuote
+      selectedFiatAccount: FiatAccount
     }
   }
-
-  if (!selectedFiatAccount) {
-    throw new Error('Could not find appropriate fiat account on file')
-  }
-
-  const normalizedQuote = normalizedQuotes.find(
-    (q) => q.getFiatAccountType() === selectedFiatAccount!.fiatAccountType
-  )
+  // Otherwise, just find a quote that matches the selected account
+  const normalizedQuote = _selectQuoteFromFiatAccount({
+    normalizedQuotes,
+    fiatAccount,
+  })
   if (!normalizedQuote) {
     throw new Error('Could not find quote')
   }
   return {
     normalizedQuote,
-    selectedFiatAccount,
+    selectedFiatAccount: fiatAccount,
   }
 }
 
+/**
+ * Fetches a fiat account from a given provider according to a set of optional filters. Possible filters are
+ * fiatAccountId, fiatAccountType, and fiatAccountSchema. Multiple filters may be used in conjunction. If, after
+ * filtering, multiple possible accounts remain, a random one matching the given criteria is returned. Returns null
+ * if no accounts are found that match the given criteria.
+ **/
 export function* _getFiatAccount({
   fiatConnectProviders,
   providerId,
