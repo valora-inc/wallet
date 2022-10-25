@@ -13,7 +13,7 @@ import {
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import {
-  KycApprovedData,
+  FiatConnectKycApprovedData,
   NotificationReceiveState,
   NotificationTypes,
   TransferNotificationData,
@@ -114,7 +114,10 @@ export function* handleNotification(
       break
 
     case NotificationTypes.FIAT_CONNECT_KYC_APPROVED:
-      navigate(Screens.FiatConnectReviewWrapper, message.data as unknown as KycApprovedData)
+      navigate(
+        Screens.FiatConnectReviewWrapper,
+        message.data as unknown as FiatConnectKycApprovedData
+      )
       break
 
     default:

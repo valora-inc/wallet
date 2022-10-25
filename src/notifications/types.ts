@@ -20,7 +20,7 @@ export interface TransferNotificationData {
   imageUrl?: string
 }
 
-export interface KycApprovedData {
+export interface FiatConnectKycApprovedData {
   kycSchema: KycSchema
   providerId: string
   type: NotificationTypes.FIAT_CONNECT_KYC_APPROVED
