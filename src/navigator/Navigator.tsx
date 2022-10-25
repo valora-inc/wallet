@@ -684,7 +684,7 @@ const modalAnimatedScreens = (Navigator: typeof Stack) => (
     <Navigator.Screen
       name={Screens.LanguageModal}
       component={Language}
-      options={Language.navigationOptions(true) as NativeStackNavigationOptions}
+      options={Language.navigationOptions() as NativeStackNavigationOptions}
     />
     <Navigator.Screen
       name={Screens.SelectCountry}
