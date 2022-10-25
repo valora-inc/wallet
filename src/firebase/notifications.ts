@@ -95,13 +95,13 @@ export function* handleNotification(
       yield put(showMessage(body || title, undefined, null, openUrlAction, body ? title : null))
     }
     return
-  } else {
-    // Notification was received while app wasn't already open (i.e. tapped to act on it)
-    // So directly handle the action if any
-    if (openUrlAction) {
-      yield put(openUrlAction)
-      return
-    }
+  }
+
+  // Notification was received while app wasn't already open (i.e. tapped to act on it)
+  // So directly handle the action if any
+  if (openUrlAction) {
+    yield put(openUrlAction)
+    return
   }
 
   switch (message.data?.type) {
