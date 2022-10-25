@@ -191,7 +191,7 @@ export const reducer = createReducer(initialState, (builder) => {
   builder
     .addCase(rehydrate, (state, action) => {
       // hack to allow rehydrate actions here
-      const hydrated = getRehydratePayload((action as unknown) as RehydrateAction, 'verify')
+      const hydrated = getRehydratePayload(action as unknown as RehydrateAction, 'verify')
       return {
         ...state,
         ...hydrated,

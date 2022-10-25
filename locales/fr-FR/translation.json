@@ -602,7 +602,7 @@
   "fullNameOrPseudonymPlaceholder": "Prénom et nom ou pseudonyme",
   "nameAndPicGuideCopyTitle": "Comment vous appelez-vous ?",
   "nameAndPicGuideCopyContent": "Nous voudrions savoir comment vous appeler",
-  "generateUsername": "Génère un nom",
+  "generateUsername": "Générez un nom",
   "importIt": "Restaurer le wallet",
   "important": "Important",
   "confirmPin": {
@@ -1318,7 +1318,7 @@
       "retryable": {
         "title": "La vérification de la pièce d'identité n'a pas été concluante.",
         "description": "Veuillez faire une nouvelle vérification ou essayez un autre moyen de retirer des fonds.",
-        "tryAgain": "Vérifie à nouveau"
+        "tryAgain": "Réessayer"
       },
       "final": {
         "title": "Vérification refusée.",
@@ -1328,7 +1328,7 @@
     "expired": {
       "title": "La vérification de la pièce d'identité a expiré.",
       "description": "Veuillez faire une nouvelle vérification ou essayez un autre moyen de retirer des fonds.",
-      "tryAgain": "Vérifie à nouveau",
+      "tryAgain": "Réessayer",
       "switch": "Changer de mode de retrait"
     },
     "tryAgainFailed": "Une erreur s'est produite lors de la suppression des informations KYC, veuillez réessayer."
@@ -1418,9 +1418,14 @@
     },
     "accountNumber": {
       "label": "Numéro de compte",
-      "placeholderText": "Saisis le numéro de compte",
-      "errorMessageDigitLength": "Le numéro de compte doit être {{length}} chiffres",
-      "errorMessageDigit": "Le numéro de compte doit contenir uniquement des chiffres"
+      "placeholderText": "Saisissez un numéro de compte",
+      "errorMessageDigitLength": "Le numéro de compte doit comporter {{length}} chiffres",
+      "errorMessageDigit": "Le numéro de compte ne doit contenir que des chiffres"
+    },
+    "ibanNumber": {
+      "label": "IBAN",
+      "placeholderText": "Saisissez un numéro IBAN",
+      "errorMessage": "IBAN non valide"
     }
   },
   "webView": {
@@ -1449,33 +1454,33 @@
     "swapTo": "Échanger pour",
     "transactionDetails": "Détails de transaction",
     "estimatedGas": "Frais de gas estimés",
-    "swapSubmitError": "Sorry, we were unable to complete your swap. Please try again or contact support.",
+    "swapSubmitError": "Désolé, nous n'avons pas pu finaliser votre échange. Veuillez réessayer ou contacter le support.",
     "swapFee": "Frais de {{appName}}",
     "swapFeeTitle": "Que sont les frais de {{appName}} ?",
     "swapFeeBody": "Les frais de {{appName}} sont les frais que vous payez pour échanger des jetons sur {{appName}}. \n\nIls sont de {{swapFee}}% du montant que vous échangez. \n\nLes frais de {{appName}} sont gratuits pour les prochains mois.",
-    "swapFeeBodyFree": "The {{appName}} fee is the fee that you pay to swap tokens on {{appName}}. {{appName}} fees are free for the next few months.",
+    "swapFeeBodyFree": "Les frais de {{appName}} sont ceux que vous payez pour l'échange de jetons sur {{appName}}. Les frais de {{appName}} seront gratuits pour les prochains mois.",
     "estimatedAmountTitle": "Montant estimé",
     "estimatedAmountBody": "Les conversions se font sur un échange décentralisé de tiers qui vous trouve le meilleur taux pour votre échange. \n\nVotre échange sera effectué à un prix à moins de {{slippagePercent}}% de l'estimation ou la transaction sera annulée et les fonds retournés à votre wallet.",
-    "free": "Free"
+    "free": "Gratuit"
   },
   "SwapExecuteScreen": {
-    "swapPending": "Swap Pending",
-    "swapSuccess": "Swap Successful!",
-    "swapError": "Swap Error",
-    "exchangeRateSubtext": "Finding the best exchange rate...",
-    "approvingSubtext": "Approving funds...",
-    "completingSubtext": "Completing swap...",
-    "swapAgain": "Swap Again",
+    "swapPending": "Échange en attente",
+    "swapSuccess": "Échange réussi !",
+    "swapError": "Erreur lors de l'échange",
+    "exchangeRateSubtext": "Recherche du meilleur taux de change ...",
+    "approvingSubtext": "Approbation des fonds...",
+    "completingSubtext": "Finalisation de l'échange...",
+    "swapAgain": "Échanger à nouveau",
     "swapPriceModal": {
-      "title": "Prices have changed",
-      "action": "Continue",
-      "body": "Crypto amounts & fees can change due to fluctuations in the crypto market. \n\n Please review your final amount & fees and resubmit."
+      "title": "Les prix ont été modifiés",
+      "action": "Continuer",
+      "body": "Les montants et frais liés aux cryptomonnaies peuvent changer en raison des fluctuations du marché des cryptomonnaies.\n\nVeuillez vérifier votre montant final et vos frais et validez à nouveau."
     },
     "swapErrorModal": {
-      "title": "We couldn’t complete this transaction.",
-      "body": "Please wait and try again later or contact our support team for help.",
-      "swapRestart": "Dismiss",
-      "contactSupport": "Contact Support"
+      "title": "Nous n'avons pas pu finaliser cette transaction.",
+      "body": "Veuillez patienter et réessayer plus tard ou contactez notre équipe support pour obtenir de l'aide.",
+      "swapRestart": "Ignorer",
+      "contactSupport": "Contacter l'Assistance"
     }
   },
   "inviteModal": {
