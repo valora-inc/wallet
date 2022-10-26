@@ -326,7 +326,7 @@ export const phoneNumberRevoked = (e164PhoneNumber: string): PhoneNumberRevoked 
   }
 }
 
-export const inviterLinkConsumed = (inviterAddress: string): InviteLinkConsumed => {
+export const inviteLinkConsumed = (inviterAddress: string): InviteLinkConsumed => {
   return {
     type: Actions.INVITE_LINK_CONSUMED,
     inviterAddress,
