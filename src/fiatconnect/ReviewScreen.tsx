@@ -287,6 +287,9 @@ function TransactionDetails({
     case Currency.Euro:
       tokenDisplay = t('celoEuro')
       break
+    case Currency.Celo:
+      tokenDisplay = 'CELO'
+      break
     default:
       tokenDisplay = t('total')
   }
