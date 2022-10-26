@@ -444,7 +444,7 @@ export function* _getQuotes({
  * for which the given Fiat Account is allowed to be used. Returns the first match, or null if
  * none is found.
  **/
-export function _selectQuoteFromFiatAccount({
+export function _selectQuoteMatchingFiatAccount({
   normalizedQuotes,
   fiatAccount,
 }: {
@@ -489,7 +489,7 @@ export function* _selectQuoteAndFiatAccount({
   )
 
   for (const fiatAccount of fiatAccounts) {
-    const normalizedQuote = _selectQuoteFromFiatAccount({
+    const normalizedQuote = _selectQuoteMatchingFiatAccount({
       normalizedQuotes,
       fiatAccount,
     })
@@ -524,6 +524,8 @@ export function* _getSpecificQuote({
   providerId: string
   fiatAccount?: FiatAccount
 }) {
+  // Despite fetching quotes for a single provider, there still may be multiple quotes, since a quote
+  // object is generated for each Fiat Account Schema supported by the provider.
   const quotes: (FiatConnectQuoteSuccess | FiatConnectQuoteError)[] = yield call(_getQuotes, {
     flow,
     digitalAsset,
@@ -543,7 +545,7 @@ export function* _getSpecificQuote({
     }
   }
   // Otherwise, just find a quote that matches the selected account
-  const normalizedQuote = _selectQuoteFromFiatAccount({
+  const normalizedQuote = _selectQuoteMatchingFiatAccount({
     normalizedQuotes,
     fiatAccount,
   })

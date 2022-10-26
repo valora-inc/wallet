@@ -38,7 +38,7 @@ import {
   _getSpecificQuote,
   _getFiatAccount,
   _selectQuoteAndFiatAccount,
-  _selectQuoteFromFiatAccount,
+  _selectQuoteMatchingFiatAccount,
 } from 'src/fiatconnect/saga'
 import { fiatConnectProvidersSelector } from 'src/fiatconnect/selectors'
 import {
@@ -1894,7 +1894,7 @@ describe('Fiatconnect saga', () => {
         fiatAccountSchema: FiatAccountSchema.AccountNumber,
         providerId: 'provider-one',
       }
-      const selectedQuote = _selectQuoteFromFiatAccount({
+      const selectedQuote = _selectQuoteMatchingFiatAccount({
         normalizedQuotes,
         fiatAccount,
       })
@@ -1910,7 +1910,7 @@ describe('Fiatconnect saga', () => {
         fiatAccountSchema: FiatAccountSchema.DuniaWallet,
         providerId: 'provider-one',
       }
-      const selectedQuote = _selectQuoteFromFiatAccount({
+      const selectedQuote = _selectQuoteMatchingFiatAccount({
         normalizedQuotes,
         fiatAccount,
       })

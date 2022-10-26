@@ -35,7 +35,7 @@ describe('ReviewScreenWrapper', () => {
     expect(store.dispatch).not.toHaveBeenCalled()
   })
 
-  it('navigates to CICO screen on error during re-fetch', () => {
+  it('navigates to CICO screen on error during quote re-fetch', () => {
     const store = createMockStore({
       fiatConnect: {
         quotesError: 'some error',
