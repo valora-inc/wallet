@@ -52,7 +52,7 @@ import {
   FiatExchangeFlow,
   filterLegacyMobileMoneyProviders,
   filterProvidersByPaymentMethod,
-  getQuoteSelectionAnalyticsData,
+  getProviderSelectionAnalyticsData,
   LegacyMobileMoneyProvider,
   PaymentMethod,
   ProviderSelectionAnalyticsData,
@@ -230,7 +230,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
     )
   }
 
-  const analyticsData = getQuoteSelectionAnalyticsData({
+  const analyticsData = getProviderSelectionAnalyticsData({
     normalizedQuotes,
     legacyMobileMoneyProviders,
     exchangeRates,
@@ -408,6 +408,7 @@ function LegacyMobileMoneySection({
       flow,
       paymentMethod: PaymentMethod.MobileMoney,
       provider: provider.name,
+      feeCryptoAmount: undefined,
       ...analyticsData,
     })
     navigateToURI(provider[digitalAsset === CiCoCurrency.CUSD ? 'cusd' : 'celo'].url)

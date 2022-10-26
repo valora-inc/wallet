@@ -157,7 +157,14 @@ export function PaymentMethodSection({
     <View style={styles.container}>
       <Touchable
         onPress={
-          isExpandable ? toggleExpanded : sectionQuotes[0].onPress(flow, dispatch, analyticsData)
+          isExpandable
+            ? toggleExpanded
+            : sectionQuotes[0].onPress(
+                flow,
+                dispatch,
+                analyticsData,
+                sectionQuotes[0].getFeeInCrypto(exchangeRates)?.toFixed(2)
+              )
         }
       >
         <View>
@@ -181,7 +188,12 @@ export function PaymentMethodSection({
           <Touchable
             key={index}
             testID={`${paymentMethod}/provider-${index}`}
-            onPress={normalizedQuote.onPress(flow, dispatch, analyticsData)}
+            onPress={normalizedQuote.onPress(
+              flow,
+              dispatch,
+              analyticsData,
+              normalizedQuote.getFeeInCrypto(exchangeRates)?.toFixed(2)
+            )}
           >
             <View style={styles.expandedContainer}>
               <View style={styles.left}>

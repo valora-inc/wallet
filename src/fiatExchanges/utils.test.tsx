@@ -1,97 +1,67 @@
-import { CICOFlow, getQuoteSelectionAnalyticsData, PaymentMethod } from './utils'
-import ExternalQuote from './quotes/ExternalQuote'
+import { getProviderSelectionAnalyticsData, PaymentMethod } from './utils'
 import { Currency } from '../utils/currencies'
-import {
-  mockExchanges,
-  mockFiatConnectQuoteSuccess,
-  mockLegacyMobileMoneyProvider,
-  mockMoonPayQuotes,
-  mockProviders,
-  mockSimplexQuote,
-} from '../../test/values'
-import FiatConnectQuote from './quotes/FiatConnectQuote'
-import { FiatAccountType } from '@fiatconnect/fiatconnect-types'
+import { mockExchanges, mockLegacyMobileMoneyProvider } from '../../test/values'
 import BigNumber from 'bignumber.js'
+import NormalizedQuote from './quotes/NormalizedQuote'
 
-// const externalQuoteMockImplementation = {
-//   getFeeInCrypto: jest.fn(),
-//   getPaymentMethod: jest.fn(),
-//   getProviderName: jest.fn(),
-//   getKycInfo: jest.fn(),
-//   getProviderId: jest.fn()
-// }
-// const fiatConnectQuoteMockImplementation = {
-//   getFeeInCrypto: jest.fn(),
-//   getPaymentMethod: jest.fn(),
-//   getProviderName: jest.fn(),
-//   getKycInfo: jest.fn(),
-//   getProviderId: jest.fn()
-// }
-// jest.mock('./quotes/ExternalQuote', () => externalQuoteMockImplementation)
-// jest.mock('./quotes/FiatConnectQuote', () => fiatConnectQuoteMockImplementation)
+class MockNormalizedQuote extends NormalizedQuote {
+  getCryptoType = jest.fn()
+  getFeeInCrypto = jest.fn()
+  getFeeInFiat = jest.fn()
+  getKycInfo = jest.fn()
+  getPaymentMethod = jest.fn()
+  getProviderId = jest.fn()
+  getProviderLogo = jest.fn()
+  getProviderName = jest.fn()
+  getTimeEstimation = jest.fn()
+  navigate = jest.fn()
+}
 
 describe('fiatExchanges utils', () => {
   afterEach(() => {
     jest.clearAllMocks()
   })
   it('getQuoteSelectionAnalyticsData', () => {
-    const mockSimplex = mockProviders[0]
+    const mockNormalizedQuote1 = new MockNormalizedQuote()
+    const mockNormalizedQuote2 = new MockNormalizedQuote()
+    const mockNormalizedQuote3 = new MockNormalizedQuote()
     const exchangeRates: { [token in Currency]: string | null } = {
       cUSD: '1',
       cGLD: '2',
       cEUR: '1.5',
     } // not important because NormalizedQuote class is mocked
-    const mockMoonPay = mockProviders[1]
-    const mockMoonPayQuote = mockMoonPayQuotes[0]
-    const simplexNormalizedQuote = new ExternalQuote({
-      quote: mockSimplexQuote, // fees and amounts not important because fees mocked
-      provider: mockSimplex,
-      flow: CICOFlow.CashIn,
-    })
-    const moonPayNormalizedQuote = new ExternalQuote({
-      quote: mockMoonPayQuote, // fees and amounts not important because fees mocked
-      provider: mockMoonPay,
-      flow: CICOFlow.CashIn,
-    })
-    const fiatConnectNormalizedQuote = new FiatConnectQuote({
-      quote: mockFiatConnectQuoteSuccess, // fees and amounts not important because fees mocked
-      fiatAccountType: FiatAccountType.BankAccount,
-      flow: CICOFlow.CashIn,
-    })
-    const normalizedQuotes = [
-      simplexNormalizedQuote,
-      moonPayNormalizedQuote,
-      fiatConnectNormalizedQuote,
-    ]
-    const analyticsOutput = getQuoteSelectionAnalyticsData({
+    const normalizedQuotes = [mockNormalizedQuote1, mockNormalizedQuote2, mockNormalizedQuote3]
+
+    mockNormalizedQuote1.getFeeInCrypto.mockReturnValue(new BigNumber(1))
+    mockNormalizedQuote2.getFeeInCrypto.mockReturnValue(new BigNumber(2))
+    mockNormalizedQuote3.getFeeInCrypto.mockReturnValue(null)
+
+    mockNormalizedQuote1.getPaymentMethod.mockReturnValue(PaymentMethod.Card)
+    mockNormalizedQuote2.getPaymentMethod.mockReturnValue(PaymentMethod.Bank)
+    mockNormalizedQuote3.getPaymentMethod.mockReturnValue(PaymentMethod.MobileMoney)
+
+    mockNormalizedQuote1.getKycInfo.mockReturnValue('idRequired')
+    mockNormalizedQuote2.getKycInfo.mockReturnValue(null)
+    mockNormalizedQuote3.getKycInfo.mockReturnValue(null)
+
+    mockNormalizedQuote1.getProviderId.mockReturnValue('mock-provider-1')
+    mockNormalizedQuote2.getProviderId.mockReturnValue('mock-provider-2')
+    mockNormalizedQuote3.getProviderId.mockReturnValue('mock-provider-3')
+
+    const analyticsOutput = getProviderSelectionAnalyticsData({
       normalizedQuotes,
       exchangeRates,
       legacyMobileMoneyProviders: [mockLegacyMobileMoneyProvider],
       centralizedExchanges: mockExchanges,
     })
 
-    simplexNormalizedQuote.getFeeInCrypto = jest.fn().mockReturnValue(new BigNumber(2))
-    moonPayNormalizedQuote.getFeeInCrypto = jest.fn().mockReturnValue(null)
-    fiatConnectNormalizedQuote.getFeeInCrypto = jest.fn().mockResolvedValue(new BigNumber(1))
-
-    simplexNormalizedQuote.getPaymentMethod = jest.fn().mockReturnValue(PaymentMethod.Card)
-    moonPayNormalizedQuote.getPaymentMethod = jest.fn().mockReturnValue(PaymentMethod.Card)
-    fiatConnectNormalizedQuote.getPaymentMethod = jest.fn().mockReturnValue(PaymentMethod.Bank)
-
-    simplexNormalizedQuote.getKycInfo = jest.fn().mockReturnValue('idRequired')
-    moonPayNormalizedQuote.getKycInfo = jest.fn().mockReturnValue(null)
-    fiatConnectNormalizedQuote.getKycInfo = jest.fn().mockReturnValue(null)
-
-    simplexNormalizedQuote.getProviderName = jest.fn().mockReturnValue('simplex')
-    moonPayNormalizedQuote.getProviderName = jest.fn().mockReturnValue('moonPay')
-    fiatConnectNormalizedQuote.getProviderName = jest.fn().mockReturnValue('bitssa')
-
     expect(analyticsOutput).toStrictEqual({
-      centralizedExchangesAvailable: 3,
-      providersAvailable: 4,
-      lowestFeeCryptoAmount: '1',
-      lowestFeeKycRequired: false,
-      lowestFeePaymentMethod: 'Bank',
+      centralizedExchangesAvailable: true,
+      totalOptions: 5, // centralized exchanges counts as 1, plus 1 legacy mobile money provider and 3 normalized quotes
+      lowestFeeCryptoAmount: '1.00',
+      lowestFeeKycRequired: true,
+      lowestFeePaymentMethod: 'Card',
+      lowestFeeProvider: 'mock-provider-1',
       paymentMethodsAvailable: {
         Bank: true,
         Card: true,

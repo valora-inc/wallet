@@ -17,12 +17,18 @@ export default abstract class NormalizedQuote {
   abstract getProviderId(): string
 
   abstract navigate(dispatch: Dispatch): void
-  onPress(flow: CICOFlow, dispatch: Dispatch, analyticsData: ProviderSelectionAnalyticsData) {
+  onPress(
+    flow: CICOFlow,
+    dispatch: Dispatch,
+    analyticsData: ProviderSelectionAnalyticsData,
+    feeCryptoAmount: string | undefined
+  ) {
     return () => {
       ValoraAnalytics.track(FiatExchangeEvents.cico_providers_quote_selected, {
         flow,
         paymentMethod: this.getPaymentMethod(),
         provider: this.getProviderId(),
+        feeCryptoAmount,
         ...analyticsData,
       })
       this.navigate(dispatch)

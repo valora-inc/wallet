@@ -30,7 +30,6 @@ import {
   FetchProvidersOutput,
   LegacyMobileMoneyProvider,
   PaymentMethod,
-  RawProviderQuote,
 } from 'src/fiatExchanges/utils'
 import { AddressToE164NumberType, E164NumberToAddressType } from 'src/identity/reducer'
 import { AttestationCode } from 'src/identity/verification'
@@ -573,12 +572,6 @@ export const mockSimplexQuote = {
   valid_until: '2022-05-09T17:18:28.434Z',
   supported_digital_currencies: ['CUSD', 'CELO'],
 }
-
-export const mockMoonPayQuotes: RawProviderQuote[] = [
-  { paymentMethod: PaymentMethod.Bank, digitalAsset: 'cusd', returnedAmount: 95, fiatFee: 5 },
-  { paymentMethod: PaymentMethod.Card, digitalAsset: 'cusd', returnedAmount: 90, fiatFee: 10 },
-]
-
 export const mockProviders: FetchProvidersOutput[] = [
   {
     name: 'Simplex',
@@ -602,7 +595,10 @@ export const mockProviders: FetchProvidersOutput[] = [
       'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
     cashIn: true,
     cashOut: false,
-    quote: mockMoonPayQuotes,
+    quote: [
+      { paymentMethod: PaymentMethod.Bank, digitalAsset: 'cusd', returnedAmount: 95, fiatFee: 5 },
+      { paymentMethod: PaymentMethod.Card, digitalAsset: 'cusd', returnedAmount: 90, fiatFee: 10 },
+    ],
   },
   {
     name: 'Ramp',

@@ -296,8 +296,8 @@ export const filterProvidersByPaymentMethod = (
 }
 
 export interface ProviderSelectionAnalyticsData {
-  centralizedExchangesAvailable: number
-  providersAvailable: number
+  centralizedExchangesAvailable: boolean
+  totalOptions: number
   paymentMethodsAvailable: Record<PaymentMethod, boolean>
   lowestFeeKycRequired: boolean | undefined
   lowestFeeCryptoAmount: string | undefined
@@ -305,7 +305,17 @@ export interface ProviderSelectionAnalyticsData {
   lowestFeePaymentMethod: PaymentMethod | undefined
 }
 
-export function getQuoteSelectionAnalyticsData({
+/**
+ * Get analytics data for provider selection.
+ *
+ * Used for cico_providers_quote_selected and cico_providers_exchanges_selected analytics events.
+ *
+ * @param normalizedQuotes
+ * @param exchangeRates
+ * @param legacyMobileMoneyProviders
+ * @param centralizedExchanges
+ */
+export function getProviderSelectionAnalyticsData({
   normalizedQuotes,
   exchangeRates,
   legacyMobileMoneyProviders,
@@ -320,7 +330,7 @@ export function getQuoteSelectionAnalyticsData({
   let lowestFeeProvider: string | undefined = undefined
   let lowestFeeCryptoAmount: BigNumber | null = null
   let lowestFeeKycRequired: boolean | undefined = undefined
-  const providersAvailable = new Set(legacyMobileMoneyProviders?.map((provider) => provider.name))
+  const centralizedExchangesAvailable = !!centralizedExchanges && centralizedExchanges?.length > 0
   const paymentMethodsAvailable: Record<PaymentMethod, boolean> = {
     [PaymentMethod.Bank]: false,
     [PaymentMethod.Card]: false,
@@ -330,7 +340,6 @@ export function getQuoteSelectionAnalyticsData({
   }
 
   for (const quote of normalizedQuotes) {
-    providersAvailable.add(quote.getProviderId())
     paymentMethodsAvailable[quote.getPaymentMethod()] = true
     const fee = quote.getFeeInCrypto(exchangeRates)
     if (fee && (lowestFeeCryptoAmount === null || fee.isLessThan(lowestFeeCryptoAmount))) {
@@ -346,8 +355,12 @@ export function getQuoteSelectionAnalyticsData({
     lowestFeePaymentMethod,
     lowestFeeProvider,
     lowestFeeKycRequired,
-    centralizedExchangesAvailable: centralizedExchanges?.length ?? 0,
-    providersAvailable: providersAvailable.size,
-    lowestFeeCryptoAmount: lowestFeeCryptoAmount?.toFixed(2) ?? undefined,
+    centralizedExchangesAvailable,
+    lowestFeeCryptoAmount: lowestFeeCryptoAmount?.toFixed(2),
+    // counts centralized exchanges as single option, since that's how they appear in the UI
+    totalOptions:
+      (centralizedExchangesAvailable ? 1 : 0) +
+      (legacyMobileMoneyProviders?.length ?? 0) +
+      normalizedQuotes.length,
   }
 }

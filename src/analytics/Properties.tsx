@@ -1037,6 +1037,7 @@ interface FiatExchangeEventsProperties {
   [FiatExchangeEvents.cico_providers_quote_selected]: ProviderSelectionAnalyticsData & {
     paymentMethod: PaymentMethod
     provider: string
+    feeCryptoAmount: string | undefined
     flow: CICOFlow
   }
   [FiatExchangeEvents.cico_providers_back]: { flow: CICOFlow }
