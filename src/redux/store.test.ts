@@ -93,7 +93,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 86,
+          "version": 87,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -142,6 +142,7 @@ describe('store state', () => {
           "huaweiMobileServicesAvailable": undefined,
           "inviteMethod": "ESCROW",
           "inviteModalVisible": false,
+          "inviterAddress": null,
           "lastTimeBackgrounded": 0,
           "locked": false,
           "logPhoneNumberTypeEnabled": false,

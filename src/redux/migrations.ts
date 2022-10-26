@@ -867,4 +867,5 @@ export const migrations = {
       cachedFiatAccountUses: [],
     },
   }),
+  87: (state: any) => state,
 }

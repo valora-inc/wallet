@@ -2105,6 +2105,12 @@
                 "inviteModalVisible": {
                     "type": "boolean"
                 },
+                "inviterAddress": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
                 "lastTimeBackgrounded": {
                     "type": "number"
                 },
@@ -2236,6 +2242,7 @@
                 "hideVerification",
                 "inviteMethod",
                 "inviteModalVisible",
+                "inviterAddress",
                 "lastTimeBackgrounded",
                 "locked",
                 "logPhoneNumberTypeEnabled",
