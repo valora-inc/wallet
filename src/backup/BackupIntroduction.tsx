@@ -57,19 +57,21 @@ class BackupIntroduction extends React.Component<Props> {
       return (
         <SafeAreaView style={styles.container}>
           <DrawerTopBar testID="BackupIntroduction/DrawerTopBar" />
-          { backupCompleted
-            ? <AccountKeyPostSetup />
-            : <AccountKeyIntro onPrimaryPress={this.onPressBackup} />
-          }
+          {backupCompleted ? (
+            <AccountKeyPostSetup />
+          ) : (
+            <AccountKeyIntro onPrimaryPress={this.onPressBackup} />
+          )}
         </SafeAreaView>
       )
     } else {
       return (
         <View style={styles.container}>
-          { backupCompleted
-            ? <AccountKeyPostSetup />
-            : <AccountKeyIntro onPrimaryPress={this.onPressBackup} />
-          }
+          {backupCompleted ? (
+            <AccountKeyPostSetup />
+          ) : (
+            <AccountKeyIntro onPrimaryPress={this.onPressBackup} />
+          )}
         </View>
       )
     }
