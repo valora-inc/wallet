@@ -22,6 +22,7 @@ describe('fiatExchanges utils', () => {
     jest.clearAllMocks()
   })
   it('getQuoteSelectionAnalyticsData', () => {
+    const transferCryptoAmount = '10.00'
     const mockNormalizedQuote1 = new MockNormalizedQuote()
     const mockNormalizedQuote2 = new MockNormalizedQuote()
     const mockNormalizedQuote3 = new MockNormalizedQuote()
@@ -53,9 +54,11 @@ describe('fiatExchanges utils', () => {
       exchangeRates,
       legacyMobileMoneyProviders: [mockLegacyMobileMoneyProvider],
       centralizedExchanges: mockExchanges,
+      transferCryptoAmount,
     })
 
     expect(analyticsOutput).toStrictEqual({
+      transferCryptoAmount,
       centralizedExchangesAvailable: true,
       totalOptions: 5, // centralized exchanges counts as 1, plus 1 legacy mobile money provider and 3 normalized quotes
       lowestFeeCryptoAmount: '1.00',

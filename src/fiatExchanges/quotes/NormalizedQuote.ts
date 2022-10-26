@@ -29,6 +29,7 @@ export default abstract class NormalizedQuote {
         paymentMethod: this.getPaymentMethod(),
         provider: this.getProviderId(),
         feeCryptoAmount,
+        kycRequired: !!this.getKycInfo(),
         ...analyticsData,
       })
       this.navigate(dispatch)

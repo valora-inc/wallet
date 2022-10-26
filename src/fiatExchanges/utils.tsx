@@ -299,6 +299,7 @@ export interface ProviderSelectionAnalyticsData {
   centralizedExchangesAvailable: boolean
   totalOptions: number
   paymentMethodsAvailable: Record<PaymentMethod, boolean>
+  transferCryptoAmount: string
   lowestFeeKycRequired: boolean | undefined
   lowestFeeCryptoAmount: string | undefined
   lowestFeeProvider: string | undefined
@@ -314,17 +315,20 @@ export interface ProviderSelectionAnalyticsData {
  * @param exchangeRates
  * @param legacyMobileMoneyProviders
  * @param centralizedExchanges
+ * @param transferCryptoAmount
  */
 export function getProviderSelectionAnalyticsData({
   normalizedQuotes,
   exchangeRates,
   legacyMobileMoneyProviders,
   centralizedExchanges,
+  transferCryptoAmount,
 }: {
   normalizedQuotes: NormalizedQuote[]
   exchangeRates: { [token in Currency]: string | null }
   legacyMobileMoneyProviders?: LegacyMobileMoneyProvider[]
   centralizedExchanges?: ExternalExchangeProvider[]
+  transferCryptoAmount: string
 }): ProviderSelectionAnalyticsData {
   let lowestFeePaymentMethod: PaymentMethod | undefined = undefined
   let lowestFeeProvider: string | undefined = undefined
@@ -351,6 +355,7 @@ export function getProviderSelectionAnalyticsData({
   }
 
   return {
+    transferCryptoAmount,
     paymentMethodsAvailable,
     lowestFeePaymentMethod,
     lowestFeeProvider,

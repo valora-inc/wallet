@@ -94,15 +94,16 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
     }
   }, [fiatConnectProviders])
 
+  const cryptoAmount = route.params.amount.crypto
   useEffect(() => {
     dispatch(
       fetchFiatConnectQuotes({
         flow,
         digitalAsset,
-        cryptoAmount: route.params.amount.crypto,
+        cryptoAmount,
       })
     )
-  }, [flow, digitalAsset, route.params.amount.crypto, fiatConnectProviders])
+  }, [flow, digitalAsset, cryptoAmount, fiatConnectProviders])
 
   useEffect(() => {
     if (fiatConnectQuotesError) {
@@ -137,7 +138,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
           fiatCurrency: localCurrency,
           digitalAsset,
           fiatAmount: route.params.amount.fiat,
-          digitalAssetAmount: route.params.amount.crypto,
+          digitalAssetAmount: cryptoAmount,
           txType: flow === CICOFlow.CashIn ? 'buy' : 'sell',
         }),
         fetchLegacyMobileMoneyProviders(),
@@ -235,6 +236,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
     legacyMobileMoneyProviders,
     exchangeRates,
     centralizedExchanges: exchanges,
+    transferCryptoAmount: cryptoAmount.toFixed(2),
   })
 
   return (
@@ -261,7 +263,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
       />
       {coinbaseProvider && coinbasePayVisible && (
         <CoinbasePaymentSection
-          cryptoAmount={route.params.amount.crypto}
+          cryptoAmount={cryptoAmount}
           coinbaseProvider={coinbaseProvider}
           appId={appId}
         />
@@ -408,6 +410,7 @@ function LegacyMobileMoneySection({
       paymentMethod: PaymentMethod.MobileMoney,
       provider: provider.name,
       feeCryptoAmount: undefined,
+      kycRequired: false,
       ...analyticsData,
     })
     navigateToURI(provider[digitalAsset === CiCoCurrency.CUSD ? 'cusd' : 'celo'].url)

@@ -1038,8 +1038,7 @@ interface FiatExchangeEventsProperties {
     paymentMethod: PaymentMethod
     provider: string
     feeCryptoAmount: string | undefined
-    // TODO add whether KYC was required
-    // TODO add crypto amount?
+    kycRequired: boolean
     flow: CICOFlow
   }
   [FiatExchangeEvents.cico_providers_back]: { flow: CICOFlow }
