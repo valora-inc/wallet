@@ -2,6 +2,7 @@ import { StackScreenProps } from '@react-navigation/stack'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -51,16 +52,29 @@ class BackupIntroduction extends React.Component<Props> {
     const { backupCompleted, route } = this.props
     const showDrawerTopBar = route.params?.showDrawerTopBar
 
-    return (
-      <View style={styles.container}>
-        {showDrawerTopBar && <DrawerTopBar testID="BackupIntroduction/DrawerTopBar" />}
-        {backupCompleted ? (
-          <AccountKeyPostSetup />
-        ) : (
-          <AccountKeyIntro onPrimaryPress={this.onPressBackup} />
-        )}
-      </View>
-    )
+    // Conditional rendering for headers
+    if (showDrawerTopBar) {
+      return (
+        <SafeAreaView style={styles.container}>
+          <DrawerTopBar testID="BackupIntroduction/DrawerTopBar" />
+          {backupCompleted ? (
+            <AccountKeyPostSetup />
+          ) : (
+            <AccountKeyIntro onPrimaryPress={this.onPressBackup} />
+          )}
+        </SafeAreaView>
+      )
+    } else {
+      return (
+        <View style={styles.container}>
+          {backupCompleted ? (
+            <AccountKeyPostSetup />
+          ) : (
+            <AccountKeyIntro onPrimaryPress={this.onPressBackup} />
+          )}
+        </View>
+      )
+    }
   }
 }
 
