@@ -25,6 +25,7 @@ import {
   Actions,
   androidMobileServicesAvailabilityChecked,
   appLock,
+  inviterLinkConsumed,
   minAppVersionDetermined,
   OpenDeepLink,
   openDeepLink,
@@ -320,8 +321,10 @@ export function* handleDeepLink(action: OpenDeepLink) {
       const params = convertQueryToScreenParams(rawParams.query)
       navigate(params.screen as keyof StackParamList, params)
     } else if (pathParts.length === 3 && pathParts[1] === 'share') {
+      const inviterAddress = pathParts[2]
+      yield put(inviterLinkConsumed(inviterAddress))
       ValoraAnalytics.track(InviteEvents.opened_via_invite_url, {
-        inviterAddress: pathParts[2],
+        inviterAddress,
       })
     }
   }
