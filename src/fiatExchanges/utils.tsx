@@ -357,7 +357,7 @@ export function getProviderSelectionAnalyticsData({
     lowestFeeKycRequired,
     centralizedExchangesAvailable,
     lowestFeeCryptoAmount: lowestFeeCryptoAmount?.toFixed(2),
-    // counts centralized exchanges as single option, since that's how they appear in the UI
+    // counts centralized exchanges as single option, since that's how they appear on the Select Providers screen
     totalOptions:
       (centralizedExchangesAvailable ? 1 : 0) +
       (legacyMobileMoneyProviders?.length ?? 0) +

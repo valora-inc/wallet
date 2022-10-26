@@ -328,8 +328,7 @@ function ExchangesSection({
   flow,
   selectedCurrency,
   analyticsData,
-}: // TODO add other provider metadata to pass thru to select exchanges track event
-{
+}: {
   exchanges: ExternalExchangeProvider[]
   flow: CICOFlow
   selectedCurrency: Currency
