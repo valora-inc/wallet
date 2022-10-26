@@ -25,7 +25,13 @@ import {
 } from 'src/fiatconnect'
 import { FiatConnectTransfer } from 'src/fiatconnect/slice'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
-import { CICOFlow, FetchProvidersOutput, PaymentMethod } from 'src/fiatExchanges/utils'
+import {
+  CICOFlow,
+  FetchProvidersOutput,
+  LegacyMobileMoneyProvider,
+  PaymentMethod,
+  RawProviderQuote,
+} from 'src/fiatExchanges/utils'
 import { AddressToE164NumberType, E164NumberToAddressType } from 'src/identity/reducer'
 import { AttestationCode } from 'src/identity/verification'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
@@ -568,6 +574,11 @@ export const mockSimplexQuote = {
   supported_digital_currencies: ['CUSD', 'CELO'],
 }
 
+export const mockMoonPayQuotes: RawProviderQuote[] = [
+  { paymentMethod: PaymentMethod.Bank, digitalAsset: 'cusd', returnedAmount: 95, fiatFee: 5 },
+  { paymentMethod: PaymentMethod.Card, digitalAsset: 'cusd', returnedAmount: 90, fiatFee: 10 },
+]
+
 export const mockProviders: FetchProvidersOutput[] = [
   {
     name: 'Simplex',
@@ -591,10 +602,7 @@ export const mockProviders: FetchProvidersOutput[] = [
       'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
     cashIn: true,
     cashOut: false,
-    quote: [
-      { paymentMethod: PaymentMethod.Bank, digitalAsset: 'cusd', returnedAmount: 95, fiatFee: 5 },
-      { paymentMethod: PaymentMethod.Card, digitalAsset: 'cusd', returnedAmount: 90, fiatFee: 10 },
-    ],
+    quote: mockMoonPayQuotes,
   },
   {
     name: 'Ramp',
@@ -756,6 +764,34 @@ export const mockGetFiatConnectQuotesResponse: GetFiatConnectQuotesResponse[] = 
   },
 ]
 
+export const mockFiatConnectQuoteSuccess: FiatConnectQuoteSuccess = {
+  provider: mockFiatConnectProviderInfo[2],
+  ok: true,
+  quote: {
+    fiatType: FiatType.USD,
+    cryptoType: CryptoType.cUSD,
+    fiatAmount: '100',
+    cryptoAmount: '100',
+    quoteId: 'mock_quote_in_id',
+    guaranteedUntil: '2099-04-27T19:22:36.000Z',
+    transferType: TransferType.TransferIn,
+    fee: '4.22',
+  },
+  kyc: {
+    kycRequired: true,
+    kycSchemas: [{ kycSchema: 'fake-schema' as KycSchema, allowedValues: {} }],
+  },
+  fiatAccount: {
+    BankAccount: {
+      fiatAccountSchemas: [
+        {
+          fiatAccountSchema: FiatAccountSchema.AccountNumber,
+          allowedValues: {},
+        },
+      ],
+    },
+  },
+}
 export const mockFiatConnectQuotes: (FiatConnectQuoteSuccess | FiatConnectQuoteError)[] = [
   {
     provider: {
@@ -777,34 +813,7 @@ export const mockFiatConnectQuotes: (FiatConnectQuoteSuccess | FiatConnectQuoteE
     ok: true,
     ...mockGetFiatConnectQuotesResponse[0].val,
   },
-  {
-    provider: mockFiatConnectProviderInfo[2],
-    ok: true,
-    quote: {
-      fiatType: FiatType.USD,
-      cryptoType: CryptoType.cUSD,
-      fiatAmount: '100',
-      cryptoAmount: '100',
-      quoteId: 'mock_quote_in_id',
-      guaranteedUntil: '2099-04-27T19:22:36.000Z',
-      transferType: TransferType.TransferIn,
-      fee: '4.22',
-    },
-    kyc: {
-      kycRequired: true,
-      kycSchemas: [{ kycSchema: 'fake-schema' as KycSchema, allowedValues: {} }],
-    },
-    fiatAccount: {
-      BankAccount: {
-        fiatAccountSchemas: [
-          {
-            fiatAccountSchema: FiatAccountSchema.AccountNumber,
-            allowedValues: {},
-          },
-        ],
-      },
-    },
-  },
+  mockFiatConnectQuoteSuccess,
   {
     provider: mockFiatConnectProviderInfo[2],
     ok: true,
@@ -922,3 +931,19 @@ export const mockExchanges: ExternalExchangeProvider[] = [
     supportedRegions: ['global'],
   },
 ]
+
+export const mockLegacyMobileMoneyProvider: LegacyMobileMoneyProvider = {
+  name: 'mock-legacy-mobile-money-1',
+  celo: {
+    cashIn: false,
+    cashOut: false,
+    countries: [],
+    url: 'fake-url-1',
+  },
+  cusd: {
+    cashIn: true,
+    cashOut: true,
+    countries: [],
+    url: 'fake-url-1',
+  },
+}
