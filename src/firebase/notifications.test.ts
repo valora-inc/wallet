@@ -204,7 +204,7 @@ describe(handleNotification, () => {
         .provide([[select(recipientInfoSelector), mockRecipientInfo]])
         .run()
 
-      expect(navigate).toHaveBeenCalledWith(Screens.FiatConnectReviewWrapper, {
+      expect(navigate).toHaveBeenCalledWith(Screens.FiatConnectRefetchQuote, {
         kycSchema: KycSchema.PersonalDataAndDocuments,
         providerId: 'test-provider',
         type: NotificationTypes.FIAT_CONNECT_KYC_APPROVED,
