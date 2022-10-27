@@ -1,8 +1,8 @@
 /* DO NOT EDIT MANUALLY, SEE scripts/sync_ios_info_plist_strings.sh */
 
-NSCameraUsageDescription = "Connecting your camera allows you to scan codes for payments.";
-NSContactsUsageDescription = "Adding your contacts makes it easy to send and request payments with your friends.";
-NSPhotoLibraryAddUsageDescription = "Connecting your photo library allows you to save your code to your photos.";
-NSPhotoLibraryUsageDescription = "This is required for you to choose a profile picture.";
-NSUserTrackingUsageDescription = "We use the advertising identifier to accurately attribute app installs from ad campaigns.";
-NSFaceIDUsageDescription = "This is required for you to use Face ID to secure your account.";
+NSCameraUsageDescription = "连接相机可以扫描代码进行付款。";
+NSContactsUsageDescription = "添加您的联系人可以轻松地向您的朋友发送和请求付款。";
+NSPhotoLibraryAddUsageDescription = "连接您的照片库可以将代码保存到您的照片中。";
+NSPhotoLibraryUsageDescription = "选择个人资料图片需要执行此操作。";
+NSUserTrackingUsageDescription = "我们使用广告标识符来准确地将应用程序安装归因到广告活动。";
+NSFaceIDUsageDescription = "这是您使用面容 ID 保护您的账户所必需的。";
