@@ -278,6 +278,9 @@
                 "fiatAccountId": {
                     "type": "string"
                 },
+                "fiatAccountSchema": {
+                    "$ref": "#/definitions/FiatAccountSchema"
+                },
                 "fiatAccountType": {
                     "$ref": "#/definitions/FiatAccountType"
                 },
@@ -294,6 +297,7 @@
             "required": [
                 "cryptoType",
                 "fiatAccountId",
+                "fiatAccountSchema",
                 "fiatAccountType",
                 "fiatType",
                 "flow",
@@ -1867,6 +1871,7 @@
                 "ExchangeTradeScreen",
                 "ExternalExchanges",
                 "FiatConnectLinkAccount",
+                "FiatConnectRefetchQuote",
                 "FiatConnectReview",
                 "FiatConnectTransferStatus",
                 "FiatDetailsScreen",

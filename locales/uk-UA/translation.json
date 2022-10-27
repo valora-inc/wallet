@@ -1427,9 +1427,9 @@
       "errorMessageDigit": "Номер рахунку повинен містити лише цифри"
     },
     "ibanNumber": {
-      "label": "МНБР",
+      "label": "IBAN",
       "placeholderText": "Введіть номер IBAN",
-      "errorMessage": "Невірний IBAN"
+      "errorMessage": "Неправильний IBAN"
     }
   },
   "webView": {

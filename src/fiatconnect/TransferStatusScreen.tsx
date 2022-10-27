@@ -1,4 +1,3 @@
-import { ObfuscatedFiatAccountData } from '@fiatconnect/fiatconnect-types'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -11,7 +10,7 @@ import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import TextButton from 'src/components/TextButton'
 import Touchable from 'src/components/Touchable'
 import { fiatConnectTransferSelector } from 'src/fiatconnect/selectors'
-import { FiatConnectTransfer } from 'src/fiatconnect/slice'
+import { FiatAccount, FiatConnectTransfer } from 'src/fiatconnect/slice'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import CheckmarkCircle from 'src/icons/CheckmarkCircle'
@@ -27,11 +26,7 @@ import variables from 'src/styles/variables'
 import networkConfig from 'src/web3/networkConfig'
 type Props = NativeStackScreenProps<StackParamList, Screens.FiatConnectTransferStatus>
 
-function onBack(
-  flow: CICOFlow,
-  normalizedQuote: FiatConnectQuote,
-  fiatAccount: ObfuscatedFiatAccountData
-) {
+function onBack(flow: CICOFlow, normalizedQuote: FiatConnectQuote, fiatAccount: FiatAccount) {
   ValoraAnalytics.track(FiatExchangeEvents.cico_fc_transfer_error_retry, {
     flow,
     provider: normalizedQuote.getProviderId(),
@@ -51,7 +46,7 @@ function FiatConnectWithdrawFailureSection({
 }: {
   normalizedQuote: FiatConnectQuote
   flow: CICOFlow
-  fiatAccount: ObfuscatedFiatAccountData
+  fiatAccount: FiatAccount
 }) {
   const { t } = useTranslation()
   const provider = normalizedQuote.getProviderId()

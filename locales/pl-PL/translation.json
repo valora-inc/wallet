@@ -1429,7 +1429,7 @@
     "ibanNumber": {
       "label": "IBAN",
       "placeholderText": "Wprowadź numer IBAN",
-      "errorMessage": "Nieważny IBAN"
+      "errorMessage": "Nieprawidłowy numer IBAN"
     }
   },
   "webView": {

@@ -1723,6 +1723,14 @@ export const v85Schema = {
   app: _.omit(v82Schema.app, 'swapFeeEnabled', 'swapFeePercentage'),
 }
 
+export const v86Schema = {
+  ...v85Schema,
+  _persist: {
+    ...v85Schema._persist,
+    version: 86,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v85Schema as Partial<RootState>
+  return v86Schema as Partial<RootState>
 }
