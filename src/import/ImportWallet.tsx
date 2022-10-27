@@ -30,7 +30,6 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import TopBarTextButtonOnboarding from 'src/onboarding/TopBarTextButtonOnboarding'
-import UseBackToWelcomeScreen from 'src/onboarding/UseBackToWelcomeScreen'
 import { isAppConnected } from 'src/redux/selectors'
 import useTypedSelector from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
@@ -180,9 +179,6 @@ function ImportWallet({ navigation, route }: Props) {
         <SafeAreaInsetsContext.Consumer>
           {(insets) => (
             <View style={styles.container}>
-              <UseBackToWelcomeScreen
-                backAnalyticsEvents={[OnboardingEvents.restore_account_cancel]}
-              />
               <KeyboardAwareScrollView
                 style={headerHeight ? { marginTop: headerHeight } : undefined}
                 contentContainerStyle={[
