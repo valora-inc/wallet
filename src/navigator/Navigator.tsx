@@ -1,8 +1,7 @@
 import { BottomSheetBackdrop, BottomSheetBackdropProps } from '@gorhom/bottom-sheet'
-import { RouteProp } from '@react-navigation/core'
 import {
   createNativeStackNavigator,
-  NativeStackNavigationOptions,
+  NativeStackNavigationOptions, RouteProp
 } from '@react-navigation/native-stack'
 import { createBottomSheetNavigator } from '@th3rdwave/react-navigation-bottom-sheet'
 import * as React from 'react'

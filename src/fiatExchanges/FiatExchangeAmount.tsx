@@ -1,5 +1,5 @@
 import { parseInputAmount } from '@celo/utils/lib/parsing'
-import { RouteProp } from '@react-navigation/core'
+import { RouteProp } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import React, { useState } from 'react'

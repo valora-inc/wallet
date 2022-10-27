@@ -1,4 +1,4 @@
-import { RouteProp } from '@react-navigation/core'
+import { RouteProp } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'

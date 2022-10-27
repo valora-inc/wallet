@@ -1,9 +1,9 @@
 // (https://github.com/react-navigation/react-navigation/issues/1439)
-import { StackActions } from '@react-navigation/core'
 import {
   CommonActions,
   createNavigationContainerRef,
   NavigationState,
+  StackActions,
 } from '@react-navigation/native'
 import { createRef, MutableRefObject } from 'react'
 import sleep from 'sleep-promise'
