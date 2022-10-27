@@ -89,7 +89,7 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
           crypto: parseFloat(normalizedQuote.getCryptoAmount()),
         },
       })
-    } else if (previousScreen?.name === Screens.FiatConnectReviewWrapper) {
+    } else if (previousScreen?.name === Screens.FiatConnectRefetchQuote) {
       navigate(Screens.FiatExchange)
     } else {
       navigateBack()

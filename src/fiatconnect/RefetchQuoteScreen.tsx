@@ -13,7 +13,7 @@ import variables from 'src/styles/variables'
 import { refetchQuote } from 'src/fiatconnect/slice'
 import { navigate } from 'src/navigator/NavigationService'
 
-type Props = StackScreenProps<StackParamList, Screens.FiatConnectReviewWrapper>
+type Props = StackScreenProps<StackParamList, Screens.FiatConnectRefetchQuote>
 
 export default function FiatConnectRefetchQuoteScreen({ route }: Props) {
   const { providerId, kycSchema } = route.params
