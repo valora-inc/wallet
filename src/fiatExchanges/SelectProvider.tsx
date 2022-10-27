@@ -266,6 +266,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
           cryptoAmount={cryptoAmount}
           coinbaseProvider={coinbaseProvider}
           appId={appId}
+          analyticsData={analyticsData}
         />
       )}
       <ExchangesSection

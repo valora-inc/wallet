@@ -1336,7 +1336,7 @@ interface WebViewEventsProperties {
 }
 
 interface CoinbasePayEventsProperties {
-  [CoinbasePayEvents.coinbase_pay_flow_start]: undefined
+  [CoinbasePayEvents.coinbase_pay_flow_start]: ProviderSelectionAnalyticsData
   [CoinbasePayEvents.coinbase_pay_flow_exit]: undefined
 }
 
