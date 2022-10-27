@@ -6,7 +6,7 @@ import {
   PaymentMethodSectionProps,
 } from 'src/fiatExchanges/PaymentMethodSection'
 import { normalizeQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
-import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
+import { CICOFlow, PaymentMethod, ProviderSelectionAnalyticsData } from 'src/fiatExchanges/utils'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { createMockStore } from 'test/utils'
 import {
@@ -30,6 +30,7 @@ describe('PaymentMethodSection', () => {
       normalizedQuotes: normalizeQuotes(CICOFlow.CashIn, [], mockProviders),
       setNoPaymentMethods: jest.fn(),
       flow: CICOFlow.CashIn,
+      analyticsData: {} as ProviderSelectionAnalyticsData,
     }
   })
   it('shows nothing if there are no available providers', async () => {
