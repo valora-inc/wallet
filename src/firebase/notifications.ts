@@ -115,7 +115,7 @@ export function* handleNotification(
 
     case NotificationTypes.FIAT_CONNECT_KYC_APPROVED:
       navigate(
-        Screens.FiatConnectReviewWrapper,
+        Screens.FiatConnectRefetchQuote,
         message.data as unknown as FiatConnectKycApprovedData
       )
       break
