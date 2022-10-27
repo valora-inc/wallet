@@ -194,6 +194,7 @@ export async function quickOnboarding(mnemonic = SAMPLE_BACKUP_KEY) {
     await element(by.id('VerificationSkipDialog/PrimaryAction')).tap()
 
     // Assert on Wallet Home Screen
+    await dismissCashInBottomSheet()
     await expect(element(by.id('SendOrRequestBar'))).toBeVisible()
   } catch {} // Don't throw an error just silently continue
 }
@@ -284,4 +285,12 @@ export async function addComment(comment) {
     // so we tap something else in the scrollview to hide the soft keyboard
     await element(by.id('HeaderText')).tap()
   }
+}
+
+export async function dismissCashInBottomSheet() {
+  try {
+    console.log('Dismissing Bottom Sheet')
+    await waitForElementId('CashInBottomSheet')
+    await element(by.id('DismissBottomSheet')).tap()
+  } catch {}
 }

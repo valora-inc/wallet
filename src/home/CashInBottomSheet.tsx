@@ -126,12 +126,13 @@ function CashInBottomSheet() {
       onSwipeComplete={onDismissBottomSheet}
       useNativeDriverForBackdrop={true}
     >
-      <View style={styles.container}>
+      <View testID="CashInBottomSheet" style={styles.container}>
         <Touchable
           style={styles.dismissButton}
           onPress={onDismissBottomSheet}
           borderless={true}
           hitSlop={variables.iconHitslop}
+          testID={'DismissBottomSheet'}
         >
           <Times />
         </Touchable>
