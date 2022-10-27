@@ -1,7 +1,8 @@
 import { BottomSheetBackdrop, BottomSheetBackdropProps } from '@gorhom/bottom-sheet'
 import {
   createNativeStackNavigator,
-  NativeStackNavigationOptions, RouteProp
+  NativeStackNavigationOptions,
+  RouteProp,
 } from '@react-navigation/native-stack'
 import { createBottomSheetNavigator } from '@th3rdwave/react-navigation-bottom-sheet'
 import * as React from 'react'
@@ -44,6 +45,7 @@ import KycExpired from 'src/fiatconnect/kyc/KycExpired'
 import KycPending from 'src/fiatconnect/kyc/KycPending'
 import KycLanding from 'src/fiatconnect/KycLanding'
 import FiatConnectLinkAccountScreen from 'src/fiatconnect/LinkAccountScreen'
+import FiatConnectRefetchQuoteScreen from 'src/fiatconnect/RefetchQuoteScreen'
 import FiatConnectReviewScreen from 'src/fiatconnect/ReviewScreen'
 import FiatConnectTransferStatusScreen from 'src/fiatconnect/TransferStatusScreen'
 import BidaliScreen from 'src/fiatExchanges/BidaliScreen'
@@ -127,7 +129,6 @@ import VerificationLoadingScreen from 'src/verify/VerificationLoadingScreen'
 import WalletConnectSessionsScreen from 'src/walletConnect/screens/Sessions'
 import WalletConnectRequest from 'src/walletConnect/screens/WalletConnectRequest'
 import WebViewScreen from 'src/webview/WebViewScreen'
-import FiatConnectRefetchQuoteScreen from 'src/fiatconnect/RefetchQuoteScreen'
 
 const TAG = 'Navigator'
 
