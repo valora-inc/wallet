@@ -2,7 +2,7 @@ import { BottomSheetBackdrop, BottomSheetBackdropProps } from '@gorhom/bottom-sh
 import { RouteProp } from '@react-navigation/native'
 import {
   createNativeStackNavigator,
-  NativeStackNavigationOptions
+  NativeStackNavigationOptions,
 } from '@react-navigation/native-stack'
 import { createBottomSheetNavigator } from '@th3rdwave/react-navigation-bottom-sheet'
 import * as React from 'react'
@@ -292,12 +292,14 @@ const sendScreens = (Navigator: typeof Stack) => (
     />
     <Navigator.Screen
       name={Screens.IncomingPaymentRequestListScreen}
-      component={IncomingPaymentRequestListScreen as any}
+      // @ts-ignore
+      component={IncomingPaymentRequestListScreen}
       options={headerWithBackButton}
     />
     <Navigator.Screen
       name={Screens.OutgoingPaymentRequestListScreen}
-      component={OutgoingPaymentRequestListScreen as any}
+      // @ts-ignore
+      component={OutgoingPaymentRequestListScreen}
       options={headerWithBackButton}
     />
     <Navigator.Screen
@@ -521,7 +523,8 @@ const settingsScreens = (Navigator: typeof Stack) => (
     />
     <Navigator.Screen
       name={Screens.CoinbasePayScreen}
-      component={CoinbasePayScreen as any}
+      // @ts-ignore
+      component={CoinbasePayScreen}
       options={emptyHeader}
     />
     <Navigator.Screen
@@ -674,7 +677,8 @@ const modalAnimatedScreens = (Navigator: typeof Stack) => (
     />
     <Navigator.Screen
       name={Screens.RegulatoryTerms}
-      component={RegulatoryTerms as any}
+      // @ts-ignore
+      component={RegulatoryTerms}
       options={RegulatoryTerms.navigationOptions as NativeStackNavigationOptions}
     />
     <Navigator.Screen
@@ -685,6 +689,7 @@ const modalAnimatedScreens = (Navigator: typeof Stack) => (
     <Navigator.Screen
       name={Screens.AccountKeyEducation}
       component={AccountKeyEducation}
+      // @ts-ignore
       options={AccountKeyEducation.navigationOptions}
     />
     <Navigator.Screen
