@@ -30,6 +30,7 @@ import {
   FetchProvidersOutput,
   LegacyMobileMoneyProvider,
   PaymentMethod,
+  ProviderSelectionAnalyticsData,
 } from 'src/fiatExchanges/utils'
 import { AddressToE164NumberType, E164NumberToAddressType } from 'src/identity/reducer'
 import { AttestationCode } from 'src/identity/verification'
@@ -759,6 +760,22 @@ export const mockGetFiatConnectQuotesResponse: GetFiatConnectQuotesResponse[] = 
     },
   },
 ]
+
+export const mockProviderSelectionAnalyticsData: ProviderSelectionAnalyticsData = {
+  centralizedExchangesAvailable: true,
+  totalOptions: 3,
+  paymentMethodsAvailable: {
+    [PaymentMethod.Card]: false,
+    [PaymentMethod.Bank]: true,
+    [PaymentMethod.Coinbase]: true,
+    [PaymentMethod.MobileMoney]: true,
+  },
+  transferCryptoAmount: '10.00',
+  lowestFeeKycRequired: false,
+  lowestFeeCryptoAmount: '1.00',
+  lowestFeeProvider: 'mock-provider-1',
+  lowestFeePaymentMethod: PaymentMethod.Bank,
+}
 
 export const mockFiatConnectQuotes: (FiatConnectQuoteSuccess | FiatConnectQuoteError)[] = [
   {
