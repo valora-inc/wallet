@@ -25,7 +25,7 @@ export const launchApp = async (
   })
 }
 
-export const reloadReactNative = async (dismissBottomSheet = false) => {
+export const reloadReactNative = async (dismissBottomSheet = true) => {
   await retry(
     async () => {
       try {
@@ -38,5 +38,5 @@ export const reloadReactNative = async (dismissBottomSheet = false) => {
     },
     { retries: 5, delay: 10 * 1000, timeout: 30 * 10000 }
   )
-  if (!dismissBottomSheet) await dismissCashInBottomSheet()
+  if (dismissBottomSheet) await dismissCashInBottomSheet()
 }
