@@ -9,7 +9,7 @@ import {
   CoinbasePaymentSection,
   CoinbasePaymentSectionProps,
 } from 'src/fiatExchanges/CoinbasePaymentSection'
-import { PaymentMethod } from 'src/fiatExchanges/utils'
+import { PaymentMethod, ProviderSelectionAnalyticsData } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { createMockStore } from 'test/utils'
 import { mockProviders } from 'test/values'
@@ -36,6 +36,7 @@ describe('CoinbasePaymentSection', () => {
         quote.paymentMethods.includes(PaymentMethod.Coinbase)
       )!,
       appId: FAKE_APP_ID,
+      analyticsData: {} as ProviderSelectionAnalyticsData,
     }
     mockStore = createMockStore()
   })
