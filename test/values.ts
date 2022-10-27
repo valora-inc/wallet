@@ -760,34 +760,6 @@ export const mockGetFiatConnectQuotesResponse: GetFiatConnectQuotesResponse[] = 
   },
 ]
 
-export const mockFiatConnectQuoteSuccess: FiatConnectQuoteSuccess = {
-  provider: mockFiatConnectProviderInfo[2],
-  ok: true,
-  quote: {
-    fiatType: FiatType.USD,
-    cryptoType: CryptoType.cUSD,
-    fiatAmount: '100',
-    cryptoAmount: '100',
-    quoteId: 'mock_quote_in_id',
-    guaranteedUntil: '2099-04-27T19:22:36.000Z',
-    transferType: TransferType.TransferIn,
-    fee: '4.22',
-  },
-  kyc: {
-    kycRequired: true,
-    kycSchemas: [{ kycSchema: 'fake-schema' as KycSchema, allowedValues: {} }],
-  },
-  fiatAccount: {
-    BankAccount: {
-      fiatAccountSchemas: [
-        {
-          fiatAccountSchema: FiatAccountSchema.AccountNumber,
-          allowedValues: {},
-        },
-      ],
-    },
-  },
-}
 export const mockFiatConnectQuotes: (FiatConnectQuoteSuccess | FiatConnectQuoteError)[] = [
   {
     provider: {
@@ -809,7 +781,34 @@ export const mockFiatConnectQuotes: (FiatConnectQuoteSuccess | FiatConnectQuoteE
     ok: true,
     ...mockGetFiatConnectQuotesResponse[0].val,
   },
-  mockFiatConnectQuoteSuccess,
+  {
+    provider: mockFiatConnectProviderInfo[2],
+    ok: true,
+    quote: {
+      fiatType: FiatType.USD,
+      cryptoType: CryptoType.cUSD,
+      fiatAmount: '100',
+      cryptoAmount: '100',
+      quoteId: 'mock_quote_in_id',
+      guaranteedUntil: '2099-04-27T19:22:36.000Z',
+      transferType: TransferType.TransferIn,
+      fee: '4.22',
+    },
+    kyc: {
+      kycRequired: true,
+      kycSchemas: [{ kycSchema: 'fake-schema' as KycSchema, allowedValues: {} }],
+    },
+    fiatAccount: {
+      BankAccount: {
+        fiatAccountSchemas: [
+          {
+            fiatAccountSchema: FiatAccountSchema.AccountNumber,
+            allowedValues: {},
+          },
+        ],
+      },
+    },
+  },
   {
     provider: mockFiatConnectProviderInfo[2],
     ok: true,
