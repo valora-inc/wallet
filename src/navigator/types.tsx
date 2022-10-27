@@ -142,7 +142,7 @@ export type StackParamList = {
     fiatAccount: FiatAccount
     shouldRefetchQuote?: boolean
   }
-  [Screens.FiatConnectReviewWrapper]: {
+  [Screens.FiatConnectRefetchQuote]: {
     providerId: string
     kycSchema: KycSchema
   }

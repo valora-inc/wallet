@@ -1,7 +1,7 @@
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { Provider } from 'react-redux'
 import * as React from 'react'
-import FiatConnectReviewScreenWrapper from 'src/fiatconnect/ReviewScreenWrapper'
+import FiatConnectRefetchQuoteScreen from 'src/fiatconnect/RefetchQuoteScreen'
 import { Screens } from 'src/navigator/Screens'
 import { KycSchema, FiatType } from '@fiatconnect/fiatconnect-types'
 import { render } from '@testing-library/react-native'
@@ -12,7 +12,7 @@ import { Currency } from 'src/utils/currencies'
 
 const store = createMockStore()
 
-describe('ReviewScreenWrapper', () => {
+describe('RefetchQuoteScreen', () => {
   beforeEach(() => {
     store.dispatch = jest.fn()
   })
@@ -21,13 +21,13 @@ describe('ReviewScreenWrapper', () => {
   })
 
   it('navigates to CICO screen when cached quote does not exist', () => {
-    const props = getMockStackScreenProps(Screens.FiatConnectReviewWrapper, {
+    const props = getMockStackScreenProps(Screens.FiatConnectRefetchQuote, {
       providerId: 'some-provider',
       kycSchema: KycSchema.PersonalDataAndDocuments,
     })
     render(
       <Provider store={store}>
-        <FiatConnectReviewScreenWrapper {...props} />
+        <FiatConnectRefetchQuoteScreen {...props} />
       </Provider>
     )
     expect(navigate).toHaveBeenCalledTimes(1)
@@ -53,13 +53,13 @@ describe('ReviewScreenWrapper', () => {
       },
     })
     store.dispatch = jest.fn()
-    const props = getMockStackScreenProps(Screens.FiatConnectReviewWrapper, {
+    const props = getMockStackScreenProps(Screens.FiatConnectRefetchQuote, {
       providerId: 'some-provider',
       kycSchema: KycSchema.PersonalDataAndDocuments,
     })
     render(
       <Provider store={store}>
-        <FiatConnectReviewScreenWrapper {...props} />
+        <FiatConnectRefetchQuoteScreen {...props} />
       </Provider>
     )
     expect(navigate).toHaveBeenCalledTimes(1)
@@ -92,13 +92,13 @@ describe('ReviewScreenWrapper', () => {
       },
     })
     store.dispatch = jest.fn()
-    const props = getMockStackScreenProps(Screens.FiatConnectReviewWrapper, {
+    const props = getMockStackScreenProps(Screens.FiatConnectRefetchQuote, {
       providerId: 'some-provider',
       kycSchema: KycSchema.PersonalDataAndDocuments,
     })
     render(
       <Provider store={store}>
-        <FiatConnectReviewScreenWrapper {...props} />
+        <FiatConnectRefetchQuoteScreen {...props} />
       </Provider>
     )
     expect(navigate).not.toHaveBeenCalled()

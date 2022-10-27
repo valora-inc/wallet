@@ -509,7 +509,7 @@ export function* _selectQuoteAndFiatAccount({
  *
  * If no fiat account is provided, both quotes and on-file fiat accounts will be fetched from
  * the chosen provider, and will be tested against eachother to find a match. If multiple quote-account
- * matches exist, one will be chosen at random. If no matching pair exists, throws an error.
+ * matches exist, one will be chosen arbitrarily. If no matching pair exists, throws an error.
  **/
 export function* _getSpecificQuote({
   digitalAsset,
@@ -559,10 +559,10 @@ export function* _getSpecificQuote({
 }
 
 /**
- * Fetches a fiat account from a given provider according to a set of optional filters. Possible filters are
- * fiatAccountId, fiatAccountType, and fiatAccountSchema. Multiple filters may be used in conjunction. If, after
- * filtering, multiple possible accounts remain, a random one matching the given criteria is returned. Returns null
- * if no accounts are found that match the given criteria.
+ * Fetches a fiat account from a given provider according to a set of optional filters.
+ * Multiple filters may be used in conjunction. If, after filtering, multiple possible accounts
+ * remain, an arbitrary one matching the given criteria is returned.
+ * Returns null if no accounts are found that match the given criteria.
  **/
 export function* _getFiatAccount({
   fiatConnectProviders,

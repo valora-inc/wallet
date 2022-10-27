@@ -15,7 +15,7 @@ import { navigate } from 'src/navigator/NavigationService'
 
 type Props = StackScreenProps<StackParamList, Screens.FiatConnectReviewWrapper>
 
-export default function FiatConnectReviewScreenWrapper({ route }: Props) {
+export default function FiatConnectRefetchQuoteScreen({ route }: Props) {
   const { providerId, kycSchema } = route.params
   const dispatch = useDispatch()
   const fiatConnectQuotesError = useSelector(fiatConnectQuotesErrorSelector)

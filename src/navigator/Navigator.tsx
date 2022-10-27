@@ -125,7 +125,7 @@ import VerificationLoadingScreen from 'src/verify/VerificationLoadingScreen'
 import WalletConnectSessionsScreen from 'src/walletConnect/screens/Sessions'
 import WalletConnectRequest from 'src/walletConnect/screens/WalletConnectRequest'
 import WebViewScreen from 'src/webview/WebViewScreen'
-import FiatConnectReviewScreenWrapper from 'src/fiatconnect/ReviewScreenWrapper'
+import FiatConnectRefetchQuoteScreen from 'src/fiatconnect/RefetchQuoteScreen'
 
 const TAG = 'Navigator'
 
@@ -503,8 +503,8 @@ const settingsScreens = (Navigator: typeof Stack) => (
     />
     <Navigator.Screen
       options={noHeader}
-      name={Screens.FiatConnectReviewWrapper}
-      component={FiatConnectReviewScreenWrapper}
+      name={Screens.FiatConnectRefetchQuote}
+      component={FiatConnectRefetchQuoteScreen}
     />
     <Navigator.Screen
       options={noHeader}
