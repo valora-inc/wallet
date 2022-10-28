@@ -13,7 +13,11 @@ import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore } from 'test/utils'
-import { mockFiatConnectProviderInfo, mockFiatConnectQuotes } from 'test/values'
+import {
+  mockFiatConnectProviderInfo,
+  mockFiatConnectQuotes,
+  mockProviderSelectionAnalyticsData,
+} from 'test/values'
 
 jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/web3/contracts', () => ({
@@ -198,7 +202,12 @@ describe('FiatConnectQuote', () => {
         quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
         fiatAccountType: FiatAccountType.BankAccount,
       })
-      quote.onPress(CICOFlow.CashIn, createMockStore().dispatch)()
+      quote.onPress(
+        CICOFlow.CashIn,
+        createMockStore().dispatch,
+        mockProviderSelectionAnalyticsData,
+        '1.00'
+      )()
       expect(ValoraAnalytics.track).toHaveBeenCalled()
     })
   })
