@@ -1871,6 +1871,7 @@
                 "ExchangeTradeScreen",
                 "ExternalExchanges",
                 "FiatConnectLinkAccount",
+                "FiatConnectRefetchQuote",
                 "FiatConnectReview",
                 "FiatConnectTransferStatus",
                 "FiatDetailsScreen",
