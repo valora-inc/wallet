@@ -41,6 +41,7 @@ import {
   getRequirePinOnAppOpen,
   googleMobileServicesAvailableSelector,
   huaweiMobileServicesAvailableSelector,
+  inviterAddressSelector,
   sentryNetworkErrorsSelector,
   shouldRunVerificationMigrationSelector,
 } from 'src/app/selectors'
@@ -77,11 +78,7 @@ import {
   isWalletConnectDeepLink,
 } from 'src/walletConnect/walletConnect'
 import networkConfig from 'src/web3/networkConfig'
-import {
-  dataEncryptionKeySelector,
-  mtwAddressSelector,
-  walletAddressSelector,
-} from 'src/web3/selectors'
+import { dataEncryptionKeySelector, walletAddressSelector } from 'src/web3/selectors'
 import { parse } from 'url'
 
 const TAG = 'app/saga'
@@ -415,13 +412,13 @@ export function* runCentralPhoneVerificationMigration() {
   )
 
   const address = yield select(walletAddressSelector)
-  const mtwAddress = yield select(mtwAddressSelector)
   const phoneNumber = yield select(e164NumberSelector)
   const publicDataEncryptionKey = compressedPubKey(hexToBuffer(privateDataEncryptionKey))
 
   try {
     const signedMessage = yield call(retrieveSignedMessage)
     const phoneHashDetails: PhoneNumberHashDetails = yield call(fetchPhoneHashPrivate, phoneNumber)
+    const inviterAddress = yield select(inviterAddressSelector)
 
     const response = yield call(fetch, networkConfig.migratePhoneVerificationUrl, {
       method: 'POST',
@@ -436,7 +433,7 @@ export function* runCentralPhoneVerificationMigration() {
         phoneNumber,
         pepper: phoneHashDetails.pepper,
         phoneHash: phoneHashDetails.phoneHash,
-        mtwAddress: mtwAddress ?? undefined,
+        inviterAddress,
       }),
     })
 
