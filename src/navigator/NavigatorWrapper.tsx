@@ -74,9 +74,8 @@ export const NavigatorWrapper = () => {
 
   const dispatch = useDispatch()
 
-  // Use Flipper Navigation plugin only in Dev mode
-  // @ts-ignore
-  if (__DEV__) useFlipper(navigationRef)
+  // @ts-ignore using a v6 navigation plugin with v5 types
+  useFlipper(navigationRef)
 
   const updateRequired = React.useMemo(() => {
     if (!minRequiredVersion) {
