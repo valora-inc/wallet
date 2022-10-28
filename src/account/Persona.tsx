@@ -45,8 +45,9 @@ const Persona = ({ kycStatus, text, onCanceled, onError, onPress, onSuccess, dis
 
   const dispatch = useDispatch()
 
+  //TODO: figure out a better way to handle this for e2e test
   const templateIdResponse = useAsync(async () => readOnceFromFirebase('persona/templateId'), [])
-  const templateId = templateIdResponse.result
+  const templateId = templateIdResponse.result ?? 'itmpl_5FYHGGFhdAYvfd7FvSpNADcC'
 
   const launchPersonaInquiry = useCallback(() => {
     if (typeof templateId !== 'string') {

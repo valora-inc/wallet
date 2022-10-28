@@ -133,3 +133,61 @@ export const fiatConnectNonKycTransferOut = () => {
     await submitTransfer()
   })
 }
+
+export const fiatConnectKycTransferOut = () => {
+  it('FiatConnect cash out', async () => {
+    // ******** First time experience ************
+    const cashOutAmount = 0.01
+    //const gasAmount = 0.005
+    //const fundingAmount = '15.67'//`${2 * cashOutAmount + gasAmount}`
+    const token = 'cUSD'
+    const mnemonic =
+      'rather birth regret pioneer wonder what usage company grab please road very kitten inject heavy coil stone oven weapon purpose weekend over unfold give' //await generateMnemonic()
+    const { address: walletAddress } = await generateKeys(mnemonic)
+
+    await quickOnboarding(mnemonic) // ends on home screen
+    //await fundWallet(SAMPLE_PRIVATE_KEY, walletAddress, token, fundingAmount)
+    await navigateToFiatExchangeScreen()
+
+    // FiatExchange
+    /*await waitFor(element(by.text(`${fundingAmount} cUSD`))) // need a balance to withdraw
+      .toBeVisible()
+      .withTimeout(20000)*/ // in case funding tx is still pending. balance must be updated before amount can be selected.
+    await waitForElementId('cashOut')
+    await element(by.id('cashOut')).tap()
+
+    await selectCurrencyAndAmount(token, cashOutAmount)
+
+    // SelectProviderScreen
+    await expect(element(by.text('Select Withdraw Method'))).toBeVisible()
+    await waitForElementId('Exchanges') // once visible, the FC providers should have also loaded
+    try {
+      // expand dropdown for "Bank Account" providers section
+      await element(by.id('Bank/section')).tap()
+    } catch (error) {
+      // expected when only one provider exists for "Bank" fiat account type
+      await expect(element(by.id('Bank/singleprovider')))
+    }
+    await element(by.id('image-Test Provider')).tap()
+    await enterPinUiIfNecessary()
+
+    // KycLanding
+    await expect(element(by.text('Verify your Identity'))).toBeVisible()
+    await expect(element(by.id('step-one-grey'))).not.toBeVisible()
+    await expect(element(by.id('checkbox'))).toBeVisible()
+    await element(by.id('checkbox')).tap()
+    await element(by.id('PersonaButton')).tap()
+
+    // Persona Inquiry
+    await waitFor(element(by.text('Begin verifying')))
+      .toBeVisible()
+      .withTimeout(5000)
+    await element(by.text('Begin verifying')).tap()
+    await expect(element(by.text('Select'))).toBeVisible()
+    await element(by.text('Select')).tap()
+    await expect(element(by.text('Driver License'))).toBeVisible()
+    await element(by.text('Driver License')).tap()
+    await expect(element(by.text('Enable camera'))).toBeVisible()
+    await element(by.text('Enable camera')).tap()
+  })
+}
