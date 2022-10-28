@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useFlipper } from '@react-navigation/devtools'
 import { DefaultTheme, NavigationContainer, NavigationState } from '@react-navigation/native'
 import * as Sentry from '@sentry/react-native'
 import { SeverityLevel } from '@sentry/types'
@@ -72,6 +73,10 @@ export const NavigatorWrapper = () => {
   const inSanctionedCountry = useTypedSelector(userInSanctionedCountrySelector)
 
   const dispatch = useDispatch()
+
+  // Use Flipper Navigation plugin only in Dev mode
+  // @ts-ignore
+  if (__DEV__) useFlipper(navigationRef)
 
   const updateRequired = React.useMemo(() => {
     if (!minRequiredVersion) {
