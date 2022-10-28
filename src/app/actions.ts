@@ -35,6 +35,7 @@ export enum Actions {
   PHONE_NUMBER_VERIFICATION_COMPLETED = 'APP/PHONE_NUMBER_VERIFICATION_COMPLETED',
   PHONE_NUMBER_VERIFICATION_MIGRATED = 'APP/PHONE_NUMBER_VERIFICATION_MIGRATED',
   PHONE_NUMBER_REVOKED = 'APP/PHONE_NUMBER_REVOKED',
+  INVITE_LINK_CONSUMED = 'APP/INVITE_LINK_CONSUMED',
 }
 
 export interface SetAppState {
@@ -153,6 +154,11 @@ export interface PhoneNumberRevoked {
   e164PhoneNumber: string
 }
 
+export interface InviteLinkConsumed {
+  type: Actions.INVITE_LINK_CONSUMED
+  inviterAddress: string
+}
+
 export type ActionTypes =
   | SetAppState
   | SetLoggedIn
@@ -177,6 +183,7 @@ export type ActionTypes =
   | PhoneNumberVerificationCompleted
   | PhoneNumberVerificationMigrated
   | PhoneNumberRevoked
+  | InviteLinkConsumed
 
 export const setAppState = (state: string) => ({
   type: Actions.SET_APP_STATE,
@@ -316,5 +323,12 @@ export const phoneNumberRevoked = (e164PhoneNumber: string): PhoneNumberRevoked 
   return {
     type: Actions.PHONE_NUMBER_REVOKED,
     e164PhoneNumber,
+  }
+}
+
+export const inviteLinkConsumed = (inviterAddress: string): InviteLinkConsumed => {
+  return {
+    type: Actions.INVITE_LINK_CONSUMED,
+    inviterAddress,
   }
 }

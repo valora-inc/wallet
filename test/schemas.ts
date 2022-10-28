@@ -1731,6 +1731,18 @@ export const v86Schema = {
   },
 }
 
+export const v87Schema = {
+  ...v86Schema,
+  _persist: {
+    ...v86Schema._persist,
+    version: 87,
+  },
+  app: {
+    ...v86Schema.app,
+    inviterAddress: null,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v86Schema as Partial<RootState>
+  return v87Schema as Partial<RootState>
 }

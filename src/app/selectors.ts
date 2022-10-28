@@ -260,3 +260,5 @@ export const shouldRunVerificationMigrationSelector = createSelector(
   (centralPhoneVerificationEnabled, numberVerifiedCentrally, numberVerifiedDecentrally) =>
     centralPhoneVerificationEnabled && numberVerifiedDecentrally && !numberVerifiedCentrally
 )
+
+export const inviterAddressSelector = (state: RootState) => state.app.inviterAddress

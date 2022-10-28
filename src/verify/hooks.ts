@@ -11,6 +11,7 @@ import { PhoneVerificationEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { phoneNumberRevoked, phoneNumberVerificationCompleted } from 'src/app/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { inviterAddressSelector } from 'src/app/selectors'
 import { PHONE_NUMBER_VERIFICATION_CODE_LENGTH } from 'src/config'
 import {
   addSmsListener,
@@ -61,6 +62,7 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCallingCode: st
   const dispatch = useDispatch()
   const address = useSelector(walletAddressSelector)
   const privateDataEncryptionKey = useSelector(dataEncryptionKeySelector)
+  const inviterAddress = useSelector(inviterAddressSelector)
 
   const [verificationStatus, setVerificationStatus] = useState(PhoneNumberVerificationStatus.NONE)
   const [verificationId, setVerificationId] = useState('')
@@ -135,6 +137,7 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCallingCode: st
           clientVersion: DeviceInfo.getVersion(),
           clientBundleId: DeviceInfo.getBundleId(),
           publicDataEncryptionKey: compressedPubKey(hexToBuffer(privateDataEncryptionKey)),
+          inviterAddress: inviterAddress ?? undefined,
         }),
       })
       if (response.ok) {
