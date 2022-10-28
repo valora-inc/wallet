@@ -23,7 +23,9 @@ export default ChangePIN = () => {
 
     // Enter an invalid pin and check that we get the correct error and start over
     await enterPinUi('902100')
-    await expect(element(by.text("The PINs didn't match"))).toBeVisible()
+    await waitFor(element(by.text("The PINs didn't match")))
+      .toBeVisible()
+      .withTimeout(15 * 1000)
 
     // Then we enter the new PIN
     await enterPinUi(ALTERNATIVE_PIN)
