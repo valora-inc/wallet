@@ -41,6 +41,7 @@ import {
   getRequirePinOnAppOpen,
   googleMobileServicesAvailableSelector,
   huaweiMobileServicesAvailableSelector,
+  inviterAddressSelector,
   sentryNetworkErrorsSelector,
   shouldRunVerificationMigrationSelector,
 } from 'src/app/selectors'
@@ -422,6 +423,7 @@ export function* runCentralPhoneVerificationMigration() {
   try {
     const signedMessage = yield call(retrieveSignedMessage)
     const phoneHashDetails: PhoneNumberHashDetails = yield call(fetchPhoneHashPrivate, phoneNumber)
+    const inviterAddress = yield select(inviterAddressSelector)
 
     const response = yield call(fetch, networkConfig.migratePhoneVerificationUrl, {
       method: 'POST',
@@ -437,6 +439,7 @@ export function* runCentralPhoneVerificationMigration() {
         pepper: phoneHashDetails.pepper,
         phoneHash: phoneHashDetails.phoneHash,
         mtwAddress: mtwAddress ?? undefined,
+        inviterAddress: inviterAddress ?? undefined,
       }),
     })
 

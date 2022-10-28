@@ -25,6 +25,7 @@ import {
   getAppLocked,
   getLastTimeBackgrounded,
   getRequirePinOnAppOpen,
+  inviterAddressSelector,
   shouldRunVerificationMigrationSelector,
 } from 'src/app/selectors'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
@@ -421,7 +422,8 @@ describe('runCentralPhoneVerificationMigration', () => {
       .provide([
         [select(dataEncryptionKeySelector), 'someDEK'],
         [select(shouldRunVerificationMigrationSelector), true],
-        [select(mtwAddressSelector), '0x123'],
+        [select(inviterAddressSelector), '0x123'],
+        [select(mtwAddressSelector), undefined],
         [select(walletAddressSelector), '0xabc'],
         [select(e164NumberSelector), '+31619777888'],
         [call(retrieveSignedMessage), 'someSignedMessage'],
@@ -440,7 +442,7 @@ describe('runCentralPhoneVerificationMigration', () => {
         'Content-Type': 'application/json',
         authorization: 'Valora 0xabc:someSignedMessage',
       },
-      body: '{"clientPlatform":"android","clientVersion":"0.0.1","publicDataEncryptionKey":"publicKeyForUser","phoneNumber":"+31619777888","pepper":"somePepper","phoneHash":"somePhoneHash","mtwAddress":"0x123"}',
+      body: '{"clientPlatform":"android","clientVersion":"0.0.1","publicDataEncryptionKey":"publicKeyForUser","phoneNumber":"+31619777888","pepper":"somePepper","phoneHash":"somePhoneHash","inviterAddress":"0x123"}',
     })
   })
 
@@ -451,6 +453,7 @@ describe('runCentralPhoneVerificationMigration', () => {
       .provide([
         [select(dataEncryptionKeySelector), 'someDEK'],
         [select(shouldRunVerificationMigrationSelector), true],
+        [select(inviterAddressSelector), undefined],
         [select(mtwAddressSelector), '0x123'],
         [select(walletAddressSelector), '0xabc'],
         [select(e164NumberSelector), '+31619777888'],
