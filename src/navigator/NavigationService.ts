@@ -52,8 +52,10 @@ export const popToScreen: SafeNavigate = (...args) => {
   ensureNavigator()
     .then(() => {
       Logger.debug(`${TAG}@popToScreen`, `Dispatch ${routeName}`)
-      while (navigationRef.current?.canGoBack() &&
-        navigationRef.current?.getCurrentRoute()?.name !== routeName) {
+      while (
+        navigationRef.current?.canGoBack() &&
+        navigationRef.current?.getCurrentRoute()?.name !== routeName
+      ) {
         navigationRef.current?.dispatch(StackActions.pop())
       }
     })
