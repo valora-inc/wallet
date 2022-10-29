@@ -21,7 +21,7 @@ import DevSkipButton from 'src/components/DevSkipButton'
 import i18n, { withTranslation } from 'src/i18n'
 import { setHasSeenVerificationNux } from 'src/identity/actions'
 import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
-import { navigate, navigateClearingStack, navigateHome } from 'src/navigator/NavigationService'
+import { navigate, navigateClearingStack, navigateHome, popToScreen } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import {
@@ -160,6 +160,7 @@ export class PincodeSet extends React.Component<Props, State> {
     } else if (this.props.biometryEnabled) {
       navigate(Screens.EnableBiometry)
     } else if (this.props.choseToRestoreAccount) {
+      popToScreen(Screens.Welcome)
       navigate(Screens.ImportWallet)
     } else if (
       this.props.hideVerification ||

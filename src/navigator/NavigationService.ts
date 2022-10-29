@@ -47,6 +47,21 @@ async function ensureNavigator() {
   }
 }
 
+export const popToScreen: SafeNavigate = (...args) => {
+  const [routeName] = args
+  ensureNavigator()
+    .then(() => {
+      Logger.debug(`${TAG}@popToScreen`, `Dispatch ${routeName}`)
+      while (navigationRef.current?.canGoBack() &&
+        navigationRef.current?.getCurrentRoute()?.name !== routeName) {
+        navigationRef.current?.dispatch(StackActions.pop())
+      }
+    })
+    .catch((reason) => {
+      Logger.error(`${TAG}@popToScreen`, 'Navigation failure', reason)
+    })
+}
+
 export const replace: SafeNavigate = (...args) => {
   const [routeName, params] = args
   ensureNavigator()
