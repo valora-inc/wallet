@@ -25,7 +25,7 @@ import Logo, { LogoTypes } from 'src/icons/Logo'
 import Times from 'src/icons/Times'
 import { boostRewards, earn1, earn2 } from 'src/images/Images'
 import { noHeader } from 'src/navigator/Headers'
-import { navigate, navigateBack } from 'src/navigator/NavigationService'
+import { navigateBack, replace } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import useSelector from 'src/redux/useSelector'
@@ -38,7 +38,7 @@ import { WEI_PER_TOKEN } from 'src/web3/consts'
 
 const onLearnMore = () => {
   ValoraAnalytics.track(RewardsEvents.learn_more_pressed)
-  navigate(Screens.WebViewScreen, { uri: SUPERCHARGE_LEARN_MORE })
+  replace(Screens.WebViewScreen, { uri: SUPERCHARGE_LEARN_MORE })
 }
 
 function useDefaultTokenConfigToSupercharge(): Partial<SuperchargeTokenConfig> {
@@ -228,12 +228,14 @@ export default function ConsumerIncentivesHomeScreen() {
         buttonPressed: RewardsScreenCta.ClaimRewards,
       })
     } else if (userIsVerified) {
-      navigate(Screens.FiatExchangeCurrency, { flow: FiatExchangeFlow.CashIn })
+      // TODO: use navigate instead of replace currently navigate buggy on Android
+      // During initial load if account is restored from backup
+      replace(Screens.FiatExchangeCurrency, { flow: FiatExchangeFlow.CashIn })
       ValoraAnalytics.track(RewardsEvents.rewards_screen_cta_pressed, {
         buttonPressed: RewardsScreenCta.CashIn,
       })
     } else {
-      navigate(Screens.VerificationEducationScreen, { hideOnboardingStep: true })
+      replace(Screens.VerificationEducationScreen, { hideOnboardingStep: true })
       ValoraAnalytics.track(RewardsEvents.rewards_screen_cta_pressed, {
         buttonPressed: RewardsScreenCta.VerifyPhone,
       })
