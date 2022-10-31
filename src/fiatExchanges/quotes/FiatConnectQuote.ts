@@ -62,10 +62,14 @@ export default class FiatConnectQuote extends NormalizedQuote {
         `Error: ${quote.provider.id}. FiatAccountType: ${fiatAccountType} is not supported in the app`
       )
     }
+
     // Find a supported FiatAccountSchema
-    const quoteResponseFiatAccountSchema = quote.fiatAccount[
-      fiatAccountType
-    ]?.fiatAccountSchemas.find((schema) =>
+    // In case there are multiple schemas present, we sort them first so that the same schema is
+    // consistently chosen.
+    const sortedFiatAccountSchemas = (quote.fiatAccount[fiatAccountType]?.fiatAccountSchemas || [])
+      .slice()
+      .sort((schema1, schema2) => (schema1.fiatAccountSchema < schema2.fiatAccountSchema ? -1 : 1))
+    const quoteResponseFiatAccountSchema = sortedFiatAccountSchemas.find((schema) =>
       SUPPORTED_FIAT_ACCOUNT_SCHEMAS.has(schema.fiatAccountSchema)
     )
     if (!quoteResponseFiatAccountSchema) {

@@ -63,6 +63,52 @@ describe('FiatConnectQuote', () => {
           })
       ).toThrow()
     })
+    it('chooses the same fiat account schema regardless of ordering', () => {
+      const quoteData1 = {
+        ...mockFiatConnectQuotes[1],
+        fiatAccount: {
+          BankAccount: {
+            fiatAccountSchemas: [
+              {
+                fiatAccountSchema: FiatAccountSchema.AccountNumber,
+              },
+              {
+                fiatAccountSchema: FiatAccountSchema.IBANNumber,
+              },
+            ],
+          },
+        },
+      }
+      const quoteData2 = {
+        ...mockFiatConnectQuotes[1],
+        fiatAccount: {
+          BankAccount: {
+            fiatAccountSchemas: [
+              {
+                fiatAccountSchema: FiatAccountSchema.IBANNumber,
+              },
+              {
+                fiatAccountSchema: FiatAccountSchema.AccountNumber,
+              },
+            ],
+          },
+        },
+      }
+
+      const fiatConnectQuote1 = new FiatConnectQuote({
+        flow: CICOFlow.CashIn,
+        quote: quoteData1 as FiatConnectQuoteSuccess,
+        fiatAccountType: FiatAccountType.BankAccount,
+      })
+      const fiatConnectQuote2 = new FiatConnectQuote({
+        flow: CICOFlow.CashIn,
+        quote: quoteData2 as FiatConnectQuoteSuccess,
+        fiatAccountType: FiatAccountType.BankAccount,
+      })
+
+      expect(fiatConnectQuote1.getFiatAccountSchema()).toEqual(FiatAccountSchema.AccountNumber)
+      expect(fiatConnectQuote2.getFiatAccountSchema()).toEqual(FiatAccountSchema.AccountNumber)
+    })
     it.each([FiatAccountSchema.AccountNumber, FiatAccountSchema.IBANNumber])(
       'does not throw an error if at least one fiatAccountSchema is supported',
       (fiatAccountSchema) => {
