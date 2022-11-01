@@ -10,6 +10,7 @@ import { CICOEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
+import { isE2EEnv } from 'src/config'
 import { readOnceFromFirebase } from 'src/firebase/firebase'
 import { createPersonaAccount, verifyWalletAddress } from 'src/in-house-liquidity'
 import Logger from 'src/utils/Logger'
@@ -19,6 +20,7 @@ import { walletAddressSelector } from 'src/web3/selectors'
 import pjson from '../../package.json'
 
 const TAG = 'PERSONA'
+const E2E_TEMPLATE_ID = 'itmpl_5FYHGGFhdAYvfd7FvSpNADcC'
 
 export interface Props {
   kycStatus: KycStatus | undefined
@@ -45,9 +47,8 @@ const Persona = ({ kycStatus, text, onCanceled, onError, onPress, onSuccess, dis
 
   const dispatch = useDispatch()
 
-  //TODO: figure out a better way to handle this for e2e test
   const templateIdResponse = useAsync(async () => readOnceFromFirebase('persona/templateId'), [])
-  const templateId = templateIdResponse.result ?? 'itmpl_5FYHGGFhdAYvfd7FvSpNADcC'
+  const templateId = isE2EEnv ? E2E_TEMPLATE_ID : templateIdResponse.result
 
   const launchPersonaInquiry = useCallback(() => {
     if (typeof templateId !== 'string') {
