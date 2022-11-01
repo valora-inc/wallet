@@ -151,6 +151,18 @@ export class Account extends React.Component<Props, State> {
       this.props.setSessionId(sessionId)
     }
   }
+
+  async componentDidUpdate(prevProps: any, prevState: any) {
+    // This will fire when dismissing the modal
+    // Should it be fixed with another state variable? e.g. navigateToResetAccount
+    if (prevState?.showAccountKeyModal === true && this.state.showAccountKeyModal === false) {
+      const pinIsCorrect = await ensurePincode()
+      if (pinIsCorrect) {
+        navigate(Screens.BackupPhrase, { navigatedFromSettings: true })
+      }
+    }
+  }
+
   goToProfile = () => {
     ValoraAnalytics.track(SettingsEvents.settings_profile_edit)
     this.props.navigation.navigate(Screens.Profile)
@@ -330,7 +342,6 @@ export class Account extends React.Component<Props, State> {
   onPressContinueWithAccountRemoval = () => {
     ValoraAnalytics.track(SettingsEvents.start_account_removal)
     this.setState({ showAccountKeyModal: false })
-    this.props.navigation.navigate(Screens.BackupPhrase, { navigatedFromSettings: true })
   }
 
   hideConfirmRemovalModal = () => {
