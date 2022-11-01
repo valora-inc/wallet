@@ -200,6 +200,11 @@ export const fiatConnectNonKycTransferOut = () => {
 
 export const fiatConnectKycTransferOut = () => {
   it('FiatConnect cash out', async () => {
+    const platform = device.getPlatform()
+    if (platform == 'android') {
+      return
+    }
+
     // ******** First time experience ************
     const cashOutAmount = 0.01
     const gasAmount = 0.005
@@ -252,7 +257,7 @@ export const fiatConnectKycTransferOut = () => {
     // Name, number, address form
     await waitFor(element(by.text('Phone Number')))
       .toBeVisible()
-      .withTimeout(5000)
+      .withTimeout(10000)
     await element(by.type('PersonaPhoneNumberKit2.PhoneNumberTextField')).typeText('0123456789')
 
     await element(by.text('Continue')).tap()
