@@ -16,7 +16,7 @@ import { currentLanguageSelector } from 'src/i18n/selectors'
 import { setHasSeenVerificationNux } from 'src/identity/actions'
 import { importBackupPhraseFailure, importBackupPhraseSuccess } from 'src/import/actions'
 import { importBackupPhraseSaga, MNEMONIC_AUTOCORRECT_TIMEOUT } from 'src/import/saga'
-import { navigate, navigateClearingStack, navigateHome } from 'src/navigator/NavigationService'
+import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { fetchTokenBalanceInWeiWithRetry } from 'src/tokens/saga'
 import { Currency } from 'src/utils/currencies'
@@ -74,7 +74,7 @@ describe('Import wallet saga', () => {
       .put(refreshAllBalances())
       .put(importBackupPhraseSuccess())
       .run()
-    expect(navigateClearingStack).toHaveBeenCalledWith(Screens.VerificationEducationScreen)
+    expect(navigate).toHaveBeenCalledWith(Screens.VerificationEducationScreen)
   }
 
   it('imports a valid phrase', async () => {
