@@ -4,7 +4,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
-import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, BackHandler, StyleSheet, Text, View } from 'react-native'
 import * as RNLocalize from 'react-native-localize'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
@@ -123,8 +123,19 @@ function VerificationStartScreen({
           />
         ),
       headerLeft: () => route.params?.hideOnboardingStep && <BackButton />,
+      // Disable iOS back during onboarding
+      gestureEnabled: route.params?.hideOnboardingStep ? false : true,
     })
   }, [navigation, step, totalSteps, route.params])
+
+  // Prevent device back on Android during onboarding
+  useEffect(() => {
+    if (!route.params?.hideOnboardingStep) {
+      const backPressListener = () => true
+      BackHandler.addEventListener('hardwareBackPress', backPressListener)
+      return () => BackHandler.removeEventListener('hardwareBackPress', backPressListener)
+    }
+  }, [])
 
   useEffect(() => {
     const newCountryAlpha2 = route.params?.selectedCountryCodeAlpha2
