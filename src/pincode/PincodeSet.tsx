@@ -25,7 +25,7 @@ import {
   navigate,
   navigateClearingStack,
   navigateHome,
-  popToScreen
+  popToScreen,
 } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
