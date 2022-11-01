@@ -97,7 +97,6 @@ PincodeEnter.navigationOptions = () => ({
   headerStyle: {
     backgroundColor: colors.light,
   },
-  presentation: 'modal',
   animation: 'fade',
 })
 
