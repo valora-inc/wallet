@@ -2,6 +2,14 @@
 
 exports[`QRCode renders correctly 1`] = `
 <RNCSafeAreaView
+  edges={
+    Array [
+      "bottom",
+      "left",
+      "right",
+      "top",
+    ]
+  }
   style={
     Object {
       "alignItems": "center",

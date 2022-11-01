@@ -400,7 +400,16 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
         }
         swipeThreshold={100}
       >
-        <RNCSafeAreaView>
+        <RNCSafeAreaView
+          edges={
+            Array [
+              "bottom",
+              "left",
+              "right",
+              "top",
+            ]
+          }
+        >
           <View
             style={
               Array [
