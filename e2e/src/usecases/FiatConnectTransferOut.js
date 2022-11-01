@@ -259,8 +259,12 @@ export const fiatConnectKycTransferOut = () => {
       .toBeVisible()
       .withTimeout(10000)
     await element(by.type('PersonaPhoneNumberKit2.PhoneNumberTextField')).typeText('0123456789')
-
+    // Scroll to bottom first
+    await element(
+      by.type('UIScrollView').withDescendant(by.label('Vertical scroll bar, 2 pages'))
+    ).scroll(500, 'down')
     await element(by.text('Continue')).tap()
+
     await element(by.text('Done')).tap() // End of Persona flow
 
     await setWalletKycStatus(KycStatus.KycApproved, walletAddress)
