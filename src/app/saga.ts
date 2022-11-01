@@ -25,6 +25,7 @@ import {
   Actions,
   androidMobileServicesAvailabilityChecked,
   appLock,
+  inviteLinkConsumed,
   minAppVersionDetermined,
   OpenDeepLink,
   openDeepLink,
@@ -40,6 +41,7 @@ import {
   getRequirePinOnAppOpen,
   googleMobileServicesAvailableSelector,
   huaweiMobileServicesAvailableSelector,
+  inviterAddressSelector,
   sentryNetworkErrorsSelector,
   shouldRunVerificationMigrationSelector,
 } from 'src/app/selectors'
@@ -320,8 +322,10 @@ export function* handleDeepLink(action: OpenDeepLink) {
       const params = convertQueryToScreenParams(rawParams.query)
       navigate(params.screen as keyof StackParamList, params)
     } else if (pathParts.length === 3 && pathParts[1] === 'share') {
+      const inviterAddress = pathParts[2]
+      yield put(inviteLinkConsumed(inviterAddress))
       ValoraAnalytics.track(InviteEvents.opened_via_invite_url, {
-        inviterAddress: pathParts[2],
+        inviterAddress,
       })
     }
   }
@@ -419,6 +423,7 @@ export function* runCentralPhoneVerificationMigration() {
   try {
     const signedMessage = yield call(retrieveSignedMessage)
     const phoneHashDetails: PhoneNumberHashDetails = yield call(fetchPhoneHashPrivate, phoneNumber)
+    const inviterAddress = yield select(inviterAddressSelector)
 
     const response = yield call(fetch, networkConfig.migratePhoneVerificationUrl, {
       method: 'POST',
@@ -434,6 +439,7 @@ export function* runCentralPhoneVerificationMigration() {
         pepper: phoneHashDetails.pepper,
         phoneHash: phoneHashDetails.phoneHash,
         mtwAddress: mtwAddress ?? undefined,
+        inviterAddress: inviterAddress ?? undefined,
       }),
     })
 

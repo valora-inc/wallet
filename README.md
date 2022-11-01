@@ -17,7 +17,7 @@ send payments to their contacts.
 
 ## Integrate with Valora
 
-Integrate with Valora using [WalletConnect v1](https://docs.celo.org/developer-resources/walkthroughs/valora-wc-v1).
+Connect your Dapp to Valora using [WalletConnect](./docs/connecting-dapps.md).
 
 See also [deeplinks.md](./docs/deeplinks.md) for integrating with Valora using deep links.
 
