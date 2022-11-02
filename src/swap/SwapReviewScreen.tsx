@@ -148,7 +148,10 @@ export function SwapReviewScreen() {
 
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
-      <CustomHeader title={t('swapReviewScreen.title')} left={<BackButton />} />
+      <CustomHeader
+        title={t('swapReviewScreen.title')}
+        left={<BackButton style={{ paddingHorizontal: variables.contentPadding }} />}
+      />
       <DisconnectBanner />
       <ScrollView
         style={styles.contentContainer}
