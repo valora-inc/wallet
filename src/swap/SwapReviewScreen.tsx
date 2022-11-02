@@ -302,11 +302,6 @@ const styles = StyleSheet.create({
   safeAreaContainer: {
     flex: 1,
   },
-  loadingContentContainer: {
-    alignItems: 'center',
-    padding: Spacing.Regular16,
-    flexGrow: 1,
-  },
   contentContainer: {
     padding: Spacing.Regular16,
     flexGrow: 1,
