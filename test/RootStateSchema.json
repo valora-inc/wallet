@@ -278,6 +278,9 @@
                 "fiatAccountId": {
                     "type": "string"
                 },
+                "fiatAccountSchema": {
+                    "$ref": "#/definitions/FiatAccountSchema"
+                },
                 "fiatAccountType": {
                     "$ref": "#/definitions/FiatAccountType"
                 },
@@ -294,6 +297,7 @@
             "required": [
                 "cryptoType",
                 "fiatAccountId",
+                "fiatAccountSchema",
                 "fiatAccountType",
                 "fiatType",
                 "flow",
@@ -1867,6 +1871,7 @@
                 "ExchangeTradeScreen",
                 "ExternalExchanges",
                 "FiatConnectLinkAccount",
+                "FiatConnectRefetchQuote",
                 "FiatConnectReview",
                 "FiatConnectTransferStatus",
                 "FiatDetailsScreen",
@@ -2101,6 +2106,12 @@
                 "inviteModalVisible": {
                     "type": "boolean"
                 },
+                "inviterAddress": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
                 "lastTimeBackgrounded": {
                     "type": "number"
                 },
@@ -2232,6 +2243,7 @@
                 "hideVerification",
                 "inviteMethod",
                 "inviteModalVisible",
+                "inviterAddress",
                 "lastTimeBackgrounded",
                 "locked",
                 "logPhoneNumberTypeEnabled",

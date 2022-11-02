@@ -3,6 +3,7 @@ import {
   FiatType,
   KycSchema,
   ObfuscatedFiatAccountData,
+  FiatAccountSchema,
 } from '@fiatconnect/fiatconnect-types'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { isEqual } from 'lodash'
@@ -85,6 +86,7 @@ export interface CachedFiatAccountUse {
   cryptoType: Currency
   fiatType: FiatType
   fiatAccountType: FiatAccountType
+  fiatAccountSchema: FiatAccountSchema
 }
 
 export interface FetchQuotesAction {
@@ -137,8 +139,10 @@ export interface CreateFiatConnectTransferCompletedAction {
 
 interface RefetchQuoteAction {
   flow: CICOFlow
-  quote: FiatConnectQuote
-  fiatAccount: ObfuscatedFiatAccountData
+  cryptoType: Currency
+  cryptoAmount: string
+  providerId: string
+  fiatAccount?: FiatAccount
 }
 
 interface SubmitFiatAccountAction {

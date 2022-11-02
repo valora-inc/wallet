@@ -1,5 +1,3 @@
-// @ts-ignore
-import { toBeDisabled } from '@testing-library/jest-native'
 import { fireEvent, render, RenderAPI } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
@@ -29,8 +27,6 @@ import {
   mockTransactionData,
   mockTransactionDataLegacy,
 } from 'test/values'
-
-expect.extend({ toBeDisabled })
 
 const AMOUNT_ZERO = '0.00'
 const AMOUNT_VALID = '4.93'

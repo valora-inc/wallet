@@ -860,4 +860,12 @@ export const migrations = {
     ...state,
     app: _.omit(state.app, 'swapFeeEnabled', 'swapFeePercentage'),
   }),
+  86: (state: any) => ({
+    ...state,
+    fiatConnect: {
+      ...state.fiatConnect,
+      cachedFiatAccountUses: [],
+    },
+  }),
+  87: (state: any) => state,
 }

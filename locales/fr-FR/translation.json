@@ -1424,7 +1424,7 @@
     },
     "ibanNumber": {
       "label": "IBAN",
-      "placeholderText": "Saisis le numéro IBAN",
+      "placeholderText": "Saisissez un numéro IBAN",
       "errorMessage": "IBAN non valide"
     }
   },
