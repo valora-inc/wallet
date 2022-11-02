@@ -143,7 +143,6 @@ export const modalScreenOptions = () =>
       gestureEnabled: true,
       cardOverlayEnabled: true,
       headerStatusBarHeight: 0,
-      // ...TransitionPresets.ModalPresentationIOS,
     },
   })
 

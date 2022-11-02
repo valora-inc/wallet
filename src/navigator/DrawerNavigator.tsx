@@ -260,8 +260,6 @@ export default function DrawerNavigator() {
               options={{
                 title: t('celoGold'),
                 drawerIcon: Gold,
-                // TODO: Tom investigate replacing this with https://reactnavigation.org/docs/native-stack-navigator/#presentation
-                // ...TransitionPresets.ModalTransition,
               }}
             />
           )}
@@ -332,8 +330,6 @@ export default function DrawerNavigator() {
               options={{
                 title: t('celoGold'),
                 drawerIcon: Gold,
-                // TODO: Tom investigate replacing this with https://reactnavigation.org/docs/native-stack-navigator/#presentation
-                // ...TransitionPresets.ModalTransition,
               }}
             />
           )}

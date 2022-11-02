@@ -45,8 +45,6 @@ export default function AccountKeyEducation(props: Props) {
 
 AccountKeyEducation.navigationOptions = {
   ...noHeader,
-  // TODO: Tom investigate replacing this with https://reactnavigation.org/docs/native-stack-navigator/#presentation
-  // ...TransitionPresets.ModalTransition,
 }
 
 function useSteps() {

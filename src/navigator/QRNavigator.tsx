@@ -157,8 +157,6 @@ export default function QRNavigator() {
 
 QRNavigator.navigationOptions = {
   ...noHeader,
-  // TODO: Tom investigate replacing this with https://reactnavigation.org/docs/native-stack-navigator/#presentation
-  // ...TransitionPresets.ModalTransition,
 }
 
 const styles = StyleSheet.create({
