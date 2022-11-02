@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js'
 import React, { useEffect, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
-import { ActivityIndicator, Platform, RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { showError } from 'src/alert/actions'
@@ -153,25 +153,15 @@ export function SwapReviewScreen() {
       <ScrollView
         style={styles.contentContainer}
         refreshControl={
-          /* Transparent refresh control for iOS - Android uses native refresh control */
           <RefreshControl
-            tintColor="transparent"
-            colors={['transparent']}
-            style={{ backgroundColor: 'transparent' }}
+            tintColor={colors.greenBrand}
+            colors={[colors.greenBrand]}
+            style={{ backgroundColor: colors.light }}
             refreshing={shouldFetch}
             onRefresh={() => setShouldFetch(true)}
           />
         }
       >
-        {shouldFetch && Platform.OS === 'ios' && (
-          <View style={styles.loadingContentContainer}>
-            <ActivityIndicator
-              size="large"
-              color={colors.greenBrand}
-              testID="SwapReviewScreen/loading"
-            />
-          </View>
-        )}
         {swapResponse !== null && (
           <>
             <View style={styles.subContentContainer}>
