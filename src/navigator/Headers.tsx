@@ -1,7 +1,7 @@
 import { NativeStackNavigationOptions } from '@react-navigation/native-stack'
 import * as React from 'react'
 import { Trans } from 'react-i18next'
-import { Dimensions, PixelRatio, Platform, StyleSheet, Text, View } from 'react-native'
+import { Dimensions, PixelRatio, StyleSheet, Text, View } from 'react-native'
 import BackButton from 'src/components/BackButton'
 import CancelButton from 'src/components/CancelButton'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
@@ -66,29 +66,10 @@ export const emptyHeader: NativeStackNavigationOptions = {
   headerShown: true,
   headerBackVisible: false,
   headerTitleStyle: [styles.headerTitle, styles.screenHeader],
-  headerShadowVisible: false, // applied here
-  // headerTitleContainerStyle: {
-  //   alignItems: 'center',
-  // },
+  headerShadowVisible: false,
   headerTitleAlign: 'center',
-  // cardStyle: { backgroundColor: colors.light },
   headerStyle: {
     backgroundColor: colors.light,
-    // shadowRadius: 0,
-    // shadowOffset: {
-    //   height: 0,
-    //   width: 0,
-    // },
-    ...Platform.select({
-      android: {
-        elevation: 0,
-        backgroundColor: 'transparent',
-      },
-      ios: {
-        borderBottomWidth: 0,
-        borderBottomColor: 'transparent',
-      },
-    }),
   },
 }
 
@@ -116,13 +97,11 @@ export const headerWithBackEditButtons: NativeStackNavigationOptions = {
       <CancelButton buttonType="text" />
     ),
   headerRight: () => <BackButton />,
-  // headerRightContainerStyle: { paddingRight: variables.contentPadding + 6 },
 }
 
 export const headerWithCloseButton: NativeStackNavigationOptions = {
   ...emptyHeader,
   headerLeft: () => <TopBarIconButton icon={<Times />} onPress={navigateBack} />,
-  // headerLeftContainerStyle: { paddingLeft: 20 },
 }
 
 interface Props {
