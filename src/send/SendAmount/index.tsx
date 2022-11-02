@@ -245,48 +245,53 @@ function SendAmount(props: Props) {
   const buttonLoading =
     recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN || reviewButtonPressed
 
+  const shouldShowModal =
+    recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN &&
+    (inviteMethod === InviteMethodType.ManualShare || inviteMethod === InviteMethodType.ReferralUrl)
+
   return (
     <SafeAreaView style={styles.container}>
-      <SendAmountHeader
-        tokenAddress={transferTokenAddress}
-        isOutgoingPaymentRequest={!!props.route.params?.isOutgoingPaymentRequest}
-        isInvite={recipientVerificationStatus === RecipientVerificationStatus.UNVERIFIED}
-        onChangeToken={setTransferToken}
-        disallowCurrencyChange={Boolean(forceTokenAddress)}
-      />
-      <DisconnectBanner />
-      <View style={styles.contentContainer}>
-        <SendAmountValue
-          isOutgoingPaymentRequest={!!props.route.params?.isOutgoingPaymentRequest}
-          inputAmount={amount}
-          tokenAmount={tokenAmount}
-          usingLocalAmount={showInputInLocalAmount}
-          tokenAddress={transferTokenAddress}
-          onPressMax={onPressMax}
-          onSwapInput={onSwapInput}
-          tokenHasUsdPrice={tokenHasUsdPrice}
-        />
-        <AmountKeypad
-          amount={amount}
-          maxDecimals={showInputInLocalAmount ? NUMBER_INPUT_MAX_DECIMALS : TOKEN_MAX_DECIMALS}
-          onAmountChange={onAmountChange}
-        />
-      </View>
-      <Button
-        style={styles.nextBtn}
-        size={BtnSizes.FULL}
-        text={t('review')}
-        showLoading={buttonLoading}
-        type={BtnTypes.PRIMARY}
-        onPress={onReviewButtonPressed}
-        disabled={!isAmountValid || buttonLoading}
-        testID="Review"
-      />
-      {recipientVerificationStatus === RecipientVerificationStatus.UNVERIFIED &&
-      (inviteMethod === InviteMethodType.ManualShare ||
-        inviteMethod === InviteMethodType.ReferralUrl) ? (
+      {shouldShowModal ? (
         <InviteOptionsModal recipient={recipient} onClose={navigateBack} />
-      ) : null}
+      ) : (
+        <>
+          <SendAmountHeader
+            tokenAddress={transferTokenAddress}
+            isOutgoingPaymentRequest={!!props.route.params?.isOutgoingPaymentRequest}
+            isInvite={recipientVerificationStatus === RecipientVerificationStatus.UNVERIFIED}
+            onChangeToken={setTransferToken}
+            disallowCurrencyChange={Boolean(forceTokenAddress)}
+          />
+          <DisconnectBanner />
+          <View style={styles.contentContainer}>
+            <SendAmountValue
+              isOutgoingPaymentRequest={!!props.route.params?.isOutgoingPaymentRequest}
+              inputAmount={amount}
+              tokenAmount={tokenAmount}
+              usingLocalAmount={showInputInLocalAmount}
+              tokenAddress={transferTokenAddress}
+              onPressMax={onPressMax}
+              onSwapInput={onSwapInput}
+              tokenHasUsdPrice={tokenHasUsdPrice}
+            />
+            <AmountKeypad
+              amount={amount}
+              maxDecimals={showInputInLocalAmount ? NUMBER_INPUT_MAX_DECIMALS : TOKEN_MAX_DECIMALS}
+              onAmountChange={onAmountChange}
+            />
+          </View>
+          <Button
+            style={styles.nextBtn}
+            size={BtnSizes.FULL}
+            text={t('review')}
+            showLoading={buttonLoading}
+            type={BtnTypes.PRIMARY}
+            onPress={onReviewButtonPressed}
+            disabled={!isAmountValid || buttonLoading}
+            testID="Review"
+          />
+        </>
+      )}
     </SafeAreaView>
   )
 }
