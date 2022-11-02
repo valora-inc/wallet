@@ -246,7 +246,7 @@ function SendAmount(props: Props) {
     recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN || reviewButtonPressed
 
   const shouldShowModal =
-    recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN &&
+    recipientVerificationStatus !== RecipientVerificationStatus.VERIFIED &&
     (inviteMethod === InviteMethodType.ManualShare || inviteMethod === InviteMethodType.ReferralUrl)
 
   return (
