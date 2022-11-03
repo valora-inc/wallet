@@ -2104,6 +2104,9 @@
                         "string"
                     ]
                 },
+                "networkTimeoutSeconds": {
+                    "type": "number"
+                },
                 "numberVerified": {
                     "type": "boolean"
                 },
@@ -2221,6 +2224,7 @@
                 "loggedIn",
                 "maxSwapSlippagePercentage",
                 "minVersion",
+                "networkTimeoutSeconds",
                 "numberVerified",
                 "paymentDeepLinkHandler",
                 "phoneNumberVerified",
