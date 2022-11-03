@@ -2294,15 +2294,10 @@
     lodash "^4.17.19"
     to-fast-properties "^2.0.0"
 
-"@badrap/result@^0.2.13":
+"@badrap/result@^0.2.13", "@badrap/result@~0.2.13":
   version "0.2.13"
   resolved "https://registry.yarnpkg.com/@badrap/result/-/result-0.2.13.tgz#3c23f39f7e861cfa8ac3a65726ac17b1ee364927"
   integrity sha512-Qvyzz0dmGY0h8pwvBFo1BznAKf5Y5NXIDiqhPALWtfU7oHbAToCtPu4FlYQ3uysskSWLx8GUiyhe0nv0nDd/7Q==
-
-"@badrap/result@~0.2.12":
-  version "0.2.12"
-  resolved "https://registry.yarnpkg.com/@badrap/result/-/result-0.2.12.tgz#ab5690ae04ee474ef6c912210b4126c56e7a0a9d"
-  integrity sha512-tSFeaiqM9p/2AtB0XNiTaZ0l+8icGxNTmF+v6sYBeV+JrFgoxhGn4BaM/SfP54Hc0eM3d8TwY0Q2k5AdSRaHIw==
 
 "@bcoe/v8-coverage@^0.2.3":
   version "0.2.3"
