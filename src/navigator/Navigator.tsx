@@ -291,13 +291,13 @@ const sendScreens = (Navigator: typeof Stack) => (
     />
     <Navigator.Screen
       name={Screens.IncomingPaymentRequestListScreen}
-      // @ts-ignore
+      // @ts-expect-error
       component={IncomingPaymentRequestListScreen}
       options={headerWithBackButton}
     />
     <Navigator.Screen
       name={Screens.OutgoingPaymentRequestListScreen}
-      // @ts-ignore
+      // @ts-expect-error
       component={OutgoingPaymentRequestListScreen}
       options={headerWithBackButton}
     />
@@ -522,7 +522,7 @@ const settingsScreens = (Navigator: typeof Stack) => (
     />
     <Navigator.Screen
       name={Screens.CoinbasePayScreen}
-      // @ts-ignore
+      // @ts-expect-error
       component={CoinbasePayScreen}
       options={emptyHeader}
     />
@@ -676,7 +676,7 @@ const modalAnimatedScreens = (Navigator: typeof Stack) => (
     />
     <Navigator.Screen
       name={Screens.RegulatoryTerms}
-      // @ts-ignore
+      // @ts-expect-error
       component={RegulatoryTerms}
       options={RegulatoryTerms.navigationOptions as NativeStackNavigationOptions}
     />
@@ -688,7 +688,6 @@ const modalAnimatedScreens = (Navigator: typeof Stack) => (
     <Navigator.Screen
       name={Screens.AccountKeyEducation}
       component={AccountKeyEducation}
-      // @ts-ignore
       options={AccountKeyEducation.navigationOptions}
     />
     <Navigator.Screen
