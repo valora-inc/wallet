@@ -60,6 +60,7 @@ export interface State {
   maxSwapSlippagePercentage: number
   inviteMethod: InviteMethodType
   centralPhoneVerificationEnabled: boolean
+  inviterAddress: string | null
 }
 
 const initialState = {
@@ -113,6 +114,7 @@ const initialState = {
   maxSwapSlippagePercentage: REMOTE_CONFIG_VALUES_DEFAULTS.maxSwapSlippagePercentage,
   inviteMethod: REMOTE_CONFIG_VALUES_DEFAULTS.inviteMethod,
   centralPhoneVerificationEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.centralPhoneVerificationEnabled,
+  inviterAddress: null,
 }
 
 export const appReducer = (
@@ -272,6 +274,11 @@ export const appReducer = (
       return {
         ...state,
         phoneNumberVerified: false,
+      }
+    case Actions.INVITE_LINK_CONSUMED:
+      return {
+        ...state,
+        inviterAddress: action.inviterAddress,
       }
     default:
       return state
