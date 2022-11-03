@@ -2294,7 +2294,12 @@
     lodash "^4.17.19"
     to-fast-properties "^2.0.0"
 
-"@badrap/result@^0.2.12", "@badrap/result@~0.2.12":
+"@badrap/result@^0.2.13":
+  version "0.2.13"
+  resolved "https://registry.yarnpkg.com/@badrap/result/-/result-0.2.13.tgz#3c23f39f7e861cfa8ac3a65726ac17b1ee364927"
+  integrity sha512-Qvyzz0dmGY0h8pwvBFo1BznAKf5Y5NXIDiqhPALWtfU7oHbAToCtPu4FlYQ3uysskSWLx8GUiyhe0nv0nDd/7Q==
+
+"@badrap/result@~0.2.12":
   version "0.2.12"
   resolved "https://registry.yarnpkg.com/@badrap/result/-/result-0.2.12.tgz#ab5690ae04ee474ef6c912210b4126c56e7a0a9d"
   integrity sha512-tSFeaiqM9p/2AtB0XNiTaZ0l+8icGxNTmF+v6sYBeV+JrFgoxhGn4BaM/SfP54Hc0eM3d8TwY0Q2k5AdSRaHIw==
@@ -3262,24 +3267,27 @@
   resolved "https://registry.yarnpkg.com/@faker-js/faker/-/faker-5.5.3.tgz#18e3af6b8eae7984072bbeb0c0858474d7c4cefe"
   integrity sha512-R11tGE6yIFwqpaIqcfkcg7AICXzFg14+5h5v0TfF/9+RMDL6jhzCy/pxHVOfbALGdtVYdt6JdR21tuxEgl34dw==
 
-"@fiatconnect/fiatconnect-sdk@^0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-sdk/-/fiatconnect-sdk-0.4.0.tgz#dd5c79cc4c84ded86b42fa9aa52f75ef5f02714f"
-  integrity sha512-Es/rl2pGNs2G5tviRcz7WmBdtFqAyVom77jIHvqMXdCqsTNK/IifxcHQ78jmxY/IO6Mbstaar9p9kmMe6Qg7bw==
+"@fiatconnect/fiatconnect-sdk@^0.5.0":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-sdk/-/fiatconnect-sdk-0.5.0.tgz#59818c5d267eb2c0c5d98c602df6657be78e6a0a"
+  integrity sha512-hmnLb5+L+pxYjsePcNJQF37hbEetrLe+q8mGXT8UQarzQZae8YIxakYe7uRLV6xfF2pZH9tYTuG0k1doXyhIQg==
   dependencies:
-    "@badrap/result" "^0.2.12"
-    "@fiatconnect/fiatconnect-types" "^8.0.0"
+    "@badrap/result" "^0.2.13"
+    "@fiatconnect/fiatconnect-types" "^10.0.0"
     cross-fetch "^3.1.5"
-    ethers "^5.7.1"
+    ethers "^5.7.2"
     fetch-cookie "^2.0.3"
     siwe "^1.1.6"
     tough-cookie "^4.0.0"
     tslib "^2.4.0"
+    zod "^3.19.1"
 
-"@fiatconnect/fiatconnect-types@^8.0.0":
-  version "8.0.0"
-  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-types/-/fiatconnect-types-8.0.0.tgz#35c539e409495777670c4e56eebfeacb25143b2c"
-  integrity sha512-Hvy/SXSWMlgiO69Uu/5v2pKDckPt+ZZHlMcahBtQh4pon5Ic7QgFVr70S8s8iAqRMpbC/Jksg9lo80qJuhXuOA==
+"@fiatconnect/fiatconnect-types@^10.0.0":
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-types/-/fiatconnect-types-10.0.0.tgz#358605911e76a2cd7f2b818729efb26c9c9e1c11"
+  integrity sha512-N1S7sitjsOlQIAuLivTtbPyKnvmIZe4utY4Vdq7TMPF6R+JwoSR3Tm/KS4SnDe9mdiT/wSUFMJOzWVyWtiKjCg==
+  dependencies:
+    zod "^3.19.1"
 
 "@google-cloud/common@^3.8.1":
   version "3.8.1"
@@ -9808,7 +9816,7 @@ ethereumjs-util@^7.0.8, ethereumjs-util@^7.1.0, ethereumjs-util@^7.1.3:
     ethereum-cryptography "^0.1.3"
     rlp "^2.2.4"
 
-ethers@5.0.5, ethers@^5.0.13, ethers@^5.5.4, ethers@^5.7.1:
+ethers@5.0.5, ethers@^5.0.13, ethers@^5.5.4, ethers@^5.7.2:
   version "5.0.5"
   resolved "https://registry.yarnpkg.com/ethers/-/ethers-5.0.5.tgz#09b37c27d3b7d93c084af7ec4cad72ca8cfa5b7a"
   integrity sha512-hkVI7fi16ADWTctYMEfamU39hoR+JpkdEI7LH8PC7Bhl0Dp8y8dqFJ948pSEuuPJI5NR/L4+V6y2Alvyu+zROw==
@@ -21653,3 +21661,8 @@ zen-observable@^0.8.0:
   version "0.8.9"
   resolved "https://registry.yarnpkg.com/zen-observable/-/zen-observable-0.8.9.tgz#0475c760ff0eda046bbdfa4dc3f95d392807ac53"
   integrity sha512-Y9kPzjGvIZ5jchSlqlCpBW3I82zBBL4z+ulXDRVA1NwsKzjt5kwAi+gOYIy0htNkfuehGZZtP5mRXHRV6TjDWw==
+
+zod@^3.19.1:
+  version "3.19.1"
+  resolved "https://registry.yarnpkg.com/zod/-/zod-3.19.1.tgz#112f074a97b50bfc4772d4ad1576814bd8ac4473"
+  integrity sha512-LYjZsEDhCdYET9ikFu6dVPGp2YH9DegXjdJToSzD9rO6fy4qiRYFoyEYwps88OseJlPyl2NOe2iJuhEhL7IpEA==
