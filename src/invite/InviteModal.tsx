@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Dimensions, Image, StyleSheet, Text, View } from 'react-native'
+import { Image, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import Touchable from 'src/components/Touchable'
@@ -56,15 +56,13 @@ const InviteModal = ({
     </SafeAreaView>
   )
 }
-const { height, width } = Dimensions.get('window')
 
 const styles = StyleSheet.create({
   container: {
-    height,
-    width,
-    flex: 1,
+    height: variables.height,
+    width: variables.width,
+    flexGrow: 1,
     position: 'absolute',
-    bottom: 0,
     backgroundColor: colors.light,
     padding: Spacing.Thick24,
   },
