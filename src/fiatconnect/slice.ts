@@ -1,9 +1,9 @@
 import {
+  FiatAccountSchema,
   FiatAccountType,
   FiatType,
   KycSchema,
   ObfuscatedFiatAccountData,
-  FiatAccountSchema,
 } from '@fiatconnect/fiatconnect-types'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { isEqual } from 'lodash'
@@ -16,6 +16,7 @@ import {
 import { FiatAccountSchemaCountryOverrides } from 'src/fiatconnect/types'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
+import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 
@@ -58,6 +59,7 @@ export interface State {
     }
   }
   schemaCountryOverrides: FiatAccountSchemaCountryOverrides
+  timeoutSeconds: number
 }
 
 const initialState: State = {
@@ -73,6 +75,7 @@ const initialState: State = {
   kycTryAgainLoading: false,
   cachedQuoteParams: {},
   schemaCountryOverrides: {},
+  timeoutSeconds: REMOTE_CONFIG_VALUES_DEFAULTS.fiatConnectTimeoutSeconds,
 }
 
 export type FiatAccount = ObfuscatedFiatAccountData & {
@@ -285,6 +288,7 @@ export const slice = createSlice({
         AppActions.UPDATE_REMOTE_CONFIG_VALUES,
         (state, action: UpdateConfigValuesAction) => {
           state.schemaCountryOverrides = action.configValues.fiatAccountSchemaCountryOverrides
+          state.timeoutSeconds = action.configValues.fiatConnectTimeoutSeconds
         }
       )
       .addCase(REHYDRATE, (state, action: RehydrateAction) => ({

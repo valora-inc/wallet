@@ -3293,6 +3293,9 @@
                 "sendingFiatAccountStatus": {
                     "$ref": "#/definitions/SendingFiatAccountStatus"
                 },
+                "timeoutSeconds": {
+                    "type": "number"
+                },
                 "transfer": {
                     "anyOf": [
                         {
@@ -3316,6 +3319,7 @@
                 "schemaCountryOverrides",
                 "selectFiatConnectQuoteLoading",
                 "sendingFiatAccountStatus",
+                "timeoutSeconds",
                 "transfer"
             ],
             "type": "object"

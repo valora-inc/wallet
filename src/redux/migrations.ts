@@ -868,4 +868,11 @@ export const migrations = {
     },
   }),
   87: (state: any) => state,
+  88: (state: any) => ({
+    ...state,
+    fiatConnect: {
+      ...state.fiatConnect,
+      timeoutSeconds: REMOTE_CONFIG_VALUES_DEFAULTS.fiatConnectTimeoutSeconds,
+    },
+  }),
 }

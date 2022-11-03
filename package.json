@@ -62,7 +62,7 @@
     ]
   },
   "dependencies": {
-    "@badrap/result": "~0.2.12",
+    "@badrap/result": "~0.2.13",
     "@celo/connect": "~1.2.0",
     "@celo/contractkit": "~1.2.0",
     "@celo/identity": "~1.2.0",
@@ -73,7 +73,7 @@
     "@celo/wallet-rpc": "~1.2.0",
     "@coinbase/cbpay-js": "^1.0.2",
     "@crowdin/ota-client": "^0.4.0",
-    "@fiatconnect/fiatconnect-sdk": "^0.4.0",
+    "@fiatconnect/fiatconnect-sdk": "^0.4.1",
     "@fiatconnect/fiatconnect-types": "^8.0.0",
     "@google-cloud/storage": "^5.16.1",
     "@gorhom/bottom-sheet": "^4.3.2",

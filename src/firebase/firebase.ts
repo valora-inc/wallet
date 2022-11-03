@@ -297,6 +297,7 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     fiatAccountSchemaCountryOverrides: fiatAccountSchemaCountryOverrides
       ? JSON.parse(fiatAccountSchemaCountryOverrides)
       : {},
+    fiatConnectTimeoutSeconds: flags.fiatConnectTimeoutSeconds.asNumber(),
     dappConnectInfo: flags.dappConnectInfo.asString() as DappConnectInfo,
     visualizeNFTsEnabledInHomeAssetsPage: flags.visualizeNFTsEnabledInHomeAssetsPage.asBoolean(),
     coinbasePayEnabled: flags.coinbasePayEnabled.asBoolean(),
