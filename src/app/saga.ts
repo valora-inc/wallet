@@ -212,7 +212,6 @@ export interface RemoteConfigValues {
   fiatConnectCashInEnabled: boolean
   fiatConnectCashOutEnabled: boolean
   fiatAccountSchemaCountryOverrides: FiatAccountSchemaCountryOverrides
-  fiatConnectTimeoutSeconds: number
   dappConnectInfo: DappConnectInfo
   visualizeNFTsEnabledInHomeAssetsPage: boolean
   coinbasePayEnabled: boolean
@@ -223,6 +222,7 @@ export interface RemoteConfigValues {
   inviteMethod: InviteMethodType
   showGuidedOnboardingCopy: boolean
   centralPhoneVerificationEnabled: boolean
+  networkTimeoutSeconds: number
 }
 
 export function* appRemoteFeatureFlagSaga() {

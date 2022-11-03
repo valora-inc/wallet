@@ -297,7 +297,6 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     fiatAccountSchemaCountryOverrides: fiatAccountSchemaCountryOverrides
       ? JSON.parse(fiatAccountSchemaCountryOverrides)
       : {},
-    fiatConnectTimeoutSeconds: flags.fiatConnectTimeoutSeconds.asNumber(),
     dappConnectInfo: flags.dappConnectInfo.asString() as DappConnectInfo,
     visualizeNFTsEnabledInHomeAssetsPage: flags.visualizeNFTsEnabledInHomeAssetsPage.asBoolean(),
     coinbasePayEnabled: flags.coinbasePayEnabled.asBoolean(),
@@ -309,6 +308,7 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     inviteMethod: flags.inviteMethod.asString() as InviteMethodType,
     showGuidedOnboardingCopy: flags.showGuidedOnboardingCopy.asBoolean(),
     centralPhoneVerificationEnabled: flags.centralPhoneVerificationEnabled.asBoolean(),
+    networkTimeoutSeconds: flags.networkTimeoutSeconds.asNumber(),
   }
 }
 

@@ -1,8 +1,8 @@
 import { ensureLeading0x } from '@celo/utils/lib/address'
 import { UnlockableWallet } from '@celo/wallet-base'
 import { FiatConnectApiClient, FiatConnectClient } from '@fiatconnect/fiatconnect-sdk'
+import { networkTimeoutSecondsSelector } from 'src/app/selectors'
 import { FIATCONNECT_NETWORK } from 'src/config'
-import { timeoutSecondsSelector } from 'src/fiatconnect/selectors'
 import { getPassword } from 'src/pincode/authentication'
 import { store } from 'src/redux/store'
 import { UNLOCK_DURATION } from 'src/web3/consts'
@@ -52,7 +52,7 @@ export async function getFiatConnectClient(
           network: FIATCONNECT_NETWORK,
           accountAddress: account,
           apiKey: providerApiKey,
-          timeout: timeoutSecondsSelector(store.getState()) * 1000,
+          timeout: networkTimeoutSecondsSelector(store.getState()) * 1000,
         },
         getSiweSigningFunction(wallet)
       ),

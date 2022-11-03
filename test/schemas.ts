@@ -1749,9 +1749,9 @@ export const v88Schema = {
     ...v87Schema._persist,
     version: 88,
   },
-  fiatConnect: {
-    ...v87Schema.fiatConnect,
-    timeoutSeconds: 30,
+  app: {
+    ...v87Schema.app,
+    networkTimeoutSeconds: 30,
   },
 }
 

@@ -149,6 +149,7 @@ describe('store state', () => {
           "loggedIn": false,
           "maxSwapSlippagePercentage": 2,
           "minVersion": null,
+          "networkTimeoutSeconds": 30,
           "numberVerified": false,
           "paymentDeepLinkHandler": "",
           "phoneNumberVerified": false,
@@ -224,7 +225,6 @@ describe('store state', () => {
           "schemaCountryOverrides": Object {},
           "selectFiatConnectQuoteLoading": false,
           "sendingFiatAccountStatus": "NotSending",
-          "timeoutSeconds": 30,
           "transfer": null,
         },
         "fiatExchanges": Object {

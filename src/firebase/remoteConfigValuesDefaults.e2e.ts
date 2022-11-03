@@ -63,7 +63,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   celoWithdrawalEnabledInExchange: true,
   fiatConnectCashInEnabled: false,
   fiatConnectCashOutEnabled: true,
-  fiatConnectTimeoutSeconds: 30,
   dappConnectInfo: DappConnectInfo.Basic,
   visualizeNFTsEnabledInHomeAssetsPage: false,
   coinbasePayEnabled: false,
@@ -74,4 +73,5 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   inviteMethod: InviteMethodType.Escrow,
   showGuidedOnboardingCopy: false,
   centralPhoneVerificationEnabled: false,
+  networkTimeoutSeconds: 30,
 }

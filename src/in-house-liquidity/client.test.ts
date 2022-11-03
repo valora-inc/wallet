@@ -22,7 +22,7 @@ describe('getClient', () => {
     expect(ihlClient).toBeInstanceOf(SiweClient)
     expect(ihlClient).toHaveProperty(
       'config.timeout',
-      REMOTE_CONFIG_VALUES_DEFAULTS.fiatConnectTimeoutSeconds * 1000
+      REMOTE_CONFIG_VALUES_DEFAULTS.networkTimeoutSeconds * 1000
     )
   })
 

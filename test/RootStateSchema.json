@@ -2133,6 +2133,9 @@
                         "string"
                     ]
                 },
+                "networkTimeoutSeconds": {
+                    "type": "number"
+                },
                 "numberVerified": {
                     "type": "boolean"
                 },
@@ -2250,6 +2253,7 @@
                 "loggedIn",
                 "maxSwapSlippagePercentage",
                 "minVersion",
+                "networkTimeoutSeconds",
                 "numberVerified",
                 "paymentDeepLinkHandler",
                 "phoneNumberVerified",
@@ -3293,9 +3297,6 @@
                 "sendingFiatAccountStatus": {
                     "$ref": "#/definitions/SendingFiatAccountStatus"
                 },
-                "timeoutSeconds": {
-                    "type": "number"
-                },
                 "transfer": {
                     "anyOf": [
                         {
@@ -3319,7 +3320,6 @@
                 "schemaCountryOverrides",
                 "selectFiatConnectQuoteLoading",
                 "sendingFiatAccountStatus",
-                "timeoutSeconds",
                 "transfer"
             ],
             "type": "object"

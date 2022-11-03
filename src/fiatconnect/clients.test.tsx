@@ -53,7 +53,7 @@ describe('getFiatConnectClient', () => {
     expect(fcClient).toBeInstanceOf(FiatConnectClient)
     expect(fcClient).toHaveProperty(
       'config.timeout',
-      REMOTE_CONFIG_VALUES_DEFAULTS.fiatConnectTimeoutSeconds * 1000
+      REMOTE_CONFIG_VALUES_DEFAULTS.networkTimeoutSeconds * 1000
     )
   })
 
