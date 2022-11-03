@@ -228,8 +228,6 @@ export default function ConsumerIncentivesHomeScreen() {
         buttonPressed: RewardsScreenCta.ClaimRewards,
       })
     } else if (userIsVerified) {
-      // TODO: use navigate instead of replace currently navigate buggy on Android
-      // During initial load if account is restored from backup
       navigate(Screens.FiatExchangeCurrency, { flow: FiatExchangeFlow.CashIn })
       ValoraAnalytics.track(RewardsEvents.rewards_screen_cta_pressed, {
         buttonPressed: RewardsScreenCta.CashIn,
