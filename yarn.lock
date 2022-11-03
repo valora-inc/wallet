@@ -3289,6 +3289,13 @@
   dependencies:
     zod "^3.19.1"
 
+"@fiatconnect/fiatconnect-types@^10.1.0":
+  version "10.1.0"
+  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-types/-/fiatconnect-types-10.1.0.tgz#cf6acd894305bd281ee6d671334550b640269d2a"
+  integrity sha512-ncLwhVnbIrhRgbPSnbSMY/kdPKOmyu2LWeNdi5T1bgKZX7t6LV93cJbatl0zu1IcypOYjntWfmnkthKH+Ploiw==
+  dependencies:
+    zod "^3.19.1"
+
 "@google-cloud/common@^3.8.1":
   version "3.8.1"
   resolved "https://registry.yarnpkg.com/@google-cloud/common/-/common-3.8.1.tgz#1313c55bb66df88f69bf7c828135fae25fbd2036"
