@@ -41,11 +41,6 @@ export async function getFiatConnectClient(
     fiatConnectClients[providerId].url !== providerBaseUrl ||
     fiatConnectClients[providerId].apiKey !== providerApiKey
   ) {
-    console.log(
-      'creating fc client with timeout: ',
-      timeoutSecondsSelector(store.getState()),
-      providerId
-    )
     const wallet = (await getWalletAsync()) as UnlockableWallet
     const [account] = wallet.getAccounts()
     fiatConnectClients[providerId] = {
