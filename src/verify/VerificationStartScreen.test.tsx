@@ -87,7 +87,7 @@ describe('VerificationStartScreen', () => {
     expect(within(LearnMoreDialog).getByText('phoneVerificationScreen.learnMore.body')).toBeTruthy()
   })
 
-  it.only('shows the skip dialog', () => {
+  it('shows the skip dialog', () => {
     const { getByText, getByTestId } = renderComponent({ hideOnboardingStep: false })
 
     act(() => {
