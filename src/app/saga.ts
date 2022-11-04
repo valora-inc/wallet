@@ -222,6 +222,7 @@ export interface RemoteConfigValues {
   inviteMethod: InviteMethodType
   showGuidedOnboardingCopy: boolean
   centralPhoneVerificationEnabled: boolean
+  networkTimeoutSeconds: number
 }
 
 export function* appRemoteFeatureFlagSaga() {

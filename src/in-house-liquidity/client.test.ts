@@ -1,4 +1,5 @@
 import { SiweClient } from '@fiatconnect/fiatconnect-sdk'
+import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { getClient } from 'src/in-house-liquidity/client'
 import { getWalletAsync } from 'src/web3/contracts'
 
@@ -19,6 +20,10 @@ describe('getClient', () => {
     const ihlClient = await getClient()
     expect(getWalletAsync).toHaveBeenCalled()
     expect(ihlClient).toBeInstanceOf(SiweClient)
+    expect(ihlClient).toHaveProperty(
+      'config.timeout',
+      REMOTE_CONFIG_VALUES_DEFAULTS.networkTimeoutSeconds * 1000
+    )
   })
 
   it('returns an already existing client', async () => {
