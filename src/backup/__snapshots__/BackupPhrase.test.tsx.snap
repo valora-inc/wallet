@@ -2,14 +2,6 @@
 
 exports[`renders correctly with backup completed 1`] = `
 <RNCSafeAreaView
-  edges={
-    Array [
-      "bottom",
-      "left",
-      "right",
-      "top",
-    ]
-  }
   style={
     Object {
       "flex": 1,
@@ -130,16 +122,7 @@ exports[`renders correctly with backup completed 1`] = `
           }
           swipeThreshold={100}
         >
-          <RNCSafeAreaView
-            edges={
-              Array [
-                "bottom",
-                "left",
-                "right",
-                "top",
-              ]
-            }
-          >
+          <RNCSafeAreaView>
             <View
               style={
                 Array [
@@ -490,14 +473,6 @@ exports[`renders correctly with backup completed 1`] = `
 
 exports[`renders correctly with backup not completed 1`] = `
 <RNCSafeAreaView
-  edges={
-    Array [
-      "bottom",
-      "left",
-      "right",
-      "top",
-    ]
-  }
   style={
     Object {
       "flex": 1,
@@ -618,16 +593,7 @@ exports[`renders correctly with backup not completed 1`] = `
           }
           swipeThreshold={100}
         >
-          <RNCSafeAreaView
-            edges={
-              Array [
-                "bottom",
-                "left",
-                "right",
-                "top",
-              ]
-            }
-          >
+          <RNCSafeAreaView>
             <View
               style={
                 Array [
@@ -1096,14 +1062,6 @@ exports[`renders correctly with backup not completed 1`] = `
 
 exports[`still renders when mnemonic doesnt show up 1`] = `
 <RNCSafeAreaView
-  edges={
-    Array [
-      "bottom",
-      "left",
-      "right",
-      "top",
-    ]
-  }
   style={
     Object {
       "flex": 1,
@@ -1224,16 +1182,7 @@ exports[`still renders when mnemonic doesnt show up 1`] = `
           }
           swipeThreshold={100}
         >
-          <RNCSafeAreaView
-            edges={
-              Array [
-                "bottom",
-                "left",
-                "right",
-                "top",
-              ]
-            }
-          >
+          <RNCSafeAreaView>
             <View
               style={
                 Array [

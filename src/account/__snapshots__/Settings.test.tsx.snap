@@ -2,14 +2,6 @@
 
 exports[`Account renders correctly 1`] = `
 <RNCSafeAreaView
-  edges={
-    Array [
-      "bottom",
-      "left",
-      "right",
-      "top",
-    ]
-  }
   style={
     Object {
       "flex": 1,
@@ -1300,16 +1292,7 @@ exports[`Account renders correctly 1`] = `
           }
           swipeThreshold={100}
         >
-          <RNCSafeAreaView
-            edges={
-              Array [
-                "bottom",
-                "left",
-                "right",
-                "top",
-              ]
-            }
-          >
+          <RNCSafeAreaView>
             <View
               style={
                 Array [
@@ -1566,16 +1549,7 @@ exports[`Account renders correctly 1`] = `
           }
           swipeThreshold={100}
         >
-          <RNCSafeAreaView
-            edges={
-              Array [
-                "bottom",
-                "left",
-                "right",
-                "top",
-              ]
-            }
-          >
+          <RNCSafeAreaView>
             <View
               style={
                 Array [
@@ -1828,16 +1802,7 @@ exports[`Account renders correctly 1`] = `
           }
           swipeThreshold={100}
         >
-          <RNCSafeAreaView
-            edges={
-              Array [
-                "bottom",
-                "left",
-                "right",
-                "top",
-              ]
-            }
-          >
+          <RNCSafeAreaView>
             <View
               style={
                 Array [
@@ -2004,14 +1969,6 @@ exports[`Account renders correctly 1`] = `
 
 exports[`Account renders correctly when dev mode active 1`] = `
 <RNCSafeAreaView
-  edges={
-    Array [
-      "bottom",
-      "left",
-      "right",
-      "top",
-    ]
-  }
   style={
     Object {
       "flex": 1,
@@ -3660,16 +3617,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
           }
           swipeThreshold={100}
         >
-          <RNCSafeAreaView
-            edges={
-              Array [
-                "bottom",
-                "left",
-                "right",
-                "top",
-              ]
-            }
-          >
+          <RNCSafeAreaView>
             <View
               style={
                 Array [
@@ -3926,16 +3874,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
           }
           swipeThreshold={100}
         >
-          <RNCSafeAreaView
-            edges={
-              Array [
-                "bottom",
-                "left",
-                "right",
-                "top",
-              ]
-            }
-          >
+          <RNCSafeAreaView>
             <View
               style={
                 Array [
@@ -4188,16 +4127,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
           }
           swipeThreshold={100}
         >
-          <RNCSafeAreaView
-            edges={
-              Array [
-                "bottom",
-                "left",
-                "right",
-                "top",
-              ]
-            }
-          >
+          <RNCSafeAreaView>
             <View
               style={
                 Array [
@@ -4364,14 +4294,6 @@ exports[`Account renders correctly when dev mode active 1`] = `
 
 exports[`Account renders correctly when verification is not possible 1`] = `
 <RNCSafeAreaView
-  edges={
-    Array [
-      "bottom",
-      "left",
-      "right",
-      "top",
-    ]
-  }
   style={
     Object {
       "flex": 1,
@@ -5582,16 +5504,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
           }
           swipeThreshold={100}
         >
-          <RNCSafeAreaView
-            edges={
-              Array [
-                "bottom",
-                "left",
-                "right",
-                "top",
-              ]
-            }
-          >
+          <RNCSafeAreaView>
             <View
               style={
                 Array [
@@ -5848,16 +5761,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
           }
           swipeThreshold={100}
         >
-          <RNCSafeAreaView
-            edges={
-              Array [
-                "bottom",
-                "left",
-                "right",
-                "top",
-              ]
-            }
-          >
+          <RNCSafeAreaView>
             <View
               style={
                 Array [
@@ -6110,16 +6014,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
           }
           swipeThreshold={100}
         >
-          <RNCSafeAreaView
-            edges={
-              Array [
-                "bottom",
-                "left",
-                "right",
-                "top",
-              ]
-            }
-          >
+          <RNCSafeAreaView>
             <View
               style={
                 Array [
@@ -6286,14 +6181,6 @@ exports[`Account renders correctly when verification is not possible 1`] = `
 
 exports[`Account renders correctly when verification is not possible 2`] = `
 <RNCSafeAreaView
-  edges={
-    Array [
-      "bottom",
-      "left",
-      "right",
-      "top",
-    ]
-  }
   style={
     Object {
       "flex": 1,
@@ -7504,16 +7391,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
           }
           swipeThreshold={100}
         >
-          <RNCSafeAreaView
-            edges={
-              Array [
-                "bottom",
-                "left",
-                "right",
-                "top",
-              ]
-            }
-          >
+          <RNCSafeAreaView>
             <View
               style={
                 Array [
@@ -7770,16 +7648,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
           }
           swipeThreshold={100}
         >
-          <RNCSafeAreaView
-            edges={
-              Array [
-                "bottom",
-                "left",
-                "right",
-                "top",
-              ]
-            }
-          >
+          <RNCSafeAreaView>
             <View
               style={
                 Array [
@@ -8032,16 +7901,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
           }
           swipeThreshold={100}
         >
-          <RNCSafeAreaView
-            edges={
-              Array [
-                "bottom",
-                "left",
-                "right",
-                "top",
-              ]
-            }
-          >
+          <RNCSafeAreaView>
             <View
               style={
                 Array [

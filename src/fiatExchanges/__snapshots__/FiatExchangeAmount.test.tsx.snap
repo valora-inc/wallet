@@ -107,16 +107,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
       }
       swipeThreshold={100}
     >
-      <RNCSafeAreaView
-        edges={
-          Array [
-            "bottom",
-            "left",
-            "right",
-            "top",
-          ]
-        }
-      >
+      <RNCSafeAreaView>
         <View
           style={
             Array [
@@ -593,16 +584,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
       }
       swipeThreshold={100}
     >
-      <RNCSafeAreaView
-        edges={
-          Array [
-            "bottom",
-            "left",
-            "right",
-            "top",
-          ]
-        }
-      >
+      <RNCSafeAreaView>
         <View
           style={
             Array [

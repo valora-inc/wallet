@@ -180,16 +180,7 @@ Array [
       }
       swipeThreshold={100}
     >
-      <RNCSafeAreaView
-        edges={
-          Array [
-            "bottom",
-            "left",
-            "right",
-            "top",
-          ]
-        }
-      >
+      <RNCSafeAreaView>
         <View
           style={
             Array [

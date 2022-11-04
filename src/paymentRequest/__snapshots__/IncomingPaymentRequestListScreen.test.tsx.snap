@@ -2,14 +2,6 @@
 
 exports[`IncomingPaymentRequestListScreen renders correctly with no requests 1`] = `
 <RNCSafeAreaView
-  edges={
-    Array [
-      "bottom",
-      "left",
-      "right",
-      "top",
-    ]
-  }
   style={
     Object {
       "flex": 1,
@@ -39,14 +31,6 @@ exports[`IncomingPaymentRequestListScreen renders correctly with no requests 1`]
 
 exports[`IncomingPaymentRequestListScreen renders correctly with requests 1`] = `
 <RNCSafeAreaView
-  edges={
-    Array [
-      "bottom",
-      "left",
-      "right",
-      "top",
-    ]
-  }
   style={
     Object {
       "flex": 1,

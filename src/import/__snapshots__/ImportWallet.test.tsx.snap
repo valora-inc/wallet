@@ -361,16 +361,7 @@ exports[`ImportWallet renders correctly and is disabled with no text 1`] = `
       }
       swipeThreshold={100}
     >
-      <RNCSafeAreaView
-        edges={
-          Array [
-            "bottom",
-            "left",
-            "right",
-            "top",
-          ]
-        }
-      >
+      <RNCSafeAreaView>
         <View
           style={
             Array [

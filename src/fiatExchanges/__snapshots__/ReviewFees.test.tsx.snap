@@ -103,16 +103,7 @@ exports[`ReviewFees renders correctly 1`] = `
       }
       swipeThreshold={100}
     >
-      <RNCSafeAreaView
-        edges={
-          Array [
-            "bottom",
-            "left",
-            "right",
-            "top",
-          ]
-        }
-      >
+      <RNCSafeAreaView>
         <View
           style={
             Array [
@@ -352,16 +343,7 @@ exports[`ReviewFees renders correctly 1`] = `
       }
       swipeThreshold={100}
     >
-      <RNCSafeAreaView
-        edges={
-          Array [
-            "bottom",
-            "left",
-            "right",
-            "top",
-          ]
-        }
-      >
+      <RNCSafeAreaView>
         <View
           style={
             Array [
@@ -1003,16 +985,7 @@ exports[`ReviewFees renders correctly 2`] = `
       }
       swipeThreshold={100}
     >
-      <RNCSafeAreaView
-        edges={
-          Array [
-            "bottom",
-            "left",
-            "right",
-            "top",
-          ]
-        }
-      >
+      <RNCSafeAreaView>
         <View
           style={
             Array [
@@ -1248,16 +1221,7 @@ exports[`ReviewFees renders correctly 2`] = `
       }
       swipeThreshold={100}
     >
-      <RNCSafeAreaView
-        edges={
-          Array [
-            "bottom",
-            "left",
-            "right",
-            "top",
-          ]
-        }
-      >
+      <RNCSafeAreaView>
         <View
           style={
             Array [

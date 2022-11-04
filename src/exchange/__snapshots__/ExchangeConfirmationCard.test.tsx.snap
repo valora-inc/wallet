@@ -4,14 +4,6 @@ exports[`renders correctly 1`] = `
 <RCTScrollView>
   <View>
     <RNCSafeAreaView
-      edges={
-        Array [
-          "bottom",
-          "left",
-          "right",
-          "top",
-        ]
-      }
       style={
         Object {
           "flex": 1,
@@ -559,14 +551,6 @@ exports[`renders correctly when local amount is null 1`] = `
 <RCTScrollView>
   <View>
     <RNCSafeAreaView
-      edges={
-        Array [
-          "bottom",
-          "left",
-          "right",
-          "top",
-        ]
-      }
       style={
         Object {
           "flex": 1,
@@ -1113,14 +1097,6 @@ exports[`renders correctly when local amount is null and no local exchange rate 
 <RCTScrollView>
   <View>
     <RNCSafeAreaView
-      edges={
-        Array [
-          "bottom",
-          "left",
-          "right",
-          "top",
-        ]
-      }
       style={
         Object {
           "flex": 1,
@@ -1533,14 +1509,6 @@ exports[`renders correctly with giant numbers 1`] = `
 <RCTScrollView>
   <View>
     <RNCSafeAreaView
-      edges={
-        Array [
-          "bottom",
-          "left",
-          "right",
-          "top",
-        ]
-      }
       style={
         Object {
           "flex": 1,
