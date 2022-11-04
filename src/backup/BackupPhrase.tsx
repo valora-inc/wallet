@@ -15,11 +15,12 @@ import CancelConfirm from 'src/backup/CancelConfirm'
 import { getStoredMnemonic, onGetMnemonicFail } from 'src/backup/utils'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import CancelButton from 'src/components/CancelButton'
+import Dialog from 'src/components/Dialog'
 import CustomHeader from 'src/components/header/CustomHeader'
 import Switch from 'src/components/Switch'
 import { withTranslation } from 'src/i18n'
 import { noHeader } from 'src/navigator/Headers'
-import { navigate, pushToStack } from 'src/navigator/NavigationService'
+import { navigate, navigateBack, pushToStack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
@@ -34,6 +35,7 @@ const TAG = 'backup/BackupPhrase'
 interface State {
   mnemonic: string
   isConfirmChecked: boolean
+  showResetModal: Boolean
 }
 
 interface StateProps {
@@ -62,6 +64,7 @@ class BackupPhrase extends React.Component<Props, State> {
   state = {
     mnemonic: '',
     isConfirmChecked: false,
+    showResetModal: this.props.route.params?.resetting ?? false,
   }
 
   async componentDidMount() {
@@ -91,6 +94,10 @@ class BackupPhrase extends React.Component<Props, State> {
     })
   }
 
+  hideResetModal = () => {
+    this.setState({ showResetModal: false })
+  }
+
   onPressConfirmArea = () => {
     this.onPressConfirmSwitch(!this.state.isConfirmChecked)
   }
@@ -106,7 +113,7 @@ class BackupPhrase extends React.Component<Props, State> {
 
   render() {
     const { t, backupCompleted } = this.props
-    const { mnemonic, isConfirmChecked } = this.state
+    const { mnemonic, isConfirmChecked, showResetModal } = this.state
     const navigatedFromSettings = this.navigatedFromSettings()
     return (
       <SafeAreaView style={styles.container}>
@@ -151,6 +158,19 @@ class BackupPhrase extends React.Component<Props, State> {
             />
           </>
         )}
+        <Dialog
+          isVisible={this.state?.showResetModal}
+          title={t('accountKeyModal.header')}
+          actionText={t('continue')}
+          actionPress={this.hideResetModal}
+          secondaryActionText={t('cancel')}
+          secondaryActionPress={navigateBack}
+          testID="RemoveAccountModal"
+        >
+          {t('accountKeyModal.body1')}
+          {'\n\n'}
+          {t('accountKeyModal.body2')}
+        </Dialog>
       </SafeAreaView>
     )
   }

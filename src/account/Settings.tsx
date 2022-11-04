@@ -140,7 +140,6 @@ const mapDispatchToProps = {
 }
 
 interface State {
-  showAccountKeyModal: boolean
   showRevokeModal: boolean
 }
 
@@ -320,27 +319,6 @@ export class Account extends React.Component<Props, State> {
     navigateToURI(PRIVACY_LINK)
   }
 
-  onRemoveAccountPress = () => {
-    this.setState({ showAccountKeyModal: true })
-  }
-
-  hideRemoveAccountModal = () => {
-    this.setState({ showAccountKeyModal: false })
-  }
-
-  onPressContinueWithAccountRemoval = async () => {
-    try {
-      this.setState({ showAccountKeyModal: false })
-      const pinIsCorrect = await ensurePincode()
-      if (pinIsCorrect) {
-        ValoraAnalytics.track(SettingsEvents.start_account_removal)
-        navigate(Screens.BackupPhrase, { navigatedFromSettings: true })
-      }
-    } catch (error) {
-      Logger.error('SettingsItem@onPress', 'PIN ensure error', error)
-    }
-  }
-
   hideConfirmRemovalModal = () => {
     this.props.navigation.setParams({ promptConfirmRemovalModal: false })
   }
@@ -384,6 +362,18 @@ export class Account extends React.Component<Props, State> {
       if (pinIsCorrect) {
         ValoraAnalytics.track(SettingsEvents.settings_recovery_phrase)
         navigate(Screens.BackupIntroduction)
+      }
+    } catch (error) {
+      Logger.error('SettingsItem@onPress', 'PIN ensure error', error)
+    }
+  }
+
+  goToAccountRemoval = async () => {
+    try {
+      const pinIsCorrect = await ensurePincode()
+      if (pinIsCorrect) {
+        ValoraAnalytics.track(SettingsEvents.start_account_removal)
+        navigate(Screens.BackupPhrase, { navigatedFromSettings: true, resetting: true })
       }
     } catch (error) {
       Logger.error('SettingsItem@onPress', 'PIN ensure error', error)
@@ -477,24 +467,11 @@ export class Account extends React.Component<Props, State> {
             <SettingsExpandedItem
               title={t('removeAccountTitle')}
               details={t('removeAccountDetails')}
-              onPress={this.onRemoveAccountPress}
+              onPress={this.goToAccountRemoval}
               testID="ResetAccount"
             />
           </View>
           {this.getDevSettingsComp()}
-          <Dialog
-            isVisible={this.state?.showAccountKeyModal}
-            title={t('accountKeyModal.header')}
-            actionText={t('continue')}
-            actionPress={this.onPressContinueWithAccountRemoval}
-            secondaryActionText={t('cancel')}
-            secondaryActionPress={this.hideRemoveAccountModal}
-            testID="RemoveAccountModal"
-          >
-            {t('accountKeyModal.body1')}
-            {'\n\n'}
-            {t('accountKeyModal.body2')}
-          </Dialog>
           <Dialog
             isVisible={promptConfirmRemovalModal}
             title={t('promptConfirmRemovalModal.header')}

@@ -78,6 +78,7 @@ export type StackParamList = {
     | undefined
     | {
         navigatedFromSettings: boolean
+        resetting?: boolean
       }
   [Screens.BackupForceScreen]: undefined
   [Screens.BackupQuiz]:
