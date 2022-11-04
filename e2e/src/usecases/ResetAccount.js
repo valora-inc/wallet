@@ -34,9 +34,9 @@ export default ResetAccount = () => {
         .scroll(350, 'down')
     } catch {}
     await element(by.id('ResetAccount')).tap()
-    await element(by.id('RemoveAccountModal/PrimaryAction')).tap()
 
     await enterPinUiIfNecessary()
+    await element(by.id('RemoveAccountModal/PrimaryAction')).tap()
 
     // Go through the quiz.
     await element(by.id('backupKeySavedSwitch')).longPress()
