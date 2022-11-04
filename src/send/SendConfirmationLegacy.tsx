@@ -381,10 +381,7 @@ function SendConfirmationLegacy(props: Props) {
     }
 
     return (
-      <SafeAreaView
-        style={styles.container}
-        edges={props.route.name === Screens.SendConfirmationLegacyModal ? ['bottom'] : undefined}
-      >
+      <SafeAreaView style={styles.container}>
         <HeaderWithBackButton eventName={SendEvents.send_confirm_back} />
         <DisconnectBanner />
         <ReviewFrame
