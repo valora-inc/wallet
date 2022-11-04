@@ -1,10 +1,9 @@
 import { UnlockableWallet } from '@celo/wallet-base'
-import { FiatConnectApiClient } from '@fiatconnect/fiatconnect-sdk'
+import { CreateQuoteParams, FiatConnectApiClient } from '@fiatconnect/fiatconnect-sdk'
 import {
   CryptoType,
   FiatType,
   QuoteErrorResponse,
-  QuoteRequestBody,
   QuoteResponse,
 } from '@fiatconnect/fiatconnect-types'
 import { CICOFlow } from 'src/fiatExchanges/utils'
@@ -140,7 +139,7 @@ export async function getFiatConnectQuotes(
   const fiatType = convertToFiatConnectFiatCurrency(localCurrency)
   if (!fiatType) return []
   const cryptoType = convertToFiatConnectCryptoCurrency(digitalAsset)
-  const quoteParams: QuoteRequestBody = {
+  const quoteParams: CreateQuoteParams = {
     fiatType,
     cryptoType,
     cryptoAmount: cryptoAmount.toString(),

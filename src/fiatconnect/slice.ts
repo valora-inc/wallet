@@ -1,9 +1,9 @@
 import {
+  FiatAccountSchema,
   FiatAccountType,
   FiatType,
   KycSchema,
   ObfuscatedFiatAccountData,
-  FiatAccountSchema,
 } from '@fiatconnect/fiatconnect-types'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { isEqual } from 'lodash'
