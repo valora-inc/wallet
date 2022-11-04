@@ -66,7 +66,11 @@ const SwapAmountInput = ({
       <View style={styles.contentContainer}>
         {showInputLoader ? (
           <View style={styles.loadingContainer}>
-            <ActivityIndicator size="small" color={Colors.greenBrand} />
+            <ActivityIndicator
+              size="small"
+              color={Colors.greenBrand}
+              testID="SwapAmountInput/Loader"
+            />
           </View>
         ) : (
           <TextInput
