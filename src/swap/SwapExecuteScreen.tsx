@@ -15,7 +15,6 @@ import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import variables from 'src/styles/variables'
 import { swapStateSelector } from 'src/swap/selectors'
 import { SwapState } from 'src/swap/slice'
 
@@ -158,10 +157,7 @@ export function SwapExecuteScreen() {
 
   return (
     <SafeAreaView style={styles.safeAreaView}>
-      <CustomHeader
-        left={<View />}
-        right={swapState === SwapState.COMPLETE ? <NavigateHomeIcon /> : null}
-      />
+      <CustomHeader left={swapState === SwapState.COMPLETE ? <NavigateHomeIcon /> : null} />
       <View style={styles.contentContainer}>
         {SwapIcon}
         {SwapDisplay}
@@ -201,7 +197,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   navigateHomeIcon: {
-    padding: variables.contentPadding,
+    paddingHorizontal: Spacing.Thick24,
   },
 })
 
