@@ -6,14 +6,14 @@ import {
   ResponseError,
 } from '@fiatconnect/fiatconnect-sdk'
 import {
-  FiatAccountSchemas,
+  FiatAccountSchema,
   FiatAccountType,
   FiatConnectError,
   GetFiatAccountsResponse,
   KycStatus as FiatConnectKycStatus,
+  PostFiatAccountRequestBody,
   PostFiatAccountResponse,
   TransferResponse,
-  FiatAccountSchema,
 } from '@fiatconnect/fiatconnect-types'
 import BigNumber from 'bignumber.js'
 import { call, delay, put, select, spawn, takeLeading } from 'redux-saga/effects'
@@ -150,12 +150,13 @@ export function* handleSubmitFiatAccount({
     quote.getProviderBaseUrl(),
     quote.getProviderApiKey()
   )
+
   const postFiatAccountResponse: Result<PostFiatAccountResponse, ResponseError> = yield call(
-    [fiatConnectClient, 'addFiatAccount'],
+    { context: fiatConnectClient, fn: fiatConnectClient.addFiatAccount },
     {
       fiatAccountSchema,
-      data: fiatAccountData as FiatAccountSchemas[typeof fiatAccountSchema],
-    }
+      data: fiatAccountData,
+    } as PostFiatAccountRequestBody
   )
 
   if (postFiatAccountResponse.isOk) {
