@@ -260,7 +260,10 @@ function SendConfirmation(props: Props) {
   const allowComment = !isInvite && isStablecoin(tokenInfo)
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={styles.container}
+      edges={props.route.name === Screens.SendConfirmationModal ? ['bottom'] : undefined}
+    >
       <HeaderWithBackButton eventName={SendEvents.send_confirm_back} />
       <DisconnectBanner />
       <ReviewFrame
