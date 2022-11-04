@@ -308,6 +308,7 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     inviteMethod: flags.inviteMethod.asString() as InviteMethodType,
     showGuidedOnboardingCopy: flags.showGuidedOnboardingCopy.asBoolean(),
     centralPhoneVerificationEnabled: flags.centralPhoneVerificationEnabled.asBoolean(),
+    networkTimeoutSeconds: flags.networkTimeoutSeconds.asNumber(),
   }
 }
 

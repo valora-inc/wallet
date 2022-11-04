@@ -61,6 +61,7 @@ export interface State {
   inviteMethod: InviteMethodType
   centralPhoneVerificationEnabled: boolean
   inviterAddress: string | null
+  networkTimeoutSeconds: number
 }
 
 const initialState = {
@@ -115,6 +116,7 @@ const initialState = {
   inviteMethod: REMOTE_CONFIG_VALUES_DEFAULTS.inviteMethod,
   centralPhoneVerificationEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.centralPhoneVerificationEnabled,
   inviterAddress: null,
+  networkTimeoutSeconds: REMOTE_CONFIG_VALUES_DEFAULTS.networkTimeoutSeconds,
 }
 
 export const appReducer = (
@@ -236,6 +238,7 @@ export const appReducer = (
         inviteMethod: action.configValues.inviteMethod,
         showGuidedOnboardingCopy: action.configValues.showGuidedOnboardingCopy,
         centralPhoneVerificationEnabled: action.configValues.centralPhoneVerificationEnabled,
+        networkTimeoutSeconds: action.configValues.networkTimeoutSeconds,
       }
     case Actions.TOGGLE_INVITE_MODAL:
       return {
