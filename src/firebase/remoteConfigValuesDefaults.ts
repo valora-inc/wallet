@@ -72,4 +72,5 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   inviteMethod: InviteMethodType.Escrow,
   showGuidedOnboardingCopy: false,
   centralPhoneVerificationEnabled: false,
+  networkTimeoutSeconds: 30,
 }
