@@ -868,4 +868,11 @@ export const migrations = {
     },
   }),
   87: (state: any) => state,
+  88: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      networkTimeoutSeconds: REMOTE_CONFIG_VALUES_DEFAULTS.networkTimeoutSeconds,
+    },
+  }),
 }
