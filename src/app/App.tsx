@@ -7,7 +7,7 @@ import { ApolloProvider } from 'react-apollo'
 import { Dimensions, Linking, LogBox, Platform, StatusBar } from 'react-native'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
-import { enableScreens } from 'react-native-screens'
+import { enableFreeze, enableScreens } from 'react-native-screens'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 import { AppEvents } from 'src/analytics/Events'
@@ -28,6 +28,8 @@ Logger.debug('App/init', 'Current Language: ' + i18n.language)
 
 // Explicitly enable screens for react-native-screens
 enableScreens(true)
+// Prevent inactive screens from rerendering https://reactnavigation.org/docs/native-stack-navigator#freezeonblur
+enableFreeze(true)
 
 const ignoreWarnings = [
   'componentWillReceiveProps',

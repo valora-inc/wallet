@@ -1,0 +1,13 @@
+diff --git a/node_modules/react-native-screens/src/index.native.tsx b/node_modules/react-native-screens/src/index.native.tsx
+index edcd032..5ec03d3 100644
+--- a/node_modules/react-native-screens/src/index.native.tsx
++++ b/node_modules/react-native-screens/src/index.native.tsx
+@@ -156,7 +156,7 @@ function DelayedFreeze({ freeze, children }: FreezeWrapperProps) {
+     // setImmediate is executed at the end of the JS execution block.
+     // Used here for changing the state right after the render.
+     setImmediate(() => {
+-      setFreezeState(freeze);
++      setTimeout(() => setFreezeState(freeze), 100);
+     });
+   }
+ 

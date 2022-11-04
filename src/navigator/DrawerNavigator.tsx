@@ -1,9 +1,4 @@
-import {
-  createDrawerNavigator,
-  DrawerContentComponentProps,
-  DrawerContentOptions,
-  DrawerContentScrollView,
-} from '@react-navigation/drawer'
+import { createDrawerNavigator, DrawerContentScrollView } from '@react-navigation/drawer'
 import {
   DrawerDescriptorMap,
   DrawerNavigationHelpers,
@@ -79,7 +74,7 @@ const TAG = 'NavigationService'
 
 const Drawer = createDrawerNavigator()
 
-type CustomDrawerItemListProps = Omit<DrawerContentOptions, 'contentContainerStyle' | 'style'> & {
+type CustomDrawerItemListProps = Omit<any, 'contentContainerStyle' | 'style'> & {
   state: DrawerNavigationState<ParamListBase>
   navigation: DrawerNavigationHelpers
   descriptors: DrawerDescriptorMap
@@ -148,7 +143,11 @@ function CustomDrawerItemList({
         label={drawerLabel !== undefined ? drawerLabel : title !== undefined ? title : route.name}
         icon={drawerIcon}
         focused={focused}
-        style={itemStyle}
+        labelStyle={[
+          fontStyles.regular,
+          { color: colors.dark, marginLeft: -20, fontWeight: 'normal' },
+        ]}
+        style={[itemStyle, focused && { backgroundColor: colors.gray2 }]}
         to={buildLink(route.name, route.params)}
         onPress={onPress}
       />
@@ -156,7 +155,7 @@ function CustomDrawerItemList({
   }) as React.ReactNode as React.ReactElement
 }
 
-function CustomDrawerContent(props: DrawerContentComponentProps<DrawerContentOptions>) {
+function CustomDrawerContent(props: any) {
   const { t } = useTranslation()
   const displayName = useSelector(nameSelector)
   const e164PhoneNumber = useSelector(e164NumberSelector)
@@ -211,9 +210,7 @@ export default function DrawerNavigator() {
   const shouldShowRecoveryPhraseInSettings = useSelector(shouldShowRecoveryPhraseInSettingsSelector)
   const backupCompleted = useSelector(backupCompletedSelector)
 
-  const drawerContent = (props: DrawerContentComponentProps<DrawerContentOptions>) => (
-    <CustomDrawerContent {...props} />
-  )
+  const drawerContent = (props: any) => <CustomDrawerContent {...props} />
 
   const shouldShowSwapMenuInDrawerMenu = useSelector(isAppSwapsEnabledSelector)
 
@@ -222,13 +219,11 @@ export default function DrawerNavigator() {
       initialRouteName={Screens.WalletHome}
       drawerContent={drawerContent}
       backBehavior={'initialRoute'}
-      drawerContentOptions={{
-        labelStyle: [fontStyles.regular, { marginLeft: -20, fontWeight: 'normal' }],
-        activeBackgroundColor: colors.gray2,
-      }}
       // Reloads the screen when the user comes back to it - resetting navigation state
       screenOptions={{
         unmountOnBlur: true,
+        // Hides default header
+        headerShown: false,
       }}
       // Whether inactive screens should be detached from the view hierarchy to save memory.
       // Defaults to true, but also explicitly set here.
@@ -237,7 +232,13 @@ export default function DrawerNavigator() {
       <Drawer.Screen
         name={Screens.WalletHome}
         component={WalletHome}
-        options={{ title: t('home'), drawerIcon: Home, unmountOnBlur: false }}
+        options={{
+          title: t('home'),
+          drawerIcon: Home,
+          unmountOnBlur: false,
+          // Set to false to keep transaction feed and balance up to date
+          freezeOnBlur: false,
+        }}
       />
       {shouldShowSwapMenuInDrawerMenu ? (
         <Drawer.Screen
