@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
+  ActivityIndicator,
   Image,
   Platform,
   StyleProp,
@@ -57,40 +58,49 @@ const SwapAmountInput = ({
     }
   }
 
+  const showInputLoader = loading && !inputValue
+
   return (
     <View style={[styles.container, style]} testID="SwapAmountInput">
       <Text style={styles.label}>{label}</Text>
       <View style={styles.contentContainer}>
-        <TextInput
-          forwardedRef={textInputRef}
-          onChangeText={(value) => {
-            handleSetStartPosition(undefined)
-            onInputChange(value)
-          }}
-          value={inputValue || undefined}
-          placeholder="0"
-          style={styles.input}
-          keyboardType="numeric"
-          autoFocus={autoFocus}
-          // unset lineHeight to allow ellipsis on long inputs on iOS
-          inputStyle={[
-            { lineHeight: undefined },
-            inputError ? styles.inputError : {},
-            loading ? styles.inputLoading : {},
-          ]}
-          testID="SwapAmountInput/Input"
-          onBlur={() => {
-            handleSetStartPosition(0)
-          }}
-          onFocus={() => {
-            handleSetStartPosition(inputValue?.length ?? 0)
-          }}
-          selection={
-            Platform.OS === 'android' && typeof startPosition === 'number'
-              ? { start: startPosition }
-              : undefined
-          }
-        />
+        {showInputLoader ? (
+          <View style={styles.loadingContainer}>
+            <ActivityIndicator size="small" color={Colors.greenBrand} />
+          </View>
+        ) : (
+          <TextInput
+            forwardedRef={textInputRef}
+            onChangeText={(value) => {
+              handleSetStartPosition(undefined)
+              onInputChange(value)
+            }}
+            value={inputValue || undefined}
+            placeholder="0"
+            style={styles.input}
+            keyboardType="numeric"
+            autoFocus={autoFocus}
+            // unset lineHeight to allow ellipsis on long inputs on iOS
+            inputStyle={[
+              { lineHeight: undefined },
+              inputError ? styles.inputError : {},
+              loading ? styles.inputLoading : {},
+            ]}
+            testID="SwapAmountInput/Input"
+            onBlur={() => {
+              handleSetStartPosition(0)
+            }}
+            onFocus={() => {
+              handleSetStartPosition(inputValue?.length ?? 0)
+            }}
+            selection={
+              Platform.OS === 'android' && typeof startPosition === 'number'
+                ? { start: startPosition }
+                : undefined
+            }
+          />
+        )}
+
         {onPressMax && (
           <Touchable
             borderless
@@ -179,6 +189,10 @@ const styles = StyleSheet.create({
     width: 24,
     height: 24,
     borderRadius: 12,
+  },
+  loadingContainer: {
+    flex: 1,
+    alignItems: 'flex-start',
   },
 })
 
