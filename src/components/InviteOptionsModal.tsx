@@ -5,6 +5,7 @@ import { Share } from 'react-native'
 import { InviteEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { DYNAMIC_DOWNLOAD_LINK } from 'src/config'
+import { inviteModal } from 'src/images/Images'
 import InviteModal from 'src/invite/InviteModal'
 import { getDisplayName, Recipient } from 'src/recipients/recipient'
 
@@ -36,6 +37,7 @@ const InviteOptionsModal = ({ recipient, onClose }: Props) => {
       title={t('inviteModal.title', { contactName: getDisplayName(recipient, t) })}
       description={t('inviteModal.body')}
       buttonLabel={t('inviteModal.sendInviteButtonLabel')}
+      imageSource={inviteModal}
       disabled={false}
       onClose={handleClose}
       onShareInvite={handleShareInvite}

@@ -582,7 +582,12 @@
     "body": "Connect and share value with your friends and family on {{appName}}.",
     "button": "Share Invite",
     "error": "There was an issue creating a sharable link",
-    "share": "Hi! I’ve been using {{appName}} as my crypto wallet. It’s easy to try and I want to invite you to check it out with this link: {{shareUrl}}"
+    "share": "Hi! I’ve been using {{appName}} as my crypto wallet. It’s easy to try and I want to invite you to check it out with this link: {{shareUrl}}",
+    "rewardsActive": {
+      "title": "Invite friends and collect NFTs",
+      "body": "Invite your friends and family to download {{appName}} and each of you will get an exclusive NFT",
+      "share": "Hey! I just sent you crypto with my {{appName}} wallet. Once you download the app and connect your phone number, we both get a special edition NFT. Use this link: {{shareUrl}}"
+    }
   },
   "getReward": "Get ${{reward}}",
   "welcomeCelo": "Welcome to {{appName}}",
