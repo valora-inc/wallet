@@ -27,6 +27,7 @@ import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
+import { retrieveSignedMessage } from 'src/pincode/authentication'
 import { waitUntilSagasFinishLoading } from 'src/redux/sagas'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
@@ -47,6 +48,7 @@ function VerificationStartScreen({
       route.params?.selectedCountryCodeAlpha2 || RNLocalize.getCountry()
     )
   )
+  const [signedMessageCreated, setSignedMessageCreated] = useState(false)
 
   const { t } = useTranslation()
   const dispatch = useDispatch()
@@ -152,6 +154,17 @@ function VerificationStartScreen({
     }
   }, [route.params?.selectedCountryCodeAlpha2])
 
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      if (!signedMessageCreated) {
+        const signedMessage = await retrieveSignedMessage()
+        setSignedMessageCreated(!!signedMessage)
+      }
+    }, 500)
+
+    return () => clearInterval(interval)
+  }, [])
+
   useAsync(async () => {
     await waitUntilSagasFinishLoading()
     if (walletAddress === null) {
@@ -209,6 +222,7 @@ function VerificationStartScreen({
           text={t('phoneVerificationScreen.startButtonLabel')}
           onPress={onPressStart}
           type={BtnTypes.ONBOARDING}
+          showLoading={!signedMessageCreated}
           style={styles.startButton}
           disabled={!phoneNumberInfo.isValidNumber}
           testID="PhoneVerificationContinue"
@@ -255,6 +269,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     backgroundColor: colors.onboardingBackground,
+    justifyContent: 'center',
   },
   scrollContainer: {
     flex: 1,
