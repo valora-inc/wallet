@@ -36,3 +36,26 @@ it('still renders when mnemonic doesnt show up', () => {
   )
   expect(tree).toMatchSnapshot()
 })
+
+it('shows reset warning modal when resetting', () => {
+  const { getByTestId } = render(
+    <Provider store={createMockStore()}>
+      <BackupPhrase
+        {...getMockStackScreenProps(Screens.BackupPhrase, {
+          navigatedFromSettings: true,
+          resetting: true,
+        })}
+      />
+    </Provider>
+  )
+  expect(getByTestId('RemoveAccountModal')).toBeVisible()
+})
+
+it('does not show reset warning modal unless resetting', () => {
+  const { getByTestId } = render(
+    <Provider store={createMockStore()}>
+      <BackupPhrase {...getMockStackScreenProps(Screens.BackupPhrase)} />
+    </Provider>
+  )
+  expect(getByTestId('RemoveAccountModal')).not.toBeVisible()
+})
