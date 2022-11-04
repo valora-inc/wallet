@@ -25,7 +25,7 @@ export default function Invite() {
     : t('inviteWithUrl.body')
   const image = inviteRewardsEnabled ? inviteWithRewards : inviteModal
   const message = inviteRewardsEnabled
-    ? t('inviteWithUrl.rewardsActive.share', { shareUrl })
+    ? t('inviteWithRewards', { link: shareUrl })
     : t('inviteWithUrl.share', { shareUrl })
 
   const handleShare = async () => {
