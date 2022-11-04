@@ -113,7 +113,7 @@ class BackupPhrase extends React.Component<Props, State> {
 
   render() {
     const { t, backupCompleted } = this.props
-    const { mnemonic, isConfirmChecked, showResetModal } = this.state
+    const { mnemonic, isConfirmChecked } = this.state
     const navigatedFromSettings = this.navigatedFromSettings()
     return (
       <SafeAreaView style={styles.container}>
