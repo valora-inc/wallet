@@ -289,7 +289,9 @@ export async function addComment(comment) {
 
 export async function dismissCashInBottomSheet() {
   try {
-    await waitForElementId('CashInBottomSheet')
+    await waitFor(element(by.id('CashInBottomSheet')))
+      .toBeVisible()
+      .withTimeout(15 * 1000)
     await element(by.id('DismissBottomSheet')).tap()
   } catch {}
 }
