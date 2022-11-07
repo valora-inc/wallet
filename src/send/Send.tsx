@@ -11,7 +11,13 @@ import { hideAlert } from 'src/alert/actions'
 import { RequestEvents, SendEvents } from 'src/analytics/Events'
 import { SendOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { phoneNumberVerifiedSelector, verificationPossibleSelector } from 'src/app/selectors'
+import {
+  centralPhoneVerificationEnabledSelector,
+  inviteMethodSelector,
+  phoneNumberVerifiedSelector,
+  verificationPossibleSelector,
+} from 'src/app/selectors'
+import { InviteMethodType } from 'src/app/types'
 import InviteOptionsModal from 'src/components/InviteOptionsModal'
 import ContactPermission from 'src/icons/ContactPermission'
 import VerifyPhone from 'src/icons/VerifyPhone'
@@ -48,6 +54,8 @@ function Send({ route }: Props) {
   const { recipientVerificationStatus, recipient, setSelectedRecipient } =
     useFetchRecipientVerificationStatus()
 
+  const inviteMethod = useSelector(inviteMethodSelector)
+  const centralPhoneVerificationEnabled = useSelector(centralPhoneVerificationEnabledSelector)
   const defaultCountryCode = useSelector(defaultCountryCodeSelector)
   const numberVerified = useSelector(phoneNumberVerifiedSelector)
   const inviteRewardsEnabled = useSelector(inviteRewardsActiveSelector)
@@ -106,19 +114,25 @@ function Send({ route }: Props) {
   }, [result])
 
   useEffect(() => {
-    if (recipient && recipientVerificationStatus === RecipientVerificationStatus.VERIFIED) {
-      navigate(Screens.SendAmount, {
-        recipient,
-        isOutgoingPaymentRequest,
-        origin: isOutgoingPaymentRequest ? SendOrigin.AppRequestFlow : SendOrigin.AppSendFlow,
-        forceTokenAddress,
-      })
-    } else if (
-      recipient &&
-      recipientVerificationStatus === RecipientVerificationStatus.UNVERIFIED
-    ) {
-      setShowInviteModal(true)
+    if (!recipient) {
+      return
     }
+
+    const escrowDisabled =
+      centralPhoneVerificationEnabled ||
+      inviteMethod === InviteMethodType.ManualShare ||
+      inviteMethod === InviteMethodType.ReferralUrl
+    if (recipientVerificationStatus === RecipientVerificationStatus.UNVERIFIED && escrowDisabled) {
+      setShowInviteModal(true)
+      return
+    }
+
+    navigate(Screens.SendAmount, {
+      recipient,
+      isOutgoingPaymentRequest,
+      origin: isOutgoingPaymentRequest ? SendOrigin.AppRequestFlow : SendOrigin.AppSendFlow,
+      forceTokenAddress,
+    })
   }, [recipient, recipientVerificationStatus])
 
   const onSelectRecipient = useCallback(
