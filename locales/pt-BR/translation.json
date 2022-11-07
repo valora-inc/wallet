@@ -582,7 +582,11 @@
     "body": "Conecte-se e compartilhe valor com seus amigos e familiares na {{appName}}.",
     "button": "Enviar convite",
     "error": "Ocorreu um erro ao criar um link compartilhável",
-    "share": "Olá! Estou usando a carteira cripto {{appName}}. É muito fácil de usar e eu gostaria de convidar você para conferir com este link: {{shareUrl}}"
+    "share": "Olá! Estou usando a carteira cripto {{appName}}. É muito fácil de usar e eu gostaria de convidar você para conferir com este link: {{shareUrl}}",
+    "rewardsActive": {
+      "title": "Convidar amigos e recolher NFTs",
+      "body": "Convide os seus amigos e familiares a descarregar {{appName}} e cada um de vocês receberá um NFT exclusivo"
+    }
   },
   "getReward": "Receba ${{reward}}",
   "welcomeCelo": "Bem-vindo à {{appName}}",
@@ -1487,7 +1491,11 @@
     "title": "Parece que {{contactName}} ainda não tem uma carteira na {{appName}}.",
     "body": "Você ainda pode convidar esse contato para o {{appName}} ou tentar enviar um pagamento para o endereço de carteira ou nom.space dele.",
     "sendInviteButtonLabel": "Enviar convite",
-    "shareMessage": "Olá, eu gostaria de lhe enviar algumas criptomoedas com a minha carteira do {{appName}}. Depois de baixar o aplicativo e conectar seu número de telefone, enviar criptomoedas será tão fácil quanto enviar uma mensagem. Utilize este link: {{link}}"
+    "shareMessage": "Olá, eu gostaria de lhe enviar algumas criptomoedas com a minha carteira do {{appName}}. Depois de baixar o aplicativo e conectar seu número de telefone, enviar criptomoedas será tão fácil quanto enviar uma mensagem. Utilize este link: {{link}}",
+    "rewardsActive": {
+      "title": "Convide {{contactName}} para {{appName}} e ambos receberão NFTs!",
+      "body": "Parece que {{contactName}} não está em {{appName}}. Se souber o endereço da sua carteira, pode ainda assim enviar um pagamento ou enviar um convite. \n\n Depois de descarregarem a carteira e ligarem o seu número de telefone, ambos receberão um NFT exclusivo."
+    }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
