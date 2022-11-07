@@ -11,11 +11,8 @@ import { showError } from 'src/alert/actions'
 import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { inviteMethodSelector } from 'src/app/selectors'
-import { InviteMethodType } from 'src/app/types'
 import AmountKeypad from 'src/components/AmountKeypad'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
-import InviteOptionsModal from 'src/components/InviteOptionsModal'
 import {
   ALERT_BANNER_DURATION,
   NUMBER_INPUT_MAX_DECIMALS,
@@ -23,13 +20,11 @@ import {
 } from 'src/config'
 import { useMaxSendAmount } from 'src/fees/hooks'
 import { FeeType } from 'src/fees/reducer'
-import { fetchAddressesAndValidate } from 'src/identity/actions'
 import { RecipientVerificationStatus } from 'src/identity/types'
 import { convertToMaxSupportedPrecision } from 'src/localCurrency/convert'
 import { useCurrencyToLocalAmount } from 'src/localCurrency/hooks'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { noHeader } from 'src/navigator/Headers'
-import { navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { useRecipientVerificationStatus } from 'src/recipients/hooks'
@@ -127,10 +122,8 @@ function SendAmount(props: Props) {
   const [reviewButtonPressed, setReviewButtonPressed] = useState(false)
   const tokenInfo = useTokenInfo(transferTokenAddress)!
   const tokenHasUsdPrice = !!tokenInfo?.usdPrice
-
   const showInputInLocalAmount = usingLocalAmount && tokenHasUsdPrice
 
-  const inviteMethod = useSelector(inviteMethodSelector)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const recipientVerificationStatus = useRecipientVerificationStatus(recipient)
   const feeType =
@@ -172,15 +165,6 @@ function SendAmount(props: Props) {
 
   useEffect(() => {
     dispatch(fetchTokenBalances({ showLoading: true }))
-    if (recipient.address) {
-      return
-    }
-
-    if (!recipient.e164PhoneNumber) {
-      throw Error('Recipient phone number is required if not sending via QR Code or address')
-    }
-
-    dispatch(fetchAddressesAndValidate(recipient.e164PhoneNumber))
   }, [])
 
   useEffect(() => {
@@ -242,56 +226,43 @@ function SendAmount(props: Props) {
     setRawAmount(updatedAmount)
   }
 
-  const buttonLoading =
-    recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN || reviewButtonPressed
-
-  const shouldShowModal =
-    recipientVerificationStatus === RecipientVerificationStatus.UNVERIFIED &&
-    (inviteMethod === InviteMethodType.ManualShare || inviteMethod === InviteMethodType.ReferralUrl)
-
   return (
     <SafeAreaView style={styles.container}>
-      {shouldShowModal ? (
-        <InviteOptionsModal recipient={recipient} onClose={navigateBack} />
-      ) : (
-        <>
-          <SendAmountHeader
-            tokenAddress={transferTokenAddress}
-            isOutgoingPaymentRequest={!!props.route.params?.isOutgoingPaymentRequest}
-            isInvite={recipientVerificationStatus === RecipientVerificationStatus.UNVERIFIED}
-            onChangeToken={setTransferToken}
-            disallowCurrencyChange={Boolean(forceTokenAddress)}
-          />
-          <DisconnectBanner />
-          <View style={styles.contentContainer}>
-            <SendAmountValue
-              isOutgoingPaymentRequest={!!props.route.params?.isOutgoingPaymentRequest}
-              inputAmount={amount}
-              tokenAmount={tokenAmount}
-              usingLocalAmount={showInputInLocalAmount}
-              tokenAddress={transferTokenAddress}
-              onPressMax={onPressMax}
-              onSwapInput={onSwapInput}
-              tokenHasUsdPrice={tokenHasUsdPrice}
-            />
-            <AmountKeypad
-              amount={amount}
-              maxDecimals={showInputInLocalAmount ? NUMBER_INPUT_MAX_DECIMALS : TOKEN_MAX_DECIMALS}
-              onAmountChange={onAmountChange}
-            />
-          </View>
-          <Button
-            style={styles.nextBtn}
-            size={BtnSizes.FULL}
-            text={t('review')}
-            showLoading={buttonLoading}
-            type={BtnTypes.PRIMARY}
-            onPress={onReviewButtonPressed}
-            disabled={!isAmountValid || buttonLoading}
-            testID="Review"
-          />
-        </>
-      )}
+      <SendAmountHeader
+        tokenAddress={transferTokenAddress}
+        isOutgoingPaymentRequest={!!props.route.params?.isOutgoingPaymentRequest}
+        isInvite={recipientVerificationStatus === RecipientVerificationStatus.UNVERIFIED}
+        onChangeToken={setTransferToken}
+        disallowCurrencyChange={Boolean(forceTokenAddress)}
+      />
+      <DisconnectBanner />
+      <View style={styles.contentContainer}>
+        <SendAmountValue
+          isOutgoingPaymentRequest={!!props.route.params?.isOutgoingPaymentRequest}
+          inputAmount={amount}
+          tokenAmount={tokenAmount}
+          usingLocalAmount={showInputInLocalAmount}
+          tokenAddress={transferTokenAddress}
+          onPressMax={onPressMax}
+          onSwapInput={onSwapInput}
+          tokenHasUsdPrice={tokenHasUsdPrice}
+        />
+        <AmountKeypad
+          amount={amount}
+          maxDecimals={showInputInLocalAmount ? NUMBER_INPUT_MAX_DECIMALS : TOKEN_MAX_DECIMALS}
+          onAmountChange={onAmountChange}
+        />
+      </View>
+      <Button
+        style={styles.nextBtn}
+        size={BtnSizes.FULL}
+        text={t('review')}
+        showLoading={reviewButtonPressed}
+        type={BtnTypes.PRIMARY}
+        onPress={onReviewButtonPressed}
+        disabled={!isAmountValid || reviewButtonPressed}
+        testID="Review"
+      />
     </SafeAreaView>
   )
 }

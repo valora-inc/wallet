@@ -12,15 +12,23 @@ import { RequestEvents, SendEvents } from 'src/analytics/Events'
 import { SendOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { phoneNumberVerifiedSelector, verificationPossibleSelector } from 'src/app/selectors'
+import InviteOptionsModal from 'src/components/InviteOptionsModal'
 import ContactPermission from 'src/icons/ContactPermission'
 import VerifyPhone from 'src/icons/VerifyPhone'
-import { importContacts } from 'src/identity/actions'
+import { fetchAddressesAndValidate, importContacts } from 'src/identity/actions'
+import { e164NumberToAddressSelector } from 'src/identity/selectors'
+import { RecipientVerificationStatus } from 'src/identity/types'
 import { noHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { filterRecipientFactory, Recipient, sortRecipients } from 'src/recipients/recipient'
-import RecipientPicker from 'src/recipients/RecipientPicker'
+import {
+  filterRecipientFactory,
+  getRecipientVerificationStatus,
+  Recipient,
+  sortRecipients,
+} from 'src/recipients/recipient'
+import RecipientPicker, { Section } from 'src/recipients/RecipientPicker'
 import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import useSelector from 'src/redux/useSelector'
 import { InviteRewardsBanner } from 'src/send/InviteRewardsBanner'
@@ -34,18 +42,54 @@ import { requestContactsPermission } from 'src/utils/permissions'
 
 const SEARCH_THROTTLE_TIME = 100
 
-interface Section {
-  key: string
-  data: Recipient[]
-}
-
 type Props = StackScreenProps<StackParamList, Screens.Send>
+
+const useGetRecipientVerificationStatus = () => {
+  const [recipient, setRecipient] = useState<Recipient | null>(null)
+  const [recipientVerificationStatus, setRecipientVerificationStatus] = useState(
+    RecipientVerificationStatus.UNKNOWN
+  )
+
+  const e164NumberToAddress = useSelector(e164NumberToAddressSelector)
+  const dispatch = useDispatch()
+
+  const setSelectedRecipient = (selectedRecipient: Recipient) => {
+    setRecipient(selectedRecipient)
+    setRecipientVerificationStatus(
+      selectedRecipient?.address
+        ? RecipientVerificationStatus.VERIFIED
+        : RecipientVerificationStatus.UNKNOWN
+    )
+
+    if (selectedRecipient?.e164PhoneNumber) {
+      dispatch(fetchAddressesAndValidate(selectedRecipient.e164PhoneNumber))
+    }
+  }
+
+  useEffect(() => {
+    if (recipient && recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN) {
+      // e164NumberToAddress is updated after a successful phone number lookup
+      setRecipientVerificationStatus(getRecipientVerificationStatus(recipient, e164NumberToAddress))
+    }
+  }, [e164NumberToAddress, recipient, recipientVerificationStatus])
+
+  return {
+    recipient,
+    setSelectedRecipient,
+    recipientVerificationStatus,
+    loadingRecipientVerificationStatus:
+      recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN,
+  }
+}
 
 function Send({ route }: Props) {
   const skipContactsImport = route.params?.skipContactsImport ?? false
   const isOutgoingPaymentRequest = route.params?.isOutgoingPaymentRequest ?? false
   const forceTokenAddress = route.params?.forceTokenAddress
   const { t } = useTranslation()
+
+  const { recipientVerificationStatus, recipient, setSelectedRecipient } =
+    useGetRecipientVerificationStatus()
 
   const defaultCountryCode = useSelector(defaultCountryCodeSelector)
   const numberVerified = useSelector(phoneNumberVerifiedSelector)
@@ -58,6 +102,7 @@ function Send({ route }: Props) {
   const [hasGivenContactPermission, setHasGivenContactPermission] = useState(true)
   const [allFiltered, setAllFiltered] = useState(() => sortRecipients(Object.values(allRecipients)))
   const [recentFiltered, setRecentFiltered] = useState(() => recentRecipients)
+  const [showInviteModal, setShowInviteModal] = useState(false)
 
   const verificationPossible = useSelector(verificationPossibleSelector)
 
@@ -103,6 +148,22 @@ function Send({ route }: Props) {
     }
   }, [result])
 
+  useEffect(() => {
+    if (recipient && recipientVerificationStatus === RecipientVerificationStatus.VERIFIED) {
+      navigate(Screens.SendAmount, {
+        recipient,
+        isOutgoingPaymentRequest,
+        origin: isOutgoingPaymentRequest ? SendOrigin.AppRequestFlow : SendOrigin.AppSendFlow,
+        forceTokenAddress,
+      })
+    } else if (
+      recipient &&
+      recipientVerificationStatus === RecipientVerificationStatus.UNVERIFIED
+    ) {
+      setShowInviteModal(true)
+    }
+  }, [recipient, recipientVerificationStatus])
+
   const onSelectRecipient = useCallback(
     (recipient: Recipient) => {
       dispatch(hideAlert())
@@ -116,12 +177,7 @@ function Send({ route }: Props) {
         }
       )
 
-      navigate(Screens.SendAmount, {
-        recipient,
-        isOutgoingPaymentRequest,
-        origin: isOutgoingPaymentRequest ? SendOrigin.AppRequestFlow : SendOrigin.AppSendFlow,
-        forceTokenAddress,
-      })
+      setSelectedRecipient(recipient)
     },
     [isOutgoingPaymentRequest, searchQuery]
   )
@@ -143,6 +199,10 @@ function Send({ route }: Props) {
     ].filter((section) => section.data.length > 0)
 
     return sections
+  }
+
+  const onCloseInviteModal = () => {
+    setShowInviteModal(false)
   }
 
   const renderListHeader = () => {
@@ -187,7 +247,12 @@ function Send({ route }: Props) {
         listHeaderComponent={renderListHeader}
         onSelectRecipient={onSelectRecipient}
         isOutgoingPaymentRequest={isOutgoingPaymentRequest}
+        selectedRecipient={recipient}
+        recipientVerificationStatus={recipientVerificationStatus}
       />
+      {showInviteModal && recipient && (
+        <InviteOptionsModal recipient={recipient} onClose={onCloseInviteModal} />
+      )}
     </SafeAreaView>
   )
 }
