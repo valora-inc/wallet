@@ -5,20 +5,15 @@ import { Share } from 'react-native'
 import { Provider } from 'react-redux'
 import { InviteEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import * as InviteUtils from 'src/invite/utils'
 import { createMockStore } from 'test/utils'
-import { mocked } from 'ts-jest/utils'
 import Invite from './Invite'
-import { createDynamicLink } from './utils'
-
-jest.mock('./utils', () => ({
-  createDynamicLink: jest.fn(),
-}))
 
 jest.mock('src/analytics/ValoraAnalytics')
-jest.spyOn(Share, 'share')
+const mockShare = jest.spyOn(Share, 'share')
+const mockedCreateDynamicLink = jest.spyOn(InviteUtils, 'createDynamicLink')
 
 const { press } = fireEvent
-const mockedCreateDynamicLink = mocked(createDynamicLink)
 
 describe('Invite', () => {
   beforeEach(() => {
@@ -59,7 +54,7 @@ describe('Invite', () => {
 
   it('should share when button is pressed', async () => {
     mockedCreateDynamicLink.mockResolvedValue('https://vlra.app/abc123')
-    ;(Share.share as jest.Mock).mockResolvedValue({
+    mockShare.mockResolvedValue({
       action: Share.sharedAction,
       activityType: 'clipboard',
     })
@@ -83,7 +78,7 @@ describe('Invite', () => {
 
   it('should share when invite rewards are active and button is pressed', async () => {
     mockedCreateDynamicLink.mockResolvedValue('https://vlra.app/abc123')
-    ;(Share.share as jest.Mock).mockResolvedValue({
+    mockShare.mockResolvedValue({
       action: Share.sharedAction,
       activityType: 'clipboard',
     })
@@ -98,7 +93,7 @@ describe('Invite', () => {
 
     expect(Share.share).toHaveBeenCalledTimes(1)
     expect(Share.share).toHaveBeenCalledWith({
-      message: 'inviteWithUrl.rewardsActive.share, {"shareUrl":"https://vlra.app/abc123"}',
+      message: 'inviteWithRewards, {"link":"https://vlra.app/abc123"}',
     })
   })
 })
