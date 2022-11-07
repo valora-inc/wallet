@@ -15,19 +15,13 @@ import { phoneNumberVerifiedSelector, verificationPossibleSelector } from 'src/a
 import InviteOptionsModal from 'src/components/InviteOptionsModal'
 import ContactPermission from 'src/icons/ContactPermission'
 import VerifyPhone from 'src/icons/VerifyPhone'
-import { fetchAddressesAndValidate, importContacts } from 'src/identity/actions'
-import { e164NumberToAddressSelector } from 'src/identity/selectors'
+import { importContacts } from 'src/identity/actions'
 import { RecipientVerificationStatus } from 'src/identity/types'
 import { noHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import {
-  filterRecipientFactory,
-  getRecipientVerificationStatus,
-  Recipient,
-  sortRecipients,
-} from 'src/recipients/recipient'
+import { filterRecipientFactory, Recipient, sortRecipients } from 'src/recipients/recipient'
 import RecipientPicker, { Section } from 'src/recipients/RecipientPicker'
 import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import useSelector from 'src/redux/useSelector'
@@ -36,6 +30,7 @@ import { inviteRewardsActiveSelector } from 'src/send/selectors'
 import { SendCallToAction } from 'src/send/SendCallToAction'
 import SendHeader from 'src/send/SendHeader'
 import { SendSearchInput } from 'src/send/SendSearchInput'
+import useFetchRecipientVerificationStatus from 'src/send/useFetchRecipientVerificationStatus'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import { navigateToPhoneSettings } from 'src/utils/linking'
 import { requestContactsPermission } from 'src/utils/permissions'
@@ -44,44 +39,6 @@ const SEARCH_THROTTLE_TIME = 100
 
 type Props = StackScreenProps<StackParamList, Screens.Send>
 
-const useGetRecipientVerificationStatus = () => {
-  const [recipient, setRecipient] = useState<Recipient | null>(null)
-  const [recipientVerificationStatus, setRecipientVerificationStatus] = useState(
-    RecipientVerificationStatus.UNKNOWN
-  )
-
-  const e164NumberToAddress = useSelector(e164NumberToAddressSelector)
-  const dispatch = useDispatch()
-
-  const setSelectedRecipient = (selectedRecipient: Recipient) => {
-    setRecipient(selectedRecipient)
-    setRecipientVerificationStatus(
-      selectedRecipient?.address
-        ? RecipientVerificationStatus.VERIFIED
-        : RecipientVerificationStatus.UNKNOWN
-    )
-
-    if (selectedRecipient?.e164PhoneNumber) {
-      dispatch(fetchAddressesAndValidate(selectedRecipient.e164PhoneNumber))
-    }
-  }
-
-  useEffect(() => {
-    if (recipient && recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN) {
-      // e164NumberToAddress is updated after a successful phone number lookup
-      setRecipientVerificationStatus(getRecipientVerificationStatus(recipient, e164NumberToAddress))
-    }
-  }, [e164NumberToAddress, recipient, recipientVerificationStatus])
-
-  return {
-    recipient,
-    setSelectedRecipient,
-    recipientVerificationStatus,
-    loadingRecipientVerificationStatus:
-      recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN,
-  }
-}
-
 function Send({ route }: Props) {
   const skipContactsImport = route.params?.skipContactsImport ?? false
   const isOutgoingPaymentRequest = route.params?.isOutgoingPaymentRequest ?? false
@@ -89,7 +46,7 @@ function Send({ route }: Props) {
   const { t } = useTranslation()
 
   const { recipientVerificationStatus, recipient, setSelectedRecipient } =
-    useGetRecipientVerificationStatus()
+    useFetchRecipientVerificationStatus()
 
   const defaultCountryCode = useSelector(defaultCountryCodeSelector)
   const numberVerified = useSelector(phoneNumberVerifiedSelector)
