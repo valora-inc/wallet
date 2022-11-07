@@ -10,12 +10,13 @@ import { FeeEvents, SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { TokenTransactionType } from 'src/apollo/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import BackButton from 'src/components/BackButton'
 import CommentTextInput from 'src/components/CommentTextInput'
 import ContactCircle from 'src/components/ContactCircle'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import Dialog from 'src/components/Dialog'
 import FeeDrawer from 'src/components/FeeDrawer'
-import HeaderWithBackButton from 'src/components/header/HeaderWithBackButton'
+import CustomHeader from 'src/components/header/CustomHeader'
 import ReviewFrame from 'src/components/ReviewFrame'
 import ShortenedAddress from 'src/components/ShortenedAddress'
 import TextButton from 'src/components/TextButton'
@@ -63,7 +64,7 @@ import { fetchStableBalances } from 'src/stableToken/actions'
 import { useBalance } from 'src/stableToken/hooks'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
-import { iconHitslop } from 'src/styles/variables'
+import variables, { iconHitslop } from 'src/styles/variables'
 import { useTokenInfo } from 'src/tokens/hooks'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
@@ -385,7 +386,10 @@ function SendConfirmationLegacy(props: Props) {
         style={styles.container}
         edges={props.route.name === Screens.SendConfirmationLegacyModal ? ['bottom'] : undefined}
       >
-        <HeaderWithBackButton eventName={SendEvents.send_confirm_back} />
+        <CustomHeader
+          style={{ padding: variables.contentPadding }}
+          left={<BackButton style={{ paddingLeft: 0 }} eventName={SendEvents.send_confirm_back} />}
+        />
         <DisconnectBanner />
         <ReviewFrame
           FooterComponent={FeeContainer}
