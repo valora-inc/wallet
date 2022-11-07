@@ -1,5 +1,6 @@
 import { hexToBuffer } from '@celo/utils/lib/address'
 import { compressedPubKey } from '@celo/utils/lib/dataEncryptionKey'
+import { getPhoneHash } from '@celo/utils/lib/phoneNumbers'
 import { useEffect, useRef, useState } from 'react'
 import { useAsync, useAsyncCallback } from 'react-async-hook'
 import { Platform } from 'react-native'
@@ -218,7 +219,9 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCallingCode: st
           return
         }
 
-        ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_code_verify_success)
+        ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_code_verify_success, {
+          phoneNumberHash: getPhoneHash(phoneNumber),
+        })
         Logger.debug(`${TAG}/validateVerificationCode`, 'Successfully verified phone number')
         setVerificationStatus(PhoneNumberVerificationStatus.SUCCESSFUL)
         dispatch(phoneNumberVerificationCompleted(phoneNumber, countryCallingCode))
