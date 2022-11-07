@@ -582,7 +582,11 @@
     "body": "Kết nối và chia sẻ giá trị với bạn bè và gia đình trên {{appName}}.",
     "button": "Chia sẻ lời mời",
     "error": "Đã xảy ra lỗi khi tạo đường liên kết có thể chia sẻ",
-    "share": "Xin chào! Tôi đang sử dụng {{appName}} làm ví tiền điện tử. Ứng dụng này rất dễ dùng nên tôi muốn mời bạn dùng thử bằng đường liên kết sau: {{shareUrl}}"
+    "share": "Xin chào! Tôi đang sử dụng {{appName}} làm ví tiền điện tử. Ứng dụng này rất dễ dùng nên tôi muốn mời bạn dùng thử bằng đường liên kết sau: {{shareUrl}}",
+    "rewardsActive": {
+      "title": "Invite friends and collect NFTs",
+      "body": "Invite your friends and family to download {{appName}} and each of you will get an exclusive NFT"
+    }
   },
   "getReward": "Nhận ${{reward}}",
   "welcomeCelo": "Chào mừng bạn đến với {{appName}}",
@@ -1485,7 +1489,11 @@
     "title": "Có vẻ như {{contactName}} chưa có ví {{appName}}.",
     "body": "Bạn vẫn có thể mời họ tham gia {{appName}} hoặc gửi thanh toán đến địa chỉ ví hoặc nom.space của họ.",
     "sendInviteButtonLabel": "Gửi lời mời",
-    "shareMessage": "Xin chào! Tôi muốn gửi một ít tiền điện tử cho bạn bằng ví {{appName}} của tôi. Sau khi bạn tải xuống ứng dụng và kết nối số điện thoại, chúng ta có thể dễ dàng gửi tiền điện tử như nhắn tin. Hãy sử dụng đường liên kết này: {{link}}"
+    "shareMessage": "Xin chào! Tôi muốn gửi một ít tiền điện tử cho bạn bằng ví {{appName}} của tôi. Sau khi bạn tải xuống ứng dụng và kết nối số điện thoại, chúng ta có thể dễ dàng gửi tiền điện tử như nhắn tin. Hãy sử dụng đường liên kết này: {{link}}",
+    "rewardsActive": {
+      "title": "Invite {{contactName}} to {{appName}} and you’ll both receive NFTs!",
+      "body": "Looks like {{contactName}} isn't on {{appName}}. If you know their wallet address you can still send a payment or send an invitation instead. \n\n After they download the wallet and connect their phone number, you’ll both get an exclusive NFT."
+    }
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Đô la Celo"
 }
