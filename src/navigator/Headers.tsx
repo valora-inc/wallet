@@ -48,7 +48,7 @@ export const nuxNavigationOptions: NativeStackNavigationOptions = {
   headerShown: true,
   headerTransparent: true,
   headerBackVisible: false,
-  headerLeft: ({ canGoBack }) => (canGoBack ? <BackButton /> : <View />),
+  headerLeft: ({ canGoBack }) => (canGoBack ? <BackButton style={{ paddingLeft: 0 }} /> : <View />),
   headerRight: () => <View />,
   headerTitle: () => <DisconnectBanner />,
   headerStyle: {
@@ -79,7 +79,7 @@ export const drawerHeader: NativeStackNavigationOptions = {
 
 export const headerWithBackButton: NativeStackNavigationOptions = {
   ...emptyHeader,
-  headerLeft: ({ canGoBack }) => (canGoBack ? <BackButton /> : null),
+  headerLeft: ({ canGoBack }) => (canGoBack ? <BackButton style={{ paddingLeft: 0 }} /> : null),
   animation: 'slide_from_right',
 }
 
@@ -101,7 +101,9 @@ export const headerWithBackEditButtons: NativeStackNavigationOptions = {
 
 export const headerWithCloseButton: NativeStackNavigationOptions = {
   ...emptyHeader,
-  headerLeft: () => <TopBarIconButton icon={<Times />} onPress={navigateBack} />,
+  headerLeft: () => (
+    <TopBarIconButton icon={<Times />} onPress={navigateBack} style={{ paddingLeft: 20 }} />
+  ),
 }
 
 interface Props {
