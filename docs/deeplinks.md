@@ -1,10 +1,5 @@
 # Deeplinks
 
-There are three different types of deeplinks that we support:
-- [Payments](#payment)
-- [DAppKit](#dappkit)
-- [WalletConnect](#walletconnect)
-
 ## Payment
 
 You can create a deeplink that will prompt the user to make a payment to an address.
@@ -19,7 +14,6 @@ where the query parameters can be:
 - `currencyCode` (optional, recommended if amount is set): The fiat currency in which the user will see the payment amount. Users of the app can choose which currency they see values in the app by default so if you set the amount it's strongly recommended to set a value for this so you make sure you receive the expected amount. Possible values are the ones listed [in the `LocalCurrencyCode` enum here](https://github.com/celo-org/wallet/blob/main/src/localCurrency/consts.ts#L2)
 
 To URL encode a text you can use the [encodeURI](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURI) function or a web tool like https://www.urlencoder.org/
-
 
 Example payment deeplink:
 
