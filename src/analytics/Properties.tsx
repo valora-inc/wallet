@@ -1,5 +1,9 @@
 import { DappKitRequestTypes } from '@celo/utils'
-import { FiatAccountSchema, FiatConnectError } from '@fiatconnect/fiatconnect-types'
+import {
+  FiatAccountSchema,
+  FiatConnectError,
+  KycStatus as FiatConnectKycStatus,
+} from '@fiatconnect/fiatconnect-types'
 import { check } from 'react-native-permissions'
 import { PincodeType } from 'src/account/reducer'
 import {
@@ -54,7 +58,6 @@ import { RecipientType } from 'src/recipients/recipient'
 import { Field } from 'src/swap/types'
 import { Currency, StableCurrency } from 'src/utils/currencies'
 import { Awaited } from 'src/utils/typescript'
-import { KycStatus as FiatConnectKycStatus } from '@fiatconnect/fiatconnect-types'
 type PermissionStatus = Awaited<ReturnType<typeof check>>
 
 interface AppEventsProperties {
@@ -535,7 +538,9 @@ interface PhoneVerificationEventsProperties {
   }
   [PhoneVerificationEvents.phone_verification_code_request_success]: undefined
   [PhoneVerificationEvents.phone_verification_code_verify_start]: undefined
-  [PhoneVerificationEvents.phone_verification_code_verify_success]: undefined
+  [PhoneVerificationEvents.phone_verification_code_verify_success]: {
+    phoneNumberHash: string
+  }
   [PhoneVerificationEvents.phone_verification_code_verify_error]: undefined
   [PhoneVerificationEvents.phone_verification_input_help]: undefined
   [PhoneVerificationEvents.phone_verification_input_help_continue]: undefined
