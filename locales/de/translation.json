@@ -582,7 +582,11 @@
     "body": "Verbinde und teile Wert mit deinen Freunden und Familie auf {{appName}}.",
     "button": "Einladung senden",
     "error": "Es gab ein Problem beim Erstellen eines teilbaren Links",
-    "share": "Hallo! Ich habe {{appName}} Krypto Wallet benutzt. Es ist einfach zu versuchen und ich möchte dich einladen, es mit diesem Link zu sehen: {{shareUrl}}"
+    "share": "Hallo! Ich habe {{appName}} Krypto Wallet benutzt. Es ist einfach zu versuchen und ich möchte dich einladen, es mit diesem Link zu sehen: {{shareUrl}}",
+    "rewardsActive": {
+      "title": "Freunde einladen und NFTs sammeln",
+      "body": "Lade deine Freunde und Familie ein, {{appName}} herunterzuladen, und jeder von euch erhält ein exklusives NFT"
+    }
   },
   "getReward": "Erhalte ${{reward}}",
   "welcomeCelo": "Willkommen bei {{appName}}",
@@ -1487,7 +1491,11 @@
     "title": "Sieht so aus, als ob {{contactName}} noch kein {{appName}}-Wallet hat.",
     "body": "Du kannst sie trotzdem zu {{appName}} einladen oder versuchen, eine Zahlung an ihre Wallet-Adresse oder nom.space zu senden.",
     "sendInviteButtonLabel": "Einladung senden",
-    "shareMessage": "Hey! Ich würde dir gerne etwas Krypto mit meinem {{appName}}-Wallet schicken. Wenn du die App herunterlädst und deine Telefonnummer angibst, können wir Kryptowährungen so einfach wie eine SMS versenden. Verwende diesen Link: {{link}}"
+    "shareMessage": "Hey! Ich würde dir gerne etwas Krypto mit meinem {{appName}}-Wallet schicken. Wenn du die App herunterlädst und deine Telefonnummer angibst, können wir Kryptowährungen so einfach wie eine SMS versenden. Verwende diesen Link: {{link}}",
+    "rewardsActive": {
+      "title": "Lade {{contactName}} auf {{appName}} ein und ihr erhaltet beide NFTs!",
+      "body": "Wie es aussieht, ist {{contactName}} nicht auf {{appName}}. Wenn du ihre Wallet-Adresse kennst, kannst du trotzdem eine Zahlung oder eine Einladung schicken. \n\n Nachdem sie die Wallet heruntergeladen und ihre Telefonnummer angegeben haben, erhaltet ihr beide eine exklusive NFT."
+    }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
