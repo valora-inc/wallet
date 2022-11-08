@@ -8,7 +8,9 @@ import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { setSwapUserInput } from 'src/swap/slice'
 import SwapScreen from 'src/swap/SwapScreen'
+import { Field } from 'src/swap/types'
 import networkConfig from 'src/web3/networkConfig'
 import { createMockStore } from 'test/utils'
 import { mockAccount, mockCeloAddress, mockCeurAddress, mockCusdAddress } from 'test/values'
@@ -357,7 +359,7 @@ describe('SwapScreen', () => {
         },
       })
     )
-    const { getByText, getByTestId } = renderScreen({})
+    const { getByText, getByTestId, store } = renderScreen({})
 
     void act(() => {
       fireEvent.press(getByTestId('SwapAmountInput/MaxButton'))
@@ -366,5 +368,52 @@ describe('SwapScreen', () => {
 
     fireEvent.press(getByText('swapScreen.review'))
     expect(navigate).toHaveBeenCalledWith(Screens.SwapReviewScreen)
+
+    expect(store.getActions()).toEqual(
+      expect.arrayContaining([
+        setSwapUserInput({
+          toToken: mockCusdAddress,
+          fromToken: mockCeloAddress,
+          swapAmount: {
+            [Field.FROM]: '10',
+            [Field.TO]: '12.345678',
+          },
+          updatedField: Field.FROM,
+        }),
+      ])
+    )
+  })
+
+  it('should be able to navigate to swap review screen when the entered value uses comma as the decimal separator', () => {
+    mockFetch.mockResponse(
+      JSON.stringify({
+        unvalidatedSwapTransaction: {
+          price: '1.2345678',
+        },
+      })
+    )
+    const { swapFromContainer, getByText, getByTestId, store } = renderScreen({})
+
+    void act(() => {
+      fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '1,5')
+      jest.runAllTimers()
+    })
+
+    fireEvent.press(getByText('swapScreen.review'))
+    expect(navigate).toHaveBeenCalledWith(Screens.SwapReviewScreen)
+
+    expect(store.getActions()).toEqual(
+      expect.arrayContaining([
+        setSwapUserInput({
+          toToken: mockCusdAddress,
+          fromToken: mockCeloAddress,
+          swapAmount: {
+            [Field.FROM]: '1.5',
+            [Field.TO]: '1.8518517', // 1.5 * 1.2345678
+          },
+          updatedField: Field.FROM,
+        }),
+      ])
+    )
   })
 })
