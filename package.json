@@ -95,6 +95,7 @@
     "@react-native-picker/picker": "^2.4.2",
     "@react-navigation/compat": "^5.3.20",
     "@react-navigation/core": "^6.2.1",
+    "@react-navigation/devtools": "^6.0.10",
     "@react-navigation/drawer": "^5.12.9",
     "@react-navigation/material-top-tabs": "^5.3.19",
     "@react-navigation/native": "^5.9.8",
