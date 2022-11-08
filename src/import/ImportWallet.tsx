@@ -77,8 +77,11 @@ function ImportWallet({ navigation, route }: Props) {
       headerLeft: () => (
         <TopBarTextButtonOnboarding
           title={t('cancel')}
-          // Note: redux state reset is handled by UseBackToWelcomeScreen
-          onPress={() => navigate(Screens.Welcome)}
+          // Note: navigation state reset popToScreen in PincodeSet.tsx
+          onPress={() => {
+            ValoraAnalytics.track(OnboardingEvents.restore_account_cancel)
+            navigate(Screens.Welcome)
+          }}
         />
       ),
       headerTitle: () => (
