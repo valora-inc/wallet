@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useFlipper } from '@react-navigation/devtools'
 import { DefaultTheme, NavigationContainer, NavigationState } from '@react-navigation/native'
 import * as Sentry from '@sentry/react-native'
 import { SeverityLevel } from '@sentry/types'
@@ -72,6 +73,9 @@ export const NavigatorWrapper = () => {
   const inSanctionedCountry = useTypedSelector(userInSanctionedCountrySelector)
 
   const dispatch = useDispatch()
+
+  // @ts-ignore using a v6 navigation plugin with v5 types
+  useFlipper(navigationRef)
 
   const updateRequired = React.useMemo(() => {
     if (!minRequiredVersion) {
