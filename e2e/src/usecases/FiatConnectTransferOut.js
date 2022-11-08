@@ -92,10 +92,8 @@ async function setWalletKycStatus(kycStatus, walletAddress) {
     },
     body: JSON.stringify({ kycStatus, walletAddress }),
   }
-  const resp = await fetch(
-    `${MOCK_PROVIDER_BASE_URL}/kyc/PersonalDataAndDocuments/status`,
-    requestOptions
-  )
+  const url = new URL('/kyc/PersonalDataAndDocuments/status', MOCK_PROVIDER_BASE_URL)
+  const resp = await fetch(url, requestOptions)
   if (!resp.ok) {
     throw Error(`Unable to update kyc status of wallet ${walletAddress} to status ${kycStatus}`)
   }
