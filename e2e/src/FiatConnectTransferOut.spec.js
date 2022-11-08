@@ -7,6 +7,7 @@ import { launchApp } from './utils/retries'
 describe('FiatConnect Transfer Out', () => {
   // deliberately not doing onboarding in beforeEach, since we'll want to re-use accounts, use fresh accounts, etc for these tests
   beforeEach(async () => {
+    // uninstall and reinstall to obtain a fresh account
     await device.uninstallApp()
     await device.installApp()
     await launchApp({
