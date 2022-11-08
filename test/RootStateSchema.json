@@ -3821,16 +3821,10 @@
             "additionalProperties": false,
             "properties": {
                 "FROM": {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
+                    "type": "string"
                 },
                 "TO": {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
+                    "type": "string"
                 }
             },
             "required": [
