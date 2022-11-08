@@ -3062,6 +3062,9 @@
                 "kycTryAgainLoading": {
                     "type": "boolean"
                 },
+                "personaInProgress": {
+                    "type": "boolean"
+                },
                 "providers": {
                     "anyOf": [
                         {
@@ -3343,6 +3346,7 @@
                 "cachedFiatAccountUses",
                 "cachedQuoteParams",
                 "kycTryAgainLoading",
+                "personaInProgress",
                 "providers",
                 "quotes",
                 "quotesError",

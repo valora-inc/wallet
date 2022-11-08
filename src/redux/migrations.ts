@@ -875,4 +875,11 @@ export const migrations = {
       networkTimeoutSeconds: REMOTE_CONFIG_VALUES_DEFAULTS.networkTimeoutSeconds,
     },
   }),
+  89: (state: any) => ({
+    ...state,
+    fiatConnect: {
+      ...state.fiatConnect,
+      personaInProgress: false,
+    },
+  }),
 }

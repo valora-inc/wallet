@@ -31,6 +31,7 @@ import {
   handleFetchFiatConnectProviders,
   handleFetchFiatConnectQuotes,
   handleKycTryAgain,
+  handlePostKyc,
   handleRefetchQuote,
   handleSelectFiatConnectQuote,
   handleSubmitFiatAccount,
@@ -56,6 +57,8 @@ import {
   fiatAccountUsed,
   kycTryAgain,
   kycTryAgainCompleted,
+  personaFinished,
+  postKyc as postKycAction,
   refetchQuote,
   refetchQuoteCompleted,
   refetchQuoteFailed,
@@ -127,6 +130,17 @@ describe('Fiatconnect saga', () => {
     fiatAccountType: FiatAccountType.BankAccount,
     flow: CICOFlow.CashOut,
   })
+  const expectedCacheQuoteParams = {
+    providerId: normalizedQuoteKyc.getProviderId(),
+    kycSchema: normalizedQuoteKyc.getKycSchema()!,
+    cachedQuoteParams: {
+      cryptoAmount: normalizedQuoteKyc.getCryptoAmount(),
+      fiatAmount: normalizedQuoteKyc.getFiatAmount(),
+      flow: normalizedQuoteKyc.flow,
+      cryptoType: normalizedQuoteKyc.getCryptoType(),
+      fiatType: normalizedQuoteKyc.getFiatType(),
+    },
+  }
   beforeEach(() => {
     jest.clearAllMocks()
   })
@@ -835,19 +849,7 @@ describe('Fiatconnect saga', () => {
           [matches.call.fn(_checkFiatAccountAndNavigate), undefined],
           { call: provideDelay },
         ])
-        .put(
-          cacheQuoteParams({
-            providerId: normalizedQuoteKyc.getProviderId(),
-            kycSchema: normalizedQuoteKyc.getKycSchema()!,
-            cachedQuoteParams: {
-              cryptoAmount: normalizedQuoteKyc.getCryptoAmount(),
-              fiatAmount: normalizedQuoteKyc.getFiatAmount(),
-              flow: normalizedQuoteKyc.flow,
-              cryptoType: normalizedQuoteKyc.getCryptoType(),
-              fiatType: normalizedQuoteKyc.getFiatType(),
-            },
-          })
-        )
+        .put(cacheQuoteParams(expectedCacheQuoteParams))
         .call(_checkFiatAccountAndNavigate, {
           quote: normalizedQuoteKyc,
           isKycRequired: true,
@@ -923,6 +925,75 @@ describe('Fiatconnect saga', () => {
         amount: {
           crypto: parseFloat(normalizedQuote.getCryptoAmount()),
           fiat: parseFloat(normalizedQuote.getFiatAmount()),
+        },
+      })
+    })
+  })
+
+  describe('handlePostKyc', () => {
+    it('posts kyc, caches quote params and invokes _checkFiatAccountAndNavigate', async () => {
+      await expectSaga(handlePostKyc, postKycAction({ quote: normalizedQuoteKyc }))
+        .provide([
+          [matches.call.fn(postKyc), undefined],
+          [matches.call.fn(_checkFiatAccountAndNavigate), undefined],
+        ])
+        .call(postKyc, {
+          providerInfo: normalizedQuoteKyc.getProviderInfo(),
+          kycSchema: normalizedQuoteKyc.getKycSchema(),
+        })
+        .call(_checkFiatAccountAndNavigate, {
+          quote: normalizedQuoteKyc,
+          isKycRequired: true,
+          isKycApproved: false,
+        })
+        .put(cacheQuoteParams(expectedCacheQuoteParams))
+        .put(personaFinished())
+        .run()
+    })
+    it('navigates to SelectProvider if post kyc fails', async () => {
+      await expectSaga(handlePostKyc, postKycAction({ quote: normalizedQuoteKyc }))
+        .provide([[matches.call.fn(postKyc), throwError(new Error('post kyc failed'))]])
+        .call(postKyc, {
+          providerInfo: normalizedQuoteKyc.getProviderInfo(),
+          kycSchema: normalizedQuoteKyc.getKycSchema(),
+        })
+        .put(personaFinished())
+        .put(showError(ErrorMessages.PROVIDER_FETCH_FAILED))
+        .run()
+      expect(navigate).toHaveBeenCalledWith(Screens.SelectProvider, {
+        flow: normalizedQuoteKyc.flow,
+        selectedCrypto: normalizedQuoteKyc.getCryptoType(),
+        amount: {
+          crypto: parseFloat(normalizedQuoteKyc.getCryptoAmount()),
+          fiat: parseFloat(normalizedQuoteKyc.getFiatAmount()),
+        },
+      })
+    })
+    it('navigates to SelectProvider if _checkFiatAccountAndNavigate throws', async () => {
+      await expectSaga(handlePostKyc, postKycAction({ quote: normalizedQuoteKyc }))
+        .provide([
+          [matches.call.fn(postKyc), undefined],
+          [matches.call.fn(_checkFiatAccountAndNavigate), throwError(new Error('failed'))],
+        ])
+        .call(postKyc, {
+          providerInfo: normalizedQuoteKyc.getProviderInfo(),
+          kycSchema: normalizedQuoteKyc.getKycSchema(),
+        })
+        .call(_checkFiatAccountAndNavigate, {
+          quote: normalizedQuoteKyc,
+          isKycRequired: true,
+          isKycApproved: false,
+        })
+        .put(cacheQuoteParams(expectedCacheQuoteParams))
+        .put(personaFinished())
+        .put(showError(ErrorMessages.PROVIDER_FETCH_FAILED))
+        .run()
+      expect(navigate).toHaveBeenCalledWith(Screens.SelectProvider, {
+        flow: normalizedQuoteKyc.flow,
+        selectedCrypto: normalizedQuoteKyc.getCryptoType(),
+        amount: {
+          crypto: parseFloat(normalizedQuoteKyc.getCryptoAmount()),
+          fiat: parseFloat(normalizedQuoteKyc.getFiatAmount()),
         },
       })
     })

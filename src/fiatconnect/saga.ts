@@ -53,6 +53,8 @@ import {
   fiatAccountUsed,
   kycTryAgain,
   kycTryAgainCompleted,
+  personaFinished,
+  postKyc as postKycAction,
   refetchQuote,
   refetchQuoteCompleted,
   refetchQuoteFailed,
@@ -85,6 +87,8 @@ import { v4 as uuidv4 } from 'uuid'
 const TAG = 'FiatConnectSaga'
 
 const KYC_WAIT_TIME_MILLIS = 3000
+
+const PERSONA_COMPLETION_STATUSES = new Set([PersonaKycStatus.Approved, PersonaKycStatus.Completed])
 
 export function* handleFetchFiatConnectQuotes({
   payload: params,
@@ -711,6 +715,60 @@ export function* handleSelectFiatConnectQuote({
   }
 }
 
+export function* handlePostKyc({ payload }: ReturnType<typeof postKycAction>) {
+  const { quote } = payload
+  const kycSchema = quote.getKycSchema()
+
+  try {
+    if (!kycSchema) {
+      // this should never happen
+      throw new Error('Unexpected error, quote is missing kyc schema')
+    }
+    yield call(postKyc, {
+      providerInfo: quote.getProviderInfo(),
+      kycSchema,
+    })
+    // We also need to save a user's quote parameters so we can re-fetch if KYC takes a long
+    // time to process.
+    yield put(
+      cacheQuoteParams({
+        providerId: quote.getProviderId(),
+        kycSchema,
+        cachedQuoteParams: {
+          cryptoAmount: quote.getCryptoAmount(),
+          fiatAmount: quote.getFiatAmount(),
+          flow: quote.flow,
+          cryptoType: quote.getCryptoType(),
+          fiatType: quote.getFiatType(),
+        },
+      })
+    )
+    // kyc will be required, but will be pending with the provider because it was
+    // just submitted.
+    yield call(_checkFiatAccountAndNavigate, { quote, isKycRequired: true, isKycApproved: false })
+    // clear persona status
+    yield put(personaFinished())
+  } catch (error) {
+    // Error while attempting to post to kyc or selecting fiat account
+    Logger.debug(
+      TAG,
+      `handlePostKyc* Error while attempting to post kyc for provider ${quote.getProviderId()}`,
+      error
+    )
+    yield put(personaFinished())
+    yield put(showError(ErrorMessages.PROVIDER_FETCH_FAILED))
+    const amount = {
+      crypto: parseFloat(quote.getCryptoAmount()),
+      fiat: parseFloat(quote.getFiatAmount()),
+    }
+    navigate(Screens.SelectProvider, {
+      flow: quote.flow,
+      selectedCrypto: quote.getCryptoType(),
+      amount: amount,
+    })
+  }
+}
+
 export function* _checkFiatAccountAndNavigate({
   quote,
   isKycRequired,
@@ -966,6 +1024,10 @@ function* watchKycTryAgain() {
   yield takeLeading(kycTryAgain.type, handleKycTryAgain)
 }
 
+function* watchPostKyc() {
+  yield takeLeading(postKycAction.type, handlePostKyc)
+}
+
 export function* fiatConnectSaga() {
   yield spawn(watchFetchFiatConnectQuotes)
   yield spawn(watchFiatConnectTransfers)
@@ -975,4 +1037,5 @@ export function* fiatConnectSaga() {
   yield spawn(watchRefetchQuote)
   yield spawn(watchSubmitFiatAccount)
   yield spawn(watchKycTryAgain)
+  yield spawn(watchPostKyc)
 }
