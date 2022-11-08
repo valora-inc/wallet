@@ -392,7 +392,7 @@ describe('SwapScreen', () => {
         },
       })
     )
-    const { swapFromContainer, getByText, getByTestId, store } = renderScreen({})
+    const { swapFromContainer, getByText, store } = renderScreen({})
 
     void act(() => {
       fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '1,5')
