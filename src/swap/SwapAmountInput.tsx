@@ -150,6 +150,7 @@ const styles = StyleSheet.create({
   contentContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    minHeight: 52, // same height as the TextInput, so it prevents the height from jumping
   },
   input: {
     flex: 1,
