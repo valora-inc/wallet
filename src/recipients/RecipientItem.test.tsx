@@ -10,7 +10,7 @@ describe('RecipientItem', () => {
   it('renders correctly', () => {
     const tree = render(
       <Provider store={createMockStore({})}>
-        <RecipientItem recipient={mockRecipient} onSelectRecipient={jest.fn()} />
+        <RecipientItem recipient={mockRecipient} onSelectRecipient={jest.fn()} loading={false} />
       </Provider>
     )
     expect(tree).toMatchSnapshot()
