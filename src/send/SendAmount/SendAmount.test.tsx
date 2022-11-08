@@ -9,7 +9,6 @@ import { SendOrigin } from 'src/analytics/types'
 import { FeeType } from 'src/fees/reducer'
 import i18n from 'src/i18n'
 import { AddressValidationType, E164NumberToAddressType } from 'src/identity/reducer'
-import * as InviteUtils from 'src/invite/utils'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -26,8 +25,6 @@ import {
   mockTransactionData,
   mockTransactionDataLegacy,
 } from 'test/values'
-
-const mockedCreateDynamicLink = jest.spyOn(InviteUtils, 'createDynamicLink')
 
 const AMOUNT_ZERO = '0.00'
 const AMOUNT_VALID = '4.93'

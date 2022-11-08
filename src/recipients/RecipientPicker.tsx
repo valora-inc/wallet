@@ -107,8 +107,8 @@ function RecipientPicker(props: RecipientProps) {
     )
   }
 
-  const renderSectionHeader = (info: { section: SectionListData<Recipient> }) => (
-    <SectionHead text={info.section.key as string} />
+  const renderSectionHeader = (info: { section: SectionListData<Recipient, Section> }) => (
+    <SectionHead text={info.section.key} />
   )
 
   const keyExtractor = (item: Recipient, index: number) => {
