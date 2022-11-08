@@ -5,11 +5,13 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useSelector } from 'react-redux'
 import Button, { BtnTypes } from 'src/components/Button'
 import Dialog from 'src/components/Dialog'
+import CustomHeader from 'src/components/header/CustomHeader'
 import Checkmark from 'src/icons/Checkmark'
 import Times from 'src/icons/Times'
 import { noHeader } from 'src/navigator/Headers'
-import { navigate, replace } from 'src/navigator/NavigationService'
+import { navigate, navigateHome, replace } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -30,6 +32,14 @@ export function SwapExecuteScreen() {
 
   const navigateToSupport = () => {
     replace(Screens.SupportContact)
+  }
+
+  const NavigateHomeIcon = () => {
+    return (
+      <View style={styles.navigateHomeIcon}>
+        <TopBarIconButton icon={<Times />} testID="ReturnHome" onPress={navigateHome} />
+      </View>
+    )
   }
 
   const SwapDisplay = useMemo(() => {
@@ -147,6 +157,7 @@ export function SwapExecuteScreen() {
 
   return (
     <SafeAreaView style={styles.safeAreaView}>
+      <CustomHeader left={swapState === SwapState.COMPLETE ? <NavigateHomeIcon /> : null} />
       <View style={styles.contentContainer}>
         {SwapIcon}
         {SwapDisplay}
@@ -184,6 +195,9 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  navigateHomeIcon: {
+    paddingHorizontal: Spacing.Thick24,
   },
 })
 
