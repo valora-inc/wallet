@@ -36,7 +36,7 @@ const useSwapQuote = () => {
       return
     }
 
-    // This only works for token with 18 decimals
+    // This only works for tokens with 18 decimals
     // TODO: make this work for tokens with different decimals
     const swapAmountInWei = multiplyByWei(swapAmount[updatedField])
     if (swapAmountInWei.lte(0)) {
