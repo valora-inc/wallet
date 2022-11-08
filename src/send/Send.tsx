@@ -114,7 +114,7 @@ function Send({ route }: Props) {
   }, [result])
 
   useEffect(() => {
-    if (!recipient) {
+    if (!recipient || RecipientVerificationStatus.UNKNOWN) {
       return
     }
 
