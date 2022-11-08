@@ -682,12 +682,13 @@ export function* handleSelectFiatConnectQuote({
       }
     }
 
-    yield call(
-      _checkFiatAccountAndNavigate,
+    yield call(_checkFiatAccountAndNavigate, {
       quote,
-      !!kycSchema,
-      !!kycSchema && getKycStatusResponse!.kycStatus[kycSchema] === FiatConnectKycStatus.KycApproved
-    )
+      isKycRequired: !!kycSchema,
+      isKycApproved:
+        !!kycSchema &&
+        getKycStatusResponse!.kycStatus[kycSchema] === FiatConnectKycStatus.KycApproved,
+    })
     yield put(selectFiatConnectQuoteCompleted())
   } catch (error) {
     // Error while attempting fetching the fiatConnect account
@@ -710,13 +711,17 @@ export function* handleSelectFiatConnectQuote({
   }
 }
 
-function* _checkFiatAccountAndNavigate(
-  quote: FiatConnectQuote,
-  isKycRequired: boolean,
+export function* _checkFiatAccountAndNavigate({
+  quote,
+  isKycRequired,
+  isKycApproved,
+}: {
+  quote: FiatConnectQuote
+  isKycRequired: boolean
   isKycApproved: boolean
-) {
+}) {
   const fiatAccount: FiatAccount = yield call(_getFiatAccount, {
-    fiatConnectProviders: [quote.quote.provider],
+    fiatConnectProviders: [quote.getProviderInfo()],
     providerId: quote.getProviderId(),
     fiatAccountType: quote.getFiatAccountType(),
     fiatAccountSchema: quote.getFiatAccountSchema(),
