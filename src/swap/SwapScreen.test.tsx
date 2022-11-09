@@ -1,4 +1,5 @@
 import { act, fireEvent, render, within } from '@testing-library/react-native'
+import BigNumber from 'bignumber.js'
 import { FetchMock } from 'jest-fetch-mock/types'
 import React from 'react'
 import { Provider } from 'react-redux'
@@ -6,11 +7,22 @@ import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { setSwapUserInput } from 'src/swap/slice'
 import SwapScreen from 'src/swap/SwapScreen'
+import { Field } from 'src/swap/types'
+import networkConfig from 'src/web3/networkConfig'
 import { createMockStore } from 'test/utils'
-import { mockCeloAddress, mockCeurAddress, mockCusdAddress } from 'test/values'
+import { mockAccount, mockCeloAddress, mockCeurAddress, mockCusdAddress } from 'test/values'
 
 const mockFetch = fetch as FetchMock
+
+// Use comma as decimal separator for all tests here
+// Input with "." will still work, but it will also work with ",".
+jest.mock('react-native-localize', () => ({
+  getNumberFormatSettings: () => ({
+    decimalSeparator: ',',
+  }),
+}))
 
 const renderScreen = ({ hasZeroCeloBalance = false }) => {
   const store = createMockStore({
@@ -92,6 +104,12 @@ const renderScreen = ({ hasZeroCeloBalance = false }) => {
 describe('SwapScreen', () => {
   beforeEach(() => {
     mockFetch.resetMocks()
+
+    BigNumber.config({
+      FORMAT: {
+        decimalSeparator: '.',
+      },
+    })
   })
 
   it('should display the correct elements on load', () => {
@@ -184,6 +202,12 @@ describe('SwapScreen', () => {
       jest.runAllTimers()
     })
 
+    expect(mockFetch.mock.calls[0][0]).toEqual(
+      `${
+        networkConfig.approveSwapUrl
+      }?buyToken=${mockCusdAddress}&sellToken=${mockCeloAddress}&sellAmount=1234000000000000000&userAddress=${mockAccount.toLowerCase()}`
+    )
+
     expect(getByText('1 CELO ≈ 1.23456 cUSD')).toBeTruthy()
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe('1.234')
     expect(within(swapToContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
@@ -207,11 +231,87 @@ describe('SwapScreen', () => {
       jest.runAllTimers()
     })
 
+    expect(mockFetch.mock.calls[0][0]).toEqual(
+      `${
+        networkConfig.approveSwapUrl
+      }?buyToken=${mockCusdAddress}&sellToken=${mockCeloAddress}&buyAmount=1234000000000000000&userAddress=${mockAccount.toLowerCase()}`
+    )
+
     expect(getByText('1 CELO ≈ 8.10000 cUSD')).toBeTruthy()
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
       '0.15234566652'
     )
     expect(within(swapToContainer).getByTestId('SwapAmountInput/Input').props.value).toBe('1.234')
+    expect(getByText('swapScreen.review')).not.toBeDisabled()
+  })
+
+  it('should support from amount with comma as the decimal separator', () => {
+    // This only changes the display format, the input is parsed with getNumberFormatSettings
+    BigNumber.config({
+      FORMAT: {
+        decimalSeparator: ',',
+      },
+    })
+    mockFetch.mockResponse(
+      JSON.stringify({
+        unvalidatedSwapTransaction: {
+          price: '1.2345678',
+        },
+      })
+    )
+    const { swapFromContainer, swapToContainer, getByText } = renderScreen({})
+
+    void act(() => {
+      fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '1,234')
+      jest.runAllTimers()
+    })
+
+    expect(mockFetch.mock.calls[0][0]).toEqual(
+      `${
+        networkConfig.approveSwapUrl
+      }?buyToken=${mockCusdAddress}&sellToken=${mockCeloAddress}&sellAmount=1234000000000000000&userAddress=${mockAccount.toLowerCase()}`
+    )
+
+    expect(getByText('1 CELO ≈ 1,23456 cUSD')).toBeTruthy()
+    expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe('1,234')
+    expect(within(swapToContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
+      '1,5234566652'
+    )
+    expect(getByText('swapScreen.review')).not.toBeDisabled()
+  })
+
+  it('should support to amount with comma as the decimal separator', () => {
+    // This only changes the display format, the input is parsed with getNumberFormatSettings
+    BigNumber.config({
+      FORMAT: {
+        decimalSeparator: ',',
+      },
+    })
+    mockFetch.mockResponse(
+      JSON.stringify({
+        unvalidatedSwapTransaction: {
+          price: '0.12345678',
+        },
+      })
+    )
+    const { swapFromContainer, swapToContainer, getByText } = renderScreen({})
+
+    void act(() => {
+      fireEvent.changeText(within(swapToContainer).getByTestId('SwapAmountInput/Input'), '1,234')
+      jest.runAllTimers()
+    })
+
+    expect(mockFetch.mock.calls[0][0]).toEqual(
+      `${
+        networkConfig.approveSwapUrl
+      }?buyToken=${mockCusdAddress}&sellToken=${mockCeloAddress}&buyAmount=1234000000000000000&userAddress=${mockAccount.toLowerCase()}`
+    )
+
+    expect(getByText('1 CELO ≈ 8,10000 cUSD')).toBeTruthy()
+    expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
+      '0,15234566652'
+    )
+    expect(within(swapToContainer).getByTestId('SwapAmountInput/Input').props.value).toBe('1,234')
     expect(getByText('swapScreen.review')).not.toBeDisabled()
   })
 
@@ -281,7 +381,7 @@ describe('SwapScreen', () => {
         },
       })
     )
-    const { getByText, getByTestId } = renderScreen({})
+    const { getByText, getByTestId, store } = renderScreen({})
 
     act(() => {
       fireEvent.press(getByTestId('SwapAmountInput/MaxButton'))
@@ -290,5 +390,52 @@ describe('SwapScreen', () => {
 
     fireEvent.press(getByText('swapScreen.review'))
     expect(navigate).toHaveBeenCalledWith(Screens.SwapReviewScreen)
+
+    expect(store.getActions()).toEqual(
+      expect.arrayContaining([
+        setSwapUserInput({
+          toToken: mockCusdAddress,
+          fromToken: mockCeloAddress,
+          swapAmount: {
+            [Field.FROM]: '10',
+            [Field.TO]: '12.345678',
+          },
+          updatedField: Field.FROM,
+        }),
+      ])
+    )
+  })
+
+  it('should be able to navigate to swap review screen when the entered value uses comma as the decimal separator', () => {
+    mockFetch.mockResponse(
+      JSON.stringify({
+        unvalidatedSwapTransaction: {
+          price: '1.2345678',
+        },
+      })
+    )
+    const { swapFromContainer, getByText, store } = renderScreen({})
+
+    void act(() => {
+      fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '1,5')
+      jest.runAllTimers()
+    })
+
+    fireEvent.press(getByText('swapScreen.review'))
+    expect(navigate).toHaveBeenCalledWith(Screens.SwapReviewScreen)
+
+    expect(store.getActions()).toEqual(
+      expect.arrayContaining([
+        setSwapUserInput({
+          toToken: mockCusdAddress,
+          fromToken: mockCeloAddress,
+          swapAmount: {
+            [Field.FROM]: '1.5',
+            [Field.TO]: '1.8518517', // 1.5 * 1.2345678
+          },
+          updatedField: Field.FROM,
+        }),
+      ])
+    )
   })
 })
