@@ -1,9 +1,8 @@
-import { fireEvent, render, within } from '@testing-library/react-native'
+import { act, fireEvent, render, within } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import { FetchMock } from 'jest-fetch-mock/types'
 import React from 'react'
 import { Provider } from 'react-redux'
-import { act } from 'react-test-renderer'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { navigate } from 'src/navigator/NavigationService'
@@ -135,7 +134,7 @@ describe('SwapScreen', () => {
     expect(within(swapFromContainer).getByText('CELO')).toBeTruthy()
     expect(within(swapToContainer).getByText('cUSD')).toBeTruthy()
 
-    void act(() => {
+    act(() => {
       fireEvent.press(within(swapFromContainer).getByTestId('SwapAmountInput/TokenSelect'))
       jest.runAllTimers()
       fireEvent.press(getByTestId('cEURTouchable'))
@@ -155,7 +154,7 @@ describe('SwapScreen', () => {
     expect(within(swapFromContainer).getByText('CELO')).toBeTruthy()
     expect(within(swapToContainer).getByText('cUSD')).toBeTruthy()
 
-    void act(() => {
+    act(() => {
       fireEvent.press(within(swapFromContainer).getByTestId('SwapAmountInput/TokenSelect'))
       jest.runAllTimers()
       fireEvent.press(getByTestId('cUSDTouchable'))
@@ -175,7 +174,30 @@ describe('SwapScreen', () => {
     )
     const { swapFromContainer, swapToContainer, getByText } = renderScreen({})
 
-    void act(() => {
+    act(() => {
+      fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '1.234')
+      jest.runAllTimers()
+    })
+
+    expect(getByText('1 CELO ≈ 1.23456 cUSD')).toBeTruthy()
+    expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe('1.234')
+    expect(within(swapToContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
+      '1.5234566652'
+    )
+    expect(getByText('swapScreen.review')).not.toBeDisabled()
+  })
+
+  it('should display a loader when initially fetching exchange rate', () => {
+    mockFetch.mockResponse(
+      JSON.stringify({
+        unvalidatedSwapTransaction: {
+          price: '1.2345678',
+        },
+      })
+    )
+    const { swapFromContainer, swapToContainer, getByText } = renderScreen({})
+
+    act(() => {
       fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '1.234')
       jest.runAllTimers()
     })
@@ -204,7 +226,7 @@ describe('SwapScreen', () => {
     )
     const { swapFromContainer, swapToContainer, getByText } = renderScreen({})
 
-    void act(() => {
+    act(() => {
       fireEvent.changeText(within(swapToContainer).getByTestId('SwapAmountInput/Input'), '1.234')
       jest.runAllTimers()
     })
@@ -303,7 +325,7 @@ describe('SwapScreen', () => {
     )
     const { swapFromContainer, swapToContainer, getByText, getByTestId } = renderScreen({})
 
-    void act(() => {
+    act(() => {
       fireEvent.press(getByTestId('SwapAmountInput/MaxButton'))
       jest.runAllTimers()
     })
@@ -323,7 +345,7 @@ describe('SwapScreen', () => {
       hasZeroCeloBalance: true,
     })
 
-    void act(() => {
+    act(() => {
       fireEvent.press(getByTestId('SwapAmountInput/MaxButton'))
       jest.runAllTimers()
     })
@@ -334,17 +356,17 @@ describe('SwapScreen', () => {
     expect(getByText('swapScreen.review')).toBeDisabled()
   })
 
-  it('should display an error banner if api request fails', async () => {
+  it('should display an error banner if api request fails', () => {
     mockFetch.mockReject()
 
     const { swapFromContainer, swapToContainer, getByText, store } = renderScreen({})
 
-    void act(() => {
+    act(() => {
       fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '1.234')
       jest.runAllTimers()
     })
 
-    expect(within(swapToContainer).getByTestId('SwapAmountInput/Input').props.value).toBe('')
+    expect(within(swapToContainer).getByTestId('SwapAmountInput/Loader')).toBeTruthy()
     expect(getByText('swapScreen.review')).toBeDisabled()
     expect(store.getActions()).toEqual(
       expect.arrayContaining([showError(ErrorMessages.FETCH_SWAP_QUOTE_FAILED)])
@@ -361,7 +383,7 @@ describe('SwapScreen', () => {
     )
     const { getByText, getByTestId, store } = renderScreen({})
 
-    void act(() => {
+    act(() => {
       fireEvent.press(getByTestId('SwapAmountInput/MaxButton'))
       jest.runAllTimers()
     })
