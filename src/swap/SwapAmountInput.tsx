@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
+  ActivityIndicator,
   Image,
   Platform,
   StyleProp,
@@ -57,6 +58,8 @@ const SwapAmountInput = ({
     }
   }
 
+  const showInputLoader = loading && !inputValue
+
   return (
     <View style={[styles.container, style]} testID="SwapAmountInput">
       <Text style={styles.label}>{label}</Text>
@@ -69,7 +72,9 @@ const SwapAmountInput = ({
           }}
           value={inputValue || undefined}
           placeholder="0"
-          style={styles.input}
+          // hide input when loading to prevent the UI height from jumping
+          style={[styles.input, { opacity: showInputLoader ? 0 : 1 }]}
+          editable={!showInputLoader}
           keyboardType="numeric"
           autoFocus={autoFocus}
           // unset lineHeight to allow ellipsis on long inputs on iOS
@@ -91,6 +96,15 @@ const SwapAmountInput = ({
               : undefined
           }
         />
+        {showInputLoader && (
+          <View style={styles.loadingContainer}>
+            <ActivityIndicator
+              size="small"
+              color={Colors.greenBrand}
+              testID="SwapAmountInput/Loader"
+            />
+          </View>
+        )}
         {onPressMax && (
           <Touchable
             borderless
@@ -179,6 +193,10 @@ const styles = StyleSheet.create({
     width: 24,
     height: 24,
     borderRadius: 12,
+  },
+  loadingContainer: {
+    position: 'absolute',
+    left: 0,
   },
 })
 
