@@ -1,13 +1,17 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
-import { navigate, replace } from 'src/navigator/NavigationService'
+import { navigate, navigateHome, replace } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { SwapState } from 'src/swap/slice'
 import SwapExecuteScreen from 'src/swap/SwapExecuteScreen'
 import { createMockStore } from 'test/utils'
 
 describe('SwapExecuteScreen', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
   describe('Swap.START', () => {
     const store = createMockStore({
       swap: {
@@ -160,13 +164,14 @@ describe('SwapExecuteScreen', () => {
           swapState: SwapState.COMPLETE,
         },
       })
-      const { getByText } = render(
+      const { getByTestId, getByText } = render(
         <Provider store={store}>
           <SwapExecuteScreen />
         </Provider>
       )
       expect(getByText('SwapExecuteScreen.swapSuccess')).toBeTruthy()
       expect(getByText('SwapExecuteScreen.swapAgain')).toBeTruthy()
+      expect(getByTestId('ReturnHome')).toBeTruthy()
     })
   })
 
@@ -183,5 +188,20 @@ describe('SwapExecuteScreen', () => {
     )
     fireEvent.press(getByText('SwapExecuteScreen.swapAgain'))
     expect(navigate).toHaveBeenCalledWith(Screens.SwapScreen)
+  })
+
+  it("should be able to navigate home on press of 'X' button", () => {
+    const store = createMockStore({
+      swap: {
+        swapState: SwapState.COMPLETE,
+      },
+    })
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <SwapExecuteScreen />
+      </Provider>
+    )
+    fireEvent.press(getByTestId('ReturnHome'))
+    expect(navigateHome).toHaveBeenCalled()
   })
 })

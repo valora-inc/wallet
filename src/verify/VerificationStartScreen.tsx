@@ -143,15 +143,17 @@ function VerificationStartScreen({
   }, [route.params?.selectedCountryCodeAlpha2])
 
   useEffect(() => {
+    if (signedMessageCreated) {
+      return
+    }
+
     const interval = setInterval(async () => {
-      if (!signedMessageCreated) {
-        const signedMessage = await retrieveSignedMessage()
-        setSignedMessageCreated(!!signedMessage)
-      }
+      const signedMessage = await retrieveSignedMessage()
+      setSignedMessageCreated(!!signedMessage)
     }, 500)
 
     return () => clearInterval(interval)
-  }, [])
+  }, [signedMessageCreated])
 
   useAsync(async () => {
     await waitUntilSagasFinishLoading()
