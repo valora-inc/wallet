@@ -298,7 +298,7 @@ export default function DrawerNavigator() {
       {(!backupCompleted || !shouldShowRecoveryPhraseInSettings) && (
         <Drawer.Screen
           name={Screens.BackupIntroduction}
-          // @ts-expect-error
+          // @ts-expect-error component type in native-stack v6
           component={BackupIntroduction}
           options={{ title: t('accountKey'), drawerIcon: AccountKey }}
           initialParams={{ showDrawerTopBar: true }}
