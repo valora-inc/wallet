@@ -584,8 +584,8 @@
     "error": "Wystąpił błąd z tworzeniem linku",
     "share": "Cześć! Korzystam z portfel kryptowalutowy {{appName}}. To bardzo proste. Może Ty też spróbujesz? Skorzystaj z tego linku: {{shareUrl}}",
     "rewardsActive": {
-      "title": "Zaproś przyjaciół i zbieraj NFT",
-      "body": "Zaproś swoich przyjaciół i rodzinę do pobrania strony {{appName}} , a każdy z nich otrzyma ekskluzywny NFT"
+      "title": "Zaproś znajomych i zbieraj NFT",
+      "body": "Zaproś swoich znajomych i rodzinę do pobrania {{appName}}, a każdy z Was otrzyma ekskluzywny NFT"
     }
   },
   "getReward": "Otrzymaj ${{reward}}",
@@ -1497,8 +1497,8 @@
     "sendInviteButtonLabel": "Wyślij zaproszenie",
     "shareMessage": "Witaj! Chcę wysłać Ci trochę kryptowaluty za pomocą mojego portfela {{appName}}. Gdy pobierzesz aplikację i podasz swój numer telefonu, możemy wysłać kryptowalutę tak łatwo, jak za pomocą SMS-a. Użyj tego linku: {{link}}",
     "rewardsActive": {
-      "title": "Zaproś {{contactName}} na {{appName}} , a oboje otrzymacie NFT!",
-      "body": "Wygląda na to, że {{contactName}} nie jest na {{appName}}. Jeśli znasz adres ich portfela, nadal możesz wysłać płatność lub zaproszenie. \n\n Po pobraniu portfela i podaniu numeru telefonu, oboje otrzymacie ekskluzywne NFT."
+      "title": "Zaproś {{contactName}} do {{appName}}, a razem otrzymacie NFT!",
+      "body": "Wygląda na to, że {{contactName}} nie korzysta z {{appName}}. Jeśli znasz adres jego/jej portfela, nadal możesz wysłać płatność lub zaproszenie. \n\n Po pobraniu portfela i podaniu numeru telefonu otrzymacie ekskluzywne NFT."
     }
   },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
