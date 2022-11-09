@@ -585,7 +585,7 @@
     "share": "Hallo! Ich habe {{appName}} Krypto Wallet benutzt. Es ist einfach zu versuchen und ich möchte dich einladen, es mit diesem Link zu sehen: {{shareUrl}}",
     "rewardsActive": {
       "title": "Freunde einladen und NFTs sammeln",
-      "body": "Lade deine Freunde und Familie ein, {{appName}} herunterzuladen, und jeder von euch erhält ein exklusives NFT"
+      "body": "Lade deine Freunde und Familien ein, {{appName}} herunterzuladen. Jeder von euch erhält somit ein exklusives NFT"
     }
   },
   "getReward": "Erhalte ${{reward}}",
@@ -1493,8 +1493,8 @@
     "sendInviteButtonLabel": "Einladung senden",
     "shareMessage": "Hey! Ich würde dir gerne etwas Krypto mit meinem {{appName}}-Wallet schicken. Wenn du die App herunterlädst und deine Telefonnummer angibst, können wir Kryptowährungen so einfach wie eine SMS versenden. Verwende diesen Link: {{link}}",
     "rewardsActive": {
-      "title": "Lade {{contactName}} auf {{appName}} ein und ihr erhaltet beide NFTs!",
-      "body": "Wie es aussieht, ist {{contactName}} nicht auf {{appName}}. Wenn du ihre Wallet-Adresse kennst, kannst du trotzdem eine Zahlung oder eine Einladung schicken. \n\n Nachdem sie die Wallet heruntergeladen und ihre Telefonnummer angegeben haben, erhaltet ihr beide eine exklusive NFT."
+      "title": "Lade {{contactName}} in {{appName}} ein und ihr beide erhaltet NFTs.",
+      "body": "Es sieht so aus, als wäre {{contactName}} nicht in {{appName}}. Wenn du die Wallet-Adresse kennst, kannst du dennoch eine Zahlung oder stattdessen eine Einladung senden. \n\nNachdem die Wallet heruntergeladen und mit der Telefonnummer verbunden wurde, erhaltet ihr beide ein exklusives NFT."
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
