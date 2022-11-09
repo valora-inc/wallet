@@ -829,35 +829,38 @@ describe('Fiatconnect saga', () => {
         step: 'one',
       })
     })
-    it('posts KYC to provider and invokes _checkFiatAccountAndNavigate if KYC required and exists in Persona', async () => {
-      await expectSaga(
-        handleSelectFiatConnectQuote,
-        selectFiatConnectQuote({ quote: normalizedQuoteKyc })
-      )
-        .provide([
-          [
-            matches.call.fn(getKycStatus),
-            {
-              providerId: normalizedQuoteKyc.quote.provider.id,
-              persona: PersonaKycStatus.Approved,
-              kycStatus: {
-                [KycSchema.PersonalDataAndDocuments]: FiatConnectKycStatus.KycNotCreated,
+    it.each([PersonaKycStatus.Approved, PersonaKycStatus.Completed])(
+      'posts KYC to provider and invokes _checkFiatAccountAndNavigate if KYC required and exists in Persona',
+      async (personaKycStatus) => {
+        await expectSaga(
+          handleSelectFiatConnectQuote,
+          selectFiatConnectQuote({ quote: normalizedQuoteKyc })
+        )
+          .provide([
+            [
+              matches.call.fn(getKycStatus),
+              {
+                providerId: normalizedQuoteKyc.quote.provider.id,
+                persona: personaKycStatus,
+                kycStatus: {
+                  [KycSchema.PersonalDataAndDocuments]: FiatConnectKycStatus.KycNotCreated,
+                },
               },
-            },
-          ],
-          [matches.call.fn(postKyc), undefined],
-          [matches.call.fn(_checkFiatAccountAndNavigate), undefined],
-          { call: provideDelay },
-        ])
-        .put(cacheQuoteParams(expectedCacheQuoteParams))
-        .call(_checkFiatAccountAndNavigate, {
-          quote: normalizedQuoteKyc,
-          isKycRequired: true,
-          isKycApproved: false,
-        })
-        .put(selectFiatConnectQuoteCompleted())
-        .run()
-    })
+            ],
+            [matches.call.fn(postKyc), undefined],
+            [matches.call.fn(_checkFiatAccountAndNavigate), undefined],
+            { call: provideDelay },
+          ])
+          .put(cacheQuoteParams(expectedCacheQuoteParams))
+          .call(_checkFiatAccountAndNavigate, {
+            quote: normalizedQuoteKyc,
+            isKycRequired: true,
+            isKycApproved: false,
+          })
+          .put(selectFiatConnectQuoteCompleted())
+          .run()
+      }
+    )
     it('goes back to SelectProvider if FC KYC status is not recognized', async () => {
       await expectSaga(
         handleSelectFiatConnectQuote,
@@ -952,7 +955,10 @@ describe('Fiatconnect saga', () => {
     })
     it('navigates to SelectProvider if post kyc fails', async () => {
       await expectSaga(handlePostKyc, postKycAction({ quote: normalizedQuoteKyc }))
-        .provide([[matches.call.fn(postKyc), throwError(new Error('post kyc failed'))]])
+        .provide([
+          [matches.call.fn(postKyc), throwError(new Error('post kyc failed'))],
+          { call: provideDelay },
+        ])
         .call(postKyc, {
           providerInfo: normalizedQuoteKyc.getProviderInfo(),
           kycSchema: normalizedQuoteKyc.getKycSchema(),
@@ -974,6 +980,7 @@ describe('Fiatconnect saga', () => {
         .provide([
           [matches.call.fn(postKyc), undefined],
           [matches.call.fn(_checkFiatAccountAndNavigate), throwError(new Error('failed'))],
+          { call: provideDelay },
         ])
         .call(postKyc, {
           providerInfo: normalizedQuoteKyc.getProviderInfo(),

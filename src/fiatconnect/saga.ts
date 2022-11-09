@@ -88,7 +88,7 @@ const TAG = 'FiatConnectSaga'
 
 const KYC_WAIT_TIME_MILLIS = 3000
 
-const PERSONA_COMPLETION_STATUSES = new Set([PersonaKycStatus.Approved, PersonaKycStatus.Completed])
+const PERSONA_SUCCESS_STATUSES = new Set([PersonaKycStatus.Approved, PersonaKycStatus.Completed])
 
 export function* handleFetchFiatConnectQuotes({
   payload: params,
@@ -625,7 +625,7 @@ export function* handleSelectFiatConnectQuote({
       const fiatConnectKycStatus = getKycStatusResponse.kycStatus[kycSchema]
       switch (fiatConnectKycStatus) {
         case FiatConnectKycStatus.KycNotCreated:
-          if (getKycStatusResponse.persona === PersonaKycStatus.Approved) {
+          if (PERSONA_SUCCESS_STATUSES.has(getKycStatusResponse.persona)) {
             // If user has Persona KYC on file, just submit it and continue to account management.
             yield call(postKyc, {
               providerInfo: quote.quote.provider,
@@ -755,7 +755,6 @@ export function* handlePostKyc({ payload }: ReturnType<typeof postKycAction>) {
       `handlePostKyc* Error while attempting to post kyc for provider ${quote.getProviderId()}`,
       error
     )
-    yield put(personaFinished())
     yield put(showError(ErrorMessages.PROVIDER_FETCH_FAILED))
     const amount = {
       crypto: parseFloat(quote.getCryptoAmount()),
@@ -766,6 +765,8 @@ export function* handlePostKyc({ payload }: ReturnType<typeof postKycAction>) {
       selectedCrypto: quote.getCryptoType(),
       amount: amount,
     })
+    yield delay(500) // to avoid screen flash
+    yield put(personaFinished())
   }
 }
 
