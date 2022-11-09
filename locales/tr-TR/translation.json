@@ -585,7 +585,7 @@
     "share": "Merhaba, kripto para cüzdanıdır {{appName}} kullanıyorum. Denemen için seni davet etmek isterim. Bu bağlantıya göz atabilirsin: {{shareUrl}}",
     "rewardsActive": {
       "title": "Arkadaşlarınızı davet edin ve NFT toplayın",
-      "body": "Arkadaşlarınızı ve ailenizi {{appName}} adresini indirmeye davet edin ve her biriniz özel bir NFT kazanın"
+      "body": "Arkadaşlarınızı ve ailenizi {{appName}} uygulamasını indirmeye davet edin ve her biriniz özel bir NFT kazanın"
     }
   },
   "getReward": "${{reward}} kazanın",
@@ -1493,8 +1493,8 @@
     "sendInviteButtonLabel": "Davet gönder",
     "shareMessage": "Hey! {{appName}} cüzdanımla sana biraz kripto göndermek istiyorum. Uygulamayı indirip telefon numaranızı bağladığınızda, bir metin gönderebileceğimiz kadar kolay kripto gönderebiliriz. Bu bağlantıyı kullanın: {{link}}",
     "rewardsActive": {
-      "title": "{{contactName}} adresini {{appName}} adresine davet edin ve ikiniz de NFT kazanın!",
-      "body": "Görünüşe göre {{contactName}} {{appName}}adresinde değil. Cüzdan adreslerini biliyorsanız, yine de bir ödeme gönderebilir veya bunun yerine bir davetiye gönderebilirsiniz. \n\n Cüzdanı indirdikten ve telefon numaralarını bağladıktan sonra, ikiniz de özel bir NFT alacaksınız."
+      "title": "{{contactName}} adlı kişiyi {{appName}} uygulamasına davet edin ve ikiniz de NFT kazanın!",
+      "body": "Görünüşe göre {{contactName}} {{appName}} kullanmıyor. Bu kişinin cüzdan adresini biliyorsanız, yine de bir ödeme gönderebilir veya bunun yerine davetiye gönderebilirsiniz. \n\n Bu kişi cüzdanı indirdikten ve telefon numarasını bağladıktan sonra, ikiniz de özel bir NFT alacaksınız."
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
