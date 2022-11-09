@@ -584,8 +584,8 @@
     "error": "创建可分享链接时出现问题",
     "share": "嗨！我一直使用 {{appName}} 作为我的加密货币钱包。它使用简便，我想邀请您访问此链接进行查看：{{shareUrl}}",
     "rewardsActive": {
-      "title": "邀请朋友并收集NFTs",
-      "body": "邀请你的朋友和家人下载 {{appName}} ，你们每个人都将得到一个独家的NFT"
+      "title": "邀请朋友并收集 NFT",
+      "body": "邀请您的朋友和家人下载 {{appName}} ，你们每个人都将获得一个独家的 NFT"
     }
   },
   "getReward": "获得 ${{reward}}",
@@ -1491,8 +1491,8 @@
     "sendInviteButtonLabel": "发送邀请",
     "shareMessage": "嘿！我想用我的 {{appName}} 钱包向您发送一些加密货币。如果您下载应用程序并关联手机号码，我们就可以像发送短信一样轻松地发送加密货币了。请使用此链接：{{link}}",
     "rewardsActive": {
-      "title": "邀请 {{contactName}} ， {{appName}} ，你们都将收到NFTs!",
-      "body": "看起来， {{contactName}} 不在 {{appName}}。如果你知道他们的钱包地址，你仍然可以发送付款或发送邀请来代替。 \n\n 在他们下载钱包并连接他们的电话号码后，你们都会得到一个独家NFT。"
+      "title": "邀请 {{contactName}} 使用 {{appName}}，你们都将获得 NFT！",
+      "body": "似乎 {{contactName}} 未在 {{appName}} 上。如果您知道其钱包地址，则仍可发送付款，或者也可以发送一则邀请。\n\n在其下载钱包并关联手机号码后，你们都将获得一个独家的 NFT。"
     }
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
