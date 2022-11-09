@@ -582,7 +582,11 @@
     "body": "Conéctate y comparte valor con tus amigos y familiares en {{appName}}.",
     "button": "Enviar invitación",
     "error": "Hubo un error al crear el enlace compartible",
-    "share": "¡Hola! Estoy usando la wallet cripto {{appName}}. Es fácil de usar y me gustaría invitarte a probarla con este link: {{shareUrl}}"
+    "share": "¡Hola! Estoy usando la wallet cripto {{appName}}. Es fácil de usar y me gustaría invitarte a probarla con este link: {{shareUrl}}",
+    "rewardsActive": {
+      "title": "Invita a tus amigos y obtén NFTs",
+      "body": "Invita a tus amigos y familia a descargar {{appName}} y cada uno obtendrá un NFT exclusivo"
+    }
   },
   "getReward": "Obtén ${{reward}}",
   "welcomeCelo": "Te damos la bienvenida a {{appName}}",
@@ -1487,7 +1491,11 @@
     "title": "Parece que {{contactName}} aún no tiene una wallet {{appName}}.",
     "body": "Puedes enviarle una invitación para que se una, o bien enviar un pago directamente a su dirección de wallet o usuario nom.space.",
     "sendInviteButtonLabel": "Enviar invitación",
-    "shareMessage": "Me gustaría enviarte cripto con mi wallet {{appName}}. Una vez que descargues la aplicación y conectes tu número de teléfono, podremos enviar cripto tan fácil como enviar un mensaje. Utiliza este enlace: {{link}}"
+    "shareMessage": "Me gustaría enviarte cripto con mi wallet {{appName}}. Una vez que descargues la aplicación y conectes tu número de teléfono, podremos enviar cripto tan fácil como enviar un mensaje. Utiliza este enlace: {{link}}",
+    "rewardsActive": {
+      "title": "Invita a {{contactName}} a {{appName}} ¡y ambos recibirán NFTs!",
+      "body": "Parece que {{contactName}} no está en {{appName}}. Si conoces la dirección de su billetera puedes enviarle un pago, o bien enviarle una invitación. \n\n Cuando haya descargado la billetera y haya conectado su número de teléfono, ambos obtendrán un NFT exclusivo."
+    }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

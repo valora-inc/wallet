@@ -582,7 +582,11 @@
     "body": "{{appName}}'da arkadaşlarınız ve ailenizle bağlantı kurun ve varlıklar paylaşın.",
     "button": "Davet gönder",
     "error": "Bağlantı oluşturulurken bir sorun oluştu",
-    "share": "Merhaba, kripto para cüzdanıdır {{appName}} kullanıyorum. Denemen için seni davet etmek isterim. Bu bağlantıya göz atabilirsin: {{shareUrl}}"
+    "share": "Merhaba, kripto para cüzdanıdır {{appName}} kullanıyorum. Denemen için seni davet etmek isterim. Bu bağlantıya göz atabilirsin: {{shareUrl}}",
+    "rewardsActive": {
+      "title": "Arkadaşlarınızı davet edin ve NFT toplayın",
+      "body": "Arkadaşlarınızı ve ailenizi {{appName}} uygulamasını indirmeye davet edin ve her biriniz özel bir NFT kazanın"
+    }
   },
   "getReward": "${{reward}} kazanın",
   "welcomeCelo": "{{appName}} uygulamasına hoş geldiniz",
@@ -1487,7 +1491,11 @@
     "title": "Görünüşe göre {{contactName}} henüz {{appName}} cüzdanına sahip değil.",
     "body": "Yine de onları {{appName}}'ya davet edebilir veya cüzdan adreslerine ya da nom.space'e bir ödeme göndermeyi deneyebilirsiniz.",
     "sendInviteButtonLabel": "Davet gönder",
-    "shareMessage": "Hey! {{appName}} cüzdanımla sana biraz kripto göndermek istiyorum. Uygulamayı indirip telefon numaranızı bağladığınızda, bir metin gönderebileceğimiz kadar kolay kripto gönderebiliriz. Bu bağlantıyı kullanın: {{link}}"
+    "shareMessage": "Hey! {{appName}} cüzdanımla sana biraz kripto göndermek istiyorum. Uygulamayı indirip telefon numaranızı bağladığınızda, bir metin gönderebileceğimiz kadar kolay kripto gönderebiliriz. Bu bağlantıyı kullanın: {{link}}",
+    "rewardsActive": {
+      "title": "{{contactName}} adlı kişiyi {{appName}} uygulamasına davet edin ve ikiniz de NFT kazanın!",
+      "body": "Görünüşe göre {{contactName}} {{appName}} kullanmıyor. Bu kişinin cüzdan adresini biliyorsanız, yine de bir ödeme gönderebilir veya bunun yerine davetiye gönderebilirsiniz. \n\n Bu kişi cüzdanı indirdikten ve telefon numarasını bağladıktan sonra, ikiniz de özel bir NFT alacaksınız."
+    }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

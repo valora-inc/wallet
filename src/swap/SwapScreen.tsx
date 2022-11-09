@@ -1,7 +1,9 @@
+import { parseInputAmount } from '@celo/utils/lib/parsing'
 import BigNumber from 'bignumber.js'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Keyboard, StyleSheet, Text, View } from 'react-native'
+import { getNumberFormatSettings } from 'react-native-localize'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { showError } from 'src/alert/actions'
@@ -31,9 +33,11 @@ const FETCH_UPDATED_QUOTE_DEBOUNCE_TIME = 500
 const DEFAULT_TO_TOKEN = 'cUSD'
 const DEFAULT_FROM_TOKEN = 'CELO'
 const DEFAULT_SWAP_AMOUNT: SwapAmount = {
-  [Field.FROM]: null,
-  [Field.TO]: null,
+  [Field.FROM]: '',
+  [Field.TO]: '',
 }
+
+const { decimalSeparator } = getNumberFormatSettings()
 
 export function SwapScreen() {
   const { t } = useTranslation()
@@ -48,6 +52,7 @@ export function SwapScreen() {
   const [fromToken, setFromToken] = useState(
     coreTokens.find((token) => token.symbol === DEFAULT_FROM_TOKEN)
   )
+  // Raw input values (can contain region specific decimal separators)
   const [swapAmount, setSwapAmount] = useState(DEFAULT_SWAP_AMOUNT)
   const [updatedField, setUpdatedField] = useState(Field.FROM)
   const [selectingToken, setSelectingToken] = useState<Field | null>(null)
@@ -55,6 +60,15 @@ export function SwapScreen() {
 
   const maxFromAmount = useMaxSendAmount(fromToken?.address || '', FeeType.SWAP)
   const { exchangeRate, refreshQuote, fetchSwapQuoteError, fetchingSwapQuote } = useSwapQuote()
+
+  // Parsed swap amounts (BigNumber)
+  const parsedSwapAmount = useMemo(
+    () => ({
+      [Field.FROM]: parseInputAmount(swapAmount[Field.FROM], decimalSeparator),
+      [Field.TO]: parseInputAmount(swapAmount[Field.TO], decimalSeparator),
+    }),
+    [swapAmount]
+  )
 
   // Used to reset the swap when after a successful swap or error
   useEffect(() => {
@@ -81,37 +95,39 @@ export function SwapScreen() {
     setFromSwapAmountError(false)
     const debouncedRefreshQuote = setTimeout(() => {
       if (toToken && fromToken) {
-        void refreshQuote(fromToken, toToken, swapAmount, updatedField)
+        void refreshQuote(fromToken, toToken, parsedSwapAmount, updatedField)
       }
     }, FETCH_UPDATED_QUOTE_DEBOUNCE_TIME)
 
     return () => {
       clearTimeout(debouncedRefreshQuote)
     }
-  }, [fromToken, toToken, swapAmount])
+  }, [fromToken, toToken, parsedSwapAmount])
 
-  useEffect(() => {
-    if (updatedField === Field.TO && swapAmount[updatedField]) {
-      setSwapAmount((prev) => ({
-        ...prev,
-        [Field.FROM]: exchangeRate
-          ? new BigNumber(prev[updatedField]!).dividedBy(new BigNumber(exchangeRate)).toString()
-          : null,
-      }))
-    } else if (updatedField === Field.FROM && swapAmount[updatedField]) {
-      setSwapAmount((prev) => ({
-        ...prev,
-        [Field.TO]: exchangeRate
-          ? new BigNumber(prev[updatedField]!).multipliedBy(new BigNumber(exchangeRate)).toString()
-          : null,
-      }))
-    }
-  }, [exchangeRate])
+  useEffect(
+    () => {
+      setSwapAmount((prev) => {
+        const otherField = updatedField === Field.FROM ? Field.TO : Field.FROM
+        const newAmount = exchangeRate
+          ? parsedSwapAmount[updatedField]
+              .multipliedBy(new BigNumber(exchangeRate).pow(updatedField === Field.FROM ? 1 : -1))
+              .toFormat()
+          : ''
+        return {
+          ...prev,
+          [otherField]: newAmount,
+        }
+      })
+    },
+    // We only want to update the other field when the exchange rate changes
+    // that's why we don't include the other dependencies
+    [exchangeRate]
+  )
 
   const handleReview = () => {
     ValoraAnalytics.track(SwapEvents.swap_screen_review_swap)
 
-    if (new BigNumber(swapAmount[Field.FROM] ?? 0).gt(maxFromAmount)) {
+    if (parsedSwapAmount[Field.FROM].gt(maxFromAmount)) {
       setFromSwapAmountError(true)
       dispatch(showError(t('swapScreen.insufficientFunds', { token: fromToken?.symbol })))
     } else {
@@ -119,7 +135,10 @@ export function SwapScreen() {
         setSwapUserInput({
           toToken: toToken!.address,
           fromToken: fromToken!.address,
-          swapAmount,
+          swapAmount: {
+            [Field.FROM]: parsedSwapAmount[Field.FROM].toString(),
+            [Field.TO]: parsedSwapAmount[Field.TO].toString(),
+          },
           updatedField,
         })
       )
@@ -183,14 +202,13 @@ export function SwapScreen() {
     setUpdatedField(Field.FROM)
     setSwapAmount((prev) => ({
       ...prev,
-      [Field.FROM]: maxFromAmount.toString(),
+      [Field.FROM]: maxFromAmount.toFormat(),
     }))
   }
 
   const allowReview = useMemo(
-    () =>
-      Object.values(swapAmount).every((amount) => amount !== null && new BigNumber(amount).gt(0)),
-    [swapAmount]
+    () => Object.values(parsedSwapAmount).every((amount) => amount.gt(0)),
+    [parsedSwapAmount]
   )
 
   if (!toToken || !fromToken) {
@@ -208,7 +226,10 @@ export function SwapScreen() {
               <Text
                 style={[headerStyles.headerSubTitle, fetchingSwapQuote ? styles.mutedHeader : {}]}
               >
-                {`1 ${fromToken.symbol} ≈ ${exchangeRate.substring(0, 7)} ${toToken.symbol}`}
+                {`1 ${fromToken.symbol} ≈ ${new BigNumber(exchangeRate).toFormat(
+                  5,
+                  BigNumber.ROUND_DOWN
+                )} ${toToken.symbol}`}
               </Text>
             )}
           </View>
