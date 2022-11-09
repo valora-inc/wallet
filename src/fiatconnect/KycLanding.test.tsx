@@ -84,6 +84,7 @@ describe('KycLanding', () => {
         </Provider>
       )
       fireEvent.press(getByTestId('checkbox/unchecked'))
+      // 'PersonaSuccessButton' is a mock that calls onSuccess when pressed
       fireEvent.press(getByTestId('PersonaSuccessButton'))
       expect(store.dispatch).toHaveBeenCalledWith(postKyc({ quote: normalizedQuote }))
     })
