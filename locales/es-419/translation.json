@@ -585,7 +585,7 @@
     "share": "¡Hola! Estoy usando la wallet cripto {{appName}}. Es fácil de usar y me gustaría invitarte a probarla con este link: {{shareUrl}}",
     "rewardsActive": {
       "title": "Invita a tus amigos y obtén NFTs",
-      "body": "Invita a tus amigos y familia a descargar {{appName}} y cada uno obtendrá un NFT exclusivo"
+      "body": "Invita a tus amigos y familiares a descargar {{appName}} y cada uno obtendrá un NFT exclusivo."
     }
   },
   "getReward": "Obtén ${{reward}}",
@@ -1493,8 +1493,8 @@
     "sendInviteButtonLabel": "Enviar invitación",
     "shareMessage": "Me gustaría enviarte cripto con mi wallet {{appName}}. Una vez que descargues la aplicación y conectes tu número de teléfono, podremos enviar cripto tan fácil como enviar un mensaje. Utiliza este enlace: {{link}}",
     "rewardsActive": {
-      "title": "Invita a {{contactName}} a {{appName}} ¡y ambos recibirán NFTs!",
-      "body": "Parece que {{contactName}} no está en {{appName}}. Si conoces la dirección de su billetera puedes enviarle un pago, o bien enviarle una invitación. \n\n Cuando haya descargado la billetera y haya conectado su número de teléfono, ambos obtendrán un NFT exclusivo."
+      "title": "Invita a {{contactName}} a {{appName}}. ¡Ambos recibirán un NFT!",
+      "body": "Parece que {{contactName}} no está en {{appName}}. Si conoces su dirección puedes enviarle un pago, o bien envíale una invitación. \n\nUna vez que haya descargado la wallet y conectado su número de teléfono, ambos obtendrán un NFT exclusivo."
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
