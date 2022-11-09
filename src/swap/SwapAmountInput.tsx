@@ -64,7 +64,39 @@ const SwapAmountInput = ({
     <View style={[styles.container, style]} testID="SwapAmountInput">
       <Text style={styles.label}>{label}</Text>
       <View style={styles.contentContainer}>
-        {showInputLoader ? (
+        <TextInput
+          forwardedRef={textInputRef}
+          onChangeText={(value) => {
+            handleSetStartPosition(undefined)
+            onInputChange(value)
+          }}
+          value={inputValue || undefined}
+          placeholder="0"
+          // hide input when loading to prevent the UI height from jumping
+          style={[styles.input, { opacity: showInputLoader ? 0 : 1 }]}
+          editable={!showInputLoader}
+          keyboardType="numeric"
+          autoFocus={autoFocus}
+          // unset lineHeight to allow ellipsis on long inputs on iOS
+          inputStyle={[
+            { lineHeight: undefined },
+            inputError ? styles.inputError : {},
+            loading ? styles.inputLoading : {},
+          ]}
+          testID="SwapAmountInput/Input"
+          onBlur={() => {
+            handleSetStartPosition(0)
+          }}
+          onFocus={() => {
+            handleSetStartPosition(inputValue?.length ?? 0)
+          }}
+          selection={
+            Platform.OS === 'android' && typeof startPosition === 'number'
+              ? { start: startPosition }
+              : undefined
+          }
+        />
+        {showInputLoader && (
           <View style={styles.loadingContainer}>
             <ActivityIndicator
               size="small"
@@ -72,39 +104,7 @@ const SwapAmountInput = ({
               testID="SwapAmountInput/Loader"
             />
           </View>
-        ) : (
-          <TextInput
-            forwardedRef={textInputRef}
-            onChangeText={(value) => {
-              handleSetStartPosition(undefined)
-              onInputChange(value)
-            }}
-            value={inputValue || undefined}
-            placeholder="0"
-            style={styles.input}
-            keyboardType="numeric"
-            autoFocus={autoFocus}
-            // unset lineHeight to allow ellipsis on long inputs on iOS
-            inputStyle={[
-              { lineHeight: undefined },
-              inputError ? styles.inputError : {},
-              loading ? styles.inputLoading : {},
-            ]}
-            testID="SwapAmountInput/Input"
-            onBlur={() => {
-              handleSetStartPosition(0)
-            }}
-            onFocus={() => {
-              handleSetStartPosition(inputValue?.length ?? 0)
-            }}
-            selection={
-              Platform.OS === 'android' && typeof startPosition === 'number'
-                ? { start: startPosition }
-                : undefined
-            }
-          />
         )}
-
         {onPressMax && (
           <Touchable
             borderless
@@ -150,7 +150,6 @@ const styles = StyleSheet.create({
   contentContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    minHeight: 52, // same height as the TextInput, so it prevents the height from jumping
   },
   input: {
     flex: 1,
@@ -196,8 +195,8 @@ const styles = StyleSheet.create({
     borderRadius: 12,
   },
   loadingContainer: {
-    flex: 1,
-    alignItems: 'flex-start',
+    position: 'absolute',
+    left: 0,
   },
 })
 
