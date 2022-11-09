@@ -584,8 +584,8 @@
     "error": "Si è verificato un errore nella creazione di un link condivisibile",
     "share": "Ciao. Uso {{appName}} come wallet di criptovalute. Provare l'app è facile e desidero invitarti a scoprirla con questo collegamento: {{shareUrl}}",
     "rewardsActive": {
-      "title": "Invita gli amici e raccogli gli NFT",
-      "body": "Invita i tuoi amici e familiari a scaricare {{appName}} e ognuno di voi riceverà un'esclusiva NFT."
+      "title": "Invita gli amici e colleziona NFT",
+      "body": "Invita gli amici e i familiari a scaricare {{appName}} e ciascuno di voi riceverà un NFT esclusivo"
     }
   },
   "getReward": "Ricevi ${{reward}}",
@@ -1493,8 +1493,8 @@
     "sendInviteButtonLabel": "Invia l'invito",
     "shareMessage": "Ehi! Vorrei inviarti delle criptovalute con il mio wallet {{appName}}. Una volta scaricata l'applicazione e collegato il tuo numero telefonico, potremo inviare criptovalute con la stessa facilità di un messaggio di testo. Usa questo collegamento: {{link}}",
     "rewardsActive": {
-      "title": "Invita {{contactName}} su {{appName}} e riceverete entrambi gli NFT!",
-      "body": "Sembra che {{contactName}} non sia su {{appName}}. Se conosci l'indirizzo del suo portafoglio, puoi comunque inviare un pagamento o un invito. \n\n Dopo che avranno scaricato il portafoglio e collegato il loro numero di telefono, riceverete entrambi un NFT esclusivo."
+      "title": "Invita {{contactName}} in {{appName}} ed entrambi riceverete NFT!",
+      "body": "Sembrerebbe che {{contactName}} non utilizzi {{appName}}. Se conosci l'indirizzo del suo portafoglio, puoi comunque inviare un pagamento o un invito. \n\n Dopo che avrà scaricato il portafoglio e avrà collegato il suo numero telefonico, riecverete entrambi un NFT esclusivo."
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
