@@ -105,6 +105,7 @@ describe('KycLanding', () => {
         </Provider>
       )
       fireEvent.press(getByTestId('checkbox/unchecked'))
+      // 'PersonaCancelButton' is a mock that calls onCanceled when pressed
       fireEvent.press(getByTestId('PersonaCancelButton'))
       expect(store.dispatch).toHaveBeenCalledWith(personaFinished())
     })
