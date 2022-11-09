@@ -51,6 +51,7 @@ describe('KycLanding', () => {
       expect(queryByTestId('step-one-grey')).toBeFalsy()
       expect(queryByTestId('step-two-grey')).toBeTruthy()
 
+      expect(getByTestId('checkbox/unchecked')).toBeTruthy()
       expect(getByTestId('continueButton')).toBeDisabled()
     })
     it('only lets you click on the persona button after accepting the privacy policy', async () => {
@@ -61,7 +62,7 @@ describe('KycLanding', () => {
       )
 
       expect(getByTestId('PersonaButton')).toBeDisabled()
-      fireEvent.press(getByTestId('checkbox'))
+      fireEvent.press(getByTestId('checkbox/unchecked'))
       expect(getByTestId('PersonaButton')).not.toBeDisabled()
     })
     it('triggers analytics and dispatches persona started when persona button is pressed', () => {
@@ -71,7 +72,7 @@ describe('KycLanding', () => {
           <KycLanding {...props} />
         </Provider>
       )
-      fireEvent.press(getByTestId('checkbox'))
+      fireEvent.press(getByTestId('checkbox/unchecked'))
       fireEvent.press(getByTestId('PersonaButton'))
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(CICOEvents.persona_kyc_start)
       expect(store.dispatch).toHaveBeenCalledWith(personaStarted())
@@ -82,7 +83,7 @@ describe('KycLanding', () => {
           <KycLanding {...props} />
         </Provider>
       )
-      fireEvent.press(getByTestId('checkbox'))
+      fireEvent.press(getByTestId('checkbox/unchecked'))
       fireEvent.press(getByTestId('PersonaSuccessButton'))
       expect(store.dispatch).toHaveBeenCalledWith(postKyc({ quote: normalizedQuote }))
     })
@@ -92,7 +93,7 @@ describe('KycLanding', () => {
           <KycLanding {...props} />
         </Provider>
       )
-      fireEvent.press(getByTestId('checkbox'))
+      fireEvent.press(getByTestId('checkbox/unchecked'))
       fireEvent.press(getByTestId('PersonaErrorButton'))
       expect(store.dispatch).toHaveBeenCalledWith(personaFinished())
     })
@@ -102,7 +103,7 @@ describe('KycLanding', () => {
           <KycLanding {...props} />
         </Provider>
       )
-      fireEvent.press(getByTestId('checkbox'))
+      fireEvent.press(getByTestId('checkbox/unchecked'))
       fireEvent.press(getByTestId('PersonaCancelButton'))
       expect(store.dispatch).toHaveBeenCalledWith(personaFinished())
     })
@@ -138,7 +139,7 @@ describe('KycLanding', () => {
       expect(queryByTestId('step-one-grey')).toBeTruthy()
       expect(queryByTestId('step-two-grey')).toBeFalsy()
 
-      expect(getByTestId('PersonaButton')).toBeDisabled()
+      expect(getByTestId('checkbox/checked')).toBeTruthy()
       expect(getByTestId('continueButton')).not.toBeDisabled()
     })
   })

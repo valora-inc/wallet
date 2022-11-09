@@ -114,7 +114,8 @@ function StepOne(props: {
     <View onLayout={onLayout} style={styles.stepOne}>
       {disabled && <GreyOut testID="step-one-grey" {...size} />}
       <Text style={styles.stepText}>{t('fiatConnectKycLandingScreen.stepOne')}</Text>
-      <KycAgreement personaKycStatus={personaKycStatus} quote={quote} />
+      {/* set initial checked state to true if disabled, since this step is complete */}
+      <KycAgreement personaKycStatus={personaKycStatus} quote={quote} checked={disabled} />
     </View>
   )
 }
@@ -132,11 +133,15 @@ function StepTwo(props: { quote: FiatConnectQuote; flow: CICOFlow; disabled: boo
   )
 }
 
-export function KycAgreement(props: { personaKycStatus?: KycStatus; quote: FiatConnectQuote }) {
+function KycAgreement(props: {
+  personaKycStatus?: KycStatus
+  quote: FiatConnectQuote
+  checked: boolean
+}) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const { personaKycStatus, quote } = props
-  const [agreementChecked, toggleAgreementChecked] = useState(false)
+  const [agreementChecked, toggleAgreementChecked] = useState(props.checked)
 
   const onPressPrivacyPolicy = () => {
     navigateToURI(PRIVACY_LINK)

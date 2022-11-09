@@ -10,6 +10,7 @@ const MockPersona = (props: any) => {
         disabled={props.disabled}
         onPress={props.onPress}
       />
+      {/* Mock buttons to allow simulating different persona callbacks */}
       <Button
         title={'mock Persona success'}
         testID="PersonaSuccessButton"
