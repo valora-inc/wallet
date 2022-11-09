@@ -560,7 +560,7 @@
   "transferDollarsToAccount": "Funds transferred to your account!",
   "inviteAnyone": "Send easily to your friends by adding your contacts",
   "inviteReceived": "Invite Received",
-  "escrowPaymentNotificationTitle": "Invited {{mobile}}",
+  "escrowPaymentNotificationTitle": "Invitation to {{mobile}} cannot be claimed",
   "inviteDialog": {
     "title": "Invite a Friend",
     "body": "Connect and share value with your friends and family on Valora.",
