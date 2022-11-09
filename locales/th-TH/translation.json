@@ -584,8 +584,8 @@
     "error": "มีปัญหาในการสร้างลิงก์ที่แบ่งปันได้",
     "share": "สวัสดี ฉันกำลังใช้ {{appName}} เป็นกระเป๋าเงินคริปโตของฉัน ลองใช้แอปได้ง่ายๆ และฉันต้องการเชิญคุณเข้าไปดูลิงก์นี้: {{shareUrl}}",
     "rewardsActive": {
-      "title": "Invite friends and collect NFTs",
-      "body": "Invite your friends and family to download {{appName}} and each of you will get an exclusive NFT"
+      "title": "เชิญเพื่อนและสะสม NFT",
+      "body": "เชิญเพื่อนและครอบครัวให้ดาวน์โหลด {{appName}} ซึ่งคุณแต่ละคนจะได้รับ NFT พิเศษ"
     }
   },
   "getReward": "รับ ${{reward}}",
@@ -1491,8 +1491,8 @@
     "sendInviteButtonLabel": "ส่งคำเชิญ",
     "shareMessage": "สวัสดี ฉันต้องการส่งคริปโตให้คุณด้วยกระเป๋าเงิน {{appName}} ของฉัน เมื่อคุณดาวน์โหลดแอปและเชื่อมต่อหมายเลขโทรศัพท์ของคุณแล้ว เราจะสามารถส่งคริปโตได้ง่ายเหมือนการส่งข้อความ ใช้ลิงก์นี้: {{link}}",
     "rewardsActive": {
-      "title": "Invite {{contactName}} to {{appName}} and you’ll both receive NFTs!",
-      "body": "Looks like {{contactName}} isn't on {{appName}}. If you know their wallet address you can still send a payment or send an invitation instead. \n\n After they download the wallet and connect their phone number, you’ll both get an exclusive NFT."
+      "title": "เชิญ {{contactName}} มายัง {{appName}} คุณทั้งสองคนจะได้รับ NFT",
+      "body": "ดูเหมือนว่า {{contactName}} ไม่ได้ใช้งาน {{appName}} หากคุณทราบที่อยู่กระเป๋าเงินของเขา คุณยังคงสามารถส่งการชำระเงินหรือส่งคำเชิญแทนได้ \n\nหลังจากที่เขาดาวน์โหลดกระเป๋าเงินและเชื่อมต่อหมายเลขโทรศัพท์แล้ว คุณทั้งสองจะได้รับ NFT พิเศษ"
     }
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo ดอลลาร์"
