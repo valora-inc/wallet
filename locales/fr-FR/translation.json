@@ -584,8 +584,8 @@
     "error": "Une erreur s'est produite lors de la création d'un lien partageable.",
     "share": "Bonjour ! J'utilise {{appName}} comme mon portefeuille crypto. C'est facile, et je vous invite à découvrir également ce service en utilisant ce lien : {{shareUrl}}",
     "rewardsActive": {
-      "title": "Invite tes amis et collecte des NFT",
-      "body": "Invite tes amis et ta famille à télécharger {{appName}} et chacun d'entre vous recevra un NFT exclusif."
+      "title": "Inviter des amis et collecter des NFT",
+      "body": "Invitez vos amis et votre famille à télécharger {{appName}} et chacun d'entre vous recevra un NFT exclusif"
     }
   },
   "getReward": "Obtenez {{reward}}$",
@@ -1493,8 +1493,8 @@
     "sendInviteButtonLabel": "Envoyer l'invitation",
     "shareMessage": "Bonjour ! J'aimerais t'envoyer de la cryptomonnaie à partir de mon wallet {{appName}}. Une fois que tu auras téléchargé l'application et connecté ton numéro de téléphone, nous pourrons envoyer des cryptomonnaies aussi simplement que s'il s'agissait d'un message texte. Utilise ce lien : {{link}}",
     "rewardsActive": {
-      "title": "Invite {{contactName}} sur {{appName}} et vous recevrez tous les deux des NFTs !",
-      "body": "On dirait que {{contactName}} n'est pas sur {{appName}}. Si tu connais l'adresse de leur portefeuille, tu peux toujours envoyer un paiement ou envoyer une invitation à la place. \n\n Une fois qu'ils auront téléchargé le porte-monnaie et connecté leur numéro de téléphone, vous recevrez tous les deux un NFT exclusif."
+      "title": "Invitez {{contactName}} à {{appName}} et recevez tous les deux des NFT !",
+      "body": "Il semble que {{contactName}} n'est pas sur {{appName}}. Si vous connaissez l'adresse de son portefeuille, vous pouvez toujours lui envoyer un paiement direct ou lui faire parvenir une invitation.. \n\nDès que votre contact aura téléchargé son portefeuille et connecté son numéro de téléphone, vous recevrez tous les deux un NFT exclusif."
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
