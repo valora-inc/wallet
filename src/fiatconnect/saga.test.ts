@@ -34,9 +34,10 @@ import {
   handleRefetchQuote,
   handleSelectFiatConnectQuote,
   handleSubmitFiatAccount,
+  _checkFiatAccountAndNavigate,
+  _getFiatAccount,
   _getQuotes,
   _getSpecificQuote,
-  _getFiatAccount,
   _selectQuoteAndFiatAccount,
   _selectQuoteMatchingFiatAccount,
 } from 'src/fiatconnect/saga'
@@ -115,6 +116,17 @@ jest.mock('src/in-house-liquidity', () => ({
 }))
 
 describe('Fiatconnect saga', () => {
+  const provideDelay = ({ fn }: { fn: any }, next: any) => (fn.name === 'delayP' ? null : next())
+  const normalizedQuote = new FiatConnectQuote({
+    quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
+    fiatAccountType: FiatAccountType.BankAccount,
+    flow: CICOFlow.CashOut,
+  })
+  const normalizedQuoteKyc = new FiatConnectQuote({
+    quote: mockFiatConnectQuotes[3] as FiatConnectQuoteSuccess,
+    fiatAccountType: FiatAccountType.BankAccount,
+    flow: CICOFlow.CashOut,
+  })
   beforeEach(() => {
     jest.clearAllMocks()
   })
@@ -123,16 +135,6 @@ describe('Fiatconnect saga', () => {
     const mockFcClient = {
       addFiatAccount: mockAddFiatAccount,
     }
-    const normalizedQuote = new FiatConnectQuote({
-      quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
-      fiatAccountType: FiatAccountType.BankAccount,
-      flow: CICOFlow.CashOut,
-    })
-    const normalizedQuoteKyc = new FiatConnectQuote({
-      quote: mockFiatConnectQuotes[3] as FiatConnectQuoteSuccess,
-      fiatAccountType: FiatAccountType.BankAccount,
-      flow: CICOFlow.CashOut,
-    })
     const mockObfuscatedAccount = {
       fiatAccountId: 'some id',
       accountName: 'some account name',
@@ -140,7 +142,6 @@ describe('Fiatconnect saga', () => {
       fiatAccountType: FiatAccountType.BankAccount,
       fiatAccountSchema: FiatAccountSchema.AccountNumber,
     }
-    const provideDelay = ({ fn }: { fn: any }, next: any) => (fn.name === 'delayP' ? null : next())
     it('successfully submits account and navigates to review (no KYC)', async () => {
       mockAddFiatAccount.mockResolvedValueOnce(Result.ok(mockObfuscatedAccount))
       await expectSaga(
@@ -706,111 +707,36 @@ describe('Fiatconnect saga', () => {
   })
 
   describe('handleSelectFiatConnectQuote', () => {
-    const mockGetFiatAccounts = jest.fn()
-    const mockFcClient = {
-      getFiatAccounts: mockGetFiatAccounts,
-    }
-    const normalizedQuote = new FiatConnectQuote({
-      quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
-      fiatAccountType: FiatAccountType.BankAccount,
-      flow: CICOFlow.CashOut,
-    })
-    const normalizedQuoteKyc = new FiatConnectQuote({
-      quote: mockFiatConnectQuotes[3] as FiatConnectQuoteSuccess,
-      fiatAccountType: FiatAccountType.BankAccount,
-      flow: CICOFlow.CashOut,
-    })
-    const provideDelay = ({ fn }: { fn: any }, next: any) => (fn.name === 'delayP' ? null : next())
-    it('proceeds with saga and eventually navigates to review if KYC is required and is approved', async () => {
-      const fiatAccount = {
-        fiatAccountId: '123',
-        providerId: 'provider-three',
-        accountName: 'Provider Three',
-        institutionName: 'The fun bank',
-        fiatAccountType: FiatAccountType.BankAccount,
-        fiatAccountSchema: FiatAccountSchema.AccountNumber,
-      }
-      mockGetFiatAccounts.mockResolvedValue(
-        Result.ok({
-          BankAccount: [fiatAccount],
-        })
-      )
-      await expectSaga(
-        handleSelectFiatConnectQuote,
-        selectFiatConnectQuote({ quote: normalizedQuoteKyc })
-      )
-        .provide([
-          [
-            matches.call.fn(getKycStatus),
-            {
-              providerId: normalizedQuoteKyc.quote.provider.id,
-              persona: PersonaKycStatus.Approved,
-              kycStatus: {
-                [KycSchema.PersonalDataAndDocuments]: FiatConnectKycStatus.KycApproved,
-              },
-            },
-          ],
-          [matches.call.fn(getFiatConnectClient), mockFcClient],
-          { call: provideDelay },
-        ])
-        .put(
-          fiatAccountUsed({
-            providerId: normalizedQuoteKyc.getProviderId(),
-            fiatAccountId: fiatAccount.fiatAccountId,
-            fiatAccountType: normalizedQuoteKyc.getFiatAccountType(),
-            fiatAccountSchema: normalizedQuoteKyc.getFiatAccountSchema(),
-            flow: normalizedQuoteKyc.flow,
-            cryptoType: normalizedQuoteKyc.getCryptoType(),
-            fiatType: normalizedQuoteKyc.getFiatType(),
-          })
+    it.each([FiatConnectKycStatus.KycApproved, FiatConnectKycStatus.KycPending])(
+      'invokes _checkFiatAccountAndNavigate if KYC is required and KYC status is %s',
+      async (fcKycStatus) => {
+        await expectSaga(
+          handleSelectFiatConnectQuote,
+          selectFiatConnectQuote({ quote: normalizedQuoteKyc })
         )
-        .put(selectFiatConnectQuoteCompleted())
-        .run()
-      expect(navigate).toHaveBeenCalledWith(Screens.FiatConnectReview, {
-        normalizedQuote: normalizedQuoteKyc,
-        flow: normalizedQuoteKyc.flow,
-        fiatAccount,
-      })
-    })
-    it('proceeds with saga but eventually navigates to status screen if KYC is pending', async () => {
-      const fiatAccount = {
-        fiatAccountId: '123',
-        providerId: 'provider-three',
-        accountName: 'Provider Three',
-        institutionName: 'The fun bank',
-        fiatAccountType: FiatAccountType.BankAccount,
-        fiatAccountSchema: FiatAccountSchema.AccountNumber,
-      }
-      mockGetFiatAccounts.mockResolvedValue(
-        Result.ok({
-          BankAccount: [fiatAccount],
-        })
-      )
-      await expectSaga(
-        handleSelectFiatConnectQuote,
-        selectFiatConnectQuote({ quote: normalizedQuoteKyc })
-      )
-        .provide([
-          [
-            matches.call.fn(getKycStatus),
-            {
-              providerId: normalizedQuoteKyc.quote.provider.id,
-              persona: PersonaKycStatus.Approved,
-              kycStatus: {
-                [KycSchema.PersonalDataAndDocuments]: FiatConnectKycStatus.KycPending,
+          .provide([
+            [
+              matches.call.fn(getKycStatus),
+              {
+                providerId: normalizedQuoteKyc.quote.provider.id,
+                persona: PersonaKycStatus.Approved,
+                kycStatus: {
+                  [KycSchema.PersonalDataAndDocuments]: fcKycStatus,
+                },
               },
-            },
-          ],
-          [matches.call.fn(getFiatConnectClient), mockFcClient],
-          { call: provideDelay },
-        ])
-        .put(selectFiatConnectQuoteCompleted())
-        .run()
-      expect(navigate).toHaveBeenCalledWith(Screens.KycPending, {
-        flow: normalizedQuoteKyc.flow,
-        quote: normalizedQuoteKyc,
-      })
-    })
+            ],
+            [matches.call.fn(_checkFiatAccountAndNavigate), undefined],
+            { call: provideDelay },
+          ])
+          .call(_checkFiatAccountAndNavigate, {
+            quote: normalizedQuoteKyc,
+            isKycRequired: true,
+            isKycApproved: fcKycStatus === FiatConnectKycStatus.KycApproved,
+          })
+          .put(selectFiatConnectQuoteCompleted())
+          .run()
+      }
+    )
     it('navigates to KycExpired screen early if KYC is required and is expired', async () => {
       await expectSaga(
         handleSelectFiatConnectQuote,
@@ -889,8 +815,7 @@ describe('Fiatconnect saga', () => {
         step: 'one',
       })
     })
-    it('posts KYC to provider and proceeds with saga by navigating to KycLanding step 2 if KYC required and exists in Persona', async () => {
-      mockGetFiatAccounts.mockResolvedValue(Result.ok({}))
+    it('posts KYC to provider and invokes _checkFiatAccountAndNavigate if KYC required and exists in Persona', async () => {
       await expectSaga(
         handleSelectFiatConnectQuote,
         selectFiatConnectQuote({ quote: normalizedQuoteKyc })
@@ -907,7 +832,7 @@ describe('Fiatconnect saga', () => {
             },
           ],
           [matches.call.fn(postKyc), undefined],
-          [matches.call.fn(getFiatConnectClient), mockFcClient],
+          [matches.call.fn(_checkFiatAccountAndNavigate), undefined],
           { call: provideDelay },
         ])
         .put(
@@ -923,13 +848,13 @@ describe('Fiatconnect saga', () => {
             },
           })
         )
+        .call(_checkFiatAccountAndNavigate, {
+          quote: normalizedQuoteKyc,
+          isKycRequired: true,
+          isKycApproved: false,
+        })
         .put(selectFiatConnectQuoteCompleted())
         .run()
-      expect(navigate).toHaveBeenCalledWith(Screens.KycLanding, {
-        flow: normalizedQuoteKyc.flow,
-        quote: normalizedQuoteKyc,
-        step: 'two',
-      })
     })
     it('goes back to SelectProvider if FC KYC status is not recognized', async () => {
       await expectSaga(
@@ -961,74 +886,110 @@ describe('Fiatconnect saga', () => {
         },
       })
     })
-    it('navigates to link account screen if the fiatAccount is not found', async () => {
-      const fiatAccount = {
-        fiatAccountId: '123',
-        providerId: 'provider-two',
-        accountName: 'provider two',
-        institutionName: 'The fun bank',
-        fiatAccountType: FiatAccountType.DuniaWallet, // not matching fiatAccount type
-      }
-      mockGetFiatAccounts.mockResolvedValue(
-        Result.ok({
-          BankAccount: [fiatAccount],
-        })
+    it('invokes _checkFiatAccountAndNavigate directly if KYC is not required', async () => {
+      await expectSaga(
+        handleSelectFiatConnectQuote,
+        selectFiatConnectQuote({ quote: normalizedQuote })
       )
+        .provide([
+          [matches.call.fn(_checkFiatAccountAndNavigate), undefined],
+          { call: provideDelay },
+        ])
+        .put(selectFiatConnectQuoteCompleted())
+        .call(_checkFiatAccountAndNavigate, {
+          quote: normalizedQuote,
+          isKycRequired: false,
+          isKycApproved: false,
+        })
+        .run()
+    })
+    it('shows an error and goes back to SelectProvider if _checkFiatAccountAndNavigate throws', async () => {
       await expectSaga(
         handleSelectFiatConnectQuote,
         selectFiatConnectQuote({ quote: normalizedQuote })
       )
         .provide([
           [
-            call(getFiatConnectClient, 'provider-two', 'fakewebsite.valoraapp.com', 'fake-api-key'),
-            mockFcClient,
+            matches.call.fn(_checkFiatAccountAndNavigate),
+            throwError(new Error('failed to fetch fiat account')),
           ],
-          { call: provideDelay },
         ])
         .put(selectFiatConnectQuoteCompleted())
+        .put(showError(ErrorMessages.PROVIDER_FETCH_FAILED))
         .run()
-      expect(navigate).toHaveBeenCalledWith(Screens.FiatConnectLinkAccount, {
-        quote: normalizedQuote,
+      expect(navigate).toHaveBeenCalledWith(Screens.SelectProvider, {
         flow: normalizedQuote.flow,
+        selectedCrypto: normalizedQuote.getCryptoType(),
+        amount: {
+          crypto: parseFloat(normalizedQuote.getCryptoAmount()),
+          fiat: parseFloat(normalizedQuote.getFiatAmount()),
+        },
       })
     })
-    it('saves the fiatAccount in cache and navigates to FiatConnectReview when an account is found', async () => {
-      const fiatAccount = {
-        fiatAccountId: '123',
-        providerId: 'provider-two',
-        accountName: 'provider two',
-        institutionName: 'The fun bank',
-        fiatAccountType: FiatAccountType.BankAccount, // matching fiatAccount type
-        fiatAccountSchema: FiatAccountSchema.AccountNumber,
-      }
-      mockGetFiatAccounts.mockResolvedValue(
-        Result.ok({
-          BankAccount: [fiatAccount],
-        })
-      )
-      await expectSaga(
-        handleSelectFiatConnectQuote,
-        selectFiatConnectQuote({ quote: normalizedQuote })
-      )
-        .provide([
-          [
-            call(getFiatConnectClient, 'provider-two', 'fakewebsite.valoraapp.com', 'fake-api-key'),
-            mockFcClient,
-          ],
-          { call: provideDelay },
-        ])
-        .put(
-          fiatAccountUsed({
-            providerId: normalizedQuote.getProviderId(),
-            fiatAccountId: fiatAccount.fiatAccountId,
-            fiatAccountType: normalizedQuote.getFiatAccountType(),
-            fiatAccountSchema: normalizedQuote.getFiatAccountSchema(),
-            flow: normalizedQuote.flow,
-            cryptoType: normalizedQuote.getCryptoType(),
-            fiatType: normalizedQuote.getFiatType(),
-          })
-        )
-        .put(selectFiatConnectQuoteCompleted())
+  })
+
+  describe('_checkFiatAccountAndNavigate', () => {
+    const fiatAccount = {
+      fiatAccountId: '123',
+      providerId: 'provider-two',
+      accountName: 'provider two',
+      institutionName: 'The fun bank',
+      fiatAccountType: FiatAccountType.BankAccount, // matching fiatAccount type
+      fiatAccountSchema: FiatAccountSchema.AccountNumber,
+    }
+    const expectedGetFiatAccountArgs = (quote: FiatConnectQuote) => ({
+      fiatConnectProviders: [quote.getProviderInfo()],
+      providerId: quote.getProviderId(),
+      fiatAccountType: quote.getFiatAccountType(),
+      fiatAccountSchema: quote.getFiatAccountSchema(),
+    })
+    const expectedFiatConnectUsedArgs = (quote: FiatConnectQuote) => ({
+      providerId: quote.getProviderId(),
+      fiatAccountId: fiatAccount.fiatAccountId,
+      fiatAccountType: quote.getFiatAccountType(),
+      fiatAccountSchema: quote.getFiatAccountSchema(),
+      flow: quote.flow,
+      cryptoType: quote.getCryptoType(),
+      fiatType: quote.getFiatType(),
+    })
+    it('navigates to step two of kyc landing if kyc is required and fiat account is not found', async () => {
+      await expectSaga(_checkFiatAccountAndNavigate, {
+        quote: normalizedQuoteKyc,
+        isKycRequired: true,
+        isKycApproved: false,
+      })
+        .provide([[matches.call.fn(_getFiatAccount), null]])
+        .call(_getFiatAccount, expectedGetFiatAccountArgs(normalizedQuoteKyc))
+        .run()
+      expect(navigate).toHaveBeenCalledWith(Screens.KycLanding, {
+        flow: normalizedQuoteKyc.flow,
+        quote: normalizedQuoteKyc,
+        step: 'two',
+      })
+    })
+    it('navigates to link account if kyc is not required and fiat account is not found', async () => {
+      await expectSaga(_checkFiatAccountAndNavigate, {
+        quote: normalizedQuote,
+        isKycRequired: false,
+        isKycApproved: false,
+      })
+        .provide([[matches.call.fn(_getFiatAccount), null], { call: provideDelay }])
+        .call(_getFiatAccount, expectedGetFiatAccountArgs(normalizedQuote))
+        .run()
+      expect(navigate).toHaveBeenCalledWith(Screens.FiatConnectLinkAccount, {
+        flow: normalizedQuote.flow,
+        quote: normalizedQuote,
+      })
+    })
+    it('saves fiat account and navigates to review screen if kyc is not required and fiat account is found', async () => {
+      await expectSaga(_checkFiatAccountAndNavigate, {
+        quote: normalizedQuote,
+        isKycRequired: false,
+        isKycApproved: false,
+      })
+        .provide([[matches.call.fn(_getFiatAccount), fiatAccount], { call: provideDelay }])
+        .call(_getFiatAccount, expectedGetFiatAccountArgs(normalizedQuote))
+        .put(fiatAccountUsed(expectedFiatConnectUsedArgs(normalizedQuote)))
         .run()
       expect(navigate).toHaveBeenCalledWith(Screens.FiatConnectReview, {
         normalizedQuote,
@@ -1036,18 +997,36 @@ describe('Fiatconnect saga', () => {
         fiatAccount,
       })
     })
-    it('shows an error if there is an issue fetching the fiatAccount', async () => {
-      mockGetFiatAccounts.mockResolvedValue(Result.err(new Error('error')))
-      await expectSaga(
-        handleSelectFiatConnectQuote,
-        selectFiatConnectQuote({ quote: normalizedQuote })
-      )
-        .provide([
-          [call(getFiatConnectClient, 'provider-two', 'fakewebsite.valoraapp.com'), mockFcClient],
-        ])
-        .put(selectFiatConnectQuoteCompleted())
-        .put(showError(ErrorMessages.PROVIDER_FETCH_FAILED))
+    it('saves fiat account and navigates to review screen if kyc is required and approved and fiat account is found', async () => {
+      await expectSaga(_checkFiatAccountAndNavigate, {
+        quote: normalizedQuoteKyc,
+        isKycRequired: true,
+        isKycApproved: true,
+      })
+        .provide([[matches.call.fn(_getFiatAccount), fiatAccount], { call: provideDelay }])
+        .call(_getFiatAccount, expectedGetFiatAccountArgs(normalizedQuoteKyc))
+        .put(fiatAccountUsed(expectedFiatConnectUsedArgs(normalizedQuoteKyc)))
         .run()
+      expect(navigate).toHaveBeenCalledWith(Screens.FiatConnectReview, {
+        normalizedQuote: normalizedQuoteKyc,
+        flow: normalizedQuoteKyc.flow,
+        fiatAccount,
+      })
+    })
+    it('saves fiat account and navigates to pending screen if kyc is required and pending and fiat account is found', async () => {
+      await expectSaga(_checkFiatAccountAndNavigate, {
+        quote: normalizedQuoteKyc,
+        isKycRequired: true,
+        isKycApproved: false,
+      })
+        .provide([[matches.call.fn(_getFiatAccount), fiatAccount], { call: provideDelay }])
+        .call(_getFiatAccount, expectedGetFiatAccountArgs(normalizedQuoteKyc))
+        .put(fiatAccountUsed(expectedFiatConnectUsedArgs(normalizedQuoteKyc)))
+        .run()
+      expect(navigate).toHaveBeenCalledWith(Screens.KycPending, {
+        flow: normalizedQuoteKyc.flow,
+        quote: normalizedQuoteKyc,
+      })
     })
   })
 
@@ -1191,21 +1170,11 @@ describe('Fiatconnect saga', () => {
       fiatAccountId: '123',
       fiatAccountType: FiatAccountType.BankAccount,
     })
-    const normalizedQuote = new FiatConnectQuote({
-      flow: CICOFlow.CashOut,
-      fiatAccountType: FiatAccountType.BankAccount,
-      quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
-    })
     const paramsKyc = attemptReturnUserFlow({
       ...selectProviderParams,
       providerId: 'provider-three',
       fiatAccountId: '123',
       fiatAccountType: FiatAccountType.BankAccount,
-    })
-    const normalizedQuoteKyc = new FiatConnectQuote({
-      flow: CICOFlow.CashOut,
-      fiatAccountType: FiatAccountType.BankAccount,
-      quote: mockFiatConnectQuotes[3] as FiatConnectQuoteSuccess,
     })
     const fiatAccount = {
       fiatAccountId: '123',
