@@ -35,8 +35,8 @@ const defaultStore = {
 }
 
 describe('Send', () => {
-  beforeAll(() => {
-    jest.useRealTimers()
+  beforeEach(() => {
+    jest.clearAllMocks()
   })
 
   it('renders correctly with invite rewards disabled', async () => {
