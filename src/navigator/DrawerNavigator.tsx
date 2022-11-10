@@ -34,7 +34,7 @@ import SettingsScreen from 'src/account/Settings'
 import Support from 'src/account/Support'
 import { HomeEvents, RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { inviteMethodSelector, rewardsEnabledSelector } from 'src/app/selectors'
+import { inviteMethodSelector } from 'src/app/selectors'
 import { InviteMethodType } from 'src/app/types'
 import BackupIntroduction from 'src/backup/BackupIntroduction'
 import AccountNumber from 'src/components/AccountNumber'
@@ -199,7 +199,6 @@ export default function DrawerNavigator() {
   const isCeloEducationComplete = useSelector((state) => state.goldToken.educationCompleted)
   const dappsListUrl = useSelector(dappsListApiUrlSelector)
   const inviteMethod = useSelector(inviteMethodSelector)
-  const rewardsEnabled = useSelector(rewardsEnabledSelector)
 
   const shouldShowRecoveryPhraseInSettings = useSelector(shouldShowRecoveryPhraseInSettingsSelector)
   const backupCompleted = useSelector(backupCompletedSelector)
