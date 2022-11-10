@@ -1,11 +1,18 @@
+import BigNumber from 'bignumber.js'
+
 export enum Field {
   FROM = 'FROM',
   TO = 'TO',
 }
 
 export interface SwapAmount {
-  [Field.FROM]: null | string
-  [Field.TO]: null | string
+  [Field.FROM]: string
+  [Field.TO]: string
+}
+
+export interface ParsedSwapAmount {
+  [Field.FROM]: BigNumber
+  [Field.TO]: BigNumber
 }
 
 export interface SwapUserInput {

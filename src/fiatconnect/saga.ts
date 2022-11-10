@@ -682,64 +682,13 @@ export function* handleSelectFiatConnectQuote({
       }
     }
 
-    const fiatAccount: FiatAccount = yield call(_getFiatAccount, {
-      fiatConnectProviders: [quote.quote.provider],
-      providerId: quote.getProviderId(),
-      fiatAccountType: quote.getFiatAccountType(),
-      fiatAccountSchema: quote.getFiatAccountSchema(),
+    yield call(_checkFiatAccountAndNavigate, {
+      quote,
+      isKycRequired: !!kycSchema,
+      isKycApproved:
+        !!kycSchema &&
+        getKycStatusResponse!.kycStatus[kycSchema] === FiatConnectKycStatus.KycApproved,
     })
-
-    // This is expected when the user has not yet created a fiatAccount with the provider
-    if (!fiatAccount) {
-      // If the quote has kyc, navigate to the second step of the KycLanding page
-      if (kycSchema) {
-        navigate(Screens.KycLanding, {
-          quote,
-          flow: quote.flow,
-          step: 'two',
-        })
-      } else {
-        navigate(Screens.FiatConnectLinkAccount, {
-          quote,
-          flow: quote.flow,
-        })
-        yield delay(500) // to avoid a screen flash
-      }
-
-      yield put(selectFiatConnectQuoteCompleted())
-      return
-    }
-    // Save the fiatAccount in cache
-    yield put(
-      fiatAccountUsed({
-        providerId: quote.getProviderId(),
-        fiatAccountId: fiatAccount.fiatAccountId,
-        fiatAccountType: quote.getFiatAccountType(),
-        fiatAccountSchema: quote.getFiatAccountSchema(),
-        flow: quote.flow,
-        cryptoType: quote.getCryptoType(),
-        fiatType: quote.getFiatType(),
-      })
-    )
-
-    // If the quote required KYC, only proceed to the Review screen if it's approved
-    if (
-      kycSchema &&
-      getKycStatusResponse!.kycStatus[kycSchema] !== FiatConnectKycStatus.KycApproved
-    ) {
-      navigate(Screens.KycPending, {
-        flow: quote.flow,
-        quote,
-      })
-    } else {
-      navigate(Screens.FiatConnectReview, {
-        flow: quote.flow,
-        normalizedQuote: quote,
-        fiatAccount,
-      })
-    }
-
-    yield delay(500) // to avoid a screen flash
     yield put(selectFiatConnectQuoteCompleted())
   } catch (error) {
     // Error while attempting fetching the fiatConnect account
@@ -760,6 +709,69 @@ export function* handleSelectFiatConnectQuote({
       amount: amount,
     })
   }
+}
+
+export function* _checkFiatAccountAndNavigate({
+  quote,
+  isKycRequired,
+  isKycApproved,
+}: {
+  quote: FiatConnectQuote
+  isKycRequired: boolean
+  isKycApproved: boolean
+}) {
+  const fiatAccount: FiatAccount = yield call(_getFiatAccount, {
+    fiatConnectProviders: [quote.getProviderInfo()],
+    providerId: quote.getProviderId(),
+    fiatAccountType: quote.getFiatAccountType(),
+    fiatAccountSchema: quote.getFiatAccountSchema(),
+  })
+
+  // This is expected when the user has not yet created a fiatAccount with the provider
+  if (!fiatAccount) {
+    // If the quote has kyc, navigate to the second step of the KycLanding page
+    if (isKycRequired) {
+      navigate(Screens.KycLanding, {
+        quote,
+        flow: quote.flow,
+        step: 'two',
+      })
+    } else {
+      navigate(Screens.FiatConnectLinkAccount, {
+        quote,
+        flow: quote.flow,
+      })
+      yield delay(500) // to avoid a screen flash
+    }
+    return
+  }
+  // Save the fiatAccount in cache
+  yield put(
+    fiatAccountUsed({
+      providerId: quote.getProviderId(),
+      fiatAccountId: fiatAccount.fiatAccountId,
+      fiatAccountType: quote.getFiatAccountType(),
+      fiatAccountSchema: quote.getFiatAccountSchema(),
+      flow: quote.flow,
+      cryptoType: quote.getCryptoType(),
+      fiatType: quote.getFiatType(),
+    })
+  )
+
+  // If the quote required KYC, only proceed to the Review screen if it's approved
+  if (isKycRequired && !isKycApproved) {
+    navigate(Screens.KycPending, {
+      flow: quote.flow,
+      quote,
+    })
+  } else {
+    navigate(Screens.FiatConnectReview, {
+      flow: quote.flow,
+      normalizedQuote: quote,
+      fiatAccount,
+    })
+  }
+  yield delay(500) // to avoid a screen flash
 }
 
 export function* fetchFiatAccountsSaga(
