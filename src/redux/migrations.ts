@@ -618,8 +618,7 @@ export const migrations = {
     ...state,
     app: {
       ...state.app,
-      celoWithdrawalEnabledInExchange:
-        REMOTE_CONFIG_VALUES_DEFAULTS.celoWithdrawalEnabledInExchange,
+      celoWithdrawalEnabledInExchange: false,
     },
   }),
   52: (state: any) => ({
@@ -881,5 +880,9 @@ export const migrations = {
   90: (state: any) => ({
     ...state,
     app: _.omit(state.app, 'biometryEnabled'),
+  }),
+  91: (state: any) => ({
+    ...state,
+    app: _.omit(state.app, 'celoWithdrawalEnabledInExchange'),
   }),
 }

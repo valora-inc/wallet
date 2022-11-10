@@ -289,7 +289,6 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     paymentDeepLinkHandler: flags.paymentDeepLinkHandler.asString() as PaymentDeepLinkHandler,
     dappsWebViewEnabled: flags.dappsWebViewEnabled.asBoolean(),
     skipProfilePicture: flags.skipProfilePicture.asBoolean(),
-    celoWithdrawalEnabledInExchange: flags.celoWithdrawalEnabledInExchange.asBoolean(),
     fiatConnectCashInEnabled: flags.fiatConnectCashInEnabled.asBoolean(),
     fiatConnectCashOutEnabled: flags.fiatConnectCashOutEnabled.asBoolean(),
     fiatAccountSchemaCountryOverrides: fiatAccountSchemaCountryOverrides
