@@ -12,9 +12,9 @@ import { useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import {
-  ListRenderItemInfo,
   SectionList,
   SectionListData,
+  SectionListRenderItemInfo,
   StyleSheet,
   Text,
   View,
@@ -26,6 +26,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import SectionHead from 'src/components/SectionHead'
 import { DEFAULT_FORNO_URL, DEFAULT_TESTNET } from 'src/config'
+import { RecipientVerificationStatus } from 'src/identity/types'
 import {
   getRecipientFromAddress,
   MobileRecipient,
@@ -41,7 +42,7 @@ import SendToAddressWarning from 'src/send/SendToAddressWarning'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 
-interface Section {
+export interface Section {
   key: string
   data: Recipient[]
 }
@@ -54,6 +55,8 @@ interface RecipientProps {
   listHeaderComponent?: React.ComponentType<any>
   onSelectRecipient(recipient: Recipient): void
   isOutgoingPaymentRequest: boolean
+  selectedRecipient: Recipient | null
+  recipientVerificationStatus: RecipientVerificationStatus
 }
 
 const NOM_ADDRESSES: { [env: string]: Address } = {
@@ -87,12 +90,25 @@ function RecipientPicker(props: RecipientProps) {
     setKeyboardVisible(visible)
   }
 
-  const renderItem = ({ item, index }: ListRenderItemInfo<Recipient>) => (
-    <RecipientItem recipient={item} onSelectRecipient={props.onSelectRecipient} />
-  )
+  const isFetchingVerificationStatus = (recipient: Recipient) => {
+    return (
+      recipient.e164PhoneNumber === props.selectedRecipient?.e164PhoneNumber &&
+      props.recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN
+    )
+  }
 
-  const renderSectionHeader = (info: { section: SectionListData<Recipient> }) => (
-    <SectionHead text={info.section.key as string} />
+  const renderItem = ({ item }: SectionListRenderItemInfo<Recipient, Section>) => {
+    return (
+      <RecipientItem
+        recipient={item}
+        onSelectRecipient={props.onSelectRecipient}
+        loading={isFetchingVerificationStatus(item)}
+      />
+    )
+  }
+
+  const renderSectionHeader = (info: { section: SectionListData<Recipient, Section> }) => (
+    <SectionHead text={info.section.key} />
   )
 
   const keyExtractor = (item: Recipient, index: number) => {
@@ -161,7 +177,11 @@ function RecipientPicker(props: RecipientProps) {
     }
     return (
       <>
-        <RecipientItem recipient={recipient} onSelectRecipient={props.onSelectRecipient} />
+        <RecipientItem
+          recipient={recipient}
+          onSelectRecipient={props.onSelectRecipient}
+          loading={isFetchingVerificationStatus(recipient)}
+        />
         {renderItemSeparator()}
       </>
     )
@@ -178,6 +198,7 @@ function RecipientPicker(props: RecipientProps) {
         <RecipientItem
           recipient={{ ...recipient, name: t('sendToMobileNumber') }}
           onSelectRecipient={() => props.onSelectRecipient(recipient)}
+          loading={isFetchingVerificationStatus(recipient)}
         />
         {renderItemSeparator()}
       </>
@@ -192,7 +213,11 @@ function RecipientPicker(props: RecipientProps) {
     if (recipientHasNumber(recipient) || isOutgoingPaymentRequest) {
       return (
         <>
-          <RecipientItem recipient={recipient} onSelectRecipient={onSelectRecipient} />
+          <RecipientItem
+            recipient={recipient}
+            onSelectRecipient={onSelectRecipient}
+            loading={isFetchingVerificationStatus(recipient)}
+          />
           {renderItemSeparator()}
         </>
       )
@@ -202,6 +227,7 @@ function RecipientPicker(props: RecipientProps) {
           <RecipientItem
             recipient={recipient}
             onSelectRecipient={showSendToAddressWarning ? sendToUnknownAddress : onSelectRecipient}
+            loading={isFetchingVerificationStatus(recipient)}
           />
           {renderItemSeparator()}
         </>
