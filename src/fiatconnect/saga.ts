@@ -299,7 +299,15 @@ export function* handleSubmitFiatAccount({
 export function* handleAttemptReturnUserFlow({
   payload: params,
 }: ReturnType<typeof attemptReturnUserFlow>): any {
-  const { amount, flow, selectedCrypto, providerId, fiatAccountId, fiatAccountType } = params
+  const {
+    amount,
+    flow,
+    selectedCrypto,
+    providerId,
+    fiatAccountId,
+    fiatAccountType,
+    fiatAccountSchema,
+  } = params
   const digitalAsset = {
     [Currency.Celo]: CiCoCurrency.CELO,
     [Currency.Dollar]: CiCoCurrency.CUSD,
@@ -315,6 +323,7 @@ export function* handleAttemptReturnUserFlow({
       providerId,
       fiatAccountId,
       fiatAccountType,
+      fiatAccountSchema,
     })
     if (!fiatAccount) {
       throw new Error('Could not find fiat account')

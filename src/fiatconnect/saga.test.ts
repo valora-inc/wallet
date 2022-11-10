@@ -1169,12 +1169,14 @@ describe('Fiatconnect saga', () => {
       providerId: 'provider-two',
       fiatAccountId: '123',
       fiatAccountType: FiatAccountType.BankAccount,
+      fiatAccountSchema: FiatAccountSchema.AccountNumber,
     })
     const paramsKyc = attemptReturnUserFlow({
       ...selectProviderParams,
       providerId: 'provider-three',
       fiatAccountId: '123',
       fiatAccountType: FiatAccountType.BankAccount,
+      fiatAccountSchema: FiatAccountSchema.AccountNumber,
     })
     const fiatAccount = {
       fiatAccountId: '123',

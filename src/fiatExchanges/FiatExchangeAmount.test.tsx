@@ -1,4 +1,4 @@
-import { FiatAccountType, FiatType } from '@fiatconnect/fiatconnect-types'
+import { FiatAccountSchema, FiatAccountType, FiatType } from '@fiatconnect/fiatconnect-types'
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
@@ -316,6 +316,7 @@ describe('FiatExchangeAmount cashOut', () => {
             flow: CICOFlow.CashOut,
             cryptoType: Currency.Dollar,
             fiatType: FiatType.USD,
+            fiatAccountSchema: FiatAccountSchema.AccountNumber,
           },
         ],
       },
@@ -344,6 +345,7 @@ describe('FiatExchangeAmount cashOut', () => {
         providerId: 'provider-two',
         fiatAccountId: '123',
         fiatAccountType: FiatAccountType.BankAccount,
+        fiatAccountSchema: FiatAccountSchema.AccountNumber,
       })
     )
   })

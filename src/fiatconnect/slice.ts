@@ -106,6 +106,7 @@ export interface AttemptReturnUserFlowAction {
   providerId: string
   fiatAccountId: string
   fiatAccountType: FiatAccountType
+  fiatAccountSchema: FiatAccountSchema
 }
 
 export interface FetchFiatConnectQuotesCompletedAction {
