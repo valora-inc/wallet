@@ -1,5 +1,5 @@
 import { RemoteConfigValues } from 'src/app/saga'
-import { CreateAccountCopyTestType, InviteMethodType, SuperchargeButtonType } from 'src/app/types'
+import { CreateAccountCopyTestType, InviteMethodType } from 'src/app/types'
 import { DappConnectInfo } from 'src/dapps/types'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 
@@ -53,7 +53,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   biometryEnabled: false,
   dappListApiUrl:
     'https://raw.githubusercontent.com/valora-inc/dapp-list/main/translations/valora-dapp-list-base.json',
-  superchargeButtonType: SuperchargeButtonType.PillRewards,
   maxNumRecentDapps: 4,
   skipVerification: false,
   showPriceChangeIndicatorInBalances: false,

@@ -1,7 +1,7 @@
 import { Platform } from 'react-native'
 import { BIOMETRY_TYPE } from 'react-native-keychain'
 import { Actions, ActionTypes, AppState } from 'src/app/actions'
-import { CreateAccountCopyTestType, InviteMethodType, SuperchargeButtonType } from 'src/app/types'
+import { CreateAccountCopyTestType, InviteMethodType } from 'src/app/types'
 import { SuperchargeTokenConfigByToken } from 'src/consumerIncentives/types'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
@@ -43,7 +43,6 @@ export interface State {
   sentryNetworkErrors: string[]
   supportedBiometryType: BIOMETRY_TYPE | null
   biometryEnabled: boolean
-  superchargeButtonType: SuperchargeButtonType
   skipVerification: boolean
   showPriceChangeIndicatorInBalances: boolean
   paymentDeepLinkHandler: PaymentDeepLinkHandler
@@ -95,7 +94,6 @@ const initialState = {
   sentryNetworkErrors: REMOTE_CONFIG_VALUES_DEFAULTS.sentryNetworkErrors.split(','),
   supportedBiometryType: null,
   biometryEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.biometryEnabled,
-  superchargeButtonType: REMOTE_CONFIG_VALUES_DEFAULTS.superchargeButtonType,
   skipVerification: REMOTE_CONFIG_VALUES_DEFAULTS.skipVerification,
   showPriceChangeIndicatorInBalances:
     REMOTE_CONFIG_VALUES_DEFAULTS.showPriceChangeIndicatorInBalances,
@@ -220,7 +218,6 @@ export const appReducer = (
         sentryTracesSampleRate: action.configValues.sentryTracesSampleRate,
         sentryNetworkErrors: action.configValues.sentryNetworkErrors,
         biometryEnabled: action.configValues.biometryEnabled,
-        superchargeButtonType: action.configValues.superchargeButtonType,
         skipVerification: action.configValues.skipVerification,
         showPriceChangeIndicatorInBalances: action.configValues.showPriceChangeIndicatorInBalances,
         paymentDeepLinkHandler: action.configValues.paymentDeepLinkHandler,
