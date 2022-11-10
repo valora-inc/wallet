@@ -1,5 +1,6 @@
-import { FiatAccountType } from '@fiatconnect/fiatconnect-types'
+import { FiatAccountSchema, FiatAccountType } from '@fiatconnect/fiatconnect-types'
 import { fireEvent, render } from '@testing-library/react-native'
+import _ from 'lodash'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
@@ -77,4 +78,32 @@ describe('LinkAccountScreen', () => {
       quote: normalizedQuote,
     })
   })
+
+  it.each`
+    accountSchema                      | translationName
+    ${FiatAccountSchema.AccountNumber} | ${'bankAccount'}
+    ${FiatAccountSchema.MobileMoney}   | ${'mobileMoney'}
+  `(
+    'shows correct text for account schema $accountSchema',
+    async ({ accountSchema, translationName }) => {
+      const mobileMoneyQuote = _.cloneDeep(normalizedQuote)
+      mobileMoneyQuote.quoteResponseFiatAccountSchema = {
+        fiatAccountSchema: accountSchema,
+        allowedValues: {},
+      }
+
+      const mobileMoneyProps = getMockStackScreenProps(Screens.FiatConnectLinkAccount, {
+        flow: CICOFlow.CashOut,
+        quote: mobileMoneyQuote,
+      })
+
+      const { queryByText } = render(
+        <Provider store={store}>
+          <FiatConnectLinkAccountScreen {...mobileMoneyProps} />
+        </Provider>
+      )
+
+      expect(queryByText(`fiatConnectLinkAccountScreen.${translationName}.bodyTitle`)).toBeTruthy()
+    }
+  )
 })

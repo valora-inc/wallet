@@ -7,6 +7,7 @@ import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
+import { convertAccountSchemaToTranslation } from 'src/fiatconnect'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import i18n from 'src/i18n'
@@ -72,10 +73,18 @@ export function LinkAccountSection(props: {
 
   return (
     <SafeAreaView style={styles.content}>
-      <Text style={styles.title}>{t('fiatConnectLinkAccountScreen.bankAccount.bodyTitle')}</Text>
+      <Text style={styles.title}>
+        {t(
+          `fiatConnectLinkAccountScreen.${convertAccountSchemaToTranslation(
+            quote.getFiatAccountSchema()
+          )}.bodyTitle`
+        )}
+      </Text>
       <Text testID="descriptionText" style={styles.description}>
         <Trans
-          i18nKey={'fiatConnectLinkAccountScreen.bankAccount.description'}
+          i18nKey={`fiatConnectLinkAccountScreen.${convertAccountSchemaToTranslation(
+            quote.getFiatAccountSchema()
+          )}.description`}
           values={{ providerName: quote.getProviderName() }}
         >
           <Text testID="providerNameText" style={styles.providerLink} onPress={onPressProvider} />
@@ -120,8 +129,11 @@ FiatConnectLinkAccountScreen.navigationOptions = ({
       }}
     />
   ),
-  // NOTE: title should be dynamic when we support multiple fiat account types
-  headerTitle: i18n.t('fiatConnectLinkAccountScreen.bankAccount.header'),
+  headerTitle: i18n.t(
+    `fiatConnectLinkAccountScreen.${convertAccountSchemaToTranslation(
+      route.params.quote.getFiatAccountSchema()
+    )}.header`
+  ),
 })
 
 const styles = StyleSheet.create({

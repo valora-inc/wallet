@@ -19,6 +19,7 @@ import { CICOEvents, FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { PRIVACY_LINK } from 'src/brandingConfig'
 import BackButton from 'src/components/BackButton'
+import { convertAccountSchemaToTranslation } from 'src/fiatconnect'
 import { LinkAccountSection } from 'src/fiatconnect/LinkAccountScreen'
 import { selectFiatConnectQuote } from 'src/fiatconnect/slice'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
@@ -68,8 +69,11 @@ KycLanding.navigationOptions = ({
       }}
     />
   ),
-  // NOTE: title should be dynamic when we support multiple fiat account types
-  headerTitle: i18n.t('fiatConnectLinkAccountScreen.bankAccount.header'),
+  headerTitle: i18n.t(
+    `fiatConnectLinkAccountScreen.${convertAccountSchemaToTranslation(
+      route.params.quote.getFiatAccountSchema()
+    )}.header`
+  ),
 })
 
 const useComponentSize = (): [
