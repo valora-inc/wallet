@@ -22,7 +22,6 @@ describe('PincodeLock', () => {
         pincodeType: PincodeType.PhoneAuth,
       },
       app: {
-        biometryEnabled: true,
         supportedBiometryType: BIOMETRY_TYPE.FACE_ID,
       },
     })
