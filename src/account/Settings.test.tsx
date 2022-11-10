@@ -145,7 +145,6 @@ describe('Account', () => {
     const store = createMockStore({
       app: {
         supportedBiometryType: BIOMETRY_TYPE.FACE_ID,
-        biometryEnabled: true,
       },
       account: {
         pincodeType: PincodeType.CustomPin,

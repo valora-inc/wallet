@@ -93,7 +93,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 89,
+          "version": 91,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -127,7 +127,6 @@ describe('store state', () => {
           "activeScreen": "Main",
           "analyticsEnabled": true,
           "appState": "Active",
-          "biometryEnabled": false,
           "cashInButtonExpEnabled": false,
           "celoEducationUri": null,
           "celoEuroEnabled": true,
@@ -176,7 +175,6 @@ describe('store state', () => {
           "skipProfilePicture": false,
           "skipVerification": false,
           "superchargeApy": 12,
-          "superchargeButtonType": "PILL_REWARDS",
           "superchargeTokenConfigByToken": Object {},
           "supportedBiometryType": null,
           "visualizeNFTsEnabledInHomeAssetsPage": false,

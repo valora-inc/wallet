@@ -1,4 +1,4 @@
-import { fireEvent, render, RenderAPI, waitFor } from '@testing-library/react-native'
+import { fireEvent, render, RenderAPI } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { Share } from 'react-native'
@@ -6,11 +6,9 @@ import * as RNLocalize from 'react-native-localize'
 import { Provider } from 'react-redux'
 import { ErrorDisplayType } from 'src/alert/reducer'
 import { SendOrigin } from 'src/analytics/types'
-import { InviteMethodType } from 'src/app/types'
 import { FeeType } from 'src/fees/reducer'
 import i18n from 'src/i18n'
 import { AddressValidationType, E164NumberToAddressType } from 'src/identity/reducer'
-import * as InviteUtils from 'src/invite/utils'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -27,8 +25,6 @@ import {
   mockTransactionData,
   mockTransactionDataLegacy,
 } from 'test/values'
-
-const mockedCreateDynamicLink = jest.spyOn(InviteUtils, 'createDynamicLink')
 
 const AMOUNT_ZERO = '0.00'
 const AMOUNT_VALID = '4.93'
@@ -300,54 +296,6 @@ describe('SendAmount', () => {
       )
 
       expect(getByText('send')).toBeTruthy()
-    })
-
-    it('displays the loading spinner when verification status is unknown', () => {
-      const store = createMockStore({
-        ...storeData,
-        identity: {
-          e164NumberToAddress: {},
-          secureSendPhoneNumberMapping: {},
-        },
-      })
-
-      const tree = render(
-        <Provider store={store}>
-          <SendAmount {...mockScreenProps()} />
-        </Provider>
-      )
-
-      expect(tree.getByTestId('Button/Loading')).toBeTruthy()
-    })
-
-    it('displays the invite modal when verification status is unverified', async () => {
-      mockedCreateDynamicLink.mockResolvedValue('https://vlra.app/abc123')
-      const store = createMockStore({
-        app: {
-          inviteMethod: InviteMethodType.ManualShare,
-        },
-        identity: {
-          e164NumberToAddress: { [mockE164NumberInvite]: null },
-        },
-        ...storeData,
-      })
-
-      const tree = render(
-        <Provider store={store}>
-          <SendAmount {...mockScreenProps()} />
-        </Provider>
-      )
-
-      expect(tree.getByText('inviteModal.title, {"contactName":"Jane Doe"}')).toBeTruthy()
-      expect(tree.getByText('inviteModal.body')).toBeTruthy()
-
-      await waitFor(() =>
-        expect(tree.getByText('inviteModal.sendInviteButtonLabel')).not.toBeDisabled()
-      )
-      fireEvent.press(tree.getByText('inviteModal.sendInviteButtonLabel'))
-      expect(Share.share).toHaveBeenCalledWith({
-        message: `inviteModal.shareMessage, {"link":"https://vlra.app/abc123"}`,
-      })
     })
 
     it('only allows inviting with core tokens', () => {
