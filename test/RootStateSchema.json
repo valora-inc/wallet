@@ -2029,9 +2029,6 @@
                 "appState": {
                     "$ref": "#/definitions/AppState"
                 },
-                "biometryEnabled": {
-                    "type": "boolean"
-                },
                 "cashInButtonExpEnabled": {
                     "type": "boolean"
                 },
@@ -2201,7 +2198,6 @@
                 "activeScreen",
                 "analyticsEnabled",
                 "appState",
-                "biometryEnabled",
                 "cashInButtonExpEnabled",
                 "celoEducationUri",
                 "celoEuroEnabled",

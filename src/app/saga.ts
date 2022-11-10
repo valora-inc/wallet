@@ -200,7 +200,6 @@ export interface RemoteConfigValues {
   allowOtaTranslations: boolean
   sentryTracesSampleRate: number
   sentryNetworkErrors: string[]
-  biometryEnabled: boolean
   maxNumRecentDapps: number
   skipVerification: boolean
   showPriceChangeIndicatorInBalances: boolean

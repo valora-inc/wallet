@@ -13,7 +13,7 @@ import { PincodeType } from 'src/account/reducer'
 import { pincodeTypeSelector } from 'src/account/selectors'
 import { appUnlock } from 'src/app/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { biometryEnabledSelector } from 'src/app/selectors'
+import { supportedBiometryTypeSelector } from 'src/app/selectors'
 import { background } from 'src/images/Images'
 import { checkPin, getPincodeWithBiometry } from 'src/pincode/authentication'
 import Pincode from 'src/pincode/Pincode'
@@ -27,9 +27,10 @@ function PincodeLock() {
   const { t } = useTranslation()
   const account = useSelector(currentAccountSelector)
   const pincodeType = useSelector(pincodeTypeSelector)
-  const biometryEnabled = useSelector(biometryEnabledSelector)
+  const supportedBiometryType = useSelector(supportedBiometryTypeSelector)
 
-  const shouldGetPinWithBiometry = biometryEnabled && pincodeType === PincodeType.PhoneAuth
+  const shouldGetPinWithBiometry =
+    supportedBiometryType !== null && pincodeType === PincodeType.PhoneAuth
 
   const onWrongPin = () => {
     setPin('')
