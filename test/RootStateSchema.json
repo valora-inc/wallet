@@ -2029,9 +2029,6 @@
                 "appState": {
                     "$ref": "#/definitions/AppState"
                 },
-                "biometryEnabled": {
-                    "type": "boolean"
-                },
                 "cashInButtonExpEnabled": {
                     "type": "boolean"
                 },
@@ -2170,9 +2167,6 @@
                 "superchargeApy": {
                     "type": "number"
                 },
-                "superchargeButtonType": {
-                    "$ref": "#/definitions/SuperchargeButtonType"
-                },
                 "superchargeTokenConfigByToken": {
                     "$ref": "#/definitions/SuperchargeTokenConfigByToken"
                 },
@@ -2204,7 +2198,6 @@
                 "activeScreen",
                 "analyticsEnabled",
                 "appState",
-                "biometryEnabled",
                 "cashInButtonExpEnabled",
                 "celoEducationUri",
                 "celoEuroEnabled",
@@ -2241,7 +2234,6 @@
                 "skipProfilePicture",
                 "skipVerification",
                 "superchargeApy",
-                "superchargeButtonType",
                 "superchargeTokenConfigByToken",
                 "supportedBiometryType",
                 "visualizeNFTsEnabledInHomeAssetsPage",
@@ -3753,15 +3745,6 @@
                 "$ref": "#/definitions/StoredTokenBalance"
             },
             "type": "object"
-        },
-        "SuperchargeButtonType": {
-            "enum": [
-                "MENU_REWARDS",
-                "MENU_SUPERCHARGE",
-                "PILL_REWARDS",
-                "PILL_SUPERCHARGE"
-            ],
-            "type": "string"
         },
         "SuperchargePendingReward": {
             "additionalProperties": false,

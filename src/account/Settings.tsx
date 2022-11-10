@@ -36,7 +36,6 @@ import {
   setSessionId,
 } from 'src/app/actions'
 import {
-  biometryEnabledSelector,
   phoneNumberVerifiedSelector,
   sessionIdSelector,
   supportedBiometryTypeSelector,
@@ -95,7 +94,6 @@ interface StateProps {
   sessionId: string
   connectedApplications: number
   walletConnectEnabled: boolean
-  biometryEnabled: boolean
   supportedBiometryType: BIOMETRY_TYPE | null
   shouldShowRecoveryPhraseInSettings: boolean
 }
@@ -120,7 +118,6 @@ const mapStateToProps = (state: RootState): StateProps => {
     sessionId: sessionIdSelector(state),
     connectedApplications: state.walletConnect.v1.sessions.length,
     walletConnectEnabled: v1,
-    biometryEnabled: biometryEnabledSelector(state),
     supportedBiometryType: supportedBiometryTypeSelector(state),
     shouldShowRecoveryPhraseInSettings: shouldShowRecoveryPhraseInSettingsSelector(state),
   }
@@ -446,7 +443,7 @@ export class Account extends React.Component<Props, State> {
               onPress={this.goToChangePin}
               testID="ChangePIN"
             />
-            {this.props.biometryEnabled && this.props.supportedBiometryType && (
+            {this.props.supportedBiometryType && (
               <SettingsItemSwitch
                 title={t('useBiometryType', {
                   biometryType: t(`biometryType.${this.props.supportedBiometryType}`),

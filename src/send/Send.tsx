@@ -11,16 +11,24 @@ import { hideAlert } from 'src/alert/actions'
 import { RequestEvents, SendEvents } from 'src/analytics/Events'
 import { SendOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { phoneNumberVerifiedSelector, verificationPossibleSelector } from 'src/app/selectors'
+import {
+  centralPhoneVerificationEnabledSelector,
+  inviteMethodSelector,
+  phoneNumberVerifiedSelector,
+  verificationPossibleSelector,
+} from 'src/app/selectors'
+import { InviteMethodType } from 'src/app/types'
+import InviteOptionsModal from 'src/components/InviteOptionsModal'
 import ContactPermission from 'src/icons/ContactPermission'
 import VerifyPhone from 'src/icons/VerifyPhone'
 import { importContacts } from 'src/identity/actions'
+import { RecipientVerificationStatus } from 'src/identity/types'
 import { noHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { filterRecipientFactory, Recipient, sortRecipients } from 'src/recipients/recipient'
-import RecipientPicker from 'src/recipients/RecipientPicker'
+import RecipientPicker, { Section } from 'src/recipients/RecipientPicker'
 import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import useSelector from 'src/redux/useSelector'
 import { InviteRewardsBanner } from 'src/send/InviteRewardsBanner'
@@ -28,16 +36,12 @@ import { inviteRewardsActiveSelector } from 'src/send/selectors'
 import { SendCallToAction } from 'src/send/SendCallToAction'
 import SendHeader from 'src/send/SendHeader'
 import { SendSearchInput } from 'src/send/SendSearchInput'
+import useFetchRecipientVerificationStatus from 'src/send/useFetchRecipientVerificationStatus'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import { navigateToPhoneSettings } from 'src/utils/linking'
 import { requestContactsPermission } from 'src/utils/permissions'
 
 const SEARCH_THROTTLE_TIME = 100
-
-interface Section {
-  key: string
-  data: Recipient[]
-}
 
 type Props = NativeStackScreenProps<StackParamList, Screens.Send>
 
@@ -47,6 +51,11 @@ function Send({ route }: Props) {
   const forceTokenAddress = route.params?.forceTokenAddress
   const { t } = useTranslation()
 
+  const { recipientVerificationStatus, recipient, setSelectedRecipient } =
+    useFetchRecipientVerificationStatus()
+
+  const inviteMethod = useSelector(inviteMethodSelector)
+  const centralPhoneVerificationEnabled = useSelector(centralPhoneVerificationEnabledSelector)
   const defaultCountryCode = useSelector(defaultCountryCodeSelector)
   const numberVerified = useSelector(phoneNumberVerifiedSelector)
   const inviteRewardsEnabled = useSelector(inviteRewardsActiveSelector)
@@ -58,6 +67,7 @@ function Send({ route }: Props) {
   const [hasGivenContactPermission, setHasGivenContactPermission] = useState(true)
   const [allFiltered, setAllFiltered] = useState(() => sortRecipients(Object.values(allRecipients)))
   const [recentFiltered, setRecentFiltered] = useState(() => recentRecipients)
+  const [showInviteModal, setShowInviteModal] = useState(false)
 
   const verificationPossible = useSelector(verificationPossibleSelector)
 
@@ -103,6 +113,28 @@ function Send({ route }: Props) {
     }
   }, [result])
 
+  useEffect(() => {
+    if (!recipient || recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN) {
+      return
+    }
+
+    const escrowDisabled =
+      centralPhoneVerificationEnabled ||
+      inviteMethod === InviteMethodType.ManualShare ||
+      inviteMethod === InviteMethodType.ReferralUrl
+    if (recipientVerificationStatus === RecipientVerificationStatus.UNVERIFIED && escrowDisabled) {
+      setShowInviteModal(true)
+      return
+    }
+
+    navigate(Screens.SendAmount, {
+      recipient,
+      isOutgoingPaymentRequest,
+      origin: isOutgoingPaymentRequest ? SendOrigin.AppRequestFlow : SendOrigin.AppSendFlow,
+      forceTokenAddress,
+    })
+  }, [recipient, recipientVerificationStatus])
+
   const onSelectRecipient = useCallback(
     (recipient: Recipient) => {
       dispatch(hideAlert())
@@ -116,12 +148,7 @@ function Send({ route }: Props) {
         }
       )
 
-      navigate(Screens.SendAmount, {
-        recipient,
-        isOutgoingPaymentRequest,
-        origin: isOutgoingPaymentRequest ? SendOrigin.AppRequestFlow : SendOrigin.AppSendFlow,
-        forceTokenAddress,
-      })
+      setSelectedRecipient(recipient)
     },
     [isOutgoingPaymentRequest, searchQuery]
   )
@@ -143,6 +170,10 @@ function Send({ route }: Props) {
     ].filter((section) => section.data.length > 0)
 
     return sections
+  }
+
+  const onCloseInviteModal = () => {
+    setShowInviteModal(false)
   }
 
   const renderListHeader = () => {
@@ -187,7 +218,12 @@ function Send({ route }: Props) {
         listHeaderComponent={renderListHeader}
         onSelectRecipient={onSelectRecipient}
         isOutgoingPaymentRequest={isOutgoingPaymentRequest}
+        selectedRecipient={recipient}
+        recipientVerificationStatus={recipientVerificationStatus}
       />
+      {showInviteModal && recipient && (
+        <InviteOptionsModal recipient={recipient} onClose={onCloseInviteModal} />
+      )}
     </SafeAreaView>
   )
 }

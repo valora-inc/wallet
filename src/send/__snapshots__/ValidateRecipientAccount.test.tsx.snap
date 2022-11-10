@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ValidateRecipientAccount renders correctly when full validation required 1`] = `
-<View
+<RNCSafeAreaView
   style={
     Object {
       "flex": 1,
@@ -641,11 +641,11 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
       </RNCSafeAreaView>
     </View>
   </Modal>
-</View>
+</RNCSafeAreaView>
 `;
 
 exports[`ValidateRecipientAccount renders correctly when partial validation required 1`] = `
-<View
+<RNCSafeAreaView
   style={
     Object {
       "flex": 1,
@@ -1470,5 +1470,5 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
       </RNCSafeAreaView>
     </View>
   </Modal>
-</View>
+</RNCSafeAreaView>
 `;
