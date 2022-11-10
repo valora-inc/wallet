@@ -618,7 +618,7 @@ export const migrations = {
     ...state,
     app: {
       ...state.app,
-      celoWithdrawalEnabledInExchange: false,
+      celoWithdrawalEnabledInExchange: true,
     },
   }),
   52: (state: any) => ({
