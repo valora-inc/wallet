@@ -14,6 +14,7 @@ import DisconnectBanner from 'src/shared/DisconnectBanner'
 import { useBalance } from 'src/stableToken/hooks'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
+import variables from 'src/styles/variables'
 import { useTokenInfo, useTokenInfoBySymbol } from 'src/tokens/hooks'
 import { Currency } from 'src/utils/currencies'
 
@@ -48,7 +49,7 @@ export const nuxNavigationOptions: NativeStackNavigationOptions = {
   headerShown: true,
   headerTransparent: true,
   headerBackVisible: false,
-  headerLeft: ({ canGoBack }) => (canGoBack ? <BackButton style={{ paddingLeft: 0 }} /> : <View />),
+  headerLeft: ({ canGoBack }) => (canGoBack ? <BackButton /> : <View />),
   headerRight: () => <View />,
   headerTitle: () => <DisconnectBanner />,
   headerStyle: {
@@ -79,7 +80,7 @@ export const drawerHeader: NativeStackNavigationOptions = {
 
 export const headerWithBackButton: NativeStackNavigationOptions = {
   ...emptyHeader,
-  headerLeft: ({ canGoBack }) => (canGoBack ? <BackButton style={{ paddingLeft: 0 }} /> : null),
+  headerLeft: ({ canGoBack }) => (canGoBack ? <BackButton /> : null),
   animation: 'slide_from_right',
 }
 
@@ -96,7 +97,7 @@ export const headerWithBackEditButtons: NativeStackNavigationOptions = {
     ) : (
       <CancelButton buttonType="text" />
     ),
-  headerRight: () => <BackButton />,
+  headerRight: () => <BackButton style={{ paddingRight: variables.contentPadding + 6 }} />,
 }
 
 export const headerWithCloseButton: NativeStackNavigationOptions = {
