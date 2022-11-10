@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import { FinclusiveKycStatus, PincodeType } from 'src/account/reducer'
 import { AppState } from 'src/app/actions'
-import { InviteMethodType, SuperchargeButtonType } from 'src/app/types'
+import { InviteMethodType } from 'src/app/types'
 import { CodeInputStatus } from 'src/components/CodeInput'
 import { DappConnectInfo } from 'src/dapps/types'
 import { SendingFiatAccountStatus } from 'src/fiatconnect/slice'
@@ -882,7 +882,7 @@ export const v27Schema = {
   app: {
     ...v26Schema.app,
 
-    superchargeButtonType: SuperchargeButtonType.PillRewards,
+    superchargeButtonType: 'PILL_REWARDS',
   },
 }
 
@@ -1755,6 +1755,15 @@ export const v88Schema = {
   },
 }
 
+export const v89Schema = {
+  ...v88Schema,
+  _persist: {
+    ...v88Schema._persist,
+    version: 89,
+  },
+  app: _.omit(v88Schema.app, 'superchargeButtonType'),
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v88Schema as Partial<RootState>
+  return v89Schema as Partial<RootState>
 }

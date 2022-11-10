@@ -111,8 +111,6 @@ export const activeScreenSelector = (state: RootState) => state.app.activeScreen
 export const showPriceChangeIndicatorInBalancesSelector = (state: RootState) =>
   state.app.showPriceChangeIndicatorInBalances
 
-export const superchargeButtonTypeSelector = (state: RootState) => state.app.superchargeButtonType
-
 export const skipVerificationSelector = (state: RootState) => state.app.skipVerification
 
 export const fiatConnectCashInEnabledSelector = (state: RootState) =>
