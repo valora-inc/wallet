@@ -76,7 +76,7 @@ function VerificationEducationScreen(props: Props) {
 }
 
 function VerificationEducationScreenDecentralized({ route, navigation }: Props) {
-  const [showSkipDialog, setShowSkipDialog] = useState(route.params?.showSkipDialog || false)
+  const showSkipDialog = route.params?.showSkipDialog || false
   const account = useTypedSelector(currentAccountSelector)
   const [showLearnMoreDialog, setShowLearnMoreDialog] = useState(false)
   const { t } = useTranslation()
@@ -116,7 +116,6 @@ function VerificationEducationScreenDecentralized({ route, navigation }: Props) 
 
   const onPressSkip = () => {
     ValoraAnalytics.track(VerificationEvents.verification_skip)
-    setShowSkipDialog(false)
     navigation.setParams({ showSkipDialog: true })
   }
 
