@@ -42,7 +42,6 @@ export interface State {
   sentryTracesSampleRate: number
   sentryNetworkErrors: string[]
   supportedBiometryType: BIOMETRY_TYPE | null
-  biometryEnabled: boolean
   skipVerification: boolean
   showPriceChangeIndicatorInBalances: boolean
   paymentDeepLinkHandler: PaymentDeepLinkHandler
@@ -93,7 +92,6 @@ const initialState = {
   sentryTracesSampleRate: REMOTE_CONFIG_VALUES_DEFAULTS.sentryTracesSampleRate,
   sentryNetworkErrors: REMOTE_CONFIG_VALUES_DEFAULTS.sentryNetworkErrors.split(','),
   supportedBiometryType: null,
-  biometryEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.biometryEnabled,
   skipVerification: REMOTE_CONFIG_VALUES_DEFAULTS.skipVerification,
   showPriceChangeIndicatorInBalances:
     REMOTE_CONFIG_VALUES_DEFAULTS.showPriceChangeIndicatorInBalances,
@@ -217,7 +215,6 @@ export const appReducer = (
         rampCashInButtonExpEnabled: action.configValues.rampCashInButtonExpEnabled,
         sentryTracesSampleRate: action.configValues.sentryTracesSampleRate,
         sentryNetworkErrors: action.configValues.sentryNetworkErrors,
-        biometryEnabled: action.configValues.biometryEnabled,
         skipVerification: action.configValues.skipVerification,
         showPriceChangeIndicatorInBalances: action.configValues.showPriceChangeIndicatorInBalances,
         paymentDeepLinkHandler: action.configValues.paymentDeepLinkHandler,
