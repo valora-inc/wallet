@@ -2170,9 +2170,6 @@
                 "superchargeApy": {
                     "type": "number"
                 },
-                "superchargeButtonType": {
-                    "$ref": "#/definitions/SuperchargeButtonType"
-                },
                 "superchargeTokenConfigByToken": {
                     "$ref": "#/definitions/SuperchargeTokenConfigByToken"
                 },
@@ -2241,7 +2238,6 @@
                 "skipProfilePicture",
                 "skipVerification",
                 "superchargeApy",
-                "superchargeButtonType",
                 "superchargeTokenConfigByToken",
                 "supportedBiometryType",
                 "visualizeNFTsEnabledInHomeAssetsPage",
@@ -3753,15 +3749,6 @@
                 "$ref": "#/definitions/StoredTokenBalance"
             },
             "type": "object"
-        },
-        "SuperchargeButtonType": {
-            "enum": [
-                "MENU_REWARDS",
-                "MENU_SUPERCHARGE",
-                "PILL_REWARDS",
-                "PILL_SUPERCHARGE"
-            ],
-            "type": "string"
         },
         "SuperchargePendingReward": {
             "additionalProperties": false,
