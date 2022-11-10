@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { Field, SwapAmount } from 'src/swap/types'
+import { Field, ParsedSwapAmount } from 'src/swap/types'
 import { TokenBalance } from 'src/tokens/slice'
 import { multiplyByWei } from 'src/utils/formatting'
 import Logger from 'src/utils/Logger'
@@ -26,17 +26,19 @@ const useSwapQuote = () => {
   const refreshQuote = async (
     fromToken: TokenBalance,
     toToken: TokenBalance,
-    swapAmount: SwapAmount,
+    swapAmount: ParsedSwapAmount,
     updatedField: Field
   ) => {
     setFetchSwapQuoteError(false)
 
-    if (!swapAmount[updatedField]) {
+    if (!swapAmount[updatedField].gt(0)) {
       setExchangeRate(null)
       return
     }
 
-    const swapAmountInWei = multiplyByWei(swapAmount[updatedField]!)
+    // This only works for tokens with 18 decimals
+    // TODO: make this work for tokens with different decimals
+    const swapAmountInWei = multiplyByWei(swapAmount[updatedField])
     if (swapAmountInWei.lte(0)) {
       setExchangeRate(null)
       return
@@ -46,7 +48,7 @@ const useSwapQuote = () => {
     const params = {
       buyToken: toToken.address,
       sellToken: fromToken.address,
-      [swapAmountParam]: swapAmountInWei.toString().split('.')[0],
+      [swapAmountParam]: swapAmountInWei.toFixed(0, BigNumber.ROUND_DOWN),
       userAddress: walletAddress ?? '',
     }
     const queryParams = new URLSearchParams({ ...params }).toString()
@@ -68,7 +70,7 @@ const useSwapQuote = () => {
         setExchangeRate(
           updatedField === Field.FROM
             ? swapPrice
-            : new BigNumber(1).div(new BigNumber(swapPrice)).toString()
+            : new BigNumber(1).div(new BigNumber(swapPrice)).toFixed()
         )
       } else {
         setFetchSwapQuoteError(true)

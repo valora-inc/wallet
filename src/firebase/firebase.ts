@@ -13,7 +13,7 @@ import { call, take } from 'redux-saga/effects'
 import { handleUpdateAccountRegistration } from 'src/account/saga'
 import { updateAccountRegistration } from 'src/account/updateAccountRegistration'
 import { RemoteConfigValues } from 'src/app/saga'
-import { CreateAccountCopyTestType, InviteMethodType, SuperchargeButtonType } from 'src/app/types'
+import { CreateAccountCopyTestType, InviteMethodType } from 'src/app/types'
 import { FETCH_TIMEOUT_DURATION, FIREBASE_ENABLED } from 'src/config'
 import { DappConnectInfo } from 'src/dapps/types'
 import { handleNotification } from 'src/firebase/notifications'
@@ -283,8 +283,6 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     allowOtaTranslations: flags.allowOtaTranslations.asBoolean(),
     sentryTracesSampleRate: flags.sentryTracesSampleRate.asNumber(),
     sentryNetworkErrors: flags.sentryNetworkErrors.asString().split(','),
-    biometryEnabled: flags.biometryEnabled.asBoolean(),
-    superchargeButtonType: flags.superchargeButtonType.asString() as SuperchargeButtonType,
     maxNumRecentDapps: flags.maxNumRecentDapps.asNumber(),
     skipVerification: flags.skipVerification.asBoolean(),
     showPriceChangeIndicatorInBalances: flags.showPriceChangeIndicatorInBalances.asBoolean(),
