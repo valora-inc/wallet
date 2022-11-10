@@ -2,7 +2,7 @@ import { UnlockableWallet } from '@celo/wallet-base'
 import { CreateQuoteParams, FiatConnectApiClient } from '@fiatconnect/fiatconnect-sdk'
 import {
   CryptoType,
-  FiatAccountSchema,
+  FiatAccountType,
   FiatType,
   QuoteErrorResponse,
   QuoteResponse,
@@ -48,17 +48,15 @@ function convertToFiatConnectCryptoCurrency(cicoCurrency: CiCoCurrency): CryptoT
 }
 
 /**
- * Small helper function to map the account schema to its name used in the base translation
+ * Small helper function to map the account type to its name used in the base translation
  * file.
  */
-export function convertAccountSchemaToTranslation(schema: FiatAccountSchema): string {
+export function convertAccountTypeToTranslation(accountType: FiatAccountType): string {
   return {
-    [FiatAccountSchema.AccountNumber]: 'bankAccount',
-    [FiatAccountSchema.DuniaWallet]: 'duniaWallet',
-    [FiatAccountSchema.IBANNumber]: 'ibanNumber',
-    [FiatAccountSchema.IFSCAccount]: 'ifscAccount',
-    [FiatAccountSchema.MobileMoney]: 'mobileMoney',
-  }[schema]
+    [FiatAccountType.BankAccount]: 'bankAccount',
+    [FiatAccountType.DuniaWallet]: 'duniaWallet',
+    [FiatAccountType.MobileMoney]: 'mobileMoney',
+  }[accountType]
 }
 
 /**

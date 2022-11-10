@@ -1,4 +1,4 @@
-import { FiatAccountSchema, FiatAccountType } from '@fiatconnect/fiatconnect-types'
+import { FiatAccountType } from '@fiatconnect/fiatconnect-types'
 import { fireEvent, render } from '@testing-library/react-native'
 import _ from 'lodash'
 import * as React from 'react'
@@ -80,26 +80,23 @@ describe('LinkAccountScreen', () => {
   })
 
   it.each`
-    accountSchema                      | translationName
-    ${FiatAccountSchema.AccountNumber} | ${'bankAccount'}
-    ${FiatAccountSchema.MobileMoney}   | ${'mobileMoney'}
+    accountType                    | translationName
+    ${FiatAccountType.BankAccount} | ${'bankAccount'}
+    ${FiatAccountType.MobileMoney} | ${'mobileMoney'}
   `(
-    'shows correct text for account schema $accountSchema',
-    async ({ accountSchema, translationName }) => {
-      const mobileMoneyQuote = _.cloneDeep(normalizedQuote)
-      mobileMoneyQuote.quoteResponseFiatAccountSchema = {
-        fiatAccountSchema: accountSchema,
-        allowedValues: {},
-      }
+    'shows correct text for account type $accountType',
+    async ({ accountType, translationName }) => {
+      const accountTypeQuote = _.cloneDeep(normalizedQuote)
+      accountTypeQuote.fiatAccountType = accountType
 
-      const mobileMoneyProps = getMockStackScreenProps(Screens.FiatConnectLinkAccount, {
+      const accountTypeProps = getMockStackScreenProps(Screens.FiatConnectLinkAccount, {
         flow: CICOFlow.CashOut,
-        quote: mobileMoneyQuote,
+        quote: accountTypeQuote,
       })
 
       const { queryByText } = render(
         <Provider store={store}>
-          <FiatConnectLinkAccountScreen {...mobileMoneyProps} />
+          <FiatConnectLinkAccountScreen {...accountTypeProps} />
         </Provider>
       )
 

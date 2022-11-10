@@ -7,7 +7,7 @@ import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
-import { convertAccountSchemaToTranslation } from 'src/fiatconnect'
+import { convertAccountTypeToTranslation } from 'src/fiatconnect'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import i18n from 'src/i18n'
@@ -75,15 +75,15 @@ export function LinkAccountSection(props: {
     <SafeAreaView style={styles.content}>
       <Text style={styles.title}>
         {t(
-          `fiatConnectLinkAccountScreen.${convertAccountSchemaToTranslation(
-            quote.getFiatAccountSchema()
+          `fiatConnectLinkAccountScreen.${convertAccountTypeToTranslation(
+            quote.getFiatAccountType()
           )}.bodyTitle`
         )}
       </Text>
       <Text testID="descriptionText" style={styles.description}>
         <Trans
-          i18nKey={`fiatConnectLinkAccountScreen.${convertAccountSchemaToTranslation(
-            quote.getFiatAccountSchema()
+          i18nKey={`fiatConnectLinkAccountScreen.${convertAccountTypeToTranslation(
+            quote.getFiatAccountType()
           )}.description`}
           values={{ providerName: quote.getProviderName() }}
         >
@@ -130,8 +130,8 @@ FiatConnectLinkAccountScreen.navigationOptions = ({
     />
   ),
   headerTitle: i18n.t(
-    `fiatConnectLinkAccountScreen.${convertAccountSchemaToTranslation(
-      route.params.quote.getFiatAccountSchema()
+    `fiatConnectLinkAccountScreen.${convertAccountTypeToTranslation(
+      route.params.quote.getFiatAccountType()
     )}.header`
   ),
 })
