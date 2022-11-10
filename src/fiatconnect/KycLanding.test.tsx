@@ -31,7 +31,8 @@ describe('KycLanding', () => {
   })
   store.dispatch = jest.fn()
 
-  afterEach(() => {
+  beforeEach(() => {
+    jest.useFakeTimers()
     jest.clearAllMocks()
   })
   describe('step one', () => {
@@ -74,6 +75,7 @@ describe('KycLanding', () => {
       )
       fireEvent.press(getByTestId('checkbox/unchecked'))
       fireEvent.press(getByTestId('PersonaButton'))
+      jest.advanceTimersByTime(600)
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(CICOEvents.persona_kyc_start)
       expect(store.dispatch).toHaveBeenCalledWith(personaStarted())
     })
@@ -131,7 +133,7 @@ describe('KycLanding', () => {
       personaKycStatus: undefined,
       step: 'two',
     })
-    it('shows step one greyd out when in step two mode', () => {
+    it('shows step one greyed out when in step two mode', () => {
       const { queryByTestId, getByTestId } = render(
         <Provider store={store}>
           <KycLanding {...props} />
@@ -143,6 +145,7 @@ describe('KycLanding', () => {
 
       expect(getByTestId('checkbox/checked')).toBeTruthy()
       expect(getByTestId('continueButton')).not.toBeDisabled()
+      expect(getByTestId('PersonaButton')).toBeDisabled()
     })
   })
 })

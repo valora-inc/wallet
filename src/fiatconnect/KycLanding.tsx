@@ -114,8 +114,7 @@ function StepOne(props: {
     <View onLayout={onLayout} style={styles.stepOne}>
       {disabled && <GreyOut testID="step-one-grey" {...size} />}
       <Text style={styles.stepText}>{t('fiatConnectKycLandingScreen.stepOne')}</Text>
-      {/* set initial checked state to true if disabled, since this step is complete */}
-      <KycAgreement personaKycStatus={personaKycStatus} quote={quote} checked={disabled} />
+      <KycAgreement personaKycStatus={personaKycStatus} quote={quote} disabled={disabled} />
     </View>
   )
 }
@@ -136,12 +135,12 @@ function StepTwo(props: { quote: FiatConnectQuote; flow: CICOFlow; disabled: boo
 function KycAgreement(props: {
   personaKycStatus?: KycStatus
   quote: FiatConnectQuote
-  checked: boolean
+  disabled: boolean
 }) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
-  const { personaKycStatus, quote } = props
-  const [agreementChecked, toggleAgreementChecked] = useState(props.checked)
+  const { personaKycStatus, quote, disabled } = props
+  const [agreementChecked, toggleAgreementChecked] = useState(false)
 
   const onPressPrivacyPolicy = () => {
     navigateToURI(PRIVACY_LINK)
@@ -158,7 +157,8 @@ function KycAgreement(props: {
           onPress={() => toggleAgreementChecked(!agreementChecked)}
           style={styles.checkBoxContainer}
         >
-          <CheckBox testID="checkbox" checked={agreementChecked} />
+          {/* If disabled, the user is in step 2 and this should be completed already*/}
+          <CheckBox testID="checkbox" checked={disabled || agreementChecked} />
         </TouchableOpacity>
         <Text style={styles.disclaimer}>
           <Trans i18nKey={'fiatConnectKycLandingScreen.disclaimer'}>
@@ -173,9 +173,11 @@ function KycAgreement(props: {
       <Persona
         text={t('fiatConnectKycLandingScreen.button')}
         kycStatus={personaKycStatus}
-        disabled={!agreementChecked}
+        disabled={disabled || !agreementChecked}
         onPress={() => {
-          dispatch(personaStarted())
+          setTimeout(() => {
+            dispatch(personaStarted())
+          }, 500) // delay to avoid screen flash
           ValoraAnalytics.track(CICOEvents.persona_kyc_start)
         }}
         onSuccess={() => {
