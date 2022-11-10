@@ -48,6 +48,7 @@ export const styles = StyleSheet.create({
 export const nuxNavigationOptions: NativeStackNavigationOptions = {
   headerShown: true,
   headerTransparent: true,
+  // Prevents double back button on Android
   headerBackVisible: false,
   headerLeft: ({ canGoBack }) => (canGoBack ? <BackButton /> : <View />),
   headerRight: () => <View />,
@@ -65,6 +66,7 @@ export const nuxNavigationOptionsNoBackButton: NativeStackNavigationOptions = {
 export const emptyHeader: NativeStackNavigationOptions = {
   headerTitle: ' ',
   headerShown: true,
+  // Prevents double back button on Android
   headerBackVisible: false,
   headerTitleStyle: [styles.headerTitle, styles.screenHeader],
   headerShadowVisible: false,
