@@ -1761,9 +1761,18 @@ export const v89Schema = {
     ...v88Schema._persist,
     version: 89,
   },
-  app: _.omit(v88Schema.app, 'superchargeButtonType', 'biometryEnabled'),
+  app: _.omit(v88Schema.app, 'superchargeButtonType'),
+}
+
+export const v90Schema = {
+  ...v89Schema,
+  _persist: {
+    ...v89Schema._persist,
+    version: 90,
+  },
+  app: _.omit(v89Schema.app, 'biometryEnabled'),
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v89Schema as Partial<RootState>
+  return v90Schema as Partial<RootState>
 }

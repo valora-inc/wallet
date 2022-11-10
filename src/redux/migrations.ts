@@ -876,6 +876,10 @@ export const migrations = {
   }),
   89: (state: any) => ({
     ...state,
-    app: _.omit(state.app, 'superchargeButtonType', 'biometryEnabled'),
+    app: _.omit(state.app, 'superchargeButtonType'),
+  }),
+  90: (state: any) => ({
+    ...state,
+    app: _.omit(state.app, 'biometryEnabled'),
   }),
 }
