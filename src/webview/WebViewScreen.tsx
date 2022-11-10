@@ -88,7 +88,7 @@ function WebViewScreen({ route, navigation }: Props) {
         <TopBarTextButton
           title={t('close')}
           onPress={navigateBack}
-          titleStyle={{ color: colors.gray4 }}
+          titleStyle={{ color: colors.gray4, paddingHorizontal: 0 }}
         />
       ),
     })
