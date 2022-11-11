@@ -882,4 +882,11 @@ export const migrations = {
     ...state,
     app: _.omit(state.app, 'biometryEnabled'),
   }),
+  91: (state: any) => ({
+    ...state,
+    fiatConnect: {
+      ...state.fiatConnect,
+      personaInProgress: false,
+    },
+  }),
 }
