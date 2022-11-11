@@ -48,7 +48,7 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import { useTokenInfoBySymbol } from 'src/tokens/hooks'
-import { Currency } from 'src/utils/currencies'
+import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { roundUp } from 'src/utils/formatting'
 import Logger from 'src/utils/Logger'
 import { CICOFlow } from './utils'
@@ -65,6 +65,9 @@ const oneUnitAmount = (currency: Currency) => ({
   value: new BigNumber('1'),
   currencyCode: currency,
 })
+
+export const isUserInputCrypto = (flow: CICOFlow, currency: Currency | CiCoCurrency): boolean =>
+  flow === CICOFlow.CashOut || currency === Currency.Celo || currency === CiCoCurrency.CELO
 
 function FiatExchangeAmount({ route }: Props) {
   const { t } = useTranslation()
@@ -88,7 +91,7 @@ function FiatExchangeAmount({ route }: Props) {
   const cryptoSymbol = currency === Currency.Celo ? 'CELO' : currency
   const localCurrencySymbol = LocalCurrencySymbol[localCurrencyCode]
 
-  const inputIsCrypto = flow === CICOFlow.CashOut || currency === Currency.Celo
+  const inputIsCrypto = isUserInputCrypto(flow, currency)
 
   const inputCryptoAmount = inputIsCrypto ? parsedInputAmount : inputConvertedToCrypto
   const inputLocalCurrencyAmount = inputIsCrypto ? inputConvertedToLocalCurrency : parsedInputAmount
@@ -301,7 +304,7 @@ FiatExchangeAmount.navOptions = ({
   route: RouteProp<StackParamList, Screens.FiatExchangeAmount>
 }) => {
   const { currency, flow } = route.params
-  const inputIsCrypto = flow === CICOFlow.CashOut || currency === Currency.Celo
+  const inputIsCrypto = isUserInputCrypto(flow, currency)
   return {
     ...emptyHeader,
     headerLeft: () => <BackButton eventName={FiatExchangeEvents.cico_amount_back} />,

@@ -622,6 +622,7 @@ describe('Fiatconnect saga', () => {
           flow: CICOFlow.CashIn,
           digitalAsset: CiCoCurrency.CELO,
           cryptoAmount: 3,
+          fiatAmount: 2,
           providerIds: ['provider-one'],
         })
       )
@@ -639,6 +640,7 @@ describe('Fiatconnect saga', () => {
       expect(fetchQuotes).toHaveBeenCalledWith({
         country: 'MX',
         cryptoAmount: 3,
+        fiatAmount: 2,
         digitalAsset: 'CELO',
         fiatConnectCashInEnabled: false,
         fiatConnectCashOutEnabled: true,
@@ -657,6 +659,7 @@ describe('Fiatconnect saga', () => {
           flow: CICOFlow.CashIn,
           digitalAsset: CiCoCurrency.CELO,
           cryptoAmount: 3,
+          fiatAmount: 2,
         })
       )
         .provide([
@@ -673,6 +676,7 @@ describe('Fiatconnect saga', () => {
       expect(fetchQuotes).toHaveBeenCalledWith({
         country: 'MX',
         cryptoAmount: 3,
+        fiatAmount: 2,
         digitalAsset: 'CELO',
         fiatConnectCashInEnabled: false,
         fiatConnectCashOutEnabled: true,
@@ -690,6 +694,7 @@ describe('Fiatconnect saga', () => {
           flow: CICOFlow.CashIn,
           digitalAsset: CiCoCurrency.CELO,
           cryptoAmount: 3,
+          fiatAmount: 2,
         })
       )
         .provide([
@@ -1075,6 +1080,7 @@ describe('Fiatconnect saga', () => {
       flow: CICOFlow.CashOut,
       cryptoType: quote.getCryptoType(),
       cryptoAmount: quote.getCryptoAmount(),
+      fiatAmount: quote.getFiatAmount(),
       providerId: quote.getProviderId(),
       fiatAccount,
     })
@@ -1083,6 +1089,7 @@ describe('Fiatconnect saga', () => {
         flow: CICOFlow.CashOut,
         cryptoType: quote.getCryptoType(),
         cryptoAmount: quote.getCryptoAmount(),
+        fiatAmount: quote.getFiatAmount(),
         providerId: quote.getProviderId(),
       })
       await expectSaga(handleRefetchQuote, paramsWithoutFiatAccount)
@@ -1092,6 +1099,7 @@ describe('Fiatconnect saga', () => {
               flow: params.payload.flow,
               digitalAsset: CiCoCurrency.CUSD,
               cryptoAmount: 100,
+              fiatAmount: 100,
               providerId: params.payload.providerId,
               fiatAccount: undefined,
             }),
@@ -1117,6 +1125,7 @@ describe('Fiatconnect saga', () => {
             call(_getSpecificQuote, {
               digitalAsset: CiCoCurrency.CUSD,
               cryptoAmount: 100,
+              fiatAmount: 100,
               flow: params.payload.flow,
               providerId: params.payload.providerId,
               fiatAccount,
@@ -1135,6 +1144,7 @@ describe('Fiatconnect saga', () => {
               flow: params.payload.flow,
               digitalAsset: CiCoCurrency.CUSD,
               cryptoAmount: 100,
+              fiatAmount: 100,
               providerId: params.payload.providerId,
               fiatAccount,
             }),
@@ -1206,6 +1216,7 @@ describe('Fiatconnect saga', () => {
             call(_getSpecificQuote, {
               digitalAsset: CiCoCurrency.CUSD,
               cryptoAmount: 2,
+              fiatAmount: 2,
               flow: params.payload.flow,
               providerId: params.payload.providerId,
               fiatAccount,
@@ -1230,6 +1241,7 @@ describe('Fiatconnect saga', () => {
             call(_getSpecificQuote, {
               digitalAsset: CiCoCurrency.CUSD,
               cryptoAmount: 2,
+              fiatAmount: 2,
               flow: params.payload.flow,
               providerId: params.payload.providerId,
               fiatAccount,
@@ -1266,6 +1278,7 @@ describe('Fiatconnect saga', () => {
             call(_getSpecificQuote, {
               digitalAsset: CiCoCurrency.CUSD,
               cryptoAmount: 2,
+              fiatAmount: 2,
               flow: params.payload.flow,
               providerId: params.payload.providerId,
               fiatAccount,
@@ -1301,6 +1314,7 @@ describe('Fiatconnect saga', () => {
             call(_getSpecificQuote, {
               digitalAsset: CiCoCurrency.CUSD,
               cryptoAmount: 2,
+              fiatAmount: 2,
               flow: paramsKyc.payload.flow,
               providerId: paramsKyc.payload.providerId,
               fiatAccount: fiatAccountKyc,
@@ -1344,6 +1358,7 @@ describe('Fiatconnect saga', () => {
             call(_getSpecificQuote, {
               digitalAsset: CiCoCurrency.CUSD,
               cryptoAmount: 2,
+              fiatAmount: 2,
               flow: paramsKyc.payload.flow,
               providerId: paramsKyc.payload.providerId,
               fiatAccount: fiatAccountKyc,
@@ -1386,6 +1401,7 @@ describe('Fiatconnect saga', () => {
             call(_getSpecificQuote, {
               digitalAsset: CiCoCurrency.CUSD,
               cryptoAmount: 2,
+              fiatAmount: 2,
               flow: paramsKyc.payload.flow,
               providerId: paramsKyc.payload.providerId,
               fiatAccount: fiatAccountKyc,
@@ -1427,6 +1443,7 @@ describe('Fiatconnect saga', () => {
             call(_getSpecificQuote, {
               digitalAsset: CiCoCurrency.CUSD,
               cryptoAmount: 2,
+              fiatAmount: 2,
               flow: paramsKyc.payload.flow,
               providerId: paramsKyc.payload.providerId,
               fiatAccount: fiatAccountKyc,
@@ -1468,6 +1485,7 @@ describe('Fiatconnect saga', () => {
             call(_getSpecificQuote, {
               digitalAsset: CiCoCurrency.CUSD,
               cryptoAmount: 2,
+              fiatAmount: 2,
               flow: paramsKyc.payload.flow,
               providerId: paramsKyc.payload.providerId,
               fiatAccount: fiatAccountKyc,
@@ -1995,6 +2013,7 @@ describe('Fiatconnect saga', () => {
       await expectSaga(_getSpecificQuote, {
         digitalAsset: CiCoCurrency.CUSD,
         cryptoAmount: 2,
+        fiatAmount: 2,
         flow: CICOFlow.CashOut,
         providerId: 'provider-two',
       })
@@ -2004,6 +2023,7 @@ describe('Fiatconnect saga', () => {
               flow: CICOFlow.CashOut,
               digitalAsset: CiCoCurrency.CUSD,
               cryptoAmount: 2,
+              fiatAmount: 2,
               providerIds: ['provider-two'],
             }),
             [mockFiatConnectQuotes[1]],
@@ -2031,6 +2051,7 @@ describe('Fiatconnect saga', () => {
           await expectSaga(_getSpecificQuote, {
             digitalAsset: CiCoCurrency.CUSD,
             cryptoAmount: 2,
+            fiatAmount: 2,
             flow: CICOFlow.CashOut,
             providerId: 'provider-two',
           })
@@ -2040,6 +2061,7 @@ describe('Fiatconnect saga', () => {
                   flow: CICOFlow.CashOut,
                   digitalAsset: CiCoCurrency.CUSD,
                   cryptoAmount: 2,
+                  fiatAmount: 2,
                   providerIds: ['provider-two'],
                 }),
                 [mockFiatConnectQuotes[1]],
@@ -2069,6 +2091,7 @@ describe('Fiatconnect saga', () => {
               flow: CICOFlow.CashOut,
               digitalAsset: CiCoCurrency.CUSD,
               cryptoAmount: 2,
+              fiatAmount: 2,
               providerIds: ['provider-two'],
             }),
             [mockFiatConnectQuotes[1]],
@@ -2099,6 +2122,7 @@ describe('Fiatconnect saga', () => {
                   flow: CICOFlow.CashOut,
                   digitalAsset: CiCoCurrency.CUSD,
                   cryptoAmount: 2,
+                  fiatAmount: 2,
                   providerIds: ['provider-two'],
                 }),
                 [mockFiatConnectQuotes[1]],
