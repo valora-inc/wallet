@@ -120,7 +120,7 @@ async function onboardAndBeginTransferOut(token, fundingAmount, cashOutAmount) {
   // FiatExchange
   await waitFor(element(by.text(`${fundingAmount} cUSD`))) // need a balance to withdraw
     .toBeVisible()
-    .withTimeout(20000) // in case funding tx is still pending. balance must be updated before amount can be selected.
+    .withTimeout(60000) // in case funding tx is still pending. balance must be updated before amount can be selected.
   await waitForElementId('cashOut')
   await element(by.id('cashOut')).tap()
 
@@ -216,8 +216,8 @@ export const fiatConnectKycTransferOut = () => {
     await expect(element(by.text('Verify your Identity'))).toBeVisible()
     await expect(element(by.id('step-one-grey'))).not.toBeVisible()
     await expect(element(by.id('step-two-grey'))).toBeVisible()
-    await expect(element(by.id('checkbox'))).toBeVisible()
-    await element(by.id('checkbox')).tap()
+    await expect(element(by.id('checkbox/unchecked'))).toBeVisible()
+    await element(by.id('checkbox/unchecked')).tap()
     await element(by.id('PersonaButton')).tap()
 
     // Persona
@@ -246,7 +246,7 @@ export const fiatConnectKycTransferOut = () => {
     // Selfie section
     await waitFor(element(by.text('Get started')))
       .toBeVisible()
-      .withTimeout(5000)
+      .withTimeout(10000)
     await element(by.text('Get started')).tap()
     await element(by.label('shutter button')).tap()
     await element(by.label('shutter button')).tap()
@@ -269,7 +269,7 @@ export const fiatConnectKycTransferOut = () => {
       // Step 2
       await waitFor(element(by.text('Set Up Bank Account')))
         .toBeVisible()
-        .withTimeout(10000)
+        .withTimeout(15000)
       await expect(element(by.id('step-one-grey'))).toBeVisible()
       await expect(element(by.id('step-two-grey'))).not.toBeVisible()
       await element(by.id('continueButton')).tap()
