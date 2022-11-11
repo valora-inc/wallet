@@ -1498,5 +1498,9 @@
       "title": "Invite {{contactName}} to {{appName}} and you’ll both receive NFTs!",
       "body": "Looks like {{contactName}} isn't on {{appName}}. If you know their wallet address you can still send a payment or send an invitation instead. \n\n After they download the wallet and connect their phone number, you’ll both get an exclusive NFT."
     }
+  },
+  "newsFeed": {
+    "title": "Recent News",
+    "newsFeedFetchFailed": "Sorry, we were unable to load the news feed. Please try again later."
   }
 }

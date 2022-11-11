@@ -90,4 +90,5 @@ export enum ErrorMessages {
   FETCH_SWAP_QUOTE_FAILED = 'swapScreen.fetchSwapQuoteFailed',
   SWAP_SUBMIT_FAILED = 'swapScreen.swapSubmitFailed',
   KYC_TRY_AGAIN_FAILED = 'fiatConnectKycStatusScreen.tryAgainFailed',
+  NEWS_FEED_FETCH_FAILED = 'newsFeedFetchFailed',
 }
