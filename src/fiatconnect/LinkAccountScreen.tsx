@@ -7,7 +7,7 @@ import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
-import { convertAccountTypeToTranslation } from 'src/fiatconnect'
+import { accountTypeToLinkAccountTranslations } from 'src/fiatconnect'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import i18n from 'src/i18n'
@@ -31,6 +31,9 @@ export function LinkAccountSection(props: {
 }) {
   const { t } = useTranslation()
   const { quote, flow, disabled } = props
+  const { bodyTitle, description } = accountTypeToLinkAccountTranslations(
+    quote.getFiatAccountType()
+  )
 
   const onPressContinue = () => {
     ValoraAnalytics.track(FiatExchangeEvents.cico_fc_link_account_continue, {
@@ -73,20 +76,9 @@ export function LinkAccountSection(props: {
 
   return (
     <SafeAreaView style={styles.content}>
-      <Text style={styles.title}>
-        {t(
-          `fiatConnectLinkAccountScreen.${convertAccountTypeToTranslation(
-            quote.getFiatAccountType()
-          )}.bodyTitle`
-        )}
-      </Text>
+      <Text style={styles.title}>{t(bodyTitle)}</Text>
       <Text testID="descriptionText" style={styles.description}>
-        <Trans
-          i18nKey={`fiatConnectLinkAccountScreen.${convertAccountTypeToTranslation(
-            quote.getFiatAccountType()
-          )}.description`}
-          values={{ providerName: quote.getProviderName() }}
-        >
+        <Trans i18nKey={description} values={{ providerName: quote.getProviderName() }}>
           <Text testID="providerNameText" style={styles.providerLink} onPress={onPressProvider} />
           <Text
             testID="termsAndConditionsText"
@@ -130,9 +122,7 @@ FiatConnectLinkAccountScreen.navigationOptions = ({
     />
   ),
   headerTitle: i18n.t(
-    `fiatConnectLinkAccountScreen.${convertAccountTypeToTranslation(
-      route.params.quote.getFiatAccountType()
-    )}.header`
+    accountTypeToLinkAccountTranslations(route.params.quote.getFiatAccountType()).header
   ),
 })
 
