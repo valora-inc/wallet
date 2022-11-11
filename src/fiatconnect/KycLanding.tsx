@@ -19,8 +19,7 @@ import { CICOEvents, FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { PRIVACY_LINK } from 'src/brandingConfig'
 import BackButton from 'src/components/BackButton'
-import { accountTypeToLinkAccountTranslations } from 'src/fiatconnect'
-import { LinkAccountSection } from 'src/fiatconnect/LinkAccountScreen'
+import { getTranslationStrings, LinkAccountSection } from 'src/fiatconnect/LinkAccountScreen'
 import { selectFiatConnectQuote } from 'src/fiatconnect/slice'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
@@ -69,9 +68,7 @@ KycLanding.navigationOptions = ({
       }}
     />
   ),
-  headerTitle: i18n.t(
-    accountTypeToLinkAccountTranslations(route.params.quote.getFiatAccountType()).header
-  ),
+  headerTitle: i18n.t(getTranslationStrings(route.params.quote.getFiatAccountType()).header),
 })
 
 const useComponentSize = (): [

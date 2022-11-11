@@ -1,3 +1,4 @@
+import { FiatAccountType } from '@fiatconnect/fiatconnect-types'
 import { RouteProp } from '@react-navigation/native'
 import { StackScreenProps } from '@react-navigation/stack'
 import React from 'react'
@@ -7,7 +8,6 @@ import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
-import { accountTypeToLinkAccountTranslations } from 'src/fiatconnect'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import i18n from 'src/i18n'
@@ -18,6 +18,38 @@ import { StackParamList } from 'src/navigator/types'
 import fontStyles from 'src/styles/fonts'
 
 type Props = StackScreenProps<StackParamList, Screens.FiatConnectLinkAccount>
+
+interface LinkAccountScreenTranslationKeys {
+  bodyTitle: string
+  description: string
+  header: string
+}
+
+/**
+ * Small helper function to map the account type to its name used in the base translation
+ * file.
+ */
+export function getTranslationStrings(
+  accountType: FiatAccountType
+): LinkAccountScreenTranslationKeys {
+  return {
+    [FiatAccountType.BankAccount]: {
+      bodyTitle: 'fiatConnectLinkAccountScreen.bankAccount.bodyTitle',
+      description: 'fiatConnectLinkAccountScreen.bankAccount.description',
+      header: 'fiatConnectLinkAccountScreen.bankAccount.header',
+    },
+    [FiatAccountType.DuniaWallet]: {
+      bodyTitle: 'fiatConnectLinkAccountScreen.duniaWallet.bodyTitle',
+      description: 'fiatConnectLinkAccountScreen.duniaWallet.description',
+      header: 'fiatConnectLinkAccountScreen.duniaWallet.header',
+    },
+    [FiatAccountType.MobileMoney]: {
+      bodyTitle: 'fiatConnectLinkAccountScreen.mobileMoney.bodyTitle',
+      description: 'fiatConnectLinkAccountScreen.mobileMoney.description',
+      header: 'fiatConnectLinkAccountScreen.mobileMoney.header',
+    },
+  }[accountType]
+}
 
 export default function FiatConnectLinkAccountScreen({ route }: Props) {
   const { quote, flow } = route.params
@@ -31,9 +63,7 @@ export function LinkAccountSection(props: {
 }) {
   const { t } = useTranslation()
   const { quote, flow, disabled } = props
-  const { bodyTitle, description } = accountTypeToLinkAccountTranslations(
-    quote.getFiatAccountType()
-  )
+  const { bodyTitle, description } = getTranslationStrings(quote.getFiatAccountType())
 
   const onPressContinue = () => {
     ValoraAnalytics.track(FiatExchangeEvents.cico_fc_link_account_continue, {
@@ -121,9 +151,7 @@ FiatConnectLinkAccountScreen.navigationOptions = ({
       }}
     />
   ),
-  headerTitle: i18n.t(
-    accountTypeToLinkAccountTranslations(route.params.quote.getFiatAccountType()).header
-  ),
+  headerTitle: i18n.t(getTranslationStrings(route.params.quote.getFiatAccountType()).header),
 })
 
 const styles = StyleSheet.create({

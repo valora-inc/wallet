@@ -2,7 +2,6 @@ import { UnlockableWallet } from '@celo/wallet-base'
 import { CreateQuoteParams, FiatConnectApiClient } from '@fiatconnect/fiatconnect-sdk'
 import {
   CryptoType,
-  FiatAccountType,
   FiatType,
   QuoteErrorResponse,
   QuoteResponse,
@@ -45,38 +44,6 @@ function convertToFiatConnectCryptoCurrency(cicoCurrency: CiCoCurrency): CryptoT
     [CiCoCurrency.CUSD]: CryptoType.cUSD,
     [CiCoCurrency.CREAL]: CryptoType.cREAL,
   }[cicoCurrency]
-}
-
-interface LinkAccountScreenTranslationKeys {
-  bodyTitle: string
-  description: string
-  header: string
-}
-
-/**
- * Small helper function to map the account type to its name used in the base translation
- * file.
- */
-export function accountTypeToLinkAccountTranslations(
-  accountType: FiatAccountType
-): LinkAccountScreenTranslationKeys {
-  return {
-    [FiatAccountType.BankAccount]: {
-      bodyTitle: 'fiatConnectLinkAccountScreen.bankAccount.bodyTitle',
-      description: 'fiatConnectLinkAccountScreen.bankAccount.description',
-      header: 'fiatConnectLinkAccountScreen.bankAccount.header',
-    },
-    [FiatAccountType.DuniaWallet]: {
-      bodyTitle: 'fiatConnectLinkAccountScreen.duniaWallet.bodyTitle',
-      description: 'fiatConnectLinkAccountScreen.duniaWallet.description',
-      header: 'fiatConnectLinkAccountScreen.duniaWallet.header',
-    },
-    [FiatAccountType.MobileMoney]: {
-      bodyTitle: 'fiatConnectLinkAccountScreen.mobileMoney.bodyTitle',
-      description: 'fiatConnectLinkAccountScreen.mobileMoney.description',
-      header: 'fiatConnectLinkAccountScreen.mobileMoney.header',
-    },
-  }[accountType]
 }
 
 /**
