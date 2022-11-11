@@ -6,8 +6,7 @@ import {
   QuoteErrorResponse,
   QuoteResponse,
 } from '@fiatconnect/fiatconnect-types'
-import { isUserInputCrypto } from 'src/fiatExchanges/FiatExchangeAmount'
-import { CICOFlow } from 'src/fiatExchanges/utils'
+import { CICOFlow, isUserInputCrypto } from 'src/fiatExchanges/utils'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getPassword } from 'src/pincode/authentication'
 import { CiCoCurrency } from 'src/utils/currencies'

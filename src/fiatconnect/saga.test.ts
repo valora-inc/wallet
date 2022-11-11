@@ -2161,6 +2161,7 @@ describe('Fiatconnect saga', () => {
       await expectSaga(_getSpecificQuote, {
         digitalAsset: CiCoCurrency.CUSD,
         cryptoAmount: 2,
+        fiatAmount: 2,
         flow: CICOFlow.CashOut,
         providerId: 'provider-two',
         fiatAccount,
@@ -2192,6 +2193,7 @@ describe('Fiatconnect saga', () => {
           await expectSaga(_getSpecificQuote, {
             digitalAsset: CiCoCurrency.CUSD,
             cryptoAmount: 2,
+            fiatAmount: 2,
             flow: CICOFlow.CashOut,
             providerId: 'provider-two',
             fiatAccount: duniaFiatAccount,

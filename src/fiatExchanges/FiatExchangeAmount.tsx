@@ -48,10 +48,10 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import { useTokenInfoBySymbol } from 'src/tokens/hooks'
-import { CiCoCurrency, Currency } from 'src/utils/currencies'
+import { Currency } from 'src/utils/currencies'
 import { roundUp } from 'src/utils/formatting'
 import Logger from 'src/utils/Logger'
-import { CICOFlow } from './utils'
+import { CICOFlow, isUserInputCrypto } from './utils'
 
 const TAG = 'FiatExchangeAmount'
 
@@ -65,9 +65,6 @@ const oneUnitAmount = (currency: Currency) => ({
   value: new BigNumber('1'),
   currencyCode: currency,
 })
-
-export const isUserInputCrypto = (flow: CICOFlow, currency: Currency | CiCoCurrency): boolean =>
-  flow === CICOFlow.CashOut || currency === Currency.Celo || currency === CiCoCurrency.CELO
 
 function FiatExchangeAmount({ route }: Props) {
   const { t } = useTranslation()
