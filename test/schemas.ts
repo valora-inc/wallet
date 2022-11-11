@@ -1773,6 +1773,18 @@ export const v90Schema = {
   app: _.omit(v89Schema.app, 'biometryEnabled'),
 }
 
+export const v91Schema = {
+  ...v90Schema,
+  _persist: {
+    ...v90Schema._persist,
+    version: 91,
+  },
+  fiatConnect: {
+    ...v90Schema.fiatConnect,
+    personaInProgress: false,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v90Schema as Partial<RootState>
+  return v91Schema as Partial<RootState>
 }
