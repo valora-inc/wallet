@@ -1,19 +1,18 @@
 import { FiatAccountType } from '@fiatconnect/fiatconnect-types'
 import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
-import { View } from 'react-native'
 import { Provider } from 'react-redux'
-import * as Persona from 'src/account/Persona'
 import { KycStatus } from 'src/account/reducer'
 import { CICOEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import KycLanding from 'src/fiatconnect/KycLanding'
+import { personaFinished, personaStarted, postKyc } from 'src/fiatconnect/slice'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { Screens } from 'src/navigator/Screens'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
-import { mockAccount, mockFiatConnectQuotes, mockPrivateDEK } from 'test/values'
+import { mockFiatConnectQuotes } from 'test/values'
 
 jest.mock('src/account/Persona')
 jest.mock('src/analytics/ValoraAnalytics')
@@ -26,13 +25,14 @@ describe('KycLanding', () => {
   })
 
   const store = createMockStore({
-    web3: {
-      mtwAddress: mockAccount,
-      dataEncryptionKey: mockPrivateDEK,
+    fiatConnect: {
+      personaInProgress: false,
     },
   })
+  store.dispatch = jest.fn()
 
-  afterEach(() => {
+  beforeEach(() => {
+    jest.useFakeTimers()
     jest.clearAllMocks()
   })
   describe('step one', () => {
@@ -42,7 +42,7 @@ describe('KycLanding', () => {
       personaKycStatus: KycStatus.Completed,
       step: 'one',
     })
-    it('shows step two greyd out when in step one mode', () => {
+    it('shows step two greyed out when in step one mode', () => {
       const { queryByTestId, getByTestId } = render(
         <Provider store={store}>
           <KycLanding {...props} />
@@ -52,6 +52,7 @@ describe('KycLanding', () => {
       expect(queryByTestId('step-one-grey')).toBeFalsy()
       expect(queryByTestId('step-two-grey')).toBeTruthy()
 
+      expect(getByTestId('checkbox/unchecked')).toBeTruthy()
       expect(getByTestId('continueButton')).toBeDisabled()
     })
     it('only lets you click on the persona button after accepting the privacy policy', async () => {
@@ -62,34 +63,66 @@ describe('KycLanding', () => {
       )
 
       expect(getByTestId('PersonaButton')).toBeDisabled()
-      fireEvent.press(getByTestId('checkbox'))
+      fireEvent.press(getByTestId('checkbox/unchecked'))
       expect(getByTestId('PersonaButton')).not.toBeDisabled()
     })
-    it('passes a callback function for successful persona result', () => {
-      const mockPersonaButton = jest.fn(() => <View></View>)
-      jest.spyOn(Persona, 'default').mockImplementation(mockPersonaButton)
-      render(
-        <Provider store={store}>
-          <KycLanding {...props} />
-        </Provider>
-      )
-      expect(Persona.default).toHaveBeenCalledWith(
-        expect.objectContaining({ onSuccess: expect.any(Function) }), // props for Persona
-        expect.anything()
-      )
-      jest.restoreAllMocks()
-    })
-    it('triggers analytics when persona button is pressed', () => {
+    it('triggers analytics and dispatches persona started when persona button is pressed', () => {
       ValoraAnalytics.track = jest.fn()
       const { getByTestId } = render(
         <Provider store={store}>
           <KycLanding {...props} />
         </Provider>
       )
-      fireEvent.press(getByTestId('checkbox'))
+      fireEvent.press(getByTestId('checkbox/unchecked'))
       fireEvent.press(getByTestId('PersonaButton'))
+      jest.advanceTimersByTime(600)
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(CICOEvents.persona_kyc_start)
-      jest.clearAllMocks()
+      expect(store.dispatch).toHaveBeenCalledWith(personaStarted())
+    })
+    it('dispatches post kyc when persona succeeds', () => {
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <KycLanding {...props} />
+        </Provider>
+      )
+      fireEvent.press(getByTestId('checkbox/unchecked'))
+      // 'PersonaSuccessButton' is a mock that calls onSuccess when pressed
+      fireEvent.press(getByTestId('PersonaSuccessButton'))
+      expect(store.dispatch).toHaveBeenCalledWith(postKyc({ quote: normalizedQuote }))
+    })
+    it('dispatches persona finished when persona flow errors', () => {
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <KycLanding {...props} />
+        </Provider>
+      )
+      fireEvent.press(getByTestId('checkbox/unchecked'))
+      fireEvent.press(getByTestId('PersonaErrorButton'))
+      expect(store.dispatch).toHaveBeenCalledWith(personaFinished())
+    })
+    it('dispatches persona finished when persona flow is canceled', () => {
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <KycLanding {...props} />
+        </Provider>
+      )
+      fireEvent.press(getByTestId('checkbox/unchecked'))
+      // 'PersonaCancelButton' is a mock that calls onCanceled when pressed
+      fireEvent.press(getByTestId('PersonaCancelButton'))
+      expect(store.dispatch).toHaveBeenCalledWith(personaFinished())
+    })
+    it('shows loading screen if persona is in progress', () => {
+      const store = createMockStore({
+        fiatConnect: {
+          personaInProgress: true,
+        },
+      })
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <KycLanding {...props} />
+        </Provider>
+      )
+      expect(getByTestId('personaInProgress')).toBeTruthy()
     })
   })
 
@@ -100,7 +133,7 @@ describe('KycLanding', () => {
       personaKycStatus: undefined,
       step: 'two',
     })
-    it('shows step one greyd out when in step two mode', () => {
+    it('shows step one greyed out when in step two mode', () => {
       const { queryByTestId, getByTestId } = render(
         <Provider store={store}>
           <KycLanding {...props} />
@@ -110,8 +143,9 @@ describe('KycLanding', () => {
       expect(queryByTestId('step-one-grey')).toBeTruthy()
       expect(queryByTestId('step-two-grey')).toBeFalsy()
 
-      expect(getByTestId('PersonaButton')).toBeDisabled()
+      expect(getByTestId('checkbox/checked')).toBeTruthy()
       expect(getByTestId('continueButton')).not.toBeDisabled()
+      expect(getByTestId('PersonaButton')).toBeDisabled()
     })
   })
 })
