@@ -47,7 +47,7 @@ export function PaymentMethodSection({
     } else {
       setNoPaymentMethods(true)
     }
-  }, [sectionQuotes])
+  }, [])
 
   const toggleExpanded = () => {
     if (expanded) {
