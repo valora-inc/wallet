@@ -137,12 +137,13 @@ describe('PaymentMethodSection', () => {
       'bank',
       'numDays',
     ],
-    [
-      PaymentMethod.FiatConnectMobileMoney as const,
-      normalizeQuotes(CICOFlow.CashIn, [mockFiatConnectQuotes[4]] as FiatConnectQuoteSuccess[], []),
-      'mobileMoney',
-      'oneDay',
-    ],
+    // TODO(any): enable as part of ACT-518
+    // [
+    //   PaymentMethod.FiatConnectMobileMoney as const,
+    //   normalizeQuotes(CICOFlow.CashIn, [mockFiatConnectQuotes[4]] as FiatConnectQuoteSuccess[], []),
+    //   'mobileMoney',
+    //   'oneDay',
+    // ],
   ])('shows appropriate title and settlement time for %s', (paymentMethod, quotes, title, info) => {
     props.normalizedQuotes = quotes
     props.paymentMethod = paymentMethod
