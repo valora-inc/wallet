@@ -26,7 +26,8 @@ export enum PaymentMethod {
   Bank = 'Bank',
   Card = 'Card',
   Coinbase = 'Coinbase',
-  MobileMoney = 'MobileMoney',
+  MobileMoney = 'MobileMoney', // legacy mobile money
+  FiatConnectMobileMoney = 'FiatConnectMobileMoney',
 }
 
 interface ProviderRequestData {

@@ -238,6 +238,12 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
         setNoPaymentMethods={setNoPaymentMethods}
         flow={flow}
       />
+      <PaymentMethodSection
+        normalizedQuotes={normalizedQuotes}
+        paymentMethod={PaymentMethod.FiatConnectMobileMoney}
+        setNoPaymentMethods={setNoPaymentMethods}
+        flow={flow}
+      />
       <LegacyMobileMoneySection
         providers={legacyMobileMoneyProviders || []}
         digitalAsset={digitalAsset}
@@ -393,11 +399,10 @@ function LegacyMobileMoneySection({
     return null
   }
   return (
-    <View style={styles.container}>
+    <View testID="LegacyMobileMoneySection" style={styles.container}>
       <Touchable onPress={goToProviderSite}>
         <View style={{ ...styles.expandableContainer, paddingVertical: 27 }}>
           <View style={styles.left}>
-            <Text style={styles.category}>{t('selectProviderScreen.mobileMoney')}</Text>
             <Text style={styles.fee}>{t('selectProviderScreen.feesVary')}</Text>
           </View>
 

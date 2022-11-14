@@ -8,7 +8,7 @@ import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { Screens } from 'src/navigator/Screens'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
-import { mockAccount, mockExchanges, mockProviders } from 'test/values'
+import { mockAccount, mockExchanges, mockFiatConnectQuotes, mockProviders } from 'test/values'
 import { mocked } from 'ts-jest/utils'
 import {
   CICOFlow,
@@ -69,6 +69,30 @@ const mockScreenProps = (
     },
   })
 
+const MOCK_STORE_DATA = {
+  localCurrency: {
+    preferredCurrencyCode: LocalCurrencyCode.USD,
+  },
+  networkInfo: {
+    userLocationData: {
+      countryCodeAlpha2: 'MX',
+      region: null,
+      ipAddress: MOCK_IP_ADDRESS,
+    },
+  },
+  web3: {
+    account: mockAccount,
+  },
+  fiatConnect: {
+    quotesError: null,
+    quotesLoading: false,
+    quotes: [],
+  },
+  app: {
+    coinbasePayEnabled: false,
+  },
+}
+
 describe(SelectProviderScreen, () => {
   const mockFetch = fetch as FetchMock
   let mockStore: MockStoreEnhanced
@@ -76,33 +100,7 @@ describe(SelectProviderScreen, () => {
     jest.useRealTimers()
     jest.clearAllMocks()
     mockFetch.resetMocks()
-    mockStore = createMockStore({
-      account: {
-        // North Korea country code
-        defaultCountryCode: '+850',
-      },
-      localCurrency: {
-        preferredCurrencyCode: LocalCurrencyCode.USD,
-      },
-      networkInfo: {
-        userLocationData: {
-          countryCodeAlpha2: 'MX',
-          region: null,
-          ipAddress: MOCK_IP_ADDRESS,
-        },
-      },
-      web3: {
-        account: mockAccount,
-      },
-      fiatConnect: {
-        quotesError: null,
-        quotesLoading: false,
-        quotes: [],
-      },
-      app: {
-        coinbasePayEnabled: false,
-      },
-    })
+    mockStore = createMockStore(MOCK_STORE_DATA)
   })
 
   it('calls fetchProviders correctly', async () => {
@@ -135,11 +133,19 @@ describe(SelectProviderScreen, () => {
     )
     await waitFor(() => expect(fetchExchanges).toHaveBeenCalledWith('MX', Currency.Dollar))
   })
-  it('shows the provider sections, mobile money, and exchange section', async () => {
+  it('shows the provider sections (bank, card, mobile money), legacy mobile money, and exchange section', async () => {
     mocked(fetchProviders).mockResolvedValue(mockProviders)
     mocked(fetchLegacyMobileMoneyProviders).mockResolvedValue(mockLegacyProviders)
     mocked(fetchExchanges).mockResolvedValue(mockExchanges)
-    const { queryByText } = render(
+    mockStore = createMockStore({
+      ...MOCK_STORE_DATA,
+      fiatConnect: {
+        quotesError: null,
+        quotesLoading: false,
+        quotes: [mockFiatConnectQuotes[4]],
+      },
+    })
+    const { queryByText, getByTestId } = render(
       <Provider store={mockStore}>
         <SelectProviderScreen {...mockScreenProps()} />
       </Provider>
@@ -148,10 +154,11 @@ describe(SelectProviderScreen, () => {
 
     expect(queryByText('selectProviderScreen.bank')).toBeTruthy()
     expect(queryByText('selectProviderScreen.card')).toBeTruthy()
-    expect(queryByText('selectProviderScreen.cryptoExchange')).toBeTruthy()
     expect(queryByText('selectProviderScreen.mobileMoney')).toBeTruthy()
+    expect(queryByText('selectProviderScreen.cryptoExchange')).toBeTruthy()
+    expect(getByTestId('LegacyMobileMoneySection')).toBeTruthy()
 
-    // Not visible because bank & card both have providers
+    // Not visible because bank, card and fiat connect mobile money have providers
     expect(queryByText('selectProviderScreen.somePaymentsUnavailable')).toBeFalsy()
   })
   it('shows the limit payment methods dialog when one of the provider types has no options', async () => {
@@ -235,7 +242,7 @@ describe(SelectProviderScreen, () => {
       mockProvidersAdjusted.find((provider) => provider.name === 'CoinbasePay')!.restricted = true
       mocked(fetchProviders).mockResolvedValue(mockProvidersAdjusted)
       mockStore = createMockStore({
-        ...mockStore,
+        ...MOCK_STORE_DATA,
         app: {
           coinbasePayEnabled: true,
         },

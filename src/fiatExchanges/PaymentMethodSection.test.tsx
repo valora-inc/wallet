@@ -1,6 +1,7 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
+import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import {
   PaymentMethodSection,
   PaymentMethodSectionProps,
@@ -10,11 +11,10 @@ import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { createMockStore } from 'test/utils'
 import {
+  mockFiatConnectQuotes,
   mockFiatConnectQuotesWithUnknownFees,
   mockProviders,
-  mockFiatConnectQuotes,
 } from 'test/values'
-import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
 
 const mockStore = createMockStore({
   localCurrency: {
@@ -121,5 +121,39 @@ describe('PaymentMethodSection', () => {
     const infoElement = queryByTestId('Bank/provider-0/info')
     expect(infoElement).toBeTruthy()
     expect(infoElement).toHaveTextContent('selectProviderScreen.numDays')
+    expect(infoElement).not.toHaveTextContent('selectProviderScreen.idRequired')
+  })
+
+  it.each([
+    [
+      PaymentMethod.Card as const,
+      normalizeQuotes(CICOFlow.CashIn, [], [mockProviders[2]]),
+      'card',
+      'oneHour',
+    ],
+    [
+      PaymentMethod.Bank as const,
+      normalizeQuotes(CICOFlow.CashIn, [mockFiatConnectQuotes[1]] as FiatConnectQuoteSuccess[], []),
+      'bank',
+      'numDays',
+    ],
+    [
+      PaymentMethod.FiatConnectMobileMoney as const,
+      normalizeQuotes(CICOFlow.CashIn, [mockFiatConnectQuotes[4]] as FiatConnectQuoteSuccess[], []),
+      'mobileMoney',
+      'oneDay',
+    ],
+  ])('shows appropriate title and settlement time for %s', (paymentMethod, quotes, title, info) => {
+    props.normalizedQuotes = quotes
+    props.paymentMethod = paymentMethod
+    const { getByText, getByTestId } = render(
+      <Provider store={mockStore}>
+        <PaymentMethodSection {...props} />
+      </Provider>
+    )
+    expect(getByText(`selectProviderScreen.${title}`)).toBeTruthy()
+    expect(getByTestId(`${paymentMethod}/provider-0/info`)).toHaveTextContent(
+      `selectProviderScreen.${info}`
+    )
   })
 })
