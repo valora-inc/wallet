@@ -201,6 +201,7 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
             <View>
               {formFields.map((field, index) => (
                 <FormField
+                  key={`${field}-${index}`}
                   field={field}
                   index={index}
                   value={fieldValues.current[index]}
