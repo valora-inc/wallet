@@ -45,7 +45,7 @@ import {
   sentryNetworkErrorsSelector,
   shouldRunVerificationMigrationSelector,
 } from 'src/app/selectors'
-import { CreateAccountCopyTestType, InviteMethodType, SuperchargeButtonType } from 'src/app/types'
+import { CreateAccountCopyTestType, InviteMethodType } from 'src/app/types'
 import { runVerificationMigration } from 'src/app/verificationMigration'
 import { DYNAMIC_LINK_DOMAIN_URI_PREFIX, FETCH_TIMEOUT_DURATION } from 'src/config'
 import { SuperchargeTokenConfigByToken } from 'src/consumerIncentives/types'
@@ -200,15 +200,12 @@ export interface RemoteConfigValues {
   allowOtaTranslations: boolean
   sentryTracesSampleRate: number
   sentryNetworkErrors: string[]
-  biometryEnabled: boolean
-  superchargeButtonType: SuperchargeButtonType
   maxNumRecentDapps: number
   skipVerification: boolean
   showPriceChangeIndicatorInBalances: boolean
   paymentDeepLinkHandler: PaymentDeepLinkHandler
   dappsWebViewEnabled: boolean
   skipProfilePicture: boolean
-  celoWithdrawalEnabledInExchange: boolean
   fiatConnectCashInEnabled: boolean
   fiatConnectCashOutEnabled: boolean
   fiatAccountSchemaCountryOverrides: FiatAccountSchemaCountryOverrides

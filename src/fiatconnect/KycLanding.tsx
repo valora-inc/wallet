@@ -4,6 +4,7 @@ import { StackScreenProps } from '@react-navigation/stack'
 import React, { useCallback, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import {
+  ActivityIndicator,
   Dimensions,
   LayoutChangeEvent,
   SafeAreaView,
@@ -12,26 +13,27 @@ import {
   Text,
   View,
 } from 'react-native'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Persona from 'src/account/Persona'
 import { KycStatus } from 'src/account/reducer'
 import { CICOEvents, FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { PRIVACY_LINK } from 'src/brandingConfig'
 import BackButton from 'src/components/BackButton'
-import { LinkAccountSection } from 'src/fiatconnect/LinkAccountScreen'
-import { selectFiatConnectQuote } from 'src/fiatconnect/slice'
+import { getTranslationStrings, LinkAccountSection } from 'src/fiatconnect/LinkAccountScreen'
+import { personaInProgressSelector } from 'src/fiatconnect/selectors'
+import { personaFinished, personaStarted, postKyc } from 'src/fiatconnect/slice'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import i18n from 'src/i18n'
 import CheckBox from 'src/icons/CheckBox'
 import GreyOut from 'src/icons/GreyOut'
 import { emptyHeader } from 'src/navigator/Headers'
-import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
+import variables from 'src/styles/variables'
 import { navigateToURI } from 'src/utils/linking'
 
 export interface Props {
@@ -43,6 +45,16 @@ export interface Props {
 
 export default function KycLanding(props: StackScreenProps<StackParamList, Screens.KycLanding>) {
   const { quote, flow, step, personaKycStatus } = props.route.params
+  const personaInProgress = useSelector(personaInProgressSelector)
+
+  if (personaInProgress) {
+    return (
+      <View style={styles.activityIndicatorContainer}>
+        <ActivityIndicator testID="personaInProgress" size="large" color={Colors.greenBrand} />
+      </View>
+    )
+  }
+
   return (
     <ScrollView>
       <StepOne disabled={step !== 'one'} personaKycStatus={personaKycStatus} quote={quote} />
@@ -68,8 +80,7 @@ KycLanding.navigationOptions = ({
       }}
     />
   ),
-  // NOTE: title should be dynamic when we support multiple fiat account types
-  headerTitle: i18n.t('fiatConnectLinkAccountScreen.bankAccount.header'),
+  headerTitle: i18n.t(getTranslationStrings(route.params.quote.getFiatAccountType()).header),
 })
 
 const useComponentSize = (): [
@@ -102,7 +113,7 @@ function StepOne(props: {
     <View onLayout={onLayout} style={styles.stepOne}>
       {disabled && <GreyOut testID="step-one-grey" {...size} />}
       <Text style={styles.stepText}>{t('fiatConnectKycLandingScreen.stepOne')}</Text>
-      <KycAgreement personaKycStatus={personaKycStatus} quote={quote} />
+      <KycAgreement personaKycStatus={personaKycStatus} quote={quote} disabled={disabled} />
     </View>
   )
 }
@@ -120,25 +131,18 @@ function StepTwo(props: { quote: FiatConnectQuote; flow: CICOFlow; disabled: boo
   )
 }
 
-export function KycAgreement(props: { personaKycStatus?: KycStatus; quote: FiatConnectQuote }) {
+function KycAgreement(props: {
+  personaKycStatus?: KycStatus
+  quote: FiatConnectQuote
+  disabled: boolean
+}) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
-  const { personaKycStatus, quote } = props
+  const { personaKycStatus, quote, disabled } = props
   const [agreementChecked, toggleAgreementChecked] = useState(false)
 
   const onPressPrivacyPolicy = () => {
     navigateToURI(PRIVACY_LINK)
-  }
-
-  const personaSuccessCallback = () => {
-    // optimistically navigate to step 2 to reduce flash
-    // The subsequent saga may direct the user elsewhere if there is an error or edge case
-    navigate(Screens.KycLanding, {
-      quote,
-      flow: quote.flow,
-      step: 'two',
-    })
-    dispatch(selectFiatConnectQuote({ quote })) // continue with flow through saga
   }
 
   return (
@@ -152,7 +156,8 @@ export function KycAgreement(props: { personaKycStatus?: KycStatus; quote: FiatC
           onPress={() => toggleAgreementChecked(!agreementChecked)}
           style={styles.checkBoxContainer}
         >
-          <CheckBox testID="checkbox" checked={agreementChecked} />
+          {/* If disabled, the user is in step 2 and this should be completed already*/}
+          <CheckBox testID="checkbox" checked={disabled || agreementChecked} />
         </TouchableOpacity>
         <Text style={styles.disclaimer}>
           <Trans i18nKey={'fiatConnectKycLandingScreen.disclaimer'}>
@@ -167,11 +172,22 @@ export function KycAgreement(props: { personaKycStatus?: KycStatus; quote: FiatC
       <Persona
         text={t('fiatConnectKycLandingScreen.button')}
         kycStatus={personaKycStatus}
-        disabled={!agreementChecked}
+        disabled={disabled || !agreementChecked}
         onPress={() => {
+          setTimeout(() => {
+            dispatch(personaStarted())
+          }, 500) // delay to avoid screen flash
           ValoraAnalytics.track(CICOEvents.persona_kyc_start)
         }}
-        onSuccess={personaSuccessCallback}
+        onSuccess={() => {
+          dispatch(postKyc({ quote }))
+        }}
+        onCanceled={() => {
+          dispatch(personaFinished())
+        }}
+        onError={() => {
+          dispatch(personaFinished())
+        }}
       />
     </SafeAreaView>
   )
@@ -228,5 +244,11 @@ const styles = StyleSheet.create({
   },
   checkBoxContainer: {
     marginTop: 3,
+  },
+  activityIndicatorContainer: {
+    paddingVertical: variables.contentPadding,
+    flex: 1,
+    alignContent: 'center',
+    justifyContent: 'center',
   },
 })

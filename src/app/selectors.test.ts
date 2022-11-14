@@ -108,7 +108,6 @@ describe('registrationStepsSelector', () => {
       getMockStoreData({
         app: {
           activeScreen: screen,
-          biometryEnabled: true,
           supportedBiometryType: BIOMETRY_TYPE.FACE_ID,
           ...storeOverrides.app,
         },
@@ -186,7 +185,7 @@ describe('registrationStepsSelector', () => {
       expect(
         registrationStepsSelectorWithMockStore(screen, {
           app: {
-            biometryEnabled: false,
+            supportedBiometryType: null,
           },
         })
       ).toEqual({
