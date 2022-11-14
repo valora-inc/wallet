@@ -1300,9 +1300,9 @@
       "description": "Entrez les coordonnées du compte bancaire pour transférer des fonds. Ces services sont fournis par <0>{{providerName}}</0>. \n\nEn cliquant sur Continuer, vous acceptez leurs <1>Conditions Générales</1> et <2>Politique de confidentialité</2>"
     },
     "mobileMoney": {
-      "header": "Set up Mobile Money",
+      "header": "Configurer Mobile Money",
       "bodyTitle": "Configurer Mobile Money",
-      "description": "Enter mobile money details to transfer funds. These services will be provided to you by <0>{{providerName}}</0>.\n\nBy clicking continue, you agree to their <1>Terms and Conditions</1> and <2>Privacy Policy</2>"
+      "description": "Saisis les détails de l'argent mobile pour transférer des fonds. Ces services te seront fournis par <0>{{providerName}}</0>.\n\nEn cliquant sur continuer, tu acceptes leurs <1>conditions générales et</1> leur <2>politique de confidentialité</2>."
     },
     "continue": "Continuer"
   },
