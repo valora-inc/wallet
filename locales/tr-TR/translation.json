@@ -1299,6 +1299,11 @@
       "bodyTitle": "Banka Hesabı Oluştur",
       "description": "Para transfer etmek için Banka Hesabı ayrıntılarını girin. Bu hizmetler size <0>{{providerName}}</0> tarafından sağlanır.\n\nDevam'ı tıklayarak, sağlayıcının <1>Şartlar ve Koşulları</1> ile <2>Gizlilik Politikasını</2> kabul etmiş olursunuz."
     },
+    "mobileMoney": {
+      "header": "Mobil Para'yı ayarlama",
+      "bodyTitle": "Mobil Para Kurulumu",
+      "description": "Para transferi için mobil para bilgilerini girin. Bu hizmetler size aşağıdakiler tarafından sağlanacaktır <0>{{providerName}}</0>.\n\nDevam'a tıklayarak <1>Şartlar ve Koşulları</1> ve <2>Gizlilik Politikasını</2> kabul etmiş olursunuz."
+    },
     "continue": "İleri"
   },
   "fiatConnectKycLandingScreen": {
