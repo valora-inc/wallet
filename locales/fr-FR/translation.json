@@ -1299,6 +1299,11 @@
       "bodyTitle": "Configurer un compte bancaire",
       "description": "Entrez les coordonnées du compte bancaire pour transférer des fonds. Ces services sont fournis par <0>{{providerName}}</0>. \n\nEn cliquant sur Continuer, vous acceptez leurs <1>Conditions Générales</1> et <2>Politique de confidentialité</2>"
     },
+    "mobileMoney": {
+      "header": "Set up Mobile Money",
+      "bodyTitle": "Configurer Mobile Money",
+      "description": "Enter mobile money details to transfer funds. These services will be provided to you by <0>{{providerName}}</0>.\n\nBy clicking continue, you agree to their <1>Terms and Conditions</1> and <2>Privacy Policy</2>"
+    },
     "continue": "Continuer"
   },
   "fiatConnectKycLandingScreen": {
