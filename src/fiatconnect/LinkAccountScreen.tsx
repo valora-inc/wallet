@@ -1,3 +1,4 @@
+import { FiatAccountType } from '@fiatconnect/fiatconnect-types'
 import { RouteProp } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React from 'react'
@@ -18,6 +19,38 @@ import fontStyles from 'src/styles/fonts'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.FiatConnectLinkAccount>
 
+interface LinkAccountScreenTranslationKeys {
+  bodyTitle: string
+  description: string
+  header: string
+}
+
+/**
+ * Small helper function to map the account type to its name used in the base translation
+ * file.
+ */
+export function getTranslationStrings(
+  accountType: FiatAccountType
+): LinkAccountScreenTranslationKeys {
+  return {
+    [FiatAccountType.BankAccount]: {
+      bodyTitle: 'fiatConnectLinkAccountScreen.bankAccount.bodyTitle',
+      description: 'fiatConnectLinkAccountScreen.bankAccount.description',
+      header: 'fiatConnectLinkAccountScreen.bankAccount.header',
+    },
+    [FiatAccountType.DuniaWallet]: {
+      bodyTitle: 'fiatConnectLinkAccountScreen.duniaWallet.bodyTitle',
+      description: 'fiatConnectLinkAccountScreen.duniaWallet.description',
+      header: 'fiatConnectLinkAccountScreen.duniaWallet.header',
+    },
+    [FiatAccountType.MobileMoney]: {
+      bodyTitle: 'fiatConnectLinkAccountScreen.mobileMoney.bodyTitle',
+      description: 'fiatConnectLinkAccountScreen.mobileMoney.description',
+      header: 'fiatConnectLinkAccountScreen.mobileMoney.header',
+    },
+  }[accountType]
+}
+
 export default function FiatConnectLinkAccountScreen({ route }: Props) {
   const { quote, flow } = route.params
   return <LinkAccountSection quote={quote} flow={flow} />
@@ -30,6 +63,7 @@ export function LinkAccountSection(props: {
 }) {
   const { t } = useTranslation()
   const { quote, flow, disabled } = props
+  const { bodyTitle, description } = getTranslationStrings(quote.getFiatAccountType())
 
   const onPressContinue = () => {
     ValoraAnalytics.track(FiatExchangeEvents.cico_fc_link_account_continue, {
@@ -72,12 +106,9 @@ export function LinkAccountSection(props: {
 
   return (
     <SafeAreaView style={styles.content}>
-      <Text style={styles.title}>{t('fiatConnectLinkAccountScreen.bankAccount.bodyTitle')}</Text>
+      <Text style={styles.title}>{t(bodyTitle)}</Text>
       <Text testID="descriptionText" style={styles.description}>
-        <Trans
-          i18nKey={'fiatConnectLinkAccountScreen.bankAccount.description'}
-          values={{ providerName: quote.getProviderName() }}
-        >
+        <Trans i18nKey={description} values={{ providerName: quote.getProviderName() }}>
           <Text testID="providerNameText" style={styles.providerLink} onPress={onPressProvider} />
           <Text
             testID="termsAndConditionsText"
@@ -120,8 +151,7 @@ FiatConnectLinkAccountScreen.navigationOptions = ({
       }}
     />
   ),
-  // NOTE: title should be dynamic when we support multiple fiat account types
-  headerTitle: i18n.t('fiatConnectLinkAccountScreen.bankAccount.header'),
+  headerTitle: i18n.t(getTranslationStrings(route.params.quote.getFiatAccountType()).header),
 })
 
 const styles = StyleSheet.create({
