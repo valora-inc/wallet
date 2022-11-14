@@ -883,6 +883,13 @@ export const migrations = {
   }),
   91: (state: any) => ({
     ...state,
+    fiatConnect: {
+      ...state.fiatConnect,
+      personaInProgress: false,
+    },
+  }),
+  92: (state: any) => ({
+    ...state,
     app: _.omit(state.app, 'celoWithdrawalEnabledInExchange'),
   }),
 }

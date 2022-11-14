@@ -1779,9 +1779,21 @@ export const v91Schema = {
     ...v90Schema._persist,
     version: 91,
   },
+  fiatConnect: {
+    ...v90Schema.fiatConnect,
+    personaInProgress: false,
+  },
+}
+
+export const v92Schema = {
+  ...v91Schema,
+  _persist: {
+    ...v91Schema._persist,
+    version: 92,
+  },
   app: _.omit(v90Schema.app, 'celoWithdrawalEnabledInExchange'),
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v91Schema as Partial<RootState>
+  return v92Schema as Partial<RootState>
 }
