@@ -44,6 +44,8 @@ export function PaymentMethodSection({
         quoteCount: sectionQuotes.length,
         providers: sectionQuotes.map((quote) => quote.getProviderId()),
       })
+    } else {
+      setNoPaymentMethods(true)
     }
   }, [])
 
@@ -62,8 +64,8 @@ export function PaymentMethodSection({
     LayoutAnimation.easeInEaseOut()
     setExpanded(!expanded)
   }
+
   if (!sectionQuotes.length) {
-    setNoPaymentMethods(true)
     return null
   }
 
