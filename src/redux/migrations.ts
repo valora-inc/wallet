@@ -618,8 +618,7 @@ export const migrations = {
     ...state,
     app: {
       ...state.app,
-      celoWithdrawalEnabledInExchange:
-        REMOTE_CONFIG_VALUES_DEFAULTS.celoWithdrawalEnabledInExchange,
+      celoWithdrawalEnabledInExchange: true,
     },
   }),
   52: (state: any) => ({
@@ -888,5 +887,9 @@ export const migrations = {
       ...state.fiatConnect,
       personaInProgress: false,
     },
+  }),
+  92: (state: any) => ({
+    ...state,
+    app: _.omit(state.app, 'celoWithdrawalEnabledInExchange'),
   }),
 }

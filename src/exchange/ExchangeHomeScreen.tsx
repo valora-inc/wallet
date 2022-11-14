@@ -10,7 +10,6 @@ import { CeloExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import ItemSeparator from 'src/components/ItemSeparator'
 import SectionHead from 'src/components/SectionHeadGold'
-import { SettingsItemTextValue } from 'src/components/SettingsItem'
 import Touchable from 'src/components/Touchable'
 import { fetchExchangeRate } from 'src/exchange/actions'
 import CeloExchangeButtons from 'src/exchange/CeloExchangeButtons'
@@ -19,7 +18,6 @@ import CeloGoldOverview from 'src/exchange/CeloGoldOverview'
 import { useDollarToCeloExchangeRate } from 'src/exchange/hooks'
 import { exchangeHistorySelector } from 'src/exchange/reducer'
 import RestrictedCeloExchange from 'src/exchange/RestrictedCeloExchange'
-import { celoWithdrawalEnabledInExchangeSelector } from 'src/goldToken/selectors'
 import InfoIcon from 'src/icons/InfoIcon'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { convertDollarsToLocalAmount } from 'src/localCurrency/convert'
@@ -96,7 +94,6 @@ function ExchangeHomeScreen({ navigation }: Props) {
   const localCurrencyCode = null
   const localExchangeRate = useSelector(getLocalCurrencyToDollarsExchangeRate)
   const currentExchangeRate = useDollarToCeloExchangeRate()
-  const shouldDisplayWithdrawCelo = useSelector(celoWithdrawalEnabledInExchangeSelector)
 
   const perOneGoldInDollars = goldToDollarAmount(1, currentExchangeRate)
   const currentGoldRateInLocalCurrency = perOneGoldInDollars && dollarsToLocal(perOneGoldInDollars)
@@ -184,14 +181,6 @@ function ExchangeHomeScreen({ navigation }: Props) {
           <ItemSeparator />
           <CeloGoldOverview testID="ExchangeAccountOverview" />
           <ItemSeparator />
-          {shouldDisplayWithdrawCelo && !RESTRICTED_CP_DOTO && (
-            <SettingsItemTextValue
-              title={t('withdrawCelo')}
-              onPress={goToWithdrawCelo}
-              testID={'WithdrawCELO'}
-              showChevron={true}
-            />
-          )}
           <SectionHead text={t('activity')} />
           <TransactionsList feedType={FeedType.EXCHANGE} />
         </SafeAreaView>
