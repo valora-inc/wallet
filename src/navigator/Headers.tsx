@@ -82,7 +82,6 @@ export const drawerHeader: NativeStackNavigationOptions = {
 export const headerWithBackButton: NativeStackNavigationOptions = {
   ...emptyHeader,
   headerLeft: ({ canGoBack }) => (canGoBack ? <BackButton /> : null),
-  animation: 'slide_from_right',
 }
 
 export const headerWithCancelButton: NativeStackNavigationOptions = {

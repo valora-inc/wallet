@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Platform } from 'react-native'
 import { useDispatch } from 'react-redux'
 import Education, { EducationTopic, EmbeddedNavBar } from 'src/account/Education'
 import { OnboardingEvents } from 'src/analytics/Events'
@@ -50,6 +51,9 @@ export default function GoldEducation() {
 
 GoldEducation.navigationOptions = {
   ...noHeader,
+  ...Platform.select({
+    ios: { animation: 'slide_from_bottom' },
+  }),
 }
 
 function useStep() {

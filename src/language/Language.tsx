@@ -12,7 +12,6 @@ import { emptyHeader, headerWithBackButton } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 
 type ScreenProps = NativeStackScreenProps<StackParamList, Screens.Language | Screens.LanguageModal>
@@ -82,9 +81,6 @@ LanguageScreen.navigationOptions =
     return navigation.canGoBack()
       ? {
           ...headerWithBackButton,
-          headerStyle: {
-            backgroundColor: colors.light,
-          },
         }
       : emptyHeader
   }

@@ -76,11 +76,6 @@ SelectCountry.navigationOptions = () => ({
   ...headerWithCloseButton,
   headerTitle: i18n.t('selectCountryCode'),
   headerTransparent: false,
-  headerStyle: {
-    backgroundColor: colors.light,
-  },
-  presentation: 'modal',
-  animation: 'slide_from_bottom',
 })
 
 const styles = StyleSheet.create({

@@ -1,6 +1,7 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Platform } from 'react-native'
 import Education, { EducationTopic, EmbeddedNavBar } from 'src/account/Education'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -45,6 +46,9 @@ export default function AccountKeyEducation(props: Props) {
 
 AccountKeyEducation.navigationOptions = {
   ...noHeader,
+  ...Platform.select({
+    ios: { animation: 'slide_from_bottom' },
+  }),
 }
 
 function useSteps() {

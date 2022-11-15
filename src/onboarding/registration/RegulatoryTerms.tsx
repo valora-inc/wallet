@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Trans, WithTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet, Text } from 'react-native'
+import { Platform, ScrollView, StyleSheet, Text } from 'react-native'
 import { SafeAreaInsetsContext, SafeAreaView } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
 import { acceptTerms } from 'src/account/actions'
@@ -33,7 +33,9 @@ type Props = WithTranslation & DispatchProps
 export class RegulatoryTerms extends React.Component<Props> {
   static navigationOptions = {
     ...nuxNavigationOptions,
-    animation: 'slide_from_bottom',
+    ...Platform.select({
+      ios: { animation: 'slide_from_bottom' },
+    }),
   }
 
   onPressAccept = () => {

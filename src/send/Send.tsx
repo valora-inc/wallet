@@ -230,6 +230,9 @@ function Send({ route }: Props) {
 
 Send.navigationOptions = {
   ...noHeader,
+  ...Platform.select({
+    ios: { animation: 'slide_from_bottom' },
+  }),
 }
 
 const styles = StyleSheet.create({

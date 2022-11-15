@@ -140,9 +140,7 @@ export const modalScreenOptions = () =>
   Platform.select({
     // iOS 13 modal presentation
     ios: {
-      gestureEnabled: true,
-      cardOverlayEnabled: true,
-      headerStatusBarHeight: 0,
+      presentation: 'modal',
     },
   })
 
@@ -248,7 +246,11 @@ const nuxScreens = (Navigator: typeof Stack) => (
 
 const sendScreens = (Navigator: typeof Stack) => (
   <>
-    <Navigator.Screen name={Screens.Send} component={Send} options={Send.navigationOptions} />
+    <Navigator.Screen
+      name={Screens.Send}
+      component={Send}
+      options={Send.navigationOptions as NativeStackNavigationOptions}
+    />
     <Navigator.Screen
       name={Screens.SendAmount}
       component={SendAmount}
@@ -257,12 +259,12 @@ const sendScreens = (Navigator: typeof Stack) => (
     <Navigator.Screen
       name={Screens.SendConfirmation}
       component={SendConfirmation}
-      options={sendConfirmationScreenNavOptions}
+      options={sendConfirmationScreenNavOptions as NativeStackNavigationOptions}
     />
     <Navigator.Screen
       name={Screens.SendConfirmationLegacy}
       component={SendConfirmationLegacy}
-      options={sendConfirmationLegacyScreenNavOptions}
+      options={sendConfirmationLegacyScreenNavOptions as NativeStackNavigationOptions}
     />
     <Navigator.Screen
       name={Screens.ValidateRecipientIntro}
@@ -671,7 +673,7 @@ const modalAnimatedScreens = (Navigator: typeof Stack) => (
     <Navigator.Screen
       name={Screens.QRNavigator}
       component={QRNavigator}
-      options={QRNavigator.navigationOptions}
+      options={QRNavigator.navigationOptions as NativeStackNavigationOptions}
     />
     <Navigator.Screen
       name={Screens.RegulatoryTerms}
@@ -682,12 +684,12 @@ const modalAnimatedScreens = (Navigator: typeof Stack) => (
     <Navigator.Screen
       name={Screens.GoldEducation}
       component={GoldEducation}
-      options={GoldEducation.navigationOptions}
+      options={GoldEducation.navigationOptions as NativeStackNavigationOptions}
     />
     <Navigator.Screen
       name={Screens.AccountKeyEducation}
       component={AccountKeyEducation}
-      options={AccountKeyEducation.navigationOptions}
+      options={AccountKeyEducation.navigationOptions as NativeStackNavigationOptions}
     />
     <Navigator.Screen
       name={Screens.LanguageModal}
@@ -702,12 +704,12 @@ const modalAnimatedScreens = (Navigator: typeof Stack) => (
     <Navigator.Screen
       name={Screens.SendConfirmationModal}
       component={SendConfirmation}
-      options={sendConfirmationScreenNavOptions}
+      options={sendConfirmationScreenNavOptions as NativeStackNavigationOptions}
     />
     <Navigator.Screen
       name={Screens.SendConfirmationLegacyModal}
       component={SendConfirmationLegacy}
-      options={sendConfirmationLegacyScreenNavOptions}
+      options={sendConfirmationLegacyScreenNavOptions as NativeStackNavigationOptions}
     />
   </>
 )
@@ -745,7 +747,7 @@ function ModalStackScreen() {
       <ModalStack.Screen
         name={Screens.Main}
         component={MainStackScreen}
-        options={mainScreenNavOptions}
+        options={mainScreenNavOptions as NativeStackNavigationOptions}
       />
       {modalAnimatedScreens(ModalStack)}
     </ModalStack.Navigator>

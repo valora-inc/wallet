@@ -157,6 +157,9 @@ export default function QRNavigator() {
 
 QRNavigator.navigationOptions = {
   ...noHeader,
+  ...Platform.select({
+    ios: { animation: 'slide_from_bottom' },
+  }),
 }
 
 const styles = StyleSheet.create({
