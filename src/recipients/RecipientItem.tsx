@@ -67,6 +67,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingVertical: Spacing.Small12,
     paddingHorizontal: variables.contentPadding,
+    alignItems: 'center',
   },
   avatar: {
     marginRight: Spacing.Small12,
