@@ -1375,18 +1375,22 @@
     "tryAgain": "Réessayer",
     "withdraw": {
       "cancel": "Annuler le retrait",
-      "success": {
-        "header": "Succès",
-        "title": "Vos fonds sont en route !",
-        "description": "Votre demande de transaction a été envoyée et vos fonds arriveront dans {{duration}}.",
-        "txDetails": "Voir sur CeloExplorer",
-        "continue": "Continuer"
-      }
+      "contactSupportPrefill": "Je n'arrive pas à retirer mes fonds."
+    },
+    "add": {
+      "cancel": "Annuler Ajouter des fonds",
+      "contactSupportPrefill": "J'ai du mal à ajouter des fonds à mon porte-monnaie Valora."
+    },
+    "success": {
+      "header": "Succès",
+      "title": "Vos fonds sont en route !",
+      "description": "Votre demande de transaction a été envoyée et vos fonds arriveront dans {{duration}}.",
+      "txDetails": "Voir sur CeloExplorer",
+      "continue": "Continuer"
     },
     "requestNotCompleted": {
       "title": "Votre demande n'a pas pu être complétée.",
-      "description": "Vos fonds n'ont pas pu être transférés. Veuillez réessayer ou contactez notre équipe d'assistance pour obtenir de l'aide.",
-      "contactSupportPrefill": "Je n'arrive pas à retirer mes fonds."
+      "description": "Vos fonds n'ont pas pu être transférés. Veuillez réessayer ou contactez notre équipe d'assistance pour obtenir de l'aide."
     }
   },
   "fiatExchangeFlow": {
