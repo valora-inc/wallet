@@ -118,6 +118,7 @@ exports[`CashInBottomSheet renders correctly 1`] = `
           "paddingTop": 12,
         }
       }
+      testID="CashInBottomSheet"
     >
       <View
         accessible={true}
@@ -152,6 +153,7 @@ exports[`CashInBottomSheet renders correctly 1`] = `
             "marginVertical": 26,
           }
         }
+        testID="DismissBottomSheet"
       >
         <svg
           height={16}
