@@ -833,6 +833,34 @@ export const mockFiatConnectQuotes: (FiatConnectQuoteSuccess | FiatConnectQuoteE
       },
     },
   },
+  {
+    provider: mockFiatConnectProviderInfo[2],
+    ok: true,
+    quote: {
+      fiatType: FiatType.USD,
+      cryptoType: CryptoType.cUSD,
+      fiatAmount: '100',
+      cryptoAmount: '100',
+      quoteId: 'mock_quote_out_id',
+      guaranteedUntil: '2099-04-27T19:22:36.000Z',
+      transferType: TransferType.TransferOut,
+      fee: '4.22',
+    },
+    kyc: {
+      kycRequired: true,
+      kycSchemas: [{ kycSchema: KycSchema.PersonalDataAndDocuments, allowedValues: {} }],
+    },
+    fiatAccount: {
+      MobileMoney: {
+        fiatAccountSchemas: [
+          {
+            fiatAccountSchema: FiatAccountSchema.MobileMoney,
+            allowedValues: {},
+          },
+        ],
+      },
+    },
+  },
 ]
 export const mockFiatConnectQuotesWithUnknownFees: FiatConnectQuoteSuccess[] = [
   {

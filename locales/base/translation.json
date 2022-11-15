@@ -1292,6 +1292,7 @@
     "idRequired": "ID Required",
     "numDays": "1-3 Days",
     "oneHour": "Less Than 1 Hour",
+    "oneDay": "Less Than 1 Day",
     "bestRate": "Best Rate",
     "header": "Select Payment Method"
   },
