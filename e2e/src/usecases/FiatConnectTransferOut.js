@@ -198,11 +198,6 @@ export const fiatConnectNonKycTransferOut = () => {
 
 export const fiatConnectKycTransferOut = () => {
   it('FiatConnect cash out', async () => {
-    const platform = device.getPlatform()
-    if (platform == 'android') {
-      return
-    }
-
     // ******** First time experience ************
     const cashOutAmount = 0.01
     const gasAmount = 0.005
@@ -263,24 +258,22 @@ export const fiatConnectKycTransferOut = () => {
     await element(by.text('Done')).tap() // End of Persona flow
 
     // Check that Mock Provider info is defined
-    if (MOCK_PROVIDER_BASE_URL && MOCK_PROVIDER_API_KEY) {
-      await setWalletKycStatus(KycStatus.KycApproved, walletAddress)
+    await setWalletKycStatus(KycStatus.KycApproved, walletAddress)
 
-      // Step 2
-      await waitFor(element(by.text('Set Up Bank Account')))
-        .toBeVisible()
-        .withTimeout(15000)
-      await expect(element(by.id('step-one-grey'))).toBeVisible()
-      await expect(element(by.id('step-two-grey'))).not.toBeVisible()
-      await element(by.id('continueButton')).tap()
+    // Step 2
+    await waitFor(element(by.text('Set Up Bank Account')))
+      .toBeVisible()
+      .withTimeout(15000)
+    await expect(element(by.id('step-one-grey'))).toBeVisible()
+    await expect(element(by.id('step-two-grey'))).not.toBeVisible()
+    await element(by.id('continueButton')).tap()
 
-      // FiatDetailsScreen
-      await enterAccountInformation()
+    // FiatDetailsScreen
+    await enterAccountInformation()
 
-      await submitTransfer()
+    await submitTransfer()
 
-      // ******** Returning user experience ************
-      await returnUserTransferOut(token, cashOutAmount)
-    }
+    // ******** Returning user experience ************
+    await returnUserTransferOut(token, cashOutAmount)
   })
 }

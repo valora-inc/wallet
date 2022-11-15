@@ -2,6 +2,7 @@ import {
   fiatConnectNonKycTransferOut,
   fiatConnectKycTransferOut,
 } from './usecases/FiatConnectTransferOut'
+import { MOCK_PROVIDER_BASE_URL, MOCK_PROVIDER_API_KEY } from 'react-native-dotenv'
 import { launchApp } from './utils/retries'
 
 describe('FiatConnect Transfer Out', () => {
@@ -16,5 +17,10 @@ describe('FiatConnect Transfer Out', () => {
     })
   })
   describe('Non KYC', fiatConnectNonKycTransferOut)
-  describe('KYC', fiatConnectKycTransferOut)
+
+  const platform = device.getPlatform()
+  // KYC test needs to be on iOS and needs Mock Provider info
+  if (platform == 'ios' && MOCK_PROVIDER_BASE_URL && MOCK_PROVIDER_API_KEY) {
+    describe('KYC', fiatConnectKycTransferOut)
+  }
 })
