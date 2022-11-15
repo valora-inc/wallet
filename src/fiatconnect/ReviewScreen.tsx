@@ -284,11 +284,6 @@ function TransactionDetails({
 }) {
   const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)!
 
-  if (flow === CICOFlow.CashIn) {
-    // TODO: update below implementation to support CashIn
-    throw new Error('Not implemented')
-  }
-
   const { t } = useTranslation()
   let tokenDisplay: string
   switch (normalizedQuote.getCryptoType()) {
@@ -317,7 +312,11 @@ function TransactionDetails({
       <LineItemRow
         style={styles.sectionMainTextContainer}
         textStyle={styles.sectionMainText}
-        title={t('fiatConnectReviewScreen.cashOut.transactionDetailsAmount')}
+        title={
+          flow === CICOFlow.CashOut
+            ? t('fiatConnectReviewScreen.cashOut.transactionDetailsAmount')
+            : t('fiatConnectReviewScreen.cashIn.transactionDetailsAmount')
+        }
         amount={
           <TokenDisplay
             amount={normalizedQuote.getCryptoAmount()}
@@ -330,7 +329,11 @@ function TransactionDetails({
       <LineItemRow
         style={styles.sectionSubTextContainer}
         textStyle={styles.sectionSubText}
-        title={t('fiatConnectReviewScreen.cashOut.transactionDetailsAmountConverted')}
+        title={
+          flow === CICOFlow.CashOut
+            ? t('fiatConnectReviewScreen.cashOut.transactionDetailsAmountConverted')
+            : t('fiatConnectReviewScreen.cashIn.transactionDetailsAmountConverted')
+        }
         amount={
           <TokenDisplay
             amount={totalConverted}
@@ -519,8 +522,6 @@ FiatConnectReviewScreen.navigationOptions = ({
 }) => ({
   ...emptyHeader,
   headerLeft: () => <BackButton />,
-  // NOTE: copies for cash in not final
-
   headerTitle:
     route.params.flow === CICOFlow.CashIn
       ? i18n.t(`fiatConnectReviewScreen.cashIn.header`)

@@ -1352,7 +1352,8 @@
     "cashIn": {
       "header": "Review Add Funds",
       "button": "Add Funds",
-      "transactionDetailsAmount": "Total Price",
+      "transactionDetailsAmount": "Total Deposit",
+      "transactionDetailsAmountConverted": "Amount Depoisited",
       "paymentMethodHeader": "Deposit From"
     },
     "cashOut": {
