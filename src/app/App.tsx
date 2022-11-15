@@ -68,6 +68,7 @@ interface Props {
 
 export class App extends React.Component<Props> {
   reactLoadTime: number = Date.now()
+  isConsumingInitialLink = false
 
   async componentDidMount() {
     if (isE2EEnv) {
@@ -85,9 +86,9 @@ export class App extends React.Component<Props> {
         } else {
           Logger.error('App/componentDidMount', 'App CleverTap Deeplink on Load', err)
         }
-        // Clevertap should ignore firebase dynamic links - affects Android only
-      } else if (url && !url.startsWith(DYNAMIC_LINK_DOMAIN_URI_PREFIX)) {
-        await this.handleOpenURL({ url }, true)
+      } else if (url) {
+        // firebase handles dynamic links, so we don't need to handle them here
+        await this.handleOpenInitialURL({ url }, true)
       }
     })
 
@@ -113,9 +114,10 @@ export class App extends React.Component<Props> {
       }
     }
 
-    const url = await Linking.getInitialURL()
-    if (url) {
-      await this.handleOpenURL({ url })
+    const initialUrl = await Linking.getInitialURL()
+    // firebase handles dynamic links, so we don't need to handle them here
+    if (initialUrl) {
+      await this.handleOpenInitialURL({ url: initialUrl })
     }
 
     this.logAppLoadTime()
@@ -154,6 +156,13 @@ export class App extends React.Component<Props> {
   handleOpenURL = async (event: { url: string }, isSecureOrigin: boolean = false) => {
     await waitUntilSagasFinishLoading()
     store.dispatch(openDeepLink(event.url, isSecureOrigin))
+  }
+
+  handleOpenInitialURL = async (event: { url: string }, isSecureOrigin: boolean = false) => {
+    if (!this.isConsumingInitialLink && !event.url.startsWith(DYNAMIC_LINK_DOMAIN_URI_PREFIX)) {
+      this.isConsumingInitialLink = true
+      await this.handleOpenURL(event, isSecureOrigin)
+    }
   }
 
   render() {
