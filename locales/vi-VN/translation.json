@@ -1288,6 +1288,7 @@
     "idRequired": "Phải có giấy tờ tùy thân",
     "numDays": "1–3 ngày",
     "oneHour": "Chưa đến 1 giờ",
+    "oneDay": "Less Than 1 Day",
     "bestRate": "Tỷ giá tốt nhất",
     "header": "Chọn phương thức thanh toán"
   },
