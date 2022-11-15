@@ -1297,6 +1297,11 @@
       "bodyTitle": "ตั้งค่าบัญชีธนาคาร",
       "description": "ป้อนรายละเอียดบัญชีธนาคารเพื่อโอนเงิน บริการเหล่านี้ดำเนินการโดย <0>{{providerName}}</0>\n\nการคลิกดำเนินการต่อแสดงว่าคุณยอมรับ<1>ข้อกำหนดและเงื่อนไข</1> และ<2>นโยบายความเป็นส่วนตัว</2>ของผู้ให้บริการรายนี้"
     },
+    "mobileMoney": {
+      "header": "Set up Mobile Money",
+      "bodyTitle": "Set Up Mobile Money",
+      "description": "Enter mobile money details to transfer funds. These services will be provided to you by <0>{{providerName}}</0>.\n\nBy clicking continue, you agree to their <1>Terms and Conditions</1> and <2>Privacy Policy</2>"
+    },
     "continue": "ดำเนินการต่อ"
   },
   "fiatConnectKycLandingScreen": {

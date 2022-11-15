@@ -160,8 +160,7 @@ function FiatExchangeAmount({ route }: Props) {
     const previousFiatAccount = cachedFiatAccountUses.find(
       (account) =>
         account.cryptoType === currency &&
-        account.fiatType === convertToFiatConnectFiatCurrency(localCurrencyCode) &&
-        account.flow === flow
+        account.fiatType === convertToFiatConnectFiatCurrency(localCurrencyCode)
     )
     if (previousFiatAccount) {
       // This will attempt to navigate to the Review Screen if the proper quote and fiatAccount are found

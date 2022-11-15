@@ -6,7 +6,13 @@ import {
 import { EXAMPLE_NAME, EXAMPLE_PHONE_NUMBER } from '../utils/consts'
 import { launchApp } from '../utils/retries'
 import { checkBalance, receiveSms } from '../utils/twilio'
-import { enterPinUi, scrollIntoView, sleep, waitForElementId } from '../utils/utils'
+import {
+  dismissCashInBottomSheet,
+  enterPinUi,
+  scrollIntoView,
+  sleep,
+  waitForElementId,
+} from '../utils/utils'
 
 const jestExpect = require('expect')
 const examplePhoneNumber = VERIFICATION_PHONE_NUMBER || EXAMPLE_PHONE_NUMBER
@@ -193,6 +199,7 @@ export default NewAccountPhoneVerification = () => {
     await element(by.text('Skip for now')).tap()
 
     // Assert we've arrived at the home screen
+    await dismissCashInBottomSheet()
     await waitForElementId('SendOrRequestBar')
 
     // Assert that 'Connect phone number' is present in settings
