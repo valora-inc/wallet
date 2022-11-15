@@ -1294,6 +1294,7 @@
     "idRequired": "Wymagane ID",
     "numDays": "1–3 dni",
     "oneHour": "Mniej niż 1 godzina",
+    "oneDay": "Mniej niż 1 dzień",
     "bestRate": "Najlepsza stawka",
     "header": "Wybierz metodę płatności"
   },
