@@ -1375,18 +1375,22 @@
     "tryAgain": "Riprova",
     "withdraw": {
       "cancel": "Annulla prelievo",
-      "success": {
-        "header": "Operazione completata",
-        "title": "I tuoi fondi sono in arrivo!",
-        "description": "La richiesta di transazione è stata inviata e i fondi arriveranno tra {{duration}}.",
-        "txDetails": "Visualizza su CeloExplorer",
-        "continue": "Continua"
-      }
+      "contactSupportPrefill": "Ho problemi a prelevare i miei fondi."
+    },
+    "add": {
+      "cancel": "Annullamento Aggiungi fondi",
+      "contactSupportPrefill": "Ho problemi ad aggiungere fondi al mio portafoglio Valora."
+    },
+    "success": {
+      "header": "Operazione completata",
+      "title": "I tuoi fondi sono in arrivo!",
+      "description": "La richiesta di transazione è stata inviata e i fondi arriveranno tra {{duration}}.",
+      "txDetails": "Visualizza su CeloExplorer",
+      "continue": "Continua"
     },
     "requestNotCompleted": {
       "title": "Non è stato possibile completare la richiesta.",
-      "description": "Non è stato possibile trasferire i tuoi fondi. Riprova o contatta il nostro team di supporto per ricevere assistenza.",
-      "contactSupportPrefill": "Ho problemi a prelevare i miei fondi."
+      "description": "Non è stato possibile trasferire i tuoi fondi. Riprova o contatta il nostro team di supporto per ricevere assistenza."
     }
   },
   "fiatExchangeFlow": {
