@@ -37,6 +37,9 @@ const store = createMockStore({
     account: '0xabc',
     dataEncryptionKey: 'someDEK',
   },
+  app: {
+    inviterAddress: '0xabc',
+  },
 })
 
 const renderComponent = () =>
@@ -81,7 +84,7 @@ describe('VerificationCodeInputScreen', () => {
         'Content-Type': 'application/json',
         authorization: 'Valora 0xabc:someSignedMessage',
       },
-      body: '{"phoneNumber":"+31619123456","clientPlatform":"android","clientVersion":"0.0.1","clientBundleId":"org.celo.mobile.debug","publicDataEncryptionKey":"somePublicKey"}',
+      body: '{"phoneNumber":"+31619123456","clientPlatform":"android","clientVersion":"0.0.1","clientBundleId":"org.celo.mobile.debug","publicDataEncryptionKey":"somePublicKey","inviterAddress":"0xabc"}',
     })
   })
 
@@ -186,7 +189,7 @@ describe('VerificationCodeInputScreen', () => {
         'Content-Type': 'application/json',
         authorization: 'Valora 0xabc:someSignedMessage',
       },
-      body: '{"phoneNumber":"+31619123456","clientPlatform":"android","clientVersion":"0.0.1","clientBundleId":"org.celo.mobile.debug","publicDataEncryptionKey":"somePublicKey"}',
+      body: '{"phoneNumber":"+31619123456","clientPlatform":"android","clientVersion":"0.0.1","clientBundleId":"org.celo.mobile.debug","publicDataEncryptionKey":"somePublicKey","inviterAddress":"0xabc"}',
     })
 
     jest.runOnlyPendingTimers()
@@ -249,7 +252,7 @@ describe('VerificationCodeInputScreen', () => {
         'Content-Type': 'application/json',
         authorization: 'Valora 0xabc:someSignedMessage',
       },
-      body: `{"phoneNumber":"${e164Number}","clientPlatform":"android","clientVersion":"0.0.1","clientBundleId":"org.celo.mobile.debug","publicDataEncryptionKey":"somePublicKey"}`,
+      body: `{"phoneNumber":"${e164Number}","clientPlatform":"android","clientVersion":"0.0.1","clientBundleId":"org.celo.mobile.debug","publicDataEncryptionKey":"somePublicKey","inviterAddress":"0xabc"}`,
     })
 
     expect(getByTestId('PhoneVerificationResendSmsBtn')).toBeDisabled()

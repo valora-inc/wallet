@@ -1,3 +1,4 @@
+import { KycSchema } from '@fiatconnect/fiatconnect-types'
 import { FirebaseMessagingTypes } from '@react-native-firebase/messaging'
 import BigNumber from 'bignumber.js'
 import { expectSaga } from 'redux-saga-test-plan'
@@ -176,6 +177,37 @@ describe(handleNotification, () => {
           recipient: { address: '0xTEST' },
           type: 'PAY_REQUEST',
         },
+      })
+    })
+  })
+
+  describe('with a kyc approved notification', () => {
+    const message = {
+      notification: { title: 'KYC', body: 'Kyc Approved' },
+      data: {
+        type: NotificationTypes.FIAT_CONNECT_KYC_APPROVED,
+        kycSchema: KycSchema.PersonalDataAndDocuments,
+        providerId: 'test-provider',
+      },
+    }
+
+    it('shows the in-app message when the app is already in the foreground', async () => {
+      await expectSaga(handleNotification, message, NotificationReceiveState.AppAlreadyOpen)
+        .put(showMessage('Kyc Approved', undefined, null, null, 'KYC'))
+        .run()
+
+      expect(navigate).not.toHaveBeenCalled()
+    })
+
+    it('navigates to the review screen if the app is not already in the foreground', async () => {
+      await expectSaga(handleNotification, message, NotificationReceiveState.AppColdStart)
+        .provide([[select(recipientInfoSelector), mockRecipientInfo]])
+        .run()
+
+      expect(navigate).toHaveBeenCalledWith(Screens.FiatConnectRefetchQuote, {
+        kycSchema: KycSchema.PersonalDataAndDocuments,
+        providerId: 'test-provider',
+        type: NotificationTypes.FIAT_CONNECT_KYC_APPROVED,
       })
     })
   })

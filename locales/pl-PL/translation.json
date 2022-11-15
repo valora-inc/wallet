@@ -173,7 +173,7 @@
   "superchargingDescription": "Otrzymujesz {{apy}}% rocznie. Co tydzień otrzymasz powiadomienie, gdy nagrody będą gotowe. Wróć tutaj, aby je odebrać.",
   "superchargeRewardsAvailable": "Masz {{amount}} {{token}} dostępne do odbioru!",
   "superchargeRewardsAvailableMultipleTokens": "Masz {{amounts}} dostępne do odbioru!",
-  "superchargeClaimText": "Odbierz nagrody, aby dodać je do swojego salda. Jeśli uczestniczysz w Supercharge za pomocą stablecoinów Moola, będziesz mógł odebrać wszystkie swoje nagrody, gdy Moola będzie z powrotem online.",
+  "superchargeClaimText": "Odbierz nagrody, aby dodać je do swojego salda.",
   "superchargeClaimButton": "Odbierz nagrody",
   "superchargeFetchRewardsFailed": "Wystąpił błąd podczas pobierania oczekujących nagród w ramach programu Supercharge. Spróbuj ponownie później.",
   "superchargeClaimSuccess": "Twoje nagrody Supercharge zostały dodane do Twojego salda całkowitego.",
@@ -582,7 +582,11 @@
     "body": "Kontaktuj i dziel się środkami z przyjaciółmi i rodziną dzięki aplikacji {{appName}}.",
     "button": "Wyślij zaproszenie",
     "error": "Wystąpił błąd z tworzeniem linku",
-    "share": "Cześć! Korzystam z portfel kryptowalutowy {{appName}}. To bardzo proste. Może Ty też spróbujesz? Skorzystaj z tego linku: {{shareUrl}}"
+    "share": "Cześć! Korzystam z portfel kryptowalutowy {{appName}}. To bardzo proste. Może Ty też spróbujesz? Skorzystaj z tego linku: {{shareUrl}}",
+    "rewardsActive": {
+      "title": "Zaproś znajomych i zbieraj NFT",
+      "body": "Zaproś swoich znajomych i rodzinę do pobrania {{appName}}, a każdy z Was otrzyma ekskluzywny NFT"
+    }
   },
   "getReward": "Otrzymaj ${{reward}}",
   "welcomeCelo": "Witamy w aplikacji {{appName}}",
@@ -1299,6 +1303,11 @@
       "bodyTitle": "Załóż konto bankowe",
       "description": "Wprowadź dane konta bankowego, aby przelać środki. Te usługi będą świadczone przez <0>{{providerName}}</0>. \n\nKlikając przycisk Kontynuuj, zgadzasz się z <1>Warunkami</1> oraz <2>Polityką prywatności</2>"
     },
+    "mobileMoney": {
+      "header": "Konfiguruj Pieniądze Mobilne",
+      "bodyTitle": "Skonfiguruj Pieniądze Mobilne",
+      "description": "Wprowadź dane dotyczące pieniędzy z telefonu komórkowego, aby dokonać przelewu. Usługi te będą świadczone przez <0>{{providerName}}</0>.\n\nKlikając dalej, zgadzasz się z Warunkami umowy <1>i</1> <2>Polityką prywatności</2>."
+    },
     "continue": "Kontynuuj"
   },
   "fiatConnectKycLandingScreen": {
@@ -1491,7 +1500,11 @@
     "title": "Wygląda na to, że {{contactName}} nie ma jeszcze portfela w {{appName}}.",
     "body": "Nadal możesz wysłać zaproszenie do {{appName}} lub spróbować wysłać płatność na adres portfela albo nom.space.",
     "sendInviteButtonLabel": "Wyślij zaproszenie",
-    "shareMessage": "Witaj! Chcę wysłać Ci trochę kryptowaluty za pomocą mojego portfela {{appName}}. Gdy pobierzesz aplikację i podasz swój numer telefonu, możemy wysłać kryptowalutę tak łatwo, jak za pomocą SMS-a. Użyj tego linku: {{link}}"
+    "shareMessage": "Witaj! Chcę wysłać Ci trochę kryptowaluty za pomocą mojego portfela {{appName}}. Gdy pobierzesz aplikację i podasz swój numer telefonu, możemy wysłać kryptowalutę tak łatwo, jak za pomocą SMS-a. Użyj tego linku: {{link}}",
+    "rewardsActive": {
+      "title": "Zaproś {{contactName}} do {{appName}}, a razem otrzymacie NFT!",
+      "body": "Wygląda na to, że {{contactName}} nie korzysta z {{appName}}. Jeśli znasz adres jego/jej portfela, nadal możesz wysłać płatność lub zaproszenie. \n\n Po pobraniu portfela i podaniu numeru telefonu otrzymacie ekskluzywne NFT."
+    }
   },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",

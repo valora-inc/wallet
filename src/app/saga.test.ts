@@ -9,6 +9,7 @@ import { WalletConnectPairingOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import {
   appLock,
+  inviteLinkConsumed,
   openDeepLink,
   openUrl,
   phoneNumberVerificationMigrated,
@@ -24,6 +25,7 @@ import {
   getAppLocked,
   getLastTimeBackgrounded,
   getRequirePinOnAppOpen,
+  inviterAddressSelector,
   shouldRunVerificationMigrationSelector,
 } from 'src/app/selectors'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
@@ -143,7 +145,7 @@ describe('handleDeepLink', () => {
 
   it('Handles long share deep link', async () => {
     const deepLink = 'https://celo.org/share/abc123'
-    await expectSaga(handleDeepLink, openDeepLink(deepLink)).run()
+    await expectSaga(handleDeepLink, openDeepLink(deepLink)).put(inviteLinkConsumed('abc123')).run()
 
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(InviteEvents.opened_via_invite_url, {
@@ -155,6 +157,7 @@ describe('handleDeepLink', () => {
     const deepLink = 'https://vlra.app/someShortLink'
     await expectSaga(handleDeepLink, openDeepLink(deepLink))
       .provide([[call(resolveDynamicLink, deepLink), 'https://celo.org/share/abc123']])
+      .put(inviteLinkConsumed('abc123'))
       .run()
 
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
@@ -419,7 +422,8 @@ describe('runCentralPhoneVerificationMigration', () => {
       .provide([
         [select(dataEncryptionKeySelector), 'someDEK'],
         [select(shouldRunVerificationMigrationSelector), true],
-        [select(mtwAddressSelector), '0x123'],
+        [select(inviterAddressSelector), '0x123'],
+        [select(mtwAddressSelector), undefined],
         [select(walletAddressSelector), '0xabc'],
         [select(e164NumberSelector), '+31619777888'],
         [call(retrieveSignedMessage), 'someSignedMessage'],
@@ -438,7 +442,7 @@ describe('runCentralPhoneVerificationMigration', () => {
         'Content-Type': 'application/json',
         authorization: 'Valora 0xabc:someSignedMessage',
       },
-      body: '{"clientPlatform":"android","clientVersion":"0.0.1","publicDataEncryptionKey":"publicKeyForUser","phoneNumber":"+31619777888","pepper":"somePepper","phoneHash":"somePhoneHash","mtwAddress":"0x123"}',
+      body: '{"clientPlatform":"android","clientVersion":"0.0.1","publicDataEncryptionKey":"publicKeyForUser","phoneNumber":"+31619777888","pepper":"somePepper","phoneHash":"somePhoneHash","inviterAddress":"0x123"}',
     })
   })
 
@@ -449,6 +453,7 @@ describe('runCentralPhoneVerificationMigration', () => {
       .provide([
         [select(dataEncryptionKeySelector), 'someDEK'],
         [select(shouldRunVerificationMigrationSelector), true],
+        [select(inviterAddressSelector), undefined],
         [select(mtwAddressSelector), '0x123'],
         [select(walletAddressSelector), '0xabc'],
         [select(e164NumberSelector), '+31619777888'],

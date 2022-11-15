@@ -1,9 +1,9 @@
 import {
+  FiatAccountSchema,
   FiatAccountType,
   FiatType,
   KycSchema,
   ObfuscatedFiatAccountData,
-  FiatAccountSchema,
 } from '@fiatconnect/fiatconnect-types'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { isEqual } from 'lodash'
@@ -58,6 +58,7 @@ export interface State {
     }
   }
   schemaCountryOverrides: FiatAccountSchemaCountryOverrides
+  personaInProgress: boolean
 }
 
 const initialState: State = {
@@ -73,6 +74,7 @@ const initialState: State = {
   kycTryAgainLoading: false,
   cachedQuoteParams: {},
   schemaCountryOverrides: {},
+  personaInProgress: false,
 }
 
 export type FiatAccount = ObfuscatedFiatAccountData & {
@@ -93,6 +95,7 @@ export interface FetchQuotesAction {
   flow: CICOFlow
   digitalAsset: CiCoCurrency
   cryptoAmount: number
+  fiatAmount: number
   providerIds?: string[]
 }
 
@@ -106,6 +109,7 @@ export interface AttemptReturnUserFlowAction {
   providerId: string
   fiatAccountId: string
   fiatAccountType: FiatAccountType
+  fiatAccountSchema: FiatAccountSchema
 }
 
 export interface FetchFiatConnectQuotesCompletedAction {
@@ -139,8 +143,11 @@ export interface CreateFiatConnectTransferCompletedAction {
 
 interface RefetchQuoteAction {
   flow: CICOFlow
-  quote: FiatConnectQuote
-  fiatAccount: ObfuscatedFiatAccountData
+  cryptoType: Currency
+  cryptoAmount: string
+  fiatAmount: string
+  providerId: string
+  fiatAccount?: FiatAccount
 }
 
 interface SubmitFiatAccountAction {
@@ -276,6 +283,15 @@ export const slice = createSlice({
     kycTryAgainCompleted: (state) => {
       state.kycTryAgainLoading = false
     },
+    personaStarted: (state) => {
+      state.personaInProgress = true
+    },
+    postKyc: (_state, action: PayloadAction<{ quote: FiatConnectQuote }>) => {
+      // no state update
+    },
+    personaFinished: (state) => {
+      state.personaInProgress = false
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -296,6 +312,7 @@ export const slice = createSlice({
         selectFiatConnectQuoteLoading: false,
         sendingFiatAccountStatus: SendingFiatAccountStatus.NotSending,
         kycTryAgainLoading: false,
+        personaInProgress: false,
       }))
   },
 })
@@ -323,6 +340,9 @@ export const {
   kycTryAgain,
   kycTryAgainCompleted,
   cacheQuoteParams,
+  personaStarted,
+  personaFinished,
+  postKyc,
 } = slice.actions
 
 export default slice.reducer

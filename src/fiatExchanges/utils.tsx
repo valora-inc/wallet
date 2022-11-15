@@ -26,7 +26,8 @@ export enum PaymentMethod {
   Bank = 'Bank',
   Card = 'Card',
   Coinbase = 'Coinbase',
-  MobileMoney = 'MobileMoney',
+  MobileMoney = 'MobileMoney', // legacy mobile money
+  FiatConnectMobileMoney = 'FiatConnectMobileMoney',
 }
 
 interface ProviderRequestData {
@@ -291,3 +292,6 @@ export const filterProvidersByPaymentMethod = (
 ) => {
   return externalProviders?.find((quote) => quote.paymentMethods.includes(paymentMethod))
 }
+
+export const isUserInputCrypto = (flow: CICOFlow, currency: Currency | CiCoCurrency): boolean =>
+  flow === CICOFlow.CashOut || currency === Currency.Celo || currency === CiCoCurrency.CELO

@@ -17,7 +17,7 @@
   - [Android](#android-1)
 - [Debugging & App Profiling](#debugging--app-profiling)
   - [Debugging](#debugging)
-    - [Optional: Install React Native Debugger](#optional-install-react-native-debugger)
+    - [Optional: Flipper](#install-flipper)
   - [App Profiling with react-devtools](#app-profiling-with-react-devtools)
   - [App Profiling with android-profiler](#app-profiling-with-android-profiler)
 - [Testing](#testing)
@@ -417,10 +417,11 @@ brew install flipper
 As of Jan 2021, Flipper is not notarized and triggers a MacOS Gatekeeper popup when trying to run it for the first time.
 Follow [these steps to successfully launch it](https://github.com/facebook/flipper/issues/1308#issuecomment-652951556) (only needed the very first time it's run)
 
-The application currently makes use of 2 additional Flipper plugins to enable more detailed debugging:
+The application currently makes use of 3 additional Flipper plugins to enable more detailed debugging:
 
 - Reactotron (Flipper -> Manage Plugins -> Install Plugins -> flipper-plugin-reactotron)
-- Redux Debugger (Flipper -> Manage Plugins > Install Plugins > search redux-debugger)
+- Redux Debugger (Flipper -> Manage Plugins -> Install Plugins -> search redux-debugger)
+- React Navigation (Flipper -> Manage Plugins -> Install Plugins -> search react-navigation)
 
 Once installed, you should be able to see them and interact with them when the wallet is running (only in dev builds).
 
@@ -430,6 +431,7 @@ This allows viewing / debugging the following:
 - Network connections
 - View hierarchy
 - Redux State / Actions
+- Navigation State
 - AsyncStorage
 - App preferences
 - Hermes

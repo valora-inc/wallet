@@ -12,7 +12,7 @@ import { mockAccount, mockPrivateDEK } from 'test/values'
 const FAKE_TEMPLATE_ID = 'fake template id'
 jest.mock('react-native-persona')
 jest.mock('src/firebase/firebase', () => ({
-  readOnceFromFirebase: jest.fn(() => FAKE_TEMPLATE_ID),
+  getPersonaTemplateId: jest.fn(() => FAKE_TEMPLATE_ID),
 }))
 
 jest.mock('src/in-house-liquidity', () => ({

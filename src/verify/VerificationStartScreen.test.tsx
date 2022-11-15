@@ -1,5 +1,6 @@
-import { act, fireEvent, render, within } from '@testing-library/react-native'
+import { act, fireEvent, render, waitFor, within } from '@testing-library/react-native'
 import React from 'react'
+import * as Keychain from 'react-native-keychain'
 import { Provider } from 'react-redux'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -7,6 +8,9 @@ import { StackParamList } from 'src/navigator/types'
 import VerificationEducationScreen from 'src/verify/VerificationEducationScreen'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
+import { mocked } from 'ts-jest/utils'
+
+const mockedKeychain = mocked(Keychain)
 
 const renderComponent = (navParams?: StackParamList[Screens.VerificationEducationScreen]) =>
   render(
@@ -34,23 +38,48 @@ describe('VerificationStartScreen', () => {
     jest.clearAllMocks()
   })
 
-  it('displays the correct components on mount', () => {
+  it('displays the correct components on mount', async () => {
+    mockedKeychain.getGenericPassword.mockResolvedValue({
+      password: 'some signed message',
+      username: 'username',
+      service: 'service',
+      storage: 'storage',
+    })
     const { getByText, getByTestId } = renderComponent()
 
+    act(() => {
+      jest.advanceTimersByTime(5000)
+    })
+
+    await waitFor(() => expect(getByText('phoneVerificationScreen.startButtonLabel')).toBeTruthy())
     expect(getByText('phoneVerificationScreen.title')).toBeTruthy()
     expect(getByText('phoneVerificationScreen.description')).toBeTruthy()
     expect(getByTestId('CountrySelectionButton')).toBeTruthy()
     expect(getByTestId('PhoneNumberField')).toBeTruthy()
-    expect(getByText('phoneVerificationScreen.startButtonLabel')).toBeTruthy()
     expect(getByText('phoneVerificationScreen.learnMore.buttonLabel')).toBeTruthy()
     expect(getByTestId('PhoneVerificationLearnMoreDialog').props.visible).toBe(false)
     expect(getByTestId('PhoneVerificationSkipDialog').props.visible).toBe(false)
   })
 
-  it('shows the learn more dialog', async () => {
+  it('does not allow starting CPV when signed message is not yet available', () => {
+    mockedKeychain.getGenericPassword.mockResolvedValue(false)
+    const { queryByText, getByTestId } = renderComponent()
+
+    act(() => {
+      jest.advanceTimersByTime(5000)
+      // enter a valid phone number
+      fireEvent.changeText(getByTestId('PhoneNumberField'), '619123456')
+    })
+
+    expect(getByTestId('PhoneVerificationContinue')).toBeDisabled()
+    expect(getByTestId('Button/Loading')).toBeTruthy()
+    expect(queryByText('phoneVerificationScreen.startButtonLabel')).toBeFalsy()
+  })
+
+  it('shows the learn more dialog', () => {
     const { getByTestId, getByText } = renderComponent()
 
-    await act(() => {
+    act(() => {
       fireEvent.press(getByText('phoneVerificationScreen.learnMore.buttonLabel'))
     })
 
@@ -62,10 +91,10 @@ describe('VerificationStartScreen', () => {
     expect(within(LearnMoreDialog).getByText('phoneVerificationScreen.learnMore.body')).toBeTruthy()
   })
 
-  it('shows the skip dialog', async () => {
+  it('shows the skip dialog', () => {
     const { getByText, getByTestId } = renderComponent({ hideOnboardingStep: false })
 
-    await act(() => {
+    act(() => {
       fireEvent.press(getByText('skip'))
     })
 
@@ -74,7 +103,7 @@ describe('VerificationStartScreen', () => {
     expect(within(SkipDialog).getByText('phoneVerificationScreen.skip.title')).toBeTruthy()
     expect(within(SkipDialog).getByText('phoneVerificationScreen.skip.body')).toBeTruthy()
 
-    await act(() => {
+    act(() => {
       fireEvent.press(getByText('phoneVerificationScreen.skip.confirm'))
     })
 
@@ -82,12 +111,20 @@ describe('VerificationStartScreen', () => {
   })
 
   it('proceeds to the next verification step', async () => {
+    mockedKeychain.getGenericPassword.mockResolvedValue({
+      password: 'some signed message',
+      username: 'username',
+      service: 'service',
+      storage: 'storage',
+    })
     const { getByText, getByTestId } = renderComponent({ hideOnboardingStep: false })
 
-    await act(() => {
+    act(() => {
+      jest.advanceTimersByTime(5000)
       fireEvent.changeText(getByTestId('PhoneNumberField'), '619123456')
     })
 
+    await waitFor(() => expect(getByText('phoneVerificationScreen.startButtonLabel')).toBeTruthy())
     fireEvent.press(getByText('phoneVerificationScreen.startButtonLabel'))
 
     expect(navigate).toHaveBeenCalledTimes(1)

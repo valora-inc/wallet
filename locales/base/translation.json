@@ -582,7 +582,11 @@
     "body": "Connect and share value with your friends and family on {{appName}}.",
     "button": "Share Invite",
     "error": "There was an issue creating a sharable link",
-    "share": "Hi! I’ve been using {{appName}} as my crypto wallet. It’s easy to try and I want to invite you to check it out with this link: {{shareUrl}}"
+    "share": "Hi! I’ve been using {{appName}} as my crypto wallet. It’s easy to try and I want to invite you to check it out with this link: {{shareUrl}}",
+    "rewardsActive": {
+      "title": "Invite friends and collect NFTs",
+      "body": "Invite your friends and family to download {{appName}} and each of you will get an exclusive NFT"
+    }
   },
   "getReward": "Get ${{reward}}",
   "welcomeCelo": "Welcome to {{appName}}",
@@ -1288,6 +1292,7 @@
     "idRequired": "ID Required",
     "numDays": "1-3 Days",
     "oneHour": "Less Than 1 Hour",
+    "oneDay": "Less Than 1 Day",
     "bestRate": "Best Rate",
     "header": "Select Payment Method"
   },
@@ -1296,6 +1301,11 @@
       "header": "Set up Bank Account",
       "bodyTitle": "Set Up Bank Account",
       "description": "Enter Bank Account details to transfer funds. These services will be provided to you by <0>{{providerName}}</0>.\n\nBy clicking continue, you agree to their <1>Terms and Conditions</1> and <2>Privacy Policy</2>"
+    },
+    "mobileMoney": {
+      "header": "Set up Mobile Money",
+      "bodyTitle": "Set Up Mobile Money",
+      "description": "Enter mobile money details to transfer funds. These services will be provided to you by <0>{{providerName}}</0>.\n\nBy clicking continue, you agree to their <1>Terms and Conditions</1> and <2>Privacy Policy</2>"
     },
     "continue": "Continue"
   },
@@ -1489,6 +1499,10 @@
     "title": "Looks like {{contactName}} doesn’t have a {{appName}} wallet yet.",
     "body": "You can still invite them to {{appName}}, or try to send a payment to their wallet address or nom.space.",
     "sendInviteButtonLabel": "Send Invite",
-    "shareMessage": "Hey! I’d like to send you some crypto with my {{appName}} wallet. Once you download the app and connect your phone number, we can send crypto as easy as a text. Use this link: {{link}}"
+    "shareMessage": "Hey! I’d like to send you some crypto with my {{appName}} wallet. Once you download the app and connect your phone number, we can send crypto as easy as a text. Use this link: {{link}}",
+    "rewardsActive": {
+      "title": "Invite {{contactName}} to {{appName}} and you’ll both receive NFTs!",
+      "body": "Looks like {{contactName}} isn't on {{appName}}. If you know their wallet address you can still send a payment or send an invitation instead. \n\n After they download the wallet and connect their phone number, you’ll both get an exclusive NFT."
+    }
   }
 }

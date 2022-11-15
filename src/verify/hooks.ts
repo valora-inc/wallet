@@ -1,5 +1,6 @@
 import { hexToBuffer } from '@celo/utils/lib/address'
 import { compressedPubKey } from '@celo/utils/lib/dataEncryptionKey'
+import { getPhoneHash } from '@celo/utils/lib/phoneNumbers'
 import { useEffect, useRef, useState } from 'react'
 import { useAsync, useAsyncCallback } from 'react-async-hook'
 import { Platform } from 'react-native'
@@ -11,6 +12,7 @@ import { PhoneVerificationEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { phoneNumberRevoked, phoneNumberVerificationCompleted } from 'src/app/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { inviterAddressSelector } from 'src/app/selectors'
 import { PHONE_NUMBER_VERIFICATION_CODE_LENGTH } from 'src/config'
 import {
   addSmsListener,
@@ -61,6 +63,7 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCallingCode: st
   const dispatch = useDispatch()
   const address = useSelector(walletAddressSelector)
   const privateDataEncryptionKey = useSelector(dataEncryptionKeySelector)
+  const inviterAddress = useSelector(inviterAddressSelector)
 
   const [verificationStatus, setVerificationStatus] = useState(PhoneNumberVerificationStatus.NONE)
   const [verificationId, setVerificationId] = useState('')
@@ -135,6 +138,7 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCallingCode: st
           clientVersion: DeviceInfo.getVersion(),
           clientBundleId: DeviceInfo.getBundleId(),
           publicDataEncryptionKey: compressedPubKey(hexToBuffer(privateDataEncryptionKey)),
+          inviterAddress: inviterAddress ?? undefined,
         }),
       })
       if (response.ok) {
@@ -215,7 +219,9 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCallingCode: st
           return
         }
 
-        ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_code_verify_success)
+        ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_code_verify_success, {
+          phoneNumberHash: getPhoneHash(phoneNumber),
+        })
         Logger.debug(`${TAG}/validateVerificationCode`, 'Successfully verified phone number')
         setVerificationStatus(PhoneNumberVerificationStatus.SUCCESSFUL)
         dispatch(phoneNumberVerificationCompleted(phoneNumber, countryCallingCode))

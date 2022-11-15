@@ -14,7 +14,7 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 
 export interface PaymentMethodSectionProps {
-  paymentMethod: PaymentMethod
+  paymentMethod: PaymentMethod.Bank | PaymentMethod.Card | PaymentMethod.FiatConnectMobileMoney
   normalizedQuotes: NormalizedQuote[]
   setNoPaymentMethods: React.Dispatch<React.SetStateAction<boolean>>
   flow: CICOFlow
@@ -44,6 +44,8 @@ export function PaymentMethodSection({
         quoteCount: sectionQuotes.length,
         providers: sectionQuotes.map((quote) => quote.getProviderId()),
       })
+    } else {
+      setNoPaymentMethods(true)
     }
   }, [])
 
@@ -62,19 +64,29 @@ export function PaymentMethodSection({
     LayoutAnimation.easeInEaseOut()
     setExpanded(!expanded)
   }
+
   if (!sectionQuotes.length) {
-    setNoPaymentMethods(true)
     return null
+  }
+
+  const getCategoryTitle = () => {
+    switch (paymentMethod) {
+      case PaymentMethod.Card:
+        return t('selectProviderScreen.card')
+      case PaymentMethod.FiatConnectMobileMoney:
+        return t('selectProviderScreen.mobileMoney')
+      case PaymentMethod.Bank:
+        return t('selectProviderScreen.bank')
+      default:
+        // this should never happen
+        throw new Error('invalid payment method')
+    }
   }
 
   const renderExpandableSection = () => (
     <>
       <View testID={`${paymentMethod}/section`} style={styles.left}>
-        <Text style={styles.category}>
-          {paymentMethod === PaymentMethod.Card
-            ? t('selectProviderScreen.card')
-            : t('selectProviderScreen.bank')}
-        </Text>
+        <Text style={styles.category}>{getCategoryTitle()}</Text>
         {!expanded && (
           <Text style={styles.fee}>
             {
@@ -96,11 +108,7 @@ export function PaymentMethodSection({
   const renderNonExpandableSection = (quote: NormalizedQuote) => (
     <>
       <View testID={`${paymentMethod}/singleProvider`} style={styles.left}>
-        <Text style={styles.category}>
-          {paymentMethod === PaymentMethod.Card
-            ? t('selectProviderScreen.card')
-            : t('selectProviderScreen.bank')}
-        </Text>
+        <Text style={styles.category}>{getCategoryTitle()}</Text>
         <Text testID={`${paymentMethod}/provider-0`} style={styles.fee}>
           {renderFeeAmount(sectionQuotes[0], t('selectProviderScreen.fee'))}
         </Text>
@@ -120,14 +128,24 @@ export function PaymentMethodSection({
     </>
   )
 
+  const getDefaultSettlementTime = () => {
+    switch (paymentMethod) {
+      case PaymentMethod.Card:
+        return t('selectProviderScreen.oneHour')
+      case PaymentMethod.FiatConnectMobileMoney:
+        return t('selectProviderScreen.oneDay')
+      case PaymentMethod.Bank:
+        return t('selectProviderScreen.numDays')
+      default:
+        // this should never happen
+        throw new Error('invalid payment method')
+    }
+  }
+
   const renderInfoText = (quote: NormalizedQuote) => {
     const kycInfo = quote.getKycInfo()
     const kycString = kycInfo ? `${kycInfo} | ` : ''
-    return `${kycString}${
-      paymentMethod === PaymentMethod.Card
-        ? t('selectProviderScreen.oneHour')
-        : t('selectProviderScreen.numDays')
-    }`
+    return `${kycString}${getDefaultSettlementTime()}`
   }
 
   const renderFeeAmount = (normalizedQuote: NormalizedQuote, postFix: string) => {

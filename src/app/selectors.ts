@@ -103,15 +103,10 @@ export const sentryNetworkErrorsSelector = (state: RootState) => state.app.sentr
 
 export const supportedBiometryTypeSelector = (state: RootState) => state.app.supportedBiometryType
 
-export const biometryEnabledSelector = (state: RootState) =>
-  state.app.biometryEnabled && !!state.app.supportedBiometryType
-
 export const activeScreenSelector = (state: RootState) => state.app.activeScreen
 
 export const showPriceChangeIndicatorInBalancesSelector = (state: RootState) =>
   state.app.showPriceChangeIndicatorInBalances
-
-export const superchargeButtonTypeSelector = (state: RootState) => state.app.superchargeButtonType
 
 export const skipVerificationSelector = (state: RootState) => state.app.skipVerification
 
@@ -176,14 +171,14 @@ export const restoreAccountSteps: { [key in RestoreAccountScreens]: number } = {
 export const registrationStepsSelector = createSelector(
   [
     choseToRestoreAccountSelector,
-    biometryEnabledSelector,
+    supportedBiometryTypeSelector,
     activeScreenSelector,
     recoveringFromStoreWipeSelector,
     skipVerificationSelector,
   ],
   (
     chooseRestoreAccount,
-    biometryEnabled,
+    supportedBiometryType,
     activeScreen,
     recoveringFromStoreWipe,
     skipVerification
@@ -205,7 +200,7 @@ export const registrationStepsSelector = createSelector(
       step = createAccountSteps[activeScreen as CreateAccountScreens]
     }
 
-    if (!biometryEnabled) {
+    if (supportedBiometryType === null) {
       if (Object.keys(steps).includes(Screens.EnableBiometry)) {
         totalSteps--
         step =
@@ -260,3 +255,7 @@ export const shouldRunVerificationMigrationSelector = createSelector(
   (centralPhoneVerificationEnabled, numberVerifiedCentrally, numberVerifiedDecentrally) =>
     centralPhoneVerificationEnabled && numberVerifiedDecentrally && !numberVerifiedCentrally
 )
+
+export const inviterAddressSelector = (state: RootState) => state.app.inviterAddress
+
+export const networkTimeoutSecondsSelector = (state: RootState) => state.app.networkTimeoutSeconds

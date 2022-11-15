@@ -1,5 +1,6 @@
 import { FiatConnectClient } from '@fiatconnect/fiatconnect-sdk'
 import { getFiatConnectClient, getSiweSigningFunction } from 'src/fiatconnect/clients'
+import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { getPassword } from 'src/pincode/authentication'
 import { getWalletAsync } from 'src/web3/contracts'
 import { KeychainWallet } from 'src/web3/KeychainWallet'
@@ -50,6 +51,10 @@ describe('getFiatConnectClient', () => {
     const fcClient = await getFiatConnectClient('provider1', 'https://provider1.url')
     expect(getWalletAsync).toHaveBeenCalled()
     expect(fcClient).toBeInstanceOf(FiatConnectClient)
+    expect(fcClient).toHaveProperty(
+      'config.timeout',
+      REMOTE_CONFIG_VALUES_DEFAULTS.networkTimeoutSeconds * 1000
+    )
   })
 
   it('returns an already existing client', async () => {

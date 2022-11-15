@@ -173,7 +173,7 @@
   "superchargingDescription": "Você recebe {{apy}}% anualmente. Toda semana você receberá uma notificação avisando quando as suas recompensas estiverem pronta. Basta voltar aqui para resgatá-las.",
   "superchargeRewardsAvailable": "Você tem {{amount}} {{token}} disponíveis para resgatar!",
   "superchargeRewardsAvailableMultipleTokens": "Você tem {{amounts}} disponíveis para resgatar!",
-  "superchargeClaimText": "Resgate suas recompensas para adicioná-las ao seu saldo. Se você participar do Supercharge com stablecoins Moola, você poderá reclamar todas as suas recompensas quando o Moola estiver de volta on-line.",
+  "superchargeClaimText": "Resgate suas recompensas para adicioná-las ao seu saldo.",
   "superchargeClaimButton": "Resgatar recompensas",
   "superchargeFetchRewardsFailed": "Ocorreu um erro ao resgatar recompensas de Supercharge pendentes. Tente novamente mais tarde.",
   "superchargeClaimSuccess": "Suas recompensas de Supercharge foram adicionadas ao seu saldo total.",
@@ -582,7 +582,11 @@
     "body": "Conecte-se e compartilhe valor com seus amigos e familiares na {{appName}}.",
     "button": "Enviar convite",
     "error": "Ocorreu um erro ao criar um link compartilhável",
-    "share": "Olá! Estou usando a carteira cripto {{appName}}. É muito fácil de usar e eu gostaria de convidar você para conferir com este link: {{shareUrl}}"
+    "share": "Olá! Estou usando a carteira cripto {{appName}}. É muito fácil de usar e eu gostaria de convidar você para conferir com este link: {{shareUrl}}",
+    "rewardsActive": {
+      "title": "Convide amigos e colete NFTs",
+      "body": "Convide seus amigos e familiares para baixar o app {{appName}} e cada um de vocês ganhará um NFT exclusivo"
+    }
   },
   "getReward": "Receba ${{reward}}",
   "welcomeCelo": "Bem-vindo à {{appName}}",
@@ -1295,6 +1299,11 @@
       "bodyTitle": "Configurar conta bancária",
       "description": "Insira os dados da conta bancária para transferir fundos. Esses serviços serão fornecidos a você por <0>{{providerName}}</0>.\n\nAo clicar em continuar, você concorda com os <1>Termos e condições</1> e a <2>Política de privacidade</2>."
     },
+    "mobileMoney": {
+      "header": "Criar dinheiro móvel",
+      "bodyTitle": "Configurar dinheiro móvel",
+      "description": "Introduza os detalhes do dinheiro móvel para transferir fundos. Estes serviços ser-lhe-ão fornecidos por <0>{{providerName}}</0>.\n\nAo clicar em continuar, concorda com os seus <1>Termos e Condições</1> e <2>Política de Privacidade</2>"
+    },
     "continue": "Continuar"
   },
   "fiatConnectKycLandingScreen": {
@@ -1487,7 +1496,11 @@
     "title": "Parece que {{contactName}} ainda não tem uma carteira na {{appName}}.",
     "body": "Você ainda pode convidar esse contato para o {{appName}} ou tentar enviar um pagamento para o endereço de carteira ou nom.space dele.",
     "sendInviteButtonLabel": "Enviar convite",
-    "shareMessage": "Olá, eu gostaria de lhe enviar algumas criptomoedas com a minha carteira do {{appName}}. Depois de baixar o aplicativo e conectar seu número de telefone, enviar criptomoedas será tão fácil quanto enviar uma mensagem. Utilize este link: {{link}}"
+    "shareMessage": "Olá, eu gostaria de lhe enviar algumas criptomoedas com a minha carteira do {{appName}}. Depois de baixar o aplicativo e conectar seu número de telefone, enviar criptomoedas será tão fácil quanto enviar uma mensagem. Utilize este link: {{link}}",
+    "rewardsActive": {
+      "title": "Convide {{contactName}} para o app {{appName}} e vocês dois receberão NFTs!",
+      "body": "Parece que {{contactName}} não está no app {{appName}}. Se souber o endereço da carteira dessa pessoa, você ainda pode enviar um pagamento ou enviar um convite. \n\nDepois que seu amigo baixar a carteira e conectar o número de celular, vocês dois receberão um NFT exclusivo."
+    }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

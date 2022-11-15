@@ -6,17 +6,17 @@ import {
   ResponseError,
 } from '@fiatconnect/fiatconnect-sdk'
 import {
-  FiatAccountSchemas,
+  FiatAccountSchema,
   FiatAccountType,
   FiatConnectError,
   GetFiatAccountsResponse,
   KycStatus as FiatConnectKycStatus,
+  PostFiatAccountRequestBody,
   PostFiatAccountResponse,
   TransferResponse,
-  FiatAccountSchema,
 } from '@fiatconnect/fiatconnect-types'
 import BigNumber from 'bignumber.js'
-import { all, call, delay, put, select, spawn, takeLeading } from 'redux-saga/effects'
+import { call, delay, put, select, spawn, takeLeading } from 'redux-saga/effects'
 import { KycStatus as PersonaKycStatus } from 'src/account/reducer'
 import { showError, showMessage } from 'src/alert/actions'
 import { FiatExchangeEvents } from 'src/analytics/Events'
@@ -53,6 +53,8 @@ import {
   fiatAccountUsed,
   kycTryAgain,
   kycTryAgainCompleted,
+  personaFinished,
+  postKyc as postKycAction,
   refetchQuote,
   refetchQuoteCompleted,
   refetchQuoteFailed,
@@ -86,15 +88,18 @@ const TAG = 'FiatConnectSaga'
 
 const KYC_WAIT_TIME_MILLIS = 3000
 
+const PERSONA_SUCCESS_STATUSES = new Set([PersonaKycStatus.Approved, PersonaKycStatus.Completed])
+
 export function* handleFetchFiatConnectQuotes({
   payload: params,
 }: ReturnType<typeof fetchFiatConnectQuotes>) {
-  const { flow, digitalAsset, cryptoAmount, providerIds } = params
+  const { flow, digitalAsset, cryptoAmount, fiatAmount, providerIds } = params
   try {
     const quotes: (FiatConnectQuoteSuccess | FiatConnectQuoteError)[] = yield call(_getQuotes, {
       flow,
       digitalAsset,
       cryptoAmount,
+      fiatAmount,
       providerIds,
     })
     yield put(fetchFiatConnectQuotesCompleted({ quotes }))
@@ -105,23 +110,32 @@ export function* handleFetchFiatConnectQuotes({
 }
 
 /**
- * Handles Refetching a single quote for the Review Screen
+ * Handles Refetching a single quote for the Review Screen.
  */
 export function* handleRefetchQuote({ payload: params }: ReturnType<typeof refetchQuote>) {
-  const { quote, flow, fiatAccount } = params
+  const { flow, cryptoType, cryptoAmount, fiatAmount, providerId, fiatAccount } = params
   try {
-    const newQuote: FiatConnectQuote = yield call(_getSpecificQuote, {
+    const {
+      normalizedQuote,
+      selectedFiatAccount,
+    }: {
+      normalizedQuote: FiatConnectQuote
+      selectedFiatAccount: FiatAccount
+    } = yield call(_getSpecificQuote, {
       flow,
-      digitalAsset: resolveCICOCurrency(quote.getCryptoType()),
-      cryptoAmount: parseFloat(quote.getCryptoAmount()),
-      providerId: quote.getProviderId(),
-      fiatAccountType: fiatAccount.fiatAccountType,
+      digitalAsset: resolveCICOCurrency(cryptoType),
+      cryptoAmount: parseFloat(cryptoAmount),
+      fiatAmount: parseFloat(fiatAmount),
+      providerId: providerId,
+      fiatAccount: fiatAccount,
     })
+
     yield put(refetchQuoteCompleted())
+
     navigate(Screens.FiatConnectReview, {
       flow,
-      normalizedQuote: newQuote,
-      fiatAccount,
+      normalizedQuote,
+      fiatAccount: selectedFiatAccount,
       shouldRefetchQuote: false,
     })
   } catch (error) {
@@ -142,12 +156,13 @@ export function* handleSubmitFiatAccount({
     quote.getProviderBaseUrl(),
     quote.getProviderApiKey()
   )
+
   const postFiatAccountResponse: Result<PostFiatAccountResponse, ResponseError> = yield call(
-    [fiatConnectClient, 'addFiatAccount'],
+    { context: fiatConnectClient, fn: fiatConnectClient.addFiatAccount },
     {
       fiatAccountSchema,
-      data: fiatAccountData as FiatAccountSchemas[typeof fiatAccountSchema],
-    }
+      data: fiatAccountData,
+    } as PostFiatAccountRequestBody
   )
 
   if (postFiatAccountResponse.isOk) {
@@ -242,7 +257,9 @@ export function* handleSubmitFiatAccount({
     navigate(Screens.FiatConnectReview, {
       flow,
       normalizedQuote: quote,
-      fiatAccount: postFiatAccountResponse.value,
+      fiatAccount: Object.assign(postFiatAccountResponse.value, {
+        providerId: quote.getProviderId(),
+      }),
     })
     yield delay(500) // to avoid a screen flash
     yield put(submitFiatAccountCompleted())
@@ -288,7 +305,15 @@ export function* handleSubmitFiatAccount({
 export function* handleAttemptReturnUserFlow({
   payload: params,
 }: ReturnType<typeof attemptReturnUserFlow>): any {
-  const { amount, flow, selectedCrypto, providerId, fiatAccountId, fiatAccountType } = params
+  const {
+    amount,
+    flow,
+    selectedCrypto,
+    providerId,
+    fiatAccountId,
+    fiatAccountType,
+    fiatAccountSchema,
+  } = params
   const digitalAsset = {
     [Currency.Celo]: CiCoCurrency.CELO,
     [Currency.Dollar]: CiCoCurrency.CUSD,
@@ -299,23 +324,27 @@ export function* handleAttemptReturnUserFlow({
     fiatConnectProvidersSelector
   )
   try {
-    const [normalizedQuote, fiatAccount]: [FiatConnectQuote, FiatAccount | null] = yield all([
-      call(_getSpecificQuote, {
-        digitalAsset,
-        cryptoAmount: amount.crypto,
-        flow,
-        providerId,
-        fiatAccountType,
-      }),
-      call(_getFiatAccount, {
-        fiatConnectProviders,
-        providerId,
-        fiatAccountId,
-      }),
-    ])
+    const fiatAccount: FiatAccount | null = yield call(_getFiatAccount, {
+      fiatConnectProviders,
+      providerId,
+      fiatAccountId,
+      fiatAccountType,
+      fiatAccountSchema,
+    })
     if (!fiatAccount) {
       throw new Error('Could not find fiat account')
     }
+    const { normalizedQuote }: { normalizedQuote: FiatConnectQuote } = yield call(
+      _getSpecificQuote,
+      {
+        digitalAsset,
+        cryptoAmount: amount.crypto,
+        fiatAmount: amount.fiat,
+        flow,
+        providerId,
+        fiatAccount: fiatAccount,
+      }
+    )
     const kycSchema = normalizedQuote.getKycSchema()
     if (kycSchema) {
       const getKycStatusResponse: GetKycStatusResponse = yield call(getKycStatus, {
@@ -388,11 +417,13 @@ export function* handleAttemptReturnUserFlow({
 export function* _getQuotes({
   digitalAsset,
   cryptoAmount,
+  fiatAmount,
   flow,
   providerIds,
 }: {
   digitalAsset: CiCoCurrency
   cryptoAmount: number
+  fiatAmount: number
   flow: CICOFlow
   providerIds?: string[]
 }) {
@@ -415,6 +446,7 @@ export function* _getQuotes({
     localCurrency,
     digitalAsset,
     cryptoAmount,
+    fiatAmount,
     country: userLocation?.countryCodeAlpha2 || 'US',
     flow,
     fiatConnectCashInEnabled,
@@ -427,33 +459,134 @@ export function* _getQuotes({
   return quotes
 }
 
+/**
+ * Given a Fiat Account to use and a list of possible quotes to select, attempts to find a quote
+ * for which the given Fiat Account is allowed to be used. Returns the first match, or null if
+ * none is found.
+ **/
+export function _selectQuoteMatchingFiatAccount({
+  normalizedQuotes,
+  fiatAccount,
+}: {
+  normalizedQuotes: FiatConnectQuote[]
+  fiatAccount: FiatAccount
+}) {
+  for (const normalizedQuote of normalizedQuotes) {
+    if (
+      normalizedQuote.getFiatAccountType() === fiatAccount.fiatAccountType &&
+      normalizedQuote.getFiatAccountSchema() === fiatAccount.fiatAccountSchema
+    ) {
+      return normalizedQuote
+    }
+  }
+}
+
+/**
+ * Given a list of FiatConnectQuote objects, finds the first quote for which the user has a matching
+ * Fiat Account on file and returns it, along with the Fiat Account that matches. Useful for return
+ * flows where we know which provider to use, but not which Fiat Account.
+ **/
+export function* _selectQuoteAndFiatAccount({
+  normalizedQuotes,
+  providerId,
+}: {
+  normalizedQuotes: FiatConnectQuote[]
+  providerId: string
+}) {
+  const fiatConnectProviders: FiatConnectProviderInfo[] | null = yield select(
+    fiatConnectProvidersSelector
+  )
+  const fiatConnectProvider = fiatConnectProviders?.find((provider) => provider.id === providerId)
+  if (!fiatConnectProvider) {
+    throw new Error('Could not find provider')
+  }
+
+  const fiatAccounts: FiatAccount[] = yield call(
+    fetchFiatAccountsSaga,
+    providerId,
+    fiatConnectProvider.baseUrl,
+    fiatConnectProvider.apiKey
+  )
+
+  for (const fiatAccount of fiatAccounts) {
+    const normalizedQuote = _selectQuoteMatchingFiatAccount({
+      normalizedQuotes,
+      fiatAccount,
+    })
+    if (normalizedQuote) return { normalizedQuote, selectedFiatAccount: fiatAccount }
+  }
+
+  throw new Error('Could not find a fiat account matching any provided quote')
+}
+
+/**
+ * Given some quote parameters, fetches quotes from a single provider and returns the quote to use
+ * as well as a suitable fiat account that the user has on file that can be used for the quote.
+ *
+ * If a fiat account is provided to this function, a quote will be selected from the provider's list
+ * of returned quotes which is eligible to be used with the given fiat account. If no quote is found
+ * that matches the given fiat account, throws an error.
+ *
+ * If no fiat account is provided, both quotes and on-file fiat accounts will be fetched from
+ * the chosen provider, and will be tested against eachother to find a match. If multiple quote-account
+ * matches exist, one will be chosen arbitrarily. If no matching pair exists, throws an error.
+ **/
 export function* _getSpecificQuote({
   digitalAsset,
   cryptoAmount,
+  fiatAmount,
   flow,
   providerId,
-  fiatAccountType,
+  fiatAccount,
 }: {
   digitalAsset: CiCoCurrency
   cryptoAmount: number
+  fiatAmount: number
   flow: CICOFlow
   providerId: string
-  fiatAccountType: FiatAccountType
+  fiatAccount?: FiatAccount
 }) {
+  // Despite fetching quotes for a single provider, there still may be multiple quotes, since a quote
+  // object is generated for each Fiat Account Schema supported by the provider.
   const quotes: (FiatConnectQuoteSuccess | FiatConnectQuoteError)[] = yield call(_getQuotes, {
     flow,
     digitalAsset,
     cryptoAmount,
+    fiatAmount,
     providerIds: [providerId],
   })
   const normalizedQuotes = normalizeFiatConnectQuotes(flow, quotes)
-  const normalizedQuote = normalizedQuotes.find((q) => q.getFiatAccountType() === fiatAccountType)
+
+  // If no account was provided, we need to fetch accounts from the provider and find a matching quote-account pair
+  if (!fiatAccount) {
+    return (yield call(_selectQuoteAndFiatAccount, {
+      normalizedQuotes,
+      providerId,
+    })) as {
+      normalizedQuote: FiatConnectQuote
+      selectedFiatAccount: FiatAccount
+    }
+  }
+  // Otherwise, just find a quote that matches the selected account
+  const normalizedQuote = _selectQuoteMatchingFiatAccount({
+    normalizedQuotes,
+    fiatAccount,
+  })
   if (!normalizedQuote) {
     throw new Error('Could not find quote')
   }
-  return normalizedQuote
+  return {
+    normalizedQuote,
+    selectedFiatAccount: fiatAccount,
+  }
 }
 
+/**
+ * Fetches a fiat account from a given provider according to a set of optional filters.
+ * Multiple filters may be used in conjunction. If, after filtering, multiple possible accounts
+ * remain, an arbitrary one matching the given criteria is returned.
+ * Returns null if no accounts are found that match the given criteria.
+ **/
 export function* _getFiatAccount({
   fiatConnectProviders,
   providerId,
@@ -510,7 +643,7 @@ export function* handleSelectFiatConnectQuote({
       const fiatConnectKycStatus = getKycStatusResponse.kycStatus[kycSchema]
       switch (fiatConnectKycStatus) {
         case FiatConnectKycStatus.KycNotCreated:
-          if (getKycStatusResponse.persona === PersonaKycStatus.Approved) {
+          if (PERSONA_SUCCESS_STATUSES.has(getKycStatusResponse.persona)) {
             // If user has Persona KYC on file, just submit it and continue to account management.
             yield call(postKyc, {
               providerInfo: quote.quote.provider,
@@ -571,64 +704,13 @@ export function* handleSelectFiatConnectQuote({
       }
     }
 
-    const fiatAccount: FiatAccount = yield call(_getFiatAccount, {
-      fiatConnectProviders: [quote.quote.provider],
-      providerId: quote.getProviderId(),
-      fiatAccountType: quote.getFiatAccountType(),
-      fiatAccountSchema: quote.getFiatAccountSchema(),
+    yield call(_checkFiatAccountAndNavigate, {
+      quote,
+      isKycRequired: !!kycSchema,
+      isKycApproved:
+        !!kycSchema &&
+        getKycStatusResponse!.kycStatus[kycSchema] === FiatConnectKycStatus.KycApproved,
     })
-
-    // This is expected when the user has not yet created a fiatAccount with the provider
-    if (!fiatAccount) {
-      // If the quote has kyc, navigate to the second step of the KycLanding page
-      if (kycSchema) {
-        navigate(Screens.KycLanding, {
-          quote,
-          flow: quote.flow,
-          step: 'two',
-        })
-      } else {
-        navigate(Screens.FiatConnectLinkAccount, {
-          quote,
-          flow: quote.flow,
-        })
-        yield delay(500) // to avoid a screen flash
-      }
-
-      yield put(selectFiatConnectQuoteCompleted())
-      return
-    }
-    // Save the fiatAccount in cache
-    yield put(
-      fiatAccountUsed({
-        providerId: quote.getProviderId(),
-        fiatAccountId: fiatAccount.fiatAccountId,
-        fiatAccountType: quote.getFiatAccountType(),
-        fiatAccountSchema: quote.getFiatAccountSchema(),
-        flow: quote.flow,
-        cryptoType: quote.getCryptoType(),
-        fiatType: quote.getFiatType(),
-      })
-    )
-
-    // If the quote required KYC, only proceed to the Review screen if it's approved
-    if (
-      kycSchema &&
-      getKycStatusResponse!.kycStatus[kycSchema] !== FiatConnectKycStatus.KycApproved
-    ) {
-      navigate(Screens.KycPending, {
-        flow: quote.flow,
-        quote,
-      })
-    } else {
-      navigate(Screens.FiatConnectReview, {
-        flow: quote.flow,
-        normalizedQuote: quote,
-        fiatAccount,
-      })
-    }
-
-    yield delay(500) // to avoid a screen flash
     yield put(selectFiatConnectQuoteCompleted())
   } catch (error) {
     // Error while attempting fetching the fiatConnect account
@@ -649,6 +731,124 @@ export function* handleSelectFiatConnectQuote({
       amount: amount,
     })
   }
+}
+
+export function* handlePostKyc({ payload }: ReturnType<typeof postKycAction>) {
+  const { quote } = payload
+  const kycSchema = quote.getKycSchema()
+
+  try {
+    if (!kycSchema) {
+      // this should never happen
+      throw new Error('Unexpected error, quote is missing kyc schema')
+    }
+    yield call(postKyc, {
+      providerInfo: quote.getProviderInfo(),
+      kycSchema,
+    })
+    // We also need to save a user's quote parameters so we can re-fetch if KYC takes a long
+    // time to process.
+    yield put(
+      cacheQuoteParams({
+        providerId: quote.getProviderId(),
+        kycSchema,
+        cachedQuoteParams: {
+          cryptoAmount: quote.getCryptoAmount(),
+          fiatAmount: quote.getFiatAmount(),
+          flow: quote.flow,
+          cryptoType: quote.getCryptoType(),
+          fiatType: quote.getFiatType(),
+        },
+      })
+    )
+    // kyc will be required, but will be pending with the provider because it was
+    // just submitted.
+    yield call(_checkFiatAccountAndNavigate, { quote, isKycRequired: true, isKycApproved: false })
+    // clear persona status
+    yield put(personaFinished())
+  } catch (error) {
+    // Error while attempting to post to kyc or selecting fiat account
+    Logger.debug(
+      TAG,
+      `handlePostKyc* Error while attempting to post kyc for provider ${quote.getProviderId()}`,
+      error
+    )
+    yield put(showError(ErrorMessages.PROVIDER_FETCH_FAILED))
+    const amount = {
+      crypto: parseFloat(quote.getCryptoAmount()),
+      fiat: parseFloat(quote.getFiatAmount()),
+    }
+    navigate(Screens.SelectProvider, {
+      flow: quote.flow,
+      selectedCrypto: quote.getCryptoType(),
+      amount: amount,
+    })
+    yield delay(500) // to avoid screen flash
+    yield put(personaFinished())
+  }
+}
+
+export function* _checkFiatAccountAndNavigate({
+  quote,
+  isKycRequired,
+  isKycApproved,
+}: {
+  quote: FiatConnectQuote
+  isKycRequired: boolean
+  isKycApproved: boolean
+}) {
+  const fiatAccount: FiatAccount = yield call(_getFiatAccount, {
+    fiatConnectProviders: [quote.getProviderInfo()],
+    providerId: quote.getProviderId(),
+    fiatAccountType: quote.getFiatAccountType(),
+    fiatAccountSchema: quote.getFiatAccountSchema(),
+  })
+
+  // This is expected when the user has not yet created a fiatAccount with the provider
+  if (!fiatAccount) {
+    // If the quote has kyc, navigate to the second step of the KycLanding page
+    if (isKycRequired) {
+      navigate(Screens.KycLanding, {
+        quote,
+        flow: quote.flow,
+        step: 'two',
+      })
+    } else {
+      navigate(Screens.FiatConnectLinkAccount, {
+        quote,
+        flow: quote.flow,
+      })
+      yield delay(500) // to avoid a screen flash
+    }
+    return
+  }
+  // Save the fiatAccount in cache
+  yield put(
+    fiatAccountUsed({
+      providerId: quote.getProviderId(),
+      fiatAccountId: fiatAccount.fiatAccountId,
+      fiatAccountType: quote.getFiatAccountType(),
+      fiatAccountSchema: quote.getFiatAccountSchema(),
+      flow: quote.flow,
+      cryptoType: quote.getCryptoType(),
+      fiatType: quote.getFiatType(),
+    })
+  )
+
+  // If the quote required KYC, only proceed to the Review screen if it's approved
+  if (isKycRequired && !isKycApproved) {
+    navigate(Screens.KycPending, {
+      flow: quote.flow,
+      quote,
+    })
+  } else {
+    navigate(Screens.FiatConnectReview, {
+      flow: quote.flow,
+      normalizedQuote: quote,
+      fiatAccount,
+    })
+  }
+  yield delay(500) // to avoid a screen flash
 }
 
 export function* fetchFiatAccountsSaga(
@@ -843,6 +1043,10 @@ function* watchKycTryAgain() {
   yield takeLeading(kycTryAgain.type, handleKycTryAgain)
 }
 
+function* watchPostKyc() {
+  yield takeLeading(postKycAction.type, handlePostKyc)
+}
+
 export function* fiatConnectSaga() {
   yield spawn(watchFetchFiatConnectQuotes)
   yield spawn(watchFiatConnectTransfers)
@@ -852,4 +1056,5 @@ export function* fiatConnectSaga() {
   yield spawn(watchRefetchQuote)
   yield spawn(watchSubmitFiatAccount)
   yield spawn(watchKycTryAgain)
+  yield spawn(watchPostKyc)
 }

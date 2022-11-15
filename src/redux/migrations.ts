@@ -1,6 +1,5 @@
 import _ from 'lodash'
 import { FinclusiveKycStatus } from 'src/account/reducer'
-import { SuperchargeButtonType } from 'src/app/types'
 import { CodeInputStatus } from 'src/components/CodeInput'
 import { DEFAULT_SENTRY_NETWORK_ERRORS, DEFAULT_SENTRY_TRACES_SAMPLE_RATE } from 'src/config'
 import { DappConnectInfo } from 'src/dapps/types'
@@ -370,7 +369,7 @@ export const migrations = {
     ...state,
     app: {
       ...state.app,
-      superchargeButtonType: SuperchargeButtonType.PillRewards,
+      superchargeButtonType: 'PILL_REWARDS',
     },
   }),
   28: (state: any) => ({
@@ -619,8 +618,7 @@ export const migrations = {
     ...state,
     app: {
       ...state.app,
-      celoWithdrawalEnabledInExchange:
-        REMOTE_CONFIG_VALUES_DEFAULTS.celoWithdrawalEnabledInExchange,
+      celoWithdrawalEnabledInExchange: true,
     },
   }),
   52: (state: any) => ({
@@ -866,5 +864,32 @@ export const migrations = {
       ...state.fiatConnect,
       cachedFiatAccountUses: [],
     },
+  }),
+  87: (state: any) => state,
+  88: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      networkTimeoutSeconds: REMOTE_CONFIG_VALUES_DEFAULTS.networkTimeoutSeconds,
+    },
+  }),
+  89: (state: any) => ({
+    ...state,
+    app: _.omit(state.app, 'superchargeButtonType'),
+  }),
+  90: (state: any) => ({
+    ...state,
+    app: _.omit(state.app, 'biometryEnabled'),
+  }),
+  91: (state: any) => ({
+    ...state,
+    fiatConnect: {
+      ...state.fiatConnect,
+      personaInProgress: false,
+    },
+  }),
+  92: (state: any) => ({
+    ...state,
+    app: _.omit(state.app, 'celoWithdrawalEnabledInExchange'),
   }),
 }

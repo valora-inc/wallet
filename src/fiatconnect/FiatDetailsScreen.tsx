@@ -1,5 +1,5 @@
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { useLayoutEffect, useMemo, useRef, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, Image, StyleSheet, Text, View } from 'react-native'
 import PickerSelect from 'react-native-picker-select'
@@ -201,6 +201,7 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
             <View>
               {formFields.map((field, index) => (
                 <FormField
+                  key={`${field}-${index}`}
                   field={field}
                   index={index}
                   value={fieldValues.current[index]}
@@ -245,6 +246,15 @@ function FormField({
   const { t } = useTranslation()
   const [showError, setShowError] = useState(false)
   const typingTimer = useRef<ReturnType<typeof setTimeout>>()
+
+  // Clear timeout on unmount to prevent memory leak warning
+  useEffect(() => {
+    return () => {
+      if (typingTimer?.current) {
+        clearTimeout(typingTimer.current)
+      }
+    }
+  }, [])
 
   const onInputChange = (value: any) => {
     if (!showError) {

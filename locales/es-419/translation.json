@@ -173,7 +173,7 @@
   "superchargingDescription": "Estás recibiendo un {{apy}}% anual en recompensas. Recibirás una notificación cada semana cuando las recompensas estén listas, vuelve a esta pantalla para reclamarlas.",
   "superchargeRewardsAvailable": "¡Has acumulado {{amount}} {{token}} en recompensas!",
   "superchargeRewardsAvailableMultipleTokens": "¡Has acumulado {{amounts}} en recompensas!",
-  "superchargeClaimText": "Reclama tus recompensas y multiplica tu saldo. Si estás participando en Supercharge con stablecoins Moola, podrás reclamar todas tus recompensas una vez que Moola vuelva a estar en línea.",
+  "superchargeClaimText": "Reclama tus recompensas y multiplica tu saldo.",
   "superchargeClaimButton": "Reclamar recompensas",
   "superchargeFetchRewardsFailed": "Hubo un error al recuperar tus recompensas de Supercharge pendientes. Vuelve a intentarlo más tarde.",
   "superchargeClaimSuccess": "Se agregaron tus recompensas de Supercharge a tu saldo total.",
@@ -582,7 +582,11 @@
     "body": "Conéctate y comparte valor con tus amigos y familiares en {{appName}}.",
     "button": "Enviar invitación",
     "error": "Hubo un error al crear el enlace compartible",
-    "share": "¡Hola! Estoy usando la wallet cripto {{appName}}. Es fácil de usar y me gustaría invitarte a probarla con este link: {{shareUrl}}"
+    "share": "¡Hola! Estoy usando la wallet cripto {{appName}}. Es fácil de usar y me gustaría invitarte a probarla con este link: {{shareUrl}}",
+    "rewardsActive": {
+      "title": "Invita a tus amigos y obtén NFTs",
+      "body": "Invita a tus amigos y familiares a descargar {{appName}} y cada uno obtendrá un NFT exclusivo."
+    }
   },
   "getReward": "Obtén ${{reward}}",
   "welcomeCelo": "Te damos la bienvenida a {{appName}}",
@@ -1295,6 +1299,11 @@
       "bodyTitle": "Configurar cuenta bancaria",
       "description": "Ingresa los datos bancarios para transferir fondos. Estos servicios te serán proporcionados por <0>{{providerName}}</0>. Si eliges continuar, aceptas sus <1>Términos y condiciones</1> y su <2>Política de privacidad</2>."
     },
+    "mobileMoney": {
+      "header": "Configurar el dinero móvil",
+      "bodyTitle": "Configurar el dinero móvil",
+      "description": "Introduce los datos del dinero móvil para transferir fondos. Estos servicios te serán proporcionados por <0>{{providerName}}</0>.\n\nAl hacer clic en continuar, aceptas sus <1>Términos y Condiciones</1> y su <2>Política de Privacidad</2>"
+    },
     "continue": "Continuar"
   },
   "fiatConnectKycLandingScreen": {
@@ -1454,22 +1463,22 @@
     "swapTo": "Cambiar a",
     "transactionDetails": "Detalles de transacción",
     "estimatedGas": "Tarifas estimadas",
-    "swapSubmitError": "No fue posible completar tu intercambio. Inténtalo de nuevo o comunícate con nuestro equipo de soporte técnico.",
+    "swapSubmitError": "No fue posible completar el cambio. Inténtalo de nuevo o comunícate con nuestro equipo de soporte técnico.",
     "swapFee": "Tarifa de {{appName}}",
     "swapFeeTitle": "¿Qué es la tarifa de {{appName}}?",
     "swapFeeBody": "La tarifa de {{appName}} es el costo que pagas por intercambiar tokens en {{appName}}. \n\nLa tarifa es del {{swapFee}}% del monto a intercambiar. \n\nLas tarifas de {{appName}} serán gratuitas los próximos meses.",
     "swapFeeBodyFree": "La tarifa de {{appName}} es la tarifa que pagas para intercambiar tokens en {{appName}}. Las tarifas de {{appName}} son gratuitas durante los próximos meses.",
     "estimatedAmountTitle": "Monto estimado",
-    "estimatedAmountBody": "Las conversiones tienen lugar en un exchange descentralizado de terceros que encontrará la mejor tarifa para tu intercambio. \n\nEl intercambio se completará a un precio dentro del {{slippagePercent}}% del monto estmado o la transacción se cancelará y se devolverán los fondos a tu wallet.",
+    "estimatedAmountBody": "Las conversiones tienen lugar en un exchange descentralizado de terceros que encontrará la mejor tarifa para tu cambio. \n\nEl cambio se completará a un precio dentro del {{slippagePercent}}% del monto estimado o la transacción se cancelará y se devolverán los fondos a tu wallet.",
     "free": "Gratis"
   },
   "SwapExecuteScreen": {
-    "swapPending": "Intercambio pendiente",
-    "swapSuccess": "¡Intercambio exitoso!",
-    "swapError": "Error en intercambio",
+    "swapPending": "Cambio pendiente",
+    "swapSuccess": "¡Cambio exitoso!",
+    "swapError": "Error de transacción",
     "exchangeRateSubtext": "Cómo encontrar la mejor la tasa de cambio...",
     "approvingSubtext": "Aprobando fondos...",
-    "completingSubtext": "Completando el intercambio...",
+    "completingSubtext": "Completando el cambio...",
     "swapAgain": "Volver a intercambiar",
     "swapPriceModal": {
       "title": "Los precios han cambiado",
@@ -1487,7 +1496,11 @@
     "title": "Parece que {{contactName}} aún no tiene una wallet {{appName}}.",
     "body": "Puedes enviarle una invitación para que se una, o bien enviar un pago directamente a su dirección de wallet o usuario nom.space.",
     "sendInviteButtonLabel": "Enviar invitación",
-    "shareMessage": "Me gustaría enviarte cripto con mi wallet {{appName}}. Una vez que descargues la aplicación y conectes tu número de teléfono, podremos enviar cripto tan fácil como enviar un mensaje. Utiliza este enlace: {{link}}"
+    "shareMessage": "Me gustaría enviarte cripto con mi wallet {{appName}}. Una vez que descargues la aplicación y conectes tu número de teléfono, podremos enviar cripto tan fácil como enviar un mensaje. Utiliza este enlace: {{link}}",
+    "rewardsActive": {
+      "title": "Invita a {{contactName}} a {{appName}}. ¡Ambos recibirán un NFT!",
+      "body": "Parece que {{contactName}} no está en {{appName}}. Si conoces su dirección puedes enviarle un pago, o bien envíale una invitación. \n\nUna vez que haya descargado la wallet y conectado su número de teléfono, ambos obtendrán un NFT exclusivo."
+    }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

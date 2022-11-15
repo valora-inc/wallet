@@ -2,11 +2,14 @@ import { getPhoneHash } from '@celo/utils/lib/phoneNumbers'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Share } from 'react-native'
+import { useSelector } from 'react-redux'
 import { InviteEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { DYNAMIC_DOWNLOAD_LINK } from 'src/config'
+import { inviteModal } from 'src/images/Images'
+import { useShareUrl } from 'src/invite/hooks'
 import InviteModal from 'src/invite/InviteModal'
 import { getDisplayName, Recipient } from 'src/recipients/recipient'
+import { inviteRewardsActiveSelector } from 'src/send/selectors'
 
 interface Props {
   recipient: Recipient
@@ -15,15 +18,16 @@ interface Props {
 
 const InviteOptionsModal = ({ recipient, onClose }: Props) => {
   const { t } = useTranslation()
+  const link = useShareUrl()
+  const inviteRewardsEnabled = useSelector(inviteRewardsActiveSelector)
 
   const handleShareInvite = async () => {
-    const message = t('inviteModal.shareMessage', {
-      link: DYNAMIC_DOWNLOAD_LINK,
-    })
-    ValoraAnalytics.track(InviteEvents.invite_with_share, {
-      phoneNumberHash: recipient.e164PhoneNumber ? getPhoneHash(recipient.e164PhoneNumber) : null,
-    })
-    await Share.share({ message })
+    if (link) {
+      await Share.share({ message })
+      ValoraAnalytics.track(InviteEvents.invite_with_share, {
+        phoneNumberHash: recipient.e164PhoneNumber ? getPhoneHash(recipient.e164PhoneNumber) : null,
+      })
+    }
   }
 
   const handleClose = () => {
@@ -31,12 +35,25 @@ const InviteOptionsModal = ({ recipient, onClose }: Props) => {
     onClose()
   }
 
+  const title = inviteRewardsEnabled
+    ? t('inviteModal.rewardsActive.title', { contactName: getDisplayName(recipient, t) })
+    : t('inviteModal.title', { contactName: getDisplayName(recipient, t) })
+  const description = inviteRewardsEnabled
+    ? t('inviteModal.rewardsActive.body', { contactName: getDisplayName(recipient, t) })
+    : t('inviteModal.body')
+  const message = inviteRewardsEnabled
+    ? t('inviteWithRewards', { link })
+    : t('inviteModal.shareMessage', {
+        link,
+      })
+
   return (
     <InviteModal
-      title={t('inviteModal.title', { contactName: getDisplayName(recipient, t) })}
-      description={t('inviteModal.body')}
+      title={title}
+      description={description}
       buttonLabel={t('inviteModal.sendInviteButtonLabel')}
-      disabled={false}
+      imageSource={inviteModal}
+      disabled={!link}
       onClose={handleClose}
       onShareInvite={handleShareInvite}
     />

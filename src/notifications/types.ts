@@ -1,6 +1,9 @@
+import { KycSchema } from '@fiatconnect/fiatconnect-types'
+
 export enum NotificationTypes {
   PAYMENT_RECEIVED = 'PAYMENT_RECEIVED',
   PAYMENT_REQUESTED = 'PAYMENT_REQUESTED',
+  FIAT_CONNECT_KYC_APPROVED = 'FIAT_CONNECT_KYC_APPROVED',
 }
 
 export interface TransferNotificationData {
@@ -15,6 +18,12 @@ export interface TransferNotificationData {
   type?: NotificationTypes.PAYMENT_RECEIVED
   name?: string
   imageUrl?: string
+}
+
+export interface FiatConnectKycApprovedData {
+  kycSchema: KycSchema
+  providerId: string
+  type: NotificationTypes.FIAT_CONNECT_KYC_APPROVED
 }
 
 export enum NotificationReceiveState {

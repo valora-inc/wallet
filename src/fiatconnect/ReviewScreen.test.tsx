@@ -1,16 +1,11 @@
-import {
-  CryptoType,
-  FiatAccountSchema,
-  FiatAccountType,
-  ObfuscatedFiatAccountData,
-} from '@fiatconnect/fiatconnect-types'
+import { CryptoType, FiatAccountSchema, FiatAccountType } from '@fiatconnect/fiatconnect-types'
 import { fireEvent, render } from '@testing-library/react-native'
 import _ from 'lodash'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import FiatConnectReviewScreen from 'src/fiatconnect/ReviewScreen'
-import { createFiatConnectTransfer, refetchQuote } from 'src/fiatconnect/slice'
+import { createFiatConnectTransfer, FiatAccount, refetchQuote } from 'src/fiatconnect/slice'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
@@ -39,12 +34,13 @@ function getProps(
     fiatAccountType: FiatAccountType.BankAccount,
     flow: CICOFlow.CashOut,
   })
-  const fiatAccount: ObfuscatedFiatAccountData = {
+  const fiatAccount: FiatAccount = {
     fiatAccountId: '123',
     accountName: 'Chase (...2345)',
     institutionName: 'Chase',
     fiatAccountType: FiatAccountType.BankAccount,
     fiatAccountSchema: FiatAccountSchema.AccountNumber,
+    providerId: normalizedQuote.getProviderId(),
   }
 
   return getMockStackScreenProps(Screens.FiatConnectReview, {
@@ -104,7 +100,10 @@ describe('ReviewScreen', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         refetchQuote({
           flow: CICOFlow.CashOut,
-          quote: props.route.params.normalizedQuote,
+          cryptoType: props.route.params.normalizedQuote.getCryptoType(),
+          cryptoAmount: props.route.params.normalizedQuote.getCryptoAmount(),
+          fiatAmount: props.route.params.normalizedQuote.getFiatAmount(),
+          providerId: props.route.params.normalizedQuote.getProviderId(),
           fiatAccount: props.route.params.fiatAccount,
         })
       )
@@ -125,7 +124,10 @@ describe('ReviewScreen', () => {
       expect(store.dispatch).not.toHaveBeenCalledWith(
         refetchQuote({
           flow: CICOFlow.CashOut,
-          quote: props.route.params.normalizedQuote,
+          cryptoType: props.route.params.normalizedQuote.getCryptoType(),
+          cryptoAmount: props.route.params.normalizedQuote.getCryptoAmount(),
+          fiatAmount: props.route.params.normalizedQuote.getFiatAmount(),
+          providerId: props.route.params.normalizedQuote.getProviderId(),
           fiatAccount: props.route.params.fiatAccount,
         })
       )
@@ -134,7 +136,10 @@ describe('ReviewScreen', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         refetchQuote({
           flow: CICOFlow.CashOut,
-          quote: props.route.params.normalizedQuote,
+          cryptoType: props.route.params.normalizedQuote.getCryptoType(),
+          cryptoAmount: props.route.params.normalizedQuote.getCryptoAmount(),
+          fiatAmount: props.route.params.normalizedQuote.getFiatAmount(),
+          providerId: props.route.params.normalizedQuote.getProviderId(),
           fiatAccount: props.route.params.fiatAccount,
         })
       )
@@ -186,7 +191,10 @@ describe('ReviewScreen', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         refetchQuote({
           flow: CICOFlow.CashOut,
-          quote: props.route.params.normalizedQuote,
+          cryptoType: props.route.params.normalizedQuote.getCryptoType(),
+          cryptoAmount: props.route.params.normalizedQuote.getCryptoAmount(),
+          fiatAmount: props.route.params.normalizedQuote.getFiatAmount(),
+          providerId: props.route.params.normalizedQuote.getProviderId(),
           fiatAccount: props.route.params.fiatAccount,
         })
       )

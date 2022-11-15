@@ -13,8 +13,8 @@ import { call, take } from 'redux-saga/effects'
 import { handleUpdateAccountRegistration } from 'src/account/saga'
 import { updateAccountRegistration } from 'src/account/updateAccountRegistration'
 import { RemoteConfigValues } from 'src/app/saga'
-import { CreateAccountCopyTestType, InviteMethodType, SuperchargeButtonType } from 'src/app/types'
-import { FETCH_TIMEOUT_DURATION, FIREBASE_ENABLED } from 'src/config'
+import { CreateAccountCopyTestType, InviteMethodType } from 'src/app/types'
+import { DEFAULT_PERSONA_TEMPLATE_ID, FETCH_TIMEOUT_DURATION, FIREBASE_ENABLED } from 'src/config'
 import { DappConnectInfo } from 'src/dapps/types'
 import { handleNotification } from 'src/firebase/notifications'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
@@ -283,15 +283,12 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     allowOtaTranslations: flags.allowOtaTranslations.asBoolean(),
     sentryTracesSampleRate: flags.sentryTracesSampleRate.asNumber(),
     sentryNetworkErrors: flags.sentryNetworkErrors.asString().split(','),
-    biometryEnabled: flags.biometryEnabled.asBoolean(),
-    superchargeButtonType: flags.superchargeButtonType.asString() as SuperchargeButtonType,
     maxNumRecentDapps: flags.maxNumRecentDapps.asNumber(),
     skipVerification: flags.skipVerification.asBoolean(),
     showPriceChangeIndicatorInBalances: flags.showPriceChangeIndicatorInBalances.asBoolean(),
     paymentDeepLinkHandler: flags.paymentDeepLinkHandler.asString() as PaymentDeepLinkHandler,
     dappsWebViewEnabled: flags.dappsWebViewEnabled.asBoolean(),
     skipProfilePicture: flags.skipProfilePicture.asBoolean(),
-    celoWithdrawalEnabledInExchange: flags.celoWithdrawalEnabledInExchange.asBoolean(),
     fiatConnectCashInEnabled: flags.fiatConnectCashInEnabled.asBoolean(),
     fiatConnectCashOutEnabled: flags.fiatConnectCashOutEnabled.asBoolean(),
     fiatAccountSchemaCountryOverrides: fiatAccountSchemaCountryOverrides
@@ -308,6 +305,7 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     inviteMethod: flags.inviteMethod.asString() as InviteMethodType,
     showGuidedOnboardingCopy: flags.showGuidedOnboardingCopy.asBoolean(),
     centralPhoneVerificationEnabled: flags.centralPhoneVerificationEnabled.asBoolean(),
+    networkTimeoutSeconds: flags.networkTimeoutSeconds.asNumber(),
   }
 }
 
@@ -419,4 +417,12 @@ export async function resolveDynamicLink(link: string) {
     Logger.warn('invite/utils/resolveDynamicLink', 'Link could not be resolved', error)
     return null
   }
+}
+
+export async function getPersonaTemplateId() {
+  if (!FIREBASE_ENABLED) {
+    return DEFAULT_PERSONA_TEMPLATE_ID
+  }
+
+  return readOnceFromFirebase('persona/templateId')
 }

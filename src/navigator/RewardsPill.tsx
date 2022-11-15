@@ -2,13 +2,11 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { rewardsEnabledSelector, superchargeButtonTypeSelector } from 'src/app/selectors'
-import { SuperchargeButtonType } from 'src/app/types'
+import { rewardsEnabledSelector } from 'src/app/selectors'
 import Pill from 'src/components/Pill'
 import { isE2EEnv } from 'src/config'
 import { RewardsScreenOrigin } from 'src/consumerIncentives/analyticsEventsTracker'
 import Rings from 'src/icons/Rings'
-import Supercharge from 'src/icons/Supercharge'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import useSelector from 'src/redux/useSelector'
@@ -25,26 +23,11 @@ function RewardsPill() {
 
   const rewardsEnabled = useSelector(rewardsEnabledSelector)
   const showRewardsPill = isE2EEnv || rewardsEnabled
-  const superchargeButton = useSelector(superchargeButtonTypeSelector)
 
-  if (
-    !showRewardsPill ||
-    ![SuperchargeButtonType.PillRewards, SuperchargeButtonType.PillSupercharge].includes(
-      superchargeButton
-    )
-  ) {
+  if (!showRewardsPill) {
     return null
   }
-  return (
-    <Pill
-      text={
-        superchargeButton === SuperchargeButtonType.PillRewards ? t('rewards') : t('supercharge')
-      }
-      icon={superchargeButton === SuperchargeButtonType.PillRewards ? <Rings /> : <Supercharge />}
-      onPress={onOpenRewards}
-      testID="EarnRewards"
-    />
-  )
+  return <Pill text={t('rewards')} icon={<Rings />} onPress={onOpenRewards} testID="EarnRewards" />
 }
 
 export default RewardsPill

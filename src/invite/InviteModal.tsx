@@ -1,11 +1,10 @@
 import * as React from 'react'
-import { Dimensions, Image, StyleSheet, Text, View } from 'react-native'
+import { Image, ImageSourcePropType, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import Touchable from 'src/components/Touchable'
 import ShareIcon from 'src/icons/Share'
 import Times from 'src/icons/Times'
-import { inviteModal } from 'src/images/Images'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -16,6 +15,7 @@ interface Props {
   description: string
   buttonLabel: string
   disabled: boolean
+  imageSource: ImageSourcePropType
   onClose(): void
   onShareInvite(): void
 }
@@ -25,6 +25,7 @@ const InviteModal = ({
   description,
   buttonLabel,
   disabled,
+  imageSource,
   onClose,
   onShareInvite,
 }: Props) => {
@@ -39,7 +40,7 @@ const InviteModal = ({
         <Times />
       </Touchable>
       <View style={styles.contentContainer}>
-        <Image style={styles.imageContainer} source={inviteModal} resizeMode="contain" />
+        <Image style={styles.imageContainer} source={imageSource} resizeMode="contain" />
         <Text style={[fontStyles.h2, styles.text]}>{title}</Text>
         <Text style={[fontStyles.regular, styles.text]}>{description}</Text>
         <Button
@@ -56,15 +57,13 @@ const InviteModal = ({
     </SafeAreaView>
   )
 }
-const { height, width } = Dimensions.get('window')
 
 const styles = StyleSheet.create({
   container: {
-    height,
-    width,
-    flex: 1,
+    height: variables.height,
+    width: variables.width,
+    flexGrow: 1,
     position: 'absolute',
-    bottom: 0,
     backgroundColor: colors.light,
     padding: Spacing.Thick24,
   },

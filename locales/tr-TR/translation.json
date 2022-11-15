@@ -173,7 +173,7 @@
   "superchargingDescription": "Yıllık %{{apy}} alıyorsunuz. Ödülleriniz hazır olduğunda her hafta bir bildirim alacaksınız, onları almak için buraya geri gelin.",
   "superchargeRewardsAvailable": "{{amount}} {{token}} almaya hak kazandınız!",
   "superchargeRewardsAvailableMultipleTokens": "{{amounts}} almaya hak kazandınız!",
-  "superchargeClaimText": "Ödüllerinizi alın ve bakiyenize ekleyin. Moola stabil kripto ile Supercharge'a katılırsanız, Moola tekrar çevrimiçi olduğunda tüm ödüllerinizi talep edebileceksiniz.",
+  "superchargeClaimText": "Отримайте свої нагороди, щоб додати їх до вашого залишку.",
   "superchargeClaimButton": "Ödüllerinizi Alın",
   "superchargeFetchRewardsFailed": "Bekleyen Supercharge ödüllerini alırken bir hata oluştu. Lütfen tekrar deneyin.",
   "superchargeClaimSuccess": "Supercharge ödülleriniz Toplam Bakiyenize eklendi.",
@@ -582,7 +582,11 @@
     "body": "{{appName}}'da arkadaşlarınız ve ailenizle bağlantı kurun ve varlıklar paylaşın.",
     "button": "Davet gönder",
     "error": "Bağlantı oluşturulurken bir sorun oluştu",
-    "share": "Merhaba, kripto para cüzdanıdır {{appName}} kullanıyorum. Denemen için seni davet etmek isterim. Bu bağlantıya göz atabilirsin: {{shareUrl}}"
+    "share": "Merhaba, kripto para cüzdanıdır {{appName}} kullanıyorum. Denemen için seni davet etmek isterim. Bu bağlantıya göz atabilirsin: {{shareUrl}}",
+    "rewardsActive": {
+      "title": "Arkadaşlarınızı davet edin ve NFT toplayın",
+      "body": "Arkadaşlarınızı ve ailenizi {{appName}} uygulamasını indirmeye davet edin ve her biriniz özel bir NFT kazanın"
+    }
   },
   "getReward": "${{reward}} kazanın",
   "welcomeCelo": "{{appName}} uygulamasına hoş geldiniz",
@@ -1295,6 +1299,11 @@
       "bodyTitle": "Banka Hesabı Oluştur",
       "description": "Para transfer etmek için Banka Hesabı ayrıntılarını girin. Bu hizmetler size <0>{{providerName}}</0> tarafından sağlanır.\n\nDevam'ı tıklayarak, sağlayıcının <1>Şartlar ve Koşulları</1> ile <2>Gizlilik Politikasını</2> kabul etmiş olursunuz."
     },
+    "mobileMoney": {
+      "header": "Mobil Para'yı ayarlama",
+      "bodyTitle": "Mobil Para Kurulumu",
+      "description": "Para transferi için mobil para bilgilerini girin. Bu hizmetler size aşağıdakiler tarafından sağlanacaktır <0>{{providerName}}</0>.\n\nDevam'a tıklayarak <1>Şartlar ve Koşulları</1> ve <2>Gizlilik Politikasını</2> kabul etmiş olursunuz."
+    },
     "continue": "İleri"
   },
   "fiatConnectKycLandingScreen": {
@@ -1487,7 +1496,11 @@
     "title": "Görünüşe göre {{contactName}} henüz {{appName}} cüzdanına sahip değil.",
     "body": "Yine de onları {{appName}}'ya davet edebilir veya cüzdan adreslerine ya da nom.space'e bir ödeme göndermeyi deneyebilirsiniz.",
     "sendInviteButtonLabel": "Davet gönder",
-    "shareMessage": "Hey! {{appName}} cüzdanımla sana biraz kripto göndermek istiyorum. Uygulamayı indirip telefon numaranızı bağladığınızda, bir metin gönderebileceğimiz kadar kolay kripto gönderebiliriz. Bu bağlantıyı kullanın: {{link}}"
+    "shareMessage": "Hey! {{appName}} cüzdanımla sana biraz kripto göndermek istiyorum. Uygulamayı indirip telefon numaranızı bağladığınızda, bir metin gönderebileceğimiz kadar kolay kripto gönderebiliriz. Bu bağlantıyı kullanın: {{link}}",
+    "rewardsActive": {
+      "title": "{{contactName}} adlı kişiyi {{appName}} uygulamasına davet edin ve ikiniz de NFT kazanın!",
+      "body": "Görünüşe göre {{contactName}} {{appName}} kullanmıyor. Bu kişinin cüzdan adresini biliyorsanız, yine de bir ödeme gönderebilir veya bunun yerine davetiye gönderebilirsiniz. \n\n Bu kişi cüzdanı indirdikten ve telefon numarasını bağladıktan sonra, ikiniz de özel bir NFT alacaksınız."
+    }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

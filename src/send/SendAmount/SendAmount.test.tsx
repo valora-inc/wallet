@@ -6,8 +6,6 @@ import * as RNLocalize from 'react-native-localize'
 import { Provider } from 'react-redux'
 import { ErrorDisplayType } from 'src/alert/reducer'
 import { SendOrigin } from 'src/analytics/types'
-import { InviteMethodType } from 'src/app/types'
-import { DYNAMIC_DOWNLOAD_LINK } from 'src/config'
 import { FeeType } from 'src/fees/reducer'
 import i18n from 'src/i18n'
 import { AddressValidationType, E164NumberToAddressType } from 'src/identity/reducer'
@@ -298,50 +296,6 @@ describe('SendAmount', () => {
       )
 
       expect(getByText('send')).toBeTruthy()
-    })
-
-    it('displays the loading spinner when verification status is unknown', () => {
-      const store = createMockStore({
-        ...storeData,
-        identity: {
-          e164NumberToAddress: {},
-          secureSendPhoneNumberMapping: {},
-        },
-      })
-
-      const tree = render(
-        <Provider store={store}>
-          <SendAmount {...mockScreenProps()} />
-        </Provider>
-      )
-
-      expect(tree.getByTestId('Button/Loading')).toBeTruthy()
-    })
-
-    it('displays the invite modal when verification status is unverified', () => {
-      const store = createMockStore({
-        app: {
-          inviteMethod: InviteMethodType.ManualShare,
-        },
-        identity: {
-          e164NumberToAddress: { [mockE164NumberInvite]: null },
-        },
-        ...storeData,
-      })
-
-      const tree = render(
-        <Provider store={store}>
-          <SendAmount {...mockScreenProps()} />
-        </Provider>
-      )
-
-      expect(tree.getByText('inviteModal.title, {"contactName":"Jane Doe"}')).toBeTruthy()
-      expect(tree.getByText('inviteModal.body')).toBeTruthy()
-
-      fireEvent.press(tree.getByText('inviteModal.sendInviteButtonLabel'))
-      expect(Share.share).toHaveBeenCalledWith({
-        message: `inviteModal.shareMessage, {"link":"${DYNAMIC_DOWNLOAD_LINK}"}`,
-      })
     })
 
     it('only allows inviting with core tokens', () => {

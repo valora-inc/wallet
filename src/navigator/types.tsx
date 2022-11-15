@@ -1,5 +1,5 @@
 import { AccountAuthRequest, Countries, SignTxRequest } from '@celo/utils'
-import { ObfuscatedFiatAccountData } from '@fiatconnect/fiatconnect-types'
+import { KycSchema } from '@fiatconnect/fiatconnect-types'
 import BigNumber from 'bignumber.js'
 import { SendOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
 import { EscrowedPayment } from 'src/escrow/actions'
@@ -26,6 +26,7 @@ import {
   WalletConnectRequestType,
   WalletConnectSessionRequest,
 } from 'src/walletConnect/types'
+import { FiatAccount } from 'src/fiatconnect/slice'
 
 // Typed nested navigator params
 type NestedNavigatorParams<ParamList> = {
@@ -138,13 +139,17 @@ export type StackParamList = {
   [Screens.FiatConnectReview]: {
     flow: CICOFlow
     normalizedQuote: FiatConnectQuote
-    fiatAccount: ObfuscatedFiatAccountData
+    fiatAccount: FiatAccount
     shouldRefetchQuote?: boolean
+  }
+  [Screens.FiatConnectRefetchQuote]: {
+    providerId: string
+    kycSchema: KycSchema
   }
   [Screens.FiatConnectTransferStatus]: {
     flow: CICOFlow
     normalizedQuote: FiatConnectQuote
-    fiatAccount: ObfuscatedFiatAccountData
+    fiatAccount: FiatAccount
   }
   [Screens.KycDenied]: {
     flow: CICOFlow

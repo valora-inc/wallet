@@ -34,18 +34,13 @@ import SettingsScreen from 'src/account/Settings'
 import Support from 'src/account/Support'
 import { HomeEvents, RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import {
-  inviteMethodSelector,
-  rewardsEnabledSelector,
-  superchargeButtonTypeSelector,
-} from 'src/app/selectors'
-import { InviteMethodType, SuperchargeButtonType } from 'src/app/types'
+import { inviteMethodSelector } from 'src/app/selectors'
+import { InviteMethodType } from 'src/app/types'
 import BackupIntroduction from 'src/backup/BackupIntroduction'
 import AccountNumber from 'src/components/AccountNumber'
 import ContactCircleSelf from 'src/components/ContactCircleSelf'
 import PhoneNumberWithFlag from 'src/components/PhoneNumberWithFlag'
 import { RewardsScreenOrigin } from 'src/consumerIncentives/analyticsEventsTracker'
-import ConsumerIncentivesHomeScreen from 'src/consumerIncentives/ConsumerIncentivesHomeScreen'
 import { dappsListApiUrlSelector } from 'src/dapps/selectors'
 import DAppsExplorerScreen from 'src/dappsExplorer/DAppsExplorerScreen'
 import { fetchExchangeRate } from 'src/exchange/actions'
@@ -58,8 +53,6 @@ import { DappsExplorer } from 'src/icons/navigator/DappsExplorer'
 import { Gold } from 'src/icons/navigator/Gold'
 import { Help } from 'src/icons/navigator/Help'
 import { Invite as InviteIcon } from 'src/icons/navigator/Invite'
-import { MenuRings } from 'src/icons/navigator/MenuRings'
-import { MenuSupercharge } from 'src/icons/navigator/MenuSupercharge'
 import { Settings } from 'src/icons/navigator/Settings'
 import { Swap } from 'src/icons/navigator/Swap'
 import Invite from 'src/invite/Invite'
@@ -206,8 +199,6 @@ export default function DrawerNavigator() {
   const isCeloEducationComplete = useSelector((state) => state.goldToken.educationCompleted)
   const dappsListUrl = useSelector(dappsListApiUrlSelector)
   const inviteMethod = useSelector(inviteMethodSelector)
-  const rewardsEnabled = useSelector(rewardsEnabledSelector)
-  const superchargeButtonType = useSelector(superchargeButtonTypeSelector)
 
   const shouldShowRecoveryPhraseInSettings = useSelector(shouldShowRecoveryPhraseInSettingsSelector)
   const backupCompleted = useSelector(backupCompletedSelector)
@@ -281,20 +272,6 @@ export default function DrawerNavigator() {
             // but here it's the right expectation
             unmountOnBlur: true,
           }}
-        />
-      )}
-      {rewardsEnabled && superchargeButtonType === SuperchargeButtonType.MenuRewards && (
-        <Drawer.Screen
-          name={Screens.ConsumerIncentivesHomeScreen}
-          component={ConsumerIncentivesHomeScreen}
-          options={{ title: t('rewards'), drawerIcon: MenuRings }}
-        />
-      )}
-      {rewardsEnabled && superchargeButtonType === SuperchargeButtonType.MenuSupercharge && (
-        <Drawer.Screen
-          name={Screens.ConsumerIncentivesHomeScreen}
-          component={ConsumerIncentivesHomeScreen}
-          options={{ title: t('supercharge'), drawerIcon: MenuSupercharge }}
         />
       )}
       {(!backupCompleted || !shouldShowRecoveryPhraseInSettings) && (

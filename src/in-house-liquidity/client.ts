@@ -1,5 +1,7 @@
 import { SiweApiClient, SiweClient } from '@fiatconnect/fiatconnect-sdk'
+import { networkTimeoutSecondsSelector } from 'src/app/selectors'
 import { getSiweSigningFunction } from 'src/fiatconnect/clients'
+import { store } from 'src/redux/store'
 import { getWalletAsync } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
 
@@ -22,6 +24,7 @@ export const getClient = async (): Promise<SiweApiClient> => {
         sessionDurationMs: SESSION_DURATION_MS,
         loginUrl: `${networkConfig.inHouseLiquidityURL}/auth/login`,
         clockUrl: `${networkConfig.inHouseLiquidityURL}/clock`,
+        timeout: networkTimeoutSecondsSelector(store.getState()) * 1000,
       },
       getSiweSigningFunction(wallet)
     )
