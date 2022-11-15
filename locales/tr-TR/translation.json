@@ -1375,18 +1375,22 @@
     "tryAgain": "Tekrar Deneyin",
     "withdraw": {
       "cancel": "Para Çekmeyi iptal et",
-      "success": {
-        "header": "Başarılı",
-        "title": "Bakiyen yolda!",
-        "description": "İşlem talebiniz gönderildi ve paranız {{duration}} içinde ulaşacak.",
-        "txDetails": "CeloExplorer'da görüntüle",
-        "continue": "İleri"
-      }
+      "contactSupportPrefill": "Paramı çekerken sorun yaşıyorum."
+    },
+    "add": {
+      "cancel": "İptal Fon Ekle",
+      "contactSupportPrefill": "Valora cüzdanıma para eklemekte sorun yaşıyorum."
+    },
+    "success": {
+      "header": "Başarılı",
+      "title": "Bakiyen yolda!",
+      "description": "İşlem talebiniz gönderildi ve paranız {{duration}} içinde ulaşacak.",
+      "txDetails": "CeloExplorer'da görüntüle",
+      "continue": "İleri"
     },
     "requestNotCompleted": {
       "title": "İsteğiniz gerçekleştirilemedi.",
-      "description": "Paranız aktarılamadı. Lütfen tekrar deneyin veya yardım için destek ekibimizle iletişime geçin.",
-      "contactSupportPrefill": "Paramı çekerken sorun yaşıyorum."
+      "description": "Paranız aktarılamadı. Lütfen tekrar deneyin veya yardım için destek ekibimizle iletişime geçin."
     }
   },
   "fiatExchangeFlow": {
