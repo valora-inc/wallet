@@ -118,7 +118,7 @@ function SuccessSection({
     ValoraAnalytics.track(FiatExchangeEvents.cico_fc_transfer_success_complete, {
       flow,
       provider,
-      txHash: fiatConnectTransfer.txHash || undefined,
+      txHash: fiatConnectTransfer.txHash ?? undefined,
     })
     navigateHome()
   }
