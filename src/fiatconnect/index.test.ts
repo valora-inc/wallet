@@ -98,6 +98,7 @@ describe('FiatConnect helpers', () => {
       localCurrency: LocalCurrencyCode.USD,
       digitalAsset: CiCoCurrency.CUSD,
       cryptoAmount: 100,
+      fiatAmount: 100,
       country: 'US',
       fiatConnectProviders: [
         {
@@ -130,6 +131,7 @@ describe('FiatConnect helpers', () => {
       localCurrency: LocalCurrencyCode.USD,
       digitalAsset: CiCoCurrency.CUSD,
       cryptoAmount: 100,
+      fiatAmount: 100,
       country: 'US',
       fiatConnectProviders: mockFiatConnectProviderInfo,
       address: '0xabc',
@@ -154,6 +156,31 @@ describe('FiatConnect helpers', () => {
       const quotes = await getFiatConnectQuotes(getQuotesInput)
       expect(quotes).toEqual([mockFiatConnectQuotes[1], mockFiatConnectQuotes[0]])
       expect(Logger.error).not.toHaveBeenCalled()
+    })
+    it('calls with cryptoAmount for cash out', async () => {
+      mockFetch.mockResponseOnce(JSON.stringify({ quotes: mockGetFiatConnectQuotesResponse }), {
+        status: 200,
+      })
+      await getFiatConnectQuotes({ ...getQuotesInput, flow: CICOFlow.CashOut })
+      expect(mockFetch).toHaveBeenCalledWith(expect.stringContaining('cryptoAmount=100'))
+      expect(mockFetch).toHaveBeenCalledWith(expect.not.stringContaining('fiatAmount=100'))
+      expect(Logger.error).not.toHaveBeenCalled()
+    })
+    it('calls with fiatAmount for cash in', async () => {
+      mockFetch.mockResponseOnce(JSON.stringify({ quotes: mockGetFiatConnectQuotesResponse }), {
+        status: 200,
+      })
+      await getFiatConnectQuotes(getQuotesInput)
+      expect(mockFetch).toHaveBeenCalledWith(expect.stringContaining('fiatAmount=100'))
+      expect(mockFetch).toHaveBeenCalledWith(expect.not.stringContaining('cryptoAmount=100'))
+    })
+    it('calls with cryptoAmount for cash in when crypto is CELO', async () => {
+      mockFetch.mockResponseOnce(JSON.stringify({ quotes: mockGetFiatConnectQuotesResponse }), {
+        status: 200,
+      })
+      await getFiatConnectQuotes({ ...getQuotesInput, digitalAsset: CiCoCurrency.CELO })
+      expect(mockFetch).toHaveBeenCalledWith(expect.stringContaining('cryptoAmount=100'))
+      expect(mockFetch).toHaveBeenCalledWith(expect.not.stringContaining('fiatAmount=100'))
     })
   })
   describe('loginWithFiatConnectProvider', () => {

@@ -560,7 +560,7 @@
   "transferDollarsToAccount": "Funds transferred to your account!",
   "inviteAnyone": "Send easily to your friends by adding your contacts",
   "inviteReceived": "Invite Received",
-  "escrowPaymentNotificationTitle": "Invite to {{mobile}} can't be claimed",
+  "escrowPaymentNotificationTitle": "Invitation to {{mobile}} cannot be claimed",
   "inviteDialog": {
     "title": "Invite a Friend",
     "body": "Connect and share value with your friends and family on Valora.",
@@ -1078,11 +1078,11 @@
   "maybeLater": "Maybe Later",
   "balanceNeedUpdating": "Balance needs updating",
   "refreshBalances": "Refresh Balances",
-  "escrowedPaymentReminder": "Pending Invites",
-  "escrowedPaymentReminderSummaryTitle": "{{count}} Pending Invites",
-  "escrowedPaymentReminderSummaryDetails_exactly2Items": "<0></0> and <1></1> won’t be able to claim their invitations",
-  "escrowedPaymentReminderSummaryDetails_exactly3Items": "<0></0>, <1></1> and one other won’t be able to claim their invitations",
-  "escrowedPaymentReminderSummaryDetails_moreThan3Items": "<0></0>, <1></1> and others won’t be able to claim their invitations",
+  "escrowedPaymentReminder": "Pending Invitations",
+  "escrowedPaymentReminderSummaryTitle": "{{count}} Pending Invitations",
+  "escrowedPaymentReminderSummaryDetails_exactly2Items": "<0></0> and <1></1> haven't accepted their invitations yet",
+  "escrowedPaymentReminderSummaryDetails_exactly3Items": "<0></0>, <1></1> and one other haven't accepted their invitations yet",
+  "escrowedPaymentReminderSummaryDetails_moreThan3Items": "<0></0>, <1></1> and others haven't accepted their invitations yet",
   "escrowedPaymentReminderSmsNoData": "A friendly reminder that you haven't yet redeemed your {{currency}} with {{appName}}! Download the mobile app to get started!",
   "testnetAlert": {
     "0": "{{testnet}}",
@@ -1298,6 +1298,11 @@
       "header": "Set up Bank Account",
       "bodyTitle": "Set Up Bank Account",
       "description": "Enter Bank Account details to transfer funds. These services will be provided to you by <0>{{providerName}}</0>.\n\nBy clicking continue, you agree to their <1>Terms and Conditions</1> and <2>Privacy Policy</2>"
+    },
+    "mobileMoney": {
+      "header": "Set up Mobile Money",
+      "bodyTitle": "Set Up Mobile Money",
+      "description": "Enter mobile money details to transfer funds. These services will be provided to you by <0>{{providerName}}</0>.\n\nBy clicking continue, you agree to their <1>Terms and Conditions</1> and <2>Privacy Policy</2>"
     },
     "continue": "Continue"
   },

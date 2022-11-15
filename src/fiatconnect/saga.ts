@@ -93,12 +93,13 @@ const PERSONA_SUCCESS_STATUSES = new Set([PersonaKycStatus.Approved, PersonaKycS
 export function* handleFetchFiatConnectQuotes({
   payload: params,
 }: ReturnType<typeof fetchFiatConnectQuotes>) {
-  const { flow, digitalAsset, cryptoAmount, providerIds } = params
+  const { flow, digitalAsset, cryptoAmount, fiatAmount, providerIds } = params
   try {
     const quotes: (FiatConnectQuoteSuccess | FiatConnectQuoteError)[] = yield call(_getQuotes, {
       flow,
       digitalAsset,
       cryptoAmount,
+      fiatAmount,
       providerIds,
     })
     yield put(fetchFiatConnectQuotesCompleted({ quotes }))
@@ -112,7 +113,7 @@ export function* handleFetchFiatConnectQuotes({
  * Handles Refetching a single quote for the Review Screen.
  */
 export function* handleRefetchQuote({ payload: params }: ReturnType<typeof refetchQuote>) {
-  const { flow, cryptoType, cryptoAmount, providerId, fiatAccount } = params
+  const { flow, cryptoType, cryptoAmount, fiatAmount, providerId, fiatAccount } = params
   try {
     const {
       normalizedQuote,
@@ -124,6 +125,7 @@ export function* handleRefetchQuote({ payload: params }: ReturnType<typeof refet
       flow,
       digitalAsset: resolveCICOCurrency(cryptoType),
       cryptoAmount: parseFloat(cryptoAmount),
+      fiatAmount: parseFloat(fiatAmount),
       providerId: providerId,
       fiatAccount: fiatAccount,
     })
@@ -337,6 +339,7 @@ export function* handleAttemptReturnUserFlow({
       {
         digitalAsset,
         cryptoAmount: amount.crypto,
+        fiatAmount: amount.fiat,
         flow,
         providerId,
         fiatAccount: fiatAccount,
@@ -414,11 +417,13 @@ export function* handleAttemptReturnUserFlow({
 export function* _getQuotes({
   digitalAsset,
   cryptoAmount,
+  fiatAmount,
   flow,
   providerIds,
 }: {
   digitalAsset: CiCoCurrency
   cryptoAmount: number
+  fiatAmount: number
   flow: CICOFlow
   providerIds?: string[]
 }) {
@@ -441,6 +446,7 @@ export function* _getQuotes({
     localCurrency,
     digitalAsset,
     cryptoAmount,
+    fiatAmount,
     country: userLocation?.countryCodeAlpha2 || 'US',
     flow,
     fiatConnectCashInEnabled,
@@ -528,12 +534,14 @@ export function* _selectQuoteAndFiatAccount({
 export function* _getSpecificQuote({
   digitalAsset,
   cryptoAmount,
+  fiatAmount,
   flow,
   providerId,
   fiatAccount,
 }: {
   digitalAsset: CiCoCurrency
   cryptoAmount: number
+  fiatAmount: number
   flow: CICOFlow
   providerId: string
   fiatAccount?: FiatAccount
@@ -544,6 +552,7 @@ export function* _getSpecificQuote({
     flow,
     digitalAsset,
     cryptoAmount,
+    fiatAmount,
     providerIds: [providerId],
   })
   const normalizedQuotes = normalizeFiatConnectQuotes(flow, quotes)
