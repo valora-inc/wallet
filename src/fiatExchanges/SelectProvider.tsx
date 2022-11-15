@@ -94,6 +94,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
         flow,
         digitalAsset,
         cryptoAmount: route.params.amount.crypto,
+        fiatAmount: route.params.amount.fiat,
       })
     )
   }, [flow, digitalAsset, route.params.amount.crypto, fiatConnectProviders])
