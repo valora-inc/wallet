@@ -23,7 +23,7 @@ jobs:
           node-version: '16'
           check-latest: true
       - name: Install package dependencies
-        run: yarn || yarn
+        run: yarn || yarn --network-concurrency 1
       - name: Create E2E Fund .env File
         env:
           TEST_FAUCET_SECRET: ${{ secrets.TEST_FAUCET_SECRET }}

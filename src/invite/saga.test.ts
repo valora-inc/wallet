@@ -7,7 +7,7 @@ import { PincodeType } from 'src/account/reducer'
 import i18n from 'src/i18n'
 import { initiateEscrowTransfer, sendInvite } from 'src/invite/saga'
 import { transactionConfirmed } from 'src/transactions/actions'
-import { getConnectedUnlockedAccount, waitWeb3LastBlock } from 'src/web3/saga'
+import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { createMockStore } from 'test/utils'
 import { mockAccount, mockCusdAddress, mockE164Number } from 'test/values'
 
@@ -66,7 +66,6 @@ describe(sendInvite, () => {
 
     await expectSaga(sendInvite, mockE164Number, AMOUNT_TO_SEND, AMOUNT_TO_SEND, mockCusdAddress)
       .provide([
-        [call(waitWeb3LastBlock), true],
         [call(getConnectedUnlockedAccount), mockAccount],
         [call(initiateEscrowTransfer, mockE164Number, AMOUNT_TO_SEND, mockCusdAddress), undefined],
       ])

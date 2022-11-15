@@ -3,17 +3,22 @@
 exports[`CashInBottomSheet renders correctly 1`] = `
 <Modal
   animationType="none"
+  deviceHeight={null}
+  deviceWidth={null}
   hardwareAccelerated={false}
   hideModalContentWhileAnimating={false}
+  onBackdropPress={[Function]}
   onModalHide={[Function]}
   onModalWillHide={[Function]}
   onModalWillShow={[Function]}
   onRequestClose={[Function]}
   onSwipeComplete={[Function]}
+  panResponderThreshold={4}
   scrollHorizontal={false}
   scrollOffset={0}
   scrollOffsetMax={0}
   scrollTo={null}
+  statusBarTranslucent={false}
   supportedOrientations={
     Array [
       "portrait",
@@ -23,6 +28,7 @@ exports[`CashInBottomSheet renders correctly 1`] = `
   swipeDirection="down"
   swipeThreshold={100}
   transparent={true}
+  useNativeDriverForBackdrop={true}
   visible={false}
 >
   <View
@@ -51,8 +57,11 @@ exports[`CashInBottomSheet renders correctly 1`] = `
     }
   />
   <View
+    deviceHeight={null}
+    deviceWidth={null}
     forwardedRef={[Function]}
     hideModalContentWhileAnimating={false}
+    onBackdropPress={[Function]}
     onModalHide={[Function]}
     onModalWillHide={[Function]}
     onModalWillShow={[Function]}
@@ -69,11 +78,13 @@ exports[`CashInBottomSheet renders correctly 1`] = `
     onStartShouldSetResponder={[Function]}
     onStartShouldSetResponderCapture={[Function]}
     onSwipeComplete={[Function]}
+    panResponderThreshold={4}
     pointerEvents="box-none"
     scrollHorizontal={false}
     scrollOffset={0}
     scrollOffsetMax={0}
     scrollTo={null}
+    statusBarTranslucent={false}
     style={
       Object {
         "flex": 1,
@@ -96,6 +107,7 @@ exports[`CashInBottomSheet renders correctly 1`] = `
     }
     swipeDirection="down"
     swipeThreshold={100}
+    useNativeDriverForBackdrop={true}
   >
     <View
       style={
@@ -106,6 +118,7 @@ exports[`CashInBottomSheet renders correctly 1`] = `
           "paddingTop": 12,
         }
       }
+      testID="CashInBottomSheet"
     >
       <View
         accessible={true}
@@ -140,6 +153,7 @@ exports[`CashInBottomSheet renders correctly 1`] = `
             "marginVertical": 26,
           }
         }
+        testID="DismissBottomSheet"
       >
         <svg
           height={16}
@@ -243,6 +257,7 @@ exports[`CashInBottomSheet renders correctly 1`] = `
                 Object {
                   "alignItems": "center",
                   "backgroundColor": "#1AB775",
+                  "flexDirection": "row",
                   "flexGrow": 1,
                   "height": 48,
                   "justifyContent": "center",
@@ -261,6 +276,8 @@ exports[`CashInBottomSheet renders correctly 1`] = `
                     "fontFamily": "Inter-SemiBold",
                     "fontSize": 16,
                     "lineHeight": 22,
+                    "marginLeft": 0,
+                    "marginRight": 0,
                   }
                 }
               >

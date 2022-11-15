@@ -1,3 +1,4 @@
+pull_request_title: 'chore(l10n): update translations from Crowdin'
 files:
   - source: /locales/base/*.json
     translation: /locales/%locale%/%original_file_name%

@@ -56,13 +56,11 @@ describe('Pincode', () => {
     mockPin.split('').forEach((number) => fireEvent.press(getByTestId(`digit${number}`)))
     jest.runOnlyPendingTimers()
     await flushMicrotasksQueue()
-    expect(mockScreenProps.navigation.setParams).toBeCalledWith({ isVerifying: true })
 
     rerender(
       <Provider store={mockStore}>
         <PincodeSet
           {...getMockStackScreenProps(Screens.PincodeSet, {
-            isVerifying: true,
             komenciAvailable: true,
           })}
         />
@@ -96,11 +94,10 @@ describe('Pincode', () => {
     mockPin.split('').forEach((number) => fireEvent.press(getByTestId(`digit${number}`)))
     jest.runOnlyPendingTimers()
     await flushMicrotasksQueue()
-    expect(mockScreenProps.navigation.setParams).toBeCalledWith({ isVerifying: true })
 
     rerender(
       <Provider store={mockStore}>
-        <PincodeSet {...getMockStackScreenProps(Screens.PincodeSet, { isVerifying: true })} />
+        <PincodeSet {...getMockStackScreenProps(Screens.PincodeSet)} />
       </Provider>
     )
 
@@ -136,11 +133,10 @@ describe('Pincode', () => {
     mockPin.split('').forEach((number) => fireEvent.press(getByTestId(`digit${number}`)))
     jest.runOnlyPendingTimers()
     await flushMicrotasksQueue()
-    expect(mockScreenProps.navigation.setParams).toBeCalledWith({ isVerifying: true })
 
     rerender(
       <Provider store={mockStore}>
-        <PincodeSet {...getMockStackScreenProps(Screens.PincodeSet, { isVerifying: true })} />
+        <PincodeSet {...getMockStackScreenProps(Screens.PincodeSet)} />
       </Provider>
     )
 
@@ -187,11 +183,10 @@ describe('Pincode', () => {
     mockPin.split('').forEach((number) => fireEvent.press(getByTestId(`digit${number}`)))
     jest.runOnlyPendingTimers()
     await flushMicrotasksQueue()
-    expect(mockScreenProps.navigation.setParams).toBeCalledWith({ isVerifying: true })
 
     rerender(
       <Provider store={mockStore}>
-        <PincodeSet {...getMockStackScreenProps(Screens.PincodeSet, { isVerifying: true })} />
+        <PincodeSet {...getMockStackScreenProps(Screens.PincodeSet)} />
       </Provider>
     )
 
@@ -226,9 +221,7 @@ describe('Pincode', () => {
 
     rerender(
       <Provider store={mockStore}>
-        <PincodeSet
-          {...getMockStackScreenProps(Screens.PincodeSet, { isVerifying: true, changePin: true })}
-        />
+        <PincodeSet {...getMockStackScreenProps(Screens.PincodeSet, { changePin: true })} />
       </Provider>
     )
 

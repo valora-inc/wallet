@@ -1,9 +1,7 @@
 // Feature flags
 export const features = {
   USE_COMMENT_ENCRYPTION: true,
-  DATA_SAVER: true,
   PHONE_NUM_METADATA_IN_TRANSFERS: true,
-  VERIFICATION_FORNO_RETRY: true,
   PNP_USE_DEK_FOR_AUTH: true,
   SHOW_INVITE_MENU_ITEM: false,
 }
@@ -12,63 +10,75 @@ export const features = {
 // Using 2 letters alpha code. See https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
 export const countryFeatures = {
   RESTRICTED_CP_DOTO: {
-    JP: true,
-    PH: true,
+    JP: true, // Japan
+    PH: true, // Philippines
   },
   SANCTIONED_COUNTRY: {
-    IR: true,
-    CU: true,
-    KP: true,
-    SD: true,
-    SY: true,
+    IR: true, // Iran
+    CU: true, // Cuba
+    KP: true, // North Korea
+    SD: true, // Sudan
+    SY: true, // Syria
   },
   IS_IN_EUROPE: {
-    // All european countries, taken from https://www.europeancuisines.com/Europe-European-Two-Letter-Country-Code-Abbreviations
-    AL: true,
-    AD: true,
-    AM: true,
-    AT: true,
-    BY: true,
-    BE: true,
-    BA: true,
-    BG: true,
-    CH: true,
-    CY: true,
-    CZ: true,
-    DE: true,
-    DK: true,
-    EE: true,
-    ES: true,
-    FO: true,
-    FI: true,
-    FR: true,
-    GB: true,
-    GE: true,
-    GI: true,
-    GR: true,
-    HU: true,
-    HR: true,
-    IE: true,
-    IS: true,
-    IT: true,
-    LT: true,
-    LU: true,
-    LV: true,
-    MC: true,
-    MK: true,
-    MT: true,
-    NO: true,
-    NL: true,
-    PO: true,
-    PT: true,
-    RO: true,
-    RU: true,
-    SE: true,
-    SI: true,
-    SK: true,
-    SM: true,
-    TR: true,
-    UA: true,
-    VA: true,
+    // Countries in Europe, taken from https://en.wikipedia.org/wiki/List_of_sovereign_states_and_dependent_territories_in_Europe
+    AD: true, // Andorra
+    AL: true, // Albania
+    AM: true, // Armenia
+    AT: true, // Austria
+    AZ: true, // Azerbaijan
+    BA: true, // Bosnia and Herzegovina
+    BE: true, // Belgium
+    BG: true, // Bulgaria
+    BY: true, // Belarus
+    CH: true, // Switzerland
+    CY: true, // Cyprus
+    CZ: true, // Czech Republic
+    DE: true, // Germany
+    DK: true, // Denmark
+    EE: true, // Estonia
+    ES: true, // Spain
+    FI: true, // Finland
+    FO: true, // Faroe Islands
+    FR: true, // France
+    GB: true, // United Kingdom
+    GE: true, // Georgia
+    GG: true, // Guernsey
+    GI: true, // Gibraltar
+    GR: true, // Greece
+    HR: true, // Croatia
+    HU: true, // Hungary
+    IE: true, // Ireland
+    IM: true, // Isle of Man
+    IS: true, // Iceland
+    IT: true, // Italy
+    JE: true, // Jersey
+    KZ: true, // Kazakhstan
+    LI: true, // Liechtenstein
+    LT: true, // Lithuania
+    LU: true, // Luxembourg
+    LV: true, // Latvia
+    MC: true, // Monaco
+    MD: true, // Moldova
+    ME: true, // Montenegro
+    MK: true, // North Macedonia
+    MT: true, // Malta
+    NL: true, // Netherlands
+    NO: true, // Norway
+    PL: true, // Poland
+    PT: true, // Portugal
+    RO: true, // Romania
+    RS: true, // Serbia
+    RU: true, // Russia
+    SE: true, // Sweden
+    SI: true, // Slovenia
+    SJ: true, // Svalbard
+    SK: true, // Slovakia
+    SM: true, // San Marino
+    TR: true, // Turkey
+    UA: true, // Ukraine
+    VA: true, // Vatican
+    XI: true, // Northern Ireland
+    XK: true, // Kosovo
   },
 }

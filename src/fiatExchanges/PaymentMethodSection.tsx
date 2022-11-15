@@ -1,46 +1,37 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, LayoutAnimation, StyleSheet, Text, View } from 'react-native'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import Expandable from 'src/components/Expandable'
+import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
-import {
-  CICOFlow,
-  CicoQuote,
-  getFeeValueFromQuotes,
-  isSimplexQuote,
-  PaymentMethod,
-  ProviderQuote,
-  SimplexQuote,
-} from 'src/fiatExchanges/utils'
-import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
-import { navigate } from 'src/navigator/NavigationService'
-import { Screens } from 'src/navigator/Screens'
-import { userLocationDataSelector } from 'src/networkInfo/selectors'
+import NormalizedQuote from 'src/fiatExchanges/quotes/NormalizedQuote'
+import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
+import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
-import { navigateToURI } from 'src/utils/linking'
 
 export interface PaymentMethodSectionProps {
-  paymentMethod: PaymentMethod
-  cicoQuotes: CicoQuote[]
+  paymentMethod: PaymentMethod.Bank | PaymentMethod.Card | PaymentMethod.FiatConnectMobileMoney
+  normalizedQuotes: NormalizedQuote[]
   setNoPaymentMethods: React.Dispatch<React.SetStateAction<boolean>>
   flow: CICOFlow
 }
 
 export function PaymentMethodSection({
   paymentMethod,
-  cicoQuotes,
+  normalizedQuotes,
   setNoPaymentMethods,
   flow,
 }: PaymentMethodSectionProps) {
   const { t } = useTranslation()
-  const sectionQuotes = cicoQuotes.filter(({ quote }) => quote.paymentMethod === paymentMethod)
-  const localCurrency = useSelector(getLocalCurrencyCode)
-  const userLocation = useSelector(userLocationDataSelector)
+  const dispatch = useDispatch()
+  const sectionQuotes = normalizedQuotes.filter(
+    (quote) => quote.getPaymentMethod() === paymentMethod
+  )
+  const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)!
 
   const isExpandable = sectionQuotes.length > 1
   const [expanded, setExpanded] = useState(false)
@@ -51,28 +42,12 @@ export function PaymentMethodSection({
         flow,
         paymentMethod,
         quoteCount: sectionQuotes.length,
-        providers: sectionQuotes.map(({ provider }) => provider.name),
+        providers: sectionQuotes.map((quote) => quote.getProviderId()),
       })
+    } else {
+      setNoPaymentMethods(true)
     }
   }, [])
-
-  const quoteOnPress = ({ quote, provider }: CicoQuote) => () => {
-    ValoraAnalytics.track(FiatExchangeEvents.cico_providers_quote_selected, {
-      flow,
-      paymentMethod,
-      provider: provider.name,
-    })
-
-    if (quote && userLocation?.ipAddress && isSimplexQuote(quote)) {
-      navigate(Screens.Simplex, {
-        simplexQuote: quote,
-        userIpAddress: userLocation.ipAddress,
-      })
-      return
-    }
-
-    ;(quote as ProviderQuote).url && navigateToURI((quote as ProviderQuote).url)
-  }
 
   const toggleExpanded = () => {
     if (expanded) {
@@ -89,24 +64,34 @@ export function PaymentMethodSection({
     LayoutAnimation.easeInEaseOut()
     setExpanded(!expanded)
   }
+
   if (!sectionQuotes.length) {
-    setNoPaymentMethods(true)
     return null
+  }
+
+  const getCategoryTitle = () => {
+    switch (paymentMethod) {
+      case PaymentMethod.Card:
+        return t('selectProviderScreen.card')
+      case PaymentMethod.FiatConnectMobileMoney:
+        return t('selectProviderScreen.mobileMoney')
+      case PaymentMethod.Bank:
+        return t('selectProviderScreen.bank')
+      default:
+        // this should never happen
+        throw new Error('invalid payment method')
+    }
   }
 
   const renderExpandableSection = () => (
     <>
       <View testID={`${paymentMethod}/section`} style={styles.left}>
-        <Text style={styles.category}>
-          {paymentMethod === PaymentMethod.Card
-            ? t('selectProviderScreen.card')
-            : t('selectProviderScreen.bank')}
-        </Text>
+        <Text style={styles.category}>{getCategoryTitle()}</Text>
         {!expanded && (
           <Text style={styles.fee}>
             {
               // quotes assumed to be sorted ascending by fee
-              renderFeeAmount(sectionQuotes[0].quote, t('selectProviderScreen.minFee'))
+              renderFeeAmount(sectionQuotes[0], t('selectProviderScreen.minFee'))
             }
           </Text>
         )}
@@ -120,24 +105,22 @@ export function PaymentMethodSection({
     </>
   )
 
-  const renderNonExpandableSection = () => (
+  const renderNonExpandableSection = (quote: NormalizedQuote) => (
     <>
       <View testID={`${paymentMethod}/singleProvider`} style={styles.left}>
-        <Text style={styles.category}>
-          {paymentMethod === PaymentMethod.Card
-            ? t('selectProviderScreen.card')
-            : t('selectProviderScreen.bank')}
-        </Text>
+        <Text style={styles.category}>{getCategoryTitle()}</Text>
         <Text testID={`${paymentMethod}/provider-0`} style={styles.fee}>
-          {renderFeeAmount(sectionQuotes[0].quote, t('selectProviderScreen.fee'))}
+          {renderFeeAmount(sectionQuotes[0], t('selectProviderScreen.fee'))}
         </Text>
-        <Text style={styles.topInfo}>{renderInfoText()}</Text>
+        <Text testID={`${paymentMethod}/provider-0/info`} style={styles.topInfo}>
+          {renderInfoText(quote)}
+        </Text>
       </View>
 
       <View style={styles.imageContainer}>
         <Image
-          testID={`image-${sectionQuotes[0].provider.name}`}
-          source={{ uri: sectionQuotes[0].provider.logoWide }}
+          testID={`image-${sectionQuotes[0].getProviderName()}`}
+          source={{ uri: sectionQuotes[0].getProviderLogo() }}
           style={styles.providerImage}
           resizeMode="center"
         />
@@ -145,48 +128,50 @@ export function PaymentMethodSection({
     </>
   )
 
-  const renderInfoText = () =>
-    `${t('selectProviderScreen.idRequired')} | ${
-      paymentMethod === PaymentMethod.Card
-        ? t('selectProviderScreen.oneHour')
-        : t('selectProviderScreen.numDays')
-    }`
-  const renderFeeAmount = (quote: SimplexQuote | ProviderQuote, postFix: string) => {
-    const feeAmount = getFeeValueFromQuotes(quote)
-
-    if (feeAmount === undefined) {
-      return null
+  const getDefaultSettlementTime = () => {
+    switch (paymentMethod) {
+      case PaymentMethod.Card:
+        return t('selectProviderScreen.oneHour')
+      case PaymentMethod.FiatConnectMobileMoney:
+        return t('selectProviderScreen.oneDay')
+      case PaymentMethod.Bank:
+        return t('selectProviderScreen.numDays')
+      default:
+        // this should never happen
+        throw new Error('invalid payment method')
     }
+  }
+
+  const renderInfoText = (quote: NormalizedQuote) => {
+    const kycInfo = quote.getKycInfo()
+    const kycString = kycInfo ? `${kycInfo} | ` : ''
+    return `${kycString}${getDefaultSettlementTime()}`
+  }
+
+  const renderFeeAmount = (normalizedQuote: NormalizedQuote, postFix: string) => {
+    const feeAmount = normalizedQuote.getFeeInCrypto(exchangeRates)
 
     return (
-      <Text>
-        <CurrencyDisplay
-          amount={{
-            value: 0,
-            localAmount: {
-              value: feeAmount,
-              currencyCode: localCurrency,
-              exchangeRate: 1,
-            },
-            currencyCode: localCurrency,
-          }}
-          showLocalAmount={true}
-          hideSign={true}
-          style={styles.fee}
-        />{' '}
-        {postFix}
-      </Text>
+      <>
+        {feeAmount ? (
+          <Text>
+            <TokenDisplay
+              amount={feeAmount}
+              currency={normalizedQuote.getCryptoType()}
+              showLocalAmount={flow === CICOFlow.CashIn}
+              hideSign={false}
+            />{' '}
+            {postFix}
+          </Text>
+        ) : (
+          <Text>{t('selectProviderScreen.feesVary')}</Text>
+        )}
+      </>
     )
   }
   return (
     <View style={styles.container}>
-      <Touchable
-        onPress={
-          isExpandable
-            ? toggleExpanded
-            : ((quoteOnPress(sectionQuotes[0]) as unknown) as () => void)
-        }
-      >
+      <Touchable onPress={isExpandable ? toggleExpanded : sectionQuotes[0].onPress(flow, dispatch)}>
         <View>
           <Expandable
             arrowColor={colors.greenUI}
@@ -197,24 +182,26 @@ export function PaymentMethodSection({
             isExpandable={isExpandable}
             isExpanded={expanded}
           >
-            {isExpandable ? renderExpandableSection() : renderNonExpandableSection()}
+            {isExpandable
+              ? renderExpandableSection()
+              : renderNonExpandableSection(sectionQuotes[0])}
           </Expandable>
         </View>
       </Touchable>
       {expanded &&
-        sectionQuotes.map((cicoQuote, index) => (
+        sectionQuotes.map((normalizedQuote, index) => (
           <Touchable
             key={index}
             testID={`${paymentMethod}/provider-${index}`}
-            onPress={(quoteOnPress(cicoQuote) as unknown) as () => void}
+            onPress={normalizedQuote.onPress(flow, dispatch)}
           >
             <View style={styles.expandedContainer}>
               <View style={styles.left}>
-                <Text style={styles.expandedFee}>
-                  {renderFeeAmount(cicoQuote.quote, t('selectProviderScreen.fee'))}
+                <Text style={styles.expandedFee} testID={`${paymentMethod}/fee-${index}`}>
+                  {renderFeeAmount(normalizedQuote, t('selectProviderScreen.fee'))}
                 </Text>
-                <Text style={styles.expandedInfo}>{renderInfoText()}</Text>
-                {index === 0 && (
+                <Text style={styles.expandedInfo}>{renderInfoText(normalizedQuote)}</Text>
+                {index === 0 && normalizedQuote.getFeeInCrypto(exchangeRates) && (
                   <Text testID={`${paymentMethod}/bestRate`} style={styles.expandedTag}>
                     {t('selectProviderScreen.bestRate')}
                   </Text>
@@ -223,8 +210,8 @@ export function PaymentMethodSection({
 
               <View style={styles.imageContainer}>
                 <Image
-                  testID={`image-${cicoQuote.provider.name}`}
-                  source={{ uri: cicoQuote.provider.logoWide }}
+                  testID={`image-${normalizedQuote.getProviderName()}`}
+                  source={{ uri: normalizedQuote.getProviderLogo() }}
                   style={styles.providerImage}
                   resizeMode="center"
                 />

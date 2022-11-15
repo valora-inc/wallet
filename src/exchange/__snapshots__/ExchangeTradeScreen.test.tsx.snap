@@ -22,6 +22,7 @@ exports[`ExchangeTradeScreen renders correctly 1`] = `
         "flexDirection": "row",
         "height": 56,
         "justifyContent": "space-between",
+        "overflow": "hidden",
         "width": "100%",
       }
     }
@@ -69,6 +70,7 @@ exports[`ExchangeTradeScreen renders correctly 1`] = `
           }
         >
           <Text
+            allowFontScaling={false}
             numberOfLines={1}
             style={
               Object {
@@ -104,6 +106,7 @@ exports[`ExchangeTradeScreen renders correctly 1`] = `
             </Text>
           </Text>
           <Text
+            allowFontScaling={false}
             numberOfLines={1}
             style={
               Object {
@@ -115,12 +118,15 @@ exports[`ExchangeTradeScreen renders correctly 1`] = `
             <View
               style={
                 Object {
+                  "alignItems": "center",
                   "flexDirection": "row",
+                  "justifyContent": "center",
                 }
               }
               testID="HeaderCurrencyPicker"
             >
               <Text
+                allowFontScaling={false}
                 style={
                   Object {
                     "color": "#9CA4A9",
@@ -217,6 +223,7 @@ exports[`ExchangeTradeScreen renders correctly 1`] = `
       }
     }
     keyboardShouldPersistTaps="always"
+    testID="KeyboardAwareScrollView"
   >
     <View>
       <View
@@ -341,6 +348,7 @@ exports[`ExchangeTradeScreen renders correctly 1`] = `
                 },
               ]
             }
+            testID="LineItemRowTitle/undefined"
           >
             Subtotal @
              
@@ -460,6 +468,7 @@ exports[`ExchangeTradeScreen renders correctly 1`] = `
               },
             ]
           }
+          testID="LineItemRowTitle/undefined"
         >
           exchangeRateInfo
         </Text>
@@ -535,6 +544,7 @@ exports[`ExchangeTradeScreen renders correctly 1`] = `
           Object {
             "alignItems": "center",
             "backgroundColor": "#F1F0EB",
+            "flexDirection": "row",
             "flexGrow": 1,
             "height": 48,
             "justifyContent": "center",
@@ -554,6 +564,8 @@ exports[`ExchangeTradeScreen renders correctly 1`] = `
               "fontFamily": "Inter-SemiBold",
               "fontSize": 16,
               "lineHeight": 22,
+              "marginLeft": 0,
+              "marginRight": 0,
             }
           }
         >
@@ -564,12 +576,16 @@ exports[`ExchangeTradeScreen renders correctly 1`] = `
   </View>
   <Modal
     animationType="none"
+    deviceHeight={null}
+    deviceWidth={null}
     hardwareAccelerated={false}
     hideModalContentWhileAnimating={false}
+    onBackdropPress={[Function]}
     onModalHide={[Function]}
     onModalWillHide={[Function]}
     onModalWillShow={[Function]}
     onRequestClose={[Function]}
+    panResponderThreshold={4}
     scrollHorizontal={false}
     scrollOffset={0}
     scrollOffsetMax={0}
@@ -614,12 +630,16 @@ exports[`ExchangeTradeScreen renders correctly 1`] = `
     />
     <View
       collapsable={false}
+      deviceHeight={null}
+      deviceWidth={null}
       forwardedRef={[Function]}
       hideModalContentWhileAnimating={false}
       nativeID="animatedComponent"
+      onBackdropPress={[Function]}
       onModalHide={[Function]}
       onModalWillHide={[Function]}
       onModalWillShow={[Function]}
+      panResponderThreshold={4}
       pointerEvents="box-none"
       scrollHorizontal={false}
       scrollOffset={0}

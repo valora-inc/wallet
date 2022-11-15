@@ -16,7 +16,6 @@ import { getLatestBlock } from 'src/web3/utils'
 
 interface State {
   reactNativeLogs: string
-  gethLogs: string
   latestBlockNumber: number
 }
 
@@ -25,7 +24,6 @@ export class Debug extends React.Component<RootState, State> {
 
   state = {
     reactNativeLogs: '',
-    gethLogs: '',
     latestBlockNumber: 0,
   }
 
@@ -35,10 +33,9 @@ export class Debug extends React.Component<RootState, State> {
   }
 
   updateLogs = async () => {
-    const logs = await Logger.getLogs()
+    const reactNativeLogs = await Logger.getMonthLogs()
     this.setState({
-      reactNativeLogs: (logs && logs.reactNativeLogs) || 'Not Found',
-      gethLogs: (logs && logs.gethLogs) || 'Not Found',
+      reactNativeLogs: reactNativeLogs || 'Not Found',
     })
   }
 
@@ -61,7 +58,7 @@ export class Debug extends React.Component<RootState, State> {
   }
 
   render() {
-    const { reactNativeLogs, gethLogs, latestBlockNumber } = this.state
+    const { reactNativeLogs, latestBlockNumber } = this.state
     const pincodeType = this.props.account.pincodeType
     const address = currentAccountSelector(this.props)
     const phoneNumber = this.props.account.e164PhoneNumber
@@ -91,12 +88,6 @@ export class Debug extends React.Component<RootState, State> {
           logs={reactNativeLogs}
           style={styles.logView}
           onPress={this.onClickText(reactNativeLogs)}
-        />
-        <LogView
-          title={'Geth Logs'}
-          logs={gethLogs}
-          style={styles.logView}
-          onPress={this.onClickText(gethLogs)}
         />
         <Button
           onPress={this.onClickEmailLogs}

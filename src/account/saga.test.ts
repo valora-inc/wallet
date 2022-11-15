@@ -1,33 +1,39 @@
+import * as DEK from '@celo/utils/lib/dataEncryptionKey'
+import { FetchMock } from 'jest-fetch-mock/types'
 import * as Keychain from 'react-native-keychain'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { throwError } from 'redux-saga-test-plan/providers'
 import { call, select } from 'redux-saga/effects'
 import {
-  fetchFinclusiveKyc,
   generateSignedMessage,
   handleUpdateAccountRegistration,
+  initializeAccountSaga,
 } from 'src/account/saga'
+import { choseToRestoreAccountSelector } from 'src/account/selectors'
 import { updateAccountRegistration } from 'src/account/updateAccountRegistration'
+import { Actions as AccountActions, phoneNumberVerificationCompleted } from 'src/app/actions'
+import { centralPhoneVerificationEnabledSelector } from 'src/app/selectors'
 import { currentLanguageSelector } from 'src/i18n/selectors'
-import { getFinclusiveComplianceStatus } from 'src/in-house-liquidity'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import { retrieveSignedMessage, storeSignedMessage } from 'src/pincode/authentication'
 import Logger from 'src/utils/Logger'
 import { getContractKit, getWallet } from 'src/web3/contracts'
-import { getWalletAddress, unlockAccount, UnlockResult } from 'src/web3/saga'
+import networkConfig from 'src/web3/networkConfig'
+import { getOrCreateAccount, unlockAccount, UnlockResult } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { mockAccount, mockWallet } from 'test/values'
+import { mockWallet } from 'test/values'
 import { mocked } from 'ts-jest/utils'
-import { saveSignedMessage, setFinclusiveKyc } from './actions'
+import { initializeAccountSuccess, saveSignedMessage } from './actions'
 
 const loggerErrorSpy = jest.spyOn(Logger, 'error')
 const mockedKeychain = mocked(Keychain)
 
-jest.mock('src/in-house-liquidity', () => ({
-  ...(jest.requireActual('src/in-house-liquidity') as any),
-  getFinclusiveComplianceStatus: jest.fn(() => Promise.resolve(2)),
-}))
+const mockedDEK = mocked(DEK)
+mockedDEK.compressedPubKey = jest.fn().mockReturnValue('publicKeyForUser')
+
+const mockFetch = fetch as FetchMock
+jest.unmock('src/pincode/authentication')
 
 jest.mock('@react-native-firebase/app', () => ({
   app: jest.fn(() => ({
@@ -36,20 +42,6 @@ jest.mock('@react-native-firebase/app', () => ({
     }),
   })),
 }))
-
-describe('fetchFinclusiveKyc', () => {
-  beforeEach(() => {
-    jest.useRealTimers()
-    jest.clearAllMocks()
-  })
-  it('calls finclusive if persona is approved but finclusive kyc is not', async () => {
-    await expectSaga(fetchFinclusiveKyc)
-      .provide([[call(getWalletAddress), mockAccount]])
-      .put(setFinclusiveKyc(2))
-      .run()
-    expect(getFinclusiveComplianceStatus).toHaveBeenCalledTimes(1)
-  })
-})
 
 describe('handleUpdateAccountRegistration', () => {
   beforeEach(() => {
@@ -143,5 +135,80 @@ describe('generateSignedMessage', () => {
         .not.call(storeSignedMessage)
         .run()
     ).rejects.toThrowError('could not generate signature')
+  })
+})
+
+describe('initializeAccount', () => {
+  beforeEach(() => {
+    mockFetch.resetMocks()
+  })
+
+  it('should handle the last previously verified phone number', async () => {
+    mockFetch.mockResponse(
+      JSON.stringify({ data: { phoneNumbers: ['+1302123456', '+31619123456'] } })
+    )
+
+    await expectSaga(initializeAccountSaga)
+      .provide([
+        [call(getOrCreateAccount), undefined],
+        [call(generateSignedMessage), undefined],
+        [select(choseToRestoreAccountSelector), true],
+        [select(centralPhoneVerificationEnabledSelector), true],
+        [call(retrieveSignedMessage), 'some signed message'],
+        [select(walletAddressSelector), '0xabc'],
+      ])
+      .put(initializeAccountSuccess())
+      .put(phoneNumberVerificationCompleted('+31619123456', '+31'))
+      .run()
+
+    expect(mockFetch).toHaveBeenCalledTimes(1)
+    expect(mockFetch).toHaveBeenCalledWith(
+      `${networkConfig.lookupAddressUrl}?clientPlatform=android&clientVersion=0.0.1`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Valora 0xabc:some signed message`,
+        },
+      }
+    )
+  })
+
+  it('should handle if there is no previously verified phone number', async () => {
+    mockFetch.mockResponse(JSON.stringify({ data: { phoneNumbers: [] } }))
+
+    await expectSaga(initializeAccountSaga)
+      .provide([
+        [call(getOrCreateAccount), undefined],
+        [call(generateSignedMessage), undefined],
+        [select(choseToRestoreAccountSelector), true],
+        [select(centralPhoneVerificationEnabledSelector), true],
+        [call(retrieveSignedMessage), 'some signed message'],
+        [select(walletAddressSelector), '0xabc'],
+      ])
+      .put(initializeAccountSuccess())
+      .not.put.actionType(AccountActions.PHONE_NUMBER_VERIFICATION_COMPLETED)
+      .run()
+
+    expect(mockFetch).toHaveBeenCalledTimes(1)
+  })
+
+  it('should still initialize account if lookup address fails', async () => {
+    mockFetch.mockResponse(JSON.stringify({ message: 'something went wrong' }), { status: 500 })
+
+    await expectSaga(initializeAccountSaga)
+      .provide([
+        [call(getOrCreateAccount), undefined],
+        [call(generateSignedMessage), undefined],
+        [select(choseToRestoreAccountSelector), true],
+        [select(centralPhoneVerificationEnabledSelector), true],
+        [call(retrieveSignedMessage), 'some signed message'],
+        [select(walletAddressSelector), '0xabc'],
+      ])
+      .put(initializeAccountSuccess())
+      .not.put.actionType(AccountActions.PHONE_NUMBER_VERIFICATION_COMPLETED)
+      .run()
+
+    expect(mockFetch).toHaveBeenCalledTimes(1)
   })
 })

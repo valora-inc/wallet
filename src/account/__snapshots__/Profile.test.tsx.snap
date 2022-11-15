@@ -112,12 +112,16 @@ exports[`Profile renders correctly 1`] = `
         </RNGestureHandlerButton>
         <Modal
           animationType="none"
+          deviceHeight={null}
+          deviceWidth={null}
           hardwareAccelerated={false}
           hideModalContentWhileAnimating={false}
+          onBackdropPress={[Function]}
           onModalHide={[Function]}
           onModalWillHide={[Function]}
           onModalWillShow={[Function]}
           onRequestClose={[Function]}
+          panResponderThreshold={4}
           scrollHorizontal={false}
           scrollOffset={0}
           scrollOffsetMax={0}
@@ -162,12 +166,16 @@ exports[`Profile renders correctly 1`] = `
           />
           <View
             collapsable={false}
+            deviceHeight={null}
+            deviceWidth={null}
             forwardedRef={[Function]}
             hideModalContentWhileAnimating={false}
             nativeID="animatedComponent"
+            onBackdropPress={[Function]}
             onModalHide={[Function]}
             onModalWillHide={[Function]}
             onModalWillShow={[Function]}
+            panResponderThreshold={4}
             pointerEvents="box-none"
             scrollHorizontal={false}
             scrollOffset={0}

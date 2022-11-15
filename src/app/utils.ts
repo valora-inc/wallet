@@ -1,5 +1,5 @@
 import { DappRequestOrigin } from 'src/analytics/types'
-import { ActiveDapp } from 'src/app/reducers'
+import { ActiveDapp } from 'src/dapps/types'
 
 // Assume that if we have an active dapp, any WC or DappKit request comes from the in-app webview.
 // Note that this may be incorrect if the user interacts with another dapp while the dapp webview is open.

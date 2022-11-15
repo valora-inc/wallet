@@ -20,14 +20,14 @@ import {
   spawn,
   takeLeading,
 } from 'redux-saga/effects'
-import { initializeAccount, setBackupCompleted } from 'src/account/actions'
-import { uploadNameAndPicture } from 'src/account/profileInfo'
+import { setBackupCompleted } from 'src/account/actions'
+import { initializeAccountSaga } from 'src/account/saga'
 import { recoveringFromStoreWipeSelector } from 'src/account/selectors'
 import { showError } from 'src/alert/actions'
 import { AppEvents, OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { skipVerificationSelector } from 'src/app/selectors'
+import { numberVerifiedCentrallySelector, skipVerificationSelector } from 'src/app/selectors'
 import { countMnemonicWords, storeMnemonic } from 'src/backup/utils'
 import { refreshAllBalances } from 'src/home/actions'
 import { setHasSeenVerificationNux } from 'src/identity/actions'
@@ -42,7 +42,7 @@ import { Screens } from 'src/navigator/Screens'
 import { fetchTokenBalanceInWeiWithRetry } from 'src/tokens/saga'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
-import { assignAccountFromPrivateKey, waitWeb3LastBlock } from 'src/web3/saga'
+import { assignAccountFromPrivateKey } from 'src/web3/saga'
 
 const TAG = 'import/saga'
 
@@ -51,7 +51,6 @@ export const MNEMONIC_AUTOCORRECT_TIMEOUT = 5000 // ms
 
 export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackupPhraseAction) {
   Logger.debug(TAG + '@importBackupPhraseSaga', 'Importing backup phrase')
-  yield call(waitWeb3LastBlock)
   try {
     const normalizedPhrase = normalizeMnemonic(phrase)
     const phraseIsValid = validateMnemonic(normalizedPhrase, bip39)
@@ -155,16 +154,17 @@ export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackup
     // Set backup complete so user isn't prompted to do backup flow
     yield put(setBackupCompleted())
     yield put(refreshAllBalances())
-    yield call(uploadNameAndPicture)
 
     const recoveringFromStoreWipe = yield select(recoveringFromStoreWipeSelector)
     if (recoveringFromStoreWipe) {
       ValoraAnalytics.track(AppEvents.redux_store_recovery_success, { account })
     }
     ValoraAnalytics.track(OnboardingEvents.wallet_import_success)
+    yield call(initializeAccountSaga)
+
+    const numberAlreadyVerifiedCentrally = yield select(numberVerifiedCentrallySelector)
     const skipVerification = yield select(skipVerificationSelector)
-    if (skipVerification) {
-      yield put(initializeAccount())
+    if (skipVerification || numberAlreadyVerifiedCentrally) {
       yield put(setHasSeenVerificationNux(true))
       navigateHome()
     } else {

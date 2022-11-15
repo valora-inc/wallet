@@ -19,6 +19,7 @@ import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { emptyHeader, HeaderTitleWithBalance } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import colors from 'src/styles/colors'
 import { resolveCICOCurrency, resolveCurrency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
@@ -32,12 +33,13 @@ function SimplexScreen({ route, navigation }: Props) {
   const [redirected, setRedirected] = useState(false)
   const { t } = useTranslation()
 
-  const { simplexQuote, userIpAddress } = route.params
+  const { simplexQuote } = route.params
 
   const account = useSelector(currentAccountSelector)
   const e164PhoneNumber = useSelector(e164NumberSelector)
   const phoneNumberConfirmed = useSelector(numberVerifiedSelector)
   const localCurrency = useSelector(getLocalCurrencyCode)
+  const { ipAddress: userIpAddress } = useSelector(userLocationDataSelector)
 
   const dispatch = useDispatch()
 
@@ -73,7 +75,7 @@ function SimplexScreen({ route, navigation }: Props) {
   }, [])
 
   const asyncSimplexPaymentData = useAsync(async () => {
-    if (!account) {
+    if (!account || !userIpAddress) {
       return
     }
     try {

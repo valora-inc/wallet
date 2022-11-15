@@ -11,7 +11,6 @@ import { CELO_TRANSACTION_MIN_AMOUNT, STABLE_TRANSACTION_MIN_AMOUNT } from 'src/
 import { createReclaimTransaction, STATIC_ESCROW_TRANSFER_GAS_ESTIMATE } from 'src/escrow/saga'
 import { estimateFee, feeEstimated, FeeType } from 'src/fees/reducer'
 import { buildSendTx } from 'src/send/saga'
-import { TokenBalance, TokenBalances } from 'src/tokens/reducer'
 import {
   getCurrencyAddress,
   getERC20TokenContract,
@@ -22,6 +21,7 @@ import {
   tokensByAddressSelector,
   tokensByUsdBalanceSelector,
 } from 'src/tokens/selectors'
+import { TokenBalance, TokenBalances } from 'src/tokens/slice'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { getContractKit } from 'src/web3/contracts'

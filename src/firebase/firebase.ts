@@ -1,6 +1,7 @@
 import firebase, { ReactNativeFirebase } from '@react-native-firebase/app'
 import '@react-native-firebase/auth'
 import { FirebaseDatabaseTypes } from '@react-native-firebase/database'
+import dynamicLinks from '@react-native-firebase/dynamic-links'
 import '@react-native-firebase/messaging'
 // We can't combine the 2 imports otherwise it only imports the type and fails at runtime
 import { FirebaseMessagingTypes } from '@react-native-firebase/messaging'
@@ -12,9 +13,9 @@ import { call, take } from 'redux-saga/effects'
 import { handleUpdateAccountRegistration } from 'src/account/saga'
 import { updateAccountRegistration } from 'src/account/updateAccountRegistration'
 import { RemoteConfigValues } from 'src/app/saga'
-import { SuperchargeButtonType } from 'src/app/types'
-import { FETCH_TIMEOUT_DURATION, FIREBASE_ENABLED } from 'src/config'
-import { SuperchargeToken } from 'src/consumerIncentives/types'
+import { CreateAccountCopyTestType, InviteMethodType } from 'src/app/types'
+import { DEFAULT_PERSONA_TEMPLATE_ID, FETCH_TIMEOUT_DURATION, FIREBASE_ENABLED } from 'src/config'
+import { DappConnectInfo } from 'src/dapps/types'
 import { handleNotification } from 'src/firebase/notifications'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
@@ -141,9 +142,8 @@ export function* initializeCloudMessaging(app: ReactNativeFirebase.Module, addre
 
   // this call needs to include context: https://github.com/redux-saga/redux-saga/issues/27
   // Manual type checking because yield calls can't infer return type yet :'(
-  const authStatus: Awaited<
-    ReturnType<FirebaseMessagingTypes.Module['hasPermission']>
-  > = yield call([app.messaging(), 'hasPermission'])
+  const authStatus: Awaited<ReturnType<FirebaseMessagingTypes.Module['hasPermission']>> =
+    yield call([app.messaging(), 'hasPermission'])
   Logger.info(TAG, 'Current messaging authorization status', authStatus.toString())
   if (authStatus === firebase.messaging.AuthorizationStatus.NOT_DETERMINED) {
     try {
@@ -252,13 +252,15 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
   // REMOTE_CONFIG_VALUES_DEFAULTS is in remoteConfigValuesDefaults.ts
   // RemoteConfigValues is in app/saga.ts
 
+  const superchargeConfigByTokenString = flags.superchargeTokenConfigByToken?.asString()
+  const fiatAccountSchemaCountryOverrides = flags.fiatAccountSchemaCountryOverrides?.asString()
+
   return {
     hideVerification: flags.hideVerification.asBoolean(),
     // these next 2 flags are a bit weird because their default is undefined or null
     // and the default map cannot have a value of undefined or null
     // that is why we still need to check for it before calling a method
     // in the future it would be great to avoid using these as default values
-    showRaiseDailyLimitTarget: flags.showRaiseDailyLimitTargetV2?.asString(),
     celoEducationUri: flags.celoEducationUri?.asString() ?? null,
     celoEuroEnabled: flags.celoEuroEnabled.asBoolean(),
     dappListApiUrl: flags.dappListApiUrl?.asString() ?? null,
@@ -268,11 +270,9 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     walletConnectV1Enabled: flags.walletConnectV1Enabled.asBoolean(),
     walletConnectV2Enabled: flags.walletConnectV2Enabled.asBoolean(),
     superchargeApy: flags.superchargeApy.asNumber(),
-    superchargeTokens: (Object.keys(SuperchargeToken) as SuperchargeToken[]).map((token) => ({
-      token,
-      minBalance: flags[`supercharge${token}Min`].asNumber(),
-      maxBalance: flags[`supercharge${token}Max`].asNumber(),
-    })),
+    superchargeTokenConfigByToken: superchargeConfigByTokenString
+      ? JSON.parse(superchargeConfigByTokenString)
+      : {},
     komenciUseLightProxy: flags.komenciUseLightProxy.asBoolean(),
     komenciAllowedDeployers: flags.komenciAllowedDeployers.asString().split(','),
     pincodeUseExpandedBlocklist: flags.pincodeUseExpandedBlocklist.asBoolean(),
@@ -281,20 +281,31 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     rampCashInButtonExpEnabled: flags.rampCashInButtonExpEnabled.asBoolean(),
     logPhoneNumberTypeEnabled: flags.logPhoneNumberTypeEnabled.asBoolean(),
     allowOtaTranslations: flags.allowOtaTranslations.asBoolean(),
-    linkBankAccountEnabled: flags.linkBankAccountEnabled.asBoolean(),
-    linkBankAccountStepTwoEnabled: flags.linkBankAccountStepTwoEnabled.asBoolean(),
     sentryTracesSampleRate: flags.sentryTracesSampleRate.asNumber(),
     sentryNetworkErrors: flags.sentryNetworkErrors.asString().split(','),
-    biometryEnabled: flags.biometryEnabled.asBoolean(),
-    superchargeButtonType: flags.superchargeButtonType.asString() as SuperchargeButtonType,
     maxNumRecentDapps: flags.maxNumRecentDapps.asNumber(),
     skipVerification: flags.skipVerification.asBoolean(),
     showPriceChangeIndicatorInBalances: flags.showPriceChangeIndicatorInBalances.asBoolean(),
     paymentDeepLinkHandler: flags.paymentDeepLinkHandler.asString() as PaymentDeepLinkHandler,
     dappsWebViewEnabled: flags.dappsWebViewEnabled.asBoolean(),
     skipProfilePicture: flags.skipProfilePicture.asBoolean(),
-    finclusiveUnsupportedStates: flags.finclusiveUnsupportedStates.asString().split(','),
-    celoWithdrawalEnabledInExchange: flags.celoWithdrawalEnabledInExchange.asBoolean(),
+    fiatConnectCashInEnabled: flags.fiatConnectCashInEnabled.asBoolean(),
+    fiatConnectCashOutEnabled: flags.fiatConnectCashOutEnabled.asBoolean(),
+    fiatAccountSchemaCountryOverrides: fiatAccountSchemaCountryOverrides
+      ? JSON.parse(fiatAccountSchemaCountryOverrides)
+      : {},
+    dappConnectInfo: flags.dappConnectInfo.asString() as DappConnectInfo,
+    visualizeNFTsEnabledInHomeAssetsPage: flags.visualizeNFTsEnabledInHomeAssetsPage.asBoolean(),
+    coinbasePayEnabled: flags.coinbasePayEnabled.asBoolean(),
+    showSwapMenuInDrawerMenu: flags.showSwapMenuInDrawerMenu.asBoolean(),
+    shouldShowRecoveryPhraseInSettings: flags.shouldShowRecoveryPhraseInSettings.asBoolean(),
+    createAccountCopyTestType:
+      flags.createAccountCopyTestType.asString() as CreateAccountCopyTestType,
+    maxSwapSlippagePercentage: flags.maxSwapSlippagePercentage.asNumber(),
+    inviteMethod: flags.inviteMethod.asString() as InviteMethodType,
+    showGuidedOnboardingCopy: flags.showGuidedOnboardingCopy.asBoolean(),
+    centralPhoneVerificationEnabled: flags.centralPhoneVerificationEnabled.asBoolean(),
+    networkTimeoutSeconds: flags.networkTimeoutSeconds.asNumber(),
   }
 }
 
@@ -330,6 +341,10 @@ export async function fetchInviteRewardsSenders() {
   return fetchListFromFirebase('inviteRewardAddresses')
 }
 
+export async function fetchCoinbasePaySenders() {
+  return fetchListFromFirebase('coinbasePayAddresses')
+}
+
 async function fetchListFromFirebase(path: string) {
   if (!FIREBASE_ENABLED) {
     return []
@@ -350,14 +365,6 @@ async function fetchListFromFirebase(path: string) {
 
     return () => firebase.database().ref(path).off(VALUE_CHANGE_HOOK, onValueChange)
   })
-}
-
-export async function cUsdDailyLimitChannel(address: string) {
-  return simpleReadChannel(`registrations/${address}/dailyLimitCusd`)
-}
-
-export async function kycStatusChannel(mtwAddress: string) {
-  return simpleReadChannel(`inHouseLiquidity/${mtwAddress}/kycStatus`)
 }
 
 export function simpleReadChannel(key: string) {
@@ -399,4 +406,23 @@ export async function readOnceFromFirebase(path: string) {
     .once('value')
     .then((snapshot) => snapshot.val())
   return Promise.race([timeout, fetchFromFirebase])
+}
+
+export async function resolveDynamicLink(link: string) {
+  try {
+    // resolve short and long dynamic links
+    const resolvedLink = await dynamicLinks().resolveLink(link)
+    return resolvedLink.url
+  } catch (error) {
+    Logger.warn('invite/utils/resolveDynamicLink', 'Link could not be resolved', error)
+    return null
+  }
+}
+
+export async function getPersonaTemplateId() {
+  if (!FIREBASE_ENABLED) {
+    return DEFAULT_PERSONA_TEMPLATE_ID
+  }
+
+  return readOnceFromFirebase('persona/templateId')
 }

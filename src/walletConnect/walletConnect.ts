@@ -2,16 +2,15 @@ import { call, delay, fork, race, select, take } from 'redux-saga/effects'
 import { WalletConnectEvents } from 'src/analytics/Events'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { Actions as AppActions, ActionTypes as AppActionTypes } from 'src/app/actions'
-import { ActiveDapp } from 'src/app/reducers'
-import { activeDappSelector, activeScreenSelector } from 'src/app/selectors'
 import { getDappRequestOrigin } from 'src/app/utils'
-import i18n from 'src/i18n'
-import { navigate, replace } from 'src/navigator/NavigationService'
+import { activeDappSelector } from 'src/dapps/selectors'
+import { ActiveDapp } from 'src/dapps/types'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { StackParamList } from 'src/navigator/types'
 import { initialiseWalletConnect } from 'src/walletConnect/saga'
 import { selectHasPendingState } from 'src/walletConnect/selectors'
+import { WalletConnectRequestType } from 'src/walletConnect/types'
+import { Actions } from 'src/walletConnect/v1/actions'
 
 const WC_PREFIX = 'wc:'
 const DEEPLINK_PREFIX = 'celo://wallet/wc?uri='
@@ -45,7 +44,7 @@ export function* handleWalletConnectDeepLink(deepLink: string) {
   // handler is called, so it's important we don't display the loading screen on top
   const hasPendingState: boolean = yield select(selectHasPendingState)
   if (!hasPendingState) {
-    yield fork(handleLoadingWithTimeout, { origin: WalletConnectPairingOrigin.Deeplink })
+    yield fork(handleLoadingWithTimeout, WalletConnectPairingOrigin.Deeplink)
   }
 
   // connection request
@@ -62,16 +61,16 @@ export function isWalletConnectDeepLink(deepLink: string) {
   )
 }
 
-export function* handleLoadingWithTimeout(params: StackParamList[Screens.WalletConnectLoading]) {
-  yield call(navigate, Screens.WalletConnectLoading, params)
+export function* handleLoadingWithTimeout(origin: WalletConnectPairingOrigin) {
+  yield call(navigate, Screens.WalletConnectRequest, {
+    type: WalletConnectRequestType.Loading,
+    origin,
+  })
 
   const { timedOut } = yield race({
     timedOut: delay(CONNECTION_TIMEOUT),
-    appNavigation: take(
-      (action: AppActionTypes) =>
-        action.type === AppActions.ACTIVE_SCREEN_CHANGED &&
-        action.activeScreen !== Screens.WalletConnectLoading
-    ),
+    sessionRequestReceived: take(Actions.SESSION_V1),
+    actionRequestReceived: take(Actions.PAYLOAD_V1),
   })
 
   if (timedOut) {
@@ -80,20 +79,7 @@ export function* handleLoadingWithTimeout(params: StackParamList[Screens.WalletC
       dappRequestOrigin: getDappRequestOrigin(activeDapp),
       error: 'timed out while waiting for a session',
     })
-    yield call(handleWalletConnectNavigate, Screens.WalletConnectResult, {
-      title: i18n.t('timeoutTitle'),
-      subtitle: i18n.t('timeoutSubtitle'),
-    })
-  }
-}
 
-export function* handleWalletConnectNavigate(...args: Parameters<typeof navigate>) {
-  // prevent wallet connect loading screen from remaining on the navigation
-  // stack and being navigated back to
-  const activeScreen = yield select(activeScreenSelector)
-  if (activeScreen === Screens.WalletConnectLoading) {
-    replace(...args)
-  } else {
-    navigate(...args)
+    yield call(navigate, Screens.WalletConnectRequest, { type: WalletConnectRequestType.TimeOut })
   }
 }

@@ -5,7 +5,9 @@ import { PhoneNumberHashDetails } from '@celo/identity/lib/odis/phone-number-ide
 import { isValidAddress, normalizeAddressWith0x } from '@celo/utils/lib/address'
 import { isAccountConsideredVerified } from '@celo/utils/lib/attestations'
 import BigNumber from 'bignumber.js'
+import { Platform } from 'react-native'
 import { MinimalContact } from 'react-native-contacts'
+import DeviceInfo from 'react-native-device-info'
 import { all, call, delay, put, race, select, take } from 'redux-saga/effects'
 import { setUserContactDetails } from 'src/account/actions'
 import { defaultCountryCodeSelector, e164NumberSelector } from 'src/account/selectors'
@@ -13,19 +15,18 @@ import { showErrorOrFallback } from 'src/alert/actions'
 import { IdentityEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { centralPhoneVerificationEnabledSelector } from 'src/app/selectors'
 import { fetchLostAccounts } from 'src/firebase/firebase'
 import {
   Actions,
   endFetchingAddresses,
   endImportContacts,
   FetchAddressesAndValidateAction,
-  ImportContactsAction,
   requireSecureSend,
   updateE164PhoneNumberAddresses,
   updateImportContactsProgress,
   updateWalletToAccountAddress,
 } from 'src/identity/actions'
-import { fetchContactMatches } from 'src/identity/matchmaking'
 import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
 import {
   AddressToE164NumberType,
@@ -37,29 +38,32 @@ import {
 import { checkIfValidationRequired } from 'src/identity/secureSend'
 import {
   e164NumberToAddressSelector,
-  matchedContactsSelector,
   secureSendPhoneNumberMappingSelector,
 } from 'src/identity/selectors'
 import { ImportContactsStatus } from 'src/identity/types'
+import { retrieveSignedMessage } from 'src/pincode/authentication'
 import { contactsToRecipients, NumberToRecipient } from 'src/recipients/recipient'
 import { setPhoneRecipientCache } from 'src/recipients/reducer'
+import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
+import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import { getAllContacts } from 'src/utils/contacts'
 import Logger from 'src/utils/Logger'
 import { checkContactsPermission } from 'src/utils/permissions'
 import { getContractKit } from 'src/web3/contracts'
+import networkConfig from 'src/web3/networkConfig'
 import { getConnectedAccount } from 'src/web3/saga'
-import { currentAccountSelector } from 'src/web3/selectors'
+import { walletAddressSelector } from 'src/web3/selectors'
 
 const TAG = 'identity/contactMapping'
 export const IMPORT_CONTACTS_TIMEOUT = 1 * 60 * 1000 // 1 minute
 
-export function* doImportContactsWrapper({ doMatchmaking }: ImportContactsAction) {
+export function* doImportContactsWrapper() {
   yield call(getConnectedAccount)
   try {
     Logger.debug(TAG, 'Importing user contacts')
 
     const { result, cancel, timeout } = yield race({
-      result: call(doImportContacts, doMatchmaking),
+      result: call(doImportContacts),
       cancel: take(Actions.CANCEL_IMPORT_CONTACTS),
       timeout: delay(IMPORT_CONTACTS_TIMEOUT),
     })
@@ -83,7 +87,7 @@ export function* doImportContactsWrapper({ doMatchmaking }: ImportContactsAction
   }
 }
 
-function* doImportContacts(doMatchmaking: boolean) {
+function* doImportContacts() {
   const hasGivenContactPermission: boolean = yield call(checkContactsPermission)
   if (!hasGivenContactPermission) {
     Logger.warn(TAG, 'Contact permissions denied. Skipping import.')
@@ -93,6 +97,7 @@ function* doImportContacts(doMatchmaking: boolean) {
 
   ValoraAnalytics.track(IdentityEvents.contacts_import_start)
 
+  SentryTransactionHub.startTransaction(SentryTransaction.import_contacts)
   yield put(updateImportContactsProgress(ImportContactsStatus.Importing))
 
   const contacts: MinimalContact[] = yield call(getAllContacts)
@@ -118,16 +123,8 @@ function* doImportContacts(doMatchmaking: boolean) {
   yield put(setPhoneRecipientCache(e164NumberToRecipients))
 
   ValoraAnalytics.track(IdentityEvents.contacts_processing_complete)
+  SentryTransactionHub.finishTransaction(SentryTransaction.import_contacts)
 
-  if (!doMatchmaking) {
-    return true
-  }
-  yield put(updateImportContactsProgress(ImportContactsStatus.Matchmaking))
-  yield call(fetchContactMatches, e164NumberToRecipients)
-  const matchContacts = yield select(matchedContactsSelector)
-  ValoraAnalytics.track(IdentityEvents.contacts_matchmaking_complete, {
-    matchCount: Object.keys(matchContacts).length,
-  })
   return true
 }
 
@@ -178,7 +175,7 @@ export function* fetchAddressesAndValidateSaga({
       walletAddresses.map((a) => (addressToE164NumberUpdates[a] = e164Number))
     }
 
-    const userAddress = yield select(currentAccountSelector)
+    const userAddress = yield select(walletAddressSelector)
     const secureSendPossibleAddresses = [...walletAddresses]
     const secureSendPhoneNumberMapping = yield select(secureSendPhoneNumberMappingSelector)
     // If fetch is being done as part of a payment request from an unverified address,
@@ -203,7 +200,7 @@ export function* fetchAddressesAndValidateSaga({
     yield put(endFetchingAddresses(e164Number, true))
     ValoraAnalytics.track(IdentityEvents.phone_number_lookup_complete)
   } catch (error) {
-    Logger.error(TAG + '@fetchAddressesAndValidate', `Error fetching addresses`, error)
+    Logger.debug(TAG + '@fetchAddressesAndValidate', `Error fetching addresses`, error)
     yield put(showErrorOrFallback(error, ErrorMessages.ADDRESS_LOOKUP_FAILURE))
     yield put(endFetchingAddresses(e164Number, false))
     ValoraAnalytics.track(IdentityEvents.phone_number_lookup_error, {
@@ -224,7 +221,7 @@ function* getAccountAddresses(e164Number: string) {
   return yield call(filterNonVerifiedAddresses, accountAddresses, phoneHash)
 }
 
-function* fetchWalletAddresses(e164Number: string) {
+export function* fetchWalletAddressesDecentralized(e164Number: string) {
   const contractKit = yield call(getContractKit)
   const accountsWrapper: AccountsWrapper = yield call([
     contractKit.contracts,
@@ -253,6 +250,64 @@ function* fetchWalletAddresses(e164Number: string) {
   }
   yield put(updateWalletToAccountAddress(walletToAccountAddress))
   return Array.from(possibleUserAddresses)
+}
+
+function* fetchWalletAddresses(e164Number: string) {
+  const centralPhoneVerificationEnabled = yield select(centralPhoneVerificationEnabledSelector)
+
+  if (!centralPhoneVerificationEnabled) {
+    return yield call(fetchWalletAddressesDecentralized, e164Number)
+  }
+
+  try {
+    const address = yield select(walletAddressSelector)
+    const signedMessage = yield call(retrieveSignedMessage)
+
+    const centralisedLookupQueryParams = new URLSearchParams({
+      phoneNumber: e164Number,
+      clientPlatform: Platform.OS,
+      clientVersion: DeviceInfo.getVersion(),
+    }).toString()
+
+    const [centralisedLookupResponse, addressesFromDecentralizedMapping]: [Response, string[]] =
+      yield all([
+        call(fetch, `${networkConfig.lookupPhoneNumberUrl}?${centralisedLookupQueryParams}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            authorization: `Valora ${address}:${signedMessage}`,
+          },
+        }),
+        call(fetchWalletAddressesDecentralized, e164Number),
+      ])
+
+    if (centralisedLookupResponse.ok) {
+      const { data }: { data: { addresses: string[] } } = yield call([
+        centralisedLookupResponse,
+        'json',
+      ])
+
+      // combine with addresses found in decentralized mapping to maintain
+      // backwards compatibilty with accounts that have not migrated to CPV
+      return [
+        ...new Set([
+          ...data.addresses.map((address) => address.toLowerCase()),
+          ...addressesFromDecentralizedMapping.map((address) => address.toLowerCase()),
+        ]),
+      ]
+    } else {
+      Logger.debug(
+        `${TAG}/fetchWalletAddresses`,
+        `lookupPhoneNumber service failed with status ${centralisedLookupResponse.status}`
+      )
+      // in the case that the user failed to migrate to CPV, the centralised
+      // service will throw an error so we can only return the decentralised mapping
+      return addressesFromDecentralizedMapping
+    }
+  } catch (error) {
+    Logger.debug(`${TAG}/fetchWalletAddresses`, 'Unable to look up phone number', error)
+    throw new Error('Unable to fetch wallet address for this phone number')
+  }
 }
 
 // Returns a list of account addresses for the identifier received.

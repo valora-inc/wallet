@@ -230,6 +230,7 @@ export class ValidateRecipientAccount extends React.Component<Props, State> {
             inputPlaceholder={FULL_ADDRESS_PLACEHOLDER}
             onInputChange={this.onInputChange}
             shouldShowClipboard={this.shouldShowClipboard}
+            testID="ValidateRecipientAccount/TextInput"
           />
         </View>
       )
@@ -263,11 +264,13 @@ export class ValidateRecipientAccount extends React.Component<Props, State> {
   }
 
   render = () => {
-    const { t, recipient, error } = this.props
-    const { singleDigitInputValueArr } = this.state
+    const { t, recipient, error, addressValidationType } = this.props
+    const { singleDigitInputValueArr, inputValue } = this.state
     const displayName = getDisplayName(recipient, t)
     const isFilled =
-      singleDigitInputValueArr.filter((entry) => /[a-f0-9]/gi.test(entry)).length === 4
+      addressValidationType === AddressValidationType.FULL
+        ? inputValue.length > 0
+        : singleDigitInputValueArr.filter((entry) => /[a-f0-9]/gi.test(entry)).length === 4
 
     return (
       <SafeAreaView style={styles.container}>
@@ -276,7 +279,9 @@ export class ValidateRecipientAccount extends React.Component<Props, State> {
           keyboardShouldPersistTaps={'always'}
         >
           <View>
-            <Text style={styles.h2}>{t('confirmAccountNumber.title')}</Text>
+            <Text testID="ConfirmAccountNumber/Title" style={styles.h2}>
+              {t('confirmAccountNumber.title')}
+            </Text>
             <View>{this.renderInstructionsAndInputField()}</View>
             <ErrorMessageInline error={error} />
             <Button
@@ -326,7 +331,7 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     flexGrow: 1,
-    padding: 16,
+    paddingHorizontal: 16,
     justifyContent: 'space-between',
   },
   singleDigitInputContainer: {

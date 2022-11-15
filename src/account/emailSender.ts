@@ -1,8 +1,8 @@
 import { openComposer } from 'react-native-email-link'
-import * as RNFS from 'react-native-fs'
 import Mailer from 'react-native-mail'
 import { CELO_SUPPORT_EMAIL_ADDRESS } from 'src/config'
 import Logger from 'src/utils/Logger'
+import { readFileChunked } from 'src/utils/readFile'
 
 export interface Email {
   subject: string
@@ -20,11 +20,11 @@ export async function sendEmailWithNonNativeApp(
   emailSubect: string,
   message: string,
   deviceInfo?: {},
-  combinedLogsPath?: string | false
+  logsPath?: string | false
 ) {
   try {
-    const supportLogsMessage = combinedLogsPath
-      ? `Support logs: ${!combinedLogsPath || (await RNFS.readFile(combinedLogsPath))}`
+    const supportLogsMessage = logsPath
+      ? `Support logs: ${!logsPath || (await readFileChunked(logsPath))}`
       : ''
     await openComposer({
       to: CELO_SUPPORT_EMAIL_ADDRESS,
@@ -37,11 +37,7 @@ export async function sendEmailWithNonNativeApp(
   }
 }
 
-export async function sendEmail(
-  email: Email,
-  deviceInfo?: {},
-  combinedLogsPath: string | false = false
-) {
+export async function sendEmail(email: Email, deviceInfo?: {}, logsPath: string | false = false) {
   return new Promise<void>((resolve, reject) => {
     // Try to send with native mail app with logs as attachment
     // if fails user can choose mail app but logs sent in message
@@ -53,7 +49,7 @@ export async function sendEmail(
           email.subject,
           email.body,
           deviceInfo,
-          combinedLogsPath
+          logsPath
         )
         if (emailSent.success) {
           resolve()

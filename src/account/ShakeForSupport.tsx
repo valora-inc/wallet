@@ -47,7 +47,12 @@ export default function ShakeForSupport() {
   }
 
   return (
-    <Modal isVisible={isVisible} backdropOpacity={0.5} style={styles.modal}>
+    <Modal
+      isVisible={isVisible}
+      backdropOpacity={0.5}
+      style={styles.modal}
+      useNativeDriverForBackdrop={true}
+    >
       <SafeAreaView style={styles.shakeForSupport}>
         <Touchable
           style={styles.closeButton}

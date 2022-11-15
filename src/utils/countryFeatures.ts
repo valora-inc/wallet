@@ -24,3 +24,8 @@ export const getCountryFeaturesSelector = createSelector(
 export function useCountryFeatures() {
   return useSelector(getCountryFeaturesSelector)
 }
+
+export const userInSanctionedCountrySelector = createSelector(
+  userLocationDataSelector,
+  ({ countryCodeAlpha2 }) => getCountryFeatures(countryCodeAlpha2 ?? '').SANCTIONED_COUNTRY ?? false
+)

@@ -1,5 +1,3 @@
-// @ts-ignore
-import { toBeDisabled } from '@testing-library/jest-native'
 import { render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
@@ -8,8 +6,6 @@ import { TokenTransactionType } from 'src/apollo/types'
 import GoldTransactionFeedItem from 'src/transactions/GoldTransactionFeedItem'
 import { TransactionStatus } from 'src/transactions/types'
 import { createMockStore, getElementText, getMockI18nProps } from 'test/utils'
-
-expect.extend({ toBeDisabled })
 
 const localAmount = {
   value: '1.23',

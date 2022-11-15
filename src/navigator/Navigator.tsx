@@ -1,19 +1,15 @@
+import { BottomSheetBackdrop, BottomSheetBackdropProps } from '@gorhom/bottom-sheet'
 import { RouteProp } from '@react-navigation/core'
-import { createStackNavigator, StackScreenProps, TransitionPresets } from '@react-navigation/stack'
+import { createStackNavigator, TransitionPresets } from '@react-navigation/stack'
+import { createBottomSheetNavigator } from '@th3rdwave/react-navigation-bottom-sheet'
 import * as React from 'react'
 import { PixelRatio, Platform } from 'react-native'
 import SplashScreen from 'react-native-splash-screen'
 import AccountKeyEducation from 'src/account/AccountKeyEducation'
 import AccounSetupFailureScreen from 'src/account/AccountSetupFailureScreen'
-import ConnectPhoneNumberScreen from 'src/account/ConnectPhoneNumberScreen'
 import GoldEducation from 'src/account/GoldEducation'
 import Licenses from 'src/account/Licenses'
-import LinkBankAccountScreen from 'src/account/LinkBankAccountScreen'
-import LinkBankAccountErrorScreen from 'src/account/LinkBankAccountErrorScreen'
-import SyncBankAccountScreen from 'src/account/SyncBankAccountScreen'
-import BankAccounts from 'src/account/BankAccounts'
 import Profile from 'src/account/Profile'
-import RaiseLimitScreen from 'src/account/RaiseLimitScreen'
 import { PincodeType } from 'src/account/reducer'
 import StoreWipeRecoveryScreen from 'src/account/StoreWipeRecoveryScreen'
 import SupportContact from 'src/account/SupportContact'
@@ -21,10 +17,11 @@ import { CeloExchangeEvents } from 'src/analytics/Events'
 import AppLoading from 'src/app/AppLoading'
 import Debug from 'src/app/Debug'
 import ErrorScreen from 'src/app/ErrorScreen'
+import SanctionedCountryErrorScreen from 'src/app/SanctionedCountryErrorScreen'
 import UpgradeScreen from 'src/app/UpgradeScreen'
-import WebViewScreen from 'src/app/WebViewScreen'
 import BackupComplete from 'src/backup/BackupComplete'
 import BackupForceScreen from 'src/backup/BackupForceScreen'
+import BackupIntroduction from 'src/backup/BackupIntroduction'
 import BackupPhrase, { navOptionsForBackupPhrase } from 'src/backup/BackupPhrase'
 import BackupQuiz, { navOptionsForQuiz } from 'src/backup/BackupQuiz'
 import BackButton from 'src/components/BackButton'
@@ -32,7 +29,6 @@ import CancelButton from 'src/components/CancelButton'
 import ConsumerIncentivesHomeScreen from 'src/consumerIncentives/ConsumerIncentivesHomeScreen'
 import DappKitAccountScreen from 'src/dappkit/DappKitAccountScreen'
 import DappKitSignTxScreen from 'src/dappkit/DappKitSignTxScreen'
-import DappKitTxDataScreen from 'src/dappkit/DappKitTxDataScreen'
 import EscrowedPaymentListScreen from 'src/escrow/EscrowedPaymentListScreen'
 import ReclaimPaymentConfirmationScreen from 'src/escrow/ReclaimPaymentConfirmationScreen'
 import ExchangeReview from 'src/exchange/ExchangeReview'
@@ -40,8 +36,17 @@ import ExchangeTradeScreen from 'src/exchange/ExchangeTradeScreen'
 import WithdrawCeloQrScannerScreen from 'src/exchange/WithdrawCeloQrScannerScreen'
 import WithdrawCeloReviewScreen from 'src/exchange/WithdrawCeloReviewScreen'
 import WithdrawCeloScreen from 'src/exchange/WithdrawCeloScreen'
+import FiatDetailsScreen from 'src/fiatconnect/FiatDetailsScreen'
+import KycDenied from 'src/fiatconnect/kyc/KycDenied'
+import KycExpired from 'src/fiatconnect/kyc/KycExpired'
+import KycPending from 'src/fiatconnect/kyc/KycPending'
+import KycLanding from 'src/fiatconnect/KycLanding'
+import FiatConnectLinkAccountScreen from 'src/fiatconnect/LinkAccountScreen'
+import FiatConnectReviewScreen from 'src/fiatconnect/ReviewScreen'
+import FiatConnectTransferStatusScreen from 'src/fiatconnect/TransferStatusScreen'
 import BidaliScreen from 'src/fiatExchanges/BidaliScreen'
 import CashInSuccess from 'src/fiatExchanges/CashInSuccess'
+import CoinbasePayScreen from 'src/fiatExchanges/CoinbasePayScreen'
 import ExternalExchanges, {
   externalExchangesScreenOptions,
 } from 'src/fiatExchanges/ExternalExchanges'
@@ -65,7 +70,6 @@ import {
   HeaderTitleWithBalance,
   headerWithBackButton,
   headerWithBackEditButtons,
-  headerWithCloseButton,
   noHeader,
   noHeaderGestureDisabled,
 } from 'src/navigator/Headers'
@@ -106,28 +110,30 @@ import ValidateRecipientIntro, {
   validateRecipientIntroScreenNavOptions,
 } from 'src/send/ValidateRecipientIntro'
 import SetClock from 'src/set-clock/SetClock'
+import SwapExecuteScreen from 'src/swap/SwapExecuteScreen'
+import SwapReviewScreen from 'src/swap/SwapReviewScreen'
 import TokenBalancesScreen from 'src/tokens/TokenBalances'
 import TransactionDetailsScreen from 'src/transactions/feed/TransactionDetailsScreen'
 import TransactionReview from 'src/transactions/TransactionReview'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { ExtractProps } from 'src/utils/typescript'
+import VerificationCodeInputScreen from 'src/verify/VerificationCodeInputScreen'
 import VerificationEducationScreen from 'src/verify/VerificationEducationScreen'
 import VerificationInputScreen from 'src/verify/VerificationInputScreen'
 import VerificationLoadingScreen from 'src/verify/VerificationLoadingScreen'
-import WalletConnectActionRequestScreen from 'src/walletConnect/screens/ActionRequest'
-import WalletConnectLoading from 'src/walletConnect/screens/Loading'
-import WalletConnectResult from 'src/walletConnect/screens/Result'
-import WalletConnectSessionRequestScreen from 'src/walletConnect/screens/SessionRequest'
 import WalletConnectSessionsScreen from 'src/walletConnect/screens/Sessions'
+import WalletConnectRequest from 'src/walletConnect/screens/WalletConnectRequest'
+import WebViewScreen from 'src/webview/WebViewScreen'
+import FiatConnectRefetchQuoteScreen from 'src/fiatconnect/RefetchQuoteScreen'
+
 const TAG = 'Navigator'
 
 const Stack = createStackNavigator<StackParamList>()
-const RootStack = createStackNavigator<StackParamList>()
+const ModalStack = createStackNavigator<StackParamList>()
+const RootStack = createBottomSheetNavigator<StackParamList>()
 
-type NavigationOptions = StackScreenProps<StackParamList, keyof StackParamList>
-
-export const modalScreenOptions = ({ route, navigation }: NavigationOptions) =>
+export const modalScreenOptions = () =>
   Platform.select({
     // iOS 13 modal presentation
     ios: {
@@ -147,41 +153,6 @@ const commonScreens = (Navigator: typeof Stack) => {
         component={UpgradeScreen}
         options={UpgradeScreen.navigationOptions}
       />
-      <Navigator.Screen
-        name={Screens.DappKitAccountAuth}
-        component={DappKitAccountScreen}
-        options={DappKitAccountScreen.navigationOptions}
-      />
-      <Navigator.Screen
-        name={Screens.DappKitSignTxScreen}
-        component={DappKitSignTxScreen}
-        options={DappKitSignTxScreen.navigationOptions}
-      />
-      <Navigator.Screen
-        name={Screens.DappKitTxDataScreen}
-        component={DappKitTxDataScreen}
-        options={DappKitTxDataScreen.navigationOptions}
-      />
-      <Navigator.Screen
-        name={Screens.WalletConnectLoading}
-        component={WalletConnectLoading}
-        options={WalletConnectLoading.navigationOptions}
-      />
-      <Navigator.Screen
-        name={Screens.WalletConnectResult}
-        component={WalletConnectResult}
-        options={WalletConnectResult.navigationOptions}
-      />
-      <Navigator.Screen
-        name={Screens.WalletConnectSessionRequest}
-        component={WalletConnectSessionRequestScreen}
-        options={WalletConnectSessionRequestScreen.navigationOptions}
-      />
-      <Navigator.Screen
-        name={Screens.WalletConnectActionRequest}
-        component={WalletConnectActionRequestScreen}
-        options={WalletConnectActionRequestScreen.navigationOptions}
-      />
       <Navigator.Screen name={Screens.Debug} component={Debug} options={Debug.navigationOptions} />
       <Navigator.Screen
         name={Screens.PhoneNumberLookupQuota}
@@ -197,6 +168,11 @@ const commonScreens = (Navigator: typeof Stack) => {
         name={Screens.TokenBalances}
         component={TokenBalancesScreen}
         options={TokenBalancesScreen.navigationOptions}
+      />
+      <Navigator.Screen
+        name={Screens.SanctionedCountryErrorScreen}
+        component={SanctionedCountryErrorScreen}
+        options={SanctionedCountryErrorScreen.navigationOptions}
       />
     </>
   )
@@ -219,6 +195,10 @@ const verificationScreens = (Navigator: typeof Stack) => {
         name={Screens.VerificationInputScreen}
         component={VerificationInputScreen}
         options={VerificationInputScreen.navigationOptions}
+      />
+      <Navigator.Screen
+        name={Screens.VerificationCodeInputScreen}
+        component={VerificationCodeInputScreen}
       />
     </>
   )
@@ -440,6 +420,11 @@ const backupScreens = (Navigator: typeof Stack) => (
       component={AccounSetupFailureScreen}
       options={AccounSetupFailureScreen.navOptions}
     />
+    <Navigator.Screen
+      name={Screens.BackupIntroduction}
+      component={BackupIntroduction}
+      options={headerWithBackButton}
+    />
   </>
 )
 
@@ -461,31 +446,6 @@ const settingsScreens = (Navigator: typeof Stack) => (
       options={headerWithBackButton}
     />
     <Navigator.Screen
-      name={Screens.LinkBankAccountScreen}
-      component={LinkBankAccountScreen}
-      options={headerWithBackButton}
-    />
-    <Navigator.Screen
-      name={Screens.LinkBankAccountErrorScreen}
-      component={LinkBankAccountErrorScreen}
-      options={headerWithCloseButton}
-    />
-    <Navigator.Screen
-      name={Screens.SyncBankAccountScreen}
-      component={SyncBankAccountScreen}
-      options={SyncBankAccountScreen.navigationOptions}
-    />
-    <Navigator.Screen
-      name={Screens.BankAccounts}
-      component={BankAccounts}
-      options={BankAccounts.navigationOptions}
-    />
-    <Navigator.Screen
-      name={Screens.ConnectPhoneNumberScreen}
-      component={ConnectPhoneNumberScreen}
-      options={headerWithCloseButton}
-    />
-    <Navigator.Screen
       name={Screens.WalletConnectSessions}
       component={WalletConnectSessionsScreen}
       options={WalletConnectSessionsScreen.navigationOptions}
@@ -499,11 +459,6 @@ const settingsScreens = (Navigator: typeof Stack) => (
       options={headerWithBackButton}
       name={Screens.SupportContact}
       component={SupportContact}
-    />
-    <Navigator.Screen
-      options={RaiseLimitScreen.navOptions}
-      name={Screens.RaiseLimitScreen}
-      component={RaiseLimitScreen}
     />
     <Navigator.Screen
       options={externalExchangesScreenOptions}
@@ -522,6 +477,11 @@ const settingsScreens = (Navigator: typeof Stack) => (
       component={FiatExchangeCurrency}
     />
     <Navigator.Screen
+      options={headerWithBackButton}
+      name={Screens.FiatDetailsScreen}
+      component={FiatDetailsScreen}
+    />
+    <Navigator.Screen
       options={CashInSuccess.navigationOptions}
       name={Screens.CashInSuccess}
       component={CashInSuccess}
@@ -537,9 +497,54 @@ const settingsScreens = (Navigator: typeof Stack) => (
       component={SelectProviderScreen}
     />
     <Navigator.Screen
+      options={FiatConnectReviewScreen.navigationOptions}
+      name={Screens.FiatConnectReview}
+      component={FiatConnectReviewScreen}
+    />
+    <Navigator.Screen
+      options={noHeader}
+      name={Screens.FiatConnectRefetchQuote}
+      component={FiatConnectRefetchQuoteScreen}
+    />
+    <Navigator.Screen
+      options={noHeader}
+      name={Screens.FiatConnectTransferStatus}
+      component={FiatConnectTransferStatusScreen}
+    />
+    <Navigator.Screen
       options={BidaliScreen.navigationOptions}
       name={Screens.BidaliScreen}
       component={BidaliScreen}
+    />
+    <Navigator.Screen
+      name={Screens.CoinbasePayScreen}
+      component={CoinbasePayScreen}
+      options={emptyHeader}
+    />
+    <Navigator.Screen
+      options={FiatConnectLinkAccountScreen.navigationOptions}
+      name={Screens.FiatConnectLinkAccount}
+      component={FiatConnectLinkAccountScreen}
+    />
+    <Navigator.Screen
+      options={KycLanding.navigationOptions}
+      name={Screens.KycLanding}
+      component={KycLanding}
+    />
+    <Navigator.Screen
+      options={headerWithBackButton}
+      name={Screens.KycDenied}
+      component={KycDenied}
+    />
+    <Navigator.Screen
+      options={headerWithBackButton}
+      name={Screens.KycExpired}
+      component={KycExpired}
+    />
+    <Navigator.Screen
+      options={headerWithBackButton}
+      name={Screens.KycPending}
+      component={KycPending}
     />
   </>
 )
@@ -564,11 +569,25 @@ const generalScreens = (Navigator: typeof Stack) => (
   </>
 )
 
+const swapScreens = (Navigator: typeof Stack) => (
+  <>
+    <Navigator.Screen
+      name={Screens.SwapReviewScreen}
+      component={SwapReviewScreen}
+      options={SwapReviewScreen.navOptions}
+    />
+    <Navigator.Screen
+      name={Screens.SwapExecuteScreen}
+      component={SwapExecuteScreen}
+      options={SwapExecuteScreen.navOptions}
+    />
+  </>
+)
+
 const mapStateToProps = (state: RootState) => {
   return {
     choseToRestoreAccount: state.account.choseToRestoreAccount,
     language: currentLanguageSelector(state),
-    name: state.account.name,
     acceptedTerms: state.account.acceptedTerms,
     pincodeType: state.account.pincodeType,
     account: state.web3.account,
@@ -586,7 +605,6 @@ export function MainStackScreen() {
     const {
       choseToRestoreAccount,
       language,
-      name,
       acceptedTerms,
       pincodeType,
       account,
@@ -597,7 +615,8 @@ export function MainStackScreen() {
 
     if (!language) {
       initialRoute = Screens.Language
-    } else if (!name || !acceptedTerms || pincodeType === PincodeType.Unset) {
+    } else if (!acceptedTerms || pincodeType === PincodeType.Unset) {
+      // allow empty username
       // User didn't go far enough in onboarding, start again from education
       initialRoute = Screens.OnboardingEducationScreen
     } else if (!account) {
@@ -633,6 +652,7 @@ export function MainStackScreen() {
       {consumerIncentivesScreens(Stack)}
       {settingsScreens(Stack)}
       {generalScreens(Stack)}
+      {swapScreens(Stack)}
     </Stack.Navigator>
   )
 }
@@ -687,20 +707,64 @@ const modalAnimatedScreens = (Navigator: typeof Stack) => (
   </>
 )
 
-const mainScreenNavOptions = (navOptions: NavigationOptions) => ({
-  ...modalScreenOptions(navOptions),
+const mainScreenNavOptions = () => ({
+  ...modalScreenOptions(),
   headerShown: false,
 })
 
-function RootStackScreen() {
+function nativeBottomSheets(BottomSheet: typeof RootStack) {
   return (
-    <RootStack.Navigator mode="modal">
-      <RootStack.Screen
+    <>
+      <BottomSheet.Screen
+        name={Screens.WalletConnectRequest}
+        component={WalletConnectRequest}
+        options={{ snapPoints: ['60%'] }}
+      />
+      <BottomSheet.Screen
+        name={Screens.DappKitAccountScreen}
+        component={DappKitAccountScreen}
+        options={{ snapPoints: ['60%'] }}
+      />
+      <BottomSheet.Screen
+        name={Screens.DappKitSignTxScreen}
+        component={DappKitSignTxScreen}
+        options={{ snapPoints: ['60%'] }}
+      />
+    </>
+  )
+}
+
+function ModalStackScreen() {
+  return (
+    <ModalStack.Navigator mode="modal">
+      <ModalStack.Screen
         name={Screens.Main}
         component={MainStackScreen}
         options={mainScreenNavOptions}
       />
-      {modalAnimatedScreens(RootStack)}
+      {modalAnimatedScreens(ModalStack)}
+    </ModalStack.Navigator>
+  )
+}
+
+function RootStackScreen() {
+  const renderBackdrop = React.useCallback(
+    (props: BottomSheetBackdropProps) => (
+      <BottomSheetBackdrop opacity={0.25} appearsOnIndex={0} disappearsOnIndex={-1} {...props} />
+    ),
+    []
+  )
+
+  // Note: scrolling views inside bottom sheet screens should use the relevant
+  // components from react-native-gesture-handler instead of directly from
+  // react-native
+  // https://github.com/osdnk/react-native-reanimated-bottom-sheet/issues/264#issuecomment-674757545
+  return (
+    <RootStack.Navigator
+      screenOptions={{ snapPoints: ['100%'], backdropComponent: renderBackdrop }}
+    >
+      <RootStack.Screen name={Screens.MainModal} component={ModalStackScreen} />
+      {nativeBottomSheets(RootStack)}
     </RootStack.Navigator>
   )
 }

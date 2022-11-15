@@ -16,16 +16,20 @@ import {
   eqAddress,
   hexToBuffer,
   normalizeAddressWith0x,
+  privateKeyToAddress,
 } from '@celo/utils/lib/address'
 import { compressedPubKey, deriveDek } from '@celo/utils/lib/dataEncryptionKey'
+import { UnlockableWallet } from '@celo/wallet-base'
 import { FetchError, TxError } from '@komenci/kit/lib/errors'
 import { KomenciKit } from '@komenci/kit/lib/kit'
+import { Platform } from 'react-native'
 import * as bip39 from 'react-native-bip39'
+import DeviceInfo from 'react-native-device-info'
 import { call, put, select } from 'redux-saga/effects'
-import { checkIfProfileUploaded } from 'src/account/profileInfo'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { centralPhoneVerificationEnabledSelector } from 'src/app/selectors'
 import { features } from 'src/flags'
 import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
 import {
@@ -35,6 +39,7 @@ import {
 } from 'src/identity/actions'
 import { WalletToAccountAddressType } from 'src/identity/reducer'
 import { walletToAccountAddressSelector } from 'src/identity/selectors'
+import { DEK, retrieveOrGeneratePepper, retrieveSignedMessage } from 'src/pincode/authentication'
 import { cUsdBalanceSelector } from 'src/stableToken/selectors'
 import { getCurrencyAddress } from 'src/tokens/saga'
 import { sendTransaction } from 'src/transactions/send'
@@ -43,13 +48,16 @@ import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { registerDataEncryptionKey, setDataEncryptionKey } from 'src/web3/actions'
 import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
+import networkConfig from 'src/web3/networkConfig'
 import { getAccount, getAccountAddress, getConnectedUnlockedAccount } from 'src/web3/saga'
 import {
   dataEncryptionKeySelector,
   isDekRegisteredSelector,
   mtwAddressSelector,
+  walletAddressSelector,
 } from 'src/web3/selectors'
 import { estimateGas } from 'src/web3/utils'
+
 const TAG = 'web3/dataEncryptionKey'
 const PLACEHOLDER_DEK = '0x02c9cacca8c5c5ebb24dc6080a933f6d52a072136a069083438293d71da36049dc'
 
@@ -57,7 +65,7 @@ export function* fetchDataEncryptionKeyWrapper({ address }: FetchDataEncryptionK
   yield call(doFetchDataEncryptionKey, address)
 }
 
-export function* doFetchDataEncryptionKey(walletAddress: string) {
+export function* fetchDEKDecentrally(walletAddress: string) {
   // TODO consider caching here
   // We could use the values in the DekMap instead of looking up each time
   // But Deks can change, how should we invalidate the cache?
@@ -75,6 +83,53 @@ export function* doFetchDataEncryptionKey(walletAddress: string) {
   const dek: string = yield call(accountsWrapper.getDataEncryptionKey, accountAddress)
   yield put(updateAddressDekMap(accountAddress, dek || null))
   return !dek ? null : hexToBuffer(dek)
+}
+
+export function* doFetchDataEncryptionKey(walletAddress: string) {
+  const address = yield select(walletAddressSelector)
+  const privateDataEncryptionKey = yield select(dataEncryptionKeySelector)
+  if (walletAddress.toLowerCase() === address.toLowerCase() && privateDataEncryptionKey) {
+    // we can generate the user's own public DEK without making any requests
+    return compressedPubKey(hexToBuffer(privateDataEncryptionKey))
+  }
+
+  const centralPhoneVerificationEnabled = yield select(centralPhoneVerificationEnabledSelector)
+  if (!centralPhoneVerificationEnabled) {
+    return yield call(fetchDEKDecentrally, walletAddress)
+  }
+
+  try {
+    const signedMessage = yield call(retrieveSignedMessage)
+    const queryParams = new URLSearchParams({
+      address,
+      clientPlatform: Platform.OS,
+      clientVersion: DeviceInfo.getVersion(),
+    }).toString()
+
+    const response = yield call(fetch, `${networkConfig.getPublicDEKUrl}?${queryParams}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `Valora ${address}:${signedMessage}`,
+      },
+    })
+
+    if (response.ok) {
+      const { data }: { data: { publicDataEncryptionKey: string } } = yield call([response, 'json'])
+      return data.publicDataEncryptionKey
+    } else {
+      throw new Error(yield call([response, 'text']))
+    }
+  } catch (error) {
+    Logger.debug(
+      `${TAG}/doFetchDataEncryptionKey`,
+      `Failed to get DEK for address ${walletAddress}`,
+      error
+    )
+  }
+
+  // fall back to decentralised fetch if the above fails to maintain backwards compatibility
+  return yield call(fetchDEKDecentrally, walletAddress)
 }
 
 export function* createAccountDek(mnemonic: string) {
@@ -140,7 +195,6 @@ export function* registerAccountDek() {
         `${TAG}@registerAccountDek`,
         'Skipping DEK registration because its already registered'
       )
-      yield call(checkIfProfileUploaded)
       return
     }
 
@@ -215,7 +269,6 @@ export function* registerAccountDek() {
     ValoraAnalytics.track(OnboardingEvents.account_dek_register_complete, {
       newRegistration: true,
     })
-    yield call(checkIfProfileUploaded)
   } catch (error) {
     // DEK registration failures are not considered fatal. Swallow the error and allow calling saga to proceed.
     // Registration will be re-attempted on next payment send
@@ -302,8 +355,6 @@ export function* registerWalletAndDekViaKomenci(
     newRegistration: true,
     feeless: true,
   })
-
-  yield call(checkIfProfileUploaded)
 }
 
 // Check if account address and DEK match what's in
@@ -388,4 +439,24 @@ export function* getAuthSignerForAccount(accountAddress: string, walletAddress: 
     contractKit,
   }
   return walletKeySigner
+}
+
+export function* importDekIfNecessary(wallet: UnlockableWallet | undefined) {
+  const privateDataKey: string | null = yield select(dataEncryptionKeySelector)
+  if (!privateDataKey) {
+    throw new Error('No data key in store. Should never happen.')
+  }
+  const dataKeyAddress = normalizeAddressWith0x(
+    privateKeyToAddress(ensureLeading0x(privateDataKey))
+  )
+  // directly using pepper because we don't want to set a PIN for the DEK
+  const pepper: string = yield call(retrieveOrGeneratePepper, DEK)
+  if (wallet && !wallet.hasAccount(dataKeyAddress)) {
+    try {
+      yield call([wallet, wallet.addAccount], privateDataKey, pepper)
+    } catch (error) {
+      Logger.warn('Unable to add DEK to wallet', error)
+    }
+  }
+  return { dataKeyAddress, pepper }
 }

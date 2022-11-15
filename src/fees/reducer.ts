@@ -7,6 +7,7 @@ export enum FeeType {
   EXCHANGE = 'exchange',
   RECLAIM_ESCROW = 'reclaim-escrow',
   REGISTER_DEK = 'register-dek',
+  SWAP = 'swap',
 }
 
 export interface FeeEstimateState {

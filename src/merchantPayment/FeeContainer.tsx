@@ -10,7 +10,7 @@ import { useCurrencyToLocalAmount } from 'src/localCurrency/hooks'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { BASE_TAG } from 'src/merchantPayment/constants'
 import { useTokenInfoBySymbol } from 'src/tokens/hooks'
-import { fetchTokenBalances } from 'src/tokens/reducer'
+import { fetchTokenBalances } from 'src/tokens/slice'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { isDekRegisteredSelector } from 'src/web3/selectors'
@@ -31,7 +31,7 @@ export default function FeeContainer({ amount }: { amount: BigNumber }) {
   const tokenAddress = tokenInfo?.address
 
   useEffect(() => {
-    dispatch(fetchTokenBalances())
+    dispatch(fetchTokenBalances({ showLoading: true }))
   }, [dispatch])
 
   useEffect(() => {

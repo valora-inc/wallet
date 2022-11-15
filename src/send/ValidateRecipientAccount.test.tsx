@@ -1,5 +1,3 @@
-// @ts-ignore
-import { toBeDisabled } from '@testing-library/jest-native'
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
@@ -10,8 +8,6 @@ import { Screens } from 'src/navigator/Screens'
 import ValidateRecipientAccount from 'src/send/ValidateRecipientAccount'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockCusdAddress, mockE164NumberInvite, mockTransactionData } from 'test/values'
-
-expect.extend({ toBeDisabled })
 
 describe('ValidateRecipientAccount', () => {
   it('renders correctly when full validation required', () => {
@@ -64,6 +60,28 @@ describe('ValidateRecipientAccount', () => {
     fireEvent.changeText(tree.getByTestId('SingleDigitInput/digit1'), mockCusdAddress[39])
     fireEvent.changeText(tree.getByTestId('SingleDigitInput/digit2'), mockCusdAddress[40])
     fireEvent.changeText(tree.getByTestId('SingleDigitInput/digit3'), mockCusdAddress[41])
+    expect(tree.getByTestId('ConfirmAccountButton')).not.toBeDisabled()
+  })
+
+  it('enables submit button for full validation', () => {
+    const store = createMockStore()
+    const tree = render(
+      <Provider store={store}>
+        <ValidateRecipientAccount
+          {...getMockStackScreenProps(Screens.ValidateRecipientAccount, {
+            transactionData: mockTransactionData,
+            addressValidationType: AddressValidationType.FULL,
+            origin: SendOrigin.AppSendFlow,
+          })}
+        />
+      </Provider>
+    )
+
+    expect(tree.getByTestId('ConfirmAccountButton')).toBeDisabled()
+    fireEvent.changeText(
+      tree.getByTestId('ValidateRecipientAccount/TextInput'),
+      mockCusdAddress[38]
+    )
     expect(tree.getByTestId('ConfirmAccountButton')).not.toBeDisabled()
   })
 

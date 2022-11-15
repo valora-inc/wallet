@@ -6,16 +6,16 @@ import { showError } from 'src/alert/actions'
 import { InviteEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { numberVerifiedSelector } from 'src/app/selectors'
+import { phoneNumberVerifiedSelector } from 'src/app/selectors'
 import { DYNAMIC_DOWNLOAD_LINK } from 'src/config'
 import { transferEscrowedPayment } from 'src/escrow/actions'
 import { getEscrowTxGas } from 'src/escrow/saga'
 import { calculateFee, currencyToFeeCurrency, FeeInfo } from 'src/fees/saga'
 import i18n from 'src/i18n'
 import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
-import { inviteRewardCusdSelector, inviteRewardsActiveSelector } from 'src/send/selectors'
-import { TokenBalance } from 'src/tokens/reducer'
+import { inviteRewardsActiveSelector } from 'src/send/selectors'
 import { tokensListSelector } from 'src/tokens/selectors'
+import { TokenBalance } from 'src/tokens/slice'
 import { waitForTransactionWithId } from 'src/transactions/saga'
 import { newTransactionContext } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
@@ -65,14 +65,11 @@ export function* sendInvite(
     }
 
     const inviteRewardsEnabled = yield select(inviteRewardsActiveSelector)
-    const numberVerified = yield select(numberVerifiedSelector)
-    const rewardAmount = yield select(inviteRewardCusdSelector)
+    const numberVerified = yield select(phoneNumberVerifiedSelector)
     const inviteRewardsActive = inviteRewardsEnabled && numberVerified
 
     const message = inviteRewardsActive
       ? i18n.t('inviteWithRewards', {
-          amount: rewardAmount,
-          token: Currency.Dollar,
           link: DYNAMIC_DOWNLOAD_LINK,
         })
       : i18n.t('inviteWithEscrowedPayment', {

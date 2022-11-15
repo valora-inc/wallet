@@ -118,6 +118,7 @@ exports[`FullscreenCTA renders correctly 1`] = `
             Object {
               "alignItems": "center",
               "backgroundColor": "#1AB775",
+              "flexDirection": "row",
               "height": 48,
               "justifyContent": "center",
               "minWidth": 120,
@@ -136,6 +137,8 @@ exports[`FullscreenCTA renders correctly 1`] = `
                 "fontFamily": "Inter-SemiBold",
                 "fontSize": 16,
                 "lineHeight": 22,
+                "marginLeft": 0,
+                "marginRight": 0,
               }
             }
           >

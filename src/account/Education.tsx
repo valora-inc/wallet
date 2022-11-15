@@ -1,7 +1,8 @@
-import * as React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import {
   Image,
   ImageSourcePropType,
+  NativeScrollEvent,
   ScrollView,
   StyleProp,
   StyleSheet,
@@ -10,11 +11,11 @@ import {
   ViewStyle,
 } from 'react-native'
 import { NativeSafeAreaViewProps, SafeAreaView } from 'react-native-safe-area-context'
-import Swiper from 'react-native-swiper'
 import { OnboardingEvents } from 'src/analytics/Events'
 import { ScrollDirection } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnTypes } from 'src/components/Button'
+import Pagination from 'src/components/Pagination'
 import BackChevron from 'src/icons/BackChevron'
 import Times from 'src/icons/Times'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
@@ -23,6 +24,7 @@ import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import progressDots from 'src/styles/progressDots'
+import variables from 'src/styles/variables'
 
 export enum EmbeddedNavBar {
   Close = 'Close',
@@ -42,42 +44,94 @@ interface EducationStep {
   // If set to true, title is displayed at the top
   isTopTitle?: boolean
   text?: string
+  valueProposition?: string
+  variant?: 'old' | 'new'
 }
 
 export type Props = NativeSafeAreaViewProps & {
   embeddedNavBar: EmbeddedNavBar | null
   stepInfo: EducationStep[]
-  buttonType: BtnTypes
+  buttonType?: BtnTypes
   buttonText: string
-  finalButtonType: BtnTypes
+  finalButtonType?: BtnTypes
   finalButtonText: string
-  dotStyle: StyleProp<ViewStyle>
-  activeDotStyle: StyleProp<ViewStyle>
+  dotStyle?: StyleProp<ViewStyle>
+  activeDotStyle?: StyleProp<ViewStyle>
   onFinish: () => void
 }
 
-interface State {
-  step: number
-}
+const Education = (props: Props) => {
+  const {
+    style,
+    embeddedNavBar,
+    stepInfo,
+    buttonType = BtnTypes.SECONDARY,
+    buttonText,
+    finalButtonType = BtnTypes.PRIMARY,
+    finalButtonText,
+    dotStyle = progressDots.circlePassive,
+    activeDotStyle = progressDots.circleActive,
+    onFinish,
+    ...passThroughProps
+  } = props
 
-export default class Education extends React.Component<Props, State> {
-  static defaultProps = {
-    buttonType: BtnTypes.SECONDARY,
-    finalButtonType: BtnTypes.PRIMARY,
-    dotStyle: progressDots.circlePassive,
-    activeDotStyle: progressDots.circleActive,
+  const [currentIndex, setCurrentIndex] = useState(0)
+  // This variable tracks the last scrolled to carousel screen, so that impression
+  // events are not dispatched twice for the same carousel screen
+  const lastViewedIndex = useRef(-1)
+  // Scroll View Ref for button clicks
+  const scrollViewRef = useRef<ScrollView>(null)
+
+  const handleScroll = (event: { nativeEvent: NativeScrollEvent }) => {
+    const { topic } = stepInfo[currentIndex]
+    const nextIndex = Math.round(event.nativeEvent.contentOffset.x / variables.width)
+    if (nextIndex === currentIndex) {
+      return
+    }
+
+    const direction = nextIndex > currentIndex ? ScrollDirection.next : ScrollDirection.previous
+    if (topic === EducationTopic.backup) {
+      ValoraAnalytics.track(OnboardingEvents.backup_education_scroll, {
+        currentStep: currentIndex,
+        direction: direction,
+      })
+    } else if (topic === EducationTopic.celo) {
+      ValoraAnalytics.track(OnboardingEvents.celo_education_scroll, {
+        currentStep: currentIndex,
+        direction: direction,
+      })
+    } else if (topic === EducationTopic.onboarding) {
+      ValoraAnalytics.track(OnboardingEvents.onboarding_education_scroll, {
+        currentStep: currentIndex,
+        direction: direction,
+      })
+    }
+
+    setCurrentIndex(Math.round(event.nativeEvent.contentOffset.x / variables.width))
   }
 
-  state = {
-    step: 0,
+  useEffect(() => {
+    const { topic, valueProposition, variant } = stepInfo[currentIndex]
+    if (stepInfo.length > 0 && lastViewedIndex.current < currentIndex) {
+      lastViewedIndex.current = currentIndex
+    }
+    if (topic === EducationTopic.onboarding) {
+      ValoraAnalytics.track(OnboardingEvents.onboarding_education_step_impression, {
+        valueProposition,
+        variant,
+        step: currentIndex,
+      })
+    }
+  }, [currentIndex])
+
+  if (!stepInfo.length) {
+    // No Steps, no slider
+    return null
   }
 
-  swiper = React.createRef<Swiper>()
-
-  goBack = () => {
-    const { step } = this.state
-    const { topic } = this.props.stepInfo[this.state.step]
-    if (step === 0) {
+  const goBack = () => {
+    const { topic } = stepInfo[currentIndex]
+    if (currentIndex === 0) {
       if (topic === EducationTopic.backup) {
         ValoraAnalytics.track(OnboardingEvents.backup_education_cancel)
       } else if (topic === EducationTopic.celo) {
@@ -85,67 +139,26 @@ export default class Education extends React.Component<Props, State> {
       }
       navigateBack()
     } else {
-      if (topic === EducationTopic.backup) {
-        ValoraAnalytics.track(OnboardingEvents.backup_education_scroll, {
-          currentStep: step,
-          direction: ScrollDirection.previous,
-        })
-      } else if (topic === EducationTopic.celo) {
-        ValoraAnalytics.track(OnboardingEvents.celo_education_scroll, {
-          currentStep: step,
-          direction: ScrollDirection.previous,
-        })
-      } else if (topic === EducationTopic.onboarding) {
-        ValoraAnalytics.track(OnboardingEvents.onboarding_education_scroll, {
-          currentStep: step,
-          direction: ScrollDirection.previous,
-        })
-      }
-      this.swiper?.current?.scrollBy(-1, true)
+      scrollViewRef.current?.scrollTo({ x: variables.width * (currentIndex - 1), animated: true })
     }
   }
 
-  setStep = (step: number) => {
-    this.setState({ step })
+  const nextStep = () => {
+    // If we are on the last step, call the onFinish function otherwise scroll to the next step
+    currentIndex === stepInfo.length - 1
+      ? onFinish()
+      : scrollViewRef.current?.scrollTo({ x: variables.width * (currentIndex + 1), animated: true })
   }
 
-  nextStep = () => {
-    const { step } = this.state
-    const { topic } = this.props.stepInfo[this.state.step]
-    const isLastStep = step === this.props.stepInfo.length - 1
-
-    if (isLastStep) {
-      this.props.onFinish()
-    } else {
-      if (topic === EducationTopic.backup) {
-        ValoraAnalytics.track(OnboardingEvents.backup_education_scroll, {
-          currentStep: step,
-          direction: ScrollDirection.next,
-        })
-      } else if (topic === EducationTopic.celo) {
-        ValoraAnalytics.track(OnboardingEvents.celo_education_scroll, {
-          currentStep: step,
-          direction: ScrollDirection.next,
-        })
-      } else if (topic === EducationTopic.onboarding) {
-        ValoraAnalytics.track(OnboardingEvents.onboarding_education_scroll, {
-          currentStep: step,
-          direction: ScrollDirection.next,
-        })
-      }
-      this.swiper?.current?.scrollBy(1, true)
-    }
-  }
-
-  renderEmbeddedNavBar() {
-    switch (this.props.embeddedNavBar) {
+  const renderEmbeddedNavBar = () => {
+    switch (embeddedNavBar) {
       case EmbeddedNavBar.Close:
         return (
           <View style={styles.top} testID="Education/top">
             <TopBarIconButton
               testID="Education/CloseIcon"
-              onPress={this.goBack}
-              icon={this.state.step === 0 ? <Times /> : <BackChevron color={colors.dark} />}
+              onPress={goBack}
+              icon={currentIndex === 0 ? <Times /> : <BackChevron color={colors.dark} />}
             />
           </View>
         )
@@ -156,62 +169,52 @@ export default class Education extends React.Component<Props, State> {
     }
   }
 
-  render() {
-    const {
-      style,
-      embeddedNavBar,
-      stepInfo,
-      buttonType,
-      buttonText,
-      finalButtonType,
-      finalButtonText,
-      dotStyle,
-      activeDotStyle,
-      ...passThroughProps
-    } = this.props
-    const isLastStep = this.state.step === stepInfo.length - 1
-
-    return (
-      <SafeAreaView style={[styles.root, style]} {...passThroughProps}>
-        {this.renderEmbeddedNavBar()}
-        <View style={styles.container}>
-          <Swiper
-            ref={this.swiper}
-            onIndexChanged={this.setStep}
-            loop={false}
-            dotStyle={dotStyle}
-            activeDotStyle={activeDotStyle}
-            removeClippedSubviews={false}
-          >
-            {stepInfo.map((step: EducationStep, i: number) => {
-              return (
-                <ScrollView
-                  contentContainerStyle={styles.contentContainer}
-                  style={styles.swipedContent}
-                  key={i}
-                >
-                  {step.isTopTitle && <Text style={styles.headingTop}>{step.title}</Text>}
-                  <View style={styles.swipedContentInner}>
-                    {step.image && (
-                      <Image source={step.image} style={styles.bodyImage} resizeMode="contain" />
-                    )}
-                    {!step.isTopTitle && <Text style={styles.heading}>{step.title}</Text>}
-                    {!!step.text && <Text style={styles.bodyText}>{step.text}</Text>}
-                  </View>
-                </ScrollView>
-              )
-            })}
-          </Swiper>
-          <Button
-            testID="Education/progressButton"
-            onPress={this.nextStep}
-            text={isLastStep ? finalButtonText : buttonText}
-            type={isLastStep ? finalButtonType : buttonType}
-          />
-        </View>
-      </SafeAreaView>
-    )
-  }
+  return (
+    <SafeAreaView style={[styles.root, style]} {...passThroughProps}>
+      {renderEmbeddedNavBar()}
+      <View style={styles.container}>
+        <ScrollView
+          ref={scrollViewRef}
+          horizontal={true}
+          pagingEnabled={true}
+          showsHorizontalScrollIndicator={false}
+          onScroll={handleScroll}
+          testID="ScrollContainer"
+        >
+          {stepInfo.map((step: EducationStep, i: number) => (
+            <ScrollView
+              showsVerticalScrollIndicator={false}
+              contentContainerStyle={styles.contentContainer}
+              style={styles.swipedContent}
+              key={i}
+            >
+              {step.isTopTitle && <Text style={styles.headingTop}>{step.title}</Text>}
+              <View style={styles.swipedContentInner}>
+                {step.image && (
+                  <Image source={step.image} style={styles.bodyImage} resizeMode="contain" />
+                )}
+                {!step.isTopTitle && <Text style={styles.heading}>{step.title}</Text>}
+                {!!step.text && <Text style={styles.bodyText}>{step.text}</Text>}
+              </View>
+            </ScrollView>
+          ))}
+        </ScrollView>
+        <Pagination
+          style={styles.pagination}
+          count={stepInfo.length}
+          activeIndex={currentIndex}
+          dotStyle={dotStyle}
+          activeDotStyle={activeDotStyle}
+        />
+        <Button
+          testID="Education/progressButton"
+          onPress={nextStep}
+          text={currentIndex === stepInfo.length - 1 ? finalButtonText : buttonText}
+          type={currentIndex === stepInfo.length - 1 ? finalButtonType : buttonType}
+        />
+      </View>
+    </SafeAreaView>
+  )
 }
 
 const styles = StyleSheet.create({
@@ -222,6 +225,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexGrow: 1,
+    paddingHorizontal: 12,
   },
   container: {
     flex: 1,
@@ -238,6 +242,7 @@ const styles = StyleSheet.create({
   headingTop: {
     ...fontStyles.h1,
     marginTop: 26,
+    alignSelf: 'flex-start',
   },
   bodyText: {
     ...fontStyles.regular,
@@ -250,10 +255,8 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   swipedContent: {
-    flex: 1,
-    marginBottom: 24,
-    paddingHorizontal: 24,
-    overflow: 'scroll',
+    width: variables.width - 2 * variables.contentPadding,
+    margin: variables.contentPadding,
   },
   swipedContentInner: {
     flex: 1,
@@ -265,4 +268,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: '100%',
   },
+  pagination: {
+    paddingBottom: variables.contentPadding,
+  },
 })
+
+export default Education

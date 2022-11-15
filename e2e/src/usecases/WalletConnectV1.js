@@ -3,7 +3,13 @@ import { hashMessageWithPrefix, verifySignature } from '@celo/utils/lib/signatur
 import NodeWalletConnect from '@walletconnect/node'
 import { formatUri, utf8ToHex } from '../utils/encoding'
 import { launchApp, reloadReactNative } from '../utils/retries'
-import { enterPinUiIfNecessary, isElementVisible, scrollIntoView, sleep } from '../utils/utils'
+import {
+  enterPinUiIfNecessary,
+  isElementVisible,
+  scrollIntoView,
+  sleep,
+  waitForElementId,
+} from '../utils/utils'
 
 const fromAddress = (
   process.env.E2E_WALLET_ADDRESS || '0x6131a6d616a4be3737b38988847270a64bc10caa'
@@ -85,7 +91,7 @@ export default WalletConnect = () => {
     await sleep(3 * 1000)
 
     // Verify WC page
-    await waitFor(element(by.id('SessionRequestHeader')))
+    await waitFor(element(by.id('WalletConnectSessionRequestHeader')))
       .toBeVisible()
       .withTimeout(30 * 1000)
 
@@ -106,14 +112,13 @@ export default WalletConnect = () => {
     let result = walletConnector.sendTransaction(tx)
 
     // Verify transaction type text
-    await waitFor(element(by.text('Send a Celo TX')))
+    await waitFor(element(by.text('Send a Celo transaction')))
       .toBeVisible()
       .withTimeout(15 * 1000)
 
     // View and assert on Data - TODO Move to Component Tests
-    await element(by.text('Show details')).tap()
-    await expect(element(by.id('Dapp-Data'))).toHaveText(`[${JSON.stringify(tx)}]`)
-    await element(by.id('BackChevron')).tap()
+    await element(by.id('ShowTransactionDetailsButton')).tap()
+    await expect(element(by.id('DappData'))).toHaveText(`[${JSON.stringify(tx)}]`)
 
     // Accept and verify UI behavior
     await element(by.text('Allow')).tap()
@@ -143,7 +148,7 @@ export default WalletConnect = () => {
   it('Then is able to sign a transaction', async () => {
     // Save result and await for it later
     let result = walletConnector.signTransaction(tx)
-    await waitFor(element(by.text('Sign a Celo TX')))
+    await waitFor(element(by.text('Sign a Celo transaction')))
       .toBeVisible()
       .withTimeout(15 * 1000)
     await element(by.text('Allow')).tap()
@@ -309,7 +314,7 @@ export default WalletConnect = () => {
     }
 
     let result = walletConnector.sendCustomRequest(customRequest)
-    await waitFor(element(by.text('Sign a Celo TX')))
+    await waitFor(element(by.text('Sign a Celo transaction')))
       .toBeVisible()
       .withTimeout(15 * 1000)
     await element(by.text('Allow')).tap()
@@ -332,9 +337,7 @@ export default WalletConnect = () => {
     await sleep(3 * 1000)
 
     // Wait for hamburger to be visible
-    await waitFor(element(by.id('Hamburger')))
-      .toBeVisible()
-      .withTimeout(15 * 1000)
+    await waitForElementId('Hamburger')
 
     // Tap Hamburger
     await element(by.id('Hamburger')).tap()

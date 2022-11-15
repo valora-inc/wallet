@@ -29,9 +29,7 @@ export const defaultCountryCodeSelector = createSelector(
 )
 export const userContactDetailsSelector = (state: RootState) => state.account.contactDetails
 export const pincodeTypeSelector = (state: RootState) => state.account.pincodeType
-export const promptFornoIfNeededSelector = (state: RootState) => state.account.promptFornoIfNeeded
 export const isProfileUploadedSelector = (state: RootState) => state.account.profileUploaded
-export const cUsdDailyLimitSelector = (state: RootState) => state.account.dailyLimitCusd
 
 export const currentUserRecipientSelector = createSelector(
   [currentAccountSelector, nameSelector, pictureSelector, userContactDetailsSelector],
@@ -43,17 +41,10 @@ export const currentUserRecipientSelector = createSelector(
     }
   }
 )
-export const dailyLimitRequestStatusSelector = (state: RootState) =>
-  state.account.dailyLimitRequestStatus
 export const recoveringFromStoreWipeSelector = (state: RootState) =>
   state.account.recoveringFromStoreWipe ?? false
 export const accountToRecoverSelector = (state: RootState) =>
   state.account.accountToRecoverFromStoreWipe
-export const kycStatusSelector = (state: RootState) => state.account.kycStatus
-export const finclusiveKycStatusSelector = (state: RootState) => state.account.finclusiveKycStatus
-
-export const finclusiveRegionSupportedSelector = (state: RootState) =>
-  state.account.finclusiveRegionSupported
 
 export const backupCompletedSelector = (state: RootState) => state.account.backupCompleted
 
@@ -70,3 +61,8 @@ export const plaidParamsSelector = createSelector(
     }
   }
 )
+
+export const accountCreationTimeSelector = (state: RootState) => state.account.accountCreationTime
+
+export const shouldShowRecoveryPhraseInSettingsSelector = (state: RootState) =>
+  state.app.shouldShowRecoveryPhraseInSettings

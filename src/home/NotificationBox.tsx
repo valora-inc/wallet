@@ -13,13 +13,17 @@ import { HomeEvents, RewardsEvents } from 'src/analytics/Events'
 import { ScrollDirection } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { openUrl } from 'src/app/actions'
-import { rewardsEnabledSelector, verificationPossibleSelector } from 'src/app/selectors'
+import {
+  phoneNumberVerifiedSelector,
+  rewardsEnabledSelector,
+  verificationPossibleSelector,
+} from 'src/app/selectors'
 import Pagination from 'src/components/Pagination'
 import SimpleMessagingCard, {
   Props as SimpleMessagingCardProps,
 } from 'src/components/SimpleMessagingCard'
 import { RewardsScreenOrigin } from 'src/consumerIncentives/analyticsEventsTracker'
-import { useHasBalanceForSupercharge } from 'src/consumerIncentives/ConsumerIncentivesHomeScreen'
+import { superchargeInfoSelector } from 'src/consumerIncentives/selectors'
 import { fetchAvailableRewards } from 'src/consumerIncentives/slice'
 import EscrowedPaymentReminderSummaryNotification from 'src/escrow/EscrowedPaymentReminderSummaryNotification'
 import { getReclaimableEscrowPayments } from 'src/escrow/reducer'
@@ -91,13 +95,13 @@ function useSimpleActions() {
     dismissedStartSupercharging,
   } = useSelector((state) => state.account)
 
-  const numberVerified = useSelector((state) => state.app.numberVerified)
+  const numberVerified = useSelector(phoneNumberVerifiedSelector)
   const goldEducationCompleted = useSelector((state) => state.goldToken.educationCompleted)
 
   const extraNotifications = useSelector(getExtraNotifications)
   const verificationPossible = useSelector(verificationPossibleSelector)
 
-  const { hasBalanceForSupercharge } = useHasBalanceForSupercharge()
+  const { hasBalanceForSupercharge } = useSelector(superchargeInfoSelector)
   const isSupercharging = numberVerified && hasBalanceForSupercharge
 
   const rewardsEnabled = useSelector(rewardsEnabledSelector)

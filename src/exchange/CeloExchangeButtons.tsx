@@ -45,7 +45,7 @@ export default function CeloExchangeButtons({ navigation }: Props) {
   }
 
   if (!exchangeRates || (!hasStable && !hasCelo)) {
-    return <View style={styles.emptyContainer} />
+    return null
   }
 
   return (
@@ -75,12 +75,8 @@ export default function CeloExchangeButtons({ navigation }: Props) {
 }
 
 const styles = StyleSheet.create({
-  emptyContainer: {
-    marginTop: 24,
-  },
   buttonContainer: {
     flexDirection: 'row',
-    marginTop: 24,
     marginBottom: 28,
     marginHorizontal: 12,
   },

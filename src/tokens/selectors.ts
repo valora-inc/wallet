@@ -7,9 +7,13 @@ import {
 } from 'src/config'
 import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
 import { RootState } from 'src/redux/reducers'
-import { TokenBalance, TokenBalances } from 'src/tokens/reducer'
+import { TokenBalance, TokenBalances } from 'src/tokens/slice'
 import { Currency } from 'src/utils/currencies'
 import { sortByUsdBalance, sortFirstStableThenCeloThenOthersByUsdBalance } from './utils'
+
+type TokenBalanceWithUsdPrice = TokenBalance & {
+  usdPrice: BigNumber
+}
 
 export const tokenFetchLoadingSelector = (state: RootState) => state.tokens.loading
 export const tokenFetchErrorSelector = (state: RootState) => state.tokens.error
@@ -24,12 +28,14 @@ export const tokensByAddressSelector = createSelector(
         continue
       }
       const usdPrice = new BigNumber(storedState.usdPrice)
+
       const tokenUsdPriceIsStale =
         (storedState.priceFetchedAt ?? 0) < Date.now() - TIME_UNTIL_TOKEN_INFO_BECOMES_STALE
       tokenBalances[tokenAddress] = {
         ...storedState,
         balance: new BigNumber(storedState.balance),
         usdPrice: usdPrice.isNaN() || tokenUsdPriceIsStale ? null : usdPrice,
+        lastKnownUsdPrice: !usdPrice.isNaN() ? usdPrice : null,
       }
     }
     return tokenBalances
@@ -40,14 +46,52 @@ export const tokensListSelector = createSelector(tokensByAddressSelector, (token
   return Object.values(tokens).map((token) => token!)
 })
 
-type TokenBalanceWithUsdPrice = TokenBalance & {
-  usdPrice: BigNumber
-}
+export const tokensBySymbolSelector = createSelector(
+  tokensListSelector,
+  (
+    tokens
+  ): {
+    [symbol: string]: TokenBalance
+  } => {
+    return tokens.reduce(
+      (acc, token) => ({
+        ...acc,
+        [token.symbol]: token,
+      }),
+      {}
+    )
+  }
+)
 
 export const tokensWithUsdValueSelector = createSelector(tokensListSelector, (tokens) => {
   return tokens.filter((tokenInfo) =>
     tokenInfo.balance.multipliedBy(tokenInfo.usdPrice ?? 0).gt(STABLE_TRANSACTION_MIN_AMOUNT)
   ) as TokenBalanceWithUsdPrice[]
+})
+
+export const tokensWithLastKnownUsdValueSelector = createSelector(tokensListSelector, (tokens) => {
+  return tokens.filter((tokenInfo) =>
+    tokenInfo.balance
+      .multipliedBy(tokenInfo.lastKnownUsdPrice ?? 0)
+      .gt(STABLE_TRANSACTION_MIN_AMOUNT)
+  )
+})
+
+export const stalePriceSelector = createSelector(tokensListSelector, (tokens) => {
+  // If no tokens then prices cannot be stale
+  if (tokens.length === 0) return false
+  // Put tokens with usdPrice into an array
+  const tokensWithUsdValue = tokens.filter((tokenInfo) => tokenInfo.usdPrice !== null)
+  // If tokens with usd value exist, check the time price was fetched and if ANY are stale - return true
+  // Else tokens usd values are not present so we know prices are stale - return true
+  if (tokensWithUsdValue.length > 0) {
+    return tokensWithUsdValue.some(
+      (tokenInfo) =>
+        (tokenInfo.priceFetchedAt ?? 0) < Date.now() - TIME_UNTIL_TOKEN_INFO_BECOMES_STALE
+    )
+  } else {
+    return true
+  }
 })
 
 export const tokensWithTokenBalanceSelector = createSelector(tokensListSelector, (tokens) => {
@@ -101,14 +145,39 @@ export const defaultTokenToSendSelector = createSelector(
   }
 )
 
+export const lastKnownTokenBalancesSelector = createSelector(
+  [tokensListSelector, tokensWithLastKnownUsdValueSelector, localCurrencyExchangeRatesSelector],
+  (tokensList, tokensWithLastKnownUsdValue, exchangeRate) => {
+    const usdRate = exchangeRate[Currency.Dollar]
+    if (!usdRate || tokensList.length === 0) {
+      return null
+    }
+
+    let totalBalance = new BigNumber(0)
+    for (const token of tokensWithLastKnownUsdValue) {
+      const tokenAmount = new BigNumber(token.balance)
+        .multipliedBy(token.lastKnownUsdPrice ?? 0)
+        .multipliedBy(usdRate)
+      totalBalance = totalBalance.plus(tokenAmount)
+    }
+
+    return totalBalance
+  }
+)
+
 export const totalTokenBalanceSelector = createSelector(
   [
     tokensListSelector,
     tokensWithUsdValueSelector,
     localCurrencyExchangeRatesSelector,
     tokenFetchErrorSelector,
+    tokenFetchLoadingSelector,
   ],
-  (tokensList, tokensWithUsdValue, exchangeRate, tokenFetchError) => {
+  (tokensList, tokensWithUsdValue, exchangeRate, tokenFetchError, tokenFetchLoading) => {
+    if (tokenFetchError || tokenFetchLoading) {
+      return null
+    }
+
     const usdRate = exchangeRate[Currency.Dollar]
     if (!usdRate || tokensList.length === 0) {
       return null
@@ -120,10 +189,6 @@ export const totalTokenBalanceSelector = createSelector(
         .multipliedBy(token.usdPrice)
         .multipliedBy(usdRate)
       totalBalance = totalBalance.plus(tokenAmount)
-    }
-
-    if (totalBalance.isZero() && tokenFetchError) {
-      return null
     }
 
     return totalBalance
@@ -138,3 +203,6 @@ export const tokensInfoUnavailableSelector = createSelector(
     return totalBalance === null
   }
 )
+
+export const visualizeNFTsEnabledInHomeAssetsPageSelector = (state: RootState) =>
+  state.app.visualizeNFTsEnabledInHomeAssetsPage

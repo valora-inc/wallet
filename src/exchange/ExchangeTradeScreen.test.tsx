@@ -1,5 +1,3 @@
-// @ts-ignore
-import { toBeDisabled } from '@testing-library/jest-native'
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
@@ -12,8 +10,6 @@ import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { makeExchangeRates } from 'test/values'
 
 jest.mock('src/components/useShowOrHideAnimation')
-
-expect.extend({ toBeDisabled })
 
 const exchangeRates: ExchangeRates = makeExchangeRates('0.11', '9.09090909')
 

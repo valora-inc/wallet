@@ -3,7 +3,6 @@ import { StackScreenProps } from '@react-navigation/stack'
 import BigNumber from 'bignumber.js'
 import { ReactTestInstance } from 'react-test-renderer'
 import configureMockStore from 'redux-mock-store'
-import { InitializationState } from 'src/geth/reducer'
 import i18n from 'src/i18n'
 import { StackParamList } from 'src/navigator/types'
 import { RootState } from 'src/redux/reducers'
@@ -43,9 +42,11 @@ interface MockContract {
   }
 }
 
-type MockMethod = (
-  ...params: any
-) => { call: () => any; estimateGas: () => number; send: SendMethod }
+type MockMethod = (...params: any) => {
+  call: () => any
+  estimateGas: () => number
+  send: SendMethod
+}
 type SendMethod = (...params: any) => { on: (...params: any) => any }
 
 /**
@@ -90,9 +91,6 @@ export function createMockStore(overrides: RecursivePartial<RootState> = {}) {
 
 export function getMockStoreData(overrides: RecursivePartial<RootState> = {}): RootState {
   const defaultSchema = getLatestSchema()
-  const appConnectedData = {
-    geth: { ...defaultSchema.geth, initialized: InitializationState.INITIALIZED, connected: true },
-  }
   const contactMappingData = {
     identity: {
       ...defaultSchema.identity,
@@ -109,7 +107,6 @@ export function getMockStoreData(overrides: RecursivePartial<RootState> = {}): R
   }
   const mockStoreData: any = {
     ...defaultSchema,
-    ...appConnectedData,
     ...contactMappingData,
     ...recipientData,
   }
@@ -125,10 +122,6 @@ export function getMockStoreData(overrides: RecursivePartial<RootState> = {}): R
 
 export function createMockStoreAppDisconnected() {
   return createMockStore({
-    geth: {
-      initialized: InitializationState.INITIALIZED,
-      connected: false,
-    },
     networkInfo: { connected: false },
   })
 }

@@ -212,6 +212,34 @@
             ],
             "type": "string"
         },
+        "ApproveTransaction": {
+            "additionalProperties": false,
+            "properties": {
+                "chainId": {
+                    "type": "number"
+                },
+                "data": {
+                    "type": "string"
+                },
+                "from": {
+                    "type": "string"
+                },
+                "gas": {
+                    "type": "string"
+                },
+                "to": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "chainId",
+                "data",
+                "from",
+                "gas",
+                "to"
+            ],
+            "type": "object"
+        },
         "AttestationCode": {
             "additionalProperties": false,
             "properties": {
@@ -234,40 +262,84 @@
             ],
             "type": "object"
         },
-        "ChainHead": {
+        "CICOFlow": {
+            "enum": [
+                "CashIn",
+                "CashOut"
+            ],
+            "type": "string"
+        },
+        "CachedFiatAccountUse": {
             "additionalProperties": false,
             "properties": {
-                "hash": {
+                "cryptoType": {
+                    "$ref": "#/definitions/Currency"
+                },
+                "fiatAccountId": {
                     "type": "string"
                 },
-                "number": {
-                    "type": "number"
+                "fiatAccountSchema": {
+                    "$ref": "#/definitions/FiatAccountSchema"
                 },
-                "timestamp": {
-                    "type": "number"
+                "fiatAccountType": {
+                    "$ref": "#/definitions/FiatAccountType"
+                },
+                "fiatType": {
+                    "$ref": "#/definitions/FiatType"
+                },
+                "flow": {
+                    "type": "string"
+                },
+                "providerId": {
+                    "type": "string"
                 }
             },
             "required": [
-                "hash",
-                "number",
-                "timestamp"
+                "cryptoType",
+                "fiatAccountId",
+                "fiatAccountSchema",
+                "fiatAccountType",
+                "fiatType",
+                "flow",
+                "providerId"
             ],
             "type": "object"
         },
-        "ContactMatches": {
-            "additionalProperties": {
-                "additionalProperties": false,
-                "properties": {
-                    "contactId": {
-                        "type": "string"
-                    }
+        "CachedQuoteParams": {
+            "additionalProperties": false,
+            "properties": {
+                "cryptoAmount": {
+                    "type": "string"
                 },
-                "required": [
-                    "contactId"
-                ],
-                "type": "object"
+                "cryptoType": {
+                    "$ref": "#/definitions/Currency"
+                },
+                "fiatAmount": {
+                    "type": "string"
+                },
+                "fiatType": {
+                    "$ref": "#/definitions/FiatType"
+                },
+                "flow": {
+                    "$ref": "#/definitions/CICOFlow"
+                }
             },
+            "required": [
+                "cryptoAmount",
+                "cryptoType",
+                "fiatAmount",
+                "fiatType",
+                "flow"
+            ],
             "type": "object"
+        },
+        "CreateAccountCopyTestType": {
+            "enum": [
+                "ACCOUNT",
+                "ALREADY_HAVE_WALLET",
+                "WALLET"
+            ],
+            "type": "string"
         },
         "Currency": {
             "enum": [
@@ -312,6 +384,38 @@
                 "name"
             ],
             "type": "object"
+        },
+        "DappCategory": {
+            "additionalProperties": false,
+            "properties": {
+                "backgroundColor": {
+                    "type": "string"
+                },
+                "fontColor": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "backgroundColor",
+                "fontColor",
+                "id",
+                "name"
+            ],
+            "type": "object"
+        },
+        "DappConnectInfo": {
+            "enum": [
+                "basic",
+                "default",
+                "full"
+            ],
+            "type": "string"
         },
         "DappSection": {
             "enum": [
@@ -672,15 +776,202 @@
             ],
             "type": "object"
         },
-        "FinclusiveKycStatus": {
+        "FiatAccountSchema": {
             "enum": [
-                0,
-                1,
-                2,
-                3,
-                4
+                "AccountNumber",
+                "DuniaWallet",
+                "IBANNumber",
+                "IFSCAccount",
+                "MobileMoney"
             ],
-            "type": "number"
+            "type": "string"
+        },
+        "FiatAccountSchemaCountryOverrides": {
+            "additionalProperties": {
+                "$ref": "#/definitions/{AccountNumber?:{accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;accountNumber?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;country?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;MobileMoney?:{accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;country?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;mobile?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;operator?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;DuniaWallet?:{accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;mobile?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;IBANNumber?:{accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;country?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;iban?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;IFSCAccount?:{accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;accountNumber?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;country?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;ifsc?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;}"
+            },
+            "type": "object"
+        },
+        "FiatAccountType": {
+            "enum": [
+                "BankAccount",
+                "DuniaWallet",
+                "MobileMoney"
+            ],
+            "type": "string"
+        },
+        "FiatConnectProviderInfo": {
+            "additionalProperties": false,
+            "properties": {
+                "apiKey": {
+                    "type": "string"
+                },
+                "baseUrl": {
+                    "type": "string"
+                },
+                "iconUrl": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "imageUrl": {
+                    "type": "string"
+                },
+                "privacyPolicyUrl": {
+                    "type": "string"
+                },
+                "providerName": {
+                    "type": "string"
+                },
+                "termsAndConditionsUrl": {
+                    "type": "string"
+                },
+                "websiteUrl": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "baseUrl",
+                "iconUrl",
+                "id",
+                "imageUrl",
+                "privacyPolicyUrl",
+                "providerName",
+                "termsAndConditionsUrl",
+                "websiteUrl"
+            ],
+            "type": "object"
+        },
+        "FiatConnectTransfer": {
+            "additionalProperties": false,
+            "properties": {
+                "failed": {
+                    "type": "boolean"
+                },
+                "flow": {
+                    "$ref": "#/definitions/CICOFlow"
+                },
+                "isSending": {
+                    "type": "boolean"
+                },
+                "quoteId": {
+                    "type": "string"
+                },
+                "txHash": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                }
+            },
+            "required": [
+                "failed",
+                "flow",
+                "isSending",
+                "quoteId",
+                "txHash"
+            ],
+            "type": "object"
+        },
+        "FiatType": {
+            "enum": [
+                "ARS",
+                "BOB",
+                "BRL",
+                "CLP",
+                "CNY",
+                "COP",
+                "EUR",
+                "FKP",
+                "GBP",
+                "GHS",
+                "GNF",
+                "GYD",
+                "INR",
+                "KES",
+                "MXN",
+                "NGN",
+                "PAB",
+                "PEN",
+                "PHP",
+                "PYG",
+                "RWF",
+                "SRD",
+                "UGX",
+                "USD",
+                "UYU",
+                "VES",
+                "XAF",
+                "XOF",
+                "ZAR"
+            ],
+            "type": "string"
+        },
+        "Field": {
+            "enum": [
+                "FROM",
+                "TO"
+            ],
+            "type": "string"
+        },
+        "Fill": {
+            "additionalProperties": false,
+            "properties": {
+                "adjustedOutput": {
+                    "type": "string"
+                },
+                "gas": {
+                    "type": "number"
+                },
+                "input": {
+                    "type": "string"
+                },
+                "outPut": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "adjustedOutput",
+                "gas",
+                "input",
+                "outPut"
+            ],
+            "type": "object"
+        },
+        "FillData": {
+            "additionalProperties": false,
+            "properties": {
+                "makerAmount": {
+                    "type": "string"
+                },
+                "makerToken": {
+                    "type": "string"
+                },
+                "router": {
+                    "type": "string"
+                },
+                "takerAmount": {
+                    "type": "string"
+                },
+                "takerToken": {
+                    "type": "string"
+                },
+                "tokenAddress": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "type": {
+                    "type": "number"
+                }
+            },
+            "required": [
+                "router",
+                "tokenAddress"
+            ],
+            "type": "object"
         },
         "HistoricalUsdPrices": {
             "additionalProperties": false,
@@ -883,18 +1174,15 @@
                 1,
                 2,
                 3,
-                4,
                 5
             ],
             "type": "number"
         },
-        "InitializationState": {
+        "InviteMethodType": {
             "enum": [
-                "DATA_CONNECTION_MISSING_ERROR",
-                "INITIALIZED",
-                "INITIALIZE_ERROR",
-                "INITIALIZING",
-                "NOT_YET_INITIALIZED"
+                "ESCROW",
+                "MANUAL_SHARE",
+                "REFERRAL_URL"
             ],
             "type": "string"
         },
@@ -998,6 +1286,44 @@
                 "currencyCode",
                 "exchangeRate",
                 "value"
+            ],
+            "type": "object"
+        },
+        "NftTransfer": {
+            "additionalProperties": false,
+            "properties": {
+                "__typename": {
+                    "enum": [
+                        "NftTransferV2"
+                    ],
+                    "type": "string"
+                },
+                "block": {
+                    "type": "string"
+                },
+                "fees": {
+                    "items": {
+                        "$ref": "#/definitions/Fee"
+                    },
+                    "type": "array"
+                },
+                "timestamp": {
+                    "type": "number"
+                },
+                "transactionHash": {
+                    "type": "string"
+                },
+                "type": {
+                    "$ref": "#/definitions/TokenTransactionTypeV2"
+                }
+            },
+            "required": [
+                "__typename",
+                "block",
+                "fees",
+                "timestamp",
+                "transactionHash",
+                "type"
             ],
             "type": "object"
         },
@@ -1149,6 +1475,175 @@
                         "type": "object"
                     }
                 ]
+            },
+            "type": "object"
+        },
+        "Order": {
+            "additionalProperties": false,
+            "properties": {
+                "fill": {
+                    "$ref": "#/definitions/Fill"
+                },
+                "fillData": {
+                    "$ref": "#/definitions/FillData"
+                },
+                "makerAmount": {
+                    "type": "string"
+                },
+                "makerToken": {
+                    "type": "string"
+                },
+                "source": {
+                    "type": "string"
+                },
+                "takeToken": {
+                    "type": "string"
+                },
+                "takerAmount": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "number"
+                }
+            },
+            "required": [
+                "fill",
+                "fillData",
+                "makerAmount",
+                "makerToken",
+                "source",
+                "takeToken",
+                "takerAmount",
+                "type"
+            ],
+            "type": "object"
+        },
+        "Partial<Record<FiatAccountType,{settlementTimeLowerBound?:string|undefined;settlementTimeUpperBound?:string|undefined;fiatAccountSchemas:{fiatAccountSchema:FiatAccountSchema;allowedValues:Record<string,string[]>;}[];}>>": {
+            "additionalProperties": false,
+            "properties": {
+                "BankAccount": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "fiatAccountSchemas": {
+                            "items": {
+                                "additionalProperties": false,
+                                "properties": {
+                                    "allowedValues": {
+                                        "$ref": "#/definitions/Record<string,string[]>"
+                                    },
+                                    "fiatAccountSchema": {
+                                        "enum": [
+                                            "AccountNumber",
+                                            "DuniaWallet",
+                                            "IBANNumber",
+                                            "IFSCAccount",
+                                            "MobileMoney"
+                                        ],
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "allowedValues",
+                                    "fiatAccountSchema"
+                                ],
+                                "type": "object"
+                            },
+                            "type": "array"
+                        },
+                        "settlementTimeLowerBound": {
+                            "type": "string"
+                        },
+                        "settlementTimeUpperBound": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "fiatAccountSchemas"
+                    ],
+                    "type": "object"
+                },
+                "DuniaWallet": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "fiatAccountSchemas": {
+                            "items": {
+                                "additionalProperties": false,
+                                "properties": {
+                                    "allowedValues": {
+                                        "$ref": "#/definitions/Record<string,string[]>"
+                                    },
+                                    "fiatAccountSchema": {
+                                        "enum": [
+                                            "AccountNumber",
+                                            "DuniaWallet",
+                                            "IBANNumber",
+                                            "IFSCAccount",
+                                            "MobileMoney"
+                                        ],
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "allowedValues",
+                                    "fiatAccountSchema"
+                                ],
+                                "type": "object"
+                            },
+                            "type": "array"
+                        },
+                        "settlementTimeLowerBound": {
+                            "type": "string"
+                        },
+                        "settlementTimeUpperBound": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "fiatAccountSchemas"
+                    ],
+                    "type": "object"
+                },
+                "MobileMoney": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "fiatAccountSchemas": {
+                            "items": {
+                                "additionalProperties": false,
+                                "properties": {
+                                    "allowedValues": {
+                                        "$ref": "#/definitions/Record<string,string[]>"
+                                    },
+                                    "fiatAccountSchema": {
+                                        "enum": [
+                                            "AccountNumber",
+                                            "DuniaWallet",
+                                            "IBANNumber",
+                                            "IFSCAccount",
+                                            "MobileMoney"
+                                        ],
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "allowedValues",
+                                    "fiatAccountSchema"
+                                ],
+                                "type": "object"
+                            },
+                            "type": "array"
+                        },
+                        "settlementTimeLowerBound": {
+                            "type": "string"
+                        },
+                        "settlementTimeUpperBound": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "fiatAccountSchemas"
+                    ],
+                    "type": "object"
+                }
             },
             "type": "object"
         },
@@ -1312,6 +1807,14 @@
             ],
             "type": "object"
         },
+        "Record<string,any>": {
+            "additionalProperties": false,
+            "type": "object"
+        },
+        "Record<string,string[]>": {
+            "additionalProperties": false,
+            "type": "object"
+        },
         "Screens": {
             "enum": [
                 "AccounSetupFailureScreen",
@@ -1322,15 +1825,13 @@
                 "BackupIntroduction",
                 "BackupPhrase",
                 "BackupQuiz",
-                "BankAccounts",
                 "BidaliScreen",
                 "CashInSuccess",
-                "ConnectPhoneNumberScreen",
+                "CoinbasePayScreen",
                 "ConsumerIncentivesHomeScreen",
                 "DAppsExplorerScreen",
-                "DappKitAccountAuth",
+                "DappKitAccountScreen",
                 "DappKitSignTxScreen",
-                "DappKitTxDataScreen",
                 "Debug",
                 "DrawerNavigator",
                 "EnableBiometry",
@@ -1340,6 +1841,10 @@
                 "ExchangeReview",
                 "ExchangeTradeScreen",
                 "ExternalExchanges",
+                "FiatConnectLinkAccount",
+                "FiatConnectRefetchQuote",
+                "FiatConnectReview",
+                "FiatConnectTransferStatus",
                 "FiatDetailsScreen",
                 "FiatExchange",
                 "FiatExchangeAmount",
@@ -1347,12 +1852,15 @@
                 "GoldEducation",
                 "ImportWallet",
                 "IncomingPaymentRequestListScreen",
+                "KycDenied",
+                "KycExpired",
+                "KycLanding",
+                "KycPending",
                 "Language",
                 "LanguageModal",
                 "Licenses",
-                "LinkBankAccountErrorScreen",
-                "LinkBankAccountScreen",
                 "Main",
+                "MainModal",
                 "MerchantPayment",
                 "MoonPayScreen",
                 "NameAndPicture",
@@ -1371,10 +1879,10 @@
                 "QRCode",
                 "QRNavigator",
                 "QRScanner",
-                "RaiseLimitScreen",
                 "RampScreen",
                 "ReclaimPaymentConfirmationScreen",
                 "RegulatoryTerms",
+                "SanctionedCountryErrorScreen",
                 "SelectCountry",
                 "SelectLocalCurrency",
                 "SelectProvider",
@@ -1391,8 +1899,10 @@
                 "StoreWipeRecoveryScreen",
                 "Support",
                 "SupportContact",
+                "SwapExecuteScreen",
+                "SwapReviewScreen",
+                "SwapScreen",
                 "Sync",
-                "SyncBankAccountScreen",
                 "TokenBalances",
                 "TransactionDetailsScreen",
                 "TransactionReview",
@@ -1400,13 +1910,11 @@
                 "UpgradeScreen",
                 "ValidateRecipientAccount",
                 "ValidateRecipientIntro",
+                "VerificationCodeInputScreen",
                 "VerificationEducationScreen",
                 "VerificationInputScreen",
                 "VerificationLoadingScreen",
-                "WalletConnectActionRequest",
-                "WalletConnectLoading",
-                "WalletConnectResult",
-                "WalletConnectSessionRequest",
+                "WalletConnectRequest",
                 "WalletConnectSessions",
                 "WalletHome",
                 "WebViewScreen",
@@ -1446,6 +1954,30 @@
             "additionalProperties": {
                 "$ref": "#/definitions/SecureSendDetails"
             },
+            "type": "object"
+        },
+        "SendingFiatAccountStatus": {
+            "enum": [
+                "KycApproved",
+                "NotSending",
+                "Sending"
+            ],
+            "type": "string"
+        },
+        "Source": {
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "proportion": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "proportion"
+            ],
             "type": "object"
         },
         "StableBalances": {
@@ -1488,16 +2020,6 @@
         "State": {
             "additionalProperties": false,
             "properties": {
-                "activeDapp": {
-                    "anyOf": [
-                        {
-                            "$ref": "#/definitions/ActiveDapp"
-                        },
-                        {
-                            "type": "null"
-                        }
-                    ]
-                },
                 "activeScreen": {
                     "$ref": "#/definitions/Screens"
                 },
@@ -1506,9 +2028,6 @@
                 },
                 "appState": {
                     "$ref": "#/definitions/AppState"
-                },
-                "biometryEnabled": {
-                    "type": "boolean"
                 },
                 "cashInButtonExpEnabled": {
                     "type": "boolean"
@@ -1522,23 +2041,20 @@
                 "celoEuroEnabled": {
                     "type": "boolean"
                 },
-                "celoWithdrawalEnabledInExchange": {
+                "centralPhoneVerificationEnabled": {
                     "type": "boolean"
                 },
-                "dappListApiUrl": {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
-                },
-                "dappsWebViewEnabled": {
+                "coinbasePayEnabled": {
                     "type": "boolean"
                 },
-                "finclusiveUnsupportedStates": {
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array"
+                "createAccountCopyTestType": {
+                    "$ref": "#/definitions/CreateAccountCopyTestType"
+                },
+                "fiatConnectCashInEnabled": {
+                    "type": "boolean"
+                },
+                "fiatConnectCashOutEnabled": {
+                    "type": "boolean"
                 },
                 "googleMobileServicesAvailable": {
                     "type": "boolean"
@@ -1549,17 +2065,20 @@
                 "huaweiMobileServicesAvailable": {
                     "type": "boolean"
                 },
+                "inviteMethod": {
+                    "$ref": "#/definitions/InviteMethodType"
+                },
                 "inviteModalVisible": {
                     "type": "boolean"
                 },
+                "inviterAddress": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
                 "lastTimeBackgrounded": {
                     "type": "number"
-                },
-                "linkBankAccountEnabled": {
-                    "type": "boolean"
-                },
-                "linkBankAccountStepTwoEnabled": {
-                    "type": "boolean"
                 },
                 "locked": {
                     "type": "boolean"
@@ -1570,7 +2089,7 @@
                 "loggedIn": {
                     "type": "boolean"
                 },
-                "maxNumRecentDapps": {
+                "maxSwapSlippagePercentage": {
                     "type": "number"
                 },
                 "minVersion": {
@@ -1579,11 +2098,17 @@
                         "string"
                     ]
                 },
+                "networkTimeoutSeconds": {
+                    "type": "number"
+                },
                 "numberVerified": {
                     "type": "boolean"
                 },
                 "paymentDeepLinkHandler": {
                     "$ref": "#/definitions/PaymentDeepLinkHandler"
+                },
+                "phoneNumberVerified": {
+                    "type": "boolean"
                 },
                 "pincodeUseExpandedBlocklist": {
                     "type": "boolean"
@@ -1596,12 +2121,6 @@
                         "null",
                         "number"
                     ]
-                },
-                "recentDapps": {
-                    "items": {
-                        "$ref": "#/definitions/Dapp"
-                    },
-                    "type": "array"
                 },
                 "requirePinOnAppOpen": {
                     "type": "boolean"
@@ -1624,11 +2143,17 @@
                 "sessionId": {
                     "type": "string"
                 },
+                "shouldShowRecoveryPhraseInSettings": {
+                    "type": "boolean"
+                },
+                "showGuidedOnboardingCopy": {
+                    "type": "boolean"
+                },
                 "showPriceChangeIndicatorInBalances": {
                     "type": "boolean"
                 },
-                "showRaiseDailyLimitTarget": {
-                    "type": "string"
+                "showSwapMenuInDrawerMenu": {
+                    "type": "boolean"
                 },
                 "skipProfilePicture": {
                     "type": "boolean"
@@ -1639,14 +2164,8 @@
                 "superchargeApy": {
                     "type": "number"
                 },
-                "superchargeButtonType": {
-                    "$ref": "#/definitions/SuperchargeButtonType"
-                },
-                "superchargeTokens": {
-                    "items": {
-                        "$ref": "#/definitions/SuperchargeTokenConfig"
-                    },
-                    "type": "array"
+                "superchargeTokenConfigByToken": {
+                    "$ref": "#/definitions/SuperchargeTokenConfigByToken"
                 },
                 "supportedBiometryType": {
                     "anyOf": [
@@ -1665,49 +2184,55 @@
                         }
                     ]
                 },
+                "visualizeNFTsEnabledInHomeAssetsPage": {
+                    "type": "boolean"
+                },
                 "walletConnectV1Enabled": {
                     "type": "boolean"
                 }
             },
             "required": [
-                "activeDapp",
                 "activeScreen",
                 "analyticsEnabled",
                 "appState",
-                "biometryEnabled",
                 "cashInButtonExpEnabled",
                 "celoEducationUri",
                 "celoEuroEnabled",
-                "celoWithdrawalEnabledInExchange",
-                "dappListApiUrl",
-                "dappsWebViewEnabled",
-                "finclusiveUnsupportedStates",
+                "centralPhoneVerificationEnabled",
+                "coinbasePayEnabled",
+                "createAccountCopyTestType",
+                "fiatConnectCashInEnabled",
+                "fiatConnectCashOutEnabled",
                 "hideVerification",
+                "inviteMethod",
                 "inviteModalVisible",
+                "inviterAddress",
                 "lastTimeBackgrounded",
-                "linkBankAccountEnabled",
-                "linkBankAccountStepTwoEnabled",
                 "locked",
                 "logPhoneNumberTypeEnabled",
                 "loggedIn",
-                "maxNumRecentDapps",
+                "maxSwapSlippagePercentage",
                 "minVersion",
+                "networkTimeoutSeconds",
                 "numberVerified",
                 "paymentDeepLinkHandler",
+                "phoneNumberVerified",
                 "pincodeUseExpandedBlocklist",
                 "rampCashInButtonExpEnabled",
-                "recentDapps",
                 "requirePinOnAppOpen",
                 "sentryNetworkErrors",
                 "sentryTracesSampleRate",
                 "sessionId",
+                "shouldShowRecoveryPhraseInSettings",
+                "showGuidedOnboardingCopy",
                 "showPriceChangeIndicatorInBalances",
+                "showSwapMenuInDrawerMenu",
                 "skipProfilePicture",
                 "skipVerification",
                 "superchargeApy",
-                "superchargeButtonType",
-                "superchargeTokens",
+                "superchargeTokenConfigByToken",
                 "supportedBiometryType",
+                "visualizeNFTsEnabledInHomeAssetsPage",
                 "walletConnectV1Enabled"
             ],
             "type": "object"
@@ -1764,36 +2289,21 @@
                         "string"
                     ]
                 },
-                "fornoMode": {
-                    "type": "boolean"
-                },
-                "hadFornoDisabled": {
-                    "type": "boolean"
-                },
                 "isDekRegistered": {
                     "type": "boolean"
-                },
-                "latestBlockNumber": {
-                    "type": "number"
                 },
                 "mtwAddress": {
                     "type": [
                         "null",
                         "string"
                     ]
-                },
-                "syncProgress": {
-                    "$ref": "#/definitions/Web3SyncProgress"
                 }
             },
             "required": [
                 "account",
                 "accountInWeb3Keystore",
                 "dataEncryptionKey",
-                "fornoMode",
-                "latestBlockNumber",
-                "mtwAddress",
-                "syncProgress"
+                "mtwAddress"
             ],
             "type": "object"
         },
@@ -1856,9 +2366,6 @@
                         "number"
                     ]
                 },
-                "matchedContacts": {
-                    "$ref": "#/definitions/ContactMatches"
-                },
                 "numCompleteAttestations": {
                     "type": "number"
                 },
@@ -1885,7 +2392,6 @@
                 "hasSeenVerificationNux",
                 "importContactsProgress",
                 "lastRevealAttempt",
-                "matchedContacts",
                 "numCompleteAttestations",
                 "secureSendPhoneNumberMapping",
                 "verificationStatus",
@@ -2038,18 +2544,6 @@
                 "contactDetails": {
                     "$ref": "#/definitions/UserContactDetails"
                 },
-                "dailyLimitCusd": {
-                    "type": "number"
-                },
-                "dailyLimitRequestStatus": {
-                    "enum": [
-                        "Approved",
-                        "Denied",
-                        "InReview",
-                        "Incomplete"
-                    ],
-                    "type": "string"
-                },
                 "defaultCountryCode": {
                     "type": [
                         "null",
@@ -2080,31 +2574,8 @@
                         "string"
                     ]
                 },
-                "finclusiveKycStatus": {
-                    "$ref": "#/definitions/FinclusiveKycStatus"
-                },
-                "finclusiveRegionSupported": {
-                    "type": "boolean"
-                },
-                "hasLinkedBankAccount": {
-                    "type": "boolean"
-                },
                 "hasMigratedToNewBip39": {
                     "type": "boolean"
-                },
-                "kycStatus": {
-                    "enum": [
-                        "approved",
-                        "completed",
-                        "created",
-                        "declined",
-                        "expired",
-                        "failed",
-                        "needs-review",
-                        "not-created",
-                        "pending"
-                    ],
-                    "type": "string"
                 },
                 "name": {
                     "type": [
@@ -2127,13 +2598,7 @@
                 "profileUploaded": {
                     "type": "boolean"
                 },
-                "promptFornoIfNeeded": {
-                    "type": "boolean"
-                },
                 "recoveringFromStoreWipe": {
-                    "type": "boolean"
-                },
-                "retryVerificationWithForno": {
                     "type": "boolean"
                 }
             },
@@ -2143,7 +2608,6 @@
                 "backupCompleted",
                 "backupRequiredTime",
                 "contactDetails",
-                "dailyLimitCusd",
                 "defaultCountryCode",
                 "devModeActive",
                 "devModeClickCount",
@@ -2152,51 +2616,15 @@
                 "dismissedKeepSupercharging",
                 "dismissedStartSupercharging",
                 "e164PhoneNumber",
-                "finclusiveKycStatus",
-                "finclusiveRegionSupported",
-                "hasLinkedBankAccount",
                 "hasMigratedToNewBip39",
                 "name",
                 "photosNUXClicked",
                 "pictureUri",
-                "pincodeType",
-                "promptFornoIfNeeded",
-                "retryVerificationWithForno"
+                "pincodeType"
             ],
             "type": "object"
         },
         "State_14": {
-            "additionalProperties": false,
-            "properties": {
-                "chainHead": {
-                    "anyOf": [
-                        {
-                            "$ref": "#/definitions/ChainHead"
-                        },
-                        {
-                            "type": "null"
-                        }
-                    ]
-                },
-                "connected": {
-                    "type": "boolean"
-                },
-                "gethStartedThisSession": {
-                    "type": "boolean"
-                },
-                "initialized": {
-                    "$ref": "#/definitions/InitializationState"
-                }
-            },
-            "required": [
-                "chainHead",
-                "connected",
-                "gethStartedThisSession",
-                "initialized"
-            ],
-            "type": "object"
-        },
-        "State_15": {
             "additionalProperties": false,
             "properties": {
                 "isReclaiming": {
@@ -2215,12 +2643,12 @@
             ],
             "type": "object"
         },
-        "State_16": {
+        "State_15": {
             "additionalProperties": false,
             "properties": {
                 "estimates": {
                     "additionalProperties": {
-                        "$ref": "#/definitions/{invite:FeeEstimateState|undefined;send:FeeEstimateState|undefined;exchange:FeeEstimateState|undefined;\"reclaim-escrow\":FeeEstimateState|undefined;\"register-dek\":FeeEstimateState|undefined;}"
+                        "$ref": "#/definitions/{invite:FeeEstimateState|undefined;send:FeeEstimateState|undefined;exchange:FeeEstimateState|undefined;\"reclaim-escrow\":FeeEstimateState|undefined;\"register-dek\":FeeEstimateState|undefined;swap:FeeEstimateState|undefined;}"
                     },
                     "type": "object"
                 }
@@ -2230,9 +2658,15 @@
             ],
             "type": "object"
         },
-        "State_17": {
+        "State_16": {
             "additionalProperties": false,
             "properties": {
+                "coinbasePaySenders": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
                 "inviteRewardsSenders": {
                     "items": {
                         "type": "string"
@@ -2253,6 +2687,7 @@
                 }
             },
             "required": [
+                "coinbasePaySenders",
                 "inviteRewardsSenders",
                 "phoneRecipientCache",
                 "rewardsSenders",
@@ -2260,7 +2695,7 @@
             ],
             "type": "object"
         },
-        "State_18": {
+        "State_17": {
             "additionalProperties": false,
             "properties": {
                 "error": {
@@ -2287,6 +2722,7 @@
                         "MXN",
                         "NGN",
                         "PHP",
+                        "PLN",
                         "RUB",
                         "RWF",
                         "SLL",
@@ -2324,6 +2760,7 @@
                         "MXN",
                         "NGN",
                         "PHP",
+                        "PLN",
                         "RUB",
                         "RWF",
                         "SLL",
@@ -2344,7 +2781,7 @@
             ],
             "type": "object"
         },
-        "State_19": {
+        "State_18": {
             "additionalProperties": false,
             "properties": {
                 "isImportingWallet": {
@@ -2353,6 +2790,28 @@
             },
             "required": [
                 "isImportingWallet"
+            ],
+            "type": "object"
+        },
+        "State_19": {
+            "additionalProperties": false,
+            "properties": {
+                "incomingPaymentRequests": {
+                    "items": {
+                        "$ref": "#/definitions/PaymentRequest"
+                    },
+                    "type": "array"
+                },
+                "outgoingPaymentRequests": {
+                    "items": {
+                        "$ref": "#/definitions/PaymentRequest"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "incomingPaymentRequests",
+                "outgoingPaymentRequests"
             ],
             "type": "object"
         },
@@ -2379,28 +2838,6 @@
         "State_20": {
             "additionalProperties": false,
             "properties": {
-                "incomingPaymentRequests": {
-                    "items": {
-                        "$ref": "#/definitions/PaymentRequest"
-                    },
-                    "type": "array"
-                },
-                "outgoingPaymentRequests": {
-                    "items": {
-                        "$ref": "#/definitions/PaymentRequest"
-                    },
-                    "type": "array"
-                }
-            },
-            "required": [
-                "incomingPaymentRequests",
-                "outgoingPaymentRequests"
-            ],
-            "type": "object"
-        },
-        "State_21": {
-            "additionalProperties": false,
-            "properties": {
                 "providerLogos": {
                     "$ref": "#/definitions/ProviderLogos"
                 },
@@ -2414,11 +2851,11 @@
             ],
             "type": "object"
         },
-        "State_22": {
+        "State_21": {
             "additionalProperties": false,
             "properties": {
                 "v1": {
-                    "$ref": "#/definitions/State_23"
+                    "$ref": "#/definitions/State_22"
                 }
             },
             "required": [
@@ -2426,7 +2863,7 @@
             ],
             "type": "object"
         },
-        "State_23": {
+        "State_22": {
             "additionalProperties": false,
             "properties": {
                 "pendingActions": {
@@ -2468,7 +2905,7 @@
             ],
             "type": "object"
         },
-        "State_24": {
+        "State_23": {
             "additionalProperties": false,
             "properties": {
                 "error": {
@@ -2488,7 +2925,7 @@
             ],
             "type": "object"
         },
-        "State_25": {
+        "State_24": {
             "additionalProperties": false,
             "properties": {
                 "availableRewards": {
@@ -2516,6 +2953,430 @@
                 "fetchAvailableRewardsError",
                 "fetchAvailableRewardsLoading",
                 "loading"
+            ],
+            "type": "object"
+        },
+        "State_25": {
+            "additionalProperties": false,
+            "properties": {
+                "activeDapp": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/definitions/ActiveDapp"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                },
+                "dappConnectInfo": {
+                    "$ref": "#/definitions/DappConnectInfo"
+                },
+                "dappListApiUrl": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "dappsCategories": {
+                    "items": {
+                        "$ref": "#/definitions/DappCategory"
+                    },
+                    "type": "array"
+                },
+                "dappsList": {
+                    "items": {
+                        "$ref": "#/definitions/Dapp"
+                    },
+                    "type": "array"
+                },
+                "dappsListError": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "dappsListLoading": {
+                    "type": "boolean"
+                },
+                "dappsWebViewEnabled": {
+                    "type": "boolean"
+                },
+                "maxNumRecentDapps": {
+                    "type": "number"
+                },
+                "recentDapps": {
+                    "items": {
+                        "$ref": "#/definitions/Dapp"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "activeDapp",
+                "dappConnectInfo",
+                "dappListApiUrl",
+                "dappsCategories",
+                "dappsList",
+                "dappsListError",
+                "dappsListLoading",
+                "dappsWebViewEnabled",
+                "maxNumRecentDapps",
+                "recentDapps"
+            ],
+            "type": "object"
+        },
+        "State_26": {
+            "additionalProperties": false,
+            "properties": {
+                "attemptReturnUserFlowLoading": {
+                    "type": "boolean"
+                },
+                "cachedFiatAccountUses": {
+                    "items": {
+                        "$ref": "#/definitions/CachedFiatAccountUse"
+                    },
+                    "type": "array"
+                },
+                "cachedQuoteParams": {
+                    "additionalProperties": {
+                        "additionalProperties": {
+                            "$ref": "#/definitions/CachedQuoteParams"
+                        },
+                        "type": "object"
+                    },
+                    "type": "object"
+                },
+                "kycTryAgainLoading": {
+                    "type": "boolean"
+                },
+                "personaInProgress": {
+                    "type": "boolean"
+                },
+                "providers": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "$ref": "#/definitions/FiatConnectProviderInfo"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                },
+                "quotes": {
+                    "items": {
+                        "anyOf": [
+                            {
+                                "additionalProperties": false,
+                                "properties": {
+                                    "error": {
+                                        "enum": [
+                                            "ContractLoginNotSupported",
+                                            "CryptoAmountTooHigh",
+                                            "CryptoAmountTooLow",
+                                            "CryptoNotSupported",
+                                            "ExpirationTooLong",
+                                            "FiatAmountTooHigh",
+                                            "FiatAmountTooLow",
+                                            "FiatNotSupported",
+                                            "GeoNotSupported",
+                                            "InvalidFiatAccount",
+                                            "InvalidParameters",
+                                            "InvalidSchema",
+                                            "InvalidSignature",
+                                            "IssuedTooEarly",
+                                            "KycExpired",
+                                            "NonceInUse",
+                                            "ResourceExists",
+                                            "ResourceNotFound",
+                                            "SessionExpired",
+                                            "TransferNotAllowed",
+                                            "Unauthorized",
+                                            "UnsupportedSchema"
+                                        ],
+                                        "type": "string"
+                                    },
+                                    "maximumCryptoAmount": {
+                                        "type": "string"
+                                    },
+                                    "maximumFiatAmount": {
+                                        "type": "string"
+                                    },
+                                    "minimumCryptoAmount": {
+                                        "type": "string"
+                                    },
+                                    "minimumFiatAmount": {
+                                        "type": "string"
+                                    },
+                                    "ok": {
+                                        "type": "boolean"
+                                    },
+                                    "provider": {
+                                        "$ref": "#/definitions/FiatConnectProviderInfo"
+                                    }
+                                },
+                                "required": [
+                                    "error",
+                                    "ok",
+                                    "provider"
+                                ],
+                                "type": "object"
+                            },
+                            {
+                                "additionalProperties": false,
+                                "properties": {
+                                    "error": {
+                                        "type": "string"
+                                    },
+                                    "ok": {
+                                        "type": "boolean"
+                                    },
+                                    "provider": {
+                                        "$ref": "#/definitions/FiatConnectProviderInfo"
+                                    }
+                                },
+                                "required": [
+                                    "error",
+                                    "ok",
+                                    "provider"
+                                ],
+                                "type": "object"
+                            },
+                            {
+                                "additionalProperties": false,
+                                "properties": {
+                                    "fiatAccount": {
+                                        "$ref": "#/definitions/Partial<Record<FiatAccountType,{settlementTimeLowerBound?:string|undefined;settlementTimeUpperBound?:string|undefined;fiatAccountSchemas:{fiatAccountSchema:FiatAccountSchema;allowedValues:Record<string,string[]>;}[];}>>"
+                                    },
+                                    "kyc": {
+                                        "additionalProperties": false,
+                                        "properties": {
+                                            "kycRequired": {
+                                                "type": "boolean"
+                                            },
+                                            "kycSchemas": {
+                                                "items": {
+                                                    "additionalProperties": false,
+                                                    "properties": {
+                                                        "allowedValues": {
+                                                            "$ref": "#/definitions/Record<string,string[]>"
+                                                        },
+                                                        "kycSchema": {
+                                                            "enum": [
+                                                                "PersonalDataAndDocuments"
+                                                            ],
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "allowedValues",
+                                                        "kycSchema"
+                                                    ],
+                                                    "type": "object"
+                                                },
+                                                "type": "array"
+                                            }
+                                        },
+                                        "required": [
+                                            "kycRequired",
+                                            "kycSchemas"
+                                        ],
+                                        "type": "object"
+                                    },
+                                    "ok": {
+                                        "type": "boolean"
+                                    },
+                                    "provider": {
+                                        "$ref": "#/definitions/FiatConnectProviderInfo"
+                                    },
+                                    "quote": {
+                                        "additionalProperties": false,
+                                        "properties": {
+                                            "cryptoAmount": {
+                                                "type": "string"
+                                            },
+                                            "cryptoType": {
+                                                "enum": [
+                                                    "CELO",
+                                                    "cEUR",
+                                                    "cREAL",
+                                                    "cUSD"
+                                                ],
+                                                "type": "string"
+                                            },
+                                            "fee": {
+                                                "type": "string"
+                                            },
+                                            "feeFrequency": {
+                                                "enum": [
+                                                    "OneTime",
+                                                    "Recurring"
+                                                ],
+                                                "type": "string"
+                                            },
+                                            "feeType": {
+                                                "enum": [
+                                                    "KycFee",
+                                                    "PlatformFee"
+                                                ],
+                                                "type": "string"
+                                            },
+                                            "fiatAmount": {
+                                                "type": "string"
+                                            },
+                                            "fiatType": {
+                                                "enum": [
+                                                    "ARS",
+                                                    "BOB",
+                                                    "BRL",
+                                                    "CLP",
+                                                    "CNY",
+                                                    "COP",
+                                                    "EUR",
+                                                    "FKP",
+                                                    "GBP",
+                                                    "GHS",
+                                                    "GNF",
+                                                    "GYD",
+                                                    "INR",
+                                                    "KES",
+                                                    "MXN",
+                                                    "NGN",
+                                                    "PAB",
+                                                    "PEN",
+                                                    "PHP",
+                                                    "PYG",
+                                                    "RWF",
+                                                    "SRD",
+                                                    "UGX",
+                                                    "USD",
+                                                    "UYU",
+                                                    "VES",
+                                                    "XAF",
+                                                    "XOF",
+                                                    "ZAR"
+                                                ],
+                                                "type": "string"
+                                            },
+                                            "guaranteedUntil": {
+                                                "type": "string"
+                                            },
+                                            "quoteId": {
+                                                "type": "string"
+                                            },
+                                            "transferType": {
+                                                "enum": [
+                                                    "TransferIn",
+                                                    "TransferOut"
+                                                ],
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "cryptoAmount",
+                                            "cryptoType",
+                                            "fiatAmount",
+                                            "fiatType",
+                                            "guaranteedUntil",
+                                            "quoteId",
+                                            "transferType"
+                                        ],
+                                        "type": "object"
+                                    }
+                                },
+                                "required": [
+                                    "fiatAccount",
+                                    "kyc",
+                                    "ok",
+                                    "provider",
+                                    "quote"
+                                ],
+                                "type": "object"
+                            }
+                        ]
+                    },
+                    "type": "array"
+                },
+                "quotesError": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "quotesLoading": {
+                    "type": "boolean"
+                },
+                "schemaCountryOverrides": {
+                    "$ref": "#/definitions/FiatAccountSchemaCountryOverrides"
+                },
+                "selectFiatConnectQuoteLoading": {
+                    "type": "boolean"
+                },
+                "sendingFiatAccountStatus": {
+                    "$ref": "#/definitions/SendingFiatAccountStatus"
+                },
+                "transfer": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/definitions/FiatConnectTransfer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                }
+            },
+            "required": [
+                "attemptReturnUserFlowLoading",
+                "cachedFiatAccountUses",
+                "cachedQuoteParams",
+                "kycTryAgainLoading",
+                "personaInProgress",
+                "providers",
+                "quotes",
+                "quotesError",
+                "quotesLoading",
+                "schemaCountryOverrides",
+                "selectFiatConnectQuoteLoading",
+                "sendingFiatAccountStatus",
+                "transfer"
+            ],
+            "type": "object"
+        },
+        "State_27": {
+            "additionalProperties": false,
+            "properties": {
+                "swapInfo": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/definitions/SwapInfo"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                },
+                "swapState": {
+                    "$ref": "#/definitions/SwapState"
+                },
+                "swapUserInput": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/definitions/SwapUserInput"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                }
+            },
+            "required": [
+                "swapInfo",
+                "swapState",
+                "swapUserInput"
             ],
             "type": "object"
         },
@@ -2812,6 +3673,9 @@
                             },
                             {
                                 "$ref": "#/definitions/TokenExchange"
+                            },
+                            {
+                                "$ref": "#/definitions/NftTransfer"
                             }
                         ]
                     },
@@ -2882,15 +3746,6 @@
             },
             "type": "object"
         },
-        "SuperchargeButtonType": {
-            "enum": [
-                "MENU_REWARDS",
-                "MENU_SUPERCHARGE",
-                "PILL_REWARDS",
-                "PILL_SUPERCHARGE"
-            ],
-            "type": "string"
-        },
         "SuperchargePendingReward": {
             "additionalProperties": false,
             "properties": {
@@ -2926,31 +3781,208 @@
             ],
             "type": "object"
         },
-        "SuperchargeToken": {
-            "enum": [
-                "cEUR",
-                "cREAL",
-                "cUSD"
-            ],
-            "type": "string"
+        "SuperchargeTokenConfigByToken": {
+            "additionalProperties": {
+                "additionalProperties": false,
+                "properties": {
+                    "maxBalance": {
+                        "type": "number"
+                    },
+                    "minBalance": {
+                        "type": "number"
+                    }
+                },
+                "required": [
+                    "maxBalance",
+                    "minBalance"
+                ],
+                "type": "object"
+            },
+            "type": "object"
         },
-        "SuperchargeTokenConfig": {
+        "SwapAmount": {
             "additionalProperties": false,
             "properties": {
-                "maxBalance": {
-                    "type": "number"
+                "FROM": {
+                    "type": "string"
                 },
-                "minBalance": {
-                    "type": "number"
-                },
-                "token": {
-                    "$ref": "#/definitions/SuperchargeToken"
+                "TO": {
+                    "type": "string"
                 }
             },
             "required": [
-                "maxBalance",
-                "minBalance",
-                "token"
+                "FROM",
+                "TO"
+            ],
+            "type": "object"
+        },
+        "SwapInfo": {
+            "additionalProperties": false,
+            "properties": {
+                "approveTransaction": {
+                    "$ref": "#/definitions/ApproveTransaction"
+                },
+                "unvalidatedSwapTransaction": {
+                    "$ref": "#/definitions/SwapTransaction"
+                },
+                "userInput": {
+                    "$ref": "#/definitions/SwapUserInput"
+                }
+            },
+            "required": [
+                "approveTransaction",
+                "unvalidatedSwapTransaction",
+                "userInput"
+            ],
+            "type": "object"
+        },
+        "SwapState": {
+            "enum": [
+                "approve",
+                "complete",
+                "error",
+                "execute",
+                "price-change",
+                "quote",
+                "start",
+                "user-input"
+            ],
+            "type": "string"
+        },
+        "SwapTransaction": {
+            "additionalProperties": false,
+            "properties": {
+                "allowanceTarget": {
+                    "type": "string"
+                },
+                "buyAmount": {
+                    "type": "string"
+                },
+                "buyTokenAddress": {
+                    "type": "string"
+                },
+                "buyTokenToEthRate": {
+                    "type": "string"
+                },
+                "chainId": {
+                    "type": "number"
+                },
+                "data": {
+                    "type": "string"
+                },
+                "decodedUniqueId": {
+                    "type": "string"
+                },
+                "estimatedGas": {
+                    "type": "string"
+                },
+                "estimatedPriceImpact": {
+                    "type": "string"
+                },
+                "expectedSlippage": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "from": {
+                    "type": "string"
+                },
+                "gas": {
+                    "type": "string"
+                },
+                "gasPrice": {
+                    "type": "string"
+                },
+                "guaranteedPrice": {
+                    "type": "string"
+                },
+                "minimumProtocolFee": {
+                    "type": "string"
+                },
+                "orders": {
+                    "items": {
+                        "$ref": "#/definitions/Order"
+                    },
+                    "type": "array"
+                },
+                "price": {
+                    "type": "string"
+                },
+                "protocolFee": {
+                    "type": "string"
+                },
+                "sellAmount": {
+                    "type": "string"
+                },
+                "sellTokenAddress": {
+                    "type": "string"
+                },
+                "sellTokenToEthRate": {
+                    "type": "string"
+                },
+                "sources": {
+                    "items": {
+                        "$ref": "#/definitions/Source"
+                    },
+                    "type": "array"
+                },
+                "to": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "allowanceTarget",
+                "buyAmount",
+                "buyTokenAddress",
+                "buyTokenToEthRate",
+                "chainId",
+                "data",
+                "decodedUniqueId",
+                "estimatedGas",
+                "estimatedPriceImpact",
+                "expectedSlippage",
+                "from",
+                "gas",
+                "gasPrice",
+                "guaranteedPrice",
+                "minimumProtocolFee",
+                "orders",
+                "price",
+                "protocolFee",
+                "sellAmount",
+                "sellTokenAddress",
+                "sellTokenToEthRate",
+                "sources",
+                "to",
+                "value"
+            ],
+            "type": "object"
+        },
+        "SwapUserInput": {
+            "additionalProperties": false,
+            "properties": {
+                "fromToken": {
+                    "type": "string"
+                },
+                "swapAmount": {
+                    "$ref": "#/definitions/SwapAmount"
+                },
+                "toToken": {
+                    "type": "string"
+                },
+                "updatedField": {
+                    "$ref": "#/definitions/Field"
+                }
+            },
+            "required": [
+                "fromToken",
+                "swapAmount",
+                "toToken",
+                "updatedField"
             ],
             "type": "object"
         },
@@ -3050,8 +4082,11 @@
                 "EXCHANGE",
                 "INVITE_RECEIVED",
                 "INVITE_SENT",
+                "NFT_RECEIVED",
+                "NFT_SENT",
                 "RECEIVED",
-                "SENT"
+                "SENT",
+                "SWAP_TRANSACTION"
             ],
             "type": "string"
         },
@@ -3386,26 +4421,6 @@
             },
             "type": "object"
         },
-        "Web3SyncProgress": {
-            "additionalProperties": false,
-            "properties": {
-                "currentBlock": {
-                    "type": "number"
-                },
-                "highestBlock": {
-                    "type": "number"
-                },
-                "startingBlock": {
-                    "type": "number"
-                }
-            },
-            "required": [
-                "currentBlock",
-                "highestBlock",
-                "startingBlock"
-            ],
-            "type": "object"
-        },
         "default": {
             "additionalProperties": false,
             "properties": {
@@ -3492,6 +4507,551 @@
             ],
             "type": "object"
         },
+        "{AccountNumber?:{accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;accountNumber?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;country?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;MobileMoney?:{accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;country?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;mobile?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;operator?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;DuniaWallet?:{accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;mobile?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;IBANNumber?:{accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;country?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;iban?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;IFSCAccount?:{accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;accountNumber?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;country?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;ifsc?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;}": {
+            "additionalProperties": false,
+            "properties": {
+                "AccountNumber": {
+                    "$ref": "#/definitions/{accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;accountNumber?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;country?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}"
+                },
+                "DuniaWallet": {
+                    "$ref": "#/definitions/{accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;mobile?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}"
+                },
+                "IBANNumber": {
+                    "$ref": "#/definitions/{accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;country?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;iban?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}"
+                },
+                "IFSCAccount": {
+                    "$ref": "#/definitions/{accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;accountNumber?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;country?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;ifsc?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}"
+                },
+                "MobileMoney": {
+                    "$ref": "#/definitions/{accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;country?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;mobile?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;operator?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}"
+                }
+            },
+            "type": "object"
+        },
+        "{accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;accountNumber?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;country?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;ifsc?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}": {
+            "additionalProperties": false,
+            "properties": {
+                "accountName": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "errorParams": {
+                            "$ref": "#/definitions/Record<string,any>"
+                        },
+                        "errorString": {
+                            "type": "string"
+                        },
+                        "regex": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "errorString",
+                        "regex"
+                    ],
+                    "type": "object"
+                },
+                "accountNumber": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "errorParams": {
+                            "$ref": "#/definitions/Record<string,any>"
+                        },
+                        "errorString": {
+                            "type": "string"
+                        },
+                        "regex": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "errorString",
+                        "regex"
+                    ],
+                    "type": "object"
+                },
+                "country": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "errorParams": {
+                            "$ref": "#/definitions/Record<string,any>"
+                        },
+                        "errorString": {
+                            "type": "string"
+                        },
+                        "regex": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "errorString",
+                        "regex"
+                    ],
+                    "type": "object"
+                },
+                "fiatAccountType": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "errorParams": {
+                            "$ref": "#/definitions/Record<string,any>"
+                        },
+                        "errorString": {
+                            "type": "string"
+                        },
+                        "regex": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "errorString",
+                        "regex"
+                    ],
+                    "type": "object"
+                },
+                "ifsc": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "errorParams": {
+                            "$ref": "#/definitions/Record<string,any>"
+                        },
+                        "errorString": {
+                            "type": "string"
+                        },
+                        "regex": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "errorString",
+                        "regex"
+                    ],
+                    "type": "object"
+                },
+                "institutionName": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "errorParams": {
+                            "$ref": "#/definitions/Record<string,any>"
+                        },
+                        "errorString": {
+                            "type": "string"
+                        },
+                        "regex": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "errorString",
+                        "regex"
+                    ],
+                    "type": "object"
+                }
+            },
+            "type": "object"
+        },
+        "{accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;accountNumber?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;country?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}": {
+            "additionalProperties": false,
+            "properties": {
+                "accountName": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "errorParams": {
+                            "$ref": "#/definitions/Record<string,any>"
+                        },
+                        "errorString": {
+                            "type": "string"
+                        },
+                        "regex": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "errorString",
+                        "regex"
+                    ],
+                    "type": "object"
+                },
+                "accountNumber": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "errorParams": {
+                            "$ref": "#/definitions/Record<string,any>"
+                        },
+                        "errorString": {
+                            "type": "string"
+                        },
+                        "regex": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "errorString",
+                        "regex"
+                    ],
+                    "type": "object"
+                },
+                "country": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "errorParams": {
+                            "$ref": "#/definitions/Record<string,any>"
+                        },
+                        "errorString": {
+                            "type": "string"
+                        },
+                        "regex": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "errorString",
+                        "regex"
+                    ],
+                    "type": "object"
+                },
+                "fiatAccountType": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "errorParams": {
+                            "$ref": "#/definitions/Record<string,any>"
+                        },
+                        "errorString": {
+                            "type": "string"
+                        },
+                        "regex": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "errorString",
+                        "regex"
+                    ],
+                    "type": "object"
+                },
+                "institutionName": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "errorParams": {
+                            "$ref": "#/definitions/Record<string,any>"
+                        },
+                        "errorString": {
+                            "type": "string"
+                        },
+                        "regex": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "errorString",
+                        "regex"
+                    ],
+                    "type": "object"
+                }
+            },
+            "type": "object"
+        },
+        "{accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;country?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;iban?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}": {
+            "additionalProperties": false,
+            "properties": {
+                "accountName": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "errorParams": {
+                            "$ref": "#/definitions/Record<string,any>"
+                        },
+                        "errorString": {
+                            "type": "string"
+                        },
+                        "regex": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "errorString",
+                        "regex"
+                    ],
+                    "type": "object"
+                },
+                "country": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "errorParams": {
+                            "$ref": "#/definitions/Record<string,any>"
+                        },
+                        "errorString": {
+                            "type": "string"
+                        },
+                        "regex": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "errorString",
+                        "regex"
+                    ],
+                    "type": "object"
+                },
+                "fiatAccountType": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "errorParams": {
+                            "$ref": "#/definitions/Record<string,any>"
+                        },
+                        "errorString": {
+                            "type": "string"
+                        },
+                        "regex": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "errorString",
+                        "regex"
+                    ],
+                    "type": "object"
+                },
+                "iban": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "errorParams": {
+                            "$ref": "#/definitions/Record<string,any>"
+                        },
+                        "errorString": {
+                            "type": "string"
+                        },
+                        "regex": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "errorString",
+                        "regex"
+                    ],
+                    "type": "object"
+                },
+                "institutionName": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "errorParams": {
+                            "$ref": "#/definitions/Record<string,any>"
+                        },
+                        "errorString": {
+                            "type": "string"
+                        },
+                        "regex": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "errorString",
+                        "regex"
+                    ],
+                    "type": "object"
+                }
+            },
+            "type": "object"
+        },
+        "{accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;country?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;mobile?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;operator?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}": {
+            "additionalProperties": false,
+            "properties": {
+                "accountName": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "errorParams": {
+                            "$ref": "#/definitions/Record<string,any>"
+                        },
+                        "errorString": {
+                            "type": "string"
+                        },
+                        "regex": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "errorString",
+                        "regex"
+                    ],
+                    "type": "object"
+                },
+                "country": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "errorParams": {
+                            "$ref": "#/definitions/Record<string,any>"
+                        },
+                        "errorString": {
+                            "type": "string"
+                        },
+                        "regex": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "errorString",
+                        "regex"
+                    ],
+                    "type": "object"
+                },
+                "fiatAccountType": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "errorParams": {
+                            "$ref": "#/definitions/Record<string,any>"
+                        },
+                        "errorString": {
+                            "type": "string"
+                        },
+                        "regex": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "errorString",
+                        "regex"
+                    ],
+                    "type": "object"
+                },
+                "institutionName": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "errorParams": {
+                            "$ref": "#/definitions/Record<string,any>"
+                        },
+                        "errorString": {
+                            "type": "string"
+                        },
+                        "regex": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "errorString",
+                        "regex"
+                    ],
+                    "type": "object"
+                },
+                "mobile": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "errorParams": {
+                            "$ref": "#/definitions/Record<string,any>"
+                        },
+                        "errorString": {
+                            "type": "string"
+                        },
+                        "regex": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "errorString",
+                        "regex"
+                    ],
+                    "type": "object"
+                },
+                "operator": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "errorParams": {
+                            "$ref": "#/definitions/Record<string,any>"
+                        },
+                        "errorString": {
+                            "type": "string"
+                        },
+                        "regex": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "errorString",
+                        "regex"
+                    ],
+                    "type": "object"
+                }
+            },
+            "type": "object"
+        },
+        "{accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;mobile?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}": {
+            "additionalProperties": false,
+            "properties": {
+                "accountName": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "errorParams": {
+                            "$ref": "#/definitions/Record<string,any>"
+                        },
+                        "errorString": {
+                            "type": "string"
+                        },
+                        "regex": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "errorString",
+                        "regex"
+                    ],
+                    "type": "object"
+                },
+                "fiatAccountType": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "errorParams": {
+                            "$ref": "#/definitions/Record<string,any>"
+                        },
+                        "errorString": {
+                            "type": "string"
+                        },
+                        "regex": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "errorString",
+                        "regex"
+                    ],
+                    "type": "object"
+                },
+                "institutionName": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "errorParams": {
+                            "$ref": "#/definitions/Record<string,any>"
+                        },
+                        "errorString": {
+                            "type": "string"
+                        },
+                        "regex": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "errorString",
+                        "regex"
+                    ],
+                    "type": "object"
+                },
+                "mobile": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "errorParams": {
+                            "$ref": "#/definitions/Record<string,any>"
+                        },
+                        "errorString": {
+                            "type": "string"
+                        },
+                        "regex": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "errorString",
+                        "regex"
+                    ],
+                    "type": "object"
+                }
+            },
+            "type": "object"
+        },
         "{cGLD:string|null;cUSD:string|null;cEUR:string|null;}": {
             "additionalProperties": false,
             "properties": {
@@ -3521,7 +5081,7 @@
             ],
             "type": "object"
         },
-        "{invite:FeeEstimateState|undefined;send:FeeEstimateState|undefined;exchange:FeeEstimateState|undefined;\"reclaim-escrow\":FeeEstimateState|undefined;\"register-dek\":FeeEstimateState|undefined;}": {
+        "{invite:FeeEstimateState|undefined;send:FeeEstimateState|undefined;exchange:FeeEstimateState|undefined;\"reclaim-escrow\":FeeEstimateState|undefined;\"register-dek\":FeeEstimateState|undefined;swap:FeeEstimateState|undefined;}": {
             "additionalProperties": false,
             "properties": {
                 "exchange": {
@@ -3537,6 +5097,9 @@
                     "$ref": "#/definitions/FeeEstimateState"
                 },
                 "send": {
+                    "$ref": "#/definitions/FeeEstimateState"
+                },
+                "swap": {
                     "$ref": "#/definitions/FeeEstimateState"
                 }
             },
@@ -3630,16 +5193,12 @@
                                         "exchangeFailed",
                                         "exchangeRateChange",
                                         "failedFetchMnemonic",
-                                        "failedToSwitchSyncModes",
                                         "fetchFailed",
-                                        "fiatDetailsScreen.addFiatAccountResourceExist",
+                                        "fiatConnectKycStatusScreen.tryAgainFailed",
                                         "firebaseDisabled",
                                         "firebaseFailed",
                                         "gasPriceUpdateFailed",
                                         "getBankAccountsFail",
-                                        "gethAccountAlreadyExists",
-                                        "gethFetchAccounts",
-                                        "gethUnexpectedAddressOnAdd",
                                         "importBackupFailed",
                                         "importContactsFailed",
                                         "incorrectPin",
@@ -3653,6 +5212,8 @@
                                         "invalidWordsInBackupPhrase",
                                         "inviteFailed",
                                         "inviteOpenAppFailed",
+                                        "keychainAccountAlreadyExists",
+                                        "keychainFetchAccounts",
                                         "keychainStorageError",
                                         "matchmakingQuotaExceededError",
                                         "maxActionableAttestationsExceededError",
@@ -3664,10 +5225,10 @@
                                         "notReadyForCode",
                                         "odisInsufficientBalance",
                                         "odisQuotaError",
-                                        "paymentLimitReached",
                                         "paymentRequestFailed",
                                         "paymentRequestUpdateFailed",
                                         "personaAccountEndpointFail",
+                                        "phoneVerificationInput.verificationFailure",
                                         "pictureLoadFailed",
                                         "pinInputCanceled",
                                         "plaidCreateLinkTokenFail",
@@ -3676,13 +5237,11 @@
                                         "qrFailedInvalidAddress",
                                         "qrFailedInvalidRecipient",
                                         "qrFailedNoPhoneNumber",
-                                        "raiseLimitEmailNotSent",
                                         "reclaimingEscrowedPaymentFailed",
                                         "redeemFailed",
                                         "redeemInviteTimeout",
                                         "refreshFailedUnexpectedly",
                                         "repeatVerificationCode",
-                                        "requestLimitError",
                                         "revealAttestationFailure",
                                         "saltFetchFailure",
                                         "saltQuotaExceededError",
@@ -3691,6 +5250,8 @@
                                         "simplexPurchaseFetchFailed",
                                         "superchargeClaimFailure",
                                         "superchargeFetchRewardsFailed",
+                                        "swapScreen.fetchSwapQuoteFailed",
+                                        "swapScreen.swapSubmitFailed",
                                         "transactionFailed",
                                         "transactionTimeout",
                                         "verificationFailure",
@@ -3719,20 +5280,23 @@
         "app": {
             "$ref": "#/definitions/State"
         },
+        "dapps": {
+            "$ref": "#/definitions/State_25"
+        },
         "escrow": {
-            "$ref": "#/definitions/State_15"
+            "$ref": "#/definitions/State_14"
         },
         "exchange": {
             "$ref": "#/definitions/State_8"
         },
         "fees": {
-            "$ref": "#/definitions/State_16"
+            "$ref": "#/definitions/State_15"
+        },
+        "fiatConnect": {
+            "$ref": "#/definitions/State_26"
         },
         "fiatExchanges": {
-            "$ref": "#/definitions/State_21"
-        },
-        "geth": {
-            "$ref": "#/definitions/State_14"
+            "$ref": "#/definitions/State_20"
         },
         "goldToken": {
             "$ref": "#/definitions/State_5"
@@ -3747,19 +5311,19 @@
             "$ref": "#/definitions/State_11"
         },
         "imports": {
-            "$ref": "#/definitions/State_19"
+            "$ref": "#/definitions/State_18"
         },
         "localCurrency": {
-            "$ref": "#/definitions/State_18"
+            "$ref": "#/definitions/State_17"
         },
         "networkInfo": {
             "$ref": "#/definitions/State_2"
         },
         "paymentRequest": {
-            "$ref": "#/definitions/State_20"
+            "$ref": "#/definitions/State_19"
         },
         "recipients": {
-            "$ref": "#/definitions/State_17"
+            "$ref": "#/definitions/State_16"
         },
         "send": {
             "$ref": "#/definitions/State_4"
@@ -3768,10 +5332,13 @@
             "$ref": "#/definitions/State_6"
         },
         "supercharge": {
-            "$ref": "#/definitions/State_25"
+            "$ref": "#/definitions/State_24"
+        },
+        "swap": {
+            "$ref": "#/definitions/State_27"
         },
         "tokens": {
-            "$ref": "#/definitions/State_24"
+            "$ref": "#/definitions/State_23"
         },
         "transactions": {
             "$ref": "#/definitions/State_9"
@@ -3780,7 +5347,7 @@
             "$ref": "#/definitions/State_12"
         },
         "walletConnect": {
-            "$ref": "#/definitions/State_22"
+            "$ref": "#/definitions/State_21"
         },
         "web3": {
             "$ref": "#/definitions/State_10"
@@ -3791,11 +5358,12 @@
         "account",
         "alert",
         "app",
+        "dapps",
         "escrow",
         "exchange",
         "fees",
+        "fiatConnect",
         "fiatExchanges",
-        "geth",
         "goldToken",
         "home",
         "i18n",
@@ -3808,6 +5376,7 @@
         "send",
         "stableToken",
         "supercharge",
+        "swap",
         "tokens",
         "transactions",
         "verify",

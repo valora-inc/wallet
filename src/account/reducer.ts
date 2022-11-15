@@ -1,8 +1,8 @@
 import { isE164Number } from '@celo/utils/lib/phoneNumbers'
 import { Actions, ActionTypes } from 'src/account/actions'
+import { Actions as AppActions, ActionTypes as AppActionTypes } from 'src/app/actions'
 import { DAYS_TO_DELAY } from 'src/backup/consts'
-import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD, DEV_SETTINGS_ACTIVE_INITIALLY } from 'src/config'
-import { features } from 'src/flags'
+import { DEV_SETTINGS_ACTIVE_INITIALLY } from 'src/config'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 import Logger from 'src/utils/Logger'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
@@ -23,20 +23,12 @@ export interface State {
   backupRequiredTime: number | null
   dismissedGetVerified: boolean
   dismissedGoldEducation: boolean
-  promptFornoIfNeeded: boolean
-  retryVerificationWithForno: boolean
   acceptedTerms: boolean
   hasMigratedToNewBip39: boolean
   choseToRestoreAccount: boolean | undefined
   profileUploaded: boolean | undefined
   recoveringFromStoreWipe: boolean | undefined
   accountToRecoverFromStoreWipe: string | undefined
-  dailyLimitCusd: number
-  dailyLimitRequestStatus: DailyLimitRequestStatus | undefined
-  kycStatus: KycStatus | undefined
-  hasLinkedBankAccount: boolean
-  finclusiveKycStatus: FinclusiveKycStatus
-  finclusiveRegionSupported: boolean
   dismissedKeepSupercharging: boolean
   dismissedStartSupercharging: boolean
 }
@@ -52,13 +44,6 @@ export interface UserContactDetails {
   thumbnailPath: string | null
 }
 
-export enum DailyLimitRequestStatus {
-  InReview = 'InReview',
-  Approved = 'Approved',
-  Incomplete = 'Incomplete',
-  Denied = 'Denied',
-}
-
 export enum KycStatus {
   Created = 'created',
   Completed = 'completed',
@@ -71,9 +56,10 @@ export enum KycStatus {
   NotCreated = 'not-created',
 }
 
+// Maintaining this as it's required for migrations
 export enum FinclusiveKycStatus {
-  NotSubmitted = 0, // this represents state before sending to Finclusive. (Finclusive doesn't have this as a status.)
-  Submitted = 1, // finclusive calls this "Pending"
+  NotSubmitted = 0,
+  Submitted = 1,
   Accepted = 2,
   Rejected = 3,
   InReview = 4,
@@ -97,27 +83,19 @@ export const initialState: State = {
   backupCompleted: false,
   dismissedGetVerified: false,
   dismissedGoldEducation: false,
-  promptFornoIfNeeded: false,
   acceptedTerms: false,
-  retryVerificationWithForno: features.VERIFICATION_FORNO_RETRY,
   hasMigratedToNewBip39: false,
   choseToRestoreAccount: false,
   profileUploaded: false,
   recoveringFromStoreWipe: false,
   accountToRecoverFromStoreWipe: undefined,
-  dailyLimitCusd: DEFAULT_DAILY_PAYMENT_LIMIT_CUSD,
-  dailyLimitRequestStatus: undefined,
-  kycStatus: undefined,
-  hasLinkedBankAccount: false,
-  finclusiveKycStatus: FinclusiveKycStatus.NotSubmitted,
-  finclusiveRegionSupported: false,
   dismissedKeepSupercharging: false,
   dismissedStartSupercharging: false,
 }
 
 export const reducer = (
   state: State | undefined = initialState,
-  action: ActionTypes | RehydrateAction | Web3ActionTypes
+  action: ActionTypes | RehydrateAction | Web3ActionTypes | AppActionTypes
 ): State => {
   switch (action.type) {
     case REHYDRATE: {
@@ -127,7 +105,6 @@ export const reducer = (
         ...state,
         ...rehydratedPayload,
         dismissedGetVerified: false,
-        dailyLimitCusd: rehydratedPayload.dailyLimitCusd || state.dailyLimitCusd,
       }
     }
     case Actions.CHOOSE_CREATE_ACCOUNT:
@@ -172,6 +149,7 @@ export const reducer = (
         name: action.name,
         pictureUri: action.pictureUri,
       }
+    case AppActions.PHONE_NUMBER_VERIFICATION_COMPLETED:
     case Actions.SET_PHONE_NUMBER:
       if (!isE164Number(action.e164PhoneNumber)) {
         return state
@@ -247,35 +225,9 @@ export const reducer = (
           thumbnailPath: action.thumbnailPath,
         },
       }
-    case Actions.SET_PROMPT_FORNO:
-      return {
-        ...state,
-        promptFornoIfNeeded: action.promptIfNeeded,
-      }
-    case Actions.SET_RETRY_VERIFICATION_WITH_FORNO:
-      return {
-        ...state,
-        retryVerificationWithForno: action.retry,
-      }
     case Actions.ACCEPT_TERMS: {
       return { ...state, acceptedTerms: true }
     }
-    case Actions.UPDATE_DAILY_LIMIT:
-      return {
-        ...state,
-        // We don't allow minimum daily limits lower than the default to avoid human error when setting them.
-        dailyLimitCusd: Math.max(action.newLimit, DEFAULT_DAILY_PAYMENT_LIMIT_CUSD),
-      }
-    case Actions.UPDATE_DAILY_LIMIT_REQUEST_STATUS:
-      return {
-        ...state,
-        dailyLimitRequestStatus: action.dailyLimitRequestStatus,
-      }
-    case Actions.UPDATE_KYC_STATUS:
-      return {
-        ...state,
-        kycStatus: action.kycStatus,
-      }
     case Web3Actions.SET_ACCOUNT: {
       return {
         ...state,
@@ -286,24 +238,6 @@ export const reducer = (
       return {
         ...state,
         profileUploaded: true,
-      }
-    }
-    case Actions.SET_HAS_LINKED_BANK_ACCOUNT: {
-      return {
-        ...state,
-        hasLinkedBankAccount: true,
-      }
-    }
-    case Actions.SET_FINCLUSIVE_KYC: {
-      return {
-        ...state,
-        finclusiveKycStatus: action.finclusiveKycStatus,
-      }
-    }
-    case Actions.SET_FINCLUSIVE_REGION_SUPPORTED: {
-      return {
-        ...state,
-        finclusiveRegionSupported: true,
       }
     }
     case Actions.DISMISS_KEEP_SUPERCHARGING:

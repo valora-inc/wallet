@@ -20,6 +20,7 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
         "flexDirection": "row",
         "height": 56,
         "justifyContent": "space-between",
+        "overflow": "hidden",
         "width": "100%",
       }
     }
@@ -313,12 +314,16 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
   >
     <Modal
       animationType="none"
+      deviceHeight={null}
+      deviceWidth={null}
       hardwareAccelerated={false}
       hideModalContentWhileAnimating={false}
+      onBackdropPress={[Function]}
       onModalHide={[Function]}
       onModalWillHide={[Function]}
       onModalWillShow={[Function]}
       onRequestClose={[Function]}
+      panResponderThreshold={4}
       scrollHorizontal={false}
       scrollOffset={0}
       scrollOffsetMax={0}
@@ -360,11 +365,15 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
         }
       />
       <View
+        deviceHeight={null}
+        deviceWidth={null}
         forwardedRef={[Function]}
         hideModalContentWhileAnimating={false}
+        onBackdropPress={[Function]}
         onModalHide={[Function]}
         onModalWillHide={[Function]}
         onModalWillShow={[Function]}
+        panResponderThreshold={4}
         pointerEvents="box-none"
         scrollHorizontal={false}
         scrollOffset={0}
@@ -957,12 +966,9 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
             <View
               style={
                 Object {
-                  "alignItems": "center",
                   "flexDirection": "row",
-                  "flexWrap": "wrap",
-                  "justifyContent": "space-between",
-                  "minHeight": 64,
                   "paddingHorizontal": 16,
+                  "paddingVertical": 12,
                 }
               }
             >
@@ -1146,12 +1152,9 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
               <View
                 style={
                   Object {
-                    "alignItems": "center",
                     "flexDirection": "row",
-                    "flexWrap": "wrap",
-                    "justifyContent": "space-between",
-                    "minHeight": 64,
                     "paddingHorizontal": 16,
+                    "paddingVertical": 12,
                   }
                 }
               >
@@ -1301,12 +1304,9 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
             <View
               style={
                 Object {
-                  "alignItems": "center",
                   "flexDirection": "row",
-                  "flexWrap": "wrap",
-                  "justifyContent": "space-between",
-                  "minHeight": 64,
                   "paddingHorizontal": 16,
+                  "paddingVertical": 12,
                 }
               }
             >

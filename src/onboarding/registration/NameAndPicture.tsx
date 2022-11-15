@@ -1,16 +1,23 @@
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useLayoutEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet } from 'react-native'
+import { ScrollView, StyleSheet, Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
-import { setName, setPicture, setPromptForno } from 'src/account/actions'
-import { recoveringFromStoreWipeSelector } from 'src/account/selectors'
+import { setName, setPicture } from 'src/account/actions'
+import { nameSelector, recoveringFromStoreWipeSelector } from 'src/account/selectors'
 import { hideAlert, showError } from 'src/alert/actions'
+import { ConfigParams, ExperimentParams } from 'src/analytics/constants'
 import { OnboardingEvents } from 'src/analytics/Events'
+import { StatsigDynamicConfigs, StatsigEvents, StatsigLayers } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { registrationStepsSelector } from 'src/app/selectors'
+import {
+  createAccountCopyTestTypeSelector,
+  registrationStepsSelector,
+  showGuidedOnboardingSelector,
+} from 'src/app/selectors'
+import { CreateAccountCopyTestType, OnboardingNameType } from 'src/app/types'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import DevSkipButton from 'src/components/DevSkipButton'
 import FormInput from 'src/components/FormInput'
@@ -18,18 +25,70 @@ import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
+import { generateRandomUsername } from 'src/onboarding/registration/NameGenerator'
 import PictureInput from 'src/onboarding/registration/PictureInput'
-import useTypedSelector from 'src/redux/useSelector'
+import { default as useSelector, default as useTypedSelector } from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
 import { saveProfilePicture } from 'src/utils/image'
+import Logger from 'src/utils/Logger'
 import { useAsyncKomenciReadiness } from 'src/verify/hooks'
+import { Statsig } from 'statsig-react-native'
 
 type Props = StackScreenProps<StackParamList, Screens.NameAndPicture>
 
-function NameAndPicture({ navigation }: Props) {
+const getExperimentParams = () => {
+  try {
+    const statsigLayer = Statsig.getLayer(StatsigLayers.NAME_AND_PICTURE_SCREEN)
+    const showSkipButton = statsigLayer.get(
+      ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].showSkipButton.paramName,
+      ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].showSkipButton.defaultValue
+    )
+    const nameType = statsigLayer.get(
+      ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].nameType.paramName,
+      ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].nameType.defaultValue
+    )
+    return [showSkipButton, nameType]
+  } catch (error) {
+    Logger.warn('NameAndPicture', 'error getting Statsig experiment', error)
+  }
+  return [
+    ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].showSkipButton.defaultValue,
+    ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].nameType.defaultValue,
+  ]
+}
+
+const getBlockedUsernames = (): {
+  blockedAdjectives: string[]
+  blockedNouns: string[]
+} => {
+  try {
+    const config = Statsig.getConfig(StatsigDynamicConfigs.USERNAME_BLOCK_LIST)
+    const blockedAdjectives = config.get(
+      ConfigParams[StatsigDynamicConfigs.USERNAME_BLOCK_LIST].blockedAdjectives.paramName,
+      ConfigParams[StatsigDynamicConfigs.USERNAME_BLOCK_LIST].blockedAdjectives.defaultValue
+    )
+    const blockedNouns = config.get(
+      ConfigParams[StatsigDynamicConfigs.USERNAME_BLOCK_LIST].blockedNouns.paramName,
+      ConfigParams[StatsigDynamicConfigs.USERNAME_BLOCK_LIST].blockedNouns.defaultValue
+    )
+    return { blockedAdjectives, blockedNouns }
+  } catch (error) {
+    Logger.warn('NameAndPicture', 'error getting Statsig blocked usernames', error)
+  }
+  return {
+    blockedAdjectives: [],
+    blockedNouns: [],
+  }
+}
+
+function NameAndPicture({ navigation, route }: Props) {
   const [nameInput, setNameInput] = useState('')
-  const cachedName = useTypedSelector((state) => state.account.name)
+  const [showSkipButton, nameType] = useMemo(getExperimentParams, [])
+  const { blockedAdjectives, blockedNouns } = useMemo(getBlockedUsernames, [])
+  const cachedName = useTypedSelector(nameSelector)
   const picture = useTypedSelector((state) => state.account.pictureUri)
   const choseToRestoreAccount = useTypedSelector((state) => state.account.choseToRestoreAccount)
   const recoveringFromStoreWipe = useTypedSelector(recoveringFromStoreWipeSelector)
@@ -41,24 +100,60 @@ function NameAndPicture({ navigation }: Props) {
 
   // CB TEMPORARY HOTFIX: Pinging Komenci endpoint to ensure availability
   const asyncKomenciReadiness = useAsyncKomenciReadiness()
+  const showGuidedOnboarding = useSelector(showGuidedOnboardingSelector)
+  const createAccountCopyTestType = useSelector(createAccountCopyTestTypeSelector)
+  const showNameGeneratorButton = nameType === OnboardingNameType.AutoGen
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerTitle: () => (
-        <HeaderTitleWithSubtitle
-          title={t(choseToRestoreAccount ? 'restoreAccount' : 'createAccount')}
-          subTitle={t('registrationSteps', { step, totalSteps })}
-        />
-      ),
+      headerTitle: () => {
+        let pageTitleTranslationKey
+        pageTitleTranslationKey = choseToRestoreAccount
+          ? 'restoreAccount'
+          : createAccountCopyTestType === CreateAccountCopyTestType.Wallet ||
+            createAccountCopyTestType === CreateAccountCopyTestType.AlreadyHaveWallet
+          ? 'createProfile'
+          : 'createAccount'
+        if (
+          nameType === OnboardingNameType.AutoGen ||
+          nameType === OnboardingNameType.Placeholder
+        ) {
+          // experimental group of Onboarding Name Step experiment
+          pageTitleTranslationKey = 'createProfile'
+        } else if (showGuidedOnboarding) {
+          pageTitleTranslationKey = 'name'
+        }
+
+        return (
+          <HeaderTitleWithSubtitle
+            title={t(pageTitleTranslationKey)}
+            subTitle={t('registrationSteps', { step, totalSteps })}
+          />
+        )
+      },
+      headerRight: () =>
+        showSkipButton && (
+          <TopBarTextButton
+            title={t('skip')}
+            onPress={goToNextScreen}
+            titleStyle={{ color: colors.goldDark }}
+          />
+        ),
     })
-  }, [navigation, choseToRestoreAccount, step, totalSteps])
+  }, [navigation, choseToRestoreAccount, step, totalSteps, nameInput])
 
   const goToNextScreen = () => {
+    try {
+      Statsig.logEvent(StatsigEvents.ONBOARDING_NAME_STEP_COMPLETE)
+    } catch (error) {
+      Logger.warn('NameAndPicture', 'error logging Statsig event', error)
+    }
     if (recoveringFromStoreWipe) {
       navigate(Screens.ImportWallet)
     } else {
       navigate(Screens.PincodeSet, {
         komenciAvailable: !!asyncKomenciReadiness.result,
+        showGuidedOnboarding,
       })
     }
   }
@@ -78,7 +173,6 @@ function NameAndPicture({ navigation }: Props) {
       return
     }
 
-    dispatch(setPromptForno(true)) // Allow forno prompt after Welcome screen
     ValoraAnalytics.track(OnboardingEvents.name_and_picture_set, {
       includesPhoto: false,
       profilePictureSkipped: shouldSkipProfilePicture,
@@ -101,6 +195,24 @@ function NameAndPicture({ navigation }: Props) {
       }
     }
   }
+  const getUsernamePlaceholder = (nameType: OnboardingNameType) => {
+    // Firebase trusted-guide onboarding experiment
+
+    switch (nameType) {
+      case OnboardingNameType.Placeholder:
+      case OnboardingNameType.AutoGen:
+        // onboarding name step experimental group
+        return 'MyCryptoAlterEgo' // not localized
+      case OnboardingNameType.FirstAndLast:
+      // onboarding name step control group
+      default:
+        return showGuidedOnboarding ? t('fullNameOrPseudonymPlaceholder') : t('fullNamePlaceholder')
+    }
+  }
+
+  const onPressGenerateUsername = () => {
+    setNameInput(generateRandomUsername(new Set(blockedAdjectives), new Set(blockedNouns)))
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -113,13 +225,19 @@ function NameAndPicture({ navigation }: Props) {
             backgroundColor={colors.onboardingBrownLight}
           />
         )}
+        {showGuidedOnboarding && (
+          <>
+            <Text style={styles.guidedOnboardingHeader}>{t('nameAndPicGuideCopyTitle')}</Text>
+            <Text style={styles.guidedOnboardingCopy}>{t('nameAndPicGuideCopyContent')}</Text>
+          </>
+        )}
         <FormInput
           label={t('fullName')}
           style={styles.name}
           onChangeText={setNameInput}
           value={nameInput}
           enablesReturnKeyAutomatically={true}
-          placeholder={t('fullNamePlaceholder')}
+          placeholder={getUsernamePlaceholder(nameType as OnboardingNameType)}
           testID={'NameEntry'}
           multiline={false}
         />
@@ -128,11 +246,20 @@ function NameAndPicture({ navigation }: Props) {
           text={t('next')}
           size={BtnSizes.MEDIUM}
           type={BtnTypes.ONBOARDING}
-          disabled={!nameInput.trim()}
+          disabled={!nameInput?.trim()}
           testID={'NameAndPictureContinueButton'}
           showLoading={asyncKomenciReadiness.loading}
         />
       </ScrollView>
+      {showNameGeneratorButton && (
+        <Button
+          onPress={onPressGenerateUsername}
+          text={t('generateUsername')}
+          size={BtnSizes.MEDIUM}
+          type={BtnTypes.ONBOARDING_SECONDARY}
+          style={styles.generateUsernameButton}
+        />
+      )}
       <KeyboardSpacer />
     </SafeAreaView>
   )
@@ -155,5 +282,16 @@ const styles = StyleSheet.create({
   name: {
     marginTop: 24,
     marginBottom: 32,
+  },
+  guidedOnboardingCopy: {
+    ...fontStyles.regular,
+  },
+  guidedOnboardingHeader: {
+    marginTop: 36,
+    ...fontStyles.h1,
+  },
+  generateUsernameButton: {
+    alignSelf: 'center',
+    marginBottom: 24,
   },
 })

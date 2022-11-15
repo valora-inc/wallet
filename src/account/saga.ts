@@ -1,42 +1,30 @@
 import { ContractKit } from '@celo/contractkit'
+import { parsePhoneNumber } from '@celo/utils/lib/phoneNumbers'
 import { EIP712TypedData } from '@celo/utils/lib/sign-typed-data-utils'
 import { UnlockableWallet } from '@celo/wallet-base'
 import firebase from '@react-native-firebase/app'
-import _ from 'lodash'
+import { Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
-import {
-  call,
-  cancelled,
-  put,
-  select,
-  spawn,
-  take,
-  takeEvery,
-  takeLeading,
-} from 'redux-saga/effects'
+import { call, put, select, spawn, take, takeLeading } from 'redux-saga/effects'
 import {
   Actions,
   ClearStoredAccountAction,
   initializeAccountSuccess,
   saveSignedMessage,
-  setFinclusiveKyc,
-  updateCusdDailyLimit,
-  updateKycStatus,
 } from 'src/account/actions'
-import { uploadNameAndPicture } from 'src/account/profileInfo'
-import { FinclusiveKycStatus, KycStatus } from 'src/account/reducer'
+import { choseToRestoreAccountSelector } from 'src/account/selectors'
 import { updateAccountRegistration } from 'src/account/updateAccountRegistration'
 import { showError } from 'src/alert/actions'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { phoneNumberVerificationCompleted } from 'src/app/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { centralPhoneVerificationEnabledSelector } from 'src/app/selectors'
 import { clearStoredMnemonic } from 'src/backup/utils'
 import { FIREBASE_ENABLED } from 'src/config'
-import { cUsdDailyLimitChannel, firebaseSignOut, kycStatusChannel } from 'src/firebase/firebase'
-import { deleteNodeData } from 'src/geth/geth'
+import { firebaseSignOut } from 'src/firebase/firebase'
 import { refreshAllBalances } from 'src/home/actions'
 import { currentLanguageSelector } from 'src/i18n/selectors'
-import { getFinclusiveComplianceStatus, verifyWalletAddress } from 'src/in-house-liquidity'
 import { navigateClearingStack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
@@ -50,9 +38,10 @@ import { restartApp } from 'src/utils/AppRestart'
 import Logger from 'src/utils/Logger'
 import { getContractKit, getWallet } from 'src/web3/contracts'
 import { registerAccountDek } from 'src/web3/dataEncryptionKey'
-import { getOrCreateAccount, getWalletAddress, unlockAccount } from 'src/web3/saga'
+import { clearStoredAccounts } from 'src/web3/KeychainSigner'
+import networkConfig from 'src/web3/networkConfig'
+import { getOrCreateAccount, unlockAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { finclusiveKycStatusSelector } from './selectors'
 
 const TAG = 'account/saga'
 
@@ -64,7 +53,7 @@ function* clearStoredAccountSaga({ account, onlyReduxState }: ClearStoredAccount
       yield call(removeAccountLocally, account)
       yield call(clearStoredMnemonic)
       yield call(ValoraAnalytics.reset)
-      yield call(deleteNodeData)
+      yield call(clearStoredAccounts)
 
       // Ignore error if it was caused by Firebase.
       try {
@@ -84,14 +73,21 @@ function* clearStoredAccountSaga({ account, onlyReduxState }: ClearStoredAccount
   }
 }
 
-function* initializeAccount() {
-  Logger.debug(TAG + '@initializeAccount', 'Creating account')
+export function* initializeAccountSaga() {
+  Logger.debug(TAG + '@initializeAccountSaga', 'Creating account')
   try {
     ValoraAnalytics.track(OnboardingEvents.initialize_account_start)
     yield call(getOrCreateAccount)
     yield call(generateSignedMessage)
     yield put(refreshAllBalances())
-    Logger.debug(TAG + '@initializeAccount', 'Account creation success')
+
+    const choseToRestoreAccount = yield select(choseToRestoreAccountSelector)
+    const centralPhoneVerificationEnabled = yield select(centralPhoneVerificationEnabledSelector)
+    if (centralPhoneVerificationEnabled && choseToRestoreAccount) {
+      yield call(handlePreviouslyVerifiedPhoneNumber)
+    }
+
+    Logger.debug(TAG + '@initializeAccountSaga', 'Account creation success')
     ValoraAnalytics.track(OnboardingEvents.initialize_account_complete)
     yield put(initializeAccountSuccess())
   } catch (e) {
@@ -101,73 +97,50 @@ function* initializeAccount() {
   }
 }
 
-export function* fetchFinclusiveKyc() {
+function* handlePreviouslyVerifiedPhoneNumber() {
+  const address = yield select(walletAddressSelector)
+
   try {
-    const walletAddress = yield call(getWalletAddress)
+    const signedMessage = yield call(retrieveSignedMessage)
+    const queryParams = new URLSearchParams({
+      clientPlatform: Platform.OS,
+      clientVersion: DeviceInfo.getVersion(),
+    }).toString()
 
-    const complianceStatus = yield call(
-      getFinclusiveComplianceStatus,
-      verifyWalletAddress({ walletAddress })
-    )
-    yield put(setFinclusiveKyc(complianceStatus))
-  } catch (error) {
-    Logger.error(`${TAG}@fetchFinclusiveKyc`, 'Failed to fetch finclusive KYC', error)
-  }
-}
+    const response = yield call(fetch, `${networkConfig.lookupAddressUrl}?${queryParams}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `Valora ${address}:${signedMessage}`,
+      },
+    })
 
-export function* watchDailyLimit() {
-  const account = yield call(getWalletAddress)
-  const channel = yield call(cUsdDailyLimitChannel, account)
-  if (!channel) {
-    return
-  }
-  try {
-    while (true) {
-      const dailyLimit = yield take(channel)
-      if (_.isNumber(dailyLimit)) {
-        yield put(updateCusdDailyLimit(dailyLimit))
-      } else {
-        Logger.warn(`${TAG}@watchDailyLimit`, 'Daily limit must be a number', dailyLimit)
-      }
-    }
-  } catch (error) {
-    Logger.error(`${TAG}@watchDailyLimit`, 'Failed to watch daily limit', error)
-  } finally {
-    if (yield cancelled()) {
-      channel.close()
-    }
-  }
-}
-
-export function* watchKycStatus() {
-  const walletAddress = yield call(getWalletAddress)
-  const channel = yield call(kycStatusChannel, walletAddress)
-
-  if (!channel) {
-    return
-  }
-  try {
-    while (true) {
-      const kycStatus = yield take(channel)
-      if (kycStatus === undefined || Object.values(KycStatus).includes(kycStatus)) {
-        yield put(updateKycStatus(kycStatus))
-        const finclusiveKycStatus = yield select(finclusiveKycStatusSelector)
-        if (
-          kycStatus === KycStatus.Approved &&
-          finclusiveKycStatus !== FinclusiveKycStatus.Accepted
-        ) {
-          yield call(fetchFinclusiveKyc)
+    const result = yield call([response, 'json'])
+    if (response.ok && result.data?.phoneNumbers) {
+      // if phoneNumbers length is 0, there are no verified numbers so do nothing
+      if (result.data.phoneNumbers.length > 0) {
+        const lastVerifiedNumber = result.data.phoneNumbers[result.data.phoneNumbers.length - 1]
+        const phoneDetails = yield call(parsePhoneNumber, lastVerifiedNumber)
+        if (phoneDetails) {
+          yield put(
+            phoneNumberVerificationCompleted(
+              phoneDetails.e164Number,
+              phoneDetails.countryCode ? `+${phoneDetails.countryCode}` : null
+            )
+          )
+        } else {
+          throw new Error('Could not parse verified phone number')
         }
-      } else {
-        Logger.warn(`${TAG}@watchKycStatus`, 'KYC status is invalid or non-existant', kycStatus)
       }
+    } else {
+      throw new Error(yield call([response, 'text']))
     }
   } catch (error) {
-    Logger.error(`${TAG}@watchKycStatus`, 'Failed to update KYC status', error)
-  } finally {
-    if (yield cancelled()) {
-      channel.close()
-    }
+    Logger.warn(
+      `${TAG}@importBackupPhraseSaga`,
+      `Failed to lookup and store verified phone numbers for this wallet address`,
+      error
+    )
   }
 }
 
@@ -254,15 +227,7 @@ export function* watchClearStoredAccount() {
 }
 
 export function* watchInitializeAccount() {
-  yield takeLeading(Actions.INITIALIZE_ACCOUNT, initializeAccount)
-}
-
-export function* watchSaveNameAndPicture() {
-  yield takeEvery(Actions.SAVE_NAME_AND_PICTURE, uploadNameAndPicture)
-}
-
-export function* watchFetchFinclusiveKYC() {
-  yield takeLeading(Actions.FETCH_FINCLUSIVE_KYC, fetchFinclusiveKyc)
+  yield takeLeading(Actions.INITIALIZE_ACCOUNT, initializeAccountSaga)
 }
 
 export function* watchSignedMessage() {
@@ -273,10 +238,6 @@ export function* watchSignedMessage() {
 export function* accountSaga() {
   yield spawn(watchClearStoredAccount)
   yield spawn(watchInitializeAccount)
-  yield spawn(watchSaveNameAndPicture)
-  yield spawn(watchDailyLimit)
-  yield spawn(watchKycStatus)
   yield spawn(registerAccountDek)
-  yield spawn(watchFetchFinclusiveKYC)
   yield spawn(watchSignedMessage)
 }

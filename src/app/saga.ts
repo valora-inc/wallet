@@ -1,3 +1,6 @@
+import { PhoneNumberHashDetails } from '@celo/identity/lib/odis/phone-number-identifier'
+import { hexToBuffer } from '@celo/utils/lib/address'
+import { compressedPubKey } from '@celo/utils/lib/dataEncryptionKey'
 import URLSearchParamsReal from '@ungap/url-search-params'
 import { AppState, Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
@@ -15,44 +18,54 @@ import {
   takeEvery,
   takeLatest,
 } from 'redux-saga/effects'
-import { AppEvents } from 'src/analytics/Events'
+import { e164NumberSelector } from 'src/account/selectors'
+import { AppEvents, InviteEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import {
   Actions,
   androidMobileServicesAvailabilityChecked,
   appLock,
-  DappSelected,
+  inviteLinkConsumed,
   minAppVersionDetermined,
   OpenDeepLink,
   openDeepLink,
-  openUrl,
   OpenUrlAction,
+  phoneNumberVerificationMigrated,
   SetAppState,
   setAppState,
   setSupportedBiometryType,
   updateRemoteConfigValues,
 } from 'src/app/actions'
 import {
-  dappsWebViewEnabledSelector,
   getLastTimeBackgrounded,
   getRequirePinOnAppOpen,
   googleMobileServicesAvailableSelector,
   huaweiMobileServicesAvailableSelector,
+  inviterAddressSelector,
   sentryNetworkErrorsSelector,
+  shouldRunVerificationMigrationSelector,
 } from 'src/app/selectors'
-import { SuperchargeButtonType } from 'src/app/types'
+import { CreateAccountCopyTestType, InviteMethodType } from 'src/app/types'
 import { runVerificationMigration } from 'src/app/verificationMigration'
-import { FETCH_TIMEOUT_DURATION } from 'src/config'
-import { SuperchargeTokenConfig } from 'src/consumerIncentives/types'
+import { DYNAMIC_LINK_DOMAIN_URI_PREFIX, FETCH_TIMEOUT_DURATION } from 'src/config'
+import { SuperchargeTokenConfigByToken } from 'src/consumerIncentives/types'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
+import { DappConnectInfo } from 'src/dapps/types'
+import { FiatAccountSchemaCountryOverrides } from 'src/fiatconnect/types'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
-import { appVersionDeprecationChannel, fetchRemoteConfigValues } from 'src/firebase/firebase'
+import {
+  appVersionDeprecationChannel,
+  fetchRemoteConfigValues,
+  resolveDynamicLink,
+} from 'src/firebase/firebase'
 import { receiveAttestationMessage } from 'src/identity/actions'
+import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
 import { CodeInputType } from 'src/identity/verification'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import { retrieveSignedMessage } from 'src/pincode/authentication'
 import { paymentDeepLinkHandlerMerchant } from 'src/qrcode/utils'
 import { handlePaymentDeeplink } from 'src/send/utils'
 import { initializeSentry } from 'src/sentry/Sentry'
@@ -64,6 +77,12 @@ import {
   handleWalletConnectDeepLink,
   isWalletConnectDeepLink,
 } from 'src/walletConnect/walletConnect'
+import networkConfig from 'src/web3/networkConfig'
+import {
+  dataEncryptionKeySelector,
+  mtwAddressSelector,
+  walletAddressSelector,
+} from 'src/web3/selectors'
 import { parse } from 'url'
 
 const TAG = 'app/saga'
@@ -167,12 +186,11 @@ export interface RemoteConfigValues {
   inviteRewardWeeklyLimit: number
   inviteRewardsEnabled: boolean
   hideVerification: boolean
-  showRaiseDailyLimitTarget: string | undefined
   walletConnectV1Enabled: boolean
   walletConnectV2Enabled: boolean
   logPhoneNumberTypeEnabled: boolean
   superchargeApy: number
-  superchargeTokens: SuperchargeTokenConfig[]
+  superchargeTokenConfigByToken: SuperchargeTokenConfigByToken
   komenciUseLightProxy: boolean
   komenciAllowedDeployers: string[]
   pincodeUseExpandedBlocklist: boolean
@@ -180,20 +198,28 @@ export interface RemoteConfigValues {
   cashInButtonExpEnabled: boolean
   rampCashInButtonExpEnabled: boolean
   allowOtaTranslations: boolean
-  linkBankAccountEnabled: boolean
-  linkBankAccountStepTwoEnabled: boolean
   sentryTracesSampleRate: number
   sentryNetworkErrors: string[]
-  biometryEnabled: boolean
-  superchargeButtonType: SuperchargeButtonType
   maxNumRecentDapps: number
   skipVerification: boolean
   showPriceChangeIndicatorInBalances: boolean
   paymentDeepLinkHandler: PaymentDeepLinkHandler
   dappsWebViewEnabled: boolean
   skipProfilePicture: boolean
-  finclusiveUnsupportedStates: string[]
-  celoWithdrawalEnabledInExchange: boolean
+  fiatConnectCashInEnabled: boolean
+  fiatConnectCashOutEnabled: boolean
+  fiatAccountSchemaCountryOverrides: FiatAccountSchemaCountryOverrides
+  dappConnectInfo: DappConnectInfo
+  visualizeNFTsEnabledInHomeAssetsPage: boolean
+  coinbasePayEnabled: boolean
+  showSwapMenuInDrawerMenu: boolean
+  shouldShowRecoveryPhraseInSettings: boolean
+  createAccountCopyTestType: CreateAccountCopyTestType
+  maxSwapSlippagePercentage: number
+  inviteMethod: InviteMethodType
+  showGuidedOnboardingCopy: boolean
+  centralPhoneVerificationEnabled: boolean
+  networkTimeoutSeconds: number
 }
 
 export function* appRemoteFeatureFlagSaga() {
@@ -247,7 +273,8 @@ function convertQueryToScreenParams(query: string) {
 }
 
 export function* handleDeepLink(action: OpenDeepLink) {
-  const { deepLink, isSecureOrigin } = action
+  let { deepLink } = action
+  const { isSecureOrigin } = action
   Logger.debug(TAG, 'Handling deep link', deepLink)
 
   if (isWalletConnectDeepLink(deepLink)) {
@@ -255,8 +282,17 @@ export function* handleDeepLink(action: OpenDeepLink) {
     return
   }
 
+  // Try resolve dynamic links
+  if (deepLink.startsWith(DYNAMIC_LINK_DOMAIN_URI_PREFIX)) {
+    const resolvedDynamicLink: string | null = yield call(resolveDynamicLink, deepLink)
+    if (resolvedDynamicLink) {
+      deepLink = resolvedDynamicLink
+    }
+  }
+
   const rawParams = parse(deepLink)
   if (rawParams.path) {
+    const pathParts = rawParams.path.split('/')
     if (rawParams.path.startsWith('/v/')) {
       yield put(receiveAttestationMessage(rawParams.path.substr(3), CodeInputType.DEEP_LINK))
     } else if (rawParams.path.startsWith('/payment')) {
@@ -283,6 +319,12 @@ export function* handleDeepLink(action: OpenDeepLink) {
       // of our own notifications for security reasons.
       const params = convertQueryToScreenParams(rawParams.query)
       navigate(params.screen as keyof StackParamList, params)
+    } else if (pathParts.length === 3 && pathParts[1] === 'share') {
+      const inviterAddress = pathParts[2]
+      yield put(inviteLinkConsumed(inviterAddress))
+      ValoraAnalytics.track(InviteEvents.opened_via_invite_url, {
+        inviterAddress,
+      })
     }
   }
 }
@@ -307,28 +349,8 @@ export function* handleOpenUrl(action: OpenUrlAction) {
   }
 }
 
-export function* handleOpenDapp(action: DappSelected) {
-  const { dappUrl } = action.dapp
-  const dappsWebViewEnabled = yield select(dappsWebViewEnabledSelector)
-
-  if (dappsWebViewEnabled) {
-    const walletConnectEnabled: boolean = yield call(isWalletConnectEnabled, dappUrl)
-    if (isDeepLink(dappUrl) || (walletConnectEnabled && isWalletConnectDeepLink(dappUrl))) {
-      yield call(handleDeepLink, openDeepLink(dappUrl, true))
-    } else {
-      navigate(Screens.WebViewScreen, { uri: dappUrl })
-    }
-  } else {
-    yield call(handleOpenUrl, openUrl(dappUrl, true, true))
-  }
-}
-
 export function* watchOpenUrl() {
   yield takeEvery(Actions.OPEN_URL, handleOpenUrl)
-}
-
-export function* watchDappSelected() {
-  yield takeLatest(Actions.DAPP_SELECTED, handleOpenDapp)
 }
 
 function createAppStateChannel() {
@@ -371,11 +393,78 @@ export function* handleSetAppState(action: SetAppState) {
   }
 }
 
+export function* runCentralPhoneVerificationMigration() {
+  const shouldRunVerificationMigration = yield select(shouldRunVerificationMigrationSelector)
+  if (!shouldRunVerificationMigration) {
+    return
+  }
+
+  const privateDataEncryptionKey = yield select(dataEncryptionKeySelector)
+  if (!privateDataEncryptionKey) {
+    Logger.warn(
+      `${TAG}@runCentralPhoneVerificationMigration`,
+      'No data encryption key was found in the store. This should never happen.'
+    )
+    return
+  }
+
+  Logger.debug(
+    `${TAG}@runCentralPhoneVerificationMigration`,
+    'Starting to run central phone verification migration'
+  )
+
+  const address = yield select(walletAddressSelector)
+  const mtwAddress = yield select(mtwAddressSelector)
+  const phoneNumber = yield select(e164NumberSelector)
+  const publicDataEncryptionKey = compressedPubKey(hexToBuffer(privateDataEncryptionKey))
+
+  try {
+    const signedMessage = yield call(retrieveSignedMessage)
+    const phoneHashDetails: PhoneNumberHashDetails = yield call(fetchPhoneHashPrivate, phoneNumber)
+    const inviterAddress = yield select(inviterAddressSelector)
+
+    const response = yield call(fetch, networkConfig.migratePhoneVerificationUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `Valora ${address}:${signedMessage}`,
+      },
+      body: JSON.stringify({
+        clientPlatform: Platform.OS,
+        clientVersion: DeviceInfo.getVersion(),
+        publicDataEncryptionKey,
+        phoneNumber,
+        pepper: phoneHashDetails.pepper,
+        phoneHash: phoneHashDetails.phoneHash,
+        mtwAddress: mtwAddress ?? undefined,
+        inviterAddress: inviterAddress ?? undefined,
+      }),
+    })
+
+    if (response.status === 200) {
+      yield put(phoneNumberVerificationMigrated())
+      Logger.debug(
+        `${TAG}@runCentralPhoneVerificationMigration`,
+        'Central phone verification migration completed successfully'
+      )
+    } else {
+      throw new Error(yield call([response, 'text']))
+    }
+  } catch (error) {
+    Logger.warn(
+      `${TAG}@runCentralPhoneVerificationMigration`,
+      'Could not complete central phone verification migration',
+      error
+    )
+  }
+}
+
 export function* appSaga() {
   yield spawn(watchDeepLinks)
   yield spawn(watchOpenUrl)
-  yield spawn(watchDappSelected)
   yield spawn(watchAppState)
   yield spawn(runVerificationMigration)
+  yield spawn(runCentralPhoneVerificationMigration)
+  yield takeLatest(Actions.UPDATE_REMOTE_CONFIG_VALUES, runCentralPhoneVerificationMigration)
   yield takeLatest(Actions.SET_APP_STATE, handleSetAppState)
 }

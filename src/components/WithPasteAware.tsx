@@ -4,6 +4,9 @@ import Clipboard from '@react-native-community/clipboard'
 import * as React from 'react'
 import { AppState, NativeEventSubscription, ViewProps } from 'react-native'
 import { deviceIsIos14OrNewer } from 'src/utils/IosVersionUtils'
+import Logger from 'src/utils/Logger'
+
+const TAG = 'WithPasteAware'
 
 interface PasteAwareProps {
   value: string
@@ -78,7 +81,7 @@ export function withPasteAware<P extends ViewProps>(
           this.setState({ isPasteIconVisible: false, clipboardContent: null })
         }
       } catch (error) {
-        console.error('Error checking clipboard contents', error)
+        Logger.warn(TAG, 'Error checking clipboard contents', error)
       }
     }
 
@@ -86,7 +89,7 @@ export function withPasteAware<P extends ViewProps>(
       const { clipboardContent: storedClipboardContent } = this.state
       const clipboardContent = storedClipboardContent || (await Clipboard.getString())
       if (!clipboardContent) {
-        console.error('Attempted to paste but clipboard content empty. Should never happen.')
+        Logger.warn(TAG, 'Attempted to paste but clipboard content empty. Should never happen.')
         return
       }
       this.setState({ isPasteIconVisible: false, clipboardContent: null })

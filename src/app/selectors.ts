@@ -14,7 +14,7 @@ import {
   shouldUseKomenciSelector,
   verificationStatusSelector,
 } from 'src/verify/reducer'
-import { accountAddressSelector, currentAccountSelector } from 'src/web3/selectors'
+import { accountAddressSelector } from 'src/web3/selectors'
 
 export const getRequirePinOnAppOpen = (state: RootState) => {
   return state.app.requirePinOnAppOpen
@@ -37,6 +37,11 @@ export const sessionIdSelector = (state: RootState) => {
 }
 
 export const verificationPossibleSelector = (state: RootState): boolean => {
+  const centralPhoneVerificationEnabled = centralPhoneVerificationEnabledSelector(state)
+  if (centralPhoneVerificationEnabled) {
+    return true
+  }
+
   const e164Number = e164NumberSelector(state)
   const saltCache = e164NumberToSaltSelector(state)
   const shouldUseKomenci = shouldUseKomenciSelector(state)
@@ -68,23 +73,13 @@ export const hideVerificationSelector = (state: RootState) => state.app.hideVeri
 export const ranVerificationMigrationSelector = (state: RootState) =>
   state.app.ranVerificationMigrationAt
 
-// showRaiseDailyLimitTarget is an account string that represents the cutoff of which accounts
-// should return true. By doing a string comparison, if the user's account is lower than the
-// target we'll return true and false otherwise.
-export const showRaiseDailyLimitSelector = createSelector(
-  [currentAccountSelector, (state) => state.app.showRaiseDailyLimitTarget],
-  (account, showRaiseDailyLimitTarget) => {
-    if (!showRaiseDailyLimitTarget || !account) {
-      return false
-    }
-    return account < showRaiseDailyLimitTarget
-  }
-)
+export const superchargeTokenConfigByTokenSelector = (state: RootState) =>
+  state.app.superchargeTokenConfigByToken
 
-// Added isE2EEnv to test supercharge behavior in E2E tests
 export const rewardsEnabledSelector = createSelector(
-  [accountAddressSelector, (state) => state.app.superchargeTokens],
-  (address, superchargeTokens) => !!address && superchargeTokens.length > 0
+  [accountAddressSelector, superchargeTokenConfigByTokenSelector],
+  (address, superchargeTokenConfigByToken) =>
+    !!address && Object.keys(superchargeTokenConfigByToken).length > 0
 )
 
 export const logPhoneNumberTypeEnabledSelector = (state: RootState) =>
@@ -102,42 +97,35 @@ export const huaweiMobileServicesAvailableSelector = (state: RootState) =>
 
 export const rewardPillTextSelector = (state: RootState) => state.app.rewardPillText
 
-export const linkBankAccountEnabledSelector = (state: RootState) => state.app.linkBankAccountEnabled
-
-export const linkBankAccountStepTwoEnabledSelector = (state: RootState) =>
-  state.app.linkBankAccountStepTwoEnabled && state.account.finclusiveRegionSupported
-
 export const sentryTracesSampleRateSelector = (state: RootState) => state.app.sentryTracesSampleRate
 
 export const sentryNetworkErrorsSelector = (state: RootState) => state.app.sentryNetworkErrors
 
 export const supportedBiometryTypeSelector = (state: RootState) => state.app.supportedBiometryType
 
-export const biometryEnabledSelector = (state: RootState) =>
-  state.app.biometryEnabled && !!state.app.supportedBiometryType
-
 export const activeScreenSelector = (state: RootState) => state.app.activeScreen
-
-export const dappsListApiUrlSelector = (state: RootState) => state.app.dappListApiUrl
-
-export const maxNumRecentDappsSelector = (state: RootState) => state.app.maxNumRecentDapps
-
-export const recentDappsSelector = (state: RootState) => state.app.recentDapps
 
 export const showPriceChangeIndicatorInBalancesSelector = (state: RootState) =>
   state.app.showPriceChangeIndicatorInBalances
 
-export const superchargeButtonTypeSelector = (state: RootState) => state.app.superchargeButtonType
-
 export const skipVerificationSelector = (state: RootState) => state.app.skipVerification
 
-export const dappsWebViewEnabledSelector = (state: RootState) => state.app.dappsWebViewEnabled
+export const fiatConnectCashInEnabledSelector = (state: RootState) =>
+  state.app.fiatConnectCashInEnabled
+export const fiatConnectCashOutEnabledSelector = (state: RootState) =>
+  state.app.fiatConnectCashOutEnabled
 
-export const activeDappSelector = (state: RootState) =>
-  state.app.dappsWebViewEnabled ? state.app.activeDapp : null
+export const coinbasePayEnabledSelector = (state: RootState) => state.app.coinbasePayEnabled
 
-export const finclusiveUnsupportedStatesSelector = (state: RootState) =>
-  state.app.finclusiveUnsupportedStates
+export const createAccountCopyTestTypeSelector = (state: RootState) =>
+  state.app.createAccountCopyTestType
+
+export const maxSwapSlippagePercentageSelector = (state: RootState) =>
+  state.app.maxSwapSlippagePercentage
+
+export const inviteMethodSelector = (state: RootState) => state.app.inviteMethod
+
+export const showGuidedOnboardingSelector = (state: RootState) => state.app.showGuidedOnboardingCopy
 
 type StoreWipeRecoveryScreens = Extract<
   Screens,
@@ -183,14 +171,14 @@ export const restoreAccountSteps: { [key in RestoreAccountScreens]: number } = {
 export const registrationStepsSelector = createSelector(
   [
     choseToRestoreAccountSelector,
-    biometryEnabledSelector,
+    supportedBiometryTypeSelector,
     activeScreenSelector,
     recoveringFromStoreWipeSelector,
     skipVerificationSelector,
   ],
   (
     chooseRestoreAccount,
-    biometryEnabled,
+    supportedBiometryType,
     activeScreen,
     recoveringFromStoreWipe,
     skipVerification
@@ -212,7 +200,7 @@ export const registrationStepsSelector = createSelector(
       step = createAccountSteps[activeScreen as CreateAccountScreens]
     }
 
-    if (!biometryEnabled) {
+    if (supportedBiometryType === null) {
       if (Object.keys(steps).includes(Screens.EnableBiometry)) {
         totalSteps--
         step =
@@ -240,3 +228,34 @@ export const registrationStepsSelector = createSelector(
     }
   }
 )
+
+export const centralPhoneVerificationEnabledSelector = (state: RootState) =>
+  state.app.centralPhoneVerificationEnabled
+
+export const numberVerifiedCentrallySelector = (state: RootState) => state.app.phoneNumberVerified
+
+export const phoneNumberVerifiedSelector = createSelector(
+  [
+    centralPhoneVerificationEnabledSelector,
+    numberVerifiedCentrallySelector,
+    numberVerifiedSelector,
+  ],
+  (centralPhoneVerificationEnabled, numberVerifiedCentrally, numberVerifiedDecentrally) =>
+    centralPhoneVerificationEnabled
+      ? numberVerifiedCentrally || numberVerifiedDecentrally
+      : numberVerifiedDecentrally
+)
+
+export const shouldRunVerificationMigrationSelector = createSelector(
+  [
+    centralPhoneVerificationEnabledSelector,
+    numberVerifiedCentrallySelector,
+    numberVerifiedSelector,
+  ],
+  (centralPhoneVerificationEnabled, numberVerifiedCentrally, numberVerifiedDecentrally) =>
+    centralPhoneVerificationEnabled && numberVerifiedDecentrally && !numberVerifiedCentrally
+)
+
+export const inviterAddressSelector = (state: RootState) => state.app.inviterAddress
+
+export const networkTimeoutSecondsSelector = (state: RootState) => state.app.networkTimeoutSeconds

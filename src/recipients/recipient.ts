@@ -8,7 +8,7 @@ import {
   AddressToE164NumberType,
   E164NumberToAddressType,
 } from 'src/identity/reducer'
-import { ContactMatches, RecipientVerificationStatus } from 'src/identity/types'
+import { RecipientVerificationStatus } from 'src/identity/types'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'recipients/recipient'
@@ -237,43 +237,21 @@ function nameCompare(a: FuzzyRecipient, b: FuzzyRecipient) {
   return 0
 }
 
-function nameCompareExceptPrioritized(prioritizedRecipients: ContactMatches) {
-  return (a: FuzzyRecipient, b: FuzzyRecipient) => {
-    const e164A = a.e164PhoneNumber
-    const e164B = b.e164PhoneNumber
-
-    if (e164A && prioritizedRecipients[e164A]) {
-      if (e164B && prioritizedRecipients[e164B]) {
-        return nameCompare(a, b)
-      } else {
-        return -1
-      }
-    } else if (e164B && prioritizedRecipients[e164B]) {
-      return 1
-    } else {
-      return nameCompare(a, b)
-    }
-  }
-}
-
-export function sortRecipients(recipients: Recipient[], prioritizedRecipients?: ContactMatches) {
-  return recipients.sort(
-    prioritizedRecipients ? nameCompareExceptPrioritized(prioritizedRecipients) : nameCompare
-  )
+export function sortRecipients(recipients: Recipient[]) {
+  return recipients.sort(nameCompare)
 }
 
 function executeFuzzySearch(
   recipients: FuzzyRecipient[],
   query: string,
   options: Fuzzysort.KeysOptions<FuzzyRecipient>,
-  shouldSort?: boolean,
-  prioritizedRecipients?: ContactMatches
+  shouldSort?: boolean
 ): FuzzyRecipient[] {
   const parsedQuery = query.replace(/[()-\s/\\]/g, '')
   if (parsedQuery === '' || parsedQuery.length < 2) {
     // fuzzysort does not handle empty string query
     if (shouldSort) {
-      return sortRecipients(recipients, prioritizedRecipients)
+      return sortRecipients(recipients)
     } else {
       return recipients
     }
@@ -286,11 +264,7 @@ export function filterRecipients(recipients: Recipient[], query: string, shouldS
   return executeFuzzySearch(recipients, query, fuzzysortOptions, shouldSort)
 }
 
-export function filterRecipientFactory(
-  recipients: Recipient[],
-  shouldSort: boolean,
-  prioritizedRecipients?: ContactMatches
-) {
+export function filterRecipientFactory(recipients: Recipient[], shouldSort: boolean) {
   const preparedRecipients = recipients.map((r) => ({
     ...r,
     displayPrepared: fuzzysort.prepare(r.name!),
@@ -299,13 +273,7 @@ export function filterRecipientFactory(
   }))
 
   return (query: string) => {
-    return executeFuzzySearch(
-      preparedRecipients,
-      query,
-      fuzzysortPreparedOptions,
-      shouldSort,
-      prioritizedRecipients
-    )
+    return executeFuzzySearch(preparedRecipients, query, fuzzysortPreparedOptions, shouldSort)
   }
 }
 

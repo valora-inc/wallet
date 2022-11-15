@@ -75,14 +75,16 @@ function LanguageScreen({ route }: Props) {
   )
 }
 
-LanguageScreen.navigationOptions = (withAnimation: boolean) => ({ navigation }: ScreenProps) => {
-  return navigation.canGoBack()
-    ? {
-        ...headerWithBackButton,
-        ...(withAnimation ? TransitionPresets.ModalTransition : {}),
-      }
-    : emptyHeader
-}
+LanguageScreen.navigationOptions =
+  (withAnimation: boolean) =>
+  ({ navigation }: ScreenProps) => {
+    return navigation.canGoBack()
+      ? {
+          ...headerWithBackButton,
+          ...(withAnimation ? TransitionPresets.ModalTransition : {}),
+        }
+      : emptyHeader
+  }
 
 const styles = StyleSheet.create({
   container: {

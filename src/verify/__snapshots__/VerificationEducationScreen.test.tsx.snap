@@ -13,12 +13,16 @@ exports[`VerificationEducationScreen allows to skip if verification is loading 1
 >
   <Modal
     animationType="none"
+    deviceHeight={null}
+    deviceWidth={null}
     hardwareAccelerated={false}
     hideModalContentWhileAnimating={false}
+    onBackdropPress={[Function]}
     onModalHide={[Function]}
     onModalWillHide={[Function]}
     onModalWillShow={[Function]}
     onRequestClose={[Function]}
+    panResponderThreshold={4}
     scrollHorizontal={false}
     scrollOffset={0}
     scrollOffsetMax={0}
@@ -61,11 +65,15 @@ exports[`VerificationEducationScreen allows to skip if verification is loading 1
       }
     />
     <View
+      deviceHeight={null}
+      deviceWidth={null}
       forwardedRef={[Function]}
       hideModalContentWhileAnimating={false}
+      onBackdropPress={[Function]}
       onModalHide={[Function]}
       onModalWillHide={[Function]}
       onModalWillShow={[Function]}
+      panResponderThreshold={4}
       pointerEvents="box-none"
       scrollHorizontal={false}
       scrollOffset={0}
@@ -91,7 +99,6 @@ exports[`VerificationEducationScreen allows to skip if verification is loading 1
         ]
       }
       swipeThreshold={100}
-      testID="VerificationSkipDialog"
     >
       <RNCSafeAreaView>
         <View
@@ -551,6 +558,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
               Object {
                 "alignItems": "center",
                 "backgroundColor": "#D6EAF3",
+                "flexDirection": "row",
                 "height": 48,
                 "justifyContent": "center",
                 "minWidth": 120,
@@ -569,6 +577,8 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
                   "fontFamily": "Inter-SemiBold",
                   "fontSize": 16,
                   "lineHeight": 22,
+                  "marginLeft": 0,
+                  "marginRight": 0,
                 }
               }
             >
@@ -627,16 +637,21 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
   </RCTScrollView>
   <Modal
     animationType="none"
+    deviceHeight={null}
+    deviceWidth={null}
     hardwareAccelerated={false}
-    hideModalContentWhileAnimating={false}
+    hideModalContentWhileAnimating={true}
+    onBackdropPress={[Function]}
     onModalHide={[Function]}
     onModalWillHide={[Function]}
     onModalWillShow={[Function]}
     onRequestClose={[Function]}
+    panResponderThreshold={4}
     scrollHorizontal={false}
     scrollOffset={0}
     scrollOffsetMax={0}
     scrollTo={null}
+    statusBarTranslucent={false}
     supportedOrientations={
       Array [
         "portrait",
@@ -645,6 +660,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
     }
     swipeThreshold={100}
     transparent={true}
+    useNativeDriverForBackdrop={true}
     visible={false}
   >
     <View
@@ -673,16 +689,21 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
       }
     />
     <View
+      deviceHeight={null}
+      deviceWidth={null}
       forwardedRef={[Function]}
-      hideModalContentWhileAnimating={false}
+      hideModalContentWhileAnimating={true}
+      onBackdropPress={[Function]}
       onModalHide={[Function]}
       onModalWillHide={[Function]}
       onModalWillShow={[Function]}
+      panResponderThreshold={4}
       pointerEvents="box-none"
       scrollHorizontal={false}
       scrollOffset={0}
       scrollOffsetMax={0}
       scrollTo={null}
+      statusBarTranslucent={false}
       style={
         Object {
           "backgroundColor": "rgba(249, 243, 240, 0.9)",
@@ -703,6 +724,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
         ]
       }
       swipeThreshold={100}
+      useNativeDriverForBackdrop={true}
     >
       <View
         accessible={true}
@@ -857,12 +879,16 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
   </Modal>
   <Modal
     animationType="none"
+    deviceHeight={null}
+    deviceWidth={null}
     hardwareAccelerated={false}
     hideModalContentWhileAnimating={false}
+    onBackdropPress={[Function]}
     onModalHide={[Function]}
     onModalWillHide={[Function]}
     onModalWillShow={[Function]}
     onRequestClose={[Function]}
+    panResponderThreshold={4}
     scrollHorizontal={false}
     scrollOffset={0}
     scrollOffsetMax={0}
@@ -905,11 +931,15 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
       }
     />
     <View
+      deviceHeight={null}
+      deviceWidth={null}
       forwardedRef={[Function]}
       hideModalContentWhileAnimating={false}
+      onBackdropPress={[Function]}
       onModalHide={[Function]}
       onModalWillHide={[Function]}
       onModalWillShow={[Function]}
+      panResponderThreshold={4}
       pointerEvents="box-none"
       scrollHorizontal={false}
       scrollOffset={0}
@@ -935,7 +965,6 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
         ]
       }
       swipeThreshold={100}
-      testID="VerificationSkipDialog"
     >
       <RNCSafeAreaView>
         <View
@@ -1099,12 +1128,16 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
   </Modal>
   <Modal
     animationType="none"
+    deviceHeight={null}
+    deviceWidth={null}
     hardwareAccelerated={false}
     hideModalContentWhileAnimating={false}
+    onBackdropPress={[Function]}
     onModalHide={[Function]}
     onModalWillHide={[Function]}
     onModalWillShow={[Function]}
     onRequestClose={[Function]}
+    panResponderThreshold={4}
     scrollHorizontal={false}
     scrollOffset={0}
     scrollOffsetMax={0}
@@ -1147,11 +1180,15 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
       }
     />
     <View
+      deviceHeight={null}
+      deviceWidth={null}
       forwardedRef={[Function]}
       hideModalContentWhileAnimating={false}
+      onBackdropPress={[Function]}
       onModalHide={[Function]}
       onModalWillHide={[Function]}
       onModalWillShow={[Function]}
+      panResponderThreshold={4}
       pointerEvents="box-none"
       scrollHorizontal={false}
       scrollOffset={0}
@@ -1177,7 +1214,6 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
         ]
       }
       swipeThreshold={100}
-      testID="VerificationLearnMoreDialog"
     >
       <RNCSafeAreaView>
         <View
@@ -1615,6 +1651,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
               Object {
                 "alignItems": "center",
                 "backgroundColor": "#D6EAF3",
+                "flexDirection": "row",
                 "height": 48,
                 "justifyContent": "center",
                 "minWidth": 120,
@@ -1633,6 +1670,8 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
                   "fontFamily": "Inter-SemiBold",
                   "fontSize": 16,
                   "lineHeight": 22,
+                  "marginLeft": 0,
+                  "marginRight": 0,
                 }
               }
             >
@@ -1691,16 +1730,21 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
   </RCTScrollView>
   <Modal
     animationType="none"
+    deviceHeight={null}
+    deviceWidth={null}
     hardwareAccelerated={false}
-    hideModalContentWhileAnimating={false}
+    hideModalContentWhileAnimating={true}
+    onBackdropPress={[Function]}
     onModalHide={[Function]}
     onModalWillHide={[Function]}
     onModalWillShow={[Function]}
     onRequestClose={[Function]}
+    panResponderThreshold={4}
     scrollHorizontal={false}
     scrollOffset={0}
     scrollOffsetMax={0}
     scrollTo={null}
+    statusBarTranslucent={false}
     supportedOrientations={
       Array [
         "portrait",
@@ -1709,6 +1753,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
     }
     swipeThreshold={100}
     transparent={true}
+    useNativeDriverForBackdrop={true}
     visible={false}
   >
     <View
@@ -1737,16 +1782,21 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
       }
     />
     <View
+      deviceHeight={null}
+      deviceWidth={null}
       forwardedRef={[Function]}
-      hideModalContentWhileAnimating={false}
+      hideModalContentWhileAnimating={true}
+      onBackdropPress={[Function]}
       onModalHide={[Function]}
       onModalWillHide={[Function]}
       onModalWillShow={[Function]}
+      panResponderThreshold={4}
       pointerEvents="box-none"
       scrollHorizontal={false}
       scrollOffset={0}
       scrollOffsetMax={0}
       scrollTo={null}
+      statusBarTranslucent={false}
       style={
         Object {
           "backgroundColor": "rgba(249, 243, 240, 0.9)",
@@ -1767,6 +1817,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
         ]
       }
       swipeThreshold={100}
+      useNativeDriverForBackdrop={true}
     >
       <View
         accessible={true}
@@ -1921,12 +1972,16 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
   </Modal>
   <Modal
     animationType="none"
+    deviceHeight={null}
+    deviceWidth={null}
     hardwareAccelerated={false}
     hideModalContentWhileAnimating={false}
+    onBackdropPress={[Function]}
     onModalHide={[Function]}
     onModalWillHide={[Function]}
     onModalWillShow={[Function]}
     onRequestClose={[Function]}
+    panResponderThreshold={4}
     scrollHorizontal={false}
     scrollOffset={0}
     scrollOffsetMax={0}
@@ -1969,11 +2024,15 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
       }
     />
     <View
+      deviceHeight={null}
+      deviceWidth={null}
       forwardedRef={[Function]}
       hideModalContentWhileAnimating={false}
+      onBackdropPress={[Function]}
       onModalHide={[Function]}
       onModalWillHide={[Function]}
       onModalWillShow={[Function]}
+      panResponderThreshold={4}
       pointerEvents="box-none"
       scrollHorizontal={false}
       scrollOffset={0}
@@ -1999,7 +2058,6 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
         ]
       }
       swipeThreshold={100}
-      testID="VerificationSkipDialog"
     >
       <RNCSafeAreaView>
         <View
@@ -2163,12 +2221,16 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
   </Modal>
   <Modal
     animationType="none"
+    deviceHeight={null}
+    deviceWidth={null}
     hardwareAccelerated={false}
     hideModalContentWhileAnimating={false}
+    onBackdropPress={[Function]}
     onModalHide={[Function]}
     onModalWillHide={[Function]}
     onModalWillShow={[Function]}
     onRequestClose={[Function]}
+    panResponderThreshold={4}
     scrollHorizontal={false}
     scrollOffset={0}
     scrollOffsetMax={0}
@@ -2211,11 +2273,15 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
       }
     />
     <View
+      deviceHeight={null}
+      deviceWidth={null}
       forwardedRef={[Function]}
       hideModalContentWhileAnimating={false}
+      onBackdropPress={[Function]}
       onModalHide={[Function]}
       onModalWillHide={[Function]}
       onModalWillShow={[Function]}
+      panResponderThreshold={4}
       pointerEvents="box-none"
       scrollHorizontal={false}
       scrollOffset={0}
@@ -2241,7 +2307,6 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
         ]
       }
       swipeThreshold={100}
-      testID="VerificationLearnMoreDialog"
     >
       <RNCSafeAreaView>
         <View
@@ -2679,6 +2744,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when already veri
               Object {
                 "alignItems": "center",
                 "backgroundColor": "#D6EAF3",
+                "flexDirection": "row",
                 "height": 48,
                 "justifyContent": "center",
                 "minWidth": 120,
@@ -2697,6 +2763,8 @@ exports[`VerificationEducationScreen shows the \`skip\` button when already veri
                   "fontFamily": "Inter-SemiBold",
                   "fontSize": 16,
                   "lineHeight": 22,
+                  "marginLeft": 0,
+                  "marginRight": 0,
                 }
               }
             >
@@ -2755,16 +2823,21 @@ exports[`VerificationEducationScreen shows the \`skip\` button when already veri
   </RCTScrollView>
   <Modal
     animationType="none"
+    deviceHeight={null}
+    deviceWidth={null}
     hardwareAccelerated={false}
-    hideModalContentWhileAnimating={false}
+    hideModalContentWhileAnimating={true}
+    onBackdropPress={[Function]}
     onModalHide={[Function]}
     onModalWillHide={[Function]}
     onModalWillShow={[Function]}
     onRequestClose={[Function]}
+    panResponderThreshold={4}
     scrollHorizontal={false}
     scrollOffset={0}
     scrollOffsetMax={0}
     scrollTo={null}
+    statusBarTranslucent={false}
     supportedOrientations={
       Array [
         "portrait",
@@ -2773,6 +2846,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when already veri
     }
     swipeThreshold={100}
     transparent={true}
+    useNativeDriverForBackdrop={true}
     visible={false}
   >
     <View
@@ -2801,16 +2875,21 @@ exports[`VerificationEducationScreen shows the \`skip\` button when already veri
       }
     />
     <View
+      deviceHeight={null}
+      deviceWidth={null}
       forwardedRef={[Function]}
-      hideModalContentWhileAnimating={false}
+      hideModalContentWhileAnimating={true}
+      onBackdropPress={[Function]}
       onModalHide={[Function]}
       onModalWillHide={[Function]}
       onModalWillShow={[Function]}
+      panResponderThreshold={4}
       pointerEvents="box-none"
       scrollHorizontal={false}
       scrollOffset={0}
       scrollOffsetMax={0}
       scrollTo={null}
+      statusBarTranslucent={false}
       style={
         Object {
           "backgroundColor": "rgba(249, 243, 240, 0.9)",
@@ -2831,6 +2910,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when already veri
         ]
       }
       swipeThreshold={100}
+      useNativeDriverForBackdrop={true}
     >
       <View
         accessible={true}
@@ -2985,12 +3065,16 @@ exports[`VerificationEducationScreen shows the \`skip\` button when already veri
   </Modal>
   <Modal
     animationType="none"
+    deviceHeight={null}
+    deviceWidth={null}
     hardwareAccelerated={false}
     hideModalContentWhileAnimating={false}
+    onBackdropPress={[Function]}
     onModalHide={[Function]}
     onModalWillHide={[Function]}
     onModalWillShow={[Function]}
     onRequestClose={[Function]}
+    panResponderThreshold={4}
     scrollHorizontal={false}
     scrollOffset={0}
     scrollOffsetMax={0}
@@ -3033,11 +3117,15 @@ exports[`VerificationEducationScreen shows the \`skip\` button when already veri
       }
     />
     <View
+      deviceHeight={null}
+      deviceWidth={null}
       forwardedRef={[Function]}
       hideModalContentWhileAnimating={false}
+      onBackdropPress={[Function]}
       onModalHide={[Function]}
       onModalWillHide={[Function]}
       onModalWillShow={[Function]}
+      panResponderThreshold={4}
       pointerEvents="box-none"
       scrollHorizontal={false}
       scrollOffset={0}
@@ -3063,7 +3151,6 @@ exports[`VerificationEducationScreen shows the \`skip\` button when already veri
         ]
       }
       swipeThreshold={100}
-      testID="VerificationSkipDialog"
     >
       <RNCSafeAreaView>
         <View
@@ -3227,12 +3314,16 @@ exports[`VerificationEducationScreen shows the \`skip\` button when already veri
   </Modal>
   <Modal
     animationType="none"
+    deviceHeight={null}
+    deviceWidth={null}
     hardwareAccelerated={false}
     hideModalContentWhileAnimating={false}
+    onBackdropPress={[Function]}
     onModalHide={[Function]}
     onModalWillHide={[Function]}
     onModalWillShow={[Function]}
     onRequestClose={[Function]}
+    panResponderThreshold={4}
     scrollHorizontal={false}
     scrollOffset={0}
     scrollOffsetMax={0}
@@ -3275,11 +3366,15 @@ exports[`VerificationEducationScreen shows the \`skip\` button when already veri
       }
     />
     <View
+      deviceHeight={null}
+      deviceWidth={null}
       forwardedRef={[Function]}
       hideModalContentWhileAnimating={false}
+      onBackdropPress={[Function]}
       onModalHide={[Function]}
       onModalWillHide={[Function]}
       onModalWillShow={[Function]}
+      panResponderThreshold={4}
       pointerEvents="box-none"
       scrollHorizontal={false}
       scrollOffset={0}
@@ -3305,7 +3400,6 @@ exports[`VerificationEducationScreen shows the \`skip\` button when already veri
         ]
       }
       swipeThreshold={100}
-      testID="VerificationLearnMoreDialog"
     >
       <RNCSafeAreaView>
         <View
@@ -3738,6 +3832,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when user is not 
               Object {
                 "alignItems": "center",
                 "backgroundColor": "#D6EAF3",
+                "flexDirection": "row",
                 "height": 48,
                 "justifyContent": "center",
                 "minWidth": 120,
@@ -3756,6 +3851,8 @@ exports[`VerificationEducationScreen shows the \`skip\` button when user is not 
                   "fontFamily": "Inter-SemiBold",
                   "fontSize": 16,
                   "lineHeight": 22,
+                  "marginLeft": 0,
+                  "marginRight": 0,
                 }
               }
             >
@@ -3814,16 +3911,21 @@ exports[`VerificationEducationScreen shows the \`skip\` button when user is not 
   </RCTScrollView>
   <Modal
     animationType="none"
+    deviceHeight={null}
+    deviceWidth={null}
     hardwareAccelerated={false}
-    hideModalContentWhileAnimating={false}
+    hideModalContentWhileAnimating={true}
+    onBackdropPress={[Function]}
     onModalHide={[Function]}
     onModalWillHide={[Function]}
     onModalWillShow={[Function]}
     onRequestClose={[Function]}
+    panResponderThreshold={4}
     scrollHorizontal={false}
     scrollOffset={0}
     scrollOffsetMax={0}
     scrollTo={null}
+    statusBarTranslucent={false}
     supportedOrientations={
       Array [
         "portrait",
@@ -3832,6 +3934,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when user is not 
     }
     swipeThreshold={100}
     transparent={true}
+    useNativeDriverForBackdrop={true}
     visible={false}
   >
     <View
@@ -3860,16 +3963,21 @@ exports[`VerificationEducationScreen shows the \`skip\` button when user is not 
       }
     />
     <View
+      deviceHeight={null}
+      deviceWidth={null}
       forwardedRef={[Function]}
-      hideModalContentWhileAnimating={false}
+      hideModalContentWhileAnimating={true}
+      onBackdropPress={[Function]}
       onModalHide={[Function]}
       onModalWillHide={[Function]}
       onModalWillShow={[Function]}
+      panResponderThreshold={4}
       pointerEvents="box-none"
       scrollHorizontal={false}
       scrollOffset={0}
       scrollOffsetMax={0}
       scrollTo={null}
+      statusBarTranslucent={false}
       style={
         Object {
           "backgroundColor": "rgba(249, 243, 240, 0.9)",
@@ -3890,6 +3998,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when user is not 
         ]
       }
       swipeThreshold={100}
+      useNativeDriverForBackdrop={true}
     >
       <View
         accessible={true}
@@ -4044,12 +4153,16 @@ exports[`VerificationEducationScreen shows the \`skip\` button when user is not 
   </Modal>
   <Modal
     animationType="none"
+    deviceHeight={null}
+    deviceWidth={null}
     hardwareAccelerated={false}
     hideModalContentWhileAnimating={false}
+    onBackdropPress={[Function]}
     onModalHide={[Function]}
     onModalWillHide={[Function]}
     onModalWillShow={[Function]}
     onRequestClose={[Function]}
+    panResponderThreshold={4}
     scrollHorizontal={false}
     scrollOffset={0}
     scrollOffsetMax={0}
@@ -4092,11 +4205,15 @@ exports[`VerificationEducationScreen shows the \`skip\` button when user is not 
       }
     />
     <View
+      deviceHeight={null}
+      deviceWidth={null}
       forwardedRef={[Function]}
       hideModalContentWhileAnimating={false}
+      onBackdropPress={[Function]}
       onModalHide={[Function]}
       onModalWillHide={[Function]}
       onModalWillShow={[Function]}
+      panResponderThreshold={4}
       pointerEvents="box-none"
       scrollHorizontal={false}
       scrollOffset={0}
@@ -4122,7 +4239,6 @@ exports[`VerificationEducationScreen shows the \`skip\` button when user is not 
         ]
       }
       swipeThreshold={100}
-      testID="VerificationSkipDialog"
     >
       <RNCSafeAreaView>
         <View
@@ -4286,12 +4402,16 @@ exports[`VerificationEducationScreen shows the \`skip\` button when user is not 
   </Modal>
   <Modal
     animationType="none"
+    deviceHeight={null}
+    deviceWidth={null}
     hardwareAccelerated={false}
     hideModalContentWhileAnimating={false}
+    onBackdropPress={[Function]}
     onModalHide={[Function]}
     onModalWillHide={[Function]}
     onModalWillShow={[Function]}
     onRequestClose={[Function]}
+    panResponderThreshold={4}
     scrollHorizontal={false}
     scrollOffset={0}
     scrollOffsetMax={0}
@@ -4334,11 +4454,15 @@ exports[`VerificationEducationScreen shows the \`skip\` button when user is not 
       }
     />
     <View
+      deviceHeight={null}
+      deviceWidth={null}
       forwardedRef={[Function]}
       hideModalContentWhileAnimating={false}
+      onBackdropPress={[Function]}
       onModalHide={[Function]}
       onModalWillHide={[Function]}
       onModalWillShow={[Function]}
+      panResponderThreshold={4}
       pointerEvents="box-none"
       scrollHorizontal={false}
       scrollOffset={0}
@@ -4364,7 +4488,6 @@ exports[`VerificationEducationScreen shows the \`skip\` button when user is not 
         ]
       }
       swipeThreshold={100}
-      testID="VerificationLearnMoreDialog"
     >
       <RNCSafeAreaView>
         <View

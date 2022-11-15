@@ -26,3 +26,15 @@ export enum DappRequestOrigin {
   InAppWebView = 'in_app_web_view',
   External = 'external',
 }
+
+export enum StatsigLayers {
+  NAME_AND_PICTURE_SCREEN = 'name_and_picture_screen',
+}
+
+export enum StatsigDynamicConfigs {
+  USERNAME_BLOCK_LIST = 'username_block_list',
+}
+
+export enum StatsigEvents {
+  ONBOARDING_NAME_STEP_COMPLETE = 'onboarding_name_step_complete',
+}

@@ -87,8 +87,11 @@
       ".write": false
     },
     "persona": {
-      ".write": false,
-      ".read": true
+      ".write": "auth.uid === 'ihl-service-worker'",
+      ".read": "auth.uid === 'ihl-service-worker'",
+      "$address": {
+        ".read": true
+      }
     },
     "inHouseLiquidity": {
       ".write": "auth.uid === 'ihl-service-worker'",
@@ -110,6 +113,17 @@
         ".write": false,
         ".read": "auth.uid != null && $address === root.child('users').child(auth.uid).child('address').val()"
       }
+    },
+    "fiatConnect": {
+      ".write": "auth.uid === 'ihl-service-worker'",
+      ".read": "auth.uid === 'ihl-service-worker'",
+      "$address": {
+        ".read": true
+      }
+    },
+    "coinbasePayAddresses": {
+      ".read": true,
+      ".write": false
     }
   }
 }

@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
 import ContactCircle from 'src/components/ContactCircle'
 import Touchable from 'src/components/Touchable'
 import Logo, { LogoTypes } from 'src/icons/Logo'
@@ -12,11 +12,13 @@ import {
 } from 'src/recipients/recipient'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 
 interface Props {
   recipient: Recipient
   onSelectRecipient(recipient: Recipient): void
+  loading: boolean
 }
 
 function getRecipientType(recipient: Recipient) {
@@ -28,7 +30,7 @@ function getRecipientType(recipient: Recipient) {
   return undefined
 }
 
-function RecipientItem({ recipient, onSelectRecipient }: Props) {
+function RecipientItem({ recipient, onSelectRecipient, loading }: Props) {
   const { t } = useTranslation()
 
   const onPress = () => {
@@ -49,7 +51,11 @@ function RecipientItem({ recipient, onSelectRecipient }: Props) {
           {recipient.name && <Text style={styles.phone}>{getDisplayDetail(recipient)}</Text>}
         </View>
         <View style={styles.rightIconContainer}>
-          {recipient.address ? <Logo style={styles.logo} type={LogoTypes.GREEN} /> : null}
+          {loading ? (
+            <ActivityIndicator size="small" color={colors.greenUI} />
+          ) : recipient.address ? (
+            <Logo type={LogoTypes.GREEN} />
+          ) : null}
         </View>
       </View>
     </Touchable>
@@ -59,14 +65,11 @@ function RecipientItem({ recipient, onSelectRecipient }: Props) {
 const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    minHeight: 64,
+    paddingVertical: Spacing.Small12,
     paddingHorizontal: variables.contentPadding,
-    flexWrap: 'wrap',
   },
   avatar: {
-    marginRight: 12,
+    marginRight: Spacing.Small12,
   },
   contentContainer: {
     flex: 1,
@@ -79,9 +82,6 @@ const styles = StyleSheet.create({
   rightIconContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  logo: {
-    marginRight: 16,
   },
 })
 

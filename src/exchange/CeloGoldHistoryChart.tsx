@@ -14,6 +14,7 @@ import { convertDollarsToLocalAmount } from 'src/localCurrency/convert'
 import { getLocalCurrencyToDollarsExchangeRate } from 'src/localCurrency/selectors'
 import useSelector from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
+import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { goldToDollarAmount } from 'src/utils/currencyExchange'
 import { getLocalCurrencyDisplayValue } from 'src/utils/formatting'
@@ -267,7 +268,7 @@ function CeloGoldHistoryChart({ testID, i18n }: Props) {
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 0,
+    marginBottom: Spacing.Thick24,
   },
   loader: {
     width: CHART_WIDTH,

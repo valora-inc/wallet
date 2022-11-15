@@ -93,7 +93,7 @@ export const sendConfirmationLegacyScreenNavOptions = (navOptions: Props) =>
   navOptions.route.name === Screens.SendConfirmationLegacyModal
     ? {
         ...noHeader,
-        ...modalScreenOptions(navOptions),
+        ...modalScreenOptions(),
       }
     : noHeader
 

@@ -71,8 +71,8 @@ export default function SelectCountry({ navigation, route }: Props) {
   )
 }
 
-SelectCountry.navigationOptions = (navOptions: Props) => ({
-  ...modalScreenOptions(navOptions),
+SelectCountry.navigationOptions = () => ({
+  ...modalScreenOptions(),
   ...headerWithCloseButton,
   headerTitle: i18n.t('selectCountryCode'),
   headerTransparent: false,

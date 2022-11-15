@@ -1,0 +1,46 @@
+name: E2E - Main
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'
+        required: true
+        default: 'warning'
+      tags:
+        description: 'End-to-end Tests'
+  # Cron job to run e2e tests @ 8:30 pm daily on the latest commit on the default branch - main
+  schedule:
+    - cron: '30 20 * * *'
+
+# Cancel any in progress run of the workflow for a given PR
+# This avoids building outdated code
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref }}
+  cancel-in-progress: true
+
+jobs:
+  android:
+    name: Android
+    strategy:
+      max-parallel: 2
+      fail-fast: false
+      matrix:
+        android-api-level: [29, 30, 31]
+    uses: ./.github/workflows/e2e-android.yml
+    with:
+      android-api-level: ${{ matrix.android-api-level }}
+    secrets: inherit
+  ios:
+    name: iOS
+    strategy:
+      max-parallel: 2
+      fail-fast: false
+      matrix:
+        ios-version: ['14.5', '15.0']
+    uses: ./.github/workflows/e2e-ios.yml
+    with:
+      ios-version: ${{ matrix.ios-version }}
+    secrets: inherit

@@ -9,7 +9,7 @@ import {
   E164NumberToSaltType,
   WalletToAccountAddressType,
 } from 'src/identity/reducer'
-import { ContactMatches, ImportContactsStatus, VerificationStatus } from 'src/identity/types'
+import { ImportContactsStatus, VerificationStatus } from 'src/identity/types'
 import { AttestationCode, CodeInputType } from 'src/identity/verification'
 import { Recipient } from 'src/recipients/recipient'
 
@@ -37,7 +37,6 @@ export enum Actions {
   CANCEL_IMPORT_CONTACTS = 'IDENTITY/CANCEL_IMPORT_CONTACTS',
   END_IMPORT_CONTACTS = 'IDENTITY/END_IMPORT_CONTACTS',
   DENY_IMPORT_CONTACTS = 'IDENTITY/DENY_IMPORT_CONTACTS',
-  ADD_CONTACT_MATCHES = 'IDENTITY/ADD_CONTACT_MATCHES',
   VALIDATE_RECIPIENT_ADDRESS = 'IDENTITY/VALIDATE_RECIPIENT_ADDRESS',
   VALIDATE_RECIPIENT_ADDRESS_SUCCESS = 'IDENTITY/VALIDATE_RECIPIENT_ADDRESS_SUCCESS',
   VALIDATE_RECIPIENT_ADDRESS_RESET = 'IDENTITY/VALIDATE_RECIPIENT_ADDRESS_RESET',
@@ -141,7 +140,6 @@ export interface EndFetchingAddressesAction {
 
 export interface ImportContactsAction {
   type: Actions.IMPORT_CONTACTS
-  doMatchmaking: boolean
 }
 
 export interface UpdateImportContactProgress {
@@ -162,11 +160,6 @@ export interface EndImportContactsAction {
 
 export interface DenyImportContactsAction {
   type: Actions.DENY_IMPORT_CONTACTS
-}
-
-export interface AddContactMatchesAction {
-  type: Actions.ADD_CONTACT_MATCHES
-  matches: ContactMatches
 }
 
 export interface ValidateRecipientAddressAction {
@@ -247,7 +240,6 @@ export type ActionTypes =
   | UpdateImportContactProgress
   | EndImportContactsAction
   | DenyImportContactsAction
-  | AddContactMatchesAction
   | ValidateRecipientAddressAction
   | ValidateRecipientAddressSuccessAction
   | ValidateRecipientAddressResetAction
@@ -388,9 +380,8 @@ export const updateKnownAddresses = (
   knownAddresses: addresses,
 })
 
-export const importContacts = (doMatchmaking: boolean = false): ImportContactsAction => ({
+export const importContacts = (): ImportContactsAction => ({
   type: Actions.IMPORT_CONTACTS,
-  doMatchmaking,
 })
 
 export const updateImportContactsProgress = (
@@ -415,11 +406,6 @@ export const endImportContacts = (success: boolean): EndImportContactsAction => 
 
 export const denyImportContacts = (): DenyImportContactsAction => ({
   type: Actions.DENY_IMPORT_CONTACTS,
-})
-
-export const addContactsMatches = (matches: ContactMatches): AddContactMatchesAction => ({
-  type: Actions.ADD_CONTACT_MATCHES,
-  matches,
 })
 
 export const validateRecipientAddress = (

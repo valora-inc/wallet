@@ -1,6 +1,6 @@
 import { EXAMPLE_NAME } from '../utils/consts'
 import { launchApp } from '../utils/retries'
-import { enterPinUi, sleep } from '../utils/utils'
+import { enterPinUi, sleep, waitForElementId, dismissCashInBottomSheet } from '../utils/utils'
 
 export default NewAccountOnboarding = () => {
   beforeAll(async () => {
@@ -39,16 +39,19 @@ export default NewAccountOnboarding = () => {
     await element(by.id('VerificationSkipDialog/PrimaryAction')).tap()
 
     // Arrived to Home screen
+    await dismissCashInBottomSheet()
     await expect(element(by.id('SendOrRequestBar'))).toBeVisible()
+
+    // Able to open the drawer - testing https://github.com/valora-inc/wallet/issues/3043
+    await waitForElementId('Hamburger')
+    await element(by.id('Hamburger')).tap()
+    await waitForElementId('Drawer/Header')
   })
 
   // Ideally this wouldn't be dependent on the previous test
   it('Setup Recovery Phrase', async () => {
-    await element(by.id('Hamburger')).tap()
     await element(by.id('DrawerItem/Recovery Phrase')).tap()
-
     await enterPinUi()
-
     await element(by.id('SetUpAccountKey')).tap()
 
     // Go through education
@@ -73,9 +76,23 @@ export default NewAccountOnboarding = () => {
       .toBeVisible()
       .withTimeout(10 * 1000)
 
-    // Navigated to recovery phrase display
-    await waitFor(element(by.id('RecoveryPhraseContainer')))
+    // Navigated to Home screen
+    await dismissCashInBottomSheet()
+    await waitFor(element(by.id('SendOrRequestBar')))
       .toBeVisible()
       .withTimeout(10 * 1000)
+  })
+
+  // After quiz completion recovery phrase should only be shown in settings
+  it('Recovery phrase only shown in settings', async () => {
+    await waitForElementId('Hamburger')
+    await element(by.id('Hamburger')).tap()
+    await expect(element(by.id('DrawerItem/Recovery Phrase'))).not.toExist()
+    await waitForElementId('DrawerItem/Settings')
+    await element(by.id('DrawerItem/Settings')).tap()
+    await waitForElementId('RecoveryPhrase')
+    await element(by.id('RecoveryPhrase')).tap()
+    await enterPinUi()
+    await waitForElementId('AccountKeyWords')
   })
 }

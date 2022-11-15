@@ -8,7 +8,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Email, sendEmail } from 'src/account/emailSender'
 import { e164NumberSelector } from 'src/account/selectors'
 import { showMessage } from 'src/alert/actions'
-import { numberVerifiedSelector, sessionIdSelector } from 'src/app/selectors'
+import {
+  numberVerifiedCentrallySelector,
+  numberVerifiedSelector,
+  sessionIdSelector,
+} from 'src/app/selectors'
 import { APP_NAME } from 'src/brandingConfig'
 import Button, { BtnTypes } from 'src/components/Button'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
@@ -33,7 +37,8 @@ function SupportContact({ route }: Props) {
   const e164PhoneNumber = useSelector(e164NumberSelector)
   const currentAccount = useSelector(currentAccountSelector)
   const sessionId = useSelector(sessionIdSelector)
-  const numberVerified = useSelector(numberVerifiedSelector)
+  const numberVerifiedDecentralized = useSelector(numberVerifiedSelector)
+  const numberVerifiedCentralized = useSelector(numberVerifiedCentrallySelector)
   const dispatch = useDispatch()
 
   const prefilledText = route.params?.prefilledText
@@ -55,9 +60,12 @@ function SupportContact({ route }: Props) {
       buildNumber: DeviceInfo.getBuildNumber(),
       apiLevel: DeviceInfo.getApiLevelSync(),
       deviceId: DeviceInfo.getDeviceId(),
+      deviceBrand: DeviceInfo.getBrand(),
+      deviceModel: DeviceInfo.getModel(),
       address: currentAccount,
       sessionId,
-      numberVerified,
+      numberVerifiedDecentralized,
+      numberVerifiedCentralized,
       network: DEFAULT_TESTNET,
     }
     const userId = e164PhoneNumber ? anonymizedPhone(e164PhoneNumber) : t('unknown')
@@ -67,23 +75,27 @@ function SupportContact({ route }: Props) {
       body: `${message}<br/><br/><b>${JSON.stringify(deviceInfo)}</b>`,
       isHTML: true,
     }
-    let combinedLogsPath: string | false = false
+    let attachments: Email['attachments']
     if (attachLogs) {
-      combinedLogsPath = await Logger.createCombinedLogs()
-      if (combinedLogsPath) {
-        email.attachments = [
-          {
-            path: combinedLogsPath, // The absolute path of the file from which to read data.
-            type: 'text', // Mime Type: jpg, png, doc, ppt, html, pdf, csv
-            name: '', // Optional: Custom filename for attachment
-          },
-        ]
+      attachments = await Logger.getLogsToAttach()
+      if (attachments) {
+        email.attachments = attachments
         email.body += (email.body ? '<br/><br/>' : '') + '<b>Support logs are attached...</b>'
       }
     }
-    setInProgress(false)
+    // Used to prevent flickering of the activity indicator on quick uploads
+    setTimeout(() => setInProgress(false), 1000)
     try {
-      await sendEmail(email, deviceInfo, combinedLogsPath)
+      await sendEmail(
+        email,
+        deviceInfo,
+        // Get the current months log file to attach as text if sendEmailWithNonNativeApp is used
+        attachments
+          ? attachments.find(
+              (attachment: { name: string }) => attachment.name === Logger.getCurrentLogFileName()
+            )?.path ?? false
+          : false
+      )
       navigateBackAndToast()
     } catch (error) {
       Logger.error('SupportContact', 'Error while sending logs to support', error)

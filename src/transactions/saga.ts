@@ -4,23 +4,17 @@ import { EscrowWrapper } from '@celo/contractkit/lib/wrappers/Escrow'
 import '@react-native-firebase/database'
 import '@react-native-firebase/messaging'
 import BigNumber from 'bignumber.js'
-import { all, call, put, select, spawn, take, takeEvery, takeLatest } from 'redux-saga/effects'
-import { getProfileInfo } from 'src/account/profileInfo'
+import { call, put, select, spawn, take, takeEvery, takeLatest } from 'redux-saga/effects'
 import { showError } from 'src/alert/actions'
-import {
-  TokenTransactionType,
-  TransactionFeedFragment,
-  TransferItemFragment,
-} from 'src/apollo/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { fetchGoldBalance } from 'src/goldToken/actions'
 import { Actions as IdentityActions } from 'src/identity/actions'
 import { AddressToE164NumberType } from 'src/identity/reducer'
 import { addressToE164NumberSelector } from 'src/identity/selectors'
-import { AddressToRecipient, NumberToRecipient } from 'src/recipients/recipient'
-import { phoneRecipientCacheSelector, updateValoraRecipientCache } from 'src/recipients/reducer'
+import { NumberToRecipient } from 'src/recipients/recipient'
+import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import { fetchStableBalances } from 'src/stableToken/actions'
-import { fetchTokenBalances } from 'src/tokens/reducer'
+import { fetchTokenBalances } from 'src/tokens/slice'
 import {
   Actions,
   addHashToStandbyTransaction,
@@ -43,7 +37,6 @@ import {
   standbyTransactionsSelector,
 } from 'src/transactions/reducer'
 import { sendTransactionPromises, wrapSendTransactionWithRetry } from 'src/transactions/send'
-import { isTransferTransaction } from 'src/transactions/transferFeedUtils'
 import {
   StandbyTransaction,
   StandbyTransactionLegacy,
@@ -191,7 +184,7 @@ export function* sendAndMonitorTransaction<T>(
 
     yield put(fetchGoldBalance())
     yield put(fetchStableBalances())
-    yield put(fetchTokenBalances())
+    yield put(fetchTokenBalances({ showLoading: true }))
     return { receipt: txReceipt }
   } catch (error) {
     Logger.error(TAG + '@sendAndMonitorTransaction', `Error sending tx ${context.id}`, error)
@@ -250,42 +243,10 @@ function* refreshRecentTxRecipients() {
   yield put(updateRecentTxRecipientsCache(recentTxRecipientsCache))
 }
 
-function* addProfile(address: string) {
-  const info = yield call(getProfileInfo, address)
-  if (info) {
-    const newProfile: AddressToRecipient = {
-      [address]: {
-        address,
-        name: info?.name,
-        thumbnailPath: info?.thumbnailPath,
-      },
-    }
-    yield put(updateValoraRecipientCache(newProfile))
-    Logger.info(TAG, `added ${JSON.stringify(newProfile)} to valoraRecipientCache`)
-  }
-}
-
-function getDistinctReceivedAddresses(transactions: TransactionFeedFragment[]) {
-  return Array.from(
-    new Set(
-      transactions
-        .filter(
-          (trans) => isTransferTransaction(trans) && trans.type === TokenTransactionType.Received
-        )
-        .map((trans) => (trans as TransferItemFragment).address)
-    )
-  )
-}
-
-function* addRecipientProfiles({ transactions }: NewTransactionsInFeedAction) {
-  yield all(getDistinctReceivedAddresses(transactions).map((address) => call(addProfile, address)))
-}
-
 function* watchNewFeedTransactions() {
   yield takeEvery(Actions.NEW_TRANSACTIONS_IN_FEED, cleanupStandbyTransactionsLegacy)
   yield takeEvery(Actions.UPDATE_TRANSACTIONS, cleanupStandbyTransactions)
   yield takeEvery(Actions.UPDATE_TRANSACTIONS, getInviteTransactionsDetails)
-  yield takeEvery(Actions.NEW_TRANSACTIONS_IN_FEED, addRecipientProfiles)
   yield takeLatest(Actions.NEW_TRANSACTIONS_IN_FEED, refreshRecentTxRecipients)
 }
 

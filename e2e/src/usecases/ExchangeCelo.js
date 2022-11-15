@@ -1,18 +1,17 @@
 import { format } from 'date-fns'
 import { celoEducation } from '../utils/celoEducation'
-import { DEFAULT_RECIPIENT_ADDRESS } from '../utils/consts'
 import { reloadReactNative } from '../utils/retries'
 import {
   enterPinUiIfNecessary,
   isElementVisible,
   padTrailingZeros,
   sleep,
+  waitForElementId,
   waitForExpectNotVisible,
 } from '../utils/utils'
 
 const CELO_TO_SELL = 0.045
 const CELO_TO_BUY = +Math.random().toFixed(3)
-const CELO_TO_WITHDRAW = +Math.random().toFixed(3)
 const CELO_TO_SELL_MIN = 0.002
 
 const scrollToTopOfFeed = async () => {
@@ -49,6 +48,7 @@ export default ExchangeCelo = () => {
   beforeEach(async () => {
     await reloadReactNative()
     // Tap Hamburger Menu
+    await waitForElementId('Hamburger')
     await element(by.id('Hamburger')).tap()
     // Tap CELO
     await element(by.id('CELO')).tap()
@@ -154,45 +154,6 @@ export default ExchangeCelo = () => {
     await waitForExpectNotVisible('errorBanner')
     await scrollToTopOfFeed()
     await assertTransactionAppeared(CELO_TO_SELL_MIN, transactionTime)
-    // TODO Check that transaction appears in home feed
-  })
-
-  it('Then Withdraw CELO', async () => {
-    // Scroll to the withdraw button
-    await waitFor(element(by.id('WithdrawCELO')))
-      .toBeVisible()
-      .whileElement(by.id('ExchangeScrollView'))
-      .scroll(50, 'down')
-    // Tap withdraw
-    await element(by.id('WithdrawCELO')).tap()
-    // Wait on account address entry field
-    await waitFor(element(by.id('AccountAddress')))
-      .toBeVisible()
-      .withTimeout(10 * 1000)
-    // Fill in the destination address
-    await element(by.id('AccountAddress')).replaceText(DEFAULT_RECIPIENT_ADDRESS)
-    // Fill in the amount
-    await element(by.id('CeloAmount')).replaceText(`${CELO_TO_WITHDRAW}`)
-    // Send return key to close keyboard if review button is obscured by keyboard
-    if (!(await isElementVisible('WithdrawReviewButton'))) {
-      await element(by.id('ExchangeInput')).typeText('\n')
-    }
-    // Tap Review
-    await element(by.id('WithdrawReviewButton')).tap()
-    // Wait for confirm button
-    await waitFor(element(by.id('ConfirmWithdrawButton')))
-      .toBeVisible()
-      .withTimeout(10 * 1000)
-    // Tap Confirm
-    await element(by.id('ConfirmWithdrawButton')).tap()
-    // Enter PIN
-    await enterPinUiIfNecessary()
-    // Get transaction time
-    let transactionTime = new Date()
-    // Wait 10 seconds checking that error banner is not visible each second
-    await waitForExpectNotVisible('errorBanner')
-    await scrollToTopOfFeed()
-    await assertTransactionAppeared(CELO_TO_WITHDRAW, transactionTime)
     // TODO Check that transaction appears in home feed
   })
 }

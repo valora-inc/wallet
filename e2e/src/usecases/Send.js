@@ -31,11 +31,11 @@ export default Send = () => {
       await element(by.id('SearchInput')).tap()
       await element(by.id('SearchInput')).replaceText(DEFAULT_RECIPIENT_ADDRESS)
       await element(by.id('SearchInput')).tapReturnKey()
-      await expect(element(by.text('Account 0xe5f5...8846')).atIndex(0)).toBeVisible()
+      await expect(element(by.text('0xe5f5...8846')).atIndex(0)).toBeVisible()
     })
 
     it('Then tapping a recipient should navigate to send amount', async () => {
-      await element(by.text('Account 0xe5f5...8846')).atIndex(0).tap()
+      await element(by.text('0xe5f5...8846')).atIndex(0).tap()
       await expect(element(by.id('MaxButton'))).toBeVisible()
       await expect(element(by.id('onChangeToken'))).toBeVisible()
       await expect(element(by.id('SwapInput'))).toBeVisible()
@@ -79,7 +79,7 @@ export default Send = () => {
     })
 
     it('Then should display correct recipient', async () => {
-      await expect(element(by.text('Account 0xe5f5...8846'))).toBeVisible()
+      await expect(element(by.text('0xe5f5...8846'))).toBeVisible()
     })
 
     it('Then should be able to add a comment', async () => {

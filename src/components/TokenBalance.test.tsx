@@ -1,9 +1,12 @@
-import { render } from '@testing-library/react-native'
+import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
-import { HomeTokenBalance, FiatExchangeTokenBalance } from 'src/components/TokenBalance'
+import { FiatExchangeTokenBalance, HomeTokenBalance } from 'src/components/TokenBalance'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import { Currency } from 'src/utils/currencies'
+import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 import { createMockStore, getElementText } from 'test/utils'
 import { mockTokenBalances } from 'test/values'
 
@@ -66,6 +69,64 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
   )
 
   it.each([HomeTokenBalance, FiatExchangeTokenBalance])(
+    'navigates to TokenBalances screen on View Balances tap',
+    async (TokenBalanceComponent) => {
+      const store = createMockStore({
+        ...defaultStore,
+        tokens: {
+          // FiatExchangeTokenBalance requires 2 balances to display the View Balances button
+          tokenBalances: {
+            '0x00400FcbF0816bebB94654259de7273f4A05c762': {
+              usdPrice: '0.1',
+              address: '0x00400FcbF0816bebB94654259de7273f4A05c762',
+              symbol: 'POOF',
+              balance: '5',
+              priceFetchedAt: Date.now(),
+            },
+            '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F': {
+              usdPrice: '1.16',
+              address: '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F',
+              symbol: 'cEUR',
+              balance: '7',
+              priceFetchedAt: Date.now(),
+            },
+          },
+        },
+      })
+
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <TokenBalanceComponent />
+        </Provider>
+      )
+
+      fireEvent.press(getByTestId('ViewBalances'))
+      expect(navigate).toHaveBeenCalledWith(Screens.TokenBalances)
+    }
+  )
+
+  it.each([HomeTokenBalance, FiatExchangeTokenBalance])(
+    'renders correctly with zero balance',
+    async (TokenBalanceComponent) => {
+      const store = createMockStore({
+        ...defaultStore,
+        tokens: {
+          tokenBalances: {},
+        },
+      })
+
+      const tree = render(
+        <Provider store={store}>
+          <TokenBalanceComponent />
+        </Provider>
+      )
+
+      expect(tree.queryByTestId('ViewBalances')).toBeFalsy()
+      expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('$0.00')
+    }
+  )
+
+  it.each([HomeTokenBalance, FiatExchangeTokenBalance])(
     'renders correctly with one balance',
     async (TokenBalanceComponent) => {
       const store = createMockStore(defaultStore)
@@ -76,7 +137,6 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
         </Provider>
       )
 
-      expect(tree.queryByTestId('ViewBalances')).toBeFalsy()
       expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('$0.50')
     }
   )
@@ -135,6 +195,41 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
     }
   )
 
+  it.each([HomeTokenBalance, FiatExchangeTokenBalance])(
+    'renders correctly with stale balance',
+    async (TokenBalanceComponent) => {
+      const store = createMockStore({
+        tokens: {
+          tokenBalances: {
+            '0xcelo': {
+              name: 'Celo',
+              address: '0xcelo',
+              symbol: 'CELO',
+              balance: '1',
+              usdPrice: '0.90',
+              priceFetchedAt: Date.now() - ONE_DAY_IN_MILLIS,
+              isCoreToken: true,
+            },
+            '0x048F47d358EC521a6cf384461d674750a3cB58C8': {
+              address: '0x048F47d358EC521a6cf384461d674750a3cB58C8',
+              symbol: 'TT',
+              balance: '10',
+            },
+          },
+        },
+      })
+
+      const tree = render(
+        <Provider store={store}>
+          <TokenBalanceComponent />
+        </Provider>
+      )
+
+      expect(tree.queryByTestId('ViewBalances')).toBeTruthy()
+      expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('₱-')
+    }
+  )
+
   it('renders correctly when fetching the token balances failed', async () => {
     const store = createMockStore({
       tokens: {
@@ -188,7 +283,7 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
       </Provider>
     )
 
-    expect(tree.queryByTestId('ViewBalances')).toBeFalsy()
+    expect(tree.queryByTestId('ViewBalances')).toBeTruthy()
     expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('₱-')
 
     expect(store.getActions()).toMatchInlineSnapshot(`

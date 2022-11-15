@@ -40,7 +40,7 @@ import { StackParamList } from 'src/navigator/types'
 import { getDisplayName, Recipient } from 'src/recipients/recipient'
 import useSelector from 'src/redux/useSelector'
 import { sendPaymentOrInvite } from 'src/send/actions'
-import { isSendingSelector } from 'src/send/selectors'
+import { inviteRewardsActiveSelector, isSendingSelector } from 'src/send/selectors'
 import { useInputAmounts } from 'src/send/SendAmount'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import colors from 'src/styles/colors'
@@ -61,7 +61,7 @@ export const sendConfirmationScreenNavOptions = (navOptions: Props) =>
   navOptions.route.name === Screens.SendConfirmationModal
     ? {
         ...noHeader,
-        ...modalScreenOptions(navOptions),
+        ...modalScreenOptions(),
       }
     : noHeader
 
@@ -107,6 +107,7 @@ function SendConfirmation(props: Props) {
   const [encryptionDialogVisible, setEncryptionDialogVisible] = useState(false)
   const [comment, setComment] = useState(commentFromParams ?? '')
 
+  const inviteRewardsEnabled = useSelector(inviteRewardsActiveSelector)
   const tokenInfo = useTokenInfo(tokenAddress)
   const isDekRegistered = useSelector(isDekRegisteredSelector) ?? false
   const addressToDataEncryptionKey = useSelector(addressToDataEncryptionKeySelector)
@@ -276,7 +277,11 @@ function SendConfirmation(props: Props) {
         isSending={isSending}
       >
         <View style={styles.transferContainer}>
-          {isInvite && <Text style={styles.inviteText}>{t('inviteMoneyEscrow')}</Text>}
+          {isInvite ? (
+            <Text style={styles.inviteText}>
+              {inviteRewardsEnabled ? t('inviteMoneyEscrowWithRewards') : t('inviteMoneyEscrow')}
+            </Text>
+          ) : null}
           <View style={styles.headerContainer}>
             <ContactCircle recipient={recipient} />
             <View style={styles.recipientInfoContainer}>

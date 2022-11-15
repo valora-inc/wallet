@@ -1,12 +1,13 @@
-import { AccountAuthRequest, Countries, SignTxRequest, TxToSignParam } from '@celo/utils'
-import { FiatAccountSchema, QuoteResponse } from '@fiatconnect/fiatconnect-types'
+import { AccountAuthRequest, Countries, SignTxRequest } from '@celo/utils'
+import { KycSchema } from '@fiatconnect/fiatconnect-types'
 import BigNumber from 'bignumber.js'
-import { LinkError } from 'react-native-plaid-link-sdk'
-import { KycStatus } from 'src/account/reducer'
 import { SendOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { ExchangeConfirmationCardProps } from 'src/exchange/ExchangeConfirmationCard'
-import { CICOFlow, FiatExchangeFlow, ProviderInfo, SimplexQuote } from 'src/fiatExchanges/utils'
+import { Props as KycLandingProps } from 'src/fiatconnect/KycLanding'
+import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
+import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
+import { CICOFlow, FiatExchangeFlow, SimplexQuote } from 'src/fiatExchanges/utils'
 import { AddressValidationType } from 'src/identity/reducer'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { Screens } from 'src/navigator/Screens'
@@ -20,7 +21,12 @@ import { ReviewProps } from 'src/transactions/TransactionReview'
 import { TransferConfirmationCardProps } from 'src/transactions/TransferConfirmationCard'
 import { TokenTransaction } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
-import { PendingAction, PendingSession } from 'src/walletConnect/types'
+import {
+  PendingAction,
+  WalletConnectRequestType,
+  WalletConnectSessionRequest,
+} from 'src/walletConnect/types'
+import { FiatAccount } from 'src/fiatconnect/slice'
 
 // Typed nested navigator params
 type NestedNavigatorParams<ParamList> = {
@@ -59,7 +65,7 @@ export type StackParamList = {
       }
   [Screens.BackupIntroduction]:
     | {
-        navigatedFromSettings?: boolean
+        showDrawerTopBar: boolean
       }
     | undefined
   [Screens.AccountKeyEducation]:
@@ -79,29 +85,19 @@ export type StackParamList = {
     | {
         navigatedFromSettings: boolean
       }
-  [Screens.BankAccounts]: {
-    newPublicToken?: string
-    fromSyncBankAccountScreen?: boolean
-  }
   [Screens.FiatDetailsScreen]: {
-    providerURL: string
-    fiatAccountSchema: FiatAccountSchema
-    allowedValues?: Record<string, string[]>
-    cicoQuote?: QuoteResponse
+    quote: FiatConnectQuote
     flow: CICOFlow
-    provider: ProviderInfo
   }
   [Screens.BidaliScreen]: { currency?: Currency }
+  [Screens.CoinbasePayScreen]: { uri: string }
   [Screens.CashInSuccess]: { provider?: string }
   [Screens.ConsumerIncentivesHomeScreen]: undefined
-  [Screens.DappKitAccountAuth]: {
+  [Screens.DappKitAccountScreen]: {
     dappKitRequest: AccountAuthRequest
   }
   [Screens.DappKitSignTxScreen]: {
     dappKitRequest: SignTxRequest
-  }
-  [Screens.DappKitTxDataScreen]: {
-    dappKitData: TxToSignParam['txData']
   }
   [Screens.DAppsExplorerScreen]: undefined
   [Screens.Debug]: undefined
@@ -126,6 +122,7 @@ export type StackParamList = {
   [Screens.ExternalExchanges]: {
     isCashIn?: boolean
     currency: Currency
+    exchanges: ExternalExchangeProvider[]
   }
   [Screens.FiatExchange]: undefined
   [Screens.FiatExchangeAmount]: {
@@ -134,6 +131,38 @@ export type StackParamList = {
   }
   [Screens.FiatExchangeCurrency]: {
     flow: FiatExchangeFlow
+  }
+  [Screens.FiatConnectLinkAccount]: {
+    quote: FiatConnectQuote
+    flow: CICOFlow
+  }
+  [Screens.FiatConnectReview]: {
+    flow: CICOFlow
+    normalizedQuote: FiatConnectQuote
+    fiatAccount: FiatAccount
+    shouldRefetchQuote?: boolean
+  }
+  [Screens.FiatConnectRefetchQuote]: {
+    providerId: string
+    kycSchema: KycSchema
+  }
+  [Screens.FiatConnectTransferStatus]: {
+    flow: CICOFlow
+    normalizedQuote: FiatConnectQuote
+    fiatAccount: FiatAccount
+  }
+  [Screens.KycDenied]: {
+    flow: CICOFlow
+    quote: FiatConnectQuote
+    retryable: boolean
+  }
+  [Screens.KycExpired]: {
+    flow: CICOFlow
+    quote: FiatConnectQuote
+  }
+  [Screens.KycPending]: {
+    flow: CICOFlow
+    quote: FiatConnectQuote
   }
   [Screens.MoonPayScreen]: {
     localAmount: number
@@ -157,7 +186,6 @@ export type StackParamList = {
   }
   [Screens.Simplex]: {
     simplexQuote: SimplexQuote
-    userIpAddress: string
   }
   [Screens.GoldEducation]: undefined
   [Screens.ImportWallet]:
@@ -181,6 +209,7 @@ export type StackParamList = {
     | undefined
   [Screens.Licenses]: undefined
   [Screens.Main]: undefined
+  [Screens.MainModal]: undefined
   [Screens.MerchantPayment]: { referenceId: string; apiBase: string }
   [Screens.OutgoingPaymentRequestListScreen]: undefined
   [Screens.PaymentRequestUnavailable]: {
@@ -193,6 +222,7 @@ export type StackParamList = {
     transactionData: TransactionDataInputLegacy
     addressJustValidated?: boolean
   }
+  [Screens.KycLanding]: KycLandingProps
   [Screens.PincodeEnter]: {
     withVerification?: boolean
     onSuccess: (pin: string) => void
@@ -201,11 +231,11 @@ export type StackParamList = {
   }
   [Screens.PincodeSet]:
     | {
-        isVerifying?: boolean
         changePin?: boolean
         komenciAvailable?: boolean
         choseToRestoreAccount?: boolean
         registrationStep?: { step: number; totalSteps: number }
+        showGuidedOnboarding?: boolean
       }
     | undefined
   [Screens.PhoneNumberLookupQuota]: {
@@ -216,12 +246,12 @@ export type StackParamList = {
   [Screens.PhotosNUX]: undefined
   [Screens.Profile]: undefined
   [Screens.QRNavigator]: NestedNavigatorParams<QRTabParamList> | undefined
-  [Screens.RaiseLimitScreen]: undefined
   [Screens.ReclaimPaymentConfirmationScreen]: {
     reclaimPaymentInput: EscrowedPayment
     onCancel?: () => void
   }
   [Screens.RegulatoryTerms]: undefined
+  [Screens.SanctionedCountryErrorScreen]: undefined
   [Screens.SelectCountry]: {
     countries: Countries
     selectedCountryCodeAlpha2: string
@@ -254,9 +284,7 @@ export type StackParamList = {
   [Screens.SendConfirmationLegacy]: SendConfirmationLegacyParams
   [Screens.SendConfirmationLegacyModal]: SendConfirmationLegacyParams
   [Screens.SetClock]: undefined
-  [Screens.Settings]:
-    | { promptFornoModal?: boolean; promptConfirmRemovalModal?: boolean }
-    | undefined
+  [Screens.Settings]: { promptConfirmRemovalModal?: boolean } | undefined
   [Screens.Spend]: undefined
   [Screens.StoreWipeRecoveryScreen]: undefined
   [Screens.Support]: undefined
@@ -266,9 +294,9 @@ export type StackParamList = {
       }
     | undefined
   [Screens.Sync]: undefined
-  [Screens.SyncBankAccountScreen]: {
-    publicToken: string
-  }
+  [Screens.SwapScreen]: undefined
+  [Screens.SwapExecuteScreen]: undefined
+  [Screens.SwapReviewScreen]: undefined
   [Screens.TransactionDetailsScreen]: {
     transaction: TokenTransaction
   }
@@ -299,13 +327,6 @@ export type StackParamList = {
         choseToRestoreAccount?: boolean
       }
     | undefined
-  [Screens.LinkBankAccountErrorScreen]:
-    | {
-        error?: Error | LinkError
-      }
-    | undefined
-  [Screens.LinkBankAccountScreen]: { kycStatus: KycStatus | undefined }
-  [Screens.ConnectPhoneNumberScreen]: undefined
   [Screens.VerificationInputScreen]:
     | {
         showHelpDialog?: boolean
@@ -313,21 +334,20 @@ export type StackParamList = {
         registrationStep?: { step: number; totalSteps: number }
       }
     | undefined
+  [Screens.VerificationCodeInputScreen]: {
+    registrationStep?: { step: number; totalSteps: number }
+    e164Number: string
+    countryCallingCode: string
+  }
   [Screens.VerificationLoadingScreen]: { withoutRevealing: boolean }
   [Screens.OnboardingEducationScreen]: undefined
   [Screens.OnboardingSuccessScreen]: undefined
-  [Screens.WalletConnectLoading]: { origin: WalletConnectPairingOrigin }
-  [Screens.WalletConnectResult]: {
-    title: string
-    subtitle: string
-  }
-  [Screens.WalletConnectSessionRequest]: PendingSession
+  [Screens.WalletConnectRequest]:
+    | { type: WalletConnectRequestType.Loading; origin: WalletConnectPairingOrigin }
+    | { type: WalletConnectRequestType.Action; pendingAction: PendingAction }
+    | { type: WalletConnectRequestType.Session; pendingSession: WalletConnectSessionRequest }
+    | { type: WalletConnectRequestType.TimeOut }
   [Screens.WalletConnectSessions]: undefined
-  [Screens.WalletConnectActionRequest]: PendingAction & {
-    dappName: string
-    dappUrl: string
-    dappIcon: string
-  }
   [Screens.WalletHome]: undefined
   [Screens.WebViewScreen]: { uri: string; dappkitDeeplink?: string }
   [Screens.Welcome]: undefined

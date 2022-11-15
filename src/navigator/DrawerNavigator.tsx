@@ -23,48 +23,49 @@ import deviceInfoModule from 'react-native-device-info'
 import { useDispatch } from 'react-redux'
 import FiatExchange from 'src/account/FiatExchange'
 import GoldEducation from 'src/account/GoldEducation'
-import { defaultCountryCodeSelector, e164NumberSelector, nameSelector } from 'src/account/selectors'
+import {
+  backupCompletedSelector,
+  defaultCountryCodeSelector,
+  e164NumberSelector,
+  nameSelector,
+  shouldShowRecoveryPhraseInSettingsSelector,
+} from 'src/account/selectors'
 import SettingsScreen from 'src/account/Settings'
 import Support from 'src/account/Support'
 import { HomeEvents, RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { toggleInviteModal } from 'src/app/actions'
-import {
-  dappsListApiUrlSelector,
-  rewardsEnabledSelector,
-  superchargeButtonTypeSelector,
-} from 'src/app/selectors'
-import { SuperchargeButtonType } from 'src/app/types'
+import { inviteMethodSelector } from 'src/app/selectors'
+import { InviteMethodType } from 'src/app/types'
 import BackupIntroduction from 'src/backup/BackupIntroduction'
 import AccountNumber from 'src/components/AccountNumber'
 import ContactCircleSelf from 'src/components/ContactCircleSelf'
 import PhoneNumberWithFlag from 'src/components/PhoneNumberWithFlag'
 import { RewardsScreenOrigin } from 'src/consumerIncentives/analyticsEventsTracker'
-import ConsumerIncentivesHomeScreen from 'src/consumerIncentives/ConsumerIncentivesHomeScreen'
+import { dappsListApiUrlSelector } from 'src/dapps/selectors'
 import DAppsExplorerScreen from 'src/dappsExplorer/DAppsExplorerScreen'
 import { fetchExchangeRate } from 'src/exchange/actions'
 import ExchangeHomeScreen from 'src/exchange/ExchangeHomeScreen'
-import { features } from 'src/flags'
 import WalletHome from 'src/home/WalletHome'
+import { Home } from 'src/icons/Home'
 import { AccountKey } from 'src/icons/navigator/AccountKey'
 import { AddWithdraw } from 'src/icons/navigator/AddWithdraw'
 import { DappsExplorer } from 'src/icons/navigator/DappsExplorer'
 import { Gold } from 'src/icons/navigator/Gold'
 import { Help } from 'src/icons/navigator/Help'
-import { Home } from 'src/icons/navigator/Home'
-import { Invite } from 'src/icons/navigator/Invite'
-import { MenuRings } from 'src/icons/navigator/MenuRings'
-import { MenuSupercharge } from 'src/icons/navigator/MenuSupercharge'
+import { Invite as InviteIcon } from 'src/icons/navigator/Invite'
 import { Settings } from 'src/icons/navigator/Settings'
-import InviteFriendModal from 'src/invite/InviteFriendModal'
+import { Swap } from 'src/icons/navigator/Swap'
+import Invite from 'src/invite/Invite'
 import DrawerItem from 'src/navigator/DrawerItem'
 import { ensurePincode } from 'src/navigator/NavigationService'
 import { getActiveRouteName } from 'src/navigator/NavigatorWrapper'
 import RewardsPill from 'src/navigator/RewardsPill'
 import { Screens } from 'src/navigator/Screens'
+import { isAppSwapsEnabledSelector } from 'src/navigator/selectors'
 import { default as useSelector } from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
+import SwapScreen from 'src/swap/SwapScreen'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
 
@@ -95,7 +96,7 @@ function CustomDrawerItemList({
 }: CustomDrawerItemListProps) {
   const buildLink = useLinkBuilder()
 
-  return (state.routes.map((route, i) => {
+  return state.routes.map((route, i) => {
     const focused = i === state.index
     const { title, drawerLabel, drawerIcon } = descriptors[route.key].options
     const navigateToItem = () => {
@@ -146,7 +147,7 @@ function CustomDrawerItemList({
         onPress={onPress}
       />
     )
-  }) as React.ReactNode) as React.ReactElement
+  }) as React.ReactNode as React.ReactElement
 }
 
 function CustomDrawerContent(props: DrawerContentComponentProps<DrawerContentOptions>) {
@@ -166,11 +167,15 @@ function CustomDrawerContent(props: DrawerContentComponentProps<DrawerContentOpt
   return (
     <DrawerContentScrollView {...props}>
       <View style={styles.drawerTop}>
-        <View style={styles.drawerHeader}>
+        <View style={styles.drawerHeader} testID="Drawer/Header">
           <ContactCircleSelf size={64} />
           <RewardsPill />
         </View>
-        <Text style={styles.nameLabel}>{displayName}</Text>
+        {!!displayName && (
+          <Text style={styles.nameLabel} testID="Drawer/Username">
+            {displayName}
+          </Text>
+        )}
         {e164PhoneNumber && (
           <PhoneNumberWithFlag
             e164PhoneNumber={e164PhoneNumber}
@@ -193,14 +198,16 @@ export default function DrawerNavigator() {
   const { t } = useTranslation()
   const isCeloEducationComplete = useSelector((state) => state.goldToken.educationCompleted)
   const dappsListUrl = useSelector(dappsListApiUrlSelector)
+  const inviteMethod = useSelector(inviteMethodSelector)
 
-  const rewardsEnabled = useSelector(rewardsEnabledSelector)
-  const superchargeButtonType = useSelector(superchargeButtonTypeSelector)
-  const dispatch = useDispatch()
+  const shouldShowRecoveryPhraseInSettings = useSelector(shouldShowRecoveryPhraseInSettingsSelector)
+  const backupCompleted = useSelector(backupCompletedSelector)
 
   const drawerContent = (props: DrawerContentComponentProps<DrawerContentOptions>) => (
     <CustomDrawerContent {...props} />
   )
+
+  const shouldShowSwapMenuInDrawerMenu = useSelector(isAppSwapsEnabledSelector)
 
   return (
     <Drawer.Navigator
@@ -211,29 +218,47 @@ export default function DrawerNavigator() {
         labelStyle: [fontStyles.regular, { marginLeft: -20, fontWeight: 'normal' }],
         activeBackgroundColor: colors.gray2,
       }}
+      // Reloads the screen when the user comes back to it - resetting navigation state
+      screenOptions={{
+        unmountOnBlur: true,
+      }}
+      // Whether inactive screens should be detached from the view hierarchy to save memory.
+      // Defaults to true, but also explicitly set here.
+      detachInactiveScreens={true}
     >
       <Drawer.Screen
         name={Screens.WalletHome}
         component={WalletHome}
-        options={{ title: t('home'), drawerIcon: Home }}
+        options={{ title: t('home'), drawerIcon: Home, unmountOnBlur: false }}
       />
-      {(isCeloEducationComplete && (
+      {shouldShowSwapMenuInDrawerMenu ? (
         <Drawer.Screen
-          name={Screens.ExchangeHomeScreen}
-          component={ExchangeHomeScreen}
-          options={{ title: t('celoGold'), drawerIcon: Gold }}
+          name={Screens.SwapScreen}
+          component={SwapScreen}
+          options={{ title: t('swapScreen.title'), drawerIcon: Swap }}
         />
-      )) || (
-        <Drawer.Screen
-          name={Screens.GoldEducation}
-          component={GoldEducation}
-          options={{
-            title: t('celoGold'),
-            drawerIcon: Gold,
-            ...TransitionPresets.ModalTransition,
-          }}
-        />
+      ) : (
+        <>
+          {(isCeloEducationComplete && (
+            <Drawer.Screen
+              name={Screens.ExchangeHomeScreen}
+              component={ExchangeHomeScreen}
+              options={{ title: t('celoGold'), drawerIcon: Gold }}
+            />
+          )) || (
+            <Drawer.Screen
+              name={Screens.GoldEducation}
+              component={GoldEducation}
+              options={{
+                title: t('celoGold'),
+                drawerIcon: Gold,
+                ...TransitionPresets.ModalTransition,
+              }}
+            />
+          )}
+        </>
       )}
+
       {dappsListUrl && (
         <Drawer.Screen
           name={Screens.DAppsExplorerScreen}
@@ -249,40 +274,48 @@ export default function DrawerNavigator() {
           }}
         />
       )}
-      {rewardsEnabled && superchargeButtonType === SuperchargeButtonType.MenuRewards && (
+      {(!backupCompleted || !shouldShowRecoveryPhraseInSettings) && (
         <Drawer.Screen
-          name={Screens.ConsumerIncentivesHomeScreen}
-          component={ConsumerIncentivesHomeScreen}
-          options={{ title: t('rewards'), drawerIcon: MenuRings, unmountOnBlur: true }}
+          name={Screens.BackupIntroduction}
+          component={BackupIntroduction}
+          options={{ title: t('accountKey'), drawerIcon: AccountKey }}
+          initialParams={{ showDrawerTopBar: true }}
         />
       )}
-      {rewardsEnabled && superchargeButtonType === SuperchargeButtonType.MenuSupercharge && (
-        <Drawer.Screen
-          name={Screens.ConsumerIncentivesHomeScreen}
-          component={ConsumerIncentivesHomeScreen}
-          options={{ title: t('supercharge'), drawerIcon: MenuSupercharge, unmountOnBlur: true }}
-        />
-      )}
-      <Drawer.Screen
-        name={Screens.BackupIntroduction}
-        component={BackupIntroduction}
-        options={{ title: t('accountKey'), drawerIcon: AccountKey }}
-      />
       <Drawer.Screen
         name={Screens.FiatExchange}
         component={FiatExchange}
         options={{ title: t('addAndWithdraw'), drawerIcon: AddWithdraw }}
       />
-      {features.SHOW_INVITE_MENU_ITEM && (
+      {inviteMethod === InviteMethodType.ReferralUrl && (
         <Drawer.Screen
-          name={'InviteModal'}
-          component={InviteFriendModal}
-          initialParams={{
-            onPress: () => dispatch(toggleInviteModal(true)),
-          }}
-          options={{ title: t('invite'), drawerIcon: Invite }}
+          name={'Invite'}
+          component={Invite}
+          options={{ title: t('invite'), drawerIcon: InviteIcon }}
         />
       )}
+      {shouldShowSwapMenuInDrawerMenu && (
+        <>
+          {(isCeloEducationComplete && (
+            <Drawer.Screen
+              name={Screens.ExchangeHomeScreen}
+              component={ExchangeHomeScreen}
+              options={{ title: t('celoGold'), drawerIcon: Gold }}
+            />
+          )) || (
+            <Drawer.Screen
+              name={Screens.GoldEducation}
+              component={GoldEducation}
+              options={{
+                title: t('celoGold'),
+                drawerIcon: Gold,
+                ...TransitionPresets.ModalTransition,
+              }}
+            />
+          )}
+        </>
+      )}
+
       <Drawer.Screen
         name={Screens.Settings}
         component={SettingsScreen}

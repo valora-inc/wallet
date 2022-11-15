@@ -9,6 +9,18 @@ describe('getCurrentUserTraits', () => {
       account: { defaultCountryCode: '+33', pincodeType: PincodeType.CustomPin },
       goldToken: { balance: '1.01' },
       stableToken: { balances: { [Currency.Dollar]: '2.02', [Currency.Euro]: '3.03' } },
+      app: {
+        superchargeTokenConfigByToken: {
+          '0xcusd': {
+            minBalance: 10,
+            maxBalance: 1000,
+          },
+          '0xceur': {
+            minBalance: 10,
+            maxBalance: 1000,
+          },
+        },
+      },
       tokens: {
         tokenBalances: {
           '0xcusd': {
@@ -28,8 +40,8 @@ describe('getCurrentUserTraits', () => {
             symbol: 'cEUR',
             decimals: 18,
             imageUrl: '',
-            usdPrice: '1.2',
-            balance: '20',
+            usdPrice: '1.2345',
+            balance: '21',
             priceFetchedAt: Date.now(),
             isCoreToken: true,
           },
@@ -163,7 +175,7 @@ describe('getCurrentUserTraits', () => {
       appBundleId: 'org.celo.mobile.debug',
       appVersion: '0.0.1',
       celoBalance: 0,
-      ceurBalance: 20,
+      ceurBalance: 21,
       countryCodeAlpha2: 'US',
       cusdBalance: 10,
       deviceId: 'abc-def-123',
@@ -177,8 +189,10 @@ describe('getCurrentUserTraits', () => {
       phoneCountryCodeAlpha2: 'FR',
       pincodeType: 'CustomPin',
       tokenCount: 13,
-      totalBalanceUsd: 5679.682283945,
+      totalBalanceUsd: 5681.606783945,
       walletAddress: '0x0000000000000000000000000000000000007e57',
+      superchargingToken: 'cEUR',
+      superchargingAmountInUsd: 25.9245,
     })
   })
 })

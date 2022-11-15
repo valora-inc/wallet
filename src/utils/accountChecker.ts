@@ -2,7 +2,6 @@ import { UnlockableWallet } from '@celo/wallet-base'
 import { call, select } from 'redux-saga/effects'
 import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { deleteNodeData } from 'src/geth/geth'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { navigateClearingStack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -11,6 +10,7 @@ import { RootState } from 'src/redux/reducers'
 import { retrieveStoredItem } from 'src/storage/keychain'
 import Logger from 'src/utils/Logger'
 import { getWallet } from 'src/web3/contracts'
+import { clearStoredAccounts } from 'src/web3/KeychainSigner'
 import { walletAddressSelector } from 'src/web3/selectors'
 
 const TAG = 'utils/accountChecker'
@@ -20,10 +20,10 @@ export function* checkAccountExistenceSaga() {
   if (!wallet) {
     return
   }
-  const gethAccounts: string[] = yield wallet.getAccounts()
+  const keychainAccounts: string[] = yield wallet.getAccounts()
   const walletAddress: string = yield select(walletAddressSelector)
-  if (!walletAddress && gethAccounts.length > 0) {
-    const account = gethAccounts[0]
+  if (!walletAddress && keychainAccounts.length > 0) {
+    const account = keychainAccounts[0]
     ValoraAnalytics.track(AppEvents.redux_keychain_mismatch, {
       account,
     })
@@ -57,10 +57,10 @@ export async function resetStateOnInvalidStoredAccount(state: RootState | undefi
         Logger.warn(TAG, `Failed to retrieve password hash for ${walletAddress}: ${error}`)
       }
       if (!passwordHash) {
-        // No password hash present, we need to reset the redux state and remove existing accounts in geth
+        // No password hash present, we need to reset the redux state and remove existing accounts from the keychain
         // which we can't unlock without the password hash
         ValoraAnalytics.track(AppEvents.redux_no_matching_keychain_account, { walletAddress })
-        await deleteNodeData()
+        await clearStoredAccounts()
         Logger.info(TAG, `State reset`)
         return undefined
       }

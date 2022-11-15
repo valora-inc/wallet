@@ -1,26 +1,14 @@
-import { BlockHeader } from '@celo/connect'
 import { generateKeys, generateMnemonic, MnemonicStrength } from '@celo/utils/lib/account'
 import { privateKeyToAddress } from '@celo/utils/lib/address'
 import { UnlockableWallet } from '@celo/wallet-base'
 import { RpcWalletErrors } from '@celo/wallet-rpc/lib/rpc-wallet'
 import * as bip39 from 'react-native-bip39'
-import { call, delay, put, race, select, spawn, take, takeLatest } from 'redux-saga/effects'
-import { setAccountCreationTime, setPromptForno } from 'src/account/actions'
+import { call, delay, put, select, spawn, take } from 'redux-saga/effects'
+import { setAccountCreationTime } from 'src/account/actions'
 import { generateSignedMessage } from 'src/account/saga'
-import { promptFornoIfNeededSelector } from 'src/account/selectors'
-import { showError } from 'src/alert/actions'
-import { GethEvents, NetworkEvents, SettingsEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { getMnemonicLanguage, storeMnemonic } from 'src/backup/utils'
-import { features } from 'src/flags'
-import { cancelGethSaga } from 'src/geth/actions'
-import { UNLOCK_DURATION } from 'src/geth/consts'
-import { deleteChainData, isProviderConnectionError } from 'src/geth/geth'
-import { gethSaga, waitForGethConnectivity } from 'src/geth/saga'
 import { currentLanguageSelector } from 'src/i18n/selectors'
-import { navigate, navigateToError } from 'src/navigator/NavigationService'
-import { Screens } from 'src/navigator/Screens'
 import {
   CANCELLED_PIN_INPUT,
   getPasswordSaga,
@@ -28,142 +16,34 @@ import {
 } from 'src/pincode/authentication'
 import { clearPasswordCaches } from 'src/pincode/PasswordCache'
 import Logger from 'src/utils/Logger'
-import {
-  Actions,
-  completeWeb3Sync,
-  setAccount,
-  SetAccountAction,
-  setFornoMode,
-  SetIsFornoAction,
-  SetMtwAddressAction,
-  updateWeb3SyncProgress,
-  Web3SyncProgress,
-} from 'src/web3/actions'
-import { destroyContractKit, getWallet, getWeb3, initContractKit } from 'src/web3/contracts'
+import { Actions, setAccount, SetAccountAction, SetMtwAddressAction } from 'src/web3/actions'
+import { UNLOCK_DURATION } from 'src/web3/consts'
+import { getWallet, getWeb3, initContractKit } from 'src/web3/contracts'
 import { createAccountDek } from 'src/web3/dataEncryptionKey'
 import {
   currentAccountSelector,
-  fornoSelector,
   mtwAddressSelector,
   walletAddressSelector,
 } from 'src/web3/selectors'
-import { blockIsFresh, getLatestBlock } from 'src/web3/utils'
 import { RootState } from '../redux/reducers'
 
 const TAG = 'web3/saga'
 
 const MNEMONIC_BIT_LENGTH = MnemonicStrength.s256_24words
-// The timeout for web3 to complete syncing and the latestBlock to be > 0
-export const SYNC_TIMEOUT = 2 * 60 * 1000 // 2 minutes
-const SWITCH_TO_FORNO_TIMEOUT = 15000 // if syncing takes >15 secs, suggest switch to forno
-const WEB3_MONITOR_DELAY = 100
 
-enum SyncStatus {
-  UNKNOWN,
-  WAITING,
-  SYNCING,
-}
+const NEW_BLOCK_TIMEOUT = 30000 // ms
+const NEW_BLOCK_DELAY = 5000 // ms
 
-// checks if web3 claims it is currently syncing and attempts to wait for it to complete
-export function* checkWeb3SyncProgress() {
-  Logger.debug(TAG, 'checkWeb3SyncProgress', 'Checking sync progress')
-
-  let syncLoops = 0
-  let status = SyncStatus.UNKNOWN
-  while (true) {
-    try {
-      // isSyncing returns a syncProgress object when it's still syncing, false otherwise
-      const web3 = yield call(getWeb3, false)
-      const syncProgress: boolean | Web3SyncProgress = yield call(web3.eth.isSyncing)
-
-      if (typeof syncProgress === 'boolean' && !syncProgress) {
-        Logger.debug(TAG, 'checkWeb3SyncProgress', 'Sync maybe complete, checking')
-
-        const latestBlock: BlockHeader = yield call(getLatestBlock)
-        if (latestBlock && blockIsFresh(latestBlock)) {
-          yield put(completeWeb3Sync(latestBlock.number))
-          Logger.debug(TAG, 'checkWeb3SyncProgress', 'Sync is complete')
-          ValoraAnalytics.track(NetworkEvents.network_sync_finish, {
-            latestBlock: latestBlock.number,
-          })
-          return true
-        } else {
-          Logger.debug(TAG, 'checkWeb3SyncProgress', 'Sync not actually complete, still waiting')
-          if (status !== SyncStatus.WAITING) {
-            status = SyncStatus.WAITING
-            ValoraAnalytics.track(NetworkEvents.network_sync_waiting, {
-              latestBlock: latestBlock?.number,
-            })
-          }
-        }
-      } else if (typeof syncProgress === 'object') {
-        yield put(updateWeb3SyncProgress(syncProgress))
-        if (status !== SyncStatus.SYNCING) {
-          status = SyncStatus.SYNCING
-          ValoraAnalytics.track(NetworkEvents.network_sync_start, syncProgress)
-        }
-      } else {
-        throw new Error('Invalid syncProgress type')
-      }
-      yield delay(WEB3_MONITOR_DELAY) // wait 100ms while web3 syncs then check again
-      syncLoops += 1
-
-      // If sync has been in progrees for too long, prompt the user to try forno instead.
-      if (syncLoops * WEB3_MONITOR_DELAY > SWITCH_TO_FORNO_TIMEOUT) {
-        if (yield select(promptFornoIfNeededSelector) && features.DATA_SAVER) {
-          ValoraAnalytics.track(NetworkEvents.network_sync_error, { error: 'sync timeout' })
-          yield put(setPromptForno(false))
-          navigate(Screens.Settings, { promptFornoModal: true })
-          return true
-        }
-      }
-    } catch (error) {
-      ValoraAnalytics.track(NetworkEvents.network_sync_error, { error: error.message })
-      if (isProviderConnectionError(error)) {
-        ValoraAnalytics.track(GethEvents.blockchain_corruption)
-        const deleted = yield call(deleteChainData)
-        if (deleted) {
-          navigateToError(ErrorMessages.CORRUPTED_CHAIN_DELETED)
-        }
-      } else {
-        Logger.error(TAG, 'Unexpected sync error', error)
-      }
-      return false
+export function* waitForNextBlock() {
+  const startTime = Date.now()
+  const web3 = yield call(getWeb3)
+  const initialBlockNumber = yield call(web3.eth.getBlockNumber)
+  while (Date.now() - startTime < NEW_BLOCK_TIMEOUT) {
+    const blockNumber = yield call(web3.eth.getBlockNumber)
+    if (blockNumber > initialBlockNumber) {
+      return
     }
-  }
-}
-
-export function* waitForWeb3Sync() {
-  try {
-    const { syncComplete, timeout, fornoSwitch } = yield race({
-      syncComplete: call(checkWeb3SyncProgress),
-      timeout: delay(SYNC_TIMEOUT),
-      fornoSwitch: take(Actions.TOGGLE_IS_FORNO),
-    })
-    if (fornoSwitch) {
-      Logger.debug(
-        `${TAG}@waitForWeb3Sync`,
-        'Switching providers, expected web3 sync failure occured'
-      )
-      return true
-    }
-    if (timeout || !syncComplete) {
-      Logger.error(TAG, 'Could not complete sync')
-      navigateToError('web3FailedToSync')
-      return false
-    }
-    return true
-  } catch (error) {
-    Logger.error(TAG, 'checkWeb3Sync', error)
-    navigateToError('errorDuringSync')
-    return false
-  }
-}
-
-export function* waitWeb3LastBlock() {
-  yield call(waitForGethConnectivity)
-  if (!(yield select(fornoSelector))) {
-    yield call(waitForWeb3Sync)
+    yield delay(NEW_BLOCK_DELAY)
   }
 }
 
@@ -236,7 +116,7 @@ export function* assignAccountFromPrivateKey(privateKey: string, mnemonic: strin
     } catch (e) {
       if (
         e.message === RpcWalletErrors.AccountAlreadyExists ||
-        e.message === ErrorMessages.GETH_ACCOUNT_ALREADY_EXISTS
+        e.message === ErrorMessages.KEYCHAIN_ACCOUNT_ALREADY_EXISTS
       ) {
         Logger.warn(TAG + '@assignAccountFromPrivateKey', 'Attempted to import same account')
       } else {
@@ -343,9 +223,8 @@ export function* unlockAccount(account: string, force: boolean = false) {
   }
 }
 
-// Wait for geth to be connected and account ready
+// Wait for account ready
 export function* getConnectedAccount() {
-  yield call(waitForGethConnectivity)
   const account: string = yield call(getAccount)
   return account
 }
@@ -387,33 +266,6 @@ export function* getAccountAddress() {
   return mtwAddress ?? walletAddress
 }
 
-export function* toggleFornoMode({ fornoMode }: SetIsFornoAction) {
-  Logger.info(TAG + '@toggleFornoMode', ` to: ${fornoMode}`)
-  const currentFornoMode = yield select(fornoSelector)
-  if (currentFornoMode === fornoMode) {
-    Logger.warn(TAG + '@toggleFornoMode', ` already in desired state: ${fornoMode}`)
-    return
-  }
-
-  try {
-    destroyContractKit()
-    yield put(setFornoMode(fornoMode))
-    yield put(cancelGethSaga())
-    yield spawn(gethSaga)
-    yield call(initContractKit)
-    ValoraAnalytics.track(SettingsEvents.forno_toggle, { enabled: fornoMode })
-  } catch (error) {
-    Logger.error(TAG + '@toggleFornoMode', 'Error toggling forno mode', error)
-    yield put(showError(ErrorMessages.FAILED_TO_SWITCH_SYNC_MODES))
-  }
-}
-
-export function* watchFornoMode() {
-  yield takeLatest(Actions.TOGGLE_IS_FORNO, toggleFornoMode)
-}
-
 export function* web3Saga() {
   yield spawn(initContractKit)
-  yield spawn(watchFornoMode)
-  yield spawn(waitWeb3LastBlock)
 }

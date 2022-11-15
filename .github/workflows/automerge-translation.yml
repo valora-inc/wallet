@@ -13,9 +13,17 @@ jobs:
     permissions:
       pull-requests: write
     steps:
+      - name: Google Secrets
+        id: google-secrets
+        uses: google-github-actions/get-secretmanager-secrets@v0.2.2
+        with:
+          secrets: |-
+            VALORA_BOT_TOKEN:projects/1027349420744/secrets/VALORA_BOT_TOKEN
+          credentials: ${{ secrets.MAINNET_SERVICE_ACCOUNT_KEY }}
       - uses: actions/checkout@v2
       - uses: actions/github-script@v5
         with:
+          github-token: ${{ steps.google-secrets.outputs.VALORA_BOT_TOKEN }}
           script: |
             const script = require('.github/scripts/automergeTranslationPrs.js')
             await script({github, context, core})

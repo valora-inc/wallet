@@ -1,18 +1,12 @@
-import { BlockHeader, CeloTx, CeloTxObject, CeloTxReceipt } from '@celo/connect'
+import { CeloTx, CeloTxObject, CeloTxReceipt, PromiEvent } from '@celo/connect'
+import { ContractKit } from '@celo/contractkit'
 import BigNumber from 'bignumber.js'
 import { call } from 'redux-saga/effects'
 import { GAS_INFLATION_FACTOR } from 'src/config'
-import { ChainHead } from 'src/geth/actions'
 import Logger from 'src/utils/Logger'
 import { getContractKitAsync, getWeb3, getWeb3Async } from 'src/web3/contracts'
 
 const TAG = 'web3/utils'
-
-// If a block is older than 60 seconds, it is stale.
-// If the latest block is stale, then the node is not synced.
-// Blocks have a number of delays between their timestamp, and reaching the
-// client. A delay of up to 30 seconds may occur even on well connected devices.
-export const BLOCK_AGE_LIMIT = 60 // seconds
 
 // Estimate gas taking into account the configured inflation factor
 export async function estimateGas(txObj: CeloTxObject<any>, txParams: CeloTx): Promise<BigNumber> {
@@ -41,19 +35,14 @@ export async function getTransactionReceipt(txHash: string): Promise<CeloTxRecei
 // Note: This returns Promise<Block>
 export async function getLatestBlock() {
   Logger.debug(TAG, 'Getting latest block')
-  const web3 = await getWeb3Async(false)
+  const web3 = await getWeb3Async()
   return web3.eth.getBlock('latest')
 }
 
 export async function getLatestBlockNumber() {
   Logger.debug(TAG, 'Getting latest block number')
-  const web3 = await getWeb3Async(false)
+  const web3 = await getWeb3Async()
   return web3.eth.getBlockNumber()
-}
-
-// Returns true if the block was produced within the block age limit.
-export function blockIsFresh(block: BlockHeader | ChainHead) {
-  return Math.round(Date.now() / 1000) - Number(block.timestamp) < BLOCK_AGE_LIMIT
 }
 
 // TODO Warning: this approach causes problems in certain cases where
@@ -70,4 +59,49 @@ export function* getLatestNonce(address: string) {
 export async function getContract(abi: any, tokenAddress: string) {
   const kit = await getContractKitAsync()
   return new kit.web3.eth.Contract(abi, tokenAddress)
+}
+
+// This is meant to be called before normalizer.populate
+// There's a bug in TxParamsNormalizer that sets the chainId as a number if not present
+// but then if no gas is set, the estimateGas call will fail with espresso hardfork nodes
+// with the error: `Gas estimation failed: Could not decode transaction failure reason or Error: invalid argument 0: json: cannot unmarshal non-string into Go struct field TransactionArgs.chainId of type *hexutil.Big`
+// So here we make sure the chainId is set as a hex string so estimateGas works
+// TODO: consider removing this when TxParamsNormalizer is fixed
+export function applyChainIdWorkaround(tx: any, chainId: number) {
+  tx.chainId = `0x${new BigNumber(tx.chainId || chainId).toString(16)}`
+  return tx
+}
+
+export function buildTxo(kit: ContractKit, tx: CeloTx): CeloTxObject<never> {
+  return {
+    get arguments(): any[] {
+      return []
+    },
+    call(unusedTx?: CeloTx) {
+      throw new Error('Fake TXO not implemented')
+    },
+    // updatedTx contains the `feeCurrency`, `gas`, and `gasPrice` set by our `sendTransaction` helper
+    send(updatedTx?: CeloTx): PromiEvent<CeloTxReceipt> {
+      return kit.web3.eth.sendTransaction({
+        ...tx,
+        ...updatedTx,
+      })
+    },
+    // updatedTx contains the `feeCurrency`, and `gasPrice` set by our `sendTransaction` helper
+    estimateGas(updatedTx?: CeloTx): Promise<number> {
+      return kit.connection.estimateGas({
+        ...tx,
+        ...updatedTx,
+        gas: undefined,
+      })
+    },
+    encodeABI(): string {
+      return tx.data ?? ''
+    },
+    // @ts-ignore
+    _parent: {
+      // @ts-ignore
+      _address: tx.to,
+    },
+  }
 }

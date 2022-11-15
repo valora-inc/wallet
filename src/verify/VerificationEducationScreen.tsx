@@ -16,6 +16,7 @@ import { OnboardingEvents, VerificationEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import {
+  centralPhoneVerificationEnabledSelector,
   hideVerificationSelector,
   numberVerifiedSelector,
   registrationStepsSelector,
@@ -25,7 +26,6 @@ import Button, { BtnTypes } from 'src/components/Button'
 import PhoneNumberInput from 'src/components/PhoneNumberInput'
 import TextButton from 'src/components/TextButton'
 import { isE2EEnv, WEB_LINK } from 'src/config'
-import networkConfig from 'src/geth/networkConfig'
 import i18n from 'src/i18n'
 import { setHasSeenVerificationNux, startVerification } from 'src/identity/actions'
 import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
@@ -58,13 +58,23 @@ import GoogleReCaptcha from 'src/verify/safety/GoogleReCaptcha'
 import { getPhoneNumberState } from 'src/verify/utils'
 import VerificationLearnMoreDialog from 'src/verify/VerificationLearnMoreDialog'
 import VerificationSkipDialog from 'src/verify/VerificationSkipDialog'
-import { currentAccountSelector } from 'src/web3/selectors'
+import VerificationStartScreen from 'src/verify/VerificationStartScreen'
+import networkConfig from 'src/web3/networkConfig'
+import { currentAccountSelector, walletAddressSelector } from 'src/web3/selectors'
 
-type ScreenProps = StackScreenProps<StackParamList, Screens.VerificationEducationScreen>
+type Props = StackScreenProps<StackParamList, Screens.VerificationEducationScreen>
 
-type Props = ScreenProps
+function VerificationEducationScreen(props: Props) {
+  const centralPhoneVerificationEnabled = useSelector(centralPhoneVerificationEnabledSelector)
 
-function VerificationEducationScreen({ route, navigation }: Props) {
+  return centralPhoneVerificationEnabled ? (
+    <VerificationStartScreen {...props} />
+  ) : (
+    <VerificationEducationScreenDecentralized {...props} />
+  )
+}
+
+function VerificationEducationScreenDecentralized({ route, navigation }: Props) {
   const showSkipDialog = route.params?.showSkipDialog || false
   const account = useTypedSelector(currentAccountSelector)
   const [showLearnMoreDialog, setShowLearnMoreDialog] = useState(false)
@@ -92,6 +102,7 @@ function VerificationEducationScreen({ route, navigation }: Props) {
   const shouldUseKomenci = useSelector(shouldUseKomenciSelector)
   const verificationStatus = useSelector(verificationStatusSelector)
   const choseToRestoreAccount = useSelector(choseToRestoreAccountSelector)
+  const walletAddress = useSelector(walletAddressSelector)
   const { step, totalSteps } = useSelector(registrationStepsSelector)
 
   const onPressStart = async () => {
@@ -102,12 +113,18 @@ function VerificationEducationScreen({ route, navigation }: Props) {
     dispatch(startVerification(phoneNumberInfo.e164Number, noActionIsRequired))
   }
 
+  const onPressSkip = () => {
+    ValoraAnalytics.track(VerificationEvents.verification_skip)
+    navigation.setParams({ showSkipDialog: true })
+  }
+
   const onPressSkipCancel = () => {
     navigation.setParams({ showSkipDialog: false })
   }
 
   const onPressSkipConfirm = () => {
     dispatch(setHasSeenVerificationNux(true))
+    ValoraAnalytics.track(VerificationEvents.verification_skip_confirm)
     navigateHome()
   }
 
@@ -159,7 +176,7 @@ function VerificationEducationScreen({ route, navigation }: Props) {
           <TopBarTextButton
             title={t('skip')}
             testID="VerificationEducationSkipHeader"
-            onPress={() => navigation.setParams({ showSkipDialog: true })}
+            onPress={onPressSkip}
             titleStyle={{ color: colors.goldDark }}
           />
         ),
@@ -188,7 +205,7 @@ function VerificationEducationScreen({ route, navigation }: Props) {
 
   useAsync(async () => {
     await waitUntilSagasFinishLoading()
-    dispatch(initializeAccount())
+    if (walletAddress === null) dispatch(initializeAccount())
     dispatch(checkIfKomenciAvailable())
   }, [])
 
@@ -384,6 +401,10 @@ function VerificationEducationScreen({ route, navigation }: Props) {
       <Modal
         isVisible={currentState.type === StateType.EnsuringRealHumanUser}
         style={styles.recaptchaModal}
+        useNativeDriverForBackdrop={true}
+        useNativeDriver={true}
+        hideModalContentWhileAnimating={true}
+        backdropTransitionOutTiming={0}
       >
         <TopBarTextButton
           onPress={cancelCaptcha}

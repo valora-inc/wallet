@@ -1,10 +1,10 @@
 import _ from 'lodash'
 import { FinclusiveKycStatus } from 'src/account/reducer'
-import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
 import { initialState as exchangeInitialState } from 'src/exchange/reducer'
 import { migrations } from 'src/redux/migrations'
 import { Currency } from 'src/utils/currencies'
 import {
+  DEFAULT_DAILY_PAYMENT_LIMIT_CUSD_LEGACY,
   v0Schema,
   v13Schema,
   v14Schema,
@@ -25,9 +25,20 @@ import {
   v46Schema,
   v49Schema,
   v50Schema,
+  v51Schema,
+  v52Schema,
+  v53Schema,
+  v56Schema,
+  v57Schema,
+  v58Schema,
+  v59Schema,
+  v62Schema,
   v7Schema,
+  v75Schema,
   v8Schema,
   vNeg1Schema,
+  v81Schema,
+  v84Schema,
 } from 'test/schemas'
 
 describe('Redux persist migrations', () => {
@@ -183,7 +194,7 @@ describe('Redux persist migrations', () => {
       },
     }
     const migratedSchema = migrations[9](v8Stub)
-    expect(migratedSchema.account.dailyLimitCusd).toEqual(DEFAULT_DAILY_PAYMENT_LIMIT_CUSD)
+    expect(migratedSchema.account.dailyLimitCusd).toEqual(DEFAULT_DAILY_PAYMENT_LIMIT_CUSD_LEGACY)
   })
   it('works for v9 to v10', () => {
     const v9Stub = v7Schema
@@ -502,5 +513,191 @@ describe('Redux persist migrations', () => {
     expectedSchema.app.celoWithdrawalEnabledInExchange = true
 
     expect(migratedSchema).toMatchObject(expectedSchema)
+  })
+
+  it('works for v51 to v52', () => {
+    const oldSchema = v51Schema
+    const migratedSchema = migrations[52](oldSchema)
+
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    expectedSchema.app.fiatConnectCashInEnabled = false
+    expectedSchema.app.fiatConnectCashOutEnabled = false
+
+    expect(migratedSchema).toMatchObject(expectedSchema)
+  })
+
+  it('works for v52 to v53', () => {
+    const oldSchema = v52Schema
+    const migratedSchema = migrations[53](oldSchema)
+
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    delete expectedSchema.geth
+    delete expectedSchema.account.promptFornoIfNeeded
+    delete expectedSchema.account.retryVerificationWithForno
+    delete expectedSchema.web3.fornoMode
+    delete expectedSchema.web3.hadFornoDisabled
+    delete expectedSchema.web3.latestBlockNumber
+    delete expectedSchema.web3.syncProgress
+
+    expect(migratedSchema).toMatchObject(expectedSchema)
+  })
+
+  it('works for v53 to v54', () => {
+    const dapp = {
+      name: 'Ubeswap',
+      description: 'Swap any token, enter a pool, or farm your crypto',
+      dappUrl: 'https://app.ubeswap.org/',
+      categoryId: 'exchanges',
+      iconUrl: 'https://raw.githubusercontent.com/valora-inc/dapp-list/main/assets/ubeswap.png',
+      isFeatured: false,
+      id: 'ubeswap',
+    }
+    const dappsInfo = {
+      dappsWebViewEnabled: true,
+      activeDapp: dapp,
+      maxNumRecentDapps: 8,
+      recentDapps: [dapp],
+      dappListApiUrl: 'https://www.dapplist.com',
+    }
+
+    const oldSchema = {
+      ...v53Schema,
+      app: {
+        ...v53Schema.app,
+        ...dappsInfo,
+      },
+    }
+    const migratedSchema = migrations[54](oldSchema)
+
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    delete expectedSchema.app.dappsWebViewEnabled
+    delete expectedSchema.app.activeDapp
+    delete expectedSchema.app.maxNumRecentDapps
+    delete expectedSchema.app.recentDapps
+    delete expectedSchema.app.dappListApiUrl
+    expectedSchema.dapps = dappsInfo
+
+    expect(migratedSchema).toMatchObject(expectedSchema)
+  })
+
+  it('works for v56 to v57', () => {
+    const oldSchema = v56Schema
+    const migratedSchema = migrations[57](oldSchema)
+
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    expectedSchema.app.visualizeNFTsEnabledInHomeAssetsPage = false
+
+    expect(migratedSchema).toMatchObject(expectedSchema)
+  })
+
+  it('works for v57 to v58', () => {
+    const oldSchema = v57Schema
+    const migratedSchema = migrations[58](oldSchema)
+
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    expectedSchema.app.coinbasePayEnabled = false
+
+    expect(migratedSchema).toMatchObject(expectedSchema)
+  })
+
+  it('works for v58 to v59', () => {
+    const oldTransactions = [
+      {
+        metadata: {
+          title: null,
+          comment: '',
+          subtitle: null,
+          image: null,
+        },
+        __typename: 'TokenTransferV2',
+        block: '14255636',
+        transactionHash: '0xf4e59db43c9051947ffe8a29a09c8f85dcf540699855166aa68f11cda3014b72',
+        type: 'RECEIVED',
+        amount: {
+          value: '0.01',
+          tokenAddress: '0x765de816845861e75a25fca122bb6898b8b1282a',
+          localAmount: {
+            currencyCode: 'USD',
+            exchangeRate: '1',
+            value: '0.01',
+          },
+        },
+        fees: null,
+        timestamp: 1658945996000,
+        address: '0xde33e71faecdead20e6a8af8f362d2236cba005f',
+      },
+      {},
+    ]
+    const oldSchema = {
+      ...v58Schema,
+      transactions: {
+        ...v58Schema.transactions,
+        transactions: oldTransactions,
+      },
+    }
+    const migratedSchema = migrations[59](oldSchema)
+
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    expectedSchema.transactions.transactions = [oldTransactions[0]]
+
+    expect(migratedSchema).toMatchObject(expectedSchema)
+  })
+
+  it('works for v59 to v60', () => {
+    const oldSchema = v59Schema
+    const migratedSchema = migrations[60](oldSchema)
+
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    expectedSchema.fiatConnect = {}
+    expectedSchema.fiatConnect.quotes = []
+    expectedSchema.fiatConnect.quotesLoading = false
+    expectedSchema.fiatConnect.quotesError = null
+
+    expect(migratedSchema).toMatchObject(expectedSchema)
+  })
+
+  it('works for v62 to v63', () => {
+    const oldSchema = v62Schema
+    const migratedSchema = migrations[63](oldSchema)
+
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    expectedSchema.app.superchargeTokenConfigByToken = {}
+    delete expectedSchema.app.superchargeTokens
+
+    expect(migratedSchema).toStrictEqual(expectedSchema)
+  })
+
+  it('works for v75 to v76', () => {
+    const oldSchema = v75Schema
+    const migratedSchema = migrations[76](oldSchema)
+
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    expectedSchema.app.showGuidedOnboardingCopy = false
+    // shall be the default value as configured in REMOTE_CONFIG_VALUES_DEFAULTS
+    expect(migratedSchema).toStrictEqual(expectedSchema)
+  })
+
+  it('works from v81 to v82', () => {
+    const oldSchema = v81Schema
+    const migratedSchema = migrations[82](oldSchema)
+
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    expectedSchema.swap = {
+      swapState: 'quote',
+      swapInfo: null,
+      swapUserInput: null,
+    }
+
+    expect(migratedSchema).toStrictEqual(expectedSchema)
+  })
+
+  it('works from v84 to v85', () => {
+    const oldSchema = v84Schema
+    const migratedSchema = migrations[85](oldSchema)
+
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    delete expectedSchema.app.swapFeeEnabled
+    delete expectedSchema.app.swapFeePercentage
+    expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 })

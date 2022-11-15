@@ -7,6 +7,12 @@ export function selectSessions(state: RootState) {
   }
 }
 
+export function selectSessionFromPeerId(peerId: string) {
+  return function (state: RootState) {
+    return state.walletConnect.v1.sessions.find((session) => session.peerId === peerId)
+  }
+}
+
 export function selectPendingActions(state: RootState) {
   return state.walletConnect.v1.pendingActions
 }

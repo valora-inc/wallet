@@ -1,9 +1,10 @@
 import { retry } from 'ts-retry-promise'
+import { dismissCashInBottomSheet } from './utils'
 
 export const launchApp = async (
   launchArgs = {
     newInstance: true,
-    permissions: { notifications: 'YES', contacts: 'YES' },
+    permissions: { notifications: 'YES', contacts: 'YES', camera: 'YES' },
     launchArgs: {
       detoxPrintBusyIdleResources: 'YES',
     },
@@ -24,7 +25,7 @@ export const launchApp = async (
   })
 }
 
-export const reloadReactNative = async () => {
+export const reloadReactNative = async (dismissBottomSheet = true) => {
   await retry(
     async () => {
       try {
@@ -37,4 +38,5 @@ export const reloadReactNative = async () => {
     },
     { retries: 5, delay: 10 * 1000, timeout: 30 * 10000 }
   )
+  if (dismissBottomSheet) await dismissCashInBottomSheet()
 }

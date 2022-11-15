@@ -3,7 +3,7 @@ import { RehydrateAction } from 'redux-persist'
 import { Actions as AccountActions, ClearStoredAccountAction } from 'src/account/actions'
 import { CodeInputStatus } from 'src/components/CodeInput'
 import { Actions, ActionTypes } from 'src/identity/actions'
-import { ContactMatches, ImportContactsStatus, VerificationStatus } from 'src/identity/types'
+import { ImportContactsStatus, VerificationStatus } from 'src/identity/types'
 import { removeKeyFromMapping } from 'src/identity/utils'
 import { AttestationCode, NUM_ATTESTATIONS_REQUIRED } from 'src/identity/verification'
 import { getRehydratePayload, REHYDRATE } from 'src/redux/persist-helper'
@@ -99,7 +99,6 @@ export interface State {
   askedContactsPermission: boolean
   importContactsProgress: ImportContactProgress
   // Contacts found during the matchmaking process
-  matchedContacts: ContactMatches
   secureSendPhoneNumberMapping: SecureSendPhoneNumberMapping
   lastRevealAttempt: number | null
 }
@@ -127,7 +126,6 @@ const initialState: State = {
     current: 0,
     total: 0,
   },
-  matchedContacts: {},
   secureSendPhoneNumberMapping: {},
   lastRevealAttempt: null,
 }
@@ -273,12 +271,6 @@ export const reducer = (
         ...state,
         askedContactsPermission: true,
       }
-    case Actions.ADD_CONTACT_MATCHES:
-      const matchedContacts = { ...state.matchedContacts, ...action.matches }
-      return {
-        ...state,
-        matchedContacts,
-      }
     case Actions.VALIDATE_RECIPIENT_ADDRESS_SUCCESS:
       return {
         ...state,
@@ -348,7 +340,6 @@ export const reducer = (
         addressToE164Number: state.addressToE164Number,
         e164NumberToAddress: state.e164NumberToAddress,
         e164NumberToSalt: state.e164NumberToSalt,
-        matchedContacts: state.matchedContacts,
         secureSendPhoneNumberMapping: state.secureSendPhoneNumberMapping,
       }
     case Actions.SET_LAST_REVEAL_ATTEMPT:

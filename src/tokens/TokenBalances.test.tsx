@@ -1,9 +1,13 @@
-import { render } from '@testing-library/react-native'
+import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
+import { HomeEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import TokenBalancesScreen from 'src/tokens/TokenBalances'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
+import networkConfig from 'src/web3/networkConfig'
 import { createMockStore, getElementText, getMockStackScreenProps } from 'test/utils'
 import {
   mockTestTokenAddress,
@@ -52,6 +56,7 @@ const storeWithHistoricalPrices = {
 }
 
 const mockScreenProps = getMockStackScreenProps(Screens.TokenBalances)
+const mockWalletAddress = '0x123'
 
 describe('TokenBalancesScreen', () => {
   it('renders correctly when showPriceChangeIndicator ff is off', async () => {
@@ -90,5 +95,38 @@ describe('TokenBalancesScreen', () => {
 
     expect(getElementText(tree.getByTestId('percentageIndicator:TT'))).toBe('53.85%')
     expect(tree.queryByTestId('percentageIndicator:TT:UpIndicator')).toBeTruthy()
+  })
+
+  it('renders correctly when visualizeNFTsEnabledInHomeAssetsPage is true', () => {
+    const store = createMockStore({
+      app: { visualizeNFTsEnabledInHomeAssetsPage: true },
+      web3: {
+        account: mockWalletAddress,
+      },
+    })
+
+    const tree = render(
+      <Provider store={store}>
+        <TokenBalancesScreen {...mockScreenProps} />
+      </Provider>
+    )
+    expect(tree.queryByTestId('NftViewerBanner')).toBeTruthy()
+
+    fireEvent.press(tree.getByTestId('NftViewerBanner'))
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.view_nft_home_assets)
+    expect(navigate).toHaveBeenCalledWith(Screens.WebViewScreen, {
+      uri: `${networkConfig.nftsValoraAppUrl}?address=${mockWalletAddress}&hide-header=true`,
+    })
+  })
+
+  it('renders correctly when visualizeNFTsEnabledInHomeAssetsPage is false', () => {
+    const store = createMockStore({ app: { visualizeNFTsEnabledInHomeAssetsPage: false } })
+
+    const tree = render(
+      <Provider store={store}>
+        <TokenBalancesScreen {...mockScreenProps} />
+      </Provider>
+    )
+    expect(tree.queryByTestId('NftViewerBanner')).toBeFalsy()
   })
 })

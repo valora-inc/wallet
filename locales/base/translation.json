@@ -75,28 +75,9 @@
   "chooseFromLibrary": "Choose from Library",
   "takePhoto": "Take Photo",
   "removePhoto": "Remove Photo",
-  "accountSendLimit": "Account Send Limit",
-  "dailyLimitLabel": "Current Daily Send Limit",
-  "dailyLimitValue": "${{dailyLimit}}",
-  "noDailyLimit": "Unlimited",
-  "verifyNumberToRaiseLimit": "You can increase your send limit by verifying your identity. Please connect your phone number before continuing.",
-  "verifyIdentityToRaiseLimit": "You can increase your send limit by verifying your identity.  Please be ready to provide some details in the following process.",
-  "dailyLimitApplicationStatus": "Application Status",
-  "applicationInReview": "In Review",
-  "applicationInReviewDescription": "Your application is being reviewed. You will be notified when this process is completed.",
-  "applicationIncomplete": "Incomplete",
-  "applicationIncompleteDescription": "The information you provided was insufficient. Please be ready to provide additional details in the following process. ",
-  "applicationDenied": "Denied",
-  "applicationDeniedDescription": "Your application was denied. If you feel this was a mistake, please restart the process below.",
   "applicationCompleted": "Completed",
   "applicationCompletedDescription": "Your application was accepted. You are now able to send an unlimited amount daily.",
-  "raiseLimitConfirmNumber": "Connect phone number",
   "raiseLimitBegin": "Begin Identity Verification",
-  "raiseLimitResume": "Resume Identity Verification",
-  "raiseLimitEmailSubject": "Request to raise account send limit",
-  "raiseLimitEmailBody": "I would like to request an increase to the {{dailyLimit}} {{appName}} daily limit for address {{address}}",
-  "raiseLimitEmailSuccess": "Your request has been sent successfully! Expect an email response soon!",
-  "raiseLimitEmailNotSent": "Your request was not sent. Please try again.",
   "storeRecoveryTitle": "We need you to setup your account again",
   "storeRecoveryBody": "There’s been an error. We’re aware of the issue and working to fix it. In the meantime, you will need to go through the setup process again.",
   "storeRecoveryButton": "Restore Account",
@@ -207,13 +188,14 @@
   "cashIn": "Add {{currency}}",
   "connectNumber": "Connect Number",
   "connectToWallet": "{{dappName}} would like to connect to {{appName}}",
+  "confirmTransaction": "{{dappName}} would like to confirm a transaction",
   "allow": "Allow",
   "address": "Account Address",
   "phoneNumber": "Phone Number",
   "transaction": {
     "operation": "Operation",
     "data": "Data",
-    "signTX": "Sign TX",
+    "signTX": "Sign transaction",
     "details": "Show details"
   },
   "shareInfo": "This application will be able to access the following information:",
@@ -290,7 +272,7 @@
   "tapToCopyCeloDollarsAddress": "Tap to copy your {{appName}} CUSD address",
   "disclaimerFiat": "{{currency}} values are estimates.",
   "dollarsNotYetEnabledNote": "Celo Dollars are not yet available on any providers. To get Celo Dollars, purchase CELO and exchange it for Celo Dollars in the CELO tab.",
-  "selectDigitalCurrency": "Select a digital asset",
+  "selectDigitalCurrency": "Select an asset",
   "selectPaymentMethod": "Select method:",
   "payWithBank": "Bank account",
   "payWithCard": "Debit card",
@@ -317,11 +299,6 @@
     "maxAmount": "Our providers do not support totals larger than {{usdLimit}}{{localLimit}}. Please enter a smaller amount.",
     "dismiss": "OK"
   },
-  "dailyLimitDialog": {
-    "body": "You are about to purchase more than your daily send limit of {{limit}}. Please contact <0>{{contactEmail}}</0> if you want to raise your daily send limit.",
-    "contact": "Contact",
-    "continue": "I Understand"
-  },
   "providerFeesDialog": {
     "title": "Provider Fees",
     "body1": "Provider fees are set by each provider individually and include an exchange fee and liquidity fee, among others. To learn more please visit ",
@@ -331,7 +308,6 @@
     "title": "Fee Discount",
     "body": "As a promotion, fees are temporarily subsidized to celebrate the launch of Valora!"
   },
-  "dailyLimitRequest": "Hi! I'd like to increase my daily send limit please.",
   "pleaseSelectProvider": "Please select a provider below. These links connect to a third party service.",
   "otherFundingOptions": "For more ways to add and withdraw funds, visit <0>How to fund your account</0>",
   "youCanTransferIn": "You can use a third party exchange to send {{digitalAsset}} to your Valora account. You'll need your Account Address for this.",
@@ -351,8 +327,10 @@
     "bodyWithoutProvider": "The service provider is processing your order. You should receive your funds within a couple of days."
   },
   "restrictedRegion": "Limited support in region",
+  "unsupportedLocation": "{{appName}} is not supported in your location",
   "unsupportedPaymentMethod": "Paying with a {{paymentMethod}} is not supported in your region",
   "noProviders": "There are no providers available for {{digitalAsset}} in your region.",
+  "noPaymentMethods": "There are no payment methods available for {{digitalAsset}} in your region.",
   "switchCurrency": "Switch Currency",
   "accept": "Accept",
   "at": "at",
@@ -386,6 +364,8 @@
   "paste": "Paste",
   "choose": "Choose",
   "receivedPayment": "Received Payment",
+  "receivedNft": "Received NFT",
+  "sentNft": "Sent NFT",
   "getStarted": "Get Started",
   "manageCeloDollars": "Manage Celo Dollars",
   "sendCeloDollars": "Send Celo Dollars",
@@ -481,8 +461,6 @@
   "maxActionableAttestationsExceededError": "Failed to resend messages",
   "odisInsufficientBalance": "Please connect your number",
   "matchmakingQuotaExceededError": "Matchmaking can be done only once",
-  "paymentLimitReached": "The daily limit is {{dailyLimitcUSD}} cUSD ({{currencySymbol}}{{dailyLimit}})\n{{dailyRemainingcUSD}} cUSD ({{currencySymbol}}{{dailyRemaining}}) remaining",
-  "requestLimitError": "Can't request more than the {{limit}} cUSD daily limit.",
   "ordinals": [
     "zeroth",
     "first",
@@ -591,13 +569,24 @@
   "sendAndInvite": "Send & Invite",
   "inviteAndSendDialog": {
     "title": "Finish inviting {{name}} to Valora",
-    "bodyWithRewards": "Once they join & connect a phone number, you both receive {{amount}} {{currency}}. Click below to send and customize your invite.",
+    "bodyWithRewards": "Once they join & connect their phone number, you’ll both receive a special edition NFT. Click below to send your invite via SMS.",
     "body": "Share an invitation message with {{name}} to join {{appName}}. Once they join & connect a phone number, they'll receive your payment.",
     "button": "Finish inviting"
   },
   "inviteRewardsBanner": {
-    "title": "Send crypto to invite a friend (beta)",
-    "body": "Once they set up their {{appName}} wallet, you each get {{amount}} {{currency}} in rewards. Earn up to <0>{{maxAmount}} {{currency}}</0>!"
+    "title": "Send crypto to invite a friend",
+    "body": "Once they set up their {{appName}} wallet and connect their number, you’ll each get an exclusive NFT. <0>Earn up to 3 NFTs</0>"
+  },
+  "inviteWithUrl": {
+    "title": "Invite a friend",
+    "body": "Connect and share value with your friends and family on {{appName}}.",
+    "button": "Share Invite",
+    "error": "There was an issue creating a sharable link",
+    "share": "Hi! I’ve been using {{appName}} as my crypto wallet. It’s easy to try and I want to invite you to check it out with this link: {{shareUrl}}",
+    "rewardsActive": {
+      "title": "Invite friends and collect NFTs",
+      "body": "Invite your friends and family to download {{appName}} and each of you will get an exclusive NFT"
+    }
   },
   "getReward": "Get ${{reward}}",
   "welcomeCelo": "Welcome to {{appName}}",
@@ -610,10 +599,14 @@
     "heading2": "Celo Assets and {{appName}} Account",
     "info": "In order to use our services, please read and accept our <0>User Agreement and Terms</0> by clicking the accept button below.",
     "privacy": "By joining this network, you give us permission to collect anonymous information about your use of the app. Additionally, if you connect your phone number, a hashed copy of it will be stored on the Celo Network. If you grant Valora access to your contact list, Valora will import each contact's name, phone number and profile picture to allow users to connect through the Valora app. To learn how we collect and use this information please review our <0>Privacy Policy</0>.",
-    "goldDisclaimer": "When you create an \"account\" with Valora you are creating a digital wallet to which only you hold the keys. No other person or entity, including cLabs or Valora, can recover your key, change or undo transactions, or recover lost funds. Be aware that CELO, cUSD and cEUR are part of a new asset class and present a risk of financial loss. Carefully consider your financial circumstance and tolerance for financial risk before purchasing any asset. You can only send up to {{dailyLimitCUSD}} cUSD per day through Valora (the \"Daily Limit\"). You must contact support@valoraapp.com and provide additional, personal information to request increasing this Daily Limit. There could be a delay to conduct required compliance."
+    "goldDisclaimer": "When you create an \"account\" with Valora you are creating a digital wallet to which only you hold the keys. No other person or entity, including cLabs or Valora, can recover your key, change or undo transactions, or recover lost funds. Be aware that CELO, cUSD and cEUR are part of a new asset class and present a risk of financial loss. Carefully consider your financial circumstance and tolerance for financial risk before purchasing any asset."
   },
   "fullName": "Name",
   "fullNamePlaceholder": "First & Last name",
+  "fullNameOrPseudonymPlaceholder": "First and last name or pseudonym",
+  "nameAndPicGuideCopyTitle": "What’s your name?",
+  "nameAndPicGuideCopyContent": "We’d like to know what to call you",
+  "generateUsername": "Generate a name",
   "importIt": "Restore Wallet",
   "important": "Important",
   "confirmPin": {
@@ -683,7 +676,7 @@
   },
   "congratsVerified": "Congratulations, your phone number is now connected!",
   "notification": {
-    "body": "Receive payments directly to your phone number",
+    "body": "Connect your number to claim funds and connect to friends",
     "cta": "Connect Now"
   },
   "quotaLookup": {
@@ -695,12 +688,17 @@
   "onboardingEducation": {
     "step1": "If you can text, you can crypto. Starting now, your phone is your crypto wallet.",
     "step2": "With {{appName}}, it’s easy to access and easy to grow your crypto.",
-    "step3": "All you need is a mobile phone to send, spend and explore."
+    "step3": "All you need is a mobile phone to send, spend and explore.",
+    "payment": "Make payments globally with near zero fees",
+    "impact": "Support climate and social change initiatives",
+    "spend": "Use your crypto to shop your favorite brands"
   },
   "enableBiometry": {
     "title": "Secure your wallet",
     "description": "{{biometryType}} secures your wallet and makes it easier to use {{appName}}",
-    "cta": "Turn on {{biometryType}}"
+    "cta": "Turn on {{biometryType}}",
+    "guideTitle": "Want to add {{biometryType}}?",
+    "guideDescription": "{{biometryType}} makes it easier, quicker, and more secure to connect your wallet to dapps & sign transactions."
   },
   "biometryType": {
     "FaceID": "Face ID",
@@ -713,8 +711,12 @@
   "unlockWithBiometryPrompt": "Authenticate to unlock {{appName}}",
   "welcome": {
     "title": "Step into the future of crypto with {{appName}}",
+    "titleGuided": "Welcome to {{appName}}!\nLet’s create your crypto wallet.",
     "createAccount": "Create new account",
-    "restoreAccount": "Restore my account"
+    "restoreAccount": "Restore my account",
+    "createNewWallet": "Create new wallet",
+    "restoreWallet": "Restore wallet",
+    "iAlreadyHaveAWallet": "I already have a wallet"
   },
   "accessContacts": {
     "disclosure": {
@@ -723,6 +725,7 @@
     }
   },
   "createAccount": "Create Account",
+  "createProfile": "Create Profile",
   "restoreAccount": "Restore My Account",
   "registrationSteps": "Step {{step}} of {{totalSteps}}",
   "selectCountryCode": "Select Country Code",
@@ -732,7 +735,11 @@
     "verify": "Enter your PIN again to confirm",
     "changePIN": "Change PIN",
     "pinsDontMatch": "The PINs didn't match",
-    "invalidPin": "Please use a stronger PIN"
+    "invalidPin": "Please use a stronger PIN",
+    "guideTitle": "Choose a 6 digit PIN you’ll remember",
+    "guideConfirm": "Enter your PIN again to confirm.",
+    "pinCodeGuide": "Your PIN is how you’ll secure your wallet.",
+    "selectPIN": "Select PIN"
   },
   "inviteCode": {
     "title": "Invite Code",
@@ -767,6 +774,38 @@
     "title": "Phone Numbers and {{appName}}",
     "body": "Connecting allows you to send and receive funds with your phone number.\n\n<0>Can I do this later?</0>\n\nYes, but wallets that aren’t connected can only send payments with QR codes or Account Addresses.\n\n<1>Secure and Private</1>\n\nValora uses state of the art cryptography to keep your phone number private.",
     "dismiss": "Dismiss"
+  },
+  "phoneVerificationScreen": {
+    "screenTitle": "Phone Number",
+    "title": "Connect your phone number",
+    "description": "To connect your phone number, you'll receive a text message.",
+    "startButtonLabel": "Start",
+    "learnMore": {
+      "buttonLabel": "Do I need to connect my phone?",
+      "title": "Do I need to connect my phone?",
+      "body": "Connecting your phone number will allow you to send money to friends in your address book and other phone numbers. \n \n If you choose to skip this step you won’t be able to access your contacts and you will only be able to send money via QR code or Account Address."
+    },
+    "skip": {
+      "title": "Are you sure?",
+      "body": "Connecting allows you to send and receive funds from your phone number.",
+      "cancel": "Go Back",
+      "confirm": "Skip for now"
+    }
+  },
+  "phoneVerificationInput": {
+    "title": "Enter the code",
+    "description": "We sent a code to {{phoneNumber}}, please enter it below.",
+    "help": "Help",
+    "codeInputPlaceholder": "123456",
+    "helpDialog": {
+      "title": "Help",
+      "body": "We sent an SMS to your phone number. Please check your text messages to find the 6 digit code. If you’re having trouble receiving messages, you can skip this step for now and try again later.",
+      "skip": "Skip",
+      "dismiss": "Go back"
+    },
+    "verificationFailure": "Oops! Something went wrong, please try again later.",
+    "resendButtonNotYetAvailable": "Resend available in {{secondsRemaining}} second(s)",
+    "resendButton": "Resend text message"
   },
   "importExistingKey": {
     "explanation": "Your Recovery Phrase is a 24-word phrase that you wrote down and saved when you set up your account. Please enter it here to restore your account.",
@@ -857,6 +896,7 @@
   "amountCeloWithdrawn": "Amount (CELO)",
   "feeEducation": "The Celo Blockchain collects a transaction fee to keep the network supported and running smoothly.",
   "inviteMoneyEscrow": "Send this contact an invite message and they’ll receive the funds once they connect their number.",
+  "inviteMoneyEscrowWithRewards": "Send this contact an invite message and they’ll receive the funds & NFT once they connect their number.",
   "reviewPayment": "Review Payment",
   "requestPayment": "Request Payment",
   "max": "MAX",
@@ -876,7 +916,7 @@
   "walletAddress": "Wallet Address",
   "inviteWithoutPayment": "Hi! I’ve been using {{appName}} to send crypto worldwide. It’s easy to try and I want to invite you to check it out with this link: {{link}}",
   "inviteWithEscrowedPayment": "Hi! I’ve been using {{appName}} to send crypto worldwide. I just sent you {{amount}} {{token}}. Please download the {{appName}} App and redeem your {{token}} using this link: {{link}}",
-  "inviteWithRewards": "Hey! I just sent you crypto with my {{appName}} wallet. Once you download the app and connect your phone number, we both get a {{amount}} {{token}} reward. Use this link: {{link}}",
+  "inviteWithRewards": "Hey! I just sent you crypto with my {{appName}} wallet. Once you download the app and connect your phone number, we both get a special edition NFT. Use this link: {{link}}",
   "loadingContacts": "Finding your contacts",
   "myCode": "My Code",
   "scanCode": "Scan",
@@ -964,14 +1004,15 @@
   "loadingFromDeeplink": "Connecting",
   "action": {
     "asking": "This application is asking to perform the following action",
+    "askingV1_35": "{{dappName}} is asking to perform the following:",
     "operation": "Operation",
     "data": "Data",
     "sign": "Sign a data payload",
-    "signTransaction": "Sign a Celo TX",
-    "sendTransaction": "Send a Celo TX",
+    "signTransaction": "Sign a Celo transaction",
+    "sendTransaction": "Send a Celo transaction",
     "decrypt": "Decrypt a data payload",
     "accounts": "Read your {{appName}} Account Address",
-    "details": "Show details",
+    "details": "View transaction data",
     "computeSharedSecret": "Generate Secrets",
     "emptyMessage": "Empty message"
   },
@@ -1050,7 +1091,10 @@
     "1": "A friendly reminder you're using the {{testnet}} network build - the balances are not real"
   },
   "dollarBalance": "<0></0> $t(celoDollars)",
-  "feedItemAddress": "Account {{address}}",
+  "feedItemAddress": "{{address}}",
+  "feedItemDepositInfo": "{{comment}}",
+  "feedItemDepositInfo_noComment": "Deposit Received",
+  "feedItemDepositTitle": "Deposit",
   "feedItemExchangeTitle": "CELO",
   "feedItemExchangeInfo_boughtGold": "Bought <0></0> CELO",
   "feedItemExchangeInfo_soldGold": "Sold <0></0> CELO",
@@ -1096,6 +1140,7 @@
   "feedItemGoldPurchased": "Purchased",
   "feedItemGoldWithdrawal": "Withdrawal to {{displayName}}",
   "feedItemGoldReceived": "Received from {{displayName}}",
+  "feedItemSwapPath": "{{token1}} to {{token2}}",
   "transactionHeaderVerificationFee": "Confirmation",
   "transactionHeaderNetworkFee": "Network",
   "transactionHeaderFaucet": "Faucet",
@@ -1108,22 +1153,29 @@
   "transactionHeaderCeloDeposit": "Deposit Received",
   "transactionHeaderCeloReward": "Reward Received",
   "transactionHeaderEscrowReceived": "Escrow Payment Received",
+  "transactionHeaderNftReceived": "NFT Received",
+  "transactionHeaderNftSent": "NFT Sent",
   "feedSectionHeaderRecent": "Recent",
   "cashInBottomSheet": {
     "title": "Add funds to start using Valora!",
     "subtitle": "Your account is currently empty",
     "addFunds": "Add Funds",
     "titleRamp": "Add {{currency}} to start using Valora",
-    "subtitleRamp": "Add funds with zero fees through one of our trusted external providers."
+    "subtitleRamp": "Add funds with low fees through one of our trusted external providers."
   },
   "balances": "Assets",
+  "totalBalanceWithLocalCurrencySymbol": "{{localCurrencySymbol}}{{totalBalance}} Total",
   "totalValue": "Total Balance",
   "viewBalances": "View Assets",
+  "open": "Open",
+  "nftViewer": "NFT Viewer",
   "whatTotalValue": {
     "title": "What does Total Balance mean?",
     "body": "Your Total Balance is an approximate sum of all your Valora assets. Your Total Balance will change as prices fluctuate. It is updated every 10 minutes.\nSome assets may not be shown in the Total Balance because the price is unavailable at the time of calculation.",
     "dismiss": "Dismiss"
   },
+  "supportExportLogsStart": "Exporting logs...",
+  "supportExportLogsFailed": "Failed to export logs: {{error}}",
   "supportEmailSubject": "{{appName}} support for {{user}}",
   "personaAccountEndpointFail": "Identity verification is not currently available. Please try again later",
   "plaidCreateLinkTokenFail": "Unable to link bank account. Please try again later",
@@ -1227,7 +1279,7 @@
     "learnMore": "Learn more.",
     "whyMissingPayments": "Why don't I see more payment methods?",
     "dismiss": "Dismiss",
-    "missingPaymentsExplained": "Not all payment methods are available in every single country.\n\nThis could be because the option does not exist in that country, or is blocked due to local regulations.",
+    "missingPaymentsExplained": "Not all payment methods are available in every country.\n\nAvailability depends on each provider's geographical coverage.",
     "cryptoExchange": "Cryptocurrency Exchange",
     "feesVary": "Fees Vary",
     "viewExchanges": "View Exchanges",
@@ -1240,8 +1292,104 @@
     "idRequired": "ID Required",
     "numDays": "1-3 Days",
     "oneHour": "Less Than 1 Hour",
+    "oneDay": "Less Than 1 Day",
     "bestRate": "Best Rate",
     "header": "Select Payment Method"
+  },
+  "fiatConnectLinkAccountScreen": {
+    "bankAccount": {
+      "header": "Set up Bank Account",
+      "bodyTitle": "Set Up Bank Account",
+      "description": "Enter Bank Account details to transfer funds. These services will be provided to you by <0>{{providerName}}</0>.\n\nBy clicking continue, you agree to their <1>Terms and Conditions</1> and <2>Privacy Policy</2>"
+    },
+    "mobileMoney": {
+      "header": "Set up Mobile Money",
+      "bodyTitle": "Set Up Mobile Money",
+      "description": "Enter mobile money details to transfer funds. These services will be provided to you by <0>{{providerName}}</0>.\n\nBy clicking continue, you agree to their <1>Terms and Conditions</1> and <2>Privacy Policy</2>"
+    },
+    "continue": "Continue"
+  },
+  "fiatConnectKycLandingScreen": {
+    "stepOne": "Step 1",
+    "stepTwo": "Step 2",
+    "title": "Verify your Identity",
+    "description": "This step will take about 5 minutes.",
+    "disclaimer": "You acknowledge and agree that your Personal Data will be provided to us and shared with third-parties for verification purposes as stated in the <0>Privacy Policy</0>",
+    "button": "Set up ID Verification"
+  },
+  "fiatConnectKycStatusScreen": {
+    "contactSupportPrefill": "I'm having trouble verifying my identity with Valora.",
+    "contactSupport": "Contact Support",
+    "pending": {
+      "title": "Your ID verification is in review.",
+      "description": "After the review is complete, you can return to the Add & Withdraw page to complete your transaction.",
+      "close": "Close"
+    },
+    "denied": {
+      "switch": "Switch withdraw method",
+      "retryable": {
+        "title": "ID verification was not accepted.",
+        "description": "Please verify again or try a different way to withdraw funds.",
+        "tryAgain": "Verify again"
+      },
+      "final": {
+        "title": "Verification denied.",
+        "description": "Please try a different way to withdraw funds, or contact support."
+      }
+    },
+    "expired": {
+      "title": "ID verification expired.",
+      "description": "Please verify again or try a different way to withdraw funds.",
+      "tryAgain": "Verify again",
+      "switch": "Switch withdraw method"
+    },
+    "tryAgainFailed": "There was an error clearing KYC information. Please try again"
+  },
+  "fiatConnectReviewScreen": {
+    "transactionDetails": "Transaction Details",
+    "paymentMethodVia": "Connected via {{providerName}}",
+    "receiveAmount": "You will receive",
+    "cashIn": {
+      "header": "Review Add Funds",
+      "button": "Add Funds",
+      "transactionDetailsAmount": "Total Price",
+      "paymentMethodHeader": "Deposit From"
+    },
+    "cashOut": {
+      "header": "Review",
+      "button": "Withdraw Funds",
+      "transactionDetailsAmount": "Total Withdraw",
+      "transactionDetailsAmountConverted": "Amount Withdrawn",
+      "paymentMethodHeader": "Withdraw To"
+    },
+    "failedRefetch": {
+      "title": "Connection lost!",
+      "description": "We were not able to establish a connection between your accounts.\n\nThis may be due to a poor internet connection or server issue. Please try to reconnect.",
+      "tryAgain": "Try Again"
+    },
+    "quoteExpiredDialog": {
+      "title": "Review amounts & fees",
+      "body": "Crypto amounts & fees can change due to fluctuations in the crypto market.\n\nPlease review your final amount & fees before submitting",
+      "continue": "Continue"
+    }
+  },
+  "fiatConnectStatusScreen": {
+    "tryAgain": "Try Again",
+    "withdraw": {
+      "cancel": "Cancel Withdrawal",
+      "success": {
+        "header": "Success",
+        "title": "Your funds are on their way!",
+        "description": "Your transaction request has been sent & your funds will arrive in {{duration}}.",
+        "txDetails": "View on CeloExplorer",
+        "continue": "Continue"
+      }
+    },
+    "requestNotCompleted": {
+      "title": "Your request could not be completed.",
+      "description": "Your funds were not able to be transferred. Please try again or contact our support team for help.",
+      "contactSupportPrefill": "I'm having trouble withdrawing my funds."
+    }
   },
   "fiatExchangeFlow": {
     "cashIn": {
@@ -1252,40 +1400,109 @@
       "selectProviderHeader": "Select Payment Method"
     },
     "cashOut": {
-      "fiatExchangeTitle": "Withdraw",
+      "fiatExchangeTitle": "Withdraw Funds",
       "fiatExchangeSubtitle": "Get funds out of {{appName}} and into a bank account, card, crypto exchange or to mobile money.",
       "selectCurrencyTitle": "Withdraw Funds",
       "exchangeAmountTitle": "Withdraw {{currency}}",
       "selectProviderHeader": "Select Withdraw Method"
     },
     "spend": {
-      "fiatExchangeTitle": "Spend",
+      "fiatExchangeTitle": "Spend Funds",
       "fiatExchangeSubtitle": "Spend on gift cards and other purchases.",
       "selectCurrencyTitle": "Spend Funds"
     }
   },
   "fiatDetailsScreen": {
-    "header": "Enter Bank Details",
+    "header": "Enter Bank Information",
+    "headerSubTitle": "Powered by {{provider}}",
     "selectedPaymentOption": "Selected payment option",
-    "addFiatAccountSuccess": "Your account has been linked to Valora.",
-    "addFiatAccountResourceExist": "You have already linked this account to Valora.",
-    "addFiatAccountFailed": "Your account was not linked, please try again or contact support."
+    "addFiatAccountSuccess": "Your account has been connected to {{provider}}.",
+    "addFiatAccountResourceExist": "You have already connected this account to {{provider}}.",
+    "addFiatAccountFailed": "Your account was not connected to {{provider}}, please try again or contact support.",
+    "selectItem": "Select an option...",
+    "selectDone": "Done",
+    "submitAndContinue": "Submit & Continue"
   },
   "fiatAccountSchema": {
-    "accountName": {
-      "label": "Account Name",
-      "placeholderText": "A name for the account",
-      "errorMessage": "An account name is required"
-    },
     "institutionName": {
       "label": "Bank Name",
-      "placeholderText": "Enter Bank Name",
-      "errorMessage": "A bank name is required"
+      "placeholderText": "Enter Bank Name"
     },
     "accountNumber": {
       "label": "Account Number",
-      "placeholderText": "Enter your 10 digit account number",
-      "errorMessage": "Account number should be 10 digits long and only contain numbers"
+      "placeholderText": "Enter Account Number",
+      "errorMessageDigitLength": "Account number must be {{length}} digits",
+      "errorMessageDigit": "Account number must contain only digits"
+    },
+    "ibanNumber": {
+      "label": "IBAN",
+      "placeholderText": "Enter IBAN Number",
+      "errorMessage": "Invalid IBAN"
+    }
+  },
+  "webView": {
+    "openExternal": "Open in External Browser"
+  },
+  "dappNotListed": "This dapp is not listed in {{appName}}. Dapps are third party applications. Use at your own risk.",
+  "swapScreen": {
+    "title": "Swap",
+    "review": "Review",
+    "swapFrom": "From",
+    "swapTo": "To",
+    "insufficientFunds": "Insufficient {{token}} balance. Try a smaller amount or choose a different token.",
+    "fetchSwapQuoteFailed": "Sorry for the delay! It's taking longer than usual to get the best exchange rate. Please try again in a few minutes."
+  },
+  "swapTransactionDetailPage": {
+    "swapFrom": "Swap from",
+    "swapTo": "Swap to",
+    "rate": "Rate",
+    "estimatedFee": "Estimated Fee",
+    "viewOnExplorer": "View on CeloExplorer"
+  },
+  "swapReviewScreen": {
+    "title": "Review Swap",
+    "complete": "Complete Swap",
+    "swapFrom": "Swap From",
+    "swapTo": "Swap To",
+    "transactionDetails": "Transaction Details",
+    "estimatedGas": "Estimated Gas",
+    "swapSubmitError": "Sorry, we were unable to complete your swap. Please try again or contact support.",
+    "swapFee": "{{appName}} Fee",
+    "swapFeeTitle": "What is the {{appName}} Fee?",
+    "swapFeeBody": "The {{appName}} fee is the fee that you pay to swap tokens on {{appName}}. \n\n The fee is {{swapFee}}% of the amount you are exchanging. \n\n {{appName}} fees are free for the next few months.",
+    "swapFeeBodyFree": "The {{appName}} fee is the fee that you pay to swap tokens on {{appName}}. {{appName}} fees are free for the next few months.",
+    "estimatedAmountTitle": "Estimated Amount",
+    "estimatedAmountBody": "Conversions take place on a third party decentralized exchange that finds you the best rate for your swap. \n\n Your trade will be completed at a price within {{slippagePercent}}% of the estimate or the transaction will be cancelled & funds returned to your wallet.",
+    "free": "Free"
+  },
+  "SwapExecuteScreen": {
+    "swapPending": "Swap Pending",
+    "swapSuccess": "Swap Successful!",
+    "swapError": "Swap Error",
+    "exchangeRateSubtext": "Finding the best exchange rate...",
+    "approvingSubtext": "Approving funds...",
+    "completingSubtext": "Completing swap...",
+    "swapAgain": "Swap Again",
+    "swapPriceModal": {
+      "title": "Prices have changed",
+      "action": "Continue",
+      "body": "Crypto amounts & fees can change due to fluctuations in the crypto market. \n\n Please review your final amount & fees and resubmit."
+    },
+    "swapErrorModal": {
+      "title": "We couldn’t complete this transaction.",
+      "body": "Please wait and try again later or contact our support team for help.",
+      "swapRestart": "Dismiss",
+      "contactSupport": "Contact Support"
+    }
+  },
+  "inviteModal": {
+    "title": "Looks like {{contactName}} doesn’t have a {{appName}} wallet yet.",
+    "body": "You can still invite them to {{appName}}, or try to send a payment to their wallet address or nom.space.",
+    "sendInviteButtonLabel": "Send Invite",
+    "shareMessage": "Hey! I’d like to send you some crypto with my {{appName}} wallet. Once you download the app and connect your phone number, we can send crypto as easy as a text. Use this link: {{link}}",
+    "rewardsActive": {
+      "title": "Invite {{contactName}} to {{appName}} and you’ll both receive NFTs!",
+      "body": "Looks like {{contactName}} isn't on {{appName}}. If you know their wallet address you can still send a payment or send an invitation instead. \n\n After they download the wallet and connect their phone number, you’ll both get an exclusive NFT."
     }
   }
 }

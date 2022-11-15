@@ -113,6 +113,7 @@ export default function SegmentedControl({ position, values, selectedIndex = 0, 
             accessibilityLabel={value}
             onPress={onPress}
             style={styles.value}
+            testID={value}
           >
             <View />
           </Touchable>

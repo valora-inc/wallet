@@ -24,6 +24,7 @@ export interface CodeRowProps {
   inputPlaceholder: string
   onInputChange: (value: string) => void
   shouldShowClipboard: (value: string) => boolean
+  testID?: string
 }
 
 type Props = CodeRowProps & WithTranslation
@@ -35,6 +36,7 @@ function CodeRow({
   onInputChange,
   shouldShowClipboard,
   t,
+  testID,
 }: Props) {
   if (status === CodeRowStatus.DISABLED) {
     return (
@@ -52,6 +54,7 @@ function CodeRow({
         shouldShowClipboard={shouldShowClipboard}
         onChangeText={onInputChange}
         style={styles.codeInput}
+        testID={testID}
       />
     )
   }

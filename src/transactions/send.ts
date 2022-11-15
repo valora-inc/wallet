@@ -6,9 +6,8 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { STATIC_GAS_PADDING } from 'src/config'
 import { fetchFeeCurrencySaga } from 'src/fees/saga'
-import { WEI_DECIMALS } from 'src/geth/consts'
-import { TokenBalance } from 'src/tokens/reducer'
 import { coreTokensSelector } from 'src/tokens/selectors'
+import { TokenBalance } from 'src/tokens/slice'
 import {
   sendTransactionAsync,
   SendTransactionLogEvent,
@@ -18,8 +17,9 @@ import {
 import { TransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { assertNever } from 'src/utils/typescript'
+import { WEI_DECIMALS } from 'src/web3/consts'
 import { getGasPrice } from 'src/web3/gas'
-import { fornoSelector, walletAddressSelector } from 'src/web3/selectors'
+import { walletAddressSelector } from 'src/web3/selectors'
 import { estimateGas } from 'src/web3/utils'
 
 const TAG = 'transactions/send'
@@ -40,7 +40,7 @@ const TX_TIMEOUT = 90000
 // Gives time reconnect and fetch receipts in case network conditions change while the app is suspended.
 const TX_TIMEOUT_GRACE_PERIOD = 5000
 
-const getLogger = (context: TransactionContext, fornoMode?: boolean) => {
+const getLogger = (context: TransactionContext) => {
   const txId = context.id
   const tag = context.tag ?? TAG
   return (event: SendTransactionLogEvent) => {
@@ -50,7 +50,7 @@ const getLogger = (context: TransactionContext, fornoMode?: boolean) => {
         ValoraAnalytics.track(TransactionEvents.transaction_start, {
           txId,
           description: context.description,
-          fornoMode,
+          fornoMode: true,
         })
         break
       case SendTransactionLogEventType.EstimatedGas:
@@ -137,10 +137,12 @@ export function* chooseTxFeeDetails(
   const userAddress: string = yield select(walletAddressSelector)
   const feeCurrency = tokenInfo.symbol === 'CELO' ? undefined : tokenInfo.address
   if (!gas) {
-    gas = ((yield call(estimateGas, tx, {
-      from: userAddress,
-      feeCurrency,
-    })) as BigNumber).toNumber()
+    gas = (
+      (yield call(estimateGas, tx, {
+        from: userAddress,
+        feeCurrency,
+      })) as BigNumber
+    ).toNumber()
   }
   if (!gasPrice) {
     gasPrice = yield getGasPrice(feeCurrency)
@@ -186,7 +188,6 @@ export function* sendTransactionPromises(
     `Going to send a transaction with id ${context.id}`
   )
 
-  const fornoMode: boolean = yield select(fornoSelector)
   const {
     feeCurrency,
     gas,
@@ -204,17 +205,14 @@ export function* sendTransactionPromises(
     )
   }
 
-  Logger.debug(
-    `${TAG}@sendTransactionPromises`,
-    `Sending tx ${context.id} in ${fornoMode ? 'forno' : 'geth'} mode`
-  )
+  Logger.debug(`${TAG}@sendTransactionPromises`, `Sending tx ${context.id}`)
 
   const transactionPromises: TxPromises = yield call(
     sendTransactionAsync,
     tx,
     account,
     feeCurrency,
-    getLogger(context, fornoMode),
+    getLogger(context),
     gas,
     gasPrice,
     nonce

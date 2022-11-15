@@ -34,6 +34,7 @@ export interface ButtonProps {
   accessibilityLabel?: string
   type?: BtnTypes
   icon?: ReactNode
+  iconPositionLeft?: boolean
   rounded?: boolean
   disabled?: boolean
   size?: BtnSizes
@@ -48,6 +49,7 @@ export default React.memo(function Button(props: ButtonProps) {
     testID,
     text,
     icon,
+    iconPositionLeft = true,
     type = BtnTypes.PRIMARY,
     rounded = true,
     style,
@@ -71,18 +73,27 @@ export default React.memo(function Button(props: ButtonProps) {
         <Touchable
           onPress={debouncedOnPress}
           disabled={disabled}
-          style={getStyle(size, backgroundColor, opacity)}
+          style={getStyle(size, backgroundColor, opacity, iconPositionLeft)}
           testID={testID}
         >
           {showLoading ? (
-            <ActivityIndicator size="small" color={loadingColor ?? textColor} />
+            <ActivityIndicator
+              size="small"
+              color={loadingColor ?? textColor}
+              testID="Button/Loading"
+            />
           ) : (
             <>
               {icon}
               <Text
                 maxFontSizeMultiplier={1}
                 accessibilityLabel={accessibilityLabel}
-                style={{ ...fontStyles.regular600, color: textColor }}
+                style={{
+                  ...fontStyles.regular600,
+                  color: textColor,
+                  marginLeft: icon && iconPositionLeft ? 4 : 0,
+                  marginRight: icon && !iconPositionLeft ? 4 : 0,
+                }}
               >
                 {text}
               </Text>
@@ -157,15 +168,31 @@ function getColors(type: BtnTypes, disabled: boolean | undefined) {
 function getStyle(
   size: BtnSizes | undefined,
   backgroundColor: Colors,
-  opacity: number | undefined
+  opacity: number | undefined,
+  iconPositionLeft: boolean
 ) {
+  const commonStyles: ViewStyle = {
+    ...styles.button,
+    backgroundColor,
+    opacity,
+    flexDirection: iconPositionLeft ? 'row' : 'row-reverse',
+  }
   switch (size) {
     case BtnSizes.SMALL:
-      return { ...styles.button, ...styles.small, backgroundColor, opacity }
+      return {
+        ...commonStyles,
+        ...styles.small,
+      }
     case BtnSizes.FULL:
-      return { ...styles.button, ...styles.full, backgroundColor, opacity }
+      return {
+        ...commonStyles,
+        ...styles.full,
+      }
     default:
-      return { ...styles.button, ...styles.medium, backgroundColor, opacity }
+      return {
+        ...commonStyles,
+        ...styles.medium,
+      }
   }
 }
 

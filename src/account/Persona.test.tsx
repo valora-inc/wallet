@@ -1,18 +1,18 @@
 import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
-import Inquiry from 'react-native-persona'
+import { Inquiry } from 'react-native-persona'
 import { Provider } from 'react-redux'
 import Persona, { Props } from 'src/account/Persona'
 import { KycStatus } from 'src/account/reducer'
+import { createPersonaAccount } from 'src/in-house-liquidity'
 import { createMockStore } from 'test/utils'
 import { mockAccount, mockPrivateDEK } from 'test/values'
-import { createPersonaAccount } from 'src/in-house-liquidity'
 
 const FAKE_TEMPLATE_ID = 'fake template id'
 jest.mock('react-native-persona')
 jest.mock('src/firebase/firebase', () => ({
-  readOnceFromFirebase: jest.fn(() => FAKE_TEMPLATE_ID),
+  getPersonaTemplateId: jest.fn(() => FAKE_TEMPLATE_ID),
 }))
 
 jest.mock('src/in-house-liquidity', () => ({
@@ -21,18 +21,24 @@ jest.mock('src/in-house-liquidity', () => ({
 }))
 
 const mockInquiryBuilder = {
-  fromTemplate: jest.fn().mockReturnThis(),
   referenceId: jest.fn().mockReturnThis(),
+  accountId: jest.fn().mockReturnThis(),
   environment: jest.fn().mockReturnThis(),
+  sessionToken: jest.fn().mockReturnThis(),
+  fields: jest.fn().mockReturnThis(),
   iosTheme: jest.fn().mockReturnThis(),
-  onSuccess: jest.fn().mockReturnThis(),
-  onCancelled: jest.fn().mockReturnThis(),
+  onComplete: jest.fn().mockReturnThis(),
+  onCanceled: jest.fn().mockReturnThis(),
   onError: jest.fn().mockReturnThis(),
-  build: jest.fn().mockReturnThis(),
-  start: jest.fn().mockReturnThis(),
+  build: jest.fn().mockReturnValue({ start: jest.fn() }),
 }
-//@ts-ignore Persona doesn't expose the types to cast this mock adequately :\
-jest.spyOn(Inquiry, 'fromTemplate').mockReturnValue(mockInquiryBuilder)
+
+jest.mock('react-native-persona', () => ({
+  ...(jest.requireActual('react-native-persona') as any),
+  Inquiry: {
+    fromTemplate: jest.fn(() => mockInquiryBuilder),
+  },
+}))
 
 describe('Persona', () => {
   const store = createMockStore({
@@ -50,6 +56,7 @@ describe('Persona', () => {
   it('renders correctly', () => {
     const personaProps: Props = {
       kycStatus: KycStatus.Created,
+      disabled: false,
     }
 
     const { toJSON } = render(
@@ -63,6 +70,7 @@ describe('Persona', () => {
   it('calls IHL to create a persona account if launching the first time', async () => {
     const personaProps: Props = {
       kycStatus: undefined,
+      disabled: false,
     }
     const { getByTestId } = render(
       <Provider store={store}>
@@ -76,9 +84,41 @@ describe('Persona', () => {
     expect(createPersonaAccount).toHaveBeenCalledTimes(1)
   })
 
+  it('calls IHL to create a persona account if persona account not created', async () => {
+    const personaProps: Props = {
+      kycStatus: KycStatus.NotCreated,
+      disabled: false,
+    }
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <Persona {...personaProps} />
+      </Provider>
+    )
+    // Should be disabled to start because we don't know if they have an account until the IHL call happens
+    expect(getByTestId('PersonaButton')).toBeDisabled()
+
+    await waitFor(() => expect(getByTestId('PersonaButton')).not.toBeDisabled())
+    expect(createPersonaAccount).toHaveBeenCalledTimes(1)
+  })
+
+  it('disables the button when the disabled prop is true', async () => {
+    const personaProps: Props = {
+      kycStatus: KycStatus.Created,
+      disabled: true,
+    }
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <Persona {...personaProps} />
+      </Provider>
+    )
+
+    await waitFor(() => expect(getByTestId('PersonaButton')).toBeDisabled())
+  })
+
   it('launches persona on button press', async () => {
     const personaProps: Props = {
       kycStatus: KycStatus.Created,
+      disabled: false,
     }
     const { getByTestId } = render(
       <Provider store={store}>
@@ -96,6 +136,7 @@ describe('Persona', () => {
     const personaProps: Props = {
       kycStatus: KycStatus.Created,
       onSuccess: jest.fn(),
+      disabled: false,
     }
     const { getByTestId } = render(
       <Provider store={store}>
@@ -108,15 +149,16 @@ describe('Persona', () => {
     fireEvent.press(getByTestId('PersonaButton'))
     expect(Inquiry.fromTemplate).toHaveBeenCalledWith(FAKE_TEMPLATE_ID)
 
-    expect(mockInquiryBuilder.onSuccess).toHaveBeenCalled()
+    expect(mockInquiryBuilder.onComplete).toHaveBeenCalled()
     expect(personaProps.onSuccess).not.toHaveBeenCalled()
-    mockInquiryBuilder.onSuccess.mock.calls?.[0]?.[0]?.() // simulate Persona invoking the onSuccess callback
+    mockInquiryBuilder.onComplete.mock.calls?.[0]?.[0]?.('', 'completed') // simulate Persona invoking the onSuccess callback with success
     expect(personaProps.onSuccess).toHaveBeenCalled()
   })
-  it('calls onCancelled callback on inquiry cancel', async () => {
+  it('calls onCanceled callback on inquiry cancel', async () => {
     const personaProps: Props = {
       kycStatus: KycStatus.Created,
-      onCancelled: jest.fn(),
+      onCanceled: jest.fn(),
+      disabled: false,
     }
     const { getByTestId } = render(
       <Provider store={store}>
@@ -129,15 +171,38 @@ describe('Persona', () => {
     fireEvent.press(getByTestId('PersonaButton'))
     expect(Inquiry.fromTemplate).toHaveBeenCalledWith(FAKE_TEMPLATE_ID)
 
-    expect(mockInquiryBuilder.onCancelled).toHaveBeenCalled()
-    expect(personaProps.onCancelled).not.toHaveBeenCalled()
-    mockInquiryBuilder.onCancelled.mock.calls?.[0]?.[0]?.() // simulate Persona invoking the onCancelled callback
-    expect(personaProps.onCancelled).toHaveBeenCalled()
+    expect(mockInquiryBuilder.onCanceled).toHaveBeenCalled()
+    expect(personaProps.onCanceled).not.toHaveBeenCalled()
+    mockInquiryBuilder.onCanceled.mock.calls?.[0]?.[0]?.() // simulate Persona invoking the onCanceled callback
+    expect(personaProps.onCanceled).toHaveBeenCalled()
+  })
+  it('calls onError callback on inquiry failed', async () => {
+    const personaProps: Props = {
+      kycStatus: KycStatus.Created,
+      onError: jest.fn(),
+      disabled: false,
+    }
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <Persona {...personaProps} />
+      </Provider>
+    )
+
+    await waitFor(() => expect(getByTestId('PersonaButton')).not.toBeDisabled())
+
+    fireEvent.press(getByTestId('PersonaButton'))
+    expect(Inquiry.fromTemplate).toHaveBeenCalledWith(FAKE_TEMPLATE_ID)
+
+    expect(mockInquiryBuilder.onComplete).toHaveBeenCalled()
+    expect(personaProps.onError).not.toHaveBeenCalled()
+    mockInquiryBuilder.onComplete.mock.calls?.[0]?.[0]?.('', 'failed') // simulate Persona invoking the onComplete callback with failed
+    expect(personaProps.onError).toHaveBeenCalled()
   })
   it('calls onError callback on inquiry error', async () => {
     const personaProps: Props = {
       kycStatus: KycStatus.Created,
       onError: jest.fn(),
+      disabled: false,
     }
     const { getByTestId } = render(
       <Provider store={store}>

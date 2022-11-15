@@ -1,21 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
-import { setRetryVerificationWithForno } from 'src/account/actions'
 import Dialog from 'src/components/Dialog'
 import { cancelVerification } from 'src/identity/actions'
 import { VerificationStatus } from 'src/identity/types'
-import { navigate, navigateHome } from 'src/navigator/NavigationService'
-import { Screens } from 'src/navigator/Screens'
-import { toggleFornoMode } from 'src/web3/actions'
+import { navigateHome } from 'src/navigator/NavigationService'
 
 interface Props {
   verificationStatus: VerificationStatus
-  retryWithForno: boolean
-  fornoMode: boolean
 }
 
-export function VerificationFailedModal({ verificationStatus, retryWithForno, fornoMode }: Props) {
+export function VerificationFailedModal({ verificationStatus }: Props) {
   const dispatch = useDispatch()
   const { t } = useTranslation()
   const [isDismissed, setIsDismissed] = useState(true)
@@ -29,13 +24,6 @@ export function VerificationFailedModal({ verificationStatus, retryWithForno, fo
     navigateHome()
   }
 
-  const onRetry = () => {
-    dispatch(toggleFornoMode(true)) // Note that forno remains toggled on after verification retry
-    dispatch(setRetryVerificationWithForno(false)) // Only prompt retry with forno once
-    setIsDismissed(true)
-    navigate(Screens.VerificationEducationScreen)
-  }
-
   const userBalanceInsufficient = verificationStatus === VerificationStatus.InsufficientBalance
   const saltQuotaExceeded = verificationStatus === VerificationStatus.SaltQuotaExceeded
 
@@ -45,28 +33,7 @@ export function VerificationFailedModal({ verificationStatus, retryWithForno, fo
       saltQuotaExceeded) &&
     !isDismissed
 
-  // Only prompt forno switch if not already in forno mode and failure
-  // wasn't due to insuffuicient balance or exceeded quota for lookups
-  const promptRetryWithForno =
-    retryWithForno && !fornoMode && !userBalanceInsufficient && !saltQuotaExceeded
-
-  if (promptRetryWithForno) {
-    // Retry verification with forno with option to skip verificaion
-    return (
-      <Dialog
-        isVisible={isVisible}
-        title={t('retryWithFornoModal.header')}
-        actionText={t('retryWithFornoModal.retryButton')}
-        actionPress={onRetry}
-        secondaryActionText={t('education.skip')}
-        secondaryActionPress={onSkip}
-      >
-        {t('retryWithFornoModal.body1')}
-        {'\n\n'}
-        {t('retryWithFornoModal.body2')}
-      </Dialog>
-    )
-  } else if (userBalanceInsufficient) {
+  if (userBalanceInsufficient) {
     // Show userBalanceInsufficient message and skip verification
     return (
       <Dialog

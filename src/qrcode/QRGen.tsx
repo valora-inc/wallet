@@ -90,12 +90,10 @@ function QRCode({
   ecl = 'M',
   onError,
 }: QRProps) {
-  const { cellSize, path } = useMemo(() => calculateMatrix(value, size, ecl, onError), [
-    value,
-    size,
-    ecl,
-    onError,
-  ])
+  const { cellSize, path } = useMemo(
+    () => calculateMatrix(value, size, ecl, onError),
+    [value, size, ecl, onError]
+  )
 
   return (
     <Svg ref={svgRef} width={size} height={size}>

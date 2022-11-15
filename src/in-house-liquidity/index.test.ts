@@ -1,31 +1,60 @@
-import {
-  createPersonaAccount,
-  signAndFetch,
-  createLinkToken,
-  createFinclusiveBankAccount,
-  exchangePlaidAccessToken,
-  verifyWalletAddress,
-  getFinclusiveComplianceStatus,
-} from 'src/in-house-liquidity'
+import { FiatConnectApiClient } from '@fiatconnect/fiatconnect-sdk'
+import { KycSchema, KycStatus as FiatConnectKycStatus } from '@fiatconnect/fiatconnect-types'
 import { FetchMock } from 'jest-fetch-mock/types'
-import networkConfig from 'src/geth/networkConfig'
-import { mockE164Number, mockAccount } from 'test/values'
+import { KycStatus as PersonaKycStatus } from 'src/account/reducer'
+import { getFiatConnectClient } from 'src/fiatconnect/clients'
+import {
+  AUTH_COOKIE,
+  createPersonaAccount,
+  deleteKyc,
+  getAuthHeaders,
+  getKycStatus,
+  makeRequest,
+  postKyc,
+  verifyWalletAddress,
+} from 'src/in-house-liquidity/index'
+import networkConfig from 'src/web3/networkConfig'
+import { mocked } from 'ts-jest/utils'
 
-const MOCK_USER = {
-  walletAddress: mockAccount,
-}
+const mockFetch = fetch as FetchMock
+
+jest.mock('src/in-house-liquidity/client', () => ({
+  getClient: jest.fn(() => ({
+    fetch: jest.fn(mockFetch),
+  })),
+}))
+
+jest.mock('src/in-house-liquidity/index', () => {
+  const original = jest.requireActual('src/in-house-liquidity/index')
+  return {
+    ...original,
+    getAuthHeaders: jest.spyOn(original, 'getAuthHeaders'),
+    makeRequest: jest.spyOn(original, 'makeRequest'),
+  }
+})
+
+jest.mock('src/fiatconnect/clients', () => {
+  const mockFCClient = {
+    isLoggedIn: jest.fn(),
+    login: jest.fn(),
+    getCookies: jest.fn(),
+  }
+  return {
+    getFiatConnectClient: jest.fn(() => mockFCClient),
+  }
+})
 
 describe('In House Liquidity Calls', () => {
-  const mockFetch = fetch as FetchMock
-
-  beforeAll(() => {
-    jest.useFakeTimers()
-    jest.spyOn(Date, 'now').mockImplementation(() => 1641945400000)
-  })
-
-  afterAll(() => {
-    jest.useRealTimers()
-  })
+  const mockProviderInfo = {
+    id: 'provider-id',
+    providerName: 'provider-name',
+    imageUrl: 'image-url',
+    baseUrl: 'some-url',
+    websiteUrl: 'website-url',
+    iconUrl: 'icon-url',
+    termsAndConditionsUrl: 'terms-url',
+    privacyPolicyUrl: 'privacy-url',
+  }
   beforeEach(() => {
     mockFetch.resetMocks()
     jest.clearAllMocks()
@@ -41,170 +70,235 @@ describe('In House Liquidity Calls', () => {
     })
   })
 
-  describe('signAndFetch', () => {
-    it('calls fetch with the correct params', async () => {
+  describe('makeRequest', () => {
+    it('makes a FC authenticated call if provider info is passed', async () => {
+      mocked(getAuthHeaders).mockResolvedValueOnce({ 'header-key': 'header-val' })
       mockFetch.mockResponseOnce(JSON.stringify({}), { status: 201 })
-      const body = { accountAddress: MOCK_USER.walletAddress }
-
-      const response = await signAndFetch({
-        path: '/persona/account/create',
-        walletAddress: MOCK_USER.walletAddress,
-        requestOptions: {
+      await makeRequest({
+        providerInfo: mockProviderInfo,
+        path: '/some/path',
+        options: {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(body),
+          body: "{ some: 'data' }",
         },
       })
 
-      // Calls fetch correctly
-      expect(mockFetch).toHaveBeenCalledWith(
-        `${networkConfig.inHouseLiquidityURL}/persona/account/create`,
-        {
-          body: JSON.stringify(body),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          method: 'POST',
-        }
-      )
+      expect(getAuthHeaders).toHaveBeenCalledWith({ providerInfo: mockProviderInfo })
+      expect(mockFetch).toHaveBeenCalledWith(`${networkConfig.inHouseLiquidityURL}/some/path`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'header-key': 'header-val',
+        },
+        method: 'POST',
+        body: "{ some: 'data' }",
+      })
+    })
+    it('makes a FC unauthenticated call if provider info is not passed', async () => {
+      mockFetch.mockResponseOnce(JSON.stringify({}), { status: 201 })
+      await makeRequest({
+        path: '/some/path',
+        options: {
+          method: 'GET',
+        },
+      })
+      expect(mockFetch).toHaveBeenCalledWith(`${networkConfig.inHouseLiquidityURL}/some/path`, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        method: 'GET',
+      })
+    })
+  })
 
-      // Returns the response object
-      expect(response).toBeInstanceOf(Response)
+  describe('getAuthHeaders', () => {
+    let mockFiatConnectClient: jest.Mocked<FiatConnectApiClient>
+
+    beforeEach(async () => {
+      mockFiatConnectClient = (await getFiatConnectClient(
+        'id',
+        'url',
+        'key'
+      )) as jest.Mocked<FiatConnectApiClient>
+    })
+
+    it('logs in if not logged in', async () => {
+      mockFiatConnectClient.isLoggedIn.mockReturnValueOnce(true)
+      mockFiatConnectClient.getCookies.mockReturnValueOnce({ some: 'cookie' })
+      const authHeaders = await getAuthHeaders({ providerInfo: mockProviderInfo })
+      expect(mockFiatConnectClient.login).not.toHaveBeenCalled()
+      expect(authHeaders).toEqual({
+        [AUTH_COOKIE]: '{"some":"cookie"}',
+      })
+    })
+
+    it('does not log in if already logged in', async () => {
+      mockFiatConnectClient.isLoggedIn.mockReturnValueOnce(false)
+      mockFiatConnectClient.getCookies.mockReturnValueOnce({ one: 'cookie', another: 'cookie' })
+      const authHeaders = await getAuthHeaders({ providerInfo: mockProviderInfo })
+      expect(mockFiatConnectClient.login).toHaveBeenCalled()
+      expect(authHeaders).toEqual({
+        [AUTH_COOKIE]: '{"one":"cookie","another":"cookie"}',
+      })
+    })
+  })
+
+  describe('getKycStatus', () => {
+    it('throws if response not OK', async () => {
+      mocked(makeRequest).mockResolvedValueOnce(new Response('', { status: 418 }))
+      await expect(
+        getKycStatus({
+          providerInfo: mockProviderInfo,
+          kycSchemas: [KycSchema.PersonalDataAndDocuments],
+        })
+      ).rejects.toEqual(new Error('Got non-ok response from IHL while fetching KYC: 418'))
+      expect(makeRequest).toHaveBeenCalledWith({
+        providerInfo: mockProviderInfo,
+        path: '/fiatconnect/kyc/provider-id?kycSchemas=PersonalDataAndDocuments',
+        options: { method: 'GET' },
+      })
+    })
+    it('returns KYC status if response is OK', async () => {
+      const mockGetKycStatusResponse = {
+        providerId: 'some-provider',
+        kycStatus: {
+          [KycSchema.PersonalDataAndDocuments]: FiatConnectKycStatus.KycApproved,
+        },
+        persona: PersonaKycStatus.Approved,
+      }
+      mocked(makeRequest).mockResolvedValueOnce(
+        new Response(JSON.stringify(mockGetKycStatusResponse))
+      )
+      const getKycStatusResponse = await getKycStatus({
+        providerInfo: mockProviderInfo,
+        kycSchemas: [KycSchema.PersonalDataAndDocuments],
+      })
+      expect(getKycStatusResponse).toEqual(mockGetKycStatusResponse)
+      expect(makeRequest).toHaveBeenCalledWith({
+        providerInfo: mockProviderInfo,
+        path: '/fiatconnect/kyc/provider-id?kycSchemas=PersonalDataAndDocuments',
+        options: { method: 'GET' },
+      })
+    })
+  })
+
+  describe('postKyc', () => {
+    it('throws if response not OK', async () => {
+      mocked(makeRequest).mockResolvedValueOnce(new Response('', { status: 418 }))
+      await expect(
+        postKyc({
+          providerInfo: mockProviderInfo,
+          kycSchema: KycSchema.PersonalDataAndDocuments,
+        })
+      ).rejects.toEqual(new Error('Got non-ok response from IHL while posting KYC: 418'))
+      expect(makeRequest).toHaveBeenCalledWith({
+        providerInfo: mockProviderInfo,
+        path: '/fiatconnect/kyc/provider-id/PersonalDataAndDocuments',
+        options: { method: 'POST' },
+      })
+    })
+    it('silently succeeds if response is OK', async () => {
+      mocked(makeRequest).mockResolvedValueOnce(new Response())
+      const postKycResponse = await postKyc({
+        providerInfo: mockProviderInfo,
+        kycSchema: KycSchema.PersonalDataAndDocuments,
+      })
+      expect(postKycResponse).toBeUndefined()
+      expect(makeRequest).toHaveBeenCalledWith({
+        providerInfo: mockProviderInfo,
+        path: '/fiatconnect/kyc/provider-id/PersonalDataAndDocuments',
+        options: { method: 'POST' },
+      })
+    })
+  })
+
+  describe('deleteKyc', () => {
+    it('throws if response not OK', async () => {
+      mocked(makeRequest).mockResolvedValueOnce(new Response('', { status: 400 }))
+      await expect(
+        deleteKyc({
+          providerInfo: mockProviderInfo,
+          kycSchema: KycSchema.PersonalDataAndDocuments,
+        })
+      ).rejects.toEqual(new Error('Got non-ok/404 response from IHL while deleting KYC: 400'))
+      expect(makeRequest).toHaveBeenCalledWith({
+        providerInfo: mockProviderInfo,
+        path: '/fiatconnect/kyc/provider-id/PersonalDataAndDocuments',
+        options: { method: 'DELETE' },
+      })
+    })
+    it('silently succeeds if response is OK', async () => {
+      mocked(makeRequest).mockResolvedValueOnce(new Response())
+      const deleteKycResponse = await deleteKyc({
+        providerInfo: mockProviderInfo,
+        kycSchema: KycSchema.PersonalDataAndDocuments,
+      })
+      expect(deleteKycResponse).toBeUndefined()
+      expect(makeRequest).toHaveBeenCalledWith({
+        providerInfo: mockProviderInfo,
+        path: '/fiatconnect/kyc/provider-id/PersonalDataAndDocuments',
+        options: { method: 'DELETE' },
+      })
+    })
+    it('silently succeeds if response is 404', async () => {
+      mocked(makeRequest).mockResolvedValueOnce(new Response('', { status: 404 }))
+      const deleteKycResponse = await deleteKyc({
+        providerInfo: mockProviderInfo,
+        kycSchema: KycSchema.PersonalDataAndDocuments,
+      })
+      expect(deleteKycResponse).toBeUndefined()
+      expect(makeRequest).toHaveBeenCalledWith({
+        providerInfo: mockProviderInfo,
+        path: '/fiatconnect/kyc/provider-id/PersonalDataAndDocuments',
+        options: { method: 'DELETE' },
+      })
     })
   })
 
   describe('createPersonaAccount', () => {
-    it('calls the /persona/account/create endpoint', async () => {
-      mockFetch.mockResponseOnce(JSON.stringify({}), { status: 201 })
-      const response = await createPersonaAccount({
-        walletAddress: MOCK_USER.walletAddress,
-      })
-      const expectedBody = JSON.stringify({ accountAddress: MOCK_USER.walletAddress })
-
-      // Calls Fetch Correctly
-      expect(mockFetch).toHaveBeenCalledWith(
-        `${networkConfig.inHouseLiquidityURL}/persona/account/create`,
-        {
-          body: expectedBody,
-          headers: {
-            'Content-Type': 'application/json',
-          },
+    it('throws if response is not OK or 409', async () => {
+      mocked(makeRequest).mockResolvedValueOnce(new Response('', { status: 418 }))
+      await expect(
+        createPersonaAccount({
+          walletAddress: 'some-address',
+        })
+      ).rejects.toEqual(
+        new Error('Got non-ok/409 response from IHL while creating Persona account: 418')
+      )
+      expect(makeRequest).toHaveBeenCalledWith({
+        path: '/persona/account/create',
+        options: {
           method: 'POST',
-        }
-      )
-      // Returns nothing
-      expect(response).toEqual(undefined)
+          body: '{"accountAddress":"some-address"}',
+        },
+      })
     })
-  })
-
-  describe('createLinkToken', () => {
-    it('calls the /plaid/link-token/create endpoint', async () => {
-      mockFetch.mockResponseOnce(JSON.stringify({ linkToken: 'foo-token' }), { status: 201 })
-      const linkToken = await createLinkToken({
-        walletAddress: MOCK_USER.walletAddress,
-        isAndroid: false,
-        language: 'en',
-        phoneNumber: mockE164Number,
+    it('silently succeeds if response is OK', async () => {
+      mocked(makeRequest).mockResolvedValueOnce(new Response())
+      const createPersonaAccountResponse = await createPersonaAccount({
+        walletAddress: 'some-address',
       })
-      const expectedBody = JSON.stringify({
-        accountAddress: MOCK_USER.walletAddress,
-        isAndroid: false,
-        language: 'en',
-        phoneNumber: mockE164Number,
-      })
-
-      // Calls Fetch Correctly
-      expect(mockFetch).toHaveBeenCalledWith(
-        `${networkConfig.inHouseLiquidityURL}/plaid/link-token/create`,
-        {
-          body: expectedBody,
-          headers: {
-            'Content-Type': 'application/json',
-          },
+      expect(createPersonaAccountResponse).toBeUndefined()
+      expect(makeRequest).toHaveBeenCalledWith({
+        path: '/persona/account/create',
+        options: {
           method: 'POST',
-        }
-      )
-      // Returns the token
-      expect(linkToken).toEqual('foo-token')
+          body: '{"accountAddress":"some-address"}',
+        },
+      })
     })
-  })
-  describe('createFinclusiveBankAccount', () => {
-    it('calls the /account/bank-account endpoint', async () => {
-      mockFetch.mockResponseOnce(JSON.stringify({}), { status: 201 })
-      const response = await createFinclusiveBankAccount({
-        walletAddress: MOCK_USER.walletAddress,
-        plaidAccessToken: 'foo',
+    it('silently succeeds if response is 409', async () => {
+      mocked(makeRequest).mockResolvedValueOnce(new Response('', { status: 409 }))
+      const createPersonaAccountResponse = await createPersonaAccount({
+        walletAddress: 'some-address',
       })
-      const expectedBody = JSON.stringify({
-        accountAddress: MOCK_USER.walletAddress,
-        plaidAccessToken: 'foo',
-      })
-
-      // Calls Fetch Correctly
-      expect(mockFetch).toHaveBeenCalledWith(
-        `${networkConfig.inHouseLiquidityURL}/account/bank-account`,
-        {
-          body: expectedBody,
-          headers: {
-            'Content-Type': 'application/json',
-          },
+      expect(createPersonaAccountResponse).toBeUndefined()
+      expect(makeRequest).toHaveBeenCalledWith({
+        path: '/persona/account/create',
+        options: {
           method: 'POST',
-        }
-      )
-      // Returns nothing
-      expect(response).toEqual(undefined)
-    })
-  })
-  describe('exchangePlaidAccessToken', () => {
-    it('calls the /account/bank-account endpoint', async () => {
-      mockFetch.mockResponseOnce(JSON.stringify({ accessToken: 'bar-token' }), { status: 201 })
-      const response = await exchangePlaidAccessToken({
-        walletAddress: MOCK_USER.walletAddress,
-        publicToken: 'foo',
+          body: '{"accountAddress":"some-address"}',
+        },
       })
-      const expectedBody = JSON.stringify({
-        publicToken: 'foo',
-        accountAddress: MOCK_USER.walletAddress,
-      })
-
-      // Calls Fetch Correctly
-      expect(mockFetch).toHaveBeenCalledWith(
-        `${networkConfig.inHouseLiquidityURL}/plaid/access-token/exchange`,
-        {
-          body: expectedBody,
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          method: 'POST',
-        }
-      )
-      // Returns the exchanged token
-      expect(response).toEqual('bar-token')
-    })
-  })
-  describe('getFinclusiveComplianceStatus', () => {
-    it('calls the /account/{accoundAddress}/compliance-check-status endpoint', async () => {
-      mockFetch.mockResponseOnce(JSON.stringify({ complianceCheckStatus: 1 }), { status: 200 })
-      const response = await getFinclusiveComplianceStatus({
-        walletAddress: MOCK_USER.walletAddress,
-      })
-
-      // Calls Fetch Correctly
-      expect(mockFetch).toHaveBeenCalledWith(
-        `${networkConfig.inHouseLiquidityURL}/account/${encodeURIComponent(
-          MOCK_USER.walletAddress
-        )}/compliance-check-status`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          method: 'GET',
-        }
-      )
-      // Returns the exchanged token
-      expect(response).toEqual(1)
     })
   })
 })

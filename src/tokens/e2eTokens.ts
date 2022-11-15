@@ -1,4 +1,4 @@
-import { StoredTokenBalances } from 'src/tokens/reducer'
+import { StoredTokenBalances } from 'src/tokens/slice'
 
 // alfajores addresses
 const cUSD = '0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1'

@@ -173,27 +173,6 @@ exports[`renders correctly with address but no name nor number 1`] = `
   >
     feedItemAddress, {"address":"0x0000...7E57"}
   </Text>
-  <Text
-    ellipsizeMode="tail"
-    numberOfLines={1}
-    style={
-      Array [
-        Object {
-          "color": "#2E3338",
-          "fontFamily": "Inter-Regular",
-          "fontSize": 14,
-          "lineHeight": 18,
-        },
-        Object {
-          "marginHorizontal": 20,
-          "paddingTop": 6,
-          "textAlign": "center",
-        },
-      ]
-    }
-  >
-    0x0000...7E57
-  </Text>
 </View>
 `;
 

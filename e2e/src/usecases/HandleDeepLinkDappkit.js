@@ -19,7 +19,7 @@ export default HandleDeepLinkDappkit = () => {
     await enterPinUiIfNecessary()
 
     // press Allow button on DappKitSignTxScreen
-    await element(by.id('DappkitAllow')).tap()
+    await element(by.id('DappKitSignRequest/Allow')).tap()
 
     // Arrived at pin code enter screen
     await expect(element(by.id('digit1'))).toBeVisible()

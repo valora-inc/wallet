@@ -28,7 +28,10 @@ module.exports = {
       ...nodeLibs,
       fs: require.resolve('react-native-fs'),
       'isomorphic-fetch': require.resolve('cross-fetch'),
-      net: require.resolve('react-native-tcp'),
+      // We don't need the `net` module for now.
+      // This doesn't actually provide any implementation,
+      // but avoids an error when require('net') is used (in ContractKit for instance).
+      net: require.resolve('node-libs-react-native/mock/net'),
       vm: require.resolve('vm-browserify'),
     },
     sourceExts: isE2E ? ['e2e.ts', 'e2e.js'].concat(defaultSourceExts) : defaultSourceExts,

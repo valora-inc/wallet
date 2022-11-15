@@ -1,21 +1,17 @@
 import { ALTERNATIVE_PIN, DEFAULT_PIN } from '../utils/consts'
 import { reloadReactNative } from '../utils/retries'
-import { enterPinUi, scrollIntoView, sleep } from '../utils/utils'
+import { enterPinUi, scrollIntoView, sleep, waitForElementId } from '../utils/utils'
 
 export default ChangePIN = () => {
-  beforeEach(async () => {
+  it('Then should be retain changed PIN', async () => {
+    await waitForElementId('Hamburger')
     await element(by.id('Hamburger')).tap()
     await scrollIntoView('Settings', 'SettingsScrollView')
     await waitFor(element(by.id('Settings')))
       .toBeVisible()
       .withTimeout(30 * 1000)
     await element(by.id('Settings')).tap()
-  })
-
-  it('Then should be retain changed PIN', async () => {
-    await waitFor(element(by.id('ChangePIN')))
-      .toBeVisible()
-      .withTimeout(5000)
+    await waitForElementId('ChangePIN')
     await element(by.id('ChangePIN')).tap()
     // Existing PIN is needed first
     await sleep(500)
@@ -24,12 +20,22 @@ export default ChangePIN = () => {
     // Then we enter the new PIN
     await enterPinUi(ALTERNATIVE_PIN)
     await sleep(500)
+
+    // Enter an invalid pin and check that we get the correct error and start over
+    await enterPinUi('902100')
+    await expect(element(by.text("The PINs didn't match"))).toBeVisible()
+
+    // Then we enter the new PIN
+    await enterPinUi(ALTERNATIVE_PIN)
+    await sleep(500)
+
     // Then confirm the new PIN
     await enterPinUi(ALTERNATIVE_PIN)
     await sleep(500)
 
     // Reload app and navigate to change pin
     await reloadReactNative()
+    await waitForElementId('Hamburger')
     await element(by.id('Hamburger')).tap()
     await scrollIntoView('Settings', 'SettingsScrollView')
     await waitFor(element(by.id('Settings')))

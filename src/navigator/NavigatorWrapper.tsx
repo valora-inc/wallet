@@ -1,6 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useFlipper } from '@react-navigation/devtools'
 import { DefaultTheme, NavigationContainer, NavigationState } from '@react-navigation/native'
 import * as Sentry from '@sentry/react-native'
+import { SeverityLevel } from '@sentry/types'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Share, StyleSheet, View } from 'react-native'
@@ -16,13 +18,19 @@ import UpgradeScreen from 'src/app/UpgradeScreen'
 import { doingBackupFlowSelector, shouldForceBackupSelector } from 'src/backup/selectors'
 import { DEV_RESTORE_NAV_STATE_ON_RELOAD, DYNAMIC_DOWNLOAD_LINK } from 'src/config'
 import InviteFriendModal from 'src/invite/InviteFriendModal'
-import { navigate, navigationRef, navigatorIsReadyRef } from 'src/navigator/NavigationService'
+import {
+  navigate,
+  navigateClearingStack,
+  navigationRef,
+  navigatorIsReadyRef,
+} from 'src/navigator/NavigationService'
 import Navigator from 'src/navigator/Navigator'
 import { Screens } from 'src/navigator/Screens'
 import PincodeLock from 'src/pincode/PincodeLock'
 import useTypedSelector from 'src/redux/useSelector'
 import { sentryRoutingInstrumentation } from 'src/sentry/Sentry'
 import colors from 'src/styles/colors'
+import { userInSanctionedCountrySelector } from 'src/utils/countryFeatures'
 import Logger from 'src/utils/Logger'
 import { isVersionBelowMinimum } from 'src/utils/versionCheck'
 
@@ -62,8 +70,12 @@ export const NavigatorWrapper = () => {
   const minRequiredVersion = useTypedSelector((state) => state.app.minVersion)
   const isInviteModalVisible = useTypedSelector((state) => state.app.inviteModalVisible)
   const routeNameRef = React.useRef()
+  const inSanctionedCountry = useTypedSelector(userInSanctionedCountrySelector)
 
   const dispatch = useDispatch()
+
+  // @ts-ignore using a v6 navigation plugin with v5 types
+  useFlipper(navigationRef)
 
   const updateRequired = React.useMemo(() => {
     if (!minRequiredVersion) {
@@ -85,6 +97,12 @@ export const NavigatorWrapper = () => {
       navigate(Screens.BackupForceScreen)
     }
   }, [shouldForceBackup, doingBackupFlow])
+
+  React.useEffect(() => {
+    if (inSanctionedCountry) {
+      navigateClearingStack(Screens.SanctionedCountryErrorScreen)
+    }
+  }, [inSanctionedCountry])
 
   React.useEffect(() => {
     if (navigationRef && navigationRef.current) {
@@ -154,7 +172,7 @@ export const NavigatorWrapper = () => {
       Sentry.addBreadcrumb({
         category: 'navigation',
         message: `Navigated to ${currentRouteName}`,
-        level: Sentry.Severity.Info,
+        level: 'info' as SeverityLevel,
       })
     }
 

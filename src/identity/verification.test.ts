@@ -97,20 +97,17 @@ jest.mock('@celo/utils', () => {
 })
 
 const attestationCode0: AttestationCode = {
-  code:
-    'ab8049b95ac02e989aae8b61fddc10fe9b3ac3c6aebcd3e68be495570b2d3da15aabc691ab88de69648f988fab653ac943f67404e532cfd1013627f56365f36501',
+  code: 'ab8049b95ac02e989aae8b61fddc10fe9b3ac3c6aebcd3e68be495570b2d3da15aabc691ab88de69648f988fab653ac943f67404e532cfd1013627f56365f36501',
   issuer: '848920b14154b6508b8d98e7ee8159aa84b579a4',
 }
 
 const attestationCode1: AttestationCode = {
-  code:
-    '2033a9e1268576bf5dfee354a37480529d71f99be82c05005ffb71c7d742d10e7a9aa01f8acc4d7998e1e8b183cf6b8cb4d4a8d923fecfddd191e61e074adc5e00',
+  code: '2033a9e1268576bf5dfee354a37480529d71f99be82c05005ffb71c7d742d10e7a9aa01f8acc4d7998e1e8b183cf6b8cb4d4a8d923fecfddd191e61e074adc5e00',
   issuer: 'fdb8da92c3597e81c2737e8be793bee9f1172045',
 }
 
 const attestationCode2: AttestationCode = {
-  code:
-    '1930a9e1268576bf5dfee354a37480529d71f99be82c05005ffb71c7d742d10e7a9aa01f8acc4d7993f75ab183cf6b8cb4d4a8d923fecfddd191e61e074adc5a10',
+  code: '1930a9e1268576bf5dfee354a37480529d71f99be82c05005ffb71c7d742d10e7a9aa01f8acc4d7993f75ab183cf6b8cb4d4a8d923fecfddd191e61e074adc5a10',
   issuer: 'ecb8da92c3597e81c2737e8be793bee9f1173156',
 }
 

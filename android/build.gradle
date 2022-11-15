@@ -2,22 +2,20 @@
 
 buildscript {
     ext {
-        buildToolsVersion = "30.0.2"
+        buildToolsVersion = "31.0.0"
         minSdkVersion = 21
-        compileSdkVersion = 30
-        targetSdkVersion = 30
+        compileSdkVersion = 31
+        targetSdkVersion = 31
         ndkVersion = "21.4.7075529"
-        supportLibVersion = "30.0.0"
+        supportLibVersion = "31.0.0"
         kotlinVersion = "1.5.21"
-        // Change this to change the geth version
-        celoClientDirectory = new File(rootProject.projectDir, '../node_modules/@celo/client/build/bin')
     }
     repositories {
         google()
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.2.2'
+        classpath 'com.android.tools.build:gradle:7.0.4'
         classpath 'com.google.gms:google-services:4.3.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         classpath "org.jetbrains.kotlin:kotlin-android-extensions:$kotlinVersion"
@@ -29,7 +27,6 @@ buildscript {
 
 allprojects {
     repositories {
-        mavenCentral()
         mavenLocal()
         maven {
             // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
@@ -42,9 +39,6 @@ allprojects {
         maven {
             url "$rootDir/../node_modules/detox/Detox-android"
         }
-        flatDir {
-            dirs celoClientDirectory
-        }
         google()
         jcenter() {
             content {
@@ -55,7 +49,14 @@ allprojects {
         maven {
             url 'https://sdk.withpersona.com/android/releases'
         }
-      }
+        mavenCentral  {
+            // We don't want to fetch react-native from Maven Central as there are
+            // older versions over there.
+            content {
+               excludeGroup "com.facebook.react"
+            }
+        }
+    }
 }
 
 subprojects {

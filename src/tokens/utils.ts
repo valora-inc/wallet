@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js'
 import { convertCurrencyToLocalAmount } from 'src/localCurrency/convert'
 import { Balances } from 'src/stableToken/selectors'
 import { Currency } from 'src/utils/currencies'
-import { TokenBalance } from './reducer'
+import { TokenBalance } from './slice'
 
 export function getHigherBalanceCurrency(
   currencies: Currency[],

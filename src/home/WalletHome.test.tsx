@@ -2,8 +2,8 @@ import { fireEvent, render } from '@testing-library/react-native'
 import { FetchMock } from 'jest-fetch-mock/types'
 import * as React from 'react'
 import { Provider } from 'react-redux'
-import { dappSelected } from 'src/app/actions'
-import { DappSection } from 'src/app/reducers'
+import { dappSelected } from 'src/dapps/slice'
+import { DappSection } from 'src/dapps/types'
 import WalletHome from 'src/home/WalletHome'
 import { Actions as IdentityActions } from 'src/identity/actions'
 import { RootState } from 'src/redux/reducers'
@@ -19,13 +19,17 @@ const mockBalances = {
         decimals: 18,
         balance: '1',
         isCoreToken: true,
+        usdPrice: '1',
+        priceFetchedAt: Date.now(),
       },
       [mockCeurAddress]: {
         address: mockCeurAddress,
         symbol: 'cEUR',
         decimals: 18,
         balance: '0',
+        usdPrice: '1',
         isCoreToken: true,
+        priceFetchedAt: Date.now(),
       },
     },
   },
@@ -163,7 +167,6 @@ describe('WalletHome', () => {
           "type": "HOME/REFRESH_BALANCES",
         },
         Object {
-          "doMatchmaking": false,
           "type": "IDENTITY/IMPORT_CONTACTS",
         },
       ]
@@ -229,7 +232,7 @@ describe('WalletHome', () => {
 
   describe('recently used dapps', () => {
     const store = createMockStore({
-      app: {
+      dapps: {
         recentDapps,
         maxNumRecentDapps: 4,
       },
@@ -255,7 +258,9 @@ describe('WalletHome', () => {
       fireEvent.press(getByText(`dappsScreenBottomSheet.button, {"dappName":"${dapp.name}"}`))
 
       expect(store.getActions()).toEqual(
-        expect.arrayContaining([dappSelected({ ...dapp, openedFrom: DappSection.RecentlyUsed })])
+        expect.arrayContaining([
+          dappSelected({ dapp: { ...dapp, openedFrom: DappSection.RecentlyUsed } }),
+        ])
       )
     })
 
@@ -273,7 +278,7 @@ describe('WalletHome', () => {
       ).toBeFalsy()
       expect(store.getActions()).toEqual(
         expect.arrayContaining([
-          dappSelected({ ...deepLinkedDapp, openedFrom: DappSection.RecentlyUsed }),
+          dappSelected({ dapp: { ...deepLinkedDapp, openedFrom: DappSection.RecentlyUsed } }),
         ])
       )
     })

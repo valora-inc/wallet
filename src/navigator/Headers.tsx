@@ -15,7 +15,7 @@ import { useBalance } from 'src/stableToken/hooks'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
-import { useTokenInfo } from 'src/tokens/hooks'
+import { useTokenInfo, useTokenInfoBySymbol } from 'src/tokens/hooks'
 import { Currency } from 'src/utils/currencies'
 
 export const noHeader: StackNavigationOptions = {
@@ -131,21 +131,39 @@ interface Props {
   title: string | JSX.Element
   token: Currency
   switchTitleAndSubtitle?: boolean
+  displayCrypto?: boolean
 }
 
-export function HeaderTitleWithBalance({ title, token, switchTitleAndSubtitle = false }: Props) {
+export function HeaderTitleWithBalance({
+  title,
+  token,
+  switchTitleAndSubtitle = false,
+  displayCrypto = false,
+}: Props) {
   const balance = useBalance(token)
+  const tokenInfo = useTokenInfoBySymbol(token == Currency.Celo ? 'CELO' : token)
 
   const subTitle =
     balance != null ? (
       <Trans i18nKey="balanceAvailable">
-        <CurrencyDisplay
-          style={switchTitleAndSubtitle ? styles.headerTitle : styles.headerSubTitle}
-          amount={{
-            value: balance,
-            currencyCode: token,
-          }}
-        />
+        {displayCrypto ? (
+          tokenInfo && (
+            <TokenDisplay
+              amount={balance}
+              tokenAddress={tokenInfo.address}
+              showLocalAmount={false}
+              hideSign={false}
+            />
+          )
+        ) : (
+          <CurrencyDisplay
+            style={switchTitleAndSubtitle ? styles.headerTitle : styles.headerSubTitle}
+            amount={{
+              value: balance,
+              currencyCode: token,
+            }}
+          />
+        )}
       </Trans>
     ) : (
       // TODO: a null balance doesn't necessarily mean it's loading
@@ -196,12 +214,22 @@ export function HeaderTitleWithSubtitle({
   return (
     <View style={styles.header} testID={testID}>
       {title && (
-        <Text testID="HeaderTitle" style={styles.headerTitle} numberOfLines={1}>
+        <Text
+          testID="HeaderTitle"
+          style={styles.headerTitle}
+          numberOfLines={1}
+          allowFontScaling={false}
+        >
           {title}
         </Text>
       )}
       {subTitle && (
-        <Text testID="HeaderSubTitle" style={styles.headerSubTitle} numberOfLines={1}>
+        <Text
+          testID="HeaderSubTitle"
+          style={styles.headerSubTitle}
+          numberOfLines={1}
+          allowFontScaling={false}
+        >
           {subTitle}
         </Text>
       )}

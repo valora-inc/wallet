@@ -10,7 +10,7 @@ exports[`TransactionFeed renders correctly when there is a response 1`] = `
             "__typename": "TokenTransferV2",
             "address": "0xd68360cce1f1ff696d898f58f03e0f1252f2ea33",
             "amount": Object {
-              "tokenAddress": "0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1",
+              "tokenAddress": "0x874069fa1eb16d44d622f2e0ca25eea172369bc1",
               "value": "0.1",
             },
             "block": "8648978",
@@ -107,56 +107,58 @@ exports[`TransactionFeed renders correctly when there is a response 1`] = `
         <View
           style={
             Object {
+              "flex": 1,
               "flexDirection": "row",
               "paddingHorizontal": 16,
               "paddingVertical": 12,
             }
           }
         >
-          <View>
+          <View
+            style={
+              Array [
+                Object {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "justifyContent": "center",
+                },
+                Object {
+                  "alignItems": "flex-start",
+                },
+              ]
+            }
+          >
             <View
               style={
                 Array [
                   Object {
                     "alignItems": "center",
-                    "flexDirection": "row",
                     "justifyContent": "center",
                   },
-                  undefined,
+                  Object {
+                    "backgroundColor": "hsl(192, 53%, 93%)",
+                    "borderRadius": 20,
+                    "height": 40,
+                    "width": 40,
+                  },
                 ]
               }
             >
-              <View
-                style={
-                  Array [
-                    Object {
-                      "alignItems": "center",
-                      "justifyContent": "center",
-                    },
-                    Object {
-                      "backgroundColor": "hsl(192, 53%, 93%)",
-                      "borderRadius": 20,
-                      "height": 40,
-                      "width": 40,
-                    },
-                  ]
-                }
-              >
-                <svg
-                  fill="hsl(192, 53%, 93%)"
-                  height="40"
-                  style={Object {}}
-                  viewBox="0 0 40 40"
-                  width="40"
-                />
-              </View>
+              <svg
+                fill="hsl(192, 53%, 93%)"
+                height="40"
+                style={Object {}}
+                viewBox="0 0 40 40"
+                width="40"
+              />
             </View>
           </View>
           <View
             style={
               Object {
-                "marginLeft": 16,
-                "width": "55%",
+                "flex": 1,
+                "flexGrow": 1,
+                "paddingHorizontal": 16,
               }
             }
           >
@@ -164,6 +166,7 @@ exports[`TransactionFeed renders correctly when there is a response 1`] = `
               style={
                 Object {
                   "color": "#2E3338",
+                  "flexShrink": 1,
                   "fontFamily": "Inter-Medium",
                   "fontSize": 16,
                   "lineHeight": 22,
@@ -191,8 +194,9 @@ exports[`TransactionFeed renders correctly when there is a response 1`] = `
           <View
             style={
               Object {
-                "flexShrink": 1,
-                "marginLeft": 16,
+                "alignItems": "flex-end",
+                "flex": 0,
+                "maxWidth": "35%",
               }
             }
           >
@@ -201,10 +205,10 @@ exports[`TransactionFeed renders correctly when there is a response 1`] = `
                 Array [
                   Object {
                     "color": "#2E3338",
+                    "flexWrap": "wrap",
                     "fontFamily": "Inter-Medium",
                     "fontSize": 16,
                     "lineHeight": 22,
-                    "marginLeft": "auto",
                     "textAlign": "right",
                   },
                   Object {
@@ -222,11 +226,10 @@ exports[`TransactionFeed renders correctly when there is a response 1`] = `
               style={
                 Object {
                   "color": "#9CA4A9",
+                  "flexWrap": "wrap",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 14,
                   "lineHeight": 18,
-                  "marginLeft": "auto",
-                  "minWidth": "40%",
                   "paddingTop": 2,
                   "textAlign": "right",
                 }

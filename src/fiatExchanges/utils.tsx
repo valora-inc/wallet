@@ -2,12 +2,12 @@ import firebase from '@react-native-firebase/app'
 import { default as DeviceInfo } from 'react-native-device-info'
 import { FIREBASE_ENABLED } from 'src/config'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
-import networkConfig from 'src/geth/networkConfig'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { UserLocationData } from 'src/networkInfo/saga'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import Logger from 'src/utils/Logger'
+import networkConfig from 'src/web3/networkConfig'
 
 const TAG = 'fiatExchanges:utils'
 
@@ -25,7 +25,9 @@ export enum CICOFlow {
 export enum PaymentMethod {
   Bank = 'Bank',
   Card = 'Card',
-  MobileMoney = 'MobileMoney',
+  Coinbase = 'Coinbase',
+  MobileMoney = 'MobileMoney', // legacy mobile money
+  FiatConnectMobileMoney = 'FiatConnectMobileMoney',
 }
 
 interface ProviderRequestData {
@@ -46,7 +48,7 @@ export interface FetchProvidersOutput {
   url?: string
   logoWide: string
   logo: string
-  quote?: RawSimplexQuote | RawProviderQuote[]
+  quote?: SimplexQuote | RawProviderQuote[]
   cashIn: boolean
   cashOut: boolean
 }
@@ -57,28 +59,11 @@ export interface UserAccountCreationData {
   userAgent: string
 }
 
-interface RawProviderQuote {
+export interface RawProviderQuote {
   paymentMethod: PaymentMethod
   digitalAsset: string
   returnedAmount: number
   fiatFee: number
-}
-
-interface RawSimplexQuote {
-  user_id: string
-  quote_id: string
-  wallet_id: string
-  digital_money: {
-    currency: string
-    amount: number
-  }
-  fiat_money: {
-    currency: string
-    base_amount: number
-    total_amount: number
-  }
-  valid_until: string
-  supported_digital_currencies: string[]
 }
 export interface LegacyMobileMoneyProvider {
   name: string
@@ -114,58 +99,26 @@ export type ProviderQuote = RawProviderQuote & {
   url: string
 }
 
-export type SimplexQuote = RawSimplexQuote & {
-  cashIn: boolean
-  cashOut: boolean
-  paymentMethod: PaymentMethod
+export type SimplexQuote = {
+  user_id: string
+  quote_id: string
+  wallet_id: string
+  digital_money: {
+    currency: string
+    amount: number
+  }
+  fiat_money: {
+    currency: string
+    base_amount: number
+    total_amount: number
+  }
+  valid_until: string
+  supported_digital_currencies: string[]
 }
 
 export interface CicoQuote {
   quote: ProviderQuote | SimplexQuote
   provider: ProviderInfo
-}
-
-export const getQuotes = (providers: FetchProvidersOutput[] | undefined): CicoQuote[] => {
-  if (!providers) {
-    return []
-  }
-  const cicoQuotes: CicoQuote[] = []
-  providers.forEach((provider) => {
-    if (!provider.quote || provider.restricted || provider.unavailable) return
-    if (Array.isArray(provider.quote)) {
-      provider.quote.forEach((quote) => {
-        cicoQuotes.push({
-          quote: {
-            ...quote,
-            cashIn: provider.cashIn,
-            cashOut: provider.cashOut,
-            url: provider.url || '',
-          },
-          provider: {
-            name: provider.name,
-            logo: provider.logo,
-            logoWide: provider.logoWide,
-          },
-        })
-      })
-    } else {
-      // Simplex
-      cicoQuotes.push({
-        quote: {
-          ...provider.quote,
-          cashIn: provider.cashIn,
-          cashOut: provider.cashOut,
-          paymentMethod: provider.paymentMethods[0],
-        },
-        provider: {
-          name: provider.name,
-          logo: provider.logo,
-          logoWide: provider.logoWide,
-        },
-      })
-    }
-  })
-  return cicoQuotes
 }
 
 const composePostObject = (body: any) => ({
@@ -239,27 +192,8 @@ export const fetchSimplexPaymentData = async (
   }
 }
 
-export const isSimplexQuote = (
-  quote?: SimplexQuote | ProviderQuote | RawProviderQuote | RawSimplexQuote
-): quote is SimplexQuote => !!quote && 'wallet_id' in quote
-
-export const isProviderQuote = (
-  quote?: SimplexQuote | ProviderQuote | RawProviderQuote | RawSimplexQuote
-): quote is ProviderQuote => !!quote && 'returnedAmount' in quote
-
-export const getFeeValueFromQuotes = (quote?: SimplexQuote | ProviderQuote) => {
-  if (isSimplexQuote(quote)) {
-    return quote.fiat_money.total_amount - quote.fiat_money.base_amount
-  }
-  return quote?.fiatFee
-}
-
-export const sortQuotesByFee = ({ quote: quote1 }: CicoQuote, { quote: quote2 }: CicoQuote) => {
-  const providerFee1 = getFeeValueFromQuotes(quote1) ?? 0
-  const providerFee2 = getFeeValueFromQuotes(quote2) ?? 0
-
-  return providerFee1 > providerFee2 ? 1 : -1
-}
+export const isSimplexQuote = (quote: RawProviderQuote[] | SimplexQuote): quote is SimplexQuote =>
+  !!quote && 'wallet_id' in quote
 
 const typeCheckNestedProperties = (obj: any, property: string) =>
   obj[property] &&
@@ -351,3 +285,13 @@ export async function fetchExchanges(
     throw error
   }
 }
+
+export const filterProvidersByPaymentMethod = (
+  paymentMethod: PaymentMethod,
+  externalProviders: FetchProvidersOutput[] | undefined
+) => {
+  return externalProviders?.find((quote) => quote.paymentMethods.includes(paymentMethod))
+}
+
+export const isUserInputCrypto = (flow: CICOFlow, currency: Currency | CiCoCurrency): boolean =>
+  flow === CICOFlow.CashOut || currency === Currency.Celo || currency === CiCoCurrency.CELO

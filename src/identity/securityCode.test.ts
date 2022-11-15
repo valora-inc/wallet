@@ -55,7 +55,7 @@ describe(getAttestationCodeForSecurityCode, () => {
 
     await expect(
       getAttestationCodeForSecurityCode(
-        (mockAttestationsWrapper as unknown) as AttestationsWrapper,
+        mockAttestationsWrapper as unknown as AttestationsWrapper,
         phoneHashDetails,
         mockAccount,
         mockActionableAttestations,
@@ -117,7 +117,7 @@ describe(getAttestationCodeForSecurityCode, () => {
 
     await expect(
       getAttestationCodeForSecurityCode(
-        (mockAttestationsWrapper as unknown) as AttestationsWrapper,
+        mockAttestationsWrapper as unknown as AttestationsWrapper,
         phoneHashDetails,
         mockAccount,
         mockActionableAttestations,
@@ -142,7 +142,7 @@ describe(getAttestationCodeForSecurityCode, () => {
 
     await expect(
       getAttestationCodeForSecurityCode(
-        (mockAttestationsWrapper as unknown) as AttestationsWrapper,
+        mockAttestationsWrapper as unknown as AttestationsWrapper,
         phoneHashDetails,
         mockAccount,
         mockActionableAttestations,

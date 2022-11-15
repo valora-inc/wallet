@@ -7,6 +7,7 @@
     - [Enroll in the Apple Developer Program](#enroll-in-the-apple-developer-program)
     - [Install Xcode](#install-xcode)
     - [Install Cocopods, Bundler, and download project dependencies](#install-cocopods-bundler-and-download-project-dependencies)
+    - [Install on an M1](#install-on-an-m1)
   - [Android](#android)
     - [Install Java](#install-java)
     - [Install Android Dev Tools](#install-android-dev-tools)
@@ -14,11 +15,11 @@
 - [Running the mobile wallet](#running-the-mobile-wallet)
   - [iOS](#ios-1)
   - [Android](#android-1)
-  - [Running in forno (data saver) mode](<#running-in-forno-(data-saver)-mode>)
 - [Debugging & App Profiling](#debugging--app-profiling)
   - [Debugging](#debugging)
-    - [Optional: Install React Native Debugger](#optional-install-react-native-debugger)
-  - [App Profiling](#app-profiling)
+    - [Optional: Flipper](#install-flipper)
+  - [App Profiling with react-devtools](#app-profiling-with-react-devtools)
+  - [App Profiling with android-profiler](#app-profiling-with-android-profiler)
 - [Testing](#testing)
   - [Snapshot testing](#snapshot-testing)
   - [React component unit testing](#react-component-unit-testing)
@@ -32,9 +33,7 @@
   - [Redux state migration](#redux-state-migration)
   - [Configuring the SMS Retriever](#configuring-the-sms-retriever)
   - [Generating GraphQL Types](#generating-graphql-types)
-  - [How we handle Geth crashes in wallet app on Android](#how-we-handle-geth-crashes-in-wallet-app-on-android)
   - [Why do we use http(s) provider?](#why-do-we-use-https-provider)
-  - [Attaching to the geth instance](#attaching-to-the-geth-instance)
   - [Helpful hints for development](#helpful-hints-for-development)
   - [Vulnerabilities found in dependencies](#vulnerabilities-found-in-dependencies)
   - [Troubleshooting](#troubleshooting)
@@ -47,7 +46,7 @@ Valora is a self-sovereign wallet that enables anyone to onboard onto the Celo n
 
 ## Architecture
 
-The app uses [React Native][react native] and a geth [light node][light node].
+The app uses [React Native][react native].
 
 ## Setup
 
@@ -103,6 +102,8 @@ Note that using the method above, you can have multiple versions of Xcode instal
 
 #### Install Cocopods, Bundler, and download project dependencies
 
+If you are on an M1, please read [how to setup the environment on an M1](#install-on-an-m1) before you continue.
+
 Make sure you are in the `ios` directory of the repository root before running the following:
 
 ```bash
@@ -122,11 +123,121 @@ If your machine does not recognize the `gem` command, you may need to [download 
 
 And the app should be running in the simulator! If you run into any issues, see below for troubleshooting.
 
+#### Install on an M1
+
+Currently it is not possible to install the wallet natively. There are a few problems that need to be addressed before being able to run the repo on an M1:
+
+1. The M1 comes with a preinstalled version of Ruby that doesn't work with this repository.
+
+2. The build process that gets executed with `yarn dev:ios` is not able to finish with `nvm` installed.
+
+3. Running the necessary scripts with an M1-native node version will not work.
+
+4. It is currently not possible to run the repository in the integrated VSCode terminal.
+
+5. It is not possible to run the repository when the containing folder is located anywhere within `Documents` or `Desktop`.
+
+##### Solution
+
+1. Make sure all necessary software (VS Code, Terminal/iTerm2, XCode, Simulator) is running with Rosetta. You can verify this by typing `arch` in your terminal.
+
+```console
+$ arch
+-> i386
+```
+
+2. Reinstall `brew` with x86_64 architecture:
+
+```console
+arch -x86_64 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+```
+
+3. (optional) add your different brew installation paths as aliases to your `.zshrc`:
+
+```bash
+alias ibrew='arch -x86_64 /usr/local/bin/brew'
+alias mbrew='arch -arm64e /opt/homebrew/bin/brew'
+```
+
+4. Install [`rbenv`](https://github.com/rbenv/rbenv) on Intel architecture:
+
+```console
+ibrew install rbenv
+```
+
+4.1. Add rbenv initialization to your shell. For instance in `.zshrc` or `.bashrc`:
+
+```bash
+eval "$(rbenv init -)"
+```
+
+5. Install ruby version 2.7.6 with `rbenv` and set it as the main version:
+
+```console
+rbenv install 2.7.6
+rbenv global 2.7.6
+```
+
+6. Install the required node version from [`.nvmrc`](/.nvmrc) with Intel architecture (If you have it installed under M1 architecture already, uninstall):
+
+```console
+(nvm uninstall 16.5.0)
+nvm install 16.5.0
+nvm use
+```
+
+Verify that node is using x64 architecture:
+
+```console
+node -e 'console.log(process.arch)'
+-> x64
+```
+
+7. The build script will fail if `node` + `npm` and `yarn` have been installed through `brew`. Please uninstall them through brew (the nvm installations will still be there) and install them through `nvm`:
+
+```console
+
+brew uninstall npm yarn node
+
+which node
+->  /Users/[youruser]/.nvm/versions/node/v16.15.0/bin/node
+
+nvm install-latest-npm
+which npm
+-> /Users/[youruser]/.nvm/versions/node/v16.15.0/bin/npm
+
+npm install -g yarn
+ which yarn
+-> /Users/[youruser]/.nvm/versions/node/v16.15.0/bin/yarn
+```
+
+8. Now verify that everything is correct for the build:
+
+```console
+which ruby
+-> /opt/homebrew/opt/rbenv/shims/ruby
+
+which node
+-> /Users/[youruser]/.nvm/versions/node/v16.15.0/bin/node
+
+node -e 'console.log(process.arch)'
+-> x64
+
+which npm
+-> /Users/[youruser]/.nvm/versions/node/v16.15.0/bin/npm
+
+which yarn
+-> /Users/[youruser]/.nvm/versions/node/v16.15.0/bin/yarn
+
+```
+
+Now follow [the steps for iOS installation](#install-cocopods-bundler-and-download-project-dependencies).
+
 ### Android
 
 #### Install Java
 
-We need Java to be able to build and deploy the mobile app to Android devices. Android currently only builds correctly with Java 8. (Using OpenJDK because of [Oracle being Oracle][oracle being oracle]).
+We need Java to be able to build and deploy the mobile app to Android devices. Android currently builds with Java 11.
 
 ##### MacOS
 
@@ -135,7 +246,7 @@ Install by running the following:
 ```bash
 brew install cask
 brew tap homebrew/cask-versions
-brew install --cask homebrew/cask-versions/adoptopenjdk8
+brew install --cask zulu11
 ```
 
 Optionally, install Jenv to manage multiple Java versions:
@@ -143,8 +254,8 @@ Optionally, install Jenv to manage multiple Java versions:
 ```bash
 brew install jenv
 eval "$(jenv init -)"
-# next step assumes openjdk8 already installed
-jenv add /Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home/
+# next step assumes jdk already installed
+jenv add /Library/Java/JavaVirtualMachines/zulu-11.jdk/Contents/Home
 ```
 
 ##### Linux
@@ -152,7 +263,7 @@ jenv add /Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home/
 Install by running the following:
 
 ```
-sudo apt install openjdk-8-jdk
+sudo apt install openjdk-11-jdk
 ```
 
 #### Install Android Dev Tools
@@ -288,14 +399,6 @@ The below steps should help you successfully run the mobile wallet on either a U
 
 By default, the mobile wallet app runs on celo's testnet `alfajores`. To run the app on `mainnet`, supply an env flag, eg. `yarn run dev:ios -e mainnet`. The command will then run the app with the env file `.env.mainnet`.
 
-### Running in forno (data saver) mode
-
-By default, the mobile wallet app runs geth in lightest sync mode where all the epoch headers are fetched. The default sync mode is defined in by `SYNC_DEFAULT_MODE` in the `.env` files in the repository root.
-
-To run the wallet in forno (Data Saver) mode, using a trusted node rather than the local geth node as a provider, turn it on from the Data Saver page in settings or update the `FORNO_ENABLED_INITIALLY` parameter in the .env file linked above. When forno mode is turned back off, the wallet will switch to the default sync mode as specified in the .env file. By default, the trusted node is `https://{TESTNET}-forno.celo-testnet.org`, however any trusted node can be used by updating `DEFAULT_FORNO_URL`. In forno mode, the wallet signs transactions locally in web3 then sends them to the trusted node.
-
-To debug network requests in forno mode, we use Charles, a proxy for monitoring network traffic to see Celo JSON RPC calls and responses. Follow instructions [here](https://community.tealiumiq.com/t5/Tealium-for-Android/Setting-up-Charles-to-Proxy-your-Android-Device/ta-p/5121) to configure Charles to proxy a test device.
-
 ## Debugging & App Profiling
 
 ### Debugging
@@ -314,10 +417,11 @@ brew install flipper
 As of Jan 2021, Flipper is not notarized and triggers a MacOS Gatekeeper popup when trying to run it for the first time.
 Follow [these steps to successfully launch it](https://github.com/facebook/flipper/issues/1308#issuecomment-652951556) (only needed the very first time it's run)
 
-The application currently makes use of 2 additional Flipper plugins to enable more detailed debugging:
+The application currently makes use of 3 additional Flipper plugins to enable more detailed debugging:
 
 - Reactotron (Flipper -> Manage Plugins -> Install Plugins -> flipper-plugin-reactotron)
-- Redux Debugger (Flipper -> Manage Plugins > Install Plugins > search redux-debugger)
+- Redux Debugger (Flipper -> Manage Plugins -> Install Plugins -> search redux-debugger)
+- React Navigation (Flipper -> Manage Plugins -> Install Plugins -> search react-navigation)
 
 Once installed, you should be able to see them and interact with them when the wallet is running (only in dev builds).
 
@@ -327,16 +431,27 @@ This allows viewing / debugging the following:
 - Network connections
 - View hierarchy
 - Redux State / Actions
+- Navigation State
 - AsyncStorage
 - App preferences
 - Hermes
 - and more ;)
 
-### App Profiling
+If you're using an Android simulator and the device / app is not showing up,
+navigate to settings (gear icon in the bottom left) and ensure the Android SDK
+location points to the same location as the $ANDROID_HOME environment variable.
 
-Run `yarn run react-devtools`. It should automatically connect to the running app, and includes a profiler (second tab). Start recording with the profiler, use the app, and then stop recording.
+### App Profiling with react-devtools
+
+From Flipper select React DevTools Plugin while the app is running locally, or run `yarn run react-devtools` in the wallet root folder. It should automatically connect to the running app and includes a profiler (second tab). Start recording with the profiler, use the app and then stop recording. If running from the terminal, Flipper cannot be run at the same time.
 
 The flame graph provides a view of each component and sub-component. The width is proportional to how long it took to load. If it is grey, it was not re-rendered at that 'commit' or DOM change. Details on the react native profiler are [here][rn profiler]. The biggest thing to look for are large number of renders when no state has changed. Reducing renders can be done via pure components in React or overloading the should component update method [example here][rn optimize example].
+
+### App Profiling with Android Profiler
+
+The [Android Profiler (standalone)][AndroidProfilerStandalone] is useful for viewing memory, CPU, and energy consumption. Run the profiler either from Android Studio or following the standalone instructions.
+
+Release mode is preferred for profiling as memory usage can be significantly higher in development builds. To create a  local mainnet release build for profiling run the app with `yarn dev:android -e mainnet -r -t`; this supplies an env flag: `-e <environment>`, the release flag: `-r` and the profile flag: `-t`. After both the app and profiler are launched, in the profiler attach a new session by selecting your device and a debuggable process e.g. `co.clabs.valora`.
 
 ## Testing
 
@@ -477,48 +592,9 @@ If you're deleting or updating existing properties, please implement the appropr
 6. Optional: if the migration is not trivial, add a test for it in [src/redux/migrations.test.ts](src/redux/migrations.test.ts)
 7. Commit the changes
 
-### How we handle Geth crashes in wallet app on Android
-
-Our Celo app has three types of codes.
-
-1. Javascript code - generated from Typescript, this runs in Javascript interpreter.
-2. Java bytecode - this runs on Dalvik/Art Virtual Machine.
-3. Native code - Geth code is written in Golang which compiles to native code, this runs directly on the CPU, no virtual machines involved.
-
-One should note that, on iOS, there is no byte code and therefore, there are only two layers, one is the Javascript code, and the other is the Native code. Till now, we have been blind towards native crashes except Google Playstore logs.
-
-Sentry, the crash logging mechanism we use, can catch both Javascript Errors as well as unhandled Java exceptions. It, however, does not catch Native crashes. There are quite a few tools to catch native crashes like [Bugsnag](https://www.bugsnag.com) and [Crashlytics](https://firebase.google.com/products/crashlytics). They would have worked for us under normal circumstances. However, the Geth code produced by the Gomobile library and Go compiler logs a major chunk of information about the crash at Error level and not at the Fatal level. We hypothesize that this leads to incomplete stack traces showing up in Google Play store health checks. This issue is [publicly known](https://github.com/golang/go/issues/25035) but has not been fixed.
-
-We cannot use libraries like [Bugsnag](https://www.bugsnag.com) since they do not allow us to extract logcat logs immediately after the crash. Therefore, We use [jndcrash](https://github.com/ivanarh/jndcrash), which uses [ndcrash](https://github.com/ivanarh/ndcrash) and enable us to log the logcat logs immediately after a native crash. We capture the results into a file and on next restart Sentry reads it. We need to do this two-step setup because once a native crash happens, running code to upload the data would be fragile. An error in sentry looks like [this](https://sentry.io/organizations/celo/issues/918120991/events/48285729031/)
-
-There are two major differences in Forno mode:
-
-1.  Geth won't run at all. Instead, web3 connects to <testnet>-forno.celo-testnet.org using an https provider, for example, [https://integration-forno.celo-testnet.org](https://integration-forno.celo-testnet.org).
-2.  Transactions will be signed locally by contractkit.
-
 ### Why do we use http(s) provider?
 
 Websockets (`ws`) would have been a better choice but we cannot use unencrypted `ws` provider since it would be bad to send plain-text data from a privacy perspective. Geth does not support `wss` by [default](https://github.com/ethereum/go-ethereum/issues/16423). And Kubernetes does not support it either. This forced us to use https provider.
-
-### Attaching to the geth instance
-
-#### Android
-
-1. Start geth's HTTP RPC server by setting the config variable `GETH_START_HTTP_RPC_SERVER` to true. This is meant for development purposes only and can be a serious vulnerability if used in production.
-2. Forward traffic from your computer's port 8545 to the android device's: `adb forward tcp:8545 tcp:8545`
-3. Using a geth binary on your computer, run `geth attach http://localhost:8545`
-
-#### iOS
-
-We need the IP address of the iOS device. If it is being run in a simulator, the IP address is `127.0.0.1`. If not running in a simulator:
-
-1. Ensure the iOS device is on the same network as your computer.
-2. Find the device's local IP address by going to the Settings app, Wi-Fi, and tapping the 'i' next to the network.
-
-To attach:
-
-1. Start geth's HTTP RPC server by setting the config variable `GETH_START_HTTP_RPC_SERVER` to true. This is meant for development purposes only and can be a serious vulnerability if used in production.
-2. Using a geth binary on your computer, run `geth attach http://<DEVICE_IP_ADDRESS>:8545`
 
 ### Helpful hints for development
 
@@ -530,6 +606,8 @@ We try to minimise the differences between running Valora in different modes and
 ### Vulnerabilities found in dependencies
 
 We have a script to [check for vulnerabilities](scripts/ci_check_vulnerabilities.sh) in our dependencies.
+
+The script reports all vulnerabilities found; compare its output with [yarn-audit-known-issues](/yarn-audit-known-issues) to see which ones are new.
 
 In case vulnerabilities are reported, check to see if they apply to production and if they have fixes available.
 
@@ -578,26 +656,6 @@ react-native-webview@11.6.5 ✔
 $ bash scripts/key_placer.sh decrypt
 Processing encrypted files
 Encrypted files decrypted
-$ cd node_modules/@celo/client/build/bin && yarn run postinstall
-$ rm -rf build/bin/Geth.framework && tar -xvf build/bin/Geth.framework.tgz -C build/bin && touch Empty.m && ln -sf build/bin/Geth.framework/Versions/A/Geth libGeth.a
-x Geth.framework/
-x Geth.framework/Geth
-x Geth.framework/Resources
-x Geth.framework/Versions/
-x Geth.framework/Headers
-x Geth.framework/Modules
-x Geth.framework/Versions/A/
-x Geth.framework/Versions/Current
-x Geth.framework/Versions/A/Geth
-x Geth.framework/Versions/A/Resources/
-x Geth.framework/Versions/A/Headers/
-x Geth.framework/Versions/A/Modules/
-x Geth.framework/Versions/A/Modules/module.modulemap
-x Geth.framework/Versions/A/Headers/Geth.objc.h
-x Geth.framework/Versions/A/Headers/Geth.h
-x Geth.framework/Versions/A/Headers/ref.h
-x Geth.framework/Versions/A/Headers/Universe.objc.h
-x Geth.framework/Versions/A/Resources/Info.plist
 .
 ~/src/github.com/valora-inc/wallet/branding/valora ~/src/github.com/valora-inc/wallet
 HEAD is now at ec0637b fix: update valora forum link (#9)
@@ -652,7 +710,6 @@ $ adb kill-server && adb start-server
 [detox]: https://github.com/wix/Detox
 [e2e readme]: ./e2e/README.md
 [graphql code generator]: https://github.com/dotansimha/graphql-code-generator
-[light node]: https://docs.celo.org/overview#ultralight-synchronization
 [protocol readme]: ../protocol/README.md
 [react native]: https://facebook.github.io/react-native/
 [flipper]: https://fbflipper.com
@@ -670,9 +727,9 @@ $ adb kill-server && adb start-server
 [android ndk]: https://developer.android.com/studio/projects/install-ndk
 [android studio]: https://developer.android.com/studio
 [approve kernel extension]: https://developer.apple.com/library/content/technotes/tn2459/_index.html
-[oracle being oracle]: https://github.com/Homebrew/homebrew-cask-versions/issues/7253
 [device unauthorized]: https://stackoverflow.com/questions/23081263/adb-android-device-unauthorized
 [watchman]: https://facebook.github.io/watchman/docs/install/
 [jq]: https://stedolan.github.io/jq/
 [rootstate]: src/redux/reducers.ts#L79
 [rootstateschema]: test/RootStateSchema.json
+[AndroidProfilerStandalone]: https://developer.android.com/studio/profile/android-profiler#standalone-profilers

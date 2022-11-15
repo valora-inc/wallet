@@ -23,10 +23,10 @@ const persistConfig: PersistConfig<RootState> = {
   key: 'root',
   // default is -1, increment as we make migrations
   // See https://github.com/valora-inc/wallet/tree/main/WALLET.md#redux-state-migration
-  version: 51,
+  version: 92,
   keyPrefix: `reduxStore-`, // the redux-persist default is `persist:` which doesn't work with some file systems.
   storage: FSStorage(),
-  blacklist: ['geth', 'networkInfo', 'alert', 'imports', 'supercharge'],
+  blacklist: ['networkInfo', 'alert', 'imports', 'supercharge', 'swap'],
   stateReconciler: autoMergeLevel2,
   migrate: async (...args) => {
     const migrate = createMigrate(migrations)
@@ -100,11 +100,12 @@ export const setupStore = (initialState = {}, config = persistConfig) => {
     const createDebugger = require('redux-flipper').default
     // Sending the whole state makes the redux debugger in flipper super slow!!
     // I suspect it's the exchange rates causing this!
-    // For now exclude the `exchange` reducer.
+    // For now exclude the `exchange` & `tokens` reducer.
     middlewares.push(
       createDebugger({
         stateWhitelist: [
           'app',
+          'dapps',
           'i18n',
           'networkInfo',
           'alert',
@@ -113,12 +114,12 @@ export const setupStore = (initialState = {}, config = persistConfig) => {
           'send',
           'home',
           // "exchange",
+          // "tokens",
           'transactions',
           'web3',
           'identity',
           'account',
           'invite',
-          'geth',
           'escrow',
           'fees',
           'recipients',
@@ -126,6 +127,7 @@ export const setupStore = (initialState = {}, config = persistConfig) => {
           'imports',
           'paymentRequest',
           'verify',
+          'fiatConnect',
         ],
       })
     )

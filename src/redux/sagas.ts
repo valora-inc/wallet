@@ -7,6 +7,7 @@ import { Actions as AccountActions } from 'src/account/actions'
 import { accountSaga } from 'src/account/saga'
 import { devModeSelector } from 'src/account/selectors'
 import { analyticsSaga } from 'src/analytics/saga'
+import { Actions as AppActions } from 'src/app/actions'
 import {
   appInit,
   appRemoteFeatureFlagSaga,
@@ -16,14 +17,14 @@ import {
 } from 'src/app/saga'
 import { superchargeSaga } from 'src/consumerIncentives/saga'
 import { dappKitSaga } from 'src/dappkit/dappkit'
+import { dappsSaga } from 'src/dapps/saga'
 import { escrowSaga } from 'src/escrow/saga'
 import { Actions as ExchangeActions } from 'src/exchange/actions'
 import { exchangeSaga } from 'src/exchange/saga'
 import { feesSaga } from 'src/fees/saga'
+import { fiatConnectSaga } from 'src/fiatconnect/saga'
 import { fiatExchangesSaga } from 'src/fiatExchanges/saga'
 import { firebaseSaga } from 'src/firebase/saga'
-import { Actions as GethActions } from 'src/geth/actions'
-import { gethSaga } from 'src/geth/saga'
 import { goldTokenSaga } from 'src/goldToken/saga'
 import { homeSaga } from 'src/home/saga'
 import { i18nSaga } from 'src/i18n/saga'
@@ -39,6 +40,7 @@ import { waitForRehydrate } from 'src/redux/persist-helper'
 import { sendSaga } from 'src/send/saga'
 import { sentrySaga } from 'src/sentry/saga'
 import { stableTokenSaga } from 'src/stableToken/saga'
+import { swapSaga } from 'src/swap/saga'
 import { tokensSaga } from 'src/tokens/saga'
 import { Actions as TransactionActions } from 'src/transactions/actions'
 import { transactionSaga } from 'src/transactions/saga'
@@ -51,10 +53,9 @@ import { web3Saga } from 'src/web3/saga'
 
 const loggerBlocklist = [
   REHYDRATE,
+  AppActions.PHONE_NUMBER_VERIFICATION_COMPLETED,
   AccountActions.SET_PHONE_NUMBER,
   ExchangeActions.UPDATE_CELO_GOLD_EXCHANGE_RATE_HISTORY, // Not private, just noisy
-  GethActions.SET_CHAIN_HEAD,
-  GethActions.SET_GETH_CONNECTED,
   ImportActions.IMPORT_BACKUP_PHRASE,
   setPhoneRecipientCache.toString(),
   updateValoraRecipientCache.toString(),
@@ -112,7 +113,6 @@ export function* rootSaga() {
     yield spawn(i18nSaga)
     yield spawn(sentrySaga)
     yield spawn(networkInfoSaga)
-    yield spawn(gethSaga)
     yield spawn(web3Saga)
     yield spawn(accountSaga)
     yield spawn(firebaseSaga)
@@ -137,6 +137,9 @@ export function* rootSaga() {
     yield spawn(walletConnectSaga)
     yield spawn(superchargeSaga)
     yield spawn(checkAndroidMobileServicesSaga)
+    yield spawn(dappsSaga)
+    yield spawn(fiatConnectSaga)
+    yield spawn(swapSaga)
   } catch (error) {
     Logger.error('@rootSaga', 'Error while initializing sagas', error)
     // Propagate so it's handled by Sentry

@@ -1,8 +1,9 @@
-const { echo, cd, exec, ShellString, env, config } = require('shelljs')
+import { config, echo, env, exec, ShellString } from 'shelljs'
 
 config.fatal = true
 
-const branchName = new ShellString(env.BRANCH_NAME)
+const branchName = new ShellString(env.BRANCH_NAME ?? '')
+const VALORA_BOT_TOKEN = new ShellString(env.VALORA_BOT_TOKEN ?? '')
 
 // ensure that we are using ssh
 exec('git remote set-url origin git@github.com:valora-inc/wallet.git')
@@ -23,10 +24,14 @@ exec(`git push --set-upstream origin ${branchName}`)
 echo('Open licenses and disclaimer PR')
 exec(
   `
-  curl -u "valora-bot:$VALORA_BOT_TOKEN" \
+  curl -u "valora-bot:${VALORA_BOT_TOKEN}" \
     -X POST \
     -H "Accept: application/vnd.github.v3+json" \
     https://api.github.com/repos/valora-inc/wallet/pulls \
-    -d '{ "head": "'${branchName}'", "base": "main", "title": "Update licenses and disclaimer" }'
+    -d '${JSON.stringify({
+      head: branchName,
+      base: 'main',
+      title: 'chore: update licenses and disclaimer',
+    })}'
 `
 )

@@ -1,4 +1,5 @@
 // import styles from 'src/styles/styles'
+import { delay } from 'lodash'
 import React, { useEffect, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
@@ -15,6 +16,7 @@ import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
+
 import useSelector from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
@@ -85,8 +87,11 @@ function CashInBottomSheet() {
     },
     [],
     {
-      onSuccess: () => setModalVisible(true),
-      onError: () => setModalVisible(true),
+      // The modal can freeze up on iOS if its visibility is quickly changed from false to true
+      // this delay prevents that, and is enough that its not very noticible to the user since
+      // the home page is also loading at this point.
+      onSuccess: () => delay(() => setModalVisible(true), 1000),
+      onError: () => delay(() => setModalVisible(true), 1000),
     }
   )
 
@@ -119,13 +124,15 @@ function CashInBottomSheet() {
       style={styles.overlay}
       onBackdropPress={onDismissBottomSheet}
       onSwipeComplete={onDismissBottomSheet}
+      useNativeDriverForBackdrop={true}
     >
-      <View style={styles.container}>
+      <View testID="CashInBottomSheet" style={styles.container}>
         <Touchable
           style={styles.dismissButton}
           onPress={onDismissBottomSheet}
           borderless={true}
           hitSlop={variables.iconHitslop}
+          testID={'DismissBottomSheet'}
         >
           <Times />
         </Touchable>

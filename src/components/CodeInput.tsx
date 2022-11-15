@@ -13,6 +13,7 @@ import Card from 'src/components/Card'
 import ClipboardAwarePasteButton from 'src/components/ClipboardAwarePasteButton'
 import TextInput, { LINE_HEIGHT } from 'src/components/TextInput'
 import Checkmark from 'src/icons/Checkmark'
+import InfoIcon from 'src/icons/InfoIcon'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Shadow, Spacing } from 'src/styles/styles'
@@ -28,7 +29,7 @@ export enum CodeInputStatus {
 }
 
 export interface Props {
-  label: string
+  label?: string
   status: CodeInputStatus
   inputValue: string
   inputPlaceholder: string
@@ -40,6 +41,7 @@ export interface Props {
   testID?: string
   style?: StyleProp<ViewStyle>
   shortVerificationCodesEnabled?: boolean
+  autoFocus?: boolean
 }
 
 export default function CodeInput({
@@ -55,6 +57,7 @@ export default function CodeInput({
   testID,
   style,
   shortVerificationCodesEnabled = true,
+  autoFocus,
 }: Props) {
   const [forceShowingPasteIcon, clipboardContent, getFreshClipboardContent] = useClipboard()
 
@@ -73,10 +76,11 @@ export default function CodeInput({
     )
   }
 
-  const showInput = status === CodeInputStatus.Inputting
+  const showInput = status === CodeInputStatus.Inputting || status === CodeInputStatus.Error
   const showSpinner = status === CodeInputStatus.Processing || status === CodeInputStatus.Received
   const showCheckmark = status === CodeInputStatus.Accepted
-  const showStatus = showCheckmark || showSpinner
+  const showError = status === CodeInputStatus.Error
+  const showStatus = showCheckmark || showSpinner || showError
   const keyboardType = shortVerificationCodesEnabled
     ? 'number-pad'
     : Platform.OS === 'android'
@@ -92,35 +96,38 @@ export default function CodeInput({
       {/* These views cannot be combined as it will cause the shadow to be clipped on iOS */}
       <View style={styles.containRadius}>
         <View
-          style={
+          style={[
             showInput
               ? shortVerificationCodesEnabled
                 ? styles.contentActive
                 : styles.contentActiveLong
               : shortVerificationCodesEnabled
               ? styles.content
-              : styles.contentLong
-          }
+              : styles.contentLong,
+            showInput && shortVerificationCodesEnabled && label ? { paddingBottom: 4 } : undefined,
+          ]}
         >
           {showStatus && shortVerificationCodesEnabled && <View style={styles.statusContainer} />}
           <View style={styles.innerContent}>
-            <Text
-              style={
-                showInput
-                  ? shortVerificationCodesEnabled
-                    ? styles.labelActive
-                    : styles.labelActiveLong
-                  : shortVerificationCodesEnabled
-                  ? styles.label
-                  : styles.labelLong
-              }
-            >
-              {label}
-            </Text>
+            {label && (
+              <Text
+                style={
+                  showInput
+                    ? shortVerificationCodesEnabled
+                      ? styles.labelActive
+                      : styles.labelActiveLong
+                    : shortVerificationCodesEnabled
+                    ? styles.label
+                    : styles.labelLong
+                }
+              >
+                {label}
+              </Text>
+            )}
 
             {showInput ? (
               <TextInput
-                textContentType={shortVerificationCodesEnabled ? 'username' : undefined}
+                textContentType={shortVerificationCodesEnabled ? 'oneTimeCode' : undefined}
                 showClearButton={false}
                 value={inputValue}
                 placeholder={
@@ -154,6 +161,7 @@ export default function CodeInput({
                       : undefined,
                 }}
                 autoCapitalize="none"
+                autoFocus={autoFocus}
                 testID={testID}
               />
             ) : (
@@ -168,7 +176,13 @@ export default function CodeInput({
           {showStatus && (
             <View style={styles.statusContainer}>
               {showSpinner && <ActivityIndicator size="small" color={colors.greenUI} />}
-              {showCheckmark && <Checkmark />}
+              {showCheckmark && <Checkmark testID={testID ? `${testID}/CheckIcon` : undefined} />}
+              {showError && (
+                <InfoIcon
+                  color={colors.warning}
+                  testID={testID ? `${testID}/ErrorIcon` : undefined}
+                />
+              )}
             </View>
           )}
         </View>
@@ -215,14 +229,12 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 20,
-    // paddingVertical: Spacing.Small12,
+    padding: Spacing.Regular16,
   },
   contentActive: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 20,
-    paddingBottom: 4,
+    padding: Spacing.Regular16,
   },
   innerContent: {
     flex: 1,
@@ -256,6 +268,7 @@ const styles = StyleSheet.create({
     ...fontStyles.large,
     color: colors.onboardingBrownLight,
     textAlign: 'center',
+    paddingVertical: Spacing.Small12,
   },
   statusContainer: {
     width: 32,

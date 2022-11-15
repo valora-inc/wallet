@@ -4,6 +4,8 @@ import 'react-native'
 import { Provider } from 'react-redux'
 import { saveNameAndPicture } from 'src/account/actions'
 import Profile from 'src/account/Profile'
+import { showError } from 'src/alert/actions'
+import { ErrorMessages } from 'src/app/ErrorMessages'
 import { Screens } from 'src/navigator/Screens'
 import { RootState } from 'src/redux/reducers'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
@@ -42,6 +44,30 @@ describe('Profile', () => {
 
       fireEvent.press(getByTestId('SaveButton'))
       expect(store.getActions()).toEqual(expect.arrayContaining([saveNameAndPicture(name, null)]))
+    })
+
+    it('serves error banner when attempting to save empty name', () => {
+      let headerSaveButton: React.ReactNode
+      ;(mockNavigation.setOptions as jest.Mock).mockImplementation((options) => {
+        headerSaveButton = options.headerRight()
+      })
+
+      const { getByDisplayValue } = render(
+        <Provider store={store}>
+          <Profile {...getMockStackScreenProps(Screens.Profile)} />
+        </Provider>
+      )
+
+      const input = getByDisplayValue((store.getState() as RootState).account.name!)
+      fireEvent.changeText(input, '')
+
+      const { getByTestId } = render(<Provider store={store}>{headerSaveButton}</Provider>)
+
+      fireEvent.press(getByTestId('SaveButton'))
+
+      expect(store.getActions()).toEqual(
+        expect.arrayContaining([showError(ErrorMessages.MISSING_FULL_NAME)])
+      )
     })
   })
 })

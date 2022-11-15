@@ -2,7 +2,6 @@
 
 exports[`Education renders correctly 1`] = `
 <RNCSafeAreaView
-  onFinish={[MockFunction]}
   style={
     Array [
       Object {
@@ -88,90 +87,74 @@ exports[`Education renders correctly 1`] = `
       }
     }
   >
-    <Swiper
-      activeDotStyle={
-        Object {
-          "backgroundColor": "#2E3338",
-          "borderRadius": 5,
-          "flex": 0,
-          "height": 5,
-          "marginHorizontal": 3,
-          "width": 5,
-        }
-      }
-      dotStyle={
-        Object {
-          "backgroundColor": "#9CA4A9",
-          "borderRadius": 5,
-          "flex": 0,
-          "height": 5,
-          "marginHorizontal": 3,
-          "width": 5,
-        }
-      }
-      loop={false}
-      onIndexChanged={[Function]}
-      removeClippedSubviews={false}
+    <RCTScrollView
+      horizontal={true}
+      onScroll={[Function]}
+      pagingEnabled={true}
+      showsHorizontalScrollIndicator={false}
+      testID="ScrollContainer"
     >
-      <RCTScrollView
-        contentContainerStyle={
-          Object {
-            "alignItems": "center",
-            "flexGrow": 1,
-            "justifyContent": "center",
-          }
-        }
-        style={
-          Object {
-            "flex": 1,
-            "marginBottom": 24,
-            "overflow": "scroll",
-            "paddingHorizontal": 24,
-          }
-        }
-      >
-        <View>
-          <View
-            style={
-              Object {
-                "flex": 1,
-                "justifyContent": "center",
-              }
+      <View>
+        <RCTScrollView
+          contentContainerStyle={
+            Object {
+              "alignItems": "center",
+              "flexGrow": 1,
+              "justifyContent": "center",
+              "paddingHorizontal": 12,
             }
-          >
-            <Text
+          }
+          showsVerticalScrollIndicator={false}
+          style={
+            Object {
+              "margin": 16,
+              "width": 718,
+            }
+          }
+        >
+          <View>
+            <View
               style={
                 Object {
-                  "color": "#2E3338",
-                  "fontFamily": "Jost-Medium",
-                  "fontSize": 22,
-                  "lineHeight": 28,
-                  "marginTop": 24,
-                  "textAlign": "center",
+                  "flex": 1,
+                  "justifyContent": "center",
                 }
               }
             >
-              Step 1
-            </Text>
-            <Text
-              style={
-                Object {
-                  "color": "#2E3338",
-                  "fontFamily": "Inter-Regular",
-                  "fontSize": 16,
-                  "lineHeight": 22,
-                  "marginBottom": 24,
-                  "paddingTop": 16,
-                  "textAlign": "center",
+              <Text
+                style={
+                  Object {
+                    "color": "#2E3338",
+                    "fontFamily": "Jost-Medium",
+                    "fontSize": 22,
+                    "lineHeight": 28,
+                    "marginTop": 24,
+                    "textAlign": "center",
+                  }
                 }
-              }
-            >
-              The Journey Begins
-            </Text>
+              >
+                Step 1
+              </Text>
+              <Text
+                style={
+                  Object {
+                    "color": "#2E3338",
+                    "fontFamily": "Inter-Regular",
+                    "fontSize": 16,
+                    "lineHeight": 22,
+                    "marginBottom": 24,
+                    "paddingTop": 16,
+                    "textAlign": "center",
+                  }
+                }
+              >
+                The Journey Begins
+              </Text>
+            </View>
           </View>
-        </View>
-      </RCTScrollView>
-    </Swiper>
+        </RCTScrollView>
+      </View>
+    </RCTScrollView>
     <View
       style={
         Array [
@@ -215,6 +198,7 @@ exports[`Education renders correctly 1`] = `
             Object {
               "alignItems": "center",
               "backgroundColor": "#1AB775",
+              "flexDirection": "row",
               "height": 48,
               "justifyContent": "center",
               "minWidth": 120,
@@ -233,6 +217,8 @@ exports[`Education renders correctly 1`] = `
                 "fontFamily": "Inter-SemiBold",
                 "fontSize": 16,
                 "lineHeight": 22,
+                "marginLeft": 0,
+                "marginRight": 0,
               }
             }
           >

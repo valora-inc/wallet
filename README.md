@@ -1,7 +1,7 @@
 # Valora Mobile App
 
 ![Checks](https://github.com/valora-inc/wallet/actions/workflows/check.yml/badge.svg)
-![E2E](https://github.com/valora-inc/wallet/actions/workflows/e2e-ci.yml/badge.svg)
+![E2E](https://github.com/valora-inc/wallet/actions/workflows/e2e-main.yml/badge.svg)
 ![Mobile Tests](https://github.com/valora-inc/wallet/actions/workflows/test.yml/badge.svg)
 [![Codecov](https://img.shields.io/codecov/c/github/valora-inc/wallet)](https://codecov.io/gh/valora-inc/wallet)
 [![GitHub contributors](https://img.shields.io/github/contributors/valora-inc/wallet)](https://github.com/valora-inc/wallet/graphs/contributors)
@@ -17,7 +17,7 @@ send payments to their contacts.
 
 ## Integrate with Valora
 
-Integrate with Valora using [WalletConnect v1](https://docs.celo.org/developer-resources/walkthroughs/valora-wc-v1).
+Connect your Dapp to Valora using [WalletConnect](./docs/connecting-dapps.md).
 
 See also [deeplinks.md](./docs/deeplinks.md) for integrating with Valora using deep links.
 
@@ -33,7 +33,7 @@ Code owners can be found in [.github/CODEOWNERS](.github/CODEOWNERS).
 
 ## Contributing
 
-We welcome contributions in the form of Issues and PRs. See [CONTRIBUTING.md](CONTRIBUTING.md).
+We welcome contributions in the form of Issues and PRs. Please read [CONTRIBUTING.md](CONTRIBUTING.md) first!
 
 ## Community
 

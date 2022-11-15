@@ -14,10 +14,11 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
       Object {
         "flexGrow": 1,
         "justifyContent": "space-between",
-        "padding": 16,
+        "paddingHorizontal": 16,
       }
     }
     keyboardShouldPersistTaps="always"
+    testID="KeyboardAwareScrollView"
   >
     <View>
       <View>
@@ -31,6 +32,7 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
               "paddingVertical": 16,
             }
           }
+          testID="ConfirmAccountNumber/Title"
         >
           confirmAccountNumber.title
         </Text>
@@ -117,6 +119,7 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
                     undefined,
                   ]
                 }
+                testID="ValidateRecipientAccount/TextInput"
                 value=""
               />
             </View>
@@ -179,6 +182,7 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
                 Object {
                   "alignItems": "center",
                   "backgroundColor": "#97DFC1",
+                  "flexDirection": "row",
                   "height": 48,
                   "justifyContent": "center",
                   "minWidth": 120,
@@ -197,6 +201,8 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
                     "fontFamily": "Inter-SemiBold",
                     "fontSize": 16,
                     "lineHeight": 22,
+                    "marginLeft": 0,
+                    "marginRight": 0,
                   }
                 }
               >
@@ -269,12 +275,16 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
   />
   <Modal
     animationType="none"
+    deviceHeight={null}
+    deviceWidth={null}
     hardwareAccelerated={false}
     hideModalContentWhileAnimating={false}
+    onBackdropPress={[Function]}
     onModalHide={[Function]}
     onModalWillHide={[Function]}
     onModalWillShow={[Function]}
     onRequestClose={[Function]}
+    panResponderThreshold={4}
     scrollHorizontal={false}
     scrollOffset={0}
     scrollOffsetMax={0}
@@ -319,12 +329,16 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
     />
     <View
       collapsable={false}
+      deviceHeight={null}
+      deviceWidth={null}
       forwardedRef={[Function]}
       hideModalContentWhileAnimating={false}
       nativeID="animatedComponent"
+      onBackdropPress={[Function]}
       onModalHide={[Function]}
       onModalWillHide={[Function]}
       onModalWillShow={[Function]}
+      panResponderThreshold={4}
       pointerEvents="box-none"
       scrollHorizontal={false}
       scrollOffset={0}
@@ -644,10 +658,11 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
       Object {
         "flexGrow": 1,
         "justifyContent": "space-between",
-        "padding": 16,
+        "paddingHorizontal": 16,
       }
     }
     keyboardShouldPersistTaps="always"
+    testID="KeyboardAwareScrollView"
   >
     <View>
       <View>
@@ -661,6 +676,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
               "paddingVertical": 16,
             }
           }
+          testID="ConfirmAccountNumber/Title"
         >
           confirmAccountNumber.title
         </Text>
@@ -995,6 +1011,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                 Object {
                   "alignItems": "center",
                   "backgroundColor": "#97DFC1",
+                  "flexDirection": "row",
                   "height": 48,
                   "justifyContent": "center",
                   "minWidth": 120,
@@ -1013,6 +1030,8 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                     "fontFamily": "Inter-SemiBold",
                     "fontSize": 16,
                     "lineHeight": 22,
+                    "marginLeft": 0,
+                    "marginRight": 0,
                   }
                 }
               >
@@ -1085,12 +1104,16 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
   />
   <Modal
     animationType="none"
+    deviceHeight={null}
+    deviceWidth={null}
     hardwareAccelerated={false}
     hideModalContentWhileAnimating={false}
+    onBackdropPress={[Function]}
     onModalHide={[Function]}
     onModalWillHide={[Function]}
     onModalWillShow={[Function]}
     onRequestClose={[Function]}
+    panResponderThreshold={4}
     scrollHorizontal={false}
     scrollOffset={0}
     scrollOffsetMax={0}
@@ -1135,12 +1158,16 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
     />
     <View
       collapsable={false}
+      deviceHeight={null}
+      deviceWidth={null}
       forwardedRef={[Function]}
       hideModalContentWhileAnimating={false}
       nativeID="animatedComponent"
+      onBackdropPress={[Function]}
       onModalHide={[Function]}
       onModalWillHide={[Function]}
       onModalWillShow={[Function]}
+      panResponderThreshold={4}
       pointerEvents="box-none"
       scrollHorizontal={false}
       scrollOffset={0}

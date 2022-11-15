@@ -17,12 +17,10 @@ import {
   setAvailableRewards,
 } from 'src/consumerIncentives/slice'
 import { SuperchargePendingReward } from 'src/consumerIncentives/types'
-import { WEI_PER_TOKEN } from 'src/geth/consts'
-import config from 'src/geth/networkConfig'
 import i18n from 'src/i18n'
 import { navigateHome } from 'src/navigator/NavigationService'
-import { TokenBalances } from 'src/tokens/reducer'
 import { tokensByAddressSelector } from 'src/tokens/selectors'
+import { TokenBalances } from 'src/tokens/slice'
 import { addStandbyTransaction } from 'src/transactions/actions'
 import { sendTransaction } from 'src/transactions/send'
 import {
@@ -32,7 +30,9 @@ import {
 } from 'src/transactions/types'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import Logger from 'src/utils/Logger'
+import { WEI_PER_TOKEN } from 'src/web3/consts'
 import { getContractKit } from 'src/web3/contracts'
+import config from 'src/web3/networkConfig'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { getContract } from 'src/web3/utils'

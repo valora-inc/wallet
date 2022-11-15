@@ -15,6 +15,7 @@ import {
   extractSecurityCodeWithPrefix,
 } from '@celo/utils/lib/attestations'
 import { AttestationRequest } from '@celo/utils/lib/io'
+import { getPhoneHash } from '@celo/utils/lib/phoneNumbers'
 import { FetchError, TxError } from '@komenci/kit/lib/errors'
 import { KomenciKit } from '@komenci/kit/lib/kit'
 import AwaitLock from 'await-lock'
@@ -32,7 +33,6 @@ import {
   take,
   takeEvery,
 } from 'redux-saga/effects'
-import { setRetryVerificationWithForno } from 'src/account/actions'
 import { e164NumberSelector } from 'src/account/selectors'
 import { showError, showErrorOrFallback } from 'src/alert/actions'
 import { VerificationEvents } from 'src/analytics/Events'
@@ -42,7 +42,6 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { logPhoneNumberTypeEnabledSelector } from 'src/app/selectors'
 import { CodeInputStatus } from 'src/components/CodeInput'
 import { isE2EEnv, SMS_RETRIEVER_APP_SIGNATURE } from 'src/config'
-import { waitForNextBlock } from 'src/geth/saga'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import {
   Actions,
@@ -93,7 +92,7 @@ import { indexReadyForInput } from 'src/verify/utils'
 import { setMtwAddress } from 'src/web3/actions'
 import { getContractKit } from 'src/web3/contracts'
 import { registerAccountDek } from 'src/web3/dataEncryptionKey'
-import { getConnectedUnlockedAccount } from 'src/web3/saga'
+import { getConnectedUnlockedAccount, waitForNextBlock } from 'src/web3/saga'
 
 const TAG = 'identity/verification'
 
@@ -164,7 +163,10 @@ export function* startVerificationSaga({ withoutRevealing }: StartVerificationAc
     Logger.debug(TAG, 'Verification has been restarted')
     yield put(startVerification(e164Number, false))
   } else if (success) {
-    ValoraAnalytics.track(VerificationEvents.verification_complete, { feeless: shouldUseKomenci })
+    ValoraAnalytics.track(VerificationEvents.verification_complete, {
+      feeless: shouldUseKomenci,
+      phoneNumberHash: getPhoneHash(e164Number),
+    })
     Logger.debug(TAG, 'Verification completed successfully')
   } else if (failure) {
     ValoraAnalytics.track(VerificationEvents.verification_error, {
@@ -397,13 +399,6 @@ export function* requestAndRetrieveAttestations(
   isFeelessVerification: boolean = false
 ) {
   let attestations = currentActionableAttestations
-
-  // Any verification failure past this point will be after sending a tx
-  // so do not prompt forno retry as these failures are not always
-  // light client related, and account may have insufficient balance
-  if (!isFeelessVerification) {
-    yield put(setRetryVerificationWithForno(false))
-  }
 
   while (attestations.length < attestationsNeeded) {
     ValoraAnalytics.track(VerificationEvents.verification_request_attestation_start, {
@@ -1085,7 +1080,11 @@ export function* tryRevealPhoneNumber(
 
       yield delay(REVEAL_RETRY_DELAY)
 
-      const { ok: retryOk, status: retryStatus, body: retryBody } = yield call(
+      const {
+        ok: retryOk,
+        status: retryStatus,
+        body: retryBody,
+      } = yield call(
         postToAttestationService,
         attestationsWrapper,
         attestation.attestationServiceURL,

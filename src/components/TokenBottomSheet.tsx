@@ -6,18 +6,17 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BottomSheet from 'src/components/BottomSheet'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
-import useSelector from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { TokenBalance } from 'src/tokens/reducer'
-import { stablecoinsSelector, tokensWithTokenBalanceSelector } from 'src/tokens/selectors'
+import { TokenBalance } from 'src/tokens/slice'
 import { sortFirstStableThenCeloThenOthersByUsdBalance } from 'src/tokens/utils'
 
 export enum TokenPickerOrigin {
   Send = 'Send',
   SendConfirmation = 'SendConfirmation',
   Exchange = 'Exchange',
+  Swap = 'Swap',
 }
 
 interface Props {
@@ -25,8 +24,7 @@ interface Props {
   origin: TokenPickerOrigin
   onTokenSelected: (tokenAddress: string) => void
   onClose: () => void
-  isOutgoingPaymentRequest?: boolean
-  isInvite?: boolean
+  tokens: TokenBalance[]
 }
 
 function TokenOption({ tokenInfo, onPress }: { tokenInfo: TokenBalance; onPress: () => void }) {
@@ -59,19 +57,8 @@ function TokenOption({ tokenInfo, onPress }: { tokenInfo: TokenBalance; onPress:
   )
 }
 // TODO: In the exchange flow or when requesting a payment, only show CELO & stable tokens.
-function TokenBottomSheet({
-  isVisible,
-  origin,
-  onTokenSelected,
-  onClose,
-  isOutgoingPaymentRequest,
-  isInvite = false,
-}: Props) {
-  const tokens = useSelector(tokensWithTokenBalanceSelector)
-  const stableTokens = useSelector(stablecoinsSelector)
-  const tokenList = (isInvite || isOutgoingPaymentRequest ? stableTokens : tokens).sort(
-    sortFirstStableThenCeloThenOthersByUsdBalance
-  )
+function TokenBottomSheet({ isVisible, origin, onTokenSelected, onClose, tokens }: Props) {
+  const tokenList = tokens.sort(sortFirstStableThenCeloThenOthersByUsdBalance)
 
   const { t } = useTranslation()
 

@@ -311,6 +311,7 @@ exports[`Account renders correctly 1`] = `
             onResponderTerminate={[Function]}
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
+            testID="ChangeLanguage"
           >
             <View
               style={
@@ -373,7 +374,7 @@ exports[`Account renders correctly 1`] = `
                         "marginRight": 8,
                       }
                     }
-                    testID="languageSettings/value"
+                    testID="ChangeLanguage/value"
                   >
                     unknown
                   </Text>
@@ -423,6 +424,7 @@ exports[`Account renders correctly 1`] = `
             onResponderTerminate={[Function]}
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
+            testID="ChangeCurrency"
           >
             <View
               style={
@@ -485,7 +487,7 @@ exports[`Account renders correctly 1`] = `
                         "marginRight": 8,
                       }
                     }
-                    testID="localCurrencySetting/value"
+                    testID="ChangeCurrency/value"
                   >
                     PHP
                   </Text>
@@ -1199,496 +1201,16 @@ exports[`Account renders correctly 1`] = `
       </View>
       <Modal
         animationType="none"
+        deviceHeight={null}
+        deviceWidth={null}
         hardwareAccelerated={false}
         hideModalContentWhileAnimating={false}
+        onBackdropPress={[Function]}
         onModalHide={[Function]}
         onModalWillHide={[Function]}
         onModalWillShow={[Function]}
         onRequestClose={[Function]}
-        scrollHorizontal={false}
-        scrollOffset={0}
-        scrollOffsetMax={0}
-        scrollTo={null}
-        statusBarTranslucent={true}
-        supportedOrientations={
-          Array [
-            "portrait",
-            "landscape",
-          ]
-        }
-        swipeThreshold={100}
-        transparent={true}
-        visible={false}
-      >
-        <View
-          accessible={true}
-          collapsable={false}
-          focusable={true}
-          forwardedRef={[Function]}
-          nativeID="animatedComponent"
-          onClick={[Function]}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
-          style={
-            Object {
-              "backgroundColor": "black",
-              "bottom": 0,
-              "height": 1334,
-              "left": 0,
-              "opacity": 0,
-              "position": "absolute",
-              "right": 0,
-              "top": 0,
-              "width": 750,
-            }
-          }
-        />
-        <View
-          collapsable={false}
-          forwardedRef={[Function]}
-          hideModalContentWhileAnimating={false}
-          nativeID="animatedComponent"
-          onModalHide={[Function]}
-          onModalWillHide={[Function]}
-          onModalWillShow={[Function]}
-          pointerEvents="box-none"
-          scrollHorizontal={false}
-          scrollOffset={0}
-          scrollOffsetMax={0}
-          scrollTo={null}
-          statusBarTranslucent={true}
-          style={
-            Object {
-              "flex": 1,
-              "justifyContent": "center",
-              "margin": 37.5,
-              "transform": Array [
-                Object {
-                  "translateY": 0,
-                },
-              ],
-            }
-          }
-          supportedOrientations={
-            Array [
-              "portrait",
-              "landscape",
-            ]
-          }
-          swipeThreshold={100}
-        >
-          <RNCSafeAreaView>
-            <View
-              style={
-                Array [
-                  Object {
-                    "backgroundColor": "#FFFFFF",
-                    "padding": 16,
-                  },
-                  Object {
-                    "borderRadius": 8,
-                  },
-                  Object {
-                    "elevation": 12,
-                    "shadowColor": "rgba(156, 164, 169, 0.4)",
-                    "shadowOffset": Object {
-                      "height": 2,
-                      "width": 0,
-                    },
-                    "shadowOpacity": 1,
-                    "shadowRadius": 12,
-                  },
-                  Array [
-                    Object {
-                      "backgroundColor": "#FFFFFF",
-                      "maxHeight": "100%",
-                      "padding": 24,
-                    },
-                    undefined,
-                  ],
-                ]
-              }
-            >
-              <RCTScrollView
-                contentContainerStyle={
-                  Object {
-                    "alignItems": "center",
-                  }
-                }
-              >
-                <View>
-                  <Text
-                    style={
-                      Object {
-                        "color": "#2E3338",
-                        "fontFamily": "Jost-Medium",
-                        "fontSize": 22,
-                        "lineHeight": 28,
-                        "marginBottom": 12,
-                        "textAlign": "center",
-                      }
-                    }
-                  >
-                    restartModalSwitchOff.header
-                  </Text>
-                  <Text
-                    style={
-                      Object {
-                        "color": "#2E3338",
-                        "fontFamily": "Inter-Regular",
-                        "fontSize": 16,
-                        "lineHeight": 22,
-                        "marginBottom": 24,
-                        "textAlign": "center",
-                      }
-                    }
-                  >
-                    restartModalSwitchOff.body
-                  </Text>
-                </View>
-              </RCTScrollView>
-              <View
-                style={
-                  Object {
-                    "flexDirection": "row",
-                    "flexWrap": "wrap",
-                    "justifyContent": "space-around",
-                    "maxWidth": "100%",
-                  }
-                }
-              >
-                <View
-                  accessible={true}
-                  focusable={true}
-                  nativeBackgroundAndroid={
-                    Object {
-                      "attribute": "selectableItemBackgroundBorderless",
-                      "rippleRadius": undefined,
-                      "type": "ThemeAttrAndroid",
-                    }
-                  }
-                  onClick={[Function]}
-                  onResponderGrant={[Function]}
-                  onResponderMove={[Function]}
-                  onResponderRelease={[Function]}
-                  onResponderTerminate={[Function]}
-                  onResponderTerminationRequest={[Function]}
-                  onStartShouldSetResponder={[Function]}
-                >
-                  <Text
-                    style={
-                      Array [
-                        Object {
-                          "color": "#1AB775",
-                          "fontFamily": "Inter-SemiBold",
-                          "fontSize": 16,
-                          "lineHeight": 22,
-                        },
-                        Object {
-                          "color": "#9CA4A9",
-                          "paddingTop": 16,
-                        },
-                      ]
-                    }
-                  >
-                    cancel
-                  </Text>
-                </View>
-                <View
-                  accessible={true}
-                  focusable={true}
-                  nativeBackgroundAndroid={
-                    Object {
-                      "attribute": "selectableItemBackgroundBorderless",
-                      "rippleRadius": undefined,
-                      "type": "ThemeAttrAndroid",
-                    }
-                  }
-                  onClick={[Function]}
-                  onResponderGrant={[Function]}
-                  onResponderMove={[Function]}
-                  onResponderRelease={[Function]}
-                  onResponderTerminate={[Function]}
-                  onResponderTerminationRequest={[Function]}
-                  onStartShouldSetResponder={[Function]}
-                >
-                  <Text
-                    style={
-                      Array [
-                        Object {
-                          "color": "#1AB775",
-                          "fontFamily": "Inter-SemiBold",
-                          "fontSize": 16,
-                          "lineHeight": 22,
-                        },
-                        Object {
-                          "paddingTop": 16,
-                        },
-                      ]
-                    }
-                  >
-                    restartModalSwitchOff.restart
-                  </Text>
-                </View>
-              </View>
-            </View>
-          </RNCSafeAreaView>
-        </View>
-      </Modal>
-      <Modal
-        animationType="none"
-        hardwareAccelerated={false}
-        hideModalContentWhileAnimating={false}
-        onModalHide={[Function]}
-        onModalWillHide={[Function]}
-        onModalWillShow={[Function]}
-        onRequestClose={[Function]}
-        scrollHorizontal={false}
-        scrollOffset={0}
-        scrollOffsetMax={0}
-        scrollTo={null}
-        statusBarTranslucent={true}
-        supportedOrientations={
-          Array [
-            "portrait",
-            "landscape",
-          ]
-        }
-        swipeThreshold={100}
-        transparent={true}
-        visible={false}
-      >
-        <View
-          accessible={true}
-          collapsable={false}
-          focusable={true}
-          forwardedRef={[Function]}
-          nativeID="animatedComponent"
-          onClick={[Function]}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
-          style={
-            Object {
-              "backgroundColor": "black",
-              "bottom": 0,
-              "height": 1334,
-              "left": 0,
-              "opacity": 0,
-              "position": "absolute",
-              "right": 0,
-              "top": 0,
-              "width": 750,
-            }
-          }
-        />
-        <View
-          collapsable={false}
-          forwardedRef={[Function]}
-          hideModalContentWhileAnimating={false}
-          nativeID="animatedComponent"
-          onModalHide={[Function]}
-          onModalWillHide={[Function]}
-          onModalWillShow={[Function]}
-          pointerEvents="box-none"
-          scrollHorizontal={false}
-          scrollOffset={0}
-          scrollOffsetMax={0}
-          scrollTo={null}
-          statusBarTranslucent={true}
-          style={
-            Object {
-              "flex": 1,
-              "justifyContent": "center",
-              "margin": 37.5,
-              "transform": Array [
-                Object {
-                  "translateY": 0,
-                },
-              ],
-            }
-          }
-          supportedOrientations={
-            Array [
-              "portrait",
-              "landscape",
-            ]
-          }
-          swipeThreshold={100}
-        >
-          <RNCSafeAreaView>
-            <View
-              style={
-                Array [
-                  Object {
-                    "backgroundColor": "#FFFFFF",
-                    "padding": 16,
-                  },
-                  Object {
-                    "borderRadius": 8,
-                  },
-                  Object {
-                    "elevation": 12,
-                    "shadowColor": "rgba(156, 164, 169, 0.4)",
-                    "shadowOffset": Object {
-                      "height": 2,
-                      "width": 0,
-                    },
-                    "shadowOpacity": 1,
-                    "shadowRadius": 12,
-                  },
-                  Array [
-                    Object {
-                      "backgroundColor": "#FFFFFF",
-                      "maxHeight": "100%",
-                      "padding": 24,
-                    },
-                    undefined,
-                  ],
-                ]
-              }
-            >
-              <RCTScrollView
-                contentContainerStyle={
-                  Object {
-                    "alignItems": "center",
-                  }
-                }
-              >
-                <View>
-                  <Text
-                    style={
-                      Object {
-                        "color": "#2E3338",
-                        "fontFamily": "Jost-Medium",
-                        "fontSize": 22,
-                        "lineHeight": 28,
-                        "marginBottom": 12,
-                        "textAlign": "center",
-                      }
-                    }
-                  >
-                    promptFornoModal.header
-                  </Text>
-                  <Text
-                    style={
-                      Object {
-                        "color": "#2E3338",
-                        "fontFamily": "Inter-Regular",
-                        "fontSize": 16,
-                        "lineHeight": 22,
-                        "marginBottom": 24,
-                        "textAlign": "center",
-                      }
-                    }
-                  >
-                    promptFornoModal.body
-                  </Text>
-                </View>
-              </RCTScrollView>
-              <View
-                style={
-                  Object {
-                    "flexDirection": "row",
-                    "flexWrap": "wrap",
-                    "justifyContent": "space-around",
-                    "maxWidth": "100%",
-                  }
-                }
-              >
-                <View
-                  accessible={true}
-                  focusable={true}
-                  nativeBackgroundAndroid={
-                    Object {
-                      "attribute": "selectableItemBackgroundBorderless",
-                      "rippleRadius": undefined,
-                      "type": "ThemeAttrAndroid",
-                    }
-                  }
-                  onClick={[Function]}
-                  onResponderGrant={[Function]}
-                  onResponderMove={[Function]}
-                  onResponderRelease={[Function]}
-                  onResponderTerminate={[Function]}
-                  onResponderTerminationRequest={[Function]}
-                  onStartShouldSetResponder={[Function]}
-                >
-                  <Text
-                    style={
-                      Array [
-                        Object {
-                          "color": "#1AB775",
-                          "fontFamily": "Inter-SemiBold",
-                          "fontSize": 16,
-                          "lineHeight": 22,
-                        },
-                        Object {
-                          "color": "#9CA4A9",
-                          "paddingTop": 16,
-                        },
-                      ]
-                    }
-                  >
-                    goBack
-                  </Text>
-                </View>
-                <View
-                  accessible={true}
-                  focusable={true}
-                  nativeBackgroundAndroid={
-                    Object {
-                      "attribute": "selectableItemBackgroundBorderless",
-                      "rippleRadius": undefined,
-                      "type": "ThemeAttrAndroid",
-                    }
-                  }
-                  onClick={[Function]}
-                  onResponderGrant={[Function]}
-                  onResponderMove={[Function]}
-                  onResponderRelease={[Function]}
-                  onResponderTerminate={[Function]}
-                  onResponderTerminationRequest={[Function]}
-                  onStartShouldSetResponder={[Function]}
-                >
-                  <Text
-                    style={
-                      Array [
-                        Object {
-                          "color": "#1AB775",
-                          "fontFamily": "Inter-SemiBold",
-                          "fontSize": 16,
-                          "lineHeight": 22,
-                        },
-                        Object {
-                          "paddingTop": 16,
-                        },
-                      ]
-                    }
-                  >
-                    promptFornoModal.switchToDataSaver
-                  </Text>
-                </View>
-              </View>
-            </View>
-          </RNCSafeAreaView>
-        </View>
-      </Modal>
-      <Modal
-        animationType="none"
-        hardwareAccelerated={false}
-        hideModalContentWhileAnimating={false}
-        onModalHide={[Function]}
-        onModalWillHide={[Function]}
-        onModalWillShow={[Function]}
-        onRequestClose={[Function]}
+        panResponderThreshold={4}
         scrollHorizontal={false}
         scrollOffset={0}
         scrollOffsetMax={0}
@@ -1734,12 +1256,16 @@ exports[`Account renders correctly 1`] = `
         />
         <View
           collapsable={false}
+          deviceHeight={null}
+          deviceWidth={null}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
           nativeID="animatedComponent"
+          onBackdropPress={[Function]}
           onModalHide={[Function]}
           onModalWillHide={[Function]}
           onModalWillShow={[Function]}
+          panResponderThreshold={4}
           pointerEvents="box-none"
           scrollHorizontal={false}
           scrollOffset={0}
@@ -1765,7 +1291,6 @@ exports[`Account renders correctly 1`] = `
             ]
           }
           swipeThreshold={100}
-          testID="RemoveAccountModal"
         >
           <RNCSafeAreaView>
             <View
@@ -1933,12 +1458,16 @@ exports[`Account renders correctly 1`] = `
       </Modal>
       <Modal
         animationType="none"
+        deviceHeight={null}
+        deviceWidth={null}
         hardwareAccelerated={false}
         hideModalContentWhileAnimating={false}
+        onBackdropPress={[Function]}
         onModalHide={[Function]}
         onModalWillHide={[Function]}
         onModalWillShow={[Function]}
         onRequestClose={[Function]}
+        panResponderThreshold={4}
         scrollHorizontal={false}
         scrollOffset={0}
         scrollOffsetMax={0}
@@ -1984,12 +1513,16 @@ exports[`Account renders correctly 1`] = `
         />
         <View
           collapsable={false}
+          deviceHeight={null}
+          deviceWidth={null}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
           nativeID="animatedComponent"
+          onBackdropPress={[Function]}
           onModalHide={[Function]}
           onModalWillHide={[Function]}
           onModalWillShow={[Function]}
+          panResponderThreshold={4}
           pointerEvents="box-none"
           scrollHorizontal={false}
           scrollOffset={0}
@@ -2015,7 +1548,6 @@ exports[`Account renders correctly 1`] = `
             ]
           }
           swipeThreshold={100}
-          testID="ConfirmAccountRemovalModal"
         >
           <RNCSafeAreaView>
             <View
@@ -2179,12 +1711,16 @@ exports[`Account renders correctly 1`] = `
       </Modal>
       <Modal
         animationType="none"
+        deviceHeight={null}
+        deviceWidth={null}
         hardwareAccelerated={false}
         hideModalContentWhileAnimating={false}
+        onBackdropPress={[Function]}
         onModalHide={[Function]}
         onModalWillHide={[Function]}
         onModalWillShow={[Function]}
         onRequestClose={[Function]}
+        panResponderThreshold={4}
         scrollHorizontal={false}
         scrollOffset={0}
         scrollOffsetMax={0}
@@ -2230,12 +1766,16 @@ exports[`Account renders correctly 1`] = `
         />
         <View
           collapsable={false}
+          deviceHeight={null}
+          deviceWidth={null}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
           nativeID="animatedComponent"
+          onBackdropPress={[Function]}
           onModalHide={[Function]}
           onModalWillHide={[Function]}
           onModalWillShow={[Function]}
+          panResponderThreshold={4}
           pointerEvents="box-none"
           scrollHorizontal={false}
           scrollOffset={0}
@@ -2261,7 +1801,6 @@ exports[`Account renders correctly 1`] = `
             ]
           }
           swipeThreshold={100}
-          testID="ConfirmAccountRevokeModal"
         >
           <RNCSafeAreaView>
             <View
@@ -2739,6 +2278,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
             onResponderTerminate={[Function]}
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
+            testID="ChangeLanguage"
           >
             <View
               style={
@@ -2801,7 +2341,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
                         "marginRight": 8,
                       }
                     }
-                    testID="languageSettings/value"
+                    testID="ChangeLanguage/value"
                   >
                     unknown
                   </Text>
@@ -2851,6 +2391,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
             onResponderTerminate={[Function]}
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
+            testID="ChangeCurrency"
           >
             <View
               style={
@@ -2913,7 +2454,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
                         "marginRight": 8,
                       }
                     }
-                    testID="localCurrencySetting/value"
+                    testID="ChangeCurrency/value"
                   >
                     PHP
                   </Text>
@@ -3730,6 +3271,11 @@ exports[`Account renders correctly when dev mode active 1`] = `
           }
         >
           <View
+            accessibilityState={
+              Object {
+                "disabled": false,
+              }
+            }
             accessible={true}
             focusable={true}
             onClick={[Function]}
@@ -3749,7 +3295,39 @@ exports[`Account renders correctly when dev mode active 1`] = `
             }
           >
             <Text>
-              Revoke Number Verification
+              Revoke Number Verification (centralized)
+            </Text>
+          </View>
+        </View>
+        <View
+          style={
+            Object {
+              "alignSelf": "stretch",
+              "margin": 4,
+            }
+          }
+        >
+          <View
+            accessible={true}
+            focusable={true}
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Array [
+                undefined,
+                Object {
+                  "opacity": 1,
+                },
+              ]
+            }
+          >
+            <Text>
+              Revoke Number Verification (on-chain)
             </Text>
           </View>
         </View>
@@ -3948,496 +3526,16 @@ exports[`Account renders correctly when dev mode active 1`] = `
       </View>
       <Modal
         animationType="none"
+        deviceHeight={null}
+        deviceWidth={null}
         hardwareAccelerated={false}
         hideModalContentWhileAnimating={false}
+        onBackdropPress={[Function]}
         onModalHide={[Function]}
         onModalWillHide={[Function]}
         onModalWillShow={[Function]}
         onRequestClose={[Function]}
-        scrollHorizontal={false}
-        scrollOffset={0}
-        scrollOffsetMax={0}
-        scrollTo={null}
-        statusBarTranslucent={true}
-        supportedOrientations={
-          Array [
-            "portrait",
-            "landscape",
-          ]
-        }
-        swipeThreshold={100}
-        transparent={true}
-        visible={false}
-      >
-        <View
-          accessible={true}
-          collapsable={false}
-          focusable={true}
-          forwardedRef={[Function]}
-          nativeID="animatedComponent"
-          onClick={[Function]}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
-          style={
-            Object {
-              "backgroundColor": "black",
-              "bottom": 0,
-              "height": 1334,
-              "left": 0,
-              "opacity": 0,
-              "position": "absolute",
-              "right": 0,
-              "top": 0,
-              "width": 750,
-            }
-          }
-        />
-        <View
-          collapsable={false}
-          forwardedRef={[Function]}
-          hideModalContentWhileAnimating={false}
-          nativeID="animatedComponent"
-          onModalHide={[Function]}
-          onModalWillHide={[Function]}
-          onModalWillShow={[Function]}
-          pointerEvents="box-none"
-          scrollHorizontal={false}
-          scrollOffset={0}
-          scrollOffsetMax={0}
-          scrollTo={null}
-          statusBarTranslucent={true}
-          style={
-            Object {
-              "flex": 1,
-              "justifyContent": "center",
-              "margin": 37.5,
-              "transform": Array [
-                Object {
-                  "translateY": 0,
-                },
-              ],
-            }
-          }
-          supportedOrientations={
-            Array [
-              "portrait",
-              "landscape",
-            ]
-          }
-          swipeThreshold={100}
-        >
-          <RNCSafeAreaView>
-            <View
-              style={
-                Array [
-                  Object {
-                    "backgroundColor": "#FFFFFF",
-                    "padding": 16,
-                  },
-                  Object {
-                    "borderRadius": 8,
-                  },
-                  Object {
-                    "elevation": 12,
-                    "shadowColor": "rgba(156, 164, 169, 0.4)",
-                    "shadowOffset": Object {
-                      "height": 2,
-                      "width": 0,
-                    },
-                    "shadowOpacity": 1,
-                    "shadowRadius": 12,
-                  },
-                  Array [
-                    Object {
-                      "backgroundColor": "#FFFFFF",
-                      "maxHeight": "100%",
-                      "padding": 24,
-                    },
-                    undefined,
-                  ],
-                ]
-              }
-            >
-              <RCTScrollView
-                contentContainerStyle={
-                  Object {
-                    "alignItems": "center",
-                  }
-                }
-              >
-                <View>
-                  <Text
-                    style={
-                      Object {
-                        "color": "#2E3338",
-                        "fontFamily": "Jost-Medium",
-                        "fontSize": 22,
-                        "lineHeight": 28,
-                        "marginBottom": 12,
-                        "textAlign": "center",
-                      }
-                    }
-                  >
-                    restartModalSwitchOff.header
-                  </Text>
-                  <Text
-                    style={
-                      Object {
-                        "color": "#2E3338",
-                        "fontFamily": "Inter-Regular",
-                        "fontSize": 16,
-                        "lineHeight": 22,
-                        "marginBottom": 24,
-                        "textAlign": "center",
-                      }
-                    }
-                  >
-                    restartModalSwitchOff.body
-                  </Text>
-                </View>
-              </RCTScrollView>
-              <View
-                style={
-                  Object {
-                    "flexDirection": "row",
-                    "flexWrap": "wrap",
-                    "justifyContent": "space-around",
-                    "maxWidth": "100%",
-                  }
-                }
-              >
-                <View
-                  accessible={true}
-                  focusable={true}
-                  nativeBackgroundAndroid={
-                    Object {
-                      "attribute": "selectableItemBackgroundBorderless",
-                      "rippleRadius": undefined,
-                      "type": "ThemeAttrAndroid",
-                    }
-                  }
-                  onClick={[Function]}
-                  onResponderGrant={[Function]}
-                  onResponderMove={[Function]}
-                  onResponderRelease={[Function]}
-                  onResponderTerminate={[Function]}
-                  onResponderTerminationRequest={[Function]}
-                  onStartShouldSetResponder={[Function]}
-                >
-                  <Text
-                    style={
-                      Array [
-                        Object {
-                          "color": "#1AB775",
-                          "fontFamily": "Inter-SemiBold",
-                          "fontSize": 16,
-                          "lineHeight": 22,
-                        },
-                        Object {
-                          "color": "#9CA4A9",
-                          "paddingTop": 16,
-                        },
-                      ]
-                    }
-                  >
-                    cancel
-                  </Text>
-                </View>
-                <View
-                  accessible={true}
-                  focusable={true}
-                  nativeBackgroundAndroid={
-                    Object {
-                      "attribute": "selectableItemBackgroundBorderless",
-                      "rippleRadius": undefined,
-                      "type": "ThemeAttrAndroid",
-                    }
-                  }
-                  onClick={[Function]}
-                  onResponderGrant={[Function]}
-                  onResponderMove={[Function]}
-                  onResponderRelease={[Function]}
-                  onResponderTerminate={[Function]}
-                  onResponderTerminationRequest={[Function]}
-                  onStartShouldSetResponder={[Function]}
-                >
-                  <Text
-                    style={
-                      Array [
-                        Object {
-                          "color": "#1AB775",
-                          "fontFamily": "Inter-SemiBold",
-                          "fontSize": 16,
-                          "lineHeight": 22,
-                        },
-                        Object {
-                          "paddingTop": 16,
-                        },
-                      ]
-                    }
-                  >
-                    restartModalSwitchOff.restart
-                  </Text>
-                </View>
-              </View>
-            </View>
-          </RNCSafeAreaView>
-        </View>
-      </Modal>
-      <Modal
-        animationType="none"
-        hardwareAccelerated={false}
-        hideModalContentWhileAnimating={false}
-        onModalHide={[Function]}
-        onModalWillHide={[Function]}
-        onModalWillShow={[Function]}
-        onRequestClose={[Function]}
-        scrollHorizontal={false}
-        scrollOffset={0}
-        scrollOffsetMax={0}
-        scrollTo={null}
-        statusBarTranslucent={true}
-        supportedOrientations={
-          Array [
-            "portrait",
-            "landscape",
-          ]
-        }
-        swipeThreshold={100}
-        transparent={true}
-        visible={false}
-      >
-        <View
-          accessible={true}
-          collapsable={false}
-          focusable={true}
-          forwardedRef={[Function]}
-          nativeID="animatedComponent"
-          onClick={[Function]}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
-          style={
-            Object {
-              "backgroundColor": "black",
-              "bottom": 0,
-              "height": 1334,
-              "left": 0,
-              "opacity": 0,
-              "position": "absolute",
-              "right": 0,
-              "top": 0,
-              "width": 750,
-            }
-          }
-        />
-        <View
-          collapsable={false}
-          forwardedRef={[Function]}
-          hideModalContentWhileAnimating={false}
-          nativeID="animatedComponent"
-          onModalHide={[Function]}
-          onModalWillHide={[Function]}
-          onModalWillShow={[Function]}
-          pointerEvents="box-none"
-          scrollHorizontal={false}
-          scrollOffset={0}
-          scrollOffsetMax={0}
-          scrollTo={null}
-          statusBarTranslucent={true}
-          style={
-            Object {
-              "flex": 1,
-              "justifyContent": "center",
-              "margin": 37.5,
-              "transform": Array [
-                Object {
-                  "translateY": 0,
-                },
-              ],
-            }
-          }
-          supportedOrientations={
-            Array [
-              "portrait",
-              "landscape",
-            ]
-          }
-          swipeThreshold={100}
-        >
-          <RNCSafeAreaView>
-            <View
-              style={
-                Array [
-                  Object {
-                    "backgroundColor": "#FFFFFF",
-                    "padding": 16,
-                  },
-                  Object {
-                    "borderRadius": 8,
-                  },
-                  Object {
-                    "elevation": 12,
-                    "shadowColor": "rgba(156, 164, 169, 0.4)",
-                    "shadowOffset": Object {
-                      "height": 2,
-                      "width": 0,
-                    },
-                    "shadowOpacity": 1,
-                    "shadowRadius": 12,
-                  },
-                  Array [
-                    Object {
-                      "backgroundColor": "#FFFFFF",
-                      "maxHeight": "100%",
-                      "padding": 24,
-                    },
-                    undefined,
-                  ],
-                ]
-              }
-            >
-              <RCTScrollView
-                contentContainerStyle={
-                  Object {
-                    "alignItems": "center",
-                  }
-                }
-              >
-                <View>
-                  <Text
-                    style={
-                      Object {
-                        "color": "#2E3338",
-                        "fontFamily": "Jost-Medium",
-                        "fontSize": 22,
-                        "lineHeight": 28,
-                        "marginBottom": 12,
-                        "textAlign": "center",
-                      }
-                    }
-                  >
-                    promptFornoModal.header
-                  </Text>
-                  <Text
-                    style={
-                      Object {
-                        "color": "#2E3338",
-                        "fontFamily": "Inter-Regular",
-                        "fontSize": 16,
-                        "lineHeight": 22,
-                        "marginBottom": 24,
-                        "textAlign": "center",
-                      }
-                    }
-                  >
-                    promptFornoModal.body
-                  </Text>
-                </View>
-              </RCTScrollView>
-              <View
-                style={
-                  Object {
-                    "flexDirection": "row",
-                    "flexWrap": "wrap",
-                    "justifyContent": "space-around",
-                    "maxWidth": "100%",
-                  }
-                }
-              >
-                <View
-                  accessible={true}
-                  focusable={true}
-                  nativeBackgroundAndroid={
-                    Object {
-                      "attribute": "selectableItemBackgroundBorderless",
-                      "rippleRadius": undefined,
-                      "type": "ThemeAttrAndroid",
-                    }
-                  }
-                  onClick={[Function]}
-                  onResponderGrant={[Function]}
-                  onResponderMove={[Function]}
-                  onResponderRelease={[Function]}
-                  onResponderTerminate={[Function]}
-                  onResponderTerminationRequest={[Function]}
-                  onStartShouldSetResponder={[Function]}
-                >
-                  <Text
-                    style={
-                      Array [
-                        Object {
-                          "color": "#1AB775",
-                          "fontFamily": "Inter-SemiBold",
-                          "fontSize": 16,
-                          "lineHeight": 22,
-                        },
-                        Object {
-                          "color": "#9CA4A9",
-                          "paddingTop": 16,
-                        },
-                      ]
-                    }
-                  >
-                    goBack
-                  </Text>
-                </View>
-                <View
-                  accessible={true}
-                  focusable={true}
-                  nativeBackgroundAndroid={
-                    Object {
-                      "attribute": "selectableItemBackgroundBorderless",
-                      "rippleRadius": undefined,
-                      "type": "ThemeAttrAndroid",
-                    }
-                  }
-                  onClick={[Function]}
-                  onResponderGrant={[Function]}
-                  onResponderMove={[Function]}
-                  onResponderRelease={[Function]}
-                  onResponderTerminate={[Function]}
-                  onResponderTerminationRequest={[Function]}
-                  onStartShouldSetResponder={[Function]}
-                >
-                  <Text
-                    style={
-                      Array [
-                        Object {
-                          "color": "#1AB775",
-                          "fontFamily": "Inter-SemiBold",
-                          "fontSize": 16,
-                          "lineHeight": 22,
-                        },
-                        Object {
-                          "paddingTop": 16,
-                        },
-                      ]
-                    }
-                  >
-                    promptFornoModal.switchToDataSaver
-                  </Text>
-                </View>
-              </View>
-            </View>
-          </RNCSafeAreaView>
-        </View>
-      </Modal>
-      <Modal
-        animationType="none"
-        hardwareAccelerated={false}
-        hideModalContentWhileAnimating={false}
-        onModalHide={[Function]}
-        onModalWillHide={[Function]}
-        onModalWillShow={[Function]}
-        onRequestClose={[Function]}
+        panResponderThreshold={4}
         scrollHorizontal={false}
         scrollOffset={0}
         scrollOffsetMax={0}
@@ -4483,12 +3581,16 @@ exports[`Account renders correctly when dev mode active 1`] = `
         />
         <View
           collapsable={false}
+          deviceHeight={null}
+          deviceWidth={null}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
           nativeID="animatedComponent"
+          onBackdropPress={[Function]}
           onModalHide={[Function]}
           onModalWillHide={[Function]}
           onModalWillShow={[Function]}
+          panResponderThreshold={4}
           pointerEvents="box-none"
           scrollHorizontal={false}
           scrollOffset={0}
@@ -4514,7 +3616,6 @@ exports[`Account renders correctly when dev mode active 1`] = `
             ]
           }
           swipeThreshold={100}
-          testID="RemoveAccountModal"
         >
           <RNCSafeAreaView>
             <View
@@ -4682,12 +3783,16 @@ exports[`Account renders correctly when dev mode active 1`] = `
       </Modal>
       <Modal
         animationType="none"
+        deviceHeight={null}
+        deviceWidth={null}
         hardwareAccelerated={false}
         hideModalContentWhileAnimating={false}
+        onBackdropPress={[Function]}
         onModalHide={[Function]}
         onModalWillHide={[Function]}
         onModalWillShow={[Function]}
         onRequestClose={[Function]}
+        panResponderThreshold={4}
         scrollHorizontal={false}
         scrollOffset={0}
         scrollOffsetMax={0}
@@ -4733,12 +3838,16 @@ exports[`Account renders correctly when dev mode active 1`] = `
         />
         <View
           collapsable={false}
+          deviceHeight={null}
+          deviceWidth={null}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
           nativeID="animatedComponent"
+          onBackdropPress={[Function]}
           onModalHide={[Function]}
           onModalWillHide={[Function]}
           onModalWillShow={[Function]}
+          panResponderThreshold={4}
           pointerEvents="box-none"
           scrollHorizontal={false}
           scrollOffset={0}
@@ -4764,7 +3873,6 @@ exports[`Account renders correctly when dev mode active 1`] = `
             ]
           }
           swipeThreshold={100}
-          testID="ConfirmAccountRemovalModal"
         >
           <RNCSafeAreaView>
             <View
@@ -4928,12 +4036,16 @@ exports[`Account renders correctly when dev mode active 1`] = `
       </Modal>
       <Modal
         animationType="none"
+        deviceHeight={null}
+        deviceWidth={null}
         hardwareAccelerated={false}
         hideModalContentWhileAnimating={false}
+        onBackdropPress={[Function]}
         onModalHide={[Function]}
         onModalWillHide={[Function]}
         onModalWillShow={[Function]}
         onRequestClose={[Function]}
+        panResponderThreshold={4}
         scrollHorizontal={false}
         scrollOffset={0}
         scrollOffsetMax={0}
@@ -4979,12 +4091,16 @@ exports[`Account renders correctly when dev mode active 1`] = `
         />
         <View
           collapsable={false}
+          deviceHeight={null}
+          deviceWidth={null}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
           nativeID="animatedComponent"
+          onBackdropPress={[Function]}
           onModalHide={[Function]}
           onModalWillHide={[Function]}
           onModalWillShow={[Function]}
+          panResponderThreshold={4}
           pointerEvents="box-none"
           scrollHorizontal={false}
           scrollOffset={0}
@@ -5010,7 +4126,6 @@ exports[`Account renders correctly when dev mode active 1`] = `
             ]
           }
           swipeThreshold={100}
-          testID="ConfirmAccountRevokeModal"
         >
           <RNCSafeAreaView>
             <View
@@ -5408,6 +4523,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
             onResponderTerminate={[Function]}
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
+            testID="ChangeLanguage"
           >
             <View
               style={
@@ -5470,7 +4586,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
                         "marginRight": 8,
                       }
                     }
-                    testID="languageSettings/value"
+                    testID="ChangeLanguage/value"
                   >
                     unknown
                   </Text>
@@ -5520,6 +4636,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
             onResponderTerminate={[Function]}
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
+            testID="ChangeCurrency"
           >
             <View
               style={
@@ -5582,7 +4699,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
                         "marginRight": 8,
                       }
                     }
-                    testID="localCurrencySetting/value"
+                    testID="ChangeCurrency/value"
                   >
                     PHP
                   </Text>
@@ -6296,496 +5413,16 @@ exports[`Account renders correctly when verification is not possible 1`] = `
       </View>
       <Modal
         animationType="none"
+        deviceHeight={null}
+        deviceWidth={null}
         hardwareAccelerated={false}
         hideModalContentWhileAnimating={false}
+        onBackdropPress={[Function]}
         onModalHide={[Function]}
         onModalWillHide={[Function]}
         onModalWillShow={[Function]}
         onRequestClose={[Function]}
-        scrollHorizontal={false}
-        scrollOffset={0}
-        scrollOffsetMax={0}
-        scrollTo={null}
-        statusBarTranslucent={true}
-        supportedOrientations={
-          Array [
-            "portrait",
-            "landscape",
-          ]
-        }
-        swipeThreshold={100}
-        transparent={true}
-        visible={false}
-      >
-        <View
-          accessible={true}
-          collapsable={false}
-          focusable={true}
-          forwardedRef={[Function]}
-          nativeID="animatedComponent"
-          onClick={[Function]}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
-          style={
-            Object {
-              "backgroundColor": "black",
-              "bottom": 0,
-              "height": 1334,
-              "left": 0,
-              "opacity": 0,
-              "position": "absolute",
-              "right": 0,
-              "top": 0,
-              "width": 750,
-            }
-          }
-        />
-        <View
-          collapsable={false}
-          forwardedRef={[Function]}
-          hideModalContentWhileAnimating={false}
-          nativeID="animatedComponent"
-          onModalHide={[Function]}
-          onModalWillHide={[Function]}
-          onModalWillShow={[Function]}
-          pointerEvents="box-none"
-          scrollHorizontal={false}
-          scrollOffset={0}
-          scrollOffsetMax={0}
-          scrollTo={null}
-          statusBarTranslucent={true}
-          style={
-            Object {
-              "flex": 1,
-              "justifyContent": "center",
-              "margin": 37.5,
-              "transform": Array [
-                Object {
-                  "translateY": 0,
-                },
-              ],
-            }
-          }
-          supportedOrientations={
-            Array [
-              "portrait",
-              "landscape",
-            ]
-          }
-          swipeThreshold={100}
-        >
-          <RNCSafeAreaView>
-            <View
-              style={
-                Array [
-                  Object {
-                    "backgroundColor": "#FFFFFF",
-                    "padding": 16,
-                  },
-                  Object {
-                    "borderRadius": 8,
-                  },
-                  Object {
-                    "elevation": 12,
-                    "shadowColor": "rgba(156, 164, 169, 0.4)",
-                    "shadowOffset": Object {
-                      "height": 2,
-                      "width": 0,
-                    },
-                    "shadowOpacity": 1,
-                    "shadowRadius": 12,
-                  },
-                  Array [
-                    Object {
-                      "backgroundColor": "#FFFFFF",
-                      "maxHeight": "100%",
-                      "padding": 24,
-                    },
-                    undefined,
-                  ],
-                ]
-              }
-            >
-              <RCTScrollView
-                contentContainerStyle={
-                  Object {
-                    "alignItems": "center",
-                  }
-                }
-              >
-                <View>
-                  <Text
-                    style={
-                      Object {
-                        "color": "#2E3338",
-                        "fontFamily": "Jost-Medium",
-                        "fontSize": 22,
-                        "lineHeight": 28,
-                        "marginBottom": 12,
-                        "textAlign": "center",
-                      }
-                    }
-                  >
-                    restartModalSwitchOff.header
-                  </Text>
-                  <Text
-                    style={
-                      Object {
-                        "color": "#2E3338",
-                        "fontFamily": "Inter-Regular",
-                        "fontSize": 16,
-                        "lineHeight": 22,
-                        "marginBottom": 24,
-                        "textAlign": "center",
-                      }
-                    }
-                  >
-                    restartModalSwitchOff.body
-                  </Text>
-                </View>
-              </RCTScrollView>
-              <View
-                style={
-                  Object {
-                    "flexDirection": "row",
-                    "flexWrap": "wrap",
-                    "justifyContent": "space-around",
-                    "maxWidth": "100%",
-                  }
-                }
-              >
-                <View
-                  accessible={true}
-                  focusable={true}
-                  nativeBackgroundAndroid={
-                    Object {
-                      "attribute": "selectableItemBackgroundBorderless",
-                      "rippleRadius": undefined,
-                      "type": "ThemeAttrAndroid",
-                    }
-                  }
-                  onClick={[Function]}
-                  onResponderGrant={[Function]}
-                  onResponderMove={[Function]}
-                  onResponderRelease={[Function]}
-                  onResponderTerminate={[Function]}
-                  onResponderTerminationRequest={[Function]}
-                  onStartShouldSetResponder={[Function]}
-                >
-                  <Text
-                    style={
-                      Array [
-                        Object {
-                          "color": "#1AB775",
-                          "fontFamily": "Inter-SemiBold",
-                          "fontSize": 16,
-                          "lineHeight": 22,
-                        },
-                        Object {
-                          "color": "#9CA4A9",
-                          "paddingTop": 16,
-                        },
-                      ]
-                    }
-                  >
-                    cancel
-                  </Text>
-                </View>
-                <View
-                  accessible={true}
-                  focusable={true}
-                  nativeBackgroundAndroid={
-                    Object {
-                      "attribute": "selectableItemBackgroundBorderless",
-                      "rippleRadius": undefined,
-                      "type": "ThemeAttrAndroid",
-                    }
-                  }
-                  onClick={[Function]}
-                  onResponderGrant={[Function]}
-                  onResponderMove={[Function]}
-                  onResponderRelease={[Function]}
-                  onResponderTerminate={[Function]}
-                  onResponderTerminationRequest={[Function]}
-                  onStartShouldSetResponder={[Function]}
-                >
-                  <Text
-                    style={
-                      Array [
-                        Object {
-                          "color": "#1AB775",
-                          "fontFamily": "Inter-SemiBold",
-                          "fontSize": 16,
-                          "lineHeight": 22,
-                        },
-                        Object {
-                          "paddingTop": 16,
-                        },
-                      ]
-                    }
-                  >
-                    restartModalSwitchOff.restart
-                  </Text>
-                </View>
-              </View>
-            </View>
-          </RNCSafeAreaView>
-        </View>
-      </Modal>
-      <Modal
-        animationType="none"
-        hardwareAccelerated={false}
-        hideModalContentWhileAnimating={false}
-        onModalHide={[Function]}
-        onModalWillHide={[Function]}
-        onModalWillShow={[Function]}
-        onRequestClose={[Function]}
-        scrollHorizontal={false}
-        scrollOffset={0}
-        scrollOffsetMax={0}
-        scrollTo={null}
-        statusBarTranslucent={true}
-        supportedOrientations={
-          Array [
-            "portrait",
-            "landscape",
-          ]
-        }
-        swipeThreshold={100}
-        transparent={true}
-        visible={false}
-      >
-        <View
-          accessible={true}
-          collapsable={false}
-          focusable={true}
-          forwardedRef={[Function]}
-          nativeID="animatedComponent"
-          onClick={[Function]}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
-          style={
-            Object {
-              "backgroundColor": "black",
-              "bottom": 0,
-              "height": 1334,
-              "left": 0,
-              "opacity": 0,
-              "position": "absolute",
-              "right": 0,
-              "top": 0,
-              "width": 750,
-            }
-          }
-        />
-        <View
-          collapsable={false}
-          forwardedRef={[Function]}
-          hideModalContentWhileAnimating={false}
-          nativeID="animatedComponent"
-          onModalHide={[Function]}
-          onModalWillHide={[Function]}
-          onModalWillShow={[Function]}
-          pointerEvents="box-none"
-          scrollHorizontal={false}
-          scrollOffset={0}
-          scrollOffsetMax={0}
-          scrollTo={null}
-          statusBarTranslucent={true}
-          style={
-            Object {
-              "flex": 1,
-              "justifyContent": "center",
-              "margin": 37.5,
-              "transform": Array [
-                Object {
-                  "translateY": 0,
-                },
-              ],
-            }
-          }
-          supportedOrientations={
-            Array [
-              "portrait",
-              "landscape",
-            ]
-          }
-          swipeThreshold={100}
-        >
-          <RNCSafeAreaView>
-            <View
-              style={
-                Array [
-                  Object {
-                    "backgroundColor": "#FFFFFF",
-                    "padding": 16,
-                  },
-                  Object {
-                    "borderRadius": 8,
-                  },
-                  Object {
-                    "elevation": 12,
-                    "shadowColor": "rgba(156, 164, 169, 0.4)",
-                    "shadowOffset": Object {
-                      "height": 2,
-                      "width": 0,
-                    },
-                    "shadowOpacity": 1,
-                    "shadowRadius": 12,
-                  },
-                  Array [
-                    Object {
-                      "backgroundColor": "#FFFFFF",
-                      "maxHeight": "100%",
-                      "padding": 24,
-                    },
-                    undefined,
-                  ],
-                ]
-              }
-            >
-              <RCTScrollView
-                contentContainerStyle={
-                  Object {
-                    "alignItems": "center",
-                  }
-                }
-              >
-                <View>
-                  <Text
-                    style={
-                      Object {
-                        "color": "#2E3338",
-                        "fontFamily": "Jost-Medium",
-                        "fontSize": 22,
-                        "lineHeight": 28,
-                        "marginBottom": 12,
-                        "textAlign": "center",
-                      }
-                    }
-                  >
-                    promptFornoModal.header
-                  </Text>
-                  <Text
-                    style={
-                      Object {
-                        "color": "#2E3338",
-                        "fontFamily": "Inter-Regular",
-                        "fontSize": 16,
-                        "lineHeight": 22,
-                        "marginBottom": 24,
-                        "textAlign": "center",
-                      }
-                    }
-                  >
-                    promptFornoModal.body
-                  </Text>
-                </View>
-              </RCTScrollView>
-              <View
-                style={
-                  Object {
-                    "flexDirection": "row",
-                    "flexWrap": "wrap",
-                    "justifyContent": "space-around",
-                    "maxWidth": "100%",
-                  }
-                }
-              >
-                <View
-                  accessible={true}
-                  focusable={true}
-                  nativeBackgroundAndroid={
-                    Object {
-                      "attribute": "selectableItemBackgroundBorderless",
-                      "rippleRadius": undefined,
-                      "type": "ThemeAttrAndroid",
-                    }
-                  }
-                  onClick={[Function]}
-                  onResponderGrant={[Function]}
-                  onResponderMove={[Function]}
-                  onResponderRelease={[Function]}
-                  onResponderTerminate={[Function]}
-                  onResponderTerminationRequest={[Function]}
-                  onStartShouldSetResponder={[Function]}
-                >
-                  <Text
-                    style={
-                      Array [
-                        Object {
-                          "color": "#1AB775",
-                          "fontFamily": "Inter-SemiBold",
-                          "fontSize": 16,
-                          "lineHeight": 22,
-                        },
-                        Object {
-                          "color": "#9CA4A9",
-                          "paddingTop": 16,
-                        },
-                      ]
-                    }
-                  >
-                    goBack
-                  </Text>
-                </View>
-                <View
-                  accessible={true}
-                  focusable={true}
-                  nativeBackgroundAndroid={
-                    Object {
-                      "attribute": "selectableItemBackgroundBorderless",
-                      "rippleRadius": undefined,
-                      "type": "ThemeAttrAndroid",
-                    }
-                  }
-                  onClick={[Function]}
-                  onResponderGrant={[Function]}
-                  onResponderMove={[Function]}
-                  onResponderRelease={[Function]}
-                  onResponderTerminate={[Function]}
-                  onResponderTerminationRequest={[Function]}
-                  onStartShouldSetResponder={[Function]}
-                >
-                  <Text
-                    style={
-                      Array [
-                        Object {
-                          "color": "#1AB775",
-                          "fontFamily": "Inter-SemiBold",
-                          "fontSize": 16,
-                          "lineHeight": 22,
-                        },
-                        Object {
-                          "paddingTop": 16,
-                        },
-                      ]
-                    }
-                  >
-                    promptFornoModal.switchToDataSaver
-                  </Text>
-                </View>
-              </View>
-            </View>
-          </RNCSafeAreaView>
-        </View>
-      </Modal>
-      <Modal
-        animationType="none"
-        hardwareAccelerated={false}
-        hideModalContentWhileAnimating={false}
-        onModalHide={[Function]}
-        onModalWillHide={[Function]}
-        onModalWillShow={[Function]}
-        onRequestClose={[Function]}
+        panResponderThreshold={4}
         scrollHorizontal={false}
         scrollOffset={0}
         scrollOffsetMax={0}
@@ -6831,12 +5468,16 @@ exports[`Account renders correctly when verification is not possible 1`] = `
         />
         <View
           collapsable={false}
+          deviceHeight={null}
+          deviceWidth={null}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
           nativeID="animatedComponent"
+          onBackdropPress={[Function]}
           onModalHide={[Function]}
           onModalWillHide={[Function]}
           onModalWillShow={[Function]}
+          panResponderThreshold={4}
           pointerEvents="box-none"
           scrollHorizontal={false}
           scrollOffset={0}
@@ -6862,7 +5503,6 @@ exports[`Account renders correctly when verification is not possible 1`] = `
             ]
           }
           swipeThreshold={100}
-          testID="RemoveAccountModal"
         >
           <RNCSafeAreaView>
             <View
@@ -7030,12 +5670,16 @@ exports[`Account renders correctly when verification is not possible 1`] = `
       </Modal>
       <Modal
         animationType="none"
+        deviceHeight={null}
+        deviceWidth={null}
         hardwareAccelerated={false}
         hideModalContentWhileAnimating={false}
+        onBackdropPress={[Function]}
         onModalHide={[Function]}
         onModalWillHide={[Function]}
         onModalWillShow={[Function]}
         onRequestClose={[Function]}
+        panResponderThreshold={4}
         scrollHorizontal={false}
         scrollOffset={0}
         scrollOffsetMax={0}
@@ -7081,12 +5725,16 @@ exports[`Account renders correctly when verification is not possible 1`] = `
         />
         <View
           collapsable={false}
+          deviceHeight={null}
+          deviceWidth={null}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
           nativeID="animatedComponent"
+          onBackdropPress={[Function]}
           onModalHide={[Function]}
           onModalWillHide={[Function]}
           onModalWillShow={[Function]}
+          panResponderThreshold={4}
           pointerEvents="box-none"
           scrollHorizontal={false}
           scrollOffset={0}
@@ -7112,7 +5760,6 @@ exports[`Account renders correctly when verification is not possible 1`] = `
             ]
           }
           swipeThreshold={100}
-          testID="ConfirmAccountRemovalModal"
         >
           <RNCSafeAreaView>
             <View
@@ -7276,12 +5923,16 @@ exports[`Account renders correctly when verification is not possible 1`] = `
       </Modal>
       <Modal
         animationType="none"
+        deviceHeight={null}
+        deviceWidth={null}
         hardwareAccelerated={false}
         hideModalContentWhileAnimating={false}
+        onBackdropPress={[Function]}
         onModalHide={[Function]}
         onModalWillHide={[Function]}
         onModalWillShow={[Function]}
         onRequestClose={[Function]}
+        panResponderThreshold={4}
         scrollHorizontal={false}
         scrollOffset={0}
         scrollOffsetMax={0}
@@ -7327,12 +5978,16 @@ exports[`Account renders correctly when verification is not possible 1`] = `
         />
         <View
           collapsable={false}
+          deviceHeight={null}
+          deviceWidth={null}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
           nativeID="animatedComponent"
+          onBackdropPress={[Function]}
           onModalHide={[Function]}
           onModalWillHide={[Function]}
           onModalWillShow={[Function]}
+          panResponderThreshold={4}
           pointerEvents="box-none"
           scrollHorizontal={false}
           scrollOffset={0}
@@ -7358,7 +6013,6 @@ exports[`Account renders correctly when verification is not possible 1`] = `
             ]
           }
           swipeThreshold={100}
-          testID="ConfirmAccountRevokeModal"
         >
           <RNCSafeAreaView>
             <View
@@ -7756,6 +6410,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
             onResponderTerminate={[Function]}
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
+            testID="ChangeLanguage"
           >
             <View
               style={
@@ -7818,7 +6473,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
                         "marginRight": 8,
                       }
                     }
-                    testID="languageSettings/value"
+                    testID="ChangeLanguage/value"
                   >
                     unknown
                   </Text>
@@ -7868,6 +6523,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
             onResponderTerminate={[Function]}
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
+            testID="ChangeCurrency"
           >
             <View
               style={
@@ -7930,7 +6586,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
                         "marginRight": 8,
                       }
                     }
-                    testID="localCurrencySetting/value"
+                    testID="ChangeCurrency/value"
                   >
                     PHP
                   </Text>
@@ -8644,496 +7300,16 @@ exports[`Account renders correctly when verification is not possible 2`] = `
       </View>
       <Modal
         animationType="none"
+        deviceHeight={null}
+        deviceWidth={null}
         hardwareAccelerated={false}
         hideModalContentWhileAnimating={false}
+        onBackdropPress={[Function]}
         onModalHide={[Function]}
         onModalWillHide={[Function]}
         onModalWillShow={[Function]}
         onRequestClose={[Function]}
-        scrollHorizontal={false}
-        scrollOffset={0}
-        scrollOffsetMax={0}
-        scrollTo={null}
-        statusBarTranslucent={true}
-        supportedOrientations={
-          Array [
-            "portrait",
-            "landscape",
-          ]
-        }
-        swipeThreshold={100}
-        transparent={true}
-        visible={false}
-      >
-        <View
-          accessible={true}
-          collapsable={false}
-          focusable={true}
-          forwardedRef={[Function]}
-          nativeID="animatedComponent"
-          onClick={[Function]}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
-          style={
-            Object {
-              "backgroundColor": "black",
-              "bottom": 0,
-              "height": 1334,
-              "left": 0,
-              "opacity": 0,
-              "position": "absolute",
-              "right": 0,
-              "top": 0,
-              "width": 750,
-            }
-          }
-        />
-        <View
-          collapsable={false}
-          forwardedRef={[Function]}
-          hideModalContentWhileAnimating={false}
-          nativeID="animatedComponent"
-          onModalHide={[Function]}
-          onModalWillHide={[Function]}
-          onModalWillShow={[Function]}
-          pointerEvents="box-none"
-          scrollHorizontal={false}
-          scrollOffset={0}
-          scrollOffsetMax={0}
-          scrollTo={null}
-          statusBarTranslucent={true}
-          style={
-            Object {
-              "flex": 1,
-              "justifyContent": "center",
-              "margin": 37.5,
-              "transform": Array [
-                Object {
-                  "translateY": 0,
-                },
-              ],
-            }
-          }
-          supportedOrientations={
-            Array [
-              "portrait",
-              "landscape",
-            ]
-          }
-          swipeThreshold={100}
-        >
-          <RNCSafeAreaView>
-            <View
-              style={
-                Array [
-                  Object {
-                    "backgroundColor": "#FFFFFF",
-                    "padding": 16,
-                  },
-                  Object {
-                    "borderRadius": 8,
-                  },
-                  Object {
-                    "elevation": 12,
-                    "shadowColor": "rgba(156, 164, 169, 0.4)",
-                    "shadowOffset": Object {
-                      "height": 2,
-                      "width": 0,
-                    },
-                    "shadowOpacity": 1,
-                    "shadowRadius": 12,
-                  },
-                  Array [
-                    Object {
-                      "backgroundColor": "#FFFFFF",
-                      "maxHeight": "100%",
-                      "padding": 24,
-                    },
-                    undefined,
-                  ],
-                ]
-              }
-            >
-              <RCTScrollView
-                contentContainerStyle={
-                  Object {
-                    "alignItems": "center",
-                  }
-                }
-              >
-                <View>
-                  <Text
-                    style={
-                      Object {
-                        "color": "#2E3338",
-                        "fontFamily": "Jost-Medium",
-                        "fontSize": 22,
-                        "lineHeight": 28,
-                        "marginBottom": 12,
-                        "textAlign": "center",
-                      }
-                    }
-                  >
-                    restartModalSwitchOff.header
-                  </Text>
-                  <Text
-                    style={
-                      Object {
-                        "color": "#2E3338",
-                        "fontFamily": "Inter-Regular",
-                        "fontSize": 16,
-                        "lineHeight": 22,
-                        "marginBottom": 24,
-                        "textAlign": "center",
-                      }
-                    }
-                  >
-                    restartModalSwitchOff.body
-                  </Text>
-                </View>
-              </RCTScrollView>
-              <View
-                style={
-                  Object {
-                    "flexDirection": "row",
-                    "flexWrap": "wrap",
-                    "justifyContent": "space-around",
-                    "maxWidth": "100%",
-                  }
-                }
-              >
-                <View
-                  accessible={true}
-                  focusable={true}
-                  nativeBackgroundAndroid={
-                    Object {
-                      "attribute": "selectableItemBackgroundBorderless",
-                      "rippleRadius": undefined,
-                      "type": "ThemeAttrAndroid",
-                    }
-                  }
-                  onClick={[Function]}
-                  onResponderGrant={[Function]}
-                  onResponderMove={[Function]}
-                  onResponderRelease={[Function]}
-                  onResponderTerminate={[Function]}
-                  onResponderTerminationRequest={[Function]}
-                  onStartShouldSetResponder={[Function]}
-                >
-                  <Text
-                    style={
-                      Array [
-                        Object {
-                          "color": "#1AB775",
-                          "fontFamily": "Inter-SemiBold",
-                          "fontSize": 16,
-                          "lineHeight": 22,
-                        },
-                        Object {
-                          "color": "#9CA4A9",
-                          "paddingTop": 16,
-                        },
-                      ]
-                    }
-                  >
-                    cancel
-                  </Text>
-                </View>
-                <View
-                  accessible={true}
-                  focusable={true}
-                  nativeBackgroundAndroid={
-                    Object {
-                      "attribute": "selectableItemBackgroundBorderless",
-                      "rippleRadius": undefined,
-                      "type": "ThemeAttrAndroid",
-                    }
-                  }
-                  onClick={[Function]}
-                  onResponderGrant={[Function]}
-                  onResponderMove={[Function]}
-                  onResponderRelease={[Function]}
-                  onResponderTerminate={[Function]}
-                  onResponderTerminationRequest={[Function]}
-                  onStartShouldSetResponder={[Function]}
-                >
-                  <Text
-                    style={
-                      Array [
-                        Object {
-                          "color": "#1AB775",
-                          "fontFamily": "Inter-SemiBold",
-                          "fontSize": 16,
-                          "lineHeight": 22,
-                        },
-                        Object {
-                          "paddingTop": 16,
-                        },
-                      ]
-                    }
-                  >
-                    restartModalSwitchOff.restart
-                  </Text>
-                </View>
-              </View>
-            </View>
-          </RNCSafeAreaView>
-        </View>
-      </Modal>
-      <Modal
-        animationType="none"
-        hardwareAccelerated={false}
-        hideModalContentWhileAnimating={false}
-        onModalHide={[Function]}
-        onModalWillHide={[Function]}
-        onModalWillShow={[Function]}
-        onRequestClose={[Function]}
-        scrollHorizontal={false}
-        scrollOffset={0}
-        scrollOffsetMax={0}
-        scrollTo={null}
-        statusBarTranslucent={true}
-        supportedOrientations={
-          Array [
-            "portrait",
-            "landscape",
-          ]
-        }
-        swipeThreshold={100}
-        transparent={true}
-        visible={false}
-      >
-        <View
-          accessible={true}
-          collapsable={false}
-          focusable={true}
-          forwardedRef={[Function]}
-          nativeID="animatedComponent"
-          onClick={[Function]}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
-          style={
-            Object {
-              "backgroundColor": "black",
-              "bottom": 0,
-              "height": 1334,
-              "left": 0,
-              "opacity": 0,
-              "position": "absolute",
-              "right": 0,
-              "top": 0,
-              "width": 750,
-            }
-          }
-        />
-        <View
-          collapsable={false}
-          forwardedRef={[Function]}
-          hideModalContentWhileAnimating={false}
-          nativeID="animatedComponent"
-          onModalHide={[Function]}
-          onModalWillHide={[Function]}
-          onModalWillShow={[Function]}
-          pointerEvents="box-none"
-          scrollHorizontal={false}
-          scrollOffset={0}
-          scrollOffsetMax={0}
-          scrollTo={null}
-          statusBarTranslucent={true}
-          style={
-            Object {
-              "flex": 1,
-              "justifyContent": "center",
-              "margin": 37.5,
-              "transform": Array [
-                Object {
-                  "translateY": 0,
-                },
-              ],
-            }
-          }
-          supportedOrientations={
-            Array [
-              "portrait",
-              "landscape",
-            ]
-          }
-          swipeThreshold={100}
-        >
-          <RNCSafeAreaView>
-            <View
-              style={
-                Array [
-                  Object {
-                    "backgroundColor": "#FFFFFF",
-                    "padding": 16,
-                  },
-                  Object {
-                    "borderRadius": 8,
-                  },
-                  Object {
-                    "elevation": 12,
-                    "shadowColor": "rgba(156, 164, 169, 0.4)",
-                    "shadowOffset": Object {
-                      "height": 2,
-                      "width": 0,
-                    },
-                    "shadowOpacity": 1,
-                    "shadowRadius": 12,
-                  },
-                  Array [
-                    Object {
-                      "backgroundColor": "#FFFFFF",
-                      "maxHeight": "100%",
-                      "padding": 24,
-                    },
-                    undefined,
-                  ],
-                ]
-              }
-            >
-              <RCTScrollView
-                contentContainerStyle={
-                  Object {
-                    "alignItems": "center",
-                  }
-                }
-              >
-                <View>
-                  <Text
-                    style={
-                      Object {
-                        "color": "#2E3338",
-                        "fontFamily": "Jost-Medium",
-                        "fontSize": 22,
-                        "lineHeight": 28,
-                        "marginBottom": 12,
-                        "textAlign": "center",
-                      }
-                    }
-                  >
-                    promptFornoModal.header
-                  </Text>
-                  <Text
-                    style={
-                      Object {
-                        "color": "#2E3338",
-                        "fontFamily": "Inter-Regular",
-                        "fontSize": 16,
-                        "lineHeight": 22,
-                        "marginBottom": 24,
-                        "textAlign": "center",
-                      }
-                    }
-                  >
-                    promptFornoModal.body
-                  </Text>
-                </View>
-              </RCTScrollView>
-              <View
-                style={
-                  Object {
-                    "flexDirection": "row",
-                    "flexWrap": "wrap",
-                    "justifyContent": "space-around",
-                    "maxWidth": "100%",
-                  }
-                }
-              >
-                <View
-                  accessible={true}
-                  focusable={true}
-                  nativeBackgroundAndroid={
-                    Object {
-                      "attribute": "selectableItemBackgroundBorderless",
-                      "rippleRadius": undefined,
-                      "type": "ThemeAttrAndroid",
-                    }
-                  }
-                  onClick={[Function]}
-                  onResponderGrant={[Function]}
-                  onResponderMove={[Function]}
-                  onResponderRelease={[Function]}
-                  onResponderTerminate={[Function]}
-                  onResponderTerminationRequest={[Function]}
-                  onStartShouldSetResponder={[Function]}
-                >
-                  <Text
-                    style={
-                      Array [
-                        Object {
-                          "color": "#1AB775",
-                          "fontFamily": "Inter-SemiBold",
-                          "fontSize": 16,
-                          "lineHeight": 22,
-                        },
-                        Object {
-                          "color": "#9CA4A9",
-                          "paddingTop": 16,
-                        },
-                      ]
-                    }
-                  >
-                    goBack
-                  </Text>
-                </View>
-                <View
-                  accessible={true}
-                  focusable={true}
-                  nativeBackgroundAndroid={
-                    Object {
-                      "attribute": "selectableItemBackgroundBorderless",
-                      "rippleRadius": undefined,
-                      "type": "ThemeAttrAndroid",
-                    }
-                  }
-                  onClick={[Function]}
-                  onResponderGrant={[Function]}
-                  onResponderMove={[Function]}
-                  onResponderRelease={[Function]}
-                  onResponderTerminate={[Function]}
-                  onResponderTerminationRequest={[Function]}
-                  onStartShouldSetResponder={[Function]}
-                >
-                  <Text
-                    style={
-                      Array [
-                        Object {
-                          "color": "#1AB775",
-                          "fontFamily": "Inter-SemiBold",
-                          "fontSize": 16,
-                          "lineHeight": 22,
-                        },
-                        Object {
-                          "paddingTop": 16,
-                        },
-                      ]
-                    }
-                  >
-                    promptFornoModal.switchToDataSaver
-                  </Text>
-                </View>
-              </View>
-            </View>
-          </RNCSafeAreaView>
-        </View>
-      </Modal>
-      <Modal
-        animationType="none"
-        hardwareAccelerated={false}
-        hideModalContentWhileAnimating={false}
-        onModalHide={[Function]}
-        onModalWillHide={[Function]}
-        onModalWillShow={[Function]}
-        onRequestClose={[Function]}
+        panResponderThreshold={4}
         scrollHorizontal={false}
         scrollOffset={0}
         scrollOffsetMax={0}
@@ -9179,12 +7355,16 @@ exports[`Account renders correctly when verification is not possible 2`] = `
         />
         <View
           collapsable={false}
+          deviceHeight={null}
+          deviceWidth={null}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
           nativeID="animatedComponent"
+          onBackdropPress={[Function]}
           onModalHide={[Function]}
           onModalWillHide={[Function]}
           onModalWillShow={[Function]}
+          panResponderThreshold={4}
           pointerEvents="box-none"
           scrollHorizontal={false}
           scrollOffset={0}
@@ -9210,7 +7390,6 @@ exports[`Account renders correctly when verification is not possible 2`] = `
             ]
           }
           swipeThreshold={100}
-          testID="RemoveAccountModal"
         >
           <RNCSafeAreaView>
             <View
@@ -9378,12 +7557,16 @@ exports[`Account renders correctly when verification is not possible 2`] = `
       </Modal>
       <Modal
         animationType="none"
+        deviceHeight={null}
+        deviceWidth={null}
         hardwareAccelerated={false}
         hideModalContentWhileAnimating={false}
+        onBackdropPress={[Function]}
         onModalHide={[Function]}
         onModalWillHide={[Function]}
         onModalWillShow={[Function]}
         onRequestClose={[Function]}
+        panResponderThreshold={4}
         scrollHorizontal={false}
         scrollOffset={0}
         scrollOffsetMax={0}
@@ -9429,12 +7612,16 @@ exports[`Account renders correctly when verification is not possible 2`] = `
         />
         <View
           collapsable={false}
+          deviceHeight={null}
+          deviceWidth={null}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
           nativeID="animatedComponent"
+          onBackdropPress={[Function]}
           onModalHide={[Function]}
           onModalWillHide={[Function]}
           onModalWillShow={[Function]}
+          panResponderThreshold={4}
           pointerEvents="box-none"
           scrollHorizontal={false}
           scrollOffset={0}
@@ -9460,7 +7647,6 @@ exports[`Account renders correctly when verification is not possible 2`] = `
             ]
           }
           swipeThreshold={100}
-          testID="ConfirmAccountRemovalModal"
         >
           <RNCSafeAreaView>
             <View
@@ -9624,12 +7810,16 @@ exports[`Account renders correctly when verification is not possible 2`] = `
       </Modal>
       <Modal
         animationType="none"
+        deviceHeight={null}
+        deviceWidth={null}
         hardwareAccelerated={false}
         hideModalContentWhileAnimating={false}
+        onBackdropPress={[Function]}
         onModalHide={[Function]}
         onModalWillHide={[Function]}
         onModalWillShow={[Function]}
         onRequestClose={[Function]}
+        panResponderThreshold={4}
         scrollHorizontal={false}
         scrollOffset={0}
         scrollOffsetMax={0}
@@ -9675,12 +7865,16 @@ exports[`Account renders correctly when verification is not possible 2`] = `
         />
         <View
           collapsable={false}
+          deviceHeight={null}
+          deviceWidth={null}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
           nativeID="animatedComponent"
+          onBackdropPress={[Function]}
           onModalHide={[Function]}
           onModalWillHide={[Function]}
           onModalWillShow={[Function]}
+          panResponderThreshold={4}
           pointerEvents="box-none"
           scrollHorizontal={false}
           scrollOffset={0}
@@ -9706,7 +7900,6 @@ exports[`Account renders correctly when verification is not possible 2`] = `
             ]
           }
           swipeThreshold={100}
-          testID="ConfirmAccountRevokeModal"
         >
           <RNCSafeAreaView>
             <View

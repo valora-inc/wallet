@@ -2,7 +2,6 @@
 
 exports[`renders correctly 1`] = `
 <RNCSafeAreaView
-  onFinish={[Function]}
   style={
     Array [
       Object {
@@ -108,320 +107,367 @@ exports[`renders correctly 1`] = `
       }
     }
   >
-    <Swiper
-      activeDotStyle={
-        Object {
-          "backgroundColor": "#2E3338",
-          "borderRadius": 5,
-          "flex": 0,
-          "height": 5,
-          "marginHorizontal": 3,
-          "width": 5,
-        }
-      }
-      dotStyle={
-        Object {
-          "backgroundColor": "#9CA4A9",
-          "borderRadius": 5,
-          "flex": 0,
-          "height": 5,
-          "marginHorizontal": 3,
-          "width": 5,
-        }
-      }
-      loop={false}
-      onIndexChanged={[Function]}
-      removeClippedSubviews={false}
+    <RCTScrollView
+      horizontal={true}
+      onScroll={[Function]}
+      pagingEnabled={true}
+      showsHorizontalScrollIndicator={false}
+      testID="ScrollContainer"
     >
-      <RCTScrollView
-        contentContainerStyle={
+      <View>
+        <RCTScrollView
+          contentContainerStyle={
+            Object {
+              "alignItems": "center",
+              "flexGrow": 1,
+              "justifyContent": "center",
+              "paddingHorizontal": 12,
+            }
+          }
+          showsVerticalScrollIndicator={false}
+          style={
+            Object {
+              "margin": 16,
+              "width": 718,
+            }
+          }
+        >
+          <View>
+            <View
+              style={
+                Object {
+                  "flex": 1,
+                  "justifyContent": "center",
+                }
+              }
+            >
+              <Image
+                resizeMode="contain"
+                source={
+                  Object {
+                    "testUri": "../../../src/images/celo-education-1.png",
+                  }
+                }
+                style={
+                  Object {
+                    "alignSelf": "center",
+                    "marginBottom": 24,
+                  }
+                }
+              />
+              <Text
+                style={
+                  Object {
+                    "color": "#2E3338",
+                    "fontFamily": "Jost-Medium",
+                    "fontSize": 22,
+                    "lineHeight": 28,
+                    "marginTop": 24,
+                    "textAlign": "center",
+                  }
+                }
+              >
+                goldEducationSteps.0.title
+              </Text>
+              <Text
+                style={
+                  Object {
+                    "color": "#2E3338",
+                    "fontFamily": "Inter-Regular",
+                    "fontSize": 16,
+                    "lineHeight": 22,
+                    "marginBottom": 24,
+                    "paddingTop": 16,
+                    "textAlign": "center",
+                  }
+                }
+              >
+                goldEducationSteps.0.text
+              </Text>
+            </View>
+          </View>
+        </RCTScrollView>
+        <RCTScrollView
+          contentContainerStyle={
+            Object {
+              "alignItems": "center",
+              "flexGrow": 1,
+              "justifyContent": "center",
+              "paddingHorizontal": 12,
+            }
+          }
+          showsVerticalScrollIndicator={false}
+          style={
+            Object {
+              "margin": 16,
+              "width": 718,
+            }
+          }
+        >
+          <View>
+            <View
+              style={
+                Object {
+                  "flex": 1,
+                  "justifyContent": "center",
+                }
+              }
+            >
+              <Image
+                resizeMode="contain"
+                source={
+                  Object {
+                    "testUri": "../../../src/images/celo-education-2.png",
+                  }
+                }
+                style={
+                  Object {
+                    "alignSelf": "center",
+                    "marginBottom": 24,
+                  }
+                }
+              />
+              <Text
+                style={
+                  Object {
+                    "color": "#2E3338",
+                    "fontFamily": "Jost-Medium",
+                    "fontSize": 22,
+                    "lineHeight": 28,
+                    "marginTop": 24,
+                    "textAlign": "center",
+                  }
+                }
+              >
+                goldEducationSteps.1.title
+              </Text>
+              <Text
+                style={
+                  Object {
+                    "color": "#2E3338",
+                    "fontFamily": "Inter-Regular",
+                    "fontSize": 16,
+                    "lineHeight": 22,
+                    "marginBottom": 24,
+                    "paddingTop": 16,
+                    "textAlign": "center",
+                  }
+                }
+              >
+                goldEducationSteps.1.text
+              </Text>
+            </View>
+          </View>
+        </RCTScrollView>
+        <RCTScrollView
+          contentContainerStyle={
+            Object {
+              "alignItems": "center",
+              "flexGrow": 1,
+              "justifyContent": "center",
+              "paddingHorizontal": 12,
+            }
+          }
+          showsVerticalScrollIndicator={false}
+          style={
+            Object {
+              "margin": 16,
+              "width": 718,
+            }
+          }
+        >
+          <View>
+            <View
+              style={
+                Object {
+                  "flex": 1,
+                  "justifyContent": "center",
+                }
+              }
+            >
+              <Image
+                resizeMode="contain"
+                source={
+                  Object {
+                    "testUri": "../../../src/images/celo-education-3.png",
+                  }
+                }
+                style={
+                  Object {
+                    "alignSelf": "center",
+                    "marginBottom": 24,
+                  }
+                }
+              />
+              <Text
+                style={
+                  Object {
+                    "color": "#2E3338",
+                    "fontFamily": "Jost-Medium",
+                    "fontSize": 22,
+                    "lineHeight": 28,
+                    "marginTop": 24,
+                    "textAlign": "center",
+                  }
+                }
+              >
+                goldEducationSteps.2.title
+              </Text>
+              <Text
+                style={
+                  Object {
+                    "color": "#2E3338",
+                    "fontFamily": "Inter-Regular",
+                    "fontSize": 16,
+                    "lineHeight": 22,
+                    "marginBottom": 24,
+                    "paddingTop": 16,
+                    "textAlign": "center",
+                  }
+                }
+              >
+                goldEducationSteps.2.text
+              </Text>
+            </View>
+          </View>
+        </RCTScrollView>
+        <RCTScrollView
+          contentContainerStyle={
+            Object {
+              "alignItems": "center",
+              "flexGrow": 1,
+              "justifyContent": "center",
+              "paddingHorizontal": 12,
+            }
+          }
+          showsVerticalScrollIndicator={false}
+          style={
+            Object {
+              "margin": 16,
+              "width": 718,
+            }
+          }
+        >
+          <View>
+            <View
+              style={
+                Object {
+                  "flex": 1,
+                  "justifyContent": "center",
+                }
+              }
+            >
+              <Image
+                resizeMode="contain"
+                source={
+                  Object {
+                    "testUri": "../../../src/images/celo-education-4.png",
+                  }
+                }
+                style={
+                  Object {
+                    "alignSelf": "center",
+                    "marginBottom": 24,
+                  }
+                }
+              />
+              <Text
+                style={
+                  Object {
+                    "color": "#2E3338",
+                    "fontFamily": "Jost-Medium",
+                    "fontSize": 22,
+                    "lineHeight": 28,
+                    "marginTop": 24,
+                    "textAlign": "center",
+                  }
+                }
+              >
+                goldEducationSteps.3.title
+              </Text>
+              <Text
+                style={
+                  Object {
+                    "color": "#2E3338",
+                    "fontFamily": "Inter-Regular",
+                    "fontSize": 16,
+                    "lineHeight": 22,
+                    "marginBottom": 24,
+                    "paddingTop": 16,
+                    "textAlign": "center",
+                  }
+                }
+              >
+                goldEducationSteps.3.text
+              </Text>
+            </View>
+          </View>
+        </RCTScrollView>
+      </View>
+    </RCTScrollView>
+    <View
+      style={
+        Array [
           Object {
             "alignItems": "center",
-            "flexGrow": 1,
+            "flexDirection": "row",
             "justifyContent": "center",
-          }
-        }
+          },
+          Object {
+            "paddingBottom": 16,
+          },
+        ]
+      }
+    >
+      <View
         style={
           Object {
-            "flex": 1,
-            "marginBottom": 24,
-            "overflow": "scroll",
-            "paddingHorizontal": 24,
+            "backgroundColor": "#2E3338",
+            "borderRadius": 5,
+            "flex": 0,
+            "height": 5,
+            "marginHorizontal": 3,
+            "width": 5,
           }
         }
-      >
-        <View>
-          <View
-            style={
-              Object {
-                "flex": 1,
-                "justifyContent": "center",
-              }
-            }
-          >
-            <Image
-              resizeMode="contain"
-              source={
-                Object {
-                  "testUri": "../../../src/images/celo-education-1.png",
-                }
-              }
-              style={
-                Object {
-                  "alignSelf": "center",
-                  "marginBottom": 24,
-                }
-              }
-            />
-            <Text
-              style={
-                Object {
-                  "color": "#2E3338",
-                  "fontFamily": "Jost-Medium",
-                  "fontSize": 22,
-                  "lineHeight": 28,
-                  "marginTop": 24,
-                  "textAlign": "center",
-                }
-              }
-            >
-              goldEducationSteps.0.title
-            </Text>
-            <Text
-              style={
-                Object {
-                  "color": "#2E3338",
-                  "fontFamily": "Inter-Regular",
-                  "fontSize": 16,
-                  "lineHeight": 22,
-                  "marginBottom": 24,
-                  "paddingTop": 16,
-                  "textAlign": "center",
-                }
-              }
-            >
-              goldEducationSteps.0.text
-            </Text>
-          </View>
-        </View>
-      </RCTScrollView>
-      <RCTScrollView
-        contentContainerStyle={
-          Object {
-            "alignItems": "center",
-            "flexGrow": 1,
-            "justifyContent": "center",
-          }
-        }
+      />
+      <View
         style={
           Object {
-            "flex": 1,
-            "marginBottom": 24,
-            "overflow": "scroll",
-            "paddingHorizontal": 24,
+            "backgroundColor": "#9CA4A9",
+            "borderRadius": 5,
+            "flex": 0,
+            "height": 5,
+            "marginHorizontal": 3,
+            "width": 5,
           }
         }
-      >
-        <View>
-          <View
-            style={
-              Object {
-                "flex": 1,
-                "justifyContent": "center",
-              }
-            }
-          >
-            <Image
-              resizeMode="contain"
-              source={
-                Object {
-                  "testUri": "../../../src/images/celo-education-2.png",
-                }
-              }
-              style={
-                Object {
-                  "alignSelf": "center",
-                  "marginBottom": 24,
-                }
-              }
-            />
-            <Text
-              style={
-                Object {
-                  "color": "#2E3338",
-                  "fontFamily": "Jost-Medium",
-                  "fontSize": 22,
-                  "lineHeight": 28,
-                  "marginTop": 24,
-                  "textAlign": "center",
-                }
-              }
-            >
-              goldEducationSteps.1.title
-            </Text>
-            <Text
-              style={
-                Object {
-                  "color": "#2E3338",
-                  "fontFamily": "Inter-Regular",
-                  "fontSize": 16,
-                  "lineHeight": 22,
-                  "marginBottom": 24,
-                  "paddingTop": 16,
-                  "textAlign": "center",
-                }
-              }
-            >
-              goldEducationSteps.1.text
-            </Text>
-          </View>
-        </View>
-      </RCTScrollView>
-      <RCTScrollView
-        contentContainerStyle={
-          Object {
-            "alignItems": "center",
-            "flexGrow": 1,
-            "justifyContent": "center",
-          }
-        }
+      />
+      <View
         style={
           Object {
-            "flex": 1,
-            "marginBottom": 24,
-            "overflow": "scroll",
-            "paddingHorizontal": 24,
+            "backgroundColor": "#9CA4A9",
+            "borderRadius": 5,
+            "flex": 0,
+            "height": 5,
+            "marginHorizontal": 3,
+            "width": 5,
           }
         }
-      >
-        <View>
-          <View
-            style={
-              Object {
-                "flex": 1,
-                "justifyContent": "center",
-              }
-            }
-          >
-            <Image
-              resizeMode="contain"
-              source={
-                Object {
-                  "testUri": "../../../src/images/celo-education-3.png",
-                }
-              }
-              style={
-                Object {
-                  "alignSelf": "center",
-                  "marginBottom": 24,
-                }
-              }
-            />
-            <Text
-              style={
-                Object {
-                  "color": "#2E3338",
-                  "fontFamily": "Jost-Medium",
-                  "fontSize": 22,
-                  "lineHeight": 28,
-                  "marginTop": 24,
-                  "textAlign": "center",
-                }
-              }
-            >
-              goldEducationSteps.2.title
-            </Text>
-            <Text
-              style={
-                Object {
-                  "color": "#2E3338",
-                  "fontFamily": "Inter-Regular",
-                  "fontSize": 16,
-                  "lineHeight": 22,
-                  "marginBottom": 24,
-                  "paddingTop": 16,
-                  "textAlign": "center",
-                }
-              }
-            >
-              goldEducationSteps.2.text
-            </Text>
-          </View>
-        </View>
-      </RCTScrollView>
-      <RCTScrollView
-        contentContainerStyle={
-          Object {
-            "alignItems": "center",
-            "flexGrow": 1,
-            "justifyContent": "center",
-          }
-        }
+      />
+      <View
         style={
           Object {
-            "flex": 1,
-            "marginBottom": 24,
-            "overflow": "scroll",
-            "paddingHorizontal": 24,
+            "backgroundColor": "#9CA4A9",
+            "borderRadius": 5,
+            "flex": 0,
+            "height": 5,
+            "marginHorizontal": 3,
+            "width": 5,
           }
         }
-      >
-        <View>
-          <View
-            style={
-              Object {
-                "flex": 1,
-                "justifyContent": "center",
-              }
-            }
-          >
-            <Image
-              resizeMode="contain"
-              source={
-                Object {
-                  "testUri": "../../../src/images/celo-education-4.png",
-                }
-              }
-              style={
-                Object {
-                  "alignSelf": "center",
-                  "marginBottom": 24,
-                }
-              }
-            />
-            <Text
-              style={
-                Object {
-                  "color": "#2E3338",
-                  "fontFamily": "Jost-Medium",
-                  "fontSize": 22,
-                  "lineHeight": 28,
-                  "marginTop": 24,
-                  "textAlign": "center",
-                }
-              }
-            >
-              goldEducationSteps.3.title
-            </Text>
-            <Text
-              style={
-                Object {
-                  "color": "#2E3338",
-                  "fontFamily": "Inter-Regular",
-                  "fontSize": 16,
-                  "lineHeight": 22,
-                  "marginBottom": 24,
-                  "paddingTop": 16,
-                  "textAlign": "center",
-                }
-              }
-            >
-              goldEducationSteps.3.text
-            </Text>
-          </View>
-        </View>
-      </RCTScrollView>
-    </Swiper>
+      />
+    </View>
     <View
       style={
         Array [
@@ -465,6 +511,7 @@ exports[`renders correctly 1`] = `
             Object {
               "alignItems": "center",
               "backgroundColor": "#F1F0EB",
+              "flexDirection": "row",
               "height": 48,
               "justifyContent": "center",
               "minWidth": 120,
@@ -483,6 +530,8 @@ exports[`renders correctly 1`] = `
                 "fontFamily": "Inter-SemiBold",
                 "fontSize": 16,
                 "lineHeight": 22,
+                "marginLeft": 0,
+                "marginRight": 0,
               }
             }
           >

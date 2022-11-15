@@ -18,10 +18,8 @@ import {
   NUMBER_INPUT_MAX_DECIMALS,
   STABLE_TRANSACTION_MIN_AMOUNT,
 } from 'src/config'
-import { useFeeCurrency } from 'src/fees/hooks'
-import { estimateFee, FeeType } from 'src/fees/reducer'
-import { feeEstimatesSelector } from 'src/fees/selectors'
-import { fetchAddressesAndValidate } from 'src/identity/actions'
+import { useMaxSendAmount } from 'src/fees/hooks'
+import { FeeType } from 'src/fees/reducer'
 import { RecipientVerificationStatus } from 'src/identity/types'
 import { convertToMaxSupportedPrecision } from 'src/localCurrency/convert'
 import { useCurrencyToLocalAmount } from 'src/localCurrency/hooks'
@@ -42,16 +40,10 @@ import {
   useLocalToTokenAmount,
   useTokenInfo,
   useTokenToLocalAmount,
-  useUsdToTokenAmount,
 } from 'src/tokens/hooks'
-import { fetchTokenBalances } from 'src/tokens/reducer'
-import {
-  celoAddressSelector,
-  defaultTokenToSendSelector,
-  stablecoinsSelector,
-} from 'src/tokens/selectors'
+import { defaultTokenToSendSelector, stablecoinsSelector } from 'src/tokens/selectors'
+import { fetchTokenBalances } from 'src/tokens/slice'
 import { Currency } from 'src/utils/currencies'
-import { ONE_HOUR_IN_MILLIS } from 'src/utils/time'
 
 const MAX_ESCROW_VALUE = new BigNumber(20)
 const LOCAL_CURRENCY_MAX_DECIMALS = 2
@@ -116,32 +108,6 @@ function formatWithMaxDecimals(value: BigNumber | null, decimals: number) {
   ).toFormat()
 }
 
-// The value in |inputTokenAddress| that needs to be reduced from the user balance to send
-// when the MAX button is pressed.
-function useFeeToReduceFromMaxButtonInToken(
-  inputTokenAddress: string,
-  recipientVerificationStatus: RecipientVerificationStatus
-) {
-  const feeEstimates = useSelector(feeEstimatesSelector)
-  const celoAddress = useSelector(celoAddressSelector)
-
-  // feeTokenAddress is undefined if the fee currency is CELO, we still want to
-  // use the fee estimate if that is the case
-  const feeTokenAddress = useFeeCurrency() ?? celoAddress
-
-  const feeType =
-    recipientVerificationStatus === RecipientVerificationStatus.VERIFIED
-      ? FeeType.SEND
-      : FeeType.INVITE
-  const usdFeeEstimate = feeEstimates[inputTokenAddress]?.[feeType]?.usdFee
-  const feeEstimate = useUsdToTokenAmount(new BigNumber(usdFeeEstimate ?? 0), inputTokenAddress)
-
-  if (inputTokenAddress !== feeTokenAddress) {
-    return new BigNumber(0)
-  }
-  return feeEstimate ?? new BigNumber(0)
-}
-
 function SendAmount(props: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
@@ -156,18 +122,17 @@ function SendAmount(props: Props) {
   const [reviewButtonPressed, setReviewButtonPressed] = useState(false)
   const tokenInfo = useTokenInfo(transferTokenAddress)!
   const tokenHasUsdPrice = !!tokenInfo?.usdPrice
-
   const showInputInLocalAmount = usingLocalAmount && tokenHasUsdPrice
 
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const recipientVerificationStatus = useRecipientVerificationStatus(recipient)
-  const feeEstimates = useSelector(feeEstimatesSelector)
-
-  const feeEstimate = useFeeToReduceFromMaxButtonInToken(
-    transferTokenAddress,
-    recipientVerificationStatus
-  )
-  const maxBalance = tokenInfo?.balance.minus(feeEstimate) ?? ''
+  const feeType =
+    recipientVerificationStatus === RecipientVerificationStatus.VERIFIED
+      ? FeeType.SEND
+      : FeeType.INVITE
+  const shouldFetchNewFee =
+    recipientVerificationStatus !== RecipientVerificationStatus.UNKNOWN && !isOutgoingPaymentRequest
+  const maxBalance = useMaxSendAmount(transferTokenAddress, feeType, shouldFetchNewFee)
   const maxInLocalCurrency = useTokenToLocalAmount(maxBalance, transferTokenAddress)
   const maxAmountValue = showInputInLocalAmount ? maxInLocalCurrency : maxBalance
   const isUsingMaxAmount = rawAmount === maxAmountValue?.toFixed()
@@ -199,16 +164,7 @@ function SendAmount(props: Props) {
   }
 
   useEffect(() => {
-    dispatch(fetchTokenBalances())
-    if (recipient.address) {
-      return
-    }
-
-    if (!recipient.e164PhoneNumber) {
-      throw Error('Recipient phone number is required if not sending via QR Code or address')
-    }
-
-    dispatch(fetchAddressesAndValidate(recipient.e164PhoneNumber))
+    dispatch(fetchTokenBalances({ showLoading: true }))
   }, [])
 
   useEffect(() => {
@@ -261,29 +217,6 @@ function SendAmount(props: Props) {
     }
   }, [reviewButtonPressed, recipientVerificationStatus])
 
-  useEffect(() => {
-    if (recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN) {
-      // Wait until the recipient status is fetched.
-      return
-    }
-    if (isOutgoingPaymentRequest) {
-      // Don't calculate fees on outgoing payment requests
-      return
-    }
-    const feeType =
-      recipientVerificationStatus === RecipientVerificationStatus.VERIFIED
-        ? FeeType.SEND
-        : FeeType.INVITE
-    const feeEstimate = feeEstimates[transferTokenAddress]?.[feeType]
-    if (
-      !feeEstimate ||
-      feeEstimate.error ||
-      feeEstimate.lastUpdated < Date.now() - ONE_HOUR_IN_MILLIS
-    ) {
-      dispatch(estimateFee({ feeType, tokenAddress: transferTokenAddress }))
-    }
-  }, [recipientVerificationStatus, transferTokenAddress])
-
   const onReviewButtonPressed = () => setReviewButtonPressed(true)
 
   const isAmountValid = localAmount?.isGreaterThanOrEqualTo(STABLE_TRANSACTION_MIN_AMOUNT) ?? true
@@ -324,9 +257,7 @@ function SendAmount(props: Props) {
         style={styles.nextBtn}
         size={BtnSizes.FULL}
         text={t('review')}
-        showLoading={
-          recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN && reviewButtonPressed
-        }
+        showLoading={reviewButtonPressed}
         type={BtnTypes.PRIMARY}
         onPress={onReviewButtonPressed}
         disabled={!isAmountValid || reviewButtonPressed}

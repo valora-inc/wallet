@@ -1,6 +1,6 @@
 # End-to-End tests
 
-![E2E](https://github.com/valora-inc/wallet/actions/workflows/e2e-ci.yml/badge.svg)
+![E2E](https://github.com/valora-inc/wallet/actions/workflows/e2e-main.yml/badge.svg)
 
 These are the End-to-End (e2e) tests for the wallet mobile app. They run an emulator and simulate a user clicking through the app.
 
@@ -104,7 +104,7 @@ If creating a suite of tests, add a new `<TestSuiteName>.spec.js` file following
 While developing and adding new tests, it's useful to run only the ones we are working on and not go through the onboarding on each run. To do this, use the following strategy.
 
 ```sh
-# First create your Detox test build 
+# First create your Detox test build
 yarn e2e:build:android-release
 
 # Second run your test case and suite
@@ -145,7 +145,7 @@ export default AddedUsecase = () => {
     await element(by.id('add-and-withdraw')).tap()
     await element(by.id('addFunds')).tap()
   })
-  
+
   // Sample test spec / it block
   it('Display Providers', async () => {
     // Test spec specific steps
@@ -196,9 +196,19 @@ class ExampleInput extends React.Component {
 
 It is recommended to follow the scheme parentID/ChildDescription.
 
+## Setting remote config defaults for e2e tests
+
+We do not read remote config values from firebase for e2e tests, so default remote config values are used. A custom set of remote config
+defaults may be needed for some tests which differs from production configuration. For example, in production code,
+we do not wish to show FiatConnect cash-outs by default, but to test FiatConnect cash-outs end-to-end, we need
+`fiatConnectCashOutEnabled` to be `true`.
+
+To set remote config values specifically for end-to-end tests, see `remoteConfigValuesDefaults.e2e.ts` and make
+whatever changes are needed there.
+
 ## The e2e banner
 
-In the readme files, wallet root and this one, there are banners for the e2e tests. The test status is saved in GitHub Actions [E2E](https://github.com/valora-inc/wallet/actions/workflows/e2e-ci.yml)
+In the readme files, wallet root and this one, there are banners for the e2e tests. The test status is saved in GitHub Actions [E2E](https://github.com/valora-inc/wallet/actions/workflows/e2e-main.yml)
 
 There are reports for ci e2e runs and an additional artifacts for failing runs. These reports can be accessed from Actions > Android E2E or iOS E2E > select a run.
 
@@ -223,7 +233,7 @@ export GRADLE_OPTS='-Dorg.gradle.daemon=true -Dorg.gradle.parallel=true -Dorg.gr
 export ANDROID_AVD_HOME="$HOME/.android/avd"
 export PATH=$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$PATH
 
-# nvm things: use `setopt interactivecomments` in your terminal to allow comments in the .zshrc 
+# nvm things: use `setopt interactivecomments` in your terminal to allow comments in the .zshrc
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

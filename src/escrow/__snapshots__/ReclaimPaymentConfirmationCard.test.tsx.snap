@@ -179,6 +179,7 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
             undefined,
           ]
         }
+        testID="LineItemRowTitle/ReclaimAmount"
       >
         amount
       </Text>
@@ -238,6 +239,7 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
             undefined,
           ]
         }
+        testID="LineItemRowTitle/SecurityFee"
       >
         securityFee
       </Text>
@@ -296,12 +298,16 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
       </View>
       <Modal
         animationType="none"
+        deviceHeight={null}
+        deviceWidth={null}
         hardwareAccelerated={false}
         hideModalContentWhileAnimating={false}
+        onBackdropPress={[Function]}
         onModalHide={[Function]}
         onModalWillHide={[Function]}
         onModalWillShow={[Function]}
         onRequestClose={[Function]}
+        panResponderThreshold={4}
         scrollHorizontal={false}
         scrollOffset={0}
         scrollOffsetMax={0}
@@ -346,12 +352,16 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
         />
         <View
           collapsable={false}
+          deviceHeight={null}
+          deviceWidth={null}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
           nativeID="animatedComponent"
+          onBackdropPress={[Function]}
           onModalHide={[Function]}
           onModalWillHide={[Function]}
           onModalWillShow={[Function]}
+          panResponderThreshold={4}
           pointerEvents="box-none"
           scrollHorizontal={false}
           scrollOffset={0}
@@ -575,6 +585,7 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
             },
           ]
         }
+        testID="LineItemRowTitle/undefined"
       >
         totalRefunded
       </Text>
@@ -648,6 +659,7 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
             },
           ]
         }
+        testID="LineItemRowTitle/undefined"
       >
         <Text
           style={

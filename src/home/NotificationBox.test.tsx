@@ -4,13 +4,17 @@ import { Provider } from 'react-redux'
 import { openUrl } from 'src/app/actions'
 import { DAYS_TO_BACKUP } from 'src/backup/consts'
 import { fetchAvailableRewards } from 'src/consumerIncentives/slice'
-import { SuperchargeToken } from 'src/consumerIncentives/types'
 import NotificationBox from 'src/home/NotificationBox'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore, getElementText } from 'test/utils'
-import { mockE164Number, mockE164NumberPepper, mockPaymentRequests } from 'test/values'
+import {
+  mockCusdAddress,
+  mockE164Number,
+  mockE164NumberPepper,
+  mockPaymentRequests,
+} from 'test/values'
 
 const TWO_DAYS_MS = 2 * 24 * 60 * 1000
 const RECENT_BACKUP_TIME = new Date().getTime() - TWO_DAYS_MS
@@ -74,7 +78,7 @@ const testReward = {
   createdAt: Date.now(),
   index: 0,
   proof: [],
-  tokenAddress: 'tokenAddress',
+  tokenAddress: '0xcusd',
 }
 
 const superchargeSetUp = {
@@ -83,23 +87,38 @@ const superchargeSetUp = {
   },
   app: {
     numberVerified: true,
-    superchargeTokens: [
-      {
-        token: SuperchargeToken.cUSD,
-        minBalance: 10,
-        maxBalance: 1000,
-      },
-    ],
   },
   supercharge: {
     availableRewards: [testReward],
   },
 }
 
-const superchargeSetUpWithoutRewards = {
+const superchargeWithoutRewardsSetUp = {
   ...superchargeSetUp,
   supercharge: {
     availableRewards: [],
+  },
+}
+
+const mockcUsdBalance = {
+  [mockCusdAddress]: {
+    address: mockCusdAddress,
+    isCoreToken: true,
+    balance: '100',
+    symbol: 'cUSD',
+    usdPrice: '1',
+    priceFetchedAt: Date.now(),
+  },
+}
+
+const mockcUsdWithoutEnoughBalance = {
+  [mockCusdAddress]: {
+    address: mockCusdAddress,
+    isCoreToken: true,
+    balance: '5',
+    symbol: 'cUSD',
+    usdPrice: '1',
+    priceFetchedAt: Date.now(),
   },
 }
 
@@ -398,15 +417,9 @@ describe('NotificationBox', () => {
 
   it('renders keep supercharging notification when expected', () => {
     const store = createMockStore({
-      ...superchargeSetUpWithoutRewards,
+      ...superchargeWithoutRewardsSetUp,
       tokens: {
-        tokenBalances: {
-          cUSD: {
-            isCoreToken: true,
-            balance: '100',
-            symbol: 'cUSD',
-          },
-        },
+        tokenBalances: mockcUsdBalance,
       },
     })
     const { queryByTestId, getByTestId } = render(
@@ -427,15 +440,9 @@ describe('NotificationBox', () => {
 
   it('does not renders keep supercharging because is dismissed', () => {
     const store = createMockStore({
-      ...superchargeSetUpWithoutRewards,
+      ...superchargeWithoutRewardsSetUp,
       tokens: {
-        tokenBalances: {
-          cUSD: {
-            isCoreToken: true,
-            balance: '100',
-            symbol: 'cUSD',
-          },
-        },
+        tokenBalances: mockcUsdBalance,
       },
       account: {
         dismissedKeepSupercharging: true,
@@ -454,17 +461,12 @@ describe('NotificationBox', () => {
 
   it('renders start supercharging notification if number is not verified', () => {
     const store = createMockStore({
-      ...superchargeSetUpWithoutRewards,
+      ...superchargeWithoutRewardsSetUp,
       tokens: {
-        tokenBalances: {
-          cUSD: {
-            isCoreToken: true,
-            balance: '100',
-            symbol: 'cUSD',
-          },
-        },
+        tokenBalances: mockcUsdBalance,
       },
       app: {
+        ...superchargeWithoutRewardsSetUp.app,
         numberVerified: false,
       },
     })
@@ -486,15 +488,9 @@ describe('NotificationBox', () => {
 
   it('renders start supercharging notification if user does not have enough balance', () => {
     const store = createMockStore({
-      ...superchargeSetUpWithoutRewards,
+      ...superchargeWithoutRewardsSetUp,
       tokens: {
-        tokenBalances: {
-          cUSD: {
-            isCoreToken: true,
-            balance: '5',
-            symbol: 'cUSD',
-          },
-        },
+        tokenBalances: mockcUsdWithoutEnoughBalance,
       },
     })
     const { queryByTestId, getByTestId } = render(
@@ -515,15 +511,9 @@ describe('NotificationBox', () => {
 
   it('does not renders start supercharging because is dismissed', () => {
     const store = createMockStore({
-      ...superchargeSetUpWithoutRewards,
+      ...superchargeWithoutRewardsSetUp,
       tokens: {
-        tokenBalances: {
-          cUSD: {
-            isCoreToken: true,
-            balance: '5',
-            symbol: 'cUSD',
-          },
-        },
+        tokenBalances: mockcUsdWithoutEnoughBalance,
       },
       account: {
         dismissedStartSupercharging: true,

@@ -16,12 +16,16 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
 >
   <Modal
     animationType="none"
+    deviceHeight={null}
+    deviceWidth={null}
     hardwareAccelerated={false}
     hideModalContentWhileAnimating={false}
+    onBackdropPress={[Function]}
     onModalHide={[Function]}
     onModalWillHide={[Function]}
     onModalWillShow={[Function]}
     onRequestClose={[Function]}
+    panResponderThreshold={4}
     scrollHorizontal={false}
     scrollOffset={0}
     scrollOffsetMax={0}
@@ -67,12 +71,16 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
     />
     <View
       collapsable={false}
+      deviceHeight={null}
+      deviceWidth={null}
       forwardedRef={[Function]}
       hideModalContentWhileAnimating={false}
       nativeID="animatedComponent"
+      onBackdropPress={[Function]}
       onModalHide={[Function]}
       onModalWillHide={[Function]}
       onModalWillShow={[Function]}
+      panResponderThreshold={4}
       pointerEvents="box-none"
       scrollHorizontal={false}
       scrollOffset={0}
@@ -98,7 +106,6 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
         ]
       }
       swipeThreshold={100}
-      testID="invalidAmountDialog"
     >
       <RNCSafeAreaView>
         <View
@@ -209,249 +216,6 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
       </RNCSafeAreaView>
     </View>
   </Modal>
-  <Modal
-    animationType="none"
-    hardwareAccelerated={false}
-    hideModalContentWhileAnimating={false}
-    onModalHide={[Function]}
-    onModalWillHide={[Function]}
-    onModalWillShow={[Function]}
-    onRequestClose={[Function]}
-    scrollHorizontal={false}
-    scrollOffset={0}
-    scrollOffsetMax={0}
-    scrollTo={null}
-    statusBarTranslucent={true}
-    supportedOrientations={
-      Array [
-        "portrait",
-        "landscape",
-      ]
-    }
-    swipeThreshold={100}
-    testID="DailyLimitDialog"
-    transparent={true}
-    visible={false}
-  >
-    <View
-      accessible={true}
-      collapsable={false}
-      focusable={true}
-      forwardedRef={[Function]}
-      nativeID="animatedComponent"
-      onClick={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
-      style={
-        Object {
-          "backgroundColor": "black",
-          "bottom": 0,
-          "height": 1334,
-          "left": 0,
-          "opacity": 0,
-          "position": "absolute",
-          "right": 0,
-          "top": 0,
-          "width": 750,
-        }
-      }
-    />
-    <View
-      collapsable={false}
-      forwardedRef={[Function]}
-      hideModalContentWhileAnimating={false}
-      nativeID="animatedComponent"
-      onModalHide={[Function]}
-      onModalWillHide={[Function]}
-      onModalWillShow={[Function]}
-      pointerEvents="box-none"
-      scrollHorizontal={false}
-      scrollOffset={0}
-      scrollOffsetMax={0}
-      scrollTo={null}
-      statusBarTranslucent={true}
-      style={
-        Object {
-          "flex": 1,
-          "justifyContent": "center",
-          "margin": 37.5,
-          "transform": Array [
-            Object {
-              "translateY": 0,
-            },
-          ],
-        }
-      }
-      supportedOrientations={
-        Array [
-          "portrait",
-          "landscape",
-        ]
-      }
-      swipeThreshold={100}
-      testID="DailyLimitDialog"
-    >
-      <RNCSafeAreaView>
-        <View
-          style={
-            Array [
-              Object {
-                "backgroundColor": "#FFFFFF",
-                "padding": 16,
-              },
-              Object {
-                "borderRadius": 8,
-              },
-              Object {
-                "elevation": 12,
-                "shadowColor": "rgba(156, 164, 169, 0.4)",
-                "shadowOffset": Object {
-                  "height": 2,
-                  "width": 0,
-                },
-                "shadowOpacity": 1,
-                "shadowRadius": 12,
-              },
-              Array [
-                Object {
-                  "backgroundColor": "#FFFFFF",
-                  "maxHeight": "100%",
-                  "padding": 24,
-                },
-                undefined,
-              ],
-            ]
-          }
-        >
-          <RCTScrollView
-            contentContainerStyle={
-              Object {
-                "alignItems": "center",
-              }
-            }
-          >
-            <View>
-              <Text
-                style={
-                  Object {
-                    "color": "#2E3338",
-                    "fontFamily": "Inter-Regular",
-                    "fontSize": 16,
-                    "lineHeight": 22,
-                    "marginBottom": 24,
-                    "textAlign": "center",
-                  }
-                }
-              >
-                <Text
-                  style={
-                    Object {
-                      "color": "#1AB775",
-                    }
-                  }
-                />
-              </Text>
-            </View>
-          </RCTScrollView>
-          <View
-            style={
-              Object {
-                "flexDirection": "row",
-                "flexWrap": "wrap",
-                "justifyContent": "space-around",
-                "maxWidth": "100%",
-              }
-            }
-          >
-            <View
-              accessibilityState={
-                Object {
-                  "disabled": false,
-                }
-              }
-              accessible={true}
-              focusable={true}
-              nativeBackgroundAndroid={
-                Object {
-                  "attribute": "selectableItemBackgroundBorderless",
-                  "rippleRadius": undefined,
-                  "type": "ThemeAttrAndroid",
-                }
-              }
-              onClick={[Function]}
-              onResponderGrant={[Function]}
-              onResponderMove={[Function]}
-              onResponderRelease={[Function]}
-              onResponderTerminate={[Function]}
-              onResponderTerminationRequest={[Function]}
-              onStartShouldSetResponder={[Function]}
-              testID="DailyLimitDialog/SecondaryAction"
-            >
-              <Text
-                style={
-                  Array [
-                    Object {
-                      "color": "#1AB775",
-                      "fontFamily": "Inter-SemiBold",
-                      "fontSize": 16,
-                      "lineHeight": 22,
-                    },
-                    Object {
-                      "color": "#9CA4A9",
-                      "paddingTop": 16,
-                    },
-                  ]
-                }
-              >
-                dailyLimitDialog.contact
-              </Text>
-            </View>
-            <View
-              accessible={true}
-              focusable={true}
-              nativeBackgroundAndroid={
-                Object {
-                  "attribute": "selectableItemBackgroundBorderless",
-                  "rippleRadius": undefined,
-                  "type": "ThemeAttrAndroid",
-                }
-              }
-              onClick={[Function]}
-              onResponderGrant={[Function]}
-              onResponderMove={[Function]}
-              onResponderRelease={[Function]}
-              onResponderTerminate={[Function]}
-              onResponderTerminationRequest={[Function]}
-              onStartShouldSetResponder={[Function]}
-              testID="DailyLimitDialog/PrimaryAction"
-            >
-              <Text
-                style={
-                  Array [
-                    Object {
-                      "color": "#1AB775",
-                      "fontFamily": "Inter-SemiBold",
-                      "fontSize": 16,
-                      "lineHeight": 22,
-                    },
-                    Object {
-                      "paddingTop": 16,
-                    },
-                  ]
-                }
-              >
-                dailyLimitDialog.continue
-              </Text>
-            </View>
-          </View>
-        </View>
-      </RNCSafeAreaView>
-    </View>
-  </Modal>
   <RCTScrollView
     contentContainerStyle={
       Object {
@@ -459,6 +223,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
       }
     }
     keyboardShouldPersistTaps="always"
+    testID="KeyboardAwareScrollView"
   >
     <View>
       <View
@@ -552,6 +317,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
                 },
               ]
             }
+            testID="LineItemRowTitle/subtotal"
           >
             celoDollar @ 
             <Text
@@ -588,7 +354,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
               },
             ]
           }
-          testID="LineItemRow/undefined"
+          testID="LineItemRow/subtotal"
         >
           <Text>
             
@@ -662,6 +428,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
           Object {
             "alignItems": "center",
             "backgroundColor": "#97DFC1",
+            "flexDirection": "row",
             "flexGrow": 1,
             "height": 48,
             "justifyContent": "center",
@@ -681,6 +448,8 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
               "fontFamily": "Inter-SemiBold",
               "fontSize": 16,
               "lineHeight": 22,
+              "marginLeft": 0,
+              "marginRight": 0,
             }
           }
         >
@@ -724,12 +493,16 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
 >
   <Modal
     animationType="none"
+    deviceHeight={null}
+    deviceWidth={null}
     hardwareAccelerated={false}
     hideModalContentWhileAnimating={false}
+    onBackdropPress={[Function]}
     onModalHide={[Function]}
     onModalWillHide={[Function]}
     onModalWillShow={[Function]}
     onRequestClose={[Function]}
+    panResponderThreshold={4}
     scrollHorizontal={false}
     scrollOffset={0}
     scrollOffsetMax={0}
@@ -775,12 +548,16 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
     />
     <View
       collapsable={false}
+      deviceHeight={null}
+      deviceWidth={null}
       forwardedRef={[Function]}
       hideModalContentWhileAnimating={false}
       nativeID="animatedComponent"
+      onBackdropPress={[Function]}
       onModalHide={[Function]}
       onModalWillHide={[Function]}
       onModalWillShow={[Function]}
+      panResponderThreshold={4}
       pointerEvents="box-none"
       scrollHorizontal={false}
       scrollOffset={0}
@@ -806,7 +583,6 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
         ]
       }
       swipeThreshold={100}
-      testID="invalidAmountDialog"
     >
       <RNCSafeAreaView>
         <View
@@ -917,249 +693,6 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
       </RNCSafeAreaView>
     </View>
   </Modal>
-  <Modal
-    animationType="none"
-    hardwareAccelerated={false}
-    hideModalContentWhileAnimating={false}
-    onModalHide={[Function]}
-    onModalWillHide={[Function]}
-    onModalWillShow={[Function]}
-    onRequestClose={[Function]}
-    scrollHorizontal={false}
-    scrollOffset={0}
-    scrollOffsetMax={0}
-    scrollTo={null}
-    statusBarTranslucent={true}
-    supportedOrientations={
-      Array [
-        "portrait",
-        "landscape",
-      ]
-    }
-    swipeThreshold={100}
-    testID="DailyLimitDialog"
-    transparent={true}
-    visible={false}
-  >
-    <View
-      accessible={true}
-      collapsable={false}
-      focusable={true}
-      forwardedRef={[Function]}
-      nativeID="animatedComponent"
-      onClick={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
-      style={
-        Object {
-          "backgroundColor": "black",
-          "bottom": 0,
-          "height": 1334,
-          "left": 0,
-          "opacity": 0,
-          "position": "absolute",
-          "right": 0,
-          "top": 0,
-          "width": 750,
-        }
-      }
-    />
-    <View
-      collapsable={false}
-      forwardedRef={[Function]}
-      hideModalContentWhileAnimating={false}
-      nativeID="animatedComponent"
-      onModalHide={[Function]}
-      onModalWillHide={[Function]}
-      onModalWillShow={[Function]}
-      pointerEvents="box-none"
-      scrollHorizontal={false}
-      scrollOffset={0}
-      scrollOffsetMax={0}
-      scrollTo={null}
-      statusBarTranslucent={true}
-      style={
-        Object {
-          "flex": 1,
-          "justifyContent": "center",
-          "margin": 37.5,
-          "transform": Array [
-            Object {
-              "translateY": 0,
-            },
-          ],
-        }
-      }
-      supportedOrientations={
-        Array [
-          "portrait",
-          "landscape",
-        ]
-      }
-      swipeThreshold={100}
-      testID="DailyLimitDialog"
-    >
-      <RNCSafeAreaView>
-        <View
-          style={
-            Array [
-              Object {
-                "backgroundColor": "#FFFFFF",
-                "padding": 16,
-              },
-              Object {
-                "borderRadius": 8,
-              },
-              Object {
-                "elevation": 12,
-                "shadowColor": "rgba(156, 164, 169, 0.4)",
-                "shadowOffset": Object {
-                  "height": 2,
-                  "width": 0,
-                },
-                "shadowOpacity": 1,
-                "shadowRadius": 12,
-              },
-              Array [
-                Object {
-                  "backgroundColor": "#FFFFFF",
-                  "maxHeight": "100%",
-                  "padding": 24,
-                },
-                undefined,
-              ],
-            ]
-          }
-        >
-          <RCTScrollView
-            contentContainerStyle={
-              Object {
-                "alignItems": "center",
-              }
-            }
-          >
-            <View>
-              <Text
-                style={
-                  Object {
-                    "color": "#2E3338",
-                    "fontFamily": "Inter-Regular",
-                    "fontSize": 16,
-                    "lineHeight": 22,
-                    "marginBottom": 24,
-                    "textAlign": "center",
-                  }
-                }
-              >
-                <Text
-                  style={
-                    Object {
-                      "color": "#1AB775",
-                    }
-                  }
-                />
-              </Text>
-            </View>
-          </RCTScrollView>
-          <View
-            style={
-              Object {
-                "flexDirection": "row",
-                "flexWrap": "wrap",
-                "justifyContent": "space-around",
-                "maxWidth": "100%",
-              }
-            }
-          >
-            <View
-              accessibilityState={
-                Object {
-                  "disabled": false,
-                }
-              }
-              accessible={true}
-              focusable={true}
-              nativeBackgroundAndroid={
-                Object {
-                  "attribute": "selectableItemBackgroundBorderless",
-                  "rippleRadius": undefined,
-                  "type": "ThemeAttrAndroid",
-                }
-              }
-              onClick={[Function]}
-              onResponderGrant={[Function]}
-              onResponderMove={[Function]}
-              onResponderRelease={[Function]}
-              onResponderTerminate={[Function]}
-              onResponderTerminationRequest={[Function]}
-              onStartShouldSetResponder={[Function]}
-              testID="DailyLimitDialog/SecondaryAction"
-            >
-              <Text
-                style={
-                  Array [
-                    Object {
-                      "color": "#1AB775",
-                      "fontFamily": "Inter-SemiBold",
-                      "fontSize": 16,
-                      "lineHeight": 22,
-                    },
-                    Object {
-                      "color": "#9CA4A9",
-                      "paddingTop": 16,
-                    },
-                  ]
-                }
-              >
-                dailyLimitDialog.contact
-              </Text>
-            </View>
-            <View
-              accessible={true}
-              focusable={true}
-              nativeBackgroundAndroid={
-                Object {
-                  "attribute": "selectableItemBackgroundBorderless",
-                  "rippleRadius": undefined,
-                  "type": "ThemeAttrAndroid",
-                }
-              }
-              onClick={[Function]}
-              onResponderGrant={[Function]}
-              onResponderMove={[Function]}
-              onResponderRelease={[Function]}
-              onResponderTerminate={[Function]}
-              onResponderTerminationRequest={[Function]}
-              onStartShouldSetResponder={[Function]}
-              testID="DailyLimitDialog/PrimaryAction"
-            >
-              <Text
-                style={
-                  Array [
-                    Object {
-                      "color": "#1AB775",
-                      "fontFamily": "Inter-SemiBold",
-                      "fontSize": 16,
-                      "lineHeight": 22,
-                    },
-                    Object {
-                      "paddingTop": 16,
-                    },
-                  ]
-                }
-              >
-                dailyLimitDialog.continue
-              </Text>
-            </View>
-          </View>
-        </View>
-      </RNCSafeAreaView>
-    </View>
-  </Modal>
   <RCTScrollView
     contentContainerStyle={
       Object {
@@ -1167,6 +700,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
       }
     }
     keyboardShouldPersistTaps="always"
+    testID="KeyboardAwareScrollView"
   >
     <View>
       <View
@@ -1260,6 +794,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
                 },
               ]
             }
+            testID="LineItemRowTitle/subtotal"
           >
             celoDollar @ 
             <Text
@@ -1296,7 +831,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
               },
             ]
           }
-          testID="LineItemRow/undefined"
+          testID="LineItemRow/subtotal"
         >
           <Text>
             
@@ -1370,6 +905,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
           Object {
             "alignItems": "center",
             "backgroundColor": "#97DFC1",
+            "flexDirection": "row",
             "flexGrow": 1,
             "height": 48,
             "justifyContent": "center",
@@ -1389,6 +925,8 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
               "fontFamily": "Inter-SemiBold",
               "fontSize": 16,
               "lineHeight": 22,
+              "marginLeft": 0,
+              "marginRight": 0,
             }
           }
         >

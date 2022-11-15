@@ -27,3 +27,10 @@ export type PendingSession = {
   version: 1
   session: WalletConnectSessionRequest
 }
+
+export enum WalletConnectRequestType {
+  Loading,
+  Session,
+  Action,
+  TimeOut,
+}

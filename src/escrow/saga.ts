@@ -32,7 +32,6 @@ import {
 } from 'src/escrow/actions'
 import { generateEscrowPaymentIdAndPk, generateUniquePaymentId } from 'src/escrow/utils'
 import { calculateFee, currencyToFeeCurrency } from 'src/fees/saga'
-import { waitForNextBlock } from 'src/geth/saga'
 import i18n from 'src/i18n'
 import { Actions as IdentityActions, SetVerificationStatusAction } from 'src/identity/actions'
 import { getUserSelfPhoneHashDetails } from 'src/identity/privateHashing'
@@ -41,7 +40,6 @@ import { VerificationStatus } from 'src/identity/types'
 import { NUM_ATTESTATIONS_REQUIRED } from 'src/identity/verification'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { fetchStableBalances } from 'src/stableToken/actions'
-import { fetchTokenBalances, TokenBalance } from 'src/tokens/reducer'
 import {
   getCurrencyAddress,
   getERC20TokenContract,
@@ -49,6 +47,7 @@ import {
   tokenAmountInSmallestUnit,
 } from 'src/tokens/saga'
 import { tokensListSelector } from 'src/tokens/selectors'
+import { fetchTokenBalances, TokenBalance } from 'src/tokens/slice'
 import { addStandbyTransaction, addStandbyTransactionLegacy } from 'src/transactions/actions'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import { sendTransaction } from 'src/transactions/send'
@@ -63,7 +62,7 @@ import Logger from 'src/utils/Logger'
 import { komenciContextSelector, shouldUseKomenciSelector } from 'src/verify/reducer'
 import { getKomenciKit } from 'src/verify/saga'
 import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
-import { getConnectedAccount, getConnectedUnlockedAccount } from 'src/web3/saga'
+import { getConnectedAccount, getConnectedUnlockedAccount, waitForNextBlock } from 'src/web3/saga'
 import { mtwAddressSelector } from 'src/web3/selectors'
 import { estimateGas } from 'src/web3/utils'
 
@@ -166,7 +165,9 @@ export function* transferToEscrow(action: EscrowTransferPaymentAction) {
     )
     if (receipt) {
       yield put(fetchSentEscrowPayments())
-      ValoraAnalytics.track(EscrowEvents.escrow_transfer_complete)
+      ValoraAnalytics.track(EscrowEvents.escrow_transfer_complete, {
+        paymentId,
+      })
     } else {
       throw error
     }
@@ -280,7 +281,6 @@ function* withdrawFromEscrow(komenciActive: boolean = false) {
 
     if (escrowPaymentIds.length === 0) {
       Logger.debug(TAG + '@withdrawFromEscrow', 'No pending payments in escrow')
-      ValoraAnalytics.track(OnboardingEvents.escrow_redeem_complete)
       return
     }
 
@@ -329,20 +329,22 @@ function* withdrawFromEscrow(komenciActive: boolean = false) {
           const komenci = yield select(komenciContextSelector)
           const komenciKit = yield call(getKomenciKit, contractKit, walletAddress, komenci)
 
-          const withdrawAndTransferTxResult: Result<
-            CeloTxReceipt,
-            FetchError | TxError
-          > = yield call(
-            [komenciKit, komenciKit.submitMetaTransaction],
-            mtwAddress,
-            withdrawAndTransferTx
-          )
+          const withdrawAndTransferTxResult: Result<CeloTxReceipt, FetchError | TxError> =
+            yield call(
+              [komenciKit, komenciKit.submitMetaTransaction],
+              mtwAddress,
+              withdrawAndTransferTx
+            )
 
           if (!withdrawAndTransferTxResult.ok) {
             throw withdrawAndTransferTxResult.error
           }
         }
         withdrawTxSuccess.push(true)
+        ValoraAnalytics.track(OnboardingEvents.escrow_redeem_complete, {
+          paymentId,
+          senderAddress: receivedPayment[1],
+        })
       } catch (error) {
         withdrawTxSuccess.push(false)
         Logger.error(TAG + '@withdrawFromEscrow', 'Unable to withdraw from escrow. Error: ', error)
@@ -354,9 +356,8 @@ function* withdrawFromEscrow(komenciActive: boolean = false) {
     }
 
     yield put(fetchStableBalances())
-    yield put(fetchTokenBalances())
+    yield put(fetchTokenBalances({ showLoading: true }))
     Logger.showMessage(i18n.t('transferDollarsToAccount'))
-    ValoraAnalytics.track(OnboardingEvents.escrow_redeem_complete)
   } catch (e) {
     Logger.error(TAG + '@withdrawFromEscrow', 'Error withdrawing payment from escrow', e)
     ValoraAnalytics.track(OnboardingEvents.escrow_redeem_error, { error: e.message })

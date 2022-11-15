@@ -55,7 +55,7 @@ function PercentageIndicator({ comparedValue, currentValue, testID }: Props) {
 
   return (
     <View style={{ flexDirection: 'row' }} testID={testID}>
-      <View style={{ padding: 6 }}>{indicator}</View>
+      <View style={{ justifyContent: 'center' }}>{indicator}</View>
       <Text style={style}>{percentageString}</Text>
     </View>
   )

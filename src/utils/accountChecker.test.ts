@@ -1,13 +1,13 @@
 import * as Sentry from '@sentry/react-native'
 import * as Keychain from 'react-native-keychain'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { deleteNodeData } from 'src/geth/geth'
 import { resetStateOnInvalidStoredAccount } from 'src/utils/accountChecker'
+import { clearStoredAccounts } from 'src/web3/KeychainSigner'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { getMockStoreData } from 'test/utils'
 import { mocked } from 'ts-jest/utils'
 
-jest.mock('src/geth/geth')
+jest.mock('src/web3/KeychainSigner')
 
 const mockedKeychain = mocked(Keychain)
 
@@ -22,7 +22,7 @@ describe('resetStateOnInvalidStoredAccount', () => {
     const result = await resetStateOnInvalidStoredAccount(state)
 
     expect(result === state).toEqual(true)
-    expect(deleteNodeData).toHaveBeenCalledTimes(0)
+    expect(clearStoredAccounts).toHaveBeenCalledTimes(0)
     expect(Sentry.captureException).toHaveBeenCalledTimes(0)
   })
 
@@ -31,7 +31,7 @@ describe('resetStateOnInvalidStoredAccount', () => {
     const result = await resetStateOnInvalidStoredAccount(invalidState)
 
     expect(result === invalidState).toEqual(true)
-    expect(deleteNodeData).toHaveBeenCalledTimes(0)
+    expect(clearStoredAccounts).toHaveBeenCalledTimes(0)
     expect(Sentry.captureException).toHaveBeenCalledTimes(1)
   })
 
@@ -39,7 +39,7 @@ describe('resetStateOnInvalidStoredAccount', () => {
     const result = await resetStateOnInvalidStoredAccount(undefined)
 
     expect(result === undefined).toEqual(true)
-    expect(deleteNodeData).toHaveBeenCalledTimes(0)
+    expect(clearStoredAccounts).toHaveBeenCalledTimes(0)
     // This is normal flow, we don't expect an exception
     expect(Sentry.captureException).toHaveBeenCalledTimes(0)
   })
@@ -56,7 +56,7 @@ describe('resetStateOnInvalidStoredAccount', () => {
     const result = await resetStateOnInvalidStoredAccount(state)
 
     expect(result === state).toEqual(true)
-    expect(deleteNodeData).toHaveBeenCalledTimes(0)
+    expect(clearStoredAccounts).toHaveBeenCalledTimes(0)
     expect(Sentry.captureException).toHaveBeenCalledTimes(0)
   })
 
@@ -67,7 +67,7 @@ describe('resetStateOnInvalidStoredAccount', () => {
     const result = await resetStateOnInvalidStoredAccount(state)
 
     expect(result === undefined).toEqual(true)
-    expect(deleteNodeData).toHaveBeenCalledTimes(1)
+    expect(clearStoredAccounts).toHaveBeenCalledTimes(1)
     expect(Sentry.captureException).toHaveBeenCalledTimes(0)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith('redux_no_matching_keychain_account', {
       walletAddress: '0x0000000000000000000000000000000000007e57',

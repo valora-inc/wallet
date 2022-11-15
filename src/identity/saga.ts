@@ -97,7 +97,7 @@ function* watchVerification() {
 
 function* watchContactMapping() {
   yield takeLeading(Actions.IMPORT_CONTACTS, doImportContactsWrapper)
-  yield takeEvery(Actions.FETCH_ADDRESSES_AND_VALIDATION_STATUS, fetchAddressesAndValidateSaga)
+  yield takeLatest(Actions.FETCH_ADDRESSES_AND_VALIDATION_STATUS, fetchAddressesAndValidateSaga)
 }
 
 export function* watchValidateRecipientAddress() {

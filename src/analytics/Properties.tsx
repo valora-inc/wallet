@@ -1,4 +1,9 @@
 import { DappKitRequestTypes } from '@celo/utils'
+import {
+  FiatAccountSchema,
+  FiatConnectError,
+  KycStatus as FiatConnectKycStatus,
+} from '@fiatconnect/fiatconnect-types'
 import { check } from 'react-native-permissions'
 import { PincodeType } from 'src/account/reducer'
 import {
@@ -6,27 +11,29 @@ import {
   AuthenticationEvents,
   CeloExchangeEvents,
   CICOEvents,
+  CoinbasePayEvents,
   ContractKitEvents,
   DappExplorerEvents,
   DappKitEvents,
   EscrowEvents,
   FeeEvents,
   FiatExchangeEvents,
-  GethEvents,
   HomeEvents,
   IdentityEvents,
   InviteEvents,
   NavigationEvents,
-  NetworkEvents,
   OnboardingEvents,
   PerformanceEvents,
+  PhoneVerificationEvents,
   RequestEvents,
   RewardsEvents,
   SendEvents,
   SettingsEvents,
+  SwapEvents,
   TransactionEvents,
   VerificationEvents,
   WalletConnectEvents,
+  WebViewEvents,
 } from 'src/analytics/Events'
 import {
   BackQuizProgress,
@@ -36,21 +43,21 @@ import {
   WalletConnectPairingOrigin,
 } from 'src/analytics/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { DappSection } from 'src/app/reducers'
 import { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import {
   RewardsScreenCta,
   RewardsScreenOrigin,
 } from 'src/consumerIncentives/analyticsEventsTracker'
+import { DappSection } from 'src/dapps/types'
 import { InputToken } from 'src/exchange/ExchangeTradeScreen'
 import { CICOFlow, FiatExchangeFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { NotificationReceiveState } from 'src/notifications/types'
 import { RecipientType } from 'src/recipients/recipient'
+import { Field } from 'src/swap/types'
 import { Currency, StableCurrency } from 'src/utils/currencies'
 import { Awaited } from 'src/utils/typescript'
-
 type PermissionStatus = Awaited<ReturnType<typeof check>>
 
 interface AppEventsProperties {
@@ -142,6 +149,7 @@ interface HomeEventsProperties {
   [HomeEvents.transaction_feed_item_select]: undefined
   [HomeEvents.transaction_feed_address_copy]: undefined
   [HomeEvents.view_token_balances]: { totalBalance?: string }
+  [HomeEvents.view_nft_home_assets]: undefined
 }
 
 interface SettingsEventsProperties {
@@ -154,9 +162,6 @@ interface SettingsEventsProperties {
   [SettingsEvents.pin_require_on_load]: {
     enabled: boolean
   }
-  [SettingsEvents.forno_toggle]: {
-    enabled: boolean
-  }
   [SettingsEvents.licenses_view]: undefined
   [SettingsEvents.tos_view]: undefined
   [SettingsEvents.start_account_removal]: undefined
@@ -167,20 +172,31 @@ interface SettingsEventsProperties {
   [SettingsEvents.change_pin_new_pin_entered]: undefined
   [SettingsEvents.change_pin_new_pin_confirmed]: undefined
   [SettingsEvents.change_pin_new_pin_error]: undefined
-  [SettingsEvents.settings_link_bank_account]: undefined
   [SettingsEvents.settings_biometry_opt_in_enable]: undefined
   [SettingsEvents.settings_biometry_opt_in_complete]: undefined
   [SettingsEvents.settings_biometry_opt_in_error]: undefined
   [SettingsEvents.settings_biometry_opt_in_disable]: undefined
+  [SettingsEvents.settings_recovery_phrase]: undefined
 }
 
 interface OnboardingEventsProperties {
-  [OnboardingEvents.onboarding_education_start]: undefined
+  [OnboardingEvents.onboarding_education_start]: {
+    variant: string
+    order: string
+  }
   [OnboardingEvents.onboarding_education_scroll]: {
     currentStep: number
     direction: ScrollDirection
   }
-  [OnboardingEvents.onboarding_education_complete]: undefined
+  [OnboardingEvents.onboarding_education_step_impression]: {
+    valueProposition: string | undefined
+    variant: string | undefined
+    step: number
+  }
+  [OnboardingEvents.onboarding_education_complete]: {
+    variant: string
+    order: string
+  }
   [OnboardingEvents.onboarding_education_cancel]: undefined
 
   [OnboardingEvents.create_account_start]: undefined
@@ -298,7 +314,10 @@ interface OnboardingEventsProperties {
   }
 
   [OnboardingEvents.escrow_redeem_start]: undefined
-  [OnboardingEvents.escrow_redeem_complete]: undefined
+  [OnboardingEvents.escrow_redeem_complete]: {
+    paymentId: string | null
+    senderAddress: string
+  }
   [OnboardingEvents.escrow_redeem_error]: {
     error: string
   }
@@ -333,6 +352,7 @@ interface VerificationEventsProperties {
   [VerificationEvents.verification_complete]:
     | {
         feeless?: boolean
+        phoneNumberHash: string
       }
     | undefined
   [VerificationEvents.verification_error]: {
@@ -504,6 +524,28 @@ interface VerificationEventsProperties {
     attestationsRemaining: number
     actionableAttestations: number
   }
+  [VerificationEvents.verification_skip]: undefined
+  [VerificationEvents.verification_skip_confirm]: undefined
+}
+
+interface PhoneVerificationEventsProperties {
+  [PhoneVerificationEvents.phone_verification_skip]: undefined
+  [PhoneVerificationEvents.phone_verification_skip_confirm]: undefined
+  [PhoneVerificationEvents.phone_verification_learn_more]: undefined
+  [PhoneVerificationEvents.phone_verification_start]: {
+    country: string
+    countryCallingCode: string
+  }
+  [PhoneVerificationEvents.phone_verification_code_request_success]: undefined
+  [PhoneVerificationEvents.phone_verification_code_verify_start]: undefined
+  [PhoneVerificationEvents.phone_verification_code_verify_success]: {
+    phoneNumberHash: string
+  }
+  [PhoneVerificationEvents.phone_verification_code_verify_error]: undefined
+  [PhoneVerificationEvents.phone_verification_input_help]: undefined
+  [PhoneVerificationEvents.phone_verification_input_help_continue]: undefined
+  [PhoneVerificationEvents.phone_verification_input_help_skip]: undefined
+  [PhoneVerificationEvents.phone_verification_resend_message]: undefined
 }
 
 interface IdentityEventsProperties {
@@ -516,9 +558,6 @@ interface IdentityEventsProperties {
     contactImportCount: number
   }
   [IdentityEvents.contacts_processing_complete]: undefined
-  [IdentityEvents.contacts_matchmaking_complete]: {
-    matchCount: number
-  }
   [IdentityEvents.contacts_import_error]: {
     error: string
   }
@@ -584,13 +623,26 @@ interface InviteEventsProperties {
   }
   [InviteEvents.invite_from_menu]: undefined
   [InviteEvents.invite_banner_impression]: undefined
+  [InviteEvents.invite_with_share]: {
+    phoneNumberHash: string | null
+  }
+  [InviteEvents.invite_with_share_dismiss]: undefined
+  [InviteEvents.invite_with_referral_url]: {
+    action: 'sharedAction' | 'dismissedAction'
+    activityType?: string | undefined
+  }
+  [InviteEvents.opened_via_invite_url]: {
+    inviterAddress: string
+  }
 }
 
 interface EscrowEventsProperties {
   [EscrowEvents.escrow_transfer_start]: undefined
   [EscrowEvents.escrow_transfer_approve_tx_sent]: undefined
   [EscrowEvents.escrow_transfer_transfer_tx_sent]: undefined
-  [EscrowEvents.escrow_transfer_complete]: undefined
+  [EscrowEvents.escrow_transfer_complete]: {
+    paymentId: string
+  }
   [EscrowEvents.escrow_transfer_error]: {
     error: string
   }
@@ -991,71 +1043,122 @@ interface FiatExchangeEventsProperties {
   [FiatExchangeEvents.cico_providers_exchanges_selected]: { flow: CICOFlow }
   [FiatExchangeEvents.cico_providers_unavailable_impression]: { flow: CICOFlow }
   [FiatExchangeEvents.cico_providers_unavailable_selected]: { flow: CICOFlow }
-}
-
-interface GethEventsProperties {
-  [GethEvents.blockchain_corruption]: undefined
-  [GethEvents.geth_init_success]: undefined
-  [GethEvents.geth_init_failure]: {
-    error: string
-    context: string
+  [FiatExchangeEvents.cico_fc_review_submit]: { flow: CICOFlow; provider: string }
+  [FiatExchangeEvents.cico_fc_review_cancel]: {
+    provider: string
+    flow: CICOFlow
   }
-  [GethEvents.geth_restart_to_fix_init]: undefined
-  [GethEvents.prompt_forno]: {
+  [FiatExchangeEvents.cico_fc_review_back]: {
+    provider: string
+    flow: CICOFlow
+  }
+  [FiatExchangeEvents.cico_fc_review_error_retry]: {
+    provider: string
+    flow: CICOFlow
+  }
+  [FiatExchangeEvents.cico_fc_review_error_contact_support]: {
+    provider: string
+    flow: CICOFlow
+  }
+  [FiatExchangeEvents.cico_fc_link_account_continue]: {
+    fiatAccountSchema: FiatAccountSchema
+    provider: string
+    flow: CICOFlow
+  }
+  [FiatExchangeEvents.cico_fc_link_account_back]: {
+    fiatAccountSchema: FiatAccountSchema
+    provider: string
+    flow: CICOFlow
+  }
+  [FiatExchangeEvents.cico_fc_link_kyc_account_back]: {
+    fiatAccountSchema: FiatAccountSchema
+    provider: string
+    flow: CICOFlow
+    step: 'one' | 'two'
+  }
+  [FiatExchangeEvents.cico_fc_link_account_provider_website]: {
+    fiatAccountSchema: FiatAccountSchema
+    provider: string
+    flow: CICOFlow
+    page: 'home' | 'termsAndConditions' | 'privacyPolicy'
+  }
+  [FiatExchangeEvents.cico_fiat_details_success]: {
+    fiatAccountSchema: FiatAccountSchema
+    provider: string
+    flow: CICOFlow
+  }
+  [FiatExchangeEvents.cico_fiat_details_back]: {
+    fiatAccountSchema: FiatAccountSchema
+    provider: string
+    flow: CICOFlow
+  }
+  [FiatExchangeEvents.cico_fiat_details_cancel]: {
+    fiatAccountSchema: FiatAccountSchema
+    provider: string
+    flow: CICOFlow
+  }
+  [FiatExchangeEvents.cico_fiat_details_error]: {
+    fiatConnectError?: FiatConnectError
     error?: string
-    context: string
+    fiatAccountSchema: FiatAccountSchema
+    provider: string
+    flow: CICOFlow
   }
-  [GethEvents.geth_init_start]: {
-    shouldStartNode: boolean
+  [FiatExchangeEvents.cico_fc_transfer_api_error]: {
+    fiatConnectError?: FiatConnectError
+    error?: string
+    provider: string
+    flow: CICOFlow
   }
-  [GethEvents.create_geth_start]: undefined
-  [GethEvents.create_geth_finish]: undefined
-  [GethEvents.create_geth_error]: {
+  [FiatExchangeEvents.cico_fc_transfer_tx_error]: {
     error: string
+    transferAddress: string
+    provider: string
+    flow: CICOFlow
   }
-  [GethEvents.start_geth_start]: undefined
-  [GethEvents.start_geth_finish]: undefined
+  [FiatExchangeEvents.cico_fc_transfer_success]: {
+    txHash?: string
+    transferAddress?: string
+    provider: string
+    flow: CICOFlow
+  }
+  [FiatExchangeEvents.cico_fc_transfer_error_retry]: {
+    provider: string
+    flow: CICOFlow
+  }
+  [FiatExchangeEvents.cico_fc_transfer_error_cancel]: {
+    provider: string
+    flow: CICOFlow
+  }
+  [FiatExchangeEvents.cico_fc_transfer_error_contact_support]: {
+    provider: string
+    flow: CICOFlow
+  }
+  [FiatExchangeEvents.cico_fc_transfer_success_complete]: {
+    provider: string
+    flow: CICOFlow
+    txHash?: string
+  }
+  [FiatExchangeEvents.cico_fc_transfer_success_view_tx]: {
+    provider: string
+    flow: CICOFlow
+    txHash?: string
+  }
+  [FiatExchangeEvents.cico_fc_kyc_status_contact_support]: FiatConnectKycProperties
+  [FiatExchangeEvents.cico_fc_kyc_status_back]: FiatConnectKycProperties
+  [FiatExchangeEvents.cico_fc_kyc_status_close]: FiatConnectKycProperties
+  [FiatExchangeEvents.cico_fc_kyc_status_try_again]: FiatConnectKycProperties
+  [FiatExchangeEvents.cico_fc_kyc_status_switch_method]: FiatConnectKycProperties
 }
 
-interface NetworkEventsProperties {
-  [NetworkEvents.network_connected]: {
-    fornoMode: boolean
-  }
-  [NetworkEvents.network_disconnected]: {
-    fornoMode: boolean
-  }
-  [NetworkEvents.network_sync_lost]: {
-    latestBlock: number
-    latestTimestamp: number
-  }
-  [NetworkEvents.network_sync_restored]: {
-    latestBlock: number
-    latestTimestamp: number
-  }
-  [NetworkEvents.network_sync_waiting]: {
-    latestBlock?: number
-  }
-  [NetworkEvents.network_sync_start]: {
-    startingBlock: number
-    currentBlock: number
-    highestBlock: number
-  }
-  [NetworkEvents.network_sync_finish]: {
-    latestBlock: number
-  }
-  [NetworkEvents.network_sync_error]: {
-    error: string
-  }
+interface FiatConnectKycProperties {
+  provider: string
+  flow: CICOFlow
+  fiatConnectKycStatus: FiatConnectKycStatus
 }
 
 interface ContractKitEventsProperties {
   [ContractKitEvents.init_contractkit_start]: undefined
-  [ContractKitEvents.init_contractkit_geth_init_start]: {
-    retries: number
-  }
-  [ContractKitEvents.init_contractkit_geth_init_finish]: undefined
-  [ContractKitEvents.init_contractkit_get_ipc_start]: undefined
-  [ContractKitEvents.init_contractkit_get_ipc_finish]: undefined
   [ContractKitEvents.init_contractkit_get_wallet_start]: undefined
   [ContractKitEvents.init_contractkit_get_wallet_finish]: undefined
   [ContractKitEvents.init_contractkit_init_wallet_finish]: undefined
@@ -1193,38 +1296,11 @@ interface DappKitProperties {
 }
 
 interface CICOEventsProperties {
-  [CICOEvents.link_bank_account_cancel]: undefined
   [CICOEvents.persona_kyc_start]: undefined
   [CICOEvents.persona_kyc_success]: undefined
+  [CICOEvents.persona_kyc_failed]: undefined
   [CICOEvents.persona_kyc_cancel]: undefined
   [CICOEvents.persona_kyc_error]: undefined
-  [CICOEvents.connect_phone_start]: undefined
-  [CICOEvents.connect_phone_cancel]: undefined
-  [CICOEvents.add_initial_bank_account_start]: undefined
-  [CICOEvents.add_bank_account_start]: undefined
-  [CICOEvents.delete_bank_account]: { id: number }
-  [CICOEvents.plaid_open_link_flow]: {
-    linkSessionId: string
-  }
-  [CICOEvents.plaid_select_institution]: {
-    linkSessionId: string
-    institutionId: string
-    institutionName: string
-  }
-  [CICOEvents.plaid_submit_credentials]: {
-    linkSessionId: string
-  }
-  [CICOEvents.plaid_exit]: {
-    linkSessionId: string
-  }
-  [CICOEvents.plaid_handoff]: {
-    linkSessionId: string
-  }
-  [CICOEvents.plaid_error]: {
-    linkSessionId: string
-    errorType: string
-    errorCode: string
-  }
 }
 
 interface DappEventProperties {
@@ -1246,11 +1322,62 @@ interface DappExplorerEventsProperties {
   [DappExplorerEvents.dapp_bottom_sheet_dismiss]: DappEventProperties
 }
 
+interface WebViewEventsProperties {
+  [WebViewEvents.webview_more_options]: {
+    currentUrl: string
+  }
+  [WebViewEvents.webview_open_in_browser]: {
+    currentUrl: string
+  }
+}
+
+interface CoinbasePayEventsProperties {
+  [CoinbasePayEvents.coinbase_pay_flow_start]: undefined
+  [CoinbasePayEvents.coinbase_pay_flow_exit]: undefined
+}
+
+interface SwapEvent {
+  toToken: string
+  fromToken: string
+  amount: string | null
+  amountType: 'buyAmount' | 'sellAmount'
+}
+
+interface SwapEventsProperties {
+  [SwapEvents.swap_screen_open]: undefined
+  [SwapEvents.swap_screen_select_token]: {
+    fieldType: Field
+  }
+  [SwapEvents.swap_screen_confirm_token]: {
+    fieldType: Field
+    tokenSymbol: string
+  }
+  [SwapEvents.swap_screen_review_swap]: undefined
+  [SwapEvents.swap_feed_detail_view_tx]: undefined
+  [SwapEvents.swap_review_screen_open]: SwapEvent
+  [SwapEvents.swap_review_submit]: SwapEvent & {
+    usdTotal: number
+  }
+  [SwapEvents.swap_execute_price_change]: {
+    price: string
+    guaranteedPrice: string
+    toToken: string
+    fromToken: string
+  }
+  [SwapEvents.swap_execute_success]: SwapEvent & {
+    price: string
+  }
+  [SwapEvents.swap_execute_error]: {
+    error: string
+  }
+}
+
 export type AnalyticsPropertiesList = AppEventsProperties &
   HomeEventsProperties &
   SettingsEventsProperties &
   OnboardingEventsProperties &
   VerificationEventsProperties &
+  PhoneVerificationEventsProperties &
   IdentityEventsProperties &
   AuthenticationEventsProperties &
   InviteEventsProperties &
@@ -1261,8 +1388,6 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   TransactionEventsProperties &
   CeloExchangeEventsProperties &
   FiatExchangeEventsProperties &
-  GethEventsProperties &
-  NetworkEventsProperties &
   ContractKitEventsProperties &
   PerformanceProperties &
   NavigationProperties &
@@ -1270,4 +1395,7 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   WalletConnectProperties &
   DappKitProperties &
   CICOEventsProperties &
-  DappExplorerEventsProperties
+  DappExplorerEventsProperties &
+  WebViewEventsProperties &
+  CoinbasePayEventsProperties &
+  SwapEventsProperties

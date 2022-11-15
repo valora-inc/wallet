@@ -1,300 +1,220 @@
-import { FinclusiveKycStatus } from 'src/account/reducer'
-import networkConfig from 'src/geth/networkConfig'
+import { KycSchema, KycStatus as FiatConnectKycStatus } from '@fiatconnect/fiatconnect-types'
+import { KycStatus as PersonaKycStatus } from 'src/account/reducer'
+import { FiatConnectProviderInfo } from 'src/fiatconnect'
+import { getFiatConnectClient } from 'src/fiatconnect/clients'
+import { getClient } from 'src/in-house-liquidity/client'
+import networkConfig from 'src/web3/networkConfig'
 
-interface RequiredParams {
+export interface GetKycStatusResponse {
+  providerId: string
+  kycStatus: Record<KycSchema, FiatConnectKycStatus>
+  persona: PersonaKycStatus
+}
+
+export const AUTH_COOKIE = 'FIATCONNECT-PROVIDER-COOKIE'
+
+/**
+ * Checks that a the wallet address is defined.
+ *
+ * If the provided wallet address is not defined, throws, else return the address.
+ *
+ * @param {string | null} params.walletAddress - Wallet address to check.
+ * @returns {{walletAddress: string}} The wallet address.
+ */
+export function verifyWalletAddress({ walletAddress }: { walletAddress: string | null }): {
   walletAddress: string
-}
-
-/**
- * get the status of a users finclusive compliance check aka their KYC status
- *
- *
- * @param {params.walletAddress} walletAddress
- * @param {params.dekPrivate} dekPrivate private data encryption key
- * @returns {FinclusiveKycStatus} the users current status
- */
-export const getFinclusiveComplianceStatus = async ({
-  walletAddress,
-}: RequiredParams): Promise<FinclusiveKycStatus> => {
-  const response = await signAndFetch({
-    path: `/account/${encodeURIComponent(walletAddress)}/compliance-check-status`,
-    walletAddress,
-    requestOptions: {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    },
-  })
-  if (!response.ok) {
-    throw new Error(
-      `IHL GET /account/:accountAddress/compliance-check-status failure status ${response.status}`
-    )
-  }
-  const { complianceCheckStatus } = await response.json()
-  return complianceCheckStatus
-}
-
-type DeleteFinclusiveBankAccountParams = RequiredParams & {
-  id: number
-}
-
-/**
- * get a fiat bank account from finclusive
- *
- * @param {params.walletAddress} walletAddress
- * @param {params.dekPrivate} dekPrivate private data encryption key
- */
-export const deleteFinclusiveBankAccount = async ({
-  walletAddress,
-  id,
-}: DeleteFinclusiveBankAccountParams): Promise<void> => {
-  const body = {
-    accountAddress: walletAddress,
-    accountId: id,
-  }
-  const response = await signAndFetch({
-    path: `/account/bank-account?accountAddress=${encodeURIComponent(walletAddress)}`,
-    walletAddress,
-    requestOptions: {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-    },
-  })
-  if (!response.ok) {
-    throw new Error(`IHL DELETE /account/bank-account failure status ${response.status}`)
-  }
-}
-
-export interface BankAccount {
-  id: number
-  accountName: string
-  accountType: string
-  accountNumberTruncated: string
-  institutionName: string
-  institutionLogo?: string
-}
-
-/**
- * get a users fiat bank accounts from finclusive
- *
- *
- * @param {params.walletAddress} walletAddress
- * @param {params.dekPrivate} dekPrivate private data encryption key
- * @returns {BankAccounts} List of bank accounts that the user has linked
- */
-export const getFinclusiveBankAccounts = async ({
-  walletAddress,
-}: RequiredParams): Promise<BankAccount[]> => {
-  const response = await signAndFetch({
-    path: `/account/bank-account?accountAddress=${encodeURIComponent(walletAddress)}`,
-    walletAddress,
-    requestOptions: {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    },
-  })
-  if (!response.ok) {
-    throw new Error(`IHL GET /account/bank-account failure status ${response.status}`)
-  }
-  const { bankAccounts } = await response.json()
-  return bankAccounts
-}
-
-type CreateFinclusiveBankAccountParams = RequiredParams & {
-  plaidAccessToken: string
-}
-
-/**
- * Create a fiat bank account with finclusive
- *
- *
- * @param {params.walletAddress} walletAddress
- * @param {params.plaidAccessToken} plaidAccessToken plaid long term access token
- */
-export const createFinclusiveBankAccount = async ({
-  walletAddress,
-  plaidAccessToken,
-}: CreateFinclusiveBankAccountParams): Promise<void> => {
-  const body = {
-    accountAddress: walletAddress,
-    plaidAccessToken,
-  }
-  const response = await signAndFetch({
-    path: '/account/bank-account',
-    walletAddress,
-    requestOptions: {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-    },
-  })
-  if (!response.ok) {
-    throw new Error(`IHL POST /account/bank-account failure status ${response.status}`)
-  }
-}
-
-type ExchangePlaidAccessTokenParams = RequiredParams & {
-  publicToken: string
-}
-
-/**
- * Exchange a plaid plublic token for a long-term plaid access token
- *
- *
- * @param {params.walletAddress} walletAddress
- * @param {params.publicToken} publicToken plaid public token
- * @returns {accessToken} string accesstoken from plaid
- */
-export const exchangePlaidAccessToken = async ({
-  walletAddress,
-  publicToken,
-}: ExchangePlaidAccessTokenParams): Promise<string> => {
-  const body = {
-    publicToken,
-    accountAddress: walletAddress,
-  }
-  const response = await signAndFetch({
-    path: '/plaid/access-token/exchange',
-    walletAddress,
-
-    requestOptions: {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-    },
-  })
-  if (!response.ok) {
-    throw new Error(`IHL /plaid/access-token/exchange failure status ${response.status}`)
-  }
-  const { accessToken } = await response.json()
-  return accessToken
-}
-
-type CreateLinkTokenParams = RequiredParams & {
-  isAndroid: boolean
-  language: string
-  accessToken?: string
-  phoneNumber: string
-}
-
-/**
- * Create a new Plaid Link Token by calling IHL
- *
- *
- * @param {params.walletAddress} walletAddress
- * @param {params.isAndroid} isAndroid
- * @param {params.language} language the users current language
- * @param {params.accessToken} accessToken optional access token used for editing existing items
- * @param {params.phoneNumber} phoneNumber users verified phone number
- * @returns {linkToken} the link token from the plaid backend
- */
-export const createLinkToken = async ({
-  walletAddress,
-
-  isAndroid,
-  language,
-  accessToken,
-  phoneNumber,
-}: CreateLinkTokenParams): Promise<string> => {
-  const body = {
-    accountAddress: walletAddress,
-    isAndroid,
-    language,
-    accessToken,
-    phoneNumber,
-  }
-  const response = await signAndFetch({
-    path: '/plaid/link-token/create',
-    walletAddress,
-
-    requestOptions: {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-    },
-  })
-  if (!response.ok) {
-    throw new Error(`IHL /plaid/link-token/create failure status ${response.status}`)
-  }
-  const { linkToken } = await response.json()
-  return linkToken
-}
-
-/**
- * Create a Persona account for the given accountMTWAddress
- *
- *
- * @param {params.walletAddress} walletAddress
- */
-export const createPersonaAccount = async ({ walletAddress }: RequiredParams): Promise<void> => {
-  const body = { accountAddress: walletAddress }
-  const response = await signAndFetch({
-    path: '/persona/account/create',
-    walletAddress,
-    requestOptions: {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-    },
-  })
-  if (response.status !== 201 && response.status !== 409) {
-    throw new Error(`IHL /persona/account/create failure status ${response.status}`)
-  }
-}
-
-interface SignAndFetchParams {
-  path: string
-  walletAddress: string
-  requestOptions: RequestInit
-}
-
-/**
- * A fetch wrapper that adds in the signature needed for IHL authorization
- *
- *
- * @param {params.path} string like /persona/get/foo
- * @param {params.requestOptions} requestOptions all the normal fetch options
- * @returns {Response} response object from the fetch call
- */
-export const signAndFetch = async ({
-  path,
-  requestOptions,
-}: SignAndFetchParams): Promise<Response> => {
-  return fetch(`${networkConfig.inHouseLiquidityURL}${path}`, {
-    ...requestOptions,
-    headers: {
-      ...requestOptions.headers,
-      // Authorization: authHeader, // todo add this once auth scheme is refactored
-    },
-  })
-}
-
-// just checks that the wallet address is non null for now. keeping this since we may want it to do more once
-//  the new auth scheme is figured out (like checking if a wallet is unlocked or a token is truthy)
-export const verifyWalletAddress = ({
-  walletAddress,
-}: {
-  walletAddress: string | null
-}): RequiredParams => {
+} {
   if (!walletAddress) {
     throw new Error('Cannot call IHL because walletAddress is null')
   }
 
   return {
-    walletAddress: walletAddress,
+    walletAddress,
+  }
+}
+
+/**
+ * Makes a request to in-house-liquidity.
+ *
+ * If `params.providerInfo` is included, authentication cookies will be extracted from the appropriate FiatConnect
+ * client and included in the headers of the request to in-house-liquidity.
+ *
+ * @param {FiatConnectProviderInfo} params.providerInfo - Optional information about a FiatConnect provider.
+ * @param {string} params.path - Path to append to in-house-liquidity origin.
+ * @param {Record<string, any>} params.options - Options object to include in request. Headers and content-type cannot be overridden.
+ * @returns {Promise<Response>} Response object.
+ */
+export async function makeRequest({
+  providerInfo,
+  path,
+  options,
+}: {
+  providerInfo?: FiatConnectProviderInfo
+  path: string
+  options: RequestInit
+}): Promise<Response> {
+  const ihlClient = await getClient()
+  const authHeaders = providerInfo ? await exports.getAuthHeaders({ providerInfo }) : {}
+  const defaultOptions = {
+    headers: {
+      'Content-Type': 'application/json',
+      ...authHeaders,
+    },
+  }
+
+  return await ihlClient.fetch(`${networkConfig.inHouseLiquidityURL}${path}`, {
+    ...options,
+    ...defaultOptions,
+  })
+}
+
+/**
+ * Extracts Fiatconnect provider-specific SIWE cookies from the relevant client and parses them into
+ * a headers object appropriate for sending to in-house-liquidity.
+ *
+ * If the user is not currently logged in with the selected provider, a login will be attempted in order
+ * (re)fresh the SIWE session.
+ *
+ * @param {FiatConnectProviderInfo} params.providerInfo - Information about a FiatConnect provider.
+ * @returns {Promise<Record<string, string>>} An object containing the header to pass to in-house-liquidity.
+ */
+export async function getAuthHeaders({
+  providerInfo,
+}: {
+  providerInfo: FiatConnectProviderInfo
+}): Promise<Record<string, string>> {
+  const fiatConnectClient = await getFiatConnectClient(
+    providerInfo.id,
+    providerInfo.baseUrl,
+    providerInfo.apiKey
+  )
+  if (!fiatConnectClient.isLoggedIn()) {
+    await fiatConnectClient.login()
+  }
+  return {
+    [AUTH_COOKIE]: JSON.stringify(fiatConnectClient.getCookies()),
+  }
+}
+
+/**
+ * Calls GET /fiatconnect/kyc/:providerId on in-house-liquidity.
+ *
+ * Returns the user's status for any number of KYC schema requests for a single FiatConnect provider,
+ * as well as the user's Persona KYC status. If response is non-OK, throws.
+ *
+ * @param {FiatConnectProviderInfo} params.providerInfo - Information about the FiatConnect provider to get KYC statuses for.
+ * @param {KycSchema[]} params.kycSchemas - A list of `KycSchema`s to get statuses for.
+ * @returns {Promise<GetKycStatusResponse>} The typed response body from in-house-liquidity.
+ */
+export async function getKycStatus({
+  providerInfo,
+  kycSchemas,
+}: {
+  providerInfo: FiatConnectProviderInfo
+  kycSchemas: KycSchema[]
+}): Promise<GetKycStatusResponse> {
+  const response = await exports.makeRequest({
+    providerInfo,
+    path:
+      `/fiatconnect/kyc/${providerInfo.id}?` +
+      new URLSearchParams({
+        kycSchemas: kycSchemas.toString(),
+      }),
+    options: { method: 'GET' },
+  })
+
+  if (!response.ok) {
+    throw new Error(`Got non-ok response from IHL while fetching KYC: ${response.status}`)
+  }
+
+  return (await response.json()) as GetKycStatusResponse
+}
+
+/**
+ * Calls POST /fiatconnect/kyc/:providerId/:kycSchema on in-house-liquidity.
+ *
+ * Once a user has submitted KYC information to Persona, calling this method will prompt
+ * in-house-liquidity to submit the selected KYC schema to the selected provider using that information.
+ *
+ * Silently returns on success. If response is non-OK, throws.
+ *
+ * @param {FiatConnectProviderInfo} params.providerInfo - Information about the FiatConnect provider to submit KYC to.
+ * @param {KycSchema} params.kycSchema - The `KycSchema` to submit to the selected provider.
+ * @returns {Promise<void>}
+ */
+export async function postKyc({
+  providerInfo,
+  kycSchema,
+}: {
+  providerInfo: FiatConnectProviderInfo
+  kycSchema: KycSchema
+}): Promise<void> {
+  const response = await exports.makeRequest({
+    providerInfo,
+    path: `/fiatconnect/kyc/${providerInfo.id}/${kycSchema}`,
+    options: { method: 'POST' },
+  })
+
+  if (!response.ok) {
+    throw new Error(`Got non-ok response from IHL while posting KYC: ${response.status}`)
+  }
+}
+
+/**
+ * Calls DELETE /fiatconnect/kyc/:providerId/:kycSchema on in-house-liquidity.
+ *
+ * This deletes any stored KYC information and allows the user to retry KYC
+ *
+ * @param {FiatConnectProviderInfo} params.providerInfo - Information about the FiatConnect provider to submit KYC to.
+ * @param {KycSchema} params.kycSchema - The `KycSchema` to submit to the selected provider.
+ * @returns {Promise<void>}
+ */
+export async function deleteKyc({
+  providerInfo,
+  kycSchema,
+}: {
+  providerInfo: FiatConnectProviderInfo
+  kycSchema: KycSchema
+}): Promise<void> {
+  const response = await exports.makeRequest({
+    providerInfo,
+    path: `/fiatconnect/kyc/${providerInfo.id}/${kycSchema}`,
+    options: { method: 'DELETE' },
+  })
+
+  if (!response.ok && response.status !== 404) {
+    // 404 means the resource is already deleted or the providerId is invalid
+    throw new Error(`Got non-ok/404 response from IHL while deleting KYC: ${response.status}`)
+  }
+}
+
+/**
+ * Calls POST /persona/account/create on in-house-liquidity.
+ *
+ * Creates a Persona account for the given wallet address.
+ *
+ * Silently returns on success, or if a Persona account already exists for the given address.
+ * Otherwise, throws.
+ *
+ * @param {params.walletAddress} string - The wallet address to create a Persona account for.
+ * @returns {Promise<void>}
+ */
+export async function createPersonaAccount({
+  walletAddress,
+}: {
+  walletAddress: string
+}): Promise<void> {
+  const response = await exports.makeRequest({
+    path: `/persona/account/create`,
+    options: {
+      method: 'POST',
+      body: JSON.stringify({ accountAddress: walletAddress }),
+    },
+  })
+
+  if (!response.ok && response.status !== 409) {
+    throw new Error(
+      `Got non-ok/409 response from IHL while creating Persona account: ${response.status}`
+    )
   }
 }

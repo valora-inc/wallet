@@ -35,15 +35,8 @@ function MerchantPaymentScreen({ route }: Props) {
   const tokenInfo = useTokenInfoBySymbol(Currency.Dollar)
   const tokenAddress = tokenInfo?.address
 
-  const {
-    abort,
-    amount,
-    businessInformation,
-    loading,
-    submit,
-    paymentStatus,
-    chargeError,
-  } = useMerchantPayments(routeParams.apiBase, routeParams.referenceId)
+  const { abort, amount, businessInformation, loading, submit, paymentStatus, chargeError } =
+    useMerchantPayments(routeParams.apiBase, routeParams.referenceId)
 
   const abortSubscriptionHandler = useCallback(
     (e) => {
@@ -98,9 +91,10 @@ function MerchantPaymentScreen({ route }: Props) {
     }
   }, [submit])
 
-  const FooterComponent = useCallback((...props) => <FeeContainer amount={amount} {...props} />, [
-    amount,
-  ])
+  const FooterComponent = useCallback(
+    (...props) => <FeeContainer amount={amount} {...props} />,
+    [amount]
+  )
 
   if (!tokenAddress) {
     Logger.error(LOG_TAG, "Couldn't grab the cUSD address")

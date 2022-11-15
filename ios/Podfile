@@ -27,7 +27,6 @@ platform :ios, '12.4'
 use_frameworks!
 
 target "celo" do
-  pod "CeloBlockchain", :path => "../node_modules/@celo/client/CeloBlockchain.podspec", :modular_headers => true
   # RNPermissions
   permissions_path = '../node_modules/react-native-permissions/ios'
   pod 'Permission-Camera', :path => "#{permissions_path}/Camera"

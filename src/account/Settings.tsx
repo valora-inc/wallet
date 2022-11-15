@@ -21,8 +21,11 @@ import {
   setPincodeSuccess,
   toggleBackupState,
 } from 'src/account/actions'
-import { KycStatus, PincodeType } from 'src/account/reducer'
-import { pincodeTypeSelector } from 'src/account/selectors'
+import { PincodeType } from 'src/account/reducer'
+import {
+  pincodeTypeSelector,
+  shouldShowRecoveryPhraseInSettingsSelector,
+} from 'src/account/selectors'
 import { SettingsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import {
@@ -33,8 +36,7 @@ import {
   setSessionId,
 } from 'src/app/actions'
 import {
-  biometryEnabledSelector,
-  linkBankAccountStepTwoEnabledSelector,
+  phoneNumberVerifiedSelector,
   sessionIdSelector,
   supportedBiometryTypeSelector,
   verificationPossibleSelector,
@@ -54,17 +56,16 @@ import { revokeVerification } from 'src/identity/actions'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
-import { ensurePincode, navigate, navigateBack } from 'src/navigator/NavigationService'
+import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { removeStoredPin, setPincodeWithBiometry } from 'src/pincode/authentication'
 import { RootState } from 'src/redux/reducers'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
-import { restartApp } from 'src/utils/AppRestart'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
-import { toggleFornoMode } from 'src/web3/actions'
+import { RevokePhoneNumber } from 'src/verify/RevokePhoneNumber'
 
 interface DispatchProps {
   revokeVerification: typeof revokeVerification
@@ -75,7 +76,6 @@ interface DispatchProps {
   devModeTriggerClicked: typeof devModeTriggerClicked
   setRequirePinOnAppOpen: typeof setRequirePinOnAppOpen
   setPincodeSuccess: typeof setPincodeSuccess
-  toggleFornoMode: typeof toggleFornoMode
   setSessionId: typeof setSessionId
   clearStoredAccount: typeof clearStoredAccount
 }
@@ -90,18 +90,12 @@ interface StateProps {
   pincodeType: PincodeType
   backupCompleted: boolean
   requirePinOnAppOpen: boolean
-  fornoEnabled: boolean
-  gethStartedThisSession: boolean
   preferredCurrencyCode: LocalCurrencyCode
   sessionId: string
   connectedApplications: number
   walletConnectEnabled: boolean
-  biometryEnabled: boolean
   supportedBiometryType: BIOMETRY_TYPE | null
-  linkBankAccountEnabled: boolean
-  kycStatus: KycStatus | undefined
-  hasLinkedBankAccount: boolean
-  linkBankAccountStepTwoEnabled: boolean
+  shouldShowRecoveryPhraseInSettings: boolean
 }
 
 type OwnProps = StackScreenProps<StackParamList, Screens.Settings>
@@ -116,22 +110,16 @@ const mapStateToProps = (state: RootState): StateProps => {
     devModeActive: state.account.devModeActive || false,
     e164PhoneNumber: state.account.e164PhoneNumber,
     analyticsEnabled: state.app.analyticsEnabled,
-    numberVerified: state.app.numberVerified,
+    numberVerified: phoneNumberVerifiedSelector(state),
     verificationPossible: verificationPossibleSelector(state),
     pincodeType: pincodeTypeSelector(state),
     requirePinOnAppOpen: state.app.requirePinOnAppOpen,
-    fornoEnabled: state.web3.fornoMode,
-    gethStartedThisSession: state.geth.gethStartedThisSession,
     preferredCurrencyCode: getLocalCurrencyCode(state),
     sessionId: sessionIdSelector(state),
     connectedApplications: state.walletConnect.v1.sessions.length,
     walletConnectEnabled: v1,
-    biometryEnabled: biometryEnabledSelector(state),
     supportedBiometryType: supportedBiometryTypeSelector(state),
-    linkBankAccountEnabled: state.app.linkBankAccountEnabled,
-    kycStatus: state.account.kycStatus,
-    hasLinkedBankAccount: state.account.hasLinkedBankAccount,
-    linkBankAccountStepTwoEnabled: linkBankAccountStepTwoEnabledSelector(state),
+    shouldShowRecoveryPhraseInSettings: shouldShowRecoveryPhraseInSettingsSelector(state),
   }
 }
 
@@ -144,13 +132,11 @@ const mapDispatchToProps = {
   devModeTriggerClicked,
   setRequirePinOnAppOpen,
   setPincodeSuccess,
-  toggleFornoMode,
   setSessionId,
   clearStoredAccount,
 }
 
 interface State {
-  fornoSwitchOffWarning: boolean
   showAccountKeyModal: boolean
   showRevokeModal: boolean
 }
@@ -172,18 +158,6 @@ export class Account extends React.Component<Props, State> {
     this.props.navigation.navigate(Screens.VerificationEducationScreen, {
       hideOnboardingStep: true,
     })
-  }
-
-  goToLinkBankAccount = () => {
-    ValoraAnalytics.track(SettingsEvents.settings_link_bank_account)
-    navigate(Screens.LinkBankAccountScreen, {
-      kycStatus: this.props.kycStatus,
-    })
-  }
-
-  goToBankAccounts = () => {
-    ValoraAnalytics.track(SettingsEvents.settings_link_bank_account)
-    navigate(Screens.BankAccounts, {})
   }
 
   goToLanguageSetting = () => {
@@ -256,8 +230,20 @@ export class Account extends React.Component<Props, State> {
             </TouchableOpacity>
           </View>
           <View style={styles.devSettingsItem}>
+            <RevokePhoneNumber>
+              {(revokePhoneNumber) => (
+                <TouchableOpacity
+                  onPress={revokePhoneNumber.execute}
+                  disabled={revokePhoneNumber.loading}
+                >
+                  <Text>Revoke Number Verification (centralized)</Text>
+                </TouchableOpacity>
+              )}
+            </RevokePhoneNumber>
+          </View>
+          <View style={styles.devSettingsItem}>
             <TouchableOpacity onPress={this.showConfirmRevokeModal}>
-              <Text>Revoke Number Verification</Text>
+              <Text>Revoke Number Verification (on-chain)</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.devSettingsItem}>
@@ -321,40 +307,6 @@ export class Account extends React.Component<Props, State> {
     })
   }
 
-  disableFornoMode = () => {
-    this.props.toggleFornoMode(false)
-    this.hideFornoSwitchOffWarning()
-    setTimeout(() => restartApp(), 2000)
-  }
-
-  handleFornoToggle = (fornoMode: boolean) => {
-    if (!fornoMode && this.props.gethStartedThisSession) {
-      // Starting geth a second time this app session which will
-      // require an app restart, so show restart modal
-      this.showFornoSwitchOffWarning()
-    } else {
-      this.props.toggleFornoMode(fornoMode)
-    }
-  }
-
-  showFornoSwitchOffWarning = () => {
-    this.setState({ fornoSwitchOffWarning: true })
-  }
-
-  hideFornoSwitchOffWarning = () => {
-    this.setState({ fornoSwitchOffWarning: false })
-  }
-
-  onPressPromptModal = () => {
-    this.props.toggleFornoMode(true)
-    navigateBack()
-  }
-
-  hidePromptModal = () => {
-    this.props.toggleFornoMode(false)
-    navigateBack()
-  }
-
   onTermsPress() {
     navigateToURI(TOS_LINK)
     ValoraAnalytics.track(SettingsEvents.tos_view)
@@ -406,7 +358,6 @@ export class Account extends React.Component<Props, State> {
       if (pinIsCorrect) {
         ValoraAnalytics.track(SettingsEvents.change_pin_current_pin_entered)
         navigate(Screens.PincodeSet, {
-          isVerifying: false,
           changePin: true,
         })
       }
@@ -416,74 +367,20 @@ export class Account extends React.Component<Props, State> {
     }
   }
 
-  getLinkBankAccountSettingItem() {
-    const {
-      kycStatus,
-      linkBankAccountEnabled,
-      hasLinkedBankAccount,
-      linkBankAccountStepTwoEnabled,
-      t,
-    } = this.props
-
-    // Not enabled
-    if (!linkBankAccountEnabled) {
-      return null
+  goToRecoveryPhrase = async () => {
+    try {
+      const pinIsCorrect = await ensurePincode()
+      if (pinIsCorrect) {
+        ValoraAnalytics.track(SettingsEvents.settings_recovery_phrase)
+        navigate(Screens.BackupIntroduction)
+      }
+    } catch (error) {
+      Logger.error('SettingsItem@onPress', 'PIN ensure error', error)
     }
-
-    // User has not yet fully submitted their KYC info
-    const stillNeedsToDoPersona = [
-      undefined,
-      KycStatus.NotCreated,
-      KycStatus.Created,
-      KycStatus.Pending,
-      KycStatus.Expired,
-    ]
-    if (stillNeedsToDoPersona.includes(kycStatus)) {
-      return (
-        <SettingsItemTextValue
-          title={t('linkBankAccountSettingsTitle')}
-          onPress={this.goToLinkBankAccount}
-          value={t('linkBankAccountSettingsValue')}
-          isValueActionable={true}
-          testID="linkBankAccountSettings"
-        />
-      )
-    }
-    // User has gone through KYC but either KYC has not been Approved or step 2 is not enabled
-    if (kycStatus !== KycStatus.Approved || !linkBankAccountStepTwoEnabled) {
-      return (
-        <SettingsItemTextValue
-          title={t('linkBankAccountSettingsTitle')}
-          onPress={this.goToLinkBankAccount}
-          testID="linkBankAccountSettings"
-        />
-      )
-    }
-    // User has been Approved with KYC and Step 2 is enabled, they have not yet added a bank account
-    if (!hasLinkedBankAccount) {
-      return (
-        <SettingsItemTextValue
-          title={t('linkBankAccountSettingsTitle')}
-          onPress={this.goToLinkBankAccount}
-          value={t('linkBankAccountSettingsValue2')}
-          isValueActionable={true}
-          testID="linkBankAccountSettings"
-        />
-      )
-    }
-    // User has gone through Plaid flow and added a bank account in the past
-    return (
-      <SettingsItemTextValue
-        title={t('linkBankAccountSettingsTitle')}
-        onPress={this.goToBankAccounts}
-        testID="linkBankAccountSettings"
-      />
-    )
   }
 
   render() {
     const { t, i18n, numberVerified, verificationPossible } = this.props
-    const promptFornoModal = this.props.route.params?.promptFornoModal ?? false
     const promptConfirmRemovalModal = this.props.route.params?.promptConfirmRemovalModal ?? false
     const currentLanguage = locales[i18n.language]
 
@@ -505,14 +402,15 @@ export class Account extends React.Component<Props, State> {
             {!numberVerified && verificationPossible && (
               <SettingsItemTextValue title={t('confirmNumber')} onPress={this.goToConfirmNumber} />
             )}
-            {this.getLinkBankAccountSettingItem()}
             <SettingsItemTextValue
               title={t('languageSettings')}
+              testID="ChangeLanguage"
               value={currentLanguage?.name ?? t('unknown')}
               onPress={this.goToLanguageSetting}
             />
             <SettingsItemTextValue
               title={t('localCurrencySetting')}
+              testID="ChangeCurrency"
               value={this.props.preferredCurrencyCode}
               onPress={this.goToLocalCurrencySetting}
             />
@@ -525,12 +423,19 @@ export class Account extends React.Component<Props, State> {
               />
             )}
             <SectionHead text={t('security')} style={styles.sectionTitle} />
+            {this.props.shouldShowRecoveryPhraseInSettings && (
+              <SettingsItemTextValue
+                title={t('accountKey')}
+                onPress={this.goToRecoveryPhrase}
+                testID="RecoveryPhrase"
+              />
+            )}
             <SettingsItemTextValue
               title={t('changePin')}
               onPress={this.goToChangePin}
               testID="ChangePIN"
             />
-            {this.props.biometryEnabled && this.props.supportedBiometryType && (
+            {this.props.supportedBiometryType && (
               <SettingsItemSwitch
                 title={t('useBiometryType', {
                   biometryType: t(`biometryType.${this.props.supportedBiometryType}`),
@@ -547,13 +452,6 @@ export class Account extends React.Component<Props, State> {
               testID="requirePinOnAppOpenToggle"
             />
             <SectionHead text={t('data')} style={styles.sectionTitle} />
-            {/* For now disable the option to use the light client
-            <SettingsItemSwitch
-              title={t('enableDataSaver')}
-              value={this.props.fornoEnabled}
-              onValueChange={this.handleFornoToggle}
-              details={t('dataSaverDetail')}
-            /> */}
             <SettingsItemSwitch
               title={t('shareAnalytics')}
               value={this.props.analyticsEnabled}
@@ -573,26 +471,6 @@ export class Account extends React.Component<Props, State> {
             />
           </View>
           {this.getDevSettingsComp()}
-          <Dialog
-            isVisible={this.state?.fornoSwitchOffWarning}
-            title={t('restartModalSwitchOff.header')}
-            actionText={t('restartModalSwitchOff.restart')}
-            actionPress={this.disableFornoMode}
-            secondaryActionText={t('cancel')}
-            secondaryActionPress={this.hideFornoSwitchOffWarning}
-          >
-            {t('restartModalSwitchOff.body')}
-          </Dialog>
-          <Dialog
-            isVisible={promptFornoModal}
-            title={t('promptFornoModal.header')}
-            actionText={t('promptFornoModal.switchToDataSaver')}
-            actionPress={this.onPressPromptModal}
-            secondaryActionText={t('goBack')}
-            secondaryActionPress={this.hidePromptModal}
-          >
-            {t('promptFornoModal.body')}
-          </Dialog>
           <Dialog
             isVisible={this.state?.showAccountKeyModal}
             title={t('accountKeyModal.header')}

@@ -4,7 +4,6 @@ import {
 } from '@react-navigation/material-top-tabs'
 import { useIsFocused } from '@react-navigation/native'
 import { StackScreenProps, TransitionPresets } from '@react-navigation/stack'
-import { memoize } from 'lodash'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
@@ -34,6 +33,8 @@ type AnimatedScannerSceneProps = StackScreenProps<QRTabParamList, Screens.QRScan
 
 // Component doing our custom transition for the QR scanner
 function AnimatedScannerScene({ route, position, ...props }: AnimatedScannerSceneProps) {
+  const lastScannedQR = useRef('')
+
   const isFocused = useIsFocused()
   const [wasFocused, setWasFocused] = useState(isFocused)
   const [isPartiallyVisible, setIsPartiallyVisible] = useState(false)
@@ -95,21 +96,23 @@ function AnimatedScannerScene({ route, position, ...props }: AnimatedScannerScen
   const { scanIsForSecureSend, isOutgoingPaymentRequest, transactionData, requesterAddress } =
     route.params || {}
 
-  const onBarCodeDetected = memoize(
-    (qrCode: QrCode) => {
-      Logger.debug('QRScanner', 'Bar code detected')
-      dispatch(
-        handleBarcodeDetected(
-          qrCode,
-          scanIsForSecureSend,
-          transactionData,
-          isOutgoingPaymentRequest,
-          requesterAddress
-        )
+  const onBarCodeDetected = (qrCode: QrCode) => {
+    if (lastScannedQR.current === qrCode.data) {
+      return
+    }
+
+    Logger.debug('QRScanner', 'Bar code detected')
+    dispatch(
+      handleBarcodeDetected(
+        qrCode,
+        scanIsForSecureSend,
+        transactionData,
+        isOutgoingPaymentRequest,
+        requesterAddress
       )
-    },
-    (qrCode) => qrCode.data
-  )
+    )
+    lastScannedQR.current = qrCode.data
+  }
 
   return (
     // @ts-expect-error

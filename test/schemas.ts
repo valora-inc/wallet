@@ -1,9 +1,10 @@
 import _ from 'lodash'
 import { FinclusiveKycStatus, PincodeType } from 'src/account/reducer'
 import { AppState } from 'src/app/actions'
-import { SuperchargeButtonType } from 'src/app/types'
+import { InviteMethodType } from 'src/app/types'
 import { CodeInputStatus } from 'src/components/CodeInput'
-import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
+import { DappConnectInfo } from 'src/dapps/types'
+import { SendingFiatAccountStatus } from 'src/fiatconnect/slice'
 import { NUM_ATTESTATIONS_REQUIRED } from 'src/identity/verification'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { RootState } from 'src/redux/reducers'
@@ -15,6 +16,8 @@ import {
   mockCusdAddress,
   mockTestTokenAddress,
 } from 'test/values'
+
+export const DEFAULT_DAILY_PAYMENT_LIMIT_CUSD_LEGACY = 1000
 
 // Default (version -1 schema)
 export const vNeg1Schema = {
@@ -361,7 +364,7 @@ export const v7Schema = {
     ...v6Schema.account,
     backupRequiredTime: null,
     pictureUri: null,
-    dailyLimitCusd: DEFAULT_DAILY_PAYMENT_LIMIT_CUSD,
+    dailyLimitCusd: DEFAULT_DAILY_PAYMENT_LIMIT_CUSD_LEGACY,
   },
   home: {
     loading: false,
@@ -879,7 +882,7 @@ export const v27Schema = {
   app: {
     ...v26Schema.app,
 
-    superchargeButtonType: SuperchargeButtonType.PillRewards,
+    superchargeButtonType: 'PILL_REWARDS',
   },
 }
 
@@ -1275,6 +1278,522 @@ export const v51Schema = {
   },
 }
 
+export const v52Schema = {
+  ...v51Schema,
+  _persist: {
+    ...v51Schema._persist,
+    version: 52,
+  },
+  app: {
+    ...v51Schema.app,
+    fiatConnectCashInEnabled: false,
+    fiatConnectCashOutEnabled: false,
+  },
+}
+
+export const v53Schema = {
+  ..._.omit(v52Schema, 'geth'),
+  _persist: {
+    ...v52Schema._persist,
+    version: 53,
+  },
+  account: _.omit(v52Schema.account, 'promptFornoIfNeeded', 'retryVerificationWithForno'),
+  web3: _.omit(
+    v52Schema.web3,
+    'syncProgress',
+    'latestBlockNumber',
+    'fornoMode',
+    'hadFornoDisabled'
+  ),
+}
+
+export const v54Schema = {
+  ...v53Schema,
+  _persist: {
+    ...v53Schema._persist,
+    version: 54,
+  },
+  dapps: {
+    dappsWebViewEnabled: v53Schema.app.dappsWebViewEnabled,
+    activeDapp: v53Schema.app.activeDapp,
+    maxNumRecentDapps: v53Schema.app.maxNumRecentDapps,
+    recentDapps: v53Schema.app.recentDapps,
+    dappListApiUrl: v53Schema.app.dappListApiUrl,
+  },
+  app: _.omit(
+    v53Schema.app,
+    'dappsWebViewEnabled',
+    'activeDapp',
+    'maxNumRecentDapps',
+    'recentDapps',
+    'dappListApiUrl'
+  ),
+}
+
+export const v55Schema = {
+  ...v54Schema,
+  _persist: {
+    ...v54Schema._persist,
+    version: 55,
+  },
+  dapps: {
+    ...v54Schema.dapps,
+    dappsList: [],
+    dappsListLoading: false,
+    dappsListError: null,
+    dappsCategories: [],
+  },
+}
+
+export const v56Schema = {
+  ...v55Schema,
+  _persist: {
+    ...v55Schema._persist,
+    version: 56,
+  },
+  dapps: {
+    ...v55Schema.dapps,
+    dappConnectInfo: DappConnectInfo.Default,
+  },
+}
+
+export const v57Schema = {
+  ...v56Schema,
+  _persist: {
+    ...v56Schema._persist,
+    version: 57,
+  },
+  app: {
+    ...v56Schema.app,
+    visualizeNFTsEnabledInHomeAssetsPage: false,
+  },
+}
+
+export const v58Schema = {
+  ...v57Schema,
+  _persist: {
+    ...v57Schema._persist,
+    version: 58,
+  },
+  app: {
+    ...v57Schema.app,
+    coinbasePayEnabled: false,
+  },
+}
+
+export const v59Schema = {
+  ...v58Schema,
+  _persist: {
+    ...v58Schema._persist,
+    version: 59,
+  },
+}
+
+export const v60Schema = {
+  ...v59Schema,
+  _persist: {
+    ...v59Schema._persist,
+    version: 60,
+  },
+  fiatConnect: {
+    quotes: [],
+    quotesLoading: false,
+    quotesError: null,
+  },
+}
+
+export const v61Schema = {
+  ...v60Schema,
+  _persist: {
+    ...v60Schema._persist,
+    version: 61,
+  },
+  app: {
+    ...v60Schema.app,
+    showSwapMenuInDrawerMenu: false,
+  },
+}
+
+export const v62Schema = {
+  ...v61Schema,
+  _persist: {
+    ...v61Schema._persist,
+    version: 62,
+  },
+  fiatConnect: {
+    ...v61Schema.fiatConnect,
+    transfer: null,
+  },
+}
+
+export const v63Schema = {
+  ...v62Schema,
+  _persist: {
+    ...v62Schema._persist,
+    version: 63,
+  },
+  app: {
+    ..._.omit(v62Schema.app, 'superchargeTokens'),
+    superchargeTokenConfigByToken: {
+      [mockCusdAddress]: {
+        minBalance: 10,
+        maxBalance: 1000,
+      },
+      [mockCeurAddress]: {
+        minBalance: 10,
+        maxBalance: 1000,
+      },
+    },
+  },
+}
+
+export const v64Schema = {
+  ...v63Schema,
+  _persist: {
+    ...v63Schema._persist,
+    version: 64,
+  },
+  fiatConnect: {
+    ...v63Schema.fiatConnect,
+    providers: null,
+  },
+}
+
+export const v65Schema = {
+  ...v64Schema,
+  _persist: {
+    ...v64Schema._persist,
+    version: 64,
+  },
+  fees: {
+    ...v64Schema.fees,
+    estimates: Object.entries(v64Schema.fees.estimates).reduce((acc, [address, estimate]) => {
+      return {
+        ...acc,
+        [address]: {
+          ...estimate,
+          swap: undefined,
+        },
+      }
+    }, {}),
+  },
+}
+
+export const v66Schema = {
+  ...v65Schema,
+  _persist: {
+    ...v65Schema._persist,
+    version: 66,
+  },
+  fiatConnect: {
+    ...v65Schema.fiatConnect,
+    cachedFiatAccountUses: [],
+    attemptReturnUserFlowLoading: false,
+  },
+}
+
+export const v67Schema = {
+  ...v66Schema,
+  _persist: {
+    ...v66Schema._persist,
+    version: 67,
+  },
+  fiatConnect: {
+    ...v66Schema.fiatConnect,
+    selectFiatConnectQuoteLoading: false,
+  },
+}
+
+export const v68Schema = {
+  ...v67Schema,
+  _persist: {
+    ...v67Schema._persist,
+    version: 68,
+  },
+  app: _.omit(
+    v67Schema.app,
+    'linkBankAccountEnabled',
+    'linkBankAccountStepTwoEnabled',
+    'finclusiveUnsupportedStates'
+  ),
+  account: _.omit(
+    v67Schema.account,
+    'hasLinkedBankAccount',
+    'finclusiveRegionSupported',
+    'finclusiveKycStatus',
+    'kycStatus'
+  ),
+}
+export const v69Schema = {
+  ...v68Schema,
+  _persist: {
+    ...v68Schema._persist,
+    version: 69,
+  },
+  recipients: {
+    ...v68Schema.recipients,
+    coinbasePaySenders: [],
+  },
+}
+
+export const v70Schema = {
+  ...v69Schema,
+  _persist: {
+    ...v69Schema._persist,
+    version: 70,
+  },
+  app: {
+    ...v69Schema.app,
+    createAccountCopyTestType: 'ACCOUNT',
+  },
+}
+
+export const v71Schema = {
+  ...v70Schema,
+  _persist: {
+    ...v70Schema._persist,
+    version: 71,
+  },
+  app: {
+    ...v70Schema.app,
+    maxSwapSlippagePercentage: 2,
+    swapFeeEnabled: false,
+    swapFeePercentage: 0.743,
+  },
+}
+
+export const v72Schema = {
+  ...v71Schema,
+  _persist: {
+    ...v71Schema._persist,
+    version: 72,
+  },
+  app: {
+    ...v71Schema.app,
+    shouldShowRecoveryPhraseInSettings: false,
+  },
+}
+
+export const v73Schema = {
+  ...v72Schema,
+  _persist: {
+    ...v72Schema._persist,
+    version: 73,
+  },
+  app: {
+    ...v72Schema.app,
+    inviteMethod: InviteMethodType.Escrow,
+  },
+}
+
+export const v74Schema = {
+  ...v73Schema,
+  _persist: {
+    ...v73Schema._persist,
+    version: 74,
+  },
+  identity: _.omit(v73Schema.identity, 'matchedContacts'),
+}
+
+export const v75Schema = {
+  ...v74Schema,
+  _persist: {
+    ...v74Schema._persist,
+    version: 75,
+  },
+  app: _.omit(v74Schema.app, 'showRaiseDailyLimitTarget'),
+  account: _.omit(v74Schema.account, 'dailyLimitRequestStatus', 'dailyLimitCusd'),
+}
+
+export const v76Schema = {
+  ...v75Schema,
+  _persist: {
+    ...v75Schema._persist,
+    version: 76,
+  },
+  app: {
+    ...v75Schema.app,
+    showGuidedOnboardingCopy: false,
+  },
+}
+
+export const v77Schema = {
+  ...v76Schema,
+  _persist: {
+    ...v76Schema._persist,
+    version: 77,
+  },
+  app: {
+    ...v76Schema.app,
+    centralPhoneVerificationEnabled: false,
+  },
+}
+
+export const v78Schema = {
+  ...v77Schema,
+  _persist: {
+    ...v77Schema._persist,
+    version: 78,
+  },
+  fiatConnect: {
+    ...v77Schema.fiatConnect,
+    sendingFiatAccount: false,
+  },
+}
+
+export const v79Schema = {
+  ...v78Schema,
+  _persist: {
+    ...v78Schema._persist,
+    version: 79,
+  },
+  fiatConnect: {
+    ..._.omit(v78Schema.fiatConnect, 'sendingFiatAccount'),
+    sendingFiatAccountStatus: SendingFiatAccountStatus.NotSending,
+  },
+}
+
+export const v80Schema = {
+  ...v79Schema,
+  _persist: {
+    ...v79Schema._persist,
+    version: 80,
+  },
+  fiatConnect: {
+    ...v79Schema.fiatConnect,
+    kycTryAgainLoading: false,
+  },
+}
+
+export const v81Schema = {
+  ...v80Schema,
+  _persist: {
+    ...v80Schema._persist,
+    version: 81,
+  },
+  app: {
+    ...v80Schema.app,
+    phoneNumberVerified: false,
+  },
+}
+
+export const v82Schema = {
+  ...v81Schema,
+  _persist: {
+    ...v81Schema._persist,
+    version: 82,
+  },
+  swap: {
+    swapState: 'quote',
+    swapInfo: null,
+    swapUserInput: null,
+  },
+}
+
+export const v83Schema = {
+  ...v82Schema,
+  _persist: {
+    ...v82Schema._persist,
+    version: 83,
+  },
+  fiatConnect: {
+    ...v82Schema.fiatConnect,
+    cachedQuoteParams: {},
+  },
+}
+
+export const v84Schema = {
+  ...v83Schema,
+  _persist: {
+    ...v83Schema._persist,
+    version: 84,
+  },
+  fiatConnect: {
+    ...v83Schema.fiatConnect,
+    schemaCountryOverrides: {},
+  },
+}
+
+export const v85Schema = {
+  ...v84Schema,
+  _persist: {
+    ...v84Schema._persist,
+    version: 85,
+  },
+  app: _.omit(v82Schema.app, 'swapFeeEnabled', 'swapFeePercentage'),
+}
+
+export const v86Schema = {
+  ...v85Schema,
+  _persist: {
+    ...v85Schema._persist,
+    version: 86,
+  },
+}
+
+export const v87Schema = {
+  ...v86Schema,
+  _persist: {
+    ...v86Schema._persist,
+    version: 87,
+  },
+  app: {
+    ...v86Schema.app,
+    inviterAddress: null,
+  },
+}
+
+export const v88Schema = {
+  ...v87Schema,
+  _persist: {
+    ...v87Schema._persist,
+    version: 88,
+  },
+  app: {
+    ...v87Schema.app,
+    networkTimeoutSeconds: 30,
+  },
+}
+
+export const v89Schema = {
+  ...v88Schema,
+  _persist: {
+    ...v88Schema._persist,
+    version: 89,
+  },
+  app: _.omit(v88Schema.app, 'superchargeButtonType'),
+}
+
+export const v90Schema = {
+  ...v89Schema,
+  _persist: {
+    ...v89Schema._persist,
+    version: 90,
+  },
+  app: _.omit(v89Schema.app, 'biometryEnabled'),
+}
+
+export const v91Schema = {
+  ...v90Schema,
+  _persist: {
+    ...v90Schema._persist,
+    version: 91,
+  },
+  fiatConnect: {
+    ...v90Schema.fiatConnect,
+    personaInProgress: false,
+  },
+}
+
+export const v92Schema = {
+  ...v91Schema,
+  _persist: {
+    ...v91Schema._persist,
+    version: 92,
+  },
+  app: _.omit(v90Schema.app, 'celoWithdrawalEnabledInExchange'),
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v51Schema as Partial<RootState>
+  return v92Schema as Partial<RootState>
 }

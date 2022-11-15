@@ -469,14 +469,14 @@ describe('SendConfirmation', () => {
         Object {
           "payload": Object {
             "feeType": "send",
-            "tokenAddress": "0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1",
+            "tokenAddress": "0x874069fa1eb16d44d622f2e0ca25eea172369bc1",
           },
           "type": "FEES/ESTIMATE_FEE",
         },
         Object {
           "payload": Object {
             "feeType": "register-dek",
-            "tokenAddress": "0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1",
+            "tokenAddress": "0x874069fa1eb16d44d622f2e0ca25eea172369bc1",
           },
           "type": "FEES/ESTIMATE_FEE",
         },

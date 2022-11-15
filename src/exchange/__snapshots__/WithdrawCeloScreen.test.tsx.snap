@@ -21,6 +21,7 @@ exports[`WithdrawCeloScreen renders correctly 1`] = `
       }
     }
     keyboardShouldPersistTaps="always"
+    testID="KeyboardAwareScrollView"
   >
     <View>
       <Text
@@ -298,6 +299,7 @@ exports[`WithdrawCeloScreen renders correctly 1`] = `
           Object {
             "alignItems": "center",
             "backgroundColor": "#F1F0EB",
+            "flexDirection": "row",
             "flexGrow": 1,
             "height": 48,
             "justifyContent": "center",
@@ -311,6 +313,7 @@ exports[`WithdrawCeloScreen renders correctly 1`] = `
         <ActivityIndicator
           color="#9CA4A9"
           size="small"
+          testID="Button/Loading"
         />
       </View>
     </View>

@@ -1,181 +1,116 @@
 import { StackScreenProps } from '@react-navigation/stack'
-import * as React from 'react'
-import { WithTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { connect } from 'react-redux'
+import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { StyleSheet, Text, View } from 'react-native'
+import { useDispatch, useSelector } from 'react-redux'
 import { DappKitEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { ActiveDapp } from 'src/app/reducers'
-import { activeDappSelector } from 'src/app/selectors'
-import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
+import Expandable from 'src/components/Expandable'
+import Touchable from 'src/components/Touchable'
 import { getDefaultRequestTrackedProperties, requestTxSignature } from 'src/dappkit/dappkit'
-import { withTranslation } from 'src/i18n'
-import { noHeader } from 'src/navigator/Headers'
-import { navigate, navigateBack } from 'src/navigator/NavigationService'
+import { activeDappSelector, dappConnectInfoSelector } from 'src/dapps/selectors'
+import { DappConnectInfo } from 'src/dapps/types'
+import { isBottomSheetVisible, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
-import { RootState } from 'src/redux/reducers'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
+import RequestContent from 'src/walletConnect/screens/RequestContent'
 
 const TAG = 'dappkit/DappKitSignTxScreen'
 
-interface StateProps {
-  activeDapp: ActiveDapp | null
-}
+type Props = StackScreenProps<StackParamList, Screens.DappKitSignTxScreen>
 
-interface DispatchProps {
-  requestTxSignature: typeof requestTxSignature
-}
+const DappKitSignTxScreen = ({ route }: Props) => {
+  const { dappKitRequest } = route.params
+  const { dappName, txs, callback } = dappKitRequest
 
-type Props = StateProps &
-  DispatchProps &
-  WithTranslation &
-  StackScreenProps<StackParamList, Screens.DappKitSignTxScreen>
+  const activeDapp = useSelector(activeDappSelector)
+  const dappConnectInfo = useSelector(dappConnectInfoSelector)
+  const dispatch = useDispatch()
+  const { t } = useTranslation()
 
-const mapStateToProps = (state: RootState): StateProps => ({
-  activeDapp: activeDappSelector(state),
-})
+  const [showTransactionDetails, setShowTransactionDetails] = useState(false)
 
-const mapDispatchToProps = {
-  requestTxSignature,
-}
-
-class DappKitSignTxScreen extends React.Component<Props> {
-  static navigationOptions = noHeader
-
-  componentDidMount() {
-    const request = this.props.route.params.dappKitRequest
-
-    if (!request) {
-      Logger.error(TAG, 'No request found in navigation props')
-      return
-    }
-
-    this.setState({ request })
+  if (!dappKitRequest) {
+    Logger.error(TAG, 'No request found in navigation props')
+    return null
   }
 
-  getRequest = () => {
-    return this.props.route.params.dappKitRequest
+  const handleAllow = () => {
+    dispatch(requestTxSignature(dappKitRequest))
   }
 
-  linkBack = () => {
-    const request = this.getRequest()
-
-    this.props.requestTxSignature(request)
-  }
-
-  showDetails = () => {
-    const request = this.getRequest()
-
+  const handleShowTransactionDetails = () => {
     ValoraAnalytics.track(
       DappKitEvents.dappkit_request_details,
-      getDefaultRequestTrackedProperties(request, this.props.activeDapp)
+      getDefaultRequestTrackedProperties(dappKitRequest, activeDapp)
     )
-
-    // TODO(sallyjyl): figure out which data to pass in for multitx
-    navigate(Screens.DappKitTxDataScreen, {
-      dappKitData: request.txs[0].txData,
-    })
+    setShowTransactionDetails((prev) => !prev)
   }
 
-  cancel = () => {
+  const handleCancel = async () => {
     ValoraAnalytics.track(
       DappKitEvents.dappkit_request_cancel,
-      getDefaultRequestTrackedProperties(this.getRequest(), this.props.activeDapp)
+      getDefaultRequestTrackedProperties(dappKitRequest, activeDapp)
     )
-    navigateBack()
+    if (await isBottomSheetVisible(Screens.DappKitSignTxScreen)) {
+      navigateBack()
+    }
   }
 
-  render() {
-    const { t } = this.props
-    const request = this.getRequest()
-    const { dappName } = request
+  const requestDetails = [
+    {
+      label: t('action.operation'),
+      value: t('transaction.signTX'),
+    },
+  ]
 
-    return (
-      <SafeAreaView style={styles.container}>
-        <TopBarTextButton
-          title={t('cancel')}
-          onPress={this.cancel}
-          titleStyle={styles.cancelButton}
-        />
+  return (
+    <View style={styles.container}>
+      <RequestContent
+        onAccept={handleAllow}
+        onDeny={handleCancel}
+        dappName={dappName}
+        dappImageUrl={dappConnectInfo === DappConnectInfo.Basic ? activeDapp?.iconUrl : undefined}
+        title={t('confirmTransaction', { dappName })}
+        description={t('action.askingV1_35', { dappName })}
+        testId="DappKitSignRequest"
+        dappUrl={callback}
+        requestDetails={requestDetails}
+      >
+        <Touchable testID="ShowTransactionDetailsButton" onPress={handleShowTransactionDetails}>
+          <Expandable isExpandable isExpanded={showTransactionDetails}>
+            <Text style={[styles.bodyText, styles.underLine]}>{t('action.details')}</Text>
+          </Expandable>
+        </Touchable>
 
-        <ScrollView contentContainerStyle={styles.scrollContainer}>
-          {!!dappName && <Text style={styles.header}>{t('connectToWallet', { dappName })}</Text>}
-
-          <Text style={styles.share}> {t('shareInfo')} </Text>
-
-          <View style={styles.sectionDivider}>
-            <Text style={styles.sectionHeaderText}>{t('transaction.operation')}</Text>
-            <Text style={styles.bodyText}>{t('transaction.signTX')}</Text>
-            <Text style={styles.sectionHeaderText}>{t('transaction.data')}</Text>
-            <TouchableOpacity onPress={this.showDetails}>
-              <Text style={[styles.bodyText, styles.underLine]}>{t('transaction.details')}</Text>
-            </TouchableOpacity>
-          </View>
-
-          <Button
-            style={styles.button}
-            type={BtnTypes.PRIMARY}
-            size={BtnSizes.MEDIUM}
-            text={t('allow')}
-            onPress={this.linkBack}
-            testID="DappkitAllow"
-          />
-        </ScrollView>
-      </SafeAreaView>
-    )
-  }
+        {showTransactionDetails && (
+          <Text testID="DappData" style={styles.bodyText}>
+            {txs[0].txData}
+          </Text>
+        )}
+      </RequestContent>
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
   container: {
+    padding: Spacing.Thick24,
     flex: 1,
-  },
-  scrollContainer: {
-    flexGrow: 1,
     alignItems: 'center',
-    justifyContent: 'center',
-    marginHorizontal: Spacing.Regular16,
-  },
-  header: {
-    ...fontStyles.h1,
-    alignItems: 'center',
-    paddingBottom: 16,
-  },
-  share: {
-    ...fontStyles.regular,
-    color: colors.gray4,
-    textAlign: 'center',
-  },
-  sectionDivider: {
-    alignItems: 'center',
-  },
-  sectionHeaderText: {
-    ...fontStyles.label,
-    marginTop: 16,
   },
   bodyText: {
-    ...fontStyles.regular,
+    ...fontStyles.small,
     color: colors.gray4,
-    textAlign: 'center',
+    marginBottom: Spacing.Smallest8,
   },
   underLine: {
     textDecorationLine: 'underline',
   },
-  button: {
-    marginTop: 24,
-  },
-  cancelButton: {
-    color: colors.dark,
-  },
 })
 
-export default connect<StateProps, DispatchProps, {}, RootState>(
-  mapStateToProps,
-  mapDispatchToProps
-)(withTranslation<Props>()(DappKitSignTxScreen))
+export default DappKitSignTxScreen

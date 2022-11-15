@@ -1,5 +1,5 @@
 import { reloadReactNative } from '../utils/retries'
-import { enterPinUiIfNecessary, inputNumberKeypad, sleep } from '../utils/utils'
+import { enterPinUiIfNecessary, inputNumberKeypad, scrollIntoView, sleep } from '../utils/utils'
 const faker = require('@faker-js/faker')
 
 const PHONE_NUMBER = '+12057368924'
@@ -45,6 +45,9 @@ export default SecureSend = () => {
       const character = LAST_ACCOUNT_CHARACTERS[index]
       await element(by.id(`SingleDigitInput/digit${index}`)).replaceText(character)
     }
+
+    // Scroll to see submit button
+    await scrollIntoView('Submit', 'KeyboardAwareScrollView')
     await element(by.id('ConfirmAccountButton')).tap()
 
     // Write a comment.

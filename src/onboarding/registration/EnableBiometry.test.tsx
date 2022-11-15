@@ -23,7 +23,6 @@ const analyticsSpy = jest.spyOn(ValoraAnalytics, 'track')
 const store = createMockStore({
   app: {
     supportedBiometryType: BIOMETRY_TYPE.FACE_ID,
-    biometryEnabled: true,
     activeScreen: Screens.EnableBiometry,
   },
   account: {
@@ -73,7 +72,6 @@ describe('EnableBiometry', () => {
     const store = createMockStore({
       app: {
         supportedBiometryType: BIOMETRY_TYPE.FACE_ID,
-        biometryEnabled: true,
         activeScreen: Screens.EnableBiometry,
         skipVerification: true,
       },
@@ -134,5 +132,26 @@ describe('EnableBiometry', () => {
     fireEvent.press(getByText('skip'))
 
     expect(navigate).toHaveBeenCalledWith(Screens.VerificationEducationScreen)
+  })
+
+  it('should show guided onboarding explaining faceid when enabled to do so', () => {
+    const store = createMockStore({
+      app: {
+        showGuidedOnboardingCopy: true,
+        supportedBiometryType: BIOMETRY_TYPE.FACE_ID,
+        activeScreen: Screens.EnableBiometry,
+      },
+    })
+    const { getByText } = render(
+      <Provider store={store}>
+        <MockedNavigator component={EnableBiometry} />
+      </Provider>
+    )
+    expect(
+      getByText('enableBiometry.guideTitle, {"biometryType":"biometryType.FaceID"}')
+    ).toBeTruthy()
+    expect(
+      getByText('enableBiometry.guideDescription, {"biometryType":"biometryType.FaceID"}')
+    ).toBeTruthy()
   })
 })

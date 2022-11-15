@@ -6,7 +6,13 @@ import {
 import { EXAMPLE_NAME, EXAMPLE_PHONE_NUMBER } from '../utils/consts'
 import { launchApp } from '../utils/retries'
 import { checkBalance, receiveSms } from '../utils/twilio'
-import { enterPinUi, scrollIntoView, sleep, waitForElementId } from '../utils/utils'
+import {
+  dismissCashInBottomSheet,
+  enterPinUi,
+  scrollIntoView,
+  sleep,
+  waitForElementId,
+} from '../utils/utils'
 
 const jestExpect = require('expect')
 const examplePhoneNumber = VERIFICATION_PHONE_NUMBER || EXAMPLE_PHONE_NUMBER
@@ -91,6 +97,7 @@ export default NewAccountPhoneVerification = () => {
         .withTimeout(45 * 1000)
 
       // Assert that correct phone number is present in sidebar
+      await waitForElementId('Hamburger')
       await element(by.id('Hamburger')).tap()
       await expect(element(by.text(`${examplePhoneNumber}`))).toBeVisible()
 
@@ -149,6 +156,7 @@ export default NewAccountPhoneVerification = () => {
         .withTimeout(30 * 1000)
 
       // Assert that correct phone number is present in sidebar
+      await waitForElementId('Hamburger')
       await element(by.id('Hamburger')).tap()
       await expect(element(by.text(`${examplePhoneNumber}`))).toBeVisible()
 
@@ -172,15 +180,16 @@ export default NewAccountPhoneVerification = () => {
     // Tap 'Do I need to connect?' button
     await element(by.id('doINeedToConfirm')).tap()
 
-    // Assert modal content is visible
-    await waitForElementId('VerificationLearnMoreDialog')
+    // Assert modal action is visible
+    await waitForElementId('VerificationLearnMoreDialog/PrimaryAction')
 
     // Assert able to dismiss modal and skip
     await element(by.text('Dismiss')).tap()
     await element(by.text('Skip')).tap()
 
-    // Assert VerificationSkipDialog modal visible
-    await waitForElementId('VerificationSkipDialog')
+    // Assert VerificationSkipDialog modal actions are visible
+    await waitForElementId('VerificationSkipDialog/PrimaryAction')
+    await waitForElementId('VerificationSkipDialog/SecondaryAction')
 
     // Assert Back button is enabled
     let goBackButtonAttributes = await element(by.text('Go Back')).getAttributes()
@@ -190,9 +199,11 @@ export default NewAccountPhoneVerification = () => {
     await element(by.text('Skip for now')).tap()
 
     // Assert we've arrived at the home screen
+    await dismissCashInBottomSheet()
     await waitForElementId('SendOrRequestBar')
 
     // Assert that 'Connect phone number' is present in settings
+    await waitForElementId('Hamburger')
     await element(by.id('Hamburger')).tap()
     await scrollIntoView('Settings', 'SettingsScrollView')
     await waitForElementId('Settings')

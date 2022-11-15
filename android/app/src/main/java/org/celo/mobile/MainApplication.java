@@ -24,10 +24,10 @@ import java.util.List;
 public class MainApplication
   extends MultiDexApplication
   implements ShareApplication, ReactApplication {
+
   static final String TAG = "MainApplication";
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
-
     @Override
     public boolean getUseDeveloperSupport() {
       return BuildConfig.DEBUG;

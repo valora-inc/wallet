@@ -10,7 +10,6 @@ import { CeloExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import ItemSeparator from 'src/components/ItemSeparator'
 import SectionHead from 'src/components/SectionHeadGold'
-import { SettingsItemTextValue } from 'src/components/SettingsItem'
 import Touchable from 'src/components/Touchable'
 import { fetchExchangeRate } from 'src/exchange/actions'
 import CeloExchangeButtons from 'src/exchange/CeloExchangeButtons'
@@ -19,7 +18,6 @@ import CeloGoldOverview from 'src/exchange/CeloGoldOverview'
 import { useDollarToCeloExchangeRate } from 'src/exchange/hooks'
 import { exchangeHistorySelector } from 'src/exchange/reducer'
 import RestrictedCeloExchange from 'src/exchange/RestrictedCeloExchange'
-import { celoWithdrawalEnabledInExchangeSelector } from 'src/goldToken/selectors'
 import InfoIcon from 'src/icons/InfoIcon'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { convertDollarsToLocalAmount } from 'src/localCurrency/convert'
@@ -27,6 +25,7 @@ import { getLocalCurrencyToDollarsExchangeRate } from 'src/localCurrency/selecto
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { isAppSwapsEnabledSelector } from 'src/navigator/selectors'
 import { StackParamList } from 'src/navigator/types'
 import { default as useSelector } from 'src/redux/useSelector'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
@@ -89,12 +88,12 @@ function ExchangeHomeScreen({ navigation }: Props) {
   const { t } = useTranslation()
 
   const { RESTRICTED_CP_DOTO } = useCountryFeatures()
+  const inAppSwapsEnabled = useSelector(isAppSwapsEnabledSelector)
 
   // TODO: revert this back to `useLocalCurrencyCode()` when we have history data for cGDL to Local Currency.
   const localCurrencyCode = null
   const localExchangeRate = useSelector(getLocalCurrencyToDollarsExchangeRate)
   const currentExchangeRate = useDollarToCeloExchangeRate()
-  const shouldDisplayWithdrawCelo = useSelector(celoWithdrawalEnabledInExchangeSelector)
 
   const perOneGoldInDollars = goldToDollarAmount(1, currentExchangeRate)
   const currentGoldRateInLocalCurrency = perOneGoldInDollars && dollarsToLocal(perOneGoldInDollars)
@@ -173,22 +172,15 @@ function ExchangeHomeScreen({ navigation }: Props) {
           </View>
 
           <CeloGoldHistoryChart />
-          {RESTRICTED_CP_DOTO ? (
-            <RestrictedCeloExchange onPressWithdraw={goToWithdrawCelo} />
-          ) : (
-            <CeloExchangeButtons navigation={navigation} />
-          )}
+          {!inAppSwapsEnabled &&
+            (RESTRICTED_CP_DOTO ? (
+              <RestrictedCeloExchange onPressWithdraw={goToWithdrawCelo} />
+            ) : (
+              <CeloExchangeButtons navigation={navigation} />
+            ))}
           <ItemSeparator />
           <CeloGoldOverview testID="ExchangeAccountOverview" />
           <ItemSeparator />
-          {shouldDisplayWithdrawCelo && !RESTRICTED_CP_DOTO && (
-            <SettingsItemTextValue
-              title={t('withdrawCelo')}
-              onPress={goToWithdrawCelo}
-              testID={'WithdrawCELO'}
-              showChevron={true}
-            />
-          )}
           <SectionHead text={t('activity')} />
           <TransactionsList feedType={FeedType.EXCHANGE} />
         </SafeAreaView>

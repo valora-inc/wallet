@@ -41,7 +41,6 @@ const styles = StyleSheet.create({
     marginTop: Spacing.Thick24,
   },
   button: {
-    marginTop: Spacing.Thick24,
     marginBottom: Spacing.Regular16,
     marginHorizontal: Spacing.Regular16,
   },

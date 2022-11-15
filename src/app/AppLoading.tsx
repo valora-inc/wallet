@@ -5,7 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import Button, { BtnTypes } from 'src/components/Button'
 import { withTranslation } from 'src/i18n'
 import colors from 'src/styles/colors'
-import { deleteChainDataAndRestartApp, RESTART_APP_I18N_KEY } from 'src/utils/AppRestart'
+import { restartApp, RESTART_APP_I18N_KEY } from 'src/utils/AppRestart'
 
 const SHOW_RESTART_BUTTON_TIMEOUT = 10000
 
@@ -46,7 +46,7 @@ export class AppLoading extends React.Component<Props, State> {
         <View style={styles.button}>
           {this.state.showRestartButton && (
             <Button
-              onPress={deleteChainDataAndRestartApp}
+              onPress={restartApp}
               text={t(RESTART_APP_I18N_KEY)}
               type={BtnTypes.PRIMARY}
               testID="RestartButton"

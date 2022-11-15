@@ -29,6 +29,7 @@ exports[`VerificationInputScreen renders correctly 1`] = `
         ]
       }
       keyboardShouldPersistTaps="always"
+      testID="KeyboardAwareScrollView"
     >
       <View>
         <RNCSafeAreaView
@@ -112,12 +113,16 @@ exports[`VerificationInputScreen renders correctly 1`] = `
             >
               <View
                 style={
-                  Object {
-                    "alignItems": "center",
-                    "flexDirection": "row",
-                    "padding": 20,
-                    "paddingBottom": 4,
-                  }
+                  Array [
+                    Object {
+                      "alignItems": "center",
+                      "flexDirection": "row",
+                      "padding": 16,
+                    },
+                    Object {
+                      "paddingBottom": 4,
+                    },
+                  ]
                 }
               >
                 <View
@@ -184,7 +189,7 @@ exports[`VerificationInputScreen renders correctly 1`] = `
                         ]
                       }
                       testID="VerificationCode0"
-                      textContentType="username"
+                      textContentType="oneTimeCode"
                       value=""
                     />
                   </View>
@@ -227,12 +232,15 @@ exports[`VerificationInputScreen renders correctly 1`] = `
             >
               <View
                 style={
-                  Object {
-                    "alignItems": "center",
-                    "flex": 1,
-                    "flexDirection": "row",
-                    "padding": 20,
-                  }
+                  Array [
+                    Object {
+                      "alignItems": "center",
+                      "flex": 1,
+                      "flexDirection": "row",
+                      "padding": 16,
+                    },
+                    undefined,
+                  ]
                 }
               >
                 <View
@@ -265,6 +273,7 @@ exports[`VerificationInputScreen renders correctly 1`] = `
                         "fontFamily": "Inter-Regular",
                         "fontSize": 18,
                         "lineHeight": 24,
+                        "paddingVertical": 12,
                         "textAlign": "center",
                       }
                     }
@@ -310,12 +319,15 @@ exports[`VerificationInputScreen renders correctly 1`] = `
             >
               <View
                 style={
-                  Object {
-                    "alignItems": "center",
-                    "flex": 1,
-                    "flexDirection": "row",
-                    "padding": 20,
-                  }
+                  Array [
+                    Object {
+                      "alignItems": "center",
+                      "flex": 1,
+                      "flexDirection": "row",
+                      "padding": 16,
+                    },
+                    undefined,
+                  ]
                 }
               >
                 <View
@@ -348,6 +360,7 @@ exports[`VerificationInputScreen renders correctly 1`] = `
                         "fontFamily": "Inter-Regular",
                         "fontSize": 18,
                         "lineHeight": 24,
+                        "paddingVertical": 12,
                         "textAlign": "center",
                       }
                     }
@@ -409,12 +422,16 @@ exports[`VerificationInputScreen renders correctly 1`] = `
   </View>
   <Modal
     animationType="none"
+    deviceHeight={null}
+    deviceWidth={null}
     hardwareAccelerated={false}
     hideModalContentWhileAnimating={false}
+    onBackdropPress={[Function]}
     onModalHide={[Function]}
     onModalWillHide={[Function]}
     onModalWillShow={[Function]}
     onRequestClose={[Function]}
+    panResponderThreshold={4}
     scrollHorizontal={false}
     scrollOffset={0}
     scrollOffsetMax={0}
@@ -457,11 +474,15 @@ exports[`VerificationInputScreen renders correctly 1`] = `
       }
     />
     <View
+      deviceHeight={null}
+      deviceWidth={null}
       forwardedRef={[Function]}
       hideModalContentWhileAnimating={false}
+      onBackdropPress={[Function]}
       onModalHide={[Function]}
       onModalWillHide={[Function]}
       onModalWillShow={[Function]}
+      panResponderThreshold={4}
       pointerEvents="box-none"
       scrollHorizontal={false}
       scrollOffset={0}
@@ -487,7 +508,6 @@ exports[`VerificationInputScreen renders correctly 1`] = `
         ]
       }
       swipeThreshold={100}
-      testID="VerificationInputHelpDialog"
     >
       <RNCSafeAreaView>
         <View

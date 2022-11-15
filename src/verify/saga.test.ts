@@ -7,7 +7,7 @@ import { expectSaga } from 'redux-saga-test-plan'
 import { throwError } from 'redux-saga-test-plan/providers'
 import { call, delay, select } from 'redux-saga/effects'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import networkConfig from 'src/geth/networkConfig'
+import networkConfig from 'src/web3/networkConfig'
 import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
 import {
   setVerificationStatus as setOldVerificationStatus,

@@ -27,6 +27,25 @@ the title and let us know when it’s ready to review in the comments.
 Valora is part of the Celo community and follows Celo's [Code of
 Conduct](https://celo.org/code-of-conduct).
 
+### Contributing _substantial_ changes
+
+A substantial change is one that significantly alters the user
+experience or an underlying implementation. For example, we would
+consider the following as examples of substantial changes:
+
+- Adding support for in-app swaps.
+- Changing how Valora calculates asset value in local fiat.
+- Changing Valora's branding (_e.g.), color palette).
+- Adding a way for Valora users to go through decentralized KYC.
+- Removing screens from on-boarding.
+
+If you're considering making what might be a substantial change, we
+strongly encourage you to reach out to the Valora engineering team
+first. We might have suggestions that guide the implementation and
+make it easier to implement a high-quality change to Valora with the
+least amount of work. `#valora-dev` on Valora's [Discord
+server](./README.md#community) is a great way to contact us.
+
 ### Please make sure your PR
 
 - Requests the appropriate reviewers. When in doubt, consult the

@@ -14,6 +14,7 @@ export interface State {
   valoraRecipientCache: AddressToRecipient
   rewardsSenders: string[]
   inviteRewardsSenders: string[]
+  coinbasePaySenders: string[]
 }
 
 const initialState: State = {
@@ -21,6 +22,7 @@ const initialState: State = {
   valoraRecipientCache: {},
   rewardsSenders: [],
   inviteRewardsSenders: [],
+  coinbasePaySenders: [],
 }
 
 const rehydrate = createAction<any>(REHYDRATE)
@@ -34,12 +36,15 @@ export const rewardsSendersFetched = createAction<string[]>('RECIPIENTS/REWARDS_
 export const inviteRewardsSendersFetched = createAction<string[]>(
   'RECIPIENTS/INVITE_REWARDS_SENDERS_FETCHED'
 )
+export const coinbasePaySendersFetched = createAction<string[]>(
+  'RECIPIENTS/COINBASE_PAY_SENDERS_FETCHED'
+)
 
 export const recipientsReducer = createReducer(initialState, (builder) => {
   builder
     .addCase(rehydrate, (state, action) => {
       // hack to allow rehydrate actions here
-      const hydrated = getRehydratePayload((action as unknown) as RehydrateAction, 'recipients')
+      const hydrated = getRehydratePayload(action as unknown as RehydrateAction, 'recipients')
       return {
         ...initialState,
         ...state,
@@ -62,6 +67,10 @@ export const recipientsReducer = createReducer(initialState, (builder) => {
       ...state,
       inviteRewardsSenders: action.payload,
     }))
+    .addCase(coinbasePaySendersFetched, (state, action) => ({
+      ...state,
+      coinbasePaySenders: action.payload,
+    }))
 })
 
 export const phoneRecipientCacheSelector = (state: RootState) =>
@@ -75,6 +84,7 @@ export const allRewardsSendersSelector = (state: RootState) => [
   ...state.recipients.rewardsSenders,
   ...state.recipients.inviteRewardsSenders,
 ]
+export const coinbasePaySendersSelector = (state: RootState) => state.recipients.coinbasePaySenders
 
 export const recipientInfoSelector = (state: RootState) => {
   return {

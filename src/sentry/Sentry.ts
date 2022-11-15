@@ -3,7 +3,7 @@ import DeviceInfo from 'react-native-device-info'
 import { select } from 'redux-saga/effects'
 import { sentryTracesSampleRateSelector } from 'src/app/selectors'
 import { APP_BUNDLE_ID, DEFAULT_FORNO_URL, SENTRY_CLIENT_URL, SENTRY_ENABLED } from 'src/config'
-import networkConfig from 'src/geth/networkConfig'
+import networkConfig from 'src/web3/networkConfig'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
 

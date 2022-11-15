@@ -1,11 +1,11 @@
-export enum SuperchargeToken {
-  cUSD = 'cUSD',
-  cEUR = 'cEUR',
-  cREAL = 'cREAL',
+export interface SuperchargeTokenConfigByToken {
+  [tokenAddress: string]: {
+    minBalance: number
+    maxBalance: number
+  }
 }
-
 export interface SuperchargeTokenConfig {
-  token: SuperchargeToken
+  tokenSymbol: string
   minBalance: number
   maxBalance: number
 }

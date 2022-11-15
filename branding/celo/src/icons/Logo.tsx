@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { ViewStyle } from 'react-native'
 import colors from 'src/styles/colors'
 import Svg, { Path } from 'svgs'
 
@@ -13,10 +12,9 @@ export enum LogoTypes {
 interface Props {
   height?: number
   type?: LogoTypes
-  style?: ViewStyle
 }
 
-export default function Logo({ style, height = 25, type = LogoTypes.COLOR }: Props) {
+export default function Logo({ height = 25, type = LogoTypes.COLOR }: Props) {
   let mainColor
   switch (type) {
     case LogoTypes.DARK:

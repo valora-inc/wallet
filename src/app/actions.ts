@@ -1,5 +1,4 @@
 import { BIOMETRY_TYPE } from 'react-native-keychain'
-import { ActiveDapp } from 'src/app/reducers'
 import { RemoteConfigValues } from 'src/app/saga'
 import { Screens } from 'src/navigator/Screens'
 
@@ -33,8 +32,10 @@ export enum Actions {
   APP_UNMOUNTED = 'APP/APP_UNMOUNTED',
   VERIFICATION_MIGRATION_RAN = 'APP/VERIFICATION_MIGRATION_RAN',
   ANDROID_MOBILE_SERVICES_AVAILABILITY_CHECKED = 'APP/ANDROID_MOBILE_SERVICES_AVAILABILITY_CHECKED',
-  DAPP_SELECTED = 'APP/DAPP_SELECTED',
-  DAPP_SESSION_ENDED = 'APP/DAPP_SESSION_ENDED',
+  PHONE_NUMBER_VERIFICATION_COMPLETED = 'APP/PHONE_NUMBER_VERIFICATION_COMPLETED',
+  PHONE_NUMBER_VERIFICATION_MIGRATED = 'APP/PHONE_NUMBER_VERIFICATION_MIGRATED',
+  PHONE_NUMBER_REVOKED = 'APP/PHONE_NUMBER_REVOKED',
+  INVITE_LINK_CONSUMED = 'APP/INVITE_LINK_CONSUMED',
 }
 
 export interface SetAppState {
@@ -138,13 +139,24 @@ export interface AndroidMobileServicesAvailabilityChecked {
   huaweiIsAvailable: boolean | undefined
 }
 
-export interface DappSelected {
-  type: Actions.DAPP_SELECTED
-  dapp: ActiveDapp
+export interface PhoneNumberVerificationCompleted {
+  type: Actions.PHONE_NUMBER_VERIFICATION_COMPLETED
+  e164PhoneNumber: string
+  countryCode: string | null
 }
 
-interface DappSessionEnded {
-  type: Actions.DAPP_SESSION_ENDED
+export interface PhoneNumberVerificationMigrated {
+  type: Actions.PHONE_NUMBER_VERIFICATION_MIGRATED
+}
+
+export interface PhoneNumberRevoked {
+  type: Actions.PHONE_NUMBER_REVOKED
+  e164PhoneNumber: string
+}
+
+export interface InviteLinkConsumed {
+  type: Actions.INVITE_LINK_CONSUMED
+  inviterAddress: string
 }
 
 export type ActionTypes =
@@ -168,8 +180,10 @@ export type ActionTypes =
   | AppUnmounted
   | VerificationMigrationRanAction
   | AndroidMobileServicesAvailabilityChecked
-  | DappSelected
-  | DappSessionEnded
+  | PhoneNumberVerificationCompleted
+  | PhoneNumberVerificationMigrated
+  | PhoneNumberRevoked
+  | InviteLinkConsumed
 
 export const setAppState = (state: string) => ({
   type: Actions.SET_APP_STATE,
@@ -288,11 +302,33 @@ export const androidMobileServicesAvailabilityChecked = (
   huaweiIsAvailable,
 })
 
-export const dappSelected = (dapp: ActiveDapp) => ({
-  type: Actions.DAPP_SELECTED,
-  dapp,
-})
+export const phoneNumberVerificationCompleted = (
+  e164PhoneNumber: string,
+  countryCode: string | null
+): PhoneNumberVerificationCompleted => {
+  return {
+    type: Actions.PHONE_NUMBER_VERIFICATION_COMPLETED,
+    e164PhoneNumber,
+    countryCode,
+  }
+}
 
-export const dappSessionEnded = () => ({
-  type: Actions.DAPP_SESSION_ENDED,
-})
+export const phoneNumberVerificationMigrated = (): PhoneNumberVerificationMigrated => {
+  return {
+    type: Actions.PHONE_NUMBER_VERIFICATION_MIGRATED,
+  }
+}
+
+export const phoneNumberRevoked = (e164PhoneNumber: string): PhoneNumberRevoked => {
+  return {
+    type: Actions.PHONE_NUMBER_REVOKED,
+    e164PhoneNumber,
+  }
+}
+
+export const inviteLinkConsumed = (inviterAddress: string): InviteLinkConsumed => {
+  return {
+    type: Actions.INVITE_LINK_CONSUMED,
+    inviterAddress,
+  }
+}

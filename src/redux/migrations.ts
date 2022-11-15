@@ -1,18 +1,18 @@
 import _ from 'lodash'
 import { FinclusiveKycStatus } from 'src/account/reducer'
-import { SuperchargeButtonType } from 'src/app/types'
 import { CodeInputStatus } from 'src/components/CodeInput'
-import {
-  DEFAULT_DAILY_PAYMENT_LIMIT_CUSD,
-  DEFAULT_SENTRY_NETWORK_ERRORS,
-  DEFAULT_SENTRY_TRACES_SAMPLE_RATE,
-} from 'src/config'
+import { DEFAULT_SENTRY_NETWORK_ERRORS, DEFAULT_SENTRY_TRACES_SAMPLE_RATE } from 'src/config'
+import { DappConnectInfo } from 'src/dapps/types'
 import { initialState as exchangeInitialState } from 'src/exchange/reducer'
+import { SendingFiatAccountStatus } from 'src/fiatconnect/slice'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { AddressToDisplayNameType } from 'src/identity/reducer'
 import { VerificationStatus } from 'src/identity/types'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
+import { TokenTransaction } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
+
+const DEFAULT_DAILY_PAYMENT_LIMIT_CUSD_LEGACY = 1000
 
 export const migrations = {
   0: (state: any) => {
@@ -135,28 +135,23 @@ export const migrations = {
     const providerDisplayInfo = {
       Moonpay: {
         name: 'Moonpay',
-        icon:
-          'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fmoonpay.png?alt=media',
+        icon: 'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fmoonpay.png?alt=media',
       },
       Ramp: {
         name: 'Ramp',
-        icon:
-          'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Framp.png?alt=media',
+        icon: 'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Framp.png?alt=media',
       },
       Simplex: {
         name: 'Simplex',
-        icon:
-          'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
+        icon: 'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
       },
       Transak: {
         name: 'Transak',
-        icon:
-          'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Ftransak.png?alt=media',
+        icon: 'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Ftransak.png?alt=media',
       },
       Xanpool: {
         name: 'Xanpool',
-        icon:
-          'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fxanpool.png?alt=media',
+        icon: 'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fxanpool.png?alt=media',
       },
     }
 
@@ -172,7 +167,7 @@ export const migrations = {
     }
   },
   9: (state: any) => {
-    if (state.account.dailyLimitCusd >= DEFAULT_DAILY_PAYMENT_LIMIT_CUSD) {
+    if (state.account.dailyLimitCusd >= DEFAULT_DAILY_PAYMENT_LIMIT_CUSD_LEGACY) {
       return state
     }
 
@@ -180,7 +175,7 @@ export const migrations = {
       ...state,
       account: {
         ...state.account,
-        dailyLimitCusd: DEFAULT_DAILY_PAYMENT_LIMIT_CUSD,
+        dailyLimitCusd: DEFAULT_DAILY_PAYMENT_LIMIT_CUSD_LEGACY,
       },
     }
   },
@@ -374,7 +369,7 @@ export const migrations = {
     ...state,
     app: {
       ...state.app,
-      superchargeButtonType: SuperchargeButtonType.PillRewards,
+      superchargeButtonType: 'PILL_REWARDS',
     },
   }),
   28: (state: any) => ({
@@ -573,9 +568,7 @@ export const migrations = {
     },
     app: {
       ...state.app,
-      finclusiveUnsupportedStates: REMOTE_CONFIG_VALUES_DEFAULTS.finclusiveUnsupportedStates.split(
-        ','
-      ),
+      finclusiveUnsupportedStates: ['NY', 'TX'],
     },
   }),
   45: (state: any) => state,
@@ -625,8 +618,278 @@ export const migrations = {
     ...state,
     app: {
       ...state.app,
-      celoWithdrawalEnabledInExchange:
-        REMOTE_CONFIG_VALUES_DEFAULTS.celoWithdrawalEnabledInExchange,
+      celoWithdrawalEnabledInExchange: true,
     },
+  }),
+  52: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      fiatConnectCashInEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.fiatConnectCashInEnabled,
+      fiatConnectCashOutEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.fiatConnectCashOutEnabled,
+    },
+  }),
+  53: (state: any) => ({
+    ...(_.omit(state, 'geth') as any),
+    account: _.omit(state.account, 'promptFornoIfNeeded', 'retryVerificationWithForno'),
+    web3: _.omit(state.web3, 'syncProgress', 'latestBlockNumber', 'fornoMode', 'hadFornoDisabled'),
+  }),
+  54: (state: any) => ({
+    ...state,
+    dapps: {
+      dappsWebViewEnabled: state.app.dappsWebViewEnabled ?? false,
+      activeDapp: state.app.activeDapp ?? null,
+      maxNumRecentDapps: state.app.maxNumRecentDapps,
+      recentDapps: state.app.recentDapps,
+      dappListApiUrl: state.app.dappListApiUrl,
+    },
+    app: _.omit(
+      state.app,
+      'dappsWebViewEnabled',
+      'maxNumRecentDapps',
+      'recentDapps',
+      'dappListApiUrl',
+      'activeDapp'
+    ),
+  }),
+  55: (state: any) => ({
+    ...state,
+    dapps: {
+      ...state.dapps,
+      dappsList: [],
+      dappsListLoading: false,
+      dappsListError: null,
+      dappsCategories: [],
+    },
+  }),
+  56: (state: any) => ({
+    ...state,
+    dapps: {
+      ...state.dapps,
+      dappConnectInfo: DappConnectInfo.Default,
+    },
+  }),
+  57: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      visualizeNFTsEnabledInHomeAssetsPage:
+        REMOTE_CONFIG_VALUES_DEFAULTS.visualizeNFTsEnabledInHomeAssetsPage,
+    },
+  }),
+  58: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      coinbasePayEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.coinbasePayEnabled,
+    },
+  }),
+  59: (state: any) => ({
+    ...state,
+    transactions: {
+      ...state.transactions,
+      transactions: (state.transactions.transactions || []).filter(
+        (transaction: TokenTransaction) => Object.keys(transaction).length > 0
+      ),
+    },
+  }),
+  60: (state: any) => ({
+    ...state,
+    fiatConnect: {
+      quotes: [],
+      quotesLoading: false,
+      quotesError: null,
+    },
+  }),
+  61: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      showSwapMenuInDrawerMenu: REMOTE_CONFIG_VALUES_DEFAULTS.showSwapMenuInDrawerMenu,
+    },
+  }),
+  62: (state: any) => ({
+    ...state,
+    fiatConnect: {
+      ...state.fiatConnect,
+      transfer: null,
+    },
+  }),
+  63: (state: any) => ({
+    ...state,
+    app: {
+      ..._.omit(state.app, 'superchargeTokens'),
+      superchargeTokenConfigByToken: {},
+    },
+  }),
+  64: (state: any) => ({
+    ...state,
+    fiatConnect: {
+      ...state.fiatConnect,
+      providers: null,
+    },
+  }),
+  65: (state: any) => state,
+  66: (state: any) => ({
+    ...state,
+    fiatConnect: {
+      ...state.fiatConnect,
+      cachedFiatAccountUses: [],
+      attemptReturnUserFlowLoading: false,
+    },
+  }),
+  67: (state: any) => ({
+    ...state,
+    fiatConnect: {
+      ...state.fiatConnect,
+      selectFiatConnectQuoteLoading: false,
+    },
+  }),
+  68: (state: any) => ({
+    ...state,
+    app: _.omit(
+      state.app,
+      'linkBankAccountEnabled',
+      'linkBankAccountStepTwoEnabled',
+      'finclusiveUnsupportedStates'
+    ),
+    account: _.omit(
+      state.account,
+      'hasLinkedBankAccount',
+      'finclusiveRegionSupported',
+      'finclusiveKycStatus',
+      'kycStatus'
+    ),
+  }),
+  69: (state: any) => ({
+    ...state,
+    recipients: {
+      ...state.recipients,
+      coinbasePaySenders: [],
+    },
+  }),
+  70: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      createAccountCopyTestType: REMOTE_CONFIG_VALUES_DEFAULTS.createAccountCopyTestType,
+    },
+  }),
+  71: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      maxSwapSlippagePercentage: REMOTE_CONFIG_VALUES_DEFAULTS.maxSwapSlippagePercentage,
+      swapFeeEnabled: false,
+      swapFeePercentage: false,
+    },
+  }),
+  72: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      shouldShowRecoveryPhraseInSettings:
+        REMOTE_CONFIG_VALUES_DEFAULTS.shouldShowRecoveryPhraseInSettings,
+    },
+  }),
+  73: (state: any) => state,
+  74: (state: any) => ({
+    ...state,
+    identity: _.omit(state.identity, 'matchedContacts'),
+  }),
+  75: (state: any) => ({
+    ...state,
+    app: _.omit(state.app, 'showRaiseDailyLimitTarget'),
+    account: _.omit(state.account, 'dailyLimitRequestStatus', 'dailyLimitCusd'),
+  }),
+  76: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      showGuidedOnboardingCopy: REMOTE_CONFIG_VALUES_DEFAULTS.showGuidedOnboardingCopy,
+    },
+  }),
+  77: (state: any) => state,
+  78: (state: any) => ({
+    ...state,
+    fiatConnect: {
+      ...state.fiatConnect,
+      sendingFiatAccount: false,
+    },
+  }),
+  79: (state: any) => ({
+    ...state,
+    fiatConnect: {
+      ..._.omit(state.fiatConnect, 'sendingFiatAccount'),
+      sendingFiatAccountStatus: SendingFiatAccountStatus.NotSending,
+    },
+  }),
+  80: (state: any) => ({
+    ...state,
+    fiatConnect: {
+      ...state.fiatConnect,
+      kycTryAgainLoading: false,
+    },
+  }),
+  81: (state: any) => state,
+  82: (state: any) => ({
+    ...state,
+    swap: {
+      swapState: 'quote',
+      swapInfo: null,
+      swapUserInput: null,
+    },
+  }),
+  83: (state: any) => ({
+    ...state,
+    fiatConnect: {
+      ...state.fiatConnect,
+      cachedQuoteParams: {},
+    },
+  }),
+  84: (state: any) => ({
+    ...state,
+    fiatConnect: {
+      ...state.fiatConnect,
+      schemaCountryOverrides: {},
+    },
+  }),
+  85: (state: any) => ({
+    ...state,
+    app: _.omit(state.app, 'swapFeeEnabled', 'swapFeePercentage'),
+  }),
+  86: (state: any) => ({
+    ...state,
+    fiatConnect: {
+      ...state.fiatConnect,
+      cachedFiatAccountUses: [],
+    },
+  }),
+  87: (state: any) => state,
+  88: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      networkTimeoutSeconds: REMOTE_CONFIG_VALUES_DEFAULTS.networkTimeoutSeconds,
+    },
+  }),
+  89: (state: any) => ({
+    ...state,
+    app: _.omit(state.app, 'superchargeButtonType'),
+  }),
+  90: (state: any) => ({
+    ...state,
+    app: _.omit(state.app, 'biometryEnabled'),
+  }),
+  91: (state: any) => ({
+    ...state,
+    fiatConnect: {
+      ...state.fiatConnect,
+      personaInProgress: false,
+    },
+  }),
+  92: (state: any) => ({
+    ...state,
+    app: _.omit(state.app, 'celoWithdrawalEnabledInExchange'),
   }),
 }

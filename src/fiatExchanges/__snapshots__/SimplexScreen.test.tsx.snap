@@ -33,12 +33,16 @@ exports[`SimplexScreen renders correctly 1`] = `
     >
       <Modal
         animationType="none"
+        deviceHeight={null}
+        deviceWidth={null}
         hardwareAccelerated={false}
         hideModalContentWhileAnimating={false}
+        onBackdropPress={[Function]}
         onModalHide={[Function]}
         onModalWillHide={[Function]}
         onModalWillShow={[Function]}
         onRequestClose={[Function]}
+        panResponderThreshold={4}
         scrollHorizontal={false}
         scrollOffset={0}
         scrollOffsetMax={0}
@@ -80,11 +84,15 @@ exports[`SimplexScreen renders correctly 1`] = `
           }
         />
         <View
+          deviceHeight={null}
+          deviceWidth={null}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
+          onBackdropPress={[Function]}
           onModalHide={[Function]}
           onModalWillHide={[Function]}
           onModalWillShow={[Function]}
+          panResponderThreshold={4}
           pointerEvents="box-none"
           scrollHorizontal={false}
           scrollOffset={0}
@@ -261,12 +269,16 @@ exports[`SimplexScreen renders correctly 1`] = `
       </Modal>
       <Modal
         animationType="none"
+        deviceHeight={null}
+        deviceWidth={null}
         hardwareAccelerated={false}
         hideModalContentWhileAnimating={false}
+        onBackdropPress={[Function]}
         onModalHide={[Function]}
         onModalWillHide={[Function]}
         onModalWillShow={[Function]}
         onRequestClose={[Function]}
+        panResponderThreshold={4}
         scrollHorizontal={false}
         scrollOffset={0}
         scrollOffsetMax={0}
@@ -308,11 +320,15 @@ exports[`SimplexScreen renders correctly 1`] = `
           }
         />
         <View
+          deviceHeight={null}
+          deviceWidth={null}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
+          onBackdropPress={[Function]}
           onModalHide={[Function]}
           onModalWillHide={[Function]}
           onModalWillShow={[Function]}
+          panResponderThreshold={4}
           pointerEvents="box-none"
           scrollHorizontal={false}
           scrollOffset={0}
@@ -916,6 +932,7 @@ exports[`SimplexScreen renders correctly 1`] = `
             Object {
               "alignItems": "center",
               "backgroundColor": "#97DFC1",
+              "flexDirection": "row",
               "flexGrow": 1,
               "height": 48,
               "justifyContent": "center",
@@ -928,6 +945,7 @@ exports[`SimplexScreen renders correctly 1`] = `
           <ActivityIndicator
             color="#FFFFFF"
             size="small"
+            testID="Button/Loading"
           />
         </View>
       </View>
@@ -969,12 +987,16 @@ exports[`SimplexScreen renders correctly 2`] = `
     >
       <Modal
         animationType="none"
+        deviceHeight={null}
+        deviceWidth={null}
         hardwareAccelerated={false}
         hideModalContentWhileAnimating={false}
+        onBackdropPress={[Function]}
         onModalHide={[Function]}
         onModalWillHide={[Function]}
         onModalWillShow={[Function]}
         onRequestClose={[Function]}
+        panResponderThreshold={4}
         scrollHorizontal={false}
         scrollOffset={0}
         scrollOffsetMax={0}
@@ -1016,11 +1038,15 @@ exports[`SimplexScreen renders correctly 2`] = `
           }
         />
         <View
+          deviceHeight={null}
+          deviceWidth={null}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
+          onBackdropPress={[Function]}
           onModalHide={[Function]}
           onModalWillHide={[Function]}
           onModalWillShow={[Function]}
+          panResponderThreshold={4}
           pointerEvents="box-none"
           scrollHorizontal={false}
           scrollOffset={0}
@@ -1197,12 +1223,16 @@ exports[`SimplexScreen renders correctly 2`] = `
       </Modal>
       <Modal
         animationType="none"
+        deviceHeight={null}
+        deviceWidth={null}
         hardwareAccelerated={false}
         hideModalContentWhileAnimating={false}
+        onBackdropPress={[Function]}
         onModalHide={[Function]}
         onModalWillHide={[Function]}
         onModalWillShow={[Function]}
         onRequestClose={[Function]}
+        panResponderThreshold={4}
         scrollHorizontal={false}
         scrollOffset={0}
         scrollOffsetMax={0}
@@ -1244,11 +1274,15 @@ exports[`SimplexScreen renders correctly 2`] = `
           }
         />
         <View
+          deviceHeight={null}
+          deviceWidth={null}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
+          onBackdropPress={[Function]}
           onModalHide={[Function]}
           onModalWillHide={[Function]}
           onModalWillShow={[Function]}
+          panResponderThreshold={4}
           pointerEvents="box-none"
           scrollHorizontal={false}
           scrollOffset={0}
@@ -1852,6 +1886,7 @@ exports[`SimplexScreen renders correctly 2`] = `
             Object {
               "alignItems": "center",
               "backgroundColor": "#97DFC1",
+              "flexDirection": "row",
               "flexGrow": 1,
               "height": 48,
               "justifyContent": "center",
@@ -1869,6 +1904,8 @@ exports[`SimplexScreen renders correctly 2`] = `
                 "fontFamily": "Inter-SemiBold",
                 "fontSize": 16,
                 "lineHeight": 22,
+                "marginLeft": 0,
+                "marginRight": 0,
               }
             }
           >

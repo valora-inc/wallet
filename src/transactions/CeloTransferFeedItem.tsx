@@ -31,17 +31,8 @@ export function CeloTransferFeedItem(props: Props) {
   const addressToDisplayName = useSelector(addressToDisplayNameSelector)
   const txHashToFeedInfo = useSelector(txHashToFeedInfoSelector)
   const recipientInfo = useSelector(recipientInfoSelector)
-  const {
-    address,
-    amount,
-    hash,
-    comment,
-    status,
-    timestamp,
-    type,
-    defaultName,
-    defaultImage,
-  } = props
+  const { address, amount, hash, comment, status, timestamp, type, defaultName, defaultImage } =
+    props
 
   const recipient = getRecipientFromAddress(address, recipientInfo, defaultName, defaultImage)
 

@@ -2,9 +2,10 @@ import React, { useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { DappExplorerEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { dappSelected } from 'src/app/actions'
-import { ActiveDapp } from 'src/app/reducers'
-import { activeScreenSelector, recentDappsSelector } from 'src/app/selectors'
+import { activeScreenSelector } from 'src/app/selectors'
+import { recentDappsSelector } from 'src/dapps/selectors'
+import { dappSelected } from 'src/dapps/slice'
+import { ActiveDapp } from 'src/dapps/types'
 import DAppsBottomSheet from 'src/dappsExplorer/DAppsBottomSheet'
 import { Screens } from 'src/navigator/Screens'
 import { isDeepLink } from 'src/utils/linking'
@@ -44,7 +45,7 @@ const useOpenDapp = () => {
 
   const openDapp = (dapp: ActiveDapp) => {
     ValoraAnalytics.track(DappExplorerEvents.dapp_open, getEventProperties(dapp))
-    dispatch(dappSelected(dapp))
+    dispatch(dappSelected({ dapp }))
   }
 
   const onOpenDapp = () => {
@@ -53,6 +54,7 @@ const useOpenDapp = () => {
       Logger.error(TAG, 'Internal error. There was no dapp selected')
       return
     }
+
     openDapp(selectedDapp)
     setShowOpenDappConfirmation(false)
   }

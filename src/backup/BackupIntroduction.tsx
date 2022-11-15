@@ -50,17 +50,31 @@ class BackupIntroduction extends React.Component<Props> {
 
   render() {
     const { backupCompleted, route } = this.props
-    const navigatedFromSettings = route.params?.navigatedFromSettings
-    return (
-      <SafeAreaView style={styles.container}>
-        {!navigatedFromSettings && <DrawerTopBar />}
-        {backupCompleted ? (
-          <AccountKeyPostSetup />
-        ) : (
-          <AccountKeyIntro onPrimaryPress={this.onPressBackup} />
-        )}
-      </SafeAreaView>
-    )
+    const showDrawerTopBar = route.params?.showDrawerTopBar
+
+    // Conditional rendering for headers
+    if (showDrawerTopBar) {
+      return (
+        <SafeAreaView style={styles.container}>
+          <DrawerTopBar testID="BackupIntroduction/DrawerTopBar" />
+          {backupCompleted ? (
+            <AccountKeyPostSetup />
+          ) : (
+            <AccountKeyIntro onPrimaryPress={this.onPressBackup} />
+          )}
+        </SafeAreaView>
+      )
+    } else {
+      return (
+        <View style={styles.container}>
+          {backupCompleted ? (
+            <AccountKeyPostSetup />
+          ) : (
+            <AccountKeyIntro onPrimaryPress={this.onPressBackup} />
+          )}
+        </View>
+      )
+    }
   }
 }
 

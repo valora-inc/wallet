@@ -8,30 +8,38 @@ import { SUPERCHARGE_LEARN_MORE } from 'src/config'
 import ConsumerIncentivesHomeScreen from 'src/consumerIncentives/ConsumerIncentivesHomeScreen'
 import { initialState, State } from 'src/consumerIncentives/slice'
 import { ONE_CUSD_REWARD_RESPONSE } from 'src/consumerIncentives/testValues'
-import { SuperchargeToken } from 'src/consumerIncentives/types'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { RootState } from 'src/redux/reducers'
-import { StoredTokenBalance } from 'src/tokens/reducer'
+import { StoredTokenBalance } from 'src/tokens/slice'
 import { createMockStore } from 'test/utils'
-import { mockCusdAddress } from 'test/values'
 interface TokenBalances {
-  [address: string]: Partial<StoredTokenBalance> | undefined
+  [address: string]: StoredTokenBalance
 }
 
-const CUSD_BALANCE: TokenBalances = {
-  [mockCusdAddress]: {
-    balance: '50',
-    symbol: SuperchargeToken.cUSD,
-    isCoreToken: true,
-  },
+const mockCusdAddress = '0xcusd'
+const mockCeurAddress = '0xceur'
+
+const CUSD_TOKEN_BALANCE = {
+  address: mockCusdAddress,
+  balance: '50',
+  usdPrice: '1',
+  symbol: 'cUSD',
+  decimals: 18,
+  imageUrl: '',
+  isCoreToken: true,
+  name: 'cUSD',
+  priceFetchedAt: Date.now(),
+}
+
+const ONLY_CUSD_BALANCE: TokenBalances = {
+  [mockCusdAddress]: CUSD_TOKEN_BALANCE,
 }
 const NO_BALANCES: TokenBalances = {
   [mockCusdAddress]: {
+    ...CUSD_TOKEN_BALANCE,
     balance: '5',
-    symbol: SuperchargeToken.cUSD,
-    isCoreToken: true,
   },
 }
 
@@ -71,18 +79,16 @@ describe('ConsumerIncentivesHomeScreen', () => {
     store = createMockStore({
       app: {
         numberVerified,
-        superchargeTokens: [
-          {
-            token: SuperchargeToken.cUSD,
+        superchargeTokenConfigByToken: {
+          [mockCusdAddress]: {
             minBalance: 10,
             maxBalance: 1000,
           },
-          {
-            token: SuperchargeToken.cREAL,
-            minBalance: 50,
-            maxBalance: 6000,
+          [mockCeurAddress]: {
+            minBalance: 10,
+            maxBalance: 1000,
           },
-        ],
+        },
       },
       tokens: { tokenBalances },
       supercharge,
@@ -110,7 +116,7 @@ describe('ConsumerIncentivesHomeScreen', () => {
       <Provider
         store={createStore({
           numberVerified: true,
-          tokenBalances: CUSD_BALANCE,
+          tokenBalances: ONLY_CUSD_BALANCE,
         })}
       >
         <ConsumerIncentivesHomeScreen />
@@ -125,7 +131,7 @@ describe('ConsumerIncentivesHomeScreen', () => {
       <Provider
         store={createStore({
           numberVerified: true,
-          tokenBalances: CUSD_BALANCE,
+          tokenBalances: ONLY_CUSD_BALANCE,
           supercharge: {
             ...initialState,
             availableRewards: ONE_CUSD_REWARD_RESPONSE,
@@ -198,7 +204,7 @@ describe('ConsumerIncentivesHomeScreen', () => {
       <Provider
         store={createStore({
           numberVerified: true,
-          tokenBalances: CUSD_BALANCE,
+          tokenBalances: ONLY_CUSD_BALANCE,
           supercharge: {
             ...initialState,
             availableRewards: ONE_CUSD_REWARD_RESPONSE,
@@ -228,7 +234,7 @@ describe('ConsumerIncentivesHomeScreen', () => {
             "createdAt": 1645591363099,
             "index": 0,
             "proof": Array [],
-            "tokenAddress": "0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1",
+            "tokenAddress": "0x874069fa1eb16d44d622f2e0ca25eea172369bc1",
           },
         ],
         "type": "supercharge/claimRewards",
@@ -241,7 +247,7 @@ describe('ConsumerIncentivesHomeScreen', () => {
       <Provider
         store={createStore({
           numberVerified: true,
-          tokenBalances: CUSD_BALANCE,
+          tokenBalances: ONLY_CUSD_BALANCE,
         })}
       >
         <ConsumerIncentivesHomeScreen />

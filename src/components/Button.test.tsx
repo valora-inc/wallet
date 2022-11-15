@@ -54,7 +54,7 @@ describe('Button', () => {
 
   describe('when passed accessibilityLabel', () => {
     it('sets it', () => {
-      const { getByA11yLabel } = render(
+      const { getByLabelText } = render(
         <Button
           accessibilityLabel="link"
           onPress={jest.fn()}
@@ -62,7 +62,7 @@ describe('Button', () => {
           type={BtnTypes.PRIMARY}
         />
       )
-      expect(getByA11yLabel('link').children).toContain('Button')
+      expect(getByLabelText('link').children).toContain('Button')
     })
   })
   describe('when type is SECONDARY', () => {

@@ -220,7 +220,7 @@ it('renders the received data along with the standby transactions', async () => 
       </MockedProvider>
     </Provider>
   )
-
+  await waitFor(() => expect(UNSAFE_getByType(TransactionFeed).props.data.length).toEqual(6))
   const feed = await waitFor(() => UNSAFE_getByType(TransactionFeed))
   const { data } = feed.props
   expect(data.length).toEqual(6)

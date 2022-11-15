@@ -3,16 +3,21 @@
 exports[`ShakeForSupport does not render when App not active 1`] = `
 <Modal
   animationType="none"
+  deviceHeight={null}
+  deviceWidth={null}
   hardwareAccelerated={false}
   hideModalContentWhileAnimating={false}
+  onBackdropPress={[Function]}
   onModalHide={[Function]}
   onModalWillHide={[Function]}
   onModalWillShow={[Function]}
   onRequestClose={[Function]}
+  panResponderThreshold={4}
   scrollHorizontal={false}
   scrollOffset={0}
   scrollOffsetMax={0}
   scrollTo={null}
+  statusBarTranslucent={false}
   supportedOrientations={
     Array [
       "portrait",
@@ -21,6 +26,7 @@ exports[`ShakeForSupport does not render when App not active 1`] = `
   }
   swipeThreshold={100}
   transparent={true}
+  useNativeDriverForBackdrop={true}
   visible={false}
 >
   <View
@@ -52,17 +58,22 @@ exports[`ShakeForSupport does not render when App not active 1`] = `
   />
   <View
     collapsable={false}
+    deviceHeight={null}
+    deviceWidth={null}
     forwardedRef={[Function]}
     hideModalContentWhileAnimating={false}
     nativeID="animatedComponent"
+    onBackdropPress={[Function]}
     onModalHide={[Function]}
     onModalWillHide={[Function]}
     onModalWillShow={[Function]}
+    panResponderThreshold={4}
     pointerEvents="box-none"
     scrollHorizontal={false}
     scrollOffset={0}
     scrollOffsetMax={0}
     scrollTo={null}
+    statusBarTranslucent={false}
     style={
       Object {
         "flex": 1,
@@ -82,6 +93,7 @@ exports[`ShakeForSupport does not render when App not active 1`] = `
       ]
     }
     swipeThreshold={100}
+    useNativeDriverForBackdrop={true}
   >
     <RNCSafeAreaView
       style={
@@ -228,6 +240,7 @@ exports[`ShakeForSupport does not render when App not active 1`] = `
               Object {
                 "alignItems": "center",
                 "backgroundColor": "#1AB775",
+                "flexDirection": "row",
                 "height": 48,
                 "justifyContent": "center",
                 "minWidth": 120,
@@ -246,6 +259,8 @@ exports[`ShakeForSupport does not render when App not active 1`] = `
                   "fontFamily": "Inter-SemiBold",
                   "fontSize": 16,
                   "lineHeight": 22,
+                  "marginLeft": 0,
+                  "marginRight": 0,
                 }
               }
             >
@@ -262,16 +277,21 @@ exports[`ShakeForSupport does not render when App not active 1`] = `
 exports[`ShakeForSupport renders correctly when App is active 1`] = `
 <Modal
   animationType="none"
+  deviceHeight={null}
+  deviceWidth={null}
   hardwareAccelerated={false}
   hideModalContentWhileAnimating={false}
+  onBackdropPress={[Function]}
   onModalHide={[Function]}
   onModalWillHide={[Function]}
   onModalWillShow={[Function]}
   onRequestClose={[Function]}
+  panResponderThreshold={4}
   scrollHorizontal={false}
   scrollOffset={0}
   scrollOffsetMax={0}
   scrollTo={null}
+  statusBarTranslucent={false}
   supportedOrientations={
     Array [
       "portrait",
@@ -280,6 +300,7 @@ exports[`ShakeForSupport renders correctly when App is active 1`] = `
   }
   swipeThreshold={100}
   transparent={true}
+  useNativeDriverForBackdrop={true}
   visible={false}
 >
   <View
@@ -311,17 +332,22 @@ exports[`ShakeForSupport renders correctly when App is active 1`] = `
   />
   <View
     collapsable={false}
+    deviceHeight={null}
+    deviceWidth={null}
     forwardedRef={[Function]}
     hideModalContentWhileAnimating={false}
     nativeID="animatedComponent"
+    onBackdropPress={[Function]}
     onModalHide={[Function]}
     onModalWillHide={[Function]}
     onModalWillShow={[Function]}
+    panResponderThreshold={4}
     pointerEvents="box-none"
     scrollHorizontal={false}
     scrollOffset={0}
     scrollOffsetMax={0}
     scrollTo={null}
+    statusBarTranslucent={false}
     style={
       Object {
         "flex": 1,
@@ -341,6 +367,7 @@ exports[`ShakeForSupport renders correctly when App is active 1`] = `
       ]
     }
     swipeThreshold={100}
+    useNativeDriverForBackdrop={true}
   >
     <RNCSafeAreaView
       style={
@@ -487,6 +514,7 @@ exports[`ShakeForSupport renders correctly when App is active 1`] = `
               Object {
                 "alignItems": "center",
                 "backgroundColor": "#1AB775",
+                "flexDirection": "row",
                 "height": 48,
                 "justifyContent": "center",
                 "minWidth": 120,
@@ -505,6 +533,8 @@ exports[`ShakeForSupport renders correctly when App is active 1`] = `
                   "fontFamily": "Inter-SemiBold",
                   "fontSize": 16,
                   "lineHeight": 22,
+                  "marginLeft": 0,
+                  "marginRight": 0,
                 }
               }
             >

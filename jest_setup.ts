@@ -1,5 +1,5 @@
-// @ts-ignore
-const svgMock = require('react-native-svg-mock')
+import '@testing-library/jest-native/extend-expect'
+import 'react-native-svg-mock'
 
 jest.useFakeTimers()
 
@@ -35,3 +35,6 @@ jest.mock('react-native/Libraries/Utilities/PixelRatio.js', () => ({
   getPixelSizeForLayoutSize: jest.fn(() => 1),
   getFontScale: jest.fn(() => 1),
 }))
+
+// @ts-ignore
+global.__reanimatedWorkletInit = jest.fn()

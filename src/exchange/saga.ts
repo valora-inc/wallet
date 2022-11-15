@@ -106,7 +106,7 @@ export function* doFetchTobinTax({ makerAmount, makerToken }: FetchTobinTaxActio
 
 export async function getExchangeContract(token: StableCurrency) {
   Logger.debug(TAG + '@getTokenContract', `Fetching contract for ${token}`)
-  const contractKit = await getContractKitAsync(false)
+  const contractKit = await getContractKitAsync()
   switch (token) {
     case Currency.Dollar:
       return contractKit.contracts.getExchange(StableToken.cUSD)
@@ -127,11 +127,9 @@ export function* doFetchExchangeRate(action: FetchExchangeRateAction) {
 
     let makerAmountInWei: BigNumber | null = null
     if (makerAmount && makerToken) {
-      makerAmountInWei = ((yield call(
-        convertToContractDecimals,
-        makerAmount,
-        makerToken
-      )) as BigNumber).integerValue()
+      makerAmountInWei = (
+        (yield call(convertToContractDecimals, makerAmount, makerToken)) as BigNumber
+      ).integerValue()
     }
 
     // If makerAmount and makerToken are given, use them to estimate the exchange rate,

@@ -5,11 +5,12 @@ import { reducer as account, State as AccountState } from 'src/account/reducer'
 import { reducer as alert, State as AlertState } from 'src/alert/reducer'
 import { appReducer as app, State as AppState } from 'src/app/reducers'
 import superchargeReducer, { State as SuperchargeState } from 'src/consumerIncentives/slice'
+import dappsReducer, { State as DappsState } from 'src/dapps/slice'
 import { escrowReducer as escrow, State as EscrowState } from 'src/escrow/reducer'
 import { reducer as exchange, State as ExchangeState } from 'src/exchange/reducer'
 import { reducer as fees, State as FeesState } from 'src/fees/reducer'
+import fiatConnectReducer, { State as FiatConnectState } from 'src/fiatconnect/slice'
 import { reducer as fiatExchanges, State as FiatExchangesState } from 'src/fiatExchanges/reducer'
-import { gethReducer as geth, State as GethState } from 'src/geth/reducer'
 import { reducer as goldToken, State as GoldTokenState } from 'src/goldToken/reducer'
 import { homeReducer as home, State as HomeState } from 'src/home/reducers'
 import i18nReducer, { State as I18nState } from 'src/i18n/slice'
@@ -21,7 +22,8 @@ import { reducer as paymentRequest, State as PaymentRequestState } from 'src/pay
 import { recipientsReducer as recipients, State as RecipientsState } from 'src/recipients/reducer'
 import { sendReducer as send, State as SendState } from 'src/send/reducers'
 import { reducer as stableToken, State as StableTokenState } from 'src/stableToken/reducer'
-import { reducer as tokens, State as TokensState } from 'src/tokens/reducer'
+import swapReducer, { State as SwapState } from 'src/swap/slice'
+import tokenReducer, { State as TokensState } from 'src/tokens/slice'
 import { reducer as transactions, State as TransactionsState } from 'src/transactions/reducer'
 import { reducer as verify, State as VerifyState } from 'src/verify/reducer'
 import { reducer as walletConnect, State as WalletConnectState } from 'src/walletConnect/reducer'
@@ -42,7 +44,6 @@ const appReducer = combineReducers({
   identity,
   verify,
   account,
-  geth,
   escrow,
   fees,
   recipients,
@@ -51,8 +52,11 @@ const appReducer = combineReducers({
   paymentRequest,
   fiatExchanges,
   walletConnect,
-  tokens,
+  tokens: tokenReducer,
   supercharge: superchargeReducer,
+  dapps: dappsReducer,
+  fiatConnect: fiatConnectReducer,
+  swap: swapReducer,
 }) as (state: RootState | undefined, action: Action) => RootState
 
 const rootReducer = (state: RootState | undefined, action: Action): RootState => {
@@ -90,7 +94,6 @@ export interface RootState {
   identity: IdentityState
   verify: VerifyState
   account: AccountState
-  geth: GethState
   escrow: EscrowState
   fees: FeesState
   recipients: RecipientsState
@@ -101,6 +104,9 @@ export interface RootState {
   walletConnect: WalletConnectState
   tokens: TokensState
   supercharge: SuperchargeState
+  dapps: DappsState
+  fiatConnect: FiatConnectState
+  swap: SwapState
 }
 
 export interface PersistedRootState {

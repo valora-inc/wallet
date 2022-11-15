@@ -5,6 +5,7 @@ import { StackScreenProps } from '@react-navigation/stack'
 import * as React from 'react'
 import { WithTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
+import { BIOMETRY_TYPE } from 'react-native-keychain'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
 import { initializeAccount, setPincodeSuccess } from 'src/account/actions'
@@ -12,9 +13,10 @@ import { PincodeType } from 'src/account/reducer'
 import { OnboardingEvents, SettingsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import {
-  biometryEnabledSelector,
   registrationStepsSelector,
+  showGuidedOnboardingSelector,
   skipVerificationSelector,
+  supportedBiometryTypeSelector,
 } from 'src/app/selectors'
 import DevSkipButton from 'src/components/DevSkipButton'
 import i18n, { withTranslation } from 'src/i18n'
@@ -42,8 +44,9 @@ interface StateProps {
   useExpandedBlocklist: boolean
   account: string
   registrationStep: { step: number; totalSteps: number }
-  biometryEnabled: boolean
+  supportedBiometryType: BIOMETRY_TYPE | null
   skipVerification: boolean
+  showGuidedOnboarding: boolean
 }
 
 interface DispatchProps {
@@ -58,6 +61,7 @@ interface State {
   pin2: string
   errorText: string | undefined
   blocklist: PinBlocklist | undefined
+  isVerifying: boolean
 }
 
 type ScreenProps = StackScreenProps<StackParamList, Screens.PincodeSet>
@@ -71,8 +75,9 @@ function mapStateToProps(state: RootState): StateProps {
     hideVerification: state.app.hideVerification,
     useExpandedBlocklist: state.app.pincodeUseExpandedBlocklist,
     account: currentAccountSelector(state) ?? '',
-    biometryEnabled: biometryEnabledSelector(state),
+    supportedBiometryType: supportedBiometryTypeSelector(state),
     skipVerification: skipVerificationSelector(state),
+    showGuidedOnboarding: showGuidedOnboardingSelector(state),
   }
 }
 
@@ -85,8 +90,13 @@ const mapDispatchToProps = {
 export class PincodeSet extends React.Component<Props, State> {
   static navigationOptions = ({ route }: ScreenProps) => {
     const changePin = route.params?.changePin
-    const title = changePin ? i18n.t('pincodeSet.changePIN') : i18n.t('pincodeSet.create')
-
+    const showGuidedOnboarding = route.params?.showGuidedOnboarding
+    let title = i18n.t('pincodeSet.create')
+    if (changePin) {
+      title = i18n.t('pincodeSet.changePIN')
+    } else if (showGuidedOnboarding) {
+      title = i18n.t('pincodeSet.selectPIN')
+    }
     return {
       ...nuxNavigationOptions,
       headerTitle: () => (
@@ -111,6 +121,7 @@ export class PincodeSet extends React.Component<Props, State> {
     pin2: '',
     errorText: undefined,
     blocklist: undefined,
+    isVerifying: false,
   }
 
   componentDidMount = () => {
@@ -147,7 +158,7 @@ export class PincodeSet extends React.Component<Props, State> {
   navigateToNextScreen = () => {
     if (this.isChangingPin()) {
       navigate(Screens.Settings)
-    } else if (this.props.biometryEnabled) {
+    } else if (this.props.supportedBiometryType !== null) {
       navigate(Screens.EnableBiometry)
     } else if (this.props.choseToRestoreAccount) {
       navigate(Screens.ImportWallet)
@@ -188,7 +199,7 @@ export class PincodeSet extends React.Component<Props, State> {
 
   onCompletePin1 = () => {
     if (this.isPin1Valid(this.state.pin1)) {
-      this.props.navigation.setParams({ isVerifying: true })
+      this.setState({ isVerifying: true })
       if (this.isChangingPin()) {
         ValoraAnalytics.track(SettingsEvents.change_pin_new_pin_entered)
       }
@@ -228,9 +239,9 @@ export class PincodeSet extends React.Component<Props, State> {
       if (this.isChangingPin()) {
         ValoraAnalytics.track(SettingsEvents.change_pin_new_pin_error)
       }
-      this.props.navigation.setParams({ isVerifying: false })
       ValoraAnalytics.track(OnboardingEvents.pin_invalid, { error: 'Pins do not match' })
       this.setState({
+        isVerifying: false,
         pin1: '',
         pin2: '',
         errorText: this.props.t('pincodeSet.pinsDontMatch'),
@@ -239,22 +250,22 @@ export class PincodeSet extends React.Component<Props, State> {
   }
 
   render() {
-    const { route, t } = this.props
-    const isVerifying = route.params?.isVerifying
+    const { t } = this.props
     const changingPin = this.isChangingPin()
-
-    const { pin1, pin2, errorText } = this.state
+    const { errorText, isVerifying, pin1, pin2 } = this.state
 
     return (
       <SafeAreaView style={changingPin ? styles.changePinContainer : styles.container}>
         <DevSkipButton onSkip={this.navigateToNextScreen} />
         {isVerifying ? (
           <Pincode
-            title={t('pincodeSet.verify')}
+            title={this.props.showGuidedOnboarding ? ' ' : t('pincodeSet.verify')}
             errorText={errorText}
             pin={pin2}
             onChangePin={this.onChangePin2}
             onCompletePin={this.onCompletePin2}
+            onBoardingSetPin={!changingPin}
+            verifyPin={true}
           />
         ) : (
           <Pincode
@@ -263,6 +274,7 @@ export class PincodeSet extends React.Component<Props, State> {
             pin={pin1}
             onChangePin={this.onChangePin1}
             onCompletePin={this.onCompletePin1}
+            onBoardingSetPin={!changingPin}
           />
         )}
       </SafeAreaView>

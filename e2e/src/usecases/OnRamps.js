@@ -5,6 +5,7 @@ const jestExpect = require('expect')
 export default onRamps = () => {
   beforeEach(async () => {
     await reloadReactNative()
+    await waitForElementId('Hamburger')
     await element(by.id('Hamburger')).tap()
     await element(by.id('add-and-withdraw')).tap()
     await waitForElementId('addFunds')
@@ -57,7 +58,7 @@ export default onRamps = () => {
       }
       // Check IF Multiple Bank Providers
       if (await isElementVisible('Bank/numProviders')) {
-        let bankProviders = await element(by.id('Card/numProviders')).getAttributes()
+        let bankProviders = await element(by.id('Bank/numProviders')).getAttributes()
         numBankProviders =
           device.getPlatform() === 'ios'
             ? bankProviders.label.split(' ')[0]

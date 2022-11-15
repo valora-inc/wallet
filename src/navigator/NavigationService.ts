@@ -180,7 +180,7 @@ const getActiveRouteState = function (route: NavigationState): NavigationState {
     return route.state
   }
 
-  const childActiveRoute = (route.routes[route.index] as unknown) as NavigationState
+  const childActiveRoute = route.routes[route.index] as unknown as NavigationState
   return getActiveRouteState(childActiveRoute)
 }
 
@@ -194,6 +194,12 @@ export async function isScreenOnForeground(screen: Screens) {
   // Note: The '?' in the following line shouldn't be necessary, but are there anyways to be defensive
   // because of the ts-ignore on getActiveRouteState.
   return activeRouteState?.routes[activeRouteState?.routes.length - 1]?.name === screen
+}
+
+export async function isBottomSheetVisible(screen: Screens) {
+  await ensureNavigator()
+  const state = navigationRef.current?.getRootState()
+  return !!state?.routes.find((route) => route.name === screen)
 }
 
 interface NavigateHomeOptions {

@@ -1,9 +1,10 @@
 import { stringToBoolean } from '@celo/utils/lib/parsing'
+import { Network } from '@fiatconnect/fiatconnect-types'
 import BigNumber from 'bignumber.js'
 import Config from 'react-native-config'
 import { CachesDirectoryPath } from 'react-native-fs'
 import { SpendMerchant } from 'src/fiatExchanges/Spend'
-import { GethSyncMode } from 'src/geth/consts'
+import { LoggerLevel } from 'src/utils/LoggerLevels'
 // eslint-disable-next-line import/no-relative-packages
 import * as secretsFile from '../secrets.json'
 import { ONE_HOUR_IN_MILLIS } from './utils/time'
@@ -52,7 +53,6 @@ export const DOLLAR_MIN_AMOUNT_ACCOUNT_FUNDED = 0.01
 // The number of seconds before the sender can reclaim the payment.
 export const ESCROW_PAYMENT_EXPIRY_SECONDS = 1 // The contract doesn't allow 0 seconds.
 export const DEFAULT_TESTNET = Config.DEFAULT_TESTNET
-export const DEFAULT_DAILY_PAYMENT_LIMIT_CUSD = 1000
 export const SMS_RETRIEVER_APP_SIGNATURE = Config.SMS_RETRIEVER_APP_SIGNATURE
 // ODIS minimum dollar balance for pepper quota retrieval
 // TODO change this to new ODIS minimum dollar balance once deployed
@@ -79,28 +79,23 @@ export const BLOCKSCOUT_BASE_URL = Config.BLOCKSCOUT_BASE_URL
 
 export const APP_BUNDLE_ID = Config.APP_BUNDLE_ID
 
+// The network that FiatConnect providers operate on
+export const FIATCONNECT_NETWORK =
+  DEFAULT_TESTNET === 'mainnet' ? Network.Mainnet : Network.Alfajores
+
+export const STATSIG_ENV = {
+  tier: DEFAULT_TESTNET === 'mainnet' ? 'production' : 'development',
+}
+
 // FEATURE FLAGS
 export const FIREBASE_ENABLED = stringToBoolean(Config.FIREBASE_ENABLED || 'true')
 export const SHOW_TESTNET_BANNER = stringToBoolean(Config.SHOW_TESTNET_BANNER || 'false')
 export const SHOW_GET_INVITE_LINK = stringToBoolean(Config.SHOW_GET_INVITE_LINK || 'false')
-export const FORNO_ENABLED_INITIALLY = Config.FORNO_ENABLED_INITIALLY
-  ? stringToBoolean(Config.FORNO_ENABLED_INITIALLY)
-  : false
-export const DEFAULT_SYNC_MODE: GethSyncMode = Config.DEFAULT_SYNC_MODE
-  ? new BigNumber(Config.DEFAULT_SYNC_MODE).toNumber()
-  : GethSyncMode.Lightest
-export const GETH_USE_FULL_NODE_DISCOVERY = stringToBoolean(
-  Config.GETH_USE_FULL_NODE_DISCOVERY || 'true'
-)
-export const GETH_USE_STATIC_NODES = stringToBoolean(Config.GETH_USE_STATIC_NODES || 'true')
-// NOTE: Development purposes only
-export const GETH_START_HTTP_RPC_SERVER = stringToBoolean(
-  Config.GETH_START_HTTP_RPC_SERVER || 'false'
-)
 export const SENTRY_ENABLED = stringToBoolean(Config.SENTRY_ENABLED || 'false')
 export const SUPERCHARGE_AVAILABLE_REWARDS_URL = Config.SUPERCHARGE_AVAILABLE_REWARDS_URL
 
 // SECRETS
+export const STATSIG_API_KEY = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'STATSIG_API_KEY')
 export const SEGMENT_API_KEY = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'SEGMENT_API_KEY')
 export const SENTRY_CLIENT_URL = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'SENTRY_CLIENT_URL')
 export const RECAPTCHA_SITE_KEY = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'RECAPTCHA_SITE_KEY')
@@ -119,6 +114,8 @@ export const SPEND_MERCHANT_LINKS: SpendMerchant[] = [
   },
 ]
 
+export const DEFAULT_PERSONA_TEMPLATE_ID = 'itmpl_5FYHGGFhdAYvfd7FvSpNADcC'
+
 export const VALORA_LOGO_URL =
   'https://storage.googleapis.com/celo-mobile-mainnet.appspot.com/images/valora-icon.png'
 export const CELO_LOGO_URL =
@@ -135,6 +132,7 @@ export const CASH_IN_FAILURE_DEEPLINK = 'celo://wallet/cash-in-failure'
 
 export const APP_STORE_ID = Config.APP_STORE_ID
 export const DYNAMIC_DOWNLOAD_LINK = Config.DYNAMIC_DOWNLOAD_LINK
+export const DYNAMIC_LINK_DOMAIN_URI_PREFIX = 'https://vlra.app'
 export const CROWDIN_DISTRIBUTION_HASH = 'e-f9f6869461793b9d1a353b2v7c'
 export const OTA_TRANSLATIONS_FILEPATH = `file://${CachesDirectoryPath}/translations`
 
@@ -142,8 +140,20 @@ export const FETCH_TIMEOUT_DURATION = 15000 // 15 seconds
 
 export const DEFAULT_APP_LANGUAGE = 'en-US'
 
+// Logging and monitoring
 export const DEFAULT_SENTRY_TRACES_SAMPLE_RATE = 0.2
 export const DEFAULT_SENTRY_NETWORK_ERRORS = [
   'network request failed',
   'The network connection was lost',
 ]
+
+const configLoggerLevels: { [key: string]: LoggerLevel } = {
+  debug: LoggerLevel.Debug,
+  info: LoggerLevel.Info,
+  warn: LoggerLevel.Warn,
+  error: LoggerLevel.Error,
+}
+
+export const LOGGER_LEVEL = configLoggerLevels[Config.LOGGER_LEVEL] || LoggerLevel.Debug
+
+export const PHONE_NUMBER_VERIFICATION_CODE_LENGTH = 6

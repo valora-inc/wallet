@@ -1,4 +1,4 @@
-import networkConfig from 'src/geth/networkConfig'
+import networkConfig from 'src/web3/networkConfig'
 
 export interface RegistrationProperties {
   language?: string | null

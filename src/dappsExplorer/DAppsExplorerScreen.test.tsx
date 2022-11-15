@@ -1,180 +1,137 @@
 import { fireEvent, render } from '@testing-library/react-native'
-import { FetchMock } from 'jest-fetch-mock/types'
 import * as React from 'react'
 import { Provider } from 'react-redux'
+import { dappSelected, fetchDappsList } from 'src/dapps/slice'
+import { Dapp, DappCategory, DappSection } from 'src/dapps/types'
 import DAppsExplorerScreen from 'src/dappsExplorer/DAppsExplorerScreen'
-import { createMockStore, flushMicrotasksQueue } from 'test/utils'
+import { createMockStore } from 'test/utils'
 
-const mockResponseWithoutFeaturedDapp = {
-  categories: [
-    {
-      id: '1',
-      name: 'Swap',
-      backgroundColor: '#DEF8EA',
-      fontColor: '#1AB775',
-    },
-    {
-      id: '2',
-      name: 'Lend, Borrow & Earn',
-      backgroundColor: '#DEF8F7',
-      fontColor: '#07A0AE',
-    },
-  ],
-  applications: [
-    {
-      name: 'Ubeswap',
-      id: '1',
-      categoryId: '1',
-      description: 'Swap tokens!',
-      logoUrl: 'https://raw.githubusercontent.com/valora-inc/app-list/main/assets/ubeswap.png',
-      url: 'https://app.ubeswap.org/',
-    },
-    {
-      name: 'Moola',
-      id: '2',
-      categoryId: '2',
-      description: 'Lend and borrow tokens!',
-      logoUrl: 'https://raw.githubusercontent.com/valora-inc/app-list/main/assets/moola.png',
-      url: 'celo://wallet/moolaScreen',
-    },
-  ],
-}
-
-const mockResponseWithFeaturedDapp = {
-  ...mockResponseWithoutFeaturedDapp,
-  featured: {
-    name: 'SushiSwap',
-    id: '3',
+const dappsList: Dapp[] = [
+  {
+    name: 'Ubeswap',
+    id: '1',
     categoryId: '1',
-    description: 'Swap some tokens!',
-    logoUrl: 'https://raw.githubusercontent.com/valora-inc/app-list/main/assets/sushiswap.png',
-    url: 'https://app.sushi.com/',
+    description: 'Swap tokens!',
+    iconUrl: 'https://raw.githubusercontent.com/valora-inc/app-list/main/assets/ubeswap.png',
+    dappUrl: 'https://app.ubeswap.org/',
+    isFeatured: false,
   },
-}
+  {
+    name: 'Moola',
+    id: '2',
+    categoryId: '2',
+    description: 'Lend and borrow tokens!',
+    iconUrl: 'https://raw.githubusercontent.com/valora-inc/app-list/main/assets/moola.png',
+    dappUrl: 'celo://wallet/moolaScreen',
+    isFeatured: false,
+  },
+]
+
+const dappsCategories: DappCategory[] = [
+  {
+    id: '1',
+    name: 'Swap',
+    backgroundColor: '#DEF8EA',
+    fontColor: '#1AB775',
+  },
+  {
+    id: '2',
+    name: 'Lend, Borrow & Earn',
+    backgroundColor: '#DEF8F7',
+    fontColor: '#07A0AE',
+  },
+]
 
 const store = createMockStore({
-  app: { dappListApiUrl: 'http://url.com' },
+  dapps: { dappListApiUrl: 'http://url.com', dappsList, dappsCategories },
 })
 
 describe(DAppsExplorerScreen, () => {
-  const mockFetch = fetch as FetchMock
   beforeEach(() => {
-    jest.useRealTimers()
-    jest.clearAllMocks()
-    mockFetch.resetMocks()
     store.clearActions()
   })
 
   it('renders correctly when no featured dapp is available', async () => {
-    mockFetch.mockResponse(JSON.stringify(mockResponseWithoutFeaturedDapp))
+    const store = createMockStore({
+      dapps: { dappListApiUrl: 'http://url.com', dappsList, dappsCategories },
+    })
     const { getByTestId, queryByTestId } = render(
       <Provider store={store}>
         <DAppsExplorerScreen />
       </Provider>
     )
 
-    jest.runAllTimers()
-    await flushMicrotasksQueue()
-
+    expect(store.getActions()).toEqual([fetchDappsList()])
     expect(getByTestId('Dapp/1')).toBeTruthy()
     expect(getByTestId('Dapp/2')).toBeTruthy()
     expect(queryByTestId('FeaturedDapp')).toBeFalsy()
 
     fireEvent.press(getByTestId('Dapp/1'))
-    expect(store.getActions().length).toEqual(0)
     fireEvent.press(getByTestId('ConfirmDappButton'))
 
-    expect(store.getActions()).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "dapp": Object {
-            "categoryId": "1",
-            "dappUrl": "https://app.ubeswap.org/",
-            "description": "Swap tokens!",
-            "iconUrl": "https://raw.githubusercontent.com/valora-inc/app-list/main/assets/ubeswap.png",
-            "id": "1",
-            "isFeatured": false,
-            "name": "Ubeswap",
-            "openedFrom": "all",
-          },
-          "type": "APP/DAPP_SELECTED",
-        },
-      ]
-    `)
+    expect(store.getActions()).toEqual([
+      fetchDappsList(),
+      dappSelected({ dapp: { ...dappsList[0], openedFrom: DappSection.All } }),
+    ])
   })
 
   it("renders correctly when there's a featured dapp available", async () => {
-    mockFetch.mockResponse(JSON.stringify(mockResponseWithFeaturedDapp))
-
+    const featuredDapp: Dapp = {
+      name: 'SushiSwap',
+      id: '3',
+      categoryId: '1',
+      description: 'Swap some tokens!',
+      iconUrl: 'https://raw.githubusercontent.com/valora-inc/app-list/main/assets/sushiswap.png',
+      dappUrl: 'https://app.sushi.com/',
+      isFeatured: true,
+    }
+    const store = createMockStore({
+      dapps: {
+        dappListApiUrl: 'http://url.com',
+        dappsList: [...dappsList, featuredDapp],
+        dappsCategories,
+      },
+    })
     const { getByTestId, queryByTestId } = render(
       <Provider store={store}>
         <DAppsExplorerScreen />
       </Provider>
     )
 
-    jest.runAllTimers()
-    await flushMicrotasksQueue()
-
+    expect(store.getActions()).toEqual([fetchDappsList()])
     expect(getByTestId('Dapp/1')).toBeTruthy()
     expect(getByTestId('Dapp/2')).toBeTruthy()
     expect(queryByTestId('FeaturedDapp')).toBeTruthy()
 
     fireEvent.press(getByTestId('FeaturedDapp'))
-    expect(store.getActions().length).toEqual(0)
     fireEvent.press(getByTestId('ConfirmDappButton'))
 
-    expect(store.getActions()).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "dapp": Object {
-            "categoryId": "1",
-            "dappUrl": "https://app.sushi.com/",
-            "description": "Swap some tokens!",
-            "iconUrl": "https://raw.githubusercontent.com/valora-inc/app-list/main/assets/sushiswap.png",
-            "id": "3",
-            "isFeatured": true,
-            "name": "SushiSwap",
-            "openedFrom": "featured",
-          },
-          "type": "APP/DAPP_SELECTED",
-        },
-      ]
-    `)
+    expect(store.getActions()).toEqual([
+      fetchDappsList(),
+      dappSelected({ dapp: { ...featuredDapp, openedFrom: DappSection.Featured } }),
+    ])
   })
 
   it('opens the screen directly when using a deeplink', async () => {
-    mockFetch.mockResponse(JSON.stringify(mockResponseWithoutFeaturedDapp))
+    const store = createMockStore({
+      dapps: { dappListApiUrl: 'http://url.com', dappsList, dappsCategories },
+    })
     const { getByTestId, queryByTestId } = render(
       <Provider store={store}>
         <DAppsExplorerScreen />
       </Provider>
     )
 
-    jest.runAllTimers()
-    await flushMicrotasksQueue()
-
+    expect(store.getActions()).toEqual([fetchDappsList()])
     expect(getByTestId('Dapp/1')).toBeTruthy()
     expect(getByTestId('Dapp/2')).toBeTruthy()
     expect(queryByTestId('FeaturedDapp')).toBeFalsy()
 
     fireEvent.press(getByTestId('Dapp/2'))
 
-    expect(store.getActions()).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "dapp": Object {
-            "categoryId": "2",
-            "dappUrl": "celo://wallet/moolaScreen",
-            "description": "Lend and borrow tokens!",
-            "iconUrl": "https://raw.githubusercontent.com/valora-inc/app-list/main/assets/moola.png",
-            "id": "2",
-            "isFeatured": false,
-            "name": "Moola",
-            "openedFrom": "all",
-          },
-          "type": "APP/DAPP_SELECTED",
-        },
-      ]
-    `)
+    expect(store.getActions()).toEqual([
+      fetchDappsList(),
+      dappSelected({ dapp: { ...dappsList[1], openedFrom: DappSection.All } }),
+    ])
   })
 })

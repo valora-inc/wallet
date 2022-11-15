@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import {
   ActivityIndicator,
@@ -13,15 +12,21 @@ import {
 } from 'react-native'
 import Animated from 'react-native-reanimated'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { DappExplorerEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { ActiveDapp, DappSection } from 'src/app/reducers'
-import { dappsListApiUrlSelector } from 'src/app/selectors'
-import { Dapp } from 'src/app/types'
 import Card from 'src/components/Card'
 import Dialog from 'src/components/Dialog'
 import Touchable from 'src/components/Touchable'
+import {
+  CategoryWithDapps,
+  dappCategoriesByIdSelector,
+  dappsListErrorSelector,
+  dappsListLoadingSelector,
+  featuredDappSelector,
+} from 'src/dapps/selectors'
+import { fetchDappsList } from 'src/dapps/slice'
+import { ActiveDapp, Dapp, DappSection } from 'src/dapps/types'
 import useOpenDapp from 'src/dappsExplorer/useOpenDapp'
 import LinkArrow from 'src/icons/LinkArrow'
 import Help from 'src/icons/navigator/Help'
@@ -32,25 +37,11 @@ import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import colors, { Colors } from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Shadow, Spacing } from 'src/styles/styles'
-import Logger from 'src/utils/Logger'
-import { walletAddressSelector } from 'src/web3/selectors'
 
-// @ts-ignore
-const AnimatedSectionList = Animated.createAnimatedComponent<SectionListProps<ItemT, SectionT>>(
-  SectionList
-)
-
-const TAG = 'DAppExplorerScreen'
+const AnimatedSectionList =
+  Animated.createAnimatedComponent<SectionListProps<Dapp, SectionData>>(SectionList)
 
 const SECTION_HEADER_MARGIN_TOP = 32
-
-interface CategoryWithDapps {
-  id: string
-  name: string
-  fontColor: string
-  backgroundColor: string
-  dapps: Dapp[]
-}
 
 interface DappProps {
   dapp: Dapp
@@ -62,108 +53,35 @@ interface SectionData {
   category: CategoryWithDapps
 }
 
-function mapDappFields(dapp: any, address: string, isFeatured: boolean): Dapp {
-  return {
-    id: dapp.id,
-    categoryId: dapp.categoryId,
-    name: dapp.name,
-    iconUrl: dapp.logoUrl,
-    description: dapp.description,
-    dappUrl: dapp.url.replace('{{address}}', address ?? ''),
-    isFeatured,
-  }
-}
-
 export function DAppsExplorerScreen() {
-  const { t, i18n } = useTranslation()
-  const dappsListUrl = useSelector(dappsListApiUrlSelector)
-  const address = useSelector(walletAddressSelector)
+  const { t } = useTranslation()
   const [isHelpDialogVisible, setHelpDialogVisible] = useState(false)
   const insets = useSafeAreaInsets()
   const scrollPosition = useRef(new Animated.Value(0)).current
   const onScroll = Animated.event([{ nativeEvent: { contentOffset: { y: scrollPosition } } }])
+  const dispatch = useDispatch()
+  const featuredDapp = useSelector(featuredDappSelector)
+  const loading = useSelector(dappsListLoadingSelector)
+  const error = useSelector(dappsListErrorSelector)
+  const categoriesById = useSelector(dappCategoriesByIdSelector)
 
   const { onSelectDapp, ConfirmOpenDappBottomSheet } = useOpenDapp()
 
-  const shortLanguage = i18n.language.split('-')[0]
-
   useEffect(() => {
+    dispatch(fetchDappsList())
     ValoraAnalytics.track(DappExplorerEvents.dapp_screen_open)
   }, [])
 
-  const {
-    loading,
-    error,
-    result,
-  }: {
-    loading: boolean
-    error: Error | undefined
-    result: { categories: CategoryWithDapps[]; featured: Dapp | undefined } | undefined
-  } = useAsync(
-    async () => {
-      if (!dappsListUrl) {
-        throw new Error('Dapps list url is not defined')
-      }
-
-      const response = await fetch(`${dappsListUrl}?language=${shortLanguage}&address=${address}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
+  useEffect(() => {
+    if (featuredDapp) {
+      ValoraAnalytics.track(DappExplorerEvents.dapp_impression, {
+        categoryId: featuredDapp.categoryId,
+        dappId: featuredDapp.id,
+        dappName: featuredDapp.name,
+        section: DappSection.Featured,
       })
-
-      const result = await response.json()
-      try {
-        const categoriesById: { [id: string]: CategoryWithDapps } = {}
-        result.categories.forEach((cat: any) => {
-          categoriesById[cat.id] = {
-            id: cat.id,
-            name: cat.name,
-            fontColor: cat.fontColor,
-            backgroundColor: cat.backgroundColor,
-            dapps: [],
-          }
-        })
-        result.applications.forEach((app: any) => {
-          categoriesById[app.categoryId].dapps.push(mapDappFields(app, address ?? '', false))
-        })
-
-        const featured = result.featured
-          ? mapDappFields(result.featured, address ?? '', true)
-          : undefined
-        if (featured) {
-          ValoraAnalytics.track(DappExplorerEvents.dapp_impression, {
-            categoryId: featured.categoryId,
-            dappId: featured.id,
-            dappName: featured.name,
-            section: DappSection.Featured,
-          })
-        }
-
-        return {
-          categories: Object.values(categoriesById),
-          featured,
-        }
-      } catch (error) {
-        Logger.error(
-          TAG,
-          `There was an error while parsing response: ${JSON.stringify(result)}`,
-          error as Error
-        )
-        throw Error(`There was an error while parsing response: ${(error as Error)?.message}`)
-      }
-    },
-    [shortLanguage],
-    {
-      onSuccess: (result) => {
-        Logger.debug(TAG, `fetch onSuccess: ${JSON.stringify(result)}`)
-      },
-      onError: (error) => {
-        Logger.error(TAG, 'fetch onError', error as Error)
-      },
     }
-  )
+  }, [featuredDapp])
 
   const onPressHelp = () => {
     setHelpDialogVisible(true)
@@ -208,15 +126,15 @@ export function DAppsExplorerScreen() {
             <Text style={fontStyles.regular}>{t('dappsScreen.errorMessage')}</Text>
           </View>
         )}
-        {!loading && !error && result && (
+        {!loading && !error && categoriesById && (
           <AnimatedSectionList
             ListHeaderComponent={
               <>
                 <DescriptionView message={t('dappsScreen.message')} />
-                {result.featured && (
+                {featuredDapp && (
                   <>
                     <Text style={styles.sectionTitle}>{t('dappsScreen.featuredDapp')}</Text>
-                    <FeaturedDapp dapp={result.featured} onPressDapp={onSelectDapp} />
+                    <FeaturedDapp dapp={featuredDapp} onPressDapp={onSelectDapp} />
                     <Text style={styles.sectionTitle}>{t('dappsScreen.allDapps')}</Text>
                   </>
                 )}
@@ -231,7 +149,7 @@ export function DAppsExplorerScreen() {
             scrollIndicatorInsets={{ top: 0.01 }}
             scrollEventThrottle={16}
             onScroll={onScroll}
-            sections={parseResultIntoSections(result.categories)}
+            sections={parseResultIntoSections(categoriesById)}
             renderItem={({ item: dapp }) => <DappCard dapp={dapp} onPressDapp={onSelectDapp} />}
             keyExtractor={(dapp: Dapp) => `${dapp.categoryId}-${dapp.id}`}
             stickySectionHeadersEnabled={false}

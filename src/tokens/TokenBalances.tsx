@@ -2,23 +2,35 @@ import { StackScreenProps } from '@react-navigation/stack'
 import BigNumber from 'bignumber.js'
 import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Image, PixelRatio, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
+import { HomeEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { showPriceChangeIndicatorInBalancesSelector } from 'src/app/selectors'
 import PercentageIndicator from 'src/components/PercentageIndicator'
 import TokenDisplay from 'src/components/TokenDisplay'
+import Touchable from 'src/components/Touchable'
 import { TIME_OF_SUPPORTED_UNSYNC_HISTORICAL_PRICES } from 'src/config'
+import OpenLinkIcon from 'src/icons/OpenLinkIcon'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
-import { headerWithBackButton } from 'src/navigator/Headers'
+import { HeaderTitleWithSubtitle, headerWithBackButton } from 'src/navigator/Headers'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
-import { TokenBalance } from 'src/tokens/reducer'
-import { tokensWithTokenBalanceSelector, totalTokenBalanceSelector } from 'src/tokens/selectors'
+import {
+  stalePriceSelector,
+  tokensWithTokenBalanceSelector,
+  totalTokenBalanceSelector,
+  visualizeNFTsEnabledInHomeAssetsPageSelector,
+} from 'src/tokens/selectors'
+import { TokenBalance } from 'src/tokens/slice'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
+import networkConfig from 'src/web3/networkConfig'
+import { walletAddressSelector } from 'src/web3/selectors'
 import { sortByUsdBalance } from './utils'
 
 type Props = StackScreenProps<StackParamList, Screens.TokenBalances>
@@ -26,24 +38,25 @@ function TokenBalancesScreen({ navigation }: Props) {
   const { t } = useTranslation()
   const tokens = useSelector(tokensWithTokenBalanceSelector)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
-  const totalBalance = useSelector(totalTokenBalanceSelector)
+  const totalBalance = useSelector(totalTokenBalanceSelector) ?? new BigNumber(0)
+  const tokensAreStale = useSelector(stalePriceSelector)
   const showPriceChangeIndicatorInBalances = useSelector(showPriceChangeIndicatorInBalancesSelector)
-
-  const header = () => {
-    return (
-      <View style={styles.header}>
-        <Text style={fontStyles.navigationHeader}>{t('balances')}</Text>
-        <Text style={styles.subtext}>
-          {localCurrencySymbol}
-          {totalBalance?.toFormat(2)}
-        </Text>
-      </View>
-    )
-  }
+  const shouldVisualizeNFTsInHomeAssetsPage = useSelector(
+    visualizeNFTsEnabledInHomeAssetsPageSelector
+  )
+  const walletAddress = useSelector(walletAddressSelector)
 
   useLayoutEffect(() => {
+    const subTitle =
+      !tokensAreStale && totalBalance.gte(0)
+        ? t('totalBalanceWithLocalCurrencySymbol', {
+            localCurrencySymbol,
+            totalBalance: totalBalance.toFormat(2),
+          })
+        : `${localCurrencySymbol} -`
+
     navigation.setOptions({
-      headerTitle: header,
+      headerTitle: () => <HeaderTitleWithSubtitle title={t('balances')} subTitle={subTitle} />,
     })
   }, [navigation, totalBalance, localCurrencySymbol])
 
@@ -75,7 +88,7 @@ function TokenBalancesScreen({ navigation }: Props) {
             testID={`tokenBalance:${token.symbol}`}
           />
           {token.usdPrice?.gt(0) && (
-            <View style={{ flexDirection: 'row' }}>
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-end' }}>
               {showPriceChangeIndicatorInBalances &&
                 token.historicalUsdPrices &&
                 isHistoricalPriceUpdated(token) && (
@@ -98,9 +111,38 @@ function TokenBalancesScreen({ navigation }: Props) {
     )
   }
 
+  const onPressNFTsBanner = () => {
+    ValoraAnalytics.track(HomeEvents.view_nft_home_assets)
+    navigate(Screens.WebViewScreen, {
+      uri: `${networkConfig.nftsValoraAppUrl}?address=${walletAddress}&hide-header=true`,
+    })
+  }
+
   return (
     <>
-      {showPriceChangeIndicatorInBalances && (
+      {shouldVisualizeNFTsInHomeAssetsPage && (
+        <Touchable
+          style={
+            // For larger fonts we need different marginTop for nft banner
+            PixelRatio.getFontScale() > 1.5
+              ? { marginTop: Spacing.Small12 }
+              : PixelRatio.getFontScale() > 1.25
+              ? { marginTop: Spacing.Smallest8 }
+              : null
+          }
+          testID={'NftViewerBanner'}
+          onPress={onPressNFTsBanner}
+        >
+          <View style={styles.bannerContainer}>
+            <Text style={styles.bannerText}>{t('nftViewer')}</Text>
+            <View style={styles.rightInnerContainer}>
+              <Text style={styles.bannerText}>{t('open')}</Text>
+              <OpenLinkIcon />
+            </View>
+          </View>
+        </Touchable>
+      )}
+      {!shouldVisualizeNFTsInHomeAssetsPage && showPriceChangeIndicatorInBalances && (
         <View style={styles.lastDayLabel}>
           <Text style={styles.lastDayText}>{t('lastDay')}</Text>
         </View>
@@ -118,8 +160,6 @@ TokenBalancesScreen.navigationOptions = {
 
 const styles = StyleSheet.create({
   scrollContainer: {
-    flex: 1,
-    flexDirection: 'column',
     paddingHorizontal: variables.contentPadding,
   },
   tokenImg: {
@@ -130,33 +170,24 @@ const styles = StyleSheet.create({
   },
   tokenContainer: {
     flexDirection: 'row',
-    paddingTop: 22,
-    justifyContent: 'space-between',
-    flex: 1,
+    paddingTop: variables.contentPadding,
   },
   tokenLabels: {
     flexShrink: 1,
     flexDirection: 'column',
   },
   balances: {
-    flex: 2,
-    flexDirection: 'column',
+    flex: 9,
     alignItems: 'flex-end',
   },
-  header: {
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
   row: {
-    flex: 3,
+    flex: 11,
     flexDirection: 'row',
   },
   tokenName: {
-    flexShrink: 1,
     ...fontStyles.large600,
   },
   subtext: {
-    flexShrink: 1,
     ...fontStyles.small,
     color: Colors.gray4,
   },
@@ -171,6 +202,24 @@ const styles = StyleSheet.create({
   lastDayLabel: {
     marginTop: Spacing.Regular16,
     flexDirection: 'row-reverse',
+  },
+  bannerContainer: {
+    paddingHorizontal: Spacing.Thick24,
+    paddingVertical: 4,
+    justifyContent: 'space-between',
+    flexWrap: 'wrap',
+    width: '100%',
+    alignItems: 'center',
+    backgroundColor: Colors.greenUI,
+    flexDirection: 'row',
+  },
+  bannerText: {
+    ...fontStyles.displayName,
+    color: Colors.light,
+  },
+  rightInnerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 })
 

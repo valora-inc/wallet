@@ -1,26 +1,17 @@
 import { Platform } from 'react-native'
 import { BIOMETRY_TYPE } from 'react-native-keychain'
 import { Actions, ActionTypes, AppState } from 'src/app/actions'
-import { Dapp, SuperchargeButtonType } from 'src/app/types'
-import { SuperchargeTokenConfig } from 'src/consumerIncentives/types'
+import { CreateAccountCopyTestType, InviteMethodType } from 'src/app/types'
+import { SuperchargeTokenConfigByToken } from 'src/consumerIncentives/types'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { Screens } from 'src/navigator/Screens'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 
-export enum DappSection {
-  RecentlyUsed = 'recently used',
-  Featured = 'featured',
-  All = 'all',
-}
-
-export interface ActiveDapp extends Dapp {
-  openedFrom: DappSection
-}
-
 export interface State {
   loggedIn: boolean
-  numberVerified: boolean
+  numberVerified: boolean // decentrally verified
+  phoneNumberVerified: boolean // centrally verified
   analyticsEnabled: boolean
   requirePinOnAppOpen: boolean
   appState: AppState
@@ -30,14 +21,12 @@ export interface State {
   minVersion: string | null
   celoEducationUri: string | null
   celoEuroEnabled: boolean
-  dappListApiUrl: string | null
   inviteModalVisible: boolean
   activeScreen: Screens
   hideVerification: boolean
-  showRaiseDailyLimitTarget: string | undefined
   walletConnectV1Enabled: boolean
   superchargeApy: number
-  superchargeTokens: SuperchargeTokenConfig[]
+  superchargeTokenConfigByToken: SuperchargeTokenConfigByToken
   // In 1.13 we had a critical error which requires a migration to fix. See |verificationMigration.ts|
   // for the migration code. We can remove all the code associated with this after some time has passed.
   ranVerificationMigrationAt: number | null | undefined
@@ -50,28 +39,32 @@ export interface State {
   }
   cashInButtonExpEnabled: boolean
   rampCashInButtonExpEnabled: boolean
-  linkBankAccountEnabled: boolean
-  linkBankAccountStepTwoEnabled: boolean
   sentryTracesSampleRate: number
   sentryNetworkErrors: string[]
   supportedBiometryType: BIOMETRY_TYPE | null
-  biometryEnabled: boolean
-  superchargeButtonType: SuperchargeButtonType
-  maxNumRecentDapps: number
-  recentDapps: Dapp[]
   skipVerification: boolean
   showPriceChangeIndicatorInBalances: boolean
   paymentDeepLinkHandler: PaymentDeepLinkHandler
-  dappsWebViewEnabled: boolean
-  activeDapp: ActiveDapp | null
   skipProfilePicture: boolean
-  finclusiveUnsupportedStates: string[]
-  celoWithdrawalEnabledInExchange: boolean
+  fiatConnectCashInEnabled: boolean
+  fiatConnectCashOutEnabled: boolean
+  visualizeNFTsEnabledInHomeAssetsPage: boolean
+  coinbasePayEnabled: boolean
+  showGuidedOnboardingCopy: boolean
+  showSwapMenuInDrawerMenu: boolean
+  shouldShowRecoveryPhraseInSettings: boolean
+  createAccountCopyTestType: CreateAccountCopyTestType
+  maxSwapSlippagePercentage: number
+  inviteMethod: InviteMethodType
+  centralPhoneVerificationEnabled: boolean
+  inviterAddress: string | null
+  networkTimeoutSeconds: number
 }
 
 const initialState = {
   loggedIn: false,
   numberVerified: false,
+  phoneNumberVerified: false,
   analyticsEnabled: true,
   requirePinOnAppOpen: false,
   appState: AppState.Active,
@@ -81,14 +74,12 @@ const initialState = {
   minVersion: null,
   celoEducationUri: null,
   celoEuroEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.celoEuroEnabled,
-  dappListApiUrl: null,
   inviteModalVisible: false,
   activeScreen: Screens.Main,
   hideVerification: REMOTE_CONFIG_VALUES_DEFAULTS.hideVerification,
-  showRaiseDailyLimitTarget: undefined,
   walletConnectV1Enabled: REMOTE_CONFIG_VALUES_DEFAULTS.walletConnectV1Enabled,
   superchargeApy: REMOTE_CONFIG_VALUES_DEFAULTS.superchargeApy,
-  superchargeTokens: [],
+  superchargeTokenConfigByToken: {},
   ranVerificationMigrationAt: null,
   logPhoneNumberTypeEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.logPhoneNumberTypeEnabled,
   googleMobileServicesAvailable: undefined,
@@ -97,24 +88,29 @@ const initialState = {
   rewardPillText: JSON.parse(REMOTE_CONFIG_VALUES_DEFAULTS.rewardPillText),
   cashInButtonExpEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.cashInButtonExpEnabled,
   rampCashInButtonExpEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.rampCashInButtonExpEnabled,
-  linkBankAccountEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.linkBankAccountEnabled,
-  linkBankAccountStepTwoEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.linkBankAccountStepTwoEnabled,
   sentryTracesSampleRate: REMOTE_CONFIG_VALUES_DEFAULTS.sentryTracesSampleRate,
   sentryNetworkErrors: REMOTE_CONFIG_VALUES_DEFAULTS.sentryNetworkErrors.split(','),
   supportedBiometryType: null,
-  biometryEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.biometryEnabled,
-  superchargeButtonType: REMOTE_CONFIG_VALUES_DEFAULTS.superchargeButtonType,
-  maxNumRecentDapps: REMOTE_CONFIG_VALUES_DEFAULTS.maxNumRecentDapps,
-  recentDapps: [],
   skipVerification: REMOTE_CONFIG_VALUES_DEFAULTS.skipVerification,
   showPriceChangeIndicatorInBalances:
     REMOTE_CONFIG_VALUES_DEFAULTS.showPriceChangeIndicatorInBalances,
   paymentDeepLinkHandler: REMOTE_CONFIG_VALUES_DEFAULTS.paymentDeepLinkHandler,
-  dappsWebViewEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.dappsWebViewEnabled,
-  activeDapp: null,
   skipProfilePicture: REMOTE_CONFIG_VALUES_DEFAULTS.skipProfilePicture,
-  finclusiveUnsupportedStates: REMOTE_CONFIG_VALUES_DEFAULTS.finclusiveUnsupportedStates.split(','),
-  celoWithdrawalEnabledInExchange: REMOTE_CONFIG_VALUES_DEFAULTS.celoWithdrawalEnabledInExchange,
+  fiatConnectCashInEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.fiatConnectCashInEnabled,
+  fiatConnectCashOutEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.fiatConnectCashOutEnabled,
+  visualizeNFTsEnabledInHomeAssetsPage:
+    REMOTE_CONFIG_VALUES_DEFAULTS.visualizeNFTsEnabledInHomeAssetsPage,
+  coinbasePayEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.coinbasePayEnabled,
+  showGuidedOnboardingCopy: REMOTE_CONFIG_VALUES_DEFAULTS.showGuidedOnboardingCopy,
+  showSwapMenuInDrawerMenu: REMOTE_CONFIG_VALUES_DEFAULTS.showSwapMenuInDrawerMenu,
+  shouldShowRecoveryPhraseInSettings:
+    REMOTE_CONFIG_VALUES_DEFAULTS.shouldShowRecoveryPhraseInSettings,
+  createAccountCopyTestType: REMOTE_CONFIG_VALUES_DEFAULTS.createAccountCopyTestType,
+  maxSwapSlippagePercentage: REMOTE_CONFIG_VALUES_DEFAULTS.maxSwapSlippagePercentage,
+  inviteMethod: REMOTE_CONFIG_VALUES_DEFAULTS.inviteMethod,
+  centralPhoneVerificationEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.centralPhoneVerificationEnabled,
+  inviterAddress: null,
+  networkTimeoutSeconds: REMOTE_CONFIG_VALUES_DEFAULTS.networkTimeoutSeconds,
 }
 
 export const appReducer = (
@@ -131,7 +127,6 @@ export const appReducer = (
         appState: initialState.appState,
         locked: rehydratePayload.requirePinOnAppOpen ?? initialState.locked,
         sessionId: '',
-        activeDapp: null,
       }
     }
     case Actions.SET_APP_STATE:
@@ -206,32 +201,35 @@ export const appReducer = (
       return {
         ...state,
         hideVerification: action.configValues.hideVerification,
-        showRaiseDailyLimitTarget: action.configValues.showRaiseDailyLimitTarget,
         celoEducationUri: action.configValues.celoEducationUri,
         celoEuroEnabled: action.configValues.celoEuroEnabled,
-        dappListApiUrl: action.configValues.dappListApiUrl,
         walletConnectV1Enabled: action.configValues.walletConnectV1Enabled,
         superchargeApy: action.configValues.superchargeApy,
-        superchargeTokens: action.configValues.superchargeTokens,
+        superchargeTokenConfigByToken: action.configValues.superchargeTokenConfigByToken,
         logPhoneNumberTypeEnabled: action.configValues.logPhoneNumberTypeEnabled,
         pincodeUseExpandedBlocklist: action.configValues.pincodeUseExpandedBlocklist,
         rewardPillText: JSON.parse(action.configValues.rewardPillText),
         cashInButtonExpEnabled: action.configValues.cashInButtonExpEnabled,
         rampCashInButtonExpEnabled: action.configValues.rampCashInButtonExpEnabled,
-        linkBankAccountEnabled: action.configValues.linkBankAccountEnabled,
-        linkBankAccountStepTwoEnabled: action.configValues.linkBankAccountStepTwoEnabled,
         sentryTracesSampleRate: action.configValues.sentryTracesSampleRate,
         sentryNetworkErrors: action.configValues.sentryNetworkErrors,
-        biometryEnabled: action.configValues.biometryEnabled,
-        superchargeButtonType: action.configValues.superchargeButtonType,
-        maxNumRecentDapps: action.configValues.maxNumRecentDapps,
         skipVerification: action.configValues.skipVerification,
         showPriceChangeIndicatorInBalances: action.configValues.showPriceChangeIndicatorInBalances,
         paymentDeepLinkHandler: action.configValues.paymentDeepLinkHandler,
-        dappsWebViewEnabled: action.configValues.dappsWebViewEnabled,
         skipProfilePicture: action.configValues.skipProfilePicture,
-        finclusiveUnsupportedStates: action.configValues.finclusiveUnsupportedStates,
-        celoWithdrawalEnabledInExchange: action.configValues.celoWithdrawalEnabledInExchange,
+        fiatConnectCashInEnabled: action.configValues.fiatConnectCashInEnabled,
+        fiatConnectCashOutEnabled: action.configValues.fiatConnectCashOutEnabled,
+        visualizeNFTsEnabledInHomeAssetsPage:
+          action.configValues.visualizeNFTsEnabledInHomeAssetsPage,
+        coinbasePayEnabled: action.configValues.coinbasePayEnabled,
+        showSwapMenuInDrawerMenu: action.configValues.showSwapMenuInDrawerMenu,
+        shouldShowRecoveryPhraseInSettings: action.configValues.shouldShowRecoveryPhraseInSettings,
+        createAccountCopyTestType: action.configValues.createAccountCopyTestType,
+        maxSwapSlippagePercentage: action.configValues.maxSwapSlippagePercentage,
+        inviteMethod: action.configValues.inviteMethod,
+        showGuidedOnboardingCopy: action.configValues.showGuidedOnboardingCopy,
+        centralPhoneVerificationEnabled: action.configValues.centralPhoneVerificationEnabled,
+        networkTimeoutSeconds: action.configValues.networkTimeoutSeconds,
       }
     case Actions.TOGGLE_INVITE_MODAL:
       return {
@@ -260,19 +258,21 @@ export const appReducer = (
         ...state,
         supportedBiometryType: action.supportedBiometryType,
       }
-    case Actions.DAPP_SELECTED:
+    case Actions.PHONE_NUMBER_VERIFICATION_MIGRATED:
+    case Actions.PHONE_NUMBER_VERIFICATION_COMPLETED:
       return {
         ...state,
-        recentDapps: [
-          action.dapp,
-          ...state.recentDapps.filter((recentDapp) => recentDapp.id !== action.dapp.id),
-        ].slice(0, state.maxNumRecentDapps),
-        activeDapp: action.dapp,
+        phoneNumberVerified: true,
       }
-    case Actions.DAPP_SESSION_ENDED:
+    case Actions.PHONE_NUMBER_REVOKED:
       return {
         ...state,
-        activeDapp: null,
+        phoneNumberVerified: false,
+      }
+    case Actions.INVITE_LINK_CONSUMED:
+      return {
+        ...state,
+        inviterAddress: action.inviterAddress,
       }
     default:
       return state

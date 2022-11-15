@@ -1,4 +1,4 @@
-// TODO: TX feed + QR scanner + Geth
+// TODO: TX feed + QR scanner
 
 export enum AppEvents {
   app_launched = 'app_launched',
@@ -9,7 +9,7 @@ export enum AppEvents {
   user_restart = 'user_restart',
   fetch_balance = 'fetch_balance',
   fetch_balance_error = 'fetch_balance_error',
-  redux_keychain_mismatch = 'redux_keychain_mismatch', // when the redux state doesn't contain the account found in geth
+  redux_keychain_mismatch = 'redux_keychain_mismatch', // when the redux state doesn't contain the account found in the keychain
   redux_store_recovery_success = 'redux_store_recovery_success',
   redux_no_matching_keychain_account = 'redux_no_matching_keychain_account', // when account in redux has no matching password hash in the keychain
   push_notification_opened = 'push_notification_opened',
@@ -36,16 +36,15 @@ export enum HomeEvents {
   transaction_feed_item_select = 'transaction_feed_item_select',
   transaction_feed_address_copy = 'transaction_feed_address_copy',
   view_token_balances = 'view_token_balances',
+  view_nft_home_assets = 'view_nft_home_assets', // When "NFTs" is clicked in Home Assets Pages
 }
 
 export enum SettingsEvents {
   settings_profile_edit = 'settings_profile_edit',
   settings_profile_name_edit = 'settings_profile_name_edit',
   settings_verify_number = 'settings_verify_number',
-  settings_link_bank_account = 'settings_link_bank_account', // when "Link Bank Account" is pressed
   language_select = 'language_select',
   pin_require_on_load = 'pin_require_on_load',
-  forno_toggle = 'forno_toggle',
   licenses_view = 'licenses_view',
   tos_view = 'tos_view',
   start_account_removal = 'start_account_removal',
@@ -62,11 +61,13 @@ export enum SettingsEvents {
   settings_biometry_opt_in_disable = 'settings_biometry_opt_in_disable',
   // intentionally not tracking analytics opt in/out
   // to avoid tracking through omission
+  settings_recovery_phrase = 'settings_recovery_phrase',
 }
 
 export enum OnboardingEvents {
   onboarding_education_start = 'onboarding_education_start',
   onboarding_education_scroll = 'onboarding_education_scroll',
+  onboarding_education_step_impression = 'onboarding_education_step_impression',
   onboarding_education_complete = 'onboarding_education_complete',
   onboarding_education_cancel = 'onboarding_education_cancel',
 
@@ -158,6 +159,8 @@ export enum VerificationEvents {
   verification_error = 'verification_error',
   verification_cancel = 'verification_cancel',
   verification_timeout = 'verification_timeout',
+  verification_skip = 'verification_skip',
+  verification_skip_confirm = 'verification_skip_confirm',
 
   verification_hash_cached = 'verification_hash_cached',
   verification_hash_retrieved = 'verification_hash_retrieved',
@@ -214,13 +217,31 @@ export enum VerificationEvents {
   verification_fetch_on_chain_data_success = 'verification_fetch_on_chain_data_success',
 }
 
+// Events emitted in the CPV flow
+export enum PhoneVerificationEvents {
+  phone_verification_skip = 'phone_verification_skip', // when skip is pressed in the phone number input screen
+  phone_verification_skip_confirm = 'phone_verification_skip_confirm', // when skip is confirmed from the dialog in the phone number input screen
+  phone_verification_learn_more = 'phone_verification_learn_more', // when the learn more dialog is launched in the phone number input screen
+  phone_verification_start = 'phone_verification_start', // when the start button is pressed in the phone number input screen
+
+  phone_verification_code_request_success = 'phone_verification_code_request_success', // when the verifyPhoneNumber endpoint returns successfully
+  phone_verification_code_verify_start = 'phone_verification_code_verify_start', // when the user has entered the sms code and we start to validate on the backend
+  phone_verification_code_verify_success = 'phone_verification_code_verify_success', // when the backend confirms that the sms code is successfully validated
+  phone_verification_code_verify_error = 'phone_verification_code_verify_error', // when the backend throws an error and the sms code cannot be validated
+
+  phone_verification_input_help = 'phone_verification_input_help', // when the help button is pressed
+  phone_verification_input_help_skip = 'phone_verification_input_help_skip', // when the user presses skip on the help dialog to skip verification
+  phone_verification_input_help_continue = 'phone_verification_input_help_continue', // when the user presses continue on the help dialog to continue verification
+
+  phone_verification_resend_message = 'phone_verification_resend_message', // when the user triggers a resend of the sms code
+}
+
 export enum IdentityEvents {
   contacts_connect = 'contacts_connect', // when connect button is pressed
   contacts_import_permission_denied = 'contacts_import_permission_denied',
   contacts_import_start = 'contacts_import_start',
   contacts_import_complete = 'contacts_import_complete',
   contacts_processing_complete = 'contacts_processing_complete',
-  contacts_matchmaking_complete = 'contacts_matchmaking_complete',
   contacts_import_error = 'contacts_import_error',
 
   phone_number_lookup_start = 'phone_number_lookup_start',
@@ -258,6 +279,10 @@ export enum InviteEvents {
   invite_method_error = 'invite_method_error',
   invite_from_menu = 'invite_from_menu',
   invite_banner_impression = 'invite_banner_impression',
+  invite_with_share = 'invite_with_share',
+  invite_with_share_dismiss = 'invite_with_share_dismiss',
+  invite_with_referral_url = 'invite_with_referral_url',
+  opened_via_invite_url = 'opened_via_invite_url',
 }
 
 export enum EscrowEvents {
@@ -432,44 +457,51 @@ export enum FiatExchangeEvents {
   spend_merchant_link = 'spend_merchant_link',
   cico_spend_select_provider_back = 'cico_spend_select_provider_back',
   cico_non_celo_exchange_send_bar_continue = 'cico_non_celo_exchange_send_bar_continue', // When send bar is tapped from cash out for cUSD & cEUR
-}
 
-export enum GethEvents {
-  blockchain_corruption = 'blockchain_corruption',
-  geth_init_start = 'geth_init_start',
-  geth_init_success = 'geth_init_success',
-  geth_init_failure = 'geth_init_failure',
-  geth_restart_to_fix_init = 'geth_restart_to_fix_init',
-  prompt_forno = 'prompt_forno',
-  create_geth_start = 'create_geth_start',
-  create_geth_finish = 'create_geth_finish',
-  create_geth_error = 'create_geth_error',
-  start_geth_start = 'start_geth_start',
-  start_geth_finish = 'start_geth_finish',
-}
+  // Fiat connect review screen
+  cico_fc_review_submit = 'cico_fc_review_submit',
+  cico_fc_review_cancel = 'cico_fc_review_cancel',
+  cico_fc_review_back = 'cico_fc_review_back',
+  cico_fc_review_error_contact_support = 'cico_fc_review_error_contact_support',
+  cico_fc_review_error_retry = 'cico_fc_review_error_retry',
 
-export enum NetworkEvents {
-  // Events triggered when the app detects it is connected or disconnected from the Celo network.
-  network_connected = 'network_connected',
-  network_disconnected = 'network_disconnected',
+  // Fiat Connect link account screen
+  cico_fc_link_account_continue = 'cico_fc_link_account_continue',
+  cico_fc_link_account_back = 'cico_fc_link_account_back',
+  cico_fc_link_account_provider_website = 'cico_fc_link_account_provider_website',
 
-  // Events triggered when the app detects it loses or restores sync with the Celo network.
-  network_sync_lost = 'network_sync_lost',
-  network_sync_restored = 'network_sync_restored',
+  // Fiat Connect link KYC & account page
+  cico_fc_link_kyc_account_back = 'cico_fc_link_kyc_account_back',
+  // persona_kyc_start is fired when the 'Set up ID Verification' button is clicked
 
-  // Events triggered during a syncing or waiting to start syncing.
-  network_sync_waiting = 'network_sync_waiting',
-  network_sync_start = 'network_sync_start',
-  network_sync_finish = 'network_sync_finish',
-  network_sync_error = 'network_sync_error',
+  // Fiat Connect fiat details screen
+  cico_fiat_details_success = 'cico_fiat_details_success',
+  cico_fiat_details_back = 'cico_fiat_details_back',
+  cico_fiat_details_cancel = 'cico_fiat_details_cancel',
+  cico_fiat_details_error = 'cico_fiat_details_error',
+
+  // Fiat Connect transfer analytics
+  cico_fc_transfer_api_error = 'cico_fc_transfer_api_error',
+  cico_fc_transfer_tx_error = 'cico_fc_transfer_tx_error',
+  cico_fc_transfer_success = 'cico_fc_transfer_success',
+
+  // Fiat Connect transfer status screen
+  cico_fc_transfer_error_retry = 'cico_fc_transfer_error_retry',
+  cico_fc_transfer_error_cancel = 'cico_fc_transfer_error_cancel',
+  cico_fc_transfer_error_contact_support = 'cico_fc_transfer_error_contact_support',
+  cico_fc_transfer_success_complete = 'cico_fc_transfer_success_complete',
+  cico_fc_transfer_success_view_tx = 'cico_fc_transfer_success_view_tx',
+
+  // Fiat Connect KYC status screens
+  cico_fc_kyc_status_contact_support = 'cico_fc_kyc_status_contact_support',
+  cico_fc_kyc_status_back = 'cico_fc_kyc_status_back',
+  cico_fc_kyc_status_close = 'cico_fc_kyc_status_close',
+  cico_fc_kyc_status_try_again = 'cico_fc_kyc_status_try_again',
+  cico_fc_kyc_status_switch_method = 'cico_fc_kyc_status_switch_method',
 }
 
 export enum ContractKitEvents {
   init_contractkit_start = 'init_contractkit_start',
-  init_contractkit_geth_init_start = 'init_contractkit_geth_init_start',
-  init_contractkit_geth_init_finish = 'init_contractkit_geth_init_finish',
-  init_contractkit_get_ipc_start = 'init_contractkit_get_ipc_start',
-  init_contractkit_get_ipc_finish = 'init_contractkit_get_ipc_finish',
   init_contractkit_get_wallet_start = 'init_contractkit_get_wallet_start',
   init_contractkit_get_wallet_finish = 'init_contractkit_get_wallet_finish',
   init_contractkit_init_wallet_finish = 'init_contractkit_init_wallet_finish',
@@ -531,25 +563,11 @@ export enum DappKitEvents {
 }
 
 export enum CICOEvents {
-  link_bank_account_cancel = 'link_bank_account_cancel', // when a user who has verified their # presses the X button after entering "Link Bank Account"
-
   persona_kyc_start = 'persona_kyc_start', // when a user begins the Persona KYC process
-  persona_kyc_success = 'persona_kyc_success', // when the onSuccess callback is called for a Persona inquiry
+  persona_kyc_success = 'persona_kyc_success', // when the onComplete callback is called for a Persona inquiry with success status
+  persona_kyc_failed = 'persona_kyc_failed', // when the onComplete callback is called for a Persona inquiry with failed status
   persona_kyc_cancel = 'persona_kyc_cancel', // when the onCancelled callback is called for a Persona inquiry
   persona_kyc_error = 'persona_kyc_error', // when the onError callback is called for a Persona inquiry
-
-  connect_phone_start = 'connect_phone_start', // when a user who has not verified their # presses the "Connect" button after entering "Link Bank Account"
-  connect_phone_cancel = 'connect_phone_cancel', // when a user who has not verified their # presses the "X" button after entering "Link Bank Account"
-
-  add_initial_bank_account_start = 'add_initial_bank_account_start', // When a user who has not added any accounts clicks on the initial “Link Bank Account” button
-  add_bank_account_start = 'add_bank_account_start', // When a user adds another bank account after the first (using the “Add new bank account” button)
-  delete_bank_account = 'delete_bank_account', // When a user deletes a bank account
-  plaid_open_link_flow = 'plaid_open_link_flow', // When a user opens the Plaid Link flow
-  plaid_select_institution = 'plaid_select_institution', // When a user selects an institution within the Plaid Link flow
-  plaid_submit_credentials = 'plaid_submit_credentials', // When a user submits credentials for an institution within the Plaid Link flow
-  plaid_exit = 'plaid_exit', // When a user exits the Plaid Link flow without connecting a bank account
-  plaid_handoff = 'plaid_handoff', // When a user exits the Plaid Link flow after successfully connecting a bank account
-  plaid_error = 'plaid_error', // When the Plaid Link flow encounters an unrecoverable error
 }
 
 export enum DappExplorerEvents {
@@ -561,6 +579,29 @@ export enum DappExplorerEvents {
   dapp_bottom_sheet_open = 'dapp_bottom_sheet_open',
   dapp_bottom_sheet_dismiss = 'dapp_bottom_sheet_dismiss',
   dapp_view_all = 'dapp_view_all', // when user taps "view all dapps" from recently used dapps section
+}
+
+export enum WebViewEvents {
+  webview_more_options = 'webview_more_options', // when user taps "triple dot icon" from the webview
+  webview_open_in_browser = 'webview_open_in_browser', // when user taps "Open in External Browser" from the webview options
+}
+
+export enum CoinbasePayEvents {
+  coinbase_pay_flow_start = 'coinbase_pay_flow_start', // When user is navigated to Coinbase Pay experience
+  coinbase_pay_flow_exit = 'coinbase_pay_flow_exit', // When user exits Coinbase Pay
+}
+
+export enum SwapEvents {
+  swap_screen_open = 'swap_screen_open', // When the screen is mounted
+  swap_screen_select_token = 'swap_screen_select_token', // When a user selects a token, prompting the token select bottom sheet
+  swap_screen_confirm_token = 'swap_screen_confirm_token', // When a user selects a token from the bottom sheet
+  swap_screen_review_swap = 'swap_screen_review_swap', // When a user click on the review button to proceed to next step
+  swap_feed_detail_view_tx = 'swap_feed_detail_view_tx', // When a user click 'View on CeloExplorer' in the swap feed detail page
+  swap_review_screen_open = 'swap_review_screen_open', // When the review screen is mounted
+  swap_review_submit = 'swap_review_submit', // When the user submits the swap
+  swap_execute_price_change = 'swap_execute_price_change', // When guaranteed is greater than 2% difference than the quoted price.
+  swap_execute_success = 'swap_execute_success', // When the swap is executed successfully
+  swap_execute_error = 'swap_execute_error', // When the swap returns an error
 }
 
 export type AnalyticsEventType =
@@ -579,8 +620,6 @@ export type AnalyticsEventType =
   | FeeEvents
   | TransactionEvents
   | CeloExchangeEvents
-  | GethEvents
-  | NetworkEvents
   | PerformanceEvents
   | NavigationEvents
   | RewardsEvents
@@ -588,3 +627,6 @@ export type AnalyticsEventType =
   | DappKitEvents
   | CICOEvents
   | DappExplorerEvents
+  | WebViewEvents
+  | CoinbasePayEvents
+  | SwapEvents

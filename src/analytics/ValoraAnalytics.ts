@@ -9,10 +9,18 @@ import { check, PERMISSIONS, request, RESULTS } from 'react-native-permissions'
 import { AppEvents } from 'src/analytics/Events'
 import { AnalyticsPropertiesList } from 'src/analytics/Properties'
 import { getCurrentUserTraits } from 'src/analytics/selectors'
-import { DEFAULT_TESTNET, FIREBASE_ENABLED, isE2EEnv, SEGMENT_API_KEY } from 'src/config'
+import {
+  DEFAULT_TESTNET,
+  FIREBASE_ENABLED,
+  isE2EEnv,
+  SEGMENT_API_KEY,
+  STATSIG_API_KEY,
+  STATSIG_ENV,
+} from 'src/config'
 import { store } from 'src/redux/store'
 import Logger from 'src/utils/Logger'
 import { isPresent } from 'src/utils/typescript'
+import { Statsig } from 'statsig-react-native'
 
 const TAG = 'ValoraAnalytics'
 
@@ -38,7 +46,7 @@ async function getDeviceInfo() {
     SystemVersion: DeviceInfo.getSystemVersion(),
     TotalDiskCapacity: await DeviceInfo.getTotalDiskCapacity(),
     TotalMemory: await DeviceInfo.getTotalMemory(),
-    UniqueID: DeviceInfo.getUniqueId(),
+    UniqueID: await DeviceInfo.getUniqueId(),
     UserAgent: await DeviceInfo.getUserAgent(),
     Version: DeviceInfo.getVersion(),
     isEmulator: await DeviceInfo.isEmulator(),
@@ -68,6 +76,7 @@ class ValoraAnalytics {
   private prevScreenId: string | undefined
 
   async init() {
+    let uniqueID
     try {
       if (!SEGMENT_API_KEY) {
         throw Error('API Key not present, likely due to environment. Skipping enabling')
@@ -77,9 +86,8 @@ class ValoraAnalytics {
       try {
         const deviceInfo = await getDeviceInfo()
         this.deviceInfo = deviceInfo
-        this.sessionId = sha256FromString(
-          '0x' + deviceInfo.UniqueID.split('-').join('') + String(Date.now())
-        )
+        uniqueID = deviceInfo.UniqueID
+        this.sessionId = sha256FromString('0x' + uniqueID.split('-').join('') + String(Date.now()))
           .toString('hex')
           .slice(2)
       } catch (error) {
@@ -89,6 +97,22 @@ class ValoraAnalytics {
       Logger.info(TAG, 'Segment Analytics Integration initialized!')
     } catch (error) {
       Logger.error(TAG, `Segment setup error: ${error.message}\n`, error)
+    }
+
+    try {
+      const { accountAddress } = getCurrentUserTraits(store.getState())
+      const stasigUser = accountAddress
+        ? {
+            userID: accountAddress,
+          }
+        : null
+
+      await Statsig.initialize(STATSIG_API_KEY, stasigUser, {
+        overrideStableID: uniqueID, //Received an error if Stable ID not manually specified
+        environment: STATSIG_ENV,
+      })
+    } catch (error) {
+      Logger.warn(TAG, `Statsig setup error`, error)
     }
   }
 
@@ -150,13 +174,19 @@ class ValoraAnalytics {
       return
     }
 
-    if (!SEGMENT_API_KEY) {
-      Logger.debug(TAG, `No API key, not tracking user ${userID}`)
+    // Only identify user if userID (walletAddress) is set
+    if (!userID) {
       return
     }
 
-    // Only identify user if userID (walletAddress) is set
-    if (!userID) {
+    try {
+      void Statsig.updateUser({ userID })
+    } catch (error) {
+      Logger.warn(TAG, 'Error updating statsig user', error)
+    }
+
+    if (!SEGMENT_API_KEY) {
+      Logger.debug(TAG, `No API key, not tracking user ${userID}`)
       return
     }
 
@@ -166,7 +196,13 @@ class ValoraAnalytics {
   }
 
   page(screenId: string, eventProperties = {}) {
-    if (!this.isEnabled || !SEGMENT_API_KEY) {
+    if (!this.isEnabled()) {
+      Logger.debug(TAG, `Analytics is disabled, not tracking screen ${screenId}`)
+      return
+    }
+
+    if (!SEGMENT_API_KEY) {
+      Logger.debug(TAG, `No API key, not tracking screen ${screenId}`)
       return
     }
 
