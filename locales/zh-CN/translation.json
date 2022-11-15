@@ -1288,6 +1288,7 @@
     "idRequired": "必须提供 ID",
     "numDays": "1-3 天",
     "oneHour": "小于 1 小时",
+    "oneDay": "不到1天",
     "bestRate": "最佳费率",
     "header": "选择付款方式"
   },
