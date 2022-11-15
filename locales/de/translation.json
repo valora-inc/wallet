@@ -1299,6 +1299,11 @@
       "bodyTitle": "Ein Bankkonto einrichten",
       "description": "Gib deine Kontodaten ein, um Geld zu überweisen. Diese Dienste werden dir zur Verfügung gestellt von <0>{{providerName}}</0>.\n\nWenn du auf „Weiter“ klickst, erklärst du dich mit den <1>Allgemeinen Geschäftsbedingungen</1> und der <2>Datenschutzerklärung</2> einverstanden."
     },
+    "mobileMoney": {
+      "header": "Mobiles Geld einrichten",
+      "bodyTitle": "Mobiles Geld einrichten",
+      "description": "Gib die Mobilgelddaten ein, um Geld zu überweisen. Diese Dienste werden dir zur Verfügung gestellt von <0>{{providerName}}</0>.\n\nWenn du auf \"Weiter\" klickst, erklärst du dich mit den <1>Allgemeinen</1> Geschäftsbedingungen und der <2>Datenschutzerklärung</2> einverstanden."
+    },
     "continue": "Weiter"
   },
   "fiatConnectKycLandingScreen": {

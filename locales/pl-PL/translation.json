@@ -1303,6 +1303,11 @@
       "bodyTitle": "Załóż konto bankowe",
       "description": "Wprowadź dane konta bankowego, aby przelać środki. Te usługi będą świadczone przez <0>{{providerName}}</0>. \n\nKlikając przycisk Kontynuuj, zgadzasz się z <1>Warunkami</1> oraz <2>Polityką prywatności</2>"
     },
+    "mobileMoney": {
+      "header": "Konfiguruj Pieniądze Mobilne",
+      "bodyTitle": "Skonfiguruj Pieniądze Mobilne",
+      "description": "Wprowadź dane dotyczące pieniędzy z telefonu komórkowego, aby dokonać przelewu. Usługi te będą świadczone przez <0>{{providerName}}</0>.\n\nKlikając dalej, zgadzasz się z Warunkami umowy <1>i</1> <2>Polityką prywatności</2>."
+    },
     "continue": "Kontynuuj"
   },
   "fiatConnectKycLandingScreen": {
