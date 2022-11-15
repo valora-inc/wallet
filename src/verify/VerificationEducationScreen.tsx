@@ -138,13 +138,6 @@ function VerificationEducationScreenDecentralized({ route, navigation }: Props) 
     }
   }
 
-  // Set showSkipDialog to false during component unmount
-  useEffect(() => {
-    return () => {
-      navigation.setParams({ showSkipDialog: false })
-    }
-  }, [])
-
   const onPressContinueWhenVerificationUnavailable = () => {
     if (!canUsePhoneNumber()) {
       return
