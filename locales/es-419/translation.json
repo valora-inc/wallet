@@ -1290,6 +1290,7 @@
     "idRequired": "Requiere identificación",
     "numDays": "1-3 días",
     "oneHour": "Menos de 1 hora",
+    "oneDay": "Menos de 1 día",
     "bestRate": "Mejor tarifa",
     "header": "Selecciona el método de pago"
   },
