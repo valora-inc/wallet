@@ -21,7 +21,7 @@ exports[`SendConfirmation renders correctly 1`] = `
           "width": "100%",
         },
         Object {
-          "padding": 16,
+          "paddingHorizontal": 8,
         },
       ]
     }
@@ -41,11 +41,8 @@ exports[`SendConfirmation renders correctly 1`] = `
             Object {
               "alignItems": "center",
               "justifyContent": "center",
-              "paddingLeft": 22,
             },
-            Object {
-              "paddingLeft": 0,
-            },
+            undefined,
           ]
         }
       >
@@ -74,11 +71,6 @@ exports[`SendConfirmation renders correctly 1`] = `
           onResponderTerminate={[Function]}
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
-          style={
-            Object {
-              "paddingLeft": 0,
-            }
-          }
         >
           <svg
             fill="none"

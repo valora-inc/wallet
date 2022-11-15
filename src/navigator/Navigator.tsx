@@ -73,6 +73,7 @@ import {
   emptyHeader,
   HeaderTitleWithBalance,
   headerWithBackButton,
+  headerWithBackEditButtons,
   noHeader,
   noHeaderGestureDisabled,
 } from 'src/navigator/Headers'
@@ -333,13 +334,9 @@ const exchangeReviewScreenOptions = ({
     ? CeloExchangeEvents.celo_buy_edit
     : CeloExchangeEvents.celo_sell_edit
   return {
+    ...headerWithBackEditButtons,
     headerLeft: () => (
-      <BackButton
-        style={{ paddingLeft: 3 }}
-        testID="EditButton"
-        onPress={navigateBack}
-        eventName={editEventName}
-      />
+      <BackButton testID="EditButton" onPress={navigateBack} eventName={editEventName} />
     ),
     headerRight: () =>
       PixelRatio.getFontScale() > 1 ? (
@@ -350,7 +347,6 @@ const exchangeReviewScreenOptions = ({
         />
       ) : (
         <CancelButton
-          style={{ paddingHorizontal: 0 }}
           buttonType={'text'}
           onCancel={navigateToExchangeHome}
           eventName={cancelEventName}

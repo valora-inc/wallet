@@ -46,7 +46,7 @@ import { useInputAmounts } from 'src/send/SendAmount'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
-import variables, { iconHitslop } from 'src/styles/variables'
+import { iconHitslop } from 'src/styles/variables'
 import { useTokenInfo } from 'src/tokens/hooks'
 import { isStablecoin } from 'src/tokens/utils'
 import { Currency } from 'src/utils/currencies'
@@ -266,8 +266,8 @@ function SendConfirmation(props: Props) {
       edges={props.route.name === Screens.SendConfirmationModal ? ['bottom'] : undefined}
     >
       <CustomHeader
-        style={{ padding: variables.contentPadding }}
-        left={<BackButton style={{ paddingLeft: 0 }} eventName={SendEvents.send_confirm_back} />}
+        style={{ paddingHorizontal: 8 }}
+        left={<BackButton eventName={SendEvents.send_confirm_back} />}
       />
       <DisconnectBanner />
       <ReviewFrame

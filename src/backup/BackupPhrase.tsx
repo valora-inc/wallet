@@ -111,6 +111,7 @@ class BackupPhrase extends React.Component<Props, State> {
     return (
       <SafeAreaView style={styles.container}>
         <CustomHeader
+          style={{ paddingHorizontal: variables.contentPadding }}
           left={
             navigatedFromSettings ? (
               <CancelButton style={styles.cancelButton} />

@@ -64,7 +64,7 @@ import { fetchStableBalances } from 'src/stableToken/actions'
 import { useBalance } from 'src/stableToken/hooks'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
-import variables, { iconHitslop } from 'src/styles/variables'
+import { iconHitslop } from 'src/styles/variables'
 import { useTokenInfo } from 'src/tokens/hooks'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
@@ -387,8 +387,8 @@ function SendConfirmationLegacy(props: Props) {
         edges={props.route.name === Screens.SendConfirmationLegacyModal ? ['bottom'] : undefined}
       >
         <CustomHeader
-          style={{ padding: variables.contentPadding }}
-          left={<BackButton style={{ paddingLeft: 0 }} eventName={SendEvents.send_confirm_back} />}
+          style={{ paddingHorizontal: 8 }}
+          left={<BackButton eventName={SendEvents.send_confirm_back} />}
         />
         <DisconnectBanner />
         <ReviewFrame

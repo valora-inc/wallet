@@ -14,7 +14,6 @@ import DisconnectBanner from 'src/shared/DisconnectBanner'
 import { useBalance } from 'src/stableToken/hooks'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
-import variables from 'src/styles/variables'
 import { useTokenInfo, useTokenInfoBySymbol } from 'src/tokens/hooks'
 import { Currency } from 'src/utils/currencies'
 
@@ -99,14 +98,12 @@ export const headerWithBackEditButtons: NativeStackNavigationOptions = {
     ) : (
       <CancelButton buttonType="text" />
     ),
-  headerRight: () => <BackButton style={{ paddingRight: variables.contentPadding + 6 }} />,
+  headerRight: () => <BackButton />,
 }
 
 export const headerWithCloseButton: NativeStackNavigationOptions = {
   ...emptyHeader,
-  headerLeft: () => (
-    <TopBarIconButton icon={<Times />} onPress={navigateBack} style={{ paddingLeft: 20 }} />
-  ),
+  headerLeft: () => <TopBarIconButton icon={<Times />} onPress={navigateBack} />,
 }
 
 interface Props {
