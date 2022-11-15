@@ -1290,6 +1290,7 @@
     "idRequired": "ID richiesto",
     "numDays": "1-3 giorni",
     "oneHour": "Meno di un'ora",
+    "oneDay": "Meno di 1 giorno",
     "bestRate": "Miglior tasso",
     "header": "Metodo di pagamento"
   },
