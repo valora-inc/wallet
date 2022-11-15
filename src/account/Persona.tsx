@@ -45,7 +45,7 @@ const Persona = ({ kycStatus, text, onCanceled, onError, onPress, onSuccess, dis
 
   const dispatch = useDispatch()
 
-  const templateIdResponse = useAsync(getPersonaTemplateId, [])
+  const templateIdResponse = useAsync(async () => getPersonaTemplateId(), [])
   const templateId = templateIdResponse.result
 
   const launchPersonaInquiry = useCallback(() => {
