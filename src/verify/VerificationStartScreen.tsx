@@ -214,7 +214,7 @@ function VerificationStartScreen({
           type={BtnTypes.ONBOARDING}
           showLoading={!signedMessageCreated}
           style={styles.startButton}
-          disabled={!phoneNumberInfo.isValidNumber}
+          disabled={!phoneNumberInfo.isValidNumber || !signedMessageCreated}
           testID="PhoneVerificationContinue"
         />
       </KeyboardAwareScrollView>
