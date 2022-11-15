@@ -1376,18 +1376,22 @@
     "tryAgain": "Try Again",
     "withdraw": {
       "cancel": "Cancel Withdrawal",
-      "success": {
-        "header": "Success",
-        "title": "Your funds are on their way!",
-        "description": "Your transaction request has been sent & your funds will arrive in {{duration}}.",
-        "txDetails": "View on CeloExplorer",
-        "continue": "Continue"
-      }
+      "contactSupportPrefill": "I'm having trouble withdrawing my funds."
+    },
+    "add": {
+      "cancel": "Cancel Add Funds",
+      "contactSupportPrefill": "I'm having trouble adding funds to my Valora wallet."
+    },
+    "success": {
+      "header": "Success",
+      "title": "Your funds are on their way!",
+      "description": "Your transaction request has been sent & your funds will arrive in {{duration}}.",
+      "txDetails": "View on CeloExplorer",
+      "continue": "Continue"
     },
     "requestNotCompleted": {
       "title": "Your request could not be completed.",
-      "description": "Your funds were not able to be transferred. Please try again or contact our support team for help.",
-      "contactSupportPrefill": "I'm having trouble withdrawing my funds."
+      "description": "Your funds were not able to be transferred. Please try again or contact our support team for help."
     }
   },
   "fiatExchangeFlow": {
