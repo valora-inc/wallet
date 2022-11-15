@@ -1299,6 +1299,11 @@
       "bodyTitle": "Imposta un conto bancario",
       "description": "Inserisci i dati del Conto bancario per trasferire fondi. Questi servizi saranno forniti da <0>{{providerName}}</0>.\n\nFacendo clic su Continua, accetti i relativi <1>Termini e condizioni</1> e l'<2>Informativa sulla privacy</2>"
     },
+    "mobileMoney": {
+      "header": "Configura Mobile Money",
+      "bodyTitle": "Imposta il denaro mobile",
+      "description": "Inserisci i dati della moneta mobile per trasferire i fondi. Questi servizi ti saranno forniti da <0>{{providerName}}</0>.\n\nCliccando su \"Continua\", accetti i <1>termini e le condizioni</1> e l'<2>informativa sulla privacy</2>."
+    },
     "continue": "Continua"
   },
   "fiatConnectKycLandingScreen": {

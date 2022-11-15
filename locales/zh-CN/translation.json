@@ -1297,6 +1297,11 @@
       "bodyTitle": "设置银行账户",
       "description": "输入资金转账的银行账户详细信息。这些服务将由 <0>{{providerName}}</0> 提供。\n\n点击继续，即表示您同意他们的<1>条款和条件</1>和<2>隐私政策</2>"
     },
+    "mobileMoney": {
+      "header": "设置移动支付",
+      "bodyTitle": "设置移动支付",
+      "description": "输入移动货币的详细信息来转移资金。这些服务将由以下方面提供给你 <0>{{providerName}}</0>.\n\n通过点击继续，你同意他们的<1>条款和条件</1>以及<2>隐私政策</2>。"
+    },
     "continue": "继续"
   },
   "fiatConnectKycLandingScreen": {
