@@ -65,7 +65,11 @@ describe('VerificationStartScreen', () => {
     mockedKeychain.getGenericPassword.mockResolvedValue(false)
     const { queryByText, getByTestId } = renderComponent()
 
-    jest.advanceTimersByTime(500)
+    act(() => {
+      jest.advanceTimersByTime(5000)
+      // enter a valid phone number
+      fireEvent.changeText(getByTestId('PhoneNumberField'), '619123456')
+    })
 
     expect(getByTestId('PhoneVerificationContinue')).toBeDisabled()
     expect(getByTestId('Button/Loading')).toBeTruthy()
