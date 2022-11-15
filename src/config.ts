@@ -114,6 +114,8 @@ export const SPEND_MERCHANT_LINKS: SpendMerchant[] = [
   },
 ]
 
+export const DEFAULT_PERSONA_TEMPLATE_ID = 'itmpl_5FYHGGFhdAYvfd7FvSpNADcC'
+
 export const VALORA_LOGO_URL =
   'https://storage.googleapis.com/celo-mobile-mainnet.appspot.com/images/valora-icon.png'
 export const CELO_LOGO_URL =
