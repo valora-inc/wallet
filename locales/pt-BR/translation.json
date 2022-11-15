@@ -1375,18 +1375,22 @@
     "tryAgain": "Repetir",
     "withdraw": {
       "cancel": "Cancelar saque",
-      "success": {
-        "header": "Sucesso",
-        "title": "Seus fundos estão a caminho!",
-        "description": "Sua solicitação de transação foi enviada e seus fundos chegarão em {{duration}}.",
-        "txDetails": "Ver no CeloExplorer",
-        "continue": "Continuar"
-      }
+      "contactSupportPrefill": "Estou tento dificuldade para sacar meus fundos."
+    },
+    "add": {
+      "cancel": "Cancelar Adicionar fundos",
+      "contactSupportPrefill": "Estou a ter dificuldades em adicionar fundos à minha carteira Valora."
+    },
+    "success": {
+      "header": "Sucesso",
+      "title": "Seus fundos estão a caminho!",
+      "description": "Sua solicitação de transação foi enviada e seus fundos chegarão em {{duration}}.",
+      "txDetails": "Ver no CeloExplorer",
+      "continue": "Continuar"
     },
     "requestNotCompleted": {
       "title": "Sua solicitação não pôde ser concluída.",
-      "description": "Seus fundos não puderam ser transferidos. Tente novamente ou fale com a nossa equipe de suporte para obter ajuda.",
-      "contactSupportPrefill": "Estou tento dificuldade para sacar meus fundos."
+      "description": "Seus fundos não puderam ser transferidos. Tente novamente ou fale com a nossa equipe de suporte para obter ajuda."
     }
   },
   "fiatExchangeFlow": {
