@@ -1288,6 +1288,7 @@
     "idRequired": "ต้องมี ID",
     "numDays": "1-3 วัน",
     "oneHour": "ไม่เกิน 1 ชั่วโมง",
+    "oneDay": "Less Than 1 Day",
     "bestRate": "อัตราที่ดีที่สุด",
     "header": "เลือกวิธีการชำระเงิน"
   },
