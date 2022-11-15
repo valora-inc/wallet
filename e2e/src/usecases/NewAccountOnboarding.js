@@ -82,4 +82,17 @@ export default NewAccountOnboarding = () => {
       .toBeVisible()
       .withTimeout(10 * 1000)
   })
+
+  // After quiz completion recovery phrase should only be shown in settings
+  it('Recovery phrase only shown in settings', async () => {
+    await waitForElementId('Hamburger')
+    await element(by.id('Hamburger')).tap()
+    await expect(element(by.id('DrawerItem/Recovery Phrase'))).not.toExist()
+    await waitForElementId('DrawerItem/Settings')
+    await element(by.id('DrawerItem/Settings')).tap()
+    await waitForElementId('RecoveryPhrase')
+    await element(by.id('RecoveryPhrase')).tap()
+    await enterPinUi()
+    await waitForElementId('AccountKeyWords')
+  })
 }
