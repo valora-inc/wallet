@@ -16,7 +16,7 @@ import { apolloClient } from 'src/apollo/index'
 import { appMounted, appUnmounted, openDeepLink } from 'src/app/actions'
 import AppLoading from 'src/app/AppLoading'
 import ErrorBoundary from 'src/app/ErrorBoundary'
-import { FIREBASE_ENABLED, isE2EEnv } from 'src/config'
+import { DYNAMIC_LINK_DOMAIN_URI_PREFIX, FIREBASE_ENABLED, isE2EEnv } from 'src/config'
 import i18n from 'src/i18n'
 import I18nGate from 'src/i18n/I18nGate'
 import NavigatorWrapper from 'src/navigator/NavigatorWrapper'
@@ -76,15 +76,17 @@ export class App extends React.Component<Props> {
     await ValoraAnalytics.init()
 
     // Handles opening Clevertap deeplinks when app is closed / in background
-    // Also handles Firebase DynamcicLinks on Android
-    CleverTap.getInitialUrl(async (err: any, url) => {
+    // @ts-expect-error the clevertap ts definition has url as an object, but it
+    // is a string!
+    CleverTap.getInitialUrl(async (err: any, url: string) => {
       if (err) {
         if (/CleverTap initialUrl is (nil|null)/gi.test(err)) {
           Logger.warn('App/componentDidMount', 'CleverTap InitialUrl is nil|null', err)
         } else {
           Logger.error('App/componentDidMount', 'App CleverTap Deeplink on Load', err)
         }
-      } else if (url) {
+        // Clevertap should ignore firebase dynamic links - affects Android only
+      } else if (url && !url.startsWith(DYNAMIC_LINK_DOMAIN_URI_PREFIX)) {
         await this.handleOpenURL({ url }, true)
       }
     })
@@ -105,14 +107,9 @@ export class App extends React.Component<Props> {
         this.handleOpenURL({ url })
       )
 
-      // On Android, initial deep links are picked up by CleverTap - even if they were created by Firebase DynamicLinks.
-      // Breaking out here on Android avoids events being tracked multiple times.
-      if (Platform.OS === 'ios') {
-        const firebaseUrl = await dynamicLinks().getInitialLink()
-
-        if (firebaseUrl) {
-          await this.handleOpenURL({ url: firebaseUrl.url })
-        }
+      const firebaseUrl = await dynamicLinks().getInitialLink()
+      if (firebaseUrl) {
+        await this.handleOpenURL({ url: firebaseUrl.url })
       }
     }
 
@@ -154,7 +151,7 @@ export class App extends React.Component<Props> {
     store.dispatch(appUnmounted())
   }
 
-  handleOpenURL = async (event: any, isSecureOrigin: boolean = false) => {
+  handleOpenURL = async (event: { url: string }, isSecureOrigin: boolean = false) => {
     await waitUntilSagasFinishLoading()
     store.dispatch(openDeepLink(event.url, isSecureOrigin))
   }
