@@ -1379,18 +1379,22 @@
     "tryAgain": "Spróbuj ponownie",
     "withdraw": {
       "cancel": "Anuluj wypłatę",
-      "success": {
-        "header": "Sukces",
-        "title": "Twoje środki są w drodze!",
-        "description": "Twoje żądanie transakcji zostało wysłane, a środki dotrą w ciągu {{duration}}.",
-        "txDetails": "Wyświetl w CeloExplorer",
-        "continue": "Kontynuuj"
-      }
+      "contactSupportPrefill": "Mam problem z wypłatą środków."
+    },
+    "add": {
+      "cancel": "Anuluj Dodaj fundusze",
+      "contactSupportPrefill": "Mam problem z dodaniem środków do mojego portfela Valora."
+    },
+    "success": {
+      "header": "Sukces",
+      "title": "Twoje środki są w drodze!",
+      "description": "Twoje żądanie transakcji zostało wysłane, a środki dotrą w ciągu {{duration}}.",
+      "txDetails": "Wyświetl w CeloExplorer",
+      "continue": "Kontynuuj"
     },
     "requestNotCompleted": {
       "title": "Twoje żądanie nie mogło zostać zrealizowane.",
-      "description": "Twoje środki nie mogły zostać przekazane. Spróbuj ponownie lub skontaktuj się z naszym zespołem obsługi klienta, aby uzyskać pomoc.",
-      "contactSupportPrefill": "Mam problem z wypłatą środków."
+      "description": "Twoje środki nie mogły zostać przekazane. Spróbuj ponownie lub skontaktuj się z naszym zespołem obsługi klienta, aby uzyskać pomoc."
     }
   },
   "fiatExchangeFlow": {
