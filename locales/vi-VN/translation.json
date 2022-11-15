@@ -1373,18 +1373,22 @@
     "tryAgain": "Thử lại",
     "withdraw": {
       "cancel": "Hủy rút tiền",
-      "success": {
-        "header": "Thành công",
-        "title": "Tiền của bạn đang trong quá trình chuyển!",
-        "description": "Yêu cầu giao dịch của bạn đã gửi đi và tiền của bạn sẽ đến trong vòng {{duration}}.",
-        "txDetails": "Xem trên CeloExplorer",
-        "continue": "Tiếp tục"
-      }
+      "contactSupportPrefill": "Tôi đang gặp sự cố khi rút tiền."
+    },
+    "add": {
+      "cancel": "Cancel Add Funds",
+      "contactSupportPrefill": "I'm having trouble adding funds to my Valora wallet."
+    },
+    "success": {
+      "header": "Thành công",
+      "title": "Tiền của bạn đang trong quá trình chuyển!",
+      "description": "Yêu cầu giao dịch của bạn đã gửi đi và tiền của bạn sẽ đến trong vòng {{duration}}.",
+      "txDetails": "Xem trên CeloExplorer",
+      "continue": "Tiếp tục"
     },
     "requestNotCompleted": {
       "title": "Yêu cầu của bạn không thể hoàn tất.",
-      "description": "Chúng tôi không chuyển được tiền của bạn. Vui lòng thử lại hoặc liên hệ với đội ngũ hỗ trợ của chúng tôi để được trợ giúp.",
-      "contactSupportPrefill": "Tôi đang gặp sự cố khi rút tiền."
+      "description": "Chúng tôi không chuyển được tiền của bạn. Vui lòng thử lại hoặc liên hệ với đội ngũ hỗ trợ của chúng tôi để được trợ giúp."
     }
   },
   "fiatExchangeFlow": {
