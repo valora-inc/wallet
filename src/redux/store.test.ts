@@ -93,7 +93,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 88,
+          "version": 92,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -127,11 +127,9 @@ describe('store state', () => {
           "activeScreen": "Main",
           "analyticsEnabled": true,
           "appState": "Active",
-          "biometryEnabled": false,
           "cashInButtonExpEnabled": false,
           "celoEducationUri": null,
           "celoEuroEnabled": true,
-          "celoWithdrawalEnabledInExchange": true,
           "centralPhoneVerificationEnabled": false,
           "coinbasePayEnabled": false,
           "createAccountCopyTestType": "ACCOUNT",
@@ -176,7 +174,6 @@ describe('store state', () => {
           "skipProfilePicture": false,
           "skipVerification": false,
           "superchargeApy": 12,
-          "superchargeButtonType": "PILL_REWARDS",
           "superchargeTokenConfigByToken": Object {},
           "supportedBiometryType": null,
           "visualizeNFTsEnabledInHomeAssetsPage": false,
@@ -218,6 +215,7 @@ describe('store state', () => {
           "cachedFiatAccountUses": Array [],
           "cachedQuoteParams": Object {},
           "kycTryAgainLoading": false,
+          "personaInProgress": false,
           "providers": null,
           "quotes": Array [],
           "quotesError": null,

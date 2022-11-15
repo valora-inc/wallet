@@ -1,7 +1,7 @@
 import { Platform } from 'react-native'
 import { BIOMETRY_TYPE } from 'react-native-keychain'
 import { Actions, ActionTypes, AppState } from 'src/app/actions'
-import { CreateAccountCopyTestType, InviteMethodType, SuperchargeButtonType } from 'src/app/types'
+import { CreateAccountCopyTestType, InviteMethodType } from 'src/app/types'
 import { SuperchargeTokenConfigByToken } from 'src/consumerIncentives/types'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
@@ -42,13 +42,10 @@ export interface State {
   sentryTracesSampleRate: number
   sentryNetworkErrors: string[]
   supportedBiometryType: BIOMETRY_TYPE | null
-  biometryEnabled: boolean
-  superchargeButtonType: SuperchargeButtonType
   skipVerification: boolean
   showPriceChangeIndicatorInBalances: boolean
   paymentDeepLinkHandler: PaymentDeepLinkHandler
   skipProfilePicture: boolean
-  celoWithdrawalEnabledInExchange: boolean
   fiatConnectCashInEnabled: boolean
   fiatConnectCashOutEnabled: boolean
   visualizeNFTsEnabledInHomeAssetsPage: boolean
@@ -94,14 +91,11 @@ const initialState = {
   sentryTracesSampleRate: REMOTE_CONFIG_VALUES_DEFAULTS.sentryTracesSampleRate,
   sentryNetworkErrors: REMOTE_CONFIG_VALUES_DEFAULTS.sentryNetworkErrors.split(','),
   supportedBiometryType: null,
-  biometryEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.biometryEnabled,
-  superchargeButtonType: REMOTE_CONFIG_VALUES_DEFAULTS.superchargeButtonType,
   skipVerification: REMOTE_CONFIG_VALUES_DEFAULTS.skipVerification,
   showPriceChangeIndicatorInBalances:
     REMOTE_CONFIG_VALUES_DEFAULTS.showPriceChangeIndicatorInBalances,
   paymentDeepLinkHandler: REMOTE_CONFIG_VALUES_DEFAULTS.paymentDeepLinkHandler,
   skipProfilePicture: REMOTE_CONFIG_VALUES_DEFAULTS.skipProfilePicture,
-  celoWithdrawalEnabledInExchange: REMOTE_CONFIG_VALUES_DEFAULTS.celoWithdrawalEnabledInExchange,
   fiatConnectCashInEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.fiatConnectCashInEnabled,
   fiatConnectCashOutEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.fiatConnectCashOutEnabled,
   visualizeNFTsEnabledInHomeAssetsPage:
@@ -219,13 +213,10 @@ export const appReducer = (
         rampCashInButtonExpEnabled: action.configValues.rampCashInButtonExpEnabled,
         sentryTracesSampleRate: action.configValues.sentryTracesSampleRate,
         sentryNetworkErrors: action.configValues.sentryNetworkErrors,
-        biometryEnabled: action.configValues.biometryEnabled,
-        superchargeButtonType: action.configValues.superchargeButtonType,
         skipVerification: action.configValues.skipVerification,
         showPriceChangeIndicatorInBalances: action.configValues.showPriceChangeIndicatorInBalances,
         paymentDeepLinkHandler: action.configValues.paymentDeepLinkHandler,
         skipProfilePicture: action.configValues.skipProfilePicture,
-        celoWithdrawalEnabledInExchange: action.configValues.celoWithdrawalEnabledInExchange,
         fiatConnectCashInEnabled: action.configValues.fiatConnectCashInEnabled,
         fiatConnectCashOutEnabled: action.configValues.fiatConnectCashOutEnabled,
         visualizeNFTsEnabledInHomeAssetsPage:

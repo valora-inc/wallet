@@ -5,6 +5,7 @@ import { StackScreenProps } from '@react-navigation/stack'
 import * as React from 'react'
 import { WithTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
+import { BIOMETRY_TYPE } from 'react-native-keychain'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
 import { initializeAccount, setPincodeSuccess } from 'src/account/actions'
@@ -12,10 +13,10 @@ import { PincodeType } from 'src/account/reducer'
 import { OnboardingEvents, SettingsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import {
-  biometryEnabledSelector,
   registrationStepsSelector,
   showGuidedOnboardingSelector,
   skipVerificationSelector,
+  supportedBiometryTypeSelector,
 } from 'src/app/selectors'
 import DevSkipButton from 'src/components/DevSkipButton'
 import i18n, { withTranslation } from 'src/i18n'
@@ -43,7 +44,7 @@ interface StateProps {
   useExpandedBlocklist: boolean
   account: string
   registrationStep: { step: number; totalSteps: number }
-  biometryEnabled: boolean
+  supportedBiometryType: BIOMETRY_TYPE | null
   skipVerification: boolean
   showGuidedOnboarding: boolean
 }
@@ -74,7 +75,7 @@ function mapStateToProps(state: RootState): StateProps {
     hideVerification: state.app.hideVerification,
     useExpandedBlocklist: state.app.pincodeUseExpandedBlocklist,
     account: currentAccountSelector(state) ?? '',
-    biometryEnabled: biometryEnabledSelector(state),
+    supportedBiometryType: supportedBiometryTypeSelector(state),
     skipVerification: skipVerificationSelector(state),
     showGuidedOnboarding: showGuidedOnboardingSelector(state),
   }
@@ -157,7 +158,7 @@ export class PincodeSet extends React.Component<Props, State> {
   navigateToNextScreen = () => {
     if (this.isChangingPin()) {
       navigate(Screens.Settings)
-    } else if (this.props.biometryEnabled) {
+    } else if (this.props.supportedBiometryType !== null) {
       navigate(Screens.EnableBiometry)
     } else if (this.props.choseToRestoreAccount) {
       navigate(Screens.ImportWallet)

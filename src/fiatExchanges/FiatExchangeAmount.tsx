@@ -160,13 +160,12 @@ function FiatExchangeAmount({ route }: Props) {
     const previousFiatAccount = cachedFiatAccountUses.find(
       (account) =>
         account.cryptoType === currency &&
-        account.fiatType === convertToFiatConnectFiatCurrency(localCurrencyCode) &&
-        account.flow === flow
+        account.fiatType === convertToFiatConnectFiatCurrency(localCurrencyCode)
     )
     if (previousFiatAccount) {
       // This will attempt to navigate to the Review Screen if the proper quote and fiatAccount are found
       // If not, then the user will be navigated to the SelectProvider screen as normal
-      const { providerId, fiatAccountId, fiatAccountType } = previousFiatAccount
+      const { providerId, fiatAccountId, fiatAccountType, fiatAccountSchema } = previousFiatAccount
       dispatch(
         attemptReturnUserFlow({
           flow,
@@ -175,6 +174,7 @@ function FiatExchangeAmount({ route }: Props) {
           providerId,
           fiatAccountId,
           fiatAccountType,
+          fiatAccountSchema,
         })
       )
     } else {

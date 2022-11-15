@@ -23,7 +23,6 @@ const analyticsSpy = jest.spyOn(ValoraAnalytics, 'track')
 const store = createMockStore({
   app: {
     supportedBiometryType: BIOMETRY_TYPE.FACE_ID,
-    biometryEnabled: true,
     activeScreen: Screens.EnableBiometry,
   },
   account: {
@@ -73,7 +72,6 @@ describe('EnableBiometry', () => {
     const store = createMockStore({
       app: {
         supportedBiometryType: BIOMETRY_TYPE.FACE_ID,
-        biometryEnabled: true,
         activeScreen: Screens.EnableBiometry,
         skipVerification: true,
       },
@@ -141,7 +139,6 @@ describe('EnableBiometry', () => {
       app: {
         showGuidedOnboardingCopy: true,
         supportedBiometryType: BIOMETRY_TYPE.FACE_ID,
-        biometryEnabled: true,
         activeScreen: Screens.EnableBiometry,
       },
     })
