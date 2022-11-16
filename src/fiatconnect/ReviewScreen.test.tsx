@@ -5,7 +5,7 @@ import * as React from 'react'
 import { Provider } from 'react-redux'
 import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import FiatConnectReviewScreen from 'src/fiatconnect/ReviewScreen'
-import { createFiatConnectTransfer, refetchQuote, FiatAccount } from 'src/fiatconnect/slice'
+import { createFiatConnectTransfer, FiatAccount, refetchQuote } from 'src/fiatconnect/slice'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
@@ -102,6 +102,7 @@ describe('ReviewScreen', () => {
           flow: CICOFlow.CashOut,
           cryptoType: props.route.params.normalizedQuote.getCryptoType(),
           cryptoAmount: props.route.params.normalizedQuote.getCryptoAmount(),
+          fiatAmount: props.route.params.normalizedQuote.getFiatAmount(),
           providerId: props.route.params.normalizedQuote.getProviderId(),
           fiatAccount: props.route.params.fiatAccount,
         })
@@ -125,6 +126,7 @@ describe('ReviewScreen', () => {
           flow: CICOFlow.CashOut,
           cryptoType: props.route.params.normalizedQuote.getCryptoType(),
           cryptoAmount: props.route.params.normalizedQuote.getCryptoAmount(),
+          fiatAmount: props.route.params.normalizedQuote.getFiatAmount(),
           providerId: props.route.params.normalizedQuote.getProviderId(),
           fiatAccount: props.route.params.fiatAccount,
         })
@@ -136,6 +138,7 @@ describe('ReviewScreen', () => {
           flow: CICOFlow.CashOut,
           cryptoType: props.route.params.normalizedQuote.getCryptoType(),
           cryptoAmount: props.route.params.normalizedQuote.getCryptoAmount(),
+          fiatAmount: props.route.params.normalizedQuote.getFiatAmount(),
           providerId: props.route.params.normalizedQuote.getProviderId(),
           fiatAccount: props.route.params.fiatAccount,
         })
@@ -190,6 +193,7 @@ describe('ReviewScreen', () => {
           flow: CICOFlow.CashOut,
           cryptoType: props.route.params.normalizedQuote.getCryptoType(),
           cryptoAmount: props.route.params.normalizedQuote.getCryptoAmount(),
+          fiatAmount: props.route.params.normalizedQuote.getFiatAmount(),
           providerId: props.route.params.normalizedQuote.getProviderId(),
           fiatAccount: props.route.params.fiatAccount,
         })

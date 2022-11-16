@@ -1,17 +1,17 @@
-import React, { useEffect } from 'react'
-import { Screens } from 'src/navigator/Screens'
 import { StackScreenProps } from '@react-navigation/stack'
-import { StackParamList } from 'src/navigator/types'
-import { useSelector, useDispatch } from 'react-redux'
-import { StyleSheet, ActivityIndicator, View } from 'react-native'
-import colors from 'src/styles/colors'
+import React, { useEffect } from 'react'
+import { ActivityIndicator, StyleSheet, View } from 'react-native'
+import { useDispatch, useSelector } from 'react-redux'
 import {
-  fiatConnectQuotesErrorSelector,
   cachedQuoteParamsSelector,
+  fiatConnectQuotesErrorSelector,
 } from 'src/fiatconnect/selectors'
-import variables from 'src/styles/variables'
 import { refetchQuote } from 'src/fiatconnect/slice'
 import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
+import { StackParamList } from 'src/navigator/types'
+import colors from 'src/styles/colors'
+import variables from 'src/styles/variables'
 
 type Props = StackScreenProps<StackParamList, Screens.FiatConnectRefetchQuote>
 
@@ -32,6 +32,7 @@ export default function FiatConnectRefetchQuoteScreen({ route }: Props) {
           flow: cachedQuoteParams.flow,
           cryptoType: cachedQuoteParams.cryptoType,
           cryptoAmount: cachedQuoteParams.cryptoAmount,
+          fiatAmount: cachedQuoteParams.fiatAmount,
           providerId,
         })
       )

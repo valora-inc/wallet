@@ -14,7 +14,7 @@ import { handleUpdateAccountRegistration } from 'src/account/saga'
 import { updateAccountRegistration } from 'src/account/updateAccountRegistration'
 import { RemoteConfigValues } from 'src/app/saga'
 import { CreateAccountCopyTestType, InviteMethodType } from 'src/app/types'
-import { FETCH_TIMEOUT_DURATION, FIREBASE_ENABLED } from 'src/config'
+import { DEFAULT_PERSONA_TEMPLATE_ID, FETCH_TIMEOUT_DURATION, FIREBASE_ENABLED } from 'src/config'
 import { DappConnectInfo } from 'src/dapps/types'
 import { handleNotification } from 'src/firebase/notifications'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
@@ -417,4 +417,12 @@ export async function resolveDynamicLink(link: string) {
     Logger.warn('invite/utils/resolveDynamicLink', 'Link could not be resolved', error)
     return null
   }
+}
+
+export async function getPersonaTemplateId() {
+  if (!FIREBASE_ENABLED) {
+    return DEFAULT_PERSONA_TEMPLATE_ID
+  }
+
+  return readOnceFromFirebase('persona/templateId')
 }

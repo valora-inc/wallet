@@ -94,6 +94,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
         flow,
         digitalAsset,
         cryptoAmount: route.params.amount.crypto,
+        fiatAmount: route.params.amount.fiat,
       })
     )
   }, [flow, digitalAsset, route.params.amount.crypto, fiatConnectProviders])
@@ -235,6 +236,12 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
       <PaymentMethodSection
         normalizedQuotes={normalizedQuotes}
         paymentMethod={PaymentMethod.Bank}
+        setNoPaymentMethods={setNoPaymentMethods}
+        flow={flow}
+      />
+      <PaymentMethodSection
+        normalizedQuotes={normalizedQuotes}
+        paymentMethod={PaymentMethod.FiatConnectMobileMoney}
         setNoPaymentMethods={setNoPaymentMethods}
         flow={flow}
       />
@@ -393,11 +400,10 @@ function LegacyMobileMoneySection({
     return null
   }
   return (
-    <View style={styles.container}>
+    <View testID="LegacyMobileMoneySection" style={styles.container}>
       <Touchable onPress={goToProviderSite}>
         <View style={{ ...styles.expandableContainer, paddingVertical: 27 }}>
           <View style={styles.left}>
-            <Text style={styles.category}>{t('selectProviderScreen.mobileMoney')}</Text>
             <Text style={styles.fee}>{t('selectProviderScreen.feesVary')}</Text>
           </View>
 
