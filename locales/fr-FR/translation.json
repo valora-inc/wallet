@@ -1290,6 +1290,7 @@
     "idRequired": "ID requis",
     "numDays": "1-3 jours",
     "oneHour": "Moins d'une heure",
+    "lessThan24Hours": "Moins de 24 heures",
     "bestRate": "Meilleur taux",
     "header": "Mode de paiement"
   },
@@ -1298,6 +1299,11 @@
       "header": "Configurer un compte bancaire",
       "bodyTitle": "Configurer un compte bancaire",
       "description": "Entrez les coordonnées du compte bancaire pour transférer des fonds. Ces services sont fournis par <0>{{providerName}}</0>. \n\nEn cliquant sur Continuer, vous acceptez leurs <1>Conditions Générales</1> et <2>Politique de confidentialité</2>"
+    },
+    "mobileMoney": {
+      "header": "Configurer Mobile Money",
+      "bodyTitle": "Configurer Mobile Money",
+      "description": "Saisis les détails de l'argent mobile pour transférer des fonds. Ces services te seront fournis par <0>{{providerName}}</0>.\n\nEn cliquant sur continuer, tu acceptes leurs <1>conditions générales et</1> leur <2>politique de confidentialité</2>."
     },
     "continue": "Continuer"
   },
@@ -1367,20 +1373,24 @@
   },
   "fiatConnectStatusScreen": {
     "tryAgain": "Réessayer",
-    "withdraw": {
+    "cashOut": {
       "cancel": "Annuler le retrait",
-      "success": {
-        "header": "Succès",
-        "title": "Vos fonds sont en route !",
-        "description": "Votre demande de transaction a été envoyée et vos fonds arriveront dans {{duration}}.",
-        "txDetails": "Voir sur CeloExplorer",
-        "continue": "Continuer"
-      }
+      "contactSupportPrefill": "Je n'arrive pas à retirer mes fonds."
+    },
+    "cashIn": {
+      "cancel": "Annuler Ajouter des fonds",
+      "contactSupportPrefill": "J'ai du mal à ajouter des fonds à mon porte-monnaie Valora."
+    },
+    "success": {
+      "header": "Succès",
+      "title": "Vos fonds sont en route !",
+      "description": "Votre demande de transaction a été envoyée et vos fonds arriveront dans {{duration}}.",
+      "txDetails": "Voir sur CeloExplorer",
+      "continue": "Continuer"
     },
     "requestNotCompleted": {
       "title": "Votre demande n'a pas pu être complétée.",
-      "description": "Vos fonds n'ont pas pu être transférés. Veuillez réessayer ou contactez notre équipe d'assistance pour obtenir de l'aide.",
-      "contactSupportPrefill": "Je n'arrive pas à retirer mes fonds."
+      "description": "Vos fonds n'ont pas pu être transférés. Veuillez réessayer ou contactez notre équipe d'assistance pour obtenir de l'aide."
     }
   },
   "fiatExchangeFlow": {

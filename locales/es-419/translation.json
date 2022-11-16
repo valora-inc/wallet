@@ -1290,6 +1290,7 @@
     "idRequired": "Requiere identificación",
     "numDays": "1-3 días",
     "oneHour": "Menos de 1 hora",
+    "lessThan24Hours": "Menos de 24 horas",
     "bestRate": "Mejor tarifa",
     "header": "Selecciona el método de pago"
   },
@@ -1298,6 +1299,11 @@
       "header": "Configurar cuenta bancaria",
       "bodyTitle": "Configurar cuenta bancaria",
       "description": "Ingresa los datos bancarios para transferir fondos. Estos servicios te serán proporcionados por <0>{{providerName}}</0>. Si eliges continuar, aceptas sus <1>Términos y condiciones</1> y su <2>Política de privacidad</2>."
+    },
+    "mobileMoney": {
+      "header": "Configurar el dinero móvil",
+      "bodyTitle": "Configurar el dinero móvil",
+      "description": "Introduce los datos del dinero móvil para transferir fondos. Estos servicios te serán proporcionados por <0>{{providerName}}</0>.\n\nAl hacer clic en continuar, aceptas sus <1>Términos y Condiciones</1> y su <2>Política de Privacidad</2>"
     },
     "continue": "Continuar"
   },
@@ -1367,20 +1373,24 @@
   },
   "fiatConnectStatusScreen": {
     "tryAgain": "Reintentar",
-    "withdraw": {
+    "cashOut": {
       "cancel": "Cancelar retiro",
-      "success": {
-        "header": "Retiro exitoso",
-        "title": "¡Tus fondos están en camino!",
-        "description": "Tu solicitud ha sido enviada y tus fondos llegarán en {{duration}}.",
-        "txDetails": "Ver en CeloExplorer",
-        "continue": "Continuar"
-      }
+      "contactSupportPrefill": "Tengo problemas para retirar mis fondos."
+    },
+    "cashIn": {
+      "cancel": "Cancelar Añadir fondos",
+      "contactSupportPrefill": "Tengo problemas para añadir fondos a mi monedero de Valora."
+    },
+    "success": {
+      "header": "Retiro exitoso",
+      "title": "¡Tus fondos están en camino!",
+      "description": "Tu solicitud ha sido enviada y tus fondos llegarán en {{duration}}.",
+      "txDetails": "Ver en CeloExplorer",
+      "continue": "Continuar"
     },
     "requestNotCompleted": {
       "title": "No se ha podido completar tu solicitud.",
-      "description": "No fue posible transferir tus fondos. Inténtalo de nuevo o comunícate con nuestro equipo de soporte técnico para obtener ayuda.",
-      "contactSupportPrefill": "Tengo problemas para retirar mis fondos."
+      "description": "No fue posible transferir tus fondos. Inténtalo de nuevo o comunícate con nuestro equipo de soporte técnico para obtener ayuda."
     }
   },
   "fiatExchangeFlow": {

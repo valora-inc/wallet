@@ -6,7 +6,7 @@ import {
   QuoteErrorResponse,
   QuoteResponse,
 } from '@fiatconnect/fiatconnect-types'
-import { CICOFlow } from 'src/fiatExchanges/utils'
+import { CICOFlow, isUserInputCrypto } from 'src/fiatExchanges/utils'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getPassword } from 'src/pincode/authentication'
 import { CiCoCurrency } from 'src/utils/currencies'
@@ -104,6 +104,7 @@ export type QuotesInput = {
   localCurrency: LocalCurrencyCode
   digitalAsset: CiCoCurrency
   cryptoAmount: number
+  fiatAmount: number
   country: string
   address: string
 }
@@ -132,6 +133,7 @@ export async function getFiatConnectQuotes(
     localCurrency,
     digitalAsset,
     cryptoAmount,
+    fiatAmount,
     country,
     flow,
     address,
@@ -142,7 +144,9 @@ export async function getFiatConnectQuotes(
   const quoteParams: CreateQuoteParams = {
     fiatType,
     cryptoType,
-    cryptoAmount: cryptoAmount.toString(),
+    ...(isUserInputCrypto(flow, digitalAsset)
+      ? { cryptoAmount: cryptoAmount.toString() }
+      : { fiatAmount: fiatAmount.toString() }),
     country,
     address,
   }

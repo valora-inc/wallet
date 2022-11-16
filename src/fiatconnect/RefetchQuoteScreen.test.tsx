@@ -1,14 +1,14 @@
-import { createMockStore, getMockStackScreenProps } from 'test/utils'
-import { Provider } from 'react-redux'
-import * as React from 'react'
-import FiatConnectRefetchQuoteScreen from 'src/fiatconnect/RefetchQuoteScreen'
-import { Screens } from 'src/navigator/Screens'
-import { KycSchema, FiatType } from '@fiatconnect/fiatconnect-types'
+import { FiatType, KycSchema } from '@fiatconnect/fiatconnect-types'
 import { render } from '@testing-library/react-native'
-import { navigate } from 'src/navigator/NavigationService'
+import * as React from 'react'
+import { Provider } from 'react-redux'
+import FiatConnectRefetchQuoteScreen from 'src/fiatconnect/RefetchQuoteScreen'
 import { refetchQuote } from 'src/fiatconnect/slice'
 import { CICOFlow } from 'src/fiatExchanges/utils'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import { Currency } from 'src/utils/currencies'
+import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
 const store = createMockStore()
 
@@ -69,6 +69,7 @@ describe('RefetchQuoteScreen', () => {
         flow: CICOFlow.CashOut,
         cryptoType: Currency.Dollar,
         cryptoAmount: '10',
+        fiatAmount: '10',
         providerId: 'some-provider',
       })
     )
@@ -107,6 +108,7 @@ describe('RefetchQuoteScreen', () => {
         flow: CICOFlow.CashOut,
         cryptoType: Currency.Dollar,
         cryptoAmount: '10',
+        fiatAmount: '10',
         providerId: 'some-provider',
       })
     )
