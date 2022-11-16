@@ -2,7 +2,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, Text, View } from 'react-native'
+import { Platform, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { showError } from 'src/alert/actions'
@@ -384,7 +384,12 @@ function SendConfirmationLegacy(props: Props) {
     return (
       <SafeAreaView
         style={styles.container}
-        edges={props.route.name === Screens.SendConfirmationLegacyModal ? ['bottom'] : undefined}
+        // No modal display on android so we set edges to undefined
+        edges={
+          props.route.name === Screens.SendConfirmationLegacyModal && Platform.OS === 'ios'
+            ? ['bottom']
+            : undefined
+        }
       >
         <CustomHeader
           style={{ paddingHorizontal: 8 }}
