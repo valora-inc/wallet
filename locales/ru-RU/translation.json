@@ -1294,7 +1294,7 @@
     "idRequired": "Требуется ID",
     "numDays": "1–3 дня",
     "oneHour": "Менее 1 часа",
-    "oneDay": "Менее чем за 1 день",
+    "lessThan24Hours": "Менее 24 часов",
     "bestRate": "Лучший курс",
     "header": "Выберите способ оплаты"
   },
@@ -1377,11 +1377,11 @@
   },
   "fiatConnectStatusScreen": {
     "tryAgain": "Повторить попытку",
-    "withdraw": {
+    "cashOut": {
       "cancel": "Отменить вывод",
       "contactSupportPrefill": "У меня проблемы с выводом средств."
     },
-    "add": {
+    "cashIn": {
       "cancel": "Отмена Добавить средства",
       "contactSupportPrefill": "У меня проблемы с добавлением средств на мой кошелек Valora."
     },
