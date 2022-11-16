@@ -103,8 +103,8 @@ export default class FiatConnectQuote extends NormalizedQuote {
   getPaymentMethod(): PaymentMethod {
     const fiatAccountToPaymentMethodMap = {
       [FiatAccountType.BankAccount]: PaymentMethod.Bank,
-      [FiatAccountType.MobileMoney]: PaymentMethod.MobileMoney,
-      [FiatAccountType.DuniaWallet]: PaymentMethod.MobileMoney,
+      [FiatAccountType.MobileMoney]: PaymentMethod.FiatConnectMobileMoney,
+      [FiatAccountType.DuniaWallet]: PaymentMethod.FiatConnectMobileMoney,
     }
     return fiatAccountToPaymentMethodMap[this.fiatAccountType]
   }
