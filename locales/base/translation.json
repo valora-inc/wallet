@@ -1292,6 +1292,7 @@
     "idRequired": "ID Required",
     "numDays": "1-3 Days",
     "oneHour": "Less Than 1 Hour",
+    "lessThan24Hours": "Less Than 24 Hours",
     "bestRate": "Best Rate",
     "header": "Select Payment Method"
   },
@@ -1374,20 +1375,24 @@
   },
   "fiatConnectStatusScreen": {
     "tryAgain": "Try Again",
-    "withdraw": {
+    "cashOut": {
       "cancel": "Cancel Withdrawal",
-      "success": {
-        "header": "Success",
-        "title": "Your funds are on their way!",
-        "description": "Your transaction request has been sent & your funds will arrive in {{duration}}.",
-        "txDetails": "View on CeloExplorer",
-        "continue": "Continue"
-      }
+      "contactSupportPrefill": "I'm having trouble withdrawing my funds."
+    },
+    "cashIn": {
+      "cancel": "Cancel Add Funds",
+      "contactSupportPrefill": "I'm having trouble adding funds to my Valora wallet."
+    },
+    "success": {
+      "header": "Success",
+      "title": "Your funds are on their way!",
+      "description": "Your transaction request has been sent & your funds will arrive in {{duration}}.",
+      "txDetails": "View on CeloExplorer",
+      "continue": "Continue"
     },
     "requestNotCompleted": {
       "title": "Your request could not be completed.",
-      "description": "Your funds were not able to be transferred. Please try again or contact our support team for help.",
-      "contactSupportPrefill": "I'm having trouble withdrawing my funds."
+      "description": "Your funds were not able to be transferred. Please try again or contact our support team for help."
     }
   },
   "fiatExchangeFlow": {

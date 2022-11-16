@@ -95,6 +95,7 @@ export interface FetchQuotesAction {
   flow: CICOFlow
   digitalAsset: CiCoCurrency
   cryptoAmount: number
+  fiatAmount: number
   providerIds?: string[]
 }
 
@@ -144,6 +145,7 @@ interface RefetchQuoteAction {
   flow: CICOFlow
   cryptoType: Currency
   cryptoAmount: string
+  fiatAmount: string
   providerId: string
   fiatAccount?: FiatAccount
 }
