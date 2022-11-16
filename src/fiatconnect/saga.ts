@@ -893,6 +893,10 @@ export function* handleFetchFiatConnectProviders() {
   }
 }
 
+/**
+ * Initiates a fiatconnect transfer using the fiatconnect SDK to call a transfer/out or transfer/in endpoint
+ * for a provider.
+ **/
 export function* _initiateTransfer({
   payload: params,
 }: ReturnType<typeof createFiatConnectTransfer>) {
@@ -928,6 +932,10 @@ export function* _initiateTransfer({
   return transferResult
 }
 
+/**
+ * Initiates a transaction on-chain to send funds to a specific address. This is intended to be used for
+ * cashing out after a transfer has been initiated with a provider
+ **/
 export function* _initiateTransaction({
   transferAddress,
   fiatConnectQuote,
