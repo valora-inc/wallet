@@ -1290,7 +1290,7 @@
     "idRequired": "ID requis",
     "numDays": "1-3 jours",
     "oneHour": "Moins d'une heure",
-    "oneDay": "Moins d'un jour",
+    "lessThan24Hours": "Moins de 24 heures",
     "bestRate": "Meilleur taux",
     "header": "Mode de paiement"
   },
@@ -1373,11 +1373,11 @@
   },
   "fiatConnectStatusScreen": {
     "tryAgain": "Réessayer",
-    "withdraw": {
+    "cashOut": {
       "cancel": "Annuler le retrait",
       "contactSupportPrefill": "Je n'arrive pas à retirer mes fonds."
     },
-    "add": {
+    "cashIn": {
       "cancel": "Annuler Ajouter des fonds",
       "contactSupportPrefill": "J'ai du mal à ajouter des fonds à mon porte-monnaie Valora."
     },
