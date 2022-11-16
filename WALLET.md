@@ -322,7 +322,7 @@ export TERM_PROGRAM=xterm  # or whatever your favorite terminal is
 Set your `PATH` environment variable and optionally update your shell profile (_e.g._, `.bash_profile`):
 
 ```bash
-export PATH=$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$PATH
+export PATH=$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$ANDROID_HOME/cmdline-tools/latest/bin:$PATH
 ```
 
 Install the Android 29 system image and create an Android Virtual Device:
