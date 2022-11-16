@@ -87,7 +87,6 @@ export class App extends React.Component<Props> {
           Logger.error('App/componentDidMount', 'App CleverTap Deeplink on Load', err)
         }
       } else if (url) {
-        // firebase handles dynamic links, so we don't need to handle them here
         await this.handleOpenInitialURL({ url }, true)
       }
     })
@@ -115,7 +114,6 @@ export class App extends React.Component<Props> {
     }
 
     const initialUrl = await Linking.getInitialURL()
-    // firebase handles dynamic links, so we don't need to handle them here
     if (initialUrl) {
       await this.handleOpenInitialURL({ url: initialUrl })
     }
@@ -159,6 +157,8 @@ export class App extends React.Component<Props> {
   }
 
   handleOpenInitialURL = async (event: { url: string }, isSecureOrigin: boolean = false) => {
+    // this function handles initial deep links, but not dynamic links (which
+    // are handled by firebase)
     if (!this.isConsumingInitialLink && !event.url.startsWith(DYNAMIC_LINK_DOMAIN_URI_PREFIX)) {
       this.isConsumingInitialLink = true
       await this.handleOpenURL(event, isSecureOrigin)
