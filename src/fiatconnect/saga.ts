@@ -893,97 +893,112 @@ export function* handleFetchFiatConnectProviders() {
   }
 }
 
-export function* handleCreateFiatConnectTransfer({
+export function* _initiateTransfer({
   payload: params,
 }: ReturnType<typeof createFiatConnectTransfer>) {
   const { flow, fiatConnectQuote, fiatAccountId } = params
   const quoteId = fiatConnectQuote.getQuoteId()
-
-  if (flow === CICOFlow.CashOut) {
-    try {
-      Logger.info(TAG, 'Starting transfer out..')
-      const fiatConnectClient: FiatConnectClient = yield call(
-        getFiatConnectClient,
-        fiatConnectQuote.getProviderId(),
-        fiatConnectQuote.getProviderBaseUrl(),
-        fiatConnectQuote.getProviderApiKey()
-      )
-      const result: Result<TransferResponse, ResponseError> = yield call(
-        [fiatConnectClient, 'transferOut'],
-        {
-          idempotencyKey: uuidv4(),
-          data: { quoteId, fiatAccountId },
-        }
-      )
-
-      if (result.isErr) {
-        ValoraAnalytics.track(FiatExchangeEvents.cico_fc_transfer_api_error, {
-          flow,
-          fiatConnectError: result.error.fiatConnectError,
-          error: result.error.message,
-          provider: fiatConnectQuote.getProviderId(),
-        })
-        throw result.error
-      }
-
-      const transferResult = result.unwrap()
-
-      Logger.info(
-        TAG,
-        'Transfer out succeeded. Starting transaction..',
-        JSON.stringify(transferResult)
-      )
-
-      const tokenList: TokenBalance[] = yield select(tokensListSelector)
-      const tokenInfo = tokenList.find(
-        (token) => token.symbol === fiatConnectQuote.getCryptoType()
-      )!
-
-      const feeEstimates: FeeEstimatesState['estimates'] = yield select(feeEstimatesSelector)
-      const feeInfo = feeEstimates[tokenInfo.address]?.[FeeType.SEND]?.feeInfo
-
-      const context = newTransactionContext(TAG, 'Send crypto to provider for transfer out')
-
-      const { receipt, error }: { receipt: CeloTxReceipt; error: any } = yield call(
-        buildAndSendPayment,
-        context,
-        transferResult.transferAddress,
-        new BigNumber(fiatConnectQuote.getCryptoAmount()),
-        tokenInfo.address,
-        '',
-        feeInfo!
-      )
-
-      if (error) {
-        ValoraAnalytics.track(FiatExchangeEvents.cico_fc_transfer_tx_error, {
-          flow,
-          error: error.message,
-          transferAddress: transferResult.transferAddress,
-          provider: fiatConnectQuote.getProviderId(),
-        })
-        throw error
-      }
-
-      ValoraAnalytics.track(FiatExchangeEvents.cico_fc_transfer_success, {
-        txHash: receipt.transactionHash,
-        transferAddress: transferResult.transferAddress,
-        provider: fiatConnectQuote.getProviderId(),
-        flow,
-      })
-
-      yield put(
-        createFiatConnectTransferCompleted({
-          flow,
-          quoteId,
-          txHash: receipt.transactionHash,
-        })
-      )
-    } catch (err) {
-      Logger.error(TAG, 'Transfer out failed..', err)
-      yield put(createFiatConnectTransferFailed({ flow, quoteId }))
+  const transferType = flow === CICOFlow.CashIn ? 'transferIn' : 'transferOut'
+  Logger.info(TAG, `Starting ${transferType} ..`)
+  const fiatConnectClient: FiatConnectClient = yield call(
+    getFiatConnectClient,
+    fiatConnectQuote.getProviderId(),
+    fiatConnectQuote.getProviderBaseUrl(),
+    fiatConnectQuote.getProviderApiKey()
+  )
+  const result: Result<TransferResponse, ResponseError> = yield call(
+    [fiatConnectClient, transferType],
+    {
+      idempotencyKey: uuidv4(),
+      data: { quoteId, fiatAccountId },
     }
-  } else {
-    throw new Error('not implemented')
+  )
+  if (result.isErr) {
+    ValoraAnalytics.track(FiatExchangeEvents.cico_fc_transfer_api_error, {
+      flow,
+      fiatConnectError: result.error.fiatConnectError,
+      error: result.error.message,
+      provider: fiatConnectQuote.getProviderId(),
+    })
+    throw result.error
+  }
+  const transferResult = result.unwrap()
+
+  Logger.info(TAG, `${transferType} succeeded`, JSON.stringify(transferResult))
+  return transferResult
+}
+
+export function* _initiateTransaction({
+  transferAddress,
+  fiatConnectQuote,
+}: {
+  transferAddress: string
+  fiatConnectQuote: FiatConnectQuote
+}) {
+  Logger.info(TAG, 'Starting transfer out transaction..')
+
+  const tokenList: TokenBalance[] = yield select(tokensListSelector)
+  const tokenInfo = tokenList.find((token) => token.symbol === fiatConnectQuote.getCryptoType())!
+
+  const feeEstimates: FeeEstimatesState['estimates'] = yield select(feeEstimatesSelector)
+  const feeInfo = feeEstimates[tokenInfo.address]?.[FeeType.SEND]?.feeInfo
+
+  const context = newTransactionContext(TAG, 'Send crypto to provider for transfer out')
+
+  const { error, receipt }: { receipt: CeloTxReceipt; error: any } = yield call(
+    buildAndSendPayment,
+    context,
+    transferAddress,
+    new BigNumber(fiatConnectQuote.getCryptoAmount()),
+    tokenInfo.address,
+    '',
+    feeInfo!
+  )
+  if (error) {
+    ValoraAnalytics.track(FiatExchangeEvents.cico_fc_transfer_tx_error, {
+      flow: CICOFlow.CashOut,
+      error: error.message,
+      transferAddress: transferAddress,
+      provider: fiatConnectQuote.getProviderId(),
+    })
+    throw error
+  }
+  Logger.info(TAG, 'Completed transfer out transaction..')
+  return receipt.transactionHash
+}
+
+export function* handleCreateFiatConnectTransfer(
+  action: ReturnType<typeof createFiatConnectTransfer>
+) {
+  const { flow, fiatConnectQuote } = action.payload
+  const quoteId = fiatConnectQuote.getQuoteId()
+  let transactionHash: string | null = null
+  try {
+    const { transferAddress }: TransferResponse = yield call(_initiateTransfer, action)
+
+    if (flow === CICOFlow.CashOut) {
+      transactionHash = yield call(_initiateTransaction, {
+        transferAddress,
+        fiatConnectQuote,
+      })
+    }
+
+    ValoraAnalytics.track(FiatExchangeEvents.cico_fc_transfer_success, {
+      txHash: transactionHash,
+      transferAddress: transferAddress,
+      provider: fiatConnectQuote.getProviderId(),
+      flow,
+    })
+    yield put(
+      createFiatConnectTransferCompleted({
+        flow,
+        quoteId,
+        txHash: transactionHash,
+      })
+    )
+  } catch (err) {
+    Logger.error(TAG, `Transfer for ${flow} failed..`, err)
+    yield put(createFiatConnectTransferFailed({ flow, quoteId }))
   }
 }
 

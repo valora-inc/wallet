@@ -284,10 +284,10 @@ function TransactionDetails({
 }) {
   const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)!
 
-  if (flow === CICOFlow.CashIn) {
-    // TODO: update below implementation to support CashIn
-    throw new Error('Not implemented')
-  }
+  // if (flow === CICOFlow.CashIn) {
+  //   // TODO: update below implementation to support CashIn
+  //   throw new Error('Not implemented')
+  // }
 
   const { t } = useTranslation()
   let tokenDisplay: string
