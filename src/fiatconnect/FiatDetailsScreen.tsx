@@ -1,3 +1,4 @@
+import { FiatAccountType, SupportedOperatorEnum } from '@fiatconnect/fiatconnect-types'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -56,13 +57,26 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
   const schemaCountryOverrides = useSelector(schemaCountryOverridesSelector)
 
   const fiatAccountSchema = quote.getFiatAccountSchema()
+  const fiatAccountType = quote.getFiatAccountType()
+
+  const getHeaderTranslation = useMemo(() => {
+    switch (fiatAccountType) {
+      case FiatAccountType.BankAccount:
+        return 'fiatDetailsScreen.headerBankAccount'
+      case FiatAccountType.MobileMoney:
+        return 'fiatDetailsScreen.headerMobileMoney'
+      default:
+        // should never happen
+        throw new Error('Unsupported account type')
+    }
+  }, [fiatAccountType])
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
         <View style={headerStyles.header}>
           <Text style={headerStyles.headerTitle} numberOfLines={1}>
-            {t('fiatDetailsScreen.header')}
+            {t(getHeaderTranslation)}
           </Text>
           <View style={styles.headerSubTitleContainer}>
             <View style={styles.headerImageContainer}>
@@ -179,7 +193,13 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
     validateInput()
   }
 
-  const allowedValues = quote.getFiatAccountSchemaAllowedValues()
+  //TODO: what if allowed values is empty from quote? Assume that means any are allowed?
+  let allowedValues = quote.getFiatAccountSchemaAllowedValues()
+  if (allowedValues?.operator) {
+    allowedValues.operator = allowedValues.operator.filter((operatorName) =>
+      Object.keys(SupportedOperatorEnum).includes(operatorName)
+    )
+  }
   switch (sendingFiatAccountStatus) {
     case SendingFiatAccountStatus.Sending:
       return (
