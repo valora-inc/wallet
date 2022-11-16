@@ -1294,7 +1294,7 @@
     "idRequired": "Потрібен ідентифікатор",
     "numDays": "1—3 дні",
     "oneHour": "Менш як 1 година",
-    "oneDay": "Менше 1 дня",
+    "lessThan24Hours": "Менше 24 годин",
     "bestRate": "Найкращий тариф",
     "header": "Виберіть спосіб оплати"
   },
@@ -1377,11 +1377,11 @@
   },
   "fiatConnectStatusScreen": {
     "tryAgain": "Спробувати ще",
-    "withdraw": {
+    "cashOut": {
       "cancel": "Скасувати зняття",
       "contactSupportPrefill": "Я не можу зняти свої кошти."
     },
-    "add": {
+    "cashIn": {
       "cancel": "Скасувати додавання коштів",
       "contactSupportPrefill": "Я не вмію додавати кошти до мого гаманця Valora."
     },
