@@ -6,6 +6,7 @@ import { Trans, useTranslation } from 'react-i18next'
 import { Dimensions, Keyboard, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaInsetsContext } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
+import { cancelCreateOrRestoreAccount } from 'src/account/actions'
 import { accountToRecoverSelector, recoveringFromStoreWipeSelector } from 'src/account/selectors'
 import { hideAlert } from 'src/alert/actions'
 import { OnboardingEvents } from 'src/analytics/Events'
@@ -36,6 +37,7 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
+import useBackHandler from 'src/utils/useBackHandler'
 
 const AVERAGE_WORD_WIDTH = 80
 const AVERAGE_SEED_WIDTH = AVERAGE_WORD_WIDTH * 24
@@ -72,18 +74,15 @@ function ImportWallet({ navigation, route }: Props) {
     }
   }
 
+  function onCancel() {
+    ValoraAnalytics.track(OnboardingEvents.restore_account_cancel)
+    dispatch(cancelCreateOrRestoreAccount())
+    navigate(Screens.Welcome)
+  }
+
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerLeft: () => (
-        <TopBarTextButtonOnboarding
-          title={t('cancel')}
-          // Note: navigation state reset popToScreen in PincodeSet.tsx
-          onPress={() => {
-            ValoraAnalytics.track(OnboardingEvents.restore_account_cancel)
-            navigate(Screens.Welcome)
-          }}
-        />
-      ),
+      headerLeft: () => <TopBarTextButtonOnboarding title={t('cancel')} onPress={onCancel} />,
       headerTitle: () => (
         <HeaderTitleWithSubtitle
           testID="Header/RestoreBackup"
@@ -96,6 +95,11 @@ function ImportWallet({ navigation, route }: Props) {
       },
     })
   }, [navigation, step, totalSteps])
+
+  useBackHandler(() => {
+    onCancel()
+    return true
+  }, [])
 
   useEffect(() => {
     ValoraAnalytics.track(OnboardingEvents.wallet_import_start)
@@ -247,7 +251,11 @@ function ImportWallet({ navigation, route }: Props) {
   )
 }
 
-ImportWallet.navigationOptions = nuxNavigationOptions
+ImportWallet.navigationOptions = {
+  ...nuxNavigationOptions,
+  // Prevent swipe back on iOS, users have to explicitly press cancel
+  gestureEnabled: false,
+}
 
 const styles = StyleSheet.create({
   container: {
