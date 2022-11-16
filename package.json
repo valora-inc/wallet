@@ -331,7 +331,7 @@
     "ua-parser-js": "^0.7.24",
     "underscore": "^1.12.1",
     "react-native-flipper": "^0.127.0",
-    "y18n": "5.0.5",
+    "y18n": "5.0.8",
     "css-what": "5.0.1",
     "normalize-url": "6.0.1",
     "trim-newlines": "^4.0.2",
