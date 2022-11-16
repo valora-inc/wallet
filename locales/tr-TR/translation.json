@@ -1290,6 +1290,7 @@
     "idRequired": "Kimlik Gerekir",
     "numDays": "1-3 Gün",
     "oneHour": "1 Saatten Az",
+    "lessThan24Hours": "24 Saatten Az",
     "bestRate": "En İyi Oran",
     "header": "Ödeme Yöntemi Seç"
   },
@@ -1372,20 +1373,24 @@
   },
   "fiatConnectStatusScreen": {
     "tryAgain": "Tekrar Deneyin",
-    "withdraw": {
+    "cashOut": {
       "cancel": "Para Çekmeyi iptal et",
-      "success": {
-        "header": "Başarılı",
-        "title": "Bakiyen yolda!",
-        "description": "İşlem talebiniz gönderildi ve paranız {{duration}} içinde ulaşacak.",
-        "txDetails": "CeloExplorer'da görüntüle",
-        "continue": "İleri"
-      }
+      "contactSupportPrefill": "Paramı çekerken sorun yaşıyorum."
+    },
+    "cashIn": {
+      "cancel": "İptal Fon Ekle",
+      "contactSupportPrefill": "Valora cüzdanıma para eklemekte sorun yaşıyorum."
+    },
+    "success": {
+      "header": "Başarılı",
+      "title": "Bakiyen yolda!",
+      "description": "İşlem talebiniz gönderildi ve paranız {{duration}} içinde ulaşacak.",
+      "txDetails": "CeloExplorer'da görüntüle",
+      "continue": "İleri"
     },
     "requestNotCompleted": {
       "title": "İsteğiniz gerçekleştirilemedi.",
-      "description": "Paranız aktarılamadı. Lütfen tekrar deneyin veya yardım için destek ekibimizle iletişime geçin.",
-      "contactSupportPrefill": "Paramı çekerken sorun yaşıyorum."
+      "description": "Paranız aktarılamadı. Lütfen tekrar deneyin veya yardım için destek ekibimizle iletişime geçin."
     }
   },
   "fiatExchangeFlow": {

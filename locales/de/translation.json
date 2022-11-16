@@ -1290,6 +1290,7 @@
     "idRequired": "ID erforderlich",
     "numDays": "1–3 Tage",
     "oneHour": "Weniger als 1 Stunde",
+    "lessThan24Hours": "Weniger als 24 Stunden",
     "bestRate": "Bester Tarif",
     "header": "Zahlungsmethode auswählen"
   },
@@ -1372,20 +1373,24 @@
   },
   "fiatConnectStatusScreen": {
     "tryAgain": "Wiederholen",
-    "withdraw": {
+    "cashOut": {
       "cancel": "Abhebung abbrechen",
-      "success": {
-        "header": "Erfolg",
-        "title": "Dein Guthaben ist unterwegs.",
-        "description": "Deine Transaktionsanfrage wurde versendet. Dein Geld wird in {{duration}} eintreffen.",
-        "txDetails": "Auf CeloExplorer anzeigen",
-        "continue": "Weiter"
-      }
+      "contactSupportPrefill": "Ich habe Probleme, mein Guthaben abzuheben."
+    },
+    "cashIn": {
+      "cancel": "Abbrechen Mittel hinzufügen",
+      "contactSupportPrefill": "Ich habe Probleme, Geld in meine Valora-Geldbörse einzuzahlen."
+    },
+    "success": {
+      "header": "Erfolg",
+      "title": "Dein Guthaben ist unterwegs.",
+      "description": "Deine Transaktionsanfrage wurde versendet. Dein Geld wird in {{duration}} eintreffen.",
+      "txDetails": "Auf CeloExplorer anzeigen",
+      "continue": "Weiter"
     },
     "requestNotCompleted": {
       "title": "Deine Anfrage konnte nicht abgeschlossen werden.",
-      "description": "Dein Guthaben konnte nicht von überwiesen werden. Bitte versuche es noch einmal oder wende dich an unser Support-Team, um Hilfe zu erhalten.",
-      "contactSupportPrefill": "Ich habe Probleme, mein Guthaben abzuheben."
+      "description": "Dein Guthaben konnte nicht von überwiesen werden. Bitte versuche es noch einmal oder wende dich an unser Support-Team, um Hilfe zu erhalten."
     }
   },
   "fiatExchangeFlow": {
