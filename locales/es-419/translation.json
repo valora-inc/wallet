@@ -1290,7 +1290,7 @@
     "idRequired": "Requiere identificación",
     "numDays": "1-3 días",
     "oneHour": "Menos de 1 hora",
-    "oneDay": "Menos de 1 día",
+    "lessThan24Hours": "Menos de 24 horas",
     "bestRate": "Mejor tarifa",
     "header": "Selecciona el método de pago"
   },
@@ -1373,11 +1373,11 @@
   },
   "fiatConnectStatusScreen": {
     "tryAgain": "Reintentar",
-    "withdraw": {
+    "cashOut": {
       "cancel": "Cancelar retiro",
       "contactSupportPrefill": "Tengo problemas para retirar mis fondos."
     },
-    "add": {
+    "cashIn": {
       "cancel": "Cancelar Añadir fondos",
       "contactSupportPrefill": "Tengo problemas para añadir fondos a mi monedero de Valora."
     },
