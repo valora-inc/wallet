@@ -1288,6 +1288,7 @@
     "idRequired": "必须提供 ID",
     "numDays": "1-3 天",
     "oneHour": "小于 1 小时",
+    "lessThan24Hours": "不到24小时",
     "bestRate": "最佳费率",
     "header": "选择付款方式"
   },
@@ -1370,20 +1371,24 @@
   },
   "fiatConnectStatusScreen": {
     "tryAgain": "再试一次",
-    "withdraw": {
+    "cashOut": {
       "cancel": "取消提款",
-      "success": {
-        "header": "成功",
-        "title": "您的资金正在到账中！",
-        "description": "您的交易请求已发送，您的资金将在 {{duration}} 后到账。",
-        "txDetails": "在 CeloExplorer 上查看",
-        "continue": "继续"
-      }
+      "contactSupportPrefill": "提取我的资金时出现问题。"
+    },
+    "cashIn": {
+      "cancel": "取消添加资金",
+      "contactSupportPrefill": "我在向我的Valora钱包添加资金时遇到了麻烦。"
+    },
+    "success": {
+      "header": "成功",
+      "title": "您的资金正在到账中！",
+      "description": "您的交易请求已发送，您的资金将在 {{duration}} 后到账。",
+      "txDetails": "在 CeloExplorer 上查看",
+      "continue": "继续"
     },
     "requestNotCompleted": {
       "title": "您的请求无法完成。",
-      "description": "您的资金无法转账。请重试或联系我们的支持团队寻求帮助。",
-      "contactSupportPrefill": "提取我的资金时出现问题。"
+      "description": "您的资金无法转账。请重试或联系我们的支持团队寻求帮助。"
     }
   },
   "fiatExchangeFlow": {

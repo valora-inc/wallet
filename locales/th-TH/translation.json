@@ -1288,6 +1288,7 @@
     "idRequired": "ต้องมี ID",
     "numDays": "1-3 วัน",
     "oneHour": "ไม่เกิน 1 ชั่วโมง",
+    "lessThan24Hours": "Less Than 24 Hours",
     "bestRate": "อัตราที่ดีที่สุด",
     "header": "เลือกวิธีการชำระเงิน"
   },
@@ -1370,20 +1371,24 @@
   },
   "fiatConnectStatusScreen": {
     "tryAgain": "ลองอีกครั้ง",
-    "withdraw": {
+    "cashOut": {
       "cancel": "ยกเลิกการถอนเงิน",
-      "success": {
-        "header": "สำเร็จ",
-        "title": "คุณกำลังจะได้รับเงินเร็วๆ นี้",
-        "description": "ส่งคำขอธุรกรรมของคุณแล้ว และคุณจะได้รับเงินใน {{duration}}",
-        "txDetails": "ดูใน CeloExplorer",
-        "continue": "ดำเนินการต่อ"
-      }
+      "contactSupportPrefill": "ฉันมีปัญหาในการถอนเงิน"
+    },
+    "cashIn": {
+      "cancel": "Cancel Add Funds",
+      "contactSupportPrefill": "I'm having trouble adding funds to my Valora wallet."
+    },
+    "success": {
+      "header": "สำเร็จ",
+      "title": "คุณกำลังจะได้รับเงินเร็วๆ นี้",
+      "description": "ส่งคำขอธุรกรรมของคุณแล้ว และคุณจะได้รับเงินใน {{duration}}",
+      "txDetails": "ดูใน CeloExplorer",
+      "continue": "ดำเนินการต่อ"
     },
     "requestNotCompleted": {
       "title": "ไม่สามารถดำเนินคำขอของคุณได้",
-      "description": "ไม่สามารถโอนเงินของคุณได้ โปรดลองอีกครั้งหรือติดต่อฝ่ายบริการลูกค้าเพื่อขอความช่วยเหลือ",
-      "contactSupportPrefill": "ฉันมีปัญหาในการถอนเงิน"
+      "description": "ไม่สามารถโอนเงินของคุณได้ โปรดลองอีกครั้งหรือติดต่อฝ่ายบริการลูกค้าเพื่อขอความช่วยเหลือ"
     }
   },
   "fiatExchangeFlow": {

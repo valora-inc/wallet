@@ -966,6 +966,7 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
             <View
               style={
                 Object {
+                  "alignItems": "center",
                   "flexDirection": "row",
                   "paddingHorizontal": 16,
                   "paddingVertical": 12,
@@ -1152,6 +1153,7 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
               <View
                 style={
                   Object {
+                    "alignItems": "center",
                     "flexDirection": "row",
                     "paddingHorizontal": 16,
                     "paddingVertical": 12,
@@ -1304,6 +1306,7 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
             <View
               style={
                 Object {
+                  "alignItems": "center",
                   "flexDirection": "row",
                   "paddingHorizontal": 16,
                   "paddingVertical": 12,
