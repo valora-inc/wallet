@@ -32,6 +32,7 @@ export default function FiatConnectRefetchQuoteScreen({ route }: Props) {
           flow: cachedQuoteParams.flow,
           cryptoType: cachedQuoteParams.cryptoType,
           cryptoAmount: cachedQuoteParams.cryptoAmount,
+          fiatAmount: cachedQuoteParams.fiatAmount,
           providerId,
         })
       )

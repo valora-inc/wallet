@@ -52,6 +52,7 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
           flow,
           cryptoType: normalizedQuote.getCryptoType(),
           cryptoAmount: normalizedQuote.getCryptoAmount(),
+          fiatAmount: normalizedQuote.getFiatAmount(),
           providerId: normalizedQuote.getProviderId(),
           fiatAccount,
         })
@@ -122,6 +123,7 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
         flow,
         cryptoType: normalizedQuote.getCryptoType(),
         cryptoAmount: normalizedQuote.getCryptoAmount(),
+        fiatAmount: normalizedQuote.getFiatAmount(),
         providerId: normalizedQuote.getProviderId(),
         fiatAccount,
       })
@@ -176,6 +178,7 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
               flow,
               cryptoType: normalizedQuote.getCryptoType(),
               cryptoAmount: normalizedQuote.getCryptoAmount(),
+              fiatAmount: normalizedQuote.getFiatAmount(),
               providerId: normalizedQuote.getProviderId(),
               fiatAccount,
             })

@@ -1297,6 +1297,11 @@
       "bodyTitle": "Thiết lập tài khoản ngân hàng",
       "description": "Nhập thông tin Tài khoản ngân hàng để chuyển tiền. Những dịch vụ này sẽ do <0>{{providerName}}</0> cung cấp cho bạn.\n\nKhi nhấp vào tiếp tục, bạn đồng ý với <1>Điều khoản và điều kiện</1> cũng như <2>Chính sách quyền riêng tư</2> của họ"
     },
+    "mobileMoney": {
+      "header": "Set up Mobile Money",
+      "bodyTitle": "Set Up Mobile Money",
+      "description": "Enter mobile money details to transfer funds. These services will be provided to you by <0>{{providerName}}</0>.\n\nBy clicking continue, you agree to their <1>Terms and Conditions</1> and <2>Privacy Policy</2>"
+    },
     "continue": "Tiếp tục"
   },
   "fiatConnectKycLandingScreen": {

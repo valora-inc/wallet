@@ -1299,6 +1299,11 @@
       "bodyTitle": "Configurar conta bancária",
       "description": "Insira os dados da conta bancária para transferir fundos. Esses serviços serão fornecidos a você por <0>{{providerName}}</0>.\n\nAo clicar em continuar, você concorda com os <1>Termos e condições</1> e a <2>Política de privacidade</2>."
     },
+    "mobileMoney": {
+      "header": "Criar dinheiro móvel",
+      "bodyTitle": "Configurar dinheiro móvel",
+      "description": "Introduza os detalhes do dinheiro móvel para transferir fundos. Estes serviços ser-lhe-ão fornecidos por <0>{{providerName}}</0>.\n\nAo clicar em continuar, concorda com os seus <1>Termos e Condições</1> e <2>Política de Privacidade</2>"
+    },
     "continue": "Continuar"
   },
   "fiatConnectKycLandingScreen": {

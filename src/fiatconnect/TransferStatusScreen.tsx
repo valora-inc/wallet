@@ -39,7 +39,7 @@ function onBack(flow: CICOFlow, normalizedQuote: FiatConnectQuote, fiatAccount: 
   })
 }
 
-function FiatConnectWithdrawFailureSection({
+function FailureSection({
   normalizedQuote,
   flow,
   fiatAccount,
@@ -57,7 +57,10 @@ function FiatConnectWithdrawFailureSection({
       provider,
     })
     navigate(Screens.SupportContact, {
-      prefilledText: t('fiatConnectStatusScreen.requestNotCompleted.contactSupportPrefill'),
+      prefilledText:
+        flow === CICOFlow.CashIn
+          ? t('fiatConnectStatusScreen.cashIn.contactSupportPrefill')
+          : t('fiatConnectStatusScreen.cashOut.contactSupportPrefill'),
     })
   }
   return (
@@ -86,7 +89,7 @@ function FiatConnectWithdrawFailureSection({
   )
 }
 
-function FiatConnectWithdrawSuccessSection({
+function SuccessSection({
   flow,
   fiatConnectTransfer,
   normalizedQuote,
@@ -115,7 +118,7 @@ function FiatConnectWithdrawSuccessSection({
     ValoraAnalytics.track(FiatExchangeEvents.cico_fc_transfer_success_complete, {
       flow,
       provider,
-      txHash: fiatConnectTransfer.txHash!,
+      txHash: fiatConnectTransfer.txHash ?? undefined,
     })
     navigateHome()
   }
@@ -125,23 +128,23 @@ function FiatConnectWithdrawSuccessSection({
       <View style={styles.checkmarkContainer}>
         <CheckmarkCircle />
       </View>
-      <Text style={styles.title}>{t('fiatConnectStatusScreen.withdraw.success.title')}</Text>
+      <Text style={styles.title}>{t('fiatConnectStatusScreen.success.title')}</Text>
       <Text style={styles.description}>
-        {t('fiatConnectStatusScreen.withdraw.success.description', { duration: timeEstimation })}
+        {t('fiatConnectStatusScreen.success.description', { duration: timeEstimation })}
       </Text>
-      <Touchable testID={'txDetails'} borderless={true} onPress={onPressTxDetails}>
-        <View style={styles.txDetailsContainer}>
-          <Text style={styles.txDetails}>
-            {t('fiatConnectStatusScreen.withdraw.success.txDetails')}
-          </Text>
-          <OpenLinkIcon color={colors.gray4} />
-        </View>
-      </Touchable>
+      {flow === CICOFlow.CashOut && (
+        <Touchable testID={'txDetails'} borderless={true} onPress={onPressTxDetails}>
+          <View style={styles.txDetailsContainer}>
+            <Text style={styles.txDetails}>{t('fiatConnectStatusScreen.success.txDetails')}</Text>
+            <OpenLinkIcon color={colors.gray4} />
+          </View>
+        </Touchable>
+      )}
       <Button
         style={styles.button}
         testID="Continue"
         onPress={onPressContinue}
-        text={t('fiatConnectStatusScreen.withdraw.success.continue')}
+        text={t('fiatConnectStatusScreen.success.continue')}
         type={BtnTypes.SECONDARY}
         size={BtnSizes.MEDIUM}
       />
@@ -171,17 +174,17 @@ export default function FiatConnectTransferStatusScreen({ route, navigation }: P
       ),
       headerRight: () => (
         <TextButton testID="Cancel" style={styles.cancelBtn} onPress={onPressCancel}>
-          {t('fiatConnectStatusScreen.withdraw.cancel')}
+          {flow === CICOFlow.CashIn
+            ? t('fiatConnectStatusScreen.cashIn.cancel')
+            : t('fiatConnectStatusScreen.cashOut.cancel')}
         </TextButton>
       ),
     })
-  } else if (fiatConnectTransfer.txHash) {
-    // TODO: This success check only works for cash outs, since no on-chain TX is performed for
-    // cash-ins. Update this when we support cash-ins.
+  } else if (!fiatConnectTransfer.isSending) {
     navigation.setOptions({
       ...emptyHeader,
       headerLeft: () => <View />,
-      headerTitle: t('fiatConnectStatusScreen.withdraw.success.header'),
+      headerTitle: t('fiatConnectStatusScreen.success.header'),
     })
   }
 
@@ -196,13 +199,9 @@ export default function FiatConnectTransferStatusScreen({ route, navigation }: P
   return (
     <SafeAreaView style={styles.content}>
       {fiatConnectTransfer.failed ? (
-        <FiatConnectWithdrawFailureSection
-          flow={flow}
-          normalizedQuote={normalizedQuote}
-          fiatAccount={fiatAccount}
-        />
+        <FailureSection flow={flow} normalizedQuote={normalizedQuote} fiatAccount={fiatAccount} />
       ) : (
-        <FiatConnectWithdrawSuccessSection
+        <SuccessSection
           flow={flow}
           fiatConnectTransfer={fiatConnectTransfer}
           normalizedQuote={normalizedQuote}
