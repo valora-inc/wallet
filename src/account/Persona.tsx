@@ -10,7 +10,7 @@ import { CICOEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
-import { readOnceFromFirebase } from 'src/firebase/firebase'
+import { getPersonaTemplateId } from 'src/firebase/firebase'
 import { createPersonaAccount, verifyWalletAddress } from 'src/in-house-liquidity'
 import Logger from 'src/utils/Logger'
 import networkConfig from 'src/web3/networkConfig'
@@ -45,7 +45,7 @@ const Persona = ({ kycStatus, text, onCanceled, onError, onPress, onSuccess, dis
 
   const dispatch = useDispatch()
 
-  const templateIdResponse = useAsync(async () => readOnceFromFirebase('persona/templateId'), [])
+  const templateIdResponse = useAsync(async () => getPersonaTemplateId(), [])
   const templateId = templateIdResponse.result
 
   const launchPersonaInquiry = useCallback(() => {

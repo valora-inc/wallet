@@ -133,7 +133,7 @@ export function PaymentMethodSection({
       case PaymentMethod.Card:
         return t('selectProviderScreen.oneHour')
       case PaymentMethod.FiatConnectMobileMoney:
-        return t('selectProviderScreen.oneDay')
+        return t('selectProviderScreen.lessThan24Hours')
       case PaymentMethod.Bank:
         return t('selectProviderScreen.numDays')
       default:
