@@ -1,3 +1,4 @@
+import { sleep } from '@celo/utils/lib/async'
 import { isE164Number } from '@celo/utils/lib/phoneNumbers'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import * as Sentry from '@sentry/react-native'
@@ -5,6 +6,7 @@ import locales from 'locales'
 import * as React from 'react'
 import { WithTranslation } from 'react-i18next'
 import {
+  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -328,6 +330,12 @@ export class Account extends React.Component<Props, State> {
   onPressContinueWithAccountRemoval = async () => {
     try {
       this.setState({ showAccountKeyModal: false })
+      // Ugly hack to wait for the modal to close,
+      // otherwise the native modal PIN entry will not show up
+      // TODO: stop using ReactNative modals and switch to react-navigation modals
+      if (Platform.OS === 'ios') {
+        await sleep(500)
+      }
       const pinIsCorrect = await ensurePincode()
       if (pinIsCorrect) {
         ValoraAnalytics.track(SettingsEvents.start_account_removal)
