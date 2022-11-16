@@ -253,6 +253,7 @@ export type StackParamList = {
   [Screens.RegulatoryTerms]: undefined
   [Screens.SanctionedCountryErrorScreen]: undefined
   [Screens.SelectCountry]: {
+    hideOnboardingStep: boolean
     countries: Countries
     selectedCountryCodeAlpha2: string
   }

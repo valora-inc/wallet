@@ -277,6 +277,7 @@ function VerificationEducationScreenDecentralized({ route, navigation }: Props) 
     navigate(Screens.SelectCountry, {
       countries,
       selectedCountryCodeAlpha2: phoneNumberInfo.countryCodeAlpha2,
+      hideOnboardingStep: !!route.params?.hideOnboardingStep,
     })
   }
 
