@@ -199,6 +199,7 @@ const verificationScreens = (Navigator: typeof Stack) => {
       <Navigator.Screen
         name={Screens.VerificationCodeInputScreen}
         component={VerificationCodeInputScreen}
+        options={VerificationCodeInputScreen.navigationOptions}
       />
     </>
   )
