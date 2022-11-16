@@ -45,6 +45,12 @@ export const getMobileMoneySchema = (
     mobile: {
       name: 'mobile',
       label: i18n.t('fiatAccountSchema.mobileMoney.mobile.label'),
+      infoDialog: {
+        title: i18n.t('fiatAccountSchema.mobileMoney.mobile.dialog.title'),
+        actionText: i18n.t('fiatAccountSchema.mobileMoney.mobile.dialog.dismiss'),
+        body: i18n.t('fiatAccountSchema.mobileMoney.mobile.dialog.body'),
+        testID: 'mobileMoneyMobileDialog',
+      },
       validate: mobileValidator,
       placeholderText: i18n.t('fiatAccountSchema.mobileMoney.mobile.placeholderText'),
       keyboardType: 'number-pad',

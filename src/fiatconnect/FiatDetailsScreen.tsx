@@ -1,4 +1,5 @@
 import { FiatAccountType, SupportedOperatorEnum } from '@fiatconnect/fiatconnect-types'
+import { TouchableOpacity } from '@gorhom/bottom-sheet'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -11,6 +12,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes } from 'src/components/Button'
 import CancelButton from 'src/components/CancelButton'
+import Dialog from 'src/components/Dialog'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import TextInput, { LINE_HEIGHT } from 'src/components/TextInput'
@@ -27,6 +29,7 @@ import {
 } from 'src/fiatconnect/selectors'
 import { SendingFiatAccountStatus, submitFiatAccount } from 'src/fiatconnect/slice'
 import Checkmark from 'src/icons/Checkmark'
+import InfoIcon from 'src/icons/InfoIcon'
 import { styles as headerStyles } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -266,6 +269,7 @@ function FormField({
   const { t } = useTranslation()
   const [showError, setShowError] = useState(false)
   const typingTimer = useRef<ReturnType<typeof setTimeout>>()
+  const [infoVisibile, setInfoVisible] = useState(false)
 
   // Clear timeout on unmount to prevent memory leak warning
   useEffect(() => {
@@ -290,7 +294,31 @@ function FormField({
 
   return (
     <View style={styles.inputView} key={`inputField-${index}`}>
-      <Text style={styles.inputLabel}>{field.label}</Text>
+      <View style={styles.row}>
+        <Text style={styles.inputLabel}>{field.label}</Text>
+        {field.infoDialog && (
+          <TouchableOpacity
+            onPress={() => setInfoVisible(true)}
+            style={styles.infoIcon}
+            hitSlop={variables.iconHitslop}
+          >
+            <InfoIcon size={18} color={colors.gray3} />
+          </TouchableOpacity>
+        )}
+      </View>
+      {field.infoDialog && (
+        <Dialog
+          testID={field.infoDialog.testID}
+          isVisible={infoVisibile}
+          title={field.infoDialog.title}
+          actionText={field.infoDialog.actionText}
+          actionPress={() => {
+            setInfoVisible(false)
+          }}
+        >
+          {field.infoDialog.body}
+        </Dialog>
+      )}
       {allowedValues ? (
         <PickerSelect
           style={{
@@ -398,6 +426,13 @@ const styles = StyleSheet.create({
   },
   headerImage: {
     flex: 1,
+  },
+  infoIcon: {
+    marginLeft: 5,
+    marginTop: 2,
+  },
+  row: {
+    flexDirection: 'row',
   },
 })
 export default FiatDetailsScreen

@@ -1447,7 +1447,12 @@
       "mobile": {
         "label": "Phone Number",
         "placeholderText": "Enter number (ex. +00 123 1234)",
-        "errorMessage": "Invalid phone number"
+        "errorMessage": "Invalid phone number",
+        "dialog": {
+          "title": "Phone Number",
+          "body": "Use the phone number registered with your mobile money provider. This might not be the same as your valora phone number.",
+          "dismiss": "Dismiss"
+        }
       }
     },
     "ibanNumber": {
