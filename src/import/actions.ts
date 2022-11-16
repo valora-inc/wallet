@@ -8,15 +8,18 @@ export interface ImportBackupPhraseAction {
   type: Actions.IMPORT_BACKUP_PHRASE
   phrase: string
   useEmptyWallet: boolean
+  derivationPath: string
 }
 
 export const importBackupPhrase = (
   phrase: string,
-  useEmptyWallet: boolean
+  useEmptyWallet: boolean,
+  derivationPath: string
 ): ImportBackupPhraseAction => ({
   type: Actions.IMPORT_BACKUP_PHRASE,
   phrase,
   useEmptyWallet,
+  derivationPath,
 })
 
 export interface ImportBackupPhraseSuccessAction {

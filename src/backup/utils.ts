@@ -104,7 +104,7 @@ function isValidMnemonic(phrase: string, length: number) {
 }
 
 export function isValidBackupPhrase(phrase: string) {
-  return isValidMnemonic(phrase, 24)
+  return isValidMnemonic(phrase, 12) || isValidMnemonic(phrase, 24)
 }
 
 export async function encryptMnemonic(phrase: string, password: string) {

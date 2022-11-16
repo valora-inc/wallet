@@ -68,7 +68,8 @@ async function storePrivateKey(privateKey: string, account: KeychainAccount, pas
 
 async function getStoredPrivateKey(
   account: KeychainAccount,
-  password: string
+  password: string,
+  derivationPath: string
 ): Promise<string | null> {
   Logger.debug(
     `${TAG}@getStoredPrivateKey`,
@@ -81,7 +82,7 @@ async function getStoredPrivateKey(
         `${TAG}@getStoredPrivateKey`,
         `Private key for existing account ${account.address} not found in keychain, importing from mnemonic now`
       )
-      return await importAndStorePrivateKeyFromMnemonic(account, password)
+      return await importAndStorePrivateKeyFromMnemonic(account, password, derivationPath)
     }
 
     throw new Error('No private key found in storage')
@@ -143,13 +144,24 @@ export async function listStoredAccounts(importMnemonicAccount?: ImportMnemonicA
   return accounts
 }
 
-async function importAndStorePrivateKeyFromMnemonic(account: KeychainAccount, password: string) {
+async function importAndStorePrivateKeyFromMnemonic(
+  account: KeychainAccount,
+  password: string,
+  derivationPath: string
+) {
   const mnemonic = await getStoredMnemonic(account.address, password)
   if (!mnemonic) {
     throw new Error('No mnemonic found in storage')
   }
 
-  const { privateKey } = await generateKeys(mnemonic, undefined, undefined, undefined, bip39)
+  const { privateKey } = await generateKeys(
+    mnemonic,
+    undefined,
+    undefined,
+    undefined,
+    bip39,
+    derivationPath
+  )
   if (!privateKey) {
     throw new Error('Failed to generate private key from mnemonic')
   }

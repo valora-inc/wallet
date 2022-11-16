@@ -23,7 +23,9 @@ import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import Dialog from 'src/components/Dialog'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
+import SelectionOption from 'src/components/SelectionOption'
 import { importBackupPhrase } from 'src/import/actions'
+import { CELO_DERIVATION_PATH, ETHEREUM_DERIVATION_PATH } from 'src/import/consts'
 import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -51,6 +53,7 @@ type Props = StackScreenProps<StackParamList, Screens.ImportWallet>
 function ImportWallet({ navigation, route }: Props) {
   const [backupPhrase, setBackupPhrase] = useState('')
   const [keyboardVisible, setKeyboardVisible] = useState(false)
+  const [derivationPath, setDerivationPath] = useState(CELO_DERIVATION_PATH)
 
   const isImportingWallet = useTypedSelector((state) => state.imports.isImportingWallet)
   const appConnected = useSelector(isAppConnected)
@@ -139,6 +142,12 @@ function ImportWallet({ navigation, route }: Props) {
     setKeyboardVisible(visible)
   }
 
+  const onSelect = () => {
+    derivationPath === CELO_DERIVATION_PATH
+      ? setDerivationPath(ETHEREUM_DERIVATION_PATH)
+      : setDerivationPath(CELO_DERIVATION_PATH)
+  }
+
   const onPressRestore = () => {
     const useEmptyWallet = !!route.params?.showZeroBalanceModal
     Keyboard.dismiss()
@@ -150,7 +159,7 @@ function ImportWallet({ navigation, route }: Props) {
     navigation.setParams({ showZeroBalanceModal: false })
 
     ValoraAnalytics.track(OnboardingEvents.wallet_import_submit, { useEmptyWallet })
-    dispatch(importBackupPhrase(formattedPhrase, useEmptyWallet))
+    dispatch(importBackupPhrase(formattedPhrase, useEmptyWallet, derivationPath))
   }
 
   const shouldShowClipboard = (clipboardContent: string): boolean => {
@@ -200,6 +209,12 @@ function ImportWallet({ navigation, route }: Props) {
                   onInputChange={formatAndSetBackupPhrase}
                   shouldShowClipboard={shouldShowClipboard}
                   testID="ImportWalletBackupKeyInputField"
+                />
+                <SelectionOption
+                  isSelected={derivationPath === ETHEREUM_DERIVATION_PATH}
+                  text={'Import from MetaMask'}
+                  onSelect={onSelect}
+                  testID={'ImportFromMetaMask/SelectionOption'}
                 />
                 <Text style={styles.explanation}>{t('importExistingKey.explanation')}</Text>
                 <Button

@@ -49,7 +49,11 @@ const TAG = 'import/saga'
 export const MAX_BALANCE_CHECK_TASKS = 5
 export const MNEMONIC_AUTOCORRECT_TIMEOUT = 5000 // ms
 
-export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackupPhraseAction) {
+export function* importBackupPhraseSaga({
+  phrase,
+  useEmptyWallet,
+  derivationPath,
+}: ImportBackupPhraseAction) {
   Logger.debug(TAG + '@importBackupPhraseSaga', 'Importing backup phrase')
   try {
     const normalizedPhrase = normalizeMnemonic(phrase)
@@ -72,7 +76,7 @@ export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackup
     if (!phraseIsValid && !useEmptyWallet) {
       try {
         const { correctedPhrase, timeout } = yield race({
-          correctedPhrase: call(attemptBackupPhraseCorrection, normalizedPhrase),
+          correctedPhrase: call(attemptBackupPhraseCorrection, normalizedPhrase, derivationPath),
           timeout: delay(MNEMONIC_AUTOCORRECT_TIMEOUT),
         })
         if (correctedPhrase) {
@@ -124,7 +128,8 @@ export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackup
       undefined,
       undefined,
       undefined,
-      bip39
+      bip39,
+      derivationPath
     )
     if (!privateKey) {
       throw new Error('Failed to convert mnemonic to hex')
@@ -185,7 +190,7 @@ export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackup
 // before returning it. If the wallet has non-zero balance, then we are be very confident that its
 // the account the user was actually trying to restore. Otherwise, this method does not return any
 // suggested correction.
-function* attemptBackupPhraseCorrection(mnemonic: string) {
+function* attemptBackupPhraseCorrection(mnemonic: string, derivationPath: string) {
   // Counter of how many suggestions have been tried and a list of tasks for ongoing balance checks.
   let counter = 0
   let tasks: { index: number; suggestion: string; task: Task; done: boolean }[] = []
@@ -202,7 +207,8 @@ function* attemptBackupPhraseCorrection(mnemonic: string) {
       undefined,
       undefined,
       undefined,
-      bip39
+      bip39,
+      derivationPath
     )
     if (!privateKey) {
       Logger.error(TAG + '@attemptBackupPhraseCorrection', 'Failed to convert mnemonic to hex')
