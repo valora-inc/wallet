@@ -59,8 +59,8 @@ function FailureSection({
     navigate(Screens.SupportContact, {
       prefilledText:
         flow === CICOFlow.CashIn
-          ? t('fiatConnectStatusScreen.add.contactSupportPrefill')
-          : t('fiatConnectStatusScreen.withdraw.contactSupportPrefill'),
+          ? t('fiatConnectStatusScreen.cashIn.contactSupportPrefill')
+          : t('fiatConnectStatusScreen.cashOut.contactSupportPrefill'),
     })
   }
   return (
@@ -175,8 +175,8 @@ export default function FiatConnectTransferStatusScreen({ route, navigation }: P
       headerRight: () => (
         <TextButton testID="Cancel" style={styles.cancelBtn} onPress={onPressCancel}>
           {flow === CICOFlow.CashIn
-            ? t('fiatConnectStatusScreen.add.cancel')
-            : t('fiatConnectStatusScreen.withdraw.cancel')}
+            ? t('fiatConnectStatusScreen.cashIn.cancel')
+            : t('fiatConnectStatusScreen.cashOut.cancel')}
         </TextButton>
       ),
     })

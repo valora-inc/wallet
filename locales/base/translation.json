@@ -1292,7 +1292,7 @@
     "idRequired": "ID Required",
     "numDays": "1-3 Days",
     "oneHour": "Less Than 1 Hour",
-    "oneDay": "Less Than 1 Day",
+    "lessThan24Hours": "Less Than 24 Hours",
     "bestRate": "Best Rate",
     "header": "Select Payment Method"
   },
@@ -1375,11 +1375,11 @@
   },
   "fiatConnectStatusScreen": {
     "tryAgain": "Try Again",
-    "withdraw": {
+    "cashOut": {
       "cancel": "Cancel Withdrawal",
       "contactSupportPrefill": "I'm having trouble withdrawing my funds."
     },
-    "add": {
+    "cashIn": {
       "cancel": "Cancel Add Funds",
       "contactSupportPrefill": "I'm having trouble adding funds to my Valora wallet."
     },
