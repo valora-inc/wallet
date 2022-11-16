@@ -490,6 +490,25 @@ describe('runCentralPhoneVerificationMigration', () => {
     expect(mockFetch).not.toHaveBeenCalled()
   })
 
+  // this is true for users who created accounts before app version 1.32 and
+  // have never unlocked their account to generate the signed message
+  it('should not run if migration conditions there is no signed message', async () => {
+    await expectSaga(runCentralPhoneVerificationMigration)
+      .provide([
+        [select(dataEncryptionKeySelector), 'someDEK'],
+        [select(shouldRunVerificationMigrationSelector), true],
+        [select(inviterAddressSelector), undefined],
+        [select(mtwAddressSelector), undefined],
+        [select(walletAddressSelector), '0xabc'],
+        [select(e164NumberSelector), '+31619777888'],
+        [call(retrieveSignedMessage), null],
+      ])
+      .not.put(phoneNumberVerificationMigrated())
+      .run()
+
+    expect(mockFetch).not.toHaveBeenCalled()
+  })
+
   it('should not run if no DEK can be found', async () => {
     await expectSaga(runCentralPhoneVerificationMigration)
       .provide([
