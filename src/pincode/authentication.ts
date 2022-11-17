@@ -42,8 +42,7 @@ import Logger from 'src/utils/Logger'
 import { UNLOCK_DURATION } from 'src/web3/consts'
 import { getWalletAsync } from 'src/web3/contracts'
 
-const PIN_BLOCKLIST_PATH =
-  'src/pincode/pin-blocklist-hibpv7-top-25k-with-keyboard-translations.json'
+const PIN_BLOCKLIST = require('src/pincode/pin-blocklist-hibpv7-top-25k-with-keyboard-translations.json')
 
 const TAG = 'pincode/authentication'
 
@@ -75,7 +74,7 @@ export class PinBlocklist {
   private readonly buffer: Buffer
 
   constructor() {
-    this.buffer = Buffer.from(require(PIN_BLOCKLIST_PATH) as string, 'base64')
+    this.buffer = Buffer.from(PIN_BLOCKLIST, 'base64')
   }
 
   public size(): number {
