@@ -326,32 +326,35 @@ describe('FiatDetailsScreen', () => {
     )
     expect(getByTestId('checkmark')).toBeTruthy()
   })
-  // TODO(any): enable as part of ACT-518, won't work until Mobile Money is added to
-  // supported types and schemas
-  // it('Mobile info dialog works on mobile money screen', () => {
-  //   const mmFcQuote = _.cloneDeep(mockFiatConnectQuotes[4] as FiatConnectQuoteSuccess)
-  //   const mmQuote = new FiatConnectQuote({
-  //     quote: mmFcQuote,
-  //     fiatAccountType: FiatAccountType.MobileMoney,
-  //     flow: CICOFlow.CashIn,
-  //   })
-  //   const mmScreenProps = getMockStackScreenProps(Screens.FiatDetailsScreen, {
-  //     flow: CICOFlow.CashIn,
-  //     quote: mmQuote,
-  //   })
+  it('Mobile info dialog works on mobile money screen', () => {
+    const mmQuote = new FiatConnectQuote({
+      quote: mockFcQuote,
+      fiatAccountType: FiatAccountType.BankAccount,
+      flow: CICOFlow.CashIn,
+    })
+    mmQuote.fiatAccountType = FiatAccountType.MobileMoney
+    mmQuote.quoteResponseFiatAccountSchema = {
+      fiatAccountSchema: FiatAccountSchema.MobileMoney,
+      allowedValues: {},
+    }
 
-  //   const { getByTestId, getByText } = render(
-  //     <Provider store={store}>
-  //       <FiatDetailsScreen {...mmScreenProps} />
-  //     </Provider>
-  //   )
-  //   const dialogTestId = 'mobileMoneyMobileDialog'
+    const mmScreenProps = getMockStackScreenProps(Screens.FiatDetailsScreen, {
+      flow: CICOFlow.CashIn,
+      quote: mmQuote,
+    })
 
-  //   expect(getByTestId(dialogTestId)).not.toBeVisible()
-  //   fireEvent.press(getByTestId(`infoIcon-${dialogTestId}`))
-  //   expect(getByTestId(dialogTestId)).toBeVisible()
-  //   expect(getByText('fiatAccountSchema.mobileMoney.mobileDialog.title')).toBeTruthy()
-  //   expect(getByText('fiatAccountSchema.mobileMoney.mobileDialog.dismiss')).toBeTruthy()
-  //   expect(getByText('fiatAccountSchema.mobileMoney.mobileDialog.body')).toBeTruthy()
-  // })
+    const { getByTestId, getByText } = render(
+      <Provider store={store}>
+        <FiatDetailsScreen {...mmScreenProps} />
+      </Provider>
+    )
+    const dialogTestId = 'mobileMoneyMobileDialog'
+
+    expect(getByTestId(dialogTestId)).not.toBeVisible()
+    fireEvent.press(getByTestId(`infoIcon-${dialogTestId}`))
+    expect(getByTestId(dialogTestId)).toBeVisible()
+    expect(getByText('fiatAccountSchema.mobileMoney.mobileDialog.title')).toBeTruthy()
+    expect(getByText('fiatAccountSchema.mobileMoney.mobileDialog.dismiss')).toBeTruthy()
+    expect(getByText('fiatAccountSchema.mobileMoney.mobileDialog.body')).toBeTruthy()
+  })
 })
