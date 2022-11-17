@@ -897,7 +897,7 @@ export function* handleFetchFiatConnectProviders() {
  * Initiates a fiatconnect transfer using the fiatconnect SDK to call a transfer/out or transfer/in endpoint
  * for a provider.
  **/
-export function* _initiateTransfer({
+export function* _initiateFiatConnectTransferWithProvider({
   payload: params,
 }: ReturnType<typeof createFiatConnectTransfer>) {
   const { flow, fiatConnectQuote, fiatAccountId } = params
@@ -936,7 +936,7 @@ export function* _initiateTransfer({
  * Initiates a transaction on-chain to send funds to a specific address. This is intended to be used for
  * cashing out after a transfer has been initiated with a provider
  **/
-export function* _initiateTransaction({
+export function* _initiateFiatConnectTx({
   transferAddress,
   fiatConnectQuote,
 }: {
@@ -982,10 +982,13 @@ export function* handleCreateFiatConnectTransfer(
   const quoteId = fiatConnectQuote.getQuoteId()
   let transactionHash: string | null = null
   try {
-    const { transferAddress }: TransferResponse = yield call(_initiateTransfer, action)
+    const { transferAddress }: TransferResponse = yield call(
+      _initiateFiatConnectTransferWithProvider,
+      action
+    )
 
     if (flow === CICOFlow.CashOut) {
-      transactionHash = yield call(_initiateTransaction, {
+      transactionHash = yield call(_initiateFiatConnectTx, {
         transferAddress,
         fiatConnectQuote,
       })
@@ -1006,6 +1009,11 @@ export function* handleCreateFiatConnectTransfer(
     )
   } catch (err) {
     Logger.error(TAG, `Transfer for ${flow} failed..`, err)
+    ValoraAnalytics.track(FiatExchangeEvents.cico_fc_transfer_error, {
+      flow: CICOFlow.CashOut,
+      error: err.message,
+      provider: fiatConnectQuote.getProviderId(),
+    })
     yield put(createFiatConnectTransferFailed({ flow, quoteId }))
   }
 }

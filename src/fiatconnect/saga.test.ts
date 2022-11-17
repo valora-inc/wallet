@@ -40,8 +40,8 @@ import {
   _getFiatAccount,
   _getQuotes,
   _getSpecificQuote,
-  _initiateTransaction,
-  _initiateTransfer,
+  _initiateFiatConnectTransferWithProvider,
+  _initiateFiatConnectTx,
   _selectQuoteAndFiatAccount,
   _selectQuoteMatchingFiatAccount,
 } from 'src/fiatconnect/saga'
@@ -1658,7 +1658,7 @@ describe('Fiatconnect saga', () => {
     })
   })
 
-  describe('_initiateTransfer', () => {
+  describe('_initiateFiatConnectTransferWithProvider', () => {
     const transferOutFcQuote = new FiatConnectQuote({
       flow: CICOFlow.CashOut,
       quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
@@ -1684,7 +1684,7 @@ describe('Fiatconnect saga', () => {
         })
       )
       await expectSaga(
-        _initiateTransfer,
+        _initiateFiatConnectTransferWithProvider,
         createFiatConnectTransfer({
           flow: CICOFlow.CashOut,
           fiatConnectQuote: transferOutFcQuote,
@@ -1715,7 +1715,7 @@ describe('Fiatconnect saga', () => {
       )
       await expect(() =>
         expectSaga(
-          _initiateTransfer,
+          _initiateFiatConnectTransferWithProvider,
           createFiatConnectTransfer({
             flow: CICOFlow.CashOut,
             fiatConnectQuote: transferOutFcQuote,
@@ -1745,7 +1745,7 @@ describe('Fiatconnect saga', () => {
     })
   })
 
-  describe('_initiateTransaction', () => {
+  describe('_initiateFiatConnectTx', () => {
     const transferOutFcQuote = new FiatConnectQuote({
       flow: CICOFlow.CashOut,
       quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
@@ -1765,7 +1765,7 @@ describe('Fiatconnect saga', () => {
       },
     }
     it('sends a transaction to the given address and returns the transactionHash', async () => {
-      await expectSaga(_initiateTransaction, {
+      await expectSaga(_initiateFiatConnectTx, {
         transferAddress: '0xabc',
         fiatConnectQuote: transferOutFcQuote,
       })
@@ -1793,7 +1793,7 @@ describe('Fiatconnect saga', () => {
     })
     it('throws when there is an error with the transaction', async () => {
       await expect(() =>
-        expectSaga(_initiateTransaction, {
+        expectSaga(_initiateFiatConnectTx, {
           transferAddress: '0xabc',
           fiatConnectQuote: transferOutFcQuote,
         })
@@ -1819,6 +1819,16 @@ describe('Fiatconnect saga', () => {
           .returns('0x12345')
           .run()
       ).rejects.toThrow()
+      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+        FiatExchangeEvents.cico_fc_transfer_tx_error,
+        {
+          provider: transferOutFcQuote.getProviderId(),
+          flow: CICOFlow.CashOut,
+          transferAddress: '0xabc',
+          error: 'tx error',
+        }
+      )
     })
   })
 
@@ -1837,7 +1847,7 @@ describe('Fiatconnect saga', () => {
           fiatAccountId: 'account1',
         })
         await expectSaga(handleCreateFiatConnectTransfer, action)
-          .provide([[call(_initiateTransfer, action), { transferAddress }]])
+          .provide([[call(_initiateFiatConnectTransferWithProvider, action), { transferAddress }]])
           .put(
             createFiatConnectTransferCompleted({
               flow: CICOFlow.CashIn,
@@ -1874,9 +1884,9 @@ describe('Fiatconnect saga', () => {
         })
         await expectSaga(handleCreateFiatConnectTransfer, action)
           .provide([
-            [call(_initiateTransfer, action), { transferAddress }],
+            [call(_initiateFiatConnectTransferWithProvider, action), { transferAddress }],
             [
-              call(_initiateTransaction, {
+              call(_initiateFiatConnectTx, {
                 transferAddress,
                 fiatConnectQuote: transferOutFcQuote,
               }),
@@ -1916,7 +1926,12 @@ describe('Fiatconnect saga', () => {
           fiatAccountId: 'account1',
         })
         await expectSaga(handleCreateFiatConnectTransfer, action)
-          .provide([[call(_initiateTransfer, action), throwError(new Error('ERROR'))]])
+          .provide([
+            [
+              call(_initiateFiatConnectTransferWithProvider, action),
+              throwError(new Error('ERROR')),
+            ],
+          ])
           .put(
             createFiatConnectTransferFailed({
               flow: CICOFlow.CashIn,
@@ -1929,6 +1944,15 @@ describe('Fiatconnect saga', () => {
           `FiatConnectSaga`,
           `Transfer for CashIn failed..`,
           new Error('ERROR')
+        )
+        expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+        expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+          FiatExchangeEvents.cico_fc_transfer_error,
+          {
+            provider: transferInFcQuote.getProviderId(),
+            flow: CICOFlow.CashOut,
+            error: 'ERROR',
+          }
         )
       })
     })

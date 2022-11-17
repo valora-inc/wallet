@@ -1116,6 +1116,11 @@ interface FiatExchangeEventsProperties {
     provider: string
     flow: CICOFlow
   }
+  [FiatExchangeEvents.cico_fc_transfer_error]: {
+    error?: string
+    provider: string
+    flow: CICOFlow
+  }
   [FiatExchangeEvents.cico_fc_transfer_success]: {
     txHash: string | null
     transferAddress?: string
