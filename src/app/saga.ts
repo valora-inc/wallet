@@ -408,11 +408,6 @@ export function* runCentralPhoneVerificationMigration() {
     return
   }
 
-  Logger.debug(
-    `${TAG}@runCentralPhoneVerificationMigration`,
-    'Starting to run central phone verification migration'
-  )
-
   const address = yield select(walletAddressSelector)
   const mtwAddress = yield select(mtwAddressSelector)
   const phoneNumber = yield select(e164NumberSelector)
@@ -420,6 +415,19 @@ export function* runCentralPhoneVerificationMigration() {
 
   try {
     const signedMessage = yield call(retrieveSignedMessage)
+    if (!signedMessage) {
+      Logger.warn(
+        `${TAG}@runCentralPhoneVerificationMigration`,
+        'No signed message was found for this user. Skipping CPV migration.'
+      )
+      return
+    }
+
+    Logger.debug(
+      `${TAG}@runCentralPhoneVerificationMigration`,
+      'Starting to run central phone verification migration'
+    )
+
     const phoneHashDetails: PhoneNumberHashDetails = yield call(fetchPhoneHashPrivate, phoneNumber)
     const inviterAddress = yield select(inviterAddressSelector)
 
