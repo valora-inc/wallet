@@ -92,7 +92,8 @@ function RecipientPicker(props: RecipientProps) {
 
   const isFetchingVerificationStatus = (recipient: Recipient) => {
     return (
-      recipient.e164PhoneNumber === props.selectedRecipient?.e164PhoneNumber &&
+      !!props.selectedRecipient &&
+      recipient.e164PhoneNumber === props.selectedRecipient.e164PhoneNumber &&
       props.recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN
     )
   }
