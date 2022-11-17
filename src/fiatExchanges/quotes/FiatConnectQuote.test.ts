@@ -336,9 +336,10 @@ describe('FiatConnectQuote', () => {
         quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
         fiatAccountType: FiatAccountType.BankAccount,
       })
-      expect(quote.getFiatAccountSchemaAllowedValues()).toEqual({
-        institutionName: ['Bank A', 'Bank B'],
-      })
+      expect(quote.getFiatAccountSchemaAllowedValues('institutionName')).toEqual([
+        'Bank A',
+        'Bank B',
+      ])
     })
   })
 

@@ -1,4 +1,5 @@
 import { FiatAccountSchema, FiatAccountType } from '@fiatconnect/fiatconnect-types'
+import { getObfuscatedAccountNumber } from 'src/fiatconnect'
 import { FiatAccountFormSchema } from 'src/fiatconnect/fiatAccountSchemas/types'
 import { FiatAccountSchemaCountryOverrides } from 'src/fiatconnect/types'
 import i18n from 'src/i18n'
@@ -35,28 +36,21 @@ export const getMobileMoneySchema = (
     return input
   }
 
-  const operatorValidtor = (input: string) => {
-    return {
-      isValid: true,
-      errorMessage: undefined,
-    }
-  }
-
   return {
     operator: {
       name: 'operator',
       label: i18n.t('fiatAccountSchema.mobileMoney.operator.label'),
       placeholderText: i18n.t('fiatAccountSchema.mobileMoney.operator.placeholderText'),
-      validate: operatorValidtor,
+      validate: () => ({ isValid: true }),
       keyboardType: 'default',
     },
     mobile: {
       name: 'mobile',
       label: i18n.t('fiatAccountSchema.mobileMoney.mobile.label'),
       infoDialog: {
-        title: i18n.t('fiatAccountSchema.mobileMoney.mobile.dialog.title'),
-        actionText: i18n.t('fiatAccountSchema.mobileMoney.mobile.dialog.dismiss'),
-        body: i18n.t('fiatAccountSchema.mobileMoney.mobile.dialog.body'),
+        title: i18n.t('fiatAccountSchema.mobileMoney.mobileDialog.title'),
+        actionText: i18n.t('fiatAccountSchema.mobileMoney.mobileDialog.dismiss'),
+        body: i18n.t('fiatAccountSchema.mobileMoney.mobileDialog.body'),
         testID: 'mobileMoneyMobileDialog',
       },
       format: mobileFormatter,
@@ -68,9 +62,8 @@ export const getMobileMoneySchema = (
     fiatAccountType: { name: 'fiatAccountType', value: FiatAccountType.MobileMoney },
     accountName: {
       name: 'accountName',
-      computeValue: ({ institutionName, mobile }) =>
-        //TODO: do I obfuscate mobile at all?
-        `${institutionName} (${mobile})`,
+      computeValue: ({ operator, mobile = '' }) =>
+        `${operator} (${getObfuscatedAccountNumber(mobile)})`,
     },
     institutionName: {
       name: 'institutionName',

@@ -1,8 +1,4 @@
-import {
-  FiatAccountSchema,
-  FiatAccountType,
-  SupportedOperatorEnum,
-} from '@fiatconnect/fiatconnect-types'
+import { FiatAccountType } from '@fiatconnect/fiatconnect-types'
 import { TouchableOpacity } from '@gorhom/bottom-sheet'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
@@ -203,10 +199,6 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
     validateInput()
   }
 
-  let allowedValues = quote.getFiatAccountSchemaAllowedValues()
-  if (fiatAccountSchema === FiatAccountSchema.MobileMoney) {
-    allowedValues.operator = allowedValues.operator ?? Object.keys(SupportedOperatorEnum)
-  }
   switch (sendingFiatAccountStatus) {
     case SendingFiatAccountStatus.Sending:
       return (
@@ -236,7 +228,7 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
                   onChange={(value) => {
                     setInputValue(value, index)
                   }}
-                  allowedValues={allowedValues[field.name]}
+                  allowedValues={quote.getFiatAccountSchemaAllowedValues(field.name)}
                 />
               ))}
             </View>

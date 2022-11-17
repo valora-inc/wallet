@@ -5,6 +5,7 @@ import {
   KycSchema,
   QuoteResponseFiatAccountSchema,
   QuoteResponseKycSchema,
+  SupportedOperatorEnum,
 } from '@fiatconnect/fiatconnect-types'
 import BigNumber from 'bignumber.js'
 import { Dispatch } from 'redux'
@@ -212,8 +213,13 @@ export default class FiatConnectQuote extends NormalizedQuote {
     return this.quoteResponseFiatAccountSchema.fiatAccountSchema
   }
 
-  getFiatAccountSchemaAllowedValues(): { [key: string]: string[] } {
-    return this.quoteResponseFiatAccountSchema.allowedValues
+  getFiatAccountSchemaAllowedValues(key: string): string[] {
+    if (key === 'operator') {
+      return (
+        this.quoteResponseFiatAccountSchema.allowedValues[key] ?? Object.keys(SupportedOperatorEnum)
+      )
+    }
+    return this.quoteResponseFiatAccountSchema.allowedValues[key]
   }
 
   getQuoteId(): string {
