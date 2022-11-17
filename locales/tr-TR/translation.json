@@ -386,7 +386,7 @@
   "pinInputCanceled": "PIN girmek zorunludur. Lütfen tekrar deneyin.",
   "setPinFailed": "PIN ayarlanamadı",
   "optIn": "Katıl",
-  "invalidInvite": "Geçersiz Davet Kodu",
+  "invalidInvite": "Geçersiz Davetiye Kodu",
   "inviteFriends": "Arkadaşlarını davet et",
   "account": "Hesap",
   "invalidAccount": "Geçersiz Hesap",
@@ -560,7 +560,7 @@
   "transferDollarsToAccount": "Hesabınıza bakiye transferi gerçekleşti!",
   "inviteAnyone": "Kişilerinize ekleyerek arkadaşlarınıza kolayca gönderim yapın",
   "inviteReceived": "Davet Alındı",
-  "escrowPaymentNotificationTitle": "{{mobile}} Davet edildi",
+  "escrowPaymentNotificationTitle": "{{mobile}} adresine davetiye talep edilemez",
   "inviteDialog": {
     "title": "Arkadaşını davet et",
     "body": "Valora'da arkadaşlarınız ve ailenizle bağlantı kurun ve varlıklar paylaşın.",
@@ -570,7 +570,7 @@
   "inviteAndSendDialog": {
     "title": "{{name}} adlı kişiyi Valora'ya davet işlemini tamamlayın",
     "bodyWithRewards": "Söz konusu kişi katılıp telefon numarasını bağladında ikiniz de özel bir NFT sürümü alacaksınız. Davetinizi SMS ile göndermek için aşağıya tıklayın.",
-    "body": "{{appName}} uygulamasına katılması için {{name}} adlı kişiye bir davet mesajı gönderin. Katılıp bir telefon numarasını bağladığında ödemenizi alacaktır.",
+    "body": "{{appName}}adresine katılmaları için {{name}} ile bir davet mesajı paylaşın. Katıldıklarında ve bir telefon numarası bağladıklarında, ödemenizi alacaklar.",
     "button": "Daveti tamamla"
   },
   "inviteRewardsBanner": {
@@ -1079,10 +1079,10 @@
   "balanceNeedUpdating": "Bakiyenin güncellenmesi gerekiyor",
   "refreshBalances": "Bakiyeleri Güncelle",
   "escrowedPaymentReminder": "Bekleyen Davetler",
-  "escrowedPaymentReminderSummaryTitle": "{{count}} Adet Bekleyen Davetiye",
-  "escrowedPaymentReminderSummaryDetails_exactly2Items": "<0></0> ve <1></1> henüz davetlerini kabul etmedi",
-  "escrowedPaymentReminderSummaryDetails_exactly3Items": "<0></0>, <1></1> ve bir kişi daha davetlerini henüz kabul etmedi",
-  "escrowedPaymentReminderSummaryDetails_moreThan3Items": "<0></0>, <1></1> ve bir kaç kişi daha henüz davetlerini kabul etmedi",
+  "escrowedPaymentReminderSummaryTitle": "{{count}} Bekleyen Davetiyeler",
+  "escrowedPaymentReminderSummaryDetails_exactly2Items": "<0></0> ve <1></1> davetiyelerini talep edemeyecek",
+  "escrowedPaymentReminderSummaryDetails_exactly3Items": "<0></0>, <1></1> ve diğer bir kişi davetiyelerini talep edemeyecek",
+  "escrowedPaymentReminderSummaryDetails_moreThan3Items": "<0></0>, <1></1> ve diğerleri davetiyelerini talep edemeyecek",
   "escrowedPaymentReminderSmsNoData": "{{appName}} ile {{currency}} bakiyenizi henüz almadığınızı hatırlatmak isteriz! Almak için mobil uygulamayı indirin!",
   "testnetAlert": {
     "0": "{{testnet}}",
@@ -1504,7 +1504,7 @@
     "shareMessage": "Hey! {{appName}} cüzdanımla sana biraz kripto göndermek istiyorum. Uygulamayı indirip telefon numaranızı bağladığınızda, bir metin gönderebileceğimiz kadar kolay kripto gönderebiliriz. Bu bağlantıyı kullanın: {{link}}",
     "rewardsActive": {
       "title": "{{contactName}} adlı kişiyi {{appName}} uygulamasına davet edin ve ikiniz de NFT kazanın!",
-      "body": "Görünüşe göre {{contactName}} {{appName}} kullanmıyor. Bu kişinin cüzdan adresini biliyorsanız, yine de bir ödeme gönderebilir veya bunun yerine davetiye gönderebilirsiniz. \n\n Bu kişi cüzdanı indirdikten ve telefon numarasını bağladıktan sonra, ikiniz de özel bir NFT alacaksınız."
+      "body": "Görünüşe göre {{contactName}} {{appName}}adresinde değil. Cüzdan adreslerini biliyorsanız, yine de bir ödeme gönderebilir veya bunun yerine bir davetiye gönderebilirsiniz. \n\n Cüzdanı indirdikten ve telefon numaralarını bağladıktan sonra, ikiniz de özel bir NFT alacaksınız."
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
