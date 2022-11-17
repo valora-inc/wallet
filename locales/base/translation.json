@@ -1441,13 +1441,13 @@
     },
     "mobileMoney": {
       "operator": {
-        "label": "Network?",
+        "label": "Network",
         "placeholderText": "Select a network (ex. T-Mobile)"
       },
       "mobile": {
         "label": "Phone Number",
         "placeholderText": "Enter number (ex. +00 123 1234)",
-        "errorMessage": "Invalid phone number",
+        "errorMessage": "Invalid Phone Number format",
         "dialog": {
           "title": "Phone Number",
           "body": "Use the phone number registered with your mobile money provider. This might not be the same as your valora phone number.",

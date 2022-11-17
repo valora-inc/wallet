@@ -10,6 +10,7 @@ export interface FormFieldParam {
     body: string
     testID?: string
   }
+  format?(input: string): string
   validate(input: string): {
     isValid: boolean
     errorMessage?: string

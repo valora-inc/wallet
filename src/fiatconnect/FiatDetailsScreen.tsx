@@ -1,4 +1,8 @@
-import { FiatAccountType, SupportedOperatorEnum } from '@fiatconnect/fiatconnect-types'
+import {
+  FiatAccountSchema,
+  FiatAccountType,
+  SupportedOperatorEnum,
+} from '@fiatconnect/fiatconnect-types'
 import { TouchableOpacity } from '@gorhom/bottom-sheet'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
@@ -181,6 +185,9 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
     const newErrorMap = new Map<number, string | undefined>()
 
     formFields.forEach((field, index) => {
+      if (field.format) {
+        fieldValues.current[index] = field.format(fieldValues.current[index])
+      }
       const { isValid, errorMessage } = field.validate(fieldValues.current[index]?.trim())
       if (!isValid) {
         newErrorMap.set(index, errorMessage)
@@ -196,12 +203,9 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
     validateInput()
   }
 
-  //TODO: what if allowed values is empty from quote? Assume that means any are allowed?
   let allowedValues = quote.getFiatAccountSchemaAllowedValues()
-  if (allowedValues?.operator) {
-    allowedValues.operator = allowedValues.operator.filter((operatorName) =>
-      Object.keys(SupportedOperatorEnum).includes(operatorName)
-    )
+  if (fiatAccountSchema === FiatAccountSchema.MobileMoney) {
+    allowedValues.operator = allowedValues.operator ?? Object.keys(SupportedOperatorEnum)
   }
   switch (sendingFiatAccountStatus) {
     case SendingFiatAccountStatus.Sending:

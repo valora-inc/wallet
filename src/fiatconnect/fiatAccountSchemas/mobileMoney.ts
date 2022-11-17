@@ -1,5 +1,4 @@
 import { FiatAccountSchema, FiatAccountType } from '@fiatconnect/fiatconnect-types'
-import { INSTITUTION_NAME_FIELD } from 'src/fiatconnect/fiatAccountSchemas'
 import { FiatAccountFormSchema } from 'src/fiatconnect/fiatAccountSchemas/types'
 import { FiatAccountSchemaCountryOverrides } from 'src/fiatconnect/types'
 import i18n from 'src/i18n'
@@ -13,8 +12,8 @@ export const getMobileMoneySchema = (
 ): FiatAccountFormSchema<FiatAccountSchema.MobileMoney> => {
   const overrides = countryOverrides?.[implicitParams.country]?.[FiatAccountSchema.MobileMoney]
   const mobileValidator = (input: string) => {
-    const regex = overrides?.mobile?.regex ? new RegExp(overrides.mobile.regex) : /^[0-9]{13,15}$/
-    const isValid = regex.test(input) && input.length <= 15
+    const regex = overrides?.mobile?.regex ? new RegExp(overrides.mobile.regex) : /^[0-9\+]+$/
+    const isValid = regex.test(input) && input.length >= 4 && input.length <= 16
     const errorMessageText = overrides?.mobile?.errorString
       ? i18n.t(
           `fiatAccountSchema.mobileMoney.mobile.${overrides.mobile.errorString}`,
@@ -25,6 +24,15 @@ export const getMobileMoneySchema = (
       isValid,
       errorMessage: isValid ? undefined : errorMessageText,
     }
+  }
+
+  const mobileFormatter = (input: string) => {
+    if (input.length && input[0] != '+') {
+      return `+${input}`
+    } else if (input === '+') {
+      return ''
+    }
+    return input
   }
 
   const operatorValidtor = (input: string) => {
@@ -51,6 +59,7 @@ export const getMobileMoneySchema = (
         body: i18n.t('fiatAccountSchema.mobileMoney.mobile.dialog.body'),
         testID: 'mobileMoneyMobileDialog',
       },
+      format: mobileFormatter,
       validate: mobileValidator,
       placeholderText: i18n.t('fiatAccountSchema.mobileMoney.mobile.placeholderText'),
       keyboardType: 'number-pad',
@@ -63,6 +72,9 @@ export const getMobileMoneySchema = (
         //TODO: do I obfuscate mobile at all?
         `${institutionName} (${mobile})`,
     },
-    institutionName: INSTITUTION_NAME_FIELD,
+    institutionName: {
+      name: 'institutionName',
+      computeValue: ({ operator }) => `${operator}`,
+    },
   }
 }
