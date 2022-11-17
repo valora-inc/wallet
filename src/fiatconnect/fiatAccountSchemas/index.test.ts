@@ -38,7 +38,7 @@ describe(getSchema, () => {
     expect(() =>
       getSchema({
         ...params,
-        fiatAccountSchema: FiatAccountSchema.MobileMoney,
+        fiatAccountSchema: FiatAccountSchema.IFSCAccount,
       })
     ).toThrow()
   })
