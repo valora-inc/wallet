@@ -1504,7 +1504,7 @@
     "shareMessage": "Hey! I’d like to send you some crypto with my {{appName}} wallet. Once you download the app and connect your phone number, we can send crypto as easy as a text. Use this link: {{link}}",
     "rewardsActive": {
       "title": "Invite {{contactName}} to {{appName}} and you’ll both receive NFTs!",
-      "body": "Looks like {{contactName}} isn't on {{appName}}. If you know their wallet address you can still send a payment or send an invite instead. \n\n After they download the wallet and connect their phone number, you’ll both get an exclusive NFT."
+      "body": "Looks like {{contactName}} isn't on {{appName}}. If you know their wallet address you can still send a payment or send an invite instead. \n\nAfter they download the wallet and connect their phone number, you’ll both get an exclusive NFT."
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
