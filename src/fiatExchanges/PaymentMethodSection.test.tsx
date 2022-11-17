@@ -143,7 +143,7 @@ describe('PaymentMethodSection', () => {
     //   PaymentMethod.FiatConnectMobileMoney as const,
     //   normalizeQuotes(CICOFlow.CashIn, [mockFiatConnectQuotes[4]] as FiatConnectQuoteSuccess[], []),
     //   'mobileMoney',
-    //   'oneDay',
+    //   'lessThan24Hours',
     // ],
   ])('shows appropriate title and settlement time for %s', (paymentMethod, quotes, title, info) => {
     props.normalizedQuotes = quotes
