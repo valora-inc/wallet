@@ -560,7 +560,7 @@
   "transferDollarsToAccount": "¡Hemos transferidos los fondos a tu cuenta!",
   "inviteAnyone": "Haz que enviar fondos a tus amigos sea aún más fácil con solo conectar tu lista de contactos",
   "inviteReceived": "Invitación recibida",
-  "escrowPaymentNotificationTitle": "Has invitado a {{mobile}}",
+  "escrowPaymentNotificationTitle": "La invitación a {{mobile}} no se puede reclamar",
   "inviteDialog": {
     "title": "Invita a un amigo",
     "body": "Conéctate y comparte valor con tus amigos y familia en Valora.",
@@ -570,7 +570,7 @@
   "inviteAndSendDialog": {
     "title": "Completa la invitación de {{name}} a Valora",
     "bodyWithRewards": "Una vez que tu destinatario descargue la app y conecte su número de teléfono, ambos recibirán un NFT. Toca para enviar una invitación personalizada.",
-    "body": "Comparte un mensaje de invitación con {{name}} para que se una a {{appName}}. Una vez que tu destinatario descargue la app y conecte su número de teléfono, recibirá tu pago.",
+    "body": "Comparte un mensaje de invitación con {{name}} para que se una a {{appName}}. Una vez que se unan y conecten un número de teléfono, recibirán tu pago.",
     "button": "Completar invitación"
   },
   "inviteRewardsBanner": {
@@ -1079,10 +1079,10 @@
   "balanceNeedUpdating": "Es necesario actualizar el saldo",
   "refreshBalances": "Actualizar saldos",
   "escrowedPaymentReminder": "Invitaciones pendientes",
-  "escrowedPaymentReminderSummaryTitle": "{{count}} invitaciones pendientes",
-  "escrowedPaymentReminderSummaryDetails_exactly2Items": "<0></0> y <1></1> no han aceptado tus invitaciones aún",
-  "escrowedPaymentReminderSummaryDetails_exactly3Items": "<0></0>, <1></1> y alguien más no han aceptado tus invitaciones aún",
-  "escrowedPaymentReminderSummaryDetails_moreThan3Items": "<0></0>, <1></1> y otros no han aceptado tus invitaciones aún",
+  "escrowedPaymentReminderSummaryTitle": "{{count}} Onvites pendientes",
+  "escrowedPaymentReminderSummaryDetails_exactly2Items": "<0></0> y <1></1> no podrán reclamar sus invitaciones",
+  "escrowedPaymentReminderSummaryDetails_exactly3Items": "<0></0>, <1></1> y otro más no podrán reclamar sus invitaciones",
+  "escrowedPaymentReminderSummaryDetails_moreThan3Items": "<0></0>, <1></1> y otros no podrán reclamar sus invitaciones",
   "escrowedPaymentReminderSmsNoData": "Un recordatorio amigable de que aún no has reclamado tus {{currency}} con {{appName}}. ¡Descarga la aplicación móvil para empezar!",
   "testnetAlert": {
     "0": "{{testnet}}",
@@ -1504,7 +1504,7 @@
     "shareMessage": "Me gustaría enviarte cripto con mi wallet {{appName}}. Una vez que descargues la aplicación y conectes tu número de teléfono, podremos enviar cripto tan fácil como enviar un mensaje. Utiliza este enlace: {{link}}",
     "rewardsActive": {
       "title": "Invita a {{contactName}} a {{appName}}. ¡Ambos recibirán un NFT!",
-      "body": "Parece que {{contactName}} no está en {{appName}}. Si conoces su dirección puedes enviarle un pago, o bien envíale una invitación. \n\nUna vez que haya descargado la wallet y conectado su número de teléfono, ambos obtendrán un NFT exclusivo."
+      "body": "Parece que {{contactName}} no está en {{appName}}. Si conoces la dirección de su monedero, puedes enviar un pago o enviar una invitación. \n\n Después de que descarguen el monedero y conecten su número de teléfono, ambos obtendréis un NFT exclusivo."
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",

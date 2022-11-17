@@ -386,7 +386,7 @@
   "pinInputCanceled": "จำเป็นต้องมีรหัส PIN โปรดลองอีกครั้ง",
   "setPinFailed": "ไม่สามารถตั้งค่ารหัส PIN ได้",
   "optIn": "เลือกรับ",
-  "invalidInvite": "รหัสคำเชิญไม่ถูกต้อง",
+  "invalidInvite": "Invalid Invite Code",
   "inviteFriends": "เชิญเพื่อน",
   "account": "บัญชี",
   "invalidAccount": "บัญชีไม่ถูกต้อง",
@@ -560,7 +560,7 @@
   "transferDollarsToAccount": "ฝากเงินไปยังบัญชีของคุณแล้ว",
   "inviteAnyone": "ส่งให้เพื่อนของคุณได้ง่ายๆ ด้วยการเพิ่มผู้ติดต่อ",
   "inviteReceived": "ได้รับคำเชิญแล้ว",
-  "escrowPaymentNotificationTitle": "เชิญ {{mobile}} แล้ว",
+  "escrowPaymentNotificationTitle": "Invite to {{mobile}} can't be claimed",
   "inviteDialog": {
     "title": "เชิญเพื่อน",
     "body": "เชื่อมต่อและแบ่งปันมูลค่าให้กับเพื่อนและครอบครัวของคุณบน Valora",
@@ -570,7 +570,7 @@
   "inviteAndSendDialog": {
     "title": "ทำการเชิญ {{name}} เข้าร่วม Valora ให้เสร็จสิ้น",
     "bodyWithRewards": "เมื่อมีการเข้าร่วมและเชื่อมต่อหมายเลขโทรศัพท์ คุณทั้งสองคนจะได้รับ NFT รุ่นพิเศษ คลิกด้านล่างเพื่อส่งคำเชิญของคุณผ่าน SMS",
-    "body": "ส่งข้อความเชิญ {{name}} ให้มาเข้าร่วม {{appName}} เมื่อมีการเข้าร่วมและเชื่อมต่อหมายเลขโทรศัพท์ พวกเขาก็จะได้รับการชำระเงินของคุณ",
+    "body": "Share an invite message with {{name}} to join {{appName}}. Once they join & connect a phone number, they'll receive your payment.",
     "button": "ทำการเชิญให้เสร็จสิ้น"
   },
   "inviteRewardsBanner": {
@@ -1076,11 +1076,11 @@
   "maybeLater": "ไม่ใช่ตอนนี้",
   "balanceNeedUpdating": "จำเป็นต้องอัปเดตยอดคงเหลือ",
   "refreshBalances": "รีเฟรชยอดคงเหลือ",
-  "escrowedPaymentReminder": "คำเชิญที่รอดำเนินการ",
-  "escrowedPaymentReminderSummaryTitle": "คำเชิญที่รอดำเนินการ {{count}} รายการ",
-  "escrowedPaymentReminderSummaryDetails_exactly2Items": "<0></0> และ <1></1> ยังไม่ยอมรับคำเชิญ",
-  "escrowedPaymentReminderSummaryDetails_exactly3Items": "<0></0>, <1></1> และอีกหนึ่งรายยังไม่ยอมรับคำเชิญ",
-  "escrowedPaymentReminderSummaryDetails_moreThan3Items": "<0></0>, <1></1> และรายอื่นๆ ยังไม่ยอมรับคำเชิญ",
+  "escrowedPaymentReminder": "Pending Invites",
+  "escrowedPaymentReminderSummaryTitle": "{{count}} Pending Onvites",
+  "escrowedPaymentReminderSummaryDetails_exactly2Items": "<0></0> and <1></1> won’t be able to claim their invites",
+  "escrowedPaymentReminderSummaryDetails_exactly3Items": "<0></0>, <1></1> and one other won’t be able to claim their invites",
+  "escrowedPaymentReminderSummaryDetails_moreThan3Items": "<0></0>, <1></1> and others won’t be able to claim their invites",
   "escrowedPaymentReminderSmsNoData": "นี่เป็นการเตือนว่าคุณยังไม่แลกรับ {{currency}} ด้วย {{appName}} ดาวน์โหลดแอปมือถือเพื่อเริ่มต้นใช้งาน",
   "testnetAlert": {
     "0": "{{testnet}}",
@@ -1502,7 +1502,7 @@
     "shareMessage": "สวัสดี ฉันต้องการส่งคริปโตให้คุณด้วยกระเป๋าเงิน {{appName}} ของฉัน เมื่อคุณดาวน์โหลดแอปและเชื่อมต่อหมายเลขโทรศัพท์ของคุณแล้ว เราจะสามารถส่งคริปโตได้ง่ายเหมือนการส่งข้อความ ใช้ลิงก์นี้: {{link}}",
     "rewardsActive": {
       "title": "เชิญ {{contactName}} มายัง {{appName}} คุณทั้งสองคนจะได้รับ NFT",
-      "body": "ดูเหมือนว่า {{contactName}} ไม่ได้ใช้งาน {{appName}} หากคุณทราบที่อยู่กระเป๋าเงินของเขา คุณยังคงสามารถส่งการชำระเงินหรือส่งคำเชิญแทนได้ \n\nหลังจากที่เขาดาวน์โหลดกระเป๋าเงินและเชื่อมต่อหมายเลขโทรศัพท์แล้ว คุณทั้งสองจะได้รับ NFT พิเศษ"
+      "body": "Looks like {{contactName}} isn't on {{appName}}. If you know their wallet address you can still send a payment or send an invite instead. \n\n After they download the wallet and connect their phone number, you’ll both get an exclusive NFT."
     }
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo ดอลลาร์"
