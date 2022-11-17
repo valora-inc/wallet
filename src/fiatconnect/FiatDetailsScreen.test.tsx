@@ -137,7 +137,7 @@ describe('FiatDetailsScreen', () => {
 
     const { getByTestId, getByText } = render(<Provider store={store}>{headerTitle}</Provider>)
 
-    expect(getByText('fiatDetailsScreen.header')).toBeTruthy()
+    expect(getByText('fiatDetailsScreen.headerBankAccount')).toBeTruthy()
     expect(getByText('fiatDetailsScreen.headerSubTitle, {"provider":"Provider Two"}')).toBeTruthy()
     expect(getByTestId('headerProviderIcon')).toBeTruthy()
     expect(getByTestId('headerProviderIcon').props.source.uri).toEqual(mockFiatConnectProviderIcon)
@@ -326,4 +326,32 @@ describe('FiatDetailsScreen', () => {
     )
     expect(getByTestId('checkmark')).toBeTruthy()
   })
+  // TODO(any): enable as part of ACT-518, won't work until Mobile Money is added to
+  // supported types and schemas
+  // it('Mobile info dialog works on mobile money screen', () => {
+  //   const mmFcQuote = _.cloneDeep(mockFiatConnectQuotes[4] as FiatConnectQuoteSuccess)
+  //   const mmQuote = new FiatConnectQuote({
+  //     quote: mmFcQuote,
+  //     fiatAccountType: FiatAccountType.MobileMoney,
+  //     flow: CICOFlow.CashIn,
+  //   })
+  //   const mmScreenProps = getMockStackScreenProps(Screens.FiatDetailsScreen, {
+  //     flow: CICOFlow.CashIn,
+  //     quote: mmQuote,
+  //   })
+
+  //   const { getByTestId, getByText } = render(
+  //     <Provider store={store}>
+  //       <FiatDetailsScreen {...mmScreenProps} />
+  //     </Provider>
+  //   )
+  //   const dialogTestId = 'mobileMoneyMobileDialog'
+
+  //   expect(getByTestId(dialogTestId)).not.toBeVisible()
+  //   fireEvent.press(getByTestId(`infoIcon-${dialogTestId}`))
+  //   expect(getByTestId(dialogTestId)).toBeVisible()
+  //   expect(getByText('fiatAccountSchema.mobileMoney.mobileDialog.title')).toBeTruthy()
+  //   expect(getByText('fiatAccountSchema.mobileMoney.mobileDialog.dismiss')).toBeTruthy()
+  //   expect(getByText('fiatAccountSchema.mobileMoney.mobileDialog.body')).toBeTruthy()
+  // })
 })

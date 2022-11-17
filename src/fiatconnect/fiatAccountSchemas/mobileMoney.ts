@@ -13,7 +13,7 @@ export const getMobileMoneySchema = (
 ): FiatAccountFormSchema<FiatAccountSchema.MobileMoney> => {
   const overrides = countryOverrides?.[implicitParams.country]?.[FiatAccountSchema.MobileMoney]
   const mobileValidator = (input: string) => {
-    const regex = overrides?.mobile?.regex ? new RegExp(overrides.mobile.regex) : /^[0-9\+]+$/
+    const regex = overrides?.mobile?.regex ? new RegExp(overrides.mobile.regex) : /^[0-9+]+$/
     const isValid = regex.test(input) && input.length >= 4 && input.length <= 16
     const errorMessageText = overrides?.mobile?.errorString
       ? i18n.t(
@@ -41,7 +41,7 @@ export const getMobileMoneySchema = (
       name: 'operator',
       label: i18n.t('fiatAccountSchema.mobileMoney.operator.label'),
       placeholderText: i18n.t('fiatAccountSchema.mobileMoney.operator.placeholderText'),
-      validate: () => ({ isValid: true }),
+      validate: (input: string) => ({ isValid: !!input }),
       keyboardType: 'default',
     },
     mobile: {

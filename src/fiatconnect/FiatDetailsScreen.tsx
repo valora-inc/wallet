@@ -297,6 +297,7 @@ function FormField({
             onPress={() => setInfoVisible(true)}
             style={styles.infoIcon}
             hitSlop={variables.iconHitslop}
+            testID={`infoIcon-${field.infoDialog.testID}`}
           >
             <InfoIcon size={18} color={colors.gray3} />
           </TouchableOpacity>
