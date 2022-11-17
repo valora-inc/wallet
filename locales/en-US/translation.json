@@ -386,7 +386,7 @@
   "pinInputCanceled": "The PIN is necessary. Please try again.",
   "setPinFailed": "Failed to set PIN",
   "optIn": "Opt In",
-  "invalidInvite": "Invalid Invitation Code",
+  "invalidInvite": "Invalid Invite Code",
   "inviteFriends": "Invite Friends",
   "account": "Account",
   "invalidAccount": "Invalid Account",
@@ -560,7 +560,7 @@
   "transferDollarsToAccount": "Funds transferred to your account!",
   "inviteAnyone": "Send easily to your friends by adding your contacts",
   "inviteReceived": "Invite Received",
-  "escrowPaymentNotificationTitle": "Invitation to {{mobile}} cannot be claimed",
+  "escrowPaymentNotificationTitle": "Invite to {{mobile}} can't be claimed",
   "inviteDialog": {
     "title": "Invite a Friend",
     "body": "Connect and share value with your friends and family on Valora.",
@@ -570,7 +570,7 @@
   "inviteAndSendDialog": {
     "title": "Finish inviting {{name}} to Valora",
     "bodyWithRewards": "Once they join & connect their phone number, you’ll both receive a special edition NFT. Click below to send your invite via SMS.",
-    "body": "Share an invitation message with {{name}} to join {{appName}}. Once they join & connect a phone number, they'll receive your payment.",
+    "body": "Share an invite message with {{name}} to join {{appName}}. Once they join & connect a phone number, they'll receive your payment.",
     "button": "Finish inviting"
   },
   "inviteRewardsBanner": {
@@ -1078,11 +1078,11 @@
   "maybeLater": "Maybe Later",
   "balanceNeedUpdating": "Balance needs updating",
   "refreshBalances": "Refresh Balances",
-  "escrowedPaymentReminder": "Pending Invitations",
-  "escrowedPaymentReminderSummaryTitle": "{{count}} Pending Invitations",
-  "escrowedPaymentReminderSummaryDetails_exactly2Items": "<0></0> and <1></1> haven't accepted their invitations yet",
-  "escrowedPaymentReminderSummaryDetails_exactly3Items": "<0></0>, <1></1> and one other haven't accepted their invitations yet",
-  "escrowedPaymentReminderSummaryDetails_moreThan3Items": "<0></0>, <1></1> and others haven't accepted their invitations yet",
+  "escrowedPaymentReminder": "Pending Invites",
+  "escrowedPaymentReminderSummaryTitle": "{{count}} Pending Onvites",
+  "escrowedPaymentReminderSummaryDetails_exactly2Items": "<0></0> and <1></1> won’t be able to claim their invites",
+  "escrowedPaymentReminderSummaryDetails_exactly3Items": "<0></0>, <1></1> and one other won’t be able to claim their invites",
+  "escrowedPaymentReminderSummaryDetails_moreThan3Items": "<0></0>, <1></1> and others won’t be able to claim their invites",
   "escrowedPaymentReminderSmsNoData": "A friendly reminder that you haven't yet redeemed your {{currency}} with {{appName}}! Download the mobile app to get started!",
   "testnetAlert": {
     "0": "{{testnet}}",
@@ -1504,7 +1504,7 @@
     "shareMessage": "Hey! I’d like to send you some crypto with my {{appName}} wallet. Once you download the app and connect your phone number, we can send crypto as easy as a text. Use this link: {{link}}",
     "rewardsActive": {
       "title": "Invite {{contactName}} to {{appName}} and you’ll both receive NFTs!",
-      "body": "Looks like {{contactName}} isn't on {{appName}}. If you know their wallet address you can still send a payment or send an invitation instead. \n\n After they download the wallet and connect their phone number, you’ll both get an exclusive NFT."
+      "body": "Looks like {{contactName}} isn't on {{appName}}. If you know their wallet address you can still send a payment or send an invite instead. \n\nAfter they download the wallet and connect their phone number, you’ll both get an exclusive NFT."
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
