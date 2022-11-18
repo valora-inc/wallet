@@ -40,8 +40,8 @@ import {
   _getFiatAccount,
   _getQuotes,
   _getSpecificQuote,
-  _initiateFiatConnectTransferWithProvider,
-  _initiateFiatConnectTx,
+  _initiateSendTxToProvider,
+  _initiateTransferWithProvider,
   _selectQuoteAndFiatAccount,
   _selectQuoteMatchingFiatAccount,
 } from 'src/fiatconnect/saga'
@@ -1658,7 +1658,7 @@ describe('Fiatconnect saga', () => {
     })
   })
 
-  describe('_initiateFiatConnectTransferWithProvider', () => {
+  describe('_initiateTransferWithProvider', () => {
     const transferOutFcQuote = new FiatConnectQuote({
       flow: CICOFlow.CashOut,
       quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
@@ -1684,7 +1684,7 @@ describe('Fiatconnect saga', () => {
         })
       )
       await expectSaga(
-        _initiateFiatConnectTransferWithProvider,
+        _initiateTransferWithProvider,
         createFiatConnectTransfer({
           flow: CICOFlow.CashOut,
           fiatConnectQuote: transferOutFcQuote,
@@ -1715,7 +1715,7 @@ describe('Fiatconnect saga', () => {
       )
       await expect(() =>
         expectSaga(
-          _initiateFiatConnectTransferWithProvider,
+          _initiateTransferWithProvider,
           createFiatConnectTransfer({
             flow: CICOFlow.CashOut,
             fiatConnectQuote: transferOutFcQuote,
@@ -1745,7 +1745,7 @@ describe('Fiatconnect saga', () => {
     })
   })
 
-  describe('_initiateFiatConnectTx', () => {
+  describe('_initiateSendTxToProvider', () => {
     const transferOutFcQuote = new FiatConnectQuote({
       flow: CICOFlow.CashOut,
       quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
@@ -1765,7 +1765,7 @@ describe('Fiatconnect saga', () => {
       },
     }
     it('sends a transaction to the given address and returns the transactionHash', async () => {
-      await expectSaga(_initiateFiatConnectTx, {
+      await expectSaga(_initiateSendTxToProvider, {
         transferAddress: '0xabc',
         fiatConnectQuote: transferOutFcQuote,
       })
@@ -1793,7 +1793,7 @@ describe('Fiatconnect saga', () => {
     })
     it('throws when there is an error with the transaction', async () => {
       await expect(() =>
-        expectSaga(_initiateFiatConnectTx, {
+        expectSaga(_initiateSendTxToProvider, {
           transferAddress: '0xabc',
           fiatConnectQuote: transferOutFcQuote,
         })
@@ -1847,7 +1847,7 @@ describe('Fiatconnect saga', () => {
           fiatAccountId: 'account1',
         })
         await expectSaga(handleCreateFiatConnectTransfer, action)
-          .provide([[call(_initiateFiatConnectTransferWithProvider, action), { transferAddress }]])
+          .provide([[call(_initiateTransferWithProvider, action), { transferAddress }]])
           .put(
             createFiatConnectTransferCompleted({
               flow: CICOFlow.CashIn,
@@ -1884,9 +1884,9 @@ describe('Fiatconnect saga', () => {
         })
         await expectSaga(handleCreateFiatConnectTransfer, action)
           .provide([
-            [call(_initiateFiatConnectTransferWithProvider, action), { transferAddress }],
+            [call(_initiateTransferWithProvider, action), { transferAddress }],
             [
-              call(_initiateFiatConnectTx, {
+              call(_initiateSendTxToProvider, {
                 transferAddress,
                 fiatConnectQuote: transferOutFcQuote,
               }),
@@ -1926,12 +1926,7 @@ describe('Fiatconnect saga', () => {
           fiatAccountId: 'account1',
         })
         await expectSaga(handleCreateFiatConnectTransfer, action)
-          .provide([
-            [
-              call(_initiateFiatConnectTransferWithProvider, action),
-              throwError(new Error('ERROR')),
-            ],
-          ])
+          .provide([[call(_initiateTransferWithProvider, action), throwError(new Error('ERROR'))]])
           .put(
             createFiatConnectTransferFailed({
               flow: CICOFlow.CashIn,

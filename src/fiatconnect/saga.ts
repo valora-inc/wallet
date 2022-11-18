@@ -897,13 +897,13 @@ export function* handleFetchFiatConnectProviders() {
  * Initiates a fiatconnect transfer using the fiatconnect SDK to call a transfer/out or transfer/in endpoint
  * for a provider.
  **/
-export function* _initiateFiatConnectTransferWithProvider({
+export function* _initiateTransferWithProvider({
   payload: params,
 }: ReturnType<typeof createFiatConnectTransfer>) {
   const { flow, fiatConnectQuote, fiatAccountId } = params
   const quoteId = fiatConnectQuote.getQuoteId()
-  const transferType = flow === CICOFlow.CashIn ? 'transferIn' : 'transferOut'
-  Logger.info(TAG, `Starting ${transferType} ..`)
+  const transferFnName = flow === CICOFlow.CashIn ? 'transferIn' : 'transferOut'
+  Logger.info(TAG, `Starting ${transferFnName} ..`)
   const fiatConnectClient: FiatConnectClient = yield call(
     getFiatConnectClient,
     fiatConnectQuote.getProviderId(),
@@ -911,7 +911,7 @@ export function* _initiateFiatConnectTransferWithProvider({
     fiatConnectQuote.getProviderApiKey()
   )
   const result: Result<TransferResponse, ResponseError> = yield call(
-    [fiatConnectClient, transferType],
+    [fiatConnectClient, transferFnName],
     {
       idempotencyKey: uuidv4(),
       data: { quoteId, fiatAccountId },
@@ -928,7 +928,7 @@ export function* _initiateFiatConnectTransferWithProvider({
   }
   const transferResult = result.unwrap()
 
-  Logger.info(TAG, `${transferType} succeeded`, JSON.stringify(transferResult))
+  Logger.info(TAG, `${transferFnName} succeeded`, JSON.stringify(transferResult))
   return transferResult
 }
 
@@ -936,7 +936,7 @@ export function* _initiateFiatConnectTransferWithProvider({
  * Initiates a transaction on-chain to send funds to a specific address. This is intended to be used for
  * cashing out after a transfer has been initiated with a provider
  **/
-export function* _initiateFiatConnectTx({
+export function* _initiateSendTxToProvider({
   transferAddress,
   fiatConnectQuote,
 }: {
@@ -982,13 +982,10 @@ export function* handleCreateFiatConnectTransfer(
   const quoteId = fiatConnectQuote.getQuoteId()
   let transactionHash: string | null = null
   try {
-    const { transferAddress }: TransferResponse = yield call(
-      _initiateFiatConnectTransferWithProvider,
-      action
-    )
+    const { transferAddress }: TransferResponse = yield call(_initiateTransferWithProvider, action)
 
     if (flow === CICOFlow.CashOut) {
-      transactionHash = yield call(_initiateFiatConnectTx, {
+      transactionHash = yield call(_initiateSendTxToProvider, {
         transferAddress,
         fiatConnectQuote,
       })

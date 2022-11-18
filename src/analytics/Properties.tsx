@@ -1117,7 +1117,7 @@ interface FiatExchangeEventsProperties {
     flow: CICOFlow
   }
   [FiatExchangeEvents.cico_fc_transfer_error]: {
-    error?: string
+    error: string
     provider: string
     flow: CICOFlow
   }
@@ -1142,12 +1142,12 @@ interface FiatExchangeEventsProperties {
   [FiatExchangeEvents.cico_fc_transfer_success_complete]: {
     provider: string
     flow: CICOFlow
-    txHash?: string
+    txHash: string | null
   }
   [FiatExchangeEvents.cico_fc_transfer_success_view_tx]: {
     provider: string
     flow: CICOFlow
-    txHash?: string
+    txHash: string | null
   }
   [FiatExchangeEvents.cico_fc_kyc_status_contact_support]: FiatConnectKycProperties
   [FiatExchangeEvents.cico_fc_kyc_status_back]: FiatConnectKycProperties
