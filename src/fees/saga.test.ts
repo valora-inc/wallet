@@ -89,9 +89,9 @@ describe(estimateFeeSaga, () => {
       .run()
   })
 
-  it('estimates the send fee', async () => {
+  it.each([FeeType.SEND, FeeType.SWAP])('estimates the %s fee', async (feeType) => {
     await expectSaga(estimateFeeSaga, {
-      payload: { feeType: FeeType.SEND, tokenAddress: mockCusdAddress },
+      payload: { feeType, tokenAddress: mockCusdAddress },
     })
       .withState(store.getState())
       .provide([
@@ -104,7 +104,7 @@ describe(estimateFeeSaga, () => {
       ])
       .put(
         feeEstimated({
-          feeType: FeeType.SEND,
+          feeType,
           tokenAddress: mockCusdAddress,
           estimation: estimation(new BigNumber(0.01).toString()),
         })

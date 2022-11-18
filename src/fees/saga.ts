@@ -78,6 +78,7 @@ export function* estimateFeeSaga({
       case FeeType.INVITE:
         feeInfo = yield call(estimateInviteFee, tokenAddress)
         break
+      case FeeType.SWAP:
       case FeeType.SEND:
         feeInfo = yield call(estimateSendFee, tokenAddress)
         break
