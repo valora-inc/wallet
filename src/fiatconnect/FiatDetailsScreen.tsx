@@ -62,12 +62,12 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
   const fiatAccountSchema = quote.getFiatAccountSchema()
   const fiatAccountType = quote.getFiatAccountType()
 
-  const getHeaderTranslation = useMemo(() => {
+  const headerTitle = useMemo(() => {
     switch (fiatAccountType) {
       case FiatAccountType.BankAccount:
-        return 'fiatDetailsScreen.headerBankAccount'
+        return t('fiatDetailsScreen.headerBankAccount')
       case FiatAccountType.MobileMoney:
-        return 'fiatDetailsScreen.headerMobileMoney'
+        return t('fiatDetailsScreen.headerMobileMoney')
       default:
         // should never happen
         throw new Error('Unsupported account type')
@@ -79,7 +79,7 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
       headerTitle: () => (
         <View style={headerStyles.header}>
           <Text style={headerStyles.headerTitle} numberOfLines={1}>
-            {t(getHeaderTranslation)}
+            {headerTitle}
           </Text>
           <View style={styles.headerSubTitleContainer}>
             <View style={styles.headerImageContainer}>
@@ -294,10 +294,10 @@ function FormField({
         <Text style={styles.inputLabel}>{field.label}</Text>
         {field.infoDialog && (
           <TouchableOpacity
+            testID={`infoIcon-${field.name}`}
             onPress={() => setInfoVisible(true)}
             style={styles.infoIcon}
             hitSlop={variables.iconHitslop}
-            testID={`infoIcon-${field.infoDialog.testID}`}
           >
             <InfoIcon size={18} color={colors.gray3} />
           </TouchableOpacity>
@@ -305,7 +305,7 @@ function FormField({
       </View>
       {field.infoDialog && (
         <Dialog
-          testID={field.infoDialog.testID}
+          testID={`dialog-${field.name}`}
           isVisible={infoVisibile}
           title={field.infoDialog.title}
           actionText={field.infoDialog.actionText}

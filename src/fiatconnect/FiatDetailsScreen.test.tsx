@@ -348,11 +348,10 @@ describe('FiatDetailsScreen', () => {
         <FiatDetailsScreen {...mmScreenProps} />
       </Provider>
     )
-    const dialogTestId = 'mobileMoneyMobileDialog'
 
-    expect(getByTestId(dialogTestId)).not.toBeVisible()
-    fireEvent.press(getByTestId(`infoIcon-${dialogTestId}`))
-    expect(getByTestId(dialogTestId)).toBeVisible()
+    expect(getByTestId('dialog-mobile')).not.toBeVisible()
+    fireEvent.press(getByTestId(`infoIcon-mobile`))
+    expect(getByTestId('dialog-mobile')).toBeVisible()
     expect(getByText('fiatAccountSchema.mobileMoney.mobileDialog.title')).toBeTruthy()
     expect(getByText('fiatAccountSchema.mobileMoney.mobileDialog.dismiss')).toBeTruthy()
     expect(getByText('fiatAccountSchema.mobileMoney.mobileDialog.body')).toBeTruthy()

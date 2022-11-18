@@ -8,7 +8,6 @@ export interface FormFieldParam {
     title: string
     actionText: string
     body: string
-    testID?: string
   }
   format?(input: string): string
   validate(input: string): {

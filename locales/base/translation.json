@@ -1441,17 +1441,16 @@
     },
     "mobileMoney": {
       "operator": {
-        "label": "Network",
-        "placeholderText": "Select a network (ex. T-Mobile)"
+        "label": "Network"
       },
       "mobile": {
         "label": "Phone Number",
-        "placeholderText": "Enter number (ex. +00 123 1234)",
+        "placeholderText": "+234123234566",
         "errorMessage": "Invalid Phone Number format"
       },
       "mobileDialog": {
         "title": "Phone Number",
-        "body": "Use the phone number registered with your mobile money provider. This might not be the same as your valora phone number.",
+        "body": "Use the phone number registered with your mobile money provider. This might not be the same as your valora phone number.\n\nPhone numbers must include country code displayed next to the phone number.",
         "dismiss": "Dismiss"
       }
     },

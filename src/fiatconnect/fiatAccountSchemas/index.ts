@@ -43,13 +43,10 @@ export const getSchema = ({
         schemaCountryOverrides
       )
     case FiatAccountSchema.MobileMoney:
-      return getMobileMoneySchema(
-        {
-          country,
-          fiatAccountType,
-        },
-        schemaCountryOverrides
-      )
+      return getMobileMoneySchema({
+        country,
+        fiatAccountType,
+      })
     default:
       // should never happen
       throw new Error('Unsupported schema type')
