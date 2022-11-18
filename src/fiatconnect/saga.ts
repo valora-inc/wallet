@@ -971,7 +971,10 @@ export function* _initiateSendTxToProvider({
     })
     throw error
   }
-  Logger.info(TAG, 'Completed transfer out transaction..')
+  Logger.info(
+    TAG,
+    `Completed transfer out transaction.. transactionHash: ${receipt.transactionHash}`
+  )
   return receipt.transactionHash
 }
 
