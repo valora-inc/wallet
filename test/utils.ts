@@ -1,5 +1,5 @@
 /* Utilities to facilitate testing */
-import { StackScreenProps } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import { ReactTestInstance } from 'react-test-renderer'
 import configureMockStore from 'redux-mock-store'
@@ -138,7 +138,7 @@ export function getMockStackScreenProps<RouteName extends keyof StackParamList>(
   ...args: undefined extends StackParamList[RouteName]
     ? [RouteName] | [RouteName, StackParamList[RouteName]]
     : [RouteName, StackParamList[RouteName]]
-): StackScreenProps<StackParamList, RouteName> {
+): NativeStackScreenProps<StackParamList, RouteName> {
   const [name, params] = args
   return {
     navigation: mockNavigation,

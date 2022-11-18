@@ -1,6 +1,6 @@
 // SCREEN that scans QRs and calls |onAddressScanned| param when one is found.
 
-import { StackScreenProps } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { memoize } from 'lodash'
 import React from 'react'
 import { useDispatch } from 'react-redux'
@@ -22,7 +22,7 @@ import Logger from 'src/utils/Logger'
 
 const TAG = 'WithdrawCeloQrScannerScreen'
 
-type Props = StackScreenProps<StackParamList, Screens.WithdrawCeloQrScannerScreen>
+type Props = NativeStackScreenProps<StackParamList, Screens.WithdrawCeloQrScannerScreen>
 
 function fetchAddressFromQrData(data: string): string | null {
   try {

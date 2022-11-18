@@ -1,4 +1,4 @@
-import { StackScreenProps } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import * as React from 'react'
 import { WithTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
@@ -60,7 +60,7 @@ interface DispatchProps {
   validateRecipientAddress: typeof validateRecipientAddress
 }
 
-type OwnProps = StackScreenProps<StackParamList, Screens.ValidateRecipientAccount>
+type OwnProps = NativeStackScreenProps<StackParamList, Screens.ValidateRecipientAccount>
 type Props = StateProps & DispatchProps & WithTranslation & OwnProps
 
 const mapDispatchToProps = {

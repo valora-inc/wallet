@@ -1,4 +1,4 @@
-import { StackScreenProps } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import format from 'date-fns/esm/format'
 import * as React from 'react'
 import { WithTranslation } from 'react-i18next'
@@ -28,7 +28,7 @@ interface State {
   correctTime: number | null
 }
 
-type ScreenProps = StackScreenProps<StackParamList, Screens.SetClock>
+type ScreenProps = NativeStackScreenProps<StackParamList, Screens.SetClock>
 type Props = WithTranslation & ScreenProps
 
 export class SetClock extends React.Component<Props, State> {

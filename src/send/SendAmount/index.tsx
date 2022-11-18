@@ -1,5 +1,5 @@
 import { parseInputAmount } from '@celo/utils/lib/parsing'
-import { StackScreenProps } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -58,7 +58,7 @@ export interface TransactionDataInput {
   comment?: string
 }
 
-type RouteProps = StackScreenProps<StackParamList, Screens.SendAmount>
+type RouteProps = NativeStackScreenProps<StackParamList, Screens.SendAmount>
 type Props = RouteProps
 
 const { decimalSeparator } = getNumberFormatSettings()

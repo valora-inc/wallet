@@ -1,6 +1,6 @@
 import { FiatAccountType } from '@fiatconnect/fiatconnect-types'
 import { TouchableOpacity } from '@gorhom/bottom-sheet'
-import { StackScreenProps } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, Image, StyleSheet, Text, View } from 'react-native'
@@ -42,7 +42,7 @@ import variables from 'src/styles/variables'
 
 export const TAG = 'FIATCONNECT/FiatDetailsScreen'
 
-type ScreenProps = StackScreenProps<StackParamList, Screens.FiatDetailsScreen>
+type ScreenProps = NativeStackScreenProps<StackParamList, Screens.FiatDetailsScreen>
 
 type Props = ScreenProps
 

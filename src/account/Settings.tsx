@@ -1,10 +1,12 @@
+import { sleep } from '@celo/utils/lib/async'
 import { isE164Number } from '@celo/utils/lib/phoneNumbers'
-import { StackScreenProps } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import * as Sentry from '@sentry/react-native'
 import locales from 'locales'
 import * as React from 'react'
 import { WithTranslation } from 'react-i18next'
 import {
+  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -98,7 +100,7 @@ interface StateProps {
   shouldShowRecoveryPhraseInSettings: boolean
 }
 
-type OwnProps = StackScreenProps<StackParamList, Screens.Settings>
+type OwnProps = NativeStackScreenProps<StackParamList, Screens.Settings>
 
 type Props = StateProps & DispatchProps & WithTranslation & OwnProps
 
@@ -148,6 +150,7 @@ export class Account extends React.Component<Props, State> {
       this.props.setSessionId(sessionId)
     }
   }
+
   goToProfile = () => {
     ValoraAnalytics.track(SettingsEvents.settings_profile_edit)
     this.props.navigation.navigate(Screens.Profile)
@@ -324,10 +327,23 @@ export class Account extends React.Component<Props, State> {
     this.setState({ showAccountKeyModal: false })
   }
 
-  onPressContinueWithAccountRemoval = () => {
-    ValoraAnalytics.track(SettingsEvents.start_account_removal)
-    this.setState({ showAccountKeyModal: false })
-    this.props.navigation.navigate(Screens.BackupPhrase, { navigatedFromSettings: true })
+  onPressContinueWithAccountRemoval = async () => {
+    try {
+      this.setState({ showAccountKeyModal: false })
+      // Ugly hack to wait for the modal to close,
+      // otherwise the native modal PIN entry will not show up
+      // TODO: stop using ReactNative modals and switch to react-navigation modals
+      if (Platform.OS === 'ios') {
+        await sleep(500)
+      }
+      const pinIsCorrect = await ensurePincode()
+      if (pinIsCorrect) {
+        ValoraAnalytics.track(SettingsEvents.start_account_removal)
+        navigate(Screens.BackupPhrase, { navigatedFromSettings: true })
+      }
+    } catch (error) {
+      Logger.error('SettingsItem@onPress', 'PIN ensure error', error)
+    }
   }
 
   hideConfirmRemovalModal = () => {
