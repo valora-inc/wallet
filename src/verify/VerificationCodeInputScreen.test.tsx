@@ -1,6 +1,7 @@
 import SmsRetriever from '@celo/react-native-sms-retriever'
+import { sleep } from '@celo/utils/lib/async'
 import * as DEK from '@celo/utils/lib/dataEncryptionKey'
-import { act, fireEvent, render, within } from '@testing-library/react-native'
+import { act, fireEvent, render, waitFor, within } from '@testing-library/react-native'
 import { FetchMock } from 'jest-fetch-mock/types'
 import MockDate from 'mockdate'
 import React from 'react'
@@ -75,9 +76,7 @@ describe('VerificationCodeInputScreen', () => {
     expect(getByTestId('PhoneVerificationInputHelpDialog').props.visible).toBe(false)
     expect(getByTestId('PhoneVerificationResendSmsBtn')).toBeDisabled()
 
-    await act(flushMicrotasksQueue)
-
-    expect(mockFetch).toHaveBeenCalledTimes(1)
+    await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(1))
     expect(mockFetch).toHaveBeenCalledWith(`${networkConfig.verifyPhoneNumberUrl}`, {
       method: 'POST',
       headers: {
@@ -92,9 +91,7 @@ describe('VerificationCodeInputScreen', () => {
     mockFetch.mockResponseOnce(JSON.stringify({ message: 'something went wrong' }), { status: 500 })
     renderComponent()
 
-    await act(flushMicrotasksQueue)
-
-    expect(mockFetch).toHaveBeenCalledTimes(1)
+    await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(1))
     expect(store.getActions()).toEqual(
       expect.arrayContaining([showError(ErrorMessages.PHONE_NUMBER_VERIFICATION_FAILURE)])
     )
@@ -110,13 +107,11 @@ describe('VerificationCodeInputScreen', () => {
 
     const { getByTestId } = renderComponent()
 
-    await act(async () => {
-      await flushMicrotasksQueue()
+    act(() => {
       fireEvent.changeText(getByTestId('PhoneVerificationCode'), '123456')
-      await flushMicrotasksQueue()
     })
 
-    expect(mockFetch).toHaveBeenCalledTimes(2)
+    await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(2))
     expect(mockFetch).toHaveBeenNthCalledWith(2, `${networkConfig.verifySmsCodeUrl}`, {
       method: 'POST',
       headers: {
@@ -131,6 +126,38 @@ describe('VerificationCodeInputScreen', () => {
     expect(navigate).toHaveBeenCalledWith(Screens.OnboardingSuccessScreen)
   })
 
+  it('waits for the verificationId to be captured before verifying sms', async () => {
+    mockFetch.mockImplementation(async (url?: string | Request) => {
+      if (url === networkConfig.verifyPhoneNumberUrl) {
+        await sleep(1000) // some arbitrary network delay
+        return new Response(JSON.stringify({ data: { verificationId: 'someId' } }))
+      }
+      return new Response(JSON.stringify({ message: 'OK' }))
+    })
+
+    const { getByTestId } = renderComponent()
+
+    act(async () => {
+      // enter the verification code before the verifyPhoneNumber fetch has resolved
+      fireEvent.changeText(getByTestId('PhoneVerificationCode'), '123456')
+      // handle the verification code, and then increment the timer to resolve
+      // the network delay
+      await flushMicrotasksQueue()
+      jest.runOnlyPendingTimers()
+    })
+
+    await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(2))
+    expect(mockFetch).toHaveBeenNthCalledWith(2, `${networkConfig.verifySmsCodeUrl}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: 'Valora 0xabc:someSignedMessage',
+      },
+      body: '{"phoneNumber":"+31619123456","verificationId":"someId","smsCode":"123456","clientPlatform":"android","clientVersion":"0.0.1"}',
+    })
+    expect(getByTestId('PhoneVerificationCode/CheckIcon')).toBeTruthy()
+  })
+
   it('reads the SMS code on Android automatically', async () => {
     mockFetch.mockResponseOnce(JSON.stringify({ data: { verificationId: 'someId' } }), {
       status: 200,
@@ -141,23 +168,18 @@ describe('VerificationCodeInputScreen', () => {
 
     const { getByTestId, getByText } = renderComponent()
 
-    await act(async () => {
-      await flushMicrotasksQueue()
-    })
-
     // Check that the SmsRetriever is started
-    expect(mockedSmsRetriever.startSmsRetriever).toHaveBeenCalledTimes(1)
+    await waitFor(() => expect(mockedSmsRetriever.startSmsRetriever).toHaveBeenCalledTimes(1))
     expect(mockedSmsRetriever.addSmsListener).toHaveBeenCalledTimes(1)
 
     const smsListener = mockedSmsRetriever.addSmsListener.mock.calls[0][0]
 
-    await act(async () => {
+    act(() => {
       // Simulate the SMS code being received
       smsListener({ message: 'Your verification code for Valora is: 123456 5yaJvJcZt2P' })
-      await flushMicrotasksQueue()
     })
 
-    expect(mockFetch).toHaveBeenCalledTimes(2)
+    await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(2))
     expect(mockFetch).toHaveBeenNthCalledWith(2, `${networkConfig.verifySmsCodeUrl}`, {
       method: 'POST',
       headers: {
@@ -180,9 +202,7 @@ describe('VerificationCodeInputScreen', () => {
 
     renderComponent()
 
-    await act(flushMicrotasksQueue)
-
-    expect(mockFetch).toHaveBeenCalledTimes(1)
+    await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(1))
     expect(mockFetch).toHaveBeenCalledWith(`${networkConfig.verifyPhoneNumberUrl}`, {
       method: 'POST',
       headers: {
@@ -193,7 +213,7 @@ describe('VerificationCodeInputScreen', () => {
     })
 
     jest.runOnlyPendingTimers()
-    expect(navigate).toHaveBeenCalledWith(Screens.OnboardingSuccessScreen)
+    await waitFor(() => expect(navigate).toHaveBeenCalledWith(Screens.OnboardingSuccessScreen))
   })
 
   it('shows error in verifying sms code', async () => {
@@ -204,13 +224,11 @@ describe('VerificationCodeInputScreen', () => {
 
     const { getByTestId } = renderComponent()
 
-    await act(async () => {
-      await flushMicrotasksQueue()
+    act(() => {
       fireEvent.changeText(getByTestId('PhoneVerificationCode'), '123456')
-      await flushMicrotasksQueue()
     })
 
-    expect(mockFetch).toHaveBeenCalledTimes(2)
+    await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(2))
     expect(mockFetch).toHaveBeenNthCalledWith(2, `${networkConfig.verifySmsCodeUrl}`, {
       method: 'POST',
       headers: {
@@ -233,19 +251,15 @@ describe('VerificationCodeInputScreen', () => {
     MockDate.set(dateNow)
     const { getByTestId } = renderComponent()
 
-    await act(async () => {
-      await act(flushMicrotasksQueue)
+    act(() => {
       MockDate.set(dateNow + 30000) // 30 seconds, matching default resend delay time in ResendButtonWithDelay component
       jest.advanceTimersByTime(1000) // 1 second, to update the timer
     })
 
-    expect(mockFetch).toHaveBeenCalledTimes(1)
-
+    await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(1))
     fireEvent.press(getByTestId('PhoneVerificationResendSmsBtn'))
+    await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(2))
 
-    await act(flushMicrotasksQueue)
-
-    expect(mockFetch).toHaveBeenCalledTimes(2)
     expect(mockFetch).toHaveBeenNthCalledWith(2, `${networkConfig.verifyPhoneNumberUrl}`, {
       method: 'POST',
       headers: {
@@ -254,14 +268,13 @@ describe('VerificationCodeInputScreen', () => {
       },
       body: `{"phoneNumber":"${e164Number}","clientPlatform":"android","clientVersion":"0.0.1","clientBundleId":"org.celo.mobile.debug","publicDataEncryptionKey":"somePublicKey","inviterAddress":"0xabc"}`,
     })
-
     expect(getByTestId('PhoneVerificationResendSmsBtn')).toBeDisabled()
   })
 
   it('shows the help dialog', async () => {
     const { getByTestId, getByText } = renderComponent()
 
-    await act(() => {
+    act(() => {
       fireEvent.press(getByText('phoneVerificationInput.help'))
     })
 
@@ -270,10 +283,10 @@ describe('VerificationCodeInputScreen', () => {
     expect(within(HelpDialog).getByText('phoneVerificationInput.helpDialog.title')).toBeTruthy()
     expect(within(HelpDialog).getByText('phoneVerificationInput.helpDialog.body')).toBeTruthy()
 
-    await act(() => {
+    act(() => {
       fireEvent.press(getByText('phoneVerificationInput.helpDialog.skip'))
     })
 
-    expect(navigateHome).toHaveBeenCalledTimes(1)
+    await waitFor(() => expect(navigateHome).toHaveBeenCalledTimes(1))
   })
 })

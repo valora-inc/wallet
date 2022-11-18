@@ -3,7 +3,7 @@
 
 import { parseInputAmount } from '@celo/utils/lib/parsing'
 import { RouteProp } from '@react-navigation/native'
-import { StackScreenProps } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -35,7 +35,7 @@ import variables from 'src/styles/variables'
 import { Currency } from 'src/utils/currencies'
 import { divideByWei } from 'src/utils/formatting'
 
-type Props = StackScreenProps<StackParamList, Screens.WithdrawCeloScreen>
+type Props = NativeStackScreenProps<StackParamList, Screens.WithdrawCeloScreen>
 
 const { decimalSeparator } = getNumberFormatSettings()
 const RANDOM_ADDRESS = '0xDCE9762d6C1fe89FF4f3857832131Ca18eE15C66'

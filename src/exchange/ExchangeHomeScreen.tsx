@@ -1,4 +1,3 @@
-import { StackScreenProps } from '@react-navigation/stack'
 import BigNumber from 'bignumber.js'
 import React, { useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -26,7 +25,6 @@ import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { isAppSwapsEnabledSelector } from 'src/navigator/selectors'
-import { StackParamList } from 'src/navigator/types'
 import { default as useSelector } from 'src/redux/useSelector'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import colors from 'src/styles/colors'
@@ -38,14 +36,12 @@ import { useCountryFeatures } from 'src/utils/countryFeatures'
 import { goldToDollarAmount } from 'src/utils/currencyExchange'
 import { getLocalCurrencyDisplayValue } from 'src/utils/formatting'
 
-type Props = StackScreenProps<StackParamList, Screens.ExchangeHomeScreen>
-
 function navigateToGuide() {
   ValoraAnalytics.track(CeloExchangeEvents.celo_home_info)
   navigate(Screens.GoldEducation)
 }
 
-function ExchangeHomeScreen({ navigation }: Props) {
+function ExchangeHomeScreen() {
   function dollarsToLocal(amount: BigNumber.Value) {
     return convertDollarsToLocalAmount(amount, localCurrencyCode ? localExchangeRate : 1)
   }
@@ -56,7 +52,7 @@ function ExchangeHomeScreen({ navigation }: Props) {
 
   function goToWithdrawCelo() {
     ValoraAnalytics.track(CeloExchangeEvents.celo_home_withdraw)
-    navigation.navigate(Screens.WithdrawCeloScreen, { isCashOut: false })
+    navigate(Screens.WithdrawCeloScreen, { isCashOut: false })
   }
 
   const scrollPosition = useRef(new Animated.Value(0)).current
@@ -176,7 +172,7 @@ function ExchangeHomeScreen({ navigation }: Props) {
             (RESTRICTED_CP_DOTO ? (
               <RestrictedCeloExchange onPressWithdraw={goToWithdrawCelo} />
             ) : (
-              <CeloExchangeButtons navigation={navigation} />
+              <CeloExchangeButtons />
             ))}
           <ItemSeparator />
           <CeloGoldOverview testID="ExchangeAccountOverview" />

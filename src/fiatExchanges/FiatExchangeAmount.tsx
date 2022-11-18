@@ -1,6 +1,6 @@
 import { parseInputAmount } from '@celo/utils/lib/parsing'
-import { RouteProp } from '@react-navigation/core'
-import { StackScreenProps } from '@react-navigation/stack'
+import { RouteProp } from '@react-navigation/native'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import React, { useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
@@ -57,7 +57,7 @@ const TAG = 'FiatExchangeAmount'
 
 const { decimalSeparator } = getNumberFormatSettings()
 
-type RouteProps = StackScreenProps<StackParamList, Screens.FiatExchangeAmount>
+type RouteProps = NativeStackScreenProps<StackParamList, Screens.FiatExchangeAmount>
 
 type Props = RouteProps
 
