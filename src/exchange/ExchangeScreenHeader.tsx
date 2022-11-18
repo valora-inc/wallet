@@ -76,7 +76,10 @@ function ExchangeTradeScreenHeader({ currency, isCeloPurchase, onChangeCurrency 
 
   return (
     <>
-      <CustomHeader left={<BackButton eventName={cancelEventName} />} title={title} />
+      <CustomHeader
+        left={<BackButton style={{ paddingLeft: 8 }} eventName={cancelEventName} />}
+        title={title}
+      />
       <TokenBottomSheetLegacy
         isVisible={showingTokenPicker}
         origin={TokenPickerOrigin.Exchange}

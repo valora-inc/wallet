@@ -3,7 +3,7 @@ import {
   MaterialTopTabBarProps,
 } from '@react-navigation/material-top-tabs'
 import { useIsFocused } from '@react-navigation/native'
-import { StackScreenProps, TransitionPresets } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
@@ -27,7 +27,7 @@ const Tab = createMaterialTopTabNavigator()
 const width = Dimensions.get('window').width
 const initialLayout = { width }
 
-type AnimatedScannerSceneProps = StackScreenProps<QRTabParamList, Screens.QRScanner> & {
+type AnimatedScannerSceneProps = NativeStackScreenProps<QRTabParamList, Screens.QRScanner> & {
   position: Animated.Value<number>
 }
 
@@ -125,7 +125,7 @@ function AnimatedScannerScene({ route, position, ...props }: AnimatedScannerScen
 
 // Use ScrollPager on iOS as it gives a better native feeling
 const pager: ExtractProps<typeof Tab.Navigator>['pager'] =
-  Platform.OS === 'ios' ? (props) => <ScrollPager {...props} /> : undefined
+  Platform.OS === 'ios' ? (props: any) => <ScrollPager {...props} /> : undefined
 
 export default function QRNavigator() {
   const position = useRef(new Animated.Value(0)).current
@@ -157,7 +157,9 @@ export default function QRNavigator() {
 
 QRNavigator.navigationOptions = {
   ...noHeader,
-  ...TransitionPresets.ModalTransition,
+  ...Platform.select({
+    ios: { animation: 'slide_from_bottom' },
+  }),
 }
 
 const styles = StyleSheet.create({

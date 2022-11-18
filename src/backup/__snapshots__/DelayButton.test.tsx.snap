@@ -34,7 +34,6 @@ exports[`DelayButton renders button with text when backup not completed and not 
         "fontFamily": "Inter-Regular",
         "fontSize": 16,
         "lineHeight": 22,
-        "paddingHorizontal": 24,
       }
     }
   >

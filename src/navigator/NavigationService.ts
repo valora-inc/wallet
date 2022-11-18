@@ -1,8 +1,10 @@
 // (https://github.com/react-navigation/react-navigation/issues/1439)
-
-import { NavigationActions } from '@react-navigation/compat'
-import { CommonActions, StackActions } from '@react-navigation/core'
-import { NavigationContainerRef, NavigationState } from '@react-navigation/native'
+import {
+  CommonActions,
+  createNavigationContainerRef,
+  NavigationState,
+  StackActions,
+} from '@react-navigation/native'
 import { createRef, MutableRefObject } from 'react'
 import sleep from 'sleep-promise'
 import { PincodeType } from 'src/account/reducer'
@@ -26,7 +28,7 @@ const NAVIGATOR_INIT_RETRIES = 10
 
 type SafeNavigate = typeof navigate
 
-export const navigationRef = createRef<NavigationContainerRef>()
+export const navigationRef = createNavigationContainerRef()
 export const navigatorIsReadyRef: MutableRefObject<boolean | null> = createRef()
 navigatorIsReadyRef.current = false
 
@@ -43,6 +45,23 @@ async function ensureNavigator() {
     ValoraAnalytics.track(NavigationEvents.navigator_not_ready)
     throw new Error('navigator is not initialized')
   }
+}
+
+export const popToScreen: SafeNavigate = (...args) => {
+  const [routeName] = args
+  ensureNavigator()
+    .then(() => {
+      Logger.debug(`${TAG}@popToScreen`, `Dispatch ${routeName}`)
+      while (
+        navigationRef.current?.canGoBack() &&
+        navigationRef.current?.getCurrentRoute()?.name !== routeName
+      ) {
+        navigationRef.current?.dispatch(StackActions.pop())
+      }
+    })
+    .catch((reason) => {
+      Logger.error(`${TAG}@popToScreen`, 'Navigation failure', reason)
+    })
 }
 
 export const replace: SafeNavigate = (...args) => {
@@ -80,8 +99,8 @@ export function navigate<RouteName extends keyof StackParamList>(
     .then(() => {
       Logger.debug(`${TAG}@navigate`, `Dispatch ${routeName}`)
       navigationRef.current?.dispatch(
-        NavigationActions.navigate({
-          routeName,
+        CommonActions.navigate({
+          name: routeName,
           params,
         })
       )
@@ -161,12 +180,11 @@ export function navigateToExchangeHome() {
   }
 }
 
-export function navigateBack(params?: object) {
+export function navigateBack() {
   ensureNavigator()
     .then(() => {
       Logger.debug(`${TAG}@navigateBack`, `Dispatch navigate back`)
-      // @ts-ignore
-      navigationRef.current?.dispatch(NavigationActions.back(params))
+      navigationRef.current?.dispatch(CommonActions.goBack())
     })
     .catch((reason) => {
       Logger.error(`${TAG}@navigateBack`, 'Navigation failure', reason)
@@ -199,7 +217,7 @@ export async function isScreenOnForeground(screen: Screens) {
 export async function isBottomSheetVisible(screen: Screens) {
   await ensureNavigator()
   const state = navigationRef.current?.getRootState()
-  return !!state?.routes.find((route) => route.name === screen)
+  return !!state?.routes.find((route: any) => route.name === screen)
 }
 
 interface NavigateHomeOptions {

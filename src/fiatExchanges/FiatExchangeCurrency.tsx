@@ -1,5 +1,5 @@
-import { RouteProp } from '@react-navigation/core'
-import { StackScreenProps } from '@react-navigation/stack'
+import { RouteProp } from '@react-navigation/native'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SafeAreaView, ScrollView, StyleSheet, Text, View, ViewStyle } from 'react-native'
@@ -20,7 +20,7 @@ import variables from 'src/styles/variables'
 import { Currency } from 'src/utils/currencies'
 import { CICOFlow, FiatExchangeFlow } from './utils'
 
-type Props = StackScreenProps<StackParamList, Screens.FiatExchangeCurrency>
+type Props = NativeStackScreenProps<StackParamList, Screens.FiatExchangeCurrency>
 
 export const fiatExchangesOptionsScreenOptions = ({
   route,

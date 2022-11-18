@@ -11,14 +11,19 @@ exports[`SendConfirmation renders correctly 1`] = `
 >
   <View
     style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "height": 56,
-        "justifyContent": "space-between",
-        "overflow": "hidden",
-        "width": "100%",
-      }
+      Array [
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "height": 56,
+          "justifyContent": "space-between",
+          "overflow": "hidden",
+          "width": "100%",
+        },
+        Object {
+          "paddingHorizontal": 8,
+        },
+      ]
     }
   >
     <View
@@ -32,11 +37,13 @@ exports[`SendConfirmation renders correctly 1`] = `
     >
       <View
         style={
-          Object {
-            "alignItems": "center",
-            "justifyContent": "center",
-            "paddingLeft": 22,
-          }
+          Array [
+            Object {
+              "alignItems": "center",
+              "justifyContent": "center",
+            },
+            undefined,
+          ]
         }
       >
         <View

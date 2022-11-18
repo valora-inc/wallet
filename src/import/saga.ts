@@ -37,7 +37,7 @@ import {
   importBackupPhraseFailure,
   importBackupPhraseSuccess,
 } from 'src/import/actions'
-import { navigate, navigateClearingStack, navigateHome } from 'src/navigator/NavigationService'
+import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { fetchTokenBalanceInWeiWithRetry } from 'src/tokens/saga'
 import { Currency } from 'src/utils/currencies'
@@ -166,9 +166,11 @@ export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackup
     const skipVerification = yield select(skipVerificationSelector)
     if (skipVerification || numberAlreadyVerifiedCentrally) {
       yield put(setHasSeenVerificationNux(true))
+      // navigateHome will clear onboarding Stack
       navigateHome()
     } else {
-      navigateClearingStack(Screens.VerificationEducationScreen)
+      // DO NOT CLEAR NAVIGATION STACK HERE - breaks restore flow on initial app open in native-stack v6
+      navigate(Screens.VerificationEducationScreen)
     }
 
     yield put(importBackupPhraseSuccess())
