@@ -1354,7 +1354,8 @@
     "cashIn": {
       "header": "Analizuj – Dodaj środki",
       "button": "Dodaj środki",
-      "transactionDetailsAmount": "Cena całkowita",
+      "transactionDetailsAmount": "Total Deposit",
+      "transactionDetailsAmountConverted": "Amount Deposited",
       "paymentMethodHeader": "Wpłata z"
     },
     "cashOut": {
