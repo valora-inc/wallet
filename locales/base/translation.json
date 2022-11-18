@@ -1353,7 +1353,7 @@
       "header": "Review Add Funds",
       "button": "Add Funds",
       "transactionDetailsAmount": "Total Deposit",
-      "transactionDetailsAmountConverted": "Amount Depoisited",
+      "transactionDetailsAmountConverted": "Amount Deposited",
       "paymentMethodHeader": "Deposit From"
     },
     "cashOut": {
