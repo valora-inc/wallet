@@ -1,6 +1,5 @@
 // VIEW which contains buy and sell buttons for CELO.
 
-import { StackNavigationProp } from '@react-navigation/stack'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
@@ -10,16 +9,12 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { CELO_TRANSACTION_MIN_AMOUNT, STABLE_TRANSACTION_MIN_AMOUNT } from 'src/config'
 import { exchangeRatesSelector } from 'src/exchange/reducer'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { StackParamList } from 'src/navigator/types'
 import { balancesSelector } from 'src/stableToken/selectors'
 import { Currency, STABLE_CURRENCIES } from 'src/utils/currencies'
 
-interface Props {
-  navigation: StackNavigationProp<StackParamList, Screens.ExchangeHomeScreen>
-}
-
-export default function CeloExchangeButtons({ navigation }: Props) {
+export default function CeloExchangeButtons() {
   const { t } = useTranslation()
 
   const balances = useSelector(balancesSelector)
@@ -32,14 +27,14 @@ export default function CeloExchangeButtons({ navigation }: Props) {
 
   function goToBuyCelo() {
     ValoraAnalytics.track(CeloExchangeEvents.celo_home_buy)
-    navigation.navigate(Screens.ExchangeTradeScreen, {
+    navigate(Screens.ExchangeTradeScreen, {
       buyCelo: true,
     })
   }
 
   function goToBuyStableToken() {
     ValoraAnalytics.track(CeloExchangeEvents.celo_home_sell)
-    navigation.navigate(Screens.ExchangeTradeScreen, {
+    navigate(Screens.ExchangeTradeScreen, {
       buyCelo: false,
     })
   }

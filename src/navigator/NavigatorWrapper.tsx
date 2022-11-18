@@ -74,7 +74,6 @@ export const NavigatorWrapper = () => {
 
   const dispatch = useDispatch()
 
-  // @ts-ignore using a v6 navigation plugin with v5 types
   useFlipper(navigationRef)
 
   const updateRequired = React.useMemo(() => {

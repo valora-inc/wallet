@@ -1,4 +1,4 @@
-import { StackScreenProps } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { SafeAreaView, ScrollView, StyleSheet, Text } from 'react-native'
@@ -11,7 +11,7 @@ import { StackParamList } from 'src/navigator/types'
 import { getDisplayName, recipientHasNumber } from 'src/recipients/recipient'
 import fontStyles from 'src/styles/fonts'
 
-type RouteProps = StackScreenProps<StackParamList, Screens.PaymentRequestUnavailable>
+type RouteProps = NativeStackScreenProps<StackParamList, Screens.PaymentRequestUnavailable>
 type Props = RouteProps
 
 const navigateHome = () => navigate(Screens.WalletHome)

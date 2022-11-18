@@ -1,8 +1,8 @@
-import { StackScreenProps } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, Text, View } from 'react-native'
+import { Platform, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { showError } from 'src/alert/actions'
@@ -10,12 +10,13 @@ import { FeeEvents, SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { TokenTransactionType } from 'src/apollo/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import BackButton from 'src/components/BackButton'
 import CommentTextInput from 'src/components/CommentTextInput'
 import ContactCircle from 'src/components/ContactCircle'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import Dialog from 'src/components/Dialog'
 import FeeDrawer from 'src/components/FeeDrawer'
-import HeaderWithBackButton from 'src/components/header/HeaderWithBackButton'
+import CustomHeader from 'src/components/header/CustomHeader'
 import ReviewFrame from 'src/components/ReviewFrame'
 import ShortenedAddress from 'src/components/ShortenedAddress'
 import TextButton from 'src/components/TextButton'
@@ -83,7 +84,7 @@ export interface CurrencyInfo {
   localExchangeRate: string | null
 }
 
-type OwnProps = StackScreenProps<
+type OwnProps = NativeStackScreenProps<
   StackParamList,
   Screens.SendConfirmationLegacy | Screens.SendConfirmationLegacyModal
 >
@@ -383,9 +384,17 @@ function SendConfirmationLegacy(props: Props) {
     return (
       <SafeAreaView
         style={styles.container}
-        edges={props.route.name === Screens.SendConfirmationLegacyModal ? ['bottom'] : undefined}
+        // No modal display on android so we set edges to undefined
+        edges={
+          props.route.name === Screens.SendConfirmationLegacyModal && Platform.OS === 'ios'
+            ? ['bottom']
+            : undefined
+        }
       >
-        <HeaderWithBackButton eventName={SendEvents.send_confirm_back} />
+        <CustomHeader
+          style={{ paddingHorizontal: 8 }}
+          left={<BackButton eventName={SendEvents.send_confirm_back} />}
+        />
         <DisconnectBanner />
         <ReviewFrame
           FooterComponent={FeeContainer}

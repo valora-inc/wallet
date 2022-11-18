@@ -1,4 +1,4 @@
-import { StackScreenProps } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
@@ -40,7 +40,7 @@ export interface ExternalExchangeProvider {
   supportedRegions?: string[]
 }
 
-type Props = StackScreenProps<StackParamList, Screens.ExternalExchanges>
+type Props = NativeStackScreenProps<StackParamList, Screens.ExternalExchanges>
 
 function ExternalExchanges({ route }: Props) {
   const { t } = useTranslation()

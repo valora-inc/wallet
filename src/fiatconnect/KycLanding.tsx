@@ -1,6 +1,6 @@
 import { TouchableOpacity } from '@gorhom/bottom-sheet'
 import { RouteProp } from '@react-navigation/native'
-import { StackScreenProps } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useCallback, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import {
@@ -43,7 +43,9 @@ export interface Props {
   personaKycStatus?: KycStatus
 }
 
-export default function KycLanding(props: StackScreenProps<StackParamList, Screens.KycLanding>) {
+export default function KycLanding(
+  props: NativeStackScreenProps<StackParamList, Screens.KycLanding>
+) {
   const { quote, flow, step, personaKycStatus } = props.route.params
   const personaInProgress = useSelector(personaInProgressSelector)
 

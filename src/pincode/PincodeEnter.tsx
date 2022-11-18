@@ -2,15 +2,16 @@
  * This is a react navigation SCREEN to which we navigate,
  * when we need to fetch a PIN from a user.
  */
-import { StackScreenProps } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet } from 'react-native'
+import { Platform, StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { AuthenticationEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { headerWithBackButton } from 'src/navigator/Headers'
+import { navigateBack } from 'src/navigator/NavigationService'
 import { modalScreenOptions } from 'src/navigator/Navigator'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -21,7 +22,7 @@ import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import { currentAccountSelector } from 'src/web3/selectors'
 
-type Props = StackScreenProps<StackParamList, Screens.PincodeEnter>
+type Props = NativeStackScreenProps<StackParamList, Screens.PincodeEnter>
 
 export const PincodeEnter = ({ route }: Props) => {
   const { t } = useTranslation()
@@ -51,6 +52,11 @@ export const PincodeEnter = ({ route }: Props) => {
     const onSuccess = route.params.onSuccess
     if (onSuccess) {
       ValoraAnalytics.track(AuthenticationEvents.get_pincode_with_input_complete)
+      if (Platform.OS === 'ios') {
+        // On iOS with native-stack, we have to dismiss the modal first
+        // as navigating to another screen will not dismiss it
+        navigateBack()
+      }
       onSuccess(pin)
       SentryTransactionHub.finishTransaction(SentryTransaction.pincode_enter)
     }

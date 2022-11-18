@@ -1,5 +1,5 @@
 import { parseInputAmount } from '@celo/utils/lib/parsing'
-import { StackScreenProps } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { useEffect, useState } from 'react'
@@ -55,7 +55,7 @@ export enum InputToken {
   LocalCurrency = 'LocalCurrency',
 }
 
-type Props = StackScreenProps<StackParamList, Screens.ExchangeTradeScreen>
+type Props = NativeStackScreenProps<StackParamList, Screens.ExchangeTradeScreen>
 
 export default function ExchangeTradeScreen({ route }: Props) {
   const { t } = useTranslation()

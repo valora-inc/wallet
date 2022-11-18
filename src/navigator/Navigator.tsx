@@ -1,6 +1,9 @@
 import { BottomSheetBackdrop, BottomSheetBackdropProps } from '@gorhom/bottom-sheet'
-import { RouteProp } from '@react-navigation/core'
-import { createStackNavigator, TransitionPresets } from '@react-navigation/stack'
+import { RouteProp } from '@react-navigation/native'
+import {
+  createNativeStackNavigator,
+  NativeStackNavigationOptions,
+} from '@react-navigation/native-stack'
 import { createBottomSheetNavigator } from '@th3rdwave/react-navigation-bottom-sheet'
 import * as React from 'react'
 import { PixelRatio, Platform } from 'react-native'
@@ -42,6 +45,7 @@ import KycExpired from 'src/fiatconnect/kyc/KycExpired'
 import KycPending from 'src/fiatconnect/kyc/KycPending'
 import KycLanding from 'src/fiatconnect/KycLanding'
 import FiatConnectLinkAccountScreen from 'src/fiatconnect/LinkAccountScreen'
+import FiatConnectRefetchQuoteScreen from 'src/fiatconnect/RefetchQuoteScreen'
 import FiatConnectReviewScreen from 'src/fiatconnect/ReviewScreen'
 import FiatConnectTransferStatusScreen from 'src/fiatconnect/TransferStatusScreen'
 import BidaliScreen from 'src/fiatExchanges/BidaliScreen'
@@ -125,22 +129,18 @@ import VerificationLoadingScreen from 'src/verify/VerificationLoadingScreen'
 import WalletConnectSessionsScreen from 'src/walletConnect/screens/Sessions'
 import WalletConnectRequest from 'src/walletConnect/screens/WalletConnectRequest'
 import WebViewScreen from 'src/webview/WebViewScreen'
-import FiatConnectRefetchQuoteScreen from 'src/fiatconnect/RefetchQuoteScreen'
 
 const TAG = 'Navigator'
 
-const Stack = createStackNavigator<StackParamList>()
-const ModalStack = createStackNavigator<StackParamList>()
+const Stack = createNativeStackNavigator<StackParamList>()
+const ModalStack = createNativeStackNavigator<StackParamList>()
 const RootStack = createBottomSheetNavigator<StackParamList>()
 
 export const modalScreenOptions = () =>
   Platform.select({
     // iOS 13 modal presentation
     ios: {
-      gestureEnabled: true,
-      cardOverlayEnabled: true,
-      headerStatusBarHeight: 0,
-      ...TransitionPresets.ModalPresentationIOS,
+      presentation: 'modal',
     },
   })
 
@@ -199,6 +199,7 @@ const verificationScreens = (Navigator: typeof Stack) => {
       <Navigator.Screen
         name={Screens.VerificationCodeInputScreen}
         component={VerificationCodeInputScreen}
+        options={VerificationCodeInputScreen.navigationOptions}
       />
     </>
   )
@@ -246,7 +247,11 @@ const nuxScreens = (Navigator: typeof Stack) => (
 
 const sendScreens = (Navigator: typeof Stack) => (
   <>
-    <Navigator.Screen name={Screens.Send} component={Send} options={Send.navigationOptions} />
+    <Navigator.Screen
+      name={Screens.Send}
+      component={Send}
+      options={Send.navigationOptions as NativeStackNavigationOptions}
+    />
     <Navigator.Screen
       name={Screens.SendAmount}
       component={SendAmount}
@@ -255,12 +260,12 @@ const sendScreens = (Navigator: typeof Stack) => (
     <Navigator.Screen
       name={Screens.SendConfirmation}
       component={SendConfirmation}
-      options={sendConfirmationScreenNavOptions}
+      options={sendConfirmationScreenNavOptions as NativeStackNavigationOptions}
     />
     <Navigator.Screen
       name={Screens.SendConfirmationLegacy}
       component={SendConfirmationLegacy}
-      options={sendConfirmationLegacyScreenNavOptions}
+      options={sendConfirmationLegacyScreenNavOptions as NativeStackNavigationOptions}
     />
     <Navigator.Screen
       name={Screens.ValidateRecipientIntro}
@@ -289,11 +294,13 @@ const sendScreens = (Navigator: typeof Stack) => (
     />
     <Navigator.Screen
       name={Screens.IncomingPaymentRequestListScreen}
+      // @ts-expect-error component type in native-stack v6
       component={IncomingPaymentRequestListScreen}
       options={headerWithBackButton}
     />
     <Navigator.Screen
       name={Screens.OutgoingPaymentRequestListScreen}
+      // @ts-expect-error component type in native-stack v6
       component={OutgoingPaymentRequestListScreen}
       options={headerWithBackButton}
     />
@@ -343,7 +350,6 @@ const exchangeReviewScreenOptions = ({
         />
       ) : (
         <CancelButton
-          style={{ paddingHorizontal: 0 }}
           buttonType={'text'}
           onCancel={navigateToExchangeHome}
           eventName={cancelEventName}
@@ -438,7 +444,7 @@ const settingsScreens = (Navigator: typeof Stack) => (
     <Navigator.Screen
       name={Screens.Language}
       component={Language}
-      options={Language.navigationOptions(false)}
+      options={Language.navigationOptions()}
     />
     <Navigator.Screen
       name={Screens.SelectLocalCurrency}
@@ -518,6 +524,7 @@ const settingsScreens = (Navigator: typeof Stack) => (
     />
     <Navigator.Screen
       name={Screens.CoinbasePayScreen}
+      // @ts-expect-error component type in native-stack v6
       component={CoinbasePayScreen}
       options={emptyHeader}
     />
@@ -662,47 +669,48 @@ const modalAnimatedScreens = (Navigator: typeof Stack) => (
     <Navigator.Screen
       name={Screens.PincodeEnter}
       component={PincodeEnter}
-      options={PincodeEnter.navigationOptions}
+      options={PincodeEnter.navigationOptions as NativeStackNavigationOptions}
     />
     <Navigator.Screen
       name={Screens.QRNavigator}
       component={QRNavigator}
-      options={QRNavigator.navigationOptions}
+      options={QRNavigator.navigationOptions as NativeStackNavigationOptions}
     />
     <Navigator.Screen
       name={Screens.RegulatoryTerms}
+      // @ts-expect-error component type in native-stack v6
       component={RegulatoryTerms}
-      options={RegulatoryTerms.navigationOptions}
+      options={RegulatoryTerms.navigationOptions as NativeStackNavigationOptions}
     />
     <Navigator.Screen
       name={Screens.GoldEducation}
       component={GoldEducation}
-      options={GoldEducation.navigationOptions}
+      options={GoldEducation.navigationOptions as NativeStackNavigationOptions}
     />
     <Navigator.Screen
       name={Screens.AccountKeyEducation}
       component={AccountKeyEducation}
-      options={AccountKeyEducation.navigationOptions}
+      options={AccountKeyEducation.navigationOptions as NativeStackNavigationOptions}
     />
     <Navigator.Screen
       name={Screens.LanguageModal}
       component={Language}
-      options={Language.navigationOptions(true)}
+      options={Language.navigationOptions() as NativeStackNavigationOptions}
     />
     <Navigator.Screen
       name={Screens.SelectCountry}
       component={SelectCountry}
-      options={SelectCountry.navigationOptions}
+      options={SelectCountry.navigationOptions as NativeStackNavigationOptions}
     />
     <Navigator.Screen
       name={Screens.SendConfirmationModal}
       component={SendConfirmation}
-      options={sendConfirmationScreenNavOptions}
+      options={sendConfirmationScreenNavOptions as NativeStackNavigationOptions}
     />
     <Navigator.Screen
       name={Screens.SendConfirmationLegacyModal}
       component={SendConfirmationLegacy}
-      options={sendConfirmationLegacyScreenNavOptions}
+      options={sendConfirmationLegacyScreenNavOptions as NativeStackNavigationOptions}
     />
   </>
 )
@@ -736,11 +744,11 @@ function nativeBottomSheets(BottomSheet: typeof RootStack) {
 
 function ModalStackScreen() {
   return (
-    <ModalStack.Navigator mode="modal">
+    <ModalStack.Navigator>
       <ModalStack.Screen
         name={Screens.Main}
         component={MainStackScreen}
-        options={mainScreenNavOptions}
+        options={mainScreenNavOptions as NativeStackNavigationOptions}
       />
       {modalAnimatedScreens(ModalStack)}
     </ModalStack.Navigator>

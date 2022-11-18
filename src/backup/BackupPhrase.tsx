@@ -1,4 +1,4 @@
-import { StackScreenProps } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import * as React from 'react'
 import { useTranslation, WithTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
@@ -49,7 +49,7 @@ interface DispatchProps {
 type Props = StateProps &
   DispatchProps &
   WithTranslation &
-  StackScreenProps<StackParamList, Screens.BackupPhrase>
+  NativeStackScreenProps<StackParamList, Screens.BackupPhrase>
 
 const mapStateToProps = (state: RootState): StateProps => {
   return {
@@ -111,6 +111,7 @@ class BackupPhrase extends React.Component<Props, State> {
     return (
       <SafeAreaView style={styles.container}>
         <CustomHeader
+          style={{ paddingHorizontal: variables.contentPadding }}
           left={
             navigatedFromSettings ? (
               <CancelButton style={styles.cancelButton} />

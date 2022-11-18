@@ -34,6 +34,7 @@ export function useBackToWelcomeScreen({ backAnalyticsEvents }: Props) {
         // Find Welcome screen
         let routes = state.routes
         const index = routes.findIndex((r) => r.name === Screens.Welcome)
+        // @ts-expect-error hopefully we can remove this once we upgrade to react-navigation 6
         routes =
           index === -1
             ? // Welcome screen was not in the stack, add it before this screen
