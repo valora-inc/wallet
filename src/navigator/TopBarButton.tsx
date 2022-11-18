@@ -6,7 +6,6 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Touchable from 'src/components/Touchable'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
-import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 
 interface CommonProps {
@@ -80,6 +79,5 @@ const styles = StyleSheet.create({
   text: {
     ...fontStyles.regular,
     color: colors.greenUI,
-    paddingHorizontal: Spacing.Thick24,
   },
 })

@@ -10,7 +10,7 @@ import {
   KycSchema,
   TransferType,
 } from '@fiatconnect/fiatconnect-types'
-import { StackNavigationProp } from '@react-navigation/stack'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import { MinimalContact } from 'react-native-contacts'
 import { TokenTransactionType } from 'src/apollo/types'
@@ -246,7 +246,7 @@ export const mockRecipientWithPhoneNumber: MobileRecipient = {
   e164PhoneNumber: mockE164Number,
 }
 
-export const mockNavigation: StackNavigationProp<StackParamList, any> = {
+export const mockNavigation: NativeStackNavigationProp<StackParamList, any> = {
   navigate: jest.fn(),
   reset: jest.fn(),
   goBack: jest.fn(),
@@ -256,7 +256,7 @@ export const mockNavigation: StackNavigationProp<StackParamList, any> = {
   isFocused: jest.fn(),
   addListener: jest.fn(),
   removeListener: jest.fn(),
-} as unknown as StackNavigationProp<StackParamList, any>
+} as unknown as NativeStackNavigationProp<StackParamList, any>
 
 export const mockAddressToE164Number: AddressToE164NumberType = {
   [mockAccount]: mockE164Number,

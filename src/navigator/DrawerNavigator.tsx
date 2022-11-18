@@ -15,7 +15,6 @@ import {
   ParamListBase,
   useLinkBuilder,
 } from '@react-navigation/native'
-import { TransitionPresets } from '@react-navigation/stack'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
@@ -252,7 +251,6 @@ export default function DrawerNavigator() {
               options={{
                 title: t('celoGold'),
                 drawerIcon: Gold,
-                ...TransitionPresets.ModalTransition,
               }}
             />
           )}
@@ -277,6 +275,7 @@ export default function DrawerNavigator() {
       {(!backupCompleted || !shouldShowRecoveryPhraseInSettings) && (
         <Drawer.Screen
           name={Screens.BackupIntroduction}
+          // @ts-expect-error component type in native-stack v6
           component={BackupIntroduction}
           options={{ title: t('accountKey'), drawerIcon: AccountKey }}
           initialParams={{ showDrawerTopBar: true }}
@@ -309,7 +308,6 @@ export default function DrawerNavigator() {
               options={{
                 title: t('celoGold'),
                 drawerIcon: Gold,
-                ...TransitionPresets.ModalTransition,
               }}
             />
           )}

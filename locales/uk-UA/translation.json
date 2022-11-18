@@ -386,7 +386,7 @@
   "pinInputCanceled": "Потрібен PIN-код. Спробуйте ще раз.",
   "setPinFailed": "Не вдалося встановити PIN-код",
   "optIn": "Взяти участь у",
-  "invalidInvite": "Неправильний код запрошення",
+  "invalidInvite": "Невірний код запрошення",
   "inviteFriends": "Запросити друзів",
   "account": "Рахунок",
   "invalidAccount": "Неправильний рахунок",
@@ -560,7 +560,7 @@
   "transferDollarsToAccount": "Кошти переказані на ваш рахунок!",
   "inviteAnyone": "Легко надсилайте своїм друзям, додавши контакти",
   "inviteReceived": "Запрошення отримано",
-  "escrowPaymentNotificationTitle": "Запрошено {{mobile}}",
+  "escrowPaymentNotificationTitle": "Запросити до {{mobile}} не можна претендувати",
   "inviteDialog": {
     "title": "Запросити друга",
     "body": "З’єднуйтеся й діліться зі своїми друзями та сім'єю на Valora.",
@@ -570,7 +570,7 @@
   "inviteAndSendDialog": {
     "title": "Завершення запрошення {{name}} до Valora",
     "bodyWithRewards": "Щойно вони приєднаються та під’єднають номер телефону, разом із ними й ви отримаєте спеціальний випуск NFT. Натисніть нижче, щоб надіслати запрошення через SMS.",
-    "body": "Надішліть запрошення {{name}}, щоб приєднатися до {{appName}}. Як тільки вони приєднаються та під'єднають номер телефону, вони отримають ваш платіж.",
+    "body": "Поділитися повідомленням із {{name}} щоб приєднатися до {{appName}}. Як тільки вони приєднаються і підключать номер телефону, вони отримають ваш платіж.",
     "button": "Завершення запрошення"
   },
   "inviteRewardsBanner": {
@@ -1082,11 +1082,11 @@
   "maybeLater": "Можливо, пізніше",
   "balanceNeedUpdating": "Баланс потребує оновлення",
   "refreshBalances": "Оновити баланс",
-  "escrowedPaymentReminder": "Запрошення в очікуванні",
-  "escrowedPaymentReminderSummaryTitle": "{{count}} Запрошення в очікуванні",
-  "escrowedPaymentReminderSummaryDetails_exactly2Items": "<0></0> та <1></1> ще не прийняли своїх запрошень",
-  "escrowedPaymentReminderSummaryDetails_exactly3Items": "<0></0>, <1></1> та інший ще не прийняли своїх запрошень",
-  "escrowedPaymentReminderSummaryDetails_moreThan3Items": "<0></0>, <1></1> та інші ще не прийняли своїх запрошень",
+  "escrowedPaymentReminder": "Очікують запрошення",
+  "escrowedPaymentReminderSummaryTitle": "{{count}} Pending Onvites",
+  "escrowedPaymentReminderSummaryDetails_exactly2Items": "<0></0> та <1></1> не зможуть отримати запрошення",
+  "escrowedPaymentReminderSummaryDetails_exactly3Items": "<0></0>, <1></1> та інші не зможуть претендувати на їхні запрошення",
+  "escrowedPaymentReminderSummaryDetails_moreThan3Items": "<0></0>, <1></1> та інші не зможуть претендувати на їхні запрошення",
   "escrowedPaymentReminderSmsNoData": "Дружнє нагадування про те, що ви ще не обміняли свою {{currency}} в {{appName}}! Завантажте мобільний застосунок, щоб почати!",
   "testnetAlert": {
     "0": "{{testnet}}",
@@ -1294,6 +1294,7 @@
     "idRequired": "Потрібен ідентифікатор",
     "numDays": "1—3 дні",
     "oneHour": "Менш як 1 година",
+    "lessThan24Hours": "Менше 24 годин",
     "bestRate": "Найкращий тариф",
     "header": "Виберіть спосіб оплати"
   },
@@ -1376,20 +1377,24 @@
   },
   "fiatConnectStatusScreen": {
     "tryAgain": "Спробувати ще",
-    "withdraw": {
+    "cashOut": {
       "cancel": "Скасувати зняття",
-      "success": {
-        "header": "Успіх",
-        "title": "Ваші кошти вже пройшли!",
-        "description": "Ваш запит на транзакцію було відправлено; ваші кошти надійдуть через {{duration}}.",
-        "txDetails": "Переглянути на CeloExplorer",
-        "continue": "Продовжити"
-      }
+      "contactSupportPrefill": "Я не можу зняти свої кошти."
+    },
+    "cashIn": {
+      "cancel": "Скасувати додавання коштів",
+      "contactSupportPrefill": "Я не вмію додавати кошти до мого гаманця Valora."
+    },
+    "success": {
+      "header": "Успіх",
+      "title": "Ваші кошти вже пройшли!",
+      "description": "Ваш запит на транзакцію було відправлено; ваші кошти надійдуть через {{duration}}.",
+      "txDetails": "Переглянути на CeloExplorer",
+      "continue": "Продовжити"
     },
     "requestNotCompleted": {
       "title": "Неможливо завершити ваш запит.",
-      "description": "Ваші кошти не можуть бути переказані. Просимо спробувати ще раз або звернутися до нашої служби підтримки за допомогою.",
-      "contactSupportPrefill": "Я не можу зняти свої кошти."
+      "description": "Ваші кошти не можуть бути переказані. Просимо спробувати ще раз або звернутися до нашої служби підтримки за допомогою."
     }
   },
   "fiatExchangeFlow": {
@@ -1503,7 +1508,7 @@
     "shareMessage": "Привіт! Я хотів би відправити вам криптовалюту в гаманці {{appName}}. Щойно ви завантажите застосунок і під’єднаєте номер телефону, ми зможемо відправляти криптовалюту легко, як текст. Скористайтеся цим посиланням: {{link}}",
     "rewardsActive": {
       "title": "Якщо {{contactName}} підтвердить запрошення до {{appName}}, то ви обоє отримаєте NFT!",
-      "body": "Схоже, {{contactName}} не користується {{appName}}. Натомість надіслати платіж або запрошення можна за адресою гаманця, якщо вона вам відома. \n\n Коли завантажено гаманець і під’єднано номер телефону, ви обоє отримаєте ексклюзивний NFT."
+      "body": "Схоже, {{contactName}} не є на {{appName}}. Якщо ви знаєте його адресу гаманця, ви можете надіслати платіж або надіслати запрошення. \n\n Після завантаження гаманця і підключення його номера телефону, ви отримаєте ексклюзивний NFT."
     }
   },
   "celoDollarAmount_0": "<0></0> Celo Dollar",

@@ -386,7 +386,7 @@
   "pinInputCanceled": "Il PIN è necessario. Riprova.",
   "setPinFailed": "Impossibile impostare il PIN",
   "optIn": "Accetta opzione",
-  "invalidInvite": "Codice di invito non valido.",
+  "invalidInvite": "Codice invito non valido",
   "inviteFriends": "Invita amici",
   "account": "Conto",
   "invalidAccount": "Conto non valido.",
@@ -560,7 +560,7 @@
   "transferDollarsToAccount": "I fondi sono stati trasferiti sul tuo conto.",
   "inviteAnyone": "Invia facilmente ai tuoi amici aggiungendo i tuoi contatti",
   "inviteReceived": "Invito ricevuto",
-  "escrowPaymentNotificationTitle": "Invito inviato a {{mobile}}",
+  "escrowPaymentNotificationTitle": "Non è possibile richiedere l'invito a {{mobile}}",
   "inviteDialog": {
     "title": "Invita un amico",
     "body": "Collegati e condividi valore con amici e familiari su Valora.",
@@ -570,7 +570,7 @@
   "inviteAndSendDialog": {
     "title": "Completa l'invito di {{name}} in Valora",
     "bodyWithRewards": "Dopo che avrà accettato e che avrà collegato un numero telefonico, riceverete entrambi un NFT. Tocca di seguito per inviare il tuo invito.",
-    "body": "Condividi con {{name}} un messaggio di invito per entrare a far parte di {{appName}}. Dopo che avrà accettato e che avrà collegato un numero telefonico, riceverà il tuo pagamento.",
+    "body": "Condividi un messaggio di invito con {{name}} per iscriverti a {{appName}}. Una volta che si saranno iscritti e avranno collegato un numero di telefono, riceveranno il pagamento.",
     "button": "Completa l'invito"
   },
   "inviteRewardsBanner": {
@@ -1079,10 +1079,10 @@
   "balanceNeedUpdating": "È necessario aggiornare il saldo.",
   "refreshBalances": "Aggiorna saldi",
   "escrowedPaymentReminder": "Inviti in sospeso",
-  "escrowedPaymentReminderSummaryTitle": "{{count}} inviti in sospeso",
-  "escrowedPaymentReminderSummaryDetails_exactly2Items": "<0></0> e <1></1> non hanno ancora accettato l'invito.",
-  "escrowedPaymentReminderSummaryDetails_exactly3Items": "<0></0>, <1></1> e qualcun altro non hanno ancora accettato l'invito.",
-  "escrowedPaymentReminderSummaryDetails_moreThan3Items": "<0></0>, <1></1> e altri non hanno ancora accettato l'invito.",
+  "escrowedPaymentReminderSummaryTitle": "{{count}} Inviti in attesa",
+  "escrowedPaymentReminderSummaryDetails_exactly2Items": "<0></0> e <1></1> non sarà in grado di reclamare i propri inviti.",
+  "escrowedPaymentReminderSummaryDetails_exactly3Items": "<0></0> <1></1> e un altro non potranno richiedere i loro inviti.",
+  "escrowedPaymentReminderSummaryDetails_moreThan3Items": "<0></0> <1></1> e altri non potranno richiedere i loro inviti.",
   "escrowedPaymentReminderSmsNoData": "Desideriamo ricordarti che non hai ancora riscattato i tuoi {{currency}} tramite {{appName}}. Per iniziare, scarica l’app per dispositivi mobili.",
   "testnetAlert": {
     "0": "{{testnet}}",
@@ -1290,6 +1290,7 @@
     "idRequired": "ID richiesto",
     "numDays": "1-3 giorni",
     "oneHour": "Meno di un'ora",
+    "lessThan24Hours": "Meno di 24 ore",
     "bestRate": "Miglior tasso",
     "header": "Metodo di pagamento"
   },
@@ -1372,20 +1373,24 @@
   },
   "fiatConnectStatusScreen": {
     "tryAgain": "Riprova",
-    "withdraw": {
+    "cashOut": {
       "cancel": "Annulla prelievo",
-      "success": {
-        "header": "Operazione completata",
-        "title": "I tuoi fondi sono in arrivo!",
-        "description": "La richiesta di transazione è stata inviata e i fondi arriveranno tra {{duration}}.",
-        "txDetails": "Visualizza su CeloExplorer",
-        "continue": "Continua"
-      }
+      "contactSupportPrefill": "Ho problemi a prelevare i miei fondi."
+    },
+    "cashIn": {
+      "cancel": "Annullamento Aggiungi fondi",
+      "contactSupportPrefill": "Ho problemi ad aggiungere fondi al mio portafoglio Valora."
+    },
+    "success": {
+      "header": "Operazione completata",
+      "title": "I tuoi fondi sono in arrivo!",
+      "description": "La richiesta di transazione è stata inviata e i fondi arriveranno tra {{duration}}.",
+      "txDetails": "Visualizza su CeloExplorer",
+      "continue": "Continua"
     },
     "requestNotCompleted": {
       "title": "Non è stato possibile completare la richiesta.",
-      "description": "Non è stato possibile trasferire i tuoi fondi. Riprova o contatta il nostro team di supporto per ricevere assistenza.",
-      "contactSupportPrefill": "Ho problemi a prelevare i miei fondi."
+      "description": "Non è stato possibile trasferire i tuoi fondi. Riprova o contatta il nostro team di supporto per ricevere assistenza."
     }
   },
   "fiatExchangeFlow": {
@@ -1499,7 +1504,7 @@
     "shareMessage": "Ehi! Vorrei inviarti delle criptovalute con il mio wallet {{appName}}. Una volta scaricata l'applicazione e collegato il tuo numero telefonico, potremo inviare criptovalute con la stessa facilità di un messaggio di testo. Usa questo collegamento: {{link}}",
     "rewardsActive": {
       "title": "Invita {{contactName}} in {{appName}} ed entrambi riceverete NFT!",
-      "body": "Sembrerebbe che {{contactName}} non utilizzi {{appName}}. Se conosci l'indirizzo del suo portafoglio, puoi comunque inviare un pagamento o un invito. \n\n Dopo che avrà scaricato il portafoglio e avrà collegato il suo numero telefonico, riecverete entrambi un NFT esclusivo."
+      "body": "Sembra che {{contactName}} non sia su {{appName}}. Se conosci l'indirizzo del suo portafoglio, puoi comunque inviare un pagamento o un invito. \n\n Dopo che avranno scaricato il portafoglio e collegato il loro numero di telefono, riceverete entrambi un NFT esclusivo."
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",

@@ -1,7 +1,7 @@
-import { StackNavigationOptions } from '@react-navigation/stack'
+import { NativeStackNavigationOptions } from '@react-navigation/native-stack'
 import * as React from 'react'
 import { Trans } from 'react-i18next'
-import { Dimensions, PixelRatio, Platform, StyleSheet, Text, View } from 'react-native'
+import { Dimensions, PixelRatio, StyleSheet, Text, View } from 'react-native'
 import BackButton from 'src/components/BackButton'
 import CancelButton from 'src/components/CancelButton'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
@@ -14,15 +14,14 @@ import DisconnectBanner from 'src/shared/DisconnectBanner'
 import { useBalance } from 'src/stableToken/hooks'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
-import variables from 'src/styles/variables'
 import { useTokenInfo, useTokenInfoBySymbol } from 'src/tokens/hooks'
 import { Currency } from 'src/utils/currencies'
 
-export const noHeader: StackNavigationOptions = {
+export const noHeader: NativeStackNavigationOptions = {
   headerShown: false,
 }
 
-export const noHeaderGestureDisabled: StackNavigationOptions = {
+export const noHeaderGestureDisabled: NativeStackNavigationOptions = {
   headerShown: false,
   gestureEnabled: false,
 }
@@ -45,71 +44,52 @@ export const styles = StyleSheet.create({
   },
 })
 
-export const nuxNavigationOptions: StackNavigationOptions = {
+export const nuxNavigationOptions: NativeStackNavigationOptions = {
   headerShown: true,
   headerTransparent: true,
+  // Prevents double back button on Android
+  headerBackVisible: false,
   headerLeft: ({ canGoBack }) => (canGoBack ? <BackButton /> : <View />),
   headerRight: () => <View />,
   headerTitle: () => <DisconnectBanner />,
-  headerTitleContainerStyle: {
-    alignItems: 'center',
-    flex: 1,
-    justifyContent: 'center',
-  },
   headerStyle: {
-    backgroundColor: colors.light,
+    backgroundColor: 'transparent',
   },
 }
 
-export const nuxNavigationOptionsNoBackButton: StackNavigationOptions = {
+export const nuxNavigationOptionsNoBackButton: NativeStackNavigationOptions = {
   ...nuxNavigationOptions,
   headerLeft: () => <View />,
 }
 
-export const emptyHeader: StackNavigationOptions = {
+export const emptyHeader: NativeStackNavigationOptions = {
   headerTitle: ' ',
   headerShown: true,
+  // Prevents double back button on Android
+  headerBackVisible: false,
   headerTitleStyle: [styles.headerTitle, styles.screenHeader],
-  headerTitleContainerStyle: {
-    alignItems: 'center',
-  },
+  headerShadowVisible: false,
   headerTitleAlign: 'center',
-  cardStyle: { backgroundColor: colors.light },
   headerStyle: {
     backgroundColor: colors.light,
-    shadowRadius: 0,
-    shadowOffset: {
-      height: 0,
-      width: 0,
-    },
-    ...Platform.select({
-      android: {
-        elevation: 0,
-        backgroundColor: 'transparent',
-      },
-      ios: {
-        borderBottomWidth: 0,
-        borderBottomColor: 'transparent',
-      },
-    }),
   },
 }
 
-export const drawerHeader: StackNavigationOptions = {
+export const drawerHeader: NativeStackNavigationOptions = {
   ...emptyHeader,
 }
 
-export const headerWithBackButton: StackNavigationOptions = {
+export const headerWithBackButton: NativeStackNavigationOptions = {
   ...emptyHeader,
   headerLeft: ({ canGoBack }) => (canGoBack ? <BackButton /> : null),
 }
 
-export const headerWithCancelButton: StackNavigationOptions = {
+export const headerWithCancelButton: NativeStackNavigationOptions = {
   ...emptyHeader,
   headerLeft: () => <CancelButton />,
 }
 
-export const headerWithBackEditButtons: StackNavigationOptions = {
+export const headerWithBackEditButtons: NativeStackNavigationOptions = {
   ...emptyHeader,
   headerLeft: () =>
     PixelRatio.getFontScale() > 1 ? (
@@ -118,13 +98,11 @@ export const headerWithBackEditButtons: StackNavigationOptions = {
       <CancelButton buttonType="text" />
     ),
   headerRight: () => <BackButton />,
-  headerRightContainerStyle: { paddingRight: variables.contentPadding + 6 },
 }
 
-export const headerWithCloseButton: StackNavigationOptions = {
+export const headerWithCloseButton: NativeStackNavigationOptions = {
   ...emptyHeader,
   headerLeft: () => <TopBarIconButton icon={<Times />} onPress={navigateBack} />,
-  headerLeftContainerStyle: { paddingLeft: 20 },
 }
 
 interface Props {

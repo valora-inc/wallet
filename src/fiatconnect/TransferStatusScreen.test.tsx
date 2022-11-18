@@ -174,8 +174,8 @@ describe('TransferStatusScreen', () => {
 
   describe('failure view', () => {
     it.each([
-      [CICOFlow.CashIn, 'add'],
-      [CICOFlow.CashOut, 'withdraw'],
+      [CICOFlow.CashIn, 'cashIn'],
+      [CICOFlow.CashOut, 'cashOut'],
     ])('sets header options for %s', (flow, header) => {
       const store = mockStore({ transfer: mockFiatConnectTransfers[1] })
       const mockProps = mockScreenProps(flow)
@@ -242,8 +242,8 @@ describe('TransferStatusScreen', () => {
       )
     })
     it.each([
-      [CICOFlow.CashIn, 'add'],
-      [CICOFlow.CashOut, 'withdraw'],
+      [CICOFlow.CashIn, 'cashIn'],
+      [CICOFlow.CashOut, 'cashOut'],
     ])(
       'navigates to support page when contact support button is pressed on failure for %s',
       (flow, text) => {

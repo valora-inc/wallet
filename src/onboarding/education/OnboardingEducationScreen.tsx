@@ -1,4 +1,4 @@
-import { useHeaderHeight } from '@react-navigation/stack'
+import { useHeaderHeight } from '@react-navigation/elements'
 import { shuffle } from 'fast-shuffle'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'

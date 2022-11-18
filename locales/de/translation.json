@@ -560,7 +560,7 @@
   "transferDollarsToAccount": "Guthaben auf dein Konto überwiesen!",
   "inviteAnyone": "Sende einfach an deine Freunde, indem du deine Kontakte hinzufügst",
   "inviteReceived": "Einladung erhalten",
-  "escrowPaymentNotificationTitle": "{{mobile}} eingeladen",
+  "escrowPaymentNotificationTitle": "Die Einladung zu {{mobile}} kann nicht in Anspruch genommen werden.",
   "inviteDialog": {
     "title": "Einen Freund einladen",
     "body": "Verbinde und teile Wert mit deinen Freunden und Familie auf Valora.",
@@ -570,7 +570,7 @@
   "inviteAndSendDialog": {
     "title": "Beende die Einladung von {{name}} zu Valora",
     "bodyWithRewards": "Sobald sie beitreten und ihre Telefonnummer verbinden, erhaltet ihr beide ein NFT. Klicke unten, um eine Einladung zu senden.",
-    "body": "Teile eine Einladungsnachricht mit {{name}}, um {{appName}} beizutreten. Sobald sie beigetreten sind und eine Telefonnummer verbunden haben, erhalten sie ihre Zahlung.",
+    "body": "Teile eine Einladungsnachricht mit {{name}} , um {{appName}}beizutreten. Sobald sie beitreten und eine Telefonnummer verbinden, erhalten sie deine Zahlung.",
     "button": "Einladung beenden"
   },
   "inviteRewardsBanner": {
@@ -1079,10 +1079,10 @@
   "balanceNeedUpdating": "Guthaben muss aktualisiert werden",
   "refreshBalances": "Guthaben aktualisieren",
   "escrowedPaymentReminder": "Ausstehende Einladungen",
-  "escrowedPaymentReminderSummaryTitle": "{{count}} ausstehende Einladungen",
-  "escrowedPaymentReminderSummaryDetails_exactly2Items": "<0></0> und <1></1> haben ihre Einladungen noch nicht angenommen",
-  "escrowedPaymentReminderSummaryDetails_exactly3Items": "<0></0>, <1></1> und ein anderer haben ihre Einladungen noch nicht angenommen",
-  "escrowedPaymentReminderSummaryDetails_moreThan3Items": "<0></0>, <1></1> und andere haben ihre Einladungen noch nicht angenommen",
+  "escrowedPaymentReminderSummaryTitle": "{{count}} Ausstehende Einladungen",
+  "escrowedPaymentReminderSummaryDetails_exactly2Items": "<0></0> und <1></1> werden ihre Einladungen nicht einfordern können",
+  "escrowedPaymentReminderSummaryDetails_exactly3Items": "<0></0> <1></1> und ein anderer werden ihre Einladungen nicht einfordern können.",
+  "escrowedPaymentReminderSummaryDetails_moreThan3Items": "<0></0> <1></1> und andere werden ihre Einladungen nicht einfordern können.",
   "escrowedPaymentReminderSmsNoData": "Eine freundliche Erinnerung, dass du deine {{currency}} mit {{appName}} noch nicht eingelöst hast! Lade die mobile App herunter, um loszulegen!",
   "testnetAlert": {
     "0": "{{testnet}}",
@@ -1290,6 +1290,7 @@
     "idRequired": "ID erforderlich",
     "numDays": "1–3 Tage",
     "oneHour": "Weniger als 1 Stunde",
+    "lessThan24Hours": "Weniger als 24 Stunden",
     "bestRate": "Bester Tarif",
     "header": "Zahlungsmethode auswählen"
   },
@@ -1372,20 +1373,24 @@
   },
   "fiatConnectStatusScreen": {
     "tryAgain": "Wiederholen",
-    "withdraw": {
+    "cashOut": {
       "cancel": "Abhebung abbrechen",
-      "success": {
-        "header": "Erfolg",
-        "title": "Dein Guthaben ist unterwegs.",
-        "description": "Deine Transaktionsanfrage wurde versendet. Dein Geld wird in {{duration}} eintreffen.",
-        "txDetails": "Auf CeloExplorer anzeigen",
-        "continue": "Weiter"
-      }
+      "contactSupportPrefill": "Ich habe Probleme, mein Guthaben abzuheben."
+    },
+    "cashIn": {
+      "cancel": "Abbrechen Mittel hinzufügen",
+      "contactSupportPrefill": "Ich habe Probleme, Geld in meine Valora-Geldbörse einzuzahlen."
+    },
+    "success": {
+      "header": "Erfolg",
+      "title": "Dein Guthaben ist unterwegs.",
+      "description": "Deine Transaktionsanfrage wurde versendet. Dein Geld wird in {{duration}} eintreffen.",
+      "txDetails": "Auf CeloExplorer anzeigen",
+      "continue": "Weiter"
     },
     "requestNotCompleted": {
       "title": "Deine Anfrage konnte nicht abgeschlossen werden.",
-      "description": "Dein Guthaben konnte nicht von überwiesen werden. Bitte versuche es noch einmal oder wende dich an unser Support-Team, um Hilfe zu erhalten.",
-      "contactSupportPrefill": "Ich habe Probleme, mein Guthaben abzuheben."
+      "description": "Dein Guthaben konnte nicht von überwiesen werden. Bitte versuche es noch einmal oder wende dich an unser Support-Team, um Hilfe zu erhalten."
     }
   },
   "fiatExchangeFlow": {
@@ -1499,7 +1504,7 @@
     "shareMessage": "Hey! Ich würde dir gerne etwas Krypto mit meinem {{appName}}-Wallet schicken. Wenn du die App herunterlädst und deine Telefonnummer angibst, können wir Kryptowährungen so einfach wie eine SMS versenden. Verwende diesen Link: {{link}}",
     "rewardsActive": {
       "title": "Lade {{contactName}} in {{appName}} ein und ihr beide erhaltet NFTs.",
-      "body": "Es sieht so aus, als wäre {{contactName}} nicht in {{appName}}. Wenn du die Wallet-Adresse kennst, kannst du dennoch eine Zahlung oder stattdessen eine Einladung senden. \n\nNachdem die Wallet heruntergeladen und mit der Telefonnummer verbunden wurde, erhaltet ihr beide ein exklusives NFT."
+      "body": "Wie es aussieht, ist {{contactName}} nicht auf {{appName}}. Wenn du ihre Wallet-Adresse kennst, kannst du trotzdem eine Zahlung senden oder stattdessen eine Einladung schicken. \n\n Nachdem sie die Wallet heruntergeladen und ihre Telefonnummer angegeben haben, erhaltet ihr beide eine exklusive NFT."
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",

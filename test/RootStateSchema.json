@@ -262,6 +262,92 @@
             ],
             "type": "object"
         },
+        "BigNumber": {
+            "additionalProperties": false,
+            "properties": {
+                "_isBigNumber": {
+                    "description": "Used internally to identify a BigNumber instance.",
+                    "enum": [
+                        true
+                    ],
+                    "type": "boolean"
+                },
+                "c": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "number"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "The coefficient of the value of this BigNumber, an array of base 1e14 integer numbers, or null."
+                },
+                "e": {
+                    "description": "The exponent of the value of this BigNumber, an integer number, -1000000000 to 1000000000, or null.",
+                    "type": [
+                        "null",
+                        "number"
+                    ]
+                },
+                "s": {
+                    "description": "The sign of the value of this BigNumber, -1, 1, or null.",
+                    "type": [
+                        "null",
+                        "number"
+                    ]
+                }
+            },
+            "required": [
+                "_isBigNumber",
+                "c",
+                "e",
+                "s"
+            ],
+            "type": "object"
+        },
+        "BigNumber.Instance": {
+            "additionalProperties": {},
+            "properties": {
+                "c": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "number"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "The coefficient of the value of this BigNumber, an array of base 1e14 integer numbers, or null."
+                },
+                "e": {
+                    "description": "The exponent of the value of this BigNumber, an integer number, -1000000000 to 1000000000, or null.",
+                    "type": [
+                        "null",
+                        "number"
+                    ]
+                },
+                "s": {
+                    "description": "The sign of the value of this BigNumber, -1, 1, or null.",
+                    "type": [
+                        "null",
+                        "number"
+                    ]
+                }
+            },
+            "required": [
+                "c",
+                "e",
+                "s"
+            ],
+            "type": "object"
+        },
         "CICOFlow": {
             "enum": [
                 "CashIn",
@@ -498,7 +584,7 @@
                     "type": "string"
                 },
                 "expirySeconds": {
-                    "$ref": "#/definitions/default"
+                    "$ref": "#/definitions/BigNumber"
                 },
                 "message": {
                     "type": "string"
@@ -516,7 +602,7 @@
                     "type": "string"
                 },
                 "timestamp": {
-                    "$ref": "#/definitions/default"
+                    "$ref": "#/definitions/BigNumber"
                 },
                 "tokenAddress": {
                     "type": "string"
@@ -712,16 +798,16 @@
             "additionalProperties": false,
             "properties": {
                 "fee": {
-                    "$ref": "#/definitions/default"
+                    "$ref": "#/definitions/BigNumber"
                 },
                 "feeCurrency": {
                     "type": "string"
                 },
                 "gas": {
-                    "$ref": "#/definitions/default"
+                    "$ref": "#/definitions/BigNumber"
                 },
                 "gasPrice": {
-                    "$ref": "#/definitions/default"
+                    "$ref": "#/definitions/BigNumber"
                 }
             },
             "required": [
@@ -985,7 +1071,7 @@
                         "price": {
                             "anyOf": [
                                 {
-                                    "$ref": "#/definitions/default.Instance"
+                                    "$ref": "#/definitions/BigNumber.Instance"
                                 },
                                 {
                                     "type": [
@@ -1271,7 +1357,7 @@
                 "value": {
                     "anyOf": [
                         {
-                            "$ref": "#/definitions/default.Instance"
+                            "$ref": "#/definitions/BigNumber.Instance"
                         },
                         {
                             "type": [
@@ -3998,7 +4084,7 @@
                 "value": {
                     "anyOf": [
                         {
-                            "$ref": "#/definitions/default.Instance"
+                            "$ref": "#/definitions/BigNumber.Instance"
                         },
                         {
                             "type": [
@@ -4419,92 +4505,6 @@
             "additionalProperties": {
                 "type": "string"
             },
-            "type": "object"
-        },
-        "default": {
-            "additionalProperties": false,
-            "properties": {
-                "_isBigNumber": {
-                    "description": "Used internally to identify a BigNumber instance.",
-                    "enum": [
-                        true
-                    ],
-                    "type": "boolean"
-                },
-                "c": {
-                    "anyOf": [
-                        {
-                            "items": {
-                                "type": "number"
-                            },
-                            "type": "array"
-                        },
-                        {
-                            "type": "null"
-                        }
-                    ],
-                    "description": "The coefficient of the value of this BigNumber, an array of base 1e14 integer numbers, or null."
-                },
-                "e": {
-                    "description": "The exponent of the value of this BigNumber, an integer number, -1000000000 to 1000000000, or null.",
-                    "type": [
-                        "null",
-                        "number"
-                    ]
-                },
-                "s": {
-                    "description": "The sign of the value of this BigNumber, -1, 1, or null.",
-                    "type": [
-                        "null",
-                        "number"
-                    ]
-                }
-            },
-            "required": [
-                "_isBigNumber",
-                "c",
-                "e",
-                "s"
-            ],
-            "type": "object"
-        },
-        "default.Instance": {
-            "additionalProperties": {},
-            "properties": {
-                "c": {
-                    "anyOf": [
-                        {
-                            "items": {
-                                "type": "number"
-                            },
-                            "type": "array"
-                        },
-                        {
-                            "type": "null"
-                        }
-                    ],
-                    "description": "The coefficient of the value of this BigNumber, an array of base 1e14 integer numbers, or null."
-                },
-                "e": {
-                    "description": "The exponent of the value of this BigNumber, an integer number, -1000000000 to 1000000000, or null.",
-                    "type": [
-                        "null",
-                        "number"
-                    ]
-                },
-                "s": {
-                    "description": "The sign of the value of this BigNumber, -1, 1, or null.",
-                    "type": [
-                        "null",
-                        "number"
-                    ]
-                }
-            },
-            "required": [
-                "c",
-                "e",
-                "s"
-            ],
             "type": "object"
         },
         "{AccountNumber?:{accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;accountNumber?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;country?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;MobileMoney?:{accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;country?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;mobile?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;operator?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;DuniaWallet?:{accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;mobile?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;IBANNumber?:{accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;country?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;iban?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;IFSCAccount?:{accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;accountNumber?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;country?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;ifsc?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;}": {

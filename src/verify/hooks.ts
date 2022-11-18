@@ -179,7 +179,9 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCallingCode: st
 
   useAsync(
     async () => {
-      if (!smsCode) {
+      // add verificationId to this hook, in case the SMS is received by the
+      // user before the successful response from verifyPhoneNumber service
+      if (!smsCode || !verificationId) {
         return
       }
 
@@ -212,7 +214,7 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCallingCode: st
         throw new Error(await response.text())
       }
     },
-    [smsCode, phoneNumber],
+    [smsCode, phoneNumber, verificationId],
     {
       onSuccess: async (response?: Response) => {
         if (!response) {

@@ -1,4 +1,4 @@
-import { StackScreenProps } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useLayoutEffect } from 'react'
 import { connect } from 'react-redux'
 import { TokenTransactionType } from 'src/apollo/types'
@@ -28,7 +28,7 @@ export interface ReviewProps {
   timestamp: number
 }
 
-type OwnProps = StackScreenProps<StackParamList, Screens.TransactionReview>
+type OwnProps = NativeStackScreenProps<StackParamList, Screens.TransactionReview>
 type Props = OwnProps & StateProps
 
 const isTransferConfirmationCardProps = (

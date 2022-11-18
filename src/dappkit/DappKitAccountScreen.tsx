@@ -1,4 +1,4 @@
-import { StackScreenProps } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
@@ -21,7 +21,7 @@ import { currentAccountSelector } from 'src/web3/selectors'
 
 const TAG = 'dappkit/DappKitAccountScreen'
 
-type Props = StackScreenProps<StackParamList, Screens.DappKitAccountScreen>
+type Props = NativeStackScreenProps<StackParamList, Screens.DappKitAccountScreen>
 
 const DappKitAccountScreen = ({ route }: Props) => {
   const { dappKitRequest } = route.params
