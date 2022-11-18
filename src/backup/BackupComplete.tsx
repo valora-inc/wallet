@@ -1,4 +1,4 @@
-import { StackScreenProps } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
@@ -19,7 +19,7 @@ import fontStyles from 'src/styles/fonts'
  * came from.
  */
 
-type Props = StackScreenProps<StackParamList, Screens.BackupComplete>
+type Props = NativeStackScreenProps<StackParamList, Screens.BackupComplete>
 
 function BackupComplete({ route }: Props) {
   const navigatedFromSettings = route.params?.navigatedFromSettings ?? false

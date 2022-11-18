@@ -3,15 +3,15 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import ExchangeHomeScreen from 'src/exchange/ExchangeHomeScreen'
 import { ExchangeRates } from 'src/exchange/reducer'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { Currency } from 'src/utils/currencies'
-import { createMockStore, getMockStackScreenProps } from 'test/utils'
+import { createMockStore } from 'test/utils'
 import { makeExchangeRates } from 'test/values'
 
 // Mock this for now, as we get apollo issues
 jest.mock('src/transactions/TransactionsList', () => 'TransactionsList')
 
-const mockScreenProps = getMockStackScreenProps(Screens.ExchangeHomeScreen)
 const exchangeRates: ExchangeRates = makeExchangeRates('0.11', '10')
 
 describe('ExchangeHomeScreen', () => {
@@ -24,7 +24,7 @@ describe('ExchangeHomeScreen', () => {
 
     const tree = render(
       <Provider store={store}>
-        <ExchangeHomeScreen {...mockScreenProps} />
+        <ExchangeHomeScreen />
       </Provider>
     )
 
@@ -32,13 +32,13 @@ describe('ExchangeHomeScreen', () => {
 
     jest.clearAllMocks()
     fireEvent.press(tree.getByTestId('BuyCelo'))
-    expect(mockScreenProps.navigation.navigate).toHaveBeenCalledWith(Screens.ExchangeTradeScreen, {
+    expect(navigate).toHaveBeenCalledWith(Screens.ExchangeTradeScreen, {
       buyCelo: true,
     })
 
     jest.clearAllMocks()
     fireEvent.press(tree.getByTestId('SellCelo'))
-    expect(mockScreenProps.navigation.navigate).toHaveBeenCalledWith(Screens.ExchangeTradeScreen, {
+    expect(navigate).toHaveBeenCalledWith(Screens.ExchangeTradeScreen, {
       buyCelo: false,
     })
   })
@@ -59,7 +59,7 @@ describe('ExchangeHomeScreen', () => {
 
     const tree = render(
       <Provider store={store}>
-        <ExchangeHomeScreen {...mockScreenProps} />
+        <ExchangeHomeScreen />
       </Provider>
     )
 
@@ -71,7 +71,7 @@ describe('ExchangeHomeScreen', () => {
 
     // Check we can withdraw
     fireEvent.press(tree.getByTestId('WithdrawCELO'))
-    expect(mockScreenProps.navigation.navigate).toHaveBeenCalledWith(Screens.WithdrawCeloScreen, {
+    expect(navigate).toHaveBeenCalledWith(Screens.WithdrawCeloScreen, {
       isCashOut: false,
     })
   })

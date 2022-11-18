@@ -1,9 +1,9 @@
-import { StackScreenProps, TransitionPresets } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { throttle } from 'lodash'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet } from 'react-native'
+import { Platform, StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { defaultCountryCodeSelector } from 'src/account/selectors'
@@ -43,7 +43,7 @@ import { requestContactsPermission } from 'src/utils/permissions'
 
 const SEARCH_THROTTLE_TIME = 100
 
-type Props = StackScreenProps<StackParamList, Screens.Send>
+type Props = NativeStackScreenProps<StackParamList, Screens.Send>
 
 function Send({ route }: Props) {
   const skipContactsImport = route.params?.skipContactsImport ?? false
@@ -230,7 +230,9 @@ function Send({ route }: Props) {
 
 Send.navigationOptions = {
   ...noHeader,
-  ...TransitionPresets.ModalTransition,
+  ...Platform.select({
+    ios: { animation: 'slide_from_bottom' },
+  }),
 }
 
 const styles = StyleSheet.create({

@@ -653,7 +653,7 @@ PODS:
     - React-RCTText
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNScreens (3.13.1):
+  - RNScreens (3.18.2):
     - React-Core
     - React-RCTImage
   - RNSecureRandom (1.0.0):
@@ -1147,7 +1147,7 @@ SPEC CHECKSUMS:
   RNPermissions: 034db8a73d562766f990c89abbdeaa5d6e204c67
   RNPersonaInquiry2: 3ab52078e891a5d2fa39bf7cc9119ca27f0337fd
   RNReanimated: ee33ab40fa252332a36aeed9d936801ed9700b24
-  RNScreens: 40a2cb40a02a609938137a1e0acfbf8fc9eebf19
+  RNScreens: 34cc502acf1b916c582c60003dc3089fa01dc66d
   RNSecureRandom: b0b479d7b934a3e6deea9cb986a9c40cb5f1b360
   RNSentry: 227b01d7373289c51b8c31b2c8d6bac49f1a4335
   RNShare: d76b8c9c6e6ffb38fc18f40b4338c9d867592ed3

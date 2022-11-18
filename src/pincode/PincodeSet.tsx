@@ -1,7 +1,7 @@
 /**
  * This is a reactnavigation SCREEN, which we use to set a PIN.
  */
-import { StackScreenProps } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import * as React from 'react'
 import { WithTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
@@ -22,7 +22,12 @@ import DevSkipButton from 'src/components/DevSkipButton'
 import i18n, { withTranslation } from 'src/i18n'
 import { setHasSeenVerificationNux } from 'src/identity/actions'
 import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
-import { navigate, navigateClearingStack, navigateHome } from 'src/navigator/NavigationService'
+import {
+  navigate,
+  navigateClearingStack,
+  navigateHome,
+  popToScreen,
+} from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import {
@@ -64,7 +69,7 @@ interface State {
   isVerifying: boolean
 }
 
-type ScreenProps = StackScreenProps<StackParamList, Screens.PincodeSet>
+type ScreenProps = NativeStackScreenProps<StackParamList, Screens.PincodeSet>
 
 type Props = ScreenProps & StateProps & DispatchProps & WithTranslation
 
@@ -161,6 +166,7 @@ export class PincodeSet extends React.Component<Props, State> {
     } else if (this.props.supportedBiometryType !== null) {
       navigate(Screens.EnableBiometry)
     } else if (this.props.choseToRestoreAccount) {
+      popToScreen(Screens.Welcome)
       navigate(Screens.ImportWallet)
     } else if (
       this.props.hideVerification ||

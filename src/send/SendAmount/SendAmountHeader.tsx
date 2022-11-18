@@ -8,6 +8,7 @@ import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomS
 import { HeaderTitleWithTokenBalance, styles as headerStyles } from 'src/navigator/Headers'
 import useSelector from 'src/redux/useSelector'
 import TokenPickerSelector from 'src/send/SendAmount/TokenPickerSelector'
+import variables from 'src/styles/variables'
 import { useTokenInfo } from 'src/tokens/hooks'
 import { stablecoinsSelector, tokensWithTokenBalanceSelector } from 'src/tokens/selectors'
 
@@ -71,6 +72,7 @@ function SendAmountHeader({
   return (
     <>
       <CustomHeader
+        style={{ paddingLeft: variables.contentPadding }}
         left={<BackButton eventName={backButtonEventName} />}
         title={title}
         right={

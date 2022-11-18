@@ -1,6 +1,6 @@
 import { FiatAccountType } from '@fiatconnect/fiatconnect-types'
 import { RouteProp } from '@react-navigation/native'
-import { StackScreenProps } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { SafeAreaView, StyleSheet, Text } from 'react-native'
@@ -17,7 +17,7 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import fontStyles from 'src/styles/fonts'
 
-type Props = StackScreenProps<StackParamList, Screens.FiatConnectLinkAccount>
+type Props = NativeStackScreenProps<StackParamList, Screens.FiatConnectLinkAccount>
 
 interface LinkAccountScreenTranslationKeys {
   bodyTitle: string

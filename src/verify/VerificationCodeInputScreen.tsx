@@ -1,4 +1,5 @@
-import { StackScreenProps, useHeaderHeight } from '@react-navigation/stack'
+import { useHeaderHeight } from '@react-navigation/elements'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
@@ -29,7 +30,7 @@ import ResendButtonWithDelay from 'src/verify/ResendButtonWithDelay'
 function VerificationCodeInputScreen({
   route,
   navigation,
-}: StackScreenProps<StackParamList, Screens.VerificationCodeInputScreen>) {
+}: NativeStackScreenProps<StackParamList, Screens.VerificationCodeInputScreen>) {
   const [showHelpDialog, setShowHelpDialog] = useState(false)
   const [code, setCode] = useState('')
   const [codeInputStatus, setCodeInputStatus] = useState(CodeInputStatus.Inputting)
@@ -150,6 +151,12 @@ function VerificationCodeInputScreen({
       </Dialog>
     </SafeAreaView>
   )
+}
+
+VerificationCodeInputScreen.navigationOptions = {
+  headerStyle: {
+    backgroundColor: colors.onboardingBackground,
+  },
 }
 
 const styles = StyleSheet.create({
