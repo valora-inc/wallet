@@ -386,7 +386,7 @@
   "pinInputCanceled": "Podanie kodu PIN jest konieczne. Spróbuj ponownie.",
   "setPinFailed": "Nie udało się ustawić kodu PIN",
   "optIn": "Zgoda",
-  "invalidInvite": "Nieprawidłowy kod zaproszenia",
+  "invalidInvite": "Nieważny kod zaproszenia",
   "inviteFriends": "Zaproś znajomych",
   "account": "Konto",
   "invalidAccount": "Nieprawidłowe konto",
@@ -560,7 +560,7 @@
   "transferDollarsToAccount": "Środki zostały przelane na Twoje konto!",
   "inviteAnyone": "Dodaj swoje kontakty i wysyłaj płatności do znajomych w łatwy i szybki sposób",
   "inviteReceived": "Odebrano zaproszenie",
-  "escrowPaymentNotificationTitle": "Zaproszono {{mobile}}",
+  "escrowPaymentNotificationTitle": "Zaproszenie na stronę {{mobile}} nie może być odebrane",
   "inviteDialog": {
     "title": "Zaproś znajomego",
     "body": "Kontaktuj i dziel się środkami z przyjaciółmi i rodziną dzięki aplikacji Valora.",
@@ -570,7 +570,7 @@
   "inviteAndSendDialog": {
     "title": "Dokończ zapraszanie {{name}} do aplikacji Valora",
     "bodyWithRewards": "Gdy Twój znajomy utworzy konto i podłączy swój numer telefonu, oboje otrzymacie NFT. Kliknij poniżej, aby wysłać zaproszenie.",
-    "body": "Wyślij do {{name}} wiadomość z zaproszeniem do aplikacji {{appName}}. Gdy utworzy konto i podłączy swój numer telefonu, otrzyma Twoją płatność.",
+    "body": "Udostępnij wiadomość z zaproszeniem dla {{name}} , aby dołączyli do {{appName}}. Kiedy dołączą i połączą się z numerem telefonu, otrzymają twoją zapłatę.",
     "button": "Dokończ zaproszenie"
   },
   "inviteRewardsBanner": {
@@ -1082,11 +1082,11 @@
   "maybeLater": "Może później",
   "balanceNeedUpdating": "Saldo wymaga aktualizacji",
   "refreshBalances": "Odśwież salda",
-  "escrowedPaymentReminder": "Oczekujące zaproszenia",
-  "escrowedPaymentReminderSummaryTitle": "Liczba oczekujących zaproszeń: {{count}}",
-  "escrowedPaymentReminderSummaryDetails_exactly2Items": "Osoby <0></0> i <1></1> nie zaakceptowały jeszcze swoich zaproszeń",
-  "escrowedPaymentReminderSummaryDetails_exactly3Items": "<0></0>, <1></1> i jeszcze jedna osoba nie zaakceptowali jeszcze swoich zaproszeń",
-  "escrowedPaymentReminderSummaryDetails_moreThan3Items": "<0></0>, <1></1> i inni nie zaakceptowali jeszcze swoich zaproszeń",
+  "escrowedPaymentReminder": "Zaproszenia oczekujące",
+  "escrowedPaymentReminderSummaryTitle": "{{count}} Zaproszenia oczekujące",
+  "escrowedPaymentReminderSummaryDetails_exactly2Items": "<0></0> i <1></1> nie będą mogły odebrać swoich zaproszeń",
+  "escrowedPaymentReminderSummaryDetails_exactly3Items": "<0></0> <1></1> i jeszcze jedna osoba nie będą mogły odebrać swoich zaproszeń.",
+  "escrowedPaymentReminderSummaryDetails_moreThan3Items": "<0></0>, <1></1> i inni nie będą mogli odebrać swoich zaproszeń",
   "escrowedPaymentReminderSmsNoData": "Nieśmiało przypominamy, że jeszcze nie wymieniłeś(-aś) swoich {{currency}} w aplikacji {{appName}}! Pobierz aplikację mobilną, aby zacząć!",
   "testnetAlert": {
     "0": "{{testnet}}",
@@ -1508,7 +1508,7 @@
     "shareMessage": "Witaj! Chcę wysłać Ci trochę kryptowaluty za pomocą mojego portfela {{appName}}. Gdy pobierzesz aplikację i podasz swój numer telefonu, możemy wysłać kryptowalutę tak łatwo, jak za pomocą SMS-a. Użyj tego linku: {{link}}",
     "rewardsActive": {
       "title": "Zaproś {{contactName}} do {{appName}}, a razem otrzymacie NFT!",
-      "body": "Wygląda na to, że {{contactName}} nie korzysta z {{appName}}. Jeśli znasz adres jego/jej portfela, nadal możesz wysłać płatność lub zaproszenie. \n\n Po pobraniu portfela i podaniu numeru telefonu otrzymacie ekskluzywne NFT."
+      "body": "Wygląda na to, że {{contactName}} nie jest na {{appName}}. Jeśli znasz adres ich portfela, możesz wysłać płatność lub zaproszenie. \n\n Po pobraniu portfela i podaniu numeru telefonu, oboje otrzymacie ekskluzywne NFT."
     }
   },
   "celoDollarAmount_0": "<0></0> Celo Dolar",

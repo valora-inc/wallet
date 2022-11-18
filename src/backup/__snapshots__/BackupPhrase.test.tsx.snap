@@ -11,14 +11,19 @@ exports[`renders correctly with backup completed 1`] = `
 >
   <View
     style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "height": 56,
-        "justifyContent": "space-between",
-        "overflow": "hidden",
-        "width": "100%",
-      }
+      Array [
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "height": 56,
+          "justifyContent": "space-between",
+          "overflow": "hidden",
+          "width": "100%",
+        },
+        Object {
+          "paddingHorizontal": 16,
+        },
+      ]
     }
   >
     <View
@@ -315,7 +320,6 @@ exports[`renders correctly with backup completed 1`] = `
                 "fontFamily": "Inter-Regular",
                 "fontSize": 16,
                 "lineHeight": 22,
-                "paddingHorizontal": 24,
               },
               Array [
                 Object {
@@ -374,7 +378,6 @@ exports[`renders correctly with backup completed 1`] = `
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
               "lineHeight": 22,
-              "paddingHorizontal": 24,
             }
           }
         >
@@ -482,14 +485,19 @@ exports[`renders correctly with backup not completed 1`] = `
 >
   <View
     style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "height": 56,
-        "justifyContent": "space-between",
-        "overflow": "hidden",
-        "width": "100%",
-      }
+      Array [
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "height": 56,
+          "justifyContent": "space-between",
+          "overflow": "hidden",
+          "width": "100%",
+        },
+        Object {
+          "paddingHorizontal": 16,
+        },
+      ]
     }
   >
     <View
@@ -786,7 +794,6 @@ exports[`renders correctly with backup not completed 1`] = `
                 "fontFamily": "Inter-Regular",
                 "fontSize": 16,
                 "lineHeight": 22,
-                "paddingHorizontal": 24,
               },
               Array [
                 Object {
@@ -845,7 +852,6 @@ exports[`renders correctly with backup not completed 1`] = `
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
               "lineHeight": 22,
-              "paddingHorizontal": 24,
             }
           }
         >
@@ -1071,14 +1077,19 @@ exports[`still renders when mnemonic doesnt show up 1`] = `
 >
   <View
     style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "height": 56,
-        "justifyContent": "space-between",
-        "overflow": "hidden",
-        "width": "100%",
-      }
+      Array [
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "height": 56,
+          "justifyContent": "space-between",
+          "overflow": "hidden",
+          "width": "100%",
+        },
+        Object {
+          "paddingHorizontal": 16,
+        },
+      ]
     }
   >
     <View
@@ -1375,7 +1386,6 @@ exports[`still renders when mnemonic doesnt show up 1`] = `
                 "fontFamily": "Inter-Regular",
                 "fontSize": 16,
                 "lineHeight": 22,
-                "paddingHorizontal": 24,
               },
               Array [
                 Object {
@@ -1434,7 +1444,6 @@ exports[`still renders when mnemonic doesnt show up 1`] = `
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
               "lineHeight": 22,
-              "paddingHorizontal": 24,
             }
           }
         >

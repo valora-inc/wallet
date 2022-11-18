@@ -1,4 +1,4 @@
-import { StackScreenProps } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActionSheetIOS, ActivityIndicator, Platform, StyleSheet, View } from 'react-native'
@@ -30,7 +30,7 @@ import { isWalletConnectDeepLink } from 'src/walletConnect/walletConnect'
 import { WebViewAndroidBottomSheet } from 'src/webview/WebViewAndroidBottomSheet'
 import { parse } from 'url'
 
-type RouteProps = StackScreenProps<StackParamList, Screens.WebViewScreen>
+type RouteProps = NativeStackScreenProps<StackParamList, Screens.WebViewScreen>
 type Props = RouteProps
 
 function WebViewScreen({ route, navigation }: Props) {
@@ -88,7 +88,7 @@ function WebViewScreen({ route, navigation }: Props) {
         <TopBarTextButton
           title={t('close')}
           onPress={navigateBack}
-          titleStyle={{ color: colors.gray4 }}
+          titleStyle={{ color: colors.gray4, paddingHorizontal: 0 }}
         />
       ),
     })

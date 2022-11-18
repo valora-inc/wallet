@@ -1,5 +1,5 @@
 import { LocalizedCountry } from '@celo/utils/lib/countries'
-import { StackScreenProps } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FlatList, StyleSheet, View } from 'react-native'
@@ -17,10 +17,10 @@ import { getCountryFeatures } from 'src/utils/countryFeatures'
 
 const keyExtractor = (item: LocalizedCountry) => item.alpha2
 
-type Props = StackScreenProps<StackParamList, Screens.SelectCountry>
+type Props = NativeStackScreenProps<StackParamList, Screens.SelectCountry>
 
 export default function SelectCountry({ navigation, route }: Props) {
-  const { countries, selectedCountryCodeAlpha2 } = route.params
+  const { countries, selectedCountryCodeAlpha2, hideOnboardingStep } = route.params
   const { t } = useTranslation()
   const [searchText, setSearchText] = useState('')
 
@@ -35,6 +35,7 @@ export default function SelectCountry({ navigation, route }: Props) {
   function onSelect(country: LocalizedCountry) {
     navigation.navigate(Screens.VerificationEducationScreen, {
       selectedCountryCodeAlpha2: country.alpha2,
+      hideOnboardingStep,
     })
   }
 

@@ -1,4 +1,4 @@
-import { StackScreenProps } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useEffect } from 'react'
 import { ActivityIndicator, StyleSheet, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
@@ -13,7 +13,7 @@ import { StackParamList } from 'src/navigator/types'
 import colors from 'src/styles/colors'
 import variables from 'src/styles/variables'
 
-type Props = StackScreenProps<StackParamList, Screens.FiatConnectRefetchQuote>
+type Props = NativeStackScreenProps<StackParamList, Screens.FiatConnectRefetchQuote>
 
 export default function FiatConnectRefetchQuoteScreen({ route }: Props) {
   const { providerId, kycSchema } = route.params
