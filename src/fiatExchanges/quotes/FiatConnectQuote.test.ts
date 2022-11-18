@@ -21,17 +21,17 @@ jest.mock('src/web3/contracts', () => ({
     getAccounts: jest.fn(() => ['fake-account']),
   })),
 }))
-jest.mock('src/fiatExchanges/quotes/constants', () => {
-  const { FiatAccountSchema } = require('@fiatconnect/fiatconnect-types')
-
-  return {
-    DEFAULT_ALLOWED_VALUES: {
-      [FiatAccountSchema.AccountNumber]: {
-        testKey: ['testDefaultValue'],
-      },
+jest.mock('src/fiatExchanges/quotes/constants', () => ({
+  DEFAULT_ALLOWED_VALUES: {
+    // Using 'AccountNumber' rather FiatAccountSchema enum because it'd be necessary
+    // to require the fiatconnect-types within this jest mock for that to work.
+    // If that were to become a repo pattern, it could lead to unexpected side
+    // effects e.g. if the require is also something that is mocked.
+    ['AccountNumber']: {
+      testKey: ['testDefaultValue'],
     },
-  }
-})
+  },
+}))
 
 const mockExchangeRates = {
   cGLD: '2',
