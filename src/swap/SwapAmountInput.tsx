@@ -47,16 +47,10 @@ const SwapAmountInput = ({
   const { t } = useTranslation()
 
   // the startPosition and textInputRef variables exist to ensure TextInput
-  // displays the start of the value for long values on Android
+  // displays the start of the value for long values on Android when out of focus
   // https://github.com/facebook/react-native/issues/14845
-  const [startPosition, setStartPosition] = useState<number | undefined>(0)
+  const [isFocused, setIsFocused] = useState(!!autoFocus)
   const textInputRef = useRef<RNTextInput | null>(null)
-
-  const handleSetStartPosition = (value?: number) => {
-    if (Platform.OS === 'android') {
-      setStartPosition(value)
-    }
-  }
 
   const showInputLoader = loading && !inputValue
 
@@ -67,7 +61,6 @@ const SwapAmountInput = ({
         <TextInput
           forwardedRef={textInputRef}
           onChangeText={(value) => {
-            handleSetStartPosition(undefined)
             onInputChange(value)
           }}
           value={inputValue || undefined}
@@ -85,16 +78,12 @@ const SwapAmountInput = ({
           ]}
           testID="SwapAmountInput/Input"
           onBlur={() => {
-            handleSetStartPosition(0)
+            setIsFocused(false)
           }}
           onFocus={() => {
-            handleSetStartPosition(inputValue?.length ?? 0)
+            setIsFocused(true)
           }}
-          selection={
-            Platform.OS === 'android' && typeof startPosition === 'number'
-              ? { start: startPosition }
-              : undefined
-          }
+          selection={Platform.OS === 'android' && !isFocused ? { start: 0 } : undefined}
         />
         {showInputLoader && (
           <View style={styles.loadingContainer}>
