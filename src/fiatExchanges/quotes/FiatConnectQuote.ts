@@ -5,12 +5,12 @@ import {
   KycSchema,
   QuoteResponseFiatAccountSchema,
   QuoteResponseKycSchema,
-  SupportedOperatorEnum,
 } from '@fiatconnect/fiatconnect-types'
 import BigNumber from 'bignumber.js'
 import { Dispatch } from 'redux'
 import { FiatConnectProviderInfo, FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import { selectFiatConnectQuote } from 'src/fiatconnect/slice'
+import { DEFAULT_ALLOWED_VALUES } from 'src/fiatExchanges/quotes/constants'
 import NormalizedQuote from 'src/fiatExchanges/quotes/NormalizedQuote'
 import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import i18n from 'src/i18n'
@@ -214,12 +214,8 @@ export default class FiatConnectQuote extends NormalizedQuote {
   }
 
   getFiatAccountSchemaAllowedValues(key: string): string[] {
-    if (key === 'operator') {
-      return (
-        this.quoteResponseFiatAccountSchema.allowedValues[key] ?? Object.keys(SupportedOperatorEnum)
-      )
-    }
-    return this.quoteResponseFiatAccountSchema.allowedValues[key]
+    const defaultValue = DEFAULT_ALLOWED_VALUES[this.getFiatAccountSchema()]?.[key]
+    return this.quoteResponseFiatAccountSchema.allowedValues[key] ?? defaultValue
   }
 
   getQuoteId(): string {
