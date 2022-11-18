@@ -165,7 +165,7 @@ describe('TransferStatusScreen', () => {
         {
           provider: 'provider-two',
           flow: CICOFlow.CashIn,
-          txHash: undefined,
+          txHash: null,
         }
       )
       expect(queryByTestId('txDetails')).toBeFalsy()
