@@ -1,0 +1,11 @@
+ignores: [
+  "@actions/github",
+  "@types/*",
+  "metro-react-native-babel-preset",
+  "prettier-plugin-java",
+  "pretty-quick",
+  "react-native-version",
+  "react-native-kill-packager",
+  "ts-node",
+]
+skip-missing: true
