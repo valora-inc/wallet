@@ -1,5 +1,5 @@
 import { firebase } from '@react-native-firebase/database'
-import { StackScreenProps } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
@@ -32,7 +32,7 @@ import { walletAddressSelector } from 'src/web3/selectors'
 // @ts-ignore
 const TAG = 'paymentRequest/confirmation'
 
-type Props = StackScreenProps<StackParamList, Screens.PaymentRequestConfirmation>
+type Props = NativeStackScreenProps<StackParamList, Screens.PaymentRequestConfirmation>
 
 export const paymentConfirmationScreenNavOptions = () => ({
   ...emptyHeader,

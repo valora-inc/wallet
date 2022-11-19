@@ -1,5 +1,5 @@
 import { KycStatus as FiatConnectKycStatus } from '@fiatconnect/fiatconnect-types'
-import { StackScreenProps } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
@@ -17,7 +17,7 @@ import { StackParamList } from 'src/navigator/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 
-type Props = StackScreenProps<StackParamList, Screens.KycPending>
+type Props = NativeStackScreenProps<StackParamList, Screens.KycPending>
 
 function KycPending({ route, navigation }: Props) {
   navigation.setOptions(

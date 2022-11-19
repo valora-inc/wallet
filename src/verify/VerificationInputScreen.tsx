@@ -3,7 +3,8 @@ import {
   extractSecurityCodeWithPrefix,
 } from '@celo/utils/lib/attestations'
 import { parsePhoneNumber } from '@celo/utils/lib/phoneNumbers'
-import { HeaderHeightContext, StackScreenProps } from '@react-navigation/stack'
+import { HeaderHeightContext } from '@react-navigation/elements'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import dotProp from 'dot-prop-immutable'
 import * as React from 'react'
 import { WithTranslation } from 'react-i18next'
@@ -48,7 +49,7 @@ import VerificationInputHelpDialog from 'src/verify/VerificationInputHelpDialog'
 
 const TAG = 'VerificationInputScreen'
 
-type ScreenProps = StackScreenProps<StackParamList, Screens.VerificationInputScreen>
+type ScreenProps = NativeStackScreenProps<StackParamList, Screens.VerificationInputScreen>
 
 interface StateProps {
   e164Number: string | null

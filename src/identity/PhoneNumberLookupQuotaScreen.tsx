@@ -1,4 +1,4 @@
-import { StackScreenProps } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { BackHandler, StyleSheet, Text, View } from 'react-native'
@@ -18,7 +18,7 @@ import { StackParamList } from 'src/navigator/types'
 import { cUsdBalanceSelector } from 'src/stableToken/selectors'
 import fontStyles from 'src/styles/fonts'
 
-type Props = StackScreenProps<StackParamList, Screens.PhoneNumberLookupQuota>
+type Props = NativeStackScreenProps<StackParamList, Screens.PhoneNumberLookupQuota>
 
 function PhoneNumberLookupQuotaScreen(props: Props) {
   const [isSending, setIsSending] = useState(false)

@@ -1,4 +1,4 @@
-import { StackScreenProps } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
@@ -12,7 +12,7 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import fontStyles from 'src/styles/fonts'
 
-type RouteProps = StackScreenProps<StackParamList, Screens.CashInSuccess>
+type RouteProps = NativeStackScreenProps<StackParamList, Screens.CashInSuccess>
 type Props = RouteProps
 
 const capitalizeProvider = (provider?: string) => {

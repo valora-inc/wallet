@@ -4,14 +4,11 @@ import 'react-native'
 import { Provider } from 'react-redux'
 import CeloExchangeButtons from 'src/exchange/CeloExchangeButtons'
 import { ExchangeRates } from 'src/exchange/reducer'
-import { Screens } from 'src/navigator/Screens'
 import { Currency } from 'src/utils/currencies'
-import { createMockStore, getMockStackScreenProps } from 'test/utils'
+import { createMockStore } from 'test/utils'
 import { makeExchangeRates } from 'test/values'
 
 const exchangeRates: ExchangeRates = makeExchangeRates('0.11', '10')
-
-const mockScreenProps = getMockStackScreenProps(Screens.ExchangeHomeScreen)
 
 describe('CeloExchangeButtons', () => {
   it('renders correctly', () => {
@@ -23,7 +20,7 @@ describe('CeloExchangeButtons', () => {
 
     const tree = render(
       <Provider store={store}>
-        <CeloExchangeButtons {...mockScreenProps} />
+        <CeloExchangeButtons />
       </Provider>
     )
     expect(tree).toMatchSnapshot()
@@ -38,7 +35,7 @@ describe('CeloExchangeButtons', () => {
 
     const tree = render(
       <Provider store={store}>
-        <CeloExchangeButtons {...mockScreenProps} />
+        <CeloExchangeButtons />
       </Provider>
     )
     expect(tree).toMatchSnapshot()
@@ -53,7 +50,7 @@ describe('CeloExchangeButtons', () => {
 
     const tree = render(
       <Provider store={store}>
-        <CeloExchangeButtons {...mockScreenProps} />
+        <CeloExchangeButtons />
       </Provider>
     )
     expect(tree).toMatchSnapshot()
@@ -68,7 +65,7 @@ describe('CeloExchangeButtons', () => {
 
     const tree = render(
       <Provider store={store}>
-        <CeloExchangeButtons {...mockScreenProps} />
+        <CeloExchangeButtons />
       </Provider>
     )
     expect(tree).toMatchSnapshot()

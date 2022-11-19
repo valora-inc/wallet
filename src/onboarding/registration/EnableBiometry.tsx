@@ -1,4 +1,4 @@
-import { StackScreenProps } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useEffect, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
@@ -38,7 +38,7 @@ import Logger from 'src/utils/Logger'
 
 const TAG = 'EnableBiometry'
 
-type Props = StackScreenProps<StackParamList, Screens.EnableBiometry>
+type Props = NativeStackScreenProps<StackParamList, Screens.EnableBiometry>
 
 const biometryImageMap: { [key in Keychain.BIOMETRY_TYPE]: JSX.Element } = {
   [Keychain.BIOMETRY_TYPE.FACE_ID]: <FaceID />,

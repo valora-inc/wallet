@@ -760,7 +760,6 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
                 "fontFamily": "Inter-Regular",
                 "fontSize": 16,
                 "lineHeight": 22,
-                "paddingHorizontal": 24,
               },
               Array [
                 Object {
@@ -1853,7 +1852,6 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
                 "fontFamily": "Inter-Regular",
                 "fontSize": 16,
                 "lineHeight": 22,
-                "paddingHorizontal": 24,
               },
               Array [
                 Object {
@@ -2946,7 +2944,6 @@ exports[`VerificationEducationScreen shows the \`skip\` button when already veri
                 "fontFamily": "Inter-Regular",
                 "fontSize": 16,
                 "lineHeight": 22,
-                "paddingHorizontal": 24,
               },
               Array [
                 Object {
@@ -4034,7 +4031,6 @@ exports[`VerificationEducationScreen shows the \`skip\` button when user is not 
                 "fontFamily": "Inter-Regular",
                 "fontSize": 16,
                 "lineHeight": 22,
-                "paddingHorizontal": 24,
               },
               Array [
                 Object {

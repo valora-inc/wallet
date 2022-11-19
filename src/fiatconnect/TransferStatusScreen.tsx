@@ -1,4 +1,4 @@
-import { StackScreenProps } from '@react-navigation/stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, SafeAreaView, StyleSheet, Text, View } from 'react-native'
@@ -24,7 +24,7 @@ import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import networkConfig from 'src/web3/networkConfig'
-type Props = StackScreenProps<StackParamList, Screens.FiatConnectTransferStatus>
+type Props = NativeStackScreenProps<StackParamList, Screens.FiatConnectTransferStatus>
 
 function onBack(flow: CICOFlow, normalizedQuote: FiatConnectQuote, fiatAccount: FiatAccount) {
   ValoraAnalytics.track(FiatExchangeEvents.cico_fc_transfer_error_retry, {
@@ -107,7 +107,7 @@ function SuccessSection({
     ValoraAnalytics.track(FiatExchangeEvents.cico_fc_transfer_success_view_tx, {
       flow,
       provider,
-      txHash: fiatConnectTransfer.txHash!,
+      txHash: fiatConnectTransfer.txHash,
     })
     navigate(Screens.WebViewScreen, {
       uri: `${networkConfig.celoExplorerBaseTxUrl}${fiatConnectTransfer?.txHash}`,
@@ -118,7 +118,7 @@ function SuccessSection({
     ValoraAnalytics.track(FiatExchangeEvents.cico_fc_transfer_success_complete, {
       flow,
       provider,
-      txHash: fiatConnectTransfer.txHash ?? undefined,
+      txHash: fiatConnectTransfer.txHash,
     })
     navigateHome()
   }
