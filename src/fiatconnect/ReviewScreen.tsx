@@ -1,5 +1,6 @@
 import { ObfuscatedFiatAccountData } from '@fiatconnect/fiatconnect-types'
 import { RouteProp } from '@react-navigation/native'
+import BigNumber from 'bignumber.js'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -31,7 +32,7 @@ import { StackParamList } from 'src/navigator/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
-import { Currency, resolveCICOCurrency } from 'src/utils/currencies'
+import { Currency } from 'src/utils/currencies'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.FiatConnectReview>
 
@@ -240,39 +241,152 @@ function ReceiveAmount({
   normalizedQuote: FiatConnectQuote
 }) {
   const { t } = useTranslation()
+  const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)!
+
+  const { receiveDisplay } = getDisplayAmounts({
+    flow,
+    normalizedQuote,
+    exchangeRates,
+  })
   return (
     <View style={styles.receiveAmountContainer}>
       <LineItemRow
         style={styles.sectionMainTextContainer}
         textStyle={styles.sectionMainText}
         title={t('fiatConnectReviewScreen.receiveAmount')}
-        amount={
-          flow === CICOFlow.CashIn ? (
-            <TokenDisplay
-              amount={normalizedQuote.getCryptoAmount()}
-              currency={normalizedQuote.getCryptoType()}
-              showLocalAmount={false}
-              testID="amount-crypto"
-            />
-          ) : (
-            <CurrencyDisplay
-              amount={{
-                // The value here doesn't matter since the component will use `localAmount`
-                value: 0,
-                currencyCode: resolveCICOCurrency(normalizedQuote.getCryptoType()),
-                localAmount: {
-                  value: normalizedQuote.getFiatAmount(),
-                  currencyCode: normalizedQuote.getFiatType(),
-                  exchangeRate: 1,
-                },
-              }}
-              testID="amount-fiat"
-            />
-          )
-        }
+        amount={receiveDisplay('receive-amount')}
       />
     </View>
   )
+}
+
+function CryptoAmount({
+  amount,
+  currency,
+  testID,
+}: {
+  amount: BigNumber.Value
+  currency: Currency
+  testID: string
+}) {
+  return (
+    <TokenDisplay amount={amount} currency={currency} showLocalAmount={false} testID={testID} />
+  )
+}
+
+function FiatAmount({
+  amount,
+  currency,
+  testID,
+  formatType,
+}: {
+  amount: BigNumber.Value
+  currency: string
+  testID: string
+  formatType?: FormatType
+}) {
+  return (
+    <CurrencyDisplay
+      amount={{
+        // The value and currencyCode here doesn't matter since the component will use `localAmount`
+        value: 0,
+        currencyCode: '',
+        localAmount: {
+          value: amount,
+          currencyCode: currency,
+          exchangeRate: 1,
+        },
+      }}
+      formatType={formatType}
+      testID={testID}
+    />
+  )
+}
+
+function getDisplayAmounts({
+  flow,
+  normalizedQuote,
+  exchangeRates,
+}: {
+  flow: CICOFlow
+  normalizedQuote: FiatConnectQuote
+  exchangeRates: {
+    cGLD: string | null
+    cUSD: string | null
+    cEUR: string | null
+  }
+}) {
+  const cryptoType = normalizedQuote.getCryptoType()
+  const fiatType = normalizedQuote.getFiatType()
+  if (flow === CICOFlow.CashOut) {
+    const receive = normalizedQuote.getFiatAmount()
+    const total = normalizedQuote.getCryptoAmount()
+    const fee = normalizedQuote.getFeeInCrypto(exchangeRates)
+    const totalMinusFee = Number(total) - Number(fee || 0)
+    const exchangeRate = Number(receive) / totalMinusFee
+
+    const receiveDisplay = (testID: string) => (
+      <FiatAmount amount={receive} currency={fiatType} testID={testID} />
+    )
+    const totalDisplay = (
+      <CryptoAmount amount={total} currency={cryptoType} testID="txDetails-total" />
+    )
+
+    const feeDisplay = fee && (
+      <CryptoAmount amount={fee} currency={cryptoType} testID="txDetails-fee" />
+    )
+
+    const totalMinusFeeDisplay = (
+      <CryptoAmount amount={totalMinusFee} currency={cryptoType} testID="txDetails-converted" />
+    )
+    const exchangeRateDisplay = (
+      <FiatAmount
+        amount={exchangeRate}
+        currency={fiatType}
+        testID="txDetails-exchangeRate"
+        formatType={FormatType.ExchangeRate}
+      />
+    )
+    return {
+      receiveDisplay,
+      totalDisplay,
+      feeDisplay,
+      totalMinusFeeDisplay,
+      exchangeRateDisplay,
+    }
+  } else {
+    const receive = normalizedQuote.getCryptoAmount()
+    const total = normalizedQuote.getFiatAmount()
+    const fee = normalizedQuote.getFeeInFiat(exchangeRates)
+    const totalMinusFee = Number(total) - Number(fee || 0)
+    const exchangeRate = totalMinusFee / Number(receive)
+
+    const receiveDisplay = (testID: string) => (
+      <CryptoAmount amount={receive} currency={cryptoType} testID={testID} />
+    )
+    const totalDisplay = <FiatAmount amount={total} currency={fiatType} testID="txDetails-total" />
+
+    const feeDisplay = fee && <FiatAmount amount={fee} currency={fiatType} testID="txDetails-fee" />
+
+    const totalMinusFeeDisplay = (
+      <FiatAmount amount={totalMinusFee} currency={fiatType} testID="txDetails-converted" />
+    )
+    const exchangeRateDisplay = (
+      <FiatAmount
+        amount={exchangeRate}
+        currency={fiatType}
+        testID="txDetails-exchangeRate"
+        formatType={FormatType.ExchangeRate}
+      />
+    )
+    return {
+      receiveDisplay,
+      totalDisplay,
+      feeDisplay,
+      totalMinusFeeDisplay,
+      exchangeRateDisplay,
+    }
+  }
 }
 
 function TransactionDetails({
@@ -283,12 +397,12 @@ function TransactionDetails({
   normalizedQuote: FiatConnectQuote
 }) {
   const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)!
-
-  if (flow === CICOFlow.CashIn) {
-    // TODO: update below implementation to support CashIn
-    throw new Error('Not implemented')
-  }
-
+  const { receiveDisplay, totalDisplay, feeDisplay, exchangeRateDisplay, totalMinusFeeDisplay } =
+    getDisplayAmounts({
+      flow,
+      normalizedQuote,
+      exchangeRates,
+    })
   const { t } = useTranslation()
   let tokenDisplay: string
   switch (normalizedQuote.getCryptoType()) {
@@ -305,10 +419,6 @@ function TransactionDetails({
       tokenDisplay = t('total')
   }
 
-  const fee = normalizedQuote.getFeeInCrypto(exchangeRates)
-  const totalConverted = Number(normalizedQuote.getCryptoAmount()) - Number(fee || 0)
-  const exchangeRate = Number(normalizedQuote.getFiatAmount()) / totalConverted
-
   return (
     <View style={styles.sectionContainer}>
       <Text style={styles.sectionHeaderText}>
@@ -317,41 +427,28 @@ function TransactionDetails({
       <LineItemRow
         style={styles.sectionMainTextContainer}
         textStyle={styles.sectionMainText}
-        title={t('fiatConnectReviewScreen.cashOut.transactionDetailsAmount')}
-        amount={
-          <TokenDisplay
-            amount={normalizedQuote.getCryptoAmount()}
-            currency={normalizedQuote.getCryptoType()}
-            showLocalAmount={false}
-            testID="txDetails-total"
-          />
+        title={
+          flow === CICOFlow.CashOut
+            ? t('fiatConnectReviewScreen.cashOut.transactionDetailsAmount')
+            : t('fiatConnectReviewScreen.cashIn.transactionDetailsAmount')
         }
+        amount={totalDisplay}
       />
       <LineItemRow
         style={styles.sectionSubTextContainer}
         textStyle={styles.sectionSubText}
-        title={t('fiatConnectReviewScreen.cashOut.transactionDetailsAmountConverted')}
-        amount={
-          <TokenDisplay
-            amount={totalConverted}
-            currency={normalizedQuote.getCryptoType()}
-            showLocalAmount={false}
-            testID="txDetails-converted"
-          />
+        title={
+          flow === CICOFlow.CashOut
+            ? t('fiatConnectReviewScreen.cashOut.transactionDetailsAmountConverted')
+            : t('fiatConnectReviewScreen.cashIn.transactionDetailsAmountConverted')
         }
+        amount={totalMinusFeeDisplay}
       />
-      {!!fee && (
+      {!!feeDisplay && (
         // TODO(any): consider using FeeDrawer if we want to show fee breakdown
         <LineItemRow
           title={t('feeEstimate')}
-          amount={
-            <TokenDisplay
-              amount={fee}
-              currency={normalizedQuote.getCryptoType()}
-              showLocalAmount={false}
-              testID="txDetails-fee"
-            />
-          }
+          amount={feeDisplay}
           style={styles.sectionSubTextContainer}
           textStyle={styles.sectionSubText}
         />
@@ -360,36 +457,10 @@ function TransactionDetails({
         title={
           <>
             {`${tokenDisplay} @ `}
-            <CurrencyDisplay
-              amount={{
-                value: 1,
-                currencyCode: resolveCICOCurrency(normalizedQuote.getCryptoType()),
-                localAmount: {
-                  value: exchangeRate,
-                  currencyCode: normalizedQuote.getFiatType(),
-                  exchangeRate,
-                },
-              }}
-              formatType={FormatType.ExchangeRate}
-              testID="txDetails-exchangeRate"
-            />
+            {exchangeRateDisplay}
           </>
         }
-        amount={
-          <CurrencyDisplay
-            amount={{
-              // The value here doesn't matter since the component will use `localAmount`
-              value: 0,
-              currencyCode: resolveCICOCurrency(normalizedQuote.getCryptoType()),
-              localAmount: {
-                value: normalizedQuote.getFiatAmount(),
-                currencyCode: normalizedQuote.getFiatType(),
-                exchangeRate: 1,
-              },
-            }}
-            testID="txDetails-exchangeAmount"
-          />
-        }
+        amount={receiveDisplay('txDetails-receive')}
         style={styles.sectionSubTextContainer}
         textStyle={styles.sectionSubText}
       />
@@ -519,8 +590,6 @@ FiatConnectReviewScreen.navigationOptions = ({
 }) => ({
   ...emptyHeader,
   headerLeft: () => <BackButton />,
-  // NOTE: copies for cash in not final
-
   headerTitle:
     route.params.flow === CICOFlow.CashIn
       ? i18n.t(`fiatConnectReviewScreen.cashIn.header`)

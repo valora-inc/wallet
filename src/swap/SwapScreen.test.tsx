@@ -1,4 +1,4 @@
-import { act, fireEvent, render, within } from '@testing-library/react-native'
+import { act, fireEvent, render, waitFor, within } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import { FetchMock } from 'jest-fetch-mock/types'
 import React from 'react'
@@ -136,11 +136,11 @@ describe('SwapScreen', () => {
 
     act(() => {
       fireEvent.press(within(swapFromContainer).getByTestId('SwapAmountInput/TokenSelect'))
-      jest.runAllTimers()
+      jest.runOnlyPendingTimers()
       fireEvent.press(getByTestId('cEURTouchable'))
 
       fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
-      jest.runAllTimers()
+      jest.runOnlyPendingTimers()
       fireEvent.press(getByTestId('CELOTouchable'))
     })
 
@@ -156,7 +156,7 @@ describe('SwapScreen', () => {
 
     act(() => {
       fireEvent.press(within(swapFromContainer).getByTestId('SwapAmountInput/TokenSelect'))
-      jest.runAllTimers()
+      jest.runOnlyPendingTimers()
       fireEvent.press(getByTestId('cUSDTouchable'))
     })
 
@@ -164,7 +164,7 @@ describe('SwapScreen', () => {
     expect(within(swapToContainer).getByText('CELO')).toBeTruthy()
   })
 
-  it('should keep the to amount in sync with the exchange rate', () => {
+  it('should keep the to amount in sync with the exchange rate', async () => {
     mockFetch.mockResponse(
       JSON.stringify({
         unvalidatedSwapTransaction: {
@@ -176,10 +176,10 @@ describe('SwapScreen', () => {
 
     act(() => {
       fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '1.234')
-      jest.runAllTimers()
+      jest.runOnlyPendingTimers()
     })
 
-    expect(getByText('1 CELO ≈ 1.23456 cUSD')).toBeTruthy()
+    await waitFor(() => expect(getByText('1 CELO ≈ 1.23456 cUSD')).toBeTruthy())
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe('1.234')
     expect(within(swapToContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
       '1.5234566652'
@@ -187,7 +187,7 @@ describe('SwapScreen', () => {
     expect(getByText('swapScreen.review')).not.toBeDisabled()
   })
 
-  it('should display a loader when initially fetching exchange rate', () => {
+  it('should display a loader when initially fetching exchange rate', async () => {
     mockFetch.mockResponse(
       JSON.stringify({
         unvalidatedSwapTransaction: {
@@ -199,9 +199,10 @@ describe('SwapScreen', () => {
 
     act(() => {
       fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '1.234')
-      jest.runAllTimers()
+      jest.runOnlyPendingTimers()
     })
 
+    await waitFor(() => expect(mockFetch.mock.calls.length).toEqual(1))
     expect(mockFetch.mock.calls[0][0]).toEqual(
       `${
         networkConfig.approveSwapUrl
@@ -216,7 +217,7 @@ describe('SwapScreen', () => {
     expect(getByText('swapScreen.review')).not.toBeDisabled()
   })
 
-  it('should keep the from amount in sync with the exchange rate', () => {
+  it('should keep the from amount in sync with the exchange rate', async () => {
     mockFetch.mockResponse(
       JSON.stringify({
         unvalidatedSwapTransaction: {
@@ -228,9 +229,10 @@ describe('SwapScreen', () => {
 
     act(() => {
       fireEvent.changeText(within(swapToContainer).getByTestId('SwapAmountInput/Input'), '1.234')
-      jest.runAllTimers()
+      jest.runOnlyPendingTimers()
     })
 
+    await waitFor(() => expect(mockFetch.mock.calls.length).toEqual(1))
     expect(mockFetch.mock.calls[0][0]).toEqual(
       `${
         networkConfig.approveSwapUrl
@@ -245,7 +247,7 @@ describe('SwapScreen', () => {
     expect(getByText('swapScreen.review')).not.toBeDisabled()
   })
 
-  it('should support from amount with comma as the decimal separator', () => {
+  it('should support from amount with comma as the decimal separator', async () => {
     // This only changes the display format, the input is parsed with getNumberFormatSettings
     BigNumber.config({
       FORMAT: {
@@ -261,11 +263,12 @@ describe('SwapScreen', () => {
     )
     const { swapFromContainer, swapToContainer, getByText } = renderScreen({})
 
-    void act(() => {
+    act(() => {
       fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '1,234')
-      jest.runAllTimers()
+      jest.runOnlyPendingTimers()
     })
 
+    await waitFor(() => expect(mockFetch.mock.calls.length).toEqual(1))
     expect(mockFetch.mock.calls[0][0]).toEqual(
       `${
         networkConfig.approveSwapUrl
@@ -280,7 +283,7 @@ describe('SwapScreen', () => {
     expect(getByText('swapScreen.review')).not.toBeDisabled()
   })
 
-  it('should support to amount with comma as the decimal separator', () => {
+  it('should support to amount with comma as the decimal separator', async () => {
     // This only changes the display format, the input is parsed with getNumberFormatSettings
     BigNumber.config({
       FORMAT: {
@@ -296,11 +299,12 @@ describe('SwapScreen', () => {
     )
     const { swapFromContainer, swapToContainer, getByText } = renderScreen({})
 
-    void act(() => {
+    act(() => {
       fireEvent.changeText(within(swapToContainer).getByTestId('SwapAmountInput/Input'), '1,234')
-      jest.runAllTimers()
+      jest.runOnlyPendingTimers()
     })
 
+    await waitFor(() => expect(mockFetch.mock.calls.length).toEqual(1))
     expect(mockFetch.mock.calls[0][0]).toEqual(
       `${
         networkConfig.approveSwapUrl
@@ -315,7 +319,7 @@ describe('SwapScreen', () => {
     expect(getByText('swapScreen.review')).not.toBeDisabled()
   })
 
-  it('should set max from value', () => {
+  it('should set max from value', async () => {
     mockFetch.mockResponse(
       JSON.stringify({
         unvalidatedSwapTransaction: {
@@ -327,10 +331,10 @@ describe('SwapScreen', () => {
 
     act(() => {
       fireEvent.press(getByTestId('SwapAmountInput/MaxButton'))
-      jest.runAllTimers()
+      jest.runOnlyPendingTimers()
     })
 
-    expect(getByText('1 CELO ≈ 1.23456 cUSD')).toBeTruthy()
+    await waitFor(() => expect(getByText('1 CELO ≈ 1.23456 cUSD')).toBeTruthy())
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
       '10' // matching the value inside the mocked store
     )
@@ -340,6 +344,50 @@ describe('SwapScreen', () => {
     expect(getByText('swapScreen.review')).not.toBeDisabled()
   })
 
+  it('should fetch the quote if the amount is cleared and re-entered', async () => {
+    mockFetch.mockResponse(
+      JSON.stringify({
+        unvalidatedSwapTransaction: {
+          price: '1.2345678',
+        },
+      })
+    )
+    const { swapFromContainer, swapToContainer, getByText, getByTestId } = renderScreen({})
+
+    act(() => {
+      fireEvent.press(getByTestId('SwapAmountInput/MaxButton'))
+      jest.runOnlyPendingTimers()
+    })
+
+    await waitFor(() => expect(mockFetch.mock.calls.length).toEqual(1))
+    expect(getByText('swapScreen.review')).not.toBeDisabled()
+
+    act(() => {
+      fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '')
+      jest.runAllTimers()
+    })
+
+    expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe('')
+    expect(within(swapToContainer).getByTestId('SwapAmountInput/Input').props.value).toBe('')
+    expect(getByText('swapScreen.review')).toBeDisabled()
+    expect(mockFetch.mock.calls.length).toEqual(1)
+
+    act(() => {
+      fireEvent.press(getByTestId('SwapAmountInput/MaxButton'))
+      jest.runOnlyPendingTimers()
+    })
+
+    await waitFor(() => expect(getByText('1 CELO ≈ 1.23456 cUSD')).toBeTruthy())
+    expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
+      '10' // matching the value inside the mocked store
+    )
+    expect(within(swapToContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
+      '12.345678'
+    )
+    expect(getByText('swapScreen.review')).not.toBeDisabled()
+    expect(mockFetch.mock.calls.length).toEqual(2)
+  })
+
   it('should set max value if it is zero', () => {
     const { swapFromContainer, swapToContainer, getByText, getByTestId } = renderScreen({
       hasZeroCeloBalance: true,
@@ -347,7 +395,7 @@ describe('SwapScreen', () => {
 
     act(() => {
       fireEvent.press(getByTestId('SwapAmountInput/MaxButton'))
-      jest.runAllTimers()
+      jest.runOnlyPendingTimers()
     })
 
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe('0')
@@ -356,24 +404,26 @@ describe('SwapScreen', () => {
     expect(getByText('swapScreen.review')).toBeDisabled()
   })
 
-  it('should display an error banner if api request fails', () => {
+  it('should display an error banner if api request fails', async () => {
     mockFetch.mockReject()
 
     const { swapFromContainer, swapToContainer, getByText, store } = renderScreen({})
 
     act(() => {
       fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '1.234')
-      jest.runAllTimers()
+      jest.runOnlyPendingTimers()
     })
 
-    expect(within(swapToContainer).getByTestId('SwapAmountInput/Loader')).toBeTruthy()
+    await waitFor(() =>
+      expect(within(swapToContainer).getByTestId('SwapAmountInput/Loader')).toBeTruthy()
+    )
     expect(getByText('swapScreen.review')).toBeDisabled()
     expect(store.getActions()).toEqual(
       expect.arrayContaining([showError(ErrorMessages.FETCH_SWAP_QUOTE_FAILED)])
     )
   })
 
-  it('should be able to navigate to swap review screen', () => {
+  it('should be able to navigate to swap review screen', async () => {
     mockFetch.mockResponse(
       JSON.stringify({
         unvalidatedSwapTransaction: {
@@ -385,9 +435,10 @@ describe('SwapScreen', () => {
 
     act(() => {
       fireEvent.press(getByTestId('SwapAmountInput/MaxButton'))
-      jest.runAllTimers()
+      jest.runOnlyPendingTimers()
     })
 
+    await waitFor(() => expect(getByText('swapScreen.review')).not.toBeDisabled())
     fireEvent.press(getByText('swapScreen.review'))
     expect(navigate).toHaveBeenCalledWith(Screens.SwapReviewScreen)
 
@@ -406,7 +457,7 @@ describe('SwapScreen', () => {
     )
   })
 
-  it('should be able to navigate to swap review screen when the entered value uses comma as the decimal separator', () => {
+  it('should be able to navigate to swap review screen when the entered value uses comma as the decimal separator', async () => {
     mockFetch.mockResponse(
       JSON.stringify({
         unvalidatedSwapTransaction: {
@@ -416,11 +467,12 @@ describe('SwapScreen', () => {
     )
     const { swapFromContainer, getByText, store } = renderScreen({})
 
-    void act(() => {
+    act(() => {
       fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '1,5')
-      jest.runAllTimers()
+      jest.runOnlyPendingTimers()
     })
 
+    await waitFor(() => expect(getByText('swapScreen.review')).not.toBeDisabled())
     fireEvent.press(getByText('swapScreen.review'))
     expect(navigate).toHaveBeenCalledWith(Screens.SwapReviewScreen)
 
