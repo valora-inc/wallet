@@ -932,17 +932,14 @@
         "FiatConnectTransfer": {
             "additionalProperties": false,
             "properties": {
-                "failed": {
-                    "type": "boolean"
-                },
                 "flow": {
                     "$ref": "#/definitions/CICOFlow"
                 },
-                "isSending": {
-                    "type": "boolean"
-                },
                 "quoteId": {
                     "type": "string"
+                },
+                "status": {
+                    "$ref": "#/definitions/SendingTransferStatus"
                 },
                 "txHash": {
                     "type": [
@@ -952,10 +949,9 @@
                 }
             },
             "required": [
-                "failed",
                 "flow",
-                "isSending",
                 "quoteId",
+                "status",
                 "txHash"
             ],
             "type": "object"
@@ -2046,6 +2042,15 @@
             "enum": [
                 "KycApproved",
                 "NotSending",
+                "Sending"
+            ],
+            "type": "string"
+        },
+        "SendingTransferStatus": {
+            "enum": [
+                "Completed",
+                "Failed",
+                "Pending",
                 "Sending"
             ],
             "type": "string"

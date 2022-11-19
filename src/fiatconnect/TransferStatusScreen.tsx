@@ -10,7 +10,7 @@ import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import TextButton from 'src/components/TextButton'
 import Touchable from 'src/components/Touchable'
 import { fiatConnectTransferSelector } from 'src/fiatconnect/selectors'
-import { FiatAccount, FiatConnectTransfer } from 'src/fiatconnect/slice'
+import { FiatAccount, FiatConnectTransfer, SendingTransferStatus } from 'src/fiatconnect/slice'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import CheckmarkCircle from 'src/icons/CheckmarkCircle'
@@ -166,49 +166,57 @@ export default function FiatConnectTransferStatusScreen({ route, navigation }: P
     navigateHome()
   }
 
-  if (fiatConnectTransfer.failed) {
-    navigation.setOptions({
-      ...emptyHeader,
-      headerLeft: () => (
-        <BackButton testID="Back" onPress={() => onBack(flow, normalizedQuote, fiatAccount)} />
-      ),
-      headerRight: () => (
-        <TextButton testID="Cancel" style={styles.cancelBtn} onPress={onPressCancel}>
-          {flow === CICOFlow.CashIn
-            ? t('fiatConnectStatusScreen.cashIn.cancel')
-            : t('fiatConnectStatusScreen.cashOut.cancel')}
-        </TextButton>
-      ),
-    })
-  } else if (!fiatConnectTransfer.isSending) {
-    navigation.setOptions({
-      ...emptyHeader,
-      headerLeft: () => <View />,
-      headerTitle: t('fiatConnectStatusScreen.success.header'),
-    })
+  switch (fiatConnectTransfer.status) {
+    case SendingTransferStatus.Sending:
+      return (
+        <View style={styles.activityIndicatorContainer}>
+          <ActivityIndicator
+            testID="loadingTransferStatus"
+            size="large"
+            color={colors.greenBrand}
+          />
+        </View>
+      )
+    case SendingTransferStatus.Completed:
+      navigation.setOptions({
+        ...emptyHeader,
+        headerLeft: () => <View />,
+        headerTitle: t('fiatConnectStatusScreen.success.header'),
+      })
+      return (
+        <SafeAreaView style={styles.content}>
+          <SuccessSection
+            flow={flow}
+            fiatConnectTransfer={fiatConnectTransfer}
+            normalizedQuote={normalizedQuote}
+          />
+        </SafeAreaView>
+      )
+    case SendingTransferStatus.Failed:
+      navigation.setOptions({
+        ...emptyHeader,
+        headerLeft: () => (
+          <BackButton testID="Back" onPress={() => onBack(flow, normalizedQuote, fiatAccount)} />
+        ),
+        headerRight: () => (
+          <TextButton testID="Cancel" style={styles.cancelBtn} onPress={onPressCancel}>
+            {flow === CICOFlow.CashIn
+              ? t('fiatConnectStatusScreen.cashIn.cancel')
+              : t('fiatConnectStatusScreen.cashOut.cancel')}
+          </TextButton>
+        ),
+      })
+      return (
+        <SafeAreaView style={styles.content}>
+          <FailureSection flow={flow} normalizedQuote={normalizedQuote} fiatAccount={fiatAccount} />
+        </SafeAreaView>
+      )
+    case SendingTransferStatus.Pending:
+      // TODO
+      return null
+    default:
+      throw new Error('Invalid transfer status')
   }
-
-  if (fiatConnectTransfer.isSending) {
-    return (
-      <View style={styles.activityIndicatorContainer}>
-        <ActivityIndicator testID="loadingTransferStatus" size="large" color={colors.greenBrand} />
-      </View>
-    )
-  }
-
-  return (
-    <SafeAreaView style={styles.content}>
-      {fiatConnectTransfer.failed ? (
-        <FailureSection flow={flow} normalizedQuote={normalizedQuote} fiatAccount={fiatAccount} />
-      ) : (
-        <SuccessSection
-          flow={flow}
-          fiatConnectTransfer={fiatConnectTransfer}
-          normalizedQuote={normalizedQuote}
-        />
-      )}
-    </SafeAreaView>
-  )
 }
 
 const styles = StyleSheet.create({
