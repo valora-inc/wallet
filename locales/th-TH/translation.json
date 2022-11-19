@@ -1348,7 +1348,8 @@
     "cashIn": {
       "header": "ตรวจสอบการเพิ่มเงินทุน",
       "button": "เพิ่มเงินทุน",
-      "transactionDetailsAmount": "ราคารวม",
+      "transactionDetailsAmount": "Total Deposit",
+      "transactionDetailsAmountConverted": "Amount Deposited",
       "paymentMethodHeader": "ฝากเงินจาก"
     },
     "cashOut": {
