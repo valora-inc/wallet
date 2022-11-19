@@ -2050,8 +2050,8 @@
             "enum": [
                 "Completed",
                 "Failed",
-                "Pending",
-                "Sending"
+                "Sending",
+                "TxProcessing"
             ],
             "type": "string"
         },

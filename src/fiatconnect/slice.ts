@@ -23,7 +23,7 @@ export enum SendingTransferStatus {
   Sending = 'Sending',
   Completed = 'Completed',
   Failed = 'Failed',
-  Pending = 'Pending',
+  TxProcessing = 'TxProcessing',
 }
 
 export interface FiatConnectTransfer {

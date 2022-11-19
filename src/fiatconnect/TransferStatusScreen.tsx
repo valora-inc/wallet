@@ -211,7 +211,7 @@ export default function FiatConnectTransferStatusScreen({ route, navigation }: P
           <FailureSection flow={flow} normalizedQuote={normalizedQuote} fiatAccount={fiatAccount} />
         </SafeAreaView>
       )
-    case SendingTransferStatus.Pending:
+    case SendingTransferStatus.TxProcessing:
       // TODO
       return null
     default:
