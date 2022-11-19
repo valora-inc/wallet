@@ -77,7 +77,7 @@ jobs:
         timeout-minutes: 45
       - name: Publish iOS JUnit Report
         if: always()
-        uses: mikepenz/action-junit-report@v2
+        uses: mikepenz/action-junit-report@v3
         with:
           check_name: iOS (${{ inputs.ios-version }}) e2e Test Report
           report_paths: 'e2e/test-results/junit.xml'
