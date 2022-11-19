@@ -1350,7 +1350,8 @@
     "cashIn": {
       "header": "Revisão - Adicionar Fundos",
       "button": "Adicionar Fundos",
-      "transactionDetailsAmount": "Preço total",
+      "transactionDetailsAmount": "Total Deposit",
+      "transactionDetailsAmountConverted": "Amount Deposited",
       "paymentMethodHeader": "Depositar de"
     },
     "cashOut": {

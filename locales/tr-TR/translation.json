@@ -1350,7 +1350,8 @@
     "cashIn": {
       "header": "Gözden Geçir - Bakiye Ekle",
       "button": "Bakiye Ekle",
-      "transactionDetailsAmount": "Toplam fiyat",
+      "transactionDetailsAmount": "Total Deposit",
+      "transactionDetailsAmountConverted": "Amount Deposited",
       "paymentMethodHeader": "Para Yatıran"
     },
     "cashOut": {
