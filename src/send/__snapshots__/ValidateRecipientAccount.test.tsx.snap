@@ -1,14 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ValidateRecipientAccount renders correctly when full validation required 1`] = `
-<RNCSafeAreaView
-  style={
-    Object {
-      "flex": 1,
-      "justifyContent": "space-between",
-    }
-  }
->
+Array [
   <RCTScrollView
     contentContainerStyle={
       Object {
@@ -256,7 +249,7 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
         </Text>
       </View>
     </View>
-  </RCTScrollView>
+  </RCTScrollView>,
   <View
     collapsable={false}
     style={
@@ -272,7 +265,7 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
         undefined,
       ]
     }
-  />
+  />,
   <Modal
     animationType="none"
     deviceHeight={null}
@@ -640,19 +633,12 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
         </View>
       </RNCSafeAreaView>
     </View>
-  </Modal>
-</RNCSafeAreaView>
+  </Modal>,
+]
 `;
 
 exports[`ValidateRecipientAccount renders correctly when partial validation required 1`] = `
-<RNCSafeAreaView
-  style={
-    Object {
-      "flex": 1,
-      "justifyContent": "space-between",
-    }
-  }
->
+Array [
   <RCTScrollView
     contentContainerStyle={
       Object {
@@ -1085,7 +1071,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
         </Text>
       </View>
     </View>
-  </RCTScrollView>
+  </RCTScrollView>,
   <View
     collapsable={false}
     style={
@@ -1101,7 +1087,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
         undefined,
       ]
     }
-  />
+  />,
   <Modal
     animationType="none"
     deviceHeight={null}
@@ -1469,6 +1455,6 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
         </View>
       </RNCSafeAreaView>
     </View>
-  </Modal>
-</RNCSafeAreaView>
+  </Modal>,
+]
 `;
