@@ -170,7 +170,7 @@ function SuccessOrProcessingSection({
     )
     title = t('fiatConnectStatusScreen.txProcessing.title')
     description = t('fiatConnectStatusScreen.txProcessing.description')
-    continueEvent = FiatExchangeEvents.cico_fc_transfer_success_complete
+    continueEvent = FiatExchangeEvents.cico_fc_transfer_processing_continue
     txDetailsEvent = FiatExchangeEvents.cico_fc_transfer_processing_view_tx
   }
 
