@@ -59,7 +59,8 @@ export function SwapScreen() {
   const [fromSwapAmountError, setFromSwapAmountError] = useState(false)
 
   const maxFromAmount = useMaxSendAmount(fromToken?.address || '', FeeType.SWAP)
-  const { exchangeRate, refreshQuote, fetchSwapQuoteError, fetchingSwapQuote } = useSwapQuote()
+  const { exchangeRate, refreshQuote, fetchSwapQuoteError, fetchingSwapQuote, clearQuote } =
+    useSwapQuote()
 
   // Parsed swap amounts (BigNumber)
   const parsedSwapAmount = useMemo(
@@ -189,6 +190,7 @@ export function SwapScreen() {
   const handleChangeAmount = (fieldType: Field) => (value: string) => {
     if (!value) {
       setSwapAmount(DEFAULT_SWAP_AMOUNT)
+      clearQuote()
     } else {
       setUpdatedField(fieldType)
       setSwapAmount((prev) => ({

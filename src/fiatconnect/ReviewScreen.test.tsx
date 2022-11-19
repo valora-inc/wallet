@@ -57,14 +57,26 @@ describe('ReviewScreen', () => {
     store.dispatch = jest.fn()
   })
   describe('cashIn', () => {
-    it('throws not implemented', () => {
-      expect(() => {
-        render(
-          <Provider store={store}>
-            <FiatConnectReviewScreen {...getProps(CICOFlow.CashIn, true)} />
-          </Provider>
-        )
-      }).toThrowError('Not implemented')
+    it('shows fiat amount, transaction details and payment method', () => {
+      const { queryByTestId, queryByText } = render(
+        <Provider store={store}>
+          <FiatConnectReviewScreen {...getProps(CICOFlow.CashIn, true, CryptoType.cEUR)} />
+        </Provider>
+      )
+
+      expect(queryByTestId('receive-amount')?.children).toEqual(['', '100.00', ' cEUR'])
+      expect(queryByText('fiatConnectReviewScreen.transactionDetails')).toBeTruthy()
+      expect(queryByText('fiatConnectReviewScreen.cashIn.transactionDetailsAmount')).toBeTruthy()
+      expect(queryByTestId('txDetails-total/value')?.children).toEqual(['', '$', '100.00'])
+      expect(queryByTestId('txDetails-converted/value')?.children).toEqual(['', '$', '98.94'])
+      expect(queryByTestId('txDetails-fee/value')?.children).toEqual(['', '$', '1.06'])
+      expect(queryByTestId('txDetails-exchangeRate/value')?.children).toEqual(['', '$', '0.9894'])
+      expect(queryByTestId('txDetails-receive')?.children).toEqual(['', '100.00', ' cEUR'])
+      expect(queryByText('fiatConnectReviewScreen.cashIn.paymentMethodHeader')).toBeTruthy()
+      expect(queryByTestId('paymentMethod-text')?.children).toEqual(['Chase (...2345)'])
+      expect(queryByTestId('paymentMethod-via')?.children).toEqual([
+        'fiatConnectReviewScreen.paymentMethodVia, {"providerName":"Provider Two"}',
+      ])
     })
   })
 
@@ -76,14 +88,14 @@ describe('ReviewScreen', () => {
         </Provider>
       )
 
-      expect(queryByTestId('amount-fiat/value')?.children).toEqual(['', '$', '100.00'])
+      expect(queryByTestId('receive-amount/value')?.children).toEqual(['', '$', '100.00'])
       expect(queryByText('fiatConnectReviewScreen.transactionDetails')).toBeTruthy()
       expect(queryByText('fiatConnectReviewScreen.cashOut.transactionDetailsAmount')).toBeTruthy()
       expect(queryByTestId('txDetails-total')?.children).toEqual(['', '100.00', ' cEUR'])
       expect(queryByTestId('txDetails-converted')?.children).toEqual(['', '99.47', ' cEUR'])
-      expect(queryByTestId('txDetails-fee')).toBeTruthy()
+      expect(queryByTestId('txDetails-fee')?.children).toEqual(['', '0.53', ' cEUR'])
       expect(queryByTestId('txDetails-exchangeRate/value')?.children).toEqual(['', '$', '1.0053'])
-      expect(queryByTestId('txDetails-exchangeAmount/value')?.children).toEqual(['', '$', '100.00'])
+      expect(queryByTestId('txDetails-receive/value')?.children).toEqual(['', '$', '100.00'])
       expect(queryByText('fiatConnectReviewScreen.cashOut.paymentMethodHeader')).toBeTruthy()
       expect(queryByTestId('paymentMethod-text')?.children).toEqual(['Chase (...2345)'])
       expect(queryByTestId('paymentMethod-via')?.children).toEqual([
@@ -152,14 +164,14 @@ describe('ReviewScreen', () => {
         </Provider>
       )
 
-      expect(queryByTestId('amount-fiat/value')?.children).toEqual(['', '$', '100.00'])
+      expect(queryByTestId('receive-amount/value')?.children).toEqual(['', '$', '100.00'])
       expect(queryByText('fiatConnectReviewScreen.transactionDetails')).toBeTruthy()
       expect(queryByText('fiatConnectReviewScreen.cashOut.transactionDetailsAmount')).toBeTruthy()
       expect(queryByTestId('txDetails-total')?.children).toEqual(['', '100.00', ' cUSD'])
       expect(queryByTestId('txDetails-converted')?.children).toEqual(['', '100.00', ' cUSD'])
       expect(queryByTestId('txDetails-fee')).toBeFalsy()
       expect(queryByTestId('txDetails-exchangeRate/value')?.children).toEqual(['', '$', '1'])
-      expect(queryByTestId('txDetails-exchangeAmount/value')?.children).toEqual(['', '$', '100.00'])
+      expect(queryByTestId('txDetails-receive/value')?.children).toEqual(['', '$', '100.00'])
       expect(queryByText('fiatConnectReviewScreen.cashOut.paymentMethodHeader')).toBeTruthy()
       expect(queryByTestId('paymentMethod-text')?.children).toEqual(['Chase (...2345)'])
       expect(queryByTestId('paymentMethod-via')?.children).toEqual([

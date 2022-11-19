@@ -483,6 +483,7 @@ export enum FiatExchangeEvents {
   // Fiat Connect transfer analytics
   cico_fc_transfer_api_error = 'cico_fc_transfer_api_error',
   cico_fc_transfer_tx_error = 'cico_fc_transfer_tx_error',
+  cico_fc_transfer_error = 'cico_fc_transfer_error',
   cico_fc_transfer_success = 'cico_fc_transfer_success',
 
   // Fiat Connect transfer status screen
