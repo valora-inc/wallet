@@ -14,6 +14,13 @@ exec(`git checkout -b ${branchName}`)
 echo('Generate licences and disclaimer')
 exec('yarn deploy:update-disclaimer')
 
+config.fatal = false
+if (exec('git diff --exit-code', { silent: true }).code === 0) {
+  console.log('LicenseDisclaimer.txt unchanged')
+  process.exit(0)
+}
+config.fatal = true
+
 echo('Push changes to branch')
 exec('git add .')
 exec('git config user.email "valorabot@valoraapp.com"')
