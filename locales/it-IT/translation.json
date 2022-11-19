@@ -1350,7 +1350,8 @@
     "cashIn": {
       "header": "Rivedi - Aggiungi fondi",
       "button": "Aggiungi fondi",
-      "transactionDetailsAmount": "Prezzo totale",
+      "transactionDetailsAmount": "Total Deposit",
+      "transactionDetailsAmountConverted": "Amount Deposited",
       "paymentMethodHeader": "Deposita da"
     },
     "cashOut": {

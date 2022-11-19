@@ -1354,7 +1354,8 @@
     "cashIn": {
       "header": "Проверить - Внести средства",
       "button": "Внести средства",
-      "transactionDetailsAmount": "Общая цена",
+      "transactionDetailsAmount": "Total Deposit",
+      "transactionDetailsAmountConverted": "Amount Deposited",
       "paymentMethodHeader": "Пополнить с"
     },
     "cashOut": {
