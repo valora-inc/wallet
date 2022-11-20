@@ -92,44 +92,6 @@ function FailureSection({
   )
 }
 
-function TxDetails({
-  txHash,
-  flow,
-  provider,
-  analyticsEvent,
-}: {
-  txHash: string | null
-  flow: CICOFlow
-  provider: string
-  analyticsEvent:
-    | FiatExchangeEvents.cico_fc_transfer_success_view_tx
-    | FiatExchangeEvents.cico_fc_transfer_processing_view_tx
-}) {
-  const { t } = useTranslation()
-  const address = useSelector(walletAddressSelector)
-  const uri = txHash
-    ? `${networkConfig.celoExplorerBaseTxUrl}${txHash}`
-    : `${networkConfig.celoExplorerBaseAddressUrl}${address}`
-
-  const onPressTxDetails = () => {
-    ValoraAnalytics.track(analyticsEvent, {
-      flow,
-      provider,
-      txHash,
-    })
-    navigate(Screens.WebViewScreen, { uri })
-  }
-
-  return (
-    <Touchable testID={'txDetails'} borderless={true} onPress={onPressTxDetails}>
-      <View style={styles.txDetailsContainer}>
-        <Text style={styles.txDetails}>{t('fiatConnectStatusScreen.success.txDetails')}</Text>
-        <OpenLinkIcon color={colors.gray4} />
-      </View>
-    </Touchable>
-  )
-}
-
 function SuccessOrProcessingSection({
   status,
   flow,
@@ -145,6 +107,10 @@ function SuccessOrProcessingSection({
   // TODO: Make sure there's fallback text if we can't get the estimate
   const timeEstimation = normalizedQuote.getTimeEstimation()!
   const provider = normalizedQuote.getProviderId()
+  const address = useSelector(walletAddressSelector)
+  const uri = txHash
+    ? `${networkConfig.celoExplorerBaseTxUrl}${txHash}`
+    : `${networkConfig.celoExplorerBaseAddressUrl}${address}`
 
   let icon: JSX.Element
   let title: string
@@ -183,18 +149,27 @@ function SuccessOrProcessingSection({
     navigateHome()
   }
 
+  const onPressTxDetails = () => {
+    ValoraAnalytics.track(txDetailsEvent, {
+      flow,
+      provider,
+      txHash,
+    })
+    navigate(Screens.WebViewScreen, { uri })
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.iconContainer}>{icon}</View>
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.description}>{description}</Text>
       {flow === CICOFlow.CashOut && (
-        <TxDetails
-          txHash={txHash}
-          flow={flow}
-          provider={provider}
-          analyticsEvent={txDetailsEvent}
-        />
+        <Touchable testID={'txDetails'} borderless={true} onPress={onPressTxDetails}>
+          <View style={styles.txDetailsContainer}>
+            <Text style={styles.txDetails}>{t('fiatConnectStatusScreen.success.txDetails')}</Text>
+            <OpenLinkIcon color={colors.gray4} />
+          </View>
+        </Touchable>
       )}
       <Button
         style={styles.button}
