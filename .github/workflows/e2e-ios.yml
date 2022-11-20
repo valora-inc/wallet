@@ -24,7 +24,7 @@ jobs:
           secrets: |-
             EMERGE_API_TOKEN:projects/1027349420744/secrets/EMERGE_API_TOKEN
           credentials: ${{ secrets.MAINNET_SERVICE_ACCOUNT_KEY }}
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: '16'
