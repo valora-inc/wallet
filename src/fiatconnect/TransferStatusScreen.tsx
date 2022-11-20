@@ -140,15 +140,6 @@ function SuccessOrProcessingSection({
     txDetailsEvent = FiatExchangeEvents.cico_fc_transfer_processing_view_tx
   }
 
-  const onPressContinue = () => {
-    ValoraAnalytics.track(continueEvent, {
-      flow,
-      provider,
-      txHash,
-    })
-    navigateHome()
-  }
-
   const onPressTxDetails = () => {
     ValoraAnalytics.track(txDetailsEvent, {
       flow,
@@ -156,6 +147,15 @@ function SuccessOrProcessingSection({
       txHash,
     })
     navigate(Screens.WebViewScreen, { uri })
+  }
+
+  const onPressContinue = () => {
+    ValoraAnalytics.track(continueEvent, {
+      flow,
+      provider,
+      txHash,
+    })
+    navigateHome()
   }
 
   return (
