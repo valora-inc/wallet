@@ -187,9 +187,9 @@ export default NewAccountPhoneVerification = () => {
     await element(by.text('Dismiss')).tap()
     await element(by.text('Skip')).tap()
 
-    // Assert VerificationSkipDialog modal actions are visible
-    await waitForElementId('VerificationSkipDialog/PrimaryAction')
-    await waitForElementId('VerificationSkipDialog/SecondaryAction')
+    // Assert PhoneVerificationSkipDialog modal actions are visible
+    await waitForElementId('PhoneVerificationSkipDialog/PrimaryAction')
+    await waitForElementId('PhoneVerificationSkipDialog/SecondaryAction')
 
     // Assert Back button is enabled
     let goBackButtonAttributes = await element(by.text('Go Back')).getAttributes()

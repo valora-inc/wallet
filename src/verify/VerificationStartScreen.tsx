@@ -119,7 +119,7 @@ function VerificationStartScreen({
         !route.params?.hideOnboardingStep && (
           <TopBarTextButton
             title={t('skip')}
-            testID="VerificationEducationSkipHeader"
+            testID="PhoneVerificationSkipHeader"
             onPress={onPressSkip}
             titleStyle={{ color: colors.goldDark }}
           />
@@ -248,7 +248,7 @@ function VerificationStartScreen({
         actionPress={onPressSkipConfirm}
         secondaryActionPress={onPressSkipCancel}
         secondaryActionText={t('phoneVerificationScreen.skip.cancel')}
-        testID="VerificationSkipDialog"
+        testID="PhoneVerificationSkipDialog"
       >
         {t('phoneVerificationScreen.skip.body')}
       </Dialog>
