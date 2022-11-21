@@ -1,8 +1,17 @@
-import { FiatAccountSchema, SupportedOperatorEnum } from '@fiatconnect/fiatconnect-types'
+import {
+  FiatAccountSchema,
+  FiatAccountSchemas,
+  SupportedOperatorEnum,
+} from '@fiatconnect/fiatconnect-types'
 
-export const DEFAULT_ALLOWED_VALUES: Partial<Record<FiatAccountSchema, Record<string, string[]>>> =
-  {
-    [FiatAccountSchema.MobileMoney]: {
-      operator: Object.keys(SupportedOperatorEnum),
-    },
+type DefaultAllowedValues = Partial<{
+  [Schema in FiatAccountSchema]: {
+    [Property in keyof Partial<FiatAccountSchemas[Schema]>]: string[]
   }
+}>
+
+export const DEFAULT_ALLOWED_VALUES: DefaultAllowedValues = {
+  [FiatAccountSchema.MobileMoney]: {
+    operator: Object.keys(SupportedOperatorEnum),
+  },
+}

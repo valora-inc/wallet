@@ -213,8 +213,9 @@ export default class FiatConnectQuote extends NormalizedQuote {
     return this.quoteResponseFiatAccountSchema.fiatAccountSchema
   }
 
-  getFiatAccountSchemaAllowedValues(key: string): string[] {
-    const defaultValue = DEFAULT_ALLOWED_VALUES[this.getFiatAccountSchema()]?.[key]
+  getFiatAccountSchemaAllowedValues(key: string): string[] | undefined {
+    const schemaDefaultValues = DEFAULT_ALLOWED_VALUES[this.getFiatAccountSchema()]
+    const defaultValue = schemaDefaultValues?.[key as keyof typeof schemaDefaultValues]
     return this.quoteResponseFiatAccountSchema.allowedValues[key] ?? defaultValue
   }
 

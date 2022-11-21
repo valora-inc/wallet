@@ -8,7 +8,8 @@ export const getMobileMoneySchema = (implicitParams: {
   fiatAccountType: FiatAccountType
 }): FiatAccountFormSchema<FiatAccountSchema.MobileMoney> => {
   const mobileValidator = (input: string) => {
-    const regex = /^\+\d{3,15}$/
+    //Phone numbers should start with a plus sign and be 6-15 digits long
+    const regex = /^\+\d{6,15}$/
     const isValid = regex.test(input)
     const errorMessageText = i18n.t('fiatAccountSchema.mobileMoney.mobile.errorMessage')
     return {
@@ -18,7 +19,7 @@ export const getMobileMoneySchema = (implicitParams: {
   }
 
   const mobileFormatter = (input: string) => {
-    if (input.length && input[0] != '+') {
+    if (input.length && input[0] !== '+') {
       return `+${input}`
     }
     return input

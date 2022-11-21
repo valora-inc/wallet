@@ -23,11 +23,9 @@ jest.mock('src/web3/contracts', () => ({
 }))
 jest.mock('src/fiatExchanges/quotes/constants', () => ({
   DEFAULT_ALLOWED_VALUES: {
-    // Using 'AccountNumber' rather FiatAccountSchema enum because it'd be necessary
-    // to require the fiatconnect-types within this jest mock for that to work.
-    // If that were to become a repo pattern, it could lead to unexpected side
-    // effects e.g. if the require is also something that is mocked.
-    ['AccountNumber']: {
+    // Using AccountNumber because jest hoisting prevents us from using the
+    // FiatAccountSchema enum.
+    AccountNumber: {
       testKey: ['testDefaultValue'],
     },
   },
