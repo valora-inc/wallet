@@ -21,7 +21,7 @@ jobs:
           secrets: |-
             VALORA_BOT_TOKEN:projects/1027349420744/secrets/VALORA_BOT_TOKEN
           credentials: ${{ secrets.MAINNET_SERVICE_ACCOUNT_KEY }}
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: actions/github-script@v5
         with:
           github-token: ${{ steps.google-secrets.outputs.VALORA_BOT_TOKEN }}
