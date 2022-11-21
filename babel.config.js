@@ -11,6 +11,7 @@ if (!process.env.JEST_WORKER_ID) {
       root: ['.'],
       alias: {
         '^src/(.+)$': './src/\\1',
+        '^locales$': './locales',
       },
     },
   ]

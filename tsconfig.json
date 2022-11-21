@@ -6,6 +6,7 @@
     "experimentalDecorators": true,
     "baseUrl": ".",
     "paths": {
+      "locales/*": ["locales/*"],
       "src/*": ["src/*"],
       "test/*": ["test/*"]
     },
