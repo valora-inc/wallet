@@ -1348,7 +1348,8 @@
     "cashIn": {
       "header": "查看 — 添加资金",
       "button": "添加资金",
-      "transactionDetailsAmount": "总价格",
+      "transactionDetailsAmount": "Total Deposit",
+      "transactionDetailsAmountConverted": "Amount Deposited",
       "paymentMethodHeader": "存款来自"
     },
     "cashOut": {

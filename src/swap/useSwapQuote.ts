@@ -87,11 +87,17 @@ const useSwapQuote = () => {
       Logger.warn('SwapScreen@useSwapQuote', 'error from approve swap url', error)
     }
   }
+
+  const clearQuote = () => {
+    requestUrlRef.current = ''
+  }
+
   return {
     exchangeRate,
     refreshQuote,
     fetchSwapQuoteError,
     fetchingSwapQuote,
+    clearQuote,
   }
 }
 

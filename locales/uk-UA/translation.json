@@ -1354,7 +1354,8 @@
     "cashIn": {
       "header": "Перегляд - Поповнити кошти",
       "button": "Додати кошти",
-      "transactionDetailsAmount": "Сума",
+      "transactionDetailsAmount": "Всього депозиту",
+      "transactionDetailsAmountConverted": "Сума внесена",
       "paymentMethodHeader": "Поповнити з"
     },
     "cashOut": {
