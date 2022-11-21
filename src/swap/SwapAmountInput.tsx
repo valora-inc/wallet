@@ -90,6 +90,9 @@ const SwapAmountInput = ({
           onFocus={() => {
             handleSetStartPosition(inputValue?.length ?? 0)
           }}
+          onSelectionChange={() => {
+            handleSetStartPosition(undefined)
+          }}
           selection={
             Platform.OS === 'android' && typeof startPosition === 'number'
               ? { start: startPosition }
