@@ -34,9 +34,11 @@ export default NewAccountOnboarding = () => {
     await enterPinUi()
     await enterPinUi()
 
-    // Skip Phone Number verification
-    await element(by.id('VerificationEducationSkipHeader')).tap()
-    await element(by.id('VerificationSkipDialog/PrimaryAction')).tap()
+    // Skip Phone Number verification - if present
+    try {
+      await element(by.id('VerificationEducationSkipHeader')).tap()
+      await element(by.id('VerificationSkipDialog/PrimaryAction')).tap()
+    } catch {}
 
     // Arrived to Home screen
     await dismissCashInBottomSheet()
