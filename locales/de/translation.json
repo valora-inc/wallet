@@ -1350,7 +1350,8 @@
     "cashIn": {
       "header": "Guthaben hinzufügen überprüfen",
       "button": "Guthaben hinzufügen",
-      "transactionDetailsAmount": "Gesamtpreis",
+      "transactionDetailsAmount": "Total Deposit",
+      "transactionDetailsAmountConverted": "Amount Deposited",
       "paymentMethodHeader": "Einzahlung von"
     },
     "cashOut": {

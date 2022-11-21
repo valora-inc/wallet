@@ -1350,7 +1350,8 @@
     "cashIn": {
       "header": "Vérifier - Ajouter des fonds",
       "button": "Ajouter des fonds",
-      "transactionDetailsAmount": "Prix total",
+      "transactionDetailsAmount": "Total Deposit",
+      "transactionDetailsAmountConverted": "Amount Deposited",
       "paymentMethodHeader": "Dépôt de"
     },
     "cashOut": {
