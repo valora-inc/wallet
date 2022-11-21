@@ -75,7 +75,7 @@ describe(estimateFeeSaga, () => {
         [call(getERC20TokenContract, mockCusdAddress), mockContract],
         [matchers.call.fn(estimateGas), new BigNumber(GAS_AMOUNT)],
         [
-          call(calculateFee, new BigNumber(1050000), mockCusdAddress),
+          call(calculateFee, new BigNumber(GAS_AMOUNT), mockCusdAddress),
           { fee: new BigNumber(1e16), feeCurrency: mockCusdAddress },
         ],
       ])
@@ -89,9 +89,9 @@ describe(estimateFeeSaga, () => {
       .run()
   })
 
-  it.each([FeeType.SEND, FeeType.SWAP])('estimates the %s fee', async (feeType) => {
+  it('estimates the send fee', async () => {
     await expectSaga(estimateFeeSaga, {
-      payload: { feeType, tokenAddress: mockCusdAddress },
+      payload: { feeType: FeeType.SEND, tokenAddress: mockCusdAddress },
     })
       .withState(store.getState())
       .provide([
@@ -104,9 +104,32 @@ describe(estimateFeeSaga, () => {
       ])
       .put(
         feeEstimated({
-          feeType,
+          feeType: FeeType.SEND,
           tokenAddress: mockCusdAddress,
           estimation: estimation(new BigNumber(0.01).toString()),
+        })
+      )
+      .run()
+  })
+
+  it('estimates the swap fee', async () => {
+    await expectSaga(estimateFeeSaga, {
+      payload: { feeType: FeeType.SWAP, tokenAddress: mockCusdAddress },
+    })
+      .withState(store.getState())
+      .provide([
+        [matchers.call.fn(buildSendTx), jest.fn(() => ({ txo: mockTxo }))],
+        [matchers.call.fn(estimateGas), new BigNumber(GAS_AMOUNT)],
+        [
+          call(calculateFee, new BigNumber(4 * GAS_AMOUNT), mockCusdAddress),
+          { fee: new BigNumber(4e16), feeCurrency: mockCusdAddress },
+        ],
+      ])
+      .put(
+        feeEstimated({
+          feeType: FeeType.SWAP,
+          tokenAddress: mockCusdAddress,
+          estimation: estimation(new BigNumber(0.04).toString()),
         })
       )
       .run()
