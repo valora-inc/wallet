@@ -1348,7 +1348,8 @@
     "cashIn": {
       "header": "Xem lại thông tin nạp tiền",
       "button": "Nạp tiền",
-      "transactionDetailsAmount": "Tổng giá",
+      "transactionDetailsAmount": "Total Deposit",
+      "transactionDetailsAmountConverted": "Amount Deposited",
       "paymentMethodHeader": "Nạp tiền từ"
     },
     "cashOut": {
