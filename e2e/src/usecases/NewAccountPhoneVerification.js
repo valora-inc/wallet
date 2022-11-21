@@ -181,7 +181,7 @@ export default NewAccountPhoneVerification = () => {
     await element(by.id('PhoneVerificationLearnMore')).tap()
 
     // Assert modal action is visible
-    await waitForElementId('VerificationLearnMoreDialog/PrimaryAction')
+    await waitForElementId('PhoneVerificationLearnMoreDialog/PrimaryAction')
 
     // Assert able to dismiss modal and skip
     await element(by.text('Dismiss')).tap()
