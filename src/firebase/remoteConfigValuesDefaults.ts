@@ -20,6 +20,7 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   superchargecEURMax: number
   superchargecREALMin: number
   superchargecREALMax: number
+  dappListApiUrl: string
 } = {
   hideVerification: false,
   celoEuroEnabled: true,
@@ -55,7 +56,7 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   showPriceChangeIndicatorInBalances: false,
   paymentDeepLinkHandler: PaymentDeepLinkHandler.Disabled,
   dappsWebViewEnabled: false,
-  dappListApiUrl: null,
+  dappListApiUrl: '',
   skipProfilePicture: false,
   fiatConnectCashInEnabled: false,
   fiatConnectCashOutEnabled: false,
