@@ -1392,6 +1392,10 @@
     "requestNotCompleted": {
       "title": "Sua solicitação não pôde ser concluída.",
       "description": "Seus fundos não puderam ser transferidos. Tente novamente ou fale com a nossa equipe de suporte para obter ajuda."
+    },
+    "txProcessing": {
+      "title": "A sua transacção ainda está a ser processada.",
+      "description": "Isto pode ser devido a uma má ligação à Internet. Verifique CeloExplorer para actualizações."
     }
   },
   "fiatExchangeFlow": {
