@@ -8,7 +8,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   RemoteConfigValues,
   | 'celoEducationUri'
   | 'komenciAllowedDeployers'
-  | 'dappListApiUrl'
   | 'sentryNetworkErrors'
   | 'superchargeTokenConfigByToken'
   | 'fiatAccountSchemaCountryOverrides'
@@ -56,6 +55,7 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   showPriceChangeIndicatorInBalances: false,
   paymentDeepLinkHandler: PaymentDeepLinkHandler.Disabled,
   dappsWebViewEnabled: false,
+  dappListApiUrl: null,
   skipProfilePicture: false,
   fiatConnectCashInEnabled: false,
   fiatConnectCashOutEnabled: false,
