@@ -1394,6 +1394,10 @@
     "requestNotCompleted": {
       "title": "Your request could not be completed.",
       "description": "Your funds were not able to be transferred. Please try again or contact our support team for help."
+    },
+    "txProcessing": {
+      "title": "Your transaction is still processing.",
+      "description": "This might be due to poor internet connection. Check CeloExplorer for updates."
     }
   },
   "fiatExchangeFlow": {
@@ -1418,7 +1422,8 @@
     }
   },
   "fiatDetailsScreen": {
-    "header": "Enter Bank Information",
+    "headerBankAccount": "Enter Bank Information",
+    "headerMobileMoney": "Enter Mobile Details",
     "headerSubTitle": "Powered by {{provider}}",
     "selectedPaymentOption": "Selected payment option",
     "addFiatAccountSuccess": "Your account has been connected to {{provider}}.",
@@ -1438,6 +1443,21 @@
       "placeholderText": "Enter Account Number",
       "errorMessageDigitLength": "Account number must be {{length}} digits",
       "errorMessageDigit": "Account number must contain only digits"
+    },
+    "mobileMoney": {
+      "operator": {
+        "label": "Network"
+      },
+      "mobile": {
+        "label": "Phone Number",
+        "placeholderText": "+234123234566",
+        "errorMessage": "Invalid Phone Number format"
+      },
+      "mobileDialog": {
+        "title": "Phone Number",
+        "body": "Use the phone number registered with your mobile money provider. This might not be the same as your valora phone number.\n\nPhone numbers must include country code displayed next to the phone number.",
+        "dismiss": "Dismiss"
+      }
     },
     "ibanNumber": {
       "label": "IBAN",
