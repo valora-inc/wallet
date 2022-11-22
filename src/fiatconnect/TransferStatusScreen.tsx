@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
@@ -24,6 +24,9 @@ import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import networkConfig from 'src/web3/networkConfig'
+
+const LOADING_DESCRIPTION_TIMEOUT_MS = 5000
+
 type Props = NativeStackScreenProps<StackParamList, Screens.FiatConnectTransferStatus>
 
 function onBack(flow: CICOFlow, normalizedQuote: FiatConnectQuote, fiatAccount: FiatAccount) {
@@ -188,10 +191,22 @@ export default function FiatConnectTransferStatusScreen({ route, navigation }: P
     })
   }
 
+  // add loading description if sending is taking a while
+  const [loadingDescription, setLoadingDescription] = useState('')
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setLoadingDescription(t('fiatConnectStatusScreen.stillProcessing'))
+    }, LOADING_DESCRIPTION_TIMEOUT_MS)
+    return () => clearTimeout(timeout)
+  }, [])
+
   if (fiatConnectTransfer.isSending) {
     return (
       <View style={styles.activityIndicatorContainer}>
         <ActivityIndicator testID="loadingTransferStatus" size="large" color={colors.greenBrand} />
+        <Text style={styles.loadingDescription} testID="loadingDescription">
+          {loadingDescription}
+        </Text>
       </View>
     )
   }
@@ -237,6 +252,13 @@ const styles = StyleSheet.create({
   },
   description: {
     ...fontStyles.regular,
+    textAlign: 'center',
+    marginTop: 12,
+    paddingHorizontal: 48,
+    paddingBottom: 24,
+  },
+  loadingDescription: {
+    ...fontStyles.large,
     textAlign: 'center',
     marginTop: 12,
     paddingHorizontal: 48,

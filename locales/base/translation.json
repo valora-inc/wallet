@@ -1376,6 +1376,7 @@
   },
   "fiatConnectStatusScreen": {
     "tryAgain": "Try Again",
+    "stillProcessing": "We're still processing your transaction. Please wait.",
     "cashOut": {
       "cancel": "Cancel Withdrawal",
       "contactSupportPrefill": "I'm having trouble withdrawing my funds."
