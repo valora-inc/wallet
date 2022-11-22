@@ -1390,6 +1390,10 @@
     "requestNotCompleted": {
       "title": "您的请求无法完成。",
       "description": "您的资金无法转账。请重试或联系我们的支持团队寻求帮助。"
+    },
+    "txProcessing": {
+      "title": "你的交易仍在处理中。",
+      "description": "这可能是由于网络连接不佳。检查CeloExplorer的更新。"
     }
   },
   "fiatExchangeFlow": {
