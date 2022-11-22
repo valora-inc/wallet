@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
@@ -25,8 +25,11 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
-import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
+import networkConfig from 'src/web3/networkConfig'
+
+const LOADING_DESCRIPTION_TIMEOUT_MS = 8000
+
 type Props = NativeStackScreenProps<StackParamList, Screens.FiatConnectTransferStatus>
 
 function onBack(flow: CICOFlow, normalizedQuote: FiatConnectQuote, fiatAccount: FiatAccount) {
@@ -197,6 +200,15 @@ export default function FiatConnectTransferStatusScreen({ route, navigation }: P
     navigateHome()
   }
 
+  // add loading description if sending is taking a while
+  const [loadingDescription, setLoadingDescription] = useState('')
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setLoadingDescription(t('fiatConnectStatusScreen.stillProcessing'))
+    }, LOADING_DESCRIPTION_TIMEOUT_MS)
+    return () => clearTimeout(timeout)
+  }, [])
+
   switch (fiatConnectTransfer.status) {
     case SendingTransferStatus.Sending:
       return (
@@ -206,6 +218,9 @@ export default function FiatConnectTransferStatusScreen({ route, navigation }: P
             size="large"
             color={colors.greenBrand}
           />
+          <Text style={styles.loadingDescription} testID="loadingDescription">
+            {loadingDescription}
+          </Text>
         </View>
       )
     case SendingTransferStatus.Failed:
@@ -275,6 +290,13 @@ const styles = StyleSheet.create({
   },
   description: {
     ...fontStyles.regular,
+    textAlign: 'center',
+    marginTop: 12,
+    paddingHorizontal: 48,
+    paddingBottom: 24,
+  },
+  loadingDescription: {
+    ...fontStyles.large,
     textAlign: 'center',
     marginTop: 12,
     paddingHorizontal: 48,
