@@ -68,6 +68,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   maxSwapSlippagePercentage: 2,
   inviteMethod: InviteMethodType.Escrow,
   showGuidedOnboardingCopy: false,
-  centralPhoneVerificationEnabled: false,
+  centralPhoneVerificationEnabled: true,
   networkTimeoutSeconds: 30,
 }
