@@ -1372,6 +1372,7 @@
   },
   "fiatConnectStatusScreen": {
     "tryAgain": "再试一次",
+    "stillProcessing": "我们仍在处理您的交易。请等待。",
     "cashOut": {
       "cancel": "取消提款",
       "contactSupportPrefill": "提取我的资金时出现问题。"
