@@ -14,6 +14,7 @@ import { Screens } from 'src/navigator/Screens'
 import networkConfig from 'src/web3/networkConfig'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockFiatConnectQuotes } from 'test/values'
+import { act } from 'react-test-renderer'
 
 jest.mock('src/analytics/ValoraAnalytics')
 
@@ -326,6 +327,23 @@ describe('TransferStatusScreen', () => {
       )
       expect(getByTestId('loadingTransferStatus')).toBeTruthy()
       expect(mockProps.navigation.setOptions).not.toBeCalled()
+    })
+    it('Shows explanation if taking a while', async () => {
+      const mockProps = mockScreenProps(CICOFlow.CashIn)
+      const store = mockStore({ status: SendingTransferStatus.Sending })
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <TransferStatusScreen {...mockProps} />
+        </Provider>
+      )
+      expect(getByTestId('loadingTransferStatus')).toBeTruthy()
+      expect(getByTestId('loadingDescription')).toHaveTextContent('')
+      await act(async () => {
+        jest.runOnlyPendingTimers()
+      })
+      expect(getByTestId('loadingDescription')).toHaveTextContent(
+        'fiatConnectStatusScreen.stillProcessing'
+      )
     })
   })
 })
