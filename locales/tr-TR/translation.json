@@ -1374,6 +1374,7 @@
   },
   "fiatConnectStatusScreen": {
     "tryAgain": "Tekrar Deneyin",
+    "stillProcessing": "İşleminiz hala devam ediyor. Lütfen bekleyiniz.",
     "cashOut": {
       "cancel": "Para Çekmeyi iptal et",
       "contactSupportPrefill": "Paramı çekerken sorun yaşıyorum."
