@@ -1374,6 +1374,7 @@
   },
   "fiatConnectStatusScreen": {
     "tryAgain": "Repetir",
+    "stillProcessing": "Ainda estamos a processar a sua transacção. Aguarde, por favor.",
     "cashOut": {
       "cancel": "Cancelar saque",
       "contactSupportPrefill": "Estou tento dificuldade para sacar meus fundos."
