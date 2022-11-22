@@ -1378,6 +1378,7 @@
   },
   "fiatConnectStatusScreen": {
     "tryAgain": "Повторить попытку",
+    "stillProcessing": "Мы все еще обрабатываем твою транзакцию. Пожалуйста, подожди.",
     "cashOut": {
       "cancel": "Отменить вывод",
       "contactSupportPrefill": "У меня проблемы с выводом средств."
