@@ -1,7 +1,7 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import * as React from 'react'
 import { WithTranslation } from 'react-i18next'
-import { StyleSheet, Text, View } from 'react-native'
+import { Keyboard, StyleSheet, Text, View } from 'react-native'
 import { connect } from 'react-redux'
 import { SendEvents } from 'src/analytics/Events'
 import { SendOrigin } from 'src/analytics/types'
@@ -143,6 +143,7 @@ export class ValidateRecipientAccount extends React.Component<Props, State> {
 
   componentDidUpdate = (prevProps: Props) => {
     const { validationSuccessful, isOutgoingPaymentRequest, transactionData, route } = this.props
+    const { singleDigitInputValueArr } = this.state
 
     if (validationSuccessful && prevProps.validationSuccessful === false) {
       navigateToConfirmationScreen(
@@ -150,6 +151,11 @@ export class ValidateRecipientAccount extends React.Component<Props, State> {
         isOutgoingPaymentRequest ?? false,
         route.params.origin
       )
+    }
+
+    // If the user has entered 4 valid digits, dismiss the keyboard
+    if (singleDigitInputValueArr.filter((entry) => /[a-f0-9]/gi.test(entry)).length === 4) {
+      Keyboard.dismiss()
     }
   }
 

@@ -43,7 +43,7 @@ jobs:
           mkdir -p test-results/jest
           yarn test:ci
       - name: Upload Coverage Report
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           path: coverage/lcov-report
       - name: 'Upload to Codecov'
