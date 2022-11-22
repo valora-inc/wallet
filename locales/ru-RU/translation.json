@@ -1420,7 +1420,8 @@
     }
   },
   "fiatDetailsScreen": {
-    "header": "Введите банковскую информацию",
+    "headerBankAccount": "Введите банковскую информацию",
+    "headerMobileMoney": "Enter Mobile Details",
     "headerSubTitle": "При поддержке {{provider}}",
     "selectedPaymentOption": "Выбранный способ оплаты",
     "addFiatAccountSuccess": "Ваш аккаунт был подключен к {{provider}}.",
@@ -1440,6 +1441,21 @@
       "placeholderText": "Введите номер счета",
       "errorMessageDigitLength": "Номер счета должен состоять из {{length}} цифр",
       "errorMessageDigit": "Номер счета должен содержать только цифры"
+    },
+    "mobileMoney": {
+      "operator": {
+        "label": "Сообщество"
+      },
+      "mobile": {
+        "label": "Номер телефона",
+        "placeholderText": "+234123234566",
+        "errorMessage": "Invalid Phone Number format"
+      },
+      "mobileDialog": {
+        "title": "Номер телефона",
+        "body": "Use the phone number registered with your mobile money provider. This might not be the same as your valora phone number.\n\nPhone numbers must include country code displayed next to the phone number.",
+        "dismiss": "Отклонить"
+      }
     },
     "ibanNumber": {
       "label": "IBAN",
