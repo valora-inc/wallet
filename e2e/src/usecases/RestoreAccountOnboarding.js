@@ -74,12 +74,12 @@ export default RestoreAccountOnboarding = () => {
   })
 
   it('Verify Education', async () => {
-    await waitForElementId('VerificationEducationSkipHeader')
+    await waitForElementId('PhoneVerificationSkipHeader')
 
     // skip
-    await element(by.id('VerificationEducationSkipHeader')).tap()
+    await element(by.id('PhoneVerificationSkipHeader')).tap()
     // confirmation popup skip
-    await element(by.id('VerificationSkipDialog/PrimaryAction')).tap()
+    await element(by.id('PhoneVerificationSkipDialog/PrimaryAction')).tap()
   })
 
   it('Wallet Home', async () => {

@@ -186,12 +186,12 @@ export async function quickOnboarding(mnemonic = SAMPLE_BACKUP_KEY) {
     } catch {}
 
     // Verify Education
-    await waitForElementId('VerificationEducationSkipHeader')
+    await waitForElementId('PhoneVerificationSkipHeader')
     // Skip
-    await element(by.id('VerificationEducationSkipHeader')).tap()
+    await element(by.id('PhoneVerificationSkipHeader')).tap()
     // Confirmation popup skip
-    await waitForElementId('VerificationSkipDialog/PrimaryAction')
-    await element(by.id('VerificationSkipDialog/PrimaryAction')).tap()
+    await waitForElementId('PhoneVerificationSkipDialog/PrimaryAction')
+    await element(by.id('PhoneVerificationSkipDialog/PrimaryAction')).tap()
 
     // Assert on Wallet Home Screen
     await expect(element(by.id('SendOrRequestBar'))).toBeVisible()

@@ -132,7 +132,7 @@ describe('store state', () => {
           "celoEducationUri": null,
           "celoEuroEnabled": true,
           "celoWithdrawalEnabledInExchange": true,
-          "centralPhoneVerificationEnabled": false,
+          "centralPhoneVerificationEnabled": true,
           "coinbasePayEnabled": false,
           "createAccountCopyTestType": "ACCOUNT",
           "fiatConnectCashInEnabled": false,
