@@ -67,7 +67,6 @@
     "@celo/connect": "~1.2.0",
     "@celo/contractkit": "~1.2.0",
     "@celo/identity": "~1.2.0",
-    "@celo/network-utils": "~1.2.0",
     "@celo/payments-sdk": "0.0.11",
     "@celo/react-native-sms-retriever": "git+https://github.com/celo-org/react-native-sms-retriever#11e078e",
     "@celo/utils": "^1.2.4",
