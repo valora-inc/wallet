@@ -1374,6 +1374,7 @@
   },
   "fiatConnectStatusScreen": {
     "tryAgain": "Wiederholen",
+    "stillProcessing": "Wir bearbeiten deine Transaktion noch. Bitte warte.",
     "cashOut": {
       "cancel": "Abhebung abbrechen",
       "contactSupportPrefill": "Ich habe Probleme, mein Guthaben abzuheben."
