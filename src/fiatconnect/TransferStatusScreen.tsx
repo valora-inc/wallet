@@ -27,6 +27,7 @@ import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { walletAddressSelector } from 'src/web3/selectors'
 import networkConfig from 'src/web3/networkConfig'
+import appTheme from 'src/styles/appTheme'
 
 const LOADING_DESCRIPTION_TIMEOUT_MS = 8000
 
@@ -200,11 +201,13 @@ export default function FiatConnectTransferStatusScreen({ route, navigation }: P
     navigateHome()
   }
 
-  // add loading description if sending is taking a while
-  const [loadingDescription, setLoadingDescription] = useState('')
+  // make loading description visible if sending is taking a while
+  const [loadingDescriptionColor, setLoadingDescriptionColor] = useState(
+    appTheme.colors.background.toString()
+  )
   useEffect(() => {
     const timeout = setTimeout(() => {
-      setLoadingDescription(t('fiatConnectStatusScreen.stillProcessing'))
+      setLoadingDescriptionColor(() => appTheme.colors.text)
     }, LOADING_DESCRIPTION_TIMEOUT_MS)
     return () => clearTimeout(timeout)
   }, [])
@@ -218,8 +221,11 @@ export default function FiatConnectTransferStatusScreen({ route, navigation }: P
             size="large"
             color={colors.greenBrand}
           />
-          <Text style={styles.loadingDescription} testID="loadingDescription">
-            {loadingDescription}
+          <Text
+            style={{ ...styles.loadingDescription, color: loadingDescriptionColor }}
+            testID="loadingDescription"
+          >
+            {t('fiatConnectStatusScreen.stillProcessing')}
           </Text>
         </View>
       )
