@@ -1395,6 +1395,10 @@
     "requestNotCompleted": {
       "title": "Your request could not be completed.",
       "description": "Your funds were not able to be transferred. Please try again or contact our support team for help."
+    },
+    "txProcessing": {
+      "title": "Your transaction is still processing.",
+      "description": "This might be due to poor internet connection. Check CeloExplorer for updates."
     }
   },
   "fiatExchangeFlow": {
