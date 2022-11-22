@@ -1,7 +1,8 @@
+import { FiatAccountType } from '@fiatconnect/fiatconnect-types'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ActivityIndicator, Image, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import PickerSelect from 'react-native-picker-select'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
@@ -10,6 +11,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes } from 'src/components/Button'
 import CancelButton from 'src/components/CancelButton'
+import Dialog from 'src/components/Dialog'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import TextInput, { LINE_HEIGHT } from 'src/components/TextInput'
@@ -26,6 +28,7 @@ import {
 } from 'src/fiatconnect/selectors'
 import { SendingFiatAccountStatus, submitFiatAccount } from 'src/fiatconnect/slice'
 import Checkmark from 'src/icons/Checkmark'
+import InfoIcon from 'src/icons/InfoIcon'
 import { styles as headerStyles } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -56,13 +59,26 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
   const schemaCountryOverrides = useSelector(schemaCountryOverridesSelector)
 
   const fiatAccountSchema = quote.getFiatAccountSchema()
+  const fiatAccountType = quote.getFiatAccountType()
+
+  const headerTitle = useMemo(() => {
+    switch (fiatAccountType) {
+      case FiatAccountType.BankAccount:
+        return t('fiatDetailsScreen.headerBankAccount')
+      case FiatAccountType.MobileMoney:
+        return t('fiatDetailsScreen.headerMobileMoney')
+      default:
+        // should never happen
+        throw new Error('Unsupported account type')
+    }
+  }, [fiatAccountType])
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
         <View style={headerStyles.header}>
           <Text style={headerStyles.headerTitle} numberOfLines={1}>
-            {t('fiatDetailsScreen.header')}
+            {headerTitle}
           </Text>
           <View style={styles.headerSubTitleContainer}>
             <View style={styles.headerImageContainer}>
@@ -164,6 +180,9 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
     const newErrorMap = new Map<number, string | undefined>()
 
     formFields.forEach((field, index) => {
+      if (field.format) {
+        fieldValues.current[index] = field.format(fieldValues.current[index])
+      }
       const { isValid, errorMessage } = field.validate(fieldValues.current[index]?.trim())
       if (!isValid) {
         newErrorMap.set(index, errorMessage)
@@ -179,7 +198,6 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
     validateInput()
   }
 
-  const allowedValues = quote.getFiatAccountSchemaAllowedValues()
   switch (sendingFiatAccountStatus) {
     case SendingFiatAccountStatus.Sending:
       return (
@@ -209,7 +227,7 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
                   onChange={(value) => {
                     setInputValue(value, index)
                   }}
-                  allowedValues={allowedValues[field.name]}
+                  allowedValues={quote.getFiatAccountSchemaAllowedValues(field.name)}
                 />
               ))}
             </View>
@@ -246,6 +264,7 @@ function FormField({
   const { t } = useTranslation()
   const [showError, setShowError] = useState(false)
   const typingTimer = useRef<ReturnType<typeof setTimeout>>()
+  const [infoVisibile, setInfoVisible] = useState(false)
 
   // Clear timeout on unmount to prevent memory leak warning
   useEffect(() => {
@@ -270,7 +289,32 @@ function FormField({
 
   return (
     <View style={styles.inputView} key={`inputField-${index}`}>
-      <Text style={styles.inputLabel}>{field.label}</Text>
+      <View style={styles.row}>
+        <Text style={styles.inputLabel}>{field.label}</Text>
+        {field.infoDialog && (
+          <TouchableOpacity
+            testID={`infoIcon-${field.name}`}
+            onPress={() => setInfoVisible(true)}
+            style={styles.infoIcon}
+            hitSlop={variables.iconHitslop}
+          >
+            <InfoIcon size={18} color={colors.gray3} />
+          </TouchableOpacity>
+        )}
+      </View>
+      {field.infoDialog && (
+        <Dialog
+          testID={`dialog-${field.name}`}
+          isVisible={infoVisibile}
+          title={field.infoDialog.title}
+          actionText={field.infoDialog.actionText}
+          actionPress={() => {
+            setInfoVisible(false)
+          }}
+        >
+          {field.infoDialog.body}
+        </Dialog>
+      )}
       {allowedValues ? (
         <PickerSelect
           style={{
@@ -378,6 +422,13 @@ const styles = StyleSheet.create({
   },
   headerImage: {
     flex: 1,
+  },
+  infoIcon: {
+    marginLeft: 5,
+    marginTop: 2,
+  },
+  row: {
+    flexDirection: 'row',
   },
 })
 export default FiatDetailsScreen

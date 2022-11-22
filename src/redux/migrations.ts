@@ -892,4 +892,11 @@ export const migrations = {
     ...state,
     app: _.omit(state.app, 'celoWithdrawalEnabledInExchange'),
   }),
+  93: (state: any) => ({
+    ...state,
+    fiatConnect: {
+      ...state.fiatConnect,
+      transfer: null,
+    },
+  }),
 }
