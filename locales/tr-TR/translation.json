@@ -1416,7 +1416,8 @@
     }
   },
   "fiatDetailsScreen": {
-    "header": "Banka Bilgilerini girin",
+    "headerBankAccount": "Banka Bilgilerini girin",
+    "headerMobileMoney": "Enter Mobile Details",
     "headerSubTitle": "{{provider}} tarafından desteklenmektedir",
     "selectedPaymentOption": "Seçili ödeme yöntemi",
     "addFiatAccountSuccess": "Hesabınız {{provider}} sağlayıcısına bağlandı.",
@@ -1436,6 +1437,21 @@
       "placeholderText": "Hesap Numarasını Girin",
       "errorMessageDigitLength": "Hesap numarası {{length}} haneli olmalıdır",
       "errorMessageDigit": "Hesap numarası yalnızca rakam içermelidir"
+    },
+    "mobileMoney": {
+      "operator": {
+        "label": "Ağ"
+      },
+      "mobile": {
+        "label": "Telefon Numarası",
+        "placeholderText": "+234123234566",
+        "errorMessage": "Invalid Phone Number format"
+      },
+      "mobileDialog": {
+        "title": "Telefon Numarası",
+        "body": "Use the phone number registered with your mobile money provider. This might not be the same as your valora phone number.\n\nPhone numbers must include country code displayed next to the phone number.",
+        "dismiss": "Yoksay"
+      }
     },
     "ibanNumber": {
       "label": "IBAN",
