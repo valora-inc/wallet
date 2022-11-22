@@ -1372,6 +1372,7 @@
   },
   "fiatConnectStatusScreen": {
     "tryAgain": "ลองอีกครั้ง",
+    "stillProcessing": "We're still processing your transaction. Please wait.",
     "cashOut": {
       "cancel": "ยกเลิกการถอนเงิน",
       "contactSupportPrefill": "ฉันมีปัญหาในการถอนเงิน"
