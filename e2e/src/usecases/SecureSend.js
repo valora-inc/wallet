@@ -47,7 +47,7 @@ export default SecureSend = () => {
     }
 
     // Scroll to see submit button
-    await scrollIntoView('Submit', 'KeyboardAwareScrollView')
+    await scrollIntoView('Submit', 'KeyboardAwareScrollView', 50)
     await element(by.id('ConfirmAccountButton')).tap()
 
     // Write a comment.

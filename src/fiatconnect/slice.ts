@@ -19,11 +19,17 @@ import { CICOFlow } from 'src/fiatExchanges/utils'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 
+export enum SendingTransferStatus {
+  Sending = 'Sending',
+  Completed = 'Completed',
+  Failed = 'Failed',
+  TxProcessing = 'TxProcessing',
+}
+
 export interface FiatConnectTransfer {
   flow: CICOFlow
   quoteId: string
-  isSending: boolean
-  failed: boolean
+  status: SendingTransferStatus
   txHash: string | null // only for cash outs, the hash of the tx to send crypto to the provider
 }
 
@@ -239,9 +245,8 @@ export const slice = createSlice({
       state.transfer = {
         quoteId: action.payload.fiatConnectQuote.getQuoteId(),
         flow: action.payload.flow,
-        isSending: true,
-        failed: false,
         txHash: null,
+        status: SendingTransferStatus.Sending,
       }
     },
     createFiatConnectTransferFailed: (
@@ -251,9 +256,8 @@ export const slice = createSlice({
       state.transfer = {
         quoteId: action.payload.quoteId,
         flow: action.payload.flow,
-        isSending: false,
-        failed: true,
         txHash: null,
+        status: SendingTransferStatus.Failed,
       }
     },
     createFiatConnectTransferCompleted: (
@@ -263,9 +267,8 @@ export const slice = createSlice({
       state.transfer = {
         quoteId: action.payload.quoteId,
         flow: action.payload.flow,
-        isSending: false,
-        failed: false,
         txHash: action.payload.txHash,
+        status: SendingTransferStatus.Completed,
       }
     },
     fetchFiatConnectProviders: () => {
