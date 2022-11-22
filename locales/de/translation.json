@@ -1392,6 +1392,10 @@
     "requestNotCompleted": {
       "title": "Deine Anfrage konnte nicht abgeschlossen werden.",
       "description": "Dein Guthaben konnte nicht von überwiesen werden. Bitte versuche es noch einmal oder wende dich an unser Support-Team, um Hilfe zu erhalten."
+    },
+    "txProcessing": {
+      "title": "Deine Transaktion wird noch bearbeitet.",
+      "description": "Das kann an einer schlechten Internetverbindung liegen. Prüfe den CeloExplorer auf Updates."
     }
   },
   "fiatExchangeFlow": {
