@@ -1414,7 +1414,8 @@
     }
   },
   "fiatDetailsScreen": {
-    "header": "Nhập thông tin ngân hàng",
+    "headerBankAccount": "Nhập thông tin ngân hàng",
+    "headerMobileMoney": "Enter Mobile Details",
     "headerSubTitle": "Do {{provider}} cung cấp",
     "selectedPaymentOption": "Phương thức thanh toán đã chọn",
     "addFiatAccountSuccess": "Tài khoản của bạn đã được kết nối với {{provider}}.",
@@ -1434,6 +1435,21 @@
       "placeholderText": "Nhập số tài khoản",
       "errorMessageDigitLength": "Số tài khoản phải có {{length}} chữ số",
       "errorMessageDigit": "Số tài khoản chỉ được chứa chữ số"
+    },
+    "mobileMoney": {
+      "operator": {
+        "label": "Mạng lưới"
+      },
+      "mobile": {
+        "label": "Số điện thoại",
+        "placeholderText": "+234123234566",
+        "errorMessage": "Invalid Phone Number format"
+      },
+      "mobileDialog": {
+        "title": "Số điện thoại",
+        "body": "Use the phone number registered with your mobile money provider. This might not be the same as your valora phone number.\n\nPhone numbers must include country code displayed next to the phone number.",
+        "dismiss": "Bỏ qua"
+      }
     },
     "ibanNumber": {
       "label": "IBAN",
