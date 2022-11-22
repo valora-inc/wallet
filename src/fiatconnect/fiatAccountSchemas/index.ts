@@ -1,6 +1,7 @@
 import { FiatAccountSchema, FiatAccountType } from '@fiatconnect/fiatconnect-types'
 import { getAccountNumberSchema } from 'src/fiatconnect/fiatAccountSchemas/accountNumber'
 import { getIbanNumberSchema } from 'src/fiatconnect/fiatAccountSchemas/ibanNumber'
+import { getMobileMoneySchema } from 'src/fiatconnect/fiatAccountSchemas/mobileMoney'
 import {
   ComputedParam,
   FormFieldParam,
@@ -41,6 +42,11 @@ export const getSchema = ({
         },
         schemaCountryOverrides
       )
+    case FiatAccountSchema.MobileMoney:
+      return getMobileMoneySchema({
+        country,
+        fiatAccountType,
+      })
     default:
       // should never happen
       throw new Error('Unsupported schema type')
