@@ -28,6 +28,7 @@ module.exports = {
     'secrets.json': '<rootDir>/__mocks__/secrets.json',
     '^src/(.*)$': '<rootDir>/src/$1',
     '^test/(.*)$': '<rootDir>/test/$1',
+    '^locales$': '<rootDir>/locales',
   },
   modulePathIgnorePatterns: ['<rootDir>/node_modules/(.*)/node_modules/react-native'],
   preset: 'react-native',
