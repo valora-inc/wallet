@@ -1378,6 +1378,7 @@
   },
   "fiatConnectStatusScreen": {
     "tryAgain": "Спробувати ще",
+    "stillProcessing": "Ми обробляємо вашу транзакцію. Будь ласка, зачекайте.",
     "cashOut": {
       "cancel": "Скасувати зняття",
       "contactSupportPrefill": "Я не можу зняти свої кошти."
