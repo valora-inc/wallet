@@ -24,8 +24,8 @@ describe('Given Rewards', () => {
       await waitForElementId('ConsumerIncentives/CTA')
       await element(by.id('ConsumerIncentives/CTA')).tap()
       await enterPinUiIfNecessary()
-      await waitForElementId('VerificationEducationHeader')
-      await expect(element(by.id('VerificationEducationHeader'))).toBeVisible()
+      await waitForElementId('PhoneVerificationHeader')
+      await expect(element(by.id('PhoneVerificationHeader'))).toBeVisible()
     })
 
     it(':ios: Then should navigate back to consumer incentives', async () => {
