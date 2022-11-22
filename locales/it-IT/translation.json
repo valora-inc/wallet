@@ -1392,6 +1392,10 @@
     "requestNotCompleted": {
       "title": "Non è stato possibile completare la richiesta.",
       "description": "Non è stato possibile trasferire i tuoi fondi. Riprova o contatta il nostro team di supporto per ricevere assistenza."
+    },
+    "txProcessing": {
+      "title": "La tua transazione è ancora in corso.",
+      "description": "Questo potrebbe essere dovuto a una scarsa connessione a Internet. Controlla gli aggiornamenti di CeloExplorer."
     }
   },
   "fiatExchangeFlow": {
