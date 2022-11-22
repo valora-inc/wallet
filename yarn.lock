@@ -2472,15 +2472,6 @@
     fp-ts "2.1.1"
     io-ts "2.0.1"
 
-"@celo/network-utils@~1.2.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@celo/network-utils/-/network-utils-1.2.0.tgz#cb81f8544d9f7722f779c17ff1bf0a7213446aeb"
-  integrity sha512-EPhk1i8KSFJZAb/t+02ahq9X1sglIYmplK/+qATPSmix8IYrEDyWTrQ5N0XOeRVZjNRhZq6Uq6rLub9ClVcGWg==
-  dependencies:
-    "@types/debug" "^4.1.5"
-    cross-fetch "3.0.4"
-    debug "^4.1.1"
-
 "@celo/payments-sdk@0.0.11":
   version "0.0.11"
   resolved "https://registry.yarnpkg.com/@celo/payments-sdk/-/payments-sdk-0.0.11.tgz#28bd65fc992d5202f6b51b53b93467d8a23b91f9"

@@ -5,7 +5,7 @@ import { Provider } from 'react-redux'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
-import { FiatConnectTransfer } from 'src/fiatconnect/slice'
+import { FiatConnectTransfer, SendingTransferStatus } from 'src/fiatconnect/slice'
 import TransferStatusScreen from 'src/fiatconnect/TransferStatusScreen'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
@@ -22,36 +22,31 @@ const mockFiatConnectTransfers: FiatConnectTransfer[] = [
   {
     flow: CICOFlow.CashOut,
     quoteId: 'mock_quote_out_id',
-    isSending: false,
-    failed: false,
+    status: SendingTransferStatus.Completed,
     txHash: '0xc7a9b0f4354e6279cb476d4c91d5bbc5db6ad29aa8611408de7aee6d2e7fe7c72',
   },
   {
     flow: CICOFlow.CashOut,
     quoteId: 'mock_quote_out_id',
-    isSending: false,
-    failed: true,
+    status: SendingTransferStatus.Failed,
     txHash: null,
   },
   {
     flow: CICOFlow.CashIn,
     quoteId: 'mock_quote_in_id',
-    isSending: false,
-    failed: false,
+    status: SendingTransferStatus.Completed,
     txHash: null,
   },
   {
     flow: CICOFlow.CashIn,
     quoteId: 'mock_quote_in_id',
-    isSending: false,
-    failed: true,
+    status: SendingTransferStatus.Failed,
     txHash: null,
   },
   {
     flow: CICOFlow.CashIn,
     quoteId: 'mock_quote_in_id',
-    isSending: true,
-    failed: false,
+    status: SendingTransferStatus.Sending,
     txHash: null,
   },
 ]
