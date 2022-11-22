@@ -1,7 +1,7 @@
-// Global app them used by react-navigation
 import { DefaultTheme } from '@react-navigation/native'
 import colors from 'src/styles/colors'
 
+// Global app theme used by react-navigation
 const appTheme = {
   ...DefaultTheme,
   colors: {
