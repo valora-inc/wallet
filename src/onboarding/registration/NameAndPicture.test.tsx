@@ -3,6 +3,8 @@ import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
 import * as AccountActions from 'src/account/actions'
+import { OnboardingEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { CreateAccountCopyTestType } from 'src/app/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -12,6 +14,7 @@ import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockNavigation } from 'test/values'
 
+jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/onboarding/registration/NameGenerator')
 const mockStatsigGet = jest.fn()
 jest.mock('statsig-react-native', () => ({
@@ -26,7 +29,7 @@ const mockScreenProps = getMockStackScreenProps(Screens.NameAndPicture)
 
 describe('NameAndPictureScreen', () => {
   afterEach(() => {
-    mockStatsigGet.mockClear()
+    jest.clearAllMocks()
   })
 
   it('disable button when no name', () => {
@@ -214,6 +217,8 @@ describe('NameAndPictureScreen', () => {
     expect(queryByText('skip')).toBeTruthy()
     fireEvent.press(queryByText('skip')!)
     expect(navigate).toHaveBeenCalledWith(Screens.PincodeSet, expect.anything())
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(OnboardingEvents.name_and_picture_skip)
   })
 
   it('saves empty name regardless of what is in the inputbox when skip is used', () => {
@@ -250,6 +255,10 @@ describe('NameAndPictureScreen', () => {
     fireEvent.press(getByText('generateUsername'))
     expect(nameField.props.value).toEqual('Generated Name')
     nameGen.mockRestore()
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      OnboardingEvents.name_and_picture_generate_name
+    )
   })
 
   it('shows alternate placeholder username for experimental group', () => {
