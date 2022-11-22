@@ -1396,6 +1396,10 @@
     "requestNotCompleted": {
       "title": "Twoje żądanie nie mogło zostać zrealizowane.",
       "description": "Twoje środki nie mogły zostać przekazane. Spróbuj ponownie lub skontaktuj się z naszym zespołem obsługi klienta, aby uzyskać pomoc."
+    },
+    "txProcessing": {
+      "title": "Twoja transakcja jest nadal przetwarzana.",
+      "description": "Może to być spowodowane słabym połączeniem internetowym. Sprawdź, czy CeloExplorer jest aktualizowany."
     }
   },
   "fiatExchangeFlow": {
