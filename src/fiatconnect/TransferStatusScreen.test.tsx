@@ -17,45 +17,23 @@ import { mockFiatConnectQuotes } from 'test/values'
 
 jest.mock('src/analytics/ValoraAnalytics')
 
-const mockFiatConnectTransfers: FiatConnectTransfer[] = [
-  {
-    flow: CICOFlow.CashOut,
-    quoteId: 'mock_quote_out_id',
-    status: SendingTransferStatus.Completed,
-    txHash: '0xc7a9b0f4354e6279cb476d4c91d5bbc5db6ad29aa8611408de7aee6d2e7fe7c72',
-  },
-  {
-    flow: CICOFlow.CashOut,
-    quoteId: 'mock_quote_out_id',
-    status: SendingTransferStatus.Failed,
-    txHash: null,
-  },
-  {
-    flow: CICOFlow.CashIn,
-    quoteId: 'mock_quote_in_id',
-    status: SendingTransferStatus.Completed,
-    txHash: null,
-  },
-  {
-    flow: CICOFlow.CashIn,
-    quoteId: 'mock_quote_in_id',
-    status: SendingTransferStatus.Failed,
-    txHash: null,
-  },
-  {
-    flow: CICOFlow.CashIn,
-    quoteId: 'mock_quote_in_id',
-    status: SendingTransferStatus.Sending,
-    txHash: null,
-  },
-]
+const mockTxHash = '0xc7a9b0f4354e6279cb476d4c91d5bbc5db6ad29aa8611408de7aee6d2e7fe7c72'
+const mockAddress = '0x123'
 
 describe('TransferStatusScreen', () => {
-  const mockStore = (overrides: any = {}) => {
+  const mockStore = (fcTransferOverrides: Partial<FiatConnectTransfer> = {}) => {
     const store = createMockStore({
       fiatConnect: {
-        transfer: mockFiatConnectTransfers[0],
-        ...overrides,
+        transfer: {
+          flow: CICOFlow.CashIn,
+          quoteId: 'quote_id',
+          status: SendingTransferStatus.Completed,
+          txHash: null,
+          ...fcTransferOverrides,
+        },
+      },
+      web3: {
+        account: mockAddress,
       },
     })
     store.dispatch = jest.fn()
@@ -103,7 +81,7 @@ describe('TransferStatusScreen', () => {
       )
     })
     it('navigates home on success for transfer outs', () => {
-      const store = mockStore()
+      const store = mockStore({ flow: CICOFlow.CashOut, txHash: mockTxHash })
       const { queryByTestId, getByTestId } = render(
         <Provider store={store}>
           <TransferStatusScreen {...mockScreenProps(CICOFlow.CashOut)} />
@@ -118,12 +96,12 @@ describe('TransferStatusScreen', () => {
         {
           provider: 'provider-two',
           flow: CICOFlow.CashOut,
-          txHash: '0xc7a9b0f4354e6279cb476d4c91d5bbc5db6ad29aa8611408de7aee6d2e7fe7c72',
+          txHash: mockTxHash,
         }
       )
     })
     it('shows TX details on Celo Explorer on success for transfer outs', () => {
-      const store = mockStore()
+      const store = mockStore({ flow: CICOFlow.CashOut, txHash: mockTxHash })
       const { queryByTestId, getByTestId } = render(
         <Provider store={store}>
           <TransferStatusScreen {...mockScreenProps(CICOFlow.CashOut)} />
@@ -132,7 +110,7 @@ describe('TransferStatusScreen', () => {
       expect(queryByTestId('txDetails')).toBeTruthy()
       fireEvent.press(getByTestId('txDetails'))
       expect(navigate).toHaveBeenCalledWith(Screens.WebViewScreen, {
-        uri: `${networkConfig.celoExplorerBaseTxUrl}${mockFiatConnectTransfers[0].txHash}`,
+        uri: `${networkConfig.celoExplorerBaseTxUrl}${mockTxHash}`,
       })
       expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(
@@ -140,12 +118,12 @@ describe('TransferStatusScreen', () => {
         {
           provider: 'provider-two',
           flow: CICOFlow.CashOut,
-          txHash: '0xc7a9b0f4354e6279cb476d4c91d5bbc5db6ad29aa8611408de7aee6d2e7fe7c72',
+          txHash: mockTxHash,
         }
       )
     })
     it('does not show tx details and navigates home on success for transfer ins', () => {
-      const store = mockStore({ transfer: mockFiatConnectTransfers[2] })
+      const store = mockStore()
       const { queryByTestId, getByTestId } = render(
         <Provider store={store}>
           <TransferStatusScreen {...mockScreenProps(CICOFlow.CashIn)} />
@@ -167,12 +145,84 @@ describe('TransferStatusScreen', () => {
     })
   })
 
+  describe('tx processing view', () => {
+    it('navigates home on clicking continue for transfer outs', () => {
+      const store = mockStore({
+        status: SendingTransferStatus.TxProcessing,
+        flow: CICOFlow.CashOut,
+      })
+      const { queryByTestId, getByTestId } = render(
+        <Provider store={store}>
+          <TransferStatusScreen {...mockScreenProps(CICOFlow.CashOut)} />
+        </Provider>
+      )
+      expect(queryByTestId('Continue')).toBeTruthy()
+      fireEvent.press(getByTestId('Continue'))
+      expect(navigateHome).toHaveBeenCalledWith()
+      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+        FiatExchangeEvents.cico_fc_transfer_processing_continue,
+        {
+          provider: 'provider-two',
+          flow: CICOFlow.CashOut,
+          txHash: null,
+        }
+      )
+    })
+    it('shows address page on Celo Explorer for transfer outs', () => {
+      const store = mockStore({
+        status: SendingTransferStatus.TxProcessing,
+        flow: CICOFlow.CashOut,
+      })
+      const { queryByTestId, getByTestId } = render(
+        <Provider store={store}>
+          <TransferStatusScreen {...mockScreenProps(CICOFlow.CashOut)} />
+        </Provider>
+      )
+      expect(queryByTestId('txDetails')).toBeTruthy()
+      fireEvent.press(getByTestId('txDetails'))
+      expect(navigate).toHaveBeenCalledWith(Screens.WebViewScreen, {
+        uri: `${networkConfig.celoExplorerBaseAddressUrl}${mockAddress}`,
+      })
+      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+        FiatExchangeEvents.cico_fc_transfer_processing_view_tx,
+        {
+          provider: 'provider-two',
+          flow: CICOFlow.CashOut,
+          txHash: null,
+        }
+      )
+    })
+    it('does not show celo explorer link and navigates home on continue for transfer ins', () => {
+      const store = mockStore({ status: SendingTransferStatus.TxProcessing })
+      const { queryByTestId, getByTestId } = render(
+        <Provider store={store}>
+          <TransferStatusScreen {...mockScreenProps(CICOFlow.CashIn)} />
+        </Provider>
+      )
+      expect(queryByTestId('Continue')).toBeTruthy()
+      fireEvent.press(getByTestId('Continue'))
+      expect(navigateHome).toHaveBeenCalledWith()
+      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+        FiatExchangeEvents.cico_fc_transfer_processing_continue,
+        {
+          provider: 'provider-two',
+          flow: CICOFlow.CashIn,
+          txHash: null,
+        }
+      )
+      expect(queryByTestId('txDetails')).toBeFalsy()
+    })
+  })
+
   describe('failure view', () => {
     it.each([
       [CICOFlow.CashIn, 'cashIn'],
       [CICOFlow.CashOut, 'cashOut'],
     ])('sets header options for %s', (flow, header) => {
-      const store = mockStore({ transfer: mockFiatConnectTransfers[1] })
+      const store = mockStore({ status: SendingTransferStatus.Failed, flow })
       const mockProps = mockScreenProps(flow)
       let headerRightButton: React.ReactNode
       ;(mockProps.navigation.setOptions as jest.Mock).mockImplementation((options) => {
@@ -206,7 +256,7 @@ describe('TransferStatusScreen', () => {
       )
     })
     it('navigates to review screen when try again button is pressed on failure', () => {
-      const store = mockStore({ transfer: mockFiatConnectTransfers[1] })
+      const store = mockStore({ status: SendingTransferStatus.Failed })
       const { queryByTestId, getByTestId } = render(
         <Provider store={store}>
           <TransferStatusScreen {...mockScreenProps(CICOFlow.CashOut)} />
@@ -242,7 +292,7 @@ describe('TransferStatusScreen', () => {
     ])(
       'navigates to support page when contact support button is pressed on failure for %s',
       (flow, text) => {
-        const store = mockStore({ transfer: mockFiatConnectTransfers[1] })
+        const store = mockStore({ status: SendingTransferStatus.Failed, flow })
         const { queryByTestId, getByTestId } = render(
           <Provider store={store}>
             <TransferStatusScreen {...mockScreenProps(flow)} />
@@ -268,7 +318,7 @@ describe('TransferStatusScreen', () => {
   describe('loading view', () => {
     it('shows loading screen with no headers', () => {
       const mockProps = mockScreenProps(CICOFlow.CashIn)
-      const store = mockStore({ transfer: mockFiatConnectTransfers[4] })
+      const store = mockStore({ status: SendingTransferStatus.Sending })
       const { getByTestId } = render(
         <Provider store={store}>
           <TransferStatusScreen {...mockProps} />
