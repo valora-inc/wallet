@@ -1390,6 +1390,10 @@
     "requestNotCompleted": {
       "title": "Yêu cầu của bạn không thể hoàn tất.",
       "description": "Chúng tôi không chuyển được tiền của bạn. Vui lòng thử lại hoặc liên hệ với đội ngũ hỗ trợ của chúng tôi để được trợ giúp."
+    },
+    "txProcessing": {
+      "title": "Your transaction is still processing.",
+      "description": "This might be due to poor internet connection. Check CeloExplorer for updates."
     }
   },
   "fiatExchangeFlow": {
