@@ -492,6 +492,8 @@ export enum FiatExchangeEvents {
   cico_fc_transfer_error_contact_support = 'cico_fc_transfer_error_contact_support',
   cico_fc_transfer_success_complete = 'cico_fc_transfer_success_complete',
   cico_fc_transfer_success_view_tx = 'cico_fc_transfer_success_view_tx',
+  cico_fc_transfer_processing_continue = 'cico_fc_transfer_processing_continue',
+  cico_fc_transfer_processing_view_tx = 'cico_fc_transfer_processing_view_tx',
 
   // Fiat Connect KYC status screens
   cico_fc_kyc_status_contact_support = 'cico_fc_kyc_status_contact_support',
