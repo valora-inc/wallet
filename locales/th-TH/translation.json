@@ -1390,6 +1390,10 @@
     "requestNotCompleted": {
       "title": "ไม่สามารถดำเนินคำขอของคุณได้",
       "description": "ไม่สามารถโอนเงินของคุณได้ โปรดลองอีกครั้งหรือติดต่อฝ่ายบริการลูกค้าเพื่อขอความช่วยเหลือ"
+    },
+    "txProcessing": {
+      "title": "Your transaction is still processing.",
+      "description": "This might be due to poor internet connection. Check CeloExplorer for updates."
     }
   },
   "fiatExchangeFlow": {
