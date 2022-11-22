@@ -330,7 +330,7 @@ describe('TransferStatusScreen', () => {
     })
     it('Shows explanation if taking a while', async () => {
       const mockProps = mockScreenProps(CICOFlow.CashIn)
-      const store = mockStore({ transfer: mockFiatConnectTransfers[4] })
+      const store = mockStore({ status: SendingTransferStatus.Sending })
       const { getByTestId } = render(
         <Provider store={store}>
           <TransferStatusScreen {...mockProps} />
