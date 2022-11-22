@@ -25,7 +25,7 @@ import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import networkConfig from 'src/web3/networkConfig'
 
-const LOADING_DESCRIPTION_TIMEOUT_MS = 5000
+const LOADING_DESCRIPTION_TIMEOUT_MS = 8000
 
 type Props = NativeStackScreenProps<StackParamList, Screens.FiatConnectTransferStatus>
 
