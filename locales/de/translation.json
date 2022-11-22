@@ -1416,7 +1416,8 @@
     }
   },
   "fiatDetailsScreen": {
-    "header": "Bankdaten eingeben",
+    "headerBankAccount": "Bankdaten eingeben",
+    "headerMobileMoney": "Enter Mobile Details",
     "headerSubTitle": "Unterstützt von {{provider}}",
     "selectedPaymentOption": "Gewählte Zahlungsoption",
     "addFiatAccountSuccess": "Dein Konto wurde mit {{provider}} verknüpft.",
@@ -1436,6 +1437,21 @@
       "placeholderText": "Kontonummer eingeben",
       "errorMessageDigitLength": "Die Kontonummer muss {{length}} Ziffern haben",
       "errorMessageDigit": "Die Kontonummer darf nur Ziffern enthalten"
+    },
+    "mobileMoney": {
+      "operator": {
+        "label": "Netzwerk"
+      },
+      "mobile": {
+        "label": "Telefonnummer",
+        "placeholderText": "+234123234566",
+        "errorMessage": "Invalid Phone Number format"
+      },
+      "mobileDialog": {
+        "title": "Telefonnummer",
+        "body": "Use the phone number registered with your mobile money provider. This might not be the same as your valora phone number.\n\nPhone numbers must include country code displayed next to the phone number.",
+        "dismiss": "Verwerfen"
+      }
     },
     "ibanNumber": {
       "label": "IBAN",
