@@ -1,4 +1,10 @@
-import { enterPinUiIfNecessary, sleep, quickOnboarding, waitForElementId } from '../utils/utils'
+import {
+  dismissCashInBottomSheet,
+  enterPinUiIfNecessary,
+  sleep,
+  quickOnboarding,
+  waitForElementId,
+} from '../utils/utils'
 import { ALFAJORES_FORNO_URL, SAMPLE_PRIVATE_KEY } from '../utils/consts'
 import { newKit } from '@celo/contractkit'
 import { generateKeys, generateMnemonic } from '@celo/utils/lib/account'
@@ -62,7 +68,7 @@ async function selectCurrencyAndAmount(token, amount) {
  *
  * @return {{result: Error}}
  */
-async function submitTransfer() {
+async function submitTransfer(expectZeroBalance = false) {
   // ReviewScreen
   await waitForElementId('submitButton')
   await element(by.id('submitButton')).tap()
@@ -74,6 +80,9 @@ async function submitTransfer() {
   await element(by.id('Continue')).tap()
 
   // WalletHome
+  if (expectZeroBalance) {
+    await dismissCashInBottomSheet()
+  }
   await expect(element(by.id('SendOrRequestBar'))).toBeVisible() // proxy for reaching home screen, imitating NewAccountOnboarding e2e test
 }
 
@@ -169,7 +178,7 @@ async function returnUserTransferOut(token, cashOutAmount) {
 
   await selectCurrencyAndAmount(token, cashOutAmount)
 
-  await submitTransfer()
+  await submitTransfer(true)
 }
 
 export const fiatConnectNonKycTransferOut = () => {
