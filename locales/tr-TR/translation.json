@@ -1392,6 +1392,10 @@
     "requestNotCompleted": {
       "title": "İsteğiniz gerçekleştirilemedi.",
       "description": "Paranız aktarılamadı. Lütfen tekrar deneyin veya yardım için destek ekibimizle iletişime geçin."
+    },
+    "txProcessing": {
+      "title": "İşleminiz hala devam ediyor.",
+      "description": "Bunun nedeni zayıf internet bağlantısı olabilir. Güncellemeler için CeloExplorer'ı kontrol edin."
     }
   },
   "fiatExchangeFlow": {
