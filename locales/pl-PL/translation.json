@@ -1378,6 +1378,7 @@
   },
   "fiatConnectStatusScreen": {
     "tryAgain": "Spróbuj ponownie",
+    "stillProcessing": "Nadal przetwarzamy Twoją transakcję. Proszę czekać.",
     "cashOut": {
       "cancel": "Anuluj wypłatę",
       "contactSupportPrefill": "Mam problem z wypłatą środków."
