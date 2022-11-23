@@ -1374,6 +1374,7 @@
   },
   "fiatConnectStatusScreen": {
     "tryAgain": "Riprova",
+    "stillProcessing": "Stiamo ancora elaborando la tua transazione. Ti preghiamo di attendere.",
     "cashOut": {
       "cancel": "Annulla prelievo",
       "contactSupportPrefill": "Ho problemi a prelevare i miei fondi."
@@ -1392,6 +1393,10 @@
     "requestNotCompleted": {
       "title": "Non è stato possibile completare la richiesta.",
       "description": "Non è stato possibile trasferire i tuoi fondi. Riprova o contatta il nostro team di supporto per ricevere assistenza."
+    },
+    "txProcessing": {
+      "title": "La tua transazione è ancora in corso.",
+      "description": "Questo potrebbe essere dovuto a una scarsa connessione a Internet. Controlla gli aggiornamenti di CeloExplorer."
     }
   },
   "fiatExchangeFlow": {
@@ -1416,7 +1421,8 @@
     }
   },
   "fiatDetailsScreen": {
-    "header": "Immetti i dettagli della banca",
+    "headerBankAccount": "Immetti i dettagli della banca",
+    "headerMobileMoney": "Enter Mobile Details",
     "headerSubTitle": "Powered by {{provider}}",
     "selectedPaymentOption": "Opzione di pagamento selezionata",
     "addFiatAccountSuccess": "Il tuo conto è stato collegato a {{provider}}.",
@@ -1436,6 +1442,21 @@
       "placeholderText": "Inserisci il numero di conto",
       "errorMessageDigitLength": "Il numero di conto deve essere composto da {{length}} cifre",
       "errorMessageDigit": "Il numero di conto deve contenere solo cifre"
+    },
+    "mobileMoney": {
+      "operator": {
+        "label": "Rete"
+      },
+      "mobile": {
+        "label": "Numero telefonico",
+        "placeholderText": "+234123234566",
+        "errorMessage": "Invalid Phone Number format"
+      },
+      "mobileDialog": {
+        "title": "Numero telefonico",
+        "body": "Use the phone number registered with your mobile money provider. This might not be the same as your valora phone number.\n\nPhone numbers must include country code displayed next to the phone number.",
+        "dismiss": "Ignora"
+      }
     },
     "ibanNumber": {
       "label": "IBAN",
