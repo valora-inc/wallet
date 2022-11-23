@@ -1384,7 +1384,7 @@
       "contactSupportPrefill": "Je n'arrive pas à ajouter des fonds à mon portefeuille Valora."
     },
     "success": {
-      "header": "Succès",
+      "header": "Opération réussie",
       "title": "Vos fonds sont en route !",
       "description": "Votre demande de transaction a été envoyée et vos fonds arriveront dans {{duration}}.",
       "txDetails": "Voir sur CeloExplorer",
