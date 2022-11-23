@@ -1374,6 +1374,7 @@
   },
   "fiatConnectStatusScreen": {
     "tryAgain": "Repetir",
+    "stillProcessing": "Ainda estamos a processar a sua transacção. Aguarde, por favor.",
     "cashOut": {
       "cancel": "Cancelar saque",
       "contactSupportPrefill": "Estou tento dificuldade para sacar meus fundos."
@@ -1392,6 +1393,10 @@
     "requestNotCompleted": {
       "title": "Sua solicitação não pôde ser concluída.",
       "description": "Seus fundos não puderam ser transferidos. Tente novamente ou fale com a nossa equipe de suporte para obter ajuda."
+    },
+    "txProcessing": {
+      "title": "A sua transacção ainda está a ser processada.",
+      "description": "Isto pode ser devido a uma má ligação à Internet. Verifique CeloExplorer para actualizações."
     }
   },
   "fiatExchangeFlow": {
@@ -1416,7 +1421,8 @@
     }
   },
   "fiatDetailsScreen": {
-    "header": "Insira os dados bancários",
+    "headerBankAccount": "Insira os dados bancários",
+    "headerMobileMoney": "Enter Mobile Details",
     "headerSubTitle": "Desenvolvido por {{provider}}",
     "selectedPaymentOption": "Opção de pagamento selecionada",
     "addFiatAccountSuccess": "Sua conta foi conectada a {{provider}}.",
@@ -1436,6 +1442,21 @@
       "placeholderText": "Insira o número da conta",
       "errorMessageDigitLength": "O número de conta deve ter {{length}} dígitos",
       "errorMessageDigit": "O número da conta deve conter apenas dígitos"
+    },
+    "mobileMoney": {
+      "operator": {
+        "label": "Rede"
+      },
+      "mobile": {
+        "label": "Número de celular",
+        "placeholderText": "+234123234566",
+        "errorMessage": "Invalid Phone Number format"
+      },
+      "mobileDialog": {
+        "title": "Número de celular",
+        "body": "Use the phone number registered with your mobile money provider. This might not be the same as your valora phone number.\n\nPhone numbers must include country code displayed next to the phone number.",
+        "dismiss": "Ignorar"
+      }
     },
     "ibanNumber": {
       "label": "IBAN",

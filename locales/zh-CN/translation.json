@@ -1372,6 +1372,7 @@
   },
   "fiatConnectStatusScreen": {
     "tryAgain": "再试一次",
+    "stillProcessing": "我们仍在处理您的交易。请等待。",
     "cashOut": {
       "cancel": "取消提款",
       "contactSupportPrefill": "提取我的资金时出现问题。"
@@ -1390,6 +1391,10 @@
     "requestNotCompleted": {
       "title": "您的请求无法完成。",
       "description": "您的资金无法转账。请重试或联系我们的支持团队寻求帮助。"
+    },
+    "txProcessing": {
+      "title": "你的交易仍在处理中。",
+      "description": "这可能是由于网络连接不佳。检查CeloExplorer的更新。"
     }
   },
   "fiatExchangeFlow": {
@@ -1414,7 +1419,8 @@
     }
   },
   "fiatDetailsScreen": {
-    "header": "输入银行信息",
+    "headerBankAccount": "输入银行信息",
+    "headerMobileMoney": "Enter Mobile Details",
     "headerSubTitle": "由 {{provider}} 提供支持",
     "selectedPaymentOption": "选定的付款选项",
     "addFiatAccountSuccess": "您的账户已关联到 {{provider}}。",
@@ -1434,6 +1440,21 @@
       "placeholderText": "输入账号",
       "errorMessageDigitLength": "账号必须是 {{length}} 位数字",
       "errorMessageDigit": "账号必须只包含数字"
+    },
+    "mobileMoney": {
+      "operator": {
+        "label": "网络"
+      },
+      "mobile": {
+        "label": "手机号码",
+        "placeholderText": "+234123234566",
+        "errorMessage": "Invalid Phone Number format"
+      },
+      "mobileDialog": {
+        "title": "手机号码",
+        "body": "Use the phone number registered with your mobile money provider. This might not be the same as your valora phone number.\n\nPhone numbers must include country code displayed next to the phone number.",
+        "dismiss": "忽略"
+      }
     },
     "ibanNumber": {
       "label": "IBAN",

@@ -135,7 +135,10 @@ function NameAndPicture({ navigation, route }: Props) {
         showSkipButton && (
           <TopBarTextButton
             title={t('skip')}
-            onPress={goToNextScreen}
+            onPress={() => {
+              ValoraAnalytics.track(OnboardingEvents.name_and_picture_skip)
+              goToNextScreen()
+            }}
             titleStyle={{ color: colors.goldDark }}
           />
         ),
@@ -212,6 +215,7 @@ function NameAndPicture({ navigation, route }: Props) {
 
   const onPressGenerateUsername = () => {
     setNameInput(generateRandomUsername(new Set(blockedAdjectives), new Set(blockedNouns)))
+    ValoraAnalytics.track(OnboardingEvents.name_and_picture_generate_name)
   }
 
   return (
