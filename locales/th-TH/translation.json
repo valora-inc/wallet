@@ -1372,6 +1372,7 @@
   },
   "fiatConnectStatusScreen": {
     "tryAgain": "ลองอีกครั้ง",
+    "stillProcessing": "We're still processing your transaction. Please wait.",
     "cashOut": {
       "cancel": "ยกเลิกการถอนเงิน",
       "contactSupportPrefill": "ฉันมีปัญหาในการถอนเงิน"
@@ -1390,6 +1391,10 @@
     "requestNotCompleted": {
       "title": "ไม่สามารถดำเนินคำขอของคุณได้",
       "description": "ไม่สามารถโอนเงินของคุณได้ โปรดลองอีกครั้งหรือติดต่อฝ่ายบริการลูกค้าเพื่อขอความช่วยเหลือ"
+    },
+    "txProcessing": {
+      "title": "Your transaction is still processing.",
+      "description": "This might be due to poor internet connection. Check CeloExplorer for updates."
     }
   },
   "fiatExchangeFlow": {
@@ -1414,7 +1419,8 @@
     }
   },
   "fiatDetailsScreen": {
-    "header": "ป้อนข้อมูลธนาคาร",
+    "headerBankAccount": "ป้อนข้อมูลธนาคาร",
+    "headerMobileMoney": "Enter Mobile Details",
     "headerSubTitle": "ดำเนินการโดย {{provider}}",
     "selectedPaymentOption": "ตัวเลือกการชำระเงินที่เลือก",
     "addFiatAccountSuccess": "บัญชีของคุณเชื่อมต่อกับ {{provider}} แล้ว",
@@ -1434,6 +1440,21 @@
       "placeholderText": "ป้อนหมายเลขบัญชี",
       "errorMessageDigitLength": "หมายเลขบัญชีต้องมีความยาว {{length}} หลัก",
       "errorMessageDigit": "หมายเลขบัญชีต้องมีเพียงตัวเลขเท่านั้น"
+    },
+    "mobileMoney": {
+      "operator": {
+        "label": "เครือข่าย"
+      },
+      "mobile": {
+        "label": "หมายเลขโทรศัพท์",
+        "placeholderText": "+234123234566",
+        "errorMessage": "Invalid Phone Number format"
+      },
+      "mobileDialog": {
+        "title": "หมายเลขโทรศัพท์",
+        "body": "Use the phone number registered with your mobile money provider. This might not be the same as your valora phone number.\n\nPhone numbers must include country code displayed next to the phone number.",
+        "dismiss": "ปิด"
+      }
     },
     "ibanNumber": {
       "label": "IBAN",
