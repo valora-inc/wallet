@@ -1,6 +1,5 @@
 import { hexToBuffer } from '@celo/utils/lib/address'
 import { compressedPubKey } from '@celo/cryptographic-utils/lib/dataEncryptionKey'
-import { getPhoneHash } from '@celo/phone-utils'
 import { useEffect, useRef, useState } from 'react'
 import { useAsync, useAsyncCallback } from 'react-async-hook'
 import { Platform } from 'react-native'
@@ -24,6 +23,7 @@ import { retrieveSignedMessage } from 'src/pincode/authentication'
 import Logger from 'src/utils/Logger'
 import networkConfig from 'src/web3/networkConfig'
 import { dataEncryptionKeySelector, walletAddressSelector } from 'src/web3/selectors'
+import getPhoneHash from '@celo/phone-utils/lib/getPhoneHash'
 
 const TAG = 'verify/hooks'
 
