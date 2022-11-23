@@ -1372,7 +1372,7 @@
   },
   "fiatConnectStatusScreen": {
     "tryAgain": "再试一次",
-    "stillProcessing": "我们仍在处理您的交易。请等待。",
+    "stillProcessing": "服务提供商正在处理您的订单。",
     "cashOut": {
       "cancel": "取消提款",
       "contactSupportPrefill": "提取我的资金时出现问题。"
@@ -1393,8 +1393,8 @@
       "description": "您的资金无法转账。请重试或联系我们的支持团队寻求帮助。"
     },
     "txProcessing": {
-      "title": "你的交易仍在处理中。",
-      "description": "这可能是由于网络连接不佳。检查CeloExplorer的更新。"
+      "title": "服务提供商正在处理您的订单。",
+      "description": "这可能是由于网络关联不畅 服务器错误。"
     }
   },
   "fiatExchangeFlow": {
