@@ -1079,7 +1079,7 @@
   "balanceNeedUpdating": "Es necesario actualizar el saldo",
   "refreshBalances": "Actualizar saldos",
   "escrowedPaymentReminder": "Invitaciones pendientes",
-  "escrowedPaymentReminderSummaryTitle": "{{count}} Invitaciones pendientes",
+  "escrowedPaymentReminderSummaryTitle": "{{count}} invitaciones pendientes",
   "escrowedPaymentReminderSummaryDetails_exactly2Items": "<0></0> y <1></1> no podrán redimir sus invitaciones",
   "escrowedPaymentReminderSummaryDetails_exactly3Items": "<0></0>, <1></1> y otro no podrán redimir sus invitaciones",
   "escrowedPaymentReminderSummaryDetails_moreThan3Items": "<0></0>, <1></1> y otros no podrán redimir sus invitaciones",
