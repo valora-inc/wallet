@@ -1395,7 +1395,7 @@
       "description": "Non è stato possibile trasferire i tuoi fondi. Riprova o contatta il nostro team di supporto per ricevere assistenza."
     },
     "txProcessing": {
-      "title": "La transazione è ancora in fase di elaborazione.",
+      "title": "La transazione è in fase di elaborazione.",
       "description": "Questo potrebbe essere dovuto a una scarsa connessione a Internet. Controlla la disponibilità di aggiornamenti per CeloExplorer."
     }
   },
