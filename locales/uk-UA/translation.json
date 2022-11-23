@@ -1083,7 +1083,7 @@
   "balanceNeedUpdating": "Баланс потребує оновлення",
   "refreshBalances": "Оновити баланс",
   "escrowedPaymentReminder": "Запрошення в очікуванні",
-  "escrowedPaymentReminderSummaryTitle": "{{count}} Запрошення в очікуванні",
+  "escrowedPaymentReminderSummaryTitle": "Запрошення в очікуванні: {{count}}",
   "escrowedPaymentReminderSummaryDetails_exactly2Items": "<0></0> та <1></1> не зможуть підтвердити запрошення",
   "escrowedPaymentReminderSummaryDetails_exactly3Items": "<0></0>, <1></1> та хтось інший не зможуть підтвердити запрошення",
   "escrowedPaymentReminderSummaryDetails_moreThan3Items": "<0></0>, <1></1> та інші не зможуть підтвердити запрошення",
