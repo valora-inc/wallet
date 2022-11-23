@@ -1374,6 +1374,7 @@
   },
   "fiatConnectStatusScreen": {
     "tryAgain": "Réessayer",
+    "stillProcessing": "Nous sommes toujours en train de traiter ta transaction. S'il te plaît, attends.",
     "cashOut": {
       "cancel": "Annuler le retrait",
       "contactSupportPrefill": "Je n'arrive pas à retirer mes fonds."
@@ -1392,6 +1393,10 @@
     "requestNotCompleted": {
       "title": "Votre demande n'a pas pu être complétée.",
       "description": "Vos fonds n'ont pas pu être transférés. Veuillez réessayer ou contactez notre équipe d'assistance pour obtenir de l'aide."
+    },
+    "txProcessing": {
+      "title": "Ta transaction est toujours en cours de traitement.",
+      "description": "Cela peut être dû à une mauvaise connexion Internet. Vérifie les mises à jour de CeloExplorer."
     }
   },
   "fiatExchangeFlow": {
@@ -1416,7 +1421,8 @@
     }
   },
   "fiatDetailsScreen": {
-    "header": "Saisissez les coordonnées bancaires",
+    "headerBankAccount": "Saisissez les coordonnées bancaires",
+    "headerMobileMoney": "Enter Mobile Details",
     "headerSubTitle": "Propulsé par {{provider}}",
     "selectedPaymentOption": "Option de paiement sélectionnée",
     "addFiatAccountSuccess": "Votre compte a bien été associé à {{provider}}.",
@@ -1436,6 +1442,21 @@
       "placeholderText": "Saisissez un numéro de compte",
       "errorMessageDigitLength": "Le numéro de compte doit comporter {{length}} chiffres",
       "errorMessageDigit": "Le numéro de compte ne doit contenir que des chiffres"
+    },
+    "mobileMoney": {
+      "operator": {
+        "label": "Réseau"
+      },
+      "mobile": {
+        "label": "Numéro de téléphone",
+        "placeholderText": "+234123234566",
+        "errorMessage": "Invalid Phone Number format"
+      },
+      "mobileDialog": {
+        "title": "Numéro de téléphone",
+        "body": "Use the phone number registered with your mobile money provider. This might not be the same as your valora phone number.\n\nPhone numbers must include country code displayed next to the phone number.",
+        "dismiss": "Ignorer"
+      }
     },
     "ibanNumber": {
       "label": "IBAN",
