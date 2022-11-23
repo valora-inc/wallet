@@ -1,4 +1,4 @@
-import { getPhoneHash } from '@celo/phone-utils'
+import getPhoneHash from '@celo/phone-utils/lib/getPhoneHash'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Share } from 'react-native'

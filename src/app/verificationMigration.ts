@@ -1,7 +1,7 @@
 import { ContractKit } from '@celo/contractkit'
 import { AttestationStat, AttestationsWrapper } from '@celo/contractkit/lib/wrappers/Attestations'
 import { isAccountConsideredVerified } from '@celo/utils/lib/attestations'
-import { getPhoneHash } from '@celo/phone-utils'
+import getPhoneHash from '@celo/phone-utils/lib/getPhoneHash'
 import { call, put, select } from 'redux-saga-test-plan/matchers'
 import { verificationMigrationRan } from 'src/app/actions'
 import { numberVerifiedSelector, ranVerificationMigrationSelector } from 'src/app/selectors'

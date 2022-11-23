@@ -1,4 +1,4 @@
-import { AddressType, E164PhoneNumberType } from '@celo/phone-utils'
+import { E164PhoneNumberType } from '@celo/phone-utils'
 import { isLeft } from 'fp-ts/lib/Either'
 import {
   keyof as ioKeyof,
@@ -11,6 +11,7 @@ import {
 import { PathReporter } from 'io-ts/lib/PathReporter'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { parse } from 'url'
+import { AddressType } from '@celo/utils/lib/io'
 
 export const UriDataType = ioType({
   address: AddressType,

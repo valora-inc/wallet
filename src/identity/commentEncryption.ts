@@ -9,8 +9,8 @@ import { eqAddress, hexToBuffer } from '@celo/utils/lib/address'
 import {
   decryptComment as decryptCommentRaw,
   encryptComment as encryptCommentRaw,
-} from '@celo/utils/lib/commentEncryption'
-import { getPhoneHash } from '@celo/phone-utils'
+} from '@celo/cryptographic-utils'
+import getPhoneHash from '@celo/phone-utils/lib/getPhoneHash'
 import { memoize, values } from 'lodash'
 import { all, call, put, select } from 'redux-saga/effects'
 import { TokenTransactionType, TransactionFeedFragment } from 'src/apollo/types'
