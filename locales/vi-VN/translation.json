@@ -1077,7 +1077,7 @@
   "balanceNeedUpdating": "Cần cập nhật số dư",
   "refreshBalances": "Làm mới số dư",
   "escrowedPaymentReminder": "Lời mời đang chờ xử lý",
-  "escrowedPaymentReminderSummaryTitle": "{{count}} lời mời đang chờ xử lý",
+  "escrowedPaymentReminderSummaryTitle": "{{count}} Pending Invites",
   "escrowedPaymentReminderSummaryDetails_exactly2Items": "<0></0> và <1></1> sẽ không thể xác nhận lời mời của họ",
   "escrowedPaymentReminderSummaryDetails_exactly3Items": "<0></0>, <1></1> và một người nữa không thể xác nhận lời mời của họ",
   "escrowedPaymentReminderSummaryDetails_moreThan3Items": "<0></0>, <1></1> và những người khác không thể xác nhận lời mời của họ",
