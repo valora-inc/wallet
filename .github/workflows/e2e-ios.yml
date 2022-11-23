@@ -24,7 +24,7 @@ jobs:
           secrets: |-
             EMERGE_API_TOKEN:projects/1027349420744/secrets/EMERGE_API_TOKEN
           credentials: ${{ secrets.MAINNET_SERVICE_ACCOUNT_KEY }}
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: '16'
@@ -77,19 +77,19 @@ jobs:
         timeout-minutes: 45
       - name: Publish iOS JUnit Report
         if: always()
-        uses: mikepenz/action-junit-report@v2
+        uses: mikepenz/action-junit-report@v3
         with:
           check_name: iOS (${{ inputs.ios-version }}) e2e Test Report
           report_paths: 'e2e/test-results/junit.xml'
       - name: 'Upload iOS E2E Artifacts'
         if: failure()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: ios-${{ inputs.ios-version }}-e2e-artifact
           path: e2e/artifacts
       - name: 'Upload iOS E2E HTML Report'
         if: always()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: ios-${{ inputs.ios-version }}-test-report
           path: e2e/test-results

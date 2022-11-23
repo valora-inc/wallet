@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
@@ -10,10 +10,12 @@ import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import TextButton from 'src/components/TextButton'
 import Touchable from 'src/components/Touchable'
 import { fiatConnectTransferSelector } from 'src/fiatconnect/selectors'
-import { FiatAccount, FiatConnectTransfer } from 'src/fiatconnect/slice'
+import { FiatAccount, SendingTransferStatus } from 'src/fiatconnect/slice'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import CheckmarkCircle from 'src/icons/CheckmarkCircle'
+import CircledIcon from 'src/icons/CircledIcon'
+import ClockIcon from 'src/icons/ClockIcon'
 import OpenLinkIcon from 'src/icons/OpenLinkIcon'
 import { emptyHeader } from 'src/navigator/Headers'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
@@ -23,7 +25,11 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
+import { walletAddressSelector } from 'src/web3/selectors'
 import networkConfig from 'src/web3/networkConfig'
+
+const LOADING_DESCRIPTION_TIMEOUT_MS = 8000
+
 type Props = NativeStackScreenProps<StackParamList, Screens.FiatConnectTransferStatus>
 
 function onBack(flow: CICOFlow, normalizedQuote: FiatConnectQuote, fiatAccount: FiatAccount) {
@@ -89,49 +95,77 @@ function FailureSection({
   )
 }
 
-function SuccessSection({
+function SuccessOrProcessingSection({
+  status,
   flow,
-  fiatConnectTransfer,
+  txHash,
   normalizedQuote,
 }: {
+  status: SendingTransferStatus.Completed | SendingTransferStatus.TxProcessing
   flow: CICOFlow
-  fiatConnectTransfer: FiatConnectTransfer
+  txHash: string | null
   normalizedQuote: FiatConnectQuote
 }) {
   const { t } = useTranslation()
   // TODO: Make sure there's fallback text if we can't get the estimate
   const timeEstimation = normalizedQuote.getTimeEstimation()!
   const provider = normalizedQuote.getProviderId()
+  const address = useSelector(walletAddressSelector)
+  const uri = txHash
+    ? `${networkConfig.celoExplorerBaseTxUrl}${txHash}`
+    : `${networkConfig.celoExplorerBaseAddressUrl}${address}`
+
+  let icon: JSX.Element
+  let title: string
+  let description: string
+  let continueEvent:
+    | FiatExchangeEvents.cico_fc_transfer_success_complete
+    | FiatExchangeEvents.cico_fc_transfer_processing_continue
+  let txDetailsEvent:
+    | FiatExchangeEvents.cico_fc_transfer_success_view_tx
+    | FiatExchangeEvents.cico_fc_transfer_processing_view_tx
+
+  if (status === SendingTransferStatus.Completed) {
+    icon = <CheckmarkCircle />
+    title = t('fiatConnectStatusScreen.success.title')
+    description = t('fiatConnectStatusScreen.success.description', { duration: timeEstimation })
+    continueEvent = FiatExchangeEvents.cico_fc_transfer_success_complete
+    txDetailsEvent = FiatExchangeEvents.cico_fc_transfer_success_view_tx
+  } else {
+    icon = (
+      <CircledIcon>
+        <ClockIcon color={colors.white} height={22} width={22} />
+      </CircledIcon>
+    )
+    title = t('fiatConnectStatusScreen.txProcessing.title')
+    description = t('fiatConnectStatusScreen.txProcessing.description')
+    continueEvent = FiatExchangeEvents.cico_fc_transfer_processing_continue
+    txDetailsEvent = FiatExchangeEvents.cico_fc_transfer_processing_view_tx
+  }
 
   const onPressTxDetails = () => {
-    ValoraAnalytics.track(FiatExchangeEvents.cico_fc_transfer_success_view_tx, {
+    ValoraAnalytics.track(txDetailsEvent, {
       flow,
       provider,
-      txHash: fiatConnectTransfer.txHash,
+      txHash,
     })
-    navigate(Screens.WebViewScreen, {
-      uri: `${networkConfig.celoExplorerBaseTxUrl}${fiatConnectTransfer?.txHash}`,
-    })
+    navigate(Screens.WebViewScreen, { uri })
   }
 
   const onPressContinue = () => {
-    ValoraAnalytics.track(FiatExchangeEvents.cico_fc_transfer_success_complete, {
+    ValoraAnalytics.track(continueEvent, {
       flow,
       provider,
-      txHash: fiatConnectTransfer.txHash,
+      txHash,
     })
     navigateHome()
   }
 
   return (
     <View style={styles.container}>
-      <View style={styles.checkmarkContainer}>
-        <CheckmarkCircle />
-      </View>
-      <Text style={styles.title}>{t('fiatConnectStatusScreen.success.title')}</Text>
-      <Text style={styles.description}>
-        {t('fiatConnectStatusScreen.success.description', { duration: timeEstimation })}
-      </Text>
+      <View style={styles.iconContainer}>{icon}</View>
+      <Text style={styles.title}>{title}</Text>
+      <Text style={styles.description}>{description}</Text>
       {flow === CICOFlow.CashOut && (
         <Touchable testID={'txDetails'} borderless={true} onPress={onPressTxDetails}>
           <View style={styles.txDetailsContainer}>
@@ -166,49 +200,68 @@ export default function FiatConnectTransferStatusScreen({ route, navigation }: P
     navigateHome()
   }
 
-  if (fiatConnectTransfer.failed) {
-    navigation.setOptions({
-      ...emptyHeader,
-      headerLeft: () => (
-        <BackButton testID="Back" onPress={() => onBack(flow, normalizedQuote, fiatAccount)} />
-      ),
-      headerRight: () => (
-        <TextButton testID="Cancel" style={styles.cancelBtn} onPress={onPressCancel}>
-          {flow === CICOFlow.CashIn
-            ? t('fiatConnectStatusScreen.cashIn.cancel')
-            : t('fiatConnectStatusScreen.cashOut.cancel')}
-        </TextButton>
-      ),
-    })
-  } else if (!fiatConnectTransfer.isSending) {
-    navigation.setOptions({
-      ...emptyHeader,
-      headerLeft: () => <View />,
-      headerTitle: t('fiatConnectStatusScreen.success.header'),
-    })
-  }
+  // add loading description if sending is taking a while
+  const [loadingDescription, setLoadingDescription] = useState('')
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setLoadingDescription(t('fiatConnectStatusScreen.stillProcessing'))
+    }, LOADING_DESCRIPTION_TIMEOUT_MS)
+    return () => clearTimeout(timeout)
+  }, [])
 
-  if (fiatConnectTransfer.isSending) {
-    return (
-      <View style={styles.activityIndicatorContainer}>
-        <ActivityIndicator testID="loadingTransferStatus" size="large" color={colors.greenBrand} />
-      </View>
-    )
+  switch (fiatConnectTransfer.status) {
+    case SendingTransferStatus.Sending:
+      return (
+        <View style={styles.activityIndicatorContainer}>
+          <ActivityIndicator
+            testID="loadingTransferStatus"
+            size="large"
+            color={colors.greenBrand}
+          />
+          <Text style={styles.loadingDescription} testID="loadingDescription">
+            {loadingDescription}
+          </Text>
+        </View>
+      )
+    case SendingTransferStatus.Failed:
+      navigation.setOptions({
+        ...emptyHeader,
+        headerLeft: () => (
+          <BackButton testID="Back" onPress={() => onBack(flow, normalizedQuote, fiatAccount)} />
+        ),
+        headerRight: () => (
+          <TextButton testID="Cancel" style={styles.cancelBtn} onPress={onPressCancel}>
+            {flow === CICOFlow.CashIn
+              ? t('fiatConnectStatusScreen.cashIn.cancel')
+              : t('fiatConnectStatusScreen.cashOut.cancel')}
+          </TextButton>
+        ),
+      })
+      return (
+        <SafeAreaView style={styles.content}>
+          <FailureSection flow={flow} normalizedQuote={normalizedQuote} fiatAccount={fiatAccount} />
+        </SafeAreaView>
+      )
+    case SendingTransferStatus.Completed:
+      navigation.setOptions({
+        ...emptyHeader,
+        headerLeft: () => <View />,
+        headerTitle: t('fiatConnectStatusScreen.success.header'),
+      })
+    case SendingTransferStatus.TxProcessing:
+      return (
+        <SafeAreaView style={styles.content}>
+          <SuccessOrProcessingSection
+            status={fiatConnectTransfer.status}
+            flow={flow}
+            txHash={fiatConnectTransfer.txHash}
+            normalizedQuote={normalizedQuote}
+          />
+        </SafeAreaView>
+      )
+    default:
+      throw new Error('Invalid transfer status')
   }
-
-  return (
-    <SafeAreaView style={styles.content}>
-      {fiatConnectTransfer.failed ? (
-        <FailureSection flow={flow} normalizedQuote={normalizedQuote} fiatAccount={fiatAccount} />
-      ) : (
-        <SuccessSection
-          flow={flow}
-          fiatConnectTransfer={fiatConnectTransfer}
-          normalizedQuote={normalizedQuote}
-        />
-      )}
-    </SafeAreaView>
-  )
 }
 
 const styles = StyleSheet.create({
@@ -224,7 +277,7 @@ const styles = StyleSheet.create({
   txDetails: {
     color: colors.gray4,
   },
-  checkmarkContainer: {
+  iconContainer: {
     marginBottom: 24,
   },
   container: {
@@ -237,6 +290,13 @@ const styles = StyleSheet.create({
   },
   description: {
     ...fontStyles.regular,
+    textAlign: 'center',
+    marginTop: 12,
+    paddingHorizontal: 48,
+    paddingBottom: 24,
+  },
+  loadingDescription: {
+    ...fontStyles.large,
     textAlign: 'center',
     marginTop: 12,
     paddingHorizontal: 48,

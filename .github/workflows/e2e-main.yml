@@ -28,7 +28,8 @@ jobs:
       max-parallel: 2
       fail-fast: false
       matrix:
-        android-api-level: [29, 30, 31]
+        # TODO enable android 31 when it's stable
+        android-api-level: [29, 30]
     uses: ./.github/workflows/e2e-android.yml
     with:
       android-api-level: ${{ matrix.android-api-level }}

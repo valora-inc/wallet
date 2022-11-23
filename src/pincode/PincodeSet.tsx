@@ -13,6 +13,7 @@ import { PincodeType } from 'src/account/reducer'
 import { OnboardingEvents, SettingsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import {
+  centralPhoneVerificationEnabledSelector,
   registrationStepsSelector,
   showGuidedOnboardingSelector,
   skipVerificationSelector,
@@ -52,6 +53,7 @@ interface StateProps {
   supportedBiometryType: BIOMETRY_TYPE | null
   skipVerification: boolean
   showGuidedOnboarding: boolean
+  centralPhoneVerificationEnabled: boolean
 }
 
 interface DispatchProps {
@@ -83,6 +85,7 @@ function mapStateToProps(state: RootState): StateProps {
     supportedBiometryType: supportedBiometryTypeSelector(state),
     skipVerification: skipVerificationSelector(state),
     showGuidedOnboarding: showGuidedOnboardingSelector(state),
+    centralPhoneVerificationEnabled: centralPhoneVerificationEnabledSelector(state),
   }
 }
 
@@ -170,7 +173,7 @@ export class PincodeSet extends React.Component<Props, State> {
       navigate(Screens.ImportWallet)
     } else if (
       this.props.hideVerification ||
-      !this.props.route.params?.komenciAvailable ||
+      (!this.props.route.params?.komenciAvailable && !this.props.centralPhoneVerificationEnabled) ||
       this.props.skipVerification
     ) {
       this.props.initializeAccount()

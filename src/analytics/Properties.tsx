@@ -1149,6 +1149,16 @@ interface FiatExchangeEventsProperties {
     flow: CICOFlow
     txHash: string | null
   }
+  [FiatExchangeEvents.cico_fc_transfer_processing_continue]: {
+    provider: string
+    flow: CICOFlow
+    txHash: string | null
+  }
+  [FiatExchangeEvents.cico_fc_transfer_processing_view_tx]: {
+    provider: string
+    flow: CICOFlow
+    txHash: string | null
+  }
   [FiatExchangeEvents.cico_fc_kyc_status_contact_support]: FiatConnectKycProperties
   [FiatExchangeEvents.cico_fc_kyc_status_back]: FiatConnectKycProperties
   [FiatExchangeEvents.cico_fc_kyc_status_close]: FiatConnectKycProperties

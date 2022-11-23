@@ -13,7 +13,7 @@ jobs:
     name: Android (SDK ${{ inputs.android-api-level }})
     runs-on: android-e2e-group
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: '16'
@@ -49,19 +49,19 @@ jobs:
         timeout-minutes: 45
       - name: Publish Android JUnit Report
         if: always()
-        uses: mikepenz/action-junit-report@v2
+        uses: mikepenz/action-junit-report@v3
         with:
           check_name: Android (${{ inputs.android-api-level }}) e2e Test Report
           report_paths: 'e2e/test-results/junit.xml'
       - name: 'Upload Android E2E Artifacts'
         if: failure()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: android-${{ inputs.android-api-level }}-e2e-artifact
           path: e2e/artifacts
       - name: 'Upload Android E2E HTML Report'
         if: always()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: android-${{ inputs.android-api-level }}-e2e-test-report
           path: e2e/test-results
