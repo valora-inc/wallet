@@ -1081,7 +1081,7 @@
   "balanceNeedUpdating": "Balance needs updating",
   "refreshBalances": "Refresh Balances",
   "escrowedPaymentReminder": "Pending Invites",
-  "escrowedPaymentReminderSummaryTitle": "{{count}} Pending Onvites",
+  "escrowedPaymentReminderSummaryTitle": "{{count}} Pending Invites",
   "escrowedPaymentReminderSummaryDetails_exactly2Items": "<0></0> and <1></1> won’t be able to claim their invites",
   "escrowedPaymentReminderSummaryDetails_exactly3Items": "<0></0>, <1></1> and one other won’t be able to claim their invites",
   "escrowedPaymentReminderSummaryDetails_moreThan3Items": "<0></0>, <1></1> and others won’t be able to claim their invites",
