@@ -1083,7 +1083,7 @@
   "balanceNeedUpdating": "Необходимо обновить остаток",
   "refreshBalances": "Обновить остатки",
   "escrowedPaymentReminder": "Ожидающие приглашения",
-  "escrowedPaymentReminderSummaryTitle": "{{count}} Ожидающие приглашения",
+  "escrowedPaymentReminderSummaryTitle": "Ожидающие приглашения: {{count}}",
   "escrowedPaymentReminderSummaryDetails_exactly2Items": "<0></0> и <1></1> не смогут заявить о своих приглашениях",
   "escrowedPaymentReminderSummaryDetails_exactly3Items": "<0></0>, <1></1> и еще один не смогут заявить о своих приглашениях",
   "escrowedPaymentReminderSummaryDetails_moreThan3Items": "<0></0>, <1></1> и другие не смогут заявить о своих приглашениях",
