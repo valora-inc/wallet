@@ -386,7 +386,7 @@
   "pinInputCanceled": "必须输入 PIN 码。请重试。",
   "setPinFailed": "PIN 码设置失败",
   "optIn": "选择加入",
-  "invalidInvite": "无效的邀请码",
+  "invalidInvite": "邀请代码无效",
   "inviteFriends": "邀请朋友",
   "account": "账户",
   "invalidAccount": "账户无效",
@@ -560,7 +560,7 @@
   "transferDollarsToAccount": "资金已转账到您的账户！",
   "inviteAnyone": "通过添加联系人轻松发送给您的朋友",
   "inviteReceived": "已收到邀请",
-  "escrowPaymentNotificationTitle": "邀请到 {{mobile}} ，无法索取。",
+  "escrowPaymentNotificationTitle": "发送给 {{mobile}} 的邀请无法认领",
   "inviteDialog": {
     "title": "邀请朋友",
     "body": "在 Valora 上关联您的朋友和家人并分享价值。",
@@ -570,7 +570,7 @@
   "inviteAndSendDialog": {
     "title": "完成邀请 {{name}} 加入 Valora",
     "bodyWithRewards": "一旦他们加入并关联他们的电话号码，您会收到一个特定版本的 NFT。点击下方通过短信发送您的邀请。",
-    "body": "与 {{name}} 分享邀请信息，加入 {{appName}}。一旦他们加入并连接一个电话号码，他们就会收到你的付款。",
+    "body": "与 {{name}} 分享加入 {{appName}} 的邀请消息。一旦他们加入并关联手机号码，他们将收到您的付款。",
     "button": "完成邀请"
   },
   "inviteRewardsBanner": {
@@ -1076,11 +1076,11 @@
   "maybeLater": "稍后再说",
   "balanceNeedUpdating": "余额需要更新",
   "refreshBalances": "刷新余额",
-  "escrowedPaymentReminder": "待定的邀请",
-  "escrowedPaymentReminderSummaryTitle": "{{count}} 待发邀请函",
-  "escrowedPaymentReminderSummaryDetails_exactly2Items": "<0></0> 和 ，将无法索取他们的邀请函<1></1>",
-  "escrowedPaymentReminderSummaryDetails_exactly3Items": "<0></0>,<1></1> 和另外一个人将无法申请他们的邀请函。",
-  "escrowedPaymentReminderSummaryDetails_moreThan3Items": "<0></0>,<1></1> 和其他人将无法索取他们的邀请函",
+  "escrowedPaymentReminder": "待处理邀请",
+  "escrowedPaymentReminderSummaryTitle": "{{count}} 个待处理邀请",
+  "escrowedPaymentReminderSummaryDetails_exactly2Items": "<0></0> 和 <1></1> 将无法认领邀请",
+  "escrowedPaymentReminderSummaryDetails_exactly3Items": "<0></0>、<1></1> 及另一人将无法认领邀请",
+  "escrowedPaymentReminderSummaryDetails_moreThan3Items": "<0></0>、<1></1> 和其他人将无法认领邀请",
   "escrowedPaymentReminderSmsNoData": "温馨提示：您尚未使用 {{appName}} 兑换您的 {{currency}}！立即下载移动应用程序开始吧！",
   "testnetAlert": {
     "0": "{{testnet}}",
@@ -1288,7 +1288,7 @@
     "idRequired": "必须提供 ID",
     "numDays": "1-3 天",
     "oneHour": "小于 1 小时",
-    "lessThan24Hours": "不到24小时",
+    "lessThan24Hours": "24 小时内",
     "bestRate": "最佳费率",
     "header": "选择付款方式"
   },
@@ -1299,9 +1299,9 @@
       "description": "输入资金转账的银行账户详细信息。这些服务将由 <0>{{providerName}}</0> 提供。\n\n点击继续，即表示您同意他们的<1>条款和条件</1>和<2>隐私政策</2>"
     },
     "mobileMoney": {
-      "header": "设置移动支付",
-      "bodyTitle": "设置移动支付",
-      "description": "输入移动货币的详细信息来转移资金。这些服务将由以下方面提供给你 <0>{{providerName}}</0>.\n\n通过点击继续，你同意他们的<1>条款和条件</1>以及<2>隐私政策</2>。"
+      "header": "设置移动货币",
+      "bodyTitle": "设置移动货币",
+      "description": "输入用于资金转账的移动货币详细信息。转账服务将由 <0>{{providerName}}</0> 提供。\n\n点击继续，即表示您同意他们的<1>条款和条件</1>和<2>隐私政策</2>"
     },
     "continue": "继续"
   },
@@ -1348,8 +1348,8 @@
     "cashIn": {
       "header": "查看 — 添加资金",
       "button": "添加资金",
-      "transactionDetailsAmount": "Total Deposit",
-      "transactionDetailsAmountConverted": "Amount Deposited",
+      "transactionDetailsAmount": "转入总额",
+      "transactionDetailsAmountConverted": "已转入金额",
       "paymentMethodHeader": "存款来自"
     },
     "cashOut": {
@@ -1379,7 +1379,7 @@
     },
     "cashIn": {
       "cancel": "取消添加资金",
-      "contactSupportPrefill": "我在向我的Valora钱包添加资金时遇到了麻烦。"
+      "contactSupportPrefill": "向 Valora 钱包添加资金时遇到问题"
     },
     "success": {
       "header": "成功",
@@ -1420,7 +1420,7 @@
   },
   "fiatDetailsScreen": {
     "headerBankAccount": "输入银行信息",
-    "headerMobileMoney": "Enter Mobile Details",
+    "headerMobileMoney": "输入手机详细信息",
     "headerSubTitle": "由 {{provider}} 提供支持",
     "selectedPaymentOption": "选定的付款选项",
     "addFiatAccountSuccess": "您的账户已关联到 {{provider}}。",
@@ -1448,11 +1448,11 @@
       "mobile": {
         "label": "手机号码",
         "placeholderText": "+234123234566",
-        "errorMessage": "Invalid Phone Number format"
+        "errorMessage": "手机号码格式无效"
       },
       "mobileDialog": {
         "title": "手机号码",
-        "body": "Use the phone number registered with your mobile money provider. This might not be the same as your valora phone number.\n\nPhone numbers must include country code displayed next to the phone number.",
+        "body": "使用您在移动货币服务商处注册时所使用的手机号码，可能与您关联的 Valora 手机号码不同。\n\n手机号码必须包含国家/地区代码。",
         "dismiss": "忽略"
       }
     },
@@ -1524,7 +1524,7 @@
     "shareMessage": "嘿！我想用我的 {{appName}} 钱包向您发送一些加密货币。如果您下载应用程序并关联手机号码，我们就可以像发送短信一样轻松地发送加密货币了。请使用此链接：{{link}}",
     "rewardsActive": {
       "title": "邀请 {{contactName}} 使用 {{appName}}，你们都将获得 NFT！",
-      "body": "看起来， {{contactName}} 不在 {{appName}}。如果你知道他们的钱包地址，你仍然可以发送付款或发送邀请来代替。 \n\n 在他们下载钱包并连接他们的电话号码后，你们都会得到一个独家NFT。"
+      "body": "似乎 {{contactName}} 未在 {{appName}} 上。如果您知道其钱包地址，则仍可发送付款，或者也可以发送一则邀请。\n\n在其下载钱包并关联手机号码后，你们都将获得一个独家的 NFT。"
     }
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
