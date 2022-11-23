@@ -1077,7 +1077,7 @@
   "balanceNeedUpdating": "จำเป็นต้องอัปเดตยอดคงเหลือ",
   "refreshBalances": "รีเฟรชยอดคงเหลือ",
   "escrowedPaymentReminder": "คำเชิญที่รอดำเนินการ",
-  "escrowedPaymentReminderSummaryTitle": "{{count}} Pending Invites",
+  "escrowedPaymentReminderSummaryTitle": "คำเชิญที่รอดำเนินการ {{count}} รายการ",
   "escrowedPaymentReminderSummaryDetails_exactly2Items": "<0></0> และ <1></1> จะไม่สามารถขอรับคำเชิญของตนเองได้",
   "escrowedPaymentReminderSummaryDetails_exactly3Items": "<0></0>, <1></1> และอีกรายหนึ่งจะไม่สามารถขอรับคำเชิญของตนเองได้",
   "escrowedPaymentReminderSummaryDetails_moreThan3Items": "<0></0>, <1></1> และรายอื่นๆ จะไม่สามารถขอรับคำเชิญของตนเองได้",
