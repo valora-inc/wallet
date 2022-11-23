@@ -78,7 +78,6 @@
     "@gorhom/bottom-sheet": "^4.3.2",
     "@komenci/contracts": "1.1.0",
     "@komenci/kit": "1.0.0-beta1",
-    "@pedrouid/environment": "^1.0.1",
     "@react-native-async-storage/async-storage": "^1.17.10",
     "@react-native-community/clipboard": "git+https://github.com/celo-org/clipboard#5afb848",
     "@react-native-community/netinfo": "^5.8.0",
