@@ -247,6 +247,8 @@ interface OnboardingEventsProperties {
     includesPhoto: boolean
     profilePictureSkipped: boolean
   }
+  [OnboardingEvents.name_and_picture_skip]: undefined
+  [OnboardingEvents.name_and_picture_generate_name]: undefined
   [OnboardingEvents.phone_number_set]: {
     countryCode: string
     country?: string
