@@ -1079,7 +1079,7 @@
   "balanceNeedUpdating": "Bakiyenin güncellenmesi gerekiyor",
   "refreshBalances": "Bakiyeleri Güncelle",
   "escrowedPaymentReminder": "Bekleyen Davetler",
-  "escrowedPaymentReminderSummaryTitle": "{{count}} Bekleyen Davetler",
+  "escrowedPaymentReminderSummaryTitle": "{{count}} bekleyen davetler",
   "escrowedPaymentReminderSummaryDetails_exactly2Items": "<0></0> ve <1></1> davetlerini talep edemeyecek",
   "escrowedPaymentReminderSummaryDetails_exactly3Items": "<0></0>, <1></1> ve diğer bir kişi davetlerini talep edemeyecek",
   "escrowedPaymentReminderSummaryDetails_moreThan3Items": "<0></0>, <1></1> ve diğerleri davetlerini talep edemeyecek",
