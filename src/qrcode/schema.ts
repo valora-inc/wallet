@@ -1,4 +1,4 @@
-import { AddressType, E164PhoneNumberType } from '@celo/utils/lib/io'
+import { AddressType, E164PhoneNumberType } from '@celo/phone-utils'
 import { isLeft } from 'fp-ts/lib/Either'
 import {
   keyof as ioKeyof,

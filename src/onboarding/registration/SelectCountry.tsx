@@ -1,4 +1,4 @@
-import { LocalizedCountry } from '@celo/utils/lib/countries'
+import { LocalizedCountry } from '@celo/phone-utils'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'

@@ -10,7 +10,7 @@ import {
   decryptComment as decryptCommentRaw,
   encryptComment as encryptCommentRaw,
 } from '@celo/utils/lib/commentEncryption'
-import { getPhoneHash } from '@celo/utils/lib/phoneNumbers'
+import { getPhoneHash } from '@celo/phone-utils'
 import { memoize, values } from 'lodash'
 import { all, call, put, select } from 'redux-saga/effects'
 import { TokenTransactionType, TransactionFeedFragment } from 'src/apollo/types'

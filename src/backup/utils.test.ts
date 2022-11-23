@@ -1,4 +1,4 @@
-import { validateMnemonic } from '@celo/utils/lib/account'
+import { validateMnemonic } from '@celo/cryptographic-utils'
 import * as bip39 from 'react-native-bip39'
 import { formatBackupPhraseOnEdit, formatBackupPhraseOnSubmit } from 'src/backup/utils'
 

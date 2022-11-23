@@ -1,4 +1,4 @@
-import { getPhoneHash } from '@celo/utils/lib/phoneNumbers'
+import { getPhoneHash } from '@celo/phone-utils'
 import { createSelector } from 'reselect'
 import { IdentifierToE164NumberType } from 'src/identity/reducer'
 import { RootState } from 'src/redux/reducers'

@@ -7,7 +7,7 @@ import {
 } from '../utils/utils'
 import { ALFAJORES_FORNO_URL, SAMPLE_PRIVATE_KEY } from '../utils/consts'
 import { newKit } from '@celo/contractkit'
-import { generateKeys, generateMnemonic } from '@celo/utils/lib/account'
+import { generateKeys, generateMnemonic } from '@celo/cryptographic-utils'
 import { MOCK_PROVIDER_BASE_URL, MOCK_PROVIDER_API_KEY } from 'react-native-dotenv'
 import fetch from 'node-fetch'
 import { KycStatus } from '@fiatconnect/fiatconnect-types'

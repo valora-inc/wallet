@@ -18,7 +18,7 @@ import {
   normalizeAddressWith0x,
   privateKeyToAddress,
 } from '@celo/utils/lib/address'
-import { compressedPubKey, deriveDek } from '@celo/utils/lib/dataEncryptionKey'
+import { compressedPubKey, deriveDek } from '@celo/cryptographic-utils'
 import { UnlockableWallet } from '@celo/wallet-base'
 import { FetchError, TxError } from '@komenci/kit/lib/errors'
 import { KomenciKit } from '@komenci/kit/lib/kit'

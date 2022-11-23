@@ -14,8 +14,8 @@ import {
   extractAttestationCodeFromMessage,
   extractSecurityCodeWithPrefix,
 } from '@celo/utils/lib/attestations'
-import { AttestationRequest } from '@celo/utils/lib/io'
-import { getPhoneHash } from '@celo/utils/lib/phoneNumbers'
+import { AttestationRequest } from '@celo/phone-utils'
+import getPhoneHash from '@celo/phone-utils/lib/getPhoneHash'
 import { FetchError, TxError } from '@komenci/kit/lib/errors'
 import { KomenciKit } from '@komenci/kit/lib/kit'
 import AwaitLock from 'await-lock'

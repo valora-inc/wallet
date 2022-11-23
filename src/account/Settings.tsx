@@ -1,5 +1,5 @@
 import { sleep } from '@celo/utils/lib/async'
-import { isE164Number } from '@celo/utils/lib/phoneNumbers'
+import { isE164Number } from '@celo/phone-utils'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import * as Sentry from '@sentry/react-native'
 import locales from 'locales'

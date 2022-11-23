@@ -1,7 +1,8 @@
 import { OdisUtils } from '@celo/identity'
 import { PhoneNumberHashDetails } from '@celo/identity/lib/odis/phone-number-identifier'
 import { AuthSigner, ServiceContext } from '@celo/identity/lib/odis/query'
-import { getPhoneHash, isE164Number, PhoneNumberUtils } from '@celo/utils/lib/phoneNumbers'
+import { isE164NumberStrict, PhoneNumberUtils } from '@celo/phone-utils'
+import getPhoneHash from '@celo/phone-utils/lib/getPhoneHash'
 import DeviceInfo from 'react-native-device-info'
 import { call, put, select } from 'redux-saga/effects'
 import { e164NumberSelector } from 'src/account/selectors'
@@ -90,7 +91,7 @@ function* doFetchPhoneHashPrivate(e164Number: string) {
 // privacy service to compute a secure, unique salt for the phone number
 // and then appends it before hashing.
 function* getPhoneHashPrivate(e164Number: string, selfPhoneHash?: string) {
-  if (!isE164Number(e164Number)) {
+  if (!isE164NumberStrict(e164Number)) {
     throw new Error(ErrorMessages.INVALID_PHONE_NUMBER)
   }
 

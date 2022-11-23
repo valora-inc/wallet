@@ -1,6 +1,6 @@
 import { PhoneNumberHashDetails } from '@celo/identity/lib/odis/phone-number-identifier'
 import { hexToBuffer } from '@celo/utils/lib/address'
-import { compressedPubKey } from '@celo/utils/lib/dataEncryptionKey'
+import { compressedPubKey } from '@celo/cryptographic-utils'
 import URLSearchParamsReal from '@ungap/url-search-params'
 import { AppState, Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'

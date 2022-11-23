@@ -1,5 +1,5 @@
 import { requestPhoneNumber } from '@celo/react-native-sms-retriever'
-import { Countries } from '@celo/utils/lib/countries'
+import { Countries } from '@celo/phone-utils'
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Platform } from 'react-native'

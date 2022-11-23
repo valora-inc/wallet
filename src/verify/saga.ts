@@ -6,7 +6,7 @@ import {
 } from '@celo/contractkit/lib/wrappers/Attestations'
 import { sleep } from '@celo/utils/lib/async'
 import { AttestationsStatus } from '@celo/utils/lib/attestations'
-import { getPhoneHash } from '@celo/utils/lib/phoneNumbers'
+import getPhoneHash from '@celo/phone-utils/lib/getPhoneHash'
 import {
   CheckSessionResp,
   GetDistributedBlindedPepperResp,

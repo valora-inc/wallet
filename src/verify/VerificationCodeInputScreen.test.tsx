@@ -1,6 +1,6 @@
 import SmsRetriever from '@celo/react-native-sms-retriever'
 import { sleep } from '@celo/utils/lib/async'
-import * as DEK from '@celo/utils/lib/dataEncryptionKey'
+import * as DEK from '@celo/cryptographic-utils/lib/dataEncryptionKey'
 import { act, fireEvent, render, waitFor, within } from '@testing-library/react-native'
 import { FetchMock } from 'jest-fetch-mock/types'
 import MockDate from 'mockdate'

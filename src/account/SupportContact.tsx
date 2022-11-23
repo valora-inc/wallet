@@ -1,4 +1,4 @@
-import { anonymizedPhone } from '@celo/utils/lib/phoneNumbers'
+import { anonymizedPhone } from '@celo/phone-utils'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'

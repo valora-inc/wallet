@@ -1,6 +1,6 @@
 import { hexToBuffer } from '@celo/utils/lib/address'
-import { compressedPubKey } from '@celo/utils/lib/dataEncryptionKey'
-import { getPhoneHash } from '@celo/utils/lib/phoneNumbers'
+import { compressedPubKey } from '@celo/cryptographic-utils/lib/dataEncryptionKey'
+import { getPhoneHash } from '@celo/phone-utils'
 import { useEffect, useRef, useState } from 'react'
 import { useAsync, useAsyncCallback } from 'react-async-hook'
 import { Platform } from 'react-native'
