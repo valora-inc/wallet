@@ -6,7 +6,7 @@ export enum Actions {
    * Actions coming as a result of user action
    */
   INITIALISE_CLIENT_V2 = 'WALLETCONNECT/INITIALISE_CLIENT_V2',
-  INITIALISE_PAIRING_V2 = 'WALLETCONNECT/INITIALISE_CONNECTION_V2',
+  INITIALISE_PAIRING_V2 = 'WALLETCONNECT/INITIALISE_PAIRING_V2',
 
   ACCEPT_SESSION_V2 = 'WALLETCONNECT/ACCEPT_SESSION_V2',
   DENY_SESSION_V2 = 'WALLETCONNECT/DENY_SESSION_V2',
@@ -55,8 +55,7 @@ export interface DenySession {
 }
 export interface CloseSession {
   type: Actions.CLOSE_SESSION_V2
-  topic: string
-  id: number
+  session: SignClientTypes.EventArguments['session_delete']
 }
 export interface ShowRequestDetails {
   type: Actions.SHOW_REQUEST_DETAILS_V2
@@ -93,8 +92,7 @@ export interface SessionUpdated {
 }
 export interface SessionDeleted {
   type: Actions.SESSION_DELETED_V2
-  topic: string
-  id: number
+  session: SignClientTypes.EventArguments['session_delete']
 }
 export interface SessionPayload {
   type: Actions.SESSION_PAYLOAD_V2
@@ -143,10 +141,11 @@ export const denySession = (id: number): DenySession => ({
   id,
 })
 
-export const closeSession = (topic: string, id: number): CloseSession => ({
+export const closeSession = (
+  session: SignClientTypes.EventArguments['session_delete']
+): CloseSession => ({
   type: Actions.CLOSE_SESSION_V2,
-  topic,
-  id,
+  session,
 })
 
 export const showRequestDetails = (
@@ -201,10 +200,11 @@ export const sessionUpdated = (
   session,
 })
 
-export const sessionDeleted = (topic: string, id: number): SessionDeleted => ({
+export const sessionDeleted = (
+  session: SignClientTypes.EventArguments['session_delete']
+): SessionDeleted => ({
   type: Actions.SESSION_DELETED_V2,
-  topic,
-  id,
+  session,
 })
 
 export const sessionPayload = (

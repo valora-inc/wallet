@@ -107,6 +107,8 @@
     "@th3rdwave/react-navigation-bottom-sheet": "^0.2.1",
     "@ungap/url-search-params": "^0.1.2",
     "@walletconnect/client": "^1.8.0",
+    "@walletconnect/react-native-compat": "^2.1.3",
+    "@walletconnect/sign-client": "^2.1.3",
     "@walletconnect/utils": "^2.1.3",
     "Base64": "^1.0.1",
     "apollo-boost": "^0.4.9",
