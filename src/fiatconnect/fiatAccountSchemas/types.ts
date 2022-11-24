@@ -4,6 +4,12 @@ import { KeyboardType } from 'react-native'
 export interface FormFieldParam {
   name: string
   label: string
+  infoDialog?: {
+    title: string
+    actionText: string
+    body: string
+  }
+  format?(input: string): string
   validate(input: string): {
     isValid: boolean
     errorMessage?: string

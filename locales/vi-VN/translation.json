@@ -386,7 +386,7 @@
   "pinInputCanceled": "Bạn cần phải có mã PNI. Vui lòng thử lại.",
   "setPinFailed": "Không thiết lập được mã PIN",
   "optIn": "Tham gia",
-  "invalidInvite": "Invalid Invite Code",
+  "invalidInvite": "Mã lời mời không hợp lệ",
   "inviteFriends": "Mời bạn bè",
   "account": "Tài khoản",
   "invalidAccount": "Tài khoản không hợp lệ",
@@ -560,7 +560,7 @@
   "transferDollarsToAccount": "Tiền đã chuyển vào tài khoản của bạn!",
   "inviteAnyone": "Dễ dàng gửi cho bạn bè bằng cách thêm danh bạ",
   "inviteReceived": "Đã nhận lời mời",
-  "escrowPaymentNotificationTitle": "Invite to {{mobile}} can't be claimed",
+  "escrowPaymentNotificationTitle": "Không thể xác nhận lời mới tới {{mobile}}",
   "inviteDialog": {
     "title": "Mời bạn bè",
     "body": "Kết nối và chia sẻ giá trị với bạn bè và gia đình trên Valora.",
@@ -570,7 +570,7 @@
   "inviteAndSendDialog": {
     "title": "Hoàn tất lời mời {{name}} tham gia Valora",
     "bodyWithRewards": "Sau khi họ tham gia và kết nối số điện thoại, cả hai bạn sẽ nhận được một NFT phiên bản đặc biệt. Hãy nhấp vào bên dưới để gửi lời mời qua SMS.",
-    "body": "Share an invite message with {{name}} to join {{appName}}. Once they join & connect a phone number, they'll receive your payment.",
+    "body": "Chia sẻ thư mời tham gia {{appName}} với {{name}}. Sau khi tham gia và kết nối số điện thoại, họ sẽ nhận được khoản thanh toán của bạn.",
     "button": "Hoàn tất lời mời"
   },
   "inviteRewardsBanner": {
@@ -1076,11 +1076,11 @@
   "maybeLater": "Để sau",
   "balanceNeedUpdating": "Cần cập nhật số dư",
   "refreshBalances": "Làm mới số dư",
-  "escrowedPaymentReminder": "Pending Invites",
-  "escrowedPaymentReminderSummaryTitle": "{{count}} Pending Onvites",
-  "escrowedPaymentReminderSummaryDetails_exactly2Items": "<0></0> and <1></1> won’t be able to claim their invites",
-  "escrowedPaymentReminderSummaryDetails_exactly3Items": "<0></0>, <1></1> and one other won’t be able to claim their invites",
-  "escrowedPaymentReminderSummaryDetails_moreThan3Items": "<0></0>, <1></1> and others won’t be able to claim their invites",
+  "escrowedPaymentReminder": "Lời mời đang chờ xử lý",
+  "escrowedPaymentReminderSummaryTitle": "{{count}} lời mời đang chờ xử lý",
+  "escrowedPaymentReminderSummaryDetails_exactly2Items": "<0></0> và <1></1> sẽ không thể xác nhận lời mời của họ",
+  "escrowedPaymentReminderSummaryDetails_exactly3Items": "<0></0>, <1></1> và một người nữa không thể xác nhận lời mời của họ",
+  "escrowedPaymentReminderSummaryDetails_moreThan3Items": "<0></0>, <1></1> và những người khác không thể xác nhận lời mời của họ",
   "escrowedPaymentReminderSmsNoData": "Xin lưu ý rằng bạn đã chưa chấp nhận {{currency}} của mình bằng {{appName}}! Hãy tải xuống ứng dụng di động để bắt đầu!",
   "testnetAlert": {
     "0": "{{testnet}}",
@@ -1288,7 +1288,7 @@
     "idRequired": "Phải có giấy tờ tùy thân",
     "numDays": "1–3 ngày",
     "oneHour": "Chưa đến 1 giờ",
-    "lessThan24Hours": "Less Than 24 Hours",
+    "lessThan24Hours": "Chưa đến 24 giờ",
     "bestRate": "Tỷ giá tốt nhất",
     "header": "Chọn phương thức thanh toán"
   },
@@ -1299,9 +1299,9 @@
       "description": "Nhập thông tin Tài khoản ngân hàng để chuyển tiền. Những dịch vụ này sẽ do <0>{{providerName}}</0> cung cấp cho bạn.\n\nKhi nhấp vào tiếp tục, bạn đồng ý với <1>Điều khoản và điều kiện</1> cũng như <2>Chính sách quyền riêng tư</2> của họ"
     },
     "mobileMoney": {
-      "header": "Set up Mobile Money",
-      "bodyTitle": "Set Up Mobile Money",
-      "description": "Enter mobile money details to transfer funds. These services will be provided to you by <0>{{providerName}}</0>.\n\nBy clicking continue, you agree to their <1>Terms and Conditions</1> and <2>Privacy Policy</2>"
+      "header": "Thiết lập Ví di động",
+      "bodyTitle": "Thiết lập ví di động",
+      "description": "Nhập thông tin ví di động để chuyển tiền. Những dịch vụ này sẽ do <0>{{providerName}}</0> cung cấp cho bạn.\n\nBằng việc nhấp vào tiếp tục, bạn đồng ý với <1>Điều khoản và điều kiện</1> cũng như <2>Chính sách quyền riêng tư</2> của nhà cung cấp này"
     },
     "continue": "Tiếp tục"
   },
@@ -1348,8 +1348,8 @@
     "cashIn": {
       "header": "Xem lại thông tin nạp tiền",
       "button": "Nạp tiền",
-      "transactionDetailsAmount": "Total Deposit",
-      "transactionDetailsAmountConverted": "Amount Deposited",
+      "transactionDetailsAmount": "Tổng số tiền nạp",
+      "transactionDetailsAmountConverted": "Số tiền đã nạp",
       "paymentMethodHeader": "Nạp tiền từ"
     },
     "cashOut": {
@@ -1372,13 +1372,14 @@
   },
   "fiatConnectStatusScreen": {
     "tryAgain": "Thử lại",
+    "stillProcessing": "Vui lòng đợi chúng tôi xử lý giao dịch của bạn.",
     "cashOut": {
       "cancel": "Hủy rút tiền",
       "contactSupportPrefill": "Tôi đang gặp sự cố khi rút tiền."
     },
     "cashIn": {
-      "cancel": "Cancel Add Funds",
-      "contactSupportPrefill": "I'm having trouble adding funds to my Valora wallet."
+      "cancel": "Hủy lệnh Nạp tiền",
+      "contactSupportPrefill": "Tôi gặp sự cố khi nạp tiền vào ví Valora của mình."
     },
     "success": {
       "header": "Thành công",
@@ -1390,6 +1391,10 @@
     "requestNotCompleted": {
       "title": "Yêu cầu của bạn không thể hoàn tất.",
       "description": "Chúng tôi không chuyển được tiền của bạn. Vui lòng thử lại hoặc liên hệ với đội ngũ hỗ trợ của chúng tôi để được trợ giúp."
+    },
+    "txProcessing": {
+      "title": "Nhà cung cấp dịch vụ đang xử lý đơn hàng của bạn.",
+      "description": "Nguyên nhân có thể là kết nối Internet kém hoặc sự cố máy chủ."
     }
   },
   "fiatExchangeFlow": {
@@ -1414,7 +1419,8 @@
     }
   },
   "fiatDetailsScreen": {
-    "header": "Nhập thông tin ngân hàng",
+    "headerBankAccount": "Nhập thông tin ngân hàng",
+    "headerMobileMoney": "Nhập thông tin ví di động",
     "headerSubTitle": "Do {{provider}} cung cấp",
     "selectedPaymentOption": "Phương thức thanh toán đã chọn",
     "addFiatAccountSuccess": "Tài khoản của bạn đã được kết nối với {{provider}}.",
@@ -1434,6 +1440,21 @@
       "placeholderText": "Nhập số tài khoản",
       "errorMessageDigitLength": "Số tài khoản phải có {{length}} chữ số",
       "errorMessageDigit": "Số tài khoản chỉ được chứa chữ số"
+    },
+    "mobileMoney": {
+      "operator": {
+        "label": "Mạng lưới"
+      },
+      "mobile": {
+        "label": "Số điện thoại",
+        "placeholderText": "+234123234566",
+        "errorMessage": "Định dạng Số điện thoại không hợp lệ"
+      },
+      "mobileDialog": {
+        "title": "Số điện thoại",
+        "body": "Hãy sử dụng số điện thoại đã đăng ký với nhà cung cấp ví di động. Số điện thoại này có thể khác số điện thoại valora của bạn.\n\nSố điện thoại phải có mã quốc gia ở cạnh số điện thoại.",
+        "dismiss": "Bỏ qua"
+      }
     },
     "ibanNumber": {
       "label": "IBAN",
@@ -1503,7 +1524,7 @@
     "shareMessage": "Xin chào! Tôi muốn gửi một ít tiền điện tử cho bạn bằng ví {{appName}} của tôi. Sau khi bạn tải xuống ứng dụng và kết nối số điện thoại, chúng ta có thể dễ dàng gửi tiền điện tử như nhắn tin. Hãy sử dụng đường liên kết này: {{link}}",
     "rewardsActive": {
       "title": "Mời {{contactName}} tham gia vào {{appName}} và cả hai bạn đều sẽ nhận được NFT!",
-      "body": "Looks like {{contactName}} isn't on {{appName}}. If you know their wallet address you can still send a payment or send an invite instead. \n\n After they download the wallet and connect their phone number, you’ll both get an exclusive NFT."
+      "body": "Có vẻ như {{contactName}} không có trên {{appName}}. Nếu biết địa chỉ ví của họ, bạn vẫn có thể gửi khoản thanh toán hoặc gửi lời mời. \n\n Sau khi họ tải ví xuống và kết nối số điện thoại, cả hai bạn đều sẽ nhận được NFT độc quyền."
     }
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Đô la Celo"

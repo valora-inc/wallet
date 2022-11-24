@@ -247,6 +247,8 @@ interface OnboardingEventsProperties {
     includesPhoto: boolean
     profilePictureSkipped: boolean
   }
+  [OnboardingEvents.name_and_picture_skip]: undefined
+  [OnboardingEvents.name_and_picture_generate_name]: undefined
   [OnboardingEvents.phone_number_set]: {
     countryCode: string
     country?: string
@@ -1145,6 +1147,16 @@ interface FiatExchangeEventsProperties {
     txHash: string | null
   }
   [FiatExchangeEvents.cico_fc_transfer_success_view_tx]: {
+    provider: string
+    flow: CICOFlow
+    txHash: string | null
+  }
+  [FiatExchangeEvents.cico_fc_transfer_processing_continue]: {
+    provider: string
+    flow: CICOFlow
+    txHash: string | null
+  }
+  [FiatExchangeEvents.cico_fc_transfer_processing_view_tx]: {
     provider: string
     flow: CICOFlow
     txHash: string | null
