@@ -1081,7 +1081,7 @@
   "balanceNeedUpdating": "Balance needs updating",
   "refreshBalances": "Refresh Balances",
   "escrowedPaymentReminder": "Pending Invites",
-  "escrowedPaymentReminderSummaryTitle": "{{count}} Pending Onvites",
+  "escrowedPaymentReminderSummaryTitle": "{{count}} Pending Invites",
   "escrowedPaymentReminderSummaryDetails_exactly2Items": "<0></0> and <1></1> won’t be able to claim their invites",
   "escrowedPaymentReminderSummaryDetails_exactly3Items": "<0></0>, <1></1> and one other won’t be able to claim their invites",
   "escrowedPaymentReminderSummaryDetails_moreThan3Items": "<0></0>, <1></1> and others won’t be able to claim their invites",
@@ -1376,6 +1376,7 @@
   },
   "fiatConnectStatusScreen": {
     "tryAgain": "Try Again",
+    "stillProcessing": "We're still processing your transaction. Please wait.",
     "cashOut": {
       "cancel": "Cancel Withdrawal",
       "contactSupportPrefill": "I'm having trouble withdrawing my funds."
@@ -1394,6 +1395,10 @@
     "requestNotCompleted": {
       "title": "Your request could not be completed.",
       "description": "Your funds were not able to be transferred. Please try again or contact our support team for help."
+    },
+    "txProcessing": {
+      "title": "Your transaction is still processing.",
+      "description": "This might be due to poor internet connection. Check CeloExplorer for updates."
     }
   },
   "fiatExchangeFlow": {
@@ -1418,7 +1423,8 @@
     }
   },
   "fiatDetailsScreen": {
-    "header": "Enter Bank Information",
+    "headerBankAccount": "Enter Bank Information",
+    "headerMobileMoney": "Enter Mobile Details",
     "headerSubTitle": "Powered by {{provider}}",
     "selectedPaymentOption": "Selected payment option",
     "addFiatAccountSuccess": "Your account has been connected to {{provider}}.",
@@ -1438,6 +1444,21 @@
       "placeholderText": "Enter Account Number",
       "errorMessageDigitLength": "Account number must be {{length}} digits",
       "errorMessageDigit": "Account number must contain only digits"
+    },
+    "mobileMoney": {
+      "operator": {
+        "label": "Network"
+      },
+      "mobile": {
+        "label": "Phone Number",
+        "placeholderText": "+234123234566",
+        "errorMessage": "Invalid Phone Number format"
+      },
+      "mobileDialog": {
+        "title": "Phone Number",
+        "body": "Use the phone number registered with your mobile money provider. This might not be the same as your valora phone number.\n\nPhone numbers must include country code displayed next to the phone number.",
+        "dismiss": "Dismiss"
+      }
     },
     "ibanNumber": {
       "label": "IBAN",

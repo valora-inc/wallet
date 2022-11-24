@@ -105,6 +105,8 @@ export enum OnboardingEvents {
   celo_education_cancel = 'celo_education_cancel',
 
   name_and_picture_set = 'name_and_picture_set',
+  name_and_picture_skip = 'name_and_picture_skip',
+  name_and_picture_generate_name = 'name_and_picture_generate_name',
 
   phone_number_set = 'phone_number_set',
 
@@ -492,6 +494,8 @@ export enum FiatExchangeEvents {
   cico_fc_transfer_error_contact_support = 'cico_fc_transfer_error_contact_support',
   cico_fc_transfer_success_complete = 'cico_fc_transfer_success_complete',
   cico_fc_transfer_success_view_tx = 'cico_fc_transfer_success_view_tx',
+  cico_fc_transfer_processing_continue = 'cico_fc_transfer_processing_continue',
+  cico_fc_transfer_processing_view_tx = 'cico_fc_transfer_processing_view_tx',
 
   // Fiat Connect KYC status screens
   cico_fc_kyc_status_contact_support = 'cico_fc_kyc_status_contact_support',
