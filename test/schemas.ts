@@ -1820,6 +1820,10 @@ export const v94Schema = {
       pendingActions: [],
     },
   },
+  app: {
+    ...v93Schema.app,
+    walletConnectV2Enabled: true,
+  },
 }
 
 export function getLatestSchema(): Partial<RootState> {

@@ -909,5 +909,9 @@ export const migrations = {
         pendingActions: [],
       },
     },
+    app: {
+      ...state.app,
+      walletConnectV2Enabled: true,
+    },
   }),
 }

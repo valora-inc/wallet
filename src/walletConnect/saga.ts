@@ -14,7 +14,7 @@ export function* walletConnectSaga() {
 }
 
 export function* isWalletConnectEnabled(uri: string) {
-  const { v1 }: { v1: boolean } = yield select(walletConnectEnabledSelector)
+  const { v1, v2 }: { v1: boolean; v2: boolean } = yield select(walletConnectEnabledSelector)
   const [, , version] = uri.split(/[:@?]/)
   const versionEnabled: { [version: string]: boolean | undefined } = {
     '1': v1,

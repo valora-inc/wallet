@@ -25,6 +25,7 @@ export interface State {
   activeScreen: Screens
   hideVerification: boolean
   walletConnectV1Enabled: boolean
+  walletConnectV2Enabled: boolean
   superchargeApy: number
   superchargeTokenConfigByToken: SuperchargeTokenConfigByToken
   // In 1.13 we had a critical error which requires a migration to fix. See |verificationMigration.ts|
@@ -78,6 +79,7 @@ const initialState = {
   activeScreen: Screens.Main,
   hideVerification: REMOTE_CONFIG_VALUES_DEFAULTS.hideVerification,
   walletConnectV1Enabled: REMOTE_CONFIG_VALUES_DEFAULTS.walletConnectV1Enabled,
+  walletConnectV2Enabled: REMOTE_CONFIG_VALUES_DEFAULTS.walletConnectV2Enabled,
   superchargeApy: REMOTE_CONFIG_VALUES_DEFAULTS.superchargeApy,
   superchargeTokenConfigByToken: {},
   ranVerificationMigrationAt: null,
@@ -204,6 +206,7 @@ export const appReducer = (
         celoEducationUri: action.configValues.celoEducationUri,
         celoEuroEnabled: action.configValues.celoEuroEnabled,
         walletConnectV1Enabled: action.configValues.walletConnectV1Enabled,
+        walletConnectV2Enabled: action.configValues.walletConnectV2Enabled,
         superchargeApy: action.configValues.superchargeApy,
         superchargeTokenConfigByToken: action.configValues.superchargeTokenConfigByToken,
         logPhoneNumberTypeEnabled: action.configValues.logPhoneNumberTypeEnabled,

@@ -178,6 +178,7 @@ describe('store state', () => {
           "supportedBiometryType": null,
           "visualizeNFTsEnabledInHomeAssetsPage": false,
           "walletConnectV1Enabled": true,
+          "walletConnectV2Enabled": true,
         },
         "dapps": Object {
           "activeDapp": null,
