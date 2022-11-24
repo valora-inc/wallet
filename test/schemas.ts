@@ -1806,6 +1806,22 @@ export const v93Schema = {
   },
 }
 
+export const v94Schema = {
+  ...v93Schema,
+  _persist: {
+    ...v93Schema._persist,
+    version: 94,
+  },
+  walletConnect: {
+    ...v93Schema.walletConnect,
+    v2: {
+      sessions: [],
+      pendingSessions: [],
+      pendingActions: [],
+    },
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v93Schema as Partial<RootState>
+  return v94Schema as Partial<RootState>
 }

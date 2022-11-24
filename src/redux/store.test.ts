@@ -93,7 +93,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 93,
+          "version": 94,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -381,6 +381,11 @@ describe('store state', () => {
         },
         "walletConnect": Object {
           "v1": Object {
+            "pendingActions": Array [],
+            "pendingSessions": Array [],
+            "sessions": Array [],
+          },
+          "v2": Object {
             "pendingActions": Array [],
             "pendingSessions": Array [],
             "sessions": Array [],

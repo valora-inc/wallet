@@ -899,4 +899,15 @@ export const migrations = {
       transfer: null,
     },
   }),
+  94: (state: any) => ({
+    ...state,
+    walletConnect: {
+      ...state.walletConnect,
+      v2: {
+        sessions: [],
+        pendingSessions: [],
+        pendingActions: [],
+      },
+    },
+  }),
 }

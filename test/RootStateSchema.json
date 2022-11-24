@@ -419,6 +419,33 @@
             ],
             "type": "object"
         },
+        "CoreTypes.Metadata": {
+            "additionalProperties": false,
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "icons": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "description",
+                "icons",
+                "name",
+                "url"
+            ],
+            "type": "object"
+        },
         "CreateAccountCopyTestType": {
             "enum": [
                 "ACCOUNT",
@@ -1560,6 +1587,22 @@
             },
             "type": "object"
         },
+        "Omit<SignClientTypes.BaseEventArgs<ProposalTypes.Struct>,\"topic\">": {
+            "additionalProperties": false,
+            "properties": {
+                "id": {
+                    "type": "number"
+                },
+                "params": {
+                    "$ref": "#/definitions/ProposalTypes.Struct"
+                }
+            },
+            "required": [
+                "id",
+                "params"
+            ],
+            "type": "object"
+        },
         "Order": {
             "additionalProperties": false,
             "properties": {
@@ -1847,6 +1890,57 @@
             ],
             "type": "object"
         },
+        "ProposalTypes.RequiredNamespaces": {
+            "additionalProperties": false,
+            "type": "object"
+        },
+        "ProposalTypes.Struct": {
+            "additionalProperties": false,
+            "properties": {
+                "expiry": {
+                    "type": "number"
+                },
+                "id": {
+                    "type": "number"
+                },
+                "pairingTopic": {
+                    "type": "string"
+                },
+                "proposer": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "metadata": {
+                            "$ref": "#/definitions/CoreTypes.Metadata"
+                        },
+                        "publicKey": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "metadata",
+                        "publicKey"
+                    ],
+                    "type": "object"
+                },
+                "relays": {
+                    "items": {
+                        "$ref": "#/definitions/RelayerTypes.ProtocolOptions"
+                    },
+                    "type": "array"
+                },
+                "requiredNamespaces": {
+                    "$ref": "#/definitions/ProposalTypes.RequiredNamespaces"
+                }
+            },
+            "required": [
+                "expiry",
+                "id",
+                "proposer",
+                "relays",
+                "requiredNamespaces"
+            ],
+            "type": "object"
+        },
         "ProviderFeedInfo": {
             "additionalProperties": false,
             "properties": {
@@ -1895,6 +1989,21 @@
         },
         "Record<string,string[]>": {
             "additionalProperties": false,
+            "type": "object"
+        },
+        "RelayerTypes.ProtocolOptions": {
+            "additionalProperties": false,
+            "properties": {
+                "data": {
+                    "type": "string"
+                },
+                "protocol": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "protocol"
+            ],
             "type": "object"
         },
         "Screens": {
@@ -2054,6 +2163,124 @@
                 "TxProcessing"
             ],
             "type": "string"
+        },
+        "SessionTypes.Namespaces": {
+            "additionalProperties": false,
+            "type": "object"
+        },
+        "SessionTypes.Struct": {
+            "additionalProperties": false,
+            "properties": {
+                "acknowledged": {
+                    "type": "boolean"
+                },
+                "controller": {
+                    "type": "string"
+                },
+                "expiry": {
+                    "type": "number"
+                },
+                "namespaces": {
+                    "$ref": "#/definitions/SessionTypes.Namespaces"
+                },
+                "peer": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "metadata": {
+                            "$ref": "#/definitions/CoreTypes.Metadata"
+                        },
+                        "publicKey": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "metadata",
+                        "publicKey"
+                    ],
+                    "type": "object"
+                },
+                "relay": {
+                    "$ref": "#/definitions/RelayerTypes.ProtocolOptions"
+                },
+                "requiredNamespaces": {
+                    "$ref": "#/definitions/ProposalTypes.RequiredNamespaces"
+                },
+                "self": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "metadata": {
+                            "$ref": "#/definitions/CoreTypes.Metadata"
+                        },
+                        "publicKey": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "metadata",
+                        "publicKey"
+                    ],
+                    "type": "object"
+                },
+                "topic": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "acknowledged",
+                "controller",
+                "expiry",
+                "namespaces",
+                "peer",
+                "relay",
+                "requiredNamespaces",
+                "self",
+                "topic"
+            ],
+            "type": "object"
+        },
+        "SignClientTypes.BaseEventArgs<{request:{method:string;params:any;};chainId:string;}>": {
+            "additionalProperties": false,
+            "properties": {
+                "id": {
+                    "type": "number"
+                },
+                "params": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "chainId": {
+                            "type": "string"
+                        },
+                        "request": {
+                            "additionalProperties": false,
+                            "properties": {
+                                "method": {
+                                    "type": "string"
+                                },
+                                "params": {}
+                            },
+                            "required": [
+                                "method",
+                                "params"
+                            ],
+                            "type": "object"
+                        }
+                    },
+                    "required": [
+                        "chainId",
+                        "request"
+                    ],
+                    "type": "object"
+                },
+                "topic": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id",
+                "params",
+                "topic"
+            ],
+            "type": "object"
         },
         "Source": {
             "additionalProperties": false,
@@ -2947,10 +3174,14 @@
             "properties": {
                 "v1": {
                     "$ref": "#/definitions/State_22"
+                },
+                "v2": {
+                    "$ref": "#/definitions/State_23"
                 }
             },
             "required": [
-                "v1"
+                "v1",
+                "v2"
             ],
             "type": "object"
         },
@@ -2999,6 +3230,35 @@
         "State_23": {
             "additionalProperties": false,
             "properties": {
+                "pendingActions": {
+                    "items": {
+                        "$ref": "#/definitions/SignClientTypes.BaseEventArgs<{request:{method:string;params:any;};chainId:string;}>"
+                    },
+                    "type": "array"
+                },
+                "pendingSessions": {
+                    "items": {
+                        "$ref": "#/definitions/Omit<SignClientTypes.BaseEventArgs<ProposalTypes.Struct>,\"topic\">"
+                    },
+                    "type": "array"
+                },
+                "sessions": {
+                    "items": {
+                        "$ref": "#/definitions/SessionTypes.Struct"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "pendingActions",
+                "pendingSessions",
+                "sessions"
+            ],
+            "type": "object"
+        },
+        "State_24": {
+            "additionalProperties": false,
+            "properties": {
                 "error": {
                     "type": "boolean"
                 },
@@ -3016,7 +3276,7 @@
             ],
             "type": "object"
         },
-        "State_24": {
+        "State_25": {
             "additionalProperties": false,
             "properties": {
                 "availableRewards": {
@@ -3047,7 +3307,7 @@
             ],
             "type": "object"
         },
-        "State_25": {
+        "State_26": {
             "additionalProperties": false,
             "properties": {
                 "activeDapp": {
@@ -3117,7 +3377,7 @@
             ],
             "type": "object"
         },
-        "State_26": {
+        "State_27": {
             "additionalProperties": false,
             "properties": {
                 "attemptReturnUserFlowLoading": {
@@ -3437,7 +3697,7 @@
             ],
             "type": "object"
         },
-        "State_27": {
+        "State_28": {
             "additionalProperties": false,
             "properties": {
                 "swapInfo": {
@@ -5286,7 +5546,7 @@
             "$ref": "#/definitions/State"
         },
         "dapps": {
-            "$ref": "#/definitions/State_25"
+            "$ref": "#/definitions/State_26"
         },
         "escrow": {
             "$ref": "#/definitions/State_14"
@@ -5298,7 +5558,7 @@
             "$ref": "#/definitions/State_15"
         },
         "fiatConnect": {
-            "$ref": "#/definitions/State_26"
+            "$ref": "#/definitions/State_27"
         },
         "fiatExchanges": {
             "$ref": "#/definitions/State_20"
@@ -5337,13 +5597,13 @@
             "$ref": "#/definitions/State_6"
         },
         "supercharge": {
-            "$ref": "#/definitions/State_24"
+            "$ref": "#/definitions/State_25"
         },
         "swap": {
-            "$ref": "#/definitions/State_27"
+            "$ref": "#/definitions/State_28"
         },
         "tokens": {
-            "$ref": "#/definitions/State_23"
+            "$ref": "#/definitions/State_24"
         },
         "transactions": {
             "$ref": "#/definitions/State_9"
