@@ -10,7 +10,8 @@ import { Screens } from 'src/navigator/Screens'
 import { initialiseWalletConnect } from 'src/walletConnect/saga'
 import { selectHasPendingState } from 'src/walletConnect/selectors'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
-import { Actions } from 'src/walletConnect/v1/actions'
+import { Actions as ActionsV1 } from 'src/walletConnect/v1/actions'
+import { Actions as ActionsV2 } from 'src/walletConnect/v2/actions'
 
 const WC_PREFIX = 'wc:'
 const DEEPLINK_PREFIX = 'celo://wallet/wc?uri='
@@ -69,8 +70,9 @@ export function* handleLoadingWithTimeout(origin: WalletConnectPairingOrigin) {
 
   const { timedOut } = yield race({
     timedOut: delay(CONNECTION_TIMEOUT),
-    sessionRequestReceived: take(Actions.SESSION_V1),
-    actionRequestReceived: take(Actions.PAYLOAD_V1),
+    sessionRequestReceivedV1: take(ActionsV1.SESSION_V1),
+    sessionRequestReceivedV2: take(ActionsV2.SESSION_PROPOSAL_V2),
+    actionRequestReceived: take(ActionsV1.PAYLOAD_V1),
   })
 
   if (timedOut) {

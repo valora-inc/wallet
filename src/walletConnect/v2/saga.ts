@@ -1,25 +1,41 @@
+import { appendPath } from '@celo/utils/lib/string'
 import '@react-native-firebase/database'
 import '@react-native-firebase/messaging'
 import SignClient from '@walletconnect/sign-client'
-import { SignClientTypes } from '@walletconnect/types'
+import { SessionTypes, SignClientTypes } from '@walletconnect/types'
 import { getSdkError } from '@walletconnect/utils'
 import { EventChannel, eventChannel } from 'redux-saga'
-import { call, put, take, takeLeading } from 'redux-saga/effects'
+import { call, put, select, take, takeEvery, takeLeading } from 'redux-saga/effects'
+import { WalletConnectEvents } from 'src/analytics/Events'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { getDappRequestOrigin } from 'src/app/utils'
+import { APP_NAME, WEB_LINK } from 'src/brandingConfig'
+import { activeDappSelector } from 'src/dapps/selectors'
+import { ActiveDapp } from 'src/dapps/types'
+import i18n from 'src/i18n'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import Logger from 'src/utils/Logger'
+import { WalletConnectRequestType } from 'src/walletConnect/types'
 import {
+  AcceptSession,
   Actions,
   clientInitialised,
   initialiseClient,
+  InitialisePairing,
   initialisePairing,
   sessionCreated,
   sessionDeleted,
   sessionPayload,
+  SessionProposal,
   sessionProposal,
   sessionUpdated,
   WalletConnectActions,
 } from 'src/walletConnect/v2/actions'
+import { selectSessions } from 'src/walletConnect/v2/selectors'
 import networkConfig from 'src/web3/networkConfig'
+import { getWalletAddress } from 'src/web3/saga'
 
 let client: SignClient | null = null
 
@@ -47,6 +63,12 @@ function* createWalletConnectChannel() {
       // https://docs.walletconnect.com/2.0/advanced/relay-server
       projectId: '906f08083218680fedb1502f372b0b35',
       relayUrl: networkConfig.walletConnectEndpoint,
+      metadata: {
+        name: APP_NAME,
+        description: i18n.t('appDescription'),
+        url: WEB_LINK,
+        icons: [appendPath(WEB_LINK, '/favicon.ico')],
+      },
     })
 
     Logger.debug(TAG + '@createWalletConnectChannel', `init end`)
@@ -111,8 +133,112 @@ function* createWalletConnectChannel() {
   })
 }
 
+function* handleInitialisePairing({ uri, origin }: InitialisePairing) {
+  const activeDapp: ActiveDapp | null = yield select(activeDappSelector)
+  try {
+    ValoraAnalytics.track(WalletConnectEvents.wc_pairing_start, {
+      dappRequestOrigin: getDappRequestOrigin(activeDapp),
+      origin,
+    })
+    if (!client) {
+      throw new Error('missing client')
+    }
+
+    Logger.debug(TAG + '@handleInitialisePairing', 'pair start')
+    yield call([client, 'pair'], { uri })
+    Logger.debug(TAG + '@handleInitialisePairing', 'pair end')
+  } catch (e) {
+    Logger.debug(TAG + '@handleInitialisePairing', e.message)
+    ValoraAnalytics.track(WalletConnectEvents.wc_pairing_error, {
+      dappRequestOrigin: getDappRequestOrigin(activeDapp),
+      error: e.message,
+    })
+  }
+}
+
+/**
+ * When handling incoming requests (actions or sessions) we need to handle
+ * them in order. That means if a request comes in, and we already have a
+ * pending one, ignore it. Once a request is dealt with we handle the new
+ * requests accordingly.
+ */
+
+function* handleIncomingSessionRequest({ session }: SessionProposal) {
+  const { pending }: { pending: SignClientTypes.EventArguments['session_proposal'][] } =
+    yield select(selectSessions)
+  if (pending.length > 1) {
+    return
+  }
+
+  yield call(showSessionRequest, session)
+}
+
+function* showSessionRequest(session: SignClientTypes.EventArguments['session_proposal']) {
+  const activeDapp: ActiveDapp | null = yield select(activeDappSelector)
+  ValoraAnalytics.track(WalletConnectEvents.wc_pairing_success, {
+    dappRequestOrigin: getDappRequestOrigin(activeDapp),
+  })
+  // TODO track default properties
+
+  yield call(navigate, Screens.WalletConnectRequest, {
+    type: WalletConnectRequestType.Session,
+    pendingSession: session,
+    version: 2,
+  })
+}
+
+function* acceptSession({ id }: AcceptSession) {
+  // TODO analytics
+  try {
+    if (!client) {
+      throw new Error('missing client')
+    }
+
+    const address: string = yield call(getWalletAddress)
+    const { pending }: { pending: SignClientTypes.EventArguments['session_proposal'][] } =
+      yield select(selectSessions)
+    const proposal = pending.find((session) => session.id === id)
+
+    if (!proposal) {
+      // shouldn't happen
+    }
+
+    const { requiredNamespaces, relays } = proposal!.params
+    const namespaces: SessionTypes.Namespaces = {}
+    Object.keys(requiredNamespaces).forEach((key) => {
+      const accounts: string[] = []
+      requiredNamespaces[key].chains.map((chain) => {
+        accounts.push(`${chain}:${address}`)
+      })
+      namespaces[key] = {
+        accounts,
+        methods: requiredNamespaces[key].methods,
+        events: requiredNamespaces[key].events,
+      }
+    })
+
+    const { acknowledged } = yield call([client, 'approve'], {
+      id,
+      relayProtocol: relays[0].protocol,
+      namespaces,
+    })
+
+    yield call(acknowledged)
+
+    // yield call(showWalletConnectionSuccessMessage, session.proposer.metadata.name)
+  } catch (e) {
+    Logger.debug(TAG + '@acceptSession', e.message)
+  }
+
+  // yield call(handlePendingStateOrNavigateBack)
+}
+
 export function* walletConnectV2Saga() {
   yield takeLeading(Actions.INITIALISE_CLIENT_V2, handleInitialiseWalletConnect)
+  yield takeEvery(Actions.INITIALISE_PAIRING_V2, handleInitialisePairing)
+
+  yield takeEvery(Actions.SESSION_PROPOSAL_V2, handleIncomingSessionRequest)
+  yield takeEvery(Actions.ACCEPT_SESSION_V2, acceptSession)
 }
 
 export function* initialiseWalletConnectV2(uri: string, origin: WalletConnectPairingOrigin) {
