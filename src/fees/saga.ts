@@ -8,7 +8,7 @@ import { FeeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { CELO_TRANSACTION_MIN_AMOUNT, STABLE_TRANSACTION_MIN_AMOUNT } from 'src/config'
-import { createReclaimTransaction, STATIC_ESCROW_TRANSFER_GAS_ESTIMATE } from 'src/escrow/saga'
+import { createReclaimTransaction } from 'src/escrow/saga'
 import { estimateFee, feeEstimated, FeeType } from 'src/fees/reducer'
 import { buildSendTx } from 'src/send/saga'
 import {
@@ -30,6 +30,8 @@ import { getWalletAddress } from 'src/web3/saga'
 import { estimateGas } from 'src/web3/utils'
 
 const TAG = 'fees/saga'
+
+const SWAP_FEE_ESTIMATE_MULTIPLIER = 4
 
 export interface FeeInfo {
   fee: BigNumber
@@ -77,6 +79,9 @@ export function* estimateFeeSaga({
     switch (feeType) {
       case FeeType.INVITE:
         feeInfo = yield call(estimateInviteFee, tokenAddress)
+        break
+      case FeeType.SWAP:
+        feeInfo = yield call(estimateSwapFee, tokenAddress)
         break
       case FeeType.SEND:
         feeInfo = yield call(estimateSendFee, tokenAddress)
@@ -150,6 +155,26 @@ export function* estimateSendFee(tokenAddress: string) {
   return feeInfo
 }
 
+export function* estimateSwapFee(tokenAddress: string) {
+  const tx: CeloTransactionObject<any> = yield call(
+    buildSendTx,
+    tokenAddress,
+    PLACEHOLDER_AMOUNT,
+    PLACEHOLDER_ADDRESS,
+    PLACEHOLDER_COMMENT
+  )
+
+  // TODO: calculate the fee accurately.
+  // To calculate the fee, you need the txo but in the in-app swaps flow the
+  // swap amount is required to query the 0x API for the txo. For now,
+  // approximate the fee to be 4x that of a simple transfer, to take into
+  // account long swap routes. The maximum i saw on Ubeswap was 3, choosing 4 as
+  // a buffer. The tradeoff for this approximation is that users may have more
+  // dust (on the order of 3x the gas fee)
+  const feeInfo: FeeInfo = yield call(calculateFeeForTx, tx.txo, SWAP_FEE_ESTIMATE_MULTIPLIER)
+  return feeInfo
+}
+
 export function* estimateInviteFee(tokenAddress: string) {
   const kit: ContractKit = yield call(getContractKit)
   const tokenContract: Contract = yield call(getERC20TokenContract, tokenAddress)
@@ -162,11 +187,7 @@ export function* estimateInviteFee(tokenAddress: string) {
 
   // We must add a static amount here for the transfer because we can't estimate it without sending the approve tx first.
   // If the approve tx hasn't gone through yet estimation fails because of a lack of allowance.
-  const feeInfo: FeeInfo = yield call(
-    calculateFeeForTx,
-    tx.txo,
-    new BigNumber(STATIC_ESCROW_TRANSFER_GAS_ESTIMATE)
-  )
+  const feeInfo: FeeInfo = yield call(calculateFeeForTx, tx.txo)
   return feeInfo
 }
 
@@ -188,7 +209,7 @@ function* estimateRegisterDekFee() {
   return feeInfo
 }
 
-function* calculateFeeForTx(txo: CeloTxObject<any>, extraGasNeeded?: BigNumber) {
+function* calculateFeeForTx(txo: CeloTxObject<any>, gasMultiplier?: number) {
   const userAddress: string = yield call(getWalletAddress)
 
   const feeCurrency: string | undefined = yield call(fetchFeeCurrencySaga)
@@ -199,7 +220,7 @@ function* calculateFeeForTx(txo: CeloTxObject<any>, extraGasNeeded?: BigNumber) 
 
   const feeInfo: FeeInfo = yield call(
     calculateFee,
-    gasNeeded.plus(extraGasNeeded ?? 0),
+    gasNeeded.multipliedBy(gasMultiplier ?? 1),
     feeCurrency
   )
   return feeInfo
