@@ -39,10 +39,12 @@ function* createWalletConnectChannel() {
   if (!client) {
     Logger.debug(TAG + '@createWalletConnectChannel', `init start`)
 
-    client = yield SignClient.init({
+    client = yield call([SignClient, 'init'], {
       logger: 'debug',
-      // TODO get project ID - walletconnect account is not working
-      // is this a secret?
+      // TODO get proper project ID - having issues setting up a valora
+      // walletconnect account
+      // is this a secret or env variable?
+      // https://docs.walletconnect.com/2.0/advanced/relay-server
       projectId: '906f08083218680fedb1502f372b0b35',
       relayUrl: networkConfig.walletConnectEndpoint,
     })
