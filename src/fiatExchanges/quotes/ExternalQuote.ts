@@ -108,4 +108,8 @@ export default class ExternalQuote extends NormalizedQuote {
   getProviderId(): string {
     return this.provider.name
   }
+
+  isProviderNew(): boolean {
+    return false
+  }
 }
