@@ -66,6 +66,7 @@ export const numberVerifiedSelector = (state: RootState) => state.app.numberVeri
 // this can be called with undefined state in the tests
 export const walletConnectEnabledSelector = (state?: RootState) => ({
   v1: state?.app.walletConnectV1Enabled ?? false,
+  v2: state?.app.walletConnectV2Enabled ?? false,
 })
 
 export const hideVerificationSelector = (state: RootState) => state.app.hideVerification
