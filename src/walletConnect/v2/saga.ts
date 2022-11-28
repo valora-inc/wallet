@@ -11,6 +11,7 @@ import { WalletConnectPairingOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { getDappRequestOrigin } from 'src/app/utils'
 import { APP_NAME, WEB_LINK } from 'src/brandingConfig'
+import { WALLET_CONNECT_PROJECT_ID } from 'src/config'
 import { activeDappSelector } from 'src/dapps/selectors'
 import { ActiveDapp } from 'src/dapps/types'
 import i18n from 'src/i18n'
@@ -57,11 +58,7 @@ function* createWalletConnectChannel() {
 
     client = yield call([SignClient, 'init'], {
       logger: 'debug',
-      // TODO get proper project ID - having issues setting up a valora
-      // walletconnect account
-      // is this a secret or env variable?
-      // https://docs.walletconnect.com/2.0/advanced/relay-server
-      projectId: '906f08083218680fedb1502f372b0b35',
+      projectId: WALLET_CONNECT_PROJECT_ID,
       relayUrl: networkConfig.walletConnectEndpoint,
       metadata: {
         name: APP_NAME,
