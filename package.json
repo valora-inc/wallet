@@ -128,7 +128,6 @@
     "i18next": "^19.4.3",
     "ibantools": "^4.1.6",
     "io-ts": "2.0.1",
-    "js-sha3": "^0.8.0",
     "lodash": "^4.17.14",
     "lottie-ios": "^3.2.3",
     "lottie-react-native": "^5.0.1",
