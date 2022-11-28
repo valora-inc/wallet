@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useFlipper } from '@react-navigation/devtools'
-import { DefaultTheme, NavigationContainer, NavigationState } from '@react-navigation/native'
+import { NavigationContainer, NavigationState } from '@react-navigation/native'
 import * as Sentry from '@sentry/react-native'
 import { SeverityLevel } from '@sentry/types'
 import * as React from 'react'
@@ -29,10 +29,10 @@ import { Screens } from 'src/navigator/Screens'
 import PincodeLock from 'src/pincode/PincodeLock'
 import useTypedSelector from 'src/redux/useSelector'
 import { sentryRoutingInstrumentation } from 'src/sentry/Sentry'
-import colors from 'src/styles/colors'
 import { userInSanctionedCountrySelector } from 'src/utils/countryFeatures'
 import Logger from 'src/utils/Logger'
 import { isVersionBelowMinimum } from 'src/utils/versionCheck'
+import appTheme from 'src/styles/appTheme'
 
 // This uses RN Navigation's experimental nav state persistence
 // to improve the hot reloading experience when in DEV mode
@@ -52,15 +52,6 @@ export const getActiveRouteName = (state: NavigationState) => {
 }
 
 const RESTORE_STATE = __DEV__ && DEV_RESTORE_NAV_STATE_ON_RELOAD
-
-// Global app them used by react-navigation
-const AppTheme = {
-  ...DefaultTheme,
-  colors: {
-    ...DefaultTheme.colors,
-    background: colors.light,
-  },
-}
 
 export const NavigatorWrapper = () => {
   const { t } = useTranslation()
@@ -198,7 +189,7 @@ export const NavigatorWrapper = () => {
       onReady={onReady}
       onStateChange={handleStateChange}
       initialState={initialState}
-      theme={AppTheme}
+      theme={appTheme}
     >
       <View style={styles.container}>
         <Navigator />
