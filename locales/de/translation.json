@@ -1292,7 +1292,13 @@
     "oneHour": "Weniger als 1 Stunde",
     "lessThan24Hours": "Weniger als 24 Stunden",
     "bestRate": "Bester Tarif",
-    "header": "Zahlungsmethode auswählen"
+    "header": "Zahlungsmethode auswählen",
+    "newLabel": "NEU",
+    "newDialog": {
+      "title": "Neue Wege zum Geldtransfer",
+      "body": "Wir bieten neue Möglichkeiten, Geld von und auf Bankkonten zu überweisen, direkt von der Valora-App aus.\n\nWenn du dies siehst, bedeutet das, dass du in deiner Region auf diese Funktion zugreifen kannst.",
+      "dismiss": "Verwerfen"
+    }
   },
   "fiatConnectLinkAccountScreen": {
     "bankAccount": {
