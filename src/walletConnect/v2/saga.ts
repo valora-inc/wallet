@@ -8,6 +8,7 @@ import { EventChannel, eventChannel } from 'redux-saga'
 import { call, put, take, takeLeading } from 'redux-saga/effects'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
 import { APP_NAME, WEB_LINK } from 'src/brandingConfig'
+import { WALLET_CONNECT_PROJECT_ID } from 'src/config'
 import i18n from 'src/i18n'
 import Logger from 'src/utils/Logger'
 import {
@@ -44,11 +45,7 @@ function* createWalletConnectChannel() {
 
     client = yield call([SignClient, 'init'], {
       logger: 'debug',
-      // TODO get proper project ID - having issues setting up a valora
-      // walletconnect account
-      // is this a secret or env variable?
-      // https://docs.walletconnect.com/2.0/advanced/relay-server
-      projectId: '906f08083218680fedb1502f372b0b35',
+      projectId: WALLET_CONNECT_PROJECT_ID,
       relayUrl: networkConfig.walletConnectEndpoint,
       metadata: {
         name: APP_NAME,
