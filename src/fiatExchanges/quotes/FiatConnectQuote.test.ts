@@ -384,7 +384,7 @@ describe('FiatConnectQuote', () => {
       const quote = new FiatConnectQuote({
         flow: CICOFlow.CashIn,
         quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
-        fiatAccountType: 'Foo' as FiatAccountType,
+        fiatAccountType: FiatAccountType.BankAccount,
       })
       expect(quote.isProviderNew()).toEqual(false)
     })

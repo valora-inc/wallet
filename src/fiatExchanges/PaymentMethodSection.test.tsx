@@ -1,4 +1,4 @@
-import { fireEvent, render } from '@testing-library/react-native'
+import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
@@ -75,7 +75,7 @@ describe('PaymentMethodSection', () => {
     fireEvent.press(getByTestId('newLabel-Ramp'))
     expect(getByTestId('newDialog')).toBeVisible()
     fireEvent.press(getByTestId('newDialog/PrimaryAction'))
-    expect(getByTestId('newDialog')).not.toBeVisible()
+    await waitFor(() => expect(getByTestId('newDialog')).not.toBeVisible())
   })
 
   it('shows an expandable view if there is more than one provider available', async () => {
@@ -130,7 +130,7 @@ describe('PaymentMethodSection', () => {
     fireEvent.press(getByTestId('newLabel-Simplex'))
     expect(getByTestId('newDialog')).toBeVisible()
     fireEvent.press(getByTestId('newDialog/PrimaryAction'))
-    expect(getByTestId('newDialog')).not.toBeVisible()
+    await waitFor(() => expect(getByTestId('newDialog')).not.toBeVisible())
     fireEvent.press(getByTestId('newLabel-Moonpay'))
     expect(getByTestId('newDialog')).toBeVisible()
   })
