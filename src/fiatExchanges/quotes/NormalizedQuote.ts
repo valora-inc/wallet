@@ -15,6 +15,7 @@ export default abstract class NormalizedQuote {
   abstract getProviderName(): string
   abstract getProviderLogo(): string
   abstract getProviderId(): string
+  abstract isProviderNew(): boolean
 
   abstract navigate(dispatch: Dispatch): void
   onPress(flow: CICOFlow, dispatch: Dispatch) {

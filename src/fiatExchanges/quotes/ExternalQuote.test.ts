@@ -202,4 +202,15 @@ describe('ExternalQuote', () => {
       expect(quote.getProviderId()).toEqual('Moonpay')
     })
   })
+
+  describe('.isProviderNew', () => {
+    it('returns false', () => {
+      const quote = new ExternalQuote({
+        quote: (mockProviders[1].quote as RawProviderQuote[])[0],
+        provider: mockProviders[1],
+        flow: CICOFlow.CashIn,
+      })
+      expect(quote.isProviderNew()).toEqual(false)
+    })
+  })
 })

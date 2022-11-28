@@ -4,11 +4,13 @@ import { Image, LayoutAnimation, StyleSheet, Text, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import Dialog from 'src/components/Dialog'
 import Expandable from 'src/components/Expandable'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import NormalizedQuote from 'src/fiatExchanges/quotes/NormalizedQuote'
 import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
+import InfoIcon from 'src/icons/InfoIcon'
 import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
@@ -35,6 +37,7 @@ export function PaymentMethodSection({
 
   const isExpandable = sectionQuotes.length > 1
   const [expanded, setExpanded] = useState(false)
+  const [newDialogVisible, setNewDialogVisible] = useState(false)
 
   useEffect(() => {
     if (sectionQuotes.length) {
@@ -105,6 +108,37 @@ export function PaymentMethodSection({
     </>
   )
 
+  const renderProviderInfo = (quote: NormalizedQuote) => (
+    <View style={styles.providerInfoContainer}>
+      <View style={styles.imageContainer}>
+        <Image
+          testID={`image-${quote.getProviderName()}`}
+          source={{ uri: quote.getProviderLogo() }}
+          style={styles.providerImage}
+          resizeMode="center"
+        />
+      </View>
+      {quote.isProviderNew() && (
+        <Touchable
+          testID={`newLabel-${quote.getProviderName()}`}
+          style={styles.newLabelContainer}
+          onPress={() => {
+            ValoraAnalytics.track(FiatExchangeEvents.cico_providers_new_info_opened, {
+              flow,
+              provider: quote.getProviderId(),
+            })
+            setNewDialogVisible(true)
+          }}
+        >
+          <>
+            <Text style={styles.newLabelText}>{t('selectProviderScreen.newLabel')}</Text>
+            <InfoIcon size={16} color={colors.white} />
+          </>
+        </Touchable>
+      )}
+    </View>
+  )
+
   const renderNonExpandableSection = (quote: NormalizedQuote) => (
     <>
       <View testID={`${paymentMethod}/singleProvider`} style={styles.left}>
@@ -117,14 +151,7 @@ export function PaymentMethodSection({
         </Text>
       </View>
 
-      <View style={styles.imageContainer}>
-        <Image
-          testID={`image-${sectionQuotes[0].getProviderName()}`}
-          source={{ uri: sectionQuotes[0].getProviderLogo() }}
-          style={styles.providerImage}
-          resizeMode="center"
-        />
-      </View>
+      {renderProviderInfo(quote)}
     </>
   )
 
@@ -208,17 +235,22 @@ export function PaymentMethodSection({
                 )}
               </View>
 
-              <View style={styles.imageContainer}>
-                <Image
-                  testID={`image-${normalizedQuote.getProviderName()}`}
-                  source={{ uri: normalizedQuote.getProviderLogo() }}
-                  style={styles.providerImage}
-                  resizeMode="center"
-                />
-              </View>
+              {renderProviderInfo(normalizedQuote)}
             </View>
           </Touchable>
         ))}
+      <Dialog
+        testID="newDialog"
+        isVisible={newDialogVisible}
+        title={t('selectProviderScreen.newDialog.title')}
+        actionText={t('selectProviderScreen.newDialog.dismiss')}
+        actionPress={() => {
+          setNewDialogVisible(false)
+        }}
+        isActionHighlighted={false}
+      >
+        {t('selectProviderScreen.newDialog.body')}
+      </Dialog>
     </View>
   )
 }
@@ -254,9 +286,28 @@ const styles = StyleSheet.create({
   providerImage: {
     flex: 1,
   },
+  providerInfoContainer: {
+    flexDirection: 'column',
+  },
   imageContainer: {
-    width: 80,
     height: 40,
+    width: 40,
+    marginLeft: 'auto',
+  },
+  newLabelContainer: {
+    backgroundColor: colors.gray3,
+    borderRadius: 100,
+    paddingVertical: 4,
+    paddingHorizontal: 8,
+    marginTop: 4,
+    marginLeft: 'auto',
+    flexDirection: 'row',
+    width: 65,
+  },
+  newLabelText: {
+    ...fontStyles.label,
+    color: colors.white,
+    marginRight: 5,
   },
   category: {
     ...fontStyles.small500,

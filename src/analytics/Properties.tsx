@@ -1045,6 +1045,7 @@ interface FiatExchangeEventsProperties {
   [FiatExchangeEvents.cico_providers_exchanges_selected]: { flow: CICOFlow }
   [FiatExchangeEvents.cico_providers_unavailable_impression]: { flow: CICOFlow }
   [FiatExchangeEvents.cico_providers_unavailable_selected]: { flow: CICOFlow }
+  [FiatExchangeEvents.cico_providers_new_info_opened]: { flow: CICOFlow; provider: string }
   [FiatExchangeEvents.cico_fc_review_submit]: { flow: CICOFlow; provider: string }
   [FiatExchangeEvents.cico_fc_review_cancel]: {
     provider: string

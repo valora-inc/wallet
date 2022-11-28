@@ -27,6 +27,7 @@ describe('PaymentMethodSection', () => {
   beforeEach(() => {
     props = {
       paymentMethod: PaymentMethod.Card,
+      // the below creates 4 quotes - 1 Ramp (card), 2 Moonpay (bank, card), 1 Simplex (card)
       normalizedQuotes: normalizeQuotes(CICOFlow.CashIn, [], mockProviders),
       setNoPaymentMethods: jest.fn(),
       flow: CICOFlow.CashIn,
@@ -34,7 +35,7 @@ describe('PaymentMethodSection', () => {
   })
   it('shows nothing if there are no available providers', async () => {
     props.normalizedQuotes = []
-    const { queryByText } = render(
+    const { queryByText, queryByTestId } = render(
       <Provider store={mockStore}>
         <PaymentMethodSection {...props} />
       </Provider>
@@ -42,7 +43,9 @@ describe('PaymentMethodSection', () => {
 
     expect(queryByText('selectProviderScreen.bank')).toBeFalsy()
     expect(queryByText('selectProviderScreen.card')).toBeFalsy()
+    expect(queryByTestId('newDialog')).toBeFalsy()
   })
+
   it('shows a non-expandable view if there is one provider available', async () => {
     props.normalizedQuotes = normalizeQuotes(CICOFlow.CashIn, [], [mockProviders[2]])
     const { queryByText, queryByTestId } = render(
@@ -51,8 +54,30 @@ describe('PaymentMethodSection', () => {
       </Provider>
     )
     expect(queryByText('selectProviderScreen.card')).toBeTruthy()
-    expect(queryByTestId(`image-Ramp`)).toBeTruthy()
+    expect(queryByTestId('image-Ramp')).toBeTruthy()
+    expect(queryByTestId('newLabel-Ramp')).toBeFalsy()
   })
+
+  it('shows new info dialog in non expandable section', async () => {
+    props.normalizedQuotes = normalizeQuotes(CICOFlow.CashIn, [], [mockProviders[2]])
+    jest.spyOn(props.normalizedQuotes[0], 'isProviderNew').mockReturnValue(true)
+    const { getByText, getByTestId } = render(
+      <Provider store={mockStore}>
+        <PaymentMethodSection {...props} />
+      </Provider>
+    )
+    expect(getByText('selectProviderScreen.card')).toBeTruthy()
+    expect(getByTestId('image-Ramp')).toBeTruthy()
+    expect(getByTestId('newLabel-Ramp')).toBeTruthy()
+    expect(getByTestId('newDialog')).toBeTruthy()
+    expect(getByTestId('newDialog')).not.toBeVisible()
+
+    fireEvent.press(getByTestId('newLabel-Ramp'))
+    expect(getByTestId('newDialog')).toBeVisible()
+    fireEvent.press(getByTestId('newDialog/PrimaryAction'))
+    expect(getByTestId('newDialog')).not.toBeVisible()
+  })
+
   it('shows an expandable view if there is more than one provider available', async () => {
     const { queryByText, queryByTestId, getByText } = render(
       <Provider store={mockStore}>
@@ -62,11 +87,52 @@ describe('PaymentMethodSection', () => {
 
     expect(queryByText('selectProviderScreen.card')).toBeTruthy()
     expect(queryByText('selectProviderScreen.numProviders, {"count":3}')).toBeTruthy()
-    expect(queryByTestId(`image-Ramp`)).toBeFalsy()
+    expect(queryByTestId('image-Ramp')).toBeFalsy()
+    expect(queryByTestId('image-Simplex')).toBeFalsy()
+    expect(queryByTestId('image-Moonpay')).toBeFalsy()
 
     // Expand works
     fireEvent.press(getByText('selectProviderScreen.numProviders, {"count":3}'))
-    expect(queryByTestId(`image-Ramp`)).toBeTruthy()
+    expect(queryByTestId('image-Ramp')).toBeTruthy()
+    expect(queryByTestId('image-Simplex')).toBeTruthy()
+    expect(queryByTestId('image-Moonpay')).toBeTruthy()
+    expect(queryByTestId('newLabel-Ramp')).toBeFalsy()
+    expect(queryByTestId('newLabel-Simplex')).toBeFalsy()
+    expect(queryByTestId('newLabel-Moonpay')).toBeFalsy()
+  })
+
+  it('shows new label for multiple providers in expanded view', async () => {
+    // make simplex and moonpay card quotes new
+    jest.spyOn(props.normalizedQuotes[2], 'isProviderNew').mockReturnValue(true)
+    jest.spyOn(props.normalizedQuotes[3], 'isProviderNew').mockReturnValue(true)
+    const { queryByText, queryByTestId, getByText, getByTestId } = render(
+      <Provider store={mockStore}>
+        <PaymentMethodSection {...props} />
+      </Provider>
+    )
+
+    expect(queryByText('selectProviderScreen.card')).toBeTruthy()
+    expect(queryByText('selectProviderScreen.numProviders, {"count":3}')).toBeTruthy()
+    expect(queryByTestId('image-Ramp')).toBeFalsy()
+    expect(queryByTestId('image-Simplex')).toBeFalsy()
+    expect(queryByTestId('image-Moonpay')).toBeFalsy()
+
+    // Expand works
+    fireEvent.press(getByText('selectProviderScreen.numProviders, {"count":3}'))
+    expect(queryByTestId('image-Ramp')).toBeTruthy()
+    expect(queryByTestId('image-Simplex')).toBeTruthy()
+    expect(queryByTestId('image-Moonpay')).toBeTruthy()
+    expect(queryByTestId('newLabel-Ramp')).toBeFalsy()
+    expect(queryByTestId('newLabel-Simplex')).toBeTruthy()
+    expect(queryByTestId('newLabel-Moonpay')).toBeTruthy()
+
+    expect(getByTestId('newDialog')).not.toBeVisible()
+    fireEvent.press(getByTestId('newLabel-Simplex'))
+    expect(getByTestId('newDialog')).toBeVisible()
+    fireEvent.press(getByTestId('newDialog/PrimaryAction'))
+    expect(getByTestId('newDialog')).not.toBeVisible()
+    fireEvent.press(getByTestId('newLabel-Moonpay'))
+    expect(getByTestId('newDialog')).toBeVisible()
   })
 
   it('shows "Fees Vary" when a provider does not return fees in its quote', async () => {
