@@ -1,3 +1,4 @@
+import { appendPath } from '@celo/utils/lib/string'
 import '@react-native-firebase/database'
 import '@react-native-firebase/messaging'
 import SignClient from '@walletconnect/sign-client'
@@ -6,6 +7,8 @@ import { getSdkError } from '@walletconnect/utils'
 import { EventChannel, eventChannel } from 'redux-saga'
 import { call, put, take, takeLeading } from 'redux-saga/effects'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
+import { APP_NAME, WEB_LINK } from 'src/brandingConfig'
+import i18n from 'src/i18n'
 import Logger from 'src/utils/Logger'
 import {
   Actions,
@@ -47,6 +50,12 @@ function* createWalletConnectChannel() {
       // https://docs.walletconnect.com/2.0/advanced/relay-server
       projectId: '906f08083218680fedb1502f372b0b35',
       relayUrl: networkConfig.walletConnectEndpoint,
+      metadata: {
+        name: APP_NAME,
+        description: i18n.t('appDescription'),
+        url: WEB_LINK,
+        icons: [appendPath(WEB_LINK, '/favicon.ico')],
+      },
     })
 
     Logger.debug(TAG + '@createWalletConnectChannel', `init end`)
