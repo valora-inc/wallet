@@ -15,6 +15,7 @@ import networkConfig from 'src/web3/networkConfig'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockFiatConnectQuotes } from 'test/values'
 import { act } from 'react-test-renderer'
+import appTheme from 'src/styles/appTheme'
 
 jest.mock('src/analytics/ValoraAnalytics')
 
@@ -337,13 +338,14 @@ describe('TransferStatusScreen', () => {
         </Provider>
       )
       expect(getByTestId('loadingTransferStatus')).toBeTruthy()
-      expect(getByTestId('loadingDescription')).toHaveTextContent('')
+      expect(getByTestId('loadingDescription')).toHaveStyle({ color: appTheme.colors.background })
       await act(async () => {
         jest.runOnlyPendingTimers()
       })
       expect(getByTestId('loadingDescription')).toHaveTextContent(
         'fiatConnectStatusScreen.stillProcessing'
       )
+      expect(getByTestId('loadingDescription')).toHaveStyle({ color: appTheme.colors.text })
     })
   })
 })
