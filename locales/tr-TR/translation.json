@@ -386,7 +386,7 @@
   "pinInputCanceled": "PIN girmek zorunludur. Lütfen tekrar deneyin.",
   "setPinFailed": "PIN ayarlanamadı",
   "optIn": "Katıl",
-  "invalidInvite": "Geçersiz Davetiye Kodu",
+  "invalidInvite": "Geçersiz Davet Kodu",
   "inviteFriends": "Arkadaşlarını davet et",
   "account": "Hesap",
   "invalidAccount": "Geçersiz Hesap",
@@ -560,7 +560,7 @@
   "transferDollarsToAccount": "Hesabınıza bakiye transferi gerçekleşti!",
   "inviteAnyone": "Kişilerinize ekleyerek arkadaşlarınıza kolayca gönderim yapın",
   "inviteReceived": "Davet Alındı",
-  "escrowPaymentNotificationTitle": "{{mobile}} adresine davetiye talep edilemez",
+  "escrowPaymentNotificationTitle": "{{mobile}} adresine davet talep edilemez",
   "inviteDialog": {
     "title": "Arkadaşını davet et",
     "body": "Valora'da arkadaşlarınız ve ailenizle bağlantı kurun ve varlıklar paylaşın.",
@@ -570,7 +570,7 @@
   "inviteAndSendDialog": {
     "title": "{{name}} adlı kişiyi Valora'ya davet işlemini tamamlayın",
     "bodyWithRewards": "Söz konusu kişi katılıp telefon numarasını bağladında ikiniz de özel bir NFT sürümü alacaksınız. Davetinizi SMS ile göndermek için aşağıya tıklayın.",
-    "body": "{{appName}}adresine katılmaları için {{name}} ile bir davet mesajı paylaşın. Katıldıklarında ve bir telefon numarası bağladıklarında, ödemenizi alacaklar.",
+    "body": "{{appName}} uygulamasına katılması için {{name}} ile bir davet mesajı paylaşın. Katıldığında ve bir telefon numarası bağladığında, ödemenizi alacak.",
     "button": "Daveti tamamla"
   },
   "inviteRewardsBanner": {
@@ -1079,10 +1079,10 @@
   "balanceNeedUpdating": "Bakiyenin güncellenmesi gerekiyor",
   "refreshBalances": "Bakiyeleri Güncelle",
   "escrowedPaymentReminder": "Bekleyen Davetler",
-  "escrowedPaymentReminderSummaryTitle": "{{count}} Bekleyen Davetiyeler",
-  "escrowedPaymentReminderSummaryDetails_exactly2Items": "<0></0> ve <1></1> davetiyelerini talep edemeyecek",
-  "escrowedPaymentReminderSummaryDetails_exactly3Items": "<0></0>, <1></1> ve diğer bir kişi davetiyelerini talep edemeyecek",
-  "escrowedPaymentReminderSummaryDetails_moreThan3Items": "<0></0>, <1></1> ve diğerleri davetiyelerini talep edemeyecek",
+  "escrowedPaymentReminderSummaryTitle": "{{count}} bekleyen davetler",
+  "escrowedPaymentReminderSummaryDetails_exactly2Items": "<0></0> ve <1></1> davetlerini talep edemeyecek",
+  "escrowedPaymentReminderSummaryDetails_exactly3Items": "<0></0>, <1></1> ve diğer bir kişi davetlerini talep edemeyecek",
+  "escrowedPaymentReminderSummaryDetails_moreThan3Items": "<0></0>, <1></1> ve diğerleri davetlerini talep edemeyecek",
   "escrowedPaymentReminderSmsNoData": "{{appName}} ile {{currency}} bakiyenizi henüz almadığınızı hatırlatmak isteriz! Almak için mobil uygulamayı indirin!",
   "testnetAlert": {
     "0": "{{testnet}}",
@@ -1303,7 +1303,7 @@
     "mobileMoney": {
       "header": "Mobil Para'yı ayarlama",
       "bodyTitle": "Mobil Para Kurulumu",
-      "description": "Para transferi için mobil para bilgilerini girin. Bu hizmetler size aşağıdakiler tarafından sağlanacaktır <0>{{providerName}}</0>.\n\nDevam'a tıklayarak <1>Şartlar ve Koşulları</1> ve <2>Gizlilik Politikasını</2> kabul etmiş olursunuz."
+      "description": "Para transferi için mobil para bilgilerini girin. Bu hizmetler size <0>{{providerName}}</0> tarafından sağlanacaktır.\n\nDevam'a tıklayarak <1>Şartlar ve Koşulları</1> ve <2>Gizlilik Politikasını</2> kabul etmiş olursunuz"
     },
     "continue": "İleri"
   },
@@ -1350,8 +1350,8 @@
     "cashIn": {
       "header": "Gözden Geçir - Bakiye Ekle",
       "button": "Bakiye Ekle",
-      "transactionDetailsAmount": "Total Deposit",
-      "transactionDetailsAmountConverted": "Amount Deposited",
+      "transactionDetailsAmount": "Toplam Yatırılan",
+      "transactionDetailsAmountConverted": "Yatırılan Toplam",
       "paymentMethodHeader": "Para Yatıran"
     },
     "cashOut": {
@@ -1380,8 +1380,8 @@
       "contactSupportPrefill": "Paramı çekerken sorun yaşıyorum."
     },
     "cashIn": {
-      "cancel": "İptal Fon Ekle",
-      "contactSupportPrefill": "Valora cüzdanıma para eklemekte sorun yaşıyorum."
+      "cancel": "Bakiye Eklemeyi İptal Et",
+      "contactSupportPrefill": "Valora cüzdanıma bakiye eklemekte sorun yaşıyorum."
     },
     "success": {
       "header": "Başarılı",
@@ -1422,7 +1422,7 @@
   },
   "fiatDetailsScreen": {
     "headerBankAccount": "Banka Bilgilerini girin",
-    "headerMobileMoney": "Enter Mobile Details",
+    "headerMobileMoney": "Mobil Bilgilerini Girin",
     "headerSubTitle": "{{provider}} tarafından desteklenmektedir",
     "selectedPaymentOption": "Seçili ödeme yöntemi",
     "addFiatAccountSuccess": "Hesabınız {{provider}} sağlayıcısına bağlandı.",
@@ -1450,11 +1450,11 @@
       "mobile": {
         "label": "Telefon Numarası",
         "placeholderText": "+234123234566",
-        "errorMessage": "Invalid Phone Number format"
+        "errorMessage": "Geçersiz Telefon Numarası formatı"
       },
       "mobileDialog": {
         "title": "Telefon Numarası",
-        "body": "Use the phone number registered with your mobile money provider. This might not be the same as your valora phone number.\n\nPhone numbers must include country code displayed next to the phone number.",
+        "body": "Mobil para sağlayıcınızda kayıtlı olan telefon numarasını kullanın. Bu, Valora'da kullandığınız telefon numaranızla aynı olmayabilir.\n\nTelefon numaraları, telefon numarasının yanında ülke kodunu içermelidir.",
         "dismiss": "Yoksay"
       }
     },
@@ -1526,7 +1526,7 @@
     "shareMessage": "Hey! {{appName}} cüzdanımla sana biraz kripto göndermek istiyorum. Uygulamayı indirip telefon numaranızı bağladığınızda, bir metin gönderebileceğimiz kadar kolay kripto gönderebiliriz. Bu bağlantıyı kullanın: {{link}}",
     "rewardsActive": {
       "title": "{{contactName}} adlı kişiyi {{appName}} uygulamasına davet edin ve ikiniz de NFT kazanın!",
-      "body": "Görünüşe göre {{contactName}} {{appName}}adresinde değil. Cüzdan adreslerini biliyorsanız, yine de bir ödeme gönderebilir veya bunun yerine bir davetiye gönderebilirsiniz. \n\n Cüzdanı indirdikten ve telefon numaralarını bağladıktan sonra, ikiniz de özel bir NFT alacaksınız."
+      "body": "Görünüşe göre {{contactName}} {{appName}} kullanmıyor. Bu kişinin cüzdan adresini biliyorsanız, yine de bir ödeme gönderebilir veya bunun yerine davet gönderebilirsiniz. \n\n Bu kişi cüzdanı indirdikten ve telefon numarasını bağladıktan sonra, ikiniz de özel bir NFT alacaksınız."
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",

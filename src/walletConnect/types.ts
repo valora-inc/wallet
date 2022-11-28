@@ -1,4 +1,8 @@
-import { IClientMeta, IJsonRpcSubscription, IWalletConnectSession } from '@walletconnect/types'
+import {
+  IClientMeta,
+  IJsonRpcSubscription,
+  IWalletConnectSession,
+} from '@walletconnect/legacy-types'
 
 export interface WalletConnectSessionRequest {
   id: number
