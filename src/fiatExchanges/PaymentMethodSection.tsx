@@ -126,6 +126,7 @@ export function PaymentMethodSection({
             ValoraAnalytics.track(FiatExchangeEvents.cico_providers_new_info_opened, {
               flow,
               provider: quote.getProviderId(),
+              paymentMethod,
             })
             setNewDialogVisible(true)
           }}
@@ -139,7 +140,8 @@ export function PaymentMethodSection({
     </View>
   )
 
-  const renderNonExpandableSection = (quote: NormalizedQuote) => (
+  // this is used only when there's a single quote, so it directly references sectionQuotes[0]
+  const renderNonExpandableSection = () => (
     <>
       <View testID={`${paymentMethod}/singleProvider`} style={styles.left}>
         <Text style={styles.category}>{getCategoryTitle()}</Text>
@@ -147,11 +149,11 @@ export function PaymentMethodSection({
           {renderFeeAmount(sectionQuotes[0], t('selectProviderScreen.fee'))}
         </Text>
         <Text testID={`${paymentMethod}/provider-0/info`} style={styles.topInfo}>
-          {renderInfoText(quote)}
+          {renderInfoText(sectionQuotes[0])}
         </Text>
       </View>
 
-      {renderProviderInfo(quote)}
+      {renderProviderInfo(sectionQuotes[0])}
     </>
   )
 
@@ -209,9 +211,7 @@ export function PaymentMethodSection({
             isExpandable={isExpandable}
             isExpanded={expanded}
           >
-            {isExpandable
-              ? renderExpandableSection()
-              : renderNonExpandableSection(sectionQuotes[0])}
+            {isExpandable ? renderExpandableSection() : renderNonExpandableSection()}
           </Expandable>
         </View>
       </Touchable>
