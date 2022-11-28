@@ -1,5 +1,6 @@
 ignores: [
   "@actions/github",
+  "@react-native-picker/picker", # react-native-picker-select requires
   "@types/*",
   "metro-react-native-babel-preset",
   "prettier-plugin-java",
