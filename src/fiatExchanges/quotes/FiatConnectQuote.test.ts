@@ -73,16 +73,16 @@ describe('FiatConnectQuote', () => {
       ).toThrow()
     })
     it.each([
-      FiatAccountSchema.AccountNumber,
-      FiatAccountSchema.IBANNumber,
-      FiatAccountSchema.MobileMoney,
+      [FiatAccountType.BankAccount, FiatAccountSchema.AccountNumber],
+      [FiatAccountType.BankAccount, FiatAccountSchema.IBANNumber],
+      [FiatAccountType.MobileMoney, FiatAccountSchema.MobileMoney],
     ])(
       'does not throw an error if at least one fiatAccountSchema is supported',
-      (fiatAccountSchema) => {
+      (fiatAccountType, fiatAccountSchema) => {
         const quoteData = {
           ...mockFiatConnectQuotes[1],
           fiatAccount: {
-            BankAccount: {
+            [fiatAccountType]: {
               fiatAccountSchemas: [
                 {
                   fiatAccountSchema,
@@ -97,7 +97,7 @@ describe('FiatConnectQuote', () => {
             new FiatConnectQuote({
               flow: CICOFlow.CashIn,
               quote: quoteData as FiatConnectQuoteSuccess,
-              fiatAccountType: FiatAccountType.BankAccount,
+              fiatAccountType: fiatAccountType,
             })
         ).not.toThrow()
       }

@@ -37,7 +37,7 @@ describe('normalizeQuotes', () => {
     ).toEqual([
       ['Ramp', 0],
       ['provider-two', 0.53],
-      ['provider-three', 4.22],
+      ['provider-three', 4.22], //provider-three supports Mobile Money and Bank Account
       ['provider-three', 4.22],
       ['Moonpay', 5],
       ['Simplex', 6],
