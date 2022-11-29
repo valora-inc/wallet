@@ -965,7 +965,6 @@ export function* _initiateSendTxToProvider({
     '',
     feeInfo!
   )
-
   if (error) {
     ValoraAnalytics.track(FiatExchangeEvents.cico_fc_transfer_tx_error, {
       flow: CICOFlow.CashOut,
