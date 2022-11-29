@@ -1290,7 +1290,13 @@
     "oneHour": "ไม่เกิน 1 ชั่วโมง",
     "lessThan24Hours": "ไม่เกิน 24 ชั่วโมง",
     "bestRate": "อัตราที่ดีที่สุด",
-    "header": "เลือกวิธีการชำระเงิน"
+    "header": "เลือกวิธีการชำระเงิน",
+    "newLabel": "NEW",
+    "newDialog": {
+      "title": "New ways to transfer funds",
+      "body": "We are releasing new ways to transfer funds to and from bank accounts, directly from the Valora app.\n\nIf you are seeing this, it means you are able to access this feature in your region.",
+      "dismiss": "ปิด"
+    }
   },
   "fiatConnectLinkAccountScreen": {
     "bankAccount": {

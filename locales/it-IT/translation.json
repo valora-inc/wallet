@@ -1292,7 +1292,13 @@
     "oneHour": "Meno di un'ora",
     "lessThan24Hours": "Meno di 24 ore",
     "bestRate": "Miglior tasso",
-    "header": "Metodo di pagamento"
+    "header": "Metodo di pagamento",
+    "newLabel": "NUOVO",
+    "newDialog": {
+      "title": "Nuovi modi per trasferire fondi",
+      "body": "Stiamo rilasciando nuove modalità per trasferire fondi da e verso i conti bancari, direttamente dall'app Valora.\n\nSe stai vedendo questo messaggio, significa che sei in grado di accedere a questa funzione nella tua regione.",
+      "dismiss": "Ignora"
+    }
   },
   "fiatConnectLinkAccountScreen": {
     "bankAccount": {
