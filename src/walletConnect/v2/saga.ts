@@ -6,14 +6,9 @@ import { SessionTypes, SignClientTypes } from '@walletconnect/types'
 import { getSdkError } from '@walletconnect/utils'
 import { EventChannel, eventChannel } from 'redux-saga'
 import { call, put, select, take, takeEvery, takeLeading } from 'redux-saga/effects'
-import { WalletConnectEvents } from 'src/analytics/Events'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { getDappRequestOrigin } from 'src/app/utils'
 import { APP_NAME, WEB_LINK } from 'src/brandingConfig'
 import { WALLET_CONNECT_PROJECT_ID } from 'src/config'
-import { activeDappSelector } from 'src/dapps/selectors'
-import { ActiveDapp } from 'src/dapps/types'
 import i18n from 'src/i18n'
 import { isBottomSheetVisible, navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -133,12 +128,8 @@ function* createWalletConnectChannel() {
 }
 
 function* handleInitialisePairing({ uri, origin }: InitialisePairing) {
-  const activeDapp: ActiveDapp | null = yield select(activeDappSelector)
+  // TODO analytics
   try {
-    ValoraAnalytics.track(WalletConnectEvents.wc_pairing_start, {
-      dappRequestOrigin: getDappRequestOrigin(activeDapp),
-      origin,
-    })
     if (!client) {
       throw new Error('missing client')
     }
@@ -148,10 +139,6 @@ function* handleInitialisePairing({ uri, origin }: InitialisePairing) {
     Logger.debug(TAG + '@handleInitialisePairing', 'pair end')
   } catch (e) {
     Logger.debug(TAG + '@handleInitialisePairing', e.message)
-    ValoraAnalytics.track(WalletConnectEvents.wc_pairing_error, {
-      dappRequestOrigin: getDappRequestOrigin(activeDapp),
-      error: e.message,
-    })
   }
 }
 
@@ -173,11 +160,7 @@ function* handleIncomingSessionRequest({ session }: SessionProposal) {
 }
 
 function* showSessionRequest(session: SignClientTypes.EventArguments['session_proposal']) {
-  const activeDapp: ActiveDapp | null = yield select(activeDappSelector)
-  ValoraAnalytics.track(WalletConnectEvents.wc_pairing_success, {
-    dappRequestOrigin: getDappRequestOrigin(activeDapp),
-  })
-  // TODO track default properties
+  // TODO analytics
 
   yield call(navigate, Screens.WalletConnectRequest, {
     type: WalletConnectRequestType.Session,
