@@ -1292,7 +1292,13 @@
     "oneHour": "Menos de 1 hora",
     "lessThan24Hours": "Menos de 24 horas",
     "bestRate": "Melhor taxa",
-    "header": "Método de pagamento"
+    "header": "Método de pagamento",
+    "newLabel": "NOVO",
+    "newDialog": {
+      "title": "Novas formas de transferência de fundos",
+      "body": "Estamos a lançar novas formas de transferir fundos de e para contas bancárias, directamente da aplicação Valora.\n\nSe estiver a ver isto, significa que pode aceder a esta funcionalidade na sua região.",
+      "dismiss": "Ignorar"
+    }
   },
   "fiatConnectLinkAccountScreen": {
     "bankAccount": {
