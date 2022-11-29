@@ -1296,7 +1296,13 @@
     "oneHour": "Mniej niż 1 godzina",
     "lessThan24Hours": "Mniej niż 24 godziny",
     "bestRate": "Najlepsza stawka",
-    "header": "Wybierz metodę płatności"
+    "header": "Wybierz metodę płatności",
+    "newLabel": "NOWOŚĆ",
+    "newDialog": {
+      "title": "Nowe sposoby przekazywania funduszy",
+      "body": "Udostępniamy nowe sposoby przekazywania środków na i z kont bankowych, bezpośrednio z aplikacji Valora.\n\nJeśli widzisz ten komunikat, oznacza to, że masz dostęp do tej funkcji w swoim regionie.",
+      "dismiss": "Odrzuć"
+    }
   },
   "fiatConnectLinkAccountScreen": {
     "bankAccount": {
