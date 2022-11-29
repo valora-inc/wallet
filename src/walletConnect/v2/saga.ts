@@ -24,6 +24,7 @@ import {
   AcceptSession,
   Actions,
   clientInitialised,
+  DenySession,
   initialiseClient,
   InitialisePairing,
   initialisePairing,
@@ -223,6 +224,24 @@ function* acceptSession({ session }: AcceptSession) {
   yield call(handlePendingStateOrNavigateBack)
 }
 
+function* denySession({ session }: DenySession) {
+  // TODO analytics
+  try {
+    if (!client) {
+      throw new Error('missing client')
+    }
+
+    yield call([client, 'reject'], {
+      id: session.id,
+      reason: getSdkError('USER_REJECTED_METHODS'),
+    })
+  } catch (e) {
+    Logger.debug(TAG + '@denySession', e.message)
+  }
+
+  yield call(handlePendingStateOrNavigateBack)
+}
+
 function* handlePendingStateOrNavigateBack() {
   const hasPendingState: boolean = yield select(selectHasPendingState)
 
@@ -239,6 +258,7 @@ export function* walletConnectV2Saga() {
 
   yield takeEvery(Actions.SESSION_PROPOSAL_V2, handleIncomingSessionRequest)
   yield takeEvery(Actions.ACCEPT_SESSION_V2, acceptSession)
+  yield takeEvery(Actions.DENY_SESSION_V2, denySession)
 }
 
 export function* initialiseWalletConnectV2(uri: string, origin: WalletConnectPairingOrigin) {
