@@ -147,6 +147,11 @@ export interface CreateFiatConnectTransferCompletedAction {
   txHash: string | null
 }
 
+export interface CreateFiatConnectTransferTxProcessingAction {
+  flow: CICOFlow
+  quoteId: string
+}
+
 interface RefetchQuoteAction {
   flow: CICOFlow
   cryptoType: Currency
@@ -271,6 +276,17 @@ export const slice = createSlice({
         status: SendingTransferStatus.Completed,
       }
     },
+    createFiatConnectTransferTxProcessing: (
+      state,
+      action: PayloadAction<CreateFiatConnectTransferTxProcessingAction>
+    ) => {
+      state.transfer = {
+        quoteId: action.payload.quoteId,
+        flow: action.payload.flow,
+        txHash: null,
+        status: SendingTransferStatus.TxProcessing,
+      }
+    },
     fetchFiatConnectProviders: () => {
       // no state update
     },
@@ -335,6 +351,7 @@ export const {
   createFiatConnectTransfer,
   createFiatConnectTransferFailed,
   createFiatConnectTransferCompleted,
+  createFiatConnectTransferTxProcessing,
   fetchFiatConnectProviders,
   fetchFiatConnectProvidersCompleted,
   submitFiatAccount,

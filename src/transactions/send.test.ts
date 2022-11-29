@@ -1,7 +1,11 @@
 import BigNumber from 'bignumber.js'
 import { expectSaga } from 'redux-saga-test-plan'
 import { call } from 'redux-saga/effects'
-import { chooseTxFeeDetails } from 'src/transactions/send'
+import {
+  chooseTxFeeDetails,
+  isTxPossiblyPending,
+  shouldTxFailureRetry,
+} from 'src/transactions/send'
 import { createMockStore } from 'test/utils'
 import { mockCeloAddress, mockCeurAddress, mockCusdAddress } from 'test/values'
 
@@ -50,6 +54,48 @@ function* wrapperSaga({
 }) {
   return yield call(chooseTxFeeDetails, tx, feeCurrency, gas, gasPrice)
 }
+
+describe('isTxPossiblyPending', () => {
+  it('returns false when err is invalid', () => {
+    const result = isTxPossiblyPending(null)
+    expect(result).toBe(false)
+  })
+  it('returns true when known tx error', () => {
+    const result = isTxPossiblyPending(new Error('known transaction error!!!'))
+    expect(result).toBe(true)
+  })
+  it('returns true when nonce too low', () => {
+    const result = isTxPossiblyPending(new Error('nonce too low error!!!'))
+    expect(result).toBe(true)
+  })
+  it('returns false when error is unrelated', () => {
+    const result = isTxPossiblyPending(new Error('some unrelated error!!!'))
+    expect(result).toBe(false)
+  })
+})
+
+describe('shouldTxFailureRetry', () => {
+  it('returns true when err is invalid', () => {
+    const result = shouldTxFailureRetry(null)
+    expect(result).toBe(true)
+  })
+  it('returns false when out of gas', () => {
+    const result = shouldTxFailureRetry(new Error('out of gas error!'))
+    expect(result).toBe(false)
+  })
+  it('returns false when tx is always failing', () => {
+    const result = shouldTxFailureRetry(new Error('always failing transaction error!!!'))
+    expect(result).toBe(false)
+  })
+  it('returns false when tx is possibly pending', () => {
+    const result = shouldTxFailureRetry(new Error('nonce too low error!!!'))
+    expect(result).toBe(false)
+  })
+  it('returns true when error is unrelated', () => {
+    const result = shouldTxFailureRetry(new Error('some unrelated error!!!'))
+    expect(result).toBe(true)
+  })
+})
 
 describe('chooseTxFeeDetails', () => {
   it("returns the passed values if there's enough balance to pay for gas", async () => {
