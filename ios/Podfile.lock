@@ -648,9 +648,9 @@ PODS:
     - React-RCTImage
   - RNSecureRandom (1.0.0):
     - React-Core
-  - RNSentry (4.2.0):
+  - RNSentry (4.10.0):
     - React-Core
-    - Sentry (= 7.21.0)
+    - Sentry/HybridSDK (= 7.31.2)
   - RNShare (7.3.2):
     - React-Core
   - RNSVG (12.3.0):
@@ -675,9 +675,7 @@ PODS:
     - Firebase (~> 7.7)
     - Firebase/Core (~> 7.7)
     - FirebaseAnalytics (~> 7.7)
-  - Sentry (7.21.0):
-    - Sentry/Core (= 7.21.0)
-  - Sentry/Core (7.21.0)
+  - Sentry/HybridSDK (7.31.2)
   - Toast (4.0.0)
   - TOCropViewController (2.6.0)
   - Yoga (1.14.0)
@@ -1133,14 +1131,14 @@ SPEC CHECKSUMS:
   RNReanimated: ee33ab40fa252332a36aeed9d936801ed9700b24
   RNScreens: 34cc502acf1b916c582c60003dc3089fa01dc66d
   RNSecureRandom: b0b479d7b934a3e6deea9cb986a9c40cb5f1b360
-  RNSentry: 227b01d7373289c51b8c31b2c8d6bac49f1a4335
+  RNSentry: 211e1a62145d5bcb4bee926823061b5af47816c4
   RNShare: d76b8c9c6e6ffb38fc18f40b4338c9d867592ed3
   RNSVG: 302bfc9905bd8122f08966dc2ce2d07b7b52b9f8
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
   Segment-Adjust: 1a12861ab2e9372fc70af949057490858666cd37
   Segment-CleverTap: 33df087116d5a0a76d2fb3003ed8609c979eac10
   Segment-Firebase: 709fff402c50f74c218482603683edd42785cbf9
-  Sentry: 194d0a2d4d6ef92c9c08c98d998340b0a63efd81
+  Sentry: b15765d11769852fe78c9add942f7df60ed5dbf5
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
   TOCropViewController: 3105367e808b7d3d886a74ff59bf4804e7d3ab38
   Yoga: e7dc4e71caba6472ff48ad7d234389b91dadc280
