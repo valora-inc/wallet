@@ -137,14 +137,12 @@ describe('PaymentMethodSection', () => {
       'bank',
       'numDays',
     ],
-    // TODO(any): enable as part of ACT-518. Doesn't work currently since FC
-    // quotes can't be created for mobile money
-    // [
-    //   PaymentMethod.FiatConnectMobileMoney as const,
-    //   normalizeQuotes(CICOFlow.CashIn, [mockFiatConnectQuotes[4]] as FiatConnectQuoteSuccess[], []),
-    //   'mobileMoney',
-    //   'lessThan24Hours',
-    // ],
+    [
+      PaymentMethod.FiatConnectMobileMoney as const,
+      normalizeQuotes(CICOFlow.CashIn, [mockFiatConnectQuotes[4]] as FiatConnectQuoteSuccess[], []),
+      'mobileMoney',
+      'lessThan24Hours',
+    ],
   ])('shows appropriate title and settlement time for %s', (paymentMethod, quotes, title, info) => {
     props.normalizedQuotes = quotes
     props.paymentMethod = paymentMethod

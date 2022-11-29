@@ -72,7 +72,11 @@ describe('FiatConnectQuote', () => {
           })
       ).toThrow()
     })
-    it.each([FiatAccountSchema.AccountNumber, FiatAccountSchema.IBANNumber])(
+    it.each([
+      FiatAccountSchema.AccountNumber,
+      FiatAccountSchema.IBANNumber,
+      FiatAccountSchema.MobileMoney,
+    ])(
       'does not throw an error if at least one fiatAccountSchema is supported',
       (fiatAccountSchema) => {
         const quoteData = {
@@ -117,6 +121,14 @@ describe('FiatConnectQuote', () => {
         fiatAccountType: FiatAccountType.BankAccount,
       })
       expect(quote.getPaymentMethod()).toEqual(PaymentMethod.Bank)
+    })
+    it('returns FC Mobile Money for MobileMoney', () => {
+      const quote = new FiatConnectQuote({
+        flow: CICOFlow.CashIn,
+        quote: mockFiatConnectQuotes[4] as FiatConnectQuoteSuccess,
+        fiatAccountType: FiatAccountType.MobileMoney,
+      })
+      expect(quote.getPaymentMethod()).toEqual(PaymentMethod.FiatConnectMobileMoney)
     })
   })
 
