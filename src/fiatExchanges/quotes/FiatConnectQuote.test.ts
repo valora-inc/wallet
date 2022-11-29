@@ -380,9 +380,18 @@ describe('FiatConnectQuote', () => {
   })
 
   describe('.isProviderNew', () => {
-    it('returns false', () => {
+    it('returns from provider info for cash in', () => {
       const quote = new FiatConnectQuote({
         flow: CICOFlow.CashIn,
+        quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
+        fiatAccountType: FiatAccountType.BankAccount,
+      })
+      expect(quote.isProviderNew()).toEqual(true)
+    })
+
+    it('returns from provider info for cash out', () => {
+      const quote = new FiatConnectQuote({
+        flow: CICOFlow.CashOut,
         quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
         fiatAccountType: FiatAccountType.BankAccount,
       })
