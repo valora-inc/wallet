@@ -74,11 +74,6 @@ function* createWalletConnectChannel() {
       emit(sessionProposal(session))
     }
 
-    const onSessionCreated = (sessionEvent: SignClientTypes.EventArguments['session_event']) => {
-      const { topic } = sessionEvent
-      const session = client!.session.get(topic)
-      emit(sessionCreated(session))
-    }
     const onSessionUpdated = (session: SignClientTypes.EventArguments['session_update']) => {
       emit(sessionUpdated(session))
     }
@@ -96,7 +91,6 @@ function* createWalletConnectChannel() {
     }
 
     client.on('session_proposal', onSessionProposal)
-    client.on('session_event', onSessionCreated)
     client.on('session_update', onSessionUpdated)
     client.on('session_delete', onSessionDeleted)
     client.on('session_request', onSessionRequest)
@@ -110,7 +104,6 @@ function* createWalletConnectChannel() {
       Logger.debug(TAG + '@createWalletConnectChannel', 'clean up')
 
       client.off('session_proposal', onSessionProposal)
-      client.off('session_event', onSessionCreated)
       client.off('session_update', onSessionUpdated)
       client.off('session_delete', onSessionDeleted)
       client.off('session_request', onSessionRequest)
@@ -127,7 +120,7 @@ function* createWalletConnectChannel() {
   })
 }
 
-function* handleInitialisePairing({ uri, origin }: InitialisePairing) {
+function* handleInitialisePairing({ uri }: InitialisePairing) {
   // TODO analytics
   try {
     if (!client) {
@@ -199,6 +192,14 @@ function* acceptSession({ session }: AcceptSession) {
 
     yield call(acknowledged)
 
+    // TODO is there some better way to find the new session?
+    const newSession = client.session.values.find(
+      (value) => value.peer.publicKey === session.params.proposer.publicKey
+    )
+    if (newSession) {
+      yield put(sessionCreated(newSession))
+    }
+
     yield call(showWalletConnectionSuccessMessage, proposer.metadata.name)
   } catch (e) {
     Logger.debug(TAG + '@acceptSession', e.message)
@@ -229,6 +230,7 @@ function* handlePendingStateOrNavigateBack() {
   const hasPendingState: boolean = yield select(selectHasPendingState)
 
   if (hasPendingState) {
+    // TODO handle pending state
     // yield call(handlePendingState)
   } else if (yield call(isBottomSheetVisible, Screens.WalletConnectRequest)) {
     navigateBack()
