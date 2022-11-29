@@ -390,4 +390,15 @@ describe('FiatConnectQuote', () => {
       expect(quote.getKycSchema()).toBeUndefined()
     })
   })
+
+  describe('.isProviderNew', () => {
+    it('returns false', () => {
+      const quote = new FiatConnectQuote({
+        flow: CICOFlow.CashIn,
+        quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
+        fiatAccountType: FiatAccountType.BankAccount,
+      })
+      expect(quote.isProviderNew()).toEqual(false)
+    })
+  })
 })

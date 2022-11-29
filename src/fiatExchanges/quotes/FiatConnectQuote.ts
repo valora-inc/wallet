@@ -173,6 +173,11 @@ export default class FiatConnectQuote extends NormalizedQuote {
     return this.quote.provider.id
   }
 
+  isProviderNew(): boolean {
+    // TODO: get from API
+    return false
+  }
+
   getProviderBaseUrl(): string {
     return this.quote.provider.baseUrl
   }

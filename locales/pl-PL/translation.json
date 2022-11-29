@@ -386,7 +386,7 @@
   "pinInputCanceled": "Podanie kodu PIN jest konieczne. Spróbuj ponownie.",
   "setPinFailed": "Nie udało się ustawić kodu PIN",
   "optIn": "Zgoda",
-  "invalidInvite": "Nieważny kod zaproszenia",
+  "invalidInvite": "Niepoprawny kod zaproszenia",
   "inviteFriends": "Zaproś znajomych",
   "account": "Konto",
   "invalidAccount": "Nieprawidłowe konto",
@@ -560,7 +560,7 @@
   "transferDollarsToAccount": "Środki zostały przelane na Twoje konto!",
   "inviteAnyone": "Dodaj swoje kontakty i wysyłaj płatności do znajomych w łatwy i szybki sposób",
   "inviteReceived": "Odebrano zaproszenie",
-  "escrowPaymentNotificationTitle": "Zaproszenie na stronę {{mobile}} nie może być odebrane",
+  "escrowPaymentNotificationTitle": "Zaproszenie na {{mobile}} nie może być odebrane",
   "inviteDialog": {
     "title": "Zaproś znajomego",
     "body": "Kontaktuj i dziel się środkami z przyjaciółmi i rodziną dzięki aplikacji Valora.",
@@ -570,7 +570,7 @@
   "inviteAndSendDialog": {
     "title": "Dokończ zapraszanie {{name}} do aplikacji Valora",
     "bodyWithRewards": "Gdy Twój znajomy utworzy konto i podłączy swój numer telefonu, oboje otrzymacie NFT. Kliknij poniżej, aby wysłać zaproszenie.",
-    "body": "Udostępnij wiadomość z zaproszeniem dla {{name}} , aby dołączyli do {{appName}}. Kiedy dołączą i połączą się z numerem telefonu, otrzymają twoją zapłatę.",
+    "body": "Wyślij do {{name}} wiadomość z zaproszeniem do aplikacji {{appName}}. Gdy utworzy konto i podłączy swój numer telefonu, otrzyma Twoją płatność.",
     "button": "Dokończ zaproszenie"
   },
   "inviteRewardsBanner": {
@@ -1082,11 +1082,11 @@
   "maybeLater": "Może później",
   "balanceNeedUpdating": "Saldo wymaga aktualizacji",
   "refreshBalances": "Odśwież salda",
-  "escrowedPaymentReminder": "Zaproszenia oczekujące",
-  "escrowedPaymentReminderSummaryTitle": "{{count}} Zaproszenia oczekujące",
-  "escrowedPaymentReminderSummaryDetails_exactly2Items": "<0></0> i <1></1> nie będą mogły odebrać swoich zaproszeń",
-  "escrowedPaymentReminderSummaryDetails_exactly3Items": "<0></0> <1></1> i jeszcze jedna osoba nie będą mogły odebrać swoich zaproszeń.",
-  "escrowedPaymentReminderSummaryDetails_moreThan3Items": "<0></0>, <1></1> i inni nie będą mogli odebrać swoich zaproszeń",
+  "escrowedPaymentReminder": "Oczekujące zaproszenia",
+  "escrowedPaymentReminderSummaryTitle": "Liczba oczekujących zaproszeń: {{count}}",
+  "escrowedPaymentReminderSummaryDetails_exactly2Items": "<0></0> i <1></1> nie będą mieć możliwości odebrania swoich zaproszeń",
+  "escrowedPaymentReminderSummaryDetails_exactly3Items": "<0></0>, <1></1> i jeszcze jedna osoba nie będą mieć możliwości odebrania swoich zaproszeń",
+  "escrowedPaymentReminderSummaryDetails_moreThan3Items": "<0></0>, <1></1> i jeszcze inne osoby nie będą mieć możliwości odebrania swoich zaproszeń",
   "escrowedPaymentReminderSmsNoData": "Nieśmiało przypominamy, że jeszcze nie wymieniłeś(-aś) swoich {{currency}} w aplikacji {{appName}}! Pobierz aplikację mobilną, aby zacząć!",
   "testnetAlert": {
     "0": "{{testnet}}",
@@ -1296,7 +1296,13 @@
     "oneHour": "Mniej niż 1 godzina",
     "lessThan24Hours": "Mniej niż 24 godziny",
     "bestRate": "Najlepsza stawka",
-    "header": "Wybierz metodę płatności"
+    "header": "Wybierz metodę płatności",
+    "newLabel": "NOWOŚĆ",
+    "newDialog": {
+      "title": "Nowe sposoby przekazywania funduszy",
+      "body": "Udostępniamy nowe sposoby przekazywania środków na i z kont bankowych, bezpośrednio z aplikacji Valora.\n\nJeśli widzisz ten komunikat, oznacza to, że masz dostęp do tej funkcji w swoim regionie.",
+      "dismiss": "Odrzuć"
+    }
   },
   "fiatConnectLinkAccountScreen": {
     "bankAccount": {
@@ -1305,9 +1311,9 @@
       "description": "Wprowadź dane konta bankowego, aby przelać środki. Te usługi będą świadczone przez <0>{{providerName}}</0>. \n\nKlikając przycisk Kontynuuj, zgadzasz się z <1>Warunkami</1> oraz <2>Polityką prywatności</2>"
     },
     "mobileMoney": {
-      "header": "Konfiguruj Pieniądze Mobilne",
-      "bodyTitle": "Skonfiguruj Pieniądze Mobilne",
-      "description": "Wprowadź dane dotyczące pieniędzy z telefonu komórkowego, aby dokonać przelewu. Usługi te będą świadczone przez <0>{{providerName}}</0>.\n\nKlikając dalej, zgadzasz się z Warunkami umowy <1>i</1> <2>Polityką prywatności</2>."
+      "header": "Skonfiguruj pieniądze z telefonu komórkowego",
+      "bodyTitle": "Skonfiguruj pieniądze z telefonu komórkowego",
+      "description": "Wprowadź dane dotyczące pieniędzy z telefonu komórkowego, aby przelać środki. Te usługi będą świadczone przez <0>{{providerName}}</0>. \n\nKlikając przycisk Kontynuuj zgadzasz się z <1>Warunkami</1> oraz <2>Polityką prywatności</2>"
     },
     "continue": "Kontynuuj"
   },
@@ -1354,8 +1360,8 @@
     "cashIn": {
       "header": "Analizuj – Dodaj środki",
       "button": "Dodaj środki",
-      "transactionDetailsAmount": "Total Deposit",
-      "transactionDetailsAmountConverted": "Amount Deposited",
+      "transactionDetailsAmount": "Całkowita wpłata",
+      "transactionDetailsAmountConverted": "Kwota wpłacona",
       "paymentMethodHeader": "Wpłata z"
     },
     "cashOut": {
@@ -1378,12 +1384,13 @@
   },
   "fiatConnectStatusScreen": {
     "tryAgain": "Spróbuj ponownie",
+    "stillProcessing": "Nadal przetwarzamy Twoją transakcję. Prosimy czekać.",
     "cashOut": {
       "cancel": "Anuluj wypłatę",
       "contactSupportPrefill": "Mam problem z wypłatą środków."
     },
     "cashIn": {
-      "cancel": "Anuluj Dodaj fundusze",
+      "cancel": "Anuluj dodawanie środków",
       "contactSupportPrefill": "Mam problem z dodaniem środków do mojego portfela Valora."
     },
     "success": {
@@ -1396,6 +1403,10 @@
     "requestNotCompleted": {
       "title": "Twoje żądanie nie mogło zostać zrealizowane.",
       "description": "Twoje środki nie mogły zostać przekazane. Spróbuj ponownie lub skontaktuj się z naszym zespołem obsługi klienta, aby uzyskać pomoc."
+    },
+    "txProcessing": {
+      "title": "Twoja transakcja jest nadal przetwarzana.",
+      "description": "Może to być spowodowane słabym połączeniem internetowym. Sprawdź, czy CeloExplorer jest aktualizowany."
     }
   },
   "fiatExchangeFlow": {
@@ -1420,7 +1431,8 @@
     }
   },
   "fiatDetailsScreen": {
-    "header": "Wprowadź dane banku",
+    "headerBankAccount": "Wprowadź dane banku",
+    "headerMobileMoney": "Wprowadź dane telefonu komórkowego",
     "headerSubTitle": "Obsługiwane przez {{provider}}",
     "selectedPaymentOption": "Wybrana opcja płatności",
     "addFiatAccountSuccess": "Twoje konto zostało połączone z {{provider}}.",
@@ -1440,6 +1452,21 @@
       "placeholderText": "Wprowadź numer konta",
       "errorMessageDigitLength": "Numer konta musi składać się z {{length}} cyfr",
       "errorMessageDigit": "Numer konta musi zawierać tylko cyfry"
+    },
+    "mobileMoney": {
+      "operator": {
+        "label": "Sieć"
+      },
+      "mobile": {
+        "label": "Numer telefonu",
+        "placeholderText": "+234123234566",
+        "errorMessage": "Niepoprawny format numeru telefonu"
+      },
+      "mobileDialog": {
+        "title": "Numer telefonu",
+        "body": "Użyj numeru telefonu zarejestrowanego u dostawcy środków z telefonu komórkowego. To może nie być taki sam numer, jak Twój numer telefonu w aplikacji Valora.\n\nNumery telefonów muszą zawierać kod kraju wyświetlany obok numeru telefonu.",
+        "dismiss": "Odrzuć"
+      }
     },
     "ibanNumber": {
       "label": "IBAN",
@@ -1509,7 +1536,7 @@
     "shareMessage": "Witaj! Chcę wysłać Ci trochę kryptowaluty za pomocą mojego portfela {{appName}}. Gdy pobierzesz aplikację i podasz swój numer telefonu, możemy wysłać kryptowalutę tak łatwo, jak za pomocą SMS-a. Użyj tego linku: {{link}}",
     "rewardsActive": {
       "title": "Zaproś {{contactName}} do {{appName}}, a razem otrzymacie NFT!",
-      "body": "Wygląda na to, że {{contactName}} nie jest na {{appName}}. Jeśli znasz adres ich portfela, możesz wysłać płatność lub zaproszenie. \n\n Po pobraniu portfela i podaniu numeru telefonu, oboje otrzymacie ekskluzywne NFT."
+      "body": "Wygląda na to, że {{contactName}} nie korzysta z {{appName}}. Jeśli znasz adres jego/jej portfela, nadal możesz wysłać płatność lub zaproszenie. \n\n Po pobraniu portfela i podaniu numeru telefonu otrzymacie ekskluzywne NFT."
     }
   },
   "celoDollarAmount_0": "<0></0> Celo Dolar",

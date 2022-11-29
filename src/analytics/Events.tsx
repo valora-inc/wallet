@@ -105,6 +105,8 @@ export enum OnboardingEvents {
   celo_education_cancel = 'celo_education_cancel',
 
   name_and_picture_set = 'name_and_picture_set',
+  name_and_picture_skip = 'name_and_picture_skip',
+  name_and_picture_generate_name = 'name_and_picture_generate_name',
 
   phone_number_set = 'phone_number_set',
 
@@ -432,7 +434,8 @@ export enum FiatExchangeEvents {
 
   cico_providers_back = 'cico_providers_back', // User presses the back button from the Select Providers screen
   cico_providers_unavailable_impression = 'cico_providers_unavailable_impression', // User sees a blurb about providers unavailable
-  cico_providers_unavailable_selected = 'cico_providers_unavailable_selected', // User taps a blurb about providers unavalable
+  cico_providers_unavailable_selected = 'cico_providers_unavailable_selected', // User taps a blurb about providers unavailable
+  cico_providers_new_info_opened = 'cico_providers_new_info_opened', // User taps on the new label and views the dialog
 
   // Cash In Success Screen
   cash_in_success = 'cash_in_success', // Screen users are (most of the time) redirected to after cash in with external providers
@@ -492,6 +495,8 @@ export enum FiatExchangeEvents {
   cico_fc_transfer_error_contact_support = 'cico_fc_transfer_error_contact_support',
   cico_fc_transfer_success_complete = 'cico_fc_transfer_success_complete',
   cico_fc_transfer_success_view_tx = 'cico_fc_transfer_success_view_tx',
+  cico_fc_transfer_processing_continue = 'cico_fc_transfer_processing_continue',
+  cico_fc_transfer_processing_view_tx = 'cico_fc_transfer_processing_view_tx',
 
   // Fiat Connect KYC status screens
   cico_fc_kyc_status_contact_support = 'cico_fc_kyc_status_contact_support',

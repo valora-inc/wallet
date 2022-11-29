@@ -33,6 +33,7 @@ interface NetworkConfig {
   fetchExchangesUrl: string
   nftsValoraAppUrl: string
   celoExplorerBaseTxUrl: string
+  celoExplorerBaseAddressUrl: string
   approveSwapUrl: string
   executeSwapUrl: string
   verifyPhoneNumberUrl: string
@@ -107,8 +108,14 @@ const REVOKE_PHONE_NUMBER_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/revokePhoneNumbe
 const MIGRATE_PHONE_VERIFICATION_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/migrateASv1Verification`
 const MIGRATE_PHONE_VERIFICATION_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/migrateASv1Verification`
 
-const CELO_EXPLORER_BASE_TX_URL_ALFAJORES = 'https://explorer.celo.org/alfajores/tx/'
-const CELO_EXPLORER_BASE_TX_URL_MAINNET = 'https://explorer.celo.org/mainnet/tx/'
+const CELO_EXPLORER_BASE_URL_ALFAJORES = 'https://explorer.celo.org/alfajores'
+const CELO_EXPLORER_BASE_URL_MAINNET = 'https://explorer.celo.org/mainnet'
+
+const CELO_EXPLORER_BASE_TX_URL_ALFAJORES = `${CELO_EXPLORER_BASE_URL_ALFAJORES}/tx/`
+const CELO_EXPLORER_BASE_TX_URL_MAINNET = `${CELO_EXPLORER_BASE_URL_MAINNET}/tx/`
+
+const CELO_EXPLORER_BASE_ADDRESS_URL_ALFAJORES = `${CELO_EXPLORER_BASE_URL_ALFAJORES}/address/`
+const CELO_EXPLORER_BASE_ADDRESS_URL_MAINNET = `${CELO_EXPLORER_BASE_URL_MAINNET}/address/`
 
 const NFTS_VALORA_APP_URL = 'https://nfts.valoraapp.com/'
 
@@ -141,6 +148,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     fetchExchangesUrl: FETCH_EXCHANGES_URL_ALFAJORES,
     nftsValoraAppUrl: NFTS_VALORA_APP_URL,
     celoExplorerBaseTxUrl: CELO_EXPLORER_BASE_TX_URL_ALFAJORES,
+    celoExplorerBaseAddressUrl: CELO_EXPLORER_BASE_ADDRESS_URL_ALFAJORES,
     approveSwapUrl: APPROVE_SWAP_URL,
     executeSwapUrl: EXECUTE_SWAP_URL,
     verifyPhoneNumberUrl: VERIFY_PHONE_NUMBER_ALFAJORES,
@@ -175,6 +183,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     fetchExchangesUrl: FETCH_EXCHANGES_URL_MAINNET,
     nftsValoraAppUrl: NFTS_VALORA_APP_URL,
     celoExplorerBaseTxUrl: CELO_EXPLORER_BASE_TX_URL_MAINNET,
+    celoExplorerBaseAddressUrl: CELO_EXPLORER_BASE_ADDRESS_URL_MAINNET,
     approveSwapUrl: APPROVE_SWAP_URL,
     executeSwapUrl: EXECUTE_SWAP_URL,
     verifyPhoneNumberUrl: VERIFY_PHONE_NUMBER_MAINNET,

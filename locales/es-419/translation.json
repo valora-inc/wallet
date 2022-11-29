@@ -386,7 +386,7 @@
   "pinInputCanceled": "Debes ingresar un PIN. Vuelve a intentarlo.",
   "setPinFailed": "Error de configuración del PIN",
   "optIn": "Suscribirse",
-  "invalidInvite": "Código de invitación inválido",
+  "invalidInvite": "Código inválido",
   "inviteFriends": "Invitar amigos",
   "account": "Cuenta",
   "invalidAccount": "Cuenta inválida",
@@ -560,7 +560,7 @@
   "transferDollarsToAccount": "¡Hemos transferidos los fondos a tu cuenta!",
   "inviteAnyone": "Haz que enviar fondos a tus amigos sea aún más fácil con solo conectar tu lista de contactos",
   "inviteReceived": "Invitación recibida",
-  "escrowPaymentNotificationTitle": "La invitación a {{mobile}} no se puede reclamar",
+  "escrowPaymentNotificationTitle": "{{mobile}} no podrá redimir su invitación",
   "inviteDialog": {
     "title": "Invita a un amigo",
     "body": "Conéctate y comparte valor con tus amigos y familia en Valora.",
@@ -570,7 +570,7 @@
   "inviteAndSendDialog": {
     "title": "Completa la invitación de {{name}} a Valora",
     "bodyWithRewards": "Una vez que tu destinatario descargue la app y conecte su número de teléfono, ambos recibirán un NFT. Toca para enviar una invitación personalizada.",
-    "body": "Comparte un mensaje de invitación con {{name}} para que se una a {{appName}}. Una vez que se unan y conecten un número de teléfono, recibirán tu pago.",
+    "body": "Comparte un mensaje de invitación con {{name}}. Una vez que se una a {{appName}} y conecte un número de teléfono, recibirá tu pago.",
     "button": "Completar invitación"
   },
   "inviteRewardsBanner": {
@@ -1079,10 +1079,10 @@
   "balanceNeedUpdating": "Es necesario actualizar el saldo",
   "refreshBalances": "Actualizar saldos",
   "escrowedPaymentReminder": "Invitaciones pendientes",
-  "escrowedPaymentReminderSummaryTitle": "{{count}} Onvites pendientes",
-  "escrowedPaymentReminderSummaryDetails_exactly2Items": "<0></0> y <1></1> no podrán reclamar sus invitaciones",
-  "escrowedPaymentReminderSummaryDetails_exactly3Items": "<0></0>, <1></1> y otro más no podrán reclamar sus invitaciones",
-  "escrowedPaymentReminderSummaryDetails_moreThan3Items": "<0></0>, <1></1> y otros no podrán reclamar sus invitaciones",
+  "escrowedPaymentReminderSummaryTitle": "{{count}} invitaciones pendientes",
+  "escrowedPaymentReminderSummaryDetails_exactly2Items": "<0></0> y <1></1> no podrán redimir sus invitaciones",
+  "escrowedPaymentReminderSummaryDetails_exactly3Items": "<0></0>, <1></1> y otro no podrán redimir sus invitaciones",
+  "escrowedPaymentReminderSummaryDetails_moreThan3Items": "<0></0>, <1></1> y otros no podrán redimir sus invitaciones",
   "escrowedPaymentReminderSmsNoData": "Un recordatorio amigable de que aún no has reclamado tus {{currency}} con {{appName}}. ¡Descarga la aplicación móvil para empezar!",
   "testnetAlert": {
     "0": "{{testnet}}",
@@ -1290,9 +1290,15 @@
     "idRequired": "Requiere identificación",
     "numDays": "1-3 días",
     "oneHour": "Menos de 1 hora",
-    "lessThan24Hours": "Menos de 24 horas",
+    "lessThan24Hours": "Menos de 24 horas",
     "bestRate": "Mejor tarifa",
-    "header": "Selecciona el método de pago"
+    "header": "Selecciona el método de pago",
+    "newLabel": "NUEVO",
+    "newDialog": {
+      "title": "Nuevas formas de transferir fondos",
+      "body": "Estamos lanzando nuevas formas de transferir fondos a y desde cuentas bancarias, directamente desde la aplicación de Valora.\n\nSi ves esto, significa que puedes acceder a esta función en tu región.",
+      "dismiss": "Descartar"
+    }
   },
   "fiatConnectLinkAccountScreen": {
     "bankAccount": {
@@ -1301,9 +1307,9 @@
       "description": "Ingresa los datos bancarios para transferir fondos. Estos servicios te serán proporcionados por <0>{{providerName}}</0>. Si eliges continuar, aceptas sus <1>Términos y condiciones</1> y su <2>Política de privacidad</2>."
     },
     "mobileMoney": {
-      "header": "Configurar el dinero móvil",
-      "bodyTitle": "Configurar el dinero móvil",
-      "description": "Introduce los datos del dinero móvil para transferir fondos. Estos servicios te serán proporcionados por <0>{{providerName}}</0>.\n\nAl hacer clic en continuar, aceptas sus <1>Términos y Condiciones</1> y su <2>Política de Privacidad</2>"
+      "header": "Configurar cuenta digital",
+      "bodyTitle": "Configurar cuenta digital",
+      "description": "Ingresa los datos de tu cuenta digital para transferir fondos. Estos servicios te serán proporcionados por <0>{{providerName}}</0>.\n\nSi eliges continuar, aceptas sus <1>Términos y condiciones</1> y su <2>Política de privacidad</2>."
     },
     "continue": "Continuar"
   },
@@ -1350,8 +1356,8 @@
     "cashIn": {
       "header": "Revisión - Agregar fondos",
       "button": "Agregar fondos",
-      "transactionDetailsAmount": "Total Deposit",
-      "transactionDetailsAmountConverted": "Amount Deposited",
+      "transactionDetailsAmount": "Depósito total",
+      "transactionDetailsAmountConverted": "Monto depositado",
       "paymentMethodHeader": "Depositar desde"
     },
     "cashOut": {
@@ -1374,16 +1380,17 @@
   },
   "fiatConnectStatusScreen": {
     "tryAgain": "Reintentar",
+    "stillProcessing": "Por favor, espera mientras procesamos tu transacción.",
     "cashOut": {
       "cancel": "Cancelar retiro",
       "contactSupportPrefill": "Tengo problemas para retirar mis fondos."
     },
     "cashIn": {
-      "cancel": "Cancelar Añadir fondos",
-      "contactSupportPrefill": "Tengo problemas para añadir fondos a mi monedero de Valora."
+      "cancel": "Cancelar acción",
+      "contactSupportPrefill": "Tengo problemas para agregar fondos."
     },
     "success": {
-      "header": "Retiro exitoso",
+      "header": "Operación exitosa",
       "title": "¡Tus fondos están en camino!",
       "description": "Tu solicitud ha sido enviada y tus fondos llegarán en {{duration}}.",
       "txDetails": "Ver en CeloExplorer",
@@ -1392,6 +1399,10 @@
     "requestNotCompleted": {
       "title": "No se ha podido completar tu solicitud.",
       "description": "No fue posible transferir tus fondos. Inténtalo de nuevo o comunícate con nuestro equipo de soporte técnico para obtener ayuda."
+    },
+    "txProcessing": {
+      "title": "Tu transacción está en proceso.",
+      "description": "Esto puede deberse a una mala conexión a Internet. Consulta CeloExplorer para ver información actualizada."
     }
   },
   "fiatExchangeFlow": {
@@ -1416,7 +1427,8 @@
     }
   },
   "fiatDetailsScreen": {
-    "header": "Ingresa los datos bancarios",
+    "headerBankAccount": "Ingresa los datos bancarios",
+    "headerMobileMoney": "Ingresa los datos de tu cuenta digital",
     "headerSubTitle": "Con tecnología de {{provider}}",
     "selectedPaymentOption": "Método de pago seleccionado",
     "addFiatAccountSuccess": "Se conectó tu cuenta a {{provider}}.",
@@ -1436,6 +1448,21 @@
       "placeholderText": "Ingresa el número de cuenta",
       "errorMessageDigitLength": "El número de cuenta debe tener {{length}} dígitos",
       "errorMessageDigit": "El número de cuenta debe contener sólo dígitos"
+    },
+    "mobileMoney": {
+      "operator": {
+        "label": "Red"
+      },
+      "mobile": {
+        "label": "Número de teléfono",
+        "placeholderText": "+234123234566",
+        "errorMessage": "Número de teléfono inválido"
+      },
+      "mobileDialog": {
+        "title": "Número de teléfono",
+        "body": "Utiliza el número de teléfono registrado en tu proveedor de dinero digital. Este podría no ser el mismo que tu número de teléfono asociado a Valora.\n\nLos números de teléfono deben incluir el código del país que se muestra junto al número de teléfono.",
+        "dismiss": "Ignorar"
+      }
     },
     "ibanNumber": {
       "label": "IBAN",
@@ -1505,7 +1532,7 @@
     "shareMessage": "Me gustaría enviarte cripto con mi wallet {{appName}}. Una vez que descargues la aplicación y conectes tu número de teléfono, podremos enviar cripto tan fácil como enviar un mensaje. Utiliza este enlace: {{link}}",
     "rewardsActive": {
       "title": "Invita a {{contactName}} a {{appName}}. ¡Ambos recibirán un NFT!",
-      "body": "Parece que {{contactName}} no está en {{appName}}. Si conoces la dirección de su monedero, puedes enviar un pago o enviar una invitación. \n\n Después de que descarguen el monedero y conecten su número de teléfono, ambos obtendréis un NFT exclusivo."
+      "body": "Parece que {{contactName}} no está en {{appName}}. Si conoces su Dirección de cuenta, envía el pago a su billetera, o bien envíale una invitación. \n\nUna vez de que descargue la app y conecte su número de teléfono, ambos obtendrán un NFT exclusivo."
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
