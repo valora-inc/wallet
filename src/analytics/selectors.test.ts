@@ -3,8 +3,6 @@ import { getCurrentUserTraits } from 'src/analytics/selectors'
 import { Currency } from 'src/utils/currencies'
 import { getMockStoreData } from 'test/utils'
 
-jest.mock('@celo/phone-utils')
-
 describe('getCurrentUserTraits', () => {
   it('returns the current user traits', () => {
     const state = getMockStoreData({
