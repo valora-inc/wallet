@@ -11,6 +11,8 @@ import { getContractKitAsync } from 'src/web3/contracts'
 import { mtwAddressSelector } from 'src/web3/selectors'
 import { mockAccount, mockE164Number, mockE164NumberPepper } from 'test/values'
 
+jest.mock('@celo/phone-number-privacy-common')
+
 const now = Date.now()
 Date.now = jest.fn(() => now)
 

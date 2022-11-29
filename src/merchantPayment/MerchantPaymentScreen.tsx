@@ -1,4 +1,3 @@
-import { AbortCodes } from '@celo/payments-types'
 import { useNavigation } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useCallback, useEffect, useRef } from 'react'
@@ -7,7 +6,6 @@ import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { showError, showMessage } from 'src/alert/actions'
-import ContactCircle from 'src/components/ContactCircle'
 import ReviewFrame from 'src/components/ReviewFrame'
 import TokenDisplay from 'src/components/TokenDisplay'
 import { BASE_TAG } from 'src/merchantPayment/constants'
@@ -35,27 +33,14 @@ function MerchantPaymentScreen({ route }: Props) {
   const tokenInfo = useTokenInfoBySymbol(Currency.Dollar)
   const tokenAddress = tokenInfo?.address
 
-  const { abort, amount, businessInformation, loading, submit, paymentStatus, chargeError } =
-    useMerchantPayments(routeParams.apiBase, routeParams.referenceId)
+  const { amount, loading, submit, paymentStatus, chargeError } = useMerchantPayments(
+    routeParams.apiBase,
+    routeParams.referenceId
+  )
 
   const abortSubscriptionHandler = useCallback(
     (e) => {
       if (loading) return
-
-      switch (paymentStatus) {
-        case PaymentStatus.Initial:
-          void abort(AbortCodes.CUSTOMER_DECLINED)
-          break
-
-        case PaymentStatus.Errored:
-          void abort(AbortCodes.GENERAL)
-          break
-
-        case PaymentStatus.Pending:
-        case PaymentStatus.Done:
-        default:
-          break
-      }
     },
     [loading, paymentStatus]
   )
@@ -120,44 +105,13 @@ function MerchantPaymentScreen({ route }: Props) {
         >
           <View style={styles.transferContainer}>
             <Text style={styles.description}>{t('merchantMoneyEscrow')}</Text>
-            <View style={styles.headerContainer}>
-              <ContactCircle
-                recipient={{
-                  name: businessInformation?.name,
-                  thumbnailPath: businessInformation?.imageUrl,
-                  address: businessInformation?.address?.city || 'Missing address', // TODO: what do we do here
-                }}
-              />
-              <View style={styles.recipientInfoContainer}>
-                <Text style={styles.headerText} testID="HeaderText">
-                  {t('sending')}
-                </Text>
-                <Text style={styles.displayName}>{businessInformation?.name}</Text>
-              </View>
-            </View>
+            <View style={styles.headerContainer}></View>
             <TokenDisplay
               style={styles.amount}
               amount={amount}
               tokenAddress={tokenAddress}
               showLocalAmount={true}
             />
-            {!!businessInformation && (
-              <View>
-                <Text style={styles.address}>
-                  {businessInformation.legalName}
-                  {'\n'}
-                  {businessInformation.address.line1}
-                  {'\n'}
-                  {businessInformation.address.line2}
-                  {'\n'}
-                  {businessInformation.address.city}, {businessInformation.address.state + ' '}
-                  {businessInformation.address.postalCode}
-                  {'\n'}
-                  {/*businessInformation.address.country*/}
-                  {/*'\n'*/}
-                </Text>
-              </View>
-            )}
           </View>
         </ReviewFrame>
       )}
@@ -185,20 +139,6 @@ const styles = StyleSheet.create({
   headerContainer: {
     flexDirection: 'row',
     alignItems: 'flex-start',
-  },
-  recipientInfoContainer: {
-    paddingLeft: 8,
-  },
-  headerText: {
-    ...fontStyles.regular,
-    color: colors.gray4,
-  },
-  displayName: {
-    ...fontStyles.regular500,
-  },
-  address: {
-    ...fontStyles.regular,
-    paddingRight: 4,
   },
   amount: {
     paddingVertical: 8,

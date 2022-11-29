@@ -9,7 +9,6 @@ import { e164NumberSelector } from 'src/account/selectors'
 import { IdentityEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import networkConfig from 'src/web3/networkConfig'
 import { updateE164PhoneNumberSalts } from 'src/identity/actions'
 import { ReactBlsBlindingClient } from 'src/identity/bls-blinding-client'
 import { E164NumberToSaltType } from 'src/identity/reducer'
@@ -25,6 +24,7 @@ import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { isBalanceSufficientForSigRetrievalSelector } from 'src/verify/reducer'
 import { getAuthSignerForAccount } from 'src/web3/dataEncryptionKey'
+import networkConfig from 'src/web3/networkConfig'
 import { getAccount, getAccountAddress, unlockAccount, UnlockResult } from 'src/web3/saga'
 import { currentAccountSelector, dataEncryptionKeySelector } from 'src/web3/selectors'
 
@@ -134,6 +134,7 @@ function* getPhoneHashPrivate(e164Number: string, selfPhoneHash?: string) {
       accountAddress,
       authSigner,
       serviceContext,
+      blindingFactor,
       selfPhoneHash,
       DeviceInfo.getVersion(),
       blsBlindingClient

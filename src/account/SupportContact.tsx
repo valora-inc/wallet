@@ -1,4 +1,3 @@
-import { anonymizedPhone } from '@celo/phone-utils'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -68,7 +67,7 @@ function SupportContact({ route }: Props) {
       numberVerifiedCentralized,
       network: DEFAULT_TESTNET,
     }
-    const userId = e164PhoneNumber ? anonymizedPhone(e164PhoneNumber) : t('unknown')
+    const userId = e164PhoneNumber ? e164PhoneNumber.slice(0, -4) + 'XXXX' : t('unknown')
     const email: Email = {
       subject: t('supportEmailSubject', { appName: APP_NAME, user: userId }),
       recipients: [CELO_SUPPORT_EMAIL_ADDRESS],
