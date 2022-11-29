@@ -1292,7 +1292,13 @@
     "oneHour": "1 Saatten Az",
     "lessThan24Hours": "24 Saatten Az",
     "bestRate": "En İyi Oran",
-    "header": "Ödeme Yöntemi Seç"
+    "header": "Ödeme Yöntemi Seç",
+    "newLabel": "YENİ",
+    "newDialog": {
+      "title": "Fon transferi için yeni yollar",
+      "body": "Doğrudan Valora uygulamasından banka hesaplarına ve banka hesaplarından para transfer etmenin yeni yollarını yayınlıyoruz.\n\nBunu görüyorsanız, bölgenizde bu özelliğe erişebildiğiniz anlamına gelir.",
+      "dismiss": "Yoksay"
+    }
   },
   "fiatConnectLinkAccountScreen": {
     "bankAccount": {

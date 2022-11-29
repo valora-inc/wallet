@@ -1290,7 +1290,13 @@
     "oneHour": "小于 1 小时",
     "lessThan24Hours": "24 小时内",
     "bestRate": "最佳费率",
-    "header": "选择付款方式"
+    "header": "选择付款方式",
+    "newLabel": "新的",
+    "newDialog": {
+      "title": "转移资金的新方法",
+      "body": "我们正在发布直接从Valora应用程序向银行账户转账的新方法。\n\n如果你看到这个，这意味着你在你的地区能够访问这个功能。",
+      "dismiss": "忽略"
+    }
   },
   "fiatConnectLinkAccountScreen": {
     "bankAccount": {

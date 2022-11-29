@@ -1292,7 +1292,13 @@
     "oneHour": "Menos de 1 hora",
     "lessThan24Hours": "Menos de 24 horas",
     "bestRate": "Mejor tarifa",
-    "header": "Selecciona el método de pago"
+    "header": "Selecciona el método de pago",
+    "newLabel": "NUEVO",
+    "newDialog": {
+      "title": "Nuevas formas de transferir fondos",
+      "body": "Estamos lanzando nuevas formas de transferir fondos a y desde cuentas bancarias, directamente desde la aplicación de Valora.\n\nSi ves esto, significa que puedes acceder a esta función en tu región.",
+      "dismiss": "Descartar"
+    }
   },
   "fiatConnectLinkAccountScreen": {
     "bankAccount": {
