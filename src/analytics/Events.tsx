@@ -434,7 +434,8 @@ export enum FiatExchangeEvents {
 
   cico_providers_back = 'cico_providers_back', // User presses the back button from the Select Providers screen
   cico_providers_unavailable_impression = 'cico_providers_unavailable_impression', // User sees a blurb about providers unavailable
-  cico_providers_unavailable_selected = 'cico_providers_unavailable_selected', // User taps a blurb about providers unavalable
+  cico_providers_unavailable_selected = 'cico_providers_unavailable_selected', // User taps a blurb about providers unavailable
+  cico_providers_new_info_opened = 'cico_providers_new_info_opened', // User taps on the new label and views the dialog
 
   // Cash In Success Screen
   cash_in_success = 'cash_in_success', // Screen users are (most of the time) redirected to after cash in with external providers
