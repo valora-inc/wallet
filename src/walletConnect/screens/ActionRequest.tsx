@@ -36,6 +36,8 @@ function getRequestInfo(pendingAction: WalletConnectPayloadRequest, session: Wal
     params: pendingAction.params,
   }
 }
+
+// do not destructure props or else the type inference is lost
 function ActionRequest(props: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()

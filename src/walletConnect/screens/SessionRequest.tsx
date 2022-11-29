@@ -58,7 +58,7 @@ function SessionRequest(props: Props) {
     if (props.version === 1) {
       dispatch(acceptSessionV1(props.pendingSession))
     } else {
-      dispatch(acceptSessionV2(props.pendingSession.id))
+      dispatch(acceptSessionV2(props.pendingSession))
     }
   }
 
@@ -66,7 +66,7 @@ function SessionRequest(props: Props) {
     if (props.version === 1) {
       dispatch(denySessionV1(props.pendingSession))
     } else {
-      dispatch(denySessionV2(props.pendingSession.id))
+      dispatch(denySessionV2(props.pendingSession))
     }
   }
 

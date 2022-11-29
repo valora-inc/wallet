@@ -15,9 +15,10 @@ import { WALLET_CONNECT_PROJECT_ID } from 'src/config'
 import { activeDappSelector } from 'src/dapps/selectors'
 import { ActiveDapp } from 'src/dapps/types'
 import i18n from 'src/i18n'
-import { navigate } from 'src/navigator/NavigationService'
+import { isBottomSheetVisible, navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import Logger from 'src/utils/Logger'
+import { showWalletConnectionSuccessMessage } from 'src/walletConnect/saga'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
 import {
   AcceptSession,
@@ -34,7 +35,7 @@ import {
   sessionUpdated,
   WalletConnectActions,
 } from 'src/walletConnect/v2/actions'
-import { selectSessions } from 'src/walletConnect/v2/selectors'
+import { selectHasPendingState, selectSessions } from 'src/walletConnect/v2/selectors'
 import networkConfig from 'src/web3/networkConfig'
 import { getWalletAddress } from 'src/web3/saga'
 
@@ -184,7 +185,7 @@ function* showSessionRequest(session: SignClientTypes.EventArguments['session_pr
   })
 }
 
-function* acceptSession({ id }: AcceptSession) {
+function* acceptSession({ session }: AcceptSession) {
   // TODO analytics
   try {
     if (!client) {
@@ -192,15 +193,7 @@ function* acceptSession({ id }: AcceptSession) {
     }
 
     const address: string = yield call(getWalletAddress)
-    const { pending }: { pending: SignClientTypes.EventArguments['session_proposal'][] } =
-      yield select(selectSessions)
-    const proposal = pending.find((session) => session.id === id)
-
-    if (!proposal) {
-      // shouldn't happen
-    }
-
-    const { requiredNamespaces, relays } = proposal!.params
+    const { requiredNamespaces, relays, proposer } = session.params
     const namespaces: SessionTypes.Namespaces = {}
     Object.keys(requiredNamespaces).forEach((key) => {
       const accounts: string[] = []
@@ -215,19 +208,29 @@ function* acceptSession({ id }: AcceptSession) {
     })
 
     const { acknowledged } = yield call([client, 'approve'], {
-      id,
+      id: session.id,
       relayProtocol: relays[0].protocol,
       namespaces,
     })
 
     yield call(acknowledged)
 
-    // yield call(showWalletConnectionSuccessMessage, session.proposer.metadata.name)
+    yield call(showWalletConnectionSuccessMessage, proposer.metadata.name)
   } catch (e) {
     Logger.debug(TAG + '@acceptSession', e.message)
   }
 
-  // yield call(handlePendingStateOrNavigateBack)
+  yield call(handlePendingStateOrNavigateBack)
+}
+
+function* handlePendingStateOrNavigateBack() {
+  const hasPendingState: boolean = yield select(selectHasPendingState)
+
+  if (hasPendingState) {
+    // yield call(handlePendingState)
+  } else if (yield call(isBottomSheetVisible, Screens.WalletConnectRequest)) {
+    navigateBack()
+  }
 }
 
 export function* walletConnectV2Saga() {
