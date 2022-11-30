@@ -931,6 +931,22 @@
                 "imageUrl": {
                     "type": "string"
                 },
+                "isNew": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "in": {
+                            "type": "boolean"
+                        },
+                        "out": {
+                            "type": "boolean"
+                        }
+                    },
+                    "required": [
+                        "in",
+                        "out"
+                    ],
+                    "type": "object"
+                },
                 "privacyPolicyUrl": {
                     "type": "string"
                 },
@@ -949,6 +965,7 @@
                 "iconUrl",
                 "id",
                 "imageUrl",
+                "isNew",
                 "privacyPolicyUrl",
                 "providerName",
                 "termsAndConditionsUrl",
