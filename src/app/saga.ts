@@ -65,6 +65,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
+import { handlePaymentDeeplink } from 'src/send/utils'
 import { initializeSentry } from 'src/sentry/Sentry'
 import { isDeepLink, navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
@@ -291,6 +292,8 @@ export function* handleDeepLink(action: OpenDeepLink) {
     const pathParts = rawParams.path.split('/')
     if (rawParams.path.startsWith('/v/')) {
       yield put(receiveAttestationMessage(rawParams.path.substr(3), CodeInputType.DEEP_LINK))
+    } else if (rawParams.path.startsWith('/pay')) {
+      yield call(handlePaymentDeeplink, deepLink)
     } else if (rawParams.path.startsWith('/dappkit')) {
       yield call(handleDappkitDeepLink, deepLink)
     } else if (rawParams.path === '/cashIn') {
