@@ -84,7 +84,7 @@ import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import { buildAndSendPayment } from 'src/send/saga'
 import { tokensListSelector } from 'src/tokens/selectors'
 import { newTransactionContext, TransactionContext } from 'src/transactions/types'
-import { FiatConnectTransferOutError } from 'src/fiatconnect/types'
+import { FiatConnectTxError } from 'src/fiatconnect/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { walletAddressSelector } from 'src/web3/selectors'
@@ -125,9 +125,7 @@ jest.mock('src/in-house-liquidity', () => ({
   deleteKyc: jest.fn(),
 }))
 
-jest.mock('src/transactions/send', () => ({
-  isTxPossiblyPending: jest.fn(),
-}))
+jest.mock('src/transactions/send')
 
 describe('Fiatconnect saga', () => {
   const provideDelay = ({ fn }: { fn: any }, next: any) => (fn.name === 'delayP' ? null : next())
@@ -1827,7 +1825,7 @@ describe('Fiatconnect saga', () => {
           .returns('0x12345')
           .run()
       ).rejects.toThrow(
-        new FiatConnectTransferOutError(
+        new FiatConnectTxError(
           'Error while attempting to send funds for FiatConnect transfer out',
           false,
           new Error('error is safe to retry')
@@ -1873,7 +1871,7 @@ describe('Fiatconnect saga', () => {
           .returns('0x12345')
           .run()
       ).rejects.toThrow(
-        new FiatConnectTransferOutError(
+        new FiatConnectTxError(
           'Error while attempting to send funds for FiatConnect transfer out',
           true,
           new Error(ErrorMessages.TRANSACTION_TIMEOUT)
@@ -1919,7 +1917,7 @@ describe('Fiatconnect saga', () => {
           .returns('0x12345')
           .run()
       ).rejects.toThrow(
-        new FiatConnectTransferOutError(
+        new FiatConnectTxError(
           'Error while attempting to send funds for FiatConnect transfer out',
           true,
           new Error('unsafe error')
@@ -2033,11 +2031,7 @@ describe('Fiatconnect saga', () => {
                 fiatConnectQuote: transferOutFcQuote,
               }),
               throwError(
-                new FiatConnectTransferOutError(
-                  'some error',
-                  true,
-                  new Error('some internal error')
-                )
+                new FiatConnectTxError('some error', true, new Error('some internal error'))
               ),
             ],
           ])
@@ -2073,11 +2067,7 @@ describe('Fiatconnect saga', () => {
                 fiatConnectQuote: transferOutFcQuote,
               }),
               throwError(
-                new FiatConnectTransferOutError(
-                  'some error',
-                  false,
-                  new Error('some internal error')
-                )
+                new FiatConnectTxError('some error', false, new Error('some internal error'))
               ),
             ],
           ])

@@ -15,7 +15,7 @@ import {
   PostFiatAccountResponse,
   TransferResponse,
 } from '@fiatconnect/fiatconnect-types'
-import { FiatConnectTransferOutError } from 'src/fiatconnect/types'
+import { FiatConnectTxError } from 'src/fiatconnect/types'
 import BigNumber from 'bignumber.js'
 import { call, delay, put, select, spawn, takeLeading } from 'redux-saga/effects'
 import { KycStatus as PersonaKycStatus } from 'src/account/reducer'
@@ -977,7 +977,7 @@ export function* _initiateSendTxToProvider({
     // this check is not perfect; there may be false positives/negatives.
     const txPossiblyPending =
       error?.message === ErrorMessages.TRANSACTION_TIMEOUT || isTxPossiblyPending(error)
-    throw new FiatConnectTransferOutError(
+    throw new FiatConnectTxError(
       'Error while attempting to send funds for FiatConnect transfer out',
       txPossiblyPending,
       error
@@ -1027,7 +1027,7 @@ export function* handleCreateFiatConnectTransfer(
       provider: fiatConnectQuote.getProviderId(),
     })
 
-    if (err instanceof FiatConnectTransferOutError) {
+    if (err instanceof FiatConnectTxError) {
       if (err.txPossiblyPending) {
         yield put(createFiatConnectTransferTxProcessing({ flow, quoteId }))
         return

@@ -336,14 +336,14 @@ export function isTxPossiblyPending(err: any): boolean {
 
   // Geth already knows about the tx of this nonce, no point in resending it
   if (message.includes(KNOWN_TX_ERROR)) {
-    Logger.error(`${TAG}@shouldTxFailureRetry`, 'Known transaction error. Will not reattempt.')
+    Logger.error(`${TAG}@isTxPossiblyPending`, 'Known transaction error. Will not reattempt.')
     return true
   }
 
   // Nonce too low, probably because the tx already went through
   if (message.includes(NONCE_TOO_LOW_ERROR)) {
     Logger.error(
-      `${TAG}@shouldTxFailureRetry`,
+      `${TAG}@isTxPossiblyPending`,
       'Nonce too low, possible from retrying. Will not reattempt.'
     )
     return true
