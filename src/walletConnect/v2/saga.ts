@@ -274,17 +274,17 @@ function* denySession({ session }: DenySession) {
 }
 
 function* handleAcceptRequest({ request }: AcceptRequest) {
-  if (!client) {
-    throw new Error('Missing client')
-  }
-
-  const { topic, id, params } = request
-  const activeSession = client.session.values.find((value) => value.topic === request.topic)
-  if (!activeSession) {
-    throw new Error(`Missing active session for topic ${topic}`)
-  }
-
   try {
+    if (!client) {
+      throw new Error('Missing client')
+    }
+
+    const { topic, id, params } = request
+    const activeSession = client.session.values.find((value) => value.topic === request.topic)
+    if (!activeSession) {
+      throw new Error(`Missing active session for topic ${topic}`)
+    }
+
     const result = yield call(handleRequest, { ...params.request })
     const response: JsonRpcResult<string> = formatJsonRpcResult(id, result)
     yield call([client, 'respond'], { topic, response })
@@ -297,13 +297,12 @@ function* handleAcceptRequest({ request }: AcceptRequest) {
 }
 
 function* handleDenyRequest({ request, reason }: DenyRequest) {
-  if (!client) {
-    throw new Error('Missing client')
-  }
-
-  const { topic, id } = request
-
   try {
+    if (!client) {
+      throw new Error('Missing client')
+    }
+
+    const { topic, id } = request
     const response = formatJsonRpcError(id, reason.message)
     yield call([client, 'respond'], { topic, response })
   } catch (e) {
