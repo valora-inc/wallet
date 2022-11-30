@@ -454,9 +454,6 @@ PODS:
     - React-Core
   - react-native-netinfo (5.8.0):
     - React-Core
-  - react-native-plaid-link-sdk (7.2.1):
-    - Plaid (~> 2.3.2)
-    - React-Core
   - react-native-randombytes (3.6.0):
     - React-Core
   - react-native-safe-area-context (3.4.1):
@@ -741,7 +738,6 @@ DEPENDENCIES:
   - react-native-keep-awake (from `../node_modules/react-native-keep-awake`)
   - react-native-mail (from `../node_modules/react-native-mail`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
-  - react-native-plaid-link-sdk (from `../node_modules/react-native-plaid-link-sdk`)
   - react-native-randombytes (from `../node_modules/react-native-randombytes`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-shake (from `../node_modules/react-native-shake`)
@@ -909,8 +905,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-mail"
   react-native-netinfo:
     :path: "../node_modules/@react-native-community/netinfo"
-  react-native-plaid-link-sdk:
-    :path: "../node_modules/react-native-plaid-link-sdk"
   react-native-randombytes:
     :path: "../node_modules/react-native-randombytes"
   react-native-safe-area-context:
@@ -1084,7 +1078,6 @@ SPEC CHECKSUMS:
   react-native-keep-awake: 6c078705f3fb2586963b13588d31148adc6bd128
   react-native-mail: 8fdcd3aef007c33a6877a18eb4cf7447a1d4ce4a
   react-native-netinfo: f3f52e6d92372003b78d5cafa3557797c7beee47
-  react-native-plaid-link-sdk: 33cb904b956dc3b56799ac3027de8aa6fbb4b0ab
   react-native-randombytes: b6677f7d495c27e9ee0dbd77ebc97b3c59173729
   react-native-safe-area-context: 9e40fb181dac02619414ba1294d6c2a807056ab9
   react-native-shake: 41a1ea8ec541fccf3f01566edef8d3cb722b00e3
