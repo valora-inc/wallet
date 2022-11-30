@@ -11,6 +11,7 @@ import TextButton from 'src/components/TextButton'
 import Touchable from 'src/components/Touchable'
 import { fiatConnectTransferSelector } from 'src/fiatconnect/selectors'
 import { FiatAccount, SendingTransferStatus } from 'src/fiatconnect/slice'
+import { SettlementTime } from 'src/fiatExchanges/quotes/constants'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import CheckmarkCircle from 'src/icons/CheckmarkCircle'
@@ -21,13 +22,13 @@ import { emptyHeader } from 'src/navigator/Headers'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import appTheme from 'src/styles/appTheme'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
-import { walletAddressSelector } from 'src/web3/selectors'
 import networkConfig from 'src/web3/networkConfig'
-import appTheme from 'src/styles/appTheme'
+import { walletAddressSelector } from 'src/web3/selectors'
 
 const LOADING_DESCRIPTION_TIMEOUT_MS = 8000
 
@@ -108,8 +109,6 @@ function SuccessOrProcessingSection({
   normalizedQuote: FiatConnectQuote
 }) {
   const { t } = useTranslation()
-  // TODO: Make sure there's fallback text if we can't get the estimate
-  const timeEstimation = normalizedQuote.getTimeEstimation()!
   const provider = normalizedQuote.getProviderId()
   const address = useSelector(walletAddressSelector)
   const uri = txHash
@@ -127,9 +126,20 @@ function SuccessOrProcessingSection({
     | FiatExchangeEvents.cico_fc_transfer_processing_view_tx
 
   if (status === SendingTransferStatus.Completed) {
+    const getDescriptionString = () => {
+      switch (normalizedQuote.getTimeEstimation()) {
+        case SettlementTime.LESS_THAN_24_HOURS:
+          return t('fiatConnectStatusScreen.success.description24Hours')
+        case SettlementTime.NUM_DAYS:
+          return t('fiatConnectStatusScreen.success.descriptionNumDays')
+        default:
+          // this should never happen, FC quotes don't return one hour
+          throw new Error('invalid settlement time')
+      }
+    }
     icon = <CheckmarkCircle />
     title = t('fiatConnectStatusScreen.success.title')
-    description = t('fiatConnectStatusScreen.success.description', { duration: timeEstimation })
+    description = getDescriptionString()
     continueEvent = FiatExchangeEvents.cico_fc_transfer_success_complete
     txDetailsEvent = FiatExchangeEvents.cico_fc_transfer_success_view_tx
   } else {

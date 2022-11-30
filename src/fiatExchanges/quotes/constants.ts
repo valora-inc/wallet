@@ -15,3 +15,9 @@ export const DEFAULT_ALLOWED_VALUES: DefaultAllowedValues = {
     operator: Object.keys(SupportedOperatorEnum),
   },
 }
+
+export enum SettlementTime {
+  ONE_HOUR = 'ONE_HOUR',
+  LESS_THAN_24_HOURS = 'LESS_THAN_24_HOURS',
+  NUM_DAYS = 'NUM_DAYS',
+}

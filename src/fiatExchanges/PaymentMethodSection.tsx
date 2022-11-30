@@ -8,6 +8,7 @@ import Dialog from 'src/components/Dialog'
 import Expandable from 'src/components/Expandable'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
+import { SettlementTime } from 'src/fiatExchanges/quotes/constants'
 import NormalizedQuote from 'src/fiatExchanges/quotes/NormalizedQuote'
 import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import InfoIcon from 'src/icons/InfoIcon'
@@ -157,24 +158,24 @@ export function PaymentMethodSection({
     </>
   )
 
-  const getDefaultSettlementTime = () => {
-    switch (paymentMethod) {
-      case PaymentMethod.Card:
+  const getSettlementTimeString = (settlementTime: SettlementTime) => {
+    switch (settlementTime) {
+      case SettlementTime.ONE_HOUR:
         return t('selectProviderScreen.oneHour')
-      case PaymentMethod.FiatConnectMobileMoney:
+      case SettlementTime.LESS_THAN_24_HOURS:
         return t('selectProviderScreen.lessThan24Hours')
-      case PaymentMethod.Bank:
+      case SettlementTime.NUM_DAYS:
         return t('selectProviderScreen.numDays')
       default:
         // this should never happen
-        throw new Error('invalid payment method')
+        throw new Error('invalid settlement time')
     }
   }
 
   const renderInfoText = (quote: NormalizedQuote) => {
     const kycInfo = quote.getKycInfo()
     const kycString = kycInfo ? `${kycInfo} | ` : ''
-    return `${kycString}${getDefaultSettlementTime()}`
+    return `${kycString}${getSettlementTimeString(quote.getTimeEstimation())}`
   }
 
   const renderFeeAmount = (normalizedQuote: NormalizedQuote, postFix: string) => {

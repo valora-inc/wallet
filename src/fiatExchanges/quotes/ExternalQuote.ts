@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js'
+import { SettlementTime } from 'src/fiatExchanges/quotes/constants'
 import NormalizedQuote from 'src/fiatExchanges/quotes/NormalizedQuote'
 import {
   CICOFlow,
@@ -83,8 +84,11 @@ export default class ExternalQuote extends NormalizedQuote {
     return strings.idRequired
   }
 
-  getTimeEstimation(): string | null {
-    return this.getPaymentMethod() === PaymentMethod.Bank ? strings.numDays : strings.oneHour
+  getTimeEstimation(): SettlementTime {
+    // payment method can only be bank or card
+    return this.getPaymentMethod() === PaymentMethod.Bank
+      ? SettlementTime.NUM_DAYS
+      : SettlementTime.ONE_HOUR
   }
 
   navigate(): void {
