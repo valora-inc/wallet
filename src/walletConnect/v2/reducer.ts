@@ -58,12 +58,12 @@ export const reducer = (
     case Actions.SESSION_DELETED_V2:
       return {
         ...state,
-        sessions: state.sessions.filter((session) => session.topic !== action.topic),
+        sessions: state.sessions.filter((session) => session.topic !== action.session.topic),
         pendingSessions: state.pendingSessions.filter(
-          (pendingSession) => pendingSession.id !== action.id
+          (pendingSession) => pendingSession.id !== action.session.id
         ),
         pendingActions: state.pendingActions.filter(
-          (pendingAction) => pendingAction.topic !== action.topic
+          (pendingAction) => pendingAction.topic !== action.session.topic
         ),
       }
     case Actions.SESSION_PAYLOAD_V2:

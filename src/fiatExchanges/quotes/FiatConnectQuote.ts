@@ -169,6 +169,12 @@ export default class FiatConnectQuote extends NormalizedQuote {
     return this.quote.provider.id
   }
 
+  isProviderNew(): boolean {
+    return this.flow === CICOFlow.CashIn
+      ? this.quote.provider.isNew.in
+      : this.quote.provider.isNew.out
+  }
+
   getProviderBaseUrl(): string {
     return this.quote.provider.baseUrl
   }
