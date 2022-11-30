@@ -17191,11 +17191,6 @@ react-native-picker-select@^8.0.4:
     "@react-native-picker/picker" "^1.8.3"
     lodash.isequal "^4.5.0"
 
-react-native-plaid-link-sdk@^7.2.1:
-  version "7.2.1"
-  resolved "https://registry.yarnpkg.com/react-native-plaid-link-sdk/-/react-native-plaid-link-sdk-7.2.1.tgz#89ae1674aad5ead0af6db999da00c807f16d54e1"
-  integrity sha512-K0CPZiP4Wm8i5Iqydp1WMlbrJQNuuNK46h/lXIcC+S6jdLwNEiTe/2/9915nEne0HuqXIMtLWEdNLkmkdAhobA==
-
 react-native-platform-touchable@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/react-native-platform-touchable/-/react-native-platform-touchable-1.1.1.tgz#fde4acc65eea585d28b164d0c3716a42129a68e4"
