@@ -80,7 +80,18 @@ export const reducer = (
             pendingAction.id !== action.request.id && pendingAction.topic !== action.request.topic
         ),
       }
-
+    case Actions.REMOVE_EXPIRED_SESSIONS_V2: {
+      const unexpiredSessions = state.sessions.filter((session) => session.expiry > action.date)
+      return {
+        ...state,
+        sessions: unexpiredSessions,
+        pendingActions: state.pendingActions.filter((pendingAction) =>
+          unexpiredSessions
+            .map((unexpiredSession) => unexpiredSession.topic)
+            .includes(pendingAction.topic)
+        ),
+      }
+    }
     default:
       return state
   }

@@ -21,6 +21,8 @@ export enum Actions {
   CLIENT_INITIALISED_V2 = 'WALLETCONNECT/CLIENT_INITIALISED_V2',
   CLIENT_DESTROYED_V2 = 'WALLETCONNECT/CLIENT_DESTROYED_V2',
 
+  REMOVE_EXPIRED_SESSIONS_V2 = 'WALLETCONNECT/REMOVE_EXPIRED_SESSIONS_V2',
+
   /**
    * Actions coming from the WalletConnect client
    */
@@ -72,6 +74,11 @@ export interface DenyRequest {
   reason: JsonRpcTypes.Error
 }
 
+export interface RemoveExpiredSessions {
+  type: Actions.REMOVE_EXPIRED_SESSIONS_V2
+  date: number
+}
+
 export interface InitialisePairing {
   type: Actions.INITIALISE_PAIRING_V2
   uri: string
@@ -117,6 +124,7 @@ export type UserActions =
   | ShowRequestDetails
   | AcceptRequest
   | DenyRequest
+  | RemoveExpiredSessions
 
 export const initialiseClient = (): InitialiseClient => ({
   type: Actions.INITIALISE_CLIENT_V2,
@@ -175,6 +183,11 @@ export const denyRequest = (
   type: Actions.DENY_REQUEST_V2,
   request,
   reason,
+})
+
+export const removeExpiredSessions = (date: number): RemoveExpiredSessions => ({
+  type: Actions.REMOVE_EXPIRED_SESSIONS_V2,
+  date,
 })
 
 export const clientInitialised = (): ClientInitialised => ({
