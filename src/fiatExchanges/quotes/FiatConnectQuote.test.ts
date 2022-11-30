@@ -97,7 +97,7 @@ describe('FiatConnectQuote', () => {
             new FiatConnectQuote({
               flow: CICOFlow.CashIn,
               quote: quoteData as FiatConnectQuoteSuccess,
-              fiatAccountType: fiatAccountType,
+              fiatAccountType,
             })
         ).not.toThrow()
       }
