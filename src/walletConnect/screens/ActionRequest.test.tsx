@@ -1,10 +1,19 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import { SignClientTypes } from '@walletconnect/types'
+import { getSdkError } from '@walletconnect/utils'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
 import { SupportedActions } from 'src/walletConnect/constants'
 import ActionRequest from 'src/walletConnect/screens/ActionRequest'
+import {
+  acceptRequest as acceptRequestV1,
+  denyRequest as denyRequestV1,
+} from 'src/walletConnect/v1/actions'
+import {
+  acceptRequest as acceptRequestV2,
+  denyRequest as denyRequestV2,
+} from 'src/walletConnect/v2/actions'
 import { createMockStore } from 'test/utils'
 
 describe('ActionRequest with WalletConnect V1', () => {
@@ -41,7 +50,7 @@ describe('ActionRequest with WalletConnect V1', () => {
     },
   })
 
-  afterEach(() => {
+  beforeEach(() => {
     store.clearActions()
   })
 
@@ -99,6 +108,28 @@ describe('ActionRequest with WalletConnect V1', () => {
       )
       fireEvent.press(getByText('action.details'))
       expect(getByText('action.emptyMessage')).toBeTruthy()
+    })
+
+    it('dispatches the correct action on press allow', () => {
+      const { getByText } = render(
+        <Provider store={store}>
+          <ActionRequest version={1} pendingAction={{ action, peerId }} />
+        </Provider>
+      )
+
+      fireEvent.press(getByText('allow'))
+      expect(store.getActions()).toEqual([acceptRequestV1(peerId, action)])
+    })
+
+    it('dispatches the correct action on press cancel', () => {
+      const { getByText } = render(
+        <Provider store={store}>
+          <ActionRequest version={1} pendingAction={{ action, peerId }} />
+        </Provider>
+      )
+
+      fireEvent.press(getByText('cancel'))
+      expect(store.getActions()).toEqual([denyRequestV1(peerId, action, 'User denied')])
     })
   })
 })
@@ -166,7 +197,7 @@ describe('ActionRequest with WalletConnect V2', () => {
     },
   })
 
-  afterEach(() => {
+  beforeEach(() => {
     store.clearActions()
   })
 
@@ -230,6 +261,30 @@ describe('ActionRequest with WalletConnect V2', () => {
       )
       fireEvent.press(getByText('action.details'))
       expect(getByText('action.emptyMessage')).toBeTruthy()
+    })
+
+    it('dispatches the correct action on press allow', () => {
+      const { getByText } = render(
+        <Provider store={store}>
+          <ActionRequest version={2} pendingAction={pendingAction} />
+        </Provider>
+      )
+
+      fireEvent.press(getByText('allow'))
+      expect(store.getActions()).toEqual([acceptRequestV2(pendingAction)])
+    })
+
+    it('dispatches the correct action on press cancel', () => {
+      const { getByText } = render(
+        <Provider store={store}>
+          <ActionRequest version={2} pendingAction={pendingAction} />
+        </Provider>
+      )
+
+      fireEvent.press(getByText('cancel'))
+      expect(store.getActions()).toEqual([
+        denyRequestV2(pendingAction, getSdkError('USER_REJECTED')),
+      ])
     })
   })
 })
