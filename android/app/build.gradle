@@ -297,7 +297,6 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     implementation 'com.squareup.okhttp3:okhttp-urlconnection:4.9.0'
-    implementation project(':react-native-plaid-link-sdk')
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion
