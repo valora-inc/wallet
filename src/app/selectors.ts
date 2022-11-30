@@ -113,8 +113,7 @@ export const skipVerificationSelector = (state: RootState) => state.app.skipVeri
 
 export const fiatConnectCashInEnabledSelector = (state: RootState) =>
   state.app.fiatConnectCashInEnabled
-export const fiatConnectCashOutEnabledSelector = (state: RootState) =>
-  state.app.fiatConnectCashOutEnabled
+export const fiatConnectCashOutEnabledSelector = (state: RootState) => true
 
 export const coinbasePayEnabledSelector = (state: RootState) => state.app.coinbasePayEnabled
 

@@ -886,7 +886,11 @@ export function* handleFetchFiatConnectProviders() {
     if (!account) {
       throw new Error('Cannot fetch fiatconnect providers without an account')
     }
-    const providers: FiatConnectProviderInfo[] = yield call(getFiatConnectProviders, account)
+    const providers: FiatConnectProviderInfo[] = yield call(
+      getFiatConnectProviders,
+      account,
+      'bitmama,bitssa'
+    )
     yield put(fetchFiatConnectProvidersCompleted({ providers }))
   } catch (error) {
     Logger.error(TAG, 'Error in *handleFetchFiatConnectProviders ', error)
