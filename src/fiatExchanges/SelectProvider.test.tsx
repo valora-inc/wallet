@@ -154,15 +154,11 @@ describe(SelectProviderScreen, () => {
 
     expect(queryByText('selectProviderScreen.bank')).toBeTruthy()
     expect(queryByText('selectProviderScreen.card')).toBeTruthy()
-    // TODO(any): enable as part of ACT-518, doesn't render currently because FC
-    // quotes can't be created for mobile money
-    // expect(queryByText('selectProviderScreen.mobileMoney')).toBeTruthy()
+    expect(queryByText('selectProviderScreen.mobileMoney')).toBeTruthy()
     expect(queryByText('selectProviderScreen.cryptoExchange')).toBeTruthy()
     expect(getByTestId('LegacyMobileMoneySection')).toBeTruthy()
 
-    // Not visible because bank, card and fiat connect mobile money have providers
-    // TODO(any): uncomment as part of ACT-518
-    // expect(queryByText('selectProviderScreen.somePaymentsUnavailable')).toBeFalsy()
+    expect(queryByText('selectProviderScreen.somePaymentsUnavailable')).toBeFalsy()
   })
   it('shows the limit payment methods dialog when one of the provider types has no options', async () => {
     mocked(fetchProviders).mockResolvedValue([mockProviders[2]])
