@@ -1,7 +1,6 @@
 import { RemoteConfigValues } from 'src/app/saga'
 import { CreateAccountCopyTestType, InviteMethodType } from 'src/app/types'
 import { DappConnectInfo } from 'src/dapps/types'
-import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 
 export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   RemoteConfigValues,
@@ -55,7 +54,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   maxNumRecentDapps: 4,
   skipVerification: false,
   showPriceChangeIndicatorInBalances: false,
-  paymentDeepLinkHandler: PaymentDeepLinkHandler.Disabled,
   dappsWebViewEnabled: true,
   skipProfilePicture: false,
   fiatConnectCashInEnabled: false,
