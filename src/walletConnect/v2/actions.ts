@@ -46,12 +46,12 @@ export interface ClientDestroyed {
  */
 export interface AcceptSession {
   type: Actions.ACCEPT_SESSION_V2
-  id: number
+  session: SignClientTypes.EventArguments['session_proposal']
 }
 
 export interface DenySession {
   type: Actions.DENY_SESSION_V2
-  id: number
+  session: SignClientTypes.EventArguments['session_proposal']
 }
 export interface CloseSession {
   type: Actions.CLOSE_SESSION_V2
@@ -131,14 +131,18 @@ export const initialisePairing = (
   origin,
 })
 
-export const acceptSession = (id: number): AcceptSession => ({
+export const acceptSession = (
+  session: SignClientTypes.EventArguments['session_proposal']
+): AcceptSession => ({
   type: Actions.ACCEPT_SESSION_V2,
-  id,
+  session,
 })
 
-export const denySession = (id: number): DenySession => ({
+export const denySession = (
+  session: SignClientTypes.EventArguments['session_proposal']
+): DenySession => ({
   type: Actions.DENY_SESSION_V2,
-  id,
+  session,
 })
 
 export const closeSession = (
