@@ -1,4 +1,4 @@
-import SmsRetriever from '@celo/react-native-sms-retriever'
+import SmsRetriever from 'react-native-sms-retriever'
 import { eventChannel } from 'redux-saga'
 import { call, put, take } from 'redux-saga/effects'
 import { receiveAttestationMessage } from 'src/identity/actions'

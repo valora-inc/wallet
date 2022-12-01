@@ -1,4 +1,4 @@
-import SmsRetriever from '@celo/react-native-sms-retriever'
+import SmsRetriever from 'react-native-sms-retriever'
 import { sleep } from '@celo/utils/lib/async'
 import * as DEK from '@celo/utils/lib/dataEncryptionKey'
 import { act, fireEvent, render, waitFor, within } from '@testing-library/react-native'

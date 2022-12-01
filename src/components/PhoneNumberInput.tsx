@@ -1,4 +1,4 @@
-import SmsRetriever from '@celo/react-native-sms-retriever'
+import SmsRetriever from 'react-native-sms-retriever'
 import { LocalizedCountry } from '@celo/utils/lib/countries'
 import { ValidatorKind } from '@celo/utils/lib/inputValidation'
 import { parsePhoneNumber } from '@celo/utils/lib/phoneNumbers'
