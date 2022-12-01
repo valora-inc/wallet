@@ -79,7 +79,7 @@
     "@komenci/contracts": "1.1.0",
     "@komenci/kit": "1.0.0-beta1",
     "@react-native-async-storage/async-storage": "^1.17.10",
-    "@react-native-community/clipboard": "git+https://github.com/celo-org/clipboard#5afb848",
+    "@react-native-clipboard/clipboard": "^1.11.1",
     "@react-native-community/netinfo": "^5.8.0",
     "@react-native-cookies/cookies": "^6.2.1",
     "@react-native-firebase/app": "11.5.0",
