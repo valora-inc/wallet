@@ -60,6 +60,13 @@ import { indexReadyForInput } from 'src/verify/utils'
 import { getContractKit } from 'src/web3/contracts'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 
+/**
+ * TODO: Clear out unused code for Komenci verification. Most of the code is unused now that Centralized Phone Verification
+ * is used instead of Komenci.
+ *
+ * https://valora-app.slack.com/archives/C025V1D6F3J/p1669742116085229
+ */
+
 const TAG = 'identity/verification'
 
 export const NUM_ATTESTATIONS_REQUIRED = 3

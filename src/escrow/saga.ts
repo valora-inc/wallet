@@ -48,6 +48,15 @@ import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
 import { getConnectedAccount, getConnectedUnlockedAccount } from 'src/web3/saga'
 import { estimateGas } from 'src/web3/utils'
 
+/**
+ * TODO: Clear out unused code for escrow. Much of the code is unused now that Centralized Phone Verification
+ * is used instead of Komenci.
+ *
+ * The only features that should still be active are showing escrow transactions in the home feed properly
+ * and allowing users to redeem unclaimed escrow invites.
+ * https://valora-app.slack.com/archives/C025V1D6F3J/p1669742116085229
+ */
+
 const TAG = 'escrow/saga'
 
 // Observed approve and escrow transfer transactions take less than 150k and 550k gas respectively.
