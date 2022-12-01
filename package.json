@@ -341,7 +341,8 @@
     "shell-quote": "^1.7.3",
     "hermes-engine": "^0.10.0",
     "react-native-securerandom": "git+https://github.com/robhogan/react-native-securerandom#7c01efd",
-    "minimatch": "^3.0.5"
+    "minimatch": "^3.0.5",
+    "@celo/phone-number-privacy-common": "1.0.41"
   },
   "detox": {
     "test-runner": "jest",
