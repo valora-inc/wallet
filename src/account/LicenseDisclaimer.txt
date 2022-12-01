@@ -741,7 +741,7 @@ You may obtain a copy of the Creative Commons Attribution 3.0 License at
 
 -----
 
-The following software may be included in this product: @react-native-firebase/auth, @react-native-firebase/database, @react-native-firebase/dynamic-links, @react-native-firebase/messaging, @react-native-firebase/remote-config, @react-native-firebase/storage. A copy of the source code may be downloaded from https://github.com/invertase/react-native-firebase/tree/master/packages/auth (@react-native-firebase/auth), https://github.com/invertase/react-native-firebase/tree/master/packages/database (@react-native-firebase/database), https://github.com/invertase/react-native-firebase/tree/master/packages/dynamic-links (@react-native-firebase/dynamic-links), https://github.com/invertase/react-native-firebase/tree/master/packages/messaging (@react-native-firebase/messaging), https://github.com/invertase/react-native-firebase/tree/master/packages/remote-config (@react-native-firebase/remote-config), https://github.com/invertase/react-native-firebase/tree/master/packages/storage (@react-native-firebase/storage). This software contains the following license and notice below:
+The following software may be included in this product: @react-native-firebase/auth, @react-native-firebase/database, @react-native-firebase/dynamic-links, @react-native-firebase/messaging, @react-native-firebase/remote-config. A copy of the source code may be downloaded from https://github.com/invertase/react-native-firebase/tree/master/packages/auth (@react-native-firebase/auth), https://github.com/invertase/react-native-firebase/tree/master/packages/database (@react-native-firebase/database), https://github.com/invertase/react-native-firebase/tree/master/packages/dynamic-links (@react-native-firebase/dynamic-links), https://github.com/invertase/react-native-firebase/tree/master/packages/messaging (@react-native-firebase/messaging), https://github.com/invertase/react-native-firebase/tree/master/packages/remote-config (@react-native-firebase/remote-config). This software contains the following license and notice below:
 
 Apache-2.0 License
 ------------------
@@ -21854,32 +21854,6 @@ SOFTWARE.
 
 -----
 
-The following software may be included in this product: react-native-inappbrowser-reborn. A copy of the source code may be downloaded from git@github.com:proyecto26/react-native-inappbrowser.git. This software contains the following license and notice below:
-
-MIT License
-
-Copyright (c) 2019 Proyecto 26
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-
------
-
 The following software may be included in this product: react-native-iphone-x-helper. A copy of the source code may be downloaded from git+https://github.com/ptelad/react-native-iphone-x-helper.git. This software contains the following license and notice below:
 
 MIT License
@@ -22015,32 +21989,6 @@ The following software may be included in this product: react-native-picker-sele
 MIT License
 
 Copyright (c) LawnStarter
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-
------
-
-The following software may be included in this product: react-native-plaid-link-sdk. This software contains the following license and notice below:
-
-MIT License
-
-Copyright (c) 2019 Plaid
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
