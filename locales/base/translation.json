@@ -1470,6 +1470,11 @@
       "label": "IBAN",
       "placeholderText": "Enter IBAN Number",
       "errorMessage": "Invalid IBAN"
+    },
+    "ifsc": {
+      "label": "IFSC",
+      "placeholderText": "Enter IFSC",
+      "errorMessage": "Invalid IFSC"
     }
   },
   "webView": {

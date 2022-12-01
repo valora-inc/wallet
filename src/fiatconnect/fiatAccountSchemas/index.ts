@@ -1,6 +1,7 @@
 import { FiatAccountSchema, FiatAccountType } from '@fiatconnect/fiatconnect-types'
 import { getAccountNumberSchema } from 'src/fiatconnect/fiatAccountSchemas/accountNumber'
 import { getIbanNumberSchema } from 'src/fiatconnect/fiatAccountSchemas/ibanNumber'
+import { getIfscAccountSchema } from 'src/fiatconnect/fiatAccountSchemas/ifscAccount'
 import { getMobileMoneySchema } from 'src/fiatconnect/fiatAccountSchemas/mobileMoney'
 import {
   ComputedParam,
@@ -44,6 +45,11 @@ export const getSchema = ({
       )
     case FiatAccountSchema.MobileMoney:
       return getMobileMoneySchema({
+        country,
+        fiatAccountType,
+      })
+    case FiatAccountSchema.IFSCAccount:
+      return getIfscAccountSchema({
         country,
         fiatAccountType,
       })

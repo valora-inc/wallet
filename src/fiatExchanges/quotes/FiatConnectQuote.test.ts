@@ -72,7 +72,11 @@ describe('FiatConnectQuote', () => {
           })
       ).toThrow()
     })
-    it.each([FiatAccountSchema.AccountNumber, FiatAccountSchema.IBANNumber])(
+    it.each([
+      FiatAccountSchema.AccountNumber,
+      FiatAccountSchema.IBANNumber,
+      FiatAccountSchema.IFSCAccount,
+    ])(
       'does not throw an error if at least one fiatAccountSchema is supported',
       (fiatAccountSchema) => {
         const quoteData = {
