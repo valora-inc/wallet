@@ -88,7 +88,9 @@ export const reducer = (
         ),
       }
     case Actions.REMOVE_EXPIRED_SESSIONS_V2: {
-      const unexpiredSessions = state.sessions.filter((session) => session.expiry > action.date)
+      const unexpiredSessions = state.sessions.filter(
+        (session) => session.expiry > action.dateInSeconds
+      )
       return {
         ...state,
         sessions: unexpiredSessions,
