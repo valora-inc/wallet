@@ -76,7 +76,7 @@ export interface DenyRequest {
 
 export interface RemoveExpiredSessions {
   type: Actions.REMOVE_EXPIRED_SESSIONS_V2
-  date: number
+  dateInSeconds: number
 }
 
 export interface InitialisePairing {
@@ -185,9 +185,9 @@ export const denyRequest = (
   reason,
 })
 
-export const removeExpiredSessions = (date: number): RemoveExpiredSessions => ({
+export const removeExpiredSessions = (dateInSeconds: number): RemoveExpiredSessions => ({
   type: Actions.REMOVE_EXPIRED_SESSIONS_V2,
-  date,
+  dateInSeconds,
 })
 
 export const clientInitialised = (): ClientInitialised => ({

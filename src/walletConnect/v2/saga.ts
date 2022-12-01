@@ -342,11 +342,12 @@ function* handlePendingState() {
 }
 
 function* checkPersistedState() {
-  yield put(removeExpiredSessions(Date.now()))
+  yield put(removeExpiredSessions(Date.now() / 1000))
 
   const hasPendingState = yield select(selectHasPendingState)
   if (hasPendingState) {
     yield put(initialiseClient())
+    yield take(Actions.CLIENT_INITIALISED_V2)
     yield call(handlePendingState)
     return
   }
