@@ -46,12 +46,12 @@ export const reducer = (
       return {
         ...state,
         pendingSessions: state.pendingSessions.filter(
-          (pendingSession) => pendingSession.id !== action.id
+          (pendingSession) => pendingSession.id !== action.session.id
         ),
         // to ensure a clean starting state, clear any actions that may be left
         // from a previous session
         pendingActions: state.pendingActions.filter(
-          (pendingAction) => pendingAction.id !== action.id
+          (pendingAction) => pendingAction.id !== action.session.id
         ),
       }
     case Actions.CLOSE_SESSION_V2:
