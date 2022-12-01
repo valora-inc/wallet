@@ -67,6 +67,10 @@ describe('FiatConnect helpers', () => {
         iconUrl: 'https://fake-icon.valoraapp.com',
         privacyPolicyUrl: 'https://fake-provider.valoraapp.com/privacy',
         termsAndConditionsUrl: 'https://fake-provider.valoraapp.com/terms',
+        isNew: {
+          in: true,
+          out: false,
+        },
       }
       mockFetch.mockResponseOnce(JSON.stringify({ providers: [fakeProviderInfo] }), { status: 200 })
       const providers = await getFiatConnectProviders(mockAccount, 'fake-provider')
@@ -111,6 +115,10 @@ describe('FiatConnect helpers', () => {
           apiKey: 'fake-api-key',
           privacyPolicyUrl: 'https://fake-provider.valoraapp.com/privacy',
           termsAndConditionsUrl: 'https://fake-provider.valoraapp.com/terms',
+          isNew: {
+            in: true,
+            out: false,
+          },
         },
       ],
       address: '0xabc',
