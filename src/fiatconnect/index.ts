@@ -25,6 +25,10 @@ export interface FiatConnectProviderInfo {
   termsAndConditionsUrl: string
   privacyPolicyUrl: string
   iconUrl: string
+  isNew: {
+    in: boolean
+    out: boolean
+  }
   apiKey?: string
 }
 

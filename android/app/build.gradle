@@ -297,7 +297,6 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     implementation 'com.squareup.okhttp3:okhttp-urlconnection:4.9.0'
-    implementation project(':react-native-plaid-link-sdk')
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion
@@ -332,6 +331,11 @@ dependencies {
     // this fixes an crash on devices with API level 31+ that requires a
     // FLAG_IMMUTABLE or FLAG_MUTABLE be specified when creating a PendingIntent
     implementation 'androidx.work:work-runtime:2.7.1'
+
+    // this ensures 1.5.0+ version is not picked by
+    // https://github.com/invertase/react-native-firebase/blob/v11.5.0/packages/auth/android/build.gradle#L88
+    // which requires minCompileSdk 33
+    implementation 'androidx.browser:browser:1.4.0'
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
       exclude group:'com.facebook.fbjni'
