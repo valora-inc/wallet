@@ -137,6 +137,23 @@ function SuccessOrProcessingSection({
           throw new Error('invalid settlement time')
       }
     }
+    const getDescriptionString2 = () => {
+      const settlementTime = normalizedQuote.getTimeEstimation2()
+      switch (settlementTime.unit) {
+        case 'hours':
+          return t('fiatConnectStatusScreen.success.description2.withinHours', {
+            upper: settlementTime.upper,
+          })
+        case 'days':
+          return t('fiatConnectStatusScreen.success.description2.daysRange', {
+            lower: settlementTime.lower,
+            upper: settlementTime.upper,
+          })
+        default:
+          // this should never happen
+          throw new Error('invalid settlement time')
+      }
+    }
     icon = <CheckmarkCircle />
     title = t('fiatConnectStatusScreen.success.title')
     description = getDescriptionString()

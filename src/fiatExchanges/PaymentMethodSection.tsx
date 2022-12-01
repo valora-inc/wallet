@@ -8,7 +8,7 @@ import Dialog from 'src/components/Dialog'
 import Expandable from 'src/components/Expandable'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
-import { SettlementTime } from 'src/fiatExchanges/quotes/constants'
+import { SettlementTime, SettlementTime2 } from 'src/fiatExchanges/quotes/constants'
 import NormalizedQuote from 'src/fiatExchanges/quotes/NormalizedQuote'
 import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import InfoIcon from 'src/icons/InfoIcon'
@@ -166,6 +166,23 @@ export function PaymentMethodSection({
         return t('selectProviderScreen.lessThan24Hours')
       case SettlementTime.NUM_DAYS:
         return t('selectProviderScreen.numDays')
+      default:
+        // this should never happen
+        throw new Error('invalid settlement time')
+    }
+  }
+
+  const getSettlementTimeString2 = (settlementTime: SettlementTime2) => {
+    switch (settlementTime.unit) {
+      case 'hours':
+        return settlementTime.upper === 1
+          ? t('selectProviderScreen.settlementTime.oneHour')
+          : t('selectProviderScreen.settlementTime.lessThanHours', { upper: settlementTime.upper })
+      case 'days':
+        return t('selectProviderScreen.settlementTime.daysRange', {
+          lower: settlementTime.lower,
+          upper: settlementTime.upper,
+        })
       default:
         // this should never happen
         throw new Error('invalid settlement time')

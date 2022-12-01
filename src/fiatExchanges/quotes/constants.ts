@@ -21,3 +21,9 @@ export enum SettlementTime {
   LESS_THAN_24_HOURS = 'LESS_THAN_24_HOURS',
   NUM_DAYS = 'NUM_DAYS',
 }
+
+export interface SettlementTime2 {
+  lower?: number
+  upper: number
+  unit: 'days' | 'hours' // should be enum
+}
