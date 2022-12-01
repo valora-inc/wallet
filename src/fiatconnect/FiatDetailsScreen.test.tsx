@@ -89,13 +89,11 @@ const mockScreenProps = getMockStackScreenProps(Screens.FiatDetailsScreen, {
   quote,
 })
 
-// TODO(any): enable as part of ACT-518. Doesn't work currently since FC
-// quotes can't be created for mobile money
-// const mmQuote = new FiatConnectQuote({
-//   quote: _.cloneDeep(mockFiatConnectQuotes[4] as FiatConnectQuoteSuccess),
-//   fiatAccountType: FiatAccountType.MobileMoney,
-//   flow: CICOFlow.CashIn
-// })
+const mmQuote = new FiatConnectQuote({
+  quote: _.cloneDeep(mockFiatConnectQuotes[4] as FiatConnectQuoteSuccess),
+  fiatAccountType: FiatAccountType.MobileMoney,
+  flow: CICOFlow.CashIn,
+})
 
 describe('FiatDetailsScreen', () => {
   beforeEach(() => {
@@ -119,8 +117,7 @@ describe('FiatDetailsScreen', () => {
     )
 
     expect(getByText('fiatAccountSchema.institutionName.label')).toBeTruthy()
-    // checks presence of picker, testID is hardcoded and not customizable
-    expect(getByTestId('android_touchable_wrapper')).toBeTruthy()
+    expect(getByTestId('picker-institutionName')).toBeTruthy()
 
     expect(getByText('fiatAccountSchema.accountNumber.label')).toBeTruthy()
     expect(getByTestId('input-accountNumber')).toBeTruthy()
@@ -135,40 +132,33 @@ describe('FiatDetailsScreen', () => {
   it.each`
     accountType       | accountQuote | translationKey
     ${'Bank Account'} | ${quote}     | ${'fiatDetailsScreen.headerBankAccount'}
-  `(
-    // TODO(any): enable as part of ACT-518. Doesn't work currently since FC
-    // quotes can't be created for mobile money
-    // ${'Mobile Money'}    |   ${mmQuote}     |   ${'fiatDetailsScreen.headerMobileMoney'}
-    'renders $accountType header with provider image',
-    ({ accountQuote, translationKey }) => {
-      let headerTitle: React.ReactNode
-      ;(mockNavigation.setOptions as jest.Mock).mockImplementation((options) => {
-        headerTitle = options.headerTitle()
-      })
+    ${'Mobile Money'} | ${mmQuote}   | ${'fiatDetailsScreen.headerMobileMoney'}
+  `('renders $accountType header with provider image', ({ accountQuote, translationKey }) => {
+    let headerTitle: React.ReactNode
+    ;(mockNavigation.setOptions as jest.Mock).mockImplementation((options) => {
+      headerTitle = options.headerTitle()
+    })
 
-      const mockScreenProps = getMockStackScreenProps(Screens.FiatDetailsScreen, {
-        flow: CICOFlow.CashIn,
-        quote: accountQuote,
-      })
+    const mockScreenProps = getMockStackScreenProps(Screens.FiatDetailsScreen, {
+      flow: CICOFlow.CashIn,
+      quote: accountQuote,
+    })
 
-      render(
-        <Provider store={store}>
-          <FiatDetailsScreen {...mockScreenProps} />
-        </Provider>
+    render(
+      <Provider store={store}>
+        <FiatDetailsScreen {...mockScreenProps} />
+      </Provider>
+    )
+    const { getByText, getByTestId } = render(<Provider store={store}>{headerTitle}</Provider>)
+    expect(getByText(translationKey)).toBeTruthy()
+    expect(
+      getByText(
+        `fiatDetailsScreen.headerSubTitle, {"provider":"${accountQuote.getProviderName()}"}`
       )
-      const { getByText, getByTestId } = render(<Provider store={store}>{headerTitle}</Provider>)
-      expect(getByText(translationKey)).toBeTruthy()
-      expect(
-        getByText(
-          `fiatDetailsScreen.headerSubTitle, {"provider":"${accountQuote.getProviderName()}"}`
-        )
-      ).toBeTruthy()
-      expect(getByTestId('headerProviderIcon')).toBeTruthy()
-      expect(getByTestId('headerProviderIcon').props.source.uri).toEqual(
-        mockFiatConnectProviderIcon
-      )
-    }
-  )
+    ).toBeTruthy()
+    expect(getByTestId('headerProviderIcon')).toBeTruthy()
+    expect(getByTestId('headerProviderIcon').props.source.uri).toEqual(mockFiatConnectProviderIcon)
+  })
   it('cancel button navigates to fiat exchange screen and fires analytics event', () => {
     let headerRight: React.ReactNode
     ;(mockNavigation.setOptions as jest.Mock).mockImplementation((options) => {
@@ -354,19 +344,6 @@ describe('FiatDetailsScreen', () => {
     expect(getByTestId('checkmark')).toBeTruthy()
   })
   it('displays info dialog for fields with infoDialog param set', () => {
-    // TODO(any): delete the mmQuote setup as part of ACT-518. Temporarily
-    // created here because FC quotes can't be created for mobile money
-    const mmQuote = new FiatConnectQuote({
-      quote: mockFcQuote,
-      fiatAccountType: FiatAccountType.BankAccount,
-      flow: CICOFlow.CashIn,
-    })
-    mmQuote.fiatAccountType = FiatAccountType.MobileMoney
-    mmQuote.quoteResponseFiatAccountSchema = {
-      fiatAccountSchema: FiatAccountSchema.MobileMoney,
-      allowedValues: {},
-    }
-
     const mmScreenProps = getMockStackScreenProps(Screens.FiatDetailsScreen, {
       flow: CICOFlow.CashIn,
       quote: mmQuote,
