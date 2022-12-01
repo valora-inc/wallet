@@ -1268,13 +1268,6 @@
   "others": "Другие",
   "nomSpaceRecipient": "Nomspace: {{name}}",
   "lastDay": "Последние 24 часа",
-  "merchant": "Платеж продавцу",
-  "merchantMoneyEscrow": "Вы собираетесь отправить прямой платеж продавцу.",
-  "merchantPaymentNumberVerificationMessage": "Вам нужно привязать свой номер",
-  "merchantPaymentSubmitFail": "Ваш платеж не удалось отправить",
-  "merchantPaymentSetup": "При загрузке информации о продавце произошла ошибка. Повторите попытку сканирования QR-кода",
-  "merchantPaymentSubmitSuccess": "Ваш платеж успешно отправлен",
-  "merchantWalletUnlockError": "Что-то пошло не так при разблокировке кошелька, повторите попытку",
   "noMoreTransactions": "Больше транзакций нет",
   "selectProviderScreen": {
     "somePaymentsUnavailable": "Некоторые способы оплаты недоступны в вашем регионе",
