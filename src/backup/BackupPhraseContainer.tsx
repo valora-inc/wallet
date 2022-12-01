@@ -1,4 +1,4 @@
-import Clipboard from '@react-native-community/clipboard'
+import Clipboard from '@react-native-clipboard/clipboard'
 import * as React from 'react'
 import { WithTranslation } from 'react-i18next'
 import { Platform, StyleSheet, Text, TextInput, View, ViewStyle } from 'react-native'
