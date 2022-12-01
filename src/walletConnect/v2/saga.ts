@@ -1,4 +1,5 @@
 import { appendPath } from '@celo/utils/lib/string'
+import { formatJsonRpcError, formatJsonRpcResult, JsonRpcResult } from '@json-rpc-tools/utils'
 import '@react-native-firebase/database'
 import '@react-native-firebase/messaging'
 import SignClient from '@walletconnect/sign-client'
@@ -13,25 +14,35 @@ import i18n from 'src/i18n'
 import { isBottomSheetVisible, navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import Logger from 'src/utils/Logger'
+import { isSupportedAction } from 'src/walletConnect/constants'
+import { handleRequest } from 'src/walletConnect/request'
 import { showWalletConnectionSuccessMessage } from 'src/walletConnect/saga'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
 import {
+  AcceptRequest,
   AcceptSession,
   Actions,
   clientInitialised,
+  DenyRequest,
+  denyRequest,
   DenySession,
   initialiseClient,
   InitialisePairing,
   initialisePairing,
   sessionCreated,
   sessionDeleted,
+  SessionPayload,
   sessionPayload,
   SessionProposal,
   sessionProposal,
   sessionUpdated,
   WalletConnectActions,
 } from 'src/walletConnect/v2/actions'
-import { selectHasPendingState, selectSessions } from 'src/walletConnect/v2/selectors'
+import {
+  selectHasPendingState,
+  selectPendingActions,
+  selectSessions,
+} from 'src/walletConnect/v2/selectors'
 import networkConfig from 'src/web3/networkConfig'
 import { getWalletAddress } from 'src/web3/saga'
 
@@ -152,6 +163,17 @@ function* handleIncomingSessionRequest({ session }: SessionProposal) {
   yield call(showSessionRequest, session)
 }
 
+function* handleIncomingActionRequest({ request }: SessionPayload) {
+  const pendingActions: SignClientTypes.EventArguments['session_request'][] = yield select(
+    selectPendingActions
+  )
+  if (pendingActions.length > 1) {
+    return
+  }
+
+  yield call(showActionRequest, request)
+}
+
 function* showSessionRequest(session: SignClientTypes.EventArguments['session_proposal']) {
   // TODO analytics
 
@@ -162,7 +184,32 @@ function* showSessionRequest(session: SignClientTypes.EventArguments['session_pr
   })
 }
 
-function* acceptSession({ session }: AcceptSession) {
+function* showActionRequest(request: SignClientTypes.EventArguments['session_request']) {
+  if (!client) {
+    // should not happen
+    return
+  }
+
+  if (!isSupportedAction(request.params.request.method)) {
+    // Directly deny unsupported requests
+    yield put(denyRequest(request, getSdkError('WC_METHOD_UNSUPPORTED')))
+    return
+  }
+
+  const activeSession = client.session.values.find((value) => value.topic === request.topic)
+  if (!activeSession) {
+    yield put(denyRequest(request, getSdkError('UNAUTHORIZED_EVENT')))
+    return
+  }
+
+  yield call(navigate, Screens.WalletConnectRequest, {
+    type: WalletConnectRequestType.Action,
+    pendingAction: request,
+    version: 2,
+  })
+}
+
+export function* acceptSession({ session }: AcceptSession) {
   // TODO analytics
   try {
     if (!client) {
@@ -226,6 +273,45 @@ function* denySession({ session }: DenySession) {
   yield call(handlePendingStateOrNavigateBack)
 }
 
+function* handleAcceptRequest({ request }: AcceptRequest) {
+  try {
+    if (!client) {
+      throw new Error('Missing client')
+    }
+
+    const { topic, id, params } = request
+    const activeSession = client.session.values.find((value) => value.topic === request.topic)
+    if (!activeSession) {
+      throw new Error(`Missing active session for topic ${topic}`)
+    }
+
+    const result = yield call(handleRequest, { ...params.request })
+    const response: JsonRpcResult<string> = formatJsonRpcResult(id, result)
+    yield call([client, 'respond'], { topic, response })
+    yield call(showWalletConnectionSuccessMessage, activeSession.peer.metadata.name)
+  } catch (e) {
+    Logger.debug(TAG + '@acceptRequest', e.message)
+  }
+
+  yield call(handlePendingStateOrNavigateBack)
+}
+
+function* handleDenyRequest({ request, reason }: DenyRequest) {
+  try {
+    if (!client) {
+      throw new Error('Missing client')
+    }
+
+    const { topic, id } = request
+    const response = formatJsonRpcError(id, reason.message)
+    yield call([client, 'respond'], { topic, response })
+  } catch (e) {
+    Logger.debug(TAG + '@denyRequest', e.message)
+  }
+
+  yield call(handlePendingStateOrNavigateBack)
+}
+
 function* handlePendingStateOrNavigateBack() {
   const hasPendingState: boolean = yield select(selectHasPendingState)
 
@@ -244,6 +330,10 @@ export function* walletConnectV2Saga() {
   yield takeEvery(Actions.SESSION_PROPOSAL_V2, handleIncomingSessionRequest)
   yield takeEvery(Actions.ACCEPT_SESSION_V2, acceptSession)
   yield takeEvery(Actions.DENY_SESSION_V2, denySession)
+
+  yield takeEvery(Actions.SESSION_PAYLOAD_V2, handleIncomingActionRequest)
+  yield takeEvery(Actions.ACCEPT_REQUEST_V2, handleAcceptRequest)
+  yield takeEvery(Actions.DENY_REQUEST_V2, handleDenyRequest)
 }
 
 export function* initialiseWalletConnectV2(uri: string, origin: WalletConnectPairingOrigin) {
