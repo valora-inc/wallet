@@ -57,7 +57,7 @@ describe('ActionRequest', () => {
     it('renders the correct elements', () => {
       const { getByText } = render(
         <Provider store={store}>
-          <ActionRequest pendingAction={{ action, peerId }} />
+          <ActionRequest version={1} pendingAction={{ action, peerId }} />
         </Provider>
       )
 
@@ -68,24 +68,24 @@ describe('ActionRequest', () => {
       expect(getByText('cancel')).toBeTruthy()
     })
 
-    it('shows request details with correct string on clicking details', async () => {
+    it('shows request details with correct string on clicking details', () => {
       const { getByText } = render(
         <Provider store={store}>
-          <ActionRequest pendingAction={{ action, peerId }} />
+          <ActionRequest version={1} pendingAction={{ action, peerId }} />
         </Provider>
       )
-      await fireEvent.press(getByText('action.details'))
+      fireEvent.press(getByText('action.details'))
       expect(getByText('Message to sign')).toBeTruthy()
     })
 
-    it('shows request details with raw string if message cannot be decoded', async () => {
+    it('shows request details with raw string if message cannot be decoded', () => {
       action.params[0] = 'invalid hex'
       const { getByText } = render(
         <Provider store={store}>
-          <ActionRequest pendingAction={{ action, peerId }} />
+          <ActionRequest version={1} pendingAction={{ action, peerId }} />
         </Provider>
       )
-      await fireEvent.press(getByText('action.details'))
+      fireEvent.press(getByText('action.details'))
       expect(getByText('invalid hex')).toBeTruthy()
     })
 
@@ -93,10 +93,10 @@ describe('ActionRequest', () => {
       action.params[0] = ''
       const { getByText } = render(
         <Provider store={store}>
-          <ActionRequest pendingAction={{ action, peerId }} />
+          <ActionRequest version={1} pendingAction={{ action, peerId }} />
         </Provider>
       )
-      await fireEvent.press(getByText('action.details'))
+      fireEvent.press(getByText('action.details'))
       expect(getByText('action.emptyMessage')).toBeTruthy()
     })
   })

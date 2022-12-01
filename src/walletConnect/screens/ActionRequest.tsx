@@ -1,4 +1,5 @@
 import { trimLeading0x } from '@celo/utils/lib/address'
+import { SignClientTypes } from '@walletconnect/types'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
@@ -16,9 +17,15 @@ import { acceptRequest, denyRequest } from 'src/walletConnect/v1/actions'
 import { PendingAction } from 'src/walletConnect/v1/reducer'
 import { selectSessionFromPeerId } from 'src/walletConnect/v1/selectors'
 
-type Props = {
-  pendingAction: PendingAction
-}
+type Props =
+  | {
+      version: 1
+      pendingAction: PendingAction
+    }
+  | {
+      version: 2
+      pendingAction: SignClientTypes.EventArguments['session_request']
+    }
 
 function getRequestInfo(pendingAction: WalletConnectPayloadRequest, session: WalletConnectSession) {
   return {
@@ -29,12 +36,15 @@ function getRequestInfo(pendingAction: WalletConnectPayloadRequest, session: Wal
     params: pendingAction.params,
   }
 }
-function ActionRequest({ pendingAction }: Props) {
+
+// do not destructure props or else the type inference is lost
+function ActionRequest(props: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const [showTransactionDetails, setShowTransactionDetails] = useState(false)
 
-  const { action, peerId } = pendingAction
+  const { action, peerId } =
+    props.version === 1 ? props.pendingAction : props.pendingAction.params.request.params
   const activeSession = useSelector(selectSessionFromPeerId(peerId))
 
   if (!activeSession) {
