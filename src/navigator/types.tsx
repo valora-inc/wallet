@@ -1,5 +1,6 @@
 import { AccountAuthRequest, Countries, SignTxRequest } from '@celo/utils'
 import { KycSchema } from '@fiatconnect/fiatconnect-types'
+import { SignClientTypes } from '@walletconnect/types'
 import BigNumber from 'bignumber.js'
 import { SendOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
 import { EscrowedPayment } from 'src/escrow/actions'
@@ -344,8 +345,22 @@ export type StackParamList = {
   [Screens.OnboardingSuccessScreen]: undefined
   [Screens.WalletConnectRequest]:
     | { type: WalletConnectRequestType.Loading; origin: WalletConnectPairingOrigin }
-    | { type: WalletConnectRequestType.Action; pendingAction: PendingAction }
-    | { type: WalletConnectRequestType.Session; pendingSession: WalletConnectSessionRequest }
+    | { type: WalletConnectRequestType.Action; version: 1; pendingAction: PendingAction }
+    | {
+        type: WalletConnectRequestType.Action
+        version: 2
+        pendingAction: SignClientTypes.EventArguments['session_request']
+      }
+    | {
+        type: WalletConnectRequestType.Session
+        version: 1
+        pendingSession: WalletConnectSessionRequest
+      }
+    | {
+        type: WalletConnectRequestType.Session
+        version: 2
+        pendingSession: SignClientTypes.EventArguments['session_proposal']
+      }
     | { type: WalletConnectRequestType.TimeOut }
   [Screens.WalletConnectSessions]: undefined
   [Screens.WalletHome]: undefined

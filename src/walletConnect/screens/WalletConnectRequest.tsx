@@ -15,7 +15,7 @@ import { WalletConnectRequestType } from 'src/walletConnect/types'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.WalletConnectRequest>
 
-function WalletConnectRequest({ navigation, route: { params } }: Props) {
+function WalletConnectRequest({ route: { params } }: Props) {
   const { t } = useTranslation()
 
   return (
@@ -36,13 +36,9 @@ function WalletConnectRequest({ navigation, route: { params } }: Props) {
         </>
       )}
 
-      {params.type === WalletConnectRequestType.Session && (
-        <SessionRequest pendingSession={params.pendingSession} />
-      )}
+      {params.type === WalletConnectRequestType.Session && <SessionRequest {...params} />}
 
-      {params.type === WalletConnectRequestType.Action && (
-        <ActionRequest pendingAction={params.pendingAction} />
-      )}
+      {params.type === WalletConnectRequestType.Action && <ActionRequest {...params} />}
 
       {params.type === WalletConnectRequestType.TimeOut && <ConnectionTimedOut />}
     </View>
