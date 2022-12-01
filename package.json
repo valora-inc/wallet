@@ -155,7 +155,6 @@
     "react-native-get-random-values": "^1.8.0",
     "react-native-google-safetynet": "https://github.com/celo-org/react-native-google-safetynet#8a0355f",
     "react-native-image-crop-picker": "^0.35.1",
-    "react-native-inappbrowser-reborn": "^3.5.1",
     "react-native-keep-awake": "^4.0.0",
     "react-native-keychain": "8.0.0",
     "react-native-localize": "^2.1.7",
