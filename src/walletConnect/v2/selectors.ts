@@ -17,3 +17,9 @@ export function selectHasPendingState(state: RootState) {
     state.walletConnect.v2.pendingActions.length > 0
   )
 }
+
+export function selectSessionFromTopic(topic: string) {
+  return function (state: RootState) {
+    return state.walletConnect.v2.sessions.find((session) => session.topic === topic)
+  }
+}
