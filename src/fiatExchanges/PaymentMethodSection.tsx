@@ -215,30 +215,33 @@ export function PaymentMethodSection({
           </Expandable>
         </View>
       </Touchable>
-      {expanded &&
-        sectionQuotes.map((normalizedQuote, index) => (
-          <Touchable
-            key={index}
-            testID={`${paymentMethod}/provider-${index}`}
-            onPress={normalizedQuote.onPress(flow, dispatch)}
-          >
-            <View style={styles.expandedContainer}>
-              <View style={styles.left}>
-                <Text style={styles.expandedFee} testID={`${paymentMethod}/fee-${index}`}>
-                  {renderFeeAmount(normalizedQuote, t('selectProviderScreen.fee'))}
-                </Text>
-                <Text style={styles.expandedInfo}>{renderInfoText(normalizedQuote)}</Text>
-                {index === 0 && normalizedQuote.getFeeInCrypto(exchangeRates) && (
-                  <Text testID={`${paymentMethod}/bestRate`} style={styles.expandedTag}>
-                    {t('selectProviderScreen.bestRate')}
+      {expanded && (
+        <View testID={`${paymentMethod}/providerList`}>
+          {sectionQuotes.map((normalizedQuote, index) => (
+            <Touchable
+              key={index}
+              testID={`${paymentMethod}/provider-${index}`}
+              onPress={normalizedQuote.onPress(flow, dispatch)}
+            >
+              <View style={styles.expandedContainer}>
+                <View style={styles.left}>
+                  <Text style={styles.expandedFee} testID={`${paymentMethod}/fee-${index}`}>
+                    {renderFeeAmount(normalizedQuote, t('selectProviderScreen.fee'))}
                   </Text>
-                )}
-              </View>
+                  <Text style={styles.expandedInfo}>{renderInfoText(normalizedQuote)}</Text>
+                  {index === 0 && normalizedQuote.getFeeInCrypto(exchangeRates) && (
+                    <Text testID={`${paymentMethod}/bestRate`} style={styles.expandedTag}>
+                      {t('selectProviderScreen.bestRate')}
+                    </Text>
+                  )}
+                </View>
 
-              {renderProviderInfo(normalizedQuote)}
-            </View>
-          </Touchable>
-        ))}
+                {renderProviderInfo(normalizedQuote)}
+              </View>
+            </Touchable>
+          ))}
+        </View>
+      )}
       <Dialog
         testID="newDialog"
         isVisible={newDialogVisible}
