@@ -7,7 +7,6 @@ declare module '*.png'
 declare module '*.jpg'
 
 declare module 'sleep-promise'
-declare module 'react-native-progress/Bar'
 declare module 'dot-prop-immutable'
 declare module 'react-native-ntp-client'
 declare module 'react-native-crypto'

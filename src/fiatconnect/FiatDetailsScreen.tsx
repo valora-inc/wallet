@@ -317,6 +317,7 @@ function FormField({
       )}
       {allowedValues ? (
         <PickerSelect
+          touchableWrapperProps={{ testID: `picker-${field.name}` }}
           style={{
             inputIOS: styles.formSelectInput,
             inputAndroid: styles.formSelectInput,
