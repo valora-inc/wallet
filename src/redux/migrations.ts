@@ -914,4 +914,11 @@ export const migrations = {
       walletConnectV2Enabled: true,
     },
   }),
+  95: (state: any) => ({
+    ...state,
+    fiatConnect: {
+      ...state.fiatConnect,
+      providers: null,
+    },
+  }),
 }

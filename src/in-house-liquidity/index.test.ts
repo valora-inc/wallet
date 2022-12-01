@@ -2,6 +2,7 @@ import { FiatConnectApiClient } from '@fiatconnect/fiatconnect-sdk'
 import { KycSchema, KycStatus as FiatConnectKycStatus } from '@fiatconnect/fiatconnect-types'
 import { FetchMock } from 'jest-fetch-mock/types'
 import { KycStatus as PersonaKycStatus } from 'src/account/reducer'
+import { FiatConnectProviderInfo } from 'src/fiatconnect'
 import { getFiatConnectClient } from 'src/fiatconnect/clients'
 import {
   AUTH_COOKIE,
@@ -45,7 +46,7 @@ jest.mock('src/fiatconnect/clients', () => {
 })
 
 describe('In House Liquidity Calls', () => {
-  const mockProviderInfo = {
+  const mockProviderInfo: FiatConnectProviderInfo = {
     id: 'provider-id',
     providerName: 'provider-name',
     imageUrl: 'image-url',
@@ -54,6 +55,10 @@ describe('In House Liquidity Calls', () => {
     iconUrl: 'icon-url',
     termsAndConditionsUrl: 'terms-url',
     privacyPolicyUrl: 'privacy-url',
+    isNew: {
+      in: true,
+      out: false,
+    },
   }
   beforeEach(() => {
     mockFetch.resetMocks()
