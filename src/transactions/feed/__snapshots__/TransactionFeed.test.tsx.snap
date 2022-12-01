@@ -82,50 +82,40 @@ exports[`TransactionFeed renders correctly when there is a response 1`] = `
       style={null}
     >
       <View
-        accessibilityState={
-          Object {
-            "disabled": false,
-          }
-        }
-        accessible={true}
-        focusable={true}
-        nativeBackgroundAndroid={
-          Object {
-            "attribute": "selectableItemBackground",
-            "rippleRadius": undefined,
-            "type": "ThemeAttrAndroid",
-          }
-        }
-        onClick={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
+        testID="TransactionListItem"
       >
         <View
-          style={
+          accessibilityState={
             Object {
-              "flex": 1,
-              "flexDirection": "row",
-              "paddingHorizontal": 16,
-              "paddingVertical": 12,
+              "disabled": false,
             }
           }
+          accessible={true}
+          focusable={true}
+          nativeBackgroundAndroid={
+            Object {
+              "attribute": "selectableItemBackground",
+              "rippleRadius": undefined,
+              "type": "ThemeAttrAndroid",
+            }
+          }
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          testID="TransferFeedItem"
         >
           <View
             style={
-              Array [
-                Object {
-                  "alignItems": "center",
-                  "flexDirection": "row",
-                  "justifyContent": "center",
-                },
-                Object {
-                  "alignItems": "flex-start",
-                },
-              ]
+              Object {
+                "flex": 1,
+                "flexDirection": "row",
+                "paddingHorizontal": 16,
+                "paddingVertical": 12,
+              }
             }
           >
             <View
@@ -133,113 +123,128 @@ exports[`TransactionFeed renders correctly when there is a response 1`] = `
                 Array [
                   Object {
                     "alignItems": "center",
+                    "flexDirection": "row",
                     "justifyContent": "center",
                   },
                   Object {
-                    "backgroundColor": "hsl(192, 53%, 93%)",
-                    "borderRadius": 20,
-                    "height": 40,
-                    "width": 40,
+                    "alignItems": "flex-start",
                   },
                 ]
               }
             >
-              <svg
-                fill="hsl(192, 53%, 93%)"
-                height="40"
-                style={Object {}}
-                viewBox="0 0 40 40"
-                width="40"
-              />
+              <View
+                style={
+                  Array [
+                    Object {
+                      "alignItems": "center",
+                      "justifyContent": "center",
+                    },
+                    Object {
+                      "backgroundColor": "hsl(192, 53%, 93%)",
+                      "borderRadius": 20,
+                      "height": 40,
+                      "width": 40,
+                    },
+                  ]
+                }
+              >
+                <svg
+                  fill="hsl(192, 53%, 93%)"
+                  height="40"
+                  style={Object {}}
+                  viewBox="0 0 40 40"
+                  width="40"
+                />
+              </View>
             </View>
-          </View>
-          <View
-            style={
-              Object {
-                "flex": 1,
-                "flexGrow": 1,
-                "paddingHorizontal": 16,
-              }
-            }
-          >
-            <Text
+            <View
               style={
                 Object {
-                  "color": "#2E3338",
-                  "flexShrink": 1,
-                  "fontFamily": "Inter-Medium",
-                  "fontSize": 16,
-                  "lineHeight": 22,
+                  "flex": 1,
+                  "flexGrow": 1,
+                  "paddingHorizontal": 16,
                 }
               }
-              testID="TransferFeedItem/title"
             >
-              feedItemReceivedTitle, {"displayName":"feedItemAddress, {\\"address\\":\\"0xd683...ea33\\"}"}
-            </Text>
-            <Text
-              style={
-                Object {
-                  "color": "#9CA4A9",
-                  "fontFamily": "Inter-Regular",
-                  "fontSize": 14,
-                  "lineHeight": 18,
-                  "paddingTop": 2,
-                }
-              }
-              testID="TransferFeedItem/subtitle"
-            >
-              feedItemReceivedInfo, {"context":"noComment"}
-            </Text>
-          </View>
-          <View
-            style={
-              Object {
-                "alignItems": "flex-end",
-                "flex": 0,
-                "maxWidth": "35%",
-              }
-            }
-          >
-            <Text
-              style={
-                Array [
+              <Text
+                style={
                   Object {
                     "color": "#2E3338",
-                    "flexWrap": "wrap",
+                    "flexShrink": 1,
                     "fontFamily": "Inter-Medium",
                     "fontSize": 16,
                     "lineHeight": 22,
-                    "textAlign": "right",
-                  },
+                  }
+                }
+                testID="TransferFeedItem/title"
+              >
+                feedItemReceivedTitle, {"displayName":"feedItemAddress, {\\"address\\":\\"0xd683...ea33\\"}"}
+              </Text>
+              <Text
+                style={
                   Object {
-                    "color": "#1AB775",
-                  },
-                ]
-              }
-              testID="TransferFeedItem/amount"
-            >
-              +
-              ₱
-              0.13
-            </Text>
-            <Text
+                    "color": "#9CA4A9",
+                    "fontFamily": "Inter-Regular",
+                    "fontSize": 14,
+                    "lineHeight": 18,
+                    "paddingTop": 2,
+                  }
+                }
+                testID="TransferFeedItem/subtitle"
+              >
+                feedItemReceivedInfo, {"context":"noComment"}
+              </Text>
+            </View>
+            <View
               style={
                 Object {
-                  "color": "#9CA4A9",
-                  "flexWrap": "wrap",
-                  "fontFamily": "Inter-Regular",
-                  "fontSize": 14,
-                  "lineHeight": 18,
-                  "paddingTop": 2,
-                  "textAlign": "right",
+                  "alignItems": "flex-end",
+                  "flex": 0,
+                  "maxWidth": "35%",
                 }
               }
-              testID="TransferFeedItem/tokenAmount"
             >
-              
-              0.10
-               cUSD
-            </Text>
+              <Text
+                style={
+                  Array [
+                    Object {
+                      "color": "#2E3338",
+                      "flexWrap": "wrap",
+                      "fontFamily": "Inter-Medium",
+                      "fontSize": 16,
+                      "lineHeight": 22,
+                      "textAlign": "right",
+                    },
+                    Object {
+                      "color": "#1AB775",
+                    },
+                  ]
+                }
+                testID="TransferFeedItem/amount"
+              >
+                +
+                ₱
+                0.13
+              </Text>
+              <Text
+                style={
+                  Object {
+                    "color": "#9CA4A9",
+                    "flexWrap": "wrap",
+                    "fontFamily": "Inter-Regular",
+                    "fontSize": 14,
+                    "lineHeight": 18,
+                    "paddingTop": 2,
+                    "textAlign": "right",
+                  }
+                }
+                testID="TransferFeedItem/tokenAmount"
+              >
+                
+                0.10
+                 cUSD
+              </Text>
+            </View>
           </View>
         </View>
       </View>

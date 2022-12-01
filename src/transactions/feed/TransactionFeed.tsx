@@ -103,11 +103,23 @@ function TransactionFeed() {
   function renderItem({ item: tx }: { item: FeedTokenTransaction; index: number }) {
     switch (tx.__typename) {
       case 'TokenExchangeV2':
-        return <SwapFeedItem key={tx.transactionHash} exchange={tx} />
+        return (
+          <View testID="TransactionListItem">
+            <SwapFeedItem key={tx.transactionHash} exchange={tx} />
+          </View>
+        )
       case 'TokenTransferV2':
-        return <TransferFeedItem key={tx.transactionHash} transfer={tx} />
+        return (
+          <View testID="TransactionListItem">
+            <TransferFeedItem key={tx.transactionHash} transfer={tx} />
+          </View>
+        )
       case 'NftTransferV2':
-        return <NftFeedItem key={tx.transactionHash} transaction={tx} />
+        return (
+          <View testID="TransactionListItem">
+            <NftFeedItem key={tx.transactionHash} transaction={tx} />
+          </View>
+        )
     }
   }
 
