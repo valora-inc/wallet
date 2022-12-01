@@ -1264,13 +1264,6 @@
   "others": "Autres",
   "nomSpaceRecipient": "Nomspace: {{name}}",
   "lastDay": "24 dernières heures",
-  "merchant": "Paiement commerçant",
-  "merchantMoneyEscrow": "Vous êtes sur le point d'envoyer un paiement direct à un vendeur.",
-  "merchantPaymentNumberVerificationMessage": "Vous devez connecter votre numéro",
-  "merchantPaymentSubmitFail": "Votre paiement n'a pas pu être envoyé",
-  "merchantPaymentSetup": "Une erreur s'est produite lors du chargement des informations du vendeur, veuillez réessayer de scanner le QR code",
-  "merchantPaymentSubmitSuccess": "Votre paiement a bien été envoyé",
-  "merchantWalletUnlockError": "Une erreur s'est produite lors du déverrouillage de votre wallet, veuillez réessayer",
   "noMoreTransactions": "Il n'y a plus de transactions",
   "selectProviderScreen": {
     "somePaymentsUnavailable": "Certaines modes de paiement ne sont pas disponibles dans votre région",
