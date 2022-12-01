@@ -643,7 +643,7 @@ PODS:
     - React-RCTImage
   - RNSecureRandom (1.0.0):
     - React-Core
-  - RNSentry (4.10.0):
+  - RNSentry (4.10.1):
     - React-Core
     - Sentry/HybridSDK (= 7.31.2)
   - RNShare (7.3.2):
@@ -1118,7 +1118,7 @@ SPEC CHECKSUMS:
   RNReanimated: ee33ab40fa252332a36aeed9d936801ed9700b24
   RNScreens: 34cc502acf1b916c582c60003dc3089fa01dc66d
   RNSecureRandom: b0b479d7b934a3e6deea9cb986a9c40cb5f1b360
-  RNSentry: 211e1a62145d5bcb4bee926823061b5af47816c4
+  RNSentry: 3c27f3c57f16bab9835d9555add298571077e0c1
   RNShare: d76b8c9c6e6ffb38fc18f40b4338c9d867592ed3
   RNSVG: 302bfc9905bd8122f08966dc2ce2d07b7b52b9f8
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
