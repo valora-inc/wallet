@@ -1,3 +1,4 @@
+import { SignClientTypes } from '@walletconnect/types'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
@@ -7,16 +8,33 @@ import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import RequestContent from 'src/walletConnect/screens/RequestContent'
 import { WalletConnectSessionRequest } from 'src/walletConnect/types'
-import { acceptSession, denySession } from 'src/walletConnect/v1/actions'
+import {
+  acceptSession as acceptSessionV1,
+  denySession as denySessionV1,
+} from 'src/walletConnect/v1/actions'
+import {
+  acceptSession as acceptSessionV2,
+  denySession as denySessionV2,
+} from 'src/walletConnect/v2/actions'
 import { currentAccountSelector } from 'src/web3/selectors'
 
-type Props = {
-  pendingSession: WalletConnectSessionRequest
-}
+type Props =
+  | {
+      version: 1
+      pendingSession: WalletConnectSessionRequest
+    }
+  | {
+      version: 2
+      pendingSession: SignClientTypes.EventArguments['session_proposal']
+    }
 
-function SessionRequest({ pendingSession }: Props) {
-  const { url, name, icons } = pendingSession.params[0].peerMeta
-  const fallbackIcon = icons[0] ?? `${url}/favicon.ico`
+// do not destructure props or else the type inference is lost
+function SessionRequest(props: Props) {
+  const { url, name, icons } =
+    props.version === 1
+      ? props.pendingSession.params[0].peerMeta
+      : props.pendingSession.params.proposer.metadata
+  const dappImageUrl = icons[0] ?? `${url}/favicon.ico`
 
   const { t } = useTranslation()
   const dispatch = useDispatch()
@@ -35,17 +53,29 @@ function SessionRequest({ pendingSession }: Props) {
         ]
       : []
 
+  const handleAcceptSession = () => {
+    SentryTransactionHub.startTransaction(SentryTransaction.wallet_connect_connection)
+    if (props.version === 1) {
+      dispatch(acceptSessionV1(props.pendingSession))
+    } else {
+      dispatch(acceptSessionV2(props.pendingSession))
+    }
+  }
+
+  const handleDenySession = () => {
+    if (props.version === 1) {
+      dispatch(denySessionV1(props.pendingSession))
+    } else {
+      dispatch(denySessionV2(props.pendingSession))
+    }
+  }
+
   return (
     <RequestContent
-      onAccept={() => {
-        SentryTransactionHub.startTransaction(SentryTransaction.wallet_connect_connection)
-        dispatch(acceptSession(pendingSession))
-      }}
-      onDeny={() => {
-        dispatch(denySession(pendingSession))
-      }}
+      onAccept={handleAcceptSession}
+      onDeny={handleDenySession}
       dappName={name}
-      dappImageUrl={fallbackIcon}
+      dappImageUrl={dappImageUrl}
       title={
         dappConnectInfo === DappConnectInfo.Basic
           ? t('connectToWallet', { dappName: name })
