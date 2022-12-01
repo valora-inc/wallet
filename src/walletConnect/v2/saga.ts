@@ -187,8 +187,7 @@ function* showSessionRequest(session: SignClientTypes.EventArguments['session_pr
 
 function* showActionRequest(request: SignClientTypes.EventArguments['session_request']) {
   if (!client) {
-    // should not happen
-    return
+    throw new Error('missing client')
   }
 
   if (!isSupportedAction(request.params.request.method)) {
@@ -325,20 +324,20 @@ function* handlePendingStateOrNavigateBack() {
 
 function* handlePendingState() {
   const {
-    pending: [session],
+    pending: [pendingSession],
   }: { pending: SignClientTypes.EventArguments['session_proposal'][] } = yield select(
     selectSessions
   )
-  if (session) {
-    yield call(showSessionRequest, session)
+  if (pendingSession) {
+    yield call(showSessionRequest, pendingSession)
     return
   }
 
-  const [request]: SignClientTypes.EventArguments['session_request'][] = yield select(
+  const [pendingRequest]: SignClientTypes.EventArguments['session_request'][] = yield select(
     selectPendingActions
   )
-  if (request) {
-    yield call(showActionRequest, request)
+  if (pendingRequest) {
+    yield call(showActionRequest, pendingRequest)
   }
 }
 
