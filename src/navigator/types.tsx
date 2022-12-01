@@ -211,7 +211,6 @@ export type StackParamList = {
   [Screens.Licenses]: undefined
   [Screens.Main]: undefined
   [Screens.MainModal]: undefined
-  [Screens.MerchantPayment]: { referenceId: string; apiBase: string }
   [Screens.OutgoingPaymentRequestListScreen]: undefined
   [Screens.PaymentRequestUnavailable]: {
     transactionData: TransactionDataInput | TransactionDataInputLegacy
