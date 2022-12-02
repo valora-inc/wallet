@@ -20,11 +20,6 @@ import {
 } from 'src/localCurrency/convert'
 import { Currency, resolveCurrency } from 'src/utils/currencies'
 
-const strings = {
-  oneHour: i18n.t('selectProviderScreen.oneHour'),
-  numDays: i18n.t('selectProviderScreen.numDays'),
-}
-
 const kycStrings = {
   [KycSchema.PersonalDataAndDocuments]: i18n.t('selectProviderScreen.idRequired'),
 }
@@ -142,7 +137,7 @@ export default class FiatConnectQuote extends NormalizedQuote {
   getTimeEstimation(): SettlementTime {
     // payment method can only be bank or fc mobile money
     return this.getPaymentMethod() === PaymentMethod.Bank
-      ? SettlementTime.NUM_DAYS
+      ? SettlementTime.ONE_TO_THREE_DAYS
       : SettlementTime.LESS_THAN_24_HOURS
   }
 

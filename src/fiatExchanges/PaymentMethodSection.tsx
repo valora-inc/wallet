@@ -160,11 +160,11 @@ export function PaymentMethodSection({
 
   const getSettlementTimeString = (settlementTime: SettlementTime) => {
     switch (settlementTime) {
-      case SettlementTime.ONE_HOUR:
+      case SettlementTime.LESS_THAN_ONE_HOUR:
         return t('selectProviderScreen.oneHour')
       case SettlementTime.LESS_THAN_24_HOURS:
         return t('selectProviderScreen.lessThan24Hours')
-      case SettlementTime.NUM_DAYS:
+      case SettlementTime.ONE_TO_THREE_DAYS:
         return t('selectProviderScreen.numDays')
       default:
         // this should never happen

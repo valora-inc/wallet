@@ -87,8 +87,8 @@ export default class ExternalQuote extends NormalizedQuote {
   getTimeEstimation(): SettlementTime {
     // payment method can only be bank or card
     return this.getPaymentMethod() === PaymentMethod.Bank
-      ? SettlementTime.NUM_DAYS
-      : SettlementTime.ONE_HOUR
+      ? SettlementTime.ONE_TO_THREE_DAYS
+      : SettlementTime.LESS_THAN_ONE_HOUR
   }
 
   navigate(): void {

@@ -130,8 +130,8 @@ function SuccessOrProcessingSection({
       switch (normalizedQuote.getTimeEstimation()) {
         case SettlementTime.LESS_THAN_24_HOURS:
           return t('fiatConnectStatusScreen.success.description24Hours')
-        case SettlementTime.NUM_DAYS:
-          return t('fiatConnectStatusScreen.success.descriptionNumDays')
+        case SettlementTime.ONE_TO_THREE_DAYS:
+          return t('fiatConnectStatusScreen.success.description1to3Days')
         default:
           // this should never happen, FC quotes don't return one hour
           throw new Error('invalid settlement time')

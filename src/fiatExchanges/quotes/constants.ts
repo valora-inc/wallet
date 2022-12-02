@@ -17,7 +17,9 @@ export const DEFAULT_ALLOWED_VALUES: DefaultAllowedValues = {
 }
 
 export enum SettlementTime {
-  ONE_HOUR = 'ONE_HOUR',
+  // List of available settlement time strings for SelectProvider and
+  // TransferStatus screens
+  LESS_THAN_ONE_HOUR = 'LESS_THAN_ONE_HOUR', // only for SelectProvider
   LESS_THAN_24_HOURS = 'LESS_THAN_24_HOURS',
-  NUM_DAYS = 'NUM_DAYS',
+  ONE_TO_THREE_DAYS = 'ONE_TO_THREE_DAYS',
 }
