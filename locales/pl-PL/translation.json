@@ -1465,6 +1465,11 @@
       "label": "IBAN",
       "placeholderText": "Wprowadź numer IBAN",
       "errorMessage": "Nieprawidłowy numer IBAN"
+    },
+    "ifsc": {
+      "label": "IFSC",
+      "placeholderText": "Wprowadź IFSC",
+      "errorMessage": "Nieważne IFSC"
     }
   },
   "webView": {
