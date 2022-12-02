@@ -1459,6 +1459,11 @@
       "label": "IBAN",
       "placeholderText": "输入 IBAN 号码",
       "errorMessage": "IBAN 无效"
+    },
+    "ifsc": {
+      "label": "IFSC",
+      "placeholderText": "输入IFSC",
+      "errorMessage": "无效的IFSC"
     }
   },
   "webView": {
