@@ -65,6 +65,7 @@ import { getConnectedUnlockedAccount } from 'src/web3/saga'
  * is used instead of Komenci.
  *
  * https://valora-app.slack.com/archives/C025V1D6F3J/p1669742116085229
+ * https://linear.app/valora/issue/RET-504/[wallet]-remove-cpv-experiment-and-komenci
  */
 
 const TAG = 'identity/verification'
