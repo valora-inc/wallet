@@ -72,13 +72,18 @@ describe('FiatConnectQuote', () => {
           })
       ).toThrow()
     })
-    it.each([FiatAccountSchema.AccountNumber, FiatAccountSchema.IBANNumber])(
+    it.each([
+      [FiatAccountType.BankAccount, FiatAccountSchema.AccountNumber],
+      [FiatAccountType.BankAccount, FiatAccountSchema.IBANNumber],
+      [FiatAccountType.BankAccount, FiatAccountSchema.IFSCAccount],
+      [FiatAccountType.MobileMoney, FiatAccountSchema.MobileMoney],
+    ])(
       'does not throw an error if at least one fiatAccountSchema is supported',
-      (fiatAccountSchema) => {
+      (fiatAccountType, fiatAccountSchema) => {
         const quoteData = {
           ...mockFiatConnectQuotes[1],
           fiatAccount: {
-            BankAccount: {
+            [fiatAccountType]: {
               fiatAccountSchemas: [
                 {
                   fiatAccountSchema,
@@ -93,7 +98,7 @@ describe('FiatConnectQuote', () => {
             new FiatConnectQuote({
               flow: CICOFlow.CashIn,
               quote: quoteData as FiatConnectQuoteSuccess,
-              fiatAccountType: FiatAccountType.BankAccount,
+              fiatAccountType,
             })
         ).not.toThrow()
       }
@@ -117,6 +122,14 @@ describe('FiatConnectQuote', () => {
         fiatAccountType: FiatAccountType.BankAccount,
       })
       expect(quote.getPaymentMethod()).toEqual(PaymentMethod.Bank)
+    })
+    it('returns FC Mobile Money for MobileMoney', () => {
+      const quote = new FiatConnectQuote({
+        flow: CICOFlow.CashIn,
+        quote: mockFiatConnectQuotes[4] as FiatConnectQuoteSuccess,
+        fiatAccountType: FiatAccountType.MobileMoney,
+      })
+      expect(quote.getPaymentMethod()).toEqual(PaymentMethod.FiatConnectMobileMoney)
     })
   })
 
@@ -380,9 +393,18 @@ describe('FiatConnectQuote', () => {
   })
 
   describe('.isProviderNew', () => {
-    it('returns false', () => {
+    it('returns from provider info for cash in', () => {
       const quote = new FiatConnectQuote({
         flow: CICOFlow.CashIn,
+        quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
+        fiatAccountType: FiatAccountType.BankAccount,
+      })
+      expect(quote.isProviderNew()).toEqual(true)
+    })
+
+    it('returns from provider info for cash out', () => {
+      const quote = new FiatConnectQuote({
+        flow: CICOFlow.CashOut,
         quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
         fiatAccountType: FiatAccountType.BankAccount,
       })

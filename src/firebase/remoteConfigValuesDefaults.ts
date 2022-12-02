@@ -2,13 +2,11 @@ import { RemoteConfigValues } from 'src/app/saga'
 import { CreateAccountCopyTestType, InviteMethodType } from 'src/app/types'
 import { DEFAULT_SENTRY_NETWORK_ERRORS, DEFAULT_SENTRY_TRACES_SAMPLE_RATE } from 'src/config'
 import { DappConnectInfo } from 'src/dapps/types'
-import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 
 export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   RemoteConfigValues,
   | 'celoEducationUri'
   | 'komenciAllowedDeployers'
-  | 'dappListApiUrl'
   | 'sentryNetworkErrors'
   | 'superchargeTokenConfigByToken'
   | 'fiatAccountSchemaCountryOverrides'
@@ -21,6 +19,7 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   superchargecEURMax: number
   superchargecREALMin: number
   superchargecREALMax: number
+  dappListApiUrl: string
 } = {
   hideVerification: false,
   celoEuroEnabled: true,
@@ -54,8 +53,8 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   maxNumRecentDapps: 0,
   skipVerification: false,
   showPriceChangeIndicatorInBalances: false,
-  paymentDeepLinkHandler: PaymentDeepLinkHandler.Disabled,
   dappsWebViewEnabled: false,
+  dappListApiUrl: '',
   skipProfilePicture: false,
   fiatConnectCashInEnabled: false,
   fiatConnectCashOutEnabled: false,

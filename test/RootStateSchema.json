@@ -931,6 +931,22 @@
                 "imageUrl": {
                     "type": "string"
                 },
+                "isNew": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "in": {
+                            "type": "boolean"
+                        },
+                        "out": {
+                            "type": "boolean"
+                        }
+                    },
+                    "required": [
+                        "in",
+                        "out"
+                    ],
+                    "type": "object"
+                },
                 "privacyPolicyUrl": {
                     "type": "string"
                 },
@@ -949,6 +965,7 @@
                 "iconUrl",
                 "id",
                 "imageUrl",
+                "isNew",
                 "privacyPolicyUrl",
                 "providerName",
                 "termsAndConditionsUrl",
@@ -1772,13 +1789,6 @@
             },
             "type": "object"
         },
-        "PaymentDeepLinkHandler": {
-            "enum": [
-                "",
-                "merchant"
-            ],
-            "type": "string"
-        },
         "PaymentInfo": {
             "additionalProperties": false,
             "properties": {
@@ -2052,7 +2062,6 @@
                 "Licenses",
                 "Main",
                 "MainModal",
-                "MerchantPayment",
                 "MoonPayScreen",
                 "NameAndPicture",
                 "OnboardingEducationScreen",
@@ -2422,9 +2431,6 @@
                 "numberVerified": {
                     "type": "boolean"
                 },
-                "paymentDeepLinkHandler": {
-                    "$ref": "#/definitions/PaymentDeepLinkHandler"
-                },
                 "phoneNumberVerified": {
                     "type": "boolean"
                 },
@@ -2536,7 +2542,6 @@
                 "minVersion",
                 "networkTimeoutSeconds",
                 "numberVerified",
-                "paymentDeepLinkHandler",
                 "phoneNumberVerified",
                 "pincodeUseExpandedBlocklist",
                 "rampCashInButtonExpEnabled",

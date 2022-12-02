@@ -46,12 +46,12 @@ export const reducer = (
       return {
         ...state,
         pendingSessions: state.pendingSessions.filter(
-          (pendingSession) => pendingSession.id !== action.id
+          (pendingSession) => pendingSession.id !== action.session.id
         ),
         // to ensure a clean starting state, clear any actions that may be left
         // from a previous session
         pendingActions: state.pendingActions.filter(
-          (pendingAction) => pendingAction.id !== action.id
+          (pendingAction) => pendingAction.id !== action.session.id
         ),
       }
     case Actions.CLOSE_SESSION_V2:
@@ -80,7 +80,22 @@ export const reducer = (
             pendingAction.id !== action.request.id && pendingAction.topic !== action.request.topic
         ),
       }
-
+    case Actions.REMOVE_EXPIRED_SESSIONS_V2: {
+      const unexpiredSessions = state.sessions.filter(
+        (session) => session.expiry > action.dateInSeconds
+      )
+      return {
+        sessions: unexpiredSessions,
+        pendingActions: state.pendingActions.filter((pendingAction) =>
+          unexpiredSessions
+            .map((unexpiredSession) => unexpiredSession.topic)
+            .includes(pendingAction.topic)
+        ),
+        pendingSessions: state.pendingSessions.filter(
+          (pendingSession) => pendingSession.params.expiry > action.dateInSeconds
+        ),
+      }
+    }
     default:
       return state
   }

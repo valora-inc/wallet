@@ -1,6 +1,6 @@
 // HOC to add a paste button to a text input
 
-import Clipboard from '@react-native-community/clipboard'
+import Clipboard from '@react-native-clipboard/clipboard'
 import * as React from 'react'
 import { AppState, NativeEventSubscription, ViewProps } from 'react-native'
 import { deviceIsIos14OrNewer } from 'src/utils/IosVersionUtils'
