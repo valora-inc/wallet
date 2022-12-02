@@ -1,4 +1,4 @@
-import Clipboard from '@react-native-community/clipboard'
+import Clipboard from '@react-native-clipboard/clipboard'
 import { useEffect, useState } from 'react'
 import { AppState } from 'react-native'
 import { deviceIsIos14OrNewer } from 'src/utils/IosVersionUtils'

@@ -1,4 +1,7 @@
 import { trimLeading0x } from '@celo/utils/lib/address'
+import { SignClientTypes } from '@walletconnect/types'
+import { getSdkError } from '@walletconnect/utils'
+import { TFunction } from 'i18next'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
@@ -11,42 +14,31 @@ import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
 import { getTranslationFromAction, SupportedActions } from 'src/walletConnect/constants'
 import RequestContent from 'src/walletConnect/screens/RequestContent'
-import { WalletConnectPayloadRequest, WalletConnectSession } from 'src/walletConnect/types'
-import { acceptRequest, denyRequest } from 'src/walletConnect/v1/actions'
+import {
+  acceptRequest as acceptRequestV1,
+  denyRequest as denyRequestV1,
+} from 'src/walletConnect/v1/actions'
 import { PendingAction } from 'src/walletConnect/v1/reducer'
 import { selectSessionFromPeerId } from 'src/walletConnect/v1/selectors'
+import {
+  acceptRequest as acceptRequestV2,
+  denyRequest as denyRequestV2,
+} from 'src/walletConnect/v2/actions'
+import { selectSessionFromTopic } from 'src/walletConnect/v2/selectors'
 
-type Props = {
+interface PropsV1 {
+  version: 1
   pendingAction: PendingAction
 }
 
-function getRequestInfo(pendingAction: WalletConnectPayloadRequest, session: WalletConnectSession) {
-  return {
-    url: session.peerMeta!.url,
-    name: session.peerMeta!.name,
-    icon: session.peerMeta!.icons[0],
-    method: pendingAction.method,
-    params: pendingAction.params,
-  }
+interface PropsV2 {
+  version: 2
+  pendingAction: SignClientTypes.EventArguments['session_request']
 }
-function ActionRequest({ pendingAction }: Props) {
-  const { t } = useTranslation()
-  const dispatch = useDispatch()
-  const [showTransactionDetails, setShowTransactionDetails] = useState(false)
 
-  const { action, peerId } = pendingAction
-  const activeSession = useSelector(selectSessionFromPeerId(peerId))
+type Props = PropsV1 | PropsV2
 
-  if (!activeSession) {
-    // should never happen
-    Logger.error(
-      'WalletConnectRequest/ActionRequest',
-      'No active WallectConnect session could be found'
-    )
-    return null
-  }
-
-  const { url, name, icon, method, params } = getRequestInfo(action, activeSession)
+const getMoreInfoString = (t: TFunction, method: string, params: any) => {
   const moreInfoString =
     method === SupportedActions.eth_signTransaction ||
     method === SupportedActions.eth_sendTransaction
@@ -62,8 +54,39 @@ function ActionRequest({ pendingAction }: Props) {
         t('action.emptyMessage')
       : null
 
-  const uri = icon ?? `${url}/favicon.ico`
+  return moreInfoString
+}
 
+// do not destructure props or else the type inference is lost
+function ActionRequest(props: Props) {
+  if (props.version === 1) {
+    return <ActionRequestV1 {...props} />
+  }
+
+  return <ActionRequestV2 {...props} />
+}
+
+function ActionRequestV1({ pendingAction }: PropsV1) {
+  const { t } = useTranslation()
+  const dispatch = useDispatch()
+  const [showTransactionDetails, setShowTransactionDetails] = useState(false)
+
+  const { action, peerId } = pendingAction
+  const activeSession = useSelector(selectSessionFromPeerId(peerId))
+
+  if (!activeSession) {
+    // should never happen
+    Logger.error(
+      'WalletConnectRequest/ActionRequestV1',
+      'No active WallectConnect session could be found'
+    )
+    return null
+  }
+
+  const { url, name, icons } = activeSession.peerMeta!
+  const { method, params } = action
+  const moreInfoString = getMoreInfoString(t, method, params)
+  const dappImageUrl = icons[0] ?? `${url}/favicon.ico`
   const requestDetails = [
     {
       label: t('action.operation'),
@@ -74,17 +97,83 @@ function ActionRequest({ pendingAction }: Props) {
   return (
     <RequestContent
       onAccept={() => {
-        dispatch(acceptRequest(peerId, action))
+        dispatch(acceptRequestV1(peerId, action))
       }}
       onDeny={() => {
-        dispatch(denyRequest(peerId, action, 'User denied'))
+        dispatch(denyRequestV1(peerId, action, 'User denied'))
       }}
       dappName={name}
-      dappImageUrl={uri}
+      dappImageUrl={dappImageUrl}
       title={t('confirmTransaction', { dappName: name })}
       description={t('action.askingV1_35', { dappName: name })}
       testId="WalletConnectActionRequest"
-      dappUrl={activeSession?.peerMeta?.url}
+      dappUrl={url}
+      requestDetails={requestDetails}
+    >
+      {moreInfoString && (
+        <View style={styles.transactionDetails}>
+          <Touchable
+            testID="ShowTransactionDetailsButton"
+            onPress={() => {
+              setShowTransactionDetails((prev) => !prev)
+            }}
+          >
+            <Expandable isExpandable isExpanded={showTransactionDetails}>
+              <Text style={[styles.bodyText, styles.underLine]}>{t('action.details')}</Text>
+            </Expandable>
+          </Touchable>
+
+          {showTransactionDetails && (
+            <Text testID="DappData" style={styles.bodyText}>
+              {moreInfoString}
+            </Text>
+          )}
+        </View>
+      )}
+    </RequestContent>
+  )
+}
+
+function ActionRequestV2({ pendingAction }: PropsV2) {
+  const { t } = useTranslation()
+  const dispatch = useDispatch()
+  const [showTransactionDetails, setShowTransactionDetails] = useState(false)
+
+  const activeSession = useSelector(selectSessionFromTopic(pendingAction.topic))
+  if (!activeSession) {
+    // should never happen
+    Logger.error(
+      'WalletConnectRequest/ActionRequestV2',
+      'No active WallectConnect session could be found'
+    )
+    return null
+  }
+
+  const { url, name, icons } = activeSession.peer.metadata
+  const { method, params } = pendingAction.params.request
+  const moreInfoString = getMoreInfoString(t, method, params)
+  const dappImageUrl = icons[0] ?? `${url}/favicon.ico`
+  const requestDetails = [
+    {
+      label: t('action.operation'),
+      value: getTranslationFromAction(t, method as SupportedActions),
+    },
+  ]
+
+  return (
+    <RequestContent
+      onAccept={() => {
+        dispatch(acceptRequestV2(pendingAction))
+      }}
+      onDeny={() => {
+        dispatch(denyRequestV2(pendingAction, getSdkError('USER_REJECTED')))
+      }}
+      dappName={name}
+      dappImageUrl={dappImageUrl}
+      title={t('confirmTransaction', { dappName: name })}
+      description={t('action.askingV1_35', { dappName: name })}
+      testId="WalletConnectActionRequest"
+      dappUrl={url}
       requestDetails={requestDetails}
     >
       {moreInfoString && (

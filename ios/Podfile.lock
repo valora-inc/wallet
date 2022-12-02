@@ -554,7 +554,7 @@ PODS:
     - Segment-Firebase (~> 2.7.7)
   - RNCAsyncStorage (1.17.10):
     - React-Core
-  - RNCClipboard (1.2.3):
+  - RNCClipboard (1.11.1):
     - React-Core
   - RNCMaskedView (0.2.6):
     - React-Core
@@ -643,7 +643,7 @@ PODS:
     - React-RCTImage
   - RNSecureRandom (1.0.0):
     - React-Core
-  - RNSentry (4.10.0):
+  - RNSentry (4.10.1):
     - React-Core
     - Sentry/HybridSDK (= 7.31.2)
   - RNShare (7.3.2):
@@ -760,7 +760,7 @@ DEPENDENCIES:
   - "RNAnalyticsIntegration-CleverTap (from `../node_modules/@segment/analytics-react-native-clevertap`)"
   - "RNAnalyticsIntegration-Firebase (from `../node_modules/@segment/analytics-react-native-firebase`)"
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
-  - "RNCClipboard (from `../node_modules/@react-native-community/clipboard`)"
+  - "RNCClipboard (from `../node_modules/@react-native-clipboard/clipboard`)"
   - "RNCMaskedView (from `../node_modules/@react-native-masked-view/masked-view`)"
   - "RNCPicker (from `../node_modules/@react-native-picker/picker`)"
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
@@ -951,7 +951,7 @@ EXTERNAL SOURCES:
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-async-storage/async-storage"
   RNCClipboard:
-    :path: "../node_modules/@react-native-community/clipboard"
+    :path: "../node_modules/@react-native-clipboard/clipboard"
   RNCMaskedView:
     :path: "../node_modules/@react-native-masked-view/masked-view"
   RNCPicker:
@@ -1097,7 +1097,7 @@ SPEC CHECKSUMS:
   RNAnalyticsIntegration-CleverTap: 924d284c088c6008e7599c06dda472742de22c89
   RNAnalyticsIntegration-Firebase: 27eb53875cc0208cc64ec35f06fb0f9e3c012add
   RNCAsyncStorage: 0c357f3156fcb16c8589ede67cc036330b6698ca
-  RNCClipboard: 546484405eaa1c8a3eccce77b8c8871242e73b20
+  RNCClipboard: 2834e1c4af68697089cdd455ee4a4cdd198fa7dd
   RNCMaskedView: c298b644a10c0c142055b3ae24d83879ecb13ccd
   RNCPicker: 0250e95ad170569a96f5b0555cdd5e65b9084dca
   RNDeviceInfo: 8b83e99e290deaf1bab71673cc636776ef647b6f
@@ -1118,7 +1118,7 @@ SPEC CHECKSUMS:
   RNReanimated: ee33ab40fa252332a36aeed9d936801ed9700b24
   RNScreens: 34cc502acf1b916c582c60003dc3089fa01dc66d
   RNSecureRandom: b0b479d7b934a3e6deea9cb986a9c40cb5f1b360
-  RNSentry: 211e1a62145d5bcb4bee926823061b5af47816c4
+  RNSentry: 3c27f3c57f16bab9835d9555add298571077e0c1
   RNShare: d76b8c9c6e6ffb38fc18f40b4338c9d867592ed3
   RNSVG: 302bfc9905bd8122f08966dc2ce2d07b7b52b9f8
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
