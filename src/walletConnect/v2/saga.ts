@@ -58,21 +58,35 @@ let client: SignClient | null = null
 
 const TAG = 'WalletConnect/saga'
 
+const isSessionProposalType = (
+  session: SignClientTypes.EventArguments['session_proposal'] | SessionTypes.Struct
+): session is SignClientTypes.EventArguments['session_proposal'] => {
+  return 'params' in session
+}
+
 function* getDefaultSessionTrackedProperties(
   session: SignClientTypes.EventArguments['session_proposal'] | SessionTypes.Struct
 ) {
   const activeDapp: ActiveDapp | null = yield select(activeDappSelector)
-  const peer = 'params' in session ? session.params.proposer : session.peer
+  const peer = isSessionProposalType(session) ? session.params.proposer : session.peer
   const { name: dappName, url: dappUrl, description: dappDescription, icons } = peer.metadata
-  const {
-    chains: permissionsBlockchains,
-    methods: permissionsJsonrpcMethods,
-    events: permissionsNotificationsTypes,
-  } = ('params' in session
-    ? session.params.requiredNamespaces.eip155
-    : session.requiredNamespaces.eip155) || {}
-  const relayProtocol =
-    'params' in session ? session.params.relays[0]?.protocol : session.relay.protocol
+
+  const permissionsBlockchains: string[] = []
+  const permissionsJsonrpcMethods: string[] = []
+  const permissionsNotificationsTypes: string[] = []
+
+  const requiredNamespaces = isSessionProposalType(session)
+    ? session.params.requiredNamespaces
+    : session.requiredNamespaces
+  Object.keys(requiredNamespaces).forEach((key) => {
+    permissionsBlockchains.push(...requiredNamespaces[key].chains)
+    permissionsJsonrpcMethods.push(...requiredNamespaces[key].methods)
+    permissionsNotificationsTypes.push(...requiredNamespaces[key].events)
+  })
+
+  const relayProtocol = isSessionProposalType(session)
+    ? session.params.relays[0]?.protocol
+    : session.relay.protocol
 
   return {
     version: 2 as const,
@@ -91,11 +105,12 @@ function* getDefaultSessionTrackedProperties(
 function getDefaultRequestTrackedProperties(
   request: SignClientTypes.EventArguments['session_request']
 ) {
+  const { id, params } = request
   return {
-    requestChainId: request.params.chainId,
-    requestId: request.id,
-    requestJsonrpc: request.params.request.params.toString(),
-    requestMethod: request.params.request.method,
+    requestChainId: params.chainId,
+    requestId: id,
+    requestJsonrpc: params.request.params.toString(),
+    requestMethod: params.request.method,
   }
 }
 
