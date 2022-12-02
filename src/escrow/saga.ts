@@ -55,6 +55,7 @@ import { estimateGas } from 'src/web3/utils'
  * The only features that should still be active are showing escrow transactions in the home feed properly
  * and allowing users to redeem unclaimed escrow invites.
  * https://valora-app.slack.com/archives/C025V1D6F3J/p1669742116085229
+ * https://linear.app/valora/issue/RET-504/[wallet]-remove-cpv-experiment-and-komenci
  */
 
 const TAG = 'escrow/saga'
