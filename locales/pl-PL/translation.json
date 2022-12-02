@@ -1268,13 +1268,6 @@
   "others": "Inne",
   "nomSpaceRecipient": "Nomspace: {{name}}",
   "lastDay": "Ostatnie 24 godz.",
-  "merchant": "Płatności dla sprzedawcy",
-  "merchantMoneyEscrow": "Zamierzasz wysłać płatność bezpośrednio do sprzedawcy.",
-  "merchantPaymentNumberVerificationMessage": "Musisz podłączyć swój numer",
-  "merchantPaymentSubmitFail": "Twoja płatność nie została przesłana",
-  "merchantPaymentSetup": "Wystąpił błąd podczas wczytywania danych sprzedawcy, spróbuj ponownie zeskanować kod QR",
-  "merchantPaymentSubmitSuccess": "Twoja płatność została przesłana pomyślnie",
-  "merchantWalletUnlockError": "Coś poszło nie tak podczas odblokowywania portfela, spróbuj ponownie",
   "noMoreTransactions": "Nie ma więcej transakcji",
   "selectProviderScreen": {
     "somePaymentsUnavailable": "Niektóre metody płatności są niedostępne w Twoim regionie",
@@ -1472,6 +1465,11 @@
       "label": "IBAN",
       "placeholderText": "Wprowadź numer IBAN",
       "errorMessage": "Nieprawidłowy numer IBAN"
+    },
+    "ifsc": {
+      "label": "IFSC",
+      "placeholderText": "Wprowadź IFSC",
+      "errorMessage": "Nieważne IFSC"
     }
   },
   "webView": {

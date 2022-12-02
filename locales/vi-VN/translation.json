@@ -1262,13 +1262,6 @@
   "others": "Khác",
   "nomSpaceRecipient": "Nomspace: {{name}}",
   "lastDay": "24 giờ qua",
-  "merchant": "Thanh toán cho người bán",
-  "merchantMoneyEscrow": "Bạn sắp gửi một khoản thanh toán trực tiếp cho người bán.",
-  "merchantPaymentNumberVerificationMessage": "Bạn cần kết nối số điện thoại của mình",
-  "merchantPaymentSubmitFail": "Không gửi được khoản thanh toán của bạn",
-  "merchantPaymentSetup": "Đã xảy ra lỗi khi tải thông tin người bán, vui lòng thử quét lại mã QR",
-  "merchantPaymentSubmitSuccess": "Đã gửi thành công khoản thanh toán của bạn",
-  "merchantWalletUnlockError": "Đã xảy ra lỗi khi mở khóa ví của bạn, vui lòng thử lại",
   "noMoreTransactions": "Không còn giao dịch khác",
   "selectProviderScreen": {
     "somePaymentsUnavailable": "Một số phương thức thanh toán không được hỗ trợ ở khu vực của bạn",
@@ -1466,6 +1459,11 @@
       "label": "IBAN",
       "placeholderText": "Nhập số IBAN",
       "errorMessage": "IBAN không hợp lệ"
+    },
+    "ifsc": {
+      "label": "IFSC",
+      "placeholderText": "Enter IFSC",
+      "errorMessage": "Invalid IFSC"
     }
   },
   "webView": {
