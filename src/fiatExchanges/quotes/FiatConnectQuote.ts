@@ -30,10 +30,15 @@ const kycStrings = {
 }
 
 // TODO: When we add support for more types be sure to add more unit tests to the FiatConnectQuotes class
-const SUPPORTED_FIAT_ACCOUNT_TYPES = new Set<FiatAccountType>([FiatAccountType.BankAccount])
+const SUPPORTED_FIAT_ACCOUNT_TYPES = new Set<FiatAccountType>([
+  FiatAccountType.BankAccount,
+  FiatAccountType.MobileMoney,
+])
 const SUPPORTED_FIAT_ACCOUNT_SCHEMAS = new Set<FiatAccountSchema>([
   FiatAccountSchema.AccountNumber,
   FiatAccountSchema.IBANNumber,
+  FiatAccountSchema.IFSCAccount,
+  FiatAccountSchema.MobileMoney,
 ])
 const SUPPORTED_KYC_SCHEMAS = new Set<KycSchema>([KycSchema.PersonalDataAndDocuments])
 
@@ -170,8 +175,9 @@ export default class FiatConnectQuote extends NormalizedQuote {
   }
 
   isProviderNew(): boolean {
-    // TODO: get from API
-    return false
+    return this.flow === CICOFlow.CashIn
+      ? this.quote.provider.isNew.in
+      : this.quote.provider.isNew.out
   }
 
   getProviderBaseUrl(): string {

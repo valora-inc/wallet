@@ -670,6 +670,10 @@ export const mockFiatConnectProviderInfo: FiatConnectProviderInfo[] = [
     privacyPolicyUrl: 'https://fakewebsite.valorapp.com/privacy',
     iconUrl: mockFiatConnectProviderIcon,
     apiKey: 'fake-api-key',
+    isNew: {
+      in: true,
+      out: false,
+    },
   },
   {
     id: 'provider-one',
@@ -680,6 +684,10 @@ export const mockFiatConnectProviderInfo: FiatConnectProviderInfo[] = [
     termsAndConditionsUrl: 'https://fakewebsite.valorapp.com/terms',
     privacyPolicyUrl: 'https://fakewebsite.valorapp.com/privacy',
     iconUrl: mockFiatConnectProviderIcon,
+    isNew: {
+      in: true,
+      out: true,
+    },
   },
   {
     id: 'provider-three',
@@ -690,6 +698,10 @@ export const mockFiatConnectProviderInfo: FiatConnectProviderInfo[] = [
     termsAndConditionsUrl: 'https://fakewebsite.valorapp.com/terms',
     privacyPolicyUrl: 'https://fakewebsite.valorapp.com/privacy',
     iconUrl: mockFiatConnectProviderIcon,
+    isNew: {
+      in: false,
+      out: false,
+    },
   },
 ]
 
@@ -749,6 +761,10 @@ export const mockFiatConnectQuotes: (FiatConnectQuoteSuccess | FiatConnectQuoteE
       termsAndConditionsUrl: 'https://fakewebsite.valorapp.com/terms',
       privacyPolicyUrl: 'https://fakewebsite.valorapp.com/privacy',
       iconUrl: mockFiatConnectProviderIcon,
+      isNew: {
+        in: true,
+        out: true,
+      },
     },
     ok: false,
     error: FiatConnectError.FiatAmountTooHigh,

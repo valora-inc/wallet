@@ -8,7 +8,6 @@ import { SendingFiatAccountStatus } from 'src/fiatconnect/slice'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { AddressToDisplayNameType } from 'src/identity/reducer'
 import { VerificationStatus } from 'src/identity/types'
-import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { TokenTransaction } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 
@@ -466,7 +465,7 @@ export const migrations = {
     ...state,
     app: {
       ...state.app,
-      paymentDeepLinkHandler: PaymentDeepLinkHandler.Disabled,
+      paymentDeepLinkHandler: '',
     },
   }),
   40: (state: any) => {
@@ -913,5 +912,16 @@ export const migrations = {
       ...state.app,
       walletConnectV2Enabled: true,
     },
+  }),
+  95: (state: any) => ({
+    ...state,
+    fiatConnect: {
+      ...state.fiatConnect,
+      providers: null,
+    },
+  }),
+  96: (state: any) => ({
+    ...state,
+    app: _.omit(state.app, 'paymentDeepLinkHandler'),
   }),
 }
