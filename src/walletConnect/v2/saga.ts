@@ -6,7 +6,7 @@ import SignClient from '@walletconnect/sign-client'
 import { SessionTypes, SignClientTypes } from '@walletconnect/types'
 import { getSdkError } from '@walletconnect/utils'
 import { EventChannel, eventChannel } from 'redux-saga'
-import { call, put, select, take, takeEvery, takeLeading } from 'redux-saga/effects'
+import { call, delay, put, select, take, takeEvery, takeLeading } from 'redux-saga/effects'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
 import { APP_NAME, WEB_LINK } from 'src/brandingConfig'
 import { WALLET_CONNECT_PROJECT_ID } from 'src/config'
@@ -240,9 +240,19 @@ export function* acceptSession({ session }: AcceptSession) {
     yield call(acknowledged)
 
     // TODO is there some better way to find the new session?
-    const newSession = client.session.values.find(
+    let newSession = client.session.values.find(
       (value) => value.peer.publicKey === session.params.proposer.publicKey
     )
+    if (!newSession) {
+      // TODO is there some more reliable way to know when a session has been
+      // accepted on the client itself? haven't been able to find any emitted
+      // events so far
+      yield delay(500)
+      newSession = client.session.values.find(
+        (value) => value.peer.publicKey === session.params.proposer.publicKey
+      )
+    }
+
     if (newSession) {
       yield put(sessionCreated(newSession))
     }
