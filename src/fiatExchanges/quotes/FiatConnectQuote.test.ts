@@ -75,6 +75,7 @@ describe('FiatConnectQuote', () => {
     it.each([
       [FiatAccountType.BankAccount, FiatAccountSchema.AccountNumber],
       [FiatAccountType.BankAccount, FiatAccountSchema.IBANNumber],
+      [FiatAccountType.BankAccount, FiatAccountSchema.IFSCAccount],
       [FiatAccountType.MobileMoney, FiatAccountSchema.MobileMoney],
     ])(
       'does not throw an error if at least one fiatAccountSchema is supported',
