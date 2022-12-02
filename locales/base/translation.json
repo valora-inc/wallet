@@ -1388,7 +1388,7 @@
       "header": "Success",
       "title": "Your funds are on their way!",
       "description": "Your transaction request has been sent & your funds will arrive in {{duration}}.",
-      "descriptionNumDays": "Your transaction request has been sent & your funds will arrive in 1-3 days.",
+      "description1to3Days": "Your transaction request has been sent & your funds will arrive in 1-3 days.",
       "description24Hours": "Your transaction request has been sent & your funds will arrive within 24 hours.",
       "txDetails": "View on CeloExplorer",
       "continue": "Continue"
