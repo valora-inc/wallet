@@ -17166,11 +17166,6 @@ react-native-platform-touchable@^1.1.1:
   resolved "https://registry.yarnpkg.com/react-native-platform-touchable/-/react-native-platform-touchable-1.1.1.tgz#fde4acc65eea585d28b164d0c3716a42129a68e4"
   integrity sha1-/eSsxl7qWF0osWTQw3FqQhKaaOQ=
 
-react-native-public-ip@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/react-native-public-ip/-/react-native-public-ip-1.0.2.tgz#3ce67cbfafdd5b8799e5b669e92351db0cc06102"
-  integrity sha512-GElvYvHLo/BCRFlXARBTq9Dwx526d1zxnyqlSfp1RQwA1yAucFbabfm6nAA3c2Nnq2OdfL4dbFGSeArM2Hdr2g==
-
 react-native-randombytes@^3.5.1, react-native-randombytes@^3.6.0:
   version "3.6.0"
   resolved "https://registry.yarnpkg.com/react-native-randombytes/-/react-native-randombytes-3.6.0.tgz#6134370f28a345d435fd0f42be6a7dc73d2311ae"
