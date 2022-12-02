@@ -1459,6 +1459,11 @@
       "label": "IBAN",
       "placeholderText": "Nhập số IBAN",
       "errorMessage": "IBAN không hợp lệ"
+    },
+    "ifsc": {
+      "label": "IFSC",
+      "placeholderText": "Enter IFSC",
+      "errorMessage": "Invalid IFSC"
     }
   },
   "webView": {
