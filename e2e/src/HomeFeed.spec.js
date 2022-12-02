@@ -24,7 +24,6 @@ describe('Home Feed :ios:', () => {
 
     // Compare initial number of items to new number of items after scroll
     const endingItems = await element(by.id('TransactionListItem')).getAttributes()
-    console.log(startingItems.elements.length, endingItems.elements.length)
     jestExpect(endingItems.elements.length).toBeGreaterThan(startingItems.elements.length)
   })
 
