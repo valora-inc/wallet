@@ -1,4 +1,4 @@
-import Clipboard from '@react-native-community/clipboard'
+import Clipboard from '@react-native-clipboard/clipboard'
 import * as React from 'react'
 import { StyleSheet, Text } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
