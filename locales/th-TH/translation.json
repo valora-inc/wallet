@@ -1459,6 +1459,11 @@
       "label": "IBAN",
       "placeholderText": "ป้อนหมายเลข IBAN",
       "errorMessage": "IBAN ไม่ถูกต้อง"
+    },
+    "ifsc": {
+      "label": "IFSC",
+      "placeholderText": "Enter IFSC",
+      "errorMessage": "Invalid IFSC"
     }
   },
   "webView": {
