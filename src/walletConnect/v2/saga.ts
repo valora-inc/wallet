@@ -14,7 +14,7 @@ import i18n from 'src/i18n'
 import { isBottomSheetVisible, navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import Logger from 'src/utils/Logger'
-import { isSupportedAction } from 'src/walletConnect/constants'
+import { isSupportedAction, SupportedActions } from 'src/walletConnect/constants'
 import { handleRequest } from 'src/walletConnect/request'
 import { showWalletConnectionSuccessMessage } from 'src/walletConnect/saga'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
@@ -296,7 +296,10 @@ function* handleAcceptRequest({ request }: AcceptRequest) {
     }
 
     const result = yield call(handleRequest, { ...params.request })
-    const response: JsonRpcResult<string> = formatJsonRpcResult(id, result)
+    const response: JsonRpcResult<string> = formatJsonRpcResult(
+      id,
+      params.request.method === SupportedActions.eth_signTransaction ? result.raw : result
+    )
     yield call([client, 'respond'], { topic, response })
     yield call(showWalletConnectionSuccessMessage, activeSession.peer.metadata.name)
   } catch (e) {
