@@ -1465,6 +1465,11 @@
       "label": "IBAN",
       "placeholderText": "Введіть номер IBAN",
       "errorMessage": "Неправильний IBAN"
+    },
+    "ifsc": {
+      "label": "МФСС",
+      "placeholderText": "Введіть IFSC",
+      "errorMessage": "Недійсний IFSC"
     }
   },
   "webView": {
