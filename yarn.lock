@@ -2472,10 +2472,6 @@
     fp-ts "2.1.1"
     io-ts "2.0.1"
 
-"@celo/react-native-sms-retriever@git+https://github.com/celo-org/react-native-sms-retriever#11e078e":
-  version "1.0.3"
-  resolved "git+https://github.com/celo-org/react-native-sms-retriever#11e078e7631348d27bf7a0e8d0e172701ae30ea8"
-
 "@celo/utils@1.2.0", "@celo/utils@^1.2.0", "@celo/utils@^1.2.4", "@celo/utils@^1.5.1":
   version "1.5.2"
   resolved "https://registry.yarnpkg.com/@celo/utils/-/utils-1.5.2.tgz#ddb7f3b50c801225ab41d2355fbe010976329099"
@@ -17246,6 +17242,11 @@ react-native-simple-toast@^1.1.3:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/react-native-simple-toast/-/react-native-simple-toast-1.1.3.tgz#4d0835891fe5c9342341fc4a88ed01ebb1a34bd5"
   integrity sha512-bkZy25axqlU4L6IoTysSl5KOQA7qdxzivbXz/L/yAw9g9fENxjzYvUUtv5wWtgq7mzOe5HiJ7GCQrOl3MhIevQ==
+
+react-native-sms-retriever@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/react-native-sms-retriever/-/react-native-sms-retriever-1.1.1.tgz#e87225836b394560c63db4c106552a0b9247d9b3"
+  integrity sha512-WRwiITfssx59+TB1iEMmjB7w4OTkatR34js5+4a4pP2jMXJ4aLdXK0hOtHxl8ciS8aIejdd49Sz8AXonlvtdRw==
 
 react-native-splash-screen@^3.3.0:
   version "3.3.0"
