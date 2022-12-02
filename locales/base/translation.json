@@ -1286,11 +1286,6 @@
     "numDays": "1-3 Days",
     "oneHour": "Less Than 1 Hour",
     "lessThan24Hours": "Less Than 24 Hours",
-    "settlementTime": {
-      "daysRange": "{{lower}}-{{upper}} Days",
-      "oneHour": "Less Than 1 Hour",
-      "lessThanHours": "Less Than {{upper}} Hours"
-    },
     "bestRate": "Best Rate",
     "header": "Select Payment Method",
     "newLabel": "NEW",
@@ -1395,10 +1390,6 @@
       "description": "Your transaction request has been sent & your funds will arrive in {{duration}}.",
       "descriptionNumDays": "Your transaction request has been sent & your funds will arrive in 1-3 days.",
       "description24Hours": "Your transaction request has been sent & your funds will arrive within 24 hours.",
-      "description2": {
-        "daysRange": "Your transaction request has been sent & your funds will arrive in {{lower}}-{{upper}} days.",
-        "withinHours": "Your transaction request has been sent & your funds will arrive within {{upper}} hours."
-      },
       "txDetails": "View on CeloExplorer",
       "continue": "Continue"
     },
