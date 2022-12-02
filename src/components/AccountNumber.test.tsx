@@ -1,11 +1,11 @@
-import Clipboard from '@react-native-community/clipboard'
+import Clipboard from '@react-native-clipboard/clipboard'
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
 import AccountNumber from 'src/components/AccountNumber'
 import { mockAccount } from 'test/values'
 
-jest.mock('@react-native-community/clipboard', () => ({
+jest.mock('@react-native-clipboard/clipboard', () => ({
   setString: jest.fn(),
 }))
 
