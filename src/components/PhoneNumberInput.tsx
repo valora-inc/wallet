@@ -1,9 +1,9 @@
-import SmsRetriever from 'react-native-sms-retriever'
 import { LocalizedCountry } from '@celo/utils/lib/countries'
 import { ValidatorKind } from '@celo/utils/lib/inputValidation'
 import { parsePhoneNumber } from '@celo/utils/lib/phoneNumbers'
 import React, { useEffect, useRef } from 'react'
 import { Platform, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
+import SmsRetriever from 'react-native-sms-retriever'
 import Expandable from 'src/components/Expandable'
 import FormField from 'src/components/FormField'
 import FormTextInput from 'src/components/FormTextInput'
@@ -22,7 +22,7 @@ async function requestPhoneNumber() {
       // eslint-disable-next-line no-console
       console.info(`${TAG}/requestPhoneNumber`, 'Not implemented in this platform')
     }
-    return parsePhoneNumber(phoneNumber, '')
+    return parsePhoneNumber(phoneNumber || '', '')
   } catch (error) {
     // eslint-disable-next-line no-console
     console.info(`${TAG}/requestPhoneNumber`, 'Could not request phone', error)

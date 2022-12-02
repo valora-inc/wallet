@@ -2,7 +2,7 @@ import SmsRetriever from 'react-native-sms-retriever'
 import { eventChannel } from 'redux-saga'
 import { call, put, take } from 'redux-saga/effects'
 import { receiveAttestationMessage } from 'src/identity/actions'
-import { CodeInputType, NUM_ATTESTATIONS_REQUIRED } from 'src/identity/verification'
+import { CodeInputType } from 'src/identity/verification'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'identity/smsRetrieval'
@@ -18,8 +18,7 @@ export function* startAutoSmsRetrieval() {
     addSmsListener(emitter)
     return removeSmsListener
   })
-  // TODO(Rossy) Remove the *2 here once the SmsRetriever can filter dupes on its own
-  yield call(startSmsRetriever, NUM_ATTESTATIONS_REQUIRED * 2)
+  yield call(startSmsRetriever)
   try {
     const messages: string[] = []
     while (true) {
@@ -36,10 +35,10 @@ export function* startAutoSmsRetrieval() {
   }
 }
 
-export async function startSmsRetriever(numMessages = 1) {
+export async function startSmsRetriever() {
   Logger.debug(TAG + '@SmsRetriever', 'Starting sms retriever')
   try {
-    const result = await SmsRetriever.startSmsRetriever(numMessages)
+    const result = await SmsRetriever.startSmsRetriever()
     if (result) {
       Logger.debug(TAG + '@SmsRetriever', 'Retriever started successfully')
     } else {
