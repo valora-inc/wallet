@@ -4,7 +4,6 @@ import { Actions, ActionTypes, AppState } from 'src/app/actions'
 import { CreateAccountCopyTestType, InviteMethodType } from 'src/app/types'
 import { SuperchargeTokenConfigByToken } from 'src/consumerIncentives/types'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
-import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { Screens } from 'src/navigator/Screens'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 
@@ -45,7 +44,6 @@ export interface State {
   supportedBiometryType: BIOMETRY_TYPE | null
   skipVerification: boolean
   showPriceChangeIndicatorInBalances: boolean
-  paymentDeepLinkHandler: PaymentDeepLinkHandler
   skipProfilePicture: boolean
   fiatConnectCashInEnabled: boolean
   fiatConnectCashOutEnabled: boolean
@@ -96,7 +94,6 @@ const initialState = {
   skipVerification: REMOTE_CONFIG_VALUES_DEFAULTS.skipVerification,
   showPriceChangeIndicatorInBalances:
     REMOTE_CONFIG_VALUES_DEFAULTS.showPriceChangeIndicatorInBalances,
-  paymentDeepLinkHandler: REMOTE_CONFIG_VALUES_DEFAULTS.paymentDeepLinkHandler,
   skipProfilePicture: REMOTE_CONFIG_VALUES_DEFAULTS.skipProfilePicture,
   fiatConnectCashInEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.fiatConnectCashInEnabled,
   fiatConnectCashOutEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.fiatConnectCashOutEnabled,
@@ -218,7 +215,6 @@ export const appReducer = (
         sentryNetworkErrors: action.configValues.sentryNetworkErrors,
         skipVerification: action.configValues.skipVerification,
         showPriceChangeIndicatorInBalances: action.configValues.showPriceChangeIndicatorInBalances,
-        paymentDeepLinkHandler: action.configValues.paymentDeepLinkHandler,
         skipProfilePicture: action.configValues.skipProfilePicture,
         fiatConnectCashInEnabled: action.configValues.fiatConnectCashInEnabled,
         fiatConnectCashOutEnabled: action.configValues.fiatConnectCashOutEnabled,

@@ -92,12 +92,14 @@ export const reducer = (
         (session) => session.expiry > action.dateInSeconds
       )
       return {
-        ...state,
         sessions: unexpiredSessions,
         pendingActions: state.pendingActions.filter((pendingAction) =>
           unexpiredSessions
             .map((unexpiredSession) => unexpiredSession.topic)
             .includes(pendingAction.topic)
+        ),
+        pendingSessions: state.pendingSessions.filter(
+          (pendingSession) => pendingSession.params.expiry > action.dateInSeconds
         ),
       }
     }
