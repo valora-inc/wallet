@@ -8,11 +8,29 @@ import FiatConnectReviewScreen from 'src/fiatconnect/ReviewScreen'
 import { createFiatConnectTransfer, FiatAccount, refetchQuote } from 'src/fiatconnect/slice'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
+import { getDefaultLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps, sleep } from 'test/utils'
 import { mockFiatConnectQuotes } from 'test/values'
+
+jest.mock('src/fiatconnect/constants', () => ({
+  CURRENCIES_WITH_FEE_DISCLAIMER: {
+    // Not using enums because jest hoisting prevents us from doing so.
+    AccountNumber: new Set(['FakeRegion']),
+  },
+}))
+
+jest.mock('src/localCurrency/selectors', () => {
+  const originalModule = jest.requireActual('src/localCurrency/selectors')
+
+  return {
+    __esModule: true,
+    ...originalModule,
+    getDefaultLocalCurrencyCode: jest.fn().mockReturnValue('USD'),
+  }
+})
 
 function getProps(
   flow: CICOFlow,
@@ -56,6 +74,9 @@ describe('ReviewScreen', () => {
   beforeEach(() => {
     store.dispatch = jest.fn()
   })
+  afterAll(() => {
+    jest.resetAllMocks()
+  })
   describe('cashIn', () => {
     it('shows fiat amount, transaction details and payment method', () => {
       const { queryByTestId, queryByText } = render(
@@ -77,6 +98,16 @@ describe('ReviewScreen', () => {
       expect(queryByTestId('paymentMethod-via')?.children).toEqual([
         'fiatConnectReviewScreen.paymentMethodVia, {"providerName":"Provider Two"}',
       ])
+    })
+    it(`doesn't show fee disclaimer for cash in`, () => {
+      const mockProps = getProps(CICOFlow.CashIn)
+      const { queryByText } = render(
+        <Provider store={store}>
+          <FiatConnectReviewScreen {...mockProps} />
+        </Provider>
+      )
+
+      expect(queryByText('fiatConnectReviewScreen.feeDisclaimer')).toBeFalsy()
     })
   })
 
@@ -271,6 +302,27 @@ describe('ReviewScreen', () => {
           crypto: 100,
         },
       })
+    })
+    it(`shows fee disclaimer when app currency doesn't match cash out country currency`, () => {
+      const mockProps = getProps(CICOFlow.CashOut)
+      getDefaultLocalCurrencyCode.mockReturnValueOnce('FakeRegion')
+      const { queryByText } = render(
+        <Provider store={store}>
+          <FiatConnectReviewScreen {...mockProps} />
+        </Provider>
+      )
+
+      expect(queryByText('fiatConnectReviewScreen.feeDisclaimer')).toBeTruthy()
+    })
+    it(`doesn't show disclaimer when country currency isn't in fee disclaimer set`, () => {
+      const mockProps = getProps(CICOFlow.CashOut)
+      const { queryByText } = render(
+        <Provider store={store}>
+          <FiatConnectReviewScreen {...mockProps} />
+        </Provider>
+      )
+
+      expect(queryByText('fiatConnectReviewScreen.feeDisclaimer')).toBeFalsy()
     })
   })
 })

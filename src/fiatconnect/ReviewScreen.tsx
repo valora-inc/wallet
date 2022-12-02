@@ -1,8 +1,8 @@
 import { ObfuscatedFiatAccountData } from '@fiatconnect/fiatconnect-types'
 import { RouteProp } from '@react-navigation/native'
-import BigNumber from 'bignumber.js'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import React, { useEffect, useLayoutEffect, useState } from 'react'
+import BigNumber from 'bignumber.js'
+import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, BackHandler, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
@@ -16,6 +16,8 @@ import Dialog from 'src/components/Dialog'
 import LineItemRow from 'src/components/LineItemRow'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
+import { convertToFiatConnectFiatCurrency } from 'src/fiatconnect'
+import { CURRENCIES_WITH_FEE_DISCLAIMER } from 'src/fiatconnect/constants'
 import {
   fiatConnectQuotesErrorSelector,
   fiatConnectQuotesLoadingSelector,
@@ -24,7 +26,11 @@ import { createFiatConnectTransfer, refetchQuote } from 'src/fiatconnect/slice'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import i18n from 'src/i18n'
-import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
+import { LocalCurrencyCode } from 'src/localCurrency/consts'
+import {
+  getDefaultLocalCurrencyCode,
+  localCurrencyExchangeRatesSelector,
+} from 'src/localCurrency/selectors'
 import { emptyHeader } from 'src/navigator/Headers'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -36,14 +42,35 @@ import { Currency } from 'src/utils/currencies'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.FiatConnectReview>
 
+export const disclaimerIsNeeded = (
+  flow: CICOFlow,
+  quote: FiatConnectQuote,
+  localCurrency: LocalCurrencyCode
+) => {
+  const fiatType = quote.getFiatType()
+  const currencyEligibleForDisclaimer =
+    !!CURRENCIES_WITH_FEE_DISCLAIMER[quote.getFiatAccountSchema()]?.has(localCurrency)
+  return (
+    flow === CICOFlow.CashOut &&
+    fiatType !== convertToFiatConnectFiatCurrency(localCurrency) &&
+    currencyEligibleForDisclaimer
+  )
+}
+
 export default function FiatConnectReviewScreen({ route, navigation }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const { flow, normalizedQuote, fiatAccount, shouldRefetchQuote } = route.params
   const fiatConnectQuotesLoading = useSelector(fiatConnectQuotesLoadingSelector)
   const fiatConnectQuotesError = useSelector(fiatConnectQuotesErrorSelector)
+  const localCurrency = useSelector(getDefaultLocalCurrencyCode)
   const [showingExpiredQuoteDialog, setShowingExpiredQuoteDialog] = useState(
     normalizedQuote.getGuaranteedUntil() < new Date()
+  )
+
+  const showFeeDisclaimer = useMemo(
+    () => disclaimerIsNeeded(flow, normalizedQuote, localCurrency),
+    []
   )
 
   useEffect(() => {
@@ -194,41 +221,46 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
         <TransactionDetails flow={flow} normalizedQuote={normalizedQuote} />
         <PaymentMethod flow={flow} normalizedQuote={normalizedQuote} fiatAccount={fiatAccount} />
       </View>
-      <Button
-        testID="submitButton"
-        style={styles.submitBtn}
-        type={BtnTypes.PRIMARY}
-        size={BtnSizes.FULL}
-        text={
-          flow === CICOFlow.CashIn
-            ? t('fiatConnectReviewScreen.cashIn.button')
-            : t('fiatConnectReviewScreen.cashOut.button')
-        }
-        onPress={() => {
-          if (normalizedQuote.getGuaranteedUntil() < new Date()) {
-            setShowingExpiredQuoteDialog(true)
-          } else {
-            ValoraAnalytics.track(FiatExchangeEvents.cico_fc_review_submit, {
-              flow,
-              provider: normalizedQuote.getProviderId(),
-            })
-
-            dispatch(
-              createFiatConnectTransfer({
-                flow,
-                fiatConnectQuote: normalizedQuote,
-                fiatAccountId: fiatAccount.fiatAccountId,
-              })
-            )
-
-            navigate(Screens.FiatConnectTransferStatus, {
-              flow,
-              normalizedQuote,
-              fiatAccount,
-            })
+      <View>
+        {showFeeDisclaimer && (
+          <Text style={styles.disclaimer}>{t('fiatConnectReviewScreen.feeDisclaimer')}</Text>
+        )}
+        <Button
+          testID="submitButton"
+          style={styles.submitBtn}
+          type={BtnTypes.PRIMARY}
+          size={BtnSizes.FULL}
+          text={
+            flow === CICOFlow.CashIn
+              ? t('fiatConnectReviewScreen.cashIn.button')
+              : t('fiatConnectReviewScreen.cashOut.button')
           }
-        }}
-      />
+          onPress={() => {
+            if (normalizedQuote.getGuaranteedUntil() < new Date()) {
+              setShowingExpiredQuoteDialog(true)
+            } else {
+              ValoraAnalytics.track(FiatExchangeEvents.cico_fc_review_submit, {
+                flow,
+                provider: normalizedQuote.getProviderId(),
+              })
+
+              dispatch(
+                createFiatConnectTransfer({
+                  flow,
+                  fiatConnectQuote: normalizedQuote,
+                  fiatAccountId: fiatAccount.fiatAccountId,
+                })
+              )
+
+              navigate(Screens.FiatConnectTransferStatus, {
+                flow,
+                normalizedQuote,
+                fiatAccount,
+              })
+            }
+          }}
+        />
+      </View>
     </SafeAreaView>
   )
 }
@@ -580,6 +612,13 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 13,
+  },
+  disclaimer: {
+    ...fontStyles.small,
+    paddingHorizontal: variables.contentPadding,
+    marginBottom: 20,
+    textAlign: 'center',
+    color: colors.gray4,
   },
 })
 
