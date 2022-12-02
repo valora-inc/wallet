@@ -52,7 +52,7 @@ export async function startSmsRetriever() {
 export function addSmsListener(onSmsRetrieved: (message: SmsEvent) => void) {
   Logger.debug(TAG + '@SmsRetriever', 'Adding sms listener')
   try {
-    SmsRetriever.addSmsListener((event: SmsEvent) => {
+    void SmsRetriever.addSmsListener((event: SmsEvent) => {
       if (!event) {
         Logger.error(TAG + '@SmsRetriever', 'Sms listener event is null')
         return
