@@ -1,5 +1,6 @@
 import BigNumber from 'bignumber.js'
 import { expectSaga } from 'redux-saga-test-plan'
+import { ErrorMessages } from 'src/app/ErrorMessages'
 import { call } from 'redux-saga/effects'
 import {
   chooseTxFeeDetails,
@@ -59,6 +60,10 @@ describe('isTxPossiblyPending', () => {
   it('returns false when err is invalid', () => {
     const result = isTxPossiblyPending(null)
     expect(result).toBe(false)
+  })
+  it('returns true when timeout error', () => {
+    const result = isTxPossiblyPending(new Error(ErrorMessages.TRANSACTION_TIMEOUT))
+    expect(result).toBe(true)
   })
   it('returns true when known tx error', () => {
     const result = isTxPossiblyPending(new Error('known transaction error!!!'))

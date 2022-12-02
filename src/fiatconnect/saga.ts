@@ -975,11 +975,9 @@ export function* _initiateSendTxToProvider({
     // If we've timed out, or the error is deemed unsafe to retry,
     // it's possible that the transaction is already processing. Note that
     // this check is not perfect; there may be false positives/negatives.
-    const txPossiblyPending =
-      error?.message === ErrorMessages.TRANSACTION_TIMEOUT || isTxPossiblyPending(error)
     throw new FiatConnectTxError(
       'Error while attempting to send funds for FiatConnect transfer out',
-      txPossiblyPending,
+      isTxPossiblyPending(error),
       error
     )
   }

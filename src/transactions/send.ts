@@ -332,6 +332,12 @@ export function isTxPossiblyPending(err: any): boolean {
   if (!err || !err.message || typeof err.message !== 'string') {
     return false
   }
+
+  // Transaction has timed out; it may be on the blockchain already
+  if (err.message === ErrorMessages.TRANSACTION_TIMEOUT) {
+    return true
+  }
+
   const message = err.message.toLowerCase()
 
   // Geth already knows about the tx of this nonce, no point in resending it

@@ -18,7 +18,6 @@ export class FiatConnectTxError extends Error {
 
   constructor(message: string, txPossiblyPending: boolean, error: any) {
     super(message)
-    Object.setPrototypeOf(this, FiatConnectTxError.prototype)
     this.txPossiblyPending = txPossiblyPending
     this.error = error
   }
