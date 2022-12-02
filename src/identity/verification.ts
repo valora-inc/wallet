@@ -459,7 +459,7 @@ export function* tryRevealPhoneNumber(
       smsRetrieverAppSig,
       language,
       securityCodePrefix: getSecurityCodePrefix(issuer),
-      phoneNumberSignature: undefined,
+      phoneNumberSignature: phoneHashDetails.unblindedSignature,
     }
 
     const { ok, status, body } = yield call(
