@@ -1,16 +1,19 @@
-import { requestPhoneNumber } from '@celo/react-native-sms-retriever'
 import { Countries } from '@celo/utils/lib/countries'
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Platform } from 'react-native'
+import SmsRetriever from 'react-native-sms-retriever'
 import PhoneNumberInput from 'src/components/PhoneNumberInput'
 import { flushMicrotasksQueue } from 'test/utils'
+import { mocked } from 'ts-jest/utils'
 
-jest.mock('@celo/react-native-sms-retriever', () => {
+jest.mock('react-native-sms-retriever', () => {
   return {
     requestPhoneNumber: jest.fn(() => '+49030111111'),
   }
 })
+
+const requestPhoneNumber = mocked(SmsRetriever.requestPhoneNumber)
 
 const countries = new Countries('en-us')
 
@@ -111,7 +114,7 @@ describe('PhoneNumberInput', () => {
       />
     )
 
-    requestPhoneNumber.mockReturnValue('+1 416-868-0000')
+    requestPhoneNumber.mockResolvedValue('+1 416-868-0000')
 
     fireEvent(getByTestId('PhoneNumberField'), 'focus')
     await flushMicrotasksQueue()
@@ -130,7 +133,7 @@ describe('PhoneNumberInput', () => {
       />
     )
 
-    requestPhoneNumber.mockReturnValue('+1 415-426-5200')
+    requestPhoneNumber.mockResolvedValue('+1 415-426-5200')
 
     fireEvent(getByTestId('PhoneNumberField'), 'focus')
     await flushMicrotasksQueue()
