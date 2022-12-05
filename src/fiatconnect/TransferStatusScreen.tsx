@@ -14,7 +14,6 @@ import { FiatAccount, SendingTransferStatus } from 'src/fiatconnect/slice'
 import { SettlementTime } from 'src/fiatExchanges/quotes/constants'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
-import i18n from 'src/i18n'
 import CheckmarkCircle from 'src/icons/CheckmarkCircle'
 import CircledIcon from 'src/icons/CircledIcon'
 import ClockIcon from 'src/icons/ClockIcon'
@@ -37,8 +36,8 @@ const LOADING_DESCRIPTION_TIMEOUT_MS = 8000
 type SupportedSettlementTimes = Exclude<SettlementTime, SettlementTime.LESS_THAN_ONE_HOUR>
 
 const DESCRIPTION_STRINGS: Record<SupportedSettlementTimes, string> = {
-  [SettlementTime.LESS_THAN_24_HOURS]: i18n.t('fiatConnectStatusScreen.success.description24Hours'),
-  [SettlementTime.ONE_TO_THREE_DAYS]: i18n.t('fiatConnectStatusScreen.success.description1to3Days'),
+  [SettlementTime.LESS_THAN_24_HOURS]: 'fiatConnectStatusScreen.success.description24Hours',
+  [SettlementTime.ONE_TO_THREE_DAYS]: 'fiatConnectStatusScreen.success.description1to3Days',
 }
 
 type Props = NativeStackScreenProps<StackParamList, Screens.FiatConnectTransferStatus>
@@ -137,8 +136,9 @@ function SuccessOrProcessingSection({
   if (status === SendingTransferStatus.Completed) {
     icon = <CheckmarkCircle />
     title = t('fiatConnectStatusScreen.success.title')
-    description =
+    description = t(
       DESCRIPTION_STRINGS[normalizedQuote.getTimeEstimation() as SupportedSettlementTimes]
+    )
     continueEvent = FiatExchangeEvents.cico_fc_transfer_success_complete
     txDetailsEvent = FiatExchangeEvents.cico_fc_transfer_success_view_tx
   } else {

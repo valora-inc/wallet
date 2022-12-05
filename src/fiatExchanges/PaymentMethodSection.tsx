@@ -11,16 +11,15 @@ import Touchable from 'src/components/Touchable'
 import { SettlementTime } from 'src/fiatExchanges/quotes/constants'
 import NormalizedQuote from 'src/fiatExchanges/quotes/NormalizedQuote'
 import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
-import i18n from 'src/i18n'
 import InfoIcon from 'src/icons/InfoIcon'
 import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 
 const SETTLEMENT_TIME_STRINGS: Record<SettlementTime, string> = {
-  [SettlementTime.LESS_THAN_ONE_HOUR]: i18n.t('selectProviderScreen.oneHour'),
-  [SettlementTime.LESS_THAN_24_HOURS]: i18n.t('selectProviderScreen.lessThan24Hours'),
-  [SettlementTime.ONE_TO_THREE_DAYS]: i18n.t('selectProviderScreen.numDays'),
+  [SettlementTime.LESS_THAN_ONE_HOUR]: 'selectProviderScreen.oneHour',
+  [SettlementTime.LESS_THAN_24_HOURS]: 'selectProviderScreen.lessThan24Hours',
+  [SettlementTime.ONE_TO_THREE_DAYS]: 'selectProviderScreen.numDays',
 }
 
 export interface PaymentMethodSectionProps {
@@ -168,7 +167,7 @@ export function PaymentMethodSection({
   const renderInfoText = (quote: NormalizedQuote) => {
     const kycInfo = quote.getKycInfo()
     const kycString = kycInfo ? `${kycInfo} | ` : ''
-    return `${kycString}${SETTLEMENT_TIME_STRINGS[quote.getTimeEstimation()]}`
+    return `${kycString}${t(SETTLEMENT_TIME_STRINGS[quote.getTimeEstimation()])}`
   }
 
   const renderFeeAmount = (normalizedQuote: NormalizedQuote, postFix: string) => {
