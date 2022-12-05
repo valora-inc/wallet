@@ -8,6 +8,7 @@ import FiatConnectReviewScreen from 'src/fiatconnect/ReviewScreen'
 import { createFiatConnectTransfer, FiatAccount, refetchQuote } from 'src/fiatconnect/slice'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
+import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getDefaultLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -18,7 +19,7 @@ import { mockFiatConnectQuotes } from 'test/values'
 jest.mock('src/fiatconnect/constants', () => ({
   CURRENCIES_WITH_FEE_DISCLAIMER: {
     // Not using enums because jest hoisting prevents us from doing so.
-    AccountNumber: new Set(['FakeRegion']),
+    AccountNumber: new Set(['DisclaimerCurrency']),
   },
 }))
 
@@ -26,11 +27,14 @@ jest.mock('src/localCurrency/selectors', () => {
   const originalModule = jest.requireActual('src/localCurrency/selectors')
 
   return {
-    __esModule: true,
     ...originalModule,
-    getDefaultLocalCurrencyCode: jest.fn().mockReturnValue('USD'),
+    getDefaultLocalCurrencyCode: jest.fn(),
   }
 })
+const mockGetDefaultLocation = getDefaultLocalCurrencyCode as jest.MockedFunction<
+  typeof getDefaultLocalCurrencyCode
+>
+mockGetDefaultLocation.mockReturnValue(LocalCurrencyCode.USD)
 
 function getProps(
   flow: CICOFlow,
@@ -99,8 +103,9 @@ describe('ReviewScreen', () => {
         'fiatConnectReviewScreen.paymentMethodVia, {"providerName":"Provider Two"}',
       ])
     })
-    it(`doesn't show fee disclaimer for cash in`, () => {
+    it('does not show fee disclaimer for cash in', () => {
       const mockProps = getProps(CICOFlow.CashIn)
+      mockGetDefaultLocation.mockReturnValueOnce('DisclaimerCurrency' as LocalCurrencyCode)
       const { queryByText } = render(
         <Provider store={store}>
           <FiatConnectReviewScreen {...mockProps} />
@@ -303,9 +308,9 @@ describe('ReviewScreen', () => {
         },
       })
     })
-    it(`shows fee disclaimer when app currency doesn't match cash out country currency`, () => {
+    it('shows fee disclaimer when app currency does not match cash out country currency', () => {
       const mockProps = getProps(CICOFlow.CashOut)
-      getDefaultLocalCurrencyCode.mockReturnValueOnce('FakeRegion')
+      mockGetDefaultLocation.mockReturnValueOnce('DisclaimerCurrency' as LocalCurrencyCode)
       const { queryByText } = render(
         <Provider store={store}>
           <FiatConnectReviewScreen {...mockProps} />
@@ -314,7 +319,7 @@ describe('ReviewScreen', () => {
 
       expect(queryByText('fiatConnectReviewScreen.feeDisclaimer')).toBeTruthy()
     })
-    it(`doesn't show disclaimer when country currency isn't in fee disclaimer set`, () => {
+    it('does not show disclaimer when country currency is not in fee disclaimer set', () => {
       const mockProps = getProps(CICOFlow.CashOut)
       const { queryByText } = render(
         <Provider store={store}>

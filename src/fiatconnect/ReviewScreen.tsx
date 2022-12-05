@@ -42,6 +42,7 @@ import { Currency } from 'src/utils/currencies'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.FiatConnectReview>
 
+//Exported for testing purposes only
 export const disclaimerIsNeeded = (
   flow: CICOFlow,
   quote: FiatConnectQuote,
@@ -67,7 +68,6 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
   const [showingExpiredQuoteDialog, setShowingExpiredQuoteDialog] = useState(
     normalizedQuote.getGuaranteedUntil() < new Date()
   )
-
   const showFeeDisclaimer = useMemo(
     () => disclaimerIsNeeded(flow, normalizedQuote, localCurrency),
     []
