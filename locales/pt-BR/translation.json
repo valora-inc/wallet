@@ -1264,13 +1264,6 @@
   "others": "Outros",
   "nomSpaceRecipient": "Nomspace: {{name}}",
   "lastDay": "Últimas 24 horas",
-  "merchant": "Pagamento a comerciantes",
-  "merchantMoneyEscrow": "Você está prestes a enviar um pagamento direto a um comerciante.",
-  "merchantPaymentNumberVerificationMessage": "Você precisa conectar seu número",
-  "merchantPaymentSubmitFail": "Seu pagamento não pôde ser enviado",
-  "merchantPaymentSetup": "Ocorreu um erro ao carregar as informações do comerciante, tente escanear o QRCode novamente",
-  "merchantPaymentSubmitSuccess": "Seu pagamento foi enviado com sucesso",
-  "merchantWalletUnlockError": "Algo deu errado ao desbloquear sua carteira, tente novamente",
   "noMoreTransactions": "Não há mais transacções",
   "selectProviderScreen": {
     "somePaymentsUnavailable": "Alguns métodos de pagamento não estão disponíveis na sua região",
@@ -1468,6 +1461,11 @@
       "label": "IBAN",
       "placeholderText": "Insira o número IBAN",
       "errorMessage": "IBAN inválido"
+    },
+    "ifsc": {
+      "label": "IFSC",
+      "placeholderText": "Entrar IFSC",
+      "errorMessage": "IFSC inválido"
     }
   },
   "webView": {

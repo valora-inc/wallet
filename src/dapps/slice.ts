@@ -23,7 +23,7 @@ const initialState: State = {
   activeDapp: null,
   maxNumRecentDapps: REMOTE_CONFIG_VALUES_DEFAULTS.maxNumRecentDapps,
   recentDapps: [],
-  dappListApiUrl: null,
+  dappListApiUrl: REMOTE_CONFIG_VALUES_DEFAULTS.dappListApiUrl,
   dappsList: [],
   dappsListLoading: false,
   dappsListError: null,
