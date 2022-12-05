@@ -6,7 +6,7 @@ import SignClient from '@walletconnect/sign-client'
 import { SessionTypes, SignClientTypes } from '@walletconnect/types'
 import { getSdkError } from '@walletconnect/utils'
 import { EventChannel, eventChannel } from 'redux-saga'
-import { call, delay, put, select, take, takeEvery, takeLeading } from 'redux-saga/effects'
+import { call, delay, put, race, select, take, takeEvery, takeLeading } from 'redux-saga/effects'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
 import { APP_NAME, WEB_LINK } from 'src/brandingConfig'
 import { WALLET_CONNECT_PROJECT_ID } from 'src/config'
@@ -49,6 +49,8 @@ import { getWalletAddress } from 'src/web3/saga'
 let client: SignClient | null = null
 
 const TAG = 'WalletConnect/saga'
+
+const CONNECTION_TIMEOUT = 10_000
 
 function* handleInitialiseWalletConnect() {
   const walletConnectChannel: EventChannel<WalletConnectActions> = yield call(
@@ -239,30 +241,44 @@ export function* acceptSession({ session }: AcceptSession) {
 
     yield call(acknowledged)
 
-    // TODO is there some better way to find the new session?
-    let newSession = client.session.values.find(
-      (value) => value.peer.publicKey === session.params.proposer.publicKey
-    )
-    if (!newSession) {
-      // TODO is there some more reliable way to know when a session has been
-      // accepted on the client itself? haven't been able to find any emitted
-      // events so far
-      yield delay(500)
-      newSession = client.session.values.find(
-        (value) => value.peer.publicKey === session.params.proposer.publicKey
-      )
+    // the SignClient does not emit any events when a new session value is
+    // available, so if no matching session could be found we can wait and try again.
+    const { timedOut, newSession } = yield race({
+      timedOut: delay(CONNECTION_TIMEOUT),
+      newSession: call(getSessionFromClient, session),
+    })
+
+    if (timedOut) {
+      throw new Error('No corresponding session could not be found on the client')
     }
 
-    if (newSession) {
-      yield put(sessionCreated(newSession))
-    }
-
+    yield put(sessionCreated(newSession))
     yield call(showWalletConnectionSuccessMessage, proposer.metadata.name)
   } catch (e) {
     Logger.debug(TAG + '@acceptSession', e.message)
   }
 
   yield call(handlePendingStateOrNavigateBack)
+}
+
+function* getSessionFromClient(session: SignClientTypes.EventArguments['session_proposal']) {
+  if (!client) {
+    // should not happen
+    throw new Error('missing client')
+  }
+
+  let sessionValue = client.session.values.find(
+    (value) => value.peer.publicKey === session.params.proposer.publicKey
+  )
+
+  while (!sessionValue) {
+    yield delay(500)
+    sessionValue = client.session.values.find(
+      (value) => value.peer.publicKey === session.params.proposer.publicKey
+    )
+  }
+
+  return sessionValue
 }
 
 function* denySession({ session }: DenySession) {
