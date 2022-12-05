@@ -382,6 +382,7 @@ function* showSessionRequest(session: WalletConnectSessionRequest) {
   yield call(navigate, Screens.WalletConnectRequest, {
     type: WalletConnectRequestType.Session,
     pendingSession: session,
+    version: 1,
   })
 }
 
@@ -413,6 +414,7 @@ function* showActionRequest({ action, peerId }: PendingAction) {
       action,
       peerId,
     },
+    version: 1,
   })
 }
 

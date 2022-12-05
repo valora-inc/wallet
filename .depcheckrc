@@ -5,8 +5,10 @@ ignores: [
   "metro-react-native-babel-preset",
   "prettier-plugin-java",
   "pretty-quick",
+  "react-native-fast-crypto", # react-native-bip39 requires
   "react-native-version",
   "react-native-kill-packager",
   "ts-node",
+  "tslib", # required for importHelpers flag in tsconfig.json
 ]
 skip-missing: true

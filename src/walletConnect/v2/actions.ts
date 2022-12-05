@@ -21,6 +21,8 @@ export enum Actions {
   CLIENT_INITIALISED_V2 = 'WALLETCONNECT/CLIENT_INITIALISED_V2',
   CLIENT_DESTROYED_V2 = 'WALLETCONNECT/CLIENT_DESTROYED_V2',
 
+  REMOVE_EXPIRED_SESSIONS_V2 = 'WALLETCONNECT/REMOVE_EXPIRED_SESSIONS_V2',
+
   /**
    * Actions coming from the WalletConnect client
    */
@@ -46,16 +48,16 @@ export interface ClientDestroyed {
  */
 export interface AcceptSession {
   type: Actions.ACCEPT_SESSION_V2
-  id: number
+  session: SignClientTypes.EventArguments['session_proposal']
 }
 
 export interface DenySession {
   type: Actions.DENY_SESSION_V2
-  id: number
+  session: SignClientTypes.EventArguments['session_proposal']
 }
 export interface CloseSession {
   type: Actions.CLOSE_SESSION_V2
-  session: SignClientTypes.EventArguments['session_delete']
+  session: SessionTypes.Struct
 }
 export interface ShowRequestDetails {
   type: Actions.SHOW_REQUEST_DETAILS_V2
@@ -70,6 +72,11 @@ export interface DenyRequest {
   type: Actions.DENY_REQUEST_V2
   request: SignClientTypes.EventArguments['session_request']
   reason: JsonRpcTypes.Error
+}
+
+export interface RemoveExpiredSessions {
+  type: Actions.REMOVE_EXPIRED_SESSIONS_V2
+  dateInSeconds: number
 }
 
 export interface InitialisePairing {
@@ -117,6 +124,7 @@ export type UserActions =
   | ShowRequestDetails
   | AcceptRequest
   | DenyRequest
+  | RemoveExpiredSessions
 
 export const initialiseClient = (): InitialiseClient => ({
   type: Actions.INITIALISE_CLIENT_V2,
@@ -131,19 +139,21 @@ export const initialisePairing = (
   origin,
 })
 
-export const acceptSession = (id: number): AcceptSession => ({
+export const acceptSession = (
+  session: SignClientTypes.EventArguments['session_proposal']
+): AcceptSession => ({
   type: Actions.ACCEPT_SESSION_V2,
-  id,
+  session,
 })
 
-export const denySession = (id: number): DenySession => ({
+export const denySession = (
+  session: SignClientTypes.EventArguments['session_proposal']
+): DenySession => ({
   type: Actions.DENY_SESSION_V2,
-  id,
+  session,
 })
 
-export const closeSession = (
-  session: SignClientTypes.EventArguments['session_delete']
-): CloseSession => ({
+export const closeSession = (session: SessionTypes.Struct): CloseSession => ({
   type: Actions.CLOSE_SESSION_V2,
   session,
 })
@@ -171,6 +181,11 @@ export const denyRequest = (
   type: Actions.DENY_REQUEST_V2,
   request,
   reason,
+})
+
+export const removeExpiredSessions = (dateInSeconds: number): RemoveExpiredSessions => ({
+  type: Actions.REMOVE_EXPIRED_SESSIONS_V2,
+  dateInSeconds,
 })
 
 export const clientInitialised = (): ClientInitialised => ({
