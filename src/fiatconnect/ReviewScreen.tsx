@@ -42,8 +42,7 @@ import { Currency } from 'src/utils/currencies'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.FiatConnectReview>
 
-//Exported for testing purposes only
-export const disclaimerIsNeeded = (
+const disclaimerIsNeeded = (
   flow: CICOFlow,
   quote: FiatConnectQuote,
   localCurrency: LocalCurrencyCode
