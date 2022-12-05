@@ -29,6 +29,7 @@ import {
   initialiseClient,
   InitialisePairing,
   initialisePairing,
+  removeExpiredSessions,
   sessionCreated,
   sessionDeleted,
   SessionPayload,
@@ -82,7 +83,7 @@ function* createWalletConnectChannel() {
     yield put(clientInitialised())
   }
 
-  return eventChannel((emit: any) => {
+  return eventChannel((emit) => {
     const onSessionProposal = (session: SignClientTypes.EventArguments['session_proposal']) => {
       emit(sessionProposal(session))
     }
@@ -188,8 +189,7 @@ function* showSessionRequest(session: SignClientTypes.EventArguments['session_pr
 
 function* showActionRequest(request: SignClientTypes.EventArguments['session_request']) {
   if (!client) {
-    // should not happen
-    return
+    throw new Error('missing client')
   }
 
   if (!isSupportedAction(request.params.request.method)) {
@@ -345,10 +345,45 @@ function* handlePendingStateOrNavigateBack() {
   const hasPendingState: boolean = yield select(selectHasPendingState)
 
   if (hasPendingState) {
-    // TODO handle pending state
-    // yield call(handlePendingState)
+    yield call(handlePendingState)
   } else if (yield call(isBottomSheetVisible, Screens.WalletConnectRequest)) {
     navigateBack()
+  }
+}
+
+function* handlePendingState() {
+  const {
+    pending: [pendingSession],
+  }: { pending: SignClientTypes.EventArguments['session_proposal'][] } = yield select(
+    selectSessions
+  )
+  if (pendingSession) {
+    yield call(showSessionRequest, pendingSession)
+    return
+  }
+
+  const [pendingRequest]: SignClientTypes.EventArguments['session_request'][] = yield select(
+    selectPendingActions
+  )
+  if (pendingRequest) {
+    yield call(showActionRequest, pendingRequest)
+  }
+}
+
+function* checkPersistedState() {
+  yield put(removeExpiredSessions(Date.now() / 1000))
+
+  const hasPendingState = yield select(selectHasPendingState)
+  if (hasPendingState) {
+    yield put(initialiseClient())
+    yield take(Actions.CLIENT_INITIALISED_V2)
+    yield call(handlePendingState)
+    return
+  }
+
+  const { sessions }: { sessions: SessionTypes.Struct[] } = yield select(selectSessions)
+  if (sessions.length) {
+    yield put(initialiseClient())
   }
 }
 
@@ -363,6 +398,8 @@ export function* walletConnectV2Saga() {
   yield takeEvery(Actions.SESSION_PAYLOAD_V2, handleIncomingActionRequest)
   yield takeEvery(Actions.ACCEPT_REQUEST_V2, handleAcceptRequest)
   yield takeEvery(Actions.DENY_REQUEST_V2, handleDenyRequest)
+
+  yield call(checkPersistedState)
 }
 
 export function* initialiseWalletConnectV2(uri: string, origin: WalletConnectPairingOrigin) {

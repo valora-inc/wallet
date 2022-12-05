@@ -9,5 +9,6 @@ ignores: [
   "react-native-version",
   "react-native-kill-packager",
   "ts-node",
+  "tslib", # required for importHelpers flag in tsconfig.json
 ]
 skip-missing: true
