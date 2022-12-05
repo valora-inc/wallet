@@ -1384,6 +1384,8 @@
       "header": "成功",
       "title": "您的资金正在到账中！",
       "description": "您的交易请求已发送，您的资金将在 {{duration}} 后到账。",
+      "description1to3Days": "您的交易请求已经发出，您的资金将在1-3天内到达。",
+      "description24Hours": "您的交易请求已经发出，您的资金将在24小时内到达。",
       "txDetails": "在 CeloExplorer 上查看",
       "continue": "继续"
     },
