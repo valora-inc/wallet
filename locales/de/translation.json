@@ -1386,6 +1386,8 @@
       "header": "Erfolg",
       "title": "Dein Guthaben ist unterwegs.",
       "description": "Deine Transaktionsanfrage wurde versendet. Dein Geld wird in {{duration}} eintreffen.",
+      "description1to3Days": "Deine Transaktionsanfrage wurde abgeschickt und dein Geld wird in 1-3 Tagen ankommen.",
+      "description24Hours": "Deine Transaktionsanfrage wurde abgeschickt und dein Geld wird innerhalb von 24 Stunden ankommen.",
       "txDetails": "Auf CeloExplorer anzeigen",
       "continue": "Weiter"
     },
