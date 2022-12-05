@@ -57,7 +57,7 @@ export interface DenySession {
 }
 export interface CloseSession {
   type: Actions.CLOSE_SESSION_V2
-  session: SignClientTypes.EventArguments['session_delete']
+  session: SessionTypes.Struct
 }
 export interface ShowRequestDetails {
   type: Actions.SHOW_REQUEST_DETAILS_V2
@@ -153,9 +153,7 @@ export const denySession = (
   session,
 })
 
-export const closeSession = (
-  session: SignClientTypes.EventArguments['session_delete']
-): CloseSession => ({
+export const closeSession = (session: SessionTypes.Struct): CloseSession => ({
   type: Actions.CLOSE_SESSION_V2,
   session,
 })
