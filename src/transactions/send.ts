@@ -335,6 +335,7 @@ export function isTxPossiblyPending(err: any): boolean {
 
   // Transaction has timed out; it may be on the blockchain already
   if (err.message === ErrorMessages.TRANSACTION_TIMEOUT) {
+    Logger.error(`${TAG}@isTxPossiblyPending`, 'Transaction timed out. Will not reattempt.')
     return true
   }
 
