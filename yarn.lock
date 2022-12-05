@@ -2445,7 +2445,7 @@
     debug "^4.1.1"
     utf8 "3.0.0"
 
-"@celo/connect@2.3.0", "@celo/connect@^2.3.0":
+"@celo/connect@2.3.0", "@celo/connect@~2.3.0":
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/@celo/connect/-/connect-2.3.0.tgz#6cc853c7241717ce53de94a0479ac7b5e8e56d44"
   integrity sha512-p4oPU7ZafhaBXlX189I2jDTC9t5O9ayUywTsJMkSbsfz/q3RalTl+/YWM1m8twF2VdilAjOR1GiObbVVkYQLNQ==
@@ -2477,7 +2477,7 @@
     semver "^7.3.5"
     web3 "1.3.6"
 
-"@celo/contractkit@2.3.0", "@celo/contractkit@^2.3.0":
+"@celo/contractkit@2.3.0", "@celo/contractkit@~2.3.0":
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/@celo/contractkit/-/contractkit-2.3.0.tgz#b34a0b8cca8daf2242738214a6ed88f818f0af92"
   integrity sha512-mctnQBp7GZAsuV4I47kTK3fBtjoL4uqd0LZ8wUmck+COJT9yW3DuQjPQwQvBxN6InKET9IeUmTuoTW4oAbW/FQ==
@@ -2496,7 +2496,7 @@
     semver "^7.3.5"
     web3 "1.3.6"
 
-"@celo/cryptographic-utils@^2.3.0":
+"@celo/cryptographic-utils@~2.3.0":
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/@celo/cryptographic-utils/-/cryptographic-utils-2.3.0.tgz#6107c957488405a447acf868fda4af7879821fc4"
   integrity sha512-kzct1xqsGI0+POKSO/yrtt2oWm4s0sLSosSjN1wb0qWvsFHz+5b5zyTDZS+3ulsGxoH42OkbY6GL8SRpDc0DgA==
@@ -2516,7 +2516,7 @@
     elliptic "^6.5.4"
     ethereumjs-util "^5.2.0"
 
-"@celo/identity@^2.3.0":
+"@celo/identity@~2.3.0":
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/@celo/identity/-/identity-2.3.0.tgz#aede2269adbb9edc0332007357d34b3c20b0920a"
   integrity sha512-xdIi9fBBc/X9JbhtTF0exGBnt/so0jcqca5aUrDROumfA0QdcoNeGatV1+jv3Kqrj9lDIcpcuXAJ5w65g2BE7w==
@@ -2553,7 +2553,7 @@
     io-ts "2.0.1"
     is-base64 "^1.1.0"
 
-"@celo/phone-utils@^2.3.0":
+"@celo/phone-utils@~2.3.0":
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/@celo/phone-utils/-/phone-utils-2.3.0.tgz#e40378bf7d3d84ae91f63c50f3689bf6256a8b1f"
   integrity sha512-L/HgPODQBxNMPt3Rzq3VarJax9u33tgZwTGUylRL78B2S/EgkHRKzvbDVab9N3+0+HdNxRH1iKqjBduUH2AM7A==
@@ -2586,7 +2586,7 @@
     web3-eth-abi "1.3.6"
     web3-utils "1.3.6"
 
-"@celo/utils@2.3.0", "@celo/utils@^2.3.0":
+"@celo/utils@2.3.0", "@celo/utils@~2.3.0":
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/@celo/utils/-/utils-2.3.0.tgz#bd143a8c75bc78e47c4bfb2aa7ca30f9c629bee7"
   integrity sha512-K4Ga1rpYyFTTyhopHUHdeNehJN4qYT+cdf2BPgc6wS4AsI/G8vq91tmXOBJNL1oPVIbnW7MOp51IKJP51/zdhA==
@@ -2703,7 +2703,7 @@
     eth-lib "^0.2.8"
     ethereumjs-util "^5.2.0"
 
-"@celo/wallet-rpc@^2.3.0":
+"@celo/wallet-rpc@~2.3.0":
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/@celo/wallet-rpc/-/wallet-rpc-2.3.0.tgz#cc050db11b0f989552a7f6b7719a60ae12a314b0"
   integrity sha512-5nM1HvVdgpFtIBT5odhHA3Zlbr4kmKTFLCQonqRt8g5tNUzbqo/PmJctH/qENKgTP8jmzWthrPo4+5zrY/6r8g==
@@ -7399,6 +7399,15 @@ bip32@^2.0.6:
     typeforce "^1.11.5"
     wif "^2.0.6"
 
+"bip39@git+https://github.com/bitcoinjs/bip39.git#d8ea080a18b40f301d4e2219a2991cd2417e83c2":
+  version "3.0.3"
+  resolved "git+https://github.com/bitcoinjs/bip39.git#d8ea080a18b40f301d4e2219a2991cd2417e83c2"
+  dependencies:
+    "@types/node" "11.11.6"
+    create-hash "^1.1.0"
+    pbkdf2 "^3.0.9"
+    randombytes "^2.0.1"
+
 "bip39@https://github.com/bitcoinjs/bip39#d8ea080a18b40f301d4e2219a2991cd2417e83c2":
   version "3.0.3"
   resolved "https://github.com/bitcoinjs/bip39#d8ea080a18b40f301d4e2219a2991cd2417e83c2"
@@ -7428,6 +7437,11 @@ blakejs@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/blakejs/-/blakejs-1.1.0.tgz#69df92ef953aa88ca51a32df6ab1c54a155fc7a5"
   integrity sha1-ad+S75U6qIylGjLfarHFShVfx6U=
+
+"blind-threshold-bls@git+https://github.com/celo-org/blind-threshold-bls-wasm.git#e1e2f8a":
+  version "0.1.0"
+  uid e1e2f8a1ab5154c2f0b1c55cb0d61fbb1d907208
+  resolved "git+https://github.com/celo-org/blind-threshold-bls-wasm.git#e1e2f8a1ab5154c2f0b1c55cb0d61fbb1d907208"
 
 "blind-threshold-bls@https://github.com/celo-org/blind-threshold-bls-wasm#e1e2f8a":
   version "0.1.0"
