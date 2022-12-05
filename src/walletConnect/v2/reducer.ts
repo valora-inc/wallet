@@ -54,7 +54,6 @@ export const reducer = (
           (pendingAction) => pendingAction.id !== action.session.id
         ),
       }
-    case Actions.CLOSE_SESSION_V2:
     case Actions.SESSION_DELETED_V2:
       return {
         ...state,
@@ -62,6 +61,14 @@ export const reducer = (
         pendingSessions: state.pendingSessions.filter(
           (pendingSession) => pendingSession.id !== action.session.id
         ),
+        pendingActions: state.pendingActions.filter(
+          (pendingAction) => pendingAction.topic !== action.session.topic
+        ),
+      }
+    case Actions.CLOSE_SESSION_V2:
+      return {
+        ...state,
+        sessions: state.sessions.filter((session) => session.topic !== action.session.topic),
         pendingActions: state.pendingActions.filter(
           (pendingAction) => pendingAction.topic !== action.session.topic
         ),
