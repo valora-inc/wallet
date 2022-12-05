@@ -118,7 +118,8 @@ const mapStateToProps = (state: RootState): StateProps => {
     requirePinOnAppOpen: state.app.requirePinOnAppOpen,
     preferredCurrencyCode: getLocalCurrencyCode(state),
     sessionId: sessionIdSelector(state),
-    connectedApplications: state.walletConnect.v1.sessions.length,
+    connectedApplications:
+      state.walletConnect.v1.sessions.length + state.walletConnect.v2.sessions.length,
     walletConnectEnabled: v1,
     supportedBiometryType: supportedBiometryTypeSelector(state),
     shouldShowRecoveryPhraseInSettings: shouldShowRecoveryPhraseInSettingsSelector(state),

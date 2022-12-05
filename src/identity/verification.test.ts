@@ -62,7 +62,7 @@ jest.mock('src/transactions/send', () => ({
   })),
 }))
 
-jest.mock('@celo/react-native-sms-retriever', () => ({
+jest.mock('react-native-sms-retriever', () => ({
   startSmsRetriever: jest.fn(() => true),
   addSmsListener: jest.fn(),
   removeSmsListener: jest.fn(),
