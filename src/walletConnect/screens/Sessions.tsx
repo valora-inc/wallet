@@ -1,3 +1,4 @@
+import { SessionTypes, SignClientTypes } from '@walletconnect/types'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
@@ -15,14 +16,20 @@ import variables from 'src/styles/variables'
 import { WalletConnectSession } from 'src/walletConnect/types'
 import { closeSession as closeSessionActionV1 } from 'src/walletConnect/v1/actions'
 import { selectSessions as selectSessionsV1 } from 'src/walletConnect/v1/selectors'
+import { closeSession as closeSessionActionV2 } from 'src/walletConnect/v2/actions'
+import { selectSessions as selectSessionsV2 } from 'src/walletConnect/v2/selectors'
 
-type Session = WalletConnectSession
+type Session = WalletConnectSession | SessionTypes.Struct
 
-const App = ({
+const isWCv2Session = (session: Session): session is SessionTypes.Struct => {
+  return 'topic' in session
+}
+
+const Dapp = ({
   metadata,
   onPress,
 }: {
-  metadata: WalletConnectSession['peerMeta'] | null
+  metadata: SignClientTypes.Metadata | null
   onPress: () => void
 }) => {
   const icon = metadata?.icons[0] || `${metadata?.url}/favicon.ico`
@@ -44,6 +51,7 @@ const App = ({
 function Sessions() {
   const { t } = useTranslation()
   const { sessions: sessionsV1 } = useSelector(selectSessionsV1)
+  const { sessions: sessionsV2 } = useSelector(selectSessionsV2)
   const [highlighted, setHighlighted] = useState<Session | null>(null)
   const dispatch = useDispatch()
 
@@ -60,11 +68,19 @@ function Sessions() {
       return
     }
 
-    dispatch(closeSessionActionV1(highlighted))
+    dispatch(
+      isWCv2Session(highlighted)
+        ? closeSessionActionV2(highlighted)
+        : closeSessionActionV1(highlighted)
+    )
     closeModal()
   }
 
-  const dappName = highlighted?.peerMeta?.name
+  const dappName =
+    highlighted && isWCv2Session(highlighted)
+      ? highlighted?.peer.metadata.name
+      : highlighted?.peerMeta?.name
+
   return (
     <ScrollView testID="WalletConnectSessionsView">
       <Dialog
@@ -87,7 +103,10 @@ function Sessions() {
 
       <View style={[styles.container, styles.appsContainer]}>
         {sessionsV1.map((s) => (
-          <App key={s.peerId} metadata={s.peerMeta} onPress={openModal(s)} />
+          <Dapp key={s.peerId} metadata={s.peerMeta} onPress={openModal(s)} />
+        ))}
+        {sessionsV2.map((s) => (
+          <Dapp key={s.topic} metadata={s.peer.metadata} onPress={openModal(s)} />
         ))}
       </View>
     </ScrollView>

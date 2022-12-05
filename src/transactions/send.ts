@@ -323,7 +323,42 @@ export function* wrapSendTransactionWithRetry(
   }
 }
 
-function shouldTxFailureRetry(err: any) {
+/**
+ * Given an error thrown while attempting a transaction,
+ * checks to see if that error could indicate that the transaction intent already
+ * exists on the blockchain.
+ **/
+export function isTxPossiblyPending(err: any): boolean {
+  if (!err || !err.message || typeof err.message !== 'string') {
+    return false
+  }
+
+  // Transaction has timed out; it may be on the blockchain already
+  if (err.message === ErrorMessages.TRANSACTION_TIMEOUT) {
+    Logger.error(`${TAG}@isTxPossiblyPending`, 'Transaction timed out. Will not reattempt.')
+    return true
+  }
+
+  const message = err.message.toLowerCase()
+
+  // Geth already knows about the tx of this nonce, no point in resending it
+  if (message.includes(KNOWN_TX_ERROR)) {
+    Logger.error(`${TAG}@isTxPossiblyPending`, 'Known transaction error. Will not reattempt.')
+    return true
+  }
+
+  // Nonce too low, probably because the tx already went through
+  if (message.includes(NONCE_TOO_LOW_ERROR)) {
+    Logger.error(
+      `${TAG}@isTxPossiblyPending`,
+      'Nonce too low, possible from retrying. Will not reattempt.'
+    )
+    return true
+  }
+  return false
+}
+
+export function shouldTxFailureRetry(err: any) {
   if (!err || !err.message || typeof err.message !== 'string') {
     return true
   }
@@ -344,20 +379,5 @@ function shouldTxFailureRetry(err: any) {
     return false
   }
 
-  // Geth already knows about the tx of this nonce, no point in resending it
-  if (message.includes(KNOWN_TX_ERROR)) {
-    Logger.error(`${TAG}@shouldTxFailureRetry`, 'Known transaction error. Will not reattempt.')
-    return false
-  }
-
-  // Nonce too low, probably because the tx already went through
-  if (message.includes(NONCE_TOO_LOW_ERROR)) {
-    Logger.error(
-      `${TAG}@shouldTxFailureRetry`,
-      'Nonce too low, possible from retrying. Will not reattempt.'
-    )
-    return false
-  }
-
-  return true
+  return !isTxPossiblyPending(err)
 }
