@@ -10,7 +10,7 @@ import BigNumber from 'bignumber.js'
 import { Dispatch } from 'redux'
 import { FiatConnectProviderInfo, FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import { selectFiatConnectQuote } from 'src/fiatconnect/slice'
-import { DEFAULT_ALLOWED_VALUES } from 'src/fiatExchanges/quotes/constants'
+import { DEFAULT_ALLOWED_VALUES, SettlementTime } from 'src/fiatExchanges/quotes/constants'
 import NormalizedQuote from 'src/fiatExchanges/quotes/NormalizedQuote'
 import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import i18n from 'src/i18n'
@@ -19,11 +19,6 @@ import {
   convertLocalAmountToCurrency,
 } from 'src/localCurrency/convert'
 import { Currency, resolveCurrency } from 'src/utils/currencies'
-
-const strings = {
-  oneHour: i18n.t('selectProviderScreen.oneHour'),
-  numDays: i18n.t('selectProviderScreen.numDays'),
-}
 
 const kycStrings = {
   [KycSchema.PersonalDataAndDocuments]: i18n.t('selectProviderScreen.idRequired'),
@@ -101,11 +96,6 @@ export default class FiatConnectQuote extends NormalizedQuote {
     this.quoteResponseFiatAccountSchema = quoteResponseFiatAccountSchema
   }
 
-  // TODO: Dynamically generate time estimation strings
-  private getSettlementEstimation(lower?: string, upper?: string) {
-    return strings.numDays
-  }
-
   getPaymentMethod(): PaymentMethod {
     const fiatAccountToPaymentMethodMap = {
       [FiatAccountType.BankAccount]: PaymentMethod.Bank,
@@ -143,11 +133,12 @@ export default class FiatConnectQuote extends NormalizedQuote {
     return this.quoteResponseKycSchema?.kycSchema
   }
 
-  getTimeEstimation(): string | null {
-    return this.getSettlementEstimation(
-      this.quote.fiatAccount[this.fiatAccountType]?.settlementTimeLowerBound,
-      this.quote.fiatAccount[this.fiatAccountType]?.settlementTimeUpperBound
-    )
+  // TODO: Dynamically generate time estimation strings
+  getTimeEstimation(): SettlementTime {
+    // payment method can only be bank or fc mobile money
+    return this.getPaymentMethod() === PaymentMethod.Bank
+      ? SettlementTime.ONE_TO_THREE_DAYS
+      : SettlementTime.LESS_THAN_24_HOURS
   }
 
   navigate(dispatch: Dispatch): void {

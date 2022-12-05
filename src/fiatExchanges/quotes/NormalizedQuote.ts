@@ -2,6 +2,7 @@ import BigNumber from 'bignumber.js'
 import { Dispatch } from 'redux'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { SettlementTime } from 'src/fiatExchanges/quotes/constants'
 import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import { Currency } from 'src/utils/currencies'
 
@@ -11,7 +12,7 @@ export default abstract class NormalizedQuote {
   abstract getFeeInCrypto(exchangeRates: { [token in Currency]: string | null }): BigNumber | null
   abstract getCryptoType(): Currency
   abstract getKycInfo(): string | null
-  abstract getTimeEstimation(): string | null
+  abstract getTimeEstimation(): SettlementTime
   abstract getProviderName(): string
   abstract getProviderLogo(): string
   abstract getProviderId(): string
