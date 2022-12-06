@@ -1,5 +1,9 @@
 import { newKit } from '@celo/contractkit'
-import { hashMessageWithPrefix, verifySignature } from '@celo/utils/lib/signatureUtils'
+import {
+  hashMessageWithPrefix,
+  verifyEIP712TypedDataSigner,
+  verifySignature,
+} from '@celo/utils/lib/signatureUtils'
 import NodeWalletConnect from '@walletconnect/node'
 import { formatUri, utf8ToHex } from '../utils/encoding'
 import { launchApp, reloadReactNative } from '../utils/retries'
@@ -225,9 +229,7 @@ export default WalletConnect = () => {
     jestExpect(invalid).toStrictEqual(false)
   })
 
-  // TODO: Investigate failing
-
-  it.skip('Then is able to sign typed data (eth_signTypedData)', async () => {
+  it('Then is able to sign typed data (eth_signTypedData)', async () => {
     const typedData = {
       types: {
         EIP712Domain: [
@@ -287,8 +289,8 @@ export default WalletConnect = () => {
     let signature = await result
 
     // Verify the signature - currently both return valid
-    const valid = verifySignature(JSON.stringify(typedData), signature, fromAddress)
-    const invalid = verifySignature(JSON.stringify(typedData), signature, toAddress)
+    const valid = verifyEIP712TypedDataSigner(typedData, signature, fromAddress)
+    const invalid = verifyEIP712TypedDataSigner(typedData, signature, toAddress)
     jestExpect(valid).toStrictEqual(true)
     jestExpect(invalid).toStrictEqual(false)
   })
