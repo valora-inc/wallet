@@ -340,7 +340,8 @@
     "hermes-engine": "^0.10.0",
     "react-native-securerandom": "git+https://github.com/robhogan/react-native-securerandom#7c01efd",
     "minimatch": "^3.0.5",
-    "events": "^3.3.0"
+    "events": "^3.3.0",
+    "qs": "^6.9.7"
   },
   "detox": {
     "test-runner": "jest",
