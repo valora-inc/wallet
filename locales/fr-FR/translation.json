@@ -1386,6 +1386,8 @@
       "header": "Opération réussie",
       "title": "Vos fonds sont en route !",
       "description": "Votre demande de transaction a été envoyée et vos fonds arriveront dans {{duration}}.",
+      "description1to3Days": "Ta demande de transaction a été envoyée et tes fonds arriveront dans 1-3 jours.",
+      "description24Hours": "Ta demande de transaction a été envoyée et tes fonds arriveront dans les 24 heures.",
       "txDetails": "Voir sur CeloExplorer",
       "continue": "Continuer"
     },

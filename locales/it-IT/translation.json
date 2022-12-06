@@ -1386,6 +1386,8 @@
       "header": "Operazione completata",
       "title": "I tuoi fondi sono in arrivo!",
       "description": "La richiesta di transazione è stata inviata e i fondi arriveranno tra {{duration}}.",
+      "description1to3Days": "La richiesta di transazione è stata inviata e i fondi arriveranno in 1-3 giorni.",
+      "description24Hours": "La richiesta di transazione è stata inviata e i fondi arriveranno entro 24 ore.",
       "txDetails": "Visualizza su CeloExplorer",
       "continue": "Continua"
     },
