@@ -52,7 +52,7 @@ let client: SignClient | null = null
 
 const TAG = 'WalletConnect/saga'
 
-const CONNECTION_TIMEOUT = 10_000
+const GET_SESSION_TIMEOUT = 10_000
 
 function* handleInitialiseWalletConnect() {
   const walletConnectChannel: EventChannel<WalletConnectActions> = yield call(
@@ -245,7 +245,7 @@ export function* acceptSession({ session }: AcceptSession) {
     // the SignClient does not emit any events when a new session value is
     // available, so if no matching session could be found we can wait and try again.
     const { timedOut, newSession } = yield race({
-      timedOut: delay(CONNECTION_TIMEOUT),
+      timedOut: delay(GET_SESSION_TIMEOUT),
       newSession: call(getSessionFromClient, session),
     })
 
