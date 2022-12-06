@@ -17,7 +17,7 @@ const WC_PREFIX = 'wc:'
 const DEEPLINK_PREFIX = 'celo://wallet/wc?uri='
 const UNIVERSAL_LINK_PREFIX = 'https://valoraapp.com/wc?uri='
 const UNIVERSAL_LINK_PREFIX_WITHOUT_URI = 'https://valoraapp.com/wc'
-const CONNECTION_TIMEOUT = 10_000
+const CONNECTION_TIMEOUT = 20_000
 
 /**
  * See https://docs.walletconnect.org/v/2.0/mobile-linking for exactly

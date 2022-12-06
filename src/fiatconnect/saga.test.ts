@@ -53,6 +53,7 @@ import {
   createFiatConnectTransfer,
   createFiatConnectTransferCompleted,
   createFiatConnectTransferFailed,
+  createFiatConnectTransferTxProcessing,
   fetchFiatConnectProvidersCompleted,
   fetchFiatConnectQuotes,
   fetchFiatConnectQuotesCompleted,
@@ -83,9 +84,11 @@ import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import { buildAndSendPayment } from 'src/send/saga'
 import { tokensListSelector } from 'src/tokens/selectors'
 import { newTransactionContext, TransactionContext } from 'src/transactions/types'
+import { FiatConnectTxError } from 'src/fiatconnect/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { walletAddressSelector } from 'src/web3/selectors'
+import { isTxPossiblyPending } from 'src/transactions/send'
 import {
   mockCusdAddress,
   mockFiatConnectProviderInfo,
@@ -121,6 +124,8 @@ jest.mock('src/in-house-liquidity', () => ({
   postKyc: jest.fn(),
   deleteKyc: jest.fn(),
 }))
+
+jest.mock('src/transactions/send')
 
 describe('Fiatconnect saga', () => {
   const provideDelay = ({ fn }: { fn: any }, next: any) => (fn.name === 'delayP' ? null : next())
@@ -1791,7 +1796,8 @@ describe('Fiatconnect saga', () => {
         .returns('0x12345')
         .run()
     })
-    it('throws when there is an error with the transaction', async () => {
+    it('throws when there is an error (safe to retry) with the transaction', async () => {
+      mocked(isTxPossiblyPending).mockReturnValue(false)
       await expect(() =>
         expectSaga(_initiateSendTxToProvider, {
           transferAddress: '0xabc',
@@ -1813,12 +1819,18 @@ describe('Fiatconnect saga', () => {
                 '',
                 TEST_FEE_INFO_CUSD
               ),
-              { error: new Error('tx error') },
+              { error: new Error('error is safe to retry') },
             ],
           ])
           .returns('0x12345')
           .run()
-      ).rejects.toThrow()
+      ).rejects.toThrow(
+        new FiatConnectTxError(
+          'Error while attempting to send funds for FiatConnect transfer out',
+          false,
+          new Error('error is safe to retry')
+        )
+      )
       expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(
         FiatExchangeEvents.cico_fc_transfer_tx_error,
@@ -1826,7 +1838,99 @@ describe('Fiatconnect saga', () => {
           provider: transferOutFcQuote.getProviderId(),
           flow: CICOFlow.CashOut,
           transferAddress: '0xabc',
-          error: 'tx error',
+          error: 'error is safe to retry',
+        }
+      )
+    })
+    it('throws when there is a timeout error (not safe to retry) with the transaction', async () => {
+      mocked(isTxPossiblyPending).mockReturnValue(false)
+      await expect(() =>
+        expectSaga(_initiateSendTxToProvider, {
+          transferAddress: '0xabc',
+          fiatConnectQuote: transferOutFcQuote,
+        })
+          .provide([
+            [select(tokensListSelector), Object.values(mockTokenBalances)],
+            [select(feeEstimatesSelector), feeEstimates],
+            [
+              call(
+                buildAndSendPayment,
+                newTransactionContext(
+                  'FiatConnectSaga',
+                  'Send crypto to provider for transfer out'
+                ) as TransactionContext,
+                '0xabc',
+                new BigNumber(transferOutFcQuote.getCryptoAmount()),
+                mockCusdAddress,
+                '',
+                TEST_FEE_INFO_CUSD
+              ),
+              { error: new Error(ErrorMessages.TRANSACTION_TIMEOUT) },
+            ],
+          ])
+          .returns('0x12345')
+          .run()
+      ).rejects.toThrow(
+        new FiatConnectTxError(
+          'Error while attempting to send funds for FiatConnect transfer out',
+          true,
+          new Error(ErrorMessages.TRANSACTION_TIMEOUT)
+        )
+      )
+      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+        FiatExchangeEvents.cico_fc_transfer_tx_error,
+        {
+          provider: transferOutFcQuote.getProviderId(),
+          flow: CICOFlow.CashOut,
+          transferAddress: '0xabc',
+          error: ErrorMessages.TRANSACTION_TIMEOUT,
+        }
+      )
+    })
+    it('throws when there is a miscellanious error (not safe to retry) with the transaction', async () => {
+      mocked(isTxPossiblyPending).mockReturnValue(true)
+      await expect(() =>
+        expectSaga(_initiateSendTxToProvider, {
+          transferAddress: '0xabc',
+          fiatConnectQuote: transferOutFcQuote,
+        })
+          .provide([
+            [select(tokensListSelector), Object.values(mockTokenBalances)],
+            [select(feeEstimatesSelector), feeEstimates],
+            [
+              call(
+                buildAndSendPayment,
+                newTransactionContext(
+                  'FiatConnectSaga',
+                  'Send crypto to provider for transfer out'
+                ) as TransactionContext,
+                '0xabc',
+                new BigNumber(transferOutFcQuote.getCryptoAmount()),
+                mockCusdAddress,
+                '',
+                TEST_FEE_INFO_CUSD
+              ),
+              { error: new Error('unsafe error') },
+            ],
+          ])
+          .returns('0x12345')
+          .run()
+      ).rejects.toThrow(
+        new FiatConnectTxError(
+          'Error while attempting to send funds for FiatConnect transfer out',
+          true,
+          new Error('unsafe error')
+        )
+      )
+      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+        FiatExchangeEvents.cico_fc_transfer_tx_error,
+        {
+          provider: transferOutFcQuote.getProviderId(),
+          flow: CICOFlow.CashOut,
+          transferAddress: '0xabc',
+          error: 'unsafe error',
         }
       )
     })
@@ -1909,6 +2013,78 @@ describe('Fiatconnect saga', () => {
             flow: CICOFlow.CashOut,
             transferAddress,
             txHash: transactionHash,
+          }
+        )
+      })
+      it('sets transaction as pending when an unsafe error occurs', async () => {
+        const action = createFiatConnectTransfer({
+          flow: CICOFlow.CashOut,
+          fiatConnectQuote: transferOutFcQuote,
+          fiatAccountId: 'account1',
+        })
+        await expectSaga(handleCreateFiatConnectTransfer, action)
+          .provide([
+            [call(_initiateTransferWithProvider, action), { transferAddress }],
+            [
+              call(_initiateSendTxToProvider, {
+                transferAddress,
+                fiatConnectQuote: transferOutFcQuote,
+              }),
+              throwError(
+                new FiatConnectTxError('some error', true, new Error('some internal error'))
+              ),
+            ],
+          ])
+          .put(
+            createFiatConnectTransferTxProcessing({
+              flow: CICOFlow.CashOut,
+              quoteId: transferOutFcQuote.getQuoteId(),
+            })
+          )
+          .run()
+        expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+        expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+          FiatExchangeEvents.cico_fc_transfer_error,
+          {
+            provider: transferOutFcQuote.getProviderId(),
+            flow: CICOFlow.CashOut,
+            error: 'some error',
+          }
+        )
+      })
+      it('sets transaction as failed when an "safe" error occurs', async () => {
+        const action = createFiatConnectTransfer({
+          flow: CICOFlow.CashOut,
+          fiatConnectQuote: transferOutFcQuote,
+          fiatAccountId: 'account1',
+        })
+        await expectSaga(handleCreateFiatConnectTransfer, action)
+          .provide([
+            [call(_initiateTransferWithProvider, action), { transferAddress }],
+            [
+              call(_initiateSendTxToProvider, {
+                transferAddress,
+                fiatConnectQuote: transferOutFcQuote,
+              }),
+              throwError(
+                new FiatConnectTxError('some error', false, new Error('some internal error'))
+              ),
+            ],
+          ])
+          .put(
+            createFiatConnectTransferFailed({
+              flow: CICOFlow.CashOut,
+              quoteId: transferOutFcQuote.getQuoteId(),
+            })
+          )
+          .run()
+        expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+        expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+          FiatExchangeEvents.cico_fc_transfer_error,
+          {
+            provider: transferOutFcQuote.getProviderId(),
+            flow: CICOFlow.CashOut,
+            error: 'some error',
           }
         )
       })
