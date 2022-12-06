@@ -1386,6 +1386,8 @@
       "header": "Operación exitosa",
       "title": "¡Tus fondos están en camino!",
       "description": "Tu solicitud ha sido enviada y tus fondos llegarán en {{duration}}.",
+      "description1to3Days": "Tu solicitud de transacción ha sido enviada y tus fondos llegarán en 1-3 días.",
+      "description24Hours": "Tu solicitud de transacción ha sido enviada y tus fondos llegarán en 24 horas.",
       "txDetails": "Ver en CeloExplorer",
       "continue": "Continuar"
     },
