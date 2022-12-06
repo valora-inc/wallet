@@ -1,4 +1,4 @@
-import { Countries } from '@celo/utils/lib/countries'
+import { Countries } from '@celo/phone-utils'
 import { useHeaderHeight } from '@react-navigation/elements'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react'
