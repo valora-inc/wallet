@@ -1,5 +1,5 @@
 import { Address, isValidAddress } from '@celo/utils/lib/address'
-import { parsePhoneNumber } from '@celo/utils/lib/phoneNumbers'
+import { parsePhoneNumber } from '@celo/phone-utils'
 import {
   NameResolution,
   ResolutionKind,

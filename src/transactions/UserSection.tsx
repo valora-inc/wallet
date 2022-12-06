@@ -1,4 +1,4 @@
-import { getDisplayNumberInternational } from '@celo/utils/lib/phoneNumbers'
+import { getDisplayNumberInternational } from '@celo/phone-utils'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { LayoutAnimation, StyleSheet, Text, View } from 'react-native'

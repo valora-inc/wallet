@@ -2,10 +2,11 @@
  * TextInput with input validation, interchangeable with `./TextInput.tsx`
  */
 
-import { validateInput, ValidatorKind } from '@celo/utils/lib/inputValidation'
+import { validateInput } from '@celo/phone-utils'
 import * as React from 'react'
 import { KeyboardType } from 'react-native'
 import TextInput, { TextInputProps } from 'src/components/TextInput'
+import { ValidatorKind } from '@celo/utils/lib/inputValidation'
 
 interface OwnProps {
   InputComponent: React.ComponentType<TextInputProps>
