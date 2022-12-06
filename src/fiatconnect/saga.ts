@@ -15,6 +15,7 @@ import {
   PostFiatAccountResponse,
   TransferResponse,
 } from '@fiatconnect/fiatconnect-types'
+import { FiatConnectTxError } from 'src/fiatconnect/types'
 import BigNumber from 'bignumber.js'
 import { call, delay, put, select, spawn, takeLeading } from 'redux-saga/effects'
 import { KycStatus as PersonaKycStatus } from 'src/account/reducer'
@@ -44,6 +45,7 @@ import {
   createFiatConnectTransfer,
   createFiatConnectTransferCompleted,
   createFiatConnectTransferFailed,
+  createFiatConnectTransferTxProcessing,
   fetchFiatConnectProviders,
   fetchFiatConnectProvidersCompleted,
   fetchFiatConnectQuotes,
@@ -79,6 +81,7 @@ import { buildAndSendPayment } from 'src/send/saga'
 import { tokensListSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { newTransactionContext } from 'src/transactions/types'
+import { isTxPossiblyPending } from 'src/transactions/send'
 import { CiCoCurrency, Currency, resolveCICOCurrency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { walletAddressSelector } from 'src/web3/selectors'
@@ -969,7 +972,14 @@ export function* _initiateSendTxToProvider({
       transferAddress: transferAddress,
       provider: fiatConnectQuote.getProviderId(),
     })
-    throw error
+    // If we've timed out, or the error is deemed unsafe to retry,
+    // it's possible that the transaction is already processing. Note that
+    // this check is not perfect; there may be false positives/negatives.
+    throw new FiatConnectTxError(
+      'Error while attempting to send funds for FiatConnect transfer out',
+      isTxPossiblyPending(error),
+      error
+    )
   }
   Logger.info(
     TAG,
@@ -1014,6 +1024,14 @@ export function* handleCreateFiatConnectTransfer(
       error: err.message,
       provider: fiatConnectQuote.getProviderId(),
     })
+
+    if (err instanceof FiatConnectTxError) {
+      if (err.txPossiblyPending) {
+        yield put(createFiatConnectTransferTxProcessing({ flow, quoteId }))
+        return
+      }
+    }
+
     yield put(createFiatConnectTransferFailed({ flow, quoteId }))
   }
 }

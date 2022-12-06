@@ -11,3 +11,14 @@ export interface FiatAccountSchemaCountryOverrides {
     }
   }
 }
+
+export class FiatConnectTxError extends Error {
+  txPossiblyPending: boolean
+  error: any
+
+  constructor(message: string, txPossiblyPending: boolean, error: any) {
+    super(message)
+    this.txPossiblyPending = txPossiblyPending
+    this.error = error
+  }
+}

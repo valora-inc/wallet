@@ -7,7 +7,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   RemoteConfigValues,
   | 'celoEducationUri'
   | 'komenciAllowedDeployers'
-  | 'dappListApiUrl'
   | 'sentryNetworkErrors'
   | 'superchargeTokenConfigByToken'
   | 'fiatAccountSchemaCountryOverrides'
@@ -20,6 +19,7 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   superchargecEURMax: number
   superchargecREALMin: number
   superchargecREALMax: number
+  dappListApiUrl: string
 } = {
   hideVerification: false,
   celoEuroEnabled: true,
@@ -54,6 +54,7 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   skipVerification: false,
   showPriceChangeIndicatorInBalances: false,
   dappsWebViewEnabled: false,
+  dappListApiUrl: '',
   skipProfilePicture: false,
   fiatConnectCashInEnabled: false,
   fiatConnectCashOutEnabled: false,

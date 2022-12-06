@@ -11,6 +11,7 @@ import TextButton from 'src/components/TextButton'
 import Touchable from 'src/components/Touchable'
 import { fiatConnectTransferSelector } from 'src/fiatconnect/selectors'
 import { FiatAccount, SendingTransferStatus } from 'src/fiatconnect/slice'
+import { SettlementTime } from 'src/fiatExchanges/quotes/constants'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import CheckmarkCircle from 'src/icons/CheckmarkCircle'
@@ -21,15 +22,23 @@ import { emptyHeader } from 'src/navigator/Headers'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import appTheme from 'src/styles/appTheme'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
-import { walletAddressSelector } from 'src/web3/selectors'
 import networkConfig from 'src/web3/networkConfig'
-import appTheme from 'src/styles/appTheme'
+import { walletAddressSelector } from 'src/web3/selectors'
 
 const LOADING_DESCRIPTION_TIMEOUT_MS = 8000
+
+// FC quotes don't return <1h
+type SupportedSettlementTimes = Exclude<SettlementTime, SettlementTime.LESS_THAN_ONE_HOUR>
+
+const DESCRIPTION_STRINGS: Record<SupportedSettlementTimes, string> = {
+  [SettlementTime.LESS_THAN_24_HOURS]: 'fiatConnectStatusScreen.success.description24Hours',
+  [SettlementTime.ONE_TO_THREE_DAYS]: 'fiatConnectStatusScreen.success.description1to3Days',
+}
 
 type Props = NativeStackScreenProps<StackParamList, Screens.FiatConnectTransferStatus>
 
@@ -108,8 +117,6 @@ function SuccessOrProcessingSection({
   normalizedQuote: FiatConnectQuote
 }) {
   const { t } = useTranslation()
-  // TODO: Make sure there's fallback text if we can't get the estimate
-  const timeEstimation = normalizedQuote.getTimeEstimation()!
   const provider = normalizedQuote.getProviderId()
   const address = useSelector(walletAddressSelector)
   const uri = txHash
@@ -129,7 +136,9 @@ function SuccessOrProcessingSection({
   if (status === SendingTransferStatus.Completed) {
     icon = <CheckmarkCircle />
     title = t('fiatConnectStatusScreen.success.title')
-    description = t('fiatConnectStatusScreen.success.description', { duration: timeEstimation })
+    description = t(
+      DESCRIPTION_STRINGS[normalizedQuote.getTimeEstimation() as SupportedSettlementTimes]
+    )
     continueEvent = FiatExchangeEvents.cico_fc_transfer_success_complete
     txDetailsEvent = FiatExchangeEvents.cico_fc_transfer_success_view_tx
   } else {
