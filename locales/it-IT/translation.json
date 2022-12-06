@@ -1286,10 +1286,10 @@
     "lessThan24Hours": "Meno di 24 ore",
     "bestRate": "Miglior tasso",
     "header": "Metodo di pagamento",
-    "newLabel": "NUOVO",
+    "newLabel": "NUOVI",
     "newDialog": {
-      "title": "Nuovi modi per trasferire fondi",
-      "body": "Stiamo rilasciando nuove modalità per trasferire fondi da e verso i conti bancari, direttamente dall'app Valora.\n\nSe stai vedendo questo messaggio, significa che sei in grado di accedere a questa funzione nella tua regione.",
+      "title": "Nuove modalità di trasferimento",
+      "body": "Stiamo rilasciando nuovi modi per trasferire fondi da e verso i conti bancari, direttamente dall'app Valora.\n\nSe stai vedendo questo messaggio, questa funzione è disponibile nella tua regione.",
       "dismiss": "Ignora"
     }
   },
@@ -1386,7 +1386,7 @@
       "header": "Operazione completata",
       "title": "I tuoi fondi sono in arrivo!",
       "description": "La richiesta di transazione è stata inviata e i fondi arriveranno tra {{duration}}.",
-      "description1to3Days": "La richiesta di transazione è stata inviata e i fondi arriveranno in 1-3 giorni.",
+      "description1to3Days": "La richiesta di transazione è stata inviata e i fondi arriveranno tra 1-3 giorni.",
       "description24Hours": "La richiesta di transazione è stata inviata e i fondi arriveranno entro 24 ore.",
       "txDetails": "Visualizza su CeloExplorer",
       "continue": "Continua"
@@ -1466,8 +1466,8 @@
     },
     "ifsc": {
       "label": "IFSC",
-      "placeholderText": "Inserisci l'IFSC",
-      "errorMessage": "IFSC non valido"
+      "placeholderText": "Inserisci il codice IFSC",
+      "errorMessage": "Codice IFSC non valido"
     }
   },
   "webView": {
