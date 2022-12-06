@@ -22,6 +22,8 @@ const walletAddress = (
   process.env.E2E_WALLET_ADDRESS || '0x6131a6d616a4be3737b38988847270a64bc10caa'
 ).toLowerCase()
 
+let walletConnectClient, pairingUrl
+
 async function formatTestTransaction(address) {
   try {
     const response = await fetch(kitUrl, {
@@ -74,8 +76,6 @@ const verifySuccessfulSign = async () => {
 }
 
 export default WalletConnect = () => {
-  let walletConnectClient, pairingUrl
-
   beforeAll(async () => {
     walletConnectClient = await Client.init({
       relayUrl: 'wss://relay.walletconnect.org',
