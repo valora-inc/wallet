@@ -23,6 +23,7 @@ import {
   AcceptSession,
   Actions,
   clientInitialised,
+  CloseSession,
   DenyRequest,
   denyRequest,
   DenySession,
@@ -341,6 +342,21 @@ function* handleDenyRequest({ request, reason }: DenyRequest) {
   yield call(handlePendingStateOrNavigateBack)
 }
 
+function* closeSession({ session }: CloseSession) {
+  try {
+    if (!client) {
+      throw new Error('missing client')
+    }
+
+    yield call([client, 'disconnect'], {
+      topic: session.topic,
+      reason: getSdkError('USER_DISCONNECTED'),
+    })
+  } catch (e) {
+    Logger.debug(TAG + '@closeSession', e.message)
+  }
+}
+
 function* handlePendingStateOrNavigateBack() {
   const hasPendingState: boolean = yield select(selectHasPendingState)
 
@@ -390,6 +406,7 @@ function* checkPersistedState() {
 export function* walletConnectV2Saga() {
   yield takeLeading(Actions.INITIALISE_CLIENT_V2, handleInitialiseWalletConnect)
   yield takeEvery(Actions.INITIALISE_PAIRING_V2, handleInitialisePairing)
+  yield takeEvery(Actions.CLOSE_SESSION_V2, closeSession)
 
   yield takeEvery(Actions.SESSION_PROPOSAL_V2, handleIncomingSessionRequest)
   yield takeEvery(Actions.ACCEPT_SESSION_V2, acceptSession)

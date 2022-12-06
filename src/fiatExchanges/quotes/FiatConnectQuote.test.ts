@@ -9,6 +9,7 @@ import _ from 'lodash'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import { selectFiatConnectQuote } from 'src/fiatconnect/slice'
+import { SettlementTime } from 'src/fiatExchanges/quotes/constants'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import { Currency } from 'src/utils/currencies'
@@ -22,6 +23,7 @@ jest.mock('src/web3/contracts', () => ({
   })),
 }))
 jest.mock('src/fiatExchanges/quotes/constants', () => ({
+  ...(jest.requireActual('src/fiatExchanges/quotes/constants') as any),
   DEFAULT_ALLOWED_VALUES: {
     // Using AccountNumber because jest hoisting prevents us from using the
     // FiatAccountSchema enum.
@@ -203,13 +205,22 @@ describe('FiatConnectQuote', () => {
   })
 
   describe('.getTimeEstimation', () => {
-    it('returns numDays', () => {
+    it('returns 1-3 days for bank account', () => {
       const quote = new FiatConnectQuote({
         flow: CICOFlow.CashIn,
         quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
         fiatAccountType: FiatAccountType.BankAccount,
       })
-      expect(quote.getTimeEstimation()).toEqual('selectProviderScreen.numDays')
+      expect(quote.getTimeEstimation()).toEqual(SettlementTime.ONE_TO_THREE_DAYS)
+    })
+
+    it('returns 24 hours for mobile money', () => {
+      const quote = new FiatConnectQuote({
+        flow: CICOFlow.CashIn,
+        quote: mockFiatConnectQuotes[4] as FiatConnectQuoteSuccess,
+        fiatAccountType: FiatAccountType.MobileMoney,
+      })
+      expect(quote.getTimeEstimation()).toEqual(SettlementTime.LESS_THAN_24_HOURS)
     })
   })
 
