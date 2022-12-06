@@ -1,4 +1,4 @@
-import { generateKeys, generateMnemonic, MnemonicStrength } from '@celo/utils/lib/account'
+import { generateKeys, generateMnemonic, MnemonicStrength } from '@celo/cryptographic-utils'
 import { privateKeyToAddress } from '@celo/utils/lib/address'
 import { UnlockableWallet } from '@celo/wallet-base'
 import { RpcWalletErrors } from '@celo/wallet-rpc/lib/rpc-wallet'

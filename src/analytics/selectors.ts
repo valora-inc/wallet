@@ -1,4 +1,4 @@
-import { getRegionCodeFromCountryCode } from '@celo/utils/lib/phoneNumbers'
+import { getRegionCodeFromCountryCode } from '@celo/phone-utils'
 import BigNumber from 'bignumber.js'
 import DeviceInfo from 'react-native-device-info'
 import * as RNLocalize from 'react-native-localize'

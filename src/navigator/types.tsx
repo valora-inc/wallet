@@ -1,4 +1,5 @@
-import { AccountAuthRequest, Countries, SignTxRequest } from '@celo/utils'
+import { AccountAuthRequest, SignTxRequest } from '@celo/utils'
+import { Countries } from '@celo/phone-utils'
 import { KycSchema } from '@fiatconnect/fiatconnect-types'
 import { SignClientTypes } from '@walletconnect/types'
 import BigNumber from 'bignumber.js'

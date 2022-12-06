@@ -1,31 +1,18 @@
 import { ActionableAttestation } from '@celo/contractkit/lib/wrappers/Attestations'
 import { expectSaga } from 'redux-saga-test-plan'
-import { throwError } from 'redux-saga-test-plan/providers'
 import { call, delay, select } from 'redux-saga/effects'
 import { e164NumberSelector } from 'src/account/selectors'
-import { showError } from 'src/alert/actions'
 import { AppEvents, VerificationEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { setNumberVerified } from 'src/app/actions'
-import { ErrorMessages } from 'src/app/ErrorMessages'
-import { logPhoneNumberTypeEnabledSelector } from 'src/app/selectors'
-import { currentLanguageSelector } from 'src/i18n/selectors'
 import {
   cancelVerification,
-  completeAttestationCode,
   reportRevealStatus,
   resendAttestations,
-  setCompletedCodes,
-  setVerificationStatus,
   startVerification,
 } from 'src/identity/actions'
 import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
-import { attestationCodesSelector, e164NumberToSaltSelector } from 'src/identity/selectors'
-import { VerificationStatus } from 'src/identity/types'
 import {
   AttestationCode,
-  doVerificationFlowSaga,
-  MAX_ACTIONABLE_ATTESTATIONS,
   NUM_ATTESTATIONS_REQUIRED,
   reportActionableAttestationsStatuses,
   reportRevealStatusSaga,
@@ -33,14 +20,9 @@ import {
   VERIFICATION_TIMEOUT,
 } from 'src/identity/verification'
 import {
-  actionableAttestationsSelector,
-  doVerificationFlow,
   fail,
   idle,
   KomenciAvailable,
-  komenciConfigSelector,
-  komenciContextSelector,
-  phoneHashSelector,
   setOverrideWithoutVerification,
   shouldUseKomenciSelector,
   start,
@@ -52,7 +34,6 @@ import { getContractKitAsync } from 'src/web3/contracts'
 import { getConnectedUnlockedAccount, unlockAccount, UnlockResult } from 'src/web3/saga'
 import {
   mockAccount,
-  mockAccount2,
   mockE164Number,
   mockE164NumberHash,
   mockE164NumberPepper,
@@ -111,13 +92,7 @@ const attestationCode2: AttestationCode = {
   issuer: 'ecb8da92c3597e81c2737e8be793bee9f1173156',
 }
 
-const attestationCodes = [attestationCode0, attestationCode1, attestationCode2]
-
 const mockContractKitTxObject = { txo: {} }
-
-const mockE164NumberToSalt = {
-  [mockE164Number]: mockE164NumberPepper,
-}
 
 const mockActionableAttestations: ActionableAttestation[] = [
   {
@@ -166,31 +141,6 @@ const mockAttestationsWrapperUnverified = {
 }
 
 const mockAttestationsRemainingForUnverified = NUM_ATTESTATIONS_REQUIRED
-const mockAttestationsRemainingForPartialVerified = 1
-
-const mockAttestationsWrapperPartlyVerified = {
-  ...mockAttestationsWrapperUnverified,
-  getVerifiedStatus: jest.fn(() => ({
-    isVerified: false,
-    numAttestationsRemaining: mockAttestationsRemainingForPartialVerified,
-    total: 3,
-    completed: 2,
-  })),
-  getActionableAttestations: jest.fn(() => [mockActionableAttestations[0]]),
-  lookupAccountsForIdentifier: jest.fn(() => [mockAccount]),
-}
-
-const mockAttestationsWrapperPartlyVerifiedNonAssociated = {
-  ...mockAttestationsWrapperUnverified,
-  getVerifiedStatus: jest.fn(() => ({
-    isVerified: false,
-    numAttestationsRemaining: mockAttestationsRemainingForPartialVerified,
-    total: 3,
-    completed: 2,
-  })),
-  getActionableAttestations: jest.fn(() => [mockActionableAttestations[0]]),
-  lookupAccountsForIdentifier: jest.fn(() => [mockAccount2]),
-}
 
 const mockAccountsWrapper = {
   getWalletAddress: jest.fn(() => Promise.resolve(mockAccount)),
@@ -326,234 +276,6 @@ describe(startVerificationSaga, () => {
     expect(MockedAnalytics.track.mock.calls.length).toBe(2)
     expect(MockedAnalytics.track.mock.calls[0][0]).toBe(VerificationEvents.verification_start)
     expect(MockedAnalytics.track.mock.calls[1][0]).toBe(VerificationEvents.verification_cancel)
-  })
-})
-
-describe(doVerificationFlowSaga, () => {
-  it('succeeds for unverified users', async () => {
-    const contractKit = await getContractKitAsync()
-    const mockAttestationsWrapperLocal = {
-      ...mockAttestationsWrapperUnverified,
-      getActionableAttestations: jest.fn(() => mockActionableAttestations),
-    }
-
-    await expectSaga(doVerificationFlowSaga, doVerificationFlow(false))
-      .provide([
-        [select(shouldUseKomenciSelector), false],
-        [select(komenciConfigSelector), { useLightProxy: false, allowedDeployers: [] }],
-        [select(e164NumberToSaltSelector), mockE164NumberToSalt],
-        [select(e164NumberSelector), mockE164Number],
-        [select(phoneHashSelector), mockE164NumberHash],
-        [select(verificationStatusSelector), mockVerificationState.status],
-        [select(komenciContextSelector), mockVerificationState.komenci],
-        [select(actionableAttestationsSelector), mockVerificationState.actionableAttestations],
-        [select(logPhoneNumberTypeEnabledSelector), false],
-        [call(getConnectedUnlockedAccount), mockAccount],
-        [
-          call([contractKit.contracts, contractKit.contracts.getAttestations]),
-          mockAttestationsWrapperLocal,
-        ],
-        [select(attestationCodesSelector), attestationCodes],
-        [select(attestationCodesSelector), attestationCodes],
-        [select(attestationCodesSelector), attestationCodes],
-      ])
-      .put(setVerificationStatus(VerificationStatus.Prepping))
-      .put(setCompletedCodes(0))
-      .put(setVerificationStatus(VerificationStatus.CompletingAttestations))
-      .put(completeAttestationCode(attestationCode0))
-      .put(
-        reportRevealStatus(
-          mockActionableAttestations[0].attestationServiceURL,
-          mockAccount,
-          mockActionableAttestations[0].issuer,
-          mockVerificationState.e164Number!,
-          mockE164NumberPepper
-        )
-      )
-      .put(completeAttestationCode(attestationCode1))
-      .put(
-        reportRevealStatus(
-          mockActionableAttestations[1].attestationServiceURL,
-          mockAccount,
-          mockActionableAttestations[1].issuer,
-          mockVerificationState.e164Number!,
-          mockE164NumberPepper
-        )
-      )
-      .put(completeAttestationCode(attestationCode2))
-      .put(
-        reportRevealStatus(
-          mockActionableAttestations[2].attestationServiceURL,
-          mockAccount,
-          mockActionableAttestations[2].issuer,
-          mockVerificationState.e164Number!,
-          mockE164NumberPepper
-        )
-      )
-      .put(succeed())
-      .put(setVerificationStatus(VerificationStatus.Done))
-      .put(setNumberVerified(true))
-      .run()
-  })
-
-  it('succeeds for partly verified users', async () => {
-    const contractKit = await getContractKitAsync()
-    const mockVerificationStatePartlyVerified = {
-      ...mockVerificationState,
-      status: {
-        ...mockVerificationState,
-        numAttestationsRemaining: 1,
-        total: 3,
-        completed: 2,
-        komenci: false,
-      },
-    }
-    await expectSaga(doVerificationFlowSaga, doVerificationFlow(false))
-      .provide([
-        [select(shouldUseKomenciSelector), false],
-        [select(komenciConfigSelector), { useLightProxy: false, allowedDeployers: [] }],
-        [select(e164NumberToSaltSelector), mockE164NumberToSalt],
-        [select(e164NumberSelector), mockE164Number],
-        [select(phoneHashSelector), mockE164NumberHash],
-        [select(verificationStatusSelector), mockVerificationStatePartlyVerified.status],
-        [select(komenciContextSelector), mockVerificationState.komenci],
-        [select(actionableAttestationsSelector), mockVerificationState.actionableAttestations],
-        [select(logPhoneNumberTypeEnabledSelector), false],
-        [call(getConnectedUnlockedAccount), mockAccount],
-        [
-          call([contractKit.contracts, contractKit.contracts.getAttestations]),
-          mockAttestationsWrapperPartlyVerified,
-        ],
-        [select(attestationCodesSelector), attestationCodes],
-      ])
-      .put(setCompletedCodes(2))
-      .put(completeAttestationCode(attestationCode0))
-      .put(
-        reportRevealStatus(
-          mockActionableAttestations[0].attestationServiceURL,
-          mockAccount,
-          mockActionableAttestations[0].issuer,
-          mockVerificationState.e164Number!,
-          mockE164NumberPepper
-        )
-      )
-      .put(succeed())
-      .put(setVerificationStatus(VerificationStatus.Done))
-      .put(setNumberVerified(true))
-      .run()
-  })
-
-  it('show error when attempting to reverify a previously revoked account', async () => {
-    const contractKit = await getContractKitAsync()
-    const mockVerificationStatePartlyVerified = {
-      ...mockVerificationState,
-      status: {
-        ...mockVerificationState,
-        numAttestationsRemaining: 1,
-        total: 3,
-        completed: 2,
-        komenci: false,
-      },
-    }
-    await expectSaga(doVerificationFlowSaga, doVerificationFlow(false))
-      .provide([
-        [select(shouldUseKomenciSelector), false],
-        [select(e164NumberToSaltSelector), mockE164NumberToSalt],
-        [select(e164NumberSelector), mockE164Number],
-        [select(phoneHashSelector), mockE164NumberHash],
-        [select(verificationStatusSelector), mockVerificationStatePartlyVerified.status],
-        [select(komenciContextSelector), mockVerificationState.komenci],
-        [select(actionableAttestationsSelector), mockVerificationState.actionableAttestations],
-        [call(getConnectedUnlockedAccount), mockAccount],
-        [
-          call([contractKit.contracts, contractKit.contracts.getAttestations]),
-          mockAttestationsWrapperPartlyVerifiedNonAssociated,
-        ],
-      ])
-      .put(setVerificationStatus(VerificationStatus.Prepping))
-      .put(showError(ErrorMessages.CANT_VERIFY_REVOKED_ACCOUNT, 10000))
-      .put(setVerificationStatus(VerificationStatus.Failed))
-      .put(fail(ErrorMessages.CANT_VERIFY_REVOKED_ACCOUNT))
-      .run()
-  })
-
-  it('succeeds for verified users', async () => {
-    await expectSaga(doVerificationFlowSaga, doVerificationFlow(false))
-      .provide([
-        [select(shouldUseKomenciSelector), false],
-        [select(e164NumberToSaltSelector), mockE164NumberToSalt],
-        [select(e164NumberSelector), mockE164Number],
-        [select(phoneHashSelector), mockE164NumberHash],
-        [select(verificationStatusSelector), { isVerified: true }],
-        [select(komenciContextSelector), mockVerificationState.komenci],
-        [select(actionableAttestationsSelector), mockVerificationState.actionableAttestations],
-        [call(getConnectedUnlockedAccount), mockAccount],
-      ])
-      .put(setVerificationStatus(VerificationStatus.Prepping))
-      .put(setVerificationStatus(VerificationStatus.Done))
-      .put(setNumberVerified(true))
-      .put(succeed())
-      .run()
-  })
-
-  it('shows error on unexpected failure', async () => {
-    await expectSaga(doVerificationFlowSaga, doVerificationFlow(false))
-      .provide([
-        [select(shouldUseKomenciSelector), false],
-        [select(e164NumberToSaltSelector), mockE164NumberToSalt],
-        [select(e164NumberSelector), mockE164Number],
-        [select(phoneHashSelector), mockE164NumberHash],
-        [select(verificationStatusSelector), mockVerificationState.status],
-        [select(komenciContextSelector), mockVerificationState.komenci],
-        [select(actionableAttestationsSelector), mockVerificationState.actionableAttestations],
-        [call(getConnectedUnlockedAccount), throwError(new Error('fake error'))],
-      ])
-      .put(showError(ErrorMessages.VERIFICATION_FAILURE))
-      .put(setVerificationStatus(VerificationStatus.Failed))
-      .put(fail('fake error'))
-      .run()
-  })
-
-  it(`fails if more than ${MAX_ACTIONABLE_ATTESTATIONS} actionable attestaions exceeded`, async () => {
-    const mockAttestationsWrapperRevealFailed = {
-      ...mockAttestationsWrapperUnverified,
-      revealPhoneNumberToIssuer: jest.fn(() => ({
-        ok: false,
-        status: 'bad',
-        json: () => ({}),
-      })),
-
-      getActionableAttestations: jest.fn(() => mockActionableAttestations),
-    }
-
-    const contractKit = await getContractKitAsync()
-
-    await expectSaga(doVerificationFlowSaga, doVerificationFlow(false))
-      .provide([
-        [select(shouldUseKomenciSelector), false],
-        [select(e164NumberToSaltSelector), mockE164NumberToSalt],
-        [select(e164NumberSelector), mockE164Number],
-        [select(phoneHashSelector), mockE164NumberHash],
-        [select(verificationStatusSelector), mockVerificationState.status],
-        [select(komenciContextSelector), mockVerificationState.komenci],
-        [select(actionableAttestationsSelector), mockActionableAttestations],
-        [select(logPhoneNumberTypeEnabledSelector), false],
-        [call(getConnectedUnlockedAccount), mockAccount],
-        [select(currentLanguageSelector), 'us-en'],
-        [
-          call([contractKit.contracts, contractKit.contracts.getAttestations]),
-          mockAttestationsWrapperRevealFailed,
-        ],
-        [select(attestationCodesSelector), attestationCodes],
-        [select(attestationCodesSelector), attestationCodes],
-        [select(attestationCodesSelector), attestationCodes],
-        [select(attestationCodesSelector), attestationCodes],
-        [select(attestationCodesSelector), attestationCodes],
-        [select(attestationCodesSelector), attestationCodes],
-      ])
-      .put(setVerificationStatus(VerificationStatus.Failed))
-      .put(fail(ErrorMessages.MAX_ACTIONABLE_ATTESTATIONS_EXCEEDED))
-      .run()
   })
 })
 
