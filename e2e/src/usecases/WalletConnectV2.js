@@ -88,6 +88,8 @@ export default WalletConnect = () => {
       },
     })
 
+    console.log('======wallet connect client', walletConnectClient)
+
     const { uri } = await walletConnectClient.connect({
       requiredNamespaces: {
         eip155: {
