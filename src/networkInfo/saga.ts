@@ -1,4 +1,4 @@
-import { getRegionCodeFromCountryCode } from '@celo/utils/lib/phoneNumbers'
+import { getRegionCodeFromCountryCode } from '@celo/phone-utils'
 import NetInfo, { NetInfoState } from '@react-native-community/netinfo'
 import { getIpAddress } from 'react-native-device-info'
 import { eventChannel } from 'redux-saga'

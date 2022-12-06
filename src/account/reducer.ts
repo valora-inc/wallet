@@ -1,4 +1,4 @@
-import { isE164Number } from '@celo/utils/lib/phoneNumbers'
+import { isE164NumberStrict } from '@celo/phone-utils'
 import { Actions, ActionTypes } from 'src/account/actions'
 import { Actions as AppActions, ActionTypes as AppActionTypes } from 'src/app/actions'
 import { DAYS_TO_DELAY } from 'src/backup/consts'
@@ -151,7 +151,7 @@ export const reducer = (
       }
     case AppActions.PHONE_NUMBER_VERIFICATION_COMPLETED:
     case Actions.SET_PHONE_NUMBER:
-      if (!isE164Number(action.e164PhoneNumber)) {
+      if (!isE164NumberStrict(action.e164PhoneNumber)) {
         return state
       }
       return {

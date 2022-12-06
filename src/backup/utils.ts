@@ -1,4 +1,4 @@
-import { MnemonicLanguages, normalizeMnemonic } from '@celo/utils/lib/account'
+import { MnemonicLanguages, normalizeMnemonic } from '@celo/cryptographic-utils'
 import CryptoJS from 'crypto-js'
 import { useAsync } from 'react-async-hook'
 import { useDispatch, useSelector } from 'react-redux'

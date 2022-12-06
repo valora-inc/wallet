@@ -2,7 +2,7 @@ import {
   extractAttestationCodeFromMessage,
   extractSecurityCodeWithPrefix,
 } from '@celo/utils/lib/attestations'
-import { parsePhoneNumber } from '@celo/utils/lib/phoneNumbers'
+import { parsePhoneNumber } from '@celo/phone-utils'
 import { HeaderHeightContext } from '@react-navigation/elements'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import dotProp from 'dot-prop-immutable'
