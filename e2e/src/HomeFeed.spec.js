@@ -25,6 +25,11 @@ describe('Home Feed :ios:', () => {
   })
 
   it('should load more items on scroll', async () => {
+    // Tap back button if present form previous test
+    try {
+      await element(by.id('BackChevron')).tap()
+    } catch {}
+
     // Load Wallet Home
     await waitForElementId('WalletHome')
     const startingItems = await element(by.id('TransferFeedItem')).getAttributes()
