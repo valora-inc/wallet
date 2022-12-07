@@ -89,8 +89,21 @@ const verifySuccessfulTransaction = async (tx) => {
 
 export default WalletConnect = () => {
   let walletConnectClient, pairingUrl
+  let intervalsToClear = []
 
   beforeAll(async () => {
+    // @walletconnect/heartbeat keeps a setInterval running, which causes jest to hang, unable to shut down cleanly
+    // https://github.com/WalletConnect/walletconnect-utils/blob/4484e47f24a5a82078c27a0cf0185db921cf60d7/misc/heartbeat/src/heartbeat.ts#L47
+    // As a workaround, since no reference to the interval is kept, we capture them
+    // during the WC client init, and then clear them after the test is done
+    // Note: this is a hack, and should be removed once @walletconnect/heartbeat is fixed
+    const originalSetInterval = global.setInterval
+    global.setInterval = (...args) => {
+      const id = originalSetInterval(...args)
+      intervalsToClear.push(id)
+      return id
+    }
+
     walletConnectClient = await Client.init({
       relayUrl: 'wss://relay.walletconnect.org',
       projectId: WALLET_CONNECT_PROJECT_ID_E2E,
@@ -101,6 +114,9 @@ export default WalletConnect = () => {
         icons: [],
       },
     })
+
+    // Now restore the original setInterval
+    global.setInterval = originalSetInterval
 
     const { uri } = await walletConnectClient.connect({
       requiredNamespaces: {
@@ -122,6 +138,8 @@ export default WalletConnect = () => {
   })
 
   afterAll(async () => {
+    // Clear the captured intervals and the transport (connection), so jest can shut down cleanly
+    intervalsToClear.forEach((id) => clearInterval(id))
     await walletConnectClient.core.relayer.transportClose()
   })
 
