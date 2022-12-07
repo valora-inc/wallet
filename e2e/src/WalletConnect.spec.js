@@ -7,7 +7,7 @@ describe('Given Wallet Connect', () => {
     await quickOnboarding()
   })
 
-  describe('When V1', WalletConnectV1)
+  describe.skip('When V1', WalletConnectV1)
 
   describe('When V2', WalletConnectV2)
 })

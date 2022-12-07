@@ -90,9 +90,11 @@ export default WalletConnect = () => {
   let walletConnectClient, pairingUrl
 
   beforeAll(async () => {
+    console.log('======WALLET_CONNECT_PROJECT_ID_E2E', WALLET_CONNECT_PROJECT_ID_E2E)
+
     walletConnectClient = await Client.init({
       relayUrl: 'wss://relay.walletconnect.org',
-      projectId: WALLET_CONNECT_PROJECT_ID_E2E,
+      projectId: WALLET_CONNECT_PROJECT_ID_E2E || 'ad7eac0aff7904325eddbb66faa08486',
       metadata: {
         name: dappName,
         description: 'WalletConnect Client',
