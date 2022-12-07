@@ -33,7 +33,7 @@ jobs:
         run: >
           export ANDROID_SDK_ROOT=$HOME/android-tools &&
           export PATH=$ANDROID_SDK_ROOT/platform-tools:$PATH &&
-          yarn detox test
+          yarn detox test WalletConnect.spec.js
           --device-name Pixel_API_${{ inputs.android-api-level }}_AOSP_x86_64
           --configuration android.release
           --artifacts-location e2e/artifacts

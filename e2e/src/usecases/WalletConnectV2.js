@@ -7,7 +7,7 @@ import {
 import Client from '@walletconnect/sign-client'
 import fetch from 'node-fetch'
 import { formatUri, utf8ToHex } from '../utils/encoding'
-import { enterPinUiIfNecessary, scrollIntoView, waitForElementId } from '../utils/utils'
+import { enterPinUiIfNecessary, scrollIntoView, sleep, waitForElementId } from '../utils/utils'
 
 const jestExpect = require('expect')
 
@@ -106,18 +106,18 @@ export default WalletConnect = () => {
       },
     })
 
-    pairingUrl = uri
+    pairingUrl = formatUri(uri)
   })
 
   it('Then is able to establish a session', async () => {
     if (device.getPlatform() === 'android') {
       await device.terminateApp()
       await sleep(5 * 1000)
-      await launchApp({ url: formatUri(pairingUrl), newInstance: true })
+      await launchApp({ url: pairingUrl, newInstance: true })
       await sleep(10 * 1000)
     } else {
       await sleep(2 * 1000)
-      await device.openURL({ url: formatUri(pairingUrl) })
+      await device.openURL({ url: pairingUrl })
     }
 
     await waitFor(element(by.id('WalletConnectSessionRequestHeader')))
