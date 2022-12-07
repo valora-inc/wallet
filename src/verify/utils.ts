@@ -1,4 +1,4 @@
-import { parsePhoneNumber } from '@celo/utils/lib/phoneNumbers'
+import { parsePhoneNumber } from '@celo/phone-utils'
 import { CodeInputStatus } from 'src/components/CodeInput'
 
 export function getPhoneNumberState(

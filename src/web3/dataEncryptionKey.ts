@@ -4,11 +4,11 @@
  * but keeping it here for now since that's where other account state is
  */
 
-import { Result } from '@celo/base'
-import { CeloTransactionObject, CeloTxReceipt } from '@celo/connect'
+import { CeloTransactionObject } from '@celo/connect'
 import { ContractKit } from '@celo/contractkit/lib/kit'
 import { AccountsWrapper } from '@celo/contractkit/lib/wrappers/Accounts'
 import { MetaTransactionWalletWrapper } from '@celo/contractkit/lib/wrappers/MetaTransactionWallet'
+import { compressedPubKey, deriveDek } from '@celo/cryptographic-utils'
 import { OdisUtils } from '@celo/identity'
 import { AuthSigner } from '@celo/identity/lib/odis/query'
 import {
@@ -18,10 +18,7 @@ import {
   normalizeAddressWith0x,
   privateKeyToAddress,
 } from '@celo/utils/lib/address'
-import { compressedPubKey, deriveDek } from '@celo/utils/lib/dataEncryptionKey'
 import { UnlockableWallet } from '@celo/wallet-base'
-import { FetchError, TxError } from '@komenci/kit/lib/errors'
-import { KomenciKit } from '@komenci/kit/lib/kit'
 import { Platform } from 'react-native'
 import * as bip39 from 'react-native-bip39'
 import DeviceInfo from 'react-native-device-info'
@@ -274,87 +271,6 @@ export function* registerAccountDek() {
     // Registration will be re-attempted on next payment send
     Logger.error(`${TAG}@registerAccountDek`, 'Failure registering DEK', error)
   }
-}
-
-// Unlike normal DEK registration, registration via Komenci should be considered fatal. If there
-// is no on-chain mapping of accountAddresss => walletAddress, then senders will erroneously
-// send to MTW instead of EOA. A no-op if registration has already been done
-export function* registerWalletAndDekViaKomenci(
-  komenciKit: KomenciKit,
-  accountAddress: string,
-  walletAddress: string
-) {
-  ValoraAnalytics.track(OnboardingEvents.account_dek_register_start, { feeless: true })
-
-  Logger.debug(
-    `${TAG}@registerAccountDekViaKomenci`,
-    'Setting wallet address and public data encryption key'
-  )
-
-  yield call(getConnectedUnlockedAccount)
-  ValoraAnalytics.track(OnboardingEvents.account_dek_register_account_unlocked, { feeless: true })
-
-  const privateDataKey: string | null = yield select(dataEncryptionKeySelector)
-  if (!privateDataKey) {
-    throw new Error('No data key in store. Should never happen.')
-  }
-
-  const publicDataKey = compressedPubKey(hexToBuffer(privateDataKey))
-
-  const contractKit = yield call(getContractKit)
-  const accountsWrapper: AccountsWrapper = yield call([
-    contractKit.contracts,
-    contractKit.contracts.getAccounts,
-  ])
-
-  const upToDate: boolean = yield call(
-    isAccountUpToDate,
-    accountsWrapper,
-    accountAddress,
-    walletAddress,
-    publicDataKey
-  )
-  ValoraAnalytics.track(OnboardingEvents.account_dek_register_account_checked, { feeless: true })
-
-  if (upToDate) {
-    Logger.debug(`${TAG}@registerAccountDekViaKomenci`, 'Address and DEK up to date, skipping.')
-    yield put(registerDataEncryptionKey())
-    ValoraAnalytics.track(OnboardingEvents.account_dek_register_complete, {
-      newRegistration: false,
-      feeless: true,
-    })
-    return
-  }
-
-  const accountName = ''
-
-  Logger.debug(
-    TAG,
-    '@registerAccountDekViaKomenci Passed params:',
-    accountAddress,
-    walletAddress,
-    publicDataKey
-  )
-
-  const setAccountResult: Result<CeloTxReceipt, FetchError | TxError> = yield call(
-    [komenciKit, komenciKit.setAccount],
-    accountAddress,
-    accountName,
-    publicDataKey,
-    walletAddress
-  )
-
-  if (!setAccountResult.ok) {
-    Logger.debug(TAG, '@registerAccountDekViaKomenci Error:', setAccountResult.error.message)
-    throw setAccountResult.error
-  }
-
-  yield put(updateWalletToAccountAddress({ [walletAddress.toLowerCase()]: accountAddress }))
-  yield put(registerDataEncryptionKey())
-  ValoraAnalytics.track(OnboardingEvents.account_dek_register_complete, {
-    newRegistration: true,
-    feeless: true,
-  })
 }
 
 // Check if account address and DEK match what's in
