@@ -1229,9 +1229,6 @@ export interface WalletConnect2Properties {
   dappUrl: string
   dappDescription: string
   dappIcon: string
-  permissionsBlockchains: string[]
-  permissionsJsonrpcMethods: string[]
-  permissionsNotificationsTypes: string[]
   relayProtocol: string
 }
 

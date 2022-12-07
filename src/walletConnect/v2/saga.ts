@@ -66,29 +66,20 @@ const isSessionProposalType = (
   return 'params' in session
 }
 
-function* getDefaultSessionTrackedProperties(
+export function* getDefaultSessionTrackedProperties(
   session: SignClientTypes.EventArguments['session_proposal'] | SessionTypes.Struct
 ) {
   const activeDapp: ActiveDapp | null = yield select(activeDappSelector)
   const peer = isSessionProposalType(session) ? session.params.proposer : session.peer
   const { name: dappName, url: dappUrl, description: dappDescription, icons } = peer.metadata
 
-  const permissionsBlockchains: string[] = []
-  const permissionsJsonrpcMethods: string[] = []
-  const permissionsNotificationsTypes: string[] = []
+  const relayProtocol = isSessionProposalType(session)
+    ? session.params.relays[0]?.protocol
+    : session.relay.protocol
 
   const requiredNamespaces = isSessionProposalType(session)
     ? session.params.requiredNamespaces
     : session.requiredNamespaces
-  Object.keys(requiredNamespaces).forEach((key) => {
-    permissionsBlockchains.push(...requiredNamespaces[key].chains)
-    permissionsJsonrpcMethods.push(...requiredNamespaces[key].methods)
-    permissionsNotificationsTypes.push(...requiredNamespaces[key].events)
-  })
-
-  const relayProtocol = isSessionProposalType(session)
-    ? session.params.relays[0]?.protocol
-    : session.relay.protocol
 
   return {
     version: 2 as const,
@@ -97,10 +88,16 @@ function* getDefaultSessionTrackedProperties(
     dappUrl,
     dappDescription,
     dappIcon: icons[0],
-    permissionsBlockchains,
-    permissionsJsonrpcMethods,
-    permissionsNotificationsTypes,
     relayProtocol,
+    ...Object.keys(requiredNamespaces).reduce((acc, key) => {
+      const { chains, events, methods } = requiredNamespaces[key]
+      return {
+        ...acc,
+        [`${key}Events`]: events,
+        [`${key}Chains`]: chains,
+        [`${key}Methods`]: methods,
+      }
+    }, {}),
   }
 }
 
