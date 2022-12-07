@@ -4,6 +4,7 @@ import {
   verifyEIP712TypedDataSigner,
   verifySignature,
 } from '@celo/utils/lib/signatureUtils'
+import { recoverTransaction } from '@celo/wallet-base'
 import NodeWalletConnect from '@walletconnect/node'
 import { formatUri, utf8ToHex } from '../utils/encoding'
 import { launchApp, reloadReactNative } from '../utils/retries'
@@ -146,9 +147,6 @@ export default WalletConnect = () => {
     jestExpect(txReceipt.to).toStrictEqual(toAddress)
   })
 
-  // TODO: Enable when Valora implantation defect is fixed - gas can be optional is resolved
-  // https://github.com/valora-inc/wallet/issues/1559
-
   it('Then is able to sign a transaction', async () => {
     // Save result and await for it later
     let result = walletConnector.signTransaction(tx)
@@ -198,8 +196,6 @@ export default WalletConnect = () => {
     jestExpect(valid).toStrictEqual(true)
     jestExpect(invalid).toStrictEqual(false)
   })
-
-  // TODO: Check if verifySignature should check the hashed message or not
 
   it('Then is able to sign message (eth_sign)', async () => {
     const message = hashMessageWithPrefix(`My email is valora.test@mailinator.com - ${+new Date()}`)
@@ -295,9 +291,7 @@ export default WalletConnect = () => {
     jestExpect(invalid).toStrictEqual(false)
   })
 
-  // TODO: Investigate failing
-
-  it.skip('Then is able to send custom request', async () => {
+  it('Then is able to send custom request (eth_signTransaction)', async () => {
     const customRequest = {
       id: 1337,
       jsonrpc: '2.0',
@@ -332,6 +326,13 @@ export default WalletConnect = () => {
 
     // Wait for signature
     let signature = await result
+    const [recoveredTx, recoveredSigner] = recoverTransaction(signature.raw)
+
+    jestExpect(recoveredSigner.toLowerCase()).toEqual(fromAddress)
+    jestExpect(recoveredTx.nonce).toEqual(parseInt(customRequest.params[0].nonce, 16))
+    jestExpect(recoveredTx.to).toEqual(customRequest.params[0].to)
+    jestExpect(recoveredTx.data).toEqual(customRequest.params[0].data)
+    jestExpect(parseInt(recoveredTx.value, 16)).toEqual(parseInt(customRequest.params[0].value, 16))
   })
 
   it('Then is able to disconnect a session', async () => {

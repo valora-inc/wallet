@@ -193,7 +193,7 @@ export default WalletConnect = () => {
     jestExpect(recoveredTx.nonce).toEqual(tx.nonce)
     jestExpect(recoveredTx.to).toEqual(tx.to)
     jestExpect(recoveredTx.data).toEqual(tx.data)
-    jestExpect(recoveredTx.value).toEqual(recoveredTx.value)
+    jestExpect(recoveredTx.value).toEqual(tx.value)
   })
 
   it('Then is able to sign a message (eth_sign)', async () => {
