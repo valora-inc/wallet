@@ -9,6 +9,7 @@ import Client from '@walletconnect/sign-client'
 import fetch from 'node-fetch'
 import { WALLET_CONNECT_PROJECT_ID_E2E } from 'react-native-dotenv'
 import { formatUri, utf8ToHex } from '../utils/encoding'
+import { launchApp } from '../utils/retries'
 import { enterPinUiIfNecessary, scrollIntoView, waitForElementId } from '../utils/utils'
 
 const jestExpect = require('expect')
@@ -90,11 +91,9 @@ export default WalletConnect = () => {
   let walletConnectClient, pairingUrl
 
   beforeAll(async () => {
-    console.log('======WALLET_CONNECT_PROJECT_ID_E2E', WALLET_CONNECT_PROJECT_ID_E2E)
-
     walletConnectClient = await Client.init({
       relayUrl: 'wss://relay.walletconnect.org',
-      projectId: WALLET_CONNECT_PROJECT_ID_E2E || 'ad7eac0aff7904325eddbb66faa08486',
+      projectId: WALLET_CONNECT_PROJECT_ID_E2E,
       metadata: {
         name: dappName,
         description: 'WalletConnect Client',
@@ -120,6 +119,10 @@ export default WalletConnect = () => {
     })
 
     pairingUrl = formatUri(uri)
+  })
+
+  afterAll(async () => {
+    await walletConnectClient.core.relayer.transportClose()
   })
 
   it('Then is able to establish a session', async () => {
