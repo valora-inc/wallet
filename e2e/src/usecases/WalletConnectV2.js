@@ -4,11 +4,12 @@ import {
   verifyEIP712TypedDataSigner,
   verifySignature,
 } from '@celo/utils/lib/signatureUtils'
+import { recoverTransaction } from '@celo/wallet-base'
 import Client from '@walletconnect/sign-client'
 import fetch from 'node-fetch'
-import { WALLET_CONNECT_PROJECT_ID } from 'react-native-dotenv'
+import { WALLET_CONNECT_PROJECT_ID_E2E } from 'react-native-dotenv'
 import { formatUri, utf8ToHex } from '../utils/encoding'
-import { enterPinUiIfNecessary, scrollIntoView, sleep, waitForElementId } from '../utils/utils'
+import { enterPinUiIfNecessary, scrollIntoView, waitForElementId } from '../utils/utils'
 
 const jestExpect = require('expect')
 
@@ -46,7 +47,7 @@ async function formatTestTransaction(address) {
       nonce: parseInt(data.result, 16),
       gasPrice: '0x02540be400',
       gasLimit: '0x5208',
-      value: '0x00',
+      value: '0x01',
     }
   } catch (error) {
     throw new Error(`Failed to create test tx with error ${error.toString()}`)
@@ -74,11 +75,24 @@ const verifySuccessfulSign = async () => {
   await verifySuccessfulConnection()
 }
 
+const verifySuccessfulTransaction = async (tx) => {
+  await waitFor(element(by.text(`${dappName} would like to confirm a transaction`)))
+    .toBeVisible()
+    .withTimeout(15 * 1000)
+
+  await element(by.id('ShowTransactionDetailsButton')).tap()
+  await expect(element(by.id('DappData'))).toHaveText(`[${JSON.stringify(tx)}]`)
+
+  await element(by.id('WalletConnectActionRequest/Allow')).tap()
+  await enterPinUiIfNecessary()
+  await verifySuccessfulConnection()
+}
+
 export default WalletConnect = () => {
   beforeAll(async () => {
     walletConnectClient = await Client.init({
       relayUrl: 'wss://relay.walletconnect.org',
-      projectId: WALLET_CONNECT_PROJECT_ID,
+      projectId: WALLET_CONNECT_PROJECT_ID_E2E,
       metadata: {
         name: dappName,
         description: 'WalletConnect Client',
@@ -86,8 +100,6 @@ export default WalletConnect = () => {
         icons: [],
       },
     })
-
-    console.log('======wallet connect client', walletConnectClient)
 
     const { uri } = await walletConnectClient.connect({
       requiredNamespaces: {
@@ -108,14 +120,12 @@ export default WalletConnect = () => {
     pairingUrl = formatUri(uri)
   })
 
+  afterAll(async () => {})
+
   it('Then is able to establish a session', async () => {
     if (device.getPlatform() === 'android') {
-      await device.terminateApp()
-      await sleep(5 * 1000)
       await launchApp({ url: pairingUrl, newInstance: true })
-      await sleep(10 * 1000)
     } else {
-      await sleep(2 * 1000)
       await device.openURL({ url: pairingUrl })
     }
 
@@ -144,19 +154,10 @@ export default WalletConnect = () => {
         txHash = result
       })
 
-    await waitFor(element(by.text(`${dappName} would like to confirm a transaction`)))
-      .toBeVisible()
-      .withTimeout(15 * 1000)
     await waitFor(element(by.text('Send a Celo transaction')))
       .toBeVisible()
       .withTimeout(15 * 1000)
-
-    await element(by.id('ShowTransactionDetailsButton')).tap()
-    await expect(element(by.id('DappData'))).toHaveText(`[${JSON.stringify(tx)}]`)
-
-    await element(by.id('WalletConnectActionRequest/Allow')).tap()
-    await enterPinUiIfNecessary()
-    await verifySuccessfulConnection()
+    await verifySuccessfulTransaction(tx)
 
     // Wait for transaction and get receipt
     const { status, from, to } = await kit.connection.getTransactionReceipt(txHash)
@@ -164,6 +165,37 @@ export default WalletConnect = () => {
     jestExpect(status).toStrictEqual(true)
     jestExpect(from).toStrictEqual(walletAddress)
     jestExpect(to).toStrictEqual(walletAddress)
+  })
+
+  it('Then is able to sign a transaction (eth_signTransaction)', async () => {
+    let signedTx
+    const tx = await formatTestTransaction(walletAddress)
+    const [session] = walletConnectClient.session.map.values()
+    walletConnectClient
+      .request({
+        topic: session.topic,
+        chainId: 'eip155:44787',
+        request: {
+          method: 'eth_signTransaction',
+          params: [tx],
+        },
+      })
+      .then((result) => {
+        signedTx = result
+      })
+
+    await waitFor(element(by.text('Sign a Celo transaction')))
+      .toBeVisible()
+      .withTimeout(15 * 1000)
+    await verifySuccessfulTransaction(tx)
+
+    const [recoveredTx, recoveredSigner] = recoverTransaction(signedTx)
+
+    jestExpect(recoveredSigner.toLowerCase()).toEqual(walletAddress)
+    jestExpect(recoveredTx.nonce).toEqual(tx.nonce)
+    jestExpect(recoveredTx.to).toEqual(tx.to)
+    jestExpect(recoveredTx.data).toEqual(tx.data)
+    jestExpect(recoveredTx.value).toEqual(recoveredTx.value)
   })
 
   it('Then is able to sign a message (eth_sign)', async () => {
@@ -264,10 +296,6 @@ export default WalletConnect = () => {
 
     jestExpect(verifyEIP712TypedDataSigner(typedData, signature, walletAddress)).toStrictEqual(true)
   })
-
-  // TODO - Add the tests below
-  // Then is able to sign a transaction
-  // Then is able to send custom request
 
   it('Then should be able to disconnect a session', async () => {
     await waitForElementId('Hamburger')
