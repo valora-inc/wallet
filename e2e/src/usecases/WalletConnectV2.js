@@ -6,14 +6,13 @@ import {
 } from '@celo/utils/lib/signatureUtils'
 import Client from '@walletconnect/sign-client'
 import fetch from 'node-fetch'
+import { WALLET_CONNECT_PROJECT_ID } from 'react-native-dotenv'
 import { formatUri, utf8ToHex } from '../utils/encoding'
 import { enterPinUiIfNecessary, scrollIntoView, sleep, waitForElementId } from '../utils/utils'
 
 const jestExpect = require('expect')
 
 const dappName = 'WalletConnectV2 E2E'
-const DEFAULT_PROJECT_ID =
-  process.env.WALLET_CONNECT_PROJECT_ID || 'b8620cf33f99d407708c298d68224d8a'
 
 const kitUrl = process.env.FORNO_URL || 'https://alfajores-forno.celo-testnet.org'
 const kit = newKit(kitUrl)
@@ -79,7 +78,7 @@ export default WalletConnect = () => {
   beforeAll(async () => {
     walletConnectClient = await Client.init({
       relayUrl: 'wss://relay.walletconnect.org',
-      projectId: DEFAULT_PROJECT_ID,
+      projectId: WALLET_CONNECT_PROJECT_ID,
       metadata: {
         name: dappName,
         description: 'WalletConnect Client',

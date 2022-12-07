@@ -48,8 +48,9 @@ jobs:
         env:
           MOCK_PROVIDER_BASE_URL: ${{ secrets.MOCK_PROVIDER_BASE_URL }}
           MOCK_PROVIDER_API_KEY: ${{ secrets.MOCK_PROVIDER_API_KEY }}
+          WALLET_CONNECT_PROJECT_ID: ${{ secrets.WALLET_CONNECT_PROJECT_ID }}
         working-directory: e2e
-        run: echo MOCK_PROVIDER_BASE_URL=$MOCK_PROVIDER_BASE_URL >> .env && echo MOCK_PROVIDER_API_KEY=$MOCK_PROVIDER_API_KEY >> .env
+        run: echo MOCK_PROVIDER_BASE_URL=$MOCK_PROVIDER_BASE_URL >> .env && echo MOCK_PROVIDER_API_KEY=$MOCK_PROVIDER_API_KEY >> .env && echo WALLET_CONNECT_PROJECT_ID=$WALLET_CONNECT_PROJECT_ID >> .env
       - name: Create Detox Build
         run: |
           export CELO_TEST_CONFIG=e2e
