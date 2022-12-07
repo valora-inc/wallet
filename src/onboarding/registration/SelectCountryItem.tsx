@@ -1,4 +1,4 @@
-import { LocalizedCountry } from '@celo/utils/lib/countries'
+import { LocalizedCountry } from '@celo/phone-utils'
 import * as React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import Touchable from 'src/components/Touchable'

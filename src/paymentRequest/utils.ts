@@ -1,6 +1,5 @@
 import { hexToBuffer } from '@celo/utils/lib/address'
-import { decryptComment, encryptComment } from '@celo/utils/lib/commentEncryption'
-import { isE164Number } from '@celo/utils/lib/phoneNumbers'
+import { decryptComment, encryptComment } from '@celo/cryptographic-utils'
 import { call } from 'redux-saga/effects'
 import { MAX_COMMENT_LENGTH } from 'src/config'
 import { features } from 'src/flags'
@@ -8,6 +7,7 @@ import i18n from 'src/i18n'
 import { PaymentRequest, WriteablePaymentRequest } from 'src/paymentRequest/types'
 import Logger from 'src/utils/Logger'
 import { doFetchDataEncryptionKey } from 'src/web3/dataEncryptionKey'
+import { isE164NumberStrict } from '@celo/phone-utils'
 
 const TAG = 'paymentRequest/utils'
 
@@ -85,7 +85,7 @@ export function decryptPaymentRequest(
     )
     if (success) {
       decryptedPaymentRequest.requesterE164Number = decryptedRequesterE164Number
-    } else if (isE164Number(requesterE164Number)) {
+    } else if (isE164NumberStrict(requesterE164Number)) {
       Logger.warn(
         `${TAG}@decryptPaymentRequest`,
         'Decrypting requesterE164Number failed, using raw number'

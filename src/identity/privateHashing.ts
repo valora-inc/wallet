@@ -1,14 +1,14 @@
 import { OdisUtils } from '@celo/identity'
 import { PhoneNumberHashDetails } from '@celo/identity/lib/odis/phone-number-identifier'
 import { AuthSigner, ServiceContext } from '@celo/identity/lib/odis/query'
-import { getPhoneHash, isE164Number, PhoneNumberUtils } from '@celo/utils/lib/phoneNumbers'
+import { isE164NumberStrict, PhoneNumberUtils } from '@celo/phone-utils'
+import getPhoneHash from '@celo/phone-utils/lib/getPhoneHash'
 import DeviceInfo from 'react-native-device-info'
 import { call, put, select } from 'redux-saga/effects'
 import { e164NumberSelector } from 'src/account/selectors'
 import { IdentityEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import networkConfig from 'src/web3/networkConfig'
 import { updateE164PhoneNumberSalts } from 'src/identity/actions'
 import { ReactBlsBlindingClient } from 'src/identity/bls-blinding-client'
 import { E164NumberToSaltType } from 'src/identity/reducer'
@@ -24,6 +24,7 @@ import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { isBalanceSufficientForSigRetrievalSelector } from 'src/verify/reducer'
 import { getAuthSignerForAccount } from 'src/web3/dataEncryptionKey'
+import networkConfig from 'src/web3/networkConfig'
 import { getAccount, getAccountAddress, unlockAccount, UnlockResult } from 'src/web3/saga'
 import { currentAccountSelector, dataEncryptionKeySelector } from 'src/web3/selectors'
 
@@ -90,7 +91,7 @@ function* doFetchPhoneHashPrivate(e164Number: string) {
 // privacy service to compute a secure, unique salt for the phone number
 // and then appends it before hashing.
 function* getPhoneHashPrivate(e164Number: string, selfPhoneHash?: string) {
-  if (!isE164Number(e164Number)) {
+  if (!isE164NumberStrict(e164Number)) {
     throw new Error(ErrorMessages.INVALID_PHONE_NUMBER)
   }
 
@@ -133,6 +134,7 @@ function* getPhoneHashPrivate(e164Number: string, selfPhoneHash?: string) {
       accountAddress,
       authSigner,
       serviceContext,
+      blindingFactor,
       selfPhoneHash,
       DeviceInfo.getVersion(),
       blsBlindingClient

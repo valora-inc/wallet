@@ -2,20 +2,21 @@ import { FiatAccountSchema, FiatAccountType } from '@fiatconnect/fiatconnect-typ
 import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
+import { act } from 'react-test-renderer'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import { FiatConnectTransfer, SendingTransferStatus } from 'src/fiatconnect/slice'
 import TransferStatusScreen from 'src/fiatconnect/TransferStatusScreen'
+import { SettlementTime } from 'src/fiatExchanges/quotes/constants'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import appTheme from 'src/styles/appTheme'
 import networkConfig from 'src/web3/networkConfig'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockFiatConnectQuotes } from 'test/values'
-import { act } from 'react-test-renderer'
-import appTheme from 'src/styles/appTheme'
 
 jest.mock('src/analytics/ValoraAnalytics')
 
@@ -101,6 +102,22 @@ describe('TransferStatusScreen', () => {
           txHash: mockTxHash,
         }
       )
+    })
+    it.each([
+      [SettlementTime.LESS_THAN_24_HOURS, 'description24Hours'],
+      [SettlementTime.ONE_TO_THREE_DAYS, 'description1to3Days'],
+    ])('shows appropriate description for settlement time %s', (settlementTime, stringSuffix) => {
+      const store = mockStore({ flow: CICOFlow.CashOut, txHash: mockTxHash })
+      const props = mockScreenProps(CICOFlow.CashOut)
+      jest
+        .spyOn(props.route.params.normalizedQuote, 'getTimeEstimation')
+        .mockReturnValue(settlementTime)
+      const { getByText } = render(
+        <Provider store={store}>
+          <TransferStatusScreen {...props} />
+        </Provider>
+      )
+      expect(getByText(`fiatConnectStatusScreen.success.${stringSuffix}`)).toBeTruthy()
     })
     it('shows TX details on Celo Explorer on success for transfer outs', () => {
       const store = mockStore({ flow: CICOFlow.CashOut, txHash: mockTxHash })

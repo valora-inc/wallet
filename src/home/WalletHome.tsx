@@ -158,7 +158,7 @@ function WalletHome() {
   })
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView testID="WalletHome" style={styles.container}>
       <DrawerTopBar middleElement={<Logo />} scrollPosition={scrollPosition} />
       <AnimatedSectionList
         scrollEventThrottle={16}
@@ -169,6 +169,7 @@ function WalletHome() {
         style={styles.container}
         sections={sections}
         keyExtractor={keyExtractor}
+        testID="WalletHome/SectionList"
       />
       <SendOrRequestBar />
       {shouldShowCashInBottomSheet() && <CashInBottomSheet />}

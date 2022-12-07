@@ -6,7 +6,7 @@ import SignClient from '@walletconnect/sign-client'
 import { SessionTypes, SignClientTypes } from '@walletconnect/types'
 import { getSdkError } from '@walletconnect/utils'
 import { EventChannel, eventChannel } from 'redux-saga'
-import { call, put, select, take, takeEvery, takeLeading } from 'redux-saga/effects'
+import { call, delay, put, race, select, take, takeEvery, takeLeading } from 'redux-saga/effects'
 import { WalletConnectEvents } from 'src/analytics/Events'
 import { WalletConnect2Properties } from 'src/analytics/Properties'
 import { DappRequestOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
@@ -20,7 +20,7 @@ import i18n from 'src/i18n'
 import { isBottomSheetVisible, navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import Logger from 'src/utils/Logger'
-import { isSupportedAction } from 'src/walletConnect/constants'
+import { isSupportedAction, SupportedActions } from 'src/walletConnect/constants'
 import { handleRequest } from 'src/walletConnect/request'
 import { showWalletConnectionSuccessMessage } from 'src/walletConnect/saga'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
@@ -57,6 +57,8 @@ import { getWalletAddress } from 'src/web3/saga'
 let client: SignClient | null = null
 
 const TAG = 'WalletConnect/saga'
+
+const CONNECTION_TIMEOUT = 10_000
 
 const isSessionProposalType = (
   session: SignClientTypes.EventArguments['session_proposal'] | SessionTypes.Struct
@@ -338,14 +340,18 @@ export function* acceptSession({ session }: AcceptSession) {
 
     yield call(acknowledged)
 
-    // TODO is there some better way to find the new session?
-    const newSession = client.session.values.find(
-      (value) => value.peer.publicKey === session.params.proposer.publicKey
-    )
-    if (newSession) {
-      yield put(sessionCreated(newSession))
+    // the SignClient does not emit any events when a new session value is
+    // available, so if no matching session could be found we can wait and try again.
+    const { timedOut, newSession } = yield race({
+      timedOut: delay(CONNECTION_TIMEOUT),
+      newSession: call(getSessionFromClient, session),
+    })
+
+    if (timedOut) {
+      throw new Error('No corresponding session could not be found on the client')
     }
 
+    yield put(sessionCreated(newSession))
     yield call(showWalletConnectionSuccessMessage, proposer.metadata.name)
   } catch (e) {
     Logger.debug(TAG + '@acceptSession', e.message)
@@ -356,6 +362,26 @@ export function* acceptSession({ session }: AcceptSession) {
   }
 
   yield call(handlePendingStateOrNavigateBack)
+}
+
+function* getSessionFromClient(session: SignClientTypes.EventArguments['session_proposal']) {
+  if (!client) {
+    // should not happen
+    throw new Error('missing client')
+  }
+
+  let sessionValue = client.session.values.find(
+    (value) => value.peer.publicKey === session.params.proposer.publicKey
+  )
+
+  while (!sessionValue) {
+    yield delay(500)
+    sessionValue = client.session.values.find(
+      (value) => value.peer.publicKey === session.params.proposer.publicKey
+    )
+  }
+
+  return sessionValue
 }
 
 function* denySession({ session }: DenySession) {
@@ -424,7 +450,10 @@ function* handleAcceptRequest({ request }: AcceptRequest) {
     }
 
     const result = yield call(handleRequest, { ...params.request })
-    const response: JsonRpcResult<string> = formatJsonRpcResult(id, result)
+    const response: JsonRpcResult<string> = formatJsonRpcResult(
+      id,
+      params.request.method === SupportedActions.eth_signTransaction ? result.raw : result
+    )
     yield call([client, 'respond'], { topic, response })
 
     ValoraAnalytics.track(WalletConnectEvents.wc_request_accept_success, defaultTrackedProperties)

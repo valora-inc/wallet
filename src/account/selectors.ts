@@ -1,4 +1,4 @@
-import { Countries } from '@celo/utils/lib/countries'
+import { Countries } from '@celo/phone-utils'
 import * as RNLocalize from 'react-native-localize'
 import { createSelector } from 'reselect'
 import i18n from 'src/i18n'

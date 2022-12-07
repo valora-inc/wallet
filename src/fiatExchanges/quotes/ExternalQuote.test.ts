@@ -1,5 +1,6 @@
 import BigNumber from 'bignumber.js'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { SettlementTime } from 'src/fiatExchanges/quotes/constants'
 import ExternalQuote from 'src/fiatExchanges/quotes/ExternalQuote'
 import { CICOFlow, PaymentMethod, RawProviderQuote, SimplexQuote } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
@@ -117,13 +118,13 @@ describe('ExternalQuote', () => {
   })
 
   describe('.getTimeEstimation', () => {
-    it('returns numDays for Bank', () => {
+    it('returns 1-3 days for Bank', () => {
       const quote = new ExternalQuote({
         quote: (mockProviders[1].quote as RawProviderQuote[])[0],
         provider: mockProviders[1],
         flow: CICOFlow.CashIn,
       })
-      expect(quote.getTimeEstimation()).toEqual('selectProviderScreen.numDays')
+      expect(quote.getTimeEstimation()).toEqual(SettlementTime.ONE_TO_THREE_DAYS)
     })
     it('returns oneHour for Card', () => {
       const quote = new ExternalQuote({
@@ -131,7 +132,7 @@ describe('ExternalQuote', () => {
         provider: mockProviders[0],
         flow: CICOFlow.CashIn,
       })
-      expect(quote.getTimeEstimation()).toEqual('selectProviderScreen.oneHour')
+      expect(quote.getTimeEstimation()).toEqual(SettlementTime.LESS_THAN_ONE_HOUR)
     })
   })
 

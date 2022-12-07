@@ -1,8 +1,8 @@
-import { Address, isNullAddress } from '@celo/base'
+import { Address } from '@celo/base'
 import { AccountsWrapper } from '@celo/contractkit/lib/wrappers/Accounts'
 import { AttestationStat, AttestationsWrapper } from '@celo/contractkit/lib/wrappers/Attestations'
 import { PhoneNumberHashDetails } from '@celo/identity/lib/odis/phone-number-identifier'
-import { isValidAddress, normalizeAddressWith0x } from '@celo/utils/lib/address'
+import { isValidAddress, normalizeAddressWith0x, NULL_ADDRESS } from '@celo/utils/lib/address'
 import { isAccountConsideredVerified } from '@celo/utils/lib/attestations'
 import BigNumber from 'bignumber.js'
 import { Platform } from 'react-native'
@@ -239,7 +239,7 @@ export function* fetchWalletAddressesDecentralized(e164Number: string) {
     const accountAddress = normalizeAddressWith0x(accountAddresses[i])
     const walletAddress = normalizeAddressWith0x(address)
     // `getWalletAddress` returns a null address when there isn't a wallet registered
-    if (!isNullAddress(walletAddress)) {
+    if (walletAddress !== NULL_ADDRESS) {
       walletToAccountAddress[walletAddress] = accountAddress
       possibleUserAddresses.add(walletAddress)
     } else {

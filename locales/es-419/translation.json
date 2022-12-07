@@ -1289,7 +1289,7 @@
     "newLabel": "NUEVO",
     "newDialog": {
       "title": "Nuevas formas de transferir fondos",
-      "body": "Estamos lanzando nuevas formas de transferir fondos a y desde cuentas bancarias, directamente desde la aplicación de Valora.\n\nSi ves esto, significa que puedes acceder a esta función en tu región.",
+      "body": "Estamos lanzando nuevas formas de transferir fondos a y desde cuentas bancarias, directamente desde Valora.\n\nSi ves este mensaje, puedes acceder a esta función en tu región.",
       "dismiss": "Descartar"
     }
   },
@@ -1386,6 +1386,8 @@
       "header": "Operación exitosa",
       "title": "¡Tus fondos están en camino!",
       "description": "Tu solicitud ha sido enviada y tus fondos llegarán en {{duration}}.",
+      "description1to3Days": "Tu solicitud ha sido enviada y tus fondos llegarán en 1 a 3 días.",
+      "description24Hours": "Tu solicitud ha sido enviada y tus fondos llegarán dentro de las 24 horas.",
       "txDetails": "Ver en CeloExplorer",
       "continue": "Continuar"
     },
@@ -1464,7 +1466,7 @@
     },
     "ifsc": {
       "label": "IFSC",
-      "placeholderText": "Introduce el IFSC",
+      "placeholderText": "Ingresa el código IFSC",
       "errorMessage": "IFSC inválido"
     }
   },

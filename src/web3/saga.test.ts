@@ -1,4 +1,4 @@
-import { generateMnemonic, MnemonicLanguages, MnemonicStrength } from '@celo/utils/lib/account'
+import { generateMnemonic, MnemonicLanguages, MnemonicStrength } from '@celo/cryptographic-utils'
 import { isValidChecksumAddress } from '@celo/utils/lib/address'
 import * as bip39 from 'react-native-bip39'
 import { expectSaga } from 'redux-saga-test-plan'
