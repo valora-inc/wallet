@@ -51,7 +51,7 @@ jobs:
           --headless
           --retries 3
           --device-boot-args="-snapshot ci_boot"
-        timeout-minutes: 45
+        timeout-minutes: 3
       - name: Publish Android JUnit Report
         if: always()
         uses: mikepenz/action-junit-report@v3

@@ -75,7 +75,7 @@ jobs:
           --debug-synchronization 10000
           --workers 6
           --retries 3
-        timeout-minutes: 45
+        timeout-minutes: 3
       - name: Publish iOS JUnit Report
         if: always()
         uses: mikepenz/action-junit-report@v3
