@@ -1,6 +1,5 @@
-import { LocalizedCountry } from '@celo/utils/lib/countries'
+import { LocalizedCountry, parsePhoneNumber } from '@celo/phone-utils'
 import { ValidatorKind } from '@celo/utils/lib/inputValidation'
-import { parsePhoneNumber } from '@celo/utils/lib/phoneNumbers'
 import React, { useEffect, useRef } from 'react'
 import { Platform, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import SmsRetriever from 'react-native-sms-retriever'

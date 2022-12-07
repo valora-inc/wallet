@@ -1,4 +1,4 @@
-import * as DEK from '@celo/utils/lib/dataEncryptionKey'
+import * as DEK from '@celo/cryptographic-utils/lib/dataEncryptionKey'
 import { FetchMock } from 'jest-fetch-mock/types'
 import * as Keychain from 'react-native-keychain'
 import { expectSaga } from 'redux-saga-test-plan'

@@ -1,5 +1,5 @@
 import { ensureLeading0x } from '@celo/base'
-import { generateDeterministicInviteCode } from '@celo/utils/lib/account'
+import { generateDeterministicInviteCode } from '@celo/cryptographic-utils'
 import { publicKeyToAddress } from '@celo/utils/lib/address'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { identifierToE164NumberSelector } from 'src/identity/selectors'

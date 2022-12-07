@@ -1286,10 +1286,10 @@
     "lessThan24Hours": "Moins d'une journée",
     "bestRate": "Meilleur taux",
     "header": "Mode de paiement",
-    "newLabel": "NOUVEAU",
+    "newLabel": "NOUVEAUX",
     "newDialog": {
       "title": "De nouveaux moyens de transférer des fonds",
-      "body": "Nous mettons à disposition de nouveaux moyens de transférer des fonds vers et depuis des comptes bancaires, directement depuis l'appli Valora.\n\nSi tu vois ceci, cela signifie que tu peux accéder à cette fonctionnalité dans ta région.",
+      "body": "Nous libérons de nouveaux moyens de transférer des fonds vers et depuis des comptes bancaires, directement depuis l'appli Valora.\n\nSi vous voyez ceci, cela signifie que vous avez cette fonctionnalité dans votre région.",
       "dismiss": "Ignorer"
     }
   },
@@ -1386,8 +1386,8 @@
       "header": "Opération réussie",
       "title": "Vos fonds sont en route !",
       "description": "Votre demande de transaction a été envoyée et vos fonds arriveront dans {{duration}}.",
-      "description1to3Days": "Ta demande de transaction a été envoyée et tes fonds arriveront dans 1-3 jours.",
-      "description24Hours": "Ta demande de transaction a été envoyée et tes fonds arriveront dans les 24 heures.",
+      "description1to3Days": "Votre demande de transaction a été envoyée et vos fonds arriveront dans 1-3 jours.",
+      "description24Hours": "Votre demande de transaction a été envoyée et vos fonds arriveront dans 24 heures.",
       "txDetails": "Voir sur CeloExplorer",
       "continue": "Continuer"
     },
@@ -1465,9 +1465,9 @@
       "errorMessage": "IBAN non valide"
     },
     "ifsc": {
-      "label": "IFSC",
-      "placeholderText": "Saisis l'IFSC",
-      "errorMessage": "IFSC invalide"
+      "label": "Code IFSC",
+      "placeholderText": "Saisissez un code IFSC",
+      "errorMessage": "IFSC non valide"
     }
   },
   "webView": {

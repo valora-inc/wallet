@@ -1,5 +1,5 @@
 import { RLPEncodedTx, Signer } from '@celo/connect'
-import { generateKeys } from '@celo/utils/lib/account'
+import { generateKeys } from '@celo/cryptographic-utils'
 import {
   isValidAddress,
   normalizeAddress,

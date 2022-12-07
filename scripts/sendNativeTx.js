@@ -1,5 +1,5 @@
 const contractKit = require('@celo/contractkit')
-const celoUtils = require('@celo/utils/lib/account')
+const celoUtils = require('@celo/cryptographic-utils')
 
 const WEI_PER_CELO = 1000000000000000000.0
 

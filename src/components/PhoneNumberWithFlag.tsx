@@ -1,4 +1,4 @@
-import { getCountryEmoji, parsePhoneNumber } from '@celo/utils/lib/phoneNumbers'
+import { getCountryEmoji, parsePhoneNumber } from '@celo/phone-utils'
 import * as React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import colors from 'src/styles/colors'

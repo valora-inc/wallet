@@ -29,7 +29,7 @@ function SwapFeedItem({ exchange }: Props) {
   }
 
   return (
-    <Touchable onPress={handleTransferDetails}>
+    <Touchable testID="SwapFeedItem" onPress={handleTransferDetails}>
       <View style={styles.container}>
         <SwapIcon />
         <View style={styles.contentContainer}>
