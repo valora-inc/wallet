@@ -26,9 +26,9 @@ jobs:
         run: NODE_OPTIONS='--unhandled-rejections=strict' yarn ts-node ./e2e/scripts/check-e2e-wallet-balance.ts
       - name: Create Android E2E .env File
         env:
-          WALLET_CONNECT_PROJECT_ID: ${{ secrets.WALLET_CONNECT_PROJECT_ID }}
+          WALLET_CONNECT_PROJECT_ID_E2E: ${{ secrets.WALLET_CONNECT_PROJECT_ID_E2E }}
         working-directory: e2e
-        run: echo WALLET_CONNECT_PROJECT_ID=$WALLET_CONNECT_PROJECT_ID >> .env
+        run: echo WALLET_CONNECT_PROJECT_ID_E2E=$WALLET_CONNECT_PROJECT_ID_E2E >> .env
       - name: Create Detox Build
         run: |
           export CELO_TEST_CONFIG=e2e
