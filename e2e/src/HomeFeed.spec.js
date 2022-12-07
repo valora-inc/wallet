@@ -9,7 +9,7 @@ beforeAll(async () => {
 
 // iOS only as getAttributes on multiple elements is not supported on Android
 describe('Home Feed :ios:', () => {
-  it.only('should show correct information on tap of feed item', async () => {
+  it('should show correct information on tap of feed item', async () => {
     // Load Wallet Home
     await waitForElementId('WalletHome')
     const items = await element(by.id('TransferFeedItem')).getAttributes()
