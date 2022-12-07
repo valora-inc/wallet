@@ -110,7 +110,15 @@ export default WalletConnect = () => {
   })
 
   it('Then is able to establish a session', async () => {
-    await device.openURL({ url: formatUri(pairingUrl) })
+    if (device.getPlatform() === 'android') {
+      await device.terminateApp()
+      await sleep(5 * 1000)
+      await launchApp({ url: formatUri(pairingUrl), newInstance: true })
+      await sleep(10 * 1000)
+    } else {
+      await sleep(2 * 1000)
+      await device.openURL({ url: formatUri(pairingUrl) })
+    }
 
     await waitFor(element(by.id('WalletConnectSessionRequestHeader')))
       .toBeVisible()
