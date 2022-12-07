@@ -104,7 +104,7 @@ export const BIDALI_URL = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'BIDALI_U
 export const WALLET_CONNECT_PROJECT_ID = keyOrUndefined(
   secretsFile,
   DEFAULT_TESTNET,
-  'WALLET_CONNECT_PROJECT_ID'
+  '8f6f2517f4485c013849d38717ec90d1'
 )
 
 export const SPEND_MERCHANT_LINKS: SpendMerchant[] = [
