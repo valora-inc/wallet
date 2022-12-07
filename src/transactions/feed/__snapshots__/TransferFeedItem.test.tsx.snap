@@ -23,6 +23,7 @@ exports[`TransferFeedItem renders correctly 1`] = `
   onResponderTerminate={[Function]}
   onResponderTerminationRequest={[Function]}
   onStartShouldSetResponder={[Function]}
+  testID="TransferFeedItem"
 >
   <View
     style={
