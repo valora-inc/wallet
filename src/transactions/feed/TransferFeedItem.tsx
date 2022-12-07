@@ -39,7 +39,7 @@ function TransferFeedItem({ transfer }: Props) {
   const colorStyle = new BigNumber(amount.value).isPositive() ? { color: colors.greenUI } : {}
 
   return (
-    <Touchable disabled={false} onPress={openTransferDetails}>
+    <Touchable testID="TransferFeedItem" disabled={false} onPress={openTransferDetails}>
       <View style={styles.container}>
         <ContactCircle
           style={{ alignItems: 'flex-start' }}
