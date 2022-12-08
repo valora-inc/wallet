@@ -4,7 +4,7 @@ import {
   normalizeMnemonic,
   suggestMnemonicCorrections,
   validateMnemonic,
-} from '@celo/utils/lib/account'
+} from '@celo/cryptographic-utils'
 import { privateKeyToAddress } from '@celo/utils/lib/address'
 import { Task } from '@redux-saga/types'
 import * as bip39 from 'react-native-bip39'

@@ -135,7 +135,7 @@ export function* fetchAvailableRewardsSaga() {
   try {
     const response: Response = yield call(
       fetchWithTimeout,
-      `${config.cloudFunctionsUrl}/fetchAvailableSuperchargeRewards?address=${address}`
+      `${config.fetchAvailableSuperchargeRewards}?address=${address}`
     )
     const data: { availableRewards: SuperchargePendingReward[] } = yield call([response, 'json'])
     yield put(setAvailableRewards(data.availableRewards))

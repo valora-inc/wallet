@@ -1,5 +1,5 @@
 import { sleep } from '@celo/utils/lib/async'
-import { isE164Number } from '@celo/utils/lib/phoneNumbers'
+import { isE164NumberStrict } from '@celo/phone-utils'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import * as Sentry from '@sentry/react-native'
 import locales from 'locales'
@@ -196,7 +196,7 @@ export class Account extends React.Component<Props, State> {
 
   revokeNumberVerification = () => {
     this.hideConfirmRevokeModal()
-    if (this.props.e164PhoneNumber && !isE164Number(this.props.e164PhoneNumber)) {
+    if (this.props.e164PhoneNumber && !isE164NumberStrict(this.props.e164PhoneNumber)) {
       Logger.showError('Cannot revoke verificaton: number invalid')
       return
     }

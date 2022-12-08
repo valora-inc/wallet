@@ -1,7 +1,7 @@
 import { Address } from '@celo/base'
 import { OdisUtils } from '@celo/identity'
 import { Environment as PersonaEnvironment } from 'react-native-persona'
-import { BIDALI_URL, DEFAULT_TESTNET, RECAPTCHA_SITE_KEY } from 'src/config'
+import { DEFAULT_FORNO_URL, BIDALI_URL, DEFAULT_TESTNET, RECAPTCHA_SITE_KEY } from 'src/config'
 import Logger from 'src/utils/Logger'
 
 export enum Testnets {
@@ -15,7 +15,7 @@ interface NetworkConfig {
   odisUrl: string // Phone Number Privacy service url
   odisPubKey: string
   komenciUrl: string
-  cloudFunctionsUrl: string
+  sentryTracingUrls: string[]
   allowedMtwImplementations: string[]
   currentMtwImplementationAddress: string
   recaptchaSiteKey: string
@@ -43,11 +43,12 @@ interface NetworkConfig {
   lookupAddressUrl: string
   revokePhoneNumberUrl: string
   migratePhoneVerificationUrl: string
+  fetchAvailableSuperchargeRewards: string
 }
 
 const KOMENCI_URL_MAINNET = 'https://mainnet-komenci.azurefd.net'
 const KOMENCI_URL_STAGING = 'https://staging-komenci.azurefd.net'
-const CLOUD_FUNCTIONS_STAGING = 'https://us-central1-celo-mobile-alfajores.cloudfunctions.net'
+const CLOUD_FUNCTIONS_STAGING = 'https://api.alfajores.valora.xyz'
 const CLOUD_FUNCTIONS_MAINNET = 'https://us-central1-celo-mobile-mainnet.cloudfunctions.net'
 
 const ALLOWED_MTW_IMPLEMENTATIONS_MAINNET: Address[] = [
@@ -108,6 +109,9 @@ const REVOKE_PHONE_NUMBER_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/revokePhoneNumbe
 const MIGRATE_PHONE_VERIFICATION_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/migrateASv1Verification`
 const MIGRATE_PHONE_VERIFICATION_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/migrateASv1Verification`
 
+const FETCH_AVAILABLE_SUPERCHARGE_REWARDS_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/fetchAvailableSuperchargeRewards`
+const FETCH_AVAILABLE_SUPERCHARGE_REWARDS_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/fetchAvailableSuperchargeRewards`
+
 const CELO_EXPLORER_BASE_URL_ALFAJORES = 'https://explorer.celo.org/alfajores'
 const CELO_EXPLORER_BASE_URL_MAINNET = 'https://explorer.celo.org/mainnet'
 
@@ -130,7 +134,12 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     odisUrl: OdisUtils.Query.ODIS_ALFAJORES_CONTEXT.odisUrl,
     odisPubKey: OdisUtils.Query.ODIS_ALFAJORES_CONTEXT.odisPubKey,
     komenciUrl: KOMENCI_URL_STAGING,
-    cloudFunctionsUrl: CLOUD_FUNCTIONS_STAGING,
+    sentryTracingUrls: [
+      DEFAULT_FORNO_URL,
+      'https://blockchain-api-dot-celo-mobile-alfajores.appspot.com',
+      CLOUD_FUNCTIONS_STAGING,
+      'https://liquidity-dot-celo-mobile-alfajores.appspot.com',
+    ],
     allowedMtwImplementations: ALLOWED_MTW_IMPLEMENTATIONS_STAGING,
     currentMtwImplementationAddress: CURRENT_MTW_IMPLEMENTATION_ADDRESS_STAGING,
     recaptchaSiteKey: RECAPTCHA_SITE_KEY,
@@ -158,6 +167,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     lookupAddressUrl: LOOKUP_ADDRESS_ALFAJORES,
     revokePhoneNumberUrl: REVOKE_PHONE_NUMBER_ALFAJORES,
     migratePhoneVerificationUrl: MIGRATE_PHONE_VERIFICATION_ALFAJORES,
+    fetchAvailableSuperchargeRewards: FETCH_AVAILABLE_SUPERCHARGE_REWARDS_ALFAJORES,
   },
   [Testnets.mainnet]: {
     networkId: '42220',
@@ -165,7 +175,12 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     odisUrl: OdisUtils.Query.ODIS_MAINNET_CONTEXT.odisUrl,
     odisPubKey: OdisUtils.Query.ODIS_MAINNET_CONTEXT.odisPubKey,
     komenciUrl: KOMENCI_URL_MAINNET,
-    cloudFunctionsUrl: CLOUD_FUNCTIONS_MAINNET,
+    sentryTracingUrls: [
+      DEFAULT_FORNO_URL,
+      'https://blockchain-api-dot-celo-mobile-mainnet.appspot.com',
+      CLOUD_FUNCTIONS_MAINNET,
+      'https://liquidity-dot-celo-mobile-mainnet.appspot.com',
+    ],
     allowedMtwImplementations: ALLOWED_MTW_IMPLEMENTATIONS_MAINNET,
     currentMtwImplementationAddress: CURRENT_MTW_IMPLEMENTATION_ADDRESS_MAINNET,
     recaptchaSiteKey: RECAPTCHA_SITE_KEY,
@@ -193,6 +208,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     lookupAddressUrl: LOOKUP_ADDRESS_MAINNET,
     revokePhoneNumberUrl: REVOKE_PHONE_NUMBER_MAINNET,
     migratePhoneVerificationUrl: MIGRATE_PHONE_VERIFICATION_MAINNET,
+    fetchAvailableSuperchargeRewards: FETCH_AVAILABLE_SUPERCHARGE_REWARDS_MAINNET,
   },
 }
 

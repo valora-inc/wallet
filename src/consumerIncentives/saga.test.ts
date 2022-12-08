@@ -89,7 +89,7 @@ describe('fetchAvailableRewardsSaga', () => {
   }
   const error = new Error('Unexpected error')
 
-  const availableRewardsUri = `${config.cloudFunctionsUrl}/fetchAvailableSuperchargeRewards?address=${userAddress}`
+  const availableRewardsUri = `${config.fetchAvailableSuperchargeRewards}?address=${userAddress}`
 
   it('stores rewards after fetching them', async () => {
     await expectSaga(fetchAvailableRewardsSaga)
