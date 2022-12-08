@@ -2,7 +2,7 @@ import * as Sentry from '@sentry/react-native'
 import DeviceInfo from 'react-native-device-info'
 import { select } from 'redux-saga/effects'
 import { sentryTracesSampleRateSelector } from 'src/app/selectors'
-import { APP_BUNDLE_ID, DEFAULT_FORNO_URL, SENTRY_CLIENT_URL, SENTRY_ENABLED } from 'src/config'
+import { APP_BUNDLE_ID, SENTRY_CLIENT_URL, SENTRY_ENABLED } from 'src/config'
 import networkConfig from 'src/web3/networkConfig'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
@@ -38,12 +38,7 @@ export function* initializeSentry() {
   //   https://docs.sentry.io/platforms/javascript/performance/instrumentation/automatic-instrumentation/#tracingorigins
   // If you want to match against a specific domain (which we do) make sure to
   // use the domain name (not the URL).
-  const tracingOrigins = [
-    DEFAULT_FORNO_URL,
-    networkConfig.blockchainApiUrl,
-    networkConfig.cloudFunctionsUrl,
-    networkConfig.inHouseLiquidityURL,
-  ].map((url) => {
+  const tracingOrigins = networkConfig.sentryTracingUrls.map((url) => {
     // hostname does not include the port (while host does include the port).
     // Use hostname because it will match agaist a request to the host on any
     // port.
