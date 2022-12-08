@@ -38,7 +38,7 @@ jobs:
         run: >
           export ANDROID_SDK_ROOT=$HOME/android-tools &&
           export PATH=$ANDROID_SDK_ROOT/platform-tools:$PATH &&
-          yarn detox test WalletConnect.spec.js
+          yarn detox test
           --device-name Pixel_API_${{ inputs.android-api-level }}_AOSP_x86_64
           --configuration android.release
           --artifacts-location e2e/artifacts
@@ -51,7 +51,7 @@ jobs:
           --headless
           --retries 3
           --device-boot-args="-snapshot ci_boot"
-        timeout-minutes: 3
+        timeout-minutes: 45
       - name: Publish Android JUnit Report
         if: always()
         uses: mikepenz/action-junit-report@v3

@@ -65,7 +65,7 @@ jobs:
           DETOX_CONFIG: ios.release
       - name: Run Detox
         run: >
-          yarn detox test WalletConnect.spec.js
+          yarn detox test
           --configuration ios.release.${{ inputs.ios-version }}
           --artifacts-location e2e/artifacts
           --take-screenshots=failing
@@ -75,7 +75,7 @@ jobs:
           --debug-synchronization 10000
           --workers 6
           --retries 3
-        timeout-minutes: 3
+        timeout-minutes: 45
       - name: Publish iOS JUnit Report
         if: always()
         uses: mikepenz/action-junit-report@v3
