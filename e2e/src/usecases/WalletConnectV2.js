@@ -137,6 +137,11 @@ export default WalletConnect = () => {
     pairingUrl = formatUri(uri)
   })
 
+  beforeEach(async () => {
+    // wait for any banners to disappear
+    await sleep(5000)
+  })
+
   afterAll(async () => {
     // Clear the captured intervals and the transport (connection), so jest can shut down cleanly
     intervalsToClear.forEach((id) => clearInterval(id))
@@ -319,9 +324,6 @@ export default WalletConnect = () => {
   })
 
   it('Then should be able to disconnect a session', async () => {
-    // wait for any banners or bottom sheets to disappear
-    await sleep(3000)
-
     await waitForElementId('Hamburger')
     await element(by.id('Hamburger')).tap()
 
