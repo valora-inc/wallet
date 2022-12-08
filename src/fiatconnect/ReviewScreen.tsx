@@ -1,4 +1,8 @@
-import { ObfuscatedFiatAccountData } from '@fiatconnect/fiatconnect-types'
+import {
+  FiatAccountType,
+  FiatType,
+  ObfuscatedFiatAccountData,
+} from '@fiatconnect/fiatconnect-types'
 import { RouteProp } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
@@ -17,7 +21,6 @@ import LineItemRow from 'src/components/LineItemRow'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import { convertToFiatConnectFiatCurrency } from 'src/fiatconnect'
-import { CURRENCIES_WITH_FEE_DISCLAIMER } from 'src/fiatconnect/constants'
 import {
   fiatConnectQuotesErrorSelector,
   fiatConnectQuotesLoadingSelector,
@@ -28,13 +31,14 @@ import { CICOFlow } from 'src/fiatExchanges/utils'
 import i18n from 'src/i18n'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import {
-  getDefaultLocalCurrencyCode,
+  getCurrenciesFromRegionCode,
   localCurrencyExchangeRatesSelector,
 } from 'src/localCurrency/selectors'
 import { emptyHeader } from 'src/navigator/Headers'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
@@ -42,19 +46,14 @@ import { Currency } from 'src/utils/currencies'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.FiatConnectReview>
 
-const disclaimerIsNeeded = (
-  flow: CICOFlow,
-  quote: FiatConnectQuote,
-  localCurrency: LocalCurrencyCode
-) => {
-  const fiatType = quote.getFiatType()
-  const currencyEligibleForDisclaimer =
-    !!CURRENCIES_WITH_FEE_DISCLAIMER[quote.getFiatAccountSchema()]?.has(localCurrency)
-  return (
-    flow === CICOFlow.CashOut &&
-    fiatType !== convertToFiatConnectFiatCurrency(localCurrency) &&
-    currencyEligibleForDisclaimer
-  )
+const disclaimerIsNeeded = (fiatType: FiatType, countryCode: string | null) => {
+  const countryCurrencies = getCurrenciesFromRegionCode(countryCode)
+  for (const countryCurrency of countryCurrencies) {
+    if (fiatType === convertToFiatConnectFiatCurrency(countryCurrency as LocalCurrencyCode)) {
+      return false
+    }
+  }
+  return true
 }
 
 export default function FiatConnectReviewScreen({ route, navigation }: Props) {
@@ -63,13 +62,13 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
   const { flow, normalizedQuote, fiatAccount, shouldRefetchQuote } = route.params
   const fiatConnectQuotesLoading = useSelector(fiatConnectQuotesLoadingSelector)
   const fiatConnectQuotesError = useSelector(fiatConnectQuotesErrorSelector)
-  const localCurrency = useSelector(getDefaultLocalCurrencyCode)
+  const { countryCodeAlpha2 } = useSelector(userLocationDataSelector)
   const [showingExpiredQuoteDialog, setShowingExpiredQuoteDialog] = useState(
     normalizedQuote.getGuaranteedUntil() < new Date()
   )
   const showFeeDisclaimer = useMemo(
-    () => disclaimerIsNeeded(flow, normalizedQuote, localCurrency),
-    []
+    () => disclaimerIsNeeded(normalizedQuote.getFiatType(), countryCodeAlpha2),
+    [normalizedQuote, countryCodeAlpha2]
   )
 
   useEffect(() => {
@@ -157,6 +156,17 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
     )
   }
 
+  const getFeeDisclaimer = () => {
+    switch (fiatAccount.fiatAccountType) {
+      case FiatAccountType.BankAccount:
+        return t('fiatConnectReviewScreen.bankFeeDisclaimer')
+      case FiatAccountType.MobileMoney:
+        return t('fiatConnectReviewScreen.mobileMoneyFeeDisclaimer')
+      default:
+        return ''
+    }
+  }
+
   if (fiatConnectQuotesError) {
     return (
       <View style={styles.container}>
@@ -221,9 +231,7 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
         <PaymentMethod flow={flow} normalizedQuote={normalizedQuote} fiatAccount={fiatAccount} />
       </View>
       <View>
-        {showFeeDisclaimer && (
-          <Text style={styles.disclaimer}>{t('fiatConnectReviewScreen.feeDisclaimer')}</Text>
-        )}
+        {showFeeDisclaimer && <Text style={styles.disclaimer}>{getFeeDisclaimer()}</Text>}
         <Button
           testID="submitButton"
           style={styles.submitBtn}
