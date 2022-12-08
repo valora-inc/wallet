@@ -1230,6 +1230,7 @@ export interface WalletConnect2Properties {
   dappDescription: string
   dappIcon: string
   relayProtocol: string
+  // eip155Events, eip155Chains, eip155Methods are added dynamically based on the requiredNamespaces property in the WalletConnect response
 }
 
 type WalletConnectDefaultProperties = WalletConnect1Properties | WalletConnect2Properties
