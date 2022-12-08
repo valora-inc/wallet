@@ -82,9 +82,6 @@ describe('ReviewScreen', () => {
   beforeEach(() => {
     store.dispatch = jest.fn()
   })
-  afterAll(() => {
-    jest.resetAllMocks()
-  })
   describe('cashIn', () => {
     it('shows fiat amount, transaction details and payment method', () => {
       const { queryByTestId, queryByText } = render(
