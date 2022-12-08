@@ -10,7 +10,7 @@ import fetch from 'node-fetch'
 import { WALLET_CONNECT_PROJECT_ID_E2E } from 'react-native-dotenv'
 import { formatUri, utf8ToHex } from '../utils/encoding'
 import { launchApp } from '../utils/retries'
-import { enterPinUiIfNecessary, scrollIntoView, waitForElementId } from '../utils/utils'
+import { enterPinUiIfNecessary, scrollIntoView, sleep, waitForElementId } from '../utils/utils'
 
 const jestExpect = require('expect')
 
@@ -319,6 +319,9 @@ export default WalletConnect = () => {
   })
 
   it('Then should be able to disconnect a session', async () => {
+    // wait for any banners or bottom sheets to disappear
+    await sleep(3000)
+
     await waitForElementId('Hamburger')
     await element(by.id('Hamburger')).tap()
 
