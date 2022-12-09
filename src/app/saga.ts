@@ -69,7 +69,6 @@ import { handlePaymentDeeplink } from 'src/send/utils'
 import { initializeSentry } from 'src/sentry/Sentry'
 import { isDeepLink, navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
-import { clockInSync } from 'src/utils/time'
 import { isWalletConnectEnabled } from 'src/walletConnect/saga'
 import {
   handleWalletConnectDeepLink,
