@@ -103,12 +103,6 @@ export function* appInit() {
 
   const supportedBiometryType = yield call(Keychain.getSupportedBiometryType)
   yield put(setSupportedBiometryType(supportedBiometryType))
-
-  const inSync = yield call(clockInSync)
-  if (!inSync) {
-    navigate(Screens.SetClock)
-    return
-  }
 }
 
 export function* appVersionSaga() {
