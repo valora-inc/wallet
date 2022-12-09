@@ -13,18 +13,15 @@ import { Currency } from 'src/utils/currencies'
 
 const MIN_UPDATE_INTERVAL = 12 * 3600 * 1000 // 12 hours
 
-export function getCurrenciesFromRegionCode(regionCode: string | null | undefined) {
+function getCountryCurrencies(e164PhoneNumber: string) {
+  const regionCode = getRegionCode(e164PhoneNumber)
   const countries = CountryData.lookup.countries({ alpha2: regionCode })
   const country = countries.length > 0 ? countries[0] : undefined
+
   return country ? country.currencies : []
 }
 
-function getCountryCurrencies(e164PhoneNumber: string) {
-  const regionCode = getRegionCode(e164PhoneNumber)
-  return getCurrenciesFromRegionCode(regionCode)
-}
-
-const getDefaultLocalCurrencyCode = createSelector(
+export const getDefaultLocalCurrencyCode = createSelector(
   e164NumberSelector,
   (e164PhoneNumber): LocalCurrencyCode => {
     // Note: we initially tried using the device locale for getting the currencies (`RNLocalize.getCurrencies()`)

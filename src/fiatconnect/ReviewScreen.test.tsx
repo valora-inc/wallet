@@ -1,5 +1,6 @@
 import { CryptoType, FiatAccountSchema, FiatAccountType } from '@fiatconnect/fiatconnect-types'
 import { fireEvent, render } from '@testing-library/react-native'
+import CountryData from 'country-data'
 import _ from 'lodash'
 import * as React from 'react'
 import { Provider } from 'react-redux'
@@ -8,6 +9,8 @@ import FiatConnectReviewScreen from 'src/fiatconnect/ReviewScreen'
 import { createFiatConnectTransfer, FiatAccount, refetchQuote } from 'src/fiatconnect/slice'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
+import { LocalCurrencyCode } from 'src/localCurrency/consts'
+import { getDefaultLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { Currency } from 'src/utils/currencies'
@@ -39,6 +42,25 @@ const MVP_SUPPORTED_COUNTRIES: Partial<Record<FiatAccountSchema, Array<string>>>
     'ZM', //Zambia
   ],
 }
+
+//Helper function to get the currency of a country
+const getCountryCurrency = (alpha2: string) => {
+  const countries = CountryData.lookup.countries({ alpha2 })
+  return countries?.[0]?.currencies?.[0]
+}
+
+jest.mock('src/localCurrency/selectors', () => {
+  const originalModule = jest.requireActual('src/localCurrency/selectors')
+
+  return {
+    ...originalModule,
+    getDefaultLocalCurrencyCode: jest.fn(),
+  }
+})
+const mockGetDefaultLocation = getDefaultLocalCurrencyCode as jest.MockedFunction<
+  typeof getDefaultLocalCurrencyCode
+>
+mockGetDefaultLocation.mockReturnValue(LocalCurrencyCode.USD)
 
 function getProps(
   flow: CICOFlow,
@@ -82,6 +104,9 @@ describe('ReviewScreen', () => {
   beforeEach(() => {
     store.dispatch = jest.fn()
   })
+  afterAll(() => {
+    jest.resetAllMocks()
+  })
   describe('cashIn', () => {
     it('shows fiat amount, transaction details and payment method', () => {
       const { queryByTestId, queryByText } = render(
@@ -107,19 +132,12 @@ describe('ReviewScreen', () => {
     })
     it('shows fee disclaimer when quote currency does not match user locale currency', () => {
       const mockProps = getProps(CICOFlow.CashIn)
-      const countryStore = createMockStore({
-        networkInfo: {
-          connected: true,
-          rehydrated: true,
-          userLocationData: {
-            countryCodeAlpha2: 'NG',
-            region: null,
-            ipAddress: null,
-          },
-        },
-      })
+      //Re-renders, need to mock twice
+      mockGetDefaultLocation
+        .mockReturnValueOnce('Locale Currency' as LocalCurrencyCode)
+        .mockReturnValueOnce('Locale Currency' as LocalCurrencyCode)
       const { queryByText } = render(
-        <Provider store={countryStore}>
+        <Provider store={store}>
           <FiatConnectReviewScreen {...mockProps} />
         </Provider>
       )
@@ -339,19 +357,13 @@ describe('ReviewScreen', () => {
       it.each(mvpCountriesForSchema)(
         'shows when user locale is %s and quote currency does not match locale currency',
         (countryCode) => {
-          const countryStore = createMockStore({
-            networkInfo: {
-              connected: true,
-              rehydrated: true,
-              userLocationData: {
-                countryCodeAlpha2: countryCode,
-                region: null,
-                ipAddress: null,
-              },
-            },
-          })
+          const countryCurrency = getCountryCurrency(countryCode)[0]
+          //Re-renders, need to mock twice
+          mockGetDefaultLocation
+            .mockReturnValueOnce(countryCurrency as LocalCurrencyCode)
+            .mockReturnValueOnce(countryCurrency as LocalCurrencyCode)
           const { queryByText } = render(
-            <Provider store={countryStore}>
+            <Provider store={store}>
               <FiatConnectReviewScreen {...mockProps} />
             </Provider>
           )
