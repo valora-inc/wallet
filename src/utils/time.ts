@@ -275,43 +275,6 @@ export const getDatetimeDisplayString = (timestamp: number, i18next: i18nType) =
   return `${dateFormatted} ${i18n.t('at')} ${timeFormatted}`
 }
 
-export const getRemoteTime = async () => {
-  const getNetworkTime = promisify(ntpClient.getNetworkTime)
-  const localTime = Date.now()
-  try {
-    const networkTime = await getNetworkTime('time.google.com', 123)
-    return new Date(networkTime).getTime()
-  } catch (error) {
-    Logger.warn(TAG, 'failed first try', error)
-    try {
-      const networkTime = await getNetworkTime('time.cloudflare.com', 123)
-      return new Date(networkTime).getTime()
-    } catch (error) {
-      Logger.error(TAG, 'Error getting remote date', error)
-      return localTime
-    }
-  }
-}
-
-// stokado requires accuracy within 5 mins
-// odis is getting rid of the timestamp but until then 60 seconds should work well
-// not sure if any other services need more accurate timing
-// but if not we can maybe remove this check altogether
-export const DRIFT_THRESHOLD_IN_MS = 1000 * 60
-
-export const clockInSync = async () => {
-  const localTime = Date.now()
-  const syncTime = await getRemoteTime()
-  const drift = localTime - syncTime // in milliseconds
-  Logger.info(
-    `${TAG}/clockInSync`,
-    `Local time: ${new Date(localTime).toLocaleString()} ` +
-      `Remote time: ${new Date(syncTime).toLocaleString()} ` +
-      `drift: ${drift} milliseconds`
-  )
-  return Math.abs(drift) < DRIFT_THRESHOLD_IN_MS
-}
-
 export const getLocalTimezone = () => {
   // Reference: https://momentjs.com/timezone/docs/#/using-timezones/formatting/
   const timezoneGuess = momentTimezone.tz(momentTimezone.tz.guess())
