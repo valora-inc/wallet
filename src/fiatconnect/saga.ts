@@ -950,7 +950,7 @@ export function* _initiateSendTxToProvider({
 
   const tokenList: TokenBalance[] = yield select(tokensListSelector)
   const cryptoType = fiatConnectQuote.getCryptoTypeString()
-  const tokenInfo = tokenList.find((token) => token.symbol === cryptoType) // TODO test!! with all FiatConnect crypto types and token symbols
+  const tokenInfo = tokenList.find((token) => token.symbol === cryptoType)
   if (!tokenInfo) {
     // case where none of the tokens in tokenList, which should be from firebase and in sync with this https://github.com/valora-inc/address-metadata/blob/main/src/data/mainnet/tokens-info.json
     //  match with FiatConnect quote cryptoType, which should be from here https://github.com/fiatconnect/specification/blob/main/fiatconnect-api.md#922-cryptotypeenum
