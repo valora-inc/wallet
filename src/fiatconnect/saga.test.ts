@@ -1,6 +1,7 @@
 import { Result } from '@badrap/result'
 import { ResponseError } from '@fiatconnect/fiatconnect-sdk'
 import {
+  CryptoType,
   FiatAccountSchema,
   FiatAccountType,
   FiatConnectError,
@@ -90,13 +91,19 @@ import Logger from 'src/utils/Logger'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { isTxPossiblyPending } from 'src/transactions/send'
 import {
+  mockCeloAddress,
+  mockCeurAddress,
+  mockCrealAddress,
   mockCusdAddress,
+  mockFeeInfo,
   mockFiatConnectProviderInfo,
   mockFiatConnectQuotes,
   mockTokenBalances,
 } from 'test/values'
 import { mocked } from 'ts-jest/utils'
 import { v4 as uuidv4 } from 'uuid'
+import _ from 'lodash'
+import { FeeInfo } from 'src/fees/saga'
 
 jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/fiatconnect')
@@ -1757,18 +1764,50 @@ describe('Fiatconnect saga', () => {
       fiatAccountType: FiatAccountType.BankAccount,
     })
     const TEST_FEE_INFO_CUSD = {
-      fee: new BigNumber(10).pow(16),
-      gas: new BigNumber(200000),
-      gasPrice: new BigNumber(10).pow(10).times(5),
+      ...mockFeeInfo,
       feeCurrency: mockCusdAddress,
     }
-    const feeEstimates = {
+    const feeEstimates: Record<string, { send: { feeInfo: FeeInfo } }> = {
       [mockCusdAddress]: {
         send: {
           feeInfo: TEST_FEE_INFO_CUSD,
         },
       },
+      [mockCeurAddress]: {
+        send: {
+          feeInfo: {
+            ...mockFeeInfo,
+            feeCurrency: mockCeurAddress,
+          },
+        },
+      },
+      [mockCeloAddress]: {
+        send: {
+          feeInfo: {
+            ...mockFeeInfo,
+            feeCurrency: mockCeloAddress,
+          },
+        },
+      },
+      [mockCrealAddress]: {
+        send: {
+          feeInfo: {
+            ...mockFeeInfo,
+            feeCurrency: mockCrealAddress,
+          },
+        },
+      },
     }
+
+    const cryptoTypeToAddress: Record<CryptoType, string> = {
+      // if this fails to build due to a missing key, add fixture data for the new key! Do NOT just update the type,
+      //  coverage for every CryptoType is important.
+      [CryptoType.CELO]: mockCeloAddress,
+      [CryptoType.cUSD]: mockCusdAddress,
+      [CryptoType.cEUR]: mockCeurAddress,
+      [CryptoType.cREAL]: mockCrealAddress,
+    }
+
     it('sends a transaction to the given address and returns the transactionHash', async () => {
       await expectSaga(_initiateSendTxToProvider, {
         transferAddress: '0xabc',
@@ -1796,6 +1835,44 @@ describe('Fiatconnect saga', () => {
         .returns('0x12345')
         .run()
     })
+    it.each(Object.keys(CryptoType) as CryptoType[])(
+      'works for CryptoType %s',
+      async (cryptoType) => {
+        const quote = _.cloneDeep(mockFiatConnectQuotes[1]) as FiatConnectQuoteSuccess
+        quote.quote.cryptoType = cryptoType
+        const fiatConnectQuote = new FiatConnectQuote({
+          flow: CICOFlow.CashOut,
+          quote,
+          fiatAccountType: FiatAccountType.BankAccount,
+        })
+        const tokenAddress = cryptoTypeToAddress[cryptoType]
+        await expectSaga(_initiateSendTxToProvider, {
+          transferAddress: '0xabc',
+          fiatConnectQuote: fiatConnectQuote,
+        })
+          .provide([
+            [select(tokensListSelector), Object.values(mockTokenBalances)],
+            [select(feeEstimatesSelector), feeEstimates],
+            [
+              call(
+                buildAndSendPayment,
+                newTransactionContext(
+                  'FiatConnectSaga',
+                  'Send crypto to provider for transfer out'
+                ) as TransactionContext,
+                '0xabc',
+                new BigNumber(fiatConnectQuote.getCryptoAmount()),
+                tokenAddress,
+                '',
+                feeEstimates[tokenAddress].send.feeInfo
+              ),
+              { receipt: { transactionHash: '0x12345' } },
+            ],
+          ])
+          .returns('0x12345')
+          .run()
+      }
+    )
     it('throws when there is an error (safe to retry) with the transaction', async () => {
       mocked(isTxPossiblyPending).mockReturnValue(false)
       await expect(() =>
