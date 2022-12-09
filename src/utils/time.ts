@@ -1,5 +1,4 @@
 const momentTimezone = require('moment-timezone')
-const { promisify } = require('es6-promisify')
 
 import differenceInYears from 'date-fns/esm/differenceInYears'
 import format from 'date-fns/esm/format'
@@ -8,11 +7,7 @@ import startOfWeek from 'date-fns/esm/startOfWeek'
 import { i18n as i18nType } from 'i18next'
 import locales from 'locales'
 import _ from 'lodash'
-import ntpClient from 'react-native-ntp-client'
 import i18n from 'src/i18n'
-import Logger from 'src/utils/Logger'
-
-const TAG = 'utils/time'
 
 // Source: https://github.com/webmania2014/angular-source1/blob/master/front/app/filters/tznames.js
 // Offsets reversed from original because moment returns with flipped sign

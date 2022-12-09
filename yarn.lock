@@ -9844,11 +9844,6 @@ es6-promisify@^5.0.0:
   dependencies:
     es6-promise "^4.0.3"
 
-es6-promisify@^6.1.1:
-  version "6.1.1"
-  resolved "https://registry.yarnpkg.com/es6-promisify/-/es6-promisify-6.1.1.tgz#46837651b7b06bf6fff893d03f29393668d01621"
-  integrity sha512-HBL8I3mIki5C1Cc9QjKUenHtnG0A5/xA8Q/AllRcfiwl2CZFXGK7ddBiCoRwAix4i2KxcQfjtIVcrVbB3vbmwg==
-
 es6-set@~0.1.5:
   version "0.1.5"
   resolved "https://registry.yarnpkg.com/es6-set/-/es6-set-0.1.5.tgz#d2b3ec5d4d800ced818db538d28974db0a73ccb1"
@@ -15321,7 +15316,7 @@ node-libs-browser@^2.0.0:
     util "^0.11.0"
     vm-browserify "^1.0.1"
 
-node-libs-react-native@1.0.3, node-libs-react-native@^1.2.0:
+node-libs-react-native@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/node-libs-react-native/-/node-libs-react-native-1.2.0.tgz#e9eb419742f09166562d88008f439e3045c88097"
   integrity sha512-D+g8Mj9OfsOYYFWZoSz4bmr/8g/QWOwUgDmi3Ux0EPU9Q41OvGsdzAzr0IGJmtuSAfyOTfnKx1XRQR9id8/EEw==
@@ -17101,20 +17096,6 @@ react-native-modal@^13.0.1:
   dependencies:
     prop-types "^15.6.2"
     react-native-animatable "1.3.3"
-
-react-native-ntp-client@^1.0.0:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/react-native-ntp-client/-/react-native-ntp-client-1.0.1.tgz#d05ad60a5fbe93b6bb3f9b5a10aa2b8a3684b2e2"
-  integrity sha512-TbLbWrKbb6k1EaiFWCUS0aiuAynOy6ZYucI2WhtlYuowV5qZCBYaDNGVsvHIDfrRJ+pGq6zjjmpeJHjidfsquQ==
-  dependencies:
-    node-libs-react-native "1.0.3"
-
-react-native-ntp-client@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/react-native-ntp-client/-/react-native-ntp-client-1.0.3.tgz#822fbe44d5bfcca2e236f877832f98123aef448e"
-  integrity sha512-y6UlSKNZh0Qlga2OnTCMm0OMnbxoCzEEzHpHEKZGjZC7VOowu43dFQWyDY0zEUnXgcuBE7JLEmMxekrdVDv5rw==
-  dependencies:
-    node-libs-react-native "1.0.3"
 
 react-native-permissions@^3.0.3:
   version "3.0.3"
