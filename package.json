@@ -152,7 +152,6 @@
     "react-native-fs": "^2.20.0",
     "react-native-gesture-handler": "^1.9.0",
     "react-native-get-random-values": "^1.8.0",
-    "react-native-google-safetynet": "https://github.com/celo-org/react-native-google-safetynet#8a0355f",
     "react-native-image-crop-picker": "^0.35.1",
     "react-native-keep-awake": "^4.0.0",
     "react-native-keychain": "8.0.0",
