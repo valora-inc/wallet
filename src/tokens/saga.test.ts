@@ -12,7 +12,12 @@ import {
   watchAccountFundedOrLiquidated,
 } from 'src/tokens/saga'
 import { lastKnownTokenBalancesSelector } from 'src/tokens/selectors'
-import { fetchTokenBalancesFailure, setTokenBalances, StoredTokenBalances } from 'src/tokens/slice'
+import {
+  fetchTokenBalancesFailure,
+  setTokenBalances,
+  StoredTokenBalance,
+  StoredTokenBalances,
+} from 'src/tokens/slice'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { createMockStore } from 'test/utils'
 import {
@@ -23,44 +28,18 @@ import {
   mockPoofAddress,
 } from 'test/values'
 
-const cUsdAddress = mockCusdAddress
-const cEurAddress = mockCeurAddress
-
-const firebaseTokenInfo: StoredTokenBalances = {
+const mockFirebaseTokenInfo: StoredTokenBalances = {
   [mockPoofAddress]: {
-    usdPrice: '0.1',
-    address: mockPoofAddress,
-    symbol: 'POOF',
-    imageUrl:
-      'https://raw.githubusercontent.com/ubeswap/default-token-list/master/assets/asset_POOF.png',
-    name: 'Poof Governance Token',
-    decimals: 18,
+    ...mockTokenBalances[mockPoofAddress],
     balance: null,
-    priceFetchedAt: mockTokenBalances[mockPoofAddress].priceFetchedAt,
   },
-  [cUsdAddress]: {
-    usdPrice: '1.001',
-    address: cUsdAddress,
-    symbol: 'cUSD',
-    imageUrl:
-      'https://raw.githubusercontent.com/ubeswap/default-token-list/master/assets/asset_cUSD.png',
-    name: 'Celo Dollar',
-    decimals: 18,
+  [mockCusdAddress]: {
+    ...mockTokenBalances[mockCusdAddress],
     balance: null,
-    isCoreToken: true,
-    priceFetchedAt: mockTokenBalances[cUsdAddress].priceFetchedAt,
   },
-  [cEurAddress]: {
-    usdPrice: '1.16',
-    address: cEurAddress,
-    symbol: 'cEUR',
-    imageUrl:
-      'https://raw.githubusercontent.com/ubeswap/default-token-list/master/assets/asset_cEUR.png',
-    name: 'Celo Euro',
-    decimals: 18,
+  [mockCeurAddress]: {
+    ...mockTokenBalances[mockCeurAddress],
     balance: null,
-    isCoreToken: true,
-    priceFetchedAt: mockTokenBalances[cEurAddress].priceFetchedAt,
   },
 }
 
@@ -71,7 +50,7 @@ const fetchBalancesResponse = [
     decimals: '18',
   },
   {
-    tokenAddress: cUsdAddress,
+    tokenAddress: mockCusdAddress,
     balance: '0',
     decimals: '18',
   },
@@ -79,14 +58,25 @@ const fetchBalancesResponse = [
 ]
 
 describe(fetchTokenBalancesSaga, () => {
+  const tokenBalancesAfterUpdate: StoredTokenBalances = {
+    ...mockFirebaseTokenInfo,
+    [mockPoofAddress]: {
+      ...(mockFirebaseTokenInfo[mockPoofAddress] as StoredTokenBalance),
+      balance: '5', // should convert to ethers (rather than keep in wei)
+    },
+    [mockCusdAddress]: {
+      ...(mockFirebaseTokenInfo[mockCusdAddress] as StoredTokenBalance),
+      balance: '0',
+    },
+  }
   it('get token info successfully', async () => {
     await expectSaga(fetchTokenBalancesSaga)
       .provide([
-        [call(readOnceFromFirebase, 'tokensInfo'), firebaseTokenInfo],
+        [call(readOnceFromFirebase, 'tokensInfo'), mockFirebaseTokenInfo],
         [select(walletAddressSelector), mockAccount],
         [call(fetchTokenBalancesForAddress, mockAccount), fetchBalancesResponse],
       ])
-      .put(setTokenBalances(mockTokenBalances))
+      .put(setTokenBalances(tokenBalancesAfterUpdate))
       .run()
   })
 
@@ -94,22 +84,22 @@ describe(fetchTokenBalancesSaga, () => {
     await expectSaga(fetchTokenBalancesSaga)
       .provide([
         [select(walletAddressSelector), null],
-        [call(readOnceFromFirebase, 'tokensInfo'), firebaseTokenInfo],
+        [call(readOnceFromFirebase, 'tokensInfo'), mockFirebaseTokenInfo],
         [call(fetchTokenBalancesForAddress, mockAccount), fetchBalancesResponse],
       ])
       .not.call(readOnceFromFirebase, 'tokensInfo')
-      .not.put(setTokenBalances(mockTokenBalances))
+      .not.put(setTokenBalances(tokenBalancesAfterUpdate))
       .run()
   })
 
   it("fires an event if there's an error", async () => {
     await expectSaga(fetchTokenBalancesSaga)
       .provide([
-        [call(readOnceFromFirebase, 'tokensInfo'), firebaseTokenInfo],
+        [call(readOnceFromFirebase, 'tokensInfo'), mockFirebaseTokenInfo],
         [select(walletAddressSelector), mockAccount],
         [call(fetchTokenBalancesForAddress, mockAccount), throwError(new Error('Error message'))],
       ])
-      .not.put(setTokenBalances(mockTokenBalances))
+      .not.put(setTokenBalances(tokenBalancesAfterUpdate))
       .put(fetchTokenBalancesFailure())
       .run()
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(AppEvents.fetch_balance_error, {
