@@ -15,7 +15,7 @@ interface BaseToken {
   isCoreToken?: boolean
 }
 
-interface HistoricalUsdPrices {
+export interface HistoricalUsdPrices {
   lastDay: {
     price: BigNumber.Value
     at: number

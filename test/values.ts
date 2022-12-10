@@ -43,6 +43,7 @@ import {
 import { TransactionDataInput } from 'src/send/SendAmount'
 import { Currency } from 'src/utils/currencies'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
+import { HistoricalUsdPrices, StoredTokenBalance } from 'src/tokens/slice'
 
 export const nullAddress = '0x0'
 
@@ -99,6 +100,7 @@ export const mockAccount2Invite = '0x8e1Df47B7064D005Ef071a89D0D7dc8634BC8A9C'
 export const mockAccountInvite2PrivKey =
   '0xb33eac631fd3a415f3738649db8cad57da78b99ec92cd8f77b76b5dae2ebdf27'
 
+export const mockPoofAddress = '0x00400FcbF0816bebB94654259de7273f4A05c762'.toLowerCase()
 export const mockCusdAddress = '0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1'.toLowerCase()
 export const mockCeurAddress = '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F'.toLowerCase()
 export const mockCeloAddress = '0xF194afDf50B03e69Bd7D057c1Aa9e10c9954E4C9'.toLowerCase()
@@ -459,9 +461,9 @@ export const makeExchangeRates = (
 })
 
 export const mockTokenBalances = {
-  '0x00400FcbF0816bebB94654259de7273f4A05c762': {
+  [mockPoofAddress]: {
     usdPrice: '0.1',
-    address: '0x00400FcbF0816bebB94654259de7273f4A05c762',
+    address: mockPoofAddress,
     symbol: 'POOF',
     imageUrl:
       'https://raw.githubusercontent.com/ubeswap/default-token-list/master/assets/asset_POOF.png',
@@ -496,9 +498,12 @@ export const mockTokenBalances = {
   },
 }
 
-export const mockTokenBalancesWithHistoricalPrices = {
-  '0x00400FcbF0816bebB94654259de7273f4A05c762': {
-    ...mockTokenBalances['0x00400FcbF0816bebB94654259de7273f4A05c762'],
+export const mockTokenBalancesWithHistoricalPrices: Record<
+  string,
+  StoredTokenBalance & { historicalUsdPrices: HistoricalUsdPrices }
+> = {
+  [mockPoofAddress]: {
+    ...mockTokenBalances[mockPoofAddress],
     historicalUsdPrices: {
       lastDay: {
         price: '0.15',
@@ -506,8 +511,8 @@ export const mockTokenBalancesWithHistoricalPrices = {
       },
     },
   },
-  '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F': {
-    ...mockTokenBalances['0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F'],
+  [mockCeurAddress]: {
+    ...mockTokenBalances[mockCeurAddress],
     historicalUsdPrices: {
       lastDay: {
         price: '1.14',
@@ -515,8 +520,8 @@ export const mockTokenBalancesWithHistoricalPrices = {
       },
     },
   },
-  '0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1': {
-    ...mockTokenBalances['0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1'],
+  [mockCusdAddress]: {
+    ...mockTokenBalances[mockCusdAddress],
     historicalUsdPrices: {
       lastDay: {
         price: '0.99',
