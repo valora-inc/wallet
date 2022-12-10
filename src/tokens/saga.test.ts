@@ -15,23 +15,28 @@ import { lastKnownTokenBalancesSelector } from 'src/tokens/selectors'
 import { fetchTokenBalancesFailure, setTokenBalances, StoredTokenBalances } from 'src/tokens/slice'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { createMockStore } from 'test/utils'
-import { mockAccount, mockCeurAddress, mockCusdAddress, mockTokenBalances } from 'test/values'
+import {
+  mockAccount,
+  mockCeurAddress,
+  mockCusdAddress,
+  mockTokenBalances,
+  mockPoofAddress,
+} from 'test/values'
 
-const poofAddress = '0x00400FcbF0816bebB94654259de7273f4A05c762'
 const cUsdAddress = mockCusdAddress
 const cEurAddress = mockCeurAddress
 
 const firebaseTokenInfo: StoredTokenBalances = {
-  [poofAddress]: {
+  [mockPoofAddress]: {
     usdPrice: '0.1',
-    address: poofAddress,
+    address: mockPoofAddress,
     symbol: 'POOF',
     imageUrl:
       'https://raw.githubusercontent.com/ubeswap/default-token-list/master/assets/asset_POOF.png',
     name: 'Poof Governance Token',
     decimals: 18,
     balance: null,
-    priceFetchedAt: mockTokenBalances[poofAddress].priceFetchedAt,
+    priceFetchedAt: mockTokenBalances[mockPoofAddress].priceFetchedAt,
   },
   [cUsdAddress]: {
     usdPrice: '1.001',
@@ -61,7 +66,7 @@ const firebaseTokenInfo: StoredTokenBalances = {
 
 const fetchBalancesResponse = [
   {
-    tokenAddress: poofAddress,
+    tokenAddress: mockPoofAddress,
     balance: (5 * Math.pow(10, 18)).toString(),
     decimals: '18',
   },
