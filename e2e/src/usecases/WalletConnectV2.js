@@ -9,7 +9,7 @@ import Client from '@walletconnect/sign-client'
 import fetch from 'node-fetch'
 import { WALLET_CONNECT_PROJECT_ID_E2E } from 'react-native-dotenv'
 import { formatUri, utf8ToHex } from '../utils/encoding'
-import { launchApp } from '../utils/retries'
+import { launchApp, reloadReactNative } from '../utils/retries'
 import { enterPinUiIfNecessary, scrollIntoView, sleep, waitForElementId } from '../utils/utils'
 
 const jestExpect = require('expect')
