@@ -1808,35 +1808,8 @@ describe('Fiatconnect saga', () => {
       [CryptoType.cREAL]: mockCrealAddress,
     }
 
-    it('sends a transaction to the given address and returns the transactionHash', async () => {
-      await expectSaga(_initiateSendTxToProvider, {
-        transferAddress: '0xabc',
-        fiatConnectQuote: transferOutFcQuote,
-      })
-        .provide([
-          [select(tokensListSelector), Object.values(mockTokenBalances)],
-          [select(feeEstimatesSelector), feeEstimates],
-          [
-            call(
-              buildAndSendPayment,
-              newTransactionContext(
-                'FiatConnectSaga',
-                'Send crypto to provider for transfer out'
-              ) as TransactionContext,
-              '0xabc',
-              new BigNumber(transferOutFcQuote.getCryptoAmount()),
-              mockCusdAddress,
-              '',
-              TEST_FEE_INFO_CUSD
-            ),
-            { receipt: { transactionHash: '0x12345' } },
-          ],
-        ])
-        .returns('0x12345')
-        .run()
-    })
     it.each(Object.keys(CryptoType) as CryptoType[])(
-      'works for CryptoType %s',
+      'able to send tx and get tx hash for CryptoType %s',
       async (cryptoType) => {
         const quote = _.cloneDeep(mockFiatConnectQuotes[1]) as FiatConnectQuoteSuccess
         quote.quote.cryptoType = cryptoType
