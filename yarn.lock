@@ -7286,7 +7286,7 @@ base-x@^3.0.2, base-x@^3.0.8:
   dependencies:
     safe-buffer "^5.0.1"
 
-base64-js@*, base64-js@^1.0.2, base64-js@^1.1.2, base64-js@^1.3.0:
+base64-js@*, base64-js@^1.0.2, base64-js@^1.1.2:
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/base64-js/-/base64-js-1.3.1.tgz#58ece8cb75dd07e71ed08c736abc5fac4dbf8df1"
   integrity sha512-mLQ4i2QO1ytvGWFWmcngKO//JXAQueZvwEKtjgQFM4jIK0kU+ytMfplL8j+n5mspOfjHwoAg+9yhb7BwAHm36g==
@@ -9843,11 +9843,6 @@ es6-promisify@^5.0.0:
   integrity sha1-UQnWLz5W6pZ8S2NQWu8IKRyKUgM=
   dependencies:
     es6-promise "^4.0.3"
-
-es6-promisify@^6.1.1:
-  version "6.1.1"
-  resolved "https://registry.yarnpkg.com/es6-promisify/-/es6-promisify-6.1.1.tgz#46837651b7b06bf6fff893d03f29393668d01621"
-  integrity sha512-HBL8I3mIki5C1Cc9QjKUenHtnG0A5/xA8Q/AllRcfiwl2CZFXGK7ddBiCoRwAix4i2KxcQfjtIVcrVbB3vbmwg==
 
 es6-set@~0.1.5:
   version "0.1.5"
@@ -13788,11 +13783,6 @@ jws@^3.2.2:
     jwa "^1.4.1"
     safe-buffer "^5.0.1"
 
-jwt-decode@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/jwt-decode/-/jwt-decode-2.2.0.tgz#7d86bd56679f58ce6a84704a657dd392bba81a79"
-  integrity sha1-fYa9VmefWM5qhHBKZX3TkruoGnk=
-
 keccak256@^1.0.0:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/keccak256/-/keccak256-1.0.6.tgz#dd32fb771558fed51ce4e45a035ae7515573da58"
@@ -15326,7 +15316,7 @@ node-libs-browser@^2.0.0:
     util "^0.11.0"
     vm-browserify "^1.0.1"
 
-node-libs-react-native@1.0.3, node-libs-react-native@^1.2.0:
+node-libs-react-native@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/node-libs-react-native/-/node-libs-react-native-1.2.0.tgz#e9eb419742f09166562d88008f439e3045c88097"
   integrity sha512-D+g8Mj9OfsOYYFWZoSz4bmr/8g/QWOwUgDmi3Ux0EPU9Q41OvGsdzAzr0IGJmtuSAfyOTfnKx1XRQR9id8/EEw==
@@ -16952,9 +16942,10 @@ react-native-codegen@^0.0.7:
     jscodeshift "^0.11.0"
     nullthrows "^1.1.1"
 
-"react-native-config@https://github.com/luggit/react-native-config#2f68b94":
-  version "1.3.3"
-  resolved "https://github.com/luggit/react-native-config#2f68b94065a0e1e1ddba8e860a696c6e8bc5912d"
+react-native-config@^1.4.11:
+  version "1.4.11"
+  resolved "https://registry.yarnpkg.com/react-native-config/-/react-native-config-1.4.11.tgz#f9ea08a8dffbe3fd4f2187d80d2594756526dee8"
+  integrity sha512-PdBFnfR3pljUNrJu4B2wiJ9TbAiz1J1WcG5KP8AFBqZi8ve5MV/CTCDnANaGrqhOxkBDJV73D/SrMENHe7TKBg==
 
 "react-native-contacts@https://github.com/celo-org/react-native-contacts#9940121":
   version "5.0.0"
@@ -17056,14 +17047,6 @@ react-native-get-random-values@^1.8.0:
   dependencies:
     fast-base64-decode "^1.0.0"
 
-"react-native-google-safetynet@https://github.com/celo-org/react-native-google-safetynet#8a0355f":
-  version "1.0.0"
-  resolved "https://github.com/celo-org/react-native-google-safetynet#8a0355f38123182533b7fc559951a82af59f68a9"
-  dependencies:
-    base64-js "^1.3.0"
-    jwt-decode "^2.2.0"
-    react-native-securerandom "^1.0.0"
-
 react-native-image-crop-picker@^0.35.1:
   version "0.35.2"
   resolved "https://registry.yarnpkg.com/react-native-image-crop-picker/-/react-native-image-crop-picker-0.35.2.tgz#21e085e40cb5724e1e986b8eba59ef23df19598c"
@@ -17106,20 +17089,6 @@ react-native-modal@^13.0.1:
   dependencies:
     prop-types "^15.6.2"
     react-native-animatable "1.3.3"
-
-react-native-ntp-client@^1.0.0:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/react-native-ntp-client/-/react-native-ntp-client-1.0.1.tgz#d05ad60a5fbe93b6bb3f9b5a10aa2b8a3684b2e2"
-  integrity sha512-TbLbWrKbb6k1EaiFWCUS0aiuAynOy6ZYucI2WhtlYuowV5qZCBYaDNGVsvHIDfrRJ+pGq6zjjmpeJHjidfsquQ==
-  dependencies:
-    node-libs-react-native "1.0.3"
-
-react-native-ntp-client@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/react-native-ntp-client/-/react-native-ntp-client-1.0.3.tgz#822fbe44d5bfcca2e236f877832f98123aef448e"
-  integrity sha512-y6UlSKNZh0Qlga2OnTCMm0OMnbxoCzEEzHpHEKZGjZC7VOowu43dFQWyDY0zEUnXgcuBE7JLEmMxekrdVDv5rw==
-  dependencies:
-    node-libs-react-native "1.0.3"
 
 react-native-permissions@^3.0.3:
   version "3.0.3"
@@ -17216,9 +17185,16 @@ react-native-screens@^3.18.2:
     react-freeze "^1.0.0"
     warn-once "^0.1.0"
 
-react-native-securerandom@1.0.0, react-native-securerandom@^1.0.0, "react-native-securerandom@git+https://github.com/robhogan/react-native-securerandom#7c01efd":
+react-native-securerandom@1.0.0, "react-native-securerandom@git+https://github.com/robhogan/react-native-securerandom#7c01efd":
   version "1.0.0"
   resolved "git+https://github.com/robhogan/react-native-securerandom#7c01efd9a5f65e29b769c2efb90cd4ffc6cf3895"
+  dependencies:
+    base64-js "*"
+
+react-native-securerandom@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/react-native-securerandom/-/react-native-securerandom-1.0.1.tgz#dc983cce980c80d1af62406e2ef2917ed0ada55f"
+  integrity sha512-ibuDnd3xi17HyD5CkilOXGPFpS9Z1oifjyHFwUl8NMzcQcpruM0ZX8ytr3A4rCeAsaBHjz69r78Xgd6vUswv1Q==
   dependencies:
     base64-js "*"
 

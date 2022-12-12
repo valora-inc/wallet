@@ -21,6 +21,14 @@ const keyOrUndefined = (file: any, secretsKey: any, attribute: any) => {
   return undefined
 }
 
+const configOrThrow = (key: string) => {
+  const value = Config[key]
+  if (value) {
+    return value
+  }
+  throw new RangeError(`Missing Config value for ${key}`)
+}
+
 // DEV only related settings
 export const isE2EEnv = stringToBoolean(Config.IS_E2E || 'false')
 export const DEV_RESTORE_NAV_STATE_ON_RELOAD = stringToBoolean(
@@ -52,7 +60,7 @@ export const TOKEN_MIN_AMOUNT = 0.00000001
 export const DOLLAR_MIN_AMOUNT_ACCOUNT_FUNDED = 0.01
 // The number of seconds before the sender can reclaim the payment.
 export const ESCROW_PAYMENT_EXPIRY_SECONDS = 1 // The contract doesn't allow 0 seconds.
-export const DEFAULT_TESTNET = Config.DEFAULT_TESTNET
+export const DEFAULT_TESTNET = configOrThrow('DEFAULT_TESTNET')
 export const SMS_RETRIEVER_APP_SIGNATURE = Config.SMS_RETRIEVER_APP_SIGNATURE
 // ODIS minimum dollar balance for pepper quota retrieval
 // TODO change this to new ODIS minimum dollar balance once deployed
@@ -77,7 +85,7 @@ export const DEFAULT_FORNO_URL =
     : 'https://alfajores-forno.celo-testnet.org/'
 export const BLOCKSCOUT_BASE_URL = Config.BLOCKSCOUT_BASE_URL
 
-export const APP_BUNDLE_ID = Config.APP_BUNDLE_ID
+export const APP_BUNDLE_ID = configOrThrow('APP_BUNDLE_ID')
 
 // The network that FiatConnect providers operate on
 export const FIATCONNECT_NETWORK =
@@ -157,6 +165,8 @@ const configLoggerLevels: { [key: string]: LoggerLevel } = {
   error: LoggerLevel.Error,
 }
 
-export const LOGGER_LEVEL = configLoggerLevels[Config.LOGGER_LEVEL] || LoggerLevel.Debug
+export const LOGGER_LEVEL = Config.LOGGER_LEVEL
+  ? configLoggerLevels[Config.LOGGER_LEVEL] ?? LoggerLevel.Debug
+  : LoggerLevel.Debug
 
 export const PHONE_NUMBER_VERIFICATION_CODE_LENGTH = 6

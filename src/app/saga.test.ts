@@ -53,10 +53,6 @@ import {
 } from 'src/web3/selectors'
 import { mocked } from 'ts-jest/utils'
 
-jest.mock('src/utils/time', () => ({
-  clockInSync: () => true,
-}))
-
 jest.mock('src/dappkit/dappkit')
 jest.mock('src/analytics/ValoraAnalytics')
 
