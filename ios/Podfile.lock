@@ -433,9 +433,9 @@ PODS:
     - React-Core
   - react-native-camera/RN (4.2.1):
     - React-Core
-  - react-native-config (1.3.3):
-    - react-native-config/App (= 1.3.3)
-  - react-native-config/App (1.3.3):
+  - react-native-config (1.4.11):
+    - react-native-config/App (= 1.4.11)
+  - react-native-config/App (1.4.11):
     - React-Core
   - react-native-contacts (5.0.0):
     - React-Core
@@ -464,8 +464,6 @@ PODS:
     - React-Core
     - Toast (~> 4.0.0)
   - react-native-splash-screen (3.3.0):
-    - React-Core
-  - react-native-udp (2.6.1):
     - React-Core
   - react-native-webview (11.6.5):
     - React-Core
@@ -741,7 +739,6 @@ DEPENDENCIES:
   - react-native-shake (from `../node_modules/react-native-shake`)
   - react-native-simple-toast (from `../node_modules/react-native-simple-toast`)
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
-  - react-native-udp (from `../node_modules/react-native-udp`)
   - react-native-webview (from `../node_modules/react-native-webview`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
@@ -912,8 +909,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-simple-toast"
   react-native-splash-screen:
     :path: "../node_modules/react-native-splash-screen"
-  react-native-udp:
-    :path: "../node_modules/react-native-udp"
   react-native-webview:
     :path: "../node_modules/react-native-webview"
   React-perflogger:
@@ -1064,7 +1059,7 @@ SPEC CHECKSUMS:
   React-logger: 933f80c97c633ee8965d609876848148e3fef438
   react-native-blind-threshold-bls: 96b94b001aca9386ab033b26741614046044e80d
   react-native-camera: 3eae183c1d111103963f3dd913b65d01aef8110f
-  react-native-config: e8c71f602c92ddd2f5c24b0b7a90d239ecab8d9f
+  react-native-config: bcafda5b4c51491ee1b0e1d0c4e3905bc7b56c1b
   react-native-contacts: fd1614c74777089ebb6b0a0e3847dd78130ef9f4
   react-native-cookies: f54fcded06bb0cda05c11d86788020b43528a26c
   react-native-fast-crypto: db61bcb2d1224a180449b886f27426a67d7628c0
@@ -1078,7 +1073,6 @@ SPEC CHECKSUMS:
   react-native-shake: 41a1ea8ec541fccf3f01566edef8d3cb722b00e3
   react-native-simple-toast: bf002828cf816775a6809f7a9ec3907509bce11f
   react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
-  react-native-udp: f2c3b982aaef764b3c9bb333938f78136906a515
   react-native-webview: 2e8fe70dc32b50d3231c23043f8e8b5a5525d346
   React-perflogger: 93075d8931c32cd1fce8a98c15d2d5ccc4d891bd
   React-RCTActionSheet: 7d3041e6761b4f3044a37079ddcb156575fb6d89

@@ -1,5 +1,4 @@
 const momentTimezone = require('moment-timezone')
-const { promisify } = require('es6-promisify')
 
 import differenceInYears from 'date-fns/esm/differenceInYears'
 import format from 'date-fns/esm/format'
@@ -8,11 +7,7 @@ import startOfWeek from 'date-fns/esm/startOfWeek'
 import { i18n as i18nType } from 'i18next'
 import locales from 'locales'
 import _ from 'lodash'
-import ntpClient from 'react-native-ntp-client'
 import i18n from 'src/i18n'
-import Logger from 'src/utils/Logger'
-
-const TAG = 'utils/time'
 
 // Source: https://github.com/webmania2014/angular-source1/blob/master/front/app/filters/tznames.js
 // Offsets reversed from original because moment returns with flipped sign
@@ -273,43 +268,6 @@ export const getDatetimeDisplayString = (timestamp: number, i18next: i18nType) =
   const timeFormatted = formatFeedTime(timestamp, i18next)
   const dateFormatted = formatFeedDate(timestamp, i18next)
   return `${dateFormatted} ${i18n.t('at')} ${timeFormatted}`
-}
-
-export const getRemoteTime = async () => {
-  const getNetworkTime = promisify(ntpClient.getNetworkTime)
-  const localTime = Date.now()
-  try {
-    const networkTime = await getNetworkTime('time.google.com', 123)
-    return new Date(networkTime).getTime()
-  } catch (error) {
-    Logger.warn(TAG, 'failed first try', error)
-    try {
-      const networkTime = await getNetworkTime('time.cloudflare.com', 123)
-      return new Date(networkTime).getTime()
-    } catch (error) {
-      Logger.error(TAG, 'Error getting remote date', error)
-      return localTime
-    }
-  }
-}
-
-// stokado requires accuracy within 5 mins
-// odis is getting rid of the timestamp but until then 60 seconds should work well
-// not sure if any other services need more accurate timing
-// but if not we can maybe remove this check altogether
-export const DRIFT_THRESHOLD_IN_MS = 1000 * 60
-
-export const clockInSync = async () => {
-  const localTime = Date.now()
-  const syncTime = await getRemoteTime()
-  const drift = localTime - syncTime // in milliseconds
-  Logger.info(
-    `${TAG}/clockInSync`,
-    `Local time: ${new Date(localTime).toLocaleString()} ` +
-      `Remote time: ${new Date(syncTime).toLocaleString()} ` +
-      `drift: ${drift} milliseconds`
-  )
-  return Math.abs(drift) < DRIFT_THRESHOLD_IN_MS
 }
 
 export const getLocalTimezone = () => {
