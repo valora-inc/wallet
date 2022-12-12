@@ -28,7 +28,6 @@ import {
 } from 'src/firebase/firebase'
 import { setLanguage } from 'src/i18n/slice'
 import Logger from 'src/utils/Logger'
-import { getRemoteTime } from 'src/utils/time'
 import { getAccount } from 'src/web3/saga'
 
 const TAG = 'firebase/saga'
@@ -152,7 +151,7 @@ export function* subscribeToCeloGoldExchangeRateHistory() {
   try {
     while (true) {
       const exchangeRates = yield take(channel)
-      const now = yield getRemoteTime()
+      const now = Date.now()
       yield put(updateCeloGoldExchangeRateHistory(exchangeRates, now))
     }
   } catch (error) {
