@@ -8,7 +8,6 @@ declare module '*.jpg'
 
 declare module 'sleep-promise'
 declare module 'dot-prop-immutable'
-declare module 'react-native-ntp-client'
 declare module 'react-native-crypto'
 declare module 'react-native-bip39'
 declare module 'react-native-flag-secure-android'

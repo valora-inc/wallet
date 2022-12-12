@@ -8,10 +8,6 @@ const TWO_DAYS = 60 * 60 * 24 * 2 * 1000
 
 const mockCurrentTime = 1552353116086
 
-jest.mock('src/utils/time', () => ({
-  getRemoteTime: () => mockCurrentTime,
-}))
-
 describe('DelayButton', () => {
   it('renders button with text when backup not completed and not delayed yet', () => {
     const { toJSON, queryByText } = render(
