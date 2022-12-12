@@ -45,12 +45,8 @@ jobs:
       - name: Check E2E wallet balance
         run: NODE_OPTIONS='--unhandled-rejections=strict' yarn ts-node ./e2e/scripts/check-e2e-wallet-balance.ts
       - name: Create iOS E2E .env File
-        env:
-          MOCK_PROVIDER_BASE_URL: ${{ secrets.MOCK_PROVIDER_BASE_URL }}
-          MOCK_PROVIDER_API_KEY: ${{ secrets.MOCK_PROVIDER_API_KEY }}
-          WALLET_CONNECT_PROJECT_ID_E2E: ${{ secrets.WALLET_CONNECT_PROJECT_ID_E2E }}
         working-directory: e2e
-        run: echo MOCK_PROVIDER_BASE_URL=$MOCK_PROVIDER_BASE_URL >> .env && echo MOCK_PROVIDER_API_KEY=$MOCK_PROVIDER_API_KEY >> .env && echo WALLET_CONNECT_PROJECT_ID_E2E=$WALLET_CONNECT_PROJECT_ID_E2E >> .env
+        run: echo MOCK_PROVIDER_BASE_URL=${{ secrets.MOCK_PROVIDER_BASE_URL }} >> .env && echo MOCK_PROVIDER_API_KEY=${{ secrets.MOCK_PROVIDER_API_KEY }} >> .env && echo WALLET_CONNECT_PROJECT_ID_E2E=${{ secrets.WALLET_CONNECT_PROJECT_ID_E2E }} >> .env
       - name: Create Detox Build
         run: |
           export CELO_TEST_CONFIG=e2e
