@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux'
 import { setName, setPicture } from 'src/account/actions'
 import { nameSelector, recoveringFromStoreWipeSelector } from 'src/account/selectors'
 import { hideAlert, showError } from 'src/alert/actions'
-import { ConfigParams, ExperimentParams } from 'src/analytics/constants'
+import { ConfigParams, LayerParams } from 'src/analytics/constants'
 import { OnboardingEvents } from 'src/analytics/Events'
 import { StatsigDynamicConfigs, StatsigEvents, StatsigLayers } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -43,20 +43,20 @@ const getExperimentParams = () => {
   try {
     const statsigLayer = Statsig.getLayer(StatsigLayers.NAME_AND_PICTURE_SCREEN)
     const showSkipButton = statsigLayer.get(
-      ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].showSkipButton.paramName,
-      ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].showSkipButton.defaultValue
+      LayerParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].showSkipButton.paramName,
+      LayerParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].showSkipButton.defaultValue
     )
     const nameType = statsigLayer.get(
-      ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].nameType.paramName,
-      ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].nameType.defaultValue
+      LayerParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].nameType.paramName,
+      LayerParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].nameType.defaultValue
     )
     return [showSkipButton, nameType]
   } catch (error) {
     Logger.warn('NameAndPicture', 'error getting Statsig experiment', error)
   }
   return [
-    ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].showSkipButton.defaultValue,
-    ExperimentParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].nameType.defaultValue,
+    LayerParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].showSkipButton.defaultValue,
+    LayerParams[StatsigLayers.NAME_AND_PICTURE_SCREEN].nameType.defaultValue,
   ]
 }
 

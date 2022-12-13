@@ -1,12 +1,14 @@
 import { RouteProp } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { showError } from 'src/alert/actions'
+import { ExperimentParams } from 'src/analytics/constants'
 import { FiatExchangeEvents } from 'src/analytics/Events'
+import { StatsigExperiments } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { coinbasePayEnabledSelector } from 'src/app/selectors'
@@ -26,6 +28,7 @@ import { CoinbasePaymentSection } from 'src/fiatExchanges/CoinbasePaymentSection
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import { PaymentMethodSection } from 'src/fiatExchanges/PaymentMethodSection'
 import { normalizeQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
+import { SelectProviderExchangesLink, SelectProviderExchangesText } from 'src/fiatExchanges/types'
 import { readOnceFromFirebase } from 'src/firebase/firebase'
 import i18n from 'src/i18n'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
@@ -41,6 +44,7 @@ import { CiCoCurrency, CURRENCIES, Currency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
+import { Statsig } from 'statsig-react-native'
 import {
   CICOFlow,
   fetchExchanges,
@@ -56,6 +60,37 @@ import {
 const TAG = 'SelectProviderScreen'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.SelectProvider>
+
+// @ts-ignore
+function getAddFundsCryptoExchangeExperimentParams() {
+  const { addFundsExchangesLink, addFundsExchangesText } =
+    ExperimentParams[StatsigExperiments.ADD_FUNDS_CRYPTO_EXCHANGE_QR_CODE]
+  try {
+    const experiment = Statsig.getExperiment(StatsigExperiments.ADD_FUNDS_CRYPTO_EXCHANGE_QR_CODE)
+    const exchangesText = experiment.get(
+      addFundsExchangesText.paramName,
+      addFundsExchangesText.defaultValue
+    )
+    const exchangesLink = experiment.get(
+      addFundsExchangesLink.paramName,
+      addFundsExchangesLink.defaultValue
+    )
+    // TODO(any): remove the below log once exp params are used, this just
+    // existed for testing the statsig integration
+    Logger.debug(TAG, 'statsig experiment values', JSON.stringify({ exchangesText, exchangesLink }))
+    return { exchangesText, exchangesLink }
+  } catch (error) {
+    Logger.warn(
+      TAG,
+      `Error getting statsig experiment ${StatsigExperiments.ADD_FUNDS_CRYPTO_EXCHANGE_QR_CODE}`,
+      error
+    )
+    return {
+      exchangesText: addFundsExchangesText.defaultValue,
+      exchangesLink: addFundsExchangesLink.defaultValue,
+    }
+  }
+}
 
 export default function SelectProviderScreen({ route, navigation }: Props) {
   const dispatch = useDispatch()
@@ -323,6 +358,18 @@ function ExchangesSection({
   selectedCurrency: Currency
 }) {
   const { t } = useTranslation()
+
+  // TODO(any): uncomment below and use params
+  // @ts-ignore
+  const { exchangesText, exchangesFlow } = useMemo(() => {
+    // if (flow === CICOFlow.CashIn) {
+    //   return getAddFundsCryptoExchangeExperimentParams()
+    // }
+    return {
+      exchangesText: SelectProviderExchangesText.CryptoExchange,
+      exchangesLink: SelectProviderExchangesLink.ExchangesScreen,
+    }
+  }, [flow])
 
   if (!exchanges.length) {
     return null
