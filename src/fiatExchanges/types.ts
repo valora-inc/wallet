@@ -5,5 +5,5 @@ export enum SelectProviderExchangesText {
 
 export enum SelectProviderExchangesLink {
   ExchangesScreen = 'ExchangesScreen',
-  DepositCryptoQrScreen = 'DepositCryptoQrScreen',
+  ExchangesQrScreen = 'ExchangesQrScreen',
 }

@@ -327,10 +327,10 @@ describe('getAddFundsCryptoExchangeExperimentParams', () => {
   it('returns value from statsig', () => {
     mockStatsigGet
       .mockReturnValueOnce(SelectProviderExchangesText.DepositFrom)
-      .mockReturnValueOnce(SelectProviderExchangesLink.DepositCryptoQrScreen)
+      .mockReturnValueOnce(SelectProviderExchangesLink.ExchangesQrScreen)
     expect(getAddFundsCryptoExchangeExperimentParams()).toEqual({
       exchangesText: SelectProviderExchangesText.DepositFrom,
-      exchangesLink: SelectProviderExchangesLink.DepositCryptoQrScreen,
+      exchangesLink: SelectProviderExchangesLink.ExchangesQrScreen,
     })
     expect(mockStatsigGet).toHaveBeenCalledTimes(2)
     expect(mockStatsigGet).toHaveBeenNthCalledWith(
