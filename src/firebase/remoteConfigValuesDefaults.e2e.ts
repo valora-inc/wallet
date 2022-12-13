@@ -25,7 +25,7 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   inviteRewardCusd: 1,
   inviteRewardWeeklyLimit: 20,
   walletConnectV1Enabled: true,
-  walletConnectV2Enabled: false,
+  walletConnectV2Enabled: true,
   superchargeApy: 12,
   superchargecUSDMin: 10,
   superchargecUSDMax: 1000,

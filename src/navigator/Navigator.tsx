@@ -112,7 +112,6 @@ import ValidateRecipientAccount, {
 import ValidateRecipientIntro, {
   validateRecipientIntroScreenNavOptions,
 } from 'src/send/ValidateRecipientIntro'
-import SetClock from 'src/set-clock/SetClock'
 import SwapExecuteScreen from 'src/swap/SwapExecuteScreen'
 import SwapReviewScreen from 'src/swap/SwapReviewScreen'
 import TokenBalancesScreen from 'src/tokens/TokenBalances'
@@ -552,11 +551,6 @@ const settingsScreens = (Navigator: typeof Stack) => (
 
 const generalScreens = (Navigator: typeof Stack) => (
   <>
-    <Navigator.Screen
-      name={Screens.SetClock}
-      component={SetClock}
-      options={noHeaderGestureDisabled}
-    />
     <Navigator.Screen
       name={Screens.TransactionReview}
       component={TransactionReview}

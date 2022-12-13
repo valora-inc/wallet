@@ -8,6 +8,6 @@ describe('Given Wallet Connect', () => {
   })
 
   describe('When V1', WalletConnectV1)
-  // Skip WalletConnect V2 Until supported
-  describe.skip('When V2', WalletConnectV2)
+
+  describe('When V2', WalletConnectV2)
 })
