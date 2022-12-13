@@ -16983,9 +16983,10 @@ react-native-email-link@^1.14.0:
   resolved "https://registry.yarnpkg.com/react-native-email-link/-/react-native-email-link-1.14.0.tgz#e90e1abea8d170946a0cb973a2f93e9c0a841653"
   integrity sha512-RecW/hNE2at7AlE2/4f3cO12J6YSalRL7jv+z8X2DVrRZNv2lMavcLEEXh3z5ikRFXkMc0OYs+h6SrsalpN1lg==
 
-"react-native-exit-app@https://github.com/wumke/react-native-exit-app#5a022a7":
+react-native-exit-app@^1.1.0:
   version "1.1.0"
-  resolved "https://github.com/wumke/react-native-exit-app#5a022a756c5983bdd2102cdd1f2269586bcfacfa"
+  resolved "https://registry.yarnpkg.com/react-native-exit-app/-/react-native-exit-app-1.1.0.tgz#5ec082152974240e2d6a93f1608efb49a4385f21"
+  integrity sha512-Spne19zfMfJvnUTX909EHUqWMk69rATtLJq9XMBGpNSHhx0M7v5yetx2Z87egBhLOqQm+CWfD/oxWzDG8rbIQA==
 
 react-native-fast-crypto@^2.0.0:
   version "2.0.0"
