@@ -360,7 +360,7 @@ function ExchangesSection({
 
   // TODO(any): uncomment below and use params
   // @ts-ignore
-  const { exchangesText, exchangesFlow } = useMemo(() => {
+  const { exchangesText, exchangesLink } = useMemo(() => {
     // if (flow === CICOFlow.CashIn) {
     //   return getAddFundsCryptoExchangeExperimentParams()
     // }
