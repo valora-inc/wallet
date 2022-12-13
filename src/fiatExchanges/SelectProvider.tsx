@@ -62,17 +62,16 @@ const TAG = 'SelectProviderScreen'
 type Props = NativeStackScreenProps<StackParamList, Screens.SelectProvider>
 
 export function getAddFundsCryptoExchangeExperimentParams() {
-  const { addFundsExchangesLink, addFundsExchangesText } =
-    ExperimentParams[StatsigExperiments.ADD_FUNDS_CRYPTO_EXCHANGE_QR_CODE]
+  const params = ExperimentParams[StatsigExperiments.ADD_FUNDS_CRYPTO_EXCHANGE_QR_CODE]
   try {
     const experiment = Statsig.getExperiment(StatsigExperiments.ADD_FUNDS_CRYPTO_EXCHANGE_QR_CODE)
     const exchangesText = experiment.get(
-      addFundsExchangesText.paramName,
-      addFundsExchangesText.defaultValue
+      params.addFundsExchangesText.paramName,
+      params.addFundsExchangesText.defaultValue
     )
     const exchangesLink = experiment.get(
-      addFundsExchangesLink.paramName,
-      addFundsExchangesLink.defaultValue
+      params.addFundsExchangesLink.paramName,
+      params.addFundsExchangesLink.defaultValue
     )
     // TODO(any): remove the below log once exp params are used, this just
     // existed for testing the statsig integration
@@ -85,8 +84,8 @@ export function getAddFundsCryptoExchangeExperimentParams() {
       error
     )
     return {
-      exchangesText: addFundsExchangesText.defaultValue,
-      exchangesLink: addFundsExchangesLink.defaultValue,
+      exchangesText: params.addFundsExchangesText.defaultValue,
+      exchangesLink: params.addFundsExchangesLink.defaultValue,
     }
   }
 }
@@ -359,7 +358,7 @@ function ExchangesSection({
   const { t } = useTranslation()
 
   // TODO(any): uncomment below and use params
-  // @ts-ignore
+  // @ts-expect-error
   const { exchangesText, exchangesLink } = useMemo(() => {
     // if (flow === CICOFlow.CashIn) {
     //   return getAddFundsCryptoExchangeExperimentParams()
