@@ -1,6 +1,6 @@
+import { compressedPubKey } from '@celo/cryptographic-utils'
 import { PhoneNumberHashDetails } from '@celo/identity/lib/odis/phone-number-identifier'
 import { hexToBuffer } from '@celo/utils/lib/address'
-import { compressedPubKey } from '@celo/cryptographic-utils'
 import URLSearchParamsReal from '@ungap/url-search-params'
 import { AppState, Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
@@ -210,6 +210,7 @@ export interface RemoteConfigValues {
   showGuidedOnboardingCopy: boolean
   centralPhoneVerificationEnabled: boolean
   networkTimeoutSeconds: number
+  dappFavouritesEnabled: boolean
 }
 
 export function* appRemoteFeatureFlagSaga() {
