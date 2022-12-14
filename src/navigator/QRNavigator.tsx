@@ -18,6 +18,7 @@ import { QRTabParamList } from 'src/navigator/types'
 import QRCode from 'src/qrcode/QRCode'
 import QRScanner from 'src/qrcode/QRScanner'
 import QRTabBar from 'src/qrcode/QRTabBar'
+import { QRCodeDataType } from 'src/qrcode/schema'
 import { handleBarcodeDetected, QrCode, SVG } from 'src/send/actions'
 import Logger from 'src/utils/Logger'
 import { ExtractProps } from 'src/utils/typescript'
@@ -146,7 +147,9 @@ export default function QRNavigator() {
       initialLayout={initialLayout}
     >
       <Tab.Screen name={Screens.QRCode} options={{ title: t('myCode') }}>
-        {(props) => <QRCode {...props} dataType="valora-deeplink" qrSvgRef={qrSvgRef} />}
+        {(props) => (
+          <QRCode {...props} dataType={QRCodeDataType.ValoraDeepLink} qrSvgRef={qrSvgRef} />
+        )}
       </Tab.Screen>
       <Tab.Screen name={Screens.QRScanner} options={{ title: t('scanCode') }}>
         {(props) => <AnimatedScannerScene {...props} position={position} />}

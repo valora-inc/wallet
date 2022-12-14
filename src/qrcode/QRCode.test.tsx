@@ -3,6 +3,7 @@ import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
 import QRCode from 'src/qrcode/QRCode'
+import { QRCodeDataType } from 'src/qrcode/schema'
 import { createMockStore } from 'test/utils'
 import { mockAccount, mockName } from 'test/values'
 
@@ -16,7 +17,7 @@ describe('QRCode', () => {
   it('renders correctly', () => {
     const tree = render(
       <Provider store={store}>
-        <QRCode dataType="valora-deeplink" qrSvgRef={{ current: null }} />
+        <QRCode dataType={QRCodeDataType.ValoraDeepLink} qrSvgRef={{ current: null }} />
       </Provider>
     )
 

@@ -1,4 +1,5 @@
 import { E164PhoneNumberType } from '@celo/phone-utils'
+import { AddressType } from '@celo/utils/lib/io'
 import { isLeft } from 'fp-ts/lib/Either'
 import {
   keyof as ioKeyof,
@@ -11,7 +12,6 @@ import {
 import { PathReporter } from 'io-ts/lib/PathReporter'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { parse } from 'url'
-import { AddressType } from '@celo/utils/lib/io'
 
 export const UriDataType = ioType({
   address: AddressType,
@@ -35,6 +35,11 @@ export const uriDataFromUrl = (url: string) => uriDataFromJson(parse(decodeURI(u
 
 enum UriMethod {
   pay = 'pay',
+}
+
+export enum QRCodeDataType {
+  ValoraDeepLink = 'ValoraDeepLink',
+  Address = 'Address',
 }
 
 // removes undefined parameters for serialization
