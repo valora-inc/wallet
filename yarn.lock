@@ -16996,10 +16996,6 @@ react-native-fast-crypto@^2.0.0:
     buffer "^5.0.8"
     rfc4648 "^1.0.0"
 
-"react-native-flag-secure-android@https://github.com/kristiansorens/react-native-flag-secure-android#e234251":
-  version "1.0.0"
-  resolved "https://github.com/kristiansorens/react-native-flag-secure-android#e234251220f5d745eec8ebde3e83d4d369e81a14"
-
 react-native-flipper@^0.127.0, react-native-flipper@^0.34.0:
   version "0.127.0"
   resolved "https://registry.yarnpkg.com/react-native-flipper/-/react-native-flipper-0.127.0.tgz#4d4040c0d0a45136b9bbabdc801d3e32d385de73"

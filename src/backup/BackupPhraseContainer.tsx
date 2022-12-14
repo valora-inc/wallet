@@ -2,7 +2,6 @@ import Clipboard from '@react-native-clipboard/clipboard'
 import * as React from 'react'
 import { WithTranslation } from 'react-i18next'
 import { Platform, StyleSheet, Text, TextInput, View, ViewStyle } from 'react-native'
-import FlagSecure from 'react-native-flag-secure-android'
 import { isValidBackupPhrase } from 'src/backup/utils'
 import Touchable from 'src/components/Touchable'
 import withTextInputPasteAware from 'src/components/WithTextInputPasteAware'
@@ -35,22 +34,6 @@ type Props = {
 } & WithTranslation
 
 export class BackupPhraseContainer extends React.Component<Props> {
-  async componentDidMount() {
-    if (Platform.OS === 'android') {
-      FlagSecure.activate()
-    } else if (Platform.OS === 'ios') {
-      // TODO add iOS support
-    }
-  }
-
-  componentWillUnmount() {
-    if (Platform.OS === 'android') {
-      FlagSecure.deactivate()
-    } else if (Platform.OS === 'ios') {
-      // TODO add iOS support
-    }
-  }
-
   onPressCopy = () => {
     const { value: words, t } = this.props
     if (!words) {
