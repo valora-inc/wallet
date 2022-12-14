@@ -1350,6 +1350,8 @@
     "transactionDetails": "Szczegóły transakcji",
     "paymentMethodVia": "Połączono przez {{providerName}}",
     "receiveAmount": "Otrzymasz",
+    "bankFeeDisclaimer": "Twój bank może pobierać dodatkowe opłaty za przelew.",
+    "mobileMoneyFeeDisclaimer": "Twój operator telefonii komórkowej może pobierać dodatkowe opłaty za przelew.",
     "cashIn": {
       "header": "Analizuj – Dodaj środki",
       "button": "Dodaj środki",
