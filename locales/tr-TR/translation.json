@@ -1386,8 +1386,8 @@
       "header": "Başarılı",
       "title": "Bakiyen yolda!",
       "description": "İşlem talebiniz gönderildi ve paranız {{duration}} içinde ulaşacak.",
-      "description1to3Days": "İşlem talebiniz gönderildi ve paranız 1-3 gün içinde elinize ulaşacak.",
-      "description24Hours": "İşlem talebiniz gönderildi ve paranız 24 saat içinde elinize ulaşacak.",
+      "description1to3Days": "İşlem talebiniz gönderildi ve paranız 1-3 gün içinde ulaşacak.",
+      "description24Hours": "İşlem talebiniz gönderildi ve paranız 24 saat içinde ulaşacak.",
       "txDetails": "CeloExplorer'da görüntüle",
       "continue": "İleri"
     },
