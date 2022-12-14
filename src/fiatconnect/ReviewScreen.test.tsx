@@ -8,11 +8,23 @@ import FiatConnectReviewScreen from 'src/fiatconnect/ReviewScreen'
 import { createFiatConnectTransfer, FiatAccount, refetchQuote } from 'src/fiatconnect/slice'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
+import { LocalCurrencyCode } from 'src/localCurrency/consts'
+import { getDefaultLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps, sleep } from 'test/utils'
 import { mockFiatConnectQuotes } from 'test/values'
+import { mocked } from 'ts-jest/utils'
+
+jest.mock('src/localCurrency/selectors', () => {
+  const originalModule = jest.requireActual('src/localCurrency/selectors')
+
+  return {
+    ...originalModule,
+    getDefaultLocalCurrencyCode: jest.fn(),
+  }
+})
 
 function getProps(
   flow: CICOFlow,
@@ -55,6 +67,7 @@ describe('ReviewScreen', () => {
   const store = createMockStore()
   beforeEach(() => {
     store.dispatch = jest.fn()
+    mocked(getDefaultLocalCurrencyCode).mockReturnValue(LocalCurrencyCode.USD)
   })
   describe('cashIn', () => {
     it('shows fiat amount, transaction details and payment method', () => {
@@ -64,6 +77,7 @@ describe('ReviewScreen', () => {
         </Provider>
       )
 
+      expect(queryByText('fiatConnectReviewScreen.bankFeeDisclaimer')).toBeFalsy()
       expect(queryByTestId('receive-amount')?.children).toEqual(['', '100.00', ' cEUR'])
       expect(queryByText('fiatConnectReviewScreen.transactionDetails')).toBeTruthy()
       expect(queryByText('fiatConnectReviewScreen.cashIn.transactionDetailsAmount')).toBeTruthy()
@@ -88,6 +102,7 @@ describe('ReviewScreen', () => {
         </Provider>
       )
 
+      expect(queryByText('fiatConnectReviewScreen.bankFeeDisclaimer')).toBeFalsy()
       expect(queryByTestId('receive-amount/value')?.children).toEqual(['', '$', '100.00'])
       expect(queryByText('fiatConnectReviewScreen.transactionDetails')).toBeTruthy()
       expect(queryByText('fiatConnectReviewScreen.cashOut.transactionDetailsAmount')).toBeTruthy()
@@ -270,6 +285,32 @@ describe('ReviewScreen', () => {
           fiat: 100,
           crypto: 100,
         },
+      })
+    })
+    describe.each([
+      [FiatAccountType.BankAccount, 'fiatConnectReviewScreen.bankFeeDisclaimer'],
+      [FiatAccountType.MobileMoney, 'fiatConnectReviewScreen.mobileMoneyFeeDisclaimer'],
+    ])('Fee Disclaimer for %s', (accountType, disclaimer) => {
+      const mockProps = getProps(CICOFlow.CashOut)
+      mockProps.route.params.fiatAccount.fiatAccountType = accountType
+      it(`${accountType} does not show disclaimer when quote fiat currency matches locale currency`, () => {
+        const { queryByText } = render(
+          <Provider store={store}>
+            <FiatConnectReviewScreen {...mockProps} />
+          </Provider>
+        )
+
+        expect(queryByText(disclaimer)).toBeFalsy()
+      })
+      it(`${accountType} shows disclaimer when quote fiat currency does not match locale currency`, () => {
+        mocked(getDefaultLocalCurrencyCode).mockReturnValue('Locale Currency' as LocalCurrencyCode)
+        const { queryByText } = render(
+          <Provider store={store}>
+            <FiatConnectReviewScreen {...mockProps} />
+          </Provider>
+        )
+
+        expect(queryByText(disclaimer)).toBeTruthy()
       })
     })
   })
