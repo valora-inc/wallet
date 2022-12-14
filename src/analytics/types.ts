@@ -27,6 +27,7 @@ export enum DappRequestOrigin {
   External = 'external',
 }
 
+// Statsig types. TODO(any): consider moving to a statsig/types file
 export enum StatsigLayers {
   NAME_AND_PICTURE_SCREEN = 'name_and_picture_screen',
 }
@@ -37,4 +38,8 @@ export enum StatsigDynamicConfigs {
 
 export enum StatsigEvents {
   ONBOARDING_NAME_STEP_COMPLETE = 'onboarding_name_step_complete',
+}
+
+export enum StatsigExperiments {
+  ADD_FUNDS_CRYPTO_EXCHANGE_QR_CODE = 'add_funds_crypto_exchange_qr_code',
 }

@@ -203,6 +203,11 @@ export default class FiatConnectQuote extends NormalizedQuote {
     return this.quote.quote.cryptoAmount
   }
 
+  getCryptoTypeString(): string {
+    // todo eventually rename this to getCryptoType and rename getCryptoType to getCryptoCurrency
+    return this.quote.quote.cryptoType
+  }
+
   getCryptoType(): Currency {
     return resolveCurrency(this.quote.quote.cryptoType)!
   }
