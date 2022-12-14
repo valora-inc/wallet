@@ -16,7 +16,7 @@ describe('QRCode', () => {
   it('renders correctly', () => {
     const tree = render(
       <Provider store={store}>
-        <QRCode qrSvgRef={{ current: null }} />
+        <QRCode dataType="valora-deeplink" qrSvgRef={{ current: null }} />
       </Provider>
     )
 
