@@ -929,6 +929,7 @@ export const migrations = {
     dapps: {
       ...state.dapps,
       dappFavouritesEnabled: false,
+      favouriteDapps: [],
     },
   }),
 }

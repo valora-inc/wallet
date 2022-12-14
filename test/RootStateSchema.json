@@ -3365,6 +3365,12 @@
                 "dappsWebViewEnabled": {
                     "type": "boolean"
                 },
+                "favouriteDapps": {
+                    "items": {
+                        "$ref": "#/definitions/Dapp"
+                    },
+                    "type": "array"
+                },
                 "maxNumRecentDapps": {
                     "type": "number"
                 },
@@ -3385,6 +3391,7 @@
                 "dappsListError",
                 "dappsListLoading",
                 "dappsWebViewEnabled",
+                "favouriteDapps",
                 "maxNumRecentDapps",
                 "recentDapps"
             ],

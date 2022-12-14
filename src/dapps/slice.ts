@@ -17,6 +17,7 @@ export interface State {
   dappsCategories: DappCategory[]
   dappConnectInfo: DappConnectInfo
   dappFavouritesEnabled: boolean
+  favouriteDapps: Dapp[]
 }
 
 const initialState: State = {
@@ -31,6 +32,7 @@ const initialState: State = {
   dappsCategories: [],
   dappConnectInfo: REMOTE_CONFIG_VALUES_DEFAULTS.dappConnectInfo,
   dappFavouritesEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.dappFavouritesEnabled,
+  favouriteDapps: [],
 }
 
 export interface DappSelectedAction {
