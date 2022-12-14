@@ -3042,7 +3042,6 @@
                         "EUR",
                         "GBP",
                         "GHS",
-                        "GMD",
                         "GNF",
                         "INR",
                         "KES",
@@ -3055,14 +3054,12 @@
                         "RWF",
                         "SLL",
                         "TRY",
-                        "TZS",
                         "UAH",
                         "UGX",
                         "USD",
                         "XAF",
                         "XOF",
-                        "ZAR",
-                        "ZMW"
+                        "ZAR"
                     ],
                     "type": "string"
                 },
@@ -3083,7 +3080,6 @@
                         "EUR",
                         "GBP",
                         "GHS",
-                        "GMD",
                         "GNF",
                         "INR",
                         "KES",
@@ -3096,14 +3092,12 @@
                         "RWF",
                         "SLL",
                         "TRY",
-                        "TZS",
                         "UAH",
                         "UGX",
                         "USD",
                         "XAF",
                         "XOF",
-                        "ZAR",
-                        "ZMW"
+                        "ZAR"
                     ],
                     "type": "string"
                 }

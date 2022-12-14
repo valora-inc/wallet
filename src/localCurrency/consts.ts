@@ -10,7 +10,6 @@ export enum LocalCurrencyCode {
   EUR = 'EUR',
   GBP = 'GBP',
   GHS = 'GHS',
-  GMD = 'GMD',
   GNF = 'GNF',
   INR = 'INR',
   KES = 'KES',
@@ -23,14 +22,12 @@ export enum LocalCurrencyCode {
   RWF = 'RWF',
   SLL = 'SLL',
   TRY = 'TRY',
-  TZS = 'TZS',
   UAH = 'UAH',
   UGX = 'UGX',
   USD = 'USD',
   XOF = 'XOF',
   XAF = 'XAF',
   ZAR = 'ZAR',
-  ZMW = 'ZMW',
 }
 
 export enum LocalCurrencySymbol {
@@ -43,7 +40,6 @@ export enum LocalCurrencySymbol {
   EUR = '€',
   GBP = '£',
   GHS = 'GH₵',
-  GMD = 'D',
   GNF = 'FG',
   INR = '₹',
   KES = 'KSh',
@@ -56,14 +52,12 @@ export enum LocalCurrencySymbol {
   RWF = 'FRw',
   SLL = 'Le',
   TRY = '₺',
-  TZS = 'TSh',
   UAH = '₴',
   UGX = 'USh',
   USD = '$',
   XAF = 'FCFA',
   XOF = 'CFA',
   ZAR = 'R',
-  ZMW = 'ZK',
 }
 
 export const LOCAL_CURRENCY_CODES = Object.values(LocalCurrencyCode)

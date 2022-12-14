@@ -1,6 +1,5 @@
 import { CryptoType, FiatAccountSchema, FiatAccountType } from '@fiatconnect/fiatconnect-types'
 import { fireEvent, render } from '@testing-library/react-native'
-import CountryData from 'country-data'
 import _ from 'lodash'
 import * as React from 'react'
 import { Provider } from 'react-redux'
@@ -16,38 +15,7 @@ import { Screens } from 'src/navigator/Screens'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps, sleep } from 'test/utils'
 import { mockFiatConnectQuotes } from 'test/values'
-
-const MVP_SUPPORTED_COUNTRIES: Partial<Record<FiatAccountSchema, Array<string>>> = {
-  [FiatAccountSchema.AccountNumber]: [
-    'GH', //Ghana
-    'IN', //India
-    'KE', //Kenya
-    'NG', //Nigeria
-    'PH', //Philippines
-  ],
-  [FiatAccountSchema.MobileMoney]: [
-    'BF', //Burkina Faso
-    'BJ', //Benin
-    'CI', //Cote D'ivoire
-    'GH', //Ghana
-    'GM', //Gambia
-    'GN', //Guinea
-    'KE', //Kenya
-    'ML', //Mali
-    'SL', //Sierra Leone
-    'SN', //Senegal
-    'TG', //Togo
-    'TZ', //Tanzania
-    'UG', //Uganda
-    'ZM', //Zambia
-  ],
-}
-
-//Helper function to get the currency of a country
-const getCountryCurrency = (alpha2: string) => {
-  const countries = CountryData.lookup.countries({ alpha2 })
-  return countries?.[0]?.currencies?.[0]
-}
+import { mocked } from 'ts-jest/utils'
 
 jest.mock('src/localCurrency/selectors', () => {
   const originalModule = jest.requireActual('src/localCurrency/selectors')
@@ -57,10 +25,6 @@ jest.mock('src/localCurrency/selectors', () => {
     getDefaultLocalCurrencyCode: jest.fn(),
   }
 })
-const mockGetDefaultLocation = getDefaultLocalCurrencyCode as jest.MockedFunction<
-  typeof getDefaultLocalCurrencyCode
->
-mockGetDefaultLocation.mockReturnValue(LocalCurrencyCode.USD)
 
 function getProps(
   flow: CICOFlow,
@@ -103,9 +67,7 @@ describe('ReviewScreen', () => {
   const store = createMockStore()
   beforeEach(() => {
     store.dispatch = jest.fn()
-  })
-  afterAll(() => {
-    jest.resetAllMocks()
+    mocked(getDefaultLocalCurrencyCode).mockReturnValue(LocalCurrencyCode.USD)
   })
   describe('cashIn', () => {
     it('shows fiat amount, transaction details and payment method', () => {
@@ -129,20 +91,6 @@ describe('ReviewScreen', () => {
       expect(queryByTestId('paymentMethod-via')?.children).toEqual([
         'fiatConnectReviewScreen.paymentMethodVia, {"providerName":"Provider Two"}',
       ])
-    })
-    it('shows fee disclaimer when quote currency does not match user locale currency', () => {
-      const mockProps = getProps(CICOFlow.CashIn)
-      //Re-renders, need to mock twice
-      mockGetDefaultLocation
-        .mockReturnValueOnce('Locale Currency' as LocalCurrencyCode)
-        .mockReturnValueOnce('Locale Currency' as LocalCurrencyCode)
-      const { queryByText } = render(
-        <Provider store={store}>
-          <FiatConnectReviewScreen {...mockProps} />
-        </Provider>
-      )
-
-      expect(queryByText('fiatConnectReviewScreen.bankFeeDisclaimer')).toBeTruthy()
     })
   })
 
@@ -340,37 +288,30 @@ describe('ReviewScreen', () => {
       })
     })
     describe.each([
-      [
-        FiatAccountType.BankAccount,
-        FiatAccountSchema.AccountNumber,
-        'fiatConnectReviewScreen.bankFeeDisclaimer',
-      ],
-      [
-        FiatAccountType.MobileMoney,
-        FiatAccountSchema.MobileMoney,
-        'fiatConnectReviewScreen.mobileMoneyFeeDisclaimer',
-      ],
-    ])('Fee Disclaimer for %s', (accountType, schema, disclaimer) => {
-      const mvpCountriesForSchema = MVP_SUPPORTED_COUNTRIES[schema]!
+      [FiatAccountType.BankAccount, 'fiatConnectReviewScreen.bankFeeDisclaimer'],
+      [FiatAccountType.MobileMoney, 'fiatConnectReviewScreen.mobileMoneyFeeDisclaimer'],
+    ])('Fee Disclaimer for %s', (accountType, disclaimer) => {
       const mockProps = getProps(CICOFlow.CashOut)
       mockProps.route.params.fiatAccount.fiatAccountType = accountType
-      it.each(mvpCountriesForSchema)(
-        'shows when user locale is %s and quote currency does not match locale currency',
-        (countryCode) => {
-          const countryCurrency = getCountryCurrency(countryCode)[0]
-          //Re-renders, need to mock twice
-          mockGetDefaultLocation
-            .mockReturnValueOnce(countryCurrency as LocalCurrencyCode)
-            .mockReturnValueOnce(countryCurrency as LocalCurrencyCode)
-          const { queryByText } = render(
-            <Provider store={store}>
-              <FiatConnectReviewScreen {...mockProps} />
-            </Provider>
-          )
+      it(`${accountType} does not show disclaimer when quote fiat currency matches locale currency`, () => {
+        const { queryByText } = render(
+          <Provider store={store}>
+            <FiatConnectReviewScreen {...mockProps} />
+          </Provider>
+        )
 
-          expect(queryByText(disclaimer)).toBeTruthy()
-        }
-      )
+        expect(queryByText(disclaimer)).toBeFalsy()
+      })
+      it(`${accountType} shows disclaimer when quote fiat currency does not match locale currency`, () => {
+        mocked(getDefaultLocalCurrencyCode).mockReturnValue('Locale Currency' as LocalCurrencyCode)
+        const { queryByText } = render(
+          <Provider store={store}>
+            <FiatConnectReviewScreen {...mockProps} />
+          </Provider>
+        )
+
+        expect(queryByText(disclaimer)).toBeTruthy()
+      })
     })
   })
 })
