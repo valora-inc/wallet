@@ -108,7 +108,8 @@ class ValoraAnalytics {
         : null
 
       await Statsig.initialize(STATSIG_API_KEY, stasigUser, {
-        overrideStableID: uniqueID, //Received an error if Stable ID not manually specified
+        // StableID should match Segment anonymousId
+        overrideStableID: await Analytics.getAnonymousId(),
         environment: STATSIG_ENV,
       })
     } catch (error) {
@@ -281,6 +282,8 @@ class ValoraAnalytics {
       celoNetwork: DEFAULT_TESTNET,
       // Prefixed super props
       ...prefixedSuperProps,
+      // Statsig prop, won't be read properly by Statsig if prefixed
+      statsigEnvironment: STATSIG_ENV,
     }
   }
 }
