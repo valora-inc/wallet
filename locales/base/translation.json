@@ -1348,6 +1348,8 @@
     "transactionDetails": "Transaction Details",
     "paymentMethodVia": "Connected via {{providerName}}",
     "receiveAmount": "You will receive",
+    "bankFeeDisclaimer": "Your bank may charge additional fees for your transfer.",
+    "mobileMoneyFeeDisclaimer": "Your mobile money operator may charge additional fees for your transfer.",
     "cashIn": {
       "header": "Review Add Funds",
       "button": "Add Funds",

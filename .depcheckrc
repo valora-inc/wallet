@@ -11,5 +11,6 @@ ignores: [
   "react-native-kill-packager",
   "ts-node",
   "tslib", # required for importHelpers flag in tsconfig.json
+  "typescript-json-schema", # helps manage redux state migrations
 ]
 skip-missing: true

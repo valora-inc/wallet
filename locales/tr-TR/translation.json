@@ -1346,6 +1346,8 @@
     "transactionDetails": "İşlem detayları",
     "paymentMethodVia": "{{providerName}} üzerinden bağlantı",
     "receiveAmount": "Alacağınız",
+    "bankFeeDisclaimer": "Bankanız transferiniz için ek ücret talep edebilir.",
+    "mobileMoneyFeeDisclaimer": "Mobil para operatörünüz transferiniz için ek ücret talep edebilir.",
     "cashIn": {
       "header": "Gözden Geçir - Bakiye Ekle",
       "button": "Bakiye Ekle",
@@ -1386,8 +1388,8 @@
       "header": "Başarılı",
       "title": "Bakiyen yolda!",
       "description": "İşlem talebiniz gönderildi ve paranız {{duration}} içinde ulaşacak.",
-      "description1to3Days": "İşlem talebiniz gönderildi ve paranız 1-3 gün içinde elinize ulaşacak.",
-      "description24Hours": "İşlem talebiniz gönderildi ve paranız 24 saat içinde elinize ulaşacak.",
+      "description1to3Days": "İşlem talebiniz gönderildi ve paranız 1-3 gün içinde ulaşacak.",
+      "description24Hours": "İşlem talebiniz gönderildi ve paranız 24 saat içinde ulaşacak.",
       "txDetails": "CeloExplorer'da görüntüle",
       "continue": "İleri"
     },

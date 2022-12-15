@@ -1284,10 +1284,10 @@
     "lessThan24Hours": "Chưa đến 24 giờ",
     "bestRate": "Tỷ giá tốt nhất",
     "header": "Chọn phương thức thanh toán",
-    "newLabel": "NEW",
+    "newLabel": "MỚI",
     "newDialog": {
-      "title": "New ways to transfer funds",
-      "body": "We are releasing new ways to transfer funds to and from bank accounts, directly from the Valora app.\n\nIf you are seeing this, it means you are able to access this feature in your region.",
+      "title": "Các phương thức chuyển tiền mới",
+      "body": "Chúng tôi sẽ phát hành những phương thức mới để chuyển tiền vào và ra khỏi khoản ngân hàng, trực tiếp từ ứng dụng Valora.\n\nNếu bạn thấy điều này, thì có nghĩa là khu vực của bạn có thể truy cập tính năng này.",
       "dismiss": "Bỏ qua"
     }
   },
@@ -1344,6 +1344,8 @@
     "transactionDetails": "Thông tin giao dịch",
     "paymentMethodVia": "Đã kết nối qua {{providerName}}",
     "receiveAmount": "Bạn sẽ nhận được",
+    "bankFeeDisclaimer": "Your bank may charge additional fees for your transfer.",
+    "mobileMoneyFeeDisclaimer": "Your mobile money operator may charge additional fees for your transfer.",
     "cashIn": {
       "header": "Xem lại thông tin nạp tiền",
       "button": "Nạp tiền",
@@ -1384,8 +1386,8 @@
       "header": "Thành công",
       "title": "Tiền của bạn đang trong quá trình chuyển!",
       "description": "Yêu cầu giao dịch của bạn đã gửi đi và tiền của bạn sẽ đến trong vòng {{duration}}.",
-      "description1to3Days": "Your transaction request has been sent & your funds will arrive in 1-3 days.",
-      "description24Hours": "Your transaction request has been sent & your funds will arrive within 24 hours.",
+      "description1to3Days": "Bạn đã gửi yêu cầu giao dịch và tiền của bạn sẽ đến sau 1-3 ngày.",
+      "description24Hours": "Bạn đã gửi cầu giao dịch và tiền của bạn sẽ đến trong vòng 24 giờ.",
       "txDetails": "Xem trên CeloExplorer",
       "continue": "Tiếp tục"
     },
@@ -1463,9 +1465,9 @@
       "errorMessage": "IBAN không hợp lệ"
     },
     "ifsc": {
-      "label": "IFSC",
-      "placeholderText": "Enter IFSC",
-      "errorMessage": "Invalid IFSC"
+      "label": "Mã IFSC",
+      "placeholderText": "Nhập mã IFSC",
+      "errorMessage": "Mã IFSC không hợp lệ"
     }
   },
   "webView": {

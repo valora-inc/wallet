@@ -949,8 +949,15 @@ export function* _initiateSendTxToProvider({
   Logger.info(TAG, 'Starting transfer out transaction..')
 
   const tokenList: TokenBalance[] = yield select(tokensListSelector)
-  const tokenInfo = tokenList.find((token) => token.symbol === fiatConnectQuote.getCryptoType())!
-
+  const cryptoType = fiatConnectQuote.getCryptoTypeString()
+  const tokenInfo = tokenList.find((token) => token.symbol === cryptoType)
+  if (!tokenInfo) {
+    // case where none of the tokens in tokenList, which should be from firebase and in sync with this https://github.com/valora-inc/address-metadata/blob/main/src/data/mainnet/tokens-info.json
+    //  match with FiatConnect quote cryptoType, which should be from here https://github.com/fiatconnect/specification/blob/main/fiatconnect-api.md#922-cryptotypeenum
+    throw new Error(
+      `No matching symbol found for cryptoType ${cryptoType}. Cannot send crypto to provider.`
+    )
+  }
   const feeEstimates: FeeEstimatesState['estimates'] = yield select(feeEstimatesSelector)
   const feeInfo = feeEstimates[tokenInfo.address]?.[FeeType.SEND]?.feeInfo
 
