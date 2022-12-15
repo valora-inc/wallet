@@ -1344,6 +1344,8 @@
     "transactionDetails": "รายละเอียดธุรกรรม",
     "paymentMethodVia": "เชื่อมต่อแล้วผ่าน {{providerName}}",
     "receiveAmount": "คุณจะได้รับ",
+    "bankFeeDisclaimer": "Your bank may charge additional fees for your transfer.",
+    "mobileMoneyFeeDisclaimer": "Your mobile money operator may charge additional fees for your transfer.",
     "cashIn": {
       "header": "ตรวจสอบการเพิ่มเงินทุน",
       "button": "เพิ่มเงินทุน",
