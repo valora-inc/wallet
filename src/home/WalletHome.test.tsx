@@ -83,7 +83,7 @@ const deepLinkedDapp = {
   id: 'moola',
 }
 
-const recentDapps = [dapp, deepLinkedDapp]
+const recentDappIds = [dapp.id, deepLinkedDapp.id]
 
 jest.mock('src/exchange/CeloGoldOverview', () => 'CeloGoldOverview')
 jest.mock('src/transactions/TransactionsList', () => 'TransactionsList')
@@ -233,7 +233,8 @@ describe('WalletHome', () => {
   describe('recently used dapps', () => {
     const store = createMockStore({
       dapps: {
-        recentDapps,
+        dappsList: [dapp, deepLinkedDapp],
+        recentDappIds,
         maxNumRecentDapps: 4,
       },
     })

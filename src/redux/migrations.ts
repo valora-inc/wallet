@@ -936,7 +936,7 @@ export const migrations = {
     ...state,
     dapps: {
       ...state.dapps,
-      recentDapps: state.dapps.recentDapps.map((dapp: Dapp) => dapp.id),
+      recentDappIds: state.dapps.recentDapps.map((dapp: Dapp) => dapp.id),
       favouriteDapps: state.dapps.favouriteDapps.map((dapp: Dapp) => dapp.id),
     },
   }),

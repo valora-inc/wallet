@@ -3,7 +3,7 @@ import { FinclusiveKycStatus, PincodeType } from 'src/account/reducer'
 import { AppState } from 'src/app/actions'
 import { InviteMethodType } from 'src/app/types'
 import { CodeInputStatus } from 'src/components/CodeInput'
-import { DappConnectInfo } from 'src/dapps/types'
+import { Dapp, DappConnectInfo } from 'src/dapps/types'
 import { SendingFiatAccountStatus } from 'src/fiatconnect/slice'
 import { NUM_ATTESTATIONS_REQUIRED } from 'src/identity/verification'
 import { RootState } from 'src/redux/reducers'
@@ -1864,6 +1864,11 @@ export const v98Schema = {
   _persist: {
     ...v97Schema._persist,
     version: 98,
+  },
+  dapps: {
+    ..._.omit(v97Schema.dapps, 'recentDapps', 'favoriteDapps'),
+    recentDappIds: v97Schema.dapps.recentDapps?.map((recentDapp: Dapp) => recentDapp.id),
+    favoriteDappIds: v97Schema.dapps.favoriteDapps?.map((favoriteDapp: Dapp) => favoriteDapp.id),
   },
 }
 

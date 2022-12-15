@@ -56,7 +56,7 @@ const dappsList: Dapp[] = [
   },
 ]
 
-const recentDapps = dappsList.map((dapp) => dapp.id)
+const recentDappIds = dappsList.map((dapp) => dapp.id)
 
 describe('RecentlyUsedDapps', () => {
   it('renders nothing if there are no recently used dapps', () => {
@@ -64,7 +64,7 @@ describe('RecentlyUsedDapps', () => {
       <Provider
         store={createMockStore({
           dapps: {
-            recentDapps: [],
+            recentDappIds: [],
             dappsList,
           },
         })}
@@ -79,7 +79,7 @@ describe('RecentlyUsedDapps', () => {
   it('renders correctly with all recently used dapps', () => {
     const store = createMockStore({
       dapps: {
-        recentDapps,
+        recentDappIds,
         dappsList,
       },
     })
@@ -93,7 +93,7 @@ describe('RecentlyUsedDapps', () => {
 
     expect(getByText('recentlyUsedDapps')).toBeTruthy()
     expect(getByText('allDapps')).toBeTruthy()
-    expect(dapps).toHaveLength(recentDapps.length)
+    expect(dapps).toHaveLength(recentDappIds.length)
 
     dapps.forEach((dapp, index) => {
       expect(within(dapp).getByText(dappsList[index].name)).toBeTruthy()
@@ -106,7 +106,7 @@ describe('RecentlyUsedDapps', () => {
   it('renders recently used dapps in the correct order', () => {
     const store = createMockStore({
       dapps: {
-        recentDapps: ['moola', 'poofcash'],
+        recentDappIds: ['moola', 'poofcash'],
         dappsList,
       },
     })
@@ -129,7 +129,7 @@ describe('RecentlyUsedDapps', () => {
       <Provider
         store={createMockStore({
           dapps: {
-            recentDapps,
+            recentDappIds,
             dappsList,
           },
         })}
@@ -149,7 +149,7 @@ describe('RecentlyUsedDapps', () => {
       <Provider
         store={createMockStore({
           dapps: {
-            recentDapps,
+            recentDappIds,
             dappsList,
           },
         })}
@@ -175,7 +175,7 @@ describe('RecentlyUsedDapps', () => {
         <Provider
           store={createMockStore({
             dapps: {
-              recentDapps,
+              recentDappIds,
               dappsList,
             },
           })}
@@ -213,7 +213,7 @@ describe('RecentlyUsedDapps', () => {
         <Provider
           store={createMockStore({
             dapps: {
-              recentDapps,
+              recentDappIds,
               dappsList,
             },
           })}
