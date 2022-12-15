@@ -924,4 +924,12 @@ export const migrations = {
     ...state,
     app: _.omit(state.app, 'paymentDeepLinkHandler'),
   }),
+  97: (state: any) => ({
+    ...state,
+    dapps: {
+      ...state.dapps,
+      dappFavoritesEnabled: false,
+      favoriteDapps: [],
+    },
+  }),
 }
