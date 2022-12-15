@@ -1350,6 +1350,8 @@
     "transactionDetails": "Деталі транзакції",
     "paymentMethodVia": "Підключення через {{providerName}}",
     "receiveAmount": "Ви отримаєте",
+    "bankFeeDisclaimer": "Ваш банк може стягувати додаткові збори за ваш переказ.",
+    "mobileMoneyFeeDisclaimer": "Оператор мобільних грошей може стягувати додаткові збори за ваш переказ.",
     "cashIn": {
       "header": "Перегляд - Поповнити кошти",
       "button": "Додати кошти",

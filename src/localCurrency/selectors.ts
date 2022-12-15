@@ -21,7 +21,7 @@ function getCountryCurrencies(e164PhoneNumber: string) {
   return country ? country.currencies : []
 }
 
-const getDefaultLocalCurrencyCode = createSelector(
+export const getDefaultLocalCurrencyCode = createSelector(
   e164NumberSelector,
   (e164PhoneNumber): LocalCurrencyCode => {
     // Note: we initially tried using the device locale for getting the currencies (`RNLocalize.getCurrencies()`)

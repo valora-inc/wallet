@@ -1344,6 +1344,8 @@
     "transactionDetails": "交易详情",
     "paymentMethodVia": "已通过 {{providerName}} 关联",
     "receiveAmount": "您将收到",
+    "bankFeeDisclaimer": "你的银行可能对你的转账收取额外费用。",
+    "mobileMoneyFeeDisclaimer": "您的移动支付运营商可能会对您的转账收取额外费用。",
     "cashIn": {
       "header": "查看 — 添加资金",
       "button": "添加资金",
