@@ -305,6 +305,7 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     centralPhoneVerificationEnabled: flags.centralPhoneVerificationEnabled.asBoolean(),
     networkTimeoutSeconds: flags.networkTimeoutSeconds.asNumber(),
     dappFavoritesEnabled: flags.dappFavoritesEnabled.asBoolean(),
+    celoNewsEnabled: flags.celoNewsEnabled.asBoolean(),
   }
 }
 
