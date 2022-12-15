@@ -141,11 +141,12 @@ async function onboardAndBeginTransferOut(token, fundingAmount, cashOutAmount) {
   try {
     // expand dropdown for "Bank Account" providers section
     await element(by.id('Bank/section')).tap()
+    await element(by.id('image-Test Provider').withAncestor(by.id('Bank/providerList'))).tap()
   } catch (error) {
     // expected when only one provider exists for "Bank" fiat account type
     await expect(element(by.id('Bank/singleprovider')))
+    await element(by.id('image-Test Provider').withAncestor(by.id('Bank/singleProviderInfo'))).tap()
   }
-  await element(by.id('image-Test Provider').withAncestor(by.id('Bank/providerList'))).tap()
   await enterPinUiIfNecessary()
 
   return walletAddress
