@@ -58,6 +58,7 @@ export interface State {
   centralPhoneVerificationEnabled: boolean
   inviterAddress: string | null
   networkTimeoutSeconds: number
+  celoNewsEnabled: boolean
 }
 
 const initialState = {
@@ -110,6 +111,7 @@ const initialState = {
   centralPhoneVerificationEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.centralPhoneVerificationEnabled,
   inviterAddress: null,
   networkTimeoutSeconds: REMOTE_CONFIG_VALUES_DEFAULTS.networkTimeoutSeconds,
+  celoNewsEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.celoNewsEnabled,
 }
 
 export const appReducer = (

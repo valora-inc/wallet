@@ -211,6 +211,7 @@ export interface RemoteConfigValues {
   centralPhoneVerificationEnabled: boolean
   networkTimeoutSeconds: number
   dappFavoritesEnabled: boolean
+  celoNewsEnabled: boolean
 }
 
 export function* appRemoteFeatureFlagSaga() {

@@ -932,4 +932,5 @@ export const migrations = {
       favoriteDapps: [],
     },
   }),
+  98: (state: any) => state,
 }
