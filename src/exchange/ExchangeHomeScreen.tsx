@@ -14,6 +14,7 @@ import { fetchExchangeRate } from 'src/exchange/actions'
 import CeloExchangeButtons from 'src/exchange/CeloExchangeButtons'
 import CeloGoldHistoryChart from 'src/exchange/CeloGoldHistoryChart'
 import CeloGoldOverview from 'src/exchange/CeloGoldOverview'
+import CeloNewsFeed from 'src/exchange/CeloNewsFeed'
 import { useDollarToCeloExchangeRate } from 'src/exchange/hooks'
 import { exchangeHistorySelector } from 'src/exchange/reducer'
 import RestrictedCeloExchange from 'src/exchange/RestrictedCeloExchange'
@@ -168,17 +169,23 @@ function ExchangeHomeScreen() {
           </View>
 
           <CeloGoldHistoryChart />
-          {!inAppSwapsEnabled &&
-            (RESTRICTED_CP_DOTO ? (
-              <RestrictedCeloExchange onPressWithdraw={goToWithdrawCelo} />
-            ) : (
-              <CeloExchangeButtons />
-            ))}
-          <ItemSeparator />
-          <CeloGoldOverview testID="ExchangeAccountOverview" />
-          <ItemSeparator />
-          <SectionHead text={t('activity')} />
-          <TransactionsList feedType={FeedType.EXCHANGE} />
+          {false ? (
+            <>
+              {!inAppSwapsEnabled &&
+                (RESTRICTED_CP_DOTO ? (
+                  <RestrictedCeloExchange onPressWithdraw={goToWithdrawCelo} />
+                ) : (
+                  <CeloExchangeButtons />
+                ))}
+              <ItemSeparator />
+              <CeloGoldOverview testID="ExchangeAccountOverview" />
+              <ItemSeparator />
+              <SectionHead text={t('activity')} />
+              <TransactionsList feedType={FeedType.EXCHANGE} />
+            </>
+          ) : (
+            <CeloNewsFeed />
+          )}
         </SafeAreaView>
       </Animated.ScrollView>
     </SafeAreaView>
