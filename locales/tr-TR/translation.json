@@ -1346,6 +1346,8 @@
     "transactionDetails": "İşlem detayları",
     "paymentMethodVia": "{{providerName}} üzerinden bağlantı",
     "receiveAmount": "Alacağınız",
+    "bankFeeDisclaimer": "Bankanız transferiniz için ek ücret talep edebilir.",
+    "mobileMoneyFeeDisclaimer": "Mobil para operatörünüz transferiniz için ek ücret talep edebilir.",
     "cashIn": {
       "header": "Gözden Geçir - Bakiye Ekle",
       "button": "Bakiye Ekle",

@@ -1846,6 +1846,19 @@ export const v96Schema = {
   app: _.omit(v95Schema.app, 'paymentDeepLinkHandler'),
 }
 
+export const v97Schema = {
+  ...v96Schema,
+  _persist: {
+    ...v96Schema._persist,
+    version: 97,
+  },
+  dapps: {
+    ...v96Schema.dapps,
+    dappFavoritesEnabled: false,
+    favoriteDapps: [],
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v96Schema as Partial<RootState>
+  return v97Schema as Partial<RootState>
 }
