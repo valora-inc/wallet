@@ -75,8 +75,8 @@ export const slice = createSlice({
       state.recentDappIds = state.recentDappIds.filter((recentDappId) =>
         dappIds.includes(recentDappId)
       )
-      state.favoriteDappIds = state.favoriteDappIds.filter((favouriteDappId) =>
-        dappIds.includes(favouriteDappId)
+      state.favoriteDappIds = state.favoriteDappIds.filter((favoriteDappId) =>
+        dappIds.includes(favoriteDappId)
       )
     },
     fetchDappsListFailed: (state, action: PayloadAction<FetchDappsListErrorAction>) => {

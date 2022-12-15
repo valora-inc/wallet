@@ -3365,7 +3365,7 @@
                 "dappsWebViewEnabled": {
                     "type": "boolean"
                 },
-                "favoriteDapps": {
+                "favoriteDappIds": {
                     "items": {
                         "type": "string"
                     },
@@ -3374,7 +3374,7 @@
                 "maxNumRecentDapps": {
                     "type": "number"
                 },
-                "recentDapps": {
+                "recentDappIds": {
                     "items": {
                         "type": "string"
                     },
@@ -3391,9 +3391,9 @@
                 "dappsListError",
                 "dappsListLoading",
                 "dappsWebViewEnabled",
-                "favoriteDapps",
+                "favoriteDappIds",
                 "maxNumRecentDapps",
-                "recentDapps"
+                "recentDappIds"
             ],
             "type": "object"
         },
