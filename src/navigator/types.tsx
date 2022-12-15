@@ -126,6 +126,10 @@ export type StackParamList = {
     currency: Currency
     exchanges: ExternalExchangeProvider[]
   }
+  [Screens.ExchangeQR]: {
+    flow: CICOFlow
+    exchanges: ExternalExchangeProvider[]
+  }
   [Screens.FiatExchange]: undefined
   [Screens.FiatExchangeAmount]: {
     currency: Currency
