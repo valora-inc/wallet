@@ -9,6 +9,7 @@ ignores: [
   "react-native-fast-crypto", # react-native-bip39 requires
   "react-native-version",
   "react-native-kill-packager",
+  "remote-redux-devtools", # for easy debugging with Flipper
   "ts-node",
   "tslib", # required for importHelpers flag in tsconfig.json
   "typescript-json-schema", # helps manage redux state migrations
