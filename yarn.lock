@@ -19311,12 +19311,12 @@ svg-arc-to-cubic-bezier@^3.0.0:
   resolved "https://registry.yarnpkg.com/svg-arc-to-cubic-bezier/-/svg-arc-to-cubic-bezier-3.2.0.tgz#390c450035ae1c4a0104d90650304c3bc814abe6"
   integrity sha512-djbJ/vZKZO+gPoSDThGNpKDO+o+bAeA4XQKovvkNCqnIS2t+S4qnLAGQhyyrulhCFRl1WWzAp0wUDV8PpTVU3g==
 
-svgs@^4.1.1:
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/svgs/-/svgs-4.1.1.tgz#cff1b5caaf9e3a5e51e75c1ea16df6fa54941505"
-  integrity sha512-5QDy6nu4EcBvebNoRQ6iiXfqt/IB2hKdeh5rXwEuoywKX/YtfK8xFggQWSwR24dKpK+C1n7kzBAhPa0bUOrV6A==
+svgs@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/svgs/-/svgs-4.2.0.tgz#4e228f7f29f78a31cef45702d4120988a6a6d38d"
+  integrity sha512-CEIXX7gjwyv7XtgeQQlHiB8TTQeJ1QtoRvz2kkmnyFYfuj1a4PwdwiooTa+OvXrGorCJEMpr7+9EJ6lfjtY/AQ==
   dependencies:
-    prop-types "^15.5.10"
+    prop-types "^15.7.2"
     rip-out "^1.0.0"
 
 swarm-js@^0.1.40:
