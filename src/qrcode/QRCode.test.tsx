@@ -14,13 +14,12 @@ describe('QRCode', () => {
       account: mockAccount,
     },
   })
-  it('renders correctly', () => {
+  it.each(Object.values(QRCodeDataType))('renders correctly', (dataType) => {
     const tree = render(
       <Provider store={store}>
-        <QRCode dataType={QRCodeDataType.ValoraDeepLink} qrSvgRef={{ current: null }} />
+        <QRCode dataType={dataType} qrSvgRef={{ current: null }} />
       </Provider>
     )
-
     expect(tree).toMatchSnapshot()
   })
 })
