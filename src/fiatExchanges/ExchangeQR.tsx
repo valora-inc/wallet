@@ -2,7 +2,7 @@ import { RouteProp } from '@react-navigation/native'
 import { StackParamList } from 'src/navigator/types'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useRef, useState, useLayoutEffect } from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, View, Text } from 'react-native'
 import { useDispatch } from 'react-redux'
 import { Screens } from 'src/navigator/Screens'
@@ -112,9 +112,8 @@ export default function ExchangeQR({ route, navigation }: Props) {
         testID="copyButton"
       />
 
-      <View style={styles.infoWrapper}>
-        <Text style={[fontStyles.regular, styles.exchangeText]}>
-          {t('fiatExchangeFlow.exchange.informationPartOne')}
+      <Text style={[styles.infoWrapper, fontStyles.regular, styles.exchangeText]}>
+        <Trans i18nKey="fiatExchangeFlow.exchange.informationText">
           <Text
             testID="bottomSheetLink"
             style={[fontStyles.regular600, styles.link]}
@@ -122,9 +121,8 @@ export default function ExchangeQR({ route, navigation }: Props) {
           >
             {t('fiatExchangeFlow.exchange.informationPartTwo')}
           </Text>
-          {t('fiatExchangeFlow.exchange.informationPartThree')}
-        </Text>
-      </View>
+        </Trans>
+      </Text>
       <ExchangesBottomSheet
         isVisible={!!bottomSheetVisible}
         onClose={onCloseBottomSheet}

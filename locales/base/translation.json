@@ -1428,9 +1428,7 @@
     },
     "exchange": {
       "copyAddress": "Copy Address",
-      "informationPartOne": "Only use exchanges or assets ",
-      "informationPartTwo": "compatible with the Celo network ",
-      "informationPartThree": "to prevent loss of funds.",
+      "informationText": "Only use exchanges or assets <0>compatible with the Celo network</0> to prevent loss of funds",
       "bottomSheetTitle": "What exchanges can I use to deposit funds?",
       "bottomSheetInfo": "Double check that you are sending assets that are compatible with the Celo network."
     }
