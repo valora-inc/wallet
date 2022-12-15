@@ -1288,8 +1288,8 @@
     "header": "Zahlungsmethode auswählen",
     "newLabel": "NEU",
     "newDialog": {
-      "title": "Neue Wege zum Geldtransfer",
-      "body": "Wir bieten neue Möglichkeiten, Geld von und auf Bankkonten zu überweisen, direkt von der Valora-App aus.\n\nWenn du dies siehst, bedeutet das, dass du in deiner Region auf diese Funktion zugreifen kannst.",
+      "title": "Neue Möglichkeiten, Geld zu überweisen",
+      "body": "Wir stellen neue Möglichkeiten vor, Geld an ein und von einem Bankkonto zu überweisen – direkt in der Valora-App.\n\nWenn du diese Nachricht siehst, kannst du in deiner Region auf diese Funktion zugreifen.",
       "dismiss": "Verwerfen"
     }
   },
@@ -1346,6 +1346,8 @@
     "transactionDetails": "Transaktiondetails",
     "paymentMethodVia": "Über {{providerName}} verbunden",
     "receiveAmount": "Du wirst erhalten",
+    "bankFeeDisclaimer": "Deine Bank kann zusätzliche Gebühren für deine Überweisung verlangen.",
+    "mobileMoneyFeeDisclaimer": "Dein Mobilfunkanbieter kann zusätzliche Gebühren für deine Überweisung verlangen.",
     "cashIn": {
       "header": "Guthaben hinzufügen überprüfen",
       "button": "Guthaben hinzufügen",
@@ -1386,8 +1388,8 @@
       "header": "Erfolg",
       "title": "Dein Guthaben ist unterwegs.",
       "description": "Deine Transaktionsanfrage wurde versendet. Dein Geld wird in {{duration}} eintreffen.",
-      "description1to3Days": "Deine Transaktionsanfrage wurde abgeschickt und dein Geld wird in 1-3 Tagen ankommen.",
-      "description24Hours": "Deine Transaktionsanfrage wurde abgeschickt und dein Geld wird innerhalb von 24 Stunden ankommen.",
+      "description1to3Days": "Deine Transaktionsanfrage wurde gesendet. Du erhältst dein Geld in 1–3 Tagen.",
+      "description24Hours": "Deine Transaktionsanfrage wurde gesendet. Du erhältst dein Geld innerhalb von 24 Stunden.",
       "txDetails": "Auf CeloExplorer anzeigen",
       "continue": "Weiter"
     },
@@ -1467,7 +1469,7 @@
     "ifsc": {
       "label": "IFSC",
       "placeholderText": "IFSC eingeben",
-      "errorMessage": "Ungültige IFSC"
+      "errorMessage": "Ungültiger IFSC"
     }
   },
   "webView": {

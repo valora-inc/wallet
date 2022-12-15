@@ -1292,8 +1292,8 @@
     "header": "Wybierz metodę płatności",
     "newLabel": "NOWI",
     "newDialog": {
-      "title": "New ways to transfer funds",
-      "body": "We are releasing new ways to transfer funds to and from bank accounts, directly from the Valora app.\n\nIf you are seeing this, it means you are able to access this feature in your region.",
+      "title": "Nowe sposoby przesyłania środków",
+      "body": "Udostępniamy nowe sposoby przesyłania środków na rachunki bankowe i z nich, bezpośrednio z aplikacji Valora.\n\nJeśli widzisz tę informację, oznacza to, że w Twoim regionie jest oferowany dostęp do tej funkcji.",
       "dismiss": "Odrzuć"
     }
   },
@@ -1350,6 +1350,8 @@
     "transactionDetails": "Szczegóły transakcji",
     "paymentMethodVia": "Połączono przez {{providerName}}",
     "receiveAmount": "Otrzymasz",
+    "bankFeeDisclaimer": "Twój bank może pobierać dodatkowe opłaty za przelew.",
+    "mobileMoneyFeeDisclaimer": "Twój operator telefonii komórkowej może pobierać dodatkowe opłaty za przelew.",
     "cashIn": {
       "header": "Analizuj – Dodaj środki",
       "button": "Dodaj środki",

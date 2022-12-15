@@ -24,6 +24,9 @@ jobs:
         run: git diff --exit-code
       - name: Check E2E wallet balance
         run: NODE_OPTIONS='--unhandled-rejections=strict' yarn ts-node ./e2e/scripts/check-e2e-wallet-balance.ts
+      - name: Create Android E2E .env File
+        working-directory: e2e
+        run: echo WALLET_CONNECT_PROJECT_ID_E2E=${{ secrets.WALLET_CONNECT_PROJECT_ID_E2E }} >> .env
       - name: Create Detox Build
         run: |
           export CELO_TEST_CONFIG=e2e

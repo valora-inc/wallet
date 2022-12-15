@@ -59,10 +59,6 @@ import {
   mockTransactionData,
 } from 'test/values'
 
-jest.mock('src/utils/time', () => ({
-  clockInSync: () => true,
-}))
-
 jest.mock('src/invite/saga', () => ({
   sendInvite: jest.fn(),
 }))

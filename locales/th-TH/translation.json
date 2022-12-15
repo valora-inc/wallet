@@ -1284,10 +1284,10 @@
     "lessThan24Hours": "ไม่เกิน 24 ชั่วโมง",
     "bestRate": "อัตราที่ดีที่สุด",
     "header": "เลือกวิธีการชำระเงิน",
-    "newLabel": "NEW",
+    "newLabel": "ใหม่",
     "newDialog": {
-      "title": "New ways to transfer funds",
-      "body": "We are releasing new ways to transfer funds to and from bank accounts, directly from the Valora app.\n\nIf you are seeing this, it means you are able to access this feature in your region.",
+      "title": "วิธีการโอนเงินแบบใหม่",
+      "body": "เรากำลังจะใช้วิธีการโอนเงินแบบใหม่ระหว่างบัญชีธนาคารโดยตรงจากแอป Valora\n\nหากคุณเห็นข้อความนี้ แสดงว่าคุณสามารถเข้าใช้งานคุณสมบัตินี้ได้ในภูมิภาคของคุณ",
       "dismiss": "ปิด"
     }
   },
@@ -1344,6 +1344,8 @@
     "transactionDetails": "รายละเอียดธุรกรรม",
     "paymentMethodVia": "เชื่อมต่อแล้วผ่าน {{providerName}}",
     "receiveAmount": "คุณจะได้รับ",
+    "bankFeeDisclaimer": "Your bank may charge additional fees for your transfer.",
+    "mobileMoneyFeeDisclaimer": "Your mobile money operator may charge additional fees for your transfer.",
     "cashIn": {
       "header": "ตรวจสอบการเพิ่มเงินทุน",
       "button": "เพิ่มเงินทุน",
@@ -1384,8 +1386,8 @@
       "header": "สำเร็จ",
       "title": "คุณกำลังจะได้รับเงินเร็วๆ นี้",
       "description": "ส่งคำขอธุรกรรมของคุณแล้ว และคุณจะได้รับเงินใน {{duration}}",
-      "description1to3Days": "Your transaction request has been sent & your funds will arrive in 1-3 days.",
-      "description24Hours": "Your transaction request has been sent & your funds will arrive within 24 hours.",
+      "description1to3Days": "ส่งคำขอธุรกรรมของคุณแล้ว และคุณจะได้รับเงินใน 1-3 วัน",
+      "description24Hours": "ส่งคำขอธุรกรรมของคุณแล้ว และคุณจะได้รับเงินใน 24 ชั่วโมง",
       "txDetails": "ดูใน CeloExplorer",
       "continue": "ดำเนินการต่อ"
     },
@@ -1464,8 +1466,8 @@
     },
     "ifsc": {
       "label": "IFSC",
-      "placeholderText": "Enter IFSC",
-      "errorMessage": "Invalid IFSC"
+      "placeholderText": "ป้อน IFSC",
+      "errorMessage": "IFSC ไม่ถูกต้อง"
     }
   },
   "webView": {
