@@ -58,3 +58,5 @@ export const dappCategoriesByIdSelector = createSelector(
 )
 
 export const dappConnectInfoSelector = (state: RootState) => state.dapps.dappConnectInfo
+
+export const dappFavoritesEnabledSelector = (state: RootState) => state.dapps.dappFavoritesEnabled
