@@ -1350,6 +1350,8 @@
     "transactionDetails": "Детали транзакции",
     "paymentMethodVia": "Соединение через {{providerName}}",
     "receiveAmount": "Ты получишь",
+    "bankFeeDisclaimer": "Твой банк может взимать дополнительные комиссии за твой перевод.",
+    "mobileMoneyFeeDisclaimer": "Твой оператор мобильных денег может взимать дополнительную плату за перевод.",
     "cashIn": {
       "header": "Проверить - Внести средства",
       "button": "Внести средства",

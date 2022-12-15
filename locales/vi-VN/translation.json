@@ -1344,6 +1344,8 @@
     "transactionDetails": "Thông tin giao dịch",
     "paymentMethodVia": "Đã kết nối qua {{providerName}}",
     "receiveAmount": "Bạn sẽ nhận được",
+    "bankFeeDisclaimer": "Your bank may charge additional fees for your transfer.",
+    "mobileMoneyFeeDisclaimer": "Your mobile money operator may charge additional fees for your transfer.",
     "cashIn": {
       "header": "Xem lại thông tin nạp tiền",
       "button": "Nạp tiền",

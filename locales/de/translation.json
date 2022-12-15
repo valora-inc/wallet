@@ -1346,6 +1346,8 @@
     "transactionDetails": "Transaktiondetails",
     "paymentMethodVia": "Über {{providerName}} verbunden",
     "receiveAmount": "Du wirst erhalten",
+    "bankFeeDisclaimer": "Deine Bank kann zusätzliche Gebühren für deine Überweisung verlangen.",
+    "mobileMoneyFeeDisclaimer": "Dein Mobilfunkanbieter kann zusätzliche Gebühren für deine Überweisung verlangen.",
     "cashIn": {
       "header": "Guthaben hinzufügen überprüfen",
       "button": "Guthaben hinzufügen",
