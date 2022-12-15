@@ -116,7 +116,7 @@ export function PaymentMethodSection({
   )
 
   const renderProviderInfo = (quote: NormalizedQuote) => (
-    <View style={styles.providerInfoContainer}>
+    <View testID={`${paymentMethod}/singleProviderInfo`} style={styles.providerInfoContainer}>
       <View style={styles.imageContainer}>
         <Image
           testID={`image-${quote.getProviderName()}`}
