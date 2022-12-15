@@ -928,8 +928,8 @@ export const migrations = {
     ...state,
     dapps: {
       ...state.dapps,
-      dappFavouritesEnabled: false,
-      favouriteDapps: [],
+      dappFavoritesEnabled: false,
+      favoriteDapps: [],
     },
   }),
 }

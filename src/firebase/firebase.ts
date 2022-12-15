@@ -304,7 +304,7 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     showGuidedOnboardingCopy: flags.showGuidedOnboardingCopy.asBoolean(),
     centralPhoneVerificationEnabled: flags.centralPhoneVerificationEnabled.asBoolean(),
     networkTimeoutSeconds: flags.networkTimeoutSeconds.asNumber(),
-    dappFavouritesEnabled: flags.dappFavouritesEnabled.asBoolean(),
+    dappFavoritesEnabled: flags.dappFavoritesEnabled.asBoolean(),
   }
 }
 

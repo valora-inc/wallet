@@ -1854,8 +1854,8 @@ export const v97Schema = {
   },
   dapps: {
     ...v96Schema.dapps,
-    dappFavouritesEnabled: false,
-    favouriteDapps: [],
+    dappFavoritesEnabled: false,
+    favoriteDapps: [],
   },
 }
 

@@ -3332,7 +3332,7 @@
                 "dappConnectInfo": {
                     "$ref": "#/definitions/DappConnectInfo"
                 },
-                "dappFavouritesEnabled": {
+                "dappFavoritesEnabled": {
                     "type": "boolean"
                 },
                 "dappListApiUrl": {
@@ -3365,7 +3365,7 @@
                 "dappsWebViewEnabled": {
                     "type": "boolean"
                 },
-                "favouriteDapps": {
+                "favoriteDapps": {
                     "items": {
                         "$ref": "#/definitions/Dapp"
                     },
@@ -3384,14 +3384,14 @@
             "required": [
                 "activeDapp",
                 "dappConnectInfo",
-                "dappFavouritesEnabled",
+                "dappFavoritesEnabled",
                 "dappListApiUrl",
                 "dappsCategories",
                 "dappsList",
                 "dappsListError",
                 "dappsListLoading",
                 "dappsWebViewEnabled",
-                "favouriteDapps",
+                "favoriteDapps",
                 "maxNumRecentDapps",
                 "recentDapps"
             ],

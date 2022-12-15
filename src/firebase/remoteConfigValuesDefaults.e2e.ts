@@ -69,5 +69,5 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   showGuidedOnboardingCopy: false,
   centralPhoneVerificationEnabled: true,
   networkTimeoutSeconds: 30,
-  dappFavouritesEnabled: false,
+  dappFavoritesEnabled: false,
 }
