@@ -36,10 +36,6 @@ export enum StatsigDynamicConfigs {
   USERNAME_BLOCK_LIST = 'username_block_list',
 }
 
-export enum StatsigEvents {
-  ONBOARDING_NAME_STEP_COMPLETE = 'onboarding_name_step_complete',
-}
-
 export enum StatsigExperiments {
   ADD_FUNDS_CRYPTO_EXCHANGE_QR_CODE = 'add_funds_crypto_exchange_qr_code',
 }
