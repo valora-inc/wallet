@@ -2,6 +2,7 @@ import { fireEvent, render, within } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { Dapp } from 'src/dapps/types'
 import RecentlyUsedDapps from 'src/home/RecentlyUsedDapps'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -16,7 +17,7 @@ jest.mock('lodash', () => ({
   debounce: jest.fn((fn) => fn),
 }))
 
-const recentDapps = [
+const dappsList: Dapp[] = [
   {
     name: 'Ubeswap',
     description: 'Swap any token, enter a pool, or farm your crypto',
@@ -55,6 +56,8 @@ const recentDapps = [
   },
 ]
 
+const recentDapps = dappsList.map((dapp) => dapp.id)
+
 describe('RecentlyUsedDapps', () => {
   it('renders nothing if there are no recently used dapps', () => {
     const { queryByTestId } = render(
@@ -62,6 +65,7 @@ describe('RecentlyUsedDapps', () => {
         store={createMockStore({
           dapps: {
             recentDapps: [],
+            dappsList,
           },
         })}
       >
@@ -76,6 +80,7 @@ describe('RecentlyUsedDapps', () => {
     const store = createMockStore({
       dapps: {
         recentDapps,
+        dappsList,
       },
     })
     const { getByText, getAllByTestId } = render(
@@ -91,11 +96,31 @@ describe('RecentlyUsedDapps', () => {
     expect(dapps).toHaveLength(recentDapps.length)
 
     dapps.forEach((dapp, index) => {
-      expect(within(dapp).getByText(recentDapps[index].name)).toBeTruthy()
+      expect(within(dapp).getByText(dappsList[index].name)).toBeTruthy()
       expect(within(dapp).getByTestId('RecentDapp-icon').props.source.uri).toEqual(
-        recentDapps[index].iconUrl
+        dappsList[index].iconUrl
       )
     })
+  })
+
+  it('renders recently used dapps in the correct order', () => {
+    const store = createMockStore({
+      dapps: {
+        recentDapps: ['moola', 'poofcash'],
+        dappsList,
+      },
+    })
+    const { getAllByTestId } = render(
+      <Provider store={store}>
+        <RecentlyUsedDapps onSelectDapp={jest.fn()} />
+      </Provider>
+    )
+
+    const dapps = getAllByTestId('RecentDapp')
+
+    expect(dapps).toHaveLength(2)
+    expect(within(dapps[0]).getByText(dappsList[1].name)).toBeTruthy()
+    expect(within(dapps[1]).getByText(dappsList[3].name)).toBeTruthy()
   })
 
   it('fires the correct callback on press dapp', () => {
@@ -105,6 +130,7 @@ describe('RecentlyUsedDapps', () => {
         store={createMockStore({
           dapps: {
             recentDapps,
+            dappsList,
           },
         })}
       >
@@ -115,7 +141,7 @@ describe('RecentlyUsedDapps', () => {
     fireEvent.press(getAllByTestId('RecentDapp')[1])
 
     expect(selectDappSpy).toHaveBeenCalledTimes(1)
-    expect(selectDappSpy).toHaveBeenCalledWith({ ...recentDapps[1], openedFrom: 'recently used' })
+    expect(selectDappSpy).toHaveBeenCalledWith({ ...dappsList[1], openedFrom: 'recently used' })
   })
 
   it('navigates to dapp explorer screen', () => {
@@ -124,6 +150,7 @@ describe('RecentlyUsedDapps', () => {
         store={createMockStore({
           dapps: {
             recentDapps,
+            dappsList,
           },
         })}
       >
@@ -149,6 +176,7 @@ describe('RecentlyUsedDapps', () => {
           store={createMockStore({
             dapps: {
               recentDapps,
+              dappsList,
             },
           })}
         >
@@ -186,6 +214,7 @@ describe('RecentlyUsedDapps', () => {
           store={createMockStore({
             dapps: {
               recentDapps,
+              dappsList,
             },
           })}
         >

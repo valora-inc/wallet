@@ -8,16 +8,15 @@ export interface State {
   dappsWebViewEnabled: boolean
   activeDapp: ActiveDapp | null
   maxNumRecentDapps: number
-  recentDapps: Dapp[]
+  recentDapps: string[]
   dappListApiUrl: string | null
-  // TODO: update type of recentDapps and activeDapp to be string
   dappsList: Dapp[]
   dappsListLoading: boolean
   dappsListError: string | null
   dappsCategories: DappCategory[]
   dappConnectInfo: DappConnectInfo
   dappFavouritesEnabled: boolean
-  favouriteDapps: Dapp[]
+  favouriteDapps: string[]
 }
 
 const initialState: State = {
@@ -54,8 +53,8 @@ export const slice = createSlice({
   reducers: {
     dappSelected: (state, action: PayloadAction<DappSelectedAction>) => {
       state.recentDapps = [
-        action.payload.dapp,
-        ...state.recentDapps.filter((recentDapp) => recentDapp.id !== action.payload.dapp.id),
+        action.payload.dapp.id,
+        ...state.recentDapps.filter((recentDapp) => recentDapp !== action.payload.dapp.id),
       ]
       state.activeDapp = action.payload.dapp
     },
@@ -67,10 +66,16 @@ export const slice = createSlice({
       state.dappsListError = null
     },
     fetchDappsListCompleted: (state, action: PayloadAction<FetchDappsListCompletedAction>) => {
+      const dappIds = action.payload.dapps.map((dapp) => dapp.id)
+
       state.dappsListLoading = false
       state.dappsListError = null
       state.dappsList = action.payload.dapps
       state.dappsCategories = action.payload.categories
+      state.recentDapps = state.recentDapps.filter((recentDapp) => dappIds.includes(recentDapp))
+      state.favouriteDapps = state.favouriteDapps.filter((favouriteDapp) =>
+        dappIds.includes(favouriteDapp)
+      )
     },
     fetchDappsListFailed: (state, action: PayloadAction<FetchDappsListErrorAction>) => {
       state.dappsListLoading = false

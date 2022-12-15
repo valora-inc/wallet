@@ -3367,7 +3367,7 @@
                 },
                 "favouriteDapps": {
                     "items": {
-                        "$ref": "#/definitions/Dapp"
+                        "type": "string"
                     },
                     "type": "array"
                 },
@@ -3376,7 +3376,7 @@
                 },
                 "recentDapps": {
                     "items": {
-                        "$ref": "#/definitions/Dapp"
+                        "type": "string"
                     },
                     "type": "array"
                 }

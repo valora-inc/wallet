@@ -1859,6 +1859,14 @@ export const v97Schema = {
   },
 }
 
+export const v98Schema = {
+  ...v97Schema,
+  _persist: {
+    ...v97Schema._persist,
+    version: 98,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v97Schema as Partial<RootState>
+  return v98Schema as Partial<RootState>
 }
