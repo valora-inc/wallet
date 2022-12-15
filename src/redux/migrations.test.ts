@@ -33,12 +33,13 @@ import {
   v58Schema,
   v59Schema,
   v62Schema,
-  v7Schema,
   v75Schema,
-  v8Schema,
-  vNeg1Schema,
+  v7Schema,
   v81Schema,
   v84Schema,
+  v8Schema,
+  v97Schema,
+  vNeg1Schema,
 } from 'test/schemas'
 
 describe('Redux persist migrations', () => {
@@ -698,6 +699,51 @@ describe('Redux persist migrations', () => {
     const expectedSchema: any = _.cloneDeep(oldSchema)
     delete expectedSchema.app.swapFeeEnabled
     delete expectedSchema.app.swapFeePercentage
+    expect(migratedSchema).toStrictEqual(expectedSchema)
+  })
+
+  it('works from v97 to v98', () => {
+    const oldSchema = {
+      ...v97Schema,
+      dapps: {
+        ...v97Schema.dapps,
+        recentDapps: [
+          {
+            name: 'Ubeswap',
+            description: 'Swap any token, enter a pool, or farm your crypto',
+            dappUrl: 'https://app.ubeswap.org/',
+            categoryId: 'exchanges',
+            iconUrl:
+              'https://raw.githubusercontent.com/valora-inc/dapp-list/main/assets/ubeswap.png',
+            isFeatured: false,
+            id: 'ubeswap',
+          },
+        ],
+        favoriteDapps: [
+          {
+            name: 'Moola',
+            description: 'Lend, borrow, or add to a pool to earn rewards',
+            dappUrl: 'celo://wallet/moolaScreen',
+            categoryId: 'lend',
+            iconUrl: 'https://raw.githubusercontent.com/valora-inc/dapp-list/main/assets/moola.png',
+            isFeatured: false,
+            id: 'moola',
+          },
+        ],
+      },
+    }
+    const migratedSchema = migrations[98](oldSchema)
+
+    const expectedSchema: any = {
+      ...v97Schema,
+      dapps: {
+        ...v97Schema.dapps,
+        recentDappIds: ['ubeswap'],
+        favoriteDappIds: ['moola'],
+      },
+    }
+    delete expectedSchema.dapps.recentDapps
+    delete expectedSchema.dapps.favoriteDapps
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 })
