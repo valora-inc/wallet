@@ -1346,6 +1346,8 @@
     "transactionDetails": "Dettagli della transazione",
     "paymentMethodVia": "Collegato via {{providerName}}",
     "receiveAmount": "Riceverai",
+    "bankFeeDisclaimer": "La tua banca potrebbe addebitare ulteriori spese per il trasferimento.",
+    "mobileMoneyFeeDisclaimer": "Il tuo operatore di telefonia mobile potrebbe addebitare costi aggiuntivi per il tuo trasferimento.",
     "cashIn": {
       "header": "Rivedi - Aggiungi fondi",
       "button": "Aggiungi fondi",

@@ -59,7 +59,7 @@ export const dappCategoriesByIdSelector = createSelector(
 
 export const dappConnectInfoSelector = (state: RootState) => state.dapps.dappConnectInfo
 
-export const dappFavouritesEnabledSelector = (state: RootState) => state.dapps.dappFavouritesEnabled
+export const dappFavoritesEnabledSelector = (state: RootState) => state.dapps.dappFavoritesEnabled
 
 export const recentDappsSelector = createSelector(
   dappsListSelector,

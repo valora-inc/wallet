@@ -210,7 +210,7 @@ export interface RemoteConfigValues {
   showGuidedOnboardingCopy: boolean
   centralPhoneVerificationEnabled: boolean
   networkTimeoutSeconds: number
-  dappFavouritesEnabled: boolean
+  dappFavoritesEnabled: boolean
 }
 
 export function* appRemoteFeatureFlagSaga() {
