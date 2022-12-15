@@ -1346,6 +1346,8 @@
     "transactionDetails": "Detalles de transacción",
     "paymentMethodVia": "Conexión de {{providerName}}",
     "receiveAmount": "Recibirás",
+    "bankFeeDisclaimer": "Tu banco puede cobrarte comisiones adicionales por tu transferencia.",
+    "mobileMoneyFeeDisclaimer": "Tu operador de dinero móvil puede cobrarte comisiones adicionales por tu transferencia.",
     "cashIn": {
       "header": "Revisión - Agregar fondos",
       "button": "Agregar fondos",
