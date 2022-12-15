@@ -42,7 +42,7 @@ describe('ExchangesBottomSheet', () => {
     jest.clearAllMocks()
   })
 
-  function renderPicker(visible: boolean) {
+  function renderExchangesBottomSheet(visible: boolean) {
     return render(
       <ExchangesBottomSheet
         isVisible={visible}
@@ -54,7 +54,7 @@ describe('ExchangesBottomSheet', () => {
   }
 
   it('renders correctly', () => {
-    const tree = renderPicker(true)
+    const tree = renderExchangesBottomSheet(true)
     const { getByTestId } = tree
 
     expect(tree.getByTestId('BottomSheetContainer')).toBeTruthy()
@@ -65,7 +65,7 @@ describe('ExchangesBottomSheet', () => {
   })
 
   it('fires callback on exchange press and navigates', () => {
-    const { getByTestId } = renderPicker(true)
+    const { getByTestId } = renderExchangesBottomSheet(true)
 
     fireEvent.press(getByTestId('Coinbase Pro-Touchable'))
     expect(onExchangeSelectedMock).toHaveBeenLastCalledWith(exchanges[0])
@@ -87,14 +87,14 @@ describe('ExchangesBottomSheet', () => {
   })
 
   it('handles taps on the background correctly', () => {
-    const { getByTestId } = renderPicker(true)
+    const { getByTestId } = renderExchangesBottomSheet(true)
 
     fireEvent.press(getByTestId('BackgroundTouchable'))
     expect(onCloseMock).toHaveBeenCalled()
   })
 
   it('renders nothing if not visible', () => {
-    const { queryByTestId } = renderPicker(false)
+    const { queryByTestId } = renderExchangesBottomSheet(false)
     expect(queryByTestId('BottomSheetContainer')).toBeFalsy()
   })
 })

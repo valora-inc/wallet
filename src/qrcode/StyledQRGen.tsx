@@ -9,8 +9,6 @@ function StyledQRCode({
 }: {
   value: string
   size: number
-  color?: string
-  backgroundColor?: string
   svgRef: React.MutableRefObject<SVG>
 }) {
   return <QRCode value={value} size={size} getRef={(ref) => (svgRef.current = ref)} />

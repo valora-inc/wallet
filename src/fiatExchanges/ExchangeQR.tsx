@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, Text } from 'react-native'
 import { useDispatch } from 'react-redux'
 import { Screens } from 'src/navigator/Screens'
-import { StyledQRCodeDisplay } from 'src/qrcode/QRCode'
+import StyledQRCode from 'src/qrcode/StyledQRCode'
 import { useSelector } from 'react-redux'
 import { SVG, shareQRCode } from 'src/send/actions'
 import Logger from 'src/utils/Logger'
@@ -17,7 +17,7 @@ import { CICOFlow } from './utils'
 import i18n from 'src/i18n'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import Share from 'src/icons/Share'
-import { currentAccountSelector } from 'src/web3/selectors'
+import { walletAddressSelector } from 'src/web3/selectors'
 import { nameSelector } from 'src/account/selectors'
 import variables from 'src/styles/variables'
 import colors from 'src/styles/colors'
@@ -36,7 +36,7 @@ export default function ExchangeQR({ route, navigation }: Props) {
   const { flow, exchanges } = route.params
   const { t } = useTranslation()
   const dispatch = useDispatch()
-  const address = useSelector(currentAccountSelector)
+  const address = useSelector(walletAddressSelector)
   const displayName = useSelector(nameSelector)
 
   const [bottomSheetVisible, setBottomSheetVisible] = useState(false)
@@ -88,7 +88,7 @@ export default function ExchangeQR({ route, navigation }: Props) {
   return (
     <View style={styles.container}>
       <View style={styles.qrContainer}>
-        <StyledQRCodeDisplay qrSvgRef={qrSvgRef} />
+        <StyledQRCode qrSvgRef={qrSvgRef} />
       </View>
 
       {displayName && (

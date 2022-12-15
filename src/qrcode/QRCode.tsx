@@ -5,7 +5,6 @@ import { shallowEqual, useSelector } from 'react-redux'
 import { nameSelector } from 'src/account/selectors'
 import { AvatarSelf } from 'src/components/AvatarSelf'
 import QRCode from 'src/qrcode/QRGen'
-import StyledQRCode from 'src/qrcode/StyledQRGen'
 import { UriData, urlFromUriData } from 'src/qrcode/schema'
 import { RootState } from 'src/redux/reducers'
 import { SVG } from 'src/send/actions'
@@ -18,7 +17,7 @@ interface Props {
   qrSvgRef: React.MutableRefObject<SVG>
 }
 
-const mapStateToProps = (state: RootState): Partial<UriData> => ({
+export const mapStateToProps = (state: RootState): Partial<UriData> => ({
   address: currentAccountSelector(state)!,
   displayName: nameSelector(state) || undefined,
   e164PhoneNumber: state.account.e164PhoneNumber || undefined,
@@ -37,19 +36,6 @@ export default function QRCodeDisplay({ qrSvgRef }: Props) {
         <QRCode value={qrContent} size={variables.width / 2} svgRef={qrSvgRef} />
       </View>
     </SafeAreaView>
-  )
-}
-
-export function StyledQRCodeDisplay({ qrSvgRef }: Props) {
-  const data = useSelector(mapStateToProps, shallowEqual)
-  const qrContent = useMemo(
-    () => urlFromUriData(data),
-    [data.address, data.displayName, data.e164PhoneNumber]
-  )
-  return (
-    <View testID="styledQRCode">
-      <StyledQRCode value={qrContent} size={variables.width / 2} svgRef={qrSvgRef} />
-    </View>
   )
 }
 
