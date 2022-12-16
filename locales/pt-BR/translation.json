@@ -1413,19 +1413,27 @@
       "fiatExchangeSubtitle": "Adicione fundos à sua conta {{appName}} de um banco, cartão ou exchange.",
       "selectCurrencyTitle": "Adicionar Fundos",
       "exchangeAmountTitle": "Adicionar {{currency}}",
-      "selectProviderHeader": "Método de pagamento"
+      "selectProviderHeader": "Método de pagamento",
+      "depositExchangeTitle": "Depósito Crypto"
     },
     "cashOut": {
       "fiatExchangeTitle": "Sacar Fundos",
       "fiatExchangeSubtitle": "Saque fundos do {{appName}} para uma conta bancária, cartão, exchange de criptos ou dinheiro móvel.",
       "selectCurrencyTitle": "Sacar Fundos",
       "exchangeAmountTitle": "Sacar {{currency}}",
-      "selectProviderHeader": "Método de saque"
+      "selectProviderHeader": "Método de saque",
+      "withdrawExchangeTitle": "Retirar Crypto"
     },
     "spend": {
       "fiatExchangeTitle": "Gastar Fundos",
       "fiatExchangeSubtitle": "Gastar em cartões de oferta e outras compras.",
       "selectCurrencyTitle": "Gastar fundos"
+    },
+    "exchange": {
+      "copyAddress": "Endereço para cópia",
+      "informationText": "Utilizar apenas trocas ou activos <0>compatíveis com a rede Celo</0> para evitar a perda de fundos",
+      "bottomSheetTitle": "Que trocas posso utilizar para depositar fundos?",
+      "bottomSheetInfo": "Dupla verificação de que está a enviar bens compatíveis com a rede Celo."
     }
   },
   "fiatDetailsScreen": {
