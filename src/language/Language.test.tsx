@@ -3,6 +3,8 @@ import { localesList } from 'locales'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
+import { SettingsEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import useChangeLanguage from 'src/i18n/useChangeLanguage'
 import Language from 'src/language/Language'
 import { navigate } from 'src/navigator/NavigationService'
@@ -11,6 +13,7 @@ import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mocked } from 'ts-jest/utils'
 
 jest.mock('src/i18n/useChangeLanguage')
+jest.mock('src/analytics/ValoraAnalytics')
 
 const mockedUseChangeLanguage = mocked(useChangeLanguage)
 
@@ -31,6 +34,9 @@ describe('Language', () => {
       jest.runOnlyPendingTimers()
       expect(changeLanguageSpy).toHaveBeenCalledWith(code)
       expect(navigate).toHaveBeenCalledWith(Screens.OnboardingEducationScreen)
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(SettingsEvents.language_select, {
+        language: code,
+      })
     })
   })
 })
