@@ -1249,7 +1249,12 @@
     "message": "Изучите способы использования криптовалюты",
     "errorMessage": "Произошла ошибка при загрузке dapps",
     "featuredDapp": "Подборка",
-    "allDapps": "Все"
+    "allDapps": "Все",
+    "favoriteDapps": "Мои любимые",
+    "noFavorites": {
+      "title": "Избранное не добавлено",
+      "description": "Отслеживай свои самые используемые Dapps, нажимая на значок звезды, чтобы добавить его в избранное"
+    }
   },
   "dappsScreenHelpDialog": {
     "title": "Что такое dapps?",
