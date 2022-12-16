@@ -620,6 +620,11 @@ export enum SwapEvents {
   swap_execute_error = 'swap_execute_error', // When the swap returns an error
 }
 
+export enum CeloNewsEvents {
+  celo_news_article_tap = 'celo_news_article_tap', // When a user taps on a news article
+  celo_news_bottom_read_more_tap = 'celo_news_bottom_read_more_tap', // When a user taps on the read more button at the bottom of the screen
+}
+
 export type AnalyticsEventType =
   | AppEvents
   | HomeEvents
@@ -646,3 +651,4 @@ export type AnalyticsEventType =
   | WebViewEvents
   | CoinbasePayEvents
   | SwapEvents
+  | CeloNewsEvents

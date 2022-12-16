@@ -1,6 +1,8 @@
 import { formatDistanceToNowStrict } from 'date-fns'
 import * as React from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
+import { CeloNewsEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Touchable from 'src/components/Touchable'
 import { CeloNewsArticle } from 'src/exchange/types'
 import { navigate } from 'src/navigator/NavigationService'
@@ -18,7 +20,9 @@ interface Props {
 
 export default function CeloNewsFeedItem({ article, testID }: Props) {
   function onPress() {
-    navigate(Screens.WebViewScreen, { uri: article.link })
+    const url = article.link
+    ValoraAnalytics.track(CeloNewsEvents.celo_news_bottom_read_more_tap, { url })
+    navigate(Screens.WebViewScreen, { uri: url })
   }
 
   return (

@@ -1,6 +1,8 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
+import { CeloNewsEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import CeloNewsFeed from 'src/exchange/CeloNewsFeed'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -27,5 +29,11 @@ describe('CeloNewsFeed', () => {
     expect(navigate).toHaveBeenCalledWith(Screens.WebViewScreen, {
       uri: 'https://blog.celo.org',
     })
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      CeloNewsEvents.celo_news_bottom_read_more_tap,
+      {
+        url: 'https://blog.celo.org',
+      }
+    )
   })
 })
