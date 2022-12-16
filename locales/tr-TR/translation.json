@@ -1245,7 +1245,12 @@
     "message": "Kriptonuzu kullanmanın yollarını keşfedin",
     "errorMessage": "Dapp'ler yüklenirken bir hata oluştu",
     "featuredDapp": "Öne Çıkan",
-    "allDapps": "Tümü"
+    "allDapps": "Tümü",
+    "favoriteDapps": "Favorilerim",
+    "noFavorites": {
+      "title": "Favori eklenmemiş",
+      "description": "Favori olarak eklemek için yıldız simgesine dokunarak en çok kullandığınız Dapp'leri takip edin"
+    }
   },
   "dappsScreenHelpDialog": {
     "title": "Dapp'ler nedir?",
