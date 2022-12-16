@@ -1411,19 +1411,27 @@
       "fiatExchangeSubtitle": "从银行、卡或交易所为您的 {{appName}} 账户添加资金。",
       "selectCurrencyTitle": "添加资金",
       "exchangeAmountTitle": "添加 {{currency}}",
-      "selectProviderHeader": "选择付款方式"
+      "selectProviderHeader": "选择付款方式",
+      "depositExchangeTitle": "存入加密货币"
     },
     "cashOut": {
       "fiatExchangeTitle": "提取资金",
       "fiatExchangeSubtitle": "从 {{appName}} 将资金提取到银行账户、卡、加密货币交易所或手机钱包。",
       "selectCurrencyTitle": "提取资金",
       "exchangeAmountTitle": "提取 {{currency}}",
-      "selectProviderHeader": "选择提取方式"
+      "selectProviderHeader": "选择提取方式",
+      "withdrawExchangeTitle": "提取加密货币"
     },
     "spend": {
       "fiatExchangeTitle": "消费资金",
       "fiatExchangeSubtitle": "用于购买礼品卡和其他物品。",
       "selectCurrencyTitle": "消费资金"
+    },
+    "exchange": {
+      "copyAddress": "复制地址",
+      "informationText": "只使用<0>与Celo网络兼容</0>的交易所或资产，以防止资金损失。",
+      "bottomSheetTitle": "我可以用什么交易所来存入资金？",
+      "bottomSheetInfo": "仔细检查你所发送的资产是否与Celo网络兼容。"
     }
   },
   "fiatDetailsScreen": {
