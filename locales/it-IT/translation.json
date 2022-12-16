@@ -1245,7 +1245,12 @@
     "message": "Esplora i modi per usare le tue criptovalute",
     "errorMessage": "Errore durante il caricamento delle Dapp.",
     "featuredDapp": "In primo piano",
-    "allDapps": "Tutti"
+    "allDapps": "Tutti",
+    "favoriteDapps": "I miei preferiti",
+    "noFavorites": {
+      "title": "Nessun preferito aggiunto",
+      "description": "Tieni traccia delle tue Dapp più utilizzate toccando l'icona a forma di stella per aggiungerle ai preferiti."
+    }
   },
   "dappsScreenHelpDialog": {
     "title": "Che cosa sono le Dapp?",
