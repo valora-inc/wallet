@@ -1,10 +1,13 @@
 import { fireEvent, render, within } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { dappSelected, fetchDappsList } from 'src/dapps/slice'
 import { Dapp, DappCategory, DappSection } from 'src/dapps/types'
 import DAppsExplorerScreen from 'src/dappsExplorer/DAppsExplorerScreen'
 import { createMockStore } from 'test/utils'
+
+jest.mock('src/analytics/ValoraAnalytics')
 
 const dappsList: Dapp[] = [
   {
@@ -49,6 +52,7 @@ const defaultStore = createMockStore({
 describe(DAppsExplorerScreen, () => {
   beforeEach(() => {
     defaultStore.clearActions()
+    jest.clearAllMocks()
   })
 
   it('renders correctly when no featured dapp is available', () => {
@@ -170,6 +174,41 @@ describe(DAppsExplorerScreen, () => {
       expect(within(favoritesSection).queryByText(dappsList[0].name)).toBeFalsy()
       expect(within(favoritesSection).getByText(dappsList[1].name)).toBeTruthy()
       expect(within(favoritesSection).getByText(dappsList[1].description)).toBeTruthy()
+    })
+
+    it('triggers the correct tracking when favoriting and unfavoriting', () => {
+      const store = createMockStore({
+        dapps: {
+          dappListApiUrl: 'http://url.com',
+          dappsList,
+          dappsCategories,
+          dappFavoritesEnabled: true,
+        },
+      })
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <DAppsExplorerScreen />
+        </Provider>
+      )
+
+      // don't include events dispatched on screen load
+      jest.clearAllMocks()
+
+      fireEvent.press(getByTestId('Dapp/Favorite/moola'))
+      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith('dapp_favorite', {
+        categoryId: '2',
+        dappId: 'moola',
+        dappName: 'Moola',
+      })
+
+      fireEvent.press(getByTestId('Dapp/Favorite/moola'))
+      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(2)
+      expect(ValoraAnalytics.track).toHaveBeenNthCalledWith(2, 'dapp_unfavorite', {
+        categoryId: '2',
+        dappId: 'moola',
+        dappName: 'Moola',
+      })
     })
   })
 })

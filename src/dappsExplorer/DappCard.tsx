@@ -35,8 +35,8 @@ function DappCard({ dapp, section, onPressDapp }: Props) {
 
   const onPressFavorite = () => {
     const eventType = isFavorited
-      ? DappExplorerEvents.dapp_favorite
-      : DappExplorerEvents.dapp_unfavorite
+      ? DappExplorerEvents.dapp_unfavorite
+      : DappExplorerEvents.dapp_favorite
     ValoraAnalytics.track(eventType, {
       categoryId: dapp.categoryId,
       dappId: dapp.id,
@@ -57,7 +57,11 @@ function DappCard({ dapp, section, onPressDapp }: Props) {
             <Text style={styles.subtitle}>{dapp.description}</Text>
           </View>
           {dappFavoritesEnabled ? (
-            <Touchable onPress={onPressFavorite} hitSlop={favoriteIconHitslop}>
+            <Touchable
+              onPress={onPressFavorite}
+              hitSlop={favoriteIconHitslop}
+              testID={`Dapp/Favorite/${dapp.id}`}
+            >
               {isFavorited ? <Star /> : <StarOutline />}
             </Touchable>
           ) : (
