@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
+import { DappExplorerEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Card from 'src/components/Card'
 import Touchable from 'src/components/Touchable'
 import { dappFavoritesEnabledSelector } from 'src/dapps/selectors'
@@ -22,7 +24,7 @@ interface Props {
 const favoriteIconHitslop = { top: 20, right: 20, bottom: 20, left: 20 }
 
 function DappCard({ dapp, section, onPressDapp }: Props) {
-  // TODO replace this state with a selector
+  // TODO replace this state with a selector / redux action
   const [isFavorited, setIsFavorited] = useState(false)
 
   const dappFavoritesEnabled = useSelector(dappFavoritesEnabledSelector)
@@ -32,6 +34,15 @@ function DappCard({ dapp, section, onPressDapp }: Props) {
   }
 
   const onPressFavorite = () => {
+    const eventType = isFavorited
+      ? DappExplorerEvents.dapp_favorite
+      : DappExplorerEvents.dapp_unfavorite
+    ValoraAnalytics.track(eventType, {
+      categoryId: dapp.categoryId,
+      dappId: dapp.id,
+      dappName: dapp.name,
+    })
+
     // TODO replace with dispatch favourite dapp action
     setIsFavorited((prev) => !prev)
   }
