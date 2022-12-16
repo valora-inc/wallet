@@ -258,3 +258,5 @@ export const shouldRunVerificationMigrationSelector = createSelector(
 export const inviterAddressSelector = (state: RootState) => state.app.inviterAddress
 
 export const networkTimeoutSecondsSelector = (state: RootState) => state.app.networkTimeoutSeconds
+
+export const celoNewsEnabledSelector = (state: RootState) => state.app.celoNewsEnabled

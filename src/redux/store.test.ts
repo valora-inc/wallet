@@ -93,7 +93,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 97,
+          "version": 99,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -130,6 +130,7 @@ describe('store state', () => {
           "cashInButtonExpEnabled": false,
           "celoEducationUri": null,
           "celoEuroEnabled": true,
+          "celoNewsEnabled": false,
           "centralPhoneVerificationEnabled": true,
           "coinbasePayEnabled": false,
           "createAccountCopyTestType": "ACCOUNT",
@@ -189,9 +190,9 @@ describe('store state', () => {
           "dappsListError": null,
           "dappsListLoading": false,
           "dappsWebViewEnabled": false,
-          "favoriteDapps": Array [],
+          "favoriteDappIds": Array [],
           "maxNumRecentDapps": 0,
-          "recentDapps": Array [],
+          "recentDappIds": Array [],
         },
         "escrow": Object {
           "isReclaiming": false,
