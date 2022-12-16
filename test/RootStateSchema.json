@@ -2041,6 +2041,7 @@
                 "ErrorScreen",
                 "EscrowedPaymentListScreen",
                 "ExchangeHomeScreen",
+                "ExchangeQR",
                 "ExchangeReview",
                 "ExchangeTradeScreen",
                 "ExternalExchanges",

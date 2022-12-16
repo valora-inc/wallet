@@ -18,7 +18,7 @@ interface Props {
   dataType: QRCodeDataType
 }
 
-const mapStateToProps = (state: RootState) => ({
+export const mapStateToProps = (state: RootState) => ({
   address: currentAccountSelector(state)!,
   displayName: nameSelector(state) || undefined,
   e164PhoneNumber: state.account.e164PhoneNumber || undefined,
