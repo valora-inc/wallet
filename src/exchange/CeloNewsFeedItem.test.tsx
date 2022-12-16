@@ -37,11 +37,8 @@ describe('CeloNewsFeedItem', () => {
     expect(navigate).toHaveBeenCalledWith(Screens.WebViewScreen, {
       uri: TEST_ARTICLE.link,
     })
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-      CeloNewsEvents.celo_news_bottom_read_more_tap,
-      {
-        url: TEST_ARTICLE.link,
-      }
-    )
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(CeloNewsEvents.celo_news_article_tap, {
+      url: TEST_ARTICLE.link,
+    })
   })
 })
