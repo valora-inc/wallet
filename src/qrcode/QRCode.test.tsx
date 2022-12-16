@@ -3,6 +3,7 @@ import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
 import QRCode from 'src/qrcode/QRCode'
+import { QRCodeDataType } from 'src/qrcode/schema'
 import { createMockStore } from 'test/utils'
 import { mockAccount, mockName } from 'test/values'
 
@@ -13,13 +14,12 @@ describe('QRCode', () => {
       account: mockAccount,
     },
   })
-  it('renders correctly', () => {
+  it.each(Object.values(QRCodeDataType))('renders correctly', (dataType) => {
     const tree = render(
       <Provider store={store}>
-        <QRCode qrSvgRef={{ current: null }} />
+        <QRCode dataType={dataType} qrSvgRef={{ current: null }} />
       </Provider>
     )
-
     expect(tree).toMatchSnapshot()
   })
 })
