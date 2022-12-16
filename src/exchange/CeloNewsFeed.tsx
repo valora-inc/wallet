@@ -3,6 +3,8 @@ import { FlatList, ListRenderItemInfo, StyleSheet, Text, View } from 'react-nati
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import CeloNewsFeedItem from 'src/exchange/CeloNewsFeedItem'
 import { CeloNewsArticle, CeloNewsArticles } from 'src/exchange/types'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -85,6 +87,11 @@ function ItemSeparator() {
 }
 
 export default function (props: Props) {
+  function onPressReadMore() {
+    // TODO: use a remote config for this URL
+    navigate(Screens.WebViewScreen, { uri: 'https://blog.celo.org' })
+  }
+
   return (
     <FlatList
       data={FAKE_DATA.articles}
@@ -103,7 +110,7 @@ export default function (props: Props) {
         <>
           <ItemSeparator />
           <Button
-            onPress={() => {}}
+            onPress={onPressReadMore}
             text="Read more on the blog"
             size={BtnSizes.FULL}
             type={BtnTypes.SECONDARY}

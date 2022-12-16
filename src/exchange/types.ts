@@ -4,7 +4,7 @@ export interface CeloNewsArticles {
 }
 
 export interface CeloNewsArticle {
-  articleImage: string
+  articleImage?: string
   author: string
   createdAt: string
   id: number
