@@ -1417,19 +1417,27 @@
       "fiatExchangeSubtitle": "Поповніть ваш рахунок {{appName}} з банку, картки або біржі.",
       "selectCurrencyTitle": "Додати кошти",
       "exchangeAmountTitle": "Додати {{currency}}",
-      "selectProviderHeader": "Виберіть спосіб оплати"
+      "selectProviderHeader": "Виберіть спосіб оплати",
+      "depositExchangeTitle": "Deposit Crypto"
     },
     "cashOut": {
       "fiatExchangeTitle": "Вивести кошти",
       "fiatExchangeSubtitle": "Виведіть кошти з {{appName}} на банківський рахунок, картку, біржу криптовалют або на мобільні гроші.",
       "selectCurrencyTitle": "Вивести кошти",
       "exchangeAmountTitle": "Зняти {{currency}}",
-      "selectProviderHeader": "Виберіть спосіб зняття"
+      "selectProviderHeader": "Виберіть спосіб зняття",
+      "withdrawExchangeTitle": "Вивести крипто"
     },
     "spend": {
       "fiatExchangeTitle": "Витратити кошти",
       "fiatExchangeSubtitle": "Витрачайте на подарункові картки та інші придбання.",
       "selectCurrencyTitle": "Витратити кошти"
+    },
+    "exchange": {
+      "copyAddress": "Копіювати адресу",
+      "informationText": "Використовуйте лише обмін або активи <0>сумісні з Celo мережею</0> для запобігання втрати коштів",
+      "bottomSheetTitle": "Які обміни я можу використовувати, щоб вкласти кошти?",
+      "bottomSheetInfo": "Подвійний переконайтесь, що ви відправляєте активи, сумісні із Celo мережа."
     }
   },
   "fiatDetailsScreen": {
