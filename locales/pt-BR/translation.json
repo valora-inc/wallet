@@ -1245,7 +1245,12 @@
     "message": "Explore formas de usar suas cripto",
     "errorMessage": "Ocorreu um erro ao carregar os dapps",
     "featuredDapp": "Em destaque",
-    "allDapps": "Todos"
+    "allDapps": "Todos",
+    "favoriteDapps": "Os meus favoritos",
+    "noFavorites": {
+      "title": "Sem favoritos adicionados",
+      "description": "Mantenha-se a par dos seus Dapps mais utilizados, tocando no ícone da estrela para o adicionar como um favorito"
+    }
   },
   "dappsScreenHelpDialog": {
     "title": "O que são os dapps?",
