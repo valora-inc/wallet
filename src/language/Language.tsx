@@ -65,6 +65,7 @@ function LanguageScreen({ route }: Props) {
           {t('selectLanguage')}
         </Text>
         <FlatList
+          initialNumToRender={localesList.length}
           data={localesList}
           extraData={i18n.language}
           renderItem={renderItem}
