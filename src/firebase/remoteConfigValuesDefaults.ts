@@ -70,4 +70,5 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   centralPhoneVerificationEnabled: true,
   networkTimeoutSeconds: 30,
   dappFavoritesEnabled: false,
+  celoNewsEnabled: false,
 }

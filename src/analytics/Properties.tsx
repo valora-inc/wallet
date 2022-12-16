@@ -1323,10 +1323,13 @@ interface CICOEventsProperties {
   [CICOEvents.persona_kyc_error]: undefined
 }
 
-interface DappEventProperties {
+interface DappProperties {
   categoryId: string
   dappId: string
   dappName: string
+}
+
+interface DappEventProperties extends DappProperties {
   section: DappSection
   horizontalPosition?: number
 }
@@ -1340,6 +1343,8 @@ interface DappExplorerEventsProperties {
   [DappExplorerEvents.dapp_select]: DappEventProperties
   [DappExplorerEvents.dapp_bottom_sheet_open]: DappEventProperties
   [DappExplorerEvents.dapp_bottom_sheet_dismiss]: DappEventProperties
+  [DappExplorerEvents.dapp_favorite]: DappProperties
+  [DappExplorerEvents.dapp_unfavorite]: DappProperties
 }
 
 interface WebViewEventsProperties {
