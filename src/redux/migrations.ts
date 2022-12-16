@@ -932,7 +932,8 @@ export const migrations = {
       favoriteDapps: [],
     },
   }),
-  98: (state: any) => ({
+  98: (state: any) => state,
+  99: (state: any) => ({
     ...state,
     dapps: {
       ..._.omit(state.dapps, 'recentDapps', 'favoriteDapps'),

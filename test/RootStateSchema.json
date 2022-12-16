@@ -2368,6 +2368,9 @@
                 "celoEuroEnabled": {
                     "type": "boolean"
                 },
+                "celoNewsEnabled": {
+                    "type": "boolean"
+                },
                 "centralPhoneVerificationEnabled": {
                     "type": "boolean"
                 },
@@ -2525,6 +2528,7 @@
                 "cashInButtonExpEnabled",
                 "celoEducationUri",
                 "celoEuroEnabled",
+                "celoNewsEnabled",
                 "centralPhoneVerificationEnabled",
                 "coinbasePayEnabled",
                 "createAccountCopyTestType",

@@ -38,7 +38,7 @@ import {
   v81Schema,
   v84Schema,
   v8Schema,
-  v97Schema,
+  v98Schema,
   vNeg1Schema,
 } from 'test/schemas'
 
@@ -702,11 +702,11 @@ describe('Redux persist migrations', () => {
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 
-  it('works from v97 to v98', () => {
+  it('works from v98 to v99', () => {
     const oldSchema = {
-      ...v97Schema,
+      ...v98Schema,
       dapps: {
-        ...v97Schema.dapps,
+        ...v98Schema.dapps,
         recentDapps: [
           {
             name: 'Ubeswap',
@@ -732,12 +732,12 @@ describe('Redux persist migrations', () => {
         ],
       },
     }
-    const migratedSchema = migrations[98](oldSchema)
+    const migratedSchema = migrations[99](oldSchema)
 
     const expectedSchema: any = {
-      ...v97Schema,
+      ...v98Schema,
       dapps: {
-        ...v97Schema.dapps,
+        ...v98Schema.dapps,
         recentDappIds: ['ubeswap'],
         favoriteDappIds: ['moola'],
       },

@@ -1865,13 +1865,25 @@ export const v98Schema = {
     ...v97Schema._persist,
     version: 98,
   },
+  app: {
+    ...v97Schema.app,
+    celoNewsEnabled: true,
+  },
+}
+
+export const v99Schema = {
+  ...v98Schema,
+  _persist: {
+    ...v98Schema._persist,
+    version: 99,
+  },
   dapps: {
-    ..._.omit(v97Schema.dapps, 'recentDapps', 'favoriteDapps'),
-    recentDappIds: v97Schema.dapps.recentDapps?.map((recentDapp: Dapp) => recentDapp.id),
-    favoriteDappIds: v97Schema.dapps.favoriteDapps?.map((favoriteDapp: Dapp) => favoriteDapp.id),
+    ..._.omit(v98Schema.dapps, 'recentDapps', 'favoriteDapps'),
+    recentDappIds: v98Schema.dapps.recentDapps?.map((recentDapp: Dapp) => recentDapp.id),
+    favoriteDappIds: v98Schema.dapps.favoriteDapps?.map((favoriteDapp: Dapp) => favoriteDapp.id),
   },
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v98Schema as Partial<RootState>
+  return v99Schema as Partial<RootState>
 }
