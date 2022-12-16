@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { FlatList, ListRenderItemInfo, StyleSheet, Text, View } from 'react-native'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import CeloNewsFeedItem from 'src/exchange/CeloNewsFeedItem'
@@ -87,6 +88,8 @@ function ItemSeparator() {
 }
 
 export default function (props: Props) {
+  const { t } = useTranslation()
+
   function onPressReadMore() {
     // TODO: use a remote config for this URL
     navigate(Screens.WebViewScreen, { uri: 'https://blog.celo.org' })
@@ -100,10 +103,8 @@ export default function (props: Props) {
       ItemSeparatorComponent={ItemSeparator}
       ListHeaderComponent={
         <View style={styles.header}>
-          <Text style={styles.headerTitle}>Updates</Text>
-          <Text style={styles.headerDescription}>
-            Learn about use cases, pilots & technical updates on the Celo blog.
-          </Text>
+          <Text style={styles.headerTitle}>{t('celoNews.headerTitle')}</Text>
+          <Text style={styles.headerDescription}>{t('celoNews.headerDescription')}</Text>
         </View>
       }
       ListFooterComponent={
@@ -111,7 +112,7 @@ export default function (props: Props) {
           <ItemSeparator />
           <Button
             onPress={onPressReadMore}
-            text="Read more on the blog"
+            text={t('celoNews.readMoreButtonText')}
             size={BtnSizes.FULL}
             type={BtnTypes.SECONDARY}
             style={styles.readMoreButton}

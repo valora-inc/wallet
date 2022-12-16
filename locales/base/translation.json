@@ -1538,5 +1538,10 @@
       "title": "Invite {{contactName}} to {{appName}} and you’ll both receive NFTs!",
       "body": "Looks like {{contactName}} isn't on {{appName}}. If you know their wallet address you can still send a payment or send an invite instead. \n\n After they download the wallet and connect their phone number, you’ll both get an exclusive NFT."
     }
+  },
+  "celoNews": {
+    "headerTitle": "Updates",
+    "headerDescription": "Learn about use cases, pilots & technical updates on the Celo blog.",
+    "readMoreButtonText": "Read more on the blog"
   }
 }
