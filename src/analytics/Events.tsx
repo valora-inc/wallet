@@ -585,6 +585,8 @@ export enum DappExplorerEvents {
   dapp_bottom_sheet_open = 'dapp_bottom_sheet_open',
   dapp_bottom_sheet_dismiss = 'dapp_bottom_sheet_dismiss',
   dapp_view_all = 'dapp_view_all', // when user taps "view all dapps" from recently used dapps section
+  dapp_favorite = 'dapp_favorite', // when user favorites a dapp
+  dapp_unfavorite = 'dapp_unfavorite', // when user unfavorites a dapp
 }
 
 export enum WebViewEvents {
