@@ -1249,7 +1249,12 @@
     "message": "Przeglądaj sposoby korzystania z kryptowalut",
     "errorMessage": "Wystąpił błąd podczas ładowania Dapps",
     "featuredDapp": "Polecane",
-    "allDapps": "Wszystkie"
+    "allDapps": "Wszystkie",
+    "favoriteDapps": "Moje ulubione",
+    "noFavorites": {
+      "title": "Nie dodano żadnych ulubionych",
+      "description": "Śledź swoje najczęściej używane aplikacje, dotykając ikony gwiazdki, aby dodać je do ulubionych"
+    }
   },
   "dappsScreenHelpDialog": {
     "title": "Czym są Dapps?",
