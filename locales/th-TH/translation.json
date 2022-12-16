@@ -1243,7 +1243,12 @@
     "message": "สำรวจวิธีใช้คริปโตของคุณ",
     "errorMessage": "มีข้อผิดพลาดขณะโหลด Dapp",
     "featuredDapp": "โดดเด่น",
-    "allDapps": "ทั้งหมด"
+    "allDapps": "ทั้งหมด",
+    "favoriteDapps": "My Favorites",
+    "noFavorites": {
+      "title": "No favorites added",
+      "description": "Keep track of your most-used Dapps by tapping the star icon to add it as a favorite"
+    }
   },
   "dappsScreenHelpDialog": {
     "title": "Dapp คืออะไร",
