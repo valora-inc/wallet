@@ -71,12 +71,7 @@ const FAKE_DATA: CeloNewsArticles = {
 interface Props {}
 
 function renderItem({ item: article }: ListRenderItemInfo<CeloNewsArticle>) {
-  return (
-    <CeloNewsFeedItem
-      article={article}
-      // testID={`ChooseLanguage/${language.code}`}
-    />
-  )
+  return <CeloNewsFeedItem article={article} />
 }
 
 function keyExtractor(item: CeloNewsArticle) {
