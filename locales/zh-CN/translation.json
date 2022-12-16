@@ -1243,7 +1243,12 @@
     "message": "探索如何使用您的加密货币",
     "errorMessage": "加在 dapp 时出错",
     "featuredDapp": "精选",
-    "allDapps": "全部"
+    "allDapps": "全部",
+    "favoriteDapps": "我的最爱",
+    "noFavorites": {
+      "title": "没有添加收藏夹",
+      "description": "追踪你最常用的Dapps，点击星星图标将其添加为最爱。"
+    }
   },
   "dappsScreenHelpDialog": {
     "title": "什么是 dapp？",
