@@ -3369,18 +3369,18 @@
                 "dappsWebViewEnabled": {
                     "type": "boolean"
                 },
-                "favoriteDapps": {
+                "favoriteDappIds": {
                     "items": {
-                        "$ref": "#/definitions/Dapp"
+                        "type": "string"
                     },
                     "type": "array"
                 },
                 "maxNumRecentDapps": {
                     "type": "number"
                 },
-                "recentDapps": {
+                "recentDappIds": {
                     "items": {
-                        "$ref": "#/definitions/Dapp"
+                        "type": "string"
                     },
                     "type": "array"
                 }
@@ -3395,9 +3395,9 @@
                 "dappsListError",
                 "dappsListLoading",
                 "dappsWebViewEnabled",
-                "favoriteDapps",
+                "favoriteDappIds",
                 "maxNumRecentDapps",
-                "recentDapps"
+                "recentDappIds"
             ],
             "type": "object"
         },
