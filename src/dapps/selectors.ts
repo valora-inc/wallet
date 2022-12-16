@@ -61,6 +61,8 @@ export const dappConnectInfoSelector = (state: RootState) => state.dapps.dappCon
 
 export const dappFavoritesEnabledSelector = (state: RootState) => state.dapps.dappFavoritesEnabled
 
+export const favoriteDappIdsSelector = (state: RootState) => state.dapps.favoriteDappIds
+
 export const recentDappsSelector = createSelector(
   dappsListSelector,
   recentDappIdsSelector,
@@ -73,5 +75,20 @@ export const recentDappsSelector = createSelector(
       }
     })
     return recentDapps
+  }
+)
+
+export const favoriteDappsSelector = createSelector(
+  dappsListSelector,
+  favoriteDappIdsSelector,
+  (dapps, favoriteDappIds) => {
+    const favoriteDapps: Dapp[] = []
+    favoriteDappIds.forEach((favoriteDappId) => {
+      const favoriteDapp = dapps.find((dapp) => dapp.id === favoriteDappId)
+      if (favoriteDapp) {
+        favoriteDapps.push(favoriteDapp)
+      }
+    })
+    return favoriteDapps
   }
 )
