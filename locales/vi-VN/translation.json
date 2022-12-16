@@ -1411,19 +1411,27 @@
       "fiatExchangeSubtitle": "Nạp tiền vào tài khoản {{appName}} của bạn từ ngân hàng, thẻ hoặc sàn giao dịch.",
       "selectCurrencyTitle": "Nạp tiền",
       "exchangeAmountTitle": "Nạp {{currency}}",
-      "selectProviderHeader": "Chọn phương thức thanh toán"
+      "selectProviderHeader": "Chọn phương thức thanh toán",
+      "depositExchangeTitle": "Deposit Crypto"
     },
     "cashOut": {
       "fiatExchangeTitle": "Rút tiền",
       "fiatExchangeSubtitle": "Rút tiền từ {{appName}} vào tài khoản ngân hàng, thẻ, sàn giao dịch tiền điện tử hoặc chuyển sang ví di động.",
       "selectCurrencyTitle": "Rút tiền",
       "exchangeAmountTitle": "Rút {{currency}}",
-      "selectProviderHeader": "Chọn phương thức rút tiền"
+      "selectProviderHeader": "Chọn phương thức rút tiền",
+      "withdrawExchangeTitle": "Withdraw Crypto"
     },
     "spend": {
       "fiatExchangeTitle": "Chi tiêu tiền",
       "fiatExchangeSubtitle": "Chi tiêu cho thẻ quà tặng và các giao dịch mua khác.",
       "selectCurrencyTitle": "Chi tiêu tiền"
+    },
+    "exchange": {
+      "copyAddress": "Copy Address",
+      "informationText": "Only use exchanges or assets <0>compatible with the Celo network</0> to prevent loss of funds",
+      "bottomSheetTitle": "What exchanges can I use to deposit funds?",
+      "bottomSheetInfo": "Double check that you are sending assets that are compatible with the Celo network."
     }
   },
   "fiatDetailsScreen": {
