@@ -1417,19 +1417,27 @@
       "fiatExchangeSubtitle": "Пополните свой счет {{appName}} из банка, с карты или биржи.",
       "selectCurrencyTitle": "Внести средства",
       "exchangeAmountTitle": "Внести {{currency}}",
-      "selectProviderHeader": "Выберите способ оплаты"
+      "selectProviderHeader": "Выберите способ оплаты",
+      "depositExchangeTitle": "Депозит криптовалюты"
     },
     "cashOut": {
       "fiatExchangeTitle": "Вывести средства",
       "fiatExchangeSubtitle": "Выведите средства из {{appName}} и переведите на банковский счет, карту, криптовалютную биржу или в мобильный банк.",
       "selectCurrencyTitle": "Вывести средства",
       "exchangeAmountTitle": "Вывести {{currency}}",
-      "selectProviderHeader": "Выберите способ вывода средств"
+      "selectProviderHeader": "Выберите способ вывода средств",
+      "withdrawExchangeTitle": "Вывести криптовалюту"
     },
     "spend": {
       "fiatExchangeTitle": "Потратить средства",
       "fiatExchangeSubtitle": "Потратить на подарочные сертификаты и другие покупки.",
       "selectCurrencyTitle": "Потратить средства"
+    },
+    "exchange": {
+      "copyAddress": "Копия адреса",
+      "informationText": "Используй только биржи или активы, <0>совместимые с сетью Celo</0>, чтобы предотвратить потерю средств",
+      "bottomSheetTitle": "Какие биржи я могу использовать для внесения средств?",
+      "bottomSheetInfo": "Дважды проверь, что ты отправляешь активы, совместимые с сетью Celo."
     }
   },
   "fiatDetailsScreen": {
