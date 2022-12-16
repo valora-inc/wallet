@@ -1245,7 +1245,12 @@
     "message": "Explore ways to use your crypto",
     "errorMessage": "There was an error loading dapps",
     "featuredDapp": "Featured",
-    "allDapps": "All"
+    "allDapps": "All",
+    "favoriteDapps": "My Favorites",
+    "noFavorites": {
+      "title": "No favorites added",
+      "description": "Keep track of your most-used Dapps by tapping the star icon to add it as a favorite"
+    }
   },
   "dappsScreenHelpDialog": {
     "title": "What are dapps?",
