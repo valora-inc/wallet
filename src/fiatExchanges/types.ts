@@ -4,6 +4,6 @@ export enum SelectProviderExchangesText {
 }
 
 export enum SelectProviderExchangesLink {
-  ExchangesScreen = 'ExchangesScreen',
-  ExchangesQrScreen = 'ExchangesQrScreen',
+  ExternalExchangesScreen = 'ExternalExchangesScreen',
+  ExchangeQRScreen = 'ExchangeQRScreen',
 }

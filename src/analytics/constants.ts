@@ -36,7 +36,7 @@ export const ExperimentParams = {
     },
     addFundsExchangesLink: {
       paramName: 'addFundsExchangesLink',
-      defaultValue: SelectProviderExchangesLink.ExchangesScreen,
+      defaultValue: SelectProviderExchangesLink.ExternalExchangesScreen,
     },
   },
 }
