@@ -1245,7 +1245,12 @@
     "message": "Finde heraus, wie du dein Krypto nutzen kannst",
     "errorMessage": "Beim Laden Dapps ist ein Fehler aufgetreten",
     "featuredDapp": "Empfohlen",
-    "allDapps": "Alle"
+    "allDapps": "Alle",
+    "favoriteDapps": "Meine Favoriten",
+    "noFavorites": {
+      "title": "Keine Favoriten hinzugefügt",
+      "description": "Behalte den Überblick über deine meistgenutzten Dapps, indem du auf das Sternsymbol tippst, um sie als Favoriten hinzuzufügen"
+    }
   },
   "dappsScreenHelpDialog": {
     "title": "Was sind Dapps?",
