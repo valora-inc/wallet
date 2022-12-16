@@ -533,6 +533,8 @@
         "DappSection": {
             "enum": [
                 "all",
+                "favorites dapp screen",
+                "favorites home screen",
                 "featured",
                 "recently used"
             ],
