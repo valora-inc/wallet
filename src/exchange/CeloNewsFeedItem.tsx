@@ -60,7 +60,6 @@ const styles = StyleSheet.create({
   title: {
     ...fontStyles.regular,
     flex: 1,
-    marginRight: 16,
   },
   date: {
     ...fontStyles.small,
@@ -73,8 +72,6 @@ const styles = StyleSheet.create({
     width: IMAGE_SIZE,
     height: IMAGE_SIZE,
     borderRadius: 4,
-  },
-  iconContainer: {
-    marginRight: 16,
+    marginLeft: 16,
   },
 })

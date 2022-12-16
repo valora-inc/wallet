@@ -124,7 +124,6 @@ export default function (props: Props) {
 }
 
 const styles = StyleSheet.create({
-  container: {},
   separator: {
     height: 1,
     backgroundColor: colors.gray2,
