@@ -118,9 +118,7 @@ export default function ExchangeQR({ route, navigation }: Props) {
             testID="bottomSheetLink"
             style={[fontStyles.regular600, styles.link]}
             onPress={onPressInfo}
-          >
-            {t('fiatExchangeFlow.exchange.informationPartTwo')}
-          </Text>
+          ></Text>
         </Trans>
       </Text>
       <ExchangesBottomSheet
