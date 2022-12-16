@@ -68,8 +68,6 @@ const FAKE_DATA: CeloNewsArticles = {
   nextPageId: '109261921',
 }
 
-interface Props {}
-
 function renderItem({ item: article }: ListRenderItemInfo<CeloNewsArticle>) {
   return <CeloNewsFeedItem article={article} />
 }
@@ -82,7 +80,7 @@ function ItemSeparator() {
   return <View style={styles.separator} />
 }
 
-export default function (props: Props) {
+export default function () {
   const { t } = useTranslation()
 
   function onPressReadMore() {
