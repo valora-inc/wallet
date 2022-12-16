@@ -15,24 +15,22 @@ jest.mock('src/i18n/useChangeLanguage')
 const mockedUseChangeLanguage = mocked(useChangeLanguage)
 
 describe('Language', () => {
-  it('renders correctly and sets the right language', () => {
-    const changeLanguageSpy = jest.fn().mockResolvedValue(true)
-    mockedUseChangeLanguage.mockImplementation(() => changeLanguageSpy)
+  localesList.forEach(({ name, code }) => {
+    it(`renders correctly and sets the right language when the language is ${name}`, () => {
+      const changeLanguageSpy = jest.fn().mockResolvedValue(true)
+      mockedUseChangeLanguage.mockImplementation(() => changeLanguageSpy)
 
-    const store = createMockStore()
-    const { getByText } = render(
-      <Provider store={store}>
-        <Language {...getMockStackScreenProps(Screens.Language)} />
-      </Provider>
-    )
+      const store = createMockStore()
+      const { getByText } = render(
+        <Provider store={store}>
+          <Language {...getMockStackScreenProps(Screens.Language)} />
+        </Provider>
+      )
 
-    localesList.forEach(({ name }) => {
-      expect(getByText(name)).toBeDefined()
+      fireEvent.press(getByText(name))
+      jest.runOnlyPendingTimers()
+      expect(changeLanguageSpy).toHaveBeenCalledWith(code)
+      expect(navigate).toHaveBeenCalledWith(Screens.OnboardingEducationScreen)
     })
-
-    fireEvent.press(getByText('Español'))
-    jest.runOnlyPendingTimers()
-    expect(changeLanguageSpy).toHaveBeenCalledWith('es-419')
-    expect(navigate).toHaveBeenCalledWith(Screens.OnboardingEducationScreen)
   })
 })
