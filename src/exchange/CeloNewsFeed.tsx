@@ -1,4 +1,5 @@
 import React from 'react'
+import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { FlatList, ListRenderItemInfo, StyleSheet, Text, View } from 'react-native'
 import { CeloNewsEvents } from 'src/analytics/Events'
@@ -11,6 +12,11 @@ import { Screens } from 'src/navigator/Screens'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
+import Logger from 'src/utils/Logger'
+import networkConfig from 'src/web3/networkConfig'
+
+const TAG = 'exchange/CeloNewsFeed'
 
 const FAKE_DATA: CeloNewsArticles = {
   articles: [
@@ -82,8 +88,29 @@ function ItemSeparator() {
   return <View style={styles.separator} />
 }
 
-export default function () {
+export function useFetchArticles() {
+  return useAsync(async () => {
+    Logger.info(TAG, 'Fetching articles...')
+    try {
+      const response = await fetchWithTimeout(`${networkConfig.cloudFunctionsUrl}/getCeloNewsFeed`)
+      Logger.info(TAG, `Articles fetched (statusCode=${response.status})`)
+      // status in the range 200-299
+      if (!response.ok) {
+        throw new Error('Failed to fetch articles')
+      }
+      const data = await response.json()
+      return data as CeloNewsArticles
+    } catch (error) {
+      Logger.error(TAG, 'Failed to fetch articles', error)
+      throw error
+    }
+  }, [])
+}
+
+export default function CeloNewsFeed() {
   const { t } = useTranslation()
+
+  const asyncArticles = useFetchArticles()
 
   function onPressReadMore() {
     // TODO: use a remote config for this URL
@@ -94,7 +121,8 @@ export default function () {
 
   return (
     <FlatList
-      data={FAKE_DATA.articles}
+      // TODO: show loading + error states
+      data={asyncArticles.result?.articles || []}
       renderItem={renderItem}
       keyExtractor={keyExtractor}
       ItemSeparatorComponent={ItemSeparator}
