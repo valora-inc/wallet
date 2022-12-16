@@ -1413,19 +1413,27 @@
       "fiatExchangeSubtitle": "Fund your {{appName}} account from a bank, card or exchange.",
       "selectCurrencyTitle": "Add Funds",
       "exchangeAmountTitle": "Add {{currency}}",
-      "selectProviderHeader": "Select Payment Method"
+      "selectProviderHeader": "Select Payment Method",
+      "depositExchangeTitle": "Deposit Crypto"
     },
     "cashOut": {
       "fiatExchangeTitle": "Withdraw Funds",
       "fiatExchangeSubtitle": "Get funds out of {{appName}} and into a bank account, card, crypto exchange or to mobile money.",
       "selectCurrencyTitle": "Withdraw Funds",
       "exchangeAmountTitle": "Withdraw {{currency}}",
-      "selectProviderHeader": "Select Withdraw Method"
+      "selectProviderHeader": "Select Withdraw Method",
+      "withdrawExchangeTitle": "Withdraw Crypto"
     },
     "spend": {
       "fiatExchangeTitle": "Spend Funds",
       "fiatExchangeSubtitle": "Spend on gift cards and other purchases.",
       "selectCurrencyTitle": "Spend Funds"
+    },
+    "exchange": {
+      "copyAddress": "Copy Address",
+      "informationText": "Only use exchanges or assets <0>compatible with the Celo network</0> to prevent loss of funds",
+      "bottomSheetTitle": "What exchanges can I use to deposit funds?",
+      "bottomSheetInfo": "Double check that you are sending assets that are compatible with the Celo network."
     }
   },
   "fiatDetailsScreen": {
