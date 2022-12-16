@@ -1413,19 +1413,27 @@
       "fiatExchangeSubtitle": "Lade dein {{appName}}-Konto über eine Bank, eine Karte oder eine Börse auf.",
       "selectCurrencyTitle": "Guthaben hinzufügen",
       "exchangeAmountTitle": "{{currency}} hinzufügen",
-      "selectProviderHeader": "Zahlungsmethode auswählen"
+      "selectProviderHeader": "Zahlungsmethode auswählen",
+      "depositExchangeTitle": "Krypto einzahlen"
     },
     "cashOut": {
       "fiatExchangeTitle": "Guthaben abheben",
       "fiatExchangeSubtitle": "Überweise Guthaben von {{appName}} auf ein Bankkonto, eine Karte, eine Kryptobörse oder erhalte es als mobiles Geld.",
       "selectCurrencyTitle": "Guthaben abheben",
       "exchangeAmountTitle": "{{currency}} abheben",
-      "selectProviderHeader": "Auszahlungsmethode auswählen"
+      "selectProviderHeader": "Auszahlungsmethode auswählen",
+      "withdrawExchangeTitle": "Krypto abheben"
     },
     "spend": {
       "fiatExchangeTitle": "Guthaben ausgeben",
       "fiatExchangeSubtitle": "Gib es für Geschenkkarten und andere Einkäufe aus.",
       "selectCurrencyTitle": "Guthaben ausgeben"
+    },
+    "exchange": {
+      "copyAddress": "Adresse kopieren",
+      "informationText": "Verwende nur Börsen oder Vermögenswerte <0>, die mit dem Celo-Netzwerk kompatibel sind</0>, um den Verlust von Geldern zu verhindern",
+      "bottomSheetTitle": "Welche Börsen kann ich nutzen, um Geld einzuzahlen?",
+      "bottomSheetInfo": "Vergewissere dich, dass du Assets versendest, die mit dem Celo-Netzwerk kompatibel sind."
     }
   },
   "fiatDetailsScreen": {
