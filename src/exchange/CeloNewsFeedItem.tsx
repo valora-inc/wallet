@@ -1,4 +1,4 @@
-import { formatDistanceToNow } from 'date-fns'
+import { formatDistanceToNowStrict } from 'date-fns'
 import * as React from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import Touchable from 'src/components/Touchable'
@@ -29,7 +29,7 @@ export default function CeloNewsFeedItem({ article, testID }: Props) {
             {article.author}
           </Text>
           <Text style={styles.date} numberOfLines={1}>
-            {formatDistanceToNow(new Date(article.createdAt), { addSuffix: true })}
+            {formatDistanceToNowStrict(new Date(article.createdAt))}
           </Text>
         </View>
         <View style={styles.row}>
