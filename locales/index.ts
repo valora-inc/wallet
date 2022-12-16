@@ -97,6 +97,17 @@ const locales: Locales = {
       return require('date-fns/locale/uk')
     },
   },
+  'th-TH': {
+    name: 'ไทย',
+    get strings() {
+      return {
+        translation: require('./th-TH/translation.json'),
+      }
+    },
+    get dateFns() {
+      return require('date-fns/locale/th')
+    },
+  },
   'tr-TR': {
     name: 'Türkçe',
     get strings() {
@@ -117,6 +128,28 @@ const locales: Locales = {
     },
     get dateFns() {
       return require('date-fns/locale/pl')
+    },
+  },
+  'vi-VN': {
+    name: 'Tiếng Việt',
+    get strings() {
+      return {
+        translation: require('./vi-VN/translation.json'),
+      }
+    },
+    get dateFns() {
+      return require('date-fns/locale/vi')
+    },
+  },
+  'zh-CN': {
+    name: '简体中文',
+    get strings() {
+      return {
+        translation: require('./zh-CN/translation.json'),
+      }
+    },
+    get dateFns() {
+      return require('date-fns/locale/zh-CN')
     },
   },
 }
