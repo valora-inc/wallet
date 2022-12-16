@@ -7,6 +7,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { CeloExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { celoNewsEnabledSelector } from 'src/app/selectors'
 import ItemSeparator from 'src/components/ItemSeparator'
 import SectionHead from 'src/components/SectionHeadGold'
 import Touchable from 'src/components/Touchable'
@@ -86,6 +87,7 @@ function ExchangeHomeScreen() {
 
   const { RESTRICTED_CP_DOTO } = useCountryFeatures()
   const inAppSwapsEnabled = useSelector(isAppSwapsEnabledSelector)
+  const isCeloNewsEnabled = useSelector(celoNewsEnabledSelector)
 
   // TODO: revert this back to `useLocalCurrencyCode()` when we have history data for cGDL to Local Currency.
   const localCurrencyCode = null
@@ -169,7 +171,9 @@ function ExchangeHomeScreen() {
           </View>
 
           <CeloGoldHistoryChart />
-          {false ? (
+          {isCeloNewsEnabled ? (
+            <CeloNewsFeed />
+          ) : (
             <>
               {!inAppSwapsEnabled &&
                 (RESTRICTED_CP_DOTO ? (
@@ -183,8 +187,6 @@ function ExchangeHomeScreen() {
               <SectionHead text={t('activity')} />
               <TransactionsList feedType={FeedType.EXCHANGE} />
             </>
-          ) : (
-            <CeloNewsFeed />
           )}
         </SafeAreaView>
       </Animated.ScrollView>
