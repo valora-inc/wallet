@@ -3,7 +3,7 @@ import { FinclusiveKycStatus, PincodeType } from 'src/account/reducer'
 import { AppState } from 'src/app/actions'
 import { InviteMethodType } from 'src/app/types'
 import { CodeInputStatus } from 'src/components/CodeInput'
-import { DappConnectInfo } from 'src/dapps/types'
+import { Dapp, DappConnectInfo } from 'src/dapps/types'
 import { SendingFiatAccountStatus } from 'src/fiatconnect/slice'
 import { NUM_ATTESTATIONS_REQUIRED } from 'src/identity/verification'
 import { RootState } from 'src/redux/reducers'
@@ -1846,6 +1846,44 @@ export const v96Schema = {
   app: _.omit(v95Schema.app, 'paymentDeepLinkHandler'),
 }
 
+export const v97Schema = {
+  ...v96Schema,
+  _persist: {
+    ...v96Schema._persist,
+    version: 97,
+  },
+  dapps: {
+    ...v96Schema.dapps,
+    dappFavoritesEnabled: false,
+    favoriteDapps: [],
+  },
+}
+
+export const v98Schema = {
+  ...v97Schema,
+  _persist: {
+    ...v97Schema._persist,
+    version: 98,
+  },
+  app: {
+    ...v97Schema.app,
+    celoNewsEnabled: true,
+  },
+}
+
+export const v99Schema = {
+  ...v98Schema,
+  _persist: {
+    ...v98Schema._persist,
+    version: 99,
+  },
+  dapps: {
+    ..._.omit(v98Schema.dapps, 'recentDapps', 'favoriteDapps'),
+    recentDappIds: v98Schema.dapps.recentDapps?.map((recentDapp: Dapp) => recentDapp.id),
+    favoriteDappIds: v98Schema.dapps.favoriteDapps?.map((favoriteDapp: Dapp) => favoriteDapp.id),
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v96Schema as Partial<RootState>
+  return v99Schema as Partial<RootState>
 }
