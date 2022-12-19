@@ -10,6 +10,7 @@ import {
   AppEvents,
   AuthenticationEvents,
   CeloExchangeEvents,
+  CeloNewsEvents,
   CICOEvents,
   CoinbasePayEvents,
   ContractKitEvents,
@@ -1416,6 +1417,15 @@ interface SwapEventsProperties {
   }
 }
 
+interface CeloNewsEventsProperties {
+  [CeloNewsEvents.celo_news_article_tap]: {
+    url: string
+  }
+  [CeloNewsEvents.celo_news_bottom_read_more_tap]: {
+    url: string
+  }
+}
+
 export type AnalyticsPropertiesList = AppEventsProperties &
   HomeEventsProperties &
   SettingsEventsProperties &
@@ -1442,4 +1452,5 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   DappExplorerEventsProperties &
   WebViewEventsProperties &
   CoinbasePayEventsProperties &
-  SwapEventsProperties
+  SwapEventsProperties &
+  CeloNewsEventsProperties

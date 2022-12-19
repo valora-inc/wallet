@@ -1249,7 +1249,12 @@
     "message": "Przeglądaj sposoby korzystania z kryptowalut",
     "errorMessage": "Wystąpił błąd podczas ładowania Dapps",
     "featuredDapp": "Polecane",
-    "allDapps": "Wszystkie"
+    "allDapps": "Wszystkie",
+    "favoriteDapps": "Moje ulubione",
+    "noFavorites": {
+      "title": "Nie dodano żadnych ulubionych",
+      "description": "Śledź swoje najczęściej używane aplikacje, dotykając ikony gwiazdki, aby dodać je do ulubionych"
+    }
   },
   "dappsScreenHelpDialog": {
     "title": "Czym są Dapps?",
@@ -1412,19 +1417,27 @@
       "fiatExchangeSubtitle": "Zasil swoje konto w aplikacji {{appName}} z banku, karty lub giełdy.",
       "selectCurrencyTitle": "Dodaj środki",
       "exchangeAmountTitle": "Dodaj {{currency}}",
-      "selectProviderHeader": "Wybierz metodę płatności"
+      "selectProviderHeader": "Wybierz metodę płatności",
+      "depositExchangeTitle": "Wpłata kryptowalut"
     },
     "cashOut": {
       "fiatExchangeTitle": "Wypłać środki",
       "fiatExchangeSubtitle": "Wypłać środki z aplikacji {{appName}} na konto bankowe, kartę, giełdę kryptowalut lub do mobilnego portfela.",
       "selectCurrencyTitle": "Wypłać środki",
       "exchangeAmountTitle": "Wypłać {{currency}}",
-      "selectProviderHeader": "Wybierz metodę wypłaty"
+      "selectProviderHeader": "Wybierz metodę wypłaty",
+      "withdrawExchangeTitle": "Wypłać kryptowalutę"
     },
     "spend": {
       "fiatExchangeTitle": "Wykorzystaj środki",
       "fiatExchangeSubtitle": "Wydawaj na karty podarunkowe i inne zakupy.",
       "selectCurrencyTitle": "Wykorzystaj środki"
+    },
+    "exchange": {
+      "copyAddress": "Kopia Adres",
+      "informationText": "Używaj tylko giełd lub aktywów <0>kompatybilnych z siecią Celo</0>, aby zapobiec utracie funduszy",
+      "bottomSheetTitle": "Z jakich giełd mogę korzystać, aby wpłacać środki?",
+      "bottomSheetInfo": "Sprawdź, czy wysyłasz środki, które są kompatybilne z siecią Celo."
     }
   },
   "fiatDetailsScreen": {
