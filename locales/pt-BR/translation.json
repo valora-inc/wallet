@@ -1550,6 +1550,11 @@
       "body": "Parece que {{contactName}} não está no app {{appName}}. Se souber o endereço da carteira dessa pessoa, você ainda pode enviar um pagamento ou enviar um convite. \n\nDepois que seu amigo baixar a carteira e conectar o número de celular, vocês dois receberão um NFT exclusivo."
     }
   },
+  "celoNews": {
+    "headerTitle": "Actualizações",
+    "headerDescription": "Saiba mais sobre casos de utilização, pilotos e actualizações técnicas no blogue Celo.",
+    "readMoreButtonText": "Leia mais no blogue"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
