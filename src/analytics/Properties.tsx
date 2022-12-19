@@ -10,6 +10,7 @@ import {
   AppEvents,
   AuthenticationEvents,
   CeloExchangeEvents,
+  CeloNewsEvents,
   CICOEvents,
   CoinbasePayEvents,
   ContractKitEvents,
@@ -1171,6 +1172,25 @@ interface FiatExchangeEventsProperties {
   [FiatExchangeEvents.cico_fc_kyc_status_close]: FiatConnectKycProperties
   [FiatExchangeEvents.cico_fc_kyc_status_try_again]: FiatConnectKycProperties
   [FiatExchangeEvents.cico_fc_kyc_status_switch_method]: FiatConnectKycProperties
+  [FiatExchangeEvents.external_exchange_qr_bottom_sheet_open]: {
+    flow: CICOFlow
+  }
+  [FiatExchangeEvents.external_exchange_qr_bottom_sheet_close]: {
+    flow: CICOFlow
+  }
+  [FiatExchangeEvents.external_exchange_qr_bottom_sheet_link_press]: {
+    flow: CICOFlow
+    exchange: string
+  }
+  [FiatExchangeEvents.external_exchange_qr_back]: {
+    flow: CICOFlow
+  }
+  [FiatExchangeEvents.external_exchange_qr_copy_address]: {
+    flow: CICOFlow
+  }
+  [FiatExchangeEvents.external_exchange_qr_share]: {
+    flow: CICOFlow
+  }
 }
 
 interface FiatConnectKycProperties {
@@ -1397,6 +1417,15 @@ interface SwapEventsProperties {
   }
 }
 
+interface CeloNewsEventsProperties {
+  [CeloNewsEvents.celo_news_article_tap]: {
+    url: string
+  }
+  [CeloNewsEvents.celo_news_bottom_read_more_tap]: {
+    url: string
+  }
+}
+
 export type AnalyticsPropertiesList = AppEventsProperties &
   HomeEventsProperties &
   SettingsEventsProperties &
@@ -1423,4 +1452,5 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   DappExplorerEventsProperties &
   WebViewEventsProperties &
   CoinbasePayEventsProperties &
-  SwapEventsProperties
+  SwapEventsProperties &
+  CeloNewsEventsProperties
