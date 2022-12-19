@@ -1548,5 +1548,10 @@
       "body": "似乎 {{contactName}} 未在 {{appName}} 上。如果您知道其钱包地址，则仍可发送付款，或者也可以发送一则邀请。\n\n在其下载钱包并关联手机号码后，你们都将获得一个独家的 NFT。"
     }
   },
+  "celoNews": {
+    "headerTitle": "更新",
+    "headerDescription": "在Celo博客上了解使用案例、试点和技术更新。",
+    "readMoreButtonText": "在博客上阅读更多内容"
+  },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
 }
