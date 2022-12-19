@@ -61,7 +61,7 @@ const TAG = 'SelectProviderScreen'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.SelectProvider>
 
-export function getAddFundsCryptoExchangeExperimentParams() {
+function getAddFundsCryptoExchangeExperimentParams() {
   const params = ExperimentParams[StatsigExperiments.ADD_FUNDS_CRYPTO_EXCHANGE_QR_CODE]
   try {
     const experiment = Statsig.getExperiment(StatsigExperiments.ADD_FUNDS_CRYPTO_EXCHANGE_QR_CODE)
@@ -73,9 +73,6 @@ export function getAddFundsCryptoExchangeExperimentParams() {
       params.addFundsExchangesLink.paramName,
       params.addFundsExchangesLink.defaultValue
     )
-    // TODO(any): remove the below log once exp params are used, this just
-    // existed for testing the statsig integration
-    Logger.debug(TAG, 'statsig experiment values', JSON.stringify({ exchangesText, exchangesLink }))
     return { exchangesText, exchangesLink }
   } catch (error) {
     Logger.warn(
@@ -357,15 +354,13 @@ function ExchangesSection({
 }) {
   const { t } = useTranslation()
 
-  // TODO(any): uncomment below and use params
-  // @ts-expect-error
   const { exchangesText, exchangesLink } = useMemo(() => {
-    // if (flow === CICOFlow.CashIn) {
-    //   return getAddFundsCryptoExchangeExperimentParams()
-    // }
+    if (flow === CICOFlow.CashIn) {
+      return getAddFundsCryptoExchangeExperimentParams()
+    }
     return {
       exchangesText: SelectProviderExchangesText.CryptoExchange,
-      exchangesLink: SelectProviderExchangesLink.ExchangesScreen,
+      exchangesLink: SelectProviderExchangesLink.ExternalExchangesScreen,
     }
   }, [flow])
 
@@ -377,11 +372,28 @@ function ExchangesSection({
     ValoraAnalytics.track(FiatExchangeEvents.cico_providers_exchanges_selected, {
       flow,
     })
-    navigate(Screens.ExternalExchanges, {
-      currency: selectedCurrency,
-      isCashIn: flow === CICOFlow.CashIn,
-      exchanges,
-    })
+    if (exchangesLink === SelectProviderExchangesLink.ExchangeQRScreen) {
+      navigate(Screens.ExchangeQR, { flow, exchanges })
+    } else {
+      navigate(Screens.ExternalExchanges, {
+        currency: selectedCurrency,
+        isCashIn: flow === CICOFlow.CashIn,
+        exchanges,
+      })
+    }
+  }
+
+  let header: string
+  let text: string
+  let rightText: string | undefined
+
+  if (exchangesText === SelectProviderExchangesText.DepositFrom) {
+    header = t('selectProviderScreen.depositFrom')
+    text = t('selectProviderScreen.cryptoExchangeOrWallet')
+  } else {
+    header = t('selectProviderScreen.cryptoExchange')
+    text = t('selectProviderScreen.feesVary')
+    rightText = t('selectProviderScreen.viewExchanges')
   }
 
   return (
@@ -389,14 +401,15 @@ function ExchangesSection({
       <Touchable onPress={goToExchangesScreen}>
         <View style={{ ...styles.expandableContainer, paddingVertical: 27 }}>
           <View style={styles.left}>
-            <Text style={styles.category}>{t('selectProviderScreen.cryptoExchange')}</Text>
-
-            <Text style={styles.fee}>{t('selectProviderScreen.feesVary')}</Text>
+            <Text style={styles.categoryHeader}>{header}</Text>
+            <Text style={styles.categoryText}>{text}</Text>
           </View>
 
-          <View style={styles.right}>
-            <Text style={styles.linkToOtherScreen}>{t('selectProviderScreen.viewExchanges')}</Text>
-          </View>
+          {rightText && (
+            <View style={styles.right}>
+              <Text style={styles.linkToOtherScreen}>{rightText}</Text>
+            </View>
+          )}
         </View>
       </Touchable>
     </View>
@@ -449,7 +462,7 @@ function LegacyMobileMoneySection({
       <Touchable onPress={goToProviderSite}>
         <View style={{ ...styles.expandableContainer, paddingVertical: 27 }}>
           <View style={styles.left}>
-            <Text style={styles.fee}>{t('selectProviderScreen.feesVary')}</Text>
+            <Text style={styles.categoryText}>{t('selectProviderScreen.feesVary')}</Text>
           </View>
 
           <View style={styles.right}>
@@ -499,10 +512,10 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
   },
-  category: {
+  categoryHeader: {
     ...fontStyles.small500,
   },
-  fee: {
+  categoryText: {
     ...fontStyles.regular500,
     marginTop: 4,
   },
