@@ -1554,6 +1554,11 @@
       "body": "Wygląda na to, że {{contactName}} nie korzysta z {{appName}}. Jeśli znasz adres jego/jej portfela, nadal możesz wysłać płatność lub zaproszenie. \n\n Po pobraniu portfela i podaniu numeru telefonu otrzymacie ekskluzywne NFT."
     }
   },
+  "celoNews": {
+    "headerTitle": "Aktualizacje",
+    "headerDescription": "Dowiedz się o przypadkach użycia, pilotażach i aktualizacjach technicznych na blogu Celo.",
+    "readMoreButtonText": "Przeczytaj więcej na blogu"
+  },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",
   "celoDollarAmount_2": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolarów",
