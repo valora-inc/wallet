@@ -24,15 +24,26 @@ export const mapStateToProps = (state: RootState) => ({
   e164PhoneNumber: state.account.e164PhoneNumber || undefined,
 })
 
-export default function QRCodeDisplay({ qrSvgRef, dataType }: Props) {
-  const data = useSelector(mapStateToProps, shallowEqual)
-
-  // ValoraDeepLink generates a QR code that deeplinks into the walletconnect send flow of the valora app
-  // Address generates a QR code that has the walletAddress as plaintext that is readable by wallets such as Coinbase and Metamask
-  const qrContent = useMemo(
+// ValoraDeepLink generates a QR code that deeplinks into the walletconnect send flow of the valora app
+// Address generates a QR code that has the walletAddress as plaintext that is readable by wallets such as Coinbase and Metamask
+export function useQRContent(
+  dataType: QRCodeDataType,
+  data: {
+    address: string
+    displayName: string | undefined
+    e164PhoneNumber: string | undefined
+  }
+) {
+  return useMemo(
     () => (dataType === QRCodeDataType.ValoraDeepLink ? urlFromUriData(data) : data.address),
     [data.address, data.displayName, data.e164PhoneNumber, data]
   )
+}
+
+export default function QRCodeDisplay({ qrSvgRef, dataType }: Props) {
+  const data = useSelector(mapStateToProps, shallowEqual)
+  const qrContent = useQRContent(dataType, data)
+
   return (
     <SafeAreaView style={styles.container}>
       <AvatarSelf iconSize={64} displayNameStyle={fontStyles.h2} />
