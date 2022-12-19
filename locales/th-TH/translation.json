@@ -1243,7 +1243,12 @@
     "message": "สำรวจวิธีใช้คริปโตของคุณ",
     "errorMessage": "มีข้อผิดพลาดขณะโหลด Dapp",
     "featuredDapp": "โดดเด่น",
-    "allDapps": "ทั้งหมด"
+    "allDapps": "ทั้งหมด",
+    "favoriteDapps": "My Favorites",
+    "noFavorites": {
+      "title": "No favorites added",
+      "description": "Keep track of your most-used Dapps by tapping the star icon to add it as a favorite"
+    }
   },
   "dappsScreenHelpDialog": {
     "title": "Dapp คืออะไร",
@@ -1406,19 +1411,27 @@
       "fiatExchangeSubtitle": "ฝากเงินเข้าบัญชี {{appName}} ของคุณจากธนาคาร บัตร หรือตลาดแลกเปลี่ยน",
       "selectCurrencyTitle": "เพิ่มเงินทุน",
       "exchangeAmountTitle": "เพิ่ม {{currency}}",
-      "selectProviderHeader": "เลือกวิธีการชำระเงิน"
+      "selectProviderHeader": "เลือกวิธีการชำระเงิน",
+      "depositExchangeTitle": "Deposit Crypto"
     },
     "cashOut": {
       "fiatExchangeTitle": "ถอนเงิน",
       "fiatExchangeSubtitle": "นำเงินออกจาก {{appName}} และนำเข้าบัญชีธนาคาร บัตร การแลกเปลี่ยนคริปโตเคอร์เรนซี หรือเงินอิเล็กทรอนิกส์",
       "selectCurrencyTitle": "ถอนเงิน",
       "exchangeAmountTitle": "ถอน {{currency}}",
-      "selectProviderHeader": "เลือกวิธีการถอนเงิน"
+      "selectProviderHeader": "เลือกวิธีการถอนเงิน",
+      "withdrawExchangeTitle": "Withdraw Crypto"
     },
     "spend": {
       "fiatExchangeTitle": "ใช้เงิน",
       "fiatExchangeSubtitle": "ใช้เงินซื้อบัตรของขวัญและสินค้าอื่นๆ",
       "selectCurrencyTitle": "ใช้เงิน"
+    },
+    "exchange": {
+      "copyAddress": "Copy Address",
+      "informationText": "Only use exchanges or assets <0>compatible with the Celo network</0> to prevent loss of funds",
+      "bottomSheetTitle": "What exchanges can I use to deposit funds?",
+      "bottomSheetInfo": "Double check that you are sending assets that are compatible with the Celo network."
     }
   },
   "fiatDetailsScreen": {
