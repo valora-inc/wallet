@@ -168,7 +168,8 @@ export function DAppsExplorerScreen() {
         )}
         {!loading && !error && categoriesById && (
           <AnimatedSectionList
-            ref={sectionListRef as any}
+            // @ts-ignore TODO: resolve type error
+            ref={sectionListRef}
             style={styles.sectionList}
             contentContainerStyle={{
               padding: Spacing.Regular16,
