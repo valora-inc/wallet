@@ -21,7 +21,7 @@ const useDappFavoritedToast = (sectionListRef: React.RefObject<SectionList>) => 
     }
   }, [showToast])
 
-  const onPressFavoriteSuccessToast = () => {
+  const onPressToast = () => {
     setShowToast(false)
     sectionListRef.current?.scrollToLocation({
       sectionIndex: 0,
@@ -44,7 +44,7 @@ const useDappFavoritedToast = (sectionListRef: React.RefObject<SectionList>) => 
         title={favoritedDapp?.name}
         message={t('dappsScreen.favoritedDappToast.message')}
         labelCTA={t('dappsScreen.favoritedDappToast.labelCTA')}
-        onPress={onPressFavoriteSuccessToast}
+        onPress={onPressToast}
       />
     ),
     [favoritedDapp, showToast]

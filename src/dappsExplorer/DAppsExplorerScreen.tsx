@@ -44,7 +44,6 @@ const AnimatedSectionList =
   Animated.createAnimatedComponent<SectionListProps<Dapp, SectionData>>(SectionList)
 
 const SECTION_HEADER_MARGIN_TOP = 32
-const TOAST_DISMISS_TIMEOUT = 5000
 
 interface SectionData {
   data: Dapp[]
