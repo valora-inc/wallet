@@ -1,6 +1,8 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { FlatList, ListRenderItemInfo, StyleSheet, Text, View } from 'react-native'
+import { CeloNewsEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import CeloNewsFeedItem from 'src/exchange/CeloNewsFeedItem'
 import { CeloNewsArticle, CeloNewsArticles } from 'src/exchange/types'
@@ -85,7 +87,9 @@ export default function () {
 
   function onPressReadMore() {
     // TODO: use a remote config for this URL
-    navigate(Screens.WebViewScreen, { uri: 'https://blog.celo.org' })
+    const url = 'https://blog.celo.org'
+    ValoraAnalytics.track(CeloNewsEvents.celo_news_bottom_read_more_tap, { url })
+    navigate(Screens.WebViewScreen, { uri: url })
   }
 
   return (

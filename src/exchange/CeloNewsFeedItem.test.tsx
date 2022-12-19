@@ -1,6 +1,8 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import MockDate from 'mockdate'
 import React from 'react'
+import { CeloNewsEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import CeloNewsFeedItem from 'src/exchange/CeloNewsFeedItem'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -34,6 +36,9 @@ describe('CeloNewsFeedItem', () => {
     fireEvent.press(tree.getByText(TEST_ARTICLE.title))
     expect(navigate).toHaveBeenCalledWith(Screens.WebViewScreen, {
       uri: TEST_ARTICLE.link,
+    })
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(CeloNewsEvents.celo_news_article_tap, {
+      url: TEST_ARTICLE.link,
     })
   })
 })
