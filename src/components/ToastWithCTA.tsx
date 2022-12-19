@@ -15,7 +15,7 @@ interface Props {
   onPress(): void
 }
 
-const ToastWithCTA = ({ showToast, onPress, message, labelCTA, title }: Props): JSX.Element => {
+const ToastWithCTA = ({ showToast, onPress, message, labelCTA, title }: Props) => {
   const positionY = useSharedValue(100)
 
   positionY.value = showToast ? 0 : 100
