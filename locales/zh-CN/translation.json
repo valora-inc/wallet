@@ -1277,6 +1277,8 @@
     "cryptoExchange": "加密货币交易所",
     "feesVary": "费用各异",
     "viewExchanges": "查看交易所",
+    "depositFrom": "存款来自",
+    "cryptoExchangeOrWallet": "加密货币交易所或钱包",
     "card": "信用卡/借记卡",
     "bank": "银行账户",
     "mobileMoney": "手机钱包",
