@@ -1554,6 +1554,11 @@
       "body": "Схоже, {{contactName}} не користується {{appName}}. Натомість надіслати платіж або запрошення можна за адресою гаманця, якщо вона вам відома. \n\n Коли завантажено гаманець і під’єднано номер телефону, ви обоє отримаєте ексклюзивний NFT."
     }
   },
+  "celoNews": {
+    "headerTitle": "Оновлення",
+    "headerDescription": "Дізнайся про використання випадків, пілотів та технічних оновлень у Celo блозі.",
+    "readMoreButtonText": "Детальніше читайте в блозі"
+  },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
   "celoDollarAmount_2": "<0></0> Celo Dollars",
