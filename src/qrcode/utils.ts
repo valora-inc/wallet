@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import * as RNFS from 'react-native-fs'
 import Share from 'react-native-share'
 import { call, fork, put } from 'redux-saga/effects'
@@ -10,7 +11,7 @@ import { validateRecipientAddressSuccess } from 'src/identity/actions'
 import { E164NumberToAddressType } from 'src/identity/reducer'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { UriData, uriDataFromUrl } from 'src/qrcode/schema'
+import { QRCodeDataType, UriData, uriDataFromUrl, urlFromUriData } from 'src/qrcode/schema'
 import {
   getRecipientFromAddress,
   recipientHasNumber,
@@ -31,6 +32,22 @@ export enum BarcodeTypes {
 const TAG = 'QR/utils'
 
 const QRFileName = '/celo-qr.png'
+
+// ValoraDeepLink generates a QR code that deeplinks into the walletconnect send flow of the valora app
+// Address generates a QR code that has the walletAddress as plaintext that is readable by wallets such as Coinbase and Metamask
+export function useQRContent(
+  dataType: QRCodeDataType,
+  data: {
+    address: string
+    displayName: string | undefined
+    e164PhoneNumber: string | undefined
+  }
+) {
+  return useMemo(
+    () => (dataType === QRCodeDataType.ValoraDeepLink ? urlFromUriData(data) : data.address),
+    [data.address, data.displayName, data.e164PhoneNumber, data]
+  )
+}
 
 export async function shareSVGImage(svg: SVG) {
   if (!svg) {

@@ -533,6 +533,8 @@
         "DappSection": {
             "enum": [
                 "all",
+                "favorites dapp screen",
+                "favorites home screen",
                 "featured",
                 "recently used"
             ],
@@ -2039,6 +2041,7 @@
                 "ErrorScreen",
                 "EscrowedPaymentListScreen",
                 "ExchangeHomeScreen",
+                "ExchangeQR",
                 "ExchangeReview",
                 "ExchangeTradeScreen",
                 "ExternalExchanges",
@@ -2368,6 +2371,9 @@
                 "celoEuroEnabled": {
                     "type": "boolean"
                 },
+                "celoNewsEnabled": {
+                    "type": "boolean"
+                },
                 "centralPhoneVerificationEnabled": {
                     "type": "boolean"
                 },
@@ -2525,6 +2531,7 @@
                 "cashInButtonExpEnabled",
                 "celoEducationUri",
                 "celoEuroEnabled",
+                "celoNewsEnabled",
                 "centralPhoneVerificationEnabled",
                 "coinbasePayEnabled",
                 "createAccountCopyTestType",
@@ -3047,16 +3054,21 @@
                         "KES",
                         "LRD",
                         "MXN",
+                        "MYS",
                         "NGN",
                         "PHP",
                         "PLN",
                         "RUB",
                         "RWF",
+                        "SGP",
                         "SLL",
+                        "THI",
                         "TRY",
+                        "TWN",
                         "UAH",
                         "UGX",
                         "USD",
+                        "VNM",
                         "XAF",
                         "XOF",
                         "ZAR"
@@ -3085,16 +3097,21 @@
                         "KES",
                         "LRD",
                         "MXN",
+                        "MYS",
                         "NGN",
                         "PHP",
                         "PLN",
                         "RUB",
                         "RWF",
+                        "SGP",
                         "SLL",
+                        "THI",
                         "TRY",
+                        "TWN",
                         "UAH",
                         "UGX",
                         "USD",
+                        "VNM",
                         "XAF",
                         "XOF",
                         "ZAR"
@@ -3332,6 +3349,9 @@
                 "dappConnectInfo": {
                     "$ref": "#/definitions/DappConnectInfo"
                 },
+                "dappFavoritesEnabled": {
+                    "type": "boolean"
+                },
                 "dappListApiUrl": {
                     "type": [
                         "null",
@@ -3362,12 +3382,18 @@
                 "dappsWebViewEnabled": {
                     "type": "boolean"
                 },
+                "favoriteDappIds": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
                 "maxNumRecentDapps": {
                     "type": "number"
                 },
-                "recentDapps": {
+                "recentDappIds": {
                     "items": {
-                        "$ref": "#/definitions/Dapp"
+                        "type": "string"
                     },
                     "type": "array"
                 }
@@ -3375,14 +3401,16 @@
             "required": [
                 "activeDapp",
                 "dappConnectInfo",
+                "dappFavoritesEnabled",
                 "dappListApiUrl",
                 "dappsCategories",
                 "dappsList",
                 "dappsListError",
                 "dappsListLoading",
                 "dappsWebViewEnabled",
+                "favoriteDappIds",
                 "maxNumRecentDapps",
-                "recentDapps"
+                "recentDappIds"
             ],
             "type": "object"
         },

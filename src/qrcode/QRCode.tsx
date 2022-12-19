@@ -1,11 +1,12 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { shallowEqual, useSelector } from 'react-redux'
 import { nameSelector } from 'src/account/selectors'
 import { AvatarSelf } from 'src/components/AvatarSelf'
 import QRCode from 'src/qrcode/QRGen'
-import { UriData, urlFromUriData } from 'src/qrcode/schema'
+import { QRCodeDataType } from 'src/qrcode/schema'
+import { useQRContent } from 'src/qrcode/utils'
 import { RootState } from 'src/redux/reducers'
 import { SVG } from 'src/send/actions'
 import colors from 'src/styles/colors'
@@ -15,20 +16,19 @@ import { currentAccountSelector } from 'src/web3/selectors'
 
 interface Props {
   qrSvgRef: React.MutableRefObject<SVG>
+  dataType: QRCodeDataType
 }
 
-const mapStateToProps = (state: RootState): Partial<UriData> => ({
+export const mapStateToProps = (state: RootState) => ({
   address: currentAccountSelector(state)!,
   displayName: nameSelector(state) || undefined,
   e164PhoneNumber: state.account.e164PhoneNumber || undefined,
 })
 
-export default function QRCodeDisplay({ qrSvgRef }: Props) {
+export default function QRCodeDisplay({ qrSvgRef, dataType }: Props) {
   const data = useSelector(mapStateToProps, shallowEqual)
-  const qrContent = useMemo(
-    () => urlFromUriData(data),
-    [data.address, data.displayName, data.e164PhoneNumber]
-  )
+  const qrContent = useQRContent(dataType, data)
+
   return (
     <SafeAreaView style={styles.container}>
       <AvatarSelf iconSize={64} displayNameStyle={fontStyles.h2} />

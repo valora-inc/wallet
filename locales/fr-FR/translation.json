@@ -1245,7 +1245,12 @@
     "message": "Explorez les moyens d'utiliser vos crypto",
     "errorMessage": "Une erreur s'est produite lors du chargement des dapps",
     "featuredDapp": "Dapps à la une",
-    "allDapps": "Tous"
+    "allDapps": "Tous",
+    "favoriteDapps": "Mes favoris",
+    "noFavorites": {
+      "title": "Aucun favori ajouté",
+      "description": "Garde la trace de tes Dapps les plus utilisées en tapant sur l'icône en forme d'étoile pour les ajouter à tes favoris."
+    }
   },
   "dappsScreenHelpDialog": {
     "title": "Que sont les dapps?",
@@ -1346,6 +1351,8 @@
     "transactionDetails": "Détails de transaction",
     "paymentMethodVia": "Connexion du {{providerName}}",
     "receiveAmount": "Vous recevrez",
+    "bankFeeDisclaimer": "Ta banque peut facturer des frais supplémentaires pour ton transfert.",
+    "mobileMoneyFeeDisclaimer": "Ton opérateur mobile money peut facturer des frais supplémentaires pour ton transfert.",
     "cashIn": {
       "header": "Vérifier - Ajouter des fonds",
       "button": "Ajouter des fonds",
@@ -1406,19 +1413,27 @@
       "fiatExchangeSubtitle": "Créditer votre compte {{appName}} depuis une banque, une carte ou un échange.",
       "selectCurrencyTitle": "Ajouter des fonds",
       "exchangeAmountTitle": "Ajouter {{currency}}",
-      "selectProviderHeader": "Mode de paiement"
+      "selectProviderHeader": "Mode de paiement",
+      "depositExchangeTitle": "Déposer des Crypto"
     },
     "cashOut": {
       "fiatExchangeTitle": "Retirer des fonds",
       "fiatExchangeSubtitle": "Retirez vos fonds de {{appName}} et les déposez sur un compte bancaire, une carte, un échange de cryptomonnaie ou sur de l'argent digital.",
       "selectCurrencyTitle": "Retirer des fonds",
       "exchangeAmountTitle": "Retirer {{currency}}",
-      "selectProviderHeader": "Mode de retrait"
+      "selectProviderHeader": "Mode de retrait",
+      "withdrawExchangeTitle": "Retirer Crypto"
     },
     "spend": {
       "fiatExchangeTitle": "Dépenser des fonds",
       "fiatExchangeSubtitle": "Dépensez en cartes-cadeaux et autres achats.",
       "selectCurrencyTitle": "Dépenser des fonds"
+    },
+    "exchange": {
+      "copyAddress": "Adresse de la copie",
+      "informationText": "Utilise uniquement des échanges ou des actifs <0>compatibles avec le réseau Celo</0> pour éviter la perte de fonds.",
+      "bottomSheetTitle": "Quels échanges puis-je utiliser pour déposer des fonds ?",
+      "bottomSheetInfo": "Vérifie que tu envoies des biens qui sont compatibles avec le réseau Celo."
     }
   },
   "fiatDetailsScreen": {

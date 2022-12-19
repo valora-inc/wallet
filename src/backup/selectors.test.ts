@@ -4,11 +4,6 @@ import { getMockStoreData } from 'test/utils'
 
 const mockCurrentTime = 1552353116086
 
-jest.mock('src/utils/time', () => ({
-  ...(jest.requireActual('src/utils/time') as any),
-  getRemoteTime: () => mockCurrentTime,
-}))
-
 const mockState = (
   accountCreationTime: number,
   backupRequiredTime: number | null,

@@ -1,6 +1,6 @@
+import { compressedPubKey } from '@celo/cryptographic-utils'
 import { PhoneNumberHashDetails } from '@celo/identity/lib/odis/phone-number-identifier'
 import { hexToBuffer } from '@celo/utils/lib/address'
-import { compressedPubKey } from '@celo/cryptographic-utils'
 import URLSearchParamsReal from '@ungap/url-search-params'
 import { AppState, Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
@@ -69,7 +69,6 @@ import { handlePaymentDeeplink } from 'src/send/utils'
 import { initializeSentry } from 'src/sentry/Sentry'
 import { isDeepLink, navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
-import { clockInSync } from 'src/utils/time'
 import { isWalletConnectEnabled } from 'src/walletConnect/saga'
 import {
   handleWalletConnectDeepLink,
@@ -103,12 +102,6 @@ export function* appInit() {
 
   const supportedBiometryType = yield call(Keychain.getSupportedBiometryType)
   yield put(setSupportedBiometryType(supportedBiometryType))
-
-  const inSync = yield call(clockInSync)
-  if (!inSync) {
-    navigate(Screens.SetClock)
-    return
-  }
 }
 
 export function* appVersionSaga() {
@@ -217,6 +210,8 @@ export interface RemoteConfigValues {
   showGuidedOnboardingCopy: boolean
   centralPhoneVerificationEnabled: boolean
   networkTimeoutSeconds: number
+  dappFavoritesEnabled: boolean
+  celoNewsEnabled: boolean
 }
 
 export function* appRemoteFeatureFlagSaga() {

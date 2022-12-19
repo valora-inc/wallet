@@ -43,6 +43,7 @@ import {
 import { TransactionDataInput } from 'src/send/SendAmount'
 import { Currency } from 'src/utils/currencies'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
+import { StoredTokenBalance } from 'src/tokens/slice'
 
 export const nullAddress = '0x0'
 
@@ -102,7 +103,9 @@ export const mockAccountInvite2PrivKey =
 export const mockCusdAddress = '0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1'.toLowerCase()
 export const mockCeurAddress = '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F'.toLowerCase()
 export const mockCeloAddress = '0xF194afDf50B03e69Bd7D057c1Aa9e10c9954E4C9'.toLowerCase()
+export const mockPoofAddress = '0x00400FcbF0816bebB94654259de7273f4A05c762'.toLowerCase()
 export const mockTestTokenAddress = '0x048F47d358EC521a6cf384461d674750a3cB58C8'.toLowerCase()
+export const mockCrealAddress = '0xE4D517785D091D3c54818832dB6094bcc2744545'.toLowerCase()
 
 export const mockQrCodeData2 = {
   address: mockAccount2Invite,
@@ -458,10 +461,12 @@ export const makeExchangeRates = (
   },
 })
 
-export const mockTokenBalances = {
-  '0x00400FcbF0816bebB94654259de7273f4A05c762': {
+export const mockTokenBalances: Record<string, StoredTokenBalance> = {
+  // NOTE: important to keep 'symbol' fields in this object matching their counterparts from here: https://github.com/valora-inc/address-metadata/blob/main/src/data/mainnet/tokens-info.json ,
+  //  particularly for CICO currencies
+  [mockPoofAddress]: {
     usdPrice: '0.1',
-    address: '0x00400FcbF0816bebB94654259de7273f4A05c762',
+    address: mockPoofAddress,
     symbol: 'POOF',
     imageUrl:
       'https://raw.githubusercontent.com/ubeswap/default-token-list/master/assets/asset_POOF.png',
@@ -494,11 +499,35 @@ export const mockTokenBalances = {
     isCoreToken: true,
     priceFetchedAt: Date.now(),
   },
+  [mockCeloAddress]: {
+    usdPrice: '13.25085583155252100584',
+    address: mockCeloAddress,
+    symbol: 'CELO', // NOT cGLD, see https://github.com/valora-inc/address-metadata/blob/c84ef7056fa066ef86f9b4eb295ae248f363f67a/src/data/mainnet/tokens-info.json#L173
+    imageUrl:
+      'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/CELO.png',
+    name: 'Celo native asset',
+    decimals: 18,
+    balance: '0',
+    isCoreToken: true,
+    priceFetchedAt: Date.now(),
+  },
+  [mockCrealAddress]: {
+    usdPrice: '0.17',
+    address: mockCrealAddress,
+    symbol: 'cREAL',
+    imageUrl:
+      'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/cREAL.png',
+    name: 'Celo Real',
+    decimals: 18,
+    balance: '0',
+    isCoreToken: true,
+    priceFetchedAt: Date.now(),
+  },
 }
 
 export const mockTokenBalancesWithHistoricalPrices = {
-  '0x00400FcbF0816bebB94654259de7273f4A05c762': {
-    ...mockTokenBalances['0x00400FcbF0816bebB94654259de7273f4A05c762'],
+  [mockPoofAddress]: {
+    ...mockTokenBalances[mockPoofAddress],
     historicalUsdPrices: {
       lastDay: {
         price: '0.15',

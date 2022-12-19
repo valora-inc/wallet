@@ -1245,7 +1245,12 @@
     "message": "Kriptonuzu kullanmanın yollarını keşfedin",
     "errorMessage": "Dapp'ler yüklenirken bir hata oluştu",
     "featuredDapp": "Öne Çıkan",
-    "allDapps": "Tümü"
+    "allDapps": "Tümü",
+    "favoriteDapps": "Favorilerim",
+    "noFavorites": {
+      "title": "Favori eklenmemiş",
+      "description": "Favori olarak eklemek için yıldız simgesine dokunarak en çok kullandığınız Dapp'leri takip edin"
+    }
   },
   "dappsScreenHelpDialog": {
     "title": "Dapp'ler nedir?",
@@ -1346,6 +1351,8 @@
     "transactionDetails": "İşlem detayları",
     "paymentMethodVia": "{{providerName}} üzerinden bağlantı",
     "receiveAmount": "Alacağınız",
+    "bankFeeDisclaimer": "Bankanız transferiniz için ek ücret talep edebilir.",
+    "mobileMoneyFeeDisclaimer": "Mobil para operatörünüz transferiniz için ek ücret talep edebilir.",
     "cashIn": {
       "header": "Gözden Geçir - Bakiye Ekle",
       "button": "Bakiye Ekle",
@@ -1386,8 +1393,8 @@
       "header": "Başarılı",
       "title": "Bakiyen yolda!",
       "description": "İşlem talebiniz gönderildi ve paranız {{duration}} içinde ulaşacak.",
-      "description1to3Days": "İşlem talebiniz gönderildi ve paranız 1-3 gün içinde elinize ulaşacak.",
-      "description24Hours": "İşlem talebiniz gönderildi ve paranız 24 saat içinde elinize ulaşacak.",
+      "description1to3Days": "İşlem talebiniz gönderildi ve paranız 1-3 gün içinde ulaşacak.",
+      "description24Hours": "İşlem talebiniz gönderildi ve paranız 24 saat içinde ulaşacak.",
       "txDetails": "CeloExplorer'da görüntüle",
       "continue": "İleri"
     },
@@ -1406,19 +1413,27 @@
       "fiatExchangeSubtitle": "{{appName}} hesabınıza bir bankadan, karttan veya borsadan para yatırın.",
       "selectCurrencyTitle": "Bakiye Ekle",
       "exchangeAmountTitle": "{{currency}} ekle",
-      "selectProviderHeader": "Ödeme Yöntemi Seç"
+      "selectProviderHeader": "Ödeme Yöntemi Seç",
+      "depositExchangeTitle": "Kripto Para Yatırma"
     },
     "cashOut": {
       "fiatExchangeTitle": "Bakiye Çek",
       "fiatExchangeSubtitle": "{{appName}} uygulamasından bir banka hesabına, karta, kripto borsasına veya mobil paraya para aktarın.",
       "selectCurrencyTitle": "Bakiye Çek",
       "exchangeAmountTitle": "{{currency}} çek",
-      "selectProviderHeader": "Para Çekme Yöntemi Seç"
+      "selectProviderHeader": "Para Çekme Yöntemi Seç",
+      "withdrawExchangeTitle": "Kripto Çekme"
     },
     "spend": {
       "fiatExchangeTitle": "Harcama Çek",
       "fiatExchangeSubtitle": "Hediye kartları ve diğer satın alma işlemleri için harcayın.",
       "selectCurrencyTitle": "Para Harcama"
+    },
+    "exchange": {
+      "copyAddress": "Kopya Adres",
+      "informationText": "Fon kaybını önlemek için yalnızca <0>Celo ağıyla uyumlu</0> borsaları veya varlıkları kullanın",
+      "bottomSheetTitle": "Para yatırmak için hangi borsaları kullanabilirim?",
+      "bottomSheetInfo": "Celo ağı ile uyumlu varlıklar gönderdiğinizi iki kez kontrol edin."
     }
   },
   "fiatDetailsScreen": {

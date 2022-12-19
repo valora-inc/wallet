@@ -3,7 +3,10 @@ import { FetchMock } from 'jest-fetch-mock/types'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { MockStoreEnhanced } from 'redux-mock-store'
-import SelectProviderScreen from 'src/fiatExchanges/SelectProvider'
+import SelectProviderScreen, {
+  getAddFundsCryptoExchangeExperimentParams,
+} from 'src/fiatExchanges/SelectProvider'
+import { SelectProviderExchangesLink, SelectProviderExchangesText } from 'src/fiatExchanges/types'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { Screens } from 'src/navigator/Screens'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
@@ -36,6 +39,13 @@ jest.mock('@coinbase/cbpay-js', () => {
 
 jest.mock('src/firebase/firebase', () => ({
   readOnceFromFirebase: jest.fn().mockResolvedValue(FAKE_APP_ID),
+}))
+
+const mockStatsigGet = jest.fn()
+jest.mock('statsig-react-native', () => ({
+  Statsig: {
+    getExperiment: jest.fn().mockImplementation(() => ({ get: mockStatsigGet })),
+  },
 }))
 
 const mockLegacyProviders: LegacyMobileMoneyProvider[] = [
@@ -309,6 +319,39 @@ describe(SelectProviderScreen, () => {
         </Provider>
       )
       await waitFor(() => expect(queryByText('Coinbase Pay')).toBeFalsy())
+    })
+  })
+})
+
+describe('getAddFundsCryptoExchangeExperimentParams', () => {
+  it('returns value from statsig', () => {
+    mockStatsigGet
+      .mockReturnValueOnce(SelectProviderExchangesText.DepositFrom)
+      .mockReturnValueOnce(SelectProviderExchangesLink.ExchangesQrScreen)
+    expect(getAddFundsCryptoExchangeExperimentParams()).toEqual({
+      exchangesText: SelectProviderExchangesText.DepositFrom,
+      exchangesLink: SelectProviderExchangesLink.ExchangesQrScreen,
+    })
+    expect(mockStatsigGet).toHaveBeenCalledTimes(2)
+    expect(mockStatsigGet).toHaveBeenNthCalledWith(
+      1,
+      'addFundsExchangesText',
+      SelectProviderExchangesText.CryptoExchange
+    )
+    expect(mockStatsigGet).toHaveBeenNthCalledWith(
+      2,
+      'addFundsExchangesLink',
+      SelectProviderExchangesLink.ExchangesScreen
+    )
+  })
+
+  it('returns defaults if statsig throws', () => {
+    mockStatsigGet.mockImplementation(() => {
+      throw new Error('foo')
+    })
+    expect(getAddFundsCryptoExchangeExperimentParams()).toEqual({
+      exchangesText: SelectProviderExchangesText.CryptoExchange,
+      exchangesLink: SelectProviderExchangesLink.ExchangesScreen,
     })
   })
 })

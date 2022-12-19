@@ -1243,7 +1243,12 @@
     "message": "探索如何使用您的加密货币",
     "errorMessage": "加在 dapp 时出错",
     "featuredDapp": "精选",
-    "allDapps": "全部"
+    "allDapps": "全部",
+    "favoriteDapps": "我的最爱",
+    "noFavorites": {
+      "title": "没有添加收藏夹",
+      "description": "追踪你最常用的Dapps，点击星星图标将其添加为最爱。"
+    }
   },
   "dappsScreenHelpDialog": {
     "title": "什么是 dapp？",
@@ -1284,10 +1289,10 @@
     "lessThan24Hours": "24 小时内",
     "bestRate": "最佳费率",
     "header": "选择付款方式",
-    "newLabel": "新的",
+    "newLabel": "新",
     "newDialog": {
-      "title": "转移资金的新方法",
-      "body": "我们正在发布直接从Valora应用程序向银行账户转账的新方法。\n\n如果你看到这个，这意味着你在你的地区能够访问这个功能。",
+      "title": "资金转账的新方式",
+      "body": "我们即将发布直接从 Valora 应用程序与银行账户互相转账的新方式。\n\n如果您看到这条信息，则意味着您所在地区能够使用该功能。",
       "dismiss": "忽略"
     }
   },
@@ -1344,6 +1349,8 @@
     "transactionDetails": "交易详情",
     "paymentMethodVia": "已通过 {{providerName}} 关联",
     "receiveAmount": "您将收到",
+    "bankFeeDisclaimer": "你的银行可能对你的转账收取额外费用。",
+    "mobileMoneyFeeDisclaimer": "您的移动支付运营商可能会对您的转账收取额外费用。",
     "cashIn": {
       "header": "查看 — 添加资金",
       "button": "添加资金",
@@ -1384,8 +1391,8 @@
       "header": "成功",
       "title": "您的资金正在到账中！",
       "description": "您的交易请求已发送，您的资金将在 {{duration}} 后到账。",
-      "description1to3Days": "您的交易请求已经发出，您的资金将在1-3天内到达。",
-      "description24Hours": "您的交易请求已经发出，您的资金将在24小时内到达。",
+      "description1to3Days": "您的交易请求已发出，您的资金将在 1-3 天后到账。",
+      "description24Hours": "您的交易请求已发出，您的资金将在 24 小时内到账。",
       "txDetails": "在 CeloExplorer 上查看",
       "continue": "继续"
     },
@@ -1404,19 +1411,27 @@
       "fiatExchangeSubtitle": "从银行、卡或交易所为您的 {{appName}} 账户添加资金。",
       "selectCurrencyTitle": "添加资金",
       "exchangeAmountTitle": "添加 {{currency}}",
-      "selectProviderHeader": "选择付款方式"
+      "selectProviderHeader": "选择付款方式",
+      "depositExchangeTitle": "存入加密货币"
     },
     "cashOut": {
       "fiatExchangeTitle": "提取资金",
       "fiatExchangeSubtitle": "从 {{appName}} 将资金提取到银行账户、卡、加密货币交易所或手机钱包。",
       "selectCurrencyTitle": "提取资金",
       "exchangeAmountTitle": "提取 {{currency}}",
-      "selectProviderHeader": "选择提取方式"
+      "selectProviderHeader": "选择提取方式",
+      "withdrawExchangeTitle": "提取加密货币"
     },
     "spend": {
       "fiatExchangeTitle": "消费资金",
       "fiatExchangeSubtitle": "用于购买礼品卡和其他物品。",
       "selectCurrencyTitle": "消费资金"
+    },
+    "exchange": {
+      "copyAddress": "复制地址",
+      "informationText": "只使用<0>与Celo网络兼容</0>的交易所或资产，以防止资金损失。",
+      "bottomSheetTitle": "我可以用什么交易所来存入资金？",
+      "bottomSheetInfo": "仔细检查你所发送的资产是否与Celo网络兼容。"
     }
   },
   "fiatDetailsScreen": {
@@ -1464,8 +1479,8 @@
     },
     "ifsc": {
       "label": "IFSC",
-      "placeholderText": "输入IFSC",
-      "errorMessage": "无效的IFSC"
+      "placeholderText": "输入 IFSC",
+      "errorMessage": "IFSC 无效"
     }
   },
   "webView": {

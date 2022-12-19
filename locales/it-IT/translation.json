@@ -1245,7 +1245,12 @@
     "message": "Esplora i modi per usare le tue criptovalute",
     "errorMessage": "Errore durante il caricamento delle Dapp.",
     "featuredDapp": "In primo piano",
-    "allDapps": "Tutti"
+    "allDapps": "Tutti",
+    "favoriteDapps": "I miei preferiti",
+    "noFavorites": {
+      "title": "Nessun preferito aggiunto",
+      "description": "Tieni traccia delle tue Dapp più utilizzate toccando l'icona a forma di stella per aggiungerle ai preferiti."
+    }
   },
   "dappsScreenHelpDialog": {
     "title": "Che cosa sono le Dapp?",
@@ -1346,6 +1351,8 @@
     "transactionDetails": "Dettagli della transazione",
     "paymentMethodVia": "Collegato via {{providerName}}",
     "receiveAmount": "Riceverai",
+    "bankFeeDisclaimer": "La tua banca potrebbe addebitare ulteriori spese per il trasferimento.",
+    "mobileMoneyFeeDisclaimer": "Il tuo operatore di telefonia mobile potrebbe addebitare costi aggiuntivi per il tuo trasferimento.",
     "cashIn": {
       "header": "Rivedi - Aggiungi fondi",
       "button": "Aggiungi fondi",
@@ -1406,19 +1413,27 @@
       "fiatExchangeSubtitle": "Aggiunta di fondi in il tuo conto {{appName}} con una banca, una carta o un exchange.",
       "selectCurrencyTitle": "Aggiungi fondi",
       "exchangeAmountTitle": "Aggiungi {{currency}}",
-      "selectProviderHeader": "Metodo di pagamento"
+      "selectProviderHeader": "Metodo di pagamento",
+      "depositExchangeTitle": "Deposito di criptovalute"
     },
     "cashOut": {
       "fiatExchangeTitle": "Preleva fondi",
       "fiatExchangeSubtitle": "Preleva di fondi da {{appName}} per trasferirli su un conto bancario, una carta, un exchange di criptovalute o denaro mobile.",
       "selectCurrencyTitle": "Preleva fondi",
       "exchangeAmountTitle": "Preleva {{currency}}",
-      "selectProviderHeader": "Metodo di prelievo"
+      "selectProviderHeader": "Metodo di prelievo",
+      "withdrawExchangeTitle": "Prelevare criptovalute"
     },
     "spend": {
       "fiatExchangeTitle": "Spendi fondi",
       "fiatExchangeSubtitle": "Spendi in buoni regalo e altri acquisti.",
       "selectCurrencyTitle": "Spendi fondi"
+    },
+    "exchange": {
+      "copyAddress": "Copia dell'indirizzo",
+      "informationText": "Utilizza solo borse o asset <0>compatibili con la rete Celo</0> per evitare perdite di fondi.",
+      "bottomSheetTitle": "Quali cambi posso utilizzare per depositare i fondi?",
+      "bottomSheetInfo": "Verifica che l'invio di risorse sia compatibile con la rete Celo."
     }
   },
   "fiatDetailsScreen": {

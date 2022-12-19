@@ -54,6 +54,7 @@ import CoinbasePayScreen from 'src/fiatExchanges/CoinbasePayScreen'
 import ExternalExchanges, {
   externalExchangesScreenOptions,
 } from 'src/fiatExchanges/ExternalExchanges'
+import ExchangeQR from 'src/fiatExchanges/ExchangeQR'
 import FiatExchangeAmount from 'src/fiatExchanges/FiatExchangeAmount'
 import FiatExchangeCurrency, {
   fiatExchangesOptionsScreenOptions,
@@ -112,7 +113,6 @@ import ValidateRecipientAccount, {
 import ValidateRecipientIntro, {
   validateRecipientIntroScreenNavOptions,
 } from 'src/send/ValidateRecipientIntro'
-import SetClock from 'src/set-clock/SetClock'
 import SwapExecuteScreen from 'src/swap/SwapExecuteScreen'
 import SwapReviewScreen from 'src/swap/SwapReviewScreen'
 import TokenBalancesScreen from 'src/tokens/TokenBalances'
@@ -547,16 +547,16 @@ const settingsScreens = (Navigator: typeof Stack) => (
       name={Screens.KycPending}
       component={KycPending}
     />
+    <Navigator.Screen
+      options={ExchangeQR.navigationOptions}
+      name={Screens.ExchangeQR}
+      component={ExchangeQR}
+    />
   </>
 )
 
 const generalScreens = (Navigator: typeof Stack) => (
   <>
-    <Navigator.Screen
-      name={Screens.SetClock}
-      component={SetClock}
-      options={noHeaderGestureDisabled}
-    />
     <Navigator.Screen
       name={Screens.TransactionReview}
       component={TransactionReview}

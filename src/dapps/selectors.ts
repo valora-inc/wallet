@@ -10,7 +10,7 @@ export const dappsListApiUrlSelector = (state: RootState) => state.dapps.dappLis
 
 export const maxNumRecentDappsSelector = (state: RootState) => state.dapps.maxNumRecentDapps
 
-export const recentDappsSelector = (state: RootState) => state.dapps.recentDapps
+export const recentDappIdsSelector = (state: RootState) => state.dapps.recentDappIds
 
 export const activeDappSelector = (state: RootState) =>
   state.dapps.dappsWebViewEnabled ? state.dapps.activeDapp : null
@@ -58,3 +58,37 @@ export const dappCategoriesByIdSelector = createSelector(
 )
 
 export const dappConnectInfoSelector = (state: RootState) => state.dapps.dappConnectInfo
+
+export const dappFavoritesEnabledSelector = (state: RootState) => state.dapps.dappFavoritesEnabled
+
+export const favoriteDappIdsSelector = (state: RootState) => state.dapps.favoriteDappIds
+
+export const recentDappsSelector = createSelector(
+  dappsListSelector,
+  recentDappIdsSelector,
+  (dapps, recentDappIds) => {
+    const recentDapps: Dapp[] = []
+    recentDappIds.forEach((recentDappId) => {
+      const recentDapp = dapps.find((dapp) => dapp.id === recentDappId)
+      if (recentDapp) {
+        recentDapps.push(recentDapp)
+      }
+    })
+    return recentDapps
+  }
+)
+
+export const favoriteDappsSelector = createSelector(
+  dappsListSelector,
+  favoriteDappIdsSelector,
+  (dapps, favoriteDappIds) => {
+    const favoriteDapps: Dapp[] = []
+    favoriteDappIds.forEach((favoriteDappId) => {
+      const favoriteDapp = dapps.find((dapp) => dapp.id === favoriteDappId)
+      if (favoriteDapp) {
+        favoriteDapps.push(favoriteDapp)
+      }
+    })
+    return favoriteDapps
+  }
+)

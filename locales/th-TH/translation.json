@@ -1243,7 +1243,12 @@
     "message": "สำรวจวิธีใช้คริปโตของคุณ",
     "errorMessage": "มีข้อผิดพลาดขณะโหลด Dapp",
     "featuredDapp": "โดดเด่น",
-    "allDapps": "ทั้งหมด"
+    "allDapps": "ทั้งหมด",
+    "favoriteDapps": "My Favorites",
+    "noFavorites": {
+      "title": "No favorites added",
+      "description": "Keep track of your most-used Dapps by tapping the star icon to add it as a favorite"
+    }
   },
   "dappsScreenHelpDialog": {
     "title": "Dapp คืออะไร",
@@ -1284,10 +1289,10 @@
     "lessThan24Hours": "ไม่เกิน 24 ชั่วโมง",
     "bestRate": "อัตราที่ดีที่สุด",
     "header": "เลือกวิธีการชำระเงิน",
-    "newLabel": "NEW",
+    "newLabel": "ใหม่",
     "newDialog": {
-      "title": "New ways to transfer funds",
-      "body": "We are releasing new ways to transfer funds to and from bank accounts, directly from the Valora app.\n\nIf you are seeing this, it means you are able to access this feature in your region.",
+      "title": "วิธีการโอนเงินแบบใหม่",
+      "body": "เรากำลังจะใช้วิธีการโอนเงินแบบใหม่ระหว่างบัญชีธนาคารโดยตรงจากแอป Valora\n\nหากคุณเห็นข้อความนี้ แสดงว่าคุณสามารถเข้าใช้งานคุณสมบัตินี้ได้ในภูมิภาคของคุณ",
       "dismiss": "ปิด"
     }
   },
@@ -1344,6 +1349,8 @@
     "transactionDetails": "รายละเอียดธุรกรรม",
     "paymentMethodVia": "เชื่อมต่อแล้วผ่าน {{providerName}}",
     "receiveAmount": "คุณจะได้รับ",
+    "bankFeeDisclaimer": "Your bank may charge additional fees for your transfer.",
+    "mobileMoneyFeeDisclaimer": "Your mobile money operator may charge additional fees for your transfer.",
     "cashIn": {
       "header": "ตรวจสอบการเพิ่มเงินทุน",
       "button": "เพิ่มเงินทุน",
@@ -1384,8 +1391,8 @@
       "header": "สำเร็จ",
       "title": "คุณกำลังจะได้รับเงินเร็วๆ นี้",
       "description": "ส่งคำขอธุรกรรมของคุณแล้ว และคุณจะได้รับเงินใน {{duration}}",
-      "description1to3Days": "Your transaction request has been sent & your funds will arrive in 1-3 days.",
-      "description24Hours": "Your transaction request has been sent & your funds will arrive within 24 hours.",
+      "description1to3Days": "ส่งคำขอธุรกรรมของคุณแล้ว และคุณจะได้รับเงินใน 1-3 วัน",
+      "description24Hours": "ส่งคำขอธุรกรรมของคุณแล้ว และคุณจะได้รับเงินใน 24 ชั่วโมง",
       "txDetails": "ดูใน CeloExplorer",
       "continue": "ดำเนินการต่อ"
     },
@@ -1404,19 +1411,27 @@
       "fiatExchangeSubtitle": "ฝากเงินเข้าบัญชี {{appName}} ของคุณจากธนาคาร บัตร หรือตลาดแลกเปลี่ยน",
       "selectCurrencyTitle": "เพิ่มเงินทุน",
       "exchangeAmountTitle": "เพิ่ม {{currency}}",
-      "selectProviderHeader": "เลือกวิธีการชำระเงิน"
+      "selectProviderHeader": "เลือกวิธีการชำระเงิน",
+      "depositExchangeTitle": "Deposit Crypto"
     },
     "cashOut": {
       "fiatExchangeTitle": "ถอนเงิน",
       "fiatExchangeSubtitle": "นำเงินออกจาก {{appName}} และนำเข้าบัญชีธนาคาร บัตร การแลกเปลี่ยนคริปโตเคอร์เรนซี หรือเงินอิเล็กทรอนิกส์",
       "selectCurrencyTitle": "ถอนเงิน",
       "exchangeAmountTitle": "ถอน {{currency}}",
-      "selectProviderHeader": "เลือกวิธีการถอนเงิน"
+      "selectProviderHeader": "เลือกวิธีการถอนเงิน",
+      "withdrawExchangeTitle": "Withdraw Crypto"
     },
     "spend": {
       "fiatExchangeTitle": "ใช้เงิน",
       "fiatExchangeSubtitle": "ใช้เงินซื้อบัตรของขวัญและสินค้าอื่นๆ",
       "selectCurrencyTitle": "ใช้เงิน"
+    },
+    "exchange": {
+      "copyAddress": "Copy Address",
+      "informationText": "Only use exchanges or assets <0>compatible with the Celo network</0> to prevent loss of funds",
+      "bottomSheetTitle": "What exchanges can I use to deposit funds?",
+      "bottomSheetInfo": "Double check that you are sending assets that are compatible with the Celo network."
     }
   },
   "fiatDetailsScreen": {
@@ -1464,8 +1479,8 @@
     },
     "ifsc": {
       "label": "IFSC",
-      "placeholderText": "Enter IFSC",
-      "errorMessage": "Invalid IFSC"
+      "placeholderText": "ป้อน IFSC",
+      "errorMessage": "IFSC ไม่ถูกต้อง"
     }
   },
   "webView": {
