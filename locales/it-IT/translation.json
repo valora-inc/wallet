@@ -1279,6 +1279,8 @@
     "cryptoExchange": "Exchange di criptovalute",
     "feesVary": "Le commissioni variano",
     "viewExchanges": "Visualizza gli exchange",
+    "depositFrom": "Deposito da",
+    "cryptoExchangeOrWallet": "Scambio di criptovalute o portafoglio",
     "card": "Carta di credito/debito",
     "bank": "Conto bancario",
     "mobileMoney": "Denaro mobile",
