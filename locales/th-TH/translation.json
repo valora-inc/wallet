@@ -1277,6 +1277,8 @@
     "cryptoExchange": "การแลกเปลี่ยนคริปโตเคอร์เรนซี",
     "feesVary": "อาจมีค่าธรรมเนียมแตกต่างกัน",
     "viewExchanges": "ดูการแลกเปลี่ยน",
+    "depositFrom": "Deposit from",
+    "cryptoExchangeOrWallet": "Crypto Exchange or Wallet",
     "card": "บัตรเครดิต / เดบิต",
     "bank": "บัญชีธนาคาร",
     "mobileMoney": "เงินอิเล็กทรอนิกส์",
