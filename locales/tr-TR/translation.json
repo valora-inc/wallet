@@ -1279,6 +1279,8 @@
     "cryptoExchange": "Kripto Para Borsası",
     "feesVary": "Ücret Değişkendir",
     "viewExchanges": "Borsaları Görüntüle",
+    "depositFrom": "Depozito",
+    "cryptoExchangeOrWallet": "Kripto Borsası veya Cüzdanı",
     "card": "Kredi / Banka Kartı",
     "bank": "Banka Hesabı",
     "mobileMoney": "Mobil Para",
