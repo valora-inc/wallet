@@ -148,6 +148,7 @@ describe('CeloNewsFeed', () => {
 
     // Check we can retry
     fireEvent.press(tree.getByText('celoNews.retryButtonText'))
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(CeloNewsEvents.celo_news_retry_tap)
     await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(2))
   })
 })
