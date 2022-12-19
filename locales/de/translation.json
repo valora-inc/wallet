@@ -1550,6 +1550,11 @@
       "body": "Es sieht so aus, als wäre {{contactName}} nicht auf {{appName}}. Wenn du die Wallet-Adresse kennst, kannst du dennoch eine Zahlung oder stattdessen eine Einladung senden. \n\n Nachdem die Wallet heruntergeladen und mit der Telefonnummer verbunden wurde, erhaltet ihr beide ein exklusives NFT."
     }
   },
+  "celoNews": {
+    "headerTitle": "Updates",
+    "headerDescription": "Erfahre mehr über Anwendungsfälle, Pilotprojekte und technische Updates im Celo Blog.",
+    "readMoreButtonText": "Lies mehr auf dem Blog"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
