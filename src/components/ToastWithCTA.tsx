@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated'
+import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 import Touchable from 'src/components/Touchable'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
@@ -18,41 +18,40 @@ interface Props {
 const ToastWithCTA = ({ showToast, onPress, message, labelCTA, title }: Props): JSX.Element => {
   const positionY = useSharedValue(100)
 
+  positionY.value = showToast ? 0 : 100
+
   const animatedStyle = useAnimatedStyle(() => {
     return {
-      // TODO sort out this animation
-      transform: [{ translateY: withSpring(positionY.value) }],
+      transform: [{ translateY: withTiming(positionY.value) }],
     }
   })
 
-  if (showToast) {
-    positionY.value = -24
-  }
-
-  if (!showToast) {
-    positionY.value = 100
-  }
-
   return (
     <Animated.View style={[styles.container, animatedStyle]}>
-      <View>
-        {title && <Text style={styles.title}>{title}</Text>}
-        <Text style={styles.message}>{message}</Text>
+      <View style={styles.toast}>
+        <View>
+          {title && <Text style={styles.title}>{title}</Text>}
+          <Text style={styles.message}>{message}</Text>
+        </View>
+        <Touchable onPress={onPress} hitSlop={variables.iconHitslop}>
+          <Text style={styles.labelCTA}>{labelCTA}</Text>
+        </Touchable>
       </View>
-      <Touchable onPress={onPress} hitSlop={variables.iconHitslop}>
-        <Text style={styles.labelCTA}>{labelCTA}</Text>
-      </Touchable>
     </Animated.View>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
+    position: 'absolute',
+    bottom: Spacing.Thick24,
+    width: '100%',
+  },
+  toast: {
     backgroundColor: Colors.dark,
     borderRadius: 8,
     marginHorizontal: Spacing.Regular16,
     padding: Spacing.Regular16,
-    bottom: Spacing.Small12,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',

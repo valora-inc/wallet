@@ -16,7 +16,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { DappExplorerEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Dialog from 'src/components/Dialog'
-import ToastWithCTA from 'src/components/ToastWithCTA'
 import {
   CategoryWithDapps,
   dappCategoriesByIdSelector,
@@ -30,6 +29,7 @@ import { Dapp, DappSection } from 'src/dapps/types'
 import DappCard from 'src/dappsExplorer/DappCard'
 import FavoriteDappsSection from 'src/dappsExplorer/FavoriteDappsSection'
 import FeaturedDappCard from 'src/dappsExplorer/FeaturedDappCard'
+import useDappFavoritedToast from 'src/dappsExplorer/useDappFavoritedToast'
 import useOpenDapp from 'src/dappsExplorer/useOpenDapp'
 import Help from 'src/icons/navigator/Help'
 import { dappListLogo } from 'src/images/Images'
@@ -68,8 +68,7 @@ export function DAppsExplorerScreen() {
   const dappFavoritesEnabled = useSelector(dappFavoritesEnabledSelector)
 
   const { onSelectDapp, ConfirmOpenDappBottomSheet } = useOpenDapp()
-
-  const [favoritedDapp, setFavoritedDapp] = useState<Dapp | null>(null)
+  const { onFavoriteDapp, DappFavoritedToast } = useDappFavoritedToast(sectionListRef)
 
   useEffect(() => {
     dispatch(fetchDappsList())
@@ -87,36 +86,12 @@ export function DAppsExplorerScreen() {
     }
   }, [featuredDapp])
 
-  useEffect(() => {
-    if (favoritedDapp) {
-      // hide the favorited dapp confirmation toast after some time
-      setTimeout(() => {
-        setFavoritedDapp(null)
-      }, TOAST_DISMISS_TIMEOUT)
-    }
-  }, [favoritedDapp])
-
   const onPressHelp = () => {
     setHelpDialogVisible(true)
   }
 
   const onCloseDialog = () => {
     setHelpDialogVisible(false)
-  }
-
-  const onFavoriteDapp = (dapp: Dapp) => {
-    setFavoritedDapp(dapp)
-  }
-
-  const onPressFavoriteSuccessToast = () => {
-    setFavoritedDapp(null)
-    sectionListRef.current?.scrollToLocation({
-      sectionIndex: 0,
-      itemIndex: 0,
-      animated: true,
-      // TODO how to scroll to top of list header
-      viewOffset: 2000,
-    })
   }
 
   return (
@@ -207,13 +182,8 @@ export function DAppsExplorerScreen() {
           />
         )}
       </>
-      <ToastWithCTA
-        showToast={!!favoritedDapp}
-        onPress={onPressFavoriteSuccessToast}
-        title={favoritedDapp?.name}
-        message={t('dappsScreen.favoritedDappToast.message')}
-        labelCTA={t('dappsScreen.favoritedDappToast.labelCTA')}
-      />
+
+      {DappFavoritedToast}
     </SafeAreaView>
   )
 }
