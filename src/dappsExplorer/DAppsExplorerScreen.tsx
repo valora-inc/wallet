@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { DappExplorerEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Dialog from 'src/components/Dialog'
+import ToastWithCTA from 'src/components/ToastWithCTA'
 import {
   CategoryWithDapps,
   dappCategoriesByIdSelector,
@@ -43,6 +44,7 @@ const AnimatedSectionList =
   Animated.createAnimatedComponent<SectionListProps<Dapp, SectionData>>(SectionList)
 
 const SECTION_HEADER_MARGIN_TOP = 32
+const TOAST_DISMISS_TIMEOUT = 5000
 
 interface SectionData {
   data: Dapp[]
@@ -53,7 +55,10 @@ export function DAppsExplorerScreen() {
   const { t } = useTranslation()
   const [isHelpDialogVisible, setHelpDialogVisible] = useState(false)
   const insets = useSafeAreaInsets()
+
+  const sectionListRef = useRef<SectionList>(null)
   const scrollPosition = useRef(new Animated.Value(0)).current
+
   const onScroll = Animated.event([{ nativeEvent: { contentOffset: { y: scrollPosition } } }])
   const dispatch = useDispatch()
   const featuredDapp = useSelector(featuredDappSelector)
@@ -63,6 +68,8 @@ export function DAppsExplorerScreen() {
   const dappFavoritesEnabled = useSelector(dappFavoritesEnabledSelector)
 
   const { onSelectDapp, ConfirmOpenDappBottomSheet } = useOpenDapp()
+
+  const [favoritedDapp, setFavoritedDapp] = useState<Dapp | null>(null)
 
   useEffect(() => {
     dispatch(fetchDappsList())
@@ -80,12 +87,35 @@ export function DAppsExplorerScreen() {
     }
   }, [featuredDapp])
 
+  useEffect(() => {
+    if (favoritedDapp) {
+      // hide the favorited dapp confirmation toast after some time
+      setTimeout(() => {
+        setFavoritedDapp(null)
+      }, TOAST_DISMISS_TIMEOUT)
+    }
+  }, [favoritedDapp])
+
   const onPressHelp = () => {
     setHelpDialogVisible(true)
   }
 
   const onCloseDialog = () => {
     setHelpDialogVisible(false)
+  }
+
+  const onFavoriteDapp = (dapp: Dapp) => {
+    setFavoritedDapp(dapp)
+  }
+
+  const onPressFavoriteSuccessToast = () => {
+    setFavoritedDapp(null)
+    sectionListRef.current?.scrollToLocation({
+      sectionIndex: 0,
+      itemIndex: 0,
+      animated: true,
+      viewOffset: 2000,
+    })
   }
 
   return (
@@ -125,6 +155,7 @@ export function DAppsExplorerScreen() {
         )}
         {!loading && !error && categoriesById && (
           <AnimatedSectionList
+            ref={sectionListRef as any}
             ListHeaderComponent={
               <>
                 <DescriptionView message={t('dappsScreen.message')} />
@@ -158,7 +189,12 @@ export function DAppsExplorerScreen() {
             onScroll={onScroll}
             sections={parseResultIntoSections(categoriesById)}
             renderItem={({ item: dapp }) => (
-              <DappCard dapp={dapp} section={DappSection.All} onPressDapp={onSelectDapp} />
+              <DappCard
+                dapp={dapp}
+                section={DappSection.All}
+                onPressDapp={onSelectDapp}
+                onFavoriteDapp={onFavoriteDapp}
+              />
             )}
             keyExtractor={(dapp: Dapp) => `${dapp.categoryId}-${dapp.id}`}
             stickySectionHeadersEnabled={false}
@@ -169,6 +205,13 @@ export function DAppsExplorerScreen() {
           />
         )}
       </>
+      <ToastWithCTA
+        showToast={!!favoritedDapp}
+        onPress={onPressFavoriteSuccessToast}
+        title={favoritedDapp?.name}
+        message={t('dappsScreen.favoritedDappToast.message')}
+        labelCTA={t('dappsScreen.favoritedDappToast.labelCTA')}
+      />
     </SafeAreaView>
   )
 }
