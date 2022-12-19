@@ -27,8 +27,6 @@ const useDappFavoritedToast = (sectionListRef: React.RefObject<SectionList>) => 
       sectionIndex: 0,
       itemIndex: 0,
       animated: true,
-      // TODO how to scroll to top of list header
-      viewOffset: 2000,
     })
   }
 
