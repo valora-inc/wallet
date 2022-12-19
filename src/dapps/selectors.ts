@@ -54,6 +54,7 @@ export const dappCategoriesByIdSelector = createSelector(
       }
     })
     dapps.forEach((dapp) => {
+      // favorited dapps live in their own list, remove them from the "all" section in the dapps list
       if (!favoriteDappIds.includes(dapp.id)) {
         mappedCategories[dapp.categoryId]?.dapps.push(dapp)
       }
