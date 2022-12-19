@@ -1548,5 +1548,10 @@
       "body": "Có vẻ như {{contactName}} không có trên {{appName}}. Nếu biết địa chỉ ví của họ, bạn vẫn có thể gửi khoản thanh toán hoặc gửi lời mời. \n\n Sau khi họ tải ví xuống và kết nối số điện thoại, cả hai bạn đều sẽ nhận được NFT độc quyền."
     }
   },
+  "celoNews": {
+    "headerTitle": "Updates",
+    "headerDescription": "Learn about use cases, pilots & technical updates on the Celo blog.",
+    "readMoreButtonText": "Read more on the blog"
+  },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Đô la Celo"
 }
