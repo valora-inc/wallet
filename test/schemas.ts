@@ -1867,7 +1867,7 @@ export const v98Schema = {
   },
   app: {
     ...v97Schema.app,
-    celoNewsEnabled: true,
+    celoNewsEnabled: false,
   },
 }
 
