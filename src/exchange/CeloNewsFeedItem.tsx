@@ -35,7 +35,11 @@ export default function CeloNewsFeedItem({ article, testID }: Props) {
         <View style={styles.row}>
           <Text style={styles.title}>{article.title}</Text>
           {!!article.articleImage && (
-            <Image source={{ uri: article.articleImage }} style={styles.image} />
+            <Image
+              source={{ uri: article.articleImage }}
+              style={styles.image}
+              testID="CeloNewsFeedItemImage"
+            />
           )}
         </View>
       </View>

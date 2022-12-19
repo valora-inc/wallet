@@ -1,7 +1,6 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import MockDate from 'mockdate'
 import React from 'react'
-import { Image } from 'react-native'
 import CeloNewsFeedItem from 'src/exchange/CeloNewsFeedItem'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -27,7 +26,9 @@ describe('CeloNewsFeedItem', () => {
     expect(tree.queryByText(TEST_ARTICLE.title)).toBeTruthy()
     expect(tree.queryByText(TEST_ARTICLE.author)).toBeTruthy()
     expect(tree.queryByText('1 month')).toBeTruthy()
-    expect(tree.UNSAFE_getByType(Image).props.source).toEqual({ uri: TEST_ARTICLE.articleImage })
+    expect(tree.queryByTestId('CeloNewsFeedItemImage')?.props.source).toEqual({
+      uri: TEST_ARTICLE.articleImage,
+    })
 
     // Check we can navigate to the article
     fireEvent.press(tree.getByText(TEST_ARTICLE.title))
