@@ -3,7 +3,9 @@ import { StyleSheet, Text, View } from 'react-native'
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated'
 import Touchable from 'src/components/Touchable'
 import Colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import variables from 'src/styles/variables'
 
 interface Props {
   showToast: boolean
@@ -18,6 +20,7 @@ const ToastWithCTA = ({ showToast, onPress, message, labelCTA, title }: Props): 
 
   const animatedStyle = useAnimatedStyle(() => {
     return {
+      // TODO sort out this animation
       transform: [{ translateY: withSpring(positionY.value) }],
     }
   })
@@ -31,15 +34,15 @@ const ToastWithCTA = ({ showToast, onPress, message, labelCTA, title }: Props): 
   }
 
   return (
-    <Touchable onPress={onPress}>
-      <Animated.View style={[styles.container, animatedStyle]}>
-        <View>
-          {title && <Text style={{ color: 'white' }}>{title}</Text>}
-          <Text style={{ color: 'white' }}>{message}</Text>
-        </View>
-        <Text style={{ color: 'white' }}>{labelCTA}</Text>
-      </Animated.View>
-    </Touchable>
+    <Animated.View style={[styles.container, animatedStyle]}>
+      <View>
+        {title && <Text style={styles.title}>{title}</Text>}
+        <Text style={styles.message}>{message}</Text>
+      </View>
+      <Touchable onPress={onPress} hitSlop={variables.iconHitslop}>
+        <Text style={styles.labelCTA}>{labelCTA}</Text>
+      </Touchable>
+    </Animated.View>
   )
 }
 
@@ -53,6 +56,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  title: {
+    ...fontStyles.small600,
+    color: Colors.light,
+  },
+  message: {
+    ...fontStyles.small,
+    color: Colors.light,
+  },
+  labelCTA: {
+    ...fontStyles.small600,
+    color: Colors.greenFaint,
   },
 })
 

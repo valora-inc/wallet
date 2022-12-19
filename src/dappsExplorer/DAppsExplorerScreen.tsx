@@ -114,6 +114,7 @@ export function DAppsExplorerScreen() {
       sectionIndex: 0,
       itemIndex: 0,
       animated: true,
+      // TODO how to scroll to top of list header
       viewOffset: 2000,
     })
   }
@@ -155,6 +156,7 @@ export function DAppsExplorerScreen() {
         )}
         {!loading && !error && categoriesById && (
           <AnimatedSectionList
+            // TODO sort out this type
             ref={sectionListRef as any}
             ListHeaderComponent={
               <>
