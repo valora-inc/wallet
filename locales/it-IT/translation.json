@@ -1550,6 +1550,11 @@
       "body": "Sembra che {{contactName}} non sia su {{appName}}. Se conosci l'indirizzo del suo portafoglio, puoi comunque inviare un pagamento o un invito. \n\n Dopo che avrà scaricato il portafoglio e collegato il suo numero telefonico, riceverete entrambi un NFT esclusivo."
     }
   },
+  "celoNews": {
+    "headerTitle": "Aggiornamenti",
+    "headerDescription": "Scopri i casi d'uso, i progetti pilota e gli aggiornamenti tecnici sul blog di Celo.",
+    "readMoreButtonText": "Leggi tutto sul blog"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollar"
 }
