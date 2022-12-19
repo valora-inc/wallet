@@ -1550,6 +1550,11 @@
       "body": "Görünüşe göre {{contactName}} {{appName}} kullanmıyor. Bu kişinin cüzdan adresini biliyorsanız, yine de bir ödeme gönderebilir veya bunun yerine davet gönderebilirsiniz. \n\n Bu kişi cüzdanı indirdikten ve telefon numarasını bağladıktan sonra, ikiniz de özel bir NFT alacaksınız."
     }
   },
+  "celoNews": {
+    "headerTitle": "Güncellemeler",
+    "headerDescription": "Celo blogunda kullanım örnekleri, pilot uygulamalar ve teknik güncellemeler hakkında bilgi edinin.",
+    "readMoreButtonText": "Daha fazlasını blogda okuyun"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
