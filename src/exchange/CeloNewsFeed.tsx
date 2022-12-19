@@ -46,7 +46,7 @@ export function useFetchArticles() {
       Logger.info(TAG, `Articles fetched (statusCode=${response.status})`)
       // status in the range 200-299
       if (!response.ok) {
-        throw new Error('Failed to fetch articles')
+        throw new Error(`Failed to fetch articles: ${response.status} ${response.statusText}`)
       }
       const data = await response.json()
       return data as CeloNewsArticles
