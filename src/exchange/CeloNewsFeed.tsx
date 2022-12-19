@@ -69,6 +69,11 @@ export default function CeloNewsFeed() {
     navigate(Screens.WebViewScreen, { uri: url })
   }
 
+  function onPressRetry() {
+    ValoraAnalytics.track(CeloNewsEvents.celo_news_retry_tap)
+    void asyncArticles.execute()
+  }
+
   const footer = useMemo(() => {
     switch (asyncArticles.status) {
       case 'loading':
@@ -94,7 +99,7 @@ export default function CeloNewsFeed() {
         return (
           <EmptyView text={t('celoNews.loadingError')}>
             <Button
-              onPress={asyncArticles.execute}
+              onPress={onPressRetry}
               text={t('celoNews.retryButtonText')}
               size={BtnSizes.FULL}
               type={BtnTypes.SECONDARY}
