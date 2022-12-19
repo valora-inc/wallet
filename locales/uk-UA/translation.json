@@ -1283,6 +1283,8 @@
     "cryptoExchange": "Біржа криптовалют",
     "feesVary": "Комісія є різною",
     "viewExchanges": "Переглянути біржі",
+    "depositFrom": "Поповнити з",
+    "cryptoExchangeOrWallet": "Крипто-обмін або гаманець",
     "card": "Кредитна/дебетова картка",
     "bank": "Банківський рахунок",
     "mobileMoney": "Мобільні гроші",
