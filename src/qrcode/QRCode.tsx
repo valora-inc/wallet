@@ -1,11 +1,12 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { shallowEqual, useSelector } from 'react-redux'
 import { nameSelector } from 'src/account/selectors'
 import { AvatarSelf } from 'src/components/AvatarSelf'
 import QRCode from 'src/qrcode/QRGen'
-import { QRCodeDataType, urlFromUriData } from 'src/qrcode/schema'
+import { QRCodeDataType } from 'src/qrcode/schema'
+import { useQRContent } from 'src/qrcode/utils'
 import { RootState } from 'src/redux/reducers'
 import { SVG } from 'src/send/actions'
 import colors from 'src/styles/colors'
@@ -23,22 +24,6 @@ export const mapStateToProps = (state: RootState) => ({
   displayName: nameSelector(state) || undefined,
   e164PhoneNumber: state.account.e164PhoneNumber || undefined,
 })
-
-// ValoraDeepLink generates a QR code that deeplinks into the walletconnect send flow of the valora app
-// Address generates a QR code that has the walletAddress as plaintext that is readable by wallets such as Coinbase and Metamask
-export function useQRContent(
-  dataType: QRCodeDataType,
-  data: {
-    address: string
-    displayName: string | undefined
-    e164PhoneNumber: string | undefined
-  }
-) {
-  return useMemo(
-    () => (dataType === QRCodeDataType.ValoraDeepLink ? urlFromUriData(data) : data.address),
-    [data.address, data.displayName, data.e164PhoneNumber, data]
-  )
-}
 
 export default function QRCodeDisplay({ qrSvgRef, dataType }: Props) {
   const data = useSelector(mapStateToProps, shallowEqual)

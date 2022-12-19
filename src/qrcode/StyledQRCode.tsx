@@ -1,9 +1,10 @@
 import React from 'react'
 import { View } from 'react-native'
 import { shallowEqual, useSelector } from 'react-redux'
-import { mapStateToProps, useQRContent } from 'src/qrcode/QRCode'
+import { mapStateToProps } from 'src/qrcode/QRCode'
 import { QRCodeDataType } from 'src/qrcode/schema'
 import StyledQRCode from 'src/qrcode/StyledQRGen'
+import { useQRContent } from 'src/qrcode/utils'
 import { SVG } from 'src/send/actions'
 import variables from 'src/styles/variables'
 
