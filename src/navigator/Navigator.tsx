@@ -54,6 +54,7 @@ import CoinbasePayScreen from 'src/fiatExchanges/CoinbasePayScreen'
 import ExternalExchanges, {
   externalExchangesScreenOptions,
 } from 'src/fiatExchanges/ExternalExchanges'
+import ExchangeQR from 'src/fiatExchanges/ExchangeQR'
 import FiatExchangeAmount from 'src/fiatExchanges/FiatExchangeAmount'
 import FiatExchangeCurrency, {
   fiatExchangesOptionsScreenOptions,
@@ -545,6 +546,11 @@ const settingsScreens = (Navigator: typeof Stack) => (
       options={headerWithBackButton}
       name={Screens.KycPending}
       component={KycPending}
+    />
+    <Navigator.Screen
+      options={ExchangeQR.navigationOptions}
+      name={Screens.ExchangeQR}
+      component={ExchangeQR}
     />
   </>
 )
