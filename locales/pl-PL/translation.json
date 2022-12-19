@@ -1283,6 +1283,8 @@
     "cryptoExchange": "Giełda kryptowalut",
     "feesVary": "Opłaty mogą się różnić",
     "viewExchanges": "Zobacz giełdy",
+    "depositFrom": "Wpłata od",
+    "cryptoExchangeOrWallet": "Giełda lub portfel kryptowalut",
     "card": "Karta kredytowa/debetowa",
     "bank": "Konto bankowe",
     "mobileMoney": "Pieniądze mobilne",
