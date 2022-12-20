@@ -1,20 +1,13 @@
 ### Description
 
-_A few sentences describing the overall effects and goals of the pull request's commits.
-What is the current behavior, and what is the updated/expected behavior with this PR?_
+<!-- A few sentences describing the overall effects and goals of the pull request's commits.
+What is the current behavior, and what is the updated/expected behavior with this PR? -->
 
-### Other changes
+### Test plan
 
-_Describe any minor or "drive-by" changes here._
-
-### Tested
-
-_An explanation of how the changes were tested or an explanation as to why they don't need to be._
-
-
-### How others should test
-
-_Does this need to be tested by QA in the next release cycle? If so please give a brief explanation of how to test these changes._
+<!-- Demonstrate the change is solid, or why it doesn't need testing.
+Example: add any manual testing steps or scenarios (if not obvious), screenshots / videos if the pull request changes the user interface.
+-->
 
 ### Related issues
 
@@ -22,4 +15,4 @@ _Does this need to be tested by QA in the next release cycle? If so please give 
 
 ### Backwards compatibility
 
-_Brief explanation of why these changes are/are not backwards compatible._
+<!-- Brief explanation of why these changes are/are not backwards compatible. -->

@@ -1,33 +1,33 @@
+import Clipboard from '@react-native-clipboard/clipboard'
 import { RouteProp } from '@react-navigation/native'
-import { StackParamList } from 'src/navigator/types'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import React, { useRef, useState, useLayoutEffect } from 'react'
+import React, { useLayoutEffect, useRef, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { StyleSheet, View, Text } from 'react-native'
-import { useDispatch } from 'react-redux'
-import { Screens } from 'src/navigator/Screens'
-import StyledQRCode from 'src/qrcode/StyledQRCode'
-import { useSelector } from 'react-redux'
-import { SVG, shareQRCode } from 'src/send/actions'
-import Logger from 'src/utils/Logger'
-import { FiatExchangeEvents } from 'src/analytics/Events'
-import BackButton from 'src/components/BackButton'
-import { emptyHeader } from 'src/navigator/Headers'
-import { CICOFlow } from './utils'
-import i18n from 'src/i18n'
-import { TopBarIconButton } from 'src/navigator/TopBarButton'
-import Share from 'src/icons/Share'
-import { walletAddressSelector } from 'src/web3/selectors'
+import { StyleSheet, Text, View } from 'react-native'
+import { useDispatch, useSelector } from 'react-redux'
 import { nameSelector } from 'src/account/selectors'
-import variables from 'src/styles/variables'
+import { FiatExchangeEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import BackButton from 'src/components/BackButton'
+import Button from 'src/components/Button'
+import ExchangesBottomSheet from 'src/components/ExchangesBottomSheet'
+import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
+import i18n from 'src/i18n'
+import Paste from 'src/icons/Paste'
+import Share from 'src/icons/Share'
+import { emptyHeader } from 'src/navigator/Headers'
+import { Screens } from 'src/navigator/Screens'
+import { TopBarIconButton } from 'src/navigator/TopBarButton'
+import { StackParamList } from 'src/navigator/types'
+import { QRCodeDataType } from 'src/qrcode/schema'
+import StyledQRCode from 'src/qrcode/StyledQRCode'
+import { shareQRCode, SVG } from 'src/send/actions'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
-import Button from 'src/components/Button'
-import Paste from 'src/icons/Paste'
-import Clipboard from '@react-native-clipboard/clipboard'
-import ExchangesBottomSheet from 'src/components/ExchangesBottomSheet'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
+import variables from 'src/styles/variables'
+import Logger from 'src/utils/Logger'
+import { walletAddressSelector } from 'src/web3/selectors'
+import { CICOFlow } from './utils'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.ExchangeQR>
 
@@ -88,7 +88,7 @@ export default function ExchangeQR({ route, navigation }: Props) {
   return (
     <View style={styles.container}>
       <View style={styles.qrContainer}>
-        <StyledQRCode qrSvgRef={qrSvgRef} />
+        <StyledQRCode dataType={QRCodeDataType.Address} qrSvgRef={qrSvgRef} />
       </View>
 
       {displayName && (
