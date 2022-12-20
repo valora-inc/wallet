@@ -1180,7 +1180,6 @@
   "supportExportLogsFailed": "Не вдалося експортувати журнали: {{error}}",
   "supportEmailSubject": "{{appName}} підтримка {{user}}",
   "personaAccountEndpointFail": "Верифікація особистих даних наразі недоступна. Просимо, спробуйте ще раз пізніше",
-  "plaidCreateLinkTokenFail": "Не вдалося прив’язати банківський рахунок. Спробуйте ще раз пізніше",
   "getBankAccountsFail": "Не вдалося отримати ваші прив’язані банківські рахунки. Спробуйте ще раз пізніше",
   "deleteBankAccountFail": "Не вдалося видалити ваш прив’язаний банківський рахунок. Спробуйте ще раз пізніше",
   "linkBankAccountScreen": {
