@@ -1180,7 +1180,6 @@
   "supportExportLogsFailed": "Nie udało się wyeksportować dzienników: {{error}}",
   "supportEmailSubject": "Wsparcie od {{appName}} dla użytkownika {{user}}",
   "personaAccountEndpointFail": "Weryfikacja tożsamości nie jest obecnie dostępna. Spróbuj ponownie później",
-  "plaidCreateLinkTokenFail": "Nie można powiązać konta bankowego. Spróbuj ponownie później",
   "getBankAccountsFail": "Nie można odzyskać powiązanych kont bankowych. Spróbuj ponownie później",
   "deleteBankAccountFail": "Nie można usunąć powiązanego konta bankowego. Spróbuj ponownie później",
   "linkBankAccountScreen": {
