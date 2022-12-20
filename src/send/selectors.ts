@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect'
+import { numberVerifiedCentrallySelector } from 'src/app/selectors'
 import { localCurrencyToUsdSelector } from 'src/localCurrency/selectors'
 import { RootState } from 'src/redux/reducers'
 import { tokensWithTokenBalanceSelector } from 'src/tokens/selectors'
@@ -13,7 +14,12 @@ export const isSendingSelector = (state: RootState) => {
 
 export const inviteRewardCusdSelector = (state: RootState) => state.send.inviteRewardCusd
 
-export const inviteRewardsActiveSelector = (state: RootState) => state.send.inviteRewardsEnabled
+export const inviteRewardsEnabledSelector = (state: RootState) => state.send.inviteRewardsEnabled
+
+export const inviteRewardsActiveSelector = createSelector(
+  [inviteRewardsEnabledSelector, numberVerifiedCentrallySelector],
+  (inviteRewardsEnabled, numberCentrallyVerified) => inviteRewardsEnabled && numberCentrallyVerified
+)
 
 export const canSendTokensSelector = createSelector(
   tokensWithTokenBalanceSelector,
