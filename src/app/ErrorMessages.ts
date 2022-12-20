@@ -82,7 +82,6 @@ export enum ErrorMessages {
   PROVIDER_FETCH_FAILED = 'providerFetchFailed',
   CASH_OUT_LIMIT_EXCEEDED = 'cashOutLimitExceeded',
   PERSONA_ACCOUNT_ENDPOINT_FAIL = 'personaAccountEndpointFail',
-  PLAID_CREATE_LINK_TOKEN_FAIL = 'plaidCreateLinkTokenFail',
   GET_BANK_ACCOUNTS_FAIL = 'getBankAccountsFail',
   DELETE_BANK_ACCOUNT_FAIL = 'deleteBankAccountFail',
   SUPERCHARGE_FETCH_REWARDS_FAILED = 'superchargeFetchRewardsFailed',

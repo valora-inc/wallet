@@ -223,7 +223,6 @@ PODS:
   - Permission-Camera (3.0.3):
     - RNPermissions
   - PersonaInquirySDK2 (2.3.9)
-  - Plaid (2.3.2)
   - PromisesObjC (1.2.12)
   - RCT-Folly (2021.06.28.00-v2):
     - boost
@@ -708,7 +707,6 @@ DEPENDENCIES:
   - lottie-react-native (from `../node_modules/lottie-react-native`)
   - Permission-AppTrackingTransparency (from `../node_modules/react-native-permissions/ios/AppTrackingTransparency`)
   - Permission-Camera (from `../node_modules/react-native-permissions/ios/Camera`)
-  - Plaid (~> 2.3.2)
   - RCT-Folly (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
   - RCTTypeSafety (from `../node_modules/react-native/Libraries/TypeSafety`)
@@ -821,7 +819,6 @@ SPEC REPOS:
     - nanopb
     - OpenSSL-Universal
     - PersonaInquirySDK2
-    - Plaid
     - PromisesObjC
     - SDWebImage
     - Segment-Adjust
@@ -1043,7 +1040,6 @@ SPEC CHECKSUMS:
   Permission-AppTrackingTransparency: 7e4612104f43441744dc472d5b258daee5b71f7b
   Permission-Camera: 6abdb054620b2f6b3bf9e0b3842db246424d4d48
   PersonaInquirySDK2: 8153173c5f6d4e964874c9f0d7b375652c9bb6f9
-  Plaid: 4d8d4ff0a6d627f5faf3055a9cba8890ea6b5076
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
   RCT-Folly: a21c126816d8025b547704b777a2ba552f3d9fa9
   RCTRequired: 4bf86c70714490bca4bf2696148638284622644b
@@ -1125,6 +1121,6 @@ SPEC CHECKSUMS:
   Yoga: e7dc4e71caba6472ff48ad7d234389b91dadc280
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 15b498550f43d211df783f5f27241f1717498358
+PODFILE CHECKSUM: f0749ff4c1ca03be5fb28729d6032364e29d72e0
 
 COCOAPODS: 1.10.1
