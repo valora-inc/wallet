@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SectionList } from 'react-native'
 import ToastWithCTA from 'src/components/ToastWithCTA'
@@ -13,16 +13,30 @@ const useDappFavoritedToast = (sectionListRef: React.RefObject<SectionList>) => 
   const [favoritedDapp, setFavoritedDapp] = useState<Dapp | null>(null)
   const [showToast, setShowToast] = useState(false)
 
+  const timeoutIdRef = useRef<NodeJS.Timeout | null>(null)
+
   useEffect(() => {
-    if (showToast) {
-      setTimeout(() => {
-        setShowToast(false)
-      }, TOAST_DISMISS_TIMEOUT)
+    if (timeoutIdRef.current) {
+      clearTimeout(timeoutIdRef.current)
     }
-  }, [showToast])
+
+    // ensure that favoriting a new dapp within the TOAST_DISMISS_TIMEOUT of the
+    // previous one launches a new toast that stays for the full timeout
+    // duration
+    timeoutIdRef.current = setTimeout(onResetToast, TOAST_DISMISS_TIMEOUT)
+  }, [favoritedDapp])
+
+  const onResetToast = () => {
+    setShowToast(false)
+    timeoutIdRef.current = null
+  }
 
   const onPressToast = () => {
-    setShowToast(false)
+    if (timeoutIdRef.current) {
+      clearTimeout(timeoutIdRef.current)
+    }
+    onResetToast()
+
     sectionListRef.current?.scrollToLocation({
       sectionIndex: 0,
       itemIndex: 0,
