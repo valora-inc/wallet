@@ -1176,7 +1176,6 @@
   "supportExportLogsFailed": "Günlük dışarı aktarılamadı: {{error}}",
   "supportEmailSubject": "{{user}} kullanıcısı için {{appName}} desteği",
   "personaAccountEndpointFail": "Kimlik doğrulama şu anda kullanılamıyor. Lütfen daha sonra tekrar deneyiniz",
-  "plaidCreateLinkTokenFail": "Banka hesabı bağlanamıyor. Lütfen daha sonra tekrar deneyiniz",
   "getBankAccountsFail": "Bağlı banka hesaplarınız alınamadı. Lütfen daha sonra tekrar deneyiniz",
   "deleteBankAccountFail": "Bağlı banka hesabınız silinemiyor. Lütfen daha sonra tekrar deneyiniz",
   "linkBankAccountScreen": {
