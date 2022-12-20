@@ -1559,7 +1559,9 @@
   "celoNews": {
     "headerTitle": "Оновлення",
     "headerDescription": "Дізнайся про використання випадків, пілотів та технічних оновлень у Celo блозі.",
-    "readMoreButtonText": "Детальніше читайте в блозі"
+    "readMoreButtonText": "Детальніше читайте в блозі",
+    "loadingError": "На жаль, ми не змогли завантажити останні оновлення. Будь ласка, спробуйте ще раз пізніше.",
+    "retryButtonText": "Повторити спробу"
   },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
