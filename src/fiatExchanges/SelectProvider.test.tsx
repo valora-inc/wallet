@@ -1,13 +1,12 @@
-import { render, waitFor } from '@testing-library/react-native'
+import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import { FetchMock } from 'jest-fetch-mock/types'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { MockStoreEnhanced } from 'redux-mock-store'
-import SelectProviderScreen, {
-  getAddFundsCryptoExchangeExperimentParams,
-} from 'src/fiatExchanges/SelectProvider'
+import SelectProviderScreen from 'src/fiatExchanges/SelectProvider'
 import { SelectProviderExchangesLink, SelectProviderExchangesText } from 'src/fiatExchanges/types'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
@@ -111,6 +110,11 @@ describe(SelectProviderScreen, () => {
     jest.clearAllMocks()
     mockFetch.resetMocks()
     mockStore = createMockStore(MOCK_STORE_DATA)
+    mockStatsigGet.mockImplementation((paramName) => {
+      return paramName === 'addFundsExchangesText'
+        ? SelectProviderExchangesText.CryptoExchange
+        : SelectProviderExchangesLink.ExternalExchangesScreen
+    })
   })
 
   it('calls fetchProviders correctly', async () => {
@@ -165,7 +169,7 @@ describe(SelectProviderScreen, () => {
     expect(queryByText('selectProviderScreen.bank')).toBeTruthy()
     expect(queryByText('selectProviderScreen.card')).toBeTruthy()
     expect(queryByText('selectProviderScreen.mobileMoney')).toBeTruthy()
-    expect(queryByText('selectProviderScreen.cryptoExchange')).toBeTruthy()
+    expect(getByTestId('Exchanges')).toBeTruthy()
     expect(getByTestId('LegacyMobileMoneySection')).toBeTruthy()
 
     expect(queryByText('selectProviderScreen.somePaymentsUnavailable')).toBeFalsy()
@@ -214,6 +218,100 @@ describe(SelectProviderScreen, () => {
     expect(queryByText('selectProviderScreen.card')).toBeFalsy()
     expect(queryByText('selectProviderScreen.cryptoExchange')).toBeFalsy()
     expect(queryByText('selectProviderScreen.mobileMoney')).toBeFalsy()
+  })
+
+  describe('Exchanges section', () => {
+    beforeAll(() => {
+      mocked(fetchProviders).mockResolvedValue([])
+      mocked(fetchLegacyMobileMoneyProviders).mockResolvedValue([])
+      mocked(fetchExchanges).mockResolvedValue(mockExchanges)
+    })
+
+    it('renders crypto exchange and navigates to exchanges screen regardless of statsig param for cash outs', async () => {
+      mockStatsigGet.mockImplementation((paramName) => {
+        return paramName === 'addFundsExchangesText'
+          ? SelectProviderExchangesText.DepositFrom
+          : SelectProviderExchangesLink.ExchangeQRScreen
+      })
+      const { queryByText, getByText, getByTestId } = render(
+        <Provider store={mockStore}>
+          <SelectProviderScreen {...mockScreenProps(CICOFlow.CashOut)} />
+        </Provider>
+      )
+      await waitFor(() => expect(fetchLegacyMobileMoneyProviders).toHaveBeenCalled())
+      expect(getByTestId('Exchanges')).toBeTruthy()
+      expect(queryByText('selectProviderScreen.cryptoExchange')).toBeTruthy()
+      expect(queryByText('selectProviderScreen.feesVary')).toBeTruthy()
+      expect(queryByText('selectProviderScreen.viewExchanges')).toBeTruthy()
+      expect(queryByText('selectProviderScreen.depositFrom')).toBeFalsy()
+      expect(queryByText('selectProviderScreen.cryptoExchangeOrWallet')).toBeFalsy()
+      expect(mockStatsigGet).not.toHaveBeenCalled()
+
+      fireEvent.press(getByText('selectProviderScreen.viewExchanges'))
+      expect(navigate).toHaveBeenCalledTimes(1)
+      expect(navigate).toHaveBeenCalledWith(Screens.ExternalExchanges, {
+        currency: Currency.Dollar,
+        isCashIn: false,
+        exchanges: mockExchanges,
+      })
+    })
+
+    it('renders based on params from statsig for cash ins', async () => {
+      mockStatsigGet.mockImplementation((paramName) => {
+        return paramName === 'addFundsExchangesText'
+          ? SelectProviderExchangesText.DepositFrom
+          : SelectProviderExchangesLink.ExchangeQRScreen
+      })
+      const { queryByText, getByText, getByTestId } = render(
+        <Provider store={mockStore}>
+          <SelectProviderScreen {...mockScreenProps()} />
+        </Provider>
+      )
+      await waitFor(() => expect(fetchLegacyMobileMoneyProviders).toHaveBeenCalled())
+      expect(getByTestId('Exchanges')).toBeTruthy()
+      expect(queryByText('selectProviderScreen.cryptoExchange')).toBeFalsy()
+      expect(queryByText('selectProviderScreen.feesVary')).toBeFalsy()
+      expect(queryByText('selectProviderScreen.viewExchanges')).toBeFalsy()
+      expect(queryByText('selectProviderScreen.depositFrom')).toBeTruthy()
+      expect(queryByText('selectProviderScreen.cryptoExchangeOrWallet')).toBeTruthy()
+      expect(mockStatsigGet).toHaveBeenCalledTimes(2)
+      expect(mockStatsigGet).toHaveBeenNthCalledWith(
+        1,
+        'addFundsExchangesText',
+        SelectProviderExchangesText.CryptoExchange
+      )
+      expect(mockStatsigGet).toHaveBeenNthCalledWith(
+        2,
+        'addFundsExchangesLink',
+        SelectProviderExchangesLink.ExternalExchangesScreen
+      )
+
+      fireEvent.press(getByText('selectProviderScreen.cryptoExchangeOrWallet'))
+      expect(navigate).toHaveBeenCalledTimes(1)
+      expect(navigate).toHaveBeenCalledWith(Screens.ExchangeQR, {
+        flow: CICOFlow.CashIn,
+        exchanges: mockExchanges,
+      })
+    })
+
+    it('renders default params for cash ins if statsig throws', async () => {
+      mockStatsigGet.mockImplementation(() => {
+        throw new Error('foo')
+      })
+      const { queryByText, getByTestId } = render(
+        <Provider store={mockStore}>
+          <SelectProviderScreen {...mockScreenProps()} />
+        </Provider>
+      )
+      await waitFor(() => expect(fetchLegacyMobileMoneyProviders).toHaveBeenCalled())
+      expect(getByTestId('Exchanges')).toBeTruthy()
+      expect(queryByText('selectProviderScreen.cryptoExchange')).toBeTruthy()
+      expect(queryByText('selectProviderScreen.feesVary')).toBeTruthy()
+      expect(queryByText('selectProviderScreen.viewExchanges')).toBeTruthy()
+      expect(queryByText('selectProviderScreen.depositFrom')).toBeFalsy()
+      expect(queryByText('selectProviderScreen.cryptoExchangeOrWallet')).toBeFalsy()
+      expect(mockStatsigGet).toHaveBeenCalledTimes(1)
+    })
   })
 
   describe('SelectProviderScreen CBPay Card', () => {
@@ -319,39 +417,6 @@ describe(SelectProviderScreen, () => {
         </Provider>
       )
       await waitFor(() => expect(queryByText('Coinbase Pay')).toBeFalsy())
-    })
-  })
-})
-
-describe('getAddFundsCryptoExchangeExperimentParams', () => {
-  it('returns value from statsig', () => {
-    mockStatsigGet
-      .mockReturnValueOnce(SelectProviderExchangesText.DepositFrom)
-      .mockReturnValueOnce(SelectProviderExchangesLink.ExchangesQrScreen)
-    expect(getAddFundsCryptoExchangeExperimentParams()).toEqual({
-      exchangesText: SelectProviderExchangesText.DepositFrom,
-      exchangesLink: SelectProviderExchangesLink.ExchangesQrScreen,
-    })
-    expect(mockStatsigGet).toHaveBeenCalledTimes(2)
-    expect(mockStatsigGet).toHaveBeenNthCalledWith(
-      1,
-      'addFundsExchangesText',
-      SelectProviderExchangesText.CryptoExchange
-    )
-    expect(mockStatsigGet).toHaveBeenNthCalledWith(
-      2,
-      'addFundsExchangesLink',
-      SelectProviderExchangesLink.ExchangesScreen
-    )
-  })
-
-  it('returns defaults if statsig throws', () => {
-    mockStatsigGet.mockImplementation(() => {
-      throw new Error('foo')
-    })
-    expect(getAddFundsCryptoExchangeExperimentParams()).toEqual({
-      exchangesText: SelectProviderExchangesText.CryptoExchange,
-      exchangesLink: SelectProviderExchangesLink.ExchangesScreen,
     })
   })
 })

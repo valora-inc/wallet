@@ -29,14 +29,17 @@ export const featuredDappSelector = createSelector(dappsListSelector, (dapps) =>
   return dapps.find((dapp) => dapp.isFeatured)
 })
 
+export const favoriteDappIdsSelector = (state: RootState) => state.dapps.favoriteDappIds
+
 const isCategoryWithDapps = (
   category: CategoryWithDapps | undefined
-): category is CategoryWithDapps => typeof category !== undefined
+): category is CategoryWithDapps => !!category && category.dapps.length > 0
 
 export const dappCategoriesByIdSelector = createSelector(
   dappsListSelector,
   dappsCategoriesSelector,
-  (dapps, categories) => {
+  favoriteDappIdsSelector,
+  (dapps, categories, favoriteDappIds) => {
     const mappedCategories: {
       [id: string]: CategoryWithDapps | undefined
     } = {}
@@ -51,8 +54,12 @@ export const dappCategoriesByIdSelector = createSelector(
       }
     })
     dapps.forEach((dapp) => {
-      mappedCategories[dapp.categoryId]?.dapps.push(dapp)
+      // favorited dapps live in their own list, remove them from the "all" section in the dapps list
+      if (!favoriteDappIds.includes(dapp.id)) {
+        mappedCategories[dapp.categoryId]?.dapps.push(dapp)
+      }
     })
+
     return Object.values(mappedCategories).filter(isCategoryWithDapps)
   }
 )
@@ -60,8 +67,6 @@ export const dappCategoriesByIdSelector = createSelector(
 export const dappConnectInfoSelector = (state: RootState) => state.dapps.dappConnectInfo
 
 export const dappFavoritesEnabledSelector = (state: RootState) => state.dapps.dappFavoritesEnabled
-
-export const favoriteDappIdsSelector = (state: RootState) => state.dapps.favoriteDappIds
 
 export const recentDappsSelector = createSelector(
   dappsListSelector,

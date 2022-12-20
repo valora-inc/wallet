@@ -2,7 +2,7 @@ import { fireEvent, render, within } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { dappSelected, fetchDappsList } from 'src/dapps/slice'
+import { dappSelected, favoriteDapp, fetchDappsList, unfavoriteDapp } from 'src/dapps/slice'
 import { Dapp, DappCategory, DappSection } from 'src/dapps/types'
 import DAppsExplorerScreen from 'src/dappsExplorer/DAppsExplorerScreen'
 import { createMockStore } from 'test/utils'
@@ -11,21 +11,21 @@ jest.mock('src/analytics/ValoraAnalytics')
 
 const dappsList: Dapp[] = [
   {
-    name: 'Ubeswap',
-    id: 'ubeswap',
+    name: 'Dapp 1',
+    id: 'dapp1',
     categoryId: '1',
     description: 'Swap tokens!',
-    iconUrl: 'https://raw.githubusercontent.com/valora-inc/app-list/main/assets/ubeswap.png',
-    dappUrl: 'https://app.ubeswap.org/',
+    iconUrl: 'https://raw.githubusercontent.com/valora-inc/app-list/main/assets/dapp1.png',
+    dappUrl: 'https://app.dapp1.org/',
     isFeatured: false,
   },
   {
-    name: 'Moola',
-    id: 'moola',
+    name: 'Dapp 2',
+    id: 'dapp2',
     categoryId: '2',
     description: 'Lend and borrow tokens!',
-    iconUrl: 'https://raw.githubusercontent.com/valora-inc/app-list/main/assets/moola.png',
-    dappUrl: 'celo://wallet/moolaScreen',
+    iconUrl: 'https://raw.githubusercontent.com/valora-inc/app-list/main/assets/dapp2.png',
+    dappUrl: 'celo://wallet/dapp2Screen',
     isFeatured: false,
   },
 ]
@@ -63,11 +63,11 @@ describe(DAppsExplorerScreen, () => {
     )
 
     expect(defaultStore.getActions()).toEqual([fetchDappsList()])
-    expect(getByTestId('Dapp/ubeswap')).toBeTruthy()
-    expect(getByTestId('Dapp/moola')).toBeTruthy()
+    expect(getByTestId('Dapp/dapp1')).toBeTruthy()
+    expect(getByTestId('Dapp/dapp2')).toBeTruthy()
     expect(queryByTestId('FeaturedDapp')).toBeFalsy()
 
-    fireEvent.press(getByTestId('Dapp/ubeswap'))
+    fireEvent.press(getByTestId('Dapp/dapp1'))
     fireEvent.press(getByTestId('ConfirmDappButton'))
 
     expect(defaultStore.getActions()).toEqual([
@@ -100,8 +100,8 @@ describe(DAppsExplorerScreen, () => {
     )
 
     expect(store.getActions()).toEqual([fetchDappsList()])
-    expect(getByTestId('Dapp/ubeswap')).toBeTruthy()
-    expect(getByTestId('Dapp/moola')).toBeTruthy()
+    expect(getByTestId('Dapp/dapp1')).toBeTruthy()
+    expect(getByTestId('Dapp/dapp2')).toBeTruthy()
     expect(queryByTestId('FeaturedDapp')).toBeTruthy()
 
     fireEvent.press(getByTestId('FeaturedDapp'))
@@ -121,11 +121,11 @@ describe(DAppsExplorerScreen, () => {
     )
 
     expect(defaultStore.getActions()).toEqual([fetchDappsList()])
-    expect(getByTestId('Dapp/ubeswap')).toBeTruthy()
-    expect(getByTestId('Dapp/moola')).toBeTruthy()
+    expect(getByTestId('Dapp/dapp1')).toBeTruthy()
+    expect(getByTestId('Dapp/dapp2')).toBeTruthy()
     expect(queryByTestId('FeaturedDapp')).toBeFalsy()
 
-    fireEvent.press(getByTestId('Dapp/moola'))
+    fireEvent.press(getByTestId('Dapp/dapp2'))
 
     expect(defaultStore.getActions()).toEqual([
       fetchDappsList(),
@@ -160,7 +160,7 @@ describe(DAppsExplorerScreen, () => {
           dappListApiUrl: 'http://url.com',
           dappsList,
           dappsCategories,
-          favoriteDappIds: ['moola'],
+          favoriteDappIds: ['dapp2'],
           dappFavoritesEnabled: true,
         },
       })
@@ -176,13 +176,14 @@ describe(DAppsExplorerScreen, () => {
       expect(within(favoritesSection).getByText(dappsList[1].description)).toBeTruthy()
     })
 
-    it('triggers the correct tracking when favoriting and unfavoriting', () => {
+    it('triggers the events when favoriting', () => {
       const store = createMockStore({
         dapps: {
           dappListApiUrl: 'http://url.com',
           dappsList,
           dappsCategories,
           dappFavoritesEnabled: true,
+          favoriteDappIds: [],
         },
       })
       const { getByTestId } = render(
@@ -194,21 +195,51 @@ describe(DAppsExplorerScreen, () => {
       // don't include events dispatched on screen load
       jest.clearAllMocks()
 
-      fireEvent.press(getByTestId('Dapp/Favorite/moola'))
+      const allDappsSection = getByTestId('DAppExplorerScreen/DappsList')
+      fireEvent.press(within(allDappsSection).getByTestId('Dapp/Favorite/dapp2'))
+
       expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
       expect(ValoraAnalytics.track).toHaveBeenCalledWith('dapp_favorite', {
         categoryId: '2',
-        dappId: 'moola',
-        dappName: 'Moola',
+        dappId: 'dapp2',
+        dappName: 'Dapp 2',
       })
+      expect(store.getActions()).toEqual([fetchDappsList(), favoriteDapp({ dappId: 'dapp2' })])
+    })
 
-      fireEvent.press(getByTestId('Dapp/Favorite/moola'))
-      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(2)
-      expect(ValoraAnalytics.track).toHaveBeenNthCalledWith(2, 'dapp_unfavorite', {
-        categoryId: '2',
-        dappId: 'moola',
-        dappName: 'Moola',
+    it('triggers the events when unfavoriting', () => {
+      const store = createMockStore({
+        dapps: {
+          dappListApiUrl: 'http://url.com',
+          dappsList,
+          dappsCategories,
+          dappFavoritesEnabled: true,
+          favoriteDappIds: ['dapp2'],
+        },
       })
+      const { getByTestId, getAllByTestId } = render(
+        <Provider store={store}>
+          <DAppsExplorerScreen />
+        </Provider>
+      )
+
+      // don't include events dispatched on screen load
+      jest.clearAllMocks()
+
+      const selectedDappCards = getAllByTestId('Dapp/dapp2')
+      // should only appear once, in the favorites section
+      expect(selectedDappCards).toHaveLength(1)
+
+      const favoritesSection = getByTestId('DAppExplorerScreen/FavoriteDappsSection')
+      fireEvent.press(within(favoritesSection).getByTestId('Dapp/Favorite/dapp2'))
+
+      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith('dapp_unfavorite', {
+        categoryId: '2',
+        dappId: 'dapp2',
+        dappName: 'Dapp 2',
+      })
+      expect(store.getActions()).toEqual([fetchDappsList(), unfavoriteDapp({ dappId: 'dapp2' })])
     })
   })
 })
