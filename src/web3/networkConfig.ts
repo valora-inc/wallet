@@ -12,6 +12,7 @@ export enum Testnets {
 interface NetworkConfig {
   networkId: string
   blockchainApiUrl: string
+  cloudFunctionsUrl: string
   odisUrl: string // Phone Number Privacy service url
   odisPubKey: string
   komenciUrl: string
@@ -131,6 +132,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     networkId: '44787',
     // blockchainApiUrl: 'http://127.0.0.1:8080',
     blockchainApiUrl: 'https://blockchain-api-dot-celo-mobile-alfajores.appspot.com',
+    cloudFunctionsUrl: CLOUD_FUNCTIONS_STAGING,
     odisUrl: OdisUtils.Query.ODIS_ALFAJORES_CONTEXT.odisUrl,
     odisPubKey: OdisUtils.Query.ODIS_ALFAJORES_CONTEXT.odisPubKey,
     komenciUrl: KOMENCI_URL_STAGING,
@@ -172,6 +174,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
   [Testnets.mainnet]: {
     networkId: '42220',
     blockchainApiUrl: 'https://blockchain-api-dot-celo-mobile-mainnet.appspot.com',
+    cloudFunctionsUrl: CLOUD_FUNCTIONS_MAINNET,
     odisUrl: OdisUtils.Query.ODIS_MAINNET_CONTEXT.odisUrl,
     odisPubKey: OdisUtils.Query.ODIS_MAINNET_CONTEXT.odisPubKey,
     komenciUrl: KOMENCI_URL_MAINNET,
