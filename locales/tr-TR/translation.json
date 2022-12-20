@@ -1555,7 +1555,9 @@
   "celoNews": {
     "headerTitle": "Güncellemeler",
     "headerDescription": "Celo blogunda kullanım örnekleri, pilot uygulamalar ve teknik güncellemeler hakkında bilgi edinin.",
-    "readMoreButtonText": "Daha fazlasını blogda okuyun"
+    "readMoreButtonText": "Daha fazlasını blogda okuyun",
+    "loadingError": "Üzgünüz, en son güncellemeleri yükleyemedik. Lütfen daha sonra tekrar deneyin.",
+    "retryButtonText": "Yeniden Dene"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
