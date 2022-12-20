@@ -165,6 +165,7 @@ export function DAppsExplorerScreen() {
             renderSectionHeader={({ section }: { section: SectionListData<any, SectionData> }) => (
               <CategoryHeader category={section.category} />
             )}
+            testID="DAppExplorerScreen/DappsList"
           />
         )}
       </>
