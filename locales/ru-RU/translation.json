@@ -1180,7 +1180,6 @@
   "supportExportLogsFailed": "Не удалось экспортировать журналы: {{error}}",
   "supportEmailSubject": "Поддержка {{appName}} для {{user}}",
   "personaAccountEndpointFail": "Проверка личности в настоящее время недоступна. Повторите попытку позже",
-  "plaidCreateLinkTokenFail": "Не удалось привязать банковский счет. Повторите попытку позже",
   "getBankAccountsFail": "Не удается получить связанные банковские счета. Повторите попытку позже",
   "deleteBankAccountFail": "Не удается удалить привязанный банковский счет. Повторите попытку позже",
   "linkBankAccountScreen": {
