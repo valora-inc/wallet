@@ -107,9 +107,10 @@ class ValoraAnalytics {
           }
         : null
 
+      const overrideStableID = isE2EEnv ? 'anonId' : await Analytics.getAnonymousId()
       await Statsig.initialize(STATSIG_API_KEY, stasigUser, {
         // StableID should match Segment anonymousId
-        overrideStableID: await Analytics.getAnonymousId(),
+        overrideStableID,
         environment: STATSIG_ENV,
       })
     } catch (error) {
