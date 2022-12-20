@@ -1174,7 +1174,6 @@
   "supportExportLogsFailed": "导出日志失败：{{error}}",
   "supportEmailSubject": "{{appName}} 对 {{user}} 的支持",
   "personaAccountEndpointFail": "身份验证当前暂不可用。请稍后再试",
-  "plaidCreateLinkTokenFail": "无法链接银行账户。请稍后再试",
   "getBankAccountsFail": "无法检索您链接的银行账户。请稍后再试",
   "deleteBankAccountFail": "无法删除您链接的银行账户。请稍后再试",
   "linkBankAccountScreen": {
