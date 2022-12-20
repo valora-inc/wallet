@@ -88,7 +88,7 @@ export const slice = createSlice({
       state.dappsListError = action.payload.error
     },
     favoriteDapp: (state, action: PayloadAction<FavoriteDappAction>) => {
-      state.favoriteDappIds = [...new Set([action.payload.dappId, ...state.favoriteDappIds])]
+      state.favoriteDappIds = [...new Set([...state.favoriteDappIds, action.payload.dappId])]
     },
     unfavoriteDapp: (state, action: PayloadAction<FavoriteDappAction>) => {
       state.favoriteDappIds = state.favoriteDappIds.filter(
