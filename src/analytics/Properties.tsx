@@ -1424,6 +1424,7 @@ interface CeloNewsEventsProperties {
   [CeloNewsEvents.celo_news_bottom_read_more_tap]: {
     url: string
   }
+  [CeloNewsEvents.celo_news_retry_tap]: undefined
 }
 
 export type AnalyticsPropertiesList = AppEventsProperties &
