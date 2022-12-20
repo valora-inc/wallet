@@ -623,6 +623,7 @@ export enum SwapEvents {
 export enum CeloNewsEvents {
   celo_news_article_tap = 'celo_news_article_tap', // When a user taps on a news article
   celo_news_bottom_read_more_tap = 'celo_news_bottom_read_more_tap', // When a user taps on the read more button at the bottom of the screen
+  celo_news_retry_tap = 'celo_news_retry_tap', // When a user taps on the retry button
 }
 
 export type AnalyticsEventType =
