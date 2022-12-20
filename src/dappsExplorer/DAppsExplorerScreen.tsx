@@ -1,6 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ActivityIndicator, Image, SectionList, StyleSheet, Text, View } from 'react-native'
+import {
+  ActivityIndicator,
+  Image,
+  SectionList,
+  SectionListProps,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native'
 import Animated from 'react-native-reanimated'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
@@ -14,6 +22,7 @@ import {
   dappsListErrorSelector,
   dappsListLoadingSelector,
   featuredDappSelector,
+  isCategoryWithDapps,
 } from 'src/dapps/selectors'
 import { fetchDappsList } from 'src/dapps/slice'
 import { DappSection } from 'src/dapps/types'
@@ -31,7 +40,8 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
-const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
+const AnimatedSectionList =
+  Animated.createAnimatedComponent<SectionListProps<CategoryWithDapps | {}>>(SectionList)
 
 const SECTION_HEADER_MARGIN_TOP = 32
 
@@ -112,7 +122,12 @@ export function DAppsExplorerScreen() {
   }
   sections.push({
     data: categoriesById,
-    renderItem: ({ item }: { item: CategoryWithDapps }) => {
+    renderItem: ({ item }: { item: CategoryWithDapps | {} }) => {
+      if (!isCategoryWithDapps(item)) {
+        // should not happen, this check is done to appease typescript for the sections type
+        return null
+      }
+
       return (
         <>
           <CategoryHeader category={item} />
