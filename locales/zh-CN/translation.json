@@ -1553,7 +1553,9 @@
   "celoNews": {
     "headerTitle": "更新",
     "headerDescription": "在Celo博客上了解使用案例、试点和技术更新。",
-    "readMoreButtonText": "在博客上阅读更多内容"
+    "readMoreButtonText": "在博客上阅读更多内容",
+    "loadingError": "对不起，我们无法加载最新的更新。请稍后再试。",
+    "retryButtonText": "重试"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
 }
