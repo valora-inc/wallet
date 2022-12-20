@@ -1176,7 +1176,6 @@
   "supportExportLogsFailed": "Falha ao exportar os registos: {{error}}",
   "supportEmailSubject": "Suporte da {{appName}} para {{user}}",
   "personaAccountEndpointFail": "A verificação da identidade não está disponível no momento. Tente novamente mais tarde.",
-  "plaidCreateLinkTokenFail": "Não foi possível vincular a conta bancária. Tente novamente mais tarde.",
   "getBankAccountsFail": "Não foi possível recuperar suas contas bancárias vinculadas. Tente novamente mais tarde.",
   "deleteBankAccountFail": "Não foi possível excluir sua conta bancária vinculada. Tente novamente mais tarde.",
   "linkBankAccountScreen": {
