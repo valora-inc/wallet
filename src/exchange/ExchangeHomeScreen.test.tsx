@@ -82,12 +82,12 @@ describe('ExchangeHomeScreen', () => {
     expect(tree.queryByText('celoNews.headerTitle')).toBeFalsy()
   })
 
-  it('renders the Celo news feed when celoNewsEnabled is true', async () => {
+  it('renders the Celo news feed when enabled', async () => {
     const store = createMockStore({
       goldToken: { balance: '2' },
       stableToken: { balances: { [Currency.Dollar]: '10' } },
       exchange: { exchangeRates },
-      app: { celoNewsEnabled: true },
+      app: { celoNews: { enabled: true } },
     })
 
     const tree = render(
