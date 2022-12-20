@@ -15,10 +15,15 @@ interface Props {
   onPress(): void
 }
 
-const ToastWithCTA = ({ showToast, onPress, message, labelCTA, title }: Props) => {
-  const positionY = useSharedValue(100)
+// the initial offset for the toast
+// the value should be greater than the height of the toast to ensure it is initially hidden
+const POSITION_Y_OFFSET = 100
 
-  positionY.value = showToast ? 0 : 100
+// for now, this Toast component is launched from the bottom of the screen only
+const ToastWithCTA = ({ showToast, onPress, message, labelCTA, title }: Props) => {
+  const positionY = useSharedValue(POSITION_Y_OFFSET)
+
+  positionY.value = showToast ? 0 : POSITION_Y_OFFSET
 
   const animatedStyle = useAnimatedStyle(() => {
     return {
