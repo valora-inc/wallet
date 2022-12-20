@@ -3,6 +3,7 @@ import * as React from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { CeloNewsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import SkeletonPlaceholder from 'src/components/SkeletonPlaceholder'
 import Touchable from 'src/components/Touchable'
 import { CeloNewsArticle } from 'src/exchange/types'
 import { navigate } from 'src/navigator/NavigationService'
@@ -25,6 +26,7 @@ export default function CeloNewsFeedItem({ article, testID }: Props) {
     navigate(Screens.WebViewScreen, { uri: url })
   }
 
+  // Be sure to update the skeleton component if this changes significantly
   return (
     <Touchable onPress={onPress} testID={testID}>
       <View style={styles.contentContainer}>
@@ -50,6 +52,27 @@ export default function CeloNewsFeedItem({ article, testID }: Props) {
     </Touchable>
   )
 }
+
+// This is a skeleton placeholder for when the feed is loading
+// It's a simplified version of the real component, reusing styles where possible
+CeloNewsFeedItem.Skeleton = () => (
+  <SkeletonPlaceholder
+    borderRadius={4}
+    backgroundColor={colors.gray2}
+    highlightColor={colors.white}
+  >
+    <View style={styles.contentContainer}>
+      <View style={{ ...styles.author, width: 60 }} />
+      <View style={styles.row}>
+        <View style={{ flex: 1 }}>
+          <View style={{ ...styles.title, flex: undefined, marginBottom: 4 }} />
+          <View style={{ ...styles.title, flex: undefined, width: '60%' }} />
+        </View>
+        <View style={styles.image} />
+      </View>
+    </View>
+  </SkeletonPlaceholder>
+)
 
 const styles = StyleSheet.create({
   contentContainer: {
