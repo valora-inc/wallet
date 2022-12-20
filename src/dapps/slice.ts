@@ -47,6 +47,10 @@ export interface FetchDappsListErrorAction {
   error: string
 }
 
+export interface FavoriteDappAction {
+  dappId: string
+}
+
 export const slice = createSlice({
   name: 'dapps',
   initialState,
@@ -83,6 +87,14 @@ export const slice = createSlice({
       state.dappsListLoading = false
       state.dappsListError = action.payload.error
     },
+    favoriteDapp: (state, action: PayloadAction<FavoriteDappAction>) => {
+      state.favoriteDappIds = [...new Set([...state.favoriteDappIds, action.payload.dappId])]
+    },
+    unfavoriteDapp: (state, action: PayloadAction<FavoriteDappAction>) => {
+      state.favoriteDappIds = state.favoriteDappIds.filter(
+        (dappId) => dappId !== action.payload.dappId
+      )
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -111,6 +123,8 @@ export const {
   fetchDappsList,
   fetchDappsListCompleted,
   fetchDappsListFailed,
+  favoriteDapp,
+  unfavoriteDapp,
 } = slice.actions
 
 export default slice.reducer
