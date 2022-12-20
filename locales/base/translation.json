@@ -1281,6 +1281,8 @@
     "cryptoExchange": "Cryptocurrency Exchange",
     "feesVary": "Fees Vary",
     "viewExchanges": "View Exchanges",
+    "depositFrom": "Deposit from",
+    "cryptoExchangeOrWallet": "Crypto Exchange or Wallet",
     "card": "Credit / Debit Card",
     "bank": "Bank Account",
     "mobileMoney": "Mobile Money",
