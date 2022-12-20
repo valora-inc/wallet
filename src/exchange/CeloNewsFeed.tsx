@@ -63,7 +63,7 @@ export default function CeloNewsFeed() {
   const { t } = useTranslation()
 
   const asyncArticles = useFetchArticles()
-  const readMoreUrl = useSelector(celoNewsConfigSelector).readMoreUrl
+  const { readMoreUrl } = useSelector(celoNewsConfigSelector)
 
   function onPressReadMore() {
     const url = readMoreUrl
