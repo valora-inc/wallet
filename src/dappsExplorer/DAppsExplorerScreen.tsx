@@ -109,26 +109,24 @@ export function DAppsExplorerScreen() {
       ),
     })
   }
-  categoriesById.forEach((category) => {
-    sections.push({
-      data: [{ category }],
-      renderItem: ({ item }: { item: { category: CategoryWithDapps } }) => {
-        return (
-          <>
-            <CategoryHeader category={item.category} />
-            {item.category.dapps.map((dapp) => (
-              <DappCard
-                key={dapp.id}
-                dapp={dapp}
-                section={DappSection.All}
-                onPressDapp={onSelectDapp}
-                onFavoriteDapp={onFavoriteDapp}
-              />
-            ))}
-          </>
-        )
-      },
-    })
+  sections.push({
+    data: categoriesById,
+    renderItem: ({ item }: { item: CategoryWithDapps }) => {
+      return (
+        <>
+          <CategoryHeader category={item} />
+          {item.dapps.map((dapp) => (
+            <DappCard
+              key={dapp.id}
+              dapp={dapp}
+              section={DappSection.All}
+              onPressDapp={onSelectDapp}
+              onFavoriteDapp={onFavoriteDapp}
+            />
+          ))}
+        </>
+      )
+    },
   })
 
   return (
