@@ -112,7 +112,7 @@ const initialState = {
   centralPhoneVerificationEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.centralPhoneVerificationEnabled,
   inviterAddress: null,
   networkTimeoutSeconds: REMOTE_CONFIG_VALUES_DEFAULTS.networkTimeoutSeconds,
-  celoNews: REMOTE_CONFIG_VALUES_DEFAULTS.celoNews,
+  celoNews: JSON.parse(REMOTE_CONFIG_VALUES_DEFAULTS.celoNews),
 }
 
 export const appReducer = (

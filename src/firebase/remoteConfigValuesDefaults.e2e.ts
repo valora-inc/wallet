@@ -9,6 +9,7 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   | 'sentryNetworkErrors'
   | 'superchargeTokenConfigByToken'
   | 'fiatAccountSchemaCountryOverrides'
+  | 'celoNews'
 > & {
   komenciAllowedDeployers: string
   sentryNetworkErrors: string
@@ -18,6 +19,7 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   superchargecEURMax: number
   superchargecREALMin: number
   superchargecREALMax: number
+  celoNews: string
 } = {
   hideVerification: false,
   celoEuroEnabled: true,
@@ -70,5 +72,5 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   centralPhoneVerificationEnabled: true,
   networkTimeoutSeconds: 30,
   dappFavoritesEnabled: false,
-  celoNews: { enabled: false },
+  celoNews: JSON.stringify({ enabled: false } as RemoteConfigValues['celoNews']),
 }
