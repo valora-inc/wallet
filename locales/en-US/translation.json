@@ -1176,7 +1176,6 @@
   "supportExportLogsFailed": "Failed to export logs: {{error}}",
   "supportEmailSubject": "{{appName}} support for {{user}}",
   "personaAccountEndpointFail": "Identity verification is not currently available. Please try again later",
-  "plaidCreateLinkTokenFail": "Unable to link bank account. Please try again later",
   "getBankAccountsFail": "Unable to retrieve your linked bank accounts. Please try again later",
   "deleteBankAccountFail": "Unable to delete your linked bank account. Please try again later",
   "linkBankAccountScreen": {
