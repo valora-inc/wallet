@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
+import Animated, { useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
 import Touchable from 'src/components/Touchable'
+import { useShowOrHideAnimation } from 'src/components/useShowOrHideAnimation'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -15,21 +16,34 @@ interface Props {
   onPress(): void
 }
 
-// the initial offset for the toast
-// the value should be greater than the height of the toast to ensure it is initially hidden
-const POSITION_Y_OFFSET = 100
+// this value is used to ensure the toast is offset by its own height when transitioning in and out of view
+const TOAST_HEIGHT = 100
 
 // for now, this Toast component is launched from the bottom of the screen only
 const ToastWithCTA = ({ showToast, onPress, message, labelCTA, title }: Props) => {
-  const positionY = useSharedValue(POSITION_Y_OFFSET)
+  const [isVisible, setIsVisible] = useState(showToast)
 
-  positionY.value = showToast ? 0 : POSITION_Y_OFFSET
-
+  const progress = useSharedValue(0)
   const animatedStyle = useAnimatedStyle(() => {
     return {
-      transform: [{ translateY: withTiming(positionY.value) }],
+      transform: [{ translateY: (1 - progress.value) * TOAST_HEIGHT }],
     }
   })
+
+  useShowOrHideAnimation(
+    progress,
+    showToast,
+    () => {
+      setIsVisible(true)
+    },
+    () => {
+      setIsVisible(false)
+    }
+  )
+
+  if (!isVisible) {
+    return null
+  }
 
   return (
     <Animated.View style={[styles.container, animatedStyle]}>
