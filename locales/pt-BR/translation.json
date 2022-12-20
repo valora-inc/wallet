@@ -1555,7 +1555,9 @@
   "celoNews": {
     "headerTitle": "Actualizações",
     "headerDescription": "Saiba mais sobre casos de utilização, pilotos e actualizações técnicas no blogue Celo.",
-    "readMoreButtonText": "Leia mais no blogue"
+    "readMoreButtonText": "Leia mais no blogue",
+    "loadingError": "Lamentamos, mas não conseguimos carregar as últimas actualizações. Por favor, tente novamente mais tarde.",
+    "retryButtonText": "Tentativa"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
