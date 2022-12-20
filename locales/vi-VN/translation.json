@@ -1174,7 +1174,6 @@
   "supportExportLogsFailed": "Không xuất được nhật ký: {{error}}",
   "supportEmailSubject": "Hỗ trợ {{appName}} cho {{user}}",
   "personaAccountEndpointFail": "Tính năng xác minh danh tính hiện không sử dụng được. Vui lòng thử lại sau",
-  "plaidCreateLinkTokenFail": "Không thể liên kết tài khoản ngân hàng. Vui lòng thử lại sau",
   "getBankAccountsFail": "Không thể truy xuất tài khoản ngân hàng đã liên kết. Vui lòng thử lại sau",
   "deleteBankAccountFail": "Không thể xóa tài khoản ngân hàng đã liên kết. Vui lòng thử lại sau",
   "linkBankAccountScreen": {
