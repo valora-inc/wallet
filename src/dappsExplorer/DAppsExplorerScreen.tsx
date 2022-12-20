@@ -78,6 +78,7 @@ export function DAppsExplorerScreen() {
     setHelpDialogVisible(false)
   }
 
+  // create sections for all screen content to facilitate scroll to top using a SectionList
   const sections = []
   sections.push({
     data: [{}],
