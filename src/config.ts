@@ -94,6 +94,7 @@ export const FIATCONNECT_NETWORK =
 export const STATSIG_ENV = {
   tier: DEFAULT_TESTNET === 'mainnet' ? 'production' : 'development',
 }
+export const DEFAULT_STATSIG_ID = 'default_statsig_id'
 
 // FEATURE FLAGS
 export const FIREBASE_ENABLED = stringToBoolean(Config.FIREBASE_ENABLED || 'true')

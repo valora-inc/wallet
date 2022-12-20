@@ -10,6 +10,7 @@ import { AppEvents } from 'src/analytics/Events'
 import { AnalyticsPropertiesList } from 'src/analytics/Properties'
 import { getCurrentUserTraits } from 'src/analytics/selectors'
 import {
+  DEFAULT_STATSIG_ID,
   DEFAULT_TESTNET,
   FIREBASE_ENABLED,
   isE2EEnv,
@@ -107,7 +108,7 @@ class ValoraAnalytics {
           }
         : null
 
-      const overrideStableID = isE2EEnv ? 'anonId' : await Analytics.getAnonymousId()
+      const overrideStableID = isE2EEnv ? DEFAULT_STATSIG_ID : await Analytics.getAnonymousId()
       await Statsig.initialize(STATSIG_API_KEY, stasigUser, {
         // StableID should match Segment anonymousId
         overrideStableID,
