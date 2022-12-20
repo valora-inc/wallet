@@ -1174,7 +1174,6 @@
   "supportExportLogsFailed": "ไม่สามารถส่งออกบันทึกได้: {{error}}",
   "supportEmailSubject": "{{appName}} รองรับสำหรับ {{user}}",
   "personaAccountEndpointFail": "การยืนยันตัวตนไม่สามารถใช้ได้ในขณะนี้ โปรดลองอีกครั้งภายหลัง",
-  "plaidCreateLinkTokenFail": "ไม่สามารถเชื่อมโยงบัญชีธนาคารได้ โปรดลองอีกครั้งภายหลัง",
   "getBankAccountsFail": "ไม่สามารถเรียกดูบัญชีธนาคารที่เชื่อมโยงไว้ได้ โปรดลองอีกครั้งภายหลัง",
   "deleteBankAccountFail": "ไม่สามารถลบบัญชีธนาคารที่เชื่อมโยงไว้ได้ โปรดลองอีกครั้งภายหลัง",
   "linkBankAccountScreen": {
