@@ -1176,7 +1176,6 @@
   "supportExportLogsFailed": "Error de exportación: {{error}}",
   "supportEmailSubject": "Soporte técnico de {{appName}} para {{user}}",
   "personaAccountEndpointFail": "La verificación de identidad no está disponible actualmente. Vuelve a intentarlo más tarde.",
-  "plaidCreateLinkTokenFail": "No fue posible vincular la cuenta bancaria. Vuelve a intentarlo más tarde.",
   "getBankAccountsFail": "No se pueden recuperar las cuentas bancarias vinculadas. Vuelve a intentarlo más tarde.",
   "deleteBankAccountFail": "No se puede eliminar tu cuenta bancaria vinculada. Vuelve a intentarlo más tarde.",
   "linkBankAccountScreen": {
