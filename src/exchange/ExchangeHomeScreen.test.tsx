@@ -30,6 +30,9 @@ describe('ExchangeHomeScreen', () => {
 
     expect(tree).toMatchSnapshot()
 
+    // Check we cannot see the Celo news header
+    expect(tree.queryByText('celoNews.headerTitle')).toBeFalsy()
+
     jest.clearAllMocks()
     fireEvent.press(tree.getByTestId('BuyCelo'))
     expect(navigate).toHaveBeenCalledWith(Screens.ExchangeTradeScreen, {
@@ -74,5 +77,31 @@ describe('ExchangeHomeScreen', () => {
     expect(navigate).toHaveBeenCalledWith(Screens.WithdrawCeloScreen, {
       isCashOut: false,
     })
+
+    // Check we cannot see the Celo news header
+    expect(tree.queryByText('celoNews.headerTitle')).toBeFalsy()
+  })
+
+  it('renders the Celo news feed when celoNewsEnabled is true', async () => {
+    const store = createMockStore({
+      goldToken: { balance: '2' },
+      stableToken: { balances: { [Currency.Dollar]: '10' } },
+      exchange: { exchangeRates },
+      app: { celoNewsEnabled: true },
+    })
+
+    const tree = render(
+      <Provider store={store}>
+        <ExchangeHomeScreen />
+      </Provider>
+    )
+
+    // Check we can see the Celo news header
+    expect(tree.queryByText('celoNews.headerTitle')).toBeTruthy()
+
+    // Check we cannot buy/sell/withdraw
+    expect(tree.queryByTestId('BuyCelo')).toBeFalsy()
+    expect(tree.queryByTestId('SellCelo')).toBeFalsy()
+    expect(tree.queryByTestId('WithdrawCELO')).toBeFalsy()
   })
 })
