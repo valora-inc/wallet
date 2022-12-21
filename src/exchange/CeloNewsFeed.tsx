@@ -152,9 +152,4 @@ const styles = StyleSheet.create({
     marginVertical: 32,
     marginHorizontal: Spacing.Thick24,
   },
-  loadingContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    minHeight: 200,
-  },
 })
