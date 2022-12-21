@@ -20,6 +20,7 @@ jest.mock('@segment/analytics-react-native', () => ({
     identify: jest.fn().mockResolvedValue(undefined),
     track: jest.fn().mockResolvedValue(undefined),
     screen: jest.fn().mockResolvedValue(undefined),
+    getAnonymousId: jest.fn().mockResolvedValue('anonId'),
   },
 }))
 jest.mock('@segment/analytics-react-native-adjust', () => ({}))
@@ -130,6 +131,9 @@ const defaultProperties = {
   sessionId: expectedSessionId,
   timestamp: 1482363367071,
   userAddress: '0x0000000000000000000000000000000000007e57',
+  statsigEnvironment: {
+    tier: 'development',
+  },
 }
 
 describe('ValoraAnalytics', () => {
@@ -139,6 +143,7 @@ describe('ValoraAnalytics', () => {
     jest.clearAllMocks()
     jest.unmock('src/analytics/ValoraAnalytics')
     Statsig.initialize = jest.fn()
+    Statsig.updateUser = jest.fn()
     jest.isolateModules(() => {
       ValoraAnalytics = require('src/analytics/ValoraAnalytics').default
     })

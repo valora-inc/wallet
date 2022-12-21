@@ -29,6 +29,7 @@ import { Dapp, DappSection } from 'src/dapps/types'
 import DappCard from 'src/dappsExplorer/DappCard'
 import FavoriteDappsSection from 'src/dappsExplorer/FavoriteDappsSection'
 import FeaturedDappCard from 'src/dappsExplorer/FeaturedDappCard'
+import useDappFavoritedToast from 'src/dappsExplorer/useDappFavoritedToast'
 import useOpenDapp from 'src/dappsExplorer/useOpenDapp'
 import Help from 'src/icons/navigator/Help'
 import { dappListLogo } from 'src/images/Images'
@@ -53,7 +54,10 @@ export function DAppsExplorerScreen() {
   const { t } = useTranslation()
   const [isHelpDialogVisible, setHelpDialogVisible] = useState(false)
   const insets = useSafeAreaInsets()
+
+  const sectionListRef = useRef<SectionList>(null)
   const scrollPosition = useRef(new Animated.Value(0)).current
+
   const onScroll = Animated.event([{ nativeEvent: { contentOffset: { y: scrollPosition } } }])
   const dispatch = useDispatch()
   const featuredDapp = useSelector(featuredDappSelector)
@@ -63,6 +67,7 @@ export function DAppsExplorerScreen() {
   const dappFavoritesEnabled = useSelector(dappFavoritesEnabledSelector)
 
   const { onSelectDapp, ConfirmOpenDappBottomSheet } = useOpenDapp()
+  const { onFavoriteDapp, DappFavoritedToast } = useDappFavoritedToast(sectionListRef)
 
   useEffect(() => {
     dispatch(fetchDappsList())
@@ -125,6 +130,8 @@ export function DAppsExplorerScreen() {
         )}
         {!loading && !error && categoriesById && (
           <AnimatedSectionList
+            // @ts-ignore TODO: resolve type error
+            ref={sectionListRef}
             ListHeaderComponent={
               <>
                 <DescriptionView message={t('dappsScreen.message')} />
@@ -158,16 +165,24 @@ export function DAppsExplorerScreen() {
             onScroll={onScroll}
             sections={parseResultIntoSections(categoriesById)}
             renderItem={({ item: dapp }) => (
-              <DappCard dapp={dapp} section={DappSection.All} onPressDapp={onSelectDapp} />
+              <DappCard
+                dapp={dapp}
+                section={DappSection.All}
+                onPressDapp={onSelectDapp}
+                onFavoriteDapp={onFavoriteDapp}
+              />
             )}
             keyExtractor={(dapp: Dapp) => `${dapp.categoryId}-${dapp.id}`}
             stickySectionHeadersEnabled={false}
-            renderSectionHeader={({ section }: { section: SectionListData<any, SectionData> }) => (
+            renderSectionHeader={({ section }: { section: SectionListData<Dapp, SectionData> }) => (
               <CategoryHeader category={section.category} />
             )}
+            testID="DAppExplorerScreen/DappsList"
           />
         )}
       </>
+
+      {DappFavoritedToast}
     </SafeAreaView>
   )
 }

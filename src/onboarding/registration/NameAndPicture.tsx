@@ -9,7 +9,7 @@ import { nameSelector, recoveringFromStoreWipeSelector } from 'src/account/selec
 import { hideAlert, showError } from 'src/alert/actions'
 import { ConfigParams, LayerParams } from 'src/analytics/constants'
 import { OnboardingEvents } from 'src/analytics/Events'
-import { StatsigDynamicConfigs, StatsigEvents, StatsigLayers } from 'src/analytics/types'
+import { StatsigDynamicConfigs, StatsigLayers } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import {
@@ -146,11 +146,6 @@ function NameAndPicture({ navigation, route }: Props) {
   }, [navigation, choseToRestoreAccount, step, totalSteps, nameInput])
 
   const goToNextScreen = () => {
-    try {
-      Statsig.logEvent(StatsigEvents.ONBOARDING_NAME_STEP_COMPLETE)
-    } catch (error) {
-      Logger.warn('NameAndPicture', 'error logging Statsig event', error)
-    }
     if (recoveringFromStoreWipe) {
       navigate(Screens.ImportWallet)
     } else {

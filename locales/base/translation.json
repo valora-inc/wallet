@@ -1178,7 +1178,6 @@
   "supportExportLogsFailed": "Failed to export logs: {{error}}",
   "supportEmailSubject": "{{appName}} support for {{user}}",
   "personaAccountEndpointFail": "Identity verification is not currently available. Please try again later",
-  "plaidCreateLinkTokenFail": "Unable to link bank account. Please try again later",
   "getBankAccountsFail": "Unable to retrieve your linked bank accounts. Please try again later",
   "deleteBankAccountFail": "Unable to delete your linked bank account. Please try again later",
   "linkBankAccountScreen": {
@@ -1252,6 +1251,10 @@
     "noFavorites": {
       "title": "No favorites added",
       "description": "Keep track of your most-used Dapps by tapping the star icon to add it as a favorite"
+    },
+    "favoritedDappToast": {
+      "message": "Added as a favorite",
+      "labelCTA": "View Favorites"
     }
   },
   "dappsScreenHelpDialog": {
@@ -1557,6 +1560,8 @@
   "celoNews": {
     "headerTitle": "Updates",
     "headerDescription": "Learn about use cases, pilots & technical updates on the Celo blog.",
-    "readMoreButtonText": "Read more on the blog"
+    "readMoreButtonText": "Read more on the blog",
+    "loadingError": "Sorry, we couldn't load the latest updates. Please try again later.",
+    "retryButtonText": "Retry"
   }
 }

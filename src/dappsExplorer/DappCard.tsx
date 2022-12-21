@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { DappExplorerEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Card from 'src/components/Card'
 import Touchable from 'src/components/Touchable'
-import { dappFavoritesEnabledSelector } from 'src/dapps/selectors'
+import { dappFavoritesEnabledSelector, favoriteDappIdsSelector } from 'src/dapps/selectors'
+import { favoriteDapp, unfavoriteDapp } from 'src/dapps/slice'
 import { ActiveDapp, Dapp, DappSection } from 'src/dapps/types'
 import LinkArrow from 'src/icons/LinkArrow'
 import Star from 'src/icons/Star'
@@ -18,33 +19,38 @@ interface Props {
   dapp: Dapp
   section: DappSection
   onPressDapp: (dapp: ActiveDapp) => void
+  onFavoriteDapp?: (dapp: Dapp) => void
 }
 
 // Since this icon exists within a touchable, make the hitslop bigger than usual
 const favoriteIconHitslop = { top: 20, right: 20, bottom: 20, left: 20 }
 
-function DappCard({ dapp, section, onPressDapp }: Props) {
-  // TODO replace this state with a selector / redux action
-  const [isFavorited, setIsFavorited] = useState(false)
-
+function DappCard({ dapp, section, onPressDapp, onFavoriteDapp }: Props) {
+  const dispatch = useDispatch()
   const dappFavoritesEnabled = useSelector(dappFavoritesEnabledSelector)
+  const favoriteDappIds = useSelector(favoriteDappIdsSelector)
+
+  const isFavorited = favoriteDappIds.includes(dapp.id)
 
   const onPress = () => {
     onPressDapp({ ...dapp, openedFrom: section })
   }
 
   const onPressFavorite = () => {
-    const eventType = isFavorited
-      ? DappExplorerEvents.dapp_unfavorite
-      : DappExplorerEvents.dapp_favorite
-    ValoraAnalytics.track(eventType, {
+    const eventProperties = {
       categoryId: dapp.categoryId,
       dappId: dapp.id,
       dappName: dapp.name,
-    })
+    }
 
-    // TODO replace with dispatch favourite dapp action
-    setIsFavorited((prev) => !prev)
+    if (isFavorited) {
+      ValoraAnalytics.track(DappExplorerEvents.dapp_unfavorite, eventProperties)
+      dispatch(unfavoriteDapp({ dappId: dapp.id }))
+    } else {
+      ValoraAnalytics.track(DappExplorerEvents.dapp_favorite, eventProperties)
+      dispatch(favoriteDapp({ dappId: dapp.id }))
+      onFavoriteDapp?.(dapp)
+    }
   }
 
   return (

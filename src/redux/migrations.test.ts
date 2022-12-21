@@ -39,6 +39,7 @@ import {
   v84Schema,
   v8Schema,
   v98Schema,
+  v99Schema,
   vNeg1Schema,
 } from 'test/schemas'
 
@@ -744,6 +745,16 @@ describe('Redux persist migrations', () => {
     }
     delete expectedSchema.dapps.recentDapps
     delete expectedSchema.dapps.favoriteDapps
+    expect(migratedSchema).toStrictEqual(expectedSchema)
+  })
+
+  it('works from v99 to v100', () => {
+    const oldSchema = v99Schema
+    const migratedSchema = migrations[100](oldSchema)
+
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    delete expectedSchema.app.celoNewsEnabled
+
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 })
