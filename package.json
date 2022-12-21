@@ -183,7 +183,7 @@
     "reselect": "^4.0.0",
     "statsig-react-native": "^4.6.0",
     "svgs": "^4.2.0",
-    "tslib": "^1.11.1",
+    "tslib": "^2.4.1",
     "utf8": "^3.0.0",
     "uuid": "^8.3.0",
     "victory-native": "^36.6.8",
