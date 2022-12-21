@@ -1176,7 +1176,6 @@
   "supportExportLogsFailed": "Échec de l'exportation des journaux : {{error}}",
   "supportEmailSubject": "Assistance {{appName}} pour {{user}}",
   "personaAccountEndpointFail": "La vérification d'identité n'est pas disponible actuellement. Veuillez réessayer plus tard",
-  "plaidCreateLinkTokenFail": "Impossible de relier le compte bancaire. Réessayez plus tard",
   "getBankAccountsFail": "Impossible de récupérer vos comptes bancaires liés. Veuillez réessayer plus tard",
   "deleteBankAccountFail": "Impossible de supprimer votre compte bancaire associé. Veuillez réessayer plus tard",
   "linkBankAccountScreen": {
@@ -1279,6 +1278,8 @@
     "cryptoExchange": "Échange de cryptomonnaie",
     "feesVary": "Les frais varient",
     "viewExchanges": "Voir les échanges",
+    "depositFrom": "Dépôt de",
+    "cryptoExchangeOrWallet": "Crypto Exchange ou Portefeuille",
     "card": "Carte de crédit/débit",
     "bank": "Compte bancaire",
     "mobileMoney": "Argent digital",
@@ -1549,6 +1550,13 @@
       "title": "Invitez {{contactName}} à {{appName}} et recevez tous les deux des NFT !",
       "body": "Il semble que {{contactName}} n'est pas sur {{appName}}. Si vous connaissez l'adresse de son portefeuille, vous pouvez toujours lui envoyer un paiement direct ou lui faire parvenir une invitation.. \n\nDès que votre contact aura téléchargé son portefeuille et connecté son numéro de téléphone, vous recevrez tous les deux un NFT exclusif."
     }
+  },
+  "celoNews": {
+    "headerTitle": "Mises à jour",
+    "headerDescription": "Découvre les cas d'utilisation, les pilotes et les mises à jour techniques sur le blog de Celo.",
+    "readMoreButtonText": "Lis la suite sur le blog",
+    "loadingError": "Désolé, nous n'avons pas pu charger les dernières mises à jour. Veuillez réessayer plus tard.",
+    "retryButtonText": "Réessayer"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

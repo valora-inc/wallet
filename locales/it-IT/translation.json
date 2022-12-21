@@ -1176,7 +1176,6 @@
   "supportExportLogsFailed": "Esportazione dei log fallita: {{error}}",
   "supportEmailSubject": "Supporto {{appName}} per {{user}}",
   "personaAccountEndpointFail": "La funzione di verifica dell’identità non è attualmente disponibile. Riprova più tardi.",
-  "plaidCreateLinkTokenFail": "Impossibile collegare il conto bancario. Riprova più tardi.",
   "getBankAccountsFail": "Impossibile recuperare i tuoi conti bancari collegati. Riprova più tardi.",
   "deleteBankAccountFail": "Impossibile eliminare il tuo conto bancario collegato. Riprova più tardi.",
   "linkBankAccountScreen": {
@@ -1279,6 +1278,8 @@
     "cryptoExchange": "Exchange di criptovalute",
     "feesVary": "Le commissioni variano",
     "viewExchanges": "Visualizza gli exchange",
+    "depositFrom": "Deposito da",
+    "cryptoExchangeOrWallet": "Scambio di criptovalute o portafoglio",
     "card": "Carta di credito/debito",
     "bank": "Conto bancario",
     "mobileMoney": "Denaro mobile",
@@ -1549,6 +1550,13 @@
       "title": "Invita {{contactName}} in {{appName}} ed entrambi riceverete NFT!",
       "body": "Sembra che {{contactName}} non sia su {{appName}}. Se conosci l'indirizzo del suo portafoglio, puoi comunque inviare un pagamento o un invito. \n\n Dopo che avrà scaricato il portafoglio e collegato il suo numero telefonico, riceverete entrambi un NFT esclusivo."
     }
+  },
+  "celoNews": {
+    "headerTitle": "Aggiornamenti",
+    "headerDescription": "Scopri i casi d'uso, i progetti pilota e gli aggiornamenti tecnici sul blog di Celo.",
+    "readMoreButtonText": "Leggi tutto sul blog",
+    "loadingError": "Siamo spiacenti, non siamo riusciti a caricare gli ultimi aggiornamenti. Riprova più tardi.",
+    "retryButtonText": "Riprova"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollar"
