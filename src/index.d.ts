@@ -6,7 +6,6 @@ declare module '*.json' {
 declare module '*.png'
 declare module '*.jpg'
 
-declare module 'sleep-promise'
 declare module 'dot-prop-immutable'
 declare module 'react-native-crypto'
 declare module 'react-native-bip39'
