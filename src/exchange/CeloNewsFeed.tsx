@@ -1,4 +1,3 @@
-import { sleep } from '@celo/utils/lib/async'
 import React, { useMemo } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
