@@ -29,3 +29,9 @@ export const userInSanctionedCountrySelector = createSelector(
   userLocationDataSelector,
   ({ countryCodeAlpha2 }) => getCountryFeatures(countryCodeAlpha2 ?? '').SANCTIONED_COUNTRY ?? false
 )
+
+export const userInSwapRestrictedCountrySelector = createSelector(
+  userLocationDataSelector,
+  ({ countryCodeAlpha2 }) =>
+    getCountryFeatures(countryCodeAlpha2 ?? '').SWAP_RESTRICTED_COUNTRY ?? false
+)

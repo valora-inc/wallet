@@ -81,4 +81,9 @@ export const countryFeatures = {
     XI: true, // Northern Ireland
     XK: true, // Kosovo
   },
+  SWAP_RESTRICTED_COUNTRY: {
+    SG: true, // Singapore
+    PH: true, // Philippines
+    JP: true, // Japan
+  },
 }

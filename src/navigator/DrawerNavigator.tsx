@@ -65,6 +65,7 @@ import { default as useSelector } from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import SwapScreen from 'src/swap/SwapScreen'
+import { userInSwapRestrictedCountrySelector } from 'src/utils/countryFeatures'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
 
@@ -206,7 +207,9 @@ export default function DrawerNavigator() {
     <CustomDrawerContent {...props} />
   )
 
-  const shouldShowSwapMenuInDrawerMenu = useSelector(isAppSwapsEnabledSelector)
+  const inAppSwapsEnabled = useSelector(isAppSwapsEnabledSelector)
+  const isSwapRestricted = useSelector(userInSwapRestrictedCountrySelector)
+  const shouldShowSwapMenuInDrawerMenu = inAppSwapsEnabled && !isSwapRestricted
 
   return (
     <Drawer.Navigator
