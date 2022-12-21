@@ -37,7 +37,6 @@
         <data android:scheme="https" android:host="valoraapp.com" />
         <data android:scheme="https" android:host="vlra.app" />
         <data android:pathPrefix="/wc" />
-        <data android:path="/plaid-oauth-redirect" />
         <data android:scheme="http" />
       </intent-filter>
     </activity>
