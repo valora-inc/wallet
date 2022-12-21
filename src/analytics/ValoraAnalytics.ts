@@ -10,8 +10,8 @@ import { AppEvents } from 'src/analytics/Events'
 import { AnalyticsPropertiesList } from 'src/analytics/Properties'
 import { getCurrentUserTraits } from 'src/analytics/selectors'
 import {
-  DEFAULT_STATSIG_ID,
   DEFAULT_TESTNET,
+  E2E_TEST_STATSIG_ID,
   FIREBASE_ENABLED,
   isE2EEnv,
   SEGMENT_API_KEY,
@@ -108,7 +108,8 @@ class ValoraAnalytics {
           }
         : null
 
-      const overrideStableID = isE2EEnv ? DEFAULT_STATSIG_ID : await Analytics.getAnonymousId()
+      // getAnonymousId causes the e2e tests to fail
+      const overrideStableID = isE2EEnv ? E2E_TEST_STATSIG_ID : await Analytics.getAnonymousId()
       await Statsig.initialize(STATSIG_API_KEY, stasigUser, {
         // StableID should match Segment anonymousId
         overrideStableID,
