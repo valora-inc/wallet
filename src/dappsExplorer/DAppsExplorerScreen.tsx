@@ -4,6 +4,7 @@ import {
   ActivityIndicator,
   Image,
   SectionList,
+  SectionListData,
   SectionListProps,
   StyleSheet,
   Text,
@@ -22,10 +23,9 @@ import {
   dappsListErrorSelector,
   dappsListLoadingSelector,
   featuredDappSelector,
-  isCategoryWithDapps,
 } from 'src/dapps/selectors'
 import { fetchDappsList } from 'src/dapps/slice'
-import { DappSection } from 'src/dapps/types'
+import { Dapp, DappSection } from 'src/dapps/types'
 import DappCard from 'src/dappsExplorer/DappCard'
 import FavoriteDappsSection from 'src/dappsExplorer/FavoriteDappsSection'
 import FeaturedDappCard from 'src/dappsExplorer/FeaturedDappCard'
@@ -41,9 +41,14 @@ import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
 const AnimatedSectionList =
-  Animated.createAnimatedComponent<SectionListProps<CategoryWithDapps | {}>>(SectionList)
+  Animated.createAnimatedComponent<SectionListProps<Dapp, SectionData>>(SectionList)
 
 const SECTION_HEADER_MARGIN_TOP = 32
+
+interface SectionData {
+  data: Dapp[]
+  category: CategoryWithDapps
+}
 
 export function DAppsExplorerScreen() {
   const { t } = useTranslation()
@@ -88,63 +93,6 @@ export function DAppsExplorerScreen() {
     setHelpDialogVisible(false)
   }
 
-  // create sections for all screen content to facilitate scroll to top using a SectionList
-  const sections = []
-  sections.push({
-    data: [{}],
-    renderItem: () => <DescriptionView message={t('dappsScreen.message')} />,
-  })
-  if (featuredDapp) {
-    sections.push({
-      data: [{}],
-      renderItem: () => (
-        <>
-          <Text style={styles.sectionTitle}>{t('dappsScreen.featuredDapp')}</Text>
-          <FeaturedDappCard dapp={featuredDapp} onPressDapp={onSelectDapp} />
-          {!dappFavoritesEnabled && (
-            <Text style={styles.sectionTitle}>{t('dappsScreen.allDapps')}</Text>
-          )}
-        </>
-      ),
-    })
-  }
-  if (dappFavoritesEnabled) {
-    sections.push({
-      data: [{}],
-      renderItem: () => (
-        <>
-          <Text style={styles.sectionTitle}>{t('dappsScreen.favoriteDapps')}</Text>
-          <FavoriteDappsSection onPressDapp={onSelectDapp} />
-          {<Text style={styles.sectionTitle}>{t('dappsScreen.allDapps')}</Text>}
-        </>
-      ),
-    })
-  }
-  sections.push({
-    data: categoriesById,
-    renderItem: ({ item }: { item: CategoryWithDapps | {} }) => {
-      if (!isCategoryWithDapps(item)) {
-        // should not happen, this check is done to appease typescript for the sections type
-        return null
-      }
-
-      return (
-        <>
-          <CategoryHeader category={item} />
-          {item.dapps.map((dapp) => (
-            <DappCard
-              key={dapp.id}
-              dapp={dapp}
-              section={DappSection.All}
-              onPressDapp={onSelectDapp}
-              onFavoriteDapp={onFavoriteDapp}
-            />
-          ))}
-        </>
-      )
-    },
-  })
-
   return (
     <SafeAreaView style={styles.safeAreaContainer} edges={['top']}>
       <DrawerTopBar
@@ -184,6 +132,28 @@ export function DAppsExplorerScreen() {
           <AnimatedSectionList
             // @ts-ignore TODO: resolve type error
             ref={sectionListRef}
+            ListHeaderComponent={
+              <>
+                <DescriptionView message={t('dappsScreen.message')} />
+                {featuredDapp && (
+                  <>
+                    <Text style={styles.sectionTitle}>{t('dappsScreen.featuredDapp')}</Text>
+                    <FeaturedDappCard dapp={featuredDapp} onPressDapp={onSelectDapp} />
+                  </>
+                )}
+
+                {dappFavoritesEnabled && (
+                  <>
+                    <Text style={styles.sectionTitle}>{t('dappsScreen.favoriteDapps')}</Text>
+                    <FavoriteDappsSection onPressDapp={onSelectDapp} />
+                  </>
+                )}
+
+                {(featuredDapp || dappFavoritesEnabled) && (
+                  <Text style={styles.sectionTitle}>{t('dappsScreen.allDapps')}</Text>
+                )}
+              </>
+            }
             style={styles.sectionList}
             contentContainerStyle={{
               padding: Spacing.Regular16,
@@ -193,8 +163,20 @@ export function DAppsExplorerScreen() {
             scrollIndicatorInsets={{ top: 0.01 }}
             scrollEventThrottle={16}
             onScroll={onScroll}
-            sections={sections}
+            sections={parseResultIntoSections(categoriesById)}
+            renderItem={({ item: dapp }) => (
+              <DappCard
+                dapp={dapp}
+                section={DappSection.All}
+                onPressDapp={onSelectDapp}
+                onFavoriteDapp={onFavoriteDapp}
+              />
+            )}
+            keyExtractor={(dapp: Dapp) => `${dapp.categoryId}-${dapp.id}`}
             stickySectionHeadersEnabled={false}
+            renderSectionHeader={({ section }: { section: SectionListData<Dapp, SectionData> }) => (
+              <CategoryHeader category={section.category} />
+            )}
             testID="DAppExplorerScreen/DappsList"
           />
         )}
@@ -203,6 +185,13 @@ export function DAppsExplorerScreen() {
       {DappFavoritedToast}
     </SafeAreaView>
   )
+}
+
+function parseResultIntoSections(categoriesWithDapps: CategoryWithDapps[]): SectionData[] {
+  return categoriesWithDapps.map((category) => ({
+    data: category.dapps,
+    category: category,
+  }))
 }
 
 function DescriptionView({ message }: { message: string }) {

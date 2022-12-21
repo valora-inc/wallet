@@ -22,12 +22,7 @@ const useDappFavoritedToast = (sectionListRef: React.RefObject<SectionList>) => 
 
   const onPressToast = () => {
     setShowToast(false)
-
-    sectionListRef.current?.scrollToLocation({
-      sectionIndex: 0,
-      itemIndex: 0,
-      animated: true,
-    })
+    sectionListRef.current?.getScrollResponder()?.scrollTo({ y: 0, animated: true })
   }
 
   const onFavoriteDapp = (dapp: Dapp) => {
