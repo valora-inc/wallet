@@ -1174,7 +1174,6 @@
   "supportExportLogsFailed": "导出日志失败：{{error}}",
   "supportEmailSubject": "{{appName}} 对 {{user}} 的支持",
   "personaAccountEndpointFail": "身份验证当前暂不可用。请稍后再试",
-  "plaidCreateLinkTokenFail": "无法链接银行账户。请稍后再试",
   "getBankAccountsFail": "无法检索您链接的银行账户。请稍后再试",
   "deleteBankAccountFail": "无法删除您链接的银行账户。请稍后再试",
   "linkBankAccountScreen": {
@@ -1243,7 +1242,12 @@
     "message": "探索如何使用您的加密货币",
     "errorMessage": "加在 dapp 时出错",
     "featuredDapp": "精选",
-    "allDapps": "全部"
+    "allDapps": "全部",
+    "favoriteDapps": "我的最爱",
+    "noFavorites": {
+      "title": "没有添加收藏夹",
+      "description": "追踪你最常用的Dapps，点击星星图标将其添加为最爱。"
+    }
   },
   "dappsScreenHelpDialog": {
     "title": "什么是 dapp？",
@@ -1272,6 +1276,8 @@
     "cryptoExchange": "加密货币交易所",
     "feesVary": "费用各异",
     "viewExchanges": "查看交易所",
+    "depositFrom": "存款来自",
+    "cryptoExchangeOrWallet": "加密货币交易所或钱包",
     "card": "信用卡/借记卡",
     "bank": "银行账户",
     "mobileMoney": "手机钱包",
@@ -1406,19 +1412,27 @@
       "fiatExchangeSubtitle": "从银行、卡或交易所为您的 {{appName}} 账户添加资金。",
       "selectCurrencyTitle": "添加资金",
       "exchangeAmountTitle": "添加 {{currency}}",
-      "selectProviderHeader": "选择付款方式"
+      "selectProviderHeader": "选择付款方式",
+      "depositExchangeTitle": "存入加密货币"
     },
     "cashOut": {
       "fiatExchangeTitle": "提取资金",
       "fiatExchangeSubtitle": "从 {{appName}} 将资金提取到银行账户、卡、加密货币交易所或手机钱包。",
       "selectCurrencyTitle": "提取资金",
       "exchangeAmountTitle": "提取 {{currency}}",
-      "selectProviderHeader": "选择提取方式"
+      "selectProviderHeader": "选择提取方式",
+      "withdrawExchangeTitle": "提取加密货币"
     },
     "spend": {
       "fiatExchangeTitle": "消费资金",
       "fiatExchangeSubtitle": "用于购买礼品卡和其他物品。",
       "selectCurrencyTitle": "消费资金"
+    },
+    "exchange": {
+      "copyAddress": "复制地址",
+      "informationText": "只使用<0>与Celo网络兼容</0>的交易所或资产，以防止资金损失。",
+      "bottomSheetTitle": "我可以用什么交易所来存入资金？",
+      "bottomSheetInfo": "仔细检查你所发送的资产是否与Celo网络兼容。"
     }
   },
   "fiatDetailsScreen": {
@@ -1534,6 +1548,13 @@
       "title": "邀请 {{contactName}} 使用 {{appName}}，你们都将获得 NFT！",
       "body": "似乎 {{contactName}} 未在 {{appName}} 上。如果您知道其钱包地址，则仍可发送付款，或者也可以发送一则邀请。\n\n在其下载钱包并关联手机号码后，你们都将获得一个独家的 NFT。"
     }
+  },
+  "celoNews": {
+    "headerTitle": "更新",
+    "headerDescription": "在Celo博客上了解使用案例、试点和技术更新。",
+    "readMoreButtonText": "在博客上阅读更多内容",
+    "loadingError": "对不起，我们无法加载最新的更新。请稍后再试。",
+    "retryButtonText": "重试"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
 }

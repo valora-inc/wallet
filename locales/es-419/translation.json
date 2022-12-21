@@ -1176,7 +1176,6 @@
   "supportExportLogsFailed": "Error de exportación: {{error}}",
   "supportEmailSubject": "Soporte técnico de {{appName}} para {{user}}",
   "personaAccountEndpointFail": "La verificación de identidad no está disponible actualmente. Vuelve a intentarlo más tarde.",
-  "plaidCreateLinkTokenFail": "No fue posible vincular la cuenta bancaria. Vuelve a intentarlo más tarde.",
   "getBankAccountsFail": "No se pueden recuperar las cuentas bancarias vinculadas. Vuelve a intentarlo más tarde.",
   "deleteBankAccountFail": "No se puede eliminar tu cuenta bancaria vinculada. Vuelve a intentarlo más tarde.",
   "linkBankAccountScreen": {
@@ -1245,7 +1244,12 @@
     "message": "Explora las distintas formas de usar tus cripto",
     "errorMessage": "Hubo un error al cargar las dapps",
     "featuredDapp": "Destacadas",
-    "allDapps": "Todas"
+    "allDapps": "Todas",
+    "favoriteDapps": "Mis favoritos",
+    "noFavorites": {
+      "title": "No se han añadido favoritos",
+      "description": "Haz un seguimiento de tus Dapps más utilizadas tocando el icono de la estrella para añadirla como favorita"
+    }
   },
   "dappsScreenHelpDialog": {
     "title": "¿Qué son las dapps?",
@@ -1274,6 +1278,8 @@
     "cryptoExchange": "Exchange de criptomonedas",
     "feesVary": "Las tarifas varían",
     "viewExchanges": "Ver exchanges",
+    "depositFrom": "Depósito de",
+    "cryptoExchangeOrWallet": "Bolsa o monedero de criptomonedas",
     "card": "Tarjeta de crédito/débito",
     "bank": "Cuenta bancaria",
     "mobileMoney": "Dinero digital",
@@ -1408,19 +1414,27 @@
       "fiatExchangeSubtitle": "Agrega fondos a tu cuenta de {{appName}} desde tu banco, tarjeta o exchange.",
       "selectCurrencyTitle": "Agregar fondos",
       "exchangeAmountTitle": "Agregar {{currency}}",
-      "selectProviderHeader": "Selecciona el método de pago"
+      "selectProviderHeader": "Selecciona el método de pago",
+      "depositExchangeTitle": "Depositar Cripto"
     },
     "cashOut": {
       "fiatExchangeTitle": "Retirar fondos",
       "fiatExchangeSubtitle": "Retira fondos de {{appName}} a tu cuenta bancaria, tarjeta, exchange de criptomonedas o cuenta de dinero digital.",
       "selectCurrencyTitle": "Retirar fondos",
       "exchangeAmountTitle": "Retirar {{currency}}",
-      "selectProviderHeader": "Selecciona el método de retiro"
+      "selectProviderHeader": "Selecciona el método de retiro",
+      "withdrawExchangeTitle": "Retirar criptomonedas"
     },
     "spend": {
       "fiatExchangeTitle": "Gastar fondos",
       "fiatExchangeSubtitle": "Gasta tus fondos en tarjetas regalo y otras compras.",
       "selectCurrencyTitle": "Gastar fondos"
+    },
+    "exchange": {
+      "copyAddress": "Dirección de copia",
+      "informationText": "Utiliza sólo bolsas o activos <0>compatibles con la red Celo</0> para evitar la pérdida de fondos",
+      "bottomSheetTitle": "¿Qué bolsas puedo utilizar para depositar fondos?",
+      "bottomSheetInfo": "Comprueba que estás enviando activos compatibles con la red Celo."
     }
   },
   "fiatDetailsScreen": {
@@ -1536,6 +1550,13 @@
       "title": "Invita a {{contactName}} a {{appName}}. ¡Ambos recibirán un NFT!",
       "body": "Parece que {{contactName}} no está en {{appName}}. Si conoces su Dirección de cuenta, envía el pago a su billetera, o bien envíale una invitación. \n\nUna vez de que descargue la app y conecte su número de teléfono, ambos obtendrán un NFT exclusivo."
     }
+  },
+  "celoNews": {
+    "headerTitle": "Actualizaciones",
+    "headerDescription": "Infórmate sobre casos de uso, pilotos y actualizaciones técnicas en el blog de Celo.",
+    "readMoreButtonText": "Más información en el blog",
+    "loadingError": "Lo sentimos, no hemos podido cargar las últimas actualizaciones. Vuelve a intentarlo más tarde.",
+    "retryButtonText": "Reintentar"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

@@ -1174,7 +1174,6 @@
   "supportExportLogsFailed": "Không xuất được nhật ký: {{error}}",
   "supportEmailSubject": "Hỗ trợ {{appName}} cho {{user}}",
   "personaAccountEndpointFail": "Tính năng xác minh danh tính hiện không sử dụng được. Vui lòng thử lại sau",
-  "plaidCreateLinkTokenFail": "Không thể liên kết tài khoản ngân hàng. Vui lòng thử lại sau",
   "getBankAccountsFail": "Không thể truy xuất tài khoản ngân hàng đã liên kết. Vui lòng thử lại sau",
   "deleteBankAccountFail": "Không thể xóa tài khoản ngân hàng đã liên kết. Vui lòng thử lại sau",
   "linkBankAccountScreen": {
@@ -1243,7 +1242,12 @@
     "message": "Khám phá những phương thức sử dụng tiền điện tử",
     "errorMessage": "Đã xảy ra lỗi khi tải dapp",
     "featuredDapp": "Nổi bật",
-    "allDapps": "Tất cả"
+    "allDapps": "Tất cả",
+    "favoriteDapps": "My Favorites",
+    "noFavorites": {
+      "title": "No favorites added",
+      "description": "Keep track of your most-used Dapps by tapping the star icon to add it as a favorite"
+    }
   },
   "dappsScreenHelpDialog": {
     "title": "Dapp là gì?",
@@ -1272,6 +1276,8 @@
     "cryptoExchange": "Sàn giao dịch tiền điện tử",
     "feesVary": "Phí sẽ khác nhau",
     "viewExchanges": "Xem các sàn giao dịch",
+    "depositFrom": "Deposit from",
+    "cryptoExchangeOrWallet": "Crypto Exchange or Wallet",
     "card": "Thẻ tín dụng / ghi nợ",
     "bank": "Tài khoản ngân hàng",
     "mobileMoney": "Ví di động",
@@ -1406,19 +1412,27 @@
       "fiatExchangeSubtitle": "Nạp tiền vào tài khoản {{appName}} của bạn từ ngân hàng, thẻ hoặc sàn giao dịch.",
       "selectCurrencyTitle": "Nạp tiền",
       "exchangeAmountTitle": "Nạp {{currency}}",
-      "selectProviderHeader": "Chọn phương thức thanh toán"
+      "selectProviderHeader": "Chọn phương thức thanh toán",
+      "depositExchangeTitle": "Deposit Crypto"
     },
     "cashOut": {
       "fiatExchangeTitle": "Rút tiền",
       "fiatExchangeSubtitle": "Rút tiền từ {{appName}} vào tài khoản ngân hàng, thẻ, sàn giao dịch tiền điện tử hoặc chuyển sang ví di động.",
       "selectCurrencyTitle": "Rút tiền",
       "exchangeAmountTitle": "Rút {{currency}}",
-      "selectProviderHeader": "Chọn phương thức rút tiền"
+      "selectProviderHeader": "Chọn phương thức rút tiền",
+      "withdrawExchangeTitle": "Withdraw Crypto"
     },
     "spend": {
       "fiatExchangeTitle": "Chi tiêu tiền",
       "fiatExchangeSubtitle": "Chi tiêu cho thẻ quà tặng và các giao dịch mua khác.",
       "selectCurrencyTitle": "Chi tiêu tiền"
+    },
+    "exchange": {
+      "copyAddress": "Copy Address",
+      "informationText": "Only use exchanges or assets <0>compatible with the Celo network</0> to prevent loss of funds",
+      "bottomSheetTitle": "What exchanges can I use to deposit funds?",
+      "bottomSheetInfo": "Double check that you are sending assets that are compatible with the Celo network."
     }
   },
   "fiatDetailsScreen": {
@@ -1534,6 +1548,13 @@
       "title": "Mời {{contactName}} tham gia vào {{appName}} và cả hai bạn đều sẽ nhận được NFT!",
       "body": "Có vẻ như {{contactName}} không có trên {{appName}}. Nếu biết địa chỉ ví của họ, bạn vẫn có thể gửi khoản thanh toán hoặc gửi lời mời. \n\n Sau khi họ tải ví xuống và kết nối số điện thoại, cả hai bạn đều sẽ nhận được NFT độc quyền."
     }
+  },
+  "celoNews": {
+    "headerTitle": "Updates",
+    "headerDescription": "Learn about use cases, pilots & technical updates on the Celo blog.",
+    "readMoreButtonText": "Read more on the blog",
+    "loadingError": "Sorry, we couldn't load the latest updates. Please try again later.",
+    "retryButtonText": "Retry"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Đô la Celo"
 }

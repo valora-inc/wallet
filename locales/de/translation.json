@@ -1176,7 +1176,6 @@
   "supportExportLogsFailed": "Exportprotokoll fehlgeschlagen: {{error}}",
   "supportEmailSubject": "{{appName}}-Support für {{user}}",
   "personaAccountEndpointFail": "Identitätsprüfung ist derzeit nicht verfügbar. Bitte versuche es später erneut",
-  "plaidCreateLinkTokenFail": "Du kannst dein Bankkonto nicht verknüpfen. Versuche es später noch einmal.",
   "getBankAccountsFail": "Die verknüpften Bankkonten konnten nicht abgerufen werden. Bitte versuche es später erneut.",
   "deleteBankAccountFail": "Dein verknüpften Bankkonto konnte nicht gelöscht werden. Bitte versuche es später erneut.",
   "linkBankAccountScreen": {
@@ -1245,7 +1244,12 @@
     "message": "Finde heraus, wie du dein Krypto nutzen kannst",
     "errorMessage": "Beim Laden Dapps ist ein Fehler aufgetreten",
     "featuredDapp": "Empfohlen",
-    "allDapps": "Alle"
+    "allDapps": "Alle",
+    "favoriteDapps": "Meine Favoriten",
+    "noFavorites": {
+      "title": "Keine Favoriten hinzugefügt",
+      "description": "Behalte den Überblick über deine meistgenutzten Dapps, indem du auf das Sternsymbol tippst, um sie als Favoriten hinzuzufügen"
+    }
   },
   "dappsScreenHelpDialog": {
     "title": "Was sind Dapps?",
@@ -1274,6 +1278,8 @@
     "cryptoExchange": "Kryptobörse",
     "feesVary": "Gebühren variieren",
     "viewExchanges": "Kryptobörsen ansehen",
+    "depositFrom": "Einzahlung von",
+    "cryptoExchangeOrWallet": "Krypto-Börse oder Wallet",
     "card": "Kredit-/Debitkarte",
     "bank": "Bankkonto",
     "mobileMoney": "Mobiles Geld",
@@ -1408,19 +1414,27 @@
       "fiatExchangeSubtitle": "Lade dein {{appName}}-Konto über eine Bank, eine Karte oder eine Börse auf.",
       "selectCurrencyTitle": "Guthaben hinzufügen",
       "exchangeAmountTitle": "{{currency}} hinzufügen",
-      "selectProviderHeader": "Zahlungsmethode auswählen"
+      "selectProviderHeader": "Zahlungsmethode auswählen",
+      "depositExchangeTitle": "Krypto einzahlen"
     },
     "cashOut": {
       "fiatExchangeTitle": "Guthaben abheben",
       "fiatExchangeSubtitle": "Überweise Guthaben von {{appName}} auf ein Bankkonto, eine Karte, eine Kryptobörse oder erhalte es als mobiles Geld.",
       "selectCurrencyTitle": "Guthaben abheben",
       "exchangeAmountTitle": "{{currency}} abheben",
-      "selectProviderHeader": "Auszahlungsmethode auswählen"
+      "selectProviderHeader": "Auszahlungsmethode auswählen",
+      "withdrawExchangeTitle": "Krypto abheben"
     },
     "spend": {
       "fiatExchangeTitle": "Guthaben ausgeben",
       "fiatExchangeSubtitle": "Gib es für Geschenkkarten und andere Einkäufe aus.",
       "selectCurrencyTitle": "Guthaben ausgeben"
+    },
+    "exchange": {
+      "copyAddress": "Adresse kopieren",
+      "informationText": "Verwende nur Börsen oder Vermögenswerte <0>, die mit dem Celo-Netzwerk kompatibel sind</0>, um den Verlust von Geldern zu verhindern",
+      "bottomSheetTitle": "Welche Börsen kann ich nutzen, um Geld einzuzahlen?",
+      "bottomSheetInfo": "Vergewissere dich, dass du Assets versendest, die mit dem Celo-Netzwerk kompatibel sind."
     }
   },
   "fiatDetailsScreen": {
@@ -1536,6 +1550,13 @@
       "title": "Lade {{contactName}} in {{appName}} ein und ihr beide erhaltet NFTs.",
       "body": "Es sieht so aus, als wäre {{contactName}} nicht auf {{appName}}. Wenn du die Wallet-Adresse kennst, kannst du dennoch eine Zahlung oder stattdessen eine Einladung senden. \n\n Nachdem die Wallet heruntergeladen und mit der Telefonnummer verbunden wurde, erhaltet ihr beide ein exklusives NFT."
     }
+  },
+  "celoNews": {
+    "headerTitle": "Updates",
+    "headerDescription": "Erfahre mehr über Anwendungsfälle, Pilotprojekte und technische Updates im Celo Blog.",
+    "readMoreButtonText": "Lies mehr auf dem Blog",
+    "loadingError": "Leider konnten wir die neuesten Updates nicht laden. Bitte versuche es später noch einmal.",
+    "retryButtonText": "Wiederholen"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

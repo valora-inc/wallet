@@ -1176,7 +1176,6 @@
   "supportExportLogsFailed": "Günlük dışarı aktarılamadı: {{error}}",
   "supportEmailSubject": "{{user}} kullanıcısı için {{appName}} desteği",
   "personaAccountEndpointFail": "Kimlik doğrulama şu anda kullanılamıyor. Lütfen daha sonra tekrar deneyiniz",
-  "plaidCreateLinkTokenFail": "Banka hesabı bağlanamıyor. Lütfen daha sonra tekrar deneyiniz",
   "getBankAccountsFail": "Bağlı banka hesaplarınız alınamadı. Lütfen daha sonra tekrar deneyiniz",
   "deleteBankAccountFail": "Bağlı banka hesabınız silinemiyor. Lütfen daha sonra tekrar deneyiniz",
   "linkBankAccountScreen": {
@@ -1245,7 +1244,12 @@
     "message": "Kriptonuzu kullanmanın yollarını keşfedin",
     "errorMessage": "Dapp'ler yüklenirken bir hata oluştu",
     "featuredDapp": "Öne Çıkan",
-    "allDapps": "Tümü"
+    "allDapps": "Tümü",
+    "favoriteDapps": "Favorilerim",
+    "noFavorites": {
+      "title": "Favori eklenmemiş",
+      "description": "Favori olarak eklemek için yıldız simgesine dokunarak en çok kullandığınız Dapp'leri takip edin"
+    }
   },
   "dappsScreenHelpDialog": {
     "title": "Dapp'ler nedir?",
@@ -1274,6 +1278,8 @@
     "cryptoExchange": "Kripto Para Borsası",
     "feesVary": "Ücret Değişkendir",
     "viewExchanges": "Borsaları Görüntüle",
+    "depositFrom": "Depozito",
+    "cryptoExchangeOrWallet": "Kripto Borsası veya Cüzdanı",
     "card": "Kredi / Banka Kartı",
     "bank": "Banka Hesabı",
     "mobileMoney": "Mobil Para",
@@ -1408,19 +1414,27 @@
       "fiatExchangeSubtitle": "{{appName}} hesabınıza bir bankadan, karttan veya borsadan para yatırın.",
       "selectCurrencyTitle": "Bakiye Ekle",
       "exchangeAmountTitle": "{{currency}} ekle",
-      "selectProviderHeader": "Ödeme Yöntemi Seç"
+      "selectProviderHeader": "Ödeme Yöntemi Seç",
+      "depositExchangeTitle": "Kripto Para Yatırma"
     },
     "cashOut": {
       "fiatExchangeTitle": "Bakiye Çek",
       "fiatExchangeSubtitle": "{{appName}} uygulamasından bir banka hesabına, karta, kripto borsasına veya mobil paraya para aktarın.",
       "selectCurrencyTitle": "Bakiye Çek",
       "exchangeAmountTitle": "{{currency}} çek",
-      "selectProviderHeader": "Para Çekme Yöntemi Seç"
+      "selectProviderHeader": "Para Çekme Yöntemi Seç",
+      "withdrawExchangeTitle": "Kripto Çekme"
     },
     "spend": {
       "fiatExchangeTitle": "Harcama Çek",
       "fiatExchangeSubtitle": "Hediye kartları ve diğer satın alma işlemleri için harcayın.",
       "selectCurrencyTitle": "Para Harcama"
+    },
+    "exchange": {
+      "copyAddress": "Kopya Adres",
+      "informationText": "Fon kaybını önlemek için yalnızca <0>Celo ağıyla uyumlu</0> borsaları veya varlıkları kullanın",
+      "bottomSheetTitle": "Para yatırmak için hangi borsaları kullanabilirim?",
+      "bottomSheetInfo": "Celo ağı ile uyumlu varlıklar gönderdiğinizi iki kez kontrol edin."
     }
   },
   "fiatDetailsScreen": {
@@ -1536,6 +1550,13 @@
       "title": "{{contactName}} adlı kişiyi {{appName}} uygulamasına davet edin ve ikiniz de NFT kazanın!",
       "body": "Görünüşe göre {{contactName}} {{appName}} kullanmıyor. Bu kişinin cüzdan adresini biliyorsanız, yine de bir ödeme gönderebilir veya bunun yerine davet gönderebilirsiniz. \n\n Bu kişi cüzdanı indirdikten ve telefon numarasını bağladıktan sonra, ikiniz de özel bir NFT alacaksınız."
     }
+  },
+  "celoNews": {
+    "headerTitle": "Güncellemeler",
+    "headerDescription": "Celo blogunda kullanım örnekleri, pilot uygulamalar ve teknik güncellemeler hakkında bilgi edinin.",
+    "readMoreButtonText": "Daha fazlasını blogda okuyun",
+    "loadingError": "Üzgünüz, en son güncellemeleri yükleyemedik. Lütfen daha sonra tekrar deneyin.",
+    "retryButtonText": "Yeniden Dene"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

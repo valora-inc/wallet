@@ -7,6 +7,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { CeloExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { celoNewsConfigSelector } from 'src/app/selectors'
 import ItemSeparator from 'src/components/ItemSeparator'
 import SectionHead from 'src/components/SectionHeadGold'
 import Touchable from 'src/components/Touchable'
@@ -14,6 +15,7 @@ import { fetchExchangeRate } from 'src/exchange/actions'
 import CeloExchangeButtons from 'src/exchange/CeloExchangeButtons'
 import CeloGoldHistoryChart from 'src/exchange/CeloGoldHistoryChart'
 import CeloGoldOverview from 'src/exchange/CeloGoldOverview'
+import CeloNewsFeed from 'src/exchange/CeloNewsFeed'
 import { useDollarToCeloExchangeRate } from 'src/exchange/hooks'
 import { exchangeHistorySelector } from 'src/exchange/reducer'
 import RestrictedCeloExchange from 'src/exchange/RestrictedCeloExchange'
@@ -85,6 +87,7 @@ function ExchangeHomeScreen() {
 
   const { RESTRICTED_CP_DOTO } = useCountryFeatures()
   const inAppSwapsEnabled = useSelector(isAppSwapsEnabledSelector)
+  const isCeloNewsEnabled = useSelector(celoNewsConfigSelector).enabled
 
   // TODO: revert this back to `useLocalCurrencyCode()` when we have history data for cGDL to Local Currency.
   const localCurrencyCode = null
@@ -168,17 +171,23 @@ function ExchangeHomeScreen() {
           </View>
 
           <CeloGoldHistoryChart />
-          {!inAppSwapsEnabled &&
-            (RESTRICTED_CP_DOTO ? (
-              <RestrictedCeloExchange onPressWithdraw={goToWithdrawCelo} />
-            ) : (
-              <CeloExchangeButtons />
-            ))}
-          <ItemSeparator />
-          <CeloGoldOverview testID="ExchangeAccountOverview" />
-          <ItemSeparator />
-          <SectionHead text={t('activity')} />
-          <TransactionsList feedType={FeedType.EXCHANGE} />
+          {isCeloNewsEnabled ? (
+            <CeloNewsFeed />
+          ) : (
+            <>
+              {!inAppSwapsEnabled &&
+                (RESTRICTED_CP_DOTO ? (
+                  <RestrictedCeloExchange onPressWithdraw={goToWithdrawCelo} />
+                ) : (
+                  <CeloExchangeButtons />
+                ))}
+              <ItemSeparator />
+              <CeloGoldOverview testID="ExchangeAccountOverview" />
+              <ItemSeparator />
+              <SectionHead text={t('activity')} />
+              <TransactionsList feedType={FeedType.EXCHANGE} />
+            </>
+          )}
         </SafeAreaView>
       </Animated.ScrollView>
     </SafeAreaView>

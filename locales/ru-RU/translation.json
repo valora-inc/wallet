@@ -1180,7 +1180,6 @@
   "supportExportLogsFailed": "Не удалось экспортировать журналы: {{error}}",
   "supportEmailSubject": "Поддержка {{appName}} для {{user}}",
   "personaAccountEndpointFail": "Проверка личности в настоящее время недоступна. Повторите попытку позже",
-  "plaidCreateLinkTokenFail": "Не удалось привязать банковский счет. Повторите попытку позже",
   "getBankAccountsFail": "Не удается получить связанные банковские счета. Повторите попытку позже",
   "deleteBankAccountFail": "Не удается удалить привязанный банковский счет. Повторите попытку позже",
   "linkBankAccountScreen": {
@@ -1249,7 +1248,12 @@
     "message": "Изучите способы использования криптовалюты",
     "errorMessage": "Произошла ошибка при загрузке dapps",
     "featuredDapp": "Подборка",
-    "allDapps": "Все"
+    "allDapps": "Все",
+    "favoriteDapps": "Мои любимые",
+    "noFavorites": {
+      "title": "Избранное не добавлено",
+      "description": "Отслеживай свои самые используемые Dapps, нажимая на значок звезды, чтобы добавить его в избранное"
+    }
   },
   "dappsScreenHelpDialog": {
     "title": "Что такое dapps?",
@@ -1278,6 +1282,8 @@
     "cryptoExchange": "Криптовалютная биржа",
     "feesVary": "Комиссии варьируются",
     "viewExchanges": "Просмотр обменников",
+    "depositFrom": "Депозит от",
+    "cryptoExchangeOrWallet": "Криптовалютная биржа или кошелек",
     "card": "Кредитная/дебетовая карта",
     "bank": "Банковский счет",
     "mobileMoney": "Мобильный банк",
@@ -1412,19 +1418,27 @@
       "fiatExchangeSubtitle": "Пополните свой счет {{appName}} из банка, с карты или биржи.",
       "selectCurrencyTitle": "Внести средства",
       "exchangeAmountTitle": "Внести {{currency}}",
-      "selectProviderHeader": "Выберите способ оплаты"
+      "selectProviderHeader": "Выберите способ оплаты",
+      "depositExchangeTitle": "Депозит криптовалюты"
     },
     "cashOut": {
       "fiatExchangeTitle": "Вывести средства",
       "fiatExchangeSubtitle": "Выведите средства из {{appName}} и переведите на банковский счет, карту, криптовалютную биржу или в мобильный банк.",
       "selectCurrencyTitle": "Вывести средства",
       "exchangeAmountTitle": "Вывести {{currency}}",
-      "selectProviderHeader": "Выберите способ вывода средств"
+      "selectProviderHeader": "Выберите способ вывода средств",
+      "withdrawExchangeTitle": "Вывести криптовалюту"
     },
     "spend": {
       "fiatExchangeTitle": "Потратить средства",
       "fiatExchangeSubtitle": "Потратить на подарочные сертификаты и другие покупки.",
       "selectCurrencyTitle": "Потратить средства"
+    },
+    "exchange": {
+      "copyAddress": "Копия адреса",
+      "informationText": "Используй только биржи или активы, <0>совместимые с сетью Celo</0>, чтобы предотвратить потерю средств",
+      "bottomSheetTitle": "Какие биржи я могу использовать для внесения средств?",
+      "bottomSheetInfo": "Дважды проверь, что ты отправляешь активы, совместимые с сетью Celo."
     }
   },
   "fiatDetailsScreen": {
@@ -1540,6 +1554,13 @@
       "title": "Пригласите {{contactName}} в {{appName}}, и вы оба получите NFT!",
       "body": "Похоже, что {{contactName}} нет в {{appName}}. Если вы знаете адрес его/ее кошелька, ты по-прежнему можете отправить платеж или послать приглашение. \n\n После того как он/она загрузит кошелек и подключит свой номер телефона, вы оба получите эксклюзивный NFT."
     }
+  },
+  "celoNews": {
+    "headerTitle": "Обновления",
+    "headerDescription": "Узнай о случаях использования, пилотных проектах и технических обновлениях в блоге Celo.",
+    "readMoreButtonText": "Читайте больше в блоге",
+    "loadingError": "Извини, мы не смогли загрузить последние обновления. Пожалуйста, повтори попытку позже.",
+    "retryButtonText": "Retry"
   },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",

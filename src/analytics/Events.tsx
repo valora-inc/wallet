@@ -456,6 +456,14 @@ export enum FiatExchangeEvents {
   cico_cash_out_copy_address = 'cico_cash_out_copy_address',
   cico_celo_exchange_send_bar_continue = 'cico_celo_exchange_send_bar_continue', // When withdraw bar is tapped from cash out CELO
 
+  // External Exchanges QR Code Screen
+  external_exchange_qr_bottom_sheet_open = 'external_exchange_qr_bottom_sheet_open',
+  external_exchange_qr_bottom_sheet_close = 'external_exchange_qr_bottom_sheet_close',
+  external_exchange_qr_bottom_sheet_link_press = 'external_exchange_qr_bottom_sheet_link_press',
+  external_exchange_qr_back = 'external_exchange_qr_back',
+  external_exchange_qr_copy_address = 'external_exchange_qr_copy_address',
+  external_exchange_qr_share = 'external_exchange_qr_share',
+
   // Spend Flow
   spend_merchant_link = 'spend_merchant_link',
   cico_spend_select_provider_back = 'cico_spend_select_provider_back',
@@ -585,6 +593,8 @@ export enum DappExplorerEvents {
   dapp_bottom_sheet_open = 'dapp_bottom_sheet_open',
   dapp_bottom_sheet_dismiss = 'dapp_bottom_sheet_dismiss',
   dapp_view_all = 'dapp_view_all', // when user taps "view all dapps" from recently used dapps section
+  dapp_favorite = 'dapp_favorite', // when user favorites a dapp
+  dapp_unfavorite = 'dapp_unfavorite', // when user unfavorites a dapp
 }
 
 export enum WebViewEvents {
@@ -608,6 +618,12 @@ export enum SwapEvents {
   swap_execute_price_change = 'swap_execute_price_change', // When guaranteed is greater than 2% difference than the quoted price.
   swap_execute_success = 'swap_execute_success', // When the swap is executed successfully
   swap_execute_error = 'swap_execute_error', // When the swap returns an error
+}
+
+export enum CeloNewsEvents {
+  celo_news_article_tap = 'celo_news_article_tap', // When a user taps on a news article
+  celo_news_bottom_read_more_tap = 'celo_news_bottom_read_more_tap', // When a user taps on the read more button at the bottom of the screen
+  celo_news_retry_tap = 'celo_news_retry_tap', // When a user taps on the retry button
 }
 
 export type AnalyticsEventType =
@@ -636,3 +652,4 @@ export type AnalyticsEventType =
   | WebViewEvents
   | CoinbasePayEvents
   | SwapEvents
+  | CeloNewsEvents

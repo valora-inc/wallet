@@ -1867,7 +1867,7 @@ export const v98Schema = {
   },
   app: {
     ...v97Schema.app,
-    celoNewsEnabled: true,
+    celoNewsEnabled: false,
   },
 }
 
@@ -1884,6 +1884,18 @@ export const v99Schema = {
   },
 }
 
+export const v100Schema = {
+  ...v99Schema,
+  _persist: {
+    ...v99Schema._persist,
+    version: 100,
+  },
+  app: {
+    ..._.omit(v99Schema.app, 'celoNewsEnabled'),
+    celoNews: { enabled: false, readMoreUrl: 'https://blog.celo.org' },
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v99Schema as Partial<RootState>
+  return v100Schema as Partial<RootState>
 }

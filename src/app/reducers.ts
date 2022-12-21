@@ -3,6 +3,7 @@ import { BIOMETRY_TYPE } from 'react-native-keychain'
 import { Actions, ActionTypes, AppState } from 'src/app/actions'
 import { CreateAccountCopyTestType, InviteMethodType } from 'src/app/types'
 import { SuperchargeTokenConfigByToken } from 'src/consumerIncentives/types'
+import { CeloNewsConfig } from 'src/exchange/types'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { Screens } from 'src/navigator/Screens'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
@@ -58,7 +59,7 @@ export interface State {
   centralPhoneVerificationEnabled: boolean
   inviterAddress: string | null
   networkTimeoutSeconds: number
-  celoNewsEnabled: boolean
+  celoNews: CeloNewsConfig
 }
 
 const initialState = {
@@ -111,7 +112,7 @@ const initialState = {
   centralPhoneVerificationEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.centralPhoneVerificationEnabled,
   inviterAddress: null,
   networkTimeoutSeconds: REMOTE_CONFIG_VALUES_DEFAULTS.networkTimeoutSeconds,
-  celoNewsEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.celoNewsEnabled,
+  celoNews: JSON.parse(REMOTE_CONFIG_VALUES_DEFAULTS.celoNews),
 }
 
 export const appReducer = (
@@ -231,6 +232,7 @@ export const appReducer = (
         showGuidedOnboardingCopy: action.configValues.showGuidedOnboardingCopy,
         centralPhoneVerificationEnabled: action.configValues.centralPhoneVerificationEnabled,
         networkTimeoutSeconds: action.configValues.networkTimeoutSeconds,
+        celoNews: action.configValues.celoNews,
       }
     case Actions.TOGGLE_INVITE_MODAL:
       return {

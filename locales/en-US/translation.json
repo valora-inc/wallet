@@ -1176,7 +1176,6 @@
   "supportExportLogsFailed": "Failed to export logs: {{error}}",
   "supportEmailSubject": "{{appName}} support for {{user}}",
   "personaAccountEndpointFail": "Identity verification is not currently available. Please try again later",
-  "plaidCreateLinkTokenFail": "Unable to link bank account. Please try again later",
   "getBankAccountsFail": "Unable to retrieve your linked bank accounts. Please try again later",
   "deleteBankAccountFail": "Unable to delete your linked bank account. Please try again later",
   "linkBankAccountScreen": {
@@ -1245,7 +1244,12 @@
     "message": "Explore ways to use your crypto",
     "errorMessage": "There was an error loading dapps",
     "featuredDapp": "Featured",
-    "allDapps": "All"
+    "allDapps": "All",
+    "favoriteDapps": "My Favorites",
+    "noFavorites": {
+      "title": "No favorites added",
+      "description": "Keep track of your most-used Dapps by tapping the star icon to add it as a favorite"
+    }
   },
   "dappsScreenHelpDialog": {
     "title": "What are dapps?",
@@ -1274,6 +1278,8 @@
     "cryptoExchange": "Cryptocurrency Exchange",
     "feesVary": "Fees Vary",
     "viewExchanges": "View Exchanges",
+    "depositFrom": "Deposit from",
+    "cryptoExchangeOrWallet": "Crypto Exchange or Wallet",
     "card": "Credit / Debit Card",
     "bank": "Bank Account",
     "mobileMoney": "Mobile Money",
@@ -1408,19 +1414,27 @@
       "fiatExchangeSubtitle": "Fund your {{appName}} account from a bank, card or exchange.",
       "selectCurrencyTitle": "Add Funds",
       "exchangeAmountTitle": "Add {{currency}}",
-      "selectProviderHeader": "Select Payment Method"
+      "selectProviderHeader": "Select Payment Method",
+      "depositExchangeTitle": "Deposit Crypto"
     },
     "cashOut": {
       "fiatExchangeTitle": "Withdraw Funds",
       "fiatExchangeSubtitle": "Get funds out of {{appName}} and into a bank account, card, crypto exchange or to mobile money.",
       "selectCurrencyTitle": "Withdraw Funds",
       "exchangeAmountTitle": "Withdraw {{currency}}",
-      "selectProviderHeader": "Select Withdraw Method"
+      "selectProviderHeader": "Select Withdraw Method",
+      "withdrawExchangeTitle": "Withdraw Crypto"
     },
     "spend": {
       "fiatExchangeTitle": "Spend Funds",
       "fiatExchangeSubtitle": "Spend on gift cards and other purchases.",
       "selectCurrencyTitle": "Spend Funds"
+    },
+    "exchange": {
+      "copyAddress": "Copy Address",
+      "informationText": "Only use exchanges or assets <0>compatible with the Celo network</0> to prevent loss of funds",
+      "bottomSheetTitle": "What exchanges can I use to deposit funds?",
+      "bottomSheetInfo": "Double check that you are sending assets that are compatible with the Celo network."
     }
   },
   "fiatDetailsScreen": {
@@ -1536,6 +1550,13 @@
       "title": "Invite {{contactName}} to {{appName}} and you’ll both receive NFTs!",
       "body": "Looks like {{contactName}} isn't on {{appName}}. If you know their wallet address you can still send a payment or send an invite instead. \n\nAfter they download the wallet and connect their phone number, you’ll both get an exclusive NFT."
     }
+  },
+  "celoNews": {
+    "headerTitle": "Updates",
+    "headerDescription": "Learn about use cases, pilots & technical updates on the Celo blog.",
+    "readMoreButtonText": "Read more on the blog",
+    "loadingError": "Sorry, we couldn't load the latest updates. Please try again later.",
+    "retryButtonText": "Retry"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

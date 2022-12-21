@@ -1180,7 +1180,6 @@
   "supportExportLogsFailed": "Не вдалося експортувати журнали: {{error}}",
   "supportEmailSubject": "{{appName}} підтримка {{user}}",
   "personaAccountEndpointFail": "Верифікація особистих даних наразі недоступна. Просимо, спробуйте ще раз пізніше",
-  "plaidCreateLinkTokenFail": "Не вдалося прив’язати банківський рахунок. Спробуйте ще раз пізніше",
   "getBankAccountsFail": "Не вдалося отримати ваші прив’язані банківські рахунки. Спробуйте ще раз пізніше",
   "deleteBankAccountFail": "Не вдалося видалити ваш прив’язаний банківський рахунок. Спробуйте ще раз пізніше",
   "linkBankAccountScreen": {
@@ -1249,7 +1248,12 @@
     "message": "Досліджуйте способи використання вашої криптовалюти",
     "errorMessage": "Сталася помилка під час завантаження застосунків dapps",
     "featuredDapp": "Рекомендовано",
-    "allDapps": "Усі"
+    "allDapps": "Усі",
+    "favoriteDapps": "Мої вподобання",
+    "noFavorites": {
+      "title": "Немає доданих улюблених",
+      "description": "Слідкуйте за своїми найпопулярнішими Dapps натиснувши на іконку із зірочкою, щоб додати її в обране"
+    }
   },
   "dappsScreenHelpDialog": {
     "title": "Що таке dapps?",
@@ -1278,6 +1282,8 @@
     "cryptoExchange": "Біржа криптовалют",
     "feesVary": "Комісія є різною",
     "viewExchanges": "Переглянути біржі",
+    "depositFrom": "Поповнити з",
+    "cryptoExchangeOrWallet": "Крипто-обмін або гаманець",
     "card": "Кредитна/дебетова картка",
     "bank": "Банківський рахунок",
     "mobileMoney": "Мобільні гроші",
@@ -1412,19 +1418,27 @@
       "fiatExchangeSubtitle": "Поповніть ваш рахунок {{appName}} з банку, картки або біржі.",
       "selectCurrencyTitle": "Додати кошти",
       "exchangeAmountTitle": "Додати {{currency}}",
-      "selectProviderHeader": "Виберіть спосіб оплати"
+      "selectProviderHeader": "Виберіть спосіб оплати",
+      "depositExchangeTitle": "Deposit Crypto"
     },
     "cashOut": {
       "fiatExchangeTitle": "Вивести кошти",
       "fiatExchangeSubtitle": "Виведіть кошти з {{appName}} на банківський рахунок, картку, біржу криптовалют або на мобільні гроші.",
       "selectCurrencyTitle": "Вивести кошти",
       "exchangeAmountTitle": "Зняти {{currency}}",
-      "selectProviderHeader": "Виберіть спосіб зняття"
+      "selectProviderHeader": "Виберіть спосіб зняття",
+      "withdrawExchangeTitle": "Вивести крипто"
     },
     "spend": {
       "fiatExchangeTitle": "Витратити кошти",
       "fiatExchangeSubtitle": "Витрачайте на подарункові картки та інші придбання.",
       "selectCurrencyTitle": "Витратити кошти"
+    },
+    "exchange": {
+      "copyAddress": "Копіювати адресу",
+      "informationText": "Використовуйте лише обмін або активи <0>сумісні з Celo мережею</0> для запобігання втрати коштів",
+      "bottomSheetTitle": "Які обміни я можу використовувати, щоб вкласти кошти?",
+      "bottomSheetInfo": "Подвійний переконайтесь, що ви відправляєте активи, сумісні із Celo мережа."
     }
   },
   "fiatDetailsScreen": {
@@ -1481,7 +1495,7 @@
   },
   "dappNotListed": "Цей застосунок не перелічений у {{appName}}. Ці застосунки є сторонніми застосунками. Ви можете використовувати їх на свій страх і ризик.",
   "swapScreen": {
-    "title": "Заміна",
+    "title": "Обміняти",
     "review": "Перегляд",
     "swapFrom": "Від",
     "swapTo": "До",
@@ -1489,8 +1503,8 @@
     "fetchSwapQuoteFailed": "Вибачте за затримку! Це забирає більше часу, ніж зазвичай, щоб отримати найкращий обмінний курс. Будь ласка, спробуйте знову за кілька хвилин."
   },
   "swapTransactionDetailPage": {
-    "swapFrom": "Перемістити з",
-    "swapTo": "Перемістити на",
+    "swapFrom": "Обміняти з",
+    "swapTo": "Обміняти на",
     "rate": "Оцінка",
     "estimatedFee": "Передбачувана комісія",
     "viewOnExplorer": "Переглянути на CeloExplorer"
@@ -1540,6 +1554,13 @@
       "title": "Якщо {{contactName}} підтвердить запрошення до {{appName}}, то ви обоє отримаєте NFT!",
       "body": "Схоже, {{contactName}} не користується {{appName}}. Натомість надіслати платіж або запрошення можна за адресою гаманця, якщо вона вам відома. \n\n Коли завантажено гаманець і під’єднано номер телефону, ви обоє отримаєте ексклюзивний NFT."
     }
+  },
+  "celoNews": {
+    "headerTitle": "Оновлення",
+    "headerDescription": "Дізнайся про використання випадків, пілотів та технічних оновлень у Celo блозі.",
+    "readMoreButtonText": "Детальніше читайте в блозі",
+    "loadingError": "На жаль, ми не змогли завантажити останні оновлення. Будь ласка, спробуйте ще раз пізніше.",
+    "retryButtonText": "Повторити спробу"
   },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",

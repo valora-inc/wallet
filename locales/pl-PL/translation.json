@@ -1180,7 +1180,6 @@
   "supportExportLogsFailed": "Nie udało się wyeksportować dzienników: {{error}}",
   "supportEmailSubject": "Wsparcie od {{appName}} dla użytkownika {{user}}",
   "personaAccountEndpointFail": "Weryfikacja tożsamości nie jest obecnie dostępna. Spróbuj ponownie później",
-  "plaidCreateLinkTokenFail": "Nie można powiązać konta bankowego. Spróbuj ponownie później",
   "getBankAccountsFail": "Nie można odzyskać powiązanych kont bankowych. Spróbuj ponownie później",
   "deleteBankAccountFail": "Nie można usunąć powiązanego konta bankowego. Spróbuj ponownie później",
   "linkBankAccountScreen": {
@@ -1249,7 +1248,12 @@
     "message": "Przeglądaj sposoby korzystania z kryptowalut",
     "errorMessage": "Wystąpił błąd podczas ładowania Dapps",
     "featuredDapp": "Polecane",
-    "allDapps": "Wszystkie"
+    "allDapps": "Wszystkie",
+    "favoriteDapps": "Moje ulubione",
+    "noFavorites": {
+      "title": "Nie dodano żadnych ulubionych",
+      "description": "Śledź swoje najczęściej używane aplikacje, dotykając ikony gwiazdki, aby dodać je do ulubionych"
+    }
   },
   "dappsScreenHelpDialog": {
     "title": "Czym są Dapps?",
@@ -1278,6 +1282,8 @@
     "cryptoExchange": "Giełda kryptowalut",
     "feesVary": "Opłaty mogą się różnić",
     "viewExchanges": "Zobacz giełdy",
+    "depositFrom": "Wpłata od",
+    "cryptoExchangeOrWallet": "Giełda lub portfel kryptowalut",
     "card": "Karta kredytowa/debetowa",
     "bank": "Konto bankowe",
     "mobileMoney": "Pieniądze mobilne",
@@ -1412,19 +1418,27 @@
       "fiatExchangeSubtitle": "Zasil swoje konto w aplikacji {{appName}} z banku, karty lub giełdy.",
       "selectCurrencyTitle": "Dodaj środki",
       "exchangeAmountTitle": "Dodaj {{currency}}",
-      "selectProviderHeader": "Wybierz metodę płatności"
+      "selectProviderHeader": "Wybierz metodę płatności",
+      "depositExchangeTitle": "Wpłata kryptowalut"
     },
     "cashOut": {
       "fiatExchangeTitle": "Wypłać środki",
       "fiatExchangeSubtitle": "Wypłać środki z aplikacji {{appName}} na konto bankowe, kartę, giełdę kryptowalut lub do mobilnego portfela.",
       "selectCurrencyTitle": "Wypłać środki",
       "exchangeAmountTitle": "Wypłać {{currency}}",
-      "selectProviderHeader": "Wybierz metodę wypłaty"
+      "selectProviderHeader": "Wybierz metodę wypłaty",
+      "withdrawExchangeTitle": "Wypłać kryptowalutę"
     },
     "spend": {
       "fiatExchangeTitle": "Wykorzystaj środki",
       "fiatExchangeSubtitle": "Wydawaj na karty podarunkowe i inne zakupy.",
       "selectCurrencyTitle": "Wykorzystaj środki"
+    },
+    "exchange": {
+      "copyAddress": "Kopia Adres",
+      "informationText": "Używaj tylko giełd lub aktywów <0>kompatybilnych z siecią Celo</0>, aby zapobiec utracie funduszy",
+      "bottomSheetTitle": "Z jakich giełd mogę korzystać, aby wpłacać środki?",
+      "bottomSheetInfo": "Sprawdź, czy wysyłasz środki, które są kompatybilne z siecią Celo."
     }
   },
   "fiatDetailsScreen": {
@@ -1540,6 +1554,13 @@
       "title": "Zaproś {{contactName}} do {{appName}}, a razem otrzymacie NFT!",
       "body": "Wygląda na to, że {{contactName}} nie korzysta z {{appName}}. Jeśli znasz adres jego/jej portfela, nadal możesz wysłać płatność lub zaproszenie. \n\n Po pobraniu portfela i podaniu numeru telefonu otrzymacie ekskluzywne NFT."
     }
+  },
+  "celoNews": {
+    "headerTitle": "Aktualizacje",
+    "headerDescription": "Dowiedz się o przypadkach użycia, pilotażach i aktualizacjach technicznych na blogu Celo.",
+    "readMoreButtonText": "Przeczytaj więcej na blogu",
+    "loadingError": "Przepraszamy, nie udało się załadować najnowszych aktualizacji. Spróbuj ponownie później.",
+    "retryButtonText": "Retry"
   },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",

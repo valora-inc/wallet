@@ -1176,7 +1176,6 @@
   "supportExportLogsFailed": "Esportazione dei log fallita: {{error}}",
   "supportEmailSubject": "Supporto {{appName}} per {{user}}",
   "personaAccountEndpointFail": "La funzione di verifica dell’identità non è attualmente disponibile. Riprova più tardi.",
-  "plaidCreateLinkTokenFail": "Impossibile collegare il conto bancario. Riprova più tardi.",
   "getBankAccountsFail": "Impossibile recuperare i tuoi conti bancari collegati. Riprova più tardi.",
   "deleteBankAccountFail": "Impossibile eliminare il tuo conto bancario collegato. Riprova più tardi.",
   "linkBankAccountScreen": {
@@ -1245,7 +1244,12 @@
     "message": "Esplora i modi per usare le tue criptovalute",
     "errorMessage": "Errore durante il caricamento delle Dapp.",
     "featuredDapp": "In primo piano",
-    "allDapps": "Tutti"
+    "allDapps": "Tutti",
+    "favoriteDapps": "I miei preferiti",
+    "noFavorites": {
+      "title": "Nessun preferito aggiunto",
+      "description": "Tieni traccia delle tue Dapp più utilizzate toccando l'icona a forma di stella per aggiungerle ai preferiti."
+    }
   },
   "dappsScreenHelpDialog": {
     "title": "Che cosa sono le Dapp?",
@@ -1274,6 +1278,8 @@
     "cryptoExchange": "Exchange di criptovalute",
     "feesVary": "Le commissioni variano",
     "viewExchanges": "Visualizza gli exchange",
+    "depositFrom": "Deposito da",
+    "cryptoExchangeOrWallet": "Scambio di criptovalute o portafoglio",
     "card": "Carta di credito/debito",
     "bank": "Conto bancario",
     "mobileMoney": "Denaro mobile",
@@ -1408,19 +1414,27 @@
       "fiatExchangeSubtitle": "Aggiunta di fondi in il tuo conto {{appName}} con una banca, una carta o un exchange.",
       "selectCurrencyTitle": "Aggiungi fondi",
       "exchangeAmountTitle": "Aggiungi {{currency}}",
-      "selectProviderHeader": "Metodo di pagamento"
+      "selectProviderHeader": "Metodo di pagamento",
+      "depositExchangeTitle": "Deposito di criptovalute"
     },
     "cashOut": {
       "fiatExchangeTitle": "Preleva fondi",
       "fiatExchangeSubtitle": "Preleva di fondi da {{appName}} per trasferirli su un conto bancario, una carta, un exchange di criptovalute o denaro mobile.",
       "selectCurrencyTitle": "Preleva fondi",
       "exchangeAmountTitle": "Preleva {{currency}}",
-      "selectProviderHeader": "Metodo di prelievo"
+      "selectProviderHeader": "Metodo di prelievo",
+      "withdrawExchangeTitle": "Prelevare criptovalute"
     },
     "spend": {
       "fiatExchangeTitle": "Spendi fondi",
       "fiatExchangeSubtitle": "Spendi in buoni regalo e altri acquisti.",
       "selectCurrencyTitle": "Spendi fondi"
+    },
+    "exchange": {
+      "copyAddress": "Copia dell'indirizzo",
+      "informationText": "Utilizza solo borse o asset <0>compatibili con la rete Celo</0> per evitare perdite di fondi.",
+      "bottomSheetTitle": "Quali cambi posso utilizzare per depositare i fondi?",
+      "bottomSheetInfo": "Verifica che l'invio di risorse sia compatibile con la rete Celo."
     }
   },
   "fiatDetailsScreen": {
@@ -1536,6 +1550,13 @@
       "title": "Invita {{contactName}} in {{appName}} ed entrambi riceverete NFT!",
       "body": "Sembra che {{contactName}} non sia su {{appName}}. Se conosci l'indirizzo del suo portafoglio, puoi comunque inviare un pagamento o un invito. \n\n Dopo che avrà scaricato il portafoglio e collegato il suo numero telefonico, riceverete entrambi un NFT esclusivo."
     }
+  },
+  "celoNews": {
+    "headerTitle": "Aggiornamenti",
+    "headerDescription": "Scopri i casi d'uso, i progetti pilota e gli aggiornamenti tecnici sul blog di Celo.",
+    "readMoreButtonText": "Leggi tutto sul blog",
+    "loadingError": "Siamo spiacenti, non siamo riusciti a caricare gli ultimi aggiornamenti. Riprova più tardi.",
+    "retryButtonText": "Riprova"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollar"
