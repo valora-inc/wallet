@@ -1174,7 +1174,6 @@
   "supportExportLogsFailed": "Không xuất được nhật ký: {{error}}",
   "supportEmailSubject": "Hỗ trợ {{appName}} cho {{user}}",
   "personaAccountEndpointFail": "Tính năng xác minh danh tính hiện không sử dụng được. Vui lòng thử lại sau",
-  "plaidCreateLinkTokenFail": "Không thể liên kết tài khoản ngân hàng. Vui lòng thử lại sau",
   "getBankAccountsFail": "Không thể truy xuất tài khoản ngân hàng đã liên kết. Vui lòng thử lại sau",
   "deleteBankAccountFail": "Không thể xóa tài khoản ngân hàng đã liên kết. Vui lòng thử lại sau",
   "linkBankAccountScreen": {
@@ -1277,6 +1276,8 @@
     "cryptoExchange": "Sàn giao dịch tiền điện tử",
     "feesVary": "Phí sẽ khác nhau",
     "viewExchanges": "Xem các sàn giao dịch",
+    "depositFrom": "Deposit from",
+    "cryptoExchangeOrWallet": "Crypto Exchange or Wallet",
     "card": "Thẻ tín dụng / ghi nợ",
     "bank": "Tài khoản ngân hàng",
     "mobileMoney": "Ví di động",
@@ -1547,6 +1548,13 @@
       "title": "Mời {{contactName}} tham gia vào {{appName}} và cả hai bạn đều sẽ nhận được NFT!",
       "body": "Có vẻ như {{contactName}} không có trên {{appName}}. Nếu biết địa chỉ ví của họ, bạn vẫn có thể gửi khoản thanh toán hoặc gửi lời mời. \n\n Sau khi họ tải ví xuống và kết nối số điện thoại, cả hai bạn đều sẽ nhận được NFT độc quyền."
     }
+  },
+  "celoNews": {
+    "headerTitle": "Updates",
+    "headerDescription": "Learn about use cases, pilots & technical updates on the Celo blog.",
+    "readMoreButtonText": "Read more on the blog",
+    "loadingError": "Sorry, we couldn't load the latest updates. Please try again later.",
+    "retryButtonText": "Retry"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Đô la Celo"
 }
