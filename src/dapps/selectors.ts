@@ -31,9 +31,9 @@ export const featuredDappSelector = createSelector(dappsListSelector, (dapps) =>
 
 export const favoriteDappIdsSelector = (state: RootState) => state.dapps.favoriteDappIds
 
-export const isCategoryWithDapps = (
-  category: CategoryWithDapps | undefined | {}
-): category is CategoryWithDapps => !!category && 'dapps' in category && category.dapps.length > 0
+const isCategoryWithDapps = (
+  category: CategoryWithDapps | undefined
+): category is CategoryWithDapps => !!category && category.dapps.length > 0
 
 export const dappCategoriesByIdSelector = createSelector(
   dappsListSelector,
