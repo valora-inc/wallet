@@ -164,7 +164,7 @@ describe(DAppsExplorerScreen, () => {
           dappFavoritesEnabled: true,
         },
       })
-      const { getByTestId } = render(
+      const { getByTestId, queryByText } = render(
         <Provider store={store}>
           <DAppsExplorerScreen />
         </Provider>
@@ -174,6 +174,7 @@ describe(DAppsExplorerScreen, () => {
       expect(within(favoritesSection).queryByText(dappsList[0].name)).toBeFalsy()
       expect(within(favoritesSection).getByText(dappsList[1].name)).toBeTruthy()
       expect(within(favoritesSection).getByText(dappsList[1].description)).toBeTruthy()
+      expect(queryByText('dappsScreen.favoritedDappToast.message')).toBeFalsy()
     })
 
     it('triggers the events when favoriting', () => {
@@ -186,7 +187,7 @@ describe(DAppsExplorerScreen, () => {
           favoriteDappIds: [],
         },
       })
-      const { getByTestId } = render(
+      const { getByTestId, getByText } = render(
         <Provider store={store}>
           <DAppsExplorerScreen />
         </Provider>
@@ -197,6 +198,10 @@ describe(DAppsExplorerScreen, () => {
 
       const allDappsSection = getByTestId('DAppExplorerScreen/DappsList')
       fireEvent.press(within(allDappsSection).getByTestId('Dapp/Favorite/dapp2'))
+
+      // favorited dapp confirmation toast
+      expect(getByText('dappsScreen.favoritedDappToast.message')).toBeTruthy()
+      expect(getByText('dappsScreen.favoritedDappToast.labelCTA')).toBeTruthy()
 
       expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
       expect(ValoraAnalytics.track).toHaveBeenCalledWith('dapp_favorite', {
@@ -217,7 +222,7 @@ describe(DAppsExplorerScreen, () => {
           favoriteDappIds: ['dapp2'],
         },
       })
-      const { getByTestId, getAllByTestId } = render(
+      const { getByTestId, getAllByTestId, queryByText } = render(
         <Provider store={store}>
           <DAppsExplorerScreen />
         </Provider>
@@ -232,6 +237,8 @@ describe(DAppsExplorerScreen, () => {
 
       const favoritesSection = getByTestId('DAppExplorerScreen/FavoriteDappsSection')
       fireEvent.press(within(favoritesSection).getByTestId('Dapp/Favorite/dapp2'))
+
+      expect(queryByText('dappsScreen.favoritedDappToast.message')).toBeFalsy()
 
       expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
       expect(ValoraAnalytics.track).toHaveBeenCalledWith('dapp_unfavorite', {
