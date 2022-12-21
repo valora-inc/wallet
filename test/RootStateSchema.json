@@ -5533,7 +5533,6 @@
                                         "phoneVerificationInput.verificationFailure",
                                         "pictureLoadFailed",
                                         "pinInputCanceled",
-                                        "plaidCreateLinkTokenFail",
                                         "providerFetchFailed",
                                         "providerRateFetchFailed",
                                         "qrFailedInvalidAddress",
