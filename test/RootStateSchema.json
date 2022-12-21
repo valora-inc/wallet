@@ -419,6 +419,21 @@
             ],
             "type": "object"
         },
+        "CeloNewsConfig": {
+            "additionalProperties": false,
+            "properties": {
+                "enabled": {
+                    "type": "boolean"
+                },
+                "readMoreUrl": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "enabled"
+            ],
+            "type": "object"
+        },
         "CoreTypes.Metadata": {
             "additionalProperties": false,
             "properties": {
@@ -2371,8 +2386,8 @@
                 "celoEuroEnabled": {
                     "type": "boolean"
                 },
-                "celoNewsEnabled": {
-                    "type": "boolean"
+                "celoNews": {
+                    "$ref": "#/definitions/CeloNewsConfig"
                 },
                 "centralPhoneVerificationEnabled": {
                     "type": "boolean"
@@ -2531,7 +2546,7 @@
                 "cashInButtonExpEnabled",
                 "celoEducationUri",
                 "celoEuroEnabled",
-                "celoNewsEnabled",
+                "celoNews",
                 "centralPhoneVerificationEnabled",
                 "coinbasePayEnabled",
                 "createAccountCopyTestType",

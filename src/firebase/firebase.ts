@@ -253,6 +253,7 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
 
   const superchargeConfigByTokenString = flags.superchargeTokenConfigByToken?.asString()
   const fiatAccountSchemaCountryOverrides = flags.fiatAccountSchemaCountryOverrides?.asString()
+  const celoNewsString = flags.celoNews?.asString()
 
   return {
     hideVerification: flags.hideVerification.asBoolean(),
@@ -305,7 +306,7 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     centralPhoneVerificationEnabled: flags.centralPhoneVerificationEnabled.asBoolean(),
     networkTimeoutSeconds: flags.networkTimeoutSeconds.asNumber(),
     dappFavoritesEnabled: flags.dappFavoritesEnabled.asBoolean(),
-    celoNewsEnabled: flags.celoNewsEnabled.asBoolean(),
+    celoNews: celoNewsString ? JSON.parse(celoNewsString) : {},
   }
 }
 

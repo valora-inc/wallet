@@ -11,12 +11,14 @@ import {
 } from 'react-native'
 import { CeloNewsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { celoNewsConfigSelector } from 'src/app/selectors'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import EmptyView from 'src/components/EmptyView'
 import CeloNewsFeedItem from 'src/exchange/CeloNewsFeedItem'
 import { CeloNewsArticle, CeloNewsArticles } from 'src/exchange/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import useSelector from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -61,10 +63,14 @@ export default function CeloNewsFeed() {
   const { t } = useTranslation()
 
   const asyncArticles = useFetchArticles()
+  const { readMoreUrl } = useSelector(celoNewsConfigSelector)
 
   function onPressReadMore() {
-    // TODO: use a remote config for this URL
-    const url = 'https://blog.celo.org'
+    const url = readMoreUrl
+    if (!url) {
+      // This shouldn't happen since the button is only visible if the URL is set
+      return
+    }
     ValoraAnalytics.track(CeloNewsEvents.celo_news_bottom_read_more_tap, { url })
     navigate(Screens.WebViewScreen, { uri: url })
   }
@@ -83,6 +89,10 @@ export default function CeloNewsFeed() {
           </View>
         )
       case 'success':
+        if (!readMoreUrl) {
+          return null
+        }
+
         return (
           <>
             <ItemSeparator />
@@ -107,7 +117,7 @@ export default function CeloNewsFeed() {
           </EmptyView>
         )
     }
-  }, [asyncArticles.status])
+  }, [asyncArticles.status, readMoreUrl])
 
   return (
     <FlatList
