@@ -49,9 +49,7 @@ function DappCard({ dapp, section, onPressDapp, onFavoriteDapp }: Props) {
     } else {
       ValoraAnalytics.track(DappExplorerEvents.dapp_favorite, eventProperties)
       dispatch(favoriteDapp({ dappId: dapp.id }))
-      if (onFavoriteDapp) {
-        onFavoriteDapp(dapp)
-      }
+      onFavoriteDapp?.(dapp)
     }
   }
 
