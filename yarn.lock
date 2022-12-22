@@ -17093,11 +17093,6 @@ slash@^3.0.0:
   resolved "https://registry.yarnpkg.com/slash/-/slash-3.0.0.tgz#6539be870c165adbd5240220dbe361f1bc4d4634"
   integrity sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==
 
-sleep-promise@^8.0.1:
-  version "8.0.1"
-  resolved "https://registry.yarnpkg.com/sleep-promise/-/sleep-promise-8.0.1.tgz#8d795a27ea23953df6b52b91081e5e22665993c5"
-  integrity sha1-jXlaJ+ojlT32tSuRCB5eImZZk8U=
-
 slice-ansi@^2.0.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/slice-ansi/-/slice-ansi-2.1.0.tgz#cacd7693461a637a5788d92a7dd4fba068e81636"
@@ -17737,12 +17732,12 @@ svg-arc-to-cubic-bezier@^3.0.0:
   resolved "https://registry.yarnpkg.com/svg-arc-to-cubic-bezier/-/svg-arc-to-cubic-bezier-3.2.0.tgz#390c450035ae1c4a0104d90650304c3bc814abe6"
   integrity sha512-djbJ/vZKZO+gPoSDThGNpKDO+o+bAeA4XQKovvkNCqnIS2t+S4qnLAGQhyyrulhCFRl1WWzAp0wUDV8PpTVU3g==
 
-svgs@^4.1.1:
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/svgs/-/svgs-4.1.1.tgz#cff1b5caaf9e3a5e51e75c1ea16df6fa54941505"
-  integrity sha512-5QDy6nu4EcBvebNoRQ6iiXfqt/IB2hKdeh5rXwEuoywKX/YtfK8xFggQWSwR24dKpK+C1n7kzBAhPa0bUOrV6A==
+svgs@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/svgs/-/svgs-4.2.0.tgz#4e228f7f29f78a31cef45702d4120988a6a6d38d"
+  integrity sha512-CEIXX7gjwyv7XtgeQQlHiB8TTQeJ1QtoRvz2kkmnyFYfuj1a4PwdwiooTa+OvXrGorCJEMpr7+9EJ6lfjtY/AQ==
   dependencies:
-    prop-types "^15.5.10"
+    prop-types "^15.7.2"
     rip-out "^1.0.0"
 
 swarm-js@^0.1.40:
@@ -18105,7 +18100,7 @@ tsconfig-paths@^3.9.0:
     minimist "^1.2.0"
     strip-bom "^3.0.0"
 
-tslib@^1.10.0, tslib@^1.11.1, tslib@^1.8.1, tslib@^1.9.0, tslib@^1.9.3:
+tslib@^1.10.0, tslib@^1.8.1, tslib@^1.9.0, tslib@^1.9.3:
   version "1.13.0"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.13.0.tgz#c881e13cc7015894ed914862d276436fa9a47043"
   integrity sha512-i/6DQjL8Xf3be4K/E6Wgpekn5Qasl1usyw++dAA35Ue5orEn65VIxOA+YvNNl9HV3qv70T7CNwjODHZrLwvd1Q==
@@ -18119,6 +18114,11 @@ tslib@^2.4.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.4.0.tgz#7cecaa7f073ce680a05847aa77be941098f36dc3"
   integrity sha512-d6xOpEDfsi2CZVlPQzGeux8XMwLT9hssAsaPYExaQMuYskwb+x1x7J371tWlbBdWHroy99KnVB6qIkUbs5X3UQ==
+
+tslib@^2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.4.1.tgz#0d0bfbaac2880b91e22df0768e55be9753a5b17e"
+  integrity sha512-tGyy4dAjRIEwI7BzsB0lynWgOpfqjUdq91XXAlIWD2OwKBH7oCl/GZG/HT4BOHrTlPMOASlMQ7veyTqpmRcrNA==
 
 tsutils@^3.17.1:
   version "3.17.1"
