@@ -21,7 +21,7 @@ jest.mock('src/analytics/ValoraAnalytics')
 const mockBuyAmount = '3000000000000000000'
 const mockSellAmount = '1000000000000000000'
 
-const store = createMockStore({
+const store = {
   localCurrency: {
     exchangeRates: {
       [Currency.Dollar]: '1',
@@ -76,7 +76,9 @@ const store = createMockStore({
       },
     },
   },
-})
+}
+
+const mockStore = createMockStore(store)
 
 const unvalidatedSwapTransaction = {
   sellToken: mockCeloAddress,
@@ -140,7 +142,7 @@ describe('SwapReviewScreen', () => {
     )
 
     const { getByTestId, getByText } = render(
-      <Provider store={store}>
+      <Provider store={mockStore}>
         <SwapReviewScreen />
       </Provider>
     )
@@ -152,9 +154,64 @@ describe('SwapReviewScreen', () => {
       // Swap To
       expect(getByTestId('ToSwapAmountToken')).toHaveTextContent('3.10 cUSD')
       // Exchange Rate
-      expect(getByText('1 CELO ≈ 3.10 cUSD')).toBeTruthy()
+      expect(getByTestId('ExchangeRate')).toHaveTextContent('1 CELO ≈ 3.10 cUSD')
       // Estimated Gas
       expect(getByTestId('EstimatedGas')).toHaveTextContent('0.00015 CELO')
+      // Swap Fee
+      expect(getByTestId('SwapFee')).toHaveTextContent('swapReviewScreen.free')
+    })
+  })
+
+  it('should display correct exchange rate when buyAmount is used', async () => {
+    const newStore = {
+      ...store,
+      swap: {
+        ...store.swap,
+        swapUserInput: {
+          ...store.swap.swapUserInput,
+          toToken: mockCeloAddress,
+          fromToken: mockCusdAddress,
+          swapAmount: {
+            FROM: '3100000000000000000',
+            TO: '1000000000000000000',
+          },
+          updatedField: Field.TO,
+        },
+      },
+    }
+
+    const newMockStore = createMockStore(newStore)
+
+    mockFetch.mockResponse(
+      JSON.stringify({
+        unvalidatedSwapTransaction: {
+          sellToken: mockCusdAddress,
+          buyToken: mockCeloAddress,
+          buyAmount: '1000000000000000000',
+          sellAmount: '3100000000000000000',
+          price: '3.1',
+          gas: '300000',
+          gasPrice: '500000000',
+        },
+      })
+    )
+
+    const { getByTestId } = render(
+      <Provider store={newMockStore}>
+        <SwapReviewScreen />
+      </Provider>
+    )
+
+    await waitFor(() => {
+      // Swap From
+      expect(getByTestId('FromSwapAmountToken')).toHaveTextContent('3.10 cUSD')
+      expect(getByTestId('FromSwapAmountTokenLocal')).toHaveTextContent('$3.10')
+      // Swap To
+      expect(getByTestId('ToSwapAmountToken')).toHaveTextContent('1.00 CELO')
+      // Exchange Rate
+      expect(getByTestId('ExchangeRate')).toHaveTextContent('3.10 cUSD ≈ 1 CELO')
+      // Estimated Gas
+      expect(getByTestId('EstimatedGas')).toHaveTextContent('0.00015 cUSD')
       // Swap Fee
       expect(getByTestId('SwapFee')).toHaveTextContent('swapReviewScreen.free')
     })
@@ -164,13 +221,13 @@ describe('SwapReviewScreen', () => {
     mockFetch.mockReject()
 
     render(
-      <Provider store={store}>
+      <Provider store={mockStore}>
         <SwapReviewScreen />
       </Provider>
     )
 
     await waitFor(() => {
-      expect(store.getActions()).toEqual(
+      expect(mockStore.getActions()).toEqual(
         expect.arrayContaining([showError(ErrorMessages.FETCH_SWAP_QUOTE_FAILED)])
       )
     })
@@ -180,7 +237,7 @@ describe('SwapReviewScreen', () => {
     mockFetch.mockResponse(JSON.stringify(mock0xResponse))
 
     render(
-      <Provider store={store}>
+      <Provider store={mockStore}>
         <SwapReviewScreen />
       </Provider>
     )
@@ -194,11 +251,11 @@ describe('SwapReviewScreen', () => {
   })
 
   it('should correctly dispatch swapStart', async () => {
-    store.dispatch = jest.fn()
+    mockStore.dispatch = jest.fn()
     mockFetch.mockResponse(JSON.stringify(mock0xResponse))
 
     const { getByText } = render(
-      <Provider store={store}>
+      <Provider store={mockStore}>
         <SwapReviewScreen />
       </Provider>
     )
@@ -206,15 +263,15 @@ describe('SwapReviewScreen', () => {
     await waitFor(() => expect(getByText('swapReviewScreen.complete')).not.toBeDisabled())
 
     fireEvent.press(getByText('swapReviewScreen.complete'))
-    expect(store.dispatch).toHaveBeenCalledWith(swapStart(mockSwap as any))
+    expect(mockStore.dispatch).toHaveBeenCalledWith(swapStart(mockSwap as any))
   })
 
   it('should have correct analytics on swap submission', async () => {
-    store.dispatch = jest.fn()
+    mockStore.dispatch = jest.fn()
     mockFetch.mockResponse(JSON.stringify(mock0xResponse))
 
     const { getByText } = render(
-      <Provider store={store}>
+      <Provider store={mockStore}>
         <SwapReviewScreen />
       </Provider>
     )

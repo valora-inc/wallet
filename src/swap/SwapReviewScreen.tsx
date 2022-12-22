@@ -224,7 +224,7 @@ export function SwapReviewScreen() {
               </Text>
               <View style={styles.row}>
                 <Text style={styles.label}>{t('exchangeRate')}</Text>
-                <Text style={styles.transactionDetailsRightText}>
+                <Text testID="ExchangeRate" style={styles.transactionDetailsRightText}>
                   {swapAmountParam === 'buyAmount'
                     ? `${formatValueToDisplay(
                         new BigNumber(swapResponse.unvalidatedSwapTransaction.price)
