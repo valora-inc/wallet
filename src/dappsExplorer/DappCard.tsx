@@ -19,12 +19,13 @@ interface Props {
   dapp: Dapp
   section: DappSection
   onPressDapp: (dapp: ActiveDapp) => void
+  onFavoriteDapp?: (dapp: Dapp) => void
 }
 
 // Since this icon exists within a touchable, make the hitslop bigger than usual
 const favoriteIconHitslop = { top: 20, right: 20, bottom: 20, left: 20 }
 
-function DappCard({ dapp, section, onPressDapp }: Props) {
+function DappCard({ dapp, section, onPressDapp, onFavoriteDapp }: Props) {
   const dispatch = useDispatch()
   const dappFavoritesEnabled = useSelector(dappFavoritesEnabledSelector)
   const favoriteDappIds = useSelector(favoriteDappIdsSelector)
@@ -48,6 +49,7 @@ function DappCard({ dapp, section, onPressDapp }: Props) {
     } else {
       ValoraAnalytics.track(DappExplorerEvents.dapp_favorite, eventProperties)
       dispatch(favoriteDapp({ dappId: dapp.id }))
+      onFavoriteDapp?.(dapp)
     }
   }
 

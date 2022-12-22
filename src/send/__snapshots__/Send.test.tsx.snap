@@ -642,7 +642,12 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
               Object {
                 "address": "0x0000000000000000000000000000000000007E57",
                 "addressPrepared": Object {
+                  "_bitflags": 75497488,
+                  "_indexes": Array [
+                    0,
+                  ],
                   "_nextBeginningIndexes": null,
+                  "_targetLower": "0x0000000000000000000000000000000000007e57",
                   "_targetLowerCodes": Array [
                     48,
                     120,
@@ -687,7 +692,6 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
                     53,
                     55,
                   ],
-                  "indexes": null,
                   "obj": null,
                   "score": null,
                   "target": "0x0000000000000000000000000000000000007E57",
@@ -695,7 +699,12 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
                 "contactId": "contactId",
                 "displayNumber": "14155550000",
                 "displayPrepared": Object {
+                  "_bitflags": 25240,
+                  "_indexes": Array [
+                    0,
+                  ],
                   "_nextBeginningIndexes": null,
+                  "_targetLower": "john doe",
                   "_targetLowerCodes": Array [
                     106,
                     111,
@@ -706,7 +715,6 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
                     111,
                     101,
                   ],
-                  "indexes": null,
                   "obj": null,
                   "score": null,
                   "target": "John Doe",
@@ -714,7 +722,12 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
                 "e164PhoneNumber": "+14155550000",
                 "name": "John Doe",
                 "phonePrepared": Object {
+                  "_bitflags": 1140850688,
+                  "_indexes": Array [
+                    0,
+                  ],
                   "_nextBeginningIndexes": null,
+                  "_targetLower": "+14155550000",
                   "_targetLowerCodes": Array [
                     43,
                     49,
@@ -729,7 +742,6 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
                     48,
                     48,
                   ],
-                  "indexes": null,
                   "obj": null,
                   "score": null,
                   "target": "+14155550000",
@@ -743,7 +755,12 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
               Object {
                 "address": "0x9335BaFcE54cAa0D6690d1D4DA6406568b52488F",
                 "addressPrepared": Object {
+                  "_bitflags": 75497535,
+                  "_indexes": Array [
+                    0,
+                  ],
                   "_nextBeginningIndexes": null,
+                  "_targetLower": "0x9335bafce54caa0d6690d1d4da6406568b52488f",
                   "_targetLowerCodes": Array [
                     48,
                     120,
@@ -788,7 +805,6 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
                     56,
                     102,
                   ],
-                  "indexes": null,
                   "obj": null,
                   "score": null,
                   "target": "0x9335BaFcE54cAa0D6690d1D4DA6406568b52488F",
@@ -796,7 +812,12 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
                 "contactId": "contactId",
                 "displayNumber": "13105550000",
                 "displayPrepared": Object {
+                  "_bitflags": 25113,
+                  "_indexes": Array [
+                    0,
+                  ],
                   "_nextBeginningIndexes": null,
+                  "_targetLower": "jane doe",
                   "_targetLowerCodes": Array [
                     106,
                     97,
@@ -807,7 +828,6 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
                     111,
                     101,
                   ],
-                  "indexes": null,
                   "obj": null,
                   "score": null,
                   "target": "Jane Doe",
@@ -815,7 +835,12 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
                 "e164PhoneNumber": "+13105550000",
                 "name": "Jane Doe",
                 "phonePrepared": Object {
+                  "_bitflags": 1140850688,
+                  "_indexes": Array [
+                    0,
+                  ],
                   "_nextBeginningIndexes": null,
+                  "_targetLower": "+13105550000",
                   "_targetLowerCodes": Array [
                     43,
                     49,
@@ -830,7 +855,6 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
                     48,
                     48,
                   ],
-                  "indexes": null,
                   "obj": null,
                   "score": null,
                   "target": "+13105550000",
@@ -840,7 +864,12 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
                 "addressPrepared": undefined,
                 "contactId": "contactId4",
                 "displayPrepared": Object {
+                  "_bitflags": 33710099,
+                  "_indexes": Array [
+                    0,
+                  ],
                   "_nextBeginningIndexes": null,
+                  "_targetLower": "zebra zone",
                   "_targetLowerCodes": Array [
                     122,
                     101,
@@ -853,7 +882,6 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
                     110,
                     101,
                   ],
-                  "indexes": null,
                   "obj": null,
                   "score": null,
                   "target": "Zebra Zone",
@@ -861,7 +889,12 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
                 "e164PhoneNumber": "+14163957395",
                 "name": "Zebra Zone",
                 "phonePrepared": Object {
+                  "_bitflags": 1140850688,
+                  "_indexes": Array [
+                    0,
+                  ],
                   "_nextBeginningIndexes": null,
+                  "_targetLower": "+14163957395",
                   "_targetLowerCodes": Array [
                     43,
                     49,
@@ -876,7 +909,6 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
                     57,
                     53,
                   ],
-                  "indexes": null,
                   "obj": null,
                   "score": null,
                   "target": "+14163957395",

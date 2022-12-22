@@ -11,6 +11,7 @@ import { AnalyticsPropertiesList } from 'src/analytics/Properties'
 import { getCurrentUserTraits } from 'src/analytics/selectors'
 import {
   DEFAULT_TESTNET,
+  E2E_TEST_STATSIG_ID,
   FIREBASE_ENABLED,
   isE2EEnv,
   SEGMENT_API_KEY,
@@ -107,8 +108,11 @@ class ValoraAnalytics {
           }
         : null
 
+      // getAnonymousId causes the e2e tests to fail
+      const overrideStableID = isE2EEnv ? E2E_TEST_STATSIG_ID : await Analytics.getAnonymousId()
       await Statsig.initialize(STATSIG_API_KEY, stasigUser, {
-        overrideStableID: uniqueID, //Received an error if Stable ID not manually specified
+        // StableID should match Segment anonymousId
+        overrideStableID,
         environment: STATSIG_ENV,
       })
     } catch (error) {
@@ -281,6 +285,8 @@ class ValoraAnalytics {
       celoNetwork: DEFAULT_TESTNET,
       // Prefixed super props
       ...prefixedSuperProps,
+      // Statsig prop, won't be read properly by Statsig if prefixed
+      statsigEnvironment: STATSIG_ENV,
     }
   }
 }

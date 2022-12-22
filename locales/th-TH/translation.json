@@ -1174,7 +1174,6 @@
   "supportExportLogsFailed": "ไม่สามารถส่งออกบันทึกได้: {{error}}",
   "supportEmailSubject": "{{appName}} รองรับสำหรับ {{user}}",
   "personaAccountEndpointFail": "การยืนยันตัวตนไม่สามารถใช้ได้ในขณะนี้ โปรดลองอีกครั้งภายหลัง",
-  "plaidCreateLinkTokenFail": "ไม่สามารถเชื่อมโยงบัญชีธนาคารได้ โปรดลองอีกครั้งภายหลัง",
   "getBankAccountsFail": "ไม่สามารถเรียกดูบัญชีธนาคารที่เชื่อมโยงไว้ได้ โปรดลองอีกครั้งภายหลัง",
   "deleteBankAccountFail": "ไม่สามารถลบบัญชีธนาคารที่เชื่อมโยงไว้ได้ โปรดลองอีกครั้งภายหลัง",
   "linkBankAccountScreen": {
@@ -1277,6 +1276,8 @@
     "cryptoExchange": "การแลกเปลี่ยนคริปโตเคอร์เรนซี",
     "feesVary": "อาจมีค่าธรรมเนียมแตกต่างกัน",
     "viewExchanges": "ดูการแลกเปลี่ยน",
+    "depositFrom": "Deposit from",
+    "cryptoExchangeOrWallet": "Crypto Exchange or Wallet",
     "card": "บัตรเครดิต / เดบิต",
     "bank": "บัญชีธนาคาร",
     "mobileMoney": "เงินอิเล็กทรอนิกส์",
@@ -1547,6 +1548,13 @@
       "title": "เชิญ {{contactName}} มายัง {{appName}} คุณทั้งสองคนจะได้รับ NFT",
       "body": "ดูเหมือนว่า {{contactName}} ไม่ได้ใช้งาน {{appName}} หากคุณทราบที่อยู่กระเป๋าเงินของเขา คุณยังคงสามารถส่งการชำระเงินหรือส่งคำเชิญแทนได้ \n\nหลังจากที่เขาดาวน์โหลดกระเป๋าเงินและเชื่อมต่อหมายเลขโทรศัพท์แล้ว คุณทั้งสองจะได้รับ NFT พิเศษ"
     }
+  },
+  "celoNews": {
+    "headerTitle": "Updates",
+    "headerDescription": "Learn about use cases, pilots & technical updates on the Celo blog.",
+    "readMoreButtonText": "Read more on the blog",
+    "loadingError": "Sorry, we couldn't load the latest updates. Please try again later.",
+    "retryButtonText": "Retry"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo ดอลลาร์"
 }

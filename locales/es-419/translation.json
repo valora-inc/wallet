@@ -1176,7 +1176,6 @@
   "supportExportLogsFailed": "Error de exportación: {{error}}",
   "supportEmailSubject": "Soporte técnico de {{appName}} para {{user}}",
   "personaAccountEndpointFail": "La verificación de identidad no está disponible actualmente. Vuelve a intentarlo más tarde.",
-  "plaidCreateLinkTokenFail": "No fue posible vincular la cuenta bancaria. Vuelve a intentarlo más tarde.",
   "getBankAccountsFail": "No se pueden recuperar las cuentas bancarias vinculadas. Vuelve a intentarlo más tarde.",
   "deleteBankAccountFail": "No se puede eliminar tu cuenta bancaria vinculada. Vuelve a intentarlo más tarde.",
   "linkBankAccountScreen": {
@@ -1279,6 +1278,8 @@
     "cryptoExchange": "Exchange de criptomonedas",
     "feesVary": "Las tarifas varían",
     "viewExchanges": "Ver exchanges",
+    "depositFrom": "Depósito de",
+    "cryptoExchangeOrWallet": "Bolsa o monedero de criptomonedas",
     "card": "Tarjeta de crédito/débito",
     "bank": "Cuenta bancaria",
     "mobileMoney": "Dinero digital",
@@ -1549,6 +1550,13 @@
       "title": "Invita a {{contactName}} a {{appName}}. ¡Ambos recibirán un NFT!",
       "body": "Parece que {{contactName}} no está en {{appName}}. Si conoces su Dirección de cuenta, envía el pago a su billetera, o bien envíale una invitación. \n\nUna vez de que descargue la app y conecte su número de teléfono, ambos obtendrán un NFT exclusivo."
     }
+  },
+  "celoNews": {
+    "headerTitle": "Actualizaciones",
+    "headerDescription": "Infórmate sobre casos de uso, pilotos y actualizaciones técnicas en el blog de Celo.",
+    "readMoreButtonText": "Más información en el blog",
+    "loadingError": "Lo sentimos, no hemos podido cargar las últimas actualizaciones. Vuelve a intentarlo más tarde.",
+    "retryButtonText": "Reintentar"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

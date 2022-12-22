@@ -51,6 +51,7 @@ import { DYNAMIC_LINK_DOMAIN_URI_PREFIX, FETCH_TIMEOUT_DURATION } from 'src/conf
 import { SuperchargeTokenConfigByToken } from 'src/consumerIncentives/types'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
 import { DappConnectInfo } from 'src/dapps/types'
+import { CeloNewsConfig } from 'src/exchange/types'
 import { FiatAccountSchemaCountryOverrides } from 'src/fiatconnect/types'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import {
@@ -211,7 +212,7 @@ export interface RemoteConfigValues {
   centralPhoneVerificationEnabled: boolean
   networkTimeoutSeconds: number
   dappFavoritesEnabled: boolean
-  celoNewsEnabled: boolean
+  celoNews: CeloNewsConfig
 }
 
 export function* appRemoteFeatureFlagSaga() {

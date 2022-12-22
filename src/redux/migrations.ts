@@ -941,4 +941,8 @@ export const migrations = {
       favoriteDappIds: state.dapps.favoriteDapps.map((dapp: Dapp) => dapp.id),
     },
   }),
+  100: (state: any) => ({
+    ...state,
+    app: _.omit(state.app, 'celoNewsEnabled'),
+  }),
 }

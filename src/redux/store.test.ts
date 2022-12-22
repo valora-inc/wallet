@@ -93,7 +93,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 99,
+          "version": 100,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -130,7 +130,9 @@ describe('store state', () => {
           "cashInButtonExpEnabled": false,
           "celoEducationUri": null,
           "celoEuroEnabled": true,
-          "celoNewsEnabled": false,
+          "celoNews": Object {
+            "enabled": false,
+          },
           "centralPhoneVerificationEnabled": true,
           "coinbasePayEnabled": false,
           "createAccountCopyTestType": "ACCOUNT",
