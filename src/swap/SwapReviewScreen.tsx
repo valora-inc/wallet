@@ -225,9 +225,13 @@ export function SwapReviewScreen() {
               <View style={styles.row}>
                 <Text style={styles.label}>{t('exchangeRate')}</Text>
                 <Text style={styles.transactionDetailsRightText}>
-                  {`1 ${fromTokenSymbol} ≈ ${formatValueToDisplay(
-                    new BigNumber(swapResponse.unvalidatedSwapTransaction.price)
-                  )} ${toTokenSymbol}`}
+                  {swapAmountParam === 'buyAmount'
+                    ? `${formatValueToDisplay(
+                        new BigNumber(swapResponse.unvalidatedSwapTransaction.price)
+                      )} ${fromTokenSymbol} ≈ 1 ${toTokenSymbol}`
+                    : `1 ${fromTokenSymbol} ≈ ${formatValueToDisplay(
+                        new BigNumber(swapResponse.unvalidatedSwapTransaction.price)
+                      )} ${toTokenSymbol}`}
                 </Text>
               </View>
               <View style={styles.row}>
