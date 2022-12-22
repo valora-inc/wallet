@@ -117,7 +117,12 @@ function RecentlyUsedDapps({ onSelectDapp }: Props) {
                 resizeMode="cover"
                 testID="RecentDapp-icon"
               />
-              <Text style={styles.dappName} numberOfLines={1} ellipsizeMode="tail">
+              <Text
+                testID="RecentDapp-name"
+                style={styles.dappName}
+                numberOfLines={1}
+                ellipsizeMode="tail"
+              >
                 {recentlyUsedDapp.name}
               </Text>
             </>
