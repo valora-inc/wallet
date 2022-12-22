@@ -3,7 +3,6 @@ ignores: [
   "@react-native-picker/picker", # react-native-picker-select requires
   "@types/*",
   "metro-react-native-babel-preset",
-  "postinstall-postinstall", # needed for patch-package
   "prettier-plugin-java",
   "pretty-quick",
   "react-devtools", # application profiling
