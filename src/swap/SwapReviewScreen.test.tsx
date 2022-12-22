@@ -141,7 +141,7 @@ describe('SwapReviewScreen', () => {
       })
     )
 
-    const { getByTestId, getByText } = render(
+    const { getByTestId } = render(
       <Provider store={mockStore}>
         <SwapReviewScreen />
       </Provider>
