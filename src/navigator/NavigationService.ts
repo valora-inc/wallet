@@ -6,7 +6,7 @@ import {
   StackActions,
 } from '@react-navigation/native'
 import { createRef, MutableRefObject } from 'react'
-import sleep from 'sleep-promise'
+import { sleep } from '@celo/utils/lib/async'
 import { PincodeType } from 'src/account/reducer'
 import { pincodeTypeSelector } from 'src/account/selectors'
 import { AuthenticationEvents, NavigationEvents, OnboardingEvents } from 'src/analytics/Events'
