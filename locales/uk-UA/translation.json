@@ -1270,6 +1270,7 @@
     "button": "Перейти до {{dappName}}"
   },
   "recentlyUsedDapps": "Недавно використані Dapps",
+  "favoritedDapps": "Улюблені програми",
   "allDapps": "Усі Dapps",
   "rewards": "Винагорода",
   "supercharge": "Надбавка",
