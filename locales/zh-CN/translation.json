@@ -1264,6 +1264,7 @@
     "button": "转至 {{dappName}}"
   },
   "recentlyUsedDapps": "最近使用的 Dapp",
+  "favoritedDapps": "最喜欢的Dapps",
   "allDapps": "所有 Dapp",
   "rewards": "奖励",
   "supercharge": "Supercharge",
