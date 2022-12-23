@@ -91,8 +91,8 @@ describe('CeloNewsFeed', () => {
 
     // Check we can see the Celo news header
     expect(tree.queryByText('celoNews.headerTitle')).toBeTruthy()
-    // Check we can see the loading spinner
-    expect(tree.queryByTestId('CeloNewsFeed/loading')).toBeTruthy()
+    // Check we can see the skeleton placeholder
+    expect(tree.queryAllByTestId('CeloNewsFeedItemSkeleton')[0]).toBeTruthy()
     // Check we cannot see the error view
     expect(tree.queryByText('celoNews.loadingError')).toBeFalsy()
     // Check we cannot see the read more button
@@ -103,8 +103,8 @@ describe('CeloNewsFeed', () => {
 
     // Check we can see a news item
     expect(tree.queryByText('Announcing Kuneco Changes & New Celo Block Party')).toBeTruthy()
-    // Check we cannot see the loading spinner
-    expect(tree.queryByTestId('CeloNewsFeed/loading')).toBeFalsy()
+    // Check we cannot see the skeleton placeholder
+    expect(tree.queryByTestId('CeloNewsFeedItemSkeleton')).toBeFalsy()
     // Check we cannot see the error view
     expect(tree.queryByText('celoNews.loadingError')).toBeFalsy()
 
@@ -143,8 +143,8 @@ describe('CeloNewsFeed', () => {
 
     // Check we cannot see the Celo news header
     expect(tree.queryByText('celoNews.headerTitle')).toBeFalsy()
-    // Check we cannot see the loading spinner
-    expect(tree.queryByTestId('CeloNewsFeed/loading')).toBeFalsy()
+    // Check we cannot see the skeleton placeholder
+    expect(tree.queryByTestId('CeloNewsFeedItemSkeleton')).toBeFalsy()
     // Check we can see the error view
     expect(tree.queryByText('celoNews.loadingError')).toBeTruthy()
     // Check we cannot see the read more button

@@ -1,14 +1,7 @@
 import React, { useMemo } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
-import {
-  ActivityIndicator,
-  FlatList,
-  ListRenderItemInfo,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native'
+import { FlatList, ListRenderItemInfo, StyleSheet, Text, View } from 'react-native'
 import { CeloNewsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { celoNewsConfigSelector } from 'src/app/selectors'
@@ -27,6 +20,11 @@ import Logger from 'src/utils/Logger'
 import networkConfig from 'src/web3/networkConfig'
 
 const TAG = 'exchange/CeloNewsFeed'
+
+const LOADING_SKELETON_DATA = Array.from({ length: 5 }).map(
+  // This bypasses the type check, but it's fine because we're just using it for the skeleton
+  (_, i) => ({ id: i } as CeloNewsArticle)
+)
 
 function renderItem({ item: article }: ListRenderItemInfo<CeloNewsArticle>) {
   return <CeloNewsFeedItem article={article} />
@@ -64,6 +62,7 @@ export default function CeloNewsFeed() {
 
   const asyncArticles = useFetchArticles()
   const { readMoreUrl } = useSelector(celoNewsConfigSelector)
+  const isLoading = asyncArticles.status === 'loading'
 
   function onPressReadMore() {
     const url = readMoreUrl
@@ -82,12 +81,6 @@ export default function CeloNewsFeed() {
 
   const footer = useMemo(() => {
     switch (asyncArticles.status) {
-      case 'loading':
-        return (
-          <View style={styles.loadingContainer}>
-            <ActivityIndicator size="large" color={colors.goldUI} testID="CeloNewsFeed/loading" />
-          </View>
-        )
       case 'success':
         if (!readMoreUrl) {
           return null
@@ -121,8 +114,8 @@ export default function CeloNewsFeed() {
 
   return (
     <FlatList
-      data={asyncArticles.result?.articles || []}
-      renderItem={renderItem}
+      data={isLoading ? LOADING_SKELETON_DATA : asyncArticles.result?.articles}
+      renderItem={isLoading ? CeloNewsFeedItem.Skeleton : renderItem}
       keyExtractor={keyExtractor}
       ItemSeparatorComponent={ItemSeparator}
       ListHeaderComponent={
@@ -158,10 +151,5 @@ const styles = StyleSheet.create({
   readMoreButton: {
     marginVertical: 32,
     marginHorizontal: Spacing.Thick24,
-  },
-  loadingContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    minHeight: 200,
   },
 })

@@ -1,0 +1,39 @@
+diff --git a/node_modules/react-native-skeleton-placeholder/lib/skeleton-placeholder.d.ts b/node_modules/react-native-skeleton-placeholder/lib/skeleton-placeholder.d.ts
+index a3dc594..3a58d21 100644
+--- a/node_modules/react-native-skeleton-placeholder/lib/skeleton-placeholder.d.ts
++++ b/node_modules/react-native-skeleton-placeholder/lib/skeleton-placeholder.d.ts
+@@ -34,6 +34,8 @@ declare type SkeletonPlaceholderProps = {
+      * Determines width of the highlighted area
+      */
+     shimmerWidth?: number;
++    // TODO: remove this patch once a release is published with https://github.com/chramos/react-native-skeleton-placeholder/pull/71
++    testID?: string;
+ };
+ declare type SkeletonPlaceholderItemProps = ViewStyle & {
+     style?: StyleProp<ViewStyle>;
+diff --git a/node_modules/react-native-skeleton-placeholder/lib/skeleton-placeholder.js b/node_modules/react-native-skeleton-placeholder/lib/skeleton-placeholder.js
+index 353abb6..5ff4824 100644
+--- a/node_modules/react-native-skeleton-placeholder/lib/skeleton-placeholder.js
++++ b/node_modules/react-native-skeleton-placeholder/lib/skeleton-placeholder.js
+@@ -39,7 +39,7 @@ const react_native_1 = require("react-native");
+ const react_native_linear_gradient_1 = __importDefault(require("react-native-linear-gradient"));
+ const WINDOW_WIDTH = react_native_1.Dimensions.get('window').width;
+ const logEnabled = false;
+-const SkeletonPlaceholder = ({ children, enabled = true, backgroundColor = '#E1E9EE', highlightColor = '#F2F8FC', speed = 800, direction = 'right', borderRadius, shimmerWidth, }) => {
++const SkeletonPlaceholder = ({ children, enabled = true, backgroundColor = '#E1E9EE', highlightColor = '#F2F8FC', speed = 800, direction = 'right', borderRadius, shimmerWidth, testID, }) => {
+     const [layout, setLayout] = React.useState();
+     const animatedValueRef = React.useRef(new react_native_1.Animated.Value(0));
+     const isAnimationReady = Boolean(speed && (layout === null || layout === void 0 ? void 0 : layout.width) && (layout === null || layout === void 0 ? void 0 : layout.height));
+@@ -79,10 +79,10 @@ const SkeletonPlaceholder = ({ children, enabled = true, backgroundColor = '#E1E
+     if (!enabled || !placeholders)
+         return children;
+     if (!(layout === null || layout === void 0 ? void 0 : layout.width) || !layout.height)
+-        return <react_native_1.View onLayout={(event) => setLayout(event.nativeEvent.layout)}>{placeholders}</react_native_1.View>;
++        return <react_native_1.View onLayout={(event) => setLayout(event.nativeEvent.layout)} testID={testID}>{placeholders}</react_native_1.View>;
+     // https://github.com/react-native-linear-gradient/react-native-linear-gradient/issues/358
+     // to make transparent gradient we need to use original color with alpha
+-    return (<masked_view_1.default style={{ height: layout.height, width: layout.width }} maskElement={placeholders}>
++    return (<masked_view_1.default style={{ height: layout.height, width: layout.width }} maskElement={placeholders} testID={testID}>
+       <react_native_1.View style={[react_native_1.StyleSheet.absoluteFill, { backgroundColor }]}/>
+ 
+       {isAnimationReady && highlightColor !== undefined && transparentColor !== undefined && (<react_native_1.Animated.View style={animatedGradientStyle}>
