@@ -171,14 +171,10 @@ describe('getCurrentUserTraits', () => {
     })
     expect(getCurrentUserTraits(state)).toStrictEqual({
       accountAddress: '0x0000000000000000000000000000000000007E57',
-      appBuildNumber: '1',
-      appBundleId: 'org.celo.mobile.debug',
-      appVersion: '0.0.1',
       celoBalance: 0,
       ceurBalance: 21,
       countryCodeAlpha2: 'US',
       cusdBalance: 10,
-      deviceId: 'abc-def-123',
       deviceLanguage: 'en-US',
       hasCompletedBackup: false,
       hasVerifiedNumber: false,
