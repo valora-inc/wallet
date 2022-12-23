@@ -1249,6 +1249,10 @@
     "noFavorites": {
       "title": "No se han añadido favoritos",
       "description": "Haz un seguimiento de tus Dapps más utilizadas tocando el icono de la estrella para añadirla como favorita"
+    },
+    "favoritedDappToast": {
+      "message": "Añadido como favorito",
+      "labelCTA": "Ver favoritos"
     }
   },
   "dappsScreenHelpDialog": {

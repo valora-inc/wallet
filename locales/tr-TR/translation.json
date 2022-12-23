@@ -1249,6 +1249,10 @@
     "noFavorites": {
       "title": "Favori eklenmemiş",
       "description": "Favori olarak eklemek için yıldız simgesine dokunarak en çok kullandığınız Dapp'leri takip edin"
+    },
+    "favoritedDappToast": {
+      "message": "Favori olarak eklendi",
+      "labelCTA": "Favorileri Görüntüle"
     }
   },
   "dappsScreenHelpDialog": {
