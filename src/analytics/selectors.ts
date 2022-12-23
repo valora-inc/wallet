@@ -1,6 +1,5 @@
 import { getRegionCodeFromCountryCode } from '@celo/phone-utils'
 import BigNumber from 'bignumber.js'
-import DeviceInfo from 'react-native-device-info'
 import * as RNLocalize from 'react-native-localize'
 import { createSelector } from 'reselect'
 import { defaultCountryCodeSelector, pincodeTypeSelector } from 'src/account/selectors'
@@ -90,10 +89,6 @@ export const getCurrentUserTraits = createSelector(
       localCurrencyCode,
       hasVerifiedNumber,
       hasCompletedBackup,
-      deviceId: DeviceInfo.getUniqueId(),
-      appVersion: DeviceInfo.getVersion(),
-      appBuildNumber: DeviceInfo.getBuildNumber(),
-      appBundleId: DeviceInfo.getBundleId(),
       pincodeType,
       superchargingToken: superchargeInfo.superchargingTokenConfig?.tokenSymbol,
       superchargingAmountInUsd: superchargeInfo.superchargeUsdBalance,
