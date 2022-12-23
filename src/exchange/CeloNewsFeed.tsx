@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { FlatList, ListRenderItemInfo, StyleSheet, Text, View } from 'react-native'
@@ -63,6 +63,10 @@ export default function CeloNewsFeed() {
   const asyncArticles = useFetchArticles()
   const { readMoreUrl } = useSelector(celoNewsConfigSelector)
   const isLoading = asyncArticles.status === 'loading'
+
+  useEffect(() => {
+    ValoraAnalytics.track(CeloNewsEvents.celo_news_screen_open)
+  }, [])
 
   function onPressReadMore() {
     const url = readMoreUrl
