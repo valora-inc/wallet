@@ -1270,6 +1270,7 @@
     "button": "Перейти в {{dappName}}"
   },
   "recentlyUsedDapps": "Недавно использованные Dapps",
+  "favoritedDapps": "Избранные Dapps",
   "allDapps": "Все Dapps",
   "rewards": "Вознаграждения",
   "supercharge": "Supercharge",
