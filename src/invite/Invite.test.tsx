@@ -20,7 +20,10 @@ describe('Invite', () => {
     jest.clearAllMocks()
   })
 
-  const getWrapper = ({ inviteRewardsEnabled }: { inviteRewardsEnabled?: boolean } = {}) =>
+  const getWrapper = ({
+    inviteRewardsEnabled,
+    phoneNumberVerified,
+  }: { inviteRewardsEnabled?: boolean; phoneNumberVerified?: boolean } = {}) =>
     render(
       <Provider
         store={createMockStore({
@@ -29,6 +32,9 @@ describe('Invite', () => {
           },
           send: {
             inviteRewardsEnabled,
+          },
+          app: {
+            phoneNumberVerified,
           },
         })}
       >
@@ -83,7 +89,10 @@ describe('Invite', () => {
       activityType: 'clipboard',
     })
 
-    const { getByTestId, getByText } = getWrapper({ inviteRewardsEnabled: true })
+    const { getByTestId, getByText } = getWrapper({
+      inviteRewardsEnabled: true,
+      phoneNumberVerified: true,
+    })
 
     expect(getByText('inviteWithUrl.rewardsActive.title')).toBeTruthy()
     expect(getByText('inviteWithUrl.rewardsActive.body')).toBeTruthy()

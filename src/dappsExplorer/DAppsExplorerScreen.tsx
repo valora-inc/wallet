@@ -113,7 +113,7 @@ export function DAppsExplorerScreen() {
         {t('dappsScreenHelpDialog.message')}
       </Dialog>
       <>
-        {loading && (
+        {loading && !categoriesById && (
           <View style={styles.centerContainer}>
             <ActivityIndicator
               style={styles.loadingIcon}
@@ -123,12 +123,12 @@ export function DAppsExplorerScreen() {
             />
           </View>
         )}
-        {!loading && error && (
+        {!loading && !categoriesById && error && (
           <View style={styles.centerContainer}>
             <Text style={fontStyles.regular}>{t('dappsScreen.errorMessage')}</Text>
           </View>
         )}
-        {!loading && !error && categoriesById && (
+        {categoriesById && (
           <AnimatedSectionList
             // @ts-ignore TODO: resolve type error
             ref={sectionListRef}
