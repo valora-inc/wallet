@@ -1418,6 +1418,7 @@ interface SwapEventsProperties {
 }
 
 interface CeloNewsEventsProperties {
+  [CeloNewsEvents.celo_news_screen_open]: undefined
   [CeloNewsEvents.celo_news_article_tap]: {
     url: string
   }

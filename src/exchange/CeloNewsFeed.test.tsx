@@ -97,6 +97,8 @@ describe('CeloNewsFeed', () => {
     expect(tree.queryByText('celoNews.loadingError')).toBeFalsy()
     // Check we cannot see the read more button
     expect(tree.queryByText('celoNews.readMoreButtonText')).toBeFalsy()
+    // Check the analytics event is fired
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(CeloNewsEvents.celo_news_screen_open)
 
     await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(1))
     expect(mockFetch).toHaveBeenCalledWith(`${networkConfig.cloudFunctionsUrl}/getCeloNewsFeed`)
