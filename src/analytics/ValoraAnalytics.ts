@@ -25,7 +25,36 @@ import { Statsig } from 'statsig-react-native'
 
 const TAG = 'ValoraAnalytics'
 
-async function getDeviceInfo() {
+interface DeviceInfoType {
+  AppName: string
+  Brand: string
+  BuildNumber: string
+  BundleId: string
+  Carrier: string
+  DeviceId: string
+  FirstInstallTime: number
+  FontScale: number
+  FreeDiskStorage: number
+  InstallReferrer: string
+  InstanceID: string
+  LastUpdateTime: number
+  Manufacturer: string
+  MaxMemory: number
+  Model: string
+  ReadableVersion: string
+  SystemName: string
+  SystemVersion: string
+  TotalDiskCapacity: number
+  TotalMemory: number
+  UniqueID: string
+  UserAgent: string
+  Version: string
+  isEmulator: boolean
+  isTablet: boolean
+  UsedMemory: number
+}
+
+async function getDeviceInfo(): Promise<DeviceInfoType> {
   return {
     AppName: DeviceInfo.getApplicationName(),
     Brand: DeviceInfo.getBrand(),
@@ -71,7 +100,7 @@ const SEGMENT_OPTIONS: analytics.Configuration = {
 
 class ValoraAnalytics {
   sessionId: string = ''
-  deviceInfo: object = {}
+  deviceInfo: DeviceInfoType | undefined
 
   private currentScreenId: string | undefined
   private prevScreenId: string | undefined
@@ -272,6 +301,11 @@ class ValoraAnalytics {
     const prefixedSuperProps = Object.fromEntries(
       Object.entries({
         ...traits,
+        // uniqueID is the unique id for the device.
+        deviceId: this.deviceInfo?.UniqueID,
+        appVersion: this.deviceInfo?.Version,
+        appBuildNumber: this.deviceInfo?.BuildNumber,
+        appBundleId: this.deviceInfo?.BundleId,
         currentScreenId: this.currentScreenId,
         prevScreenId: this.prevScreenId,
       }).map(([key, value]) => [`s${key.charAt(0).toUpperCase() + key.slice(1)}`, value])
