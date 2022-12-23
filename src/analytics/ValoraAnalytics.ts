@@ -131,11 +131,12 @@ class ValoraAnalytics {
 
     try {
       const { accountAddress } = getCurrentUserTraits(store.getState())
-      const stasigUser = accountAddress
-        ? {
-            userID: accountAddress,
-          }
-        : null
+      const stasigUser =
+        typeof accountAddress === 'string'
+          ? {
+              userID: accountAddress,
+            }
+          : null
 
       // getAnonymousId causes the e2e tests to fail
       const overrideStableID = isE2EEnv ? E2E_TEST_STATSIG_ID : await Analytics.getAnonymousId()

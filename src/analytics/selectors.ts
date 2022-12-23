@@ -42,7 +42,9 @@ export const getCurrentUserTraits = createSelector(
     hasCompletedBackup,
     pincodeType,
     superchargeInfo
-  ): Record<string, string | boolean | number | null | undefined> => {
+  ): // Enforce primitive types, TODO: check this using `satisfies` once we upgrade to TS >= 4.9
+  // so we don't need to erase the named keys
+  Record<string, string | boolean | number | null | undefined> => {
     const coreTokensAddresses = new Set(coreTokens.map((token) => token?.address))
     const tokensByUsdBalance = tokens.sort(sortByUsdBalance)
 
