@@ -16,12 +16,11 @@ import {
   SHOW_TESTNET_BANNER,
   STABLE_TRANSACTION_MIN_AMOUNT,
 } from 'src/config'
-import { maxNumRecentDappsSelector } from 'src/dapps/selectors'
 import useOpenDapp from 'src/dappsExplorer/useOpenDapp'
 import { refreshAllBalances } from 'src/home/actions'
 import CashInBottomSheet from 'src/home/CashInBottomSheet'
+import DappsCarousel from 'src/home/DappsCarousel'
 import NotificationBox from 'src/home/NotificationBox'
-import RecentlyUsedDapps from 'src/home/RecentlyUsedDapps'
 import SendOrRequestBar from 'src/home/SendOrRequestBar'
 import Logo from 'src/icons/Logo'
 import { importContacts } from 'src/identity/actions'
@@ -44,7 +43,6 @@ function WalletHome() {
   const isLoading = useSelector((state) => state.home.loading)
   const recipientCache = useSelector(phoneRecipientCacheSelector)
   const isNumberVerified = useSelector(phoneNumberVerifiedSelector)
-  const maxNumRecentDapps = useSelector(maxNumRecentDappsSelector)
   const coreTokenBalances = useSelector(coreTokensSelector)
   const celoAddress = useSelector(celoAddressSelector)
   const cashInButtonExpEnabled = useSelector((state) => state.app.cashInButtonExpEnabled)
@@ -145,12 +143,10 @@ function WalletHome() {
     renderItem: () => <HomeTokenBalance key={'HomeTokenBalance'} />,
   })
 
-  if (maxNumRecentDapps > 0) {
-    sections.push({
-      data: [{}],
-      renderItem: () => <RecentlyUsedDapps key="RecentlyUsedDapps" onSelectDapp={onSelectDapp} />,
-    })
-  }
+  sections.push({
+    data: [{}],
+    renderItem: () => <DappsCarousel key="DappsCarousel" onSelectDapp={onSelectDapp} />,
+  })
 
   sections.push({
     data: [{}],
