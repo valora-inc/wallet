@@ -1,7 +1,15 @@
 ignores: [
   "@actions/github",
+  "@babel/runtime", # enforce specific version for react-native
   "@react-native-picker/picker", # react-native-picker-select requires
   "@types/*",
+  "babel-core",
+  "babel-jest",
+  "jest-circus",
+  "jest-html-reporter",
+  "jest-junit",
+  "jest-snapshot",
+  "lokijs", # walletconnect e2e tests requires
   "metro-react-native-babel-preset",
   "prettier-plugin-java",
   "pretty-quick",
