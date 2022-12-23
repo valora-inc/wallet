@@ -31,7 +31,7 @@ interface DeviceInfoType {
   BuildNumber: string
   BundleId: string
   Carrier: string
-  DeviceId: string
+  DeviceId: string // this is the device model + version
   FirstInstallTime: number
   FontScale: number
   FreeDiskStorage: number
@@ -46,7 +46,7 @@ interface DeviceInfoType {
   SystemVersion: string
   TotalDiskCapacity: number
   TotalMemory: number
-  UniqueID: string
+  UniqueID: string // this is the unique id of the device, which maps to deviceId in the data
   UserAgent: string
   Version: string
   isEmulator: boolean
@@ -301,7 +301,6 @@ class ValoraAnalytics {
     const prefixedSuperProps = Object.fromEntries(
       Object.entries({
         ...traits,
-        // uniqueID is the unique id for the device.
         deviceId: this.deviceInfo?.UniqueID,
         appVersion: this.deviceInfo?.Version,
         appBuildNumber: this.deviceInfo?.BuildNumber,
