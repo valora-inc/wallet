@@ -172,9 +172,10 @@ describe('SwapReviewScreen', () => {
           toToken: mockCeloAddress,
           fromToken: mockCusdAddress,
           swapAmount: {
-            FROM: '3100000000000000000',
-            TO: '1000000000000000000',
+            FROM: '8200000000000000000',
+            TO: '200000000000000000',
           },
+          // This updated field set to To indicates the buy amount is used
           updatedField: Field.TO,
         },
       },
@@ -187,9 +188,9 @@ describe('SwapReviewScreen', () => {
         unvalidatedSwapTransaction: {
           sellToken: mockCusdAddress,
           buyToken: mockCeloAddress,
-          buyAmount: '1000000000000000000',
-          sellAmount: '3100000000000000000',
-          price: '3.1',
+          buyAmount: '2000000000000000000',
+          sellAmount: '8200000000000000000',
+          price: '4.10',
           gas: '300000',
           gasPrice: '500000000',
         },
@@ -204,12 +205,12 @@ describe('SwapReviewScreen', () => {
 
     await waitFor(() => {
       // Swap From
-      expect(getByTestId('FromSwapAmountToken')).toHaveTextContent('3.10 cUSD')
-      expect(getByTestId('FromSwapAmountTokenLocal')).toHaveTextContent('$3.10')
+      expect(getByTestId('FromSwapAmountToken')).toHaveTextContent('8.20 cUSD')
+      expect(getByTestId('FromSwapAmountTokenLocal')).toHaveTextContent('$8.20')
       // Swap To
-      expect(getByTestId('ToSwapAmountToken')).toHaveTextContent('1.00 CELO')
+      expect(getByTestId('ToSwapAmountToken')).toHaveTextContent('2.00 CELO')
       // Exchange Rate
-      expect(getByTestId('ExchangeRate')).toHaveTextContent('3.10 cUSD ≈ 1 CELO')
+      expect(getByTestId('ExchangeRate')).toHaveTextContent('4.10 cUSD ≈ 1 CELO')
       // Estimated Gas
       expect(getByTestId('EstimatedGas')).toHaveTextContent('0.00015 cUSD')
       // Swap Fee
