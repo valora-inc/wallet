@@ -25,6 +25,7 @@ const defaultStore = {
   },
   app: {
     numberVerified: true,
+    phoneNumberVerified: true,
   },
   recipients: {
     phoneRecipientCache: {
