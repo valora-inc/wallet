@@ -250,7 +250,7 @@ describe('WalletHome', () => {
         </Provider>
       )
 
-      const dapps = getAllByTestId('RecentDapp')
+      const dapps = getAllByTestId('RecentlyUsedDapps/Dapp')
       fireEvent.press(dapps[0])
 
       expect(dapps).toHaveLength(2)
@@ -272,7 +272,7 @@ describe('WalletHome', () => {
         </Provider>
       )
 
-      fireEvent.press(getAllByTestId('RecentDapp')[1])
+      fireEvent.press(getAllByTestId('RecentlyUsedDapps/Dapp')[1])
 
       expect(
         queryByText(`dappsScreenBottomSheet.title, {"dappName":"${deepLinkedDapp.name}"}`)
