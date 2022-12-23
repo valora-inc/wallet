@@ -3,7 +3,7 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { Dapp } from 'src/dapps/types'
-import RecentlyUsedDapps from 'src/home/RecentlyUsedDapps'
+import DappsCarousel from 'src/home/DappsCarousel'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { createMockStore } from 'test/utils'
@@ -56,92 +56,48 @@ const dappsList: Dapp[] = [
   },
 ]
 
-const recentDappIds = dappsList.map((dapp) => dapp.id)
+const recentDappIds = [dappsList[0].id, dappsList[2].id]
+const favoriteDappIds = [dappsList[1].id, dappsList[3].id]
 
-describe('RecentlyUsedDapps', () => {
-  it('renders nothing if there are no recently used dapps', () => {
-    const { queryByTestId } = render(
-      <Provider
-        store={createMockStore({
-          dapps: {
-            recentDappIds: [],
-            dappsList,
-          },
-        })}
-      >
-        <RecentlyUsedDapps onSelectDapp={jest.fn()} />
-      </Provider>
-    )
-
-    expect(queryByTestId('RecentlyUsedDappsContainer')).toBeFalsy()
-  })
-
-  it('renders correctly with all recently used dapps', () => {
-    const store = createMockStore({
-      dapps: {
-        recentDappIds,
-        dappsList,
-      },
-    })
-    const { getByText, getAllByTestId } = render(
-      <Provider store={store}>
-        <RecentlyUsedDapps onSelectDapp={jest.fn()} />
-      </Provider>
-    )
-
-    const dapps = getAllByTestId('RecentDapp')
-
-    expect(getByText('recentlyUsedDapps')).toBeTruthy()
-    expect(getByText('allDapps')).toBeTruthy()
-    expect(dapps).toHaveLength(recentDappIds.length)
-
-    dapps.forEach((dapp, index) => {
-      expect(within(dapp).getByText(dappsList[index].name)).toBeTruthy()
-      expect(within(dapp).getByTestId('RecentDapp-icon').props.source.uri).toEqual(
-        dappsList[index].iconUrl
-      )
-    })
-  })
-
-  it('renders recently used dapps in the correct order', () => {
-    const store = createMockStore({
-      dapps: {
-        recentDappIds: ['moola', 'poofcash'],
-        dappsList,
-      },
-    })
-    const { getAllByTestId } = render(
-      <Provider store={store}>
-        <RecentlyUsedDapps onSelectDapp={jest.fn()} />
-      </Provider>
-    )
-
-    const dapps = getAllByTestId('RecentDapp')
-
-    expect(dapps).toHaveLength(2)
-    expect(within(dapps[0]).getByText(dappsList[1].name)).toBeTruthy()
-    expect(within(dapps[1]).getByText(dappsList[3].name)).toBeTruthy()
-  })
-
-  it('fires the correct callback on press dapp', () => {
-    const selectDappSpy = jest.fn()
-    const { getAllByTestId } = render(
+describe('DappsCarousel', () => {
+  it('renders nothing if recently used dapps and favorited dapps are not enabled', () => {
+    const { toJSON } = render(
       <Provider
         store={createMockStore({
           dapps: {
             recentDappIds,
+            favoriteDappIds,
             dappsList,
+            maxNumRecentDapps: 0,
+            dappFavoritesEnabled: false,
           },
         })}
       >
-        <RecentlyUsedDapps onSelectDapp={selectDappSpy} />
+        <DappsCarousel onSelectDapp={jest.fn()} />
       </Provider>
     )
 
-    fireEvent.press(getAllByTestId('RecentDapp')[1])
+    expect(toJSON()).toBeNull()
+  })
 
-    expect(selectDappSpy).toHaveBeenCalledTimes(1)
-    expect(selectDappSpy).toHaveBeenCalledWith({ ...dappsList[1], openedFrom: 'recently used' })
+  it('renders nothing if there are no recently used or favorited dapps', () => {
+    const { toJSON } = render(
+      <Provider
+        store={createMockStore({
+          dapps: {
+            recentDappIds: [],
+            favoriteDappIds: [],
+            dappsList,
+            maxNumRecentDapps: 4,
+            dappFavoritesEnabled: true,
+          },
+        })}
+      >
+        <DappsCarousel onSelectDapp={jest.fn()} />
+      </Provider>
+    )
+
+    expect(toJSON()).toBeNull()
   })
 
   it('navigates to dapp explorer screen', () => {
@@ -150,11 +106,12 @@ describe('RecentlyUsedDapps', () => {
         store={createMockStore({
           dapps: {
             recentDappIds,
+            maxNumRecentDapps: 4,
             dappsList,
           },
         })}
       >
-        <RecentlyUsedDapps onSelectDapp={jest.fn()} />
+        <DappsCarousel onSelectDapp={jest.fn()} />
       </Provider>
     )
 
@@ -163,24 +120,124 @@ describe('RecentlyUsedDapps', () => {
     expect(navigate).toHaveBeenCalledWith(Screens.DAppsExplorerScreen)
   })
 
+  describe('recently used dapps', () => {
+    const store = createMockStore({
+      dapps: {
+        recentDappIds,
+        maxNumRecentDapps: 4,
+        dappsList,
+      },
+    })
+
+    it('renders correctly with all recently used dapps', () => {
+      const { getByText, getAllByTestId } = render(
+        <Provider store={store}>
+          <DappsCarousel onSelectDapp={jest.fn()} />
+        </Provider>
+      )
+
+      const dapps = getAllByTestId('RecentlyUsedDapps/Dapp')
+
+      expect(getByText('recentlyUsedDapps')).toBeTruthy()
+      expect(getByText('allDapps')).toBeTruthy()
+      expect(dapps).toHaveLength(recentDappIds.length)
+
+      expect(within(dapps[0]).getByText(dappsList[0].name)).toBeTruthy()
+      expect(within(dapps[0]).getByTestId('RecentlyUsedDapps/Icon').props.source.uri).toEqual(
+        dappsList[0].iconUrl
+      )
+      expect(within(dapps[1]).getByText(dappsList[2].name)).toBeTruthy()
+      expect(within(dapps[1]).getByTestId('RecentlyUsedDapps/Icon').props.source.uri).toEqual(
+        dappsList[2].iconUrl
+      )
+    })
+
+    it('fires the correct callback on press dapp', () => {
+      const selectDappSpy = jest.fn()
+      const { getAllByTestId } = render(
+        <Provider store={store}>
+          <DappsCarousel onSelectDapp={selectDappSpy} />
+        </Provider>
+      )
+
+      fireEvent.press(getAllByTestId('RecentlyUsedDapps/Dapp')[1])
+
+      expect(selectDappSpy).toHaveBeenCalledTimes(1)
+      expect(selectDappSpy).toHaveBeenCalledWith({ ...dappsList[2], openedFrom: 'recently used' })
+    })
+  })
+
+  describe('favorite dapps', () => {
+    const store = createMockStore({
+      dapps: {
+        recentDappIds,
+        dappsList,
+        maxNumRecentDapps: 4,
+        dappFavoritesEnabled: true,
+        favoriteDappIds,
+      },
+    })
+
+    it('renders correctly with favorited dapps', () => {
+      const { getByText, getAllByTestId } = render(
+        <Provider store={store}>
+          <DappsCarousel onSelectDapp={jest.fn()} />
+        </Provider>
+      )
+
+      const dapps = getAllByTestId('FavoritedDapps/Dapp')
+
+      expect(getByText('favoritedDapps')).toBeTruthy()
+      expect(getByText('allDapps')).toBeTruthy()
+      expect(dapps).toHaveLength(recentDappIds.length)
+
+      expect(within(dapps[0]).getByText(dappsList[1].name)).toBeTruthy()
+      expect(within(dapps[0]).getByTestId('FavoritedDapps/Icon').props.source.uri).toEqual(
+        dappsList[1].iconUrl
+      )
+      expect(within(dapps[1]).getByText(dappsList[3].name)).toBeTruthy()
+      expect(within(dapps[1]).getByTestId('FavoritedDapps/Icon').props.source.uri).toEqual(
+        dappsList[3].iconUrl
+      )
+    })
+
+    it('fires the correct callback on press dapp', () => {
+      const selectDappSpy = jest.fn()
+      const { getAllByTestId } = render(
+        <Provider store={store}>
+          <DappsCarousel onSelectDapp={selectDappSpy} />
+        </Provider>
+      )
+
+      fireEvent.press(getAllByTestId('FavoritedDapps/Dapp')[1])
+
+      expect(selectDappSpy).toHaveBeenCalledTimes(1)
+      expect(selectDappSpy).toHaveBeenCalledWith({
+        ...dappsList[3],
+        openedFrom: 'favorites home screen',
+      })
+    })
+  })
+
   describe('impression analytics', () => {
     beforeEach(() => {
       jest.clearAllMocks()
+    })
+
+    const store = createMockStore({
+      dapps: {
+        recentDappIds: dappsList.map((dapp) => dapp.id),
+        maxNumRecentDapps: 4,
+        dappsList,
+      },
     })
 
     it('should track impressions for dapps visible', () => {
       // as the DAPP_WIDTH is 100, only 3 dapps should be displayed for the above
       // mocked screen width
       render(
-        <Provider
-          store={createMockStore({
-            dapps: {
-              recentDappIds,
-              dappsList,
-            },
-          })}
-        >
-          <RecentlyUsedDapps onSelectDapp={jest.fn()} />
+        <Provider store={store}>
+          <DappsCarousel onSelectDapp={jest.fn()} />
         </Provider>
       )
 
@@ -210,15 +267,8 @@ describe('RecentlyUsedDapps', () => {
 
     it('should only track impressions once on scrolling back and forth', () => {
       const { getByTestId } = render(
-        <Provider
-          store={createMockStore({
-            dapps: {
-              recentDappIds,
-              dappsList,
-            },
-          })}
-        >
-          <RecentlyUsedDapps onSelectDapp={jest.fn()} />
+        <Provider store={store}>
+          <DappsCarousel onSelectDapp={jest.fn()} />
         </Provider>
       )
 
