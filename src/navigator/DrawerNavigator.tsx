@@ -33,7 +33,7 @@ import SettingsScreen from 'src/account/Settings'
 import Support from 'src/account/Support'
 import { HomeEvents, RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { inviteMethodSelector } from 'src/app/selectors'
+import { celoNewsConfigSelector, inviteMethodSelector } from 'src/app/selectors'
 import { InviteMethodType } from 'src/app/types'
 import BackupIntroduction from 'src/backup/BackupIntroduction'
 import AccountNumber from 'src/components/AccountNumber'
@@ -201,12 +201,34 @@ export default function DrawerNavigator() {
 
   const shouldShowRecoveryPhraseInSettings = useSelector(shouldShowRecoveryPhraseInSettingsSelector)
   const backupCompleted = useSelector(backupCompletedSelector)
+  const isCeloNewsEnabled = useSelector(celoNewsConfigSelector).enabled
 
   const drawerContent = (props: DrawerContentComponentProps<DrawerContentOptions>) => (
     <CustomDrawerContent {...props} />
   )
 
   const shouldShowSwapMenuInDrawerMenu = useSelector(isAppSwapsEnabledSelector)
+
+  // Show ExchangeHomeScreen if the user has completed the Celo education
+  // or if the Celo News feature is enabled
+  // Otherwise, show the Celo education screen
+  const celoMenuItem =
+    isCeloEducationComplete || isCeloNewsEnabled ? (
+      <Drawer.Screen
+        name={Screens.ExchangeHomeScreen}
+        component={ExchangeHomeScreen}
+        options={{ title: t('celoGold'), drawerIcon: Gold }}
+      />
+    ) : (
+      <Drawer.Screen
+        name={Screens.GoldEducation}
+        component={GoldEducation}
+        options={{
+          title: t('celoGold'),
+          drawerIcon: Gold,
+        }}
+      />
+    )
 
   return (
     <Drawer.Navigator
@@ -237,24 +259,7 @@ export default function DrawerNavigator() {
           options={{ title: t('swapScreen.title'), drawerIcon: Swap }}
         />
       ) : (
-        <>
-          {(isCeloEducationComplete && (
-            <Drawer.Screen
-              name={Screens.ExchangeHomeScreen}
-              component={ExchangeHomeScreen}
-              options={{ title: t('celoGold'), drawerIcon: Gold }}
-            />
-          )) || (
-            <Drawer.Screen
-              name={Screens.GoldEducation}
-              component={GoldEducation}
-              options={{
-                title: t('celoGold'),
-                drawerIcon: Gold,
-              }}
-            />
-          )}
-        </>
+        celoMenuItem
       )}
 
       {dappsListUrl && (
@@ -293,26 +298,11 @@ export default function DrawerNavigator() {
           options={{ title: t('invite'), drawerIcon: InviteIcon }}
         />
       )}
-      {shouldShowSwapMenuInDrawerMenu && (
-        <>
-          {(isCeloEducationComplete && (
-            <Drawer.Screen
-              name={Screens.ExchangeHomeScreen}
-              component={ExchangeHomeScreen}
-              options={{ title: t('celoGold'), drawerIcon: Gold }}
-            />
-          )) || (
-            <Drawer.Screen
-              name={Screens.GoldEducation}
-              component={GoldEducation}
-              options={{
-                title: t('celoGold'),
-                drawerIcon: Gold,
-              }}
-            />
-          )}
-        </>
-      )}
+
+      {
+        // When swap is enabled, the celo menu item is here
+        shouldShowSwapMenuInDrawerMenu && celoMenuItem
+      }
 
       <Drawer.Screen
         name={Screens.Settings}
