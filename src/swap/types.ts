@@ -72,6 +72,7 @@ export interface SwapTransaction {
   guaranteedPrice: string
   minimumProtocolFee: string
   orders: Array<Order>
+  // be careful -- price means different things when using sellAmount vs buyAmount
   price: string
   protocolFee: string
   sellAmount: string
