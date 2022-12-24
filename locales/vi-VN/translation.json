@@ -1264,6 +1264,7 @@
     "button": "Truy cập {{dappName}}"
   },
   "recentlyUsedDapps": "Các Dapp được sử dụng gần đây",
+  "favoritedDapps": "Favorited Dapps",
   "allDapps": "Tất cả các Dapp",
   "rewards": "Tiền thưởng",
   "supercharge": "Supercharge",

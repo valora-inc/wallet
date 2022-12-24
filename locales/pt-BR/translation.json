@@ -1266,6 +1266,7 @@
     "button": "Ir para {{dappName}}"
   },
   "recentlyUsedDapps": "Dapps usados recentemente",
+  "favoritedDapps": "Dapps favoritos",
   "allDapps": "Todos os dapps",
   "rewards": "Recompensas",
   "supercharge": "Supercharge",
