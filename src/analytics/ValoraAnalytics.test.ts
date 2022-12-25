@@ -154,11 +154,13 @@ describe('ValoraAnalytics', () => {
   })
 
   it('creates statsig client on initialization with wallet address as user id', async () => {
-    mockStore.getState.mockImplementation(() => getMockStoreData({ web3: { account: '0x1234' } }))
+    mockStore.getState.mockImplementation(() =>
+      getMockStoreData({ web3: { account: '0x1234ABC', mtwAddress: '0x0000' } })
+    )
     await ValoraAnalytics.init()
     expect(Statsig.initialize).toHaveBeenCalledWith(
       'statsig-key',
-      { userID: '0x1234' },
+      { userID: '0x1234abc' },
       { environment: { tier: 'development' }, overrideStableID: 'anonId' }
     )
   })
