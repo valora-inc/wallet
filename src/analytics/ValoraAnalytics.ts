@@ -130,17 +130,17 @@ class ValoraAnalytics {
     }
 
     try {
-      const { accountAddress } = getCurrentUserTraits(store.getState())
-      const stasigUser =
-        typeof accountAddress === 'string'
+      const { walletAddress } = getCurrentUserTraits(store.getState())
+      const statsigUser =
+        typeof walletAddress === 'string'
           ? {
-              userID: accountAddress,
+              userID: walletAddress,
             }
           : null
 
       // getAnonymousId causes the e2e tests to fail
       const overrideStableID = isE2EEnv ? E2E_TEST_STATSIG_ID : await Analytics.getAnonymousId()
-      await Statsig.initialize(STATSIG_API_KEY, stasigUser, {
+      await Statsig.initialize(STATSIG_API_KEY, statsigUser, {
         // StableID should match Segment anonymousId
         overrideStableID,
         environment: STATSIG_ENV,

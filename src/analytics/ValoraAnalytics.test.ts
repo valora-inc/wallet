@@ -29,6 +29,12 @@ jest.mock('@segment/analytics-react-native-firebase', () => ({}))
 jest.mock('react-native-permissions', () => ({}))
 jest.mock('@sentry/react-native', () => ({ init: jest.fn() }))
 jest.mock('src/redux/store', () => ({ store: { getState: jest.fn() } }))
+jest.mock('src/config', () => ({
+  // @ts-expect-error
+  ...jest.requireActual('src/config'),
+  STATSIG_API_KEY: 'statsig-key',
+}))
+jest.mock('statsig-react-native')
 
 const mockDeviceId = 'abc-def-123' // mocked in __mocks__/react-native-device-info.ts (but importing from that file causes weird errors)
 const expectedSessionId = '205ac8350460ad427e35658006b409bbb0ee86c22c57648fe69f359c2da648'
@@ -91,7 +97,6 @@ const state = getMockStoreData({
     pincodeType: PincodeType.CustomPin,
   },
 })
-mockStore.getState.mockImplementation(() => state)
 
 // Disable __DEV__ so analytics is enabled
 // @ts-ignore
@@ -142,10 +147,28 @@ describe('ValoraAnalytics', () => {
   beforeEach(() => {
     jest.clearAllMocks()
     jest.unmock('src/analytics/ValoraAnalytics')
-    Statsig.initialize = jest.fn()
-    Statsig.updateUser = jest.fn()
     jest.isolateModules(() => {
       ValoraAnalytics = require('src/analytics/ValoraAnalytics').default
+    })
+    mockStore.getState.mockImplementation(() => state)
+  })
+
+  it('creates statsig client on initialization with wallet address as user id', async () => {
+    mockStore.getState.mockImplementation(() => getMockStoreData({ web3: { account: '0x1234' } }))
+    await ValoraAnalytics.init()
+    expect(Statsig.initialize).toHaveBeenCalledWith(
+      'statsig-key',
+      { userID: '0x1234' },
+      { environment: { tier: 'development' }, overrideStableID: 'anonId' }
+    )
+  })
+
+  it('creates statsig client on initialization with null as user id if wallet address is not set', async () => {
+    mockStore.getState.mockImplementation(() => getMockStoreData({ web3: { account: undefined } }))
+    await ValoraAnalytics.init()
+    expect(Statsig.initialize).toHaveBeenCalledWith('statsig-key', null, {
+      environment: { tier: 'development' },
+      overrideStableID: 'anonId',
     })
   })
 
