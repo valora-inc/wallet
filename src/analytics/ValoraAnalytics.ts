@@ -130,16 +130,17 @@ class ValoraAnalytics {
     }
 
     try {
-      const { accountAddress } = getCurrentUserTraits(store.getState())
-      const stasigUser = accountAddress
-        ? {
-            userID: accountAddress,
-          }
-        : null
+      const { walletAddress } = getCurrentUserTraits(store.getState())
+      const statsigUser =
+        typeof walletAddress === 'string'
+          ? {
+              userID: walletAddress,
+            }
+          : null
 
       // getAnonymousId causes the e2e tests to fail
       const overrideStableID = isE2EEnv ? E2E_TEST_STATSIG_ID : await Analytics.getAnonymousId()
-      await Statsig.initialize(STATSIG_API_KEY, stasigUser, {
+      await Statsig.initialize(STATSIG_API_KEY, statsigUser, {
         // StableID should match Segment anonymousId
         overrideStableID,
         environment: STATSIG_ENV,
@@ -301,10 +302,6 @@ class ValoraAnalytics {
     const prefixedSuperProps = Object.fromEntries(
       Object.entries({
         ...traits,
-        deviceId: this.deviceInfo?.UniqueID,
-        appVersion: this.deviceInfo?.Version,
-        appBuildNumber: this.deviceInfo?.BuildNumber,
-        appBundleId: this.deviceInfo?.BundleId,
         currentScreenId: this.currentScreenId,
         prevScreenId: this.prevScreenId,
       }).map(([key, value]) => [`s${key.charAt(0).toUpperCase() + key.slice(1)}`, value])
