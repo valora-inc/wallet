@@ -8,5 +8,3 @@ export const currentAccountInWeb3KeystoreSelector = (state: RootState) =>
   state.web3.accountInWeb3Keystore
 export const dataEncryptionKeySelector = (state: RootState) => state.web3.dataEncryptionKey
 export const isDekRegisteredSelector = (state: RootState) => state.web3.isDekRegistered
-export const accountAddressSelector = (state: RootState) =>
-  state.web3.mtwAddress ?? state.web3.account

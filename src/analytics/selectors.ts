@@ -12,12 +12,12 @@ import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import { coreTokensSelector, tokensWithTokenBalanceSelector } from 'src/tokens/selectors'
 import { sortByUsdBalance } from 'src/tokens/utils'
-import { accountAddressSelector, walletAddressSelector } from 'src/web3/selectors'
+import { mtwAddressSelector, walletAddressSelector } from 'src/web3/selectors'
 
 export const getCurrentUserTraits = createSelector(
   [
     walletAddressSelector,
-    accountAddressSelector,
+    mtwAddressSelector,
     defaultCountryCodeSelector,
     userLocationDataSelector,
     currentLanguageSelector,
@@ -31,7 +31,7 @@ export const getCurrentUserTraits = createSelector(
   ],
   (
     walletAddress,
-    accountAddress,
+    mtwAddress,
     phoneCountryCallingCode,
     { countryCodeAlpha2 },
     language,
@@ -59,7 +59,7 @@ export const getCurrentUserTraits = createSelector(
     // Don't rename these unless you have a really good reason!
     // They are used in users analytics profiles + super properties
     return {
-      accountAddress,
+      accountAddress: mtwAddress ?? walletAddress,
       walletAddress,
       phoneCountryCallingCode, // Example: +33
       phoneCountryCodeAlpha2: phoneCountryCallingCode
