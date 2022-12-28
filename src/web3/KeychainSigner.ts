@@ -12,7 +12,7 @@ import BigNumber from 'bignumber.js'
 import CryptoJS from 'crypto-js'
 import * as bip39 from 'react-native-bip39'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { getStoredMnemonic } from 'src/backup/utils'
+import { getDerivationPath, getStoredMnemonic } from 'src/backup/utils'
 import {
   listStoredItems,
   removeStoredItem,
@@ -149,7 +149,15 @@ async function importAndStorePrivateKeyFromMnemonic(account: KeychainAccount, pa
     throw new Error('No mnemonic found in storage')
   }
 
-  const { privateKey } = await generateKeys(mnemonic, undefined, undefined, undefined, bip39)
+  const derivationPath = getDerivationPath(mnemonic)
+  const { privateKey } = await generateKeys(
+    mnemonic,
+    undefined,
+    undefined,
+    undefined,
+    bip39,
+    derivationPath
+  )
   if (!privateKey) {
     throw new Error('Failed to generate private key from mnemonic')
   }

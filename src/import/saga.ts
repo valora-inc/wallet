@@ -28,7 +28,7 @@ import { AppEvents, OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { numberVerifiedCentrallySelector, skipVerificationSelector } from 'src/app/selectors'
-import { countMnemonicWords, storeMnemonic } from 'src/backup/utils'
+import { countMnemonicWords, getDerivationPath, storeMnemonic } from 'src/backup/utils'
 import { refreshAllBalances } from 'src/home/actions'
 import { setHasSeenVerificationNux } from 'src/identity/actions'
 import {
@@ -69,10 +69,12 @@ export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackup
     // If useEmptyWallet is true, skip this step. It only helps find non-empty wallets.
     let mnemonic = phraseIsValid ? normalizedPhrase : undefined
     let checkedBalance = false
+    const derivationPath = getDerivationPath(normalizedPhrase)
+
     if (!phraseIsValid && !useEmptyWallet) {
       try {
         const { correctedPhrase, timeout } = yield race({
-          correctedPhrase: call(attemptBackupPhraseCorrection, normalizedPhrase),
+          correctedPhrase: call(attemptBackupPhraseCorrection, normalizedPhrase, derivationPath),
           timeout: delay(MNEMONIC_AUTOCORRECT_TIMEOUT),
         })
         if (correctedPhrase) {
@@ -124,7 +126,8 @@ export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackup
       undefined,
       undefined,
       undefined,
-      bip39
+      bip39,
+      derivationPath
     )
     if (!privateKey) {
       throw new Error('Failed to convert mnemonic to hex')
@@ -187,7 +190,7 @@ export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackup
 // before returning it. If the wallet has non-zero balance, then we are be very confident that its
 // the account the user was actually trying to restore. Otherwise, this method does not return any
 // suggested correction.
-function* attemptBackupPhraseCorrection(mnemonic: string) {
+function* attemptBackupPhraseCorrection(mnemonic: string, derivationPath: string) {
   // Counter of how many suggestions have been tried and a list of tasks for ongoing balance checks.
   let counter = 0
   let tasks: { index: number; suggestion: string; task: Task; done: boolean }[] = []
@@ -204,7 +207,8 @@ function* attemptBackupPhraseCorrection(mnemonic: string) {
       undefined,
       undefined,
       undefined,
-      bip39
+      bip39,
+      derivationPath
     )
     if (!privateKey) {
       Logger.error(TAG + '@attemptBackupPhraseCorrection', 'Failed to convert mnemonic to hex')

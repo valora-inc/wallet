@@ -1,4 +1,4 @@
-import { MnemonicLanguages, normalizeMnemonic } from '@celo/cryptographic-utils'
+import { CELO_DERIVATION_PATH_BASE, MnemonicLanguages } from '@celo/cryptographic-utils'
 import CryptoJS from 'crypto-js'
 import { useAsync } from 'react-async-hook'
 import { useDispatch, useSelector } from 'react-redux'
@@ -14,6 +14,7 @@ import { currentAccountSelector } from 'src/web3/selectors'
 const TAG = 'Backup/utils'
 
 const MNEMONIC_STORAGE_KEY = 'mnemonic'
+const ETHEREUM_DERIVATION_PATH = "m/44'/60'/0'"
 
 export function getMnemonicLanguage(language: string | null) {
   switch (language?.slice(0, 2)) {
@@ -95,16 +96,17 @@ export function formatBackupPhraseOnEdit(phrase: string) {
   return phrase.replace(/\s+/gm, ' ')
 }
 
-export function formatBackupPhraseOnSubmit(phrase: string) {
-  return normalizeMnemonic(phrase)
-}
-
-function isValidMnemonic(phrase: string, length: number) {
-  return !!phrase && countMnemonicWords(formatBackupPhraseOnEdit(phrase)) === length
-}
-
 export function isValidBackupPhrase(phrase: string) {
-  return isValidMnemonic(phrase, 24)
+  const allowedPhraseLengths = [12, 24]
+  const phraseLength = countMnemonicWords(formatBackupPhraseOnEdit(phrase))
+  return !!phrase && allowedPhraseLengths.includes(phraseLength)
+}
+
+export function getDerivationPath(phrase: string) {
+  const wordCount = countMnemonicWords(phrase)
+  const derivationPath = wordCount === 24 ? CELO_DERIVATION_PATH_BASE : ETHEREUM_DERIVATION_PATH
+
+  return derivationPath
 }
 
 export async function encryptMnemonic(phrase: string, password: string) {

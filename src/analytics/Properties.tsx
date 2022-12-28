@@ -278,6 +278,7 @@ interface OnboardingEventsProperties {
   }
   [OnboardingEvents.wallet_import_submit]: {
     useEmptyWallet: boolean
+    recoveryPhraseWordCount: number
   }
   [OnboardingEvents.wallet_import_cancel]: undefined
   [OnboardingEvents.wallet_import_zero_balance]: {
