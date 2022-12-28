@@ -1,6 +1,11 @@
-import { CELO_DERIVATION_PATH_BASE, MnemonicLanguages } from '@celo/cryptographic-utils'
+import {
+  CELO_DERIVATION_PATH_BASE,
+  generateKeys,
+  MnemonicLanguages,
+} from '@celo/cryptographic-utils'
 import CryptoJS from 'crypto-js'
 import { useAsync } from 'react-async-hook'
+import * as bip39 from 'react-native-bip39'
 import { useDispatch, useSelector } from 'react-redux'
 import { showError } from 'src/alert/actions'
 import { OnboardingEvents } from 'src/analytics/Events'
@@ -15,6 +20,12 @@ const TAG = 'Backup/utils'
 
 const MNEMONIC_STORAGE_KEY = 'mnemonic'
 const ETHEREUM_DERIVATION_PATH = "m/44'/60'/0'"
+
+export async function generateKeysFromMnemonic(mnemonic: string) {
+  const wordCount = countMnemonicWords(mnemonic)
+  const derivationPath = wordCount === 24 ? CELO_DERIVATION_PATH_BASE : ETHEREUM_DERIVATION_PATH
+  return generateKeys(mnemonic, undefined, undefined, undefined, bip39, derivationPath)
+}
 
 export function getMnemonicLanguage(language: string | null) {
   switch (language?.slice(0, 2)) {
@@ -100,13 +111,6 @@ export function isValidBackupPhrase(phrase: string) {
   const allowedPhraseLengths = [12, 24]
   const phraseLength = countMnemonicWords(formatBackupPhraseOnEdit(phrase))
   return !!phrase && allowedPhraseLengths.includes(phraseLength)
-}
-
-export function getDerivationPath(phrase: string) {
-  const wordCount = countMnemonicWords(phrase)
-  const derivationPath = wordCount === 24 ? CELO_DERIVATION_PATH_BASE : ETHEREUM_DERIVATION_PATH
-
-  return derivationPath
 }
 
 export async function encryptMnemonic(phrase: string, password: string) {

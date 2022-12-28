@@ -1,5 +1,4 @@
 import { RLPEncodedTx, Signer } from '@celo/connect'
-import { generateKeys } from '@celo/cryptographic-utils'
 import {
   isValidAddress,
   normalizeAddress,
@@ -10,9 +9,8 @@ import { EIP712TypedData } from '@celo/utils/lib/sign-typed-data-utils'
 import { LocalSigner } from '@celo/wallet-local'
 import BigNumber from 'bignumber.js'
 import CryptoJS from 'crypto-js'
-import * as bip39 from 'react-native-bip39'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { getDerivationPath, getStoredMnemonic } from 'src/backup/utils'
+import { generateKeysFromMnemonic, getStoredMnemonic } from 'src/backup/utils'
 import {
   listStoredItems,
   removeStoredItem,
@@ -149,15 +147,7 @@ async function importAndStorePrivateKeyFromMnemonic(account: KeychainAccount, pa
     throw new Error('No mnemonic found in storage')
   }
 
-  const derivationPath = getDerivationPath(mnemonic)
-  const { privateKey } = await generateKeys(
-    mnemonic,
-    undefined,
-    undefined,
-    undefined,
-    bip39,
-    derivationPath
-  )
+  const { privateKey } = await generateKeysFromMnemonic(mnemonic)
   if (!privateKey) {
     throw new Error('Failed to generate private key from mnemonic')
   }
