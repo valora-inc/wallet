@@ -10,11 +10,10 @@ import { calculateFee, currencyToFeeCurrency, FeeInfo } from 'src/fees/saga'
 import { transferGoldToken } from 'src/goldToken/actions'
 import { encryptComment } from 'src/identity/commentEncryption'
 import { e164NumberToAddressSelector } from 'src/identity/selectors'
-import { sendInvite } from 'src/invite/saga'
 import { navigateBack, navigateHome } from 'src/navigator/NavigationService'
 import { completePaymentRequest } from 'src/paymentRequest/actions'
 import { handleBarcode, shareSVGImage } from 'src/qrcode/utils'
-import { recipientHasNumber, RecipientInfo } from 'src/recipients/recipient'
+import { RecipientInfo } from 'src/recipients/recipient'
 import { recipientInfoSelector } from 'src/recipients/reducer'
 import {
   Actions,
@@ -388,15 +387,6 @@ export function* sendPaymentOrInviteSagaLegacy({
 
     if (recipientAddress) {
       yield call(sendPaymentLegacy, recipientAddress, amount, comment, currency, feeInfo)
-    } else if (recipientHasNumber(recipient)) {
-      yield call(
-        sendInvite,
-        recipient.e164PhoneNumber,
-        amount,
-        tokenInfo.usdPrice ? amount.multipliedBy(tokenInfo.usdPrice) : null,
-        tokenInfo.address,
-        feeInfo
-      )
     }
 
     if (firebasePendingRequestUid) {
@@ -441,8 +431,6 @@ export function* sendPaymentOrInviteSaga({
           amount: amount.toString(),
         })
       }
-    } else if (recipientHasNumber(recipient)) {
-      yield call(sendInvite, recipient.e164PhoneNumber, amount, usdAmount, tokenAddress, feeInfo)
     } else {
       throw new Error('')
     }

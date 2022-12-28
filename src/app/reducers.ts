@@ -21,7 +21,6 @@ export interface State {
   minVersion: string | null
   celoEducationUri: string | null
   celoEuroEnabled: boolean
-  inviteModalVisible: boolean
   activeScreen: Screens
   hideVerification: boolean
   walletConnectV1Enabled: boolean
@@ -74,7 +73,6 @@ const initialState = {
   minVersion: null,
   celoEducationUri: null,
   celoEuroEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.celoEuroEnabled,
-  inviteModalVisible: false,
   activeScreen: Screens.Main,
   hideVerification: REMOTE_CONFIG_VALUES_DEFAULTS.hideVerification,
   walletConnectV1Enabled: REMOTE_CONFIG_VALUES_DEFAULTS.walletConnectV1Enabled,
@@ -230,11 +228,6 @@ export const appReducer = (
         centralPhoneVerificationEnabled: action.configValues.centralPhoneVerificationEnabled,
         networkTimeoutSeconds: action.configValues.networkTimeoutSeconds,
         celoNews: action.configValues.celoNews,
-      }
-    case Actions.TOGGLE_INVITE_MODAL:
-      return {
-        ...state,
-        inviteModalVisible: action.inviteModalVisible,
       }
     case Actions.ACTIVE_SCREEN_CHANGED:
       return {

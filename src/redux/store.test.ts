@@ -141,7 +141,6 @@ describe('store state', () => {
           "googleMobileServicesAvailable": undefined,
           "hideVerification": false,
           "huaweiMobileServicesAvailable": undefined,
-          "inviteModalVisible": false,
           "inviterAddress": null,
           "lastTimeBackgrounded": 0,
           "locked": false,

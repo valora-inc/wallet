@@ -2405,9 +2405,6 @@
                 "huaweiMobileServicesAvailable": {
                     "type": "boolean"
                 },
-                "inviteModalVisible": {
-                    "type": "boolean"
-                },
                 "inviterAddress": {
                     "type": [
                         "null",
@@ -2542,7 +2539,6 @@
                 "fiatConnectCashInEnabled",
                 "fiatConnectCashOutEnabled",
                 "hideVerification",
-                "inviteModalVisible",
                 "inviterAddress",
                 "lastTimeBackgrounded",
                 "locked",

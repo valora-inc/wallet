@@ -1901,7 +1901,7 @@ export const v101Schema = {
     ...v100Schema._persist,
     version: 101,
   },
-  app: _.omit(v100Schema.app, 'inviteMethod'),
+  app: _.omit(v100Schema.app, 'inviteMethod', 'inviteModalVisible'),
 }
 
 export function getLatestSchema(): Partial<RootState> {

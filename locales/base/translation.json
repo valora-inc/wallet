@@ -896,7 +896,6 @@
   "amountCeloWithdrawn": "Amount (CELO)",
   "feeEducation": "The Celo Blockchain collects a transaction fee to keep the network supported and running smoothly.",
   "inviteMoneyEscrow": "Send this contact an invite message and they’ll receive the funds once they connect their number.",
-  "inviteMoneyEscrowWithRewards": "Send this contact an invite message and they’ll receive the funds & NFT once they connect their number.",
   "reviewPayment": "Review Payment",
   "requestPayment": "Request Payment",
   "max": "MAX",

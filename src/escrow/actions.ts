@@ -1,7 +1,4 @@
-import { PhoneNumberHashDetails } from '@celo/identity/lib/odis/phone-number-identifier'
 import BigNumber from 'bignumber.js'
-import { FeeInfo } from 'src/fees/saga'
-import { TransactionContext } from 'src/transactions/types'
 
 export interface EscrowedPayment {
   senderAddress: string
@@ -16,7 +13,6 @@ export interface EscrowedPayment {
 }
 
 export enum Actions {
-  TRANSFER_PAYMENT = 'ESCROW/TRANSFER_PAYMENT',
   RECLAIM_PAYMENT = 'ESCROW/RECLAIM_PAYMENT',
   FETCH_SENT_PAYMENTS = 'ESCROW/FETCH_SENT_PAYMENTS',
   STORE_SENT_PAYMENTS = 'ESCROW/STORE_SENT_PAYMENTS',
@@ -26,14 +22,6 @@ export enum Actions {
   RECLAIM_PAYMENT_CANCEL = 'RECLAIM_PAYMENT_CANCEL',
 }
 
-export interface EscrowTransferPaymentAction {
-  type: Actions.TRANSFER_PAYMENT
-  phoneHashDetails: PhoneNumberHashDetails
-  amount: BigNumber
-  tokenAddress: string
-  context: TransactionContext
-  feeInfo?: FeeInfo
-}
 export interface EscrowReclaimPaymentAction {
   type: Actions.RECLAIM_PAYMENT
   paymentID: string
@@ -66,7 +54,6 @@ export interface EscrowReclaimCancelAction {
 }
 
 export type ActionTypes =
-  | EscrowTransferPaymentAction
   | EscrowReclaimPaymentAction
   | EscrowFetchSentPaymentsAction
   | EscrowStoreSentPaymentsAction
@@ -74,21 +61,6 @@ export type ActionTypes =
   | EscrowReclaimPaymentSuccessAction
   | EscrowReclaimFailureAction
   | EscrowReclaimCancelAction
-
-export const transferEscrowedPayment = (
-  phoneHashDetails: PhoneNumberHashDetails,
-  amount: BigNumber,
-  tokenAddress: string,
-  context: TransactionContext,
-  feeInfo?: FeeInfo
-): EscrowTransferPaymentAction => ({
-  type: Actions.TRANSFER_PAYMENT,
-  phoneHashDetails,
-  amount,
-  tokenAddress,
-  context,
-  feeInfo,
-})
 
 export const reclaimEscrowPayment = (paymentID: string): EscrowReclaimPaymentAction => ({
   type: Actions.RECLAIM_PAYMENT,

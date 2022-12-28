@@ -5,9 +5,9 @@ import { hideAlert, showError } from 'src/alert/actions'
 import { RequestEvents, SendEvents } from 'src/analytics/Events'
 import { SendOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { TokenTransactionType } from 'src/apollo/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { STABLE_TRANSACTION_MIN_AMOUNT } from 'src/config'
+import { FeeType } from 'src/fees/reducer'
 import { getFeeEstimateDollars } from 'src/fees/selectors'
 import { AddressValidationType } from 'src/identity/reducer'
 import { getAddressValidationType } from 'src/identity/secureSend'
@@ -25,7 +25,6 @@ import { useRecipientVerificationStatus } from 'src/recipients/hooks'
 import { Recipient } from 'src/recipients/recipient'
 import useSelector from 'src/redux/useSelector'
 import { TransactionDataInput } from 'src/send/SendAmount'
-import { getFeeType } from 'src/send/utils'
 import { useTokenInfo } from 'src/tokens/hooks'
 import { roundUp } from 'src/utils/formatting'
 
@@ -60,7 +59,7 @@ function useTransactionCallbacks({
   const dispatch = useDispatch()
 
   const getTransactionData = useCallback(
-    (type: TokenTransactionType): TransactionDataInput => ({
+    (): TransactionDataInput => ({
       recipient,
       inputAmount: inputIsInLocalCurrency ? localAmount! : tokenAmount,
       tokenAmount,
@@ -102,7 +101,7 @@ function useTransactionCallbacks({
     secureSendPhoneNumberMapping
   )
 
-  const feeType = getFeeType(recipientVerificationStatus)
+  const feeType = FeeType.SEND
   const estimateFeeDollars =
     useSelector(getFeeEstimateDollars(feeType, transferTokenAddress)) ?? new BigNumber(0)
 
@@ -132,10 +131,7 @@ function useTransactionCallbacks({
       return
     }
 
-    const transactionData =
-      recipientVerificationStatus === RecipientVerificationStatus.VERIFIED
-        ? getTransactionData(TokenTransactionType.Sent)
-        : getTransactionData(TokenTransactionType.InviteSent)
+    const transactionData = getTransactionData()
 
     dispatch(hideAlert())
 
@@ -164,7 +160,7 @@ function useTransactionCallbacks({
   ])
 
   const onRequest = useCallback(() => {
-    const transactionData = getTransactionData(TokenTransactionType.PayRequest)
+    const transactionData = getTransactionData()
 
     if (addressValidationType !== AddressValidationType.NONE && !recipient.address) {
       navigate(Screens.ValidateRecipientIntro, {
@@ -173,9 +169,6 @@ function useTransactionCallbacks({
         isOutgoingPaymentRequest: true,
         origin,
       })
-    } else if (recipientVerificationStatus !== RecipientVerificationStatus.VERIFIED) {
-      ValoraAnalytics.track(RequestEvents.request_unavailable, continueAnalyticsParams)
-      navigate(Screens.PaymentRequestUnavailable, { transactionData })
     } else {
       ValoraAnalytics.track(RequestEvents.request_amount_continue, continueAnalyticsParams)
       navigate(Screens.PaymentRequestConfirmation, { transactionData })

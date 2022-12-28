@@ -145,10 +145,6 @@ export enum OnboardingEvents {
   initialize_account_complete = 'initialize_account_complete',
   initialize_account_error = 'initialize_account_error',
 
-  escrow_redeem_start = 'escrow_redeem_start', // when escrow redemption starts (only happens on user invite redemption)
-  escrow_redeem_complete = 'escrow_redeem_complete',
-  escrow_redeem_error = 'escrow_redeem_error',
-
   account_dek_register_start = 'account_dek_register_start',
   account_dek_register_account_unlocked = 'account_dek_register_account_unlocked',
   account_dek_register_account_checked = 'account_dek_register_account_checked',
@@ -270,15 +266,6 @@ export enum AuthenticationEvents {
 }
 
 export enum InviteEvents {
-  invite_tx_start = 'invite_tx_start',
-  invite_tx_complete = 'invite_tx_complete',
-  invite_tx_error = 'invite_tx_error',
-  invite_start = 'invite_start',
-  invite_complete = 'invite_complete',
-  invite_error = 'invite_error',
-  invite_method_sms = 'invite_method_sms',
-  invite_method_whatsapp = 'invite_method_whatsapp',
-  invite_method_error = 'invite_method_error',
   invite_from_menu = 'invite_from_menu',
   invite_banner_impression = 'invite_banner_impression',
   invite_with_share = 'invite_with_share',
@@ -288,12 +275,6 @@ export enum InviteEvents {
 }
 
 export enum EscrowEvents {
-  escrow_transfer_start = 'escrow_transfer_start',
-  escrow_transfer_approve_tx_sent = 'escrow_transfer_approve_tx_sent',
-  escrow_transfer_transfer_tx_sent = 'escrow_transfer_transfer_tx_sent',
-  escrow_transfer_complete = 'escrow_transfer_complete',
-  escrow_transfer_error = 'escrow_transfer_error',
-
   escrow_fetch_start = 'escrow_fetch_start',
   escrow_fetch_complete = 'escrow_fetch_complete',
   escrow_fetch_error = 'escrow_fetch_error',

@@ -316,15 +316,6 @@ interface OnboardingEventsProperties {
     error: string
   }
 
-  [OnboardingEvents.escrow_redeem_start]: undefined
-  [OnboardingEvents.escrow_redeem_complete]: {
-    paymentId: string | null
-    senderAddress: string
-  }
-  [OnboardingEvents.escrow_redeem_error]: {
-    error: string
-  }
-
   [OnboardingEvents.account_dek_register_start]:
     | {
         feeless?: boolean
@@ -593,37 +584,6 @@ interface AuthenticationEventsProperties {
 }
 
 interface InviteEventsProperties {
-  [InviteEvents.invite_tx_start]: {
-    escrowIncluded: boolean
-  }
-  [InviteEvents.invite_tx_complete]: {
-    escrowIncluded: boolean
-  }
-  [InviteEvents.invite_tx_error]: {
-    escrowIncluded: boolean
-    error: string
-  }
-  [InviteEvents.invite_start]: {
-    amount: string
-    tokenAddress: string
-    usdAmount?: string
-  }
-  [InviteEvents.invite_complete]: {
-    amount: string
-    tokenAddress: string
-    usdAmount?: string
-  }
-  [InviteEvents.invite_error]: {
-    amount: string
-    tokenAddress: string
-    usdAmount?: string
-    error: string
-  }
-  [InviteEvents.invite_method_sms]: undefined
-  [InviteEvents.invite_method_whatsapp]: undefined
-  [InviteEvents.invite_method_error]: {
-    error: string
-  }
   [InviteEvents.invite_from_menu]: undefined
   [InviteEvents.invite_banner_impression]: undefined
   [InviteEvents.invite_with_share]: {
@@ -640,16 +600,6 @@ interface InviteEventsProperties {
 }
 
 interface EscrowEventsProperties {
-  [EscrowEvents.escrow_transfer_start]: undefined
-  [EscrowEvents.escrow_transfer_approve_tx_sent]: undefined
-  [EscrowEvents.escrow_transfer_transfer_tx_sent]: undefined
-  [EscrowEvents.escrow_transfer_complete]: {
-    paymentId: string
-  }
-  [EscrowEvents.escrow_transfer_error]: {
-    error: string
-  }
-
   [EscrowEvents.escrow_fetch_start]: undefined
   [EscrowEvents.escrow_fetch_complete]: undefined
   [EscrowEvents.escrow_fetch_error]: {
