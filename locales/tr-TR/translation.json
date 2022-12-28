@@ -1266,6 +1266,7 @@
     "button": "{{dappName}} uygulamasına git"
   },
   "recentlyUsedDapps": "Son Kullanılan Dapp'ler",
+  "favoritedDapps": "Favori Dapps",
   "allDapps": "Tüm Dapp'ler",
   "rewards": "Ödüller",
   "supercharge": "Supercharge",

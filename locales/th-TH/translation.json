@@ -1264,6 +1264,7 @@
     "button": "ไปที่ {{dappName}}"
   },
   "recentlyUsedDapps": "Dapp ที่ใช้ล่าสุด",
+  "favoritedDapps": "Favorited Dapps",
   "allDapps": "Dapp ทั้งหมด",
   "rewards": "ผลตอบแทน",
   "supercharge": "Supercharge",

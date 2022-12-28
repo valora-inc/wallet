@@ -1270,6 +1270,7 @@
     "button": "Przejdź do {{dappName}}"
   },
   "recentlyUsedDapps": "Ostatnio używane Dapps",
+  "favoritedDapps": "Ulubione aplikacje",
   "allDapps": "Wszystkie Dapps",
   "rewards": "Nagrody",
   "supercharge": "Supercharge",
