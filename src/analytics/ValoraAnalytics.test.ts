@@ -38,6 +38,8 @@ jest.mock('statsig-react-native')
 
 const mockDeviceId = 'abc-def-123' // mocked in __mocks__/react-native-device-info.ts (but importing from that file causes weird errors)
 const expectedSessionId = '205ac8350460ad427e35658006b409bbb0ee86c22c57648fe69f359c2da648'
+const mockMTWAddress = '0x123abc' // we've been setting MTW address as lower case for years, so this lowercase fixture data should be ok
+const mockWalletAddress = '0x456def' // we've been setting EOA address as lower case for years, so this lowercase fixture data should be ok
 
 Date.now = jest.fn(() => 1482363367071)
 
@@ -93,6 +95,10 @@ const state = getMockStoreData({
       },
     },
   },
+  web3: {
+    account: mockWalletAddress,
+    mtwAddress: mockMTWAddress,
+  },
   account: {
     pincodeType: PincodeType.CustomPin,
   },
@@ -103,7 +109,7 @@ const state = getMockStoreData({
 global.__DEV__ = false
 
 const defaultSuperProperties = {
-  sAccountAddress: '0x0000000000000000000000000000000000007E57',
+  sAccountAddress: mockMTWAddress,
   sAppBuildNumber: '1',
   sAppBundleId: 'org.celo.mobile.debug',
   sAppVersion: '0.0.1',
@@ -125,7 +131,7 @@ const defaultSuperProperties = {
   sPrevScreenId: undefined,
   sTokenCount: 4,
   sTotalBalanceUsd: 36,
-  sWalletAddress: '0x0000000000000000000000000000000000007e57',
+  sWalletAddress: mockWalletAddress,
   sSuperchargingAmountInUsd: 24,
   sSuperchargingToken: 'cEUR',
 }
@@ -135,7 +141,7 @@ const defaultProperties = {
   celoNetwork: 'alfajores',
   sessionId: expectedSessionId,
   timestamp: 1482363367071,
-  userAddress: '0x0000000000000000000000000000000000007e57',
+  userAddress: mockWalletAddress,
   statsigEnvironment: {
     tier: 'development',
   },
