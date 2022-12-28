@@ -38,8 +38,7 @@ jest.mock('statsig-react-native')
 
 const mockDeviceId = 'abc-def-123' // mocked in __mocks__/react-native-device-info.ts (but importing from that file causes weird errors)
 const expectedSessionId = '205ac8350460ad427e35658006b409bbb0ee86c22c57648fe69f359c2da648'
-const mockMTWAddress = '0x123abc' // we've been setting MTW address as lower case for years, so this lowercase fixture data should be ok
-const mockWalletAddress = '0x456def' // we've been setting EOA address as lower case for years, so this lowercase fixture data should be ok
+const mockWalletAddress = '0x12AE66CDc592e10B60f9097a7b0D3C59fce29876' // deliberately using checksummed version here
 
 Date.now = jest.fn(() => 1482363367071)
 
@@ -97,7 +96,7 @@ const state = getMockStoreData({
   },
   web3: {
     account: mockWalletAddress,
-    mtwAddress: mockMTWAddress,
+    mtwAddress: null,
   },
   account: {
     pincodeType: PincodeType.CustomPin,
@@ -109,7 +108,7 @@ const state = getMockStoreData({
 global.__DEV__ = false
 
 const defaultSuperProperties = {
-  sAccountAddress: mockMTWAddress,
+  sAccountAddress: mockWalletAddress, // test for backwards compatibility (this field is NOT lower-cased)
   sAppBuildNumber: '1',
   sAppBundleId: 'org.celo.mobile.debug',
   sAppVersion: '0.0.1',
@@ -131,7 +130,7 @@ const defaultSuperProperties = {
   sPrevScreenId: undefined,
   sTokenCount: 4,
   sTotalBalanceUsd: 36,
-  sWalletAddress: mockWalletAddress,
+  sWalletAddress: mockWalletAddress.toLowerCase(), // test for backwards compatibility (this field is lower-cased)
   sSuperchargingAmountInUsd: 24,
   sSuperchargingToken: 'cEUR',
 }
@@ -141,7 +140,7 @@ const defaultProperties = {
   celoNetwork: 'alfajores',
   sessionId: expectedSessionId,
   timestamp: 1482363367071,
-  userAddress: mockWalletAddress,
+  userAddress: mockWalletAddress.toLowerCase(), // test for backwards compatibility (this field is lower-cased)
   statsigEnvironment: {
     tier: 'development',
   },
