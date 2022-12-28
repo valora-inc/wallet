@@ -1321,14 +1321,6 @@
             ],
             "type": "number"
         },
-        "InviteMethodType": {
-            "enum": [
-                "ESCROW",
-                "MANUAL_SHARE",
-                "REFERRAL_URL"
-            ],
-            "type": "string"
-        },
         "InviteTransactions": {
             "additionalProperties": {
                 "additionalProperties": false,
@@ -2413,9 +2405,6 @@
                 "huaweiMobileServicesAvailable": {
                     "type": "boolean"
                 },
-                "inviteMethod": {
-                    "$ref": "#/definitions/InviteMethodType"
-                },
                 "inviteModalVisible": {
                     "type": "boolean"
                 },
@@ -2553,7 +2542,6 @@
                 "fiatConnectCashInEnabled",
                 "fiatConnectCashOutEnabled",
                 "hideVerification",
-                "inviteMethod",
                 "inviteModalVisible",
                 "inviterAddress",
                 "lastTimeBackgrounded",

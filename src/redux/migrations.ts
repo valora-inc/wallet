@@ -945,4 +945,8 @@ export const migrations = {
     ...state,
     app: _.omit(state.app, 'celoNewsEnabled'),
   }),
+  101: (state: any) => ({
+    ...state,
+    app: _.omit(state.app, 'inviteMethod'),
+  }),
 }
