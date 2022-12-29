@@ -761,29 +761,6 @@ interface RequestEventsProperties {
         underlyingAmount: string | null
         amountInUsd: string | null
       }
-  [RequestEvents.request_unavailable]:
-    | {
-        origin: SendOrigin
-        isScan: boolean
-        isInvite: boolean
-        localCurrencyExchangeRate?: string | null
-        localCurrency: LocalCurrencyCode
-        localCurrencyAmount: string | null
-        underlyingCurrency: Currency
-        underlyingAmount: string | null
-      }
-    | {
-        origin: SendOrigin
-        isScan: boolean
-        isInvite: boolean
-        localCurrencyExchangeRate?: string | null
-        localCurrency: LocalCurrencyCode
-        localCurrencyAmount: string | null
-        underlyingTokenAddress: string
-        underlyingTokenSymbol: string
-        underlyingAmount: string | null
-        amountInUsd: string | null
-      }
   [RequestEvents.request_confirm_back]: undefined
   [RequestEvents.request_confirm_request]: {
     requesteeAddress: string

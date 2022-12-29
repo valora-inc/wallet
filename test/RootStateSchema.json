@@ -2079,7 +2079,6 @@
                 "OutgoingPaymentRequestListScreen",
                 "PaymentRequestConfirmation",
                 "PaymentRequestConfirmationLegacy",
-                "PaymentRequestUnavailable",
                 "PhoneNumberLookupQuota",
                 "PhotosEducation",
                 "PhotosNUX",

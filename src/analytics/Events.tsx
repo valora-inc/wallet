@@ -329,7 +329,6 @@ export enum RequestEvents {
   request_cancel = 'request_cancel', // when cancel is clicked after launching request flow
   request_amount_back = 'request_amount_back', // back button pressed on amount screen
   request_amount_continue = 'request_amount_continue', // when next button pressed on amount enter page
-  request_unavailable = 'request_unavailable', // when request sender is unverified
   request_confirm_back = 'request_confirm_back', // when back button pressed on request confirmation screen
   request_confirm_request = 'request_confirm_request', // when request button pressed on request confirmation screen
   request_error = 'request_error', // when there is an error requesting a transaction

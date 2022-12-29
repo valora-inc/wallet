@@ -947,6 +947,6 @@ export const migrations = {
   }),
   101: (state: any) => ({
     ...state,
-    app: _.omit(state.app, 'inviteMethod'),
+    app: _.omit(state.app, 'inviteMethod', 'inviteModalVisible'),
   }),
 }

@@ -16,7 +16,6 @@ export enum Actions {
   RECLAIM_PAYMENT = 'ESCROW/RECLAIM_PAYMENT',
   FETCH_SENT_PAYMENTS = 'ESCROW/FETCH_SENT_PAYMENTS',
   STORE_SENT_PAYMENTS = 'ESCROW/STORE_SENT_PAYMENTS',
-  RESEND_PAYMENT = 'ESCROW/RESEND_PAYMENT',
   RECLAIM_PAYMENT_SUCCESS = 'ESCROW/RECLAIM_PAYMENT_SUCCESS',
   RECLAIM_PAYMENT_FAILURE = 'ESCROW/RECLAIM_PAYMENT_FAILURE',
   RECLAIM_PAYMENT_CANCEL = 'RECLAIM_PAYMENT_CANCEL',
@@ -36,11 +35,6 @@ export interface EscrowStoreSentPaymentsAction {
   sentPayments: EscrowedPayment[]
 }
 
-export interface EscrowResendPaymentAction {
-  type: Actions.RESEND_PAYMENT
-  paymentId: string
-}
-
 export interface EscrowReclaimPaymentSuccessAction {
   type: Actions.RECLAIM_PAYMENT_SUCCESS
 }
@@ -57,7 +51,6 @@ export type ActionTypes =
   | EscrowReclaimPaymentAction
   | EscrowFetchSentPaymentsAction
   | EscrowStoreSentPaymentsAction
-  | EscrowResendPaymentAction
   | EscrowReclaimPaymentSuccessAction
   | EscrowReclaimFailureAction
   | EscrowReclaimCancelAction
@@ -76,11 +69,6 @@ export const storeSentEscrowPayments = (
 ): EscrowStoreSentPaymentsAction => ({
   type: Actions.STORE_SENT_PAYMENTS,
   sentPayments,
-})
-
-export const resendEscrowPayment = (paymentId: string): EscrowResendPaymentAction => ({
-  type: Actions.RESEND_PAYMENT,
-  paymentId,
 })
 
 export const reclaimEscrowPaymentSuccess = (): EscrowReclaimPaymentSuccessAction => ({
