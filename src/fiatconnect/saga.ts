@@ -321,6 +321,7 @@ export function* handleAttemptReturnUserFlow({
     [Currency.Celo]: CiCoCurrency.CELO,
     [Currency.Dollar]: CiCoCurrency.CUSD,
     [Currency.Euro]: CiCoCurrency.CEUR,
+    [Currency.Real]: CiCoCurrency.CREAL,
   }[selectedCrypto]
 
   const fiatConnectProviders: FiatConnectProviderInfo[] | null = yield select(

@@ -16,9 +16,12 @@ export const cUsdBalanceSelector = (state: RootState) =>
   state.stableToken.balances[Currency.Dollar] ?? null
 export const cEurBalanceSelector = (state: RootState) =>
   state.stableToken.balances[Currency.Euro] ?? null
+export const cRealBalanceSelector = (state: RootState) =>
+  state.stableToken.balances[Currency.Real] ?? null
 
 export const balancesSelector = createSelector<
   RootState,
+  string | null,
   string | null,
   string | null,
   string | null,
@@ -27,11 +30,13 @@ export const balancesSelector = createSelector<
   cUsdBalanceSelector,
   cEurBalanceSelector,
   celoTokenBalanceSelector,
-  (cUsdBalance, cEurBalance, celoBalance) => {
+  cRealBalanceSelector,
+  (cUsdBalance, cEurBalance, celoBalance, cRealBalance) => {
     return {
       [Currency.Dollar]: cUsdBalance ? new BigNumber(cUsdBalance) : null,
       [Currency.Euro]: cEurBalance ? new BigNumber(cEurBalance) : null,
       [Currency.Celo]: celoBalance ? new BigNumber(celoBalance) : null,
+      [Currency.Real]: cRealBalance ? new BigNumber(cRealBalance) : null,
     }
   }
 )

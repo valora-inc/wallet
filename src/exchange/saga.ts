@@ -159,6 +159,7 @@ export function* doFetchExchangeRate(action: FetchExchangeRateAction) {
         [Currency.Celo]: '',
         [Currency.Euro]: '',
         [Currency.Dollar]: '',
+        [Currency.Real]: '',
       }
       return rates
     }, {} as Record<Currency, Record<Currency, string>>)

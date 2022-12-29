@@ -109,6 +109,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
     [Currency.Celo]: CiCoCurrency.CELO,
     [Currency.Dollar]: CiCoCurrency.CUSD,
     [Currency.Euro]: CiCoCurrency.CEUR,
+    [Currency.Real]: CiCoCurrency.CREAL,
   }[route.params.selectedCrypto]
 
   // If there is no FC providers in the redux cache, try to fetch again

@@ -2,6 +2,7 @@ export enum Currency {
   Celo = 'cGLD',
   Dollar = 'cUSD',
   Euro = 'cEUR',
+  Real = 'cREAL',
 }
 
 export enum CiCoCurrency {
@@ -19,8 +20,8 @@ export interface CurrencyInfo {
 
 type CurrencyObject = { [key in Currency]: CurrencyInfo }
 
-export type StableCurrency = Currency.Dollar | Currency.Euro
-export const STABLE_CURRENCIES: StableCurrency[] = [Currency.Dollar, Currency.Euro]
+export type StableCurrency = Currency.Dollar | Currency.Euro | Currency.Real
+export const STABLE_CURRENCIES: StableCurrency[] = [Currency.Dollar, Currency.Euro, Currency.Real]
 
 export const CURRENCIES: CurrencyObject = {
   [Currency.Celo]: {
@@ -37,6 +38,11 @@ export const CURRENCIES: CurrencyObject = {
     symbol: '€',
     displayDecimals: 2,
     cashTag: 'cEUR',
+  },
+  [Currency.Real]: {
+    symbol: 'R$',
+    displayDecimals: 2,
+    cashTag: 'cREAL',
   },
 }
 

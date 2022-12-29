@@ -14,6 +14,7 @@ const mockExchangeRates = {
   cGLD: '2',
   cUSD: '2',
   cEUR: '2',
+  cREAL: '2',
 }
 
 describe('ExternalQuote', () => {

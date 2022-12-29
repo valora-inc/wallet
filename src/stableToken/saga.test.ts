@@ -18,6 +18,7 @@ Date.now = jest.fn(() => now)
 // The balances must match the mocks in the contractkit mock file.
 const CUSD_BALANCE = '1'
 const CEUR_BALANCE = '2'
+const CREAL_BALANCE = '3'
 const TX_ID = '1234'
 const COMMENT = 'a comment'
 
@@ -59,7 +60,13 @@ describe('stableToken saga', () => {
     await expectSaga(watchFetchStableBalances)
       .withState(state)
       .dispatch(fetchStableBalances())
-      .put(setBalance({ [Currency.Dollar]: CUSD_BALANCE, [Currency.Euro]: CEUR_BALANCE }))
+      .put(
+        setBalance({
+          [Currency.Dollar]: CUSD_BALANCE,
+          [Currency.Euro]: CEUR_BALANCE,
+          [Currency.Real]: CREAL_BALANCE,
+        })
+      )
       .run()
   })
 

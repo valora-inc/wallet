@@ -11,11 +11,13 @@ describe(getHigherBalanceCurrency, () => {
       [Currency.Dollar]: new BigNumber(1),
       [Currency.Euro]: new BigNumber(1),
       [Currency.Celo]: new BigNumber(1),
+      [Currency.Real]: new BigNumber(1),
     }
     const exchangesRates = {
       [Currency.Dollar]: '1',
       [Currency.Euro]: '2',
       [Currency.Celo]: '3',
+      [Currency.Real]: '4',
     }
 
     expect(
@@ -36,11 +38,13 @@ describe(getHigherBalanceCurrency, () => {
       [Currency.Dollar]: null,
       [Currency.Euro]: null,
       [Currency.Celo]: null,
+      [Currency.Real]: null,
     }
     const exchangesRates = {
       [Currency.Dollar]: '1',
       [Currency.Euro]: '2',
       [Currency.Celo]: '3',
+      [Currency.Real]: '4',
     }
 
     expect(
@@ -53,11 +57,13 @@ describe(getHigherBalanceCurrency, () => {
       [Currency.Dollar]: new BigNumber(1),
       [Currency.Euro]: new BigNumber(1),
       [Currency.Celo]: new BigNumber(1),
+      [Currency.Real]: new BigNumber(1),
     }
     const exchangesRates = {
       [Currency.Dollar]: null,
       [Currency.Euro]: null,
       [Currency.Celo]: null,
+      [Currency.Real]: null,
     }
 
     expect(

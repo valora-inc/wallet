@@ -945,4 +945,23 @@ export const migrations = {
     ...state,
     app: _.omit(state.app, 'celoNewsEnabled'),
   }),
+  101: (state: any) => ({
+    ...state,
+    localCurrency: {
+      ...state.localCurrency,
+      exchangeRate: undefined, // TODO check that this is desirable
+      exchangeRates: {
+        ...state.localCurrency.exchangeRates,
+        [Currency.Real]: null,
+      },
+    },
+    stableToken: {
+      ...state.stableToken,
+      balance: undefined, // TODO check that this is desirable
+      balances: {
+        ...state.stableToken.balances,
+        [Currency.Real]: null,
+      },
+    },
+  }),
 }

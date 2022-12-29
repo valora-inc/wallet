@@ -40,7 +40,12 @@ describe(watchFetchCurrentRate, () => {
       .put(
         fetchCurrentRateSuccess(
           LocalCurrencyCode.PHP,
-          { [Currency.Dollar]: '1.33', [Currency.Euro]: '2.12', [Currency.Celo]: '3.543' },
+          {
+            [Currency.Dollar]: '1.33',
+            [Currency.Euro]: '2.12',
+            [Currency.Celo]: '3.543',
+            [Currency.Real]: '4.321',
+          },
           now
         )
       )

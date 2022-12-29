@@ -338,6 +338,7 @@ function getDisplayAmounts({
     cGLD: string | null
     cUSD: string | null
     cEUR: string | null
+    cREAL: string | null
   }
 }) {
   const cryptoType = normalizedQuote.getCryptoType()

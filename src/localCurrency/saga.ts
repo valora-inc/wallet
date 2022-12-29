@@ -22,6 +22,7 @@ export async function fetchExchangeRate(
   sourceCurrency: Currency,
   localCurrencyCode: string
 ): Promise<string> {
+  // TODO check if this works for REAL
   const response = await apolloClient.query<ExchangeRateQuery, ExchangeRateQueryVariables>({
     query: gql`
       query ExchangeRate($currencyCode: String!, $sourceCurrencyCode: String) {
@@ -54,10 +55,11 @@ export function* fetchLocalCurrencyRateSaga() {
       throw new Error("Can't fetch local currency rate without a currency code")
     }
     // TODO: Remove EUR and CELO rates, everything is based off dollar now.
-    const [usdRate, euroRate, celoRate]: [string, string, string] = yield all([
+    const [usdRate, euroRate, celoRate, realRate]: [string, string, string, string] = yield all([
       call(fetchExchangeRate, Currency.Dollar, localCurrencyCode),
       call(fetchExchangeRate, Currency.Euro, localCurrencyCode),
       call(fetchExchangeRate, Currency.Celo, localCurrencyCode),
+      call(fetchExchangeRate, Currency.Real, localCurrencyCode),
     ])
     yield put(
       fetchCurrentRateSuccess(
@@ -66,6 +68,7 @@ export function* fetchLocalCurrencyRateSaga() {
           [Currency.Dollar]: usdRate,
           [Currency.Euro]: euroRate,
           [Currency.Celo]: celoRate,
+          [Currency.Real]: realRate,
         },
         Date.now()
       )

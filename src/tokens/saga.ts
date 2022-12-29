@@ -47,6 +47,7 @@ const contractWeiPerUnit: Record<Currency, BigNumber> = {
   [Currency.Celo]: WEI_PER_TOKEN,
   [Currency.Dollar]: WEI_PER_TOKEN,
   [Currency.Euro]: WEI_PER_TOKEN,
+  [Currency.Real]: WEI_PER_TOKEN,
 }
 
 function* getWeiPerUnit(token: Currency) {
@@ -265,6 +266,8 @@ export async function getCurrencyAddress(currency: Currency) {
       return contractKit.registry.addressFor(CeloContract.StableToken)
     case Currency.Euro:
       return contractKit.registry.addressFor(CeloContract.StableTokenEUR)
+    case Currency.Real:
+      return contractKit.registry.addressFor(CeloContract.StableTokenBRL)
   }
 }
 

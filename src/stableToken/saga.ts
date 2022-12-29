@@ -8,12 +8,21 @@ const tag = 'stableToken/saga'
 export function* watchFetchStableBalances() {
   while (true) {
     yield take(Actions.FETCH_BALANCE)
-    const [cUsdBalance, cEurBalance]: [string | undefined, string | undefined] = yield all([
+    const [cUsdBalance, cEurBalance, cRealBalance]: [
+      string | undefined,
+      string | undefined,
+      string | undefined
+    ] = yield all([
       call(fetchToken, Currency.Dollar, tag),
       call(fetchToken, Currency.Euro, tag),
+      call(fetchToken, Currency.Real, tag),
     ])
     yield put(
-      setBalance({ [Currency.Dollar]: cUsdBalance ?? null, [Currency.Euro]: cEurBalance ?? null })
+      setBalance({
+        [Currency.Dollar]: cUsdBalance ?? null,
+        [Currency.Euro]: cEurBalance ?? null,
+        [Currency.Real]: cRealBalance ?? null,
+      })
     )
   }
 }

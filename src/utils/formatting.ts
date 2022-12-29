@@ -119,6 +119,7 @@ export const getCurrencyColor = (currencyType: Currency): string => {
   switch (currencyType) {
     case Currency.Dollar:
     case Currency.Euro:
+    case Currency.Real:
       return colors.greenBrand
     case Currency.Celo:
       return colors.goldBrand

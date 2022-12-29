@@ -33,6 +33,7 @@ export const quotesByFeeComparator = (quote1: NormalizedQuote, quote2: Normalize
     [Currency.Celo]: '1',
     [Currency.Dollar]: '1',
     [Currency.Euro]: '1',
+    [Currency.Real]: '1',
   }
   const providerFee1 = quote1.getFeeInFiat(exchangeRates) ?? new BigNumber(Infinity)
   const providerFee2 = quote2.getFeeInFiat(exchangeRates) ?? new BigNumber(Infinity)

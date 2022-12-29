@@ -448,16 +448,25 @@ export const makeExchangeRates = (
     [Currency.Dollar]: celoToDollarExchangeRate,
     [Currency.Euro]: '',
     [Currency.Celo]: '',
+    [Currency.Real]: '',
   },
   [Currency.Dollar]: {
     [Currency.Celo]: dollarToCeloExchangeRate,
     [Currency.Euro]: '',
     [Currency.Dollar]: '',
+    [Currency.Real]: '',
   },
   [Currency.Euro]: {
     [Currency.Celo]: '',
     [Currency.Euro]: '',
     [Currency.Dollar]: '',
+    [Currency.Real]: '',
+  },
+  [Currency.Real]: {
+    [Currency.Celo]: '',
+    [Currency.Euro]: '',
+    [Currency.Dollar]: '',
+    [Currency.Real]: '',
   },
 })
 

@@ -1896,6 +1896,30 @@ export const v100Schema = {
   },
 }
 
+export const v101Schema = {
+  ...v100Schema,
+  _persist: {
+    ...v100Schema._persist,
+    version: 101,
+  },
+  localCurrency: {
+    ...v100Schema.localCurrency,
+    exchangeRates: {
+      ...v100Schema.localCurrency.exchangeRates,
+      [Currency.Real]: null,
+    },
+    exchangeRate: undefined,
+  },
+  stableToken: {
+    ...v100Schema.stableToken,
+    balances: {
+      ...v100Schema.stableToken.balances,
+      [Currency.Real]: null,
+    },
+    balance: null,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v100Schema as Partial<RootState>
+  return v101Schema as Partial<RootState>
 }

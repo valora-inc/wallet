@@ -25,6 +25,7 @@ interface Props {
 const totalAmountKey = {
   [Currency.Dollar]: 'totalInDollars',
   [Currency.Euro]: 'totalInEuros',
+  [Currency.Real]: 'totalInReal',
   [Currency.Celo]: 'totalInCelo',
 }
 
