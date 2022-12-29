@@ -38,7 +38,7 @@ import { walletAddressSelector } from 'src/web3/selectors'
 function VerificationStartScreen({
   route,
   navigation,
-}: NativeStackScreenProps<StackParamList, Screens.VerificationEducationScreen>) {
+}: NativeStackScreenProps<StackParamList, Screens.VerificationStartScreen>) {
   const [showLearnMoreDialog, setShowLearnMoreDialog] = useState(false)
   const [showSkipDialog, setShowSkipDialog] = useState(false)
   const [phoneNumberInfo, setPhoneNumberInfo] = useState(() =>

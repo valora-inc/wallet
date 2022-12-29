@@ -208,7 +208,6 @@ export interface RemoteConfigValues {
   createAccountCopyTestType: CreateAccountCopyTestType
   maxSwapSlippagePercentage: number
   showGuidedOnboardingCopy: boolean
-  centralPhoneVerificationEnabled: boolean
   networkTimeoutSeconds: number
   dappFavoritesEnabled: boolean
   celoNews: CeloNewsConfig

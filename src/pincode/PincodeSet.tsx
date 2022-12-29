@@ -13,7 +13,6 @@ import { PincodeType } from 'src/account/reducer'
 import { OnboardingEvents, SettingsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import {
-  centralPhoneVerificationEnabledSelector,
   registrationStepsSelector,
   showGuidedOnboardingSelector,
   skipVerificationSelector,
@@ -53,7 +52,6 @@ interface StateProps {
   supportedBiometryType: BIOMETRY_TYPE | null
   skipVerification: boolean
   showGuidedOnboarding: boolean
-  centralPhoneVerificationEnabled: boolean
 }
 
 interface DispatchProps {
@@ -85,7 +83,6 @@ function mapStateToProps(state: RootState): StateProps {
     supportedBiometryType: supportedBiometryTypeSelector(state),
     skipVerification: skipVerificationSelector(state),
     showGuidedOnboarding: showGuidedOnboardingSelector(state),
-    centralPhoneVerificationEnabled: centralPhoneVerificationEnabledSelector(state),
   }
 }
 
@@ -171,11 +168,7 @@ export class PincodeSet extends React.Component<Props, State> {
     } else if (this.props.choseToRestoreAccount) {
       popToScreen(Screens.Welcome)
       navigate(Screens.ImportWallet)
-    } else if (
-      this.props.hideVerification ||
-      (!this.props.route.params?.komenciAvailable && !this.props.centralPhoneVerificationEnabled) ||
-      this.props.skipVerification
-    ) {
+    } else if (this.props.hideVerification || this.props.skipVerification) {
       this.props.initializeAccount()
       // Tell the app that the user has already seen verification so that it
       // doesn't prompt for verification after the app is killed. This same function
@@ -183,7 +176,7 @@ export class PincodeSet extends React.Component<Props, State> {
       this.props.skipVerification && this.props.setHasSeenVerificationNux(true)
       navigateHome()
     } else {
-      navigateClearingStack(Screens.VerificationEducationScreen)
+      navigateClearingStack(Screens.VerificationStartScreen)
     }
   }
 

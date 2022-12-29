@@ -74,7 +74,7 @@ describe('Import wallet saga', () => {
       .put(refreshAllBalances())
       .put(importBackupPhraseSuccess())
       .run()
-    expect(navigate).toHaveBeenCalledWith(Screens.VerificationEducationScreen)
+    expect(navigate).toHaveBeenCalledWith(Screens.VerificationStartScreen)
   }
 
   it('imports a valid phrase', async () => {

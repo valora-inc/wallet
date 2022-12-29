@@ -302,7 +302,6 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
       flags.createAccountCopyTestType.asString() as CreateAccountCopyTestType,
     maxSwapSlippagePercentage: flags.maxSwapSlippagePercentage.asNumber(),
     showGuidedOnboardingCopy: flags.showGuidedOnboardingCopy.asBoolean(),
-    centralPhoneVerificationEnabled: flags.centralPhoneVerificationEnabled.asBoolean(),
     networkTimeoutSeconds: flags.networkTimeoutSeconds.asNumber(),
     dappFavoritesEnabled: flags.dappFavoritesEnabled.asBoolean(),
     celoNews: celoNewsString ? JSON.parse(celoNewsString) : {},

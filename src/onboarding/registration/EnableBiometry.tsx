@@ -102,7 +102,7 @@ export default function EnableBiometry({ navigation }: Props) {
       navigateHome()
       return
     }
-    navigate(Screens.VerificationEducationScreen)
+    navigate(Screens.VerificationStartScreen)
   }
 
   const onPressUseBiometry = async () => {

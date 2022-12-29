@@ -38,7 +38,7 @@ describe('Pincode', () => {
     })
   })
 
-  it('navigates to the VerificationEducationScreen screen after successfully verifying', async () => {
+  it('navigates to the VerificationStartScreen screen after successfully verifying', async () => {
     const mockScreenProps = getMockStackScreenProps(Screens.PincodeSet, { komenciAvailable: true })
     const mockStore = createMockStore({
       app: {
@@ -72,7 +72,7 @@ describe('Pincode', () => {
     jest.runOnlyPendingTimers()
     await flushMicrotasksQueue()
 
-    expect(navigateClearingStack).toBeCalledWith(Screens.VerificationEducationScreen)
+    expect(navigateClearingStack).toBeCalledWith(Screens.VerificationStartScreen)
   })
 
   it('navigates home if Komenci is unavailable or verification is disabled', async () => {

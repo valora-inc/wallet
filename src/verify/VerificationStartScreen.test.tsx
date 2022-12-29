@@ -5,25 +5,25 @@ import { Provider } from 'react-redux'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import VerificationEducationScreen from 'src/verify/VerificationEducationScreen'
+import VerificationStartScreen from 'src/verify/VerificationStartScreen'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
 import { mocked } from 'ts-jest/utils'
 
 const mockedKeychain = mocked(Keychain)
 
-const renderComponent = (navParams?: StackParamList[Screens.VerificationEducationScreen]) =>
+const renderComponent = (navParams?: StackParamList[Screens.VerificationStartScreen]) =>
   render(
     <Provider
       store={createMockStore({
         app: {
           centralPhoneVerificationEnabled: true,
-          activeScreen: Screens.VerificationEducationScreen,
+          activeScreen: Screens.VerificationStartScreen,
         },
       })}
     >
       <MockedNavigator
-        component={VerificationEducationScreen}
+        component={VerificationStartScreen}
         params={{
           selectedCountryCodeAlpha2: 'NL',
           hideOnboardingStep: true,

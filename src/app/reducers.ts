@@ -54,7 +54,6 @@ export interface State {
   shouldShowRecoveryPhraseInSettings: boolean
   createAccountCopyTestType: CreateAccountCopyTestType
   maxSwapSlippagePercentage: number
-  centralPhoneVerificationEnabled: boolean
   inviterAddress: string | null
   networkTimeoutSeconds: number
   celoNews: CeloNewsConfig
@@ -105,7 +104,6 @@ const initialState = {
     REMOTE_CONFIG_VALUES_DEFAULTS.shouldShowRecoveryPhraseInSettings,
   createAccountCopyTestType: REMOTE_CONFIG_VALUES_DEFAULTS.createAccountCopyTestType,
   maxSwapSlippagePercentage: REMOTE_CONFIG_VALUES_DEFAULTS.maxSwapSlippagePercentage,
-  centralPhoneVerificationEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.centralPhoneVerificationEnabled,
   inviterAddress: null,
   networkTimeoutSeconds: REMOTE_CONFIG_VALUES_DEFAULTS.networkTimeoutSeconds,
   celoNews: JSON.parse(REMOTE_CONFIG_VALUES_DEFAULTS.celoNews),
@@ -225,7 +223,6 @@ export const appReducer = (
         createAccountCopyTestType: action.configValues.createAccountCopyTestType,
         maxSwapSlippagePercentage: action.configValues.maxSwapSlippagePercentage,
         showGuidedOnboardingCopy: action.configValues.showGuidedOnboardingCopy,
-        centralPhoneVerificationEnabled: action.configValues.centralPhoneVerificationEnabled,
         networkTimeoutSeconds: action.configValues.networkTimeoutSeconds,
         celoNews: action.configValues.celoNews,
       }

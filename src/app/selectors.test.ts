@@ -175,7 +175,7 @@ describe('registrationStepsSelector', () => {
     const expectedCreateAccountSteps = {
       [Screens.NameAndPicture]: 1,
       [Screens.PincodeSet]: 2,
-      [Screens.VerificationEducationScreen]: 3,
+      [Screens.VerificationStartScreen]: 3,
       [Screens.VerificationInputScreen]: 3,
     }
 
