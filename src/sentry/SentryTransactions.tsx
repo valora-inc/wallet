@@ -36,11 +36,11 @@ export const SentryTransactions: Record<values, SentryTransactionInfo> = {
     op: 'import_contacts',
   },
   SendPayment: {
-    name: 'Send Payment or Invite',
+    name: 'Send Payment',
     op: 'send_payment',
   },
   SendPaymentLegacy: {
-    name: 'Send Payment or Invite (legacy)',
+    name: 'Send Payment (legacy)',
     op: 'send_payment_legacy',
   },
   PincodeEnter: {

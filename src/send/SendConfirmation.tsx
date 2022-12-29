@@ -217,7 +217,6 @@ function SendConfirmation(props: Props) {
       origin,
       recipientType: props.route.params.transactionData.recipient.recipientType,
       isScan: !!props.route.params?.isFromScan,
-      isInvite: false,
       localCurrency: localCurrencyCode,
       usdAmount: usdAmount?.toString() ?? null,
       localCurrencyAmount: localAmount?.toString() ?? null,
