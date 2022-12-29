@@ -2980,7 +2980,7 @@
             "properties": {
                 "estimates": {
                     "additionalProperties": {
-                        "$ref": "#/definitions/{invite:FeeEstimateState|undefined;send:FeeEstimateState|undefined;exchange:FeeEstimateState|undefined;\"reclaim-escrow\":FeeEstimateState|undefined;\"register-dek\":FeeEstimateState|undefined;swap:FeeEstimateState|undefined;}"
+                        "$ref": "#/definitions/{send:FeeEstimateState|undefined;exchange:FeeEstimateState|undefined;\"reclaim-escrow\":FeeEstimateState|undefined;\"register-dek\":FeeEstimateState|undefined;swap:FeeEstimateState|undefined;}"
                     },
                     "type": "object"
                 }
@@ -5381,13 +5381,10 @@
             ],
             "type": "object"
         },
-        "{invite:FeeEstimateState|undefined;send:FeeEstimateState|undefined;exchange:FeeEstimateState|undefined;\"reclaim-escrow\":FeeEstimateState|undefined;\"register-dek\":FeeEstimateState|undefined;swap:FeeEstimateState|undefined;}": {
+        "{send:FeeEstimateState|undefined;exchange:FeeEstimateState|undefined;\"reclaim-escrow\":FeeEstimateState|undefined;\"register-dek\":FeeEstimateState|undefined;swap:FeeEstimateState|undefined;}": {
             "additionalProperties": false,
             "properties": {
                 "exchange": {
-                    "$ref": "#/definitions/FeeEstimateState"
-                },
-                "invite": {
                     "$ref": "#/definitions/FeeEstimateState"
                 },
                 "reclaim-escrow": {
@@ -5485,7 +5482,6 @@
                                         "corruptedChainDeleted",
                                         "countryNotAvailable",
                                         "deleteBankAccountFail",
-                                        "emptyInviteCode",
                                         "emptyVerificationCode",
                                         "errorRefreshingRate",
                                         "escrowTransferFailed",
@@ -5506,12 +5502,9 @@
                                         "invalidAccount",
                                         "invalidAmount",
                                         "invalidBackupPhrase",
-                                        "invalidInvite",
                                         "invalidPhone",
                                         "invalidVerificationCode",
                                         "invalidWordsInBackupPhrase",
-                                        "inviteFailed",
-                                        "inviteOpenAppFailed",
                                         "keychainAccountAlreadyExists",
                                         "keychainFetchAccounts",
                                         "keychainStorageError",
@@ -5537,8 +5530,6 @@
                                         "qrFailedInvalidRecipient",
                                         "qrFailedNoPhoneNumber",
                                         "reclaimingEscrowedPaymentFailed",
-                                        "redeemFailed",
-                                        "redeemInviteTimeout",
                                         "refreshFailedUnexpectedly",
                                         "repeatVerificationCode",
                                         "revealAttestationFailure",
