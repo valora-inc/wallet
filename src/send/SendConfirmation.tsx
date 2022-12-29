@@ -207,11 +207,7 @@ function SendConfirmation(props: Props) {
     setComment(trimmedComment)
   }
 
-  const onSendClick = () => {
-    sendOrInvite()
-  }
-
-  const sendOrInvite = () => {
+  const onSend = () => {
     if (!feeEstimate?.feeInfo) {
       // This should never happen because the confirm button is disabled if this happens.
       dispatch(showError(ErrorMessages.SEND_PAYMENT_FAILED))
@@ -265,7 +261,7 @@ function SendConfirmation(props: Props) {
         FooterComponent={FeeContainer}
         LabelAboveKeyboard={EncryptionWarningLabel}
         confirmButton={{
-          action: onSendClick,
+          action: onSend,
           text: t('send'),
           disabled: isSending || !feeEstimate?.feeInfo,
         }}

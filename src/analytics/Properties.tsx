@@ -300,16 +300,6 @@ interface OnboardingEventsProperties {
   }
   [OnboardingEvents.wallet_import_success]: undefined
 
-  [OnboardingEvents.invite_redeem_start]: undefined
-  [OnboardingEvents.invite_redeem_complete]: undefined
-  [OnboardingEvents.invite_redeem_cancel]: undefined
-  [OnboardingEvents.invite_redeem_timeout]: undefined
-  [OnboardingEvents.invite_redeem_error]: {
-    error: string
-  }
-  [OnboardingEvents.invite_redeem_move_funds_start]: undefined
-  [OnboardingEvents.invite_redeem_move_funds_complete]: undefined
-
   [OnboardingEvents.initialize_account_start]: undefined
   [OnboardingEvents.initialize_account_complete]: undefined
   [OnboardingEvents.initialize_account_error]: {
@@ -584,7 +574,6 @@ interface AuthenticationEventsProperties {
 }
 
 interface InviteEventsProperties {
-  [InviteEvents.invite_from_menu]: undefined
   [InviteEvents.invite_banner_impression]: undefined
   [InviteEvents.invite_with_share]: {
     phoneNumberHash: string | null
@@ -626,7 +615,6 @@ interface SendEventsProperties {
     | {
         origin: SendOrigin
         isScan: boolean
-        isInvite: boolean
         localCurrencyExchangeRate?: string | null
         localCurrency: LocalCurrencyCode
         localCurrencyAmount: string | null
@@ -637,7 +625,6 @@ interface SendEventsProperties {
         origin: SendOrigin
         recipientType?: RecipientType
         isScan: boolean
-        isInvite: boolean
         localCurrencyExchangeRate?: string | null
         localCurrency: LocalCurrencyCode
         localCurrencyAmount: string | null
@@ -651,7 +638,6 @@ interface SendEventsProperties {
     | {
         origin: SendOrigin
         isScan: boolean
-        isInvite: boolean
         isRequest: boolean
         localCurrencyExchangeRate?: string | null
         localCurrency: LocalCurrencyCode
@@ -663,7 +649,6 @@ interface SendEventsProperties {
         origin: SendOrigin
         recipientType?: RecipientType
         isScan: boolean
-        isInvite: boolean
         localCurrency: LocalCurrencyCode
         usdAmount: string | null
         localCurrencyAmount: string | null
@@ -742,7 +727,6 @@ interface RequestEventsProperties {
     | {
         origin: SendOrigin
         isScan: boolean
-        isInvite: boolean
         localCurrencyExchangeRate?: string | null
         localCurrency: LocalCurrencyCode
         localCurrencyAmount: string | null
@@ -752,7 +736,6 @@ interface RequestEventsProperties {
     | {
         origin: SendOrigin
         isScan: boolean
-        isInvite: boolean
         localCurrencyExchangeRate?: string | null
         localCurrency: LocalCurrencyCode
         localCurrencyAmount: string | null

@@ -4,7 +4,6 @@ import { all, call, put, race, select, spawn, take, takeLeading } from 'redux-sa
 import { showErrorOrFallback } from 'src/alert/actions'
 import { EscrowEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { TokenTransactionType } from 'src/apollo/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import {
   Actions,
@@ -21,14 +20,8 @@ import { identifierToE164NumberSelector } from 'src/identity/selectors'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { fetchStableBalances } from 'src/stableToken/actions'
 import { getCurrencyAddress } from 'src/tokens/saga'
-import { addStandbyTransaction, addStandbyTransactionLegacy } from 'src/transactions/actions'
 import { sendTransaction } from 'src/transactions/send'
-import {
-  newTransactionContext,
-  TokenTransactionTypeV2,
-  TransactionContext,
-  TransactionStatus,
-} from 'src/transactions/types'
+import { newTransactionContext } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
@@ -55,45 +48,6 @@ export const STATIC_ESCROW_TRANSFER_GAS_ESTIMATE = 550000
 // This function can be extended to use online estimation is needed.
 export async function getEscrowTxGas() {
   return new BigNumber(STATIC_APPROVE_TRANSFER_GAS_ESTIMATE + STATIC_ESCROW_TRANSFER_GAS_ESTIMATE)
-}
-
-export function* registerStandbyTransactionLegacy(
-  context: TransactionContext,
-  value: string,
-  address: string
-) {
-  yield put(
-    addStandbyTransactionLegacy({
-      context,
-      type: TokenTransactionType.EscrowSent,
-      status: TransactionStatus.Pending,
-      value,
-      currency: Currency.Dollar,
-      timestamp: Math.floor(Date.now() / 1000),
-      address,
-      comment: '',
-    })
-  )
-}
-
-export function* registerStandbyTransaction(
-  context: TransactionContext,
-  value: string,
-  tokenAddress: string,
-  address: string
-) {
-  yield put(
-    addStandbyTransaction({
-      context,
-      type: TokenTransactionTypeV2.InviteSent,
-      status: TransactionStatus.Pending,
-      value,
-      tokenAddress,
-      timestamp: Math.floor(Date.now() / 1000),
-      address,
-      comment: '',
-    })
-  )
 }
 
 export async function createReclaimTransaction(paymentID: string) {

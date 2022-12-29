@@ -133,14 +133,6 @@ export enum OnboardingEvents {
   wallet_import_error = 'wallet_import_error',
   wallet_import_success = 'wallet_import_success',
 
-  invite_redeem_start = 'invite_redeem_start',
-  invite_redeem_complete = 'invite_redeem_complete',
-  invite_redeem_cancel = 'invite_redeem_cancel',
-  invite_redeem_timeout = 'invite_redeem_timeout',
-  invite_redeem_error = 'invite_redeem_error',
-  invite_redeem_move_funds_start = 'invite_redeem_move_funds_start',
-  invite_redeem_move_funds_complete = 'invite_redeem_move_funds_complete',
-
   initialize_account_start = 'initialize_account_start',
   initialize_account_complete = 'initialize_account_complete',
   initialize_account_error = 'initialize_account_error',
@@ -266,7 +258,6 @@ export enum AuthenticationEvents {
 }
 
 export enum InviteEvents {
-  invite_from_menu = 'invite_from_menu',
   invite_banner_impression = 'invite_banner_impression',
   invite_with_share = 'invite_with_share',
   invite_with_share_dismiss = 'invite_with_share_dismiss',
@@ -308,7 +299,7 @@ export enum SendEvents {
   send_secure_edit = 'send_secure_edit', // when "edit" address button is pressed to manually initiate secure send flow
 
   send_tx_start = 'send_tx_start',
-  send_tx_complete = 'send_tx_complete', // when a send or invite transaction has successfully completed
+  send_tx_complete = 'send_tx_complete', // when a send transaction has successfully completed
   send_tx_error = 'send_tx_error', // when there is an error sending a transaction
 
   token_dropdown_opened = 'token_dropdown_opened',

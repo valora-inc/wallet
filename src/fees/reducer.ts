@@ -2,7 +2,6 @@ import { createAction, createReducer } from '@reduxjs/toolkit'
 import { FeeInfo } from 'src/fees/saga'
 
 export enum FeeType {
-  INVITE = 'invite',
   SEND = 'send',
   EXCHANGE = 'exchange',
   RECLAIM_ESCROW = 'reclaim-escrow',
