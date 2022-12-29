@@ -71,13 +71,6 @@ const mockFeeEstimates = {
     error: false,
     feeInfo: mockFeeInfo,
   },
-  [FeeType.INVITE]: {
-    usdFee: '0.04',
-    lastUpdated: 500,
-    loading: false,
-    error: false,
-    feeInfo: mockFeeInfo,
-  },
 }
 
 describe('SendConfirmation', () => {

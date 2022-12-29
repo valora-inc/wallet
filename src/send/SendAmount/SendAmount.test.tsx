@@ -64,9 +64,6 @@ const storeData = {
         [FeeType.SEND]: {
           usdFee: '1',
         },
-        [FeeType.INVITE]: {
-          usdFee: '1',
-        },
       },
     },
   },
