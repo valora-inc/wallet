@@ -55,7 +55,7 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { getDisplayName, Recipient } from 'src/recipients/recipient'
 import { isAppConnected } from 'src/redux/selectors'
-import { sendPaymentOrInviteLegacy } from 'src/send/actions'
+import { sendPaymentLegacy } from 'src/send/actions'
 import { isSendingSelector } from 'src/send/selectors'
 import { getConfirmationInput } from 'src/send/utils'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
@@ -182,11 +182,7 @@ function SendConfirmationLegacy(props: Props) {
     }
   }
 
-  const onSendClick = () => {
-    sendOrInvite()
-  }
-
-  const sendOrInvite = () => {
+  const onSend = () => {
     const finalComment =
       type === TokenTransactionType.PayRequest || type === TokenTransactionType.PayPrefill
         ? reason || ''
@@ -200,7 +196,6 @@ function SendConfirmationLegacy(props: Props) {
     ValoraAnalytics.track(SendEvents.send_confirm_send, {
       origin,
       isScan: !!props.route.params?.isFromScan,
-      isInvite: !recipientAddress,
       isRequest: type === TokenTransactionType.PayRequest,
       localCurrencyExchangeRate: newCurrencyInfo.localExchangeRate,
       localCurrency: newCurrencyInfo.localCurrencyCode,
@@ -210,7 +205,7 @@ function SendConfirmationLegacy(props: Props) {
     })
 
     dispatch(
-      sendPaymentOrInviteLegacy(
+      sendPaymentLegacy(
         amount,
         currency,
         finalComment,
@@ -271,8 +266,6 @@ function SendConfirmationLegacy(props: Props) {
         fee?.isLessThanOrEqualTo(celoBalance ?? new BigNumber(0)))
     const isPrimaryButtonDisabled = isSending || !userHasEnough || !appConnected || !!asyncFee.error
 
-    const isInvite = type === TokenTransactionType.InviteSent
-
     const subtotalAmount = {
       value: amount,
       currencyCode: currency,
@@ -281,14 +274,14 @@ function SendConfirmationLegacy(props: Props) {
     let primaryBtnInfo
     if (type === TokenTransactionType.PayRequest || type === TokenTransactionType.PayPrefill) {
       primaryBtnInfo = {
-        action: sendOrInvite,
+        action: onSend,
         text: t('pay'),
         disabled: isPrimaryButtonDisabled,
       }
     } else {
       primaryBtnInfo = {
-        action: onSendClick,
-        text: isInvite ? t('sendAndInvite') : t('send'),
+        action: onSend,
+        text: t('send'),
         disabled: isPrimaryButtonDisabled,
       }
     }

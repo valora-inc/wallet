@@ -10,8 +10,8 @@ export enum SentryTransaction {
   import_contacts = 'ImportContacts',
   pincode_enter = 'PincodeEnter',
   pincode_set = 'PincodeSet',
-  send_payment_or_invite = 'SendPaymentOrInvite',
-  send_payment_or_invite_legacy = 'SendPaymentOrInviteLegacy',
+  send_payment = 'SendPayment',
+  send_payment_legacy = 'SendPaymentLegacy',
   wallet_connect_connection = 'WalletConnectConnection',
   wallet_connect_transaction = 'WalletConnectTransaction',
 }
@@ -35,13 +35,13 @@ export const SentryTransactions: Record<values, SentryTransactionInfo> = {
     name: 'Import Contacts',
     op: 'import_contacts',
   },
-  SendPaymentOrInvite: {
+  SendPayment: {
     name: 'Send Payment or Invite',
-    op: 'send_payment_or_invite',
+    op: 'send_payment',
   },
-  SendPaymentOrInviteLegacy: {
+  SendPaymentLegacy: {
     name: 'Send Payment or Invite (legacy)',
-    op: 'send_payment_or_invite_legacy',
+    op: 'send_payment_legacy',
   },
   PincodeEnter: {
     name: 'Pincode Enter',

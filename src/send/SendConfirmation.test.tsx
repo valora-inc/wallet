@@ -10,7 +10,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { RootState } from 'src/redux/reducers'
-import { sendPaymentOrInvite } from 'src/send/actions'
+import { sendPayment } from 'src/send/actions'
 import SendConfirmation from 'src/send/SendConfirmation'
 import { getGasPrice } from 'src/web3/gas'
 import {
@@ -403,15 +403,7 @@ describe('SendConfirmation', () => {
     const { inputAmount, tokenAddress, recipient } = mockTokenTransactionData
     expect(store.getActions()).toEqual(
       expect.arrayContaining([
-        sendPaymentOrInvite(
-          inputAmount,
-          tokenAddress,
-          inputAmount,
-          '',
-          recipient,
-          mockFeeInfo,
-          false
-        ),
+        sendPayment(inputAmount, tokenAddress, inputAmount, '', recipient, mockFeeInfo, false),
       ])
     )
   })
@@ -448,7 +440,7 @@ describe('SendConfirmation', () => {
     const { inputAmount, tokenAddress } = mockTokenTransactionData
     expect(store.getActions()).toEqual(
       expect.arrayContaining([
-        sendPaymentOrInvite(
+        sendPayment(
           inputAmount,
           tokenAddress,
           inputAmount,

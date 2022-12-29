@@ -15,11 +15,7 @@ import { Actions as IdentityActions, updateKnownAddresses } from 'src/identity/a
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { AddressRecipient } from 'src/recipients/recipient'
-import {
-  sendPaymentOrInviteFailure,
-  sendPaymentOrInviteLegacy,
-  sendPaymentOrInviteSuccess,
-} from 'src/send/actions'
+import { sendPaymentFailure, sendPaymentLegacy, sendPaymentSuccess } from 'src/send/actions'
 import { NewTransactionsInFeedAction } from 'src/transactions/actions'
 import { Currency } from 'src/utils/currencies'
 import { mockAccount } from 'test/values'
@@ -72,7 +68,7 @@ describe(watchBidaliPaymentRequests, () => {
           )
         )
         .dispatch(
-          sendPaymentOrInviteLegacy(
+          sendPaymentLegacy(
             amount,
             expectedCurrency,
             'Some description (TEST_CHARGE_ID)',
@@ -83,7 +79,7 @@ describe(watchBidaliPaymentRequests, () => {
             true
           )
         )
-        .dispatch(sendPaymentOrInviteSuccess(amount))
+        .dispatch(sendPaymentSuccess(amount))
         .run()
 
       expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmationLegacyModal, {
@@ -119,7 +115,7 @@ describe(watchBidaliPaymentRequests, () => {
         )
       )
       .dispatch(
-        sendPaymentOrInviteLegacy(
+        sendPaymentLegacy(
           amount,
           Currency.Dollar,
           'Some description (TEST_CHARGE_ID)',
@@ -130,7 +126,7 @@ describe(watchBidaliPaymentRequests, () => {
           true
         )
       )
-      .dispatch(sendPaymentOrInviteFailure())
+      .dispatch(sendPaymentFailure())
       .dispatch(activeScreenChanged(Screens.BidaliScreen))
       .run()
 

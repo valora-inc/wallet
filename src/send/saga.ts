@@ -18,10 +18,10 @@ import { recipientInfoSelector } from 'src/recipients/reducer'
 import {
   Actions,
   HandleBarcodeDetectedAction,
-  SendPaymentOrInviteAction,
-  SendPaymentOrInviteActionLegacy,
-  sendPaymentOrInviteFailure,
-  sendPaymentOrInviteSuccess,
+  SendPaymentAction,
+  SendPaymentActionLegacy,
+  sendPaymentFailure,
+  sendPaymentSuccess,
   ShareQRCodeAction,
 } from 'src/send/actions'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
@@ -364,7 +364,7 @@ function* sendPayment(
   }
 }
 
-export function* sendPaymentOrInviteSagaLegacy({
+export function* sendPaymentSagaLegacy({
   amount,
   currency,
   comment,
@@ -373,10 +373,10 @@ export function* sendPaymentOrInviteSagaLegacy({
   feeInfo,
   firebasePendingRequestUid,
   fromModal,
-}: SendPaymentOrInviteActionLegacy) {
+}: SendPaymentActionLegacy) {
   try {
     yield call(getConnectedUnlockedAccount)
-    SentryTransactionHub.startTransaction(SentryTransaction.send_payment_or_invite_legacy)
+    SentryTransactionHub.startTransaction(SentryTransaction.send_payment_legacy)
     const tokenByCurrency: Record<Currency, TokenBalance | undefined> = yield select(
       tokensByCurrencySelector
     )
@@ -399,19 +399,19 @@ export function* sendPaymentOrInviteSagaLegacy({
       navigateHome()
     }
 
-    yield put(sendPaymentOrInviteSuccess(amount))
-    SentryTransactionHub.finishTransaction(SentryTransaction.send_payment_or_invite_legacy)
+    yield put(sendPaymentSuccess(amount))
+    SentryTransactionHub.finishTransaction(SentryTransaction.send_payment_legacy)
   } catch (e) {
     yield put(showErrorOrFallback(e, ErrorMessages.SEND_PAYMENT_FAILED))
-    yield put(sendPaymentOrInviteFailure())
+    yield put(sendPaymentFailure())
   }
 }
 
-export function* watchSendPaymentOrInviteLegacy() {
-  yield takeLeading(Actions.SEND_PAYMENT_OR_INVITE_LEGACY, sendPaymentOrInviteSagaLegacy)
+export function* watchSendPaymentLegacy() {
+  yield takeLeading(Actions.SEND_PAYMENT_LEGACY, sendPaymentSagaLegacy)
 }
 
-export function* sendPaymentOrInviteSaga({
+export function* sendPaymentSaga({
   amount,
   tokenAddress,
   usdAmount,
@@ -419,10 +419,10 @@ export function* sendPaymentOrInviteSaga({
   recipient,
   feeInfo,
   fromModal,
-}: SendPaymentOrInviteAction) {
+}: SendPaymentAction) {
   try {
     yield call(getConnectedUnlockedAccount)
-    SentryTransactionHub.startTransaction(SentryTransaction.send_payment_or_invite)
+    SentryTransactionHub.startTransaction(SentryTransaction.send_payment)
     const tokenInfo: TokenBalance | undefined = yield call(getTokenInfo, tokenAddress)
     if (recipient.address) {
       yield call(sendPayment, recipient.address, amount, usdAmount, tokenAddress, comment, feeInfo)
@@ -441,21 +441,21 @@ export function* sendPaymentOrInviteSaga({
       navigateHome()
     }
 
-    yield put(sendPaymentOrInviteSuccess(amount))
-    SentryTransactionHub.finishTransaction(SentryTransaction.send_payment_or_invite)
+    yield put(sendPaymentSuccess(amount))
+    SentryTransactionHub.finishTransaction(SentryTransaction.send_payment)
   } catch (e) {
     yield put(showErrorOrFallback(e, ErrorMessages.SEND_PAYMENT_FAILED))
-    yield put(sendPaymentOrInviteFailure())
+    yield put(sendPaymentFailure())
   }
 }
 
-export function* watchSendPaymentOrInvite() {
-  yield takeLeading(Actions.SEND_PAYMENT_OR_INVITE, sendPaymentOrInviteSaga)
+export function* watchSendPayment() {
+  yield takeLeading(Actions.SEND_PAYMENT, sendPaymentSaga)
 }
 
 export function* sendSaga() {
   yield spawn(watchQrCodeDetections)
   yield spawn(watchQrCodeShare)
-  yield spawn(watchSendPaymentOrInvite)
-  yield spawn(watchSendPaymentOrInviteLegacy)
+  yield spawn(watchSendPayment)
+  yield spawn(watchSendPaymentLegacy)
 }

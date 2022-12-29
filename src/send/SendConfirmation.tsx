@@ -39,7 +39,7 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { getDisplayName, Recipient } from 'src/recipients/recipient'
 import useSelector from 'src/redux/useSelector'
-import { sendPaymentOrInvite } from 'src/send/actions'
+import { sendPayment } from 'src/send/actions'
 import { isSendingSelector } from 'src/send/selectors'
 import { useInputAmounts } from 'src/send/SendAmount'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
@@ -228,7 +228,7 @@ function SendConfirmation(props: Props) {
     })
 
     dispatch(
-      sendPaymentOrInvite(
+      sendPayment(
         tokenAmount,
         tokenAddress,
         usdAmount,

@@ -68,7 +68,7 @@ function* bidaliPaymentRequest({
 
   while (true) {
     const { cancel } = yield race({
-      sendStart: take(SendActions.SEND_PAYMENT_OR_INVITE_LEGACY),
+      sendStart: take(SendActions.SEND_PAYMENT_LEGACY),
       cancel: take(
         (action: AppActionTypes) =>
           action.type === AppActions.ACTIVE_SCREEN_CHANGED &&
@@ -82,8 +82,8 @@ function* bidaliPaymentRequest({
     }
 
     const { success } = yield race({
-      success: take(SendActions.SEND_PAYMENT_OR_INVITE_SUCCESS),
-      failure: take(SendActions.SEND_PAYMENT_OR_INVITE_FAILURE),
+      success: take(SendActions.SEND_PAYMENT_SUCCESS),
+      failure: take(SendActions.SEND_PAYMENT_FAILURE),
     })
 
     if (success) {
