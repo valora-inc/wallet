@@ -838,6 +838,12 @@
             ],
             "type": "object"
         },
+        "FeeEstimates": {
+            "additionalProperties": {
+                "$ref": "#/definitions/{send:FeeEstimateState|undefined;exchange:FeeEstimateState|undefined;\"reclaim-escrow\":FeeEstimateState|undefined;\"register-dek\":FeeEstimateState|undefined;swap:FeeEstimateState|undefined;}"
+            },
+            "type": "object"
+        },
         "FeeInfo": {
             "additionalProperties": false,
             "properties": {
@@ -2979,10 +2985,7 @@
             "additionalProperties": false,
             "properties": {
                 "estimates": {
-                    "additionalProperties": {
-                        "$ref": "#/definitions/{send:FeeEstimateState|undefined;exchange:FeeEstimateState|undefined;\"reclaim-escrow\":FeeEstimateState|undefined;\"register-dek\":FeeEstimateState|undefined;swap:FeeEstimateState|undefined;}"
-                    },
-                    "type": "object"
+                    "$ref": "#/definitions/FeeEstimates"
                 }
             },
             "required": [
