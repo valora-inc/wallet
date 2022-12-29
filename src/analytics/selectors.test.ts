@@ -201,7 +201,7 @@ describe('getCurrentUserTraits', () => {
       web3: { mtwAddress: null },
     })
     expect(getCurrentUserTraits(state).accountAddress).toEqual(
-      '0x0000000000000000000000000000000000007e57'
+      '0x0000000000000000000000000000000000007E57' // intentionally using non-lower-cased version here (important for backwards compatibility)
     )
   })
 })
