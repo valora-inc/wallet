@@ -38,7 +38,6 @@ import {
   e164NumberToAddressSelector,
   secureSendPhoneNumberMappingSelector,
 } from 'src/identity/selectors'
-import InviteAndSendModal from 'src/invite/InviteAndSendModal'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { convertCurrencyToLocalAmount } from 'src/localCurrency/convert'
 import {
@@ -99,7 +98,6 @@ export const sendConfirmationLegacyScreenNavOptions = (navOptions: Props) =>
     : noHeader
 
 function SendConfirmationLegacy(props: Props) {
-  const [modalVisible, setModalVisible] = useState(false)
   const [encryptionDialogVisible, setEncryptionDialogVisible] = useState(false)
   const [comment, setComment] = useState('')
   const [feeInfo, setFeeInfo] = useState(undefined as FeeInfo | undefined)
@@ -185,11 +183,7 @@ function SendConfirmationLegacy(props: Props) {
   }
 
   const onSendClick = () => {
-    if (type === TokenTransactionType.InviteSent) {
-      setModalVisible(true)
-    } else {
-      sendOrInvite()
-    }
+    sendOrInvite()
   }
 
   const sendOrInvite = () => {
@@ -236,15 +230,6 @@ function SendConfirmationLegacy(props: Props) {
       addressValidationType,
       origin: props.route.params.origin,
     })
-  }
-
-  const cancelModal = () => {
-    setModalVisible(false)
-  }
-
-  const sendInvite = () => {
-    setModalVisible(false)
-    sendOrInvite()
   }
 
   const onBlur = () => {
@@ -403,7 +388,6 @@ function SendConfirmationLegacy(props: Props) {
           isSending={isSending}
         >
           <View style={styles.transferContainer}>
-            {isInvite && <Text style={styles.inviteText}>{t('inviteMoneyEscrow')}</Text>}
             <View style={styles.headerContainer}>
               <ContactCircle recipient={recipient} />
               <View style={styles.recipientInfoContainer}>
@@ -444,12 +428,6 @@ function SendConfirmationLegacy(props: Props) {
               />
             )}
           </View>
-          <InviteAndSendModal
-            isVisible={modalVisible}
-            name={getDisplayName(transactionData.recipient, t)}
-            onInvite={sendInvite}
-            onCancel={cancelModal}
-          />
           {/** Encryption warning dialog */}
           <Dialog
             title={t('encryption.warningModalHeader')}
@@ -475,17 +453,20 @@ function SendConfirmationLegacy(props: Props) {
   if (!account || !balance) {
     throw Error('Account is required')
   }
-  const feeProps: CalculateFeeProps = recipientAddress
-    ? {
-        feeType: FeeType.SEND,
-        account,
-        recipientAddress,
-        amount: amount.valueOf(),
-        currency,
-        balance: balance.toString(),
-        includeDekFee: !isDekRegistered,
-      }
-    : { feeType: FeeType.INVITE, account, amount, currency, balance: balance.toString() }
+
+  if (!recipientAddress) {
+    throw Error('Recipient address is required')
+  }
+
+  const feeProps: CalculateFeeProps = {
+    feeType: FeeType.SEND,
+    account,
+    recipientAddress,
+    amount: amount.valueOf(),
+    currency,
+    balance: balance.toString(),
+    includeDekFee: !isDekRegistered,
+  }
 
   return (
     // Note: intentionally passing a new child func here otherwise
@@ -502,11 +483,6 @@ const styles = StyleSheet.create({
   feeContainer: {
     padding: 16,
     paddingBottom: 8,
-  },
-  inviteText: {
-    ...fontStyles.small,
-    color: colors.gray4,
-    paddingBottom: 24,
   },
   transferContainer: {
     alignItems: 'flex-start',

@@ -10,7 +10,6 @@ import { validateRecipientAddressSuccess } from 'src/identity/actions'
 import { encryptComment } from 'src/identity/commentEncryption'
 import { E164NumberToAddressType } from 'src/identity/reducer'
 import { e164NumberToAddressSelector } from 'src/identity/selectors'
-import { sendInvite } from 'src/invite/saga'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { urlFromUriData } from 'src/qrcode/schema'
@@ -50,7 +49,6 @@ import {
   mockE164Number,
   mockE164NumberInvite,
   mockFeeInfo,
-  mockInvitableRecipient,
   mockName,
   mockQrCodeData,
   mockQrCodeData2,
@@ -370,24 +368,6 @@ describe(sendPaymentOrInviteSaga, () => {
       mockQRCodeRecipient.address,
       amount.times(1e18).toFixed(0),
       expect.any(String)
-    )
-  })
-
-  it('sends an invite successfully', async () => {
-    await expectSaga(sendPaymentOrInviteSaga, {
-      ...sendAction,
-      recipient: mockInvitableRecipient,
-    })
-      .withState(createMockStore({}).getState())
-      .provide([[call(getConnectedUnlockedAccount), mockAccount]])
-      .run()
-
-    expect(sendInvite).toHaveBeenCalledWith(
-      mockInvitableRecipient.e164PhoneNumber,
-      amount,
-      amount,
-      mockCusdAddress,
-      mockFeeInfo
     )
   })
 

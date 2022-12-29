@@ -46,7 +46,6 @@ function renderComponent({
       <SendAmountHeader
         tokenAddress={tokenAddress}
         isOutgoingPaymentRequest={false}
-        isInvite={false}
         onChangeToken={mockOnChangeToken}
         disallowCurrencyChange={disallowCurrencyChange}
       />
