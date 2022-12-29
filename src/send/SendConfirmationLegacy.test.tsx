@@ -283,14 +283,4 @@ describe('SendConfirmationLegacy', () => {
 
     expect(queryByTestId('accountEditButton')).toBeNull()
   })
-
-  it('renders correct modal for invitations', () => {
-    mockedGetSendFee.mockResolvedValue(TEST_FEE_INFO_CUSD)
-
-    const { getByTestId, queryAllByTestId } = renderScreen({}, mockInviteScreenProps)
-
-    expect(queryAllByTestId('InviteAndSendModal')[0].props.visible).toBe(false)
-    fireEvent.press(getByTestId('ConfirmButton'))
-    expect(queryAllByTestId('InviteAndSendModal')[0].props.visible).toBe(true)
-  })
 })

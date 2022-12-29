@@ -53,10 +53,6 @@ import {
   mockTransactionData,
 } from 'test/values'
 
-jest.mock('src/invite/saga', () => ({
-  sendInvite: jest.fn(),
-}))
-
 jest.mock('@celo/connect')
 
 const mockNewTransactionContext = jest.fn()

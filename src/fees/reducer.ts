@@ -17,12 +17,14 @@ export interface FeeEstimateState {
   feeInfo?: FeeInfo
 }
 
-export interface State {
-  estimates: {
-    [tokenAddress: string]: {
-      [feeType in FeeType]: FeeEstimateState | undefined
-    }
+export interface FeeEstimates {
+  [tokenAddress: string]: {
+    [feeType in FeeType]: FeeEstimateState | undefined
   }
+}
+
+export interface State {
+  estimates: FeeEstimates
 }
 
 export const initialState: State = {

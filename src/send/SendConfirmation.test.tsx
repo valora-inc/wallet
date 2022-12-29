@@ -32,7 +32,6 @@ import {
   mockE164Number,
   mockFeeInfo,
   mockGasPrice,
-  mockInvitableRecipient,
   mockTestTokenAddress,
   mockTokenInviteTransactionData,
   mockTokenTransactionData,
@@ -307,23 +306,6 @@ describe('SendConfirmation', () => {
     expect(queryByTestId('commentInput/send')).toBeFalsy()
   })
 
-  it('doesnt show the comment for invites', () => {
-    const { queryByTestId } = renderScreen(
-      {},
-      getMockStackScreenProps(Screens.SendConfirmation, {
-        transactionData: {
-          ...mockTokenInviteTransactionData,
-          recipient: {
-            ...mockInvitableRecipient,
-            e164PhoneNumber: '+14155550001',
-          },
-        },
-        origin: SendOrigin.AppSendFlow,
-      })
-    )
-    expect(queryByTestId('commentInput/send')).toBeFalsy()
-  })
-
   it('navigates to ValidateRecipientIntro when "edit" button is pressed', async () => {
     const mockE164NumberToAddress: E164NumberToAddressType = {
       [mockE164Number]: [mockAccountInvite, mockAccount2Invite],
@@ -371,19 +353,6 @@ describe('SendConfirmation', () => {
     })
 
     expect(queryByTestId('accountEditButton')).toBeNull()
-  })
-
-  it('renders correct modal for invitations', async () => {
-    const { getByTestId, queryAllByTestId } = renderScreen(
-      { identity: { e164NumberToAddress: {} } },
-      mockInviteScreenProps
-    )
-
-    expect(queryAllByTestId('InviteAndSendModal')[0].props.visible).toBe(false)
-
-    fireEvent.press(getByTestId('ConfirmButton'))
-
-    expect(queryAllByTestId('InviteAndSendModal')[0].props.visible).toBe(true)
   })
 
   it('dispatches an action when the confirm button is pressed', async () => {
