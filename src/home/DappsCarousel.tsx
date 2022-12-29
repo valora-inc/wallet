@@ -13,6 +13,7 @@ import {
 import { useSelector } from 'react-redux'
 import { DappExplorerEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import Card from 'src/components/Card'
 import Touchable from 'src/components/Touchable'
 import {
   dappFavoritesEnabledSelector,
@@ -21,20 +22,20 @@ import {
   recentDappsSelector,
 } from 'src/dapps/selectors'
 import { ActiveDapp, DappSection } from 'src/dapps/types'
-import ProgressArrow from 'src/icons/ProgressArrow'
+import ArrowRight from 'src/icons/ArrowRight'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { Colors } from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
-import { Spacing } from 'src/styles/styles'
+import { Shadow, Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 
 interface Props {
   onSelectDapp(dapp: ActiveDapp): void
 }
 
-const DAPP_ICON_SIZE = 68
-const DAPP_WIDTH = 100
+const DAPP_ICON_SIZE = 32
+const DAPP_WIDTH = 104
 const SCROLL_DEBOUNCE_TIME = 300 // milliseconds
 const windowWidth = Dimensions.get('window').width
 
@@ -124,19 +125,12 @@ function DappsCarousel({ onSelectDapp }: Props) {
 
   return (
     <View style={styles.body} testID={`${testID}/Container`}>
-      <View style={[styles.titleContainer, styles.row]}>
-        <Text style={styles.title}>{title}</Text>
-        <Touchable style={styles.row} onPress={onPressAllDapps} testID={`${testID}/ViewAllDapps`}>
-          <>
-            <Text style={styles.allDapps}>{t('allDapps')}</Text>
-            <ProgressArrow color={Colors.greenUI} />
-          </>
-        </Touchable>
-      </View>
+      <Text style={styles.title}>{title}</Text>
 
       <ScrollView
         horizontal={true}
         showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.carouselContainer}
         testID={`${testID}/ScrollContainer`}
         onScroll={handleScroll}
         scrollEventThrottle={50}
@@ -145,10 +139,9 @@ function DappsCarousel({ onSelectDapp }: Props) {
           <Touchable
             key={dapp.id}
             onPress={() => onSelectDapp({ ...dapp, openedFrom: section })}
-            style={styles.dappContainer}
             testID={`${testID}/Dapp`}
           >
-            <>
+            <Card style={styles.card} rounded={true} shadow={Shadow.SoftLight}>
               <Image
                 source={{ uri: dapp.iconUrl }}
                 style={styles.icon}
@@ -158,9 +151,20 @@ function DappsCarousel({ onSelectDapp }: Props) {
               <Text style={styles.dappName} numberOfLines={1} ellipsizeMode="tail">
                 {dapp.name}
               </Text>
-            </>
+            </Card>
           </Touchable>
         ))}
+
+        <Touchable onPress={onPressAllDapps} testID={`${testID}/Dapp`}>
+          <Card style={styles.viewAllCard} rounded={true} shadow={Shadow.SoftLight}>
+            <View style={[styles.icon, styles.viewAllIcon]}>
+              <ArrowRight />
+            </View>
+            <Text style={styles.dappName} numberOfLines={1} ellipsizeMode="tail">
+              {t('allDapps')}
+            </Text>
+          </Card>
+        </Touchable>
       </ScrollView>
     </View>
   )
@@ -171,27 +175,22 @@ const styles = StyleSheet.create({
     maxWidth: variables.width,
     width: variables.width,
     paddingTop: Spacing.Regular16,
-    paddingBottom: Spacing.Thick24,
+    paddingBottom: Spacing.Smallest8,
   },
-  titleContainer: {
-    paddingHorizontal: Spacing.Regular16,
-    paddingBottom: Spacing.Regular16,
-  },
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+  carouselContainer: {
+    padding: Spacing.Regular16,
   },
   title: {
     ...fontStyles.sectionHeader,
     color: Colors.gray4,
+    paddingHorizontal: Spacing.Regular16,
   },
-  allDapps: {
-    ...fontStyles.label,
-    color: Colors.greenUI,
-    marginRight: Spacing.Smallest8,
+  card: {
+    alignItems: 'center',
+    width: DAPP_WIDTH,
+    marginRight: Spacing.Regular16,
   },
-  dappContainer: {
+  viewAllCard: {
     alignItems: 'center',
     width: DAPP_WIDTH,
   },
@@ -200,15 +199,17 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 12,
     lineHeight: 16,
-    maxWidth: DAPP_ICON_SIZE,
   },
   icon: {
     height: DAPP_ICON_SIZE,
     width: DAPP_ICON_SIZE,
     borderRadius: 100,
-    borderWidth: 1,
-    borderColor: Colors.gray2,
-    marginBottom: Spacing.Small12,
+    marginBottom: Spacing.Smallest8,
+  },
+  viewAllIcon: {
+    backgroundColor: '#D0F4E1',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 })
 
