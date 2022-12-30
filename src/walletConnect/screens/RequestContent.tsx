@@ -1,10 +1,12 @@
+import { IClientMeta } from '@walletconnect/legacy-types'
+import { CoreTypes } from '@walletconnect/types'
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { useSelector } from 'react-redux'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
-import { dappConnectInfoSelector } from 'src/dapps/selectors'
+import { activeDappSelector, dappConnectInfoSelector } from 'src/dapps/selectors'
 import { DappConnectInfo } from 'src/dapps/types'
 import Logo from 'src/icons/Logo'
 import colors, { Colors } from 'src/styles/colors'
@@ -27,6 +29,30 @@ interface Props {
 }
 
 const DAPP_IMAGE_SIZE = 60
+
+export const useDappMetadata = (metadata?: IClientMeta | CoreTypes.Metadata | null) => {
+  const activeDapp = useSelector(activeDappSelector)
+
+  if (!metadata) {
+    // should never happen
+    return {
+      url: '',
+      dappName: '',
+      dappImageUrl: '',
+    }
+  }
+
+  const { url, name, icons } = metadata
+  // create a display name in case the WC request contains an empty string
+  const dappName = name || activeDapp?.name || url
+  const dappImageUrl = icons[0] ?? `${url}/favicon.ico`
+
+  return {
+    url,
+    dappName,
+    dappImageUrl,
+  }
+}
 
 function RequestContent({
   onAccept,
