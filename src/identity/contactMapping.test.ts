@@ -8,7 +8,6 @@ import { setUserContactDetails } from 'src/account/actions'
 import { defaultCountryCodeSelector, e164NumberSelector } from 'src/account/selectors'
 import { showError, showErrorOrFallback } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { centralPhoneVerificationEnabledSelector } from 'src/app/selectors'
 import { fetchLostAccounts } from 'src/firebase/firebase'
 import {
   requireSecureSend,
@@ -100,7 +99,6 @@ describe('Fetch Addresses Saga', () => {
         .provide([
           [call(fetchWalletAddressesDecentralized, mockE164Number), []],
           [select(e164NumberToAddressSelector), mockE164NumberToAddress],
-          [select(centralPhoneVerificationEnabledSelector), true],
           [select(walletAddressSelector), '0xxyz'],
           [call(retrieveSignedMessage), 'some signed message'],
           [select(secureSendPhoneNumberMappingSelector), {}],
@@ -140,7 +138,6 @@ describe('Fetch Addresses Saga', () => {
         .provide([
           [call(fetchWalletAddressesDecentralized, mockE164Number), []],
           [select(e164NumberToAddressSelector), mockE164NumberToAddress],
-          [select(centralPhoneVerificationEnabledSelector), true],
           [select(walletAddressSelector), mockAccount],
           [call(retrieveSignedMessage), 'some signed message'],
           [select(secureSendPhoneNumberMappingSelector), {}],
@@ -168,7 +165,6 @@ describe('Fetch Addresses Saga', () => {
         .provide([
           [call(fetchWalletAddressesDecentralized, mockE164Number), []],
           [select(e164NumberToAddressSelector), mockE164NumberToAddress],
-          [select(centralPhoneVerificationEnabledSelector), true],
           [select(walletAddressSelector), mockAccount],
           [call(retrieveSignedMessage), 'some signed message'],
         ])
@@ -188,7 +184,6 @@ describe('Fetch Addresses Saga', () => {
         .provide([
           [call(fetchWalletAddressesDecentralized, mockE164Number), ['0x123']],
           [select(e164NumberToAddressSelector), mockE164NumberToAddress],
-          [select(centralPhoneVerificationEnabledSelector), true],
           [select(walletAddressSelector), mockAccount],
           [call(retrieveSignedMessage), 'some signed message'],
           [select(secureSendPhoneNumberMappingSelector), {}],
@@ -216,7 +211,6 @@ describe('Fetch Addresses Saga', () => {
         .provide([
           [call(fetchWalletAddressesDecentralized, mockE164Number), ['0xabc', '0xXyz']],
           [select(e164NumberToAddressSelector), mockE164NumberToAddress],
-          [select(centralPhoneVerificationEnabledSelector), true],
           [select(walletAddressSelector), mockAccount],
           [call(retrieveSignedMessage), 'some signed message'],
           [select(secureSendPhoneNumberMappingSelector), {}],

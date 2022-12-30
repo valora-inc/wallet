@@ -1,14 +1,10 @@
 import dotProp from 'dot-prop-immutable'
 import { RehydrateAction } from 'redux-persist'
 import { Actions as AccountActions, ClearStoredAccountAction } from 'src/account/actions'
-import { CodeInputStatus } from 'src/components/CodeInput'
 import { Actions, ActionTypes } from 'src/identity/actions'
-import { ImportContactsStatus, VerificationStatus } from 'src/identity/types'
+import { ImportContactsStatus } from 'src/identity/types'
 import { removeKeyFromMapping } from 'src/identity/utils'
-import { AttestationCode, NUM_ATTESTATIONS_REQUIRED } from 'src/identity/verification'
 import { getRehydratePayload, REHYDRATE } from 'src/redux/persist-helper'
-import Logger from 'src/utils/Logger'
-import { isCodeRepeated } from 'src/verify/utils'
 
 export const ATTESTATION_CODE_PLACEHOLDER = 'ATTESTATION_CODE_PLACEHOLDER'
 export const ATTESTATION_ISSUER_PLACEHOLDER = 'ATTESTATION_ISSUER_PLACEHOLDER'
@@ -75,15 +71,6 @@ export interface SecureSendDetails {
 }
 
 export interface State {
-  attestationCodes: AttestationCode[]
-  // we store acceptedAttestationCodes to tell user if code
-  // was already used even after Actions.RESET_VERIFICATION
-  acceptedAttestationCodes: AttestationCode[]
-  // Represents the status in the UI. Should be of size 3.
-  attestationInputStatus: CodeInputStatus[]
-  // numCompleteAttestations is controlled locally
-  numCompleteAttestations: number
-  verificationStatus: VerificationStatus
   hasSeenVerificationNux: boolean
   addressToE164Number: AddressToE164NumberType
   // Note: Do not access values in this directly, use the `getAddressFromPhoneNumber` helper in contactMapping
@@ -100,19 +87,9 @@ export interface State {
   importContactsProgress: ImportContactProgress
   // Contacts found during the matchmaking process
   secureSendPhoneNumberMapping: SecureSendPhoneNumberMapping
-  lastRevealAttempt: number | null
 }
 
 const initialState: State = {
-  attestationCodes: [],
-  acceptedAttestationCodes: [],
-  attestationInputStatus: [
-    CodeInputStatus.Inputting,
-    CodeInputStatus.Disabled,
-    CodeInputStatus.Disabled,
-  ],
-  numCompleteAttestations: 0,
-  verificationStatus: VerificationStatus.Stopped,
   hasSeenVerificationNux: false,
   addressToE164Number: {},
   e164NumberToAddress: {},
@@ -127,7 +104,6 @@ const initialState: State = {
     total: 0,
   },
   secureSendPhoneNumberMapping: {},
-  lastRevealAttempt: null,
 }
 
 export const reducer = (
@@ -142,74 +118,25 @@ export const reducer = (
       return {
         ...state,
         ...rehydratedState,
-        verificationStatus: VerificationStatus.Stopped,
         importContactsProgress: {
           status: ImportContactsStatus.Stopped,
           current: 0,
           total: 0,
         },
-        attestationInputStatus: initialState.attestationInputStatus,
       }
     }
-    case Actions.RESET_VERIFICATION:
-      return {
-        ...state,
-        attestationCodes: [],
-        numCompleteAttestations: 0,
-        verificationStatus: VerificationStatus.Stopped,
-      }
     case Actions.REVOKE_VERIFICATION_STATE:
       return {
         ...state,
-        attestationCodes: [],
-        acceptedAttestationCodes: [],
-        numCompleteAttestations: 0,
-        verificationStatus: VerificationStatus.Stopped,
-        lastRevealAttempt: null,
         walletToAccountAddress: removeKeyFromMapping(
           state.walletToAccountAddress,
           action.walletAddress
         ),
       }
-    case Actions.SET_VERIFICATION_STATUS:
-      return {
-        ...state,
-        verificationStatus: action.status,
-      }
     case Actions.SET_SEEN_VERIFICATION_NUX:
       return {
         ...state,
         hasSeenVerificationNux: action.status,
-      }
-    case Actions.SET_COMPLETED_CODES:
-      return {
-        ...state,
-        ...completeCodeReducer(state, action.numComplete),
-      }
-    case Actions.INPUT_ATTESTATION_CODE:
-      const codeAlreadyAdded = state.attestationCodes.some((code) => code.code === action.code.code)
-      const attestationCodes = codeAlreadyAdded
-        ? state.attestationCodes
-        : [...state.attestationCodes, action.code]
-      const attestationInputStatus = action.index
-        ? updatedInputStatuses(
-            state,
-            action.index,
-            codeAlreadyAdded || attestationCodes[action.index]?.code !== action.code.code
-              ? CodeInputStatus.Error
-              : CodeInputStatus.Processing
-          )
-        : state.attestationInputStatus
-      return {
-        ...state,
-        attestationCodes,
-        attestationInputStatus,
-      }
-    case Actions.COMPLETE_ATTESTATION_CODE:
-      return {
-        ...state,
-        numCompleteAttestations: state.numCompleteAttestations + 1,
-        acceptedAttestationCodes: [...state.acceptedAttestationCodes, action.code],
       }
     case Actions.UPDATE_E164_PHONE_NUMBER_ADDRESSES:
       return {
@@ -342,51 +269,7 @@ export const reducer = (
         e164NumberToSalt: state.e164NumberToSalt,
         secureSendPhoneNumberMapping: state.secureSendPhoneNumberMapping,
       }
-    case Actions.SET_LAST_REVEAL_ATTEMPT:
-      return {
-        ...state,
-        lastRevealAttempt: action.time,
-      }
-    case Actions.SET_ATTESTATION_INPUT_STATUS:
-      return {
-        ...state,
-        attestationInputStatus: updatedInputStatuses(state, action.index, action.status),
-      }
     default:
       return state
-  }
-}
-
-function updatedInputStatuses(state: State, index: number, status: CodeInputStatus) {
-  const newStatuses = [...state.attestationInputStatus]
-  newStatuses[index] = status
-  Logger.debug('identityReducer@attestationInputStatus', newStatuses)
-  return newStatuses
-}
-
-const completeCodeReducer = (state: State, numCompleteAttestations: number) => {
-  const { attestationCodes, acceptedAttestationCodes } = state
-  // Ensure numCompleteAttestations many codes are filled
-  const updatedAttestationCodes: AttestationCode[] = []
-  for (let i = 0; i < numCompleteAttestations; i++) {
-    updatedAttestationCodes[i] = acceptedAttestationCodes[i] || {
-      code: ATTESTATION_CODE_PLACEHOLDER,
-      issuer: ATTESTATION_ISSUER_PLACEHOLDER,
-    }
-  }
-  for (let i = numCompleteAttestations; i < NUM_ATTESTATIONS_REQUIRED; i++) {
-    if (
-      attestationCodes[i] &&
-      !isCodeRepeated(
-        attestationCodes.filter((code) => code).map((code) => code.code),
-        attestationCodes[i].code
-      )
-    ) {
-      updatedAttestationCodes.push(attestationCodes[i])
-    }
-  }
-  return {
-    numCompleteAttestations,
-    attestationCodes: updatedAttestationCodes,
   }
 }

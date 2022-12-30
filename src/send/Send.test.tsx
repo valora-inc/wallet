@@ -95,10 +95,6 @@ describe('Send', () => {
   it('looks up a contact and displays the invite modal', async () => {
     const store = createMockStore({
       ...defaultStore,
-      app: {
-        ...defaultStore.app,
-        centralPhoneVerificationEnabled: true,
-      },
       identity: {
         e164NumberToAddress: { [mockRecipient4.e164PhoneNumber]: null },
       },

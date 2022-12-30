@@ -614,7 +614,6 @@
   "revealAttestationFailure": "Error requesting SMS message",
   "verificationFailure": "Connection Failed",
   "cantVerifyRevokedAccount": "This account has been previously revoked. Please create a new account and try again.",
-  "verificationTimeout": "Connection Timed Out",
   "errorRequestCode": "Failed to request codes.",
   "errorRedeemingCode": "Failed to redeem code.",
   "pleaseRetry": "Please try connecting again.",

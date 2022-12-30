@@ -26,7 +26,6 @@ import {
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import { FetchProvidersOutput, PaymentMethod } from 'src/fiatExchanges/utils'
 import { AddressToE164NumberType, E164NumberToAddressType } from 'src/identity/reducer'
-import { AttestationCode } from 'src/identity/verification'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { StackParamList } from 'src/navigator/types'
 import { NotificationTypes } from 'src/notifications/types'
@@ -273,7 +272,7 @@ export const mockE164NumberToAddress: E164NumberToAddressType = {
   [mockE164Number2Invite]: [mockAccount2Invite],
 }
 
-export const mockAttestationMessage: AttestationCode = {
+export const mockAttestationMessage = {
   code: 'ab8049b95ac02e989aae8b61fddc10fe9b3ac3c6aebcd3e68be495570b2d3da15aabc691ab88de69648f988fab653ac943f67404e532cfd1013627f56365f36501',
   issuer: '848920b14154b6508b8d98e7ee8159aa84b579a4',
 }

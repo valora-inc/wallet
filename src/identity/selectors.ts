@@ -3,11 +3,6 @@ import { createSelector } from 'reselect'
 import { IdentifierToE164NumberType } from 'src/identity/reducer'
 import { RootState } from 'src/redux/reducers'
 
-export const attestationCodesSelector = (state: RootState) => state.identity.attestationCodes
-export const acceptedAttestationCodesSelector = (state: RootState) =>
-  state.identity.acceptedAttestationCodes
-export const attestationInputStatusSelector = (state: RootState) =>
-  state.identity.attestationInputStatus
 export const e164NumberToAddressSelector = (state: RootState) => state.identity.e164NumberToAddress
 export const addressToE164NumberSelector = (state: RootState) => state.identity.addressToE164Number
 export const walletToAccountAddressSelector = (state: RootState) =>

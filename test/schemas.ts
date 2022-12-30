@@ -5,10 +5,8 @@ import { CodeInputStatus } from 'src/components/CodeInput'
 import { Dapp, DappConnectInfo } from 'src/dapps/types'
 import { FeeEstimates } from 'src/fees/reducer'
 import { SendingFiatAccountStatus } from 'src/fiatconnect/slice'
-import { NUM_ATTESTATIONS_REQUIRED } from 'src/identity/verification'
 import { RootState } from 'src/redux/reducers'
 import { Currency } from 'src/utils/currencies'
-import { idle, KomenciAvailable } from 'src/verify/reducer'
 import {
   mockCeloAddress,
   mockCeurAddress,
@@ -277,7 +275,7 @@ export const v5Schema = {
       actionableAttestations: [],
       status: {
         isVerified: false,
-        numAttestationsRemaining: NUM_ATTESTATIONS_REQUIRED,
+        numAttestationsRemaining: 3,
         total: 0,
         completed: 0,
       },
@@ -333,7 +331,7 @@ export const v7Schema = {
       actionableAttestations: [],
       status: {
         isVerified: false,
-        numAttestationsRemaining: NUM_ATTESTATIONS_REQUIRED,
+        numAttestationsRemaining: 3,
         total: 0,
         completed: 0,
       },
@@ -420,8 +418,10 @@ export const v8Schema = {
     },
     actionableAttestations: [],
     retries: 0,
-    currentState: idle(),
-    komenciAvailable: KomenciAvailable.Unknown,
+    currentState: {
+      type: 'Idle',
+    },
+    komenciAvailable: 'UNKNOWN',
     withoutRevealing: false,
     TEMPORARY_override_withoutVerification: undefined,
   },
