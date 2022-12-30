@@ -17,7 +17,6 @@ const renderComponent = (navParams?: StackParamList[Screens.VerificationStartScr
     <Provider
       store={createMockStore({
         app: {
-          centralPhoneVerificationEnabled: true,
           activeScreen: Screens.VerificationStartScreen,
         },
       })}
