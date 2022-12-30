@@ -5,7 +5,7 @@ import {
 } from 'src/account/selectors'
 import { Screens } from 'src/navigator/Screens'
 import { RootState } from 'src/redux/reducers'
-import { accountAddressSelector } from 'src/web3/selectors'
+import { walletAddressSelector } from 'src/web3/selectors'
 
 export const getRequirePinOnAppOpen = (state: RootState) => {
   return state.app.requirePinOnAppOpen
@@ -44,7 +44,7 @@ export const superchargeTokenConfigByTokenSelector = (state: RootState) =>
   state.app.superchargeTokenConfigByToken
 
 export const rewardsEnabledSelector = createSelector(
-  [accountAddressSelector, superchargeTokenConfigByTokenSelector],
+  [walletAddressSelector, superchargeTokenConfigByTokenSelector],
   (address, superchargeTokenConfigByToken) =>
     !!address && Object.keys(superchargeTokenConfigByToken).length > 0
 )
