@@ -5169,13 +5169,6 @@
   dependencies:
     react-native-fs "*"
 
-"@types/react-native-keep-awake@^2.0.1":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@types/react-native-keep-awake/-/react-native-keep-awake-2.0.1.tgz#862b7bb096cd8bc7cb8c7589bbfbcf63a5a5fd94"
-  integrity sha512-CtIWsHBXBlTBzq74knsVlqTYfM56CMeDpy2yuzBxBnqernPyffkZWo4As3e3/tL8cX7xTB9CzlP1Cjb8aTy8pA==
-  dependencies:
-    "@types/react" "*"
-
 "@types/react-native@^0.66.10":
   version "0.66.10"
   resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.66.10.tgz#b6940428a509a4d90bac9e7fbb4877a1de911324"
@@ -15755,11 +15748,6 @@ react-native-iphone-x-helper@^1.3.0:
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.3.1.tgz#20c603e9a0e765fd6f97396638bdeb0e5a60b010"
   integrity sha512-HOf0jzRnq2/aFUcdCJ9w9JGzN3gdEg0zFE4FyYlp4jtidqU03D5X7ZegGKfT1EWteR0gPBGp9ye5T5FvSWi9Yg==
-
-react-native-keep-awake@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/react-native-keep-awake/-/react-native-keep-awake-4.0.0.tgz#d89fdc3fb60b3cffa979ef37dc5816196df998a2"
-  integrity sha512-0Fotox+eLXQooeibVs3P60yASYUWjtRw9MZNmbuHt5UZQrgUrAKsE4jm7gTr4tPU1m1RkwGzcgUFpcOkh/ec7g==
 
 react-native-keychain@8.0.0:
   version "8.0.0"
