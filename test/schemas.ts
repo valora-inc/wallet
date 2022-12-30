@@ -1926,6 +1926,28 @@ export const v102Schema = {
   app: _.omit(v101Schema.app, 'centralPhoneVerificationEnabled'),
 }
 
+export const v103Schema = {
+  ...v102Schema,
+  _persist: {
+    ...v102Schema._persist,
+    version: 103,
+  },
+  identity: _.omit(
+    v102Schema.identity,
+    'attestationCodes',
+    'acceptedAttestationCodes',
+    'attestationInputStatus',
+    'numCompleteAttestations',
+    'verificationStatus',
+    'lastRevealAttempt'
+  ),
+  verify: {
+    komenci: {
+      unverifiedMtwAddress: v102Schema.verify.komenci.unverifiedMtwAddress,
+    },
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v102Schema as Partial<RootState>
+  return v103Schema as Partial<RootState>
 }

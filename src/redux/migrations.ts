@@ -953,4 +953,21 @@ export const migrations = {
     ...state,
     app: _.omit(state.app, 'centralPhoneVerificationEnabled'),
   }),
+  103: (state: any) => ({
+    ...state,
+    identity: _.omit(
+      state.identity,
+      'attestationCodes',
+      'acceptedAttestationCodes',
+      'attestationInputStatus',
+      'numCompleteAttestations',
+      'verificationStatus',
+      'lastRevealAttempt'
+    ),
+    verify: {
+      komenci: {
+        unverifiedMtwAddress: state.verify.komenci.unverifiedMtwAddress,
+      },
+    },
+  }),
 }
