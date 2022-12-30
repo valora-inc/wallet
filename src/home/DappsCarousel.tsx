@@ -155,7 +155,7 @@ function DappsCarousel({ onSelectDapp }: Props) {
           </Touchable>
         ))}
 
-        <Touchable onPress={onPressAllDapps} testID={`${testID}/Dapp`}>
+        <Touchable onPress={onPressAllDapps}>
           <Card style={styles.viewAllCard} rounded={true} shadow={Shadow.SoftLight}>
             <View style={[styles.icon, styles.viewAllIcon]}>
               <ArrowRight />
