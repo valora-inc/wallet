@@ -1,5 +1,4 @@
 import { EscrowWrapper } from '@celo/contractkit/lib/wrappers/Escrow'
-import BigNumber from 'bignumber.js'
 import { all, call, put, race, select, spawn, take, takeLeading } from 'redux-saga/effects'
 import { showErrorOrFallback } from 'src/alert/actions'
 import { EscrowEvents } from 'src/analytics/Events'
@@ -28,27 +27,7 @@ import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
 import { getConnectedAccount, getConnectedUnlockedAccount } from 'src/web3/saga'
 import { estimateGas } from 'src/web3/utils'
 
-/**
- * TODO: Clear out unused code for escrow. Much of the code is unused now that Centralized Phone Verification
- * is used instead of Komenci.
- *
- * The only features that should still be active are showing escrow transactions in the home feed properly
- * and allowing users to redeem unclaimed escrow invites.
- * https://valora-app.slack.com/archives/C025V1D6F3J/p1669742116085229
- * https://linear.app/valora/issue/RET-504/[wallet]-remove-cpv-experiment-and-komenci
- */
-
 const TAG = 'escrow/saga'
-
-// Observed approve and escrow transfer transactions take less than 150k and 550k gas respectively.
-const STATIC_APPROVE_TRANSFER_GAS_ESTIMATE = 150000
-export const STATIC_ESCROW_TRANSFER_GAS_ESTIMATE = 550000
-
-// NOTE: Only supports static estimation as that is what is expected to be used.
-// This function can be extended to use online estimation is needed.
-export async function getEscrowTxGas() {
-  return new BigNumber(STATIC_APPROVE_TRANSFER_GAS_ESTIMATE + STATIC_ESCROW_TRANSFER_GAS_ESTIMATE)
-}
 
 export async function createReclaimTransaction(paymentID: string) {
   const contractKit = await getContractKitAsync()

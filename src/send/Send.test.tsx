@@ -95,6 +95,9 @@ describe('Send', () => {
   it('looks up a contact and displays the invite modal', async () => {
     const store = createMockStore({
       ...defaultStore,
+      app: {
+        ...defaultStore.app,
+      },
       identity: {
         e164NumberToAddress: { [mockRecipient4.e164PhoneNumber]: null },
       },
