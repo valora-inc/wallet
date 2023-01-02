@@ -25,7 +25,36 @@ import { Statsig } from 'statsig-react-native'
 
 const TAG = 'ValoraAnalytics'
 
-async function getDeviceInfo() {
+interface DeviceInfoType {
+  AppName: string
+  Brand: string
+  BuildNumber: string
+  BundleId: string
+  Carrier: string
+  DeviceId: string // this is the device model + version
+  FirstInstallTime: number
+  FontScale: number
+  FreeDiskStorage: number
+  InstallReferrer: string
+  InstanceID: string
+  LastUpdateTime: number
+  Manufacturer: string
+  MaxMemory: number
+  Model: string
+  ReadableVersion: string
+  SystemName: string
+  SystemVersion: string
+  TotalDiskCapacity: number
+  TotalMemory: number
+  UniqueID: string // this is the unique id of the device, which maps to deviceId in the data
+  UserAgent: string
+  Version: string
+  isEmulator: boolean
+  isTablet: boolean
+  UsedMemory: number
+}
+
+async function getDeviceInfo(): Promise<DeviceInfoType> {
   return {
     AppName: DeviceInfo.getApplicationName(),
     Brand: DeviceInfo.getBrand(),
@@ -71,7 +100,7 @@ const SEGMENT_OPTIONS: analytics.Configuration = {
 
 class ValoraAnalytics {
   sessionId: string = ''
-  deviceInfo: object = {}
+  deviceInfo: DeviceInfoType | undefined
 
   private currentScreenId: string | undefined
   private prevScreenId: string | undefined
@@ -101,16 +130,17 @@ class ValoraAnalytics {
     }
 
     try {
-      const { accountAddress } = getCurrentUserTraits(store.getState())
-      const stasigUser = accountAddress
-        ? {
-            userID: accountAddress,
-          }
-        : null
+      const { walletAddress } = getCurrentUserTraits(store.getState())
+      const statsigUser =
+        typeof walletAddress === 'string'
+          ? {
+              userID: walletAddress,
+            }
+          : null
 
       // getAnonymousId causes the e2e tests to fail
       const overrideStableID = isE2EEnv ? E2E_TEST_STATSIG_ID : await Analytics.getAnonymousId()
-      await Statsig.initialize(STATSIG_API_KEY, stasigUser, {
+      await Statsig.initialize(STATSIG_API_KEY, statsigUser, {
         // StableID should match Segment anonymousId
         overrideStableID,
         environment: STATSIG_ENV,

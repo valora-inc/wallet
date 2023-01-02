@@ -1253,6 +1253,10 @@
     "noFavorites": {
       "title": "Избранное не добавлено",
       "description": "Отслеживай свои самые используемые Dapps, нажимая на значок звезды, чтобы добавить его в избранное"
+    },
+    "favoritedDappToast": {
+      "message": "Добавлено в избранное",
+      "labelCTA": "Посмотреть избранное"
     }
   },
   "dappsScreenHelpDialog": {
@@ -1266,6 +1270,7 @@
     "button": "Перейти в {{dappName}}"
   },
   "recentlyUsedDapps": "Недавно использованные Dapps",
+  "favoritedDapps": "Избранные Dapps",
   "allDapps": "Все Dapps",
   "rewards": "Вознаграждения",
   "supercharge": "Supercharge",

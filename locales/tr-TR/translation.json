@@ -1249,6 +1249,10 @@
     "noFavorites": {
       "title": "Favori eklenmemiş",
       "description": "Favori olarak eklemek için yıldız simgesine dokunarak en çok kullandığınız Dapp'leri takip edin"
+    },
+    "favoritedDappToast": {
+      "message": "Favori olarak eklendi",
+      "labelCTA": "Favorileri Görüntüle"
     }
   },
   "dappsScreenHelpDialog": {
@@ -1262,6 +1266,7 @@
     "button": "{{dappName}} uygulamasına git"
   },
   "recentlyUsedDapps": "Son Kullanılan Dapp'ler",
+  "favoritedDapps": "Favori Dapps",
   "allDapps": "Tüm Dapp'ler",
   "rewards": "Ödüller",
   "supercharge": "Supercharge",

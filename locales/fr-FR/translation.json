@@ -1249,6 +1249,10 @@
     "noFavorites": {
       "title": "Aucun favori ajouté",
       "description": "Garde la trace de tes Dapps les plus utilisées en tapant sur l'icône en forme d'étoile pour les ajouter à tes favoris."
+    },
+    "favoritedDappToast": {
+      "message": "Ajouté comme favori",
+      "labelCTA": "Voir les favoris"
     }
   },
   "dappsScreenHelpDialog": {
@@ -1262,6 +1266,7 @@
     "button": "Aller à {{dappName}}"
   },
   "recentlyUsedDapps": "Dapps récemment utilisés",
+  "favoritedDapps": "Dapps favorites",
   "allDapps": "Toutes les Dapps",
   "rewards": "Récompenses",
   "supercharge": "Supercharge",

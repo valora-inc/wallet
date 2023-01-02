@@ -1253,6 +1253,10 @@
     "noFavorites": {
       "title": "Nie dodano żadnych ulubionych",
       "description": "Śledź swoje najczęściej używane aplikacje, dotykając ikony gwiazdki, aby dodać je do ulubionych"
+    },
+    "favoritedDappToast": {
+      "message": "Dodane jako ulubione",
+      "labelCTA": "Zobacz Ulubione"
     }
   },
   "dappsScreenHelpDialog": {
@@ -1266,6 +1270,7 @@
     "button": "Przejdź do {{dappName}}"
   },
   "recentlyUsedDapps": "Ostatnio używane Dapps",
+  "favoritedDapps": "Ulubione aplikacje",
   "allDapps": "Wszystkie Dapps",
   "rewards": "Nagrody",
   "supercharge": "Supercharge",

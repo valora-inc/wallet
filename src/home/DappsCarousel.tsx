@@ -10,15 +10,20 @@ import {
   Text,
   View,
 } from 'react-native'
+import { useSelector } from 'react-redux'
 import { DappExplorerEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Touchable from 'src/components/Touchable'
-import { recentDappsSelector } from 'src/dapps/selectors'
+import {
+  dappFavoritesEnabledSelector,
+  favoriteDappsSelector,
+  maxNumRecentDappsSelector,
+  recentDappsSelector,
+} from 'src/dapps/selectors'
 import { ActiveDapp, DappSection } from 'src/dapps/types'
 import ProgressArrow from 'src/icons/ProgressArrow'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import useSelector from 'src/redux/useSelector'
 import { Colors } from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -33,14 +38,49 @@ const DAPP_WIDTH = 100
 const SCROLL_DEBOUNCE_TIME = 300 // milliseconds
 const windowWidth = Dimensions.get('window').width
 
-function RecentlyUsedDapps({ onSelectDapp }: Props) {
-  const recentlyUsedDapps = useSelector(recentDappsSelector)
+const useDappsCarouselDapps = () => {
   const { t } = useTranslation()
+  const maxNumRecentDapps = useSelector(maxNumRecentDappsSelector)
+  const dappFavoritesEnabled = useSelector(dappFavoritesEnabledSelector)
+  const recentlyUsedDapps = useSelector(recentDappsSelector)
+  const favoritedDapps = useSelector(favoriteDappsSelector)
+
+  if (dappFavoritesEnabled && favoritedDapps.length > 0) {
+    return {
+      dapps: favoritedDapps,
+      section: DappSection.FavoritesHomeScreen,
+      title: t('favoritedDapps'),
+      testID: 'FavoritedDapps',
+    }
+  }
+
+  if (maxNumRecentDapps > 0 && recentlyUsedDapps.length > 0) {
+    return {
+      dapps: recentlyUsedDapps,
+      section: DappSection.RecentlyUsed,
+      title: t('recentlyUsedDapps'),
+      testID: 'RecentlyUsedDapps',
+    }
+  }
+
+  return {
+    dapps: [],
+    // the following values don't matter since nothing will be rendered
+    section: DappSection.All,
+    title: '',
+    testID: '',
+  }
+}
+
+function DappsCarousel({ onSelectDapp }: Props) {
+  const { t } = useTranslation()
+
+  const { dapps, section, title, testID } = useDappsCarouselDapps()
 
   const lastViewedDapp = useRef(-1)
 
   useEffect(() => {
-    if (recentlyUsedDapps.length) {
+    if (dapps.length > 0) {
       trackDappsImpressionForScrollPosition(0)
     }
   }, [])
@@ -48,20 +88,20 @@ function RecentlyUsedDapps({ onSelectDapp }: Props) {
   const trackDappsImpressionForScrollPosition = debounce((horizontalContentOffset: number) => {
     const numDappsVisible = Math.min(
       Math.floor((windowWidth + horizontalContentOffset) / DAPP_WIDTH),
-      recentlyUsedDapps.length
+      dapps.length
     )
 
     if (numDappsVisible > lastViewedDapp.current + 1) {
       // ensure single analytics event for each dapp impression, so that
       // duplicate events are not sent if user scrolls back to the beginning
       range(lastViewedDapp.current + 1, numDappsVisible).forEach((dappIndex) => {
-        const dapp = recentlyUsedDapps[dappIndex]
+        const dapp = dapps[dappIndex]
         ValoraAnalytics.track(DappExplorerEvents.dapp_impression, {
           categoryId: dapp.categoryId,
           dappId: dapp.id,
           dappName: dapp.name,
           horizontalPosition: dappIndex,
-          section: DappSection.RecentlyUsed,
+          section,
         })
       })
 
@@ -70,7 +110,7 @@ function RecentlyUsedDapps({ onSelectDapp }: Props) {
   }, SCROLL_DEBOUNCE_TIME)
 
   const onPressAllDapps = () => {
-    ValoraAnalytics.track(DappExplorerEvents.dapp_view_all)
+    ValoraAnalytics.track(DappExplorerEvents.dapp_view_all, { section })
     navigate(Screens.DAppsExplorerScreen)
   }
 
@@ -78,15 +118,15 @@ function RecentlyUsedDapps({ onSelectDapp }: Props) {
     trackDappsImpressionForScrollPosition(event.nativeEvent.contentOffset.x)
   }
 
-  if (!recentlyUsedDapps.length) {
+  if (!dapps.length) {
     return null
   }
 
   return (
-    <View style={styles.body} testID="RecentlyUsedDappsContainer">
+    <View style={styles.body} testID={`${testID}/Container`}>
       <View style={[styles.titleContainer, styles.row]}>
-        <Text style={styles.title}>{t('recentlyUsedDapps')}</Text>
-        <Touchable style={styles.row} onPress={onPressAllDapps} testID="AllDapps">
+        <Text style={styles.title}>{title}</Text>
+        <Touchable style={styles.row} onPress={onPressAllDapps} testID={`${testID}/ViewAllDapps`}>
           <>
             <Text style={styles.allDapps}>{t('allDapps')}</Text>
             <ProgressArrow color={Colors.greenUI} />
@@ -97,33 +137,26 @@ function RecentlyUsedDapps({ onSelectDapp }: Props) {
       <ScrollView
         horizontal={true}
         showsHorizontalScrollIndicator={false}
-        testID="RecentlyUsedDapps/ScrollContainer"
+        testID={`${testID}/ScrollContainer`}
         onScroll={handleScroll}
         scrollEventThrottle={50}
       >
-        {recentlyUsedDapps.map((recentlyUsedDapp) => (
+        {dapps.map((dapp) => (
           <Touchable
-            key={recentlyUsedDapp.id}
-            onPress={() =>
-              onSelectDapp({ ...recentlyUsedDapp, openedFrom: DappSection.RecentlyUsed })
-            }
+            key={dapp.id}
+            onPress={() => onSelectDapp({ ...dapp, openedFrom: section })}
             style={styles.dappContainer}
-            testID="RecentDapp"
+            testID={`${testID}/Dapp`}
           >
             <>
               <Image
-                source={{ uri: recentlyUsedDapp.iconUrl }}
+                source={{ uri: dapp.iconUrl }}
                 style={styles.icon}
                 resizeMode="cover"
-                testID="RecentDapp-icon"
+                testID={`${testID}/Icon`}
               />
-              <Text
-                testID="RecentDapp-name"
-                style={styles.dappName}
-                numberOfLines={1}
-                ellipsizeMode="tail"
-              >
-                {recentlyUsedDapp.name}
+              <Text style={styles.dappName} numberOfLines={1} ellipsizeMode="tail">
+                {dapp.name}
               </Text>
             </>
           </Touchable>
@@ -179,4 +212,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default RecentlyUsedDapps
+export default DappsCarousel

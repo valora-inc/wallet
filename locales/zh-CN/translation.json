@@ -1247,6 +1247,10 @@
     "noFavorites": {
       "title": "没有添加收藏夹",
       "description": "追踪你最常用的Dapps，点击星星图标将其添加为最爱。"
+    },
+    "favoritedDappToast": {
+      "message": "添加为收藏夹",
+      "labelCTA": "查看收藏夹"
     }
   },
   "dappsScreenHelpDialog": {
@@ -1260,6 +1264,7 @@
     "button": "转至 {{dappName}}"
   },
   "recentlyUsedDapps": "最近使用的 Dapp",
+  "favoritedDapps": "最喜欢的Dapps",
   "allDapps": "所有 Dapp",
   "rewards": "奖励",
   "supercharge": "Supercharge",

@@ -12,12 +12,12 @@ import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import { coreTokensSelector, tokensWithTokenBalanceSelector } from 'src/tokens/selectors'
 import { sortByUsdBalance } from 'src/tokens/utils'
-import { accountAddressSelector, walletAddressSelector } from 'src/web3/selectors'
+import { mtwAddressSelector, rawWalletAddressSelector } from 'src/web3/selectors'
 
 export const getCurrentUserTraits = createSelector(
   [
-    walletAddressSelector,
-    accountAddressSelector,
+    rawWalletAddressSelector,
+    mtwAddressSelector,
     defaultCountryCodeSelector,
     userLocationDataSelector,
     currentLanguageSelector,
@@ -30,8 +30,8 @@ export const getCurrentUserTraits = createSelector(
     superchargeInfoSelector,
   ],
   (
-    walletAddress,
-    accountAddress,
+    rawWalletAddress,
+    mtwAddress,
     phoneCountryCallingCode,
     { countryCodeAlpha2 },
     language,
@@ -42,7 +42,9 @@ export const getCurrentUserTraits = createSelector(
     hasCompletedBackup,
     pincodeType,
     superchargeInfo
-  ) => {
+  ): // Enforce primitive types, TODO: check this using `satisfies` once we upgrade to TS >= 4.9
+  // so we don't need to erase the named keys
+  Record<string, string | boolean | number | null | undefined> => {
     const coreTokensAddresses = new Set(coreTokens.map((token) => token?.address))
     const tokensByUsdBalance = tokens.sort(sortByUsdBalance)
 
@@ -57,8 +59,8 @@ export const getCurrentUserTraits = createSelector(
     // Don't rename these unless you have a really good reason!
     // They are used in users analytics profiles + super properties
     return {
-      accountAddress,
-      walletAddress,
+      accountAddress: mtwAddress ?? rawWalletAddress,
+      walletAddress: rawWalletAddress?.toLowerCase(),
       phoneCountryCallingCode, // Example: +33
       phoneCountryCodeAlpha2: phoneCountryCallingCode
         ? getRegionCodeFromCountryCode(phoneCountryCallingCode)
@@ -90,7 +92,7 @@ export const getCurrentUserTraits = createSelector(
       localCurrencyCode,
       hasVerifiedNumber,
       hasCompletedBackup,
-      deviceId: DeviceInfo.getUniqueId(),
+      deviceId: DeviceInfo.getUniqueIdSync(),
       appVersion: DeviceInfo.getVersion(),
       appBuildNumber: DeviceInfo.getBuildNumber(),
       appBundleId: DeviceInfo.getBundleId(),

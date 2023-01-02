@@ -4,6 +4,8 @@ PODS:
   - Adjust/Core (4.29.7)
   - Analytics (4.1.6)
   - boost (1.76.0)
+  - BVLinearGradient (2.6.2):
+    - React-Core
   - CleverTap-iOS-SDK (4.0.0):
     - SDWebImage (~> 5.1)
   - clevertap-react-native (0.8.1):
@@ -607,7 +609,7 @@ PODS:
   - RNPersonaInquiry2 (2.2.23):
     - PersonaInquirySDK2 (= 2.3.9)
     - React-Core
-  - RNReanimated (2.5.0):
+  - RNReanimated (2.13.0):
     - DoubleConversion
     - FBLazyVector
     - FBReactNativeSpec
@@ -615,7 +617,6 @@ PODS:
     - RCT-Folly
     - RCTRequired
     - RCTTypeSafety
-    - React
     - React-callinvoker
     - React-Core
     - React-Core/DevSupport
@@ -676,6 +677,7 @@ PODS:
 
 DEPENDENCIES:
   - boost (from `../node_modules/react-native/third-party-podspecs/boost.podspec`)
+  - BVLinearGradient (from `../node_modules/react-native-linear-gradient`)
   - clevertap-react-native (from `../node_modules/clevertap-react-native`)
   - CTNotificationService
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
@@ -832,6 +834,8 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   boost:
     :podspec: "../node_modules/react-native/third-party-podspecs/boost.podspec"
+  BVLinearGradient:
+    :path: "../node_modules/react-native-linear-gradient"
   clevertap-react-native:
     :path: "../node_modules/clevertap-react-native"
   DoubleConversion:
@@ -997,6 +1001,7 @@ SPEC CHECKSUMS:
   Adjust: 91a06a01e4bb35b432e26b5d5bb8995b95fc381c
   Analytics: eefe524436f904b8bb3f8c8c3425280e43b34efc
   boost: a7c83b31436843459a1961bfd74b96033dc77234
+  BVLinearGradient: 34a999fda29036898a09c6a6b728b0b4189e1a44
   CleverTap-iOS-SDK: fa4737b7cede85e55d49354ce79ef8d08762ddca
   clevertap-react-native: 97ccd6512b94fe034c126340b8eb677f28e5baa1
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
@@ -1105,7 +1110,7 @@ SPEC CHECKSUMS:
   RNLocalize: f567ea0e35116a641cdffe6683b0d212d568f32a
   RNPermissions: 034db8a73d562766f990c89abbdeaa5d6e204c67
   RNPersonaInquiry2: 3ab52078e891a5d2fa39bf7cc9119ca27f0337fd
-  RNReanimated: ee33ab40fa252332a36aeed9d936801ed9700b24
+  RNReanimated: 81ae02204392903240908ab05385e178b4f88690
   RNScreens: 34cc502acf1b916c582c60003dc3089fa01dc66d
   RNSecureRandom: ff25041dd065a945810ca01a2bcd06f8d141b81d
   RNSentry: 3c27f3c57f16bab9835d9555add298571077e0c1
