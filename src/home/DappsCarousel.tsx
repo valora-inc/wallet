@@ -155,17 +155,18 @@ function DappsCarousel({ onSelectDapp }: Props) {
             </Touchable>
           </Card>
         ))}
-
-        <Touchable onPress={onPressAllDapps}>
-          <Card style={styles.viewAllCard} rounded={true} shadow={Shadow.SoftLight}>
-            <View style={[styles.icon, styles.viewAllIcon]}>
-              <ArrowRight />
-            </View>
-            <Text style={styles.dappName} numberOfLines={1} ellipsizeMode="tail">
-              {t('allDapps')}
-            </Text>
-          </Card>
-        </Touchable>
+        <Card style={styles.viewAllCard} rounded={true} shadow={Shadow.SoftLight}>
+          <Touchable onPress={onPressAllDapps}>
+            <>
+              <View style={[styles.icon, styles.viewAllIcon]}>
+                <ArrowRight />
+              </View>
+              <Text style={styles.dappName} numberOfLines={1} ellipsizeMode="tail">
+                {t('allDapps')}
+              </Text>
+            </>
+          </Touchable>
+        </Card>
       </ScrollView>
     </View>
   )
