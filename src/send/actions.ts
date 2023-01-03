@@ -43,6 +43,7 @@ export interface SendPaymentActionLegacy {
   amount: BigNumber
   currency: Currency
   comment: string
+  recipient: Recipient
   recipientAddress?: string | null
   feeInfo?: FeeInfo
   firebasePendingRequestUid: string | null | undefined
@@ -113,6 +114,7 @@ export const sendPaymentLegacy = (
   amount: BigNumber,
   currency: Currency,
   comment: string,
+  recipient: Recipient,
   recipientAddress: string | null | undefined,
   feeInfo: FeeInfo | undefined,
   firebasePendingRequestUid: string | null | undefined,
@@ -122,6 +124,7 @@ export const sendPaymentLegacy = (
   amount,
   currency,
   comment,
+  recipient,
   recipientAddress,
   feeInfo,
   firebasePendingRequestUid,

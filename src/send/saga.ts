@@ -368,6 +368,7 @@ export function* sendPaymentSagaLegacy({
   amount,
   currency,
   comment,
+  recipient,
   recipientAddress,
   feeInfo,
   firebasePendingRequestUid,
