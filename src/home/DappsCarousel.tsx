@@ -139,6 +139,7 @@ function DappsCarousel({ onSelectDapp }: Props) {
           <Card style={styles.card} rounded={true} shadow={Shadow.SoftLight} key={dapp.id}>
             <Touchable
               onPress={() => onSelectDapp({ ...dapp, openedFrom: section })}
+              style={styles.touchable}
               testID={`${testID}/Dapp`}
             >
               <>
@@ -155,8 +156,9 @@ function DappsCarousel({ onSelectDapp }: Props) {
             </Touchable>
           </Card>
         ))}
-        <Card style={styles.viewAllCard} rounded={true} shadow={Shadow.SoftLight}>
-          <Touchable onPress={onPressAllDapps}>
+
+        <Card style={[styles.card, { marginRight: 0 }]} rounded={true} shadow={Shadow.SoftLight}>
+          <Touchable style={styles.touchable} onPress={onPressAllDapps}>
             <>
               <View style={[styles.icon, styles.viewAllIcon]}>
                 <ArrowRight />
@@ -188,13 +190,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.Regular16,
   },
   card: {
-    alignItems: 'center',
     width: DAPP_WIDTH,
     marginRight: Spacing.Regular16,
+    padding: 0,
   },
-  viewAllCard: {
+  touchable: {
     alignItems: 'center',
-    width: DAPP_WIDTH,
+    padding: Spacing.Regular16,
   },
   dappName: {
     ...fontStyles.small,
