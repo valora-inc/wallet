@@ -4,8 +4,8 @@ import * as React from 'react'
 import { Provider } from 'react-redux'
 import ReclaimPaymentConfirmationCard from 'src/escrow/ReclaimPaymentConfirmationCard'
 import { FeeType } from 'src/fees/reducer'
-import { WEI_PER_TOKEN } from 'src/web3/consts'
 import {} from 'src/home/NotificationBox'
+import { WEI_PER_TOKEN } from 'src/web3/consts'
 import { createMockStore } from 'test/utils'
 import { mockCusdAddress, mockE164Number, mockRecipient } from 'test/values'
 
@@ -18,7 +18,6 @@ const TEST_FEE_INFO = {
 
 const mockFeeEstimates = {
   [FeeType.SEND]: undefined,
-  [FeeType.INVITE]: undefined,
   [FeeType.EXCHANGE]: undefined,
   [FeeType.RECLAIM_ESCROW]: {
     usdFee: '0.01',

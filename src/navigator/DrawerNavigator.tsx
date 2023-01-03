@@ -33,8 +33,7 @@ import SettingsScreen from 'src/account/Settings'
 import Support from 'src/account/Support'
 import { HomeEvents, RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { celoNewsConfigSelector, inviteMethodSelector } from 'src/app/selectors'
-import { InviteMethodType } from 'src/app/types'
+import { celoNewsConfigSelector } from 'src/app/selectors'
 import BackupIntroduction from 'src/backup/BackupIntroduction'
 import AccountNumber from 'src/components/AccountNumber'
 import ContactCircleSelf from 'src/components/ContactCircleSelf'
@@ -197,7 +196,6 @@ export default function DrawerNavigator() {
   const { t } = useTranslation()
   const isCeloEducationComplete = useSelector((state) => state.goldToken.educationCompleted)
   const dappsListUrl = useSelector(dappsListApiUrlSelector)
-  const inviteMethod = useSelector(inviteMethodSelector)
 
   const shouldShowRecoveryPhraseInSettings = useSelector(shouldShowRecoveryPhraseInSettingsSelector)
   const backupCompleted = useSelector(backupCompletedSelector)
@@ -291,13 +289,11 @@ export default function DrawerNavigator() {
         component={FiatExchange}
         options={{ title: t('addAndWithdraw'), drawerIcon: AddWithdraw }}
       />
-      {inviteMethod === InviteMethodType.ReferralUrl && (
-        <Drawer.Screen
-          name={'Invite'}
-          component={Invite}
-          options={{ title: t('invite'), drawerIcon: InviteIcon }}
-        />
-      )}
+      <Drawer.Screen
+        name={'Invite'}
+        component={Invite}
+        options={{ title: t('invite'), drawerIcon: InviteIcon }}
+      />
 
       {
         // When swap is enabled, the celo menu item is here

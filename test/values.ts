@@ -41,9 +41,9 @@ import {
   RecipientInfo,
 } from 'src/recipients/recipient'
 import { TransactionDataInput } from 'src/send/SendAmount'
+import { StoredTokenBalance } from 'src/tokens/slice'
 import { Currency } from 'src/utils/currencies'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
-import { StoredTokenBalance } from 'src/tokens/slice'
 
 export const nullAddress = '0x0'
 
@@ -573,7 +573,6 @@ export const mockFeeInfo = {
 
 export const emptyFees = {
   [FeeType.SEND]: undefined,
-  [FeeType.INVITE]: undefined,
   [FeeType.EXCHANGE]: undefined,
   [FeeType.RECLAIM_ESCROW]: undefined,
   [FeeType.REGISTER_DEK]: undefined,

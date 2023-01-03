@@ -13,7 +13,7 @@ import { call, take } from 'redux-saga/effects'
 import { handleUpdateAccountRegistration } from 'src/account/saga'
 import { updateAccountRegistration } from 'src/account/updateAccountRegistration'
 import { RemoteConfigValues } from 'src/app/saga'
-import { CreateAccountCopyTestType, InviteMethodType } from 'src/app/types'
+import { CreateAccountCopyTestType } from 'src/app/types'
 import { DEFAULT_PERSONA_TEMPLATE_ID, FETCH_TIMEOUT_DURATION, FIREBASE_ENABLED } from 'src/config'
 import { DappConnectInfo } from 'src/dapps/types'
 import { handleNotification } from 'src/firebase/notifications'
@@ -301,7 +301,6 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     createAccountCopyTestType:
       flags.createAccountCopyTestType.asString() as CreateAccountCopyTestType,
     maxSwapSlippagePercentage: flags.maxSwapSlippagePercentage.asNumber(),
-    inviteMethod: flags.inviteMethod.asString() as InviteMethodType,
     showGuidedOnboardingCopy: flags.showGuidedOnboardingCopy.asBoolean(),
     centralPhoneVerificationEnabled: flags.centralPhoneVerificationEnabled.asBoolean(),
     networkTimeoutSeconds: flags.networkTimeoutSeconds.asNumber(),

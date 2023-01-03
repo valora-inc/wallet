@@ -59,7 +59,6 @@ export const TOKEN_MIN_AMOUNT = 0.00000001
 // The minimum amount for a wallet to be considered as "funded"
 export const DOLLAR_MIN_AMOUNT_ACCOUNT_FUNDED = 0.01
 // The number of seconds before the sender can reclaim the payment.
-export const ESCROW_PAYMENT_EXPIRY_SECONDS = 1 // The contract doesn't allow 0 seconds.
 export const DEFAULT_TESTNET = configOrThrow('DEFAULT_TESTNET')
 export const SMS_RETRIEVER_APP_SIGNATURE = Config.SMS_RETRIEVER_APP_SIGNATURE
 // ODIS minimum dollar balance for pepper quota retrieval
