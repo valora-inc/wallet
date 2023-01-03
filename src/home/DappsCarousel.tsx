@@ -136,23 +136,24 @@ function DappsCarousel({ onSelectDapp }: Props) {
         scrollEventThrottle={50}
       >
         {dapps.map((dapp) => (
-          <Touchable
-            key={dapp.id}
-            onPress={() => onSelectDapp({ ...dapp, openedFrom: section })}
-            testID={`${testID}/Dapp`}
-          >
-            <Card style={styles.card} rounded={true} shadow={Shadow.SoftLight}>
-              <Image
-                source={{ uri: dapp.iconUrl }}
-                style={styles.icon}
-                resizeMode="cover"
-                testID={`${testID}/Icon`}
-              />
-              <Text style={styles.dappName} numberOfLines={1} ellipsizeMode="tail">
-                {dapp.name}
-              </Text>
-            </Card>
-          </Touchable>
+          <Card style={styles.card} rounded={true} shadow={Shadow.SoftLight} key={dapp.id}>
+            <Touchable
+              onPress={() => onSelectDapp({ ...dapp, openedFrom: section })}
+              testID={`${testID}/Dapp`}
+            >
+              <>
+                <Image
+                  source={{ uri: dapp.iconUrl }}
+                  style={styles.icon}
+                  resizeMode="cover"
+                  testID={`${testID}/Icon`}
+                />
+                <Text style={styles.dappName} numberOfLines={1} ellipsizeMode="tail">
+                  {dapp.name}
+                </Text>
+              </>
+            </Touchable>
+          </Card>
         ))}
 
         <Touchable onPress={onPressAllDapps}>
