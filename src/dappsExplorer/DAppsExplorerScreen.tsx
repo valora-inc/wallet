@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
-  ActivityIndicator,
   Image,
+  RefreshControl,
   SectionList,
   SectionListData,
   SectionListProps,
@@ -113,16 +113,6 @@ export function DAppsExplorerScreen() {
         {t('dappsScreenHelpDialog.message')}
       </Dialog>
       <>
-        {loading && !categoriesById && (
-          <View style={styles.centerContainer}>
-            <ActivityIndicator
-              style={styles.loadingIcon}
-              size="large"
-              color={colors.greenBrand}
-              testID="DAppExplorerScreen/loading"
-            />
-          </View>
-        )}
         {!loading && !categoriesById && error && (
           <View style={styles.centerContainer}>
             <Text style={fontStyles.regular}>{t('dappsScreen.errorMessage')}</Text>
@@ -130,6 +120,15 @@ export function DAppsExplorerScreen() {
         )}
         {categoriesById && (
           <AnimatedSectionList
+            refreshControl={
+              <RefreshControl
+                tintColor={colors.greenBrand}
+                colors={[colors.greenBrand]}
+                style={{ backgroundColor: colors.light }}
+                refreshing={loading}
+                onRefresh={() => dispatch(fetchDappsList())}
+              />
+            }
             // @ts-ignore TODO: resolve type error
             ref={sectionListRef}
             ListHeaderComponent={
@@ -236,11 +235,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flex: 1,
     marginHorizontal: Spacing.Smallest8,
-  },
-  loadingIcon: {
-    marginVertical: Spacing.Thick24,
-    height: 108,
-    width: 108,
   },
   // Padding values honor figma designs
   categoryTextContainer: {
