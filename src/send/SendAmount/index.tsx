@@ -7,23 +7,14 @@ import { StyleSheet, View } from 'react-native'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
-import { showError } from 'src/alert/actions'
 import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { ErrorMessages } from 'src/app/ErrorMessages'
 import AmountKeypad from 'src/components/AmountKeypad'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
-import {
-  ALERT_BANNER_DURATION,
-  NUMBER_INPUT_MAX_DECIMALS,
-  STABLE_TRANSACTION_MIN_AMOUNT,
-} from 'src/config'
+import { NUMBER_INPUT_MAX_DECIMALS, STABLE_TRANSACTION_MIN_AMOUNT } from 'src/config'
 import { useMaxSendAmount } from 'src/fees/hooks'
 import { FeeType } from 'src/fees/reducer'
-import { RecipientVerificationStatus } from 'src/identity/types'
 import { convertToMaxSupportedPrecision } from 'src/localCurrency/convert'
-import { useCurrencyToLocalAmount } from 'src/localCurrency/hooks'
-import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { noHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -41,11 +32,9 @@ import {
   useTokenInfo,
   useTokenToLocalAmount,
 } from 'src/tokens/hooks'
-import { defaultTokenToSendSelector, stablecoinsSelector } from 'src/tokens/selectors'
+import { defaultTokenToSendSelector } from 'src/tokens/selectors'
 import { fetchTokenBalances } from 'src/tokens/slice'
-import { Currency } from 'src/utils/currencies'
 
-const MAX_ESCROW_VALUE = new BigNumber(20)
 const LOCAL_CURRENCY_MAX_DECIMALS = 2
 const TOKEN_MAX_DECIMALS = 8
 
@@ -117,21 +106,15 @@ function SendAmount(props: Props) {
   const [usingLocalAmount, setUsingLocalAmount] = useState(true)
   const { isOutgoingPaymentRequest, recipient, origin, forceTokenAddress } = props.route.params
   const defaultToken = useSelector(defaultTokenToSendSelector)
-  const inviteTokens = useSelector(stablecoinsSelector)
   const [transferTokenAddress, setTransferToken] = useState(forceTokenAddress ?? defaultToken)
   const [reviewButtonPressed, setReviewButtonPressed] = useState(false)
   const tokenInfo = useTokenInfo(transferTokenAddress)!
   const tokenHasUsdPrice = !!tokenInfo?.usdPrice
   const showInputInLocalAmount = usingLocalAmount && tokenHasUsdPrice
 
-  const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const recipientVerificationStatus = useRecipientVerificationStatus(recipient)
-  const feeType =
-    recipientVerificationStatus === RecipientVerificationStatus.VERIFIED
-      ? FeeType.SEND
-      : FeeType.INVITE
-  const shouldFetchNewFee =
-    recipientVerificationStatus !== RecipientVerificationStatus.UNKNOWN && !isOutgoingPaymentRequest
+  const feeType = FeeType.SEND
+  const shouldFetchNewFee = !isOutgoingPaymentRequest
   const maxBalance = useMaxSendAmount(transferTokenAddress, feeType, shouldFetchNewFee)
   const maxInLocalCurrency = useTokenToLocalAmount(maxBalance, transferTokenAddress)
   const maxAmountValue = showInputInLocalAmount ? maxInLocalCurrency : maxBalance
@@ -182,37 +165,9 @@ function SendAmount(props: Props) {
     isFromScan: !!props.route.params?.isFromScan,
   })
 
-  const maxEscrowInLocalAmount =
-    useCurrencyToLocalAmount(MAX_ESCROW_VALUE, Currency.Dollar) ?? new BigNumber(0) // TODO: Improve error handling
-
   useEffect(() => {
-    if (
-      // It's an invite and we're not sending a core stablecoin.
-      recipientVerificationStatus === RecipientVerificationStatus.UNVERIFIED &&
-      !inviteTokens.map((token) => token.address).includes(transferTokenAddress)
-    ) {
-      setTransferToken(inviteTokens[0].address)
-      onAmountChange('')
-      return
-    }
-
     if (reviewButtonPressed) {
-      if (recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN) {
-        // Wait until the recipient status is fetched.
-        return
-      } else if (
-        recipientVerificationStatus === RecipientVerificationStatus.UNVERIFIED &&
-        localAmount?.isGreaterThan(maxEscrowInLocalAmount)
-      ) {
-        dispatch(
-          showError(ErrorMessages.MAX_ESCROW_TRANSFER_EXCEEDED, ALERT_BANNER_DURATION, {
-            maxAmount: maxEscrowInLocalAmount?.toFixed(2),
-            symbol: localCurrencySymbol,
-          })
-        )
-      } else {
-        isOutgoingPaymentRequest ? onRequest() : onSend()
-      }
+      isOutgoingPaymentRequest ? onRequest() : onSend()
       setReviewButtonPressed(false)
     }
   }, [reviewButtonPressed, recipientVerificationStatus])
@@ -231,7 +186,6 @@ function SendAmount(props: Props) {
       <SendAmountHeader
         tokenAddress={transferTokenAddress}
         isOutgoingPaymentRequest={!!props.route.params?.isOutgoingPaymentRequest}
-        isInvite={recipientVerificationStatus === RecipientVerificationStatus.UNVERIFIED}
         onChangeToken={setTransferToken}
         disallowCurrencyChange={Boolean(forceTokenAddress)}
       />

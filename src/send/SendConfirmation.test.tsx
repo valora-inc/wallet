@@ -10,7 +10,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { RootState } from 'src/redux/reducers'
-import { sendPaymentOrInvite } from 'src/send/actions'
+import { sendPayment } from 'src/send/actions'
 import SendConfirmation from 'src/send/SendConfirmation'
 import { getGasPrice } from 'src/web3/gas'
 import {
@@ -32,7 +32,6 @@ import {
   mockE164Number,
   mockFeeInfo,
   mockGasPrice,
-  mockInvitableRecipient,
   mockTestTokenAddress,
   mockTokenInviteTransactionData,
   mockTokenTransactionData,
@@ -66,13 +65,6 @@ const mockFeeEstimates = {
   ...emptyFees,
   [FeeType.SEND]: {
     usdFee: '0.02',
-    lastUpdated: 500,
-    loading: false,
-    error: false,
-    feeInfo: mockFeeInfo,
-  },
-  [FeeType.INVITE]: {
-    usdFee: '0.04',
     lastUpdated: 500,
     loading: false,
     error: false,
@@ -314,23 +306,6 @@ describe('SendConfirmation', () => {
     expect(queryByTestId('commentInput/send')).toBeFalsy()
   })
 
-  it('doesnt show the comment for invites', () => {
-    const { queryByTestId } = renderScreen(
-      {},
-      getMockStackScreenProps(Screens.SendConfirmation, {
-        transactionData: {
-          ...mockTokenInviteTransactionData,
-          recipient: {
-            ...mockInvitableRecipient,
-            e164PhoneNumber: '+14155550001',
-          },
-        },
-        origin: SendOrigin.AppSendFlow,
-      })
-    )
-    expect(queryByTestId('commentInput/send')).toBeFalsy()
-  })
-
   it('navigates to ValidateRecipientIntro when "edit" button is pressed', async () => {
     const mockE164NumberToAddress: E164NumberToAddressType = {
       [mockE164Number]: [mockAccountInvite, mockAccount2Invite],
@@ -380,19 +355,6 @@ describe('SendConfirmation', () => {
     expect(queryByTestId('accountEditButton')).toBeNull()
   })
 
-  it('renders correct modal for invitations', async () => {
-    const { getByTestId, queryAllByTestId } = renderScreen(
-      { identity: { e164NumberToAddress: {} } },
-      mockInviteScreenProps
-    )
-
-    expect(queryAllByTestId('InviteAndSendModal')[0].props.visible).toBe(false)
-
-    fireEvent.press(getByTestId('ConfirmButton'))
-
-    expect(queryAllByTestId('InviteAndSendModal')[0].props.visible).toBe(true)
-  })
-
   it('dispatches an action when the confirm button is pressed', async () => {
     const { store, getByTestId } = renderScreen({ web3: { isDekRegistered: true } })
 
@@ -403,15 +365,7 @@ describe('SendConfirmation', () => {
     const { inputAmount, tokenAddress, recipient } = mockTokenTransactionData
     expect(store.getActions()).toEqual(
       expect.arrayContaining([
-        sendPaymentOrInvite(
-          inputAmount,
-          tokenAddress,
-          inputAmount,
-          '',
-          recipient,
-          mockFeeInfo,
-          false
-        ),
+        sendPayment(inputAmount, tokenAddress, inputAmount, '', recipient, mockFeeInfo, false),
       ])
     )
   })
@@ -448,7 +402,7 @@ describe('SendConfirmation', () => {
     const { inputAmount, tokenAddress } = mockTokenTransactionData
     expect(store.getActions()).toEqual(
       expect.arrayContaining([
-        sendPaymentOrInvite(
+        sendPayment(
           inputAmount,
           tokenAddress,
           inputAmount,

@@ -133,21 +133,9 @@ export enum OnboardingEvents {
   wallet_import_error = 'wallet_import_error',
   wallet_import_success = 'wallet_import_success',
 
-  invite_redeem_start = 'invite_redeem_start',
-  invite_redeem_complete = 'invite_redeem_complete',
-  invite_redeem_cancel = 'invite_redeem_cancel',
-  invite_redeem_timeout = 'invite_redeem_timeout',
-  invite_redeem_error = 'invite_redeem_error',
-  invite_redeem_move_funds_start = 'invite_redeem_move_funds_start',
-  invite_redeem_move_funds_complete = 'invite_redeem_move_funds_complete',
-
   initialize_account_start = 'initialize_account_start',
   initialize_account_complete = 'initialize_account_complete',
   initialize_account_error = 'initialize_account_error',
-
-  escrow_redeem_start = 'escrow_redeem_start', // when escrow redemption starts (only happens on user invite redemption)
-  escrow_redeem_complete = 'escrow_redeem_complete',
-  escrow_redeem_error = 'escrow_redeem_error',
 
   account_dek_register_start = 'account_dek_register_start',
   account_dek_register_account_unlocked = 'account_dek_register_account_unlocked',
@@ -270,16 +258,6 @@ export enum AuthenticationEvents {
 }
 
 export enum InviteEvents {
-  invite_tx_start = 'invite_tx_start',
-  invite_tx_complete = 'invite_tx_complete',
-  invite_tx_error = 'invite_tx_error',
-  invite_start = 'invite_start',
-  invite_complete = 'invite_complete',
-  invite_error = 'invite_error',
-  invite_method_sms = 'invite_method_sms',
-  invite_method_whatsapp = 'invite_method_whatsapp',
-  invite_method_error = 'invite_method_error',
-  invite_from_menu = 'invite_from_menu',
   invite_banner_impression = 'invite_banner_impression',
   invite_with_share = 'invite_with_share',
   invite_with_share_dismiss = 'invite_with_share_dismiss',
@@ -288,12 +266,6 @@ export enum InviteEvents {
 }
 
 export enum EscrowEvents {
-  escrow_transfer_start = 'escrow_transfer_start',
-  escrow_transfer_approve_tx_sent = 'escrow_transfer_approve_tx_sent',
-  escrow_transfer_transfer_tx_sent = 'escrow_transfer_transfer_tx_sent',
-  escrow_transfer_complete = 'escrow_transfer_complete',
-  escrow_transfer_error = 'escrow_transfer_error',
-
   escrow_fetch_start = 'escrow_fetch_start',
   escrow_fetch_complete = 'escrow_fetch_complete',
   escrow_fetch_error = 'escrow_fetch_error',
@@ -327,7 +299,7 @@ export enum SendEvents {
   send_secure_edit = 'send_secure_edit', // when "edit" address button is pressed to manually initiate secure send flow
 
   send_tx_start = 'send_tx_start',
-  send_tx_complete = 'send_tx_complete', // when a send or invite transaction has successfully completed
+  send_tx_complete = 'send_tx_complete', // when a send transaction has successfully completed
   send_tx_error = 'send_tx_error', // when there is an error sending a transaction
 
   token_dropdown_opened = 'token_dropdown_opened',
@@ -348,7 +320,6 @@ export enum RequestEvents {
   request_cancel = 'request_cancel', // when cancel is clicked after launching request flow
   request_amount_back = 'request_amount_back', // back button pressed on amount screen
   request_amount_continue = 'request_amount_continue', // when next button pressed on amount enter page
-  request_unavailable = 'request_unavailable', // when request sender is unverified
   request_confirm_back = 'request_confirm_back', // when back button pressed on request confirmation screen
   request_confirm_request = 'request_confirm_request', // when request button pressed on request confirmation screen
   request_error = 'request_error', // when there is an error requesting a transaction

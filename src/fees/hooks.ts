@@ -47,7 +47,7 @@ export function usePaidFees(fees: Fee[]) {
 // also optionally fetches new fee estimations if the current ones are missing or out of date
 export function useMaxSendAmount(
   tokenAddress: string,
-  feeType: FeeType.SEND | FeeType.INVITE | FeeType.SWAP,
+  feeType: FeeType.SEND | FeeType.SWAP,
   shouldRefresh: boolean = true
 ) {
   const dispatch = useDispatch()

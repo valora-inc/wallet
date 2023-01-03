@@ -10,19 +10,18 @@ import { calculateFee, currencyToFeeCurrency, FeeInfo } from 'src/fees/saga'
 import { transferGoldToken } from 'src/goldToken/actions'
 import { encryptComment } from 'src/identity/commentEncryption'
 import { e164NumberToAddressSelector } from 'src/identity/selectors'
-import { sendInvite } from 'src/invite/saga'
 import { navigateBack, navigateHome } from 'src/navigator/NavigationService'
 import { completePaymentRequest } from 'src/paymentRequest/actions'
 import { handleBarcode, shareSVGImage } from 'src/qrcode/utils'
-import { recipientHasNumber, RecipientInfo } from 'src/recipients/recipient'
+import { RecipientInfo } from 'src/recipients/recipient'
 import { recipientInfoSelector } from 'src/recipients/reducer'
 import {
   Actions,
   HandleBarcodeDetectedAction,
-  SendPaymentOrInviteAction,
-  SendPaymentOrInviteActionLegacy,
-  sendPaymentOrInviteFailure,
-  sendPaymentOrInviteSuccess,
+  SendPaymentAction,
+  SendPaymentActionLegacy,
+  sendPaymentFailure,
+  sendPaymentSuccess,
   ShareQRCodeAction,
 } from 'src/send/actions'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
@@ -365,19 +364,18 @@ function* sendPayment(
   }
 }
 
-export function* sendPaymentOrInviteSagaLegacy({
+export function* sendPaymentSagaLegacy({
   amount,
   currency,
   comment,
-  recipient,
   recipientAddress,
   feeInfo,
   firebasePendingRequestUid,
   fromModal,
-}: SendPaymentOrInviteActionLegacy) {
+}: SendPaymentActionLegacy) {
   try {
     yield call(getConnectedUnlockedAccount)
-    SentryTransactionHub.startTransaction(SentryTransaction.send_payment_or_invite_legacy)
+    SentryTransactionHub.startTransaction(SentryTransaction.send_payment_legacy)
     const tokenByCurrency: Record<Currency, TokenBalance | undefined> = yield select(
       tokensByCurrencySelector
     )
@@ -388,15 +386,8 @@ export function* sendPaymentOrInviteSagaLegacy({
 
     if (recipientAddress) {
       yield call(sendPaymentLegacy, recipientAddress, amount, comment, currency, feeInfo)
-    } else if (recipientHasNumber(recipient)) {
-      yield call(
-        sendInvite,
-        recipient.e164PhoneNumber,
-        amount,
-        tokenInfo.usdPrice ? amount.multipliedBy(tokenInfo.usdPrice) : null,
-        tokenInfo.address,
-        feeInfo
-      )
+    } else {
+      throw new Error('No address found on recipient')
     }
 
     if (firebasePendingRequestUid) {
@@ -409,19 +400,19 @@ export function* sendPaymentOrInviteSagaLegacy({
       navigateHome()
     }
 
-    yield put(sendPaymentOrInviteSuccess(amount))
-    SentryTransactionHub.finishTransaction(SentryTransaction.send_payment_or_invite_legacy)
+    yield put(sendPaymentSuccess(amount))
+    SentryTransactionHub.finishTransaction(SentryTransaction.send_payment_legacy)
   } catch (e) {
     yield put(showErrorOrFallback(e, ErrorMessages.SEND_PAYMENT_FAILED))
-    yield put(sendPaymentOrInviteFailure())
+    yield put(sendPaymentFailure())
   }
 }
 
-export function* watchSendPaymentOrInviteLegacy() {
-  yield takeLeading(Actions.SEND_PAYMENT_OR_INVITE_LEGACY, sendPaymentOrInviteSagaLegacy)
+export function* watchSendPaymentLegacy() {
+  yield takeLeading(Actions.SEND_PAYMENT_LEGACY, sendPaymentSagaLegacy)
 }
 
-export function* sendPaymentOrInviteSaga({
+export function* sendPaymentSaga({
   amount,
   tokenAddress,
   usdAmount,
@@ -429,10 +420,10 @@ export function* sendPaymentOrInviteSaga({
   recipient,
   feeInfo,
   fromModal,
-}: SendPaymentOrInviteAction) {
+}: SendPaymentAction) {
   try {
     yield call(getConnectedUnlockedAccount)
-    SentryTransactionHub.startTransaction(SentryTransaction.send_payment_or_invite)
+    SentryTransactionHub.startTransaction(SentryTransaction.send_payment)
     const tokenInfo: TokenBalance | undefined = yield call(getTokenInfo, tokenAddress)
     if (recipient.address) {
       yield call(sendPayment, recipient.address, amount, usdAmount, tokenAddress, comment, feeInfo)
@@ -441,10 +432,8 @@ export function* sendPaymentOrInviteSaga({
           amount: amount.toString(),
         })
       }
-    } else if (recipientHasNumber(recipient)) {
-      yield call(sendInvite, recipient.e164PhoneNumber, amount, usdAmount, tokenAddress, feeInfo)
     } else {
-      throw new Error('')
+      throw new Error('No address found on recipient')
     }
 
     if (fromModal) {
@@ -453,21 +442,21 @@ export function* sendPaymentOrInviteSaga({
       navigateHome()
     }
 
-    yield put(sendPaymentOrInviteSuccess(amount))
-    SentryTransactionHub.finishTransaction(SentryTransaction.send_payment_or_invite)
+    yield put(sendPaymentSuccess(amount))
+    SentryTransactionHub.finishTransaction(SentryTransaction.send_payment)
   } catch (e) {
     yield put(showErrorOrFallback(e, ErrorMessages.SEND_PAYMENT_FAILED))
-    yield put(sendPaymentOrInviteFailure())
+    yield put(sendPaymentFailure())
   }
 }
 
-export function* watchSendPaymentOrInvite() {
-  yield takeLeading(Actions.SEND_PAYMENT_OR_INVITE, sendPaymentOrInviteSaga)
+export function* watchSendPayment() {
+  yield takeLeading(Actions.SEND_PAYMENT, sendPaymentSaga)
 }
 
 export function* sendSaga() {
   yield spawn(watchQrCodeDetections)
   yield spawn(watchQrCodeShare)
-  yield spawn(watchSendPaymentOrInvite)
-  yield spawn(watchSendPaymentOrInviteLegacy)
+  yield spawn(watchSendPayment)
+  yield spawn(watchSendPaymentLegacy)
 }
