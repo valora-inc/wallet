@@ -43,8 +43,14 @@ export const useDappMetadata = (metadata?: IClientMeta | CoreTypes.Metadata | nu
   }
 
   const { url, name, icons } = metadata
+  const dappHostname = new URL(url).hostname
+
   // create a display name in case the WC request contains an empty string
-  const dappName = name || activeDapp?.name || url
+  const dappName =
+    name ||
+    (!!activeDapp && new URL(activeDapp.dappUrl).hostname === dappHostname
+      ? activeDapp.name
+      : dappHostname)
   const dappImageUrl = icons[0] ?? `${url}/favicon.ico`
 
   return {
