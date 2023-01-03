@@ -5,8 +5,11 @@ const jestExpect = require('expect')
 
 /**
  * From the home screen, navigate to the dapp explorer screen
+ * Disabled detox device sync due to dapp list double fetch / reanimated issue
+ * https://github.com/wix/Detox/issues/2799
  */
 async function navigateToDappList() {
+  await device.disableSynchronization()
   await waitForElementId('Hamburger')
   await element(by.id('Hamburger')).tap()
   await waitForElementId('dapps-explorer-icon')
@@ -15,6 +18,7 @@ async function navigateToDappList() {
   await waitFor(element(by.id('DAppExplorerScreen/loading')))
     .not.toBeVisible()
     .withTimeout(30 * 1000)
+  await device.enableSynchronization()
 }
 
 /**
