@@ -94,13 +94,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     flex: 1,
-    padding: Spacing.Regular16,
   },
   card: {
     marginTop: Spacing.Regular16,
     flex: 1,
     alignItems: 'center',
-    padding: 0,
   },
   title: {
     ...fontStyles.small,
