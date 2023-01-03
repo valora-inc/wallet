@@ -838,6 +838,12 @@
             ],
             "type": "object"
         },
+        "FeeEstimates": {
+            "additionalProperties": {
+                "$ref": "#/definitions/{send:FeeEstimateState|undefined;exchange:FeeEstimateState|undefined;\"reclaim-escrow\":FeeEstimateState|undefined;\"register-dek\":FeeEstimateState|undefined;swap:FeeEstimateState|undefined;}"
+            },
+            "type": "object"
+        },
         "FeeInfo": {
             "additionalProperties": false,
             "properties": {
@@ -1320,14 +1326,6 @@
                 5
             ],
             "type": "number"
-        },
-        "InviteMethodType": {
-            "enum": [
-                "ESCROW",
-                "MANUAL_SHARE",
-                "REFERRAL_URL"
-            ],
-            "type": "string"
         },
         "InviteTransactions": {
             "additionalProperties": {
@@ -2087,7 +2085,6 @@
                 "OutgoingPaymentRequestListScreen",
                 "PaymentRequestConfirmation",
                 "PaymentRequestConfirmationLegacy",
-                "PaymentRequestUnavailable",
                 "PhoneNumberLookupQuota",
                 "PhotosEducation",
                 "PhotosNUX",
@@ -2413,12 +2410,6 @@
                 "huaweiMobileServicesAvailable": {
                     "type": "boolean"
                 },
-                "inviteMethod": {
-                    "$ref": "#/definitions/InviteMethodType"
-                },
-                "inviteModalVisible": {
-                    "type": "boolean"
-                },
                 "inviterAddress": {
                     "type": [
                         "null",
@@ -2553,8 +2544,6 @@
                 "fiatConnectCashInEnabled",
                 "fiatConnectCashOutEnabled",
                 "hideVerification",
-                "inviteMethod",
-                "inviteModalVisible",
                 "inviterAddress",
                 "lastTimeBackgrounded",
                 "locked",
@@ -2996,10 +2985,7 @@
             "additionalProperties": false,
             "properties": {
                 "estimates": {
-                    "additionalProperties": {
-                        "$ref": "#/definitions/{invite:FeeEstimateState|undefined;send:FeeEstimateState|undefined;exchange:FeeEstimateState|undefined;\"reclaim-escrow\":FeeEstimateState|undefined;\"register-dek\":FeeEstimateState|undefined;swap:FeeEstimateState|undefined;}"
-                    },
-                    "type": "object"
+                    "$ref": "#/definitions/FeeEstimates"
                 }
             },
             "required": [
@@ -5398,13 +5384,10 @@
             ],
             "type": "object"
         },
-        "{invite:FeeEstimateState|undefined;send:FeeEstimateState|undefined;exchange:FeeEstimateState|undefined;\"reclaim-escrow\":FeeEstimateState|undefined;\"register-dek\":FeeEstimateState|undefined;swap:FeeEstimateState|undefined;}": {
+        "{send:FeeEstimateState|undefined;exchange:FeeEstimateState|undefined;\"reclaim-escrow\":FeeEstimateState|undefined;\"register-dek\":FeeEstimateState|undefined;swap:FeeEstimateState|undefined;}": {
             "additionalProperties": false,
             "properties": {
                 "exchange": {
-                    "$ref": "#/definitions/FeeEstimateState"
-                },
-                "invite": {
                     "$ref": "#/definitions/FeeEstimateState"
                 },
                 "reclaim-escrow": {
@@ -5502,7 +5485,6 @@
                                         "corruptedChainDeleted",
                                         "countryNotAvailable",
                                         "deleteBankAccountFail",
-                                        "emptyInviteCode",
                                         "emptyVerificationCode",
                                         "errorRefreshingRate",
                                         "escrowTransferFailed",
@@ -5523,12 +5505,9 @@
                                         "invalidAccount",
                                         "invalidAmount",
                                         "invalidBackupPhrase",
-                                        "invalidInvite",
                                         "invalidPhone",
                                         "invalidVerificationCode",
                                         "invalidWordsInBackupPhrase",
-                                        "inviteFailed",
-                                        "inviteOpenAppFailed",
                                         "keychainAccountAlreadyExists",
                                         "keychainFetchAccounts",
                                         "keychainStorageError",
@@ -5554,8 +5533,6 @@
                                         "qrFailedInvalidRecipient",
                                         "qrFailedNoPhoneNumber",
                                         "reclaimingEscrowedPaymentFailed",
-                                        "redeemFailed",
-                                        "redeemInviteTimeout",
                                         "refreshFailedUnexpectedly",
                                         "repeatVerificationCode",
                                         "revealAttestationFailure",

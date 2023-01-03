@@ -1,213 +1,33 @@
-import { CeloTxReceipt, Contract, toTransactionObject } from '@celo/connect'
-import { ContractKit } from '@celo/contractkit'
 import { EscrowWrapper } from '@celo/contractkit/lib/wrappers/Escrow'
-import BigNumber from 'bignumber.js'
 import { all, call, put, race, select, spawn, take, takeLeading } from 'redux-saga/effects'
 import { showErrorOrFallback } from 'src/alert/actions'
 import { EscrowEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { TokenTransactionType } from 'src/apollo/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { ESCROW_PAYMENT_EXPIRY_SECONDS } from 'src/config'
 import {
   Actions,
   Actions as EscrowActions,
   EscrowedPayment,
   EscrowReclaimPaymentAction,
-  EscrowTransferPaymentAction,
   fetchSentEscrowPayments,
   reclaimEscrowPaymentFailure,
   reclaimEscrowPaymentSuccess,
   storeSentEscrowPayments,
 } from 'src/escrow/actions'
-import { generateUniquePaymentId } from 'src/escrow/utils'
 import { calculateFee, currencyToFeeCurrency } from 'src/fees/saga'
 import { identifierToE164NumberSelector } from 'src/identity/selectors'
-import { NUM_ATTESTATIONS_REQUIRED } from 'src/identity/verification'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { fetchStableBalances } from 'src/stableToken/actions'
-import {
-  getCurrencyAddress,
-  getERC20TokenContract,
-  tokenAmountInSmallestUnit,
-} from 'src/tokens/saga'
-import { tokensListSelector } from 'src/tokens/selectors'
-import { TokenBalance } from 'src/tokens/slice'
-import { addStandbyTransaction, addStandbyTransactionLegacy } from 'src/transactions/actions'
-import { sendAndMonitorTransaction } from 'src/transactions/saga'
+import { getCurrencyAddress } from 'src/tokens/saga'
 import { sendTransaction } from 'src/transactions/send'
-import {
-  newTransactionContext,
-  TokenTransactionTypeV2,
-  TransactionContext,
-  TransactionStatus,
-} from 'src/transactions/types'
+import { newTransactionContext } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
 import { getConnectedAccount, getConnectedUnlockedAccount } from 'src/web3/saga'
 import { estimateGas } from 'src/web3/utils'
 
-/**
- * TODO: Clear out unused code for escrow. Much of the code is unused now that Centralized Phone Verification
- * is used instead of Komenci.
- *
- * The only features that should still be active are showing escrow transactions in the home feed properly
- * and allowing users to redeem unclaimed escrow invites.
- * https://valora-app.slack.com/archives/C025V1D6F3J/p1669742116085229
- * https://linear.app/valora/issue/RET-504/[wallet]-remove-cpv-experiment-and-komenci
- */
-
 const TAG = 'escrow/saga'
-
-// Observed approve and escrow transfer transactions take less than 150k and 550k gas respectively.
-const STATIC_APPROVE_TRANSFER_GAS_ESTIMATE = 150000
-export const STATIC_ESCROW_TRANSFER_GAS_ESTIMATE = 550000
-
-// NOTE: Only supports static estimation as that is what is expected to be used.
-// This function can be extended to use online estimation is needed.
-export async function getEscrowTxGas() {
-  return new BigNumber(STATIC_APPROVE_TRANSFER_GAS_ESTIMATE + STATIC_ESCROW_TRANSFER_GAS_ESTIMATE)
-}
-
-export function* transferToEscrow(action: EscrowTransferPaymentAction) {
-  Logger.debug(TAG + '@transferToEscrow', 'Begin transfer to escrow')
-  try {
-    ValoraAnalytics.track(EscrowEvents.escrow_transfer_start)
-    const { phoneHashDetails, amount, tokenAddress, feeInfo, context } = action
-    const { phoneHash, pepper } = phoneHashDetails
-    const [kit, walletAddress]: [ContractKit, string] = yield all([
-      call(getContractKit),
-      call(getConnectedUnlockedAccount),
-    ])
-
-    const [tokenContract, escrowWrapper]: [Contract, EscrowWrapper] = yield all([
-      call(getERC20TokenContract, tokenAddress),
-      call([kit.contracts, kit.contracts.getEscrow]),
-    ])
-
-    const escrowPaymentIds: string[] = yield call(
-      [escrowWrapper, escrowWrapper.getReceivedPaymentIds],
-      phoneHash
-    )
-
-    const paymentId: string | undefined = generateUniquePaymentId(
-      escrowPaymentIds,
-      phoneHash,
-      pepper
-    )
-
-    if (!paymentId) {
-      throw Error('Could not generate a unique paymentId for escrow. Should never happen')
-    }
-
-    const tokens: TokenBalance[] = yield select(tokensListSelector)
-    const tokenInfo = tokens.find((token) => token.address === tokenAddress)
-    if (!tokenInfo) {
-      throw Error(`Couldnt find token info for address ${tokenAddress}. Should never happen`)
-    }
-    // Approve a transfer of funds to the Escrow contract.
-    const convertedAmount: string = yield call(tokenAmountInSmallestUnit, amount, tokenAddress)
-
-    Logger.debug(TAG + '@transferToEscrow', 'Approving escrow transfer')
-
-    const approvalTx = toTransactionObject(
-      kit.connection,
-      tokenContract.methods.approve(escrowWrapper.address, convertedAmount)
-    )
-
-    const approvalReceipt: CeloTxReceipt = yield call(
-      sendTransaction,
-      approvalTx.txo,
-      walletAddress,
-      newTransactionContext(TAG, 'Approve transfer to Escrow'),
-      feeInfo?.gas.toNumber(),
-      feeInfo?.gasPrice,
-      feeInfo?.feeCurrency
-    )
-    ValoraAnalytics.track(EscrowEvents.escrow_transfer_approve_tx_sent)
-
-    // Tranfser the funds to the Escrow contract.
-    Logger.debug(TAG + '@transferToEscrow', 'Transfering to escrow')
-    yield call(registerStandbyTransactionLegacy, context, amount.toString(), escrowWrapper.address)
-    yield call(
-      registerStandbyTransaction,
-      context,
-      amount.negated().toString(),
-      tokenAddress,
-      escrowWrapper.address
-    )
-    const transferTx = escrowWrapper.transfer(
-      phoneHash,
-      tokenAddress,
-      convertedAmount,
-      ESCROW_PAYMENT_EXPIRY_SECONDS,
-      paymentId,
-      NUM_ATTESTATIONS_REQUIRED
-    )
-    ValoraAnalytics.track(EscrowEvents.escrow_transfer_transfer_tx_sent)
-    const { receipt, error }: { receipt: CeloTxReceipt | undefined; error: any } = yield call(
-      sendAndMonitorTransaction,
-      transferTx,
-      walletAddress,
-      context,
-      feeInfo?.feeCurrency,
-      feeInfo?.gas.minus(approvalReceipt.gasUsed).toNumber(),
-      feeInfo?.gasPrice
-    )
-    if (receipt) {
-      yield put(fetchSentEscrowPayments())
-      ValoraAnalytics.track(EscrowEvents.escrow_transfer_complete, {
-        paymentId,
-      })
-    } else {
-      throw error
-    }
-  } catch (e) {
-    ValoraAnalytics.track(EscrowEvents.escrow_transfer_error, { error: e.message })
-    Logger.error(TAG + '@transferToEscrow', 'Error transfering to escrow', e)
-    yield put(showErrorOrFallback(e, ErrorMessages.ESCROW_TRANSFER_FAILED))
-  }
-}
-
-export function* registerStandbyTransactionLegacy(
-  context: TransactionContext,
-  value: string,
-  address: string
-) {
-  yield put(
-    addStandbyTransactionLegacy({
-      context,
-      type: TokenTransactionType.EscrowSent,
-      status: TransactionStatus.Pending,
-      value,
-      currency: Currency.Dollar,
-      timestamp: Math.floor(Date.now() / 1000),
-      address,
-      comment: '',
-    })
-  )
-}
-
-export function* registerStandbyTransaction(
-  context: TransactionContext,
-  value: string,
-  tokenAddress: string,
-  address: string
-) {
-  yield put(
-    addStandbyTransaction({
-      context,
-      type: TokenTransactionTypeV2.InviteSent,
-      status: TransactionStatus.Pending,
-      value,
-      tokenAddress,
-      timestamp: Math.floor(Date.now() / 1000),
-      address,
-      comment: '',
-    })
-  )
-}
 
 export async function createReclaimTransaction(paymentID: string) {
   const contractKit = await getContractKitAsync()
@@ -344,10 +164,6 @@ function* doFetchSentPayments() {
   }
 }
 
-export function* watchTransferPayment() {
-  yield takeLeading(Actions.TRANSFER_PAYMENT, transferToEscrow)
-}
-
 export function* watchReclaimPayment() {
   yield takeLeading(Actions.RECLAIM_PAYMENT, reclaimFromEscrow)
 }
@@ -357,7 +173,6 @@ export function* watchFetchSentPayments() {
 }
 
 export function* escrowSaga() {
-  yield spawn(watchTransferPayment)
   yield spawn(watchReclaimPayment)
   yield spawn(watchFetchSentPayments)
 }

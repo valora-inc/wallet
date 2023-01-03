@@ -4,20 +4,17 @@ import { NavigationContainer, NavigationState } from '@react-navigation/native'
 import * as Sentry from '@sentry/react-native'
 import { SeverityLevel } from '@sentry/types'
 import * as React from 'react'
-import { useTranslation } from 'react-i18next'
-import { Share, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
 import { useDispatch, useSelector } from 'react-redux'
 import ShakeForSupport from 'src/account/ShakeForSupport'
 import AlertBanner from 'src/alert/AlertBanner'
-import { InviteEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { activeScreenChanged } from 'src/app/actions'
 import { getAppLocked } from 'src/app/selectors'
 import UpgradeScreen from 'src/app/UpgradeScreen'
 import { doingBackupFlowSelector, shouldForceBackupSelector } from 'src/backup/selectors'
-import { DEV_RESTORE_NAV_STATE_ON_RELOAD, DYNAMIC_DOWNLOAD_LINK } from 'src/config'
-import InviteFriendModal from 'src/invite/InviteFriendModal'
+import { DEV_RESTORE_NAV_STATE_ON_RELOAD } from 'src/config'
 import {
   navigate,
   navigateClearingStack,
@@ -29,10 +26,10 @@ import { Screens } from 'src/navigator/Screens'
 import PincodeLock from 'src/pincode/PincodeLock'
 import useTypedSelector from 'src/redux/useSelector'
 import { sentryRoutingInstrumentation } from 'src/sentry/Sentry'
+import appTheme from 'src/styles/appTheme'
 import { userInSanctionedCountrySelector } from 'src/utils/countryFeatures'
 import Logger from 'src/utils/Logger'
 import { isVersionBelowMinimum } from 'src/utils/versionCheck'
-import appTheme from 'src/styles/appTheme'
 
 // This uses RN Navigation's experimental nav state persistence
 // to improve the hot reloading experience when in DEV mode
@@ -54,12 +51,10 @@ export const getActiveRouteName = (state: NavigationState) => {
 const RESTORE_STATE = __DEV__ && DEV_RESTORE_NAV_STATE_ON_RELOAD
 
 export const NavigatorWrapper = () => {
-  const { t } = useTranslation()
   const [isReady, setIsReady] = React.useState(RESTORE_STATE ? false : true)
   const [initialState, setInitialState] = React.useState()
   const appLocked = useTypedSelector(getAppLocked)
   const minRequiredVersion = useTypedSelector((state) => state.app.minVersion)
-  const isInviteModalVisible = useTypedSelector((state) => state.app.inviteModalVisible)
   const routeNameRef = React.useRef()
   const inSanctionedCountry = useTypedSelector(userInSanctionedCountrySelector)
 
@@ -170,14 +165,6 @@ export const NavigatorWrapper = () => {
     routeNameRef.current = currentRouteName
   }
 
-  const onInvite = async () => {
-    const message = t('inviteWithoutPayment', {
-      link: DYNAMIC_DOWNLOAD_LINK,
-    })
-    ValoraAnalytics.track(InviteEvents.invite_from_menu)
-    await Share.share({ message })
-  }
-
   const onReady = () => {
     navigatorIsReadyRef.current = true
     sentryRoutingInstrumentation.registerNavigationContainer(navigationRef)
@@ -198,7 +185,6 @@ export const NavigatorWrapper = () => {
         )}
         <View style={styles.floating}>
           <AlertBanner />
-          <InviteFriendModal isVisible={isInviteModalVisible} onInvite={onInvite} />
         </View>
         <ShakeForSupport />
       </View>

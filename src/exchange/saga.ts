@@ -28,7 +28,7 @@ import { ExchangeRates, exchangeRatesSelector } from 'src/exchange/reducer'
 import { currencyToFeeCurrency } from 'src/fees/saga'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { sendPaymentOrInviteSuccess } from 'src/send/actions'
+import { sendPaymentSuccess } from 'src/send/actions'
 import {
   convertToContractDecimals,
   createTokenTransferTransaction,
@@ -481,7 +481,7 @@ export function* withdrawCelo(action: WithdrawCeloAction) {
     yield call(sendAndMonitorTransaction, tx, account, context)
 
     const dollarAmount = yield call(celoToDollarAmount, amount)
-    yield put(sendPaymentOrInviteSuccess(dollarAmount))
+    yield put(sendPaymentSuccess(dollarAmount))
 
     yield put(withdrawCeloSuccess())
 

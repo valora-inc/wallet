@@ -28,7 +28,6 @@ import {
   mockAccountInvite,
   mockCusdAddress,
   mockE164NumberInvite,
-  mockInviteTransactionData,
   mockTransactionDataLegacy,
 } from 'test/values'
 
@@ -55,11 +54,6 @@ const mockedGetSendFee = getSendFee as jest.Mock
 
 const mockScreenProps = getMockStackScreenProps(Screens.SendConfirmationLegacy, {
   transactionData: mockTransactionDataLegacy,
-  origin: SendOrigin.AppSendFlow,
-})
-
-const mockInviteScreenProps = getMockStackScreenProps(Screens.SendConfirmationLegacy, {
-  transactionData: mockInviteTransactionData,
   origin: SendOrigin.AppSendFlow,
 })
 
@@ -282,15 +276,5 @@ describe('SendConfirmationLegacy', () => {
     })
 
     expect(queryByTestId('accountEditButton')).toBeNull()
-  })
-
-  it('renders correct modal for invitations', () => {
-    mockedGetSendFee.mockResolvedValue(TEST_FEE_INFO_CUSD)
-
-    const { getByTestId, queryAllByTestId } = renderScreen({}, mockInviteScreenProps)
-
-    expect(queryAllByTestId('InviteAndSendModal')[0].props.visible).toBe(false)
-    fireEvent.press(getByTestId('ConfirmButton'))
-    expect(queryAllByTestId('InviteAndSendModal')[0].props.visible).toBe(true)
   })
 })

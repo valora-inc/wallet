@@ -16,7 +16,7 @@ import {
 } from 'test/values'
 
 interface ComponentProps {
-  feeType: FeeType.INVITE | FeeType.SEND
+  feeType: FeeType.SEND
   tokenAddress: string
   shouldRefresh: boolean
 }
@@ -33,13 +33,6 @@ const mockFeeEstimates = (error: boolean = false, lastUpdated: number = Date.now
   ...emptyFees,
   [FeeType.SEND]: {
     usdFee: '0.02',
-    lastUpdated,
-    loading: false,
-    error,
-    feeInfo: mockFeeInfo,
-  },
-  [FeeType.INVITE]: {
-    usdFee: '0.04',
     lastUpdated,
     loading: false,
     error,

@@ -278,6 +278,7 @@ interface OnboardingEventsProperties {
   }
   [OnboardingEvents.wallet_import_submit]: {
     useEmptyWallet: boolean
+    recoveryPhraseWordCount: number
   }
   [OnboardingEvents.wallet_import_cancel]: undefined
   [OnboardingEvents.wallet_import_zero_balance]: {
@@ -300,28 +301,9 @@ interface OnboardingEventsProperties {
   }
   [OnboardingEvents.wallet_import_success]: undefined
 
-  [OnboardingEvents.invite_redeem_start]: undefined
-  [OnboardingEvents.invite_redeem_complete]: undefined
-  [OnboardingEvents.invite_redeem_cancel]: undefined
-  [OnboardingEvents.invite_redeem_timeout]: undefined
-  [OnboardingEvents.invite_redeem_error]: {
-    error: string
-  }
-  [OnboardingEvents.invite_redeem_move_funds_start]: undefined
-  [OnboardingEvents.invite_redeem_move_funds_complete]: undefined
-
   [OnboardingEvents.initialize_account_start]: undefined
   [OnboardingEvents.initialize_account_complete]: undefined
   [OnboardingEvents.initialize_account_error]: {
-    error: string
-  }
-
-  [OnboardingEvents.escrow_redeem_start]: undefined
-  [OnboardingEvents.escrow_redeem_complete]: {
-    paymentId: string | null
-    senderAddress: string
-  }
-  [OnboardingEvents.escrow_redeem_error]: {
     error: string
   }
 
@@ -593,38 +575,6 @@ interface AuthenticationEventsProperties {
 }
 
 interface InviteEventsProperties {
-  [InviteEvents.invite_tx_start]: {
-    escrowIncluded: boolean
-  }
-  [InviteEvents.invite_tx_complete]: {
-    escrowIncluded: boolean
-  }
-  [InviteEvents.invite_tx_error]: {
-    escrowIncluded: boolean
-    error: string
-  }
-  [InviteEvents.invite_start]: {
-    amount: string
-    tokenAddress: string
-    usdAmount?: string
-  }
-  [InviteEvents.invite_complete]: {
-    amount: string
-    tokenAddress: string
-    usdAmount?: string
-  }
-  [InviteEvents.invite_error]: {
-    amount: string
-    tokenAddress: string
-    usdAmount?: string
-    error: string
-  }
-  [InviteEvents.invite_method_sms]: undefined
-  [InviteEvents.invite_method_whatsapp]: undefined
-  [InviteEvents.invite_method_error]: {
-    error: string
-  }
-  [InviteEvents.invite_from_menu]: undefined
   [InviteEvents.invite_banner_impression]: undefined
   [InviteEvents.invite_with_share]: {
     phoneNumberHash: string | null
@@ -640,16 +590,6 @@ interface InviteEventsProperties {
 }
 
 interface EscrowEventsProperties {
-  [EscrowEvents.escrow_transfer_start]: undefined
-  [EscrowEvents.escrow_transfer_approve_tx_sent]: undefined
-  [EscrowEvents.escrow_transfer_transfer_tx_sent]: undefined
-  [EscrowEvents.escrow_transfer_complete]: {
-    paymentId: string
-  }
-  [EscrowEvents.escrow_transfer_error]: {
-    error: string
-  }
-
   [EscrowEvents.escrow_fetch_start]: undefined
   [EscrowEvents.escrow_fetch_complete]: undefined
   [EscrowEvents.escrow_fetch_error]: {
@@ -676,7 +616,6 @@ interface SendEventsProperties {
     | {
         origin: SendOrigin
         isScan: boolean
-        isInvite: boolean
         localCurrencyExchangeRate?: string | null
         localCurrency: LocalCurrencyCode
         localCurrencyAmount: string | null
@@ -687,7 +626,6 @@ interface SendEventsProperties {
         origin: SendOrigin
         recipientType?: RecipientType
         isScan: boolean
-        isInvite: boolean
         localCurrencyExchangeRate?: string | null
         localCurrency: LocalCurrencyCode
         localCurrencyAmount: string | null
@@ -701,7 +639,6 @@ interface SendEventsProperties {
     | {
         origin: SendOrigin
         isScan: boolean
-        isInvite: boolean
         isRequest: boolean
         localCurrencyExchangeRate?: string | null
         localCurrency: LocalCurrencyCode
@@ -713,7 +650,6 @@ interface SendEventsProperties {
         origin: SendOrigin
         recipientType?: RecipientType
         isScan: boolean
-        isInvite: boolean
         localCurrency: LocalCurrencyCode
         usdAmount: string | null
         localCurrencyAmount: string | null
@@ -792,7 +728,6 @@ interface RequestEventsProperties {
     | {
         origin: SendOrigin
         isScan: boolean
-        isInvite: boolean
         localCurrencyExchangeRate?: string | null
         localCurrency: LocalCurrencyCode
         localCurrencyAmount: string | null
@@ -802,30 +737,6 @@ interface RequestEventsProperties {
     | {
         origin: SendOrigin
         isScan: boolean
-        isInvite: boolean
-        localCurrencyExchangeRate?: string | null
-        localCurrency: LocalCurrencyCode
-        localCurrencyAmount: string | null
-        underlyingTokenAddress: string
-        underlyingTokenSymbol: string
-        underlyingAmount: string | null
-        amountInUsd: string | null
-      }
-  [RequestEvents.request_unavailable]:
-    | {
-        origin: SendOrigin
-        isScan: boolean
-        isInvite: boolean
-        localCurrencyExchangeRate?: string | null
-        localCurrency: LocalCurrencyCode
-        localCurrencyAmount: string | null
-        underlyingCurrency: Currency
-        underlyingAmount: string | null
-      }
-    | {
-        origin: SendOrigin
-        isScan: boolean
-        isInvite: boolean
         localCurrencyExchangeRate?: string | null
         localCurrency: LocalCurrencyCode
         localCurrencyAmount: string | null

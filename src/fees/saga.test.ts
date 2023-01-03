@@ -8,11 +8,10 @@ import { createReclaimTransaction } from 'src/escrow/saga'
 import { feeEstimated, FeeEstimateState, FeeType } from 'src/fees/reducer'
 import { calculateFee, estimateFeeSaga } from 'src/fees/saga'
 import { buildSendTx } from 'src/send/saga'
-import { getERC20TokenContract } from 'src/tokens/saga'
 import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
 import { estimateGas } from 'src/web3/utils'
 import { createMockStore } from 'test/utils'
-import { mockCeurAddress, mockContract, mockCusdAddress } from 'test/values'
+import { mockCeurAddress, mockCusdAddress } from 'test/values'
 
 const GAS_AMOUNT = 500000
 
@@ -63,31 +62,6 @@ describe(estimateFeeSaga, () => {
       },
     }
   }
-
-  it('estimates the invite fee', async () => {
-    const contractKit = await getContractKitAsync()
-    await expectSaga(estimateFeeSaga, {
-      payload: { feeType: FeeType.INVITE, tokenAddress: mockCusdAddress },
-    })
-      .withState(store.getState())
-      .provide([
-        [call(getContractKit), contractKit],
-        [call(getERC20TokenContract, mockCusdAddress), mockContract],
-        [matchers.call.fn(estimateGas), new BigNumber(GAS_AMOUNT)],
-        [
-          call(calculateFee, new BigNumber(GAS_AMOUNT), mockCusdAddress),
-          { fee: new BigNumber(1e16), feeCurrency: mockCusdAddress },
-        ],
-      ])
-      .put(
-        feeEstimated({
-          feeType: FeeType.INVITE,
-          tokenAddress: mockCusdAddress,
-          estimation: estimation(new BigNumber(0.01).toString()),
-        })
-      )
-      .run()
-  })
 
   it('estimates the send fee', async () => {
     await expectSaga(estimateFeeSaga, {

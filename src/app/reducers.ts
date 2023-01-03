@@ -1,7 +1,7 @@
 import { Platform } from 'react-native'
 import { BIOMETRY_TYPE } from 'react-native-keychain'
 import { Actions, ActionTypes, AppState } from 'src/app/actions'
-import { CreateAccountCopyTestType, InviteMethodType } from 'src/app/types'
+import { CreateAccountCopyTestType } from 'src/app/types'
 import { SuperchargeTokenConfigByToken } from 'src/consumerIncentives/types'
 import { CeloNewsConfig } from 'src/exchange/types'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
@@ -21,7 +21,6 @@ export interface State {
   minVersion: string | null
   celoEducationUri: string | null
   celoEuroEnabled: boolean
-  inviteModalVisible: boolean
   activeScreen: Screens
   hideVerification: boolean
   walletConnectV1Enabled: boolean
@@ -55,7 +54,6 @@ export interface State {
   shouldShowRecoveryPhraseInSettings: boolean
   createAccountCopyTestType: CreateAccountCopyTestType
   maxSwapSlippagePercentage: number
-  inviteMethod: InviteMethodType
   centralPhoneVerificationEnabled: boolean
   inviterAddress: string | null
   networkTimeoutSeconds: number
@@ -75,7 +73,6 @@ const initialState = {
   minVersion: null,
   celoEducationUri: null,
   celoEuroEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.celoEuroEnabled,
-  inviteModalVisible: false,
   activeScreen: Screens.Main,
   hideVerification: REMOTE_CONFIG_VALUES_DEFAULTS.hideVerification,
   walletConnectV1Enabled: REMOTE_CONFIG_VALUES_DEFAULTS.walletConnectV1Enabled,
@@ -108,7 +105,6 @@ const initialState = {
     REMOTE_CONFIG_VALUES_DEFAULTS.shouldShowRecoveryPhraseInSettings,
   createAccountCopyTestType: REMOTE_CONFIG_VALUES_DEFAULTS.createAccountCopyTestType,
   maxSwapSlippagePercentage: REMOTE_CONFIG_VALUES_DEFAULTS.maxSwapSlippagePercentage,
-  inviteMethod: REMOTE_CONFIG_VALUES_DEFAULTS.inviteMethod,
   centralPhoneVerificationEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.centralPhoneVerificationEnabled,
   inviterAddress: null,
   networkTimeoutSeconds: REMOTE_CONFIG_VALUES_DEFAULTS.networkTimeoutSeconds,
@@ -228,16 +224,10 @@ export const appReducer = (
         shouldShowRecoveryPhraseInSettings: action.configValues.shouldShowRecoveryPhraseInSettings,
         createAccountCopyTestType: action.configValues.createAccountCopyTestType,
         maxSwapSlippagePercentage: action.configValues.maxSwapSlippagePercentage,
-        inviteMethod: action.configValues.inviteMethod,
         showGuidedOnboardingCopy: action.configValues.showGuidedOnboardingCopy,
         centralPhoneVerificationEnabled: action.configValues.centralPhoneVerificationEnabled,
         networkTimeoutSeconds: action.configValues.networkTimeoutSeconds,
         celoNews: action.configValues.celoNews,
-      }
-    case Actions.TOGGLE_INVITE_MODAL:
-      return {
-        ...state,
-        inviteModalVisible: action.inviteModalVisible,
       }
     case Actions.ACTIVE_SCREEN_CHANGED:
       return {
