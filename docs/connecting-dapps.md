@@ -1,6 +1,6 @@
 # Connecting Dapps
 
-Valora supports [WalletConnect v1](https://docs.walletconnect.com/1.0/) and [WalletConnect v2](https://docs.walletconnect.com/2.0/) for connecting Dapps to Valora. WalletConnect v1 has been deprecated and we recommend building new dapps using WalletConnect v2.
+Valora supports [WalletConnect v1](https://docs.walletconnect.com/1.0/) and [WalletConnect v2](https://docs.walletconnect.com/2.0/) for connecting Dapps to Valora. [WalletConnect v1 has been deprecated](https://medium.com/walletconnect/walletconnect-v1-0-sunset-notice-and-migration-schedule-8af9d3720d2e) and we recommend building new dapps using WalletConnect v2.
 
 If you're building a Dapp we recommend [react-celo](https://github.com/celo-org/react-celo) to make it easy to connect your Dapp to Valora via WalletConnect. [cLabs](https://clabs.co/) supports react-celo and it includes a complete example to help you get started.
 
