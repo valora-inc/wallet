@@ -19,3 +19,5 @@ When building the connection between your Dapp and Valora, it can be challenging
 
 
 WalletConnect v1 has been deprecated so we do not recommend building with this. Similar to above, this [example Dapp for WalletConnect v1](https://celo-walletconnect.vercel.app/) can be helpful to determine if a connection problem lies with Valora or your Dapp.
+
+If these troubleshooting steps don't help, please join our [`#dapp-dev` channel on Discord](https://discord.gg/gQvjYv5Fqh) to discuss your specific problem.
