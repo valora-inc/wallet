@@ -1581,7 +1581,7 @@ export const v73Schema = {
   },
   app: {
     ...v72Schema.app,
-    inviteMethod: 'escrow',
+    inviteMethod: 'ESCROW',
   },
 }
 

@@ -278,7 +278,6 @@ describe(sendPaymentSagaLegacy, () => {
       amount: new BigNumber(10),
       currency: Currency.Dollar,
       comment: '',
-      recipient: mockQRCodeRecipient,
       firebasePendingRequestUid: null,
       fromModal: false,
     }
@@ -299,7 +298,6 @@ describe(sendPaymentSagaLegacy, () => {
       amount: new BigNumber(10),
       currency: Currency.Dollar,
       comment: '',
-      recipient: mockQRCodeRecipient,
       recipientAddress: mockQRCodeRecipient.address,
       firebasePendingRequestUid: null,
       fromModal: false,
