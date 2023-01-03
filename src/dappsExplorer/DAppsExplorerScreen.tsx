@@ -10,7 +10,7 @@ import {
   Text,
   View,
 } from 'react-native'
-import Animated from 'react-native-reanimated'
+import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { DappExplorerEvents } from 'src/analytics/Events'
@@ -44,6 +44,7 @@ const AnimatedSectionList =
   Animated.createAnimatedComponent<SectionListProps<Dapp, SectionData>>(SectionList)
 
 const SECTION_HEADER_MARGIN_TOP = 32
+const LOADING_ANIMATION_DURATION = 250
 
 interface SectionData {
   data: Dapp[]
@@ -68,6 +69,15 @@ export function DAppsExplorerScreen() {
 
   const { onSelectDapp, ConfirmOpenDappBottomSheet } = useOpenDapp()
   const { onFavoriteDapp, DappFavoritedToast } = useDappFavoritedToast(sectionListRef)
+
+  const progress = useSharedValue(0)
+  const animatedStyle = useAnimatedStyle(() => ({
+    height: progress.value * 50,
+  }))
+
+  useEffect(() => {
+    progress.value = withTiming(loading ? 1 : 0, { duration: LOADING_ANIMATION_DURATION })
+  }, [loading])
 
   useEffect(() => {
     dispatch(fetchDappsList())
@@ -113,16 +123,14 @@ export function DAppsExplorerScreen() {
         {t('dappsScreenHelpDialog.message')}
       </Dialog>
       <>
-        {loading && !categoriesById && (
-          <View style={styles.centerContainer}>
-            <ActivityIndicator
-              style={styles.loadingIcon}
-              size="large"
-              color={colors.greenBrand}
-              testID="DAppExplorerScreen/loading"
-            />
-          </View>
-        )}
+        <Animated.View style={[styles.loadingContainer, animatedStyle]}>
+          <ActivityIndicator
+            size="large"
+            color={colors.greenBrand}
+            testID="DAppExplorerScreen/loading"
+          />
+        </Animated.View>
+
         {!loading && !categoriesById && error && (
           <View style={styles.centerContainer}>
             <Text style={fontStyles.regular}>{t('dappsScreen.errorMessage')}</Text>
@@ -237,10 +245,8 @@ const styles = StyleSheet.create({
     flex: 1,
     marginHorizontal: Spacing.Smallest8,
   },
-  loadingIcon: {
-    marginVertical: Spacing.Thick24,
-    height: 108,
-    width: 108,
+  loadingContainer: {
+    overflow: 'hidden',
   },
   // Padding values honor figma designs
   categoryTextContainer: {
