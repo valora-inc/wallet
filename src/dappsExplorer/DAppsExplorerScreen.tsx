@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
-  ActivityIndicator,
   Image,
+  RefreshControl,
   SectionList,
   SectionListData,
   SectionListProps,
@@ -10,7 +10,7 @@ import {
   Text,
   View,
 } from 'react-native'
-import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
+import Animated from 'react-native-reanimated'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { DappExplorerEvents } from 'src/analytics/Events'
@@ -70,15 +70,6 @@ export function DAppsExplorerScreen() {
   const { onSelectDapp, ConfirmOpenDappBottomSheet } = useOpenDapp()
   const { onFavoriteDapp, DappFavoritedToast } = useDappFavoritedToast(sectionListRef)
 
-  const progress = useSharedValue(0)
-  const animatedStyle = useAnimatedStyle(() => ({
-    height: progress.value * 50,
-  }))
-
-  useEffect(() => {
-    progress.value = withTiming(loading ? 1 : 0, { duration: LOADING_ANIMATION_DURATION })
-  }, [loading])
-
   useEffect(() => {
     dispatch(fetchDappsList())
     ValoraAnalytics.track(DappExplorerEvents.dapp_screen_open)
@@ -123,14 +114,6 @@ export function DAppsExplorerScreen() {
         {t('dappsScreenHelpDialog.message')}
       </Dialog>
       <>
-        <Animated.View style={[styles.loadingContainer, animatedStyle]}>
-          <ActivityIndicator
-            size="large"
-            color={colors.greenBrand}
-            testID="DAppExplorerScreen/loading"
-          />
-        </Animated.View>
-
         {!loading && !categoriesById && error && (
           <View style={styles.centerContainer}>
             <Text style={fontStyles.regular}>{t('dappsScreen.errorMessage')}</Text>
@@ -138,6 +121,15 @@ export function DAppsExplorerScreen() {
         )}
         {categoriesById && (
           <AnimatedSectionList
+            refreshControl={
+              <RefreshControl
+                tintColor={colors.greenBrand}
+                colors={[colors.greenBrand]}
+                style={{ backgroundColor: colors.light }}
+                refreshing={loading}
+                onRefresh={() => dispatch(fetchDappsList())}
+              />
+            }
             // @ts-ignore TODO: resolve type error
             ref={sectionListRef}
             ListHeaderComponent={
@@ -244,9 +236,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flex: 1,
     marginHorizontal: Spacing.Smallest8,
-  },
-  loadingContainer: {
-    overflow: 'hidden',
   },
   // Padding values honor figma designs
   categoryTextContainer: {
