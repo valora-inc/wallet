@@ -368,7 +368,6 @@ export function* sendPaymentSagaLegacy({
   amount,
   currency,
   comment,
-  recipient,
   recipientAddress,
   feeInfo,
   firebasePendingRequestUid,
@@ -387,6 +386,8 @@ export function* sendPaymentSagaLegacy({
 
     if (recipientAddress) {
       yield call(sendPaymentLegacy, recipientAddress, amount, comment, currency, feeInfo)
+    } else {
+      throw new Error('No address found on recipient')
     }
 
     if (firebasePendingRequestUid) {
@@ -432,7 +433,7 @@ export function* sendPaymentSaga({
         })
       }
     } else {
-      throw new Error('')
+      throw new Error('No address found on recipient')
     }
 
     if (fromModal) {
