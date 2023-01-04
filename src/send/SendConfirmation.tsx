@@ -31,7 +31,6 @@ import {
   e164NumberToAddressSelector,
   secureSendPhoneNumberMappingSelector,
 } from 'src/identity/selectors'
-import InviteAndSendModal from 'src/invite/InviteAndSendModal'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { noHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
@@ -40,8 +39,8 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { getDisplayName, Recipient } from 'src/recipients/recipient'
 import useSelector from 'src/redux/useSelector'
-import { sendPaymentOrInvite } from 'src/send/actions'
-import { inviteRewardsActiveSelector, isSendingSelector } from 'src/send/selectors'
+import { sendPayment } from 'src/send/actions'
+import { isSendingSelector } from 'src/send/selectors'
 import { useInputAmounts } from 'src/send/SendAmount'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import colors from 'src/styles/colors'
@@ -104,11 +103,9 @@ function SendConfirmation(props: Props) {
     },
   } = props.route.params
 
-  const [inviteModalVisible, setInviteModalVisible] = useState(false)
   const [encryptionDialogVisible, setEncryptionDialogVisible] = useState(false)
   const [comment, setComment] = useState(commentFromParams ?? '')
 
-  const inviteRewardsEnabled = useSelector(inviteRewardsActiveSelector)
   const tokenInfo = useTokenInfo(tokenAddress)
   const isDekRegistered = useSelector(isDekRegisteredSelector) ?? false
   const addressToDataEncryptionKey = useSelector(addressToDataEncryptionKeySelector)
@@ -144,9 +141,8 @@ function SendConfirmation(props: Props) {
     })
   }
 
-  const isInvite = !recipient.address
   const feeEstimates = useSelector(feeEstimatesSelector)
-  const feeType = isInvite ? FeeType.INVITE : FeeType.SEND
+  const feeType = FeeType.SEND
   const feeEstimate = feeEstimates[tokenAddress]?.[feeType]
 
   useEffect(() => {
@@ -192,7 +188,6 @@ function SendConfirmation(props: Props) {
 
   const onShowEncryptionModal = () => setEncryptionDialogVisible(true)
   const onDismissEncryptionModal = () => setEncryptionDialogVisible(false)
-  const onCloseInviteModal = () => setInviteModalVisible(false)
 
   const EncryptionWarningLabel = () => {
     const showLabel = !recipient.address || addressToDataEncryptionKey[recipient.address] === null
@@ -212,20 +207,7 @@ function SendConfirmation(props: Props) {
     setComment(trimmedComment)
   }
 
-  const onSendClick = () => {
-    if (isInvite) {
-      setInviteModalVisible(true)
-    } else {
-      sendOrInvite()
-    }
-  }
-
-  const sendInvite = () => {
-    setInviteModalVisible(false)
-    sendOrInvite()
-  }
-
-  const sendOrInvite = () => {
+  const onSend = () => {
     if (!feeEstimate?.feeInfo) {
       // This should never happen because the confirm button is disabled if this happens.
       dispatch(showError(ErrorMessages.SEND_PAYMENT_FAILED))
@@ -235,7 +217,6 @@ function SendConfirmation(props: Props) {
       origin,
       recipientType: props.route.params.transactionData.recipient.recipientType,
       isScan: !!props.route.params?.isFromScan,
-      isInvite,
       localCurrency: localCurrencyCode,
       usdAmount: usdAmount?.toString() ?? null,
       localCurrencyAmount: localAmount?.toString() ?? null,
@@ -246,7 +227,7 @@ function SendConfirmation(props: Props) {
     })
 
     dispatch(
-      sendPaymentOrInvite(
+      sendPayment(
         tokenAmount,
         tokenAddress,
         usdAmount,
@@ -258,7 +239,7 @@ function SendConfirmation(props: Props) {
     )
   }
 
-  const allowComment = !isInvite && isStablecoin(tokenInfo)
+  const allowComment = isStablecoin(tokenInfo)
 
   return (
     <SafeAreaView
@@ -279,18 +260,13 @@ function SendConfirmation(props: Props) {
         FooterComponent={FeeContainer}
         LabelAboveKeyboard={EncryptionWarningLabel}
         confirmButton={{
-          action: onSendClick,
-          text: isInvite ? t('sendAndInvite') : t('send'),
+          action: onSend,
+          text: t('send'),
           disabled: isSending || !feeEstimate?.feeInfo,
         }}
         isSending={isSending}
       >
         <View style={styles.transferContainer}>
-          {isInvite ? (
-            <Text style={styles.inviteText}>
-              {inviteRewardsEnabled ? t('inviteMoneyEscrowWithRewards') : t('inviteMoneyEscrow')}
-            </Text>
-          ) : null}
           <View style={styles.headerContainer}>
             <ContactCircle recipient={recipient} />
             <View style={styles.recipientInfoContainer}>
@@ -330,12 +306,6 @@ function SendConfirmation(props: Props) {
             />
           )}
         </View>
-        <InviteAndSendModal
-          isVisible={inviteModalVisible}
-          name={getDisplayName(recipient, t)}
-          onInvite={sendInvite}
-          onCancel={onCloseInviteModal}
-        />
         {/** Encryption warning dialog */}
         <Dialog
           title={t('encryption.warningModalHeader')}
@@ -360,11 +330,6 @@ const styles = StyleSheet.create({
   feeContainer: {
     padding: 16,
     paddingBottom: 8,
-  },
-  inviteText: {
-    ...fontStyles.small,
-    color: colors.gray4,
-    paddingBottom: 24,
   },
   transferContainer: {
     alignItems: 'flex-start',

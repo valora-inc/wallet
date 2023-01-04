@@ -2,10 +2,8 @@ import BigNumber from 'bignumber.js'
 import { call, put, select } from 'redux-saga/effects'
 import { SendOrigin } from 'src/analytics/types'
 import { TokenTransactionType } from 'src/apollo/types'
-import { FeeType } from 'src/fees/reducer'
 import { getAddressFromPhoneNumber } from 'src/identity/contactMapping'
 import { E164NumberToAddressType, SecureSendPhoneNumberMapping } from 'src/identity/reducer'
-import { RecipientVerificationStatus } from 'src/identity/types'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { convertDollarsToLocalAmount, convertLocalAmountToDollars } from 'src/localCurrency/convert'
 import { fetchExchangeRate } from 'src/localCurrency/saga'
@@ -55,19 +53,6 @@ export const getConfirmationInput = (
   }
 
   return { ...transactionData, recipientAddress }
-}
-
-export const getFeeType = (
-  recipientVerificationStatus: RecipientVerificationStatus
-): FeeType | null => {
-  switch (recipientVerificationStatus) {
-    case RecipientVerificationStatus.UNKNOWN:
-      return null
-    case RecipientVerificationStatus.UNVERIFIED:
-      return FeeType.INVITE
-    case RecipientVerificationStatus.VERIFIED:
-      return FeeType.SEND
-  }
 }
 
 export function* handleSendPaymentData(

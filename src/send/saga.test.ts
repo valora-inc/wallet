@@ -10,7 +10,6 @@ import { validateRecipientAddressSuccess } from 'src/identity/actions'
 import { encryptComment } from 'src/identity/commentEncryption'
 import { E164NumberToAddressType } from 'src/identity/reducer'
 import { e164NumberToAddressSelector } from 'src/identity/selectors'
-import { sendInvite } from 'src/invite/saga'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { urlFromUriData } from 'src/qrcode/schema'
@@ -20,14 +19,10 @@ import {
   Actions,
   HandleBarcodeDetectedAction,
   QrCode,
-  SendPaymentOrInviteAction,
-  SendPaymentOrInviteActionLegacy,
+  SendPaymentAction,
+  SendPaymentActionLegacy,
 } from 'src/send/actions'
-import {
-  sendPaymentOrInviteSaga,
-  sendPaymentOrInviteSagaLegacy,
-  watchQrCodeDetections,
-} from 'src/send/saga'
+import { sendPaymentSaga, sendPaymentSagaLegacy, watchQrCodeDetections } from 'src/send/saga'
 import { getERC20TokenContract, getStableTokenContract } from 'src/tokens/saga'
 import { addStandbyTransaction } from 'src/transactions/actions'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
@@ -50,7 +45,6 @@ import {
   mockE164Number,
   mockE164NumberInvite,
   mockFeeInfo,
-  mockInvitableRecipient,
   mockName,
   mockQrCodeData,
   mockQrCodeData2,
@@ -58,10 +52,6 @@ import {
   mockRecipientInfo,
   mockTransactionData,
 } from 'test/values'
-
-jest.mock('src/invite/saga', () => ({
-  sendInvite: jest.fn(),
-}))
 
 jest.mock('@celo/connect')
 
@@ -280,11 +270,11 @@ describe(watchQrCodeDetections, () => {
   })
 })
 
-describe(sendPaymentOrInviteSagaLegacy, () => {
+describe(sendPaymentSagaLegacy, () => {
   it('fails if user cancels PIN input', async () => {
     const account = '0x000123'
-    const sendPaymentOrInviteAction: SendPaymentOrInviteActionLegacy = {
-      type: Actions.SEND_PAYMENT_OR_INVITE_LEGACY,
+    const sendPaymentAction: SendPaymentActionLegacy = {
+      type: Actions.SEND_PAYMENT_LEGACY,
       amount: new BigNumber(10),
       currency: Currency.Dollar,
       comment: '',
@@ -292,7 +282,7 @@ describe(sendPaymentOrInviteSagaLegacy, () => {
       firebasePendingRequestUid: null,
       fromModal: false,
     }
-    await expectSaga(sendPaymentOrInviteSagaLegacy, sendPaymentOrInviteAction)
+    await expectSaga(sendPaymentSagaLegacy, sendPaymentAction)
       .withState(createMockStore({}).getState())
       .provide([
         [call(getConnectedAccount), account],
@@ -304,8 +294,8 @@ describe(sendPaymentOrInviteSagaLegacy, () => {
 
   it('uploads symmetric keys if transaction sent successfully', async () => {
     const account = '0x000123'
-    const sendPaymentOrInviteAction: SendPaymentOrInviteActionLegacy = {
-      type: Actions.SEND_PAYMENT_OR_INVITE_LEGACY,
+    const sendPaymentAction: SendPaymentActionLegacy = {
+      type: Actions.SEND_PAYMENT_LEGACY,
       amount: new BigNumber(10),
       currency: Currency.Dollar,
       comment: '',
@@ -314,7 +304,7 @@ describe(sendPaymentOrInviteSagaLegacy, () => {
       firebasePendingRequestUid: null,
       fromModal: false,
     }
-    await expectSaga(sendPaymentOrInviteSagaLegacy, sendPaymentOrInviteAction)
+    await expectSaga(sendPaymentSagaLegacy, sendPaymentAction)
       .withState(createMockStore({}).getState())
       .provide([
         [call(getConnectedUnlockedAccount), mockAccount],
@@ -325,10 +315,10 @@ describe(sendPaymentOrInviteSagaLegacy, () => {
   })
 })
 
-describe(sendPaymentOrInviteSaga, () => {
+describe(sendPaymentSaga, () => {
   const amount = new BigNumber(10)
-  const sendAction: SendPaymentOrInviteAction = {
-    type: Actions.SEND_PAYMENT_OR_INVITE,
+  const sendAction: SendPaymentAction = {
+    type: Actions.SEND_PAYMENT,
     amount,
     tokenAddress: mockCusdAddress,
     usdAmount: amount,
@@ -343,7 +333,7 @@ describe(sendPaymentOrInviteSaga, () => {
   })
 
   it('sends a payment successfully', async () => {
-    await expectSaga(sendPaymentOrInviteSaga, sendAction)
+    await expectSaga(sendPaymentSaga, sendAction)
       .withState(createMockStore({}).getState())
       .provide([
         [call(getConnectedUnlockedAccount), mockAccount],
@@ -373,27 +363,9 @@ describe(sendPaymentOrInviteSaga, () => {
     )
   })
 
-  it('sends an invite successfully', async () => {
-    await expectSaga(sendPaymentOrInviteSaga, {
-      ...sendAction,
-      recipient: mockInvitableRecipient,
-    })
-      .withState(createMockStore({}).getState())
-      .provide([[call(getConnectedUnlockedAccount), mockAccount]])
-      .run()
-
-    expect(sendInvite).toHaveBeenCalledWith(
-      mockInvitableRecipient.e164PhoneNumber,
-      amount,
-      amount,
-      mockCusdAddress,
-      mockFeeInfo
-    )
-  })
-
   it('fails if user cancels PIN input', async () => {
     const account = '0x000123'
-    await expectSaga(sendPaymentOrInviteSaga, sendAction)
+    await expectSaga(sendPaymentSaga, sendAction)
       .provide([
         [call(getConnectedAccount), account],
         [matchers.call.fn(unlockAccount), UnlockResult.CANCELED],
@@ -404,7 +376,7 @@ describe(sendPaymentOrInviteSaga, () => {
 
   it('uploads symmetric keys if transaction sent successfully', async () => {
     const account = '0x000123'
-    await expectSaga(sendPaymentOrInviteSaga, sendAction)
+    await expectSaga(sendPaymentSaga, sendAction)
       .withState(createMockStore({}).getState())
       .provide([
         [call(getConnectedUnlockedAccount), mockAccount],

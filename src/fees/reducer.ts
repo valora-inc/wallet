@@ -2,7 +2,6 @@ import { createAction, createReducer } from '@reduxjs/toolkit'
 import { FeeInfo } from 'src/fees/saga'
 
 export enum FeeType {
-  INVITE = 'invite',
   SEND = 'send',
   EXCHANGE = 'exchange',
   RECLAIM_ESCROW = 'reclaim-escrow',
@@ -18,12 +17,14 @@ export interface FeeEstimateState {
   feeInfo?: FeeInfo
 }
 
-export interface State {
-  estimates: {
-    [tokenAddress: string]: {
-      [feeType in FeeType]: FeeEstimateState | undefined
-    }
+export interface FeeEstimates {
+  [tokenAddress: string]: {
+    [feeType in FeeType]: FeeEstimateState | undefined
   }
+}
+
+export interface State {
+  estimates: FeeEstimates
 }
 
 export const initialState: State = {

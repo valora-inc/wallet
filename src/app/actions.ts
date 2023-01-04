@@ -26,7 +26,6 @@ export enum Actions {
   OPEN_URL = 'APP/OPEN_URL',
   MIN_APP_VERSION_DETERMINED = 'APP/MIN_APP_VERSION_DETERMINED',
   UPDATE_REMOTE_CONFIG_VALUES = 'APP/UPDATE_REMOTE_CONFIG_VALUES',
-  TOGGLE_INVITE_MODAL = 'APP/TOGGLE_INVITE_MODAL',
   ACTIVE_SCREEN_CHANGED = 'APP/ACTIVE_SCREEN_CHANGED',
   APP_MOUNTED = 'APP/APP_MOUNTED',
   APP_UNMOUNTED = 'APP/APP_UNMOUNTED',
@@ -76,11 +75,6 @@ interface SetAnalyticsEnabled {
 interface SetRequirePinOnAppOpen {
   type: Actions.SET_LOCK_WITH_PIN_ENABLED
   enabled: boolean
-}
-
-interface InviteModalAction {
-  type: Actions.TOGGLE_INVITE_MODAL
-  inviteModalVisible: boolean
 }
 
 interface ActiveScreenChangedAction {
@@ -174,7 +168,6 @@ export type ActionTypes =
   | OpenUrlAction
   | MinAppVersionDeterminedAction
   | UpdateConfigValuesAction
-  | InviteModalAction
   | ActiveScreenChangedAction
   | AppMounted
   | AppUnmounted
@@ -271,11 +264,6 @@ export const updateRemoteConfigValues = (
 ): UpdateConfigValuesAction => ({
   type: Actions.UPDATE_REMOTE_CONFIG_VALUES,
   configValues,
-})
-
-export const toggleInviteModal = (inviteModalVisible: boolean): InviteModalAction => ({
-  type: Actions.TOGGLE_INVITE_MODAL,
-  inviteModalVisible,
 })
 
 export const activeScreenChanged = (activeScreen: Screens): ActiveScreenChangedAction => ({

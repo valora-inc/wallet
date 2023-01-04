@@ -11,13 +11,7 @@ import { hideAlert } from 'src/alert/actions'
 import { RequestEvents, SendEvents } from 'src/analytics/Events'
 import { SendOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import {
-  centralPhoneVerificationEnabledSelector,
-  inviteMethodSelector,
-  phoneNumberVerifiedSelector,
-  verificationPossibleSelector,
-} from 'src/app/selectors'
-import { InviteMethodType } from 'src/app/types'
+import { phoneNumberVerifiedSelector, verificationPossibleSelector } from 'src/app/selectors'
 import InviteOptionsModal from 'src/components/InviteOptionsModal'
 import ContactPermission from 'src/icons/ContactPermission'
 import VerifyPhone from 'src/icons/VerifyPhone'
@@ -54,8 +48,6 @@ function Send({ route }: Props) {
   const { recipientVerificationStatus, recipient, setSelectedRecipient } =
     useFetchRecipientVerificationStatus()
 
-  const inviteMethod = useSelector(inviteMethodSelector)
-  const centralPhoneVerificationEnabled = useSelector(centralPhoneVerificationEnabledSelector)
   const defaultCountryCode = useSelector(defaultCountryCodeSelector)
   const numberVerified = useSelector(phoneNumberVerifiedSelector)
   const inviteRewardsEnabled = useSelector(inviteRewardsActiveSelector)
@@ -118,11 +110,7 @@ function Send({ route }: Props) {
       return
     }
 
-    const escrowDisabled =
-      centralPhoneVerificationEnabled ||
-      inviteMethod === InviteMethodType.ManualShare ||
-      inviteMethod === InviteMethodType.ReferralUrl
-    if (recipientVerificationStatus === RecipientVerificationStatus.UNVERIFIED && escrowDisabled) {
+    if (recipientVerificationStatus === RecipientVerificationStatus.UNVERIFIED) {
       setShowInviteModal(true)
       return
     }

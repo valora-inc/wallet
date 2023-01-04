@@ -1,4 +1,3 @@
-import BigNumber from 'bignumber.js'
 import React, { FunctionComponent, useEffect } from 'react'
 import { useAsync, UseAsyncReturn } from 'react-async-hook'
 import { useDispatch } from 'react-redux'
@@ -8,7 +7,6 @@ import { MAX_COMMENT_LENGTH } from 'src/config'
 import { getReclaimEscrowFee } from 'src/escrow/saga'
 import { FeeType } from 'src/fees/reducer'
 import { FeeInfo } from 'src/fees/saga'
-import { getInviteFee } from 'src/invite/saga'
 import { getSendFee } from 'src/send/saga'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
@@ -17,15 +15,6 @@ export type CalculateFeeChildren = (asyncResult: UseAsyncReturn<FeeInfo, any>) =
 
 interface CommonProps {
   children: CalculateFeeChildren
-}
-
-interface InviteProps extends CommonProps {
-  feeType: FeeType.INVITE
-  account: string
-  amount: BigNumber
-  currency: Currency
-  comment?: string
-  balance: string
 }
 
 interface SendProps extends CommonProps {
@@ -51,12 +40,11 @@ interface ReclaimEscrowProps extends CommonProps {
 }
 
 export type PropsWithoutChildren =
-  | Omit<InviteProps, 'children'>
   | Omit<SendProps, 'children'>
   | Omit<ExchangeProps, 'children'>
   | Omit<ReclaimEscrowProps, 'children'>
 
-type Props = InviteProps | SendProps | ExchangeProps | ReclaimEscrowProps
+type Props = SendProps | ExchangeProps | ReclaimEscrowProps
 
 // Max lengthed comment to fetch fee estimate before user finalizes comment
 const MAX_PLACEHOLDER_COMMENT: string = '0'.repeat(MAX_COMMENT_LENGTH)
@@ -76,20 +64,6 @@ function useAsyncShowError<R, Args extends any[]>(
   }, [asyncResult.error])
 
   return asyncResult
-}
-
-const CalculateInviteFee: FunctionComponent<InviteProps> = (props) => {
-  const asyncResult = useAsyncShowError(
-    (
-      account: string,
-      amount: BigNumber,
-      currency: Currency,
-      balance: string,
-      comment: string = MAX_PLACEHOLDER_COMMENT
-    ) => getInviteFee(account, currency, amount.valueOf(), balance, comment),
-    [props.account, props.amount, props.currency, props.balance, props.comment]
-  )
-  return props.children(asyncResult) as React.ReactElement
 }
 
 export const useSendFee = (props: Omit<SendProps, 'children'>): UseAsyncReturn<FeeInfo> => {
@@ -138,8 +112,6 @@ const CalculateReclaimEscrowFee: FunctionComponent<ReclaimEscrowProps> = (props)
 
 const CalculateFee = (props: Props) => {
   switch (props.feeType) {
-    case FeeType.INVITE:
-      return <CalculateInviteFee {...props} />
     case FeeType.SEND:
       return <CalculateSendFee {...props} />
     case FeeType.RECLAIM_ESCROW:

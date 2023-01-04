@@ -1,9 +1,9 @@
 import _ from 'lodash'
 import { FinclusiveKycStatus, PincodeType } from 'src/account/reducer'
 import { AppState } from 'src/app/actions'
-import { InviteMethodType } from 'src/app/types'
 import { CodeInputStatus } from 'src/components/CodeInput'
 import { Dapp, DappConnectInfo } from 'src/dapps/types'
+import { FeeEstimates } from 'src/fees/reducer'
 import { SendingFiatAccountStatus } from 'src/fiatconnect/slice'
 import { NUM_ATTESTATIONS_REQUIRED } from 'src/identity/verification'
 import { RootState } from 'src/redux/reducers'
@@ -1581,7 +1581,7 @@ export const v73Schema = {
   },
   app: {
     ...v72Schema.app,
-    inviteMethod: InviteMethodType.Escrow,
+    inviteMethod: 'ESCROW',
   },
 }
 
@@ -1896,6 +1896,27 @@ export const v100Schema = {
   },
 }
 
+export const v101Schema = {
+  ...v100Schema,
+  _persist: {
+    ...v100Schema._persist,
+    version: 101,
+  },
+  app: _.omit(v100Schema.app, 'inviteMethod', 'inviteModalVisible'),
+  fees: {
+    ...v100Schema.fees,
+    estimates: Object.entries(v100Schema.fees.estimates as FeeEstimates).reduce(
+      (acc, [address, estimate]) => {
+        return {
+          ...acc,
+          [address]: _.omit(estimate, 'invite'),
+        }
+      },
+      {}
+    ),
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v100Schema as Partial<RootState>
+  return v101Schema as Partial<RootState>
 }

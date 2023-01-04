@@ -45,7 +45,7 @@ import {
   sentryNetworkErrorsSelector,
   shouldRunVerificationMigrationSelector,
 } from 'src/app/selectors'
-import { CreateAccountCopyTestType, InviteMethodType } from 'src/app/types'
+import { CreateAccountCopyTestType } from 'src/app/types'
 import { runVerificationMigration } from 'src/app/verificationMigration'
 import { DYNAMIC_LINK_DOMAIN_URI_PREFIX, FETCH_TIMEOUT_DURATION } from 'src/config'
 import { SuperchargeTokenConfigByToken } from 'src/consumerIncentives/types'
@@ -207,7 +207,6 @@ export interface RemoteConfigValues {
   shouldShowRecoveryPhraseInSettings: boolean
   createAccountCopyTestType: CreateAccountCopyTestType
   maxSwapSlippagePercentage: number
-  inviteMethod: InviteMethodType
   showGuidedOnboardingCopy: boolean
   centralPhoneVerificationEnabled: boolean
   networkTimeoutSeconds: number

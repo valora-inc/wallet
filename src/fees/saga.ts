@@ -1,4 +1,4 @@
-import { CeloTransactionObject, CeloTxObject, Contract, toTransactionObject } from '@celo/connect'
+import { CeloTransactionObject, CeloTxObject } from '@celo/connect'
 import { ContractKit } from '@celo/contractkit'
 import { AccountsWrapper } from '@celo/contractkit/lib/wrappers/Accounts'
 import BigNumber from 'bignumber.js'
@@ -11,11 +11,7 @@ import { CELO_TRANSACTION_MIN_AMOUNT, STABLE_TRANSACTION_MIN_AMOUNT } from 'src/
 import { createReclaimTransaction } from 'src/escrow/saga'
 import { estimateFee, feeEstimated, FeeType } from 'src/fees/reducer'
 import { buildSendTx } from 'src/send/saga'
-import {
-  getCurrencyAddress,
-  getERC20TokenContract,
-  tokenAmountInSmallestUnit,
-} from 'src/tokens/saga'
+import { getCurrencyAddress } from 'src/tokens/saga'
 import {
   coreTokensSelector,
   tokensByAddressSelector,
@@ -77,9 +73,6 @@ export function* estimateFeeSaga({
     let feeInfo: FeeInfo | null = null
 
     switch (feeType) {
-      case FeeType.INVITE:
-        feeInfo = yield call(estimateInviteFee, tokenAddress)
-        break
       case FeeType.SWAP:
         feeInfo = yield call(estimateSwapFee, tokenAddress)
         break
@@ -172,22 +165,6 @@ export function* estimateSwapFee(tokenAddress: string) {
   // a buffer. The tradeoff for this approximation is that users may have more
   // dust (on the order of 3x the gas fee)
   const feeInfo: FeeInfo = yield call(calculateFeeForTx, tx.txo, SWAP_FEE_ESTIMATE_MULTIPLIER)
-  return feeInfo
-}
-
-export function* estimateInviteFee(tokenAddress: string) {
-  const kit: ContractKit = yield call(getContractKit)
-  const tokenContract: Contract = yield call(getERC20TokenContract, tokenAddress)
-
-  const amount: string = yield call(tokenAmountInSmallestUnit, PLACEHOLDER_AMOUNT, tokenAddress)
-  const tx = toTransactionObject(
-    kit.connection,
-    tokenContract.methods.approve(PLACEHOLDER_ADDRESS, amount)
-  )
-
-  // We must add a static amount here for the transfer because we can't estimate it without sending the approve tx first.
-  // If the approve tx hasn't gone through yet estimation fails because of a lack of allowance.
-  const feeInfo: FeeInfo = yield call(calculateFeeForTx, tx.txo)
   return feeInfo
 }
 

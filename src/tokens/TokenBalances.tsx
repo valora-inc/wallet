@@ -3,6 +3,7 @@ import BigNumber from 'bignumber.js'
 import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, PixelRatio, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useSelector } from 'react-redux'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -45,6 +46,7 @@ function TokenBalancesScreen({ navigation }: Props) {
     visualizeNFTsEnabledInHomeAssetsPageSelector
   )
   const walletAddress = useSelector(walletAddressSelector)
+  const insets = useSafeAreaInsets()
 
   useLayoutEffect(() => {
     const subTitle =
@@ -147,7 +149,14 @@ function TokenBalancesScreen({ navigation }: Props) {
           <Text style={styles.lastDayText}>{t('lastDay')}</Text>
         </View>
       )}
-      <ScrollView style={styles.scrollContainer}>
+      <ScrollView
+        style={styles.scrollContainer}
+        contentContainerStyle={{
+          paddingBottom: insets.bottom,
+        }}
+        // Workaround iOS setting an incorrect automatic inset at the top
+        scrollIndicatorInsets={{ top: 0.01 }}
+      >
         {tokens.sort(sortByUsdBalance).map(getTokenDisplay)}
       </ScrollView>
     </>
