@@ -14,10 +14,10 @@ async function navigateToDappList() {
   await element(by.id('Hamburger')).tap()
   await waitForElementId('dapps-explorer-icon')
   await element(by.id('dapps-explorer-icon')).tap()
-  await sleep(5 * 1000)
   await waitFor(element(by.id('DAppExplorerScreen/loading')))
     .not.toBeVisible()
     .withTimeout(30 * 1000)
+  await sleep(5 * 1000)
   await device.enableSynchronization()
 }
 
