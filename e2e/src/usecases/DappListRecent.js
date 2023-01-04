@@ -46,134 +46,113 @@ async function scrollToDapp(dappIndex = 0) {
 }
 
 export default DappListRecent = () => {
-  describe(':ios:', () => {
-    it('should show most recently used dapp leftmost on home screen', async () => {
-      // Get recently used dapps at start of test
-      const startRecentlyUsedDapps = await getElementTextList('RecentDapp-name')
-      const startRecentDappCount = startRecentlyUsedDapps.length
+  it('should show most recently used dapp leftmost on home screen :ios:', async () => {
+    // Get recently used dapps at start of test
+    const startRecentlyUsedDapps = await getElementTextList('RecentDapp-name')
+    const startRecentDappCount = startRecentlyUsedDapps.length
 
-      // If no recently used dapps check that RecentDapp element does not exist
-      if (startRecentDappCount === 0) await expect(element(by.id('RecentDapp'))).not.toExist()
+    // If no recently used dapps check that RecentDapp element does not exist
+    // Else check that All Dapps button exists
+    startRecentDappCount === 0
+      ? await expect(element(by.id('RecentDapp'))).not.toExist()
+      : await expect(element(by.text('All Dapps'))).toExist()
 
-      // Navigate to DappList with sleep to allow for dapp list to load
-      await navigateToDappList()
+    // TODO: Remove when initial dapp list fetch issue fix
+    // Navigate to DappList reload and navigate again - ci issue
+    await navigateToDappList()
 
-      // Scroll to first dapp or next after most recent dapp
-      await scrollToDapp(startRecentDappCount + 1)
-      await element(by.id('DappCard')).atIndex(startRecentDappCount).tap()
+    // Scroll to first dapp or next after most recent dapp
+    await scrollToDapp(startRecentDappCount + 1)
+    await element(by.id('DappCard')).atIndex(startRecentDappCount).tap()
 
-      // Get dapp name in confirmation dialog
-      const dappPressed = await element(by.id('ConfirmDappButton')).getAttributes()
-      const dappPressedName = dappPressed.label.split('Go to ')[1]
+    // Get dapp name in confirmation dialog
+    const dappPressed = await element(by.id('ConfirmDappButton')).getAttributes()
+    const dappPressedName = dappPressed.label.split('Go to ')[1]
 
-      // Confirm dapp open and navigate back to home
-      await element(by.id('ConfirmDappButton')).tap()
-      await element(by.text('Close')).tap()
-      await navigateToHome()
+    // Confirm dapp open and navigate back to home
+    await element(by.id('ConfirmDappButton')).tap()
+    await element(by.text('Close')).tap()
+    await navigateToHome()
 
-      // Check that recently used dapp is now first in list
-      const endRecentlyUsedDapps = await getElementTextList('RecentDapp-name')
-      jestExpect(dappPressedName).toEqual(endRecentlyUsedDapps[0])
-    })
-
-    it('should show prompt to open most recently used dapp', async () => {
-      // Get recently used dapps name at start of test
-      const recentlyUsedDapps = await getElementTextList('RecentDapp-name')
-      const mostRecentlyUsedDapp = recentlyUsedDapps[0]
-
-      // Open most recently used dapp
-      await element(by.text(mostRecentlyUsedDapp)).tap()
-
-      // Check that dapp open prompt is visible with the correct dapp name
-      await waitForElementId('ConfirmDappButton')
-      await waitFor(element(by.text(`Go to ${mostRecentlyUsedDapp}`)))
-        .toBeVisible()
-        .withTimeout(10 * 1000)
-    })
-
-    it('should correctly open most recently used dapp', async () => {
-      // Reload to Home screen
-      await reloadReactNative()
-
-      // Get recently used dapps
-      const recentlyUsedDapps = await getElementTextList('RecentDapp-name')
-      const mostRecentlyUsedDapp = recentlyUsedDapps[0]
-
-      // Open most recently used dapp
-      await element(by.text(mostRecentlyUsedDapp)).tap()
-      await waitFor(element(by.text(`Go to ${mostRecentlyUsedDapp}`)))
-        .toBeVisible()
-        .withTimeout(10 * 1000)
-      await element(by.id('ConfirmDappButton')).tap()
-
-      // Check that webview screen is open for the correct dapp
-      await waitFor(element(by.id(`WebViewScreen/${mostRecentlyUsedDapp}`)))
-        .toBeVisible()
-        .withTimeout(10 * 1000)
-    })
+    // Check that recently used dapp is now first in list
+    const endRecentlyUsedDapps = await getElementTextList('RecentDapp-name')
+    jestExpect(dappPressedName).toEqual(endRecentlyUsedDapps[0])
+    jestExpect(endRecentlyUsedDapps.length).toEqual(startRecentDappCount + 1)
   })
 
-  describe(':android:', () => {
-    it('should show most recently used dapp leftmost on home screen', async () => {
-      // Get most recently used dapp at start of test
-      const mostRecentlyUsedDappName = await getElementText('RecentDapp-name')
+  it('should show most recently used dapp leftmost on home screen :android:', async () => {
+    // Get most recently used dapp at start of test
+    const mostRecentlyUsedDappName = await getElementText('RecentDapp-name')
 
-      // If no recently used dapps check that RecentDapp element does not exist
-      if (mostRecentlyUsedDappName === null)
-        await expect(element(by.id('RecentDapp'))).not.toExist()
+    // If no recently used dapps check that RecentDapp element does not exist
+    if (mostRecentlyUsedDappName === null) {
+      await expect(element(by.id('RecentDapp'))).not.toExist()
+    }
 
-      // Navigate to DappList with sleep to allow for dapp list to load
-      await navigateToDappList()
+    // Navigate to DappList reload and navigate again - ci issue
+    await navigateToDappList()
 
-      // Scroll doesn't work well for android so we just tap the first dapp
-      await element(by.id('DappCard')).atIndex(0).tap()
+    // Scroll doesn't work well for android so we just tap the first dapp
+    await element(by.id('DappCard')).atIndex(0).tap()
 
-      // Get dapp name in confirmation dialog
-      const dappPressed = await element(by.id('ConfirmDappTitle')).getAttributes()
-      const dappPressedName = dappPressed.text.split(' is an external application')[0]
+    // Get dapp name in confirmation dialog
+    const dappPressed = await element(by.id('ConfirmDappTitle')).getAttributes()
+    const dappPressedName = dappPressed.text.split(' is an external application')[0]
 
-      // Confirm dapp open and navigate back to home
-      await waitForElementId('ConfirmDappButton')
-      await element(by.id('ConfirmDappButton')).tap()
-      await element(by.text('Close')).tap()
-      await navigateToHome()
+    // Confirm dapp open and navigate back to home
+    await waitForElementId('ConfirmDappButton')
+    await element(by.id('ConfirmDappButton')).tap()
+    await element(by.text('Close')).tap()
+    await navigateToHome()
 
-      // Check that recently used dapp is now first in list
-      jestExpect(dappPressedName).toEqual(await getElementText('RecentDapp-name'))
-    })
+    // Check that recently used dapp is now first in list
+    jestExpect(dappPressedName).toEqual(await getElementText('RecentDapp-name'))
+  })
 
-    it('should show prompt to open most recently used dapp', async () => {
-      // Get most recently used dapp name
-      const mostRecentlyUsedDappName = await getElementText('RecentDapp-name')
+  it('should show prompt to open most recently used dapp', async () => {
+    // Get most recently used dapp name
+    const mostRecentlyUsedDappName = await getElementText('RecentDapp-name')
 
-      // Open most recently used dapp
-      await element(by.text(mostRecentlyUsedDappName)).tap()
+    // Open most recently used dapp
+    await element(by.text(mostRecentlyUsedDappName)).tap()
 
-      // Check that dapp open prompt is visible with the correct dapp name
-      await waitForElementId('ConfirmDappButton')
-      await waitFor(element(by.text(`Go to ${mostRecentlyUsedDappName}`)))
-        .toBeVisible()
-        .withTimeout(10 * 1000)
-    })
+    // Check that dapp open prompt is visible with the correct dapp name
+    await waitForElementId('ConfirmDappButton')
+    await waitFor(element(by.text(`Go to ${mostRecentlyUsedDappName}`)))
+      .toBeVisible()
+      .withTimeout(10 * 1000)
+  })
 
-    it('should correctly open most recently used dapp', async () => {
-      // Reload to Home screen
-      await reloadReactNative()
+  it('should correctly open most recently used dapp', async () => {
+    // Reload to Home screen
+    await reloadReactNative()
 
-      // Get most recently used dapp name
-      const mostRecentlyUsedDappName = await getElementText('RecentDapp-name')
+    // Get most recently used dapp name
+    const mostRecentlyUsedDappName = await getElementText('RecentDapp-name')
 
-      // Open most recently used dapp
-      await element(by.text(mostRecentlyUsedDappName)).tap()
-      await waitFor(element(by.text(`Go to ${mostRecentlyUsedDappName}`)))
-        .toBeVisible()
-        .withTimeout(10 * 1000)
-      await element(by.id('ConfirmDappButton')).tap()
+    // Open most recently used dapp
+    await element(by.text(mostRecentlyUsedDappName)).tap()
+    await waitFor(element(by.text(`Go to ${mostRecentlyUsedDappName}`)))
+      .toBeVisible()
+      .withTimeout(10 * 1000)
+    await element(by.id('ConfirmDappButton')).tap()
 
-      // Check that webview screen is open for the correct dapp
-      await waitFor(element(by.id(`WebViewScreen/${mostRecentlyUsedDappName}`)))
-        .toBeVisible()
-        .withTimeout(10 * 1000)
-    })
+    // Check that webview screen is open for the correct dapp
+    await waitFor(element(by.id(`WebViewScreen/${mostRecentlyUsedDappName}`)))
+      .toBeVisible()
+      .withTimeout(10 * 1000)
+  })
+
+  it('should correctly navigate via all dapps card', async () => {
+    // Reload to Home screen
+    await reloadReactNative()
+
+    // Tap All Dapps Button
+    await element(by.text('All Dapps')).tap()
+
+    // Check that DappList screen is open
+    await waitFor(element(by.id('DAppExplorerScreen/DappsList')))
+      .toExist()
+      .withTimeout(10 * 1000)
   })
 }
