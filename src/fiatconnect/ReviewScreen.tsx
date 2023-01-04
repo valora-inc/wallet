@@ -373,9 +373,6 @@ function getDisplayAmounts({
   const cryptoType = normalizedQuote.getCryptoType()
   const fiatType = normalizedQuote.getFiatType()
   if (flow === CICOFlow.CashOut) {
-    const receive = normalizedQuote.getFiatAmount()
-    let total = normalizedQuote.getCryptoAmount()
-
     const providerFee = normalizedQuote.getFeeInCrypto(exchangeRates) || new BigNumber(0)
     let networkFee = new BigNumber(0)
     if (feeEstimate?.usdFee) {
@@ -386,10 +383,13 @@ function getDisplayAmounts({
         ) || networkFee
     }
 
-    total = new BigNumber(total).plus(networkFee).toString()
-    const totalFee = Number(providerFee.plus(networkFee) || 0)
-    const totalMinusProviderFee = Number(total) - totalFee
-    const exchangeRate = Number(receive) / totalMinusProviderFee
+    const receive = Number(normalizedQuote.getFiatAmount())
+    const total = Number(
+      new BigNumber(normalizedQuote.getCryptoAmount()).plus(networkFee).toString()
+    )
+    const totalFee = Number(providerFee.plus(networkFee))
+    const totalMinusProviderFee = total - totalFee
+    const exchangeRate = receive / totalMinusProviderFee
 
     const receiveDisplay = (testID: string) => (
       <FiatAmount amount={receive} currency={fiatType} testID={testID} />
