@@ -128,7 +128,6 @@
     "lodash": "^4.17.21",
     "lottie-ios": "^3.2.3",
     "lottie-react-native": "^5.0.1",
-    "moment-timezone": "^0.5.35",
     "node-libs-react-native": "^1.2.0",
     "qrcode": "^1.4.4",
     "react": "17.0.2",
