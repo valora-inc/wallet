@@ -179,8 +179,6 @@ export interface RemoteConfigValues {
   logPhoneNumberTypeEnabled: boolean
   superchargeApy: number
   superchargeTokenConfigByToken: SuperchargeTokenConfigByToken
-  komenciUseLightProxy: boolean
-  komenciAllowedDeployers: string[]
   pincodeUseExpandedBlocklist: boolean
   rewardPillText: string
   cashInButtonExpEnabled: boolean

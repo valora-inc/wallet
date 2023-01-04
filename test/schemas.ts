@@ -1946,6 +1946,7 @@ export const v103Schema = {
       unverifiedMtwAddress: v102Schema.verify.komenci.unverifiedMtwAddress,
     },
   },
+  app: _.omit(v102Schema.app, 'komenciAllowedDeployers', 'komenciUseLightProxy'),
 }
 
 export function getLatestSchema(): Partial<RootState> {
