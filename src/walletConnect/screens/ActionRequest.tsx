@@ -13,7 +13,7 @@ import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
 import { getTranslationFromAction, SupportedActions } from 'src/walletConnect/constants'
-import RequestContent from 'src/walletConnect/screens/RequestContent'
+import RequestContent, { useDappMetadata } from 'src/walletConnect/screens/RequestContent'
 import {
   acceptRequest as acceptRequestV1,
   denyRequest as denyRequestV1,
@@ -73,6 +73,7 @@ function ActionRequestV1({ pendingAction }: PropsV1) {
 
   const { action, peerId } = pendingAction
   const activeSession = useSelector(selectSessionFromPeerId(peerId))
+  const { url, dappName, dappImageUrl } = useDappMetadata(activeSession?.peerMeta)
 
   if (!activeSession) {
     // should never happen
@@ -83,10 +84,8 @@ function ActionRequestV1({ pendingAction }: PropsV1) {
     return null
   }
 
-  const { url, name, icons } = activeSession.peerMeta!
   const { method, params } = action
   const moreInfoString = getMoreInfoString(t, method, params)
-  const dappImageUrl = icons[0] ?? `${url}/favicon.ico`
   const requestDetails = [
     {
       label: t('action.operation'),
@@ -102,10 +101,10 @@ function ActionRequestV1({ pendingAction }: PropsV1) {
       onDeny={() => {
         dispatch(denyRequestV1(peerId, action, 'User denied'))
       }}
-      dappName={name}
+      dappName={dappName}
       dappImageUrl={dappImageUrl}
-      title={t('confirmTransaction', { dappName: name })}
-      description={t('action.askingV1_35', { dappName: name })}
+      title={t('confirmTransaction', { dappName })}
+      description={t('action.askingV1_35', { dappName })}
       testId="WalletConnectActionRequest"
       dappUrl={url}
       requestDetails={requestDetails}
@@ -140,6 +139,8 @@ function ActionRequestV2({ pendingAction }: PropsV2) {
   const [showTransactionDetails, setShowTransactionDetails] = useState(false)
 
   const activeSession = useSelector(selectSessionFromTopic(pendingAction.topic))
+  const { url, dappName, dappImageUrl } = useDappMetadata(activeSession?.peer.metadata)
+
   if (!activeSession) {
     // should never happen
     Logger.error(
@@ -149,10 +150,8 @@ function ActionRequestV2({ pendingAction }: PropsV2) {
     return null
   }
 
-  const { url, name, icons } = activeSession.peer.metadata
   const { method, params } = pendingAction.params.request
   const moreInfoString = getMoreInfoString(t, method, params)
-  const dappImageUrl = icons[0] ?? `${url}/favicon.ico`
   const requestDetails = [
     {
       label: t('action.operation'),
@@ -168,10 +167,10 @@ function ActionRequestV2({ pendingAction }: PropsV2) {
       onDeny={() => {
         dispatch(denyRequestV2(pendingAction, getSdkError('USER_REJECTED')))
       }}
-      dappName={name}
+      dappName={dappName}
       dappImageUrl={dappImageUrl}
-      title={t('confirmTransaction', { dappName: name })}
-      description={t('action.askingV1_35', { dappName: name })}
+      title={t('confirmTransaction', { dappName })}
+      description={t('action.askingV1_35', { dappName })}
       testId="WalletConnectActionRequest"
       dappUrl={url}
       requestDetails={requestDetails}
