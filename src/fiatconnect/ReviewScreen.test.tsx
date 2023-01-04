@@ -64,7 +64,26 @@ function getProps(
 }
 
 describe('ReviewScreen', () => {
-  const store = createMockStore()
+  const store = createMockStore({
+    fees: {
+      estimates: {
+        '0x874069fa1eb16d44d622f2e0ca25eea172369bc1': {
+          send: { usdFee: '0.02', lastUpdated: 500, loading: false, error: false },
+          exchange: undefined,
+          'reclaim-escrow': undefined,
+          'register-dek': undefined,
+          swap: undefined,
+        },
+        '0x10c892a6ec43a53e45d0b916b4b7d383b1b78c0f': {
+          send: { usdFee: '0.03', lastUpdated: 500, loading: false, error: false },
+          exchange: undefined,
+          'reclaim-escrow': undefined,
+          'register-dek': undefined,
+          swap: undefined,
+        },
+      },
+    },
+  })
   beforeEach(() => {
     store.dispatch = jest.fn()
     mocked(getDefaultLocalCurrencyCode).mockReturnValue(LocalCurrencyCode.USD)
@@ -95,7 +114,7 @@ describe('ReviewScreen', () => {
   })
 
   describe('cashOut', () => {
-    it('shows fiat amount, transaction details and payment method', () => {
+    it('shows fiat amount, transaction details and payment method, with provider and network fees', () => {
       const { queryByTestId, queryByText } = render(
         <Provider store={store}>
           <FiatConnectReviewScreen {...getProps(CICOFlow.CashOut, true, CryptoType.cEUR)} />
@@ -106,9 +125,9 @@ describe('ReviewScreen', () => {
       expect(queryByTestId('receive-amount/value')?.children).toEqual(['', '$', '100.00'])
       expect(queryByText('fiatConnectReviewScreen.transactionDetails')).toBeTruthy()
       expect(queryByText('fiatConnectReviewScreen.cashOut.transactionDetailsAmount')).toBeTruthy()
-      expect(queryByTestId('txDetails-total')?.children).toEqual(['', '100.00', ' cEUR'])
+      expect(queryByTestId('txDetails-total')?.children).toEqual(['', '100.02', ' cEUR'])
       expect(queryByTestId('txDetails-converted')?.children).toEqual(['', '99.47', ' cEUR'])
-      expect(queryByTestId('txDetails-fee')?.children).toEqual(['', '0.53', ' cEUR'])
+      expect(queryByTestId('txDetails-fee')?.children).toEqual(['', '0.55', ' cEUR'])
       expect(queryByTestId('txDetails-exchangeRate/value')?.children).toEqual(['', '$', '1.0053'])
       expect(queryByTestId('txDetails-receive/value')?.children).toEqual(['', '$', '100.00'])
       expect(queryByText('fiatConnectReviewScreen.cashOut.paymentMethodHeader')).toBeTruthy()
@@ -172,7 +191,7 @@ describe('ReviewScreen', () => {
       )
     })
 
-    it('shows fiat amount, transaction details and payment method without fee', () => {
+    it('shows fiat amount, transaction details and payment method without provider fee', () => {
       const { queryByTestId, queryByText } = render(
         <Provider store={store}>
           <FiatConnectReviewScreen {...getProps(CICOFlow.CashOut)} />
@@ -182,9 +201,9 @@ describe('ReviewScreen', () => {
       expect(queryByTestId('receive-amount/value')?.children).toEqual(['', '$', '100.00'])
       expect(queryByText('fiatConnectReviewScreen.transactionDetails')).toBeTruthy()
       expect(queryByText('fiatConnectReviewScreen.cashOut.transactionDetailsAmount')).toBeTruthy()
-      expect(queryByTestId('txDetails-total')?.children).toEqual(['', '100.00', ' cUSD'])
+      expect(queryByTestId('txDetails-total')?.children).toEqual(['', '100.02', ' cUSD'])
       expect(queryByTestId('txDetails-converted')?.children).toEqual(['', '100.00', ' cUSD'])
-      expect(queryByTestId('txDetails-fee')).toBeFalsy()
+      expect(queryByTestId('txDetails-fee')?.children).toEqual(['', '0.02', ' cUSD'])
       expect(queryByTestId('txDetails-exchangeRate/value')?.children).toEqual(['', '$', '1'])
       expect(queryByTestId('txDetails-receive/value')?.children).toEqual(['', '$', '100.00'])
       expect(queryByText('fiatConnectReviewScreen.cashOut.paymentMethodHeader')).toBeTruthy()
