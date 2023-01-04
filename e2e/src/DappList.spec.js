@@ -1,4 +1,5 @@
 import DappListRecent from './usecases/DappListRecent'
+import DappListDisplay from './usecases/DappListDisplay'
 import { quickOnboarding } from './utils/utils'
 import { launchApp } from './utils/retries'
 import { waitForElementId } from './utils/utils'
@@ -78,4 +79,5 @@ describe('Dapp List', () => {
   })
 
   describe('Recent Dapps', DappListRecent)
+  describe('Dapp List Display', DappListDisplay)
 })
