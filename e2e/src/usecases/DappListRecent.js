@@ -1,49 +1,8 @@
 import { reloadReactNative } from '../utils/retries'
-import { sleep, waitForElementId, getElementText, getElementTextList } from '../utils/utils'
+import { waitForElementId, getElementText, getElementTextList } from '../utils/utils'
+import { navigateToDappList, navigateToHome, scrollToDapp } from '../DappList.spec'
 
 const jestExpect = require('expect')
-
-/**
- * From the home screen, navigate to the dapp explorer screen
- * Disable detox device synchronization to allow for dapp list to load
- * https://github.com/wix/Detox/issues/2799
- */
-async function navigateToDappList() {
-  await device.disableSynchronization()
-  await waitForElementId('Hamburger')
-  await element(by.id('Hamburger')).tap()
-  await waitForElementId('dapps-explorer-icon')
-  await element(by.id('dapps-explorer-icon')).tap()
-  await waitFor(element(by.id('DAppExplorerScreen/loading')))
-    .not.toBeVisible()
-    .withTimeout(30 * 1000)
-  await device.enableSynchronization()
-}
-
-/**
- * From the drawer navigate to home screen
- */
-async function navigateToHome() {
-  await waitForElementId('Hamburger')
-  await element(by.id('Hamburger')).tap()
-  await waitForElementId('Home')
-  await element(by.id('Home')).tap()
-}
-
-/**
- * Scroll to a dapp in the dapp - iOS only
- * @param {number} dappIndex: index of dapp to scroll to
- */
-async function scrollToDapp(dappIndex = 0) {
-  try {
-    await waitFor(element(by.id('DappCard')).atIndex(dappIndex))
-      .toBeVisible(100)
-      .whileElement(by.id('DAppExplorerScreen/DappsList'))
-      .scroll(250, 'down')
-  } catch {
-    console.log('Catch of scrollToDapp')
-  }
-}
 
 export default DappListRecent = () => {
   it('should show most recently used dapp leftmost on home screen :ios:', async () => {
