@@ -1,3 +1,4 @@
+import { normalizeMnemonic } from '@celo/cryptographic-utils'
 import { HeaderHeightContext } from '@react-navigation/elements'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
@@ -14,7 +15,6 @@ import { registrationStepsSelector } from 'src/app/selectors'
 import {
   countMnemonicWords,
   formatBackupPhraseOnEdit,
-  formatBackupPhraseOnSubmit,
   getStoredMnemonic,
   isValidBackupPhrase,
 } from 'src/backup/utils'
@@ -150,12 +150,15 @@ function ImportWallet({ navigation, route }: Props) {
     Keyboard.dismiss()
     dispatch(hideAlert())
 
-    const formattedPhrase = formatBackupPhraseOnSubmit(backupPhrase)
+    const formattedPhrase = normalizeMnemonic(backupPhrase)
     setBackupPhrase(formattedPhrase)
 
     navigation.setParams({ showZeroBalanceModal: false })
 
-    ValoraAnalytics.track(OnboardingEvents.wallet_import_submit, { useEmptyWallet })
+    ValoraAnalytics.track(OnboardingEvents.wallet_import_submit, {
+      useEmptyWallet,
+      recoveryPhraseWordCount: countMnemonicWords(formattedPhrase),
+    })
     dispatch(importBackupPhrase(formattedPhrase, useEmptyWallet))
   }
 

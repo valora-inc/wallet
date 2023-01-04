@@ -6,6 +6,7 @@ import { getMockStoreData } from 'test/utils'
 describe('getCurrentUserTraits', () => {
   it('returns the current user traits', () => {
     const state = getMockStoreData({
+      web3: { mtwAddress: '0x123' },
       account: { defaultCountryCode: '+33', pincodeType: PincodeType.CustomPin },
       goldToken: { balance: '1.01' },
       stableToken: { balances: { [Currency.Dollar]: '2.02', [Currency.Euro]: '3.03' } },
@@ -170,11 +171,15 @@ describe('getCurrentUserTraits', () => {
       },
     })
     expect(getCurrentUserTraits(state)).toStrictEqual({
-      accountAddress: '0x0000000000000000000000000000000000007E57',
+      accountAddress: '0x123',
+      appBuildNumber: '1',
+      appBundleId: 'org.celo.mobile.debug',
+      appVersion: '0.0.1',
       celoBalance: 0,
       ceurBalance: 21,
       countryCodeAlpha2: 'US',
       cusdBalance: 10,
+      deviceId: 'abc-def-123',
       deviceLanguage: 'en-US',
       hasCompletedBackup: false,
       hasVerifiedNumber: false,
@@ -190,5 +195,13 @@ describe('getCurrentUserTraits', () => {
       superchargingToken: 'cEUR',
       superchargingAmountInUsd: 25.9245,
     })
+  })
+  it('uses wallet address as fallback for accountAddress if MTW is null', () => {
+    const state = getMockStoreData({
+      web3: { mtwAddress: null },
+    })
+    expect(getCurrentUserTraits(state).accountAddress).toEqual(
+      '0x0000000000000000000000000000000000007E57' // intentionally using non-lower-cased version here (important for backwards compatibility)
+    )
   })
 })

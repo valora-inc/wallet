@@ -1,6 +1,6 @@
-import { validateMnemonic } from '@celo/cryptographic-utils'
+import { normalizeMnemonic, validateMnemonic } from '@celo/cryptographic-utils'
 import * as bip39 from 'react-native-bip39'
-import { formatBackupPhraseOnEdit, formatBackupPhraseOnSubmit } from 'src/backup/utils'
+import { formatBackupPhraseOnEdit } from 'src/backup/utils'
 
 describe('Mnemonic validation and formatting', () => {
   const SPANISH_MNEMONIC =
@@ -45,48 +45,48 @@ inner surprise invest`
   })
 
   it('formats spacing correctly on submit', () => {
-    expect(formatBackupPhraseOnSubmit(MULTILINE_ENGLISH_MNEMONIC_UNTRIMMED_UNCASED)).toEqual(
+    expect(normalizeMnemonic(MULTILINE_ENGLISH_MNEMONIC_UNTRIMMED_UNCASED)).toEqual(
       ENGLISH_MNEMONIC
     )
   })
 
   it('validates spanish successfully', () => {
-    const mnemonic = formatBackupPhraseOnSubmit(SPANISH_MNEMONIC)
+    const mnemonic = normalizeMnemonic(SPANISH_MNEMONIC)
     expect(validateMnemonic(mnemonic, bip39)).toBeTruthy()
   })
 
   it('validates spanish successfully without mnemonic accents', () => {
-    const mnemonic = formatBackupPhraseOnSubmit(SPANISH_MNEMONIC_NO_ACCENTS)
+    const mnemonic = normalizeMnemonic(SPANISH_MNEMONIC_NO_ACCENTS)
     expect(validateMnemonic(mnemonic, bip39)).toBeTruthy()
   })
 
   it('validates portuguese successfully', () => {
-    const mnemonic = formatBackupPhraseOnSubmit(PORTUGUESE_MNEMONIC)
+    const mnemonic = normalizeMnemonic(PORTUGUESE_MNEMONIC)
     expect(validateMnemonic(mnemonic, bip39)).toBeTruthy()
   })
 
   it('validates english successfully', () => {
-    const mnemonic = formatBackupPhraseOnSubmit(ENGLISH_MNEMONIC)
+    const mnemonic = normalizeMnemonic(ENGLISH_MNEMONIC)
     expect(validateMnemonic(mnemonic, bip39)).toBeTruthy()
   })
 
   it('validates english multiline successfully', () => {
-    const mnemonic = formatBackupPhraseOnSubmit(MULTILINE_ENGLISH_MNEMONIC)
+    const mnemonic = normalizeMnemonic(MULTILINE_ENGLISH_MNEMONIC)
     expect(validateMnemonic(mnemonic, bip39)).toBeTruthy()
   })
 
   it('does not validate bad english', () => {
-    const mnemonic = formatBackupPhraseOnSubmit(BAD_ENGLISH_MNEMONIC)
+    const mnemonic = normalizeMnemonic(BAD_ENGLISH_MNEMONIC)
     expect(validateMnemonic(mnemonic, bip39)).toBeFalsy()
   })
 
   it('does not validate bad spanish', () => {
-    const mnemonic = formatBackupPhraseOnSubmit(BAD_SPANISH_MNEMONIC)
+    const mnemonic = normalizeMnemonic(BAD_SPANISH_MNEMONIC)
     expect(validateMnemonic(mnemonic, bip39)).toBeFalsy()
   })
 
   it('does not validate bad portuguese', () => {
-    const mnemonic = formatBackupPhraseOnSubmit(BAD_PORTUGUESE_MNEMONIC)
+    const mnemonic = normalizeMnemonic(BAD_PORTUGUESE_MNEMONIC)
     expect(validateMnemonic(mnemonic, bip39)).toBeFalsy()
   })
 })

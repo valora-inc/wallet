@@ -51,10 +51,10 @@ import FiatConnectTransferStatusScreen from 'src/fiatconnect/TransferStatusScree
 import BidaliScreen from 'src/fiatExchanges/BidaliScreen'
 import CashInSuccess from 'src/fiatExchanges/CashInSuccess'
 import CoinbasePayScreen from 'src/fiatExchanges/CoinbasePayScreen'
+import ExchangeQR from 'src/fiatExchanges/ExchangeQR'
 import ExternalExchanges, {
   externalExchangesScreenOptions,
 } from 'src/fiatExchanges/ExternalExchanges'
-import ExchangeQR from 'src/fiatExchanges/ExchangeQR'
 import FiatExchangeAmount from 'src/fiatExchanges/FiatExchangeAmount'
 import FiatExchangeCurrency, {
   fiatExchangesOptionsScreenOptions,
@@ -94,9 +94,6 @@ import PaymentRequestConfirmation, {
   paymentConfirmationScreenNavOptions,
 } from 'src/paymentRequest/PaymentRequestConfirmation'
 import PaymentRequestConfirmationLegacy from 'src/paymentRequest/PaymentRequestConfirmationLegacy'
-import PaymentRequestUnavailable, {
-  paymentRequestUnavailableScreenNavOptions,
-} from 'src/paymentRequest/PaymentRequestUnavailable'
 import PincodeEnter from 'src/pincode/PincodeEnter'
 import PincodeSet from 'src/pincode/PincodeSet'
 import { RootState } from 'src/redux/reducers'
@@ -275,11 +272,6 @@ const sendScreens = (Navigator: typeof Stack) => (
       name={Screens.ValidateRecipientAccount}
       component={ValidateRecipientAccount}
       options={validateRecipientAccountScreenNavOptions}
-    />
-    <Navigator.Screen
-      name={Screens.PaymentRequestUnavailable}
-      component={PaymentRequestUnavailable}
-      options={paymentRequestUnavailableScreenNavOptions}
     />
     <Navigator.Screen
       name={Screens.PaymentRequestConfirmation}

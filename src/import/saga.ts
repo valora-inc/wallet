@@ -1,5 +1,4 @@
 import {
-  generateKeys,
   invalidMnemonicWords,
   normalizeMnemonic,
   suggestMnemonicCorrections,
@@ -28,7 +27,7 @@ import { AppEvents, OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { numberVerifiedCentrallySelector, skipVerificationSelector } from 'src/app/selectors'
-import { countMnemonicWords, storeMnemonic } from 'src/backup/utils'
+import { countMnemonicWords, generateKeysFromMnemonic, storeMnemonic } from 'src/backup/utils'
 import { refreshAllBalances } from 'src/home/actions'
 import { setHasSeenVerificationNux } from 'src/identity/actions'
 import {
@@ -118,14 +117,7 @@ export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackup
       return
     }
 
-    const { privateKey } = yield call(
-      generateKeys,
-      mnemonic,
-      undefined,
-      undefined,
-      undefined,
-      bip39
-    )
+    const { privateKey } = yield call(generateKeysFromMnemonic, mnemonic)
     if (!privateKey) {
       throw new Error('Failed to convert mnemonic to hex')
     }
@@ -198,14 +190,7 @@ function* attemptBackupPhraseCorrection(mnemonic: string) {
       TAG + '@attemptBackupPhraseCorrection',
       `Checking account balance on suggestion #${++counter}`
     )
-    const { privateKey } = yield call(
-      generateKeys,
-      suggestion,
-      undefined,
-      undefined,
-      undefined,
-      bip39
-    )
+    const { privateKey } = yield call(generateKeysFromMnemonic, suggestion)
     if (!privateKey) {
       Logger.error(TAG + '@attemptBackupPhraseCorrection', 'Failed to convert mnemonic to hex')
       continue

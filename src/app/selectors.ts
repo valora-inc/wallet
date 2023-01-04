@@ -14,7 +14,7 @@ import {
   shouldUseKomenciSelector,
   verificationStatusSelector,
 } from 'src/verify/reducer'
-import { accountAddressSelector } from 'src/web3/selectors'
+import { walletAddressSelector } from 'src/web3/selectors'
 
 export const getRequirePinOnAppOpen = (state: RootState) => {
   return state.app.requirePinOnAppOpen
@@ -78,7 +78,7 @@ export const superchargeTokenConfigByTokenSelector = (state: RootState) =>
   state.app.superchargeTokenConfigByToken
 
 export const rewardsEnabledSelector = createSelector(
-  [accountAddressSelector, superchargeTokenConfigByTokenSelector],
+  [walletAddressSelector, superchargeTokenConfigByTokenSelector],
   (address, superchargeTokenConfigByToken) =>
     !!address && Object.keys(superchargeTokenConfigByToken).length > 0
 )
@@ -121,8 +121,6 @@ export const createAccountCopyTestTypeSelector = (state: RootState) =>
 
 export const maxSwapSlippagePercentageSelector = (state: RootState) =>
   state.app.maxSwapSlippagePercentage
-
-export const inviteMethodSelector = (state: RootState) => state.app.inviteMethod
 
 export const showGuidedOnboardingSelector = (state: RootState) => state.app.showGuidedOnboardingCopy
 
