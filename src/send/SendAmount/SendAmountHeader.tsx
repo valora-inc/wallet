@@ -15,7 +15,6 @@ import { stablecoinsSelector, tokensWithTokenBalanceSelector } from 'src/tokens/
 interface Props {
   tokenAddress: string
   isOutgoingPaymentRequest: boolean
-  isInvite: boolean
   onChangeToken: (token: string) => void
   disallowCurrencyChange: boolean
 }
@@ -23,7 +22,6 @@ interface Props {
 function SendAmountHeader({
   tokenAddress,
   isOutgoingPaymentRequest,
-  isInvite,
   onChangeToken,
   disallowCurrencyChange,
 }: Props) {
@@ -32,7 +30,6 @@ function SendAmountHeader({
   const tokensWithBalance = useSelector(tokensWithTokenBalanceSelector)
   const stableTokens = useSelector(stablecoinsSelector)
   const tokenInfo = useTokenInfo(tokenAddress)
-  const tokenList = isInvite ? stableTokens : tokensWithBalance
 
   const onTokenSelected = (token: string) => {
     setShowCurrencyPicker(false)
@@ -47,7 +44,7 @@ function SendAmountHeader({
     : SendEvents.send_amount_back
 
   const canChangeToken =
-    (tokenList.length >= 2 || isOutgoingPaymentRequest) && !disallowCurrencyChange
+    (tokensWithBalance.length >= 2 || isOutgoingPaymentRequest) && !disallowCurrencyChange
 
   const title = useMemo(() => {
     let titleText
@@ -86,7 +83,7 @@ function SendAmountHeader({
         origin={TokenPickerOrigin.Send}
         onTokenSelected={onTokenSelected}
         onClose={closeCurrencyPicker}
-        tokens={isInvite || isOutgoingPaymentRequest ? stableTokens : tokensWithBalance}
+        tokens={isOutgoingPaymentRequest ? stableTokens : tokensWithBalance}
       />
     </>
   )

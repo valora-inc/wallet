@@ -51,13 +51,13 @@ export const sendReducer = (
         isSending: false,
       }
     }
-    case Actions.SEND_PAYMENT_OR_INVITE:
-    case Actions.SEND_PAYMENT_OR_INVITE_LEGACY:
+    case Actions.SEND_PAYMENT:
+    case Actions.SEND_PAYMENT_LEGACY:
       return {
         ...storeLatestRecentReducer(state, action.recipient),
         isSending: true,
       }
-    case Actions.SEND_PAYMENT_OR_INVITE_SUCCESS:
+    case Actions.SEND_PAYMENT_SUCCESS:
       const now = Date.now()
       // Keep only the last 24 hours
       const paymentsLast24Hours = state.recentPayments.filter(
@@ -69,7 +69,7 @@ export const sendReducer = (
         isSending: false,
         recentPayments: [...paymentsLast24Hours, latestPayment],
       }
-    case Actions.SEND_PAYMENT_OR_INVITE_FAILURE:
+    case Actions.SEND_PAYMENT_FAILURE:
       return {
         ...state,
         isSending: false,

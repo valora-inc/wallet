@@ -16,10 +16,10 @@ export type SVG = typeof Svg
 export enum Actions {
   BARCODE_DETECTED = 'SEND/BARCODE_DETECTED',
   QRCODE_SHARE = 'SEND/QRCODE_SHARE',
-  SEND_PAYMENT_OR_INVITE = 'SEND/SEND_PAYMENT_OR_INVITE',
-  SEND_PAYMENT_OR_INVITE_LEGACY = 'SEND/SEND_PAYMENT_OR_INVITE_LEGACY',
-  SEND_PAYMENT_OR_INVITE_SUCCESS = 'SEND/SEND_PAYMENT_OR_INVITE_SUCCESS',
-  SEND_PAYMENT_OR_INVITE_FAILURE = 'SEND/SEND_PAYMENT_OR_INVITE_FAILURE',
+  SEND_PAYMENT = 'SEND/SEND_PAYMENT',
+  SEND_PAYMENT_LEGACY = 'SEND/SEND_PAYMENT_LEGACY',
+  SEND_PAYMENT_SUCCESS = 'SEND/SEND_PAYMENT_SUCCESS',
+  SEND_PAYMENT_FAILURE = 'SEND/SEND_PAYMENT_FAILURE',
   UPDATE_LAST_USED_CURRENCY = 'SEND/UPDATE_LAST_USED_CURRENCY',
   SET_SHOW_WARNING = 'SEND/SHOW_WARNING',
 }
@@ -38,8 +38,8 @@ export interface ShareQRCodeAction {
   qrCodeSvg: SVG
 }
 
-export interface SendPaymentOrInviteActionLegacy {
-  type: Actions.SEND_PAYMENT_OR_INVITE_LEGACY
+export interface SendPaymentActionLegacy {
+  type: Actions.SEND_PAYMENT_LEGACY
   amount: BigNumber
   currency: Currency
   comment: string
@@ -50,8 +50,8 @@ export interface SendPaymentOrInviteActionLegacy {
   fromModal: boolean
 }
 
-export interface SendPaymentOrInviteAction {
-  type: Actions.SEND_PAYMENT_OR_INVITE
+export interface SendPaymentAction {
+  type: Actions.SEND_PAYMENT
   amount: BigNumber
   tokenAddress: string
   usdAmount: BigNumber | null
@@ -61,13 +61,13 @@ export interface SendPaymentOrInviteAction {
   fromModal: boolean
 }
 
-export interface SendPaymentOrInviteSuccessAction {
-  type: Actions.SEND_PAYMENT_OR_INVITE_SUCCESS
+export interface SendPaymentSuccessAction {
+  type: Actions.SEND_PAYMENT_SUCCESS
   amount: BigNumber
 }
 
-export interface SendPaymentOrInviteFailureAction {
-  type: Actions.SEND_PAYMENT_OR_INVITE_FAILURE
+export interface SendPaymentFailureAction {
+  type: Actions.SEND_PAYMENT_FAILURE
 }
 
 export interface UpdateLastUsedCurrencyAction {
@@ -83,10 +83,10 @@ export interface SetShowWarningAction {
 export type ActionTypes =
   | HandleBarcodeDetectedAction
   | ShareQRCodeAction
-  | SendPaymentOrInviteAction
-  | SendPaymentOrInviteActionLegacy
-  | SendPaymentOrInviteSuccessAction
-  | SendPaymentOrInviteFailureAction
+  | SendPaymentAction
+  | SendPaymentActionLegacy
+  | SendPaymentSuccessAction
+  | SendPaymentFailureAction
   | UpdateLastUsedCurrencyAction
   | SetShowWarningAction
 
@@ -110,7 +110,7 @@ export const shareQRCode = (qrCodeSvg: SVG): ShareQRCodeAction => ({
   qrCodeSvg,
 })
 
-export const sendPaymentOrInviteLegacy = (
+export const sendPaymentLegacy = (
   amount: BigNumber,
   currency: Currency,
   comment: string,
@@ -119,8 +119,8 @@ export const sendPaymentOrInviteLegacy = (
   feeInfo: FeeInfo | undefined,
   firebasePendingRequestUid: string | null | undefined,
   fromModal: boolean
-): SendPaymentOrInviteActionLegacy => ({
-  type: Actions.SEND_PAYMENT_OR_INVITE_LEGACY,
+): SendPaymentActionLegacy => ({
+  type: Actions.SEND_PAYMENT_LEGACY,
   amount,
   currency,
   comment,
@@ -131,7 +131,7 @@ export const sendPaymentOrInviteLegacy = (
   fromModal,
 })
 
-export const sendPaymentOrInvite = (
+export const sendPayment = (
   amount: BigNumber,
   tokenAddress: string,
   usdAmount: BigNumber | null,
@@ -139,8 +139,8 @@ export const sendPaymentOrInvite = (
   recipient: Recipient,
   feeInfo: FeeInfo,
   fromModal: boolean
-): SendPaymentOrInviteAction => ({
-  type: Actions.SEND_PAYMENT_OR_INVITE,
+): SendPaymentAction => ({
+  type: Actions.SEND_PAYMENT,
   amount,
   tokenAddress,
   usdAmount,
@@ -150,15 +150,13 @@ export const sendPaymentOrInvite = (
   fromModal,
 })
 
-export const sendPaymentOrInviteSuccess = (
-  amount: BigNumber
-): SendPaymentOrInviteSuccessAction => ({
-  type: Actions.SEND_PAYMENT_OR_INVITE_SUCCESS,
+export const sendPaymentSuccess = (amount: BigNumber): SendPaymentSuccessAction => ({
+  type: Actions.SEND_PAYMENT_SUCCESS,
   amount,
 })
 
-export const sendPaymentOrInviteFailure = (): SendPaymentOrInviteFailureAction => ({
-  type: Actions.SEND_PAYMENT_OR_INVITE_FAILURE,
+export const sendPaymentFailure = (): SendPaymentFailureAction => ({
+  type: Actions.SEND_PAYMENT_FAILURE,
 })
 
 export const updateLastUsedCurrency = (currency: Currency): UpdateLastUsedCurrencyAction => ({

@@ -38,7 +38,6 @@ import {
   e164NumberToAddressSelector,
   secureSendPhoneNumberMappingSelector,
 } from 'src/identity/selectors'
-import InviteAndSendModal from 'src/invite/InviteAndSendModal'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { convertCurrencyToLocalAmount } from 'src/localCurrency/convert'
 import {
@@ -56,7 +55,7 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { getDisplayName, Recipient } from 'src/recipients/recipient'
 import { isAppConnected } from 'src/redux/selectors'
-import { sendPaymentOrInviteLegacy } from 'src/send/actions'
+import { sendPaymentLegacy } from 'src/send/actions'
 import { isSendingSelector } from 'src/send/selectors'
 import { getConfirmationInput } from 'src/send/utils'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
@@ -99,7 +98,6 @@ export const sendConfirmationLegacyScreenNavOptions = (navOptions: Props) =>
     : noHeader
 
 function SendConfirmationLegacy(props: Props) {
-  const [modalVisible, setModalVisible] = useState(false)
   const [encryptionDialogVisible, setEncryptionDialogVisible] = useState(false)
   const [comment, setComment] = useState('')
   const [feeInfo, setFeeInfo] = useState(undefined as FeeInfo | undefined)
@@ -184,15 +182,7 @@ function SendConfirmationLegacy(props: Props) {
     }
   }
 
-  const onSendClick = () => {
-    if (type === TokenTransactionType.InviteSent) {
-      setModalVisible(true)
-    } else {
-      sendOrInvite()
-    }
-  }
-
-  const sendOrInvite = () => {
+  const onSend = () => {
     const finalComment =
       type === TokenTransactionType.PayRequest || type === TokenTransactionType.PayPrefill
         ? reason || ''
@@ -206,7 +196,6 @@ function SendConfirmationLegacy(props: Props) {
     ValoraAnalytics.track(SendEvents.send_confirm_send, {
       origin,
       isScan: !!props.route.params?.isFromScan,
-      isInvite: !recipientAddress,
       isRequest: type === TokenTransactionType.PayRequest,
       localCurrencyExchangeRate: newCurrencyInfo.localExchangeRate,
       localCurrency: newCurrencyInfo.localCurrencyCode,
@@ -216,7 +205,7 @@ function SendConfirmationLegacy(props: Props) {
     })
 
     dispatch(
-      sendPaymentOrInviteLegacy(
+      sendPaymentLegacy(
         amount,
         currency,
         finalComment,
@@ -236,15 +225,6 @@ function SendConfirmationLegacy(props: Props) {
       addressValidationType,
       origin: props.route.params.origin,
     })
-  }
-
-  const cancelModal = () => {
-    setModalVisible(false)
-  }
-
-  const sendInvite = () => {
-    setModalVisible(false)
-    sendOrInvite()
   }
 
   const onBlur = () => {
@@ -286,8 +266,6 @@ function SendConfirmationLegacy(props: Props) {
         fee?.isLessThanOrEqualTo(celoBalance ?? new BigNumber(0)))
     const isPrimaryButtonDisabled = isSending || !userHasEnough || !appConnected || !!asyncFee.error
 
-    const isInvite = type === TokenTransactionType.InviteSent
-
     const subtotalAmount = {
       value: amount,
       currencyCode: currency,
@@ -296,14 +274,14 @@ function SendConfirmationLegacy(props: Props) {
     let primaryBtnInfo
     if (type === TokenTransactionType.PayRequest || type === TokenTransactionType.PayPrefill) {
       primaryBtnInfo = {
-        action: sendOrInvite,
+        action: onSend,
         text: t('pay'),
         disabled: isPrimaryButtonDisabled,
       }
     } else {
       primaryBtnInfo = {
-        action: onSendClick,
-        text: isInvite ? t('sendAndInvite') : t('send'),
+        action: onSend,
+        text: t('send'),
         disabled: isPrimaryButtonDisabled,
       }
     }
@@ -403,7 +381,6 @@ function SendConfirmationLegacy(props: Props) {
           isSending={isSending}
         >
           <View style={styles.transferContainer}>
-            {isInvite && <Text style={styles.inviteText}>{t('inviteMoneyEscrow')}</Text>}
             <View style={styles.headerContainer}>
               <ContactCircle recipient={recipient} />
               <View style={styles.recipientInfoContainer}>
@@ -444,12 +421,6 @@ function SendConfirmationLegacy(props: Props) {
               />
             )}
           </View>
-          <InviteAndSendModal
-            isVisible={modalVisible}
-            name={getDisplayName(transactionData.recipient, t)}
-            onInvite={sendInvite}
-            onCancel={cancelModal}
-          />
           {/** Encryption warning dialog */}
           <Dialog
             title={t('encryption.warningModalHeader')}
@@ -475,17 +446,20 @@ function SendConfirmationLegacy(props: Props) {
   if (!account || !balance) {
     throw Error('Account is required')
   }
-  const feeProps: CalculateFeeProps = recipientAddress
-    ? {
-        feeType: FeeType.SEND,
-        account,
-        recipientAddress,
-        amount: amount.valueOf(),
-        currency,
-        balance: balance.toString(),
-        includeDekFee: !isDekRegistered,
-      }
-    : { feeType: FeeType.INVITE, account, amount, currency, balance: balance.toString() }
+
+  if (!recipientAddress) {
+    throw Error('Recipient address is required')
+  }
+
+  const feeProps: CalculateFeeProps = {
+    feeType: FeeType.SEND,
+    account,
+    recipientAddress,
+    amount: amount.valueOf(),
+    currency,
+    balance: balance.toString(),
+    includeDekFee: !isDekRegistered,
+  }
 
   return (
     // Note: intentionally passing a new child func here otherwise
@@ -502,11 +476,6 @@ const styles = StyleSheet.create({
   feeContainer: {
     padding: 16,
     paddingBottom: 8,
-  },
-  inviteText: {
-    ...fontStyles.small,
-    color: colors.gray4,
-    paddingBottom: 24,
   },
   transferContainer: {
     alignItems: 'flex-start',

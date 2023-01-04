@@ -1,5 +1,5 @@
 import { RemoteConfigValues } from 'src/app/saga'
-import { CreateAccountCopyTestType, InviteMethodType } from 'src/app/types'
+import { CreateAccountCopyTestType } from 'src/app/types'
 import { DEFAULT_SENTRY_NETWORK_ERRORS, DEFAULT_SENTRY_TRACES_SAMPLE_RATE } from 'src/config'
 import { DappConnectInfo } from 'src/dapps/types'
 
@@ -67,7 +67,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   shouldShowRecoveryPhraseInSettings: false,
   createAccountCopyTestType: CreateAccountCopyTestType.Account,
   maxSwapSlippagePercentage: 2,
-  inviteMethod: InviteMethodType.Escrow,
   showGuidedOnboardingCopy: false,
   centralPhoneVerificationEnabled: true,
   networkTimeoutSeconds: 30,

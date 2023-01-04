@@ -1,5 +1,5 @@
-import { AccountAuthRequest, SignTxRequest } from '@celo/utils'
 import { Countries } from '@celo/phone-utils'
+import { AccountAuthRequest, SignTxRequest } from '@celo/utils'
 import { KycSchema } from '@fiatconnect/fiatconnect-types'
 import { SignClientTypes } from '@walletconnect/types'
 import BigNumber from 'bignumber.js'
@@ -217,9 +217,6 @@ export type StackParamList = {
   [Screens.Main]: undefined
   [Screens.MainModal]: undefined
   [Screens.OutgoingPaymentRequestListScreen]: undefined
-  [Screens.PaymentRequestUnavailable]: {
-    transactionData: TransactionDataInput | TransactionDataInputLegacy
-  }
   [Screens.PaymentRequestConfirmation]: {
     transactionData: TransactionDataInput
   }
