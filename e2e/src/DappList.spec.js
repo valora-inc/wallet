@@ -1,8 +1,7 @@
 import DappListRecent from './usecases/DappListRecent'
 import DappListDisplay from './usecases/DappListDisplay'
-import { quickOnboarding } from './utils/utils'
+import { quickOnboarding, waitForElementId } from './utils/utils'
 import { launchApp } from './utils/retries'
-import { waitForElementId } from './utils/utils'
 import fetch from 'node-fetch'
 
 /**
@@ -33,7 +32,7 @@ export async function fetchDappList(userAgent = '') {
  * Disable detox device synchronization to allow for dapp list to load
  * https://github.com/wix/Detox/issues/2799
  */
- export async function navigateToDappList() {
+export async function navigateToDappList() {
   await device.disableSynchronization()
   await waitForElementId('Hamburger')
   await element(by.id('Hamburger')).tap()
