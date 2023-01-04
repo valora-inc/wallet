@@ -40,11 +40,7 @@ describe('Pincode', () => {
 
   it('navigates to the VerificationStartScreen screen after successfully verifying', async () => {
     const mockScreenProps = getMockStackScreenProps(Screens.PincodeSet)
-    const mockStore = createMockStore({
-      app: {
-        hideVerification: false,
-      },
-    })
+    const mockStore = createMockStore()
 
     const { getByTestId, rerender } = render(
       <Provider store={mockStore}>
@@ -76,7 +72,6 @@ describe('Pincode', () => {
     const mockStore = createMockStore({
       app: {
         skipVerification: true,
-        hideVerification: false,
       },
     })
     mockStore.dispatch = jest.fn()

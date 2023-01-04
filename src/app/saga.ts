@@ -174,7 +174,6 @@ export interface RemoteConfigValues {
   inviteRewardCusd: number
   inviteRewardWeeklyLimit: number
   inviteRewardsEnabled: boolean
-  hideVerification: boolean
   walletConnectV1Enabled: boolean
   walletConnectV2Enabled: boolean
   logPhoneNumberTypeEnabled: boolean

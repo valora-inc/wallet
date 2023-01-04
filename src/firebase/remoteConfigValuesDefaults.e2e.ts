@@ -21,7 +21,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   superchargecREALMax: number
   celoNews: string
 } = {
-  hideVerification: false,
   celoEuroEnabled: true,
   inviteRewardsEnabled: false,
   inviteRewardCusd: 1,

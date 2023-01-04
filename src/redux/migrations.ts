@@ -951,7 +951,7 @@ export const migrations = {
   }),
   102: (state: any) => ({
     ...state,
-    app: _.omit(state.app, 'centralPhoneVerificationEnabled'),
+    app: _.omit(state.app, 'centralPhoneVerificationEnabled', 'hideVerification'),
   }),
   103: (state: any) => ({
     ...state,
