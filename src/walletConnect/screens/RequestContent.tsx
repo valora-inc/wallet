@@ -43,7 +43,7 @@ export const useDappMetadata = (metadata?: IClientMeta | CoreTypes.Metadata | nu
   }
 
   const { url, name, icons } = metadata
-  const dappHostname = new URL(url).hostname
+  const dappHostname = url ? new URL(url).hostname : ''
 
   // create a display name in case the WC request contains an empty string
   const dappName =
