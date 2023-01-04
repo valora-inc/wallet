@@ -6,7 +6,7 @@ import { dappConnectInfoSelector } from 'src/dapps/selectors'
 import { DappConnectInfo } from 'src/dapps/types'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
-import RequestContent from 'src/walletConnect/screens/RequestContent'
+import RequestContent, { useDappMetadata } from 'src/walletConnect/screens/RequestContent'
 import { WalletConnectSessionRequest } from 'src/walletConnect/types'
 import {
   acceptSession as acceptSessionV1,
@@ -30,17 +30,17 @@ type Props =
 
 // do not destructure props or else the type inference is lost
 function SessionRequest(props: Props) {
-  const { url, name, icons } =
+  const dappMetadata =
     props.version === 1
       ? props.pendingSession.params[0].peerMeta
       : props.pendingSession.params.proposer.metadata
-  const dappImageUrl = icons[0] ?? `${url}/favicon.ico`
 
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
   const address = useSelector(currentAccountSelector)
   const dappConnectInfo = useSelector(dappConnectInfoSelector)
+  const { url, dappName, dappImageUrl } = useDappMetadata(dappMetadata)
 
   const requestDetails =
     dappConnectInfo === DappConnectInfo.Basic
@@ -74,12 +74,12 @@ function SessionRequest(props: Props) {
     <RequestContent
       onAccept={handleAcceptSession}
       onDeny={handleDenySession}
-      dappName={name}
+      dappName={dappName}
       dappImageUrl={dappImageUrl}
       title={
         dappConnectInfo === DappConnectInfo.Basic
-          ? t('connectToWallet', { dappName: name })
-          : t('confirmTransaction', { dappName: name })
+          ? t('connectToWallet', { dappName })
+          : t('confirmTransaction', { dappName })
       }
       description={dappConnectInfo === DappConnectInfo.Basic ? t('shareInfo') : undefined}
       dappUrl={url}
