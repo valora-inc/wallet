@@ -22,7 +22,6 @@ export interface State {
   celoEducationUri: string | null
   celoEuroEnabled: boolean
   activeScreen: Screens
-  hideVerification: boolean
   walletConnectV1Enabled: boolean
   walletConnectV2Enabled: boolean
   superchargeApy: number
@@ -73,7 +72,6 @@ const initialState = {
   celoEducationUri: null,
   celoEuroEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.celoEuroEnabled,
   activeScreen: Screens.Main,
-  hideVerification: REMOTE_CONFIG_VALUES_DEFAULTS.hideVerification,
   walletConnectV1Enabled: REMOTE_CONFIG_VALUES_DEFAULTS.walletConnectV1Enabled,
   walletConnectV2Enabled: REMOTE_CONFIG_VALUES_DEFAULTS.walletConnectV2Enabled,
   superchargeApy: REMOTE_CONFIG_VALUES_DEFAULTS.superchargeApy,
@@ -196,7 +194,6 @@ export const appReducer = (
     case Actions.UPDATE_REMOTE_CONFIG_VALUES:
       return {
         ...state,
-        hideVerification: action.configValues.hideVerification,
         celoEducationUri: action.configValues.celoEducationUri,
         celoEuroEnabled: action.configValues.celoEuroEnabled,
         walletConnectV1Enabled: action.configValues.walletConnectV1Enabled,

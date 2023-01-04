@@ -1923,7 +1923,7 @@ export const v102Schema = {
     ...v101Schema._persist,
     version: 102,
   },
-  app: _.omit(v101Schema.app, 'centralPhoneVerificationEnabled'),
+  app: _.omit(v101Schema.app, 'centralPhoneVerificationEnabled', 'hideVerification'),
 }
 
 export function getLatestSchema(): Partial<RootState> {

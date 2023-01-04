@@ -45,7 +45,6 @@ import { currentAccountSelector } from 'src/web3/selectors'
 
 interface StateProps {
   choseToRestoreAccount: boolean | undefined
-  hideVerification: boolean
   useExpandedBlocklist: boolean
   account: string
   registrationStep: { step: number; totalSteps: number }
@@ -77,7 +76,6 @@ function mapStateToProps(state: RootState): StateProps {
   return {
     choseToRestoreAccount: state.account.choseToRestoreAccount,
     registrationStep: registrationStepsSelector(state),
-    hideVerification: state.app.hideVerification,
     useExpandedBlocklist: state.app.pincodeUseExpandedBlocklist,
     account: currentAccountSelector(state) ?? '',
     supportedBiometryType: supportedBiometryTypeSelector(state),
@@ -168,7 +166,7 @@ export class PincodeSet extends React.Component<Props, State> {
     } else if (this.props.choseToRestoreAccount) {
       popToScreen(Screens.Welcome)
       navigate(Screens.ImportWallet)
-    } else if (this.props.hideVerification || this.props.skipVerification) {
+    } else if (this.props.skipVerification) {
       this.props.initializeAccount()
       // Tell the app that the user has already seen verification so that it
       // doesn't prompt for verification after the app is killed. This same function

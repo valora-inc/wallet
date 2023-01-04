@@ -2399,9 +2399,6 @@
                 "googleMobileServicesAvailable": {
                     "type": "boolean"
                 },
-                "hideVerification": {
-                    "type": "boolean"
-                },
                 "huaweiMobileServicesAvailable": {
                     "type": "boolean"
                 },
@@ -2537,7 +2534,6 @@
                 "createAccountCopyTestType",
                 "fiatConnectCashInEnabled",
                 "fiatConnectCashOutEnabled",
-                "hideVerification",
                 "inviterAddress",
                 "lastTimeBackgrounded",
                 "locked",

@@ -256,7 +256,6 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
   const celoNewsString = flags.celoNews?.asString()
 
   return {
-    hideVerification: flags.hideVerification.asBoolean(),
     // these next 2 flags are a bit weird because their default is undefined or null
     // and the default map cannot have a value of undefined or null
     // that is why we still need to check for it before calling a method
