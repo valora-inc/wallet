@@ -43,12 +43,21 @@ export const useDappMetadata = (metadata?: IClientMeta | CoreTypes.Metadata | nu
   }
 
   const { url, name, icons } = metadata
-  const dappHostname = url ? new URL(url).hostname : ''
+
+  let dappOrigin = ''
+  let dappHostname = ''
+  try {
+    const dappUrl = new URL(url)
+    dappHostname = dappUrl.hostname
+    dappOrigin = dappUrl.origin
+  } catch {
+    // do nothing if an invalid url is received, use fallback values
+  }
 
   // create a display name in case the WC request contains an empty string
   const dappName =
     name ||
-    (!!activeDapp && new URL(activeDapp.dappUrl).hostname === dappHostname
+    (!!activeDapp && new URL(activeDapp.dappUrl).origin === dappOrigin
       ? activeDapp.name
       : dappHostname)
   const dappImageUrl = icons[0] ?? `${url}/favicon.ico`
