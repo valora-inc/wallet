@@ -1,8 +1,4 @@
-import {
-  FiatAccountSchema,
-  FiatAccountSchemas,
-  SupportedOperatorEnum,
-} from '@fiatconnect/fiatconnect-types'
+import { FiatAccountSchema, FiatAccountSchemas } from '@fiatconnect/fiatconnect-types'
 
 type DefaultAllowedValues = Partial<{
   [Schema in FiatAccountSchema]: {
@@ -10,11 +6,7 @@ type DefaultAllowedValues = Partial<{
   }
 }>
 
-export const DEFAULT_ALLOWED_VALUES: DefaultAllowedValues = {
-  [FiatAccountSchema.MobileMoney]: {
-    operator: Object.keys(SupportedOperatorEnum),
-  },
-}
+export const DEFAULT_ALLOWED_VALUES: DefaultAllowedValues = {}
 
 export enum SettlementTime {
   // List of available settlement time strings for SelectProvider and
