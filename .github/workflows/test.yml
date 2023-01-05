@@ -32,12 +32,14 @@ jobs:
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
       - name: Install Yarn dependencies
         run: yarn || yarn --network-concurrency 1
-      - name: Build
-        run: yarn build
+      # - name: Build
+      #   run: yarn build
       - name: Update RootStateSchema if necessary
         run: yarn test:update-root-state-schema
       - name: Fail if someone forgot to commit "RootStateSchema.json"
         run: git diff --exit-code
+      - run: env
+      - run: date
       - run: TZ=UTC yarn jest time
       # - name: Upload Coverage Report
       #   uses: actions/upload-artifact@v3

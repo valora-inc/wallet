@@ -19,6 +19,7 @@ describe('utils/time', () => {
     // see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getTimezoneOffset
     jest.spyOn(Date.prototype, 'getTimezoneOffset').mockImplementation(() => 420)
     console.log('Date.now() is locked to: ', new Date(Date.now()), new Date().getTimezoneOffset())
+    console.log('process.env: ', process.env)
   })
 
   afterAll(() => {
