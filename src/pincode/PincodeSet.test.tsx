@@ -38,13 +38,9 @@ describe('Pincode', () => {
     })
   })
 
-  it('navigates to the VerificationEducationScreen screen after successfully verifying', async () => {
+  it('navigates to the VerificationStartScreen screen after successfully verifying', async () => {
     const mockScreenProps = getMockStackScreenProps(Screens.PincodeSet, { komenciAvailable: true })
-    const mockStore = createMockStore({
-      app: {
-        hideVerification: false,
-      },
-    })
+    const mockStore = createMockStore()
 
     const { getByTestId, rerender } = render(
       <Provider store={mockStore}>
@@ -72,45 +68,7 @@ describe('Pincode', () => {
     jest.runOnlyPendingTimers()
     await flushMicrotasksQueue()
 
-    expect(navigateClearingStack).toBeCalledWith(Screens.VerificationEducationScreen)
-  })
-
-  it('navigates home if Komenci is unavailable or verification is disabled', async () => {
-    const mockScreenProps = getMockStackScreenProps(Screens.PincodeSet, { komenciAvailable: false })
-    const mockStore = createMockStore({
-      app: {
-        hideVerification: true,
-      },
-    })
-    mockStore.dispatch = jest.fn()
-
-    const { getByTestId, rerender } = render(
-      <Provider store={mockStore}>
-        <PincodeSet {...mockScreenProps} />
-      </Provider>
-    )
-
-    // Create pin
-    mockPin.split('').forEach((number) => fireEvent.press(getByTestId(`digit${number}`)))
-    jest.runOnlyPendingTimers()
-    await flushMicrotasksQueue()
-
-    rerender(
-      <Provider store={mockStore}>
-        <PincodeSet {...getMockStackScreenProps(Screens.PincodeSet)} />
-      </Provider>
-    )
-
-    // Verify pin
-    mockPin.split('').forEach((number) => fireEvent.press(getByTestId(`digit${number}`)))
-    jest.runOnlyPendingTimers()
-    await flushMicrotasksQueue()
-
-    expect(navigateHome).toBeCalled()
-    expect(mockStore.dispatch).not.toHaveBeenCalledWith({
-      status: true,
-      type: 'IDENTITY/SET_SEEN_VERIFICATION_NUX',
-    })
+    expect(navigateClearingStack).toBeCalledWith(Screens.VerificationStartScreen)
   })
 
   it('navigates home if skipVerification is enabled', async () => {
@@ -118,7 +76,6 @@ describe('Pincode', () => {
     const mockStore = createMockStore({
       app: {
         skipVerification: true,
-        hideVerification: false,
       },
     })
     mockStore.dispatch = jest.fn()

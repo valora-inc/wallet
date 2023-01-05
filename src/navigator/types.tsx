@@ -321,7 +321,7 @@ export type StackParamList = {
     requesterAddress?: string
     origin: SendOrigin
   }
-  [Screens.VerificationEducationScreen]:
+  [Screens.VerificationStartScreen]:
     | {
         showSkipDialog?: boolean
         hideOnboardingStep?: boolean
@@ -329,19 +329,11 @@ export type StackParamList = {
         choseToRestoreAccount?: boolean
       }
     | undefined
-  [Screens.VerificationInputScreen]:
-    | {
-        showHelpDialog?: boolean
-        choseToRestoreAccount?: boolean
-        registrationStep?: { step: number; totalSteps: number }
-      }
-    | undefined
   [Screens.VerificationCodeInputScreen]: {
     registrationStep?: { step: number; totalSteps: number }
     e164Number: string
     countryCallingCode: string
   }
-  [Screens.VerificationLoadingScreen]: { withoutRevealing: boolean }
   [Screens.OnboardingEducationScreen]: undefined
   [Screens.OnboardingSuccessScreen]: undefined
   [Screens.WalletConnectRequest]:

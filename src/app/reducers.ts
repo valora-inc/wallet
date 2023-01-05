@@ -22,7 +22,6 @@ export interface State {
   celoEducationUri: string | null
   celoEuroEnabled: boolean
   activeScreen: Screens
-  hideVerification: boolean
   walletConnectV1Enabled: boolean
   walletConnectV2Enabled: boolean
   superchargeApy: number
@@ -54,7 +53,6 @@ export interface State {
   shouldShowRecoveryPhraseInSettings: boolean
   createAccountCopyTestType: CreateAccountCopyTestType
   maxSwapSlippagePercentage: number
-  centralPhoneVerificationEnabled: boolean
   inviterAddress: string | null
   networkTimeoutSeconds: number
   celoNews: CeloNewsConfig
@@ -74,7 +72,6 @@ const initialState = {
   celoEducationUri: null,
   celoEuroEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.celoEuroEnabled,
   activeScreen: Screens.Main,
-  hideVerification: REMOTE_CONFIG_VALUES_DEFAULTS.hideVerification,
   walletConnectV1Enabled: REMOTE_CONFIG_VALUES_DEFAULTS.walletConnectV1Enabled,
   walletConnectV2Enabled: REMOTE_CONFIG_VALUES_DEFAULTS.walletConnectV2Enabled,
   superchargeApy: REMOTE_CONFIG_VALUES_DEFAULTS.superchargeApy,
@@ -105,7 +102,6 @@ const initialState = {
     REMOTE_CONFIG_VALUES_DEFAULTS.shouldShowRecoveryPhraseInSettings,
   createAccountCopyTestType: REMOTE_CONFIG_VALUES_DEFAULTS.createAccountCopyTestType,
   maxSwapSlippagePercentage: REMOTE_CONFIG_VALUES_DEFAULTS.maxSwapSlippagePercentage,
-  centralPhoneVerificationEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.centralPhoneVerificationEnabled,
   inviterAddress: null,
   networkTimeoutSeconds: REMOTE_CONFIG_VALUES_DEFAULTS.networkTimeoutSeconds,
   celoNews: JSON.parse(REMOTE_CONFIG_VALUES_DEFAULTS.celoNews),
@@ -198,7 +194,6 @@ export const appReducer = (
     case Actions.UPDATE_REMOTE_CONFIG_VALUES:
       return {
         ...state,
-        hideVerification: action.configValues.hideVerification,
         celoEducationUri: action.configValues.celoEducationUri,
         celoEuroEnabled: action.configValues.celoEuroEnabled,
         walletConnectV1Enabled: action.configValues.walletConnectV1Enabled,
@@ -225,7 +220,6 @@ export const appReducer = (
         createAccountCopyTestType: action.configValues.createAccountCopyTestType,
         maxSwapSlippagePercentage: action.configValues.maxSwapSlippagePercentage,
         showGuidedOnboardingCopy: action.configValues.showGuidedOnboardingCopy,
-        centralPhoneVerificationEnabled: action.configValues.centralPhoneVerificationEnabled,
         networkTimeoutSeconds: action.configValues.networkTimeoutSeconds,
         celoNews: action.configValues.celoNews,
       }

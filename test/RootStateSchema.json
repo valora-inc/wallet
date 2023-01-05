@@ -2126,9 +2126,7 @@
                 "ValidateRecipientAccount",
                 "ValidateRecipientIntro",
                 "VerificationCodeInputScreen",
-                "VerificationEducationScreen",
-                "VerificationInputScreen",
-                "VerificationLoadingScreen",
+                "VerificationStartScreen",
                 "WalletConnectRequest",
                 "WalletConnectSessions",
                 "WalletHome",
@@ -2386,9 +2384,6 @@
                 "celoNews": {
                     "$ref": "#/definitions/CeloNewsConfig"
                 },
-                "centralPhoneVerificationEnabled": {
-                    "type": "boolean"
-                },
                 "coinbasePayEnabled": {
                     "type": "boolean"
                 },
@@ -2402,9 +2397,6 @@
                     "type": "boolean"
                 },
                 "googleMobileServicesAvailable": {
-                    "type": "boolean"
-                },
-                "hideVerification": {
                     "type": "boolean"
                 },
                 "huaweiMobileServicesAvailable": {
@@ -2538,12 +2530,10 @@
                 "celoEducationUri",
                 "celoEuroEnabled",
                 "celoNews",
-                "centralPhoneVerificationEnabled",
                 "coinbasePayEnabled",
                 "createAccountCopyTestType",
                 "fiatConnectCashInEnabled",
                 "fiatConnectCashOutEnabled",
-                "hideVerification",
                 "inviterAddress",
                 "lastTimeBackgrounded",
                 "locked",

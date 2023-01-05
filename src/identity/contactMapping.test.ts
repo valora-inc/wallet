@@ -8,7 +8,6 @@ import { setUserContactDetails } from 'src/account/actions'
 import { defaultCountryCodeSelector, e164NumberSelector } from 'src/account/selectors'
 import { showError, showErrorOrFallback } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { centralPhoneVerificationEnabledSelector } from 'src/app/selectors'
 import { fetchLostAccounts } from 'src/firebase/firebase'
 import {
   requireSecureSend,
@@ -92,7 +91,7 @@ describe('Fetch Addresses Saga', () => {
         [mockE164Number]: [mockAccount.toLowerCase()],
       }
       const updatedAccount = '0xAbC'
-      mockFetch.mockResponse(JSON.stringify({ data: { addresses: [updatedAccount] } }))
+      mockFetch.mockResponseOnce(JSON.stringify({ data: { addresses: [updatedAccount] } }))
 
       await expectSaga(fetchAddressesAndValidateSaga, {
         e164Number: mockE164Number,
@@ -100,7 +99,6 @@ describe('Fetch Addresses Saga', () => {
         .provide([
           [call(fetchWalletAddressesDecentralized, mockE164Number), []],
           [select(e164NumberToAddressSelector), mockE164NumberToAddress],
-          [select(centralPhoneVerificationEnabledSelector), true],
           [select(walletAddressSelector), '0xxyz'],
           [call(retrieveSignedMessage), 'some signed message'],
           [select(secureSendPhoneNumberMappingSelector), {}],
@@ -132,7 +130,7 @@ describe('Fetch Addresses Saga', () => {
         [mockE164Number]: [mockAccount.toLowerCase()],
       }
       const updatedAccounts = ['0xAbC', '0xdef']
-      mockFetch.mockResponse(JSON.stringify({ data: { addresses: updatedAccounts } }))
+      mockFetch.mockResponseOnce(JSON.stringify({ data: { addresses: updatedAccounts } }))
 
       await expectSaga(fetchAddressesAndValidateSaga, {
         e164Number: mockE164Number,
@@ -140,7 +138,6 @@ describe('Fetch Addresses Saga', () => {
         .provide([
           [call(fetchWalletAddressesDecentralized, mockE164Number), []],
           [select(e164NumberToAddressSelector), mockE164NumberToAddress],
-          [select(centralPhoneVerificationEnabledSelector), true],
           [select(walletAddressSelector), mockAccount],
           [call(retrieveSignedMessage), 'some signed message'],
           [select(secureSendPhoneNumberMappingSelector), {}],
@@ -168,7 +165,6 @@ describe('Fetch Addresses Saga', () => {
         .provide([
           [call(fetchWalletAddressesDecentralized, mockE164Number), []],
           [select(e164NumberToAddressSelector), mockE164NumberToAddress],
-          [select(centralPhoneVerificationEnabledSelector), true],
           [select(walletAddressSelector), mockAccount],
           [call(retrieveSignedMessage), 'some signed message'],
         ])
@@ -180,7 +176,7 @@ describe('Fetch Addresses Saga', () => {
       const mockE164NumberToAddress = {
         [mockE164Number]: [mockAccount.toLowerCase()],
       }
-      mockFetch.mockResponse('', { status: 403 })
+      mockFetch.mockResponseOnce('', { status: 403 })
 
       await expectSaga(fetchAddressesAndValidateSaga, {
         e164Number: mockE164Number,
@@ -188,7 +184,6 @@ describe('Fetch Addresses Saga', () => {
         .provide([
           [call(fetchWalletAddressesDecentralized, mockE164Number), ['0x123']],
           [select(e164NumberToAddressSelector), mockE164NumberToAddress],
-          [select(centralPhoneVerificationEnabledSelector), true],
           [select(walletAddressSelector), mockAccount],
           [call(retrieveSignedMessage), 'some signed message'],
           [select(secureSendPhoneNumberMappingSelector), {}],
@@ -208,7 +203,7 @@ describe('Fetch Addresses Saga', () => {
         [mockE164Number]: [mockAccount.toLowerCase()],
       }
       const updatedAccounts = ['0xAbC', '0xdef']
-      mockFetch.mockResponse(JSON.stringify({ data: { addresses: updatedAccounts } }))
+      mockFetch.mockResponseOnce(JSON.stringify({ data: { addresses: updatedAccounts } }))
 
       await expectSaga(fetchAddressesAndValidateSaga, {
         e164Number: mockE164Number,
@@ -216,7 +211,6 @@ describe('Fetch Addresses Saga', () => {
         .provide([
           [call(fetchWalletAddressesDecentralized, mockE164Number), ['0xabc', '0xXyz']],
           [select(e164NumberToAddressSelector), mockE164NumberToAddress],
-          [select(centralPhoneVerificationEnabledSelector), true],
           [select(walletAddressSelector), mockAccount],
           [call(retrieveSignedMessage), 'some signed message'],
           [select(secureSendPhoneNumberMappingSelector), {}],
@@ -235,6 +229,7 @@ describe('Fetch Addresses Saga', () => {
 
   it('fetches and caches addresses correctly when walletAddress === accountAddress', async () => {
     const contractKit = await getContractKitAsync()
+    mockFetch.mockResponseOnce(JSON.stringify({ data: { addresses: [] } }))
 
     const mockWallet = mockAccount
 
@@ -263,7 +258,6 @@ describe('Fetch Addresses Saga', () => {
     })
       .provide([
         [select(e164NumberToAddressSelector), mockE164NumberToAddress],
-        [select(centralPhoneVerificationEnabledSelector), false],
         [call(fetchLostAccounts), []],
         [call(fetchPhoneHashPrivate, mockE164Number), { phoneHash: mockE164NumberHash }],
         [
@@ -291,6 +285,7 @@ describe('Fetch Addresses Saga', () => {
 
   it('fetches and caches addresses correctly when walletAddress !== accountAddress', async () => {
     const contractKit = await getContractKitAsync()
+    mockFetch.mockResponseOnce(JSON.stringify({ data: { addresses: [] } }))
 
     const mockWallet = mockAccount2
 
@@ -319,7 +314,6 @@ describe('Fetch Addresses Saga', () => {
     })
       .provide([
         [select(e164NumberToAddressSelector), mockE164NumberToAddress],
-        [select(centralPhoneVerificationEnabledSelector), false],
         [call(fetchLostAccounts), []],
         [call(fetchPhoneHashPrivate, mockE164Number), { phoneHash: mockE164NumberHash }],
         [
@@ -347,6 +341,7 @@ describe('Fetch Addresses Saga', () => {
 
   it('fetches and caches addresses correctly when there is not a registered walletAddress', async () => {
     const contractKit = await getContractKitAsync()
+    mockFetch.mockResponseOnce(JSON.stringify({ data: { addresses: [] } }))
 
     const mockE164NumberToAddress = {
       [mockE164Number]: [mockAccount.toLowerCase()],
@@ -373,7 +368,6 @@ describe('Fetch Addresses Saga', () => {
     })
       .provide([
         [select(e164NumberToAddressSelector), mockE164NumberToAddress],
-        [select(centralPhoneVerificationEnabledSelector), false],
         [call(fetchLostAccounts), []],
         [call(fetchPhoneHashPrivate, mockE164Number), { phoneHash: mockE164NumberHash }],
         [
@@ -401,6 +395,7 @@ describe('Fetch Addresses Saga', () => {
 
   it('requires SecureSend with partial verification when a new adddress is added and last 4 digits are unique', async () => {
     const contractKit = await getContractKitAsync()
+    mockFetch.mockResponseOnce(JSON.stringify({ data: { addresses: [] } }))
 
     const mockWallet = mockAccount
     const mockWallet2 = mockAccount2
@@ -436,7 +431,6 @@ describe('Fetch Addresses Saga', () => {
     })
       .provide([
         [select(e164NumberToAddressSelector), {}],
-        [select(centralPhoneVerificationEnabledSelector), false],
         [call(fetchLostAccounts), []],
         [call(fetchPhoneHashPrivate, mockE164Number), { phoneHash: mockE164NumberHash }],
         [
@@ -471,6 +465,7 @@ describe('Fetch Addresses Saga', () => {
 
   it('requires SecureSend with full verification when a new adddress is added and last 4 digits are not unique', async () => {
     const contractKit = await getContractKitAsync()
+    mockFetch.mockResponseOnce(JSON.stringify({ data: { addresses: [] } }))
 
     const mockWallet = mockAccount
     const mockWallet3 = mockAccount3
@@ -506,7 +501,6 @@ describe('Fetch Addresses Saga', () => {
     })
       .provide([
         [select(e164NumberToAddressSelector), {}],
-        [select(centralPhoneVerificationEnabledSelector), false],
         [call(fetchLostAccounts), []],
         [call(fetchPhoneHashPrivate, mockE164Number), { phoneHash: mockE164NumberHash }],
         [

@@ -177,7 +177,6 @@ export interface RemoteConfigValues {
   inviteRewardCusd: number
   inviteRewardWeeklyLimit: number
   inviteRewardsEnabled: boolean
-  hideVerification: boolean
   walletConnectV1Enabled: boolean
   walletConnectV2Enabled: boolean
   logPhoneNumberTypeEnabled: boolean
@@ -208,7 +207,6 @@ export interface RemoteConfigValues {
   createAccountCopyTestType: CreateAccountCopyTestType
   maxSwapSlippagePercentage: number
   showGuidedOnboardingCopy: boolean
-  centralPhoneVerificationEnabled: boolean
   networkTimeoutSeconds: number
   dappFavoritesEnabled: boolean
   celoNews: CeloNewsConfig
