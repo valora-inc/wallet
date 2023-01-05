@@ -73,7 +73,7 @@ describe('Dapp List', () => {
   beforeAll(async () => {
     await quickOnboarding()
     // Relaunch app to ensure dapp list loads
-    // TODO: Remove this once we have a better way to ensure dapp list loads
+    // Needed for e2e tests otherwise dapp list is not loaded on first pass
     await launchApp({ newInstance: true })
   })
 

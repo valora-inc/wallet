@@ -153,7 +153,7 @@ function DappsCarousel({ onSelectDapp }: Props) {
                   style={styles.dappName}
                   numberOfLines={1}
                   ellipsizeMode="tail"
-                  testID="RecentDapp-name"
+                  testID={`${testID}/Name`}
                 >
                   {dapp.name}
                 </Text>
