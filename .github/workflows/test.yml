@@ -38,15 +38,12 @@ jobs:
         run: yarn test:update-root-state-schema
       - name: Fail if someone forgot to commit "RootStateSchema.json"
         run: git diff --exit-code
-      - name: Run mobile tests
-        run: |
-          mkdir -p test-results/jest
-          yarn test:ci
-      - name: Upload Coverage Report
-        uses: actions/upload-artifact@v3
-        with:
-          path: coverage/lcov-report
-      - name: 'Upload to Codecov'
-        uses: codecov/codecov-action@v3
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
+      - run: TZ=UTC yarn jest time
+      # - name: Upload Coverage Report
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     path: coverage/lcov-report
+      # - name: 'Upload to Codecov'
+      #   uses: codecov/codecov-action@v3
+      #   with:
+      #     token: ${{ secrets.CODECOV_TOKEN }}

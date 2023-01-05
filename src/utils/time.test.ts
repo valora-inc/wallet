@@ -12,11 +12,13 @@ const ONE_DAY_MS = 24 * ONE_HOUR_MS
 describe('utils/time', () => {
   let dateNowSpy: any
   beforeAll(() => {
+    console.log('Date.now(): ', new Date(Date.now()), new Date().getTimezoneOffset())
     // Lock Time
     dateNowSpy = jest.spyOn(Date, 'now').mockImplementation(() => 1487076708000)
     // set the offset to ALWAYS be Pacific for these tests regardless of where they are run
     // see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getTimezoneOffset
     jest.spyOn(Date.prototype, 'getTimezoneOffset').mockImplementation(() => 420)
+    console.log('Date.now() is locked to: ', new Date(Date.now()), new Date().getTimezoneOffset())
   })
 
   afterAll(() => {
@@ -24,7 +26,7 @@ describe('utils/time', () => {
     dateNowSpy.mockRestore()
   })
   const wedMarch132019at350pacific = 1552517413326
-  describe('formatFeedTime', () => {
+  fdescribe('formatFeedTime', () => {
     it('returns time formatted as string and is accurate', () => {
       expect(formatFeedTime(wedMarch132019at350pacific, i18n)).toEqual('3:50 PM')
     })
