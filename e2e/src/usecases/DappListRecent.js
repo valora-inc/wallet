@@ -8,8 +8,10 @@ export default DappListRecent = () => {
   it('should show most recently used dapp leftmost on home screen :ios:', async () => {
     // Get recently used dapps at start of test
     const startRecentlyUsedDapps = await getElementTextList('RecentlyUsedDapps/Name')
+    console.log('Test startRecentlyUsedDapps: ', startRecentlyUsedDapps)
     const startRecentDappCount = startRecentlyUsedDapps.length
 
+    // Reruns of the tests on iOS will select the next dapp not in the recent dapp list
     // If no recently used dapps check that RecentDapp element does not exist
     // Else check that All Dapps button exists
     startRecentDappCount === 0
