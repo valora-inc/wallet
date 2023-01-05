@@ -15,7 +15,6 @@ import { showErrorOrFallback } from 'src/alert/actions'
 import { IdentityEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { centralPhoneVerificationEnabledSelector } from 'src/app/selectors'
 import { fetchLostAccounts } from 'src/firebase/firebase'
 import {
   Actions,
@@ -253,12 +252,6 @@ export function* fetchWalletAddressesDecentralized(e164Number: string) {
 }
 
 function* fetchWalletAddresses(e164Number: string) {
-  const centralPhoneVerificationEnabled = yield select(centralPhoneVerificationEnabledSelector)
-
-  if (!centralPhoneVerificationEnabled) {
-    return yield call(fetchWalletAddressesDecentralized, e164Number)
-  }
-
   try {
     const address = yield select(walletAddressSelector)
     const signedMessage = yield call(retrieveSignedMessage)

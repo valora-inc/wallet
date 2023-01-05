@@ -13,7 +13,6 @@ import {
 import { choseToRestoreAccountSelector } from 'src/account/selectors'
 import { updateAccountRegistration } from 'src/account/updateAccountRegistration'
 import { Actions as AccountActions, phoneNumberVerificationCompleted } from 'src/app/actions'
-import { centralPhoneVerificationEnabledSelector } from 'src/app/selectors'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import { retrieveSignedMessage, storeSignedMessage } from 'src/pincode/authentication'
@@ -153,7 +152,6 @@ describe('initializeAccount', () => {
         [call(getOrCreateAccount), undefined],
         [call(generateSignedMessage), undefined],
         [select(choseToRestoreAccountSelector), true],
-        [select(centralPhoneVerificationEnabledSelector), true],
         [call(retrieveSignedMessage), 'some signed message'],
         [select(walletAddressSelector), '0xabc'],
       ])
@@ -182,7 +180,6 @@ describe('initializeAccount', () => {
         [call(getOrCreateAccount), undefined],
         [call(generateSignedMessage), undefined],
         [select(choseToRestoreAccountSelector), true],
-        [select(centralPhoneVerificationEnabledSelector), true],
         [call(retrieveSignedMessage), 'some signed message'],
         [select(walletAddressSelector), '0xabc'],
       ])
@@ -201,7 +198,6 @@ describe('initializeAccount', () => {
         [call(getOrCreateAccount), undefined],
         [call(generateSignedMessage), undefined],
         [select(choseToRestoreAccountSelector), true],
-        [select(centralPhoneVerificationEnabledSelector), true],
         [call(retrieveSignedMessage), 'some signed message'],
         [select(walletAddressSelector), '0xabc'],
       ])

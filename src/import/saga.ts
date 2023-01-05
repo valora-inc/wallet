@@ -162,7 +162,7 @@ export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackup
       navigateHome()
     } else {
       // DO NOT CLEAR NAVIGATION STACK HERE - breaks restore flow on initial app open in native-stack v6
-      navigate(Screens.VerificationEducationScreen)
+      navigate(Screens.VerificationStartScreen)
     }
 
     yield put(importBackupPhraseSuccess())

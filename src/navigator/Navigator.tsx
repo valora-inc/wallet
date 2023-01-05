@@ -76,6 +76,7 @@ import {
   headerWithBackEditButtons,
   noHeader,
   noHeaderGestureDisabled,
+  nuxNavigationOptions,
 } from 'src/navigator/Headers'
 import { navigateBack, navigateToExchangeHome } from 'src/navigator/NavigationService'
 import QRNavigator from 'src/navigator/QRNavigator'
@@ -119,9 +120,7 @@ import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { ExtractProps } from 'src/utils/typescript'
 import VerificationCodeInputScreen from 'src/verify/VerificationCodeInputScreen'
-import VerificationEducationScreen from 'src/verify/VerificationEducationScreen'
-import VerificationInputScreen from 'src/verify/VerificationInputScreen'
-import VerificationLoadingScreen from 'src/verify/VerificationLoadingScreen'
+import VerificationStartScreen from 'src/verify/VerificationStartScreen'
 import WalletConnectSessionsScreen from 'src/walletConnect/screens/Sessions'
 import WalletConnectRequest from 'src/walletConnect/screens/WalletConnectRequest'
 import WebViewScreen from 'src/webview/WebViewScreen'
@@ -178,19 +177,9 @@ const verificationScreens = (Navigator: typeof Stack) => {
   return (
     <>
       <Navigator.Screen
-        name={Screens.VerificationEducationScreen}
-        component={VerificationEducationScreen}
-        options={VerificationEducationScreen.navigationOptions}
-      />
-      <Navigator.Screen
-        name={Screens.VerificationLoadingScreen}
-        component={VerificationLoadingScreen}
-        options={VerificationLoadingScreen.navigationOptions}
-      />
-      <Navigator.Screen
-        name={Screens.VerificationInputScreen}
-        component={VerificationInputScreen}
-        options={VerificationInputScreen.navigationOptions}
+        name={Screens.VerificationStartScreen}
+        component={VerificationStartScreen}
+        options={nuxNavigationOptions}
       />
       <Navigator.Screen
         name={Screens.VerificationCodeInputScreen}
@@ -617,7 +606,7 @@ export function MainStackScreen() {
         ? Screens.ImportWallet
         : Screens.OnboardingEducationScreen
     } else if (!hasSeenVerificationNux) {
-      initialRoute = Screens.VerificationEducationScreen
+      initialRoute = Screens.VerificationStartScreen
     } else {
       initialRoute = Screens.DrawerNavigator
     }

@@ -87,33 +87,6 @@ describe('Account', () => {
     )
     expect(tree).toMatchSnapshot()
   })
-  it('renders correctly when verification is not possible', () => {
-    const now = Date.now()
-    let tree = render(
-      <Provider
-        store={createMockStore({
-          verify: { komenci: { errorTimestamps: [] }, status: {} },
-        })}
-      >
-        <Settings {...getMockStackScreenProps(Screens.Settings)} />
-      </Provider>
-    )
-    expect(tree).toMatchSnapshot()
-    tree = render(
-      <Provider
-        store={createMockStore({
-          verify: {
-            komenciAvailable: KomenciAvailable.Yes,
-            komenci: { errorTimestamps: [now, now, now] },
-            status: {},
-          },
-        })}
-      >
-        <Settings {...getMockStackScreenProps(Screens.Settings)} />
-      </Provider>
-    )
-    expect(tree).toMatchSnapshot()
-  })
 
   it('navigates to PincodeSet screen if entered PIN is correct', async () => {
     const tree = render(
