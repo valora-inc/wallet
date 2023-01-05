@@ -93,7 +93,7 @@ exports[`CeloTransferFeedItem renders correctly 1`] = `
           }
         }
       >
-        Dec 31 at 5:00 PM
+        Jan 1 at 12:00 AM
       </Text>
     </View>
   </View>
@@ -193,7 +193,7 @@ exports[`CeloTransferFeedItem renders correctly when there's a default name 1`] 
           }
         }
       >
-        Dec 31 at 5:00 PM
+        Jan 1 at 12:00 AM
       </Text>
     </View>
   </View>
@@ -293,7 +293,7 @@ exports[`CeloTransferFeedItem renders correctly when there's a known address 1`]
           }
         }
       >
-        Dec 31 at 5:00 PM
+        Jan 1 at 12:00 AM
       </Text>
     </View>
   </View>
