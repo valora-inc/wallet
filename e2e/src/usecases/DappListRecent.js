@@ -7,7 +7,7 @@ const jestExpect = require('expect')
 export default DappListRecent = () => {
   it('should show most recently used dapp leftmost on home screen :ios:', async () => {
     // Get recently used dapps at start of test
-    const startRecentlyUsedDapps = await getElementTextList('RecentDapp-name')
+    const startRecentlyUsedDapps = await getElementTextList('RecentlyUsedDapps/Name')
     const startRecentDappCount = startRecentlyUsedDapps.length
 
     // If no recently used dapps check that RecentDapp element does not exist
@@ -34,14 +34,14 @@ export default DappListRecent = () => {
     await navigateToHome()
 
     // Check that recently used dapp is now first in list
-    const endRecentlyUsedDapps = await getElementTextList('RecentDapp-name')
+    const endRecentlyUsedDapps = await getElementTextList('RecentlyUsedDapps/Name')
     jestExpect(dappPressedName).toEqual(endRecentlyUsedDapps[0])
     jestExpect(endRecentlyUsedDapps.length).toEqual(startRecentDappCount + 1)
   })
 
   it('should show most recently used dapp leftmost on home screen :android:', async () => {
     // Get most recently used dapp at start of test
-    const mostRecentlyUsedDappName = await getElementText('RecentDapp-name')
+    const mostRecentlyUsedDappName = await getElementText('RecentlyUsedDapps/Name')
 
     // If no recently used dapps check that RecentDapp element does not exist
     if (mostRecentlyUsedDappName === null) {
@@ -65,12 +65,12 @@ export default DappListRecent = () => {
     await navigateToHome()
 
     // Check that recently used dapp is now first in list
-    jestExpect(dappPressedName).toEqual(await getElementText('RecentDapp-name'))
+    jestExpect(dappPressedName).toEqual(await getElementText('RecentlyUsedDapps/Name'))
   })
 
   it('should show prompt to open most recently used dapp', async () => {
     // Get most recently used dapp name
-    const mostRecentlyUsedDappName = await getElementText('RecentDapp-name')
+    const mostRecentlyUsedDappName = await getElementText('RecentlyUsedDapps/Name')
 
     // Open most recently used dapp
     await element(by.text(mostRecentlyUsedDappName)).tap()
@@ -87,7 +87,7 @@ export default DappListRecent = () => {
     await reloadReactNative()
 
     // Get most recently used dapp name
-    const mostRecentlyUsedDappName = await getElementText('RecentDapp-name')
+    const mostRecentlyUsedDappName = await getElementText('RecentlyUsedDapps/Name')
 
     // Open most recently used dapp
     await element(by.text(mostRecentlyUsedDappName)).tap()
