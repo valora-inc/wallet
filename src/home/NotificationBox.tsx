@@ -13,11 +13,7 @@ import { HomeEvents, RewardsEvents } from 'src/analytics/Events'
 import { ScrollDirection } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { openUrl } from 'src/app/actions'
-import {
-  phoneNumberVerifiedSelector,
-  rewardsEnabledSelector,
-  verificationPossibleSelector,
-} from 'src/app/selectors'
+import { phoneNumberVerifiedSelector, rewardsEnabledSelector } from 'src/app/selectors'
 import Pagination from 'src/components/Pagination'
 import SimpleMessagingCard, {
   Props as SimpleMessagingCardProps,
@@ -99,7 +95,6 @@ function useSimpleActions() {
   const goldEducationCompleted = useSelector((state) => state.goldToken.educationCompleted)
 
   const extraNotifications = useSelector(getExtraNotifications)
-  const verificationPossible = useSelector(verificationPossibleSelector)
 
   const { hasBalanceForSupercharge } = useSelector(superchargeInfoSelector)
   const isSupercharging = numberVerified && hasBalanceForSupercharge
@@ -244,7 +239,7 @@ function useSimpleActions() {
     }
   }
 
-  if (!dismissedGetVerified && !numberVerified && verificationPossible) {
+  if (!dismissedGetVerified && !numberVerified) {
     actions.push({
       id: 'getVerified',
       text: t('notification.body'),
@@ -258,7 +253,7 @@ function useSimpleActions() {
               notificationType: NotificationBannerTypes.verification_prompt,
               selectedAction: NotificationBannerCTATypes.accept,
             })
-            navigate(Screens.VerificationEducationScreen, {
+            navigate(Screens.VerificationStartScreen, {
               hideOnboardingStep: true,
             })
           },

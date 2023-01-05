@@ -177,7 +177,7 @@ describe('ConsumerIncentivesHomeScreen', () => {
 
     fireEvent.press(getByTestId('ConsumerIncentives/CTA'))
 
-    expect(navigate).toHaveBeenCalledWith(Screens.VerificationEducationScreen, {
+    expect(navigate).toHaveBeenCalledWith(Screens.VerificationStartScreen, {
       hideOnboardingStep: true,
     })
   })

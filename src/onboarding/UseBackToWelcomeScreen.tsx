@@ -56,7 +56,7 @@ export function useBackToWelcomeScreen({ backAnalyticsEvents }: Props) {
     const cancelBeforeRemove = navigation.addListener('beforeRemove', (event) => {
       const resetScreenName = (event?.data?.action?.payload as any)?.routes?.[0]?.name
       const processCanceled =
-        [Screens.VerificationEducationScreen, Screens.DrawerNavigator].indexOf(resetScreenName) < 0
+        [Screens.VerificationStartScreen, Screens.DrawerNavigator].indexOf(resetScreenName) < 0
       if (processCanceled) {
         backAnalyticsEvents.forEach((analyticsEvent) => {
           ValoraAnalytics.track(analyticsEvent)
