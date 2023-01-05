@@ -39,6 +39,11 @@ export default DappListDisplay = () => {
     await waitFor(element(by.id(`WebViewScreen/${dappList.applications[0].name}`)))
       .toBeVisible()
       .withTimeout(10 * 1000)
+    const url = new URL(dappList.applications[0].url)
+    // Should show correct hostname in webview
+    await waitFor(element(by.text(url.hostname)))
+      .toBeVisible()
+      .withTimeout(10 * 1000)
   })
 
   it('should correctly filter dapp list based on user agent :ios:', async () => {
