@@ -21,9 +21,6 @@ describe('CeloTransferFeedItem', () => {
   beforeAll(() => {
     // Lock Time
     dateNowSpy = jest.spyOn(Date, 'now').mockImplementation(() => 1487076708000)
-    // set the offset to ALWAYS be Pacific for these tests regardless of where they are run
-    // see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getTimezoneOffset
-    jest.spyOn(Date.prototype, 'getTimezoneOffset').mockImplementation(() => 420)
   })
 
   afterAll(() => {
