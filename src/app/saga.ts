@@ -46,6 +46,7 @@ import {
   shouldRunVerificationMigrationSelector,
 } from 'src/app/selectors'
 import { CreateAccountCopyTestType } from 'src/app/types'
+import { runVerificationMigration } from 'src/app/verificationMigration'
 import { DYNAMIC_LINK_DOMAIN_URI_PREFIX, FETCH_TIMEOUT_DURATION } from 'src/config'
 import { SuperchargeTokenConfigByToken } from 'src/consumerIncentives/types'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
@@ -450,6 +451,7 @@ export function* appSaga() {
   yield spawn(watchDeepLinks)
   yield spawn(watchOpenUrl)
   yield spawn(watchAppState)
+  yield spawn(runVerificationMigration)
   yield spawn(runCentralPhoneVerificationMigration)
   yield takeLatest(Actions.UPDATE_REMOTE_CONFIG_VALUES, runCentralPhoneVerificationMigration)
   yield takeLatest(Actions.SET_APP_STATE, handleSetAppState)
