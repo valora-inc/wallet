@@ -149,7 +149,12 @@ function DappsCarousel({ onSelectDapp }: Props) {
                   resizeMode="cover"
                   testID={`${testID}/Icon`}
                 />
-                <Text style={styles.dappName} numberOfLines={1} ellipsizeMode="tail">
+                <Text
+                  style={styles.dappName}
+                  numberOfLines={1}
+                  ellipsizeMode="tail"
+                  testID={`${testID}/Name`}
+                >
                   {dapp.name}
                 </Text>
               </>
