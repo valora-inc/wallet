@@ -949,4 +949,8 @@ export const migrations = {
     ...state,
     app: _.omit(state.app, 'inviteMethod', 'inviteModalVisible'),
   }),
+  102: (state: any) => ({
+    ...state,
+    app: _.omit(state.app, 'centralPhoneVerificationEnabled', 'hideVerification'),
+  }),
 }

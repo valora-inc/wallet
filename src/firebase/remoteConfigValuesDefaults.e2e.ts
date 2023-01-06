@@ -21,7 +21,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   superchargecREALMax: number
   celoNews: string
 } = {
-  hideVerification: false,
   celoEuroEnabled: true,
   inviteRewardsEnabled: false,
   inviteRewardCusd: 1,
@@ -67,7 +66,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   createAccountCopyTestType: CreateAccountCopyTestType.Account,
   maxSwapSlippagePercentage: 2,
   showGuidedOnboardingCopy: false,
-  centralPhoneVerificationEnabled: true,
   networkTimeoutSeconds: 30,
   dappFavoritesEnabled: false,
   celoNews: JSON.stringify({ enabled: false } as RemoteConfigValues['celoNews']),

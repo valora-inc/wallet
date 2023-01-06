@@ -14,38 +14,36 @@ describe('utils/time', () => {
   beforeAll(() => {
     // Lock Time
     dateNowSpy = jest.spyOn(Date, 'now').mockImplementation(() => 1487076708000)
-    // set the offset to ALWAYS be Pacific for these tests regardless of where they are run
-    // see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getTimezoneOffset
-    jest.spyOn(Date.prototype, 'getTimezoneOffset').mockImplementation(() => 420)
   })
 
   afterAll(() => {
     // Unlock Time
     dateNowSpy.mockRestore()
   })
-  const wedMarch132019at350pacific = 1552517413326
+
+  const wedMarch132019at1050 = 1552517413326
   describe('formatFeedTime', () => {
     it('returns time formatted as string and is accurate', () => {
-      expect(formatFeedTime(wedMarch132019at350pacific, i18n)).toEqual('3:50 PM')
+      expect(formatFeedTime(wedMarch132019at1050, i18n)).toEqual('10:50 PM')
     })
     it('works when number is in seconds', () => {
-      expect(formatFeedTime(wedMarch132019at350pacific / 1000, i18n)).toEqual('3:50 PM')
+      expect(formatFeedTime(wedMarch132019at1050 / 1000, i18n)).toEqual('10:50 PM')
     })
   })
   describe('formatFeedDate', () => {
     it('returns date formatted as string and is accurate', () => {
-      expect(formatFeedDate(wedMarch132019at350pacific, i18n)).toEqual('Mar 13')
+      expect(formatFeedDate(wedMarch132019at1050, i18n)).toEqual('Mar 13')
     })
     it('works when number is in seconds', () => {
-      expect(formatFeedDate(wedMarch132019at350pacific / 1000, i18n)).toEqual('Mar 13')
+      expect(formatFeedDate(wedMarch132019at1050 / 1000, i18n)).toEqual('Mar 13')
     })
   })
   describe('formatFeedSectionTitle', () => {
     it('returns date formatted as string and is accurate', () => {
-      expect(formatFeedSectionTitle(wedMarch132019at350pacific, i18n)).toEqual('March 2019')
+      expect(formatFeedSectionTitle(wedMarch132019at1050, i18n)).toEqual('March 2019')
     })
     it('works when number is in seconds', () => {
-      expect(formatFeedSectionTitle(wedMarch132019at350pacific / 1000, i18n)).toEqual('March 2019')
+      expect(formatFeedSectionTitle(wedMarch132019at1050 / 1000, i18n)).toEqual('March 2019')
     })
   })
   describe('timeDeltaInDays', () => {

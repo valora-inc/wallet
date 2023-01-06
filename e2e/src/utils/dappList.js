@@ -1,4 +1,5 @@
 import { waitForElementId } from './utils'
+import fetch from 'node-fetch'
 
 /**
  * From the home screen, navigate to the dapp explorer screen
@@ -40,4 +41,28 @@ export async function scrollToDapp(dappIndex = 0) {
   } catch {
     console.log('Catch of scrollToDapp')
   }
+}
+
+/**
+ * Fetch the Dapp list from the cloud function using node-fetch
+ * @param {string} userAgent: user agent to use for dapp list fetch
+ * @returns {object|null} dappList: list of dapps
+ */
+export async function fetchDappList(userAgent = '') {
+  let dappList = null
+  try {
+    const response = await fetch(
+      'https://us-central1-celo-mobile-alfajores.cloudfunctions.net/dappList',
+      {
+        headers: {
+          'User-Agent': userAgent,
+        },
+      }
+    )
+    console.log('Response: ', response)
+    if (response.status === 200) {
+      dappList = await response.json()
+    }
+  } catch {}
+  return dappList
 }

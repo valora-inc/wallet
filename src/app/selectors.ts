@@ -1,19 +1,10 @@
 import { createSelector } from 'reselect'
 import {
   choseToRestoreAccountSelector,
-  e164NumberSelector,
   recoveringFromStoreWipeSelector,
 } from 'src/account/selectors'
-import { hasExceededKomenciErrorQuota } from 'src/identity/feelessVerificationErrors'
-import { e164NumberToSaltSelector } from 'src/identity/selectors'
 import { Screens } from 'src/navigator/Screens'
 import { RootState } from 'src/redux/reducers'
-import {
-  isBalanceSufficientForSigRetrievalSelector,
-  komenciContextSelector,
-  shouldUseKomenciSelector,
-  verificationStatusSelector,
-} from 'src/verify/reducer'
 import { walletAddressSelector } from 'src/web3/selectors'
 
 export const getRequirePinOnAppOpen = (state: RootState) => {
@@ -36,31 +27,6 @@ export const sessionIdSelector = (state: RootState) => {
   return state.app.sessionId
 }
 
-export const verificationPossibleSelector = (state: RootState): boolean => {
-  const centralPhoneVerificationEnabled = centralPhoneVerificationEnabledSelector(state)
-  if (centralPhoneVerificationEnabled) {
-    return true
-  }
-
-  const e164Number = e164NumberSelector(state)
-  const saltCache = e164NumberToSaltSelector(state)
-  const shouldUseKomenci = shouldUseKomenciSelector(state)
-  const { komenci } = verificationStatusSelector(state)
-  const hideVerification = hideVerificationSelector(state)
-  if (hideVerification) {
-    return false
-  }
-
-  const { errorTimestamps } = komenciContextSelector(state)
-
-  return !!(
-    !hasExceededKomenciErrorQuota(errorTimestamps) &&
-    ((e164Number && saltCache[e164Number] && !komenci) ||
-      isBalanceSufficientForSigRetrievalSelector(state) ||
-      shouldUseKomenci)
-  )
-}
-
 export const numberVerifiedSelector = (state: RootState) => state.app.numberVerified
 
 // this can be called with undefined state in the tests
@@ -68,8 +34,6 @@ export const walletConnectEnabledSelector = (state?: RootState) => ({
   v1: state?.app.walletConnectV1Enabled ?? false,
   v2: state?.app.walletConnectV2Enabled ?? false,
 })
-
-export const hideVerificationSelector = (state: RootState) => state.app.hideVerification
 
 export const ranVerificationMigrationSelector = (state: RootState) =>
   state.app.ranVerificationMigrationAt
@@ -128,39 +92,39 @@ type StoreWipeRecoveryScreens = Extract<
   Screens,
   | Screens.NameAndPicture
   | Screens.ImportWallet
-  | Screens.VerificationEducationScreen
-  | Screens.VerificationInputScreen
+  | Screens.VerificationStartScreen
+  | Screens.VerificationCodeInputScreen
 >
 type CreateAccountScreens = Extract<
   Screens,
   | Screens.NameAndPicture
   | Screens.PincodeSet
   | Screens.EnableBiometry
-  | Screens.VerificationEducationScreen
-  | Screens.VerificationInputScreen
+  | Screens.VerificationStartScreen
+  | Screens.VerificationCodeInputScreen
 >
 type RestoreAccountScreens = CreateAccountScreens & Screens.ImportWallet
 
 export const storeWipeRecoverySteps: { [key in StoreWipeRecoveryScreens]: number } = {
   [Screens.NameAndPicture]: 1,
   [Screens.ImportWallet]: 2,
-  [Screens.VerificationEducationScreen]: 3,
-  [Screens.VerificationInputScreen]: 3,
+  [Screens.VerificationStartScreen]: 3,
+  [Screens.VerificationCodeInputScreen]: 3,
 }
 export const createAccountSteps: { [key in CreateAccountScreens]: number } = {
   [Screens.NameAndPicture]: 1,
   [Screens.PincodeSet]: 2,
   [Screens.EnableBiometry]: 3,
-  [Screens.VerificationEducationScreen]: 4,
-  [Screens.VerificationInputScreen]: 4,
+  [Screens.VerificationStartScreen]: 4,
+  [Screens.VerificationCodeInputScreen]: 4,
 }
 export const restoreAccountSteps: { [key in RestoreAccountScreens]: number } = {
   [Screens.NameAndPicture]: 1,
   [Screens.PincodeSet]: 2,
   [Screens.EnableBiometry]: 3,
   [Screens.ImportWallet]: 4,
-  [Screens.VerificationEducationScreen]: 5,
-  [Screens.VerificationInputScreen]: 5,
+  [Screens.VerificationStartScreen]: 5,
+  [Screens.VerificationCodeInputScreen]: 5,
 }
 
 // The logic in this selector should be moved to a hook when all registration
@@ -207,12 +171,12 @@ export const registrationStepsSelector = createSelector(
       }
     }
     if (skipVerification) {
-      if (Object.keys(steps).includes(Screens.VerificationEducationScreen)) {
+      if (Object.keys(steps).includes(Screens.VerificationStartScreen)) {
         totalSteps--
         step =
           step >
-          (steps as Record<Screens.VerificationEducationScreen, number>)[
-            Screens.VerificationEducationScreen
+          (steps as Record<Screens.VerificationStartScreen, number>)[
+            Screens.VerificationStartScreen
           ]
             ? step - 1
             : step
@@ -226,31 +190,18 @@ export const registrationStepsSelector = createSelector(
   }
 )
 
-export const centralPhoneVerificationEnabledSelector = (state: RootState) =>
-  state.app.centralPhoneVerificationEnabled
-
 export const numberVerifiedCentrallySelector = (state: RootState) => state.app.phoneNumberVerified
 
 export const phoneNumberVerifiedSelector = createSelector(
-  [
-    centralPhoneVerificationEnabledSelector,
-    numberVerifiedCentrallySelector,
-    numberVerifiedSelector,
-  ],
-  (centralPhoneVerificationEnabled, numberVerifiedCentrally, numberVerifiedDecentrally) =>
-    centralPhoneVerificationEnabled
-      ? numberVerifiedCentrally || numberVerifiedDecentrally
-      : numberVerifiedDecentrally
+  [numberVerifiedCentrallySelector, numberVerifiedSelector],
+  (numberVerifiedCentrally, numberVerifiedDecentrally) =>
+    numberVerifiedCentrally || numberVerifiedDecentrally
 )
 
 export const shouldRunVerificationMigrationSelector = createSelector(
-  [
-    centralPhoneVerificationEnabledSelector,
-    numberVerifiedCentrallySelector,
-    numberVerifiedSelector,
-  ],
-  (centralPhoneVerificationEnabled, numberVerifiedCentrally, numberVerifiedDecentrally) =>
-    centralPhoneVerificationEnabled && numberVerifiedDecentrally && !numberVerifiedCentrally
+  [numberVerifiedCentrallySelector, numberVerifiedSelector],
+  (numberVerifiedCentrally, numberVerifiedDecentrally) =>
+    numberVerifiedDecentrally && !numberVerifiedCentrally
 )
 
 export const inviterAddressSelector = (state: RootState) => state.app.inviterAddress

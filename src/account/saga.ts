@@ -19,7 +19,6 @@ import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { phoneNumberVerificationCompleted } from 'src/app/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { centralPhoneVerificationEnabledSelector } from 'src/app/selectors'
 import { clearStoredMnemonic } from 'src/backup/utils'
 import { FIREBASE_ENABLED } from 'src/config'
 import { firebaseSignOut } from 'src/firebase/firebase'
@@ -82,8 +81,7 @@ export function* initializeAccountSaga() {
     yield put(refreshAllBalances())
 
     const choseToRestoreAccount = yield select(choseToRestoreAccountSelector)
-    const centralPhoneVerificationEnabled = yield select(centralPhoneVerificationEnabledSelector)
-    if (centralPhoneVerificationEnabled && choseToRestoreAccount) {
+    if (choseToRestoreAccount) {
       yield call(handlePreviouslyVerifiedPhoneNumber)
     }
 

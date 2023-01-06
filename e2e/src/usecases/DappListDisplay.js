@@ -1,6 +1,6 @@
 import { reloadReactNative } from '../utils/retries'
 import { waitForElementId, getElementText, getElementTextList, sleep } from '../utils/utils'
-import { navigateToDappList, fetchDappList } from '../DappList.spec'
+import { navigateToDappList, fetchDappList } from '../utils/dappList'
 
 jestExpect = require('expect')
 
