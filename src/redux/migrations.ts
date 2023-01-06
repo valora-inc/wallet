@@ -964,7 +964,9 @@ export const migrations = {
       'verificationStatus',
       'lastRevealAttempt'
     ),
-    verify: _.pick(_.pick(state.verify, ['komenci']), ['unverifiedMtwAddress']),
+    verify: {
+      komenci: _.pick(state.verify.komenci, ['unverifiedMtwAddress']),
+    },
     app: _.omit(state.app, 'komenciAllowedDeployers', 'komenciUseLightProxy'),
   }),
 }
