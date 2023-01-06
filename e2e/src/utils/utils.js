@@ -303,14 +303,13 @@ export async function dismissCashInBottomSheet() {
  */
 export async function getElementText(elementId) {
   try {
-    const singleElement = await element(by.id(elementId)).getAttributes()
-    return device.getPlatform() === 'ios' ? singleElement.label : singleElement.text
+    const match = await element(by.id(elementId)).getAttributes()
+    if (device.getPlatform() === 'ios') {
+      return match.label ? match.label : match.elements[0].label ?? null
+    } else {
+      return match.text ?? null
+    }
   } catch {}
-  try {
-    const firstOfManyElements = await element(by.id(elementId)).atIndex(0).getAttributes()
-    return device.getPlatform() === 'ios' ? firstOfManyElements.label : firstOfManyElements.text
-  } catch {}
-  return null
 }
 
 /**
