@@ -59,7 +59,6 @@ export async function fetchDappList(userAgent = '') {
         },
       }
     )
-    console.log('Response: ', response)
     if (response.status === 200) {
       dappList = await response.json()
     }
