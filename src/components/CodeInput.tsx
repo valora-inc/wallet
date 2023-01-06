@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from 'react'
+import React, { useEffect, useLayoutEffect, useRef } from 'react'
 import {
   ActivityIndicator,
   LayoutAnimation,
@@ -61,6 +61,12 @@ export default function CodeInput({
 }: Props) {
   const [forceShowingPasteIcon, clipboardContent, getFreshClipboardContent] = useClipboard()
 
+  const clipboardRef = useRef(clipboardContent)
+
+  useEffect(() => {
+    clipboardRef.current = clipboardContent
+  }, [clipboardContent])
+
   // LayoutAnimation when switching to/from input
   useLayoutEffect(() => {
     LayoutAnimation.easeInEaseOut()
@@ -71,8 +77,8 @@ export default function CodeInput({
       return true
     }
     return (
-      !inputValue.toLowerCase().startsWith(clipboardContent.toLowerCase()) &&
-      shouldShowClipboard(clipboardContent)
+      !inputValue.toLowerCase().startsWith(clipboardRef.current.toLowerCase()) &&
+      shouldShowClipboard(clipboardRef.current)
     )
   }
 
