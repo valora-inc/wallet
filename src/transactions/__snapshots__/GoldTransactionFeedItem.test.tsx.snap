@@ -135,7 +135,7 @@ exports[`GoldTransactionFeedItem renders correctly 1`] = `
           }
         }
       >
-        Dec 31 at 5:00 PM
+        Jan 1 at 12:00 AM
       </Text>
     </View>
   </View>
@@ -276,7 +276,7 @@ exports[`GoldTransactionFeedItem renders correctly when local amount is null 1`]
           }
         }
       >
-        Dec 31 at 5:00 PM
+        Jan 1 at 12:00 AM
       </Text>
     </View>
   </View>
@@ -416,7 +416,7 @@ exports[`GoldTransactionFeedItem renders correctly when local amount is null and
           }
         }
       >
-        Dec 31 at 5:00 PM
+        Jan 1 at 12:00 AM
       </Text>
     </View>
   </View>
