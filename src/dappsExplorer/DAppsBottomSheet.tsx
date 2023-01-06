@@ -28,7 +28,7 @@ export function DAppsBottomSheet({ selectedDapp, isVisible, onClose, onConfirmOp
           onPress={onClose}
         />
         <View style={styles.centerContainer}>
-          <Text style={styles.bottomSheetTitleText}>
+          <Text testID="ConfirmDappTitle" style={styles.bottomSheetTitleText}>
             {t('dappsScreenBottomSheet.title', { dappName: selectedDapp?.name })}
           </Text>
           <Text style={styles.bottomSheetMessageText}>{t('dappsScreenBottomSheet.message')}</Text>

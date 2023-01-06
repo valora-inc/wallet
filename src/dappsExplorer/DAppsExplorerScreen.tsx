@@ -97,7 +97,13 @@ export function DAppsExplorerScreen() {
     <SafeAreaView style={styles.safeAreaContainer} edges={['top']}>
       <DrawerTopBar
         middleElement={<Text style={headerStyles.headerTitle}>{t('dappsScreen.title')}</Text>}
-        rightElement={<TopBarIconButton icon={<Help />} onPress={onPressHelp} />}
+        rightElement={
+          <TopBarIconButton
+            testID="DAppsExplorerScreen/HelpIcon"
+            icon={<Help />}
+            onPress={onPressHelp}
+          />
+        }
         scrollPosition={scrollPosition}
       />
       {ConfirmOpenDappBottomSheet}
@@ -109,6 +115,7 @@ export function DAppsExplorerScreen() {
         actionPress={onCloseDialog}
         isActionHighlighted={false}
         onBackgroundPress={onCloseDialog}
+        testID="DAppsExplorerScreen/HelpDialog"
       >
         {t('dappsScreenHelpDialog.message')}
       </Dialog>
