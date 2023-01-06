@@ -7,7 +7,6 @@ import { initialState as exchangeInitialState } from 'src/exchange/reducer'
 import { SendingFiatAccountStatus } from 'src/fiatconnect/slice'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { AddressToDisplayNameType } from 'src/identity/reducer'
-import { VerificationStatus } from 'src/identity/types'
 import { TokenTransaction } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 
@@ -260,7 +259,7 @@ export const migrations = {
           CodeInputStatus.Disabled,
         ],
         numCompleteAttestations: 0,
-        verificationStatus: VerificationStatus.Stopped,
+        verificationStatus: 0,
         hasSeenVerificationNux: state.verify.seenVerificationNux,
         lastRevealAttempt: null,
       },

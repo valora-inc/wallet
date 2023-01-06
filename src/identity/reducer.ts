@@ -6,9 +6,6 @@ import { ImportContactsStatus } from 'src/identity/types'
 import { removeKeyFromMapping } from 'src/identity/utils'
 import { getRehydratePayload, REHYDRATE } from 'src/redux/persist-helper'
 
-export const ATTESTATION_CODE_PLACEHOLDER = 'ATTESTATION_CODE_PLACEHOLDER'
-export const ATTESTATION_ISSUER_PLACEHOLDER = 'ATTESTATION_ISSUER_PLACEHOLDER'
-
 export interface AddressToE164NumberType {
   [address: string]: string | null
 }
