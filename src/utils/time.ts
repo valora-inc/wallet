@@ -1,7 +1,6 @@
 import differenceInYears from 'date-fns/esm/differenceInYears'
 import format from 'date-fns/esm/format'
 import getYear from 'date-fns/esm/getYear'
-import startOfWeek from 'date-fns/esm/startOfWeek'
 import { i18n as i18nType } from 'i18next'
 import locales from 'locales'
 import _ from 'lodash'
@@ -60,13 +59,4 @@ function quickFormat(timestamp: number, i18next: i18nType, formatRule: string) {
   return format(millisecondsSinceEpoch(timestamp), formatRule, {
     locale: locales[i18next?.language]?.dateFns ?? locales['en-US']?.dateFns,
   })
-}
-
-function toUtcDate(date: Date) {
-  return new Date(date.getTime() - date.getTimezoneOffset() * 60 * 1000)
-}
-
-export function getNextMondayAt8pmUtc() {
-  const mondayDate = startOfWeek(Date.now(), { weekStartsOn: 1 })
-  return toUtcDate(mondayDate).getTime() + 20 * ONE_HOUR_IN_MILLIS + 7 * ONE_DAY_IN_MILLIS
 }
