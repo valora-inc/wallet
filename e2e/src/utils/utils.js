@@ -295,3 +295,38 @@ export async function dismissCashInBottomSheet() {
     await element(by.id('DismissBottomSheet')).tap()
   } catch {}
 }
+
+/**
+ * Gets first most matching text by testID for no matches, one match or many matches
+ * @param {string} elementId The element to get text from by testID
+ * @returns {(string|null)} The text of the element or null if not found
+ */
+export async function getElementText(elementId) {
+  try {
+    const singleElement = await element(by.id(elementId)).getAttributes()
+    return device.getPlatform() === 'ios' ? singleElement.label : singleElement.text
+  } catch {}
+  try {
+    const firstOfManyElements = await element(by.id(elementId)).atIndex(0).getAttributes()
+    return device.getPlatform() === 'ios' ? firstOfManyElements.label : firstOfManyElements.text
+  } catch {}
+  return null
+}
+
+/**
+ * Gets list of matching text elements by testID - iOS only
+ * https://github.com/wix/Detox/issues/3196
+ * @param {string} elementId The element to get text from by testID
+ * @returns {(string[])} An array of element(s) text
+ */
+export async function getElementTextList(elementId) {
+  try {
+    const found = await element(by.id(elementId)).getAttributes()
+    return found.elements.map((element) => element.label)
+  } catch {}
+  try {
+    const elementText = await getElementText(elementId)
+    if (elementText) return [elementText]
+  } catch {}
+  return []
+}

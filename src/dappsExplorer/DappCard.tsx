@@ -54,7 +54,7 @@ function DappCard({ dapp, section, onPressDapp, onFavoriteDapp }: Props) {
   }
 
   return (
-    <Card style={styles.card} rounded={true} shadow={Shadow.SoftLight}>
+    <Card testID="DappCard" style={styles.card} rounded={true} shadow={Shadow.SoftLight}>
       <Touchable style={styles.pressableCard} onPress={onPress} testID={`Dapp/${dapp.id}`}>
         <>
           <Image source={{ uri: dapp.iconUrl }} style={styles.dappIcon} />

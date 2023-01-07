@@ -20,7 +20,9 @@ function FeaturedDappCard({ dapp, onPressDapp }: Props) {
       <Touchable style={styles.pressableCard} onPress={onPress} testID="FeaturedDapp">
         <>
           <View style={styles.itemTextContainer}>
-            <Text style={styles.title}>{dapp.name}</Text>
+            <Text testID="FeaturedDapp/Name" style={styles.title}>
+              {dapp.name}
+            </Text>
             <Text style={styles.subtitle}>{dapp.description}</Text>
           </View>
           <Image source={{ uri: dapp.iconUrl }} style={styles.icon} />
