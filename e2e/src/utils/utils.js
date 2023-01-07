@@ -243,8 +243,8 @@ export async function setDemoMode() {
 }
 /**
  * Scrolls to an element within another
- * @param {string} scrollTo - The element to scroll to by textID.
- * @param {string} scrollIn - The element to scroll within to by textID.
+ * @param {string} scrollTo - The element to scroll to by text.
+ * @param {string} scrollIn - The element to scroll within to by testID.
  * @param {number} [speed=350] -  The speed at which to scroll
  * @param {string} [direction='down'] - The direction of which to scroll
  */
