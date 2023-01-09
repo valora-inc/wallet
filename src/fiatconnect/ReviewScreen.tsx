@@ -75,7 +75,7 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
     if (!feeEstimate && tokenAddress) {
       dispatch(estimateFee({ feeType, tokenAddress }))
     }
-  }, [feeEstimate])
+  }, [feeEstimate, tokenAddress])
 
   useEffect(() => {
     if (shouldRefetchQuote) {
@@ -373,7 +373,7 @@ function getDisplayAmounts({
   const cryptoType = normalizedQuote.getCryptoType()
   const fiatType = normalizedQuote.getFiatType()
   if (flow === CICOFlow.CashOut) {
-    const providerFee = normalizedQuote.getFeeInCrypto(exchangeRates) || new BigNumber(0)
+    const providerFee = normalizedQuote.getFeeInCrypto(exchangeRates) ?? new BigNumber(0)
     let networkFee = new BigNumber(0)
     if (feeEstimate?.usdFee) {
       networkFee =
@@ -388,8 +388,8 @@ function getDisplayAmounts({
       new BigNumber(normalizedQuote.getCryptoAmount()).plus(networkFee).toString()
     )
     const totalFee = Number(providerFee.plus(networkFee))
-    const totalMinusProviderFee = total - totalFee
-    const exchangeRate = receive / totalMinusProviderFee
+    const totalMinusFees = total - totalFee
+    const exchangeRate = receive / totalMinusFees
 
     const receiveDisplay = (testID: string) => (
       <FiatAmount amount={receive} currency={fiatType} testID={testID} />
@@ -403,11 +403,7 @@ function getDisplayAmounts({
     )
 
     const totalMinusFeeDisplay = (
-      <CryptoAmount
-        amount={totalMinusProviderFee}
-        currency={cryptoType}
-        testID="txDetails-converted"
-      />
+      <CryptoAmount amount={totalMinusFees} currency={cryptoType} testID="txDetails-converted" />
     )
     const exchangeRateDisplay = (
       <FiatAmount
