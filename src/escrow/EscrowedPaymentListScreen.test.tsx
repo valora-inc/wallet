@@ -5,14 +5,12 @@ import { Provider } from 'react-redux'
 import { EscrowedPayment } from 'src/escrow/actions'
 import EscrowedPaymentListScreen from 'src/escrow/EscrowedPaymentListScreen'
 import { escrowPaymentDouble } from 'src/escrow/testValues'
-import { Currency } from 'src/utils/currencies'
 import { createMockStore } from 'test/utils'
 
 const payments = [escrowPaymentDouble({}), escrowPaymentDouble({}), escrowPaymentDouble({})]
 
 function testStore(sentEscrowedPayments: EscrowedPayment[]) {
   return createMockStore({
-    stableToken: { balances: { [Currency.Dollar]: '120' } },
     escrow: { sentEscrowedPayments },
   })
 }

@@ -7,11 +7,7 @@ import { createMockStore } from 'test/utils'
 
 jest.mock('src/components/useShowOrHideAnimation')
 
-const mockStore = createMockStore({
-  stableToken: {
-    balances: { [Currency.Dollar]: '10', [Currency.Euro]: '20' },
-  },
-})
+const mockStore = createMockStore({})
 
 const onCurrencySelectedMock = jest.fn()
 const onCloseMock = jest.fn()

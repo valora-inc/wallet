@@ -26,7 +26,7 @@ import {
 } from 'src/send/actions'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
-import { transferStableToken } from 'src/stableToken/actions'
+import { transferStableTokenLegacy } from 'src/stableToken/actions'
 import {
   BasicTokenTransfer,
   createTokenTransferTransaction,
@@ -188,7 +188,7 @@ function* sendPaymentLegacy(
       case Currency.Dollar:
       case Currency.Euro: {
         yield put(
-          transferStableToken({
+          transferStableTokenLegacy({
             recipientAddress,
             amount: amount.toString(),
             currency,

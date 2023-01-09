@@ -7,7 +7,13 @@ import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { Screens } from 'src/navigator/Screens'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
-import { makeExchangeRates } from 'test/values'
+import {
+  makeExchangeRates,
+  mockCeloAddress,
+  mockCeurAddress,
+  mockCusdAddress,
+  mockTokenBalances,
+} from 'test/values'
 
 jest.mock('src/components/useShowOrHideAnimation')
 
@@ -37,14 +43,21 @@ const createStore = ({
       preferredCurrencyCode: localCurrencyCode,
       fetchedCurrencyCode: localCurrencyCode,
     },
-    stableToken: {
-      balances: {
-        [Currency.Dollar]: dollarBalance,
-        [Currency.Euro]: '10',
+    tokens: {
+      tokenBalances: {
+        [mockCusdAddress]: {
+          ...mockTokenBalances[mockCusdAddress],
+          balance: dollarBalance,
+        },
+        [mockCeurAddress]: {
+          ...mockTokenBalances[mockCeurAddress],
+          balance: '10',
+        },
+        [mockCeloAddress]: {
+          ...mockTokenBalances[mockCeloAddress],
+          balance: '20',
+        },
       },
-    },
-    goldToken: {
-      balance: '20',
     },
     send: {
       lastUsedCurrency,

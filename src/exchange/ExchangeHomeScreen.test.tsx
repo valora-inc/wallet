@@ -5,9 +5,8 @@ import ExchangeHomeScreen from 'src/exchange/ExchangeHomeScreen'
 import { ExchangeRates } from 'src/exchange/reducer'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { Currency } from 'src/utils/currencies'
 import { createMockStore } from 'test/utils'
-import { makeExchangeRates } from 'test/values'
+import { makeExchangeRates, mockCeloAddress, mockCusdAddress, mockTokenBalances } from 'test/values'
 
 // Mock this for now, as we get apollo issues
 jest.mock('src/transactions/TransactionsList', () => 'TransactionsList')
@@ -18,7 +17,18 @@ describe('ExchangeHomeScreen', () => {
   it('renders and behaves correctly for non CP-DOTO restricted countries', () => {
     const store = createMockStore({
       goldToken: { balance: '2' },
-      stableToken: { balances: { [Currency.Dollar]: '10' } },
+      tokens: {
+        tokenBalances: {
+          [mockCusdAddress]: {
+            ...mockTokenBalances[mockCusdAddress],
+            balance: '10',
+          },
+          [mockCeloAddress]: {
+            ...mockTokenBalances[mockCeloAddress],
+            balance: '2',
+          },
+        },
+      },
       exchange: { exchangeRates },
     })
 
@@ -56,7 +66,6 @@ describe('ExchangeHomeScreen', () => {
         },
       },
       goldToken: { balance: '2' },
-      stableToken: { balances: { [Currency.Dollar]: '10' } },
       exchange: { exchangeRates },
     })
 
@@ -85,7 +94,9 @@ describe('ExchangeHomeScreen', () => {
   it('renders the Celo news feed when enabled', async () => {
     const store = createMockStore({
       goldToken: { balance: '2' },
-      stableToken: { balances: { [Currency.Dollar]: '10' } },
+      tokens: {
+        tokenBalances: mockTokenBalances,
+      },
       exchange: { exchangeRates },
       app: { celoNews: { enabled: true } },
     })

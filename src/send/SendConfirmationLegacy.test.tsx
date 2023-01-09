@@ -15,7 +15,6 @@ import { StackParamList } from 'src/navigator/types'
 import { RootState } from 'src/redux/reducers'
 import { getSendFee } from 'src/send/saga'
 import SendConfirmationLegacy from 'src/send/SendConfirmationLegacy'
-import { Currency } from 'src/utils/currencies'
 import {
   createMockStore,
   flushMicrotasksQueue,
@@ -72,9 +71,6 @@ describe('SendConfirmationLegacy', () => {
     screenProps?: ScreenProps
   ) {
     const store = createMockStore({
-      stableToken: {
-        balances: { [Currency.Dollar]: '200', [Currency.Euro]: '100' },
-      },
       ...storeOverrides,
     })
 

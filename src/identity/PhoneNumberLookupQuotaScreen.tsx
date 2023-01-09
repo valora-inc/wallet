@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { BackHandler, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { useSelector } from 'react-redux'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import Button, { BtnTypes } from 'src/components/Button'
 import ErrorMessageInline from 'src/components/ErrorMessageInline'
@@ -15,14 +14,16 @@ import { LOOKUP_GAS_FEE_ESTIMATE } from 'src/identity/privateHashing'
 import { isUserBalanceSufficient } from 'src/identity/utils'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { cUsdBalanceSelector } from 'src/stableToken/selectors'
 import fontStyles from 'src/styles/fonts'
+import { useTokenInfoByCurrency } from 'src/tokens/hooks'
+import { Currency } from 'src/utils/currencies'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.PhoneNumberLookupQuota>
 
 function PhoneNumberLookupQuotaScreen(props: Props) {
   const [isSending, setIsSending] = useState(false)
-  const userBalance = useSelector(cUsdBalanceSelector) ?? null
+  const cUsdToken = useTokenInfoByCurrency(Currency.Dollar)
+  const userBalance = cUsdToken?.balance.toNumber() ?? null
   const { t } = useTranslation()
 
   const userBalanceIsSufficient = isUserBalanceSufficient(userBalance, LOOKUP_GAS_FEE_ESTIMATE)

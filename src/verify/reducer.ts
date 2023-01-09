@@ -2,15 +2,12 @@ import { ActionableAttestation } from '@celo/contractkit/lib/wrappers/Attestatio
 import { isBalanceSufficientForSigRetrieval } from '@celo/identity/lib/odis/phone-number-identifier'
 import { AttestationsStatus } from '@celo/utils/lib/attestations'
 import { createAction, createReducer, createSelector } from '@reduxjs/toolkit'
-import BigNumber from 'bignumber.js'
 import { Actions as AppActions, UpdateConfigValuesAction } from 'src/app/actions'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
-import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 import { RootState } from 'src/redux/reducers'
-import { cUsdBalanceSelector } from 'src/stableToken/selectors'
-
-const ESTIMATED_COST_PER_ATTESTATION = 0.051
+import { tokensByCurrencySelector } from 'src/tokens/selectors'
+import { Currency } from 'src/utils/currencies'
 
 const rehydrate = createAction<any>(REHYDRATE)
 
@@ -322,15 +319,6 @@ export const reducer = createReducer(initialState, (builder) => {
     })
 })
 
-const isBalanceSufficientForAttestations = (
-  userBalance: BigNumber.Value,
-  attestationsRemaining: number
-) => {
-  return new BigNumber(userBalance).isGreaterThan(
-    attestationsRemaining * ESTIMATED_COST_PER_ATTESTATION
-  )
-}
-
 export const currentStateSelector = (state: RootState) => state.verify.currentState
 export const e164NumberSelector = (state: RootState) => state.verify.e164Number
 export const phoneHashSelector = (state: RootState) => state.verify.phoneHash
@@ -354,32 +342,11 @@ export const overrideWithoutVerificationSelector = (state: RootState): boolean |
   state.verify.TEMPORARY_override_withoutVerification
 
 export const isBalanceSufficientForSigRetrievalSelector = createSelector(
-  [cUsdBalanceSelector, celoTokenBalanceSelector],
-  (cUsdBalance, celoTokenBalance) =>
-    isBalanceSufficientForSigRetrieval(cUsdBalance || 0, celoTokenBalance || 0)
-)
-
-export const isBalanceSufficientSelector = createSelector(
-  [
-    cUsdBalanceSelector,
-    actionableAttestationsSelector,
-    verificationStatusSelector,
-    phoneHashSelector,
-    isBalanceSufficientForSigRetrievalSelector,
-  ],
-  (
-    cUsdBalance,
-    actionableAttestations,
-    { numAttestationsRemaining },
-    phoneHash,
-    balanceSufficientForSigRetrieval
-  ) => {
-    const attestationsRemaining = numAttestationsRemaining - actionableAttestations.length
-    const isBalanceSufficient = !phoneHash
-      ? balanceSufficientForSigRetrieval
-      : isBalanceSufficientForAttestations(cUsdBalance || 0, attestationsRemaining)
-
-    return isBalanceSufficient
+  tokensByCurrencySelector,
+  (tokens) => {
+    const cusdBalance = tokens[Currency.Dollar]?.balance
+    const celoBalance = tokens[Currency.Celo]?.balance
+    isBalanceSufficientForSigRetrieval(cusdBalance || 0, celoBalance || 0)
   }
 )
 export const withoutRevealingSelector = (state: RootState) => state.verify.withoutRevealing

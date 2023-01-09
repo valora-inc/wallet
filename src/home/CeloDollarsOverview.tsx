@@ -10,6 +10,7 @@ import useSelector from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
+import { tokensByCurrencySelector } from 'src/tokens/selectors'
 import { Currency } from 'src/utils/currencies'
 
 type Props = WithTranslation
@@ -17,7 +18,8 @@ type Props = WithTranslation
 function CeloDollarsOverview({ t }: Props) {
   useBalanceAutoRefresh()
   const localCurrencyCode = useLocalCurrencyCode()
-  const dollarBalance = useSelector((state) => state.stableToken.balances[Currency.Dollar])
+  const tokens = useSelector(tokensByCurrencySelector)
+  const dollarBalance = tokens[Currency.Dollar]?.balance
 
   const isUsdLocalCurrency = localCurrencyCode === LocalCurrencyCode.USD
   const dollarBalanceAmount = dollarBalance

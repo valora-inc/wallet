@@ -7,7 +7,6 @@ import { fetchAvailableRewards } from 'src/consumerIncentives/slice'
 import NotificationBox from 'src/home/NotificationBox'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { Currency } from 'src/utils/currencies'
 import { createMockStore, getElementText } from 'test/utils'
 import {
   mockCusdAddress,
@@ -131,7 +130,6 @@ describe('NotificationBox', () => {
         e164PhoneNumber: mockE164Number,
       },
       identity: { e164NumberToSalt: { [mockE164Number]: mockE164NumberPepper } },
-      stableToken: { balances: { [Currency.Dollar]: '0.00' } },
       goldToken: { balance: '0.00' },
     })
     const tree = render(
@@ -268,7 +266,6 @@ describe('NotificationBox', () => {
         e164PhoneNumber: mockE164Number,
       },
       identity: { e164NumberToSalt: { [mockE164Number]: mockE164NumberPepper } },
-      stableToken: { balances: { [Currency.Dollar]: '0.00' } },
     })
     const { getByText } = render(
       <Provider store={store}>

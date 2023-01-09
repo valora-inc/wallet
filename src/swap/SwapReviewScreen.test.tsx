@@ -34,9 +34,6 @@ const store = {
   web3: {
     account: mockAccount,
   },
-  stableToken: {
-    balances: { [Currency.Dollar]: '10', [Currency.Euro]: '20' },
-  },
   swap: {
     swapUserInput: {
       toToken: mockCusdAddress,

@@ -27,7 +27,6 @@ import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { features } from 'src/flags'
-import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
 import {
   FetchDataEncryptionKeyAction,
   updateAddressDekMap,
@@ -36,8 +35,8 @@ import {
 import { WalletToAccountAddressType } from 'src/identity/reducer'
 import { walletToAccountAddressSelector } from 'src/identity/selectors'
 import { DEK, retrieveOrGeneratePepper, retrieveSignedMessage } from 'src/pincode/authentication'
-import { cUsdBalanceSelector } from 'src/stableToken/selectors'
 import { getCurrencyAddress } from 'src/tokens/saga'
+import { CurrencyTokens, tokensByCurrencySelector } from 'src/tokens/selectors'
 import { sendTransaction } from 'src/transactions/send'
 import { newTransactionContext } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
@@ -188,13 +187,10 @@ export function* registerAccountDek() {
       )
       return
     }
-
-    const stableBalance = yield select(cUsdBalanceSelector)
-    const celoBalance = yield select(celoTokenBalanceSelector)
-    if (
-      (stableBalance === null || stableBalance === '0') &&
-      (celoBalance === null || celoBalance === '0')
-    ) {
+    const tokens: CurrencyTokens = yield select(tokensByCurrencySelector)
+    const cusdBalance = tokens[Currency.Dollar]?.balance
+    const celoBalance = tokens[Currency.Celo]?.balance
+    if (!cusdBalance && !celoBalance) {
       Logger.debug(
         `${TAG}@registerAccountDek`,
         'Skipping DEK registration because there are no funds'

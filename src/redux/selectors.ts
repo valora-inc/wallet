@@ -7,21 +7,16 @@ export const getNetworkConnected = (state: RootState) => state.networkInfo.conne
 export const isAppConnected = (state: RootState) => getNetworkConnected(state)
 
 export const celoTokenLastFetch = (state: RootState) => state.goldToken.lastFetch || 0
-export const stableTokenLastFetch = (state: RootState) => state.stableToken.lastFetch || 0
 
 export const lastFetchTooOld = (lastFetch: number) => {
   // if lastFetch is null, then skip
   return !!lastFetch && timeDeltaInSeconds(Date.now(), lastFetch) > BALANCE_OUT_OF_SYNC_THRESHOLD
 }
 
-export const isStableTokenBalanceStale = (state: RootState) =>
-  lastFetchTooOld(stableTokenLastFetch(state))
-
 export const isCeloTokenBalanceStale = (state: RootState) =>
-  lastFetchTooOld(stableTokenLastFetch(state))
+  lastFetchTooOld(celoTokenLastFetch(state))
 
-export const areAllBalancesStale = (state: RootState) =>
-  isCeloTokenBalanceStale(state) || isStableTokenBalanceStale(state)
+export const areAllBalancesStale = (state: RootState) => isCeloTokenBalanceStale(state)
 
 // isAppConnected is used to either show the "disconnected banner" or "Refresh balance"
 // but not both at the same time

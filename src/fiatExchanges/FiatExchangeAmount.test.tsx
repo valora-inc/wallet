@@ -37,9 +37,6 @@ const phpExchangeRates = {
 }
 
 const storeWithUSD = createMockStore({
-  stableToken: {
-    balances: { [Currency.Dollar]: '1000.00', [Currency.Euro]: '500.00' },
-  },
   goldToken: {
     balance: '5.5',
   },
@@ -51,9 +48,6 @@ const storeWithUSD = createMockStore({
 })
 
 const storeWithEUR = createMockStore({
-  stableToken: {
-    balances: { [Currency.Dollar]: '1000.00', [Currency.Euro]: '500.00' },
-  },
   goldToken: {
     balance: '5.5',
   },
@@ -65,9 +59,6 @@ const storeWithEUR = createMockStore({
 })
 
 const storeWithPHP = createMockStore({
-  stableToken: {
-    balances: { [Currency.Dollar]: '1000.00', [Currency.Euro]: '500.00' },
-  },
   goldToken: {
     balance: '5.5',
   },
@@ -296,9 +287,6 @@ describe('FiatExchangeAmount cashOut', () => {
   })
   it('calls dispatch attemptReturnUserFlow when there is a previously linked fiatconnect account', () => {
     const store = createMockStore({
-      stableToken: {
-        balances: { [Currency.Dollar]: '1000.00', [Currency.Euro]: '500.00' },
-      },
       goldToken: {
         balance: '5.5',
       },
@@ -351,9 +339,6 @@ describe('FiatExchangeAmount cashOut', () => {
   })
   it('calls dispatch attemptReturnUserFlow when there is a previously linked fiatconnect account that used a different flow', () => {
     const store = createMockStore({
-      stableToken: {
-        balances: { [Currency.Dollar]: '1000.00', [Currency.Euro]: '500.00' },
-      },
       goldToken: {
         balance: '5.5',
       },
