@@ -1429,7 +1429,8 @@
     },
     "mobileMoney": {
       "operator": {
-        "label": "Rede"
+        "label": "Rede",
+        "placeholderText": "Entrar Operador de Rede Móvel"
       },
       "mobile": {
         "label": "Número de celular",
