@@ -4,11 +4,11 @@ import { tokenTransferFactory } from 'src/tokens/saga'
 
 const tag = 'stableToken/saga'
 
-export const stableTokenTransfer = tokenTransferFactory({
+export const stableTokenTransferLegacy = tokenTransferFactory({
   actionName: Actions.TRANSFER,
   tag,
 })
 
 export function* stableTokenSaga() {
-  yield spawn(stableTokenTransfer)
+  yield spawn(stableTokenTransferLegacy)
 }

@@ -2,11 +2,12 @@ import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform } from 'react-native'
 import { useDispatch } from 'react-redux'
+import { setGoldEducationCompleted } from 'src/account/actions'
 import Education, { EducationTopic, EmbeddedNavBar } from 'src/account/Education'
+import { goldEducationCompletedSelector } from 'src/account/selectors'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { BtnTypes } from 'src/components/Button'
-import { setEducationCompleted } from 'src/goldToken/actions'
 import { celoEducation1, celoEducation2, celoEducation3, celoEducation4 } from 'src/images/Images'
 import { noHeader } from 'src/navigator/Headers'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
@@ -18,7 +19,7 @@ export default function GoldEducation() {
 
   const dispatch = useDispatch()
 
-  const isCeloEducationComplete = useSelector((state) => state.goldToken.educationCompleted)
+  const isCeloEducationComplete = useSelector(goldEducationCompletedSelector)
 
   const onFinish = () => {
     ValoraAnalytics.track(OnboardingEvents.celo_education_complete)
@@ -27,7 +28,7 @@ export default function GoldEducation() {
       navigateBack()
     } else {
       navigate(Screens.ExchangeHomeScreen)
-      dispatch(setEducationCompleted())
+      dispatch(setGoldEducationCompleted())
     }
   }
 

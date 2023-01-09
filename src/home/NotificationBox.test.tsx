@@ -13,6 +13,7 @@ import {
   mockE164Number,
   mockE164NumberPepper,
   mockPaymentRequests,
+  mockTokenBalances,
 } from 'test/values'
 
 const TWO_DAYS_MS = 2 * 24 * 60 * 1000
@@ -32,11 +33,11 @@ const testNotification = {
 }
 
 const storeDataNotificationsEnabled = {
-  goldToken: { educationCompleted: false },
   account: {
     backupCompleted: false,
     dismissedGetVerified: false,
     accountCreationTime: EXPIRED_BACKUP_TIME,
+    goldEducationCompleted: false,
   },
   paymentRequest: {
     incomingPaymentRequests: mockPaymentRequests.slice(0, 2),
@@ -50,12 +51,12 @@ const storeDataNotificationsEnabled = {
 }
 
 const storeDataNotificationsDisabled = {
-  goldToken: { educationCompleted: true },
   account: {
     backupCompleted: true,
     dismissedInviteFriends: true,
     dismissedGetVerified: true,
     accountCreationTime: RECENT_BACKUP_TIME,
+    goldEducationCompleted: true,
   },
   paymentRequest: {
     incomingPaymentRequests: [],
@@ -130,7 +131,9 @@ describe('NotificationBox', () => {
         e164PhoneNumber: mockE164Number,
       },
       identity: { e164NumberToSalt: { [mockE164Number]: mockE164NumberPepper } },
-      goldToken: { balance: '0.00' },
+      tokens: {
+        tokenBalances: mockTokenBalances,
+      },
     })
     const tree = render(
       <Provider store={store}>
@@ -159,7 +162,10 @@ describe('NotificationBox', () => {
   it('renders educations when not complete yet', () => {
     const store = createMockStore({
       ...storeDataNotificationsDisabled,
-      goldToken: { educationCompleted: false },
+      account: {
+        ...storeDataNotificationsDisabled.account,
+        goldEducationCompleted: false,
+      },
     })
     const { getByText } = render(
       <Provider store={store}>

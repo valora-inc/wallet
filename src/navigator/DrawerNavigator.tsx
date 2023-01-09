@@ -26,6 +26,7 @@ import {
   backupCompletedSelector,
   defaultCountryCodeSelector,
   e164NumberSelector,
+  goldEducationCompletedSelector,
   nameSelector,
   shouldShowRecoveryPhraseInSettingsSelector,
 } from 'src/account/selectors'
@@ -194,7 +195,7 @@ function CustomDrawerContent(props: DrawerContentComponentProps<DrawerContentOpt
 
 export default function DrawerNavigator() {
   const { t } = useTranslation()
-  const isCeloEducationComplete = useSelector((state) => state.goldToken.educationCompleted)
+  const isCeloEducationComplete = useSelector(goldEducationCompletedSelector)
   const dappsListUrl = useSelector(dappsListApiUrlSelector)
 
   const shouldShowRecoveryPhraseInSettings = useSelector(shouldShowRecoveryPhraseInSettingsSelector)

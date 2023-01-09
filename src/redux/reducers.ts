@@ -11,7 +11,6 @@ import { reducer as exchange, State as ExchangeState } from 'src/exchange/reduce
 import { reducer as fees, State as FeesState } from 'src/fees/reducer'
 import fiatConnectReducer, { State as FiatConnectState } from 'src/fiatconnect/slice'
 import { reducer as fiatExchanges, State as FiatExchangesState } from 'src/fiatExchanges/reducer'
-import { reducer as goldToken, State as GoldTokenState } from 'src/goldToken/reducer'
 import { homeReducer as home, State as HomeState } from 'src/home/reducers'
 import i18nReducer, { State as I18nState } from 'src/i18n/slice'
 import { reducer as identity, State as IdentityState } from 'src/identity/reducer'
@@ -33,7 +32,6 @@ const appReducer = combineReducers({
   i18n: i18nReducer,
   networkInfo,
   alert,
-  goldToken,
   send,
   home,
   exchange,
@@ -83,7 +81,6 @@ export interface RootState {
   networkInfo: NetworkInfoState
   alert: AlertState
   send: SendState
-  goldToken: GoldTokenState
   home: HomeState
   exchange: ExchangeState
   transactions: TransactionsState
@@ -111,7 +108,6 @@ export interface PersistedRootState {
   app: AppState
   i18n: I18nState
   send: SendState
-  goldToken: GoldTokenState
   home: HomeState
   transactions: TransactionsState
   web3: Web3State

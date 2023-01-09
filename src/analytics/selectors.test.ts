@@ -7,7 +7,6 @@ describe('getCurrentUserTraits', () => {
     const state = getMockStoreData({
       web3: { mtwAddress: '0x123' },
       account: { defaultCountryCode: '+33', pincodeType: PincodeType.CustomPin },
-      goldToken: { balance: '1.01' },
       app: {
         superchargeTokenConfigByToken: {
           '0xcusd': {

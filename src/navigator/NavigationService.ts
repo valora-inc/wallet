@@ -1,4 +1,5 @@
 // (https://github.com/react-navigation/react-navigation/issues/1439)
+import { sleep } from '@celo/utils/lib/async'
 import {
   CommonActions,
   createNavigationContainerRef,
@@ -6,7 +7,6 @@ import {
   StackActions,
 } from '@react-navigation/native'
 import { createRef, MutableRefObject } from 'react'
-import { sleep } from '@celo/utils/lib/async'
 import { PincodeType } from 'src/account/reducer'
 import { pincodeTypeSelector } from 'src/account/selectors'
 import { AuthenticationEvents, NavigationEvents, OnboardingEvents } from 'src/analytics/Events'
@@ -173,7 +173,7 @@ export async function ensurePincode(): Promise<boolean> {
 }
 
 export function navigateToExchangeHome() {
-  if (store.getState().goldToken.educationCompleted) {
+  if (store.getState().account.goldEducationCompleted) {
     navigate(Screens.ExchangeHomeScreen)
   } else {
     navigate(Screens.GoldEducation)

@@ -16,12 +16,15 @@ const exchangeRates: ExchangeRates = makeExchangeRates('0.11', '10')
 describe('ExchangeHomeScreen', () => {
   it('renders and behaves correctly for non CP-DOTO restricted countries', () => {
     const store = createMockStore({
-      goldToken: { balance: '2' },
       tokens: {
         tokenBalances: {
           [mockCusdAddress]: {
             ...mockTokenBalances[mockCusdAddress],
             balance: '10',
+          },
+          [mockCeloAddress]: {
+            ...mockTokenBalances[mockCeloAddress],
+            balance: '2',
           },
           [mockCeloAddress]: {
             ...mockTokenBalances[mockCeloAddress],
@@ -65,7 +68,14 @@ describe('ExchangeHomeScreen', () => {
           ipAddress: null,
         },
       },
-      goldToken: { balance: '2' },
+      tokens: {
+        tokenBalances: {
+          [mockCeloAddress]: {
+            ...mockTokenBalances[mockCeloAddress],
+            balance: '2',
+          },
+        },
+      },
       exchange: { exchangeRates },
     })
 
@@ -93,9 +103,21 @@ describe('ExchangeHomeScreen', () => {
 
   it('renders the Celo news feed when enabled', async () => {
     const store = createMockStore({
-      goldToken: { balance: '2' },
       tokens: {
-        tokenBalances: mockTokenBalances,
+        tokenBalances: {
+          [mockCusdAddress]: {
+            ...mockTokenBalances[mockCusdAddress],
+            balance: '10',
+          },
+          [mockCeloAddress]: {
+            ...mockTokenBalances[mockCeloAddress],
+            balance: '2',
+          },
+          [mockCeloAddress]: {
+            ...mockTokenBalances[mockCeloAddress],
+            balance: '2',
+          },
+        },
       },
       exchange: { exchangeRates },
       app: { celoNews: { enabled: true } },

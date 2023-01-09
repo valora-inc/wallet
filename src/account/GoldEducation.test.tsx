@@ -14,10 +14,10 @@ it('renders correctly', () => {
   expect(tree).toMatchSnapshot()
 })
 
-describe('when first time (!goldToken.educationCompleted)', () => {
+describe('when first time (!account.goldEducationCompleted)', () => {
   it('does not show the close button', () => {
     const { getByTestId } = render(
-      <Provider store={createMockStore({ goldToken: { educationCompleted: false } })}>
+      <Provider store={createMockStore({ account: { goldEducationCompleted: false } })}>
         <GoldEducation />
       </Provider>
     )
@@ -26,10 +26,10 @@ describe('when first time (!goldToken.educationCompleted)', () => {
   })
 })
 
-describe('when not first time (goldToken.educationCompleted)', () => {
+describe('when not first time (account.goldEducationCompleted)', () => {
   it('shows the close button', () => {
     const { getByTestId } = render(
-      <Provider store={createMockStore({ goldToken: { educationCompleted: true } })}>
+      <Provider store={createMockStore({ account: { goldEducationCompleted: true } })}>
         <GoldEducation />
       </Provider>
     )

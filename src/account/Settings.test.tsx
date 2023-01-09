@@ -49,7 +49,6 @@ describe('Account', () => {
           },
           identity: { e164NumberToSalt: { [mockE164Number]: mockE164NumberPepper } },
           tokens: mockTokenBalances,
-          goldToken: { balance: '0.00' },
           verify: {
             komenciAvailable: KomenciAvailable.Yes,
             komenci: { errorTimestamps: [] },
@@ -69,7 +68,6 @@ describe('Account', () => {
         store={createMockStore({
           identity: { e164NumberToSalt: { [mockE164Number]: mockE164NumberPepper } },
           tokens: mockTokenBalances,
-          goldToken: { balance: '0.00' },
           account: {
             devModeActive: true,
             e164PhoneNumber: mockE164Number,

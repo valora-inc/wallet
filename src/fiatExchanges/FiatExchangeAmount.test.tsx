@@ -37,9 +37,6 @@ const phpExchangeRates = {
 }
 
 const storeWithUSD = createMockStore({
-  goldToken: {
-    balance: '5.5',
-  },
   localCurrency: {
     fetchedCurrencyCode: LocalCurrencyCode.USD,
     preferredCurrencyCode: LocalCurrencyCode.USD,
@@ -48,9 +45,6 @@ const storeWithUSD = createMockStore({
 })
 
 const storeWithEUR = createMockStore({
-  goldToken: {
-    balance: '5.5',
-  },
   localCurrency: {
     fetchedCurrencyCode: LocalCurrencyCode.EUR,
     preferredCurrencyCode: LocalCurrencyCode.EUR,
@@ -59,9 +53,6 @@ const storeWithEUR = createMockStore({
 })
 
 const storeWithPHP = createMockStore({
-  goldToken: {
-    balance: '5.5',
-  },
   localCurrency: {
     fetchedCurrencyCode: LocalCurrencyCode.PHP,
     preferredCurrencyCode: LocalCurrencyCode.PHP,
@@ -287,9 +278,6 @@ describe('FiatExchangeAmount cashOut', () => {
   })
   it('calls dispatch attemptReturnUserFlow when there is a previously linked fiatconnect account', () => {
     const store = createMockStore({
-      goldToken: {
-        balance: '5.5',
-      },
       localCurrency: {
         fetchedCurrencyCode: LocalCurrencyCode.USD,
         preferredCurrencyCode: LocalCurrencyCode.USD,
@@ -339,9 +327,6 @@ describe('FiatExchangeAmount cashOut', () => {
   })
   it('calls dispatch attemptReturnUserFlow when there is a previously linked fiatconnect account that used a different flow', () => {
     const store = createMockStore({
-      goldToken: {
-        balance: '5.5',
-      },
       localCurrency: {
         fetchedCurrencyCode: LocalCurrencyCode.USD,
         preferredCurrencyCode: LocalCurrencyCode.USD,

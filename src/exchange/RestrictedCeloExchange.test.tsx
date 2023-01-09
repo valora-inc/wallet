@@ -4,11 +4,19 @@ import 'react-native'
 import { Provider } from 'react-redux'
 import RestrictedCeloExchange from 'src/exchange/RestrictedCeloExchange'
 import { createMockStore } from 'test/utils'
+import { mockCeloAddress, mockTokenBalances } from 'test/values'
 
 describe('RestrictedCeloExchange', () => {
   it('allows withdrawing if the balance is enough', () => {
     const store = createMockStore({
-      goldToken: { balance: '10' },
+      tokens: {
+        tokenBalances: {
+          [mockCeloAddress]: {
+            ...mockTokenBalances[mockCeloAddress],
+            balance: '10',
+          },
+        },
+      },
     })
     const onPressWithdraw = jest.fn()
 
@@ -26,7 +34,14 @@ describe('RestrictedCeloExchange', () => {
 
   it('disallows withdrawing if the balance is NOT enough', () => {
     const store = createMockStore({
-      goldToken: { balance: '0.001' },
+      tokens: {
+        tokenBalances: {
+          [mockCeloAddress]: {
+            ...mockTokenBalances[mockCeloAddress],
+            balance: '.001',
+          },
+        },
+      },
     })
     const onPressWithdraw = jest.fn()
 

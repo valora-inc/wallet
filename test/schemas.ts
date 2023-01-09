@@ -1926,6 +1926,18 @@ export const v102Schema = {
   app: _.omit(v101Schema.app, 'centralPhoneVerificationEnabled', 'hideVerification'),
 }
 
+export const v103Schema = {
+  ...(_.omit(v102Schema, ['goldToken', 'stableToken']) as any),
+  _persist: {
+    ...v102Schema._persist,
+    version: 103,
+  },
+  account: {
+    ...v102Schema.account,
+    goldEducationCompleted: v102Schema.goldToken.educationCompleted,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v102Schema as Partial<RootState>
+  return v103Schema as Partial<RootState>
 }

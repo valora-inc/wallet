@@ -953,4 +953,11 @@ export const migrations = {
     ...state,
     app: _.omit(state.app, 'centralPhoneVerificationEnabled', 'hideVerification'),
   }),
+  103: (state: any) => ({
+    ...(_.omit(state, ['goldToken', 'stableToken']) as any),
+    account: {
+      ...state.account,
+      goldEducationCompleted: state.goldToken.educationCompleted,
+    },
+  }),
 }

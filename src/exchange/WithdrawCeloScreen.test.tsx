@@ -17,7 +17,6 @@ const SAMPLE_BALANCE_MINUS_FEES = '54.99901'
 const mockScreenProps = getMockStackScreenProps(Screens.WithdrawCeloScreen, { isCashOut: false })
 
 const store = createMockStore({
-  goldToken: { balance: SAMPLE_BALANCE },
   tokens: {
     tokenBalances: {
       [mockCeloAddress]: {

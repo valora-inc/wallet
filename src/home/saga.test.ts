@@ -1,6 +1,5 @@
 import { expectSaga } from 'redux-saga-test-plan'
 import { call, put, select } from 'redux-saga/effects'
-import { fetchGoldBalance } from 'src/goldToken/actions'
 import { refreshAllBalances, setLoading } from 'src/home/actions'
 import { autoRefreshSaga, refreshBalances, watchRefreshBalances, withLoading } from 'src/home/saga'
 import { fetchCurrentRate } from 'src/localCurrency/actions'
@@ -14,7 +13,6 @@ describe('refreshBalances', () => {
   test('ask for balance when geth and account are ready', () =>
     expectSaga(refreshBalances)
       .provide([[call(getConnectedAccount), true]])
-      .put(fetchGoldBalance())
       .run())
 })
 
@@ -24,7 +22,6 @@ describe('watchRefreshBalances', () => {
       .put(setLoading(true))
       .put(setLoading(false))
       .provide([[call(getConnectedAccount), true]])
-      .put(fetchGoldBalance())
       .dispatch(refreshAllBalances())
       .run()
   })

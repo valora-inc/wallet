@@ -93,7 +93,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 102,
+          "version": 103,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -114,6 +114,7 @@ describe('store state', () => {
           "dismissedKeepSupercharging": false,
           "dismissedStartSupercharging": false,
           "e164PhoneNumber": "+14155556666",
+          "goldEducationCompleted": false,
           "hasMigratedToNewBip39": false,
           "name": "John Doe",
           "photosNUXClicked": false,
@@ -230,11 +231,6 @@ describe('store state', () => {
           "providerLogos": Object {},
           "txHashToProvider": Object {},
         },
-        "goldToken": Object {
-          "balance": null,
-          "educationCompleted": false,
-          "lastFetch": null,
-        },
         "home": Object {
           "loading": false,
           "notifications": Object {},
@@ -315,14 +311,6 @@ describe('store state', () => {
           "recentPayments": Array [],
           "recentRecipients": Array [],
           "showSendToAddressWarning": true,
-        },
-        "stableToken": Object {
-          "balances": Object {
-            "cEUR": null,
-            "cUSD": null,
-          },
-          "educationCompleted": false,
-          "lastFetch": null,
         },
         "supercharge": Object {
           "availableRewards": Array [],
