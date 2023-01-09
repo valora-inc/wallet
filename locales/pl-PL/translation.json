@@ -1433,7 +1433,8 @@
     },
     "mobileMoney": {
       "operator": {
-        "label": "Sieć"
+        "label": "Sieć",
+        "placeholderText": "Wprowadź operatora sieci komórkowej"
       },
       "mobile": {
         "label": "Numer telefonu",
