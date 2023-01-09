@@ -1429,7 +1429,8 @@
     },
     "mobileMoney": {
       "operator": {
-        "label": "Ağ"
+        "label": "Ağ",
+        "placeholderText": "Mobil Şebeke Operatörüne Girin"
       },
       "mobile": {
         "label": "Telefon Numarası",
