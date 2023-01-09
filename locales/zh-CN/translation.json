@@ -1427,7 +1427,8 @@
     },
     "mobileMoney": {
       "operator": {
-        "label": "网络"
+        "label": "网络",
+        "placeholderText": "进入移动网络运营商"
       },
       "mobile": {
         "label": "手机号码",
