@@ -1433,7 +1433,8 @@
     },
     "mobileMoney": {
       "operator": {
-        "label": "Мережа"
+        "label": "Мережа",
+        "placeholderText": "Введіть оператора мобільної мережі"
       },
       "mobile": {
         "label": "Номер телефону",
