@@ -27,7 +27,7 @@ import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import { importBackupPhrase } from 'src/import/actions'
 import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
-import { navigate } from 'src/navigator/NavigationService'
+import { navigateClearingStack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import TopBarTextButtonOnboarding from 'src/onboarding/TopBarTextButtonOnboarding'
@@ -37,6 +37,7 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
+import useBackHandler from 'src/utils/useBackHandler'
 
 const AVERAGE_WORD_WIDTH = 80
 const AVERAGE_SEED_WIDTH = AVERAGE_WORD_WIDTH * 24
@@ -73,17 +74,21 @@ function ImportWallet({ navigation, route }: Props) {
     }
   }
 
+  const handleNavigateBack = () => {
+    dispatch(cancelCreateOrRestoreAccount())
+    ValoraAnalytics.track(OnboardingEvents.restore_account_cancel)
+    navigateClearingStack(Screens.Welcome)
+  }
+
+  useBackHandler(() => {
+    handleNavigateBack()
+    return true
+  }, [navigation])
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
-        <TopBarTextButtonOnboarding
-          title={t('cancel')}
-          onPress={() => {
-            dispatch(cancelCreateOrRestoreAccount())
-            ValoraAnalytics.track(OnboardingEvents.restore_account_cancel)
-            navigate(Screens.Welcome)
-          }}
-        />
+        <TopBarTextButtonOnboarding title={t('cancel')} onPress={handleNavigateBack} />
       ),
       headerTitle: () => (
         <HeaderTitleWithSubtitle
