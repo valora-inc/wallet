@@ -2752,12 +2752,12 @@
   resolved "https://registry.yarnpkg.com/@coinbase/cbpay-js/-/cbpay-js-1.6.0.tgz#23f4456ba57f3e6ba1583e21376e9a2337fd1aaa"
   integrity sha512-jt1BUaMLbA2/xfHc2YC/Uq+rYD0LIpU5s70ms8VpxImNGiMLUEgUZnAzjk1aIqWiTpQWRmwqyq+WvKTb0Yv05Q==
 
-"@crowdin/ota-client@^0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@crowdin/ota-client/-/ota-client-0.4.0.tgz#6e0c886642edfc4e2349039bc6faf2cbc12d4ce0"
-  integrity sha512-tYDEdQH9i7LGKcIuxDFta8ev2MlG2nO2k/0xmbHMyZoDOo9bkpKG1BnO224B2giBMq9J8To3prBdnWlSQSHYRg==
+"@crowdin/ota-client@^0.7.0":
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/@crowdin/ota-client/-/ota-client-0.7.0.tgz#6aef4f4be90b7f931175a274c68b669ef4044c6b"
+  integrity sha512-RNFnR2ter5dsFJlyQysT8jswDn/TBF/ALosiDRpaj2tcOlAk/amQOoqEMJrCdR46xWqMUNwz/hJ4YIlcN51kPQ==
   dependencies:
-    axios "0.21.3"
+    axios "0.25.0"
 
 "@cspotcode/source-map-consumer@0.8.0":
   version "0.8.0"
@@ -3471,34 +3471,27 @@
   resolved "https://registry.yarnpkg.com/@faker-js/faker/-/faker-5.5.3.tgz#18e3af6b8eae7984072bbeb0c0858474d7c4cefe"
   integrity sha512-R11tGE6yIFwqpaIqcfkcg7AICXzFg14+5h5v0TfF/9+RMDL6jhzCy/pxHVOfbALGdtVYdt6JdR21tuxEgl34dw==
 
-"@fiatconnect/fiatconnect-sdk@^0.5.0":
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-sdk/-/fiatconnect-sdk-0.5.0.tgz#59818c5d267eb2c0c5d98c602df6657be78e6a0a"
-  integrity sha512-hmnLb5+L+pxYjsePcNJQF37hbEetrLe+q8mGXT8UQarzQZae8YIxakYe7uRLV6xfF2pZH9tYTuG0k1doXyhIQg==
+"@fiatconnect/fiatconnect-sdk@^0.5.1":
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-sdk/-/fiatconnect-sdk-0.5.1.tgz#6fb12bcdbaf8aca4e54e30047f96bda6eec87cb8"
+  integrity sha512-uDFlpFYXCzB2LwFOnb8o6BpfkUrDKx25/EgekIHeTYpAAvr4MW8twWyPbkRA9FqhpwZCBF2u4INwvH6Pmnhhyg==
   dependencies:
     "@badrap/result" "^0.2.13"
-    "@fiatconnect/fiatconnect-types" "^10.0.0"
+    "@fiatconnect/fiatconnect-types" "^11.0.0"
     cross-fetch "^3.1.5"
     ethers "^5.7.2"
     fetch-cookie "^2.0.3"
     siwe "^1.1.6"
     tough-cookie "^4.0.0"
-    tslib "^2.4.0"
-    zod "^3.19.1"
+    tslib "^2.4.1"
+    zod "^3.20.2"
 
-"@fiatconnect/fiatconnect-types@^10.0.0":
-  version "10.0.0"
-  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-types/-/fiatconnect-types-10.0.0.tgz#358605911e76a2cd7f2b818729efb26c9c9e1c11"
-  integrity sha512-N1S7sitjsOlQIAuLivTtbPyKnvmIZe4utY4Vdq7TMPF6R+JwoSR3Tm/KS4SnDe9mdiT/wSUFMJOzWVyWtiKjCg==
+"@fiatconnect/fiatconnect-types@^11.0.0":
+  version "11.0.0"
+  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-types/-/fiatconnect-types-11.0.0.tgz#6e6c22f13bcf5fa01c81457218a7b7a4701542d2"
+  integrity sha512-wz3dQqV952Rf3eq8FePyzFX22KOHGHxjk9vJOJtmp1myvZshZ6/yzUImG3a6Za66C23cPClRZMcfQuqGdsPU2A==
   dependencies:
-    zod "^3.19.1"
-
-"@fiatconnect/fiatconnect-types@^10.1.0":
-  version "10.1.0"
-  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-types/-/fiatconnect-types-10.1.0.tgz#cf6acd894305bd281ee6d671334550b640269d2a"
-  integrity sha512-ncLwhVnbIrhRgbPSnbSMY/kdPKOmyu2LWeNdi5T1bgKZX7t6LV93cJbatl0zu1IcypOYjntWfmnkthKH+Ploiw==
-  dependencies:
-    zod "^3.19.1"
+    zod "^3.20.2"
 
 "@gorhom/bottom-sheet@^4.3.2":
   version "4.3.2"
@@ -5252,10 +5245,10 @@
   resolved "https://registry.yarnpkg.com/@types/utf8/-/utf8-2.1.6.tgz#430cabb71a42d0a3613cce5621324fe4f5a25753"
   integrity sha512-pRs2gYF5yoKYrgSaira0DJqVg2tFuF+Qjp838xS7K+mJyY2jJzjsrl6y17GbIa4uMRogMbxs+ghNCvKg6XyNrA==
 
-"@types/uuid@^8.3.0":
-  version "8.3.0"
-  resolved "https://registry.yarnpkg.com/@types/uuid/-/uuid-8.3.0.tgz#215c231dff736d5ba92410e6d602050cce7e273f"
-  integrity sha512-eQ9qFW/fhfGJF8WKHGEHZEyVWfZxrT+6CLIJGBcZPfxUh/+BnEj+UCGYMlr9qZuX/2AltsvwrGqp0LhEW8D0zQ==
+"@types/uuid@^9.0.0":
+  version "9.0.0"
+  resolved "https://registry.yarnpkg.com/@types/uuid/-/uuid-9.0.0.tgz#53ef263e5239728b56096b0a869595135b7952d2"
+  integrity sha512-kr90f+ERiQtKWMz5rP32ltJ/BtULDI5RVO0uavn1HQUOwjx0R1h0rnDYNL0CepF1zL5bSY6FISAfd9tOdDhU5Q==
 
 "@types/yargs-parser@*":
   version "13.0.0"
@@ -6490,12 +6483,12 @@ aws4@^1.8.0:
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.10.1.tgz#e1e82e4f3e999e2cfd61b161280d16a111f86428"
   integrity sha512-zg7Hz2k5lI8kb7U32998pRRFin7zJlkfezGJjUc2heaD4Pw2wObakCDVzkKztTm/Ln7eiVvYsjqak0Ed4LkMDA==
 
-axios@0.21.3:
-  version "0.21.3"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.3.tgz#f85d9b747f9b66d59ca463605cedf1844872b82e"
-  integrity sha512-JtoZ3Ndke/+Iwt5n+BgSli/3idTvpt5OjKyoCmz4LX5+lPiY5l7C1colYezhlxThjNa/NhngCUWZSZFypIFuaA==
+axios@0.25.0:
+  version "0.25.0"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.25.0.tgz#349cfbb31331a9b4453190791760a8d35b093e0a"
+  integrity sha512-cD8FOb0tRH3uuEe6+evtAbgJtfxr7ly3fQjYcMcuPlgkwVS9xboaVIpcDV+cYQe+yGykgwZCs1pzjntcGa6l5g==
   dependencies:
-    follow-redirects "^1.14.0"
+    follow-redirects "^1.14.7"
 
 axios@^0.21.1:
   version "0.21.4"
@@ -10095,6 +10088,11 @@ follow-redirects@^1.14.0:
   version "1.14.9"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.14.9.tgz#dd4ea157de7bfaf9ea9b3fbd85aa16951f78d8d7"
   integrity sha512-MQDfihBQYMcyy5dhRDJUHcw7lb2Pv/TuE6xP1vyraLukNDHKbDxDNaOE3NbCAdKQApno+GPRyo1YAp89yCjK4w==
+
+follow-redirects@^1.14.7:
+  version "1.15.2"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.15.2.tgz#b460864144ba63f2681096f274c4e57026da2c13"
+  integrity sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==
 
 for-in@^0.1.3:
   version "0.1.8"
@@ -18269,11 +18267,6 @@ tslib@^2.0.1:
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.3.1.tgz#e8a335add5ceae51aa261d32a490158ef042ef01"
   integrity sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw==
 
-tslib@^2.4.0:
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.4.0.tgz#7cecaa7f073ce680a05847aa77be941098f36dc3"
-  integrity sha512-d6xOpEDfsi2CZVlPQzGeux8XMwLT9hssAsaPYExaQMuYskwb+x1x7J371tWlbBdWHroy99KnVB6qIkUbs5X3UQ==
-
 tslib@^2.4.1:
   version "2.4.1"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.4.1.tgz#0d0bfbaac2880b91e22df0768e55be9753a5b17e"
@@ -18824,6 +18817,11 @@ uuid@^8.3.0, uuid@^8.3.2:
   version "8.3.2"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.2.tgz#80d5b5ced271bb9af6c445f21a1a04c606cefbe2"
   integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
+
+uuid@^9.0.0:
+  version "9.0.0"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-9.0.0.tgz#592f550650024a38ceb0c562f2f6aa435761efb5"
+  integrity sha512-MXcSTerfPa4uqyzStbRoTgt5XIe3x5+42+q1sDuy3R5MDk66URdLMOZe5aPX/SQd+kuYAh0FdP/pO28IkQyTeg==
 
 v8-compile-cache-lib@^3.0.0:
   version "3.0.0"
@@ -20270,7 +20268,7 @@ zen-observable@^0.8.0:
   resolved "https://registry.yarnpkg.com/zen-observable/-/zen-observable-0.8.9.tgz#0475c760ff0eda046bbdfa4dc3f95d392807ac53"
   integrity sha512-Y9kPzjGvIZ5jchSlqlCpBW3I82zBBL4z+ulXDRVA1NwsKzjt5kwAi+gOYIy0htNkfuehGZZtP5mRXHRV6TjDWw==
 
-zod@^3.19.1:
-  version "3.19.1"
-  resolved "https://registry.yarnpkg.com/zod/-/zod-3.19.1.tgz#112f074a97b50bfc4772d4ad1576814bd8ac4473"
-  integrity sha512-LYjZsEDhCdYET9ikFu6dVPGp2YH9DegXjdJToSzD9rO6fy4qiRYFoyEYwps88OseJlPyl2NOe2iJuhEhL7IpEA==
+zod@^3.20.2:
+  version "3.20.2"
+  resolved "https://registry.yarnpkg.com/zod/-/zod-3.20.2.tgz#068606642c8f51b3333981f91c0a8ab37dfc2807"
+  integrity sha512-1MzNQdAvO+54H+EaK5YpyEy0T+Ejo/7YLHS93G3RnYWh5gaotGHwGeN/ZO687qEDU2y4CdStQYXVHIgrUl5UVQ==

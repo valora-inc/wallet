@@ -29,7 +29,7 @@ export const getMobileMoneySchema = (implicitParams: {
     operator: {
       name: 'operator',
       label: i18n.t('fiatAccountSchema.mobileMoney.operator.label'),
-      placeholderText: '', //Unused field, always a dropdown
+      placeholderText: i18n.t('fiatAccountSchema.mobileMoney.operator.placeholderText'),
       validate: (input: string) => ({ isValid: !!input }),
       keyboardType: 'default',
     },
