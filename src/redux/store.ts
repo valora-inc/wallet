@@ -126,7 +126,6 @@ export const setupStore = (initialState = {}, config = persistConfig) => {
           'localCurrency',
           'imports',
           'paymentRequest',
-          'verify',
           'fiatConnect',
         ],
       })

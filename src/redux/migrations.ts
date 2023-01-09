@@ -954,6 +954,7 @@ export const migrations = {
   }),
   103: (state: any) => ({
     ..._.omit(state, 'verify'),
+    _persist: state._persist,
     identity: _.omit(
       state.identity,
       'attestationCodes',
