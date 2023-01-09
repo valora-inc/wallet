@@ -1429,7 +1429,8 @@
     },
     "mobileMoney": {
       "operator": {
-        "label": "Réseau"
+        "label": "Réseau",
+        "placeholderText": "Entrer l'opérateur de réseau mobile"
       },
       "mobile": {
         "label": "Numéro de téléphone",
