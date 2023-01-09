@@ -1,14 +1,13 @@
 import React from 'react'
 import { Trans, WithTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
-import { useSelector } from 'react-redux'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import useBalanceAutoRefresh from 'src/home/useBalanceAutoRefresh'
 import { withTranslation } from 'src/i18n'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
-import { tokensByCurrencySelector } from 'src/tokens/selectors'
+import { useTokenInfoByCurrency } from 'src/tokens/hooks'
 import { Currency } from 'src/utils/currencies'
 
 interface OwnProps {
@@ -19,8 +18,7 @@ type Props = WithTranslation & OwnProps
 
 export function CeloGoldOverview({ t, testID }: Props) {
   useBalanceAutoRefresh()
-  const tokens = useSelector(tokensByCurrencySelector)
-  const celoBalance = tokens[Currency.Celo]?.balance
+  const celoBalance = useTokenInfoByCurrency(Currency.Celo)?.balance
 
   const celoBalanceAmount = celoBalance ? { value: celoBalance, currencyCode: Currency.Celo } : null
 
