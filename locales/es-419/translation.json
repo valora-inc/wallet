@@ -1429,7 +1429,8 @@
     },
     "mobileMoney": {
       "operator": {
-        "label": "Red"
+        "label": "Red",
+        "placeholderText": "Entra en Operador de Red Móvil"
       },
       "mobile": {
         "label": "Número de teléfono",
