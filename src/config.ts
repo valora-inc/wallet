@@ -64,7 +64,6 @@ export const SMS_RETRIEVER_APP_SIGNATURE = Config.SMS_RETRIEVER_APP_SIGNATURE
 // ODIS minimum dollar balance for pepper quota retrieval
 // TODO change this to new ODIS minimum dollar balance once deployed
 export const ODIS_MINIMUM_DOLLAR_BALANCE = 0.1
-export const ATTESTATION_REVEAL_TIMEOUT_SECONDS = 60 // 1 minute
 // Additional gas added when setting the fee currency
 // See details where used.
 export const STATIC_GAS_PADDING = 50_000

@@ -1,4 +1,3 @@
-import { Actions as AppActions, VerificationMigrationRanAction } from 'src/app/actions'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 import { Actions, ActionTypes } from 'src/web3/actions'
 
@@ -22,7 +21,7 @@ const initialState: State = {
 
 export const reducer = (
   state: State | undefined = initialState,
-  action: ActionTypes | RehydrateAction | VerificationMigrationRanAction
+  action: ActionTypes | RehydrateAction
 ): State => {
   switch (action.type) {
     case REHYDRATE: {
@@ -56,11 +55,6 @@ export const reducer = (
       return {
         ...state,
         isDekRegistered: true,
-      }
-    case AppActions.VERIFICATION_MIGRATION_RAN:
-      return {
-        ...state,
-        mtwAddress: action.mtwAddress,
       }
     default:
       return state

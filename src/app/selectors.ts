@@ -35,9 +35,6 @@ export const walletConnectEnabledSelector = (state?: RootState) => ({
   v2: state?.app.walletConnectV2Enabled ?? false,
 })
 
-export const ranVerificationMigrationSelector = (state: RootState) =>
-  state.app.ranVerificationMigrationAt
-
 export const superchargeTokenConfigByTokenSelector = (state: RootState) =>
   state.app.superchargeTokenConfigByToken
 

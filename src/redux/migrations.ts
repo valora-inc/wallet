@@ -7,7 +7,6 @@ import { initialState as exchangeInitialState } from 'src/exchange/reducer'
 import { SendingFiatAccountStatus } from 'src/fiatconnect/slice'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { AddressToDisplayNameType } from 'src/identity/reducer'
-import { VerificationStatus } from 'src/identity/types'
 import { TokenTransaction } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 
@@ -260,7 +259,7 @@ export const migrations = {
           CodeInputStatus.Disabled,
         ],
         numCompleteAttestations: 0,
-        verificationStatus: VerificationStatus.Stopped,
+        verificationStatus: 0,
         hasSeenVerificationNux: state.verify.seenVerificationNux,
         lastRevealAttempt: null,
       },
@@ -952,5 +951,24 @@ export const migrations = {
   102: (state: any) => ({
     ...state,
     app: _.omit(state.app, 'centralPhoneVerificationEnabled', 'hideVerification'),
+  }),
+  103: (state: any) => ({
+    ..._.omit(state, 'verify'),
+    _persist: state._persist,
+    identity: _.omit(
+      state.identity,
+      'attestationCodes',
+      'acceptedAttestationCodes',
+      'attestationInputStatus',
+      'numCompleteAttestations',
+      'verificationStatus',
+      'lastRevealAttempt'
+    ),
+    app: _.omit(
+      state.app,
+      'komenciAllowedDeployers',
+      'komenciUseLightProxy',
+      'ranVerificationMigrationAt'
+    ),
   }),
 }

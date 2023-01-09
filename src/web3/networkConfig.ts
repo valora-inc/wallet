@@ -1,7 +1,7 @@
 import { Address } from '@celo/base'
 import { OdisUtils } from '@celo/identity'
 import { Environment as PersonaEnvironment } from 'react-native-persona'
-import { DEFAULT_FORNO_URL, BIDALI_URL, DEFAULT_TESTNET, RECAPTCHA_SITE_KEY } from 'src/config'
+import { BIDALI_URL, DEFAULT_FORNO_URL, DEFAULT_TESTNET, RECAPTCHA_SITE_KEY } from 'src/config'
 import Logger from 'src/utils/Logger'
 
 export enum Testnets {
@@ -15,7 +15,6 @@ interface NetworkConfig {
   cloudFunctionsUrl: string
   odisUrl: string // Phone Number Privacy service url
   odisPubKey: string
-  komenciUrl: string
   sentryTracingUrls: string[]
   allowedMtwImplementations: string[]
   currentMtwImplementationAddress: string
@@ -26,7 +25,6 @@ interface NetworkConfig {
   getFiatConnectQuotesUrl: string
   simplexApiUrl: string
   fetchUserLocationDataUrl: string
-  komenciLoadCheckEndpoint: string
   walletConnectEndpoint: string
   personaEnvironment: PersonaEnvironment
   inHouseLiquidityURL: string
@@ -47,8 +45,6 @@ interface NetworkConfig {
   fetchAvailableSuperchargeRewards: string
 }
 
-const KOMENCI_URL_MAINNET = 'https://mainnet-komenci.azurefd.net'
-const KOMENCI_URL_STAGING = 'https://staging-komenci.azurefd.net'
 const CLOUD_FUNCTIONS_STAGING = 'https://api.alfajores.valora.xyz'
 const CLOUD_FUNCTIONS_MAINNET = 'https://us-central1-celo-mobile-mainnet.cloudfunctions.net'
 
@@ -82,9 +78,6 @@ const SIMPLEX_API_URL_PROD = `${CLOUD_FUNCTIONS_MAINNET}/processSimplexRequest`
 
 const FETCH_USER_LOCATION_DATA_STAGING = `${CLOUD_FUNCTIONS_STAGING}/fetchUserLocationData`
 const FETCH_USER_LOCATION_DATA_PROD = `${CLOUD_FUNCTIONS_MAINNET}/fetchUserLocationData`
-
-const KOMENCI_LOAD_CHECK_ENDPOINT_STAGING = 'https://staging-komenci.azurefd.net/v1/ready'
-const KOMENCI_LOAD_CHECK_ENDPOINT_PROD = 'https://mainnet-komenci.azurefd.net/v1/ready'
 
 const SET_REGISTRATION_PROPERTIES_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/setRegistrationProperties`
 const SET_REGISTRATION_PROPERTIES_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/setRegistrationProperties`
@@ -135,7 +128,6 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     cloudFunctionsUrl: CLOUD_FUNCTIONS_STAGING,
     odisUrl: OdisUtils.Query.ODIS_ALFAJORES_CONTEXT.odisUrl,
     odisPubKey: OdisUtils.Query.ODIS_ALFAJORES_CONTEXT.odisPubKey,
-    komenciUrl: KOMENCI_URL_STAGING,
     sentryTracingUrls: [
       DEFAULT_FORNO_URL,
       'https://blockchain-api-dot-celo-mobile-alfajores.appspot.com',
@@ -151,7 +143,6 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     getFiatConnectQuotesUrl: GET_FIAT_CONNECT_QUOTES_ALFAJORES,
     simplexApiUrl: SIMPLEX_API_URL_STAGING,
     fetchUserLocationDataUrl: FETCH_USER_LOCATION_DATA_STAGING,
-    komenciLoadCheckEndpoint: KOMENCI_LOAD_CHECK_ENDPOINT_STAGING,
     walletConnectEndpoint: 'wss://relay.walletconnect.org',
     personaEnvironment: PersonaEnvironment.SANDBOX,
     inHouseLiquidityURL: 'https://liquidity-dot-celo-mobile-alfajores.appspot.com',
@@ -177,7 +168,6 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     cloudFunctionsUrl: CLOUD_FUNCTIONS_MAINNET,
     odisUrl: OdisUtils.Query.ODIS_MAINNET_CONTEXT.odisUrl,
     odisPubKey: OdisUtils.Query.ODIS_MAINNET_CONTEXT.odisPubKey,
-    komenciUrl: KOMENCI_URL_MAINNET,
     sentryTracingUrls: [
       DEFAULT_FORNO_URL,
       'https://blockchain-api-dot-celo-mobile-mainnet.appspot.com',
@@ -193,7 +183,6 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     getFiatConnectQuotesUrl: GET_FIAT_CONNECT_QUOTES_MAINNET,
     simplexApiUrl: SIMPLEX_API_URL_PROD,
     fetchUserLocationDataUrl: FETCH_USER_LOCATION_DATA_PROD,
-    komenciLoadCheckEndpoint: KOMENCI_LOAD_CHECK_ENDPOINT_PROD,
     walletConnectEndpoint: 'wss://relay.walletconnect.org',
     personaEnvironment: PersonaEnvironment.PRODUCTION,
     inHouseLiquidityURL: 'https://liquidity-dot-celo-mobile-mainnet.appspot.com',
