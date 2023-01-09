@@ -1429,7 +1429,8 @@
     },
     "mobileMoney": {
       "operator": {
-        "label": "Netzwerk"
+        "label": "Netzwerk",
+        "placeholderText": "Mobilnetzbetreiber eintragen"
       },
       "mobile": {
         "label": "Telefonnummer",
