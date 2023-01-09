@@ -39,7 +39,7 @@ describe('Pincode', () => {
   })
 
   it('navigates to the VerificationStartScreen screen after successfully verifying', async () => {
-    const mockScreenProps = getMockStackScreenProps(Screens.PincodeSet, { komenciAvailable: true })
+    const mockScreenProps = getMockStackScreenProps(Screens.PincodeSet)
     const mockStore = createMockStore()
 
     const { getByTestId, rerender } = render(
@@ -55,11 +55,7 @@ describe('Pincode', () => {
 
     rerender(
       <Provider store={mockStore}>
-        <PincodeSet
-          {...getMockStackScreenProps(Screens.PincodeSet, {
-            komenciAvailable: true,
-          })}
-        />
+        <PincodeSet {...getMockStackScreenProps(Screens.PincodeSet)} />
       </Provider>
     )
 
@@ -72,7 +68,7 @@ describe('Pincode', () => {
   })
 
   it('navigates home if skipVerification is enabled', async () => {
-    const mockScreenProps = getMockStackScreenProps(Screens.PincodeSet, { komenciAvailable: true })
+    const mockScreenProps = getMockStackScreenProps(Screens.PincodeSet)
     const mockStore = createMockStore({
       app: {
         skipVerification: true,

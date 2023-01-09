@@ -32,9 +32,7 @@ import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
 import { activeDappSelector } from 'src/dapps/selectors'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import { resolveDynamicLink } from 'src/firebase/firebase'
-import { receiveAttestationMessage } from 'src/identity/actions'
 import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
-import { CodeInputType } from 'src/identity/verification'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
@@ -73,12 +71,6 @@ describe('handleDeepLink', () => {
     const deepLink = 'celo://wallet/dappkit?abcdsa'
     await expectSaga(handleDeepLink, openDeepLink(deepLink)).run()
     expect(handleDappkitDeepLink).toHaveBeenCalledWith(deepLink)
-  })
-
-  it('Handles verification deep link', async () => {
-    await expectSaga(handleDeepLink, openDeepLink('celo://wallet/v/12345'))
-      .put(receiveAttestationMessage('12345', CodeInputType.DEEP_LINK))
-      .run()
   })
 
   it('Handles payment deep link', async () => {

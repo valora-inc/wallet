@@ -152,59 +152,9 @@ export enum VerificationEvents {
   verification_skip = 'verification_skip',
   verification_skip_confirm = 'verification_skip_confirm',
 
-  verification_hash_cached = 'verification_hash_cached',
-  verification_hash_retrieved = 'verification_hash_retrieved',
-
-  verification_request_all_attestations_start = 'verification_request_all_attestations_start',
-  verification_request_all_attestations_refresh_progress = 'verification_request_all_attestations_refresh_progress',
-  verification_request_all_attestations_complete = 'verification_request_all_attestations_complete',
-
-  // Events for an individual attestation
-  verification_request_attestation_start = 'verification_request_attestation_start',
-  verification_request_attestation_approve_tx_sent = 'verification_request_attestation_approve_tx_sent',
-  verification_request_attestation_request_tx_sent = 'verification_request_attestation_request_tx_sent',
-  verification_request_attestation_await_issuer_selection = 'verification_request_attestation_await_issuer_selection',
-  verification_request_attestation_select_issuer = 'verification_request_attestation_select_issuer',
-  verification_request_attestation_issuer_tx_sent = 'verification_request_attestation_issuer_tx_sent',
-  verification_request_attestation_complete = 'verification_request_attestation_complete',
-
-  verification_code_received = 'verification_code_received',
-  verification_code_validate_start = 'verification_code_validate_start',
-  verification_code_validate_complete = 'verification_code_validate_complete',
-
-  verification_reveal_all_attestations_start = 'verification_reveal_all_attestations_start',
-  verification_reveal_all_attestations_complete = 'verification_reveal_all_attestations_complete',
-
-  // Events for an individual attestation reveal
-  verification_reveal_attestation_start = 'verification_reveal_attestation_start',
-  verification_reveal_attestation_revealed = 'verification_reveal_attestation_revealed',
-  verification_reveal_attestation_await_code_start = 'verification_reveal_attestation_await_code_start',
-  verification_reveal_attestation_await_code_complete = 'verification_reveal_attestation_await_code_complete',
-  verification_reveal_attestation_complete = 'verification_reveal_attestation_complete',
-  verification_reveal_attestation_error = 'verification_reveal_attestation_error',
-  verification_reveal_attestation_status = 'verification_reveal_attestation_status',
-
   verification_revoke_start = 'verification_revoke_start',
   verification_revoke_finish = 'verification_revoke_finish',
   verification_revoke_error = 'verification_revoke_error',
-
-  verification_resend_messages = 'verification_resend_messages',
-
-  verification_recaptcha_started = 'verification_recaptcha_started',
-  verification_recaptcha_skipped = 'verification_recaptcha_skipped',
-  verification_recaptcha_success = 'verification_recaptcha_success',
-  verification_recaptcha_failure = 'verification_recaptcha_failure',
-  verification_recaptcha_canceled = 'verification_recaptcha_canceled',
-
-  verification_session_started = 'verification_session_started',
-
-  verification_already_completed = 'verification_already_completed',
-
-  verification_mtw_fetch_start = 'verification_mtw_fetch_start',
-  verification_mtw_fetch_success = 'verification_mtw_fetch_success',
-
-  verification_fetch_on_chain_data_start = 'verification_fetch_on_chain_data_start',
-  verification_fetch_on_chain_data_success = 'verification_fetch_on_chain_data_success',
 }
 
 // Events emitted in the CPV flow
