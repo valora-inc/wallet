@@ -29,7 +29,6 @@ export enum Actions {
   ACTIVE_SCREEN_CHANGED = 'APP/ACTIVE_SCREEN_CHANGED',
   APP_MOUNTED = 'APP/APP_MOUNTED',
   APP_UNMOUNTED = 'APP/APP_UNMOUNTED',
-  VERIFICATION_MIGRATION_RAN = 'APP/VERIFICATION_MIGRATION_RAN',
   ANDROID_MOBILE_SERVICES_AVAILABILITY_CHECKED = 'APP/ANDROID_MOBILE_SERVICES_AVAILABILITY_CHECKED',
   PHONE_NUMBER_VERIFICATION_COMPLETED = 'APP/PHONE_NUMBER_VERIFICATION_COMPLETED',
   PHONE_NUMBER_VERIFICATION_MIGRATED = 'APP/PHONE_NUMBER_VERIFICATION_MIGRATED',
@@ -120,13 +119,6 @@ export interface UpdateConfigValuesAction {
   configValues: RemoteConfigValues
 }
 
-export interface VerificationMigrationRanAction {
-  type: Actions.VERIFICATION_MIGRATION_RAN
-  mtwAddress: string | null
-  isVerified: boolean
-  now: number
-}
-
 export interface AndroidMobileServicesAvailabilityChecked {
   type: Actions.ANDROID_MOBILE_SERVICES_AVAILABILITY_CHECKED
   googleIsAvailable: boolean | undefined
@@ -171,7 +163,6 @@ export type ActionTypes =
   | ActiveScreenChangedAction
   | AppMounted
   | AppUnmounted
-  | VerificationMigrationRanAction
   | AndroidMobileServicesAvailabilityChecked
   | PhoneNumberVerificationCompleted
   | PhoneNumberVerificationMigrated
@@ -269,16 +260,6 @@ export const updateRemoteConfigValues = (
 export const activeScreenChanged = (activeScreen: Screens): ActiveScreenChangedAction => ({
   type: Actions.ACTIVE_SCREEN_CHANGED,
   activeScreen,
-})
-
-export const verificationMigrationRan = (
-  mtwAddress: string | null,
-  isVerified: boolean
-): VerificationMigrationRanAction => ({
-  type: Actions.VERIFICATION_MIGRATION_RAN,
-  mtwAddress,
-  isVerified,
-  now: Date.now(),
 })
 
 export const androidMobileServicesAvailabilityChecked = (

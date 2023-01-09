@@ -62,7 +62,7 @@ describe('EnableBiometry', () => {
 
     expect(setPincodeWithBiometry).toHaveBeenCalled()
     expect(store.getActions()).toEqual([setPincodeSuccess(PincodeType.PhoneAuth)])
-    expect(navigate).toHaveBeenCalledWith(Screens.VerificationEducationScreen)
+    expect(navigate).toHaveBeenCalledWith(Screens.VerificationStartScreen)
 
     expect(analyticsSpy).toHaveBeenNthCalledWith(1, OnboardingEvents.biometry_opt_in_start)
     expect(analyticsSpy).toHaveBeenNthCalledWith(2, OnboardingEvents.biometry_opt_in_approve)
@@ -131,7 +131,7 @@ describe('EnableBiometry', () => {
 
     fireEvent.press(getByText('skip'))
 
-    expect(navigate).toHaveBeenCalledWith(Screens.VerificationEducationScreen)
+    expect(navigate).toHaveBeenCalledWith(Screens.VerificationStartScreen)
   })
 
   it('should show guided onboarding explaining faceid when enabled to do so', () => {

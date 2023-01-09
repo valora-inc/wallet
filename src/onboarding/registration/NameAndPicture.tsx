@@ -34,7 +34,6 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { saveProfilePicture } from 'src/utils/image'
 import Logger from 'src/utils/Logger'
-import { useAsyncKomenciReadiness } from 'src/verify/hooks'
 import { Statsig } from 'statsig-react-native'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.NameAndPicture>
@@ -98,8 +97,6 @@ function NameAndPicture({ navigation, route }: Props) {
 
   const { t } = useTranslation()
 
-  // CB TEMPORARY HOTFIX: Pinging Komenci endpoint to ensure availability
-  const asyncKomenciReadiness = useAsyncKomenciReadiness()
   const showGuidedOnboarding = useSelector(showGuidedOnboardingSelector)
   const createAccountCopyTestType = useSelector(createAccountCopyTestTypeSelector)
   const showNameGeneratorButton = nameType === OnboardingNameType.AutoGen
@@ -150,7 +147,6 @@ function NameAndPicture({ navigation, route }: Props) {
       navigate(Screens.ImportWallet)
     } else {
       navigate(Screens.PincodeSet, {
-        komenciAvailable: !!asyncKomenciReadiness.result,
         showGuidedOnboarding,
       })
     }
@@ -247,7 +243,6 @@ function NameAndPicture({ navigation, route }: Props) {
           type={BtnTypes.ONBOARDING}
           disabled={!nameInput?.trim()}
           testID={'NameAndPictureContinueButton'}
-          showLoading={asyncKomenciReadiness.loading}
         />
       </ScrollView>
       {showNameGeneratorButton && (

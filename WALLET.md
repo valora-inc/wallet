@@ -477,7 +477,7 @@ To run a single component test file: `yarn test Send.test.tsx`
 ### Saga testing
 
 We use [redux-saga-test-plan][redux-saga-test-plan] to test complex sagas.
-See [`src/identity/verification.test.ts`] for an example.
+See [`src/app/saga.test.ts`] for an example.
 
 ### End-to-End testing
 
@@ -646,7 +646,6 @@ Applying patches...
 bn.js@4.11.9 ✔
 clevertap-react-native@0.5.2 ✔
 react-native-fast-crypto@2.0.0 ✔
-react-native-keep-awake@4.0.0 ✔
 react-native-securerandom@1.0.0 ✔
 react-native-sms@1.11.0 ✔
 react-native-splash-screen@3.3.0 ✔
