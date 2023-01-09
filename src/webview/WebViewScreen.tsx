@@ -195,6 +195,7 @@ function WebViewScreen({ route, navigation }: Props) {
           setCanGoForward(navState.canGoForward)
           handleSetNavigationTitle(navState.url, navState.title, navState.loading)
         }}
+        testID={activeDapp ? `WebViewScreen/${activeDapp.name}` : 'RNWebView'}
       />
       {Platform.OS === 'android' && (
         <WebViewAndroidBottomSheet

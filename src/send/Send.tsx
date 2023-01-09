@@ -11,7 +11,7 @@ import { hideAlert } from 'src/alert/actions'
 import { RequestEvents, SendEvents } from 'src/analytics/Events'
 import { SendOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { phoneNumberVerifiedSelector, verificationPossibleSelector } from 'src/app/selectors'
+import { phoneNumberVerifiedSelector } from 'src/app/selectors'
 import InviteOptionsModal from 'src/components/InviteOptionsModal'
 import ContactPermission from 'src/icons/ContactPermission'
 import VerifyPhone from 'src/icons/VerifyPhone'
@@ -60,8 +60,6 @@ function Send({ route }: Props) {
   const [allFiltered, setAllFiltered] = useState(() => sortRecipients(Object.values(allRecipients)))
   const [recentFiltered, setRecentFiltered] = useState(() => recentRecipients)
   const [showInviteModal, setShowInviteModal] = useState(false)
-
-  const verificationPossible = useSelector(verificationPossibleSelector)
 
   const dispatch = useDispatch()
 
@@ -142,7 +140,7 @@ function Send({ route }: Props) {
   )
 
   const onPressStartVerification = () => {
-    navigate(Screens.VerificationEducationScreen, {
+    navigate(Screens.VerificationStartScreen, {
       hideOnboardingStep: true,
     })
   }
@@ -165,7 +163,7 @@ function Send({ route }: Props) {
   }
 
   const renderListHeader = () => {
-    if (!numberVerified && verificationPossible && !skipContactsImport) {
+    if (!numberVerified && !skipContactsImport) {
       return (
         <SendCallToAction
           icon={<VerifyPhone height={49} />}

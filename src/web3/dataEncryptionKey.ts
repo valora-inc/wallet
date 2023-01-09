@@ -26,7 +26,6 @@ import { call, put, select } from 'redux-saga/effects'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { centralPhoneVerificationEnabledSelector } from 'src/app/selectors'
 import { features } from 'src/flags'
 import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
 import {
@@ -88,11 +87,6 @@ export function* doFetchDataEncryptionKey(walletAddress: string) {
   if (walletAddress.toLowerCase() === address.toLowerCase() && privateDataEncryptionKey) {
     // we can generate the user's own public DEK without making any requests
     return compressedPubKey(hexToBuffer(privateDataEncryptionKey))
-  }
-
-  const centralPhoneVerificationEnabled = yield select(centralPhoneVerificationEnabledSelector)
-  if (!centralPhoneVerificationEnabled) {
-    return yield call(fetchDEKDecentrally, walletAddress)
   }
 
   try {
@@ -260,8 +254,6 @@ export function* registerAccountDek() {
       walletAddress
     )
 
-    // TODO: Make sure this action is also triggered after the DEK registration
-    // that will happen via Komenci
     yield put(registerDataEncryptionKey())
     ValoraAnalytics.track(OnboardingEvents.account_dek_register_complete, {
       newRegistration: true,

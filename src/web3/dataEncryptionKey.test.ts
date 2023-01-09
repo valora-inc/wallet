@@ -2,7 +2,6 @@ import * as DEK from '@celo/cryptographic-utils/lib/dataEncryptionKey'
 import { FetchMock } from 'jest-fetch-mock/types'
 import { expectSaga } from 'redux-saga-test-plan'
 import { call, select } from 'redux-saga/effects'
-import { centralPhoneVerificationEnabledSelector } from 'src/app/selectors'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
 import { doFetchDataEncryptionKey, fetchDEKDecentrally } from 'src/web3/dataEncryptionKey'
 import networkConfig from 'src/web3/networkConfig'
@@ -30,18 +29,6 @@ describe('doFetchDataEncryptionKey', () => {
       .run()
   })
 
-  it('should return the DEK fetched decentrally', async () => {
-    await expectSaga(doFetchDataEncryptionKey, '0xabc')
-      .provide([
-        [select(walletAddressSelector), '0xbcd'],
-        [select(dataEncryptionKeySelector), 'someDEK'],
-        [select(centralPhoneVerificationEnabledSelector), false],
-        [call(fetchDEKDecentrally, '0xabc'), 'somePublicKeyFetchedOnChain'],
-      ])
-      .returns('somePublicKeyFetchedOnChain')
-      .run()
-  })
-
   it('should return the DEK fetched via getPublicDEKUrl', async () => {
     mockFetch.mockResponse(JSON.stringify({ data: { publicDataEncryptionKey: 'somePublicKey' } }))
 
@@ -49,7 +36,6 @@ describe('doFetchDataEncryptionKey', () => {
       .provide([
         [select(walletAddressSelector), '0xbcd'],
         [select(dataEncryptionKeySelector), 'someDEK'],
-        [select(centralPhoneVerificationEnabledSelector), true],
         [call(retrieveSignedMessage), 'some signed message'],
       ])
       .returns('somePublicKey')
@@ -75,7 +61,6 @@ describe('doFetchDataEncryptionKey', () => {
       .provide([
         [select(walletAddressSelector), '0xbcd'],
         [select(dataEncryptionKeySelector), 'someDEK'],
-        [select(centralPhoneVerificationEnabledSelector), true],
         [call(retrieveSignedMessage), 'some signed message'],
         [call(fetchDEKDecentrally, '0xabc'), 'somePublicKeyFetchedOnChain'],
       ])

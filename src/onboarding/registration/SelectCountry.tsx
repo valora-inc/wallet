@@ -33,7 +33,7 @@ export default function SelectCountry({ navigation, route }: Props) {
   )
 
   function onSelect(country: LocalizedCountry) {
-    navigation.navigate(Screens.VerificationEducationScreen, {
+    navigation.navigate(Screens.VerificationStartScreen, {
       selectedCountryCodeAlpha2: country.alpha2,
       hideOnboardingStep,
     })

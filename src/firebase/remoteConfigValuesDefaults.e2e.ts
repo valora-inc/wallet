@@ -5,13 +5,11 @@ import { DappConnectInfo } from 'src/dapps/types'
 export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   RemoteConfigValues,
   | 'celoEducationUri'
-  | 'komenciAllowedDeployers'
   | 'sentryNetworkErrors'
   | 'superchargeTokenConfigByToken'
   | 'fiatAccountSchemaCountryOverrides'
   | 'celoNews'
 > & {
-  komenciAllowedDeployers: string
   sentryNetworkErrors: string
   superchargecUSDMin: number
   superchargecUSDMax: number
@@ -21,7 +19,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   superchargecREALMax: number
   celoNews: string
 } = {
-  hideVerification: false,
   celoEuroEnabled: true,
   inviteRewardsEnabled: false,
   inviteRewardCusd: 1,
@@ -35,9 +32,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   superchargecEURMax: 1000,
   superchargecREALMin: 50,
   superchargecREALMax: 6000,
-  komenciUseLightProxy: false,
-  komenciAllowedDeployers:
-    '0xbDb92Ca42559adc5adC20a1E4985dC7c476483be,0x4cda887Bce324109535814D49b74c6a560fAe1D9',
   pincodeUseExpandedBlocklist: true,
   rewardPillText: JSON.stringify({
     en: 'Rewards',
@@ -51,8 +45,7 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   allowOtaTranslations: false,
   sentryTracesSampleRate: 0.2,
   sentryNetworkErrors: '',
-  dappListApiUrl:
-    'https://raw.githubusercontent.com/valora-inc/dapp-list/main/translations/valora-dapp-list-base.json',
+  dappListApiUrl: 'https://us-central1-celo-mobile-alfajores.cloudfunctions.net/dappList',
   maxNumRecentDapps: 4,
   skipVerification: false,
   showPriceChangeIndicatorInBalances: false,
@@ -68,7 +61,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   createAccountCopyTestType: CreateAccountCopyTestType.Account,
   maxSwapSlippagePercentage: 2,
   showGuidedOnboardingCopy: false,
-  centralPhoneVerificationEnabled: true,
   networkTimeoutSeconds: 30,
   dappFavoritesEnabled: false,
   celoNews: JSON.stringify({ enabled: false } as RemoteConfigValues['celoNews']),

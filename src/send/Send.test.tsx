@@ -97,7 +97,6 @@ describe('Send', () => {
       ...defaultStore,
       app: {
         ...defaultStore.app,
-        centralPhoneVerificationEnabled: true,
       },
       identity: {
         e164NumberToAddress: { [mockRecipient4.e164PhoneNumber]: null },
