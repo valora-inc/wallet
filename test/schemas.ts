@@ -1927,7 +1927,7 @@ export const v102Schema = {
 }
 
 export const v103Schema = {
-  ...v102Schema,
+  ..._.omit(v102Schema, 'verify'),
   _persist: {
     ...v102Schema._persist,
     version: 103,
@@ -1941,12 +1941,12 @@ export const v103Schema = {
     'verificationStatus',
     'lastRevealAttempt'
   ),
-  verify: {
-    komenci: {
-      unverifiedMtwAddress: v102Schema.verify.komenci.unverifiedMtwAddress,
-    },
-  },
-  app: _.omit(v102Schema.app, 'komenciAllowedDeployers', 'komenciUseLightProxy'),
+  app: _.omit(
+    v102Schema.app,
+    'komenciAllowedDeployers',
+    'komenciUseLightProxy',
+    'ranVerificationMigrationAt'
+  ),
 }
 
 export function getLatestSchema(): Partial<RootState> {

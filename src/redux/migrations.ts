@@ -953,7 +953,7 @@ export const migrations = {
     app: _.omit(state.app, 'centralPhoneVerificationEnabled', 'hideVerification'),
   }),
   103: (state: any) => ({
-    ...state,
+    ..._.omit(state, 'verify'),
     identity: _.omit(
       state.identity,
       'attestationCodes',
@@ -963,9 +963,11 @@ export const migrations = {
       'verificationStatus',
       'lastRevealAttempt'
     ),
-    verify: {
-      komenci: _.pick(state.verify.komenci, ['unverifiedMtwAddress']),
-    },
-    app: _.omit(state.app, 'komenciAllowedDeployers', 'komenciUseLightProxy'),
+    app: _.omit(
+      state.app,
+      'komenciAllowedDeployers',
+      'komenciUseLightProxy',
+      'ranVerificationMigrationAt'
+    ),
   }),
 }

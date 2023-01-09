@@ -1212,21 +1212,6 @@
             },
             "type": "object"
         },
-        "KomenciContext": {
-            "additionalProperties": false,
-            "properties": {
-                "unverifiedMtwAddress": {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
-                }
-            },
-            "required": [
-                "unverifiedMtwAddress"
-            ],
-            "type": "object"
-        },
         "LocalAmount": {
             "additionalProperties": false,
             "properties": {
@@ -2241,12 +2226,6 @@
                 "rampCashInButtonExpEnabled": {
                     "type": "boolean"
                 },
-                "ranVerificationMigrationAt": {
-                    "type": [
-                        "null",
-                        "number"
-                    ]
-                },
                 "requirePinOnAppOpen": {
                     "type": "boolean"
                 },
@@ -2483,18 +2462,6 @@
         "State_12": {
             "additionalProperties": false,
             "properties": {
-                "komenci": {
-                    "$ref": "#/definitions/KomenciContext"
-                }
-            },
-            "required": [
-                "komenci"
-            ],
-            "type": "object"
-        },
-        "State_13": {
-            "additionalProperties": false,
-            "properties": {
                 "acceptedTerms": {
                     "type": "boolean"
                 },
@@ -2599,7 +2566,7 @@
             ],
             "type": "object"
         },
-        "State_14": {
+        "State_13": {
             "additionalProperties": false,
             "properties": {
                 "isReclaiming": {
@@ -2618,7 +2585,7 @@
             ],
             "type": "object"
         },
-        "State_15": {
+        "State_14": {
             "additionalProperties": false,
             "properties": {
                 "estimates": {
@@ -2630,7 +2597,7 @@
             ],
             "type": "object"
         },
-        "State_16": {
+        "State_15": {
             "additionalProperties": false,
             "properties": {
                 "coinbasePaySenders": {
@@ -2667,7 +2634,7 @@
             ],
             "type": "object"
         },
-        "State_17": {
+        "State_16": {
             "additionalProperties": false,
             "properties": {
                 "error": {
@@ -2763,7 +2730,7 @@
             ],
             "type": "object"
         },
-        "State_18": {
+        "State_17": {
             "additionalProperties": false,
             "properties": {
                 "isImportingWallet": {
@@ -2775,7 +2742,7 @@
             ],
             "type": "object"
         },
-        "State_19": {
+        "State_18": {
             "additionalProperties": false,
             "properties": {
                 "incomingPaymentRequests": {
@@ -2794,6 +2761,22 @@
             "required": [
                 "incomingPaymentRequests",
                 "outgoingPaymentRequests"
+            ],
+            "type": "object"
+        },
+        "State_19": {
+            "additionalProperties": false,
+            "properties": {
+                "providerLogos": {
+                    "$ref": "#/definitions/ProviderLogos"
+                },
+                "txHashToProvider": {
+                    "$ref": "#/definitions/TxHashToDisplayInfo"
+                }
+            },
+            "required": [
+                "providerLogos",
+                "txHashToProvider"
             ],
             "type": "object"
         },
@@ -2820,27 +2803,11 @@
         "State_20": {
             "additionalProperties": false,
             "properties": {
-                "providerLogos": {
-                    "$ref": "#/definitions/ProviderLogos"
-                },
-                "txHashToProvider": {
-                    "$ref": "#/definitions/TxHashToDisplayInfo"
-                }
-            },
-            "required": [
-                "providerLogos",
-                "txHashToProvider"
-            ],
-            "type": "object"
-        },
-        "State_21": {
-            "additionalProperties": false,
-            "properties": {
                 "v1": {
-                    "$ref": "#/definitions/State_22"
+                    "$ref": "#/definitions/State_21"
                 },
                 "v2": {
-                    "$ref": "#/definitions/State_23"
+                    "$ref": "#/definitions/State_22"
                 }
             },
             "required": [
@@ -2849,7 +2816,7 @@
             ],
             "type": "object"
         },
-        "State_22": {
+        "State_21": {
             "additionalProperties": false,
             "properties": {
                 "pendingActions": {
@@ -2891,7 +2858,7 @@
             ],
             "type": "object"
         },
-        "State_23": {
+        "State_22": {
             "additionalProperties": false,
             "properties": {
                 "pendingActions": {
@@ -2920,7 +2887,7 @@
             ],
             "type": "object"
         },
-        "State_24": {
+        "State_23": {
             "additionalProperties": false,
             "properties": {
                 "error": {
@@ -2940,7 +2907,7 @@
             ],
             "type": "object"
         },
-        "State_25": {
+        "State_24": {
             "additionalProperties": false,
             "properties": {
                 "availableRewards": {
@@ -2971,7 +2938,7 @@
             ],
             "type": "object"
         },
-        "State_26": {
+        "State_25": {
             "additionalProperties": false,
             "properties": {
                 "activeDapp": {
@@ -3052,7 +3019,7 @@
             ],
             "type": "object"
         },
-        "State_27": {
+        "State_26": {
             "additionalProperties": false,
             "properties": {
                 "attemptReturnUserFlowLoading": {
@@ -3372,7 +3339,7 @@
             ],
             "type": "object"
         },
-        "State_28": {
+        "State_27": {
             "additionalProperties": false,
             "properties": {
                 "swapInfo": {
@@ -5034,7 +5001,7 @@
             "$ref": "#/definitions/PersistState"
         },
         "account": {
-            "$ref": "#/definitions/State_13"
+            "$ref": "#/definitions/State_12"
         },
         "alert": {
             "anyOf": [
@@ -5181,22 +5148,22 @@
             "$ref": "#/definitions/State"
         },
         "dapps": {
-            "$ref": "#/definitions/State_26"
+            "$ref": "#/definitions/State_25"
         },
         "escrow": {
-            "$ref": "#/definitions/State_14"
+            "$ref": "#/definitions/State_13"
         },
         "exchange": {
             "$ref": "#/definitions/State_8"
         },
         "fees": {
-            "$ref": "#/definitions/State_15"
+            "$ref": "#/definitions/State_14"
         },
         "fiatConnect": {
-            "$ref": "#/definitions/State_27"
+            "$ref": "#/definitions/State_26"
         },
         "fiatExchanges": {
-            "$ref": "#/definitions/State_20"
+            "$ref": "#/definitions/State_19"
         },
         "goldToken": {
             "$ref": "#/definitions/State_5"
@@ -5211,19 +5178,19 @@
             "$ref": "#/definitions/State_11"
         },
         "imports": {
-            "$ref": "#/definitions/State_18"
+            "$ref": "#/definitions/State_17"
         },
         "localCurrency": {
-            "$ref": "#/definitions/State_17"
+            "$ref": "#/definitions/State_16"
         },
         "networkInfo": {
             "$ref": "#/definitions/State_2"
         },
         "paymentRequest": {
-            "$ref": "#/definitions/State_19"
+            "$ref": "#/definitions/State_18"
         },
         "recipients": {
-            "$ref": "#/definitions/State_16"
+            "$ref": "#/definitions/State_15"
         },
         "send": {
             "$ref": "#/definitions/State_4"
@@ -5232,22 +5199,19 @@
             "$ref": "#/definitions/State_6"
         },
         "supercharge": {
-            "$ref": "#/definitions/State_25"
+            "$ref": "#/definitions/State_24"
         },
         "swap": {
-            "$ref": "#/definitions/State_28"
+            "$ref": "#/definitions/State_27"
         },
         "tokens": {
-            "$ref": "#/definitions/State_24"
+            "$ref": "#/definitions/State_23"
         },
         "transactions": {
             "$ref": "#/definitions/State_9"
         },
-        "verify": {
-            "$ref": "#/definitions/State_12"
-        },
         "walletConnect": {
-            "$ref": "#/definitions/State_21"
+            "$ref": "#/definitions/State_20"
         },
         "web3": {
             "$ref": "#/definitions/State_10"
@@ -5279,7 +5243,6 @@
         "swap",
         "tokens",
         "transactions",
-        "verify",
         "walletConnect",
         "web3"
     ],

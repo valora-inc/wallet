@@ -151,7 +151,6 @@ describe('store state', () => {
           "phoneNumberVerified": false,
           "pincodeUseExpandedBlocklist": false,
           "rampCashInButtonExpEnabled": false,
-          "ranVerificationMigrationAt": null,
           "requirePinOnAppOpen": false,
           "rewardPillText": Object {
             "de": "Belohnungen",
@@ -338,11 +337,6 @@ describe('store state', () => {
           "standbyTransactions": Array [],
           "standbyTransactionsLegacy": Array [],
           "transactions": Array [],
-        },
-        "verify": Object {
-          "komenci": Object {
-            "unverifiedMtwAddress": null,
-          },
         },
         "walletConnect": Object {
           "v1": Object {
