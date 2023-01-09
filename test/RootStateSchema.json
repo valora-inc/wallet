@@ -790,13 +790,14 @@
                 "DuniaWallet",
                 "IBANNumber",
                 "IFSCAccount",
-                "MobileMoney"
+                "MobileMoney",
+                "PIXAccount"
             ],
             "type": "string"
         },
         "FiatAccountSchemaCountryOverrides": {
             "additionalProperties": {
-                "$ref": "#/definitions/{AccountNumber?:{accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;accountNumber?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;country?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;MobileMoney?:{accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;country?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;mobile?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;operator?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;DuniaWallet?:{accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;mobile?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;IBANNumber?:{accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;country?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;iban?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;IFSCAccount?:{accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;accountNumber?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;country?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;ifsc?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;}"
+                "$ref": "#/definitions/{AccountNumber?:{accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;accountNumber?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;country?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;MobileMoney?:{accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;country?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;mobile?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;operator?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;DuniaWallet?:{accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;mobile?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;IBANNumber?:{accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;country?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;iban?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;IFSCAccount?:{accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;accountNumber?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;country?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;ifsc?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;PIXAccount?:{accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;keyType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;key?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;}"
             },
             "type": "object"
         },
@@ -1487,7 +1488,7 @@
             ],
             "type": "object"
         },
-        "Partial<Record<FiatAccountType,{settlementTimeLowerBound?:string|undefined;settlementTimeUpperBound?:string|undefined;fiatAccountSchemas:{fiatAccountSchema:FiatAccountSchema;allowedValues:Record<string,string[]>;}[];}>>": {
+        "Partial<Record<FiatAccountType,{settlementTimeLowerBound?:string|undefined;settlementTimeUpperBound?:string|undefined;fiatAccountSchemas:{fiatAccountSchema:FiatAccountSchema;allowedValues:Record<string,[string,...string[]]>;}[];}>>": {
             "additionalProperties": false,
             "properties": {
                 "BankAccount": {
@@ -1498,7 +1499,7 @@
                                 "additionalProperties": false,
                                 "properties": {
                                     "allowedValues": {
-                                        "$ref": "#/definitions/Record<string,string[]>"
+                                        "$ref": "#/definitions/Record<string,[string,...string[]]>"
                                     },
                                     "fiatAccountSchema": {
                                         "enum": [
@@ -1506,7 +1507,8 @@
                                             "DuniaWallet",
                                             "IBANNumber",
                                             "IFSCAccount",
-                                            "MobileMoney"
+                                            "MobileMoney",
+                                            "PIXAccount"
                                         ],
                                         "type": "string"
                                     }
@@ -1539,7 +1541,7 @@
                                 "additionalProperties": false,
                                 "properties": {
                                     "allowedValues": {
-                                        "$ref": "#/definitions/Record<string,string[]>"
+                                        "$ref": "#/definitions/Record<string,[string,...string[]]>"
                                     },
                                     "fiatAccountSchema": {
                                         "enum": [
@@ -1547,7 +1549,8 @@
                                             "DuniaWallet",
                                             "IBANNumber",
                                             "IFSCAccount",
-                                            "MobileMoney"
+                                            "MobileMoney",
+                                            "PIXAccount"
                                         ],
                                         "type": "string"
                                     }
@@ -1580,7 +1583,7 @@
                                 "additionalProperties": false,
                                 "properties": {
                                     "allowedValues": {
-                                        "$ref": "#/definitions/Record<string,string[]>"
+                                        "$ref": "#/definitions/Record<string,[string,...string[]]>"
                                     },
                                     "fiatAccountSchema": {
                                         "enum": [
@@ -1588,7 +1591,8 @@
                                             "DuniaWallet",
                                             "IBANNumber",
                                             "IFSCAccount",
-                                            "MobileMoney"
+                                            "MobileMoney",
+                                            "PIXAccount"
                                         ],
                                         "type": "string"
                                     }
@@ -1805,11 +1809,11 @@
             ],
             "type": "object"
         },
-        "Record<string,any>": {
+        "Record<string,[string,...string[]]>": {
             "additionalProperties": false,
             "type": "object"
         },
-        "Record<string,string[]>": {
+        "Record<string,any>": {
             "additionalProperties": false,
             "type": "object"
         },
@@ -3037,7 +3041,7 @@
                                 "additionalProperties": false,
                                 "properties": {
                                     "fiatAccount": {
-                                        "$ref": "#/definitions/Partial<Record<FiatAccountType,{settlementTimeLowerBound?:string|undefined;settlementTimeUpperBound?:string|undefined;fiatAccountSchemas:{fiatAccountSchema:FiatAccountSchema;allowedValues:Record<string,string[]>;}[];}>>"
+                                        "$ref": "#/definitions/Partial<Record<FiatAccountType,{settlementTimeLowerBound?:string|undefined;settlementTimeUpperBound?:string|undefined;fiatAccountSchemas:{fiatAccountSchema:FiatAccountSchema;allowedValues:Record<string,[string,...string[]]>;}[];}>>"
                                     },
                                     "kyc": {
                                         "additionalProperties": false,
@@ -3050,7 +3054,7 @@
                                                     "additionalProperties": false,
                                                     "properties": {
                                                         "allowedValues": {
-                                                            "$ref": "#/definitions/Record<string,string[]>"
+                                                            "$ref": "#/definitions/Record<string,[string,...string[]]>"
                                                         },
                                                         "kycSchema": {
                                                             "enum": [
@@ -4333,7 +4337,7 @@
             },
             "type": "object"
         },
-        "{AccountNumber?:{accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;accountNumber?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;country?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;MobileMoney?:{accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;country?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;mobile?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;operator?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;DuniaWallet?:{accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;mobile?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;IBANNumber?:{accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;country?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;iban?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;IFSCAccount?:{accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;accountNumber?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;country?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;ifsc?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;}": {
+        "{AccountNumber?:{accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;accountNumber?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;country?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;MobileMoney?:{accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;country?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;mobile?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;operator?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;DuniaWallet?:{accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;mobile?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;IBANNumber?:{accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;country?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;iban?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;IFSCAccount?:{accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;accountNumber?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;country?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;ifsc?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;PIXAccount?:{accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;keyType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;key?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;}": {
             "additionalProperties": false,
             "properties": {
                 "AccountNumber": {
@@ -4350,6 +4354,9 @@
                 },
                 "MobileMoney": {
                     "$ref": "#/definitions/{accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;country?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;mobile?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;operator?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}"
+                },
+                "PIXAccount": {
+                    "$ref": "#/definitions/{accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;keyType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;key?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}"
                 }
             },
             "type": "object"
@@ -4775,6 +4782,107 @@
                     "type": "object"
                 },
                 "operator": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "errorParams": {
+                            "$ref": "#/definitions/Record<string,any>"
+                        },
+                        "errorString": {
+                            "type": "string"
+                        },
+                        "regex": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "errorString",
+                        "regex"
+                    ],
+                    "type": "object"
+                }
+            },
+            "type": "object"
+        },
+        "{accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;keyType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;key?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}": {
+            "additionalProperties": false,
+            "properties": {
+                "accountName": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "errorParams": {
+                            "$ref": "#/definitions/Record<string,any>"
+                        },
+                        "errorString": {
+                            "type": "string"
+                        },
+                        "regex": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "errorString",
+                        "regex"
+                    ],
+                    "type": "object"
+                },
+                "fiatAccountType": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "errorParams": {
+                            "$ref": "#/definitions/Record<string,any>"
+                        },
+                        "errorString": {
+                            "type": "string"
+                        },
+                        "regex": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "errorString",
+                        "regex"
+                    ],
+                    "type": "object"
+                },
+                "institutionName": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "errorParams": {
+                            "$ref": "#/definitions/Record<string,any>"
+                        },
+                        "errorString": {
+                            "type": "string"
+                        },
+                        "regex": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "errorString",
+                        "regex"
+                    ],
+                    "type": "object"
+                },
+                "key": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "errorParams": {
+                            "$ref": "#/definitions/Record<string,any>"
+                        },
+                        "errorString": {
+                            "type": "string"
+                        },
+                        "regex": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "errorString",
+                        "regex"
+                    ],
+                    "type": "object"
+                },
+                "keyType": {
                     "additionalProperties": false,
                     "properties": {
                         "errorParams": {
