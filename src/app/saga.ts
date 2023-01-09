@@ -46,7 +46,6 @@ import {
   shouldRunVerificationMigrationSelector,
 } from 'src/app/selectors'
 import { CreateAccountCopyTestType } from 'src/app/types'
-import { runVerificationMigration } from 'src/app/verificationMigration'
 import { DYNAMIC_LINK_DOMAIN_URI_PREFIX, FETCH_TIMEOUT_DURATION } from 'src/config'
 import { SuperchargeTokenConfigByToken } from 'src/consumerIncentives/types'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
@@ -59,9 +58,7 @@ import {
   fetchRemoteConfigValues,
   resolveDynamicLink,
 } from 'src/firebase/firebase'
-import { receiveAttestationMessage } from 'src/identity/actions'
 import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
-import { CodeInputType } from 'src/identity/verification'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -182,8 +179,6 @@ export interface RemoteConfigValues {
   logPhoneNumberTypeEnabled: boolean
   superchargeApy: number
   superchargeTokenConfigByToken: SuperchargeTokenConfigByToken
-  komenciUseLightProxy: boolean
-  komenciAllowedDeployers: string[]
   pincodeUseExpandedBlocklist: boolean
   rewardPillText: string
   cashInButtonExpEnabled: boolean
@@ -283,9 +278,7 @@ export function* handleDeepLink(action: OpenDeepLink) {
   const rawParams = parse(deepLink)
   if (rawParams.path) {
     const pathParts = rawParams.path.split('/')
-    if (rawParams.path.startsWith('/v/')) {
-      yield put(receiveAttestationMessage(rawParams.path.substr(3), CodeInputType.DEEP_LINK))
-    } else if (rawParams.path.startsWith('/pay')) {
+    if (rawParams.path.startsWith('/pay')) {
       yield call(handlePaymentDeeplink, deepLink)
     } else if (rawParams.path.startsWith('/dappkit')) {
       yield call(handleDappkitDeepLink, deepLink)
@@ -457,7 +450,6 @@ export function* appSaga() {
   yield spawn(watchDeepLinks)
   yield spawn(watchOpenUrl)
   yield spawn(watchAppState)
-  yield spawn(runVerificationMigration)
   yield spawn(runCentralPhoneVerificationMigration)
   yield takeLatest(Actions.UPDATE_REMOTE_CONFIG_VALUES, runCentralPhoneVerificationMigration)
   yield takeLatest(Actions.SET_APP_STATE, handleSetAppState)

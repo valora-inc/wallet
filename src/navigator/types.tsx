@@ -234,7 +234,6 @@ export type StackParamList = {
   [Screens.PincodeSet]:
     | {
         changePin?: boolean
-        komenciAvailable?: boolean
         choseToRestoreAccount?: boolean
         registrationStep?: { step: number; totalSteps: number }
         showGuidedOnboarding?: boolean

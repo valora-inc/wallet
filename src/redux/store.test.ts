@@ -93,7 +93,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 102,
+          "version": 103,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -151,7 +151,6 @@ describe('store state', () => {
           "phoneNumberVerified": false,
           "pincodeUseExpandedBlocklist": false,
           "rampCashInButtonExpEnabled": false,
-          "ranVerificationMigrationAt": null,
           "requirePinOnAppOpen": false,
           "rewardPillText": Object {
             "de": "Belohnungen",
@@ -247,17 +246,10 @@ describe('store state', () => {
           "otaTranslationsLastUpdate": 0,
         },
         "identity": Object {
-          "acceptedAttestationCodes": Array [],
           "addressToDataEncryptionKey": Object {},
           "addressToDisplayName": Object {},
           "addressToE164Number": Object {},
           "askedContactsPermission": false,
-          "attestationCodes": Array [],
-          "attestationInputStatus": Array [
-            "Inputting",
-            "Disabled",
-            "Disabled",
-          ],
           "e164NumberToAddress": Object {},
           "e164NumberToSalt": Object {},
           "hasSeenVerificationNux": false,
@@ -266,10 +258,7 @@ describe('store state', () => {
             "status": 0,
             "total": 0,
           },
-          "lastRevealAttempt": null,
-          "numCompleteAttestations": 0,
           "secureSendPhoneNumberMapping": Object {},
-          "verificationStatus": 0,
           "walletToAccountAddress": Object {},
         },
         "imports": Object {
@@ -348,37 +337,6 @@ describe('store state', () => {
           "standbyTransactions": Array [],
           "standbyTransactionsLegacy": Array [],
           "transactions": Array [],
-        },
-        "verify": Object {
-          "TEMPORARY_override_withoutVerification": undefined,
-          "actionableAttestations": Array [],
-          "currentState": Object {
-            "type": "Idle",
-          },
-          "komenci": Object {
-            "callbackUrl": undefined,
-            "captchaToken": "",
-            "errorTimestamps": Array [],
-            "sessionActive": false,
-            "sessionToken": "",
-            "unverifiedMtwAddress": null,
-          },
-          "komenciAvailable": "UNKNOWN",
-          "komenciConfig": Object {
-            "allowedDeployers": Array [
-              "",
-            ],
-            "useLightProxy": false,
-          },
-          "retries": 0,
-          "status": Object {
-            "completed": 0,
-            "isVerified": false,
-            "komenci": true,
-            "numAttestationsRemaining": 3,
-            "total": 0,
-          },
-          "withoutRevealing": false,
         },
         "walletConnect": Object {
           "v1": Object {

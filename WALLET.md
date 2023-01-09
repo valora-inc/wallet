@@ -477,7 +477,7 @@ To run a single component test file: `yarn test Send.test.tsx`
 ### Saga testing
 
 We use [redux-saga-test-plan][redux-saga-test-plan] to test complex sagas.
-See [`src/identity/verification.test.ts`] for an example.
+See [`src/app/saga.test.ts`] for an example.
 
 ### End-to-End testing
 
