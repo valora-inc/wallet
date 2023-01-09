@@ -1,8 +1,4 @@
 import SmsRetriever from 'react-native-sms-retriever'
-import { eventChannel } from 'redux-saga'
-import { call, put, take } from 'redux-saga/effects'
-import { receiveAttestationMessage } from 'src/identity/actions'
-import { CodeInputType } from 'src/identity/verification'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'identity/smsRetrieval'
@@ -11,28 +7,6 @@ export interface SmsEvent {
   error?: string
   timeout?: string
   message?: string
-}
-
-export function* startAutoSmsRetrieval() {
-  const autoSmsChannel = eventChannel((emitter) => {
-    addSmsListener(emitter)
-    return removeSmsListener
-  })
-  yield call(startSmsRetriever)
-  try {
-    const messages: string[] = []
-    while (true) {
-      const { message } = yield take(autoSmsChannel)
-      if (!messages.includes(message)) {
-        messages.push(message)
-        yield put(receiveAttestationMessage(message, CodeInputType.AUTOMATIC))
-      }
-    }
-  } catch (error) {
-    Logger.error(TAG + '@SmsRetriever', 'Error while retrieving code', error)
-  } finally {
-    autoSmsChannel.close()
-  }
 }
 
 export async function startSmsRetriever() {

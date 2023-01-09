@@ -12,6 +12,7 @@ import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.JSIModulePackage;
+import com.facebook.react.modules.network.OkHttpClientProvider;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 import com.swmansion.reanimated.ReanimatedJSIModulePackage;
@@ -64,6 +65,7 @@ public class MainApplication
     super.onCreate();
     SoLoader.init(this, /* native exopackage */false);
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
+    OkHttpClientProvider.setOkHttpClientFactory(new UserAgentClientFactory());
   }
 
   @Override

@@ -28,7 +28,6 @@ export interface State {
   superchargeTokenConfigByToken: SuperchargeTokenConfigByToken
   // In 1.13 we had a critical error which requires a migration to fix. See |verificationMigration.ts|
   // for the migration code. We can remove all the code associated with this after some time has passed.
-  ranVerificationMigrationAt: number | null | undefined
   logPhoneNumberTypeEnabled: boolean
   googleMobileServicesAvailable: boolean | undefined
   huaweiMobileServicesAvailable: boolean | undefined
@@ -76,7 +75,6 @@ const initialState = {
   walletConnectV2Enabled: REMOTE_CONFIG_VALUES_DEFAULTS.walletConnectV2Enabled,
   superchargeApy: REMOTE_CONFIG_VALUES_DEFAULTS.superchargeApy,
   superchargeTokenConfigByToken: {},
-  ranVerificationMigrationAt: null,
   logPhoneNumberTypeEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.logPhoneNumberTypeEnabled,
   googleMobileServicesAvailable: undefined,
   huaweiMobileServicesAvailable: undefined,
@@ -227,12 +225,6 @@ export const appReducer = (
       return {
         ...state,
         activeScreen: action.activeScreen,
-      }
-    case Actions.VERIFICATION_MIGRATION_RAN:
-      return {
-        ...state,
-        ranVerificationMigrationAt: action.now,
-        numberVerified: action.isVerified,
       }
     case Actions.ANDROID_MOBILE_SERVICES_AVAILABILITY_CHECKED:
       return {
