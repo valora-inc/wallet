@@ -1427,7 +1427,8 @@
     },
     "mobileMoney": {
       "operator": {
-        "label": "Mạng lưới"
+        "label": "Mạng lưới",
+        "placeholderText": "Enter Mobile Network Operator"
       },
       "mobile": {
         "label": "Số điện thoại",
