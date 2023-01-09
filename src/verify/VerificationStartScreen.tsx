@@ -1,4 +1,4 @@
-import { Countries } from '@celo/phone-utils'
+import { Countries, parsePhoneNumber } from '@celo/phone-utils'
 import { useHeaderHeight } from '@react-navigation/elements'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react'
@@ -32,8 +32,32 @@ import { waitUntilSagasFinishLoading } from 'src/redux/sagas'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { getPhoneNumberState } from 'src/verify/utils'
 import { walletAddressSelector } from 'src/web3/selectors'
+
+function getPhoneNumberState(
+  phoneNumber: string,
+  countryCallingCode: string,
+  countryCodeAlpha2: string
+) {
+  const phoneDetails = parsePhoneNumber(phoneNumber, countryCallingCode)
+
+  if (phoneDetails) {
+    return {
+      // Show international display number to avoid confusion
+      internationalPhoneNumber: phoneDetails.displayNumberInternational,
+      e164Number: phoneDetails.e164Number,
+      isValidNumber: true,
+      countryCodeAlpha2: phoneDetails.regionCode!,
+    }
+  } else {
+    return {
+      internationalPhoneNumber: phoneNumber,
+      e164Number: '',
+      isValidNumber: false,
+      countryCodeAlpha2,
+    }
+  }
+}
 
 function VerificationStartScreen({
   route,

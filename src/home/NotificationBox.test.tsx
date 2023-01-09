@@ -47,7 +47,6 @@ const storeDataNotificationsEnabled = {
       testNotification,
     },
   },
-  verify: { komenci: { errorTimestamps: [] }, status: { komenci: false } },
 }
 
 const storeDataNotificationsDisabled = {
@@ -69,7 +68,6 @@ const storeDataNotificationsDisabled = {
       },
     },
   },
-  verify: { komenci: { errorTimestamps: [] }, status: { komenci: false } },
 }
 
 const testReward = {

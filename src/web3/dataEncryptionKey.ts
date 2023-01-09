@@ -250,8 +250,6 @@ export function* registerAccountDek() {
       walletAddress
     )
 
-    // TODO: Make sure this action is also triggered after the DEK registration
-    // that will happen via Komenci
     yield put(registerDataEncryptionKey())
     ValoraAnalytics.track(OnboardingEvents.account_dek_register_complete, {
       newRegistration: true,

@@ -11,7 +11,6 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { removeStoredPin, setPincodeWithBiometry } from 'src/pincode/authentication'
-import { KomenciAvailable } from 'src/verify/reducer'
 import { createMockStore, flushMicrotasksQueue, getMockStackScreenProps } from 'test/utils'
 import { mockE164Number, mockE164NumberPepper, mockTokenBalances } from 'test/values'
 
@@ -49,11 +48,6 @@ describe('Account', () => {
           },
           identity: { e164NumberToSalt: { [mockE164Number]: mockE164NumberPepper } },
           tokens: mockTokenBalances,
-          verify: {
-            komenciAvailable: KomenciAvailable.Yes,
-            komenci: { errorTimestamps: [] },
-            status: {},
-          },
         })}
       >
         <Settings {...getMockStackScreenProps(Screens.Settings)} />
@@ -71,11 +65,6 @@ describe('Account', () => {
           account: {
             devModeActive: true,
             e164PhoneNumber: mockE164Number,
-          },
-          verify: {
-            komenci: { errorTimestamps: [] },
-            komenciAvailable: KomenciAvailable.Yes,
-            status: {},
           },
         })}
       >

@@ -23,7 +23,6 @@ import { sendReducer as send, State as SendState } from 'src/send/reducers'
 import swapReducer, { State as SwapState } from 'src/swap/slice'
 import tokenReducer, { State as TokensState } from 'src/tokens/slice'
 import { reducer as transactions, State as TransactionsState } from 'src/transactions/reducer'
-import { reducer as verify, State as VerifyState } from 'src/verify/reducer'
 import { reducer as walletConnect, State as WalletConnectState } from 'src/walletConnect/reducer'
 import { reducer as web3, State as Web3State } from 'src/web3/reducer'
 
@@ -38,7 +37,6 @@ const appReducer = combineReducers({
   transactions,
   web3,
   identity,
-  verify,
   account,
   escrow,
   fees,
@@ -86,7 +84,6 @@ export interface RootState {
   transactions: TransactionsState
   web3: Web3State
   identity: IdentityState
-  verify: VerifyState
   account: AccountState
   escrow: EscrowState
   fees: FeesState

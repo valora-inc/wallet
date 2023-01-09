@@ -272,8 +272,6 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     superchargeTokenConfigByToken: superchargeConfigByTokenString
       ? JSON.parse(superchargeConfigByTokenString)
       : {},
-    komenciUseLightProxy: flags.komenciUseLightProxy.asBoolean(),
-    komenciAllowedDeployers: flags.komenciAllowedDeployers.asString().split(','),
     pincodeUseExpandedBlocklist: flags.pincodeUseExpandedBlocklist.asBoolean(),
     rewardPillText: flags.rewardPillText.asString(),
     cashInButtonExpEnabled: flags.cashInButtonExpEnabled.asBoolean(),
