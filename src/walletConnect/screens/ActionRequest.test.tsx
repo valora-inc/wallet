@@ -1,9 +1,10 @@
 import { fireEvent, render } from '@testing-library/react-native'
-import { SignClientTypes } from '@walletconnect/types'
+import { SessionTypes, SignClientTypes } from '@walletconnect/types'
 import { getSdkError } from '@walletconnect/utils'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
+import { ActiveDapp, DappSection } from 'src/dapps/types'
 import { SupportedActions } from 'src/walletConnect/constants'
 import ActionRequest from 'src/walletConnect/screens/ActionRequest'
 import {
@@ -135,87 +136,87 @@ describe('ActionRequest with WalletConnect V1', () => {
 })
 
 describe('ActionRequest with WalletConnect V2', () => {
-  const store = createMockStore({
-    walletConnect: {
-      v2: {
-        sessions: [
-          {
-            expiry: 1670411909,
-            self: {
-              metadata: {
-                icons: ['https://valoraapp.com//favicon.ico'],
-                description: 'A mobile payments wallet that works worldwide',
-                name: 'Valora',
-                url: 'https://valoraapp.com/',
-              },
-              publicKey: 'b991206845c62280479fd1f24087e9c6f0df3921b5f9d94f4619fbf995a81149',
-            },
-            relay: {
-              protocol: 'irn',
-            },
-            peer: {
-              metadata: {
-                name: 'WalletConnect Example',
-                description: '',
-                icons: [],
-                url: 'https://react-app.walletconnect.com',
-              },
-              publicKey: '3c78ff702b703e873a90a9619598effa0e3b01deb977cb277d3b0eecff3a0320',
-            },
-            controller: 'b991206845c62280479fd1f24087e9c6f0df3921b5f9d94f4619fbf995a81149',
-            namespaces: {
-              eip155: {
-                accounts: ['eip155:44787:0x047154ac4d7e01b1dc9ddeea9e8996b57895a747'],
-                methods: [
-                  'eth_sendTransaction',
-                  'eth_signTransaction',
-                  'eth_sign',
-                  'personal_sign',
-                  'eth_signTypedData',
-                ],
-                events: ['chainChanged', 'accountsChanged'],
-              },
-            },
-            acknowledged: true,
-            topic: 'd8afe1f5c3efa38bbb62c68005f572a7218afcd48703e4b02bdc5df2549ac5b5',
-            requiredNamespaces: {
-              eip155: {
-                methods: [
-                  'eth_sendTransaction',
-                  'eth_signTransaction',
-                  'eth_sign',
-                  'personal_sign',
-                  'eth_signTypedData',
-                ],
-                chains: ['eip155:44787'],
-                events: ['chainChanged', 'accountsChanged'],
-              },
-            },
-          },
+  const v2Session: SessionTypes.Struct = {
+    expiry: 1670411909,
+    self: {
+      metadata: {
+        icons: ['https://valoraapp.com//favicon.ico'],
+        description: 'A mobile payments wallet that works worldwide',
+        name: 'Valora',
+        url: 'https://valoraapp.com/',
+      },
+      publicKey: 'b991206845c62280479fd1f24087e9c6f0df3921b5f9d94f4619fbf995a81149',
+    },
+    relay: {
+      protocol: 'irn',
+    },
+    peer: {
+      metadata: {
+        name: 'WalletConnect Example',
+        description: '',
+        icons: [],
+        url: 'https://react-app.walletconnect.com',
+      },
+      publicKey: '3c78ff702b703e873a90a9619598effa0e3b01deb977cb277d3b0eecff3a0320',
+    },
+    controller: 'b991206845c62280479fd1f24087e9c6f0df3921b5f9d94f4619fbf995a81149',
+    namespaces: {
+      eip155: {
+        accounts: ['eip155:44787:0x047154ac4d7e01b1dc9ddeea9e8996b57895a747'],
+        methods: [
+          'eth_sendTransaction',
+          'eth_signTransaction',
+          'eth_sign',
+          'personal_sign',
+          'eth_signTypedData',
+        ],
+        events: ['chainChanged', 'accountsChanged'],
+      },
+    },
+    acknowledged: true,
+    topic: 'd8afe1f5c3efa38bbb62c68005f572a7218afcd48703e4b02bdc5df2549ac5b5',
+    requiredNamespaces: {
+      eip155: {
+        methods: [
+          'eth_sendTransaction',
+          'eth_signTransaction',
+          'eth_sign',
+          'personal_sign',
+          'eth_signTypedData',
+        ],
+        chains: ['eip155:44787'],
+        events: ['chainChanged', 'accountsChanged'],
+      },
+    },
+  }
+
+  const pendingAction: SignClientTypes.EventArguments['session_request'] = {
+    id: 1669810746892321,
+    topic: 'd8afe1f5c3efa38bbb62c68005f572a7218afcd48703e4b02bdc5df2549ac5b5',
+    params: {
+      chainId: 'eip155:44787',
+      request: {
+        method: 'personal_sign',
+        params: [
+          '0x4d65737361676520746f207369676e', // hex of 'Message to sign'
+          '0x047154ac4d7e01b1dc9ddeea9e8996b57895a747',
         ],
       },
     },
-  })
-
-  beforeEach(() => {
-    store.clearActions()
-  })
+  }
 
   describe('personal_sign', () => {
-    const pendingAction: SignClientTypes.EventArguments['session_request'] = {
-      id: 1669810746892321,
-      topic: 'd8afe1f5c3efa38bbb62c68005f572a7218afcd48703e4b02bdc5df2549ac5b5',
-      params: {
-        chainId: 'eip155:44787',
-        request: {
-          method: 'personal_sign',
-          params: [
-            '0x4d65737361676520746f207369676e', // hex of 'Message to sign'
-            '0x047154ac4d7e01b1dc9ddeea9e8996b57895a747',
-          ],
+    const store = createMockStore({
+      walletConnect: {
+        v2: {
+          sessions: [v2Session],
         },
       },
-    }
+    })
+
+    beforeEach(() => {
+      store.clearActions()
+    })
 
     it('renders the correct elements', () => {
       const { getByText } = render(
@@ -285,6 +286,127 @@ describe('ActionRequest with WalletConnect V2', () => {
       expect(store.getActions()).toEqual([
         denyRequestV2(pendingAction, getSdkError('USER_REJECTED')),
       ])
+    })
+  })
+
+  describe('displayed dapp name falbacks', () => {
+    const activeDapp: ActiveDapp = {
+      id: 'someDappId',
+      categoryId: 'someCategory',
+      iconUrl: '',
+      name: 'someDappName',
+      description: '',
+      dappUrl: 'https://react-app.walletconnect.com',
+      isFeatured: false,
+      openedFrom: DappSection.All,
+    }
+
+    it('should use the name from activeDapp if the request domain matches', () => {
+      const store = createMockStore({
+        dapps: {
+          dappsWebViewEnabled: true,
+          activeDapp,
+        },
+        walletConnect: {
+          v2: {
+            sessions: [
+              {
+                ...v2Session,
+                peer: {
+                  metadata: {
+                    name: '',
+                    description: '',
+                    icons: [],
+                    url: 'https://react-app.walletconnect.com/somePath',
+                  },
+                  publicKey: '',
+                },
+              },
+            ],
+          },
+        },
+      })
+
+      const { getByText } = render(
+        <Provider store={store}>
+          <ActionRequest version={2} pendingAction={pendingAction} />
+        </Provider>
+      )
+
+      expect(getByText('confirmTransaction, {"dappName":"someDappName"}')).toBeTruthy()
+      expect(getByText('action.askingV1_35, {"dappName":"someDappName"}')).toBeTruthy()
+    })
+
+    it("should use the payload domain if activeDapp doesn't match", () => {
+      const store = createMockStore({
+        dapps: {
+          dappsWebViewEnabled: true,
+          activeDapp,
+        },
+        walletConnect: {
+          v2: {
+            sessions: [
+              {
+                ...v2Session,
+                peer: {
+                  metadata: {
+                    name: '',
+                    description: '',
+                    icons: [],
+                    url: 'https://some.dapp.com',
+                  },
+                  publicKey: '',
+                },
+              },
+            ],
+          },
+        },
+      })
+
+      const { getByText } = render(
+        <Provider store={store}>
+          <ActionRequest version={2} pendingAction={pendingAction} />
+        </Provider>
+      )
+
+      expect(getByText('confirmTransaction, {"dappName":"some.dapp.com"}')).toBeTruthy()
+      expect(getByText('action.askingV1_35, {"dappName":"some.dapp.com"}')).toBeTruthy()
+    })
+
+    it('should display an empty fallback', () => {
+      const store = createMockStore({
+        dapps: {
+          dappsWebViewEnabled: true,
+          activeDapp,
+        },
+        walletConnect: {
+          v2: {
+            sessions: [
+              {
+                ...v2Session,
+                peer: {
+                  metadata: {
+                    name: '',
+                    description: '',
+                    icons: [],
+                    url: '',
+                  },
+                  publicKey: '',
+                },
+              },
+            ],
+          },
+        },
+      })
+
+      const { getByText } = render(
+        <Provider store={store}>
+          <ActionRequest version={2} pendingAction={pendingAction} />
+        </Provider>
+      )
+
+      expect(getByText('confirmTransaction, {"dappName":""}')).toBeTruthy()
+      expect(getByText('action.askingV1_35, {"dappName":""}')).toBeTruthy()
     })
   })
 })
