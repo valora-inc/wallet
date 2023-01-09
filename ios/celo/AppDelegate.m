@@ -13,6 +13,7 @@
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 #import <React/RCTLinkingManager.h>
+#import <React/RCTHTTPRequestHandler.h>
 
 @import Firebase;
 
@@ -46,6 +47,21 @@ static void InitializeFlipper(UIApplication *application) {
 // Use same key as react-native-secure-key-store
 // so we don't reset already working installs
 static NSString * const kHasRunBeforeKey = @"RnSksIsAppInstalled";
+
+static void SetCustomNSURLSessionConfiguration() {
+  RCTSetCustomNSURLSessionConfigurationProvider(^NSURLSessionConfiguration *{
+    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    
+    NSDictionary *infoDictionary = NSBundle.mainBundle.infoDictionary;
+    NSString *appVersion = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
+    UIDevice *device = UIDevice.currentDevice;
+    // Format we want: Valora/1.0.0 (iOS 14.5; iPhone)
+    NSString *userAgent = [NSString stringWithFormat:@"Valora/%@ (%@ %@; %@)", appVersion, device.systemName, device.systemVersion, device.model];
+    configuration.HTTPAdditionalHeaders = @{ @"User-Agent": userAgent };
+    
+    return configuration;
+  });
+}
 
 @interface AppDelegate ()
 
@@ -86,6 +102,9 @@ static NSString * const kHasRunBeforeKey = @"RnSksIsAppInstalled";
     [FIROptions defaultOptions].deepLinkURLScheme = @"celo";
     [FIRApp configure];
   }
+  
+  SetCustomNSURLSessionConfiguration();
+  
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
 
   NSDate *now = [NSDate date];
