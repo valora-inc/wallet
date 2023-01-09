@@ -1433,7 +1433,8 @@
     },
     "mobileMoney": {
       "operator": {
-        "label": "Сообщество"
+        "label": "Сообщество",
+        "placeholderText": "Введите оператора мобильной сети"
       },
       "mobile": {
         "label": "Номер телефона",
