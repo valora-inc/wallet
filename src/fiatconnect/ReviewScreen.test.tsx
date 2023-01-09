@@ -14,9 +14,8 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps, sleep } from 'test/utils'
-import { mockFiatConnectQuotes } from 'test/values'
+import { mockFiatConnectQuotes, mockCusdAddress, mockCeurAddress } from 'test/values'
 import { mocked } from 'ts-jest/utils'
-
 jest.mock('src/localCurrency/selectors', () => {
   const originalModule = jest.requireActual('src/localCurrency/selectors')
 
@@ -67,14 +66,14 @@ describe('ReviewScreen', () => {
   const store = createMockStore({
     fees: {
       estimates: {
-        '0x874069fa1eb16d44d622f2e0ca25eea172369bc1': {
+        [mockCusdAddress]: {
           send: { usdFee: '0.02', lastUpdated: 500, loading: false, error: false },
           exchange: undefined,
           'reclaim-escrow': undefined,
           'register-dek': undefined,
           swap: undefined,
         },
-        '0x10c892a6ec43a53e45d0b916b4b7d383b1b78c0f': {
+        [mockCeurAddress]: {
           send: { usdFee: '0.03', lastUpdated: 500, loading: false, error: false },
           exchange: undefined,
           'reclaim-escrow': undefined,

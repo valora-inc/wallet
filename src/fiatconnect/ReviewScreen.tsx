@@ -380,7 +380,7 @@ function getDisplayAmounts({
         convertLocalAmountToCurrency(
           convertDollarsToLocalAmount(new BigNumber(feeEstimate.usdFee), exchangeRates.cUSD),
           exchangeRates[cryptoType]
-        ) || networkFee
+        ) ?? networkFee
     }
 
     const receive = Number(normalizedQuote.getFiatAmount())
