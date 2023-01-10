@@ -360,7 +360,6 @@
   "notEnoughGoldError": "Nicht genug CELO zum umtauschen",
   "exchangeFailed": "Umtausch fehlgeschlagen. Bitte versuche es erneut.",
   "transactionFailed": "Transaktion fehlgeschlagen. Bitte versuche es erneut.",
-  "refreshFailedUnexpectedly": "Fehler beim Aktualisieren, bitte überprüfe deine Verbindung",
   "paste": "Einfügen",
   "choose": "Auswählen",
   "receivedPayment": "Erhaltene Zahlung",
@@ -374,9 +373,7 @@
   "exchangeForGold": "Umtausch gegen CELO",
   "missingFullName": "Name darf nicht leer sein",
   "invalidPhone": "Ungültige Telefonnummer",
-  "cantSelectInvalidPhone": "Kontakt kann nicht ausgewählt werden: ungültige Telefonnummer",
   "needMoreFundsToSend": "Du solltest {{currencySymbol}}{{amountNeeded}} haben, um diese Transaktion durchzuführen. Bitte füge Guthaben hinzu oder versuche, weniger zu senden.",
-  "maxEscrowTransferExceeded": "Der maximale Betrag, der an Nutzer ohne verbundene Nummer übertragen werden kann, ist {{symbol}}{{maxAmount}}.",
   "invalidAmount": "Ungültiger Betrag",
   "invalidCode": "Ungültiger Code",
   "confirm": "Bestätigen",
@@ -409,15 +406,12 @@
   "oops": "Huch!",
   "somethingWrong": "Etwas ist schief gelaufen.",
   "verifyFailed": "Verbindung fehlgeschlagen",
-  "canNotRequestFromUnverified": "Kann nicht von unbestätigten Benutzern anfordern",
   "restartApp": "App neu starten",
   "quitApp": "Beenden",
   "loading": "Wird geladen…",
   "importContactsFailed": "Import der Kontakte fehlgeschlagen",
   "sendPaymentFailed": "Zahlungsversand fehlgeschlagen",
   "paymentRequestFailed": "Zahlungsaufforderung nicht gesendet",
-  "escrowTransferFailed": "Transfer zum Escrow fehlgeschlagen",
-  "escrowWithdrawalFailed": "Abhebung aus dem escrow fehlgeschlagen",
   "reclaimingEscrowedPaymentFailed": "Zahlung konnte nicht zurückgefordert werden",
   "connectingToCelo": "Verbindung wird aufgebaut…",
   "poorConnection": {
@@ -455,9 +449,7 @@
   "addressLookupFailure": "Fehler beim Suchen der Telefonnummer-Adresse",
   "saltFetchFailure": "Fehler beim Abrufen der geheimen Telefonnummer",
   "saltQuotaExceededError": "Dein Telefonnummer-Suchkontingent ist aufgebraucht",
-  "maxActionableAttestationsExceededError": "Fehler beim erneuten Senden der Nachricht",
   "odisInsufficientBalance": "Bitte verbinde deine Nummer",
-  "matchmakingQuotaExceededError": "Matchmaking kann nur einmal durchgeführt werden",
   "ordinals": [
     "nullte",
     "erste",
@@ -608,13 +600,6 @@
   },
   "getVerified": "Telefonnummer verbinden",
   "notReadyForCode": "Noch nicht bereit für Codeeintrag",
-  "emptyVerificationCode": "Kein Code in der Zwischenablage",
-  "invalidVerificationCode": "Ungültiger Code",
-  "repeatVerificationCode": "Wiederholter Code",
-  "revealAttestationFailure": "Fehler beim Anfordern der SMS Nachricht",
-  "verificationFailure": "Verbindung fehlgeschlagen",
-  "cantVerifyRevokedAccount": "Dieses Konto wurde zuvor widerrufen. Bitte erstelle ein neues Konto und versuche es erneut.",
-  "verificationTimeout": "Verbindungs-Zeitüberschreitung",
   "errorRequestCode": "Fehler beim Abfragen der Codes.",
   "errorRedeemingCode": "Fehler beim Einlösen des Codes.",
   "pleaseRetry": "Bitte versuche erneut, eine Verbindung herzustellen.",
@@ -1444,7 +1429,8 @@
     },
     "mobileMoney": {
       "operator": {
-        "label": "Netzwerk"
+        "label": "Netzwerk",
+        "placeholderText": "Mobilnetzbetreiber eintragen"
       },
       "mobile": {
         "label": "Telefonnummer",
