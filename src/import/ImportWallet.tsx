@@ -81,6 +81,12 @@ function ImportWallet({ navigation, route }: Props) {
   }
 
   useBackHandler(() => {
+    const { routes } = navigation.getState()
+    if (routes.length === 1) {
+      // this screen is the only one on the stack from an app restart, let android back button handle the action
+      return false
+    }
+
     handleNavigateBack()
     return true
   }, [navigation])
