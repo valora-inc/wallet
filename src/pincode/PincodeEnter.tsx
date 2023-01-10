@@ -5,13 +5,12 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { AuthenticationEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { headerWithBackButton } from 'src/navigator/Headers'
-import { navigateBack } from 'src/navigator/NavigationService'
 import { modalScreenOptions } from 'src/navigator/Navigator'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -52,11 +51,6 @@ export const PincodeEnter = ({ route }: Props) => {
     const onSuccess = route.params.onSuccess
     if (onSuccess) {
       ValoraAnalytics.track(AuthenticationEvents.get_pincode_with_input_complete)
-      if (Platform.OS === 'ios') {
-        // On iOS with native-stack, we have to dismiss the modal first
-        // as navigating to another screen will not dismiss it
-        navigateBack()
-      }
       onSuccess(pin)
       SentryTransactionHub.finishTransaction(SentryTransaction.pincode_enter)
     }

@@ -9,8 +9,10 @@ import { e164NumberSelector } from 'src/account/selectors'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { updateE164PhoneNumberSalts } from 'src/identity/actions'
 import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
-import { e164NumberToSaltSelector } from 'src/identity/selectors'
-import { isBalanceSufficientForSigRetrievalSelector } from 'src/verify/reducer'
+import {
+  e164NumberToSaltSelector,
+  isBalanceSufficientForSigRetrievalSelector,
+} from 'src/identity/selectors'
 import { isAccountUpToDate } from 'src/web3/dataEncryptionKey'
 import { getConnectedAccount } from 'src/web3/saga'
 import { createMockStore } from 'test/utils'

@@ -256,7 +256,6 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
   const celoNewsString = flags.celoNews?.asString()
 
   return {
-    hideVerification: flags.hideVerification.asBoolean(),
     // these next 2 flags are a bit weird because their default is undefined or null
     // and the default map cannot have a value of undefined or null
     // that is why we still need to check for it before calling a method
@@ -273,8 +272,6 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     superchargeTokenConfigByToken: superchargeConfigByTokenString
       ? JSON.parse(superchargeConfigByTokenString)
       : {},
-    komenciUseLightProxy: flags.komenciUseLightProxy.asBoolean(),
-    komenciAllowedDeployers: flags.komenciAllowedDeployers.asString().split(','),
     pincodeUseExpandedBlocklist: flags.pincodeUseExpandedBlocklist.asBoolean(),
     rewardPillText: flags.rewardPillText.asString(),
     cashInButtonExpEnabled: flags.cashInButtonExpEnabled.asBoolean(),
@@ -302,7 +299,6 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
       flags.createAccountCopyTestType.asString() as CreateAccountCopyTestType,
     maxSwapSlippagePercentage: flags.maxSwapSlippagePercentage.asNumber(),
     showGuidedOnboardingCopy: flags.showGuidedOnboardingCopy.asBoolean(),
-    centralPhoneVerificationEnabled: flags.centralPhoneVerificationEnabled.asBoolean(),
     networkTimeoutSeconds: flags.networkTimeoutSeconds.asNumber(),
     dappFavoritesEnabled: flags.dappFavoritesEnabled.asBoolean(),
     celoNews: celoNewsString ? JSON.parse(celoNewsString) : {},

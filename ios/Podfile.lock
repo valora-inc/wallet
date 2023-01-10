@@ -449,8 +449,6 @@ PODS:
     - React-Core
   - react-native-get-random-values (1.8.0):
     - React-Core
-  - react-native-keep-awake (4.0.0):
-    - React-Core
   - react-native-mail (6.1.1):
     - React-Core
   - react-native-netinfo (5.8.0):
@@ -731,7 +729,6 @@ DEPENDENCIES:
   - react-native-fast-crypto (from `../node_modules/react-native-fast-crypto`)
   - react-native-flipper (from `../node_modules/react-native-flipper`)
   - react-native-get-random-values (from `../node_modules/react-native-get-random-values`)
-  - react-native-keep-awake (from `../node_modules/react-native-keep-awake`)
   - react-native-mail (from `../node_modules/react-native-mail`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-randombytes (from `../node_modules/react-native-randombytes`)
@@ -894,8 +891,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-flipper"
   react-native-get-random-values:
     :path: "../node_modules/react-native-get-random-values"
-  react-native-keep-awake:
-    :path: "../node_modules/react-native-keep-awake"
   react-native-mail:
     :path: "../node_modules/react-native-mail"
   react-native-netinfo:
@@ -1066,7 +1061,6 @@ SPEC CHECKSUMS:
   react-native-fast-crypto: db61bcb2d1224a180449b886f27426a67d7628c0
   react-native-flipper: b9e2e817604af8da0d5a9ba20a8516e780e30f3c
   react-native-get-random-values: a6ea6a8a65dc93e96e24a11105b1a9c8cfe1d72a
-  react-native-keep-awake: 6c078705f3fb2586963b13588d31148adc6bd128
   react-native-mail: 8fdcd3aef007c33a6877a18eb4cf7447a1d4ce4a
   react-native-netinfo: f3f52e6d92372003b78d5cafa3557797c7beee47
   react-native-randombytes: b6677f7d495c27e9ee0dbd77ebc97b3c59173729

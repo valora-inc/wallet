@@ -1,5 +1,5 @@
-import { sleep } from '@celo/utils/lib/async'
 import { isE164NumberStrict } from '@celo/phone-utils'
+import { sleep } from '@celo/utils/lib/async'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import * as Sentry from '@sentry/react-native'
 import locales from 'locales'
@@ -41,7 +41,6 @@ import {
   phoneNumberVerifiedSelector,
   sessionIdSelector,
   supportedBiometryTypeSelector,
-  verificationPossibleSelector,
   walletConnectEnabledSelector,
 } from 'src/app/selectors'
 import Dialog from 'src/components/Dialog'
@@ -88,7 +87,6 @@ interface StateProps {
   devModeActive: boolean
   analyticsEnabled: boolean
   numberVerified: boolean
-  verificationPossible: boolean
   pincodeType: PincodeType
   backupCompleted: boolean
   requirePinOnAppOpen: boolean
@@ -113,7 +111,6 @@ const mapStateToProps = (state: RootState): StateProps => {
     e164PhoneNumber: state.account.e164PhoneNumber,
     analyticsEnabled: state.app.analyticsEnabled,
     numberVerified: phoneNumberVerifiedSelector(state),
-    verificationPossible: verificationPossibleSelector(state),
     pincodeType: pincodeTypeSelector(state),
     requirePinOnAppOpen: state.app.requirePinOnAppOpen,
     preferredCurrencyCode: getLocalCurrencyCode(state),
@@ -159,7 +156,7 @@ export class Account extends React.Component<Props, State> {
 
   goToConfirmNumber = () => {
     ValoraAnalytics.track(SettingsEvents.settings_verify_number)
-    this.props.navigation.navigate(Screens.VerificationEducationScreen, {
+    this.props.navigation.navigate(Screens.VerificationStartScreen, {
       hideOnboardingStep: true,
     })
   }
@@ -397,7 +394,7 @@ export class Account extends React.Component<Props, State> {
   }
 
   render() {
-    const { t, i18n, numberVerified, verificationPossible } = this.props
+    const { t, i18n, numberVerified } = this.props
     const promptConfirmRemovalModal = this.props.route.params?.promptConfirmRemovalModal ?? false
     const currentLanguage = locales[i18n.language]
 
@@ -416,7 +413,7 @@ export class Account extends React.Component<Props, State> {
               title={t('editProfile')}
               onPress={this.goToProfile}
             />
-            {!numberVerified && verificationPossible && (
+            {!numberVerified && (
               <SettingsItemTextValue title={t('confirmNumber')} onPress={this.goToConfirmNumber} />
             )}
             <SettingsItemTextValue

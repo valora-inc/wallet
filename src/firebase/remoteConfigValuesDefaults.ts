@@ -6,13 +6,11 @@ import { DappConnectInfo } from 'src/dapps/types'
 export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   RemoteConfigValues,
   | 'celoEducationUri'
-  | 'komenciAllowedDeployers'
   | 'sentryNetworkErrors'
   | 'superchargeTokenConfigByToken'
   | 'fiatAccountSchemaCountryOverrides'
   | 'celoNews'
 > & {
-  komenciAllowedDeployers: string
   sentryNetworkErrors: string
   superchargecUSDMin: number
   superchargecUSDMax: number
@@ -23,7 +21,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   dappListApiUrl: string
   celoNews: string
 } = {
-  hideVerification: false,
   celoEuroEnabled: true,
   inviteRewardsEnabled: false,
   inviteRewardCusd: 5,
@@ -37,8 +34,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   superchargecEURMax: 1000,
   superchargecREALMin: 50,
   superchargecREALMax: 6000,
-  komenciUseLightProxy: false,
-  komenciAllowedDeployers: '',
   pincodeUseExpandedBlocklist: false,
   rewardPillText: JSON.stringify({
     en: 'Rewards',
@@ -68,7 +63,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   createAccountCopyTestType: CreateAccountCopyTestType.Account,
   maxSwapSlippagePercentage: 2,
   showGuidedOnboardingCopy: false,
-  centralPhoneVerificationEnabled: true,
   networkTimeoutSeconds: 30,
   dappFavoritesEnabled: false,
   celoNews: JSON.stringify({ enabled: false } as RemoteConfigValues['celoNews']),
