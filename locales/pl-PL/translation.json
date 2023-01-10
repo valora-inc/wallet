@@ -360,7 +360,6 @@
   "notEnoughGoldError": "Niewystarczająca ilość CELO, aby dokonać wymiany",
   "exchangeFailed": "Wymiana nie powiodła się, spróbuj ponownie",
   "transactionFailed": "Transakcja nie powiodła się, spróbuj ponownie",
-  "refreshFailedUnexpectedly": "Nie udało się odświeżyć, sprawdź połączenie",
   "paste": "Wklej",
   "choose": "Wybierz",
   "receivedPayment": "Otrzymana płatność",
@@ -374,9 +373,7 @@
   "exchangeForGold": "Wymień na CELO",
   "missingFullName": "Pole z nazwą nie może być puste",
   "invalidPhone": "Nieprawidłowy numer telefonu",
-  "cantSelectInvalidPhone": "Nie można wybrać kontaktu: nieprawidłowy numer telefonu",
   "needMoreFundsToSend": "Potrzeba {{amountNeeded}}{{currencySymbol}}, aby dokonać tej transakcji. Dodaj środki lub wyślij mniej.",
-  "maxEscrowTransferExceeded": "Maksymalna kwota możliwa do przesłania dla użytkowników bez podłączonego numeru to {{symbol}}{{maxAmount}}.",
   "invalidAmount": "Nieprawidłowa kwota",
   "invalidCode": "Nieprawidłowy kod",
   "confirm": "Potwierdź",
@@ -409,15 +406,12 @@
   "oops": "Ups!",
   "somethingWrong": "Coś poszło nie tak.",
   "verifyFailed": "Nie udało się połączyć",
-  "canNotRequestFromUnverified": "Nie można odbierać od niezweryfikowanych użytkowników",
   "restartApp": "Uruchom ponownie aplikację",
   "quitApp": "Wyjdź",
   "loading": "Ładowanie…",
   "importContactsFailed": "Nie udało się zaimportować kontaktów",
   "sendPaymentFailed": "Nie udało się wysłać płatności",
   "paymentRequestFailed": "Żądanie płatności nie zostało wysłane",
-  "escrowTransferFailed": "Nie udało się przelać na rachunek escrow",
-  "escrowWithdrawalFailed": "Nie udało się wypłacić z rachunku escrow",
   "reclaimingEscrowedPaymentFailed": "Nie można odzyskać płatności",
   "connectingToCelo": "Łączenie…",
   "poorConnection": {
@@ -455,9 +449,7 @@
   "addressLookupFailure": "Nie udało się znaleźć adresu numeru telefonu",
   "saltFetchFailure": "Nie udało się odzyskać tajnego kodu przypisanego do numeru telefonu",
   "saltQuotaExceededError": "Wykorzystano limit na wyszukiwanie numerów telefonów",
-  "maxActionableAttestationsExceededError": "Nie udało się ponownie wysłać wiadomości",
   "odisInsufficientBalance": "Podłącz swój numer",
-  "matchmakingQuotaExceededError": "Dopasowanie można wykonać tylko raz",
   "ordinals": [
     "zerowe",
     "pierwsze",
@@ -608,13 +600,6 @@
   },
   "getVerified": "Podłącz numer telefonu",
   "notReadyForCode": "Brak gotowości na wprowadzenie kodu",
-  "emptyVerificationCode": "Brak kodu w schowku",
-  "invalidVerificationCode": "Nieprawidłowy kod",
-  "repeatVerificationCode": "Powtórzony kod",
-  "revealAttestationFailure": "Błąd żądania wiadomości SMS",
-  "verificationFailure": "Połączenie nie powiodło się",
-  "cantVerifyRevokedAccount": "To konto zostało wcześniej anulowane. Utwórz nowe konto i spróbuj ponownie.",
-  "verificationTimeout": "Przekroczony czas połączenia",
   "errorRequestCode": "Nie udało się zażądać kodów.",
   "errorRedeemingCode": "Nie udało się zrealizować kodu.",
   "pleaseRetry": "Spróbuj połączyć się ponownie.",
@@ -1448,7 +1433,8 @@
     },
     "mobileMoney": {
       "operator": {
-        "label": "Sieć"
+        "label": "Sieć",
+        "placeholderText": "Wprowadź operatora sieci komórkowej"
       },
       "mobile": {
         "label": "Numer telefonu",

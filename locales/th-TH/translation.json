@@ -360,7 +360,6 @@
   "notEnoughGoldError": "CELO ไม่เพียงพอที่จะทำการแลกเปลี่ยน",
   "exchangeFailed": "การแลกเปลี่ยนล้มเหลว โปรดลองอีกครั้ง",
   "transactionFailed": "การทำธุรกรรมล้มเหลว โปรดลองอีกครั้ง",
-  "refreshFailedUnexpectedly": "ไม่สามารถรีเฟรซได้ โปรดตรวจสอบการเชื่อมต่อของคุณ",
   "paste": "วาง",
   "choose": "เลือก",
   "receivedPayment": "การชำระเงินที่ได้รับ",
@@ -374,9 +373,7 @@
   "exchangeForGold": "แลกเป็น CELO",
   "missingFullName": "ต้องป้อนชื่อ",
   "invalidPhone": "หมายเลขโทรศัพท์ไม่ถูกต้อง",
-  "cantSelectInvalidPhone": "ไม่สามารถเลือกผู้ติดต่อ: หมายเลขโทรศัพท์ไม่ถูกต้อง",
   "needMoreFundsToSend": "คุณควรมี {{currencySymbol}}{{amountNeeded}} ในการทำธุรกรรมนี้ โปรดเพิ่มเงินทุนหรือลองส่งในจำนวนเงินที่น้อยลง",
-  "maxEscrowTransferExceeded": "จำนวนเงินสูงสุดที่โอนไปยังผู้ใช้ได้โดยไม่ต้องมีหมายเลขที่เชื่อมต่อคือ {{symbol}}{{maxAmount}}",
   "invalidAmount": "จำนวนเงินไม่ถูกต้อง",
   "invalidCode": "รหัสไม่ถูกต้อง",
   "confirm": "ยืนยัน",
@@ -409,15 +406,12 @@
   "oops": "ขออภัย!",
   "somethingWrong": "มีบางอย่างผิดปกติ",
   "verifyFailed": "ไม่สามารถเชื่อมต่อได้",
-  "canNotRequestFromUnverified": "ไม่สามารถส่งคำขอจากผู้ใช้ที่ยังไม่ยืนยัน",
   "restartApp": "รีสตาร์ทแอป",
   "quitApp": "ออก",
   "loading": "กำลังโหลด...",
   "importContactsFailed": "ไม่สามารถนำเข้าผู้ติดต่อ",
   "sendPaymentFailed": "การส่งการชำระเงินล้มเหลว",
   "paymentRequestFailed": "ไม่ได้ส่งคำขอการชำระเงิน",
-  "escrowTransferFailed": "การโอนย้ายไปยังเอสโครว์ล้มเหลว",
-  "escrowWithdrawalFailed": "การถอนจากเอสโครว์ล้มเหลว",
   "reclaimingEscrowedPaymentFailed": "ไม่สามารถเรียกคืนการชำระเงินได้",
   "connectingToCelo": "กำลังเชื่อมต่อ...",
   "poorConnection": {
@@ -455,9 +449,7 @@
   "addressLookupFailure": "ไม่สามารถค้นหาที่อยู่หมายเลขโทรศัพท์",
   "saltFetchFailure": "ไม่สามารถเรียกดูคำลับของหมายเลขโทรศัพท์",
   "saltQuotaExceededError": "โควต้าการค้นหาหมายเลขโทรศัพท์ของคุณหมดแล้ว",
-  "maxActionableAttestationsExceededError": "ไม่สามารถส่งข้อความอีกครั้งได้",
   "odisInsufficientBalance": "โปรดเชื่อมต่อหมายเลขของคุณ",
-  "matchmakingQuotaExceededError": "การจับคู่สามารถทำได้ครั้งเดียวเท่านั้น",
   "ordinals": [
     "ที่ศูนย์",
     "ที่หนึ่ง",
@@ -608,13 +600,6 @@
   },
   "getVerified": "เชื่อมต่อหมายเลขโทรศัพท์",
   "notReadyForCode": "ยังไม่พร้อมป้อนรหัส",
-  "emptyVerificationCode": "ไม่มีรหัสในคลิปบอร์ด",
-  "invalidVerificationCode": "รหัสไม่ถูกต้อง",
-  "repeatVerificationCode": "รหัสซ้ำ",
-  "revealAttestationFailure": "ข้อผิดพลาดในการส่งคำขอข้อความ SMS",
-  "verificationFailure": "การเชื่อมต่อล้มเหลว",
-  "cantVerifyRevokedAccount": "บัญชีนี้ถูกยกเลิกไปแล้ว โปรดสร้างบัญชีใหม่แล้วลองอีกครั้ง",
-  "verificationTimeout": "การเชื่อมต่อหมดเวลา",
   "errorRequestCode": "ไม่สามารถส่งคำขอรหัส",
   "errorRedeemingCode": "ไม่สามารถแลกรหัส",
   "pleaseRetry": "โปรดลองเชื่อมต่ออีกครั้ง",
@@ -1442,7 +1427,8 @@
     },
     "mobileMoney": {
       "operator": {
-        "label": "เครือข่าย"
+        "label": "เครือข่าย",
+        "placeholderText": "Enter Mobile Network Operator"
       },
       "mobile": {
         "label": "หมายเลขโทรศัพท์",

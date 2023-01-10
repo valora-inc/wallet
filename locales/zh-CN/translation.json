@@ -360,7 +360,6 @@
   "notEnoughGoldError": "没有足够的 CELO 进行汇兑",
   "exchangeFailed": "汇兑失败，请重试",
   "transactionFailed": "交易失败，请重试",
-  "refreshFailedUnexpectedly": "刷新失败，请检查您的连接",
   "paste": "粘贴",
   "choose": "选择",
   "receivedPayment": "已收到付款",
@@ -374,9 +373,7 @@
   "exchangeForGold": "兑换为 CELO",
   "missingFullName": "姓名不能为空",
   "invalidPhone": "手机号码无效",
-  "cantSelectInvalidPhone": "无法选择联系人：手机号码无效",
   "needMoreFundsToSend": "您需要有 {{currencySymbol}}{{amountNeeded}} 才能进行此交易。 请添加资金或尝试发送更少的资金。",
-  "maxEscrowTransferExceeded": "可转账给未关联号码的用户的最大金额为 {{symbol}}{{maxAmount}}。",
   "invalidAmount": "金额无效",
   "invalidCode": "代码无效",
   "confirm": "确认",
@@ -409,15 +406,12 @@
   "oops": "糟糕！",
   "somethingWrong": "出错了。",
   "verifyFailed": "关联失败",
-  "canNotRequestFromUnverified": "未经确认的用户无法发起请求",
   "restartApp": "重新启动应用程序",
   "quitApp": "退出",
   "loading": "正在载入…",
   "importContactsFailed": "联系人导入失败",
   "sendPaymentFailed": "付款发送失败",
   "paymentRequestFailed": "付款请求未被发送",
-  "escrowTransferFailed": "转账到 escrow 失败",
-  "escrowWithdrawalFailed": "从托管提取失败",
   "reclaimingEscrowedPaymentFailed": "付款无法收回",
   "connectingToCelo": "正在关联…",
   "poorConnection": {
@@ -455,9 +449,7 @@
   "addressLookupFailure": "查找电话号码地址失败",
   "saltFetchFailure": "检索电话号码密钥失败",
   "saltQuotaExceededError": "您的手机号码查找配额已用完",
-  "maxActionableAttestationsExceededError": "重新发送消息失败",
   "odisInsufficientBalance": "请关联您的号码",
-  "matchmakingQuotaExceededError": "只能进行一次配对",
   "ordinals": [
     "第零个",
     "第一个",
@@ -608,13 +600,6 @@
   },
   "getVerified": "关联手机号码",
   "notReadyForCode": "尚未准备好输入代码",
-  "emptyVerificationCode": "剪贴板中无代码",
-  "invalidVerificationCode": "代码无效",
-  "repeatVerificationCode": "重复代码",
-  "revealAttestationFailure": "请求短信时出错",
-  "verificationFailure": "关联失败",
-  "cantVerifyRevokedAccount": "此账户先前已被撤销。请创建一个新账户，然后重试。",
-  "verificationTimeout": "关联超时",
   "errorRequestCode": "代码请求失败。",
   "errorRedeemingCode": "兑换代码失败。",
   "pleaseRetry": "请尝试再次关联。",
@@ -1442,7 +1427,8 @@
     },
     "mobileMoney": {
       "operator": {
-        "label": "网络"
+        "label": "网络",
+        "placeholderText": "进入移动网络运营商"
       },
       "mobile": {
         "label": "手机号码",
