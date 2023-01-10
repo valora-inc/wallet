@@ -2292,6 +2292,9 @@
                         }
                     ]
                 },
+                "useTwelveWordSeedPhrase": {
+                    "type": "boolean"
+                },
                 "visualizeNFTsEnabledInHomeAssetsPage": {
                     "type": "boolean"
                 },
@@ -2339,6 +2342,7 @@
                 "superchargeApy",
                 "superchargeTokenConfigByToken",
                 "supportedBiometryType",
+                "useTwelveWordSeedPhrase",
                 "visualizeNFTsEnabledInHomeAssetsPage",
                 "walletConnectV1Enabled",
                 "walletConnectV2Enabled"

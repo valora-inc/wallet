@@ -206,3 +206,6 @@ export const inviterAddressSelector = (state: RootState) => state.app.inviterAdd
 export const networkTimeoutSecondsSelector = (state: RootState) => state.app.networkTimeoutSeconds
 
 export const celoNewsConfigSelector = (state: RootState) => state.app.celoNews
+
+export const useTwelveWordSeedPhraseSelector = (state: RootState) =>
+  state.app.useTwelveWordSeedPhrase

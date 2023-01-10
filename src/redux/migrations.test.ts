@@ -40,6 +40,7 @@ import {
   v8Schema,
   v98Schema,
   v99Schema,
+  v103Schema,
   vNeg1Schema,
 } from 'test/schemas'
 
@@ -754,6 +755,16 @@ describe('Redux persist migrations', () => {
 
     const expectedSchema: any = _.cloneDeep(oldSchema)
     delete expectedSchema.app.celoNewsEnabled
+
+    expect(migratedSchema).toStrictEqual(expectedSchema)
+  })
+
+  it('works from v103 to v104', () => {
+    const oldSchema = v103Schema
+    const migratedSchema = migrations[104](oldSchema)
+
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    expectedSchema.app.useTwelveWordSeedPhrase = false
 
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })

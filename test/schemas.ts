@@ -1949,6 +1949,18 @@ export const v103Schema = {
   ),
 }
 
+export const v104Schema = {
+  ...v103Schema,
+  _persist: {
+    ...v103Schema._persist,
+    version: 104,
+  },
+  app: {
+    ...v103Schema.app,
+    useTwelveWordSeedPhrase: false,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v103Schema as Partial<RootState>
+  return v104Schema as Partial<RootState>
 }

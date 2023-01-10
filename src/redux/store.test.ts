@@ -93,7 +93,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 103,
+          "version": 104,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -173,6 +173,7 @@ describe('store state', () => {
           "superchargeApy": 12,
           "superchargeTokenConfigByToken": Object {},
           "supportedBiometryType": null,
+          "useTwelveWordSeedPhrase": false,
           "visualizeNFTsEnabledInHomeAssetsPage": false,
           "walletConnectV1Enabled": true,
           "walletConnectV2Enabled": true,

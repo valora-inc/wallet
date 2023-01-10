@@ -55,6 +55,7 @@ export interface State {
   inviterAddress: string | null
   networkTimeoutSeconds: number
   celoNews: CeloNewsConfig
+  useTwelveWordSeedPhrase: boolean
 }
 
 const initialState = {
@@ -103,6 +104,7 @@ const initialState = {
   inviterAddress: null,
   networkTimeoutSeconds: REMOTE_CONFIG_VALUES_DEFAULTS.networkTimeoutSeconds,
   celoNews: JSON.parse(REMOTE_CONFIG_VALUES_DEFAULTS.celoNews),
+  useTwelveWordSeedPhrase: REMOTE_CONFIG_VALUES_DEFAULTS.useTwelveWordSeedPhrase,
 }
 
 export const appReducer = (
@@ -220,6 +222,7 @@ export const appReducer = (
         showGuidedOnboardingCopy: action.configValues.showGuidedOnboardingCopy,
         networkTimeoutSeconds: action.configValues.networkTimeoutSeconds,
         celoNews: action.configValues.celoNews,
+        useTwelveWordSeedPhrase: action.configValues.useTwelveWordSeedPhrase,
       }
     case Actions.ACTIVE_SCREEN_CHANGED:
       return {

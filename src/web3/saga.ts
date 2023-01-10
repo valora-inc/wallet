@@ -1,4 +1,9 @@
-import { generateKeys, generateMnemonic, MnemonicStrength } from '@celo/cryptographic-utils'
+import {
+  CELO_DERIVATION_PATH_BASE,
+  generateKeys,
+  generateMnemonic,
+  MnemonicStrength,
+} from '@celo/cryptographic-utils'
 import { privateKeyToAddress } from '@celo/utils/lib/address'
 import { UnlockableWallet } from '@celo/wallet-base'
 import { RpcWalletErrors } from '@celo/wallet-rpc/lib/rpc-wallet'
@@ -17,7 +22,7 @@ import {
 import { clearPasswordCaches } from 'src/pincode/PasswordCache'
 import Logger from 'src/utils/Logger'
 import { Actions, setAccount, SetAccountAction, SetMtwAddressAction } from 'src/web3/actions'
-import { UNLOCK_DURATION } from 'src/web3/consts'
+import { ETHEREUM_DERIVATION_PATH, UNLOCK_DURATION } from 'src/web3/consts'
 import { getWallet, getWeb3, initContractKit } from 'src/web3/contracts'
 import { createAccountDek } from 'src/web3/dataEncryptionKey'
 import {
@@ -25,11 +30,10 @@ import {
   mtwAddressSelector,
   walletAddressSelector,
 } from 'src/web3/selectors'
+import { useTwelveWordSeedPhraseSelector } from '../app/selectors'
 import { RootState } from '../redux/reducers'
 
 const TAG = 'web3/saga'
-
-const MNEMONIC_BIT_LENGTH = MnemonicStrength.s256_24words
 
 const NEW_BLOCK_TIMEOUT = 30000 // ms
 const NEW_BLOCK_DELAY = 5000 // ms
@@ -61,6 +65,10 @@ export function* getOrCreateAccount() {
   try {
     Logger.debug(TAG + '@getOrCreateAccount', 'Creating a new account')
 
+    const useTwelveWordSeedPhrase = yield select(useTwelveWordSeedPhraseSelector)
+    const MNEMONIC_BIT_LENGTH = useTwelveWordSeedPhrase
+      ? MnemonicStrength.s128_12words
+      : MnemonicStrength.s256_24words
     const mnemonicLanguage = getMnemonicLanguage(yield select(currentLanguageSelector))
     let mnemonic: string = yield call(
       generateMnemonic,
@@ -84,7 +92,19 @@ export function* getOrCreateAccount() {
       throw new Error('Failed to generate mnemonic')
     }
 
-    const keys = yield call(generateKeys, mnemonic, undefined, undefined, undefined, bip39)
+    const DERIVATION_PATH = useTwelveWordSeedPhrase
+      ? ETHEREUM_DERIVATION_PATH
+      : CELO_DERIVATION_PATH_BASE
+
+    const keys = yield call(
+      generateKeys,
+      mnemonic,
+      undefined,
+      undefined,
+      undefined,
+      bip39,
+      DERIVATION_PATH
+    )
     privateKey = keys.privateKey
     if (!privateKey) {
       throw new Error('Failed to convert mnemonic to hex')

@@ -971,4 +971,11 @@ export const migrations = {
       'ranVerificationMigrationAt'
     ),
   }),
+  104: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      useTwelveWordSeedPhrase: false,
+    },
+  }),
 }
