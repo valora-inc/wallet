@@ -4,7 +4,6 @@ import {
   CommonActions,
   createNavigationContainerRef,
   NavigationState,
-  Route,
   StackActions,
 } from '@react-navigation/native'
 import { createRef, MutableRefObject } from 'react'
@@ -97,11 +96,6 @@ export function navigate<RouteName extends keyof StackParamList>(
 ) {
   const [routeName, params] = args
 
-  if (routeName === Screens.ImportWallet) {
-    navigateClearingOnboardingStack(...args)
-    return
-  }
-
   ensureNavigator()
     .then(() => {
       Logger.debug(`${TAG}@navigate`, `Dispatch ${routeName}`)
@@ -132,43 +126,6 @@ export const navigateClearingStack: SafeNavigate = (...args) => {
     })
     .catch((reason) => {
       Logger.error(`${TAG}@navigateClearingStack`, 'Navigation failure', reason)
-    })
-}
-
-// This function changes the navigation state so that navigating back will go to
-// the Welcome screen, even if there were intermediary screens in between. It is
-// meant to be used during onboarding,
-export const navigateClearingOnboardingStack: SafeNavigate = (...args) => {
-  const [routeName, params] = args
-
-  ensureNavigator()
-    .then(() => {
-      Logger.debug(`${TAG}@navigateClearingOnboardingStack`, `Dispatch ${routeName}`)
-
-      const state = navigationRef.current?.getRootState()
-      if (!state) {
-        Logger.error(`${TAG}@navigateClearingOnboardingStack`, 'No navigation state found')
-        return
-      }
-
-      const routes = state.routes as Route<keyof StackParamList>[]
-      const index = routes.findIndex((route) => route.name === Screens.Welcome)
-      const safeRoutes =
-        index === -1
-          ? // Welcome screen was not in the stack, add it before this screen
-            [{ key: Screens.Welcome, name: Screens.Welcome }]
-          : // Make the Welcome screen the previous screen (discard intermediary screens)
-            routes.slice(0, index + 1)
-
-      navigationRef.current?.dispatch(
-        CommonActions.reset({
-          index: safeRoutes.length,
-          routes: [...safeRoutes, { name: routeName, params }],
-        })
-      )
-    })
-    .catch((reason) => {
-      Logger.error(`${TAG}@navigateClearingOnboardingStack`, 'Navigation failure', reason)
     })
 }
 
