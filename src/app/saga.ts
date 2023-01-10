@@ -1,7 +1,6 @@
 import { compressedPubKey } from '@celo/cryptographic-utils'
 import { PhoneNumberHashDetails } from '@celo/identity/lib/odis/phone-number-identifier'
 import { hexToBuffer } from '@celo/utils/lib/address'
-import URLSearchParamsReal from '@ungap/url-search-params'
 import { AppState, Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
 import * as Keychain from 'react-native-keychain'
@@ -78,7 +77,7 @@ import {
   mtwAddressSelector,
   walletAddressSelector,
 } from 'src/web3/selectors'
-import { parse } from 'url'
+import { URLSearchParams, parse } from 'url'
 
 const TAG = 'app/saga'
 
@@ -250,7 +249,7 @@ function parseValue(value: string) {
 
 // Parses the query string into an object. Only works with built-in strings, booleans and numbers.
 function convertQueryToScreenParams(query: string) {
-  const decodedParams = new URLSearchParamsReal(decodeURIComponent(query))
+  const decodedParams = new URLSearchParams(decodeURIComponent(query))
   const params: { [key: string]: any } = {}
   for (const [key, value] of decodedParams.entries()) {
     params[key] = parseValue(value)
