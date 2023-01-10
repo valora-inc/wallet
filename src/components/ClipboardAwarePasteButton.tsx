@@ -1,6 +1,6 @@
 import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { LayoutAnimation } from 'react-native'
+import { LayoutAnimation, Platform } from 'react-native'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 
 interface Props {
@@ -17,7 +17,9 @@ export default function ClipboardAwarePasteButton({
   const { t } = useTranslation()
 
   useLayoutEffect(() => {
-    LayoutAnimation.easeInEaseOut()
+    if (Platform.OS !== 'android') {
+      LayoutAnimation.easeInEaseOut()
+    }
   }, [shouldShow])
 
   async function onPressInternal() {

@@ -1,5 +1,10 @@
 import { reloadReactNative } from '../utils/retries'
-import { waitForElementId, getElementText, getElementTextList } from '../utils/utils'
+import {
+  waitForElementId,
+  getElementText,
+  getElementTextList,
+  scrollIntoView,
+} from '../utils/utils'
 import { navigateToDappList, scrollToDapp, navigateToHome } from '../utils/dappList'
 
 const jestExpect = require('expect')
@@ -108,6 +113,7 @@ export default DappListRecent = () => {
     await reloadReactNative()
 
     // Tap All Dapps Button
+    await scrollIntoView('All Dapps', 'RecentlyUsedDapps/ScrollContainer', 250, 'right')
     await element(by.text('All Dapps')).tap()
 
     // Check that DappList screen is open
