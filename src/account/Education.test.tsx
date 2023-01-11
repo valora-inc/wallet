@@ -19,10 +19,8 @@ const educationProps = {
       topic: EducationTopic.celo,
       title: 'Step 1',
       text: 'The Journey Begins',
-      valueProposition: 'explore',
-      variant: 'old',
     },
-  ] as any,
+  ],
   buttonText: 'next',
   embeddedNavBar: EmbeddedNavBar.Close,
   finalButtonText: BUTTON_TEXT,
@@ -59,8 +57,6 @@ describe('Education', () => {
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
       OnboardingEvents.onboarding_education_step_impression,
       {
-        valueProposition: 'explore',
-        variant: 'old',
         step: 0,
       }
     )
