@@ -46,7 +46,7 @@ interface NetworkConfig {
 }
 
 const CLOUD_FUNCTIONS_STAGING = 'https://api.alfajores.valora.xyz'
-const CLOUD_FUNCTIONS_MAINNET = 'https://us-central1-celo-mobile-mainnet.cloudfunctions.net'
+const CLOUD_FUNCTIONS_MAINNET = 'https://api.mainnet.valora.xyz'
 
 const ALLOWED_MTW_IMPLEMENTATIONS_MAINNET: Address[] = [
   '0x6511FB5DBfe95859d8759AdAd5503D656E2555d7',
