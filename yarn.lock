@@ -4480,10 +4480,10 @@
   resolved "https://registry.yarnpkg.com/@sentry/types/-/types-7.21.1.tgz#408a7b95a66ddc30c4359979594e03bee8f9fbdc"
   integrity sha512-3/IKnd52Ol21amQvI+kz+WB76s8/LR5YvFJzMgIoI2S8d82smIr253zGijRXxHPEif8kMLX4Yt+36VzrLxg6+A==
 
-"@sentry/types@^7.22.0":
-  version "7.22.0"
-  resolved "https://registry.yarnpkg.com/@sentry/types/-/types-7.22.0.tgz#58e4ce77b523048e0f31e2ea4b597946d76f6079"
-  integrity sha512-LhCL+wb1Jch+OesB2CIt6xpfO1Ab6CRvoNYRRzVumWPLns1T3ZJkarYfhbLaOEIb38EIbPgREdxn2AJT560U4Q==
+"@sentry/types@^7.29.0":
+  version "7.30.0"
+  resolved "https://registry.yarnpkg.com/@sentry/types/-/types-7.30.0.tgz#fc2baeb5b0e1ecc4d52b07b056fcba54449cd9ce"
+  integrity sha512-l4A86typvt/SfWh5JffpdxNGkg5EEA8m35BzpIcKmCAQZUDmnb4b478r8jdD2uuOjLmPNmZr1tifdRW4NCLuxQ==
 
 "@sentry/utils@7.21.1":
   version "7.21.1"
@@ -10885,10 +10885,10 @@ i18next@^19.4.3:
   dependencies:
     "@babel/runtime" "^7.10.1"
 
-ibantools@^4.1.6:
-  version "4.1.6"
-  resolved "https://registry.yarnpkg.com/ibantools/-/ibantools-4.1.6.tgz#a0204c24967676d1200fcd3b402f65c89e6c0010"
-  integrity sha512-BpIqMJj6tgFbx1YmH7tjstiqf8VgLkGL2d3K7XSOuGxbdy6gv6ovKjC/Yqgrh3OEeqeSzx8fVu5P96Q1bWg2bg==
+ibantools@^4.2.2:
+  version "4.2.2"
+  resolved "https://registry.yarnpkg.com/ibantools/-/ibantools-4.2.2.tgz#7936ffc1469eb22c03c78491149eca95dd6c53de"
+  integrity sha512-2JgIzNINavUEm9iooU/5Z0MWuEJSX2RcSqUY0uQhVsx9dtrVwAsVEVD7ygUYRogcJpwWFGnCU0X3vYCLaBxcAA==
 
 iconv-lite@0.4.24, iconv-lite@^0.4.24:
   version "0.4.24"
