@@ -37,7 +37,7 @@ const storeDataNotificationsEnabled = {
     backupCompleted: false,
     dismissedGetVerified: false,
     accountCreationTime: EXPIRED_BACKUP_TIME,
-    goldEducationCompleted: false,
+    celoEducationCompleted: false,
   },
   paymentRequest: {
     incomingPaymentRequests: mockPaymentRequests.slice(0, 2),
@@ -55,7 +55,7 @@ const storeDataNotificationsDisabled = {
     dismissedInviteFriends: true,
     dismissedGetVerified: true,
     accountCreationTime: RECENT_BACKUP_TIME,
-    goldEducationCompleted: true,
+    celoEducationCompleted: true,
   },
   paymentRequest: {
     incomingPaymentRequests: [],
@@ -162,7 +162,7 @@ describe('NotificationBox', () => {
       ...storeDataNotificationsDisabled,
       account: {
         ...storeDataNotificationsDisabled.account,
-        goldEducationCompleted: false,
+        celoEducationCompleted: false,
       },
     })
     const { getByText } = render(

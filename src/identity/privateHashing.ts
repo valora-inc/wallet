@@ -184,7 +184,7 @@ function* navigateToQuotaPurchaseScreen() {
 
     const ownAddress: string = yield select(currentAccountSelector)
     const tokens: CurrencyTokens = yield select(tokensByCurrencySelector)
-    const userBalance = tokens[Currency.Dollar]?.balance.toNumber() ?? null
+    const userBalance = tokens[Currency.Dollar]?.balance.toString() ?? null
     const userBalanceSufficient = isUserBalanceSufficient(userBalance, LOOKUP_GAS_FEE_ESTIMATE)
     if (!userBalanceSufficient) {
       throw Error(ErrorMessages.INSUFFICIENT_BALANCE)

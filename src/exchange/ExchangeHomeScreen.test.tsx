@@ -26,10 +26,6 @@ describe('ExchangeHomeScreen', () => {
             ...mockTokenBalances[mockCeloAddress],
             balance: '2',
           },
-          [mockCeloAddress]: {
-            ...mockTokenBalances[mockCeloAddress],
-            balance: '2',
-          },
         },
       },
       exchange: { exchangeRates },

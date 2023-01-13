@@ -101,6 +101,7 @@ describe('store state', () => {
           "accountToRecoverFromStoreWipe": undefined,
           "backupCompleted": false,
           "backupRequiredTime": null,
+          "celoEducationCompleted": false,
           "choseToRestoreAccount": false,
           "contactDetails": Object {
             "contactId": "contactId",
@@ -114,7 +115,6 @@ describe('store state', () => {
           "dismissedKeepSupercharging": false,
           "dismissedStartSupercharging": false,
           "e164PhoneNumber": "+14155556666",
-          "goldEducationCompleted": false,
           "hasMigratedToNewBip39": false,
           "name": "John Doe",
           "photosNUXClicked": false,

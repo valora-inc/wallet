@@ -975,7 +975,7 @@ export const migrations = {
     ...(_.omit(state, ['goldToken', 'stableToken']) as any),
     account: {
       ...state.account,
-      goldEducationCompleted: state.goldToken.educationCompleted,
+      celoEducationCompleted: state.goldToken.educationCompleted,
     },
   }),
 }

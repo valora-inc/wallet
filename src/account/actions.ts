@@ -30,7 +30,7 @@ export enum Actions {
   DISMISS_KEEP_SUPERCHARGING = 'ACCOUNT/DISMISS_KEEP_SUPERCHARGING',
   DISMISS_START_SUPERCHARGING = 'ACCOUNT/DISMISS_START_SUPERCHARGING',
   SAVE_SIGNED_MESSAGE = 'ACCOUNT/SAVE_SIGNED_MESSAGE',
-  SET_GOLD_EDUCATION_COMPLETED = 'ACCOUNT/SET_GOLD_EDUCATION_COMPLETED',
+  SET_CELO_EDUCATION_COMPLETED = 'ACCOUNT/SET_CELO_EDUCATION_COMPLETED',
 }
 
 export interface ChooseCreateAccountAction {
@@ -154,9 +154,9 @@ export interface SaveSignedMessage {
   type: Actions.SAVE_SIGNED_MESSAGE
 }
 
-export interface SetGoldEducationCompletedAction {
-  type: Actions.SET_GOLD_EDUCATION_COMPLETED
-  goldEducationCompleted: boolean
+export interface SetCeloEducationCompletedAction {
+  type: Actions.SET_CELO_EDUCATION_COMPLETED
+  celoEducationCompleted: boolean
 }
 
 export type ActionTypes =
@@ -187,7 +187,7 @@ export type ActionTypes =
   | DismissKeepSuperchargingAction
   | DismissStartSuperchargingAction
   | SaveSignedMessage
-  | SetGoldEducationCompletedAction
+  | SetCeloEducationCompletedAction
 
 export function chooseCreateAccount(): ChooseCreateAccountAction {
   return {
@@ -338,7 +338,7 @@ export const saveSignedMessage = (): SaveSignedMessage => ({
   type: Actions.SAVE_SIGNED_MESSAGE,
 })
 
-export const setGoldEducationCompleted = (): SetGoldEducationCompletedAction => ({
-  type: Actions.SET_GOLD_EDUCATION_COMPLETED,
-  goldEducationCompleted: true,
+export const setGoldEducationCompleted = (): SetCeloEducationCompletedAction => ({
+  type: Actions.SET_CELO_EDUCATION_COMPLETED,
+  celoEducationCompleted: true,
 })

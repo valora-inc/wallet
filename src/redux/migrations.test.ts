@@ -765,7 +765,7 @@ describe('Redux persist migrations', () => {
     const expectedSchema: any = _.cloneDeep(oldSchema)
     delete expectedSchema.goldToken
     delete expectedSchema.stableToken
-    expectedSchema.account.goldEducationCompleted = oldSchema.goldToken.educationCompleted
+    expectedSchema.account.celoEducationCompleted = oldSchema.goldToken.educationCompleted
 
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })

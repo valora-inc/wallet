@@ -24,9 +24,9 @@ import FiatExchange from 'src/account/FiatExchange'
 import GoldEducation from 'src/account/GoldEducation'
 import {
   backupCompletedSelector,
+  celoEducationCompletedSelector,
   defaultCountryCodeSelector,
   e164NumberSelector,
-  goldEducationCompletedSelector,
   nameSelector,
   shouldShowRecoveryPhraseInSettingsSelector,
 } from 'src/account/selectors'
@@ -195,7 +195,7 @@ function CustomDrawerContent(props: DrawerContentComponentProps<DrawerContentOpt
 
 export default function DrawerNavigator() {
   const { t } = useTranslation()
-  const isCeloEducationComplete = useSelector(goldEducationCompletedSelector)
+  const isCeloEducationComplete = useSelector(celoEducationCompletedSelector)
   const dappsListUrl = useSelector(dappsListApiUrlSelector)
 
   const shouldShowRecoveryPhraseInSettings = useSelector(shouldShowRecoveryPhraseInSettingsSelector)

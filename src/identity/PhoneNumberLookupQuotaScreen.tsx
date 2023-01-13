@@ -22,7 +22,7 @@ type Props = NativeStackScreenProps<StackParamList, Screens.PhoneNumberLookupQuo
 
 function PhoneNumberLookupQuotaScreen(props: Props) {
   const [isSending, setIsSending] = useState(false)
-  const userBalance = useTokenInfoByCurrency(Currency.Dollar)?.balance.toNumber() ?? null
+  const userBalance = useTokenInfoByCurrency(Currency.Dollar)?.balance.toString() ?? null
   const { t } = useTranslation()
 
   const userBalanceIsSufficient = isUserBalanceSufficient(userBalance, LOOKUP_GAS_FEE_ESTIMATE)

@@ -31,7 +31,7 @@ export interface State {
   accountToRecoverFromStoreWipe: string | undefined
   dismissedKeepSupercharging: boolean
   dismissedStartSupercharging: boolean
-  goldEducationCompleted: boolean
+  celoEducationCompleted: boolean
 }
 
 export enum PincodeType {
@@ -92,7 +92,7 @@ export const initialState: State = {
   accountToRecoverFromStoreWipe: undefined,
   dismissedKeepSupercharging: false,
   dismissedStartSupercharging: false,
-  goldEducationCompleted: false,
+  celoEducationCompleted: false,
 }
 
 export const reducer = (
@@ -252,10 +252,10 @@ export const reducer = (
         ...state,
         dismissedStartSupercharging: true,
       }
-    case Actions.SET_GOLD_EDUCATION_COMPLETED:
+    case Actions.SET_CELO_EDUCATION_COMPLETED:
       return {
         ...state,
-        goldEducationCompleted: action.goldEducationCompleted,
+        celoEducationCompleted: action.celoEducationCompleted,
       }
     default:
       return state

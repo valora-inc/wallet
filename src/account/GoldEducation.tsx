@@ -4,7 +4,7 @@ import { Platform } from 'react-native'
 import { useDispatch } from 'react-redux'
 import { setGoldEducationCompleted } from 'src/account/actions'
 import Education, { EducationTopic, EmbeddedNavBar } from 'src/account/Education'
-import { goldEducationCompletedSelector } from 'src/account/selectors'
+import { celoEducationCompletedSelector } from 'src/account/selectors'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { BtnTypes } from 'src/components/Button'
@@ -19,7 +19,7 @@ export default function GoldEducation() {
 
   const dispatch = useDispatch()
 
-  const isCeloEducationComplete = useSelector(goldEducationCompletedSelector)
+  const isCeloEducationComplete = useSelector(celoEducationCompletedSelector)
 
   const onFinish = () => {
     ValoraAnalytics.track(OnboardingEvents.celo_education_complete)

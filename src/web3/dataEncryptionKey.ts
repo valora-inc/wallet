@@ -19,6 +19,7 @@ import {
   privateKeyToAddress,
 } from '@celo/utils/lib/address'
 import { UnlockableWallet } from '@celo/wallet-base'
+import BigNumber from 'bignumber.js'
 import { Platform } from 'react-native'
 import * as bip39 from 'react-native-bip39'
 import DeviceInfo from 'react-native-device-info'
@@ -188,9 +189,9 @@ export function* registerAccountDek() {
       return
     }
     const tokens: CurrencyTokens = yield select(tokensByCurrencySelector)
-    const cusdBalance = tokens[Currency.Dollar]?.balance
-    const celoBalance = tokens[Currency.Celo]?.balance
-    if (!cusdBalance && !celoBalance) {
+    const cusdBalance: BigNumber | undefined = tokens[Currency.Dollar]?.balance
+    const celoBalance: BigNumber | undefined = tokens[Currency.Celo]?.balance
+    if ((!cusdBalance || cusdBalance.isEqualTo(0)) && (!celoBalance || celoBalance.isEqualTo(0))) {
       Logger.debug(
         `${TAG}@registerAccountDek`,
         'Skipping DEK registration because there are no funds'

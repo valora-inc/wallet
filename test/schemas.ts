@@ -1957,7 +1957,7 @@ export const v104Schema = {
   },
   account: {
     ...v103Schema.account,
-    goldEducationCompleted: v103Schema.goldToken.educationCompleted,
+    celoEducationCompleted: v103Schema.goldToken.educationCompleted,
   },
 }
 
