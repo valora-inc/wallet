@@ -1,9 +1,4 @@
-import {
-  CELO_DERIVATION_PATH_BASE,
-  generateKeys,
-  generateMnemonic,
-  MnemonicStrength,
-} from '@celo/cryptographic-utils'
+import { generateMnemonic, MnemonicStrength } from '@celo/cryptographic-utils'
 import { privateKeyToAddress } from '@celo/utils/lib/address'
 import { UnlockableWallet } from '@celo/wallet-base'
 import { RpcWalletErrors } from '@celo/wallet-rpc/lib/rpc-wallet'
@@ -12,7 +7,7 @@ import { call, delay, put, select, spawn, take } from 'redux-saga/effects'
 import { setAccountCreationTime } from 'src/account/actions'
 import { generateSignedMessage } from 'src/account/saga'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { getMnemonicLanguage, storeMnemonic } from 'src/backup/utils'
+import { generateKeysFromMnemonic, getMnemonicLanguage, storeMnemonic } from 'src/backup/utils'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import {
   CANCELLED_PIN_INPUT,
@@ -22,7 +17,7 @@ import {
 import { clearPasswordCaches } from 'src/pincode/PasswordCache'
 import Logger from 'src/utils/Logger'
 import { Actions, setAccount, SetAccountAction, SetMtwAddressAction } from 'src/web3/actions'
-import { ETHEREUM_DERIVATION_PATH, UNLOCK_DURATION } from 'src/web3/consts'
+import { UNLOCK_DURATION } from 'src/web3/consts'
 import { getWallet, getWeb3, initContractKit } from 'src/web3/contracts'
 import { createAccountDek } from 'src/web3/dataEncryptionKey'
 import {
@@ -92,19 +87,7 @@ export function* getOrCreateAccount() {
       throw new Error('Failed to generate mnemonic')
     }
 
-    const DERIVATION_PATH = twelveWordSeedPhraseEnabled
-      ? ETHEREUM_DERIVATION_PATH
-      : CELO_DERIVATION_PATH_BASE
-
-    const keys = yield call(
-      generateKeys,
-      mnemonic,
-      undefined,
-      undefined,
-      undefined,
-      bip39,
-      DERIVATION_PATH
-    )
+    const keys = yield call(generateKeysFromMnemonic, mnemonic)
     privateKey = keys.privateKey
     if (!privateKey) {
       throw new Error('Failed to convert mnemonic to hex')
