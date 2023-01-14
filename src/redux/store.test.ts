@@ -173,7 +173,7 @@ describe('store state', () => {
           "superchargeApy": 12,
           "superchargeTokenConfigByToken": Object {},
           "supportedBiometryType": null,
-          "useTwelveWordSeedPhrase": false,
+          "twelveWordSeedPhraseEnabled": false,
           "visualizeNFTsEnabledInHomeAssetsPage": false,
           "walletConnectV1Enabled": true,
           "walletConnectV2Enabled": true,

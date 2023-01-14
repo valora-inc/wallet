@@ -207,5 +207,5 @@ export const networkTimeoutSecondsSelector = (state: RootState) => state.app.net
 
 export const celoNewsConfigSelector = (state: RootState) => state.app.celoNews
 
-export const useTwelveWordSeedPhraseSelector = (state: RootState) =>
-  state.app.useTwelveWordSeedPhrase
+export const twelveWordSeedPhraseEnabledSelector = (state: RootState) =>
+  state.app.twelveWordSeedPhraseEnabled

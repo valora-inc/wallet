@@ -1957,7 +1957,7 @@ export const v104Schema = {
   },
   app: {
     ...v103Schema.app,
-    useTwelveWordSeedPhrase: false,
+    twelveWordSeedPhraseEnabled: false,
   },
 }
 

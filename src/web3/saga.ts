@@ -30,7 +30,7 @@ import {
   mtwAddressSelector,
   walletAddressSelector,
 } from 'src/web3/selectors'
-import { useTwelveWordSeedPhraseSelector } from '../app/selectors'
+import { twelveWordSeedPhraseEnabledSelector } from '../app/selectors'
 import { RootState } from '../redux/reducers'
 
 const TAG = 'web3/saga'
@@ -65,8 +65,8 @@ export function* getOrCreateAccount() {
   try {
     Logger.debug(TAG + '@getOrCreateAccount', 'Creating a new account')
 
-    const useTwelveWordSeedPhrase = yield select(useTwelveWordSeedPhraseSelector)
-    const MNEMONIC_BIT_LENGTH = useTwelveWordSeedPhrase
+    const twelveWordSeedPhraseEnabled = yield select(twelveWordSeedPhraseEnabledSelector)
+    const MNEMONIC_BIT_LENGTH = twelveWordSeedPhraseEnabled
       ? MnemonicStrength.s128_12words
       : MnemonicStrength.s256_24words
     const mnemonicLanguage = getMnemonicLanguage(yield select(currentLanguageSelector))
@@ -92,7 +92,7 @@ export function* getOrCreateAccount() {
       throw new Error('Failed to generate mnemonic')
     }
 
-    const DERIVATION_PATH = useTwelveWordSeedPhrase
+    const DERIVATION_PATH = twelveWordSeedPhraseEnabled
       ? ETHEREUM_DERIVATION_PATH
       : CELO_DERIVATION_PATH_BASE
 

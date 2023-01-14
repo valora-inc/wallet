@@ -975,7 +975,7 @@ export const migrations = {
     ...state,
     app: {
       ...state.app,
-      useTwelveWordSeedPhrase: false,
+      twelveWordSeedPhraseEnabled: false,
     },
   }),
 }

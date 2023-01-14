@@ -204,7 +204,7 @@ export interface RemoteConfigValues {
   networkTimeoutSeconds: number
   dappFavoritesEnabled: boolean
   celoNews: CeloNewsConfig
-  useTwelveWordSeedPhrase: boolean
+  twelveWordSeedPhraseEnabled: boolean
 }
 
 export function* appRemoteFeatureFlagSaga() {

@@ -764,7 +764,7 @@ describe('Redux persist migrations', () => {
     const migratedSchema = migrations[104](oldSchema)
 
     const expectedSchema: any = _.cloneDeep(oldSchema)
-    expectedSchema.app.useTwelveWordSeedPhrase = false
+    expectedSchema.app.twelveWordSeedPhraseEnabled = false
 
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
