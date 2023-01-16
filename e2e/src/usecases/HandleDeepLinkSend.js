@@ -8,6 +8,7 @@ const deepLinks = {
     'celo://wallet/pay?address=0xC0509a7dcc69a0B28c7Ca73feD2FF06b9d59E5b9&currencyCode=USD&token=cUSD&displayName=TestFaucet&comment=sending+usd:+0.1+to+my+wallet',
   withoutAddress:
     'celo://wallet/pay?amount=0.1&currencyCode=USD&token=cUSD&displayName=TestFaucet&comment=sending+usd:+0.1+to+my+wallet',
+  navigateToSend: 'celo://wallet/openScreen?screen=Send',
 }
 
 // Helper functions
@@ -98,6 +99,13 @@ export default HandleDeepLinkSend = () => {
       const PAY_URL = quote(deepLinks.withoutAddress)
       await openDeepLink(PAY_URL)
       await expect(element(by.id('SendAmount'))).not.toBeVisible()
+    })
+
+    it('should navigate to another screen correctly', async () => {
+      await openDeepLink(deepLinks.navigateToSend)
+      await waitFor(element(by.id('RecipientPicker')))
+        .toBeVisible()
+        .withTimeout(10 * 1000)
     })
   })
 
