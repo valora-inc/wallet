@@ -16,7 +16,12 @@ import { apolloClient } from 'src/apollo/index'
 import { appMounted, appUnmounted, openDeepLink } from 'src/app/actions'
 import AppLoading from 'src/app/AppLoading'
 import ErrorBoundary from 'src/app/ErrorBoundary'
-import { DYNAMIC_LINK_DOMAIN_URI_PREFIX, FIREBASE_ENABLED, isE2EEnv } from 'src/config'
+import {
+  DYNAMIC_LINK_DOMAIN_URI_PREFIX,
+  FIREBASE_ENABLED,
+  isE2EEnv,
+  OVERRIDE_DEEP_LINK_SECURE_ORIGIN,
+} from 'src/config'
 import i18n from 'src/i18n'
 import I18nGate from 'src/i18n/I18nGate'
 import NavigatorWrapper from 'src/navigator/NavigatorWrapper'
@@ -100,7 +105,9 @@ export class App extends React.Component<Props> {
       }
     })
 
-    Linking.addEventListener('url', this.handleOpenURL)
+    Linking.addEventListener('url', async (event) => {
+      return this.handleOpenURL(event, OVERRIDE_DEEP_LINK_SECURE_ORIGIN)
+    })
 
     if (FIREBASE_ENABLED) {
       this.dynamicLinksRemoveListener = dynamicLinks().onLink(({ url }) =>

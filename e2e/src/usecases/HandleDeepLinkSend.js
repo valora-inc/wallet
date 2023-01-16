@@ -102,7 +102,7 @@ export default HandleDeepLinkSend = () => {
     })
 
     it('should navigate to another screen correctly', async () => {
-      await openDeepLink(deepLinks.navigateToSend)
+      await openDeepLink(quote(deepLinks.navigateToSend))
       await waitFor(element(by.id('RecipientPicker')))
         .toBeVisible()
         .withTimeout(10 * 1000)
