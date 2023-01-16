@@ -250,9 +250,9 @@ function parseValue(value: string) {
 function convertQueryToScreenParams(query: string) {
   const decodedParams = new URLSearchParams(decodeURIComponent(query))
   const params: { [key: string]: any } = {}
-  for (const [key, value] of decodedParams.entries()) {
+  decodedParams.forEach((value, key) => {
     params[key] = parseValue(value)
-  }
+  })
   return params
 }
 
