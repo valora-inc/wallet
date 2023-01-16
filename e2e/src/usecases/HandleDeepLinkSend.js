@@ -1,4 +1,3 @@
-import { DetoxConstants } from 'detox'
 import { launchApp, reloadReactNative } from '../utils/retries'
 import { inputNumberKeypad, quote } from '../utils/utils'
 
@@ -9,27 +8,12 @@ const deepLinks = {
     'celo://wallet/pay?address=0xC0509a7dcc69a0B28c7Ca73feD2FF06b9d59E5b9&currencyCode=USD&token=cUSD&displayName=TestFaucet&comment=sending+usd:+0.1+to+my+wallet',
   withoutAddress:
     'celo://wallet/pay?amount=0.1&currencyCode=USD&token=cUSD&displayName=TestFaucet&comment=sending+usd:+0.1+to+my+wallet',
-  navigateToSend: 'celo://wallet/openScreen?screen=Send',
 }
 
 // Helper functions
 const launchDeepLink = async (url, newInstance = true) => {
   await device.terminateApp()
   await launchApp({ url: url, newInstance: newInstance })
-}
-
-const launchClevertapDeepLink = async (url) => {
-  await device.terminateApp()
-  await launchApp({
-    userNotification: {
-      trigger: {
-        type: DetoxConstants.userNotificationTriggers.push,
-      },
-      payload: {
-        wzrk_dl: url,
-      },
-    },
-  })
 }
 
 const openDeepLink = async (payUrl) => {
@@ -39,13 +23,6 @@ const openDeepLink = async (payUrl) => {
 
 export default HandleDeepLinkSend = () => {
   describe('When Launching Deeplink - App Closed', () => {
-    it('The should handle deeplink to another screen', async () => {
-      await launchClevertapDeepLink(quote(deepLinks.navigateToSend))
-      await waitFor(element(by.id('RecipientPicker')))
-        .toBeVisible()
-        .withTimeout(10 * 1000)
-    })
-
     it('Then should handle deeplink with all attributes', async () => {
       const PAY_URL = quote(deepLinks.withAll)
       await launchDeepLink(PAY_URL)

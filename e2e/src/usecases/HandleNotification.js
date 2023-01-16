@@ -1,7 +1,9 @@
+import { DetoxConstants } from 'detox'
 import { launchApp } from '../utils/retries'
 
 export default HandleNotification = () => {
-  it('Launch app from push notification', async () => {
+  // firebase is currently not enabled for e2e tests so the below test is skipped.
+  it.skip('Launch app from push notification', async () => {
     const userNotification = {
       trigger: {
         type: 'push',
@@ -19,5 +21,23 @@ export default HandleNotification = () => {
     }
 
     await launchApp({ newInstance: true, userNotification })
+  })
+
+  it('Launch app and deeplink to another screen', async () => {
+    await launchApp({
+      newInstance: true,
+      userNotification: {
+        trigger: {
+          type: DetoxConstants.userNotificationTriggers.push,
+        },
+        payload: {
+          wzrk_dl: 'celo://wallet/openScreen?screen=Send',
+        },
+      },
+    })
+
+    await waitFor(element(by.id('RecipientPicker')))
+      .toBeVisible()
+      .withTimeout(10 * 1000)
   })
 }
