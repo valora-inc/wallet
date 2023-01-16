@@ -1,3 +1,4 @@
+import { DetoxConstants } from 'detox'
 import { launchApp, reloadReactNative } from '../utils/retries'
 import { inputNumberKeypad, quote } from '../utils/utils'
 
@@ -15,6 +16,21 @@ const deepLinks = {
 const launchDeepLink = async (url, newInstance = true) => {
   await device.terminateApp()
   await launchApp({ url: url, newInstance: newInstance })
+}
+
+const launchClevertapDeepLink = async (url) => {
+  await device.terminateApp()
+  await launchApp({
+    newInstance: true,
+    userNotification: {
+      trigger: {
+        type: DetoxConstants.userNotificationTriggers.push,
+      },
+      payload: {
+        wzrk_dl: url,
+      },
+    },
+  })
 }
 
 const openDeepLink = async (payUrl) => {
@@ -50,6 +66,13 @@ export default HandleDeepLinkSend = () => {
       const PAY_URL = quote(deepLinks.withoutAddress)
       await launchDeepLink(PAY_URL)
       await expect(element(by.id('SendAmount'))).not.toBeVisible()
+    })
+
+    it('The should handle deeplink to another screen', async () => {
+      await launchClevertapDeepLink(quote(deepLinks.navigateToSend))
+      await waitFor(element(by.id('RecipientPicker')))
+        .toBeVisible()
+        .withTimeout(10 * 1000)
     })
   })
 
@@ -99,13 +122,6 @@ export default HandleDeepLinkSend = () => {
       const PAY_URL = quote(deepLinks.withoutAddress)
       await openDeepLink(PAY_URL)
       await expect(element(by.id('SendAmount'))).not.toBeVisible()
-    })
-
-    it('should navigate to another screen correctly', async () => {
-      await openDeepLink(quote(deepLinks.navigateToSend))
-      await waitFor(element(by.id('RecipientPicker')))
-        .toBeVisible()
-        .withTimeout(10 * 1000)
     })
   })
 

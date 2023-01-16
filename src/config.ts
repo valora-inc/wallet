@@ -31,9 +31,6 @@ const configOrThrow = (key: string) => {
 
 // DEV only related settings
 export const isE2EEnv = stringToBoolean(Config.IS_E2E || 'false')
-export const OVERRIDE_DEEP_LINK_SECURE_ORIGIN = stringToBoolean(
-  Config.OVERRIDE_DEEP_LINK_SECURE_ORIGIN || 'false'
-)
 export const DEV_RESTORE_NAV_STATE_ON_RELOAD = stringToBoolean(
   Config.DEV_RESTORE_NAV_STATE_ON_RELOAD || 'false'
 )
