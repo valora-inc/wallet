@@ -77,7 +77,7 @@ import {
   mtwAddressSelector,
   walletAddressSelector,
 } from 'src/web3/selectors'
-import { URLSearchParams, parse } from 'url'
+import { parse } from 'url'
 
 const TAG = 'app/saga'
 
