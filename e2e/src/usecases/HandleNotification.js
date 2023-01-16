@@ -23,7 +23,7 @@ export default HandleNotification = () => {
     await launchApp({ newInstance: true, userNotification })
   })
 
-  it('Launch app and deeplink to another screen', async () => {
+  it(':ios: Launch app and deeplink to another screen', async () => {
     await launchApp({
       newInstance: true,
       userNotification: {
