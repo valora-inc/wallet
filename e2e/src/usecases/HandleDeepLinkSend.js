@@ -21,7 +21,6 @@ const launchDeepLink = async (url, newInstance = true) => {
 const launchClevertapDeepLink = async (url) => {
   await device.terminateApp()
   await launchApp({
-    newInstance: true,
     userNotification: {
       trigger: {
         type: DetoxConstants.userNotificationTriggers.push,
@@ -40,6 +39,13 @@ const openDeepLink = async (payUrl) => {
 
 export default HandleDeepLinkSend = () => {
   describe('When Launching Deeplink - App Closed', () => {
+    it('The should handle deeplink to another screen', async () => {
+      await launchClevertapDeepLink(quote(deepLinks.navigateToSend))
+      await waitFor(element(by.id('RecipientPicker')))
+        .toBeVisible()
+        .withTimeout(10 * 1000)
+    })
+
     it('Then should handle deeplink with all attributes', async () => {
       const PAY_URL = quote(deepLinks.withAll)
       await launchDeepLink(PAY_URL)
@@ -66,13 +72,6 @@ export default HandleDeepLinkSend = () => {
       const PAY_URL = quote(deepLinks.withoutAddress)
       await launchDeepLink(PAY_URL)
       await expect(element(by.id('SendAmount'))).not.toBeVisible()
-    })
-
-    it('The should handle deeplink to another screen', async () => {
-      await launchClevertapDeepLink(quote(deepLinks.navigateToSend))
-      await waitFor(element(by.id('RecipientPicker')))
-        .toBeVisible()
-        .withTimeout(10 * 1000)
     })
   })
 
