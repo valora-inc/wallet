@@ -1515,7 +1515,7 @@
     "title": "Looks like {{contactName}} doesn’t have a {{appName}} wallet yet.",
     "body": "You can still invite them to {{appName}}, or try to send a payment to their wallet address or nom.space.",
     "sendInviteButtonLabel": "Send Invite",
-    "shareMessage": "Hey! I’d like to send you some crypto with my {{appName}} wallet. Once you download the app and connect your phone number, we can send crypto as easy as a text. Use this link: {{link}}",
+    "shareMessage": "Hi! I've been using {{appName}} as my crypto wallet and I want to invite you to check it out. Once you download the app and connect your phone number, we both get a special NFT. Use this link: {{link}}",
     "rewardsActive": {
       "title": "Invite {{contactName}} to {{appName}} and you’ll both receive NFTs!",
       "body": "Looks like {{contactName}} isn't on {{appName}}. If you know their wallet address you can still send a payment or send an invite instead. \n\n After they download the wallet and connect their phone number, you’ll both get an exclusive NFT."
