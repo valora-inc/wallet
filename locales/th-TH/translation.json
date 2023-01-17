@@ -1511,7 +1511,7 @@
     "title": "ดูเหมือนว่า {{contactName}} จะยังไม่มีกระเป๋าเงิน {{appName}}",
     "body": "คุณยังคงสามารถเชิญพวกเขาเข้าร่วม {{appName}} หรือลองส่งการชำระเงินไปยังที่อยู่กระเป๋าเงินหรือ nom.space ของพวกเขา",
     "sendInviteButtonLabel": "ส่งคำเชิญ",
-    "shareMessage": "สวัสดี ฉันต้องการส่งคริปโตให้คุณด้วยกระเป๋าเงิน {{appName}} ของฉัน เมื่อคุณดาวน์โหลดแอปและเชื่อมต่อหมายเลขโทรศัพท์ของคุณแล้ว เราจะสามารถส่งคริปโตได้ง่ายเหมือนการส่งข้อความ ใช้ลิงก์นี้: {{link}}",
+    "shareMessage": "Hi! I've been using {{appName}} as my crypto wallet and I want to invite you to check it out. Once you download the app and connect your phone number, we both get a special NFT. Use this link: {{link}}",
     "rewardsActive": {
       "title": "เชิญ {{contactName}} มายัง {{appName}} คุณทั้งสองคนจะได้รับ NFT",
       "body": "ดูเหมือนว่า {{contactName}} ไม่ได้ใช้งาน {{appName}} หากคุณทราบที่อยู่กระเป๋าเงินของเขา คุณยังคงสามารถส่งการชำระเงินหรือส่งคำเชิญแทนได้ \n\nหลังจากที่เขาดาวน์โหลดกระเป๋าเงินและเชื่อมต่อหมายเลขโทรศัพท์แล้ว คุณทั้งสองจะได้รับ NFT พิเศษ"
