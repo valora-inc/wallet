@@ -24,6 +24,7 @@ import FiatExchange from 'src/account/FiatExchange'
 import GoldEducation from 'src/account/GoldEducation'
 import {
   backupCompletedSelector,
+  celoEducationCompletedSelector,
   defaultCountryCodeSelector,
   e164NumberSelector,
   nameSelector,
@@ -194,7 +195,7 @@ function CustomDrawerContent(props: DrawerContentComponentProps<DrawerContentOpt
 
 export default function DrawerNavigator() {
   const { t } = useTranslation()
-  const isCeloEducationComplete = useSelector((state) => state.goldToken.educationCompleted)
+  const isCeloEducationComplete = useSelector(celoEducationCompletedSelector)
   const dappsListUrl = useSelector(dappsListApiUrlSelector)
 
   const shouldShowRecoveryPhraseInSettings = useSelector(shouldShowRecoveryPhraseInSettingsSelector)

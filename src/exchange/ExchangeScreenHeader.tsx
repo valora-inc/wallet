@@ -11,8 +11,8 @@ import DownArrowIcon from 'src/icons/DownArrowIcon'
 import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
 import { HeaderTitleWithBalance, styles as headerStyles } from 'src/navigator/Headers'
 import useSelector from 'src/redux/useSelector'
-import { balancesSelector } from 'src/stableToken/selectors'
 import colors from 'src/styles/colors'
+import { tokensByCurrencySelector } from 'src/tokens/selectors'
 import { Currency, STABLE_CURRENCIES } from 'src/utils/currencies'
 
 interface Props {
@@ -32,13 +32,14 @@ function ExchangeTradeScreenHeader({ currency, isCeloPurchase, onChangeCurrency 
 
   const closeCurrencyPicker = () => setShowTokenPicker(false)
 
-  const balances = useSelector(balancesSelector)
+  const tokens = useSelector(tokensByCurrencySelector)
   const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)
 
   const title = useMemo(() => {
     const currenciesWithBalance = STABLE_CURRENCIES.filter(
       (currency) =>
-        balances[currency]?.gt(STABLE_TRANSACTION_MIN_AMOUNT) && exchangeRates[currency] !== null
+        tokens[currency]?.balance?.gt(STABLE_TRANSACTION_MIN_AMOUNT) &&
+        exchangeRates[currency] !== null
     ).length
 
     let titleText

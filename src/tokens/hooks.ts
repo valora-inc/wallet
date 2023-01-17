@@ -1,7 +1,11 @@
 import BigNumber from 'bignumber.js'
 import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
 import useSelector from 'src/redux/useSelector'
-import { tokensByAddressSelector, tokensListSelector } from 'src/tokens/selectors'
+import {
+  tokensByAddressSelector,
+  tokensByCurrencySelector,
+  tokensListSelector,
+} from 'src/tokens/selectors'
 import { Currency } from 'src/utils/currencies'
 
 export function useTokenInfo(tokenAddress: string) {
@@ -12,6 +16,11 @@ export function useTokenInfo(tokenAddress: string) {
 export function useTokenInfoBySymbol(symbol: string) {
   const tokens = useSelector(tokensListSelector)
   return tokens.find((tokenInfo) => tokenInfo.symbol === symbol)
+}
+
+export function useTokenInfoByCurrency(currency: Currency) {
+  const tokens = useSelector(tokensByCurrencySelector)
+  return tokens[currency]
 }
 
 export function useLocalToTokenAmount(

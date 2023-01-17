@@ -14,7 +14,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { apolloClient } from 'src/apollo'
 import { TokenTransactionType } from 'src/apollo/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { DOLLAR_MIN_AMOUNT_ACCOUNT_FUNDED, isE2EEnv, WALLET_BALANCE_UPPER_BOUND } from 'src/config'
+import { DOLLAR_MIN_AMOUNT_ACCOUNT_FUNDED, isE2EEnv } from 'src/config'
 import { FeeInfo } from 'src/fees/saga'
 import { readOnceFromFirebase } from 'src/firebase/firebase'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
@@ -36,7 +36,7 @@ import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { WEI_PER_TOKEN } from 'src/web3/consts'
 import { getContractKitAsync } from 'src/web3/contracts'
-import { getConnectedAccount, getConnectedUnlockedAccount } from 'src/web3/saga'
+import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import * as utf8 from 'utf8'
 
@@ -94,47 +94,6 @@ export async function getTokenContractFromAddress(tokenAddress: string) {
     contractKit.contracts.getStableToken(StableToken.cEUR),
   ])
   return contracts.find((contract) => contract.address.toLowerCase() === tokenAddress.toLowerCase())
-}
-
-// TODO: To avoid making three requests each time this function is called, we should store the token
-// addresses in the redux store. We will have to do this while working on multi-token support, so that
-// is a good moment to clean this up.
-export async function getStableCurrencyFromAddress(tokenAddress: string): Promise<Currency | null> {
-  const contractKit = await getContractKitAsync()
-  const [celoContract, cUsdContract, cEurContract] = await Promise.all([
-    contractKit.contracts.getGoldToken(),
-    contractKit.contracts.getStableToken(StableToken.cUSD),
-    contractKit.contracts.getStableToken(StableToken.cEUR),
-  ])
-  if (celoContract.address === tokenAddress) {
-    return Currency.Celo
-  } else if (cUsdContract.address === tokenAddress) {
-    return Currency.Dollar
-  } else if (cEurContract.address === tokenAddress) {
-    return Currency.Euro
-  }
-  return null
-}
-
-export function* fetchToken(token: Currency, tag: string) {
-  try {
-    Logger.debug(tag, `Fetching ${token} balance`)
-    const account = yield call(getConnectedAccount)
-    const tokenContract = yield call(getTokenContract, token)
-    const balanceInWei: BigNumber = yield call([tokenContract, tokenContract.balanceOf], account)
-    const balance: BigNumber = yield call(convertFromContractDecimals, balanceInWei, token)
-    const balanceLogObject = { [`${token}Balance`]: balance.toString() }
-
-    // Only update balances when it's less than the upper bound
-    if (balance.lt(WALLET_BALANCE_UPPER_BOUND)) {
-      ValoraAnalytics.track(AppEvents.fetch_balance, balanceLogObject)
-      return balance.toString()
-    } else {
-      ValoraAnalytics.track(AppEvents.fetch_balance_error, balanceLogObject)
-    }
-  } catch (error: any) {
-    Logger.error(tag, 'Error fetching balance', error)
-  }
 }
 
 export interface BasicTokenTransfer {

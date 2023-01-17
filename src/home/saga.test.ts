@@ -1,12 +1,10 @@
 import { expectSaga } from 'redux-saga-test-plan'
 import { call, put, select } from 'redux-saga/effects'
-import { fetchGoldBalance } from 'src/goldToken/actions'
 import { refreshAllBalances, setLoading } from 'src/home/actions'
 import { autoRefreshSaga, refreshBalances, watchRefreshBalances, withLoading } from 'src/home/saga'
 import { fetchCurrentRate } from 'src/localCurrency/actions'
 import { shouldFetchCurrentRate } from 'src/localCurrency/selectors'
 import { shouldUpdateBalance } from 'src/redux/selectors'
-import { fetchStableBalances } from 'src/stableToken/actions'
 import { getConnectedAccount } from 'src/web3/saga'
 
 jest.useRealTimers()
@@ -15,8 +13,6 @@ describe('refreshBalances', () => {
   test('ask for balance when geth and account are ready', () =>
     expectSaga(refreshBalances)
       .provide([[call(getConnectedAccount), true]])
-      .put(fetchStableBalances())
-      .put(fetchGoldBalance())
       .run())
 })
 
@@ -26,8 +22,6 @@ describe('watchRefreshBalances', () => {
       .put(setLoading(true))
       .put(setLoading(false))
       .provide([[call(getConnectedAccount), true]])
-      .put(fetchStableBalances())
-      .put(fetchGoldBalance())
       .dispatch(refreshAllBalances())
       .run()
   })

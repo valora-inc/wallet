@@ -28,10 +28,10 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import useSelector from 'src/redux/useSelector'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
-import { useBalance } from 'src/stableToken/hooks'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
+import { useTokenInfoByCurrency } from 'src/tokens/hooks'
 import { Currency } from 'src/utils/currencies'
 import { divideByWei } from 'src/utils/formatting'
 
@@ -45,7 +45,7 @@ function WithdrawCeloScreen({ route }: Props) {
   const [celoInput, setCeloToTransfer] = useState(route.params?.amount?.toString() ?? '')
   const celoToTransfer = parseInputAmount(celoInput, decimalSeparator)
 
-  const celoBalance = useBalance(Currency.Celo) ?? new BigNumber(0)
+  const celoBalance = useTokenInfoByCurrency(Currency.Celo)?.balance ?? new BigNumber(0)
   const { t } = useTranslation()
 
   const readyToReview =

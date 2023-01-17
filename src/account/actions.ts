@@ -30,6 +30,7 @@ export enum Actions {
   DISMISS_KEEP_SUPERCHARGING = 'ACCOUNT/DISMISS_KEEP_SUPERCHARGING',
   DISMISS_START_SUPERCHARGING = 'ACCOUNT/DISMISS_START_SUPERCHARGING',
   SAVE_SIGNED_MESSAGE = 'ACCOUNT/SAVE_SIGNED_MESSAGE',
+  SET_CELO_EDUCATION_COMPLETED = 'ACCOUNT/SET_CELO_EDUCATION_COMPLETED',
 }
 
 export interface ChooseCreateAccountAction {
@@ -153,6 +154,11 @@ export interface SaveSignedMessage {
   type: Actions.SAVE_SIGNED_MESSAGE
 }
 
+export interface SetCeloEducationCompletedAction {
+  type: Actions.SET_CELO_EDUCATION_COMPLETED
+  celoEducationCompleted: boolean
+}
+
 export type ActionTypes =
   | ChooseCreateAccountAction
   | ChooseRestoreAccountAction
@@ -181,6 +187,7 @@ export type ActionTypes =
   | DismissKeepSuperchargingAction
   | DismissStartSuperchargingAction
   | SaveSignedMessage
+  | SetCeloEducationCompletedAction
 
 export function chooseCreateAccount(): ChooseCreateAccountAction {
   return {
@@ -329,4 +336,9 @@ export const dismissStartSupercharging = (): DismissStartSuperchargingAction => 
 
 export const saveSignedMessage = (): SaveSignedMessage => ({
   type: Actions.SAVE_SIGNED_MESSAGE,
+})
+
+export const setGoldEducationCompleted = (): SetCeloEducationCompletedAction => ({
+  type: Actions.SET_CELO_EDUCATION_COMPLETED,
+  celoEducationCompleted: true,
 })

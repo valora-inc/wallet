@@ -5,6 +5,7 @@ import { Provider } from 'react-redux'
 import { CeloGoldOverview } from 'src/exchange/CeloGoldOverview'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore, getMockI18nProps } from 'test/utils'
+import { mockCeloAddress, mockTokenBalances } from 'test/values'
 
 const SAMPLE_BALANCE = '55.00001'
 
@@ -12,7 +13,14 @@ it('renders correctly when ready', () => {
   const tree = render(
     <Provider
       store={createMockStore({
-        goldToken: { balance: SAMPLE_BALANCE },
+        tokens: {
+          tokenBalances: {
+            [mockCeloAddress]: {
+              ...mockTokenBalances[mockCeloAddress],
+              balance: SAMPLE_BALANCE,
+            },
+          },
+        },
         localCurrency: { exchangeRates: { [Currency.Celo]: '10' } },
       })}
     >
@@ -26,7 +34,14 @@ it('renders correctly when not ready', () => {
   const tree = render(
     <Provider
       store={createMockStore({
-        goldToken: { balance: SAMPLE_BALANCE },
+        tokens: {
+          tokenBalances: {
+            [mockCeloAddress]: {
+              ...mockTokenBalances[mockCeloAddress],
+              balance: SAMPLE_BALANCE,
+            },
+          },
+        },
         localCurrency: { exchangeRates: { [Currency.Dollar]: null } },
       })}
     >

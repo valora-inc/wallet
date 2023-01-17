@@ -8,6 +8,8 @@ export const getRecentPayments = (state: RootState) => {
   return state.send.recentPayments
 }
 
+export const lastUsedCurrencySelector = (state: RootState) => state.send.lastUsedCurrency
+
 export const isSendingSelector = (state: RootState) => {
   return state.send.isSending
 }
