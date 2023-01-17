@@ -6,7 +6,7 @@ import { Provider } from 'react-redux'
 import CeloGoldHistoryChart from 'src/exchange/CeloGoldHistoryChart'
 import { ExchangeRates } from 'src/exchange/reducer'
 import { createMockStore, getMockI18nProps } from 'test/utils'
-import { makeExchangeRates } from 'test/values'
+import { makeExchangeRates, mockCeloAddress, mockTokenBalances } from 'test/values'
 
 const SAMPLE_BALANCE = '55.00001'
 const exchangeRates: ExchangeRates = makeExchangeRates('0.11', '10')
@@ -18,7 +18,14 @@ it('renders without history', () => {
     <Provider
       store={createMockStore({
         exchange: { exchangeRates },
-        goldToken: { balance: SAMPLE_BALANCE },
+        tokens: {
+          tokenBalances: {
+            [mockCeloAddress]: {
+              ...mockTokenBalances[mockCeloAddress],
+              balance: SAMPLE_BALANCE,
+            },
+          },
+        },
       })}
     >
       <CeloGoldHistoryChart testID={'SnapshotCeloGoldOverview'} {...getMockI18nProps()} />
@@ -51,7 +58,14 @@ it('renders while update is in progress', () => {
             lastTimeUpdated: 0,
           },
         },
-        goldToken: { balance: SAMPLE_BALANCE },
+        tokens: {
+          tokenBalances: {
+            [mockCeloAddress]: {
+              ...mockTokenBalances[mockCeloAddress],
+              balance: SAMPLE_BALANCE,
+            },
+          },
+        },
       })}
     >
       <CeloGoldHistoryChart testID={'SnapshotCeloGoldOverview'} {...getMockI18nProps()} />
@@ -78,7 +92,14 @@ it('renders properly', () => {
             range: 30 * 24 * 60 * 60 * 1000, // 30 days
           },
         },
-        goldToken: { balance: SAMPLE_BALANCE },
+        tokens: {
+          tokenBalances: {
+            [mockCeloAddress]: {
+              ...mockTokenBalances[mockCeloAddress],
+              balance: SAMPLE_BALANCE,
+            },
+          },
+        },
       })}
     >
       <CeloGoldHistoryChart testID={'SnapshotCeloGoldOverview'} {...getMockI18nProps()} />

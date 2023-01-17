@@ -19,8 +19,8 @@ import {
 import { isUserBalanceSufficient } from 'src/identity/utils'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { transferStableToken } from 'src/stableToken/actions'
-import { cUsdBalanceSelector } from 'src/stableToken/selectors'
+import { transferStableTokenLegacy } from 'src/stableToken/actions'
+import { CurrencyTokens, tokensByCurrencySelector } from 'src/tokens/selectors'
 import { waitForTransactionWithId } from 'src/transactions/saga'
 import { newTransactionContext } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
@@ -183,7 +183,8 @@ function* navigateToQuotaPurchaseScreen() {
     })
 
     const ownAddress: string = yield select(currentAccountSelector)
-    const userBalance = yield select(cUsdBalanceSelector)
+    const tokens: CurrencyTokens = yield select(tokensByCurrencySelector)
+    const userBalance = tokens[Currency.Dollar]?.balance.toString() ?? null
     const userBalanceSufficient = isUserBalanceSufficient(userBalance, LOOKUP_GAS_FEE_ESTIMATE)
     if (!userBalanceSufficient) {
       throw Error(ErrorMessages.INSUFFICIENT_BALANCE)
@@ -191,7 +192,7 @@ function* navigateToQuotaPurchaseScreen() {
 
     const context = newTransactionContext(TAG, 'Purchase lookup quota')
     yield put(
-      transferStableToken({
+      transferStableTokenLegacy({
         recipientAddress: ownAddress, // send payment to yourself
         amount: '0.01', // one penny
         currency: Currency.Dollar,

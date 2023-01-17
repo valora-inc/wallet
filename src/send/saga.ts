@@ -7,7 +7,7 @@ import { CeloExchangeEvents, SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { calculateFee, currencyToFeeCurrency, FeeInfo } from 'src/fees/saga'
-import { transferGoldToken } from 'src/goldToken/actions'
+import { transferGoldTokenLegacy } from 'src/goldToken/actions'
 import { encryptComment } from 'src/identity/commentEncryption'
 import { e164NumberToAddressSelector } from 'src/identity/selectors'
 import { navigateBack, navigateHome } from 'src/navigator/NavigationService'
@@ -26,7 +26,7 @@ import {
 } from 'src/send/actions'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
-import { transferStableToken } from 'src/stableToken/actions'
+import { transferStableTokenLegacy } from 'src/stableToken/actions'
 import {
   BasicTokenTransfer,
   createTokenTransferTransaction,
@@ -174,7 +174,7 @@ function* sendPaymentLegacy(
     switch (currency) {
       case Currency.Celo: {
         yield put(
-          transferGoldToken({
+          transferGoldTokenLegacy({
             recipientAddress,
             amount: amount.toString(),
             currency,
@@ -188,7 +188,7 @@ function* sendPaymentLegacy(
       case Currency.Dollar:
       case Currency.Euro: {
         yield put(
-          transferStableToken({
+          transferStableTokenLegacy({
             recipientAddress,
             amount: amount.toString(),
             currency,

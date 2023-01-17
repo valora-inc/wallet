@@ -12,9 +12,10 @@ import {
 } from 'react-native'
 import { useSelector } from 'react-redux'
 import TextInputWithButtons from 'src/components/TextInputWithButtons'
-import { RootState } from 'src/redux/reducers'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
+import { tokensByCurrencySelector } from 'src/tokens/selectors'
+import { Currency } from 'src/utils/currencies'
 
 interface Props {
   inputContainerStyle?: ViewStyle
@@ -34,7 +35,9 @@ export default function CeloAmountInput({
   feeEstimate,
 }: Props) {
   const { t } = useTranslation()
-  const goldBalance = useSelector((state: RootState) => state.goldToken.balance)
+  const tokensByCurrency = useSelector(tokensByCurrencySelector)
+
+  const goldBalance = tokensByCurrency[Currency.Celo]?.balance
 
   const setMaxAmount = () => {
     if (goldBalance && feeEstimate) {

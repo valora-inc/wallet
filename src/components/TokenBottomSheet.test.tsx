@@ -4,7 +4,6 @@ import * as React from 'react'
 import { Provider } from 'react-redux'
 import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import { TokenBalance } from 'src/tokens/slice'
-import { Currency } from 'src/utils/currencies'
 import { createMockStore, getElementText } from 'test/utils'
 import { mockCeurAddress, mockCusdAddress, mockTestTokenAddress } from 'test/values'
 
@@ -49,9 +48,6 @@ const tokens: TokenBalance[] = [
 ]
 
 const mockStore = createMockStore({
-  stableToken: {
-    balances: { [Currency.Dollar]: '100', [Currency.Euro]: '200' },
-  },
   tokens: {
     tokenBalances: {
       [mockCusdAddress]: {

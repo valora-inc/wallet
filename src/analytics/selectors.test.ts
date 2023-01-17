@@ -1,6 +1,5 @@
 import { PincodeType } from 'src/account/reducer'
 import { getCurrentUserTraits } from 'src/analytics/selectors'
-import { Currency } from 'src/utils/currencies'
 import { getMockStoreData } from 'test/utils'
 
 describe('getCurrentUserTraits', () => {
@@ -8,8 +7,6 @@ describe('getCurrentUserTraits', () => {
     const state = getMockStoreData({
       web3: { mtwAddress: '0x123' },
       account: { defaultCountryCode: '+33', pincodeType: PincodeType.CustomPin },
-      goldToken: { balance: '1.01' },
-      stableToken: { balances: { [Currency.Dollar]: '2.02', [Currency.Euro]: '3.03' } },
       app: {
         superchargeTokenConfigByToken: {
           '0xcusd': {
