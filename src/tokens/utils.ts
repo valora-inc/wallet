@@ -1,21 +1,19 @@
 import BigNumber from 'bignumber.js'
-import { convertCurrencyToLocalAmount } from 'src/localCurrency/convert'
-import { Balances } from 'src/stableToken/selectors'
+import { CurrencyTokens } from 'src/tokens/selectors'
 import { Currency } from 'src/utils/currencies'
 import { TokenBalance } from './slice'
 
 export function getHigherBalanceCurrency(
   currencies: Currency[],
-  balances: Balances,
-  exchangeRates: { [token in Currency]: string | null }
+  tokens: CurrencyTokens
 ): Currency | undefined {
   let maxCurrency: Currency | undefined
-  let maxBalance: BigNumber | null = null
+  let maxUsdBalance: BigNumber | null = null
   for (const currency of currencies) {
-    const balance = convertCurrencyToLocalAmount(balances[currency], exchangeRates[currency])
-    if (balance?.gt(maxBalance ?? 0)) {
+    const usdBalance = tokens[currency]?.balance.multipliedBy(tokens[currency]?.usdPrice ?? 0)
+    if (usdBalance?.gt(maxUsdBalance ?? 0)) {
       maxCurrency = currency
-      maxBalance = balance
+      maxUsdBalance = usdBalance
     }
   }
   return maxCurrency

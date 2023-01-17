@@ -42,6 +42,7 @@ import {
   v99Schema,
   v103Schema,
   vNeg1Schema,
+  v104Schema,
 } from 'test/schemas'
 
 describe('Redux persist migrations', () => {
@@ -762,6 +763,18 @@ describe('Redux persist migrations', () => {
   it('works from v103 to v104', () => {
     const oldSchema = v103Schema
     const migratedSchema = migrations[104](oldSchema)
+
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    delete expectedSchema.goldToken
+    delete expectedSchema.stableToken
+    expectedSchema.account.celoEducationCompleted = oldSchema.goldToken.educationCompleted
+
+    expect(migratedSchema).toStrictEqual(expectedSchema)
+  })
+
+  it('works from v104 to v105', () => {
+    const oldSchema = v104Schema
+    const migratedSchema = migrations[105](oldSchema)
 
     const expectedSchema: any = _.cloneDeep(oldSchema)
     expectedSchema.app.twelveWordSeedPhraseEnabled = false

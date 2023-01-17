@@ -1870,6 +1870,7 @@
                 "GoldEducation",
                 "ImportWallet",
                 "IncomingPaymentRequestListScreen",
+                "Invite",
                 "KycDenied",
                 "KycExpired",
                 "KycLanding",
@@ -2121,28 +2122,6 @@
             ],
             "type": "object"
         },
-        "StableBalances": {
-            "additionalProperties": false,
-            "properties": {
-                "cEUR": {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
-                },
-                "cUSD": {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
-                }
-            },
-            "required": [
-                "cEUR",
-                "cUSD"
-            ],
-            "type": "object"
-        },
         "State": {
             "additionalProperties": false,
             "properties": {
@@ -2383,93 +2362,6 @@
         "State_10": {
             "additionalProperties": false,
             "properties": {
-                "account": {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
-                },
-                "accountInWeb3Keystore": {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
-                },
-                "dataEncryptionKey": {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
-                },
-                "isDekRegistered": {
-                    "type": "boolean"
-                },
-                "mtwAddress": {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
-                }
-            },
-            "required": [
-                "account",
-                "accountInWeb3Keystore",
-                "dataEncryptionKey",
-                "mtwAddress"
-            ],
-            "type": "object"
-        },
-        "State_11": {
-            "additionalProperties": false,
-            "properties": {
-                "addressToDataEncryptionKey": {
-                    "$ref": "#/definitions/AddressToDataEncryptionKeyType"
-                },
-                "addressToDisplayName": {
-                    "$ref": "#/definitions/AddressToDisplayNameType"
-                },
-                "addressToE164Number": {
-                    "$ref": "#/definitions/AddressToE164NumberType"
-                },
-                "askedContactsPermission": {
-                    "type": "boolean"
-                },
-                "e164NumberToAddress": {
-                    "$ref": "#/definitions/E164NumberToAddressType"
-                },
-                "e164NumberToSalt": {
-                    "$ref": "#/definitions/E164NumberToSaltType"
-                },
-                "hasSeenVerificationNux": {
-                    "type": "boolean"
-                },
-                "importContactsProgress": {
-                    "$ref": "#/definitions/ImportContactProgress"
-                },
-                "secureSendPhoneNumberMapping": {
-                    "$ref": "#/definitions/SecureSendPhoneNumberMapping"
-                },
-                "walletToAccountAddress": {
-                    "$ref": "#/definitions/WalletToAccountAddressType"
-                }
-            },
-            "required": [
-                "addressToDataEncryptionKey",
-                "addressToDisplayName",
-                "addressToE164Number",
-                "askedContactsPermission",
-                "e164NumberToAddress",
-                "e164NumberToSalt",
-                "hasSeenVerificationNux",
-                "importContactsProgress",
-                "secureSendPhoneNumberMapping",
-                "walletToAccountAddress"
-            ],
-            "type": "object"
-        },
-        "State_12": {
-            "additionalProperties": false,
-            "properties": {
                 "acceptedTerms": {
                     "type": "boolean"
                 },
@@ -2487,6 +2379,9 @@
                         "null",
                         "number"
                     ]
+                },
+                "celoEducationCompleted": {
+                    "type": "boolean"
                 },
                 "choseToRestoreAccount": {
                     "type": "boolean"
@@ -2557,6 +2452,7 @@
                 "accountCreationTime",
                 "backupCompleted",
                 "backupRequiredTime",
+                "celoEducationCompleted",
                 "contactDetails",
                 "defaultCountryCode",
                 "devModeActive",
@@ -2574,7 +2470,7 @@
             ],
             "type": "object"
         },
-        "State_13": {
+        "State_11": {
             "additionalProperties": false,
             "properties": {
                 "isReclaiming": {
@@ -2593,7 +2489,7 @@
             ],
             "type": "object"
         },
-        "State_14": {
+        "State_12": {
             "additionalProperties": false,
             "properties": {
                 "estimates": {
@@ -2605,7 +2501,7 @@
             ],
             "type": "object"
         },
-        "State_15": {
+        "State_13": {
             "additionalProperties": false,
             "properties": {
                 "coinbasePaySenders": {
@@ -2642,7 +2538,7 @@
             ],
             "type": "object"
         },
-        "State_16": {
+        "State_14": {
             "additionalProperties": false,
             "properties": {
                 "error": {
@@ -2738,7 +2634,7 @@
             ],
             "type": "object"
         },
-        "State_17": {
+        "State_15": {
             "additionalProperties": false,
             "properties": {
                 "isImportingWallet": {
@@ -2750,7 +2646,7 @@
             ],
             "type": "object"
         },
-        "State_18": {
+        "State_16": {
             "additionalProperties": false,
             "properties": {
                 "incomingPaymentRequests": {
@@ -2772,7 +2668,7 @@
             ],
             "type": "object"
         },
-        "State_19": {
+        "State_17": {
             "additionalProperties": false,
             "properties": {
                 "providerLogos": {
@@ -2788,34 +2684,14 @@
             ],
             "type": "object"
         },
-        "State_2": {
-            "additionalProperties": false,
-            "properties": {
-                "connected": {
-                    "type": "boolean"
-                },
-                "rehydrated": {
-                    "type": "boolean"
-                },
-                "userLocationData": {
-                    "$ref": "#/definitions/UserLocationData"
-                }
-            },
-            "required": [
-                "connected",
-                "rehydrated",
-                "userLocationData"
-            ],
-            "type": "object"
-        },
-        "State_20": {
+        "State_18": {
             "additionalProperties": false,
             "properties": {
                 "v1": {
-                    "$ref": "#/definitions/State_21"
+                    "$ref": "#/definitions/State_19"
                 },
                 "v2": {
-                    "$ref": "#/definitions/State_22"
+                    "$ref": "#/definitions/State_20"
                 }
             },
             "required": [
@@ -2824,7 +2700,7 @@
             ],
             "type": "object"
         },
-        "State_21": {
+        "State_19": {
             "additionalProperties": false,
             "properties": {
                 "pendingActions": {
@@ -2866,7 +2742,27 @@
             ],
             "type": "object"
         },
-        "State_22": {
+        "State_2": {
+            "additionalProperties": false,
+            "properties": {
+                "connected": {
+                    "type": "boolean"
+                },
+                "rehydrated": {
+                    "type": "boolean"
+                },
+                "userLocationData": {
+                    "$ref": "#/definitions/UserLocationData"
+                }
+            },
+            "required": [
+                "connected",
+                "rehydrated",
+                "userLocationData"
+            ],
+            "type": "object"
+        },
+        "State_20": {
             "additionalProperties": false,
             "properties": {
                 "pendingActions": {
@@ -2895,7 +2791,7 @@
             ],
             "type": "object"
         },
-        "State_23": {
+        "State_21": {
             "additionalProperties": false,
             "properties": {
                 "error": {
@@ -2915,7 +2811,7 @@
             ],
             "type": "object"
         },
-        "State_24": {
+        "State_22": {
             "additionalProperties": false,
             "properties": {
                 "availableRewards": {
@@ -2946,7 +2842,7 @@
             ],
             "type": "object"
         },
-        "State_25": {
+        "State_23": {
             "additionalProperties": false,
             "properties": {
                 "activeDapp": {
@@ -3027,7 +2923,7 @@
             ],
             "type": "object"
         },
-        "State_26": {
+        "State_24": {
             "additionalProperties": false,
             "properties": {
                 "attemptReturnUserFlowLoading": {
@@ -3347,7 +3243,7 @@
             ],
             "type": "object"
         },
-        "State_27": {
+        "State_25": {
             "additionalProperties": false,
             "properties": {
                 "swapInfo": {
@@ -3501,55 +3397,6 @@
         "State_5": {
             "additionalProperties": false,
             "properties": {
-                "balance": {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
-                },
-                "educationCompleted": {
-                    "type": "boolean"
-                },
-                "lastFetch": {
-                    "type": [
-                        "null",
-                        "number"
-                    ]
-                }
-            },
-            "required": [
-                "balance",
-                "educationCompleted",
-                "lastFetch"
-            ],
-            "type": "object"
-        },
-        "State_6": {
-            "additionalProperties": false,
-            "properties": {
-                "balances": {
-                    "$ref": "#/definitions/StableBalances"
-                },
-                "educationCompleted": {
-                    "type": "boolean"
-                },
-                "lastFetch": {
-                    "type": [
-                        "null",
-                        "number"
-                    ]
-                }
-            },
-            "required": [
-                "balances",
-                "educationCompleted",
-                "lastFetch"
-            ],
-            "type": "object"
-        },
-        "State_7": {
-            "additionalProperties": false,
-            "properties": {
                 "loading": {
                     "type": "boolean"
                 },
@@ -3563,7 +3410,7 @@
             ],
             "type": "object"
         },
-        "State_8": {
+        "State_6": {
             "additionalProperties": false,
             "properties": {
                 "exchangeRates": {
@@ -3628,7 +3475,7 @@
             ],
             "type": "object"
         },
-        "State_9": {
+        "State_7": {
             "additionalProperties": false,
             "properties": {
                 "inviteTransactions": {
@@ -3690,6 +3537,93 @@
                 "standbyTransactions",
                 "standbyTransactionsLegacy",
                 "transactions"
+            ],
+            "type": "object"
+        },
+        "State_8": {
+            "additionalProperties": false,
+            "properties": {
+                "account": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "accountInWeb3Keystore": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "dataEncryptionKey": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "isDekRegistered": {
+                    "type": "boolean"
+                },
+                "mtwAddress": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                }
+            },
+            "required": [
+                "account",
+                "accountInWeb3Keystore",
+                "dataEncryptionKey",
+                "mtwAddress"
+            ],
+            "type": "object"
+        },
+        "State_9": {
+            "additionalProperties": false,
+            "properties": {
+                "addressToDataEncryptionKey": {
+                    "$ref": "#/definitions/AddressToDataEncryptionKeyType"
+                },
+                "addressToDisplayName": {
+                    "$ref": "#/definitions/AddressToDisplayNameType"
+                },
+                "addressToE164Number": {
+                    "$ref": "#/definitions/AddressToE164NumberType"
+                },
+                "askedContactsPermission": {
+                    "type": "boolean"
+                },
+                "e164NumberToAddress": {
+                    "$ref": "#/definitions/E164NumberToAddressType"
+                },
+                "e164NumberToSalt": {
+                    "$ref": "#/definitions/E164NumberToSaltType"
+                },
+                "hasSeenVerificationNux": {
+                    "type": "boolean"
+                },
+                "importContactsProgress": {
+                    "$ref": "#/definitions/ImportContactProgress"
+                },
+                "secureSendPhoneNumberMapping": {
+                    "$ref": "#/definitions/SecureSendPhoneNumberMapping"
+                },
+                "walletToAccountAddress": {
+                    "$ref": "#/definitions/WalletToAccountAddressType"
+                }
+            },
+            "required": [
+                "addressToDataEncryptionKey",
+                "addressToDisplayName",
+                "addressToE164Number",
+                "askedContactsPermission",
+                "e164NumberToAddress",
+                "e164NumberToSalt",
+                "hasSeenVerificationNux",
+                "importContactsProgress",
+                "secureSendPhoneNumberMapping",
+                "walletToAccountAddress"
             ],
             "type": "object"
         },
@@ -5113,7 +5047,7 @@
             "$ref": "#/definitions/PersistState"
         },
         "account": {
-            "$ref": "#/definitions/State_12"
+            "$ref": "#/definitions/State_10"
         },
         "alert": {
             "anyOf": [
@@ -5260,73 +5194,67 @@
             "$ref": "#/definitions/State"
         },
         "dapps": {
-            "$ref": "#/definitions/State_25"
+            "$ref": "#/definitions/State_23"
         },
         "escrow": {
-            "$ref": "#/definitions/State_13"
+            "$ref": "#/definitions/State_11"
         },
         "exchange": {
-            "$ref": "#/definitions/State_8"
+            "$ref": "#/definitions/State_6"
         },
         "fees": {
-            "$ref": "#/definitions/State_14"
+            "$ref": "#/definitions/State_12"
         },
         "fiatConnect": {
-            "$ref": "#/definitions/State_26"
+            "$ref": "#/definitions/State_24"
         },
         "fiatExchanges": {
-            "$ref": "#/definitions/State_19"
-        },
-        "goldToken": {
-            "$ref": "#/definitions/State_5"
+            "$ref": "#/definitions/State_17"
         },
         "home": {
-            "$ref": "#/definitions/State_7"
+            "$ref": "#/definitions/State_5"
         },
         "i18n": {
             "$ref": "#/definitions/State_1"
         },
         "identity": {
-            "$ref": "#/definitions/State_11"
+            "$ref": "#/definitions/State_9"
         },
         "imports": {
-            "$ref": "#/definitions/State_17"
+            "$ref": "#/definitions/State_15"
         },
         "localCurrency": {
-            "$ref": "#/definitions/State_16"
+            "$ref": "#/definitions/State_14"
         },
         "networkInfo": {
             "$ref": "#/definitions/State_2"
         },
         "paymentRequest": {
-            "$ref": "#/definitions/State_18"
+            "$ref": "#/definitions/State_16"
         },
         "recipients": {
-            "$ref": "#/definitions/State_15"
+            "$ref": "#/definitions/State_13"
         },
         "send": {
             "$ref": "#/definitions/State_4"
         },
-        "stableToken": {
-            "$ref": "#/definitions/State_6"
-        },
         "supercharge": {
-            "$ref": "#/definitions/State_24"
+            "$ref": "#/definitions/State_22"
         },
         "swap": {
-            "$ref": "#/definitions/State_27"
+            "$ref": "#/definitions/State_25"
         },
         "tokens": {
-            "$ref": "#/definitions/State_23"
+            "$ref": "#/definitions/State_21"
         },
         "transactions": {
-            "$ref": "#/definitions/State_9"
+            "$ref": "#/definitions/State_7"
         },
         "walletConnect": {
-            "$ref": "#/definitions/State_20"
+            "$ref": "#/definitions/State_18"
         },
         "web3": {
-            "$ref": "#/definitions/State_10"
+            "$ref": "#/definitions/State_8"
         }
     },
     "required": [
@@ -5340,7 +5268,6 @@
         "fees",
         "fiatConnect",
         "fiatExchanges",
-        "goldToken",
         "home",
         "i18n",
         "identity",
@@ -5350,7 +5277,6 @@
         "paymentRequest",
         "recipients",
         "send",
-        "stableToken",
         "supercharge",
         "swap",
         "tokens",

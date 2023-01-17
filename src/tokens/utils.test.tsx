@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js'
+import { CurrencyTokens } from 'src/tokens/selectors'
 import {
   getHigherBalanceCurrency,
   sortFirstStableThenCeloThenOthersByUsdBalance,
@@ -6,63 +7,44 @@ import {
 import { Currency } from 'src/utils/currencies'
 
 describe(getHigherBalanceCurrency, () => {
+  const tokens = {
+    [Currency.Dollar]: {
+      symbol: 'cUSD',
+      isCoreToken: true,
+      usdPrice: new BigNumber(1),
+      balance: new BigNumber(2),
+    },
+    [Currency.Euro]: {
+      symbol: 'cEUR',
+      isCoreToken: true,
+      usdPrice: new BigNumber(1.5),
+      balance: new BigNumber(1),
+    },
+    [Currency.Celo]: {
+      symbol: 'CELO',
+      isCoreToken: true,
+      usdPrice: new BigNumber(5),
+      balance: new BigNumber(1),
+    },
+  } as CurrencyTokens
   it('should return the currency with the higher balance in the local currency', () => {
-    const balances = {
-      [Currency.Dollar]: new BigNumber(1),
-      [Currency.Euro]: new BigNumber(1),
-      [Currency.Celo]: new BigNumber(1),
-    }
-    const exchangesRates = {
-      [Currency.Dollar]: '1',
-      [Currency.Euro]: '2',
-      [Currency.Celo]: '3',
-    }
-
     expect(
-      getHigherBalanceCurrency(
-        [Currency.Dollar, Currency.Euro, Currency.Celo],
-        balances,
-        exchangesRates
-      )
+      getHigherBalanceCurrency([Currency.Dollar, Currency.Euro, Currency.Celo], tokens)
     ).toEqual('cGLD')
-    expect(
-      getHigherBalanceCurrency([Currency.Dollar, Currency.Euro], balances, exchangesRates)
-    ).toEqual('cEUR')
-    expect(getHigherBalanceCurrency([Currency.Dollar], balances, exchangesRates)).toEqual('cUSD')
+    expect(getHigherBalanceCurrency([Currency.Dollar, Currency.Euro], tokens)).toEqual('cUSD')
+    expect(getHigherBalanceCurrency([Currency.Dollar], tokens)).toEqual('cUSD')
   })
 
   it('should return `undefined` when balances are `null`', () => {
-    const balances = {
-      [Currency.Dollar]: null,
-      [Currency.Euro]: null,
-      [Currency.Celo]: null,
-    }
-    const exchangesRates = {
-      [Currency.Dollar]: '1',
-      [Currency.Euro]: '2',
-      [Currency.Celo]: '3',
+    const undefinedTokens = {
+      [Currency.Dollar]: undefined,
+      [Currency.Euro]: undefined,
+      [Currency.Celo]: undefined,
     }
 
-    expect(
-      getHigherBalanceCurrency([Currency.Dollar, Currency.Euro], balances, exchangesRates)
-    ).toEqual(undefined)
-  })
-
-  it('should return `undefined` when exchange rates are `null`', () => {
-    const balances = {
-      [Currency.Dollar]: new BigNumber(1),
-      [Currency.Euro]: new BigNumber(1),
-      [Currency.Celo]: new BigNumber(1),
-    }
-    const exchangesRates = {
-      [Currency.Dollar]: null,
-      [Currency.Euro]: null,
-      [Currency.Celo]: null,
-    }
-
-    expect(
-      getHigherBalanceCurrency([Currency.Dollar, Currency.Euro], balances, exchangesRates)
-    ).toEqual(undefined)
+    expect(getHigherBalanceCurrency([Currency.Dollar, Currency.Euro], undefinedTokens)).toEqual(
+      undefined
+    )
   })
 })
 
