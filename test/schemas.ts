@@ -1949,6 +1949,18 @@ export const v103Schema = {
   ),
 }
 
+export const v104Schema = {
+  ...(_.omit(v103Schema, ['goldToken', 'stableToken']) as any),
+  _persist: {
+    ...v103Schema._persist,
+    version: 104,
+  },
+  account: {
+    ...v103Schema.account,
+    celoEducationCompleted: v103Schema.goldToken.educationCompleted,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v103Schema as Partial<RootState>
+  return v104Schema as Partial<RootState>
 }

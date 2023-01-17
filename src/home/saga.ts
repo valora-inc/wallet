@@ -12,14 +12,12 @@ import {
 } from 'redux-saga/effects'
 import { fetchSentEscrowPayments } from 'src/escrow/actions'
 import { notificationsChannel } from 'src/firebase/firebase'
-import { fetchGoldBalance } from 'src/goldToken/actions'
 import { Actions, refreshAllBalances, setLoading, updateNotifications } from 'src/home/actions'
 import { IdToNotification } from 'src/home/reducers'
 import { fetchCurrentRate } from 'src/localCurrency/actions'
 import { shouldFetchCurrentRate } from 'src/localCurrency/selectors'
 import { withTimeout } from 'src/redux/sagas-helpers'
 import { shouldUpdateBalance } from 'src/redux/selectors'
-import { fetchStableBalances } from 'src/stableToken/actions'
 import { fetchTokenBalances } from 'src/tokens/slice'
 import { Actions as TransactionActions } from 'src/transactions/actions'
 import Logger from 'src/utils/Logger'
@@ -45,8 +43,6 @@ export function* refreshBalances() {
   yield call(getConnectedAccount)
   yield put(fetchTokenBalances({ showLoading: false }))
   yield put(fetchCurrentRate())
-  yield put(fetchStableBalances())
-  yield put(fetchGoldBalance())
   yield put(fetchSentEscrowPayments())
 }
 

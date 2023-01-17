@@ -6,6 +6,7 @@ import { Currency } from 'src/utils/currencies'
 import {
   DEFAULT_DAILY_PAYMENT_LIMIT_CUSD_LEGACY,
   v0Schema,
+  v103Schema,
   v13Schema,
   v14Schema,
   v15Schema,
@@ -754,6 +755,17 @@ describe('Redux persist migrations', () => {
 
     const expectedSchema: any = _.cloneDeep(oldSchema)
     delete expectedSchema.app.celoNewsEnabled
+
+    expect(migratedSchema).toStrictEqual(expectedSchema)
+  })
+  it('works from v103 to v104', () => {
+    const oldSchema = v103Schema
+    const migratedSchema = migrations[104](oldSchema)
+
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    delete expectedSchema.goldToken
+    delete expectedSchema.stableToken
+    expectedSchema.account.celoEducationCompleted = oldSchema.goldToken.educationCompleted
 
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })

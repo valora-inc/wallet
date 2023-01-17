@@ -7,13 +7,11 @@ import BigNumber from 'bignumber.js'
 import { call, put, select, spawn, take, takeEvery, takeLatest } from 'redux-saga/effects'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { fetchGoldBalance } from 'src/goldToken/actions'
 import { Actions as IdentityActions } from 'src/identity/actions'
 import { AddressToE164NumberType } from 'src/identity/reducer'
 import { addressToE164NumberSelector } from 'src/identity/selectors'
 import { NumberToRecipient } from 'src/recipients/recipient'
 import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
-import { fetchStableBalances } from 'src/stableToken/actions'
 import { fetchTokenBalances } from 'src/tokens/slice'
 import {
   Actions,
@@ -182,8 +180,6 @@ export function* sendAndMonitorTransaction<T>(
     const txReceipt: CeloTxReceipt = yield call(wrapSendTransactionWithRetry, sendTxMethod, context)
     yield put(transactionConfirmed(context.id, txReceipt))
 
-    yield put(fetchGoldBalance())
-    yield put(fetchStableBalances())
     yield put(fetchTokenBalances({ showLoading: true }))
     return { receipt: txReceipt }
   } catch (error) {

@@ -37,12 +37,6 @@ const phpExchangeRates = {
 }
 
 const storeWithUSD = createMockStore({
-  stableToken: {
-    balances: { [Currency.Dollar]: '1000.00', [Currency.Euro]: '500.00' },
-  },
-  goldToken: {
-    balance: '5.5',
-  },
   localCurrency: {
     fetchedCurrencyCode: LocalCurrencyCode.USD,
     preferredCurrencyCode: LocalCurrencyCode.USD,
@@ -51,12 +45,6 @@ const storeWithUSD = createMockStore({
 })
 
 const storeWithEUR = createMockStore({
-  stableToken: {
-    balances: { [Currency.Dollar]: '1000.00', [Currency.Euro]: '500.00' },
-  },
-  goldToken: {
-    balance: '5.5',
-  },
   localCurrency: {
     fetchedCurrencyCode: LocalCurrencyCode.EUR,
     preferredCurrencyCode: LocalCurrencyCode.EUR,
@@ -65,12 +53,6 @@ const storeWithEUR = createMockStore({
 })
 
 const storeWithPHP = createMockStore({
-  stableToken: {
-    balances: { [Currency.Dollar]: '1000.00', [Currency.Euro]: '500.00' },
-  },
-  goldToken: {
-    balance: '5.5',
-  },
   localCurrency: {
     fetchedCurrencyCode: LocalCurrencyCode.PHP,
     preferredCurrencyCode: LocalCurrencyCode.PHP,
@@ -296,12 +278,6 @@ describe('FiatExchangeAmount cashOut', () => {
   })
   it('calls dispatch attemptReturnUserFlow when there is a previously linked fiatconnect account', () => {
     const store = createMockStore({
-      stableToken: {
-        balances: { [Currency.Dollar]: '1000.00', [Currency.Euro]: '500.00' },
-      },
-      goldToken: {
-        balance: '5.5',
-      },
       localCurrency: {
         fetchedCurrencyCode: LocalCurrencyCode.USD,
         preferredCurrencyCode: LocalCurrencyCode.USD,
@@ -351,12 +327,6 @@ describe('FiatExchangeAmount cashOut', () => {
   })
   it('calls dispatch attemptReturnUserFlow when there is a previously linked fiatconnect account that used a different flow', () => {
     const store = createMockStore({
-      stableToken: {
-        balances: { [Currency.Dollar]: '1000.00', [Currency.Euro]: '500.00' },
-      },
-      goldToken: {
-        balance: '5.5',
-      },
       localCurrency: {
         fetchedCurrencyCode: LocalCurrencyCode.USD,
         preferredCurrencyCode: LocalCurrencyCode.USD,

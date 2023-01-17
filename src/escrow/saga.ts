@@ -17,8 +17,8 @@ import {
 import { calculateFee, currencyToFeeCurrency } from 'src/fees/saga'
 import { identifierToE164NumberSelector } from 'src/identity/selectors'
 import { navigateHome } from 'src/navigator/NavigationService'
-import { fetchStableBalances } from 'src/stableToken/actions'
 import { getCurrencyAddress } from 'src/tokens/saga'
+import { fetchTokenBalances } from 'src/tokens/slice'
 import { sendTransaction } from 'src/transactions/send'
 import { newTransactionContext } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
@@ -77,7 +77,7 @@ export function* reclaimFromEscrow({ paymentID }: EscrowReclaimPaymentAction) {
     }
     Logger.debug(TAG + '@reclaimFromEscrow', 'Done reclaiming escrow')
 
-    yield put(fetchStableBalances())
+    yield put(fetchTokenBalances({ showLoading: true }))
     yield put(reclaimEscrowPaymentSuccess())
 
     yield call(navigateHome)

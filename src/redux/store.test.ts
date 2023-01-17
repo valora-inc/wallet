@@ -93,7 +93,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 103,
+          "version": 104,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -101,6 +101,7 @@ describe('store state', () => {
           "accountToRecoverFromStoreWipe": undefined,
           "backupCompleted": false,
           "backupRequiredTime": null,
+          "celoEducationCompleted": false,
           "choseToRestoreAccount": false,
           "contactDetails": Object {
             "contactId": "contactId",
@@ -229,11 +230,6 @@ describe('store state', () => {
           "providerLogos": Object {},
           "txHashToProvider": Object {},
         },
-        "goldToken": Object {
-          "balance": null,
-          "educationCompleted": false,
-          "lastFetch": null,
-        },
         "home": Object {
           "loading": false,
           "notifications": Object {},
@@ -304,14 +300,6 @@ describe('store state', () => {
           "recentPayments": Array [],
           "recentRecipients": Array [],
           "showSendToAddressWarning": true,
-        },
-        "stableToken": Object {
-          "balances": Object {
-            "cEUR": null,
-            "cUSD": null,
-          },
-          "educationCompleted": false,
-          "lastFetch": null,
         },
         "supercharge": Object {
           "availableRewards": Array [],

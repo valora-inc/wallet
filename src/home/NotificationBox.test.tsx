@@ -7,13 +7,13 @@ import { fetchAvailableRewards } from 'src/consumerIncentives/slice'
 import NotificationBox from 'src/home/NotificationBox'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { Currency } from 'src/utils/currencies'
 import { createMockStore, getElementText } from 'test/utils'
 import {
   mockCusdAddress,
   mockE164Number,
   mockE164NumberPepper,
   mockPaymentRequests,
+  mockTokenBalances,
 } from 'test/values'
 
 const TWO_DAYS_MS = 2 * 24 * 60 * 1000
@@ -33,11 +33,11 @@ const testNotification = {
 }
 
 const storeDataNotificationsEnabled = {
-  goldToken: { educationCompleted: false },
   account: {
     backupCompleted: false,
     dismissedGetVerified: false,
     accountCreationTime: EXPIRED_BACKUP_TIME,
+    celoEducationCompleted: false,
   },
   paymentRequest: {
     incomingPaymentRequests: mockPaymentRequests.slice(0, 2),
@@ -50,12 +50,12 @@ const storeDataNotificationsEnabled = {
 }
 
 const storeDataNotificationsDisabled = {
-  goldToken: { educationCompleted: true },
   account: {
     backupCompleted: true,
     dismissedInviteFriends: true,
     dismissedGetVerified: true,
     accountCreationTime: RECENT_BACKUP_TIME,
+    celoEducationCompleted: true,
   },
   paymentRequest: {
     incomingPaymentRequests: [],
@@ -129,8 +129,9 @@ describe('NotificationBox', () => {
         e164PhoneNumber: mockE164Number,
       },
       identity: { e164NumberToSalt: { [mockE164Number]: mockE164NumberPepper } },
-      stableToken: { balances: { [Currency.Dollar]: '0.00' } },
-      goldToken: { balance: '0.00' },
+      tokens: {
+        tokenBalances: mockTokenBalances,
+      },
     })
     const tree = render(
       <Provider store={store}>
@@ -159,7 +160,10 @@ describe('NotificationBox', () => {
   it('renders educations when not complete yet', () => {
     const store = createMockStore({
       ...storeDataNotificationsDisabled,
-      goldToken: { educationCompleted: false },
+      account: {
+        ...storeDataNotificationsDisabled.account,
+        celoEducationCompleted: false,
+      },
     })
     const { getByText } = render(
       <Provider store={store}>
@@ -266,7 +270,6 @@ describe('NotificationBox', () => {
         e164PhoneNumber: mockE164Number,
       },
       identity: { e164NumberToSalt: { [mockE164Number]: mockE164NumberPepper } },
-      stableToken: { balances: { [Currency.Dollar]: '0.00' } },
     })
     const { getByText } = render(
       <Provider store={store}>

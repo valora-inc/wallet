@@ -5,8 +5,9 @@ import { StyleSheet, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { CELO_TRANSACTION_MIN_AMOUNT } from 'src/config'
-import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
 import { Spacing } from 'src/styles/styles'
+import { tokensByCurrencySelector } from 'src/tokens/selectors'
+import { Currency } from 'src/utils/currencies'
 
 interface Props {
   onPressWithdraw: () => void
@@ -16,7 +17,8 @@ interface Props {
 export default function RestrictedCeloExchange({ onPressWithdraw }: Props) {
   const { t } = useTranslation()
 
-  const celoBalance = useSelector(celoTokenBalanceSelector)
+  const tokens = useSelector(tokensByCurrencySelector)
+  const celoBalance = tokens[Currency.Celo]?.balance
 
   const hasCelo = new BigNumber(celoBalance || 0).isGreaterThan(CELO_TRANSACTION_MIN_AMOUNT)
 
