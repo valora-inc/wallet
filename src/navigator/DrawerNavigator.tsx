@@ -290,7 +290,7 @@ export default function DrawerNavigator() {
         options={{ title: t('addAndWithdraw'), drawerIcon: AddWithdraw }}
       />
       <Drawer.Screen
-        name={'Invite'}
+        name={Screens.Invite}
         component={Invite}
         options={{ title: t('invite'), drawerIcon: InviteIcon }}
       />
