@@ -1513,7 +1513,7 @@
     "title": "Görünüşe göre {{contactName}} henüz {{appName}} cüzdanına sahip değil.",
     "body": "Yine de onları {{appName}}'ya davet edebilir veya cüzdan adreslerine ya da nom.space'e bir ödeme göndermeyi deneyebilirsiniz.",
     "sendInviteButtonLabel": "Davet gönder",
-    "shareMessage": "Hey! {{appName}} cüzdanımla sana biraz kripto göndermek istiyorum. Uygulamayı indirip telefon numaranızı bağladığınızda, bir metin gönderebileceğimiz kadar kolay kripto gönderebiliriz. Bu bağlantıyı kullanın: {{link}}",
+    "shareMessage": "Merhaba! Kripto cüzdanım olarak {{appName}} kullanıyorum ve sizi de kontrol etmeye davet etmek istiyorum. Uygulamayı indirip telefon numaranızı bağladığınızda, ikimiz de özel bir NFT alacağız. Bu bağlantıyı kullanın: {{link}}",
     "rewardsActive": {
       "title": "{{contactName}} adlı kişiyi {{appName}} uygulamasına davet edin ve ikiniz de NFT kazanın!",
       "body": "Görünüşe göre {{contactName}} {{appName}} kullanmıyor. Bu kişinin cüzdan adresini biliyorsanız, yine de bir ödeme gönderebilir veya bunun yerine davet gönderebilirsiniz. \n\n Bu kişi cüzdanı indirdikten ve telefon numarasını bağladıktan sonra, ikiniz de özel bir NFT alacaksınız."
