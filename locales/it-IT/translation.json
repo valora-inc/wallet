@@ -1513,7 +1513,7 @@
     "title": "Sembra che {{contactName}} non abbia ancora un wallet {{appName}}.",
     "body": "Puoi comunque invitarlo/invitarla su {{appName}} o provare a inviare un pagamento al suo indirizzo di wallet o nom.space.",
     "sendInviteButtonLabel": "Invia l'invito",
-    "shareMessage": "Ehi! Vorrei inviarti delle criptovalute con il mio wallet {{appName}}. Una volta scaricata l'applicazione e collegato il tuo numero telefonico, potremo inviare criptovalute con la stessa facilità di un messaggio di testo. Usa questo collegamento: {{link}}",
+    "shareMessage": "Ciao! Sto usando {{appName}} come portafoglio di criptovalute e voglio invitarti a provarlo. Una volta scaricata l'applicazione e collegato il tuo numero di telefono, entrambi riceveremo uno speciale NFT. Usa questo link: {{link}}",
     "rewardsActive": {
       "title": "Invita {{contactName}} in {{appName}} ed entrambi riceverete NFT!",
       "body": "Sembra che {{contactName}} non sia su {{appName}}. Se conosci l'indirizzo del suo portafoglio, puoi comunque inviare un pagamento o un invito. \n\n Dopo che avrà scaricato il portafoglio e collegato il suo numero telefonico, riceverete entrambi un NFT esclusivo."
