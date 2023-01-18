@@ -777,6 +777,7 @@
   },
   "importExistingKey": {
     "explanation": "Twoja fraza odzyskiwania to 24 słowa, które ustawiłeś(-aś) i zapisałeś(-aś) podczas zakładania konta. Wpisz je tutaj, aby przywrócić konto.",
+    "explanationV1_50": "Twoja fraza odzyskiwania to 12 lub 24 słowa, które zapisałeś podczas zakładania konta. Wpisz je tutaj, aby przywrócić swoje konto.",
     "keyPlaceholder": "koń lampart pies małpa ..."
   },
   "verificationInput": {
