@@ -777,6 +777,7 @@
   },
   "importExistingKey": {
     "explanation": "Deine Wiederherstellungsphrase ist eine 24-Wort-Phrase, die du bei der Einrichtung deines Kontos aufgeschrieben und gespeichert hast. Bitte gib es hier ein, um dein Konto wiederherzustellen.",
+    "explanationV1_50": "Deine Wiederherstellungsphrase ist eine Phrase mit 12 oder 24 Wörtern, die du bei der Einrichtung deines Kontos aufgeschrieben und gespeichert hast. Bitte gib sie hier ein, um dein Konto wiederherzustellen.",
     "keyPlaceholder": "horse leopard dog monkey ..."
   },
   "verificationInput": {
