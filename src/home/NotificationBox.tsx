@@ -9,6 +9,7 @@ import {
   dismissKeepSupercharging,
   dismissStartSupercharging,
 } from 'src/account/actions'
+import { celoEducationCompletedSelector } from 'src/account/selectors'
 import { HomeEvents, RewardsEvents } from 'src/analytics/Events'
 import { ScrollDirection } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -92,7 +93,7 @@ function useSimpleActions() {
   } = useSelector((state) => state.account)
 
   const numberVerified = useSelector(phoneNumberVerifiedSelector)
-  const goldEducationCompleted = useSelector((state) => state.goldToken.educationCompleted)
+  const celoEducationCompleted = useSelector(celoEducationCompletedSelector)
 
   const extraNotifications = useSelector(getExtraNotifications)
 
@@ -315,7 +316,7 @@ function useSimpleActions() {
     })
   }
 
-  if (!dismissedGoldEducation && !goldEducationCompleted) {
+  if (!dismissedGoldEducation && !celoEducationCompleted) {
     actions.push({
       id: 'celoEducation',
       text: t('whatIsGold'),

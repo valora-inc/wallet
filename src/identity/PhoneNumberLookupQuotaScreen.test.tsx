@@ -5,6 +5,7 @@ import { Provider } from 'react-redux'
 import PhoneNumberLookupQuotaScreen from 'src/identity/PhoneNumberLookupQuotaScreen'
 import { Screens } from 'src/navigator/Screens'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
+import { mockTokenBalances } from 'test/values'
 
 const mockScreenProps = getMockStackScreenProps(Screens.PhoneNumberLookupQuota, {
   onBuy: jest.fn(),
@@ -12,7 +13,11 @@ const mockScreenProps = getMockStackScreenProps(Screens.PhoneNumberLookupQuota, 
 })
 
 describe('PhoneNumberLookupQuotaScreen', () => {
-  const store = createMockStore({})
+  const store = createMockStore({
+    tokens: {
+      tokenBalances: mockTokenBalances,
+    },
+  })
 
   it('renders correctly', () => {
     const { toJSON } = render(

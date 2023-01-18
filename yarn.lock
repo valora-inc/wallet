@@ -9826,13 +9826,6 @@ fast-redact@^3.0.0:
   resolved "https://registry.yarnpkg.com/fast-redact/-/fast-redact-3.1.2.tgz#d58e69e9084ce9fa4c1a6fa98a3e1ecf5d7839aa"
   integrity sha512-+0em+Iya9fKGfEQGcd62Yv6onjBmmhV1uh86XVfOU8VwAe6kaFdQCWI9s0/Nnugx5Vd9tdbZ7e6gE2tR9dzXdw==
 
-fast-shuffle@^5.0.2:
-  version "5.0.2"
-  resolved "https://registry.yarnpkg.com/fast-shuffle/-/fast-shuffle-5.0.2.tgz#41b87979a8b37350c75a2a7fb52205a7553b2764"
-  integrity sha512-YcFRFQfNJZ43G7M0Qig4Bg88U96EVXVryXFM1VYO4cAwe6PgELiyR2gNBKxXC1Be6t2eu1d8ptaLA9TtExFgvw==
-  dependencies:
-    fn-mt "1.2.1"
-
 fast-text-encoding@1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/fast-text-encoding/-/fast-text-encoding-1.0.4.tgz#bf1898ad800282a4e53c0ea9690704dd26e4298e"
@@ -10048,11 +10041,6 @@ flow-parser@^0.121.0:
   version "0.121.0"
   resolved "https://registry.yarnpkg.com/flow-parser/-/flow-parser-0.121.0.tgz#9f9898eaec91a9f7c323e9e992d81ab5c58e618f"
   integrity sha512-1gIBiWJNR0tKUNv8gZuk7l9rVX06OuLzY9AoGio7y/JT4V1IZErEMEq2TJS+PFcw/y0RshZ1J/27VfK1UQzYVg==
-
-fn-mt@1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/fn-mt/-/fn-mt-1.2.1.tgz#4a87a44164ec4a2a77525599b6fd86ece9109d40"
-  integrity sha512-pH4wCsSEfuaffWysGvOds36E9qVAoUK9Up9dWqNTx/qLTQobdOxriINVxd1xoQjMNn+ozMifc425mvgOgK21pQ==
 
 follow-redirects@^1.14.0:
   version "1.14.9"
@@ -15609,10 +15597,10 @@ react-native-dotenv@^3.2.0:
   dependencies:
     dotenv "^10.0.0"
 
-react-native-email-link@^1.14.0:
-  version "1.14.0"
-  resolved "https://registry.yarnpkg.com/react-native-email-link/-/react-native-email-link-1.14.0.tgz#e90e1abea8d170946a0cb973a2f93e9c0a841653"
-  integrity sha512-RecW/hNE2at7AlE2/4f3cO12J6YSalRL7jv+z8X2DVrRZNv2lMavcLEEXh3z5ikRFXkMc0OYs+h6SrsalpN1lg==
+react-native-email-link@^1.14.3:
+  version "1.14.3"
+  resolved "https://registry.yarnpkg.com/react-native-email-link/-/react-native-email-link-1.14.3.tgz#188d501ab9cbbee9c6aa5d1190149b071f7c51d2"
+  integrity sha512-3biiaDKjJft6/13cYQkh/CmVae+pU7j+ThX7lFDu7eR6iRrMf9mTXyjejSboWr/M+xE34Vm0bKy8R1tXKjC2zQ==
 
 react-native-exit-app@^1.1.0:
   version "1.1.0"

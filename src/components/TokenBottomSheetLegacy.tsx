@@ -10,10 +10,10 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import Touchable from 'src/components/Touchable'
 import { useShowOrHideAnimation } from 'src/components/useShowOrHideAnimation'
-import { useBalance } from 'src/stableToken/hooks'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import { useTokenInfoByCurrency } from 'src/tokens/hooks'
 import { Currency, STABLE_CURRENCIES } from 'src/utils/currencies'
 
 export enum TokenPickerOrigin {
@@ -31,7 +31,7 @@ interface Props {
 
 function CurrencyOption({ currency, onPress }: { currency: Currency; onPress: () => void }) {
   const { t } = useTranslation()
-  const balance = useBalance(currency)
+  const balance = useTokenInfoByCurrency(currency)?.balance
   const amount = {
     value: new BigNumber(balance ?? '0'),
     currencyCode: currency,

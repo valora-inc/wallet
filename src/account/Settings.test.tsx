@@ -11,9 +11,8 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { removeStoredPin, setPincodeWithBiometry } from 'src/pincode/authentication'
-import { Currency } from 'src/utils/currencies'
 import { createMockStore, flushMicrotasksQueue, getMockStackScreenProps } from 'test/utils'
-import { mockE164Number, mockE164NumberPepper } from 'test/values'
+import { mockE164Number, mockE164NumberPepper, mockTokenBalances } from 'test/values'
 
 const mockedEnsurePincode = ensurePincode as jest.Mock
 
@@ -48,8 +47,7 @@ describe('Account', () => {
             e164PhoneNumber: mockE164Number,
           },
           identity: { e164NumberToSalt: { [mockE164Number]: mockE164NumberPepper } },
-          stableToken: { balances: { [Currency.Dollar]: '0.00' } },
-          goldToken: { balance: '0.00' },
+          tokens: mockTokenBalances,
         })}
       >
         <Settings {...getMockStackScreenProps(Screens.Settings)} />
@@ -63,8 +61,7 @@ describe('Account', () => {
       <Provider
         store={createMockStore({
           identity: { e164NumberToSalt: { [mockE164Number]: mockE164NumberPepper } },
-          stableToken: { balances: { [Currency.Dollar]: '0.00' } },
-          goldToken: { balance: '0.00' },
+          tokens: mockTokenBalances,
           account: {
             devModeActive: true,
             e164PhoneNumber: mockE164Number,

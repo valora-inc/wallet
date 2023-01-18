@@ -201,6 +201,7 @@ export type StackParamList = {
       }
     | undefined
   [Screens.IncomingPaymentRequestListScreen]: undefined
+  [Screens.Invite]: undefined
   [Screens.NameAndPicture]: undefined
   [Screens.EnableBiometry]: undefined
   [Screens.Language]:

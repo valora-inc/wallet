@@ -8,6 +8,7 @@ import { Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'r
 import { getNumberFormatSettings } from 'react-native-localize'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
+import { createSelector } from 'reselect'
 import { hideAlert, showError } from 'src/alert/actions'
 import { errorSelector } from 'src/alert/reducer'
 import { CeloExchangeEvents } from 'src/analytics/Events'
@@ -39,12 +40,14 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import useSelector from 'src/redux/useSelector'
 import { updateLastUsedCurrency } from 'src/send/actions'
+import { lastUsedCurrencySelector } from 'src/send/selectors'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
-import { balancesSelector, defaultCurrencySelector } from 'src/stableToken/selectors'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
-import { CURRENCIES, Currency } from 'src/utils/currencies'
+import { tokensByCurrencySelector } from 'src/tokens/selectors'
+import { getHigherBalanceCurrency } from 'src/tokens/utils'
+import { CURRENCIES, Currency, STABLE_CURRENCIES } from 'src/utils/currencies'
 import { getRateForMakerToken, getTakerAmount } from 'src/utils/currencyExchange'
 import Logger from 'src/utils/Logger'
 
@@ -55,6 +58,22 @@ export enum InputToken {
   LocalCurrency = 'LocalCurrency',
 }
 
+const defaultCurrencySelector = createSelector(
+  tokensByCurrencySelector,
+  localCurrencyExchangeRatesSelector,
+  lastUsedCurrencySelector,
+  (tokensByCurrency, exchangeRates, lastCurrency) => {
+    if (
+      tokensByCurrency[lastCurrency]?.balance.gt(STABLE_TRANSACTION_MIN_AMOUNT) &&
+      exchangeRates[lastCurrency] !== null
+    ) {
+      return lastCurrency
+    }
+
+    return getHigherBalanceCurrency(STABLE_CURRENCIES, tokensByCurrency) ?? Currency.Dollar
+  }
+)
+
 type Props = NativeStackScreenProps<StackParamList, Screens.ExchangeTradeScreen>
 
 export default function ExchangeTradeScreen({ route }: Props) {
@@ -63,7 +82,7 @@ export default function ExchangeTradeScreen({ route }: Props) {
   const exchangeRates = useSelector(exchangeRatesSelector)
   const error = useSelector(errorSelector)
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
-  const balances = useSelector(balancesSelector)
+  const tokens = useSelector(tokensByCurrencySelector)
   const localCurrencyExchangeRates = useSelector(localCurrencyExchangeRatesSelector)
   const defaultCurrency = useSelector(defaultCurrencySelector)
 
@@ -78,14 +97,14 @@ export default function ExchangeTradeScreen({ route }: Props) {
 
   useEffect(() => {
     const sellToken = buyCelo ? defaultCurrency : Currency.Celo
-    if (!balances[sellToken]) {
+    if (!tokens[sellToken]?.balance) {
       Logger.error('ExchangeTradeScreen', `${sellToken} balance is missing. Should never happen`)
       dispatch(showError(ErrorMessages.FETCH_FAILED))
       navigateBack()
       return
     }
 
-    dispatch(fetchExchangeRate(sellToken, balances[sellToken]!))
+    dispatch(fetchExchangeRate(sellToken, tokens[sellToken]!.balance))
   }, [])
 
   const onChangeExchangeAmount = (amount: string) => {
@@ -150,19 +169,19 @@ export default function ExchangeTradeScreen({ route }: Props) {
       if (inputToken === InputToken.Celo) {
         const exchangeRate = getRateForMakerToken(exchangeRates, Currency.Celo, transferCurrency)
         return getTakerAmount(tokenAmount, exchangeRate).isLessThanOrEqualTo(
-          balances[transferCurrency] ?? 0
+          tokens[transferCurrency]?.balance ?? 0
         )
       } else {
-        return tokenAmount.isLessThanOrEqualTo(balances[transferCurrency] ?? 0)
+        return tokenAmount.isLessThanOrEqualTo(tokens[transferCurrency]?.balance ?? 0)
       }
     } else {
       // Selling CELO
       if (inputToken === InputToken.Celo) {
-        return tokenAmount.isLessThanOrEqualTo(balances[Currency.Celo] ?? 0)
+        return tokenAmount.isLessThanOrEqualTo(tokens[Currency.Celo]?.balance ?? 0)
       } else {
         const exchangeRate = getRateForMakerToken(exchangeRates, transferCurrency, Currency.Celo)
         return getTakerAmount(tokenAmount, exchangeRate).isLessThanOrEqualTo(
-          balances[Currency.Celo] ?? 0
+          tokens[Currency.Celo]?.balance ?? 0
         )
       }
     }

@@ -971,4 +971,11 @@ export const migrations = {
       'ranVerificationMigrationAt'
     ),
   }),
+  104: (state: any) => ({
+    ...(_.omit(state, ['goldToken', 'stableToken']) as any),
+    account: {
+      ...state.account,
+      celoEducationCompleted: state.goldToken.educationCompleted,
+    },
+  }),
 }
