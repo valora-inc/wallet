@@ -181,23 +181,15 @@ interface SettingsEventsProperties {
 }
 
 interface OnboardingEventsProperties {
-  [OnboardingEvents.onboarding_education_start]: {
-    variant: string
-    order: string
-  }
+  [OnboardingEvents.onboarding_education_start]: undefined
   [OnboardingEvents.onboarding_education_scroll]: {
     currentStep: number
     direction: ScrollDirection
   }
   [OnboardingEvents.onboarding_education_step_impression]: {
-    valueProposition: string | undefined
-    variant: string | undefined
     step: number
   }
-  [OnboardingEvents.onboarding_education_complete]: {
-    variant: string
-    order: string
-  }
+  [OnboardingEvents.onboarding_education_complete]: undefined
   [OnboardingEvents.onboarding_education_cancel]: undefined
 
   [OnboardingEvents.create_account_start]: undefined
