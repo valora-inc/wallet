@@ -6,6 +6,7 @@ import BidaliScreen from 'src/fiatExchanges/BidaliScreen'
 import { Screens } from 'src/navigator/Screens'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
+import { mockCeurAddress, mockCusdAddress, mockTokenBalances } from 'test/values'
 
 const mockScreenProps = getMockStackScreenProps(Screens.BidaliScreen, {
   currency: Currency.Dollar,
@@ -26,7 +27,18 @@ describe(BidaliScreen, () => {
   it('renders correctly when no phone number is provided', () => {
     const mockStore = createMockStore({
       account: { e164PhoneNumber: null },
-      stableToken: { balances: { [Currency.Dollar]: '10', [Currency.Euro]: '5' } },
+      tokens: {
+        tokenBalances: {
+          [mockCusdAddress]: {
+            ...mockTokenBalances[mockCusdAddress],
+            balance: '10',
+          },
+          [mockCeurAddress]: {
+            ...mockTokenBalances[mockCeurAddress],
+            balance: '5',
+          },
+        },
+      },
     })
 
     const { UNSAFE_getByType } = render(
@@ -56,7 +68,18 @@ describe(BidaliScreen, () => {
   it('renders correctly when a phone number is provided', () => {
     const mockStore = createMockStore({
       account: { e164PhoneNumber: '+14155556666' },
-      stableToken: { balances: { [Currency.Dollar]: '10', [Currency.Euro]: '5' } },
+      tokens: {
+        tokenBalances: {
+          [mockCusdAddress]: {
+            ...mockTokenBalances[mockCusdAddress],
+            balance: '10',
+          },
+          [mockCeurAddress]: {
+            ...mockTokenBalances[mockCeurAddress],
+            balance: '5',
+          },
+        },
+      },
     })
 
     const { UNSAFE_getByType } = render(
@@ -85,7 +108,18 @@ describe(BidaliScreen, () => {
   it('renders correctly when no currency is passed', () => {
     const mockStore = createMockStore({
       account: { e164PhoneNumber: '+14155556666' },
-      stableToken: { balances: { [Currency.Dollar]: '10', [Currency.Euro]: '9' } },
+      tokens: {
+        tokenBalances: {
+          [mockCusdAddress]: {
+            ...mockTokenBalances[mockCusdAddress],
+            balance: '10',
+          },
+          [mockCeurAddress]: {
+            ...mockTokenBalances[mockCeurAddress],
+            balance: '9',
+          },
+        },
+      },
     })
 
     const { UNSAFE_getByType } = render(

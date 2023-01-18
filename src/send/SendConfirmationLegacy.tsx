@@ -59,12 +59,11 @@ import { sendPaymentLegacy } from 'src/send/actions'
 import { isSendingSelector } from 'src/send/selectors'
 import { getConfirmationInput } from 'src/send/utils'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
-import { fetchStableBalances } from 'src/stableToken/actions'
-import { useBalance } from 'src/stableToken/hooks'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { iconHitslop } from 'src/styles/variables'
-import { useTokenInfo } from 'src/tokens/hooks'
+import { useTokenInfo, useTokenInfoByCurrency } from 'src/tokens/hooks'
+import { fetchTokenBalances } from 'src/tokens/slice'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector, isDekRegisteredSelector } from 'src/web3/selectors'
@@ -140,8 +139,8 @@ function SendConfirmationLegacy(props: Props) {
   const account = useSelector(currentAccountSelector)
   const isSending = useSelector(isSendingSelector)
   // Only load the balance once to prevent race conditions with transactions updating balance
-  const [balance] = useState(useBalance(currency))
-  const celoBalance = useBalance(Currency.Celo)
+  const [balance] = useState(useTokenInfoByCurrency(currency)?.balance)
+  const celoBalance = useTokenInfoByCurrency(Currency.Celo)?.balance
   const appConnected = useSelector(isAppConnected)
   const isDekRegistered = useSelector(isDekRegisteredSelector) ?? false
   const addressToDataEncryptionKey = useSelector(addressToDataEncryptionKeySelector)
@@ -156,7 +155,7 @@ function SendConfirmationLegacy(props: Props) {
   }
 
   useEffect(() => {
-    dispatch(fetchStableBalances())
+    dispatch(fetchTokenBalances({ showLoading: true }))
     if (addressJustValidated) {
       Logger.showMessage(t('addressConfirmed'))
     }

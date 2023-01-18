@@ -9,18 +9,17 @@ import { e164NumberSelector } from 'src/account/selectors'
 import { openUrl } from 'src/app/actions'
 import WebView, { WebViewRef } from 'src/components/WebView'
 import { bidaliPaymentRequested } from 'src/fiatExchanges/actions'
-import networkConfig from 'src/web3/networkConfig'
 import i18n from 'src/i18n'
-import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
 import { emptyHeader } from 'src/navigator/Headers'
 import { navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
-import { balancesSelector } from 'src/stableToken/selectors'
 import colors from 'src/styles/colors'
+import { tokensByCurrencySelector } from 'src/tokens/selectors'
 import { getHigherBalanceCurrency } from 'src/tokens/utils'
 import { Currency } from 'src/utils/currencies'
+import networkConfig from 'src/web3/networkConfig'
 
 // Note for later when adding CELO: make sure that Currency.Celo maps to CELO and not cGLD
 export const BIDALI_CURRENCIES = [Currency.Dollar, Currency.Euro]
@@ -63,10 +62,8 @@ function useInitialJavaScript(
 }
 
 const higherBalanceCurrencySelector = createSelector(
-  balancesSelector,
-  localCurrencyExchangeRatesSelector,
-  (balances, exchangeRates) =>
-    getHigherBalanceCurrency(BIDALI_CURRENCIES, balances, exchangeRates) ?? Currency.Dollar
+  tokensByCurrencySelector,
+  (tokens) => getHigherBalanceCurrency(BIDALI_CURRENCIES, tokens) ?? Currency.Dollar
 )
 
 type RouteProps = NativeStackScreenProps<StackParamList, Screens.BidaliScreen>
@@ -112,17 +109,17 @@ function BidaliScreen({ route, navigation }: Props) {
   }
 
   const webViewRef = useRef<WebViewRef>(null)
-  const balances = useSelector(balancesSelector)
+  const tokens = useSelector(tokensByCurrencySelector)
   const jsonBalances = useMemo(
     () =>
       JSON.stringify(
         // Maps supported currencies to an object with their balance
         // Example: [cUSD, cEUR] to { CUSD: X, CEUR: Y }
         Object.fromEntries(
-          BIDALI_CURRENCIES.map((currency) => [currency.toUpperCase(), balances[currency]])
+          BIDALI_CURRENCIES.map((currency) => [currency.toUpperCase(), tokens[currency]?.balance])
         )
       ),
-    [balances]
+    [tokens]
   )
   const e164PhoneNumber = useSelector(e164NumberSelector)
   const higherBalanceCurrency = useSelector(higherBalanceCurrencySelector)

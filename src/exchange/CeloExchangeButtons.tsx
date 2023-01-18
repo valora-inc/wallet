@@ -11,19 +11,19 @@ import { CELO_TRANSACTION_MIN_AMOUNT, STABLE_TRANSACTION_MIN_AMOUNT } from 'src/
 import { exchangeRatesSelector } from 'src/exchange/reducer'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { balancesSelector } from 'src/stableToken/selectors'
+import { tokensByCurrencySelector } from 'src/tokens/selectors'
 import { Currency, STABLE_CURRENCIES } from 'src/utils/currencies'
 
 export default function CeloExchangeButtons() {
   const { t } = useTranslation()
 
-  const balances = useSelector(balancesSelector)
+  const tokens = useSelector(tokensByCurrencySelector)
   const exchangeRates = useSelector(exchangeRatesSelector)
 
   const hasStable = STABLE_CURRENCIES.some((currency) =>
-    balances[currency]?.isGreaterThan(STABLE_TRANSACTION_MIN_AMOUNT)
+    tokens[currency]?.balance?.isGreaterThan(STABLE_TRANSACTION_MIN_AMOUNT)
   )
-  const hasCelo = balances[Currency.Celo]?.isGreaterThan(CELO_TRANSACTION_MIN_AMOUNT)
+  const hasCelo = tokens[Currency.Celo]?.balance?.isGreaterThan(CELO_TRANSACTION_MIN_AMOUNT)
 
   function goToBuyCelo() {
     ValoraAnalytics.track(CeloExchangeEvents.celo_home_buy)

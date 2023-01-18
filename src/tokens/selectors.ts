@@ -15,6 +15,10 @@ type TokenBalanceWithUsdPrice = TokenBalance & {
   usdPrice: BigNumber
 }
 
+export type CurrencyTokens = {
+  [currency in Currency]: TokenBalance | undefined
+}
+
 export const tokenFetchLoadingSelector = (state: RootState) => state.tokens.loading
 export const tokenFetchErrorSelector = (state: RootState) => state.tokens.error
 
@@ -120,17 +124,20 @@ export const celoAddressSelector = createSelector(coreTokensSelector, (tokens) =
   return tokens.find((tokenInfo) => tokenInfo.symbol === 'CELO')?.address
 })
 
-export const tokensByCurrencySelector = createSelector(tokensListSelector, (tokens) => {
-  const cUsdTokenInfo = tokens.find((token) => token?.symbol === Currency.Dollar)
-  const cEurTokenInfo = tokens.find((token) => token?.symbol === Currency.Euro)
-  // Currency.Celo === 'cGLD' for legacy reasons, so we just use a hard-coded string.
-  const celoTokenInfo = tokens.find((token) => token?.symbol === 'CELO')
-  return {
-    [Currency.Dollar]: cUsdTokenInfo,
-    [Currency.Euro]: cEurTokenInfo,
-    [Currency.Celo]: celoTokenInfo,
+export const tokensByCurrencySelector = createSelector(
+  tokensListSelector,
+  (tokens): CurrencyTokens => {
+    const cUsdTokenInfo = tokens.find((token) => token?.symbol === Currency.Dollar)
+    const cEurTokenInfo = tokens.find((token) => token?.symbol === Currency.Euro)
+    // Currency.Celo === 'cGLD' for legacy reasons, so we just use a hard-coded string.
+    const celoTokenInfo = tokens.find((token) => token?.symbol === 'CELO')
+    return {
+      [Currency.Dollar]: cUsdTokenInfo,
+      [Currency.Euro]: cEurTokenInfo,
+      [Currency.Celo]: celoTokenInfo,
+    }
   }
-})
+)
 
 // Returns the token with the highest usd balance to use as default.
 export const defaultTokenToSendSelector = createSelector(

@@ -11,10 +11,9 @@ import Times from 'src/icons/Times'
 import { navigateBack } from 'src/navigator/NavigationService'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
-import { useBalance } from 'src/stableToken/hooks'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
-import { useTokenInfo, useTokenInfoBySymbol } from 'src/tokens/hooks'
+import { useTokenInfo, useTokenInfoByCurrency } from 'src/tokens/hooks'
 import { Currency } from 'src/utils/currencies'
 
 export const noHeader: NativeStackNavigationOptions = {
@@ -118,16 +117,15 @@ export function HeaderTitleWithBalance({
   switchTitleAndSubtitle = false,
   displayCrypto = false,
 }: Props) {
-  const balance = useBalance(token)
-  const tokenInfo = useTokenInfoBySymbol(token == Currency.Celo ? 'CELO' : token)
+  const tokenInfo = useTokenInfoByCurrency(token)
 
   const subTitle =
-    balance != null ? (
+    tokenInfo?.balance != undefined ? (
       <Trans i18nKey="balanceAvailable">
         {displayCrypto ? (
           tokenInfo && (
             <TokenDisplay
-              amount={balance}
+              amount={tokenInfo.balance}
               tokenAddress={tokenInfo.address}
               showLocalAmount={false}
               hideSign={false}
@@ -137,7 +135,7 @@ export function HeaderTitleWithBalance({
           <CurrencyDisplay
             style={switchTitleAndSubtitle ? styles.headerTitle : styles.headerSubTitle}
             amount={{
-              value: balance,
+              value: tokenInfo.balance,
               currencyCode: token,
             }}
           />
