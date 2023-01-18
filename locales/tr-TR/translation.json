@@ -777,6 +777,7 @@
   },
   "importExistingKey": {
     "explanation": "Kurtarma Kelimeleriniz, hesabınızı oluştururken not ettiğiniz ve kaydettiğiniz 24 kelimelik bir ifadedir. Hesabınızı geri yüklemek için kelimeleri lütfen buraya girin.",
+    "explanationV1_50": "Kurtarma İfadeniz, hesabınızı kurarken yazdığınız ve kaydettiğiniz 12 veya 24 kelimelik bir ifadedir. Hesabınızı geri yüklemek için lütfen buraya girin.",
     "keyPlaceholder": "horse leopard dog monkey ..."
   },
   "verificationInput": {
