@@ -74,12 +74,12 @@ const useDappsCarouselDapps = () => {
 
 function DappsCarousel({ onSelectDapp }: Props) {
   const { t } = useTranslation()
-  const maxNumRecentDapps = useSelector(maxNumRecentDappsSelector)
+  const maxNumDisplayedDapps = useSelector(maxNumRecentDappsSelector)
   const { dapps, section, title, testID } = useDappsCarouselDapps()
 
   const lastViewedDapp = useRef(-1)
 
-  const shouldShowCarousel = maxNumRecentDapps > 0 && dapps.length > 0
+  const shouldShowCarousel = maxNumDisplayedDapps > 0 && dapps.length > 0
 
   useEffect(() => {
     if (shouldShowCarousel) {
@@ -136,7 +136,7 @@ function DappsCarousel({ onSelectDapp }: Props) {
         onScroll={handleScroll}
         scrollEventThrottle={50}
       >
-        {dapps.slice(0, maxNumRecentDapps).map((dapp) => (
+        {dapps.slice(0, maxNumDisplayedDapps).map((dapp) => (
           <Card style={styles.card} rounded={true} shadow={Shadow.SoftLight} key={dapp.id}>
             <Touchable
               onPress={() => onSelectDapp({ ...dapp, openedFrom: section })}
