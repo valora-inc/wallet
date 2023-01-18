@@ -41,7 +41,6 @@ const windowWidth = Dimensions.get('window').width
 
 const useDappsCarouselDapps = () => {
   const { t } = useTranslation()
-  const maxNumRecentDapps = useSelector(maxNumRecentDappsSelector)
   const dappFavoritesEnabled = useSelector(dappFavoritesEnabledSelector)
   const recentlyUsedDapps = useSelector(recentDappsSelector)
   const favoritedDapps = useSelector(favoriteDappsSelector)
@@ -55,7 +54,7 @@ const useDappsCarouselDapps = () => {
     }
   }
 
-  if (maxNumRecentDapps > 0 && recentlyUsedDapps.length > 0) {
+  if (recentlyUsedDapps.length > 0) {
     return {
       dapps: recentlyUsedDapps,
       section: DappSection.RecentlyUsed,
@@ -75,13 +74,15 @@ const useDappsCarouselDapps = () => {
 
 function DappsCarousel({ onSelectDapp }: Props) {
   const { t } = useTranslation()
-
+  const maxNumRecentDapps = useSelector(maxNumRecentDappsSelector)
   const { dapps, section, title, testID } = useDappsCarouselDapps()
 
   const lastViewedDapp = useRef(-1)
 
+  const shouldShowCarousel = maxNumRecentDapps > 0 && dapps.length > 0
+
   useEffect(() => {
-    if (dapps.length > 0) {
+    if (shouldShowCarousel) {
       trackDappsImpressionForScrollPosition(0)
     }
   }, [])
@@ -119,7 +120,7 @@ function DappsCarousel({ onSelectDapp }: Props) {
     trackDappsImpressionForScrollPosition(event.nativeEvent.contentOffset.x)
   }
 
-  if (!dapps.length) {
+  if (!shouldShowCarousel) {
     return null
   }
 
@@ -135,7 +136,7 @@ function DappsCarousel({ onSelectDapp }: Props) {
         onScroll={handleScroll}
         scrollEventThrottle={50}
       >
-        {dapps.map((dapp) => (
+        {dapps.slice(0, maxNumRecentDapps).map((dapp) => (
           <Card style={styles.card} rounded={true} shadow={Shadow.SoftLight} key={dapp.id}>
             <Touchable
               onPress={() => onSelectDapp({ ...dapp, openedFrom: section })}
