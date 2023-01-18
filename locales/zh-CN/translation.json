@@ -777,6 +777,7 @@
   },
   "importExistingKey": {
     "explanation": "您的恢复短语是您在设置账户时写下并保存的一个 24 字短语。请在此处输入以恢复您的账户。",
+    "explanationV1_50": "你的恢复短语是一个12或24个字的短语，是你在设置账户时写下并保存的。请在这里输入它来恢复你的账户。",
     "keyPlaceholder": "horse leopard dog monkey ..."
   },
   "verificationInput": {
