@@ -777,6 +777,7 @@
   },
   "importExistingKey": {
     "explanation": "Cụm từ khôi phục là cụm từ gồm 24 từ mà bạn đã viết ra và lưu lại khi thiết lập tài khoản. Vui lòng nhập Cụm từ đó vào đây để khôi phục tài khoản.",
+    "explanationV1_50": "Your Recovery Phrase is a 12 or 24 word phrase that you wrote down and saved when you set up your account. Please enter it here to restore your account.",
     "keyPlaceholder": "ngựa báo chó khỉ..."
   },
   "verificationInput": {
