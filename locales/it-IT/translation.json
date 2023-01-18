@@ -777,6 +777,7 @@
   },
   "importExistingKey": {
     "explanation": "La tua Frase di recupero è composta da 24 parole e dovresti averla annotata quando hai configurato il tuo conto. Immettila qui per ripristinarlo.",
+    "explanationV1_50": "La tua frase di ripristino è una frase di 12 o 24 parole che hai scritto e salvato quando hai creato il tuo account. Inseriscila qui per ripristinare il tuo account.",
     "keyPlaceholder": "horse leopard dog monkey ..."
   },
   "verificationInput": {
