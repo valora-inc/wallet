@@ -165,6 +165,27 @@ describe('DappsCarousel', () => {
       expect(selectDappSpy).toHaveBeenCalledTimes(1)
       expect(selectDappSpy).toHaveBeenCalledWith({ ...dappsList[2], openedFrom: 'recently used' })
     })
+
+    it('only renders the maximum allowed number of dapps', () => {
+      const { getAllByTestId } = render(
+        <Provider
+          store={createMockStore({
+            dapps: {
+              recentDappIds, // this has length 2
+              maxNumRecentDapps: 1,
+              dappsList,
+            },
+          })}
+        >
+          <DappsCarousel onSelectDapp={jest.fn()} />
+        </Provider>
+      )
+
+      const dapps = getAllByTestId('RecentlyUsedDapps/Dapp')
+
+      expect(dapps).toHaveLength(1)
+      expect(within(dapps[0]).getByText(dappsList[0].name)).toBeTruthy()
+    })
   })
 
   describe('favorite dapps', () => {
@@ -216,6 +237,29 @@ describe('DappsCarousel', () => {
         ...dappsList[3],
         openedFrom: 'favorites home screen',
       })
+    })
+
+    it('only renders the maximum allowed number of dapps', () => {
+      const { getAllByTestId } = render(
+        <Provider
+          store={createMockStore({
+            dapps: {
+              recentDappIds, // this has length 2
+              dappsList,
+              maxNumRecentDapps: 1,
+              dappFavoritesEnabled: true,
+              favoriteDappIds, // this has length 2
+            },
+          })}
+        >
+          <DappsCarousel onSelectDapp={jest.fn()} />
+        </Provider>
+      )
+
+      const dapps = getAllByTestId('FavoritedDapps/Dapp')
+
+      expect(dapps).toHaveLength(1)
+      expect(within(dapps[0]).getByText(dappsList[1].name)).toBeTruthy()
     })
   })
 
@@ -285,6 +329,25 @@ describe('DappsCarousel', () => {
         section: 'recently used',
         horizontalPosition: 3,
       })
+    })
+
+    it('should not render content or track impressions if maxNumRecentDapps is 0', () => {
+      const { toJSON } = render(
+        <Provider
+          store={createMockStore({
+            dapps: {
+              recentDappIds: dappsList.map((dapp) => dapp.id),
+              maxNumRecentDapps: 0,
+              dappsList,
+            },
+          })}
+        >
+          <DappsCarousel onSelectDapp={jest.fn()} />
+        </Provider>
+      )
+
+      expect(toJSON()).toBeNull()
+      expect(ValoraAnalytics.track).not.toHaveBeenCalled()
     })
   })
 })
