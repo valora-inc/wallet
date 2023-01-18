@@ -51,31 +51,33 @@ describe(getOrCreateAccount, () => {
       .run()
   })
 
-  it('creates a new account', async () => {
-    const MNEMONIC =
-      'avellana novio zona pinza ducha íntimo amante diluir toldo peón ocio encía gen balcón carro lingote millón amasar mármol bondad toser soledad croqueta agosto'
-    const EXPECTED_ADDRESS = '0xE025583d25Eff2C254999b5904C97bAe9B3F8D83'
-    const EXPECTED_DEK = '0xb6812219f7003c27cc1ef17c2033c033a38cfc52d83f176a0667086787d59d39'
-
-    await expectSaga(getOrCreateAccount)
-      .withState(state)
-      .provide([
-        [select(currentAccountSelector), null],
-        [matchers.call.fn(generateMnemonic), MNEMONIC],
-        [
-          call(storeMnemonic, MNEMONIC, EXPECTED_ADDRESS),
-          {
-            service: 'mnemonic',
-            storage: 'storage',
-          },
-        ],
-        [call(getPasswordSaga, EXPECTED_ADDRESS, false, true), 'somePassword'],
-      ])
-      .put(setAccount(EXPECTED_ADDRESS))
-      .put(setDataEncryptionKey(EXPECTED_DEK))
-      .returns(EXPECTED_ADDRESS)
-      .run()
-  })
+  it.each`
+    expectedAddress                                 | expectedDEK                                                               | mnemonic
+    ${'0xE025583d25Eff2C254999b5904C97bAe9B3F8D83'} | ${'0xb6812219f7003c27cc1ef17c2033c033a38cfc52d83f176a0667086787d59d39'}   | ${'avellana novio zona pinza ducha íntimo amante diluir toldo peón ocio encía gen balcón carro lingote millón amasar mármol bondad toser soledad croqueta agosto'}
+    ${'0x49a4728b4f94e5ccc4ddfe2fe2269ccd431dc052'} | ${'0x0275da8df87a83403d0a0e9aec60e26ac11ebd9764ebe3bbfc5fecb3631e3e0a99'} | ${'Sufrir maniquí índice viral boina reino choza denso gafas aviso nadar glaciar'}
+  `(
+    'creates a new account $expectedAddress',
+    async ({ expectedAddress, expectedDEK, mnemonic }) => {
+      await expectSaga(getOrCreateAccount)
+        .withState(state)
+        .provide([
+          [select(currentAccountSelector), null],
+          [matchers.call.fn(generateMnemonic), mnemonic],
+          [
+            call(storeMnemonic, mnemonic, expectedAddress),
+            {
+              service: 'mnemonic',
+              storage: 'storage',
+            },
+          ],
+          [call(getPasswordSaga, expectedAddress, false, true), 'somePassword'],
+        ])
+        .put(setAccount(expectedAddress))
+        .put(setDataEncryptionKey(expectedDEK))
+        .returns(expectedAddress)
+        .run()
+    }
+  )
 
   it.each`
     appLang             | expectedMnemonicLang
