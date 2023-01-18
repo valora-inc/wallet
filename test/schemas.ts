@@ -1967,8 +1967,8 @@ export const v105Schema = {
     ...v104Schema._persist,
     version: 105,
   },
-  app: {
-    ...v104Schema.app,
+  web3: {
+    ...v104Schema.web3,
     twelveWordSeedPhraseEnabled: false,
   },
 }

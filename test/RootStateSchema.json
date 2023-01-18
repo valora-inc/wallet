@@ -2271,9 +2271,6 @@
                         }
                     ]
                 },
-                "twelveWordSeedPhraseEnabled": {
-                    "type": "boolean"
-                },
                 "visualizeNFTsEnabledInHomeAssetsPage": {
                     "type": "boolean"
                 },
@@ -2321,7 +2318,6 @@
                 "superchargeApy",
                 "superchargeTokenConfigByToken",
                 "supportedBiometryType",
-                "twelveWordSeedPhraseEnabled",
                 "visualizeNFTsEnabledInHomeAssetsPage",
                 "walletConnectV1Enabled",
                 "walletConnectV2Enabled"
@@ -3569,13 +3565,17 @@
                         "null",
                         "string"
                     ]
+                },
+                "twelveWordSeedPhraseEnabled": {
+                    "type": "boolean"
                 }
             },
             "required": [
                 "account",
                 "accountInWeb3Keystore",
                 "dataEncryptionKey",
-                "mtwAddress"
+                "mtwAddress",
+                "twelveWordSeedPhraseEnabled"
             ],
             "type": "object"
         },

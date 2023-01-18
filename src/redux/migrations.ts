@@ -980,8 +980,8 @@ export const migrations = {
   }),
   105: (state: any) => ({
     ...state,
-    app: {
-      ...state.app,
+    web3: {
+      ...state.web3,
       twelveWordSeedPhraseEnabled: false,
     },
   }),

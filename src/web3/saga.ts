@@ -23,9 +23,9 @@ import { createAccountDek } from 'src/web3/dataEncryptionKey'
 import {
   currentAccountSelector,
   mtwAddressSelector,
+  twelveWordSeedPhraseEnabledSelector,
   walletAddressSelector,
 } from 'src/web3/selectors'
-import { twelveWordSeedPhraseEnabledSelector } from '../app/selectors'
 import { RootState } from '../redux/reducers'
 
 const TAG = 'web3/saga'

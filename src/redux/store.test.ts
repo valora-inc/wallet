@@ -174,7 +174,6 @@ describe('store state', () => {
           "superchargeApy": 12,
           "superchargeTokenConfigByToken": Object {},
           "supportedBiometryType": null,
-          "twelveWordSeedPhraseEnabled": false,
           "visualizeNFTsEnabledInHomeAssetsPage": false,
           "walletConnectV1Enabled": true,
           "walletConnectV2Enabled": true,
@@ -345,6 +344,7 @@ describe('store state', () => {
           "dataEncryptionKey": "0x0000000000000000000000000000000000008F68",
           "isDekRegistered": false,
           "mtwAddress": null,
+          "twelveWordSeedPhraseEnabled": false,
         },
       }
     `)
