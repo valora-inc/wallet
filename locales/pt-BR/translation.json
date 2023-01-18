@@ -777,6 +777,7 @@
   },
   "importExistingKey": {
     "explanation": "Sua Frase de Recuperação é uma frase de 24 palavras que você anotou e salvou ao configurar sua conta. Insira-a aqui para restaurar sua conta.",
+    "explanationV1_50": "A sua Frase de Recuperação é uma frase de 12 ou 24 palavras que escreveu e guardou quando criou a sua conta. Por favor introduza-a aqui para recuperar a sua conta.",
     "keyPlaceholder": "cavalo leopardo cachorro macaco..."
   },
   "verificationInput": {
