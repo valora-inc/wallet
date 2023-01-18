@@ -776,7 +776,8 @@
     "resendButton": "Resend text message"
   },
   "importExistingKey": {
-    "explanation": "Your Recovery Phrase is a 12 or 24 word phrase that you wrote down and saved when you set up your account. Please enter it here to restore your account.",
+    "explanation": "Your Recovery Phrase is a 24-word phrase that you wrote down and saved when you set up your account. Please enter it here to restore your account.",
+    "explanation1_50": "Your Recovery Phrase is a 12 or 24 word phrase that you wrote down and saved when you set up your account. Please enter it here to restore your account.",
     "keyPlaceholder": "horse leopard dog monkey ..."
   },
   "verificationInput": {
