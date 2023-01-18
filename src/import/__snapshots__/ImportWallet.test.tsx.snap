@@ -153,7 +153,7 @@ exports[`ImportWallet renders correctly and is disabled with no text 1`] = `
           }
         }
       >
-        importExistingKey.explanation1_50
+        importExistingKey.explanationV1_50
       </Text>
       <View
         style={
