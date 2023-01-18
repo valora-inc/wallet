@@ -219,7 +219,7 @@ function ImportWallet({ navigation, route }: Props) {
                   shouldShowClipboard={shouldShowClipboard}
                   testID="ImportWalletBackupKeyInputField"
                 />
-                <Text style={styles.explanation}>{t('importExistingKey.explanation')}</Text>
+                <Text style={styles.explanation}>{t('importExistingKey.explanation1_50')}</Text>
                 <Button
                   style={styles.button}
                   testID="ImportWalletButton"
