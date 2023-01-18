@@ -777,6 +777,7 @@
   },
   "importExistingKey": {
     "explanation": "วลีกู้คืนรหัสคือวลี 24 คำที่คุณจดและบันทึกไว้เมื่อตั้งค่าบัญชี โปรดป้อนวลีที่นี่เพื่อกู้คืนบัญชีของคุณ",
+    "explanationV1_50": "Your Recovery Phrase is a 12 or 24 word phrase that you wrote down and saved when you set up your account. Please enter it here to restore your account.",
     "keyPlaceholder": "horse leopard dog monkey ..."
   },
   "verificationInput": {
