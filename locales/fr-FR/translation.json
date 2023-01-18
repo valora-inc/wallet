@@ -777,6 +777,7 @@
   },
   "importExistingKey": {
     "explanation": "Votre Phrase de récupération est une phrase de 24 mots que vous avez écrite et enregistrée lorsque vous avez créé votre compte. Veuillez la saisir ici pour restaurer votre compte.",
+    "explanationV1_50": "Ta phrase de récupération est une phrase de 12 ou 24 mots que tu as écrite et enregistrée lors de la création de ton compte. Saisis-la ici pour restaurer ton compte.",
     "keyPlaceholder": "cheval léopard chien singe ..."
   },
   "verificationInput": {
