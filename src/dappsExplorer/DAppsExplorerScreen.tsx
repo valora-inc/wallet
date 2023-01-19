@@ -162,7 +162,7 @@ export function DAppsExplorerScreen() {
             }
             style={styles.sectionList}
             contentContainerStyle={{
-              padding: Spacing.Regular16,
+              padding: Spacing.Thick24,
               paddingBottom: Math.max(insets.bottom, Spacing.Regular16),
             }}
             // Workaround iOS setting an incorrect automatic inset at the top
@@ -241,7 +241,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     flex: 1,
-    marginHorizontal: Spacing.Smallest8,
   },
   // Padding values honor figma designs
   categoryTextContainer: {
