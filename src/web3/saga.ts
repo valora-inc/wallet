@@ -61,13 +61,13 @@ export function* getOrCreateAccount() {
     Logger.debug(TAG + '@getOrCreateAccount', 'Creating a new account')
 
     const twelveWordSeedPhraseEnabled = yield select(twelveWordSeedPhraseEnabledSelector)
-    const MNEMONIC_BIT_LENGTH = twelveWordSeedPhraseEnabled
+    const mnemonicBitLength = twelveWordSeedPhraseEnabled
       ? MnemonicStrength.s128_12words
       : MnemonicStrength.s256_24words
     const mnemonicLanguage = getMnemonicLanguage(yield select(currentLanguageSelector))
     let mnemonic: string = yield call(
       generateMnemonic,
-      MNEMONIC_BIT_LENGTH,
+      mnemonicBitLength,
       mnemonicLanguage,
       bip39
     )
@@ -79,7 +79,7 @@ export function* getOrCreateAccount() {
     let duplicateInMnemonic = checkDuplicate(mnemonic)
     while (duplicateInMnemonic) {
       Logger.debug(TAG + '@getOrCreateAccount', 'Regenerating mnemonic to avoid duplicates')
-      mnemonic = yield call(generateMnemonic, MNEMONIC_BIT_LENGTH, mnemonicLanguage, bip39)
+      mnemonic = yield call(generateMnemonic, mnemonicBitLength, mnemonicLanguage, bip39)
       duplicateInMnemonic = checkDuplicate(mnemonic)
     }
 
