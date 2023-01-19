@@ -65,12 +65,7 @@ export function* getOrCreateAccount() {
       ? MnemonicStrength.s128_12words
       : MnemonicStrength.s256_24words
     const mnemonicLanguage = getMnemonicLanguage(yield select(currentLanguageSelector))
-    let mnemonic: string = yield call(
-      generateMnemonic,
-      mnemonicBitLength,
-      mnemonicLanguage,
-      bip39
-    )
+    let mnemonic: string = yield call(generateMnemonic, mnemonicBitLength, mnemonicLanguage, bip39)
 
     // Ensure no duplicates in mnemonic
     const checkDuplicate = (someString: string) => {
