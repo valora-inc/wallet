@@ -101,6 +101,8 @@ function FiatExchangeCurrency({ route, navigation }: Props) {
     })
     if (flow === FiatExchangeFlow.Spend) {
       return navigate(Screens.BidaliScreen, {
+        // ResolveCurrency is okay to use here since Bidali only
+        // supports cEUR and cUSD
         currency: resolveCurrency(selectedCurrency),
       })
     }

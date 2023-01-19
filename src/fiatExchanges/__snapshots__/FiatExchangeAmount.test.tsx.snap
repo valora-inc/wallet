@@ -320,17 +320,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
             testID="LineItemRowTitle/subtotal"
           >
             celoDollar @ 
-            <Text
-              style={
-                Array [
-                  undefined,
-                  Object {
-                    "color": undefined,
-                  },
-                ]
-              }
-              testID="undefined/value"
-            >
+            <Text>
               
               €
               0.86
@@ -797,17 +787,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
             testID="LineItemRowTitle/subtotal"
           >
             celoDollar @ 
-            <Text
-              style={
-                Array [
-                  undefined,
-                  Object {
-                    "color": undefined,
-                  },
-                ]
-              }
-              testID="undefined/value"
-            >
+            <Text>
               
               $
               1.00

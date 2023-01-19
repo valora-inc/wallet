@@ -11,7 +11,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { createMockStore, getElementText, getMockStackScreenProps } from 'test/utils'
-import { mockMaxSendAmount } from 'test/values'
+import { mockCeloAddress, mockCeurAddress, mockCusdAddress, mockMaxSendAmount } from 'test/values'
 import { CICOFlow } from './utils'
 
 jest.mock('src/fees/hooks', () => ({
@@ -36,12 +36,42 @@ const phpExchangeRates = {
   [Currency.Celo]: '150',
 }
 
+const mockTokens = {
+  tokenBalances: {
+    [mockCusdAddress]: {
+      address: mockCusdAddress,
+      symbol: 'cUSD',
+      balance: '200',
+      usdPrice: '1',
+      isCoreToken: true,
+      priceFetchedAt: Date.now(),
+    },
+    [mockCeurAddress]: {
+      address: mockCeurAddress,
+      symbol: 'cEUR',
+      balance: '100',
+      usdPrice: '1.2',
+      isCoreToken: true,
+      priceFetchedAt: Date.now(),
+    },
+    [mockCeloAddress]: {
+      address: mockCeloAddress,
+      symbol: 'CELO',
+      balance: '200',
+      usdPrice: '5',
+      isCoreToken: true,
+      priceFetchedAt: Date.now(),
+    },
+  },
+}
+
 const storeWithUSD = createMockStore({
   localCurrency: {
     fetchedCurrencyCode: LocalCurrencyCode.USD,
     preferredCurrencyCode: LocalCurrencyCode.USD,
     exchangeRates: usdExchangeRates,
   },
+  tokens: mockTokens,
 })
 
 const storeWithEUR = createMockStore({
@@ -50,6 +80,7 @@ const storeWithEUR = createMockStore({
     preferredCurrencyCode: LocalCurrencyCode.EUR,
     exchangeRates: eurExchangeRates,
   },
+  tokens: mockTokens,
 })
 
 const storeWithPHP = createMockStore({
@@ -58,6 +89,7 @@ const storeWithPHP = createMockStore({
     preferredCurrencyCode: LocalCurrencyCode.PHP,
     exchangeRates: phpExchangeRates,
   },
+  tokens: mockTokens,
 })
 
 describe('FiatExchangeAmount cashIn', () => {
@@ -205,7 +237,7 @@ describe('FiatExchangeAmount cashOut', () => {
       </Provider>
     )
     expect(getByText('amount (CELO)')).toBeTruthy()
-    expect(getElementText(getByTestId('LineItemRowTitle/subtotal'))).toBe('subtotal @ $3.00')
+    expect(getElementText(getByTestId('LineItemRowTitle/subtotal'))).toBe('subtotal @ $5.00')
     expect(getElementText(getByTestId('LineItemRow/subtotal'))).toBe('$0.00')
   })
 

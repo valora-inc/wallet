@@ -34,7 +34,7 @@ interface ProviderRequestData {
   userLocation: UserLocationData
   walletAddress: string
   fiatCurrency: LocalCurrencyCode
-  digitalAsset: CiCoCurrency
+  digitalAsset: string
   fiatAmount?: number
   digitalAssetAmount?: number
   txType: 'buy' | 'sell'

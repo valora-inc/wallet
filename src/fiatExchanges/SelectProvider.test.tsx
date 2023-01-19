@@ -125,7 +125,7 @@ describe(SelectProviderScreen, () => {
     )
     await waitFor(() =>
       expect(fetchProviders).toHaveBeenCalledWith({
-        digitalAsset: CiCoCurrency.cUSD,
+        digitalAsset: 'CUSD',
         digitalAssetAmount: AMOUNT_TO_CASH_IN,
         fiatAmount: AMOUNT_TO_CASH_IN,
         fiatCurrency: LocalCurrencyCode.USD,

@@ -235,7 +235,7 @@ describe('ReviewScreen', () => {
       expect(queryByText('fiatConnectReviewScreen.cashOut.transactionDetailsAmount')).toBeTruthy()
       expect(queryByTestId('txDetails-total')?.children).toEqual(['', '100.02', ' cUSD'])
       expect(queryByTestId('txDetails-converted')?.children).toEqual(['', '100.00', ' cUSD'])
-      expect(queryByTestId('txDetails-fee')?.children).toEqual(['', '0.02', ' cUSD'])
+      expect(queryByTestId('txDetails-fee')?.children).toEqual(['', '0.015', ' cUSD'])
       expect(queryByTestId('txDetails-exchangeRate/value')?.children).toEqual(['', '$', '1'])
       expect(queryByTestId('txDetails-receive/value')?.children).toEqual(['', '$', '100.00'])
       expect(queryByText('fiatConnectReviewScreen.cashOut.paymentMethodHeader')).toBeTruthy()

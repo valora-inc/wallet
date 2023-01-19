@@ -16,7 +16,7 @@ import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { useTokenInfoBySymbol } from 'src/tokens/hooks'
-import { CiCoCurrency, resolveCurrency } from 'src/utils/currencies'
+import { CiCoCurrency } from 'src/utils/currencies'
 
 const SETTLEMENT_TIME_STRINGS: Record<SettlementTime, string> = {
   [SettlementTime.LESS_THAN_ONE_HOUR]: 'selectProviderScreen.oneHour',
@@ -184,7 +184,7 @@ export function PaymentMethodSection({
           <Text>
             <TokenDisplay
               amount={feeAmount}
-              currency={resolveCurrency(normalizedQuote.getCryptoType())}
+              tokenAddress={tokenInfo?.address}
               showLocalAmount={flow === CICOFlow.CashIn}
               hideSign={false}
             />{' '}

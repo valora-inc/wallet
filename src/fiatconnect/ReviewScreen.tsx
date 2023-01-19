@@ -28,10 +28,6 @@ import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import i18n from 'src/i18n'
 import {
-  convertDollarsToLocalAmount,
-  convertLocalAmountToCurrency,
-} from 'src/localCurrency/convert'
-import {
   getDefaultLocalCurrencyCode,
   localCurrencyExchangeRatesSelector,
 } from 'src/localCurrency/selectors'
@@ -42,10 +38,10 @@ import { StackParamList } from 'src/navigator/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
-import { useTokenInfoBySymbol } from 'src/tokens/hooks'
+import { useLocalToTokenAmount, useTokenInfoBySymbol } from 'src/tokens/hooks'
 import { tokensListSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
-import { CiCoCurrency, resolveCurrency } from 'src/utils/currencies'
+import { CiCoCurrency } from 'src/utils/currencies'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.FiatConnectReview>
 
@@ -294,12 +290,17 @@ function ReceiveAmount({
 }) {
   const { t } = useTranslation()
   const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)!
-  const tokenInfo = useTokenInfoBySymbol(normalizedQuote.getCryptoType())
+  const tokenInfo = useTokenInfoBySymbol(normalizedQuote.getCryptoType())!
+  const usdTokenInfo = useTokenInfoBySymbol(CiCoCurrency.cUSD)!
+  const networkFee = useLocalToTokenAmount(
+    feeEstimate?.usdFee ? new BigNumber(feeEstimate?.usdFee) : new BigNumber(0),
+    usdTokenInfo.address
+  )!
   const { receiveDisplay } = getDisplayAmounts({
     flow,
     normalizedQuote,
     exchangeRates,
-    feeEstimate,
+    networkFee,
     tokenInfo,
   })
   return (
@@ -362,7 +363,7 @@ function getDisplayAmounts({
   flow,
   normalizedQuote,
   exchangeRates,
-  feeEstimate,
+  networkFee,
   tokenInfo,
 }: {
   flow: CICOFlow
@@ -372,23 +373,13 @@ function getDisplayAmounts({
     cUSD: string | null
     cEUR: string | null
   }
-  feeEstimate?: FeeEstimateState
+  networkFee: BigNumber
   tokenInfo: TokenBalance | undefined
 }) {
   const cryptoType = normalizedQuote.getCryptoType()
   const fiatType = normalizedQuote.getFiatType()
-
   if (flow === CICOFlow.CashOut) {
     const providerFee = normalizedQuote.getFeeInCrypto(exchangeRates, tokenInfo) ?? new BigNumber(0)
-    let networkFee = new BigNumber(0)
-    if (feeEstimate?.usdFee) {
-      networkFee =
-        convertLocalAmountToCurrency(
-          convertDollarsToLocalAmount(new BigNumber(feeEstimate.usdFee), exchangeRates.cUSD),
-          exchangeRates[resolveCurrency(cryptoType)!]
-        ) ?? networkFee
-    }
-
     const receive = Number(normalizedQuote.getFiatAmount())
     const total = Number(
       new BigNumber(normalizedQuote.getCryptoAmount()).plus(networkFee).toString()
@@ -472,13 +463,18 @@ function TransactionDetails({
 }) {
   const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)!
   const tokenInfo = useTokenInfoBySymbol(normalizedQuote.getCryptoType())
+  const usdTokenInfo = useTokenInfoBySymbol(CiCoCurrency.cUSD)!
+  const networkFee = useLocalToTokenAmount(
+    feeEstimate?.usdFee ? new BigNumber(feeEstimate?.usdFee) : new BigNumber(0),
+    usdTokenInfo.address
+  )!
 
   const { receiveDisplay, totalDisplay, feeDisplay, exchangeRateDisplay, totalMinusFeeDisplay } =
     getDisplayAmounts({
       flow,
       normalizedQuote,
       exchangeRates,
-      feeEstimate,
+      networkFee,
       tokenInfo,
     })
   const { t } = useTranslation()

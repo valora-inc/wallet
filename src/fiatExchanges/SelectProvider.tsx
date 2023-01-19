@@ -154,7 +154,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
           userLocation,
           walletAddress: account,
           fiatCurrency: localCurrency,
-          digitalAsset,
+          digitalAsset: digitalAsset.toUpperCase(),
           fiatAmount: route.params.amount.fiat,
           digitalAssetAmount: route.params.amount.crypto,
           txType: flow === CICOFlow.CashIn ? 'buy' : 'sell',
@@ -168,7 +168,6 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
         userLocation.countryCodeAlpha2,
         digitalAsset
       )
-
       return { externalProviders, legacyMobileMoneyProviders }
     } catch (error) {
       dispatch(showError(ErrorMessages.PROVIDER_FETCH_FAILED))

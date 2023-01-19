@@ -3,7 +3,7 @@ import { RouteProp } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import React, { useState } from 'react'
-import { Trans, useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, Text, TextInput, View } from 'react-native'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -14,7 +14,6 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
-import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import Dialog from 'src/components/Dialog'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
@@ -34,7 +33,7 @@ import i18n from 'src/i18n'
 import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts'
 import { useLocalCurrencyCode } from 'src/localCurrency/hooks'
 import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
-import { emptyHeader, HeaderTitleWithBalance } from 'src/navigator/Headers'
+import { emptyHeader, FiatExchangeBalanceHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -48,12 +47,7 @@ import {
   useTokenInfoBySymbol,
   useTokenToLocalAmount,
 } from 'src/tokens/hooks'
-import {
-  CiCoCurrency,
-  cicoCurrencyTranslationKeys,
-  Currency,
-  resolveCurrency,
-} from 'src/utils/currencies'
+import { CiCoCurrency, cicoCurrencyTranslationKeys, Currency } from 'src/utils/currencies'
 import { roundUp } from 'src/utils/formatting'
 import Logger from 'src/utils/Logger'
 import { CICOFlow, isUserInputCrypto } from './utils'
@@ -65,11 +59,6 @@ const { decimalSeparator } = getNumberFormatSettings()
 type RouteProps = NativeStackScreenProps<StackParamList, Screens.FiatExchangeAmount>
 
 type Props = RouteProps
-
-const oneUnitAmount = (currency: CiCoCurrency) => ({
-  value: new BigNumber('1'),
-  currencyCode: resolveCurrency(currency) as string,
-})
 
 function FiatExchangeAmount({ route }: Props) {
   const { t } = useTranslation()
@@ -253,28 +242,25 @@ function FiatExchangeAmount({ route }: Props) {
           testID="subtotal"
           textStyle={styles.subtotalBodyText}
           title={
-            <Trans>
+            <>
               {`${t(displayCurrencyKey)} @ `}
-              <CurrencyDisplay amount={oneUnitAmount(currency)} showLocalAmount={true} />
-            </Trans>
+              {
+                <TokenDisplay
+                  amount={BigNumber(1)}
+                  tokenAddress={tokenInfo.address}
+                  showLocalAmount={true}
+                  hideSign={false}
+                />
+              }
+            </>
           }
           amount={
-            inputIsCrypto ? (
-              <CurrencyDisplay
-                amount={{
-                  value: inputCryptoAmount,
-                  currencyCode: resolveCurrency(currency) as string,
-                }}
-                showLocalAmount={true}
-              />
-            ) : (
-              <TokenDisplay
-                amount={inputCryptoAmount}
-                tokenAddress={tokenInfo.address}
-                showLocalAmount={false}
-                hideSign={false}
-              />
-            )
+            <TokenDisplay
+              amount={inputCryptoAmount}
+              tokenAddress={tokenInfo.address}
+              showLocalAmount={inputIsCrypto}
+              hideSign={false}
+            />
           }
         />
       </KeyboardAwareScrollView>
@@ -310,7 +296,7 @@ FiatExchangeAmount.navOptions = ({
     ...emptyHeader,
     headerLeft: () => <BackButton eventName={FiatExchangeEvents.cico_amount_back} />,
     headerTitle: () => (
-      <HeaderTitleWithBalance
+      <FiatExchangeBalanceHeader
         title={i18n.t(
           route.params.flow === CICOFlow.CashIn
             ? `fiatExchangeFlow.cashIn.exchangeAmountTitle`
@@ -319,7 +305,7 @@ FiatExchangeAmount.navOptions = ({
             currency,
           }
         )}
-        token={resolveCurrency(currency)}
+        currency={currency}
         displayCrypto={inputIsCrypto}
       />
     ),

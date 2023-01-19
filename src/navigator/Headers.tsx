@@ -13,8 +13,8 @@ import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
-import { useTokenInfo, useTokenInfoByCurrency } from 'src/tokens/hooks'
-import { Currency } from 'src/utils/currencies'
+import { useTokenInfo, useTokenInfoByCurrency, useTokenInfoBySymbol } from 'src/tokens/hooks'
+import { CiCoCurrency, Currency } from 'src/utils/currencies'
 
 export const noHeader: NativeStackNavigationOptions = {
   headerShown: false,
@@ -152,6 +152,37 @@ export function HeaderTitleWithBalance({
       subTitle={switchTitleAndSubtitle ? title : subTitle}
     />
   )
+}
+
+interface FiatExchangeHeaderProps {
+  title: string | JSX.Element
+  currency: CiCoCurrency
+  displayCrypto: boolean
+}
+
+export function FiatExchangeBalanceHeader({
+  title,
+  displayCrypto,
+  currency = CiCoCurrency.CELO,
+}: FiatExchangeHeaderProps) {
+  const tokenInfo = useTokenInfoBySymbol(currency)
+  const subTitle =
+    tokenInfo?.balance != undefined ? (
+      <Trans i18nKey="balanceAvailable">
+        <TokenDisplay
+          amount={tokenInfo.balance}
+          tokenAddress={tokenInfo.address}
+          showLocalAmount={!displayCrypto}
+          hideSign={false}
+          style={styles.headerSubTitle}
+        />
+      </Trans>
+    ) : (
+      // TODO: a null balance doesn't necessarily mean it's loading
+      i18n.t('loading')
+    )
+
+  return <HeaderTitleWithSubtitle title={title} subTitle={subTitle} />
 }
 
 interface TokenBalanceProps {
