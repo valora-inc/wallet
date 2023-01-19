@@ -777,6 +777,7 @@
   },
   "importExistingKey": {
     "explanation": "您的恢复短语是您在设置账户时写下并保存的一个 24 字短语。请在此处输入以恢复您的账户。",
+    "explanationV1_50": "你的恢复短语是一个12或24个字的短语，是你在设置账户时写下并保存的。请在这里输入它来恢复你的账户。",
     "keyPlaceholder": "horse leopard dog monkey ..."
   },
   "verificationInput": {
@@ -1511,7 +1512,7 @@
     "title": "{{contactName}} 似乎还没有 {{appName}} 钱包。",
     "body": "您仍然可以邀请他们使用 {{appName}}，或者尝试将付款发送到他们的钱包地址或 nom.space。",
     "sendInviteButtonLabel": "发送邀请",
-    "shareMessage": "嘿！我想用我的 {{appName}} 钱包向您发送一些加密货币。如果您下载应用程序并关联手机号码，我们就可以像发送短信一样轻松地发送加密货币了。请使用此链接：{{link}}",
+    "shareMessage": "嗨！我一直在使用 {{appName}} 作为我的加密货币钱包，我想邀请你去看看。一旦你下载该应用程序并连接你的电话号码，我们都会得到一个特殊的NFT。使用这个链接。 {{link}}",
     "rewardsActive": {
       "title": "邀请 {{contactName}} 使用 {{appName}}，你们都将获得 NFT！",
       "body": "似乎 {{contactName}} 未在 {{appName}} 上。如果您知道其钱包地址，则仍可发送付款，或者也可以发送一则邀请。\n\n在其下载钱包并关联手机号码后，你们都将获得一个独家的 NFT。"

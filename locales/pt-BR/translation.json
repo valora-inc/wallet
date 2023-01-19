@@ -777,6 +777,7 @@
   },
   "importExistingKey": {
     "explanation": "Sua Frase de Recuperação é uma frase de 24 palavras que você anotou e salvou ao configurar sua conta. Insira-a aqui para restaurar sua conta.",
+    "explanationV1_50": "A sua Frase de Recuperação é uma frase de 12 ou 24 palavras que escreveu e guardou quando criou a sua conta. Por favor introduza-a aqui para recuperar a sua conta.",
     "keyPlaceholder": "cavalo leopardo cachorro macaco..."
   },
   "verificationInput": {
@@ -1513,7 +1514,7 @@
     "title": "Parece que {{contactName}} ainda não tem uma carteira na {{appName}}.",
     "body": "Você ainda pode convidar esse contato para o {{appName}} ou tentar enviar um pagamento para o endereço de carteira ou nom.space dele.",
     "sendInviteButtonLabel": "Enviar convite",
-    "shareMessage": "Olá, eu gostaria de lhe enviar algumas criptomoedas com a minha carteira do {{appName}}. Depois de baixar o aplicativo e conectar seu número de telefone, enviar criptomoedas será tão fácil quanto enviar uma mensagem. Utilize este link: {{link}}",
+    "shareMessage": "Olá! tenho usado {{appName}} como minha carteira criptográfica e quero convidá-lo a verificar. Uma vez descarregada a aplicação e ligado o seu número de telefone, ambos recebemos um NFT especial. Use esta ligação: {{link}}",
     "rewardsActive": {
       "title": "Convide {{contactName}} para o app {{appName}} e vocês dois receberão NFTs!",
       "body": "Parece que {{contactName}} não está no app {{appName}}. Se souber o endereço da carteira dessa pessoa, você ainda pode enviar um pagamento ou enviar um convite. \n\nDepois que seu amigo baixar a carteira e conectar o número de celular, vocês dois receberão um NFT exclusivo."
