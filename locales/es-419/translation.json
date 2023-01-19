@@ -777,6 +777,7 @@
   },
   "importExistingKey": {
     "explanation": "Tu Frase de recuperación es la frase de 24 palabras que escribiste y guardaste cuando configuraste tu cuenta. Por favor, ingrésala para restaurar tu cuenta.",
+    "explanationV1_50": "Tu frase de recuperación es una frase de 12 ó 24 palabras que escribiste y guardaste cuando configuraste tu cuenta. Introdúcela aquí para recuperar tu cuenta.",
     "keyPlaceholder": "caballo leopardo perro mono..."
   },
   "verificationInput": {
@@ -1513,7 +1514,7 @@
     "title": "Parece que {{contactName}} aún no tiene una wallet {{appName}}.",
     "body": "Puedes enviarle una invitación para que se una, o bien enviar un pago directamente a su dirección de wallet o usuario nom.space.",
     "sendInviteButtonLabel": "Enviar invitación",
-    "shareMessage": "Me gustaría enviarte cripto con mi wallet {{appName}}. Una vez que descargues la aplicación y conectes tu número de teléfono, podremos enviar cripto tan fácil como enviar un mensaje. Utiliza este enlace: {{link}}",
+    "shareMessage": "Hola! He estado utilizando {{appName}} como mi criptobilletera y quiero invitarte a que lo compruebes. Una vez que descargues la aplicación y conectes tu número de teléfono, ambos obtendremos un NFT especial. Utiliza este enlace: {{link}}",
     "rewardsActive": {
       "title": "Invita a {{contactName}} a {{appName}}. ¡Ambos recibirán un NFT!",
       "body": "Parece que {{contactName}} no está en {{appName}}. Si conoces su Dirección de cuenta, envía el pago a su billetera, o bien envíale una invitación. \n\nUna vez de que descargue la app y conecte su número de teléfono, ambos obtendrán un NFT exclusivo."
