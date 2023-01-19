@@ -32,12 +32,7 @@ import {
 import { attemptReturnUserFlow } from 'src/fiatconnect/slice'
 import i18n from 'src/i18n'
 import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts'
-import {
-  useConvertBetweenCurrencies,
-  useCurrencyToLocalAmount,
-  useLocalAmountToCurrency,
-  useLocalCurrencyCode,
-} from 'src/localCurrency/hooks'
+import { useLocalCurrencyCode } from 'src/localCurrency/hooks'
 import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
 import { emptyHeader, HeaderTitleWithBalance } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
@@ -47,8 +42,18 @@ import DisconnectBanner from 'src/shared/DisconnectBanner'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
-import { useTokenInfoBySymbol } from 'src/tokens/hooks'
-import { Currency } from 'src/utils/currencies'
+import {
+  useConvertBetweenTokens,
+  useLocalToTokenAmount,
+  useTokenInfoBySymbol,
+  useTokenToLocalAmount,
+} from 'src/tokens/hooks'
+import {
+  CiCoCurrency,
+  cicoCurrencyTranslationKeys,
+  Currency,
+  resolveCurrency,
+} from 'src/utils/currencies'
 import { roundUp } from 'src/utils/formatting'
 import Logger from 'src/utils/Logger'
 import { CICOFlow, isUserInputCrypto } from './utils'
@@ -61,9 +66,9 @@ type RouteProps = NativeStackScreenProps<StackParamList, Screens.FiatExchangeAmo
 
 type Props = RouteProps
 
-const oneUnitAmount = (currency: Currency) => ({
+const oneUnitAmount = (currency: CiCoCurrency) => ({
   value: new BigNumber('1'),
-  currencyCode: currency,
+  currencyCode: resolveCurrency(currency) as string,
 })
 
 function FiatExchangeAmount({ route }: Props) {
@@ -76,16 +81,18 @@ function FiatExchangeAmount({ route }: Props) {
   }
   const [inputAmount, setInputAmount] = useState('')
   const parsedInputAmount = parseInputAmount(inputAmount, decimalSeparator)
+  const tokenInfo = useTokenInfoBySymbol(currency)!
+  const { address } = tokenInfo
+
   const inputConvertedToCrypto =
-    useLocalAmountToCurrency(parsedInputAmount, currency) || new BigNumber(0)
+    useLocalToTokenAmount(parsedInputAmount, address) || new BigNumber(0)
   const inputConvertedToLocalCurrency =
-    useCurrencyToLocalAmount(parsedInputAmount, currency) || new BigNumber(0)
+    useTokenToLocalAmount(parsedInputAmount, address) || new BigNumber(0)
   const localCurrencyCode = useLocalCurrencyCode()
   const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)
   const cachedFiatAccountUses = useSelector(cachedFiatAccountUsesSelector)
   const attemptReturnUserFlowLoading = useSelector(attemptReturnUserFlowLoadingSelector)
 
-  const cryptoSymbol = currency === Currency.Celo ? 'CELO' : currency
   const localCurrencySymbol = LocalCurrencySymbol[localCurrencyCode]
 
   const inputIsCrypto = isUserInputCrypto(flow, currency)
@@ -93,33 +100,28 @@ function FiatExchangeAmount({ route }: Props) {
   const inputCryptoAmount = inputIsCrypto ? parsedInputAmount : inputConvertedToCrypto
   const inputLocalCurrencyAmount = inputIsCrypto ? inputConvertedToLocalCurrency : parsedInputAmount
 
-  const { address } = useTokenInfoBySymbol(cryptoSymbol)!
   const maxWithdrawAmount = useMaxSendAmount(address, FeeType.SEND)
 
   const inputSymbol = inputIsCrypto ? '' : localCurrencySymbol
 
-  const displayCurrencyKey =
-    currency === Currency.Celo
-      ? 'subtotal'
-      : currency === Currency.Dollar
-      ? 'celoDollar'
-      : 'celoEuro'
+  const displayCurrencyKey = cicoCurrencyTranslationKeys[currency] ?? 'subtotal'
 
+  const cUSDToken = useTokenInfoBySymbol(CiCoCurrency.cUSD)!
   const localCurrencyMaxAmount =
-    useCurrencyToLocalAmount(new BigNumber(DOLLAR_ADD_FUNDS_MAX_AMOUNT), Currency.Dollar) ||
+    useTokenToLocalAmount(new BigNumber(DOLLAR_ADD_FUNDS_MAX_AMOUNT), cUSDToken?.address) ||
     new BigNumber(0)
 
   const currencyMaxAmount =
-    useConvertBetweenCurrencies(
+    useConvertBetweenTokens(
       new BigNumber(DOLLAR_ADD_FUNDS_MAX_AMOUNT),
-      Currency.Dollar,
-      currency
+      cUSDToken.address,
+      address
     ) || new BigNumber(0)
 
   let overLocalLimitDisplayString = ''
   if (localCurrencyCode !== LocalCurrencyCode.USD) {
     overLocalLimitDisplayString =
-      currency === Currency.Celo
+      currency === CiCoCurrency.CELO
         ? ` (${roundUp(currencyMaxAmount, 3)} CELO)`
         : ` (${localCurrencySymbol}${roundUp(localCurrencyMaxAmount)})`
   }
@@ -130,7 +132,6 @@ function FiatExchangeAmount({ route }: Props) {
     dispatch(fetchExchangeRate())
   }, [])
 
-  const tokenInfo = useTokenInfoBySymbol(currency === Currency.Celo ? 'CELO' : currency)
   if (!tokenInfo) {
     Logger.error(TAG, "Couldn't grab the exchange token info")
     return null
@@ -201,7 +202,7 @@ function FiatExchangeAmount({ route }: Props) {
       dispatch(
         showError(ErrorMessages.CASH_OUT_LIMIT_EXCEEDED, ALERT_BANNER_DURATION, {
           balance: maxWithdrawAmount.toFixed(2),
-          currency: cryptoSymbol,
+          currency: currency,
         })
       )
       return
@@ -233,7 +234,7 @@ function FiatExchangeAmount({ route }: Props) {
         <View style={styles.amountInputContainer}>
           <View>
             <Text style={styles.exchangeBodyText}>
-              {inputIsCrypto ? `${t('amount')} (${cryptoSymbol})` : t('amount')}
+              {inputIsCrypto ? `${t('amount')} (${currency})` : t('amount')}
             </Text>
           </View>
           <TextInput
@@ -260,7 +261,10 @@ function FiatExchangeAmount({ route }: Props) {
           amount={
             inputIsCrypto ? (
               <CurrencyDisplay
-                amount={{ value: inputCryptoAmount, currencyCode: currency }}
+                amount={{
+                  value: inputCryptoAmount,
+                  currencyCode: resolveCurrency(currency) as string,
+                }}
                 showLocalAmount={true}
               />
             ) : (
@@ -274,7 +278,7 @@ function FiatExchangeAmount({ route }: Props) {
           }
         />
       </KeyboardAwareScrollView>
-      {currency !== Currency.Celo && (
+      {currency !== CiCoCurrency.CELO && (
         <Text style={styles.disclaimerFiat}>
           {t('disclaimerFiat', { currency: t(displayCurrencyKey) })}
         </Text>
@@ -312,10 +316,10 @@ FiatExchangeAmount.navOptions = ({
             ? `fiatExchangeFlow.cashIn.exchangeAmountTitle`
             : `fiatExchangeFlow.cashOut.exchangeAmountTitle`,
           {
-            currency: route.params.currency === Currency.Celo ? 'CELO' : route.params.currency,
+            currency,
           }
         )}
-        token={currency}
+        token={resolveCurrency(currency)}
         displayCrypto={inputIsCrypto}
       />
     ),

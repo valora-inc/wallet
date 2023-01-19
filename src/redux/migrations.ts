@@ -8,7 +8,27 @@ import { SendingFiatAccountStatus } from 'src/fiatconnect/slice'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { AddressToDisplayNameType } from 'src/identity/reducer'
 import { TokenTransaction } from 'src/transactions/types'
-import { Currency } from 'src/utils/currencies'
+import { CiCoCurrency, Currency } from 'src/utils/currencies'
+
+export function updateCachedQuoteParams(cachedQuoteParams: {
+  [providerId: string]: {
+    [kycSchema: string]: any
+  }
+}) {
+  const newCachedQuoteParams: any = {}
+
+  Object.entries(cachedQuoteParams).forEach(([providerId, kycSchemas]) => {
+    newCachedQuoteParams[providerId] = {}
+    Object.entries(kycSchemas).forEach(([kycSchema, cachedParams]) => {
+      newCachedQuoteParams[providerId][kycSchema] = {
+        ...cachedParams,
+        cryptoType:
+          cachedParams.cryptoType === Currency.Celo ? CiCoCurrency.CELO : cachedParams.cryptoType,
+      }
+    })
+  })
+  return newCachedQuoteParams
+}
 
 const DEFAULT_DAILY_PAYMENT_LIMIT_CUSD_LEGACY = 1000
 
@@ -976,6 +996,17 @@ export const migrations = {
     account: {
       ...state.account,
       celoEducationCompleted: state.goldToken.educationCompleted,
+    },
+  }),
+  105: (state: any) => ({
+    ...state,
+    fiatConnect: {
+      ...state.fiatConnect,
+      cachedFiatAccountUses: state.fiatConnect.cachedFiatAccountUses.map((use: any) => ({
+        ...use,
+        cryptoType: use.cryptoType === Currency.Celo ? CiCoCurrency.CELO : use.cryptoType,
+      })),
+      cachedQuoteParams: updateCachedQuoteParams(state.fiatConnect.cachedQuoteParams),
     },
   }),
 }

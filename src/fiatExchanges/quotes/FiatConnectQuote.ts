@@ -14,11 +14,8 @@ import { SettlementTime } from 'src/fiatExchanges/quotes/constants'
 import NormalizedQuote from 'src/fiatExchanges/quotes/NormalizedQuote'
 import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import i18n from 'src/i18n'
-import {
-  convertCurrencyToLocalAmount,
-  convertLocalAmountToCurrency,
-} from 'src/localCurrency/convert'
-import { Currency, resolveCurrency } from 'src/utils/currencies'
+import { TokenBalance } from 'src/tokens/slice'
+import { CiCoCurrency, Currency } from 'src/utils/currencies'
 
 const kycStrings = {
   [KycSchema.PersonalDataAndDocuments]: i18n.t('selectProviderScreen.idRequired'),
@@ -110,19 +107,39 @@ export default class FiatConnectQuote extends NormalizedQuote {
     return feeString !== undefined ? new BigNumber(feeString) : null
   }
   // FiatConnect quotes denominate fees in fiat & crypto for CashIn & CashOut respectively
-  getFeeInCrypto(exchangeRates: { [token in Currency]: string | null }): BigNumber | null {
+  getFeeInCrypto(
+    exchangeRates: { cGLD: string | null; cUSD: string | null; cEUR: string | null },
+    tokenInfo: TokenBalance | undefined
+  ): BigNumber | null {
+    const fee = this._getFee()
     if (this.flow === CICOFlow.CashOut) {
-      return this._getFee()
+      return fee
     }
-    return convertLocalAmountToCurrency(this._getFee(), exchangeRates[this.getCryptoType()])
+    const tokenUsdPrice = tokenInfo?.usdPrice
+    const usdExchangeRate = exchangeRates[Currency.Dollar]
+    if (!tokenUsdPrice || !usdExchangeRate || !fee) {
+      return null
+    }
+
+    return fee.dividedBy(usdExchangeRate).dividedBy(tokenUsdPrice)
   }
 
   // FiatConnect quotes denominate fees in fiat & crypto for CashIn & CashOut respectively
-  getFeeInFiat(exchangeRates: { [token in Currency]: string | null }): BigNumber | null {
+  getFeeInFiat(
+    exchangeRates: { cGLD: string | null; cUSD: string | null; cEUR: string | null },
+    tokenInfo: TokenBalance | undefined
+  ): BigNumber | null {
+    const fee = this._getFee()
     if (this.flow === CICOFlow.CashIn) {
-      return this._getFee()
+      return fee
     }
-    return convertCurrencyToLocalAmount(this._getFee(), exchangeRates[this.getCryptoType()])
+    const tokenUsdPrice = tokenInfo?.usdPrice
+    const usdExchangeRate = exchangeRates[Currency.Dollar]
+    if (!tokenUsdPrice || !usdExchangeRate || !fee) {
+      return null
+    }
+
+    return fee.multipliedBy(tokenUsdPrice).multipliedBy(usdExchangeRate)
   }
 
   getKycInfo(): string | null {
@@ -208,8 +225,8 @@ export default class FiatConnectQuote extends NormalizedQuote {
     return this.quote.quote.cryptoType
   }
 
-  getCryptoType(): Currency {
-    return resolveCurrency(this.quote.quote.cryptoType)!
+  getCryptoType(): CiCoCurrency {
+    return this.quote.quote.cryptoType as unknown as CiCoCurrency
   }
 
   getFiatAccountType(): FiatAccountType {

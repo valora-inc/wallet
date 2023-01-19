@@ -16,6 +16,8 @@ import Dialog from 'src/components/Dialog'
 import LineItemRow from 'src/components/LineItemRow'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
+import { estimateFee, FeeEstimateState, FeeType } from 'src/fees/reducer'
+import { feeEstimatesSelector } from 'src/fees/selectors'
 import { convertToFiatConnectFiatCurrency } from 'src/fiatconnect'
 import {
   fiatConnectQuotesErrorSelector,
@@ -25,6 +27,10 @@ import { createFiatConnectTransfer, refetchQuote } from 'src/fiatconnect/slice'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import i18n from 'src/i18n'
+import {
+  convertDollarsToLocalAmount,
+  convertLocalAmountToCurrency,
+} from 'src/localCurrency/convert'
 import {
   getDefaultLocalCurrencyCode,
   localCurrencyExchangeRatesSelector,
@@ -36,15 +42,10 @@ import { StackParamList } from 'src/navigator/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
-import { Currency } from 'src/utils/currencies'
-import { feeEstimatesSelector } from 'src/fees/selectors'
-import { estimateFee, FeeType, FeeEstimateState } from 'src/fees/reducer'
-import { TokenBalance } from 'src/tokens/slice'
+import { useTokenInfoBySymbol } from 'src/tokens/hooks'
 import { tokensListSelector } from 'src/tokens/selectors'
-import {
-  convertDollarsToLocalAmount,
-  convertLocalAmountToCurrency,
-} from 'src/localCurrency/convert'
+import { TokenBalance } from 'src/tokens/slice'
+import { CiCoCurrency, resolveCurrency } from 'src/utils/currencies'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.FiatConnectReview>
 
@@ -293,12 +294,13 @@ function ReceiveAmount({
 }) {
   const { t } = useTranslation()
   const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)!
-
+  const tokenInfo = useTokenInfoBySymbol(normalizedQuote.getCryptoType())
   const { receiveDisplay } = getDisplayAmounts({
     flow,
     normalizedQuote,
     exchangeRates,
     feeEstimate,
+    tokenInfo,
   })
   return (
     <View style={styles.receiveAmountContainer}>
@@ -318,11 +320,12 @@ function CryptoAmount({
   testID,
 }: {
   amount: BigNumber.Value
-  currency: Currency
+  currency: CiCoCurrency
   testID: string
 }) {
+  const { address } = useTokenInfoBySymbol(currency)!
   return (
-    <TokenDisplay amount={amount} currency={currency} showLocalAmount={false} testID={testID} />
+    <TokenDisplay amount={amount} tokenAddress={address} showLocalAmount={false} testID={testID} />
   )
 }
 
@@ -360,6 +363,7 @@ function getDisplayAmounts({
   normalizedQuote,
   exchangeRates,
   feeEstimate,
+  tokenInfo,
 }: {
   flow: CICOFlow
   normalizedQuote: FiatConnectQuote
@@ -369,17 +373,19 @@ function getDisplayAmounts({
     cEUR: string | null
   }
   feeEstimate?: FeeEstimateState
+  tokenInfo: TokenBalance | undefined
 }) {
   const cryptoType = normalizedQuote.getCryptoType()
   const fiatType = normalizedQuote.getFiatType()
+
   if (flow === CICOFlow.CashOut) {
-    const providerFee = normalizedQuote.getFeeInCrypto(exchangeRates) ?? new BigNumber(0)
+    const providerFee = normalizedQuote.getFeeInCrypto(exchangeRates, tokenInfo) ?? new BigNumber(0)
     let networkFee = new BigNumber(0)
     if (feeEstimate?.usdFee) {
       networkFee =
         convertLocalAmountToCurrency(
           convertDollarsToLocalAmount(new BigNumber(feeEstimate.usdFee), exchangeRates.cUSD),
-          exchangeRates[cryptoType]
+          exchangeRates[resolveCurrency(cryptoType)!]
         ) ?? networkFee
     }
 
@@ -423,7 +429,7 @@ function getDisplayAmounts({
   } else {
     const receive = normalizedQuote.getCryptoAmount()
     const total = normalizedQuote.getFiatAmount()
-    const fee = normalizedQuote.getFeeInFiat(exchangeRates)
+    const fee = normalizedQuote.getFeeInFiat(exchangeRates, tokenInfo)
     const totalMinusFee = Number(total) - Number(fee || 0)
     const exchangeRate = totalMinusFee / Number(receive)
 
@@ -465,23 +471,29 @@ function TransactionDetails({
   feeEstimate?: FeeEstimateState
 }) {
   const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)!
+  const tokenInfo = useTokenInfoBySymbol(normalizedQuote.getCryptoType())
+
   const { receiveDisplay, totalDisplay, feeDisplay, exchangeRateDisplay, totalMinusFeeDisplay } =
     getDisplayAmounts({
       flow,
       normalizedQuote,
       exchangeRates,
       feeEstimate,
+      tokenInfo,
     })
   const { t } = useTranslation()
   let tokenDisplay: string
   switch (normalizedQuote.getCryptoType()) {
-    case Currency.Dollar:
+    case CiCoCurrency.cUSD:
       tokenDisplay = t('celoDollar')
       break
-    case Currency.Euro:
+    case CiCoCurrency.cEUR:
       tokenDisplay = t('celoEuro')
       break
-    case Currency.Celo:
+    case CiCoCurrency.cREAL:
+      tokenDisplay = t('celoReal')
+      break
+    case CiCoCurrency.CELO:
       tokenDisplay = 'CELO'
       break
     default:

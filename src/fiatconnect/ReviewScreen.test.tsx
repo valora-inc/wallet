@@ -14,7 +14,12 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps, sleep } from 'test/utils'
-import { mockFiatConnectQuotes, mockCusdAddress, mockCeurAddress } from 'test/values'
+import {
+  mockCeloAddress,
+  mockCeurAddress,
+  mockCusdAddress,
+  mockFiatConnectQuotes,
+} from 'test/values'
 import { mocked } from 'ts-jest/utils'
 jest.mock('src/localCurrency/selectors', () => {
   const originalModule = jest.requireActual('src/localCurrency/selectors')
@@ -82,6 +87,34 @@ describe('ReviewScreen', () => {
         },
       },
     },
+    tokens: {
+      tokenBalances: {
+        [mockCusdAddress]: {
+          address: mockCusdAddress,
+          symbol: 'cUSD',
+          balance: '200',
+          usdPrice: '1',
+          isCoreToken: true,
+          priceFetchedAt: Date.now(),
+        },
+        [mockCeurAddress]: {
+          address: mockCeurAddress,
+          symbol: 'cEUR',
+          balance: '100',
+          usdPrice: '1.2',
+          isCoreToken: true,
+          priceFetchedAt: Date.now(),
+        },
+        [mockCeloAddress]: {
+          address: mockCeloAddress,
+          symbol: 'CELO',
+          balance: '200',
+          usdPrice: '5',
+          isCoreToken: true,
+          priceFetchedAt: Date.now(),
+        },
+      },
+    },
   })
   beforeEach(() => {
     store.dispatch = jest.fn()
@@ -100,9 +133,9 @@ describe('ReviewScreen', () => {
       expect(queryByText('fiatConnectReviewScreen.transactionDetails')).toBeTruthy()
       expect(queryByText('fiatConnectReviewScreen.cashIn.transactionDetailsAmount')).toBeTruthy()
       expect(queryByTestId('txDetails-total/value')?.children).toEqual(['', '$', '100.00'])
-      expect(queryByTestId('txDetails-converted/value')?.children).toEqual(['', '$', '98.94'])
-      expect(queryByTestId('txDetails-fee/value')?.children).toEqual(['', '$', '1.06'])
-      expect(queryByTestId('txDetails-exchangeRate/value')?.children).toEqual(['', '$', '0.9894'])
+      expect(queryByTestId('txDetails-converted/value')?.children).toEqual(['', '$', '99.15'])
+      expect(queryByTestId('txDetails-fee/value')?.children).toEqual(['', '$', '0.84'])
+      expect(queryByTestId('txDetails-exchangeRate/value')?.children).toEqual(['', '$', '0.9915'])
       expect(queryByTestId('txDetails-receive')?.children).toEqual(['', '100.00', ' cEUR'])
       expect(queryByText('fiatConnectReviewScreen.cashIn.paymentMethodHeader')).toBeTruthy()
       expect(queryByTestId('paymentMethod-text')?.children).toEqual(['Chase (...2345)'])

@@ -53,7 +53,7 @@ function CashInBottomSheet() {
       }
       // Use cEUR if that is their local currency, otherwise default to cUSD
       const currencyToBuy =
-        localCurrency === LocalCurrencyCode.EUR ? CiCoCurrency.CEUR : CiCoCurrency.CUSD
+        localCurrency === LocalCurrencyCode.EUR ? CiCoCurrency.cEUR : CiCoCurrency.cUSD
 
       try {
         const providers = await fetchProviders({

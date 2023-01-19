@@ -1,9 +1,11 @@
+import BigNumber from 'bignumber.js'
 import {
   normalizeExternalProviders,
   normalizeFiatConnectQuotes,
   normalizeQuotes,
 } from 'src/fiatExchanges/quotes/normalizeQuotes'
 import { CICOFlow } from 'src/fiatExchanges/utils'
+import { TokenBalance } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
 import {
   mockFiatConnectQuotes,
@@ -27,11 +29,14 @@ describe('normalizeQuotes', () => {
       normalizedQuotes.map((quote) => [
         quote.getProviderId(),
         quote
-          .getFeeInCrypto({
-            cGLD: '1',
-            cUSD: '1',
-            cEUR: '1',
-          })
+          .getFeeInCrypto(
+            {
+              cGLD: '1',
+              cUSD: '1',
+              cEUR: '1',
+            },
+            { usdPrice: BigNumber('1') } as TokenBalance
+          )
           ?.toNumber(),
       ])
     ).toEqual([
@@ -55,11 +60,14 @@ describe('normalizeQuotes', () => {
       normalizedQuotes.map((quote) => [
         quote.getProviderId(),
         quote
-          .getFeeInCrypto({
-            cGLD: '1',
-            cUSD: '1',
-            cEUR: '1',
-          })
+          .getFeeInCrypto(
+            {
+              cGLD: '1',
+              cUSD: '1',
+              cEUR: '1',
+            },
+            { usdPrice: BigNumber('1') } as TokenBalance
+          )
           ?.toNumber(),
       ])
     ).toEqual([

@@ -6,7 +6,7 @@ import { CICOFlow, PaymentMethod, RawProviderQuote, SimplexQuote } from 'src/fia
 import { navigate } from 'src/navigator/NavigationService'
 import { navigateToURI } from 'src/utils/linking'
 import { createMockStore } from 'test/utils'
-import { mockProviders } from 'test/values'
+import { mockCusdAddress, mockProviders } from 'test/values'
 
 jest.mock('src/analytics/ValoraAnalytics')
 
@@ -69,13 +69,25 @@ describe('ExternalQuote', () => {
   })
 
   describe('.getFeeInCrypto', () => {
+    const mockTokenInfo = {
+      balance: new BigNumber('10'),
+      usdPrice: new BigNumber('1'),
+      lastKnownUsdPrice: new BigNumber('1'),
+      symbol: 'cUSD',
+      address: mockCusdAddress,
+      isCoreToken: true,
+      priceFetchedAt: Date.now(),
+      decimals: 18,
+      name: 'Celo Dollar',
+      imageUrl: '',
+    }
     it('returns converted fee for simplex', () => {
       const quote = new ExternalQuote({
         quote: mockProviders[0].quote as SimplexQuote,
         provider: mockProviders[0],
         flow: CICOFlow.CashIn,
       })
-      expect(quote.getFeeInCrypto(mockExchangeRates)).toEqual(new BigNumber(3))
+      expect(quote.getFeeInCrypto(mockExchangeRates, mockTokenInfo)).toEqual(new BigNumber(3))
     })
     it('returns converted fee for other', () => {
       const quote = new ExternalQuote({
@@ -83,7 +95,7 @@ describe('ExternalQuote', () => {
         provider: mockProviders[1],
         flow: CICOFlow.CashIn,
       })
-      expect(quote.getFeeInCrypto(mockExchangeRates)).toEqual(new BigNumber(2.5))
+      expect(quote.getFeeInCrypto(mockExchangeRates, mockTokenInfo)).toEqual(new BigNumber(2.5))
     })
   })
 

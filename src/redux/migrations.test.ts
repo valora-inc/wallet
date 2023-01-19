@@ -1,12 +1,20 @@
+import {
+  FiatAccountSchema,
+  FiatAccountType,
+  FiatType,
+  KycSchema,
+} from '@fiatConnect/fiatConnect-types'
 import _ from 'lodash'
 import { FinclusiveKycStatus } from 'src/account/reducer'
 import { initialState as exchangeInitialState } from 'src/exchange/reducer'
+import { CICOFlow } from 'src/fiatExchanges/utils'
 import { migrations } from 'src/redux/migrations'
-import { Currency } from 'src/utils/currencies'
+import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import {
   DEFAULT_DAILY_PAYMENT_LIMIT_CUSD_LEGACY,
   v0Schema,
   v103Schema,
+  v104Schema,
   v13Schema,
   v14Schema,
   v15Schema,
@@ -766,6 +774,105 @@ describe('Redux persist migrations', () => {
     delete expectedSchema.goldToken
     delete expectedSchema.stableToken
     expectedSchema.account.celoEducationCompleted = oldSchema.goldToken.educationCompleted
+
+    expect(migratedSchema).toStrictEqual(expectedSchema)
+  })
+  it('works from v104 to v105', () => {
+    const oldSchema = {
+      ...v104Schema,
+      fiatConnect: {
+        ...v104Schema.fiatConnect,
+        cachedFiatAccountUses: [
+          {
+            providerId: 'provider-two',
+            fiatAccountId: '123',
+            fiatAccountType: FiatAccountType.BankAccount,
+            flow: CICOFlow.CashOut,
+            cryptoType: CiCoCurrency.cUSD,
+            fiatType: FiatType.USD,
+            fiatAccountSchema: FiatAccountSchema.AccountNumber,
+          },
+          {
+            providerId: 'provider-one',
+            fiatAccountId: '123',
+            fiatAccountType: FiatAccountType.BankAccount,
+            flow: CICOFlow.CashOut,
+            cryptoType: Currency.Celo,
+            fiatType: FiatType.USD,
+            fiatAccountSchema: FiatAccountSchema.AccountNumber,
+          },
+        ],
+        cachedQuoteParams: {
+          'some-provider': {
+            [KycSchema.PersonalDataAndDocuments]: {
+              cryptoAmount: '10',
+              fiatAmount: '10',
+              flow: CICOFlow.CashOut,
+              cryptoType: CiCoCurrency.cUSD,
+              fiatType: FiatType.USD,
+            },
+          },
+          'some-other-provider': {
+            [KycSchema.PersonalDataAndDocuments]: {
+              cryptoAmount: '10',
+              fiatAmount: '10',
+              flow: CICOFlow.CashOut,
+              cryptoType: Currency.Celo,
+              fiatType: FiatType.USD,
+            },
+          },
+        },
+      },
+    }
+    const migratedSchema = migrations[105](oldSchema)
+
+    const freshSchema: any = _.cloneDeep(oldSchema)
+    const expectedSchema = {
+      ...freshSchema,
+      fiatConnect: {
+        ...freshSchema.fiatConnect,
+        cachedFiatAccountUses: [
+          {
+            providerId: 'provider-two',
+            fiatAccountId: '123',
+            fiatAccountType: FiatAccountType.BankAccount,
+            flow: CICOFlow.CashOut,
+            cryptoType: CiCoCurrency.cUSD,
+            fiatType: FiatType.USD,
+            fiatAccountSchema: FiatAccountSchema.AccountNumber,
+          },
+          {
+            providerId: 'provider-one',
+            fiatAccountId: '123',
+            fiatAccountType: FiatAccountType.BankAccount,
+            flow: CICOFlow.CashOut,
+            cryptoType: CiCoCurrency.CELO,
+            fiatType: FiatType.USD,
+            fiatAccountSchema: FiatAccountSchema.AccountNumber,
+          },
+        ],
+        cachedQuoteParams: {
+          'some-provider': {
+            [KycSchema.PersonalDataAndDocuments]: {
+              cryptoAmount: '10',
+              fiatAmount: '10',
+              flow: CICOFlow.CashOut,
+              cryptoType: CiCoCurrency.cUSD,
+              fiatType: FiatType.USD,
+            },
+          },
+          'some-other-provider': {
+            [KycSchema.PersonalDataAndDocuments]: {
+              cryptoAmount: '10',
+              fiatAmount: '10',
+              flow: CICOFlow.CashOut,
+              cryptoType: CiCoCurrency.CELO,
+              fiatType: FiatType.USD,
+            },
+          },
+        },
+      },
+    }
 
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })

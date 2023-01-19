@@ -44,9 +44,9 @@ export function convertToFiatConnectFiatCurrency(
 function convertToFiatConnectCryptoCurrency(cicoCurrency: CiCoCurrency): CryptoType {
   return {
     [CiCoCurrency.CELO]: CryptoType.CELO,
-    [CiCoCurrency.CEUR]: CryptoType.cEUR,
-    [CiCoCurrency.CUSD]: CryptoType.cUSD,
-    [CiCoCurrency.CREAL]: CryptoType.cREAL,
+    [CiCoCurrency.cEUR]: CryptoType.cEUR,
+    [CiCoCurrency.cUSD]: CryptoType.cUSD,
+    [CiCoCurrency.cREAL]: CryptoType.cREAL,
   }[cicoCurrency]
 }
 

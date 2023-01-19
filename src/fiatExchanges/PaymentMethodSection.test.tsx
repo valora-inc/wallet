@@ -9,8 +9,10 @@ import {
 import { normalizeQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
 import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
+import { CiCoCurrency } from 'src/utils/currencies'
 import { createMockStore } from 'test/utils'
 import {
+  mockCusdAddress,
   mockFiatConnectQuotes,
   mockFiatConnectQuotesWithUnknownFees,
   mockProviders,
@@ -19,6 +21,18 @@ import {
 const mockStore = createMockStore({
   localCurrency: {
     preferredCurrencyCode: LocalCurrencyCode.USD,
+  },
+  tokens: {
+    tokenBalances: {
+      [mockCusdAddress]: {
+        address: mockCusdAddress,
+        symbol: 'cUSD',
+        usdPrice: '1',
+        balance: '10',
+        priceFetchedAt: Date.now(),
+        isCoreToken: true,
+      },
+    },
   },
 })
 
@@ -31,6 +45,7 @@ describe('PaymentMethodSection', () => {
       normalizedQuotes: normalizeQuotes(CICOFlow.CashIn, [], mockProviders),
       setNoPaymentMethods: jest.fn(),
       flow: CICOFlow.CashIn,
+      cryptoType: CiCoCurrency.cUSD,
     }
   })
   it('shows nothing if there are no available providers', async () => {
