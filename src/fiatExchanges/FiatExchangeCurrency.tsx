@@ -153,6 +153,7 @@ function FiatExchangeCurrency({ route, navigation }: Props) {
           />
           <CurrencyRadioItem
             title={t('celoReal')}
+            body="(cREAL)"
             selected={selectedCurrency === CiCoCurrency.cREAL}
             onSelect={() => setSelectedCurrency(CiCoCurrency.cREAL)}
             enabled={flow === FiatExchangeFlow.CashIn}

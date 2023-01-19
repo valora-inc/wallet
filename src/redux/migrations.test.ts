@@ -1,13 +1,6 @@
-import {
-  FiatAccountSchema,
-  FiatAccountType,
-  FiatType,
-  KycSchema,
-} from '@fiatConnect/fiatConnect-types'
 import _ from 'lodash'
 import { FinclusiveKycStatus } from 'src/account/reducer'
 import { initialState as exchangeInitialState } from 'src/exchange/reducer'
-import { CICOFlow } from 'src/fiatExchanges/utils'
 import { migrations } from 'src/redux/migrations'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import {
@@ -785,40 +778,26 @@ describe('Redux persist migrations', () => {
         cachedFiatAccountUses: [
           {
             providerId: 'provider-two',
-            fiatAccountId: '123',
-            fiatAccountType: FiatAccountType.BankAccount,
-            flow: CICOFlow.CashOut,
             cryptoType: CiCoCurrency.cUSD,
-            fiatType: FiatType.USD,
-            fiatAccountSchema: FiatAccountSchema.AccountNumber,
           },
           {
             providerId: 'provider-one',
-            fiatAccountId: '123',
-            fiatAccountType: FiatAccountType.BankAccount,
-            flow: CICOFlow.CashOut,
             cryptoType: Currency.Celo,
-            fiatType: FiatType.USD,
-            fiatAccountSchema: FiatAccountSchema.AccountNumber,
           },
         ],
         cachedQuoteParams: {
           'some-provider': {
-            [KycSchema.PersonalDataAndDocuments]: {
+            ['some-schema']: {
               cryptoAmount: '10',
               fiatAmount: '10',
-              flow: CICOFlow.CashOut,
               cryptoType: CiCoCurrency.cUSD,
-              fiatType: FiatType.USD,
             },
           },
           'some-other-provider': {
-            [KycSchema.PersonalDataAndDocuments]: {
+            ['some-schema']: {
               cryptoAmount: '10',
               fiatAmount: '10',
-              flow: CICOFlow.CashOut,
               cryptoType: Currency.Celo,
-              fiatType: FiatType.USD,
             },
           },
         },
@@ -834,40 +813,26 @@ describe('Redux persist migrations', () => {
         cachedFiatAccountUses: [
           {
             providerId: 'provider-two',
-            fiatAccountId: '123',
-            fiatAccountType: FiatAccountType.BankAccount,
-            flow: CICOFlow.CashOut,
             cryptoType: CiCoCurrency.cUSD,
-            fiatType: FiatType.USD,
-            fiatAccountSchema: FiatAccountSchema.AccountNumber,
           },
           {
             providerId: 'provider-one',
-            fiatAccountId: '123',
-            fiatAccountType: FiatAccountType.BankAccount,
-            flow: CICOFlow.CashOut,
             cryptoType: CiCoCurrency.CELO,
-            fiatType: FiatType.USD,
-            fiatAccountSchema: FiatAccountSchema.AccountNumber,
           },
         ],
         cachedQuoteParams: {
           'some-provider': {
-            [KycSchema.PersonalDataAndDocuments]: {
+            ['some-schema']: {
               cryptoAmount: '10',
               fiatAmount: '10',
-              flow: CICOFlow.CashOut,
               cryptoType: CiCoCurrency.cUSD,
-              fiatType: FiatType.USD,
             },
           },
           'some-other-provider': {
-            [KycSchema.PersonalDataAndDocuments]: {
+            ['some-schema']: {
               cryptoAmount: '10',
               fiatAmount: '10',
-              flow: CICOFlow.CashOut,
               cryptoType: CiCoCurrency.CELO,
-              fiatType: FiatType.USD,
             },
           },
         },
