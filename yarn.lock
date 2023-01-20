@@ -4794,10 +4794,10 @@
   dependencies:
     pretty-format "^29.0.3"
 
-"@th3rdwave/react-navigation-bottom-sheet@^0.2.1":
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/@th3rdwave/react-navigation-bottom-sheet/-/react-navigation-bottom-sheet-0.2.1.tgz#a7fbfb056a91d03178053dc79eb5b47a3300e4a9"
-  integrity sha512-QAYtmYuxVREqE5ozSzWuaYNbABMfJRbrLuJEsIgnlRxzHZaOYvXhkO86Kbm66HHDlLTWRIzEXywkPfHwgIymBw==
+"@th3rdwave/react-navigation-bottom-sheet@^0.2.2":
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@th3rdwave/react-navigation-bottom-sheet/-/react-navigation-bottom-sheet-0.2.2.tgz#5b3f4221f12af79d7356ace9e4944e74c809c6a0"
+  integrity sha512-PLTFAapEtZw19zkj/A3aa+x/bsCXz8cVCGbW4DmjgHIYHh6lw2SQz1JAUqMjNQbXUBM5unUuSdMT+WkmaqVO8w==
 
 "@tootallnate/once@1":
   version "1.1.2"
