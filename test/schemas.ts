@@ -5,6 +5,7 @@ import { CodeInputStatus } from 'src/components/CodeInput'
 import { Dapp, DappConnectInfo } from 'src/dapps/types'
 import { FeeEstimates } from 'src/fees/reducer'
 import { SendingFiatAccountStatus } from 'src/fiatconnect/slice'
+import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { RootState } from 'src/redux/reducers'
 import { Currency } from 'src/utils/currencies'
 import {
@@ -1045,7 +1046,7 @@ export const v39Schema = {
   },
   app: {
     ...v38Schema.app,
-    paymentDeepLinkHandler: '',
+    paymentDeepLinkHandler: PaymentDeepLinkHandler.Disabled,
   },
 }
 
@@ -1961,6 +1962,18 @@ export const v104Schema = {
   },
 }
 
+export const v105Schema = {
+  ...v104Schema,
+  _persist: {
+    ...v104Schema._persist,
+    version: 105,
+  },
+  app: {
+    ...v104Schema.app,
+    paymentDeepLinkHandler: PaymentDeepLinkHandler.Disabled,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v104Schema as Partial<RootState>
+  return v105Schema as Partial<RootState>
 }

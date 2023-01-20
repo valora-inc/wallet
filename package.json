@@ -67,6 +67,8 @@
     "@celo/contractkit": "~2.3.0",
     "@celo/cryptographic-utils": "~2.3.0",
     "@celo/identity": "~2.3.0",
+    "@celo/payments-sdk": "0.0.11",
+    "@celo/payments-types": "0.0.11",
     "@celo/phone-utils": "~2.3.0",
     "@celo/utils": "~2.3.0",
     "@celo/wallet-rpc": "~2.3.0",

@@ -58,10 +58,12 @@ import {
   resolveDynamicLink,
 } from 'src/firebase/firebase'
 import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
+import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
+import { paymentDeepLinkHandlerMerchant } from 'src/qrcode/utils'
 import { handlePaymentDeeplink } from 'src/send/utils'
 import { initializeSentry } from 'src/sentry/Sentry'
 import { isDeepLink, navigateToURI } from 'src/utils/linking'
@@ -188,6 +190,7 @@ export interface RemoteConfigValues {
   maxNumRecentDapps: number
   skipVerification: boolean
   showPriceChangeIndicatorInBalances: boolean
+  paymentDeepLinkHandler: PaymentDeepLinkHandler
   dappsWebViewEnabled: boolean
   skipProfilePicture: boolean
   fiatConnectCashInEnabled: boolean
@@ -279,6 +282,10 @@ export function* handleDeepLink(action: OpenDeepLink) {
     const pathParts = rawParams.path.split('/')
     if (rawParams.path.startsWith('/pay')) {
       yield call(handlePaymentDeeplink, deepLink)
+    } else if (rawParams.path.startsWith('/payment')) {
+      // TODO: contact our merchant partner and come up
+      // with something that doesn't match /pay, maybe /merchantPay ?
+      yield call(paymentDeepLinkHandlerMerchant, deepLink)
     } else if (rawParams.path.startsWith('/dappkit')) {
       yield call(handleDappkitDeepLink, deepLink)
     } else if (rawParams.path === '/cashIn') {
