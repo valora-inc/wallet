@@ -168,14 +168,6 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
         fetchLegacyMobileMoneyProviders(),
       ])
 
-      // TODO: remove this before merge
-      if (externalProviders) {
-        const rampIndex = externalProviders.findIndex((provider) => provider.name === 'Ramp')
-        if (rampIndex >= 0) {
-          externalProviders[rampIndex].unavailable = false
-        }
-      }
-
       const legacyMobileMoneyProviders = filterLegacyMobileMoneyProviders(
         rawLegacyMobileMoneyProviders,
         flow,
