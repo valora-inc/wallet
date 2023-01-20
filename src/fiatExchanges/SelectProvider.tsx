@@ -168,6 +168,14 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
         fetchLegacyMobileMoneyProviders(),
       ])
 
+      // TODO: remove this before merge
+      if (externalProviders) {
+        const rampIndex = externalProviders.findIndex((provider) => provider.name === 'Ramp')
+        if (rampIndex >= 0) {
+          externalProviders[rampIndex].unavailable = false
+        }
+      }
+
       const legacyMobileMoneyProviders = filterLegacyMobileMoneyProviders(
         rawLegacyMobileMoneyProviders,
         flow,
@@ -196,7 +204,8 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
   const normalizedQuotes = normalizeQuotes(
     flow,
     fiatConnectQuotes,
-    asyncProviders.result?.externalProviders
+    asyncProviders.result?.externalProviders,
+    digitalAsset
   )
 
   const coinbaseProvider = filterProvidersByPaymentMethod(

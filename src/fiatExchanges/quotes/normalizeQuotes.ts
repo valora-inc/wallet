@@ -10,7 +10,7 @@ import {
   RawProviderQuote,
   SimplexQuote,
 } from 'src/fiatExchanges/utils'
-import { Currency } from 'src/utils/currencies'
+import { Currency, CiCoCurrency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'NormalizeQuotes'
@@ -19,11 +19,12 @@ const TAG = 'NormalizeQuotes'
 export function normalizeQuotes(
   flow: CICOFlow,
   fiatConnectQuotes: (FiatConnectQuoteSuccess | FiatConnectQuoteError)[] = [],
-  externalProviders: FetchProvidersOutput[] = []
+  externalProviders: FetchProvidersOutput[] = [],
+  digitalAsset: CiCoCurrency
 ): NormalizedQuote[] {
   return [
     ...normalizeFiatConnectQuotes(flow, fiatConnectQuotes),
-    ...normalizeExternalProviders(flow, externalProviders),
+    ...normalizeExternalProviders(flow, externalProviders, digitalAsset),
   ].sort(quotesByFeeComparator)
 }
 
@@ -78,20 +79,42 @@ export function normalizeFiatConnectQuotes(
 
 export function normalizeExternalProviders(
   flow: CICOFlow,
-  input: FetchProvidersOutput[]
+  input: FetchProvidersOutput[],
+  digitalAsset: CiCoCurrency
 ): NormalizedQuote[] {
   const normalizedQuotes: NormalizedQuote[] = []
 
   input.forEach((provider) => {
     try {
-      if (provider.quote) {
-        // Sometimes the quote is an array and sometimes its a single quote
-        const quotes = Array.isArray(provider.quote) ? provider.quote : [provider.quote]
-        quotes.forEach((quote: RawProviderQuote | SimplexQuote) => {
-          const normalizedQuote = new ExternalQuote({ quote, provider, flow })
-          normalizedQuotes.push(normalizedQuote)
-        })
+      const quotes: (RawProviderQuote | SimplexQuote)[] = []
+      if (Array.isArray(provider.quote)) {
+        // If the quote object is an array, it may contain quotes, or be empty.
+        // If it is empty, it does not necessarily mean that the provider does not
+        // support transfers.
+        if (provider.quote.length) {
+          quotes.push(...provider.quote)
+        } else if (!provider.unavailable && !provider.restricted) {
+          // If no quotes are provided, but the provider is not marked as unavailable,
+          // this means the provider supports transfers, but does not give specific quote details.
+          // We construct a partial quote object for each payment method. N.B., this will never occur
+          // for Simplex quotes, which are a special case.
+          provider.paymentMethods.forEach((paymentMethod) =>
+            quotes.push({
+              digitalAsset,
+              paymentMethod,
+            })
+          )
+        }
+      } else if (provider.quote) {
+        // If the quote is not an array, but does exist, we assume it to be an object representing
+        // a single quote.
+        quotes.push(provider.quote)
       }
+
+      quotes.forEach((quote: RawProviderQuote | SimplexQuote) => {
+        const normalizedQuote = new ExternalQuote({ quote, provider, flow })
+        normalizedQuotes.push(normalizedQuote)
+      })
     } catch (err) {
       Logger.warn(TAG, err)
     }
