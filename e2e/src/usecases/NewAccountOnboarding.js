@@ -2,6 +2,8 @@ import { EXAMPLE_NAME } from '../utils/consts'
 import { launchApp } from '../utils/retries'
 import { enterPinUi, sleep, waitForElementId, dismissCashInBottomSheet } from '../utils/utils'
 
+const jestExpect = require('expect')
+
 export default NewAccountOnboarding = () => {
   beforeAll(async () => {
     await device.terminateApp()
@@ -94,5 +96,12 @@ export default NewAccountOnboarding = () => {
     await element(by.id('RecoveryPhrase')).tap()
     await enterPinUi()
     await waitForElementId('AccountKeyWords')
+  })
+
+  // Based off the flag set in src/firebase/remoteConfigValuesDefaults.e2e.ts
+  // We can only test one path 12 or 24 words as we cannot flip the flag after the build step
+  it('Recovery phrase has 12 words', async () => {
+    const recoveryPhrase = await element(by.id('AccountKeyWords')).getAttributes()
+    jestExpect(recoveryPhrase.text.split(' ').length).toBe(12)
   })
 }
