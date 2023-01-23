@@ -52,9 +52,10 @@ describe(getOrCreateAccount, () => {
   })
 
   it.each`
-    expectedAddress                                 | expectedDEK                                                               | mnemonic
-    ${'0xE025583d25Eff2C254999b5904C97bAe9B3F8D83'} | ${'0xb6812219f7003c27cc1ef17c2033c033a38cfc52d83f176a0667086787d59d39'}   | ${'avellana novio zona pinza ducha íntimo amante diluir toldo peón ocio encía gen balcón carro lingote millón amasar mármol bondad toser soledad croqueta agosto'}
-    ${'0x49a4728b4f94e5ccc4ddfe2fe2269ccd431dc052'} | ${'0x0275da8df87a83403d0a0e9aec60e26ac11ebd9764ebe3bbfc5fecb3631e3e0a99'} | ${'Sufrir maniquí índice viral boina reino choza denso gafas aviso nadar glaciar'}
+    expectedAddress                                 | expectedDEK                                                             | mnemonic
+    ${'0xE025583d25Eff2C254999b5904C97bAe9B3F8D83'} | ${'0xb6812219f7003c27cc1ef17c2033c033a38cfc52d83f176a0667086787d59d39'} | ${'avellana novio zona pinza ducha íntimo amante diluir toldo peón ocio encía gen balcón carro lingote millón amasar mármol bondad toser soledad croqueta agosto'}
+    ${'0x49A4728b4F94E5ccC4dDFe2fE2269ccD431dc052'} | ${'0x596371d7f1dc3a1dfb9e00b51cb5ca46b73993b962c0fb0e04302004581bf45d'} | ${'sufrir maniquí índice viral boina reino choza denso gafas aviso nadar glaciar'}
+    ${'0xfD13B93085Fbf8eb7464Ad08C53E01F7637EEe1B'} | ${'0x67ad8db612e5ea510b2359b2e8c32a55a76dfbe5fd1b40a35ecbca948e8690e7'} | ${'diez ronco nueve muerte apuesta previo definir dureza vagar casco aseo tanque'}
   `(
     'creates a new account $expectedAddress',
     async ({ expectedAddress, expectedDEK, mnemonic }) => {
