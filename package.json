@@ -331,7 +331,7 @@
     },
     "apps": {
       "android.debug": {
-        "binaryPath": "android/app/build/outputs/apk/apptest/debug/app-apptest-x86_64-debug.apk",
+        "binaryPath": "android/app/build/outputs/apk/apptest/debug/app-apptest-debug.apk",
         "testBinaryPath": "android/app/build/outputs/apk/androidTest/apptest/debug/app-apptest-debug-androidTest.apk",
         "build": "cd android && ./gradlew assembleApptestDebug assembleApptestDebugAndroidTest -DtestBuildType=debug -PisDetoxBuild=true && cd ..",
         "type": "android.apk",
@@ -339,7 +339,7 @@
         "__comment2": "Specifying 'testBinaryPath' otherwise detox infers the wrong APK name because we're using split APKs"
       },
       "android.release": {
-        "binaryPath": "android/app/build/outputs/apk/apptest/release/app-apptest-x86_64-release.apk",
+        "binaryPath": "android/app/build/outputs/apk/apptest/release/app-apptest-release.apk",
         "testBinaryPath": "android/app/build/outputs/apk/androidTest/apptest/release/app-apptest-release-androidTest.apk",
         "build": "cd android && ./gradlew assembleApptestRelease assembleApptestReleaseAndroidTest -DtestBuildType=release -PisDetoxBuild=true && cd ..",
         "type": "android.apk",
