@@ -78,7 +78,7 @@ export default class ExternalQuote extends NormalizedQuote {
         new BigNumber(this.quote.fiat_money.base_amount)
       )
     } else if (typeof this.quote.fiatFee === 'number') {
-      // Can't just check for truthiness since '0' fails this and introduces a regression
+      // Can't just check for truthiness since `0` fails this and introduces a regression
       return BigNumber(this.quote.fiatFee)
     }
     return null
