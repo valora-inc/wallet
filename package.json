@@ -86,7 +86,7 @@
     "@react-native-firebase/dynamic-links": "11.5.0",
     "@react-native-firebase/messaging": "11.5.0",
     "@react-native-firebase/remote-config": "11.5.0",
-    "@react-native-masked-view/masked-view": "^0.2.6",
+    "@react-native-masked-view/masked-view": "^0.2.8",
     "@react-native-picker/picker": "^2.4.2",
     "@react-navigation/devtools": "^6.0.10",
     "@react-navigation/drawer": "^5.12.9",
