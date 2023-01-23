@@ -1,10 +1,19 @@
 import { EXAMPLE_NAME } from '../utils/consts'
 import { launchApp } from '../utils/retries'
-import { enterPinUi, sleep, waitForElementId, dismissCashInBottomSheet } from '../utils/utils'
+import {
+  dismissCashInBottomSheet,
+  enterPinUi,
+  scrollIntoView,
+  sleep,
+  waitForElementId,
+  quickOnboarding,
+} from '../utils/utils'
+import { getAddressChunks } from '@celo/utils/lib/address'
 
 const jestExpect = require('expect')
 
 export default NewAccountOnboarding = () => {
+  let testRecoveryPhrase, testAccountAddress
   beforeAll(async () => {
     await device.terminateApp()
     await sleep(5000)
@@ -64,11 +73,11 @@ export default NewAccountOnboarding = () => {
     await expect(element(by.id('AccountKeyWords'))).toBeVisible()
 
     const attributes = await element(by.id('AccountKeyWords')).getAttributes()
-    const accountKey = attributes.text
+    testRecoveryPhrase = attributes.text
 
     await element(by.id('backupKeySavedSwitch')).longPress()
     await element(by.id('backupKeyContinue')).tap()
-    for (const word of accountKey.split(' ')) {
+    for (const word of testRecoveryPhrase.split(' ')) {
       await element(by.id(`backupQuiz/${word}`)).tap()
     }
     await element(by.id('QuizSubmit')).tap()
@@ -85,10 +94,18 @@ export default NewAccountOnboarding = () => {
       .withTimeout(10 * 1000)
   })
 
-  // After quiz completion recovery phrase should only be shown in settings
-  it('Recovery phrase only shown in settings', async () => {
+  it('Account Address shown in drawer menu', async () => {
     await waitForElementId('Hamburger')
     await element(by.id('Hamburger')).tap()
+    await scrollIntoView('Account Address', 'SettingsScrollView')
+    const accountAddressElement = await element(by.id('AccountNumber')).getAttributes()
+    const accountAddressText = accountAddressElement.text.replace(/\s/g, '')
+    testAccountAddress = accountAddressText
+    jestExpect(testAccountAddress).toMatch(/0x[0-9a-fA-F]{40}/)
+  })
+
+  // After quiz completion recovery phrase should only be shown in settings
+  it('Recovery phrase only shown in settings', async () => {
     await expect(element(by.id('DrawerItem/Recovery Phrase'))).not.toExist()
     await waitForElementId('DrawerItem/Settings')
     await element(by.id('DrawerItem/Settings')).tap()
@@ -102,6 +119,20 @@ export default NewAccountOnboarding = () => {
   // We can only test one path 12 or 24 words as we cannot flip the flag after the build step
   it('Recovery phrase has 12 words', async () => {
     const recoveryPhrase = await element(by.id('AccountKeyWords')).getAttributes()
-    jestExpect(recoveryPhrase.text.split(' ').length).toBe(12)
+    const recoveryPhraseText = recoveryPhrase.text
+    jestExpect(recoveryPhraseText.split(' ').length).toBe(12)
+    jestExpect(recoveryPhraseText).toBe(testRecoveryPhrase)
+  })
+
+  it('Should be able to restore newly created account', async () => {
+    await device.uninstallApp()
+    await device.installApp()
+    await launchApp()
+    await quickOnboarding(testRecoveryPhrase)
+    await waitForElementId('Hamburger')
+    await element(by.id('Hamburger')).tap()
+    await scrollIntoView('Account Address', 'SettingsScrollView')
+    const addressString = '0x ' + getAddressChunks(testAccountAddress).join(' ')
+    await expect(element(by.text(addressString))).toBeVisible()
   })
 }
