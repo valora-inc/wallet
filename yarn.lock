@@ -3493,6 +3493,13 @@
   dependencies:
     zod "^3.20.2"
 
+"@fiatconnect/fiatconnect-types@^11.0.1":
+  version "11.0.1"
+  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-types/-/fiatconnect-types-11.0.1.tgz#74e4401c6d6f0de9ce3805e9734ade65f34bc3c4"
+  integrity sha512-Y6V2Na/tIwvSXjDbXR7mBz87/PSIb779QQCQcgvJBVmDnw1d4ou10D2CD0GUbCQEuPgZlawCVGKPrUugpX/Rqw==
+  dependencies:
+    zod "^3.20.2"
+
 "@gorhom/bottom-sheet@^4.4.5":
   version "4.4.5"
   resolved "https://registry.yarnpkg.com/@gorhom/bottom-sheet/-/bottom-sheet-4.4.5.tgz#b9041b01ce1af9a936e7c0fc1d78f026d759eebe"
