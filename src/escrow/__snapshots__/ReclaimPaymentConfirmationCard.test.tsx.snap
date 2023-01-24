@@ -298,7 +298,7 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
       </View>
       <Modal
         animationType="none"
-        deviceHeight={null}
+        deviceHeight={1334}
         deviceWidth={null}
         hardwareAccelerated={false}
         hideModalContentWhileAnimating={false}
@@ -352,7 +352,7 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
         />
         <View
           collapsable={false}
-          deviceHeight={null}
+          deviceHeight={1334}
           deviceWidth={null}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
