@@ -450,7 +450,7 @@ PODS:
     - React-Core
   - react-native-mail (6.1.1):
     - React-Core
-  - react-native-netinfo (5.8.0):
+  - react-native-netinfo (9.3.7):
     - React-Core
   - react-native-randombytes (3.6.0):
     - React-Core
@@ -1061,7 +1061,7 @@ SPEC CHECKSUMS:
   react-native-flipper: b9e2e817604af8da0d5a9ba20a8516e780e30f3c
   react-native-get-random-values: a6ea6a8a65dc93e96e24a11105b1a9c8cfe1d72a
   react-native-mail: 8fdcd3aef007c33a6877a18eb4cf7447a1d4ce4a
-  react-native-netinfo: f3f52e6d92372003b78d5cafa3557797c7beee47
+  react-native-netinfo: 2517ad504b3d303e90d7a431b0fcaef76d207983
   react-native-randombytes: b6677f7d495c27e9ee0dbd77ebc97b3c59173729
   react-native-safe-area-context: 9e40fb181dac02619414ba1294d6c2a807056ab9
   react-native-shake: 41a1ea8ec541fccf3f01566edef8d3cb722b00e3
