@@ -11,7 +11,7 @@ export interface State {
   dataEncryptionKey: string | null
   // Has the data encryption key been registered in the Accounts contract
   isDekRegistered: boolean | undefined
-  twelveWordSeedPhraseEnabled: boolean
+  twelveWordMnemonicEnabled: boolean
 }
 
 const initialState: State = {
@@ -20,7 +20,7 @@ const initialState: State = {
   accountInWeb3Keystore: null,
   dataEncryptionKey: null,
   isDekRegistered: false,
-  twelveWordSeedPhraseEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.twelveWordSeedPhraseEnabled,
+  twelveWordMnemonicEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.twelveWordMnemonicEnabled,
 }
 
 export const reducer = (
@@ -63,7 +63,7 @@ export const reducer = (
     case AppActions.UPDATE_REMOTE_CONFIG_VALUES:
       return {
         ...state,
-        twelveWordSeedPhraseEnabled: action.configValues.twelveWordSeedPhraseEnabled,
+        twelveWordMnemonicEnabled: action.configValues.twelveWordMnemonicEnabled,
       }
     default:
       return state

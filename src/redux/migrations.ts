@@ -982,7 +982,7 @@ export const migrations = {
     ...state,
     web3: {
       ...state.web3,
-      twelveWordSeedPhraseEnabled: false,
+      twelveWordMnemonicEnabled: false,
     },
   }),
 }

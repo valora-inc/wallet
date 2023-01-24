@@ -23,8 +23,8 @@ import { createAccountDek } from 'src/web3/dataEncryptionKey'
 import {
   currentAccountSelector,
   mtwAddressSelector,
-  twelveWordSeedPhraseEnabledSelector,
-  walletAddressSelector,
+  twelveWordMnemonicEnabledSelector,
+  walletAddressSelector
 } from 'src/web3/selectors'
 import { RootState } from '../redux/reducers'
 
@@ -60,8 +60,8 @@ export function* getOrCreateAccount() {
   try {
     Logger.debug(TAG + '@getOrCreateAccount', 'Creating a new account')
 
-    const twelveWordSeedPhraseEnabled = yield select(twelveWordSeedPhraseEnabledSelector)
-    const mnemonicBitLength = twelveWordSeedPhraseEnabled
+    const twelveWordMnemonicEnabled = yield select(twelveWordMnemonicEnabledSelector)
+    const mnemonicBitLength = twelveWordMnemonicEnabled
       ? MnemonicStrength.s128_12words
       : MnemonicStrength.s256_24words
     const mnemonicLanguage = getMnemonicLanguage(yield select(currentLanguageSelector))

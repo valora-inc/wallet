@@ -1969,7 +1969,7 @@ export const v105Schema = {
   },
   web3: {
     ...v104Schema.web3,
-    twelveWordSeedPhraseEnabled: false,
+    twelveWordMnemonicEnabled: false,
   },
 }
 

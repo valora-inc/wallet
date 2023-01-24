@@ -777,7 +777,7 @@ describe('Redux persist migrations', () => {
     const migratedSchema = migrations[105](oldSchema)
 
     const expectedSchema: any = _.cloneDeep(oldSchema)
-    expectedSchema.web3.twelveWordSeedPhraseEnabled = false
+    expectedSchema.web3.twelveWordMnemonicEnabled = false
 
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })

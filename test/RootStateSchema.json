@@ -3566,7 +3566,7 @@
                         "string"
                     ]
                 },
-                "twelveWordSeedPhraseEnabled": {
+                "twelveWordMnemonicEnabled": {
                     "type": "boolean"
                 }
             },
@@ -3575,7 +3575,7 @@
                 "accountInWeb3Keystore",
                 "dataEncryptionKey",
                 "mtwAddress",
-                "twelveWordSeedPhraseEnabled"
+                "twelveWordMnemonicEnabled"
             ],
             "type": "object"
         },

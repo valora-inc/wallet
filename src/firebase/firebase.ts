@@ -302,7 +302,7 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     networkTimeoutSeconds: flags.networkTimeoutSeconds.asNumber(),
     dappFavoritesEnabled: flags.dappFavoritesEnabled.asBoolean(),
     celoNews: celoNewsString ? JSON.parse(celoNewsString) : {},
-    twelveWordSeedPhraseEnabled: flags.twelveWordSeedPhraseEnabled.asBoolean(),
+    twelveWordMnemonicEnabled: flags.twelveWordMnemonicEnabled.asBoolean(),
   }
 }
 
