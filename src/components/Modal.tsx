@@ -22,8 +22,9 @@ export default function Modal({ children, isVisible, style, testID, onBackground
       isVisible={isVisible}
       backdropOpacity={0.1}
       onBackdropPress={onBackgroundPress}
+      // The default uses `Dimensions.get('window').height` but sometimes reports an incorrect height on Android
+      // `useSafeAreaFrame()` seems to work better
       deviceHeight={height}
-      // @ts-ignore statusBarTranslucent is supported since RN 0.62, but updated lib with the added prop hasn't been published yet
       statusBarTranslucent={true}
     >
       <SafeAreaView>
