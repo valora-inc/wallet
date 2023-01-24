@@ -1961,6 +1961,18 @@ export const v104Schema = {
   },
 }
 
+export const v105Schema = {
+  ...v104Schema,
+  _persist: {
+    ...v104Schema._persist,
+    version: 105,
+  },
+  web3: {
+    ...v104Schema.web3,
+    twelveWordMnemonicEnabled: false,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v104Schema as Partial<RootState>
+  return v105Schema as Partial<RootState>
 }

@@ -1,3 +1,5 @@
+import { Actions as AppActions, UpdateConfigValuesAction } from 'src/app/actions'
+import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 import { Actions, ActionTypes } from 'src/web3/actions'
 
@@ -9,6 +11,7 @@ export interface State {
   dataEncryptionKey: string | null
   // Has the data encryption key been registered in the Accounts contract
   isDekRegistered: boolean | undefined
+  twelveWordMnemonicEnabled: boolean
 }
 
 const initialState: State = {
@@ -17,11 +20,12 @@ const initialState: State = {
   accountInWeb3Keystore: null,
   dataEncryptionKey: null,
   isDekRegistered: false,
+  twelveWordMnemonicEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.twelveWordMnemonicEnabled,
 }
 
 export const reducer = (
   state: State | undefined = initialState,
-  action: ActionTypes | RehydrateAction
+  action: ActionTypes | RehydrateAction | UpdateConfigValuesAction
 ): State => {
   switch (action.type) {
     case REHYDRATE: {
@@ -55,6 +59,11 @@ export const reducer = (
       return {
         ...state,
         isDekRegistered: true,
+      }
+    case AppActions.UPDATE_REMOTE_CONFIG_VALUES:
+      return {
+        ...state,
+        twelveWordMnemonicEnabled: action.configValues.twelveWordMnemonicEnabled,
       }
     default:
       return state
