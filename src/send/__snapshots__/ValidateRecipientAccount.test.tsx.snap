@@ -568,6 +568,7 @@ Array [
                     "marginVertical": 8,
                   }
                 }
+                testID="AccountNumber"
               >
                 0x f1b1 d5a6 e772 8g30 9c4a 025k 122d 71ad 75a6 1976
               </Text>
@@ -1390,6 +1391,7 @@ Array [
                     "marginVertical": 8,
                   }
                 }
+                testID="AccountNumber"
               >
                 0x f1b1 d5a6 e772 8g30 9c4a 025k 122d 71ad 75a6 1976
               </Text>
