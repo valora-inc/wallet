@@ -161,6 +161,11 @@ export const reducer = (
         e164PhoneNumber: action.e164PhoneNumber,
         defaultCountryCode: action.countryCode,
       }
+    case AppActions.PHONE_NUMBER_REVOKED:
+      return {
+        ...state,
+        e164PhoneNumber: null,
+      }
     case Actions.DEV_MODE_TRIGGER_CLICKED:
       const newClickCount = (state.devModeClickCount + 1) % 10
       if (newClickCount === 5) {
