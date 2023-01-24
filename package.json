@@ -162,7 +162,7 @@
     "react-native-safe-area-context": "^3.4.1",
     "react-native-screens": "^3.18.2",
     "react-native-securerandom": "^1.0.1",
-    "react-native-shake": "~3.5.0",
+    "react-native-shake": "^5.1.1",
     "react-native-share": "^7.3.2",
     "react-native-simple-toast": "^1.1.4",
     "react-native-skeleton-placeholder": "^5.2.4",
