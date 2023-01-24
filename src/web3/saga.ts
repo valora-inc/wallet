@@ -24,7 +24,7 @@ import {
   currentAccountSelector,
   mtwAddressSelector,
   twelveWordMnemonicEnabledSelector,
-  walletAddressSelector
+  walletAddressSelector,
 } from 'src/web3/selectors'
 import { RootState } from '../redux/reducers'
 
