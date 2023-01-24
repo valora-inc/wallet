@@ -759,6 +759,7 @@ describe('Redux persist migrations', () => {
 
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
+
   it('works from v103 to v104', () => {
     const oldSchema = v103Schema
     const migratedSchema = migrations[104](oldSchema)
@@ -770,7 +771,17 @@ describe('Redux persist migrations', () => {
 
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
+
   it('works from v104 to v105', () => {
+    const oldSchema = v104Schema
+    const migratedSchema = migrations[105](oldSchema)
+
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    expectedSchema.web3.twelveWordMnemonicEnabled = false
+    expect(migratedSchema).toStrictEqual(expectedSchema)
+  })
+
+  it('works from v105 to v106', () => {
     const oldSchema = {
       ...v104Schema,
       fiatConnect: {
@@ -803,7 +814,7 @@ describe('Redux persist migrations', () => {
         },
       },
     }
-    const migratedSchema = migrations[105](oldSchema)
+    const migratedSchema = migrations[106](oldSchema)
 
     const freshSchema: any = _.cloneDeep(oldSchema)
     const expectedSchema = {
@@ -838,7 +849,6 @@ describe('Redux persist migrations', () => {
         },
       },
     }
-
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 })

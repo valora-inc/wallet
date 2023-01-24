@@ -270,7 +270,7 @@ exports[`ImportWallet renders correctly and is disabled with no text 1`] = `
   />
   <Modal
     animationType="none"
-    deviceHeight={null}
+    deviceHeight={1334}
     deviceWidth={null}
     hardwareAccelerated={false}
     hideModalContentWhileAnimating={false}
@@ -325,7 +325,7 @@ exports[`ImportWallet renders correctly and is disabled with no text 1`] = `
     />
     <View
       collapsable={false}
-      deviceHeight={null}
+      deviceHeight={1334}
       deviceWidth={null}
       forwardedRef={[Function]}
       hideModalContentWhileAnimating={false}

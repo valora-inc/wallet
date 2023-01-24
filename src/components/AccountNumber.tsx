@@ -43,14 +43,18 @@ export default function AccountNumber({ address, touchDisabled, location }: Prop
   const addressString = '0x ' + addressChunks.join(' ')
 
   return touchDisabled ? (
-    <Text style={styles.text}>{addressString}</Text>
+    <Text testID="AccountNumber" style={styles.text}>
+      {addressString}
+    </Text>
   ) : (
     <TouchableOpacity
       onLongPress={onPressAddress}
       onPress={onPressAddress}
       testID="CopyAddressToClipboard"
     >
-      <Text style={styles.text}>{addressString}</Text>
+      <Text testID="AccountNumber" style={styles.text}>
+        {addressString}
+      </Text>
       <Text style={styles.link}>{t('tapToCopy')}</Text>
     </TouchableOpacity>
   )

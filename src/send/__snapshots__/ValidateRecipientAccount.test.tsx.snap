@@ -268,7 +268,7 @@ Array [
   />,
   <Modal
     animationType="none"
-    deviceHeight={null}
+    deviceHeight={1334}
     deviceWidth={null}
     hardwareAccelerated={false}
     hideModalContentWhileAnimating={false}
@@ -322,7 +322,7 @@ Array [
     />
     <View
       collapsable={false}
-      deviceHeight={null}
+      deviceHeight={1334}
       deviceWidth={null}
       forwardedRef={[Function]}
       hideModalContentWhileAnimating={false}
@@ -568,6 +568,7 @@ Array [
                     "marginVertical": 8,
                   }
                 }
+                testID="AccountNumber"
               >
                 0x f1b1 d5a6 e772 8g30 9c4a 025k 122d 71ad 75a6 1976
               </Text>
@@ -1090,7 +1091,7 @@ Array [
   />,
   <Modal
     animationType="none"
-    deviceHeight={null}
+    deviceHeight={1334}
     deviceWidth={null}
     hardwareAccelerated={false}
     hideModalContentWhileAnimating={false}
@@ -1144,7 +1145,7 @@ Array [
     />
     <View
       collapsable={false}
-      deviceHeight={null}
+      deviceHeight={1334}
       deviceWidth={null}
       forwardedRef={[Function]}
       hideModalContentWhileAnimating={false}
@@ -1390,6 +1391,7 @@ Array [
                     "marginVertical": 8,
                   }
                 }
+                testID="AccountNumber"
               >
                 0x f1b1 d5a6 e772 8g30 9c4a 025k 122d 71ad 75a6 1976
               </Text>

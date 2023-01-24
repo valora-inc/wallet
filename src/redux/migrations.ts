@@ -1004,6 +1004,13 @@ export const migrations = {
   }),
   105: (state: any) => ({
     ...state,
+    web3: {
+      ...state.web3,
+      twelveWordMnemonicEnabled: false,
+    },
+  }),
+  106: (state: any) => ({
+    ...state,
     fiatConnect: {
       ...state.fiatConnect,
       cachedFiatAccountUses: state.fiatConnect.cachedFiatAccountUses.map(
