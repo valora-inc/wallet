@@ -33,7 +33,7 @@ exports[`SimplexScreen renders correctly 1`] = `
     >
       <Modal
         animationType="none"
-        deviceHeight={null}
+        deviceHeight={1334}
         deviceWidth={null}
         hardwareAccelerated={false}
         hideModalContentWhileAnimating={false}
@@ -84,7 +84,7 @@ exports[`SimplexScreen renders correctly 1`] = `
           }
         />
         <View
-          deviceHeight={null}
+          deviceHeight={1334}
           deviceWidth={null}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
@@ -269,7 +269,7 @@ exports[`SimplexScreen renders correctly 1`] = `
       </Modal>
       <Modal
         animationType="none"
-        deviceHeight={null}
+        deviceHeight={1334}
         deviceWidth={null}
         hardwareAccelerated={false}
         hideModalContentWhileAnimating={false}
@@ -320,7 +320,7 @@ exports[`SimplexScreen renders correctly 1`] = `
           }
         />
         <View
-          deviceHeight={null}
+          deviceHeight={1334}
           deviceWidth={null}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
@@ -987,7 +987,7 @@ exports[`SimplexScreen renders correctly 2`] = `
     >
       <Modal
         animationType="none"
-        deviceHeight={null}
+        deviceHeight={1334}
         deviceWidth={null}
         hardwareAccelerated={false}
         hideModalContentWhileAnimating={false}
@@ -1038,7 +1038,7 @@ exports[`SimplexScreen renders correctly 2`] = `
           }
         />
         <View
-          deviceHeight={null}
+          deviceHeight={1334}
           deviceWidth={null}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
@@ -1223,7 +1223,7 @@ exports[`SimplexScreen renders correctly 2`] = `
       </Modal>
       <Modal
         animationType="none"
-        deviceHeight={null}
+        deviceHeight={1334}
         deviceWidth={null}
         hardwareAccelerated={false}
         hideModalContentWhileAnimating={false}
@@ -1274,7 +1274,7 @@ exports[`SimplexScreen renders correctly 2`] = `
           }
         />
         <View
-          deviceHeight={null}
+          deviceHeight={1334}
           deviceWidth={null}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
