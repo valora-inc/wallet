@@ -269,7 +269,7 @@ exports[`SendConfirmationLegacy renders correctly 1`] = `
           </View>
           <Modal
             animationType="none"
-            deviceHeight={null}
+            deviceHeight={1334}
             deviceWidth={null}
             hardwareAccelerated={false}
             hideModalContentWhileAnimating={false}
@@ -320,7 +320,7 @@ exports[`SendConfirmationLegacy renders correctly 1`] = `
               }
             />
             <View
-              deviceHeight={null}
+              deviceHeight={1334}
               deviceWidth={null}
               forwardedRef={[Function]}
               hideModalContentWhileAnimating={false}
