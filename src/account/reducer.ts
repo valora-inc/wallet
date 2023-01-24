@@ -165,6 +165,7 @@ export const reducer = (
       return {
         ...state,
         e164PhoneNumber: null,
+        defaultCountryCode: null,
       }
     case Actions.DEV_MODE_TRIGGER_CLICKED:
       const newClickCount = (state.devModeClickCount + 1) % 10
