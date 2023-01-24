@@ -287,6 +287,7 @@ export type StackParamList = {
   [Screens.SendConfirmationLegacy]: SendConfirmationLegacyParams
   [Screens.SendConfirmationLegacyModal]: SendConfirmationLegacyParams
   [Screens.Settings]: { promptConfirmRemovalModal?: boolean } | undefined
+  [Screens.ShakeForSupport]: undefined
   [Screens.Spend]: undefined
   [Screens.StoreWipeRecoveryScreen]: undefined
   [Screens.Support]: undefined

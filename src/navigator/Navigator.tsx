@@ -14,6 +14,7 @@ import GoldEducation from 'src/account/GoldEducation'
 import Licenses from 'src/account/Licenses'
 import Profile from 'src/account/Profile'
 import { PincodeType } from 'src/account/reducer'
+import ShakeForSupport from 'src/account/ShakeForSupport'
 import StoreWipeRecoveryScreen from 'src/account/StoreWipeRecoveryScreen'
 import SupportContact from 'src/account/SupportContact'
 import { CeloExchangeEvents } from 'src/analytics/Events'
@@ -712,6 +713,11 @@ function nativeBottomSheets(BottomSheet: typeof RootStack) {
         name={Screens.DappKitSignTxScreen}
         component={DappKitSignTxScreen}
         options={{ snapPoints: ['60%'] }}
+      />
+      <BottomSheet.Screen
+        name={Screens.ShakeForSupport}
+        component={ShakeForSupport}
+        options={{ snapPoints: ['30%'] }}
       />
     </>
   )

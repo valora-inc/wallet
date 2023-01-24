@@ -77,6 +77,7 @@ export enum Screens {
   SendConfirmationLegacyModal = 'SendConfirmationLegacyModal',
   SetClock = 'SetClock',
   Settings = 'Settings',
+  ShakeForSupport = 'ShakeForSupport',
   Simplex = 'Simplex',
   Spend = 'Spend',
   StoreWipeRecoveryScreen = 'StoreWipeRecoveryScreen',

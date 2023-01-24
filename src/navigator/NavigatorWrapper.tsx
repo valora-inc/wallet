@@ -6,12 +6,12 @@ import { SeverityLevel } from '@sentry/types'
 import * as React from 'react'
 import { StyleSheet, View } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
+import RNShake from 'react-native-shake'
 import { useDispatch, useSelector } from 'react-redux'
-import ShakeForSupport from 'src/account/ShakeForSupport'
 import AlertBanner from 'src/alert/AlertBanner'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { activeScreenChanged } from 'src/app/actions'
-import { getAppLocked } from 'src/app/selectors'
+import { activeScreenChanged, AppState } from 'src/app/actions'
+import { appStateSelector, getAppLocked } from 'src/app/selectors'
 import UpgradeScreen from 'src/app/UpgradeScreen'
 import { doingBackupFlowSelector, shouldForceBackupSelector } from 'src/backup/selectors'
 import { DEV_RESTORE_NAV_STATE_ON_RELOAD } from 'src/config'
@@ -57,6 +57,7 @@ export const NavigatorWrapper = () => {
   const minRequiredVersion = useTypedSelector((state) => state.app.minVersion)
   const routeNameRef = React.useRef()
   const inSanctionedCountry = useTypedSelector(userInSanctionedCountrySelector)
+  const appState = useTypedSelector(appStateSelector)
 
   const dispatch = useDispatch()
 
@@ -128,6 +129,20 @@ export const NavigatorWrapper = () => {
     }
   }, [])
 
+  React.useEffect(() => {
+    if (appState !== AppState.Active) {
+      // Don't listen to the shake event if the app is not in the foreground
+      return
+    }
+    const subscription = RNShake.addListener(() => {
+      Logger.info('NavigatorWrapper', 'Shake Event')
+      navigate(Screens.ShakeForSupport)
+    })
+    return () => {
+      subscription?.remove()
+    }
+  }, [appState])
+
   if (!isReady) {
     return null
   }
@@ -186,7 +201,6 @@ export const NavigatorWrapper = () => {
         <View style={styles.floating}>
           <AlertBanner />
         </View>
-        <ShakeForSupport />
       </View>
     </NavigationContainer>
   )
