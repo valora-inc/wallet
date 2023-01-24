@@ -1201,7 +1201,7 @@ exports[`Account renders correctly 1`] = `
       </View>
       <Modal
         animationType="none"
-        deviceHeight={null}
+        deviceHeight={1334}
         deviceWidth={null}
         hardwareAccelerated={false}
         hideModalContentWhileAnimating={false}
@@ -1256,7 +1256,7 @@ exports[`Account renders correctly 1`] = `
         />
         <View
           collapsable={false}
-          deviceHeight={null}
+          deviceHeight={1334}
           deviceWidth={null}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
@@ -1458,7 +1458,7 @@ exports[`Account renders correctly 1`] = `
       </Modal>
       <Modal
         animationType="none"
-        deviceHeight={null}
+        deviceHeight={1334}
         deviceWidth={null}
         hardwareAccelerated={false}
         hideModalContentWhileAnimating={false}
@@ -1513,7 +1513,7 @@ exports[`Account renders correctly 1`] = `
         />
         <View
           collapsable={false}
-          deviceHeight={null}
+          deviceHeight={1334}
           deviceWidth={null}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
@@ -1711,7 +1711,7 @@ exports[`Account renders correctly 1`] = `
       </Modal>
       <Modal
         animationType="none"
-        deviceHeight={null}
+        deviceHeight={1334}
         deviceWidth={null}
         hardwareAccelerated={false}
         hideModalContentWhileAnimating={false}
@@ -1766,7 +1766,7 @@ exports[`Account renders correctly 1`] = `
         />
         <View
           collapsable={false}
-          deviceHeight={null}
+          deviceHeight={1334}
           deviceWidth={null}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
@@ -3526,7 +3526,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
       </View>
       <Modal
         animationType="none"
-        deviceHeight={null}
+        deviceHeight={1334}
         deviceWidth={null}
         hardwareAccelerated={false}
         hideModalContentWhileAnimating={false}
@@ -3581,7 +3581,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
         />
         <View
           collapsable={false}
-          deviceHeight={null}
+          deviceHeight={1334}
           deviceWidth={null}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
@@ -3783,7 +3783,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
       </Modal>
       <Modal
         animationType="none"
-        deviceHeight={null}
+        deviceHeight={1334}
         deviceWidth={null}
         hardwareAccelerated={false}
         hideModalContentWhileAnimating={false}
@@ -3838,7 +3838,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
         />
         <View
           collapsable={false}
-          deviceHeight={null}
+          deviceHeight={1334}
           deviceWidth={null}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
@@ -4036,7 +4036,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
       </Modal>
       <Modal
         animationType="none"
-        deviceHeight={null}
+        deviceHeight={1334}
         deviceWidth={null}
         hardwareAccelerated={false}
         hideModalContentWhileAnimating={false}
@@ -4091,7 +4091,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
         />
         <View
           collapsable={false}
-          deviceHeight={null}
+          deviceHeight={1334}
           deviceWidth={null}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
