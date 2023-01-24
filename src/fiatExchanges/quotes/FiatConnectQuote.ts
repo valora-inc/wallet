@@ -110,7 +110,7 @@ export default class FiatConnectQuote extends NormalizedQuote {
   // FiatConnect quotes denominate fees in fiat & crypto for CashIn & CashOut respectively
   getFeeInCrypto(
     exchangeRates: { cGLD: string | null; cUSD: string | null; cEUR: string | null },
-    tokenInfo: TokenBalance | undefined
+    tokenInfo: TokenBalance
   ): BigNumber | null {
     const fee = this._getFee()
     if (this.flow === CICOFlow.CashOut) {
@@ -126,7 +126,7 @@ export default class FiatConnectQuote extends NormalizedQuote {
   // FiatConnect quotes denominate fees in fiat & crypto for CashIn & CashOut respectively
   getFeeInFiat(
     exchangeRates: { cGLD: string | null; cUSD: string | null; cEUR: string | null },
-    tokenInfo: TokenBalance | undefined
+    tokenInfo: TokenBalance
   ): BigNumber | null {
     const fee = this._getFee()
     if (this.flow === CICOFlow.CashIn) {

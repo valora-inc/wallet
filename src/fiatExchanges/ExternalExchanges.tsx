@@ -19,7 +19,7 @@ import { StackParamList } from 'src/navigator/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
-import { CiCoCurrency, Currency, resolveCurrency } from 'src/utils/currencies'
+import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 import { currentAccountSelector } from 'src/web3/selectors'
 
@@ -100,10 +100,7 @@ function ExternalExchanges({ route }: Props) {
         })}
       </ScrollView>
       {!isCashIn && providers?.length ? (
-        route.params.currency === CiCoCurrency.cUSD ||
-        route.params.currency === CiCoCurrency.cEUR ? (
-          <SendBar skipImport={true} selectedCurrency={resolveCurrency(route.params.currency)} />
-        ) : (
+        route.params.currency === CiCoCurrency.CELO ? (
           <View style={styles.buttonContainer}>
             <Button
               testID="WithdrawCeloButton"
@@ -114,6 +111,8 @@ function ExternalExchanges({ route }: Props) {
               onPress={() => goToCashOut()}
             />
           </View>
+        ) : (
+          <SendBar skipImport={true} selectedCurrency={route.params.currency} />
         )
       ) : (
         <></>

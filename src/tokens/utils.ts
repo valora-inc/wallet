@@ -91,12 +91,12 @@ export function convertLocalToTokenAmount({
   exchangeRates: { [token in Currency]: string | null }
 }) {
   const tokenUsdPrice = tokenInfo?.usdPrice
-  const usdExchangeRate = exchangeRates[Currency.Dollar]
-  if (!tokenUsdPrice || !usdExchangeRate || !localAmount) {
+  const localFiatPerDollar = exchangeRates[Currency.Dollar]
+  if (!tokenUsdPrice || !localFiatPerDollar || !localAmount) {
     return null
   }
 
-  return localAmount.dividedBy(usdExchangeRate).dividedBy(tokenUsdPrice)
+  return localAmount.dividedBy(localFiatPerDollar).dividedBy(tokenUsdPrice)
 }
 
 export function convertTokenToLocalAmount({
@@ -109,10 +109,10 @@ export function convertTokenToLocalAmount({
   exchangeRates: { [token in Currency]: string | null }
 }) {
   const tokenUsdPrice = tokenInfo?.usdPrice
-  const usdExchangeRate = exchangeRates[Currency.Dollar]
-  if (!tokenUsdPrice || !usdExchangeRate || !tokenAmount) {
+  const localFiatPerDollar = exchangeRates[Currency.Dollar]
+  if (!tokenUsdPrice || !localFiatPerDollar || !tokenAmount) {
     return null
   }
 
-  return tokenAmount.multipliedBy(tokenUsdPrice).multipliedBy(usdExchangeRate)
+  return tokenAmount.multipliedBy(tokenUsdPrice).multipliedBy(localFiatPerDollar)
 }

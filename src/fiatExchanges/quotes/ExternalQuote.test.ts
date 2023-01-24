@@ -16,6 +16,19 @@ const mockExchangeRates = {
   cEUR: '2',
 }
 
+const mockTokenInfo = {
+  balance: new BigNumber('10'),
+  usdPrice: new BigNumber('1'),
+  lastKnownUsdPrice: new BigNumber('1'),
+  symbol: 'cUSD',
+  address: mockCusdAddress,
+  isCoreToken: true,
+  priceFetchedAt: Date.now(),
+  decimals: 18,
+  name: 'Celo Dollar',
+  imageUrl: '',
+}
+
 describe('ExternalQuote', () => {
   describe('constructor', () => {
     it('throws an error if provider is unavailable', () => {
@@ -69,18 +82,6 @@ describe('ExternalQuote', () => {
   })
 
   describe('.getFeeInCrypto', () => {
-    const mockTokenInfo = {
-      balance: new BigNumber('10'),
-      usdPrice: new BigNumber('1'),
-      lastKnownUsdPrice: new BigNumber('1'),
-      symbol: 'cUSD',
-      address: mockCusdAddress,
-      isCoreToken: true,
-      priceFetchedAt: Date.now(),
-      decimals: 18,
-      name: 'Celo Dollar',
-      imageUrl: '',
-    }
     it('returns converted fee for simplex', () => {
       const quote = new ExternalQuote({
         quote: mockProviders[0].quote as SimplexQuote,
@@ -106,7 +107,7 @@ describe('ExternalQuote', () => {
         provider: mockProviders[0],
         flow: CICOFlow.CashIn,
       })
-      expect(quote.getFeeInFiat(mockExchangeRates)).toEqual(new BigNumber(6))
+      expect(quote.getFeeInFiat(mockExchangeRates, mockTokenInfo)).toEqual(new BigNumber(6))
     })
     it('returns fee for other', () => {
       const quote = new ExternalQuote({
@@ -114,7 +115,7 @@ describe('ExternalQuote', () => {
         provider: mockProviders[1],
         flow: CICOFlow.CashIn,
       })
-      expect(quote.getFeeInFiat(mockExchangeRates)).toEqual(new BigNumber(5))
+      expect(quote.getFeeInFiat(mockExchangeRates, mockTokenInfo)).toEqual(new BigNumber(5))
     })
   })
 

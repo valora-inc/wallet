@@ -1,3 +1,5 @@
+import { CloudFunctionDigitalAsset } from 'src/fiatExchanges/utils'
+
 export enum Currency {
   Celo = 'cGLD',
   Dollar = 'cUSD',
@@ -91,4 +93,16 @@ export function resolveCICOCurrency(currencyCode: string): CiCoCurrency {
     CREAL: CiCoCurrency.cREAL,
   }
   return mapping[currencyCode.toUpperCase()] || CiCoCurrency.CELO
+}
+
+export function resolveCloudFunctionDigitalAsset(
+  currency: CiCoCurrency
+): CloudFunctionDigitalAsset {
+  const mapping: Record<CiCoCurrency, CloudFunctionDigitalAsset> = {
+    [CiCoCurrency.CELO]: CloudFunctionDigitalAsset.CELO,
+    [CiCoCurrency.cUSD]: CloudFunctionDigitalAsset.CUSD,
+    [CiCoCurrency.cEUR]: CloudFunctionDigitalAsset.CEUR,
+    [CiCoCurrency.cREAL]: CloudFunctionDigitalAsset.CREAL,
+  }
+  return mapping[currency] || CiCoCurrency.CELO
 }

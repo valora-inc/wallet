@@ -4,7 +4,7 @@ import { CodeInputStatus } from 'src/components/CodeInput'
 import { DEFAULT_SENTRY_NETWORK_ERRORS, DEFAULT_SENTRY_TRACES_SAMPLE_RATE } from 'src/config'
 import { Dapp, DappConnectInfo } from 'src/dapps/types'
 import { initialState as exchangeInitialState } from 'src/exchange/reducer'
-import { SendingFiatAccountStatus } from 'src/fiatconnect/slice'
+import { CachedQuoteParams, SendingFiatAccountStatus } from 'src/fiatconnect/slice'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { AddressToDisplayNameType } from 'src/identity/reducer'
 import { TokenTransaction } from 'src/transactions/types'
@@ -15,7 +15,11 @@ export function updateCachedQuoteParams(cachedQuoteParams: {
     [kycSchema: string]: any
   }
 }) {
-  const newCachedQuoteParams: any = {}
+  const newCachedQuoteParams: {
+    [providerId: string]: {
+      [kycSchema: string]: CachedQuoteParams
+    }
+  } = {}
 
   Object.entries(cachedQuoteParams).forEach(([providerId, kycSchemas]) => {
     newCachedQuoteParams[providerId] = {}
@@ -1002,10 +1006,12 @@ export const migrations = {
     ...state,
     fiatConnect: {
       ...state.fiatConnect,
-      cachedFiatAccountUses: state.fiatConnect.cachedFiatAccountUses.map((use: any) => ({
-        ...use,
-        cryptoType: use.cryptoType === Currency.Celo ? CiCoCurrency.CELO : use.cryptoType,
-      })),
+      cachedFiatAccountUses: state.fiatConnect.cachedFiatAccountUses.map(
+        (use: { cryptoType: Currency }) => ({
+          ...use,
+          cryptoType: use.cryptoType === Currency.Celo ? CiCoCurrency.CELO : use.cryptoType,
+        })
+      ),
       cachedQuoteParams: updateCachedQuoteParams(state.fiatConnect.cachedQuoteParams),
     },
   }),

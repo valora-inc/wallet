@@ -11,11 +11,11 @@ export default abstract class NormalizedQuote {
   abstract getPaymentMethod(): PaymentMethod
   abstract getFeeInFiat(
     exchangeRates: { [token in Currency]: string | null },
-    tokenInfo: TokenBalance | undefined
+    tokenInfo: TokenBalance
   ): BigNumber | null
   abstract getFeeInCrypto(
     exchangeRates: { [token in Currency]: string | null },
-    tokenInfo: TokenBalance | undefined
+    tokenInfo: TokenBalance
   ): BigNumber | null
   abstract getCryptoType(): CiCoCurrency
   abstract getKycInfo(): string | null

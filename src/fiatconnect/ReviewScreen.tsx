@@ -68,10 +68,11 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
   const feeEstimates = useSelector(feeEstimatesSelector)
   const feeEstimate = tokenAddress ? feeEstimates[tokenAddress]?.[feeType] : undefined
   const usdTokenInfo = useTokenInfoBySymbol(CiCoCurrency.cUSD)!
-  const networkFee = useLocalToTokenAmount(
-    feeEstimate?.usdFee ? new BigNumber(feeEstimate?.usdFee) : new BigNumber(0),
-    usdTokenInfo.address
-  )!
+  const networkFee =
+    useLocalToTokenAmount(
+      feeEstimate?.usdFee ? new BigNumber(feeEstimate?.usdFee) : new BigNumber(0),
+      usdTokenInfo.address
+    ) ?? new BigNumber(0)
 
   useEffect(() => {
     if (!feeEstimate && tokenAddress) {
@@ -375,7 +376,8 @@ function getDisplayAmounts({
   const cryptoType = normalizedQuote.getCryptoType()
   const fiatType = normalizedQuote.getFiatType()
   if (flow === CICOFlow.CashOut) {
-    const providerFee = normalizedQuote.getFeeInCrypto(exchangeRates, tokenInfo) ?? new BigNumber(0)
+    const providerFee =
+      (!!tokenInfo && normalizedQuote.getFeeInCrypto(exchangeRates, tokenInfo)) || new BigNumber(0)
     const receive = Number(normalizedQuote.getFiatAmount())
     const total = Number(
       new BigNumber(normalizedQuote.getCryptoAmount()).plus(networkFee).toString()
@@ -416,7 +418,8 @@ function getDisplayAmounts({
   } else {
     const receive = normalizedQuote.getCryptoAmount()
     const total = normalizedQuote.getFiatAmount()
-    const fee = normalizedQuote.getFeeInFiat(exchangeRates, tokenInfo)
+    const fee =
+      (!!tokenInfo && normalizedQuote.getFeeInFiat(exchangeRates, tokenInfo)) || new BigNumber(0)
     const totalMinusFee = Number(total) - Number(fee || 0)
     const exchangeRate = totalMinusFee / Number(receive)
 

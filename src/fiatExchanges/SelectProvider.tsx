@@ -40,7 +40,7 @@ import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
-import { CiCoCurrency } from 'src/utils/currencies'
+import { CiCoCurrency, resolveCloudFunctionDigitalAsset } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
@@ -154,7 +154,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
           userLocation,
           walletAddress: account,
           fiatCurrency: localCurrency,
-          digitalAsset: digitalAsset.toUpperCase(),
+          digitalAsset: resolveCloudFunctionDigitalAsset(digitalAsset),
           fiatAmount: route.params.amount.fiat,
           digitalAssetAmount: route.params.amount.crypto,
           txType: flow === CICOFlow.CashIn ? 'buy' : 'sell',

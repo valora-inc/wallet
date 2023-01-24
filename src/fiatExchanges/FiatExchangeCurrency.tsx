@@ -136,10 +136,7 @@ function FiatExchangeCurrency({ route, navigation }: Props) {
             body="(cEUR)"
             selected={selectedCurrency === CiCoCurrency.cEUR}
             onSelect={() => setSelectedCurrency(CiCoCurrency.cEUR)}
-            containerStyle={{
-              borderTopWidth: 0.5,
-              borderBottomWidth: 0.5,
-            }}
+            containerStyle={styles.radioMiddle}
             testID="radio/cEUR"
           />
           <CurrencyRadioItem
@@ -147,10 +144,7 @@ function FiatExchangeCurrency({ route, navigation }: Props) {
             selected={selectedCurrency === CiCoCurrency.CELO}
             onSelect={() => setSelectedCurrency(CiCoCurrency.CELO)}
             enabled={flow !== FiatExchangeFlow.Spend}
-            containerStyle={{
-              borderTopWidth: 0.5,
-              borderBottomWidth: 0.5,
-            }}
+            containerStyle={styles.radioMiddle}
             testID="radio/CELO"
           />
           <CurrencyRadioItem
@@ -164,7 +158,7 @@ function FiatExchangeCurrency({ route, navigation }: Props) {
               borderBottomLeftRadius: 8,
               borderBottomRightRadius: 8,
             }}
-            testID="radio/CREAL"
+            testID="radio/cREAL"
           />
         </View>
       </ScrollView>
@@ -231,6 +225,10 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginTop: 40,
     marginBottom: 24,
+  },
+  radioMiddle: {
+    borderTopWidth: 0.5,
+    borderBottomWidth: 0.5,
   },
 })
 

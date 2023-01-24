@@ -21,7 +21,7 @@ import useSelector from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
-import { CiCoCurrency, Currency } from 'src/utils/currencies'
+import { CiCoCurrency, Currency, resolveCloudFunctionDigitalAsset } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
@@ -60,7 +60,7 @@ function CashInBottomSheet() {
           userLocation,
           walletAddress: account,
           fiatCurrency: localCurrency,
-          digitalAsset: currencyToBuy,
+          digitalAsset: resolveCloudFunctionDigitalAsset(currencyToBuy),
           fiatAmount: 20,
           digitalAssetAmount: 20,
           txType: 'buy',

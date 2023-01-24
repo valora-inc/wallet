@@ -67,9 +67,9 @@ export default class ExternalQuote extends NormalizedQuote {
 
   getFeeInCrypto(
     exchangeRates: { [token in Currency]: string | null },
-    tokenInfo: TokenBalance | undefined
+    tokenInfo: TokenBalance
   ): BigNumber | null {
-    const fee = this.getFeeInFiat(exchangeRates)
+    const fee = this.getFeeInFiat(exchangeRates, tokenInfo)
     return convertLocalToTokenAmount({
       localAmount: fee,
       exchangeRates,
@@ -77,7 +77,10 @@ export default class ExternalQuote extends NormalizedQuote {
     })
   }
 
-  getFeeInFiat(_exchangeRates: { [token in Currency]: string | null }): BigNumber | null {
+  getFeeInFiat(
+    _exchangeRates: { [token in Currency]: string | null },
+    _tokenInfo: TokenBalance
+  ): BigNumber | null {
     return isSimplexQuote(this.quote)
       ? new BigNumber(this.quote.fiat_money.total_amount).minus(
           new BigNumber(this.quote.fiat_money.base_amount)

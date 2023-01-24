@@ -176,7 +176,7 @@ export function PaymentMethodSection({
   }
 
   const renderFeeAmount = (normalizedQuote: NormalizedQuote, postFix: string) => {
-    const feeAmount = normalizedQuote.getFeeInCrypto(exchangeRates, tokenInfo)
+    const feeAmount = !!tokenInfo && normalizedQuote.getFeeInCrypto(exchangeRates, tokenInfo)
 
     return (
       <>
@@ -227,11 +227,13 @@ export function PaymentMethodSection({
                     {renderFeeAmount(normalizedQuote, t('selectProviderScreen.fee'))}
                   </Text>
                   <Text style={styles.expandedInfo}>{renderInfoText(normalizedQuote)}</Text>
-                  {index === 0 && normalizedQuote.getFeeInCrypto(exchangeRates, tokenInfo) && (
-                    <Text testID={`${paymentMethod}/bestRate`} style={styles.expandedTag}>
-                      {t('selectProviderScreen.bestRate')}
-                    </Text>
-                  )}
+                  {index === 0 &&
+                    !!tokenInfo &&
+                    normalizedQuote.getFeeInCrypto(exchangeRates, tokenInfo) && (
+                      <Text testID={`${paymentMethod}/bestRate`} style={styles.expandedTag}>
+                        {t('selectProviderScreen.bestRate')}
+                      </Text>
+                    )}
                 </View>
 
                 {renderProviderInfo(normalizedQuote)}

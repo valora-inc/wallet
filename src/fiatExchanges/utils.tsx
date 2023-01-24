@@ -30,11 +30,17 @@ export enum PaymentMethod {
   FiatConnectMobileMoney = 'FiatConnectMobileMoney',
 }
 
+export enum CloudFunctionDigitalAsset {
+  CELO = 'CELO',
+  CUSD = 'CUSD',
+  CEUR = 'CEUR',
+  CREAL = 'CREAL',
+}
 interface ProviderRequestData {
   userLocation: UserLocationData
   walletAddress: string
   fiatCurrency: LocalCurrencyCode
-  digitalAsset: string
+  digitalAsset: CloudFunctionDigitalAsset
   fiatAmount?: number
   digitalAssetAmount?: number
   txType: 'buy' | 'sell'
