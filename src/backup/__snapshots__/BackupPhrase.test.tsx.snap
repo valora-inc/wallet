@@ -37,7 +37,7 @@ exports[`renders correctly with backup completed 1`] = `
     >
       <Modal
         animationType="none"
-        deviceHeight={null}
+        deviceHeight={1334}
         deviceWidth={null}
         hardwareAccelerated={false}
         hideModalContentWhileAnimating={false}
@@ -91,7 +91,7 @@ exports[`renders correctly with backup completed 1`] = `
         />
         <View
           collapsable={false}
-          deviceHeight={null}
+          deviceHeight={1334}
           deviceWidth={null}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
@@ -511,7 +511,7 @@ exports[`renders correctly with backup not completed 1`] = `
     >
       <Modal
         animationType="none"
-        deviceHeight={null}
+        deviceHeight={1334}
         deviceWidth={null}
         hardwareAccelerated={false}
         hideModalContentWhileAnimating={false}
@@ -565,7 +565,7 @@ exports[`renders correctly with backup not completed 1`] = `
         />
         <View
           collapsable={false}
-          deviceHeight={null}
+          deviceHeight={1334}
           deviceWidth={null}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
@@ -1103,7 +1103,7 @@ exports[`still renders when mnemonic doesnt show up 1`] = `
     >
       <Modal
         animationType="none"
-        deviceHeight={null}
+        deviceHeight={1334}
         deviceWidth={null}
         hardwareAccelerated={false}
         hideModalContentWhileAnimating={false}
@@ -1157,7 +1157,7 @@ exports[`still renders when mnemonic doesnt show up 1`] = `
         />
         <View
           collapsable={false}
-          deviceHeight={null}
+          deviceHeight={1334}
           deviceWidth={null}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
