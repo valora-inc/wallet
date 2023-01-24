@@ -256,7 +256,7 @@ PODS:
     - RNPermissions
   - Permission-Camera (3.0.3):
     - RNPermissions
-  - PersonaInquirySDK (1.1.18)
+  - PersonaInquirySDK (1.1.28)
   - Plaid (2.3.2)
   - PromisesObjC (1.2.12)
   - RCT-Folly (2021.06.28.00-v2):
@@ -665,8 +665,8 @@ PODS:
     - React-Core
   - RNPermissions (3.0.3):
     - React-Core
-  - RNPersonaInquiry (1.2.0):
-    - PersonaInquirySDK (~> 1.1.7)
+  - RNPersonaInquiry (1.3.3):
+    - PersonaInquirySDK (~> 1.1.28)
     - React-Core
   - RNReanimated (2.5.0):
     - DoubleConversion
@@ -1168,7 +1168,7 @@ SPEC CHECKSUMS:
   OpenSSL-Universal: 1aa4f6a6ee7256b83db99ec1ccdaa80d10f9af9b
   Permission-AppTrackingTransparency: 7e4612104f43441744dc472d5b258daee5b71f7b
   Permission-Camera: 6abdb054620b2f6b3bf9e0b3842db246424d4d48
-  PersonaInquirySDK: d7be5e1ab62e15e5dae2fe715a43765d22e2661c
+  PersonaInquirySDK: fa8d510f457c9a51aa75df274a4c780e728c1c67
   Plaid: 4d8d4ff0a6d627f5faf3055a9cba8890ea6b5076
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
   RCT-Folly: a21c126816d8025b547704b777a2ba552f3d9fa9
@@ -1244,7 +1244,7 @@ SPEC CHECKSUMS:
   RNKeychain: 4f63aada75ebafd26f4bc2c670199461eab85d94
   RNLocalize: f567ea0e35116a641cdffe6683b0d212d568f32a
   RNPermissions: 034db8a73d562766f990c89abbdeaa5d6e204c67
-  RNPersonaInquiry: e8d8f3fe4807f6a826ff96e7fb64f482ef6c4e97
+  RNPersonaInquiry: 5727f64dc136435bd1a674ed51a8b4d34a225d7f
   RNReanimated: ee33ab40fa252332a36aeed9d936801ed9700b24
   RNScreens: 40a2cb40a02a609938137a1e0acfbf8fc9eebf19
   RNSecureRandom: b0b479d7b934a3e6deea9cb986a9c40cb5f1b360
@@ -1262,6 +1262,6 @@ SPEC CHECKSUMS:
   Yoga: e7dc4e71caba6472ff48ad7d234389b91dadc280
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: bb3e9028afd8ec5226f453db33fc4eff707d2bfe
+PODFILE CHECKSUM: de73440ffa75bdf592bd49bb64cba5188e9546f7
 
 COCOAPODS: 1.11.3

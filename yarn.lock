@@ -15024,7 +15024,7 @@ object-keys@^1.0.11, object-keys@^1.0.12, object-keys@^1.1.1:
   resolved "https://registry.yarnpkg.com/object-keys/-/object-keys-1.1.1.tgz#1c47f272df277f3b1daf061677d9c82e2322c60e"
   integrity sha512-NuAESUOUMrlIXOfHKzD6bpPu3tYt3xvjNdRIQ+FeT0lNb4K8WR70CaDxhuNguS2XG+GjkyMwOzsN5ZktImfhLA==
 
-object-path@^0.11.4:
+object-path@^0.11.8:
   version "0.11.8"
   resolved "https://registry.yarnpkg.com/object-path/-/object-path-0.11.8.tgz#ed002c02bbdd0070b78a27455e8ae01fc14d4742"
   integrity sha512-YJjNZrlXJFM42wTBn6zgOJVar9KFJvzx6sTWDte8sWZF//cnjl0BxHNpfZx+ZffXX63A9q0b1zsFiBX4g4X5KA==
@@ -16593,17 +16593,17 @@ react-native-permissions@^3.0.3:
   resolved "https://registry.yarnpkg.com/react-native-permissions/-/react-native-permissions-3.0.3.tgz#aa90649728a9720b0de9cfcfdb447b35a6630de0"
   integrity sha512-8xiEnU29qHZcT05XXwhPHiLChTt82Pn5Z/nFdDOYGNFZ+IYSbYeGmIxFpratCRO6dgLptNaDFDPiyw2X7UZTeg==
 
-react-native-persona@1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/react-native-persona/-/react-native-persona-1.2.0.tgz#dfac527f345e879a3920b23b0896696acca6cdf7"
-  integrity sha512-3Ff3fOV8leV4R/bHQkha5b8rCHbQuw9krW9TQwC9QOYHUgfoYHgDFobu9unSwoMNdrIQQ5DKhYPOe9PHYcT0sw==
+react-native-persona@1.3.3:
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/react-native-persona/-/react-native-persona-1.3.3.tgz#19f6e9c290554ec8a588119b5b788530ec491ef5"
+  integrity sha512-00abuO9Ydz1JZQLUgHnJacURO9dJ6O7kQfjN3yRasy8T9f/2gTnjOjOBpyMvEYyGl6nGNQSkuHieHfOD0CXfSg==
   dependencies:
     chalk "^4.0.0"
     cli-table "^0.3.1"
     cosmiconfig "^6.0.0"
     inquirer "^7.1.0"
     minimist "^1.2.5"
-    object-path "^0.11.4"
+    object-path "^0.11.8"
     pkg-up "^3.1.0"
     xmlbuilder2 "^2.1.2"
 
