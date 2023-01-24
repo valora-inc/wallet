@@ -11,6 +11,7 @@ exports[`AccountNumber renders correctly when touch disabled 1`] = `
       "marginVertical": 8,
     }
   }
+  testID="AccountNumber"
 >
   0x 0000 0000 0000 0000 0000 0000 0000 0000 0000 7E57
 </Text>
@@ -47,6 +48,7 @@ exports[`AccountNumber renders correctly when touch enabled 1`] = `
         "marginVertical": 8,
       }
     }
+    testID="AccountNumber"
   >
     0x 0000 0000 0000 0000 0000 0000 0000 0000 0000 7E57
   </Text>
