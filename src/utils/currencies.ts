@@ -13,13 +13,16 @@ export enum CiCoCurrency {
   cREAL = 'cREAL',
 }
 
-export const cicoCurrencyTranslationKeys = {
-  [CiCoCurrency.CELO]: null,
-  [CiCoCurrency.cEUR]: 'celoEuro',
-  [CiCoCurrency.cUSD]: 'celoDollar',
-  [CiCoCurrency.cREAL]: 'celoReal',
+// A small hack to keep data continuity as we onboard cREAL but move away from the Currency enum
+export type CurrencyOrCREAL = Currency | 'cReal'
+export const currencyForAnalytics: {
+  [key in CiCoCurrency]: CurrencyOrCREAL
+} = {
+  [CiCoCurrency.CELO]: Currency.Celo,
+  [CiCoCurrency.cEUR]: Currency.Euro,
+  [CiCoCurrency.cUSD]: Currency.Dollar,
+  [CiCoCurrency.cREAL]: 'cReal',
 }
-
 export interface CurrencyInfo {
   symbol: string
   displayDecimals: number

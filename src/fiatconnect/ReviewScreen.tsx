@@ -16,7 +16,7 @@ import Dialog from 'src/components/Dialog'
 import LineItemRow from 'src/components/LineItemRow'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
-import { estimateFee, FeeEstimateState, FeeType } from 'src/fees/reducer'
+import { estimateFee, FeeType } from 'src/fees/reducer'
 import { feeEstimatesSelector } from 'src/fees/selectors'
 import { convertToFiatConnectFiatCurrency } from 'src/fiatconnect'
 import {
@@ -67,6 +67,11 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
   const tokenAddress = tokenList.find((token) => token.symbol === cryptoType)?.address
   const feeEstimates = useSelector(feeEstimatesSelector)
   const feeEstimate = tokenAddress ? feeEstimates[tokenAddress]?.[feeType] : undefined
+  const usdTokenInfo = useTokenInfoBySymbol(CiCoCurrency.cUSD)!
+  const networkFee = useLocalToTokenAmount(
+    feeEstimate?.usdFee ? new BigNumber(feeEstimate?.usdFee) : new BigNumber(0),
+    usdTokenInfo.address
+  )!
 
   useEffect(() => {
     if (!feeEstimate && tokenAddress) {
@@ -229,12 +234,8 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
         {t('fiatConnectReviewScreen.quoteExpiredDialog.body')}
       </Dialog>
       <View>
-        <ReceiveAmount flow={flow} normalizedQuote={normalizedQuote} feeEstimate={feeEstimate} />
-        <TransactionDetails
-          flow={flow}
-          normalizedQuote={normalizedQuote}
-          feeEstimate={feeEstimate}
-        />
+        <ReceiveAmount flow={flow} normalizedQuote={normalizedQuote} networkFee={networkFee} />
+        <TransactionDetails flow={flow} normalizedQuote={normalizedQuote} networkFee={networkFee} />
         <PaymentMethod flow={flow} normalizedQuote={normalizedQuote} fiatAccount={fiatAccount} />
       </View>
       <View>
@@ -282,20 +283,15 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
 function ReceiveAmount({
   flow,
   normalizedQuote,
-  feeEstimate,
+  networkFee,
 }: {
   flow: CICOFlow
   normalizedQuote: FiatConnectQuote
-  feeEstimate?: FeeEstimateState
+  networkFee: BigNumber
 }) {
   const { t } = useTranslation()
   const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)!
   const tokenInfo = useTokenInfoBySymbol(normalizedQuote.getCryptoType())!
-  const usdTokenInfo = useTokenInfoBySymbol(CiCoCurrency.cUSD)!
-  const networkFee = useLocalToTokenAmount(
-    feeEstimate?.usdFee ? new BigNumber(feeEstimate?.usdFee) : new BigNumber(0),
-    usdTokenInfo.address
-  )!
   const { receiveDisplay } = getDisplayAmounts({
     flow,
     normalizedQuote,
@@ -455,19 +451,14 @@ function getDisplayAmounts({
 function TransactionDetails({
   flow,
   normalizedQuote,
-  feeEstimate,
+  networkFee,
 }: {
   flow: CICOFlow
   normalizedQuote: FiatConnectQuote
-  feeEstimate?: FeeEstimateState
+  networkFee: BigNumber
 }) {
   const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)!
   const tokenInfo = useTokenInfoBySymbol(normalizedQuote.getCryptoType())
-  const usdTokenInfo = useTokenInfoBySymbol(CiCoCurrency.cUSD)!
-  const networkFee = useLocalToTokenAmount(
-    feeEstimate?.usdFee ? new BigNumber(feeEstimate?.usdFee) : new BigNumber(0),
-    usdTokenInfo.address
-  )!
 
   const { receiveDisplay, totalDisplay, feeDisplay, exchangeRateDisplay, totalMinusFeeDisplay } =
     getDisplayAmounts({

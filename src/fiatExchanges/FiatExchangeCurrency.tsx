@@ -17,7 +17,7 @@ import { StackParamList } from 'src/navigator/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
-import { CiCoCurrency, resolveCurrency } from 'src/utils/currencies'
+import { CiCoCurrency, currencyForAnalytics, resolveCurrency } from 'src/utils/currencies'
 import { CICOFlow, FiatExchangeFlow } from './utils'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.FiatExchangeCurrency>
@@ -97,7 +97,7 @@ function FiatExchangeCurrency({ route, navigation }: Props) {
   const goToProvider = () => {
     ValoraAnalytics.track(FiatExchangeEvents.cico_currency_chosen, {
       flow,
-      currency: selectedCurrency,
+      currency: currencyForAnalytics[selectedCurrency],
     })
     if (flow === FiatExchangeFlow.Spend) {
       return navigate(Screens.BidaliScreen, {

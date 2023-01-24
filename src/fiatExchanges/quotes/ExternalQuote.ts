@@ -12,6 +12,7 @@ import i18n from 'src/i18n'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TokenBalance } from 'src/tokens/slice'
+import { convertLocalToTokenAmount } from 'src/tokens/utils'
 import { CiCoCurrency, Currency, resolveCICOCurrency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 
@@ -69,13 +70,11 @@ export default class ExternalQuote extends NormalizedQuote {
     tokenInfo: TokenBalance | undefined
   ): BigNumber | null {
     const fee = this.getFeeInFiat(exchangeRates)
-    const tokenUsdPrice = tokenInfo?.usdPrice
-    const usdExchangeRate = exchangeRates[Currency.Dollar]
-    if (!tokenUsdPrice || !usdExchangeRate || !fee) {
-      return null
-    }
-
-    return fee.dividedBy(usdExchangeRate).dividedBy(tokenUsdPrice)
+    return convertLocalToTokenAmount({
+      localAmount: fee,
+      exchangeRates,
+      tokenInfo,
+    })
   }
 
   getFeeInFiat(_exchangeRates: { [token in Currency]: string | null }): BigNumber | null {

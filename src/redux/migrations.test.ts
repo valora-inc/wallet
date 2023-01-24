@@ -778,7 +778,7 @@ describe('Redux persist migrations', () => {
         cachedFiatAccountUses: [
           {
             providerId: 'provider-two',
-            cryptoType: CiCoCurrency.cUSD,
+            cryptoType: Currency.Dollar,
           },
           {
             providerId: 'provider-one',
@@ -790,7 +790,7 @@ describe('Redux persist migrations', () => {
             ['some-schema']: {
               cryptoAmount: '10',
               fiatAmount: '10',
-              cryptoType: CiCoCurrency.cUSD,
+              cryptoType: Currency.Dollar,
             },
           },
           'some-other-provider': {

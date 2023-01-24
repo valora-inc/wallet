@@ -3,7 +3,7 @@ import { RouteProp } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import React, { useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, Text, TextInput, View } from 'react-native'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -33,7 +33,7 @@ import i18n from 'src/i18n'
 import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts'
 import { useLocalCurrencyCode } from 'src/localCurrency/hooks'
 import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
-import { emptyHeader, FiatExchangeBalanceHeader } from 'src/navigator/Headers'
+import { emptyHeader, HeaderTitleWithSubtitle } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -47,7 +47,7 @@ import {
   useTokenInfoBySymbol,
   useTokenToLocalAmount,
 } from 'src/tokens/hooks'
-import { CiCoCurrency, cicoCurrencyTranslationKeys, Currency } from 'src/utils/currencies'
+import { CiCoCurrency, Currency, currencyForAnalytics } from 'src/utils/currencies'
 import { roundUp } from 'src/utils/formatting'
 import Logger from 'src/utils/Logger'
 import { CICOFlow, isUserInputCrypto } from './utils'
@@ -55,6 +55,13 @@ import { CICOFlow, isUserInputCrypto } from './utils'
 const TAG = 'FiatExchangeAmount'
 
 const { decimalSeparator } = getNumberFormatSettings()
+
+const cicoCurrencyTranslationKeys = {
+  [CiCoCurrency.CELO]: null,
+  [CiCoCurrency.cEUR]: 'celoEuro',
+  [CiCoCurrency.cUSD]: 'celoDollar',
+  [CiCoCurrency.cREAL]: 'celoReal',
+}
 
 type RouteProps = NativeStackScreenProps<StackParamList, Screens.FiatExchangeAmount>
 
@@ -137,7 +144,7 @@ function FiatExchangeAmount({ route }: Props) {
   function goToProvidersScreen() {
     ValoraAnalytics.track(FiatExchangeEvents.cico_amount_chosen, {
       amount: inputCryptoAmount.toNumber(),
-      currency,
+      currency: currencyForAnalytics[currency],
       flow,
     })
     const amount = {
@@ -182,7 +189,7 @@ function FiatExchangeAmount({ route }: Props) {
         setShowingInvalidAmountDialog(true)
         ValoraAnalytics.track(FiatExchangeEvents.cico_amount_chosen_invalid, {
           amount: inputCryptoAmount.toNumber(),
-          currency,
+          currency: currencyForAnalytics[currency],
           flow,
         })
         return
@@ -285,6 +292,37 @@ function FiatExchangeAmount({ route }: Props) {
   )
 }
 
+interface FiatExchangeHeaderProps {
+  title: string | JSX.Element
+  currency: CiCoCurrency
+  displayCrypto: boolean
+}
+
+function FiatExchangeBalanceHeader({
+  title,
+  displayCrypto,
+  currency = CiCoCurrency.CELO,
+}: FiatExchangeHeaderProps) {
+  const tokenInfo = useTokenInfoBySymbol(currency)
+  const subTitle =
+    tokenInfo?.balance != undefined ? (
+      <Trans i18nKey="balanceAvailable">
+        <TokenDisplay
+          amount={tokenInfo.balance}
+          tokenAddress={tokenInfo.address}
+          showLocalAmount={!displayCrypto}
+          hideSign={false}
+          style={styles.headerSubTitle}
+        />
+      </Trans>
+    ) : (
+      // TODO: a null balance doesn't necessarily mean it's loading
+      i18n.t('loading')
+    )
+
+  return <HeaderTitleWithSubtitle title={title} subTitle={subTitle} />
+}
+
 FiatExchangeAmount.navOptions = ({
   route,
 }: {
@@ -354,5 +392,8 @@ const styles = StyleSheet.create({
     ...fontStyles.small,
     color: colors.gray4,
     textAlign: 'center',
+  },
+  headerSubTitle: {
+    color: colors.gray4,
   },
 })

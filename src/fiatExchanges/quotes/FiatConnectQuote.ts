@@ -15,7 +15,8 @@ import NormalizedQuote from 'src/fiatExchanges/quotes/NormalizedQuote'
 import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import i18n from 'src/i18n'
 import { TokenBalance } from 'src/tokens/slice'
-import { CiCoCurrency, Currency } from 'src/utils/currencies'
+import { convertLocalToTokenAmount, convertTokenToLocalAmount } from 'src/tokens/utils'
+import { CiCoCurrency, resolveCICOCurrency } from 'src/utils/currencies'
 
 const kycStrings = {
   [KycSchema.PersonalDataAndDocuments]: i18n.t('selectProviderScreen.idRequired'),
@@ -115,13 +116,11 @@ export default class FiatConnectQuote extends NormalizedQuote {
     if (this.flow === CICOFlow.CashOut) {
       return fee
     }
-    const tokenUsdPrice = tokenInfo?.usdPrice
-    const usdExchangeRate = exchangeRates[Currency.Dollar]
-    if (!tokenUsdPrice || !usdExchangeRate || !fee) {
-      return null
-    }
-
-    return fee.dividedBy(usdExchangeRate).dividedBy(tokenUsdPrice)
+    return convertLocalToTokenAmount({
+      localAmount: fee,
+      tokenInfo,
+      exchangeRates,
+    })
   }
 
   // FiatConnect quotes denominate fees in fiat & crypto for CashIn & CashOut respectively
@@ -133,13 +132,11 @@ export default class FiatConnectQuote extends NormalizedQuote {
     if (this.flow === CICOFlow.CashIn) {
       return fee
     }
-    const tokenUsdPrice = tokenInfo?.usdPrice
-    const usdExchangeRate = exchangeRates[Currency.Dollar]
-    if (!tokenUsdPrice || !usdExchangeRate || !fee) {
-      return null
-    }
-
-    return fee.multipliedBy(tokenUsdPrice).multipliedBy(usdExchangeRate)
+    return convertTokenToLocalAmount({
+      tokenAmount: fee,
+      tokenInfo,
+      exchangeRates,
+    })
   }
 
   getKycInfo(): string | null {
@@ -226,7 +223,7 @@ export default class FiatConnectQuote extends NormalizedQuote {
   }
 
   getCryptoType(): CiCoCurrency {
-    return this.quote.quote.cryptoType as unknown as CiCoCurrency
+    return resolveCICOCurrency(this.quote.quote.cryptoType)
   }
 
   getFiatAccountType(): FiatAccountType {
