@@ -777,6 +777,7 @@
   },
   "importExistingKey": {
     "explanation": "Votre Phrase de récupération est une phrase de 24 mots que vous avez écrite et enregistrée lorsque vous avez créé votre compte. Veuillez la saisir ici pour restaurer votre compte.",
+    "explanationV1_50": "Ta phrase de récupération est une phrase de 12 ou 24 mots que tu as écrite et enregistrée lors de la création de ton compte. Saisis-la ici pour restaurer ton compte.",
     "keyPlaceholder": "cheval léopard chien singe ..."
   },
   "verificationInput": {
@@ -1513,7 +1514,7 @@
     "title": "Il semble que {{contactName}} n'ait pas encore un wallet {{appName}}.",
     "body": "Vous pouvez l'inviter ou essayer d'envoyer un paiement à son adresse du wallet ou nom.space.",
     "sendInviteButtonLabel": "Envoyer l'invitation",
-    "shareMessage": "Bonjour ! J'aimerais t'envoyer de la cryptomonnaie à partir de mon wallet {{appName}}. Une fois que tu auras téléchargé l'application et connecté ton numéro de téléphone, nous pourrons envoyer des cryptomonnaies aussi simplement que s'il s'agissait d'un message texte. Utilise ce lien : {{link}}",
+    "shareMessage": "Salut ! J'utilise {{appName}} comme porte-monnaie cryptographique et je veux t'inviter à le découvrir. Une fois que tu auras téléchargé l'application et connecté ton numéro de téléphone, nous recevrons tous les deux un NFT spécial. Utilise ce lien : {{link}}",
     "rewardsActive": {
       "title": "Invitez {{contactName}} à {{appName}} et recevez tous les deux des NFT !",
       "body": "Il semble que {{contactName}} n'est pas sur {{appName}}. Si vous connaissez l'adresse de son portefeuille, vous pouvez toujours lui envoyer un paiement direct ou lui faire parvenir une invitation.. \n\nDès que votre contact aura téléchargé son portefeuille et connecté son numéro de téléphone, vous recevrez tous les deux un NFT exclusif."

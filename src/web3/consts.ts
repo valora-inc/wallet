@@ -7,3 +7,5 @@ export const WEI_PER_TOKEN = new BigNumber(10).pow(WEI_DECIMALS)
 
 // Whenever the user enters their PIN, leave the account unlocked for 10 minutes.
 export const UNLOCK_DURATION = 600
+
+export const ETHEREUM_DERIVATION_PATH = "m/44'/60'/0'"

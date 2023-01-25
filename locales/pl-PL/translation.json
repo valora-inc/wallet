@@ -777,6 +777,7 @@
   },
   "importExistingKey": {
     "explanation": "Twoja fraza odzyskiwania to 24 słowa, które ustawiłeś(-aś) i zapisałeś(-aś) podczas zakładania konta. Wpisz je tutaj, aby przywrócić konto.",
+    "explanationV1_50": "Twoja fraza odzyskiwania to 12 lub 24 słowa, które zapisałeś podczas zakładania konta. Wpisz je tutaj, aby przywrócić swoje konto.",
     "keyPlaceholder": "koń lampart pies małpa ..."
   },
   "verificationInput": {
@@ -1517,7 +1518,7 @@
     "title": "Wygląda na to, że {{contactName}} nie ma jeszcze portfela w {{appName}}.",
     "body": "Nadal możesz wysłać zaproszenie do {{appName}} lub spróbować wysłać płatność na adres portfela albo nom.space.",
     "sendInviteButtonLabel": "Wyślij zaproszenie",
-    "shareMessage": "Witaj! Chcę wysłać Ci trochę kryptowaluty za pomocą mojego portfela {{appName}}. Gdy pobierzesz aplikację i podasz swój numer telefonu, możemy wysłać kryptowalutę tak łatwo, jak za pomocą SMS-a. Użyj tego linku: {{link}}",
+    "shareMessage": "Cześć! Używam {{appName}} jako mojego portfela kryptowalutowego i chcę Cię zaprosić do sprawdzenia go. Gdy pobierzesz aplikację i podłączysz swój numer telefonu, obaj dostaniemy specjalne NFT. Użyj tego linku: {{link}}",
     "rewardsActive": {
       "title": "Zaproś {{contactName}} do {{appName}}, a razem otrzymacie NFT!",
       "body": "Wygląda na to, że {{contactName}} nie korzysta z {{appName}}. Jeśli znasz adres jego/jej portfela, nadal możesz wysłać płatność lub zaproszenie. \n\n Po pobraniu portfela i podaniu numeru telefonu otrzymacie ekskluzywne NFT."
