@@ -18,7 +18,7 @@ import { isDekRegisteredSelector } from 'src/web3/selectors'
 export default function FeeContainer({ amount }: { amount: BigNumber }) {
   const LOG_TAG = BASE_TAG + 'FeeContainer'
 
-  const dispatch = useDispatch() as (...args: unknown[]) => void
+  const dispatch = useDispatch()
   const feeEstimates = useSelector(feeEstimatesSelector)
   const tokenInfo = useTokenInfoBySymbol(Currency.Dollar)
   const isDekRegistered = useSelector(isDekRegisteredSelector) ?? false
