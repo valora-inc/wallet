@@ -27,13 +27,15 @@ export default function ShakeForSupport() {
       // Don't listen to the shake event if the app is not in the foreground
       return
     }
-    RNShake.addEventListener('ShakeEvent', () => {
+
+    const subscription = RNShake.addListener(() => {
       Logger.info('NavigatorWrapper', 'Shake Event')
       // TODO: Cancel all modals before this
       setIsVisible(true)
     })
+
     return () => {
-      RNShake.removeEventListener('ShakeEvent')
+      subscription?.remove()
     }
   }, [appState])
 
