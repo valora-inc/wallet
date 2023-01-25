@@ -6,7 +6,6 @@ import { Currency } from 'src/utils/currencies'
 import {
   DEFAULT_DAILY_PAYMENT_LIMIT_CUSD_LEGACY,
   v0Schema,
-  v103Schema,
   v13Schema,
   v14Schema,
   v15Schema,
