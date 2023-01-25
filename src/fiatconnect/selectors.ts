@@ -20,3 +20,6 @@ export const cachedQuoteParamsSelector = (state: RootState) => state.fiatConnect
 export const schemaCountryOverridesSelector = (state: RootState) =>
   state.fiatConnect.schemaCountryOverrides
 export const personaInProgressSelector = (state: RootState) => state.fiatConnect.personaInProgress
+export const getCachedFiatConnectTransfer = (txHashToFind: string) => (state: RootState) => {
+  return state.fiatConnect.cachedTransfers.find(({ txHash }) => txHash === txHashToFind)
+}

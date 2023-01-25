@@ -47,11 +47,19 @@ export interface CachedQuoteParams {
   fiatType: FiatType
 }
 
+export interface TransferDetails {
+  txHash: string
+  transferId: string
+  fiatAccountId: string
+  quote: FiatConnectQuote
+}
+
 export interface State {
   quotes: (FiatConnectQuoteSuccess | FiatConnectQuoteError)[]
   quotesLoading: boolean
   quotesError: string | null
   transfer: FiatConnectTransfer | null
+  cachedTransfers: TransferDetails[]
   providers: FiatConnectProviderInfo[] | null
   cachedFiatAccountUses: CachedFiatAccountUse[]
   attemptReturnUserFlowLoading: boolean
@@ -67,11 +75,12 @@ export interface State {
   personaInProgress: boolean
 }
 
-const initialState: State = {
+export const initialState: State = {
   quotes: [],
   quotesLoading: false,
   quotesError: null,
   transfer: null,
+  cachedTransfers: [],
   providers: null,
   cachedFiatAccountUses: [],
   attemptReturnUserFlowLoading: false,
@@ -145,6 +154,13 @@ export interface CreateFiatConnectTransferCompletedAction {
   flow: CICOFlow
   quoteId: string
   txHash: string | null
+}
+
+export interface CacheFiatConnectTransferAction {
+  txHash: string
+  transferId: string
+  fiatAccountId: string
+  quote: FiatConnectQuote
 }
 
 export interface CreateFiatConnectTransferTxProcessingAction {
@@ -287,6 +303,15 @@ export const slice = createSlice({
         status: SendingTransferStatus.TxProcessing,
       }
     },
+    cacheFiatConnectTransfer: (state, action: PayloadAction<CacheFiatConnectTransferAction>) => {
+      const transferDetails: TransferDetails = {
+        txHash: action.payload.txHash,
+        transferId: action.payload.transferId,
+        fiatAccountId: action.payload.fiatAccountId,
+        quote: action.payload.quote,
+      }
+      state.cachedTransfers = [transferDetails, ...state.cachedTransfers]
+    },
     fetchFiatConnectProviders: () => {
       // no state update
     },
@@ -352,6 +377,7 @@ export const {
   createFiatConnectTransferFailed,
   createFiatConnectTransferCompleted,
   createFiatConnectTransferTxProcessing,
+  cacheFiatConnectTransfer,
   fetchFiatConnectProviders,
   fetchFiatConnectProvidersCompleted,
   submitFiatAccount,
