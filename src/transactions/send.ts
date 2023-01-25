@@ -33,6 +33,7 @@ const NONCE_TOO_LOW_ERROR = 'nonce too low'
 const OUT_OF_GAS_ERROR = 'out of gas'
 const ALWAYS_FAILING_ERROR = 'always failing transaction'
 const KNOWN_TX_ERROR = 'known transaction'
+const CHECK_FOR_TX_RECEIPT_ERROR = 'failed to check for transaction receipt'
 
 // 90s. Maximum total time to wait for confirmation when sending a transaction. (Includes grace period)
 const TX_TIMEOUT = 90000
@@ -352,6 +353,14 @@ export function isTxPossiblyPending(err: any): boolean {
     Logger.error(
       `${TAG}@isTxPossiblyPending`,
       'Nonce too low, possible from retrying. Will not reattempt.'
+    )
+    return true
+  }
+
+  if (message.includes(CHECK_FOR_TX_RECEIPT_ERROR)) {
+    Logger.error(
+      `${TAG}@isTxPossiblyPending`,
+      'Failed to check for tx receipt, but tx still might be confirmed. Will not reattempt'
     )
     return true
   }
