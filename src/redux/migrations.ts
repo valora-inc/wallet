@@ -978,4 +978,11 @@ export const migrations = {
       celoEducationCompleted: state.goldToken.educationCompleted,
     },
   }),
+  105: (state: any) => ({
+    ...state,
+    fiatConnect: {
+      ...state.fiatConnect,
+      cachedTransfers: [],
+    },
+  }),
 }
