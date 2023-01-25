@@ -442,8 +442,7 @@ PODS:
     - React-Core
   - react-native-cookies (6.2.1):
     - React-Core
-  - react-native-fast-crypto (2.0.0):
-    - OpenSSL-Universal
+  - react-native-fast-crypto (2.2.0):
     - React-Core
   - react-native-flipper (0.127.0):
     - React-Core
@@ -451,13 +450,13 @@ PODS:
     - React-Core
   - react-native-mail (6.1.1):
     - React-Core
-  - react-native-netinfo (5.8.0):
+  - react-native-netinfo (9.3.7):
     - React-Core
   - react-native-randombytes (3.6.0):
     - React-Core
   - react-native-safe-area-context (3.4.1):
     - React-Core
-  - react-native-shake (3.5.0):
+  - react-native-shake (5.1.1):
     - React-Core
   - react-native-simple-toast (1.1.4):
     - React-Core
@@ -553,9 +552,9 @@ PODS:
     - React-Core
   - RNCClipboard (1.11.1):
     - React-Core
-  - RNCMaskedView (0.2.6):
+  - RNCMaskedView (0.2.8):
     - React-Core
-  - RNCPicker (2.4.2):
+  - RNCPicker (2.4.8):
     - React-Core
   - RNDeviceInfo (10.2.0):
     - React-Core
@@ -1058,14 +1057,14 @@ SPEC CHECKSUMS:
   react-native-config: bcafda5b4c51491ee1b0e1d0c4e3905bc7b56c1b
   react-native-contacts: fd1614c74777089ebb6b0a0e3847dd78130ef9f4
   react-native-cookies: f54fcded06bb0cda05c11d86788020b43528a26c
-  react-native-fast-crypto: db61bcb2d1224a180449b886f27426a67d7628c0
+  react-native-fast-crypto: 1a13010b6e56c066711f974a225cfe67683aea15
   react-native-flipper: b9e2e817604af8da0d5a9ba20a8516e780e30f3c
   react-native-get-random-values: a6ea6a8a65dc93e96e24a11105b1a9c8cfe1d72a
   react-native-mail: 8fdcd3aef007c33a6877a18eb4cf7447a1d4ce4a
-  react-native-netinfo: f3f52e6d92372003b78d5cafa3557797c7beee47
+  react-native-netinfo: 2517ad504b3d303e90d7a431b0fcaef76d207983
   react-native-randombytes: b6677f7d495c27e9ee0dbd77ebc97b3c59173729
   react-native-safe-area-context: 9e40fb181dac02619414ba1294d6c2a807056ab9
-  react-native-shake: 41a1ea8ec541fccf3f01566edef8d3cb722b00e3
+  react-native-shake: 51c01abaf54a05d1ee23ddb8faad424c9fcc0569
   react-native-simple-toast: 8ee5d23f0b92b935ab7434cdb65159ce12dfb4b7
   react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
   react-native-webview: 2e8fe70dc32b50d3231c23043f8e8b5a5525d346
@@ -1087,8 +1086,8 @@ SPEC CHECKSUMS:
   RNAnalyticsIntegration-Firebase: 27eb53875cc0208cc64ec35f06fb0f9e3c012add
   RNCAsyncStorage: 8616bd5a58af409453ea4e1b246521bb76578d60
   RNCClipboard: 2834e1c4af68697089cdd455ee4a4cdd198fa7dd
-  RNCMaskedView: c298b644a10c0c142055b3ae24d83879ecb13ccd
-  RNCPicker: 0250e95ad170569a96f5b0555cdd5e65b9084dca
+  RNCMaskedView: bc0170f389056201c82a55e242e5d90070e18e5a
+  RNCPicker: 0bf8ef8f7800524f32d2bb2a8bcadd53eda0ecd1
   RNDeviceInfo: 8b83e99e290deaf1bab71673cc636776ef647b6f
   RNExitApp: b6d5fb7a7ef85d502c45fb2d00840f517d6a4ac7
   RNFBApp: b8704b700f062ed0aa7bbca459b22dd47507a232

@@ -314,7 +314,7 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
   >
     <Modal
       animationType="none"
-      deviceHeight={null}
+      deviceHeight={1334}
       deviceWidth={null}
       hardwareAccelerated={false}
       hideModalContentWhileAnimating={false}
@@ -365,7 +365,7 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
         }
       />
       <View
-        deviceHeight={null}
+        deviceHeight={1334}
         deviceWidth={null}
         forwardedRef={[Function]}
         hideModalContentWhileAnimating={false}

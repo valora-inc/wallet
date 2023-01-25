@@ -3572,13 +3572,17 @@
                         "null",
                         "string"
                     ]
+                },
+                "twelveWordMnemonicEnabled": {
+                    "type": "boolean"
                 }
             },
             "required": [
                 "account",
                 "accountInWeb3Keystore",
                 "dataEncryptionKey",
-                "mtwAddress"
+                "mtwAddress",
+                "twelveWordMnemonicEnabled"
             ],
             "type": "object"
         },

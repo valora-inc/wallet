@@ -7,6 +7,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { navigateToURI } from 'src/utils/linking'
 import { createMockStore } from 'test/utils'
 import { mockProviders } from 'test/values'
+import { CiCoCurrency } from 'src/utils/currencies'
 
 jest.mock('src/analytics/ValoraAnalytics')
 
@@ -85,6 +86,17 @@ describe('ExternalQuote', () => {
       })
       expect(quote.getFeeInCrypto(mockExchangeRates)).toEqual(new BigNumber(2.5))
     })
+    it('returns null when fee is unspecified', () => {
+      const quote = new ExternalQuote({
+        quote: {
+          paymentMethod: PaymentMethod.Card,
+          digitalAsset: CiCoCurrency.CUSD,
+        },
+        provider: mockProviders[1],
+        flow: CICOFlow.CashIn,
+      })
+      expect(quote.getFeeInCrypto(mockExchangeRates)).toEqual(null)
+    })
   })
 
   describe('.getFeeInFiat', () => {
@@ -103,6 +115,17 @@ describe('ExternalQuote', () => {
         flow: CICOFlow.CashIn,
       })
       expect(quote.getFeeInFiat(mockExchangeRates)).toEqual(new BigNumber(5))
+    })
+    it('returns null when fee is unspecified', () => {
+      const quote = new ExternalQuote({
+        quote: {
+          paymentMethod: PaymentMethod.Card,
+          digitalAsset: CiCoCurrency.CUSD,
+        },
+        provider: mockProviders[1],
+        flow: CICOFlow.CashIn,
+      })
+      expect(quote.getFeeInFiat(mockExchangeRates)).toEqual(null)
     })
   })
 

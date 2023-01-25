@@ -1967,9 +1967,9 @@ export const v105Schema = {
     ...v104Schema._persist,
     version: 105,
   },
-  fiatConnect: {
-    ...v104Schema.fiatConnect,
-    cachedTransfers: [],
+  web3: {
+    ...v104Schema.web3,
+    twelveWordMnemonicEnabled: false,
   },
 }
 

@@ -980,9 +980,9 @@ export const migrations = {
   }),
   105: (state: any) => ({
     ...state,
-    fiatConnect: {
-      ...state.fiatConnect,
-      cachedTransfers: [],
+    web3: {
+      ...state.web3,
+      twelveWordMnemonicEnabled: false,
     },
   }),
 }
