@@ -10,6 +10,7 @@ import {
   TransferStatus,
 } from '@fiatconnect/fiatconnect-types'
 import BigNumber from 'bignumber.js'
+import _ from 'lodash'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matches from 'redux-saga-test-plan/matchers'
 import { throwError } from 'redux-saga-test-plan/providers'
@@ -23,6 +24,7 @@ import {
   fiatConnectCashInEnabledSelector,
   fiatConnectCashOutEnabledSelector,
 } from 'src/app/selectors'
+import { FeeInfo } from 'src/fees/saga'
 import { feeEstimatesSelector } from 'src/fees/selectors'
 import { fetchQuotes, FiatConnectQuoteSuccess, getFiatConnectProviders } from 'src/fiatconnect'
 import { getFiatConnectClient } from 'src/fiatconnect/clients'
@@ -50,6 +52,7 @@ import { fiatConnectProvidersSelector } from 'src/fiatconnect/selectors'
 import {
   attemptReturnUserFlow,
   attemptReturnUserFlowCompleted,
+  cacheFiatConnectTransfer,
   cacheQuoteParams,
   createFiatConnectTransfer,
   createFiatConnectTransferCompleted,
@@ -73,6 +76,7 @@ import {
   submitFiatAccountCompleted,
   submitFiatAccountKycApproved,
 } from 'src/fiatconnect/slice'
+import { FiatConnectTxError } from 'src/fiatconnect/types'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { normalizeFiatConnectQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
 import { CICOFlow } from 'src/fiatExchanges/utils'
@@ -84,12 +88,11 @@ import { Screens } from 'src/navigator/Screens'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import { buildAndSendPayment } from 'src/send/saga'
 import { tokensListSelector } from 'src/tokens/selectors'
+import { isTxPossiblyPending } from 'src/transactions/send'
 import { newTransactionContext, TransactionContext } from 'src/transactions/types'
-import { FiatConnectTxError } from 'src/fiatconnect/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { isTxPossiblyPending } from 'src/transactions/send'
 import {
   mockCeloAddress,
   mockCeurAddress,
@@ -102,8 +105,6 @@ import {
 } from 'test/values'
 import { mocked } from 'ts-jest/utils'
 import { v4 as uuidv4 } from 'uuid'
-import _ from 'lodash'
-import { FeeInfo } from 'src/fees/saga'
 
 jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/fiatconnect')
@@ -2030,15 +2031,17 @@ describe('Fiatconnect saga', () => {
       })
       const transferAddress = '0x12345'
       const transactionHash = '0xabc'
+      const transferId = 'transferId12345'
+      const fiatAccountId = 'account1'
       it('calls transfer out and initiates a transaction', async () => {
         const action = createFiatConnectTransfer({
           flow: CICOFlow.CashOut,
           fiatConnectQuote: transferOutFcQuote,
-          fiatAccountId: 'account1',
+          fiatAccountId,
         })
         await expectSaga(handleCreateFiatConnectTransfer, action)
           .provide([
-            [call(_initiateTransferWithProvider, action), { transferAddress }],
+            [call(_initiateTransferWithProvider, action), { transferAddress, transferId }],
             [
               call(_initiateSendTxToProvider, {
                 transferAddress,
@@ -2052,6 +2055,14 @@ describe('Fiatconnect saga', () => {
               flow: CICOFlow.CashOut,
               quoteId: transferOutFcQuote.getQuoteId(),
               txHash: transactionHash,
+            })
+          )
+          .put(
+            cacheFiatConnectTransfer({
+              txHash: transactionHash,
+              transferId,
+              fiatAccountId,
+              quote: transferOutFcQuote,
             })
           )
           .run()
