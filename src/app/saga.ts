@@ -281,12 +281,12 @@ export function* handleDeepLink(action: OpenDeepLink) {
   const rawParams = parse(deepLink)
   if (rawParams.path) {
     const pathParts = rawParams.path.split('/')
-    if (rawParams.path.startsWith('/pay')) {
-      yield call(handlePaymentDeeplink, deepLink)
-    } else if (rawParams.path.startsWith('/payment')) {
+    if (rawParams.path.startsWith('/payment')) {
       // TODO: contact our merchant partner and come up
       // with something that doesn't match /pay, maybe /merchantPay ?
       yield call(paymentDeepLinkHandlerMerchant, deepLink)
+    } else if (rawParams.path.startsWith('/pay')) {
+      yield call(handlePaymentDeeplink, deepLink)
     } else if (rawParams.path.startsWith('/dappkit')) {
       yield call(handleDappkitDeepLink, deepLink)
     } else if (rawParams.path === '/cashIn') {
