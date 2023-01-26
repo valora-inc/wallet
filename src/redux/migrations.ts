@@ -985,4 +985,5 @@ export const migrations = {
       twelveWordMnemonicEnabled: false,
     },
   }),
+  106: (state: any) => state,
 }

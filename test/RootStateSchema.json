@@ -2869,6 +2869,9 @@
                     },
                     "type": "array"
                 },
+                "dappsDisclaimerMinimal": {
+                    "type": "boolean"
+                },
                 "dappsList": {
                     "items": {
                         "$ref": "#/definitions/Dapp"
@@ -2909,6 +2912,7 @@
                 "dappFavoritesEnabled",
                 "dappListApiUrl",
                 "dappsCategories",
+                "dappsDisclaimerMinimal",
                 "dappsList",
                 "dappsListError",
                 "dappsListLoading",
