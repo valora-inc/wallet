@@ -62,6 +62,7 @@ const useDappInfoBottomSheet = () => {
             onPress={onPressMore}
             size={BtnSizes.FULL}
             type={BtnTypes.SECONDARY}
+            testID="DAppsExplorerScreen/InfoBottomSheet/PrimaryAction"
           />
         </View>
       </BottomSheet>
