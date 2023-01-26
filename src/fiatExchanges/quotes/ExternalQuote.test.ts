@@ -7,6 +7,8 @@ import { navigate } from 'src/navigator/NavigationService'
 import { navigateToURI } from 'src/utils/linking'
 import { createMockStore } from 'test/utils'
 import { mockCusdAddress, mockProviders } from 'test/values'
+import { CiCoCurrency } from 'src/utils/currencies'
+import { TokenBalance } from 'src/tokens/slice'
 
 jest.mock('src/analytics/ValoraAnalytics')
 
@@ -82,6 +84,16 @@ describe('ExternalQuote', () => {
   })
 
   describe('.getFeeInCrypto', () => {
+    const mockTokenBalance: TokenBalance = {
+      balance: new BigNumber(0),
+      usdPrice: new BigNumber(1),
+      address: mockCusdAddress,
+      imageUrl: '',
+      lastKnownUsdPrice: new BigNumber(1),
+      decimals: 2,
+      name: 'mock_usd',
+      symbol: 'MU',
+    }
     it('returns converted fee for simplex', () => {
       const quote = new ExternalQuote({
         quote: mockProviders[0].quote as SimplexQuote,
@@ -97,6 +109,17 @@ describe('ExternalQuote', () => {
         flow: CICOFlow.CashIn,
       })
       expect(quote.getFeeInCrypto(mockExchangeRates, mockTokenInfo)).toEqual(new BigNumber(2.5))
+    })
+    it('returns null when fee is unspecified', () => {
+      const quote = new ExternalQuote({
+        quote: {
+          paymentMethod: PaymentMethod.Card,
+          digitalAsset: CiCoCurrency.cUSD,
+        },
+        provider: mockProviders[1],
+        flow: CICOFlow.CashIn,
+      })
+      expect(quote.getFeeInCrypto(mockExchangeRates, mockTokenBalance)).toEqual(null)
     })
   })
 
@@ -116,6 +139,17 @@ describe('ExternalQuote', () => {
         flow: CICOFlow.CashIn,
       })
       expect(quote.getFeeInFiat(mockExchangeRates, mockTokenInfo)).toEqual(new BigNumber(5))
+    })
+    it('returns null when fee is unspecified', () => {
+      const quote = new ExternalQuote({
+        quote: {
+          paymentMethod: PaymentMethod.Card,
+          digitalAsset: CiCoCurrency.cUSD,
+        },
+        provider: mockProviders[1],
+        flow: CICOFlow.CashIn,
+      })
+      expect(quote.getFeeInFiat(mockExchangeRates, mockTokenInfo)).toEqual(null)
     })
   })
 

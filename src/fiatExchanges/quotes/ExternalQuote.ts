@@ -81,11 +81,15 @@ export default class ExternalQuote extends NormalizedQuote {
     _exchangeRates: { [token in Currency]: string | null },
     _tokenInfo: TokenBalance
   ): BigNumber | null {
-    return isSimplexQuote(this.quote)
-      ? new BigNumber(this.quote.fiat_money.total_amount).minus(
-          new BigNumber(this.quote.fiat_money.base_amount)
-        )
-      : new BigNumber(this.quote.fiatFee)
+    if (isSimplexQuote(this.quote)) {
+      return new BigNumber(this.quote.fiat_money.total_amount).minus(
+        new BigNumber(this.quote.fiat_money.base_amount)
+      )
+    } else if (typeof this.quote.fiatFee === 'number') {
+      // Can't just check for truthiness since `0` fails this and introduces a regression
+      return BigNumber(this.quote.fiatFee)
+    }
+    return null
   }
 
   getKycInfo(): string | null {

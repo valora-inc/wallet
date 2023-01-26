@@ -674,6 +674,19 @@ export const mockProviders: FetchProvidersOutput[] = [
     cashIn: true,
     cashOut: false,
   },
+  {
+    name: 'Ramp',
+    restricted: false,
+    unavailable: false,
+    paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
+    url: 'www.fakewebsite.com',
+    logo: 'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Framp.png?alt=media',
+    logoWide:
+      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
+    quote: [],
+    cashIn: false,
+    cashOut: true,
+  },
 ]
 
 export const mockFiatConnectProviderImage =

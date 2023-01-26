@@ -12,6 +12,7 @@ import {
   mockFiatConnectQuotesWithUnknownFees,
   mockProviders,
 } from 'test/values'
+import { CiCoCurrency } from 'src/utils/currencies'
 
 jest.mock('src/utils/Logger', () => ({
   __esModule: true,
@@ -24,7 +25,12 @@ jest.mock('src/utils/Logger', () => ({
 
 describe('normalizeQuotes', () => {
   it('sorts and returns both fiatconnect and external quotes', () => {
-    const normalizedQuotes = normalizeQuotes(CICOFlow.CashIn, mockFiatConnectQuotes, mockProviders)
+    const normalizedQuotes = normalizeQuotes(
+      CICOFlow.CashIn,
+      mockFiatConnectQuotes,
+      mockProviders,
+      CiCoCurrency.CUSD
+    )
     expect(
       normalizedQuotes.map((quote) => [
         quote.getProviderId(),
@@ -54,7 +60,8 @@ describe('normalizeQuotes', () => {
     const normalizedQuotes = normalizeQuotes(
       CICOFlow.CashIn,
       mockFiatConnectQuotesWithUnknownFees,
-      []
+      [],
+      CiCoCurrency.CUSD
     )
     expect(
       normalizedQuotes.map((quote) => [
@@ -117,7 +124,11 @@ describe('normalizeExternalProviders', () => {
     jest.clearAllMocks()
   })
   it('logs when normalization fails', () => {
-    const normalizedExternalQuotes = normalizeExternalProviders(CICOFlow.CashIn, [mockProviders[3]])
+    const normalizedExternalQuotes = normalizeExternalProviders(
+      CICOFlow.CashIn,
+      [mockProviders[3]],
+      CiCoCurrency.CUSD
+    )
     expect(Logger.warn).toHaveBeenCalledWith(
       'NormalizeQuotes',
       Error('Error: Xanpool. Quote is restricted')
@@ -126,14 +137,32 @@ describe('normalizeExternalProviders', () => {
   })
   it('returns normalized quotes when quote is an array', () => {
     // Moonpay with two quotes
-    const normalizedExternalQuotes = normalizeExternalProviders(CICOFlow.CashIn, [mockProviders[1]])
+    const normalizedExternalQuotes = normalizeExternalProviders(
+      CICOFlow.CashIn,
+      [mockProviders[1]],
+      CiCoCurrency.CUSD
+    )
     expect(Logger.warn).not.toHaveBeenCalled()
     expect(normalizedExternalQuotes).toHaveLength(2)
   })
   it('returns normalized quotes when quote is not an array', () => {
     // Simplex quote
-    const normalizedExternalQuotes = normalizeExternalProviders(CICOFlow.CashIn, [mockProviders[0]])
+    const normalizedExternalQuotes = normalizeExternalProviders(
+      CICOFlow.CashIn,
+      [mockProviders[0]],
+      CiCoCurrency.CUSD
+    )
     expect(Logger.warn).not.toHaveBeenCalled()
     expect(normalizedExternalQuotes).toHaveLength(1)
+  })
+  it('returns normalized quotes when quote is an empty array, but provider is available', () => {
+    // Ramp quote, Bank and Card
+    const normalizedExternalQuotes = normalizeExternalProviders(
+      CICOFlow.CashOut,
+      [mockProviders[6]],
+      CiCoCurrency.CUSD
+    )
+    expect(Logger.warn).not.toHaveBeenCalled()
+    expect(normalizedExternalQuotes).toHaveLength(2)
   })
 })

@@ -17,6 +17,7 @@ import {
   mockFiatConnectQuotesWithUnknownFees,
   mockProviders,
 } from 'test/values'
+import { CiCoCurrency } from 'src/utils/currencies'
 
 const mockStore = createMockStore({
   localCurrency: {
@@ -42,7 +43,7 @@ describe('PaymentMethodSection', () => {
     props = {
       paymentMethod: PaymentMethod.Card,
       // the below creates 4 quotes - 1 Ramp (card), 2 Moonpay (bank, card), 1 Simplex (card)
-      normalizedQuotes: normalizeQuotes(CICOFlow.CashIn, [], mockProviders),
+      normalizedQuotes: normalizeQuotes(CICOFlow.CashIn, [], mockProviders, CiCoCurrency.CUSD),
       setNoPaymentMethods: jest.fn(),
       flow: CICOFlow.CashIn,
       cryptoType: CiCoCurrency.cUSD,
@@ -62,7 +63,12 @@ describe('PaymentMethodSection', () => {
   })
 
   it('shows a non-expandable view if there is one provider available', async () => {
-    props.normalizedQuotes = normalizeQuotes(CICOFlow.CashIn, [], [mockProviders[2]])
+    props.normalizedQuotes = normalizeQuotes(
+      CICOFlow.CashIn,
+      [],
+      [mockProviders[2]],
+      CiCoCurrency.CUSD
+    )
     const { queryByText, queryByTestId } = render(
       <Provider store={mockStore}>
         <PaymentMethodSection {...props} />
@@ -74,7 +80,12 @@ describe('PaymentMethodSection', () => {
   })
 
   it('shows new info dialog in non expandable section', async () => {
-    props.normalizedQuotes = normalizeQuotes(CICOFlow.CashIn, [], [mockProviders[2]])
+    props.normalizedQuotes = normalizeQuotes(
+      CICOFlow.CashIn,
+      [],
+      [mockProviders[2]],
+      CiCoCurrency.CUSD
+    )
     jest.spyOn(props.normalizedQuotes[0], 'isProviderNew').mockReturnValue(true)
     const { getByText, getByTestId } = render(
       <Provider store={mockStore}>
@@ -120,6 +131,7 @@ describe('PaymentMethodSection', () => {
     // make simplex and moonpay card quotes new
     jest.spyOn(props.normalizedQuotes[2], 'isProviderNew').mockReturnValue(true)
     jest.spyOn(props.normalizedQuotes[3], 'isProviderNew').mockReturnValue(true)
+
     const { queryByText, queryByTestId, getByText, getByTestId } = render(
       <Provider store={mockStore}>
         <PaymentMethodSection {...props} />
@@ -154,7 +166,8 @@ describe('PaymentMethodSection', () => {
     props.normalizedQuotes = normalizeQuotes(
       CICOFlow.CashIn,
       mockFiatConnectQuotesWithUnknownFees,
-      []
+      [],
+      CiCoCurrency.CUSD
     )
     props.paymentMethod = PaymentMethod.Bank
     const { queryByText, queryByTestId } = render(
@@ -172,7 +185,8 @@ describe('PaymentMethodSection', () => {
     props.normalizedQuotes = normalizeQuotes(
       CICOFlow.CashIn,
       [mockFiatConnectQuotes[3]] as FiatConnectQuoteSuccess[],
-      []
+      [],
+      CiCoCurrency.CUSD
     )
     props.paymentMethod = PaymentMethod.Bank
     const { queryByTestId } = render(
@@ -191,7 +205,8 @@ describe('PaymentMethodSection', () => {
     props.normalizedQuotes = normalizeQuotes(
       CICOFlow.CashIn,
       [mockFiatConnectQuotes[1]] as FiatConnectQuoteSuccess[],
-      []
+      [],
+      CiCoCurrency.CUSD
     )
     props.paymentMethod = PaymentMethod.Bank
     const { queryByTestId } = render(
@@ -208,19 +223,29 @@ describe('PaymentMethodSection', () => {
   it.each([
     [
       PaymentMethod.Card as const,
-      normalizeQuotes(CICOFlow.CashIn, [], [mockProviders[2]]),
+      normalizeQuotes(CICOFlow.CashIn, [], [mockProviders[2]], CiCoCurrency.CUSD),
       'card',
       'oneHour',
     ],
     [
       PaymentMethod.Bank as const,
-      normalizeQuotes(CICOFlow.CashIn, [mockFiatConnectQuotes[1]] as FiatConnectQuoteSuccess[], []),
+      normalizeQuotes(
+        CICOFlow.CashIn,
+        [mockFiatConnectQuotes[1]] as FiatConnectQuoteSuccess[],
+        [],
+        CiCoCurrency.CUSD
+      ),
       'bank',
       'numDays',
     ],
     [
       PaymentMethod.FiatConnectMobileMoney as const,
-      normalizeQuotes(CICOFlow.CashIn, [mockFiatConnectQuotes[4]] as FiatConnectQuoteSuccess[], []),
+      normalizeQuotes(
+        CICOFlow.CashIn,
+        [mockFiatConnectQuotes[4]] as FiatConnectQuoteSuccess[],
+        [],
+        CiCoCurrency.CUSD
+      ),
       'mobileMoney',
       'lessThan24Hours',
     ],

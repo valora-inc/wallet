@@ -68,8 +68,8 @@ export interface UserAccountCreationData {
 export interface RawProviderQuote {
   paymentMethod: PaymentMethod
   digitalAsset: string
-  returnedAmount: number
-  fiatFee: number
+  returnedAmount?: number
+  fiatFee?: number
 }
 export interface LegacyMobileMoneyProvider {
   name: string
