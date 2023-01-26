@@ -2062,7 +2062,8 @@ describe('Fiatconnect saga', () => {
               txHash: transactionHash,
               transferId,
               fiatAccountId,
-              quote: transferOutFcQuote,
+              providerId: transferOutFcQuote.getProviderId(),
+              quote: transferOutFcQuote.quote,
             })
           )
           .run()

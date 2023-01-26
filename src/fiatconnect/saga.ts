@@ -1033,8 +1033,9 @@ export function* handleCreateFiatConnectTransfer(
         cacheFiatConnectTransfer({
           txHash: transactionHash,
           transferId,
+          providerId: fiatConnectQuote.getProviderId(),
           fiatAccountId: action.payload.fiatAccountId,
-          quote: fiatConnectQuote,
+          quote: fiatConnectQuote.quote,
         })
       )
     }

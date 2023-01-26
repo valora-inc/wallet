@@ -47,7 +47,8 @@ describe('fiatconnect slices', () => {
       txHash: '0x123',
       transferId: 'transferId12345',
       fiatAccountId: 'account0123',
-      quote: transferOutFcQuote,
+      providerId: transferOutFcQuote.getProviderId(),
+      quote: transferOutFcQuote.quote,
     }
     it('should handle initially empty state', () => {
       expect(reducer(initialState, cacheFiatConnectTransfer(mockCacheTransferParams))).toEqual({

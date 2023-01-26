@@ -50,8 +50,9 @@ export interface CachedQuoteParams {
 export interface TransferDetails {
   txHash: string
   transferId: string
+  providerId: string
   fiatAccountId: string
-  quote: FiatConnectQuote
+  quote: FiatConnectQuoteSuccess
 }
 
 export interface State {
@@ -159,8 +160,9 @@ export interface CreateFiatConnectTransferCompletedAction {
 export interface CacheFiatConnectTransferAction {
   txHash: string
   transferId: string
+  providerId: string
   fiatAccountId: string
-  quote: FiatConnectQuote
+  quote: FiatConnectQuoteSuccess
 }
 
 export interface CreateFiatConnectTransferTxProcessingAction {
@@ -307,6 +309,7 @@ export const slice = createSlice({
       const transferDetails: TransferDetails = {
         txHash: action.payload.txHash,
         transferId: action.payload.transferId,
+        providerId: action.payload.providerId,
         fiatAccountId: action.payload.fiatAccountId,
         quote: action.payload.quote,
       }
