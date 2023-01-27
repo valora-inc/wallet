@@ -300,3 +300,15 @@ export const filterProvidersByPaymentMethod = (
 
 export const isUserInputCrypto = (flow: CICOFlow, currency: Currency | CiCoCurrency): boolean =>
   flow === CICOFlow.CashOut || currency === Currency.Celo || currency === CiCoCurrency.CELO
+
+export function resolveCloudFunctionDigitalAsset(
+  currency: CiCoCurrency
+): CloudFunctionDigitalAsset {
+  const mapping: Record<CiCoCurrency, CloudFunctionDigitalAsset> = {
+    [CiCoCurrency.CELO]: CloudFunctionDigitalAsset.CELO,
+    [CiCoCurrency.cUSD]: CloudFunctionDigitalAsset.CUSD,
+    [CiCoCurrency.cEUR]: CloudFunctionDigitalAsset.CEUR,
+    [CiCoCurrency.cREAL]: CloudFunctionDigitalAsset.CREAL,
+  }
+  return mapping[currency] || CiCoCurrency.CELO
+}

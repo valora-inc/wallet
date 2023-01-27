@@ -40,7 +40,7 @@ import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
-import { CiCoCurrency, resolveCloudFunctionDigitalAsset } from 'src/utils/currencies'
+import { CiCoCurrency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
@@ -55,6 +55,7 @@ import {
   filterProvidersByPaymentMethod,
   LegacyMobileMoneyProvider,
   PaymentMethod,
+  resolveCloudFunctionDigitalAsset,
 } from './utils'
 
 const TAG = 'SelectProviderScreen'
