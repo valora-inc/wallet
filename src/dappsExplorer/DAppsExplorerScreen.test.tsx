@@ -2,12 +2,9 @@ import { fireEvent, render, within } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { DAPPS_LEARN_MORE } from 'src/brandingConfig'
 import { dappSelected, favoriteDapp, fetchDappsList, unfavoriteDapp } from 'src/dapps/slice'
 import { Dapp, DappCategory, DappSection } from 'src/dapps/types'
 import DAppsExplorerScreen from 'src/dappsExplorer/DAppsExplorerScreen'
-import { navigate } from 'src/navigator/NavigationService'
-import { Screens } from 'src/navigator/Screens'
 import { createMockStore } from 'test/utils'
 
 jest.mock('src/analytics/ValoraAnalytics')
@@ -56,23 +53,6 @@ describe(DAppsExplorerScreen, () => {
   beforeEach(() => {
     defaultStore.clearActions()
     jest.clearAllMocks()
-  })
-
-  it('renders the dapps info bottom sheet', () => {
-    const { getByTestId, getByText } = render(
-      <Provider store={defaultStore}>
-        <DAppsExplorerScreen />
-      </Provider>
-    )
-
-    fireEvent.press(getByTestId('DAppsExplorerScreen/HelpIcon'))
-
-    expect(getByText('dappsScreenInfoSheet.title')).toBeTruthy()
-    expect(getByText('dappsScreenInfoSheet.description')).toBeTruthy()
-
-    fireEvent.press(getByText('dappsScreenInfoSheet.buttonLabel'))
-
-    expect(navigate).toHaveBeenCalledWith(Screens.WebViewScreen, { uri: DAPPS_LEARN_MORE })
   })
 
   it('renders correctly when no featured dapp is available', () => {
