@@ -43,24 +43,33 @@ describe('fiatconnect slices', () => {
       quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
       fiatAccountType: FiatAccountType.BankAccount,
     })
-    const mockCacheTransferParams = {
-      txHash: '0x123',
+    const txHash1 = '0x123'
+    const txHash2 = '0x456'
+    const mockCacheTransferParams1 = {
+      txHash: txHash1,
       transferId: 'transferId12345',
       fiatAccountId: 'account0123',
       providerId: transferOutFcQuote.getProviderId(),
       quote: transferOutFcQuote.quote,
     }
+    const mockCacheTransferParams2 = {
+      ...mockCacheTransferParams1,
+      txHash: txHash2,
+    }
     it('should handle initially empty state', () => {
-      expect(reducer(initialState, cacheFiatConnectTransfer(mockCacheTransferParams))).toEqual({
+      expect(reducer(initialState, cacheFiatConnectTransfer(mockCacheTransferParams1))).toEqual({
         ...initialState,
-        cachedTransfers: [mockCacheTransferParams],
+        cachedTransfers: { [txHash1]: mockCacheTransferParams1 },
       })
     })
     it('should handle caching multiple transfers', () => {
-      const updatedState = reducer(initialState, cacheFiatConnectTransfer(mockCacheTransferParams))
-      expect(reducer(updatedState, cacheFiatConnectTransfer(mockCacheTransferParams))).toEqual({
+      const updatedState = reducer(initialState, cacheFiatConnectTransfer(mockCacheTransferParams1))
+      expect(reducer(updatedState, cacheFiatConnectTransfer(mockCacheTransferParams2))).toEqual({
         ...initialState,
-        cachedTransfers: [mockCacheTransferParams, mockCacheTransferParams],
+        cachedTransfers: {
+          [txHash1]: mockCacheTransferParams1,
+          [txHash2]: mockCacheTransferParams2,
+        },
       })
     })
   })

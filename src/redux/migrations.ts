@@ -986,4 +986,11 @@ export const migrations = {
     },
   }),
   106: (state: any) => state,
+  107: (state: any) => ({
+    ...state,
+    fiatConnect: {
+      ...state.fiatConnect,
+      cachedTransfers: {},
+    },
+  }),
 }

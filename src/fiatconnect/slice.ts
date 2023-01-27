@@ -60,7 +60,7 @@ export interface State {
   quotesLoading: boolean
   quotesError: string | null
   transfer: FiatConnectTransfer | null
-  cachedTransfers: TransferDetails[]
+  cachedTransfers: { [txHash: string]: TransferDetails }
   providers: FiatConnectProviderInfo[] | null
   cachedFiatAccountUses: CachedFiatAccountUse[]
   attemptReturnUserFlowLoading: boolean
@@ -81,7 +81,7 @@ export const initialState: State = {
   quotesLoading: false,
   quotesError: null,
   transfer: null,
-  cachedTransfers: [],
+  cachedTransfers: {},
   providers: null,
   cachedFiatAccountUses: [],
   attemptReturnUserFlowLoading: false,
@@ -313,7 +313,7 @@ export const slice = createSlice({
         fiatAccountId: action.payload.fiatAccountId,
         quote: action.payload.quote,
       }
-      state.cachedTransfers = [transferDetails, ...state.cachedTransfers]
+      state.cachedTransfers[action.payload.txHash] = transferDetails
     },
     fetchFiatConnectProviders: () => {
       // no state update

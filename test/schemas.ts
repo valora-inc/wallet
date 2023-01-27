@@ -1985,6 +1985,18 @@ export const v106Schema = {
   },
 }
 
+export const v107Schema = {
+  ...v106Schema,
+  _persist: {
+    ...v106Schema._persist,
+    version: 107,
+  },
+  fiatConnect: {
+    ...v106Schema.fiatConnect,
+    cachedTransfers: {},
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v106Schema as Partial<RootState>
+  return v107Schema as Partial<RootState>
 }

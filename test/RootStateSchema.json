@@ -2945,10 +2945,10 @@
                     "type": "object"
                 },
                 "cachedTransfers": {
-                    "items": {
+                    "additionalProperties": {
                         "$ref": "#/definitions/TransferDetails"
                     },
-                    "type": "array"
+                    "type": "object"
                 },
                 "kycTryAgainLoading": {
                     "type": "boolean"
