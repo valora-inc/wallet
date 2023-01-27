@@ -1994,11 +1994,11 @@ export const v107Schema = {
   },
   fiatConnect: {
     ...v106Schema.fiatConnect,
-    cachedFiatAccountUses: v104Schema.fiatConnect.cachedFiatAccountUses.map((use: any) => ({
+    cachedFiatAccountUses: v106Schema.fiatConnect.cachedFiatAccountUses.map((use: any) => ({
       ...use,
       cryptoType: use.cryptoType === Currency.Celo ? CiCoCurrency.CELO : use.cryptoType,
     })),
-    cachedQuoteParams: updateCachedQuoteParams(v104Schema.fiatConnect.cachedQuoteParams),
+    cachedQuoteParams: updateCachedQuoteParams(v106Schema.fiatConnect.cachedQuoteParams),
   },
 }
 
