@@ -22,7 +22,10 @@ function WalletConnectRequest({ route: { params } }: Props) {
     <View
       style={[
         styles.container,
-        params.type === WalletConnectRequestType.Loading ? { justifyContent: 'center' } : undefined,
+        params.type === WalletConnectRequestType.Loading ||
+        params.type === WalletConnectRequestType.TimeOut
+          ? { justifyContent: 'center', alignItems: 'center' }
+          : undefined,
       ]}
     >
       {params.type === WalletConnectRequestType.Loading && (
@@ -49,7 +52,6 @@ const styles = StyleSheet.create({
   container: {
     padding: Spacing.Thick24,
     flex: 1,
-    alignItems: 'center',
   },
   connecting: {
     ...fontStyles.label,

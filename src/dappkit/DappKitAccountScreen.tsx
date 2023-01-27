@@ -78,7 +78,6 @@ const DappKitAccountScreen = ({ route }: Props) => {
           {
             label: t('address'),
             value: account,
-            tapToCopy: true,
           },
         ]}
         dappUrl={dappKitRequest.callback}

@@ -187,10 +187,10 @@
   "startSuperchargingNotificationStart": "Get rewards",
   "cashIn": "Add {{currency}}",
   "connectNumber": "Connect Number",
-  "connectToWallet": "{{dappName}} would like to connect to {{appName}}",
+  "connectToWallet": "Connect to {{dappName}}",
   "confirmTransaction": "{{dappName}} would like to confirm a transaction",
   "allow": "Allow",
-  "address": "Account Address",
+  "address": "Wallet address",
   "phoneNumber": "Phone Number",
   "transaction": {
     "operation": "Operation",
@@ -198,7 +198,7 @@
     "signTX": "Sign transaction",
     "details": "Show details"
   },
-  "shareInfo": "This application will be able to access the following information:",
+  "shareInfo": "You must connect your wallet to request approvals for transactions in this Dapp. Once connected, it will have access to your wallet address.",
   "data": "Data",
   "firebaseDisabled": "Firebase is disabled, notification and log uploading wont work",
   "learnMore": "Learn More",

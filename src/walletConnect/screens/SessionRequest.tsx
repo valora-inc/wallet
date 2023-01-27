@@ -48,7 +48,6 @@ function SessionRequest(props: Props) {
           {
             label: t('address'),
             value: address,
-            tapToCopy: true,
           },
         ]
       : []
