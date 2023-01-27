@@ -2884,6 +2884,9 @@
                 "dappsListLoading": {
                     "type": "boolean"
                 },
+                "dappsMinimalDisclaimerEnabled": {
+                    "type": "boolean"
+                },
                 "dappsWebViewEnabled": {
                     "type": "boolean"
                 },
@@ -2912,6 +2915,7 @@
                 "dappsList",
                 "dappsListError",
                 "dappsListLoading",
+                "dappsMinimalDisclaimerEnabled",
                 "dappsWebViewEnabled",
                 "favoriteDappIds",
                 "maxNumRecentDapps",

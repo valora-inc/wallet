@@ -133,6 +133,54 @@ describe(DAppsExplorerScreen, () => {
     ])
   })
 
+  it('displays the dapps disclaimer bottom sheet when selecting a dapp', () => {
+    const { getByTestId, getByText } = render(
+      <Provider store={defaultStore}>
+        <DAppsExplorerScreen />
+      </Provider>
+    )
+
+    fireEvent.press(getByTestId('Dapp/dapp1'))
+
+    expect(getByText(`dappsScreenBottomSheet.title, {"dappName":"Dapp 1"}`)).toBeTruthy()
+    expect(defaultStore.getActions()).toEqual([
+      fetchDappsList(),
+      // no dapp selected action here, so the dapp is not launched
+    ])
+
+    fireEvent.press(getByText(`dappsScreenBottomSheet.button, {"dappName":"Dapp 1"}`))
+    expect(defaultStore.getActions()).toEqual([
+      fetchDappsList(),
+      dappSelected({ dapp: { ...dappsList[0], openedFrom: DappSection.All } }), // now the dapp is launched
+    ])
+  })
+
+  it('displays the dapps disclaimer and opens dapps directly', () => {
+    const store = createMockStore({
+      dapps: {
+        dappListApiUrl: 'http://url.com',
+        dappsList,
+        dappsCategories,
+        dappsMinimalDisclaimerEnabled: true,
+      },
+    })
+    const { getByTestId, getByText, queryByText } = render(
+      <Provider store={store}>
+        <DAppsExplorerScreen />
+      </Provider>
+    )
+
+    expect(getByText('dappsDisclaimerAllDapps')).toBeTruthy()
+
+    fireEvent.press(getByTestId('Dapp/dapp1'))
+
+    expect(queryByText(`dappsScreenBottomSheet.title, {"dappName":"Dapp 1"}`)).toBeFalsy()
+    expect(store.getActions()).toEqual([
+      fetchDappsList(),
+      dappSelected({ dapp: { ...dappsList[0], openedFrom: DappSection.All } }),
+    ])
+  })
+
   describe('favorite dapps', () => {
     it('renders correctly when there are no favourited dapps', () => {
       const store = createMockStore({
