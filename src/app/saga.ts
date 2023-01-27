@@ -205,7 +205,7 @@ export interface RemoteConfigValues {
   dappFavoritesEnabled: boolean
   celoNews: CeloNewsConfig
   twelveWordMnemonicEnabled: boolean
-  dappsDisclaimerMinimal: boolean
+  dappsMinimalDisclaimerEnabled: boolean
 }
 
 export function* appRemoteFeatureFlagSaga() {

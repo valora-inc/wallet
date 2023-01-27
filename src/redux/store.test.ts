@@ -184,7 +184,7 @@ describe('store state', () => {
           "dappFavoritesEnabled": false,
           "dappListApiUrl": null,
           "dappsCategories": Array [],
-          "dappsDisclaimerMinimal": false,
+          "dappsMinimalDisclaimerEnabled": false,
           "dappsList": Array [],
           "dappsListError": null,
           "dappsListLoading": false,

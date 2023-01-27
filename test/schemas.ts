@@ -1981,7 +1981,7 @@ export const v106Schema = {
   },
   dapps: {
     ...v105Schema.dapps,
-    dappsDisclaimerMinimal: false,
+    dappsMinimalDisclaimerEnabled: false,
   },
 }
 

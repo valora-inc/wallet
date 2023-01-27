@@ -2869,7 +2869,7 @@
                     },
                     "type": "array"
                 },
-                "dappsDisclaimerMinimal": {
+                "dappsMinimalDisclaimerEnabled": {
                     "type": "boolean"
                 },
                 "dappsList": {
@@ -2912,7 +2912,7 @@
                 "dappFavoritesEnabled",
                 "dappListApiUrl",
                 "dappsCategories",
-                "dappsDisclaimerMinimal",
+                "dappsMinimalDisclaimerEnabled",
                 "dappsList",
                 "dappsListError",
                 "dappsListLoading",
