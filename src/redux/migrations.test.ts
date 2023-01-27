@@ -8,6 +8,7 @@ import {
   v0Schema,
   v103Schema,
   v104Schema,
+  v106Schema,
   v13Schema,
   v14Schema,
   v15Schema,
@@ -783,9 +784,9 @@ describe('Redux persist migrations', () => {
 
   it('works from v106 to v107', () => {
     const oldSchema = {
-      ...v104Schema,
+      ...v106Schema,
       fiatConnect: {
-        ...v104Schema.fiatConnect,
+        ...v106Schema.fiatConnect,
         cachedFiatAccountUses: [
           {
             providerId: 'provider-two',
@@ -814,7 +815,7 @@ describe('Redux persist migrations', () => {
         },
       },
     }
-    const migratedSchema = migrations[106](oldSchema)
+    const migratedSchema = migrations[107](oldSchema)
 
     const freshSchema: any = _.cloneDeep(oldSchema)
     const expectedSchema = {
