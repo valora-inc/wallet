@@ -456,7 +456,7 @@ PODS:
     - React-Core
   - react-native-safe-area-context (3.4.1):
     - React-Core
-  - react-native-shake (3.5.0):
+  - react-native-shake (5.1.1):
     - React-Core
   - react-native-simple-toast (1.1.4):
     - React-Core
@@ -1064,7 +1064,7 @@ SPEC CHECKSUMS:
   react-native-netinfo: 2517ad504b3d303e90d7a431b0fcaef76d207983
   react-native-randombytes: b6677f7d495c27e9ee0dbd77ebc97b3c59173729
   react-native-safe-area-context: 9e40fb181dac02619414ba1294d6c2a807056ab9
-  react-native-shake: 41a1ea8ec541fccf3f01566edef8d3cb722b00e3
+  react-native-shake: 51c01abaf54a05d1ee23ddb8faad424c9fcc0569
   react-native-simple-toast: 8ee5d23f0b92b935ab7434cdb65159ce12dfb4b7
   react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
   react-native-webview: 2e8fe70dc32b50d3231c23043f8e8b5a5525d346
