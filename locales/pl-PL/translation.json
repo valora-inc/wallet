@@ -1232,6 +1232,7 @@
     "message": "Zamierzasz otworzyć aplikację, której operatorem nie jest Valora.\n\nValora nie składa żadnych oświadczeń ani gwarancji dotyczących tej aplikacji. Korzystasz z niej na własne ryzyko.",
     "button": "Przejdź do {{dappName}}"
   },
+  "dappsDisclaimerAllDapps": "{{appName}} nie jest powiązana z tymi dappami i nie składa żadnych oświadczeń ani roszczeń związanych z ich używaniem. Przed rozpoczęciem korzystania z aplikacji dapp należy zapoznać się z umową z użytkownikiem lub polityką prywatności.",
   "recentlyUsedDapps": "Ostatnio używane Dapps",
   "favoritedDapps": "Ulubione aplikacje",
   "allDapps": "Wszystkie Dapps",
