@@ -1980,8 +1980,20 @@ export const v106Schema = {
     ...v105Schema._persist,
     version: 106,
   },
+  dapps: {
+    ...v105Schema.dapps,
+    dappsMinimalDisclaimerEnabled: false,
+  },
+}
+
+export const v107Schema = {
+  ...v106Schema,
+  _persist: {
+    ...v106Schema._persist,
+    version: 107,
+  },
   fiatConnect: {
-    ...v104Schema.fiatConnect,
+    ...v106Schema.fiatConnect,
     cachedFiatAccountUses: v104Schema.fiatConnect.cachedFiatAccountUses.map((use: any) => ({
       ...use,
       cryptoType: use.cryptoType === Currency.Celo ? CiCoCurrency.CELO : use.cryptoType,
@@ -1991,5 +2003,5 @@ export const v106Schema = {
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v106Schema as Partial<RootState>
+  return v107Schema as Partial<RootState>
 }
