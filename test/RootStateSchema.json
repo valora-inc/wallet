@@ -2869,9 +2869,6 @@
                     },
                     "type": "array"
                 },
-                "dappsMinimalDisclaimerEnabled": {
-                    "type": "boolean"
-                },
                 "dappsList": {
                     "items": {
                         "$ref": "#/definitions/Dapp"
@@ -2885,6 +2882,9 @@
                     ]
                 },
                 "dappsListLoading": {
+                    "type": "boolean"
+                },
+                "dappsMinimalDisclaimerEnabled": {
                     "type": "boolean"
                 },
                 "dappsWebViewEnabled": {
@@ -2912,10 +2912,10 @@
                 "dappFavoritesEnabled",
                 "dappListApiUrl",
                 "dappsCategories",
-                "dappsMinimalDisclaimerEnabled",
                 "dappsList",
                 "dappsListError",
                 "dappsListLoading",
+                "dappsMinimalDisclaimerEnabled",
                 "dappsWebViewEnabled",
                 "favoriteDappIds",
                 "maxNumRecentDapps",
