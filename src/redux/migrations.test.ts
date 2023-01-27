@@ -781,7 +781,7 @@ describe('Redux persist migrations', () => {
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 
-  it('works from v105 to v106', () => {
+  it('works from v106 to v107', () => {
     const oldSchema = {
       ...v104Schema,
       fiatConnect: {
