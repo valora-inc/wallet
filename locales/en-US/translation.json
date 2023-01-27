@@ -1228,6 +1228,7 @@
     "message": "You are about to open an application not operated by Valora.\n\nValora makes no representations about this application. Use at your own risk.",
     "button": "Go to {{dappName}}"
   },
+  "dappsDisclaimerAllDapps": "{{appName}} is not affiliated with these dapps and makes no representations or claims in using them. Please acknowledge the risk before using a dapp by reviewing the user agreement or privacy policy.",
   "recentlyUsedDapps": "Recently Used Dapps",
   "favoritedDapps": "Favorited Dapps",
   "allDapps": "All Dapps",
