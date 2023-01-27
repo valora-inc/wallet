@@ -1015,7 +1015,7 @@ export function* handleCreateFiatConnectTransfer(
       })
       yield put(
         cacheFiatConnectTransfer({
-          txHash: transactionHash!,
+          txHash: transactionHash!.toLowerCase(),
           transferId,
           providerId: fiatConnectQuote.getProviderId(),
           fiatAccountId: action.payload.fiatAccountId,
