@@ -69,7 +69,7 @@ export function DAppsExplorerScreen() {
 
   const { onSelectDapp, ConfirmOpenDappBottomSheet } = useOpenDapp()
   const { onFavoriteDapp, DappFavoritedToast } = useDappFavoritedToast(sectionListRef)
-  const { onOpenDappInfo, DappInfoBottomSheet } = useDappInfoBottomSheet()
+  const { openSheet, DappInfoBottomSheet } = useDappInfoBottomSheet()
 
   useEffect(() => {
     dispatch(fetchDappsList())
@@ -95,7 +95,7 @@ export function DAppsExplorerScreen() {
           <TopBarIconButton
             testID="DAppsExplorerScreen/HelpIcon"
             icon={<Help />}
-            onPress={onOpenDappInfo}
+            onPress={openSheet}
           />
         }
         scrollPosition={scrollPosition}

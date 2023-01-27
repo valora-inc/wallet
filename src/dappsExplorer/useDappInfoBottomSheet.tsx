@@ -32,7 +32,7 @@ const useDappInfoBottomSheet = () => {
     navigate(Screens.WebViewScreen, { uri: DAPPS_LEARN_MORE })
   }
 
-  const onOpenDappInfo = () => {
+  const openSheet = () => {
     ValoraAnalytics.track(DappExplorerEvents.dapp_open_info)
     bottomSheetRef.current?.snapToIndex(0)
   }
@@ -71,7 +71,7 @@ const useDappInfoBottomSheet = () => {
   )
 
   return {
-    onOpenDappInfo,
+    openSheet,
     DappInfoBottomSheet,
   }
 }
