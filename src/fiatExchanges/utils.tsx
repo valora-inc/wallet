@@ -310,5 +310,5 @@ export function resolveCloudFunctionDigitalAsset(
     [CiCoCurrency.cEUR]: CloudFunctionDigitalAsset.CEUR,
     [CiCoCurrency.cREAL]: CloudFunctionDigitalAsset.CREAL,
   }
-  return mapping[currency] || CiCoCurrency.CELO
+  return mapping[currency]
 }
