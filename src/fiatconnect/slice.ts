@@ -13,7 +13,7 @@ import {
   FiatConnectQuoteError,
   FiatConnectQuoteSuccess,
 } from 'src/fiatconnect'
-import { FiatAccountSchemaCountryOverrides } from 'src/fiatconnect/types'
+import { FiatAccountSchemaCountryOverrides, QuoteResponseQuoteField } from 'src/fiatconnect/types'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
@@ -47,12 +47,11 @@ export interface CachedQuoteParams {
   fiatType: FiatType
 }
 
-export interface TransferDetails {
-  txHash: string
+export interface CachedTransferDetails {
   transferId: string
   providerId: string
   fiatAccountId: string
-  quote: FiatConnectQuoteSuccess
+  quote: QuoteResponseQuoteField
 }
 
 export interface State {
@@ -60,7 +59,7 @@ export interface State {
   quotesLoading: boolean
   quotesError: string | null
   transfer: FiatConnectTransfer | null
-  cachedTransfers: { [txHash: string]: TransferDetails }
+  cachedTransfers: { [txHash: string]: CachedTransferDetails }
   providers: FiatConnectProviderInfo[] | null
   cachedFiatAccountUses: CachedFiatAccountUse[]
   attemptReturnUserFlowLoading: boolean
@@ -157,12 +156,8 @@ export interface CreateFiatConnectTransferCompletedAction {
   txHash: string | null
 }
 
-export interface CacheFiatConnectTransferAction {
+export type CacheFiatConnectTransferAction = CachedTransferDetails & {
   txHash: string
-  transferId: string
-  providerId: string
-  fiatAccountId: string
-  quote: FiatConnectQuoteSuccess
 }
 
 export interface CreateFiatConnectTransferTxProcessingAction {
@@ -306,8 +301,7 @@ export const slice = createSlice({
       }
     },
     cacheFiatConnectTransfer: (state, action: PayloadAction<CacheFiatConnectTransferAction>) => {
-      const transferDetails: TransferDetails = {
-        txHash: action.payload.txHash,
+      const transferDetails: CachedTransferDetails = {
         transferId: action.payload.transferId,
         providerId: action.payload.providerId,
         fiatAccountId: action.payload.fiatAccountId,

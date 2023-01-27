@@ -2051,19 +2051,19 @@ describe('Fiatconnect saga', () => {
             ],
           ])
           .put(
-            createFiatConnectTransferCompleted({
-              flow: CICOFlow.CashOut,
-              quoteId: transferOutFcQuote.getQuoteId(),
-              txHash: transactionHash,
-            })
-          )
-          .put(
             cacheFiatConnectTransfer({
               txHash: transactionHash,
               transferId,
               fiatAccountId,
               providerId: transferOutFcQuote.getProviderId(),
-              quote: transferOutFcQuote.quote,
+              quote: transferOutFcQuote.quote.quote,
+            })
+          )
+          .put(
+            createFiatConnectTransferCompleted({
+              flow: CICOFlow.CashOut,
+              quoteId: transferOutFcQuote.getQuoteId(),
+              txHash: transactionHash,
             })
           )
           .run()

@@ -370,6 +370,121 @@
             ],
             "type": "object"
         },
+        "CachedTransferDetails": {
+            "additionalProperties": false,
+            "properties": {
+                "fiatAccountId": {
+                    "type": "string"
+                },
+                "providerId": {
+                    "type": "string"
+                },
+                "quote": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "cryptoAmount": {
+                            "type": "string"
+                        },
+                        "cryptoType": {
+                            "enum": [
+                                "CELO",
+                                "cEUR",
+                                "cREAL",
+                                "cUSD"
+                            ],
+                            "type": "string"
+                        },
+                        "fee": {
+                            "type": "string"
+                        },
+                        "feeFrequency": {
+                            "enum": [
+                                "OneTime",
+                                "Recurring"
+                            ],
+                            "type": "string"
+                        },
+                        "feeType": {
+                            "enum": [
+                                "KycFee",
+                                "PlatformFee"
+                            ],
+                            "type": "string"
+                        },
+                        "fiatAmount": {
+                            "type": "string"
+                        },
+                        "fiatType": {
+                            "enum": [
+                                "ARS",
+                                "BOB",
+                                "BRL",
+                                "CLP",
+                                "CNY",
+                                "COP",
+                                "EUR",
+                                "FKP",
+                                "GBP",
+                                "GHS",
+                                "GNF",
+                                "GYD",
+                                "INR",
+                                "KES",
+                                "MXN",
+                                "NGN",
+                                "PAB",
+                                "PEN",
+                                "PHP",
+                                "PYG",
+                                "RWF",
+                                "SRD",
+                                "UGX",
+                                "USD",
+                                "UYU",
+                                "VES",
+                                "XAF",
+                                "XOF",
+                                "ZAR"
+                            ],
+                            "type": "string"
+                        },
+                        "guaranteedUntil": {
+                            "type": "string"
+                        },
+                        "quoteId": {
+                            "type": "string"
+                        },
+                        "transferType": {
+                            "enum": [
+                                "TransferIn",
+                                "TransferOut"
+                            ],
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "cryptoAmount",
+                        "cryptoType",
+                        "fiatAmount",
+                        "fiatType",
+                        "guaranteedUntil",
+                        "quoteId",
+                        "transferType"
+                    ],
+                    "type": "object"
+                },
+                "transferId": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "fiatAccountId",
+                "providerId",
+                "quote",
+                "transferId"
+            ],
+            "type": "object"
+        },
         "CeloNewsConfig": {
             "additionalProperties": false,
             "properties": {
@@ -2946,7 +3061,7 @@
                 },
                 "cachedTransfers": {
                     "additionalProperties": {
-                        "$ref": "#/definitions/TransferDetails"
+                        "$ref": "#/definitions/CachedTransferDetails"
                     },
                     "type": "object"
                 },
@@ -4138,182 +4253,6 @@
                 "Pending"
             ],
             "type": "string"
-        },
-        "TransferDetails": {
-            "additionalProperties": false,
-            "properties": {
-                "fiatAccountId": {
-                    "type": "string"
-                },
-                "providerId": {
-                    "type": "string"
-                },
-                "quote": {
-                    "additionalProperties": false,
-                    "properties": {
-                        "fiatAccount": {
-                            "$ref": "#/definitions/Partial<Record<FiatAccountType,{settlementTimeLowerBound?:string|undefined;settlementTimeUpperBound?:string|undefined;fiatAccountSchemas:{fiatAccountSchema:FiatAccountSchema;allowedValues:Record<string,[string,...string[]]>;}[];}>>"
-                        },
-                        "kyc": {
-                            "additionalProperties": false,
-                            "properties": {
-                                "kycRequired": {
-                                    "type": "boolean"
-                                },
-                                "kycSchemas": {
-                                    "items": {
-                                        "additionalProperties": false,
-                                        "properties": {
-                                            "allowedValues": {
-                                                "$ref": "#/definitions/Record<string,[string,...string[]]>"
-                                            },
-                                            "kycSchema": {
-                                                "enum": [
-                                                    "PersonalDataAndDocuments"
-                                                ],
-                                                "type": "string"
-                                            }
-                                        },
-                                        "required": [
-                                            "allowedValues",
-                                            "kycSchema"
-                                        ],
-                                        "type": "object"
-                                    },
-                                    "type": "array"
-                                }
-                            },
-                            "required": [
-                                "kycRequired",
-                                "kycSchemas"
-                            ],
-                            "type": "object"
-                        },
-                        "ok": {
-                            "type": "boolean"
-                        },
-                        "provider": {
-                            "$ref": "#/definitions/FiatConnectProviderInfo"
-                        },
-                        "quote": {
-                            "additionalProperties": false,
-                            "properties": {
-                                "cryptoAmount": {
-                                    "type": "string"
-                                },
-                                "cryptoType": {
-                                    "enum": [
-                                        "CELO",
-                                        "cEUR",
-                                        "cREAL",
-                                        "cUSD"
-                                    ],
-                                    "type": "string"
-                                },
-                                "fee": {
-                                    "type": "string"
-                                },
-                                "feeFrequency": {
-                                    "enum": [
-                                        "OneTime",
-                                        "Recurring"
-                                    ],
-                                    "type": "string"
-                                },
-                                "feeType": {
-                                    "enum": [
-                                        "KycFee",
-                                        "PlatformFee"
-                                    ],
-                                    "type": "string"
-                                },
-                                "fiatAmount": {
-                                    "type": "string"
-                                },
-                                "fiatType": {
-                                    "enum": [
-                                        "ARS",
-                                        "BOB",
-                                        "BRL",
-                                        "CLP",
-                                        "CNY",
-                                        "COP",
-                                        "EUR",
-                                        "FKP",
-                                        "GBP",
-                                        "GHS",
-                                        "GNF",
-                                        "GYD",
-                                        "INR",
-                                        "KES",
-                                        "MXN",
-                                        "NGN",
-                                        "PAB",
-                                        "PEN",
-                                        "PHP",
-                                        "PYG",
-                                        "RWF",
-                                        "SRD",
-                                        "UGX",
-                                        "USD",
-                                        "UYU",
-                                        "VES",
-                                        "XAF",
-                                        "XOF",
-                                        "ZAR"
-                                    ],
-                                    "type": "string"
-                                },
-                                "guaranteedUntil": {
-                                    "type": "string"
-                                },
-                                "quoteId": {
-                                    "type": "string"
-                                },
-                                "transferType": {
-                                    "enum": [
-                                        "TransferIn",
-                                        "TransferOut"
-                                    ],
-                                    "type": "string"
-                                }
-                            },
-                            "required": [
-                                "cryptoAmount",
-                                "cryptoType",
-                                "fiatAmount",
-                                "fiatType",
-                                "guaranteedUntil",
-                                "quoteId",
-                                "transferType"
-                            ],
-                            "type": "object"
-                        }
-                    },
-                    "required": [
-                        "fiatAccount",
-                        "kyc",
-                        "ok",
-                        "provider",
-                        "quote"
-                    ],
-                    "type": "object"
-                },
-                "transferId": {
-                    "type": "string"
-                },
-                "txHash": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "fiatAccountId",
-                "providerId",
-                "quote",
-                "transferId",
-                "txHash"
-            ],
-            "type": "object"
         },
         "TransferStandby": {
             "additionalProperties": false,

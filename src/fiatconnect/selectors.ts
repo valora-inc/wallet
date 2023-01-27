@@ -1,3 +1,4 @@
+import { CachedTransferDetails } from 'src/fiatconnect/slice'
 import { RootState } from 'src/redux/reducers'
 
 export const fiatConnectQuotesSelector = (state: RootState) => state.fiatConnect.quotes
@@ -20,6 +21,8 @@ export const cachedQuoteParamsSelector = (state: RootState) => state.fiatConnect
 export const schemaCountryOverridesSelector = (state: RootState) =>
   state.fiatConnect.schemaCountryOverrides
 export const personaInProgressSelector = (state: RootState) => state.fiatConnect.personaInProgress
-export const getCachedFiatConnectTransfer = (txHashToFind: string) => (state: RootState) => {
-  return state.fiatConnect.cachedTransfers.find(({ txHash }) => txHash === txHashToFind)
-}
+export const getCachedFiatConnectTransfer =
+  (txHash: string) =>
+  (state: RootState): CachedTransferDetails | undefined => {
+    return state.fiatConnect.cachedTransfers[txHash]
+  }

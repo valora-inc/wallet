@@ -1013,6 +1013,15 @@ export function* handleCreateFiatConnectTransfer(
         transferAddress,
         fiatConnectQuote,
       })
+      yield put(
+        cacheFiatConnectTransfer({
+          txHash: transactionHash!,
+          transferId,
+          providerId: fiatConnectQuote.getProviderId(),
+          fiatAccountId: action.payload.fiatAccountId,
+          quote: fiatConnectQuote.quote.quote,
+        })
+      )
     }
 
     ValoraAnalytics.track(FiatExchangeEvents.cico_fc_transfer_success, {
@@ -1028,17 +1037,6 @@ export function* handleCreateFiatConnectTransfer(
         txHash: transactionHash,
       })
     )
-    if (transactionHash) {
-      yield put(
-        cacheFiatConnectTransfer({
-          txHash: transactionHash,
-          transferId,
-          providerId: fiatConnectQuote.getProviderId(),
-          fiatAccountId: action.payload.fiatAccountId,
-          quote: fiatConnectQuote.quote,
-        })
-      )
-    }
   } catch (err) {
     Logger.error(TAG, `Transfer for ${flow} failed..`, err)
     ValoraAnalytics.track(FiatExchangeEvents.cico_fc_transfer_error, {

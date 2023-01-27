@@ -1,4 +1,4 @@
-import { FiatAccountSchemas } from '@fiatconnect/fiatconnect-types'
+import { FiatAccountSchemas, QuoteResponse } from '@fiatconnect/fiatconnect-types'
 
 export interface FiatAccountSchemaCountryOverrides {
   [country: string]: {
@@ -22,3 +22,5 @@ export class FiatConnectTxError extends Error {
     this.error = error
   }
 }
+
+export type QuoteResponseQuoteField = QuoteResponse['quote']
