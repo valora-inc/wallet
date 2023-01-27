@@ -1979,9 +1979,9 @@ export const v106Schema = {
     ...v105Schema._persist,
     version: 106,
   },
-  fiatConnect: {
-    ...v105Schema.fiatConnect,
-    cachedTransfers: [],
+  dapps: {
+    ...v105Schema.dapps,
+    dappsMinimalDisclaimerEnabled: false,
   },
 }
 
