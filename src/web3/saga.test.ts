@@ -51,31 +51,34 @@ describe(getOrCreateAccount, () => {
       .run()
   })
 
-  it('creates a new account', async () => {
-    const MNEMONIC =
-      'avellana novio zona pinza ducha íntimo amante diluir toldo peón ocio encía gen balcón carro lingote millón amasar mármol bondad toser soledad croqueta agosto'
-    const EXPECTED_ADDRESS = '0xE025583d25Eff2C254999b5904C97bAe9B3F8D83'
-    const EXPECTED_DEK = '0xb6812219f7003c27cc1ef17c2033c033a38cfc52d83f176a0667086787d59d39'
-
-    await expectSaga(getOrCreateAccount)
-      .withState(state)
-      .provide([
-        [select(currentAccountSelector), null],
-        [matchers.call.fn(generateMnemonic), MNEMONIC],
-        [
-          call(storeMnemonic, MNEMONIC, EXPECTED_ADDRESS),
-          {
-            service: 'mnemonic',
-            storage: 'storage',
-          },
-        ],
-        [call(getPasswordSaga, EXPECTED_ADDRESS, false, true), 'somePassword'],
-      ])
-      .put(setAccount(EXPECTED_ADDRESS))
-      .put(setDataEncryptionKey(EXPECTED_DEK))
-      .returns(EXPECTED_ADDRESS)
-      .run()
-  })
+  it.each`
+    expectedAddress                                 | expectedPrivateDek                                                      | mnemonic
+    ${'0xE025583d25Eff2C254999b5904C97bAe9B3F8D83'} | ${'0xb6812219f7003c27cc1ef17c2033c033a38cfc52d83f176a0667086787d59d39'} | ${'avellana novio zona pinza ducha íntimo amante diluir toldo peón ocio encía gen balcón carro lingote millón amasar mármol bondad toser soledad croqueta agosto'}
+    ${'0x49A4728b4F94E5ccC4dDFe2fE2269ccD431dc052'} | ${'0x596371d7f1dc3a1dfb9e00b51cb5ca46b73993b962c0fb0e04302004581bf45d'} | ${'sufrir maniquí índice viral boina reino choza denso gafas aviso nadar glaciar'}
+    ${'0xfD13B93085Fbf8eb7464Ad08C53E01F7637EEe1B'} | ${'0x67ad8db612e5ea510b2359b2e8c32a55a76dfbe5fd1b40a35ecbca948e8690e7'} | ${'diez ronco nueve muerte apuesta previo definir dureza vagar casco aseo tanque'}
+  `(
+    'creates a new account $expectedAddress',
+    async ({ expectedAddress, expectedPrivateDek, mnemonic }) => {
+      await expectSaga(getOrCreateAccount)
+        .withState(state)
+        .provide([
+          [select(currentAccountSelector), null],
+          [matchers.call.fn(generateMnemonic), mnemonic],
+          [
+            call(storeMnemonic, mnemonic, expectedAddress),
+            {
+              service: 'mnemonic',
+              storage: 'storage',
+            },
+          ],
+          [call(getPasswordSaga, expectedAddress, false, true), 'somePassword'],
+        ])
+        .put(setAccount(expectedAddress))
+        .put(setDataEncryptionKey(expectedPrivateDek))
+        .returns(expectedAddress)
+        .run()
+    }
+  )
 
   it.each`
     appLang             | expectedMnemonicLang

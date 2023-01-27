@@ -73,6 +73,10 @@ describe('isTxPossiblyPending', () => {
     const result = isTxPossiblyPending(new Error('nonce too low error!!!'))
     expect(result).toBe(true)
   })
+  it('returns true when failed to check for tx receipt', () => {
+    const result = isTxPossiblyPending(new Error('Failed to check for transaction receipt:\n{}')) // error message copied from user's logs
+    expect(result).toBe(true)
+  })
   it('returns false when error is unrelated', () => {
     const result = isTxPossiblyPending(new Error('some unrelated error!!!'))
     expect(result).toBe(false)

@@ -196,7 +196,8 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
   const normalizedQuotes = normalizeQuotes(
     flow,
     fiatConnectQuotes,
-    asyncProviders.result?.externalProviders
+    asyncProviders.result?.externalProviders,
+    digitalAsset
   )
 
   const coinbaseProvider = filterProvidersByPaymentMethod(

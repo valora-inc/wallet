@@ -2884,6 +2884,9 @@
                 "dappsListLoading": {
                     "type": "boolean"
                 },
+                "dappsMinimalDisclaimerEnabled": {
+                    "type": "boolean"
+                },
                 "dappsWebViewEnabled": {
                     "type": "boolean"
                 },
@@ -2912,6 +2915,7 @@
                 "dappsList",
                 "dappsListError",
                 "dappsListLoading",
+                "dappsMinimalDisclaimerEnabled",
                 "dappsWebViewEnabled",
                 "favoriteDappIds",
                 "maxNumRecentDapps",
@@ -3565,13 +3569,17 @@
                         "null",
                         "string"
                     ]
+                },
+                "twelveWordMnemonicEnabled": {
+                    "type": "boolean"
                 }
             },
             "required": [
                 "account",
                 "accountInWeb3Keystore",
                 "dataEncryptionKey",
-                "mtwAddress"
+                "mtwAddress",
+                "twelveWordMnemonicEnabled"
             ],
             "type": "object"
         },

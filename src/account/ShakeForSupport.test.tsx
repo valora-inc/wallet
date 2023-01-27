@@ -14,8 +14,6 @@ const createStore = (appState: AppState) =>
   })
 
 describe('ShakeForSupport', () => {
-  // beforeEach(() => jest.useRealTimers())
-
   it('does not render when App not active', async () => {
     const tree = render(
       <Provider store={createStore(AppState.Background)}>

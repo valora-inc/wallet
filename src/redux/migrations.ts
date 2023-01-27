@@ -978,4 +978,12 @@ export const migrations = {
       celoEducationCompleted: state.goldToken.educationCompleted,
     },
   }),
+  105: (state: any) => ({
+    ...state,
+    web3: {
+      ...state.web3,
+      twelveWordMnemonicEnabled: false,
+    },
+  }),
+  106: (state: any) => state,
 }

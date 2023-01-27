@@ -1,4 +1,4 @@
-import { generateKeys, generateMnemonic, MnemonicStrength } from '@celo/cryptographic-utils'
+import { generateMnemonic, MnemonicStrength } from '@celo/cryptographic-utils'
 import { privateKeyToAddress } from '@celo/utils/lib/address'
 import { UnlockableWallet } from '@celo/wallet-base'
 import { RpcWalletErrors } from '@celo/wallet-rpc/lib/rpc-wallet'
@@ -7,7 +7,7 @@ import { call, delay, put, select, spawn, take } from 'redux-saga/effects'
 import { setAccountCreationTime } from 'src/account/actions'
 import { generateSignedMessage } from 'src/account/saga'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { getMnemonicLanguage, storeMnemonic } from 'src/backup/utils'
+import { generateKeysFromMnemonic, getMnemonicLanguage, storeMnemonic } from 'src/backup/utils'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import {
   CANCELLED_PIN_INPUT,
@@ -23,13 +23,12 @@ import { createAccountDek } from 'src/web3/dataEncryptionKey'
 import {
   currentAccountSelector,
   mtwAddressSelector,
+  twelveWordMnemonicEnabledSelector,
   walletAddressSelector,
 } from 'src/web3/selectors'
 import { RootState } from '../redux/reducers'
 
 const TAG = 'web3/saga'
-
-const MNEMONIC_BIT_LENGTH = MnemonicStrength.s256_24words
 
 const NEW_BLOCK_TIMEOUT = 30000 // ms
 const NEW_BLOCK_DELAY = 5000 // ms
@@ -61,13 +60,12 @@ export function* getOrCreateAccount() {
   try {
     Logger.debug(TAG + '@getOrCreateAccount', 'Creating a new account')
 
+    const twelveWordMnemonicEnabled = yield select(twelveWordMnemonicEnabledSelector)
+    const mnemonicBitLength = twelveWordMnemonicEnabled
+      ? MnemonicStrength.s128_12words
+      : MnemonicStrength.s256_24words
     const mnemonicLanguage = getMnemonicLanguage(yield select(currentLanguageSelector))
-    let mnemonic: string = yield call(
-      generateMnemonic,
-      MNEMONIC_BIT_LENGTH,
-      mnemonicLanguage,
-      bip39
-    )
+    let mnemonic: string = yield call(generateMnemonic, mnemonicBitLength, mnemonicLanguage, bip39)
 
     // Ensure no duplicates in mnemonic
     const checkDuplicate = (someString: string) => {
@@ -76,7 +74,7 @@ export function* getOrCreateAccount() {
     let duplicateInMnemonic = checkDuplicate(mnemonic)
     while (duplicateInMnemonic) {
       Logger.debug(TAG + '@getOrCreateAccount', 'Regenerating mnemonic to avoid duplicates')
-      mnemonic = yield call(generateMnemonic, MNEMONIC_BIT_LENGTH, mnemonicLanguage, bip39)
+      mnemonic = yield call(generateMnemonic, mnemonicBitLength, mnemonicLanguage, bip39)
       duplicateInMnemonic = checkDuplicate(mnemonic)
     }
 
@@ -84,7 +82,7 @@ export function* getOrCreateAccount() {
       throw new Error('Failed to generate mnemonic')
     }
 
-    const keys = yield call(generateKeys, mnemonic, undefined, undefined, undefined, bip39)
+    const keys = yield call(generateKeysFromMnemonic, mnemonic)
     privateKey = keys.privateKey
     if (!privateKey) {
       throw new Error('Failed to convert mnemonic to hex')

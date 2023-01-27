@@ -14,12 +14,12 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { getPassword } from 'src/pincode/authentication'
 import { removeStoredItem, retrieveStoredItem, storeItem } from 'src/storage/keychain'
 import Logger from 'src/utils/Logger'
+import { ETHEREUM_DERIVATION_PATH } from 'src/web3/consts'
 import { currentAccountSelector } from 'src/web3/selectors'
 
 const TAG = 'Backup/utils'
 
 const MNEMONIC_STORAGE_KEY = 'mnemonic'
-const ETHEREUM_DERIVATION_PATH = "m/44'/60'/0'"
 
 export async function generateKeysFromMnemonic(mnemonic: string) {
   const wordCount = countMnemonicWords(mnemonic)

@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { fireEvent, render } from '@testing-library/react-native'
+import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { Provider } from 'react-redux'
@@ -88,6 +88,8 @@ describe('SendConfirmationLegacy', () => {
 
   it('renders correctly', async () => {
     const tree = renderScreen()
+
+    await waitFor(() => expect(tree.getByTestId('ConfirmButton')).not.toBeDisabled())
     expect(tree).toMatchSnapshot()
   })
 

@@ -204,6 +204,8 @@ export interface RemoteConfigValues {
   networkTimeoutSeconds: number
   dappFavoritesEnabled: boolean
   celoNews: CeloNewsConfig
+  twelveWordMnemonicEnabled: boolean
+  dappsMinimalDisclaimerEnabled: boolean
 }
 
 export function* appRemoteFeatureFlagSaga() {
