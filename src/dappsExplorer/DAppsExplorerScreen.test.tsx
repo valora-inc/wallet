@@ -161,7 +161,7 @@ describe(DAppsExplorerScreen, () => {
         dappListApiUrl: 'http://url.com',
         dappsList,
         dappsCategories,
-        dappsDisclaimerMinimal: true,
+        dappsMinimalDisclaimerEnabled: true,
       },
     })
     const { getByTestId, getByText, queryByText } = render(

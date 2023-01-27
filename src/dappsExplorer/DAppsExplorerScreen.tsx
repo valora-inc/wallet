@@ -19,9 +19,9 @@ import {
   CategoryWithDapps,
   dappCategoriesByIdSelector,
   dappFavoritesEnabledSelector,
-  dappsDisclaimerMinimalSelector,
   dappsListErrorSelector,
   dappsListLoadingSelector,
+  dappsMinimalDisclaimerEnabledSelector,
   featuredDappSelector,
 } from 'src/dapps/selectors'
 import { fetchDappsList } from 'src/dapps/slice'
@@ -65,7 +65,7 @@ export function DAppsExplorerScreen() {
   const error = useSelector(dappsListErrorSelector)
   const categoriesById = useSelector(dappCategoriesByIdSelector)
   const dappFavoritesEnabled = useSelector(dappFavoritesEnabledSelector)
-  const dappsDisclaimerMinimal = useSelector(dappsDisclaimerMinimalSelector)
+  const dappsMinimalDisclaimerEnabled = useSelector(dappsMinimalDisclaimerEnabledSelector)
 
   const { onSelectDapp, ConfirmOpenDappBottomSheet } = useOpenDapp()
   const { onFavoriteDapp, DappFavoritedToast } = useDappFavoritedToast(sectionListRef)
@@ -123,7 +123,7 @@ export function DAppsExplorerScreen() {
             ref={sectionListRef}
             ListFooterComponent={
               <>
-                {dappsDisclaimerMinimal ? (
+                {dappsMinimalDisclaimerEnabled ? (
                   <Text style={styles.disclaimer}>{t('dappsDisclaimerAllDapps')}</Text>
                 ) : null}
               </>

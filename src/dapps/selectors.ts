@@ -68,8 +68,8 @@ export const dappConnectInfoSelector = (state: RootState) => state.dapps.dappCon
 
 export const dappFavoritesEnabledSelector = (state: RootState) => state.dapps.dappFavoritesEnabled
 
-export const dappsDisclaimerMinimalSelector = (state: RootState) =>
-  state.dapps.dappsDisclaimerMinimal
+export const dappsMinimalDisclaimerEnabledSelector = (state: RootState) =>
+  state.dapps.dappsMinimalDisclaimerEnabled
 
 export const recentDappsSelector = createSelector(
   dappsListSelector,
