@@ -5,9 +5,11 @@ import BigNumber from 'bignumber.js'
 import { useCallback, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { e164NumberSelector } from 'src/account/selectors'
 import { showError } from 'src/alert/actions'
 import { BASE_TAG } from 'src/merchantPayment/constants'
+import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import { getPassword, retrieveOrGeneratePepper } from 'src/pincode/authentication'
 import { divideByWei } from 'src/utils/formatting'
 import Logger from 'src/utils/Logger'
@@ -25,7 +27,8 @@ export function useMerchantPayments(apiBase: string, referenceId: string) {
   const LOG_TAG = BASE_TAG + 'useMerchantPayments'
 
   const { t } = useTranslation()
-  // const e164PhoneNumber = useSelector(e164NumberSelector)
+  const e164PhoneNumber = useSelector(e164NumberSelector)
+  const userLocationData = useSelector(userLocationDataSelector)
   const dispatch = useDispatch()
 
   const [charge, setCharge] = useState<Charge | null>(null)
@@ -59,13 +62,21 @@ export function useMerchantPayments(apiBase: string, referenceId: string) {
   }, [])
 
   const submit = useCallback(async () => {
+    const { countryCodeAlpha2 } = userLocationData
     if (!charge || paymentStatus === PaymentStatus.Pending) return
-
     setStatus(PaymentStatus.Pending)
     try {
-      // Temporarily disabled for celo connect
-      // await charge.submit({ phoneNumber: e164PhoneNumber })
-      await charge.submit({ address: { country: 'ES' } })
+      if (e164PhoneNumber) {
+        await charge.submit({ phoneNumber: e164PhoneNumber })
+      } else if (countryCodeAlpha2) {
+        await charge.submit({
+          address: {
+            country: countryCodeAlpha2,
+          },
+        })
+      } else {
+        throw new Error('No phone number or country code')
+      }
       setStatus(PaymentStatus.Done)
     } catch (e: unknown) {
       setStatus(PaymentStatus.Errored)
