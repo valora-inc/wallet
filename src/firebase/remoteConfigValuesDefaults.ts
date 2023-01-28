@@ -69,4 +69,5 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   dappFavoritesEnabled: false,
   celoNews: JSON.stringify({ enabled: false } as RemoteConfigValues['celoNews']),
   twelveWordMnemonicEnabled: false,
+  dappsMinimalDisclaimerEnabled: false,
 }

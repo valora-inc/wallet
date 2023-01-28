@@ -22,6 +22,7 @@ import {
   dappFavoritesEnabledSelector,
   dappsListErrorSelector,
   dappsListLoadingSelector,
+  dappsMinimalDisclaimerEnabledSelector,
   featuredDappSelector,
 } from 'src/dapps/selectors'
 import { fetchDappsList } from 'src/dapps/slice'
@@ -65,6 +66,7 @@ export function DAppsExplorerScreen() {
   const error = useSelector(dappsListErrorSelector)
   const categoriesById = useSelector(dappCategoriesByIdSelector)
   const dappFavoritesEnabled = useSelector(dappFavoritesEnabledSelector)
+  const dappsMinimalDisclaimerEnabled = useSelector(dappsMinimalDisclaimerEnabledSelector)
 
   const { onSelectDapp, ConfirmOpenDappBottomSheet } = useOpenDapp()
   const { onFavoriteDapp, DappFavoritedToast } = useDappFavoritedToast(sectionListRef)
@@ -138,6 +140,13 @@ export function DAppsExplorerScreen() {
             }
             // @ts-ignore TODO: resolve type error
             ref={sectionListRef}
+            ListFooterComponent={
+              <>
+                {dappsMinimalDisclaimerEnabled ? (
+                  <Text style={styles.disclaimer}>{t('dappsDisclaimerAllDapps')}</Text>
+                ) : null}
+              </>
+            }
             ListHeaderComponent={
               <>
                 <DescriptionView message={t('dappsScreen.message')} />
@@ -268,6 +277,13 @@ const styles = StyleSheet.create({
     ...fontStyles.label,
     color: colors.gray4,
     marginTop: 32,
+  },
+  disclaimer: {
+    ...fontStyles.small,
+    color: colors.gray5,
+    textAlign: 'center',
+    marginTop: 32,
+    marginBottom: 16,
   },
 })
 
