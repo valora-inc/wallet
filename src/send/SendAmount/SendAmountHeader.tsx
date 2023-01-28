@@ -62,7 +62,11 @@ function SendAmountHeader({
     return isOutgoingPaymentRequest ? (
       <Text style={headerStyles.headerTitle}>{titleText}</Text>
     ) : (
-      <HeaderTitleWithTokenBalance title={title} token={tokenInfo!.address} />
+      <HeaderTitleWithTokenBalance
+        title={title}
+        tokenInfo={tokenInfo}
+        showLocalAmount={!!tokenInfo?.usdPrice}
+      />
     )
   }, [isOutgoingPaymentRequest, tokenInfo])
 

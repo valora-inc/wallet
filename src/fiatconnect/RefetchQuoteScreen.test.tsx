@@ -7,7 +7,7 @@ import { refetchQuote } from 'src/fiatconnect/slice'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { Currency } from 'src/utils/currencies'
+import { CiCoCurrency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
 const store = createMockStore()
@@ -45,7 +45,7 @@ describe('RefetchQuoteScreen', () => {
               cryptoAmount: '10',
               fiatAmount: '10',
               flow: CICOFlow.CashOut,
-              cryptoType: Currency.Dollar,
+              cryptoType: CiCoCurrency.cUSD,
               fiatType: FiatType.USD,
             },
           },
@@ -67,7 +67,7 @@ describe('RefetchQuoteScreen', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       refetchQuote({
         flow: CICOFlow.CashOut,
-        cryptoType: Currency.Dollar,
+        cryptoType: CiCoCurrency.cUSD,
         cryptoAmount: '10',
         fiatAmount: '10',
         providerId: 'some-provider',
@@ -85,7 +85,7 @@ describe('RefetchQuoteScreen', () => {
               cryptoAmount: '10',
               fiatAmount: '10',
               flow: CICOFlow.CashOut,
-              cryptoType: Currency.Dollar,
+              cryptoType: CiCoCurrency.cUSD,
               fiatType: FiatType.USD,
             },
           },
@@ -106,7 +106,7 @@ describe('RefetchQuoteScreen', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       refetchQuote({
         flow: CICOFlow.CashOut,
-        cryptoType: Currency.Dollar,
+        cryptoType: CiCoCurrency.cUSD,
         cryptoAmount: '10',
         fiatAmount: '10',
         providerId: 'some-provider',

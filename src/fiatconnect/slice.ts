@@ -17,7 +17,7 @@ import { FiatAccountSchemaCountryOverrides } from 'src/fiatconnect/types'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
-import { CiCoCurrency, Currency } from 'src/utils/currencies'
+import { CiCoCurrency } from 'src/utils/currencies'
 
 export enum SendingTransferStatus {
   Sending = 'Sending',
@@ -43,7 +43,7 @@ export interface CachedQuoteParams {
   cryptoAmount: string
   fiatAmount: string
   flow: CICOFlow
-  cryptoType: Currency
+  cryptoType: CiCoCurrency
   fiatType: FiatType
 }
 
@@ -91,7 +91,7 @@ export interface CachedFiatAccountUse {
   fiatAccountId: string
   providerId: string
   flow: string
-  cryptoType: Currency
+  cryptoType: CiCoCurrency
   fiatType: FiatType
   fiatAccountType: FiatAccountType
   fiatAccountSchema: FiatAccountSchema
@@ -107,7 +107,7 @@ export interface FetchQuotesAction {
 
 export interface AttemptReturnUserFlowAction {
   flow: CICOFlow
-  selectedCrypto: Currency
+  selectedCrypto: CiCoCurrency
   amount: {
     crypto: number
     fiat: number
@@ -154,7 +154,7 @@ export interface CreateFiatConnectTransferTxProcessingAction {
 
 interface RefetchQuoteAction {
   flow: CICOFlow
-  cryptoType: Currency
+  cryptoType: CiCoCurrency
   cryptoAmount: string
   fiatAmount: string
   providerId: string

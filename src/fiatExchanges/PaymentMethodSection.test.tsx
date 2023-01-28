@@ -9,17 +9,30 @@ import {
 import { normalizeQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
 import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
+import { CiCoCurrency } from 'src/utils/currencies'
 import { createMockStore } from 'test/utils'
 import {
+  mockCusdAddress,
   mockFiatConnectQuotes,
   mockFiatConnectQuotesWithUnknownFees,
   mockProviders,
 } from 'test/values'
-import { CiCoCurrency } from 'src/utils/currencies'
 
 const mockStore = createMockStore({
   localCurrency: {
     preferredCurrencyCode: LocalCurrencyCode.USD,
+  },
+  tokens: {
+    tokenBalances: {
+      [mockCusdAddress]: {
+        address: mockCusdAddress,
+        symbol: 'cUSD',
+        usdPrice: '1',
+        balance: '10',
+        priceFetchedAt: Date.now(),
+        isCoreToken: true,
+      },
+    },
   },
 })
 
@@ -29,9 +42,10 @@ describe('PaymentMethodSection', () => {
     props = {
       paymentMethod: PaymentMethod.Card,
       // the below creates 4 quotes - 1 Ramp (card), 2 Moonpay (bank, card), 1 Simplex (card)
-      normalizedQuotes: normalizeQuotes(CICOFlow.CashIn, [], mockProviders, CiCoCurrency.CUSD),
+      normalizedQuotes: normalizeQuotes(CICOFlow.CashIn, [], mockProviders, CiCoCurrency.cUSD),
       setNoPaymentMethods: jest.fn(),
       flow: CICOFlow.CashIn,
+      cryptoType: CiCoCurrency.cUSD,
     }
   })
   it('shows nothing if there are no available providers', async () => {
@@ -52,7 +66,7 @@ describe('PaymentMethodSection', () => {
       CICOFlow.CashIn,
       [],
       [mockProviders[2]],
-      CiCoCurrency.CUSD
+      CiCoCurrency.cUSD
     )
     const { queryByText, queryByTestId } = render(
       <Provider store={mockStore}>
@@ -69,7 +83,7 @@ describe('PaymentMethodSection', () => {
       CICOFlow.CashIn,
       [],
       [mockProviders[2]],
-      CiCoCurrency.CUSD
+      CiCoCurrency.cUSD
     )
     jest.spyOn(props.normalizedQuotes[0], 'isProviderNew').mockReturnValue(true)
     const { getByText, getByTestId } = render(
@@ -152,7 +166,7 @@ describe('PaymentMethodSection', () => {
       CICOFlow.CashIn,
       mockFiatConnectQuotesWithUnknownFees,
       [],
-      CiCoCurrency.CUSD
+      CiCoCurrency.cUSD
     )
     props.paymentMethod = PaymentMethod.Bank
     const { queryByText, queryByTestId } = render(
@@ -171,7 +185,7 @@ describe('PaymentMethodSection', () => {
       CICOFlow.CashIn,
       [mockFiatConnectQuotes[3]] as FiatConnectQuoteSuccess[],
       [],
-      CiCoCurrency.CUSD
+      CiCoCurrency.cUSD
     )
     props.paymentMethod = PaymentMethod.Bank
     const { queryByTestId } = render(
@@ -191,7 +205,7 @@ describe('PaymentMethodSection', () => {
       CICOFlow.CashIn,
       [mockFiatConnectQuotes[1]] as FiatConnectQuoteSuccess[],
       [],
-      CiCoCurrency.CUSD
+      CiCoCurrency.cUSD
     )
     props.paymentMethod = PaymentMethod.Bank
     const { queryByTestId } = render(
@@ -208,7 +222,7 @@ describe('PaymentMethodSection', () => {
   it.each([
     [
       PaymentMethod.Card as const,
-      normalizeQuotes(CICOFlow.CashIn, [], [mockProviders[2]], CiCoCurrency.CUSD),
+      normalizeQuotes(CICOFlow.CashIn, [], [mockProviders[2]], CiCoCurrency.cUSD),
       'card',
       'oneHour',
     ],
@@ -218,7 +232,7 @@ describe('PaymentMethodSection', () => {
         CICOFlow.CashIn,
         [mockFiatConnectQuotes[1]] as FiatConnectQuoteSuccess[],
         [],
-        CiCoCurrency.CUSD
+        CiCoCurrency.cUSD
       ),
       'bank',
       'numDays',
@@ -229,7 +243,7 @@ describe('PaymentMethodSection', () => {
         CICOFlow.CashIn,
         [mockFiatConnectQuotes[4]] as FiatConnectQuoteSuccess[],
         [],
-        CiCoCurrency.CUSD
+        CiCoCurrency.cUSD
       ),
       'mobileMoney',
       'lessThan24Hours',
