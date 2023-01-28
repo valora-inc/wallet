@@ -268,6 +268,7 @@
   "onlyCelo": "Chỉ CELO",
   "celoDollar": "Đô la Celo",
   "celoEuro": "Euro Celo",
+  "celoReal": "Celo Real",
   "celoDollars": "Đô la Celo",
   "tapToCopyCeloDollarsAddress": "Nhấn để sao chép địa chỉ CUSD {{appName}} của bạn",
   "disclaimerFiat": "Giá trị {{currency}} chỉ là ước tính.",
