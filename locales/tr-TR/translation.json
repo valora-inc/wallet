@@ -268,6 +268,7 @@
   "onlyCelo": "Sadece CELO",
   "celoDollar": "Celo Dollar",
   "celoEuro": "Celo Eurosu",
+  "celoReal": "Celo Real",
   "celoDollars": "Celo Dollars",
   "tapToCopyCeloDollarsAddress": "{{appName}} cUSD adresinizi kopyalamak için dokunun",
   "disclaimerFiat": "{{currency}} değerleri tahminidir.",
