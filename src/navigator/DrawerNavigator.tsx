@@ -261,7 +261,7 @@ export default function DrawerNavigator() {
         celoMenuItem
       )}
 
-      {dappsListUrl && (
+      {!!dappsListUrl && (
         <Drawer.Screen
           name={Screens.DAppsExplorerScreen}
           component={DAppsExplorerScreen}
