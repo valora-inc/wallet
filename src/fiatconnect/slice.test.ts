@@ -1,6 +1,6 @@
 import { FiatType, KycSchema } from '@fiatconnect/fiatconnect-types'
 import { CICOFlow } from 'src/fiatExchanges/utils'
-import { Currency } from 'src/utils/currencies'
+import { CiCoCurrency } from 'src/utils/currencies'
 import reducer, { cacheQuoteParams, State } from './slice'
 
 describe('fiatconnect slices', () => {
@@ -13,7 +13,7 @@ describe('fiatconnect slices', () => {
         cryptoAmount: '100',
         fiatAmount: '100',
         flow: CICOFlow.CashOut,
-        cryptoType: Currency.Celo,
+        cryptoType: CiCoCurrency.CELO,
         fiatType: FiatType.USD,
       }
       expect(

@@ -310,7 +310,7 @@
             "additionalProperties": false,
             "properties": {
                 "cryptoType": {
-                    "$ref": "#/definitions/Currency"
+                    "$ref": "#/definitions/CiCoCurrency"
                 },
                 "fiatAccountId": {
                     "type": "string"
@@ -349,7 +349,7 @@
                     "type": "string"
                 },
                 "cryptoType": {
-                    "$ref": "#/definitions/Currency"
+                    "$ref": "#/definitions/CiCoCurrency"
                 },
                 "fiatAmount": {
                     "type": "string"
@@ -384,6 +384,15 @@
                 "enabled"
             ],
             "type": "object"
+        },
+        "CiCoCurrency": {
+            "enum": [
+                "CELO",
+                "cEUR",
+                "cREAL",
+                "cUSD"
+            ],
+            "type": "string"
         },
         "CoreTypes.Metadata": {
             "additionalProperties": false,
