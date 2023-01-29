@@ -58,7 +58,7 @@ describe('FiatExchangeCurrency', () => {
     fireEvent.press(tree.getByTestId('radio/CELO'))
     fireEvent.press(tree.getByText('next'))
     expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeAmount, {
-      currency: 'cGLD',
+      currency: 'CELO',
       flow: FiatExchangeFlow.CashIn,
     })
   })

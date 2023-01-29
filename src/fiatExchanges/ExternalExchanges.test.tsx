@@ -3,7 +3,7 @@ import * as React from 'react'
 import { Provider } from 'react-redux'
 import ExternalExchanges from 'src/fiatExchanges/ExternalExchanges'
 import { Screens } from 'src/navigator/Screens'
-import { Currency } from 'src/utils/currencies'
+import { CiCoCurrency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockAccount, mockExchanges } from 'test/values'
@@ -30,7 +30,7 @@ describe('ExternalExchanges', () => {
   it('shows list of available exchanges', async () => {
     const mockScreenProps = getMockStackScreenProps(Screens.ExternalExchanges, {
       isCashIn: true,
-      currency: Currency.Dollar,
+      currency: CiCoCurrency.cUSD,
       exchanges: mockExchanges,
     })
 

@@ -11,10 +11,10 @@ import { canSendTokensSelector } from 'src/send/selectors'
 import colors from 'src/styles/colors'
 import variables from 'src/styles/variables'
 import { useTokenInfoBySymbol } from 'src/tokens/hooks'
-import { Currency } from 'src/utils/currencies'
+import { CiCoCurrency } from 'src/utils/currencies'
 
 interface Props {
-  selectedCurrency?: Currency
+  selectedCurrency?: CiCoCurrency
   skipImport?: boolean
 }
 
