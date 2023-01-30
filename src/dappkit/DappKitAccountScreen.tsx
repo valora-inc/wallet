@@ -69,7 +69,7 @@ const DappKitAccountScreen = ({ route }: Props) => {
             ? t('connectToWallet', { dappName: dappKitRequest.dappName })
             : t('confirmTransaction', { dappName: dappKitRequest.dappName })
         }
-        description={t('shareInfo')}
+        description={phoneNumber ? t('connectWalletInfoDappkit') : t('shareInfo')}
         requestDetails={[
           {
             label: t('phoneNumber'),
