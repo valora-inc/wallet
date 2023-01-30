@@ -83,7 +83,7 @@ import { tokensListSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { isTxPossiblyPending } from 'src/transactions/send'
 import { newTransactionContext } from 'src/transactions/types'
-import { CiCoCurrency, Currency, resolveCICOCurrency } from 'src/utils/currencies'
+import { CiCoCurrency, resolveCICOCurrency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { v4 as uuidv4 } from 'uuid'
@@ -318,11 +318,6 @@ export function* handleAttemptReturnUserFlow({
     fiatAccountType,
     fiatAccountSchema,
   } = params
-  const digitalAsset = {
-    [Currency.Celo]: CiCoCurrency.CELO,
-    [Currency.Dollar]: CiCoCurrency.CUSD,
-    [Currency.Euro]: CiCoCurrency.CEUR,
-  }[selectedCrypto]
 
   const fiatConnectProviders: FiatConnectProviderInfo[] | null = yield select(
     fiatConnectProvidersSelector
@@ -341,7 +336,7 @@ export function* handleAttemptReturnUserFlow({
     const { normalizedQuote }: { normalizedQuote: FiatConnectQuote } = yield call(
       _getSpecificQuote,
       {
-        digitalAsset,
+        digitalAsset: selectedCrypto,
         cryptoAmount: amount.crypto,
         fiatAmount: amount.fiat,
         flow,

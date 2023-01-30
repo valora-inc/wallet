@@ -268,6 +268,7 @@
   "onlyCelo": "Solo CELO",
   "celoDollar": "Celo Dollar",
   "celoEuro": "Celo Euro",
+  "celoReal": "Celo Real",
   "celoDollars": "Celo Dollars",
   "tapToCopyCeloDollarsAddress": "`Toca para copiar tu dirección de cUSD de {{appName}}",
   "disclaimerFiat": "Los valores en {{currency}} son estimativos.",
@@ -1228,6 +1229,7 @@
     "message": "Estás a punto de abrir una aplicación externa, no operada por Valora.\n\nValora no ofrece garantías sobre esta aplicación. Úsala por cuenta y riesgo propios.",
     "button": "Ir a {{dappName}}"
   },
+  "dappsDisclaimerAllDapps": "{{appName}} no está afiliada a estas dapps y no hace declaraciones ni afirmaciones al utilizarlas. Por favor, reconoce el riesgo antes de utilizar una dapp revisando el acuerdo de usuario o la política de privacidad.",
   "recentlyUsedDapps": "Dapps usadas recientemente",
   "favoritedDapps": "Dapps favoritas",
   "allDapps": "Todas las dapps",

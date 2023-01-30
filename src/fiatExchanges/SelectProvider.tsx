@@ -40,7 +40,7 @@ import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
-import { CiCoCurrency, CURRENCIES, Currency } from 'src/utils/currencies'
+import { CiCoCurrency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
@@ -55,6 +55,7 @@ import {
   filterProvidersByPaymentMethod,
   LegacyMobileMoneyProvider,
   PaymentMethod,
+  resolveCloudFunctionDigitalAsset,
 } from './utils'
 
 const TAG = 'SelectProviderScreen'
@@ -99,17 +100,11 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
   const selectFiatConnectQuoteLoading = useSelector(selectFiatConnectQuoteLoadingSelector)
 
   const [noPaymentMethods, setNoPaymentMethods] = useState(false)
-  const { flow } = route.params
+  const { flow, selectedCrypto: digitalAsset } = route.params
   const { t } = useTranslation()
   const coinbasePayEnabled = useSelector(coinbasePayEnabledSelector)
   const appIdResponse = useAsync(async () => readOnceFromFirebase('coinbasePay/appId'), [])
   const appId = appIdResponse.result
-
-  const digitalAsset = {
-    [Currency.Celo]: CiCoCurrency.CELO,
-    [Currency.Dollar]: CiCoCurrency.CUSD,
-    [Currency.Euro]: CiCoCurrency.CEUR,
-  }[route.params.selectedCrypto]
 
   // If there is no FC providers in the redux cache, try to fetch again
   useEffect(() => {
@@ -160,7 +155,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
           userLocation,
           walletAddress: account,
           fiatCurrency: localCurrency,
-          digitalAsset,
+          digitalAsset: resolveCloudFunctionDigitalAsset(digitalAsset),
           fiatAmount: route.params.amount.fiat,
           digitalAssetAmount: route.params.amount.crypto,
           txType: flow === CICOFlow.CashIn ? 'buy' : 'sell',
@@ -174,7 +169,6 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
         userLocation.countryCodeAlpha2,
         digitalAsset
       )
-
       return { externalProviders, legacyMobileMoneyProviders }
     } catch (error) {
       dispatch(showError(ErrorMessages.PROVIDER_FETCH_FAILED))
@@ -235,7 +229,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
       <View style={styles.noPaymentMethodsContainer}>
         <Text testID="NoPaymentMethods" style={styles.noPaymentMethods}>
           {t('noPaymentMethods', {
-            digitalAsset: CURRENCIES[route.params.selectedCrypto].cashTag,
+            digitalAsset,
           })}
         </Text>
         <TextButton
@@ -263,18 +257,21 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
         paymentMethod={PaymentMethod.Card}
         setNoPaymentMethods={setNoPaymentMethods}
         flow={flow}
+        cryptoType={digitalAsset}
       />
       <PaymentMethodSection
         normalizedQuotes={normalizedQuotes}
         paymentMethod={PaymentMethod.Bank}
         setNoPaymentMethods={setNoPaymentMethods}
         flow={flow}
+        cryptoType={digitalAsset}
       />
       <PaymentMethodSection
         normalizedQuotes={normalizedQuotes}
         paymentMethod={PaymentMethod.FiatConnectMobileMoney}
         setNoPaymentMethods={setNoPaymentMethods}
         flow={flow}
+        cryptoType={digitalAsset}
       />
       <LegacyMobileMoneySection
         providers={legacyMobileMoneyProviders || []}
@@ -351,7 +348,7 @@ function ExchangesSection({
 }: {
   exchanges: ExternalExchangeProvider[]
   flow: CICOFlow
-  selectedCurrency: Currency
+  selectedCurrency: CiCoCurrency
 }) {
   const { t } = useTranslation()
 
@@ -452,7 +449,7 @@ function LegacyMobileMoneySection({
       paymentMethod: PaymentMethod.MobileMoney,
       provider: provider.name,
     })
-    navigateToURI(provider[digitalAsset === CiCoCurrency.CUSD ? 'cusd' : 'celo'].url)
+    navigateToURI(provider[digitalAsset === CiCoCurrency.cUSD ? 'cusd' : 'celo'].url)
   }
 
   if (!provider) {

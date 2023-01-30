@@ -13,7 +13,8 @@ import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
-import { useTokenInfo, useTokenInfoByCurrency } from 'src/tokens/hooks'
+import { useTokenInfoByCurrency } from 'src/tokens/hooks'
+import { TokenBalance } from 'src/tokens/slice'
 import { Currency } from 'src/utils/currencies'
 
 export const noHeader: NativeStackNavigationOptions = {
@@ -154,21 +155,22 @@ export function HeaderTitleWithBalance({
   )
 }
 
-interface TokenBalanceProps {
+export function HeaderTitleWithTokenBalance({
+  title,
+  showLocalAmount,
+  tokenInfo,
+}: {
   title: string | JSX.Element
-  token: string
-}
-
-export function HeaderTitleWithTokenBalance({ title, token }: TokenBalanceProps) {
-  const tokenInfo = useTokenInfo(token)
-
+  tokenInfo: TokenBalance | undefined
+  showLocalAmount: boolean
+}) {
   const subTitle = tokenInfo ? (
     <Trans i18nKey="balanceAvailable">
       <TokenDisplay
-        style={styles.headerSubTitle}
-        tokenAddress={token}
         amount={tokenInfo.balance}
-        showLocalAmount={!!tokenInfo?.usdPrice}
+        tokenAddress={tokenInfo.address}
+        showLocalAmount={showLocalAmount}
+        style={styles.headerSubTitle}
       />
     </Trans>
   ) : (

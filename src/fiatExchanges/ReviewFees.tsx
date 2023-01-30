@@ -68,9 +68,9 @@ export default function ReviewFees({
 
   const token = {
     [CiCoCurrency.CELO]: 'CELO',
-    [CiCoCurrency.CUSD]: 'cUSD',
-    [CiCoCurrency.CEUR]: 'cEUR',
-    [CiCoCurrency.CREAL]: 'cREAL',
+    [CiCoCurrency.cUSD]: 'cUSD',
+    [CiCoCurrency.cEUR]: 'cEUR',
+    [CiCoCurrency.cREAL]: 'cREAL',
   }[currencyToBuy]
 
   return (

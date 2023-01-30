@@ -100,7 +100,7 @@ describe('FiatConnect helpers', () => {
       fiatConnectCashOutEnabled: false,
       flow: CICOFlow.CashIn,
       localCurrency: LocalCurrencyCode.USD,
-      digitalAsset: CiCoCurrency.CUSD,
+      digitalAsset: CiCoCurrency.cUSD,
       cryptoAmount: 100,
       fiatAmount: 100,
       country: 'US',
@@ -137,7 +137,7 @@ describe('FiatConnect helpers', () => {
     const getQuotesInput: QuotesInput = {
       flow: CICOFlow.CashIn,
       localCurrency: LocalCurrencyCode.USD,
-      digitalAsset: CiCoCurrency.CUSD,
+      digitalAsset: CiCoCurrency.cUSD,
       cryptoAmount: 100,
       fiatAmount: 100,
       country: 'US',

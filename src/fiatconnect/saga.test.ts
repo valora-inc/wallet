@@ -90,7 +90,7 @@ import { buildAndSendPayment } from 'src/send/saga'
 import { tokensListSelector } from 'src/tokens/selectors'
 import { isTxPossiblyPending } from 'src/transactions/send'
 import { newTransactionContext, TransactionContext } from 'src/transactions/types'
-import { CiCoCurrency, Currency } from 'src/utils/currencies'
+import { CiCoCurrency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { walletAddressSelector } from 'src/web3/selectors'
 import {
@@ -1192,7 +1192,7 @@ describe('Fiatconnect saga', () => {
           [
             call(_getSpecificQuote, {
               flow: params.payload.flow,
-              digitalAsset: CiCoCurrency.CUSD,
+              digitalAsset: CiCoCurrency.cUSD,
               cryptoAmount: 100,
               fiatAmount: 100,
               providerId: params.payload.providerId,
@@ -1218,7 +1218,7 @@ describe('Fiatconnect saga', () => {
         .provide([
           [
             call(_getSpecificQuote, {
-              digitalAsset: CiCoCurrency.CUSD,
+              digitalAsset: CiCoCurrency.cUSD,
               cryptoAmount: 100,
               fiatAmount: 100,
               flow: params.payload.flow,
@@ -1237,7 +1237,7 @@ describe('Fiatconnect saga', () => {
           [
             call(_getSpecificQuote, {
               flow: params.payload.flow,
-              digitalAsset: CiCoCurrency.CUSD,
+              digitalAsset: CiCoCurrency.cUSD,
               cryptoAmount: 100,
               fiatAmount: 100,
               providerId: params.payload.providerId,
@@ -1267,7 +1267,7 @@ describe('Fiatconnect saga', () => {
         fiat: 2,
       },
       flow: CICOFlow.CashOut,
-      selectedCrypto: Currency.Dollar,
+      selectedCrypto: CiCoCurrency.cUSD,
     }
     const params = attemptReturnUserFlow({
       ...selectProviderParams,
@@ -1311,7 +1311,7 @@ describe('Fiatconnect saga', () => {
           ],
           [
             call(_getSpecificQuote, {
-              digitalAsset: CiCoCurrency.CUSD,
+              digitalAsset: CiCoCurrency.cUSD,
               cryptoAmount: 2,
               fiatAmount: 2,
               flow: params.payload.flow,
@@ -1336,7 +1336,7 @@ describe('Fiatconnect saga', () => {
           [select(fiatConnectProvidersSelector), mockFiatConnectProviderInfo],
           [
             call(_getSpecificQuote, {
-              digitalAsset: CiCoCurrency.CUSD,
+              digitalAsset: CiCoCurrency.cUSD,
               cryptoAmount: 2,
               fiatAmount: 2,
               flow: params.payload.flow,
@@ -1373,7 +1373,7 @@ describe('Fiatconnect saga', () => {
           [select(fiatConnectProvidersSelector), mockFiatConnectProviderInfo],
           [
             call(_getSpecificQuote, {
-              digitalAsset: CiCoCurrency.CUSD,
+              digitalAsset: CiCoCurrency.cUSD,
               cryptoAmount: 2,
               fiatAmount: 2,
               flow: params.payload.flow,
@@ -1409,7 +1409,7 @@ describe('Fiatconnect saga', () => {
           [select(fiatConnectProvidersSelector), mockFiatConnectProviderInfo],
           [
             call(_getSpecificQuote, {
-              digitalAsset: CiCoCurrency.CUSD,
+              digitalAsset: CiCoCurrency.cUSD,
               cryptoAmount: 2,
               fiatAmount: 2,
               flow: paramsKyc.payload.flow,
@@ -1453,7 +1453,7 @@ describe('Fiatconnect saga', () => {
           [select(fiatConnectProvidersSelector), mockFiatConnectProviderInfo],
           [
             call(_getSpecificQuote, {
-              digitalAsset: CiCoCurrency.CUSD,
+              digitalAsset: CiCoCurrency.cUSD,
               cryptoAmount: 2,
               fiatAmount: 2,
               flow: paramsKyc.payload.flow,
@@ -1496,7 +1496,7 @@ describe('Fiatconnect saga', () => {
           [select(fiatConnectProvidersSelector), mockFiatConnectProviderInfo],
           [
             call(_getSpecificQuote, {
-              digitalAsset: CiCoCurrency.CUSD,
+              digitalAsset: CiCoCurrency.cUSD,
               cryptoAmount: 2,
               fiatAmount: 2,
               flow: paramsKyc.payload.flow,
@@ -1538,7 +1538,7 @@ describe('Fiatconnect saga', () => {
           [select(fiatConnectProvidersSelector), mockFiatConnectProviderInfo],
           [
             call(_getSpecificQuote, {
-              digitalAsset: CiCoCurrency.CUSD,
+              digitalAsset: CiCoCurrency.cUSD,
               cryptoAmount: 2,
               fiatAmount: 2,
               flow: paramsKyc.payload.flow,
@@ -1580,7 +1580,7 @@ describe('Fiatconnect saga', () => {
           [select(fiatConnectProvidersSelector), mockFiatConnectProviderInfo],
           [
             call(_getSpecificQuote, {
-              digitalAsset: CiCoCurrency.CUSD,
+              digitalAsset: CiCoCurrency.cUSD,
               cryptoAmount: 2,
               fiatAmount: 2,
               flow: paramsKyc.payload.flow,
@@ -2473,7 +2473,7 @@ describe('Fiatconnect saga', () => {
 
     it('finds a suitable fiat account from on-file accounts if none is provided', async () => {
       await expectSaga(_getSpecificQuote, {
-        digitalAsset: CiCoCurrency.CUSD,
+        digitalAsset: CiCoCurrency.cUSD,
         cryptoAmount: 2,
         fiatAmount: 2,
         flow: CICOFlow.CashOut,
@@ -2483,7 +2483,7 @@ describe('Fiatconnect saga', () => {
           [
             call(_getQuotes, {
               flow: CICOFlow.CashOut,
-              digitalAsset: CiCoCurrency.CUSD,
+              digitalAsset: CiCoCurrency.cUSD,
               cryptoAmount: 2,
               fiatAmount: 2,
               providerIds: ['provider-two'],
@@ -2511,7 +2511,7 @@ describe('Fiatconnect saga', () => {
       await expect(
         async () =>
           await expectSaga(_getSpecificQuote, {
-            digitalAsset: CiCoCurrency.CUSD,
+            digitalAsset: CiCoCurrency.cUSD,
             cryptoAmount: 2,
             fiatAmount: 2,
             flow: CICOFlow.CashOut,
@@ -2521,7 +2521,7 @@ describe('Fiatconnect saga', () => {
               [
                 call(_getQuotes, {
                   flow: CICOFlow.CashOut,
-                  digitalAsset: CiCoCurrency.CUSD,
+                  digitalAsset: CiCoCurrency.cUSD,
                   cryptoAmount: 2,
                   fiatAmount: 2,
                   providerIds: ['provider-two'],
@@ -2541,7 +2541,7 @@ describe('Fiatconnect saga', () => {
     })
     it('fetches and returns a quote if fiat account type and schema match', async () => {
       await expectSaga(_getSpecificQuote, {
-        digitalAsset: CiCoCurrency.CUSD,
+        digitalAsset: CiCoCurrency.cUSD,
         cryptoAmount: 2,
         fiatAmount: 2,
         flow: CICOFlow.CashOut,
@@ -2552,7 +2552,7 @@ describe('Fiatconnect saga', () => {
           [
             call(_getQuotes, {
               flow: CICOFlow.CashOut,
-              digitalAsset: CiCoCurrency.CUSD,
+              digitalAsset: CiCoCurrency.cUSD,
               cryptoAmount: 2,
               fiatAmount: 2,
               providerIds: ['provider-two'],
@@ -2573,7 +2573,7 @@ describe('Fiatconnect saga', () => {
       await expect(
         async () =>
           await expectSaga(_getSpecificQuote, {
-            digitalAsset: CiCoCurrency.CUSD,
+            digitalAsset: CiCoCurrency.cUSD,
             cryptoAmount: 2,
             fiatAmount: 2,
             flow: CICOFlow.CashOut,
@@ -2584,7 +2584,7 @@ describe('Fiatconnect saga', () => {
               [
                 call(_getQuotes, {
                   flow: CICOFlow.CashOut,
-                  digitalAsset: CiCoCurrency.CUSD,
+                  digitalAsset: CiCoCurrency.cUSD,
                   cryptoAmount: 2,
                   fiatAmount: 2,
                   providerIds: ['provider-two'],

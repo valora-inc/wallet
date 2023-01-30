@@ -17,7 +17,7 @@ import { StackParamList } from 'src/navigator/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
-import { Currency } from 'src/utils/currencies'
+import { CiCoCurrency, currencyForAnalytics, resolveCurrency } from 'src/utils/currencies'
 import { CICOFlow, FiatExchangeFlow } from './utils'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.FiatExchangeCurrency>
@@ -92,16 +92,18 @@ function FiatExchangeCurrency({ route, navigation }: Props) {
   const { t } = useTranslation()
   const { flow } = route.params
 
-  const [selectedCurrency, setSelectedCurrency] = useState<Currency>(Currency.Dollar)
+  const [selectedCurrency, setSelectedCurrency] = useState<CiCoCurrency>(CiCoCurrency.cUSD)
 
   const goToProvider = () => {
     ValoraAnalytics.track(FiatExchangeEvents.cico_currency_chosen, {
       flow,
-      currency: selectedCurrency,
+      currency: currencyForAnalytics[selectedCurrency],
     })
     if (flow === FiatExchangeFlow.Spend) {
       return navigate(Screens.BidaliScreen, {
-        currency: selectedCurrency,
+        // ResolveCurrency is okay to use here since Bidali only
+        // supports cEUR and cUSD
+        currency: resolveCurrency(selectedCurrency),
       })
     }
     navigate(Screens.FiatExchangeAmount, {
@@ -120,8 +122,8 @@ function FiatExchangeCurrency({ route, navigation }: Props) {
           <CurrencyRadioItem
             title={t('celoDollar')}
             body="(cUSD)"
-            selected={selectedCurrency === Currency.Dollar}
-            onSelect={() => setSelectedCurrency(Currency.Dollar)}
+            selected={selectedCurrency === CiCoCurrency.cUSD}
+            onSelect={() => setSelectedCurrency(CiCoCurrency.cUSD)}
             containerStyle={{
               borderTopLeftRadius: 8,
               borderTopRightRadius: 8,
@@ -132,25 +134,31 @@ function FiatExchangeCurrency({ route, navigation }: Props) {
           <CurrencyRadioItem
             title={t('celoEuro')}
             body="(cEUR)"
-            selected={selectedCurrency === Currency.Euro}
-            onSelect={() => setSelectedCurrency(Currency.Euro)}
-            containerStyle={{
-              borderTopWidth: 0.5,
-              borderBottomWidth: 0.5,
-            }}
+            selected={selectedCurrency === CiCoCurrency.cEUR}
+            onSelect={() => setSelectedCurrency(CiCoCurrency.cEUR)}
+            containerStyle={styles.radioMiddle}
             testID="radio/cEUR"
           />
           <CurrencyRadioItem
             title="CELO"
-            selected={selectedCurrency === Currency.Celo}
-            onSelect={() => setSelectedCurrency(Currency.Celo)}
+            selected={selectedCurrency === CiCoCurrency.CELO}
+            onSelect={() => setSelectedCurrency(CiCoCurrency.CELO)}
             enabled={flow !== FiatExchangeFlow.Spend}
+            containerStyle={styles.radioMiddle}
+            testID="radio/CELO"
+          />
+          <CurrencyRadioItem
+            title={t('celoReal')}
+            body="(cREAL)"
+            selected={selectedCurrency === CiCoCurrency.cREAL}
+            onSelect={() => setSelectedCurrency(CiCoCurrency.cREAL)}
+            enabled={flow === FiatExchangeFlow.CashIn}
             containerStyle={{
               borderTopWidth: 0.5,
               borderBottomLeftRadius: 8,
               borderBottomRightRadius: 8,
             }}
-            testID="radio/CELO"
+            testID="radio/cREAL"
           />
         </View>
       </ScrollView>
@@ -217,6 +225,10 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginTop: 40,
     marginBottom: 24,
+  },
+  radioMiddle: {
+    borderTopWidth: 0.5,
+    borderBottomWidth: 0.5,
   },
 })
 

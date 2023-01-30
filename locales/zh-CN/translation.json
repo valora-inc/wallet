@@ -268,6 +268,7 @@
   "onlyCelo": "仅限 CELO",
   "celoDollar": "Celo 美元",
   "celoEuro": "Celo 欧元",
+  "celoReal": "塞洛-雷亚尔",
   "celoDollars": "Celo 美元",
   "tapToCopyCeloDollarsAddress": "点按以复制您的 {{appName}} CUSD 地址",
   "disclaimerFiat": "{{currency}} 价值为估计值。",
@@ -1226,6 +1227,7 @@
     "message": "您即将打开一个非 Valora 运营的应用程序。\n\nValora 不对该应用程序做任何担保。请自行承担使用风险。",
     "button": "转至 {{dappName}}"
   },
+  "dappsDisclaimerAllDapps": "{{appName}} 与这些应用程序没有关系，在使用它们时不做任何陈述或主张。在使用dapp之前，请通过审查用户协议或隐私政策来确认风险。",
   "recentlyUsedDapps": "最近使用的 Dapp",
   "favoritedDapps": "最喜欢的Dapps",
   "allDapps": "所有 Dapp",
