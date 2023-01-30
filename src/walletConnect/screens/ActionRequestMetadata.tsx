@@ -2,7 +2,7 @@ import { trimLeading0x } from '@celo/utils/lib/address'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
-import SmsIcon from 'src/icons/SmsIcon'
+import CopyIcon from 'src/icons/CopyIcon'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -45,7 +45,7 @@ function ActionRequestMetadata({ method, params }: Props) {
           {moreInfoString}
         </Text>
       </View>
-      <SmsIcon />
+      <CopyIcon />
     </View>
   )
 }
