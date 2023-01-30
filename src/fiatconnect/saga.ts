@@ -1009,19 +1009,20 @@ export function* handleCreateFiatConnectTransfer(
     )
 
     if (flow === CICOFlow.CashOut) {
-      transactionHash = yield call(_initiateSendTxToProvider, {
+      const cashOutTxHash: string = yield call(_initiateSendTxToProvider, {
         transferAddress,
         fiatConnectQuote,
       })
       yield put(
         cacheFiatConnectTransfer({
-          txHash: transactionHash!.toLowerCase(),
+          txHash: cashOutTxHash.toLowerCase(),
           transferId,
           providerId: fiatConnectQuote.getProviderId(),
           fiatAccountId: action.payload.fiatAccountId,
           quote: fiatConnectQuote.quote.quote,
         })
       )
+      transactionHash = cashOutTxHash
     }
 
     ValoraAnalytics.track(FiatExchangeEvents.cico_fc_transfer_success, {

@@ -4,6 +4,7 @@ import {
   FiatType,
   KycSchema,
   ObfuscatedFiatAccountData,
+  QuoteResponse,
 } from '@fiatconnect/fiatconnect-types'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { isEqual } from 'lodash'
@@ -13,7 +14,7 @@ import {
   FiatConnectQuoteError,
   FiatConnectQuoteSuccess,
 } from 'src/fiatconnect'
-import { FiatAccountSchemaCountryOverrides, QuoteResponseQuoteField } from 'src/fiatconnect/types'
+import { FiatAccountSchemaCountryOverrides } from 'src/fiatconnect/types'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
@@ -51,7 +52,7 @@ export interface CachedTransferDetails {
   transferId: string
   providerId: string
   fiatAccountId: string
-  quote: QuoteResponseQuoteField
+  quote: QuoteResponse['quote']
 }
 
 export interface State {
