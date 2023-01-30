@@ -1994,7 +1994,6 @@ export const v107Schema = {
   },
   fiatConnect: {
     ...v106Schema.fiatConnect,
-
     cachedFiatAccountUses: v106Schema.fiatConnect.cachedFiatAccountUses.map((use: any) => ({
       ...use,
       cryptoType: use.cryptoType === Currency.Celo ? CiCoCurrency.CELO : use.cryptoType,
@@ -2003,6 +2002,18 @@ export const v107Schema = {
   },
 }
 
+export const v108Schema = {
+  ...v107Schema,
+  _persist: {
+    ...v107Schema._persist,
+    version: 108,
+  },
+  fiatConnect: {
+    ...v107Schema.fiatConnect,
+    cachedTransfers: {},
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v107Schema as Partial<RootState>
+  return v108Schema as Partial<RootState>
 }
