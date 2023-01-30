@@ -475,13 +475,17 @@
                 },
                 "transferId": {
                     "type": "string"
+                },
+                "txHash": {
+                    "type": "string"
                 }
             },
             "required": [
                 "fiatAccountId",
                 "providerId",
                 "quote",
-                "transferId"
+                "transferId",
+                "txHash"
             ],
             "type": "object"
         },

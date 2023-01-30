@@ -49,6 +49,7 @@ export interface CachedQuoteParams {
 }
 
 export interface CachedTransferDetails {
+  txHash: string
   transferId: string
   providerId: string
   fiatAccountId: string
