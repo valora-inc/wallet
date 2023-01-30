@@ -698,9 +698,21 @@ const mainScreenNavOptions = () => ({
 function nativeBottomSheets(BottomSheet: typeof RootStack) {
   return (
     <>
-      <BottomSheet.Screen name={Screens.WalletConnectRequest} component={WalletConnectRequest} />
-      <BottomSheet.Screen name={Screens.DappKitAccountScreen} component={DappKitAccountScreen} />
-      <BottomSheet.Screen name={Screens.DappKitSignTxScreen} component={DappKitSignTxScreen} />
+      <BottomSheet.Screen
+        name={Screens.WalletConnectRequest}
+        component={WalletConnectRequest}
+        options={{ snapPoints: ['60%'] }}
+      />
+      <BottomSheet.Screen
+        name={Screens.DappKitAccountScreen}
+        component={DappKitAccountScreen}
+        options={{ snapPoints: ['60%'] }}
+      />
+      <BottomSheet.Screen
+        name={Screens.DappKitSignTxScreen}
+        component={DappKitSignTxScreen}
+        options={{ snapPoints: ['60%'] }}
+      />
     </>
   )
 }

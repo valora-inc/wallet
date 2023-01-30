@@ -1,8 +1,7 @@
-import { BottomSheetScreenProps } from '@th3rdwave/react-navigation-bottom-sheet'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { ActivityIndicator, StyleSheet, Text } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -12,18 +11,15 @@ import { Spacing } from 'src/styles/styles'
 import ActionRequest from 'src/walletConnect/screens/ActionRequest'
 import ConnectionTimedOut from 'src/walletConnect/screens/ConnectionTimedOut'
 import SessionRequest from 'src/walletConnect/screens/SessionRequest'
-import useDynamicBottomSheetHeight from 'src/walletConnect/screens/useDynamicBottomSheetHeight'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
 
-type Props = BottomSheetScreenProps<StackParamList, Screens.WalletConnectRequest>
+type Props = NativeStackScreenProps<StackParamList, Screens.WalletConnectRequest>
 
-function WalletConnectRequest({ route: { params }, navigation }: Props) {
+function WalletConnectRequest({ route: { params } }: Props) {
   const { t } = useTranslation()
-  const { handleContentLayout } = useDynamicBottomSheetHeight(navigation)
 
   return (
-    <SafeAreaView
-      edges={['bottom']}
+    <View
       style={[
         styles.container,
         params.type === WalletConnectRequestType.Loading ||
@@ -31,7 +27,6 @@ function WalletConnectRequest({ route: { params }, navigation }: Props) {
           ? { justifyContent: 'center', alignItems: 'center' }
           : undefined,
       ]}
-      onLayout={handleContentLayout}
     >
       {params.type === WalletConnectRequestType.Loading && (
         <>
@@ -49,14 +44,14 @@ function WalletConnectRequest({ route: { params }, navigation }: Props) {
       {params.type === WalletConnectRequestType.Action && <ActionRequest {...params} />}
 
       {params.type === WalletConnectRequestType.TimeOut && <ConnectionTimedOut />}
-    </SafeAreaView>
+    </View>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
     padding: Spacing.Thick24,
-    minHeight: 370,
+    flex: 1,
   },
   connecting: {
     ...fontStyles.label,
