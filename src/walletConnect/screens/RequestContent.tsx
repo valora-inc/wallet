@@ -10,7 +10,7 @@ import { DappConnectInfo } from 'src/dapps/types'
 import Logo from 'src/icons/Logo'
 import { Colors } from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
-import { Spacing } from 'src/styles/styles'
+import { getShadowStyle, Shadow, Spacing } from 'src/styles/styles'
 import { useIsDappListed } from 'src/walletConnect/screens/useIsDappListed'
 
 interface RequestDetail {
@@ -111,19 +111,23 @@ function RequestContent({
   return (
     <>
       {(dappImageUrl || dappConnectInfo === DappConnectInfo.Basic) && (
-        <View style={[styles.logoContainer]}>
-          <View style={styles.logoBackground}>
-            <Logo height={24} />
-          </View>
-          {dappImageUrl ? (
-            <Image style={styles.dappImage} source={{ uri: dappImageUrl }} resizeMode="cover" />
-          ) : (
-            <View style={[styles.logoBackground, styles.placeholderLogoBackground]}>
-              <Text allowFontScaling={false} style={styles.placeholderLogoText}>
-                {dappName.charAt(0).toUpperCase()}
-              </Text>
+        <View style={styles.logoContainer}>
+          <View style={styles.logoShadow}>
+            <View style={styles.logoBackground}>
+              <Logo height={24} />
             </View>
-          )}
+          </View>
+          <View style={styles.logoShadow}>
+            {dappImageUrl ? (
+              <Image style={styles.dappImage} source={{ uri: dappImageUrl }} resizeMode="cover" />
+            ) : (
+              <View style={[styles.logoBackground, styles.placeholderLogoBackground]}>
+                <Text allowFontScaling={false} style={styles.placeholderLogoText}>
+                  {dappName.charAt(0).toUpperCase()}
+                </Text>
+              </View>
+            )}
+          </View>
         </View>
       )}
       <Text style={styles.header} testID={`${testId}Header`}>
@@ -181,6 +185,10 @@ const styles = StyleSheet.create({
     ...fontStyles.h2,
     paddingVertical: Spacing.Regular16,
   },
+  logoShadow: {
+    ...getShadowStyle(Shadow.SoftLight),
+    borderRadius: 100,
+  },
   logoBackground: {
     justifyContent: 'center',
     alignItems: 'center',
@@ -188,19 +196,21 @@ const styles = StyleSheet.create({
     width: DAPP_IMAGE_SIZE,
     borderRadius: 100,
     borderWidth: 1,
-    borderColor: Colors.gray1,
+    borderColor: 'transparent',
+    backgroundColor: Colors.light,
   },
   dappImage: {
     height: DAPP_IMAGE_SIZE,
     width: DAPP_IMAGE_SIZE,
     borderRadius: 100,
     borderWidth: 1,
-    borderColor: Colors.gray1,
+    borderColor: 'transparent',
+    backgroundColor: Colors.light,
     marginLeft: -4,
-    // TODO: shadows
   },
   description: {
     ...fontStyles.small,
+    lineHeight: 20,
     marginBottom: Spacing.Thick24,
   },
   dappNotListedDisclaimer: {
