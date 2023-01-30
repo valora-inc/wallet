@@ -41,6 +41,10 @@ export function convertToFiatConnectFiatCurrency(
   return FiatType[localCurrency as unknown as FiatType]
 }
 
+export function convertToLocalCurrency(fiatType: FiatType): LocalCurrencyCode | undefined {
+  return LocalCurrencyCode[fiatType as unknown as LocalCurrencyCode]
+}
+
 function convertToFiatConnectCryptoCurrency(cicoCurrency: CiCoCurrency): CryptoType {
   return {
     [CiCoCurrency.CELO]: CryptoType.CELO,
