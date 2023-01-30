@@ -56,7 +56,7 @@ describe('fiatconnect slices', () => {
         reducer(initialState, cacheFiatConnectTransfer({ ...mockCachedTransfer, txHash: txHash1 }))
       ).toEqual({
         ...initialState,
-        cachedTransfers: { [txHash1]: mockCachedTransfer },
+        cachedTransfers: { [txHash1]: { ...mockCachedTransfer, txHash: txHash1 } },
       })
     })
     it('should handle caching multiple transfers', () => {
@@ -69,8 +69,8 @@ describe('fiatconnect slices', () => {
       ).toEqual({
         ...initialState,
         cachedTransfers: {
-          [txHash1]: mockCachedTransfer,
-          [txHash2]: mockCachedTransfer,
+          [txHash1]: { ...mockCachedTransfer, txHash: txHash1 },
+          [txHash2]: { ...mockCachedTransfer, txHash: txHash2 },
         },
       })
     })
