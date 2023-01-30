@@ -1,7 +1,8 @@
-import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import { BottomSheetScreenProps } from '@th3rdwave/react-navigation-bottom-sheet'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { DappKitEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -18,19 +19,22 @@ import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
 import RequestContent from 'src/walletConnect/screens/RequestContent'
+import useDynamicBottomSheetHeight from 'src/walletConnect/screens/useDynamicBottomSheetHeight'
 
 const TAG = 'dappkit/DappKitSignTxScreen'
 
-type Props = NativeStackScreenProps<StackParamList, Screens.DappKitSignTxScreen>
+type Props = BottomSheetScreenProps<StackParamList, Screens.DappKitSignTxScreen>
 
-const DappKitSignTxScreen = ({ route }: Props) => {
+const DappKitSignTxScreen = ({ route, navigation }: Props) => {
   const { dappKitRequest } = route.params
   const { dappName, txs, callback } = dappKitRequest
 
   const activeDapp = useSelector(activeDappSelector)
   const dappConnectInfo = useSelector(dappConnectInfoSelector)
+
   const dispatch = useDispatch()
   const { t } = useTranslation()
+  const { handleContentLayout } = useDynamicBottomSheetHeight(navigation)
 
   const [showTransactionDetails, setShowTransactionDetails] = useState(false)
 
@@ -69,7 +73,7 @@ const DappKitSignTxScreen = ({ route }: Props) => {
   ]
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView edges={['bottom']} style={styles.container} onLayout={handleContentLayout}>
       <RequestContent
         onAccept={handleAllow}
         onDeny={handleCancel}
@@ -93,7 +97,7 @@ const DappKitSignTxScreen = ({ route }: Props) => {
           </Text>
         )}
       </RequestContent>
-    </View>
+    </SafeAreaView>
   )
 }
 

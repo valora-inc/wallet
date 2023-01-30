@@ -1,7 +1,8 @@
-import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import { BottomSheetScreenProps } from '@th3rdwave/react-navigation-bottom-sheet'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { e164NumberSelector } from 'src/account/selectors'
 import { DappKitEvents } from 'src/analytics/Events'
@@ -17,13 +18,14 @@ import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
 import RequestContent from 'src/walletConnect/screens/RequestContent'
+import useDynamicBottomSheetHeight from 'src/walletConnect/screens/useDynamicBottomSheetHeight'
 import { currentAccountSelector } from 'src/web3/selectors'
 
 const TAG = 'dappkit/DappKitAccountScreen'
 
-type Props = NativeStackScreenProps<StackParamList, Screens.DappKitAccountScreen>
+type Props = BottomSheetScreenProps<StackParamList, Screens.DappKitAccountScreen>
 
-const DappKitAccountScreen = ({ route }: Props) => {
+const DappKitAccountScreen = ({ route, navigation }: Props) => {
   const { dappKitRequest } = route.params
 
   const account = useSelector(currentAccountSelector)
@@ -33,6 +35,7 @@ const DappKitAccountScreen = ({ route }: Props) => {
 
   const dispatch = useDispatch()
   const { t } = useTranslation()
+  const { handleContentLayout } = useDynamicBottomSheetHeight(navigation)
 
   const handleAllow = () => {
     if (!dappKitRequest) {
@@ -58,7 +61,7 @@ const DappKitAccountScreen = ({ route }: Props) => {
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView edges={['bottom']} style={styles.container} onLayout={handleContentLayout}>
       <RequestContent
         onAccept={handleAllow}
         onDeny={handleCancel}
@@ -83,7 +86,7 @@ const DappKitAccountScreen = ({ route }: Props) => {
         dappUrl={dappKitRequest.callback}
         testId="DappKitSessionRequest"
       />
-    </View>
+    </SafeAreaView>
   )
 }
 
