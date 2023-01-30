@@ -117,12 +117,10 @@ export default WalletConnect = () => {
     let result = walletConnector.sendTransaction(tx)
 
     // Verify transaction type text
-    await waitFor(element(by.text('Send a Celo transaction')))
+    await waitFor(element(by.text('send a Celo transaction')))
       .toBeVisible()
       .withTimeout(15 * 1000)
 
-    // View and assert on Data - TODO Move to Component Tests
-    await element(by.id('ShowTransactionDetailsButton')).tap()
     await expect(element(by.id('DappData'))).toHaveText(`[${JSON.stringify(tx)}]`)
 
     // Accept and verify UI behavior
@@ -150,7 +148,7 @@ export default WalletConnect = () => {
   it('Then is able to sign a transaction', async () => {
     // Save result and await for it later
     let result = walletConnector.signTransaction(tx)
-    await waitFor(element(by.text('Sign a Celo transaction')))
+    await waitFor(element(by.text('sign a Celo transaction')))
       .toBeVisible()
       .withTimeout(15 * 1000)
     await element(by.text('Allow')).tap()
@@ -173,7 +171,7 @@ export default WalletConnect = () => {
       fromAddress,
     ]
     let result = walletConnector.signPersonalMessage(msgParams)
-    await waitFor(element(by.text('Sign a data payload')))
+    await waitFor(element(by.text('sign a data payload')))
       .toBeVisible()
       .withTimeout(15 * 1000)
     await element(by.text('Allow')).tap()
@@ -201,7 +199,7 @@ export default WalletConnect = () => {
     const message = hashMessageWithPrefix(`My email is valora.test@mailinator.com - ${+new Date()}`)
     const msgParams = [fromAddress, message]
     let result = walletConnector.signMessage(msgParams)
-    await waitFor(element(by.text('Sign a data payload')))
+    await waitFor(element(by.text('sign a data payload')))
       .toBeVisible()
       .withTimeout(15 * 1000)
     await element(by.text('Allow')).tap()
@@ -267,7 +265,7 @@ export default WalletConnect = () => {
     const msgParams = [fromAddress, JSON.stringify(typedData)]
 
     let result = walletConnector.signTypedData(msgParams)
-    await waitFor(element(by.text('Sign a data payload')))
+    await waitFor(element(by.text('sign a data payload')))
       .toBeVisible()
       .withTimeout(15 * 1000)
     await element(by.text('Allow')).tap()
@@ -310,7 +308,7 @@ export default WalletConnect = () => {
     }
 
     let result = walletConnector.sendCustomRequest(customRequest)
-    await waitFor(element(by.text('Sign a Celo transaction')))
+    await waitFor(element(by.text('sign a Celo transaction')))
       .toBeVisible()
       .withTimeout(15 * 1000)
     await element(by.text('Allow')).tap()
