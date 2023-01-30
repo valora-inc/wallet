@@ -52,6 +52,7 @@ import { fiatConnectProvidersSelector } from 'src/fiatconnect/selectors'
 import {
   attemptReturnUserFlow,
   attemptReturnUserFlowCompleted,
+  cacheFiatConnectTransfer,
   cacheQuoteParams,
   createFiatConnectTransfer,
   createFiatConnectTransferCompleted,
@@ -2030,15 +2031,17 @@ describe('Fiatconnect saga', () => {
       })
       const transferAddress = '0x12345'
       const transactionHash = '0xabc'
+      const transferId = 'transferId12345'
+      const fiatAccountId = 'account1'
       it('calls transfer out and initiates a transaction', async () => {
         const action = createFiatConnectTransfer({
           flow: CICOFlow.CashOut,
           fiatConnectQuote: transferOutFcQuote,
-          fiatAccountId: 'account1',
+          fiatAccountId,
         })
         await expectSaga(handleCreateFiatConnectTransfer, action)
           .provide([
-            [call(_initiateTransferWithProvider, action), { transferAddress }],
+            [call(_initiateTransferWithProvider, action), { transferAddress, transferId }],
             [
               call(_initiateSendTxToProvider, {
                 transferAddress,
@@ -2047,6 +2050,15 @@ describe('Fiatconnect saga', () => {
               transactionHash,
             ],
           ])
+          .put(
+            cacheFiatConnectTransfer({
+              txHash: transactionHash,
+              transferId,
+              fiatAccountId,
+              providerId: transferOutFcQuote.getProviderId(),
+              quote: transferOutFcQuote.quote.quote,
+            })
+          )
           .put(
             createFiatConnectTransferCompleted({
               flow: CICOFlow.CashOut,
