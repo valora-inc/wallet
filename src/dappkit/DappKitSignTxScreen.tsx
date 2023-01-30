@@ -1,21 +1,25 @@
+import Clipboard from '@react-native-clipboard/clipboard'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import React, { useState } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import Toast from 'react-native-simple-toast'
 import { useDispatch, useSelector } from 'react-redux'
 import { DappKitEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import Expandable from 'src/components/Expandable'
 import Touchable from 'src/components/Touchable'
 import { getDefaultRequestTrackedProperties, requestTxSignature } from 'src/dappkit/dappkit'
 import { activeDappSelector, dappConnectInfoSelector } from 'src/dapps/selectors'
 import { DappConnectInfo } from 'src/dapps/types'
+import CopyIcon from 'src/icons/CopyIcon'
 import { isBottomSheetVisible, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import variables from 'src/styles/variables'
 import Logger from 'src/utils/Logger'
 import RequestContent from 'src/walletConnect/screens/RequestContent'
 
@@ -32,8 +36,6 @@ const DappKitSignTxScreen = ({ route }: Props) => {
   const dispatch = useDispatch()
   const { t } = useTranslation()
 
-  const [showTransactionDetails, setShowTransactionDetails] = useState(false)
-
   if (!dappKitRequest) {
     Logger.error(TAG, 'No request found in navigation props')
     return null
@@ -43,12 +45,17 @@ const DappKitSignTxScreen = ({ route }: Props) => {
     dispatch(requestTxSignature(dappKitRequest))
   }
 
-  const handleShowTransactionDetails = () => {
+  const handleCopyRequestPayload = () => {
+    Clipboard.setString(txs[0].txData)
     ValoraAnalytics.track(
       DappKitEvents.dappkit_request_details,
       getDefaultRequestTrackedProperties(dappKitRequest, activeDapp)
     )
-    setShowTransactionDetails((prev) => !prev)
+    Toast.showWithGravity(
+      t('walletConnectRequest.transactionDataCopied'),
+      Toast.SHORT,
+      Toast.BOTTOM
+    )
   }
 
   const handleCancel = async () => {
@@ -61,55 +68,57 @@ const DappKitSignTxScreen = ({ route }: Props) => {
     }
   }
 
-  const requestDetails = [
-    {
-      label: t('action.operation'),
-      value: t('transaction.signTX'),
-    },
-  ]
-
   return (
-    <View style={styles.container}>
+    <SafeAreaView edges={['bottom']} style={styles.container}>
       <RequestContent
         onAccept={handleAllow}
         onDeny={handleCancel}
         dappName={dappName}
         dappImageUrl={dappConnectInfo === DappConnectInfo.Basic ? activeDapp?.iconUrl : undefined}
-        title={t('confirmTransaction', { dappName })}
-        description={t('action.askingV1_35', { dappName })}
+        title={t('confirmTransaction')}
+        description={t('walletConnectRequest.signTransaction', { dappName })}
         testId="DappKitSignRequest"
         dappUrl={callback}
-        requestDetails={requestDetails}
       >
-        <Touchable testID="ShowTransactionDetailsButton" onPress={handleShowTransactionDetails}>
-          <Expandable isExpandable isExpanded={showTransactionDetails}>
-            <Text style={[styles.bodyText, styles.underLine]}>{t('action.details')}</Text>
-          </Expandable>
-        </Touchable>
-
-        {showTransactionDetails && (
-          <Text testID="DappData" style={styles.bodyText}>
-            {txs[0].txData}
-          </Text>
-        )}
+        <View style={styles.transactionContainer}>
+          <View style={styles.transactionDataContainer}>
+            <Text style={styles.transactionDataLabel}>
+              {t('walletConnectRequest.transactionDataLabel')}
+            </Text>
+            <Text testID="DappData" style={fontStyles.small} numberOfLines={1} ellipsizeMode="tail">
+              {txs[0].txData}
+            </Text>
+          </View>
+          <Touchable hitSlop={variables.iconHitslop} onPress={handleCopyRequestPayload}>
+            <CopyIcon />
+          </Touchable>
+        </View>
       </RequestContent>
-    </View>
+    </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
     padding: Spacing.Thick24,
+    paddingBottom: 0, // SafeAreaView already adds enough space here
     flex: 1,
+  },
+  transactionContainer: {
+    padding: Spacing.Regular16,
+    backgroundColor: colors.gray1,
+    flexDirection: 'row',
     alignItems: 'center',
+    borderRadius: 12,
+    marginBottom: Spacing.Thick24,
   },
-  bodyText: {
-    ...fontStyles.small,
-    color: colors.gray4,
-    marginBottom: Spacing.Smallest8,
+  transactionDataContainer: {
+    flex: 1,
+    marginRight: Spacing.Regular16,
   },
-  underLine: {
-    textDecorationLine: 'underline',
+  transactionDataLabel: {
+    ...fontStyles.small600,
+    marginBottom: 4,
   },
 })
 
