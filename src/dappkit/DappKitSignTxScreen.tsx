@@ -29,7 +29,6 @@ const DappKitSignTxScreen = ({ route }: Props) => {
 
   const activeDapp = useSelector(activeDappSelector)
   const dappConnectInfo = useSelector(dappConnectInfoSelector)
-
   const dispatch = useDispatch()
   const { t } = useTranslation()
 
