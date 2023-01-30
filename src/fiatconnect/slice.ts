@@ -158,9 +158,7 @@ export interface CreateFiatConnectTransferCompletedAction {
   txHash: string | null
 }
 
-export type CacheFiatConnectTransferAction = CachedTransferDetails & {
-  txHash: string
-}
+export type CacheFiatConnectTransferAction = CachedTransferDetails
 
 export interface CreateFiatConnectTransferTxProcessingAction {
   flow: CICOFlow
@@ -304,6 +302,7 @@ export const slice = createSlice({
     },
     cacheFiatConnectTransfer: (state, action: PayloadAction<CacheFiatConnectTransferAction>) => {
       const transferDetails: CachedTransferDetails = {
+        txHash: action.payload.txHash,
         transferId: action.payload.transferId,
         providerId: action.payload.providerId,
         fiatAccountId: action.payload.fiatAccountId,
