@@ -1,6 +1,6 @@
 import { IClientMeta } from '@walletconnect/legacy-types'
 import { CoreTypes } from '@walletconnect/types'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
@@ -87,32 +87,22 @@ function RequestContent({
   const { t } = useTranslation()
 
   const [isAccepting, setIsAccepting] = useState(false)
-  const [isDenying, setIsDenying] = useState(false)
   const dappConnectInfo = useSelector(dappConnectInfoSelector)
   const isDappListed = useIsDappListed(dappUrl)
-
-  const isLoading = useRef<boolean>()
 
   const handleAccept = () => {
     setIsAccepting(true)
   }
 
-  const handleDeny = () => {
-    setIsDenying(true)
-  }
-
   useEffect(() => {
-    isLoading.current = isAccepting || isDenying
     if (isAccepting) {
       onAccept()
-    } else if (isDenying) {
-      onDeny()
     }
-  }, [isAccepting, isDenying])
+  }, [isAccepting])
 
   useEffect(() => {
     return () => {
-      if (!isLoading.current) {
+      if (!isAccepting) {
         onDeny()
       }
     }
@@ -172,7 +162,7 @@ function RequestContent({
         size={BtnSizes.FULL}
         text={t('allow')}
         showLoading={isAccepting}
-        disabled={isAccepting || isDenying}
+        disabled={isAccepting}
         onPress={handleAccept}
         testID={`${testId}/Allow`}
       />

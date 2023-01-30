@@ -50,8 +50,6 @@ function ActionRequestMetadata({ method, params }: Props) {
   )
 }
 
-// do not destructure props or else the type inference is lost
-
 const styles = StyleSheet.create({
   container: {
     padding: Spacing.Regular16,
