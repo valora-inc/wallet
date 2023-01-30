@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 import Logger from 'src/utils/Logger'
 import { getDescriptionFromAction, SupportedActions } from 'src/walletConnect/constants'
-import ActionRequestMetadata from 'src/walletConnect/screens/ActionRequestMetadata'
+import ActionRequestPayload from 'src/walletConnect/screens/ActionRequestPayload'
 import RequestContent, { useDappMetadata } from 'src/walletConnect/screens/RequestContent'
 import {
   acceptRequest as acceptRequestV1,
@@ -75,7 +75,7 @@ function ActionRequestV1({ pendingAction }: PropsV1) {
       testId="WalletConnectActionRequest"
       dappUrl={url}
     >
-      <ActionRequestMetadata method={method} params={params} />
+      <ActionRequestPayload dappName={dappName} method={method} params={params} />
     </RequestContent>
   )
 }
@@ -114,7 +114,7 @@ function ActionRequestV2({ pendingAction }: PropsV2) {
       testId="WalletConnectActionRequest"
       dappUrl={url}
     >
-      <ActionRequestMetadata method={method} params={params} />
+      <ActionRequestPayload dappName={dappName} method={method} params={params} />
     </RequestContent>
   )
 }

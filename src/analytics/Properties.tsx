@@ -1070,6 +1070,11 @@ interface WalletConnectProperties {
   [WalletConnectEvents.wc_request_deny_error]: WalletConnectRequestDenyProperties & {
     error: string
   }
+
+  [WalletConnectEvents.wc_copy_request_payload]: {
+    dappName: string
+    method: string
+  }
 }
 
 interface DappKitRequestDefaultProperties {

@@ -987,7 +987,8 @@
     "signTransaction": "{{dappName}} would like to sign a Celo transaction.",
     "sendTransaction": "{{dappName}} would like to send a Celo transaction.",
     "decryptPayload": "{{dappName}} would like to decrypt a data payload.",
-    "computeSharedSecret": "{{dappName}} would like to generate secrets."
+    "computeSharedSecret": "{{dappName}} would like to generate secrets.",
+    "transactionDataCopied": "Transaction data copied"
   },
   "sessionInfo": "This application may ask to perform the following actions:",
   "description": {

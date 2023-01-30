@@ -1,19 +1,26 @@
 import { trimLeading0x } from '@celo/utils/lib/address'
+import Clipboard from '@react-native-clipboard/clipboard'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
+import Toast from 'react-native-simple-toast'
+import { WalletConnectEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import Touchable from 'src/components/Touchable'
 import CopyIcon from 'src/icons/CopyIcon'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import variables from 'src/styles/variables'
 import { SupportedActions } from 'src/walletConnect/constants'
 
 interface Props {
+  dappName: string
   method: string
   params: any
 }
 
-function ActionRequestMetadata({ method, params }: Props) {
+function ActionRequestPayload({ method, params, dappName }: Props) {
   const { t } = useTranslation()
   const moreInfoString = useMemo(
     () =>
@@ -31,6 +38,16 @@ function ActionRequestMetadata({ method, params }: Props) {
     [method, params]
   )
 
+  const handleCopyRequestPayload = () => {
+    Clipboard.setString(moreInfoString)
+    ValoraAnalytics.track(WalletConnectEvents.wc_copy_request_payload, { method, dappName })
+    Toast.showWithGravity(
+      t('walletConnectRequest.transactionDataCopied'),
+      Toast.SHORT,
+      Toast.BOTTOM
+    )
+  }
+
   if (!moreInfoString) {
     return null
   }
@@ -45,7 +62,9 @@ function ActionRequestMetadata({ method, params }: Props) {
           {moreInfoString}
         </Text>
       </View>
-      <CopyIcon />
+      <Touchable hitSlop={variables.iconHitslop} onPress={handleCopyRequestPayload}>
+        <CopyIcon />
+      </Touchable>
     </View>
   )
 }
@@ -69,4 +88,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default ActionRequestMetadata
+export default ActionRequestPayload
