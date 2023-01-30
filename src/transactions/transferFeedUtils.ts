@@ -258,7 +258,7 @@ export function useTransactionRecipient(transfer: TokenTransfer) {
   const addressToE164Number = useSelector(addressToE164NumberSelector)
   const invitationTransactions = useSelector(inviteTransactionsSelector)
   const identifierToE164Number = useSelector(identifierToE164NumberSelector)
-  const fcTransferData = getFiatConnectTransferData(transfer)
+  const fcTransferData = getFiatConnectTransferDisplayInfo(transfer)
 
   const phoneNumber =
     transfer.type === TokenTransactionTypeV2.InviteSent &&
@@ -307,7 +307,7 @@ export function useTransferFeedDetails(transfer: FeedTokenTransfer) {
   const commentKey = useSelector(dataEncryptionKeySelector)
   const tokenInfo = useTokenInfo(transfer.amount.tokenAddress)
   const coinbasePaySenders = useSelector(coinbasePaySendersSelector)
-  const fcTransferData = getFiatConnectTransferData(transfer)
+  const fcTransferData = getFiatConnectTransferDisplayInfo(transfer)
 
   const {
     type,
@@ -428,7 +428,7 @@ export function isTransferTransaction(
   return (tx as TransferItemFragment).address !== undefined
 }
 
-function getFiatConnectTransferData({ amount, transactionHash }: TokenTransfer) {
+function getFiatConnectTransferDisplayInfo({ amount, transactionHash }: TokenTransfer) {
   const { t } = useTranslation()
   const tokenInfo = useTokenInfo(amount.tokenAddress)
   const fcTransferDetails = useSelector(getCachedFiatConnectTransferSelector(transactionHash))
@@ -449,6 +449,7 @@ function getFiatConnectTransferData({ amount, transactionHash }: TokenTransfer) 
   const total = Number(amount.value)
   const exchangeRate = String(receive / total)
   const localAmount: LocalAmount = {
+    //Always a transfer out, so value is negative
     value: -new BigNumber(fcTransferDetails.quote.fiatAmount),
     currencyCode: convertToLocalCurrency(fcTransferDetails.quote.fiatType) ?? localCurrency,
     exchangeRate,
