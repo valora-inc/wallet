@@ -109,7 +109,7 @@ function ActionRequestV2({ pendingAction }: PropsV2) {
       }}
       dappName={dappName}
       dappImageUrl={dappImageUrl}
-      title={t('confirmTransaction', { dappName })}
+      title={t('confirmTransaction')}
       description={description}
       testId="WalletConnectActionRequest"
       dappUrl={url}

@@ -33,7 +33,9 @@ function ActionRequestPayload({ method, params, dappName }: Props) {
         : method === SupportedActions.personal_decrypt
         ? Buffer.from(params[1]).toString('hex')
         : method === SupportedActions.personal_sign
-        ? Buffer.from(trimLeading0x(params[0]), 'hex').toString() || params[0]
+        ? Buffer.from(trimLeading0x(params[0]), 'hex').toString() ||
+          params[0] ||
+          t('action.emptyMessage')
         : null,
     [method, params]
   )
@@ -53,7 +55,7 @@ function ActionRequestPayload({ method, params, dappName }: Props) {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID="WalletConnectActionRequest/RequestPayload">
       <View style={styles.transactionDataContainer}>
         <Text style={styles.transactionDataLabel}>
           {t('walletConnectRequest.transactionDataLabel')}
@@ -62,7 +64,11 @@ function ActionRequestPayload({ method, params, dappName }: Props) {
           {moreInfoString}
         </Text>
       </View>
-      <Touchable hitSlop={variables.iconHitslop} onPress={handleCopyRequestPayload}>
+      <Touchable
+        hitSlop={variables.iconHitslop}
+        onPress={handleCopyRequestPayload}
+        testID="WalletConnectActionRequest/RequestPayload/Copy"
+      >
         <CopyIcon />
       </Touchable>
     </View>
