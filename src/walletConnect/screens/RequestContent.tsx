@@ -166,7 +166,6 @@ function RequestContent({
       {dappConnectInfo === DappConnectInfo.Basic && !isDappListed && (
         <Text style={styles.dappNotListedDisclaimer}>{t('dappNotListed')}</Text>
       )}
-      <Text style={styles.dappNotListedDisclaimer}>{t('dappNotListed')}</Text>
 
       <Button
         type={BtnTypes.PRIMARY}
@@ -208,6 +207,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: Colors.gray1,
     marginLeft: -4,
+    // TODO: shadows
   },
   description: {
     ...fontStyles.small,
