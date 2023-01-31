@@ -18,10 +18,10 @@ import { QRTabParamList } from 'src/navigator/types'
 import QRCode from 'src/qrcode/QRCode'
 import QRScanner from 'src/qrcode/QRScanner'
 import QRTabBar from 'src/qrcode/QRTabBar'
-import { QRCodeDataType } from 'src/qrcode/schema'
 import { handleBarcodeDetected, QrCode, SVG } from 'src/send/actions'
 import Logger from 'src/utils/Logger'
 import { ExtractProps } from 'src/utils/typescript'
+import { QRCodeDataType } from 'src/statsig/types'
 
 const Tab = createMaterialTopTabNavigator()
 

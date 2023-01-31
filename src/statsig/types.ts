@@ -1,5 +1,16 @@
+export enum QRCodeDataType {
+  ValoraDeepLink = 'ValoraDeepLink',
+  Address = 'Address',
+}
+
+export enum QRCodeAppearance {
+  Baseline = 'Baseline',
+  Jan2023QRAppearance = 'Jan2023QRAppearance',
+}
+
 export enum StatsigLayers {
   NAME_AND_PICTURE_SCREEN = 'name_and_picture_screen',
+  SEND_RECEIVE_QR_CODE = 'send_receive_qr_code',
 }
 
 export enum StatsigDynamicConfigs {
