@@ -2,10 +2,13 @@ import _ from 'lodash'
 import { FinclusiveKycStatus } from 'src/account/reducer'
 import { initialState as exchangeInitialState } from 'src/exchange/reducer'
 import { migrations } from 'src/redux/migrations'
-import { Currency } from 'src/utils/currencies'
+import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import {
   DEFAULT_DAILY_PAYMENT_LIMIT_CUSD_LEGACY,
   v0Schema,
+  v103Schema,
+  v104Schema,
+  v106Schema,
   v13Schema,
   v14Schema,
   v15Schema,
@@ -40,9 +43,7 @@ import {
   v8Schema,
   v98Schema,
   v99Schema,
-  v103Schema,
   vNeg1Schema,
-  v104Schema,
 } from 'test/schemas'
 
 describe('Redux persist migrations', () => {
@@ -778,7 +779,77 @@ describe('Redux persist migrations', () => {
 
     const expectedSchema: any = _.cloneDeep(oldSchema)
     expectedSchema.web3.twelveWordMnemonicEnabled = false
+    expect(migratedSchema).toStrictEqual(expectedSchema)
+  })
 
+  it('works from v106 to v107', () => {
+    const oldSchema = {
+      ...v106Schema,
+      fiatConnect: {
+        ...v106Schema.fiatConnect,
+        cachedFiatAccountUses: [
+          {
+            providerId: 'provider-two',
+            cryptoType: Currency.Dollar,
+          },
+          {
+            providerId: 'provider-one',
+            cryptoType: Currency.Celo,
+          },
+        ],
+        cachedQuoteParams: {
+          'some-provider': {
+            ['some-schema']: {
+              cryptoAmount: '10',
+              fiatAmount: '10',
+              cryptoType: Currency.Dollar,
+            },
+          },
+          'some-other-provider': {
+            ['some-schema']: {
+              cryptoAmount: '10',
+              fiatAmount: '10',
+              cryptoType: Currency.Celo,
+            },
+          },
+        },
+      },
+    }
+    const migratedSchema = migrations[107](oldSchema)
+
+    const freshSchema: any = _.cloneDeep(oldSchema)
+    const expectedSchema = {
+      ...freshSchema,
+      fiatConnect: {
+        ...freshSchema.fiatConnect,
+        cachedFiatAccountUses: [
+          {
+            providerId: 'provider-two',
+            cryptoType: CiCoCurrency.cUSD,
+          },
+          {
+            providerId: 'provider-one',
+            cryptoType: CiCoCurrency.CELO,
+          },
+        ],
+        cachedQuoteParams: {
+          'some-provider': {
+            ['some-schema']: {
+              cryptoAmount: '10',
+              fiatAmount: '10',
+              cryptoType: CiCoCurrency.cUSD,
+            },
+          },
+          'some-other-provider': {
+            ['some-schema']: {
+              cryptoAmount: '10',
+              fiatAmount: '10',
+              cryptoType: CiCoCurrency.CELO,
+            },
+          },
+        },
+      },
+    }
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 })

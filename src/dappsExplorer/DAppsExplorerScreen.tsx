@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   Image,
@@ -15,13 +15,13 @@ import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { DappExplorerEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import Dialog from 'src/components/Dialog'
 import {
   CategoryWithDapps,
   dappCategoriesByIdSelector,
   dappFavoritesEnabledSelector,
   dappsListErrorSelector,
   dappsListLoadingSelector,
+  dappsMinimalDisclaimerEnabledSelector,
   featuredDappSelector,
 } from 'src/dapps/selectors'
 import { fetchDappsList } from 'src/dapps/slice'
@@ -30,6 +30,7 @@ import DappCard from 'src/dappsExplorer/DappCard'
 import FavoriteDappsSection from 'src/dappsExplorer/FavoriteDappsSection'
 import FeaturedDappCard from 'src/dappsExplorer/FeaturedDappCard'
 import useDappFavoritedToast from 'src/dappsExplorer/useDappFavoritedToast'
+import useDappInfoBottomSheet from 'src/dappsExplorer/useDappInfoBottomSheet'
 import useOpenDapp from 'src/dappsExplorer/useOpenDapp'
 import Help from 'src/icons/navigator/Help'
 import { dappListLogo } from 'src/images/Images'
@@ -52,7 +53,6 @@ interface SectionData {
 
 export function DAppsExplorerScreen() {
   const { t } = useTranslation()
-  const [isHelpDialogVisible, setHelpDialogVisible] = useState(false)
   const insets = useSafeAreaInsets()
 
   const sectionListRef = useRef<SectionList>(null)
@@ -65,9 +65,11 @@ export function DAppsExplorerScreen() {
   const error = useSelector(dappsListErrorSelector)
   const categoriesById = useSelector(dappCategoriesByIdSelector)
   const dappFavoritesEnabled = useSelector(dappFavoritesEnabledSelector)
+  const dappsMinimalDisclaimerEnabled = useSelector(dappsMinimalDisclaimerEnabledSelector)
 
   const { onSelectDapp, ConfirmOpenDappBottomSheet } = useOpenDapp()
   const { onFavoriteDapp, DappFavoritedToast } = useDappFavoritedToast(sectionListRef)
+  const { openSheet, DappInfoBottomSheet } = useDappInfoBottomSheet()
 
   useEffect(() => {
     dispatch(fetchDappsList())
@@ -85,14 +87,6 @@ export function DAppsExplorerScreen() {
     }
   }, [featuredDapp])
 
-  const onPressHelp = () => {
-    setHelpDialogVisible(true)
-  }
-
-  const onCloseDialog = () => {
-    setHelpDialogVisible(false)
-  }
-
   return (
     <SafeAreaView style={styles.safeAreaContainer} edges={['top']}>
       <DrawerTopBar
@@ -101,24 +95,13 @@ export function DAppsExplorerScreen() {
           <TopBarIconButton
             testID="DAppsExplorerScreen/HelpIcon"
             icon={<Help />}
-            onPress={onPressHelp}
+            onPress={openSheet}
           />
         }
         scrollPosition={scrollPosition}
       />
       {ConfirmOpenDappBottomSheet}
 
-      <Dialog
-        title={t('dappsScreenHelpDialog.title')}
-        isVisible={isHelpDialogVisible}
-        actionText={t('dappsScreenHelpDialog.dismiss')}
-        actionPress={onCloseDialog}
-        isActionHighlighted={false}
-        onBackgroundPress={onCloseDialog}
-        testID="DAppsExplorerScreen/HelpDialog"
-      >
-        {t('dappsScreenHelpDialog.message')}
-      </Dialog>
       <>
         {!loading && !categoriesById && error && (
           <View style={styles.centerContainer}>
@@ -138,6 +121,13 @@ export function DAppsExplorerScreen() {
             }
             // @ts-ignore TODO: resolve type error
             ref={sectionListRef}
+            ListFooterComponent={
+              <>
+                {dappsMinimalDisclaimerEnabled ? (
+                  <Text style={styles.disclaimer}>{t('dappsDisclaimerAllDapps')}</Text>
+                ) : null}
+              </>
+            }
             ListHeaderComponent={
               <>
                 <DescriptionView message={t('dappsScreen.message')} />
@@ -189,6 +179,7 @@ export function DAppsExplorerScreen() {
       </>
 
       {DappFavoritedToast}
+      {DappInfoBottomSheet}
     </SafeAreaView>
   )
 }
@@ -267,7 +258,14 @@ const styles = StyleSheet.create({
   sectionTitle: {
     ...fontStyles.label,
     color: colors.gray4,
-    marginTop: 32,
+    marginTop: Spacing.Large32,
+  },
+  disclaimer: {
+    ...fontStyles.small,
+    color: colors.gray5,
+    textAlign: 'center',
+    marginTop: Spacing.Large32,
+    marginBottom: Spacing.Regular16,
   },
 })
 

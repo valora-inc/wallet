@@ -10,6 +10,7 @@ import {
   RawProviderQuote,
   SimplexQuote,
 } from 'src/fiatExchanges/utils'
+import { TokenBalance } from 'src/tokens/slice'
 import { Currency, CiCoCurrency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 
@@ -35,8 +36,14 @@ export const quotesByFeeComparator = (quote1: NormalizedQuote, quote2: Normalize
     [Currency.Dollar]: '1',
     [Currency.Euro]: '1',
   }
-  const providerFee1 = quote1.getFeeInFiat(exchangeRates) ?? new BigNumber(Infinity)
-  const providerFee2 = quote2.getFeeInFiat(exchangeRates) ?? new BigNumber(Infinity)
+  // also dummy token info. all we need is the usdPrice
+  const dummyTokenInfo = {
+    usdPrice: new BigNumber('1'),
+  }
+  const providerFee1 =
+    quote1.getFeeInFiat(exchangeRates, dummyTokenInfo as TokenBalance) ?? new BigNumber(Infinity)
+  const providerFee2 =
+    quote2.getFeeInFiat(exchangeRates, dummyTokenInfo as TokenBalance) ?? new BigNumber(Infinity)
 
   return providerFee1.isGreaterThan(providerFee2) ? 1 : -1
 }

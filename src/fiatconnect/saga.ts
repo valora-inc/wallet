@@ -15,7 +15,6 @@ import {
   PostFiatAccountResponse,
   TransferResponse,
 } from '@fiatconnect/fiatconnect-types'
-import { FiatConnectTxError } from 'src/fiatconnect/types'
 import BigNumber from 'bignumber.js'
 import { call, delay, put, select, spawn, takeLeading } from 'redux-saga/effects'
 import { KycStatus as PersonaKycStatus } from 'src/account/reducer'
@@ -41,6 +40,7 @@ import { fiatConnectProvidersSelector } from 'src/fiatconnect/selectors'
 import {
   attemptReturnUserFlow,
   attemptReturnUserFlowCompleted,
+  cacheFiatConnectTransfer,
   cacheQuoteParams,
   createFiatConnectTransfer,
   createFiatConnectTransferCompleted,
@@ -66,6 +66,7 @@ import {
   submitFiatAccountCompleted,
   submitFiatAccountKycApproved,
 } from 'src/fiatconnect/slice'
+import { FiatConnectTxError } from 'src/fiatconnect/types'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { normalizeFiatConnectQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
 import { CICOFlow } from 'src/fiatExchanges/utils'
@@ -80,9 +81,9 @@ import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import { buildAndSendPayment } from 'src/send/saga'
 import { tokensListSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
-import { newTransactionContext } from 'src/transactions/types'
 import { isTxPossiblyPending } from 'src/transactions/send'
-import { CiCoCurrency, Currency, resolveCICOCurrency } from 'src/utils/currencies'
+import { newTransactionContext } from 'src/transactions/types'
+import { CiCoCurrency, resolveCICOCurrency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { v4 as uuidv4 } from 'uuid'
@@ -317,11 +318,6 @@ export function* handleAttemptReturnUserFlow({
     fiatAccountType,
     fiatAccountSchema,
   } = params
-  const digitalAsset = {
-    [Currency.Celo]: CiCoCurrency.CELO,
-    [Currency.Dollar]: CiCoCurrency.CUSD,
-    [Currency.Euro]: CiCoCurrency.CEUR,
-  }[selectedCrypto]
 
   const fiatConnectProviders: FiatConnectProviderInfo[] | null = yield select(
     fiatConnectProvidersSelector
@@ -340,7 +336,7 @@ export function* handleAttemptReturnUserFlow({
     const { normalizedQuote }: { normalizedQuote: FiatConnectQuote } = yield call(
       _getSpecificQuote,
       {
-        digitalAsset,
+        digitalAsset: selectedCrypto,
         cryptoAmount: amount.crypto,
         fiatAmount: amount.fiat,
         flow,
@@ -1002,13 +998,26 @@ export function* handleCreateFiatConnectTransfer(
   const quoteId = fiatConnectQuote.getQuoteId()
   let transactionHash: string | null = null
   try {
-    const { transferAddress }: TransferResponse = yield call(_initiateTransferWithProvider, action)
+    const { transferAddress, transferId }: TransferResponse = yield call(
+      _initiateTransferWithProvider,
+      action
+    )
 
     if (flow === CICOFlow.CashOut) {
-      transactionHash = yield call(_initiateSendTxToProvider, {
+      const cashOutTxHash: string = yield call(_initiateSendTxToProvider, {
         transferAddress,
         fiatConnectQuote,
       })
+      yield put(
+        cacheFiatConnectTransfer({
+          txHash: cashOutTxHash.toLowerCase(),
+          transferId,
+          providerId: fiatConnectQuote.getProviderId(),
+          fiatAccountId: action.payload.fiatAccountId,
+          quote: fiatConnectQuote.quote.quote,
+        })
+      )
+      transactionHash = cashOutTxHash
     }
 
     ValoraAnalytics.track(FiatExchangeEvents.cico_fc_transfer_success, {

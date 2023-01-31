@@ -524,6 +524,8 @@ export enum DappExplorerEvents {
   dapp_view_all = 'dapp_view_all', // when user taps "view all dapps" from recently used dapps section
   dapp_favorite = 'dapp_favorite', // when user favorites a dapp
   dapp_unfavorite = 'dapp_unfavorite', // when user unfavorites a dapp
+  dapp_open_info = 'dapp_open_info', // when a user taps on the help icon
+  dapp_open_more_info = 'dapp_open_more_info', // when a user taps on the "more" button from inside the help bottom sheet
 }
 
 export enum WebViewEvents {

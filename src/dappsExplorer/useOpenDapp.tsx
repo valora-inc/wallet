@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { DappExplorerEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { activeScreenSelector } from 'src/app/selectors'
-import { recentDappsSelector } from 'src/dapps/selectors'
+import { dappsMinimalDisclaimerEnabledSelector, recentDappsSelector } from 'src/dapps/selectors'
 import { dappSelected } from 'src/dapps/slice'
 import { ActiveDapp } from 'src/dapps/types'
 import DAppsBottomSheet from 'src/dappsExplorer/DAppsBottomSheet'
@@ -17,6 +17,7 @@ const TAG = 'DApps'
 const useOpenDapp = () => {
   const recentlyUsedDapps = useSelector(recentDappsSelector)
   const activeScreen = useSelector(activeScreenSelector)
+  const dappsMinimalDisclaimerEnabled = useSelector(dappsMinimalDisclaimerEnabledSelector)
   const [showOpenDappConfirmation, setShowOpenDappConfirmation] = useState(false)
   const [selectedDapp, setSelectedDapp] = useState<ActiveDapp | null>(null)
   const dispatch = useDispatch()
@@ -63,7 +64,7 @@ const useOpenDapp = () => {
     const dappEventProps = getEventProperties(dapp)
     ValoraAnalytics.track(DappExplorerEvents.dapp_select, dappEventProps)
 
-    if (isDeepLink(dapp.dappUrl)) {
+    if (isDeepLink(dapp.dappUrl) || dappsMinimalDisclaimerEnabled) {
       openDapp(dapp)
     } else {
       setSelectedDapp(dapp)

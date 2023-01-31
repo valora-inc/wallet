@@ -1,6 +1,6 @@
-// TODO(any): consider moving to a statsig/constants and make it more type safe
-import { StatsigDynamicConfigs, StatsigExperiments, StatsigLayers } from 'src/analytics/types'
+// TODO(any): consider making it more type safe
 import { SelectProviderExchangesLink, SelectProviderExchangesText } from 'src/fiatExchanges/types'
+import { StatsigDynamicConfigs, StatsigExperiments, StatsigLayers } from 'src/statsig/types'
 
 export const LayerParams = {
   [StatsigLayers.NAME_AND_PICTURE_SCREEN]: {

@@ -1,16 +1,18 @@
+import BigNumber from 'bignumber.js'
 import {
   normalizeExternalProviders,
   normalizeFiatConnectQuotes,
   normalizeQuotes,
 } from 'src/fiatExchanges/quotes/normalizeQuotes'
 import { CICOFlow } from 'src/fiatExchanges/utils'
+import { TokenBalance } from 'src/tokens/slice'
+import { CiCoCurrency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import {
   mockFiatConnectQuotes,
   mockFiatConnectQuotesWithUnknownFees,
   mockProviders,
 } from 'test/values'
-import { CiCoCurrency } from 'src/utils/currencies'
 
 jest.mock('src/utils/Logger', () => ({
   __esModule: true,
@@ -27,17 +29,20 @@ describe('normalizeQuotes', () => {
       CICOFlow.CashIn,
       mockFiatConnectQuotes,
       mockProviders,
-      CiCoCurrency.CUSD
+      CiCoCurrency.cUSD
     )
     expect(
       normalizedQuotes.map((quote) => [
         quote.getProviderId(),
         quote
-          .getFeeInCrypto({
-            cGLD: '1',
-            cUSD: '1',
-            cEUR: '1',
-          })
+          .getFeeInCrypto(
+            {
+              cGLD: '1',
+              cUSD: '1',
+              cEUR: '1',
+            },
+            { usdPrice: BigNumber('1') } as TokenBalance
+          )
           ?.toNumber(),
       ])
     ).toEqual([
@@ -56,17 +61,20 @@ describe('normalizeQuotes', () => {
       CICOFlow.CashIn,
       mockFiatConnectQuotesWithUnknownFees,
       [],
-      CiCoCurrency.CUSD
+      CiCoCurrency.cUSD
     )
     expect(
       normalizedQuotes.map((quote) => [
         quote.getProviderId(),
         quote
-          .getFeeInCrypto({
-            cGLD: '1',
-            cUSD: '1',
-            cEUR: '1',
-          })
+          .getFeeInCrypto(
+            {
+              cGLD: '1',
+              cUSD: '1',
+              cEUR: '1',
+            },
+            { usdPrice: BigNumber('1') } as TokenBalance
+          )
           ?.toNumber(),
       ])
     ).toEqual([
@@ -119,7 +127,7 @@ describe('normalizeExternalProviders', () => {
     const normalizedExternalQuotes = normalizeExternalProviders(
       CICOFlow.CashIn,
       [mockProviders[3]],
-      CiCoCurrency.CUSD
+      CiCoCurrency.cUSD
     )
     expect(Logger.warn).toHaveBeenCalledWith(
       'NormalizeQuotes',
@@ -132,7 +140,7 @@ describe('normalizeExternalProviders', () => {
     const normalizedExternalQuotes = normalizeExternalProviders(
       CICOFlow.CashIn,
       [mockProviders[1]],
-      CiCoCurrency.CUSD
+      CiCoCurrency.cUSD
     )
     expect(Logger.warn).not.toHaveBeenCalled()
     expect(normalizedExternalQuotes).toHaveLength(2)
@@ -142,7 +150,7 @@ describe('normalizeExternalProviders', () => {
     const normalizedExternalQuotes = normalizeExternalProviders(
       CICOFlow.CashIn,
       [mockProviders[0]],
-      CiCoCurrency.CUSD
+      CiCoCurrency.cUSD
     )
     expect(Logger.warn).not.toHaveBeenCalled()
     expect(normalizedExternalQuotes).toHaveLength(1)
@@ -152,7 +160,7 @@ describe('normalizeExternalProviders', () => {
     const normalizedExternalQuotes = normalizeExternalProviders(
       CICOFlow.CashOut,
       [mockProviders[6]],
-      CiCoCurrency.CUSD
+      CiCoCurrency.cUSD
     )
     expect(Logger.warn).not.toHaveBeenCalled()
     expect(normalizedExternalQuotes).toHaveLength(2)

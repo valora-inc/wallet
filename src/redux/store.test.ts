@@ -93,7 +93,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 105,
+          "version": 108,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -187,6 +187,7 @@ describe('store state', () => {
           "dappsList": Array [],
           "dappsListError": null,
           "dappsListLoading": false,
+          "dappsMinimalDisclaimerEnabled": false,
           "dappsWebViewEnabled": false,
           "favoriteDappIds": Array [],
           "maxNumRecentDapps": 0,
@@ -215,6 +216,7 @@ describe('store state', () => {
           "attemptReturnUserFlowLoading": false,
           "cachedFiatAccountUses": Array [],
           "cachedQuoteParams": Object {},
+          "cachedTransfers": Object {},
           "kycTryAgainLoading": false,
           "personaInProgress": false,
           "providers": null,

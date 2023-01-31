@@ -268,6 +268,7 @@
   "onlyCelo": "Лише CELO",
   "celoDollar": "Celo Dollar",
   "celoEuro": "Celo Euro",
+  "celoReal": "Село-Реаль",
   "celoDollars": "Celo Dollars",
   "tapToCopyCeloDollarsAddress": "Натисніть, щоб скопіювати свою {{appName}} адресу CUSD",
   "disclaimerFiat": "Значення {{currency}} є оцінюваними.",
@@ -1232,6 +1233,7 @@
     "message": "Ви збираєтеся відкрити застосунок, яким не керує Valora.\n\nValora не надає жодних гарантій щодо цього застосунку. Ви використовуєте його на свій страх і ризик.",
     "button": "Перейти до {{dappName}}"
   },
+  "dappsDisclaimerAllDapps": "{{appName}} не пов'язаний з цими додатками і не робить представлень і заявок у їх використанні. Будь ласка, визнайте ризик перед використанням додатку, переглядаючи угоду користувача або політику конфіденційності.",
   "recentlyUsedDapps": "Недавно використані Dapps",
   "favoritedDapps": "Улюблені програми",
   "allDapps": "Усі Dapps",

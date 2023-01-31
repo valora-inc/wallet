@@ -4,6 +4,7 @@ import {
   FiatType,
   KycSchema,
   ObfuscatedFiatAccountData,
+  QuoteResponse,
 } from '@fiatconnect/fiatconnect-types'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { isEqual } from 'lodash'
@@ -17,7 +18,7 @@ import { FiatAccountSchemaCountryOverrides } from 'src/fiatconnect/types'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
-import { CiCoCurrency, Currency } from 'src/utils/currencies'
+import { CiCoCurrency } from 'src/utils/currencies'
 
 export enum SendingTransferStatus {
   Sending = 'Sending',
@@ -43,8 +44,16 @@ export interface CachedQuoteParams {
   cryptoAmount: string
   fiatAmount: string
   flow: CICOFlow
-  cryptoType: Currency
+  cryptoType: CiCoCurrency
   fiatType: FiatType
+}
+
+export interface CachedTransferDetails {
+  txHash: string
+  transferId: string
+  providerId: string
+  fiatAccountId: string
+  quote: QuoteResponse['quote']
 }
 
 export interface State {
@@ -52,6 +61,7 @@ export interface State {
   quotesLoading: boolean
   quotesError: string | null
   transfer: FiatConnectTransfer | null
+  cachedTransfers: { [txHash: string]: CachedTransferDetails }
   providers: FiatConnectProviderInfo[] | null
   cachedFiatAccountUses: CachedFiatAccountUse[]
   attemptReturnUserFlowLoading: boolean
@@ -67,11 +77,12 @@ export interface State {
   personaInProgress: boolean
 }
 
-const initialState: State = {
+export const initialState: State = {
   quotes: [],
   quotesLoading: false,
   quotesError: null,
   transfer: null,
+  cachedTransfers: {},
   providers: null,
   cachedFiatAccountUses: [],
   attemptReturnUserFlowLoading: false,
@@ -91,7 +102,7 @@ export interface CachedFiatAccountUse {
   fiatAccountId: string
   providerId: string
   flow: string
-  cryptoType: Currency
+  cryptoType: CiCoCurrency
   fiatType: FiatType
   fiatAccountType: FiatAccountType
   fiatAccountSchema: FiatAccountSchema
@@ -107,7 +118,7 @@ export interface FetchQuotesAction {
 
 export interface AttemptReturnUserFlowAction {
   flow: CICOFlow
-  selectedCrypto: Currency
+  selectedCrypto: CiCoCurrency
   amount: {
     crypto: number
     fiat: number
@@ -147,6 +158,8 @@ export interface CreateFiatConnectTransferCompletedAction {
   txHash: string | null
 }
 
+export type CacheFiatConnectTransferAction = CachedTransferDetails
+
 export interface CreateFiatConnectTransferTxProcessingAction {
   flow: CICOFlow
   quoteId: string
@@ -154,7 +167,7 @@ export interface CreateFiatConnectTransferTxProcessingAction {
 
 interface RefetchQuoteAction {
   flow: CICOFlow
-  cryptoType: Currency
+  cryptoType: CiCoCurrency
   cryptoAmount: string
   fiatAmount: string
   providerId: string
@@ -287,6 +300,16 @@ export const slice = createSlice({
         status: SendingTransferStatus.TxProcessing,
       }
     },
+    cacheFiatConnectTransfer: (state, action: PayloadAction<CacheFiatConnectTransferAction>) => {
+      const transferDetails: CachedTransferDetails = {
+        txHash: action.payload.txHash,
+        transferId: action.payload.transferId,
+        providerId: action.payload.providerId,
+        fiatAccountId: action.payload.fiatAccountId,
+        quote: action.payload.quote,
+      }
+      state.cachedTransfers[action.payload.txHash] = transferDetails
+    },
     fetchFiatConnectProviders: () => {
       // no state update
     },
@@ -352,6 +375,7 @@ export const {
   createFiatConnectTransferFailed,
   createFiatConnectTransferCompleted,
   createFiatConnectTransferTxProcessing,
+  cacheFiatConnectTransfer,
   fetchFiatConnectProviders,
   fetchFiatConnectProvidersCompleted,
   submitFiatAccount,

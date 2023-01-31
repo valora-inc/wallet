@@ -23,7 +23,7 @@ import {
 const AMOUNT_TO_CASH_IN = 100
 const MOCK_IP_ADDRESS = '1.1.1.7'
 const FAKE_APP_ID = 'fake app id'
-const restrictedCurrencies = [Currency.Euro, Currency.Dollar]
+const restrictedCurrencies = [CiCoCurrency.cEUR, CiCoCurrency.cUSD]
 
 jest.mock('./utils', () => ({
   ...(jest.requireActual('./utils') as any),
@@ -67,7 +67,7 @@ const mockLegacyProviders: LegacyMobileMoneyProvider[] = [
 
 const mockScreenProps = (
   flow: CICOFlow = CICOFlow.CashIn,
-  selectedCrypto: Currency = Currency.Dollar
+  selectedCrypto: CiCoCurrency = CiCoCurrency.cUSD
 ) =>
   getMockStackScreenProps(Screens.SelectProvider, {
     flow,
@@ -125,7 +125,7 @@ describe(SelectProviderScreen, () => {
     )
     await waitFor(() =>
       expect(fetchProviders).toHaveBeenCalledWith({
-        digitalAsset: CiCoCurrency.CUSD,
+        digitalAsset: 'CUSD',
         digitalAssetAmount: AMOUNT_TO_CASH_IN,
         fiatAmount: AMOUNT_TO_CASH_IN,
         fiatCurrency: LocalCurrencyCode.USD,
@@ -373,7 +373,7 @@ describe(SelectProviderScreen, () => {
       })
       const { queryByText } = render(
         <Provider store={mockStore}>
-          <SelectProviderScreen {...mockScreenProps(CICOFlow.CashIn, Currency.Celo)} />
+          <SelectProviderScreen {...mockScreenProps(CICOFlow.CashIn, CiCoCurrency.CELO)} />
         </Provider>
       )
       await waitFor(() => expect(queryByText('Coinbase Pay')).toBeTruthy())
@@ -413,7 +413,7 @@ describe(SelectProviderScreen, () => {
       })
       const { queryByText } = render(
         <Provider store={mockStore}>
-          <SelectProviderScreen {...mockScreenProps(CICOFlow.CashOut, Currency.Celo)} />
+          <SelectProviderScreen {...mockScreenProps(CICOFlow.CashOut, CiCoCurrency.CELO)} />
         </Provider>
       )
       await waitFor(() => expect(queryByText('Coinbase Pay')).toBeFalsy())
