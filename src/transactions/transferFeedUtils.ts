@@ -258,7 +258,7 @@ export function useTransactionRecipient(transfer: TokenTransfer) {
   const addressToE164Number = useSelector(addressToE164NumberSelector)
   const invitationTransactions = useSelector(inviteTransactionsSelector)
   const identifierToE164Number = useSelector(identifierToE164NumberSelector)
-  const fcTransferData = getFiatConnectTransferDisplayInfo(transfer)
+  const fcTransferDisplayInfo = getFiatConnectTransferDisplayInfo(transfer)
 
   const phoneNumber =
     transfer.type === TokenTransactionTypeV2.InviteSent &&
@@ -278,8 +278,8 @@ export function useTransactionRecipient(transfer: TokenTransfer) {
     }
   }
 
-  if (fcTransferData) {
-    recipient = { thumbnailPath: fcTransferData.tokenImageUrl, address: transfer.address }
+  if (fcTransferDisplayInfo) {
+    recipient = { thumbnailPath: fcTransferDisplayInfo.tokenImageUrl, address: transfer.address }
     return recipient
   }
 
@@ -307,7 +307,7 @@ export function useTransferFeedDetails(transfer: FeedTokenTransfer) {
   const commentKey = useSelector(dataEncryptionKeySelector)
   const tokenInfo = useTokenInfo(transfer.amount.tokenAddress)
   const coinbasePaySenders = useSelector(coinbasePaySendersSelector)
-  const fcTransferData = getFiatConnectTransferDisplayInfo(transfer)
+  const fcTransferDisplayInfo = getFiatConnectTransferDisplayInfo(transfer)
 
   const {
     type,
@@ -326,10 +326,10 @@ export function useTransferFeedDetails(transfer: FeedTokenTransfer) {
 
   switch (type) {
     case TokenTransactionTypeV2.Sent: {
-      if (fcTransferData) {
-        title = fcTransferData.title
-        subtitle = fcTransferData.subtitle
-        customLocalAmount = fcTransferData.localAmount
+      if (fcTransferDisplayInfo) {
+        title = fcTransferDisplayInfo.title
+        subtitle = fcTransferDisplayInfo.subtitle
+        customLocalAmount = fcTransferDisplayInfo.localAmount
       } else {
         title = t('feedItemSentTitle', { displayName })
         subtitle = t('feedItemSentInfo', { context: !comment ? 'noComment' : null, comment })
