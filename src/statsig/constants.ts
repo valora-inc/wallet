@@ -24,8 +24,8 @@ export const LayerParams = {
       paramName: 'qrCodeAppearance',
       defaultValue: QRCodeAppearance.Baseline,
     },
-    qrCodeData: {
-      paramName: 'qrCodeData',
+    qrCodeDataType: {
+      paramName: 'qrCodeDataType',
       defaultValue: QRCodeDataType.ValoraDeepLink,
     },
   },

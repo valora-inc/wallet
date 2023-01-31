@@ -21,15 +21,42 @@ import QRTabBar from 'src/qrcode/QRTabBar'
 import { handleBarcodeDetected, QrCode, SVG } from 'src/send/actions'
 import Logger from 'src/utils/Logger'
 import { ExtractProps } from 'src/utils/typescript'
-import { QRCodeDataType } from 'src/statsig/types'
+import { QRCodeAppearance, QRCodeDataType, StatsigLayers } from 'src/statsig/types'
+import { LayerParams } from 'src/statsig/constants'
+import { Statsig } from 'statsig-react-native'
 
 const Tab = createMaterialTopTabNavigator()
+
+const TAG = 'QRNavigator'
 
 const width = Dimensions.get('window').width
 const initialLayout = { width }
 
 type AnimatedScannerSceneProps = NativeStackScreenProps<QRTabParamList, Screens.QRScanner> & {
   position: Animated.Value<number>
+}
+
+function getExperimentParams(): {
+  qrCodeAppearance: QRCodeAppearance
+  qrCodeDataType: QRCodeDataType
+} {
+  const layerName = StatsigLayers.SEND_RECEIVE_QR_CODE
+  const { paramName: appearanceParamName, defaultValue: appearanceDefaultValue } =
+    LayerParams[layerName].qrCodeAppearance
+  const { paramName: dataTypeParamName, defaultValue: dataTypeDefaultValue } =
+    LayerParams[layerName].qrCodeDataType
+  try {
+    const statsigLayer = Statsig.getLayer(layerName)
+    const qrCodeAppearance = statsigLayer.get(appearanceParamName, appearanceDefaultValue)
+    const qrCodeData = statsigLayer.get(dataTypeParamName, dataTypeDefaultValue)
+    return { qrCodeAppearance, qrCodeDataType: qrCodeData }
+  } catch (error) {
+    Logger.warn(TAG, 'error getting Statsig experiment', error)
+    return {
+      qrCodeAppearance: appearanceDefaultValue,
+      qrCodeDataType: dataTypeDefaultValue,
+    }
+  }
 }
 
 // Component doing our custom transition for the QR scanner
@@ -128,6 +155,7 @@ const pager: ExtractProps<typeof Tab.Navigator>['pager'] =
   Platform.OS === 'ios' ? (props: any) => <ScrollPager {...props} /> : undefined
 
 export default function QRNavigator() {
+  const { qrCodeDataType } = getExperimentParams() // TODO(ACT-550) use qrCodeAppearance to decide which appearance to show
   const position = useRef(new Animated.Value(0)).current
   const qrSvgRef = useRef<SVG>()
   const { t } = useTranslation()
@@ -146,9 +174,7 @@ export default function QRNavigator() {
       initialLayout={initialLayout}
     >
       <Tab.Screen name={Screens.QRCode} options={{ title: t('myCode') }}>
-        {(props) => (
-          <QRCode {...props} dataType={QRCodeDataType.ValoraDeepLink} qrSvgRef={qrSvgRef} />
-        )}
+        {(props) => <QRCode {...props} dataType={qrCodeDataType} qrSvgRef={qrSvgRef} />}
       </Tab.Screen>
       <Tab.Screen name={Screens.QRScanner} options={{ title: t('scanCode') }}>
         {(props) => <AnimatedScannerScene {...props} position={position} />}
