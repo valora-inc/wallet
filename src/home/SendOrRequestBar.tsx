@@ -13,7 +13,6 @@ import { canSendTokensSelector } from 'src/send/selectors'
 import colors from 'src/styles/colors'
 import variables from 'src/styles/variables'
 import { tokensListSelector } from 'src/tokens/selectors'
-import { QRCodeDataType, QRCodeStyle } from 'src/qrcode/schema'
 
 export default function SendOrRequestBar() {
   const sendButtonsDisabled = !useSelector(canSendTokensSelector)
@@ -31,13 +30,7 @@ export default function SendOrRequestBar() {
 
   const onPressQrCode = () => {
     ValoraAnalytics.track(HomeEvents.home_qr)
-    navigate(Screens.QRNavigator, {
-      screen: Screens.QRCode,
-      params: {
-        qrCodeStyle: QRCodeStyle.Legacy,
-        qrCodeDataType: QRCodeDataType.ValoraDeepLink,
-      },
-    })
+    navigate(Screens.QRNavigator)
   }
 
   const { t } = useTranslation()
