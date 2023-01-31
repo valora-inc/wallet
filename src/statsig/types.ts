@@ -4,7 +4,7 @@ export enum QRCodeDataType {
 }
 
 export enum QRCodeAppearance {
-  Baseline = 'Baseline',
+  Legacy = 'Legacy',
   Jan2023QRAppearance = 'Jan2023QRAppearance',
 }
 

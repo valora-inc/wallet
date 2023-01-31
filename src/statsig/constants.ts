@@ -22,7 +22,7 @@ export const LayerParams = {
   [StatsigLayers.SEND_RECEIVE_QR_CODE]: {
     qrCodeAppearance: {
       paramName: 'qrCodeAppearance',
-      defaultValue: QRCodeAppearance.Baseline,
+      defaultValue: QRCodeAppearance.Legacy,
     },
     qrCodeDataType: {
       paramName: 'qrCodeDataType',

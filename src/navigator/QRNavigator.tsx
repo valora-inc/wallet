@@ -155,7 +155,7 @@ const pager: ExtractProps<typeof Tab.Navigator>['pager'] =
   Platform.OS === 'ios' ? (props: any) => <ScrollPager {...props} /> : undefined
 
 export default function QRNavigator() {
-  const { qrCodeDataType } = getExperimentParams() // TODO(ACT-550) use qrCodeAppearance to decide which appearance to show
+  const { qrCodeDataType } = getExperimentParams() // TODO: once ACT-550) use qrCodeAppearance to decide which appearance to show
   const position = useRef(new Animated.Value(0)).current
   const qrSvgRef = useRef<SVG>()
   const { t } = useTranslation()
