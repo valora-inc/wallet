@@ -1,4 +1,4 @@
-import { FiatAccountType } from '@fiatconnect/fiatconnect-types'
+import { FiatAccountType, TransferType } from '@fiatconnect/fiatconnect-types'
 import BigNumber from 'bignumber.js'
 import { TFunction } from 'i18next'
 import * as _ from 'lodash'
@@ -258,7 +258,7 @@ export function useTransactionRecipient(transfer: TokenTransfer) {
   const addressToE164Number = useSelector(addressToE164NumberSelector)
   const invitationTransactions = useSelector(inviteTransactionsSelector)
   const identifierToE164Number = useSelector(identifierToE164NumberSelector)
-  const fcTransferDisplayInfo = getFiatConnectTransferDisplayInfo(transfer)
+  const fcTransferDisplayInfo = useFiatConnectTransferDisplayInfo(transfer)
 
   const phoneNumber =
     transfer.type === TokenTransactionTypeV2.InviteSent &&
@@ -307,7 +307,7 @@ export function useTransferFeedDetails(transfer: FeedTokenTransfer) {
   const commentKey = useSelector(dataEncryptionKeySelector)
   const tokenInfo = useTokenInfo(transfer.amount.tokenAddress)
   const coinbasePaySenders = useSelector(coinbasePaySendersSelector)
-  const fcTransferDisplayInfo = getFiatConnectTransferDisplayInfo(transfer)
+  const fcTransferDisplayInfo = useFiatConnectTransferDisplayInfo(transfer)
 
   const {
     type,
@@ -428,7 +428,8 @@ export function isTransferTransaction(
   return (tx as TransferItemFragment).address !== undefined
 }
 
-function getFiatConnectTransferDisplayInfo({ amount, transactionHash }: TokenTransfer) {
+// Note: This hook is tested from src/transactions/feed/TransferFeedItem.test.ts
+function useFiatConnectTransferDisplayInfo({ amount, transactionHash }: TokenTransfer) {
   const { t } = useTranslation()
   const tokenInfo = useTokenInfo(amount.tokenAddress)
   const fcTransferDetails = useSelector(getCachedFiatConnectTransferSelector(transactionHash))
@@ -448,9 +449,9 @@ function getFiatConnectTransferDisplayInfo({ amount, transactionHash }: TokenTra
   const receive = Number(fcTransferDetails.quote.fiatAmount)
   const total = Number(amount.value)
   const exchangeRate = String(receive / total)
+  const sign = fcTransferDetails.quote.transferType === TransferType.TransferOut ? -1 : 1
   const localAmount: LocalAmount = {
-    //Always a transfer out, so value is negative
-    value: -new BigNumber(fcTransferDetails.quote.fiatAmount),
+    value: new BigNumber(fcTransferDetails.quote.fiatAmount).multipliedBy(sign),
     currencyCode: convertToLocalCurrency(fcTransferDetails.quote.fiatType) ?? localCurrency,
     exchangeRate,
   }
