@@ -4,10 +4,9 @@ import { render, waitFor } from '@testing-library/react-native'
 import { fetchExchanges } from 'src/fiatExchanges/utils'
 import { Provider } from 'react-redux'
 import { QRCodeDataType, QRCodeStyle } from 'src/qrcode/schema'
-import { createMockStore, getMockStackScreenProps } from 'test/utils'
+import { createMockStore } from 'test/utils'
 import { mocked } from 'ts-jest/utils'
 import { mockExchanges } from 'test/values'
-import { Screens } from 'src/navigator/Screens'
 import { Currency } from 'src/utils/currencies'
 
 jest.mock('react-native-permissions', () => jest.fn())
@@ -34,14 +33,15 @@ const mockStore = createMockStore({
 })
 
 function getProps(qrCodeStyle: QRCodeStyle): QRCodeProps {
+  // getMockStackScreenProps won't work for the tab navigator
   return {
-    ...getMockStackScreenProps(Screens.QRCode, {
-      qrCodeDataType: QRCodeDataType.Address,
-      qrCodeStyle,
-    }),
-    ...{
-      qrSvgRef: jest.fn(),
+    route: {
+      params: {
+        qrCodeDataType: QRCodeDataType.Address,
+        qrCodeStyle,
+      },
     },
+    qrSvgRef: jest.fn(),
   } as any
 }
 
