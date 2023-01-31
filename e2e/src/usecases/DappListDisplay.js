@@ -1,4 +1,3 @@
-import { DAPPS_LEARN_MORE } from '../../../src/config'
 import { fetchDappList, navigateToDappList } from '../utils/dappList'
 import { reloadReactNative } from '../utils/retries'
 import { getElementText, getElementTextList, sleep, waitForElementId } from '../utils/utils'
@@ -46,9 +45,8 @@ export default DappListDisplay = () => {
     await waitFor(element(by.id(`WebViewScreen/${dappList.applications[0].name}`)))
       .toBeVisible()
       .withTimeout(10 * 1000)
-    const url = new URL(dappList.applications[0].url)
     // Should show correct hostname in webview
-    await waitFor(element(by.text(url.hostname)))
+    await waitFor(element(by.text('support.valoraapp.com')))
       .toBeVisible()
       .withTimeout(10 * 1000)
   })
