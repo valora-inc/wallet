@@ -6,9 +6,8 @@ import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { showError } from 'src/alert/actions'
-import { ExperimentParams } from 'src/analytics/constants'
+import { ExperimentParams } from 'src/statsig/constants'
 import { FiatExchangeEvents } from 'src/analytics/Events'
-import { StatsigExperiments } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { coinbasePayEnabledSelector } from 'src/app/selectors'
@@ -57,6 +56,7 @@ import {
   PaymentMethod,
   resolveCloudFunctionDigitalAsset,
 } from './utils'
+import { StatsigExperiments } from 'src/statsig/types'
 
 const TAG = 'SelectProviderScreen'
 
