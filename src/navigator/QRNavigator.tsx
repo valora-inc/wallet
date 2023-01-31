@@ -23,7 +23,7 @@ import { QRCodeDataType, QRCodeStyle } from 'src/qrcode/schema'
 import { handleBarcodeDetected, QrCode, SVG } from 'src/send/actions'
 import Logger from 'src/utils/Logger'
 import { ExtractProps } from 'src/utils/typescript'
-import { Currency } from 'src/utils/currencies'
+import { CiCoCurrency } from 'src/utils/currencies'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import { fetchExchanges } from 'src/fiatExchanges/utils'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -57,7 +57,7 @@ export function QRCodePicker({ route, qrSvgRef, ...props }: QRCodeProps) {
     try {
       const availableExchanges = await fetchExchanges(
         userLocation.countryCodeAlpha2,
-        Currency.Celo // Default to CELO, since the user never makes a selection when arriving here
+        CiCoCurrency.CELO // Default to CELO, since the user never makes a selection when arriving here
       )
       return availableExchanges
     } catch (error) {

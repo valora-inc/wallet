@@ -7,7 +7,7 @@ import { QRCodeDataType, QRCodeStyle } from 'src/qrcode/schema'
 import { createMockStore } from 'test/utils'
 import { mocked } from 'ts-jest/utils'
 import { mockExchanges } from 'test/values'
-import { Currency } from 'src/utils/currencies'
+import { CiCoCurrency } from 'src/utils/currencies'
 
 jest.mock('react-native-permissions', () => jest.fn())
 
@@ -59,7 +59,7 @@ describe('QRNavigator', () => {
           <QRCodePicker {...getProps(QRCodeStyle.New)} />
         </Provider>
       )
-      await waitFor(() => expect(fetchExchanges).toHaveBeenCalledWith('US', Currency.Celo))
+      await waitFor(() => expect(fetchExchanges).toHaveBeenCalledWith('US', CiCoCurrency.CELO))
       expect(queryByTestId('styledQRCode')).toBeTruthy()
     })
 
