@@ -13,7 +13,7 @@ import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import { currentAccountSelector } from 'src/web3/selectors'
 import { Statsig } from 'statsig-react-native'
-import { QRCodeDataType, StatsigLayers } from 'src/statsig/types'
+import { QRCodeAppearance, QRCodeDataType, StatsigLayers } from 'src/statsig/types'
 import { LayerParams } from 'src/statsig/constants'
 import Logger from 'src/utils/Logger'
 
@@ -24,7 +24,10 @@ interface Props {
 
 const TAG = 'QRCode'
 
-function getExperimentParams() {
+function getExperimentParams(): {
+  qrCodeAppearance: QRCodeAppearance
+  qrCodeData: QRCodeDataType
+} {
   const layerName = StatsigLayers.SEND_RECEIVE_QR_CODE
   const { paramName: appearanceParamName, defaultValue: appearanceDefaultValue } =
     LayerParams[layerName].qrCodeAppearance
