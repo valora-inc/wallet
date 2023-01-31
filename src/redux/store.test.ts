@@ -93,7 +93,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 106,
+          "version": 108,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -216,6 +216,7 @@ describe('store state', () => {
           "attemptReturnUserFlowLoading": false,
           "cachedFiatAccountUses": Array [],
           "cachedQuoteParams": Object {},
+          "cachedTransfers": Object {},
           "kycTryAgainLoading": false,
           "personaInProgress": false,
           "providers": null,

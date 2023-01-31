@@ -268,6 +268,7 @@
   "onlyCelo": "Sadece CELO",
   "celoDollar": "Celo Dollar",
   "celoEuro": "Celo Eurosu",
+  "celoReal": "Celo Real",
   "celoDollars": "Celo Dollars",
   "tapToCopyCeloDollarsAddress": "{{appName}} cUSD adresinizi kopyalamak için dokunun",
   "disclaimerFiat": "{{currency}} değerleri tahminidir.",
@@ -1228,6 +1229,7 @@
     "message": "Valora tarafından işletilmeyen bir uygulamayı açmak üzeresiniz.\n\nValora, bu uygulama hakkında hiçbir beyanda bulunmaz. Kendi sorumluluğunuzda kullanın.",
     "button": "{{dappName}} uygulamasına git"
   },
+  "dappsDisclaimerAllDapps": "{{appName}} bu dapp'lerle bağlantılı değildir ve bunları kullanırken hiçbir beyan veya iddiada bulunmaz. Lütfen bir dapp kullanmadan önce kullanıcı sözleşmesini veya gizlilik politikasını inceleyerek riski kabul edin.",
   "recentlyUsedDapps": "Son Kullanılan Dapp'ler",
   "favoritedDapps": "Favori Dapps",
   "allDapps": "Tüm Dapp'ler",

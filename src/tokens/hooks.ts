@@ -6,6 +6,7 @@ import {
   tokensByCurrencySelector,
   tokensListSelector,
 } from 'src/tokens/selectors'
+import { convertLocalToTokenAmount, convertTokenToLocalAmount } from 'src/tokens/utils'
 import { Currency } from 'src/utils/currencies'
 
 export function useTokenInfo(tokenAddress: string) {
@@ -28,13 +29,12 @@ export function useLocalToTokenAmount(
   tokenAddress: string
 ): BigNumber | null {
   const tokenInfo = useTokenInfo(tokenAddress)
-  const tokenUsdPrice = tokenInfo?.usdPrice
-  const usdExchangeRate = useSelector(localCurrencyExchangeRatesSelector)[Currency.Dollar]
-  if (!tokenUsdPrice || !usdExchangeRate) {
-    return null
-  }
-
-  return localAmount.dividedBy(usdExchangeRate).dividedBy(tokenUsdPrice)
+  const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)
+  return convertLocalToTokenAmount({
+    localAmount,
+    tokenInfo,
+    exchangeRates,
+  })
 }
 
 export function useTokenToLocalAmount(
@@ -42,13 +42,12 @@ export function useTokenToLocalAmount(
   tokenAddress: string
 ): BigNumber | null {
   const tokenInfo = useTokenInfo(tokenAddress)
-  const tokenUsdPrice = tokenInfo?.usdPrice
-  const usdExchangeRate = useSelector(localCurrencyExchangeRatesSelector)[Currency.Dollar]
-  if (!tokenUsdPrice || !usdExchangeRate) {
-    return null
-  }
-
-  return tokenAmount.multipliedBy(tokenUsdPrice).multipliedBy(usdExchangeRate)
+  const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)
+  return convertTokenToLocalAmount({
+    tokenAmount,
+    tokenInfo,
+    exchangeRates,
+  })
 }
 
 export function useAmountAsUsd(amount: BigNumber, tokenAddress: string) {

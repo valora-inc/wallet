@@ -268,6 +268,7 @@
   "onlyCelo": "Chỉ CELO",
   "celoDollar": "Đô la Celo",
   "celoEuro": "Euro Celo",
+  "celoReal": "Celo Real",
   "celoDollars": "Đô la Celo",
   "tapToCopyCeloDollarsAddress": "Nhấn để sao chép địa chỉ CUSD {{appName}} của bạn",
   "disclaimerFiat": "Giá trị {{currency}} chỉ là ước tính.",
@@ -1226,6 +1227,7 @@
     "message": "Bạn sắp mở một ứng dụng không phải do Valora vận hành.\n\nValora không đưa ra bất kỳ cam đoan nào về ứng dụng này. Bạn phải tự chịu mọi rủi ro khi sử dụng.",
     "button": "Truy cập {{dappName}}"
   },
+  "dappsDisclaimerAllDapps": "{{appName}} is not affiliated with these dapps and makes no representations or claims in using them. Please acknowledge the risk before using a dapp by reviewing the user agreement or privacy policy.",
   "recentlyUsedDapps": "Các Dapp được sử dụng gần đây",
   "favoritedDapps": "Favorited Dapps",
   "allDapps": "Tất cả các Dapp",

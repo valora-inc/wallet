@@ -7,9 +7,8 @@ import { useDispatch } from 'react-redux'
 import { setName, setPicture } from 'src/account/actions'
 import { nameSelector, recoveringFromStoreWipeSelector } from 'src/account/selectors'
 import { hideAlert, showError } from 'src/alert/actions'
-import { ConfigParams, LayerParams } from 'src/analytics/constants'
+import { ConfigParams, LayerParams } from 'src/statsig/constants'
 import { OnboardingEvents } from 'src/analytics/Events'
-import { StatsigDynamicConfigs, StatsigLayers } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import {
@@ -35,6 +34,7 @@ import fontStyles from 'src/styles/fonts'
 import { saveProfilePicture } from 'src/utils/image'
 import Logger from 'src/utils/Logger'
 import { Statsig } from 'statsig-react-native'
+import { StatsigDynamicConfigs, StatsigLayers } from 'src/statsig/types'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.NameAndPicture>
 

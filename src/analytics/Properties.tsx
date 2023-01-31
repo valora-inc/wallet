@@ -57,7 +57,7 @@ import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { NotificationReceiveState } from 'src/notifications/types'
 import { RecipientType } from 'src/recipients/recipient'
 import { Field } from 'src/swap/types'
-import { Currency, StableCurrency } from 'src/utils/currencies'
+import { Currency, CurrencyOrCREAL, StableCurrency } from 'src/utils/currencies'
 import { Awaited } from 'src/utils/typescript'
 type PermissionStatus = Awaited<ReturnType<typeof check>>
 
@@ -768,21 +768,21 @@ interface FiatExchangeEventsProperties {
   [FiatExchangeEvents.cico_landing_how_to_fund]: undefined
   [FiatExchangeEvents.cico_currency_chosen]: {
     flow: FiatExchangeFlow
-    currency: Currency
+    currency: CurrencyOrCREAL
   }
   [FiatExchangeEvents.cico_currency_back]: { flow: FiatExchangeFlow }
   [FiatExchangeEvents.cico_amount_chosen]: {
     amount: number
-    currency: Currency
+    currency: CurrencyOrCREAL
     flow: CICOFlow
   }
   [FiatExchangeEvents.cico_amount_chosen_invalid]: {
     amount: number
-    currency: Currency
+    currency: CurrencyOrCREAL
     flow: CICOFlow
   }
   [FiatExchangeEvents.cico_amount_back]: {
-    currency: Currency
+    currency: CurrencyOrCREAL
     flow: CICOFlow
   }
   [FiatExchangeEvents.cico_providers_section_impression]: {

@@ -3,7 +3,7 @@ import { RouteProp } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import React, { useState } from 'react'
-import { Trans, useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, Text, TextInput, View } from 'react-native'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -14,7 +14,6 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
-import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import Dialog from 'src/components/Dialog'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
@@ -32,14 +31,9 @@ import {
 import { attemptReturnUserFlow } from 'src/fiatconnect/slice'
 import i18n from 'src/i18n'
 import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts'
-import {
-  useConvertBetweenCurrencies,
-  useCurrencyToLocalAmount,
-  useLocalAmountToCurrency,
-  useLocalCurrencyCode,
-} from 'src/localCurrency/hooks'
+import { useLocalCurrencyCode } from 'src/localCurrency/hooks'
 import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
-import { emptyHeader, HeaderTitleWithBalance } from 'src/navigator/Headers'
+import { emptyHeader, HeaderTitleWithTokenBalance } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -47,8 +41,13 @@ import DisconnectBanner from 'src/shared/DisconnectBanner'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
-import { useTokenInfoBySymbol } from 'src/tokens/hooks'
-import { Currency } from 'src/utils/currencies'
+import {
+  useConvertBetweenTokens,
+  useLocalToTokenAmount,
+  useTokenInfoBySymbol,
+  useTokenToLocalAmount,
+} from 'src/tokens/hooks'
+import { CiCoCurrency, Currency, currencyForAnalytics } from 'src/utils/currencies'
 import { roundUp } from 'src/utils/formatting'
 import Logger from 'src/utils/Logger'
 import { CICOFlow, isUserInputCrypto } from './utils'
@@ -57,14 +56,16 @@ const TAG = 'FiatExchangeAmount'
 
 const { decimalSeparator } = getNumberFormatSettings()
 
+const cicoCurrencyTranslationKeys = {
+  [CiCoCurrency.CELO]: 'subtotal',
+  [CiCoCurrency.cEUR]: 'celoEuro',
+  [CiCoCurrency.cUSD]: 'celoDollar',
+  [CiCoCurrency.cREAL]: 'celoReal',
+}
+
 type RouteProps = NativeStackScreenProps<StackParamList, Screens.FiatExchangeAmount>
 
 type Props = RouteProps
-
-const oneUnitAmount = (currency: Currency) => ({
-  value: new BigNumber('1'),
-  currencyCode: currency,
-})
 
 function FiatExchangeAmount({ route }: Props) {
   const { t } = useTranslation()
@@ -76,16 +77,17 @@ function FiatExchangeAmount({ route }: Props) {
   }
   const [inputAmount, setInputAmount] = useState('')
   const parsedInputAmount = parseInputAmount(inputAmount, decimalSeparator)
+  const { address } = useTokenInfoBySymbol(currency)!
+
   const inputConvertedToCrypto =
-    useLocalAmountToCurrency(parsedInputAmount, currency) || new BigNumber(0)
+    useLocalToTokenAmount(parsedInputAmount, address) || new BigNumber(0)
   const inputConvertedToLocalCurrency =
-    useCurrencyToLocalAmount(parsedInputAmount, currency) || new BigNumber(0)
+    useTokenToLocalAmount(parsedInputAmount, address) || new BigNumber(0)
   const localCurrencyCode = useLocalCurrencyCode()
   const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)
   const cachedFiatAccountUses = useSelector(cachedFiatAccountUsesSelector)
   const attemptReturnUserFlowLoading = useSelector(attemptReturnUserFlowLoadingSelector)
 
-  const cryptoSymbol = currency === Currency.Celo ? 'CELO' : currency
   const localCurrencySymbol = LocalCurrencySymbol[localCurrencyCode]
 
   const inputIsCrypto = isUserInputCrypto(flow, currency)
@@ -93,33 +95,28 @@ function FiatExchangeAmount({ route }: Props) {
   const inputCryptoAmount = inputIsCrypto ? parsedInputAmount : inputConvertedToCrypto
   const inputLocalCurrencyAmount = inputIsCrypto ? inputConvertedToLocalCurrency : parsedInputAmount
 
-  const { address } = useTokenInfoBySymbol(cryptoSymbol)!
   const maxWithdrawAmount = useMaxSendAmount(address, FeeType.SEND)
 
   const inputSymbol = inputIsCrypto ? '' : localCurrencySymbol
 
-  const displayCurrencyKey =
-    currency === Currency.Celo
-      ? 'subtotal'
-      : currency === Currency.Dollar
-      ? 'celoDollar'
-      : 'celoEuro'
+  const displayCurrencyKey = cicoCurrencyTranslationKeys[currency]
 
+  const cUSDToken = useTokenInfoBySymbol(CiCoCurrency.cUSD)!
   const localCurrencyMaxAmount =
-    useCurrencyToLocalAmount(new BigNumber(DOLLAR_ADD_FUNDS_MAX_AMOUNT), Currency.Dollar) ||
+    useTokenToLocalAmount(new BigNumber(DOLLAR_ADD_FUNDS_MAX_AMOUNT), cUSDToken.address) ||
     new BigNumber(0)
 
   const currencyMaxAmount =
-    useConvertBetweenCurrencies(
+    useConvertBetweenTokens(
       new BigNumber(DOLLAR_ADD_FUNDS_MAX_AMOUNT),
-      Currency.Dollar,
-      currency
+      cUSDToken.address,
+      address
     ) || new BigNumber(0)
 
   let overLocalLimitDisplayString = ''
   if (localCurrencyCode !== LocalCurrencyCode.USD) {
     overLocalLimitDisplayString =
-      currency === Currency.Celo
+      currency === CiCoCurrency.CELO
         ? ` (${roundUp(currencyMaxAmount, 3)} CELO)`
         : ` (${localCurrencySymbol}${roundUp(localCurrencyMaxAmount)})`
   }
@@ -130,8 +127,7 @@ function FiatExchangeAmount({ route }: Props) {
     dispatch(fetchExchangeRate())
   }, [])
 
-  const tokenInfo = useTokenInfoBySymbol(currency === Currency.Celo ? 'CELO' : currency)
-  if (!tokenInfo) {
+  if (!address) {
     Logger.error(TAG, "Couldn't grab the exchange token info")
     return null
   }
@@ -147,7 +143,7 @@ function FiatExchangeAmount({ route }: Props) {
   function goToProvidersScreen() {
     ValoraAnalytics.track(FiatExchangeEvents.cico_amount_chosen, {
       amount: inputCryptoAmount.toNumber(),
-      currency,
+      currency: currencyForAnalytics[currency],
       flow,
     })
     const amount = {
@@ -192,7 +188,7 @@ function FiatExchangeAmount({ route }: Props) {
         setShowingInvalidAmountDialog(true)
         ValoraAnalytics.track(FiatExchangeEvents.cico_amount_chosen_invalid, {
           amount: inputCryptoAmount.toNumber(),
-          currency,
+          currency: currencyForAnalytics[currency],
           flow,
         })
         return
@@ -201,7 +197,7 @@ function FiatExchangeAmount({ route }: Props) {
       dispatch(
         showError(ErrorMessages.CASH_OUT_LIMIT_EXCEEDED, ALERT_BANNER_DURATION, {
           balance: maxWithdrawAmount.toFixed(2),
-          currency: cryptoSymbol,
+          currency: currency,
         })
       )
       return
@@ -233,7 +229,7 @@ function FiatExchangeAmount({ route }: Props) {
         <View style={styles.amountInputContainer}>
           <View>
             <Text style={styles.exchangeBodyText}>
-              {inputIsCrypto ? `${t('amount')} (${cryptoSymbol})` : t('amount')}
+              {inputIsCrypto ? `${t('amount')} (${currency})` : t('amount')}
             </Text>
           </View>
           <TextInput
@@ -252,29 +248,29 @@ function FiatExchangeAmount({ route }: Props) {
           testID="subtotal"
           textStyle={styles.subtotalBodyText}
           title={
-            <Trans>
+            <>
               {`${t(displayCurrencyKey)} @ `}
-              <CurrencyDisplay amount={oneUnitAmount(currency)} showLocalAmount={true} />
-            </Trans>
+              {
+                <TokenDisplay
+                  amount={BigNumber(1)}
+                  tokenAddress={address}
+                  showLocalAmount={true}
+                  hideSign={false}
+                />
+              }
+            </>
           }
           amount={
-            inputIsCrypto ? (
-              <CurrencyDisplay
-                amount={{ value: inputCryptoAmount, currencyCode: currency }}
-                showLocalAmount={true}
-              />
-            ) : (
-              <TokenDisplay
-                amount={inputCryptoAmount}
-                tokenAddress={tokenInfo.address}
-                showLocalAmount={false}
-                hideSign={false}
-              />
-            )
+            <TokenDisplay
+              amount={inputCryptoAmount}
+              tokenAddress={address}
+              showLocalAmount={inputIsCrypto}
+              hideSign={false}
+            />
           }
         />
       </KeyboardAwareScrollView>
-      {currency !== Currency.Celo && (
+      {currency !== CiCoCurrency.CELO && (
         <Text style={styles.disclaimerFiat}>
           {t('disclaimerFiat', { currency: t(displayCurrencyKey) })}
         </Text>
@@ -306,20 +302,39 @@ FiatExchangeAmount.navOptions = ({
     ...emptyHeader,
     headerLeft: () => <BackButton eventName={FiatExchangeEvents.cico_amount_back} />,
     headerTitle: () => (
-      <HeaderTitleWithBalance
+      <FiatExchangeAmountHeader
         title={i18n.t(
           route.params.flow === CICOFlow.CashIn
             ? `fiatExchangeFlow.cashIn.exchangeAmountTitle`
             : `fiatExchangeFlow.cashOut.exchangeAmountTitle`,
           {
-            currency: route.params.currency === Currency.Celo ? 'CELO' : route.params.currency,
+            currency,
           }
         )}
-        token={currency}
-        displayCrypto={inputIsCrypto}
+        currency={currency}
+        showLocalAmount={!inputIsCrypto}
       />
     ),
   }
+}
+
+function FiatExchangeAmountHeader({
+  title,
+  currency,
+  showLocalAmount,
+}: {
+  title: string | JSX.Element
+  currency: CiCoCurrency
+  showLocalAmount: boolean
+}) {
+  const tokenInfo = useTokenInfoBySymbol(currency)
+  return (
+    <HeaderTitleWithTokenBalance
+      tokenInfo={tokenInfo}
+      title={title}
+      showLocalAmount={showLocalAmount}
+    />
+  )
 }
 
 export default FiatExchangeAmount

@@ -5,8 +5,9 @@ import { CodeInputStatus } from 'src/components/CodeInput'
 import { Dapp, DappConnectInfo } from 'src/dapps/types'
 import { FeeEstimates } from 'src/fees/reducer'
 import { SendingFiatAccountStatus } from 'src/fiatconnect/slice'
+import { updateCachedQuoteParams } from 'src/redux/migrations'
 import { RootState } from 'src/redux/reducers'
-import { Currency } from 'src/utils/currencies'
+import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import {
   mockCeloAddress,
   mockCeurAddress,
@@ -1985,6 +1986,34 @@ export const v106Schema = {
   },
 }
 
+export const v107Schema = {
+  ...v106Schema,
+  _persist: {
+    ...v106Schema._persist,
+    version: 107,
+  },
+  fiatConnect: {
+    ...v106Schema.fiatConnect,
+    cachedFiatAccountUses: v106Schema.fiatConnect.cachedFiatAccountUses.map((use: any) => ({
+      ...use,
+      cryptoType: use.cryptoType === Currency.Celo ? CiCoCurrency.CELO : use.cryptoType,
+    })),
+    cachedQuoteParams: updateCachedQuoteParams(v106Schema.fiatConnect.cachedQuoteParams),
+  },
+}
+
+export const v108Schema = {
+  ...v107Schema,
+  _persist: {
+    ...v107Schema._persist,
+    version: 108,
+  },
+  fiatConnect: {
+    ...v107Schema.fiatConnect,
+    cachedTransfers: {},
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v106Schema as Partial<RootState>
+  return v108Schema as Partial<RootState>
 }

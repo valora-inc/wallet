@@ -269,6 +269,7 @@
   "onlyCelo": "CELO only",
   "celoDollar": "Celo Dollar",
   "celoEuro": "Celo Euro",
+  "celoReal": "Celo Real",
   "celoDollars": "Celo Dollars",
   "tapToCopyCeloDollarsAddress": "Tap to copy your {{appName}} CUSD address",
   "disclaimerFiat": "{{currency}} values are estimates.",

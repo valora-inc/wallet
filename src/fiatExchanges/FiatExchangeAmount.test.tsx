@@ -9,9 +9,9 @@ import FiatExchangeAmount from 'src/fiatExchanges/FiatExchangeAmount'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { Currency } from 'src/utils/currencies'
+import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { createMockStore, getElementText, getMockStackScreenProps } from 'test/utils'
-import { mockMaxSendAmount } from 'test/values'
+import { mockCeloAddress, mockCeurAddress, mockCusdAddress, mockMaxSendAmount } from 'test/values'
 import { CICOFlow } from './utils'
 
 jest.mock('src/fees/hooks', () => ({
@@ -36,12 +36,42 @@ const phpExchangeRates = {
   [Currency.Celo]: '150',
 }
 
+const mockTokens = {
+  tokenBalances: {
+    [mockCusdAddress]: {
+      address: mockCusdAddress,
+      symbol: 'cUSD',
+      balance: '200',
+      usdPrice: '1',
+      isCoreToken: true,
+      priceFetchedAt: Date.now(),
+    },
+    [mockCeurAddress]: {
+      address: mockCeurAddress,
+      symbol: 'cEUR',
+      balance: '100',
+      usdPrice: '1.2',
+      isCoreToken: true,
+      priceFetchedAt: Date.now(),
+    },
+    [mockCeloAddress]: {
+      address: mockCeloAddress,
+      symbol: 'CELO',
+      balance: '200',
+      usdPrice: '5',
+      isCoreToken: true,
+      priceFetchedAt: Date.now(),
+    },
+  },
+}
+
 const storeWithUSD = createMockStore({
   localCurrency: {
     fetchedCurrencyCode: LocalCurrencyCode.USD,
     preferredCurrencyCode: LocalCurrencyCode.USD,
     exchangeRates: usdExchangeRates,
   },
+  tokens: mockTokens,
 })
 
 const storeWithEUR = createMockStore({
@@ -50,6 +80,7 @@ const storeWithEUR = createMockStore({
     preferredCurrencyCode: LocalCurrencyCode.EUR,
     exchangeRates: eurExchangeRates,
   },
+  tokens: mockTokens,
 })
 
 const storeWithPHP = createMockStore({
@@ -58,6 +89,7 @@ const storeWithPHP = createMockStore({
     preferredCurrencyCode: LocalCurrencyCode.PHP,
     exchangeRates: phpExchangeRates,
   },
+  tokens: mockTokens,
 })
 
 describe('FiatExchangeAmount cashIn', () => {
@@ -69,7 +101,7 @@ describe('FiatExchangeAmount cashIn', () => {
 
   it('renders correctly with USD as app currency', () => {
     const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
-      currency: Currency.Dollar,
+      currency: CiCoCurrency.cUSD,
       flow: CICOFlow.CashIn,
     })
     const tree = render(
@@ -82,7 +114,7 @@ describe('FiatExchangeAmount cashIn', () => {
 
   it('renders correctly with EUR as app currency', () => {
     const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
-      currency: Currency.Dollar,
+      currency: CiCoCurrency.cUSD,
       flow: CICOFlow.CashIn,
     })
     const tree = render(
@@ -95,7 +127,7 @@ describe('FiatExchangeAmount cashIn', () => {
 
   it('disables the next button if the cUSD amount is 0', () => {
     const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
-      currency: Currency.Dollar,
+      currency: CiCoCurrency.cUSD,
       flow: CICOFlow.CashIn,
     })
     const tree = render(
@@ -110,7 +142,7 @@ describe('FiatExchangeAmount cashIn', () => {
 
   it('disables the next button if the cEUR amount is 0', () => {
     const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
-      currency: Currency.Euro,
+      currency: CiCoCurrency.cEUR,
       flow: CICOFlow.CashIn,
     })
     const tree = render(
@@ -125,7 +157,7 @@ describe('FiatExchangeAmount cashIn', () => {
 
   it('enables the next button if the cUSD amount is greater than 0', () => {
     const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
-      currency: Currency.Dollar,
+      currency: CiCoCurrency.cUSD,
       flow: CICOFlow.CashIn,
     })
     const tree = render(
@@ -140,7 +172,7 @@ describe('FiatExchangeAmount cashIn', () => {
 
   it('enables the next button if the cEUR amount is greater than 0', () => {
     const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
-      currency: Currency.Euro,
+      currency: CiCoCurrency.cEUR,
       flow: CICOFlow.CashIn,
     })
     const tree = render(
@@ -156,17 +188,17 @@ describe('FiatExchangeAmount cashIn', () => {
 
 describe('FiatExchangeAmount cashOut', () => {
   const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
-    currency: Currency.Dollar,
+    currency: CiCoCurrency.cUSD,
     flow: CICOFlow.CashOut,
   })
 
   const mockScreenPropsEuro = getMockStackScreenProps(Screens.FiatExchangeAmount, {
-    currency: Currency.Euro,
+    currency: CiCoCurrency.cEUR,
     flow: CICOFlow.CashOut,
   })
 
   const mockScreenPropsCelo = getMockStackScreenProps(Screens.FiatExchangeAmount, {
-    currency: Currency.Celo,
+    currency: CiCoCurrency.CELO,
     flow: CICOFlow.CashOut,
   })
 
@@ -205,7 +237,7 @@ describe('FiatExchangeAmount cashOut', () => {
       </Provider>
     )
     expect(getByText('amount (CELO)')).toBeTruthy()
-    expect(getElementText(getByTestId('LineItemRowTitle/subtotal'))).toBe('subtotal @ $3.00')
+    expect(getElementText(getByTestId('LineItemRowTitle/subtotal'))).toBe('subtotal @ $5.00')
     expect(getElementText(getByTestId('LineItemRow/subtotal'))).toBe('$0.00')
   })
 
@@ -269,7 +301,7 @@ describe('FiatExchangeAmount cashOut', () => {
     fireEvent.press(tree.getByTestId('FiatExchangeNextButton'))
     expect(navigate).toHaveBeenCalledWith(Screens.SelectProvider, {
       flow: CICOFlow.CashOut,
-      selectedCrypto: Currency.Dollar,
+      selectedCrypto: CiCoCurrency.cUSD,
       amount: {
         fiat: 750,
         crypto: 750,
@@ -290,7 +322,7 @@ describe('FiatExchangeAmount cashOut', () => {
             fiatAccountId: '123',
             fiatAccountType: FiatAccountType.BankAccount,
             flow: CICOFlow.CashOut,
-            cryptoType: Currency.Dollar,
+            cryptoType: CiCoCurrency.cUSD,
             fiatType: FiatType.USD,
             fiatAccountSchema: FiatAccountSchema.AccountNumber,
           },
@@ -299,7 +331,7 @@ describe('FiatExchangeAmount cashOut', () => {
     })
     store.dispatch = jest.fn()
     const screenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
-      currency: Currency.Dollar,
+      currency: CiCoCurrency.cUSD,
       flow: CICOFlow.CashOut,
     })
     const tree = render(
@@ -313,7 +345,7 @@ describe('FiatExchangeAmount cashOut', () => {
     expect(store.dispatch).toHaveBeenLastCalledWith(
       attemptReturnUserFlow({
         flow: CICOFlow.CashOut,
-        selectedCrypto: Currency.Dollar,
+        selectedCrypto: CiCoCurrency.cUSD,
         amount: {
           crypto: 750,
           fiat: 750,
@@ -339,7 +371,7 @@ describe('FiatExchangeAmount cashOut', () => {
             fiatAccountId: '123',
             fiatAccountType: FiatAccountType.BankAccount,
             flow: CICOFlow.CashIn,
-            cryptoType: Currency.Dollar,
+            cryptoType: CiCoCurrency.cUSD,
             fiatType: FiatType.USD,
             fiatAccountSchema: FiatAccountSchema.AccountNumber,
           },
@@ -348,7 +380,7 @@ describe('FiatExchangeAmount cashOut', () => {
     })
     store.dispatch = jest.fn()
     const screenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
-      currency: Currency.Dollar,
+      currency: CiCoCurrency.cUSD,
       flow: CICOFlow.CashOut,
     })
     const tree = render(
@@ -362,7 +394,7 @@ describe('FiatExchangeAmount cashOut', () => {
     expect(store.dispatch).toHaveBeenLastCalledWith(
       attemptReturnUserFlow({
         flow: CICOFlow.CashOut,
-        selectedCrypto: Currency.Dollar,
+        selectedCrypto: CiCoCurrency.cUSD,
         amount: {
           crypto: 750,
           fiat: 750,
