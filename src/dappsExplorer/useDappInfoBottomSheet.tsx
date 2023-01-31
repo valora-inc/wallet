@@ -54,7 +54,11 @@ const useDappInfoBottomSheet = () => {
         backdropComponent={renderBackdrop}
         handleIndicatorStyle={styles.handle}
       >
-        <View style={[styles.container, { paddingBottom }]} onLayout={handleContentLayout}>
+        <View
+          style={[styles.container, { paddingBottom }]}
+          onLayout={handleContentLayout}
+          testID="DAppsExplorerScreen/InfoBottomSheet"
+        >
           <Text style={styles.title}>{t('dappsScreenInfoSheet.title')}</Text>
           <Text style={styles.description}>{t('dappsScreenInfoSheet.description')}</Text>
           <Button
