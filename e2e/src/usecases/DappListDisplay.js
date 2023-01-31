@@ -25,11 +25,16 @@ export default DappListDisplay = () => {
     await waitFor(element(by.id(`RNWebView`)))
       .toBeVisible()
       .withTimeout(10 * 1000)
-    const url = new URL(DAPPS_LEARN_MORE)
     // Should show correct hostname in webview
-    await waitFor(element(by.text(url.hostname)))
+    await waitFor(element(by.text('support.valoraapp.com')))
       .toBeVisible()
       .withTimeout(10 * 1000)
+    await element(by.id('WebViewScreen/CloseButton')).tap()
+
+    await waitFor(element(by.id('DAppsExplorerScreen/InfoBottomSheet')))
+      .toBeVisible()
+      .withTimeout(10 * 1000)
+    await element(by.id('DAppsExplorerScreen/InfoBottomSheet')).swipe('down', 'fast')
   })
 
   it('should show dapp bottom sheet when dapp is selected', async () => {
@@ -45,8 +50,9 @@ export default DappListDisplay = () => {
     await waitFor(element(by.id(`WebViewScreen/${dappList.applications[0].name}`)))
       .toBeVisible()
       .withTimeout(10 * 1000)
+    const url = new URL(dappList.applications[0].url)
     // Should show correct hostname in webview
-    await waitFor(element(by.text('support.valoraapp.com')))
+    await waitFor(element(by.text(url.hostname)))
       .toBeVisible()
       .withTimeout(10 * 1000)
   })
