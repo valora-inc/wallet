@@ -66,7 +66,7 @@ const verifySuccessfulSign = async () => {
   await waitFor(element(by.text(`Confirm transaction`)))
     .toBeVisible()
     .withTimeout(15 * 1000)
-  await waitFor(element(by.text('sign a data payload')))
+  await waitFor(element(by.text(`${dappName} would like to sign a data payload.`)))
     .toBeVisible()
     .withTimeout(15 * 1000)
   await element(by.text('Allow')).tap()
@@ -141,7 +141,7 @@ export default WalletConnect = () => {
 
   beforeEach(async () => {
     // wait for any banners to disappear
-    await sleep(5000)
+    await sleep(3000)
   })
 
   afterAll(async () => {
@@ -182,7 +182,7 @@ export default WalletConnect = () => {
         txHash = result
       })
 
-    await waitFor(element(by.text('send a Celo transaction')))
+    await waitFor(element(by.text(`${dappName} would like to send a Celo transaction.`)))
       .toBeVisible()
       .withTimeout(15 * 1000)
     await verifySuccessfulTransaction(tx)
@@ -212,7 +212,7 @@ export default WalletConnect = () => {
         signedTx = result
       })
 
-    await waitFor(element(by.text('sign a Celo transaction')))
+    await waitFor(element(by.text(`${dappName} would like to sign a Celo transaction.`)))
       .toBeVisible()
       .withTimeout(15 * 1000)
     await verifySuccessfulTransaction(tx)

@@ -1,6 +1,6 @@
 import { IClientMeta } from '@walletconnect/legacy-types'
 import { CoreTypes } from '@walletconnect/types'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
@@ -90,11 +90,14 @@ function RequestContent({
   const dappConnectInfo = useSelector(dappConnectInfoSelector)
   const isDappListed = useIsDappListed(dappUrl)
 
+  const isAcceptingRef = useRef(false)
+
   const handleAccept = () => {
     setIsAccepting(true)
   }
 
   useEffect(() => {
+    isAcceptingRef.current = isAccepting
     if (isAccepting) {
       onAccept()
     }
@@ -102,7 +105,7 @@ function RequestContent({
 
   useEffect(() => {
     return () => {
-      if (!isAccepting) {
+      if (!isAcceptingRef.current) {
         onDeny()
       }
     }

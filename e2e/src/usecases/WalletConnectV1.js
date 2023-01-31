@@ -8,13 +8,7 @@ import { recoverTransaction } from '@celo/wallet-base'
 import NodeWalletConnect from '@walletconnect/node'
 import { formatUri, utf8ToHex } from '../utils/encoding'
 import { launchApp, reloadReactNative } from '../utils/retries'
-import {
-  enterPinUiIfNecessary,
-  isElementVisible,
-  scrollIntoView,
-  sleep,
-  waitForElementId,
-} from '../utils/utils'
+import { enterPinUiIfNecessary, scrollIntoView, sleep, waitForElementId } from '../utils/utils'
 
 const fromAddress = (
   process.env.E2E_WALLET_ADDRESS || '0x6131a6d616a4be3737b38988847270a64bc10caa'
@@ -58,22 +52,8 @@ export default WalletConnect = () => {
   })
 
   beforeEach(async () => {
-    // Sleep a few seconds for runs in ci
+    // wait for any banners to disappear
     await sleep(3 * 1000)
-  })
-
-  // Used to prevent a failing test spec form failing the entire test suite
-  afterEach(async () => {
-    // If on details page go back
-    let backChevronPresent = await isElementVisible('BackChevron')
-    if (backChevronPresent) {
-      await element(by.id('BackChevron')).tap()
-    }
-    // Cancel pending wc action
-    let closeIconPresent = await isElementVisible('Times')
-    if (closeIconPresent) {
-      await element(by.id('Times')).tap()
-    }
   })
 
   afterAll(async () => {
@@ -91,9 +71,6 @@ export default WalletConnect = () => {
       await sleep(2 * 1000)
       await device.openURL({ url: uri })
     }
-
-    // A sleep for ci
-    await sleep(3 * 1000)
 
     // Verify WC page
     await waitFor(element(by.id('WalletConnectSessionRequestHeader')))
@@ -117,7 +94,7 @@ export default WalletConnect = () => {
     let result = walletConnector.sendTransaction(tx)
 
     // Verify transaction type text
-    await waitFor(element(by.text('send a Celo transaction')))
+    await waitFor(element(by.text('WalletConnectV1 E2E would like to send a Celo transaction.')))
       .toBeVisible()
       .withTimeout(15 * 1000)
 
@@ -148,7 +125,7 @@ export default WalletConnect = () => {
   it('Then is able to sign a transaction', async () => {
     // Save result and await for it later
     let result = walletConnector.signTransaction(tx)
-    await waitFor(element(by.text('sign a Celo transaction')))
+    await waitFor(element(by.text('WalletConnectV1 E2E would like to sign a Celo transaction.')))
       .toBeVisible()
       .withTimeout(15 * 1000)
     await element(by.text('Allow')).tap()
@@ -171,7 +148,7 @@ export default WalletConnect = () => {
       fromAddress,
     ]
     let result = walletConnector.signPersonalMessage(msgParams)
-    await waitFor(element(by.text('sign a data payload')))
+    await waitFor(element(by.text('WalletConnectV1 E2E would like to sign a data payload.')))
       .toBeVisible()
       .withTimeout(15 * 1000)
     await element(by.text('Allow')).tap()
@@ -199,7 +176,7 @@ export default WalletConnect = () => {
     const message = hashMessageWithPrefix(`My email is valora.test@mailinator.com - ${+new Date()}`)
     const msgParams = [fromAddress, message]
     let result = walletConnector.signMessage(msgParams)
-    await waitFor(element(by.text('sign a data payload')))
+    await waitFor(element(by.text('WalletConnectV1 E2E would like to sign a data payload.')))
       .toBeVisible()
       .withTimeout(15 * 1000)
     await element(by.text('Allow')).tap()
@@ -265,7 +242,7 @@ export default WalletConnect = () => {
     const msgParams = [fromAddress, JSON.stringify(typedData)]
 
     let result = walletConnector.signTypedData(msgParams)
-    await waitFor(element(by.text('sign a data payload')))
+    await waitFor(element(by.text('WalletConnectV1 E2E would like to sign a data payload.')))
       .toBeVisible()
       .withTimeout(15 * 1000)
     await element(by.text('Allow')).tap()
@@ -308,7 +285,7 @@ export default WalletConnect = () => {
     }
 
     let result = walletConnector.sendCustomRequest(customRequest)
-    await waitFor(element(by.text('sign a Celo transaction')))
+    await waitFor(element(by.text('WalletConnectV1 E2E would like to sign a Celo transaction.')))
       .toBeVisible()
       .withTimeout(15 * 1000)
     await element(by.text('Allow')).tap()
