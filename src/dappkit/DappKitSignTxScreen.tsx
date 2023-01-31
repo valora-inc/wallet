@@ -1,5 +1,5 @@
 import Clipboard from '@react-native-clipboard/clipboard'
-import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import { BottomSheetScreenProps } from '@th3rdwave/react-navigation-bottom-sheet'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
@@ -22,12 +22,13 @@ import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import Logger from 'src/utils/Logger'
 import RequestContent from 'src/walletConnect/screens/RequestContent'
+import useDynamicBottomSheetHeight from 'src/walletConnect/screens/useDynamicBottomSheetHeight'
 
 const TAG = 'dappkit/DappKitSignTxScreen'
 
-type Props = NativeStackScreenProps<StackParamList, Screens.DappKitSignTxScreen>
+type Props = BottomSheetScreenProps<StackParamList, Screens.DappKitSignTxScreen>
 
-const DappKitSignTxScreen = ({ route }: Props) => {
+const DappKitSignTxScreen = ({ route, navigation }: Props) => {
   const { dappKitRequest } = route.params
   const { dappName, txs, callback } = dappKitRequest
 
@@ -35,6 +36,7 @@ const DappKitSignTxScreen = ({ route }: Props) => {
   const dappConnectInfo = useSelector(dappConnectInfoSelector)
   const dispatch = useDispatch()
   const { t } = useTranslation()
+  const { handleContentLayout } = useDynamicBottomSheetHeight(navigation)
 
   if (!dappKitRequest) {
     Logger.error(TAG, 'No request found in navigation props')
@@ -69,7 +71,7 @@ const DappKitSignTxScreen = ({ route }: Props) => {
   }
 
   return (
-    <SafeAreaView edges={['bottom']} style={styles.container}>
+    <SafeAreaView edges={['bottom']} style={styles.container} onLayout={handleContentLayout}>
       <RequestContent
         onAccept={handleAllow}
         onDeny={handleCancel}
@@ -101,8 +103,6 @@ const DappKitSignTxScreen = ({ route }: Props) => {
 const styles = StyleSheet.create({
   container: {
     padding: Spacing.Thick24,
-    paddingBottom: 0, // SafeAreaView already adds enough space here
-    flex: 1,
   },
   transactionContainer: {
     padding: Spacing.Regular16,

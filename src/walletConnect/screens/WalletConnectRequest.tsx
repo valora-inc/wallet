@@ -1,4 +1,4 @@
-import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import { BottomSheetScreenProps } from '@th3rdwave/react-navigation-bottom-sheet'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, StyleSheet, Text } from 'react-native'
@@ -12,12 +12,14 @@ import { Spacing } from 'src/styles/styles'
 import ActionRequest from 'src/walletConnect/screens/ActionRequest'
 import ConnectionTimedOut from 'src/walletConnect/screens/ConnectionTimedOut'
 import SessionRequest from 'src/walletConnect/screens/SessionRequest'
+import useDynamicBottomSheetHeight from 'src/walletConnect/screens/useDynamicBottomSheetHeight'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
 
-type Props = NativeStackScreenProps<StackParamList, Screens.WalletConnectRequest>
+type Props = BottomSheetScreenProps<StackParamList, Screens.WalletConnectRequest>
 
-function WalletConnectRequest({ route: { params } }: Props) {
+function WalletConnectRequest({ route: { params }, navigation }: Props) {
   const { t } = useTranslation()
+  const { handleContentLayout } = useDynamicBottomSheetHeight(navigation)
 
   return (
     <SafeAreaView
@@ -26,13 +28,14 @@ function WalletConnectRequest({ route: { params } }: Props) {
         styles.container,
         params.type === WalletConnectRequestType.Loading ||
         params.type === WalletConnectRequestType.TimeOut
-          ? { justifyContent: 'center', alignItems: 'center' }
+          ? { alignItems: 'center' }
           : undefined,
       ]}
+      onLayout={handleContentLayout}
     >
       {params.type === WalletConnectRequestType.Loading && (
         <>
-          <ActivityIndicator size="small" color={colors.greenBrand} />
+          <ActivityIndicator color={colors.greenBrand} />
           <Text style={styles.connecting}>
             {params.origin === WalletConnectPairingOrigin.Scan
               ? t('loadingFromScan')
@@ -53,13 +56,12 @@ function WalletConnectRequest({ route: { params } }: Props) {
 const styles = StyleSheet.create({
   container: {
     padding: Spacing.Thick24,
-    paddingBottom: 0, // SafeAreaView already adds enough space here
-    flex: 1,
+    minHeight: 370, // takes into account the initial loading state
   },
   connecting: {
     ...fontStyles.label,
     color: colors.gray4,
-    marginTop: 20,
+    marginTop: Spacing.Thick24,
   },
 })
 

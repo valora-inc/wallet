@@ -113,54 +113,52 @@ function RequestContent({
 
   return (
     <>
-      <View style={styles.container}>
-        {(dappImageUrl || dappConnectInfo === DappConnectInfo.Basic) && (
-          <View style={styles.logoContainer}>
-            <View style={styles.logoShadow}>
-              <View style={styles.logoBackground}>
-                <Logo height={24} />
-              </View>
-            </View>
-            <View style={styles.logoShadow}>
-              {dappImageUrl ? (
-                <Image style={styles.dappImage} source={{ uri: dappImageUrl }} resizeMode="cover" />
-              ) : (
-                <View style={[styles.logoBackground, styles.placeholderLogoBackground]}>
-                  <Text allowFontScaling={false} style={styles.placeholderLogoText}>
-                    {dappName.charAt(0).toUpperCase()}
-                  </Text>
-                </View>
-              )}
+      {(dappImageUrl || dappConnectInfo === DappConnectInfo.Basic) && (
+        <View style={styles.logoContainer}>
+          <View style={styles.logoShadow}>
+            <View style={styles.logoBackground}>
+              <Logo height={24} />
             </View>
           </View>
-        )}
-        <Text style={styles.header} testID={`${testId}Header`}>
-          {title}
-        </Text>
-        {description && <Text style={styles.description}>{description}</Text>}
-
-        {requestDetails && (
-          <View style={styles.requestDetailsContainer}>
-            {requestDetails.map(({ label, value }, index) =>
-              value ? (
-                <React.Fragment key={label}>
-                  <Text
-                    style={[
-                      styles.requestDetailLabel,
-                      index > 0 ? { marginTop: Spacing.Regular16 } : undefined,
-                    ]}
-                  >
-                    {label}
-                  </Text>
-                  <Text style={styles.requestDetailValue}>{value}</Text>
-                </React.Fragment>
-              ) : null
+          <View style={styles.logoShadow}>
+            {dappImageUrl ? (
+              <Image style={styles.dappImage} source={{ uri: dappImageUrl }} resizeMode="cover" />
+            ) : (
+              <View style={[styles.logoBackground, styles.placeholderLogoBackground]}>
+                <Text allowFontScaling={false} style={styles.placeholderLogoText}>
+                  {dappName.charAt(0).toUpperCase()}
+                </Text>
+              </View>
             )}
           </View>
-        )}
+        </View>
+      )}
+      <Text style={styles.header} testID={`${testId}Header`}>
+        {title}
+      </Text>
+      {description && <Text style={styles.description}>{description}</Text>}
 
-        {children}
-      </View>
+      {requestDetails && (
+        <View style={styles.requestDetailsContainer}>
+          {requestDetails.map(({ label, value }, index) =>
+            value ? (
+              <React.Fragment key={label}>
+                <Text
+                  style={[
+                    styles.requestDetailLabel,
+                    index > 0 ? { marginTop: Spacing.Regular16 } : undefined,
+                  ]}
+                >
+                  {label}
+                </Text>
+                <Text style={styles.requestDetailValue}>{value}</Text>
+              </React.Fragment>
+            ) : null
+          )}
+        </View>
+      )}
+
+      {children}
 
       {dappConnectInfo === DappConnectInfo.Basic && !isDappListed && (
         <Text style={styles.dappNotListedDisclaimer}>{t('dappNotListed')}</Text>
@@ -180,9 +178,6 @@ function RequestContent({
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
   logoContainer: {
     flexDirection: 'row',
   },

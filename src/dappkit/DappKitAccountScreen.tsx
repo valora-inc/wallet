@@ -1,4 +1,4 @@
-import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import { BottomSheetScreenProps } from '@th3rdwave/react-navigation-bottom-sheet'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
@@ -18,19 +18,21 @@ import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
 import RequestContent from 'src/walletConnect/screens/RequestContent'
+import useDynamicBottomSheetHeight from 'src/walletConnect/screens/useDynamicBottomSheetHeight'
 import { currentAccountSelector } from 'src/web3/selectors'
 
 const TAG = 'dappkit/DappKitAccountScreen'
 
-type Props = NativeStackScreenProps<StackParamList, Screens.DappKitAccountScreen>
+type Props = BottomSheetScreenProps<StackParamList, Screens.DappKitAccountScreen>
 
-const DappKitAccountScreen = ({ route }: Props) => {
+const DappKitAccountScreen = ({ route, navigation }: Props) => {
   const { dappKitRequest } = route.params
 
   const account = useSelector(currentAccountSelector)
   const phoneNumber = useSelector(e164NumberSelector)
   const activeDapp = useSelector(activeDappSelector)
   const dappConnectInfo = useSelector(dappConnectInfoSelector)
+  const { handleContentLayout } = useDynamicBottomSheetHeight(navigation)
 
   const dispatch = useDispatch()
   const { t } = useTranslation()
@@ -59,7 +61,7 @@ const DappKitAccountScreen = ({ route }: Props) => {
   }
 
   return (
-    <SafeAreaView edges={['bottom']} style={styles.container}>
+    <SafeAreaView edges={['bottom']} style={styles.container} onLayout={handleContentLayout}>
       <RequestContent
         onAccept={handleAllow}
         onDeny={handleCancel}
@@ -91,8 +93,6 @@ const DappKitAccountScreen = ({ route }: Props) => {
 const styles = StyleSheet.create({
   container: {
     padding: Spacing.Thick24,
-    paddingBottom: 0, // SafeAreaView already adds enough space here
-    flex: 1,
   },
 })
 
