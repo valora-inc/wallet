@@ -30,11 +30,17 @@ export enum PaymentMethod {
   FiatConnectMobileMoney = 'FiatConnectMobileMoney',
 }
 
+export enum CloudFunctionDigitalAsset {
+  CELO = 'CELO',
+  CUSD = 'CUSD',
+  CEUR = 'CEUR',
+  CREAL = 'CREAL',
+}
 interface ProviderRequestData {
   userLocation: UserLocationData
   walletAddress: string
   fiatCurrency: LocalCurrencyCode
-  digitalAsset: CiCoCurrency
+  digitalAsset: CloudFunctionDigitalAsset
   fiatAmount?: number
   digitalAssetAmount?: number
   txType: 'buy' | 'sell'
@@ -243,7 +249,7 @@ export const filterLegacyMobileMoneyProviders = (
   if (
     !providers ||
     !userCountry ||
-    ![CiCoCurrency.CUSD, CiCoCurrency.CELO].includes(selectedCurrency)
+    ![CiCoCurrency.cUSD, CiCoCurrency.CELO].includes(selectedCurrency)
   ) {
     return []
   }
@@ -255,7 +261,7 @@ export const filterLegacyMobileMoneyProviders = (
   )
 
   return activeProviders.filter((provider) =>
-    provider[selectedCurrency === CiCoCurrency.CUSD ? 'cusd' : 'celo'].countries.includes(
+    provider[selectedCurrency === CiCoCurrency.cUSD ? 'cusd' : 'celo'].countries.includes(
       userCountry
     )
   )
@@ -263,12 +269,11 @@ export const filterLegacyMobileMoneyProviders = (
 
 export async function fetchExchanges(
   countryCodeAlpha2: string | null,
-  currency: string
+  currency: CiCoCurrency
 ): Promise<ExternalExchangeProvider[] | undefined> {
   // If user location data is not available, default fetching exchanges serving the US
   if (!countryCodeAlpha2) countryCodeAlpha2 = 'us'
   // Standardize cGLD to CELO
-  if (currency == Currency.Celo) currency = 'CELO'
 
   try {
     const resp = await fetch(
@@ -295,3 +300,15 @@ export const filterProvidersByPaymentMethod = (
 
 export const isUserInputCrypto = (flow: CICOFlow, currency: Currency | CiCoCurrency): boolean =>
   flow === CICOFlow.CashOut || currency === Currency.Celo || currency === CiCoCurrency.CELO
+
+export function resolveCloudFunctionDigitalAsset(
+  currency: CiCoCurrency
+): CloudFunctionDigitalAsset {
+  const mapping: Record<CiCoCurrency, CloudFunctionDigitalAsset> = {
+    [CiCoCurrency.CELO]: CloudFunctionDigitalAsset.CELO,
+    [CiCoCurrency.cUSD]: CloudFunctionDigitalAsset.CUSD,
+    [CiCoCurrency.cEUR]: CloudFunctionDigitalAsset.CEUR,
+    [CiCoCurrency.cREAL]: CloudFunctionDigitalAsset.CREAL,
+  }
+  return mapping[currency]
+}

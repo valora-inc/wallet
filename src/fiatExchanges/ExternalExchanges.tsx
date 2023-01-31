@@ -19,7 +19,7 @@ import { StackParamList } from 'src/navigator/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
-import { CURRENCIES, Currency } from 'src/utils/currencies'
+import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 import { currentAccountSelector } from 'src/web3/selectors'
 
@@ -71,7 +71,7 @@ function ExternalExchanges({ route }: Props) {
         <>
           <Text style={styles.pleaseSelectExchange}>
             {t('youCanTransferIn', {
-              digitalAsset: CURRENCIES[route.params.currency].cashTag,
+              digitalAsset: route.params.currency,
             })}
           </Text>
           <View testID="accountBox" style={styles.accountBox}>
@@ -82,7 +82,7 @@ function ExternalExchanges({ route }: Props) {
       ) : (
         <Text style={styles.pleaseSelectExchange}>
           {t('youCanTransferOut', {
-            digitalAsset: CURRENCIES[route.params.currency].cashTag,
+            digitalAsset: route.params.currency,
           })}
         </Text>
       )}
@@ -100,19 +100,19 @@ function ExternalExchanges({ route }: Props) {
         })}
       </ScrollView>
       {!isCashIn && providers?.length ? (
-        route.params.currency === Currency.Dollar || route.params.currency === Currency.Euro ? (
-          <SendBar skipImport={true} selectedCurrency={route.params.currency} />
-        ) : (
+        route.params.currency === CiCoCurrency.CELO ? (
           <View style={styles.buttonContainer}>
             <Button
               testID="WithdrawCeloButton"
               style={styles.celoOutButton}
               text={t('withdrawToken', {
-                token: CURRENCIES[route.params.currency].cashTag,
+                token: route.params.currency,
               })}
               onPress={() => goToCashOut()}
             />
           </View>
+        ) : (
+          <SendBar skipImport={true} selectedCurrency={route.params.currency} />
         )
       ) : (
         <></>

@@ -123,7 +123,7 @@ export type StackParamList = {
   }
   [Screens.ExternalExchanges]: {
     isCashIn?: boolean
-    currency: Currency
+    currency: CiCoCurrency
     exchanges: ExternalExchangeProvider[]
   }
   [Screens.ExchangeQR]: {
@@ -132,7 +132,7 @@ export type StackParamList = {
   }
   [Screens.FiatExchange]: undefined
   [Screens.FiatExchangeAmount]: {
-    currency: Currency
+    currency: CiCoCurrency
     flow: CICOFlow
   }
   [Screens.FiatExchangeCurrency]: {
@@ -262,7 +262,7 @@ export type StackParamList = {
   [Screens.SelectLocalCurrency]: undefined
   [Screens.SelectProvider]: {
     flow: CICOFlow
-    selectedCrypto: Currency
+    selectedCrypto: CiCoCurrency
     amount: {
       crypto: number
       fiat: number

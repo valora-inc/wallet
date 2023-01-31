@@ -4,13 +4,25 @@ export enum Currency {
   Euro = 'cEUR',
 }
 
+// Important: when adding new currencies, the string must match the symbol
+// we use in address-metadata
 export enum CiCoCurrency {
   CELO = 'CELO',
-  CUSD = 'CUSD',
-  CEUR = 'CEUR',
-  CREAL = 'CREAL',
+  cUSD = 'cUSD',
+  cEUR = 'cEUR',
+  cREAL = 'cREAL',
 }
 
+// A small hack to keep data continuity as we onboard cREAL but move away from the Currency enum
+export type CurrencyOrCREAL = Currency | 'cReal'
+export const currencyForAnalytics: {
+  [key in CiCoCurrency]: CurrencyOrCREAL
+} = {
+  [CiCoCurrency.CELO]: Currency.Celo,
+  [CiCoCurrency.cEUR]: Currency.Euro,
+  [CiCoCurrency.cUSD]: Currency.Dollar,
+  [CiCoCurrency.cREAL]: 'cReal',
+}
 export interface CurrencyInfo {
   symbol: string
   displayDecimals: number
@@ -74,9 +86,9 @@ export function resolveCICOCurrency(currencyCode: string): CiCoCurrency {
   const mapping: Record<string, CiCoCurrency | undefined> = {
     CELO: CiCoCurrency.CELO,
     CGLD: CiCoCurrency.CELO,
-    CUSD: CiCoCurrency.CUSD,
-    CEUR: CiCoCurrency.CEUR,
-    CREAL: CiCoCurrency.CREAL,
+    CUSD: CiCoCurrency.cUSD,
+    CEUR: CiCoCurrency.cEUR,
+    CREAL: CiCoCurrency.cREAL,
   }
   return mapping[currencyCode.toUpperCase()] || CiCoCurrency.CELO
 }

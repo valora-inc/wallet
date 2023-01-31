@@ -80,3 +80,39 @@ function usdBalance(token: TokenBalance): BigNumber {
   // We check that usdPrice is not null before calling this.
   return token.usdPrice!.times(token.balance)
 }
+
+export function convertLocalToTokenAmount({
+  localAmount,
+  tokenInfo,
+  exchangeRates,
+}: {
+  localAmount: BigNumber | null
+  tokenInfo: TokenBalance | undefined
+  exchangeRates: { [token in Currency]: string | null }
+}) {
+  const tokenUsdPrice = tokenInfo?.usdPrice
+  const localFiatPerDollar = exchangeRates[Currency.Dollar]
+  if (!tokenUsdPrice || !localFiatPerDollar || !localAmount) {
+    return null
+  }
+
+  return localAmount.dividedBy(localFiatPerDollar).dividedBy(tokenUsdPrice)
+}
+
+export function convertTokenToLocalAmount({
+  tokenAmount,
+  tokenInfo,
+  exchangeRates,
+}: {
+  tokenAmount: BigNumber | null
+  tokenInfo: TokenBalance | undefined
+  exchangeRates: { [token in Currency]: string | null }
+}) {
+  const tokenUsdPrice = tokenInfo?.usdPrice
+  const localFiatPerDollar = exchangeRates[Currency.Dollar]
+  if (!tokenUsdPrice || !localFiatPerDollar || !tokenAmount) {
+    return null
+  }
+
+  return tokenAmount.multipliedBy(tokenUsdPrice).multipliedBy(localFiatPerDollar)
+}

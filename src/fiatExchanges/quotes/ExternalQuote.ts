@@ -9,10 +9,11 @@ import {
   SimplexQuote,
 } from 'src/fiatExchanges/utils'
 import i18n from 'src/i18n'
-import { convertLocalAmountToCurrency } from 'src/localCurrency/convert'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { Currency, resolveCurrency } from 'src/utils/currencies'
+import { TokenBalance } from 'src/tokens/slice'
+import { convertLocalToTokenAmount } from 'src/tokens/utils'
+import { CiCoCurrency, Currency, resolveCICOCurrency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 
 const strings = {
@@ -58,21 +59,28 @@ export default class ExternalQuote extends NormalizedQuote {
     return isSimplexQuote(this.quote) ? this.provider.paymentMethods[0] : this.quote.paymentMethod
   }
 
-  getCryptoType(): Currency {
+  getCryptoType(): CiCoCurrency {
     return isSimplexQuote(this.quote)
-      ? resolveCurrency(this.quote.digital_money.currency)!
-      : resolveCurrency(this.quote.digitalAsset)!
+      ? resolveCICOCurrency(this.quote.digital_money.currency)!
+      : resolveCICOCurrency(this.quote.digitalAsset)!
   }
 
-  getFeeInCrypto(exchangeRates: { [token in Currency]: string | null }): BigNumber | null {
-    const cryptoType = this.getCryptoType()
-    return convertLocalAmountToCurrency(
-      this.getFeeInFiat(exchangeRates),
-      exchangeRates[cryptoType]
-    )!
+  getFeeInCrypto(
+    exchangeRates: { [token in Currency]: string | null },
+    tokenInfo: TokenBalance
+  ): BigNumber | null {
+    const fee = this.getFeeInFiat(exchangeRates, tokenInfo)
+    return convertLocalToTokenAmount({
+      localAmount: fee,
+      exchangeRates,
+      tokenInfo,
+    })
   }
 
-  getFeeInFiat(_exchangeRates: { [token in Currency]: string | null }): BigNumber | null {
+  getFeeInFiat(
+    _exchangeRates: { [token in Currency]: string | null },
+    _tokenInfo: TokenBalance
+  ): BigNumber | null {
     if (isSimplexQuote(this.quote)) {
       return new BigNumber(this.quote.fiat_money.total_amount).minus(
         new BigNumber(this.quote.fiat_money.base_amount)
