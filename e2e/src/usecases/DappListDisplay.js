@@ -1,6 +1,7 @@
+import { DAPPS_LEARN_MORE } from '../../../src/config'
+import { fetchDappList, navigateToDappList } from '../utils/dappList'
 import { reloadReactNative } from '../utils/retries'
-import { waitForElementId, getElementText, getElementTextList, sleep } from '../utils/utils'
-import { navigateToDappList, fetchDappList } from '../utils/dappList'
+import { getElementText, getElementTextList, sleep, waitForElementId } from '../utils/utils'
 
 jestExpect = require('expect')
 
@@ -19,10 +20,16 @@ export default DappListDisplay = () => {
   it('should show dapp info icon and subsequent modal', async () => {
     await waitForElementId('DAppsExplorerScreen/HelpIcon')
     await element(by.id('DAppsExplorerScreen/HelpIcon')).tap()
-    await waitForElementId('DAppsExplorerScreen/HelpDialog/PrimaryAction')
-    await element(by.id('DAppsExplorerScreen/HelpDialog/PrimaryAction')).tap()
-    await waitFor(element(by.id('DAppsExplorerScreen/HelpDialog/PrimaryAction')))
-      .not.toBeVisible()
+    await waitForElementId('DAppsExplorerScreen/InfoBottomSheet/PrimaryAction')
+    await element(by.id('DAppsExplorerScreen/InfoBottomSheet/PrimaryAction')).tap()
+
+    await waitFor(element(by.id(`RNWebView`)))
+      .toBeVisible()
+      .withTimeout(10 * 1000)
+    const url = new URL(DAPPS_LEARN_MORE)
+    // Should show correct hostname in webview
+    await waitFor(element(by.text(url.hostname)))
+      .toBeVisible()
       .withTimeout(10 * 1000)
   })
 
