@@ -978,14 +978,14 @@
     "emptyMessage": "空白消息"
   },
   "walletConnectRequest": {
-    "transactionDataLabel": "Transaction data",
-    "readAccount": "{{dappName}} would like to read your {{appName}} wallet address.",
-    "signPayload": "{{dappName}} would like to sign a data payload.",
-    "signTransaction": "{{dappName}} would like to sign a Celo transaction.",
-    "sendTransaction": "{{dappName}} would like to send a Celo transaction.",
-    "decryptPayload": "{{dappName}} would like to decrypt a data payload.",
-    "computeSharedSecret": "{{dappName}} would like to generate secrets.",
-    "transactionDataCopied": "Transaction data copied"
+    "transactionDataLabel": "交易数据",
+    "readAccount": "{{dappName}} 想阅读你的 {{appName}} 钱包地址。",
+    "signPayload": "{{dappName}} 想签署一个数据有效载荷。",
+    "signTransaction": "{{dappName}} 希望签署一份塞洛交易。",
+    "sendTransaction": "{{dappName}} 想发送一个塞洛交易。",
+    "decryptPayload": "{{dappName}} 想解密一个数据有效载荷。",
+    "computeSharedSecret": "{{dappName}} 想产生秘密。",
+    "transactionDataCopied": "复制的交易数据"
   },
   "sessionInfo": "此应用程序可能会要求执行以下操作：",
   "description": {
