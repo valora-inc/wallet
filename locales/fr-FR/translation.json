@@ -187,10 +187,10 @@
   "startSuperchargingNotificationStart": "Commencer",
   "cashIn": "Ajouter {{currency}}",
   "connectNumber": "Connecter le numéro",
-  "connectToWallet": "{{dappName}} demande à se connecter à {{appName}}",
-  "confirmTransaction": "{{dappName}} demande à confirmer une transaction",
+  "connectToWallet": "Connecte-toi à {{dappName}}",
+  "confirmTransaction": "Confirmation de transaction",
   "allow": "Autoriser",
-  "address": "Adresse du compte",
+  "address": "Adresse du portefeuille",
   "phoneNumber": "Numéro de téléphone",
   "transaction": {
     "operation": "Transaction",
@@ -198,7 +198,8 @@
     "signTX": "Effectuer transaction",
     "details": "Afficher détails"
   },
-  "shareInfo": "Cette appli sera en mesure d'accéder aux informations suivantes :",
+  "shareInfo": "Tu dois connecter ton porte-monnaie pour approuver les transactions dans cette Dapp. Une fois connectée, elle aura accès à l'adresse de ton porte-monnaie.",
+  "connectWalletInfoDappkit": "Tu dois connecter ton porte-monnaie pour approuver les transactions dans cette Dapp. Une fois connecté, il aura accès à l'adresse de ton portefeuille et à ton numéro de téléphone.",
   "data": "Données",
   "firebaseDisabled": "Firebase est désactivé, les notifications et le journal des téléchargements ne fonctionneront pas",
   "learnMore": "En savoir plus",
@@ -977,6 +978,16 @@
     "details": "Afficher données de la transaction",
     "computeSharedSecret": "Générer des secrets",
     "emptyMessage": "Message vide"
+  },
+  "walletConnectRequest": {
+    "transactionDataLabel": "Transaction data",
+    "readAccount": "{{dappName}} would like to read your {{appName}} wallet address.",
+    "signPayload": "{{dappName}} would like to sign a data payload.",
+    "signTransaction": "{{dappName}} would like to sign a Celo transaction.",
+    "sendTransaction": "{{dappName}} would like to send a Celo transaction.",
+    "decryptPayload": "{{dappName}} would like to decrypt a data payload.",
+    "computeSharedSecret": "{{dappName}} would like to generate secrets.",
+    "transactionDataCopied": "Transaction data copied"
   },
   "sessionInfo": "Cette appli peut demander à effectuer les actions suivantes :",
   "description": {
