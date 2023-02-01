@@ -187,10 +187,10 @@
   "startSuperchargingNotificationStart": "Erste Schritte",
   "cashIn": "{{currency}} hinzufügen",
   "connectNumber": "Nummer verbinden",
-  "connectToWallet": "{{dappName}} möchte sich mit {{appName}} verbinden",
-  "confirmTransaction": "{{dappName}} möchte sich eine Transaktion bestätigen",
+  "connectToWallet": "Verbinde mit {{dappName}}",
+  "confirmTransaction": "Transaktion bestätigen",
   "allow": "Erlauben",
-  "address": "Konto-Adresse",
+  "address": "Adresse der Brieftasche",
   "phoneNumber": "Telefonnummer",
   "transaction": {
     "operation": "Operation",
@@ -198,7 +198,8 @@
     "signTX": "Transaktion",
     "details": "Details anzeigen"
   },
-  "shareInfo": "Diese Anwendung wird auf folgende Informationen zugreifen können:",
+  "shareInfo": "Du musst deine Wallet verbinden, um Transaktionen in dieser Dapp zu genehmigen. Sobald sie verbunden ist, hat sie Zugriff auf deine Wallet-Adresse.",
+  "connectWalletInfoDappkit": "Du musst deine Wallet verbinden, um Transaktionen in dieser Dapp zu genehmigen. Sobald sie verbunden ist, hat sie Zugriff auf deine Wallet-Adresse und Telefonnummer.",
   "data": "Daten",
   "firebaseDisabled": "Firebase ist deaktiviert, Benachrichtigung und Log-Upload funktionieren nicht",
   "learnMore": "Mehr Infos",
@@ -977,6 +978,16 @@
     "details": "Transaktionsdaten",
     "computeSharedSecret": "Geheimnisse generieren",
     "emptyMessage": "Leere Nachricht"
+  },
+  "walletConnectRequest": {
+    "transactionDataLabel": "Transaction data",
+    "readAccount": "{{dappName}} would like to read your {{appName}} wallet address.",
+    "signPayload": "{{dappName}} would like to sign a data payload.",
+    "signTransaction": "{{dappName}} would like to sign a Celo transaction.",
+    "sendTransaction": "{{dappName}} would like to send a Celo transaction.",
+    "decryptPayload": "{{dappName}} would like to decrypt a data payload.",
+    "computeSharedSecret": "{{dappName}} would like to generate secrets.",
+    "transactionDataCopied": "Transaction data copied"
   },
   "sessionInfo": "Diese Anwendung kann folgende Aktionen fordern:",
   "description": {
