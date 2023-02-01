@@ -187,10 +187,10 @@
   "startSuperchargingNotificationStart": "获取奖励",
   "cashIn": "添加 {{currency}}",
   "connectNumber": "关联号码",
-  "connectToWallet": "{{dappName}} 想要与 {{appName}} 连接",
-  "confirmTransaction": "{{dappName}} 想要确认一笔交易",
+  "connectToWallet": "连接到 {{dappName}}",
+  "confirmTransaction": "确认交易",
   "allow": "允许",
-  "address": "账户地址",
+  "address": "钱包地址",
   "phoneNumber": "手机号码",
   "transaction": {
     "operation": "操作",
@@ -198,7 +198,8 @@
     "signTX": "签署交易",
     "details": "显示详情"
   },
-  "shareInfo": "此应用程序将能够访问以下信息：",
+  "shareInfo": "你必须连接你的钱包以批准该Dapp的交易。一旦连接，它将有机会访问你的钱包地址。",
+  "connectWalletInfoDappkit": "你必须连接你的钱包，以批准该Dapp的交易。一旦连接，它将可以访问你的钱包地址和电话号码。",
   "data": "数据",
   "firebaseDisabled": "Firebase 已禁用，通知和日志上传功能将不可用",
   "learnMore": "了解更多",
@@ -975,6 +976,16 @@
     "details": "查看交易数据",
     "computeSharedSecret": "生成密钥",
     "emptyMessage": "空白消息"
+  },
+  "walletConnectRequest": {
+    "transactionDataLabel": "Transaction data",
+    "readAccount": "{{dappName}} would like to read your {{appName}} wallet address.",
+    "signPayload": "{{dappName}} would like to sign a data payload.",
+    "signTransaction": "{{dappName}} would like to sign a Celo transaction.",
+    "sendTransaction": "{{dappName}} would like to send a Celo transaction.",
+    "decryptPayload": "{{dappName}} would like to decrypt a data payload.",
+    "computeSharedSecret": "{{dappName}} would like to generate secrets.",
+    "transactionDataCopied": "Transaction data copied"
   },
   "sessionInfo": "此应用程序可能会要求执行以下操作：",
   "description": {
