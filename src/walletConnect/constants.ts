@@ -37,17 +37,19 @@ export function getTranslationDescriptionFromAction(t: TFunction, action: Suppor
   return translationId
 }
 
-export function getTranslationFromAction(t: TFunction, action: SupportedActions) {
+export function getDescriptionFromAction(t: TFunction, action: SupportedActions, dappName: string) {
   const actionTranslations: { [x in SupportedActions]: string } = {
-    [SupportedActions.eth_accounts]: t('action.accounts'),
-    [SupportedActions.eth_signTransaction]: t('action.signTransaction'),
-    [SupportedActions.eth_sendTransaction]: t('action.sendTransaction'),
-    [SupportedActions.eth_signTypedData]: t('action.sign'),
-    [SupportedActions.eth_signTypedData_v4]: t('action.sign'),
-    [SupportedActions.eth_sign]: t('action.sign'),
-    [SupportedActions.personal_sign]: t('action.sign'),
-    [SupportedActions.personal_decrypt]: t('action.decrypt'),
-    [SupportedActions.computeSharedSecret]: t('action.computeSharedSecret'),
+    [SupportedActions.eth_accounts]: t('walletConnectRequest.readAccount', { dappName }),
+    [SupportedActions.eth_signTransaction]: t('walletConnectRequest.signTransaction', { dappName }),
+    [SupportedActions.eth_sendTransaction]: t('walletConnectRequest.sendTransaction', { dappName }),
+    [SupportedActions.eth_signTypedData]: t('walletConnectRequest.signPayload', { dappName }),
+    [SupportedActions.eth_signTypedData_v4]: t('walletConnectRequest.signPayload', { dappName }),
+    [SupportedActions.eth_sign]: t('walletConnectRequest.signPayload', { dappName }),
+    [SupportedActions.personal_sign]: t('walletConnectRequest.signPayload', { dappName }),
+    [SupportedActions.personal_decrypt]: t('walletConnectRequest.decryptPayload', { dappName }),
+    [SupportedActions.computeSharedSecret]: t('walletConnectRequest.computeSharedSecret', {
+      dappName,
+    }),
   }
 
   const translationId = actionTranslations[action]

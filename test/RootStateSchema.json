@@ -370,6 +370,125 @@
             ],
             "type": "object"
         },
+        "CachedTransferDetails": {
+            "additionalProperties": false,
+            "properties": {
+                "fiatAccountId": {
+                    "type": "string"
+                },
+                "providerId": {
+                    "type": "string"
+                },
+                "quote": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "cryptoAmount": {
+                            "type": "string"
+                        },
+                        "cryptoType": {
+                            "enum": [
+                                "CELO",
+                                "cEUR",
+                                "cREAL",
+                                "cUSD"
+                            ],
+                            "type": "string"
+                        },
+                        "fee": {
+                            "type": "string"
+                        },
+                        "feeFrequency": {
+                            "enum": [
+                                "OneTime",
+                                "Recurring"
+                            ],
+                            "type": "string"
+                        },
+                        "feeType": {
+                            "enum": [
+                                "KycFee",
+                                "PlatformFee"
+                            ],
+                            "type": "string"
+                        },
+                        "fiatAmount": {
+                            "type": "string"
+                        },
+                        "fiatType": {
+                            "enum": [
+                                "ARS",
+                                "BOB",
+                                "BRL",
+                                "CLP",
+                                "CNY",
+                                "COP",
+                                "EUR",
+                                "FKP",
+                                "GBP",
+                                "GHS",
+                                "GNF",
+                                "GYD",
+                                "INR",
+                                "KES",
+                                "MXN",
+                                "NGN",
+                                "PAB",
+                                "PEN",
+                                "PHP",
+                                "PYG",
+                                "RWF",
+                                "SRD",
+                                "UGX",
+                                "USD",
+                                "UYU",
+                                "VES",
+                                "XAF",
+                                "XOF",
+                                "ZAR"
+                            ],
+                            "type": "string"
+                        },
+                        "guaranteedUntil": {
+                            "type": "string"
+                        },
+                        "quoteId": {
+                            "type": "string"
+                        },
+                        "transferType": {
+                            "enum": [
+                                "TransferIn",
+                                "TransferOut"
+                            ],
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "cryptoAmount",
+                        "cryptoType",
+                        "fiatAmount",
+                        "fiatType",
+                        "guaranteedUntil",
+                        "quoteId",
+                        "transferType"
+                    ],
+                    "type": "object"
+                },
+                "transferId": {
+                    "type": "string"
+                },
+                "txHash": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "fiatAccountId",
+                "providerId",
+                "quote",
+                "transferId",
+                "txHash"
+            ],
+            "type": "object"
+        },
         "CeloNewsConfig": {
             "additionalProperties": false,
             "properties": {
@@ -2965,6 +3084,12 @@
                     },
                     "type": "object"
                 },
+                "cachedTransfers": {
+                    "additionalProperties": {
+                        "$ref": "#/definitions/CachedTransferDetails"
+                    },
+                    "type": "object"
+                },
                 "kycTryAgainLoading": {
                     "type": "boolean"
                 },
@@ -3251,6 +3376,7 @@
                 "attemptReturnUserFlowLoading",
                 "cachedFiatAccountUses",
                 "cachedQuoteParams",
+                "cachedTransfers",
                 "kycTryAgainLoading",
                 "personaInProgress",
                 "providers",

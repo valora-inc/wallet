@@ -1229,6 +1229,11 @@
     "message": "Valora tarafından işletilmeyen bir uygulamayı açmak üzeresiniz.\n\nValora, bu uygulama hakkında hiçbir beyanda bulunmaz. Kendi sorumluluğunuzda kullanın.",
     "button": "{{dappName}} uygulamasına git"
   },
+  "dappsScreenInfoSheet": {
+    "title": "Dapp nedir?",
+    "description": "Bir dapp (veya merkezi olmayan uygulama), bir blockchain ağının üzerine inşa edilen ve çalıştırılan bir uygulamadır. Bu, verilerinizin tek bir şirket ya da kuruluş tarafından yönetilmediği ya da saklanmadığı anlamına gelir.\n\nDapp'ler sundukları hizmetlere göre çeşitlilik gösterir. Bu hizmetlere örnek olarak merkezi olmayan borsalar, borç verme, ödünç alma, takas etme, NFT'lerin depolanması verilebilir.",
+    "buttonLabel": "Bana daha fazlasını anlat"
+  },
   "dappsDisclaimerAllDapps": "{{appName}} bu dapp'lerle bağlantılı değildir ve bunları kullanırken hiçbir beyan veya iddiada bulunmaz. Lütfen bir dapp kullanmadan önce kullanıcı sözleşmesini veya gizlilik politikasını inceleyerek riski kabul edin.",
   "recentlyUsedDapps": "Son Kullanılan Dapp'ler",
   "favoritedDapps": "Favori Dapps",

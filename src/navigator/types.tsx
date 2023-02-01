@@ -29,6 +29,7 @@ import {
   WalletConnectRequestType,
   WalletConnectSessionRequest,
 } from 'src/walletConnect/types'
+import { QRCodeDataType, QRCodeStyle } from 'src/qrcode/schema'
 
 // Typed nested navigator params
 type NestedNavigatorParams<ParamList> = {
@@ -378,7 +379,12 @@ export type StackParamList = {
 }
 
 export type QRTabParamList = {
-  [Screens.QRCode]: undefined
+  [Screens.QRCode]:
+    | {
+        qrCodeDataType?: QRCodeDataType
+        qrCodeStyle?: QRCodeStyle
+      }
+    | undefined
   [Screens.QRScanner]:
     | {
         scanIsForSecureSend?: true

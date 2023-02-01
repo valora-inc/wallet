@@ -35,6 +35,7 @@ import {
   VerificationEvents,
   WalletConnectEvents,
   WebViewEvents,
+  QrScreenEvents,
 } from 'src/analytics/Events'
 import {
   BackQuizProgress,
@@ -955,6 +956,14 @@ interface FiatExchangeEventsProperties {
   }
 }
 
+interface QrScreenProperties {
+  [QrScreenEvents.qr_screen_copy_address]: undefined
+  [QrScreenEvents.qr_screen_bottom_sheet_open]: undefined
+  [QrScreenEvents.qr_screen_bottom_sheet_close]: undefined
+  [QrScreenEvents.qr_screen_bottom_sheet_link_press]: {
+    exchange: string
+  }
+}
 interface FiatConnectKycProperties {
   provider: string
   flow: CICOFlow
@@ -1070,6 +1079,8 @@ interface WalletConnectProperties {
   [WalletConnectEvents.wc_request_deny_error]: WalletConnectRequestDenyProperties & {
     error: string
   }
+
+  [WalletConnectEvents.wc_copy_request_payload]: WalletConnectRequestDefaultProperties
 }
 
 interface DappKitRequestDefaultProperties {
@@ -1089,7 +1100,7 @@ interface DappKitProperties {
   }
   [DappKitEvents.dappkit_request_propose]: DappKitRequestDefaultProperties
   [DappKitEvents.dappkit_request_cancel]: DappKitRequestDefaultProperties
-  [DappKitEvents.dappkit_request_details]: DappKitRequestDefaultProperties
+  [DappKitEvents.dappkit_copy_request_details]: DappKitRequestDefaultProperties
   [DappKitEvents.dappkit_request_accept_start]: DappKitRequestDefaultProperties
   [DappKitEvents.dappkit_request_accept_success]: DappKitRequestDefaultProperties
   [DappKitEvents.dappkit_request_accept_error]: DappKitRequestDefaultProperties & {
@@ -1127,6 +1138,8 @@ interface DappExplorerEventsProperties {
   [DappExplorerEvents.dapp_bottom_sheet_dismiss]: DappEventProperties
   [DappExplorerEvents.dapp_favorite]: DappProperties
   [DappExplorerEvents.dapp_unfavorite]: DappProperties
+  [DappExplorerEvents.dapp_open_info]: undefined
+  [DappExplorerEvents.dapp_open_more_info]: undefined
 }
 
 interface WebViewEventsProperties {
@@ -1217,4 +1230,5 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   WebViewEventsProperties &
   CoinbasePayEventsProperties &
   SwapEventsProperties &
-  CeloNewsEventsProperties
+  CeloNewsEventsProperties &
+  QrScreenProperties

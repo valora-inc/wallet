@@ -2009,6 +2009,18 @@ export const v108Schema = {
     ...v107Schema._persist,
     version: 108,
   },
+  fiatConnect: {
+    ...v107Schema.fiatConnect,
+    cachedTransfers: {},
+  },
+}
+
+export const v109Schema = {
+  ...v108Schema,
+  _persist: {
+    ...v108Schema._persist,
+    version: 109,
+  },
   app: {
     ...v107Schema.app,
     paymentDeepLinkHandler: PaymentDeepLinkHandler.Disabled,
@@ -2016,5 +2028,5 @@ export const v108Schema = {
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v108Schema as Partial<RootState>
+  return v109Schema as Partial<RootState>
 }

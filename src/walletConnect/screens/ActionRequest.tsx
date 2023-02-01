@@ -1,18 +1,11 @@
-import { trimLeading0x } from '@celo/utils/lib/address'
 import { SignClientTypes } from '@walletconnect/types'
 import { getSdkError } from '@walletconnect/utils'
-import { TFunction } from 'i18next'
-import React, { useState } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, Text, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
-import Expandable from 'src/components/Expandable'
-import Touchable from 'src/components/Touchable'
-import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
-import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
-import { getTranslationFromAction, SupportedActions } from 'src/walletConnect/constants'
+import { getDescriptionFromAction, SupportedActions } from 'src/walletConnect/constants'
+import ActionRequestPayload from 'src/walletConnect/screens/ActionRequestPayload'
 import RequestContent, { useDappMetadata } from 'src/walletConnect/screens/RequestContent'
 import {
   acceptRequest as acceptRequestV1,
@@ -38,25 +31,6 @@ interface PropsV2 {
 
 type Props = PropsV1 | PropsV2
 
-const getMoreInfoString = (t: TFunction, method: string, params: any) => {
-  const moreInfoString =
-    method === SupportedActions.eth_signTransaction ||
-    method === SupportedActions.eth_sendTransaction
-      ? JSON.stringify(params)
-      : method === SupportedActions.eth_signTypedData ||
-        method === SupportedActions.eth_signTypedData_v4
-      ? JSON.stringify(params[1])
-      : method === SupportedActions.personal_decrypt
-      ? Buffer.from(params[1]).toString('hex')
-      : method === SupportedActions.personal_sign
-      ? Buffer.from(trimLeading0x(params[0]), 'hex').toString() ||
-        params[0] ||
-        t('action.emptyMessage')
-      : null
-
-  return moreInfoString
-}
-
 // do not destructure props or else the type inference is lost
 function ActionRequest(props: Props) {
   if (props.version === 1) {
@@ -69,7 +43,6 @@ function ActionRequest(props: Props) {
 function ActionRequestV1({ pendingAction }: PropsV1) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
-  const [showTransactionDetails, setShowTransactionDetails] = useState(false)
 
   const { action, peerId } = pendingAction
   const activeSession = useSelector(selectSessionFromPeerId(peerId))
@@ -84,14 +57,7 @@ function ActionRequestV1({ pendingAction }: PropsV1) {
     return null
   }
 
-  const { method, params } = action
-  const moreInfoString = getMoreInfoString(t, method, params)
-  const requestDetails = [
-    {
-      label: t('action.operation'),
-      value: getTranslationFromAction(t, method as SupportedActions),
-    },
-  ]
+  const description = getDescriptionFromAction(t, action.method as SupportedActions, dappName)
 
   return (
     <RequestContent
@@ -103,32 +69,12 @@ function ActionRequestV1({ pendingAction }: PropsV1) {
       }}
       dappName={dappName}
       dappImageUrl={dappImageUrl}
-      title={t('confirmTransaction', { dappName })}
-      description={t('action.askingV1_35', { dappName })}
+      title={t('confirmTransaction')}
+      description={description}
       testId="WalletConnectActionRequest"
       dappUrl={url}
-      requestDetails={requestDetails}
     >
-      {moreInfoString && (
-        <View style={styles.transactionDetails}>
-          <Touchable
-            testID="ShowTransactionDetailsButton"
-            onPress={() => {
-              setShowTransactionDetails((prev) => !prev)
-            }}
-          >
-            <Expandable isExpandable isExpanded={showTransactionDetails}>
-              <Text style={[styles.bodyText, styles.underLine]}>{t('action.details')}</Text>
-            </Expandable>
-          </Touchable>
-
-          {showTransactionDetails && (
-            <Text testID="DappData" style={styles.bodyText}>
-              {moreInfoString}
-            </Text>
-          )}
-        </View>
-      )}
+      <ActionRequestPayload walletConnectVersion={1} session={activeSession} request={action} />
     </RequestContent>
   )
 }
@@ -136,7 +82,6 @@ function ActionRequestV1({ pendingAction }: PropsV1) {
 function ActionRequestV2({ pendingAction }: PropsV2) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
-  const [showTransactionDetails, setShowTransactionDetails] = useState(false)
 
   const activeSession = useSelector(selectSessionFromTopic(pendingAction.topic))
   const { url, dappName, dappImageUrl } = useDappMetadata(activeSession?.peer.metadata)
@@ -150,14 +95,11 @@ function ActionRequestV2({ pendingAction }: PropsV2) {
     return null
   }
 
-  const { method, params } = pendingAction.params.request
-  const moreInfoString = getMoreInfoString(t, method, params)
-  const requestDetails = [
-    {
-      label: t('action.operation'),
-      value: getTranslationFromAction(t, method as SupportedActions),
-    },
-  ]
+  const description = getDescriptionFromAction(
+    t,
+    pendingAction.params.request.method as SupportedActions,
+    dappName
+  )
 
   return (
     <RequestContent
@@ -169,48 +111,18 @@ function ActionRequestV2({ pendingAction }: PropsV2) {
       }}
       dappName={dappName}
       dappImageUrl={dappImageUrl}
-      title={t('confirmTransaction', { dappName })}
-      description={t('action.askingV1_35', { dappName })}
+      title={t('confirmTransaction')}
+      description={description}
       testId="WalletConnectActionRequest"
       dappUrl={url}
-      requestDetails={requestDetails}
     >
-      {moreInfoString && (
-        <View style={styles.transactionDetails}>
-          <Touchable
-            testID="ShowTransactionDetailsButton"
-            onPress={() => {
-              setShowTransactionDetails((prev) => !prev)
-            }}
-          >
-            <Expandable isExpandable isExpanded={showTransactionDetails}>
-              <Text style={[styles.bodyText, styles.underLine]}>{t('action.details')}</Text>
-            </Expandable>
-          </Touchable>
-
-          {showTransactionDetails && (
-            <Text testID="DappData" style={styles.bodyText}>
-              {moreInfoString}
-            </Text>
-          )}
-        </View>
-      )}
+      <ActionRequestPayload
+        walletConnectVersion={2}
+        session={activeSession}
+        request={pendingAction}
+      />
     </RequestContent>
   )
 }
-
-const styles = StyleSheet.create({
-  bodyText: {
-    ...fontStyles.small,
-    color: colors.gray4,
-    marginBottom: Spacing.Smallest8,
-  },
-  underLine: {
-    textDecorationLine: 'underline',
-  },
-  transactionDetails: {
-    marginBottom: Spacing.Regular16,
-  },
-})
 
 export default ActionRequest

@@ -40,6 +40,7 @@ import { fiatConnectProvidersSelector } from 'src/fiatconnect/selectors'
 import {
   attemptReturnUserFlow,
   attemptReturnUserFlowCompleted,
+  cacheFiatConnectTransfer,
   cacheQuoteParams,
   createFiatConnectTransfer,
   createFiatConnectTransferCompleted,
@@ -997,13 +998,26 @@ export function* handleCreateFiatConnectTransfer(
   const quoteId = fiatConnectQuote.getQuoteId()
   let transactionHash: string | null = null
   try {
-    const { transferAddress }: TransferResponse = yield call(_initiateTransferWithProvider, action)
+    const { transferAddress, transferId }: TransferResponse = yield call(
+      _initiateTransferWithProvider,
+      action
+    )
 
     if (flow === CICOFlow.CashOut) {
-      transactionHash = yield call(_initiateSendTxToProvider, {
+      const cashOutTxHash: string = yield call(_initiateSendTxToProvider, {
         transferAddress,
         fiatConnectQuote,
       })
+      yield put(
+        cacheFiatConnectTransfer({
+          txHash: cashOutTxHash.toLowerCase(),
+          transferId,
+          providerId: fiatConnectQuote.getProviderId(),
+          fiatAccountId: action.payload.fiatAccountId,
+          quote: fiatConnectQuote.quote.quote,
+        })
+      )
+      transactionHash = cashOutTxHash
     }
 
     ValoraAnalytics.track(FiatExchangeEvents.cico_fc_transfer_success, {

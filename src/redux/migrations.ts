@@ -1026,6 +1026,13 @@ export const migrations = {
   }),
   108: (state: any) => ({
     ...state,
+    fiatConnect: {
+      ...state.fiatConnect,
+      cachedTransfers: {},
+    },
+  }),
+  109: (state: any) => ({
+    ...state,
     app: {
       ...state.app,
       paymentDeepLinkHandler: PaymentDeepLinkHandler.Disabled,

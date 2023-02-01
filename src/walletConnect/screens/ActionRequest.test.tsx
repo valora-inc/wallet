@@ -1,4 +1,5 @@
-import { fireEvent, render } from '@testing-library/react-native'
+import Clipboard from '@react-native-clipboard/clipboard'
+import { fireEvent, render, within } from '@testing-library/react-native'
 import { SessionTypes, SignClientTypes } from '@walletconnect/types'
 import { getSdkError } from '@walletconnect/utils'
 import * as React from 'react'
@@ -16,6 +17,10 @@ import {
   denyRequest as denyRequestV2,
 } from 'src/walletConnect/v2/actions'
 import { createMockStore } from 'test/utils'
+
+jest.mock('@react-native-clipboard/clipboard', () => ({
+  setString: jest.fn(),
+}))
 
 describe('ActionRequest with WalletConnect V1', () => {
   const peerId = 'c49968fd-9607-4a43-ac66-703402400ffa'
@@ -66,49 +71,50 @@ describe('ActionRequest with WalletConnect V1', () => {
       ],
     }
     it('renders the correct elements', () => {
-      const { getByText } = render(
+      const { getByText, getByTestId } = render(
         <Provider store={store}>
           <ActionRequest version={1} pendingAction={{ action, peerId }} />
         </Provider>
       )
 
-      expect(getByText('confirmTransaction, {"dappName":"WalletConnect Example"}')).toBeTruthy()
-      expect(getByText('action.askingV1_35, {"dappName":"WalletConnect Example"}')).toBeTruthy()
-      expect(getByText('action.sign')).toBeTruthy()
+      expect(getByText('confirmTransaction')).toBeTruthy()
+      expect(
+        getByText('walletConnectRequest.signPayload, {"dappName":"WalletConnect Example"}')
+      ).toBeTruthy()
       expect(getByText('allow')).toBeTruthy()
-      expect(getByText('cancel')).toBeTruthy()
-    })
-
-    it('shows request details with correct string on clicking details', () => {
-      const { getByText } = render(
-        <Provider store={store}>
-          <ActionRequest version={1} pendingAction={{ action, peerId }} />
-        </Provider>
-      )
-      fireEvent.press(getByText('action.details'))
-      expect(getByText('Message to sign')).toBeTruthy()
+      expect(
+        within(getByTestId('WalletConnectActionRequest/RequestPayload')).getByText(
+          'Message to sign'
+        )
+      ).toBeTruthy()
     })
 
     it('shows request details with raw string if message cannot be decoded', () => {
       action.params[0] = 'invalid hex'
-      const { getByText } = render(
+      const { getByTestId } = render(
         <Provider store={store}>
           <ActionRequest version={1} pendingAction={{ action, peerId }} />
         </Provider>
       )
-      fireEvent.press(getByText('action.details'))
-      expect(getByText('invalid hex')).toBeTruthy()
+
+      expect(
+        within(getByTestId('WalletConnectActionRequest/RequestPayload')).getByText('invalid hex')
+      ).toBeTruthy()
     })
 
     it('shows request details with empty message', () => {
       action.params[0] = ''
-      const { getByText } = render(
+      const { getByTestId } = render(
         <Provider store={store}>
           <ActionRequest version={1} pendingAction={{ action, peerId }} />
         </Provider>
       )
-      fireEvent.press(getByText('action.details'))
-      expect(getByText('action.emptyMessage')).toBeTruthy()
+
+      expect(
+        within(getByTestId('WalletConnectActionRequest/RequestPayload')).getByText(
+          'action.emptyMessage'
+        )
+      ).toBeTruthy()
     })
 
     it('dispatches the correct action on press allow', () => {
@@ -122,14 +128,14 @@ describe('ActionRequest with WalletConnect V1', () => {
       expect(store.getActions()).toEqual([acceptRequestV1(peerId, action)])
     })
 
-    it('dispatches the correct action on press cancel', () => {
-      const { getByText } = render(
+    it('dispatches the correct action on dismiss bottom sheet', () => {
+      const { unmount } = render(
         <Provider store={store}>
           <ActionRequest version={1} pendingAction={{ action, peerId }} />
         </Provider>
       )
 
-      fireEvent.press(getByText('cancel'))
+      unmount()
       expect(store.getActions()).toEqual([denyRequestV1(peerId, action, 'User denied')])
     })
   })
@@ -219,49 +225,61 @@ describe('ActionRequest with WalletConnect V2', () => {
     })
 
     it('renders the correct elements', () => {
-      const { getByText } = render(
+      const { getByText, getByTestId } = render(
         <Provider store={store}>
           <ActionRequest version={2} pendingAction={pendingAction} />
         </Provider>
       )
 
-      expect(getByText('confirmTransaction, {"dappName":"WalletConnect Example"}')).toBeTruthy()
-      expect(getByText('action.askingV1_35, {"dappName":"WalletConnect Example"}')).toBeTruthy()
-      expect(getByText('action.sign')).toBeTruthy()
+      expect(getByText('confirmTransaction')).toBeTruthy()
+      expect(
+        getByText('walletConnectRequest.signPayload, {"dappName":"WalletConnect Example"}')
+      ).toBeTruthy()
       expect(getByText('allow')).toBeTruthy()
-      expect(getByText('cancel')).toBeTruthy()
+      expect(
+        within(getByTestId('WalletConnectActionRequest/RequestPayload')).getByText(
+          'Message to sign'
+        )
+      ).toBeTruthy()
     })
 
-    it('shows request details with correct string on clicking details', () => {
-      const { getByText } = render(
+    it('copies the request payload', () => {
+      const { getByTestId } = render(
         <Provider store={store}>
           <ActionRequest version={2} pendingAction={pendingAction} />
         </Provider>
       )
-      fireEvent.press(getByText('action.details'))
-      expect(getByText('Message to sign')).toBeTruthy()
+
+      fireEvent.press(getByTestId('WalletConnectActionRequest/RequestPayload/Copy'))
+      expect(Clipboard.setString).toHaveBeenCalledWith('Message to sign')
     })
 
     it('shows request details with raw string if message cannot be decoded', () => {
       pendingAction.params.request.params[0] = 'invalid hex'
-      const { getByText } = render(
+      const { getByTestId } = render(
         <Provider store={store}>
           <ActionRequest version={2} pendingAction={pendingAction} />
         </Provider>
       )
-      fireEvent.press(getByText('action.details'))
-      expect(getByText('invalid hex')).toBeTruthy()
+
+      expect(
+        within(getByTestId('WalletConnectActionRequest/RequestPayload')).getByText('invalid hex')
+      ).toBeTruthy()
     })
 
     it('shows request details with empty message', () => {
       pendingAction.params.request.params[0] = ''
-      const { getByText } = render(
+      const { getByTestId } = render(
         <Provider store={store}>
           <ActionRequest version={2} pendingAction={pendingAction} />
         </Provider>
       )
-      fireEvent.press(getByText('action.details'))
-      expect(getByText('action.emptyMessage')).toBeTruthy()
+
+      expect(
+        within(getByTestId('WalletConnectActionRequest/RequestPayload')).getByText(
+          'action.emptyMessage'
+        )
+      ).toBeTruthy()
     })
 
     it('dispatches the correct action on press allow', () => {
@@ -275,14 +293,14 @@ describe('ActionRequest with WalletConnect V2', () => {
       expect(store.getActions()).toEqual([acceptRequestV2(pendingAction)])
     })
 
-    it('dispatches the correct action on press cancel', () => {
-      const { getByText } = render(
+    it('dispatches the correct action on dismiss bottom sheet', () => {
+      const { unmount } = render(
         <Provider store={store}>
           <ActionRequest version={2} pendingAction={pendingAction} />
         </Provider>
       )
 
-      fireEvent.press(getByText('cancel'))
+      unmount()
       expect(store.getActions()).toEqual([
         denyRequestV2(pendingAction, getSdkError('USER_REJECTED')),
       ])
@@ -333,8 +351,10 @@ describe('ActionRequest with WalletConnect V2', () => {
         </Provider>
       )
 
-      expect(getByText('confirmTransaction, {"dappName":"someDappName"}')).toBeTruthy()
-      expect(getByText('action.askingV1_35, {"dappName":"someDappName"}')).toBeTruthy()
+      expect(getByText('confirmTransaction')).toBeTruthy()
+      expect(
+        getByText('walletConnectRequest.signPayload, {"dappName":"someDappName"}')
+      ).toBeTruthy()
     })
 
     it("should use the payload domain if activeDapp doesn't match", () => {
@@ -369,8 +389,10 @@ describe('ActionRequest with WalletConnect V2', () => {
         </Provider>
       )
 
-      expect(getByText('confirmTransaction, {"dappName":"some.dapp.com"}')).toBeTruthy()
-      expect(getByText('action.askingV1_35, {"dappName":"some.dapp.com"}')).toBeTruthy()
+      expect(getByText('confirmTransaction')).toBeTruthy()
+      expect(
+        getByText('walletConnectRequest.signPayload, {"dappName":"some.dapp.com"}')
+      ).toBeTruthy()
     })
 
     it('should display an empty fallback', () => {
@@ -405,8 +427,8 @@ describe('ActionRequest with WalletConnect V2', () => {
         </Provider>
       )
 
-      expect(getByText('confirmTransaction, {"dappName":""}')).toBeTruthy()
-      expect(getByText('action.askingV1_35, {"dappName":""}')).toBeTruthy()
+      expect(getByText('confirmTransaction')).toBeTruthy()
+      expect(getByText('walletConnectRequest.signPayload, {"dappName":""}')).toBeTruthy()
     })
   })
 })

@@ -42,6 +42,11 @@ export enum QRCodeDataType {
   Address = 'Address',
 }
 
+export enum QRCodeStyle {
+  New = 'New',
+  Legacy = 'Legacy',
+}
+
 // removes undefined parameters for serialization
 export const stripUndefined = (obj: object) => JSON.parse(JSON.stringify(obj))
 
