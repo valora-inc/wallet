@@ -41,8 +41,38 @@ export function convertToFiatConnectFiatCurrency(
   return FiatType[localCurrency as unknown as FiatType]
 }
 
-export function convertToLocalCurrency(fiatType: FiatType): LocalCurrencyCode | undefined {
-  return LocalCurrencyCode[fiatType as unknown as LocalCurrencyCode]
+export function convertToLocalCurrency(fiatType: FiatType): LocalCurrencyCode {
+  return {
+    [FiatType.ARS]: LocalCurrencyCode.ARS,
+    [FiatType.BOB]: LocalCurrencyCode.BOB,
+    [FiatType.BRL]: LocalCurrencyCode.BRL,
+    [FiatType.CLP]: LocalCurrencyCode.CLP,
+    [FiatType.CNY]: LocalCurrencyCode.CNY,
+    [FiatType.COP]: LocalCurrencyCode.COP,
+    [FiatType.EUR]: LocalCurrencyCode.EUR,
+    [FiatType.FKP]: LocalCurrencyCode.FKP,
+    [FiatType.GBP]: LocalCurrencyCode.GBP,
+    [FiatType.GHS]: LocalCurrencyCode.GHS,
+    [FiatType.GNF]: LocalCurrencyCode.GNF,
+    [FiatType.GYD]: LocalCurrencyCode.GYD,
+    [FiatType.INR]: LocalCurrencyCode.INR,
+    [FiatType.KES]: LocalCurrencyCode.KES,
+    [FiatType.MXN]: LocalCurrencyCode.MXN,
+    [FiatType.NGN]: LocalCurrencyCode.NGN,
+    [FiatType.PAB]: LocalCurrencyCode.PAB,
+    [FiatType.PEN]: LocalCurrencyCode.PEN,
+    [FiatType.PHP]: LocalCurrencyCode.PHP,
+    [FiatType.PYG]: LocalCurrencyCode.PYG,
+    [FiatType.RWF]: LocalCurrencyCode.RWF,
+    [FiatType.SRD]: LocalCurrencyCode.SRD,
+    [FiatType.UGX]: LocalCurrencyCode.UGX,
+    [FiatType.USD]: LocalCurrencyCode.USD,
+    [FiatType.UYU]: LocalCurrencyCode.UYU,
+    [FiatType.VES]: LocalCurrencyCode.VES,
+    [FiatType.XAF]: LocalCurrencyCode.XAF,
+    [FiatType.XOF]: LocalCurrencyCode.XOF,
+    [FiatType.ZAR]: LocalCurrencyCode.ZAR,
+  }[fiatType]
 }
 
 function convertToFiatConnectCryptoCurrency(cicoCurrency: CiCoCurrency): CryptoType {
