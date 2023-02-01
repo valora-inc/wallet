@@ -15,6 +15,7 @@ import { CiCoCurrency } from 'src/utils/currencies'
 import { Statsig } from 'statsig-react-native'
 import MockedNavigator from 'test/MockedNavigator'
 import StyledQRCode from 'src/qrcode/StyledQRGen'
+import QRCode from 'src/qrcode/QRGen'
 
 jest.mock('react-native-permissions', () => jest.fn())
 
@@ -24,6 +25,7 @@ jest.mock('src/fiatExchanges/utils', () => ({
 }))
 
 jest.mock('src/qrcode/StyledQRGen', () => jest.fn().mockReturnValue(''))
+jest.mock('src/qrcode/QRGen', () => jest.fn().mockReturnValue(''))
 
 const mockStore = createMockStore({
   networkInfo: {
@@ -111,23 +113,11 @@ describe('QRNavigator', () => {
       expect(queryByText('myCode')).toBeTruthy()
       expect(queryByText('scanCode')).toBeTruthy()
     })
-    describe('integration tests for experiment parameters', () => {
-      it('user with Legacy style parameter gets old style', async () => {
-        Statsig.overrideLayer(StatsigLayers.SEND_RECEIVE_QR_CODE, {
-          qrCodeStyle: 'Legacy',
-        })
-        const { getByText, queryByTestId } = render(
-          <Provider store={mockStore}>
-            <MockedNavigator component={QRNavigator} />
-          </Provider>
-        )
-        await fireEvent.press(getByText('myCode'))
-        expect(queryByTestId('QRCode')).toBeTruthy()
-        expect(queryByTestId('styledQRCode')).toBeFalsy()
-      })
-      it('user with New style parameter gets new style', async () => {
+    describe('integration tests for usage of experiment parameters', () => {
+      it('user with Address data type, New style gets styled qr code with address', async () => {
         Statsig.overrideLayer(StatsigLayers.SEND_RECEIVE_QR_CODE, {
           qrCodeStyle: 'New',
+          qrCodeDataType: 'Address',
         })
         const { getByText, queryByTestId } = render(
           <Provider store={mockStore}>
@@ -137,20 +127,66 @@ describe('QRNavigator', () => {
         await fireEvent.press(getByText('myCode'))
         expect(queryByTestId('styledQRCode')).toBeTruthy()
         expect(queryByTestId('QRCode')).toBeFalsy()
+        expect(StyledQRCode).toHaveBeenCalledWith(
+          expect.objectContaining({ value: '0x0000' }),
+          expect.anything()
+        )
       })
-      it('user with Address data type parameter gets qr code with address', async () => {
+      it('user with Address data type, Legacy style gets legacy qr code with address', async () => {
         Statsig.overrideLayer(StatsigLayers.SEND_RECEIVE_QR_CODE, {
-          qrCodeStyle: 'New',
+          qrCodeStyle: 'Legacy',
           qrCodeDataType: 'Address',
         })
-        const { getByText } = render(
+        const { getByText, queryByTestId } = render(
           <Provider store={mockStore}>
             <MockedNavigator component={QRNavigator} />
           </Provider>
         )
         await fireEvent.press(getByText('myCode'))
-        expect(StyledQRCode).toHaveBeenCalledWith(
+        expect(queryByTestId('QRCode')).toBeTruthy()
+        expect(queryByTestId('styledQRCode')).toBeFalsy()
+        expect(QRCode).toHaveBeenCalledWith(
           expect.objectContaining({ value: '0x0000' }),
+          expect.anything()
+        )
+      })
+      it('user with Address data type, ValoraDeepLink style gets styled qr code with deep link', async () => {
+        Statsig.overrideLayer(StatsigLayers.SEND_RECEIVE_QR_CODE, {
+          qrCodeStyle: 'New',
+          qrCodeDataType: 'ValoraDeepLink',
+        })
+        const { getByText, queryByTestId } = render(
+          <Provider store={mockStore}>
+            <MockedNavigator component={QRNavigator} />
+          </Provider>
+        )
+        await fireEvent.press(getByText('myCode'))
+        expect(queryByTestId('styledQRCode')).toBeTruthy()
+        expect(queryByTestId('QRCode')).toBeFalsy()
+        expect(StyledQRCode).toHaveBeenCalledWith(
+          expect.objectContaining({
+            value: expect.stringContaining('celo://wallet/pay?address=0x0000'),
+          }),
+          expect.anything()
+        )
+      })
+      it('user with ValoraDeepLink data type, Legacy style gets legacy qr code with valora deep link', async () => {
+        Statsig.overrideLayer(StatsigLayers.SEND_RECEIVE_QR_CODE, {
+          qrCodeStyle: 'Legacy',
+          qrCodeDataType: 'ValoraDeepLink',
+        })
+        const { getByText, queryByTestId } = render(
+          <Provider store={mockStore}>
+            <MockedNavigator component={QRNavigator} />
+          </Provider>
+        )
+        await fireEvent.press(getByText('myCode'))
+        expect(queryByTestId('QRCode')).toBeTruthy()
+        expect(queryByTestId('styledQRCode')).toBeFalsy()
+        expect(QRCode).toHaveBeenCalledWith(
+          expect.objectContaining({
+            value: expect.stringContaining('celo://wallet/pay?address=0x0000'),
+          }),
           expect.anything()
         )
       })
