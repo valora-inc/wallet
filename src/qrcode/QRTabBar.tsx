@@ -46,6 +46,10 @@ export default function QRTabBar({ state, descriptors, navigation, position, qrS
     dispatch(shareQRCode(qrSvgRef.current))
   }
 
+  const getParams = (route: string) => {
+    return state.routes.find((data) => data.name === route)?.params ?? {}
+  }
+
   const onChange = (value: string, index: number) => {
     const route = state.routes[index]
     const isFocused = index === state.index
@@ -57,7 +61,7 @@ export default function QRTabBar({ state, descriptors, navigation, position, qrS
     })
 
     if (!isFocused && !event.defaultPrevented) {
-      navigation.navigate(route.name)
+      navigation.navigate(route.name, getParams(route.name))
     }
   }
 

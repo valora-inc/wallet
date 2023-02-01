@@ -1,7 +1,8 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { e164NumberSelector } from 'src/account/selectors'
 import { DappKitEvents } from 'src/analytics/Events'
@@ -58,7 +59,7 @@ const DappKitAccountScreen = ({ route }: Props) => {
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView edges={['bottom']} style={styles.container}>
       <RequestContent
         onAccept={handleAllow}
         onDeny={handleCancel}
@@ -67,9 +68,9 @@ const DappKitAccountScreen = ({ route }: Props) => {
         title={
           dappConnectInfo === DappConnectInfo.Basic
             ? t('connectToWallet', { dappName: dappKitRequest.dappName })
-            : t('confirmTransaction', { dappName: dappKitRequest.dappName })
+            : t('confirmTransaction')
         }
-        description={t('shareInfo')}
+        description={phoneNumber ? t('connectWalletInfoDappkit') : t('shareInfo')}
         requestDetails={[
           {
             label: t('phoneNumber'),
@@ -78,21 +79,20 @@ const DappKitAccountScreen = ({ route }: Props) => {
           {
             label: t('address'),
             value: account,
-            tapToCopy: true,
           },
         ]}
         dappUrl={dappKitRequest.callback}
         testId="DappKitSessionRequest"
       />
-    </View>
+    </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
     padding: Spacing.Thick24,
+    paddingBottom: 0, // SafeAreaView already adds enough space here
     flex: 1,
-    alignItems: 'center',
   },
 })
 
