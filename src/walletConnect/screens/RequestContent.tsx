@@ -5,7 +5,11 @@ import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
-import { activeDappSelector, dappConnectInfoSelector } from 'src/dapps/selectors'
+import {
+  activeDappSelector,
+  dappConnectInfoSelector,
+  dappsMinimalDisclaimerEnabledSelector,
+} from 'src/dapps/selectors'
 import { DappConnectInfo } from 'src/dapps/types'
 import Logo from 'src/icons/Logo'
 import { Colors } from 'src/styles/colors'
@@ -87,6 +91,7 @@ function RequestContent({
   const { t } = useTranslation()
 
   const [isAccepting, setIsAccepting] = useState(false)
+  const dappsMinimalDisclaimerEnabled = useSelector(dappsMinimalDisclaimerEnabledSelector)
   const dappConnectInfo = useSelector(dappConnectInfoSelector)
   const isDappListed = useIsDappListed(dappUrl)
 
@@ -110,6 +115,8 @@ function RequestContent({
       }
     }
   }, [])
+
+  const showDappNotListedDisclaimer = dappConnectInfo === DappConnectInfo.Basic && !isDappListed
 
   return (
     <>
@@ -162,9 +169,15 @@ function RequestContent({
         {children}
       </View>
 
-      {dappConnectInfo === DappConnectInfo.Basic && !isDappListed && (
+      {dappsMinimalDisclaimerEnabled ? (
+        <Text style={styles.dappNotListedDisclaimer}>
+          {showDappNotListedDisclaimer
+            ? t('dappsDisclaimerUnlistedDapp')
+            : t('dappsDisclaimerSingleDapp')}
+        </Text>
+      ) : showDappNotListedDisclaimer ? (
         <Text style={styles.dappNotListedDisclaimer}>{t('dappNotListed')}</Text>
-      )}
+      ) : null}
 
       <Button
         type={BtnTypes.PRIMARY}
@@ -221,6 +234,7 @@ const styles = StyleSheet.create({
     ...fontStyles.small,
     color: Colors.gray5,
     marginBottom: Spacing.Thick24,
+    textAlign: 'center',
   },
   placeholderLogoBackground: {
     backgroundColor: Colors.light,
