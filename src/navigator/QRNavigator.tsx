@@ -52,19 +52,19 @@ export function getExperimentParams(): {
   qrCodeDataType: QRCodeDataType
 } {
   const layerName = StatsigLayers.SEND_RECEIVE_QR_CODE
-  const { paramName: appearanceParamName, defaultValue: appearanceDefaultValue } =
+  const { paramName: styleParamName, defaultValue: styleDefaultValue } =
     LayerParams[layerName].qrCodeStyle
   const { paramName: dataTypeParamName, defaultValue: dataTypeDefaultValue } =
     LayerParams[layerName].qrCodeDataType
   try {
     const statsigLayer = Statsig.getLayer(layerName)
-    const qrCodeAppearance = statsigLayer.get(appearanceParamName, appearanceDefaultValue)
-    const qrCodeData = statsigLayer.get(dataTypeParamName, dataTypeDefaultValue)
-    return { qrCodeStyle: qrCodeAppearance, qrCodeDataType: qrCodeData }
+    const qrCodeStyle = statsigLayer.get(styleParamName, styleDefaultValue)
+    const qrCodeDataType = statsigLayer.get(dataTypeParamName, dataTypeDefaultValue)
+    return { qrCodeStyle, qrCodeDataType }
   } catch (error) {
     Logger.warn(TAG, 'error getting Statsig experiment', error)
     return {
-      qrCodeStyle: appearanceDefaultValue,
+      qrCodeStyle: styleDefaultValue,
       qrCodeDataType: dataTypeDefaultValue,
     }
   }
