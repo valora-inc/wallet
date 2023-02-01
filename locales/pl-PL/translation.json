@@ -1233,6 +1233,11 @@
     "message": "Zamierzasz otworzyć aplikację, której operatorem nie jest Valora.\n\nValora nie składa żadnych oświadczeń ani gwarancji dotyczących tej aplikacji. Korzystasz z niej na własne ryzyko.",
     "button": "Przejdź do {{dappName}}"
   },
+  "dappsScreenInfoSheet": {
+    "title": "Co to jest dapp?",
+    "description": "Dapp (lub zdecentralizowana aplikacja) to aplikacja zbudowana i działająca na szczycie sieci blockchain. Oznacza to, że żadna firma ani organizacja nie zarządza ani nie przechowuje Twoich danych.\n\nAplikacje różnią się pod względem oferowanych usług. Przykładami takich usług są zdecentralizowane giełdy, udzielanie pożyczek, pożyczanie, wymiana, przechowywanie NFT.",
+    "buttonLabel": "Powiedz mi więcej"
+  },
   "dappsDisclaimerAllDapps": "{{appName}} nie jest powiązana z tymi dappami i nie składa żadnych oświadczeń ani roszczeń związanych z ich używaniem. Przed rozpoczęciem korzystania z aplikacji dapp należy zapoznać się z umową z użytkownikiem lub polityką prywatności.",
   "recentlyUsedDapps": "Ostatnio używane Dapps",
   "favoritedDapps": "Ulubione aplikacje",
