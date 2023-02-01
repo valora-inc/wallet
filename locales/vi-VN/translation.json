@@ -187,10 +187,10 @@
   "startSuperchargingNotificationStart": "Nhận tiền thưởng",
   "cashIn": "Nạp {{currency}}",
   "connectNumber": "Kết nối số",
-  "connectToWallet": "{{dappName}} muốn kết nối với {{appName}}",
-  "confirmTransaction": "{{dappName}} muốn xác nhận giao dịch",
+  "connectToWallet": "Connect to {{dappName}}",
+  "confirmTransaction": "Confirm transaction",
   "allow": "Cho phép",
-  "address": "Địa chỉ tài khoản",
+  "address": "Wallet address",
   "phoneNumber": "Số điện thoại",
   "transaction": {
     "operation": "Hoạt động",
@@ -198,7 +198,8 @@
     "signTX": "Ký xác nhận giao dịch",
     "details": "Hiển thị chi tiết"
   },
-  "shareInfo": "Ứng dụng này sẽ có quyền truy cập vào những thông tin sau:",
+  "shareInfo": "You must connect your wallet to approve transactions in this Dapp. Once connected, it will have access to your wallet address.",
+  "connectWalletInfoDappkit": "You must connect your wallet to approve transactions in this Dapp. Once connected, it will have access to your wallet address and phone number.",
   "data": "Dữ liệu",
   "firebaseDisabled": "Firebase đang tắt, thông báo và tính năng tải nhật ký lên sẽ không hoạt động",
   "learnMore": "Tìm hiểu thêm",
@@ -975,6 +976,16 @@
     "details": "Xem dữ liệu giao dịch",
     "computeSharedSecret": "Tạo mã bí mật",
     "emptyMessage": "Tin nhắn trống"
+  },
+  "walletConnectRequest": {
+    "transactionDataLabel": "Transaction data",
+    "readAccount": "{{dappName}} would like to read your {{appName}} wallet address.",
+    "signPayload": "{{dappName}} would like to sign a data payload.",
+    "signTransaction": "{{dappName}} would like to sign a Celo transaction.",
+    "sendTransaction": "{{dappName}} would like to send a Celo transaction.",
+    "decryptPayload": "{{dappName}} would like to decrypt a data payload.",
+    "computeSharedSecret": "{{dappName}} would like to generate secrets.",
+    "transactionDataCopied": "Transaction data copied"
   },
   "sessionInfo": "Ứng dụng này có thể sẽ yêu cầu thực hiện các thao tác sau:",
   "description": {
