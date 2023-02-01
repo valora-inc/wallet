@@ -980,14 +980,14 @@
     "emptyMessage": "Messaggio vuoto"
   },
   "walletConnectRequest": {
-    "transactionDataLabel": "Transaction data",
-    "readAccount": "{{dappName}} would like to read your {{appName}} wallet address.",
-    "signPayload": "{{dappName}} would like to sign a data payload.",
-    "signTransaction": "{{dappName}} would like to sign a Celo transaction.",
-    "sendTransaction": "{{dappName}} would like to send a Celo transaction.",
-    "decryptPayload": "{{dappName}} would like to decrypt a data payload.",
-    "computeSharedSecret": "{{dappName}} would like to generate secrets.",
-    "transactionDataCopied": "Transaction data copied"
+    "transactionDataLabel": "Dati di transazione",
+    "readAccount": "{{dappName}} vorrebbe leggere l'indirizzo del tuo portafoglio {{appName}} .",
+    "signPayload": "{{dappName}} desidera firmare un carico di dati.",
+    "signTransaction": "{{dappName}} vorrebbe firmare una transazione Celo.",
+    "sendTransaction": "{{dappName}} desidera inviare una transazione Celo.",
+    "decryptPayload": "{{dappName}} desidera decriptare un carico di dati.",
+    "computeSharedSecret": "{{dappName}} vorrebbe generare dei segreti.",
+    "transactionDataCopied": "Dati di transazione copiati"
   },
   "sessionInfo": "Questa applicazione potrebbe richiedere di eseguire le seguenti azioni:",
   "description": {
