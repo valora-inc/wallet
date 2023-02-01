@@ -1,7 +1,7 @@
 // TODO(any): consider making it more type safe
 import { SelectProviderExchangesLink, SelectProviderExchangesText } from 'src/fiatExchanges/types'
 import {
-  QRCodeAppearance,
+  QRCodeStyle,
   QRCodeDataType,
   StatsigDynamicConfigs,
   StatsigExperiments,
@@ -20,9 +20,9 @@ export const LayerParams = {
     },
   },
   [StatsigLayers.SEND_RECEIVE_QR_CODE]: {
-    qrCodeAppearance: {
-      paramName: 'qrCodeAppearance',
-      defaultValue: QRCodeAppearance.Legacy,
+    qrCodeStyle: {
+      paramName: 'qrCodeStyle',
+      defaultValue: QRCodeStyle.Legacy,
     },
     qrCodeDataType: {
       paramName: 'qrCodeDataType',

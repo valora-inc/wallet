@@ -3,9 +3,9 @@ export enum QRCodeDataType {
   Address = 'Address',
 }
 
-export enum QRCodeAppearance {
+export enum QRCodeStyle {
   Legacy = 'Legacy',
-  Jan2023QRAppearance = 'Jan2023QRAppearance',
+  New = 'New',
 }
 
 export enum StatsigLayers {

@@ -11,52 +11,121 @@ import { Dimensions, Platform, StatusBar, StyleSheet } from 'react-native'
 import { check, PERMISSIONS, RESULTS } from 'react-native-permissions'
 import Animated, { call, greaterThan, onChange } from 'react-native-reanimated'
 import { ScrollPager } from 'react-native-tab-view'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { noHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { QRTabParamList } from 'src/navigator/types'
 import QRCode from 'src/qrcode/QRCode'
+import NewQRCode from 'src/qrcode/NewQRCode'
 import QRScanner from 'src/qrcode/QRScanner'
 import QRTabBar from 'src/qrcode/QRTabBar'
 import { handleBarcodeDetected, QrCode, SVG } from 'src/send/actions'
 import Logger from 'src/utils/Logger'
 import { ExtractProps } from 'src/utils/typescript'
-import { QRCodeAppearance, QRCodeDataType, StatsigLayers } from 'src/statsig/types'
+import { QRCodeStyle, QRCodeDataType, StatsigLayers } from 'src/statsig/types'
 import { LayerParams } from 'src/statsig/constants'
 import { Statsig } from 'statsig-react-native'
-
-const Tab = createMaterialTopTabNavigator()
+import { CiCoCurrency } from 'src/utils/currencies'
+import { userLocationDataSelector } from 'src/networkInfo/selectors'
+import { fetchExchanges } from 'src/fiatExchanges/utils'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { QrScreenEvents } from 'src/analytics/Events'
+import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 
 const TAG = 'QRNavigator'
 
+const Tab = createMaterialTopTabNavigator()
+
 const width = Dimensions.get('window').width
 const initialLayout = { width }
+
+export type QRCodeProps = NativeStackScreenProps<QRTabParamList, Screens.QRCode> & {
+  qrSvgRef: React.MutableRefObject<SVG>
+  qrCodeDataType: QRCodeDataType
+  qrCodeStyle: QRCodeStyle
+}
 
 type AnimatedScannerSceneProps = NativeStackScreenProps<QRTabParamList, Screens.QRScanner> & {
   position: Animated.Value<number>
 }
 
 function getExperimentParams(): {
-  qrCodeAppearance: QRCodeAppearance
+  qrCodeStyle: QRCodeStyle
   qrCodeDataType: QRCodeDataType
 } {
   const layerName = StatsigLayers.SEND_RECEIVE_QR_CODE
   const { paramName: appearanceParamName, defaultValue: appearanceDefaultValue } =
-    LayerParams[layerName].qrCodeAppearance
+    LayerParams[layerName].qrCodeStyle
   const { paramName: dataTypeParamName, defaultValue: dataTypeDefaultValue } =
     LayerParams[layerName].qrCodeDataType
   try {
     const statsigLayer = Statsig.getLayer(layerName)
     const qrCodeAppearance = statsigLayer.get(appearanceParamName, appearanceDefaultValue)
     const qrCodeData = statsigLayer.get(dataTypeParamName, dataTypeDefaultValue)
-    return { qrCodeAppearance, qrCodeDataType: qrCodeData }
+    return { qrCodeStyle: qrCodeAppearance, qrCodeDataType: qrCodeData }
   } catch (error) {
     Logger.warn(TAG, 'error getting Statsig experiment', error)
     return {
-      qrCodeAppearance: appearanceDefaultValue,
+      qrCodeStyle: appearanceDefaultValue,
       qrCodeDataType: dataTypeDefaultValue,
     }
   }
+}
+
+export function QRCodePicker({
+  route,
+  qrSvgRef,
+  qrCodeStyle,
+  qrCodeDataType,
+  ...props
+}: QRCodeProps) {
+  const userLocation = useSelector(userLocationDataSelector)
+  const asyncExchanges = useAsync(async () => {
+    if (qrCodeStyle !== QRCodeStyle.New) {
+      return []
+    }
+    try {
+      const availableExchanges = await fetchExchanges(
+        userLocation.countryCodeAlpha2,
+        CiCoCurrency.CELO // Default to CELO, since the user never makes a selection when arriving here
+      )
+      return availableExchanges
+    } catch (error) {
+      Logger.error(TAG, 'error fetching exchanges, displaying an empty array')
+      return []
+    }
+  }, [])
+
+  if (qrCodeStyle === QRCodeStyle.New) {
+    const onCloseBottomSheet = () => {
+      ValoraAnalytics.track(QrScreenEvents.qr_screen_bottom_sheet_close)
+    }
+    const onPressCopy = () => {
+      ValoraAnalytics.track(QrScreenEvents.qr_screen_copy_address)
+    }
+    const onPressInfo = () => {
+      ValoraAnalytics.track(QrScreenEvents.qr_screen_bottom_sheet_open)
+    }
+    const onPressExchange = (exchange: ExternalExchangeProvider) => {
+      ValoraAnalytics.track(QrScreenEvents.qr_screen_bottom_sheet_link_press, {
+        exchange: exchange.name,
+      })
+    }
+    return (
+      <NewQRCode
+        {...props}
+        exchanges={asyncExchanges.result ?? []}
+        dataType={qrCodeDataType}
+        qrSvgRef={qrSvgRef}
+        onCloseBottomSheet={onCloseBottomSheet}
+        onPressCopy={onPressCopy}
+        onPressInfo={onPressInfo}
+        onPressExchange={onPressExchange}
+      />
+    )
+  }
+
+  return <QRCode {...props} dataType={qrCodeDataType} qrSvgRef={qrSvgRef} />
 }
 
 // Component doing our custom transition for the QR scanner
@@ -155,7 +224,7 @@ const pager: ExtractProps<typeof Tab.Navigator>['pager'] =
   Platform.OS === 'ios' ? (props: any) => <ScrollPager {...props} /> : undefined
 
 export default function QRNavigator() {
-  const { qrCodeDataType } = getExperimentParams() // TODO: once ACT-550) use qrCodeAppearance to decide which appearance to show
+  const { qrCodeDataType, qrCodeStyle } = getExperimentParams()
   const position = useRef(new Animated.Value(0)).current
   const qrSvgRef = useRef<SVG>()
   const { t } = useTranslation()
@@ -174,7 +243,14 @@ export default function QRNavigator() {
       initialLayout={initialLayout}
     >
       <Tab.Screen name={Screens.QRCode} options={{ title: t('myCode') }}>
-        {(props) => <QRCode {...props} dataType={qrCodeDataType} qrSvgRef={qrSvgRef} />}
+        {(props) => (
+          <QRCodePicker
+            {...props}
+            qrCodeDataType={qrCodeDataType}
+            qrCodeStyle={qrCodeStyle}
+            qrSvgRef={qrSvgRef}
+          />
+        )}
       </Tab.Screen>
       <Tab.Screen name={Screens.QRScanner} options={{ title: t('scanCode') }}>
         {(props) => <AnimatedScannerScene {...props} position={position} />}
