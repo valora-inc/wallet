@@ -20,7 +20,10 @@ import i18n from 'src/i18n'
 import { isBottomSheetVisible, navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import Logger from 'src/utils/Logger'
-import { getDefaultSessionTrackedPropertiesV2 } from 'src/walletConnect/analytics'
+import {
+  getDefaultRequestTrackedPropertiesV2,
+  getDefaultSessionTrackedPropertiesV2,
+} from 'src/walletConnect/analytics'
 import { isSupportedAction, SupportedActions } from 'src/walletConnect/constants'
 import { handleRequest } from 'src/walletConnect/request'
 import { showWalletConnectionSuccessMessage } from 'src/walletConnect/saga'
@@ -66,18 +69,6 @@ export function* getDefaultSessionTrackedProperties(
 ) {
   const activeDapp: ActiveDapp | null = yield select(activeDappSelector)
   return getDefaultSessionTrackedPropertiesV2(session, activeDapp)
-}
-
-function getDefaultRequestTrackedProperties(
-  request: SignClientTypes.EventArguments['session_request']
-) {
-  const { id, params } = request
-  return {
-    requestChainId: params.chainId,
-    requestId: id,
-    requestJsonrpc: params.request.params.toString(),
-    requestMethod: params.request.method,
-  }
 }
 
 function* handleInitialiseWalletConnect() {
@@ -252,7 +243,7 @@ function* showActionRequest(request: SignClientTypes.EventArguments['session_req
   )
   ValoraAnalytics.track(WalletConnectEvents.wc_request_propose, {
     ...defaultSessionTrackedProperties,
-    ...getDefaultRequestTrackedProperties(request),
+    ...getDefaultRequestTrackedPropertiesV2(request),
   })
 
   const activeSession = client.session.values.find((value) => value.topic === request.topic)
@@ -397,7 +388,7 @@ function* handleAcceptRequest({ request }: AcceptRequest) {
   )
   const defaultTrackedProperties = {
     ...defaultSessionTrackedProperties,
-    ...getDefaultRequestTrackedProperties(request),
+    ...getDefaultRequestTrackedPropertiesV2(request),
   }
 
   try {
@@ -441,7 +432,7 @@ function* handleDenyRequest({ request, reason }: DenyRequest) {
   )
   const defaultTrackedProperties = {
     ...defaultSessionTrackedProperties,
-    ...getDefaultRequestTrackedProperties(request),
+    ...getDefaultRequestTrackedPropertiesV2(request),
     denyReason: reason.message,
   }
 

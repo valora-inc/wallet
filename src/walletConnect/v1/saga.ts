@@ -19,7 +19,10 @@ import { Screens } from 'src/navigator/Screens'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import Logger from 'src/utils/Logger'
-import { getDefaultSessionTrackedPropertiesV1 } from 'src/walletConnect/analytics'
+import {
+  getDefaultRequestTrackedPropertiesV1,
+  getDefaultSessionTrackedPropertiesV1,
+} from 'src/walletConnect/analytics'
 import { isSupportedAction } from 'src/walletConnect/constants'
 import { handleRequest } from 'src/walletConnect/request'
 import {
@@ -64,16 +67,6 @@ function* getDefaultSessionTrackedProperties(
 ): Generator<any, WalletConnect1Properties, any> {
   const activeDapp: ActiveDapp | null = yield select(activeDappSelector)
   return getDefaultSessionTrackedPropertiesV1(session, activeDapp)
-}
-
-function getDefaultRequestTrackedProperties(request: WalletConnectPayloadRequest, chainId: number) {
-  const { id: requestId, jsonrpc: requestJsonrpc, method: requestMethod } = request
-  return {
-    requestChainId: chainId.toString(),
-    requestId,
-    requestJsonrpc,
-    requestMethod,
-  }
 }
 
 function* getSessionFromPeerId(peerId: string) {
@@ -196,7 +189,7 @@ function* acceptRequest(r: AcceptRequest) {
   )
   const defaultTrackedProperties = {
     ...defaultSessionTrackedProperties,
-    ...getDefaultRequestTrackedProperties(request, session.chainId),
+    ...getDefaultRequestTrackedPropertiesV1(request, session.chainId),
   }
 
   try {
@@ -240,7 +233,7 @@ function* denyRequest(r: DenyRequest) {
     )
     const defaultTrackedProperties = {
       ...defaultSessionTrackedProperties,
-      ...getDefaultRequestTrackedProperties(request, session.chainId),
+      ...getDefaultRequestTrackedPropertiesV1(request, session.chainId),
       denyReason: reason,
     }
 
@@ -274,7 +267,7 @@ function* denyRequest(r: DenyRequest) {
     )
     const defaultTrackedProperties = {
       ...defaultSessionTrackedProperties,
-      ...getDefaultRequestTrackedProperties(request, session?.chainId ?? -1),
+      ...getDefaultRequestTrackedPropertiesV1(request, session?.chainId ?? -1),
       denyReason: reason,
     }
     ValoraAnalytics.track(WalletConnectEvents.wc_request_deny_error, {
@@ -394,7 +387,7 @@ function* showActionRequest({ action, peerId }: PendingAction) {
   )
   ValoraAnalytics.track(WalletConnectEvents.wc_request_propose, {
     ...defaultSessionTrackedProperties,
-    ...getDefaultRequestTrackedProperties(action, session.chainId),
+    ...getDefaultRequestTrackedPropertiesV1(action, session.chainId),
   })
 
   yield call(navigate, Screens.WalletConnectRequest, {

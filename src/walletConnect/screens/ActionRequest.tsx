@@ -57,8 +57,7 @@ function ActionRequestV1({ pendingAction }: PropsV1) {
     return null
   }
 
-  const { method, params } = action
-  const description = getDescriptionFromAction(t, method as SupportedActions, dappName)
+  const description = getDescriptionFromAction(t, action.method as SupportedActions, dappName)
 
   return (
     <RequestContent
@@ -75,12 +74,7 @@ function ActionRequestV1({ pendingAction }: PropsV1) {
       testId="WalletConnectActionRequest"
       dappUrl={url}
     >
-      <ActionRequestPayload
-        walletConnectVersion={1}
-        session={activeSession}
-        method={method}
-        params={params}
-      />
+      <ActionRequestPayload walletConnectVersion={1} session={activeSession} request={action} />
     </RequestContent>
   )
 }
@@ -101,8 +95,11 @@ function ActionRequestV2({ pendingAction }: PropsV2) {
     return null
   }
 
-  const { method, params } = pendingAction.params.request
-  const description = getDescriptionFromAction(t, method as SupportedActions, dappName)
+  const description = getDescriptionFromAction(
+    t,
+    pendingAction.params.request.method as SupportedActions,
+    dappName
+  )
 
   return (
     <RequestContent
@@ -122,8 +119,7 @@ function ActionRequestV2({ pendingAction }: PropsV2) {
       <ActionRequestPayload
         walletConnectVersion={2}
         session={activeSession}
-        method={method}
-        params={params}
+        request={pendingAction}
       />
     </RequestContent>
   )
