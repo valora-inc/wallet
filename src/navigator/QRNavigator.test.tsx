@@ -117,7 +117,7 @@ describe('QRNavigator', () => {
       )
       await fireEvent.press(getByText('myCode'))
       expect(queryByTestId('QRCode')).toBeTruthy()
-      expect(queryByTestId('newQRCode')).toBeFalsy()
+      expect(queryByTestId('styledQRCode')).toBeFalsy()
     })
     it('integration test: user in treatment group gets new style', async () => {
       Statsig.overrideLayer(StatsigLayers.SEND_RECEIVE_QR_CODE, { ...qrLayerTreatmentParams })
@@ -127,7 +127,7 @@ describe('QRNavigator', () => {
         </Provider>
       )
       await fireEvent.press(getByText('myCode'))
-      expect(queryByTestId('newQRCode')).toBeTruthy()
+      expect(queryByTestId('styledQRCode')).toBeTruthy()
       expect(queryByTestId('QRCode')).toBeFalsy()
     })
   })

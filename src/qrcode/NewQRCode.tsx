@@ -25,12 +25,11 @@ interface Props {
   onPressCopy?: () => void
   onPressInfo?: () => void
   onPressExchange?: (exchange: ExternalExchangeProvider) => void
-  testID?: string
 }
 
 export default function NewQRCodeDisplay(props: Props) {
   const { t } = useTranslation()
-  const { exchanges, dataType, qrSvgRef, testID } = props
+  const { exchanges, dataType, qrSvgRef } = props
   const address = useSelector(walletAddressSelector)
   const displayName = useSelector(nameSelector)
 
@@ -57,7 +56,7 @@ export default function NewQRCodeDisplay(props: Props) {
   }
 
   return (
-    <View style={styles.container} testID={testID}>
+    <View style={styles.container}>
       <View style={styles.qrContainer}>
         <StyledQRCode dataType={dataType} qrSvgRef={qrSvgRef} />
       </View>
