@@ -47,7 +47,7 @@ type AnimatedScannerSceneProps = NativeStackScreenProps<QRTabParamList, Screens.
   position: Animated.Value<number>
 }
 
-function getExperimentParams(): {
+export function getExperimentParams(): {
   qrCodeStyle: QRCodeStyle
   qrCodeDataType: QRCodeDataType
 } {

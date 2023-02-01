@@ -1,13 +1,14 @@
 import * as React from 'react'
-import { QRCodePicker, QRCodeProps } from 'src/navigator/QRNavigator'
+import { getExperimentParams, QRCodePicker, QRCodeProps } from 'src/navigator/QRNavigator'
 import { render, waitFor } from '@testing-library/react-native'
 import { fetchExchanges } from 'src/fiatExchanges/utils'
 import { Provider } from 'react-redux'
-import { QRCodeDataType, QRCodeStyle } from 'src/statsig/types'
+import { QRCodeDataType, QRCodeStyle, StatsigLayers } from 'src/statsig/types'
 import { createMockStore } from 'test/utils'
 import { mocked } from 'ts-jest/utils'
 import { mockExchanges } from 'test/values'
 import { CiCoCurrency } from 'src/utils/currencies'
+import { Statsig } from 'statsig-react-native'
 
 jest.mock('react-native-permissions', () => jest.fn())
 
@@ -46,6 +47,25 @@ function getProps(qrCodeStyle: QRCodeStyle): QRCodeProps {
 }
 
 describe('QRNavigator', () => {
+  beforeAll(async () => {
+    await Statsig.initialize('client-sdk-key-testing', null, { localMode: true })
+  })
+  afterEach(async () => {
+    const overrides = Statsig.getAllOverrides()
+    Object.keys(overrides.gates).forEach((gateName) => Statsig.removeGateOverride(gateName))
+    Object.keys(overrides.configs).forEach((configName) => Statsig.removeConfigOverride(configName))
+    Object.keys(overrides.layers).forEach((layerName) => Statsig.removeLayerOverrie(layerName)) // lol @ the typo, I (Charlie) submitted a PR to fix their SDK but it will take time to get a new version published
+  })
+  describe('QRNavigator helper functions', () => {
+    const controlGroupParams = { qrCodeStyle: 'Legacy', qrCodeDataType: 'ValoraDeepLink' }
+    it('getExperimentParams', () => {
+      Statsig.overrideLayer(StatsigLayers.SEND_RECEIVE_QR_CODE, { ...controlGroupParams })
+      expect(getExperimentParams()).toEqual(controlGroupParams)
+      const treatmentParams = { qrCodeStyle: 'New', qrCodeDataType: 'Address' }
+      Statsig.overrideLayer(StatsigLayers.SEND_RECEIVE_QR_CODE, { ...treatmentParams })
+      expect(getExperimentParams()).toEqual(treatmentParams)
+    })
+  })
   describe('QRCodePicker', () => {
     beforeEach(() => {
       jest.clearAllMocks()
