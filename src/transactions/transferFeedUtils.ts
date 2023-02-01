@@ -431,21 +431,20 @@ export function isTransferTransaction(
 // Note: This hook is tested from src/transactions/feed/TransferFeedItem.test.ts
 function useFiatConnectTransferDisplayInfo({ amount, transactionHash }: TokenTransfer) {
   const { t } = useTranslation()
-  const localCurrency = useSelector(getLocalCurrencyCode)
   const tokenInfo = useTokenInfo(amount.tokenAddress)
+  const localCurrency = useSelector(getLocalCurrencyCode)
   const fcTransferDetails = useSelector(getCachedFiatConnectTransferSelector(transactionHash))
-  if (!fcTransferDetails?.fiatAccountId) {
-    return
-  }
   const cachedFiatAccountUses = useSelector(cachedFiatAccountUsesSelector)
   const account = useMemo(
     () =>
-      cachedFiatAccountUses.find(
-        ({ fiatAccountId }) => fiatAccountId === fcTransferDetails.fiatAccountId
-      ),
+      fcTransferDetails
+        ? cachedFiatAccountUses.find(
+            ({ fiatAccountId }) => fiatAccountId === fcTransferDetails.fiatAccountId
+          )
+        : undefined,
     [cachedFiatAccountUses, fcTransferDetails]
   )
-  if (!account) {
+  if (!account || !fcTransferDetails) {
     return
   }
 
