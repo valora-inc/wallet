@@ -24,7 +24,6 @@ import {
   addressToE164NumberSelector,
   identifierToE164NumberSelector,
 } from 'src/identity/selectors'
-import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import {
   getDisplayName,
   getRecipientFromAddress,
@@ -432,7 +431,6 @@ export function isTransferTransaction(
 function useFiatConnectTransferDisplayInfo({ amount, transactionHash }: TokenTransfer) {
   const { t } = useTranslation()
   const tokenInfo = useTokenInfo(amount.tokenAddress)
-  const localCurrency = useSelector(getLocalCurrencyCode)
   const fcTransferDetails = useSelector(getCachedFiatConnectTransferSelector(transactionHash))
   const cachedFiatAccountUses = useSelector(cachedFiatAccountUsesSelector)
   const account = useMemo(
@@ -454,7 +452,7 @@ function useFiatConnectTransferDisplayInfo({ amount, transactionHash }: TokenTra
   const sign = fcTransferDetails.quote.transferType === TransferType.TransferOut ? -1 : 1
   const localAmount: LocalAmount = {
     value: new BigNumber(fiatAmount).multipliedBy(sign),
-    currencyCode: convertToLocalCurrency(fcTransferDetails.quote.fiatType) ?? localCurrency,
+    currencyCode: convertToLocalCurrency(fcTransferDetails.quote.fiatType),
     exchangeRate,
   }
 
