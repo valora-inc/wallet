@@ -75,7 +75,12 @@ function ActionRequestV1({ pendingAction }: PropsV1) {
       testId="WalletConnectActionRequest"
       dappUrl={url}
     >
-      <ActionRequestPayload dappName={dappName} method={method} params={params} />
+      <ActionRequestPayload
+        walletConnectVersion={1}
+        session={activeSession}
+        method={method}
+        params={params}
+      />
     </RequestContent>
   )
 }
@@ -114,7 +119,12 @@ function ActionRequestV2({ pendingAction }: PropsV2) {
       testId="WalletConnectActionRequest"
       dappUrl={url}
     >
-      <ActionRequestPayload dappName={dappName} method={method} params={params} />
+      <ActionRequestPayload
+        walletConnectVersion={2}
+        session={activeSession}
+        method={method}
+        params={params}
+      />
     </RequestContent>
   )
 }

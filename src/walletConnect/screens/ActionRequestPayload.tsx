@@ -1,27 +1,41 @@
 import { trimLeading0x } from '@celo/utils/lib/address'
 import Clipboard from '@react-native-clipboard/clipboard'
+import { IWalletConnectSession } from '@walletconnect/legacy-types'
+import { SessionTypes } from '@walletconnect/types'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import Toast from 'react-native-simple-toast'
+import { useSelector } from 'react-redux'
 import { WalletConnectEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Touchable from 'src/components/Touchable'
+import { activeDappSelector } from 'src/dapps/selectors'
 import CopyIcon from 'src/icons/CopyIcon'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
+import {
+  getDefaultSessionTrackedPropertiesV1,
+  getDefaultSessionTrackedPropertiesV2,
+} from 'src/walletConnect/analytics'
 import { SupportedActions } from 'src/walletConnect/constants'
 
-interface Props {
-  dappName: string
+type Props = {
   method: string
   params: any
-}
+} & (
+  | { walletConnectVersion: 1; session: IWalletConnectSession }
+  | { walletConnectVersion: 2; session: SessionTypes.Struct }
+)
 
-function ActionRequestPayload({ method, params, dappName }: Props) {
+function ActionRequestPayload(props: Props) {
+  const { method, params } = props
+
   const { t } = useTranslation()
+  const activeDapp = useSelector(activeDappSelector)
+
   const moreInfoString = useMemo(
     () =>
       method === SupportedActions.eth_signTransaction ||
@@ -42,7 +56,16 @@ function ActionRequestPayload({ method, params, dappName }: Props) {
 
   const handleCopyRequestPayload = () => {
     Clipboard.setString(moreInfoString)
-    ValoraAnalytics.track(WalletConnectEvents.wc_copy_request_payload, { method, dappName })
+
+    const defaultTrackedProps =
+      props.walletConnectVersion === 1
+        ? getDefaultSessionTrackedPropertiesV1(props.session, activeDapp)
+        : getDefaultSessionTrackedPropertiesV2(props.session, activeDapp)
+    ValoraAnalytics.track(WalletConnectEvents.wc_copy_request_payload, {
+      ...defaultTrackedProps,
+      method,
+    })
+
     Toast.showWithGravity(
       t('walletConnectRequest.transactionDataCopied'),
       Toast.SHORT,

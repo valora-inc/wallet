@@ -19,6 +19,7 @@ import { Screens } from 'src/navigator/Screens'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import Logger from 'src/utils/Logger'
+import { getDefaultSessionTrackedPropertiesV1 } from 'src/walletConnect/analytics'
 import { isSupportedAction } from 'src/walletConnect/constants'
 import { handleRequest } from 'src/walletConnect/request'
 import {
@@ -62,18 +63,7 @@ function* getDefaultSessionTrackedProperties(
   session: WalletConnectSessionRequest | WalletConnectSession
 ): Generator<any, WalletConnect1Properties, any> {
   const activeDapp: ActiveDapp | null = yield select(activeDappSelector)
-  const { peerId, peerMeta, chainId } = 'peerMeta' in session ? session : session.params[0]
-  const { name: dappName, url: dappUrl, description: dappDescription, icons } = peerMeta!
-  return {
-    version: 1 as const,
-    dappRequestOrigin: getDappRequestOrigin(activeDapp),
-    dappName,
-    dappUrl,
-    dappDescription,
-    dappIcon: icons[0],
-    peerId,
-    chainId: chainId?.toString() ?? '',
-  }
+  return getDefaultSessionTrackedPropertiesV1(session, activeDapp)
 }
 
 function getDefaultRequestTrackedProperties(request: WalletConnectPayloadRequest, chainId: number) {
