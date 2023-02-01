@@ -89,6 +89,7 @@ function ActionRequestV2({ pendingAction }: PropsV2) {
 
   const activeSession = useSelector(selectSessionFromTopic(pendingAction.topic))
   const { url, dappName, dappImageUrl } = useDappMetadata(activeSession?.peer.metadata)
+  const isDappListed = useIsDappListed(url)
 
   if (!activeSession) {
     // should never happen
@@ -125,6 +126,7 @@ function ActionRequestV2({ pendingAction }: PropsV2) {
         session={activeSession}
         request={pendingAction}
       />
+      <DappsDisclaimer isDappListed={isDappListed} />
     </RequestContent>
   )
 }

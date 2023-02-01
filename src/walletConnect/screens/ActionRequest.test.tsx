@@ -244,7 +244,7 @@ describe('ActionRequest with WalletConnect V2', () => {
           'Message to sign'
         )
       ).toBeTruthy()
-      expect(getByText('dappsDisclaimerSingleDapp')).toBeTruthy()
+      expect(getByText('dappsDisclaimerUnlistedDapp')).toBeTruthy()
     })
 
     it('copies the request payload', () => {
