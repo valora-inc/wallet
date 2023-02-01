@@ -218,6 +218,9 @@ describe('ActionRequest with WalletConnect V2', () => {
           sessions: [v2Session],
         },
       },
+      dapps: {
+        dappsMinimalDisclaimerEnabled: true,
+      },
     })
 
     beforeEach(() => {
@@ -241,6 +244,7 @@ describe('ActionRequest with WalletConnect V2', () => {
           'Message to sign'
         )
       ).toBeTruthy()
+      expect(getByText('dappsDisclaimerSingleDapp')).toBeTruthy()
     })
 
     it('copies the request payload', () => {
