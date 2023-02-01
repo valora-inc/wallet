@@ -111,48 +111,49 @@ describe('QRNavigator', () => {
       expect(queryByText('myCode')).toBeTruthy()
       expect(queryByText('scanCode')).toBeTruthy()
     })
-    it('integration test: user with Legacy style parameter gets old style', async () => {
-      Statsig.overrideLayer(StatsigLayers.SEND_RECEIVE_QR_CODE, {
-        qrCodeStyle: 'Legacy',
+    describe('integration tests for experiment parameters', () => {
+      it('user with Legacy style parameter gets old style', async () => {
+        Statsig.overrideLayer(StatsigLayers.SEND_RECEIVE_QR_CODE, {
+          qrCodeStyle: 'Legacy',
+        })
+        const { getByText, queryByTestId } = render(
+          <Provider store={mockStore}>
+            <MockedNavigator component={QRNavigator} />
+          </Provider>
+        )
+        await fireEvent.press(getByText('myCode'))
+        expect(queryByTestId('QRCode')).toBeTruthy()
+        expect(queryByTestId('styledQRCode')).toBeFalsy()
       })
-      const { getByText, queryByTestId } = render(
-        <Provider store={mockStore}>
-          <MockedNavigator component={QRNavigator} />
-        </Provider>
-      )
-      await fireEvent.press(getByText('myCode'))
-      expect(queryByTestId('QRCode')).toBeTruthy()
-      expect(queryByTestId('styledQRCode')).toBeFalsy()
-    })
-    it('integration test: user with New style parameter gets new style', async () => {
-      Statsig.overrideLayer(StatsigLayers.SEND_RECEIVE_QR_CODE, {
-        qrCodeStyle: 'New',
+      it('user with New style parameter gets new style', async () => {
+        Statsig.overrideLayer(StatsigLayers.SEND_RECEIVE_QR_CODE, {
+          qrCodeStyle: 'New',
+        })
+        const { getByText, queryByTestId } = render(
+          <Provider store={mockStore}>
+            <MockedNavigator component={QRNavigator} />
+          </Provider>
+        )
+        await fireEvent.press(getByText('myCode'))
+        expect(queryByTestId('styledQRCode')).toBeTruthy()
+        expect(queryByTestId('QRCode')).toBeFalsy()
       })
-      const { getByText, queryByTestId } = render(
-        <Provider store={mockStore}>
-          <MockedNavigator component={QRNavigator} />
-        </Provider>
-      )
-      await fireEvent.press(getByText('myCode'))
-      expect(queryByTestId('styledQRCode')).toBeTruthy()
-      expect(queryByTestId('QRCode')).toBeFalsy()
-    })
-    it('integration test: user with Address data type parameter gets qr code with address', async () => {
-      Statsig.overrideLayer(StatsigLayers.SEND_RECEIVE_QR_CODE, {
-        qrCodeStyle: 'New',
-        qrCodeDataType: 'Address',
+      it('user with Address data type parameter gets qr code with address', async () => {
+        Statsig.overrideLayer(StatsigLayers.SEND_RECEIVE_QR_CODE, {
+          qrCodeStyle: 'New',
+          qrCodeDataType: 'Address',
+        })
+        const { getByText } = render(
+          <Provider store={mockStore}>
+            <MockedNavigator component={QRNavigator} />
+          </Provider>
+        )
+        await fireEvent.press(getByText('myCode'))
+        expect(StyledQRCode).toHaveBeenCalledWith(
+          expect.objectContaining({ value: '0x0000' }),
+          expect.anything()
+        )
       })
-      const { getByText } = render(
-        <Provider store={mockStore}>
-          <MockedNavigator component={QRNavigator} />
-        </Provider>
-      )
-      await fireEvent.press(getByText('myCode'))
-      expect(StyledQRCode).toHaveBeenCalledWith(
-        expect.objectContaining({ value: '0x0000' }),
-        expect.anything()
-      )
     })
-    // TODO test that qrContent is address for treatment group
   })
 })
