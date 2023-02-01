@@ -4,6 +4,7 @@ import {
   FiatType,
   KycSchema,
   ObfuscatedFiatAccountData,
+  QuoteResponse,
 } from '@fiatconnect/fiatconnect-types'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { isEqual } from 'lodash'
@@ -47,11 +48,20 @@ export interface CachedQuoteParams {
   fiatType: FiatType
 }
 
+export interface CachedTransferDetails {
+  txHash: string
+  transferId: string
+  providerId: string
+  fiatAccountId: string
+  quote: QuoteResponse['quote']
+}
+
 export interface State {
   quotes: (FiatConnectQuoteSuccess | FiatConnectQuoteError)[]
   quotesLoading: boolean
   quotesError: string | null
   transfer: FiatConnectTransfer | null
+  cachedTransfers: { [txHash: string]: CachedTransferDetails }
   providers: FiatConnectProviderInfo[] | null
   cachedFiatAccountUses: CachedFiatAccountUse[]
   attemptReturnUserFlowLoading: boolean
@@ -67,11 +77,12 @@ export interface State {
   personaInProgress: boolean
 }
 
-const initialState: State = {
+export const initialState: State = {
   quotes: [],
   quotesLoading: false,
   quotesError: null,
   transfer: null,
+  cachedTransfers: {},
   providers: null,
   cachedFiatAccountUses: [],
   attemptReturnUserFlowLoading: false,
@@ -146,6 +157,8 @@ export interface CreateFiatConnectTransferCompletedAction {
   quoteId: string
   txHash: string | null
 }
+
+export type CacheFiatConnectTransferAction = CachedTransferDetails
 
 export interface CreateFiatConnectTransferTxProcessingAction {
   flow: CICOFlow
@@ -287,6 +300,16 @@ export const slice = createSlice({
         status: SendingTransferStatus.TxProcessing,
       }
     },
+    cacheFiatConnectTransfer: (state, action: PayloadAction<CacheFiatConnectTransferAction>) => {
+      const transferDetails: CachedTransferDetails = {
+        txHash: action.payload.txHash,
+        transferId: action.payload.transferId,
+        providerId: action.payload.providerId,
+        fiatAccountId: action.payload.fiatAccountId,
+        quote: action.payload.quote,
+      }
+      state.cachedTransfers[action.payload.txHash] = transferDetails
+    },
     fetchFiatConnectProviders: () => {
       // no state update
     },
@@ -352,6 +375,7 @@ export const {
   createFiatConnectTransferFailed,
   createFiatConnectTransferCompleted,
   createFiatConnectTransferTxProcessing,
+  cacheFiatConnectTransfer,
   fetchFiatConnectProviders,
   fetchFiatConnectProvidersCompleted,
   submitFiatAccount,

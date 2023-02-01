@@ -1023,4 +1023,11 @@ export const migrations = {
       cachedQuoteParams: updateCachedQuoteParams(state.fiatConnect.cachedQuoteParams),
     },
   }),
+  108: (state: any) => ({
+    ...state,
+    fiatConnect: {
+      ...state.fiatConnect,
+      cachedTransfers: {},
+    },
+  }),
 }
