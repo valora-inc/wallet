@@ -3,7 +3,11 @@ import '@react-native-firebase/messaging'
 import { SessionTypes, SignClientTypes } from '@walletconnect/types'
 import { getDappRequestOrigin } from 'src/app/utils'
 import { ActiveDapp } from 'src/dapps/types'
-import { WalletConnectSession, WalletConnectSessionRequest } from 'src/walletConnect/types'
+import {
+  WalletConnectPayloadRequest,
+  WalletConnectSession,
+  WalletConnectSessionRequest,
+} from 'src/walletConnect/types'
 
 const isSessionProposalType = (
   session: SignClientTypes.EventArguments['session_proposal'] | SessionTypes.Struct
@@ -46,6 +50,19 @@ export function getDefaultSessionTrackedPropertiesV2(
   }
 }
 
+export function getDefaultRequestTrackedPropertiesV2(
+  request: SignClientTypes.EventArguments['session_request']
+) {
+  const { id, params } = request
+
+  return {
+    requestChainId: params.chainId,
+    requestId: id,
+    requestJsonrpc: '2.0',
+    requestMethod: params.request.method,
+  }
+}
+
 export function getDefaultSessionTrackedPropertiesV1(
   session: WalletConnectSessionRequest | WalletConnectSession,
   activeDapp: ActiveDapp | null
@@ -61,5 +78,19 @@ export function getDefaultSessionTrackedPropertiesV1(
     dappIcon: icons[0],
     peerId,
     chainId: chainId?.toString() ?? '',
+  }
+}
+
+export function getDefaultRequestTrackedPropertiesV1(
+  request: WalletConnectPayloadRequest,
+  chainId: number
+) {
+  const { id: requestId, jsonrpc: requestJsonrpc, method: requestMethod } = request
+
+  return {
+    requestChainId: chainId.toString(),
+    requestId,
+    requestJsonrpc,
+    requestMethod,
   }
 }

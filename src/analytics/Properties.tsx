@@ -1071,9 +1071,7 @@ interface WalletConnectProperties {
     error: string
   }
 
-  [WalletConnectEvents.wc_copy_request_payload]: WalletConnectDefaultProperties & {
-    method: string
-  }
+  [WalletConnectEvents.wc_copy_request_payload]: WalletConnectRequestDefaultProperties
 }
 
 interface DappKitRequestDefaultProperties {
