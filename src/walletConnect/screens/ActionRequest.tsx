@@ -6,7 +6,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import Logger from 'src/utils/Logger'
 import { getDescriptionFromAction, SupportedActions } from 'src/walletConnect/constants'
 import ActionRequestPayload from 'src/walletConnect/screens/ActionRequestPayload'
+import DappsDisclaimer from 'src/walletConnect/screens/DappsDisclaimer'
 import RequestContent, { useDappMetadata } from 'src/walletConnect/screens/RequestContent'
+import { useIsDappListed } from 'src/walletConnect/screens/useIsDappListed'
 import {
   acceptRequest as acceptRequestV1,
   denyRequest as denyRequestV1,
@@ -47,6 +49,7 @@ function ActionRequestV1({ pendingAction }: PropsV1) {
   const { action, peerId } = pendingAction
   const activeSession = useSelector(selectSessionFromPeerId(peerId))
   const { url, dappName, dappImageUrl } = useDappMetadata(activeSession?.peerMeta)
+  const isDappListed = useIsDappListed(url)
 
   if (!activeSession) {
     // should never happen
@@ -75,6 +78,7 @@ function ActionRequestV1({ pendingAction }: PropsV1) {
       dappUrl={url}
     >
       <ActionRequestPayload walletConnectVersion={1} session={activeSession} request={action} />
+      <DappsDisclaimer isDappListed={isDappListed} />
     </RequestContent>
   )
 }

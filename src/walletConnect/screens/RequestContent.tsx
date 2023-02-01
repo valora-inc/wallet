@@ -5,17 +5,12 @@ import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
-import {
-  activeDappSelector,
-  dappConnectInfoSelector,
-  dappsMinimalDisclaimerEnabledSelector,
-} from 'src/dapps/selectors'
+import { activeDappSelector, dappConnectInfoSelector } from 'src/dapps/selectors'
 import { DappConnectInfo } from 'src/dapps/types'
 import Logo from 'src/icons/Logo'
 import { Colors } from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { getShadowStyle, Shadow, Spacing } from 'src/styles/styles'
-import { useIsDappListed } from 'src/walletConnect/screens/useIsDappListed'
 
 interface RequestDetail {
   label: string
@@ -91,9 +86,7 @@ function RequestContent({
   const { t } = useTranslation()
 
   const [isAccepting, setIsAccepting] = useState(false)
-  const dappsMinimalDisclaimerEnabled = useSelector(dappsMinimalDisclaimerEnabledSelector)
   const dappConnectInfo = useSelector(dappConnectInfoSelector)
-  const isDappListed = useIsDappListed(dappUrl)
 
   const isAcceptingRef = useRef(false)
 
@@ -115,8 +108,6 @@ function RequestContent({
       }
     }
   }, [])
-
-  const showDappNotListedDisclaimer = dappConnectInfo === DappConnectInfo.Basic && !isDappListed
 
   return (
     <>
@@ -169,16 +160,6 @@ function RequestContent({
         {children}
       </View>
 
-      {dappsMinimalDisclaimerEnabled ? (
-        <Text style={styles.dappNotListedDisclaimer}>
-          {showDappNotListedDisclaimer
-            ? t('dappsDisclaimerUnlistedDapp')
-            : t('dappsDisclaimerSingleDapp')}
-        </Text>
-      ) : showDappNotListedDisclaimer ? (
-        <Text style={styles.dappNotListedDisclaimer}>{t('dappNotListed')}</Text>
-      ) : null}
-
       <Button
         type={BtnTypes.PRIMARY}
         size={BtnSizes.FULL}
@@ -229,12 +210,6 @@ const styles = StyleSheet.create({
     ...fontStyles.small,
     lineHeight: 20,
     marginBottom: Spacing.Thick24,
-  },
-  dappNotListedDisclaimer: {
-    ...fontStyles.small,
-    color: Colors.gray5,
-    marginBottom: Spacing.Thick24,
-    textAlign: 'center',
   },
   placeholderLogoBackground: {
     backgroundColor: Colors.light,
