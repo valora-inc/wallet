@@ -187,10 +187,10 @@
   "startSuperchargingNotificationStart": "Inizia",
   "cashIn": "Aggiungi {{currency}}",
   "connectNumber": "Collega numero",
-  "connectToWallet": "{{dappName}} desidera collegarsi a {{appName}}",
-  "confirmTransaction": "{{dappName}} desidera confermare una transazione",
+  "connectToWallet": "Collegati a {{dappName}}",
+  "confirmTransaction": "Conferma la transazione",
   "allow": "Consenti",
-  "address": "Indirizzo del conto",
+  "address": "Indirizzo del portafoglio",
   "phoneNumber": "Numero telefonico",
   "transaction": {
     "operation": "Operazione",
@@ -198,7 +198,8 @@
     "signTX": "Transazione",
     "details": "Mostra dettagli"
   },
-  "shareInfo": "Questa app sarà in grado di accedere alle seguenti informazioni:",
+  "shareInfo": "Devi collegare il tuo portafoglio per approvare le transazioni in questa Dapp. Una volta collegato, avrà accesso al tuo indirizzo di portafoglio.",
+  "connectWalletInfoDappkit": "Devi collegare il tuo portafoglio per approvare le transazioni in questa Dapp. Una volta collegato, avrà accesso all'indirizzo del tuo portafoglio e al tuo numero di telefono.",
   "data": "Dati",
   "firebaseDisabled": "Firebase è disabilitato, le notifiche e l’upload dei log non funzioneranno.",
   "learnMore": "Scopri di più",
@@ -977,6 +978,16 @@
     "details": "Dati della transazione",
     "computeSharedSecret": "Genera segreti",
     "emptyMessage": "Messaggio vuoto"
+  },
+  "walletConnectRequest": {
+    "transactionDataLabel": "Transaction data",
+    "readAccount": "{{dappName}} would like to read your {{appName}} wallet address.",
+    "signPayload": "{{dappName}} would like to sign a data payload.",
+    "signTransaction": "{{dappName}} would like to sign a Celo transaction.",
+    "sendTransaction": "{{dappName}} would like to send a Celo transaction.",
+    "decryptPayload": "{{dappName}} would like to decrypt a data payload.",
+    "computeSharedSecret": "{{dappName}} would like to generate secrets.",
+    "transactionDataCopied": "Transaction data copied"
   },
   "sessionInfo": "Questa applicazione potrebbe richiedere di eseguire le seguenti azioni:",
   "description": {
