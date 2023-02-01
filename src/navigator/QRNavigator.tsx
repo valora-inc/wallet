@@ -243,7 +243,7 @@ export default function QRNavigator() {
             {...props}
             route={{
               ...props.route,
-              params: { ...props.route.params, qrCodeStyle, qrCodeDataType },
+              params: { qrCodeStyle, qrCodeDataType, ...props.route.params }, // if qrCodeStyle or qrCodeDataType are already given as params, uses those
             }}
             qrSvgRef={qrSvgRef}
           />
