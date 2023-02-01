@@ -1,20 +1,20 @@
 import { BottomSheetNavigationProp } from '@th3rdwave/react-navigation-bottom-sheet'
-import { useLayoutEffect, useState } from 'react'
+import { useLayoutEffect } from 'react'
 import { LayoutChangeEvent } from 'react-native'
+import { useSharedValue } from 'react-native-reanimated'
 import { StackParamList } from 'src/navigator/types'
 
 const useDynamicBottomSheetHeight = (navigation: BottomSheetNavigationProp<StackParamList>) => {
-  const [contentHeight, setContentHeight] = useState(1)
+  const animatedContentHeight = useSharedValue(1)
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      snapPoints: [contentHeight],
-      contentHeight: contentHeight,
+      snapPoints: [animatedContentHeight.value],
     })
-  }, [navigation, contentHeight])
+  }, [navigation, animatedContentHeight.value])
 
   const handleContentLayout = (event: LayoutChangeEvent) => {
-    setContentHeight(event.nativeEvent.layout.height)
+    animatedContentHeight.value = event.nativeEvent.layout.height
   }
 
   return {
