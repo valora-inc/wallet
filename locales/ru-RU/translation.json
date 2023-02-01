@@ -187,10 +187,10 @@
   "startSuperchargingNotificationStart": "Начать",
   "cashIn": "Внести {{currency}}",
   "connectNumber": "Подключить номер",
-  "connectToWallet": "{{dappName}} запрашивает подключение к {{appName}}",
-  "confirmTransaction": "{{dappName}} запрашивает подтвердить транзакцию",
+  "connectToWallet": "Подключись к {{dappName}}",
+  "confirmTransaction": "Подтвердите транзакцию",
   "allow": "Разрешить",
-  "address": "Адрес аккаунта",
+  "address": "Адрес кошелька",
   "phoneNumber": "Номер телефона",
   "transaction": {
     "operation": "Операция",
@@ -198,7 +198,8 @@
     "signTX": "Tранзакцию",
     "details": "Подробнее"
   },
-  "shareInfo": "Это приложение сможет получить доступ к следующей информации:",
+  "shareInfo": "Ты должен подключить свой кошелек для одобрения транзакций в этом Dapp. После подключения он получит доступ к адресу твоего кошелька.",
+  "connectWalletInfoDappkit": "Ты должен подключить свой кошелек для одобрения транзакций в этом Dapp. После подключения он получит доступ к адресу твоего кошелька и номеру телефона.",
   "data": "Данные",
   "firebaseDisabled": "Платформа Firebase отключена, поэтому не будут работать функции уведомлений и выгрузки журнала",
   "learnMore": "Подробнее",
@@ -981,6 +982,16 @@
     "details": "Просмотр данных о транзакциях",
     "computeSharedSecret": "Генерировать учетные данные",
     "emptyMessage": "Пустое сообщение"
+  },
+  "walletConnectRequest": {
+    "transactionDataLabel": "Transaction data",
+    "readAccount": "{{dappName}} would like to read your {{appName}} wallet address.",
+    "signPayload": "{{dappName}} would like to sign a data payload.",
+    "signTransaction": "{{dappName}} would like to sign a Celo transaction.",
+    "sendTransaction": "{{dappName}} would like to send a Celo transaction.",
+    "decryptPayload": "{{dappName}} would like to decrypt a data payload.",
+    "computeSharedSecret": "{{dappName}} would like to generate secrets.",
+    "transactionDataCopied": "Transaction data copied"
   },
   "sessionInfo": "Это приложение может запросить выполнение следующих действий:",
   "description": {
