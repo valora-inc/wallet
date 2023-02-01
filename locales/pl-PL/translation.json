@@ -187,10 +187,10 @@
   "startSuperchargingNotificationStart": "Otrzymuj nagrody",
   "cashIn": "Dodaj {{currency}}",
   "connectNumber": "Podłącz numer",
-  "connectToWallet": "{{dappName}} chce połączyć się z aplikacją {{appName}}",
-  "confirmTransaction": "{{dappName}} chce potwierdzić transakcję",
+  "connectToWallet": "Połącz się z {{dappName}}.",
+  "confirmTransaction": "Potwierdź transakcję",
   "allow": "Zezwól",
-  "address": "Adres konta",
+  "address": "Adres portfela",
   "phoneNumber": "Numer telefonu",
   "transaction": {
     "operation": "Operacja",
@@ -198,7 +198,8 @@
     "signTX": "Transakcję",
     "details": "Pokaż szczegóły"
   },
-  "shareInfo": "Ta aplikacja będzie miała dostęp do następujących informacji:",
+  "shareInfo": "Musisz podłączyć swój portfel, aby zatwierdzać transakcje w tym Dapp. Po połączeniu będzie miał dostęp do adresu Twojego portfela.",
+  "connectWalletInfoDappkit": "Musisz podłączyć swój portfel, aby zatwierdzać transakcje w tym Dapp. Po podłączeniu będzie miał dostęp do Twojego adresu portfela i numeru telefonu.",
   "data": "Dane",
   "firebaseDisabled": "Firebase jest wyłączony, powiadomienia i przesyłanie dzienników nie będą działać",
   "learnMore": "Dowiedz się więcej",
@@ -981,6 +982,16 @@
     "details": "Dane transakcji",
     "computeSharedSecret": "Wygeneruj tajne kody",
     "emptyMessage": "Pusta wiadomość"
+  },
+  "walletConnectRequest": {
+    "transactionDataLabel": "Transaction data",
+    "readAccount": "{{dappName}} would like to read your {{appName}} wallet address.",
+    "signPayload": "{{dappName}} would like to sign a data payload.",
+    "signTransaction": "{{dappName}} would like to sign a Celo transaction.",
+    "sendTransaction": "{{dappName}} would like to send a Celo transaction.",
+    "decryptPayload": "{{dappName}} would like to decrypt a data payload.",
+    "computeSharedSecret": "{{dappName}} would like to generate secrets.",
+    "transactionDataCopied": "Transaction data copied"
   },
   "sessionInfo": "Ta aplikacja może poprosić o wykonanie następujących operacji:",
   "description": {
