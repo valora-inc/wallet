@@ -22,7 +22,7 @@ import QRTabBar from 'src/qrcode/QRTabBar'
 import { handleBarcodeDetected, QrCode, SVG } from 'src/send/actions'
 import Logger from 'src/utils/Logger'
 import { ExtractProps } from 'src/utils/typescript'
-import { QRCodeDataType, QRCodeStyle, StatsigLayers } from 'src/statsig/types'
+import { QRCodeStyle, QRCodeDataType, StatsigLayers } from 'src/statsig/types'
 import { LayerParams } from 'src/statsig/constants'
 import { Statsig } from 'statsig-react-native'
 import { CiCoCurrency } from 'src/utils/currencies'
@@ -41,6 +41,8 @@ const initialLayout = { width }
 
 export type QRCodeProps = NativeStackScreenProps<QRTabParamList, Screens.QRCode> & {
   qrSvgRef: React.MutableRefObject<SVG>
+  qrCodeDataType: QRCodeDataType
+  qrCodeStyle: QRCodeStyle
 }
 
 type AnimatedScannerSceneProps = NativeStackScreenProps<QRTabParamList, Screens.QRScanner> & {
@@ -70,10 +72,13 @@ function getExperimentParams(): {
   }
 }
 
-export function QRCodePicker({ route, qrSvgRef, ...props }: QRCodeProps) {
-  const qrCodeStyle: QRCodeStyle = route.params?.qrCodeStyle ?? QRCodeStyle.Legacy
-  const qrCodeDataType: QRCodeDataType =
-    route.params?.qrCodeDataType ?? QRCodeDataType.ValoraDeepLink
+export function QRCodePicker({
+  route,
+  qrSvgRef,
+  qrCodeStyle,
+  qrCodeDataType,
+  ...props
+}: QRCodeProps) {
   const userLocation = useSelector(userLocationDataSelector)
   const asyncExchanges = useAsync(async () => {
     if (qrCodeStyle !== QRCodeStyle.New) {
@@ -241,10 +246,8 @@ export default function QRNavigator() {
         {(props) => (
           <QRCodePicker
             {...props}
-            route={{
-              ...props.route,
-              params: { ...props.route.params, qrCodeStyle, qrCodeDataType },
-            }}
+            qrCodeDataType={qrCodeDataType}
+            qrCodeStyle={qrCodeStyle}
             qrSvgRef={qrSvgRef}
           />
         )}
