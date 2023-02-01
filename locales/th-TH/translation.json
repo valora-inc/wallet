@@ -187,10 +187,10 @@
   "startSuperchargingNotificationStart": "รับรางวัล",
   "cashIn": "เพิ่ม {{currency}}",
   "connectNumber": "เชื่อมต่อหมายเลข",
-  "connectToWallet": "{{dappName}} ต้องการเชื่อมต่อกับ {{appName}}",
-  "confirmTransaction": "{{dappName}} ต้องการยืนยันธุรกรรม",
+  "connectToWallet": "Connect to {{dappName}}",
+  "confirmTransaction": "Confirm transaction",
   "allow": "อนุญาต",
-  "address": "ที่อยู่บัญชี",
+  "address": "Wallet address",
   "phoneNumber": "หมายเลขโทรศัพท์",
   "transaction": {
     "operation": "การดำเนินการ",
@@ -198,7 +198,8 @@
     "signTX": "ลงนามธุรกรรม",
     "details": "แสดงรายละเอียด"
   },
-  "shareInfo": "แอปพลิเคชั่นนี้จะสามารถเข้าถึงข้อมูลต่อไปนี้:",
+  "shareInfo": "You must connect your wallet to approve transactions in this Dapp. Once connected, it will have access to your wallet address.",
+  "connectWalletInfoDappkit": "You must connect your wallet to approve transactions in this Dapp. Once connected, it will have access to your wallet address and phone number.",
   "data": "ข้อมูล",
   "firebaseDisabled": "Firebase ถูกปิดใช้งาน การแจ้งเตือนและการอัปโหลดบันทึกจะไม่ทำงาน",
   "learnMore": "ดูข้อมูลเพิ่มเติม",
@@ -975,6 +976,16 @@
     "details": "ดูข้อมูลธุรกรรม",
     "computeSharedSecret": "สร้างคำลับ",
     "emptyMessage": "ข้อความว่างเปล่า"
+  },
+  "walletConnectRequest": {
+    "transactionDataLabel": "Transaction data",
+    "readAccount": "{{dappName}} would like to read your {{appName}} wallet address.",
+    "signPayload": "{{dappName}} would like to sign a data payload.",
+    "signTransaction": "{{dappName}} would like to sign a Celo transaction.",
+    "sendTransaction": "{{dappName}} would like to send a Celo transaction.",
+    "decryptPayload": "{{dappName}} would like to decrypt a data payload.",
+    "computeSharedSecret": "{{dappName}} would like to generate secrets.",
+    "transactionDataCopied": "Transaction data copied"
   },
   "sessionInfo": "แอปพลิเคชั่นนี้อาจขอดำเนินการดังต่อไปนี้:",
   "description": {
