@@ -89,6 +89,7 @@ function WebViewScreen({ route, navigation }: Props) {
           title={t('close')}
           onPress={navigateBack}
           titleStyle={{ color: colors.gray4, paddingHorizontal: 0 }}
+          testID="WebViewScreen/CloseButton"
         />
       ),
     })

@@ -50,7 +50,7 @@ const DappKitSignTxScreen = ({ route, navigation }: Props) => {
   const handleCopyRequestPayload = () => {
     Clipboard.setString(txs[0].txData)
     ValoraAnalytics.track(
-      DappKitEvents.dappkit_request_details,
+      DappKitEvents.dappkit_copy_request_details,
       getDefaultRequestTrackedProperties(dappKitRequest, activeDapp)
     )
     Toast.showWithGravity(

@@ -20,6 +20,7 @@ import i18n from 'src/i18n'
 import { isBottomSheetVisible, navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import Logger from 'src/utils/Logger'
+import { getDefaultSessionTrackedPropertiesV2 } from 'src/walletConnect/analytics'
 import { isSupportedAction, SupportedActions } from 'src/walletConnect/constants'
 import { handleRequest } from 'src/walletConnect/request'
 import { showWalletConnectionSuccessMessage } from 'src/walletConnect/saga'
@@ -60,45 +61,11 @@ const TAG = 'WalletConnect/saga'
 
 const GET_SESSION_TIMEOUT = 10_000
 
-const isSessionProposalType = (
-  session: SignClientTypes.EventArguments['session_proposal'] | SessionTypes.Struct
-): session is SignClientTypes.EventArguments['session_proposal'] => {
-  return 'params' in session
-}
-
 export function* getDefaultSessionTrackedProperties(
   session: SignClientTypes.EventArguments['session_proposal'] | SessionTypes.Struct
 ) {
   const activeDapp: ActiveDapp | null = yield select(activeDappSelector)
-  const peer = isSessionProposalType(session) ? session.params.proposer : session.peer
-  const { name: dappName, url: dappUrl, description: dappDescription, icons } = peer.metadata
-
-  const relayProtocol = isSessionProposalType(session)
-    ? session.params.relays[0]?.protocol
-    : session.relay.protocol
-
-  const requiredNamespaces = isSessionProposalType(session)
-    ? session.params.requiredNamespaces
-    : session.requiredNamespaces
-
-  return {
-    version: 2 as const,
-    dappRequestOrigin: getDappRequestOrigin(activeDapp),
-    dappName,
-    dappUrl,
-    dappDescription,
-    dappIcon: icons[0],
-    relayProtocol,
-    ...Object.keys(requiredNamespaces).reduce((acc, key) => {
-      const { chains, events, methods } = requiredNamespaces[key]
-      return {
-        ...acc,
-        [`${key}Events`]: events,
-        [`${key}Chains`]: chains,
-        [`${key}Methods`]: methods,
-      }
-    }, {}),
-  }
+  return getDefaultSessionTrackedPropertiesV2(session, activeDapp)
 }
 
 function getDefaultRequestTrackedProperties(
