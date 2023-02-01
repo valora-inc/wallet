@@ -238,12 +238,12 @@ export default function QRNavigator() {
       initialLayout={initialLayout}
     >
       <Tab.Screen name={Screens.QRCode} options={{ title: t('myCode') }}>
-        {(props) => (
+        {({ route, navigation }) => (
           <QRCodePicker
-            {...props}
+            navigation={navigation}
             route={{
-              ...props.route,
-              params: { qrCodeStyle, qrCodeDataType, ...props.route.params }, // if qrCodeStyle or qrCodeDataType are already given as params, uses those
+              ...route,
+              params: { qrCodeStyle, qrCodeDataType, ...route.params }, // if qrCodeStyle or qrCodeDataType are already given as params, uses those
             }}
             qrSvgRef={qrSvgRef}
           />
