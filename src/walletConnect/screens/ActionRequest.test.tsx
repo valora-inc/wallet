@@ -54,6 +54,9 @@ describe('ActionRequest with WalletConnect V1', () => {
         ],
       },
     },
+    dapps: {
+      dappsMinimalDisclaimerEnabled: true,
+    },
   })
 
   beforeEach(() => {
@@ -87,6 +90,7 @@ describe('ActionRequest with WalletConnect V1', () => {
           'Message to sign'
         )
       ).toBeTruthy()
+      expect(getByText('dappsDisclaimerUnlistedDapp')).toBeTruthy()
     })
 
     it('shows request details with raw string if message cannot be decoded', () => {
