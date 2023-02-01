@@ -1,6 +1,10 @@
 import * as React from 'react'
-import { getExperimentParams, QRCodePicker, QRCodeProps } from 'src/navigator/QRNavigator'
-import { render, waitFor } from '@testing-library/react-native'
+import QRNavigator, {
+  getExperimentParams,
+  QRCodePicker,
+  QRCodeProps,
+} from 'src/navigator/QRNavigator'
+import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import { fetchExchanges } from 'src/fiatExchanges/utils'
 import { Provider } from 'react-redux'
 import { QRCodeDataType, QRCodeStyle, StatsigLayers } from 'src/statsig/types'
@@ -9,6 +13,7 @@ import { mocked } from 'ts-jest/utils'
 import { mockExchanges } from 'test/values'
 import { CiCoCurrency } from 'src/utils/currencies'
 import { Statsig } from 'statsig-react-native'
+import MockedNavigator from 'test/MockedNavigator'
 
 jest.mock('react-native-permissions', () => jest.fn())
 
@@ -56,14 +61,14 @@ describe('QRNavigator', () => {
     Object.keys(overrides.configs).forEach((configName) => Statsig.removeConfigOverride(configName))
     Object.keys(overrides.layers).forEach((layerName) => Statsig.removeLayerOverrie(layerName)) // lol @ the typo, I (Charlie) submitted a PR to fix their SDK but it will take time to get a new version published
   })
-  describe('QRNavigator helper functions', () => {
-    const controlGroupParams = { qrCodeStyle: 'Legacy', qrCodeDataType: 'ValoraDeepLink' }
+  const qrLayerControlParams = { qrCodeStyle: 'Legacy', qrCodeDataType: 'ValoraDeepLink' }
+  const qrLayerTreatmentParams = { qrCodeStyle: 'New', qrCodeDataType: 'Address' }
+  describe('helper functions', () => {
     it('getExperimentParams', () => {
-      Statsig.overrideLayer(StatsigLayers.SEND_RECEIVE_QR_CODE, { ...controlGroupParams })
-      expect(getExperimentParams()).toEqual(controlGroupParams)
-      const treatmentParams = { qrCodeStyle: 'New', qrCodeDataType: 'Address' }
-      Statsig.overrideLayer(StatsigLayers.SEND_RECEIVE_QR_CODE, { ...treatmentParams })
-      expect(getExperimentParams()).toEqual(treatmentParams)
+      Statsig.overrideLayer(StatsigLayers.SEND_RECEIVE_QR_CODE, { ...qrLayerControlParams })
+      expect(getExperimentParams()).toEqual(qrLayerControlParams)
+      Statsig.overrideLayer(StatsigLayers.SEND_RECEIVE_QR_CODE, { ...qrLayerTreatmentParams })
+      expect(getExperimentParams()).toEqual(qrLayerTreatmentParams)
     })
   })
   describe('QRCodePicker', () => {
@@ -91,6 +96,39 @@ describe('QRNavigator', () => {
       )
       await waitFor(() => expect(fetchExchanges).not.toHaveBeenCalled())
       expect(queryByTestId('QRCode')).toBeTruthy()
+    })
+  })
+  describe('QRNavigator component', () => {
+    it('renders tabs for scan and my code', () => {
+      const { queryByText } = render(
+        <Provider store={mockStore}>
+          <MockedNavigator component={QRNavigator} />
+        </Provider>
+      )
+      expect(queryByText('myCode')).toBeTruthy()
+      expect(queryByText('scanCode')).toBeTruthy()
+    })
+    it('integration test: user in control group gets old style', async () => {
+      Statsig.overrideLayer(StatsigLayers.SEND_RECEIVE_QR_CODE, { ...qrLayerControlParams })
+      const { getByText, queryByTestId } = render(
+        <Provider store={mockStore}>
+          <MockedNavigator component={QRNavigator} />
+        </Provider>
+      )
+      await fireEvent.press(getByText('myCode'))
+      expect(queryByTestId('QRCode')).toBeTruthy()
+      expect(queryByTestId('newQRCode')).toBeFalsy()
+    })
+    it('integration test: user in treatment group gets new style', async () => {
+      Statsig.overrideLayer(StatsigLayers.SEND_RECEIVE_QR_CODE, { ...qrLayerTreatmentParams })
+      const { getByText, queryByTestId } = render(
+        <Provider store={mockStore}>
+          <MockedNavigator component={QRNavigator} />
+        </Provider>
+      )
+      await fireEvent.press(getByText('myCode'))
+      expect(queryByTestId('newQRCode')).toBeTruthy()
+      expect(queryByTestId('QRCode')).toBeFalsy()
     })
   })
 })

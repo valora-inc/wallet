@@ -116,6 +116,7 @@ export function QRCodePicker({ route, qrSvgRef, ...props }: QRCodeProps) {
         onPressCopy={onPressCopy}
         onPressInfo={onPressInfo}
         onPressExchange={onPressExchange}
+        testID={'newQRCode'}
       />
     )
   }
