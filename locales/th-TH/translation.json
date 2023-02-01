@@ -1227,6 +1227,11 @@
     "message": "คุณกำลังจะเปิดแอปพลิเคเชั่นที่ไม่ได้ดำเนินการโดย Valora\n\nValora ไม่รับรองใดๆ เกี่ยวกับแอปพลิเคชั่นนี้ คุณเป็นผู้รับความเสี่ยงจากการใช้งานนี้เอง",
     "button": "ไปที่ {{dappName}}"
   },
+  "dappsScreenInfoSheet": {
+    "title": "What is a dapp?",
+    "description": "A dapp (or decentralized application) is an app that is built and run on top of a blockchain network. This means that no single company or organization manages or stores your data.\n\nDapps vary by the services they offer. Examples of these services include decentralized exchanges, lending, borrowing, swapping, storing NFTs.",
+    "buttonLabel": "Tell me more"
+  },
   "dappsDisclaimerAllDapps": "{{appName}} is not affiliated with these dapps and makes no representations or claims in using them. Please acknowledge the risk before using a dapp by reviewing the user agreement or privacy policy.",
   "recentlyUsedDapps": "Dapp ที่ใช้ล่าสุด",
   "favoritedDapps": "Favorited Dapps",

@@ -1229,6 +1229,11 @@
     "message": "Du bist dabei, eine Anwendung zu öffnen, die nicht von Valora betrieben wird.\n\nValora gibt keine Zusicherungen zu dieser Anwendung ab. Die Nutzung erfolgt auf eigene Gefahr.",
     "button": "Gehe zu {{dappName}}"
   },
+  "dappsScreenInfoSheet": {
+    "title": "Was ist eine Dapp?",
+    "description": "Eine Dapp (oder dezentrale Anwendung) ist eine Anwendung, die auf einem Blockchain-Netzwerk aufgebaut ist und betrieben wird. Das bedeutet, dass keine einzelne Firma oder Organisation deine Daten verwaltet oder speichert.\n\nDapps unterscheiden sich durch die Dienste, die sie anbieten. Beispiele für diese Dienste sind dezentrale Börsen, Leihen, Borgen, Tauschen und das Speichern von NFTs.",
+    "buttonLabel": "Erzähl mir mehr"
+  },
   "dappsDisclaimerAllDapps": "{{appName}} ist nicht mit diesen Apps verbunden und macht keine Zusicherungen oder Ansprüche bei der Nutzung dieser Apps. Bitte erkenne das Risiko, bevor du eine App nutzt, indem du die Benutzervereinbarung oder die Datenschutzrichtlinie liest.",
   "recentlyUsedDapps": "Kürzlich verwendete Dapps",
   "favoritedDapps": "Bevorzugte Dapps",
