@@ -187,10 +187,10 @@
   "startSuperchargingNotificationStart": "Get rewards",
   "cashIn": "Add {{currency}}",
   "connectNumber": "Connect Number",
-  "connectToWallet": "{{dappName}} would like to connect to {{appName}}",
-  "confirmTransaction": "{{dappName}} would like to confirm a transaction",
+  "connectToWallet": "Connect to {{dappName}}",
+  "confirmTransaction": "Confirm transaction",
   "allow": "Allow",
-  "address": "Account Address",
+  "address": "Wallet address",
   "phoneNumber": "Phone Number",
   "transaction": {
     "operation": "Operation",
@@ -198,7 +198,8 @@
     "signTX": "Sign transaction",
     "details": "Show details"
   },
-  "shareInfo": "This application will be able to access the following information:",
+  "shareInfo": "You must connect your wallet to approve transactions in this Dapp. Once connected, it will have access to your wallet address.",
+  "connectWalletInfoDappkit": "You must connect your wallet to approve transactions in this Dapp. Once connected, it will have access to your wallet address and phone number.",
   "data": "Data",
   "firebaseDisabled": "Firebase is disabled, notification and log uploading wont work",
   "learnMore": "Learn More",
@@ -979,6 +980,16 @@
     "details": "View transaction data",
     "computeSharedSecret": "Generate Secrets",
     "emptyMessage": "Empty message"
+  },
+  "walletConnectRequest": {
+    "transactionDataLabel": "Transaction data",
+    "readAccount": "{{dappName}} would like to read your {{appName}} wallet address.",
+    "signPayload": "{{dappName}} would like to sign a data payload.",
+    "signTransaction": "{{dappName}} would like to sign a Celo transaction.",
+    "sendTransaction": "{{dappName}} would like to send a Celo transaction.",
+    "decryptPayload": "{{dappName}} would like to decrypt a data payload.",
+    "computeSharedSecret": "{{dappName}} would like to generate secrets.",
+    "transactionDataCopied": "Transaction data copied"
   },
   "sessionInfo": "This application may ask to perform the following actions:",
   "description": {

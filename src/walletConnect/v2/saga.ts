@@ -20,6 +20,10 @@ import i18n from 'src/i18n'
 import { isBottomSheetVisible, navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import Logger from 'src/utils/Logger'
+import {
+  getDefaultRequestTrackedPropertiesV2,
+  getDefaultSessionTrackedPropertiesV2,
+} from 'src/walletConnect/analytics'
 import { isSupportedAction, SupportedActions } from 'src/walletConnect/constants'
 import { handleRequest } from 'src/walletConnect/request'
 import { showWalletConnectionSuccessMessage } from 'src/walletConnect/saga'
@@ -60,57 +64,11 @@ const TAG = 'WalletConnect/saga'
 
 const GET_SESSION_TIMEOUT = 10_000
 
-const isSessionProposalType = (
-  session: SignClientTypes.EventArguments['session_proposal'] | SessionTypes.Struct
-): session is SignClientTypes.EventArguments['session_proposal'] => {
-  return 'params' in session
-}
-
 export function* getDefaultSessionTrackedProperties(
   session: SignClientTypes.EventArguments['session_proposal'] | SessionTypes.Struct
 ) {
   const activeDapp: ActiveDapp | null = yield select(activeDappSelector)
-  const peer = isSessionProposalType(session) ? session.params.proposer : session.peer
-  const { name: dappName, url: dappUrl, description: dappDescription, icons } = peer.metadata
-
-  const relayProtocol = isSessionProposalType(session)
-    ? session.params.relays[0]?.protocol
-    : session.relay.protocol
-
-  const requiredNamespaces = isSessionProposalType(session)
-    ? session.params.requiredNamespaces
-    : session.requiredNamespaces
-
-  return {
-    version: 2 as const,
-    dappRequestOrigin: getDappRequestOrigin(activeDapp),
-    dappName,
-    dappUrl,
-    dappDescription,
-    dappIcon: icons[0],
-    relayProtocol,
-    ...Object.keys(requiredNamespaces).reduce((acc, key) => {
-      const { chains, events, methods } = requiredNamespaces[key]
-      return {
-        ...acc,
-        [`${key}Events`]: events,
-        [`${key}Chains`]: chains,
-        [`${key}Methods`]: methods,
-      }
-    }, {}),
-  }
-}
-
-function getDefaultRequestTrackedProperties(
-  request: SignClientTypes.EventArguments['session_request']
-) {
-  const { id, params } = request
-  return {
-    requestChainId: params.chainId,
-    requestId: id,
-    requestJsonrpc: params.request.params.toString(),
-    requestMethod: params.request.method,
-  }
+  return getDefaultSessionTrackedPropertiesV2(session, activeDapp)
 }
 
 function* handleInitialiseWalletConnect() {
@@ -285,7 +243,7 @@ function* showActionRequest(request: SignClientTypes.EventArguments['session_req
   )
   ValoraAnalytics.track(WalletConnectEvents.wc_request_propose, {
     ...defaultSessionTrackedProperties,
-    ...getDefaultRequestTrackedProperties(request),
+    ...getDefaultRequestTrackedPropertiesV2(request),
   })
 
   const activeSession = client.session.values.find((value) => value.topic === request.topic)
@@ -430,7 +388,7 @@ function* handleAcceptRequest({ request }: AcceptRequest) {
   )
   const defaultTrackedProperties = {
     ...defaultSessionTrackedProperties,
-    ...getDefaultRequestTrackedProperties(request),
+    ...getDefaultRequestTrackedPropertiesV2(request),
   }
 
   try {
@@ -474,7 +432,7 @@ function* handleDenyRequest({ request, reason }: DenyRequest) {
   )
   const defaultTrackedProperties = {
     ...defaultSessionTrackedProperties,
-    ...getDefaultRequestTrackedProperties(request),
+    ...getDefaultRequestTrackedPropertiesV2(request),
     denyReason: reason.message,
   }
 

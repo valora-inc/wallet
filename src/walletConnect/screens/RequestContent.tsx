@@ -3,17 +3,20 @@ import { CoreTypes } from '@walletconnect/types'
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
-import { ScrollView } from 'react-native-gesture-handler'
 import { useSelector } from 'react-redux'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { activeDappSelector, dappConnectInfoSelector } from 'src/dapps/selectors'
 import { DappConnectInfo } from 'src/dapps/types'
 import Logo from 'src/icons/Logo'
-import colors, { Colors } from 'src/styles/colors'
+import { Colors } from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
-import { Spacing } from 'src/styles/styles'
-import RequestContentRow, { RequestDetail } from 'src/walletConnect/screens/RequestContentRow'
+import { getShadowStyle, Shadow, Spacing } from 'src/styles/styles'
 import { useIsDappListed } from 'src/walletConnect/screens/useIsDappListed'
+
+interface RequestDetail {
+  label: string
+  value: string
+}
 
 interface Props {
   onAccept(): void
@@ -28,7 +31,7 @@ interface Props {
   children?: React.ReactNode
 }
 
-const DAPP_IMAGE_SIZE = 60
+const DAPP_IMAGE_SIZE = 40
 
 export const useDappMetadata = (metadata?: IClientMeta | CoreTypes.Metadata | null) => {
   const activeDapp = useSelector(activeDappSelector)
@@ -84,32 +87,25 @@ function RequestContent({
   const { t } = useTranslation()
 
   const [isAccepting, setIsAccepting] = useState(false)
-  const [isDenying, setIsDenying] = useState(false)
   const dappConnectInfo = useSelector(dappConnectInfoSelector)
   const isDappListed = useIsDappListed(dappUrl)
 
-  const isLoading = useRef<boolean>()
+  const isAcceptingRef = useRef(false)
 
   const handleAccept = () => {
     setIsAccepting(true)
   }
 
-  const handleDeny = () => {
-    setIsDenying(true)
-  }
-
   useEffect(() => {
-    isLoading.current = isAccepting || isDenying
+    isAcceptingRef.current = isAccepting
     if (isAccepting) {
       onAccept()
-    } else if (isDenying) {
-      onDeny()
     }
-  }, [isAccepting, isDenying])
+  }, [isAccepting])
 
   useEffect(() => {
     return () => {
-      if (!isLoading.current) {
+      if (!isAcceptingRef.current) {
         onDeny()
       }
     }
@@ -117,21 +113,25 @@ function RequestContent({
 
   return (
     <>
-      <ScrollView>
+      <View style={styles.container}>
         {(dappImageUrl || dappConnectInfo === DappConnectInfo.Basic) && (
           <View style={styles.logoContainer}>
-            <View style={styles.logoBackground}>
-              <Logo />
-            </View>
-            {dappImageUrl ? (
-              <Image style={styles.dappImage} source={{ uri: dappImageUrl }} resizeMode="cover" />
-            ) : (
-              <View style={[styles.logoBackground, styles.placeholderLogoBackground]}>
-                <Text allowFontScaling={false} style={styles.placeholderLogoText}>
-                  {dappName.charAt(0).toUpperCase()}
-                </Text>
+            <View style={styles.logoShadow}>
+              <View style={styles.logoBackground}>
+                <Logo height={24} />
               </View>
-            )}
+            </View>
+            <View style={styles.logoShadow}>
+              {dappImageUrl ? (
+                <Image style={styles.dappImage} source={{ uri: dappImageUrl }} resizeMode="cover" />
+              ) : (
+                <View style={[styles.logoBackground, styles.placeholderLogoBackground]}>
+                  <Text allowFontScaling={false} style={styles.placeholderLogoText}>
+                    {dappName.charAt(0).toUpperCase()}
+                  </Text>
+                </View>
+              )}
+            </View>
           </View>
         )}
         <Text style={styles.header} testID={`${testId}Header`}>
@@ -140,61 +140,62 @@ function RequestContent({
         {description && <Text style={styles.description}>{description}</Text>}
 
         {requestDetails && (
-          <View style={styles.detailsContainer}>
-            {requestDetails.map(({ label, value, tapToCopy }) =>
+          <View style={styles.requestDetailsContainer}>
+            {requestDetails.map(({ label, value }, index) =>
               value ? (
-                <RequestContentRow key={label} label={label} value={value} tapToCopy={tapToCopy} />
+                <React.Fragment key={label}>
+                  <Text
+                    style={[
+                      styles.requestDetailLabel,
+                      index > 0 ? { marginTop: Spacing.Regular16 } : undefined,
+                    ]}
+                  >
+                    {label}
+                  </Text>
+                  <Text style={styles.requestDetailValue}>{value}</Text>
+                </React.Fragment>
               ) : null
             )}
           </View>
         )}
 
         {children}
-
-        {dappConnectInfo === DappConnectInfo.Basic && !isDappListed && (
-          <Text style={styles.description}>{t('dappNotListed')}</Text>
-        )}
-      </ScrollView>
-
-      <View
-        style={styles.buttonContainer}
-        pointerEvents={isAccepting || isDenying ? 'none' : undefined}
-      >
-        <Button
-          style={styles.buttonWithSpace}
-          type={BtnTypes.SECONDARY}
-          size={BtnSizes.MEDIUM}
-          text={t('cancel')}
-          showLoading={isDenying}
-          onPress={handleDeny}
-          testID={`${testId}/Cancel`}
-        />
-        <Button
-          type={BtnTypes.PRIMARY}
-          size={BtnSizes.MEDIUM}
-          text={t('allow')}
-          showLoading={isAccepting}
-          onPress={handleAccept}
-          testID={`${testId}/Allow`}
-        />
       </View>
+
+      {dappConnectInfo === DappConnectInfo.Basic && !isDappListed && (
+        <Text style={styles.dappNotListedDisclaimer}>{t('dappNotListed')}</Text>
+      )}
+
+      <Button
+        type={BtnTypes.PRIMARY}
+        size={BtnSizes.FULL}
+        text={t('allow')}
+        showLoading={isAccepting}
+        disabled={isAccepting}
+        onPress={handleAccept}
+        testID={`${testId}/Allow`}
+      />
     </>
   )
 }
 
 const styles = StyleSheet.create({
-  logoContainer: {
-    justifyContent: 'center',
-    flexDirection: 'row-reverse',
+  container: {
+    flex: 1,
   },
-  detailsContainer: {
-    paddingVertical: Spacing.Regular16,
+  logoContainer: {
+    flexDirection: 'row',
+  },
+  requestDetailsContainer: {
+    marginBottom: Spacing.Thick24,
   },
   header: {
     ...fontStyles.h2,
-    textAlign: 'center',
-    paddingTop: Spacing.Thick24,
-    paddingBottom: Spacing.Regular16,
+    paddingVertical: Spacing.Regular16,
+  },
+  logoShadow: {
+    ...getShadowStyle(Shadow.SoftLight),
+    borderRadius: 100,
   },
   logoBackground: {
     justifyContent: 'center',
@@ -202,30 +203,24 @@ const styles = StyleSheet.create({
     height: DAPP_IMAGE_SIZE,
     width: DAPP_IMAGE_SIZE,
     borderRadius: 100,
-    backgroundColor: Colors.gray1,
+    backgroundColor: Colors.light,
   },
   dappImage: {
     height: DAPP_IMAGE_SIZE,
     width: DAPP_IMAGE_SIZE,
     borderRadius: 100,
-    borderWidth: 1,
-    borderColor: Colors.gray1,
-    marginRight: -Spacing.Small12,
     backgroundColor: Colors.light,
+    marginLeft: -4,
   },
   description: {
     ...fontStyles.small,
-    color: colors.gray4,
+    lineHeight: 20,
+    marginBottom: Spacing.Thick24,
   },
-  buttonWithSpace: {
-    marginRight: Spacing.Small12,
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: Spacing.Regular16,
-    paddingVertical: Spacing.Small12,
+  dappNotListedDisclaimer: {
+    ...fontStyles.small,
+    color: Colors.gray5,
+    marginBottom: Spacing.Thick24,
   },
   placeholderLogoBackground: {
     backgroundColor: Colors.light,
@@ -237,6 +232,14 @@ const styles = StyleSheet.create({
     ...fontStyles.h1,
     lineHeight: undefined,
     color: Colors.gray4,
+  },
+  requestDetailLabel: {
+    ...fontStyles.small,
+    color: Colors.gray5,
+    marginBottom: 4,
+  },
+  requestDetailValue: {
+    ...fontStyles.small600,
   },
 })
 

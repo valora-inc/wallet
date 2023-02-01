@@ -1070,6 +1070,8 @@ interface WalletConnectProperties {
   [WalletConnectEvents.wc_request_deny_error]: WalletConnectRequestDenyProperties & {
     error: string
   }
+
+  [WalletConnectEvents.wc_copy_request_payload]: WalletConnectRequestDefaultProperties
 }
 
 interface DappKitRequestDefaultProperties {
@@ -1089,7 +1091,7 @@ interface DappKitProperties {
   }
   [DappKitEvents.dappkit_request_propose]: DappKitRequestDefaultProperties
   [DappKitEvents.dappkit_request_cancel]: DappKitRequestDefaultProperties
-  [DappKitEvents.dappkit_request_details]: DappKitRequestDefaultProperties
+  [DappKitEvents.dappkit_copy_request_details]: DappKitRequestDefaultProperties
   [DappKitEvents.dappkit_request_accept_start]: DappKitRequestDefaultProperties
   [DappKitEvents.dappkit_request_accept_success]: DappKitRequestDefaultProperties
   [DappKitEvents.dappkit_request_accept_error]: DappKitRequestDefaultProperties & {

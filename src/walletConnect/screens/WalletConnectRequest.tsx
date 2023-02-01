@@ -1,7 +1,8 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, StyleSheet, Text } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -19,10 +20,14 @@ function WalletConnectRequest({ route: { params } }: Props) {
   const { t } = useTranslation()
 
   return (
-    <View
+    <SafeAreaView
+      edges={['bottom']}
       style={[
         styles.container,
-        params.type === WalletConnectRequestType.Loading ? { justifyContent: 'center' } : undefined,
+        params.type === WalletConnectRequestType.Loading ||
+        params.type === WalletConnectRequestType.TimeOut
+          ? { justifyContent: 'center', alignItems: 'center' }
+          : undefined,
       ]}
     >
       {params.type === WalletConnectRequestType.Loading && (
@@ -41,15 +46,15 @@ function WalletConnectRequest({ route: { params } }: Props) {
       {params.type === WalletConnectRequestType.Action && <ActionRequest {...params} />}
 
       {params.type === WalletConnectRequestType.TimeOut && <ConnectionTimedOut />}
-    </View>
+    </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
     padding: Spacing.Thick24,
+    paddingBottom: 0, // SafeAreaView already adds enough space here
     flex: 1,
-    alignItems: 'center',
   },
   connecting: {
     ...fontStyles.label,
