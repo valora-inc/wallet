@@ -984,14 +984,14 @@
     "emptyMessage": "Пустое сообщение"
   },
   "walletConnectRequest": {
-    "transactionDataLabel": "Transaction data",
-    "readAccount": "{{dappName}} would like to read your {{appName}} wallet address.",
-    "signPayload": "{{dappName}} would like to sign a data payload.",
-    "signTransaction": "{{dappName}} would like to sign a Celo transaction.",
-    "sendTransaction": "{{dappName}} would like to send a Celo transaction.",
-    "decryptPayload": "{{dappName}} would like to decrypt a data payload.",
-    "computeSharedSecret": "{{dappName}} would like to generate secrets.",
-    "transactionDataCopied": "Transaction data copied"
+    "transactionDataLabel": "Данные о транзакциях",
+    "readAccount": "{{dappName}} хотел бы прочитать адрес твоего кошелька {{appName}} .",
+    "signPayload": "{{dappName}} хотел бы подписать полезную нагрузку в виде данных.",
+    "signTransaction": "{{dappName}} хотел бы подписать сделку с Celo.",
+    "sendTransaction": "{{dappName}} хотел бы отправить транзакцию Celo.",
+    "decryptPayload": "{{dappName}} хотел бы расшифровать полезную нагрузку в виде данных.",
+    "computeSharedSecret": "{{dappName}} хотел бы генерировать секреты.",
+    "transactionDataCopied": "Копирование данных транзакции"
   },
   "sessionInfo": "Это приложение может запросить выполнение следующих действий:",
   "description": {
