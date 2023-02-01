@@ -264,6 +264,14 @@ export enum SendEvents {
   check_account_alerts_continue = 'check_account_alerts_continue',
 }
 
+export enum QrScreenEvents {
+  // Events for the QR screen redesign
+  qr_screen_bottom_sheet_open = 'qr_screen_bottom_sheet_open',
+  qr_screen_bottom_sheet_close = 'qr_screen_bottom_sheet_close',
+  qr_screen_bottom_sheet_link_press = 'qr_screen_bottom_sheet_link_press',
+  qr_screen_copy_address = 'qr_screen_copy_address',
+}
+
 export enum RequestEvents {
   request_scan = 'request_scan', // when scan QR icon is selected from the request screen
   request_select_recipient = 'request_select_recipient', // when recipient was selected
