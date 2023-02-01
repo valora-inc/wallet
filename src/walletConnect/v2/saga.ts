@@ -419,6 +419,7 @@ function* handleAcceptRequest({ request }: AcceptRequest) {
       ...defaultTrackedProperties,
       error: e.message,
     })
+    yield put(denyRequest(request, getSdkError('USER_REJECTED')))
   }
 
   yield call(handlePendingStateOrNavigateBack)

@@ -207,7 +207,7 @@ function* acceptRequest(r: AcceptRequest) {
     SentryTransactionHub.finishTransaction(SentryTransaction.wallet_connect_transaction)
   } catch (e) {
     Logger.debug(TAG + '@acceptRequest', e.message)
-    connector?.rejectRequest({ id, jsonrpc, error: e.message })
+    yield put(denyRequestAction(peerId, request, e.message))
     ValoraAnalytics.track(WalletConnectEvents.wc_request_accept_error, {
       ...defaultTrackedProperties,
       error: e.message,
