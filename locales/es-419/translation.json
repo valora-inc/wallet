@@ -187,10 +187,10 @@
   "startSuperchargingNotificationStart": "Primeros pasos",
   "cashIn": "Agregar {{currency}}",
   "connectNumber": "Conecta tu número",
-  "connectToWallet": "{{dappName}} desea conectarse a {{appName}}",
-  "confirmTransaction": "{{dappName}} desea confirmar una transacción",
+  "connectToWallet": "Conéctate a {{dappName}}",
+  "confirmTransaction": "Confirmar transacción",
   "allow": "Permitir",
-  "address": "Dirección de cuenta",
+  "address": "Dirección de la cartera",
   "phoneNumber": "Número de teléfono",
   "transaction": {
     "operation": "Operación",
@@ -198,7 +198,8 @@
     "signTX": "Transacción",
     "details": "Detalles"
   },
-  "shareInfo": "Esta aplicación podrá acceder a la siguiente información:",
+  "shareInfo": "Debes conectar tu monedero para aprobar transacciones en esta Dapp. Una vez conectada, tendrá acceso a la dirección de tu monedero.",
+  "connectWalletInfoDappkit": "Debes conectar tu monedero para aprobar transacciones en esta Dapp. Una vez conectada, tendrá acceso a la dirección de tu monedero y a tu número de teléfono.",
   "data": "Datos",
   "firebaseDisabled": "FireBase está desactivado, la carga de notificaciones y registros no funcionará.",
   "learnMore": "Más información",
@@ -977,6 +978,16 @@
     "details": "Datos de la transacción",
     "computeSharedSecret": "Generar secretos",
     "emptyMessage": "Mensaje vacío"
+  },
+  "walletConnectRequest": {
+    "transactionDataLabel": "Transaction data",
+    "readAccount": "{{dappName}} would like to read your {{appName}} wallet address.",
+    "signPayload": "{{dappName}} would like to sign a data payload.",
+    "signTransaction": "{{dappName}} would like to sign a Celo transaction.",
+    "sendTransaction": "{{dappName}} would like to send a Celo transaction.",
+    "decryptPayload": "{{dappName}} would like to decrypt a data payload.",
+    "computeSharedSecret": "{{dappName}} would like to generate secrets.",
+    "transactionDataCopied": "Transaction data copied"
   },
   "sessionInfo": "Esta aplicación puede solicitar realizar las siguientes acciones:",
   "description": {
