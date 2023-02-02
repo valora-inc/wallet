@@ -1244,6 +1244,8 @@
     "buttonLabel": "Tell me more"
   },
   "dappsDisclaimerAllDapps": "{{appName}} is not affiliated with these dapps and makes no representations or claims in using them. Please acknowledge the risk before using a dapp by reviewing the user agreement or privacy policy.",
+  "dappsDisclaimerSingleDapp": "{{appName}} is not affiliated with this dapp and makes no representations in using it. Always review a dapp's user agreement or privacy policy.",
+  "dappsDisclaimerUnlistedDapp": "This dapp is not listed in {{appName}}. {{appName}} is not affiliated with this dapp and makes no representations in using it. Always review a dapp's user agreement or privacy policy.",
   "recentlyUsedDapps": "Các Dapp được sử dụng gần đây",
   "favoritedDapps": "Favorited Dapps",
   "allDapps": "Tất cả các Dapp",
