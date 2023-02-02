@@ -3,12 +3,12 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import BottomSheet from 'src/components/BottomSheet'
 import Touchable from 'src/components/Touchable'
-import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
-import { Spacing } from 'src/styles/styles'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
 
 interface Props {
   isVisible: boolean
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.Smallest8,
   },
   info: {
-    color: colors.gray4,
+    color: colors.gray600,
     marginBottom: Spacing.Smallest8,
   },
   exchangeText: {

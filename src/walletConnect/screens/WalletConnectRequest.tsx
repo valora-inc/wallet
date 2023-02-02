@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
   },
   connecting: {
     ...fontStyles.label,
-    color: colors.gray4,
+    color: colors.gray600,
     marginTop: 20,
   },
 })

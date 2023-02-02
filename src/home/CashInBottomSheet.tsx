@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
   subtitle: {
     ...fontStyles.regular,
     textAlign: 'center',
-    color: colors.gray5,
+    color: colors.gray700,
     paddingHorizontal: 36,
   },
   addFundBtn: {

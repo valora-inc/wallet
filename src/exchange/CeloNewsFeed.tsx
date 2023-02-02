@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
   },
   headerDescription: {
     ...fontStyles.small,
-    color: colors.gray5,
+    color: colors.gray700,
     marginTop: Spacing.Smallest8,
   },
   readMoreButton: {

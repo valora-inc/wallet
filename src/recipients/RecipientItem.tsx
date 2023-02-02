@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
   name: { ...fontStyles.regular500, color: colors.dark },
   phone: {
     ...fontStyles.small,
-    color: colors.gray4,
+    color: colors.gray600,
   },
   rightIconContainer: {
     justifyContent: 'center',

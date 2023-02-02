@@ -54,7 +54,7 @@ function ExchangeTradeScreenHeader({ currency, isCeloPurchase, onChangeCurrency 
           <Text style={headerStyles.headerSubTitle} allowFontScaling={false}>
             {titleText}
           </Text>
-          <DownArrowIcon color={colors.gray3} height={16} />
+          <DownArrowIcon color={colors.gray500} height={16} />
         </View>
       )
     }

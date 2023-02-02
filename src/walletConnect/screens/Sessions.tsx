@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
   },
   disconnectButton: {
     ...fontStyles.small,
-    color: colors.gray4,
+    color: colors.gray600,
   },
 })
 

@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
   },
   sectionLabel: {
     ...fontStyles.label,
-    color: colors.gray3,
+    color: colors.gray500,
     marginBottom: 4,
   },
   userContainer: {
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
   },
   phoneNumber: {
     ...fontStyles.small,
-    color: colors.gray4,
+    color: colors.gray600,
   },
   avatarContainer: {
     flex: 1,
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
   },
   addressHasChanged: {
     ...fontStyles.small,
-    color: colors.gray5,
+    color: colors.gray700,
     marginBottom: 8,
   },
   accountBox: {
@@ -128,6 +128,6 @@ const styles = StyleSheet.create({
   },
   accountLabel: {
     ...fontStyles.label,
-    color: colors.gray5,
+    color: colors.gray700,
   },
 })

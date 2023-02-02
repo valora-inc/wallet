@@ -325,12 +325,12 @@ const styles = StyleSheet.create({
   },
   expandedInfo: {
     ...fontStyles.small,
-    color: colors.gray4,
+    color: colors.gray600,
     marginTop: 2,
   },
   topInfo: {
     ...fontStyles.small,
-    color: colors.gray4,
+    color: colors.gray600,
     marginTop: 4,
   },
   expandedFee: {

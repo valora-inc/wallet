@@ -114,7 +114,7 @@ function SupportContact({ route }: Props) {
           value={message}
           multiline={true}
           style={styles.messageTextInput}
-          placeholderTextColor={colors.gray4}
+          placeholderTextColor={colors.gray600}
           underlineColorAndroid="transparent"
           numberOfLines={10}
           placeholder={t('contactMessagePlaceholder')}
@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
   },
   disclaimerText: {
     ...fontStyles.small,
-    color: colors.gray4,
+    color: colors.gray600,
   },
   container: {
     flex: 1,

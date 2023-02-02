@@ -8,9 +8,9 @@ import Button from 'src/components/Button'
 import ExchangesBottomSheet from 'src/components/ExchangesBottomSheet'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import Paste from 'src/icons/Paste'
-import { QRCodeDataType } from 'src/statsig/types'
 import StyledQRCode from 'src/qrcode/StyledQRCode'
 import { SVG } from 'src/send/actions'
+import { QRCodeDataType } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
@@ -127,13 +127,13 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   address: {
-    color: colors.gray5,
+    color: colors.gray700,
     marginHorizontal: variables.width / 4,
     marginBottom: 8,
     textAlign: 'center',
   },
   exchangeText: {
-    color: colors.gray5,
+    color: colors.gray700,
     marginHorizontal: 20,
     textAlign: 'center',
   },

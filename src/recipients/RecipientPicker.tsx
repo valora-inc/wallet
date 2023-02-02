@@ -1,5 +1,5 @@
-import { Address, isValidAddress } from '@celo/utils/lib/address'
 import { parsePhoneNumber } from '@celo/phone-utils'
+import { Address, isValidAddress } from '@celo/utils/lib/address'
 import {
   NameResolution,
   ResolutionKind,
@@ -309,7 +309,7 @@ const styles = StyleSheet.create({
   separator: {},
   emptyStateBody: {
     ...fontStyles.regular,
-    color: colors.gray3,
+    color: colors.gray500,
     textAlign: 'center',
     marginTop: 12,
   },

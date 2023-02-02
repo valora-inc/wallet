@@ -298,7 +298,7 @@ function FormField({
             style={styles.infoIcon}
             hitSlop={variables.iconHitslop}
           >
-            <InfoIcon size={18} color={colors.gray3} />
+            <InfoIcon size={18} color={colors.gray500} />
           </TouchableOpacity>
         )}
       </View>
@@ -410,7 +410,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   cancelBtn: {
-    color: colors.gray4,
+    color: colors.gray600,
   },
   headerSubTitleContainer: {
     flexDirection: 'row',

@@ -257,12 +257,12 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     ...fontStyles.label,
-    color: colors.gray4,
+    color: colors.gray600,
     marginTop: Spacing.Large32,
   },
   disclaimer: {
     ...fontStyles.small,
-    color: colors.gray5,
+    color: colors.gray700,
     textAlign: 'center',
     marginTop: Spacing.Large32,
     marginBottom: Spacing.Regular16,

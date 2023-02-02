@@ -51,7 +51,7 @@ export default function CeloAmountInput({
       style={inputContainerStyle}
       inputStyle={inputStyle}
       placeholder={'0'}
-      placeholderTextColor={colors.gray3}
+      placeholderTextColor={colors.gray500}
       keyboardType={'decimal-pad'}
       autoCapitalize="words"
       onChangeText={onCeloChanged}

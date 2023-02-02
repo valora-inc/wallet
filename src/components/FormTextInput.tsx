@@ -11,7 +11,7 @@ export default function FormTextInput({ style, inputStyle, ...passThroughProps }
     <View style={style}>
       <TextInput
         inputStyle={inputStyle}
-        placeholderTextColor={colors.gray3}
+        placeholderTextColor={colors.gray500}
         underlineColorAndroid="transparent"
         {...passThroughProps}
       />

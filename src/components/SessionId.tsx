@@ -31,6 +31,6 @@ const styles = StyleSheet.create({
   },
   text: {
     ...fontStyles.small,
-    color: colors.gray4,
+    color: colors.gray600,
   },
 })

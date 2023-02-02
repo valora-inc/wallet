@@ -34,7 +34,7 @@ export default function AccountAddressInput({
       style={inputContainerStyle}
       inputStyle={inputStyle}
       placeholder={'0x1234...5678'}
-      placeholderTextColor={colors.gray3}
+      placeholderTextColor={colors.gray500}
       onChangeText={onAddressChanged}
       value={accountAddress}
       testID={'AccountAddress'}

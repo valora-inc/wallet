@@ -30,6 +30,6 @@ const styles = StyleSheet.create({
     ...fontStyles.sectionHeader,
     fontSize: 13,
     lineHeight: 16,
-    color: colors.gray4,
+    color: colors.gray600,
   },
 })

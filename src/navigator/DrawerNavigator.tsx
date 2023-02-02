@@ -344,7 +344,7 @@ const styles = StyleSheet.create({
   },
   smallLabel: {
     ...fontStyles.small,
-    color: colors.gray4,
+    color: colors.gray600,
     marginTop: 32,
   },
 })

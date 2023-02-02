@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
   },
   value: {
     ...fontStyles.regular,
-    color: colors.gray4,
+    color: colors.gray600,
     marginRight: 8,
   },
   valueActionable: {
@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
   },
   details: {
     ...fontStyles.small,
-    color: colors.gray4,
+    color: colors.gray600,
     paddingTop: 16,
     paddingRight: 16,
   },
@@ -201,6 +201,6 @@ const styles = StyleSheet.create({
     minWidth: 160,
     textAlign: 'right',
     paddingVertical: 0,
-    color: colors.gray4,
+    color: colors.gray600,
   },
 })

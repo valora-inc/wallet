@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
   },
   text: {
     ...fontStyles.large,
-    color: colors.gray3,
+    color: colors.gray500,
   },
 })
 

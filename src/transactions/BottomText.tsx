@@ -14,7 +14,7 @@ export default function BottomText({ children }: BottomTextProps) {
 const styles = StyleSheet.create({
   text: {
     ...fontStyles.regular,
-    color: colors.gray4,
+    color: colors.gray600,
     textAlign: 'center',
     marginTop: 'auto',
   },

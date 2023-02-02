@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
   },
   dollarBalance: {
     ...fontStyles.large,
-    color: colors.gray5,
+    color: colors.gray700,
   },
 })
 

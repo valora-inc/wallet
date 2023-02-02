@@ -180,7 +180,7 @@ function SuccessOrProcessingSection({
         <Touchable testID={'txDetails'} borderless={true} onPress={onPressTxDetails}>
           <View style={styles.txDetailsContainer}>
             <Text style={styles.txDetails}>{t('fiatConnectStatusScreen.success.txDetails')}</Text>
-            <OpenLinkIcon color={colors.gray4} />
+            <OpenLinkIcon color={colors.gray600} />
           </View>
         </Touchable>
       )}
@@ -291,7 +291,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   txDetails: {
-    color: colors.gray4,
+    color: colors.gray600,
   },
   iconContainer: {
     marginBottom: 24,
@@ -329,7 +329,7 @@ const styles = StyleSheet.create({
   },
   cancelBtn: {
     ...fontStyles.regular,
-    color: colors.gray3,
+    color: colors.gray500,
     paddingHorizontal: Spacing.Thick24,
   },
 })

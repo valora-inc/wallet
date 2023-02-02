@@ -86,10 +86,10 @@ const styles = StyleSheet.create({
   },
   subtotalText: {
     ...fontStyles.small,
-    color: colors.gray4,
+    color: colors.gray600,
   },
   exchangeRate: {
     ...fontStyles.small,
-    color: colors.gray4,
+    color: colors.gray600,
   },
 })

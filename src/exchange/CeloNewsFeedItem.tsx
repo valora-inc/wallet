@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
     ...fontStyles.small,
     fontSize: 13,
     lineHeight: 16,
-    color: colors.gray5,
+    color: colors.gray700,
     marginLeft: 4,
   },
   image: {

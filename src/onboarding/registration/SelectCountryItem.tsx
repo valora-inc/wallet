@@ -54,6 +54,6 @@ const styles = StyleSheet.create({
   code: {
     ...fontStyles.regular,
     marginRight: 16,
-    color: colors.gray4,
+    color: colors.gray600,
   },
 })

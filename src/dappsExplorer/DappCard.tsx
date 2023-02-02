@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     ...fontStyles.small,
-    color: Colors.gray5,
+    color: Colors.gray700,
   },
 })
 

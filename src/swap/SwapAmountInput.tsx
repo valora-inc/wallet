@@ -130,7 +130,7 @@ const SwapAmountInput = ({
           <>
             <Image source={{ uri: token.imageUrl }} style={styles.tokenImage} />
             <Text style={styles.tokenName}>{token.symbol}</Text>
-            <DownArrowIcon color={Colors.gray5} />
+            <DownArrowIcon color={Colors.gray700} />
           </>
         </Touchable>
       </View>
@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
   },
   label: {
     ...fontStyles.small,
-    color: Colors.gray5,
+    color: Colors.gray700,
   },
   contentContainer: {
     flexDirection: 'row',
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
     color: Colors.warning,
   },
   inputLoading: {
-    color: Colors.gray3,
+    color: Colors.gray500,
   },
   maxButton: {
     backgroundColor: Colors.light,
@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
   },
   maxText: {
     ...fontStyles.small,
-    color: Colors.gray5,
+    color: Colors.gray700,
     fontSize: 10,
   },
   tokenSelectButton: {
@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
   },
   tokenName: {
     ...fontStyles.displayName,
-    color: Colors.gray5,
+    color: Colors.gray700,
     paddingHorizontal: 4,
   },
   tokenImage: {

@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     ...fontStyles.regular500,
     fontSize: 13,
     lineHeight: 20,
-    color: colors.gray5,
+    color: colors.gray700,
     textAlign: 'center',
   },
   textPadding: {

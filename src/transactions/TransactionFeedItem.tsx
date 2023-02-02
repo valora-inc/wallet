@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     ...fontStyles.small,
-    color: colors.gray4,
+    color: colors.gray600,
     paddingTop: 2,
   },
   amount: {

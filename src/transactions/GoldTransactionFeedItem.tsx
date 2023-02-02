@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
   },
   time: {
     ...fontStyles.small,
-    color: colors.gray4,
+    color: colors.gray600,
   },
   secondRow: {},
 })

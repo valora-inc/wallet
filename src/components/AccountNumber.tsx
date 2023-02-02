@@ -67,13 +67,13 @@ const styles = StyleSheet.create({
   },
   text: {
     ...fontStyles.small,
-    color: colors.gray4,
+    color: colors.gray600,
     marginVertical: 8,
   },
   link: {
     ...fontStyles.label,
     textDecorationLine: 'underline',
-    color: colors.gray4,
+    color: colors.gray600,
     fontFamily,
   },
 })

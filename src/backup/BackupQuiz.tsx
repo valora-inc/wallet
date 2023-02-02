@@ -381,13 +381,13 @@ const styles = StyleSheet.create({
     ...fontStyles.small,
     textAlign: 'center',
     lineHeight: undefined,
-    color: colors.gray4,
+    color: colors.gray600,
   },
   chosenWordFilled: {
     ...fontStyles.small,
     textAlign: 'center',
     lineHeight: undefined,
-    color: colors.gray5,
+    color: colors.gray700,
   },
   mnemonicButtonsContainer: {
     marginTop: 24,
@@ -420,7 +420,7 @@ const styles = StyleSheet.create({
   },
   resetButton: { alignItems: 'center', padding: 24, marginTop: 8 },
   cancelButton: {
-    color: colors.gray4,
+    color: colors.gray600,
   },
 })
 

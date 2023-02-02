@@ -228,7 +228,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 24,
   },
   disclaimer: {
-    color: Colors.gray5,
+    color: Colors.gray700,
     textAlign: 'left',
     marginLeft: 11,
     fontSize: 13,

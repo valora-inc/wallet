@@ -310,7 +310,7 @@ export default function ExchangeTradeScreen({ route }: Props) {
             autoCapitalize="words"
             onChangeText={onChangeExchangeAmount}
             value={inputAmount}
-            placeholderTextColor={colors.gray3}
+            placeholderTextColor={colors.gray500}
             placeholder={'0'}
             style={styles.currencyInput}
             testID="ExchangeInput"
@@ -395,7 +395,7 @@ const styles = StyleSheet.create({
     ...fontStyles.small,
     fontSize: 13,
     textDecorationLine: 'underline',
-    color: colors.gray4,
+    color: colors.gray600,
     marginTop: 4,
   },
   currencyInput: {
@@ -413,7 +413,7 @@ const styles = StyleSheet.create({
   },
   exchangeRateInfoText: {
     ...fontStyles.small,
-    color: colors.gray5,
+    color: colors.gray700,
     marginRight: 4,
   },
   reviewBtn: {

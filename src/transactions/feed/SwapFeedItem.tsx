@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     ...fontStyles.small,
-    color: colors.gray4,
+    color: colors.gray600,
     paddingTop: 2,
   },
   tokenAmountContainer: {
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
   },
   tokenAmount: {
     ...fontStyles.small,
-    color: colors.gray4,
+    color: colors.gray600,
     paddingTop: 2,
     flexWrap: 'wrap',
     textAlign: 'right',

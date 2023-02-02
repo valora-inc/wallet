@@ -95,7 +95,7 @@ export default function SwapContent({ exchange }: Props) {
       >
         <>
           <Text style={styles.txDetails}>{t('swapTransactionDetailPage.viewOnExplorer')}</Text>
-          <OpenLinkIcon color={colors.gray4} />
+          <OpenLinkIcon color={colors.gray600} />
         </>
       </Touchable>
     </View>
@@ -132,6 +132,6 @@ const styles = StyleSheet.create({
   },
   txDetails: {
     ...fontStyles.large,
-    color: colors.gray4,
+    color: colors.gray600,
   },
 })

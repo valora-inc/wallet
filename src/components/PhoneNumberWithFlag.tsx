@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     marginRight: 4,
   },
   phoneNumber: {
-    color: colors.gray4,
+    color: colors.gray600,
   },
 })
 

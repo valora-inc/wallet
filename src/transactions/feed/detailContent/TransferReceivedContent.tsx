@@ -65,7 +65,7 @@ function TransferReceivedContent({ transfer }: { transfer: TokenTransfer }) {
 const styles = StyleSheet.create({
   learnMore: {
     ...fontStyles.small,
-    color: colors.gray4,
+    color: colors.gray600,
     textDecorationLine: 'underline',
   },
 })

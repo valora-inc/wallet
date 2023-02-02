@@ -79,7 +79,7 @@ function ChartAwareSvgText({
       /*
       // @ts-ignore */
       onLayout={onLayout}
-      fill={colors.gray4}
+      fill={colors.gray600}
       fontSize="14"
       fontFamily="Inter-Regular"
       x={adjustedX}
@@ -277,7 +277,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   timeframe: {
-    color: colors.gray3,
+    color: colors.gray500,
     fontSize: 16,
   },
   range: {

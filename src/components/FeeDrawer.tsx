@@ -175,6 +175,6 @@ const styles = StyleSheet.create({
   },
   dropDownText: {
     ...fontStyles.regular,
-    color: colors.gray4,
+    color: colors.gray600,
   },
 })

@@ -40,7 +40,7 @@ export default function CommentSection({ comment, isSend }: Props) {
 const styles = StyleSheet.create({
   sectionLabel: {
     ...fontStyles.label,
-    color: colors.gray3,
+    color: colors.gray500,
     marginBottom: 4,
   },
   comment: {

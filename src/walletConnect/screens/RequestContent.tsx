@@ -220,11 +220,11 @@ const styles = StyleSheet.create({
   placeholderLogoText: {
     ...fontStyles.h1,
     lineHeight: undefined,
-    color: Colors.gray4,
+    color: Colors.gray600,
   },
   requestDetailLabel: {
     ...fontStyles.small,
-    color: Colors.gray5,
+    color: Colors.gray700,
     marginBottom: 4,
   },
   requestDetailValue: {

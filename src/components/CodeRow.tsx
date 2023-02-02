@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
   codeValue: {
     ...fontStyles.regular,
     fontSize: 15,
-    color: colors.gray5,
+    color: colors.gray700,
   },
 })
 

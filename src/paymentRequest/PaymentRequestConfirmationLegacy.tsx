@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     ...fontStyles.regular,
-    color: colors.gray4,
+    color: colors.gray600,
   },
   displayName: {
     ...fontStyles.regular500,

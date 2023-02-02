@@ -37,6 +37,6 @@ const styles = StyleSheet.create({
     paddingBottom: 12,
   },
   leftIcon: {
-    color: colors.gray5,
+    color: colors.gray700,
   },
 })

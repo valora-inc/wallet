@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     ...fontStyles.small,
-    color: colors.gray4,
+    color: colors.gray600,
     paddingTop: 2,
   },
   amount: {
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
   },
   tokenAmount: {
     ...fontStyles.small,
-    color: colors.gray4,
+    color: colors.gray600,
     paddingTop: 2,
     paddingLeft: 10,
     marginLeft: 'auto',

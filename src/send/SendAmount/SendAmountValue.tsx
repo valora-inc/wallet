@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   button: {
-    color: colors.gray4,
+    color: colors.gray600,
     fontSize: 12,
   },
   mainSymbol: {

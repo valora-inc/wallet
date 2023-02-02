@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
   },
   supportBtn: {
     ...fontStyles.regular,
-    color: colors.gray3,
+    color: colors.gray500,
     paddingHorizontal: Spacing.Thick24,
   },
 })

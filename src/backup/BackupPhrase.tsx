@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
     paddingLeft: 8,
   },
   cancelButton: {
-    color: colors.gray4,
+    color: colors.gray600,
   },
   continueButton: {
     paddingHorizontal: variables.contentPadding,

@@ -109,7 +109,7 @@ const fontStyles = StyleSheet.create({
   },
   emptyState: {
     ...standards.large,
-    color: colors.gray3,
+    color: colors.gray500,
     textAlign: 'center',
   },
 })

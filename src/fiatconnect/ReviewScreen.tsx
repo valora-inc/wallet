@@ -604,7 +604,7 @@ const styles = StyleSheet.create({
   },
   sectionHeaderText: {
     ...fontStyles.label,
-    color: colors.gray3,
+    color: colors.gray500,
     marginBottom: 8,
   },
   sectionMainTextContainer: {
@@ -618,7 +618,7 @@ const styles = StyleSheet.create({
   },
   sectionSubText: {
     ...fontStyles.small,
-    color: colors.gray4,
+    color: colors.gray600,
   },
   submitBtn: {
     flexDirection: 'column',
@@ -626,7 +626,7 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   cancelBtn: {
-    color: colors.gray3,
+    color: colors.gray500,
   },
   activityIndicatorContainer: {
     paddingVertical: variables.contentPadding,
@@ -657,7 +657,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: variables.contentPadding,
     marginBottom: 20,
     textAlign: 'center',
-    color: colors.gray4,
+    color: colors.gray600,
   },
 })
 

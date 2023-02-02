@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     ...fontStyles.regular,
-    color: colors.gray4,
+    color: colors.gray600,
     textAlign: 'center',
     marginTop: 16,
     marginBottom: 24,

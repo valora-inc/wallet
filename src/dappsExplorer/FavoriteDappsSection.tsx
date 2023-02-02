@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
   },
   description: {
     ...fontStyles.small,
-    color: Colors.gray4,
+    color: Colors.gray600,
   },
 })
 

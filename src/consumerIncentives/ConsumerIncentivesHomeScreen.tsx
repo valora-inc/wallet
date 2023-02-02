@@ -347,7 +347,7 @@ const styles = StyleSheet.create({
   },
   disclaimer: {
     ...fontStyles.small,
-    color: colors.gray5,
+    color: colors.gray700,
     textAlign: 'center',
     marginBottom: 18,
     marginHorizontal: 24,

@@ -211,7 +211,7 @@ export function SwapReviewScreen() {
                       <Text style={[styles.amountSubText, { marginRight: 4 }]}>
                         {t('swapReviewScreen.estimatedAmountTitle')}
                       </Text>
-                      <InfoIcon size={12} color={colors.gray4} />
+                      <InfoIcon size={12} color={colors.gray600} />
                     </>
                   </Touchable>
                 </View>
@@ -260,7 +260,7 @@ export function SwapReviewScreen() {
                     <Text style={{ marginRight: 4, ...fontStyles.regular }}>
                       {t('swapReviewScreen.swapFee')}
                     </Text>
-                    <InfoIcon size={12} color={colors.gray4} />
+                    <InfoIcon size={12} color={colors.gray600} />
                   </>
                 </Touchable>
                 <Text testID={'SwapFee'} style={styles.transactionDetailsRightText}>
@@ -353,7 +353,7 @@ const styles = StyleSheet.create({
   transactionDetailsLabel: {
     ...fontStyles.label,
     paddingBottom: Spacing.Smallest8,
-    color: colors.gray4,
+    color: colors.gray600,
   },
   label: {
     flex: 1,
@@ -366,7 +366,7 @@ const styles = StyleSheet.create({
   amountSubText: {
     textAlign: 'right',
     ...fontStyles.small,
-    color: colors.gray4,
+    color: colors.gray600,
   },
 })
 

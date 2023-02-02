@@ -238,7 +238,7 @@ function FiatExchangeAmount({ route }: Props) {
             keyboardType={'decimal-pad'}
             onChangeText={onChangeExchangeAmount}
             value={inputAmount.length > 0 ? `${inputSymbol}${inputAmount}` : undefined}
-            placeholderTextColor={colors.gray3}
+            placeholderTextColor={colors.gray500}
             placeholder={`${inputSymbol}0`}
             style={[styles.currencyInput, styles.fiatCurrencyColor]}
             testID="FiatExchangeInput"
@@ -377,7 +377,7 @@ const styles = StyleSheet.create({
   },
   disclaimerFiat: {
     ...fontStyles.small,
-    color: colors.gray4,
+    color: colors.gray600,
     textAlign: 'center',
   },
 })

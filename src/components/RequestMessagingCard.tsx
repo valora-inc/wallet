@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     ...fonts.small,
     fontSize: 13,
     lineHeight: 16,
-    color: colors.gray4,
+    color: colors.gray600,
     marginBottom: 4,
   },
   amount: {

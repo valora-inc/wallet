@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
   details: {
     flex: 1,
     ...fonts.small,
-    color: colors.gray5,
+    color: colors.gray700,
   },
   iconContainer: {
     width: 40,

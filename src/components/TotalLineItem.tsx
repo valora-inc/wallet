@@ -109,11 +109,11 @@ const styles = StyleSheet.create({
   },
   dollarsText: {
     ...fontStyles.small,
-    color: colors.gray4,
+    color: colors.gray600,
   },
   exchangeRate: {
     ...fontStyles.small,
-    color: colors.gray4,
+    color: colors.gray600,
   },
   edit: {
     textDecorationLine: 'underline',

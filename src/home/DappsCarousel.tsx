@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
   },
   title: {
     ...fontStyles.sectionHeader,
-    color: Colors.gray4,
+    color: Colors.gray600,
     paddingHorizontal: Spacing.Regular16,
   },
   card: {

@@ -13,6 +13,11 @@ export enum Colors {
   warning = '#EA6042',
   informational = '#0768AE',
   dark = '#2E3338',
+  // New gray palette (partial)
+  gray700 = '#505050', // text accessible on white (old gray5 text mapped to this)
+  gray600 = '#666666', // text accessible on white (old gray4 text mapped to this)
+  gray500 = '#757575', // text accessible on white (old gray3 text mapped to this)
+  // Legacy gray palette (all of them are not accessible for text on white)
   gray6 = '#DFDBCE',
   gray5 = '#81868B',
   gray4 = '#9CA4A9',

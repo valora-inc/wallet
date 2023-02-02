@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
   optionSubtitle: {
     marginTop: 2,
     ...fontStyles.small,
-    color: colors.gray4,
+    color: colors.gray600,
   },
   moreWaysContainer: {
     flexGrow: 1,
@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
   },
   moreWays: {
     ...fontStyles.regular,
-    color: colors.gray5,
+    color: colors.gray700,
     margin: variables.contentPadding,
   },
   fundingOptionsLink: {

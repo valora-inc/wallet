@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
   },
   accountLabel: {
     ...fontStyles.label,
-    color: colors.gray5,
+    color: colors.gray700,
   },
   providerListItem: {
     flexDirection: 'row',

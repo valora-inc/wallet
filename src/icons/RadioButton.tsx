@@ -25,7 +25,7 @@ export default class RadioButton extends React.PureComponent<Props> {
     } else if (this.props.selected) {
       stroke = this.props.color
     } else if (!this.props.selected) {
-      stroke = colors.gray3
+      stroke = colors.gray500
     }
     const fill = this.props.selected && !this.props.disabled ? this.props.color : undefined
     return (

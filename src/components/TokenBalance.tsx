@@ -129,7 +129,7 @@ export function HomeTokenBalance() {
           <Text style={styles.totalValue}>{t('totalValue')}</Text>
           {tokenBalances.length > 0 && (
             <TouchableOpacity onPress={() => setInfoVisible(true)} hitSlop={variables.iconHitslop}>
-              <InfoIcon size={14} color={Colors.gray3} />
+              <InfoIcon size={14} color={Colors.gray500} />
             </TouchableOpacity>
           )}
         </View>
@@ -174,7 +174,7 @@ export function FiatExchangeTokenBalance() {
           {tokenBalances.length > 1 ? (
             <TouchableOpacity style={styles.row} onPress={onViewBalances} testID="ViewBalances">
               <Text style={styles.exchangeTotalValue}>{t('totalValue')}</Text>
-              <ProgressArrow style={styles.exchangeArrow} height={9.62} color={Colors.gray4} />
+              <ProgressArrow style={styles.exchangeArrow} height={9.62} color={Colors.gray600} />
             </TouchableOpacity>
           ) : (
             <Text style={styles.exchangeTotalValue}>{t('totalValue')}</Text>
@@ -206,12 +206,12 @@ const styles = StyleSheet.create({
   },
   totalValue: {
     ...fontStyles.sectionHeader,
-    color: Colors.gray4,
+    color: Colors.gray600,
     paddingRight: 5,
   },
   exchangeTotalValue: {
     ...fontStyles.label,
-    color: Colors.gray4,
+    color: Colors.gray600,
     paddingRight: 3,
   },
   viewBalances: {
@@ -245,6 +245,6 @@ const styles = StyleSheet.create({
   },
   tokenBalance: {
     ...fontStyles.label,
-    color: Colors.gray4,
+    color: Colors.gray600,
   },
 })

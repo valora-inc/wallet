@@ -305,7 +305,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 4,
   },
   mutedHeader: {
-    color: colors.gray3,
+    color: colors.gray500,
   },
 })
 

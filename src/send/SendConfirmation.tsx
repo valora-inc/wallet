@@ -344,7 +344,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     ...fontStyles.regular,
-    color: colors.gray4,
+    color: colors.gray600,
   },
   displayName: {
     ...fontStyles.regular500,
@@ -354,12 +354,12 @@ const styles = StyleSheet.create({
   },
   address: {
     ...fontStyles.small,
-    color: colors.gray5,
+    color: colors.gray700,
     paddingRight: 4,
   },
   editButton: {
     ...fontStyles.small,
-    color: colors.gray5,
+    color: colors.gray700,
     textDecorationLine: 'underline',
   },
   amount: {

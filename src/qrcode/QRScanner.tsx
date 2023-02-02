@@ -174,6 +174,6 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   cancelButton: {
-    color: colors.gray5,
+    color: colors.gray700,
   },
 })

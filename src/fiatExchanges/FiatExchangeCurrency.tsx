@@ -79,7 +79,7 @@ function CurrencyRadioItem({
         testID={testID}
       >
         <RadioButton selected={selected} disabled={!enabled} />
-        <Text style={[styles.currencyItemTitle, enabled ? {} : { color: colors.gray3 }]}>
+        <Text style={[styles.currencyItemTitle, enabled ? {} : { color: colors.gray500 }]}>
           {title}
         </Text>
         {body && <Text style={styles.currencyItemBody}>{body}</Text>}
@@ -213,7 +213,7 @@ const styles = StyleSheet.create({
   },
   currencyItemBody: {
     ...fontStyles.regular500,
-    color: colors.gray4,
+    color: colors.gray600,
     marginLeft: 4,
   },
   bottomContainer: {

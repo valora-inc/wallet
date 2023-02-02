@@ -85,7 +85,7 @@ export class BackupPhraseContainer extends React.Component<Props> {
               onChangeText={this.onPhraseInputChange}
               shouldShowClipboard={isValidBackupPhrase}
               underlineColorAndroid="transparent"
-              placeholderTextColor={colors.gray4}
+              placeholderTextColor={colors.gray600}
               enablesReturnKeyAutomatically={true}
               multiline={true}
               autoCorrect={false}

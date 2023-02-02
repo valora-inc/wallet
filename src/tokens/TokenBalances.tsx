@@ -198,14 +198,14 @@ const styles = StyleSheet.create({
   },
   subtext: {
     ...fontStyles.small,
-    color: Colors.gray4,
+    color: Colors.gray600,
   },
   tokenAmt: {
     ...fontStyles.large600,
   },
   lastDayText: {
     ...fontStyles.small500,
-    color: Colors.gray4,
+    color: Colors.gray600,
     marginHorizontal: Spacing.Regular16,
   },
   lastDayLabel: {

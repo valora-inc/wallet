@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { showError } from 'src/alert/actions'
-import { ExperimentParams } from 'src/statsig/constants'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
@@ -36,6 +35,8 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
+import { ExperimentParams } from 'src/statsig/constants'
+import { StatsigExperiments } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
@@ -56,7 +57,6 @@ import {
   PaymentMethod,
   resolveCloudFunctionDigitalAsset,
 } from './utils'
-import { StatsigExperiments } from 'src/statsig/types'
 
 const TAG = 'SelectProviderScreen'
 
@@ -519,14 +519,14 @@ const styles = StyleSheet.create({
   },
   linkToOtherScreen: {
     ...fontStyles.small500,
-    color: colors.gray4,
+    color: colors.gray600,
   },
   noQuotesContainer: {
     padding: 16,
   },
   noQuotesText: {
     ...fontStyles.small,
-    color: colors.gray4,
+    color: colors.gray600,
   },
   underline: {
     textDecorationLine: 'underline',
@@ -537,7 +537,7 @@ const styles = StyleSheet.create({
   },
   contactSupport: {
     ...fontStyles.large500,
-    color: colors.gray4,
+    color: colors.gray600,
     padding: 8,
   },
 })

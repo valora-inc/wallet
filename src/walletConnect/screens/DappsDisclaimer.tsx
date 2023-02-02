@@ -35,7 +35,7 @@ const DappsDisclaimer = ({ isDappListed }: Props) => {
 const styles = StyleSheet.create({
   dappNotListedDisclaimer: {
     ...fontStyles.small,
-    color: Colors.gray5,
+    color: Colors.gray700,
     marginBottom: Spacing.Thick24,
     textAlign: 'center',
     marginTop: 'auto',
