@@ -54,6 +54,9 @@ describe('ActionRequest with WalletConnect V1', () => {
         ],
       },
     },
+    dapps: {
+      dappsMinimalDisclaimerEnabled: true,
+    },
   })
 
   beforeEach(() => {
@@ -87,6 +90,7 @@ describe('ActionRequest with WalletConnect V1', () => {
           'Message to sign'
         )
       ).toBeTruthy()
+      expect(getByText('dappsDisclaimerUnlistedDapp')).toBeTruthy()
     })
 
     it('shows request details with raw string if message cannot be decoded', () => {
@@ -218,6 +222,9 @@ describe('ActionRequest with WalletConnect V2', () => {
           sessions: [v2Session],
         },
       },
+      dapps: {
+        dappsMinimalDisclaimerEnabled: true,
+      },
     })
 
     beforeEach(() => {
@@ -241,6 +248,7 @@ describe('ActionRequest with WalletConnect V2', () => {
           'Message to sign'
         )
       ).toBeTruthy()
+      expect(getByText('dappsDisclaimerUnlistedDapp')).toBeTruthy()
     })
 
     it('copies the request payload', () => {
