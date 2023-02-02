@@ -187,10 +187,10 @@
   "startSuperchargingNotificationStart": "Commencer",
   "cashIn": "Ajouter {{currency}}",
   "connectNumber": "Connecter le numéro",
-  "connectToWallet": "{{dappName}} demande à se connecter à {{appName}}",
-  "confirmTransaction": "{{dappName}} demande à confirmer une transaction",
+  "connectToWallet": "Connecte-toi à {{dappName}}",
+  "confirmTransaction": "Confirmation de transaction",
   "allow": "Autoriser",
-  "address": "Adresse du compte",
+  "address": "Adresse du portefeuille",
   "phoneNumber": "Numéro de téléphone",
   "transaction": {
     "operation": "Transaction",
@@ -198,7 +198,8 @@
     "signTX": "Effectuer transaction",
     "details": "Afficher détails"
   },
-  "shareInfo": "Cette appli sera en mesure d'accéder aux informations suivantes :",
+  "shareInfo": "Tu dois connecter ton porte-monnaie pour approuver les transactions dans cette Dapp. Une fois connectée, elle aura accès à l'adresse de ton porte-monnaie.",
+  "connectWalletInfoDappkit": "Tu dois connecter ton porte-monnaie pour approuver les transactions dans cette Dapp. Une fois connecté, il aura accès à l'adresse de ton portefeuille et à ton numéro de téléphone.",
   "data": "Données",
   "firebaseDisabled": "Firebase est désactivé, les notifications et le journal des téléchargements ne fonctionneront pas",
   "learnMore": "En savoir plus",
@@ -978,6 +979,16 @@
     "computeSharedSecret": "Générer des secrets",
     "emptyMessage": "Message vide"
   },
+  "walletConnectRequest": {
+    "transactionDataLabel": "Données de transaction",
+    "readAccount": "{{dappName}} aimerait lire l'adresse de ton porte-monnaie {{appName}} .",
+    "signPayload": "{{dappName}} souhaite signer une charge utile de données.",
+    "signTransaction": "{{dappName}} souhaite signer une transaction Celo.",
+    "sendTransaction": "{{dappName}} souhaite envoyer une transaction Celo.",
+    "decryptPayload": "{{dappName}} souhaite décrypter une charge utile de données.",
+    "computeSharedSecret": "{{dappName}} souhaite générer des secrets.",
+    "transactionDataCopied": "Données de transaction copiées"
+  },
   "sessionInfo": "Cette appli peut demander à effectuer les actions suivantes :",
   "description": {
     "sign": "Signer des charges utiles",
@@ -1235,6 +1246,8 @@
     "buttonLabel": "Dis-moi en plus"
   },
   "dappsDisclaimerAllDapps": "{{appName}} n'est pas affilié à ces dapps et ne fait aucune déclaration ou revendication quant à leur utilisation. Reconnais le risque avant d'utiliser une dapp en consultant l'accord d'utilisation ou la politique de confidentialité.",
+  "dappsDisclaimerSingleDapp": "{{appName}} n'est pas affilié à cette dapp et ne fait aucune déclaration quant à son utilisation. Vérifie toujours l'accord d'utilisation ou la politique de confidentialité d'une dapp.",
+  "dappsDisclaimerUnlistedDapp": "Cette dapp n'est pas répertoriée sur {{appName}}. {{appName}} n'est pas affiliée à cette dapp et ne fait aucune déclaration quant à son utilisation. Vérifie toujours l'accord d'utilisation ou la politique de confidentialité d'une dapp.",
   "recentlyUsedDapps": "Dapps récemment utilisés",
   "favoritedDapps": "Dapps favorites",
   "allDapps": "Toutes les Dapps",

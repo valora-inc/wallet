@@ -187,10 +187,10 @@
   "startSuperchargingNotificationStart": " Ödül almak",
   "cashIn": "{{currency}} ekle",
   "connectNumber": "Telefon Numarası Bağla",
-  "connectToWallet": "{{dappName}}, {{appName}} uygulamasına bağlanmak istiyor",
-  "confirmTransaction": "{{dappName}} bir işlemi onaylamak istiyor",
+  "connectToWallet": "{{dappName}}adresine bağlanın",
+  "confirmTransaction": "İşlemi onaylayın",
   "allow": "İzin ver",
-  "address": "Hesap Adresi",
+  "address": "Cüzdan adresi",
   "phoneNumber": "Telefon Numarası",
   "transaction": {
     "operation": "İşlem",
@@ -198,7 +198,8 @@
     "signTX": "İşlem",
     "details": "Detayları göster"
   },
-  "shareInfo": "Bu uygulama aşağıdaki bilgilere erişebilecek:",
+  "shareInfo": "Bu Dapp'taki işlemleri onaylamak için cüzdanınızı bağlamanız gerekir. Bağlandıktan sonra, cüzdan adresinize erişebilecektir.",
+  "connectWalletInfoDappkit": "Bu Dapp'taki işlemleri onaylamak için cüzdanınızı bağlamanız gerekir. Bağlandıktan sonra, cüzdan adresinize ve telefon numaranıza erişebilecektir.",
   "data": "Veri",
   "firebaseDisabled": "Firebase devre dışı, bildirim ve günlük yükleme çalışmıyor",
   "learnMore": "Daha Fazla Bilgi Edinin",
@@ -978,6 +979,16 @@
     "computeSharedSecret": "Gizli Kelime Oluştur",
     "emptyMessage": "Boş mesaj"
   },
+  "walletConnectRequest": {
+    "transactionDataLabel": "İşlem verileri",
+    "readAccount": "{{dappName}} {{appName}} cüzdan adresinizi okumak istiyorum.",
+    "signPayload": "{{dappName}} bir veri yükünü imzalamak istiyor.",
+    "signTransaction": "{{dappName}} bir Celo işlemi imzalamak istiyor.",
+    "sendTransaction": "{{dappName}} bir Celo işlemi göndermek istiyor.",
+    "decryptPayload": "{{dappName}} bir veri yükünün şifresini çözmek ister.",
+    "computeSharedSecret": "{{dappName}} sırlar üretmek istiyor.",
+    "transactionDataCopied": "İşlem verileri kopyalandı"
+  },
   "sessionInfo": "Bu uygulama aşağıdaki eylemleri gerçekleştirmek isteyebilir:",
   "description": {
     "sign": "Veri Yüklerinin İmzalanması",
@@ -1235,6 +1246,8 @@
     "buttonLabel": "Bana daha fazlasını anlat"
   },
   "dappsDisclaimerAllDapps": "{{appName}} bu dapp'lerle bağlantılı değildir ve bunları kullanırken hiçbir beyan veya iddiada bulunmaz. Lütfen bir dapp kullanmadan önce kullanıcı sözleşmesini veya gizlilik politikasını inceleyerek riski kabul edin.",
+  "dappsDisclaimerSingleDapp": "{{appName}} bu dapp ile bağlantılı değildir ve onu kullanırken hiçbir beyanda bulunmaz. Her zaman bir uygulamanın kullanıcı sözleşmesini veya gizlilik politikasını inceleyin.",
+  "dappsDisclaimerUnlistedDapp": "Bu uygulama {{appName}}adresinde listelenmemiştir. {{appName}} bu uygulama ile bağlantılı değildir ve kullanımı konusunda herhangi bir beyanda bulunmaz. Her zaman bir dapp'ın kullanıcı sözleşmesini veya gizlilik politikasını inceleyin.",
   "recentlyUsedDapps": "Son Kullanılan Dapp'ler",
   "favoritedDapps": "Favori Dapps",
   "allDapps": "Tüm Dapp'ler",
