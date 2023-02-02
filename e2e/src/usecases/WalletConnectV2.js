@@ -141,7 +141,7 @@ export default WalletConnect = () => {
 
   beforeEach(async () => {
     // wait for any banners to disappear
-    await sleep(3000)
+    await sleep(5000)
   })
 
   afterAll(async () => {

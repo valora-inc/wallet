@@ -5,7 +5,6 @@ import { shallowEqual, useSelector } from 'react-redux'
 import { nameSelector } from 'src/account/selectors'
 import { AvatarSelf } from 'src/components/AvatarSelf'
 import QRCode from 'src/qrcode/QRGen'
-import { QRCodeDataType } from 'src/qrcode/schema'
 import { useQRContent } from 'src/qrcode/utils'
 import { RootState } from 'src/redux/reducers'
 import { SVG } from 'src/send/actions'
@@ -13,6 +12,7 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import { currentAccountSelector } from 'src/web3/selectors'
+import { QRCodeDataType } from 'src/statsig/types'
 
 interface Props {
   qrSvgRef: React.MutableRefObject<SVG>
@@ -28,7 +28,6 @@ export const mapStateToProps = (state: RootState) => ({
 export default function QRCodeDisplay({ qrSvgRef, dataType }: Props) {
   const data = useSelector(mapStateToProps, shallowEqual)
   const qrContent = useQRContent(dataType, data)
-
   return (
     <SafeAreaView style={styles.container}>
       <AvatarSelf iconSize={64} displayNameStyle={fontStyles.h2} />

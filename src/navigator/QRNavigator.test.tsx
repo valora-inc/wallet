@@ -1,13 +1,21 @@
 import * as React from 'react'
-import { QRCodePicker, QRCodeProps } from 'src/navigator/QRNavigator'
-import { render, waitFor } from '@testing-library/react-native'
+import QRNavigator, {
+  getExperimentParams,
+  QRCodePicker,
+  QRCodeProps,
+} from 'src/navigator/QRNavigator'
+import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import { fetchExchanges } from 'src/fiatExchanges/utils'
 import { Provider } from 'react-redux'
-import { QRCodeDataType, QRCodeStyle } from 'src/qrcode/schema'
+import { QRCodeDataType, QRCodeStyle, StatsigLayers } from 'src/statsig/types'
 import { createMockStore } from 'test/utils'
 import { mocked } from 'ts-jest/utils'
 import { mockExchanges } from 'test/values'
 import { CiCoCurrency } from 'src/utils/currencies'
+import { Statsig } from 'statsig-react-native'
+import MockedNavigator from 'test/MockedNavigator'
+import StyledQRCode from 'src/qrcode/StyledQRGen'
+import QRCode from 'src/qrcode/QRGen'
 
 jest.mock('react-native-permissions', () => jest.fn())
 
@@ -15,6 +23,9 @@ jest.mock('src/fiatExchanges/utils', () => ({
   ...(jest.requireActual('src/fiatExchanges/utils') as any),
   fetchExchanges: jest.fn(),
 }))
+
+jest.mock('src/qrcode/StyledQRGen', () => jest.fn().mockReturnValue(''))
+jest.mock('src/qrcode/QRGen', () => jest.fn().mockReturnValue(''))
 
 const mockStore = createMockStore({
   networkInfo: {
@@ -46,6 +57,25 @@ function getProps(qrCodeStyle: QRCodeStyle): QRCodeProps {
 }
 
 describe('QRNavigator', () => {
+  beforeAll(async () => {
+    await Statsig.initialize('client-sdk-key-testing', null, { localMode: true })
+  })
+  afterEach(async () => {
+    const overrides = Statsig.getAllOverrides()
+    Object.keys(overrides.gates).forEach((gateName) => Statsig.removeGateOverride(gateName))
+    Object.keys(overrides.configs).forEach((configName) => Statsig.removeConfigOverride(configName))
+    Object.keys(overrides.layers).forEach((layerName) => Statsig.removeLayerOverrie(layerName)) // lol @ the typo, I (Charlie) submitted a PR to fix their SDK but it will take time to get a new version published
+  })
+  const qrLayerControlParams = { qrCodeStyle: 'Legacy', qrCodeDataType: 'ValoraDeepLink' }
+  const qrLayerTreatmentParams = { qrCodeStyle: 'New', qrCodeDataType: 'Address' }
+  describe('helper functions', () => {
+    it('getExperimentParams', () => {
+      Statsig.overrideLayer(StatsigLayers.SEND_RECEIVE_QR_CODE, { ...qrLayerControlParams })
+      expect(getExperimentParams()).toEqual(qrLayerControlParams)
+      Statsig.overrideLayer(StatsigLayers.SEND_RECEIVE_QR_CODE, { ...qrLayerTreatmentParams })
+      expect(getExperimentParams()).toEqual(qrLayerTreatmentParams)
+    })
+  })
   describe('QRCodePicker', () => {
     beforeEach(() => {
       jest.clearAllMocks()
@@ -71,6 +101,95 @@ describe('QRNavigator', () => {
       )
       await waitFor(() => expect(fetchExchanges).not.toHaveBeenCalled())
       expect(queryByTestId('QRCode')).toBeTruthy()
+    })
+  })
+  describe('QRNavigator component', () => {
+    it('renders tabs for scan and my code', () => {
+      const { queryByText } = render(
+        <Provider store={mockStore}>
+          <MockedNavigator component={QRNavigator} />
+        </Provider>
+      )
+      expect(queryByText('myCode')).toBeTruthy()
+      expect(queryByText('scanCode')).toBeTruthy()
+    })
+    describe('integration tests for usage of experiment parameters', () => {
+      it('user with Address data type, New style gets styled qr code with address', async () => {
+        Statsig.overrideLayer(StatsigLayers.SEND_RECEIVE_QR_CODE, {
+          qrCodeStyle: 'New',
+          qrCodeDataType: 'Address',
+        })
+        const { getByText, queryByTestId } = render(
+          <Provider store={mockStore}>
+            <MockedNavigator component={QRNavigator} />
+          </Provider>
+        )
+        await fireEvent.press(getByText('myCode'))
+        expect(queryByTestId('styledQRCode')).toBeTruthy()
+        expect(queryByTestId('QRCode')).toBeFalsy()
+        expect(StyledQRCode).toHaveBeenCalledWith(
+          expect.objectContaining({ value: '0x0000' }),
+          expect.anything()
+        )
+      })
+      it('user with Address data type, Legacy style gets legacy qr code with address', async () => {
+        Statsig.overrideLayer(StatsigLayers.SEND_RECEIVE_QR_CODE, {
+          qrCodeStyle: 'Legacy',
+          qrCodeDataType: 'Address',
+        })
+        const { getByText, queryByTestId } = render(
+          <Provider store={mockStore}>
+            <MockedNavigator component={QRNavigator} />
+          </Provider>
+        )
+        await fireEvent.press(getByText('myCode'))
+        expect(queryByTestId('QRCode')).toBeTruthy()
+        expect(queryByTestId('styledQRCode')).toBeFalsy()
+        expect(QRCode).toHaveBeenCalledWith(
+          expect.objectContaining({ value: '0x0000' }),
+          expect.anything()
+        )
+      })
+      it('user with Address data type, ValoraDeepLink style gets styled qr code with deep link', async () => {
+        Statsig.overrideLayer(StatsigLayers.SEND_RECEIVE_QR_CODE, {
+          qrCodeStyle: 'New',
+          qrCodeDataType: 'ValoraDeepLink',
+        })
+        const { getByText, queryByTestId } = render(
+          <Provider store={mockStore}>
+            <MockedNavigator component={QRNavigator} />
+          </Provider>
+        )
+        await fireEvent.press(getByText('myCode'))
+        expect(queryByTestId('styledQRCode')).toBeTruthy()
+        expect(queryByTestId('QRCode')).toBeFalsy()
+        expect(StyledQRCode).toHaveBeenCalledWith(
+          expect.objectContaining({
+            value: expect.stringContaining('celo://wallet/pay?address=0x0000'),
+          }),
+          expect.anything()
+        )
+      })
+      it('user with ValoraDeepLink data type, Legacy style gets legacy qr code with valora deep link', async () => {
+        Statsig.overrideLayer(StatsigLayers.SEND_RECEIVE_QR_CODE, {
+          qrCodeStyle: 'Legacy',
+          qrCodeDataType: 'ValoraDeepLink',
+        })
+        const { getByText, queryByTestId } = render(
+          <Provider store={mockStore}>
+            <MockedNavigator component={QRNavigator} />
+          </Provider>
+        )
+        await fireEvent.press(getByText('myCode'))
+        expect(queryByTestId('QRCode')).toBeTruthy()
+        expect(queryByTestId('styledQRCode')).toBeFalsy()
+        expect(QRCode).toHaveBeenCalledWith(
+          expect.objectContaining({
+            value: expect.stringContaining('celo://wallet/pay?address=0x0000'),
+          }),
+          expect.anything()
+        )
+      })
     })
   })
 })
