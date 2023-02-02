@@ -3,9 +3,9 @@ import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
 import QRCode from 'src/qrcode/QRCode'
-import { QRCodeDataType } from 'src/qrcode/schema'
 import { createMockStore } from 'test/utils'
 import { mockAccount, mockName } from 'test/values'
+import { QRCodeDataType } from 'src/statsig/types'
 
 describe('QRCode', () => {
   const store = createMockStore({

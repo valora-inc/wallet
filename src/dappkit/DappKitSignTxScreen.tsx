@@ -21,8 +21,10 @@ import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import Logger from 'src/utils/Logger'
+import DappsDisclaimer from 'src/walletConnect/screens/DappsDisclaimer'
 import RequestContent from 'src/walletConnect/screens/RequestContent'
 import useDynamicBottomSheetHeight from 'src/walletConnect/screens/useDynamicBottomSheetHeight'
+import { useIsDappListed } from 'src/walletConnect/screens/useIsDappListed'
 
 const TAG = 'dappkit/DappKitSignTxScreen'
 
@@ -37,6 +39,7 @@ const DappKitSignTxScreen = ({ route, navigation }: Props) => {
   const dispatch = useDispatch()
   const { t } = useTranslation()
   const { handleContentLayout } = useDynamicBottomSheetHeight(navigation)
+  const isDappListed = useIsDappListed(callback)
 
   if (!dappKitRequest) {
     Logger.error(TAG, 'No request found in navigation props')
@@ -95,6 +98,8 @@ const DappKitSignTxScreen = ({ route, navigation }: Props) => {
             <CopyIcon />
           </Touchable>
         </View>
+
+        <DappsDisclaimer isDappListed={isDappListed} />
       </RequestContent>
     </SafeAreaView>
   )

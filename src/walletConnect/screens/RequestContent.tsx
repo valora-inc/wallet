@@ -11,7 +11,6 @@ import Logo from 'src/icons/Logo'
 import { Colors } from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { getShadowStyle, Shadow, Spacing } from 'src/styles/styles'
-import { useIsDappListed } from 'src/walletConnect/screens/useIsDappListed'
 
 interface RequestDetail {
   label: string
@@ -88,7 +87,6 @@ function RequestContent({
 
   const [isAccepting, setIsAccepting] = useState(false)
   const dappConnectInfo = useSelector(dappConnectInfoSelector)
-  const isDappListed = useIsDappListed(dappUrl)
 
   const isAcceptingRef = useRef(false)
 
@@ -160,10 +158,6 @@ function RequestContent({
 
       {children}
 
-      {dappConnectInfo === DappConnectInfo.Basic && !isDappListed && (
-        <Text style={styles.dappNotListedDisclaimer}>{t('dappNotListed')}</Text>
-      )}
-
       <Button
         type={BtnTypes.PRIMARY}
         size={BtnSizes.FULL}
@@ -210,11 +204,6 @@ const styles = StyleSheet.create({
   description: {
     ...fontStyles.small,
     lineHeight: 20,
-    marginBottom: Spacing.Thick24,
-  },
-  dappNotListedDisclaimer: {
-    ...fontStyles.small,
-    color: Colors.gray5,
     marginBottom: Spacing.Thick24,
   },
   placeholderLogoBackground: {
