@@ -120,9 +120,13 @@ export async function isElementVisible(elementId, index) {
 }
 
 export async function waitForElementId(elementId) {
-  await waitFor(element(by.id(elementId)))
-    .toBeVisible()
-    .withTimeout(30000)
+  try {
+    await waitFor(element(by.id(elementId)))
+      .toBeVisible()
+      .withTimeout(30 * 1000)
+  } catch {
+    throw new Error(`Element with id ${elementId} not found`)
+  }
 }
 
 export function quote(s) {
