@@ -187,10 +187,10 @@
   "startSuperchargingNotificationStart": "获取奖励",
   "cashIn": "添加 {{currency}}",
   "connectNumber": "关联号码",
-  "connectToWallet": "{{dappName}} 想要与 {{appName}} 连接",
-  "confirmTransaction": "{{dappName}} 想要确认一笔交易",
+  "connectToWallet": "连接到 {{dappName}}",
+  "confirmTransaction": "确认交易",
   "allow": "允许",
-  "address": "账户地址",
+  "address": "钱包地址",
   "phoneNumber": "手机号码",
   "transaction": {
     "operation": "操作",
@@ -198,7 +198,8 @@
     "signTX": "签署交易",
     "details": "显示详情"
   },
-  "shareInfo": "此应用程序将能够访问以下信息：",
+  "shareInfo": "你必须连接你的钱包以批准该Dapp的交易。一旦连接，它将有机会访问你的钱包地址。",
+  "connectWalletInfoDappkit": "你必须连接你的钱包，以批准该Dapp的交易。一旦连接，它将可以访问你的钱包地址和电话号码。",
   "data": "数据",
   "firebaseDisabled": "Firebase 已禁用，通知和日志上传功能将不可用",
   "learnMore": "了解更多",
@@ -976,6 +977,16 @@
     "computeSharedSecret": "生成密钥",
     "emptyMessage": "空白消息"
   },
+  "walletConnectRequest": {
+    "transactionDataLabel": "交易数据",
+    "readAccount": "{{dappName}} 想阅读你的 {{appName}} 钱包地址。",
+    "signPayload": "{{dappName}} 想签署一个数据有效载荷。",
+    "signTransaction": "{{dappName}} 希望签署一份塞洛交易。",
+    "sendTransaction": "{{dappName}} 想发送一个塞洛交易。",
+    "decryptPayload": "{{dappName}} 想解密一个数据有效载荷。",
+    "computeSharedSecret": "{{dappName}} 想产生秘密。",
+    "transactionDataCopied": "复制的交易数据"
+  },
   "sessionInfo": "此应用程序可能会要求执行以下操作：",
   "description": {
     "sign": "签署有效负载",
@@ -1233,6 +1244,8 @@
     "buttonLabel": "告诉我更多"
   },
   "dappsDisclaimerAllDapps": "{{appName}} 与这些应用程序没有关系，在使用它们时不做任何陈述或主张。在使用dapp之前，请通过审查用户协议或隐私政策来确认风险。",
+  "dappsDisclaimerSingleDapp": "{{appName}} 与此应用程序没有关系，在使用它时不作任何陈述。始终审查一个应用程序的用户协议或隐私政策。",
+  "dappsDisclaimerUnlistedDapp": "这个应用程序没有在 {{appName}}。 {{appName}} ，与这个应用程序没有关系，在使用它时不作任何陈述。始终审查一个dapp的用户协议或隐私政策。",
   "recentlyUsedDapps": "最近使用的 Dapp",
   "favoritedDapps": "最喜欢的Dapps",
   "allDapps": "所有 Dapp",

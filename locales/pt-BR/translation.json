@@ -187,10 +187,10 @@
   "startSuperchargingNotificationStart": "Ganhe recompensas",
   "cashIn": "Adicionar {{currency}}",
   "connectNumber": "Conectar o número",
-  "connectToWallet": "A {{dappName}} gostaria de se conectar a {{appName}}",
-  "confirmTransaction": "{{dappName}} gostaria de confirmar uma transação",
+  "connectToWallet": "Ligue-se a {{dappName}}",
+  "confirmTransaction": "Confirmar transacção",
   "allow": "Permitir",
-  "address": "Endereço de Conta",
+  "address": "Endereço da carteira",
   "phoneNumber": "Número de celular",
   "transaction": {
     "operation": "Operação",
@@ -198,7 +198,8 @@
     "signTX": "Transação",
     "details": "Detalhes"
   },
-  "shareInfo": "Este aplicativo poderá acessar as seguintes informações:",
+  "shareInfo": "Deve ligar a sua carteira para aprovar transacções nesta Dapp. Uma vez ligada, terá acesso ao endereço da sua carteira.",
+  "connectWalletInfoDappkit": "Deve ligar a sua carteira para aprovar transacções nesta Dapp. Uma vez ligada, terá acesso ao endereço e número de telefone da sua carteira.",
   "data": "Dados",
   "firebaseDisabled": "O Firebase está desativado, notificações e envio de registros não funcionarão",
   "learnMore": "Saiba mais",
@@ -978,6 +979,16 @@
     "computeSharedSecret": "Gerar segredos",
     "emptyMessage": "Mensagem vazia"
   },
+  "walletConnectRequest": {
+    "transactionDataLabel": "Dados da transacção",
+    "readAccount": "{{dappName}} gostaria de ler o seu endereço de carteira {{appName}} .",
+    "signPayload": "{{dappName}} gostaria de assinar uma carga útil de dados.",
+    "signTransaction": "{{dappName}} gostaria de assinar uma transacção com a Celo.",
+    "sendTransaction": "{{dappName}} gostaria de enviar uma transacção da Celo.",
+    "decryptPayload": "{{dappName}} gostaria de de decifrar uma carga útil de dados.",
+    "computeSharedSecret": "{{dappName}} gostaria de gerar segredos.",
+    "transactionDataCopied": "Dados da transacção copiados"
+  },
   "sessionInfo": "Este aplicativo pode pedir para executar as seguintes ações:",
   "description": {
     "sign": "Assinar pagamentos",
@@ -1235,6 +1246,8 @@
     "buttonLabel": "Conte-me mais"
   },
   "dappsDisclaimerAllDapps": "{{appName}} não está afiliado a estas dapps e não faz quaisquer representações ou reivindicações na sua utilização. Por favor, reconheça o risco antes de utilizar uma dapp, revendo o acordo do utilizador ou a política de privacidade.",
+  "dappsDisclaimerSingleDapp": "{{appName}} não está afiliado a esta dapp e não faz quaisquer representações na sua utilização. Rever sempre um acordo de utilização ou política de privacidade da dapp.",
+  "dappsDisclaimerUnlistedDapp": "Esta dapp não está listada em {{appName}}. {{appName}} não está afiliada a esta dapp e não faz quaisquer representações na sua utilização. Rever sempre um acordo de utilização ou política de privacidade da dapp.",
   "recentlyUsedDapps": "Dapps usados recentemente",
   "favoritedDapps": "Dapps favoritos",
   "allDapps": "Todos os dapps",

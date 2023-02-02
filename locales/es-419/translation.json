@@ -187,10 +187,10 @@
   "startSuperchargingNotificationStart": "Primeros pasos",
   "cashIn": "Agregar {{currency}}",
   "connectNumber": "Conecta tu número",
-  "connectToWallet": "{{dappName}} desea conectarse a {{appName}}",
-  "confirmTransaction": "{{dappName}} desea confirmar una transacción",
+  "connectToWallet": "Conéctate a {{dappName}}",
+  "confirmTransaction": "Confirmar transacción",
   "allow": "Permitir",
-  "address": "Dirección de cuenta",
+  "address": "Dirección de la cartera",
   "phoneNumber": "Número de teléfono",
   "transaction": {
     "operation": "Operación",
@@ -198,7 +198,8 @@
     "signTX": "Transacción",
     "details": "Detalles"
   },
-  "shareInfo": "Esta aplicación podrá acceder a la siguiente información:",
+  "shareInfo": "Debes conectar tu monedero para aprobar transacciones en esta Dapp. Una vez conectada, tendrá acceso a la dirección de tu monedero.",
+  "connectWalletInfoDappkit": "Debes conectar tu monedero para aprobar transacciones en esta Dapp. Una vez conectada, tendrá acceso a la dirección de tu monedero y a tu número de teléfono.",
   "data": "Datos",
   "firebaseDisabled": "FireBase está desactivado, la carga de notificaciones y registros no funcionará.",
   "learnMore": "Más información",
@@ -978,6 +979,16 @@
     "computeSharedSecret": "Generar secretos",
     "emptyMessage": "Mensaje vacío"
   },
+  "walletConnectRequest": {
+    "transactionDataLabel": "Datos de la transacción",
+    "readAccount": "{{dappName}} me gustaría leer la dirección de tu monedero {{appName}} .",
+    "signPayload": "{{dappName}} desea firmar una carga de datos.",
+    "signTransaction": "{{dappName}} me gustaría firmar una transacción Celo.",
+    "sendTransaction": "{{dappName}} me gustaría enviar una transacción Celo.",
+    "decryptPayload": "{{dappName}} desea desencriptar una carga de datos.",
+    "computeSharedSecret": "{{dappName}} te gustaría generar secretos.",
+    "transactionDataCopied": "Datos de la transacción copiados"
+  },
   "sessionInfo": "Esta aplicación puede solicitar realizar las siguientes acciones:",
   "description": {
     "sign": "Firmar Payloads",
@@ -1235,6 +1246,8 @@
     "buttonLabel": "Cuéntame más"
   },
   "dappsDisclaimerAllDapps": "{{appName}} no está afiliada a estas dapps y no hace declaraciones ni afirmaciones al utilizarlas. Por favor, reconoce el riesgo antes de utilizar una dapp revisando el acuerdo de usuario o la política de privacidad.",
+  "dappsDisclaimerSingleDapp": "{{appName}} no está afiliada a esta dapp y no se responsabiliza de su uso. Revisa siempre el acuerdo de usuario o la política de privacidad de la aplicación.",
+  "dappsDisclaimerUnlistedDapp": "Esta dapp no aparece en {{appName}}. {{appName}} no está afiliada a esta dapp y no se hace responsable de su uso. Revisa siempre el acuerdo de usuario o la política de privacidad de la aplicación.",
   "recentlyUsedDapps": "Dapps usadas recientemente",
   "favoritedDapps": "Dapps favoritas",
   "allDapps": "Todas las dapps",
