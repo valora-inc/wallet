@@ -1250,6 +1250,8 @@
     "buttonLabel": "Powiedz mi więcej"
   },
   "dappsDisclaimerAllDapps": "{{appName}} nie jest powiązana z tymi dappami i nie składa żadnych oświadczeń ani roszczeń związanych z ich używaniem. Przed rozpoczęciem korzystania z aplikacji dapp należy zapoznać się z umową z użytkownikiem lub polityką prywatności.",
+  "dappsDisclaimerSingleDapp": "{{appName}} nie jest powiązana z tym dappem i nie składa żadnych oświadczeń dotyczących korzystania z niego. Zawsze sprawdzaj umowę z użytkownikiem lub politykę prywatności aplikacji.",
+  "dappsDisclaimerUnlistedDapp": "Ten dapp nie jest wymieniony w {{appName}}. {{appName}} nie jest powiązany z tym dappem i nie składa żadnych oświadczeń dotyczących korzystania z niego. Zawsze sprawdzaj umowę z użytkownikiem lub politykę prywatności aplikacji.",
   "recentlyUsedDapps": "Ostatnio używane Dapps",
   "favoritedDapps": "Ulubione aplikacje",
   "allDapps": "Wszystkie Dapps",
