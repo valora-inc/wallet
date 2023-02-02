@@ -326,7 +326,6 @@ export default WalletConnect = () => {
   })
 
   it('Then should be able to disconnect a session', async () => {
-    await reloadReactNative()
     await waitForElementId('Hamburger')
     await element(by.id('Hamburger')).tap()
 
