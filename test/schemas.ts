@@ -2022,7 +2022,7 @@ export const v109Schema = {
     version: 109,
   },
   app: {
-    ...v107Schema.app,
+    ...v108Schema.app,
     paymentDeepLinkHandler: PaymentDeepLinkHandler.Disabled,
   },
 }
