@@ -433,25 +433,29 @@ function useFiatConnectTransferDisplayInfo({ amount, transactionHash }: TokenTra
   const tokenInfo = useTokenInfo(amount.tokenAddress)
   const fcTransferDetails = useSelector(getCachedFiatConnectTransferSelector(transactionHash))
   const cachedFiatAccountUses = useSelector(cachedFiatAccountUsesSelector)
+  const isTransferOut = fcTransferDetails?.quote.transferType === TransferType.TransferOut
   const account = useMemo(
     () =>
-      fcTransferDetails
+      isTransferOut
         ? cachedFiatAccountUses.find(
             ({ fiatAccountId }) => fiatAccountId === fcTransferDetails.fiatAccountId
           )
         : undefined,
     [cachedFiatAccountUses, fcTransferDetails]
   )
-  if (!account || !fcTransferDetails) {
+  if (!account || !isTransferOut) {
+    if (fcTransferDetails && !isTransferOut) {
+      Logger.debug(TAG, 'useFiatConnectTransferDisplayInfo only supports transfers out (withdraws)')
+    }
     return
   }
 
   const fiatAmount = Number(fcTransferDetails.quote.fiatAmount)
-  const total = Number(amount.value)
-  const exchangeRate = String(fiatAmount / total)
-  const sign = fcTransferDetails.quote.transferType === TransferType.TransferOut ? -1 : 1
+  const cryptoAmount = Number(amount.value)
+  const exchangeRate = String(fiatAmount / cryptoAmount)
   const localAmount: LocalAmount = {
-    value: new BigNumber(fiatAmount).multipliedBy(sign),
+    //Negative sign because currently only withdraws are supported
+    value: -new BigNumber(fiatAmount),
     currencyCode: convertToLocalCurrency(fcTransferDetails.quote.fiatType),
     exchangeRate,
   }
