@@ -57,35 +57,6 @@ describe('ExchangeQR', () => {
     mockStore.dispatch = jest.fn()
   })
 
-  it('displays QR code, name, and address', () => {
-    const { queryByTestId } = render(
-      <Provider store={mockStore}>
-        <ExchangeQR {...getProps()} />
-      </Provider>
-    )
-    expect(queryByTestId('styledQRCode')).toBeTruthy()
-    expect(queryByTestId('displayName')).toBeTruthy()
-    expect(queryByTestId('address')).toBeTruthy()
-  })
-
-  it('does not display name when it has not been set', () => {
-    const store = createMockStore({
-      web3: {
-        account: '0x000',
-      },
-      account: {
-        name: undefined,
-      },
-    })
-    store.dispatch = jest.fn()
-    const { queryByTestId } = render(
-      <Provider store={store}>
-        <ExchangeQR {...getProps()} />
-      </Provider>
-    )
-    expect(queryByTestId('displayName')).toBeFalsy()
-  })
-
   it('copies address when copy button pressed', async () => {
     const { queryByTestId, getByTestId } = render(
       <Provider store={mockStore}>

@@ -35,6 +35,7 @@ import {
   VerificationEvents,
   WalletConnectEvents,
   WebViewEvents,
+  QrScreenEvents,
 } from 'src/analytics/Events'
 import {
   BackQuizProgress,
@@ -955,6 +956,14 @@ interface FiatExchangeEventsProperties {
   }
 }
 
+interface QrScreenProperties {
+  [QrScreenEvents.qr_screen_copy_address]: undefined
+  [QrScreenEvents.qr_screen_bottom_sheet_open]: undefined
+  [QrScreenEvents.qr_screen_bottom_sheet_close]: undefined
+  [QrScreenEvents.qr_screen_bottom_sheet_link_press]: {
+    exchange: string
+  }
+}
 interface FiatConnectKycProperties {
   provider: string
   flow: CICOFlow
@@ -1221,4 +1230,5 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   WebViewEventsProperties &
   CoinbasePayEventsProperties &
   SwapEventsProperties &
-  CeloNewsEventsProperties
+  CeloNewsEventsProperties &
+  QrScreenProperties
