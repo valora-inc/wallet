@@ -187,10 +187,10 @@
   "startSuperchargingNotificationStart": "Otrzymuj nagrody",
   "cashIn": "Dodaj {{currency}}",
   "connectNumber": "Podłącz numer",
-  "connectToWallet": "{{dappName}} chce połączyć się z aplikacją {{appName}}",
-  "confirmTransaction": "{{dappName}} chce potwierdzić transakcję",
+  "connectToWallet": "Połącz się z {{dappName}}.",
+  "confirmTransaction": "Potwierdź transakcję",
   "allow": "Zezwól",
-  "address": "Adres konta",
+  "address": "Adres portfela",
   "phoneNumber": "Numer telefonu",
   "transaction": {
     "operation": "Operacja",
@@ -198,7 +198,8 @@
     "signTX": "Transakcję",
     "details": "Pokaż szczegóły"
   },
-  "shareInfo": "Ta aplikacja będzie miała dostęp do następujących informacji:",
+  "shareInfo": "Musisz podłączyć swój portfel, aby zatwierdzać transakcje w tym Dapp. Po połączeniu będzie miał dostęp do adresu Twojego portfela.",
+  "connectWalletInfoDappkit": "Musisz podłączyć swój portfel, aby zatwierdzać transakcje w tym Dapp. Po podłączeniu będzie miał dostęp do Twojego adresu portfela i numeru telefonu.",
   "data": "Dane",
   "firebaseDisabled": "Firebase jest wyłączony, powiadomienia i przesyłanie dzienników nie będą działać",
   "learnMore": "Dowiedz się więcej",
@@ -982,6 +983,16 @@
     "computeSharedSecret": "Wygeneruj tajne kody",
     "emptyMessage": "Pusta wiadomość"
   },
+  "walletConnectRequest": {
+    "transactionDataLabel": "Dane transakcyjne",
+    "readAccount": "{{dappName}} chciałbyś przeczytać adres swojego portfela {{appName}} .",
+    "signPayload": "{{dappName}} chciałby podpisać ładunek danych.",
+    "signTransaction": "{{dappName}} chciałby podpisać transakcję z Celo.",
+    "sendTransaction": "{{dappName}} chciałby wysłać transakcję Celo.",
+    "decryptPayload": "{{dappName}} chciałby odszyfrować ładunek danych.",
+    "computeSharedSecret": "{{dappName}} chciałby generować tajemnice.",
+    "transactionDataCopied": "Skopiowane dane transakcji"
+  },
   "sessionInfo": "Ta aplikacja może poprosić o wykonanie następujących operacji:",
   "description": {
     "sign": "Podpisz ładunki",
@@ -1239,6 +1250,8 @@
     "buttonLabel": "Powiedz mi więcej"
   },
   "dappsDisclaimerAllDapps": "{{appName}} nie jest powiązana z tymi dappami i nie składa żadnych oświadczeń ani roszczeń związanych z ich używaniem. Przed rozpoczęciem korzystania z aplikacji dapp należy zapoznać się z umową z użytkownikiem lub polityką prywatności.",
+  "dappsDisclaimerSingleDapp": "{{appName}} nie jest powiązana z tym dappem i nie składa żadnych oświadczeń dotyczących korzystania z niego. Zawsze sprawdzaj umowę z użytkownikiem lub politykę prywatności aplikacji.",
+  "dappsDisclaimerUnlistedDapp": "Ten dapp nie jest wymieniony w {{appName}}. {{appName}} nie jest powiązany z tym dappem i nie składa żadnych oświadczeń dotyczących korzystania z niego. Zawsze sprawdzaj umowę z użytkownikiem lub politykę prywatności aplikacji.",
   "recentlyUsedDapps": "Ostatnio używane Dapps",
   "favoritedDapps": "Ulubione aplikacje",
   "allDapps": "Wszystkie Dapps",

@@ -187,10 +187,10 @@
   "startSuperchargingNotificationStart": "Erste Schritte",
   "cashIn": "{{currency}} hinzufügen",
   "connectNumber": "Nummer verbinden",
-  "connectToWallet": "{{dappName}} möchte sich mit {{appName}} verbinden",
-  "confirmTransaction": "{{dappName}} möchte sich eine Transaktion bestätigen",
+  "connectToWallet": "Verbinde mit {{dappName}}",
+  "confirmTransaction": "Transaktion bestätigen",
   "allow": "Erlauben",
-  "address": "Konto-Adresse",
+  "address": "Adresse der Brieftasche",
   "phoneNumber": "Telefonnummer",
   "transaction": {
     "operation": "Operation",
@@ -198,7 +198,8 @@
     "signTX": "Transaktion",
     "details": "Details anzeigen"
   },
-  "shareInfo": "Diese Anwendung wird auf folgende Informationen zugreifen können:",
+  "shareInfo": "Du musst deine Wallet verbinden, um Transaktionen in dieser Dapp zu genehmigen. Sobald sie verbunden ist, hat sie Zugriff auf deine Wallet-Adresse.",
+  "connectWalletInfoDappkit": "Du musst deine Wallet verbinden, um Transaktionen in dieser Dapp zu genehmigen. Sobald sie verbunden ist, hat sie Zugriff auf deine Wallet-Adresse und Telefonnummer.",
   "data": "Daten",
   "firebaseDisabled": "Firebase ist deaktiviert, Benachrichtigung und Log-Upload funktionieren nicht",
   "learnMore": "Mehr Infos",
@@ -978,6 +979,16 @@
     "computeSharedSecret": "Geheimnisse generieren",
     "emptyMessage": "Leere Nachricht"
   },
+  "walletConnectRequest": {
+    "transactionDataLabel": "Transaktionsdaten",
+    "readAccount": "{{dappName}} würde gerne deine {{appName}} Brieftaschenadresse lesen.",
+    "signPayload": "{{dappName}} eine Daten-Nutzlast unterschreiben möchte.",
+    "signTransaction": "{{dappName}} möchte ein Celo-Geschäft abschließen.",
+    "sendTransaction": "{{dappName}} möchte eine Celo-Transaktion senden.",
+    "decryptPayload": "{{dappName}} eine Daten-Nutzlast entschlüsseln möchte.",
+    "computeSharedSecret": "{{dappName}} Geheimnisse erzeugen möchte.",
+    "transactionDataCopied": "Transaktionsdaten kopiert"
+  },
   "sessionInfo": "Diese Anwendung kann folgende Aktionen fordern:",
   "description": {
     "sign": "Payloads unterschreiben",
@@ -1235,6 +1246,8 @@
     "buttonLabel": "Erzähl mir mehr"
   },
   "dappsDisclaimerAllDapps": "{{appName}} ist nicht mit diesen Apps verbunden und macht keine Zusicherungen oder Ansprüche bei der Nutzung dieser Apps. Bitte erkenne das Risiko, bevor du eine App nutzt, indem du die Benutzervereinbarung oder die Datenschutzrichtlinie liest.",
+  "dappsDisclaimerSingleDapp": "{{appName}} ist nicht mit dieser App verbunden und übernimmt keine Verantwortung für die Nutzung dieser App. Lies immer die Nutzungsbedingungen oder die Datenschutzrichtlinien einer App.",
+  "dappsDisclaimerUnlistedDapp": "Diese App ist nicht auf {{appName}}gelistet. {{appName}} steht in keiner Verbindung zu dieser App und übernimmt keine Verantwortung für deren Nutzung. Lies dir immer die Nutzungsbedingungen und Datenschutzrichtlinien einer App durch.",
   "recentlyUsedDapps": "Kürzlich verwendete Dapps",
   "favoritedDapps": "Bevorzugte Dapps",
   "allDapps": "Alle Dapps",
