@@ -433,18 +433,17 @@ function useFiatConnectTransferDisplayInfo({ amount, transactionHash }: TokenTra
   const tokenInfo = useTokenInfo(amount.tokenAddress)
   const fcTransferDetails = useSelector(getCachedFiatConnectTransferSelector(transactionHash))
   const cachedFiatAccountUses = useSelector(cachedFiatAccountUsesSelector)
-  const isTransferOut = fcTransferDetails?.quote.transferType === TransferType.TransferOut
   const account = useMemo(
     () =>
-      isTransferOut
+      fcTransferDetails?.quote.transferType === TransferType.TransferOut
         ? cachedFiatAccountUses.find(
             ({ fiatAccountId }) => fiatAccountId === fcTransferDetails.fiatAccountId
           )
         : undefined,
     [cachedFiatAccountUses, fcTransferDetails]
   )
-  if (!account || !isTransferOut) {
-    if (fcTransferDetails && !isTransferOut) {
+  if (!account || !fcTransferDetails) {
+    if (fcTransferDetails?.quote.transferType === TransferType.TransferIn) {
       Logger.debug(TAG, 'useFiatConnectTransferDisplayInfo only supports transfers out (withdraws)')
     }
     return
