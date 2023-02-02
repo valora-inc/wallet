@@ -1246,6 +1246,8 @@
     "buttonLabel": "Conte-me mais"
   },
   "dappsDisclaimerAllDapps": "{{appName}} não está afiliado a estas dapps e não faz quaisquer representações ou reivindicações na sua utilização. Por favor, reconheça o risco antes de utilizar uma dapp, revendo o acordo do utilizador ou a política de privacidade.",
+  "dappsDisclaimerSingleDapp": "{{appName}} não está afiliado a esta dapp e não faz quaisquer representações na sua utilização. Rever sempre um acordo de utilização ou política de privacidade da dapp.",
+  "dappsDisclaimerUnlistedDapp": "Esta dapp não está listada em {{appName}}. {{appName}} não está afiliada a esta dapp e não faz quaisquer representações na sua utilização. Rever sempre um acordo de utilização ou política de privacidade da dapp.",
   "recentlyUsedDapps": "Dapps usados recentemente",
   "favoritedDapps": "Dapps favoritos",
   "allDapps": "Todos os dapps",
