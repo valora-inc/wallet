@@ -10872,9 +10872,9 @@ html-parse-stringify2@2.0.1:
     void-elements "^2.0.1"
 
 http-cache-semantics@^4.0.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/http-cache-semantics/-/http-cache-semantics-4.1.0.tgz#49e91c5cbf36c9b94bcfcd71c23d5249ec74e390"
-  integrity sha512-carPklcUh7ROWRK7Cv27RPtdhYhUsela/ue5/jKzjegVvXDqM2ILE9Q2BGn9JZJh1g87cp56su/FgQSzcWS8cQ==
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/http-cache-semantics/-/http-cache-semantics-4.1.1.tgz#abe02fcb2985460bf0323be664436ec3476a6d5a"
+  integrity sha512-er295DKPVsV82j5kw1Gjt+ADA/XYHsajl82cGNQG2eyoPkvgUhX+nDIyelzhIWbbsXP39EHcI6l5tYs2FYqYXQ==
 
 http-errors@1.7.2:
   version "1.7.2"
@@ -17602,30 +17602,30 @@ static-extend@^0.1.1:
     define-property "^0.2.5"
     object-copy "^0.1.0"
 
-statsig-js@^4.22.1:
-  version "4.22.1"
-  resolved "https://registry.yarnpkg.com/statsig-js/-/statsig-js-4.22.1.tgz#285b6eba7c92979be2f0f7747e264a82a25427bc"
-  integrity sha512-lMMptS1ppTNt+doyJ8GUMqU3dJeFBdwaaxGvljmZxC7ouodHuRE51LjsACwrpEVSJCdElJbPA7ojFzbK1vc6Pg==
+statsig-js@^4.28.1:
+  version "4.28.1"
+  resolved "https://registry.yarnpkg.com/statsig-js/-/statsig-js-4.28.1.tgz#07010f1cd51012087f3b5f7a51fe23767dd876dd"
+  integrity sha512-ZRmkWWsst06JWT9jQncLDLG1KGXnLtaHvMoeC6pLUa4n6sU0It0SpupVTeC+60wH3I/+PHU2y6C5u7bR1MFzMA==
   dependencies:
     js-sha256 "^0.9.0"
     uuid "^8.3.2"
     whatwg-fetch "^3.6.2"
 
-statsig-react-native@^4.6.0:
-  version "4.6.0"
-  resolved "https://registry.yarnpkg.com/statsig-react-native/-/statsig-react-native-4.6.0.tgz#192a62a6b8a56f0547bc360cbe6eb8f30de1d7bc"
-  integrity sha512-sAbpSl/QNIbpV9/CvUdzuPsK1hufdipNeoEmJDE+OjgKVQLv0ld/TNfaACMaTym/qhmCibLfF5T1Ryip+sJPuw==
+statsig-react-native@^4.9.2:
+  version "4.9.2"
+  resolved "https://registry.yarnpkg.com/statsig-react-native/-/statsig-react-native-4.9.2.tgz#ffb78081666a789d286c323c45e5c9dbd13c9824"
+  integrity sha512-QM98vyB+GLnnABgFvCoE+rEjUwd8VpNS0nSI7Py6wVJa5+1fqz6KMjfmVPiG+h2IuQOaPojag01mrZfeGjrhgw==
   dependencies:
     js-sha256 "^0.9.0"
-    statsig-react "^1.12.0"
+    statsig-react "^1.21.1"
     uuid "^3.4.0"
 
-statsig-react@^1.12.0:
-  version "1.16.0"
-  resolved "https://registry.yarnpkg.com/statsig-react/-/statsig-react-1.16.0.tgz#a86157e08fa3fa656ec659c07c842b3d5c738d2f"
-  integrity sha512-hMK1jj04SxEhV6PADyzkdC/CVLzgdyZVPn9g7gIvrQ6eVoZwdhWNun8p3u1bvOH1cv4903NhAYQ9GUQViy+1Ww==
+statsig-react@^1.21.1:
+  version "1.21.1"
+  resolved "https://registry.yarnpkg.com/statsig-react/-/statsig-react-1.21.1.tgz#6ad0cf7dc08b9f0f6cb52b62a0312eee6a7aa21a"
+  integrity sha512-2SpBTMcqb2b+7AYGjW7W6OUXy9sG+e7ScUpq2HUweYG0EPCQ6Evwxpa/CTLy0q7IvEpVLzfiPRKA+c6yZC49qw==
   dependencies:
-    statsig-js "^4.22.1"
+    statsig-js "^4.28.1"
 
 statuses@2.0.1:
   version "2.0.1"

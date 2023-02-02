@@ -14,7 +14,7 @@ import { E164NumberToAddressType } from 'src/identity/reducer'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { QRCodeDataType, UriData, uriDataFromUrl, urlFromUriData } from 'src/qrcode/schema'
+import { UriData, uriDataFromUrl, urlFromUriData } from 'src/qrcode/schema'
 import {
   getRecipientFromAddress,
   recipientHasNumber,
@@ -24,6 +24,7 @@ import { QrCode, SVG } from 'src/send/actions'
 import { TransactionDataInput } from 'src/send/SendAmount'
 import { TransactionDataInput as TransactionDataInputLegacy } from 'src/send/SendConfirmationLegacy'
 import { handleSendPaymentData, isLegacyTransactionData } from 'src/send/utils'
+import { QRCodeDataType } from 'src/statsig/types'
 import Logger from 'src/utils/Logger'
 import { initialiseWalletConnect, isWalletConnectEnabled } from 'src/walletConnect/saga'
 import { handleLoadingWithTimeout } from 'src/walletConnect/walletConnect'

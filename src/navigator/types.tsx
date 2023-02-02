@@ -29,7 +29,7 @@ import {
   WalletConnectRequestType,
   WalletConnectSessionRequest,
 } from 'src/walletConnect/types'
-import { QRCodeDataType, QRCodeStyle } from 'src/qrcode/schema'
+import { QRCodeDataType, QRCodeStyle } from 'src/statsig/types'
 
 // Typed nested navigator params
 type NestedNavigatorParams<ParamList> = {

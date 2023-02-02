@@ -187,10 +187,10 @@
   "startSuperchargingNotificationStart": "Inizia",
   "cashIn": "Aggiungi {{currency}}",
   "connectNumber": "Collega numero",
-  "connectToWallet": "{{dappName}} desidera collegarsi a {{appName}}",
-  "confirmTransaction": "{{dappName}} desidera confermare una transazione",
+  "connectToWallet": "Collegati a {{dappName}}",
+  "confirmTransaction": "Conferma la transazione",
   "allow": "Consenti",
-  "address": "Indirizzo del conto",
+  "address": "Indirizzo del portafoglio",
   "phoneNumber": "Numero telefonico",
   "transaction": {
     "operation": "Operazione",
@@ -198,7 +198,8 @@
     "signTX": "Transazione",
     "details": "Mostra dettagli"
   },
-  "shareInfo": "Questa app sarà in grado di accedere alle seguenti informazioni:",
+  "shareInfo": "Devi collegare il tuo portafoglio per approvare le transazioni in questa Dapp. Una volta collegato, avrà accesso al tuo indirizzo di portafoglio.",
+  "connectWalletInfoDappkit": "Devi collegare il tuo portafoglio per approvare le transazioni in questa Dapp. Una volta collegato, avrà accesso all'indirizzo del tuo portafoglio e al tuo numero di telefono.",
   "data": "Dati",
   "firebaseDisabled": "Firebase è disabilitato, le notifiche e l’upload dei log non funzioneranno.",
   "learnMore": "Scopri di più",
@@ -978,6 +979,16 @@
     "computeSharedSecret": "Genera segreti",
     "emptyMessage": "Messaggio vuoto"
   },
+  "walletConnectRequest": {
+    "transactionDataLabel": "Dati di transazione",
+    "readAccount": "{{dappName}} vorrebbe leggere l'indirizzo del tuo portafoglio {{appName}} .",
+    "signPayload": "{{dappName}} desidera firmare un carico di dati.",
+    "signTransaction": "{{dappName}} vorrebbe firmare una transazione Celo.",
+    "sendTransaction": "{{dappName}} desidera inviare una transazione Celo.",
+    "decryptPayload": "{{dappName}} desidera decriptare un carico di dati.",
+    "computeSharedSecret": "{{dappName}} vorrebbe generare dei segreti.",
+    "transactionDataCopied": "Dati di transazione copiati"
+  },
   "sessionInfo": "Questa applicazione potrebbe richiedere di eseguire le seguenti azioni:",
   "description": {
     "sign": "Firma payload",
@@ -1235,6 +1246,8 @@
     "buttonLabel": "Dimmi di più"
   },
   "dappsDisclaimerAllDapps": "{{appName}} non è affiliata a queste dapps e non rilascia alcuna dichiarazione o rivendicazione in merito al loro utilizzo. Prima di utilizzare una dapp, ti invitiamo a prendere visione del contratto con l'utente o dell'informativa sulla privacy.",
+  "dappsDisclaimerSingleDapp": "{{appName}} non è affiliata a questa dapp e non fornisce alcuna garanzia sul suo utilizzo. Controlla sempre l'accordo con l'utente o l'informativa sulla privacy di una dapp.",
+  "dappsDisclaimerUnlistedDapp": "Questa dapp non è presente nell'elenco di {{appName}}. {{appName}} non è affiliata a questa dapp e non fornisce alcuna garanzia sul suo utilizzo. Controlla sempre l'accordo con l'utente o l'informativa sulla privacy di una dapp.",
   "recentlyUsedDapps": "Dapps usati di recente",
   "favoritedDapps": "Dapps preferite",
   "allDapps": "Tutti i dapps",
