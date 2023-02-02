@@ -1246,6 +1246,8 @@
     "buttonLabel": "Dimmi di più"
   },
   "dappsDisclaimerAllDapps": "{{appName}} non è affiliata a queste dapps e non rilascia alcuna dichiarazione o rivendicazione in merito al loro utilizzo. Prima di utilizzare una dapp, ti invitiamo a prendere visione del contratto con l'utente o dell'informativa sulla privacy.",
+  "dappsDisclaimerSingleDapp": "{{appName}} non è affiliata a questa dapp e non fornisce alcuna garanzia sul suo utilizzo. Controlla sempre l'accordo con l'utente o l'informativa sulla privacy di una dapp.",
+  "dappsDisclaimerUnlistedDapp": "Questa dapp non è presente nell'elenco di {{appName}}. {{appName}} non è affiliata a questa dapp e non fornisce alcuna garanzia sul suo utilizzo. Controlla sempre l'accordo con l'utente o l'informativa sulla privacy di una dapp.",
   "recentlyUsedDapps": "Dapps usati di recente",
   "favoritedDapps": "Dapps preferite",
   "allDapps": "Tutti i dapps",
