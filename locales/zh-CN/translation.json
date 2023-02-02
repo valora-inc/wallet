@@ -1244,6 +1244,8 @@
     "buttonLabel": "告诉我更多"
   },
   "dappsDisclaimerAllDapps": "{{appName}} 与这些应用程序没有关系，在使用它们时不做任何陈述或主张。在使用dapp之前，请通过审查用户协议或隐私政策来确认风险。",
+  "dappsDisclaimerSingleDapp": "{{appName}} 与此应用程序没有关系，在使用它时不作任何陈述。始终审查一个应用程序的用户协议或隐私政策。",
+  "dappsDisclaimerUnlistedDapp": "这个应用程序没有在 {{appName}}。 {{appName}} ，与这个应用程序没有关系，在使用它时不作任何陈述。始终审查一个dapp的用户协议或隐私政策。",
   "recentlyUsedDapps": "最近使用的 Dapp",
   "favoritedDapps": "最喜欢的Dapps",
   "allDapps": "所有 Dapp",
