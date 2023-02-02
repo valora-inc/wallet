@@ -1246,6 +1246,8 @@
     "buttonLabel": "Erzähl mir mehr"
   },
   "dappsDisclaimerAllDapps": "{{appName}} ist nicht mit diesen Apps verbunden und macht keine Zusicherungen oder Ansprüche bei der Nutzung dieser Apps. Bitte erkenne das Risiko, bevor du eine App nutzt, indem du die Benutzervereinbarung oder die Datenschutzrichtlinie liest.",
+  "dappsDisclaimerSingleDapp": "{{appName}} ist nicht mit dieser App verbunden und übernimmt keine Verantwortung für die Nutzung dieser App. Lies immer die Nutzungsbedingungen oder die Datenschutzrichtlinien einer App.",
+  "dappsDisclaimerUnlistedDapp": "Diese App ist nicht auf {{appName}}gelistet. {{appName}} steht in keiner Verbindung zu dieser App und übernimmt keine Verantwortung für deren Nutzung. Lies dir immer die Nutzungsbedingungen und Datenschutzrichtlinien einer App durch.",
   "recentlyUsedDapps": "Kürzlich verwendete Dapps",
   "favoritedDapps": "Bevorzugte Dapps",
   "allDapps": "Alle Dapps",
