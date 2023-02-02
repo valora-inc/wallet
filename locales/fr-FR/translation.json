@@ -1246,6 +1246,8 @@
     "buttonLabel": "Dis-moi en plus"
   },
   "dappsDisclaimerAllDapps": "{{appName}} n'est pas affilié à ces dapps et ne fait aucune déclaration ou revendication quant à leur utilisation. Reconnais le risque avant d'utiliser une dapp en consultant l'accord d'utilisation ou la politique de confidentialité.",
+  "dappsDisclaimerSingleDapp": "{{appName}} n'est pas affilié à cette dapp et ne fait aucune déclaration quant à son utilisation. Vérifie toujours l'accord d'utilisation ou la politique de confidentialité d'une dapp.",
+  "dappsDisclaimerUnlistedDapp": "Cette dapp n'est pas répertoriée sur {{appName}}. {{appName}} n'est pas affiliée à cette dapp et ne fait aucune déclaration quant à son utilisation. Vérifie toujours l'accord d'utilisation ou la politique de confidentialité d'une dapp.",
   "recentlyUsedDapps": "Dapps récemment utilisés",
   "favoritedDapps": "Dapps favorites",
   "allDapps": "Toutes les Dapps",
