@@ -11,7 +11,7 @@ import { validateRecipientAddressSuccess } from 'src/identity/actions'
 import { E164NumberToAddressType } from 'src/identity/reducer'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { QRCodeDataType, UriData, uriDataFromUrl, urlFromUriData } from 'src/qrcode/schema'
+import { UriData, uriDataFromUrl, urlFromUriData } from 'src/qrcode/schema'
 import {
   getRecipientFromAddress,
   recipientHasNumber,
@@ -24,6 +24,7 @@ import { handleSendPaymentData, isLegacyTransactionData } from 'src/send/utils'
 import Logger from 'src/utils/Logger'
 import { initialiseWalletConnect, isWalletConnectEnabled } from 'src/walletConnect/saga'
 import { handleLoadingWithTimeout } from 'src/walletConnect/walletConnect'
+import { QRCodeDataType } from 'src/statsig/types'
 
 export enum BarcodeTypes {
   QR_CODE = 'QR_CODE',
