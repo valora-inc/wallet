@@ -12,10 +12,10 @@ import { emptyHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
-import { QRCodeDataType } from 'src/qrcode/schema'
 import { shareQRCode, SVG } from 'src/send/actions'
 import { CICOFlow } from './utils'
 import NewQRCode from 'src/qrcode/NewQRCode'
+import { QRCodeDataType } from 'src/statsig/types'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.ExchangeQR>
 

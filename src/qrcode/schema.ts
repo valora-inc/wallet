@@ -37,16 +37,6 @@ enum UriMethod {
   pay = 'pay',
 }
 
-export enum QRCodeDataType {
-  ValoraDeepLink = 'ValoraDeepLink',
-  Address = 'Address',
-}
-
-export enum QRCodeStyle {
-  New = 'New',
-  Legacy = 'Legacy',
-}
-
 // removes undefined parameters for serialization
 export const stripUndefined = (obj: object) => JSON.parse(JSON.stringify(obj))
 

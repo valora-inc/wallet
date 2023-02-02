@@ -2,9 +2,10 @@ import { render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
 import { View } from 'react-native'
-import { QRCodeDataType, urlFromUriData } from 'src/qrcode/schema'
+import { urlFromUriData } from 'src/qrcode/schema'
 import { useQRContent } from 'src/qrcode/utils'
 import { mockAccount, mockE164Number, mockName } from 'test/values'
+import { QRCodeDataType } from 'src/statsig/types'
 
 describe('useQRContent', () => {
   const data = {

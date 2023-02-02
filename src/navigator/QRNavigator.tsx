@@ -19,10 +19,12 @@ import QRCode from 'src/qrcode/QRCode'
 import NewQRCode from 'src/qrcode/NewQRCode'
 import QRScanner from 'src/qrcode/QRScanner'
 import QRTabBar from 'src/qrcode/QRTabBar'
-import { QRCodeDataType, QRCodeStyle } from 'src/qrcode/schema'
 import { handleBarcodeDetected, QrCode, SVG } from 'src/send/actions'
 import Logger from 'src/utils/Logger'
 import { ExtractProps } from 'src/utils/typescript'
+import { QRCodeDataType, QRCodeStyle, StatsigLayers } from 'src/statsig/types'
+import { LayerParams } from 'src/statsig/constants'
+import { Statsig } from 'statsig-react-native'
 import { CiCoCurrency } from 'src/utils/currencies'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import { fetchExchanges } from 'src/fiatExchanges/utils'
@@ -45,10 +47,33 @@ type AnimatedScannerSceneProps = NativeStackScreenProps<QRTabParamList, Screens.
   position: Animated.Value<number>
 }
 
-export function QRCodePicker({ route, qrSvgRef, ...props }: QRCodeProps) {
-  const qrCodeStyle = route.params?.qrCodeStyle ?? QRCodeStyle.Legacy
-  const qrCodeDataType = route.params?.qrCodeDataType ?? QRCodeDataType.ValoraDeepLink
+export function getExperimentParams(): {
+  qrCodeStyle: QRCodeStyle
+  qrCodeDataType: QRCodeDataType
+} {
+  const layerName = StatsigLayers.SEND_RECEIVE_QR_CODE
+  const { paramName: styleParamName, defaultValue: styleDefaultValue } =
+    LayerParams[layerName].qrCodeStyle
+  const { paramName: dataTypeParamName, defaultValue: dataTypeDefaultValue } =
+    LayerParams[layerName].qrCodeDataType
+  try {
+    const statsigLayer = Statsig.getLayer(layerName)
+    const qrCodeStyle = statsigLayer.get(styleParamName, styleDefaultValue)
+    const qrCodeDataType = statsigLayer.get(dataTypeParamName, dataTypeDefaultValue)
+    return { qrCodeStyle, qrCodeDataType }
+  } catch (error) {
+    Logger.warn(TAG, 'error getting Statsig experiment', error)
+    return {
+      qrCodeStyle: styleDefaultValue,
+      qrCodeDataType: dataTypeDefaultValue,
+    }
+  }
+}
 
+export function QRCodePicker({ route, qrSvgRef, ...props }: QRCodeProps) {
+  const qrCodeStyle: QRCodeStyle = route.params?.qrCodeStyle ?? QRCodeStyle.Legacy
+  const qrCodeDataType: QRCodeDataType =
+    route.params?.qrCodeDataType ?? QRCodeDataType.ValoraDeepLink
   const userLocation = useSelector(userLocationDataSelector)
   const asyncExchanges = useAsync(async () => {
     if (qrCodeStyle !== QRCodeStyle.New) {
@@ -194,6 +219,7 @@ const pager: ExtractProps<typeof Tab.Navigator>['pager'] =
   Platform.OS === 'ios' ? (props: any) => <ScrollPager {...props} /> : undefined
 
 export default function QRNavigator() {
+  const { qrCodeDataType, qrCodeStyle } = getExperimentParams()
   const position = useRef(new Animated.Value(0)).current
   const qrSvgRef = useRef<SVG>()
   const { t } = useTranslation()
@@ -212,7 +238,16 @@ export default function QRNavigator() {
       initialLayout={initialLayout}
     >
       <Tab.Screen name={Screens.QRCode} options={{ title: t('myCode') }}>
-        {(props) => <QRCodePicker {...props} qrSvgRef={qrSvgRef} />}
+        {({ route, navigation }) => (
+          <QRCodePicker
+            navigation={navigation}
+            route={{
+              ...route,
+              params: { qrCodeStyle, qrCodeDataType, ...route.params }, // if qrCodeStyle or qrCodeDataType are already given as params, uses those
+            }}
+            qrSvgRef={qrSvgRef}
+          />
+        )}
       </Tab.Screen>
       <Tab.Screen name={Screens.QRScanner} options={{ title: t('scanCode') }}>
         {(props) => <AnimatedScannerScene {...props} position={position} />}

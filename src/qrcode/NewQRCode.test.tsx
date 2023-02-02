@@ -5,7 +5,7 @@ import { Provider } from 'react-redux'
 import { Screens } from 'src/navigator/Screens'
 import { navigate } from 'src/navigator/NavigationService'
 import Clipboard from '@react-native-clipboard/clipboard'
-import { QRCodeDataType } from 'src/qrcode/schema'
+import { QRCodeDataType } from 'src/statsig/types'
 import NewQRCode from 'src/qrcode/NewQRCode'
 import { mockExchanges } from 'test/values'
 
