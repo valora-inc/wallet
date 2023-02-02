@@ -50,8 +50,8 @@ export const formatVendors = (vendorObject: any): Vendors => {
             latitude: Number(latitude),
             longitude: Number(longitude),
           },
-          acceptsGuilder: Boolean(acceptsGuilder),
-          providesGuilder: Boolean(providesGuilder),
+          acceptsGuilder: !!acceptsGuilder,
+          providesGuilder: !!providesGuilder,
           account: account,
         } as Vendor | VendorWithLocation,
       }
