@@ -11,7 +11,7 @@ import {
   UserTransactionsQuery,
 } from 'src/apollo/types'
 import { CELO_LOGO_URL, DEFAULT_TESTNET, SUPERCHARGE_LOGO_URL } from 'src/config'
-import { convertToLocalCurrency } from 'src/fiatconnect'
+import { FIATCONNECT_CURRENCY_TO_WALLET_CURRENCY } from 'src/fiatconnect/consts'
 import {
   cachedFiatAccountUsesSelector,
   getCachedFiatConnectTransferSelector,
@@ -435,28 +435,30 @@ function useFiatConnectTransferDisplayInfo({ amount, transactionHash }: TokenTra
   const cachedFiatAccountUses = useSelector(cachedFiatAccountUsesSelector)
   const account = useMemo(
     () =>
-      fcTransferDetails?.quote.transferType === TransferType.TransferOut
+      fcTransferDetails?.quote
         ? cachedFiatAccountUses.find(
             ({ fiatAccountId }) => fiatAccountId === fcTransferDetails.fiatAccountId
           )
         : undefined,
     [cachedFiatAccountUses, fcTransferDetails]
   )
-  if (!account || !fcTransferDetails) {
-    if (fcTransferDetails?.quote.transferType === TransferType.TransferIn) {
+  if (
+    !account ||
+    !fcTransferDetails ||
+    fcTransferDetails.quote.transferType !== TransferType.TransferOut
+  ) {
+    if (fcTransferDetails?.quote.transferType !== TransferType.TransferOut) {
       Logger.debug(TAG, 'useFiatConnectTransferDisplayInfo only supports transfers out (withdraws)')
     }
     return
   }
 
-  const fiatAmount = Number(fcTransferDetails.quote.fiatAmount)
-  const cryptoAmount = Number(amount.value)
-  const exchangeRate = String(fiatAmount / cryptoAmount)
+  const fiatAmount = new BigNumber(fcTransferDetails.quote.fiatAmount)
   const localAmount: LocalAmount = {
     //Negative sign because currently only withdraws are supported
-    value: -new BigNumber(fiatAmount),
-    currencyCode: convertToLocalCurrency(fcTransferDetails.quote.fiatType),
-    exchangeRate,
+    value: fiatAmount.multipliedBy(-1),
+    currencyCode: FIATCONNECT_CURRENCY_TO_WALLET_CURRENCY[fcTransferDetails.quote.fiatType],
+    exchangeRate: fiatAmount.div(amount.value).toFixed(2),
   }
 
   let subtitle: string
