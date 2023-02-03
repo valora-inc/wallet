@@ -1254,6 +1254,13 @@
   "others": "อื่นๆ",
   "nomSpaceRecipient": "Nomspace: {{name}}",
   "lastDay": "24 ชม. ที่ผ่านมา",
+  "merchant": "การชำระเงินร้านค้า",
+  "merchantMoneyEscrow": "คุณกำลังจะส่งการชำระเงินโดยตรงไปยังร้านค้า",
+  "merchantPaymentNumberVerificationMessage": "คุณต้องเชื่อมต่อหมายเลขของคุณ",
+  "merchantPaymentSubmitFail": "ไม่สามารถส่งการชำระเงินได้",
+  "merchantPaymentSetup": "มีข้อผิดพลาดขณะโหลดข้อมูลร้านค้า โปรดลองสแกน QR Code อีกครั้ง",
+  "merchantPaymentSubmitSuccess": "Your payment was successfully submitted",
+  "merchantWalletUnlockError": "มีบางอย่างผิดปกติเมื่อปลดล็อกกระเป๋าเงินของคุณ โปรดลองอีกครั้ง",
   "noMoreTransactions": "ไม่มีธุรกรรมเพิ่มอีก",
   "selectProviderScreen": {
     "somePaymentsUnavailable": "วิธีการชำระเงินบางอย่างอาจไม่สามารถใช้ได้ในประเทศของคุณ",
