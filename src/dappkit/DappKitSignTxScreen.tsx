@@ -15,7 +15,7 @@ import { DappConnectInfo } from 'src/dapps/types'
 import CopyIcon from 'src/icons/CopyIcon'
 import { isBottomSheetVisible, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { StackParamList } from 'src/navigator/types'
+import { BottomSheetParams, StackParamList } from 'src/navigator/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -23,14 +23,13 @@ import variables from 'src/styles/variables'
 import Logger from 'src/utils/Logger'
 import DappsDisclaimer from 'src/walletConnect/screens/DappsDisclaimer'
 import RequestContent from 'src/walletConnect/screens/RequestContent'
-import useDynamicBottomSheetHeight from 'src/walletConnect/screens/useDynamicBottomSheetHeight'
 import { useIsDappListed } from 'src/walletConnect/screens/useIsDappListed'
 
 const TAG = 'dappkit/DappKitSignTxScreen'
 
-type Props = BottomSheetScreenProps<StackParamList, Screens.DappKitSignTxScreen>
+type Props = BottomSheetScreenProps<StackParamList, Screens.DappKitSignTxScreen> & BottomSheetParams
 
-const DappKitSignTxScreen = ({ route, navigation }: Props) => {
+const DappKitSignTxScreen = ({ route, handleContentLayout }: Props) => {
   const { dappKitRequest } = route.params
   const { dappName, txs, callback } = dappKitRequest
 
@@ -38,7 +37,6 @@ const DappKitSignTxScreen = ({ route, navigation }: Props) => {
   const dappConnectInfo = useSelector(dappConnectInfoSelector)
   const dispatch = useDispatch()
   const { t } = useTranslation()
-  const { handleContentLayout } = useDynamicBottomSheetHeight(navigation)
   const isDappListed = useIsDappListed(callback)
 
   if (!dappKitRequest) {
@@ -83,7 +81,6 @@ const DappKitSignTxScreen = ({ route, navigation }: Props) => {
         title={t('confirmTransaction')}
         description={t('walletConnectRequest.signTransaction', { dappName })}
         testId="DappKitSignRequest"
-        dappUrl={callback}
       >
         <View style={styles.transactionContainer}>
           <View style={styles.transactionDataContainer}>

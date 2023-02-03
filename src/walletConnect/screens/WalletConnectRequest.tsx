@@ -5,21 +5,20 @@ import { ActivityIndicator, StyleSheet, Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
 import { Screens } from 'src/navigator/Screens'
-import { StackParamList } from 'src/navigator/types'
+import { BottomSheetParams, StackParamList } from 'src/navigator/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import ActionRequest from 'src/walletConnect/screens/ActionRequest'
 import ConnectionTimedOut from 'src/walletConnect/screens/ConnectionTimedOut'
 import SessionRequest from 'src/walletConnect/screens/SessionRequest'
-import useDynamicBottomSheetHeight from 'src/walletConnect/screens/useDynamicBottomSheetHeight'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
 
-type Props = BottomSheetScreenProps<StackParamList, Screens.WalletConnectRequest>
+type Props = BottomSheetScreenProps<StackParamList, Screens.WalletConnectRequest> &
+  BottomSheetParams
 
-function WalletConnectRequest({ route: { params }, navigation }: Props) {
+function WalletConnectRequest({ route: { params }, handleContentLayout }: Props) {
   const { t } = useTranslation()
-  const { handleContentLayout } = useDynamicBottomSheetHeight(navigation)
 
   return (
     <SafeAreaView
@@ -56,7 +55,6 @@ function WalletConnectRequest({ route: { params }, navigation }: Props) {
 const styles = StyleSheet.create({
   container: {
     padding: Spacing.Thick24,
-    minHeight: 370, // takes into account the initial loading state
   },
   connecting: {
     ...fontStyles.label,

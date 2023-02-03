@@ -80,7 +80,6 @@ function RequestContent({
   testId,
   requestDetails,
   dappName,
-  dappUrl,
   children,
 }: Props) {
   const { t } = useTranslation()

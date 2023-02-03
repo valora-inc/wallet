@@ -3,6 +3,7 @@ import { AccountAuthRequest, SignTxRequest } from '@celo/utils'
 import { KycSchema } from '@fiatconnect/fiatconnect-types'
 import { SignClientTypes } from '@walletconnect/types'
 import BigNumber from 'bignumber.js'
+import { LayoutChangeEvent } from 'react-native'
 import { SendOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { ExchangeConfirmationCardProps } from 'src/exchange/ExchangeConfirmationCard'
@@ -58,6 +59,10 @@ interface SendConfirmationLegacyParams {
   addressJustValidated?: boolean
   isFromScan?: boolean
   currencyInfo?: CurrencyInfo
+}
+
+export interface BottomSheetParams {
+  handleContentLayout(event: LayoutChangeEvent): void
 }
 
 export type StackParamList = {
