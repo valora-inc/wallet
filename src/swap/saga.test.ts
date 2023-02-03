@@ -7,10 +7,8 @@ import { store } from 'src/redux/store'
 import { swapSubmitSaga } from 'src/swap/saga'
 import { swapApprove, swapError, swapExecute, swapPriceChange } from 'src/swap/slice'
 import { sendTransaction } from 'src/transactions/send'
-import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import Logger from 'src/utils/Logger'
 import { getContractKit } from 'src/web3/contracts'
-import networkConfig from 'src/web3/networkConfig'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { mockAccount } from 'test/values'
@@ -61,18 +59,6 @@ describe(swapSubmitSaga, () => {
     jest.clearAllMocks()
   })
 
-  const mockResponse = {
-    ok: true,
-    json: () => {
-      return { validatedSwapTransaction: mockSwapTransaction }
-    },
-  }
-
-  const buyToken = '0xd8763cba276a3738e6de85b4b3bf5fded6d6ca73'
-  const sellToken = '0xe8537a3d056da446677b9e9d6c5db704eaab4787'
-  const buyAmount = '10000000000000000'
-  const executeSwapUri = `${networkConfig.executeSwapUrl}?buyToken=${buyToken}&sellToken=${sellToken}&buyAmount=${buyAmount}&userAddress=${mockAccount}`
-
   it('should complete swap', async () => {
     await expectSaga(swapSubmitSaga, mockSwap)
       .withState(store.getState())
@@ -80,7 +66,6 @@ describe(swapSubmitSaga, () => {
         [select(walletAddressSelector), mockAccount],
         [call(getContractKit), contractKit],
         [call(getConnectedUnlockedAccount), mockAccount],
-        [call(fetchWithTimeout, executeSwapUri), mockResponse],
       ])
       .put(swapApprove())
       .put(swapExecute())
@@ -104,29 +89,14 @@ describe(swapSubmitSaga, () => {
       .provide([
         [select(walletAddressSelector), mockAccount],
         [call(getContractKit), contractKit],
-        [call(getConnectedUnlockedAccount), mockAccount],
-        [call(fetchWithTimeout, executeSwapUri), throwError(new Error('Error Fetching'))],
-      ])
-      .put(swapApprove())
-      .put(swapError())
-      .run()
-  })
-
-  it('should set swap state correctly when response ok is false', async () => {
-    await expectSaga(swapSubmitSaga, mockSwap)
-      .withState(store.getState())
-      .provide([
-        [select(walletAddressSelector), mockAccount],
-        [call(getContractKit), contractKit],
-        [call(getConnectedUnlockedAccount), mockAccount],
-        [call(fetchWithTimeout, executeSwapUri), { ok: false }],
+        [call(getConnectedUnlockedAccount), throwError(new Error('fake error'))],
       ])
       .put(swapApprove())
       .put(swapError())
       .run()
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_execute_error, {
-      error: 'Got non-ok response from executeSwap: undefined',
+      error: 'fake error',
     })
   })
 
@@ -138,7 +108,6 @@ describe(swapSubmitSaga, () => {
         [select(walletAddressSelector), mockAccount],
         [call(getContractKit), contractKit],
         [call(getConnectedUnlockedAccount), mockAccount],
-        [call(fetchWithTimeout, executeSwapUri), mockResponse],
       ])
       .put(swapPriceChange())
       .run()
