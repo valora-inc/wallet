@@ -45,6 +45,7 @@ export enum Screens {
   Licenses = 'Licenses',
   Main = 'Main',
   MainModal = 'MainModal',
+  MerchantPayment = 'MerchantPayment',
   MoonPayScreen = 'MoonPayScreen',
   XanpoolScreen = 'XanpoolScreen',
   NameAndPicture = 'NameAndPicture',
