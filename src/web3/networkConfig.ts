@@ -117,7 +117,6 @@ const CELO_EXPLORER_BASE_ADDRESS_URL_MAINNET = `${CELO_EXPLORER_BASE_URL_MAINNET
 const NFTS_VALORA_APP_URL = 'https://nfts.valoraapp.com/'
 
 const APPROVE_SWAP_URL = `${CLOUD_FUNCTIONS_MAINNET}/approveSwap`
-const EXECUTE_SWAP_URL = `${CLOUD_FUNCTIONS_MAINNET}/executeSwap`
 
 const networkConfigs: { [testnet: string]: NetworkConfig } = {
   [Testnets.alfajores]: {
