@@ -1260,9 +1260,9 @@
   "merchantMoneyEscrow": "Vous êtes sur le point d'envoyer un paiement direct à un vendeur.",
   "merchantPaymentNumberVerificationMessage": "Vous devez connecter votre numéro",
   "merchantPaymentSubmitFail": "Votre paiement n'a pas pu être envoyé",
-  "merchantPaymentSetup": "There was an error loading the merchant information, please try scanning the QRCode again",
+  "merchantPaymentSetup": "Une erreur s'est produite lors du chargement des informations du vendeur, veuillez réessayer de scanner le QR code",
   "merchantPaymentSubmitSuccess": "Ton paiement a été soumis avec succès",
-  "merchantWalletUnlockError": "Something went wrong when unlocking your wallet, please try again",
+  "merchantWalletUnlockError": "Une erreur s'est produite lors du déverrouillage de votre wallet, veuillez réessayer",
   "noMoreTransactions": "Il n'y a plus de transactions",
   "selectProviderScreen": {
     "somePaymentsUnavailable": "Certaines modes de paiement ne sont pas disponibles dans votre région",
