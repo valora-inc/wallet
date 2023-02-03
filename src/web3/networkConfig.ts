@@ -34,7 +34,6 @@ interface NetworkConfig {
   celoExplorerBaseTxUrl: string
   celoExplorerBaseAddressUrl: string
   approveSwapUrl: string
-  executeSwapUrl: string
   verifyPhoneNumberUrl: string
   verifySmsCodeUrl: string
   getPublicDEKUrl: string
@@ -152,7 +151,6 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     celoExplorerBaseTxUrl: CELO_EXPLORER_BASE_TX_URL_ALFAJORES,
     celoExplorerBaseAddressUrl: CELO_EXPLORER_BASE_ADDRESS_URL_ALFAJORES,
     approveSwapUrl: APPROVE_SWAP_URL,
-    executeSwapUrl: EXECUTE_SWAP_URL,
     verifyPhoneNumberUrl: VERIFY_PHONE_NUMBER_ALFAJORES,
     verifySmsCodeUrl: VERIFY_SMS_CODE_ALFAJORES,
     getPublicDEKUrl: GET_PUBLIC_DEK_ALFAJORES,
@@ -192,7 +190,6 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     celoExplorerBaseTxUrl: CELO_EXPLORER_BASE_TX_URL_MAINNET,
     celoExplorerBaseAddressUrl: CELO_EXPLORER_BASE_ADDRESS_URL_MAINNET,
     approveSwapUrl: APPROVE_SWAP_URL,
-    executeSwapUrl: EXECUTE_SWAP_URL,
     verifyPhoneNumberUrl: VERIFY_PHONE_NUMBER_MAINNET,
     verifySmsCodeUrl: VERIFY_SMS_CODE_MAINNET,
     getPublicDEKUrl: GET_PUBLIC_DEK_MAINNET,
