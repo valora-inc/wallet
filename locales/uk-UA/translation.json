@@ -1260,6 +1260,13 @@
   "others": "Інші",
   "nomSpaceRecipient": "Nomspace: {{name}}",
   "lastDay": "Останні 24 год",
+  "merchant": "Платіж для продавця",
+  "merchantMoneyEscrow": "Ви збираєтеся здійснити прямий платіж на користь продавця.",
+  "merchantPaymentNumberVerificationMessage": "Треба під'єднати свій номер",
+  "merchantPaymentSubmitFail": "Ваш платіж не вдалося надіслати",
+  "merchantPaymentSetup": "Під час завантаження інформації про продавця сталася помилка, зіскануйте QR-код ще раз",
+  "merchantPaymentSubmitSuccess": "Ваш платіж успішно надіслано",
+  "merchantWalletUnlockError": "Під час розблокування гаманця сталася помилка, спробуйте ще раз",
   "noMoreTransactions": "Більше немає транзакції",
   "selectProviderScreen": {
     "somePaymentsUnavailable": "Деякі методи оплати недоступні у вашому регіоні",

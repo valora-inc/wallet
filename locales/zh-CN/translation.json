@@ -1254,6 +1254,13 @@
   "others": "其他",
   "nomSpaceRecipient": "Nomspace：{{name}}",
   "lastDay": "最近 24 小时",
+  "merchant": "商户付款",
+  "merchantMoneyEscrow": "您即将向商户发送一笔直接付款。",
+  "merchantPaymentNumberVerificationMessage": "您需要关联手机号码",
+  "merchantPaymentSubmitFail": "您的付款提交失败",
+  "merchantPaymentSetup": "加载商户信息时出错，请尝试再次扫描二维码",
+  "merchantPaymentSubmitSuccess": "您的付款已成功提交",
+  "merchantWalletUnlockError": "解锁您的钱包时出现问题，请重试",
   "noMoreTransactions": "没有更多交易",
   "selectProviderScreen": {
     "somePaymentsUnavailable": "您所在的地区无法使用某些付款方式",

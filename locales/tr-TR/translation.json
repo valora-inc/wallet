@@ -1256,6 +1256,13 @@
   "others": "Diğer",
   "nomSpaceRecipient": "Nomspace: {{name}}",
   "lastDay": "Son 24 saat",
+  "merchant": "Satıcı Ödemesi",
+  "merchantMoneyEscrow": "Bir satıcıya doğrudan ödeme göndermek üzeresiniz.",
+  "merchantPaymentNumberVerificationMessage": "Numaranızı bağlamanız gerekiyor",
+  "merchantPaymentSubmitFail": "Ödemeniz gönderilemedi",
+  "merchantPaymentSetup": "Satıcı bilgileri yüklenirken bir hata oluştu, lütfen QRCode'u tekrar taramayı deneyin",
+  "merchantPaymentSubmitSuccess": "Ödemeniz başarıyla gönderildi",
+  "merchantWalletUnlockError": "Cüzdanınızın kilidini açarken bir şeyler ters gitti, lütfen tekrar deneyin",
   "noMoreTransactions": "Başka işlem yok",
   "selectProviderScreen": {
     "somePaymentsUnavailable": "Bazı ödeme yöntemleri bölgenizde kullanılamıyor",
