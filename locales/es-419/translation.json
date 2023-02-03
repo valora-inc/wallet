@@ -1256,6 +1256,13 @@
   "others": "Otros",
   "nomSpaceRecipient": "Nomspace: {{name}}",
   "lastDay": "Últimas 24 horas",
+  "merchant": "Pago a comerciante",
+  "merchantMoneyEscrow": "Estás a punto de enviar un pago directo a un comerciante.",
+  "merchantPaymentNumberVerificationMessage": "Debes conectar tu número",
+  "merchantPaymentSubmitFail": "Hubo un error al completar el pago",
+  "merchantPaymentSetup": "Hubo un error al cargar la información del comerciante, intenta escanear el código QR de nuevo",
+  "merchantPaymentSubmitSuccess": "Tu pago se ha enviado correctamente",
+  "merchantWalletUnlockError": "Algo salió mal al desbloquear tu wallet, vuelve a intentarlo",
   "noMoreTransactions": "No hay más transacciones",
   "selectProviderScreen": {
     "somePaymentsUnavailable": "Algunos métodos de pago no están disponibles en tu región",

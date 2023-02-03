@@ -47,6 +47,8 @@ export const rewardsEnabledSelector = createSelector(
 export const logPhoneNumberTypeEnabledSelector = (state: RootState) =>
   state.app.logPhoneNumberTypeEnabled
 
+export const paymentDeepLinkHandlerSelector = (state: RootState) => state.app.paymentDeepLinkHandler
+
 export const celoEuroEnabledSelector = (state: RootState) => state.app.celoEuroEnabled
 
 export const googleMobileServicesAvailableSelector = (state: RootState) =>
