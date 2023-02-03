@@ -68,6 +68,7 @@ import PhoneNumberLookupQuotaScreen from 'src/identity/PhoneNumberLookupQuotaScr
 import ImportWallet from 'src/import/ImportWallet'
 import Language from 'src/language/Language'
 import SelectLocalCurrency from 'src/localCurrency/SelectLocalCurrency'
+import MerchantPaymentScreen from 'src/merchantPayment/MerchantPaymentScreen'
 import DrawerNavigator from 'src/navigator/DrawerNavigator'
 import {
   emptyHeader,
@@ -292,6 +293,11 @@ const sendScreens = (Navigator: typeof Stack) => (
     <Navigator.Screen
       name={Screens.ReclaimPaymentConfirmationScreen}
       component={ReclaimPaymentConfirmationScreen}
+      options={headerWithBackButton}
+    />
+    <Navigator.Screen
+      name={Screens.MerchantPayment}
+      component={MerchantPaymentScreen}
       options={headerWithBackButton}
     />
   </>
