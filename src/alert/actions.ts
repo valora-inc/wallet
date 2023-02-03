@@ -11,6 +11,7 @@ import i18n from 'src/i18n'
 export enum Actions {
   SHOW = 'ALERT/SHOW',
   HIDE = 'ALERT/HIDE',
+  HIDE_FOR_SESSION = 'ALERT/HIDE_FOR_SESSION',
 }
 
 export enum AlertTypes {
@@ -28,6 +29,7 @@ export interface ShowAlertAction {
   alertType: AlertTypes
   displayMethod: ErrorDisplayType
   message: string
+  preventReappear?: boolean
   dismissAfter?: number | null
   buttonMessage?: string | null
   action?: AlertAction | null
@@ -40,9 +42,19 @@ export const showMessage = (
   dismissAfter?: number | null,
   buttonMessage?: string | null,
   action?: AlertAction | null,
-  title?: string | null
+  title?: string | null,
+  preventReappear = false
 ): ShowAlertAction => {
-  return showAlert(AlertTypes.MESSAGE, message, dismissAfter, buttonMessage, action, title)
+  return showAlert(
+    AlertTypes.MESSAGE,
+    message,
+    dismissAfter,
+    buttonMessage,
+    action,
+    title,
+    undefined,
+    preventReappear
+  )
 }
 
 export const showError = (
@@ -91,7 +103,8 @@ const showAlert = (
   buttonMessage?: string | null,
   action?: AlertAction | null,
   title?: string | null,
-  underlyingError?: ErrorMessages | null
+  underlyingError?: ErrorMessages | null,
+  preventReappear = false
 ): ShowAlertAction => {
   return {
     type: Actions.SHOW,
@@ -103,6 +116,7 @@ const showAlert = (
     action,
     title,
     underlyingError,
+    preventReappear,
   }
 }
 
@@ -110,8 +124,18 @@ interface HideAlertAction {
   type: Actions.HIDE
 }
 
+interface HideAlertForSessionAction {
+  type: Actions.HIDE_FOR_SESSION
+  alertMessage: string
+}
+
 export const hideAlert = (): HideAlertAction => ({
   type: Actions.HIDE,
 })
 
-export type ActionTypes = ShowAlertAction | HideAlertAction
+export const hideAlertForSession = (alertMessage: string): HideAlertForSessionAction => ({
+  type: Actions.HIDE_FOR_SESSION,
+  alertMessage,
+})
+
+export type ActionTypes = ShowAlertAction | HideAlertAction | HideAlertForSessionAction

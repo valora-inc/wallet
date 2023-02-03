@@ -13,18 +13,25 @@ export enum ErrorDisplayType {
   'INLINE',
 }
 
-export type State = {
-  type: 'message' | 'error'
-  displayMethod: ErrorDisplayType
-  message: string
-  dismissAfter?: number | null
-  buttonMessage?: string | null
-  action?: object | null
-  title?: string | null
-  underlyingError?: ErrorMessages | null
-} | null
+export interface State {
+  activeAlert: {
+    type: 'message' | 'error'
+    displayMethod: ErrorDisplayType
+    message: string
+    dismissAfter?: number | null
+    buttonMessage?: string | null
+    action?: object | null
+    title?: string | null
+    underlyingError?: ErrorMessages | null
+    preventReappear?: boolean
+  } | null
+  dismissedAlerts: string[]
+}
 
-const initialState = null
+const initialState = {
+  activeAlert: null,
+  dismissedAlerts: [],
+}
 
 const errorAction = (error: ErrorMessages): ShowAlertAction => ({
   type: Actions.SHOW,
@@ -46,26 +53,52 @@ export const reducer = (
       action = errorAction(action.error)
     case Actions.SHOW:
       return {
-        displayMethod: action.displayMethod,
-        type: action.alertType,
-        message: action.message,
-        dismissAfter: action.dismissAfter,
-        buttonMessage: action.buttonMessage,
-        action: action.action,
-        title: action.title,
-        underlyingError: action.underlyingError,
+        ...state,
+        ...(!state.dismissedAlerts.includes(action.message) && {
+          activeAlert: {
+            displayMethod: action.displayMethod,
+            type: action.alertType,
+            message: action.message,
+            dismissAfter: action.dismissAfter,
+            buttonMessage: action.buttonMessage,
+            action: action.action,
+            title: action.title,
+            underlyingError: action.underlyingError,
+            preventReappear: action.preventReappear,
+          },
+        }),
       }
     case Actions.HIDE:
-      return null
+      return {
+        ...state,
+        activeAlert: null,
+      }
+    case Actions.HIDE_FOR_SESSION:
+      return {
+        ...state,
+        dismissedAlerts: [...state.dismissedAlerts, action.alertMessage],
+        activeAlert: null,
+      }
     default:
-      if (state?.action === action) {
+      if (state.activeAlert?.action === action) {
         // Hide alert when the alert action is dispatched
-        return null
+        return {
+          ...state,
+          activeAlert: null,
+        }
       }
       return state
   }
 }
 
 export const errorSelector = (state: RootState) => {
-  return state.alert ? state.alert.underlyingError || null : null
+  return state.alert.activeAlert ? state.alert.activeAlert.underlyingError || null : null
+}
+
+export const activeAlertSelector = (state: RootState) => {
+  return state.alert.activeAlert
+}
+
+export const dismissedAlertsSelector = (state: RootState) => {
+  return state.alert.dismissedAlerts
 }

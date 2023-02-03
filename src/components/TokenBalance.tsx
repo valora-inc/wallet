@@ -1,9 +1,10 @@
 import BigNumber from 'bignumber.js'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, StyleProp, StyleSheet, Text, TextStyle, TouchableOpacity, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
-import { hideAlert, showMessage } from 'src/alert/actions'
+import { showMessage } from 'src/alert/actions'
+import { dismissedAlertsSelector } from 'src/alert/reducer'
 import { FiatExchangeEvents, HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Dialog from 'src/components/Dialog'
@@ -79,6 +80,10 @@ function useErrorMessageWithRefresh() {
   const tokensInfoUnavailable = useSelector(tokensInfoUnavailableSelector)
   const tokenFetchError = useSelector(tokenFetchErrorSelector)
   const localCurrencyError = useSelector(localCurrencyExchangeRateErrorSelector)
+  const dismissedAlerts = useSelector(dismissedAlertsSelector)
+
+  const alertMessage = t('outOfSyncBanner.message')
+  const hasDismissedError = useMemo(() => dismissedAlerts.includes(alertMessage), [dismissedAlerts])
 
   const dispatch = useDispatch()
 
@@ -86,18 +91,17 @@ function useErrorMessageWithRefresh() {
     !isE2EEnv && tokensInfoUnavailable && (tokenFetchError || localCurrencyError)
 
   useEffect(() => {
-    if (shouldShowError) {
+    if (shouldShowError && !hasDismissedError) {
       dispatch(
         showMessage(
-          t('outOfSyncBanner.message'),
+          alertMessage,
           null,
           t('outOfSyncBanner.button'),
           refreshAllBalances(),
-          t('outOfSyncBanner.title')
+          t('outOfSyncBanner.title'),
+          true
         )
       )
-    } else {
-      dispatch(hideAlert())
     }
   }, [shouldShowError])
 }

@@ -1,22 +1,32 @@
 import React, { memo, useMemo } from 'react'
 import { useDispatch } from 'react-redux'
-import { hideAlert } from 'src/alert/actions'
-import { ErrorDisplayType } from 'src/alert/reducer'
+import { hideAlert, hideAlertForSession } from 'src/alert/actions'
+import { activeAlertSelector, ErrorDisplayType } from 'src/alert/reducer'
 import SmartTopAlert from 'src/components/SmartTopAlert'
 import useSelector from 'src/redux/useSelector'
 
 function AlertBanner() {
-  const alert = useSelector((state) => state.alert)
+  const activeAlert = useSelector(activeAlertSelector)
   const dispatch = useDispatch()
 
   const displayAlert = useMemo(() => {
-    if (alert?.displayMethod === ErrorDisplayType.BANNER && (alert.title || alert.message)) {
+    if (
+      activeAlert?.displayMethod === ErrorDisplayType.BANNER &&
+      (activeAlert.title || activeAlert.message)
+    ) {
       const onPress = () => {
-        const action = alert?.action ?? hideAlert()
-        dispatch(action)
+        if (activeAlert.action) {
+          dispatch(activeAlert.action)
+        }
+
+        if (activeAlert.preventReappear) {
+          dispatch(hideAlertForSession(activeAlert.message))
+        } else {
+          dispatch(hideAlert())
+        }
       }
 
-      const { type, title, message, buttonMessage, dismissAfter } = alert
+      const { type, title, message, buttonMessage, dismissAfter } = activeAlert
 
       return {
         type,
@@ -29,7 +39,7 @@ function AlertBanner() {
     } else {
       return null
     }
-  }, [alert])
+  }, [activeAlert])
 
   return <SmartTopAlert alert={displayAlert} />
 }
