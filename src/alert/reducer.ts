@@ -14,7 +14,7 @@ export enum ErrorDisplayType {
 }
 
 export type State = {
-  type: 'message' | 'error'
+  type: AlertTypes
   displayMethod: ErrorDisplayType
   message: string
   dismissAfter?: number | null

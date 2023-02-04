@@ -48,8 +48,8 @@ const ToastWithCTA = ({ showToast, onPress, message, labelCTA, title }: Props) =
   return (
     <Animated.View style={[styles.container, animatedStyle]}>
       <View style={styles.toast}>
-        <View>
-          {title && <Text style={styles.title}>{title}</Text>}
+        <View style={styles.contentContainer}>
+          {!!title && <Text style={styles.title}>{title}</Text>}
           <Text style={styles.message}>{message}</Text>
         </View>
         <Touchable onPress={onPress} hitSlop={variables.iconHitslop}>
@@ -74,6 +74,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  contentContainer: {
+    flex: 1,
+    marginRight: Spacing.Small12,
   },
   title: {
     ...fontStyles.small600,

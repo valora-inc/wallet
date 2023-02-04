@@ -2,8 +2,7 @@ import { CeloTransactionObject, toTransactionObject } from '@celo/connect'
 import { CeloContract, StableToken } from '@celo/contractkit'
 import { GoldTokenWrapper } from '@celo/contractkit/lib/wrappers/GoldTokenWrapper'
 import { StableTokenWrapper } from '@celo/contractkit/lib/wrappers/StableTokenWrapper'
-import { retryAsync } from '@celo/utils/lib/async'
-import { gql } from 'apollo-boost'
+import { retryAsync, sleep } from '@celo/utils/lib/async'
 import BigNumber from 'bignumber.js'
 import { call, put, select, spawn, take, takeEvery } from 'redux-saga/effects'
 import * as erc20 from 'src/abis/IERC20.json'
@@ -11,7 +10,6 @@ import * as stableToken from 'src/abis/StableToken.json'
 import { showErrorOrFallback } from 'src/alert/actions'
 import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { apolloClient } from 'src/apollo'
 import { TokenTransactionType } from 'src/apollo/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { DOLLAR_MIN_AMOUNT_ACCOUNT_FUNDED, isE2EEnv } from 'src/config'
@@ -253,25 +251,27 @@ interface UserBalancesResponse {
 export async function fetchTokenBalancesForAddress(
   address: string
 ): Promise<FetchedTokenBalance[]> {
-  const response = await apolloClient.query<UserBalancesResponse, { address: string }>({
-    query: gql`
-      query FetchUserBalances($address: Address!) {
-        userBalances(address: $address) {
-          balances {
-            tokenAddress
-            balance
-          }
-        }
-      }
-    `,
-    variables: {
-      address,
-    },
-    fetchPolicy: 'network-only',
-    errorPolicy: 'all',
-  })
+  await sleep(100)
+  throw new Error('test')
+  // const response = await apolloClient.query<UserBalancesResponse, { address: string }>({
+  //   query: gql`
+  //     query FetchUserBalances($address: Address!) {
+  //       userBalances(address: $address) {
+  //         balances {
+  //           tokenAddress
+  //           balance
+  //         }
+  //       }
+  //     }
+  //   `,
+  //   variables: {
+  //     address,
+  //   },
+  //   fetchPolicy: 'network-only',
+  //   errorPolicy: 'all',
+  // })
 
-  return response.data.userBalances.balances
+  // return response.data.userBalances.balances
 }
 
 export function* fetchTokenBalancesSaga() {

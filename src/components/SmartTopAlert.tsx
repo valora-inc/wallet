@@ -1,13 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Animated, FlexStyle, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { AlertTypes } from 'src/alert/actions'
 import SmallButton from 'src/components/SmallButton'
 import Error from 'src/icons/Error'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 interface Props {
   alert: {
-    type: 'message' | 'error'
+    type: AlertTypes.MESSAGE | AlertTypes.ERROR
     title?: string | null
     message: string
     dismissAfter?: number | null
