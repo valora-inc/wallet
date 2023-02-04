@@ -19,10 +19,8 @@ import {
 import { ApproveTransaction, Field, SwapInfo, SwapTransaction } from 'src/swap/types'
 import { sendTransaction } from 'src/transactions/send'
 import { newTransactionContext } from 'src/transactions/types'
-import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import Logger from 'src/utils/Logger'
 import { getContractKit } from 'src/web3/contracts'
-import networkConfig from 'src/web3/networkConfig'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { applyChainIdWorkaround, buildTxo } from 'src/web3/utils'
@@ -69,45 +67,29 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
     }
 
     const walletAddress: string = yield select(walletAddressSelector)
+    const amountType =
+      action.payload.userInput.updatedField === Field.TO ? 'buyAmount' : 'sellAmount'
 
     // Approve transaction
     yield put(swapApprove())
     Logger.debug(TAG, `Starting to swap approval for address: ${walletAddress}`)
     yield call(handleSendSwapTransaction, { ...action.payload.approveTransaction }, 'Swap/Approve')
 
-    // Query the execute swap endpoint
-    const amountType =
-      action.payload.userInput.updatedField === Field.TO ? 'buyAmount' : 'sellAmount'
-    const amount = action.payload.unvalidatedSwapTransaction[amountType]
-    const params = {
-      buyToken: action.payload.unvalidatedSwapTransaction.buyTokenAddress,
-      sellToken: action.payload.unvalidatedSwapTransaction.sellTokenAddress,
-      [amountType]: amount,
-      userAddress: walletAddress,
-    }
-    const queryParams = new URLSearchParams({ ...params }).toString()
-    const requestUrl = `${networkConfig.executeSwapUrl}?${queryParams}`
-    const response: Response = yield call(fetchWithTimeout, requestUrl)
-    if (!response.ok) {
-      throw new Error(`Got non-ok response from executeSwap: ${response.status}`)
-    }
-    const responseJson: { validatedSwapTransaction: SwapTransaction } = yield call([
-      response,
-      'json',
-    ])
-
     // Execute transaction
     yield put(swapExecute())
     Logger.debug(TAG, `Starting to swap execute for address: ${walletAddress}`)
-    yield call(handleSendSwapTransaction, responseJson.validatedSwapTransaction, 'Swap/Execute')
-
+    yield call(
+      handleSendSwapTransaction,
+      { ...action.payload.unvalidatedSwapTransaction },
+      'Swap/Execute'
+    )
     yield put(swapSuccess())
     ValoraAnalytics.track(SwapEvents.swap_execute_success, {
-      toToken: responseJson.validatedSwapTransaction.buyTokenAddress,
-      fromToken: responseJson.validatedSwapTransaction.sellTokenAddress,
-      amount: responseJson.validatedSwapTransaction[amountType],
+      toToken: action.payload.unvalidatedSwapTransaction.buyTokenAddress,
+      fromToken: action.payload.unvalidatedSwapTransaction.sellTokenAddress,
+      amount: action.payload.unvalidatedSwapTransaction[amountType],
       amountType: amountType,
-      price: responseJson.validatedSwapTransaction.price,
+      price: action.payload.unvalidatedSwapTransaction.price,
     })
   } catch (error) {
     Logger.debug(TAG, 'Error while swapping', error)
