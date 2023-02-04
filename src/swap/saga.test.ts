@@ -1,5 +1,4 @@
 import { expectSaga } from 'redux-saga-test-plan'
-import { throwError } from 'redux-saga-test-plan/providers'
 import { call, select } from 'redux-saga/effects'
 import { SwapEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -84,12 +83,15 @@ describe(swapSubmitSaga, () => {
   })
 
   it('should set swap state correctly on error', async () => {
+    ;(sendTransaction as jest.Mock).mockImplementationOnce(() => {
+      throw new Error('fake error')
+    })
     await expectSaga(swapSubmitSaga, mockSwap)
       .withState(store.getState())
       .provide([
         [select(walletAddressSelector), mockAccount],
         [call(getContractKit), contractKit],
-        [call(getConnectedUnlockedAccount), throwError(new Error('fake error'))],
+        [call(getConnectedUnlockedAccount), mockAccount],
       ])
       .put(swapApprove())
       .put(swapError())
