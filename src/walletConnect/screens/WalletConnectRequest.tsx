@@ -27,7 +27,7 @@ function WalletConnectRequest({ route: { params }, handleContentLayout }: Props)
         styles.container,
         params.type === WalletConnectRequestType.Loading ||
         params.type === WalletConnectRequestType.TimeOut
-          ? { alignItems: 'center' }
+          ? styles.loadingTimeoutContainer
           : undefined,
       ]}
       onLayout={handleContentLayout}
@@ -55,6 +55,10 @@ function WalletConnectRequest({ route: { params }, handleContentLayout }: Props)
 const styles = StyleSheet.create({
   container: {
     padding: Spacing.Thick24,
+  },
+  loadingTimeoutContainer: {
+    alignItems: 'center',
+    minHeight: 370,
   },
   connecting: {
     ...fontStyles.label,
