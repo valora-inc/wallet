@@ -750,7 +750,7 @@ function ModalStackScreen() {
 }
 
 function RootStackScreen() {
-  const initialBottomSheetSnapPoints = React.useMemo(() => ['CONTENT_HEIGHT', '100%'], [])
+  const initialBottomSheetSnapPoints = React.useMemo(() => ['CONTENT_HEIGHT'], [])
   const { animatedHandleHeight, animatedSnapPoints, animatedContentHeight, handleContentLayout } =
     useBottomSheetDynamicSnapPoints(initialBottomSheetSnapPoints)
 
