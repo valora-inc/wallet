@@ -435,7 +435,7 @@ function useFiatConnectTransferDisplayInfo({ amount, transactionHash }: TokenTra
   const cachedFiatAccountUses = useSelector(cachedFiatAccountUsesSelector)
   const account = useMemo(
     () =>
-      fcTransferDetails?.quote
+      fcTransferDetails?.fiatAccountId
         ? cachedFiatAccountUses.find(
             ({ fiatAccountId }) => fiatAccountId === fcTransferDetails.fiatAccountId
           )
