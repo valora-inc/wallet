@@ -133,7 +133,7 @@ function RequestContent({
       <Text style={styles.header} testID={`${testId}Header`}>
         {title}
       </Text>
-      {description && <Text style={styles.description}>{description}</Text>}
+      {!!description && <Text style={styles.description}>{description}</Text>}
 
       {requestDetails && (
         <View style={styles.requestDetailsContainer}>
