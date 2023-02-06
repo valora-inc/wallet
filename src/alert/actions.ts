@@ -48,9 +48,9 @@ export const showMessage = (
 
 export const showToast = (
   message: string,
-  buttonMessage?: string | null,
-  action?: AlertAction | null,
-  title?: string | null
+  buttonMessage: string | null,
+  action: AlertAction | null,
+  title: string | null
 ): ShowAlertAction => {
   return showAlert(AlertTypes.TOAST, message, null, buttonMessage, action, title)
 }

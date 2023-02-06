@@ -13,7 +13,7 @@ export enum ErrorDisplayType {
   'INLINE',
 }
 
-export type State = {
+export interface Alert {
   type: AlertTypes
   displayMethod: ErrorDisplayType
   message: string
@@ -22,7 +22,9 @@ export type State = {
   action?: object | null
   title?: string | null
   underlyingError?: ErrorMessages | null
-} | null
+}
+
+export type State = Alert | null
 
 const initialState = null
 

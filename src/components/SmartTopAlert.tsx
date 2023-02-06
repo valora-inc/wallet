@@ -8,7 +8,7 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 interface Props {
   alert: {
-    type: AlertTypes.MESSAGE | AlertTypes.ERROR
+    type: AlertTypes
     title?: string | null
     message: string
     dismissAfter?: number | null
@@ -89,12 +89,12 @@ function SmartTopAlert({ alert }: Props) {
     }
   }, [visibleAlertState])
 
-  if (!visibleAlertState) {
+  if (!visibleAlertState || visibleAlertState.type === AlertTypes.TOAST) {
     return null
   }
 
   const { type, title, message, buttonMessage, onPress } = visibleAlertState
-  const isError = type === 'error'
+  const isError = type === AlertTypes.ERROR
 
   const testID = isError ? 'errorBanner' : 'infoBanner'
 

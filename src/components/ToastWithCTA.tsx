@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flex: 1,
-    marginRight: Spacing.Small12,
+    marginRight: Spacing.Regular16,
   },
   title: {
     ...fontStyles.small600,

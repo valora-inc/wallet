@@ -1,17 +1,33 @@
-import React, { memo, useMemo } from 'react'
+import { noop } from 'lodash'
+import React, { memo, useMemo, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { useDispatch } from 'react-redux'
 import { AlertTypes, hideAlert } from 'src/alert/actions'
-import { ErrorDisplayType } from 'src/alert/reducer'
+import { Alert, ErrorDisplayType } from 'src/alert/reducer'
 import SmartTopAlert from 'src/components/SmartTopAlert'
 import ToastWithCTA from 'src/components/ToastWithCTA'
 import useSelector from 'src/redux/useSelector'
 
 function AlertBanner() {
+  const [toastAlert, setToastAlert] = useState<(Alert & { isActive: boolean }) | null>(null)
   const alert = useSelector((state) => state.alert)
   const dispatch = useDispatch()
 
+  const onPressToast = () => {
+    if (toastAlert?.action) {
+      dispatch(toastAlert.action ?? hideAlert())
+    }
+  }
+
   const displayAlert = useMemo(() => {
+    setToastAlert((prev) => {
+      if (alert?.type === AlertTypes.TOAST) {
+        return { ...alert, isActive: true }
+      }
+
+      return prev === null ? null : { ...prev, isActive: false }
+    })
+
     if (alert?.displayMethod === ErrorDisplayType.BANNER && (alert.title || alert.message)) {
       const onPress = () => {
         const action = alert?.action ?? hideAlert()
@@ -33,22 +49,21 @@ function AlertBanner() {
     }
   }, [alert])
 
-  if (displayAlert?.type === AlertTypes.TOAST) {
-    return (
-      <ToastWithCTA
-        showToast={true}
-        title={displayAlert.title || ''}
-        message={displayAlert.message}
-        labelCTA={displayAlert.buttonMessage || ''}
-        onPress={displayAlert.onPress}
-      />
-    )
-  }
-
+  // avoid conditionally rendering the Toast component to preserve the dismiss animation
   return (
-    <View style={styles.floating}>
-      <SmartTopAlert alert={displayAlert} />
-    </View>
+    <>
+      <View style={styles.floating}>
+        <SmartTopAlert alert={displayAlert} />
+      </View>
+
+      <ToastWithCTA
+        showToast={!!toastAlert?.isActive}
+        title={toastAlert?.title || ''}
+        message={toastAlert?.message || ''}
+        labelCTA={toastAlert?.buttonMessage || ''}
+        onPress={toastAlert?.isActive ? onPressToast : noop}
+      />
+    </>
   )
 }
 
