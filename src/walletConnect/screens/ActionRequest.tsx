@@ -75,7 +75,6 @@ function ActionRequestV1({ pendingAction }: PropsV1) {
       title={t('confirmTransaction')}
       description={description}
       testId="WalletConnectActionRequest"
-      dappUrl={url}
     >
       <ActionRequestPayload walletConnectVersion={1} session={activeSession} request={action} />
       <DappsDisclaimer isDappListed={isDappListed} />
@@ -119,7 +118,6 @@ function ActionRequestV2({ pendingAction }: PropsV2) {
       title={t('confirmTransaction')}
       description={description}
       testId="WalletConnectActionRequest"
-      dappUrl={url}
     >
       <ActionRequestPayload
         walletConnectVersion={2}

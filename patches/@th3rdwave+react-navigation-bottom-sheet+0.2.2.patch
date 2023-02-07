@@ -1,0 +1,52 @@
+diff --git a/node_modules/@th3rdwave/react-navigation-bottom-sheet/lib/commonjs/BottomSheetView.js b/node_modules/@th3rdwave/react-navigation-bottom-sheet/lib/commonjs/BottomSheetView.js
+index 04a1ee9..8008098 100644
+--- a/node_modules/@th3rdwave/react-navigation-bottom-sheet/lib/commonjs/BottomSheetView.js
++++ b/node_modules/@th3rdwave/react-navigation-bottom-sheet/lib/commonjs/BottomSheetView.js
+@@ -105,7 +105,7 @@ function BottomSheetView(_ref2) {
+       key: route.key // Make sure index is in range, it could be out if snapToIndex is persisted
+       // and snapPoints is changed.
+       ,
+-      index: Math.min((_ref3 = (_route$snapToIndex = route.snapToIndex) !== null && _route$snapToIndex !== void 0 ? _route$snapToIndex : index) !== null && _ref3 !== void 0 ? _ref3 : 0, snapPoints.length - 1),
++      index: Math.min((_ref3 = (_route$snapToIndex = route.snapToIndex) !== null && _route$snapToIndex !== void 0 ? _route$snapToIndex : index) !== null && _ref3 !== void 0 ? _ref3 : 0, Array.isArray(snapPoints) ? snapPoints.length - 1 : snapPoints.value.length - 1),
+       snapPoints: snapPoints,
+       navigation: navigation,
+       backgroundStyle: [themeBackgroundStyle, backgroundStyle],
+diff --git a/node_modules/@th3rdwave/react-navigation-bottom-sheet/lib/typescript/types.d.ts b/node_modules/@th3rdwave/react-navigation-bottom-sheet/lib/typescript/types.d.ts
+index e03cf4e..c040f23 100644
+--- a/node_modules/@th3rdwave/react-navigation-bottom-sheet/lib/typescript/types.d.ts
++++ b/node_modules/@th3rdwave/react-navigation-bottom-sheet/lib/typescript/types.d.ts
+@@ -30,7 +30,7 @@ export declare type BottomSheetNavigationOptions = Omit<BottomSheetProps, 'conta
+      * snapPoints={['%100']}
+      * @type Array<string | number>
+      */
+-    snapPoints?: Array<string | number>;
++    snapPoints?: Array<string | number> | { value: Array<string | number> };
+ };
+ export declare type BottomSheetNavigatorProps = DefaultNavigatorOptions<ParamListBase, BottomSheetNavigationState<ParamListBase>, BottomSheetNavigationOptions, BottomSheetNavigationEventMap> & BottomSheetNavigationConfig;
+ export declare type BottomSheetDescriptor = Descriptor<BottomSheetNavigationOptions, BottomSheetNavigationProp<ParamListBase>, RouteProp<ParamListBase>>;
+diff --git a/node_modules/@th3rdwave/react-navigation-bottom-sheet/src/BottomSheetView.tsx b/node_modules/@th3rdwave/react-navigation-bottom-sheet/src/BottomSheetView.tsx
+index a83edbe..b5e31db 100644
+--- a/node_modules/@th3rdwave/react-navigation-bottom-sheet/src/BottomSheetView.tsx
++++ b/node_modules/@th3rdwave/react-navigation-bottom-sheet/src/BottomSheetView.tsx
+@@ -124,7 +124,7 @@ export function BottomSheetView({ state, descriptors }: Props) {
+                 // and snapPoints is changed.
+                 index={Math.min(
+                   route.snapToIndex ?? index ?? 0,
+-                  snapPoints.length - 1,
++                  Array.isArray(snapPoints) ? snapPoints.length - 1 : snapPoints.value.length -1,
+                 )}
+                 snapPoints={snapPoints}
+                 navigation={navigation}
+diff --git a/node_modules/@th3rdwave/react-navigation-bottom-sheet/src/types.tsx b/node_modules/@th3rdwave/react-navigation-bottom-sheet/src/types.tsx
+index eb22fea..642cbdc 100644
+--- a/node_modules/@th3rdwave/react-navigation-bottom-sheet/src/types.tsx
++++ b/node_modules/@th3rdwave/react-navigation-bottom-sheet/src/types.tsx
+@@ -88,7 +88,7 @@ export type BottomSheetNavigationOptions = Omit<
+    * snapPoints={['%100']}
+    * @type Array<string | number>
+    */
+-  snapPoints?: Array<string | number>;
++  snapPoints?: Array<string | number> | { value: Array<string | number> };
+ };
+ 
+ export type BottomSheetNavigatorProps = DefaultNavigatorOptions<

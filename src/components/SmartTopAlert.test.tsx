@@ -1,5 +1,6 @@
 import { render } from '@testing-library/react-native'
 import * as React from 'react'
+import { AlertTypes } from 'src/alert/actions'
 import SmartTopAlert from 'src/components/SmartTopAlert'
 
 describe('SmartTopAlert', () => {
@@ -11,7 +12,7 @@ describe('SmartTopAlert', () => {
           title: 'Smart Top Alert',
           message: 'dont get funny',
           onPress: jest.fn(),
-          type: 'message',
+          type: AlertTypes.MESSAGE,
         }}
       />
     )

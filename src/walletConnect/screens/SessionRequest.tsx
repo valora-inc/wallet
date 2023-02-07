@@ -40,7 +40,7 @@ function SessionRequest(props: Props) {
 
   const address = useSelector(currentAccountSelector)
   const dappConnectInfo = useSelector(dappConnectInfoSelector)
-  const { url, dappName, dappImageUrl } = useDappMetadata(dappMetadata)
+  const { dappName, dappImageUrl } = useDappMetadata(dappMetadata)
 
   const requestDetails =
     dappConnectInfo === DappConnectInfo.Basic
@@ -81,7 +81,6 @@ function SessionRequest(props: Props) {
           : t('confirmTransaction', { dappName })
       }
       description={dappConnectInfo === DappConnectInfo.Basic ? t('shareInfo') : undefined}
-      dappUrl={url}
       requestDetails={requestDetails}
       testId="WalletConnectSessionRequest"
     />

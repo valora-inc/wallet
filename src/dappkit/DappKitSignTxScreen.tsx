@@ -1,5 +1,5 @@
 import Clipboard from '@react-native-clipboard/clipboard'
-import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import { BottomSheetScreenProps } from '@th3rdwave/react-navigation-bottom-sheet'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
@@ -15,7 +15,7 @@ import { DappConnectInfo } from 'src/dapps/types'
 import CopyIcon from 'src/icons/CopyIcon'
 import { isBottomSheetVisible, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { StackParamList } from 'src/navigator/types'
+import { BottomSheetParams, StackParamList } from 'src/navigator/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -27,9 +27,9 @@ import { useIsDappListed } from 'src/walletConnect/screens/useIsDappListed'
 
 const TAG = 'dappkit/DappKitSignTxScreen'
 
-type Props = NativeStackScreenProps<StackParamList, Screens.DappKitSignTxScreen>
+type Props = BottomSheetScreenProps<StackParamList, Screens.DappKitSignTxScreen> & BottomSheetParams
 
-const DappKitSignTxScreen = ({ route }: Props) => {
+const DappKitSignTxScreen = ({ route, handleContentLayout }: Props) => {
   const { dappKitRequest } = route.params
   const { dappName, txs, callback } = dappKitRequest
 
@@ -72,7 +72,7 @@ const DappKitSignTxScreen = ({ route }: Props) => {
   }
 
   return (
-    <SafeAreaView edges={['bottom']} style={styles.container}>
+    <SafeAreaView edges={['bottom']} style={styles.container} onLayout={handleContentLayout}>
       <RequestContent
         onAccept={handleAllow}
         onDeny={handleCancel}
@@ -81,7 +81,6 @@ const DappKitSignTxScreen = ({ route }: Props) => {
         title={t('confirmTransaction')}
         description={t('walletConnectRequest.signTransaction', { dappName })}
         testId="DappKitSignRequest"
-        dappUrl={callback}
       >
         <View style={styles.transactionContainer}>
           <View style={styles.transactionDataContainer}>
@@ -106,8 +105,6 @@ const DappKitSignTxScreen = ({ route }: Props) => {
 const styles = StyleSheet.create({
   container: {
     padding: Spacing.Thick24,
-    paddingBottom: 0, // SafeAreaView already adds enough space here
-    flex: 1,
   },
   transactionContainer: {
     padding: Spacing.Regular16,
