@@ -3393,6 +3393,9 @@
         "State_25": {
             "additionalProperties": false,
             "properties": {
+                "guaranteedSwapPriceEnabled": {
+                    "type": "boolean"
+                },
                 "swapInfo": {
                     "anyOf": [
                         {
@@ -3418,6 +3421,7 @@
                 }
             },
             "required": [
+                "guaranteedSwapPriceEnabled",
                 "swapInfo",
                 "swapState",
                 "swapUserInput"

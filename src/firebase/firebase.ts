@@ -306,6 +306,7 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     celoNews: celoNewsString ? JSON.parse(celoNewsString) : {},
     twelveWordMnemonicEnabled: flags.twelveWordMnemonicEnabled.asBoolean(),
     dappsMinimalDisclaimerEnabled: flags.dappsMinimalDisclaimerEnabled.asBoolean(),
+    guaranteedSwapPriceEnabled: flags.guaranteedSwapPriceEnabled.asBoolean(),
   }
 }
 

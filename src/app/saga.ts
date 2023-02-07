@@ -209,6 +209,7 @@ export interface RemoteConfigValues {
   celoNews: CeloNewsConfig
   twelveWordMnemonicEnabled: boolean
   dappsMinimalDisclaimerEnabled: boolean
+  guaranteedSwapPriceEnabled: boolean
 }
 
 export function* appRemoteFeatureFlagSaga() {

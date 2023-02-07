@@ -1038,4 +1038,11 @@ export const migrations = {
       paymentDeepLinkHandler: PaymentDeepLinkHandler.Disabled,
     },
   }),
+  110: (state: any) => ({
+    ...state,
+    swap: {
+      ...state.swap,
+      guaranteedSwapPriceEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.guaranteedSwapPriceEnabled,
+    },
+  }),
 }
