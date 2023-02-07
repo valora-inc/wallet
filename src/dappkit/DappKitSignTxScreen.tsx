@@ -1,9 +1,10 @@
+import { BottomSheetScrollView } from '@gorhom/bottom-sheet'
 import Clipboard from '@react-native-clipboard/clipboard'
 import { BottomSheetScreenProps } from '@th3rdwave/react-navigation-bottom-sheet'
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, Text, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { LayoutChangeEvent, StyleSheet, Text, View } from 'react-native'
+import { SafeAreaView, useSafeAreaFrame } from 'react-native-safe-area-context'
 import Toast from 'react-native-simple-toast'
 import { useDispatch, useSelector } from 'react-redux'
 import { DappKitEvents } from 'src/analytics/Events'
@@ -13,6 +14,7 @@ import { getDefaultRequestTrackedProperties, requestTxSignature } from 'src/dapp
 import { activeDappSelector, dappConnectInfoSelector } from 'src/dapps/selectors'
 import { DappConnectInfo } from 'src/dapps/types'
 import CopyIcon from 'src/icons/CopyIcon'
+import { BOTTOM_SHEET_DEFAULT_HANDLE_HEIGHT } from 'src/navigator/constants'
 import { isBottomSheetVisible, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { BottomSheetParams, StackParamList } from 'src/navigator/types'
@@ -32,6 +34,9 @@ type Props = BottomSheetScreenProps<StackParamList, Screens.DappKitSignTxScreen>
 const DappKitSignTxScreen = ({ route, handleContentLayout }: Props) => {
   const { dappKitRequest } = route.params
   const { dappName, txs, callback } = dappKitRequest
+
+  const [scrollEnabled, setScrollEnabled] = useState(false)
+  const { height } = useSafeAreaFrame()
 
   const activeDapp = useSelector(activeDappSelector)
   const dappConnectInfo = useSelector(dappConnectInfoSelector)
@@ -71,34 +76,51 @@ const DappKitSignTxScreen = ({ route, handleContentLayout }: Props) => {
     }
   }
 
-  return (
-    <SafeAreaView edges={['bottom']} style={styles.container} onLayout={handleContentLayout}>
-      <RequestContent
-        onAccept={handleAllow}
-        onDeny={handleCancel}
-        dappName={dappName}
-        dappImageUrl={dappConnectInfo === DappConnectInfo.Basic ? activeDapp?.iconUrl : undefined}
-        title={t('confirmTransaction')}
-        description={t('walletConnectRequest.signTransaction', { dappName })}
-        testId="DappKitSignRequest"
-      >
-        <View style={styles.transactionContainer}>
-          <View style={styles.transactionDataContainer}>
-            <Text style={styles.transactionDataLabel}>
-              {t('walletConnectRequest.transactionDataLabel')}
-            </Text>
-            <Text testID="DappData" style={fontStyles.small} numberOfLines={1} ellipsizeMode="tail">
-              {txs[0].txData}
-            </Text>
-          </View>
-          <Touchable hitSlop={variables.iconHitslop} onPress={handleCopyRequestPayload}>
-            <CopyIcon />
-          </Touchable>
-        </View>
+  const handleLayout = (event: LayoutChangeEvent) => {
+    handleContentLayout(event)
+    if (event.nativeEvent.layout.height >= height) {
+      setScrollEnabled(true)
+    }
+  }
 
-        <DappsDisclaimer isDappListed={isDappListed} />
-      </RequestContent>
-    </SafeAreaView>
+  return (
+    <BottomSheetScrollView
+      style={{ maxHeight: height - BOTTOM_SHEET_DEFAULT_HANDLE_HEIGHT }}
+      scrollEnabled={scrollEnabled}
+    >
+      <SafeAreaView edges={['bottom']} style={styles.container} onLayout={handleLayout}>
+        <RequestContent
+          onAccept={handleAllow}
+          onDeny={handleCancel}
+          dappName={dappName}
+          dappImageUrl={dappConnectInfo === DappConnectInfo.Basic ? activeDapp?.iconUrl : undefined}
+          title={t('confirmTransaction')}
+          description={t('walletConnectRequest.signTransaction', { dappName })}
+          testId="DappKitSignRequest"
+        >
+          <View style={styles.transactionContainer}>
+            <View style={styles.transactionDataContainer}>
+              <Text style={styles.transactionDataLabel}>
+                {t('walletConnectRequest.transactionDataLabel')}
+              </Text>
+              <Text
+                testID="DappData"
+                style={fontStyles.small}
+                numberOfLines={1}
+                ellipsizeMode="tail"
+              >
+                {txs[0].txData}
+              </Text>
+            </View>
+            <Touchable hitSlop={variables.iconHitslop} onPress={handleCopyRequestPayload}>
+              <CopyIcon />
+            </Touchable>
+          </View>
+
+          <DappsDisclaimer isDappListed={isDappListed} />
+        </RequestContent>
+      </SafeAreaView>
+    </BottomSheetScrollView>
   )
 }
 

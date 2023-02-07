@@ -1,9 +1,11 @@
+import { BottomSheetScrollView } from '@gorhom/bottom-sheet'
 import { BottomSheetScreenProps } from '@th3rdwave/react-navigation-bottom-sheet'
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ActivityIndicator, StyleSheet, Text } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { ActivityIndicator, LayoutChangeEvent, StyleSheet, Text } from 'react-native'
+import { SafeAreaView, useSafeAreaFrame } from 'react-native-safe-area-context'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
+import { BOTTOM_SHEET_DEFAULT_HANDLE_HEIGHT } from 'src/navigator/constants'
 import { Screens } from 'src/navigator/Screens'
 import { BottomSheetParams, StackParamList } from 'src/navigator/types'
 import colors from 'src/styles/colors'
@@ -18,37 +20,51 @@ type Props = BottomSheetScreenProps<StackParamList, Screens.WalletConnectRequest
   BottomSheetParams
 
 function WalletConnectRequest({ route: { params }, handleContentLayout }: Props) {
+  const [scrollEnabled, setScrollEnabled] = useState(false)
   const { t } = useTranslation()
+  const { height } = useSafeAreaFrame()
+
+  const handleLayout = (event: LayoutChangeEvent) => {
+    handleContentLayout(event)
+    if (event.nativeEvent.layout.height >= height) {
+      setScrollEnabled(true)
+    }
+  }
 
   return (
-    <SafeAreaView
-      edges={['bottom']}
-      style={[
-        styles.container,
-        params.type === WalletConnectRequestType.Loading ||
-        params.type === WalletConnectRequestType.TimeOut
-          ? styles.loadingTimeoutContainer
-          : undefined,
-      ]}
-      onLayout={handleContentLayout}
+    <BottomSheetScrollView
+      style={{ maxHeight: height - BOTTOM_SHEET_DEFAULT_HANDLE_HEIGHT }}
+      scrollEnabled={scrollEnabled}
     >
-      {params.type === WalletConnectRequestType.Loading && (
-        <>
-          <ActivityIndicator color={colors.greenBrand} />
-          <Text style={styles.connecting}>
-            {params.origin === WalletConnectPairingOrigin.Scan
-              ? t('loadingFromScan')
-              : t('loadingFromDeeplink')}
-          </Text>
-        </>
-      )}
+      <SafeAreaView
+        edges={['bottom']}
+        style={[
+          styles.container,
+          params.type === WalletConnectRequestType.Loading ||
+          params.type === WalletConnectRequestType.TimeOut
+            ? styles.loadingTimeoutContainer
+            : undefined,
+        ]}
+        onLayout={handleLayout}
+      >
+        {params.type === WalletConnectRequestType.Loading && (
+          <>
+            <ActivityIndicator color={colors.greenBrand} />
+            <Text style={styles.connecting}>
+              {params.origin === WalletConnectPairingOrigin.Scan
+                ? t('loadingFromScan')
+                : t('loadingFromDeeplink')}
+            </Text>
+          </>
+        )}
 
-      {params.type === WalletConnectRequestType.Session && <SessionRequest {...params} />}
+        {params.type === WalletConnectRequestType.Session && <SessionRequest {...params} />}
 
-      {params.type === WalletConnectRequestType.Action && <ActionRequest {...params} />}
+        {params.type === WalletConnectRequestType.Action && <ActionRequest {...params} />}
 
-      {params.type === WalletConnectRequestType.TimeOut && <ConnectionTimedOut />}
-    </SafeAreaView>
+        {params.type === WalletConnectRequestType.TimeOut && <ConnectionTimedOut />}
+      </SafeAreaView>
+    </BottomSheetScrollView>
   )
 }
 
