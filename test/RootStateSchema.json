@@ -177,6 +177,144 @@
             ],
             "type": "string"
         },
+        "Alert": {
+            "additionalProperties": false,
+            "properties": {
+                "action": {
+                    "anyOf": [
+                        {
+                            "additionalProperties": true,
+                            "properties": {},
+                            "type": "object"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                },
+                "buttonMessage": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "dismissAfter": {
+                    "type": [
+                        "null",
+                        "number"
+                    ]
+                },
+                "displayMethod": {
+                    "$ref": "#/definitions/ErrorDisplayType"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "type": {
+                    "$ref": "#/definitions/AlertTypes"
+                },
+                "underlyingError": {
+                    "anyOf": [
+                        {
+                            "enum": [
+                                "accountClearFailed",
+                                "accountSetupFailed",
+                                "accountUnlockFailed",
+                                "addressLookupFailure",
+                                "addressValidationError",
+                                "addressValidationFullOwnAddress",
+                                "addressValidationFullPoorlyFormatted",
+                                "addressValidationNoMatch",
+                                "addressValidationPartialOwnAddress",
+                                "addressValidationPartialPoorlyFormatted",
+                                "backupQuizFailed",
+                                "calculateFeeFailed",
+                                "cashOutLimitExceeded",
+                                "contractKitInitFailed",
+                                "corruptedChainDeleted",
+                                "countryNotAvailable",
+                                "deleteBankAccountFail",
+                                "errorRefreshingRate",
+                                "exchangeFailed",
+                                "exchangeRateChange",
+                                "failedFetchMnemonic",
+                                "fetchFailed",
+                                "fiatConnectKycStatusScreen.tryAgainFailed",
+                                "firebaseDisabled",
+                                "firebaseFailed",
+                                "gasPriceUpdateFailed",
+                                "getBankAccountsFail",
+                                "importBackupFailed",
+                                "importContactsFailed",
+                                "incorrectPin",
+                                "insufficientBalance",
+                                "invalidAmount",
+                                "invalidBackupPhrase",
+                                "invalidPhone",
+                                "invalidWordsInBackupPhrase",
+                                "keychainAccountAlreadyExists",
+                                "keychainFetchAccounts",
+                                "keychainStorageError",
+                                "missingFullName",
+                                "needMoreFundsToSend",
+                                "notEnoughGoldError",
+                                "notEnoughStableError",
+                                "notReadyForCode",
+                                "odisInsufficientBalance",
+                                "odisQuotaError",
+                                "paymentRequestFailed",
+                                "paymentRequestUpdateFailed",
+                                "personaAccountEndpointFail",
+                                "phoneVerificationInput.verificationFailure",
+                                "pictureLoadFailed",
+                                "pinInputCanceled",
+                                "providerFetchFailed",
+                                "providerRateFetchFailed",
+                                "qrFailedInvalidAddress",
+                                "qrFailedInvalidRecipient",
+                                "qrFailedNoPhoneNumber",
+                                "reclaimingEscrowedPaymentFailed",
+                                "saltFetchFailure",
+                                "saltQuotaExceededError",
+                                "sendPaymentFailed",
+                                "setPinFailed",
+                                "simplexPurchaseFetchFailed",
+                                "superchargeClaimFailure",
+                                "superchargeFetchRewardsFailed",
+                                "swapScreen.fetchSwapQuoteFailed",
+                                "swapScreen.swapSubmitFailed",
+                                "transactionFailed",
+                                "transactionTimeout"
+                            ],
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                }
+            },
+            "required": [
+                "displayMethod",
+                "message",
+                "type"
+            ],
+            "type": "object"
+        },
+        "AlertTypes": {
+            "enum": [
+                "error",
+                "message",
+                "toast"
+            ],
+            "type": "string"
+        },
         "AppState": {
             "enum": [
                 "Active",
@@ -5225,138 +5363,7 @@
         "alert": {
             "anyOf": [
                 {
-                    "additionalProperties": false,
-                    "properties": {
-                        "action": {
-                            "anyOf": [
-                                {
-                                    "additionalProperties": true,
-                                    "properties": {},
-                                    "type": "object"
-                                },
-                                {
-                                    "type": "null"
-                                }
-                            ]
-                        },
-                        "buttonMessage": {
-                            "type": [
-                                "null",
-                                "string"
-                            ]
-                        },
-                        "dismissAfter": {
-                            "type": [
-                                "null",
-                                "number"
-                            ]
-                        },
-                        "displayMethod": {
-                            "$ref": "#/definitions/ErrorDisplayType"
-                        },
-                        "message": {
-                            "type": "string"
-                        },
-                        "title": {
-                            "type": [
-                                "null",
-                                "string"
-                            ]
-                        },
-                        "type": {
-                            "enum": [
-                                "error",
-                                "message"
-                            ],
-                            "type": "string"
-                        },
-                        "underlyingError": {
-                            "anyOf": [
-                                {
-                                    "enum": [
-                                        "accountClearFailed",
-                                        "accountSetupFailed",
-                                        "accountUnlockFailed",
-                                        "addressLookupFailure",
-                                        "addressValidationError",
-                                        "addressValidationFullOwnAddress",
-                                        "addressValidationFullPoorlyFormatted",
-                                        "addressValidationNoMatch",
-                                        "addressValidationPartialOwnAddress",
-                                        "addressValidationPartialPoorlyFormatted",
-                                        "backupQuizFailed",
-                                        "calculateFeeFailed",
-                                        "cashOutLimitExceeded",
-                                        "contractKitInitFailed",
-                                        "corruptedChainDeleted",
-                                        "countryNotAvailable",
-                                        "deleteBankAccountFail",
-                                        "errorRefreshingRate",
-                                        "exchangeFailed",
-                                        "exchangeRateChange",
-                                        "failedFetchMnemonic",
-                                        "fetchFailed",
-                                        "fiatConnectKycStatusScreen.tryAgainFailed",
-                                        "firebaseDisabled",
-                                        "firebaseFailed",
-                                        "gasPriceUpdateFailed",
-                                        "getBankAccountsFail",
-                                        "importBackupFailed",
-                                        "importContactsFailed",
-                                        "incorrectPin",
-                                        "insufficientBalance",
-                                        "invalidAmount",
-                                        "invalidBackupPhrase",
-                                        "invalidPhone",
-                                        "invalidWordsInBackupPhrase",
-                                        "keychainAccountAlreadyExists",
-                                        "keychainFetchAccounts",
-                                        "keychainStorageError",
-                                        "missingFullName",
-                                        "needMoreFundsToSend",
-                                        "notEnoughGoldError",
-                                        "notEnoughStableError",
-                                        "notReadyForCode",
-                                        "odisInsufficientBalance",
-                                        "odisQuotaError",
-                                        "paymentRequestFailed",
-                                        "paymentRequestUpdateFailed",
-                                        "personaAccountEndpointFail",
-                                        "phoneVerificationInput.verificationFailure",
-                                        "pictureLoadFailed",
-                                        "pinInputCanceled",
-                                        "providerFetchFailed",
-                                        "providerRateFetchFailed",
-                                        "qrFailedInvalidAddress",
-                                        "qrFailedInvalidRecipient",
-                                        "qrFailedNoPhoneNumber",
-                                        "reclaimingEscrowedPaymentFailed",
-                                        "saltFetchFailure",
-                                        "saltQuotaExceededError",
-                                        "sendPaymentFailed",
-                                        "setPinFailed",
-                                        "simplexPurchaseFetchFailed",
-                                        "superchargeClaimFailure",
-                                        "superchargeFetchRewardsFailed",
-                                        "swapScreen.fetchSwapQuoteFailed",
-                                        "swapScreen.swapSubmitFailed",
-                                        "transactionFailed",
-                                        "transactionTimeout"
-                                    ],
-                                    "type": "string"
-                                },
-                                {
-                                    "type": "null"
-                                }
-                            ]
-                        }
-                    },
-                    "required": [
-                        "displayMethod",
-                        "message",
-                        "type"
-                    ],
-                    "type": "object"
+                    "$ref": "#/definitions/Alert"
                 },
                 {
                     "type": "null"

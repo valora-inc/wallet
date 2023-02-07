@@ -183,9 +183,7 @@ export const NavigatorWrapper = () => {
         {(appLocked || updateRequired) && (
           <View style={styles.locked}>{updateRequired ? <UpgradeScreen /> : <PincodeLock />}</View>
         )}
-        <View style={styles.floating}>
-          <AlertBanner />
-        </View>
+        <AlertBanner />
         <ShakeForSupport />
       </View>
     </NavigationContainer>
@@ -198,12 +196,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'stretch',
     justifyContent: 'flex-start',
-  },
-  floating: {
-    position: 'absolute',
-    left: 0,
-    top: 0,
-    right: 0,
   },
   locked: {
     position: 'absolute',
