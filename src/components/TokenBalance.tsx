@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, StyleProp, StyleSheet, Text, TextStyle, TouchableOpacity, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
-import { hideAlert, showMessage } from 'src/alert/actions'
+import { hideAlert, showToast } from 'src/alert/actions'
 import { FiatExchangeEvents, HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Dialog from 'src/components/Dialog'
@@ -88,9 +88,8 @@ function useErrorMessageWithRefresh() {
   useEffect(() => {
     if (shouldShowError) {
       dispatch(
-        showMessage(
+        showToast(
           t('outOfSyncBanner.message'),
-          null,
           t('outOfSyncBanner.button'),
           refreshAllBalances(),
           t('outOfSyncBanner.title')
