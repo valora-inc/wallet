@@ -1,12 +1,6 @@
-import { Address, isValidAddress } from '@celo/utils/lib/address'
+import { isValidAddress } from '@celo/utils/lib/address'
 import { parsePhoneNumber } from '@celo/phone-utils'
-import {
-  NameResolution,
-  ResolutionKind,
-  ResolveAddress,
-  ResolveGroup,
-  ResolveNom,
-} from '@valora/resolve-kit'
+import { NameResolution, ResolutionKind } from '@valora/resolve-kit'
 import * as React from 'react'
 import { useState } from 'react'
 import { useAsync } from 'react-async-hook'
@@ -25,7 +19,6 @@ import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import SectionHead from 'src/components/SectionHead'
-import { DEFAULT_FORNO_URL, DEFAULT_TESTNET } from 'src/config'
 import { RecipientVerificationStatus } from 'src/identity/types'
 import {
   getRecipientFromAddress,
@@ -41,11 +34,15 @@ import { RootState } from 'src/redux/reducers'
 import SendToAddressWarning from 'src/send/SendToAddressWarning'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
+import Logger from 'src/utils/Logger'
+import networkConfig from 'src/web3/networkConfig'
 
 export interface Section {
   key: string
   data: Recipient[]
 }
+
+const TAG = 'recipients/RecipientPicker'
 
 interface RecipientProps {
   testID?: string
@@ -59,11 +56,6 @@ interface RecipientProps {
   recipientVerificationStatus: RecipientVerificationStatus
 }
 
-const NOM_ADDRESSES: { [env: string]: Address } = {
-  mainnet: ResolveNom.MainnetENSRegsitryAddress,
-  alfajores: ResolveNom.AlfajoresENSRegsitryAddress,
-}
-
 function RecipientPicker(props: RecipientProps) {
   const recipientInfo = useSelector(recipientInfoSelector)
   const showSendToAddressWarning = useSelector(
@@ -74,17 +66,21 @@ function RecipientPicker(props: RecipientProps) {
   const [isKeyboardVisible, setKeyboardVisible] = useState(false)
   const [isSendToAddressWarningVisible, setSendToAddressWarningVisible] = useState(false)
 
-  const { result: resolveAddressResult } = useAsync(async () => {
-    const resolveGroup = new ResolveGroup([
-      new ResolveAddress(),
-      new ResolveNom({
-        providerUrl: DEFAULT_FORNO_URL,
-        ensRegistryAddress: NOM_ADDRESSES[DEFAULT_TESTNET],
-      }),
-    ])
-
-    return await resolveGroup.resolve(props.searchQuery)
-  }, [props.searchQuery])
+  const { result: resolveAddressResult } = useAsync(
+    async (id: string) => {
+      try {
+        const response = await fetch(`${networkConfig.resolveId}?id=${id}`)
+        if (response.ok) {
+          return response.json()
+        }
+        Logger.warn(TAG, `Unexpected result from resolving '${id}'`)
+      } catch (error) {
+        Logger.warn(TAG, `Error resolving '${id}'`, error)
+      }
+      return null
+    },
+    [props.searchQuery]
+  )
 
   const onToggleKeyboard = (visible: boolean) => {
     setKeyboardVisible(visible)
