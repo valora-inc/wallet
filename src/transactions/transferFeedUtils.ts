@@ -1,5 +1,8 @@
+import { FiatAccountType, TransferType } from '@fiatconnect/fiatconnect-types'
+import BigNumber from 'bignumber.js'
 import { TFunction } from 'i18next'
 import * as _ from 'lodash'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   ExchangeItemFragment,
@@ -8,6 +11,11 @@ import {
   UserTransactionsQuery,
 } from 'src/apollo/types'
 import { CELO_LOGO_URL, DEFAULT_TESTNET, SUPERCHARGE_LOGO_URL } from 'src/config'
+import { FIATCONNECT_CURRENCY_TO_WALLET_CURRENCY } from 'src/fiatconnect/consts'
+import {
+  cachedFiatAccountUsesSelector,
+  getCachedFiatConnectTransferSelector,
+} from 'src/fiatconnect/selectors'
 import { ProviderFeedInfo, txHashToFeedInfoSelector } from 'src/fiatExchanges/reducer'
 import { decryptComment } from 'src/identity/commentEncryption'
 import { AddressToE164NumberType } from 'src/identity/reducer'
@@ -39,9 +47,17 @@ import {
   KnownFeedTransactionsType,
   recentTxRecipientsCacheSelector,
 } from 'src/transactions/reducer'
-import { TokenTransactionTypeV2, TokenTransfer, TransactionStatus } from 'src/transactions/types'
+import {
+  LocalAmount,
+  TokenTransactionTypeV2,
+  TokenTransfer,
+  TransactionStatus,
+} from 'src/transactions/types'
+import Logger from 'src/utils/Logger'
 import { isPresent } from 'src/utils/typescript'
 import { dataEncryptionKeySelector } from 'src/web3/selectors'
+
+const TAG = 'transferFeedUtils'
 
 export function getDecryptedTransferFeedComment(
   comment: string | null,
@@ -236,7 +252,7 @@ export function getTransferFeedParams(
 }
 
 // Note: This hook is tested from src/transactions/feed/TransferFeedItem.test.ts
-export function useTransactionRecipient(transfer: TokenTransfer) {
+export function useTransactionRecipient(transfer: TokenTransfer): Recipient {
   const phoneRecipientCache = useSelector(phoneRecipientCacheSelector)
   const recentTxRecipientsCache = useSelector(recentTxRecipientsCacheSelector)
   const recipientInfo: RecipientInfo = useSelector(recipientInfoSelector)
@@ -244,6 +260,7 @@ export function useTransactionRecipient(transfer: TokenTransfer) {
   const addressToE164Number = useSelector(addressToE164NumberSelector)
   const invitationTransactions = useSelector(inviteTransactionsSelector)
   const identifierToE164Number = useSelector(identifierToE164NumberSelector)
+  const fcTransferDisplayInfo = useFiatConnectTransferDisplayInfo(transfer)
 
   const phoneNumber =
     transfer.type === TokenTransactionTypeV2.InviteSent &&
@@ -261,6 +278,10 @@ export function useTransactionRecipient(transfer: TokenTransfer) {
       recipient = { e164PhoneNumber: phoneNumber, address: transfer.address }
       return recipient
     }
+  }
+
+  if (fcTransferDisplayInfo) {
+    return { thumbnailPath: fcTransferDisplayInfo.tokenImageUrl, address: transfer.address }
   }
 
   recipient = getRecipientFromAddress(
@@ -287,6 +308,7 @@ export function useTransferFeedDetails(transfer: FeedTokenTransfer) {
   const commentKey = useSelector(dataEncryptionKeySelector)
   const tokenInfo = useTokenInfo(transfer.amount.tokenAddress)
   const coinbasePaySenders = useSelector(coinbasePaySendersSelector)
+  const fcTransferDisplayInfo = useFiatConnectTransferDisplayInfo(transfer)
 
   const {
     type,
@@ -301,12 +323,16 @@ export function useTransferFeedDetails(transfer: FeedTokenTransfer) {
   const comment =
     getDecryptedTransferFeedComment(rawComment ?? null, commentKey, type) ?? defaultSubtitle
 
-  let title, subtitle
+  let title, subtitle, customLocalAmount
 
   switch (type) {
     case TokenTransactionTypeV2.Sent: {
-      title = t('feedItemSentTitle', { displayName })
-      subtitle = t('feedItemSentInfo', { context: !comment ? 'noComment' : null, comment })
+      if (fcTransferDisplayInfo) {
+        ;({ title, subtitle, localAmount: customLocalAmount } = fcTransferDisplayInfo)
+      } else {
+        title = t('feedItemSentTitle', { displayName })
+        subtitle = t('feedItemSentInfo', { context: !comment ? 'noComment' : null, comment })
+      }
       break
     }
     case TokenTransactionTypeV2.Received: {
@@ -376,7 +402,7 @@ export function useTransferFeedDetails(transfer: FeedTokenTransfer) {
     subtitle = t('confirmingTransaction')
   }
 
-  return { title, subtitle, recipient }
+  return { title, subtitle, recipient, customLocalAmount }
 }
 
 export function getTxsFromUserTxQuery(data?: UserTransactionsQuery) {
@@ -399,4 +425,56 @@ export function isTransferTransaction(
   tx: TransferItemFragment | ExchangeItemFragment
 ): tx is TransferItemFragment {
   return (tx as TransferItemFragment).address !== undefined
+}
+
+// Note: This hook is tested from src/transactions/feed/TransferFeedItem.test.ts
+function useFiatConnectTransferDisplayInfo({ amount, transactionHash }: TokenTransfer) {
+  const { t } = useTranslation()
+  const tokenInfo = useTokenInfo(amount.tokenAddress)
+  const fcTransferDetails = useSelector(getCachedFiatConnectTransferSelector(transactionHash))
+  const cachedFiatAccountUses = useSelector(cachedFiatAccountUsesSelector)
+  const account = useMemo(
+    () =>
+      fcTransferDetails?.fiatAccountId
+        ? cachedFiatAccountUses.find(
+            ({ fiatAccountId }) => fiatAccountId === fcTransferDetails.fiatAccountId
+          )
+        : undefined,
+    [cachedFiatAccountUses, fcTransferDetails]
+  )
+  if (!account || !fcTransferDetails) {
+    return
+  }
+  if (fcTransferDetails.quote.transferType !== TransferType.TransferOut) {
+    Logger.debug(TAG, 'useFiatConnectTransferDisplayInfo only supports transfers out (withdraws)')
+    return
+  }
+
+  const fiatAmount = new BigNumber(fcTransferDetails.quote.fiatAmount)
+  const localAmount: LocalAmount = {
+    //Negative sign because currently only withdraws are supported
+    value: fiatAmount.multipliedBy(-1),
+    currencyCode: FIATCONNECT_CURRENCY_TO_WALLET_CURRENCY[fcTransferDetails.quote.fiatType],
+    exchangeRate: fiatAmount.div(amount.value).toFixed(2),
+  }
+
+  let subtitle: string
+  switch (account.fiatAccountType) {
+    case FiatAccountType.BankAccount:
+      subtitle = t('feedItemFcTransferBankAccount')
+      break
+    case FiatAccountType.MobileMoney:
+      subtitle = t('feedItemFcTransferMobileMoney')
+      break
+    default:
+      Logger.debug(TAG, 'useFiatConnectTransferDisplayInfo received an unsupported FiatAccountType')
+      return
+  }
+
+  return {
+    title: t('feedItemFcTransferWithdraw', { crypto: fcTransferDetails.quote.cryptoType }),
+    subtitle,
+    tokenImageUrl: tokenInfo?.imageUrl,
+    localAmount,
+  }
 }

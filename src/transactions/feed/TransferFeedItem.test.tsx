@@ -1,8 +1,12 @@
+import { FiatAccountType } from '@fiatconnect/fiatconnect-types'
 import { render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { ReactTestInstance } from 'react-test-renderer'
 import { formatShortenedAddress } from 'src/components/ShortenedAddress'
+import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
+import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
+import { CICOFlow } from 'src/fiatExchanges/utils'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { RootState } from 'src/redux/reducers'
 import TransferFeedItem from 'src/transactions/feed/TransferFeedItem'
@@ -14,7 +18,13 @@ import {
   TransactionStatus,
 } from 'src/transactions/types'
 import { createMockStore, getElementText, RecursivePartial } from 'test/utils'
-import { mockCeloAddress, mockCusdAddress, mockName, mockTestTokenAddress } from 'test/values'
+import {
+  mockCeloAddress,
+  mockCusdAddress,
+  mockFiatConnectQuotes,
+  mockName,
+  mockTestTokenAddress,
+} from 'test/values'
 
 const MOCK_TX_HASH = '0x006b866d20452a24d1d90c7514422188cc7c5d873e2f1ed661ec3f810ad5331c'
 const MOCK_ADDRESS = '0xFdd8bD58115FfBf04e47411c1d228eCC45E93075'
@@ -497,6 +507,53 @@ describe('TransferFeedItem', () => {
       expectedSubtitleSections: ['feedItemReceivedInfo'],
       expectedAmount: '+₱13.30',
       expectedTokenAmount: '10.00 cUSD',
+    })
+  })
+  it('renders correctly for transfers to FiatConnect Providers', async () => {
+    const fiatAccountId = 'fiatAccountId123'
+    const transferTotalCost = 102
+    const transferOutFcQuote = new FiatConnectQuote({
+      flow: CICOFlow.CashOut,
+      quote: mockFiatConnectQuotes[3] as FiatConnectQuoteSuccess,
+      fiatAccountType: FiatAccountType.BankAccount,
+    })
+    const { getByTestId } = renderScreen({
+      type: TokenTransactionTypeV2.Sent,
+      amount: {
+        tokenAddress: mockCusdAddress,
+        value: transferTotalCost,
+      },
+      storeOverrides: {
+        fiatConnect: {
+          cachedFiatAccountUses: [
+            {
+              fiatAccountId,
+              providerId: transferOutFcQuote.getProviderId(),
+              flow: CICOFlow.CashOut,
+              cryptoType: transferOutFcQuote.getCryptoType(),
+              fiatType: transferOutFcQuote.getFiatType(),
+              fiatAccountType: transferOutFcQuote.getFiatAccountType(),
+              fiatAccountSchema: transferOutFcQuote.getFiatAccountSchema(),
+            },
+          ],
+          cachedTransfers: {
+            [MOCK_TX_HASH]: {
+              fiatAccountId,
+              transferId: 'transferId123',
+              providerId: transferOutFcQuote.getProviderId(),
+              quote: transferOutFcQuote.quote.quote,
+            },
+          },
+        },
+      },
+    })
+
+    expectDisplay({
+      getByTestId,
+      expectedTitleSections: ['feedItemFcTransferWithdraw'],
+      expectedSubtitleSections: ['feedItemFcTransferBankAccount'],
+      expectedAmount: `-$${transferOutFcQuote.quote.quote.fiatAmount}.00`,
+      expectedTokenAmount: `${transferTotalCost}.00 cUSD`,
     })
   })
 })
