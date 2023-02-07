@@ -442,14 +442,11 @@ function useFiatConnectTransferDisplayInfo({ amount, transactionHash }: TokenTra
         : undefined,
     [cachedFiatAccountUses, fcTransferDetails]
   )
-  if (
-    !account ||
-    !fcTransferDetails ||
-    fcTransferDetails.quote.transferType !== TransferType.TransferOut
-  ) {
-    if (fcTransferDetails?.quote.transferType !== TransferType.TransferOut) {
-      Logger.debug(TAG, 'useFiatConnectTransferDisplayInfo only supports transfers out (withdraws)')
-    }
+  if (!account || !fcTransferDetails) {
+    return
+  }
+  if (fcTransferDetails.quote.transferType !== TransferType.TransferOut) {
+    Logger.debug(TAG, 'useFiatConnectTransferDisplayInfo only supports transfers out (withdraws)')
     return
   }
 
