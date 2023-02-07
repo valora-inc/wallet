@@ -71,7 +71,7 @@ function RecipientPicker(props: RecipientProps) {
       try {
         const response = await fetch(`${networkConfig.resolveId}?id=${id}`)
         if (response.ok) {
-          return response.json()
+          return await response.json()
         }
         Logger.warn(TAG, `Unexpected result from resolving '${id}'`)
       } catch (error) {
