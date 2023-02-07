@@ -1,4 +1,4 @@
-import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import { BottomSheetScreenProps } from '@th3rdwave/react-navigation-bottom-sheet'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
@@ -12,7 +12,7 @@ import { activeDappSelector, dappConnectInfoSelector } from 'src/dapps/selectors
 import { DappConnectInfo } from 'src/dapps/types'
 import { isBottomSheetVisible, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { StackParamList } from 'src/navigator/types'
+import { BottomSheetParams, StackParamList } from 'src/navigator/types'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import { Spacing } from 'src/styles/styles'
@@ -22,9 +22,10 @@ import { currentAccountSelector } from 'src/web3/selectors'
 
 const TAG = 'dappkit/DappKitAccountScreen'
 
-type Props = NativeStackScreenProps<StackParamList, Screens.DappKitAccountScreen>
+type Props = BottomSheetScreenProps<StackParamList, Screens.DappKitAccountScreen> &
+  BottomSheetParams
 
-const DappKitAccountScreen = ({ route }: Props) => {
+const DappKitAccountScreen = ({ route, handleContentLayout }: Props) => {
   const { dappKitRequest } = route.params
 
   const account = useSelector(currentAccountSelector)
@@ -59,7 +60,7 @@ const DappKitAccountScreen = ({ route }: Props) => {
   }
 
   return (
-    <SafeAreaView edges={['bottom']} style={styles.container}>
+    <SafeAreaView edges={['bottom']} style={styles.container} onLayout={handleContentLayout}>
       <RequestContent
         onAccept={handleAllow}
         onDeny={handleCancel}
@@ -81,7 +82,6 @@ const DappKitAccountScreen = ({ route }: Props) => {
             value: account,
           },
         ]}
-        dappUrl={dappKitRequest.callback}
         testId="DappKitSessionRequest"
       />
     </SafeAreaView>
@@ -91,8 +91,6 @@ const DappKitAccountScreen = ({ route }: Props) => {
 const styles = StyleSheet.create({
   container: {
     padding: Spacing.Thick24,
-    paddingBottom: 0, // SafeAreaView already adds enough space here
-    flex: 1,
   },
 })
 

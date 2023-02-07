@@ -116,7 +116,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderRadius: 12,
-    marginBottom: Spacing.Thick24,
+    marginTop: Spacing.Smallest8,
+    marginBottom: Spacing.Large32,
   },
   transactionDataContainer: {
     flex: 1,

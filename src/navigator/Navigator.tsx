@@ -1,12 +1,19 @@
-import { BottomSheetBackdrop, BottomSheetBackdropProps } from '@gorhom/bottom-sheet'
+import {
+  BottomSheetBackdrop,
+  BottomSheetBackdropProps,
+  useBottomSheetDynamicSnapPoints,
+} from '@gorhom/bottom-sheet'
 import { RouteProp } from '@react-navigation/native'
 import {
   createNativeStackNavigator,
   NativeStackNavigationOptions,
 } from '@react-navigation/native-stack'
-import { createBottomSheetNavigator } from '@th3rdwave/react-navigation-bottom-sheet'
+import {
+  BottomSheetScreenProps,
+  createBottomSheetNavigator,
+} from '@th3rdwave/react-navigation-bottom-sheet'
 import * as React from 'react'
-import { PixelRatio, Platform } from 'react-native'
+import { LayoutChangeEvent, PixelRatio, Platform } from 'react-native'
 import SplashScreen from 'react-native-splash-screen'
 import AccountKeyEducation from 'src/account/AccountKeyEducation'
 import AccounSetupFailureScreen from 'src/account/AccountSetupFailureScreen'
@@ -701,23 +708,29 @@ const mainScreenNavOptions = () => ({
   headerShown: false,
 })
 
-function nativeBottomSheets(BottomSheet: typeof RootStack) {
+function nativeBottomSheets(
+  BottomSheet: typeof RootStack,
+  handleContentLayout: (event: LayoutChangeEvent) => void
+) {
   return (
     <>
       <BottomSheet.Screen
         name={Screens.WalletConnectRequest}
-        component={WalletConnectRequest}
-        options={{ snapPoints: ['60%'] }}
+        component={(
+          props: BottomSheetScreenProps<StackParamList, Screens.WalletConnectRequest>
+        ) => <WalletConnectRequest handleContentLayout={handleContentLayout} {...props} />}
       />
       <BottomSheet.Screen
         name={Screens.DappKitAccountScreen}
-        component={DappKitAccountScreen}
-        options={{ snapPoints: ['60%'] }}
+        component={(
+          props: BottomSheetScreenProps<StackParamList, Screens.DappKitAccountScreen>
+        ) => <DappKitAccountScreen handleContentLayout={handleContentLayout} {...props} />}
       />
       <BottomSheet.Screen
         name={Screens.DappKitSignTxScreen}
-        component={DappKitSignTxScreen}
-        options={{ snapPoints: ['60%'] }}
+        component={(props: BottomSheetScreenProps<StackParamList, Screens.DappKitSignTxScreen>) => (
+          <DappKitSignTxScreen handleContentLayout={handleContentLayout} {...props} />
+        )}
       />
     </>
   )
@@ -737,6 +750,10 @@ function ModalStackScreen() {
 }
 
 function RootStackScreen() {
+  const initialBottomSheetSnapPoints = React.useMemo(() => ['CONTENT_HEIGHT'], [])
+  const { animatedHandleHeight, animatedSnapPoints, animatedContentHeight, handleContentLayout } =
+    useBottomSheetDynamicSnapPoints(initialBottomSheetSnapPoints)
+
   const renderBackdrop = React.useCallback(
     (props: BottomSheetBackdropProps) => (
       <BottomSheetBackdrop opacity={0.25} appearsOnIndex={0} disappearsOnIndex={-1} {...props} />
@@ -750,10 +767,15 @@ function RootStackScreen() {
   // https://github.com/osdnk/react-native-reanimated-bottom-sheet/issues/264#issuecomment-674757545
   return (
     <RootStack.Navigator
-      screenOptions={{ snapPoints: ['100%'], backdropComponent: renderBackdrop }}
+      screenOptions={{
+        backdropComponent: renderBackdrop,
+        handleHeight: animatedHandleHeight,
+        snapPoints: animatedSnapPoints,
+        contentHeight: animatedContentHeight,
+      }}
     >
       <RootStack.Screen name={Screens.MainModal} component={ModalStackScreen} />
-      {nativeBottomSheets(RootStack)}
+      {nativeBottomSheets(RootStack, handleContentLayout)}
     </RootStack.Navigator>
   )
 }
