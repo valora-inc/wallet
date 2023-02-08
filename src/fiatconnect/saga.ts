@@ -26,8 +26,7 @@ import {
   fiatConnectCashInEnabledSelector,
   fiatConnectCashOutEnabledSelector,
 } from 'src/app/selectors'
-import { FeeType, State as FeeEstimatesState } from 'src/fees/reducer'
-import { feeEstimatesSelector } from 'src/fees/selectors'
+import { FeeInfo } from 'src/fees/saga'
 import {
   fetchQuotes,
   FiatConnectProviderInfo,
@@ -938,9 +937,11 @@ export function* _initiateTransferWithProvider({
 export function* _initiateSendTxToProvider({
   transferAddress,
   fiatConnectQuote,
+  feeInfo,
 }: {
   transferAddress: string
   fiatConnectQuote: FiatConnectQuote
+  feeInfo: FeeInfo
 }) {
   Logger.info(TAG, 'Starting transfer out transaction..')
 
@@ -954,8 +955,6 @@ export function* _initiateSendTxToProvider({
       `No matching symbol found for cryptoType ${cryptoType}. Cannot send crypto to provider.`
     )
   }
-  const feeEstimates: FeeEstimatesState['estimates'] = yield select(feeEstimatesSelector)
-  const feeInfo = feeEstimates[tokenInfo.address]?.[FeeType.SEND]?.feeInfo
 
   const context = newTransactionContext(TAG, 'Send crypto to provider for transfer out')
 
@@ -966,7 +965,7 @@ export function* _initiateSendTxToProvider({
     new BigNumber(fiatConnectQuote.getCryptoAmount()),
     tokenInfo.address,
     '',
-    feeInfo!
+    feeInfo
   )
   if (error) {
     ValoraAnalytics.track(FiatExchangeEvents.cico_fc_transfer_tx_error, {
@@ -994,7 +993,7 @@ export function* _initiateSendTxToProvider({
 export function* handleCreateFiatConnectTransfer(
   action: ReturnType<typeof createFiatConnectTransfer>
 ) {
-  const { flow, fiatConnectQuote } = action.payload
+  const { flow, fiatConnectQuote, feeInfo } = action.payload
   const quoteId = fiatConnectQuote.getQuoteId()
   let transactionHash: string | null = null
   try {
@@ -1007,6 +1006,7 @@ export function* handleCreateFiatConnectTransfer(
       const cashOutTxHash: string = yield call(_initiateSendTxToProvider, {
         transferAddress,
         fiatConnectQuote,
+        feeInfo,
       })
       yield put(
         cacheFiatConnectTransfer({

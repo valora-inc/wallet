@@ -9,6 +9,7 @@ import {
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { isEqual } from 'lodash'
 import { Actions as AppActions, UpdateConfigValuesAction } from 'src/app/actions'
+import { FeeInfo } from 'src/fees/saga'
 import {
   FiatConnectProviderInfo,
   FiatConnectQuoteError,
@@ -145,6 +146,7 @@ export interface CreateFiatConnectTransferAction {
   flow: CICOFlow
   fiatConnectQuote: FiatConnectQuote
   fiatAccountId: string
+  feeInfo: FeeInfo
 }
 
 export interface CreateFiatConnectTransferFailedAction {

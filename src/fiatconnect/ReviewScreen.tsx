@@ -6,8 +6,10 @@ import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, BackHandler, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
+import { showError } from 'src/alert/actions'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { ErrorMessages } from 'src/app/ErrorMessages'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import CancelButton from 'src/components/CancelButton'
@@ -16,7 +18,7 @@ import Dialog from 'src/components/Dialog'
 import LineItemRow from 'src/components/LineItemRow'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
-import { estimateFee, FeeType } from 'src/fees/reducer'
+import { estimateFee, FeeEstimateState, FeeType } from 'src/fees/reducer'
 import { feeEstimatesSelector } from 'src/fees/selectors'
 import { convertToFiatConnectFiatCurrency } from 'src/fiatconnect'
 import {
@@ -236,7 +238,12 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
       </Dialog>
       <View>
         <ReceiveAmount flow={flow} normalizedQuote={normalizedQuote} networkFee={networkFee} />
-        <TransactionDetails flow={flow} normalizedQuote={normalizedQuote} networkFee={networkFee} />
+        <TransactionDetails
+          feeEstimate={feeEstimate}
+          flow={flow}
+          normalizedQuote={normalizedQuote}
+          networkFee={networkFee}
+        />
         <PaymentMethod flow={flow} normalizedQuote={normalizedQuote} fiatAccount={fiatAccount} />
       </View>
       <View>
@@ -246,6 +253,7 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
           style={styles.submitBtn}
           type={BtnTypes.PRIMARY}
           size={BtnSizes.FULL}
+          disabled={!feeEstimate?.feeInfo}
           text={
             flow === CICOFlow.CashIn
               ? t('fiatConnectReviewScreen.cashIn.button')
@@ -255,6 +263,11 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
             if (normalizedQuote.getGuaranteedUntil() < new Date()) {
               setShowingExpiredQuoteDialog(true)
             } else {
+              if (!feeEstimate?.feeInfo) {
+                // This should never happen because the confirm button is disabled if this happens.
+                dispatch(showError(ErrorMessages.FIAT_CONNECT_TRANSFER_FAILED))
+                return
+              }
               ValoraAnalytics.track(FiatExchangeEvents.cico_fc_review_submit, {
                 flow,
                 provider: normalizedQuote.getProviderId(),
@@ -265,6 +278,7 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
                   flow,
                   fiatConnectQuote: normalizedQuote,
                   fiatAccountId: fiatAccount.fiatAccountId,
+                  feeInfo: feeEstimate.feeInfo,
                 })
               )
 
@@ -455,10 +469,12 @@ function TransactionDetails({
   flow,
   normalizedQuote,
   networkFee,
+  feeEstimate,
 }: {
   flow: CICOFlow
   normalizedQuote: FiatConnectQuote
   networkFee: BigNumber
+  feeEstimate: FeeEstimateState | undefined
 }) {
   const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)!
   const tokenInfo = useTokenInfoBySymbol(normalizedQuote.getCryptoType())
@@ -522,6 +538,8 @@ function TransactionDetails({
           amount={feeDisplay}
           style={styles.sectionSubTextContainer}
           textStyle={styles.sectionSubText}
+          isLoading={feeEstimate?.loading}
+          hasError={feeEstimate?.error}
         />
       )}
       <LineItemRow

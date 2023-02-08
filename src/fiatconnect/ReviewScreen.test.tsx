@@ -18,6 +18,7 @@ import {
   mockCeloAddress,
   mockCeurAddress,
   mockCusdAddress,
+  mockFeeInfo,
   mockFiatConnectQuotes,
 } from 'test/values'
 import { mocked } from 'ts-jest/utils'
@@ -72,7 +73,13 @@ describe('ReviewScreen', () => {
     fees: {
       estimates: {
         [mockCusdAddress]: {
-          send: { usdFee: '0.02', lastUpdated: 500, loading: false, error: false },
+          send: {
+            usdFee: '0.02',
+            lastUpdated: 500,
+            loading: false,
+            error: false,
+            feeInfo: mockFeeInfo,
+          },
           exchange: undefined,
           'reclaim-escrow': undefined,
           'register-dek': undefined,
@@ -310,6 +317,7 @@ describe('ReviewScreen', () => {
           flow: CICOFlow.CashOut,
           fiatConnectQuote: mockProps.route.params.normalizedQuote,
           fiatAccountId: '123',
+          feeInfo: mockFeeInfo,
         })
       )
       expect(navigate).toHaveBeenCalledWith(Screens.FiatConnectTransferStatus, {

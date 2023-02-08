@@ -1331,6 +1331,7 @@
     "receiveAmount": "You will receive",
     "bankFeeDisclaimer": "Your bank may charge additional fees for your transfer.",
     "mobileMoneyFeeDisclaimer": "Your mobile money operator may charge additional fees for your transfer.",
+    "fiatConnectTransferFailed": "There was an error transferring funds",
     "cashIn": {
       "header": "Review Add Funds",
       "button": "Add Funds",
