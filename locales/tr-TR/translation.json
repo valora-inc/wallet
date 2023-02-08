@@ -551,8 +551,8 @@
   "escrowPaymentNotificationTitle": "{{mobile}} adresine davet talep edilemez",
   "sendAndInvite": "Gönder & Davet Et",
   "inviteRewardsBanner": {
-    "title": "Bir arkadaş davet etmek için kripto gönderin",
-    "body": "Söz konusu kişi {{appName}} cüzdanını oluşturup numarasını bağladığında ikiniz de özel bir NFT alacaksınız. <0>3 NFT'ye kadar kazanın</0>"
+    "title": "Arkadaşlarınızı davet edin ve NFT toplayın",
+    "body": "{{appName}} cüzdanlarını kurduklarında ve numaralarını bağladıklarında, her biriniz özel bir NFT alacaksınız."
   },
   "inviteWithUrl": {
     "title": "Arkadaşını davet et",
