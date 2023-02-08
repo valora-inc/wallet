@@ -1213,7 +1213,7 @@
     "buttonText": "Connect"
   },
   "outOfSyncBanner": {
-    "title": "You're offline.",
+    "title": "Error fetching tokens.",
     "message": "Your balances may not be up to date.",
     "button": "Refresh"
   },

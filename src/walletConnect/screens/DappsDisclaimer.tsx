@@ -38,7 +38,6 @@ const styles = StyleSheet.create({
     color: Colors.gray5,
     marginBottom: Spacing.Thick24,
     textAlign: 'center',
-    marginTop: 'auto',
   },
 })
 
