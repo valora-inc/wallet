@@ -551,8 +551,8 @@
   "escrowPaymentNotificationTitle": "Die Einladung zu {{mobile}} kann nicht in Anspruch genommen werden",
   "sendAndInvite": "Senden & Einladen",
   "inviteRewardsBanner": {
-    "title": "Krypto senden, um einen Freund einzuladen",
-    "body": "Ihr erhaltet ein exklusives NFT, sobald dein Freund seine {{appName}}-Wallet eingerichtet hat und seine Nummer damit verknüpft hat. <0>Du kannst dir bis zu drei NFTs verdienen</0>"
+    "title": "Freunde einladen und NFTs sammeln",
+    "body": "Sobald sie ihre {{appName}} Brieftasche eingerichtet und ihre Nummer verbunden haben, erhält jeder von euch eine exklusive NFT."
   },
   "inviteWithUrl": {
     "title": "Lade deine Freunde ein",
