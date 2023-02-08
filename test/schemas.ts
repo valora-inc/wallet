@@ -2027,6 +2027,18 @@ export const v109Schema = {
   },
 }
 
+export const v110Schema = {
+  ...v109Schema,
+  _persist: {
+    ...v109Schema._persist,
+    version: 110,
+  },
+  swap: {
+    ...v109Schema.swap,
+    guaranteedSwapPriceEnabled: false,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v109Schema as Partial<RootState>
+  return v110Schema as Partial<RootState>
 }

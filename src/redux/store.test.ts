@@ -93,7 +93,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 109,
+          "version": 110,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -312,6 +312,7 @@ describe('store state', () => {
           "loading": false,
         },
         "swap": Object {
+          "guaranteedSwapPriceEnabled": false,
           "swapInfo": null,
           "swapState": "quote",
           "swapUserInput": null,
