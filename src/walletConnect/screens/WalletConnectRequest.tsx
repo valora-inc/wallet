@@ -2,8 +2,8 @@ import { BottomSheetScreenProps } from '@th3rdwave/react-navigation-bottom-sheet
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, StyleSheet, Text } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
+import BottomSheetScrollView from 'src/components/BottomSheetScrollView'
 import { Screens } from 'src/navigator/Screens'
 import { BottomSheetParams, StackParamList } from 'src/navigator/types'
 import colors from 'src/styles/colors'
@@ -21,16 +21,14 @@ function WalletConnectRequest({ route: { params }, handleContentLayout }: Props)
   const { t } = useTranslation()
 
   return (
-    <SafeAreaView
-      edges={['bottom']}
-      style={[
-        styles.container,
+    <BottomSheetScrollView
+      containerStyle={
         params.type === WalletConnectRequestType.Loading ||
         params.type === WalletConnectRequestType.TimeOut
           ? styles.loadingTimeoutContainer
-          : undefined,
-      ]}
-      onLayout={handleContentLayout}
+          : undefined
+      }
+      handleContentLayout={handleContentLayout}
     >
       {params.type === WalletConnectRequestType.Loading && (
         <>
@@ -48,14 +46,11 @@ function WalletConnectRequest({ route: { params }, handleContentLayout }: Props)
       {params.type === WalletConnectRequestType.Action && <ActionRequest {...params} />}
 
       {params.type === WalletConnectRequestType.TimeOut && <ConnectionTimedOut />}
-    </SafeAreaView>
+    </BottomSheetScrollView>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
-    padding: Spacing.Thick24,
-  },
   loadingTimeoutContainer: {
     alignItems: 'center',
     minHeight: 370,

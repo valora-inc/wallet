@@ -148,7 +148,9 @@ function RequestContent({
                 >
                   {label}
                 </Text>
-                <Text style={styles.requestDetailValue}>{value}</Text>
+                <Text style={styles.requestDetailValue} numberOfLines={1} ellipsizeMode="tail">
+                  {value}
+                </Text>
               </React.Fragment>
             ) : null
           )}

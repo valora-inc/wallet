@@ -3,11 +3,11 @@ import { BottomSheetScreenProps } from '@th3rdwave/react-navigation-bottom-sheet
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
 import Toast from 'react-native-simple-toast'
 import { useDispatch, useSelector } from 'react-redux'
 import { DappKitEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import BottomSheetScrollView from 'src/components/BottomSheetScrollView'
 import Touchable from 'src/components/Touchable'
 import { getDefaultRequestTrackedProperties, requestTxSignature } from 'src/dappkit/dappkit'
 import { activeDappSelector, dappConnectInfoSelector } from 'src/dapps/selectors'
@@ -72,7 +72,7 @@ const DappKitSignTxScreen = ({ route, handleContentLayout }: Props) => {
   }
 
   return (
-    <SafeAreaView edges={['bottom']} style={styles.container} onLayout={handleContentLayout}>
+    <BottomSheetScrollView handleContentLayout={handleContentLayout}>
       <RequestContent
         onAccept={handleAllow}
         onDeny={handleCancel}
@@ -98,14 +98,11 @@ const DappKitSignTxScreen = ({ route, handleContentLayout }: Props) => {
 
         <DappsDisclaimer isDappListed={isDappListed} />
       </RequestContent>
-    </SafeAreaView>
+    </BottomSheetScrollView>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
-    padding: Spacing.Thick24,
-  },
   transactionContainer: {
     padding: Spacing.Regular16,
     backgroundColor: colors.gray1,
