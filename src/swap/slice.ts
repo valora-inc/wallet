@@ -1,4 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { REHYDRATE, RehydrateAction } from 'redux-persist'
+import { Actions as AppActions, UpdateConfigValuesAction } from 'src/app/actions'
+import { getRehydratePayload } from 'src/redux/persist-helper'
 import { SwapInfo, SwapUserInput } from 'src/swap/types'
 
 export enum SwapState {
@@ -16,12 +19,14 @@ export interface State {
   swapState: SwapState
   swapInfo: SwapInfo | null
   swapUserInput: SwapUserInput | null
+  guaranteedSwapPriceEnabled: boolean
 }
 
 const initialState: State = {
   swapState: SwapState.QUOTE,
   swapInfo: null,
   swapUserInput: null,
+  guaranteedSwapPriceEnabled: false,
 }
 
 export const slice = createSlice({
@@ -57,6 +62,19 @@ export const slice = createSlice({
       state.swapState = SwapState.ERROR
       state.swapInfo = null
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(
+        AppActions.UPDATE_REMOTE_CONFIG_VALUES,
+        (state, action: UpdateConfigValuesAction) => {
+          state.guaranteedSwapPriceEnabled = action.configValues.guaranteedSwapPriceEnabled
+        }
+      )
+      .addCase(REHYDRATE, (state, action: RehydrateAction) => ({
+        ...state,
+        ...getRehydratePayload(action, 'swap'),
+      }))
   },
 })
 

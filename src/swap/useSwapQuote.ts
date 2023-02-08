@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
+import { guaranteedSwapPriceEnabledSelector } from 'src/swap/selectors'
 import { Field, ParsedSwapAmount } from 'src/swap/types'
 import { TokenBalance } from 'src/tokens/slice'
 import { multiplyByWei } from 'src/utils/formatting'
@@ -10,6 +11,7 @@ import { walletAddressSelector } from 'src/web3/selectors'
 
 const useSwapQuote = () => {
   const walletAddress = useSelector(walletAddressSelector)
+  const useGuaranteedPrice = useSelector(guaranteedSwapPriceEnabledSelector)
   const [exchangeRate, setExchangeRate] = useState<string | null>(null)
   const [fetchSwapQuoteError, setFetchSwapQuoteError] = useState(false)
   const [fetchingSwapQuote, setFetchingSwapQuote] = useState(false)
@@ -66,7 +68,9 @@ const useSwapQuote = () => {
 
       if (quoteResponse.ok) {
         const quote = await quoteResponse.json()
-        const swapPrice = quote.unvalidatedSwapTransaction.price
+        const swapPrice = useGuaranteedPrice
+          ? quote.unvalidatedSwapTransaction.guaranteedPrice
+          : quote.unvalidatedSwapTransaction.price
         setExchangeRate(
           updatedField === Field.FROM
             ? swapPrice
