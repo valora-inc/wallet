@@ -187,10 +187,10 @@
   "startSuperchargingNotificationStart": "Get rewards",
   "cashIn": "Add {{currency}}",
   "connectNumber": "Connect Number",
-  "connectToWallet": "{{dappName}} would like to connect to {{appName}}",
-  "confirmTransaction": "{{dappName}} would like to confirm a transaction",
+  "connectToWallet": "Connect to {{dappName}}",
+  "confirmTransaction": "Confirm transaction",
   "allow": "Allow",
-  "address": "Account Address",
+  "address": "Wallet address",
   "phoneNumber": "Phone Number",
   "transaction": {
     "operation": "Operation",
@@ -198,7 +198,8 @@
     "signTX": "Sign transaction",
     "details": "Show details"
   },
-  "shareInfo": "This application will be able to access the following information:",
+  "shareInfo": "You must connect your wallet to approve transactions in this Dapp. Once connected, it will have access to your wallet address.",
+  "connectWalletInfoDappkit": "You must connect your wallet to approve transactions in this Dapp. Once connected, it will have access to your wallet address and phone number.",
   "data": "Data",
   "firebaseDisabled": "Firebase is disabled, notification and log uploading wont work",
   "learnMore": "Learn More",
@@ -978,6 +979,16 @@
     "computeSharedSecret": "Generate Secrets",
     "emptyMessage": "Empty message"
   },
+  "walletConnectRequest": {
+    "transactionDataLabel": "Transaction data",
+    "readAccount": "{{dappName}} would like to read your {{appName}} wallet address.",
+    "signPayload": "{{dappName}} would like to sign a data payload.",
+    "signTransaction": "{{dappName}} would like to sign a Celo transaction.",
+    "sendTransaction": "{{dappName}} would like to send a Celo transaction.",
+    "decryptPayload": "{{dappName}} would like to decrypt a data payload.",
+    "computeSharedSecret": "{{dappName}} would like to generate secrets.",
+    "transactionDataCopied": "Transaction data copied"
+  },
   "sessionInfo": "This application may ask to perform the following actions:",
   "description": {
     "sign": "Sign Payloads",
@@ -1057,6 +1068,9 @@
   "feedItemDepositInfo": "{{comment}}",
   "feedItemDepositInfo_noComment": "Deposit Received",
   "feedItemDepositTitle": "Deposit",
+  "feedItemFcTransferMobileMoney": "Mobile Money Transfer",
+  "feedItemFcTransferBankAccount": "Bank Account Transfer",
+  "feedItemFcTransferWithdraw": "Withdraw {{crypto}}",
   "feedItemExchangeTitle": "CELO",
   "feedItemExchangeInfo_boughtGold": "Bought <0></0> CELO",
   "feedItemExchangeInfo_soldGold": "Sold <0></0> CELO",
@@ -1199,7 +1213,7 @@
     "buttonText": "Connect"
   },
   "outOfSyncBanner": {
-    "title": "You're offline.",
+    "title": "Error fetching tokens.",
     "message": "Your balances may not be up to date.",
     "button": "Refresh"
   },
@@ -1229,7 +1243,14 @@
     "message": "You are about to open an application not operated by Valora.\n\nValora makes no representations about this application. Use at your own risk.",
     "button": "Go to {{dappName}}"
   },
+  "dappsScreenInfoSheet": {
+    "title": "What is a dapp?",
+    "description": "A dapp (or decentralized application) is an app that is built and run on top of a blockchain network. This means that no single company or organization manages or stores your data.\n\nDapps vary by the services they offer. Examples of these services include decentralized exchanges, lending, borrowing, swapping, storing NFTs.",
+    "buttonLabel": "Tell me more"
+  },
   "dappsDisclaimerAllDapps": "{{appName}} is not affiliated with these dapps and makes no representations or claims in using them. Please acknowledge the risk before using a dapp by reviewing the user agreement or privacy policy.",
+  "dappsDisclaimerSingleDapp": "{{appName}} is not affiliated with this dapp and makes no representations in using it. Always review a dapp's user agreement or privacy policy.",
+  "dappsDisclaimerUnlistedDapp": "This dapp is not listed in {{appName}}. {{appName}} is not affiliated with this dapp and makes no representations in using it. Always review a dapp's user agreement or privacy policy.",
   "recentlyUsedDapps": "Recently Used Dapps",
   "favoritedDapps": "Favorited Dapps",
   "allDapps": "All Dapps",
@@ -1238,6 +1259,13 @@
   "others": "Others",
   "nomSpaceRecipient": "Nomspace: {{name}}",
   "lastDay": "Last 24 hrs",
+  "merchant": "Merchant Payment",
+  "merchantMoneyEscrow": "You're about to send a direct payment to a merchant.",
+  "merchantPaymentNumberVerificationMessage": "You need to connect your number",
+  "merchantPaymentSubmitFail": "Your payment failed to submit",
+  "merchantPaymentSetup": "There was an error loading the merchant information, please try scanning the QRCode again",
+  "merchantPaymentSubmitSuccess": "Your payment was successfully submitted",
+  "merchantWalletUnlockError": "Something went wrong when unlocking your wallet, please try again",
   "noMoreTransactions": "There are no more transactions",
   "selectProviderScreen": {
     "somePaymentsUnavailable": "Some payment methods are unavailable in your region",

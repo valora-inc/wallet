@@ -187,10 +187,10 @@
   "startSuperchargingNotificationStart": "Почати роботу",
   "cashIn": "Додати {{currency}}",
   "connectNumber": "Під’єднати номер",
-  "connectToWallet": "Застосунок {{dappName}} хоче під’єднатися до {{appName}}",
-  "confirmTransaction": "{{dappName}} бажає підтвердити транзакція",
+  "connectToWallet": "Підключення до {{dappName}}",
+  "confirmTransaction": "Підтвердити транзакцію",
   "allow": "Дозволити",
-  "address": "Адреса рахунку",
+  "address": "Адреса гаманця",
   "phoneNumber": "Номер телефону",
   "transaction": {
     "operation": "Операція",
@@ -198,7 +198,8 @@
     "signTX": "Транзакція",
     "details": "Показати деталі"
   },
-  "shareInfo": "Цей застосунок зможе отримати доступ до такої інформації:",
+  "shareInfo": "Ви повинні підключити свій гаманець, щоб затвердити операції в цьому Dapp. Після підключення, він матиме доступ до адреси вашого гаманця.",
+  "connectWalletInfoDappkit": "Ви повинні підключити свій гаманець, щоб затвердити операції в цьому Dapp. Після підключення, він матиме доступ до адреси вашого гаманця і номеру телефону.",
   "data": "Дані",
   "firebaseDisabled": "Вогневу базу вимкнено, сповіщення та завантаження журналу не будуть працювати",
   "learnMore": "Дізнатися більше",
@@ -982,6 +983,16 @@
     "computeSharedSecret": "Генерувати секрети",
     "emptyMessage": "Порожнє повідомлення"
   },
+  "walletConnectRequest": {
+    "transactionDataLabel": "Дані транзакції",
+    "readAccount": "{{dappName}} хоче прочитати адресу вашого {{appName}} гаманця.",
+    "signPayload": "{{dappName}} хоче підписати дані на payload.",
+    "signTransaction": "{{dappName}} хоче підписати челову транзакцію.",
+    "sendTransaction": "{{dappName}} хоче надіслати Celo транзакцію.",
+    "decryptPayload": "{{dappName}} хоче розшифрувати передачу даних в корисному навантаженні.",
+    "computeSharedSecret": "{{dappName}} хоче згенерувати секрети.",
+    "transactionDataCopied": "Дані транзакції скопійовані"
+  },
   "sessionInfo": "Цей застосунок може запросити виконати такі дії:",
   "description": {
     "sign": "Підписати корисне навантаження",
@@ -1061,6 +1072,9 @@
   "feedItemDepositInfo": "{{comment}}",
   "feedItemDepositInfo_noComment": "Депозит отримано",
   "feedItemDepositTitle": "Депозит",
+  "feedItemFcTransferMobileMoney": "Мобільний грошовий переказ",
+  "feedItemFcTransferBankAccount": "Банківський переказ",
+  "feedItemFcTransferWithdraw": "Зняти {{crypto}}",
   "feedItemExchangeTitle": "CELO",
   "feedItemExchangeInfo_boughtGold": "Куплено <0></0> CELO",
   "feedItemExchangeInfo_soldGold": "Продано <0></0> CELO",
@@ -1233,7 +1247,14 @@
     "message": "Ви збираєтеся відкрити застосунок, яким не керує Valora.\n\nValora не надає жодних гарантій щодо цього застосунку. Ви використовуєте його на свій страх і ризик.",
     "button": "Перейти до {{dappName}}"
   },
+  "dappsScreenInfoSheet": {
+    "title": "Що таке дап?",
+    "description": "dapp (або децентралізований додаток) - це додаток, який побудований та запускається на вершині blockchain мережі. Це означає, що жодна компанія чи організація не управляє або не зберігає ваші дані.\n\nDapps відрізняються послугами, які вони пропонують. Приклади цих послуг включають децентралізовані обміни, кредитування, запозичення, розгортання, зберігання NFTs.",
+    "buttonLabel": "Розкажіть мені ще"
+  },
   "dappsDisclaimerAllDapps": "{{appName}} не пов'язаний з цими додатками і не робить представлень і заявок у їх використанні. Будь ласка, визнайте ризик перед використанням додатку, переглядаючи угоду користувача або політику конфіденційності.",
+  "dappsDisclaimerSingleDapp": "{{appName}} не є асоційованим з цим додатком і не представляється у ньому. Завжди перегляньте угоду користувача або політику конфіденційності.",
+  "dappsDisclaimerUnlistedDapp": "Цей додаток не відображається в {{appName}}. {{appName}} не пов'язаний з цим додатком і не представляє у нього жодних представників. Завжди перевіряйте угоду користувача або політику конфіденційності.",
   "recentlyUsedDapps": "Недавно використані Dapps",
   "favoritedDapps": "Улюблені програми",
   "allDapps": "Усі Dapps",
@@ -1242,6 +1263,13 @@
   "others": "Інші",
   "nomSpaceRecipient": "Nomspace: {{name}}",
   "lastDay": "Останні 24 год",
+  "merchant": "Платіж для продавця",
+  "merchantMoneyEscrow": "Ви збираєтеся здійснити прямий платіж на користь продавця.",
+  "merchantPaymentNumberVerificationMessage": "Треба під'єднати свій номер",
+  "merchantPaymentSubmitFail": "Ваш платіж не вдалося надіслати",
+  "merchantPaymentSetup": "Під час завантаження інформації про продавця сталася помилка, зіскануйте QR-код ще раз",
+  "merchantPaymentSubmitSuccess": "Ваш платіж успішно надіслано",
+  "merchantWalletUnlockError": "Під час розблокування гаманця сталася помилка, спробуйте ще раз",
   "noMoreTransactions": "Більше немає транзакції",
   "selectProviderScreen": {
     "somePaymentsUnavailable": "Деякі методи оплати недоступні у вашому регіоні",

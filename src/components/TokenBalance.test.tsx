@@ -253,7 +253,7 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
           "action": Object {
             "type": "HOME/REFRESH_BALANCES",
           },
-          "alertType": "message",
+          "alertType": "toast",
           "buttonMessage": "outOfSyncBanner.button",
           "dismissAfter": null,
           "displayMethod": 0,
@@ -292,7 +292,7 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
           "action": Object {
             "type": "HOME/REFRESH_BALANCES",
           },
-          "alertType": "message",
+          "alertType": "toast",
           "buttonMessage": "outOfSyncBanner.button",
           "dismissAfter": null,
           "displayMethod": 0,

@@ -187,10 +187,10 @@
   "startSuperchargingNotificationStart": "Начать",
   "cashIn": "Внести {{currency}}",
   "connectNumber": "Подключить номер",
-  "connectToWallet": "{{dappName}} запрашивает подключение к {{appName}}",
-  "confirmTransaction": "{{dappName}} запрашивает подтвердить транзакцию",
+  "connectToWallet": "Подключись к {{dappName}}",
+  "confirmTransaction": "Подтвердите транзакцию",
   "allow": "Разрешить",
-  "address": "Адрес аккаунта",
+  "address": "Адрес кошелька",
   "phoneNumber": "Номер телефона",
   "transaction": {
     "operation": "Операция",
@@ -198,7 +198,8 @@
     "signTX": "Tранзакцию",
     "details": "Подробнее"
   },
-  "shareInfo": "Это приложение сможет получить доступ к следующей информации:",
+  "shareInfo": "Ты должен подключить свой кошелек для одобрения транзакций в этом Dapp. После подключения он получит доступ к адресу твоего кошелька.",
+  "connectWalletInfoDappkit": "Ты должен подключить свой кошелек для одобрения транзакций в этом Dapp. После подключения он получит доступ к адресу твоего кошелька и номеру телефона.",
   "data": "Данные",
   "firebaseDisabled": "Платформа Firebase отключена, поэтому не будут работать функции уведомлений и выгрузки журнала",
   "learnMore": "Подробнее",
@@ -982,6 +983,16 @@
     "computeSharedSecret": "Генерировать учетные данные",
     "emptyMessage": "Пустое сообщение"
   },
+  "walletConnectRequest": {
+    "transactionDataLabel": "Данные о транзакциях",
+    "readAccount": "{{dappName}} хотел бы прочитать адрес твоего кошелька {{appName}} .",
+    "signPayload": "{{dappName}} хотел бы подписать полезную нагрузку в виде данных.",
+    "signTransaction": "{{dappName}} хотел бы подписать сделку с Celo.",
+    "sendTransaction": "{{dappName}} хотел бы отправить транзакцию Celo.",
+    "decryptPayload": "{{dappName}} хотел бы расшифровать полезную нагрузку в виде данных.",
+    "computeSharedSecret": "{{dappName}} хотел бы генерировать секреты.",
+    "transactionDataCopied": "Копирование данных транзакции"
+  },
   "sessionInfo": "Это приложение может запросить выполнение следующих действий:",
   "description": {
     "sign": "Подписать полезные данные",
@@ -1061,6 +1072,9 @@
   "feedItemDepositInfo": "{{comment}}",
   "feedItemDepositInfo_noComment": "Получен депозит",
   "feedItemDepositTitle": "Депозит",
+  "feedItemFcTransferMobileMoney": "Мобильный денежный перевод",
+  "feedItemFcTransferBankAccount": "Перевод на банковский счет",
+  "feedItemFcTransferWithdraw": "Вывести {{crypto}}",
   "feedItemExchangeTitle": "CELO",
   "feedItemExchangeInfo_boughtGold": "Куплено <0></0> CELO",
   "feedItemExchangeInfo_soldGold": "Продано <0></0> CELO",
@@ -1233,7 +1247,14 @@
     "message": "Вы собираетесь открыть приложение, которым не управляет Valora.\n\nValora не дает никаких заверений относительно этого приложения. Вы используете его на свой риск.",
     "button": "Перейти в {{dappName}}"
   },
+  "dappsScreenInfoSheet": {
+    "title": "Что такое dapp?",
+    "description": "Дапп (или децентрализованное приложение) - это приложение, которое построено и работает поверх сети блокчейн. Это означает, что ни одна компания или организация не управляет и не хранит твои данные.\n\nDapps различаются по услугам, которые они предлагают. Примеры таких услуг включают децентрализованные биржи, кредитование, заимствование, свопинг, хранение НФТ.",
+    "buttonLabel": "Расскажи мне больше"
+  },
   "dappsDisclaimerAllDapps": "{{appName}} не связан с этими dapps и не делает никаких заявлений или утверждений по поводу их использования. Пожалуйста, признай риск перед использованием dapp, просмотрев пользовательское соглашение или политику конфиденциальности.",
+  "dappsDisclaimerSingleDapp": "{{appName}} не связан с этим dapp и не делает никаких заявлений по поводу его использования. Всегда изучай пользовательское соглашение или политику конфиденциальности dapp.",
+  "dappsDisclaimerUnlistedDapp": "Этого dapp нет в списке {{appName}}. {{appName}} не связан с этим dapp и не делает никаких заявлений по поводу его использования. Всегда изучай пользовательское соглашение или политику конфиденциальности dapp.",
   "recentlyUsedDapps": "Недавно использованные Dapps",
   "favoritedDapps": "Избранные Dapps",
   "allDapps": "Все Dapps",
@@ -1242,6 +1263,13 @@
   "others": "Другие",
   "nomSpaceRecipient": "Nomspace: {{name}}",
   "lastDay": "Последние 24 часа",
+  "merchant": "Платеж продавцу",
+  "merchantMoneyEscrow": "Вы собираетесь отправить прямой платеж продавцу.",
+  "merchantPaymentNumberVerificationMessage": "Вам нужно привязать свой номер",
+  "merchantPaymentSubmitFail": "Ваш платеж не удалось отправить",
+  "merchantPaymentSetup": "При загрузке информации о продавце произошла ошибка. Повторите попытку сканирования QR-кода",
+  "merchantPaymentSubmitSuccess": "Твой платеж был успешно отправлен",
+  "merchantWalletUnlockError": "Что-то пошло не так при разблокировке кошелька, повторите попытку",
   "noMoreTransactions": "Больше транзакций нет",
   "selectProviderScreen": {
     "somePaymentsUnavailable": "Некоторые способы оплаты недоступны в вашем регионе",

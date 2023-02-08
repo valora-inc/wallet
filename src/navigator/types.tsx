@@ -3,6 +3,7 @@ import { AccountAuthRequest, SignTxRequest } from '@celo/utils'
 import { KycSchema } from '@fiatconnect/fiatconnect-types'
 import { SignClientTypes } from '@walletconnect/types'
 import BigNumber from 'bignumber.js'
+import { LayoutChangeEvent } from 'react-native'
 import { SendOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { ExchangeConfirmationCardProps } from 'src/exchange/ExchangeConfirmationCard'
@@ -29,6 +30,7 @@ import {
   WalletConnectRequestType,
   WalletConnectSessionRequest,
 } from 'src/walletConnect/types'
+import { QRCodeDataType, QRCodeStyle } from 'src/statsig/types'
 
 // Typed nested navigator params
 type NestedNavigatorParams<ParamList> = {
@@ -57,6 +59,10 @@ interface SendConfirmationLegacyParams {
   addressJustValidated?: boolean
   isFromScan?: boolean
   currencyInfo?: CurrencyInfo
+}
+
+export interface BottomSheetParams {
+  handleContentLayout(event: LayoutChangeEvent): void
 }
 
 export type StackParamList = {
@@ -217,6 +223,7 @@ export type StackParamList = {
   [Screens.Licenses]: undefined
   [Screens.Main]: undefined
   [Screens.MainModal]: undefined
+  [Screens.MerchantPayment]: { referenceId: string; apiBase: string }
   [Screens.OutgoingPaymentRequestListScreen]: undefined
   [Screens.PaymentRequestConfirmation]: {
     transactionData: TransactionDataInput
@@ -377,7 +384,12 @@ export type StackParamList = {
 }
 
 export type QRTabParamList = {
-  [Screens.QRCode]: undefined
+  [Screens.QRCode]:
+    | {
+        qrCodeDataType?: QRCodeDataType
+        qrCodeStyle?: QRCodeStyle
+      }
+    | undefined
   [Screens.QRScanner]:
     | {
         scanIsForSecureSend?: true

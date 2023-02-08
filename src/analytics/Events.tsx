@@ -264,6 +264,14 @@ export enum SendEvents {
   check_account_alerts_continue = 'check_account_alerts_continue',
 }
 
+export enum QrScreenEvents {
+  // Events for the QR screen redesign
+  qr_screen_bottom_sheet_open = 'qr_screen_bottom_sheet_open',
+  qr_screen_bottom_sheet_close = 'qr_screen_bottom_sheet_close',
+  qr_screen_bottom_sheet_link_press = 'qr_screen_bottom_sheet_link_press',
+  qr_screen_copy_address = 'qr_screen_copy_address',
+}
+
 export enum RequestEvents {
   request_scan = 'request_scan', // when scan QR icon is selected from the request screen
   request_select_recipient = 'request_select_recipient', // when recipient was selected
@@ -485,13 +493,15 @@ export enum WalletConnectEvents {
   wc_request_deny_start = 'wc_request_deny_start', // when user presses the button to accept a dapp request
   wc_request_deny_success = 'wc_request_deny_success', // when the dapp request denial succeeds
   wc_request_deny_error = 'wc_request_deny_error', // when the dapp request denial fails
+
+  wc_copy_request_payload = 'wc_copy_request_payload', // when a user taps to copy the request payload from the bottom sheet
 }
 
 export enum DappKitEvents {
   dappkit_parse_deeplink_error = 'dappkit_parse_deeplink_error', // when dappkit fails to parse the deeplink
   dappkit_request_propose = 'dappkit_request_propose', // when the dappkit request screen is displayed to accept/deny a dapp request
   dappkit_request_cancel = 'dappkit_request_cancel', // when user presses the button to cancel the dapp request
-  dappkit_request_details = 'dappkit_request_details', // when user presses the button to show details of a dapp request
+  dappkit_copy_request_details = 'dappkit_copy_request_details', // when user presses the button to copy details of a dapp request
   dappkit_request_accept_start = 'dappkit_request_accept_start', // when user presses the button to accept a dapp request
   dappkit_request_accept_success = 'dappkit_request_accept_success', // when the dapp request succeeds
   dappkit_request_accept_error = 'dappkit_request_accept_error', // when the dapp request fails

@@ -16,6 +16,7 @@ export enum Actions {
 export enum AlertTypes {
   MESSAGE = 'message',
   ERROR = 'error',
+  TOAST = 'toast',
 }
 
 // Possible actions to dispatch when tapping the alert (or its button)
@@ -43,6 +44,15 @@ export const showMessage = (
   title?: string | null
 ): ShowAlertAction => {
   return showAlert(AlertTypes.MESSAGE, message, dismissAfter, buttonMessage, action, title)
+}
+
+export const showToast = (
+  message: string,
+  buttonMessage: string | null,
+  action: AlertAction | null,
+  title: string | null
+): ShowAlertAction => {
+  return showAlert(AlertTypes.TOAST, message, null, buttonMessage, action, title)
 }
 
 export const showError = (

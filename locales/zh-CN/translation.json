@@ -187,10 +187,10 @@
   "startSuperchargingNotificationStart": "获取奖励",
   "cashIn": "添加 {{currency}}",
   "connectNumber": "关联号码",
-  "connectToWallet": "{{dappName}} 想要与 {{appName}} 连接",
-  "confirmTransaction": "{{dappName}} 想要确认一笔交易",
+  "connectToWallet": "连接到 {{dappName}}",
+  "confirmTransaction": "确认交易",
   "allow": "允许",
-  "address": "账户地址",
+  "address": "钱包地址",
   "phoneNumber": "手机号码",
   "transaction": {
     "operation": "操作",
@@ -198,7 +198,8 @@
     "signTX": "签署交易",
     "details": "显示详情"
   },
-  "shareInfo": "此应用程序将能够访问以下信息：",
+  "shareInfo": "你必须连接你的钱包以批准该Dapp的交易。一旦连接，它将有机会访问你的钱包地址。",
+  "connectWalletInfoDappkit": "你必须连接你的钱包，以批准该Dapp的交易。一旦连接，它将可以访问你的钱包地址和电话号码。",
   "data": "数据",
   "firebaseDisabled": "Firebase 已禁用，通知和日志上传功能将不可用",
   "learnMore": "了解更多",
@@ -976,6 +977,16 @@
     "computeSharedSecret": "生成密钥",
     "emptyMessage": "空白消息"
   },
+  "walletConnectRequest": {
+    "transactionDataLabel": "交易数据",
+    "readAccount": "{{dappName}} 想阅读你的 {{appName}} 钱包地址。",
+    "signPayload": "{{dappName}} 想签署一个数据有效载荷。",
+    "signTransaction": "{{dappName}} 希望签署一份塞洛交易。",
+    "sendTransaction": "{{dappName}} 想发送一个塞洛交易。",
+    "decryptPayload": "{{dappName}} 想解密一个数据有效载荷。",
+    "computeSharedSecret": "{{dappName}} 想产生秘密。",
+    "transactionDataCopied": "复制的交易数据"
+  },
   "sessionInfo": "此应用程序可能会要求执行以下操作：",
   "description": {
     "sign": "签署有效负载",
@@ -1055,6 +1066,9 @@
   "feedItemDepositInfo": "{{comment}}",
   "feedItemDepositInfo_noComment": "已接收存款",
   "feedItemDepositTitle": "存款",
+  "feedItemFcTransferMobileMoney": "移动汇款",
+  "feedItemFcTransferBankAccount": "银行账户转账",
+  "feedItemFcTransferWithdraw": "提取 {{crypto}}",
   "feedItemExchangeTitle": "CELO",
   "feedItemExchangeInfo_boughtGold": "已买入 <0></0> CELO",
   "feedItemExchangeInfo_soldGold": "已卖出 <0></0> CELO",
@@ -1227,7 +1241,14 @@
     "message": "您即将打开一个非 Valora 运营的应用程序。\n\nValora 不对该应用程序做任何担保。请自行承担使用风险。",
     "button": "转至 {{dappName}}"
   },
+  "dappsScreenInfoSheet": {
+    "title": "什么是dapp？",
+    "description": "dapp（或称去中心化的应用程序）是一个建立并运行在区块链网络之上的应用程序。这意味着没有一个公司或组织管理或存储你的数据。\n\nDapp因其提供的服务而不同。这些服务的例子包括去中心化的交易所，借贷，交换，存储NFTs。",
+    "buttonLabel": "告诉我更多"
+  },
   "dappsDisclaimerAllDapps": "{{appName}} 与这些应用程序没有关系，在使用它们时不做任何陈述或主张。在使用dapp之前，请通过审查用户协议或隐私政策来确认风险。",
+  "dappsDisclaimerSingleDapp": "{{appName}} 与此应用程序没有关系，在使用它时不作任何陈述。始终审查一个应用程序的用户协议或隐私政策。",
+  "dappsDisclaimerUnlistedDapp": "这个应用程序没有在 {{appName}}。 {{appName}} ，与这个应用程序没有关系，在使用它时不作任何陈述。始终审查一个dapp的用户协议或隐私政策。",
   "recentlyUsedDapps": "最近使用的 Dapp",
   "favoritedDapps": "最喜欢的Dapps",
   "allDapps": "所有 Dapp",
@@ -1236,6 +1257,13 @@
   "others": "其他",
   "nomSpaceRecipient": "Nomspace：{{name}}",
   "lastDay": "最近 24 小时",
+  "merchant": "商户付款",
+  "merchantMoneyEscrow": "您即将向商户发送一笔直接付款。",
+  "merchantPaymentNumberVerificationMessage": "您需要关联手机号码",
+  "merchantPaymentSubmitFail": "您的付款提交失败",
+  "merchantPaymentSetup": "加载商户信息时出错，请尝试再次扫描二维码",
+  "merchantPaymentSubmitSuccess": "您的付款已成功提交",
+  "merchantWalletUnlockError": "解锁您的钱包时出现问题，请重试",
   "noMoreTransactions": "没有更多交易",
   "selectProviderScreen": {
     "somePaymentsUnavailable": "您所在的地区无法使用某些付款方式",

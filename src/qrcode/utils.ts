@@ -1,17 +1,20 @@
 import { useMemo } from 'react'
 import * as RNFS from 'react-native-fs'
 import Share from 'react-native-share'
-import { call, fork, put } from 'redux-saga/effects'
+import { call, fork, put, select } from 'redux-saga/effects'
 import { showError, showMessage } from 'src/alert/actions'
 import { SendEvents } from 'src/analytics/Events'
 import { SendOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { paymentDeepLinkHandlerSelector, phoneNumberVerifiedSelector } from 'src/app/selectors'
+import i18n from 'src/i18n'
 import { validateRecipientAddressSuccess } from 'src/identity/actions'
 import { E164NumberToAddressType } from 'src/identity/reducer'
+import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { QRCodeDataType, UriData, uriDataFromUrl, urlFromUriData } from 'src/qrcode/schema'
+import { UriData, uriDataFromUrl, urlFromUriData } from 'src/qrcode/schema'
 import {
   getRecipientFromAddress,
   recipientHasNumber,
@@ -21,9 +24,11 @@ import { QrCode, SVG } from 'src/send/actions'
 import { TransactionDataInput } from 'src/send/SendAmount'
 import { TransactionDataInput as TransactionDataInputLegacy } from 'src/send/SendConfirmationLegacy'
 import { handleSendPaymentData, isLegacyTransactionData } from 'src/send/utils'
+import { QRCodeDataType } from 'src/statsig/types'
 import Logger from 'src/utils/Logger'
 import { initialiseWalletConnect, isWalletConnectEnabled } from 'src/walletConnect/saga'
 import { handleLoadingWithTimeout } from 'src/walletConnect/walletConnect'
+import { parse } from 'url'
 
 export enum BarcodeTypes {
   QR_CODE = 'QR_CODE',
@@ -133,6 +138,11 @@ export function* handleBarcode(
     yield call(initialiseWalletConnect, barcode.data, WalletConnectPairingOrigin.Scan)
     return
   }
+  if (barcode.data.startsWith('celo://wallet/payment')) {
+    const handler: PaymentDeepLinkHandler = yield select(paymentDeepLinkHandlerSelector)
+    yield call(paymentDeepLinkHandlers[handler], barcode.data)
+    return
+  }
 
   let qrData: UriData
   try {
@@ -187,4 +197,32 @@ export function* handleBarcode(
   const cachedRecipient = getRecipientFromAddress(qrData.address, recipientInfo)
 
   yield call(handleSendPaymentData, qrData, cachedRecipient, isOutgoingPaymentRequest, true)
+}
+type PaymentDeepLinkHandlers = {
+  [key in PaymentDeepLinkHandler]: (uri: string) => Generator
+}
+
+const paymentDeepLinkHandlers: PaymentDeepLinkHandlers = {
+  [PaymentDeepLinkHandler.Disabled]: paymentDeepLinkHandlerDisabled,
+  [PaymentDeepLinkHandler.Merchant]: paymentDeepLinkHandlerMerchant,
+}
+
+function* paymentDeepLinkHandlerDisabled(uri: string) {
+  yield put(showError(ErrorMessages.QR_FAILED_INVALID_ADDRESS))
+  Logger.warn('A payment deep link was scanned without a set handler', uri)
+}
+
+export function* paymentDeepLinkHandlerMerchant(uri: string) {
+  const numberVerified = yield select(phoneNumberVerifiedSelector)
+  if (numberVerified) {
+    const { api_base: apiBase, reference_id: referenceId } = parse(uri, true).query
+    if (typeof apiBase === 'string' && typeof referenceId === 'string') {
+      navigate(Screens.MerchantPayment, { apiBase, referenceId })
+    } else {
+      showError(i18n.t('merchantPaymentSetup'))
+    }
+  } else {
+    yield put(showMessage(i18n.t('merchantPaymentNumberVerificationMessage')))
+    navigate(Screens.VerificationStartScreen)
+  }
 }

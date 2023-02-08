@@ -187,10 +187,10 @@
   "startSuperchargingNotificationStart": " Ödül almak",
   "cashIn": "{{currency}} ekle",
   "connectNumber": "Telefon Numarası Bağla",
-  "connectToWallet": "{{dappName}}, {{appName}} uygulamasına bağlanmak istiyor",
-  "confirmTransaction": "{{dappName}} bir işlemi onaylamak istiyor",
+  "connectToWallet": "{{dappName}}adresine bağlanın",
+  "confirmTransaction": "İşlemi onaylayın",
   "allow": "İzin ver",
-  "address": "Hesap Adresi",
+  "address": "Cüzdan adresi",
   "phoneNumber": "Telefon Numarası",
   "transaction": {
     "operation": "İşlem",
@@ -198,7 +198,8 @@
     "signTX": "İşlem",
     "details": "Detayları göster"
   },
-  "shareInfo": "Bu uygulama aşağıdaki bilgilere erişebilecek:",
+  "shareInfo": "Bu Dapp'taki işlemleri onaylamak için cüzdanınızı bağlamanız gerekir. Bağlandıktan sonra, cüzdan adresinize erişebilecektir.",
+  "connectWalletInfoDappkit": "Bu Dapp'taki işlemleri onaylamak için cüzdanınızı bağlamanız gerekir. Bağlandıktan sonra, cüzdan adresinize ve telefon numaranıza erişebilecektir.",
   "data": "Veri",
   "firebaseDisabled": "Firebase devre dışı, bildirim ve günlük yükleme çalışmıyor",
   "learnMore": "Daha Fazla Bilgi Edinin",
@@ -978,6 +979,16 @@
     "computeSharedSecret": "Gizli Kelime Oluştur",
     "emptyMessage": "Boş mesaj"
   },
+  "walletConnectRequest": {
+    "transactionDataLabel": "İşlem verileri",
+    "readAccount": "{{dappName}} {{appName}} cüzdan adresinizi okumak istiyorum.",
+    "signPayload": "{{dappName}} bir veri yükünü imzalamak istiyor.",
+    "signTransaction": "{{dappName}} bir Celo işlemi imzalamak istiyor.",
+    "sendTransaction": "{{dappName}} bir Celo işlemi göndermek istiyor.",
+    "decryptPayload": "{{dappName}} bir veri yükünün şifresini çözmek ister.",
+    "computeSharedSecret": "{{dappName}} sırlar üretmek istiyor.",
+    "transactionDataCopied": "İşlem verileri kopyalandı"
+  },
   "sessionInfo": "Bu uygulama aşağıdaki eylemleri gerçekleştirmek isteyebilir:",
   "description": {
     "sign": "Veri Yüklerinin İmzalanması",
@@ -1057,6 +1068,9 @@
   "feedItemDepositInfo": "{{comment}}",
   "feedItemDepositInfo_noComment": "Yatırılan",
   "feedItemDepositTitle": "Patra Yatırma",
+  "feedItemFcTransferMobileMoney": "Mobil Para Transferi",
+  "feedItemFcTransferBankAccount": "Banka Hesap Transferi",
+  "feedItemFcTransferWithdraw": "{{crypto}} çek",
   "feedItemExchangeTitle": "CELO",
   "feedItemExchangeInfo_boughtGold": "<0></0> CELO alındı",
   "feedItemExchangeInfo_soldGold": "<0></0> CELO satıldı",
@@ -1229,7 +1243,14 @@
     "message": "Valora tarafından işletilmeyen bir uygulamayı açmak üzeresiniz.\n\nValora, bu uygulama hakkında hiçbir beyanda bulunmaz. Kendi sorumluluğunuzda kullanın.",
     "button": "{{dappName}} uygulamasına git"
   },
+  "dappsScreenInfoSheet": {
+    "title": "Dapp nedir?",
+    "description": "Bir dapp (veya merkezi olmayan uygulama), bir blockchain ağının üzerine inşa edilen ve çalıştırılan bir uygulamadır. Bu, verilerinizin tek bir şirket ya da kuruluş tarafından yönetilmediği ya da saklanmadığı anlamına gelir.\n\nDapp'ler sundukları hizmetlere göre çeşitlilik gösterir. Bu hizmetlere örnek olarak merkezi olmayan borsalar, borç verme, ödünç alma, takas etme, NFT'lerin depolanması verilebilir.",
+    "buttonLabel": "Bana daha fazlasını anlat"
+  },
   "dappsDisclaimerAllDapps": "{{appName}} bu dapp'lerle bağlantılı değildir ve bunları kullanırken hiçbir beyan veya iddiada bulunmaz. Lütfen bir dapp kullanmadan önce kullanıcı sözleşmesini veya gizlilik politikasını inceleyerek riski kabul edin.",
+  "dappsDisclaimerSingleDapp": "{{appName}} bu dapp ile bağlantılı değildir ve onu kullanırken hiçbir beyanda bulunmaz. Her zaman bir uygulamanın kullanıcı sözleşmesini veya gizlilik politikasını inceleyin.",
+  "dappsDisclaimerUnlistedDapp": "Bu uygulama {{appName}}adresinde listelenmemiştir. {{appName}} bu uygulama ile bağlantılı değildir ve kullanımı konusunda herhangi bir beyanda bulunmaz. Her zaman bir dapp'ın kullanıcı sözleşmesini veya gizlilik politikasını inceleyin.",
   "recentlyUsedDapps": "Son Kullanılan Dapp'ler",
   "favoritedDapps": "Favori Dapps",
   "allDapps": "Tüm Dapp'ler",
@@ -1238,6 +1259,13 @@
   "others": "Diğer",
   "nomSpaceRecipient": "Nomspace: {{name}}",
   "lastDay": "Son 24 saat",
+  "merchant": "Satıcı Ödemesi",
+  "merchantMoneyEscrow": "Bir satıcıya doğrudan ödeme göndermek üzeresiniz.",
+  "merchantPaymentNumberVerificationMessage": "Numaranızı bağlamanız gerekiyor",
+  "merchantPaymentSubmitFail": "Ödemeniz gönderilemedi",
+  "merchantPaymentSetup": "Satıcı bilgileri yüklenirken bir hata oluştu, lütfen QRCode'u tekrar taramayı deneyin",
+  "merchantPaymentSubmitSuccess": "Ödemeniz başarıyla gönderildi",
+  "merchantWalletUnlockError": "Cüzdanınızın kilidini açarken bir şeyler ters gitti, lütfen tekrar deneyin",
   "noMoreTransactions": "Başka işlem yok",
   "selectProviderScreen": {
     "somePaymentsUnavailable": "Bazı ödeme yöntemleri bölgenizde kullanılamıyor",

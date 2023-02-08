@@ -187,10 +187,10 @@
   "startSuperchargingNotificationStart": "รับรางวัล",
   "cashIn": "เพิ่ม {{currency}}",
   "connectNumber": "เชื่อมต่อหมายเลข",
-  "connectToWallet": "{{dappName}} ต้องการเชื่อมต่อกับ {{appName}}",
-  "confirmTransaction": "{{dappName}} ต้องการยืนยันธุรกรรม",
+  "connectToWallet": "Connect to {{dappName}}",
+  "confirmTransaction": "Confirm transaction",
   "allow": "อนุญาต",
-  "address": "ที่อยู่บัญชี",
+  "address": "Wallet address",
   "phoneNumber": "หมายเลขโทรศัพท์",
   "transaction": {
     "operation": "การดำเนินการ",
@@ -198,7 +198,8 @@
     "signTX": "ลงนามธุรกรรม",
     "details": "แสดงรายละเอียด"
   },
-  "shareInfo": "แอปพลิเคชั่นนี้จะสามารถเข้าถึงข้อมูลต่อไปนี้:",
+  "shareInfo": "You must connect your wallet to approve transactions in this Dapp. Once connected, it will have access to your wallet address.",
+  "connectWalletInfoDappkit": "You must connect your wallet to approve transactions in this Dapp. Once connected, it will have access to your wallet address and phone number.",
   "data": "ข้อมูล",
   "firebaseDisabled": "Firebase ถูกปิดใช้งาน การแจ้งเตือนและการอัปโหลดบันทึกจะไม่ทำงาน",
   "learnMore": "ดูข้อมูลเพิ่มเติม",
@@ -976,6 +977,16 @@
     "computeSharedSecret": "สร้างคำลับ",
     "emptyMessage": "ข้อความว่างเปล่า"
   },
+  "walletConnectRequest": {
+    "transactionDataLabel": "Transaction data",
+    "readAccount": "{{dappName}} would like to read your {{appName}} wallet address.",
+    "signPayload": "{{dappName}} would like to sign a data payload.",
+    "signTransaction": "{{dappName}} would like to sign a Celo transaction.",
+    "sendTransaction": "{{dappName}} would like to send a Celo transaction.",
+    "decryptPayload": "{{dappName}} would like to decrypt a data payload.",
+    "computeSharedSecret": "{{dappName}} would like to generate secrets.",
+    "transactionDataCopied": "Transaction data copied"
+  },
   "sessionInfo": "แอปพลิเคชั่นนี้อาจขอดำเนินการดังต่อไปนี้:",
   "description": {
     "sign": "ลงชื่อเข้าใช้ปริมาณส่ง",
@@ -1055,6 +1066,9 @@
   "feedItemDepositInfo": "{{comment}}",
   "feedItemDepositInfo_noComment": "เงินฝากที่ได้รับ",
   "feedItemDepositTitle": "ฝากเงิน",
+  "feedItemFcTransferMobileMoney": "Mobile Money Transfer",
+  "feedItemFcTransferBankAccount": "Bank Account Transfer",
+  "feedItemFcTransferWithdraw": "ถอน {{crypto}}",
   "feedItemExchangeTitle": "CELO",
   "feedItemExchangeInfo_boughtGold": "ซื้อ <0></0> CELO แล้ว",
   "feedItemExchangeInfo_soldGold": "ขาย <0></0> CELO แล้ว",
@@ -1227,7 +1241,14 @@
     "message": "คุณกำลังจะเปิดแอปพลิเคเชั่นที่ไม่ได้ดำเนินการโดย Valora\n\nValora ไม่รับรองใดๆ เกี่ยวกับแอปพลิเคชั่นนี้ คุณเป็นผู้รับความเสี่ยงจากการใช้งานนี้เอง",
     "button": "ไปที่ {{dappName}}"
   },
+  "dappsScreenInfoSheet": {
+    "title": "What is a dapp?",
+    "description": "A dapp (or decentralized application) is an app that is built and run on top of a blockchain network. This means that no single company or organization manages or stores your data.\n\nDapps vary by the services they offer. Examples of these services include decentralized exchanges, lending, borrowing, swapping, storing NFTs.",
+    "buttonLabel": "Tell me more"
+  },
   "dappsDisclaimerAllDapps": "{{appName}} is not affiliated with these dapps and makes no representations or claims in using them. Please acknowledge the risk before using a dapp by reviewing the user agreement or privacy policy.",
+  "dappsDisclaimerSingleDapp": "{{appName}} is not affiliated with this dapp and makes no representations in using it. Always review a dapp's user agreement or privacy policy.",
+  "dappsDisclaimerUnlistedDapp": "This dapp is not listed in {{appName}}. {{appName}} is not affiliated with this dapp and makes no representations in using it. Always review a dapp's user agreement or privacy policy.",
   "recentlyUsedDapps": "Dapp ที่ใช้ล่าสุด",
   "favoritedDapps": "Favorited Dapps",
   "allDapps": "Dapp ทั้งหมด",
@@ -1236,6 +1257,13 @@
   "others": "อื่นๆ",
   "nomSpaceRecipient": "Nomspace: {{name}}",
   "lastDay": "24 ชม. ที่ผ่านมา",
+  "merchant": "การชำระเงินร้านค้า",
+  "merchantMoneyEscrow": "คุณกำลังจะส่งการชำระเงินโดยตรงไปยังร้านค้า",
+  "merchantPaymentNumberVerificationMessage": "คุณต้องเชื่อมต่อหมายเลขของคุณ",
+  "merchantPaymentSubmitFail": "ไม่สามารถส่งการชำระเงินได้",
+  "merchantPaymentSetup": "มีข้อผิดพลาดขณะโหลดข้อมูลร้านค้า โปรดลองสแกน QR Code อีกครั้ง",
+  "merchantPaymentSubmitSuccess": "Your payment was successfully submitted",
+  "merchantWalletUnlockError": "มีบางอย่างผิดปกติเมื่อปลดล็อกกระเป๋าเงินของคุณ โปรดลองอีกครั้ง",
   "noMoreTransactions": "ไม่มีธุรกรรมเพิ่มอีก",
   "selectProviderScreen": {
     "somePaymentsUnavailable": "วิธีการชำระเงินบางอย่างอาจไม่สามารถใช้ได้ในประเทศของคุณ",

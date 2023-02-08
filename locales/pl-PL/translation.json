@@ -187,10 +187,10 @@
   "startSuperchargingNotificationStart": "Otrzymuj nagrody",
   "cashIn": "Dodaj {{currency}}",
   "connectNumber": "Podłącz numer",
-  "connectToWallet": "{{dappName}} chce połączyć się z aplikacją {{appName}}",
-  "confirmTransaction": "{{dappName}} chce potwierdzić transakcję",
+  "connectToWallet": "Połącz się z {{dappName}}.",
+  "confirmTransaction": "Potwierdź transakcję",
   "allow": "Zezwól",
-  "address": "Adres konta",
+  "address": "Adres portfela",
   "phoneNumber": "Numer telefonu",
   "transaction": {
     "operation": "Operacja",
@@ -198,7 +198,8 @@
     "signTX": "Transakcję",
     "details": "Pokaż szczegóły"
   },
-  "shareInfo": "Ta aplikacja będzie miała dostęp do następujących informacji:",
+  "shareInfo": "Musisz podłączyć swój portfel, aby zatwierdzać transakcje w tym Dapp. Po połączeniu będzie miał dostęp do adresu Twojego portfela.",
+  "connectWalletInfoDappkit": "Musisz podłączyć swój portfel, aby zatwierdzać transakcje w tym Dapp. Po podłączeniu będzie miał dostęp do Twojego adresu portfela i numeru telefonu.",
   "data": "Dane",
   "firebaseDisabled": "Firebase jest wyłączony, powiadomienia i przesyłanie dzienników nie będą działać",
   "learnMore": "Dowiedz się więcej",
@@ -982,6 +983,16 @@
     "computeSharedSecret": "Wygeneruj tajne kody",
     "emptyMessage": "Pusta wiadomość"
   },
+  "walletConnectRequest": {
+    "transactionDataLabel": "Dane transakcyjne",
+    "readAccount": "{{dappName}} chciałbyś przeczytać adres swojego portfela {{appName}} .",
+    "signPayload": "{{dappName}} chciałby podpisać ładunek danych.",
+    "signTransaction": "{{dappName}} chciałby podpisać transakcję z Celo.",
+    "sendTransaction": "{{dappName}} chciałby wysłać transakcję Celo.",
+    "decryptPayload": "{{dappName}} chciałby odszyfrować ładunek danych.",
+    "computeSharedSecret": "{{dappName}} chciałby generować tajemnice.",
+    "transactionDataCopied": "Skopiowane dane transakcji"
+  },
   "sessionInfo": "Ta aplikacja może poprosić o wykonanie następujących operacji:",
   "description": {
     "sign": "Podpisz ładunki",
@@ -1061,6 +1072,9 @@
   "feedItemDepositInfo": "{{comment}}",
   "feedItemDepositInfo_noComment": "Otrzymano wpłatę",
   "feedItemDepositTitle": "Wpłatę",
+  "feedItemFcTransferMobileMoney": "Mobilny przekaz pieniężny",
+  "feedItemFcTransferBankAccount": "Przelew na konto bankowe",
+  "feedItemFcTransferWithdraw": "Wypłać {{crypto}}",
   "feedItemExchangeTitle": "CELO",
   "feedItemExchangeInfo_boughtGold": "Kupiono <0></0> CELO",
   "feedItemExchangeInfo_soldGold": "Sprzedano <0></0> CELO",
@@ -1233,7 +1247,14 @@
     "message": "Zamierzasz otworzyć aplikację, której operatorem nie jest Valora.\n\nValora nie składa żadnych oświadczeń ani gwarancji dotyczących tej aplikacji. Korzystasz z niej na własne ryzyko.",
     "button": "Przejdź do {{dappName}}"
   },
+  "dappsScreenInfoSheet": {
+    "title": "Co to jest dapp?",
+    "description": "Dapp (lub zdecentralizowana aplikacja) to aplikacja zbudowana i działająca na szczycie sieci blockchain. Oznacza to, że żadna firma ani organizacja nie zarządza ani nie przechowuje Twoich danych.\n\nAplikacje różnią się pod względem oferowanych usług. Przykładami takich usług są zdecentralizowane giełdy, udzielanie pożyczek, pożyczanie, wymiana, przechowywanie NFT.",
+    "buttonLabel": "Powiedz mi więcej"
+  },
   "dappsDisclaimerAllDapps": "{{appName}} nie jest powiązana z tymi dappami i nie składa żadnych oświadczeń ani roszczeń związanych z ich używaniem. Przed rozpoczęciem korzystania z aplikacji dapp należy zapoznać się z umową z użytkownikiem lub polityką prywatności.",
+  "dappsDisclaimerSingleDapp": "{{appName}} nie jest powiązana z tym dappem i nie składa żadnych oświadczeń dotyczących korzystania z niego. Zawsze sprawdzaj umowę z użytkownikiem lub politykę prywatności aplikacji.",
+  "dappsDisclaimerUnlistedDapp": "Ten dapp nie jest wymieniony w {{appName}}. {{appName}} nie jest powiązany z tym dappem i nie składa żadnych oświadczeń dotyczących korzystania z niego. Zawsze sprawdzaj umowę z użytkownikiem lub politykę prywatności aplikacji.",
   "recentlyUsedDapps": "Ostatnio używane Dapps",
   "favoritedDapps": "Ulubione aplikacje",
   "allDapps": "Wszystkie Dapps",
@@ -1242,6 +1263,13 @@
   "others": "Inne",
   "nomSpaceRecipient": "Nomspace: {{name}}",
   "lastDay": "Ostatnie 24 godz.",
+  "merchant": "Płatności dla sprzedawcy",
+  "merchantMoneyEscrow": "Zamierzasz wysłać płatność bezpośrednio do sprzedawcy.",
+  "merchantPaymentNumberVerificationMessage": "Musisz podłączyć swój numer",
+  "merchantPaymentSubmitFail": "Twoja płatność nie została przesłana",
+  "merchantPaymentSetup": "Wystąpił błąd podczas wczytywania danych sprzedawcy, spróbuj ponownie zeskanować kod QR",
+  "merchantPaymentSubmitSuccess": "Twoja płatność została pomyślnie przesłana",
+  "merchantWalletUnlockError": "Coś poszło nie tak podczas odblokowywania portfela, spróbuj ponownie",
   "noMoreTransactions": "Nie ma więcej transakcji",
   "selectProviderScreen": {
     "somePaymentsUnavailable": "Niektóre metody płatności są niedostępne w Twoim regionie",

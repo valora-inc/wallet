@@ -34,7 +34,7 @@ function TransferFeedItem({ transfer }: Props) {
 
   const tokenInfo = useTokenInfo(amount.tokenAddress)
   const showTokenAmount = !amount.localAmount && !tokenInfo?.usdPrice
-  const { title, subtitle, recipient } = useTransferFeedDetails(transfer)
+  const { title, subtitle, recipient, customLocalAmount } = useTransferFeedDetails(transfer)
 
   const colorStyle = new BigNumber(amount.value).isPositive() ? { color: colors.greenUI } : {}
 
@@ -58,7 +58,7 @@ function TransferFeedItem({ transfer }: Props) {
           <TokenDisplay
             amount={amount.value}
             tokenAddress={amount.tokenAddress}
-            localAmount={amount.localAmount}
+            localAmount={customLocalAmount ?? amount.localAmount}
             showExplicitPositiveSign={true}
             showLocalAmount={!showTokenAmount}
             style={[styles.amount, colorStyle]}

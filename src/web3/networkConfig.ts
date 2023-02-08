@@ -34,7 +34,6 @@ interface NetworkConfig {
   celoExplorerBaseTxUrl: string
   celoExplorerBaseAddressUrl: string
   approveSwapUrl: string
-  executeSwapUrl: string
   verifyPhoneNumberUrl: string
   verifySmsCodeUrl: string
   getPublicDEKUrl: string
@@ -43,6 +42,7 @@ interface NetworkConfig {
   revokePhoneNumberUrl: string
   migratePhoneVerificationUrl: string
   fetchAvailableSuperchargeRewards: string
+  resolveId: string
 }
 
 const CLOUD_FUNCTIONS_STAGING = 'https://api.alfajores.valora.xyz'
@@ -106,6 +106,9 @@ const MIGRATE_PHONE_VERIFICATION_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/migrateAS
 const FETCH_AVAILABLE_SUPERCHARGE_REWARDS_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/fetchAvailableSuperchargeRewards`
 const FETCH_AVAILABLE_SUPERCHARGE_REWARDS_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/fetchAvailableSuperchargeRewards`
 
+const RESOLVE_ID_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/resolveId`
+const RESOLVE_ID_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/resolveId`
+
 const CELO_EXPLORER_BASE_URL_ALFAJORES = 'https://explorer.celo.org/alfajores'
 const CELO_EXPLORER_BASE_URL_MAINNET = 'https://explorer.celo.org/mainnet'
 
@@ -118,7 +121,6 @@ const CELO_EXPLORER_BASE_ADDRESS_URL_MAINNET = `${CELO_EXPLORER_BASE_URL_MAINNET
 const NFTS_VALORA_APP_URL = 'https://nfts.valoraapp.com/'
 
 const APPROVE_SWAP_URL = `${CLOUD_FUNCTIONS_MAINNET}/approveSwap`
-const EXECUTE_SWAP_URL = `${CLOUD_FUNCTIONS_MAINNET}/executeSwap`
 
 const networkConfigs: { [testnet: string]: NetworkConfig } = {
   [Testnets.alfajores]: {
@@ -152,7 +154,6 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     celoExplorerBaseTxUrl: CELO_EXPLORER_BASE_TX_URL_ALFAJORES,
     celoExplorerBaseAddressUrl: CELO_EXPLORER_BASE_ADDRESS_URL_ALFAJORES,
     approveSwapUrl: APPROVE_SWAP_URL,
-    executeSwapUrl: EXECUTE_SWAP_URL,
     verifyPhoneNumberUrl: VERIFY_PHONE_NUMBER_ALFAJORES,
     verifySmsCodeUrl: VERIFY_SMS_CODE_ALFAJORES,
     getPublicDEKUrl: GET_PUBLIC_DEK_ALFAJORES,
@@ -161,6 +162,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     revokePhoneNumberUrl: REVOKE_PHONE_NUMBER_ALFAJORES,
     migratePhoneVerificationUrl: MIGRATE_PHONE_VERIFICATION_ALFAJORES,
     fetchAvailableSuperchargeRewards: FETCH_AVAILABLE_SUPERCHARGE_REWARDS_ALFAJORES,
+    resolveId: RESOLVE_ID_ALFAJORES,
   },
   [Testnets.mainnet]: {
     networkId: '42220',
@@ -192,7 +194,6 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     celoExplorerBaseTxUrl: CELO_EXPLORER_BASE_TX_URL_MAINNET,
     celoExplorerBaseAddressUrl: CELO_EXPLORER_BASE_ADDRESS_URL_MAINNET,
     approveSwapUrl: APPROVE_SWAP_URL,
-    executeSwapUrl: EXECUTE_SWAP_URL,
     verifyPhoneNumberUrl: VERIFY_PHONE_NUMBER_MAINNET,
     verifySmsCodeUrl: VERIFY_SMS_CODE_MAINNET,
     getPublicDEKUrl: GET_PUBLIC_DEK_MAINNET,
@@ -201,6 +202,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     revokePhoneNumberUrl: REVOKE_PHONE_NUMBER_MAINNET,
     migratePhoneVerificationUrl: MIGRATE_PHONE_VERIFICATION_MAINNET,
     fetchAvailableSuperchargeRewards: FETCH_AVAILABLE_SUPERCHARGE_REWARDS_MAINNET,
+    resolveId: RESOLVE_ID_MAINNET,
   },
 }
 

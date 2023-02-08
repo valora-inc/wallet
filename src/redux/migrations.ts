@@ -7,6 +7,7 @@ import { initialState as exchangeInitialState } from 'src/exchange/reducer'
 import { CachedQuoteParams, SendingFiatAccountStatus } from 'src/fiatconnect/slice'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { AddressToDisplayNameType } from 'src/identity/reducer'
+import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { TokenTransaction } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 
@@ -488,7 +489,7 @@ export const migrations = {
     ...state,
     app: {
       ...state.app,
-      paymentDeepLinkHandler: '',
+      paymentDeepLinkHandler: PaymentDeepLinkHandler.Disabled,
     },
   }),
   40: (state: any) => {
@@ -1028,6 +1029,20 @@ export const migrations = {
     fiatConnect: {
       ...state.fiatConnect,
       cachedTransfers: {},
+    },
+  }),
+  109: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      paymentDeepLinkHandler: PaymentDeepLinkHandler.Disabled,
+    },
+  }),
+  110: (state: any) => ({
+    ...state,
+    swap: {
+      ...state.swap,
+      guaranteedSwapPriceEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.guaranteedSwapPriceEnabled,
     },
   }),
 }

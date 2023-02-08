@@ -1,29 +1,29 @@
-import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import * as React from 'react'
+import { BottomSheetScreenProps } from '@th3rdwave/react-navigation-bottom-sheet'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { e164NumberSelector } from 'src/account/selectors'
 import { DappKitEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import BottomSheetScrollView from 'src/components/BottomSheetScrollView'
 import { approveAccountAuth, getDefaultRequestTrackedProperties } from 'src/dappkit/dappkit'
 import { activeDappSelector, dappConnectInfoSelector } from 'src/dapps/selectors'
 import { DappConnectInfo } from 'src/dapps/types'
 import { isBottomSheetVisible, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { StackParamList } from 'src/navigator/types'
+import { BottomSheetParams, StackParamList } from 'src/navigator/types'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
-import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
 import RequestContent from 'src/walletConnect/screens/RequestContent'
 import { currentAccountSelector } from 'src/web3/selectors'
 
 const TAG = 'dappkit/DappKitAccountScreen'
 
-type Props = NativeStackScreenProps<StackParamList, Screens.DappKitAccountScreen>
+type Props = BottomSheetScreenProps<StackParamList, Screens.DappKitAccountScreen> &
+  BottomSheetParams
 
-const DappKitAccountScreen = ({ route }: Props) => {
+const DappKitAccountScreen = ({ route, handleContentLayout }: Props) => {
   const { dappKitRequest } = route.params
 
   const account = useSelector(currentAccountSelector)
@@ -58,7 +58,7 @@ const DappKitAccountScreen = ({ route }: Props) => {
   }
 
   return (
-    <View style={styles.container}>
+    <BottomSheetScrollView handleContentLayout={handleContentLayout}>
       <RequestContent
         onAccept={handleAllow}
         onDeny={handleCancel}
@@ -67,9 +67,9 @@ const DappKitAccountScreen = ({ route }: Props) => {
         title={
           dappConnectInfo === DappConnectInfo.Basic
             ? t('connectToWallet', { dappName: dappKitRequest.dappName })
-            : t('confirmTransaction', { dappName: dappKitRequest.dappName })
+            : t('confirmTransaction')
         }
-        description={t('shareInfo')}
+        description={phoneNumber ? t('connectWalletInfoDappkit') : t('shareInfo')}
         requestDetails={[
           {
             label: t('phoneNumber'),
@@ -78,22 +78,12 @@ const DappKitAccountScreen = ({ route }: Props) => {
           {
             label: t('address'),
             value: account,
-            tapToCopy: true,
           },
         ]}
-        dappUrl={dappKitRequest.callback}
         testId="DappKitSessionRequest"
       />
-    </View>
+    </BottomSheetScrollView>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    padding: Spacing.Thick24,
-    flex: 1,
-    alignItems: 'center',
-  },
-})
 
 export default DappKitAccountScreen

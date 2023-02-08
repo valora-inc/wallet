@@ -1,10 +1,11 @@
-import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import { BottomSheetScreenProps } from '@th3rdwave/react-navigation-bottom-sheet'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, StyleSheet, Text } from 'react-native'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
+import BottomSheetScrollView from 'src/components/BottomSheetScrollView'
 import { Screens } from 'src/navigator/Screens'
-import { StackParamList } from 'src/navigator/types'
+import { BottomSheetParams, StackParamList } from 'src/navigator/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -13,21 +14,25 @@ import ConnectionTimedOut from 'src/walletConnect/screens/ConnectionTimedOut'
 import SessionRequest from 'src/walletConnect/screens/SessionRequest'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
 
-type Props = NativeStackScreenProps<StackParamList, Screens.WalletConnectRequest>
+type Props = BottomSheetScreenProps<StackParamList, Screens.WalletConnectRequest> &
+  BottomSheetParams
 
-function WalletConnectRequest({ route: { params } }: Props) {
+function WalletConnectRequest({ route: { params }, handleContentLayout }: Props) {
   const { t } = useTranslation()
 
   return (
-    <View
-      style={[
-        styles.container,
-        params.type === WalletConnectRequestType.Loading ? { justifyContent: 'center' } : undefined,
-      ]}
+    <BottomSheetScrollView
+      containerStyle={
+        params.type === WalletConnectRequestType.Loading ||
+        params.type === WalletConnectRequestType.TimeOut
+          ? styles.loadingTimeoutContainer
+          : undefined
+      }
+      handleContentLayout={handleContentLayout}
     >
       {params.type === WalletConnectRequestType.Loading && (
         <>
-          <ActivityIndicator size="small" color={colors.greenBrand} />
+          <ActivityIndicator color={colors.greenBrand} />
           <Text style={styles.connecting}>
             {params.origin === WalletConnectPairingOrigin.Scan
               ? t('loadingFromScan')
@@ -41,20 +46,19 @@ function WalletConnectRequest({ route: { params } }: Props) {
       {params.type === WalletConnectRequestType.Action && <ActionRequest {...params} />}
 
       {params.type === WalletConnectRequestType.TimeOut && <ConnectionTimedOut />}
-    </View>
+    </BottomSheetScrollView>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
-    padding: Spacing.Thick24,
-    flex: 1,
+  loadingTimeoutContainer: {
     alignItems: 'center',
+    minHeight: 370,
   },
   connecting: {
     ...fontStyles.label,
     color: colors.gray4,
-    marginTop: 20,
+    marginTop: Spacing.Thick24,
   },
 })
 

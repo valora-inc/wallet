@@ -177,6 +177,144 @@
             ],
             "type": "string"
         },
+        "Alert": {
+            "additionalProperties": false,
+            "properties": {
+                "action": {
+                    "anyOf": [
+                        {
+                            "additionalProperties": true,
+                            "properties": {},
+                            "type": "object"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                },
+                "buttonMessage": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "dismissAfter": {
+                    "type": [
+                        "null",
+                        "number"
+                    ]
+                },
+                "displayMethod": {
+                    "$ref": "#/definitions/ErrorDisplayType"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "type": {
+                    "$ref": "#/definitions/AlertTypes"
+                },
+                "underlyingError": {
+                    "anyOf": [
+                        {
+                            "enum": [
+                                "accountClearFailed",
+                                "accountSetupFailed",
+                                "accountUnlockFailed",
+                                "addressLookupFailure",
+                                "addressValidationError",
+                                "addressValidationFullOwnAddress",
+                                "addressValidationFullPoorlyFormatted",
+                                "addressValidationNoMatch",
+                                "addressValidationPartialOwnAddress",
+                                "addressValidationPartialPoorlyFormatted",
+                                "backupQuizFailed",
+                                "calculateFeeFailed",
+                                "cashOutLimitExceeded",
+                                "contractKitInitFailed",
+                                "corruptedChainDeleted",
+                                "countryNotAvailable",
+                                "deleteBankAccountFail",
+                                "errorRefreshingRate",
+                                "exchangeFailed",
+                                "exchangeRateChange",
+                                "failedFetchMnemonic",
+                                "fetchFailed",
+                                "fiatConnectKycStatusScreen.tryAgainFailed",
+                                "firebaseDisabled",
+                                "firebaseFailed",
+                                "gasPriceUpdateFailed",
+                                "getBankAccountsFail",
+                                "importBackupFailed",
+                                "importContactsFailed",
+                                "incorrectPin",
+                                "insufficientBalance",
+                                "invalidAmount",
+                                "invalidBackupPhrase",
+                                "invalidPhone",
+                                "invalidWordsInBackupPhrase",
+                                "keychainAccountAlreadyExists",
+                                "keychainFetchAccounts",
+                                "keychainStorageError",
+                                "missingFullName",
+                                "needMoreFundsToSend",
+                                "notEnoughGoldError",
+                                "notEnoughStableError",
+                                "notReadyForCode",
+                                "odisInsufficientBalance",
+                                "odisQuotaError",
+                                "paymentRequestFailed",
+                                "paymentRequestUpdateFailed",
+                                "personaAccountEndpointFail",
+                                "phoneVerificationInput.verificationFailure",
+                                "pictureLoadFailed",
+                                "pinInputCanceled",
+                                "providerFetchFailed",
+                                "providerRateFetchFailed",
+                                "qrFailedInvalidAddress",
+                                "qrFailedInvalidRecipient",
+                                "qrFailedNoPhoneNumber",
+                                "reclaimingEscrowedPaymentFailed",
+                                "saltFetchFailure",
+                                "saltQuotaExceededError",
+                                "sendPaymentFailed",
+                                "setPinFailed",
+                                "simplexPurchaseFetchFailed",
+                                "superchargeClaimFailure",
+                                "superchargeFetchRewardsFailed",
+                                "swapScreen.fetchSwapQuoteFailed",
+                                "swapScreen.swapSubmitFailed",
+                                "transactionFailed",
+                                "transactionTimeout"
+                            ],
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                }
+            },
+            "required": [
+                "displayMethod",
+                "message",
+                "type"
+            ],
+            "type": "object"
+        },
+        "AlertTypes": {
+            "enum": [
+                "error",
+                "message",
+                "toast"
+            ],
+            "type": "string"
+        },
         "AppState": {
             "enum": [
                 "Active",
@@ -1748,6 +1886,13 @@
             },
             "type": "object"
         },
+        "PaymentDeepLinkHandler": {
+            "enum": [
+                "",
+                "merchant"
+            ],
+            "type": "string"
+        },
         "PaymentInfo": {
             "additionalProperties": false,
             "properties": {
@@ -2008,6 +2153,7 @@
                 "Licenses",
                 "Main",
                 "MainModal",
+                "MerchantPayment",
                 "MoonPayScreen",
                 "NameAndPicture",
                 "OnboardingEducationScreen",
@@ -2328,6 +2474,9 @@
                 "numberVerified": {
                     "type": "boolean"
                 },
+                "paymentDeepLinkHandler": {
+                    "$ref": "#/definitions/PaymentDeepLinkHandler"
+                },
                 "phoneNumberVerified": {
                     "type": "boolean"
                 },
@@ -2430,6 +2579,7 @@
                 "minVersion",
                 "networkTimeoutSeconds",
                 "numberVerified",
+                "paymentDeepLinkHandler",
                 "phoneNumberVerified",
                 "pincodeUseExpandedBlocklist",
                 "rampCashInButtonExpEnabled",
@@ -2673,34 +2823,45 @@
                 },
                 "fetchedCurrencyCode": {
                     "enum": [
+                        "ARS",
                         "AUD",
+                        "BOB",
                         "BRL",
                         "CAD",
+                        "CLP",
                         "CNY",
                         "COP",
                         "CVE",
                         "EUR",
+                        "FKP",
                         "GBP",
                         "GHS",
                         "GNF",
+                        "GYD",
                         "INR",
                         "KES",
                         "LRD",
                         "MXN",
                         "MYS",
                         "NGN",
+                        "PAB",
+                        "PEN",
                         "PHP",
                         "PLN",
+                        "PYG",
                         "RUB",
                         "RWF",
                         "SGP",
                         "SLL",
+                        "SRD",
                         "THI",
                         "TRY",
                         "TWN",
                         "UAH",
                         "UGX",
                         "USD",
+                        "UYU",
+                        "VES",
                         "VNM",
                         "XAF",
                         "XOF",
@@ -2716,34 +2877,45 @@
                 },
                 "preferredCurrencyCode": {
                     "enum": [
+                        "ARS",
                         "AUD",
+                        "BOB",
                         "BRL",
                         "CAD",
+                        "CLP",
                         "CNY",
                         "COP",
                         "CVE",
                         "EUR",
+                        "FKP",
                         "GBP",
                         "GHS",
                         "GNF",
+                        "GYD",
                         "INR",
                         "KES",
                         "LRD",
                         "MXN",
                         "MYS",
                         "NGN",
+                        "PAB",
+                        "PEN",
                         "PHP",
                         "PLN",
+                        "PYG",
                         "RUB",
                         "RWF",
                         "SGP",
                         "SLL",
+                        "SRD",
                         "THI",
                         "TRY",
                         "TWN",
                         "UAH",
                         "UGX",
                         "USD",
+                        "UYU",
+                        "VES",
                         "VNM",
                         "XAF",
                         "XOF",
@@ -3381,6 +3553,9 @@
         "State_25": {
             "additionalProperties": false,
             "properties": {
+                "guaranteedSwapPriceEnabled": {
+                    "type": "boolean"
+                },
                 "swapInfo": {
                     "anyOf": [
                         {
@@ -3406,6 +3581,7 @@
                 }
             },
             "required": [
+                "guaranteedSwapPriceEnabled",
                 "swapInfo",
                 "swapState",
                 "swapUserInput"
@@ -5191,138 +5367,7 @@
         "alert": {
             "anyOf": [
                 {
-                    "additionalProperties": false,
-                    "properties": {
-                        "action": {
-                            "anyOf": [
-                                {
-                                    "additionalProperties": true,
-                                    "properties": {},
-                                    "type": "object"
-                                },
-                                {
-                                    "type": "null"
-                                }
-                            ]
-                        },
-                        "buttonMessage": {
-                            "type": [
-                                "null",
-                                "string"
-                            ]
-                        },
-                        "dismissAfter": {
-                            "type": [
-                                "null",
-                                "number"
-                            ]
-                        },
-                        "displayMethod": {
-                            "$ref": "#/definitions/ErrorDisplayType"
-                        },
-                        "message": {
-                            "type": "string"
-                        },
-                        "title": {
-                            "type": [
-                                "null",
-                                "string"
-                            ]
-                        },
-                        "type": {
-                            "enum": [
-                                "error",
-                                "message"
-                            ],
-                            "type": "string"
-                        },
-                        "underlyingError": {
-                            "anyOf": [
-                                {
-                                    "enum": [
-                                        "accountClearFailed",
-                                        "accountSetupFailed",
-                                        "accountUnlockFailed",
-                                        "addressLookupFailure",
-                                        "addressValidationError",
-                                        "addressValidationFullOwnAddress",
-                                        "addressValidationFullPoorlyFormatted",
-                                        "addressValidationNoMatch",
-                                        "addressValidationPartialOwnAddress",
-                                        "addressValidationPartialPoorlyFormatted",
-                                        "backupQuizFailed",
-                                        "calculateFeeFailed",
-                                        "cashOutLimitExceeded",
-                                        "contractKitInitFailed",
-                                        "corruptedChainDeleted",
-                                        "countryNotAvailable",
-                                        "deleteBankAccountFail",
-                                        "errorRefreshingRate",
-                                        "exchangeFailed",
-                                        "exchangeRateChange",
-                                        "failedFetchMnemonic",
-                                        "fetchFailed",
-                                        "fiatConnectKycStatusScreen.tryAgainFailed",
-                                        "firebaseDisabled",
-                                        "firebaseFailed",
-                                        "gasPriceUpdateFailed",
-                                        "getBankAccountsFail",
-                                        "importBackupFailed",
-                                        "importContactsFailed",
-                                        "incorrectPin",
-                                        "insufficientBalance",
-                                        "invalidAmount",
-                                        "invalidBackupPhrase",
-                                        "invalidPhone",
-                                        "invalidWordsInBackupPhrase",
-                                        "keychainAccountAlreadyExists",
-                                        "keychainFetchAccounts",
-                                        "keychainStorageError",
-                                        "missingFullName",
-                                        "needMoreFundsToSend",
-                                        "notEnoughGoldError",
-                                        "notEnoughStableError",
-                                        "notReadyForCode",
-                                        "odisInsufficientBalance",
-                                        "odisQuotaError",
-                                        "paymentRequestFailed",
-                                        "paymentRequestUpdateFailed",
-                                        "personaAccountEndpointFail",
-                                        "phoneVerificationInput.verificationFailure",
-                                        "pictureLoadFailed",
-                                        "pinInputCanceled",
-                                        "providerFetchFailed",
-                                        "providerRateFetchFailed",
-                                        "qrFailedInvalidAddress",
-                                        "qrFailedInvalidRecipient",
-                                        "qrFailedNoPhoneNumber",
-                                        "reclaimingEscrowedPaymentFailed",
-                                        "saltFetchFailure",
-                                        "saltQuotaExceededError",
-                                        "sendPaymentFailed",
-                                        "setPinFailed",
-                                        "simplexPurchaseFetchFailed",
-                                        "superchargeClaimFailure",
-                                        "superchargeFetchRewardsFailed",
-                                        "swapScreen.fetchSwapQuoteFailed",
-                                        "swapScreen.swapSubmitFailed",
-                                        "transactionFailed",
-                                        "transactionTimeout"
-                                    ],
-                                    "type": "string"
-                                },
-                                {
-                                    "type": "null"
-                                }
-                            ]
-                        }
-                    },
-                    "required": [
-                        "displayMethod",
-                        "message",
-                        "type"
-                    ],
-                    "type": "object"
+                    "$ref": "#/definitions/Alert"
                 },
                 {
                     "type": "null"

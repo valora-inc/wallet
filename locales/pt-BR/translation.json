@@ -187,10 +187,10 @@
   "startSuperchargingNotificationStart": "Ganhe recompensas",
   "cashIn": "Adicionar {{currency}}",
   "connectNumber": "Conectar o número",
-  "connectToWallet": "A {{dappName}} gostaria de se conectar a {{appName}}",
-  "confirmTransaction": "{{dappName}} gostaria de confirmar uma transação",
+  "connectToWallet": "Ligue-se a {{dappName}}",
+  "confirmTransaction": "Confirmar transacção",
   "allow": "Permitir",
-  "address": "Endereço de Conta",
+  "address": "Endereço da carteira",
   "phoneNumber": "Número de celular",
   "transaction": {
     "operation": "Operação",
@@ -198,7 +198,8 @@
     "signTX": "Transação",
     "details": "Detalhes"
   },
-  "shareInfo": "Este aplicativo poderá acessar as seguintes informações:",
+  "shareInfo": "Deve ligar a sua carteira para aprovar transacções nesta Dapp. Uma vez ligada, terá acesso ao endereço da sua carteira.",
+  "connectWalletInfoDappkit": "Deve ligar a sua carteira para aprovar transacções nesta Dapp. Uma vez ligada, terá acesso ao endereço e número de telefone da sua carteira.",
   "data": "Dados",
   "firebaseDisabled": "O Firebase está desativado, notificações e envio de registros não funcionarão",
   "learnMore": "Saiba mais",
@@ -978,6 +979,16 @@
     "computeSharedSecret": "Gerar segredos",
     "emptyMessage": "Mensagem vazia"
   },
+  "walletConnectRequest": {
+    "transactionDataLabel": "Dados da transacção",
+    "readAccount": "{{dappName}} gostaria de ler o seu endereço de carteira {{appName}} .",
+    "signPayload": "{{dappName}} gostaria de assinar uma carga útil de dados.",
+    "signTransaction": "{{dappName}} gostaria de assinar uma transacção com a Celo.",
+    "sendTransaction": "{{dappName}} gostaria de enviar uma transacção da Celo.",
+    "decryptPayload": "{{dappName}} gostaria de de decifrar uma carga útil de dados.",
+    "computeSharedSecret": "{{dappName}} gostaria de gerar segredos.",
+    "transactionDataCopied": "Dados da transacção copiados"
+  },
   "sessionInfo": "Este aplicativo pode pedir para executar as seguintes ações:",
   "description": {
     "sign": "Assinar pagamentos",
@@ -1057,6 +1068,9 @@
   "feedItemDepositInfo": "{{comment}}",
   "feedItemDepositInfo_noComment": "Depósito recebido",
   "feedItemDepositTitle": "Depósito",
+  "feedItemFcTransferMobileMoney": "Transferência móvel de dinheiro",
+  "feedItemFcTransferBankAccount": "Transferência de conta bancária",
+  "feedItemFcTransferWithdraw": "Sacar {{crypto}}",
   "feedItemExchangeTitle": "CELO",
   "feedItemExchangeInfo_boughtGold": "Comprou <0></0> CELO",
   "feedItemExchangeInfo_soldGold": "<0></0> CELO vendidos",
@@ -1229,7 +1243,14 @@
     "message": "Você está prestes a abrir um aplicativo não operado por Valora.\n\nValora não faz representações sobre este aplicativo. Use por sua conta e risco.",
     "button": "Ir para {{dappName}}"
   },
+  "dappsScreenInfoSheet": {
+    "title": "O que é um dapp?",
+    "description": "Uma dapp (ou aplicação descentralizada) é uma aplicação que é construída e executada sobre uma rede em cadeia de blocos. Isto significa que nenhuma única empresa ou organização gere ou armazena os seus dados.\n\nAs dapps variam em função dos serviços que oferecem. Exemplos destes serviços incluem trocas descentralizadas, empréstimos, trocas, troca, armazenamento de NFT.",
+    "buttonLabel": "Conte-me mais"
+  },
   "dappsDisclaimerAllDapps": "{{appName}} não está afiliado a estas dapps e não faz quaisquer representações ou reivindicações na sua utilização. Por favor, reconheça o risco antes de utilizar uma dapp, revendo o acordo do utilizador ou a política de privacidade.",
+  "dappsDisclaimerSingleDapp": "{{appName}} não está afiliado a esta dapp e não faz quaisquer representações na sua utilização. Rever sempre um acordo de utilização ou política de privacidade da dapp.",
+  "dappsDisclaimerUnlistedDapp": "Esta dapp não está listada em {{appName}}. {{appName}} não está afiliada a esta dapp e não faz quaisquer representações na sua utilização. Rever sempre um acordo de utilização ou política de privacidade da dapp.",
   "recentlyUsedDapps": "Dapps usados recentemente",
   "favoritedDapps": "Dapps favoritos",
   "allDapps": "Todos os dapps",
@@ -1238,6 +1259,13 @@
   "others": "Outros",
   "nomSpaceRecipient": "Nomspace: {{name}}",
   "lastDay": "Últimas 24 horas",
+  "merchant": "Pagamento a comerciantes",
+  "merchantMoneyEscrow": "Você está prestes a enviar um pagamento direto a um comerciante.",
+  "merchantPaymentNumberVerificationMessage": "Você precisa conectar seu número",
+  "merchantPaymentSubmitFail": "Seu pagamento não pôde ser enviado",
+  "merchantPaymentSetup": "Ocorreu um erro ao carregar as informações do comerciante, tente escanear o QRCode novamente",
+  "merchantPaymentSubmitSuccess": "O seu pagamento foi submetido com sucesso",
+  "merchantWalletUnlockError": "Algo deu errado ao desbloquear sua carteira, tente novamente",
   "noMoreTransactions": "Não há mais transacções",
   "selectProviderScreen": {
     "somePaymentsUnavailable": "Alguns métodos de pagamento não estão disponíveis na sua região",
