@@ -251,7 +251,7 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
           style={styles.submitBtn}
           type={BtnTypes.PRIMARY}
           size={BtnSizes.FULL}
-          disabled={!feeEstimate?.feeInfo && flow === CICOFlow.CashOut}
+          disabled={!feeEstimate?.feeInfo && flow === CICOFlow.CashOut} // Cash out requires fee info
           text={
             flow === CICOFlow.CashIn
               ? t('fiatConnectReviewScreen.cashIn.button')
@@ -498,6 +498,7 @@ function TransactionDetails({
     default:
       tokenDisplay = t('total')
   }
+  // Network fee is only relevant for Cash Out
   const feeHasError = flow === CICOFlow.CashOut && feeEstimate?.error
   const feeIsLoading = flow === CICOFlow.CashOut && feeEstimate?.loading
   return (

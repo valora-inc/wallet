@@ -166,7 +166,7 @@ describe('ReviewScreen', () => {
       ])
     })
     it('enables the submit button even if feeInfo is not available', () => {
-      const props = getProps(CICOFlow.CashIn, true, CryptoType.cEUR)
+      const props = getProps(CICOFlow.CashIn, true, CryptoType.cUSD)
       store = getStore({
         feeEstimate: {
           usdFee: '0.02',
@@ -184,7 +184,7 @@ describe('ReviewScreen', () => {
       expect(getByTestId('submitButton')).toBeEnabled()
     })
     it('shows the fees even if feeEstimate is loading', () => {
-      const props = getProps(CICOFlow.CashIn, true, CryptoType.cEUR)
+      const props = getProps(CICOFlow.CashIn, true, CryptoType.cUSD)
       store = getStore({
         feeEstimate: {
           usdFee: '0.02',
@@ -199,10 +199,10 @@ describe('ReviewScreen', () => {
           <FiatConnectReviewScreen {...props} />
         </Provider>
       )
-      expect(queryByTestId('txDetails-fee/value')?.children).toEqual(['', '$', '0.84'])
+      expect(queryByTestId('txDetails-fee/value')?.children).toEqual(['', '$', '0.70'])
     })
     it('shows the fees even if feeEstimate has an error', () => {
-      const props = getProps(CICOFlow.CashIn, true, CryptoType.cEUR)
+      const props = getProps(CICOFlow.CashIn, true, CryptoType.cUSD)
       store = getStore({
         feeEstimate: {
           usdFee: '0.02',
@@ -217,7 +217,7 @@ describe('ReviewScreen', () => {
           <FiatConnectReviewScreen {...props} />
         </Provider>
       )
-      expect(queryByTestId('txDetails-fee/value')?.children).toEqual(['', '$', '0.84'])
+      expect(queryByTestId('txDetails-fee/value')?.children).toEqual(['', '$', '0.70'])
     })
   })
 
