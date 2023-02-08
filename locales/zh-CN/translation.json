@@ -551,8 +551,8 @@
   "escrowPaymentNotificationTitle": "发送给 {{mobile}} 的邀请无法认领",
   "sendAndInvite": "发送和邀请",
   "inviteRewardsBanner": {
-    "title": "发送加密货币以邀请朋友",
-    "body": "一旦他们设置了他们的 {{appName}} 钱包并关联了号码，每一个都会让您获得一个专属 NFT。<0>最多可赚取 3 个 NFT</0>"
+    "title": "邀请朋友并收集 NFT",
+    "body": "一旦他们设置了他们的 {{appName}} 钱包并连接了他们的号码，你们将各自得到一个独家的NFT。"
   },
   "inviteWithUrl": {
     "title": "邀请朋友",
