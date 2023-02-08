@@ -551,8 +551,8 @@
   "escrowPaymentNotificationTitle": "Não é possível resgatar o convite para {{mobile}}",
   "sendAndInvite": "Enviar e convidar",
   "inviteRewardsBanner": {
-    "title": "Envie criptomoedas para convidar um amigo",
-    "body": "Depois que seu amigo configurar a carteira dele, vocês dois receberão um NFT. <0>Ganhe até 3 NFTs</0>"
+    "title": "Convide amigos e colete NFTs",
+    "body": "Uma vez que eles tenham preparado a sua carteira {{appName}} e ligado o seu número, cada um receberá um NFT exclusivo."
   },
   "inviteWithUrl": {
     "title": "Convide um amigo",
