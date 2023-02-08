@@ -551,8 +551,8 @@
   "escrowPaymentNotificationTitle": "Zaproszenie na {{mobile}} nie może być odebrane",
   "sendAndInvite": "Wyślij i zaproś",
   "inviteRewardsBanner": {
-    "title": "Wyślij kryptowalutę, aby zaprosić znajomego",
-    "body": "Kiedy założy portfel w aplikacji {{appName}} i podłączy swój numer, oboje otrzymacie NFT. <0>Zdobądź do 3 NTF</0>"
+    "title": "Zaproś znajomych i zbieraj NFT",
+    "body": "Po skonfigurowaniu portfela {{appName}} i podłączeniu swojego numeru, każdy z Was otrzyma ekskluzywne NFT."
   },
   "inviteWithUrl": {
     "title": "Zaproś znajomego",
