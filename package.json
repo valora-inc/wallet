@@ -110,6 +110,7 @@
     "@types/react-native-html-to-pdf": "^0.8.1",
     "@ubeswap/default-token-list": "^4.1.47",
     "@ungap/url-search-params": "^0.1.2",
+    "@usecapsule/react-native-wallet": "^0.1.6",
     "@walletconnect/client": "^1.6.5",
     "@walletconnect/types": "^1.6.5",
     "Base64": "^1.0.1",

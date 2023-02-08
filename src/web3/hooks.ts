@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { createUser, verifyEmail } from 'src/capsule/helpers'
+import { createUser, verifyEmail } from '@usecapsule/react-native-wallet'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import Logger from 'src/utils/Logger'

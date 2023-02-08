@@ -23,6 +23,8 @@ PODS:
     - AppCenter/Core (= 4.4.2)
   - Base64 (1.1.2)
   - boost (1.76.0)
+  - capsule-react-native-wallet (0.1.6):
+    - React-Core
   - CeloBlockchain (0.0.355)
   - CleverTap-iOS-SDK (3.9.3):
     - SDWebImage (~> 5.1)
@@ -742,6 +744,7 @@ DEPENDENCIES:
   - appcenter-core (from `../node_modules/appcenter/ios`)
   - appcenter-crashes (from `../node_modules/appcenter-crashes/ios`)
   - boost (from `../node_modules/react-native/third-party-podspecs/boost.podspec`)
+  - "capsule-react-native-wallet (from `../node_modules/@usecapsule/react-native-wallet`)"
   - "CeloBlockchain (from `../node_modules/@celo/client/CeloBlockchain.podspec`)"
   - clevertap-react-native (from `../node_modules/clevertap-react-native`)
   - CodePush (from `../node_modules/react-native-code-push`)
@@ -925,6 +928,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/appcenter-crashes/ios"
   boost:
     :podspec: "../node_modules/react-native/third-party-podspecs/boost.podspec"
+  capsule-react-native-wallet:
+    :path: "../node_modules/@usecapsule/react-native-wallet"
   CeloBlockchain:
     :path: "../node_modules/@celo/client/CeloBlockchain.podspec"
   clevertap-react-native:
@@ -1120,6 +1125,7 @@ SPEC CHECKSUMS:
   AppCenterReactNativeShared: 0906af7a6bf95075d6c607189820a2e81fceb6fe
   Base64: cecfb41a004124895a7bcee567a89bae5a89d49b
   boost: a7c83b31436843459a1961bfd74b96033dc77234
+  capsule-react-native-wallet: df113aee4eda100e6c7bf8fe0319742cbd235b2f
   CeloBlockchain: 0bb44b288f8fc19528d2be951e2844575d4408d4
   CleverTap-iOS-SDK: 38f386d9aed648de7ef3ca0e7e2c8531b4cf58e9
   clevertap-react-native: f28f984e24a77559d82bb05786a8c1a7f58c2ce8

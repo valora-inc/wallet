@@ -6,36 +6,32 @@
 import { Lock } from '@celo/base/lib/lock'
 import { ContractKit, newKitFromWeb3 } from '@celo/contractkit'
 import { sleep } from '@celo/utils/lib/async'
-// import GethBridge from 'react-native-geth'
+import { EIP712TypedData } from '@celo/utils/lib/sign-typed-data-utils'
 import { call, select } from 'redux-saga/effects'
 import { ContractKitEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { CapsuleWallet } from 'src/capsule/react-native/ReactNativeCapsuleWallet'
 import { DEFAULT_FORNO_URL } from 'src/config'
-//import { isProviderConnectionError } from 'src/geth/geth'
-//import { GethNativeBridgeWallet } from 'src/geth/GethNativeBridgeWallet'
 import { waitForGethSync, waitForGethSyncAsync } from 'src/geth/saga'
 import { navigateToError } from 'src/navigator/NavigationService'
 import Logger from 'src/utils/Logger'
 import { getHttpProvider, getIpcProvider } from 'src/web3/providers'
 import { fornoSelector } from 'src/web3/selectors'
+import { ZedSignerStorage, ZedWallet } from 'src/web3/wallet'
 import Web3 from 'web3'
-import { EIP712TypedData } from '@celo/utils/lib/sign-typed-data-utils'
-import { ReactNativeSignersStorage } from '../capsule/react-native/ReactNativeSignersStorage'
 
 const TAG = 'web3/contracts'
 // const KIT_INIT_RETRY_DELAY = 2000
 const CONTRACT_KIT_RETRIES = 3
 const WAIT_FOR_CONTRACT_KIT_RETRIES = 10
 
-let wallet: CapsuleWallet | undefined // GethNativeBridgeWallet | undefined
+let wallet: ZedWallet | undefined // GethNativeBridgeWallet | undefined
 let contractKit: ContractKit | undefined
 
 const initContractKitLock = new Lock()
 
 // @ts-ignore
-async function signTestTransaction(newWallet: CapsuleWallet) {
+async function signTestTransaction(newWallet: ZedWallet) {
   Logger.debug('TEST SIGNING')
   const PAYLOAD: EIP712TypedData = {
     types: {
@@ -56,7 +52,7 @@ async function signTestTransaction(newWallet: CapsuleWallet) {
     },
     primaryType: 'Message',
   }
-  const storage = new ReactNativeSignersStorage()
+  const storage = new ZedSignerStorage()
   const accounts = await storage.getAccounts()
   const address = accounts[0]
   const signedTypedMessage = await newWallet.signTypedData(address, PAYLOAD)
@@ -65,7 +61,7 @@ async function signTestTransaction(newWallet: CapsuleWallet) {
 
 async function initWallet() {
   ValoraAnalytics.track(ContractKitEvents.init_contractkit_get_wallet_start)
-  const newWallet = new CapsuleWallet()
+  const newWallet = new ZedWallet()
   Logger.debug(TAG + '@initWallet', 'Created Wallet')
   ValoraAnalytics.track(ContractKitEvents.init_contractkit_get_wallet_finish)
   await newWallet.init()
