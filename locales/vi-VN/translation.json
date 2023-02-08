@@ -551,8 +551,8 @@
   "escrowPaymentNotificationTitle": "Không thể xác nhận lời mới tới {{mobile}}",
   "sendAndInvite": "Gửi và mời",
   "inviteRewardsBanner": {
-    "title": "Gửi tiền điện tử để mời bạn bè",
-    "body": "Sau khi họ thiết lập ví {{appName}} và kết nối số điện thoại, mỗi bạn sẽ nhận được một NFT độc quyền. <0>Kiếm tới 3 NFT</0>"
+    "title": "Mời bạn bè và nhận NFT",
+    "body": "Once they set up their {{appName}} wallet and connect their number, you’ll each get an exclusive NFT."
   },
   "inviteWithUrl": {
     "title": "Mời bạn bè",
