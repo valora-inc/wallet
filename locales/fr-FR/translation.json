@@ -551,8 +551,8 @@
   "escrowPaymentNotificationTitle": "L'invitation de {{mobile}} ne peut pas être utilisée",
   "sendAndInvite": "Envoyer et inviter",
   "inviteRewardsBanner": {
-    "title": "Envoyez des crypto pour inviter un ami",
-    "body": "Vous recevrez tous les deux un NFT exclusif une fois qu'il est configuré son compte {{appName}}. <0>Gagnez jusqu'à 3 NFT</0>"
+    "title": "Invitez des amis et collectez des NFTs",
+    "body": "Une fois qu'ils auront configuré leur portefeuille {{appName}} et connecté leur numéro, vous recevrez chacun un NFT exclusif."
   },
   "inviteWithUrl": {
     "title": "Invitez des amis",
