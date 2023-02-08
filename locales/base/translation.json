@@ -551,8 +551,8 @@
   "escrowPaymentNotificationTitle": "Invite to {{mobile}} can't be claimed",
   "sendAndInvite": "Send & Invite",
   "inviteRewardsBanner": {
-    "title": "Send crypto to invite a friend",
-    "body": "Once they set up their {{appName}} wallet and connect their number, you’ll each get an exclusive NFT. <0>Earn up to 3 NFTs</0>"
+    "title": "Invite friends and collect NFTs",
+    "body": "Once they set up their {{appName}} wallet and connect their number, you’ll each get an exclusive NFT."
   },
   "inviteWithUrl": {
     "title": "Invite a friend",
