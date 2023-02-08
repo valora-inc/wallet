@@ -24,24 +24,24 @@ export default function Welcome() {
   const acceptedTerms = useSelector((state) => state.account.acceptedTerms)
   const insets = useSafeAreaInsets()
 
-  const navigateNext = () => {
+  const navigateNext = ({ isExistingUser }: { isExistingUser: boolean }) => {
     if (!acceptedTerms) {
-      navigate(Screens.RegulatoryTerms)
+      navigate(Screens.RegulatoryTerms, { isExistingUser })
     } else {
-      navigate(Screens.NameAndPicture)
+      navigate(Screens.CapsuleOAuth, { isExistingUser })
     }
   }
 
   const onPressCreateAccount = () => {
     ValoraAnalytics.track(OnboardingEvents.create_account_start)
     dispatch(chooseCreateAccount())
-    navigateNext()
+    navigateNext({ isExistingUser: false })
   }
 
   const onPressRestoreAccount = () => {
     ValoraAnalytics.track(OnboardingEvents.restore_account_start)
     dispatch(chooseRestoreAccount())
-    navigateNext()
+    navigateNext({ isExistingUser: true })
   }
 
   return (

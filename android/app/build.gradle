@@ -297,7 +297,6 @@ dependencies {
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
-    implementation project(':react-native-geth')
     implementation 'com.squareup.okhttp3:okhttp-urlconnection:4.9.0'
     implementation project(':react-native-plaid-link-sdk')
 
@@ -335,8 +334,9 @@ dependencies {
         exclude group:'com.facebook.flipper'
     }
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.8.1'
+    implementation files('../../../go-sdk/signer/signer.aar')
 
-    if (enableHermes) {
+  if (enableHermes) {
         def hermesPath = "../../node_modules/hermes-engine/android/";
         debugImplementation files(hermesPath + "hermes-debug.aar")
         releaseImplementation files(hermesPath + "hermes-release.aar")

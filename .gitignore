@@ -144,3 +144,6 @@ src/images/*
 balance.tmp
 ios/AppCenter-Config.plist
 .dccache
+
+# Capsule
+go-sdk

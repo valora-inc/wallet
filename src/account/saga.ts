@@ -50,7 +50,7 @@ import { restartApp } from 'src/utils/AppRestart'
 import Logger from 'src/utils/Logger'
 import { getContractKit, getWallet } from 'src/web3/contracts'
 import { registerAccountDek } from 'src/web3/dataEncryptionKey'
-import { getOrCreateAccount, getWalletAddress, unlockAccount } from 'src/web3/saga'
+import { getOrCreateCapsuleAccount, getWalletAddress, unlockAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { finclusiveKycStatusSelector } from './selectors'
 
@@ -88,7 +88,7 @@ function* initializeAccount() {
   Logger.debug(TAG + '@initializeAccount', 'Creating account')
   try {
     ValoraAnalytics.track(OnboardingEvents.initialize_account_start)
-    yield call(getOrCreateAccount)
+    yield call(getOrCreateCapsuleAccount)
     yield call(generateSignedMessage)
     yield put(refreshAllBalances())
     Logger.debug(TAG + '@initializeAccount', 'Account creation success')

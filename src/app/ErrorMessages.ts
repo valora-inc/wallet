@@ -94,5 +94,7 @@ export enum ErrorMessages {
   ADD_FIAT_ACCOUNT_RESOURCE_EXIST = 'fiatDetailsScreen.addFiatAccountResourceExist',
   CREATE_PDF_FAILED = 'createPdfFailure',
   FAILED_OPEN_DIRECTION = 'failedOpeningDirections',
-  CREATE_PDF_FAILED = 'createPdfFailure',
+  CAPSULE_FETCH_ACCOUNTS = 'capsuleFetchAccounts',
+  CAPSULE_ACCOUNT_ALREADY_EXISTS = 'capsuleAccountAlreadyExists',
+  CAPSULE_UNEXPECTED_ADDRESS = 'capsuleUnexpectedAddress',
 }

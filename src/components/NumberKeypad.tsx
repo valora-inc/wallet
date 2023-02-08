@@ -2,6 +2,7 @@ import * as React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import Touchable from 'src/components/Touchable'
 import Backspace from 'src/icons/Backspace'
+import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 
 interface Props {
@@ -11,19 +12,22 @@ interface Props {
   onBackspaceLongPress?: () => void
   decimalSeparator?: string
   testID?: string
+  digitColor?: Colors
 }
 
 function DigitButton({
   digit,
+  textColor,
   onDigitPress,
 }: {
   digit: number
+  textColor?: Colors
   onDigitPress: (digit: number) => void
 }) {
   const onPress = () => onDigitPress(digit)
   return (
     <Touchable testID={`digit${digit}`} borderless={true} onPress={onPress}>
-      <Text allowFontScaling={false} style={styles.digit}>
+      <Text allowFontScaling={false} style={[styles.digit, { color: textColor ?? Colors.dark }]}>
         {digit}
       </Text>
     </Touchable>
@@ -34,19 +38,19 @@ export default function NumberKeypad(props: Props) {
   return (
     <View style={styles.container}>
       <View style={styles.row}>
-        <DigitButton digit={1} onDigitPress={props.onDigitPress} />
-        <DigitButton digit={2} onDigitPress={props.onDigitPress} />
-        <DigitButton digit={3} onDigitPress={props.onDigitPress} />
+        <DigitButton digit={1} onDigitPress={props.onDigitPress} textColor={props.digitColor} />
+        <DigitButton digit={2} onDigitPress={props.onDigitPress} textColor={props.digitColor} />
+        <DigitButton digit={3} onDigitPress={props.onDigitPress} textColor={props.digitColor} />
       </View>
       <View style={styles.row}>
-        <DigitButton digit={4} onDigitPress={props.onDigitPress} />
-        <DigitButton digit={5} onDigitPress={props.onDigitPress} />
-        <DigitButton digit={6} onDigitPress={props.onDigitPress} />
+        <DigitButton digit={4} onDigitPress={props.onDigitPress} textColor={props.digitColor} />
+        <DigitButton digit={5} onDigitPress={props.onDigitPress} textColor={props.digitColor} />
+        <DigitButton digit={6} onDigitPress={props.onDigitPress} textColor={props.digitColor} />
       </View>
       <View style={styles.row}>
-        <DigitButton digit={7} onDigitPress={props.onDigitPress} />
-        <DigitButton digit={8} onDigitPress={props.onDigitPress} />
-        <DigitButton digit={9} onDigitPress={props.onDigitPress} />
+        <DigitButton digit={7} onDigitPress={props.onDigitPress} textColor={props.digitColor} />
+        <DigitButton digit={8} onDigitPress={props.onDigitPress} textColor={props.digitColor} />
+        <DigitButton digit={9} onDigitPress={props.onDigitPress} textColor={props.digitColor} />
       </View>
       <View style={styles.row}>
         {props.decimalSeparator && props.onDecimalPress ? (
@@ -60,15 +64,15 @@ export default function NumberKeypad(props: Props) {
         ) : (
           <View style={styles.digit} />
         )}
-        <DigitButton digit={0} onDigitPress={props.onDigitPress} />
+        <DigitButton digit={0} onDigitPress={props.onDigitPress} textColor={props.digitColor} />
         <Touchable
           testID="Backspace"
           borderless={true}
           onPress={props.onBackspacePress}
           onLongPress={props.onBackspaceLongPress}
         >
-          <View style={styles.digit}>
-            <Backspace />
+          <View style={[styles.digit]}>
+            <Backspace color={props.digitColor ?? Colors.dark} />
           </View>
         </Touchable>
       </View>

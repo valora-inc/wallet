@@ -1,8 +1,8 @@
-import { StackScreenProps } from '@react-navigation/stack'
+import { StackScreenProps, useHeaderHeight } from '@react-navigation/stack'
 import React, { useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { KeyboardAvoidingView, StyleSheet, Text, TextInput, View } from 'react-native'
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { setName, setPicture, setPromptForno } from 'src/account/actions'
 import { recoveringFromStoreWipeSelector } from 'src/account/selectors'
@@ -13,18 +13,16 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { registrationStepsSelector } from 'src/app/selectors'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import DevSkipButton from 'src/components/DevSkipButton'
-import FormInput from 'src/components/FormInput'
-import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import PictureInput from 'src/onboarding/registration/PictureInput'
 import useTypedSelector from 'src/redux/useSelector'
-import colors from 'src/styles/colors'
+import colors, { Colors } from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
 import { saveProfilePicture } from 'src/utils/image'
 import { useAsyncKomenciReadiness } from 'src/verify/hooks'
-
 type Props = StackScreenProps<StackParamList, Screens.NameAndPicture>
 
 function NameAndPicture({ navigation }: Props) {
@@ -36,6 +34,8 @@ function NameAndPicture({ navigation }: Props) {
   const { step, totalSteps } = useTypedSelector(registrationStepsSelector)
   const shouldSkipProfilePicture = useTypedSelector((state) => state.app.skipProfilePicture)
   const dispatch = useDispatch()
+  const insets = useSafeAreaInsets()
+  const headerHeight = useHeaderHeight()
 
   const { t } = useTranslation()
 
@@ -46,6 +46,8 @@ function NameAndPicture({ navigation }: Props) {
     navigation.setOptions({
       headerTitle: () => (
         <HeaderTitleWithSubtitle
+          titleStyle={{ color: Colors.light }}
+          subtitleStyle={{ color: Colors.greenFaint }}
           title={t(choseToRestoreAccount ? 'restoreAccount' : 'createAccount')}
           subTitle={t('registrationSteps', { step, totalSteps })}
         />
@@ -105,35 +107,47 @@ function NameAndPicture({ navigation }: Props) {
   return (
     <SafeAreaView style={styles.container}>
       <DevSkipButton nextScreen={Screens.PincodeSet} />
-      <ScrollView contentContainerStyle={styles.scrollContainer} keyboardShouldPersistTaps="always">
-        {!shouldSkipProfilePicture && (
-          <PictureInput
-            picture={picture}
-            onPhotoChosen={onPhotoChosen}
-            backgroundColor={colors.onboardingBrownLight}
+      <KeyboardAvoidingView
+        behavior="padding"
+        style={[
+          headerHeight ? { marginTop: headerHeight } : undefined,
+          styles.accessibleView,
+          insets && { marginBottom: insets.bottom },
+        ]}
+      >
+        <PictureInput
+          picture={picture}
+          onPhotoChosen={onPhotoChosen}
+          backgroundColor={colors.goldBrand}
+        />
+        <View style={styles.inputGroup}>
+          <Text style={styles.verifyLabel}>{t('fullNamePrompt')}</Text>
+          <TextInput
+            value={nameInput}
+            autoCapitalize="none"
+            autoCorrect={false}
+            caretHidden={true}
+            placeholder={t('fullNamePlaceholder')}
+            placeholderTextColor={Colors.greenFaint}
+            style={styles.nameInput}
+            testID={'NameEntry'}
+            keyboardType={'ascii-capable'}
+            onChangeText={setNameInput}
           />
-        )}
-        <FormInput
-          label={t('fullName')}
-          style={styles.name}
-          onChangeText={setNameInput}
-          value={nameInput}
-          enablesReturnKeyAutomatically={true}
-          placeholder={t('fullNamePlaceholder')}
-          testID={'NameEntry'}
-          multiline={false}
-        />
-        <Button
-          onPress={onPressContinue}
-          text={t('next')}
-          size={BtnSizes.MEDIUM}
-          type={BtnTypes.ONBOARDING}
-          disabled={!nameInput.trim()}
-          testID={'NameAndPictureContinueButton'}
-          showLoading={asyncKomenciReadiness.loading}
-        />
-      </ScrollView>
-      <KeyboardSpacer />
+        </View>
+        <View style={[styles.inputGroup, styles.footerGroup]}>
+          <Button
+            style={styles.submitButton}
+            onPress={onPressContinue}
+            text={t('next')}
+            size={BtnSizes.MEDIUM}
+            type={BtnTypes.BRAND_PRIMARY}
+            testID={'NameAndPictureContinueButton'}
+            disabled={!nameInput.trim()}
+            showLoading={asyncKomenciReadiness.loading}
+          />
+        </View>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   )
 }
@@ -141,19 +155,33 @@ function NameAndPicture({ navigation }: Props) {
 NameAndPicture.navOptions = nuxNavigationOptions
 
 export default NameAndPicture
-
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+    backgroundColor: Colors.greenUI,
+  },
+  accessibleView: {
+    flex: 1,
+    paddingHorizontal: 20,
+  },
+  inputGroup: {
     flexGrow: 1,
-    justifyContent: 'space-between',
-    backgroundColor: colors.onboardingBackground,
+    paddingTop: 32,
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
   },
-  scrollContainer: {
-    padding: 24,
-    paddingTop: 80,
+  footerGroup: {
+    justifyContent: 'flex-end',
   },
-  name: {
-    marginTop: 24,
-    marginBottom: 32,
+  nameInput: {
+    ...fontStyles.hero,
+    color: Colors.light,
+  },
+  verifyLabel: {
+    ...fontStyles.hero,
+    color: Colors.light,
+  },
+  submitButton: {
+    justifyContent: 'center',
   },
 })

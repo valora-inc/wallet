@@ -14,6 +14,7 @@ import { currentAccountSelector } from 'src/web3/selectors'
 const TAG = 'Backup/utils'
 
 const MNEMONIC_STORAGE_KEY = 'mnemonic'
+const CAPSULE_KEY_SHARE = 'capsule'
 
 export function getMnemonicLanguage(language: string | null) {
   switch (language?.slice(0, 2)) {
@@ -30,19 +31,55 @@ export function getMnemonicLanguage(language: string | null) {
 }
 
 export async function storeMnemonic(mnemonic: string, account: string | null, password?: string) {
+  return storeEncryptedSecret(MNEMONIC_STORAGE_KEY, mnemonic, account, password)
+}
+
+export async function storeCapsuleKeyShare(
+  mnemonic: string,
+  account: string | null,
+  password?: string
+) {
+  return storeEncryptedSecret(CAPSULE_KEY_SHARE, mnemonic, account, password)
+}
+
+async function storeEncryptedSecret(
+  storageKey: string,
+  mnemonic: string,
+  account: string | null,
+  password?: string
+) {
   if (!account) {
     throw new Error('Account not yet initialized')
   }
   const passwordToUse = password ?? (await getPassword(account))
   const encryptedMnemonic = await encryptMnemonic(mnemonic, passwordToUse)
-  return storeItem({ key: MNEMONIC_STORAGE_KEY, value: encryptedMnemonic })
+  return storeItem({ key: storageKey, value: encryptedMnemonic })
 }
 
 export async function clearStoredMnemonic() {
   await removeStoredItem(MNEMONIC_STORAGE_KEY)
 }
 
+export async function clearCapsuleKeyShare() {
+  await removeStoredItem(CAPSULE_KEY_SHARE)
+}
+
 export async function getStoredMnemonic(
+  account: string | null,
+  password?: string
+): Promise<string | null> {
+  return getStoredEncryptedSecret(MNEMONIC_STORAGE_KEY, account, password)
+}
+
+export async function getStoredCapsuleKeyShare(
+  account: string | null,
+  password?: string
+): Promise<string | null> {
+  return getStoredEncryptedSecret(CAPSULE_KEY_SHARE, account, password)
+}
+
+async function getStoredEncryptedSecret(
+  storageKey: string,
   account: string | null,
   password?: string
 ): Promise<string | null> {
@@ -52,15 +89,15 @@ export async function getStoredMnemonic(
     }
 
     Logger.debug(TAG, 'Checking keystore for mnemonic')
-    const encryptedMnemonic = await retrieveStoredItem(MNEMONIC_STORAGE_KEY)
-    if (!encryptedMnemonic) {
+    const encryptedSecret = await retrieveStoredItem(storageKey)
+    if (!encryptedSecret) {
       throw new Error('No mnemonic found in storage')
     }
 
     const passwordToUse = password ?? (await getPassword(account))
-    return decryptMnemonic(encryptedMnemonic, passwordToUse)
+    return decryptSecret(encryptedSecret, passwordToUse)
   } catch (error) {
-    Logger.error(TAG, 'Failed to retrieve mnemonic', error)
+    Logger.error(TAG, 'Failed to retrieve secret', error)
     return null
   }
 }
@@ -111,7 +148,7 @@ export async function encryptMnemonic(phrase: string, password: string) {
   return CryptoJS.AES.encrypt(phrase, password).toString()
 }
 
-export async function decryptMnemonic(encryptedMnemonic: string, password: string) {
-  const bytes = CryptoJS.AES.decrypt(encryptedMnemonic, password)
+export async function decryptSecret(encryptedSecret: string, password: string) {
+  const bytes = CryptoJS.AES.decrypt(encryptedSecret, password)
   return bytes.toString(CryptoJS.enc.Utf8)
 }

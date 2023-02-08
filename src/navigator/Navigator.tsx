@@ -6,6 +6,8 @@ import SplashScreen from 'react-native-splash-screen'
 import AccountKeyEducation from 'src/account/AccountKeyEducation'
 import AccounSetupFailureScreen from 'src/account/AccountSetupFailureScreen'
 import BankAccounts from 'src/account/BankAccounts'
+import CapsuleEmailVerificationScreen from 'src/account/CapsuleEmailVerificationScreen'
+import CapsuleOAuthScreen from 'src/account/CapsuleOAuthScreen'
 import ConnectPhoneNumberScreen from 'src/account/ConnectPhoneNumberScreen'
 import GoldEducation from 'src/account/GoldEducation'
 import Licenses from 'src/account/Licenses'
@@ -295,6 +297,16 @@ const nuxScreens = (Navigator: typeof Stack) => (
       name={Screens.OnboardingSuccessScreen}
       component={OnboardingSuccessScreen}
       options={OnboardingSuccessScreen.navigationOptions}
+    />
+    <Navigator.Screen
+      name={Screens.CapsuleOAuth}
+      component={CapsuleOAuthScreen}
+      options={CapsuleOAuthScreen.navigationOptions}
+    />
+    <Navigator.Screen
+      name={Screens.CapsuleEmailVerification}
+      component={CapsuleEmailVerificationScreen}
+      options={CapsuleEmailVerificationScreen.navigationOptions}
     />
   </>
 )
@@ -691,9 +703,7 @@ export function MainStackScreen() {
       // User didn't go far enough in onboarding, start again from education
       initialRoute = Screens.OnboardingEducationScreen
     } else if (!account) {
-      initialRoute = choseToRestoreAccount
-        ? Screens.ImportWallet
-        : Screens.OnboardingEducationScreen
+      initialRoute = choseToRestoreAccount ? Screens.ImportWallet : Screens.CapsuleOAuth
     } else if (!hasSeenVerificationNux) {
       initialRoute = Screens.VerificationEducationScreen
     } else {

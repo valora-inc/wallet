@@ -36,7 +36,7 @@ import { getWeb3 } from 'src/web3/contracts'
 import { fornoSelector } from 'src/web3/selectors'
 import { blockIsFresh, BLOCK_AGE_LIMIT } from 'src/web3/utils'
 
-const gethEmitter = new NativeEventEmitter(NativeModules.RNGeth)
+const gethEmitter = new NativeEventEmitter(NativeModules.RNGeth || {})
 
 const TAG = 'geth/saga'
 const INIT_GETH_TIMEOUT = 15000 // ms

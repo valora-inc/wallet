@@ -1,6 +1,6 @@
 {
   "search.exclude": {
-    "**/node_modules": false
+    "**/node_modules": true
   },
   "files.exclude": {
     "**/*.js": { "when": "$(basename).ts" },

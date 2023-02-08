@@ -32,6 +32,12 @@ const standards = {
 }
 // Figma Font Styles
 const fontStyles = StyleSheet.create({
+  hero: {
+    lineHeight: 40,
+    fontSize: 32,
+    fontFamily: Kaleko.Bold,
+    color: colors.dark,
+  },
   h1: {
     fontSize: 24,
     lineHeight: 28,

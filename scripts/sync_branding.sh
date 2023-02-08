@@ -20,23 +20,6 @@ mobile_root="$(dirname "$(dirname "$0")")"
 echo $mobile_root
 cd "$mobile_root"
 
-# Please update the sha when valora branding updates are needed
-valora_branding_sha=0033ec2a26c1140b118543ef22587ecde50ab382
-
-if [[ "$branding" == "valora" ]]; then
-  # prevents git from asking credentials
-  export GIT_TERMINAL_PROMPT=0
-  if [[ ! -e branding/valora ]] && ! git clone git@github.com:valora-inc/valora-app-branding.git branding/valora ; then
-    echo "Couldn't clone private branding. Will use default branding."
-    branding=celo
-  else
-    pushd "branding/$branding"
-    git fetch
-    git checkout "$valora_branding_sha"
-    popd
-  fi
-fi
-
 if [[ "$branding" == "kolektivo" ]]; then
   # prevents git from asking credentials
   export GIT_TERMINAL_PROMPT=0

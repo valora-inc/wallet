@@ -11,6 +11,8 @@ export enum Screens {
   FiatDetailsScreen = 'FiatDetailsScreen',
   BidaliScreen = 'BidaliScreen',
   CashInSuccess = 'CashInSuccess',
+  CapsuleOAuth = 'CapsuleOAuth',
+  CapsuleEmailVerification = 'CapsuleEmailVerification',
   ConnectPhoneNumberScreen = 'ConnectPhoneNumberScreen',
   ConsumerIncentivesHomeScreen = 'ConsumerIncentivesHomeScreen',
   DappKitAccountAuth = 'DappKitAccountAuth',

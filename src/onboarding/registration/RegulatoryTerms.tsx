@@ -29,7 +29,10 @@ const mapDispatchToProps: DispatchProps = {
   acceptTerms,
 }
 
-type Props = WithTranslation & DispatchProps
+type Props = WithTranslation &
+  DispatchProps & {
+    existingUser?: boolean
+  }
 
 export class RegulatoryTerms extends React.Component<Props> {
   static navigationOptions = {
@@ -45,7 +48,7 @@ export class RegulatoryTerms extends React.Component<Props> {
   }
 
   goToNextScreen = () => {
-    navigate(Screens.NameAndPicture)
+    navigate(Screens.CapsuleOAuth, { isExistingUser: this.props.existingUser })
   }
 
   onPressGoToTerms = () => {

@@ -20,6 +20,7 @@ export enum BtnTypes {
   TERTIARY = 'Tertiary',
   ONBOARDING = 'Onboarding',
   ONBOARDING_SECONDARY = 'OnboardingSecondary',
+  ONBOARDING_PASSIVE = 'OnboardingPassive',
   NOTIFICATION = 'Notification',
   NOTIFICATION_SECONDARY = 'NotificationSecondary',
 }
@@ -188,6 +189,11 @@ function getColors(type: BtnTypes, disabled: boolean | undefined) {
     case BtnTypes.ONBOARDING_SECONDARY:
       textColor = colors.onboardingGreen
       backgroundColor = colors.light
+      opacity = disabled ? 0.5 : 1.0
+      break
+    case BtnTypes.ONBOARDING_PASSIVE:
+      textColor = colors.onboardingGreen
+      backgroundColor = colors.greenFaint
       opacity = disabled ? 0.5 : 1.0
       break
     case BtnTypes.NOTIFICATION:

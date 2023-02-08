@@ -14,9 +14,8 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { apolloClient } from 'src/apollo'
 import { TokenTransactionType } from 'src/apollo/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { DOLLAR_MIN_AMOUNT_ACCOUNT_FUNDED, isE2EEnv, WALLET_BALANCE_UPPER_BOUND } from 'src/config'
+import { DOLLAR_MIN_AMOUNT_ACCOUNT_FUNDED, WALLET_BALANCE_UPPER_BOUND } from 'src/config'
 import { FeeInfo } from 'src/fees/saga'
-import { readOnceFromFirebase } from 'src/firebase/firebase'
 import { WEI_PER_TOKEN } from 'src/geth/consts'
 import { e2eTokens } from 'src/tokens/e2eTokens'
 import {
@@ -320,10 +319,11 @@ export function* fetchTokenBalancesSaga() {
       Logger.debug(TAG, 'Skipping fetching tokens since no address was found')
       return
     }
+    Logger.debug(TAG, 'Fetching token balances')
     // In e2e environment we use a static token list since we can't access Firebase.
-    const tokens: StoredTokenBalances = isE2EEnv
-      ? e2eTokens()
-      : yield call(readOnceFromFirebase, 'tokensInfo')
+    const tokens: StoredTokenBalances = e2eTokens() // isE2EEnv
+    // ? e2eTokens()
+    // : yield call(readOnceFromFirebase, 'tokensInfo')
     const tokenBalances: FetchedTokenBalance[] = yield call(fetchTokenBalancesForAddress, address)
     for (const token of Object.values(tokens) as StoredTokenBalance[]) {
       const tokenBalance = tokenBalances.find(

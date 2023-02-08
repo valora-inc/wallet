@@ -16,10 +16,11 @@ interface StateProps {
 
 type Props = StateProps & WithTranslation
 
+// @todo Determine how app is connected, and initialized using Capsule Wallet
 const mapStateToProps = (state: RootState): StateProps => {
   return {
     fornoEnabled: state.web3.fornoMode,
-    appConnected: isAppConnected(state),
+    appConnected: true || isAppConnected(state),
     appSynced: isAppSynced(state),
   }
 }

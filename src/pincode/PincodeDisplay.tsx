@@ -1,10 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { LayoutAnimation, StyleSheet, Text, View } from 'react-native'
+import React, { useEffect, useRef } from 'react'
+import { LayoutAnimation, StyleSheet, View } from 'react-native'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 
 // How long the last entered digit is visible
-const LAST_DIGIT_VISIBLE_INTERVAL = 2000 // 2secs
+const LAST_DIGIT_VISIBLE_INTERVAL = 2000 // 0.5secs
 
 const DOT_SIZE = 8
 
@@ -14,7 +14,6 @@ interface Props {
 }
 
 export default function PincodeDisplay({ pin, maxLength }: Props) {
-  const [revealIndex, setRevealIndex] = useState(-1)
   const prevPinRef = useRef(pin)
 
   useEffect(() => {
@@ -28,37 +27,19 @@ export default function PincodeDisplay({ pin, maxLength }: Props) {
         ...LayoutAnimation.Presets.easeInEaseOut,
         duration: 150,
       })
-      setRevealIndex(-1)
       return
-    }
-
-    setRevealIndex(pin.length - 1)
-    const timeout = setTimeout(() => {
-      LayoutAnimation.easeInEaseOut()
-      setRevealIndex(-1)
-    }, LAST_DIGIT_VISIBLE_INTERVAL)
-
-    return () => {
-      clearTimeout(timeout)
     }
   }, [pin])
 
   return (
     <View style={styles.container} testID="PincodeDisplay">
       {Array.from({ length: maxLength }).map((x, index) => {
-        const char = index === revealIndex ? pin[index] : undefined
         const isEntered = index < pin.length
-        const key = `${index}_${isEntered}_${char}`
+        const key = `${index}_${isEntered}`
 
         return (
           <View key={key} style={styles.inputContainer}>
-            {char ? (
-              <Text allowFontScaling={false} style={styles.char}>
-                {char}
-              </Text>
-            ) : (
-              <View style={[styles.dot, isEntered && styles.dotFilled]} />
-            )}
+            {<View style={[styles.dot, isEntered && styles.dotFilled]} />}
           </View>
         )
       })}

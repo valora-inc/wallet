@@ -1,7 +1,16 @@
 import { StackNavigationOptions } from '@react-navigation/stack'
 import * as React from 'react'
 import { Trans } from 'react-i18next'
-import { Dimensions, PixelRatio, Platform, StyleSheet, Text, View } from 'react-native'
+import {
+  Dimensions,
+  PixelRatio,
+  Platform,
+  StyleProp,
+  StyleSheet,
+  Text,
+  TextStyle,
+  View,
+} from 'react-native'
 import BackButton from 'src/components/BackButton'
 import CancelButton from 'src/components/CancelButton'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
@@ -188,20 +197,24 @@ export function HeaderTitleWithSubtitle({
   title,
   subTitle,
   testID,
+  titleStyle,
+  subtitleStyle,
 }: {
   title: string | JSX.Element
   subTitle?: string | JSX.Element
   testID?: string
+  titleStyle?: StyleProp<TextStyle>
+  subtitleStyle?: StyleProp<TextStyle>
 }) {
   return (
     <View style={styles.header} testID={testID}>
       {title && (
-        <Text style={styles.headerTitle} numberOfLines={1}>
+        <Text style={[styles.headerTitle, titleStyle]} numberOfLines={1}>
           {title}
         </Text>
       )}
       {subTitle && (
-        <Text style={styles.headerSubTitle} numberOfLines={1}>
+        <Text style={[styles.headerSubTitle, subtitleStyle]} numberOfLines={1}>
           {subTitle}
         </Text>
       )}
