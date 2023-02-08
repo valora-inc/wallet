@@ -67,5 +67,4 @@ export enum ErrorMessages {
   FETCH_SWAP_QUOTE_FAILED = 'swapScreen.fetchSwapQuoteFailed',
   SWAP_SUBMIT_FAILED = 'swapScreen.swapSubmitFailed',
   KYC_TRY_AGAIN_FAILED = 'fiatConnectKycStatusScreen.tryAgainFailed',
-  FIAT_CONNECT_TRANSFER_FAILED = 'fiatConnectReviewScreen.fiatConnectTransferFailed',
 }

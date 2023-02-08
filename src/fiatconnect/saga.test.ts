@@ -1969,7 +1969,6 @@ describe('Fiatconnect saga', () => {
           flow: CICOFlow.CashIn,
           fiatConnectQuote: transferInFcQuote,
           fiatAccountId: 'account1',
-          feeInfo: mockFeeInfo,
         })
         await expectSaga(handleCreateFiatConnectTransfer, action)
           .provide([[call(_initiateTransferWithProvider, action), { transferAddress }]])

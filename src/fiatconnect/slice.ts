@@ -146,7 +146,7 @@ export interface CreateFiatConnectTransferAction {
   flow: CICOFlow
   fiatConnectQuote: FiatConnectQuote
   fiatAccountId: string
-  feeInfo: FeeInfo
+  feeInfo?: FeeInfo
 }
 
 export interface CreateFiatConnectTransferFailedAction {

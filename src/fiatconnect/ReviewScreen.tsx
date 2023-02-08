@@ -6,10 +6,8 @@ import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, BackHandler, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
-import { showError } from 'src/alert/actions'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { ErrorMessages } from 'src/app/ErrorMessages'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import CancelButton from 'src/components/CancelButton'
@@ -253,7 +251,7 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
           style={styles.submitBtn}
           type={BtnTypes.PRIMARY}
           size={BtnSizes.FULL}
-          disabled={!feeEstimate?.feeInfo}
+          disabled={!feeEstimate?.feeInfo && flow === CICOFlow.CashOut}
           text={
             flow === CICOFlow.CashIn
               ? t('fiatConnectReviewScreen.cashIn.button')
@@ -263,11 +261,6 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
             if (normalizedQuote.getGuaranteedUntil() < new Date()) {
               setShowingExpiredQuoteDialog(true)
             } else {
-              if (!feeEstimate?.feeInfo) {
-                // This should never happen because the confirm button is disabled if this happens.
-                dispatch(showError(ErrorMessages.FIAT_CONNECT_TRANSFER_FAILED))
-                return
-              }
               ValoraAnalytics.track(FiatExchangeEvents.cico_fc_review_submit, {
                 flow,
                 provider: normalizedQuote.getProviderId(),
@@ -278,7 +271,7 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
                   flow,
                   fiatConnectQuote: normalizedQuote,
                   fiatAccountId: fiatAccount.fiatAccountId,
-                  feeInfo: feeEstimate.feeInfo,
+                  feeInfo: feeEstimate?.feeInfo,
                 })
               )
 
@@ -505,7 +498,8 @@ function TransactionDetails({
     default:
       tokenDisplay = t('total')
   }
-
+  const feeHasError = flow === CICOFlow.CashOut && feeEstimate?.error
+  const feeIsLoading = flow === CICOFlow.CashOut && feeEstimate?.loading
   return (
     <View style={styles.sectionContainer}>
       <Text style={styles.sectionHeaderText}>
@@ -535,11 +529,12 @@ function TransactionDetails({
         // TODO(any): consider using FeeDrawer if we want to show fee breakdown
         <LineItemRow
           title={t('feeEstimate')}
-          amount={feeDisplay}
+          testID="feeEstimateRow"
+          amount={!feeHasError && !feeIsLoading && feeDisplay}
           style={styles.sectionSubTextContainer}
           textStyle={styles.sectionSubText}
-          isLoading={feeEstimate?.loading}
-          hasError={feeEstimate?.error}
+          isLoading={feeIsLoading}
+          hasError={feeHasError}
         />
       )}
       <LineItemRow

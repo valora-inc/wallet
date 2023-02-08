@@ -1003,6 +1003,10 @@ export function* handleCreateFiatConnectTransfer(
     )
 
     if (flow === CICOFlow.CashOut) {
+      if (!feeInfo) {
+        // Should never happen since we disable the submit button if flow is cash out and there is no fee info
+        throw new Error('Fee info is required for cash out')
+      }
       const cashOutTxHash: string = yield call(_initiateSendTxToProvider, {
         transferAddress,
         fiatConnectQuote,

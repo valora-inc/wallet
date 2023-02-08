@@ -3,6 +3,8 @@ import { fireEvent, render } from '@testing-library/react-native'
 import _ from 'lodash'
 import * as React from 'react'
 import { Provider } from 'react-redux'
+import { MockStoreEnhanced } from 'redux-mock-store'
+import { FeeEstimateState } from 'src/fees/reducer'
 import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import FiatConnectReviewScreen from 'src/fiatconnect/ReviewScreen'
 import { createFiatConnectTransfer, FiatAccount, refetchQuote } from 'src/fiatconnect/slice'
@@ -68,25 +70,33 @@ function getProps(
   })
 }
 
-describe('ReviewScreen', () => {
-  const store = createMockStore({
+const defaultFeeEstimate = {
+  usdFee: '0.02',
+  lastUpdated: 500,
+  loading: false,
+  error: false,
+  feeInfo: mockFeeInfo,
+}
+
+function getStore({ feeEstimate = defaultFeeEstimate }: { feeEstimate?: FeeEstimateState }) {
+  return createMockStore({
     fees: {
       estimates: {
         [mockCusdAddress]: {
-          send: {
-            usdFee: '0.02',
-            lastUpdated: 500,
-            loading: false,
-            error: false,
-            feeInfo: mockFeeInfo,
-          },
+          send: feeEstimate,
           exchange: undefined,
           'reclaim-escrow': undefined,
           'register-dek': undefined,
           swap: undefined,
         },
         [mockCeurAddress]: {
-          send: { usdFee: '0.03', lastUpdated: 500, loading: false, error: false },
+          send: {
+            usdFee: '0.03',
+            lastUpdated: 500,
+            loading: false,
+            error: false,
+            feeInfo: mockFeeInfo,
+          },
           exchange: undefined,
           'reclaim-escrow': undefined,
           'register-dek': undefined,
@@ -123,7 +133,12 @@ describe('ReviewScreen', () => {
       },
     },
   })
+}
+
+describe('ReviewScreen', () => {
+  let store: MockStoreEnhanced<{}>
   beforeEach(() => {
+    store = getStore({})
     store.dispatch = jest.fn()
     mocked(getDefaultLocalCurrencyCode).mockReturnValue(LocalCurrencyCode.USD)
   })
@@ -149,6 +164,60 @@ describe('ReviewScreen', () => {
       expect(queryByTestId('paymentMethod-via')?.children).toEqual([
         'fiatConnectReviewScreen.paymentMethodVia, {"providerName":"Provider Two"}',
       ])
+    })
+    it('enables the submit button even if feeInfo is not available', () => {
+      const props = getProps(CICOFlow.CashIn, true, CryptoType.cEUR)
+      store = getStore({
+        feeEstimate: {
+          usdFee: '0.02',
+          lastUpdated: 500,
+          loading: false,
+          error: false,
+          feeInfo: undefined,
+        },
+      })
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <FiatConnectReviewScreen {...props} />
+        </Provider>
+      )
+      expect(getByTestId('submitButton')).toBeEnabled()
+    })
+    it('shows the fees even if feeEstimate is loading', () => {
+      const props = getProps(CICOFlow.CashIn, true, CryptoType.cEUR)
+      store = getStore({
+        feeEstimate: {
+          usdFee: '0.02',
+          lastUpdated: 500,
+          loading: true,
+          error: false,
+          feeInfo: mockFeeInfo,
+        },
+      })
+      const { queryByTestId } = render(
+        <Provider store={store}>
+          <FiatConnectReviewScreen {...props} />
+        </Provider>
+      )
+      expect(queryByTestId('txDetails-fee/value')?.children).toEqual(['', '$', '0.84'])
+    })
+    it('shows the fees even if feeEstimate has an error', () => {
+      const props = getProps(CICOFlow.CashIn, true, CryptoType.cEUR)
+      store = getStore({
+        feeEstimate: {
+          usdFee: '0.02',
+          lastUpdated: 500,
+          loading: false,
+          error: true,
+          feeInfo: mockFeeInfo,
+        },
+      })
+      const { queryByTestId } = render(
+        <Provider store={store}>
+          <FiatConnectReviewScreen {...props} />
+        </Provider>
+      )
+      expect(queryByTestId('txDetails-fee/value')?.children).toEqual(['', '$', '0.84'])
     })
   })
 
@@ -251,7 +320,60 @@ describe('ReviewScreen', () => {
         'fiatConnectReviewScreen.paymentMethodVia, {"providerName":"Provider Two"}',
       ])
     })
-
+    it('disables the submit button if feeInfo is not available', () => {
+      const props = getProps(CICOFlow.CashOut, false, CryptoType.cUSD, false)
+      store = getStore({
+        feeEstimate: {
+          usdFee: '0.02',
+          lastUpdated: 500,
+          loading: false,
+          error: false,
+          feeInfo: undefined,
+        },
+      })
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <FiatConnectReviewScreen {...props} />
+        </Provider>
+      )
+      expect(getByTestId('submitButton')).toBeDisabled()
+    })
+    it('shows a loading spinner for fees if feeEstimate is loading', () => {
+      const props = getProps(CICOFlow.CashOut, false, CryptoType.cUSD, false)
+      store = getStore({
+        feeEstimate: {
+          usdFee: '0.02',
+          lastUpdated: 500,
+          loading: true,
+          error: false,
+          feeInfo: mockFeeInfo,
+        },
+      })
+      const { queryByTestId } = render(
+        <Provider store={store}>
+          <FiatConnectReviewScreen {...props} />
+        </Provider>
+      )
+      expect(queryByTestId('LineItemLoading')).toBeTruthy()
+    })
+    it('shows a --- for fees if feeEstimate has an error', () => {
+      const props = getProps(CICOFlow.CashOut, false, CryptoType.cUSD, false)
+      store = getStore({
+        feeEstimate: {
+          usdFee: '0.02',
+          lastUpdated: 500,
+          loading: false,
+          error: true,
+          feeInfo: mockFeeInfo,
+        },
+      })
+      const { queryByTestId } = render(
+        <Provider store={store}>
+          <FiatConnectReviewScreen {...props} />
+        </Provider>
+      )
+      expect(queryByTestId('LineItemRow/feeEstimateRow')?.children).toEqual(['---'])
+    })
     it('shows expired dialog when quote is expired', async () => {
       const expireMs = -100
       const props = getProps(CICOFlow.CashOut, false, CryptoType.cUSD, false, expireMs)
