@@ -551,8 +551,8 @@
   "escrowPaymentNotificationTitle": "{{mobile}} no podrá redimir su invitación",
   "sendAndInvite": "Envía e invita",
   "inviteRewardsBanner": {
-    "title": "Envía cripto e invita a tus amigos",
-    "body": "Por cada amigo que se una y configure su cuenta, ambos obtendrán un NFT exclusivo de regalo. <0>Puedes ganar hasta 3 NFTs</0>"
+    "title": "Invita a tus amigos y obtén NFTs",
+    "body": "Una vez que configuren su monedero {{appName}} y conecten su número, cada uno obtendrá un NFT exclusivo."
   },
   "inviteWithUrl": {
     "title": "Invita a tus amigos",
