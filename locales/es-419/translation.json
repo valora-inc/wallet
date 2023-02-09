@@ -187,19 +187,19 @@
   "startSuperchargingNotificationStart": "Primeros pasos",
   "cashIn": "Agregar {{currency}}",
   "connectNumber": "Conecta tu número",
-  "connectToWallet": "Conéctate a {{dappName}}",
+  "connectToWallet": "Conectarse a {{dappName}}",
   "confirmTransaction": "Confirmar transacción",
   "allow": "Permitir",
-  "address": "Dirección de la cartera",
+  "address": "Dirección de wallet",
   "phoneNumber": "Número de teléfono",
   "transaction": {
     "operation": "Operación",
     "data": "Datos",
-    "signTX": "Transacción",
+    "signTX": "Aprobar transacción",
     "details": "Detalles"
   },
-  "shareInfo": "Debes conectar tu monedero para aprobar transacciones en esta Dapp. Una vez conectada, tendrá acceso a la dirección de tu monedero.",
-  "connectWalletInfoDappkit": "Debes conectar tu monedero para aprobar transacciones en esta Dapp. Una vez conectada, tendrá acceso a la dirección de tu monedero y a tu número de teléfono.",
+  "shareInfo": "Debes conectar tu wallet para aprobar transacciones en esta dapp. Una vez conectada, tendrá acceso a tu dirección de wallet.",
+  "connectWalletInfoDappkit": "Debes conectar tu wallet para aprobar transacciones en esta dapp. Una vez conectada, tendrá acceso a tu dirección de wallet y número de teléfono.",
   "data": "Datos",
   "firebaseDisabled": "FireBase está desactivado, la carga de notificaciones y registros no funcionará.",
   "learnMore": "Más información",
@@ -552,7 +552,7 @@
   "sendAndInvite": "Envía e invita",
   "inviteRewardsBanner": {
     "title": "Invita a tus amigos y obtén NFTs",
-    "body": "Una vez que configuren su monedero {{appName}} y conecten su número, cada uno obtendrá un NFT exclusivo."
+    "body": "Por cada amigo que configure su cuenta y conecte su número, ambos obtendrán un NFT exclusivo de regalo."
   },
   "inviteWithUrl": {
     "title": "Invita a tus amigos",
@@ -668,7 +668,7 @@
     "description": "{{biometryType}} matiene tu cuenta segura y facilita el uso de {{appName}}",
     "cta": "Habilitar {{biometryType}}",
     "guideTitle": "¿Te gustaría habilitar {{biometryType}}?",
-    "guideDescription": "{{biometryType}} hace que conectar tu wallet a las dapps y firmar transacciones sea más fácil, rápido y seguro."
+    "guideDescription": "{{biometryType}} hace que conectar tu wallet a las dapps y aprobar transacciones sea más fácil, rápido y seguro."
   },
   "biometryType": {
     "FaceID": "Face ID",
@@ -779,7 +779,7 @@
   },
   "importExistingKey": {
     "explanation": "Tu Frase de recuperación es la frase de 24 palabras que escribiste y guardaste cuando configuraste tu cuenta. Por favor, ingrésala para restaurar tu cuenta.",
-    "explanationV1_50": "Tu frase de recuperación es una frase de 12 ó 24 palabras que escribiste y guardaste cuando configuraste tu cuenta. Introdúcela aquí para recuperar tu cuenta.",
+    "explanationV1_50": "Tu Frase de recuperación es la frase de 12 o 24 palabras que escribiste y guardaste cuando configuraste tu cuenta. Por favor, ingrésala para restaurar tu cuenta.",
     "keyPlaceholder": "caballo leopardo perro mono..."
   },
   "verificationInput": {
@@ -970,8 +970,8 @@
     "askingV1_35": "{{dappName}} desea realizar la siguiente acción:",
     "operation": "Operación",
     "data": "Datos",
-    "sign": "Firmar payload de datos",
-    "signTransaction": "Transacción Celo",
+    "sign": "Aprobar carga de datos",
+    "signTransaction": "Aprobar transacción Celo",
     "sendTransaction": "Enviar transacción Celo",
     "decrypt": "Descifrar payload de datos",
     "accounts": "Tu Dirección de cuenta de {{appName}}",
@@ -981,17 +981,17 @@
   },
   "walletConnectRequest": {
     "transactionDataLabel": "Datos de la transacción",
-    "readAccount": "{{dappName}} me gustaría leer la dirección de tu monedero {{appName}} .",
-    "signPayload": "{{dappName}} desea firmar una carga de datos.",
-    "signTransaction": "{{dappName}} me gustaría firmar una transacción Celo.",
-    "sendTransaction": "{{dappName}} me gustaría enviar una transacción Celo.",
+    "readAccount": "{{dappName}} desea leer tu dirección de wallet de {{appName}}.",
+    "signPayload": "{{dappName}} desea aprobar una carga de datos.",
+    "signTransaction": "{{dappName}} desea aprobar una transacción Celo.",
+    "sendTransaction": "{{dappName}} desea enviar una transacción Celo.",
     "decryptPayload": "{{dappName}} desea desencriptar una carga de datos.",
-    "computeSharedSecret": "{{dappName}} te gustaría generar secretos.",
-    "transactionDataCopied": "Datos de la transacción copiados"
+    "computeSharedSecret": "{{dappName}} desea generar secretos.",
+    "transactionDataCopied": "Datos de transacción copiados"
   },
   "sessionInfo": "Esta aplicación puede solicitar realizar las siguientes acciones:",
   "description": {
-    "sign": "Firmar Payloads",
+    "sign": "Aprobar cargas útiles",
     "signTransaction": "Enviar fondos",
     "sendTransaction": "Enviar fondos",
     "accounts": "Leer dirección",
@@ -1068,8 +1068,8 @@
   "feedItemDepositInfo": "{{comment}}",
   "feedItemDepositInfo_noComment": "Depósito recibido",
   "feedItemDepositTitle": "Depósito",
-  "feedItemFcTransferMobileMoney": "Transferencia de dinero por móvil",
-  "feedItemFcTransferBankAccount": "Transferencia bancaria",
+  "feedItemFcTransferMobileMoney": "Transferencia - dinero móvil",
+  "feedItemFcTransferBankAccount": "Transferencia - cuenta bancaria",
   "feedItemFcTransferWithdraw": "Retirar {{crypto}}",
   "feedItemExchangeTitle": "CELO",
   "feedItemExchangeInfo_boughtGold": "Compraste <0></0> CELO",
@@ -1213,7 +1213,7 @@
     "buttonText": "Conectar"
   },
   "outOfSyncBanner": {
-    "title": "Error al recuperar los tokens.",
+    "title": "Error al recuperar los tokens",
     "message": "Es posible que tus saldos no estén actualizados.",
     "button": "Refresca"
   },
@@ -1223,14 +1223,14 @@
     "errorMessage": "Hubo un error al cargar las dapps",
     "featuredDapp": "Destacadas",
     "allDapps": "Todas",
-    "favoriteDapps": "Mis favoritos",
+    "favoriteDapps": "Mis favoritas",
     "noFavorites": {
-      "title": "No se han añadido favoritos",
-      "description": "Haz un seguimiento de tus Dapps más utilizadas tocando el icono de la estrella para añadirla como favorita"
+      "title": "No has añadido favoritas aún",
+      "description": "No pierdas de vista tus dapps más usadas. Toca la estrella para agregarlas a tus favoritas"
     },
     "favoritedDappToast": {
-      "message": "Añadido como favorito",
-      "labelCTA": "Ver favoritos"
+      "message": "Se agregó a tus favoritas",
+      "labelCTA": "Ver Mis favoritas"
     }
   },
   "dappsScreenHelpDialog": {
@@ -1245,12 +1245,12 @@
   },
   "dappsScreenInfoSheet": {
     "title": "¿Qué son las dapps?",
-    "description": "Una dapp (o aplicación descentralizada) es una aplicación que se construye y ejecuta sobre una red blockchain. Esto significa que ninguna empresa u organización gestiona o almacena tus datos.\n\nLas dapps varían según los servicios que ofrecen. Algunos ejemplos de estos servicios son los intercambios descentralizados, los préstamos, los empréstitos, los intercambios y el almacenamiento de NFT.",
-    "buttonLabel": "Cuéntame más"
+    "description": "Una dapp (o aplicación descentralizada) es una aplicación que se construye y ejecuta en una blockchain. Esto significa que ninguna empresa u organización gestiona o almacena tus datos.\n\nLas dapps varían según los servicios que ofrecen. Algunos ejemplos de estos servicios son los exchanges descentralizados, los préstamos, los servicios de intercambio y el almacenamiento de NFTs.",
+    "buttonLabel": "Quiero saber más"
   },
-  "dappsDisclaimerAllDapps": "{{appName}} no está afiliada a estas dapps y no hace declaraciones ni afirmaciones al utilizarlas. Por favor, reconoce el riesgo antes de utilizar una dapp revisando el acuerdo de usuario o la política de privacidad.",
-  "dappsDisclaimerSingleDapp": "{{appName}} no está afiliada a esta dapp y no se responsabiliza de su uso. Revisa siempre el acuerdo de usuario o la política de privacidad de la aplicación.",
-  "dappsDisclaimerUnlistedDapp": "Esta dapp no aparece en {{appName}}. {{appName}} no está afiliada a esta dapp y no se hace responsable de su uso. Revisa siempre el acuerdo de usuario o la política de privacidad de la aplicación.",
+  "dappsDisclaimerAllDapps": "{{appName}} no tiene afiliaciones con estas dapps y no ofrece garantías sobre su uso. Investiga el riesgo que conlleva utilizar una dapp antesde hacerlo. Te recomendamos revisar los acuerdos de condiciones y las políticas de privacidad.",
+  "dappsDisclaimerSingleDapp": "{{appName}} no tiene afiliaciones con esta dapp y no ofrece garantías sobre su uso. Revisa siempre el acuerdo de condiciones o la política de privacidad.",
+  "dappsDisclaimerUnlistedDapp": "Esta dapp no se encuentra en nuestra lista. {{appName}} no tiene afiliaciones con esta dapp y no ofrece garantías sobre su uso. Revisa siempre el acuerdo de condiciones o la política de privacidad.",
   "recentlyUsedDapps": "Dapps usadas recientemente",
   "favoritedDapps": "Dapps favoritas",
   "allDapps": "Todas las dapps",
@@ -1276,8 +1276,8 @@
     "cryptoExchange": "Exchange de criptomonedas",
     "feesVary": "Las tarifas varían",
     "viewExchanges": "Ver exchanges",
-    "depositFrom": "Depósito de",
-    "cryptoExchangeOrWallet": "Bolsa o monedero de criptomonedas",
+    "depositFrom": "Depositar desde",
+    "cryptoExchangeOrWallet": "Exchange cripto o wallet",
     "card": "Tarjeta de crédito/débito",
     "bank": "Cuenta bancaria",
     "mobileMoney": "Dinero digital",
@@ -1350,8 +1350,8 @@
     "transactionDetails": "Detalles de transacción",
     "paymentMethodVia": "Conexión de {{providerName}}",
     "receiveAmount": "Recibirás",
-    "bankFeeDisclaimer": "Tu banco puede cobrarte comisiones adicionales por tu transferencia.",
-    "mobileMoneyFeeDisclaimer": "Tu operador de dinero móvil puede cobrarte comisiones adicionales por tu transferencia.",
+    "bankFeeDisclaimer": "Tu banco puede cobrar una tarifa adicional por esta transacción.",
+    "mobileMoneyFeeDisclaimer": "Tu operador de dinero móvil puede cobrar una tarifa adicional por esta transacción.",
     "cashIn": {
       "header": "Revisión - Agregar fondos",
       "button": "Agregar fondos",
@@ -1413,7 +1413,7 @@
       "selectCurrencyTitle": "Agregar fondos",
       "exchangeAmountTitle": "Agregar {{currency}}",
       "selectProviderHeader": "Selecciona el método de pago",
-      "depositExchangeTitle": "Depositar Cripto"
+      "depositExchangeTitle": "Depositar cripto"
     },
     "cashOut": {
       "fiatExchangeTitle": "Retirar fondos",
@@ -1421,7 +1421,7 @@
       "selectCurrencyTitle": "Retirar fondos",
       "exchangeAmountTitle": "Retirar {{currency}}",
       "selectProviderHeader": "Selecciona el método de retiro",
-      "withdrawExchangeTitle": "Retirar criptomonedas"
+      "withdrawExchangeTitle": "Retirar cripto"
     },
     "spend": {
       "fiatExchangeTitle": "Gastar fondos",
@@ -1429,9 +1429,9 @@
       "selectCurrencyTitle": "Gastar fondos"
     },
     "exchange": {
-      "copyAddress": "Dirección de copia",
-      "informationText": "Utiliza sólo bolsas o activos <0>compatibles con la red Celo</0> para evitar la pérdida de fondos",
-      "bottomSheetTitle": "¿Qué bolsas puedo utilizar para depositar fondos?",
+      "copyAddress": "Copiar dirección",
+      "informationText": "Utiliza solo exchanges y activos <0>compatibles con la red Celo</0> para evitar la pérdida de fondos.",
+      "bottomSheetTitle": "¿Qué exchanges puedo utilizar para depositar fondos?",
       "bottomSheetInfo": "Comprueba que estás enviando activos compatibles con la red Celo."
     }
   },
@@ -1461,7 +1461,7 @@
     "mobileMoney": {
       "operator": {
         "label": "Red",
-        "placeholderText": "Entra en Operador de Red Móvil"
+        "placeholderText": "Ingresa tu operador de red celular"
       },
       "mobile": {
         "label": "Número de teléfono",
@@ -1544,7 +1544,7 @@
     "title": "Parece que {{contactName}} aún no tiene una wallet {{appName}}.",
     "body": "Puedes enviarle una invitación para que se una, o bien enviar un pago directamente a su dirección de wallet o usuario nom.space.",
     "sendInviteButtonLabel": "Enviar invitación",
-    "shareMessage": "Hola! He estado utilizando {{appName}} como mi criptobilletera y quiero invitarte a que lo compruebes. Una vez que descargues la aplicación y conectes tu número de teléfono, ambos obtendremos un NFT especial. Utiliza este enlace: {{link}}",
+    "shareMessage": "¡Hola! Estoy usando la wallet cripto de {{appName}} y me gustaría invitarte a que la pruebes. Si descargas la app y conectas tu número de teléfono, ambos obtendremos un NFT. Usa este enlace: {{link}}",
     "rewardsActive": {
       "title": "Invita a {{contactName}} a {{appName}}. ¡Ambos recibirán un NFT!",
       "body": "Parece que {{contactName}} no está en {{appName}}. Aún puedes enviar un pago si conoces la dirección de su monedero, o enviar una invitación en su lugar. \n\n Después de que descarguen el monedero y conecten su número de teléfono, ambos obtendréis un NFT exclusivo."
