@@ -1213,7 +1213,7 @@
     "buttonText": "Collega"
   },
   "outOfSyncBanner": {
-    "title": "Sei offline.",
+    "title": "Errore nel recuperare i token.",
     "message": "I tuoi saldi potrebbero non essere aggiornati.",
     "button": "Aggiorna"
   },
@@ -1547,7 +1547,7 @@
     "shareMessage": "Ciao! Sto usando {{appName}} come portafoglio di criptovalute e voglio invitarti a provarlo. Una volta scaricata l'applicazione e collegato il tuo numero di telefono, entrambi riceveremo uno speciale NFT. Usa questo link: {{link}}",
     "rewardsActive": {
       "title": "Invita {{contactName}} in {{appName}} ed entrambi riceverete NFT!",
-      "body": "Sembra che {{contactName}} non sia su {{appName}}. Se conosci l'indirizzo del suo portafoglio, puoi comunque inviare un pagamento o un invito. \n\n Dopo che avrà scaricato il portafoglio e collegato il suo numero telefonico, riceverete entrambi un NFT esclusivo."
+      "body": "Sembra che {{contactName}} non sia su {{appName}}. Puoi comunque inviare un pagamento se conosci l'indirizzo del suo portafoglio, oppure inviare un invito. \n\n Dopo che avranno scaricato il portafoglio e collegato il loro numero di telefono, riceverete entrambi un NFT esclusivo."
     }
   },
   "celoNews": {
