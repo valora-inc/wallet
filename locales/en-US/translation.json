@@ -1213,7 +1213,7 @@
     "buttonText": "Connect"
   },
   "outOfSyncBanner": {
-    "title": "You're offline.",
+    "title": "Error fetching tokens.",
     "message": "Your balances may not be up to date.",
     "button": "Refresh"
   },
@@ -1547,7 +1547,7 @@
     "shareMessage": "Hi! I've been using {{appName}} as my crypto wallet and I want to invite you to check it out. Once you download the app and connect your phone number, we both get a special NFT. Use this link: {{link}}",
     "rewardsActive": {
       "title": "Invite {{contactName}} to {{appName}} and you’ll both receive NFTs!",
-      "body": "Looks like {{contactName}} isn't on {{appName}}. If you know their wallet address you can still send a payment or send an invite instead. \n\nAfter they download the wallet and connect their phone number, you’ll both get an exclusive NFT."
+      "body": "Looks like {{contactName}} isn't on {{appName}}. You can still send a payment if you know their wallet address, or send an invite instead. \n\n After they download the wallet and connect their phone number, you’ll both get an exclusive NFT."
     }
   },
   "celoNews": {
