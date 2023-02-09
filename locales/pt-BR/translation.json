@@ -1213,7 +1213,7 @@
     "buttonText": "Conectar"
   },
   "outOfSyncBanner": {
-    "title": "Você está offline.",
+    "title": "Fichas de busca de erros.",
     "message": "Seus saldos podem não estar em dia.",
     "button": "Atualização"
   },
@@ -1547,7 +1547,7 @@
     "shareMessage": "Olá! tenho usado {{appName}} como minha carteira criptográfica e quero convidá-lo a verificar. Uma vez descarregada a aplicação e ligado o seu número de telefone, ambos recebemos um NFT especial. Use esta ligação: {{link}}",
     "rewardsActive": {
       "title": "Convide {{contactName}} para o app {{appName}} e vocês dois receberão NFTs!",
-      "body": "Parece que {{contactName}} não está no app {{appName}}. Se souber o endereço da carteira dessa pessoa, você ainda pode enviar um pagamento ou enviar um convite. \n\nDepois que seu amigo baixar a carteira e conectar o número de celular, vocês dois receberão um NFT exclusivo."
+      "body": "Parece que {{contactName}} não está em {{appName}}. Ainda pode enviar um pagamento se souber o endereço da sua carteira, ou enviar um convite em seu lugar. \n\n Depois de descarregarem a carteira e ligarem o seu número de telefone, ambos receberão um NFT exclusivo."
     }
   },
   "celoNews": {
