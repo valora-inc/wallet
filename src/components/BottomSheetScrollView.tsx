@@ -17,9 +17,11 @@ function BottomSheetScrollView({ handleContentLayout, containerStyle, children }
   const { height } = useSafeAreaFrame()
   const insets = useSafeAreaInsets()
 
+  const scrollEnabledContentHeight = height - BOTTOM_SHEET_DEFAULT_HANDLE_HEIGHT
+
   const handleLayout = (event: LayoutChangeEvent) => {
     handleContentLayout(event)
-    if (event.nativeEvent.layout.height >= height) {
+    if (event.nativeEvent.layout.height > scrollEnabledContentHeight) {
       setScrollEnabled(true)
     }
   }
@@ -27,7 +29,7 @@ function BottomSheetScrollView({ handleContentLayout, containerStyle, children }
   return (
     <RNBottomSheetScrollView
       style={{
-        maxHeight: height - insets.top - BOTTOM_SHEET_DEFAULT_HANDLE_HEIGHT,
+        maxHeight: scrollEnabledContentHeight - insets.top,
         marginTop: scrollEnabled ? insets.top : 0,
       }}
       scrollEnabled={scrollEnabled}
