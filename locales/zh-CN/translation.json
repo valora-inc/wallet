@@ -1211,7 +1211,7 @@
     "buttonText": "关联"
   },
   "outOfSyncBanner": {
-    "title": "您已离线。",
+    "title": "取出令牌时出错。",
     "message": "您的余额可能不是最新数据。",
     "button": "刷新"
   },
@@ -1545,7 +1545,7 @@
     "shareMessage": "嗨！我一直在使用 {{appName}} 作为我的加密货币钱包，我想邀请你去看看。一旦你下载该应用程序并连接你的电话号码，我们都会得到一个特殊的NFT。使用这个链接。 {{link}}",
     "rewardsActive": {
       "title": "邀请 {{contactName}} 使用 {{appName}}，你们都将获得 NFT！",
-      "body": "似乎 {{contactName}} 未在 {{appName}} 上。如果您知道其钱包地址，则仍可发送付款，或者也可以发送一则邀请。\n\n在其下载钱包并关联手机号码后，你们都将获得一个独家的 NFT。"
+      "body": "看起来， {{contactName}} 并不在 {{appName}}。如果你知道他们的钱包地址，你仍然可以发送一个付款，或者发送一个邀请来代替。 \n\n 在他们下载钱包并连接他们的电话号码后，你们都会得到一个独家NFT。"
     }
   },
   "celoNews": {
