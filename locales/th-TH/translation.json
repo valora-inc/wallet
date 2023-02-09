@@ -1211,7 +1211,7 @@
     "buttonText": "เชื่อมต่อ"
   },
   "outOfSyncBanner": {
-    "title": "คุณออฟไลน์อยู่",
+    "title": "Error fetching tokens.",
     "message": "ยอดคงเหลือของคุณอาจไม่เป็นปัจจุบัน",
     "button": "รีเฟรช"
   },
@@ -1545,7 +1545,7 @@
     "shareMessage": "Hi! I've been using {{appName}} as my crypto wallet and I want to invite you to check it out. Once you download the app and connect your phone number, we both get a special NFT. Use this link: {{link}}",
     "rewardsActive": {
       "title": "เชิญ {{contactName}} มายัง {{appName}} คุณทั้งสองคนจะได้รับ NFT",
-      "body": "ดูเหมือนว่า {{contactName}} ไม่ได้ใช้งาน {{appName}} หากคุณทราบที่อยู่กระเป๋าเงินของเขา คุณยังคงสามารถส่งการชำระเงินหรือส่งคำเชิญแทนได้ \n\nหลังจากที่เขาดาวน์โหลดกระเป๋าเงินและเชื่อมต่อหมายเลขโทรศัพท์แล้ว คุณทั้งสองจะได้รับ NFT พิเศษ"
+      "body": "Looks like {{contactName}} isn't on {{appName}}. You can still send a payment if you know their wallet address, or send an invite instead. \n\n After they download the wallet and connect their phone number, you’ll both get an exclusive NFT."
     }
   },
   "celoNews": {
