@@ -1245,12 +1245,12 @@
   },
   "dappsScreenInfoSheet": {
     "title": "Che cosa sono le Dapp?",
-    "description": "Una dapp (o applicazione decentralizzata) è un'applicazione costruita ed eseguita su una rete blockchain. Ciò significa che nessuna singola azienda o organizzazione gestisce o memorizza i tuoi dati.\n\nLe dapp variano in base ai servizi che offrono. Alcuni esempi di questi servizi sono gli scambi decentralizzati, i prestiti, gli swapping e l'archiviazione di NFT.",
+    "description": "Una dapp (o app decentralizzata) è un'applicazione costruita ed eseguita su una blockchain. Ciò significa che nessuna azienda o organizzazione gestisce o conserva i tuoi dati.\n\nLe dapp variano in base ai servizi che offrono. Alcuni esempi di questi servizi sono gli exchange decentralizzati, i prestiti, i scambi, e la memorizzazione di NFTs.",
     "buttonLabel": "Dimmi di più"
   },
-  "dappsDisclaimerAllDapps": "{{appName}} non è affiliata a queste dapps e non rilascia alcuna dichiarazione o rivendicazione in merito al loro utilizzo. Prima di utilizzare una dapp, ti invitiamo a prendere visione del contratto con l'utente o dell'informativa sulla privacy.",
-  "dappsDisclaimerSingleDapp": "{{appName}} non è affiliata a questa dapp e non fornisce alcuna garanzia sul suo utilizzo. Controlla sempre l'accordo con l'utente o l'informativa sulla privacy di una dapp.",
-  "dappsDisclaimerUnlistedDapp": "Questa dapp non è presente nell'elenco di {{appName}}. {{appName}} non è affiliata a questa dapp e non fornisce alcuna garanzia sul suo utilizzo. Controlla sempre l'accordo con l'utente o l'informativa sulla privacy di una dapp.",
+  "dappsDisclaimerAllDapps": "{{appName}} non è affiliata a queste dapp e non rilascia alcuna dichiarazione circa al loro utilizzo. Prima di utilizzare una dapp, ti invitiamo a prendere visione del accordo con l’utente o dell'informativa sulla privacy.",
+  "dappsDisclaimerSingleDapp": "{{appName}} non è affiliata a questa dapp e non rilascia alcuna dichiarazione circa al suo utilizzo. Controlla sempre l'accordo con l'utente o l'informativa sulla privacy della dapp.",
+  "dappsDisclaimerUnlistedDapp": "Questa dapp non è presente nell'elenco di {{appName}}. {{appName}} non è affiliata a questa dapp e non rilascia alcuna dichiarazione circa al suo utilizzo. Controlla sempre l'accordo con l'utente o l'informativa sulla privacy della dapp.",
   "recentlyUsedDapps": "Dapps usati di recente",
   "favoritedDapps": "Dapps preferite",
   "allDapps": "Tutti i dapps",
@@ -1264,7 +1264,7 @@
   "merchantPaymentNumberVerificationMessage": "Devi collegare il tuo numero",
   "merchantPaymentSubmitFail": "Impossibile inviare il pagamento",
   "merchantPaymentSetup": "Si è verificato un errore durante il caricamento delle informazioni del commerciante, prova a inquadrare nuovamente il codice QR",
-  "merchantPaymentSubmitSuccess": "Il tuo pagamento è stato inviato con successo",
+  "merchantPaymentSubmitSuccess": "Pagamento inviato correttamente",
   "merchantWalletUnlockError": "Si è verificato un errore durante lo sbloccaggio del tuo wallet, riprova",
   "noMoreTransactions": "Non ci sono altre transazioni",
   "selectProviderScreen": {
@@ -1276,8 +1276,8 @@
     "cryptoExchange": "Exchange di criptovalute",
     "feesVary": "Le commissioni variano",
     "viewExchanges": "Visualizza gli exchange",
-    "depositFrom": "Deposito da",
-    "cryptoExchangeOrWallet": "Scambio di criptovalute o portafoglio",
+    "depositFrom": "Deposita da",
+    "cryptoExchangeOrWallet": "Exchange di criptovalute o wallet",
     "card": "Carta di credito/debito",
     "bank": "Conto bancario",
     "mobileMoney": "Denaro mobile",
@@ -1350,8 +1350,8 @@
     "transactionDetails": "Dettagli della transazione",
     "paymentMethodVia": "Collegato via {{providerName}}",
     "receiveAmount": "Riceverai",
-    "bankFeeDisclaimer": "La tua banca potrebbe addebitare ulteriori spese per il trasferimento.",
-    "mobileMoneyFeeDisclaimer": "Il tuo operatore di telefonia mobile potrebbe addebitare costi aggiuntivi per il tuo trasferimento.",
+    "bankFeeDisclaimer": "La tua banca potrebbe addebitare una commissione aggiuntiva per il trasferimento.",
+    "mobileMoneyFeeDisclaimer": "Il tuo operatore di telefonia mobile potrebbe addebitare una commissione aggiuntiva per il trasferimento.",
     "cashIn": {
       "header": "Rivedi - Aggiungi fondi",
       "button": "Aggiungi fondi",
@@ -1413,7 +1413,7 @@
       "selectCurrencyTitle": "Aggiungi fondi",
       "exchangeAmountTitle": "Aggiungi {{currency}}",
       "selectProviderHeader": "Metodo di pagamento",
-      "depositExchangeTitle": "Deposito di criptovalute"
+      "depositExchangeTitle": "Deposita criptovalute"
     },
     "cashOut": {
       "fiatExchangeTitle": "Preleva fondi",
@@ -1421,7 +1421,7 @@
       "selectCurrencyTitle": "Preleva fondi",
       "exchangeAmountTitle": "Preleva {{currency}}",
       "selectProviderHeader": "Metodo di prelievo",
-      "withdrawExchangeTitle": "Prelevare criptovalute"
+      "withdrawExchangeTitle": "Preleva criptovalute"
     },
     "spend": {
       "fiatExchangeTitle": "Spendi fondi",
@@ -1429,10 +1429,10 @@
       "selectCurrencyTitle": "Spendi fondi"
     },
     "exchange": {
-      "copyAddress": "Copia dell'indirizzo",
-      "informationText": "Utilizza solo borse o asset <0>compatibili con la rete Celo</0> per evitare perdite di fondi.",
-      "bottomSheetTitle": "Quali cambi posso utilizzare per depositare i fondi?",
-      "bottomSheetInfo": "Verifica che l'invio di risorse sia compatibile con la rete Celo."
+      "copyAddress": "Copia Indirizzo",
+      "informationText": "Utilizza solo exchange o asset <0>compatibili con la rete Celo</0> per evitare la perdita di fondi",
+      "bottomSheetTitle": "Quali exchange posso utilizzare per depositare i fondi?",
+      "bottomSheetInfo": "Verifica che l'invio di asset sia compatibile con la rete Celo."
     }
   },
   "fiatDetailsScreen": {
@@ -1461,7 +1461,7 @@
     "mobileMoney": {
       "operator": {
         "label": "Rete",
-        "placeholderText": "Inserisci l'operatore di rete mobile"
+        "placeholderText": "Inserisci l'operatore di telefonia mobile"
       },
       "mobile": {
         "label": "Numero telefonico",
@@ -1544,17 +1544,17 @@
     "title": "Sembra che {{contactName}} non abbia ancora un wallet {{appName}}.",
     "body": "Puoi comunque invitarlo/invitarla su {{appName}} o provare a inviare un pagamento al suo indirizzo di wallet o nom.space.",
     "sendInviteButtonLabel": "Invia l'invito",
-    "shareMessage": "Ciao! Sto usando {{appName}} come portafoglio di criptovalute e voglio invitarti a provarlo. Una volta scaricata l'applicazione e collegato il tuo numero di telefono, entrambi riceveremo uno speciale NFT. Usa questo link: {{link}}",
+    "shareMessage": "Ciao! Sto usando {{appName}} come wallet di criptovalute e voglio invitarti a provarla. Dopo che avrai scaricato l'applicazione e che avrai collegato il tuo numero telefonico, riceveremo entrambi un NFT. Usa questo collegamento: {{link}}",
     "rewardsActive": {
       "title": "Invita {{contactName}} in {{appName}} ed entrambi riceverete NFT!",
-      "body": "Sembra che {{contactName}} non sia su {{appName}}. Puoi comunque inviare un pagamento se conosci l'indirizzo del suo portafoglio, oppure inviare un invito. \n\n Dopo che avranno scaricato il portafoglio e collegato il loro numero di telefono, riceverete entrambi un NFT esclusivo."
+      "body": "Sembra che {{contactName}} non sia su {{appName}}. Puoi comunque inviare un pagamento se conosci l'indirizzo del suo portafoglio, o un invito se non. \n\nDopo che avrà scaricato il wallet e collegato il suo numero telefonico, riceverete entrambi un NFT esclusivo."
     }
   },
   "celoNews": {
-    "headerTitle": "Aggiornamenti",
+    "headerTitle": "Notizie",
     "headerDescription": "Scopri i casi d'uso, i progetti pilota e gli aggiornamenti tecnici sul blog di Celo.",
     "readMoreButtonText": "Leggi tutto sul blog",
-    "loadingError": "Siamo spiacenti, non siamo riusciti a caricare gli ultimi aggiornamenti. Riprova più tardi.",
+    "loadingError": "Siamo spiacenti, non siamo riusciti a caricare gli ultimi notizie. Riprova più tardi.",
     "retryButtonText": "Riprova"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
