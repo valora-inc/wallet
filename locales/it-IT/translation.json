@@ -187,10 +187,10 @@
   "startSuperchargingNotificationStart": "Inizia",
   "cashIn": "Aggiungi {{currency}}",
   "connectNumber": "Collega numero",
-  "connectToWallet": "Collegati a {{dappName}}",
+  "connectToWallet": "Collega a {{dappName}}",
   "confirmTransaction": "Conferma la transazione",
   "allow": "Consenti",
-  "address": "Indirizzo del portafoglio",
+  "address": "Indirizzo del wallet",
   "phoneNumber": "Numero telefonico",
   "transaction": {
     "operation": "Operazione",
@@ -198,8 +198,8 @@
     "signTX": "Transazione",
     "details": "Mostra dettagli"
   },
-  "shareInfo": "Devi collegare il tuo portafoglio per approvare le transazioni in questa Dapp. Una volta collegato, avrà accesso al tuo indirizzo di portafoglio.",
-  "connectWalletInfoDappkit": "Devi collegare il tuo portafoglio per approvare le transazioni in questa Dapp. Una volta collegato, avrà accesso all'indirizzo del tuo portafoglio e al tuo numero di telefono.",
+  "shareInfo": "Devi collegare il tuo wallet per approvare le transazioni in questa dapp. Una volta collegata, avrà accesso al tuo indirizzo del wallet.",
+  "connectWalletInfoDappkit": "Devi collegare il tuo wallet per approvare le transazioni in questa dapp. Una volta collegata, avrà accesso al tuo indirizzo del wallet e al tuo numero di telefono.",
   "data": "Dati",
   "firebaseDisabled": "Firebase è disabilitato, le notifiche e l’upload dei log non funzioneranno.",
   "learnMore": "Scopri di più",
@@ -552,7 +552,7 @@
   "sendAndInvite": "Invia e invita",
   "inviteRewardsBanner": {
     "title": "Invita gli amici e colleziona NFT",
-    "body": "Una volta che avranno configurato il loro portafoglio {{appName}} e collegato il loro numero, riceverete ciascuno un NFT esclusivo."
+    "body": "Riceverete entrambi un NFT dopo che avrà configurato il wallet collegato il numero telefonico."
   },
   "inviteWithUrl": {
     "title": "Invita un amico",
@@ -779,7 +779,7 @@
   },
   "importExistingKey": {
     "explanation": "La tua Frase di recupero è composta da 24 parole e dovresti averla annotata quando hai configurato il tuo conto. Immettila qui per ripristinarlo.",
-    "explanationV1_50": "La tua frase di ripristino è una frase di 12 o 24 parole che hai scritto e salvato quando hai creato il tuo account. Inseriscila qui per ripristinare il tuo account.",
+    "explanationV1_50": "La tua Frase di recupero è composta da 12 o 24 parole e dovresti averla annotata quando hai configurato il tuo wallet. Immettila qui per ripristinarlo.",
     "keyPlaceholder": "horse leopard dog monkey ..."
   },
   "verificationInput": {
@@ -980,14 +980,14 @@
     "emptyMessage": "Messaggio vuoto"
   },
   "walletConnectRequest": {
-    "transactionDataLabel": "Dati di transazione",
-    "readAccount": "{{dappName}} vorrebbe leggere l'indirizzo del tuo portafoglio {{appName}} .",
+    "transactionDataLabel": "Dati della transazione",
+    "readAccount": "{{dappName}} desidera leggere il tuo indirizzo del wallet {{appName}}.",
     "signPayload": "{{dappName}} desidera firmare un carico di dati.",
-    "signTransaction": "{{dappName}} vorrebbe firmare una transazione Celo.",
+    "signTransaction": "{{dappName}} desidera firmare una transazione Celo.",
     "sendTransaction": "{{dappName}} desidera inviare una transazione Celo.",
     "decryptPayload": "{{dappName}} desidera decriptare un carico di dati.",
-    "computeSharedSecret": "{{dappName}} vorrebbe generare dei segreti.",
-    "transactionDataCopied": "Dati di transazione copiati"
+    "computeSharedSecret": "{{dappName}} desidera generare dei segreti.",
+    "transactionDataCopied": "Dati della transazione copiati"
   },
   "sessionInfo": "Questa applicazione potrebbe richiedere di eseguire le seguenti azioni:",
   "description": {
@@ -1068,8 +1068,8 @@
   "feedItemDepositInfo": "{{comment}}",
   "feedItemDepositInfo_noComment": "Deposito ricevuto",
   "feedItemDepositTitle": "Deposito",
-  "feedItemFcTransferMobileMoney": "Trasferimento di denaro mobile",
-  "feedItemFcTransferBankAccount": "Trasferimento del conto corrente bancario",
+  "feedItemFcTransferMobileMoney": "Trasferimento - denaro mobile",
+  "feedItemFcTransferBankAccount": "Trasferimento - conto bancario",
   "feedItemFcTransferWithdraw": "Preleva {{crypto}}",
   "feedItemExchangeTitle": "CELO",
   "feedItemExchangeInfo_boughtGold": "Hai acquistato <0></0> CELO",
@@ -1213,7 +1213,7 @@
     "buttonText": "Collega"
   },
   "outOfSyncBanner": {
-    "title": "Errore nel recuperare i token.",
+    "title": "Errore nel recupero dei token.",
     "message": "I tuoi saldi potrebbero non essere aggiornati.",
     "button": "Aggiorna"
   },
@@ -1223,14 +1223,14 @@
     "errorMessage": "Errore durante il caricamento delle Dapp.",
     "featuredDapp": "In primo piano",
     "allDapps": "Tutti",
-    "favoriteDapps": "I miei preferiti",
+    "favoriteDapps": "Le mie dapp preferite",
     "noFavorites": {
-      "title": "Nessun preferito aggiunto",
-      "description": "Tieni traccia delle tue Dapp più utilizzate toccando l'icona a forma di stella per aggiungerle ai preferiti."
+      "title": "Non hai dapp preferite",
+      "description": "Gestisci le tue Dapp preferite toccando la stella"
     },
     "favoritedDappToast": {
-      "message": "Aggiunto tra i preferiti",
-      "labelCTA": "Visualizza i preferiti"
+      "message": "Dapp aggiunta ai tuoi preferiti",
+      "labelCTA": "Visualizza le tue preferite"
     }
   },
   "dappsScreenHelpDialog": {
