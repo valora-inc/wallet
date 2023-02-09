@@ -1213,7 +1213,7 @@
     "buttonText": "Conectar"
   },
   "outOfSyncBanner": {
-    "title": "Estás desconectado.",
+    "title": "Error al recuperar los tokens.",
     "message": "Es posible que tus saldos no estén actualizados.",
     "button": "Refresca"
   },
@@ -1547,7 +1547,7 @@
     "shareMessage": "Hola! He estado utilizando {{appName}} como mi criptobilletera y quiero invitarte a que lo compruebes. Una vez que descargues la aplicación y conectes tu número de teléfono, ambos obtendremos un NFT especial. Utiliza este enlace: {{link}}",
     "rewardsActive": {
       "title": "Invita a {{contactName}} a {{appName}}. ¡Ambos recibirán un NFT!",
-      "body": "Parece que {{contactName}} no está en {{appName}}. Si conoces su Dirección de cuenta, envía el pago a su billetera, o bien envíale una invitación. \n\nUna vez de que descargue la app y conecte su número de teléfono, ambos obtendrán un NFT exclusivo."
+      "body": "Parece que {{contactName}} no está en {{appName}}. Aún puedes enviar un pago si conoces la dirección de su monedero, o enviar una invitación en su lugar. \n\n Después de que descarguen el monedero y conecten su número de teléfono, ambos obtendréis un NFT exclusivo."
     }
   },
   "celoNews": {
