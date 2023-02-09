@@ -1547,14 +1547,14 @@
     "shareMessage": "¡Hola! Estoy usando la wallet cripto de {{appName}} y me gustaría invitarte a que la pruebes. Si descargas la app y conectas tu número de teléfono, ambos obtendremos un NFT. Usa este enlace: {{link}}",
     "rewardsActive": {
       "title": "Invita a {{contactName}} a {{appName}}. ¡Ambos recibirán un NFT!",
-      "body": "Parece que {{contactName}} no está en {{appName}}. Aún puedes enviar un pago si conoces la dirección de su monedero, o enviar una invitación en su lugar. \n\n Después de que descarguen el monedero y conecten su número de teléfono, ambos obtendréis un NFT exclusivo."
+      "body": "Parece que {{contactName}} no está en {{appName}}. Si conoces su dirección de wallet, envíale el pago a su billetera, o bien envíale una invitación. \n\nUna vez de que descargue la app y conecte su número de teléfono, ambos obtendrán un NFT exclusivo."
     }
   },
   "celoNews": {
-    "headerTitle": "Actualizaciones",
-    "headerDescription": "Infórmate sobre casos de uso, pilotos y actualizaciones técnicas en el blog de Celo.",
-    "readMoreButtonText": "Más información en el blog",
-    "loadingError": "Lo sentimos, no hemos podido cargar las últimas actualizaciones. Vuelve a intentarlo más tarde.",
+    "headerTitle": "Novedadez",
+    "headerDescription": "Entérate sobre casos de uso, proyectos piloto y actualizaciones técnicas en el blog de Celo.",
+    "readMoreButtonText": "Lee más en el blog",
+    "loadingError": "Lo sentimos, no fue posible cargar las últimas novedades. Vuelve a intentarlo más tarde.",
     "retryButtonText": "Reintentar"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
