@@ -3531,10 +3531,17 @@
     tslib "^2.4.1"
     zod "^3.20.2"
 
-"@fiatconnect/fiatconnect-types@^11.0.0", "@fiatconnect/fiatconnect-types@^11.0.1":
+"@fiatconnect/fiatconnect-types@^11.0.0":
   version "11.0.1"
   resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-types/-/fiatconnect-types-11.0.1.tgz#74e4401c6d6f0de9ce3805e9734ade65f34bc3c4"
   integrity sha512-Y6V2Na/tIwvSXjDbXR7mBz87/PSIb779QQCQcgvJBVmDnw1d4ou10D2CD0GUbCQEuPgZlawCVGKPrUugpX/Rqw==
+  dependencies:
+    zod "^3.20.2"
+
+"@fiatconnect/fiatconnect-types@^11.1.0":
+  version "11.1.0"
+  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-types/-/fiatconnect-types-11.1.0.tgz#488c5833e8fb69fb81dd7f4b5ad40b2595d2dd78"
+  integrity sha512-dIPK9HqZf08yDZx5sv5uXCHKjU23p0fWfNO3Oe33m4HznEuHoAO6jbFiNbV9/TsgsySaHOBnE9YHSC0JZN69gQ==
   dependencies:
     zod "^3.20.2"
 
