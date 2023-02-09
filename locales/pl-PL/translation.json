@@ -1217,7 +1217,7 @@
     "buttonText": "Podłącz"
   },
   "outOfSyncBanner": {
-    "title": "Jesteś offline.",
+    "title": "Błąd pobierania tokenów.",
     "message": "Twoje salda mogą być nieaktualne.",
     "button": "Odśwież"
   },
@@ -1551,7 +1551,7 @@
     "shareMessage": "Cześć! Używam {{appName}} jako mojego portfela kryptowalutowego i chcę Cię zaprosić do sprawdzenia go. Gdy pobierzesz aplikację i podłączysz swój numer telefonu, obaj dostaniemy specjalne NFT. Użyj tego linku: {{link}}",
     "rewardsActive": {
       "title": "Zaproś {{contactName}} do {{appName}}, a razem otrzymacie NFT!",
-      "body": "Wygląda na to, że {{contactName}} nie korzysta z {{appName}}. Jeśli znasz adres jego/jej portfela, nadal możesz wysłać płatność lub zaproszenie. \n\n Po pobraniu portfela i podaniu numeru telefonu otrzymacie ekskluzywne NFT."
+      "body": "Wygląda na to, że {{contactName}} nie jest na {{appName}}. Nadal możesz wysłać płatność, jeśli znasz adres ich portfela, lub wysłać zaproszenie. \n\n Po pobraniu portfela i podaniu numeru telefonu, oboje otrzymacie ekskluzywne NFT."
     }
   },
   "celoNews": {
