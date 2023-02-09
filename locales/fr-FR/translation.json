@@ -986,7 +986,7 @@
     "signTransaction": "{{dappName}} demande à effectuer une transaction Celo.",
     "sendTransaction": "{{dappName}} demande à envoyer une transaction Celo.",
     "decryptPayload": "{{dappName}} demande à déchiffrer une charge utile de données.",
-    "computeSharedSecret": "{{dappName}} souhaite générer des secrets.",
+    "computeSharedSecret": "{{dappName}} demande à générer des secrets.",
     "transactionDataCopied": "Données de transaction copiées"
   },
   "sessionInfo": "Cette appli peut demander à effectuer les actions suivantes :",
@@ -1213,7 +1213,7 @@
     "buttonText": "Connecter"
   },
   "outOfSyncBanner": {
-    "title": "Vous êtes hors ligne.",
+    "title": "Erreur de récupération des jetons.",
     "message": "Vos soldes peuvent ne pas être à jour.",
     "button": "Actualiser"
   },
@@ -1223,14 +1223,14 @@
     "errorMessage": "Une erreur s'est produite lors du chargement des dapps",
     "featuredDapp": "Dapps à la une",
     "allDapps": "Tous",
-    "favoriteDapps": "Mes favoris",
+    "favoriteDapps": "Mes favorites",
     "noFavorites": {
-      "title": "Aucun favori ajouté",
-      "description": "Garde la trace de tes Dapps les plus utilisées en tapant sur l'icône en forme d'étoile pour les ajouter à tes favoris."
+      "title": "Pas de favorites ajoutés",
+      "description": "Gardez une trace de vos dapps favorites en appuyant sur l'étoile"
     },
     "favoritedDappToast": {
-      "message": "Ajouté comme favori",
-      "labelCTA": "Voir les favoris"
+      "message": "Dapp ajoutée à vos favorites",
+      "labelCTA": "Voir mes favorites"
     }
   },
   "dappsScreenHelpDialog": {
@@ -1245,12 +1245,12 @@
   },
   "dappsScreenInfoSheet": {
     "title": "Qu'est-ce qu'une dapp ?",
-    "description": "Une dapp (ou application décentralisée) est une application construite et exécutée au sommet d'un réseau blockchain. Cela signifie qu'aucune entreprise ou organisation unique ne gère ou ne stocke tes données.\n\nLes dapps varient en fonction des services qu'elles proposent. Les échanges décentralisés, les prêts, les emprunts, les échanges et le stockage de NFT sont des exemples de ces services.",
-    "buttonLabel": "Dis-moi en plus"
+    "description": "Une dapp (ou application décentralisée) est une application construite et exécutée sur une blockchain. Cela signifie qu'aucune entreprise ou organisation ne gère ou stocke vos données.\n\nLes dapps varient selon les services qu'ils offrent. Parmi ces services, citons les échanges décentralisés, les prêts, les emprunts et le stockage des NFTs.",
+    "buttonLabel": "En savoir plus"
   },
-  "dappsDisclaimerAllDapps": "{{appName}} n'est pas affilié à ces dapps et ne fait aucune déclaration ou revendication quant à leur utilisation. Reconnais le risque avant d'utiliser une dapp en consultant l'accord d'utilisation ou la politique de confidentialité.",
-  "dappsDisclaimerSingleDapp": "{{appName}} n'est pas affilié à cette dapp et ne fait aucune déclaration quant à son utilisation. Vérifie toujours l'accord d'utilisation ou la politique de confidentialité d'une dapp.",
-  "dappsDisclaimerUnlistedDapp": "Cette dapp n'est pas répertoriée sur {{appName}}. {{appName}} n'est pas affiliée à cette dapp et ne fait aucune déclaration quant à son utilisation. Vérifie toujours l'accord d'utilisation ou la politique de confidentialité d'une dapp.",
+  "dappsDisclaimerAllDapps": "{{appName}} n'est pas affilié à ces dapps et ne fait aucune déclaration à propos de leur utilisation. Veuillez prendre connaissance du risque avant d'utiliser une dapp en examinant les conditions d'utilisation ou la politique de confidentialité.",
+  "dappsDisclaimerSingleDapp": "{{appName}} n'est pas affilié à cette dapp et ne fait aucune déclaration à propos de son utilisation. Veuillez prendre connaissance du risque avant d'utiliser une dapp en examinant les conditions d'utilisation ou la politique de confidentialité.",
+  "dappsDisclaimerUnlistedDapp": "Cette dapp n'est pas répertoriée dans {{appName}}. {{appName}} n'est pas affilié à cette dapp et ne fait aucune déclaration à propos de son utilisation. Veuillez prendre connaissance du risque avant d'utiliser une dapp en examinant les conditions d'utilisation ou la politique de confidentialité.",
   "recentlyUsedDapps": "Dapps récemment utilisés",
   "favoritedDapps": "Dapps favorites",
   "allDapps": "Toutes les Dapps",
@@ -1264,7 +1264,7 @@
   "merchantPaymentNumberVerificationMessage": "Vous devez connecter votre numéro",
   "merchantPaymentSubmitFail": "Votre paiement n'a pas pu être envoyé",
   "merchantPaymentSetup": "Une erreur s'est produite lors du chargement des informations du vendeur, veuillez réessayer de scanner le QR code",
-  "merchantPaymentSubmitSuccess": "Ton paiement a été soumis avec succès",
+  "merchantPaymentSubmitSuccess": "Votre paiement a bien été envoyé",
   "merchantWalletUnlockError": "Une erreur s'est produite lors du déverrouillage de votre wallet, veuillez réessayer",
   "noMoreTransactions": "Il n'y a plus de transactions",
   "selectProviderScreen": {
@@ -1277,7 +1277,7 @@
     "feesVary": "Les frais varient",
     "viewExchanges": "Voir les échanges",
     "depositFrom": "Dépôt de",
-    "cryptoExchangeOrWallet": "Crypto Exchange ou Portefeuille",
+    "cryptoExchangeOrWallet": "Échange de cryptomonnaies ou wallet",
     "card": "Carte de crédit/débit",
     "bank": "Compte bancaire",
     "mobileMoney": "Argent digital",
@@ -1350,8 +1350,8 @@
     "transactionDetails": "Détails de transaction",
     "paymentMethodVia": "Connexion du {{providerName}}",
     "receiveAmount": "Vous recevrez",
-    "bankFeeDisclaimer": "Ta banque peut facturer des frais supplémentaires pour ton transfert.",
-    "mobileMoneyFeeDisclaimer": "Ton opérateur mobile money peut facturer des frais supplémentaires pour ton transfert.",
+    "bankFeeDisclaimer": "Votre banque peut facturer des frais supplémentaires pour votre transfert.",
+    "mobileMoneyFeeDisclaimer": "Votre opérateur d'argent mobile peut facturer des frais supplémentaires pour votre transfert.",
     "cashIn": {
       "header": "Vérifier - Ajouter des fonds",
       "button": "Ajouter des fonds",
@@ -1547,7 +1547,7 @@
     "shareMessage": "Salut ! J'utilise {{appName}} comme porte-monnaie cryptographique et je veux t'inviter à le découvrir. Une fois que tu auras téléchargé l'application et connecté ton numéro de téléphone, nous recevrons tous les deux un NFT spécial. Utilise ce lien : {{link}}",
     "rewardsActive": {
       "title": "Invitez {{contactName}} à {{appName}} et recevez tous les deux des NFT !",
-      "body": "Il semble que {{contactName}} n'est pas sur {{appName}}. Si vous connaissez l'adresse de son portefeuille, vous pouvez toujours lui envoyer un paiement direct ou lui faire parvenir une invitation.. \n\nDès que votre contact aura téléchargé son portefeuille et connecté son numéro de téléphone, vous recevrez tous les deux un NFT exclusif."
+      "body": "On dirait que {{contactName}} n'est pas sur {{appName}}. Tu peux toujours envoyer un paiement si tu connais l'adresse de leur portefeuille, ou envoyer une invitation à la place. \n\n Une fois qu'ils auront téléchargé le porte-monnaie et connecté leur numéro de téléphone, vous recevrez tous les deux un NFT exclusif."
     }
   },
   "celoNews": {
