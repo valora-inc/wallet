@@ -28,7 +28,7 @@ function BottomSheetScrollView({ handleContentLayout, containerStyle, children }
     <RNBottomSheetScrollView
       style={{
         maxHeight: height - insets.top - BOTTOM_SHEET_DEFAULT_HANDLE_HEIGHT,
-        marginTop: insets.top,
+        marginTop: scrollEnabled ? insets.top : 0,
       }}
       scrollEnabled={scrollEnabled}
     >
