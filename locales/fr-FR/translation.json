@@ -188,9 +188,9 @@
   "cashIn": "Ajouter {{currency}}",
   "connectNumber": "Connecter le numéro",
   "connectToWallet": "Connectez-vous à {{dappName}}",
-  "confirmTransaction": "Confirmation de transaction",
+  "confirmTransaction": "Confirmer la transaction",
   "allow": "Autoriser",
-  "address": "Adresse du portefeuille",
+  "address": "Adresse du wallet",
   "phoneNumber": "Numéro de téléphone",
   "transaction": {
     "operation": "Transaction",
@@ -198,8 +198,8 @@
     "signTX": "Effectuer transaction",
     "details": "Afficher détails"
   },
-  "shareInfo": "Tu dois connecter ton porte-monnaie pour approuver les transactions dans cette Dapp. Une fois connectée, elle aura accès à l'adresse de ton porte-monnaie.",
-  "connectWalletInfoDappkit": "Tu dois connecter ton porte-monnaie pour approuver les transactions dans cette Dapp. Une fois connecté, il aura accès à l'adresse de ton portefeuille et à ton numéro de téléphone.",
+  "shareInfo": "Vous devez connecter votre wallet pour approuver les transactions dans cette dapp. Une fois connecté, l'application aura accès à votre adresse du wallet.",
+  "connectWalletInfoDappkit": "Vous devez connecter votre wallet pour approuver les transactions dans cette dapp. Une fois connecté, l'application aura accès à votre adresse du wallet et numéro de téléphone.",
   "data": "Données",
   "firebaseDisabled": "Firebase est désactivé, les notifications et le journal des téléchargements ne fonctionneront pas",
   "learnMore": "En savoir plus",
@@ -552,7 +552,7 @@
   "sendAndInvite": "Envoyer et inviter",
   "inviteRewardsBanner": {
     "title": "Invitez des amis et collectez des NFTs",
-    "body": "Une fois qu'ils auront configuré leur portefeuille {{appName}} et connecté leur numéro, vous recevrez chacun un NFT exclusif."
+    "body": "Vous recevrez tous les deux un NFT exclusif une fois que votre ami aura configuré son wallet {{appName}} et connecté son numéro."
   },
   "inviteWithUrl": {
     "title": "Invitez des amis",
@@ -779,7 +779,7 @@
   },
   "importExistingKey": {
     "explanation": "Votre Phrase de récupération est une phrase de 24 mots que vous avez écrite et enregistrée lorsque vous avez créé votre compte. Veuillez la saisir ici pour restaurer votre compte.",
-    "explanationV1_50": "Ta phrase de récupération est une phrase de 12 ou 24 mots que tu as écrite et enregistrée lors de la création de ton compte. Saisis-la ici pour restaurer ton compte.",
+    "explanationV1_50": "Votre Phrase de récupération est une phrase de 12 ou 24 mots que vous avez écrite et enregistrée lorsque vous avez créé votre compte. Veuillez la saisir ici pour restaurer votre compte.",
     "keyPlaceholder": "cheval léopard chien singe ..."
   },
   "verificationInput": {
@@ -981,11 +981,11 @@
   },
   "walletConnectRequest": {
     "transactionDataLabel": "Données de transaction",
-    "readAccount": "{{dappName}} aimerait lire l'adresse de ton porte-monnaie {{appName}} .",
-    "signPayload": "{{dappName}} souhaite signer une charge utile de données.",
-    "signTransaction": "{{dappName}} souhaite signer une transaction Celo.",
-    "sendTransaction": "{{dappName}} souhaite envoyer une transaction Celo.",
-    "decryptPayload": "{{dappName}} souhaite décrypter une charge utile de données.",
+    "readAccount": "{{dappName}} demande à lire votre adresse du wallet {{appName}}.",
+    "signPayload": "{{dappName}} demande à effectuer une charge utile de données.",
+    "signTransaction": "{{dappName}} demande à effectuer une transaction Celo.",
+    "sendTransaction": "{{dappName}} demande à envoyer une transaction Celo.",
+    "decryptPayload": "{{dappName}} demande à déchiffrer une charge utile de données.",
     "computeSharedSecret": "{{dappName}} souhaite générer des secrets.",
     "transactionDataCopied": "Données de transaction copiées"
   },
