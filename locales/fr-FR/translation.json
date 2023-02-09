@@ -1213,7 +1213,7 @@
     "buttonText": "Connecter"
   },
   "outOfSyncBanner": {
-    "title": "Erreur de récupération des jetons.",
+    "title": "Erreur de récupération des jetons",
     "message": "Vos soldes peuvent ne pas être à jour.",
     "button": "Actualiser"
   },
@@ -1276,7 +1276,7 @@
     "cryptoExchange": "Échange de cryptomonnaie",
     "feesVary": "Les frais varient",
     "viewExchanges": "Voir les échanges",
-    "depositFrom": "Dépôt de",
+    "depositFrom": "Déposer depuis",
     "cryptoExchangeOrWallet": "Échange de cryptomonnaies ou wallet",
     "card": "Carte de crédit/débit",
     "bank": "Compte bancaire",
@@ -1413,7 +1413,7 @@
       "selectCurrencyTitle": "Ajouter des fonds",
       "exchangeAmountTitle": "Ajouter {{currency}}",
       "selectProviderHeader": "Mode de paiement",
-      "depositExchangeTitle": "Déposer des Crypto"
+      "depositExchangeTitle": "Déposer des crypto"
     },
     "cashOut": {
       "fiatExchangeTitle": "Retirer des fonds",
@@ -1421,7 +1421,7 @@
       "selectCurrencyTitle": "Retirer des fonds",
       "exchangeAmountTitle": "Retirer {{currency}}",
       "selectProviderHeader": "Mode de retrait",
-      "withdrawExchangeTitle": "Retirer Crypto"
+      "withdrawExchangeTitle": "Retirer des crypto"
     },
     "spend": {
       "fiatExchangeTitle": "Dépenser des fonds",
@@ -1429,10 +1429,10 @@
       "selectCurrencyTitle": "Dépenser des fonds"
     },
     "exchange": {
-      "copyAddress": "Adresse de la copie",
-      "informationText": "Utilise uniquement des échanges ou des actifs <0>compatibles avec le réseau Celo</0> pour éviter la perte de fonds.",
+      "copyAddress": "Copier l'adresse",
+      "informationText": "Utilisez uniquement des échanges et actifs <0>compatibles avec le réseau Celo</0> pour éviter la perte de fonds.",
       "bottomSheetTitle": "Quels échanges puis-je utiliser pour déposer des fonds ?",
-      "bottomSheetInfo": "Vérifie que tu envoies des biens qui sont compatibles avec le réseau Celo."
+      "bottomSheetInfo": "Vérifiez que vous envoyez des actifs compatibles avec le réseau Celo."
     }
   },
   "fiatDetailsScreen": {
@@ -1461,7 +1461,7 @@
     "mobileMoney": {
       "operator": {
         "label": "Réseau",
-        "placeholderText": "Entrer l'opérateur de réseau mobile"
+        "placeholderText": "Entrez l'opérateur de réseau mobile"
       },
       "mobile": {
         "label": "Numéro de téléphone",
@@ -1544,17 +1544,17 @@
     "title": "Il semble que {{contactName}} n'ait pas encore un wallet {{appName}}.",
     "body": "Vous pouvez l'inviter ou essayer d'envoyer un paiement à son adresse du wallet ou nom.space.",
     "sendInviteButtonLabel": "Envoyer l'invitation",
-    "shareMessage": "Salut ! J'utilise {{appName}} comme porte-monnaie cryptographique et je veux t'inviter à le découvrir. Une fois que tu auras téléchargé l'application et connecté ton numéro de téléphone, nous recevrons tous les deux un NFT spécial. Utilise ce lien : {{link}}",
+    "shareMessage": "Salut ! J'utilise {{appName}} comme wallet crypto et je veux t'inviter à la découvrir. Une fois que tu auras téléchargé l'appli et connecté ton numéro de téléphone, nous recevrons tous les deux une NFT. Utilise ce lien: {{link}}",
     "rewardsActive": {
       "title": "Invitez {{contactName}} à {{appName}} et recevez tous les deux des NFT !",
-      "body": "On dirait que {{contactName}} n'est pas sur {{appName}}. Tu peux toujours envoyer un paiement si tu connais l'adresse de leur portefeuille, ou envoyer une invitation à la place. \n\n Une fois qu'ils auront téléchargé le porte-monnaie et connecté leur numéro de téléphone, vous recevrez tous les deux un NFT exclusif."
+      "body": "Il semble que {{contactName}} n'est pas sur {{appName}}. Vous pouvez toujours lui envoyer un paiement direct si vous connaissez l'adresse de son wallet, ou lui faire parvenir une invitation. \n\nDès que votre contact aura téléchargé l'appli et connecté son numéro de téléphone, vous recevrez tous les deux un NFT exclusif."
     }
   },
   "celoNews": {
-    "headerTitle": "Mises à jour",
-    "headerDescription": "Découvre les cas d'utilisation, les pilotes et les mises à jour techniques sur le blog de Celo.",
-    "readMoreButtonText": "Lis la suite sur le blog",
-    "loadingError": "Désolé, nous n'avons pas pu charger les dernières mises à jour. Veuillez réessayer plus tard.",
+    "headerTitle": "Actualités",
+    "headerDescription": "Découvrez les cas d'utilisation, les projets pilotes et les mises à jour techniques sur Celo.",
+    "readMoreButtonText": "En savoir plus sur le blog",
+    "loadingError": "Désolé, nous n'avons pas pu charger les dernières actualités. Veuillez réessayer plus tard.",
     "retryButtonText": "Réessayer"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
