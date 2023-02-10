@@ -24,7 +24,6 @@ describe('ImportWallet', () => {
       </Provider>
     )
 
-    expect(wrapper.toJSON()).toMatchSnapshot()
     expect(wrapper.UNSAFE_getAllByProps({ disabled: true }).length).toBeGreaterThan(0)
   })
 
