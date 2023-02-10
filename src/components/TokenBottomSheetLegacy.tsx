@@ -102,13 +102,9 @@ function TokenBottomSheet({ isVisible, origin, onCurrencySelected, onClose }: Pr
 
   return (
     <View style={styles.container} testID="TokenBottomSheetContainer">
-      <Animated.View style={[styles.background, animatedOpacity]}>
-        <TouchableWithoutFeedback
-          style={styles.backgroundTouchable}
-          onPress={onClose}
-          testID={'BackgroundTouchable'}
-        />
-      </Animated.View>
+      <TouchableWithoutFeedback onPress={onClose} testID={'BackgroundTouchable'}>
+        <Animated.View style={[styles.background, animatedOpacity]} />
+      </TouchableWithoutFeedback>
       <Animated.View
         style={[
           styles.contentContainer,
@@ -147,10 +143,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     backgroundColor: colors.modalBackdrop,
     opacity: 0.5,
-    width: '100%',
-    height: '100%',
-  },
-  backgroundTouchable: {
     width: '100%',
     height: '100%',
   },
