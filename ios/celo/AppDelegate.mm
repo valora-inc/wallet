@@ -1,12 +1,3 @@
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- */
-
 #import "AppDelegate.h"
 
 #import <React/RCTBridge.h>
@@ -18,32 +9,32 @@
 @import Firebase;
 
 #import "RNSplashScreen.h"
-#import "ReactNativeConfig.h"
+#import <react/config/ReactNativeConfig.h>
 
-#ifdef FB_SONARKIT_ENABLED
-#import <FlipperKit/FlipperClient.h>
-#import <FlipperKitLayoutPlugin/FlipperKitLayoutPlugin.h>
-#import <FlipperKitUserDefaultsPlugin/FKUserDefaultsPlugin.h>
-#import <FlipperKitNetworkPlugin/FlipperKitNetworkPlugin.h>
-#import <SKIOSNetworkPlugin/SKIOSNetworkAdapter.h>
-#import <FlipperKitReactPlugin/FlipperKitReactPlugin.h>
+#import <React/RCTAppSetupUtils.h>
 
 #import <UserNotifications/UserNotifications.h>
-
 #import <CleverTapSDK/CleverTap.h>
 #import <CleverTapReact/CleverTapReactManager.h>
 
-static void InitializeFlipper(UIApplication *application) {
-  FlipperClient *client = [FlipperClient sharedClient];
-  SKDescriptorMapper *layoutDescriptorMapper = [[SKDescriptorMapper alloc] initWithDefaults];
-  [client addPlugin:[[FlipperKitLayoutPlugin alloc] initWithRootNode:application withDescriptorMapper:layoutDescriptorMapper]];
-  [client addPlugin:[[FKUserDefaultsPlugin alloc] initWithSuiteName:nil]];
-  [client addPlugin:[FlipperKitReactPlugin new]];
-  [client addPlugin:[[FlipperKitNetworkPlugin alloc] initWithNetworkAdapter:[SKIOSNetworkAdapter new]]];
-  [client start];
+#if RCT_NEW_ARCH_ENABLED
+#import <React/CoreModulesPlugins.h>
+#import <React/RCTCxxBridgeDelegate.h>
+#import <React/RCTFabricSurfaceHostingProxyRootView.h>
+#import <React/RCTSurfacePresenter.h>
+#import <React/RCTSurfacePresenterBridgeAdapter.h>
+#import <ReactCommon/RCTTurboModuleManager.h>
+
+@interface AppDelegate () <RCTCxxBridgeDelegate, RCTTurboModuleManagerDelegate> {
+  RCTTurboModuleManager *_turboModuleManager;
+  RCTSurfacePresenterBridgeAdapter *_bridgeAdapter;
+  std::shared_ptr<const facebook::react::ReactNativeConfig> _reactNativeConfig;
+  facebook::react::ContextContainer::Shared _contextContainer;
 }
+@end
 #endif
 
+	
 // Use same key as react-native-secure-key-store
 // so we don't reset already working installs
 static NSString * const kHasRunBeforeKey = @"RnSksIsAppInstalled";
@@ -64,19 +55,25 @@ static void SetCustomNSURLSessionConfiguration() {
 }
 
 @interface AppDelegate ()
-
 @property (nonatomic, weak) UIView *blurView;
-
 @end
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  RCTAppSetupPrepareApp(application);
 
-#ifdef FB_SONARKIT_ENABLED
-    InitializeFlipper(application);
+  RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
+
+#if RCT_NEW_ARCH_ENABLED
+  _contextContainer = std::make_shared<facebook::react::ContextContainer const>();
+  _reactNativeConfig = std::make_shared<facebook::react::EmptyReactNativeConfig const>();
+  _contextContainer->insert("ReactNativeConfig", _reactNativeConfig);
+  _bridgeAdapter = [[RCTSurfacePresenterBridgeAdapter alloc] initWithBridge:bridge contextContainer:_contextContainer];
+  bridge.surfacePresenter = _bridgeAdapter.surfacePresenter;
 #endif
+
   // Reset keychain on first run to clear existing Firebase credentials
   // Note: react-native-secure-key-store also does that but is run too late
   // and hence can't clear Firebase credentials
@@ -102,44 +99,78 @@ static void SetCustomNSURLSessionConfiguration() {
     [FIROptions defaultOptions].deepLinkURLScheme = @"celo";
     [FIRApp configure];
   }
-  
-  SetCustomNSURLSessionConfiguration();
-  
-  RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
 
+  SetCustomNSURLSessionConfiguration();
+  	
   NSDate *now = [NSDate date];
   NSTimeInterval nowEpochSeconds = [now timeIntervalSince1970];
   long long nowEpochMs = (long long)(nowEpochSeconds * 1000);
   NSDictionary *props = @{@"appStartedMillis" : @(nowEpochMs)};
 
-  RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
-                                                   moduleName:@"celo"
-                                            initialProperties:props];
-  
+  UIView *rootView = RCTAppSetupDefaultRootView(bridge, @"celo", nil);
+
   [RNSplashScreen showSplash:@"LaunchScreen" inRootView:rootView];
   if (@available(iOS 13.0, *)) {
-      rootView.backgroundColor = [UIColor systemBackgroundColor];
+    rootView.backgroundColor = [UIColor systemBackgroundColor];
   } else {
-      rootView.backgroundColor = [UIColor whiteColor];
+    rootView.backgroundColor = [UIColor whiteColor];
   }
-  
+
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   UIViewController *rootViewController = [UIViewController new];
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
-
   return YES;
 }
 
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
 {
 #if DEBUG
-  return [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
+  return [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index"];
 #else
   return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 #endif
 }
+
+#if RCT_NEW_ARCH_ENABLED
+
+#pragma mark - RCTCxxBridgeDelegate
+
+- (std::unique_ptr<facebook::react::JSExecutorFactory>)jsExecutorFactoryForBridge:(RCTBridge *)bridge
+{
+  _turboModuleManager = [[RCTTurboModuleManager alloc] initWithBridge:bridge
+                                                             delegate:self
+                                                            jsInvoker:bridge.jsCallInvoker];
+  return RCTAppSetupDefaultJsExecutorFactory(bridge, _turboModuleManager);
+}
+
+#pragma mark RCTTurboModuleManagerDelegate
+
+- (Class)getModuleClassFromName:(const char *)name
+{
+  return RCTCoreModulesClassProvider(name);
+}
+
+- (std::shared_ptr<facebook::react::TurboModule>)getTurboModule:(const std::string &)name
+                                                      jsInvoker:(std::shared_ptr<facebook::react::CallInvoker>)jsInvoker
+{
+  return nullptr;
+}
+
+- (std::shared_ptr<facebook::react::TurboModule>)getTurboModule:(const std::string &)name
+                                                     initParams:
+                                                         (const facebook::react::ObjCTurboModule::InitParams &)params
+{
+  return nullptr;
+}
+
+- (id<RCTTurboModule>)getModuleInstanceFromClass:(Class)moduleClass
+{
+  return RCTAppSetupDefaultModuleFromClass(moduleClass);
+}
+
+#endif
 
 // Reset keychain on first app run, this is so we don't run with leftover items
 // after reinstalling the app
@@ -163,7 +194,6 @@ static void SetCustomNSURLSessionConfiguration() {
   [defaults setBool:YES forKey:kHasRunBeforeKey];
   [defaults synchronize];
 }
-
 
 - (BOOL)application:(UIApplication *)application
             openURL:(NSURL *)url
