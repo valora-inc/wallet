@@ -24,8 +24,6 @@ import {
   fiatConnectCashInEnabledSelector,
   fiatConnectCashOutEnabledSelector,
 } from 'src/app/selectors'
-import { FeeInfo } from 'src/fees/saga'
-import { feeEstimatesSelector } from 'src/fees/selectors'
 import { fetchQuotes, FiatConnectQuoteSuccess, getFiatConnectProviders } from 'src/fiatconnect'
 import { getFiatConnectClient } from 'src/fiatconnect/clients'
 import {
@@ -1702,6 +1700,7 @@ describe('Fiatconnect saga', () => {
           flow: CICOFlow.CashOut,
           fiatConnectQuote: transferOutFcQuote,
           fiatAccountId: 'account1',
+          feeInfo: mockFeeInfo,
         })
       )
         .provide([
@@ -1733,6 +1732,7 @@ describe('Fiatconnect saga', () => {
             flow: CICOFlow.CashOut,
             fiatConnectQuote: transferOutFcQuote,
             fiatAccountId: 'account1',
+            feeInfo: mockFeeInfo,
           })
         )
           .provide([
@@ -1768,37 +1768,6 @@ describe('Fiatconnect saga', () => {
       ...mockFeeInfo,
       feeCurrency: mockCusdAddress,
     }
-    const feeEstimates: Record<string, { send: { feeInfo: FeeInfo } }> = {
-      [mockCusdAddress]: {
-        send: {
-          feeInfo: TEST_FEE_INFO_CUSD,
-        },
-      },
-      [mockCeurAddress]: {
-        send: {
-          feeInfo: {
-            ...mockFeeInfo,
-            feeCurrency: mockCeurAddress,
-          },
-        },
-      },
-      [mockCeloAddress]: {
-        send: {
-          feeInfo: {
-            ...mockFeeInfo,
-            feeCurrency: mockCeloAddress,
-          },
-        },
-      },
-      [mockCrealAddress]: {
-        send: {
-          feeInfo: {
-            ...mockFeeInfo,
-            feeCurrency: mockCrealAddress,
-          },
-        },
-      },
-    }
 
     const cryptoTypeToAddress: Record<CryptoType, string> = {
       // if this fails to build due to a missing key, add fixture data for the new key! Do NOT just update the type,
@@ -1823,10 +1792,10 @@ describe('Fiatconnect saga', () => {
         await expectSaga(_initiateSendTxToProvider, {
           transferAddress: '0xabc',
           fiatConnectQuote: fiatConnectQuote,
+          feeInfo: TEST_FEE_INFO_CUSD,
         })
           .provide([
             [select(tokensListSelector), Object.values(mockTokenBalances)],
-            [select(feeEstimatesSelector), feeEstimates],
             [
               call(
                 buildAndSendPayment,
@@ -1838,7 +1807,7 @@ describe('Fiatconnect saga', () => {
                 new BigNumber(fiatConnectQuote.getCryptoAmount()),
                 tokenAddress,
                 '',
-                feeEstimates[tokenAddress].send.feeInfo
+                TEST_FEE_INFO_CUSD
               ),
               { receipt: { transactionHash: '0x12345' } },
             ],
@@ -1853,10 +1822,10 @@ describe('Fiatconnect saga', () => {
         expectSaga(_initiateSendTxToProvider, {
           transferAddress: '0xabc',
           fiatConnectQuote: transferOutFcQuote,
+          feeInfo: TEST_FEE_INFO_CUSD,
         })
           .provide([
             [select(tokensListSelector), Object.values(mockTokenBalances)],
-            [select(feeEstimatesSelector), feeEstimates],
             [
               call(
                 buildAndSendPayment,
@@ -1899,10 +1868,10 @@ describe('Fiatconnect saga', () => {
         expectSaga(_initiateSendTxToProvider, {
           transferAddress: '0xabc',
           fiatConnectQuote: transferOutFcQuote,
+          feeInfo: TEST_FEE_INFO_CUSD,
         })
           .provide([
             [select(tokensListSelector), Object.values(mockTokenBalances)],
-            [select(feeEstimatesSelector), feeEstimates],
             [
               call(
                 buildAndSendPayment,
@@ -1945,10 +1914,10 @@ describe('Fiatconnect saga', () => {
         expectSaga(_initiateSendTxToProvider, {
           transferAddress: '0xabc',
           fiatConnectQuote: transferOutFcQuote,
+          feeInfo: TEST_FEE_INFO_CUSD,
         })
           .provide([
             [select(tokensListSelector), Object.values(mockTokenBalances)],
-            [select(feeEstimatesSelector), feeEstimates],
             [
               call(
                 buildAndSendPayment,
@@ -2038,6 +2007,7 @@ describe('Fiatconnect saga', () => {
           flow: CICOFlow.CashOut,
           fiatConnectQuote: transferOutFcQuote,
           fiatAccountId,
+          feeInfo: mockFeeInfo,
         })
         await expectSaga(handleCreateFiatConnectTransfer, action)
           .provide([
@@ -2046,6 +2016,7 @@ describe('Fiatconnect saga', () => {
               call(_initiateSendTxToProvider, {
                 transferAddress,
                 fiatConnectQuote: transferOutFcQuote,
+                feeInfo: mockFeeInfo,
               }),
               transactionHash,
             ],
@@ -2083,6 +2054,7 @@ describe('Fiatconnect saga', () => {
           flow: CICOFlow.CashOut,
           fiatConnectQuote: transferOutFcQuote,
           fiatAccountId: 'account1',
+          feeInfo: mockFeeInfo,
         })
         await expectSaga(handleCreateFiatConnectTransfer, action)
           .provide([
@@ -2091,6 +2063,7 @@ describe('Fiatconnect saga', () => {
               call(_initiateSendTxToProvider, {
                 transferAddress,
                 fiatConnectQuote: transferOutFcQuote,
+                feeInfo: mockFeeInfo,
               }),
               throwError(
                 new FiatConnectTxError('some error', true, new Error('some internal error'))
@@ -2119,6 +2092,7 @@ describe('Fiatconnect saga', () => {
           flow: CICOFlow.CashOut,
           fiatConnectQuote: transferOutFcQuote,
           fiatAccountId: 'account1',
+          feeInfo: mockFeeInfo,
         })
         await expectSaga(handleCreateFiatConnectTransfer, action)
           .provide([
@@ -2127,6 +2101,7 @@ describe('Fiatconnect saga', () => {
               call(_initiateSendTxToProvider, {
                 transferAddress,
                 fiatConnectQuote: transferOutFcQuote,
+                feeInfo: mockFeeInfo,
               }),
               throwError(
                 new FiatConnectTxError('some error', false, new Error('some internal error'))
@@ -2162,6 +2137,7 @@ describe('Fiatconnect saga', () => {
           flow: CICOFlow.CashIn,
           fiatConnectQuote: transferInFcQuote,
           fiatAccountId: 'account1',
+          feeInfo: mockFeeInfo,
         })
         await expectSaga(handleCreateFiatConnectTransfer, action)
           .provide([[call(_initiateTransferWithProvider, action), throwError(new Error('ERROR'))]])
