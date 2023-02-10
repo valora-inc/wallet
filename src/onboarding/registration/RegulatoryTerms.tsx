@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Trans, WithTranslation } from 'react-i18next'
-import { Platform, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Platform, ScrollView, StyleSheet, Text } from 'react-native'
 import { SafeAreaInsetsContext, SafeAreaView } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
 import { acceptTerms } from 'src/account/actions'
@@ -86,19 +86,14 @@ export class RegulatoryTerms extends React.Component<Props> {
         </ScrollView>
         <SafeAreaInsetsContext.Consumer>
           {(insets) => (
-            <View style={styles.agreeContainer}>
-              <Button
-                style={[
-                  styles.button,
-                  insets && insets.bottom <= MARGIN && { marginBottom: MARGIN },
-                ]}
-                type={BtnTypes.ONBOARDING}
-                size={BtnSizes.FULL}
-                text={t('accept')}
-                onPress={this.onPressAccept}
-                testID={'AcceptTermsButton'}
-              />
-            </View>
+            <Button
+              style={[styles.button, insets && insets.bottom <= MARGIN && { marginBottom: MARGIN }]}
+              type={BtnTypes.ONBOARDING}
+              size={BtnSizes.FULL}
+              text={t('accept')}
+              onPress={this.onPressAccept}
+              testID={'AcceptTermsButton'}
+            />
           )}
         </SafeAreaInsetsContext.Consumer>
       </SafeAreaView>
@@ -141,8 +136,5 @@ const styles = StyleSheet.create({
   button: {
     marginTop: MARGIN,
     marginHorizontal: MARGIN,
-  },
-  agreeContainer: {
-    backfaceVisibility: 'hidden',
   },
 })
