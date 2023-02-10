@@ -613,11 +613,9 @@ export function MainStackScreen() {
     } else if (!acceptedTerms || pincodeType === PincodeType.Unset) {
       // allow empty username
       // User didn't go far enough in onboarding, start again from education
-      initialRoute = Screens.OnboardingEducationScreen
+      initialRoute = Screens.Welcome
     } else if (!account) {
-      initialRoute = choseToRestoreAccount
-        ? Screens.ImportWallet
-        : Screens.OnboardingEducationScreen
+      initialRoute = choseToRestoreAccount ? Screens.ImportWallet : Screens.Welcome
     } else if (!hasSeenVerificationNux) {
       initialRoute = Screens.VerificationStartScreen
     } else {

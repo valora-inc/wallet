@@ -686,7 +686,9 @@
     "restoreAccount": "Restore my account",
     "createNewWallet": "Create new wallet",
     "restoreWallet": "Restore wallet",
-    "iAlreadyHaveAWallet": "I already have a wallet"
+    "iAlreadyHaveAWallet": "I already have a wallet",
+    "header": "Welcome to {{appName}}! Let's create your crypto wallet.",
+    "getStarted": "Get Started"
   },
   "accessContacts": {
     "disclosure": {
