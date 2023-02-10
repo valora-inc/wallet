@@ -16,7 +16,7 @@ import Dialog from 'src/components/Dialog'
 import LineItemRow from 'src/components/LineItemRow'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
-import { estimateFee, FeeType } from 'src/fees/reducer'
+import { estimateFee, FeeEstimateState, FeeType } from 'src/fees/reducer'
 import { feeEstimatesSelector } from 'src/fees/selectors'
 import { convertToFiatConnectFiatCurrency } from 'src/fiatconnect'
 import {
@@ -236,7 +236,12 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
       </Dialog>
       <View>
         <ReceiveAmount flow={flow} normalizedQuote={normalizedQuote} networkFee={networkFee} />
-        <TransactionDetails flow={flow} normalizedQuote={normalizedQuote} networkFee={networkFee} />
+        <TransactionDetails
+          feeEstimate={feeEstimate}
+          flow={flow}
+          normalizedQuote={normalizedQuote}
+          networkFee={networkFee}
+        />
         <PaymentMethod flow={flow} normalizedQuote={normalizedQuote} fiatAccount={fiatAccount} />
       </View>
       <View>
@@ -246,6 +251,7 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
           style={styles.submitBtn}
           type={BtnTypes.PRIMARY}
           size={BtnSizes.FULL}
+          disabled={!feeEstimate?.feeInfo && flow === CICOFlow.CashOut} // Cash out requires fee info
           text={
             flow === CICOFlow.CashIn
               ? t('fiatConnectReviewScreen.cashIn.button')
@@ -265,6 +271,7 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
                   flow,
                   fiatConnectQuote: normalizedQuote,
                   fiatAccountId: fiatAccount.fiatAccountId,
+                  feeInfo: feeEstimate?.feeInfo,
                 })
               )
 
@@ -455,10 +462,12 @@ function TransactionDetails({
   flow,
   normalizedQuote,
   networkFee,
+  feeEstimate,
 }: {
   flow: CICOFlow
   normalizedQuote: FiatConnectQuote
   networkFee: BigNumber
+  feeEstimate: FeeEstimateState | undefined
 }) {
   const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)!
   const tokenInfo = useTokenInfoBySymbol(normalizedQuote.getCryptoType())
@@ -489,7 +498,9 @@ function TransactionDetails({
     default:
       tokenDisplay = t('total')
   }
-
+  // Network fee is only relevant for Cash Out
+  const feeHasError = flow === CICOFlow.CashOut && feeEstimate?.error
+  const feeIsLoading = flow === CICOFlow.CashOut && feeEstimate?.loading
   return (
     <View style={styles.sectionContainer}>
       <Text style={styles.sectionHeaderText}>
@@ -519,9 +530,12 @@ function TransactionDetails({
         // TODO(any): consider using FeeDrawer if we want to show fee breakdown
         <LineItemRow
           title={t('feeEstimate')}
-          amount={feeDisplay}
+          testID="feeEstimateRow"
+          amount={!feeHasError && !feeIsLoading && feeDisplay}
           style={styles.sectionSubTextContainer}
           textStyle={styles.sectionSubText}
+          isLoading={feeIsLoading}
+          hasError={feeHasError}
         />
       )}
       <LineItemRow

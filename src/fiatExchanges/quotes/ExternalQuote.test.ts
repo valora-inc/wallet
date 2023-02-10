@@ -4,10 +4,10 @@ import { SettlementTime } from 'src/fiatExchanges/quotes/constants'
 import ExternalQuote from 'src/fiatExchanges/quotes/ExternalQuote'
 import { CICOFlow, PaymentMethod, RawProviderQuote, SimplexQuote } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
+import { CiCoCurrency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 import { createMockStore } from 'test/utils'
 import { mockCusdAddress, mockProviders } from 'test/values'
-import { CiCoCurrency } from 'src/utils/currencies'
 
 jest.mock('src/analytics/ValoraAnalytics')
 
