@@ -21,6 +21,7 @@ import {
   CurrencyInfo,
   TransactionDataInput as TransactionDataInputLegacy,
 } from 'src/send/SendConfirmationLegacy'
+import { QRCodeDataType, QRCodeStyle } from 'src/statsig/types'
 import { ReviewProps } from 'src/transactions/TransactionReview'
 import { TransferConfirmationCardProps } from 'src/transactions/TransferConfirmationCard'
 import { TokenTransaction } from 'src/transactions/types'
@@ -30,7 +31,6 @@ import {
   WalletConnectRequestType,
   WalletConnectSessionRequest,
 } from 'src/walletConnect/types'
-import { QRCodeDataType, QRCodeStyle } from 'src/statsig/types'
 
 // Typed nested navigator params
 type NestedNavigatorParams<ParamList> = {
@@ -341,7 +341,6 @@ export type StackParamList = {
     e164Number: string
     countryCallingCode: string
   }
-  [Screens.OnboardingEducationScreen]: undefined
   [Screens.OnboardingSuccessScreen]: undefined
   [Screens.WalletConnectRequest]:
     | { type: WalletConnectRequestType.Loading; origin: WalletConnectPairingOrigin }

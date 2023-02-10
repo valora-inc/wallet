@@ -49,7 +49,6 @@ export enum Screens {
   MoonPayScreen = 'MoonPayScreen',
   XanpoolScreen = 'XanpoolScreen',
   NameAndPicture = 'NameAndPicture',
-  OnboardingEducationScreen = 'OnboardingEducationScreen',
   OnboardingSuccessScreen = 'OnboardingSuccessScreen',
   OutgoingPaymentRequestListScreen = 'OutgoingPaymentRequestListScreen',
   PaymentRequestConfirmation = 'PaymentRequestConfirmation',
