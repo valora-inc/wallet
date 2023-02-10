@@ -75,14 +75,13 @@ function CurrencyRadioItem({
   testID?: string
 }) {
   return (
-    <TouchableWithoutFeedback onPress={onSelect} disabled={!enabled}>
+    <TouchableWithoutFeedback testID={testID} onPress={onSelect} disabled={!enabled}>
       <View
         style={[
           styles.currencyItemContainer,
           containerStyle,
           { borderColor: selected ? colors.greenUI : colors.gray3 },
         ]}
-        testID={testID}
       >
         <RadioButton selected={selected} disabled={!enabled} />
         <Text style={[styles.currencyItemTitle, enabled ? {} : { color: colors.gray3 }]}>

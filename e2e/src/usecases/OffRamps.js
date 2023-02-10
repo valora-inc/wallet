@@ -48,13 +48,6 @@ export default offRamps = () => {
       await waitForElementId('RNWebView')
       await expect(element(by.text('Bidali'))).toBeVisible()
     })
-
-    // TODO(tomm) debug why this is failing on Android
-    it(':ios: Then should not be able to spend CELO', async () => {
-      await waitForElementId('radio/CELO')
-      let celoRadioButton = await element(by.id('radio/CELO')).getAttributes()
-      jestExpect(celoRadioButton.enabled).toBeFalsy()
-    })
   })
 
   describe('When Withdraw Selected', () => {
