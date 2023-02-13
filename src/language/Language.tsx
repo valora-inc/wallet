@@ -36,7 +36,7 @@ function LanguageScreen({ route }: Props) {
     // Wait for next frame before navigating
     // so the user can see the changed selection briefly
     requestAnimationFrame(() => {
-      navigate(nextScreen || Screens.OnboardingEducationScreen)
+      navigate(nextScreen || Screens.Welcome)
     })
 
     ValoraAnalytics.track(SettingsEvents.language_select, { language: code })
