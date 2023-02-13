@@ -13,7 +13,6 @@ import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactRootView;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
-import com.swmansion.gesturehandler.react.RNGestureHandlerEnabledRootView;
 import java.util.Date;
 import org.devio.rn.splashscreen.SplashScreen;
 
@@ -76,11 +75,6 @@ public class MainActivity extends ReactActivity {
   @Override
   protected ReactActivityDelegate createReactActivityDelegate() {
     return new ReactActivityDelegate(this, getMainComponentName()) {
-      @Override
-      protected ReactRootView createRootView() {
-        return new RNGestureHandlerEnabledRootView(MainActivity.this);
-      }
-
       @Override
       protected Bundle getLaunchOptions() {
         // This is used to pass props (in this case app start time) to React
