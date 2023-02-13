@@ -25,11 +25,6 @@ export default RestoreAccountOnboarding = () => {
   `(
     'restores an existing wallet using a $wordCount word recovery phrase',
     async ({ phrase, walletAddress }) => {
-      // Onboarding education has 3 steps
-      for (let i = 0; i < 3; i++) {
-        await element(by.id('Education/progressButton')).tap()
-      }
-
       // choose restore flow
       await element(by.id('RestoreAccountButton')).tap()
 

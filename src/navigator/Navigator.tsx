@@ -90,7 +90,6 @@ import { navigateBack, navigateToExchangeHome } from 'src/navigator/NavigationSe
 import QRNavigator from 'src/navigator/QRNavigator'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import OnboardingEducationScreen from 'src/onboarding/education/OnboardingEducationScreen'
 import EnableBiometry from 'src/onboarding/registration/EnableBiometry'
 import NameAndPicture from 'src/onboarding/registration/NameAndPicture'
 import RegulatoryTerms from 'src/onboarding/registration/RegulatoryTerms'
@@ -200,11 +199,6 @@ const verificationScreens = (Navigator: typeof Stack) => {
 
 const nuxScreens = (Navigator: typeof Stack) => (
   <>
-    <Navigator.Screen
-      name={Screens.OnboardingEducationScreen}
-      component={OnboardingEducationScreen}
-      options={OnboardingEducationScreen.navigationOptions}
-    />
     <Navigator.Screen
       name={Screens.Welcome}
       component={Welcome}
@@ -613,11 +607,9 @@ export function MainStackScreen() {
     } else if (!acceptedTerms || pincodeType === PincodeType.Unset) {
       // allow empty username
       // User didn't go far enough in onboarding, start again from education
-      initialRoute = Screens.OnboardingEducationScreen
+      initialRoute = Screens.Welcome
     } else if (!account) {
-      initialRoute = choseToRestoreAccount
-        ? Screens.ImportWallet
-        : Screens.OnboardingEducationScreen
+      initialRoute = choseToRestoreAccount ? Screens.ImportWallet : Screens.Welcome
     } else if (!hasSeenVerificationNux) {
       initialRoute = Screens.VerificationStartScreen
     } else {

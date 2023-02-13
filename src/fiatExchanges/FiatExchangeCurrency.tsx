@@ -2,8 +2,15 @@ import { RouteProp } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { SafeAreaView, ScrollView, StyleSheet, Text, View, ViewStyle } from 'react-native'
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
+import {
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableWithoutFeedback,
+  View,
+  ViewStyle,
+} from 'react-native'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
@@ -68,15 +75,13 @@ function CurrencyRadioItem({
   testID?: string
 }) {
   return (
-    <TouchableWithoutFeedback onPress={onSelect} disabled={!enabled}>
+    <TouchableWithoutFeedback testID={testID} onPress={onSelect} disabled={!enabled}>
       <View
-        pointerEvents="none"
         style={[
           styles.currencyItemContainer,
           containerStyle,
           { borderColor: selected ? colors.greenUI : colors.gray3 },
         ]}
-        testID={testID}
       >
         <RadioButton selected={selected} disabled={!enabled} />
         <Text style={[styles.currencyItemTitle, enabled ? {} : { color: colors.gray3 }]}>

@@ -69,6 +69,8 @@ describe('FiatExchangeCurrency', () => {
       </Provider>
     )
 
+    expect(tree.getByTestId('radio/CELO')).toBeDisabled()
+
     fireEvent.press(tree.getByTestId('radio/cEUR'))
     fireEvent.press(tree.getByText('next'))
     expect(navigate).toHaveBeenCalledWith(Screens.BidaliScreen, {
