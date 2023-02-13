@@ -64,7 +64,7 @@ export default function Welcome() {
         />
         <Button
           onPress={onPressRestoreAccount}
-          text={t('welcome.iAlreadyHaveAWallet')}
+          text={t('welcome.hasWallet')}
           size={BtnSizes.FULL}
           type={BtnTypes.ONBOARDING_SECONDARY}
           testID={'RestoreAccountButton'}
