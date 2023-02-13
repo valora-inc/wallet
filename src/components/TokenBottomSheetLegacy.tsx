@@ -1,8 +1,7 @@
 import BigNumber from 'bignumber.js'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { LayoutChangeEvent, StyleSheet, Text, View } from 'react-native'
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
+import { LayoutChangeEvent, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native'
 import Animated, { useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { SendEvents } from 'src/analytics/Events'
@@ -103,13 +102,9 @@ function TokenBottomSheet({ isVisible, origin, onCurrencySelected, onClose }: Pr
 
   return (
     <View style={styles.container} testID="TokenBottomSheetContainer">
-      <Animated.View style={[styles.background, animatedOpacity]}>
-        <TouchableWithoutFeedback
-          style={styles.backgroundTouchable}
-          onPress={onClose}
-          testID={'BackgroundTouchable'}
-        />
-      </Animated.View>
+      <TouchableWithoutFeedback onPress={onClose} testID={'BackgroundTouchable'}>
+        <Animated.View style={[styles.background, animatedOpacity]} />
+      </TouchableWithoutFeedback>
       <Animated.View
         style={[
           styles.contentContainer,
@@ -148,10 +143,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     backgroundColor: colors.modalBackdrop,
     opacity: 0.5,
-    width: '100%',
-    height: '100%',
-  },
-  backgroundTouchable: {
     width: '100%',
     height: '100%',
   },
