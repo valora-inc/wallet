@@ -109,7 +109,7 @@ post_install do |installer|
       # - https://stackoverflow.com/a/63955114/158525
       # - https://github.com/facebook/react-native/issues/29984
       # - https://apontious.com/2020/08/23/arm-wrestling-your-ios-simulator-builds/
-      config.build_settings["EXCLUDED_ARCHS[sdk=iphonesimulator*]"] = "arm64 "
+      config.build_settings['EXCLUDED_ARCHS[sdk=iphonesimulator*]'] = "arm64"
     end
     project.save()
   end
