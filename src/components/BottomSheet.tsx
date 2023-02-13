@@ -1,6 +1,11 @@
 import React, { useState } from 'react'
-import { Dimensions, LayoutChangeEvent, StyleSheet, View } from 'react-native'
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
+import {
+  Dimensions,
+  LayoutChangeEvent,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native'
 import Animated, { useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useShowOrHideAnimation } from 'src/components/useShowOrHideAnimation'
@@ -58,13 +63,9 @@ function BottomSheet({ children, isVisible, onBackgroundPress }: Props) {
 
   return (
     <View style={styles.container} testID="BottomSheetContainer">
-      <Animated.View style={[styles.background, animatedOpacity]}>
-        <TouchableWithoutFeedback
-          style={styles.backgroundTouchable}
-          onPress={onBackgroundPress}
-          testID={'BackgroundTouchable'}
-        />
-      </Animated.View>
+      <TouchableWithoutFeedback onPress={onBackgroundPress} testID={'BackgroundTouchable'}>
+        <Animated.View style={[styles.background, animatedOpacity]} />
+      </TouchableWithoutFeedback>
       <Animated.ScrollView
         style={[styles.contentContainer, { paddingBottom, maxHeight }, animatedPickerPosition]}
         contentContainerStyle={pickerHeight >= maxHeight ? styles.fullHeightScrollView : undefined}
@@ -90,10 +91,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     backgroundColor: colors.modalBackdrop,
     opacity: 0.5,
-    width: '100%',
-    height: '100%',
-  },
-  backgroundTouchable: {
     width: '100%',
     height: '100%',
   },

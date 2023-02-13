@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, Platform, StyleSheet, Text, View } from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler'
 import ImagePicker from 'react-native-image-crop-picker'
 import OptionsChooser from 'src/components/OptionsChooser'
+import Touchable from 'src/components/Touchable'
 import Photo from 'src/icons/Photo'
 import colors from 'src/styles/colors'
 import { getDataURL } from 'src/utils/image'
@@ -72,22 +72,24 @@ function PictureInput({ picture, onPhotoChosen, backgroundColor }: Props) {
   const showRemoveOption = !!picture
   return (
     <>
-      <TouchableOpacity
+      <Touchable
         style={[styles.container, { backgroundColor }]}
         onPress={updateShowOptions(true)}
         testID={'PictureInput'}
       >
-        {picture ? (
-          <Image style={styles.picture} source={{ uri: picture }} />
-        ) : (
-          <Text maxFontSizeMultiplier={2} style={styles.addPhoto}>
-            {t('addPhoto')}
-          </Text>
-        )}
-        <View style={styles.photoIconContainer}>
-          <Photo />
-        </View>
-      </TouchableOpacity>
+        <>
+          {picture ? (
+            <Image style={styles.picture} source={{ uri: picture }} />
+          ) : (
+            <Text maxFontSizeMultiplier={2} style={styles.addPhoto}>
+              {t('addPhoto')}
+            </Text>
+          )}
+          <View style={styles.photoIconContainer}>
+            <Photo />
+          </View>
+        </>
+      </Touchable>
       <OptionsChooser
         isVisible={showOptions}
         options={[
