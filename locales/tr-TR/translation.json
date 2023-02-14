@@ -686,7 +686,9 @@
     "restoreAccount": "Hesabımı geri yükle",
     "createNewWallet": "Cüzdan oluştur",
     "restoreWallet": "Cüzdan Yeniden Kur",
-    "iAlreadyHaveAWallet": "Zaten cüzdanım var"
+    "hasWallet": "Zaten cüzdanım var",
+    "header": "{{appName}}adresine hoş geldiniz! Hadi kripto cüzdanınızı oluşturalım.",
+    "getStarted": "Kullanmaya Başlayın"
   },
   "accessContacts": {
     "disclosure": {
