@@ -686,7 +686,9 @@
     "restoreAccount": "Khôi phục tài khoản của tôi",
     "createNewWallet": "Tạo ví mới",
     "restoreWallet": "Khôi phục ví",
-    "iAlreadyHaveAWallet": "Tôi đã có ví"
+    "hasWallet": "Tôi đã có ví",
+    "header": "Welcome to {{appName}}! Let's create your crypto wallet.",
+    "getStarted": "Bắt đầu"
   },
   "accessContacts": {
     "disclosure": {
