@@ -135,57 +135,69 @@ export function DAppsExplorerScreenV2() {
                     bounces={false}
                   >
                     {/* All Dapps Filter */}
-                    <Touchable
-                      onPress={() => {
-                        setSelectedFilter({ id: 'all', name: t('dappsScreen.allDapps') })
-                      }}
-                      style={[
-                        selectedFilter.id === 'all'
-                          ? { backgroundColor: colors.blue }
-                          : { backgroundColor: colors.lightBlue },
-                        styles.filterChip,
-                        { marginLeft: Spacing.Regular16 },
-                      ]}
-                    >
-                      <Text
-                        style={[
-                          styles.filterChipText,
+                    <View
+                      style={
+                        [
+                          // Inline styles for margin dependent on index and selected filter chip
+                          styles.filterChipContainer,
                           selectedFilter.id === 'all'
-                            ? { color: colors.lightBlue }
-                            : { color: colors.blue },
-                        ]}
+                            ? { backgroundColor: colors.blue }
+                            : { backgroundColor: colors.lightBlue },
+                          { marginLeft: Spacing.Regular16 },
+                        ]
+                      }>
+                      <Touchable
+                        onPress={() => {
+                          setSelectedFilter({ id: 'all', name: t('dappsScreen.allDapps') })
+                        }}
+                        style={styles.filterChip}
                       >
-                        {t('dappsScreen.allDapps')}
-                      </Text>
-                    </Touchable>
+                        <Text
+                          style={
+                            [
+                              styles.filterChipText,
+                              selectedFilter.id === 'all'
+                                ? { color: colors.lightBlue }
+                                : { color: colors.blue },
+                            ]
+                          }
+                        >
+                          {t('dappsScreen.allDapps')}
+                        </Text>
+                      </Touchable>
+                    </View>
                     {/* Category Filter Chips */}
                     {sortedCategories.map((category, idx) => {
                       return (
-                        <Touchable
-                          onPress={() => {
-                            setSelectedFilter({ id: category.id, name: category.name })
-                          }}
-                          // Inline styles for margin dependent on index and selected filter chip
-                          style={[
+                        // Inline styles for margin dependent on index and selected filter chip
+                        <View style={
+                          [
+                            styles.filterChipContainer,
                             idx === categories.length - 1 && { marginRight: Spacing.Regular16 },
                             selectedFilter.id === category.id
                               ? { backgroundColor: colors.blue }
                               : { backgroundColor: colors.lightBlue },
-                            styles.filterChip,
                             { marginLeft: Spacing.Smallest8 },
-                          ]}
-                        >
-                          <Text
-                            style={[
-                              styles.filterChipText,
-                              selectedFilter.id === category.id
-                                ? { color: colors.lightBlue }
-                                : { color: colors.blue },
-                            ]}
-                          >
-                            {category.name}
-                          </Text>
-                        </Touchable>
+                          ]
+                        }>
+                          <Touchable
+                            style={styles.filterChip}
+                            onPress={() => {
+                              setSelectedFilter({ id: category.id, name: category.name })
+                            }}>
+                            <Text
+                              style={
+                                [
+                                  styles.filterChipText,
+                                  selectedFilter.id === category.id
+                                    ? { color: colors.lightBlue }
+                                    : { color: colors.blue },
+                                ]
+                              }>
+                              {category.name}
+                            </Text>
+                          </Touchable>
+                        </View>
                       )
                     })}
                   </ScrollView>
@@ -280,13 +292,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flex: 1,
   },
-  filterChip: {
-    paddingVertical: 8,
-    paddingHorizontal: 16,
+  filterChipContainer: {
+    overflow: 'hidden',
     borderRadius: 94,
+    flex: 1,
+  },
+  filterChip: {
     minHeight: 32,
     minWidth: 42,
+    justifyContent: 'center',
     alignItems: 'center',
+    paddingHorizontal: Spacing.Regular16,
   },
   filterChipText: {
     ...fontStyles.small,
