@@ -136,16 +136,15 @@ export function DAppsExplorerScreenV2() {
                   >
                     {/* All Dapps Filter */}
                     <View
-                      style={
-                        [
-                          // Inline styles for margin dependent on index and selected filter chip
-                          styles.filterChipContainer,
-                          selectedFilter.id === 'all'
-                            ? { backgroundColor: colors.blue }
-                            : { backgroundColor: colors.lightBlue },
-                          { marginLeft: Spacing.Regular16 },
-                        ]
-                      }>
+                      style={[
+                        // Inline styles for margin dependent on index and selected filter chip
+                        styles.filterChipContainer,
+                        selectedFilter.id === 'all'
+                          ? { backgroundColor: colors.blue }
+                          : { backgroundColor: colors.lightBlue },
+                        { marginLeft: Spacing.Regular16 },
+                      ]}
+                    >
                       <Touchable
                         onPress={() => {
                           setSelectedFilter({ id: 'all', name: t('dappsScreen.allDapps') })
@@ -153,14 +152,12 @@ export function DAppsExplorerScreenV2() {
                         style={styles.filterChip}
                       >
                         <Text
-                          style={
-                            [
-                              styles.filterChipText,
-                              selectedFilter.id === 'all'
-                                ? { color: colors.lightBlue }
-                                : { color: colors.blue },
-                            ]
-                          }
+                          style={[
+                            styles.filterChipText,
+                            selectedFilter.id === 'all'
+                              ? { color: colors.lightBlue }
+                              : { color: colors.blue },
+                          ]}
                         >
                           {t('dappsScreen.allDapps')}
                         </Text>
@@ -170,30 +167,30 @@ export function DAppsExplorerScreenV2() {
                     {sortedCategories.map((category, idx) => {
                       return (
                         // Inline styles for margin dependent on index and selected filter chip
-                        <View style={
-                          [
+                        <View
+                          style={[
                             styles.filterChipContainer,
                             idx === categories.length - 1 && { marginRight: Spacing.Regular16 },
                             selectedFilter.id === category.id
                               ? { backgroundColor: colors.blue }
                               : { backgroundColor: colors.lightBlue },
                             { marginLeft: Spacing.Smallest8 },
-                          ]
-                        }>
+                          ]}
+                        >
                           <Touchable
                             style={styles.filterChip}
                             onPress={() => {
                               setSelectedFilter({ id: category.id, name: category.name })
-                            }}>
+                            }}
+                          >
                             <Text
-                              style={
-                                [
-                                  styles.filterChipText,
-                                  selectedFilter.id === category.id
-                                    ? { color: colors.lightBlue }
-                                    : { color: colors.blue },
-                                ]
-                              }>
+                              style={[
+                                styles.filterChipText,
+                                selectedFilter.id === category.id
+                                  ? { color: colors.lightBlue }
+                                  : { color: colors.blue },
+                              ]}
+                            >
                               {category.name}
                             </Text>
                           </Touchable>
