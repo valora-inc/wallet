@@ -24,6 +24,7 @@ import { walletAddressSelector } from 'src/web3/selectors'
 const TAG = 'DappsSaga'
 
 interface Application {
+  categories?: string[]
   categoryId: string
   description: string
   id: string
@@ -82,6 +83,7 @@ export function* handleFetchDappsList() {
       const dappsList: Dapp[] = result.applications.map((application) => {
         return {
           id: application.id,
+          categories: application.categories,
           categoryId: application.categoryId,
           name: application.name,
           iconUrl: application.logoUrl,

@@ -5,6 +5,12 @@
         "ActiveDapp": {
             "additionalProperties": false,
             "properties": {
+                "categories": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
                 "categoryId": {
                     "type": "string"
                 },
@@ -697,6 +703,12 @@
         "Dapp": {
             "additionalProperties": false,
             "properties": {
+                "categories": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
                 "categoryId": {
                     "type": "string"
                 },

@@ -8,6 +8,7 @@ export enum DappSection {
 
 export interface Dapp {
   id: string
+  categories?: string[]
   categoryId: string
   iconUrl: string
   name: string
