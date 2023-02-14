@@ -33,7 +33,7 @@ describe('Language', () => {
       fireEvent.press(getByText(name))
       jest.runOnlyPendingTimers()
       expect(changeLanguageSpy).toHaveBeenCalledWith(code)
-      expect(navigate).toHaveBeenCalledWith(Screens.OnboardingEducationScreen)
+      expect(navigate).toHaveBeenCalledWith(Screens.Welcome)
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(SettingsEvents.language_select, {
         language: code,
       })

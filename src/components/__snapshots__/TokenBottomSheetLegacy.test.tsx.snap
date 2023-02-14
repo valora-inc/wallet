@@ -16,6 +16,15 @@ exports[`TokenBottomSheetLegacy renders correctly 1`] = `
   testID="TokenBottomSheetContainer"
 >
   <View
+    accessible={true}
+    focusable={true}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
     style={
       Array [
         Object {
@@ -28,27 +37,8 @@ exports[`TokenBottomSheetLegacy renders correctly 1`] = `
         undefined,
       ]
     }
-  >
-    <RNGestureHandlerButton
-      collapsable={false}
-      onGestureEvent={[Function]}
-      onGestureHandlerEvent={[Function]}
-      onGestureHandlerStateChange={[Function]}
-      onHandlerStateChange={[Function]}
-      rippleColor={0}
-      testID="BackgroundTouchable"
-    >
-      <View
-        accessible={true}
-        style={
-          Object {
-            "height": "100%",
-            "width": "100%",
-          }
-        }
-      />
-    </RNGestureHandlerButton>
-  </View>
+    testID="BackgroundTouchable"
+  />
   <View
     onLayout={[Function]}
     style={

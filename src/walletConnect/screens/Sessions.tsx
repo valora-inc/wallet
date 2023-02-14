@@ -1,10 +1,10 @@
 import { SessionTypes, SignClientTypes } from '@walletconnect/types'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Image, StyleSheet, Text, View } from 'react-native'
-import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler'
+import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import Dialog from 'src/components/Dialog'
+import Touchable from 'src/components/Touchable'
 import i18n from 'src/i18n'
 import { headerWithBackButton } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
@@ -12,6 +12,7 @@ import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { WalletConnectSession } from 'src/walletConnect/types'
 import { closeSession as closeSessionActionV1 } from 'src/walletConnect/v1/actions'
@@ -36,7 +37,7 @@ const Dapp = ({
   const { t } = useTranslation()
 
   return (
-    <TouchableOpacity onPress={onPress}>
+    <Touchable onPress={onPress}>
       <View style={styles.row}>
         <Image source={{ uri: icon }} style={styles.icon} />
         <View style={styles.rowContent}>
@@ -44,7 +45,7 @@ const Dapp = ({
           <Text style={styles.disconnectButton}>{t('tapToDisconnect')}</Text>
         </View>
       </View>
-    </TouchableOpacity>
+    </Touchable>
   )
 }
 
@@ -82,7 +83,7 @@ function Sessions() {
       : highlighted?.peerMeta?.name
 
   return (
-    <ScrollView testID="WalletConnectSessionsView">
+    <ScrollView testID="WalletConnectSessionsView" style={styles.container}>
       <Dialog
         title={t('disconnectTitle', {
           dappName,
@@ -96,19 +97,15 @@ function Sessions() {
         {t('disconnectBody', { dappName })}
       </Dialog>
 
-      <View style={styles.container}>
-        <Text style={styles.title}>{t('sessionsTitle')}</Text>
-        <Text style={styles.subTitle}>{t('sessionsSubTitle')}</Text>
-      </View>
+      <Text style={styles.title}>{t('sessionsTitle')}</Text>
+      <Text style={styles.subTitle}>{t('sessionsSubTitle')}</Text>
 
-      <View style={[styles.container, styles.appsContainer]}>
-        {sessionsV1.map((s) => (
-          <Dapp key={s.peerId} metadata={s.peerMeta} onPress={openModal(s)} />
-        ))}
-        {sessionsV2.map((s) => (
-          <Dapp key={s.topic} metadata={s.peer.metadata} onPress={openModal(s)} />
-        ))}
-      </View>
+      {sessionsV1.map((s) => (
+        <Dapp key={s.peerId} metadata={s.peerMeta} onPress={openModal(s)} />
+      ))}
+      {sessionsV2.map((s) => (
+        <Dapp key={s.topic} metadata={s.peer.metadata} onPress={openModal(s)} />
+      ))}
     </ScrollView>
   )
 }
@@ -135,19 +132,21 @@ const styles = StyleSheet.create({
   },
   title: {
     ...fontStyles.h2,
-    marginTop: 16,
+    paddingVertical: Spacing.Regular16,
   },
   subTitle: {
     ...fontStyles.regular,
     color: colors.dark,
-    paddingVertical: 16,
-  },
-  appsContainer: {
-    paddingVertical: 24,
+    paddingBottom: Spacing.Thick24,
   },
 
   // connected apps
-  row: { display: 'flex', flexDirection: 'row', alignItems: 'center', paddingBottom: 24 },
+  row: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: Spacing.Small12,
+  },
   icon: { height: 40, width: 40 },
   rowContent: {
     paddingLeft: 12,

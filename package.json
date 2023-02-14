@@ -1,6 +1,6 @@
 {
   "name": "@valora/wallet",
-  "version": "1.51.0",
+  "version": "1.52.0",
   "author": "Valora Inc",
   "license": "Apache-2.0",
   "private": true,
@@ -125,8 +125,7 @@
     "ibantools": "^4.2.2",
     "io-ts": "2.0.1",
     "lodash": "^4.17.21",
-    "lottie-ios": "^3.2.3",
-    "lottie-react-native": "^5.0.1",
+    "lottie-react-native": "^5.1.5",
     "node-libs-react-native": "^1.2.0",
     "qrcode": "^1.5.1",
     "react": "17.0.2",
@@ -145,7 +144,7 @@
     "react-native-exit-app": "^1.1.0",
     "react-native-fast-crypto": "^2.2.0",
     "react-native-fs": "^2.20.0",
-    "react-native-gesture-handler": "^1.9.0",
+    "react-native-gesture-handler": "^2.9.0",
     "react-native-get-random-values": "^1.8.0",
     "react-native-image-crop-picker": "^0.35.1",
     "react-native-keychain": "8.0.0",
@@ -313,7 +312,7 @@
     "plist": "^3.0.5",
     "simple-plist": "^1.3.1",
     "moment": "^2.29.4",
-    "async": "^3.2.2",
+    "async": "^3.2.4",
     "react-native-fs": "git+https://github.com/celo-org/react-native-fs#aa6db0f",
     "json-schema": "^0.4.0",
     "shell-quote": "^1.7.3",
@@ -323,8 +322,8 @@
     "@celo/phone-number-privacy-common": "1.0.41",
     "web3": "1.3.5",
     "events": "^3.3.0",
-    "qs": "^6.10.3",
-    "flat": "^5.0.1"
+    "qs": "^6.11.0",
+    "flat": "^5.0.2"
   },
   "detox": {
     "test-runner": "jest",

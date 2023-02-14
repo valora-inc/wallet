@@ -133,11 +133,6 @@ export function quote(s) {
 
 export async function quickOnboarding(mnemonic = SAMPLE_BACKUP_KEY) {
   try {
-    // Quickly pass through openning slides
-    for (let i = 0; i < 3; i++) {
-      await element(by.id('Education/progressButton')).tap()
-    }
-
     // Tap Restore Account
     await element(by.id('RestoreAccountButton')).tap()
 
