@@ -686,7 +686,9 @@
     "restoreAccount": "Restaurar conta existente",
     "createNewWallet": "Criar carteira",
     "restoreWallet": "Restaurar carteira",
-    "iAlreadyHaveAWallet": "Já tenho uma carteira"
+    "hasWallet": "Já tenho uma carteira",
+    "header": "Bem-vindo a {{appName}}! Vamos criar a sua carteira criptográfica.",
+    "getStarted": "Começar"
   },
   "accessContacts": {
     "disclosure": {
