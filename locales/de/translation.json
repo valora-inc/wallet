@@ -686,7 +686,9 @@
     "restoreAccount": "Mein Konto wiederherstellen",
     "createNewWallet": "Wallet erstellen",
     "restoreWallet": "Wallet wiederherstellen",
-    "iAlreadyHaveAWallet": "Ich habe bereits eine Wallet"
+    "hasWallet": "Ich habe bereits eine Wallet",
+    "header": "Willkommen bei {{appName}}! Lass uns deine Krypto-Brieftasche erstellen.",
+    "getStarted": "Erste Schritte"
   },
   "accessContacts": {
     "disclosure": {
