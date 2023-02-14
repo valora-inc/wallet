@@ -686,7 +686,9 @@
     "restoreAccount": "恢复我的账户",
     "createNewWallet": "新建钱包",
     "restoreWallet": "恢复钱包",
-    "iAlreadyHaveAWallet": "我已有钱包"
+    "hasWallet": "我已有钱包",
+    "header": "欢迎来到 {{appName}}!让我们来创建你的加密货币钱包。",
+    "getStarted": "开始使用"
   },
   "accessContacts": {
     "disclosure": {
