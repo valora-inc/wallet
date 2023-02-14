@@ -4,6 +4,7 @@ export enum Colors {
   greenFaint = '#97DFC1', // green disabled
   greenBrand = '#42D689',
   greenUI = '#1AB775',
+  greenUIDark = '#178154',
   goldFaint = '#E3C376', // gold disabled
   goldBrand = '#FBCC5C',
   goldUI = '#EEB93C',
@@ -13,6 +14,7 @@ export enum Colors {
   warning = '#EA6042',
   informational = '#0768AE',
   dark = '#2E3338',
+  gray7 = '#666666',
   gray6 = '#DFDBCE',
   gray5 = '#81868B',
   gray4 = '#9CA4A9',
@@ -24,15 +26,13 @@ export enum Colors {
   teal = '#7AD6FE',
   orange = '#FEB45E',
   onboardingBrownLight = '#A49B80',
-  onboardingBlue = '#0768AE',
-  onboardingLightBlue = '#D6EAF3',
+  blue = '#0768AE',
+  lightBlue = '#D6EAF3',
   onboardingBackground = '#F9F6F0',
   modalBackdrop = '#1B392F',
-
   greenBackground = '#DEF8EA',
   greenStrong = '#08CB7A',
   lightGreen = '#E6F7EC',
-
   white = '#FFFFFF',
 }
 
