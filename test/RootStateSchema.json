@@ -3181,6 +3181,9 @@
                     },
                     "type": "array"
                 },
+                "dappsFilterAndSearchEnabled": {
+                    "type": "boolean"
+                },
                 "dappsList": {
                     "items": {
                         "$ref": "#/definitions/Dapp"
@@ -3224,6 +3227,7 @@
                 "dappFavoritesEnabled",
                 "dappListApiUrl",
                 "dappsCategories",
+                "dappsFilterAndSearchEnabled",
                 "dappsList",
                 "dappsListError",
                 "dappsListLoading",

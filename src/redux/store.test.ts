@@ -93,7 +93,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 110,
+          "version": 111,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -185,6 +185,7 @@ describe('store state', () => {
           "dappFavoritesEnabled": false,
           "dappListApiUrl": null,
           "dappsCategories": Array [],
+          "dappsFilterAndSearchEnabled": false,
           "dappsList": Array [],
           "dappsListError": null,
           "dappsListLoading": false,

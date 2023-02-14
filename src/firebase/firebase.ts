@@ -307,6 +307,7 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     twelveWordMnemonicEnabled: flags.twelveWordMnemonicEnabled.asBoolean(),
     dappsMinimalDisclaimerEnabled: flags.dappsMinimalDisclaimerEnabled.asBoolean(),
     guaranteedSwapPriceEnabled: flags.guaranteedSwapPriceEnabled.asBoolean(),
+    dappsFilterAndSearchEnabled: flags.dappsFilterAndSearchEnabled.asBoolean(),
   }
 }
 

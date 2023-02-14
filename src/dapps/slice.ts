@@ -18,6 +18,7 @@ export interface State {
   dappFavoritesEnabled: boolean
   favoriteDappIds: string[]
   dappsMinimalDisclaimerEnabled: boolean
+  dappsFilterAndSearchEnabled: boolean
 }
 
 const initialState: State = {
@@ -34,6 +35,7 @@ const initialState: State = {
   dappFavoritesEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.dappFavoritesEnabled,
   favoriteDappIds: [],
   dappsMinimalDisclaimerEnabled: false,
+  dappsFilterAndSearchEnabled: false,
 }
 
 export interface DappSelectedAction {
@@ -110,6 +112,7 @@ export const slice = createSlice({
           state.dappConnectInfo = action.configValues.dappConnectInfo
           state.dappFavoritesEnabled = action.configValues.dappFavoritesEnabled
           state.dappsMinimalDisclaimerEnabled = action.configValues.dappsMinimalDisclaimerEnabled
+          state.dappsFilterAndSearchEnabled = action.configValues.dappsFilterAndSearchEnabled
         }
       )
       .addCase(REHYDRATE, (state, action: RehydrateAction) => ({

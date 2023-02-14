@@ -2039,6 +2039,18 @@ export const v110Schema = {
   },
 }
 
+export const v111Schema = {
+  ...v110Schema,
+  _persist: {
+    ...v110Schema._persist,
+    version: 111,
+  },
+  dapps: {
+    ...v110Schema.dapps,
+    dappsFilterAndSearchEnabled: false,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v110Schema as Partial<RootState>
+  return v111Schema as Partial<RootState>
 }

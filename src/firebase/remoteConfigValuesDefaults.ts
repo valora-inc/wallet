@@ -71,4 +71,5 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   twelveWordMnemonicEnabled: false,
   dappsMinimalDisclaimerEnabled: false,
   guaranteedSwapPriceEnabled: false,
+  dappsFilterAndSearchEnabled: true,
 }

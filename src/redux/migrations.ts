@@ -1045,4 +1045,11 @@ export const migrations = {
       guaranteedSwapPriceEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.guaranteedSwapPriceEnabled,
     },
   }),
+  111: (state: any) => ({
+    ...state,
+    dapps: {
+      ...state.dapps,
+      dappsFilterAndSearchEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.dappsFilterAndSearchEnabled,
+    },
+  }),
 }
