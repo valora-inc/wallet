@@ -686,7 +686,9 @@
     "restoreAccount": "Ripristina il mio conto",
     "createNewWallet": "Crea un wallet",
     "restoreWallet": "Ripristina un wallet",
-    "iAlreadyHaveAWallet": "Ho già un wallet"
+    "hasWallet": "Ho già un wallet",
+    "header": "Benvenuto su {{appName}}! Creiamo il tuo portafoglio di criptovalute.",
+    "getStarted": "Inizia"
   },
   "accessContacts": {
     "disclosure": {
