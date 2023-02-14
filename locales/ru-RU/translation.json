@@ -686,7 +686,9 @@
     "restoreAccount": "Восстановить мой аккаунт",
     "createNewWallet": "Создать кошелек",
     "restoreWallet": "Восстановить кошелек",
-    "iAlreadyHaveAWallet": "У меня уже есть кошелек"
+    "hasWallet": "У меня уже есть кошелек",
+    "header": "Добро пожаловать на {{appName}}! Давай создадим твой криптокошелек.",
+    "getStarted": "Начать"
   },
   "accessContacts": {
     "disclosure": {
