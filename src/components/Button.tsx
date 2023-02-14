@@ -151,12 +151,12 @@ function getColors(type: BtnTypes, disabled: boolean | undefined) {
       backgroundColor = disabled ? colors.goldFaint : colors.goldUI
       break
     case BtnTypes.ONBOARDING:
-      textColor = colors.blue
-      backgroundColor = colors.lightBlue
+      textColor = colors.light
+      backgroundColor = colors.onboardingGreen
       opacity = disabled ? 0.5 : 1.0
       break
     case BtnTypes.ONBOARDING_SECONDARY:
-      textColor = colors.blue
+      textColor = colors.onboardingGreen
       backgroundColor = colors.light
       opacity = disabled ? 0.5 : 1.0
       break

@@ -29,6 +29,7 @@ export enum Colors {
   blue = '#0768AE',
   lightBlue = '#D6EAF3',
   onboardingBackground = '#F9F6F0',
+  onboardingGreen = '#178154',
   modalBackdrop = '#1B392F',
   greenBackground = '#DEF8EA',
   greenStrong = '#08CB7A',
