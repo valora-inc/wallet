@@ -686,7 +686,9 @@
     "restoreAccount": "Przywróć konto",
     "createNewWallet": "Utwórz portfel",
     "restoreWallet": "Przywróć portfel",
-    "iAlreadyHaveAWallet": "Mam już portfel"
+    "hasWallet": "Mam już portfel",
+    "header": "Witamy na {{appName}}! Stwórzmy twój portfel kryptowalutowy.",
+    "getStarted": "Rozpocznij"
   },
   "accessContacts": {
     "disclosure": {
