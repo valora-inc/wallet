@@ -276,33 +276,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flex: 1,
   },
-  descriptionContainer: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    flex: 1,
-  },
-  // Padding values honor figma designs
-  categoryTextContainer: {
-    borderRadius: 100,
-    paddingHorizontal: 11,
-    paddingVertical: 4,
-  },
-  categoryText: {
-    ...fontStyles.sectionHeader,
-    fontSize: 13,
-  },
-  descriptionText: {
-    ...fontStyles.h1,
-    flex: 1,
-  },
-  descriptionImage: {
-    height: 106,
-    width: 94,
-    marginLeft: Spacing.Smallest8,
-  },
-  filterSection: {
-    marginTop: Spacing.Thick24,
-  },
   filterChip: {
     paddingVertical: 8,
     paddingHorizontal: 16,
@@ -312,7 +285,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   filterChipText: {
-    ...fontStyles.extraSmall,
+    ...fontStyles.small,
   },
   sectionList: {
     flex: 1,

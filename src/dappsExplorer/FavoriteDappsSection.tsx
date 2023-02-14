@@ -137,9 +137,6 @@ const styles = StyleSheet.create({
     color: Colors.gray4,
   },
   // No Results Section Search & Filter
-  filterName: {
-    ...fontStyles.regular600,
-  },
   noMatchingFavorites: {
     flex: 1,
     flexDirection: 'row',
