@@ -2,7 +2,11 @@ import { PayloadAction } from '@reduxjs/toolkit'
 import { call, put, select, spawn, takeLatest, takeLeading } from 'redux-saga/effects'
 import { openDeepLink, openUrl } from 'src/app/actions'
 import { handleDeepLink, handleOpenUrl } from 'src/app/saga'
-import { dappsListApiUrlSelector, dappsWebViewEnabledSelector } from 'src/dapps/selectors'
+import {
+  dappsFilterAndSearchEnabledSelector,
+  dappsListApiUrlSelector,
+  dappsWebViewEnabledSelector,
+} from 'src/dapps/selectors'
 import {
   dappSelected,
   DappSelectedAction,
@@ -56,21 +60,20 @@ export function* handleFetchDappsList() {
     return
   }
 
+  const dappsFilterAndSearchEnabled = yield select(dappsFilterAndSearchEnabledSelector)
   const address = yield select(walletAddressSelector)
   const language = yield select(currentLanguageSelector)
   const shortLanguage = language.split('-')[0]
+  const dappListVersion = dappsFilterAndSearchEnabled ? '2' : '1'
+  const url = `${dappsListApiUrl}?language=${shortLanguage}&address=${address}&version=${dappListVersion}`
 
-  const response = yield call(
-    fetch,
-    `${dappsListApiUrl}?language=${shortLanguage}&address=${address}`,
-    {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-    }
-  )
+  const response = yield call(fetch, url, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+  })
 
   if (response.ok) {
     try {

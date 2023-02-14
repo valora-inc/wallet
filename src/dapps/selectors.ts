@@ -71,6 +71,9 @@ export const dappFavoritesEnabledSelector = (state: RootState) => state.dapps.da
 export const dappsMinimalDisclaimerEnabledSelector = (state: RootState) =>
   state.dapps.dappsMinimalDisclaimerEnabled
 
+export const dappsFilterAndSearchEnabledSelector = (state: RootState) =>
+  state.dapps.dappsFilterAndSearchEnabled
+
 export const recentDappsSelector = createSelector(
   dappsListSelector,
   recentDappIdsSelector,
