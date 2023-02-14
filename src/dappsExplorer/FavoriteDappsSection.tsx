@@ -44,7 +44,7 @@ export function FavoriteDappsSection({ onPressDapp, filter, removeFilter }: Prop
     // Matching favorite dapp(s) found
     if (favoriteDapps.length > 0 && favoritedDappsFiltered.length > 0) {
       return (
-        <View testID="DAppExplorerScreen/FavoriteDappsSection">
+        <View testID="DAppExplorerScreenV2/FavoriteDappsSection">
           {favoritedDappsFiltered.map((favoriteDapp) => (
             <DappCard
               key={favoriteDapp.id}
@@ -59,7 +59,10 @@ export function FavoriteDappsSection({ onPressDapp, filter, removeFilter }: Prop
       // No matching favorite dapp(s) found new return new no results section
       return (
         <>
-          <View style={styles.noMatchingFavorites}>
+          <View
+            testID="DAppExplorerScreenV2/FavoriteDappsSection"
+            style={styles.noMatchingFavorites}
+          >
             <View
               style={{
                 flexDirection: 'row',
