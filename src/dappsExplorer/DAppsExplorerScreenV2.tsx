@@ -62,6 +62,7 @@ export function DAppsExplorerScreenV2() {
   const dappFavoritesEnabled = useSelector(dappFavoritesEnabledSelector)
   const dappsMinimalDisclaimerEnabled = useSelector(dappsMinimalDisclaimerEnabledSelector)
   const dappList = useSelector(dappsListSelector)
+  const favoriteDappsById = useSelector(favoriteDappIdsSelector)
   const [selectedFilter, setSelectedFilter] = useState({
     id: 'all',
     name: t('dappsScreen.allDapps'),
@@ -216,7 +217,7 @@ export function DAppsExplorerScreenV2() {
             scrollIndicatorInsets={{ top: 0.01 }}
             scrollEventThrottle={16}
             onScroll={onScroll}
-            sections={parseResultsIntoAll(dappList, selectedFilter)}
+            sections={parseResultsIntoAll(dappList, selectedFilter, favoriteDappsById)}
             renderItem={({ item: dapp }) => (
               <DappCard
                 dapp={dapp}
@@ -238,9 +239,12 @@ export function DAppsExplorerScreenV2() {
   )
 }
 
-function parseResultsIntoAll(dappList: any, filter: DappFilter): SectionData[] {
+function parseResultsIntoAll(
+  dappList: any,
+  filter: DappFilter,
+  favoriteDappsById: string[]
+): SectionData[] {
   // Prevent favorite dapps from showing up in the all dapps section
-  const favoriteDappsById = useSelector(favoriteDappIdsSelector)
   const data =
     filter.id === 'all'
       ? dappList.filter((dapp: Dapp) => !favoriteDappsById.includes(dapp.id))
