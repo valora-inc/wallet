@@ -686,7 +686,9 @@
     "restoreAccount": "กู้คืนบัญชีของฉัน",
     "createNewWallet": "สร้างกระเป๋าเงินใหม่",
     "restoreWallet": "กู้คืนกระเป๋าเงิน",
-    "iAlreadyHaveAWallet": "ฉันมีกระเป๋าเงินอยู่แล้ว"
+    "hasWallet": "ฉันมีกระเป๋าเงินอยู่แล้ว",
+    "header": "Welcome to {{appName}}! Let's create your crypto wallet.",
+    "getStarted": "เริ่มต้นใช้งาน"
   },
   "accessContacts": {
     "disclosure": {
