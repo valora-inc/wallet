@@ -49,8 +49,8 @@ interface SectionData {
 }
 
 interface DappFilterChip {
-  chipFilter: DappFilter,
-  selectedFilter: DappFilter,
+  chipFilter: DappFilter
+  selectedFilter: DappFilter
   setFilter: (filter: DappFilter) => void
   lastChip: boolean
 }
