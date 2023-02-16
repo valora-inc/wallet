@@ -140,13 +140,13 @@ export function DAppsExplorerScreen() {
 
                 {dappFavoritesEnabled && (
                   <>
-                    <Text style={styles.sectionTitle}>{t('dappsScreen.favoriteDapps')}</Text>
+                    <Text style={styles.sectionTitle}>{t('dappsScreen.favoriteDappsUpper')}</Text>
                     <FavoriteDappsSection onPressDapp={onSelectDapp} />
                   </>
                 )}
 
                 {(featuredDapp || dappFavoritesEnabled) && (
-                  <Text style={styles.sectionTitle}>{t('dappsScreen.allDapps')}</Text>
+                  <Text style={styles.sectionTitle}>{t('dappsScreen.allDappsUpper')}</Text>
                 )}
               </>
             }

@@ -165,7 +165,7 @@ export function DAppsExplorerScreenV2() {
                 </View>
                 {dappFavoritesEnabled && (
                   <>
-                    <Text style={styles.sectionTitle}>{t('dappsScreen.favoriteDapps')}</Text>
+                    <Text style={styles.sectionTitle}>{t('dappsScreen.favoriteDappsUpper')}</Text>
                     <FavoriteDappsSection
                       filter={selectedFilter}
                       removeFilter={() =>
@@ -177,7 +177,7 @@ export function DAppsExplorerScreenV2() {
                 )}
 
                 {dappFavoritesEnabled && (
-                  <Text style={styles.sectionTitle}>{t('dappsScreen.allDapps')}</Text>
+                  <Text style={styles.sectionTitle}>{t('dappsScreen.allDappsUpper')}</Text>
                 )}
               </>
             }
