@@ -3,6 +3,7 @@ import React, { useEffect, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import * as Keychain from 'react-native-keychain'
+import { BIOMETRY_TYPE } from 'react-native-keychain'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { initializeAccount, setPincodeSuccess } from 'src/account/actions'
@@ -30,7 +31,7 @@ import { StackParamList } from 'src/navigator/types'
 import { setPincodeWithBiometry } from 'src/pincode/authentication'
 import { default as useSelector } from 'src/redux/useSelector'
 import { isUserCancelledError } from 'src/storage/keychain'
-import colors from 'src/styles/colors'
+import colors, { Colors } from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
@@ -39,8 +40,8 @@ const TAG = 'EnableBiometry'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.EnableBiometry>
 
-const biometryImageMap: { [key in Keychain.BIOMETRY_TYPE]: JSX.Element } = {
-  [Keychain.BIOMETRY_TYPE.FACE_ID]: <FaceID />,
+const biometryHeaderIconMap: { [key in Keychain.BIOMETRY_TYPE]: JSX.Element } = {
+  [Keychain.BIOMETRY_TYPE.FACE_ID]: <FaceID width={64} height={64} color={Colors.dark} />,
   [Keychain.BIOMETRY_TYPE.TOUCH_ID]: <TouchID />,
   [Keychain.BIOMETRY_TYPE.FINGERPRINT]: <Fingerprint />,
   [Keychain.BIOMETRY_TYPE.FACE]: <Face />,
@@ -117,7 +118,7 @@ export default function EnableBiometry({ navigation }: Props) {
   return (
     <ScrollView style={styles.contentContainer}>
       <SafeAreaView style={styles.container}>
-        <View style={styles.imageContainer}>{biometryImageMap[supportedBiometryType!]}</View>
+        <View style={styles.imageContainer}>{biometryHeaderIconMap[supportedBiometryType!]}</View>
         {
           <>
             <Text style={styles.guideTitle}>
@@ -140,7 +141,7 @@ export default function EnableBiometry({ navigation }: Props) {
           size={BtnSizes.MEDIUM}
           type={BtnTypes.ONBOARDING}
           testID="EnableBiometryButton"
-          icon={supportedBiometryType && biometryImageMap[supportedBiometryType]}
+          icon={supportedBiometryType && biometryHeaderIconMap[supportedBiometryType]}
         />
       </SafeAreaView>
     </ScrollView>
