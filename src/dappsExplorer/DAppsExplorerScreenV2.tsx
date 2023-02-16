@@ -222,6 +222,7 @@ export function DAppsExplorerScreenV2() {
             contentContainerStyle={{
               padding: Spacing.Thick24,
               paddingBottom: Math.max(insets.bottom, Spacing.Regular16),
+              flexGrow: 1,
             }}
             // Workaround iOS setting an incorrect automatic inset at the top
             scrollIndicatorInsets={{ top: 0.01 }}
@@ -247,6 +248,7 @@ export function DAppsExplorerScreenV2() {
                 }
               />
             }
+            ListFooterComponentStyle={{ flex: 1, justifyContent: 'flex-end' }}
           />
         )}
       </>
