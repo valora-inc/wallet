@@ -29,6 +29,7 @@ import { fetchDappsList } from 'src/dapps/slice'
 import { Dapp, DappFilter, DappSection } from 'src/dapps/types'
 import DappCard from 'src/dappsExplorer/DappCard'
 import FavoriteDappsSection from 'src/dappsExplorer/FavoriteDappsSection'
+import { NoResults } from 'src/dappsExplorer/NoResults'
 import useDappFavoritedToast from 'src/dappsExplorer/useDappFavoritedToast'
 import useDappInfoBottomSheet from 'src/dappsExplorer/useDappInfoBottomSheet'
 import useOpenDapp from 'src/dappsExplorer/useOpenDapp'
@@ -238,6 +239,7 @@ export function DAppsExplorerScreenV2() {
             keyExtractor={(dapp: Dapp) => dapp.id}
             stickySectionHeadersEnabled={false}
             testID="DAppExplorerScreenV2/DappsList"
+            ListEmptyComponent={<NoResults filter={selectedFilter} removeFilter={() => setSelectedFilter({ id: 'all', name: t('dappsScreen.allDapps') })} />}
           />
         )}
       </>
@@ -263,6 +265,9 @@ function parseResultsIntoAll(
             dapp.categories &&
             dapp.categories.includes(filter.id)
         )
+  // Return empty array if no results
+  if (data.length === 0) return []
+  // Else return dapps in all section
   return [
     {
       data,

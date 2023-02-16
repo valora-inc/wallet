@@ -1,10 +1,11 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import { dappsFilterAndSearchEnabledSelector, favoriteDappsSelector } from 'src/dapps/selectors'
 import { ActiveDapp, DappFilter, DappSection } from 'src/dapps/types'
 import DappCard from 'src/dappsExplorer/DappCard'
+import { NoResults } from 'src/dappsExplorer/NoResults'
 import StarIllustration from 'src/icons/StarIllustration'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
@@ -58,37 +59,8 @@ export function FavoriteDappsSection({ onPressDapp, filter, removeFilter }: Prop
     } else {
       // No matching favorite dapp(s) found new return new no results section
       return (
-        <>
-          <View
-            testID="DAppExplorerScreenV2/FavoriteDappsSection"
-            style={styles.noMatchingFavorites}
-          >
-            <View
-              style={{
-                flexDirection: 'row',
-                flexWrap: 'wrap',
-              }}
-            >
-              <Text style={styles.noResultsFilterText}>{filter?.name.toLocaleUpperCase()}</Text>
-              <Text style={[styles.noResultsFilterAppliedText, { paddingHorizontal: 4 }]}>
-                {t('dappsScreen.emptyResults.filterApplied')}
-              </Text>
-              <TouchableOpacity
-                onPress={removeFilter}
-                style={{
-                  paddingVertical: 0,
-                  paddingHorizontal: 8,
-                  backgroundColor: Colors.gray2,
-                  borderRadius: 16,
-                }}
-              >
-                <Text style={styles.noResultsRemoveFilterText}>
-                  {t('dappsScreen.emptyResults.removeFilter')}
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </>
+        // @ts-expect-error filter and removeFilter are optional props, but will be defined if dappsFilterAndSearchEnabled is true
+        <NoResults filter={filter} removeFilter={removeFilter} />
       )
     }
   }
@@ -138,36 +110,6 @@ const styles = StyleSheet.create({
   description: {
     ...fontStyles.small,
     color: Colors.gray4,
-  },
-  // No Results Section Search & Filter
-  noMatchingFavorites: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    padding: 0,
-    gap: 8,
-    marginTop: Spacing.Thick24,
-  },
-  noResultsFilterText: {
-    ...fontStyles.regular500,
-    fontSize: 10,
-    lineHeight: 20,
-    fontWeight: '500',
-    color: Colors.blue,
-  },
-  noResultsFilterAppliedText: {
-    ...fontStyles.regular500,
-    fontWeight: '400',
-    fontSize: 10,
-    lineHeight: 20,
-    color: Colors.gray7,
-  },
-  noResultsRemoveFilterText: {
-    ...fontStyles.regular500,
-    fontWeight: '500',
-    fontSize: 10,
-    lineHeight: 20,
-    color: Colors.blue,
   },
 })
 
