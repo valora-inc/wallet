@@ -140,6 +140,7 @@ export default function EnableBiometry({ navigation }: Props) {
           size={BtnSizes.MEDIUM}
           type={BtnTypes.ONBOARDING}
           testID="EnableBiometryButton"
+          icon={supportedBiometryType && biometryImageMap[supportedBiometryType]}
         />
       </SafeAreaView>
     </ScrollView>
