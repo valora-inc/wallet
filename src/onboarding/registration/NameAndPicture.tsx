@@ -38,11 +38,9 @@ function NameAndPicture({ navigation, route }: Props) {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => {
-        const pageTitleTranslationKey = choseToRestoreAccount ? 'restoreAccount' : 'name'
-
         return (
           <HeaderTitleWithSubtitle
-            title={t(pageTitleTranslationKey)}
+            title={t('name')}
             subTitle={t('registrationSteps', { step, totalSteps })}
           />
         )
