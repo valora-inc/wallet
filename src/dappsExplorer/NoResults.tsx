@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     lineHeight: 20,
     fontWeight: '500',
-    color: Colors.blue,
+    color: Colors.onboardingBlue,
   },
   noResultsFilterAppliedText: {
     ...fontStyles.regular500,
@@ -61,6 +61,6 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     fontSize: 12,
     lineHeight: 20,
-    color: Colors.blue,
+    color: Colors.onboardingBlue,
   },
 })

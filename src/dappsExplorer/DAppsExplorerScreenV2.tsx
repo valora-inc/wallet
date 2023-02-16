@@ -268,8 +268,8 @@ function DappFilterChip({ chipFilter, selectedFilter, setFilter, lastChip }: Dap
         styles.filterChipContainer,
         // Filter chips color based on selected filter
         chipFilter.id === selectedFilter.id
-          ? { backgroundColor: colors.blue }
-          : { backgroundColor: colors.lightBlue },
+          ? { backgroundColor: colors.onboardingBlue }
+          : { backgroundColor: colors.onboardingLightBlue },
         // First Chip has slightly different margins
         chipFilter.id === 'all'
           ? { marginLeft: Spacing.Regular16 }
@@ -289,8 +289,8 @@ function DappFilterChip({ chipFilter, selectedFilter, setFilter, lastChip }: Dap
           style={[
             styles.filterChipText,
             chipFilter.id === selectedFilter.id
-              ? { color: colors.lightBlue }
-              : { color: colors.blue },
+              ? { color: colors.onboardingLightBlue }
+              : { color: colors.onboardingBlue },
           ]}
         >
           {chipFilter.name}
