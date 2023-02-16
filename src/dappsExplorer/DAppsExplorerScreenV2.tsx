@@ -95,7 +95,7 @@ export function DAppsExplorerScreenV2() {
       <DrawerTopBar
         rightElement={
           <TopBarIconButton
-            testID="DAppsExplorerScreen/HelpIcon"
+            testID="DAppsExplorerScreenV2/HelpIcon"
             icon={<Help color={colors.greenUIDark} />}
             onPress={openSheet}
           />
@@ -205,7 +205,7 @@ export function DAppsExplorerScreenV2() {
             )}
             keyExtractor={(dapp: Dapp) => dapp.id}
             stickySectionHeadersEnabled={false}
-            testID="DAppExplorerScreenV2/DappsList"
+            testID="DAppsExplorerScreenV2/DappsList"
             ListEmptyComponent={
               <NoResults
                 filter={selectedFilter}

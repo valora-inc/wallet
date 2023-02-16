@@ -183,7 +183,7 @@ describe(DAppsExplorerScreenV2, () => {
         </Provider>
       )
 
-      const favoritesSection = getByTestId('DAppExplorerScreen/FavoriteDappsSection')
+      const favoritesSection = getByTestId('DAppsExplorerScreenV2/FavoriteDappsSection')
       expect(within(favoritesSection).queryByText(dappsList[0].name)).toBeFalsy()
       expect(within(favoritesSection).getByText(dappsList[1].name)).toBeTruthy()
       expect(within(favoritesSection).getByText(dappsList[1].description)).toBeTruthy()
@@ -210,7 +210,7 @@ describe(DAppsExplorerScreenV2, () => {
       // don't include events dispatched on screen load
       jest.clearAllMocks()
 
-      const allDappsSection = getByTestId('DAppExplorerScreenV2/DappsList')
+      const allDappsSection = getByTestId('DAppsExplorerScreenV2/DappsList')
       fireEvent.press(within(allDappsSection).getByTestId('Dapp/Favorite/dapp2'))
 
       // favorited dapp confirmation toast
@@ -250,7 +250,7 @@ describe(DAppsExplorerScreenV2, () => {
       // should only appear once, in the favorites section
       expect(selectedDappCards).toHaveLength(1)
 
-      const favoritesSection = getByTestId('DAppExplorerScreenV2/FavoriteDappsSection')
+      const favoritesSection = getByTestId('DAppsExplorerScreenV2/FavoriteDappsSection')
       fireEvent.press(within(favoritesSection).getByTestId('Dapp/Favorite/dapp2'))
 
       expect(queryByText('dappsScreen.favoritedDappToast.message')).toBeFalsy()
