@@ -61,6 +61,7 @@ export function DAppsExplorerScreenV2() {
 
   const sectionListRef = useRef<SectionList>(null)
   const scrollPosition = useRef(new Animated.Value(0)).current
+  const horizontalScrollView = useRef<ScrollView>(null)
 
   const onScroll = Animated.event([{ nativeEvent: { contentOffset: { y: scrollPosition } } }])
   const dispatch = useDispatch()
@@ -142,6 +143,7 @@ export function DAppsExplorerScreenV2() {
                     style={{ marginHorizontal: -Spacing.Thick24 }}
                     showsHorizontalScrollIndicator={false}
                     bounces={false}
+                    ref={horizontalScrollView}
                   >
                     {/* All Dapps Filter */}
                     <DappFilterChip
@@ -168,9 +170,10 @@ export function DAppsExplorerScreenV2() {
                     <Text style={styles.sectionTitle}>{t('dappsScreen.favoriteDappsUpper')}</Text>
                     <FavoriteDappsSection
                       filter={selectedFilter}
-                      removeFilter={() =>
+                      removeFilter={() => {
                         setSelectedFilter({ id: 'all', name: t('dappsScreen.allDapps') })
-                      }
+                        horizontalScrollView.current?.scrollTo({ x: 0, animated: true })
+                      }}
                       onPressDapp={onSelectDapp}
                     />
                   </>
@@ -206,9 +209,10 @@ export function DAppsExplorerScreenV2() {
             ListEmptyComponent={
               <NoResults
                 filter={selectedFilter}
-                removeFilter={() =>
+                removeFilter={() => {
                   setSelectedFilter({ id: 'all', name: t('dappsScreen.allDapps') })
-                }
+                  horizontalScrollView.current?.scrollTo({ x: 0, animated: true })
+                }}
               />
             }
             ListFooterComponentStyle={{ flex: 1, justifyContent: 'flex-end' }}
