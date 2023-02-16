@@ -1,12 +1,6 @@
 // TODO(any): consider making it more type safe
 import { SelectProviderExchangesLink, SelectProviderExchangesText } from 'src/fiatExchanges/types'
-import {
-  QRCodeDataType,
-  QRCodeStyle,
-  StatsigDynamicConfigs,
-  StatsigExperiments,
-  StatsigLayers,
-} from 'src/statsig/types'
+import { QRCodeDataType, QRCodeStyle, StatsigExperiments, StatsigLayers } from 'src/statsig/types'
 
 export const LayerParams = {
   [StatsigLayers.SEND_RECEIVE_QR_CODE]: {
@@ -17,19 +11,6 @@ export const LayerParams = {
     qrCodeDataType: {
       paramName: 'qrCodeDataType',
       defaultValue: QRCodeDataType.ValoraDeepLink,
-    },
-  },
-}
-
-export const ConfigParams = {
-  [StatsigDynamicConfigs.USERNAME_BLOCK_LIST]: {
-    blockedAdjectives: {
-      paramName: 'blockedAdjectives',
-      defaultValue: [],
-    },
-    blockedNouns: {
-      paramName: 'blockedNouns',
-      defaultValue: [],
     },
   },
 }
