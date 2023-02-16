@@ -8,7 +8,7 @@ import { Spacing } from 'src/styles/styles'
 
 interface Props {
   filter: DappFilter | null
-  removeFilter: void
+  removeFilter: () => void
 }
 
 export function NoResults({ filter, removeFilter }: Props) {
