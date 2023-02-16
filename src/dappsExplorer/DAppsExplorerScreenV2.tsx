@@ -151,6 +151,7 @@ export function DAppsExplorerScreenV2() {
                       selectedFilter={selectedFilter}
                       setFilter={setSelectedFilter}
                       lastChip={false}
+                      key={'all'}
                     />
                     {/* Category Filter Chips */}
                     {sortedCategories.map((category, idx) => {
@@ -160,6 +161,7 @@ export function DAppsExplorerScreenV2() {
                           selectedFilter={selectedFilter}
                           setFilter={setSelectedFilter}
                           lastChip={idx === sortedCategories.length - 1}
+                          key={category.id}
                         />
                       )
                     })}
