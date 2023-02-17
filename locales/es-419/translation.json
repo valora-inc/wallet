@@ -579,7 +579,7 @@
     "goldDisclaimer": "Cuando creas una \"cuenta\" en Valora, estás creando una wallet digital de la que sólo tú tienes la clave. Ninguna otra persona o entidad, incluidos cLabs o Valora, puede recuperar tu clave, cambiar o deshacer transacciones, o recuperar fondos perdidos. Ten en cuenta que CELO y las stablecoins Celo forman parte de una nueva clase de activos y suponen un riesgo de pérdida financiera. Considera cuidadosamente tu circunstancia financiera y tu tolerancia al riesgo antes de comprar un activo."
   },
   "fullNameOrPsuedonym": "Nombre completo o seudónimo",
-  "namePlaceholder": "ex. name",
+  "namePlaceholder": "ex. nombre",
   "nameAndPicGuideCopyTitle": "¿Cómo te llamas?",
   "nameAndPicGuideCopyContent": "Nos gustaría saber cómo llamarte.",
   "importIt": "Restaurar cuenta",
