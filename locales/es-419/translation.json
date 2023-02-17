@@ -578,12 +578,10 @@
     "privacy": "Al unirte a esta red, nos das permiso para recopilar información anónima sobre tu uso de la aplicación. Además, si conectas tu número de teléfono, se guardará una copia cifrada en la red Celo. Si decides conectar tu lista de contactos, Valora importará el nombre, número de teléfono y foto de perfil de tus contactos para permitirte conectar con ellos a través de Valora. Para obtener más información sobre cómo recopilamos y usamos tus datos, consulta nuestra <0>Política de privacidad</0>.",
     "goldDisclaimer": "Cuando creas una \"cuenta\" en Valora, estás creando una wallet digital de la que sólo tú tienes la clave. Ninguna otra persona o entidad, incluidos cLabs o Valora, puede recuperar tu clave, cambiar o deshacer transacciones, o recuperar fondos perdidos. Ten en cuenta que CELO y las stablecoins Celo forman parte de una nueva clase de activos y suponen un riesgo de pérdida financiera. Considera cuidadosamente tu circunstancia financiera y tu tolerancia al riesgo antes de comprar un activo."
   },
-  "fullName": "Nombre",
-  "fullNamePlaceholder": "Nombre y apellido",
-  "fullNameOrPseudonymPlaceholder": "Nombre y apellido o alias",
+  "fullNameOrPsuedonym": "Nombre completo o seudónimo",
+  "namePlaceholder": "ex. name",
   "nameAndPicGuideCopyTitle": "¿Cómo te llamas?",
-  "nameAndPicGuideCopyContent": "Nos gustaría saber cómo llamarte",
-  "generateUsername": "Generar un nombre",
+  "nameAndPicGuideCopyContent": "Nos gustaría saber cómo llamarte.",
   "importIt": "Restaurar cuenta",
   "important": "Importante",
   "confirmPin": {
