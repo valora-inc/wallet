@@ -57,10 +57,6 @@ export default function EnableBiometry({ navigation }: Props) {
   const skipVerification = useSelector(skipVerificationSelector)
   const { step, totalSteps } = useSelector(registrationStepsSelector)
 
-  function biometryIcon(biometryType: Keychain.BIOMETRY_TYPE | null): JSX.Element | null {
-    return biometryType && <View style={styles.biometryIcon}>{biometryIconMap[biometryType]}</View>
-  }
-
   useEffect(() => {
     ValoraAnalytics.track(OnboardingEvents.biometry_opt_in_start)
   }, [])
@@ -145,7 +141,11 @@ export default function EnableBiometry({ navigation }: Props) {
             type={BtnTypes.ONBOARDING}
             testID="EnableBiometryButton"
             style={{ flexGrow: 1 }}
-            icon={biometryIcon(supportedBiometryType)}
+            icon={
+              supportedBiometryType && (
+                <View style={styles.biometryIcon}>{biometryIconMap[supportedBiometryType]}</View>
+              )
+            }
           />
         </View>
       </SafeAreaView>
