@@ -58,6 +58,14 @@ export default function EnableBiometry({ navigation }: Props) {
   const skipVerification = useSelector(skipVerificationSelector)
   const { step, totalSteps } = useSelector(registrationStepsSelector)
 
+  function biometryIcon(biometryType?: Keychain.BIOMETRY_TYPE) {
+    return biometryType ? (
+      <View style={styles.biometryIcon}>{biometryIconMap[biometryType]}</View>
+    ) : (
+      <></>
+    )
+  }
+
   useEffect(() => {
     ValoraAnalytics.track(OnboardingEvents.biometry_opt_in_start)
   }, [])
@@ -135,17 +143,14 @@ export default function EnableBiometry({ navigation }: Props) {
         <View style={styles.buttonContainer}>
           <Button
             onPress={onPressUseBiometry}
-            text={
-              ' ' +
-              t('enableBiometry.cta', {
-                biometryType: t(`biometryType.${supportedBiometryType}`),
-              })
-            }
+            text={t('enableBiometry.cta', {
+              biometryType: t(`biometryType.${supportedBiometryType}`),
+            })}
             size={BtnSizes.FULL}
             type={BtnTypes.ONBOARDING}
             testID="EnableBiometryButton"
             style={{ flexGrow: 1 }}
-            icon={supportedBiometryType && biometryIconMap[supportedBiometryType]}
+            icon={biometryIcon(supportedBiometryType)}
           />
         </View>
       </SafeAreaView>
@@ -176,5 +181,8 @@ const styles = StyleSheet.create({
     ...fontStyles.regular,
     marginBottom: Spacing.Large32,
     textAlign: 'center',
+  },
+  biometryIcon: {
+    paddingRight: 4,
   },
 })
