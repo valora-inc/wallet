@@ -3,7 +3,6 @@ import React, { useEffect, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import * as Keychain from 'react-native-keychain'
-import { BIOMETRY_TYPE } from 'react-native-keychain'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { initializeAccount, setPincodeSuccess } from 'src/account/actions'
@@ -53,12 +52,12 @@ export default function EnableBiometry({ navigation }: Props) {
   const dispatch = useDispatch()
 
   // This screen would not be displayed if supportedBiometryType were null
-  const supportedBiometryType = useSelector(supportedBiometryTypeSelector) ?? BIOMETRY_TYPE.FACE_ID
+  const supportedBiometryType = useSelector(supportedBiometryTypeSelector)
   const choseToRestoreAccount = useSelector(choseToRestoreAccountSelector)
   const skipVerification = useSelector(skipVerificationSelector)
   const { step, totalSteps } = useSelector(registrationStepsSelector)
 
-  function biometryIcon(biometryType?: Keychain.BIOMETRY_TYPE) {
+  function biometryIcon(biometryType: Keychain.BIOMETRY_TYPE | null) {
     return biometryType ? (
       <View style={styles.biometryIcon}>{biometryIconMap[biometryType]}</View>
     ) : (
