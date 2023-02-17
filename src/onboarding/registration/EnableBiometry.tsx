@@ -31,7 +31,7 @@ import { StackParamList } from 'src/navigator/types'
 import { setPincodeWithBiometry } from 'src/pincode/authentication'
 import { default as useSelector } from 'src/redux/useSelector'
 import { isUserCancelledError } from 'src/storage/keychain'
-import colors, { Colors } from 'src/styles/colors'
+import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
@@ -40,8 +40,8 @@ const TAG = 'EnableBiometry'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.EnableBiometry>
 
-const biometryHeaderIconMap: { [key in Keychain.BIOMETRY_TYPE]: JSX.Element } = {
-  [Keychain.BIOMETRY_TYPE.FACE_ID]: <FaceID width={64} height={64} color={Colors.dark} />,
+const biometryIconMap: { [key in Keychain.BIOMETRY_TYPE]: JSX.Element } = {
+  [Keychain.BIOMETRY_TYPE.FACE_ID]: <FaceID />,
   [Keychain.BIOMETRY_TYPE.TOUCH_ID]: <TouchID />,
   [Keychain.BIOMETRY_TYPE.FINGERPRINT]: <Fingerprint />,
   [Keychain.BIOMETRY_TYPE.FACE]: <Face />,
@@ -53,7 +53,7 @@ export default function EnableBiometry({ navigation }: Props) {
   const dispatch = useDispatch()
 
   // This screen would not be displayed if supportedBiometryType were null
-  const supportedBiometryType = useSelector(supportedBiometryTypeSelector)
+  const supportedBiometryType = useSelector(supportedBiometryTypeSelector) ?? BIOMETRY_TYPE.FACE_ID
   const choseToRestoreAccount = useSelector(choseToRestoreAccountSelector)
   const skipVerification = useSelector(skipVerificationSelector)
   const { step, totalSteps } = useSelector(registrationStepsSelector)
@@ -118,7 +118,6 @@ export default function EnableBiometry({ navigation }: Props) {
   return (
     <ScrollView style={styles.contentContainer}>
       <SafeAreaView style={styles.container}>
-        <View style={styles.imageContainer}>{biometryHeaderIconMap[supportedBiometryType!]}</View>
         {
           <>
             <Text style={styles.guideTitle}>
@@ -133,16 +132,22 @@ export default function EnableBiometry({ navigation }: Props) {
             </Text>
           </>
         }
-        <Button
-          onPress={onPressUseBiometry}
-          text={t('enableBiometry.cta', {
-            biometryType: t(`biometryType.${supportedBiometryType}`),
-          })}
-          size={BtnSizes.MEDIUM}
-          type={BtnTypes.ONBOARDING}
-          testID="EnableBiometryButton"
-          icon={supportedBiometryType && biometryHeaderIconMap[supportedBiometryType]}
-        />
+        <View style={styles.buttonContainer}>
+          <Button
+            onPress={onPressUseBiometry}
+            text={
+              ' ' +
+              t('enableBiometry.cta', {
+                biometryType: t(`biometryType.${supportedBiometryType}`),
+              })
+            }
+            size={BtnSizes.FULL}
+            type={BtnTypes.ONBOARDING}
+            testID="EnableBiometryButton"
+            style={{ flexBasis: '100%' }}
+            icon={supportedBiometryType && biometryIconMap[supportedBiometryType]}
+          />
+        </View>
       </SafeAreaView>
     </ScrollView>
   )
@@ -152,7 +157,7 @@ EnableBiometry.navigationOptions = nuxNavigationOptions
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 186,
+    paddingTop: 72,
     paddingHorizontal: 40,
     alignItems: 'center',
   },
@@ -160,8 +165,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.onboardingBackground,
   },
-  imageContainer: {
-    marginBottom: Spacing.Thick24,
+  buttonContainer: {
+    flexDirection: 'row',
   },
   guideTitle: {
     ...fontStyles.h1,
@@ -170,6 +175,6 @@ const styles = StyleSheet.create({
   guideText: {
     ...fontStyles.regular,
     marginBottom: Spacing.Thick24,
-    textAlign: 'left',
+    textAlign: 'center',
   },
 })
