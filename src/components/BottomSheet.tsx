@@ -89,8 +89,8 @@ const styles = StyleSheet.create({
   },
   background: {
     position: 'absolute',
-    backgroundColor: colors.modalBackdrop,
-    opacity: 0.5,
+    backgroundColor: '#2E3338',
+    opacity: 0.25,
     width: '100%',
     height: '100%',
   },
