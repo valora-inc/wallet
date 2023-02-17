@@ -140,7 +140,6 @@ export default function EnableBiometry({ navigation }: Props) {
             size={BtnSizes.FULL}
             type={BtnTypes.ONBOARDING}
             testID="EnableBiometryButton"
-            style={{ flexGrow: 1 }}
             icon={
               supportedBiometryType && (
                 <View style={styles.biometryIcon}>{biometryIconMap[supportedBiometryType]}</View>
@@ -166,7 +165,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.onboardingBackground,
   },
   buttonContainer: {
-    flexDirection: 'row',
+    width: '100%',
   },
   guideTitle: {
     ...fontStyles.h1,
