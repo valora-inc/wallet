@@ -578,12 +578,10 @@
     "privacy": "Indem du diesem Netzwerk beitrittst, gibst du uns die Erlaubnis, anonyme Informationen über deine Nutzung der App zu sammeln. Wenn du deine Telefonnummer verbindest, wird eine Kopie davon im Celo Netzwerk gespeichert. Wenn du Valora Zugriff auf deine Kontaktliste gewährst, wird Valora den Namen jedes Kontaktes importieren Telefonnummer und Profilbild, um Benutzern die Verbindung über die Valora-App zu ermöglichen. Um zu erfahren, wie wir diese Informationen sammeln und verwenden, lesen unsere <0>Datenschutzrichtlinie</0>.",
     "goldDisclaimer": "Wenn du ein „Konto“ bei Valora anlegst, erstellst du ein digitales Wallet, dessen Schlüssel nur du besitzt. Keine andere Person oder Organisation, einschließlich cLabs oder Valora, kann deinen Schlüssel wiederherstellen, Transaktionen ändern oder rückgängig machen oder verlorene Gelder wiedererlangen. Sei dir bewusst, dass CELO, cUSD und cEUR Teil einer neuen Vermögensklasse sind und ein Risiko für finanzielle Verluste darstellen. Überlege dir deine finanzielle Situation und deine Risikobereitschaft genau, bevor du einen Vermögenswert kaufst."
   },
-  "fullName": "Name",
-  "fullNamePlaceholder": "Vollständiger Name",
-  "fullNameOrPseudonymPlaceholder": "Vollständiger Name oder Alias",
+  "fullNameOrPsuedonym": "Vollständiger Name oder Pseudonym",
+  "namePlaceholder": "Bsp. Name",
   "nameAndPicGuideCopyTitle": "Wie heißt du?",
-  "nameAndPicGuideCopyContent": "Wir würden gerne wissen, wie wir dich nennen sollen",
-  "generateUsername": "Namen generieren",
+  "nameAndPicGuideCopyContent": "Wir würden gerne wissen, wie wir dich nennen sollen.",
   "importIt": "Wallet wiederherstellen",
   "important": "Wichtig",
   "confirmPin": {
