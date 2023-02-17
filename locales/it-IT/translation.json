@@ -578,12 +578,10 @@
     "privacy": "Unendosi a questa rete, l’utente autorizza la raccolta di informazioni anonime riguardanti il suo utilizzo dell’app. Inoltre, se l’utente collega il proprio numero telefonico, una copia con hash sarà memorizzata nella rete Celo. Se l’utente concede a Valora l'accesso al proprio elenco di contatti, Valora importerà il nome, il numero telefonico e l’immagine del profilo di ciascun contatto per consentire agli utenti di collegarsi attraverso l’app Valora. Per informazioni su come raccogliamo e utilizziamo questi dati, leggere la nostra <0>Informativa sulla privacy</0>.",
     "goldDisclaimer": "Quando crei un “account” con Valora, crei un wallet digitale (“wallet”) del quale solo tu hai le chiavi. Nessun’altra persona, fisica o giuridica, compresi cLabs o Valora, può recuperare tali chiavi, modificare o annullare transazioni oppure recuperare fondi persi. Tieni presente che le criptovalute sono una nuova classe di asset e presentano il rischio di perdite finanziarie. Prima di acquistare qualsiasi asset, considera la tua situazione finanziaria e la tua tolleranza al rischio finanziario."
   },
-  "fullName": "Nome",
-  "fullNamePlaceholder": "Nome e cognome",
-  "fullNameOrPseudonymPlaceholder": "Nome e cognome o alias",
+  "fullNameOrPsuedonym": "Nome completo o pseudonimo",
+  "namePlaceholder": "ex. nome",
   "nameAndPicGuideCopyTitle": "Come ti chiami?",
-  "nameAndPicGuideCopyContent": "Vorremmo sapere come chiamarti",
-  "generateUsername": "Genera un nome",
+  "nameAndPicGuideCopyContent": "Vorremmo sapere come chiamarti.",
   "importIt": "Ripristina wallet",
   "important": "Importante",
   "confirmPin": {
