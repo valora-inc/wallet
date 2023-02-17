@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import BottomSheet from 'src/components/BottomSheet'
 import TextButton from 'src/components/TextButton'
@@ -13,13 +14,14 @@ interface Props {
   testID?: string
 }
 export default function InfoBottomSheet({ isVisible, onDismiss, title, body, testID }: Props) {
+  const { t } = useTranslation()
   return (
     <BottomSheet testID={testID} isVisible={isVisible} onBackgroundPress={onDismiss}>
       <View style={styles.root}>
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.body}>{body}</Text>
         <TextButton onPress={onDismiss} style={styles.button}>
-          Dismiss
+          {t('dismiss')}
         </TextButton>
       </View>
     </BottomSheet>
