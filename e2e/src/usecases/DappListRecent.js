@@ -117,7 +117,7 @@ export default DappListRecent = () => {
     await element(by.text('All Dapps')).tap()
 
     // Check that DappList screen is open
-    await waitFor(element(by.id('DAppExplorerScreen/DappsList')))
+    await waitFor(element(by.id('DAppsExplorerScreen/DappsList')))
       .toExist()
       .withTimeout(10 * 1000)
   })
