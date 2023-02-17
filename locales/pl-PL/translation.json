@@ -578,12 +578,10 @@
     "privacy": "Dołączając do tej sieci, zezwalasz nam na gromadzenie anonimowych informacji na temat sposobu, w jaki korzystasz z naszej aplikacji. Dodatkowo, jeśli podłączysz swój numer telefonu, jego zaszyfrowana kopia będzie przechowywana w Celo Network. Jeśli udzielisz aplikacji Valora dostępu do swojej listy kontaktów, aplikacja Valora zaimportuje nazwę, numer telefonu i zdjęcie profilowe każdego kontaktu, aby umożliwić użytkownikom komunikowanie się przez aplikację Valora. Aby dowiedzieć się, w jaki sposób zbieramy i wykorzystujemy te dane, zapoznaj się z naszą <0>Polityką prywatności</0>.",
     "goldDisclaimer": "Zakładając „konto” w Valora, tworzysz cyfrowy portfel, do którego klucze posiadasz tylko Ty. Żadna inna osoba ani podmiot, w tym cLabs lub Valora, nie może odzyskać Twojego klucza, zmienić go lub cofnąć transakcji ani odzyskać utraconych środków. Należy mieć świadomość, że kryptowaluty są nową klasą aktywów\n i wiążą się z ryzykiem strat finansowych. Przed zakupem jakichkolwiek aktywów dokładnie rozważ swoją sytuację finansową i tolerancję na ryzyko finansowe."
   },
-  "fullName": "Nazwa",
-  "fullNamePlaceholder": "Imię i nazwisko",
-  "fullNameOrPseudonymPlaceholder": "Imię i nazwisko lub pseudonim",
+  "fullNameOrPsuedonym": "Pełne imię i nazwisko lub pseudonim",
+  "namePlaceholder": "ex. imię",
   "nameAndPicGuideCopyTitle": "Jak masz na imię?",
-  "nameAndPicGuideCopyContent": "Chcielibyśmy wiedzieć, jak Cię nazywać",
-  "generateUsername": "Wygeneruj nazwę",
+  "nameAndPicGuideCopyContent": "Chcielibyśmy wiedzieć, jak Cię nazywać.",
   "importIt": "Przywróć portfel",
   "important": "Ważne",
   "confirmPin": {
