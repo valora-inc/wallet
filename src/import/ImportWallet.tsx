@@ -19,7 +19,7 @@ import {
   getStoredMnemonic,
   isValidBackupPhrase,
 } from 'src/backup/utils'
-import Button, { BtnTypes } from 'src/components/Button'
+import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import CodeInput, { CodeInputStatus } from 'src/components/CodeInput'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import Dialog from 'src/components/Dialog'
@@ -99,7 +99,7 @@ function ImportWallet({ navigation, route }: Props) {
       headerTitle: () => (
         <HeaderTitleWithSubtitle
           testID="Header/RestoreBackup"
-          title={t('importIt')}
+          title={t('importExistingKey.header')}
           subTitle={t('registrationSteps', { step, totalSteps })}
         />
       ),
@@ -205,6 +205,8 @@ function ImportWallet({ navigation, route }: Props) {
                 ]}
                 keyboardShouldPersistTaps={'always'}
               >
+                <Text style={styles.title}>{t('importExistingKey.title')}</Text>
+                <Text style={styles.description}>{t('importExistingKey.description')}</Text>
                 <CodeInput
                   // TODO: Use a special component instead of CodeInput here,
                   // cause it should be used for entering verification codes only
@@ -219,12 +221,12 @@ function ImportWallet({ navigation, route }: Props) {
                   shouldShowClipboard={shouldShowClipboard}
                   testID="ImportWalletBackupKeyInputField"
                 />
-                <Text style={styles.explanation}>{t('importExistingKey.explanationV1_50')}</Text>
                 <Button
                   style={styles.button}
                   testID="ImportWalletButton"
                   onPress={onPressRestore}
                   text={t('restore')}
+                  size={BtnSizes.FULL}
                   type={BtnTypes.ONBOARDING}
                   disabled={
                     isImportingWallet || !isValidBackupPhrase(backupPhrase) || !appConnected
@@ -274,15 +276,21 @@ const styles = StyleSheet.create({
     backgroundColor: colors.onboardingBackground,
   },
   scrollContainer: {
-    padding: 16,
+    paddingVertical: 16,
+    paddingHorizontal: 24,
   },
   button: {
-    paddingVertical: 16,
+    paddingVertical: 32,
   },
-  explanation: {
-    ...fontStyles.regular,
-    paddingHorizontal: 8,
+  title: {
+    textAlign: 'center',
+    ...fontStyles.h1,
+  },
+  description: {
+    textAlign: 'center',
     paddingTop: 16,
+    paddingBottom: 32,
+    ...fontStyles.regular,
   },
 })
 
