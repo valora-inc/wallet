@@ -13,7 +13,7 @@ import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import { PHONE_NUMBER_VERIFICATION_CODE_LENGTH } from 'src/config'
 import { HeaderTitleWithSubtitle } from 'src/navigator/Headers'
-import { navigate, navigateHome } from 'src/navigator/NavigationService'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
@@ -47,11 +47,6 @@ function VerificationCodeInputScreen({
   const onResendSms = () => {
     ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_resend_message)
     resendSms()
-  }
-
-  const onPressSkip = () => {
-    ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_input_help_skip)
-    navigateHome()
   }
 
   const onPressHelp = () => {
@@ -142,6 +137,7 @@ function VerificationCodeInputScreen({
         title={t('phoneVerificationInput.helpDialog.title')}
         body={t('phoneVerificationInput.helpDialog.body')}
         onDismiss={onPressHelpDismiss}
+        testID="PhoneVerificationInputHelpDialog"
       />
     </SafeAreaView>
   )

@@ -10,10 +10,11 @@ interface Props {
   onDismiss?: () => void
   title: string
   body: string
+  testID?: string
 }
-export default function InfoBottomSheet({ isVisible, onDismiss, title, body }: Props) {
+export default function InfoBottomSheet({ isVisible, onDismiss, title, body, testID }: Props) {
   return (
-    <BottomSheet isVisible={isVisible} onBackgroundPress={onDismiss}>
+    <BottomSheet testID={testID} isVisible={isVisible} onBackgroundPress={onDismiss}>
       <View style={styles.root}>
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.body}>{body}</Text>

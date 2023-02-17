@@ -16,11 +16,17 @@ interface Props {
   isVisible: boolean
   onBackgroundPress?: () => void
   children?: JSX.Element
+  testID?: string
 }
 
 const MIN_EMPTY_SPACE = 100
 
-function BottomSheet({ children, isVisible, onBackgroundPress }: Props) {
+function BottomSheet({
+  children,
+  isVisible,
+  onBackgroundPress,
+  testID = 'BottomSheetContainer',
+}: Props) {
   const [showingOptions, setOptionsVisible] = useState(isVisible)
   const [pickerHeight, setPickerHeight] = useState(0)
   const safeAreaInsets = useSafeAreaInsets()
@@ -62,7 +68,7 @@ function BottomSheet({ children, isVisible, onBackgroundPress }: Props) {
   const paddingBottom = Math.max(safeAreaInsets.bottom, Spacing.Thick24)
 
   return (
-    <View style={styles.container} testID="BottomSheetContainer">
+    <View style={styles.container} testID={testID}>
       <TouchableWithoutFeedback onPress={onBackgroundPress} testID={'BackgroundTouchable'}>
         <Animated.View style={[styles.background, animatedOpacity]} />
       </TouchableWithoutFeedback>

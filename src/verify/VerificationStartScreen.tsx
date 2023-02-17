@@ -261,6 +261,7 @@ function VerificationStartScreen({
         title={t('phoneVerificationScreen.learnMore.title')}
         body={t('phoneVerificationScreen.learnMore.body')}
         onDismiss={onPressLearnMoreDismiss}
+        testID="PhoneVerificationLearnMoreDialog"
       />
     </SafeAreaView>
   )
