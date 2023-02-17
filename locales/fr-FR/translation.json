@@ -579,7 +579,7 @@
     "goldDisclaimer": "Lorsque vous créez un \"compte\" chez Valora, vous créez un wallet dont vous seul détenez la clé. Aucune autre personne ni entité, y compris cLabs ou Valora, ne peut récupérer votre clé, modifier ou annuler des transactions, ou récupérer des fonds perdus. Sachez que les cryptomonnaies sont une nouvelle catégorie d'actifs et présentent un risque de perte financière. Réfléhissez à votre situation financière et pesez le risque financier que vous prenez avant d'acheter un actif."
   },
   "fullNameOrPsuedonym": "Nom complet ou pseudonyme",
-  "namePlaceholder": "ex. name",
+  "namePlaceholder": "ex. nom",
   "nameAndPicGuideCopyTitle": "Comment vous appelez-vous ?",
   "nameAndPicGuideCopyContent": "Nous voudrions savoir comment vous appeler.",
   "importIt": "Restaurer le wallet",
