@@ -57,12 +57,8 @@ export default function EnableBiometry({ navigation }: Props) {
   const skipVerification = useSelector(skipVerificationSelector)
   const { step, totalSteps } = useSelector(registrationStepsSelector)
 
-  function biometryIcon(biometryType: Keychain.BIOMETRY_TYPE | null) {
-    return biometryType ? (
-      <View style={styles.biometryIcon}>{biometryIconMap[biometryType]}</View>
-    ) : (
-      <></>
-    )
+  function biometryIcon(biometryType: Keychain.BIOMETRY_TYPE | null): JSX.Element | null {
+    return biometryType && <View style={styles.biometryIcon}>{biometryIconMap[biometryType]}</View>
   }
 
   useEffect(() => {
