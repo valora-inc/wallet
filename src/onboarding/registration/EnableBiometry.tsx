@@ -144,7 +144,7 @@ export default function EnableBiometry({ navigation }: Props) {
             size={BtnSizes.FULL}
             type={BtnTypes.ONBOARDING}
             testID="EnableBiometryButton"
-            style={{ flexBasis: '100%' }}
+            style={{ flexGrow: 1 }}
             icon={supportedBiometryType && biometryIconMap[supportedBiometryType]}
           />
         </View>
@@ -170,11 +170,11 @@ const styles = StyleSheet.create({
   },
   guideTitle: {
     ...fontStyles.h1,
-    marginBottom: Spacing.Thick24,
+    marginBottom: Spacing.Regular16,
   },
   guideText: {
     ...fontStyles.regular,
-    marginBottom: Spacing.Thick24,
+    marginBottom: Spacing.Large32,
     textAlign: 'center',
   },
 })
