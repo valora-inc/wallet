@@ -238,7 +238,7 @@ function ImportWallet({ navigation, route }: Props) {
               <KeyboardSpacer onToggle={onToggleKeyboard} />
               <Dialog
                 title={
-                  <Trans i18nKey="emptyAccount.title">
+                  <Trans i18nKey="importExistingKey.emptyWalletDialog.title">
                     <CurrencyDisplay
                       amount={{
                         value: new BigNumber(0),
@@ -248,13 +248,13 @@ function ImportWallet({ navigation, route }: Props) {
                   </Trans>
                 }
                 isVisible={!!route.params?.showZeroBalanceModal}
-                actionText={t('emptyAccount.useAccount')}
+                actionText={t('importExistingKey.emptyWalletDialog.action')}
                 actionPress={onPressRestore}
                 secondaryActionPress={onPressTryAnotherKey}
                 secondaryActionText={t('goBack')}
                 testID="ConfirmUseAccountDialog"
               >
-                {t('emptyAccount.description')}
+                {t('importExistingKey.emptyWalletDialog.description')}
               </Dialog>
             </View>
           )}
@@ -287,9 +287,8 @@ const styles = StyleSheet.create({
     ...fontStyles.h1,
   },
   description: {
-    textAlign: 'center',
     paddingTop: 16,
-    paddingBottom: 32,
+    paddingBottom: 10,
     ...fontStyles.regular,
   },
 })
