@@ -578,12 +578,10 @@
     "privacy": "Bu ağa katılarak, uygulamayı kullanımınız hakkında anonim bilgi toplamamıza izin veriyorsunuz. Ek olarak, telefon numaranızı bağlarsanız, bunun hash'li bir kopyası Celo Ağı'nda saklanır. Valora'ya kişi listenize erişim izni verirseniz, Valora, kullanıcıların Valora uygulaması aracılığıyla bağlanmasına izin vermek için her kişinin adını, telefon numarasını ve profil resmini içe aktarır. Bu bilgileri nasıl topladığımızı ve kullandığımızı öğrenmek için lütfen <0>Gizlilik Politikamızı</0> inceleyin.",
     "goldDisclaimer": "Valora ile bir \"hesap\" oluşturduğunuzda, anahtarlarını yalnızca sizin tuttuğunuz bir dijital cüzdan yaratmış olursunuz. cLabs veya Valora dahil olmak üzere başka hiçbir kişi veya kuruluş anahtarınızı geri alamaz, işlemleri değiştiremez veya geri alamaz ya da kaybedilen parayı geri alamaz. CELO, cUSD ve cEUR'un yeni bir varlık sınıfının parçası olduğunu ve finansal kayıp riski taşıdığını unutmayın. Herhangi bir varlık satın almadan önce finansal durumunuzu ve finansal risk toleransınızı dikkatlice değerlendirin."
   },
-  "fullName": "İsim",
-  "fullNamePlaceholder": "Ad & Soyad",
-  "fullNameOrPseudonymPlaceholder": "Adı ve soyadı veya takma ad",
+  "fullNameOrPsuedonym": "Tam ad veya takma ad",
+  "namePlaceholder": "örn. isim",
   "nameAndPicGuideCopyTitle": "Adınız nedir?",
-  "nameAndPicGuideCopyContent": "Size nasıl hitap edeceğimizi bilmek istiyoruz",
-  "generateUsername": "Bir isim oluşturun",
+  "nameAndPicGuideCopyContent": "Size nasıl hitap edeceğimizi bilmek istiyoruz.",
   "importIt": "Cüzdanı Yeniden Kur",
   "important": "Önemli",
   "confirmPin": {
