@@ -14,14 +14,17 @@ import { OnboardingEvents, SettingsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import {
   registrationStepsSelector,
-  showGuidedOnboardingSelector,
   skipVerificationSelector,
   supportedBiometryTypeSelector,
 } from 'src/app/selectors'
 import DevSkipButton from 'src/components/DevSkipButton'
 import i18n, { withTranslation } from 'src/i18n'
 import { setHasSeenVerificationNux } from 'src/identity/actions'
-import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
+import {
+  HeaderTitleWithSubtitle,
+  nuxNavigationOptions,
+  nuxNavigationOptionsOnboarding,
+} from 'src/navigator/Headers'
 import {
   navigate,
   navigateClearingStack,
@@ -50,7 +53,6 @@ interface StateProps {
   registrationStep: { step: number; totalSteps: number }
   supportedBiometryType: BIOMETRY_TYPE | null
   skipVerification: boolean
-  showGuidedOnboarding: boolean
 }
 
 interface DispatchProps {
@@ -80,7 +82,6 @@ function mapStateToProps(state: RootState): StateProps {
     account: currentAccountSelector(state) ?? '',
     supportedBiometryType: supportedBiometryTypeSelector(state),
     skipVerification: skipVerificationSelector(state),
-    showGuidedOnboarding: showGuidedOnboardingSelector(state),
   }
 }
 
@@ -93,18 +94,11 @@ const mapDispatchToProps = {
 export class PincodeSet extends React.Component<Props, State> {
   static navigationOptions = ({ route }: ScreenProps) => {
     const changePin = route.params?.changePin
-    const showGuidedOnboarding = route.params?.showGuidedOnboarding
-    let title = i18n.t('pincodeSet.create')
-    if (changePin) {
-      title = i18n.t('pincodeSet.changePIN')
-    } else if (showGuidedOnboarding) {
-      title = i18n.t('pincodeSet.selectPIN')
-    }
     return {
-      ...nuxNavigationOptions,
+      ...(changePin ? nuxNavigationOptions : nuxNavigationOptionsOnboarding),
       headerTitle: () => (
         <HeaderTitleWithSubtitle
-          title={title}
+          title={changePin ? i18n.t('pincodeSet.changePIN') : i18n.t('pincodeSet.pin')}
           subTitle={
             changePin
               ? ' '
@@ -259,22 +253,21 @@ export class PincodeSet extends React.Component<Props, State> {
         <DevSkipButton onSkip={this.navigateToNextScreen} />
         {isVerifying ? (
           <Pincode
-            title={this.props.showGuidedOnboarding ? ' ' : t('pincodeSet.verify')}
+            title={changingPin ? undefined : t('pincodeSet.onboardingConfirm')}
+            subtitle={changingPin ? t('pincodeSet.verify') : t('pincodeSet.onboardingSubtitle')}
             errorText={errorText}
             pin={pin2}
             onChangePin={this.onChangePin2}
             onCompletePin={this.onCompletePin2}
-            onBoardingSetPin={!changingPin}
-            verifyPin={true}
           />
         ) : (
           <Pincode
-            title={changingPin ? t('pincodeSet.createNew') : ' '}
+            title={changingPin ? undefined : t('pincodeSet.onboardingTitle')}
+            subtitle={changingPin ? t('pincodeSet.createNew') : t('pincodeSet.onboardingSubtitle')}
             errorText={errorText}
             pin={pin1}
             onChangePin={this.onChangePin1}
             onCompletePin={this.onCompletePin1}
-            onBoardingSetPin={!changingPin}
           />
         )}
       </SafeAreaView>

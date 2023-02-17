@@ -79,7 +79,7 @@ export const PincodeEnter = ({ route }: Props) => {
   return (
     <SafeAreaView style={styles.container}>
       <Pincode
-        title={t('confirmPin.title')}
+        subtitle={t('confirmPin.title')}
         errorText={errorText}
         pin={pin}
         onChangePin={onChangePin}
