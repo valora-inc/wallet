@@ -288,7 +288,8 @@ const styles = StyleSheet.create({
   },
   description: {
     paddingTop: 16,
-    paddingBottom: 10,
+    paddingBottom: 24,
+    textAlign: 'center',
     ...fontStyles.regular,
   },
 })
