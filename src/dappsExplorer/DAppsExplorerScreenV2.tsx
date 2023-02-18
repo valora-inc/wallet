@@ -28,7 +28,7 @@ import {
 import { fetchDappsList } from 'src/dapps/slice'
 import { Dapp, DappFilter, DappSection } from 'src/dapps/types'
 import DappCard from 'src/dappsExplorer/DappCard'
-import FavoriteDappsSection from 'src/dappsExplorer/FavoriteDappsSection'
+import FavoriteDappsSectionV2 from 'src/dappsExplorer/FavoriteDappsSectionV2'
 import { NoResults } from 'src/dappsExplorer/NoResults'
 import useDappFavoritedToast from 'src/dappsExplorer/useDappFavoritedToast'
 import useDappInfoBottomSheet from 'src/dappsExplorer/useDappInfoBottomSheet'
@@ -170,7 +170,7 @@ export function DAppsExplorerScreenV2() {
                 {dappFavoritesEnabled && (
                   <>
                     <Text style={styles.sectionTitle}>{t('dappsScreen.favoriteDappsUpper')}</Text>
-                    <FavoriteDappsSection
+                    <FavoriteDappsSectionV2
                       filter={selectedFilter}
                       removeFilter={() => {
                         setSelectedFilter({ id: 'all', name: t('dappsScreen.allDapps') })
