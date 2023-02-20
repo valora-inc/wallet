@@ -11,10 +11,14 @@ export interface SuperchargeTokenConfig {
 }
 
 export interface SuperchargePendingReward {
-  amount: string
-  contractAddress: string
-  createdAt: number
-  index: number
-  proof: string[]
-  tokenAddress: string
+  transaction: {
+    from: string
+    chainId: number
+    to: string
+    data: string
+  }
+  details: {
+    tokenAddress: string
+    amount: string
+  }
 }

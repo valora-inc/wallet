@@ -163,13 +163,13 @@ function ClaimSuperchargeRewards({ rewards }: { rewards: SuperchargePendingRewar
 
   const rewardsByToken: { [tokenAddress: string]: BigNumber | undefined } = rewards.reduce(
     (acc, reward) => {
-      const tokenAddress = reward.tokenAddress.toLowerCase()
+      const tokenAddress = reward.details.tokenAddress.toLowerCase()
       if (!acc[tokenAddress]) {
         acc[tokenAddress] = new BigNumber(0)
       }
 
       acc[tokenAddress] = acc[tokenAddress].plus(
-        new BigNumber(reward.amount, 16).div(WEI_PER_TOKEN)
+        new BigNumber(reward.details.amount, 16).div(WEI_PER_TOKEN)
       )
       return acc
     },

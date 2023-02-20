@@ -1,12 +1,13 @@
-import { CeloTxReceipt, Contract, toTransactionObject } from '@celo/connect'
+import { CeloTx, CeloTxReceipt } from '@celo/connect'
+import { TxParamsNormalizer } from '@celo/connect/lib/utils/tx-params-normalizer'
 import { ContractKit } from '@celo/contractkit'
 import BigNumber from 'bignumber.js'
 import { all, call, put, select, spawn, takeEvery } from 'redux-saga/effects'
-import merkleDistributor from 'src/abis/MerkleDistributor.json'
 import { showError, showMessage } from 'src/alert/actions'
 import { RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { superchargeRewardContractAddressSelector } from 'src/consumerIncentives/selectors'
 import {
   claimRewards,
   claimRewardsFailure,
@@ -35,9 +36,10 @@ import { getContractKit } from 'src/web3/contracts'
 import config from 'src/web3/networkConfig'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { getContract } from 'src/web3/utils'
+import { buildTxo } from 'src/web3/utils'
 
 const TAG = 'SuperchargeRewardsClaimer'
+const SUPERCHARGE_FETCH_TIMEOUT = 30_000
 
 export function* claimRewardsSaga({ payload: rewards }: ReturnType<typeof claimRewards>) {
   try {
@@ -52,11 +54,12 @@ export function* claimRewardsSaga({ payload: rewards }: ReturnType<typeof claimR
     Logger.debug(TAG, `Starting to claim ${rewards.length} rewards with baseNonce: ${baseNonce}`)
 
     const receivedRewards: {
-      fundsSource: string
       amount: string
       tokenAddress: string
       txHash: string
     }[] = yield all(rewards.map((reward, index) => call(claimReward, reward, index, baseNonce)))
+
+    const superchargeRewardContractAddress = yield select(superchargeRewardContractAddressSelector)
     for (const reward of receivedRewards) {
       yield put(
         addStandbyTransaction({
@@ -67,7 +70,7 @@ export function* claimRewardsSaga({ payload: rewards }: ReturnType<typeof claimR
           tokenAddress: reward.tokenAddress,
           comment: '',
           timestamp: Math.floor(Date.now() / 1000),
-          address: reward.fundsSource,
+          address: superchargeRewardContractAddress,
           hash: reward.txHash,
         })
       )
@@ -85,25 +88,30 @@ export function* claimRewardsSaga({ payload: rewards }: ReturnType<typeof claimR
 }
 
 function* claimReward(reward: SuperchargePendingReward, index: number, baseNonce: number) {
+  const { transaction, details } = reward
+
+  const superchargeRewardContractAddress = yield select(superchargeRewardContractAddressSelector)
+  if (superchargeRewardContractAddress !== transaction.to) {
+    Logger.error(
+      TAG,
+      `Unexpected supercharge contract address ${transaction.to} on reward transaction, aborting claim.`
+    )
+    return
+  }
+
   const kit: ContractKit = yield call(getContractKit)
   const tokens: TokenBalances = yield select(tokensByAddressSelector)
   const walletAddress: string = yield call(getConnectedUnlockedAccount)
 
   Logger.debug(TAG, `Start claiming reward at index ${index}: ${JSON.stringify(reward)}`)
-  const merkleContract: Contract = yield call(
-    getContract,
-    merkleDistributor.abi,
-    reward.contractAddress
-  )
-  const fundsSource: string = yield call(async () => merkleContract.methods.fundsSource().call())
-  const tx = toTransactionObject(
-    kit.connection,
-    merkleContract.methods.claim(reward.index, walletAddress, reward.amount, reward.proof ?? [])
-  )
+
+  const normalizer = new TxParamsNormalizer(kit.connection)
+  const tx: CeloTx = yield call([normalizer, 'populate'], transaction)
+  const txo = buildTxo(kit, tx)
 
   const receipt: CeloTxReceipt = yield call(
     sendTransaction,
-    tx.txo,
+    txo,
     walletAddress,
     newTransactionContext(TAG, 'Claim Supercharge reward'),
     undefined,
@@ -112,14 +120,13 @@ function* claimReward(reward: SuperchargePendingReward, index: number, baseNonce
     baseNonce + index
   )
   Logger.info(TAG, `Claimed reward at index ${index}: ${JSON.stringify(receipt)}`)
-  const amount = new BigNumber(reward.amount, 16).div(WEI_PER_TOKEN).toString()
-  const tokenAddress = reward.tokenAddress.toLowerCase()
+  const amount = new BigNumber(details.amount, 16).div(WEI_PER_TOKEN).toString()
+  const tokenAddress = details.tokenAddress.toLowerCase()
   ValoraAnalytics.track(RewardsEvents.claimed_reward, {
     amount,
     token: tokens[tokenAddress]?.symbol ?? '',
   })
   return {
-    fundsSource: fundsSource.toLowerCase(),
     tokenAddress,
     amount,
     txHash: receipt.transactionHash,
@@ -135,10 +142,11 @@ export function* fetchAvailableRewardsSaga() {
   try {
     const response: Response = yield call(
       fetchWithTimeout,
-      `${config.fetchAvailableSuperchargeRewards}?address=${address}`
+      `${config.fetchAvailableSuperchargeRewards}?userAddress=${address}`,
+      SUPERCHARGE_FETCH_TIMEOUT
     )
-    const data: { availableRewards: SuperchargePendingReward[] } = yield call([response, 'json'])
-    yield put(setAvailableRewards(data.availableRewards))
+    const data: { rewards: SuperchargePendingReward[] } = yield call([response, 'json'])
+    yield put(setAvailableRewards(data.rewards))
     yield put(fetchAvailableRewardsSuccess())
   } catch (e) {
     yield put(fetchAvailableRewardsFailure())
