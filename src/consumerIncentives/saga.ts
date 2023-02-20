@@ -92,11 +92,9 @@ function* claimReward(reward: SuperchargePendingReward, index: number, baseNonce
 
   const superchargeRewardContractAddress = yield select(superchargeRewardContractAddressSelector)
   if (superchargeRewardContractAddress !== transaction.to) {
-    Logger.error(
-      TAG,
+    throw new Error(
       `Unexpected supercharge contract address ${transaction.to} on reward transaction, aborting claim.`
     )
-    return
   }
 
   const kit: ContractKit = yield call(getContractKit)
@@ -106,7 +104,9 @@ function* claimReward(reward: SuperchargePendingReward, index: number, baseNonce
   Logger.debug(TAG, `Start claiming reward at index ${index}: ${JSON.stringify(reward)}`)
 
   const normalizer = new TxParamsNormalizer(kit.connection)
-  const tx: CeloTx = yield call([normalizer, 'populate'], transaction)
+  // @ts-ignore chainId on `transaction` is (and should be) a string, TS is wrongfully complaining that it should be a number.
+  const tx: CeloTx = yield call([normalizer, 'populate'], { ...transaction, gas: '59480' })
+  // TODO gas estimation
   const txo = buildTxo(kit, tx)
 
   const receipt: CeloTxReceipt = yield call(
