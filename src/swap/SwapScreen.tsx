@@ -1,7 +1,7 @@
 import { parseInputAmount } from '@celo/utils/lib/parsing'
 import BigNumber from 'bignumber.js'
 import React, { useEffect, useMemo, useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { Keyboard, StyleSheet, Text, View } from 'react-native'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -28,6 +28,8 @@ import SwapAmountInput from 'src/swap/SwapAmountInput'
 import { Field, SwapAmount } from 'src/swap/types'
 import useSwapQuote from 'src/swap/useSwapQuote'
 import { coreTokensSelector } from 'src/tokens/selectors'
+import { navigateToURI } from 'src/utils/linking'
+import fontStyles from 'src/styles/fonts'
 
 const FETCH_UPDATED_QUOTE_DEBOUNCE_TIME = 500
 const DEFAULT_TO_TOKEN = 'cUSD'
@@ -218,6 +220,13 @@ export function SwapScreen() {
     return null
   }
 
+  const onPressLearnMore = () => {
+    //
+    // TODO(sbw): we need to include the actualy help article link here.
+    //
+    navigateToURI('https://valoraapp.com')
+  }
+
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
       <DrawerTopBar
@@ -261,6 +270,14 @@ export function SwapScreen() {
             loading={updatedField === Field.FROM && fetchingSwapQuote}
           />
         </View>
+        <Text style={[styles.disclaimerWrapper, fontStyles.regular, styles.disclaimerText]}>
+          <Trans i18nKey="swapScreen.disclaimer">
+            <Text
+              style={[fontStyles.regular600, styles.disclaimerLink]}
+              onPress={onPressLearnMore}
+            ></Text>
+          </Trans>
+        </Text>
         <Button
           onPress={handleReview}
           text={t('swapScreen.review')}
@@ -306,6 +323,19 @@ const styles = StyleSheet.create({
   },
   mutedHeader: {
     color: colors.gray3,
+  },
+  disclaimerWrapper: {
+    paddingBottom: Spacing.Thick24,
+    justifyContent: 'flex-end',
+  },
+  disclaimerText: {
+    color: colors.gray5,
+    textAlign: 'center',
+  },
+  disclaimerLink: {
+    textDecorationLine: 'underline',
+    color: colors.greenUI,
+    flexWrap: 'wrap',
   },
 })
 
