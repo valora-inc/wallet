@@ -783,8 +783,8 @@
     "description": "Utiliza la frase de 12 ó 24 palabras que guardaste cuando configuraste tu monedero para restaurar.",
     "emptyWalletDialog": {
       "description": "Esta cartera no tiene fondos. ¿Te gustaría utilizarlo?",
-      "action": "Use Wallet",
-      "title": "Balance\n<0></0>"
+      "action": "Utiliza la Cartera",
+      "title": "Saldo\n<0></0>"
     }
   },
   "verificationInput": {
