@@ -582,7 +582,6 @@
   "namePlaceholder": "EX. ім'я",
   "nameAndPicGuideCopyTitle": "Як вас звати?",
   "nameAndPicGuideCopyContent": "Ми хотіли б знати, як до вас звертатися.",
-  "importIt": "Відновити гаманець",
   "important": "Важливо",
   "confirmPin": {
     "title": "Ввести PIN-код"
@@ -778,9 +777,15 @@
     "resendButton": "Повторно надіслати повідомлення"
   },
   "importExistingKey": {
-    "explanation": "Ваша фраза для відновлення — це фраза з 24 слів, яку ви записали та зберегли, коли ви налаштовували свій обліковий запис. Просимо, введіть її тут, щоб відновити ваш обліковий запис.",
-    "explanationV1_50": "Ваша фразка Recovery - це 12-24 слова та збережена при налаштуванні облікового запису. Будь ласка, введіть його тут, щоб відновити ваш обліковий запис.",
-    "keyPlaceholder": "кінь леопард собака мавпа ..."
+    "keyPlaceholder": "кінь леопард собака мавпа ...",
+    "header": "Відновити гаманець",
+    "title": "Введіть вашу фразу для відновлення",
+    "description": "Використайте фразу \"12 або 24-словосполучення, яку ви зберегли, коли встановите ваш гаманець для відновлення.",
+    "emptyWalletDialog": {
+      "description": "Цей гаманець не має коштів. Ви все ще бажаєте його використати?",
+      "action": "Використовувати Wallet",
+      "title": "Баланс\n<0></0>"
+    }
   },
   "verificationInput": {
     "title": "Підтвердити",
@@ -821,11 +826,6 @@
     "body": "<0>$t(verificationInputHelpDialog.bodySection1.title)</0>\n\n$t(verificationInputHelpDialog.bodySection1.content)\n\n<1>$t(verificationInputHelpDialog.bodySection2.title)</1>\n\n$t(verificationInputHelpDialog.bodySection2.content)",
     "skip": "Пропустити зараз",
     "back": "Повернутися"
-  },
-  "emptyAccount": {
-    "description": "На цьому рахунку немає коштів. Ви все ще хотіли б його використати?",
-    "useAccount": "Використати обліковий запис",
-    "title": "Залишок <0></0>"
   },
   "success": {
     "message": "Все готово!"
