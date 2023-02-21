@@ -783,8 +783,8 @@
     "description": "Geri yüklemek için cüzdanınızı ayarlarken kaydettiğiniz 12 veya 24 kelimelik ifadeyi kullanın.",
     "emptyWalletDialog": {
       "description": "Bu cüzdanda hiç para yok. Yine de kullanmak ister misiniz?",
-      "action": "Use Wallet",
-      "title": "Balance\n<0></0>"
+      "action": "Cüzdan kullanın",
+      "title": "Denge\n<0></0>"
     }
   },
   "verificationInput": {
