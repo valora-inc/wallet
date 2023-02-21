@@ -582,7 +582,6 @@
   "namePlaceholder": "ex. name",
   "nameAndPicGuideCopyTitle": "Tên bạn là gì?",
   "nameAndPicGuideCopyContent": "Chúng tôi rất muốn biết tên bạn để tiện cho việc xưng hô.",
-  "importIt": "Khôi phục ví",
   "important": "Quan trọng",
   "confirmPin": {
     "title": "Nhập mã PIN"
@@ -778,9 +777,15 @@
     "resendButton": "Gửi lại tin nhắn văn bản"
   },
   "importExistingKey": {
-    "explanation": "Cụm từ khôi phục là cụm từ gồm 24 từ mà bạn đã viết ra và lưu lại khi thiết lập tài khoản. Vui lòng nhập Cụm từ đó vào đây để khôi phục tài khoản.",
-    "explanationV1_50": "Your Recovery Phrase is a 12 or 24 word phrase that you wrote down and saved when you set up your account. Please enter it here to restore your account.",
-    "keyPlaceholder": "ngựa báo chó khỉ..."
+    "keyPlaceholder": "ngựa báo chó khỉ...",
+    "header": "Khôi phục ví",
+    "title": "Enter your recovery phrase",
+    "description": "Use the 12 or 24-word phrase that you saved when you set up your wallet to restore.",
+    "emptyWalletDialog": {
+      "description": "This wallet doesn’t have any funds. Would you still like to use it?",
+      "action": "Use Wallet",
+      "title": "Balance\n<0></0>"
+    }
   },
   "verificationInput": {
     "title": "Xác nhận",
@@ -815,11 +820,6 @@
     "body": "<0>$t(verificationInputHelpDialog.bodySection1.title)</0>\n\n$t(verificationInputHelpDialog.bodySection1.content)\n\n<1>$t(verificationInputHelpDialog.bodySection2.title)</1>\n\n$t(verificationInputHelpDialog.bodySection2.content)",
     "skip": "Tạm thời bỏ qua",
     "back": "Quay lại"
-  },
-  "emptyAccount": {
-    "description": "Tài khoản này không có tiền. Bạn vẫn muốn sử dụng chứ?",
-    "useAccount": "Tài khoản người dùng",
-    "title": "Số dư <0></0>"
   },
   "success": {
     "message": "Bạn đã hoàn tất!"
