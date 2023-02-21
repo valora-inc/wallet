@@ -783,8 +783,8 @@
     "description": "Verwende die 12- oder 24-Wort-Phrase, die du beim Einrichten deiner Geldbörse gespeichert hast, um sie wiederherzustellen.",
     "emptyWalletDialog": {
       "description": "Diese Geldbörse hat kein Guthaben. Willst du sie trotzdem benutzen?",
-      "action": "Use Wallet",
-      "title": "Balance\n<0></0>"
+      "action": "Brieftasche benutzen",
+      "title": "Bilanz\n<0></0>"
     }
   },
   "verificationInput": {
