@@ -175,7 +175,7 @@ export default NewAccountPhoneVerification = () => {
     let goBackButtonAttributes = await element(by.text('Go Back')).getAttributes()
     jestExpect(goBackButtonAttributes.enabled).toBe(true)
 
-    // Tap 'Skip for now'
+    // Tap 'Skip'
     await element(by.text('Skip')).tap()
 
     // Assert we've arrived at the home screen
