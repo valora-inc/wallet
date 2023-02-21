@@ -22,7 +22,7 @@ import Fingerprint from 'src/icons/biometry/Fingerprint'
 import { Iris } from 'src/icons/biometry/Iris'
 import TouchID from 'src/icons/biometry/TouchID'
 import { setHasSeenVerificationNux } from 'src/identity/actions'
-import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
+import { HeaderTitleWithSubtitle, nuxNavigationOptionsOnboarding } from 'src/navigator/Headers'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
@@ -74,7 +74,7 @@ export default function EnableBiometry({ navigation }: Props) {
           title={t('skip')}
           testID="EnableBiometrySkipHeader"
           onPress={onPressSkip}
-          titleStyle={{ color: colors.goldDark }}
+          titleStyle={{ color: colors.onboardingBrownLight }}
         />
       ),
     })
@@ -151,7 +151,7 @@ export default function EnableBiometry({ navigation }: Props) {
   )
 }
 
-EnableBiometry.navigationOptions = nuxNavigationOptions
+EnableBiometry.navigationOptions = nuxNavigationOptionsOnboarding
 
 const styles = StyleSheet.create({
   container: {
