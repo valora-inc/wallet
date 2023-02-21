@@ -582,7 +582,6 @@
   "namePlaceholder": "ex. nome",
   "nameAndPicGuideCopyTitle": "Come ti chiami?",
   "nameAndPicGuideCopyContent": "Vorremmo sapere come chiamarti.",
-  "importIt": "Ripristina wallet",
   "important": "Importante",
   "confirmPin": {
     "title": "Immetti il PIN"
@@ -778,9 +777,15 @@
     "resendButton": "Invia nuovamente messaggio"
   },
   "importExistingKey": {
-    "explanation": "La tua Frase di recupero è composta da 24 parole e dovresti averla annotata quando hai configurato il tuo conto. Immettila qui per ripristinarlo.",
-    "explanationV1_50": "La tua Frase di recupero è composta da 12 o 24 parole e dovresti averla annotata quando hai configurato il tuo wallet. Immettila qui per ripristinarlo.",
-    "keyPlaceholder": "horse leopard dog monkey ..."
+    "keyPlaceholder": "horse leopard dog monkey ...",
+    "header": "Ripristina un wallet",
+    "title": "Inserisci la tua frase di recupero",
+    "description": "Utilizza la frase di 12 o 24 parole che hai salvato quando hai impostato il portafoglio per il ripristino.",
+    "emptyWalletDialog": {
+      "description": "Questo portafoglio non ha fondi. Vuoi comunque utilizzarlo?",
+      "action": "Use Wallet",
+      "title": "Balance\n<0></0>"
+    }
   },
   "verificationInput": {
     "title": "Conferma",
@@ -817,11 +822,6 @@
     "body": "<0>$t(verificationInputHelpDialog.bodySection1.title)</0>\n\n$t(verificationInputHelpDialog.bodySection1.content)\n\n<1>$t(verificationInputHelpDialog.bodySection2.title)</1>\n\n$t(verificationInputHelpDialog.bodySection2.content)",
     "skip": "Salta per il momento",
     "back": "Indietro"
-  },
-  "emptyAccount": {
-    "description": "Questo conto non contiene fondi. Desideri utilizzarlo comunque?",
-    "useAccount": "Usa conto",
-    "title": "Saldo <0></0>"
   },
   "success": {
     "message": "Configurazione completata!"
