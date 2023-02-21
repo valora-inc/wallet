@@ -582,7 +582,6 @@
   "namePlaceholder": "ex. imię",
   "nameAndPicGuideCopyTitle": "Jak masz na imię?",
   "nameAndPicGuideCopyContent": "Chcielibyśmy wiedzieć, jak Cię nazywać.",
-  "importIt": "Przywróć portfel",
   "important": "Ważne",
   "confirmPin": {
     "title": "Wprowadź kod PIN"
@@ -778,9 +777,15 @@
     "resendButton": "Ponownie wyślij wiadomość tekstową"
   },
   "importExistingKey": {
-    "explanation": "Twoja fraza odzyskiwania to 24 słowa, które ustawiłeś(-aś) i zapisałeś(-aś) podczas zakładania konta. Wpisz je tutaj, aby przywrócić konto.",
-    "explanationV1_50": "Twoja fraza odzyskiwania to 12 lub 24 słowa, które zapisałeś podczas zakładania konta. Wpisz je tutaj, aby przywrócić swoje konto.",
-    "keyPlaceholder": "koń lampart pies małpa ..."
+    "keyPlaceholder": "koń lampart pies małpa ...",
+    "header": "Przywróć portfel",
+    "title": "Wprowadź hasło odzyskiwania.",
+    "description": "Użyj 12- lub 24-słownej frazy, którą zapisałeś podczas konfigurowania portfela do przywrócenia.",
+    "emptyWalletDialog": {
+      "description": "W tym portfelu nie ma żadnych środków. Czy nadal chcesz go używać?",
+      "action": "Use Wallet",
+      "title": "Balance\n<0></0>"
+    }
   },
   "verificationInput": {
     "title": "Potwierdź",
@@ -821,11 +826,6 @@
     "body": "<0>$t(verificationInputHelpDialog.bodySection1.title)</0>\n\n$t(verificationInputHelpDialog.bodySection1.content)\n\n<1>$t(verificationInputHelpDialog.bodySection2.title)</1>\n\n$t(verificationInputHelpDialog.bodySection2.content)",
     "skip": "Na razie pomiń",
     "back": "Wróć"
-  },
-  "emptyAccount": {
-    "description": "Na tym koncie nie ma żadnych środków. Czy nadal chcesz z niego korzystać?",
-    "useAccount": "Użyj konta",
-    "title": "Saldo <0></0>"
   },
   "success": {
     "message": "Wszystko gotowe!"
