@@ -783,8 +783,8 @@
     "description": "Użyj 12- lub 24-słownej frazy, którą zapisałeś podczas konfigurowania portfela do przywrócenia.",
     "emptyWalletDialog": {
       "description": "W tym portfelu nie ma żadnych środków. Czy nadal chcesz go używać?",
-      "action": "Use Wallet",
-      "title": "Balance\n<0></0>"
+      "action": "Użyj portfela",
+      "title": "Strona\n<0></0>"
     }
   },
   "verificationInput": {
