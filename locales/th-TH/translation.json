@@ -582,7 +582,6 @@
   "namePlaceholder": "ex. name",
   "nameAndPicGuideCopyTitle": "คุณชื่ออะไร",
   "nameAndPicGuideCopyContent": "เราอยากรู้ว่าควรจะเรียกคุณอย่างไร.",
-  "importIt": "กู้คืนกระเป๋าเงิน",
   "important": "สำคัญ",
   "confirmPin": {
     "title": "ป้อนรหัส PIN"
@@ -778,9 +777,15 @@
     "resendButton": "ส่งข้อความอีกครั้ง"
   },
   "importExistingKey": {
-    "explanation": "วลีกู้คืนรหัสคือวลี 24 คำที่คุณจดและบันทึกไว้เมื่อตั้งค่าบัญชี โปรดป้อนวลีที่นี่เพื่อกู้คืนบัญชีของคุณ",
-    "explanationV1_50": "Your Recovery Phrase is a 12 or 24 word phrase that you wrote down and saved when you set up your account. Please enter it here to restore your account.",
-    "keyPlaceholder": "horse leopard dog monkey ..."
+    "keyPlaceholder": "horse leopard dog monkey ...",
+    "header": "กู้คืนกระเป๋าเงิน",
+    "title": "Enter your recovery phrase",
+    "description": "Use the 12 or 24-word phrase that you saved when you set up your wallet to restore.",
+    "emptyWalletDialog": {
+      "description": "This wallet doesn’t have any funds. Would you still like to use it?",
+      "action": "Use Wallet",
+      "title": "Balance\n<0></0>"
+    }
   },
   "verificationInput": {
     "title": "ยืนยัน",
@@ -815,11 +820,6 @@
     "body": "<0>$t(verificationInputHelpDialog.bodySection1.title)</0>\n\n$t(verificationInputHelpDialog.bodySection1.content)\n\n<1>$t(verificationInputHelpDialog.bodySection2.title)</1>\n\n$t(verificationInputHelpDialog.bodySection2.content)",
     "skip": "ข้ามไปก่อน",
     "back": "ย้อนกลับ"
-  },
-  "emptyAccount": {
-    "description": "บัญชีนี้ไม่มีเงิน คุณยังต้องการใช้บัญชีนี้หรือไม่",
-    "useAccount": "ใช้บัญชี",
-    "title": "ยอดคงเหลือ <0></0>"
   },
   "success": {
     "message": "เท่านี้ก็เรียบร้อย!"
