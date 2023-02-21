@@ -13,9 +13,10 @@ export interface SuperchargeTokenConfig {
 export interface SuperchargePendingReward {
   transaction: {
     from: string
-    chainId: string
+    chainId: number
     to: string
     data: string
+    gas: number
   }
   details: {
     tokenAddress: string

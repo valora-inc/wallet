@@ -36,7 +36,7 @@ import { getContractKit } from 'src/web3/contracts'
 import config from 'src/web3/networkConfig'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { buildTxo } from 'src/web3/utils'
+import { applyChainIdWorkaround, buildTxo } from 'src/web3/utils'
 
 const TAG = 'SuperchargeRewardsClaimer'
 const SUPERCHARGE_FETCH_TIMEOUT = 30_000
@@ -103,10 +103,10 @@ function* claimReward(reward: SuperchargePendingReward, index: number, baseNonce
 
   Logger.debug(TAG, `Start claiming reward at index ${index}: ${JSON.stringify(reward)}`)
 
+  applyChainIdWorkaround(transaction, yield call([kit.connection, 'chainId']))
+
   const normalizer = new TxParamsNormalizer(kit.connection)
-  // @ts-ignore chainId on `transaction` is (and should be) a string, TS is wrongfully complaining that it should be a number.
-  const tx: CeloTx = yield call([normalizer, 'populate'], { ...transaction, gas: '59480' })
-  // TODO gas estimation
+  const tx: CeloTx = yield call([normalizer, 'populate'], transaction)
   const txo = buildTxo(kit, tx)
 
   const receipt: CeloTxReceipt = yield call(
@@ -146,6 +146,10 @@ export function* fetchAvailableRewardsSaga() {
       SUPERCHARGE_FETCH_TIMEOUT
     )
     const data: { rewards: SuperchargePendingReward[] } = yield call([response, 'json'])
+    if (!data.rewards) {
+      throw new Error('No rewards field found in supercharge service response')
+    }
+
     yield put(setAvailableRewards(data.rewards))
     yield put(fetchAvailableRewardsSuccess())
   } catch (e) {

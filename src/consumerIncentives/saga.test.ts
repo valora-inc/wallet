@@ -66,9 +66,10 @@ describe('fetchAvailableRewardsSaga', () => {
     {
       transaction: {
         from: '0xabc',
-        chainId: '0x123',
+        chainId: 42220,
         to: '0xxyz',
         data: '0x0000000asdfhawejkh',
+        gas: 123,
       },
       details: {
         amount: '0x2386f26fc10000',
