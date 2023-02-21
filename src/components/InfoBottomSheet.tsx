@@ -16,7 +16,13 @@ interface Props {
 export default function InfoBottomSheet({ isVisible, onDismiss, title, body, testID }: Props) {
   const { t } = useTranslation()
   return (
-    <BottomSheet testID={testID} isVisible={isVisible} onBackgroundPress={onDismiss}>
+    <BottomSheet
+      testID={testID}
+      isVisible={isVisible}
+      onBackgroundPress={onDismiss}
+      backgroundColor={'#2E3338'}
+      opacity={0.25}
+    >
       <View style={styles.root}>
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.body}>{body}</Text>

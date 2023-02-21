@@ -17,6 +17,8 @@ interface Props {
   onBackgroundPress?: () => void
   children?: JSX.Element
   testID?: string
+  opacity?: number
+  backgroundColor?: string
 }
 
 const MIN_EMPTY_SPACE = 100
@@ -26,6 +28,8 @@ function BottomSheet({
   isVisible,
   onBackgroundPress,
   testID = 'BottomSheetContainer',
+  opacity = 0.5,
+  backgroundColor = colors.modalBackdrop,
 }: Props) {
   const [showingOptions, setOptionsVisible] = useState(isVisible)
   const [pickerHeight, setPickerHeight] = useState(0)
@@ -42,7 +46,8 @@ function BottomSheet({
     [pickerHeight]
   )
   const animatedOpacity = useAnimatedStyle(() => ({
-    opacity: 0.5 * progress.value,
+    opacity: opacity * progress.value,
+    backgroundColor,
   }))
 
   useShowOrHideAnimation(
@@ -95,8 +100,6 @@ const styles = StyleSheet.create({
   },
   background: {
     position: 'absolute',
-    backgroundColor: '#2E3338',
-    opacity: 0.25,
     width: '100%',
     height: '100%',
   },
