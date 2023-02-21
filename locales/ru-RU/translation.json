@@ -582,7 +582,6 @@
   "namePlaceholder": "ex. name",
   "nameAndPicGuideCopyTitle": "Как вас зовут?",
   "nameAndPicGuideCopyContent": "Мы хотели бы знать, как к вам обращаться.",
-  "importIt": "Восстановить кошелек",
   "important": "Важно",
   "confirmPin": {
     "title": "Введите PIN-код"
@@ -778,9 +777,15 @@
     "resendButton": "Повторная отправка текстового сообщения"
   },
   "importExistingKey": {
-    "explanation": "Ваша фраза восстановления представляет собой фразу из 24 слов, которую вы записали и сохранили при настройке аккаунта. Введите ее здесь, чтобы восстановить свой аккаунт.",
-    "explanationV1_50": "Твоя фраза восстановления - это фраза из 12 или 24 слов, которую ты записал и сохранил, когда создавал свой аккаунт. Пожалуйста, введи ее здесь, чтобы восстановить свой аккаунт.",
-    "keyPlaceholder": "лошадь леопард собака обезьяна..."
+    "keyPlaceholder": "лошадь леопард собака обезьяна...",
+    "header": "Восстановить кошелек",
+    "title": "Введите свою фразу восстановления",
+    "description": "Используй для восстановления кошелька фразу из 12 или 24 слов, которую ты сохранил при настройке.",
+    "emptyWalletDialog": {
+      "description": "В этом кошельке нет никаких средств. Ты все еще хочешь им воспользоваться?",
+      "action": "Use Wallet",
+      "title": "Balance\n<0></0>"
+    }
   },
   "verificationInput": {
     "title": "Подтвердить",
@@ -821,11 +826,6 @@
     "body": "<0>$t(verificationInputHelpDialog.bodySection1.title)</0>\n\n$t(verificationInputHelpDialog.bodySection1.content)\n\n<1>$t(verificationInputHelpDialog.bodySection2.title)</1>\n\n$t(verificationInputHelpDialog.bodySection2.content)",
     "skip": "Пропустить",
     "back": "Перейти назад"
-  },
-  "emptyAccount": {
-    "description": "На этом аккаунте нет никаких средств. Все равно использовать?",
-    "useAccount": "Использовать аккаунт",
-    "title": "Остаток <0></0>"
   },
   "success": {
     "message": "Все готово!"
