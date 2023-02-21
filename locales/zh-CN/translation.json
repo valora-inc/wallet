@@ -582,7 +582,6 @@
   "namePlaceholder": "例如：名称",
   "nameAndPicGuideCopyTitle": "您的名字是？",
   "nameAndPicGuideCopyContent": "我们想知道怎么称呼您.",
-  "importIt": "恢复钱包",
   "important": "重要信息",
   "confirmPin": {
     "title": "输入 PIN 码"
@@ -778,9 +777,15 @@
     "resendButton": "重新发送短信"
   },
   "importExistingKey": {
-    "explanation": "您的恢复短语是您在设置账户时写下并保存的一个 24 字短语。请在此处输入以恢复您的账户。",
-    "explanationV1_50": "你的恢复短语是一个12或24个字的短语，是你在设置账户时写下并保存的。请在这里输入它来恢复你的账户。",
-    "keyPlaceholder": "horse leopard dog monkey ..."
+    "keyPlaceholder": "horse leopard dog monkey ...",
+    "header": "恢复钱包",
+    "title": "输入你的恢复短语",
+    "description": "使用你在设置钱包时保存的12或24个字的短语来恢复。",
+    "emptyWalletDialog": {
+      "description": "这个钱包没有任何资金。你还想使用它吗？",
+      "action": "使用钱包",
+      "title": "平衡\n<0></0>"
+    }
   },
   "verificationInput": {
     "title": "确认",
@@ -815,11 +820,6 @@
     "body": "<0>$t(verificationInputHelpDialog.bodySection1.title)</0>\n\n$t(verificationInputHelpDialog.bodySection1.content)\n\n<1>$t(verificationInputHelpDialog.bodySection2.title)</1>\n\n$t(verificationInputHelpDialog.bodySection2.content)",
     "skip": "暂时跳过",
     "back": "返回"
-  },
-  "emptyAccount": {
-    "description": "此账户内没有任何资金。您仍要使用它吗？",
-    "useAccount": "使用账户",
-    "title": "余额 <0></0>"
   },
   "success": {
     "message": "您已准备就绪！"
