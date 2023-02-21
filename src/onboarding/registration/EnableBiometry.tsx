@@ -169,6 +169,7 @@ const styles = StyleSheet.create({
   guideTitle: {
     ...fontStyles.h1,
     marginBottom: Spacing.Regular16,
+    textAlign: 'center',
   },
   guideText: {
     ...fontStyles.regular,
