@@ -582,7 +582,6 @@
   "namePlaceholder": "Bsp. Name",
   "nameAndPicGuideCopyTitle": "Wie heißt du?",
   "nameAndPicGuideCopyContent": "Wir würden gerne wissen, wie wir dich nennen sollen.",
-  "importIt": "Wallet wiederherstellen",
   "important": "Wichtig",
   "confirmPin": {
     "title": "PIN eingeben"
@@ -778,9 +777,15 @@
     "resendButton": "Textnachricht erneut senden"
   },
   "importExistingKey": {
-    "explanation": "Deine Wiederherstellungsphrase ist eine 24-Wort-Phrase, die du bei der Einrichtung deines Kontos aufgeschrieben und gespeichert hast. Bitte gib es hier ein, um dein Konto wiederherzustellen.",
-    "explanationV1_50": "Deine Wiederherstellungsphrase ist eine Phrase mit 12 oder 24 Wörtern, die du bei der Einrichtung deines Kontos aufgeschrieben und gespeichert hast. Bitte gib sie hier ein, um dein Konto wiederherzustellen.",
-    "keyPlaceholder": "horse leopard dog monkey ..."
+    "keyPlaceholder": "horse leopard dog monkey ...",
+    "header": "Wallet wiederherstellen",
+    "title": "Gib deine Rückgewinnungsphrase ein",
+    "description": "Verwende die 12- oder 24-Wort-Phrase, die du beim Einrichten deiner Geldbörse gespeichert hast, um sie wiederherzustellen.",
+    "emptyWalletDialog": {
+      "description": "Diese Geldbörse hat kein Guthaben. Willst du sie trotzdem benutzen?",
+      "action": "Use Wallet",
+      "title": "Balance\n<0></0>"
+    }
   },
   "verificationInput": {
     "title": "Bestätigen",
@@ -817,11 +822,6 @@
     "body": "<0> $t(verificationInputHelpDialog.bodySection1.title) </0>\n\n $t(verificationInputHelpDialog.bodySection1.content)\n \n<1> $t(verificationInputHelpDialog.bodySection2.title) </1>\n \n $t(verificationInputHelpDialog.bodySection2.content)",
     "skip": "Vorerst überspringen",
     "back": "Zurück"
-  },
-  "emptyAccount": {
-    "description": "Dieses Konto hat kein Guthaben. Möchtest du es trotzdem verwenden?",
-    "useAccount": "Konto benutzen",
-    "title": "Guthaben <0></0>"
   },
   "success": {
     "message": "Du bist fertig!"
