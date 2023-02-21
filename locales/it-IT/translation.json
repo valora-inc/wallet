@@ -783,8 +783,8 @@
     "description": "Utilizza la frase di 12 o 24 parole che hai salvato quando hai impostato il portafoglio per il ripristino.",
     "emptyWalletDialog": {
       "description": "Questo portafoglio non ha fondi. Vuoi comunque utilizzarlo?",
-      "action": "Use Wallet",
-      "title": "Balance\n<0></0>"
+      "action": "Usa il portafoglio",
+      "title": "Equilibrio\n<0></0>"
     }
   },
   "verificationInput": {
