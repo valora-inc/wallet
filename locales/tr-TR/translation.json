@@ -582,7 +582,6 @@
   "namePlaceholder": "örn. isim",
   "nameAndPicGuideCopyTitle": "Adınız nedir?",
   "nameAndPicGuideCopyContent": "Size nasıl hitap edeceğimizi bilmek istiyoruz.",
-  "importIt": "Cüzdanı Yeniden Kur",
   "important": "Önemli",
   "confirmPin": {
     "title": "PIN Gir"
@@ -778,9 +777,15 @@
     "resendButton": "Kısa mesajı tekrar gönder"
   },
   "importExistingKey": {
-    "explanation": "Kurtarma Kelimeleriniz, hesabınızı oluştururken not ettiğiniz ve kaydettiğiniz 24 kelimelik bir ifadedir. Hesabınızı geri yüklemek için kelimeleri lütfen buraya girin.",
-    "explanationV1_50": "Kurtarma İfadeniz, hesabınızı kurarken yazdığınız ve kaydettiğiniz 12 veya 24 kelimelik bir ifadedir. Hesabınızı geri yüklemek için lütfen buraya girin.",
-    "keyPlaceholder": "horse leopard dog monkey ..."
+    "keyPlaceholder": "horse leopard dog monkey ...",
+    "header": "Cüzdan Yeniden Kur",
+    "title": "Kurtarma cümlenizi girin",
+    "description": "Geri yüklemek için cüzdanınızı ayarlarken kaydettiğiniz 12 veya 24 kelimelik ifadeyi kullanın.",
+    "emptyWalletDialog": {
+      "description": "Bu cüzdanda hiç para yok. Yine de kullanmak ister misiniz?",
+      "action": "Use Wallet",
+      "title": "Balance\n<0></0>"
+    }
   },
   "verificationInput": {
     "title": "Onayla",
@@ -817,11 +822,6 @@
     "body": "<0>$t(verificationInputHelpDialog.bodySection1.title)</0>\n\n$t(verificationInputHelpDialog.bodySection1.content)\n\n<1>$t(verificationInputHelpDialog.bodySection2.title)</1>\n\n$t(verificationInputHelpDialog.bodySection2.content)",
     "skip": "Şimdilik Atla",
     "back": "Geri Dön"
-  },
-  "emptyAccount": {
-    "description": "Bu hesapta hiç bakiye yok. Yine de kullanmak ister misiniz?",
-    "useAccount": "Hesabı kullan",
-    "title": "Bakiye <0></0>"
   },
   "success": {
     "message": "Her şey tamam, hazırsınız!"
