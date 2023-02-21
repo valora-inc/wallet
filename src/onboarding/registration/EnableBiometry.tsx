@@ -131,22 +131,21 @@ export default function EnableBiometry({ navigation }: Props) {
             </Text>
           </>
         }
-        <View style={styles.buttonContainer}>
-          <Button
-            onPress={onPressUseBiometry}
-            text={t('enableBiometry.cta', {
-              biometryType: t(`biometryType.${supportedBiometryType}`),
-            })}
-            size={BtnSizes.FULL}
-            type={BtnTypes.ONBOARDING}
-            testID="EnableBiometryButton"
-            icon={
-              supportedBiometryType && (
-                <View style={styles.biometryIcon}>{biometryIconMap[supportedBiometryType]}</View>
-              )
-            }
-          />
-        </View>
+        <Button
+          onPress={onPressUseBiometry}
+          text={t('enableBiometry.cta', {
+            biometryType: t(`biometryType.${supportedBiometryType}`),
+          })}
+          size={BtnSizes.FULL}
+          type={BtnTypes.ONBOARDING}
+          testID="EnableBiometryButton"
+          icon={
+            supportedBiometryType && (
+              <View style={styles.biometryIcon}>{biometryIconMap[supportedBiometryType]}</View>
+            )
+          }
+          style={styles.biometryButton}
+        />
       </SafeAreaView>
     </ScrollView>
   )
@@ -164,7 +163,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.onboardingBackground,
   },
-  buttonContainer: {
+  biometryButton: {
     width: '100%',
   },
   guideTitle: {
