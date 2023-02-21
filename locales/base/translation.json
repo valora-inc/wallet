@@ -705,7 +705,7 @@
     "changePIN": "Change PIN",
     "pinsDontMatch": "The PINs didn't match",
     "invalidPin": "Please use a stronger PIN",
-    "onboardingTitle": "Select a 6 digit PIN",
+    "onboardingTitle": "Choose a 6 digit PIN",
     "onboardingConfirm": "Enter your PIN again",
     "onboardingSubtitle": "Your PIN will secure your wallet",
     "pin": "PIN"
