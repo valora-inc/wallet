@@ -582,7 +582,6 @@
   "namePlaceholder": "ex. nom",
   "nameAndPicGuideCopyTitle": "Comment vous appelez-vous ?",
   "nameAndPicGuideCopyContent": "Nous voudrions savoir comment vous appeler.",
-  "importIt": "Restaurer le wallet",
   "important": "Important",
   "confirmPin": {
     "title": "Saisissez le code PIN"
@@ -778,9 +777,15 @@
     "resendButton": "Renvoyer le SMS"
   },
   "importExistingKey": {
-    "explanation": "Votre Phrase de récupération est une phrase de 24 mots que vous avez écrite et enregistrée lorsque vous avez créé votre compte. Veuillez la saisir ici pour restaurer votre compte.",
-    "explanationV1_50": "Votre Phrase de récupération est une phrase de 12 ou 24 mots que vous avez écrite et enregistrée lorsque vous avez créé votre compte. Veuillez la saisir ici pour restaurer votre compte.",
-    "keyPlaceholder": "cheval léopard chien singe ..."
+    "keyPlaceholder": "cheval léopard chien singe ...",
+    "header": "Restaurer un wallet",
+    "title": "Saisis ta phrase de récupération",
+    "description": "Utilise la phrase de 12 ou 24 mots que tu as enregistrée lorsque tu as configuré ton portefeuille pour le restaurer.",
+    "emptyWalletDialog": {
+      "description": "Ce portefeuille n'a pas de fonds. Veux-tu quand même l'utiliser ?",
+      "action": "Use Wallet",
+      "title": "Balance\n<0></0>"
+    }
   },
   "verificationInput": {
     "title": "Valider",
@@ -817,11 +822,6 @@
     "body": "<0>$t(verificationInputHelpDialog.bodySection1.title)</0>\n\n$t(verificationInputHelpDialog.bodySection1.content)\n\n<1>$t(verificationInputHelpDialog.bodySection2.title)</1>\n\n$t(verificationInputHelpDialog.bodySection2.content)",
     "skip": "Ignorer pour l'instant",
     "back": "Retour"
-  },
-  "emptyAccount": {
-    "description": "Ce compte n'a pas de fonds. Voulez-vous l'utiliser ?",
-    "useAccount": "Utiliser le compte",
-    "title": "Solde <0></0>"
   },
   "success": {
     "message": "Tout est prêt !"
