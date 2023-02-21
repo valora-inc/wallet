@@ -783,7 +783,7 @@
     "description": "Utilise la phrase de 12 ou 24 mots que tu as enregistrée lorsque tu as configuré ton portefeuille pour le restaurer.",
     "emptyWalletDialog": {
       "description": "Ce portefeuille n'a pas de fonds. Veux-tu quand même l'utiliser ?",
-      "action": "Use Wallet",
+      "action": "Utilise le porte-monnaie",
       "title": "Balance\n<0></0>"
     }
   },
