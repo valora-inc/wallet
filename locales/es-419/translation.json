@@ -582,7 +582,6 @@
   "namePlaceholder": "ex. nombre",
   "nameAndPicGuideCopyTitle": "¿Cómo te llamas?",
   "nameAndPicGuideCopyContent": "Nos gustaría saber cómo llamarte.",
-  "importIt": "Restaurar cuenta",
   "important": "Importante",
   "confirmPin": {
     "title": "Ingresa tu PIN"
@@ -778,9 +777,15 @@
     "resendButton": "Reenviar mensaje"
   },
   "importExistingKey": {
-    "explanation": "Tu Frase de recuperación es la frase de 24 palabras que escribiste y guardaste cuando configuraste tu cuenta. Por favor, ingrésala para restaurar tu cuenta.",
-    "explanationV1_50": "Tu Frase de recuperación es la frase de 12 o 24 palabras que escribiste y guardaste cuando configuraste tu cuenta. Por favor, ingrésala para restaurar tu cuenta.",
-    "keyPlaceholder": "caballo leopardo perro mono..."
+    "keyPlaceholder": "caballo leopardo perro mono...",
+    "header": "Restaurar wallet",
+    "title": "Introduce tu frase de recuperación",
+    "description": "Utiliza la frase de 12 ó 24 palabras que guardaste cuando configuraste tu monedero para restaurar.",
+    "emptyWalletDialog": {
+      "description": "Esta cartera no tiene fondos. ¿Te gustaría utilizarlo?",
+      "action": "Use Wallet",
+      "title": "Balance\n<0></0>"
+    }
   },
   "verificationInput": {
     "title": "Confirmar",
@@ -817,11 +822,6 @@
     "body": "<0>$t(verificationInputHelpDialog.bodySection1.title)</0>\n\n$t(verificationInputHelpDialog.bodySection1.content)\n\n<1>$t(verificationInputHelpDialog.bodySection2.title)</1>\n\n$t(verificationInputHelpDialog.bodySection2.content)",
     "skip": "Omitir por ahora",
     "back": "Regresar"
-  },
-  "emptyAccount": {
-    "description": "Esta cuenta no tiene fondos. ¿Todavía te gustaría usarla?",
-    "useAccount": "Usar cuenta",
-    "title": "Saldo <0></0>"
   },
   "success": {
     "message": "¡Todo listo!"
