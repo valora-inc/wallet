@@ -582,7 +582,6 @@
   "namePlaceholder": "ex. name",
   "nameAndPicGuideCopyTitle": "What’s your name?",
   "nameAndPicGuideCopyContent": "We’d like to know what to call you.",
-  "importIt": "Restore Wallet",
   "important": "Important",
   "confirmPin": {
     "title": "Enter PIN"
@@ -778,9 +777,15 @@
     "resendButton": "Resend text message"
   },
   "importExistingKey": {
-    "explanation": "Your Recovery Phrase is a 24-word phrase that you wrote down and saved when you set up your account. Please enter it here to restore your account.",
-    "explanationV1_50": "Your Recovery Phrase is a 12 or 24 word phrase that you wrote down and saved when you set up your account. Please enter it here to restore your account.",
-    "keyPlaceholder": "horse leopard dog monkey ..."
+    "keyPlaceholder": "horse leopard dog monkey ...",
+    "header": "Restore wallet",
+    "title": "Enter your recovery phrase",
+    "description": "Use the 12 or 24-word phrase that you saved when you set up your wallet to restore.",
+    "emptyWalletDialog": {
+      "description": "This wallet doesn’t have any funds. Would you still like to use it?",
+      "action": "Use Wallet",
+      "title": "Balance\n<0></0>"
+    }
   },
   "verificationInput": {
     "title": "Confirm",
@@ -817,11 +822,6 @@
     "body": "<0>$t(verificationInputHelpDialog.bodySection1.title)</0>\n\n$t(verificationInputHelpDialog.bodySection1.content)\n\n<1>$t(verificationInputHelpDialog.bodySection2.title)</1>\n\n$t(verificationInputHelpDialog.bodySection2.content)",
     "skip": "Skip for now",
     "back": "Go Back"
-  },
-  "emptyAccount": {
-    "description": "This account doesn’t have any funds. Would you still like to use it?",
-    "useAccount": "Use Account",
-    "title": "Balance <0></0>"
   },
   "success": {
     "message": "You're all set!"
