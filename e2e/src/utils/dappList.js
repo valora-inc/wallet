@@ -36,7 +36,7 @@ export async function scrollToDapp(dappIndex = 0) {
   try {
     await waitFor(element(by.id('DappCard')).atIndex(dappIndex))
       .toBeVisible(100)
-      .whileElement(by.id('DAppsExplorerScreen/DappsList'))
+      .whileElement(by.id('DAppsExplorerScreenLegacy/DappsList'))
       .scroll(250, 'down')
   } catch {
     console.log('Catch of scrollToDapp')
