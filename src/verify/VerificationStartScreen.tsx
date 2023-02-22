@@ -14,8 +14,8 @@ import { PhoneVerificationEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { registrationStepsSelector } from 'src/app/selectors'
 import BackButton from 'src/components/BackButton'
-import Button, { BtnTypes } from 'src/components/Button'
-import Dialog from 'src/components/Dialog'
+import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
+import InfoBottomSheet from 'src/components/InfoBottomSheet'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import PhoneNumberInput from 'src/components/PhoneNumberInput'
@@ -64,7 +64,6 @@ function VerificationStartScreen({
   navigation,
 }: NativeStackScreenProps<StackParamList, Screens.VerificationStartScreen>) {
   const [showLearnMoreDialog, setShowLearnMoreDialog] = useState(false)
-  const [showSkipDialog, setShowSkipDialog] = useState(false)
   const [phoneNumberInfo, setPhoneNumberInfo] = useState(() =>
     getPhoneNumberState(
       cachedNumber || '',
@@ -104,15 +103,6 @@ function VerificationStartScreen({
   }
 
   const onPressSkip = () => {
-    ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_skip)
-    setShowSkipDialog(true)
-  }
-
-  const onPressSkipCancel = () => {
-    setShowSkipDialog(false)
-  }
-
-  const onPressSkipConfirm = () => {
     dispatch(setHasSeenVerificationNux(true))
     ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_skip_confirm)
     navigateHome()
@@ -145,7 +135,7 @@ function VerificationStartScreen({
             title={t('skip')}
             testID="PhoneVerificationSkipHeader"
             onPress={onPressSkip}
-            titleStyle={{ color: colors.goldDark }}
+            titleStyle={{ color: colors.onboardingBrownLight }}
           />
         ),
       headerLeft: () => route.params?.hideOnboardingStep && <BackButton />,
@@ -249,6 +239,7 @@ function VerificationStartScreen({
           text={t('phoneVerificationScreen.startButtonLabel')}
           onPress={onPressStart}
           type={BtnTypes.ONBOARDING}
+          size={BtnSizes.FULL}
           showLoading={!signedMessageCreated}
           style={styles.startButton}
           disabled={!phoneNumberInfo.isValidNumber || !signedMessageCreated}
@@ -265,28 +256,13 @@ function VerificationStartScreen({
         </TextButton>
       </View>
       <KeyboardSpacer />
-      <Dialog
-        title={t('phoneVerificationScreen.skip.title')}
-        isVisible={showSkipDialog}
-        actionText={t('phoneVerificationScreen.skip.confirm')}
-        actionPress={onPressSkipConfirm}
-        secondaryActionPress={onPressSkipCancel}
-        secondaryActionText={t('phoneVerificationScreen.skip.cancel')}
-        testID="PhoneVerificationSkipDialog"
-      >
-        {t('phoneVerificationScreen.skip.body')}
-      </Dialog>
-      <Dialog
-        testID="PhoneVerificationLearnMoreDialog"
-        title={t('phoneVerificationScreen.learnMore.title')}
+      <InfoBottomSheet
         isVisible={showLearnMoreDialog}
-        actionText={t('dismiss')}
-        actionPress={onPressLearnMoreDismiss}
-        isActionHighlighted={false}
-        onBackgroundPress={onPressLearnMoreDismiss}
-      >
-        {t('phoneVerificationScreen.learnMore.body')}
-      </Dialog>
+        title={t('phoneVerificationScreen.learnMore.title')}
+        body={t('phoneVerificationScreen.learnMore.body')}
+        onDismiss={onPressLearnMoreDismiss}
+        testID="PhoneVerificationLearnMoreDialog"
+      />
     </SafeAreaView>
   )
 }
@@ -303,18 +279,20 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   header: {
-    ...fontStyles.h2,
+    ...fontStyles.h1,
     marginBottom: Spacing.Regular16,
+    textAlign: 'center',
   },
   body: {
     ...fontStyles.regular,
-    marginBottom: Spacing.Thick24,
+    marginBottom: 32,
+    textAlign: 'center',
   },
   startButton: {
     marginBottom: Spacing.Thick24,
   },
   phoneNumber: {
-    marginBottom: Spacing.Thick24,
+    marginBottom: 32,
   },
   bottomButtonContainer: {
     padding: Spacing.Thick24,
