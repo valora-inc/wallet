@@ -698,16 +698,15 @@
   "registrationSteps": "Bước {{step}}/{{totalSteps}}",
   "selectCountryCode": "Chọn mã quốc gia",
   "pincodeSet": {
-    "create": "Tạo mã PIN",
     "createNew": "Tạo mã PIN mới",
     "verify": "Nhập lại mã PIN để xác nhận",
     "changePIN": "Thay đổi mã PIN",
     "pinsDontMatch": "Mã PIN không khớp",
     "invalidPin": "Vui lòng sử dụng mã PIN mạnh hơn",
-    "guideTitle": "Chọn mã PIN 6 chữ số mà bạn có thể nhớ được",
-    "guideConfirm": "Nhập lại mã PIN để xác nhận.",
-    "pinCodeGuide": "Mã PIN là cách bảo mật ví của bạn.",
-    "selectPIN": "Chọn mã PIN"
+    "onboardingTitle": "Choose a 6 digit PIN",
+    "onboardingConfirm": "Enter your PIN again",
+    "onboardingSubtitle": "Your PIN will secure your wallet",
+    "pin": "PIN"
   },
   "inviteCode": {
     "title": "Mã lời mời",
