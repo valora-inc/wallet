@@ -746,13 +746,13 @@
   },
   "phoneVerificationScreen": {
     "screenTitle": "Telefonnummer",
-    "title": "Verbinde deine Telefonnummer",
-    "description": "Um deine Telefonnummer zu verbinden, erhältst du eine Textnachricht.",
-    "startButtonLabel": "Start",
+    "title": "Verbinde deine Rufnummer mit Valora",
+    "description": "This links your wallet address to your phone number so sending crypto is easy",
+    "startButtonLabel": "Verbinden",
     "learnMore": {
-      "buttonLabel": "Muss ich mein Telefon verbinden?",
-      "title": "Muss ich mein Telefon verbinden?",
-      "body": "Wenn du deine Telefonnummer verbindest, kannst du Geld an Freunde in deinem Adressbuch sowie an andere Telefonnummern senden.\n\nWenn du diesen Schritt überspringst, kannst du nicht auf deine Kontakte zugreifen. Du kannst dann nur Geld per QR-Code oder über die Konto-Adressen versenden."
+      "buttonLabel": "Muss ich verbinden?",
+      "title": "Muss ich verbinden?",
+      "body": "Wenn du deine Telefonnummer verbindest, kannst du Geld an Freunde in deinem Adressbuch und andere Telefonnummern senden. \n \n Wenn du diesen Schritt überspringst, kannst du nicht auf deine Kontakte zugreifen und nur über den QR-Code oder die Brieftaschenadresse Geld senden."
     },
     "skip": {
       "title": "Bist du sicher?",
@@ -768,13 +768,13 @@
     "codeInputPlaceholder": "123456",
     "helpDialog": {
       "title": "Hilfe",
-      "body": "Wir haben eine SMS an deine Telefonnummer geschickt. Bitte überprüfe deine SMS, um den 6-stelligen Code zu finden. Wenn du Probleme beim Empfang von Nachrichten hast, kannst du diesen Schritt überspringen und es später noch einmal versuchen.",
+      "body": "Wir haben eine SMS an deine Telefonnummer geschickt. Bitte überprüfe deine SMS, um den 6-stelligen Code zu finden. \n \n Wenn du Probleme beim Empfang von Nachrichten hast, kannst du diesen Schritt überspringen und es später noch einmal versuchen.",
       "skip": "Überspringen",
       "dismiss": "Zurück"
     },
     "verificationFailure": "Etwas ist schief gelaufen, bitte versuche es später erneut.",
     "resendButtonNotYetAvailable": "„Erneut senden“ in {{secondsRemaining}} Sekunde(n) verfügbar",
-    "resendButton": "Textnachricht erneut senden"
+    "resendButton": "Du hast den Code nicht erhalten?"
   },
   "importExistingKey": {
     "keyPlaceholder": "horse leopard dog monkey ...",
