@@ -661,7 +661,6 @@
     "spend": "Alışveriş için kripto kullanın"
   },
   "enableBiometry": {
-    "title": "Cüzdanınızı emniyete alın",
     "description": "{{biometryType}}, cüzdanınızın güvenliğini sağlar ve {{appName}} kullanımını kolaylaştırır",
     "cta": "{{biometryType}} etkinleştir",
     "guideTitle": "{{biometryType}} eklemek ister misiniz?",
@@ -747,7 +746,7 @@
   "phoneVerificationScreen": {
     "screenTitle": "Telefon Numarası",
     "title": "Telefon numaranızı Valora'ya bağlayın",
-    "description": "This links your wallet address to your phone number so sending crypto is easy",
+    "description": "Bu, cüzdan adresinizi telefon numaranıza bağlar, böylece kripto göndermek kolaydır",
     "startButtonLabel": "Bağla",
     "learnMore": {
       "buttonLabel": "Bağlanmam gerekiyor mu?",
