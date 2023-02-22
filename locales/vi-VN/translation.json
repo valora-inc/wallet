@@ -746,13 +746,13 @@
   },
   "phoneVerificationScreen": {
     "screenTitle": "Số điện thoại",
-    "title": "Kết nối số điện thoại của bạn",
-    "description": "Để kết nối số điện thoại, bạn sẽ nhận được một tin nhắn văn bản.",
-    "startButtonLabel": "Bắt đầu",
+    "title": "Connect your phone number to Valora",
+    "description": "This links your wallet address to your phone number so sending crypto is easy",
+    "startButtonLabel": "Kết nối",
     "learnMore": {
-      "buttonLabel": "Tôi có cần kết nối điện thoại của mình không?",
-      "title": "Tôi có cần kết nối điện thoại của mình không?",
-      "body": "Việc kết nối số điện thoại cho phép bạn gửi tiền cho bạn bè trong sổ địa chỉ và các số điện thoại khác. \n \n Nếu bỏ qua bước này, bạn sẽ không truy cập được vào danh bạ và chỉ có thể gửi tiền qua mã QR hoặc Địa chỉ tài khoản."
+      "buttonLabel": "Tôi có cần kết nối không?",
+      "title": "Tôi có cần kết nối không?",
+      "body": "Connecting your phone number will allow you to send money to friends in your address book and other phone numbers. \n \n If you choose to skip this step you won’t be able to access your contacts and you will only be able to send money via QR code or wallet address."
     },
     "skip": {
       "title": "Bạn có chắc chắn không?",
@@ -768,13 +768,13 @@
     "codeInputPlaceholder": "123456",
     "helpDialog": {
       "title": "Trợ giúp",
-      "body": "Chúng tôi đã gửi tin nhắn SMS đến số điện thoại của bạn. Vui lòng kiểm tra tin nhắn văn bản để tìm mã gồm 6 chữ số. Nếu gặp sự cố khi nhận tin nhắn, bạn có thể tạm thời bỏ qua bước này và thử lại sau.",
+      "body": "We sent an SMS to your phone number. Please check your text messages to find the 6 digit code. \n \n If you’re having trouble receiving messages, you can skip this step for now and try again later.",
       "skip": "Bỏ qua",
       "dismiss": "Quay lại"
     },
     "verificationFailure": "Rất tiếc! Đã xảy ra lỗi, vui lòng thử lại sau.",
     "resendButtonNotYetAvailable": "Có thể gửi lại trong {{secondsRemaining}} giây nữa",
-    "resendButton": "Gửi lại tin nhắn văn bản"
+    "resendButton": "Didn’t receive code?"
   },
   "importExistingKey": {
     "keyPlaceholder": "ngựa báo chó khỉ...",
