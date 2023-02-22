@@ -1,7 +1,7 @@
 import { parseInputAmount } from '@celo/utils/lib/parsing'
 import BigNumber from 'bignumber.js'
 import React, { useEffect, useMemo, useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { Keyboard, StyleSheet, Text, View } from 'react-native'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -14,6 +14,7 @@ import Button, { BtnSizes } from 'src/components/Button'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
+import { SWAP_LEARN_MORE } from 'src/config'
 import { useMaxSendAmount } from 'src/fees/hooks'
 import { FeeType } from 'src/fees/reducer'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
@@ -21,6 +22,7 @@ import { styles as headerStyles } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { swapInfoSelector } from 'src/swap/selectors'
 import { setSwapUserInput } from 'src/swap/slice'
@@ -218,6 +220,11 @@ export function SwapScreen() {
     return null
   }
 
+  const onPressLearnMore = () => {
+    ValoraAnalytics.track(SwapEvents.swap_learn_more)
+    navigate(Screens.WebViewScreen, { uri: SWAP_LEARN_MORE })
+  }
+
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
       <DrawerTopBar
@@ -261,6 +268,14 @@ export function SwapScreen() {
             loading={updatedField === Field.FROM && fetchingSwapQuote}
           />
         </View>
+        <Text style={[styles.disclaimerWrapper, fontStyles.regular, styles.disclaimerText]}>
+          <Trans i18nKey="swapScreen.disclaimer">
+            <Text
+              style={[fontStyles.regular600, styles.disclaimerLink]}
+              onPress={onPressLearnMore}
+            ></Text>
+          </Trans>
+        </Text>
         <Button
           onPress={handleReview}
           text={t('swapScreen.review')}
@@ -306,6 +321,20 @@ const styles = StyleSheet.create({
   },
   mutedHeader: {
     color: colors.gray3,
+  },
+  disclaimerWrapper: {
+    paddingBottom: Spacing.Thick24,
+    justifyContent: 'flex-end',
+    flexWrap: 'wrap',
+  },
+  disclaimerText: {
+    color: colors.gray5,
+    textAlign: 'center',
+  },
+  disclaimerLink: {
+    textDecorationLine: 'underline',
+    color: colors.greenUI,
+    flexWrap: 'wrap',
   },
 })
 
