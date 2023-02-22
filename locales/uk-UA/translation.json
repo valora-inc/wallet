@@ -698,16 +698,15 @@
   "registrationSteps": "Крок {{step}} із {{totalSteps}}",
   "selectCountryCode": "Виберіть код країни",
   "pincodeSet": {
-    "create": "Створити PIN-код",
     "createNew": "Створити новий PIN-код",
     "verify": "Введіть PIN-код ще раз для підтвердження",
     "changePIN": "Змінити PIN-код",
     "pinsDontMatch": "PIN-коди не збігаються",
     "invalidPin": "Просимо використовувати сильніший PIN-код",
-    "guideTitle": "Виберіть 6-значний PIN-код, який легко запам’ятати",
-    "guideConfirm": "Введіть PIN-код ще раз для підтвердження.",
-    "pinCodeGuide": "Ваш PIN-код ― це спосіб захисту вашого гаманця.",
-    "selectPIN": "Виберіть PIN-код"
+    "onboardingTitle": "Виберіть 6-значний PIN-код",
+    "onboardingConfirm": "Введіть PIN-код ще раз",
+    "onboardingSubtitle": "Ваш PIN-код захистить ваш гаманець",
+    "pin": "PIN-код"
   },
   "inviteCode": {
     "title": "Код запрошення",
