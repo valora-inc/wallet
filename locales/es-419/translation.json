@@ -661,7 +661,6 @@
     "spend": "Usa tu cripto para comprar tus marcas favoritas"
   },
   "enableBiometry": {
-    "title": "Mantén tu wallet segura",
     "description": "{{biometryType}} matiene tu cuenta segura y facilita el uso de {{appName}}",
     "cta": "Habilitar {{biometryType}}",
     "guideTitle": "¿Te gustaría habilitar {{biometryType}}?",
@@ -747,7 +746,7 @@
   "phoneVerificationScreen": {
     "screenTitle": "Número de teléfono",
     "title": "Conecta tu número de teléfono a Valora",
-    "description": "This links your wallet address to your phone number so sending crypto is easy",
+    "description": "Esto vincula la dirección de tu monedero a tu número de teléfono para que enviar criptomonedas sea fácil",
     "startButtonLabel": "Conectar",
     "learnMore": {
       "buttonLabel": "¿Necesito conectar mi número?",
