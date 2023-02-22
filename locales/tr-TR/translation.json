@@ -698,16 +698,15 @@
   "registrationSteps": "Toplam {{totalSteps}} adımdan {{step}}.",
   "selectCountryCode": "Ülke Kodu Seçin",
   "pincodeSet": {
-    "create": "PIN Oluştur",
     "createNew": "Yeni PIN oluştur",
     "verify": "Doğrulamak için PIN'i tekrar girin",
     "changePIN": "PIN Değiştir",
     "pinsDontMatch": "PIN'ler eşleşmedi",
     "invalidPin": "Lütfen daha güçlü bir Pin kullanın",
-    "guideTitle": "Unutmayacağınız 6 haneli bir PIN seçin",
-    "guideConfirm": "Doğrulamak için PIN'i tekrar girin.",
-    "pinCodeGuide": "PIN'iniz, cüzdanınızı güvence altına almak içindir.",
-    "selectPIN": "PIN seçin"
+    "onboardingTitle": "6 haneli bir PIN seçin",
+    "onboardingConfirm": "PIN kodunuzu tekrar girin",
+    "onboardingSubtitle": "PIN kodunuz cüzdanınızı güvence altına alacak",
+    "pin": "PIN"
   },
   "inviteCode": {
     "title": "Davet Kodu",
