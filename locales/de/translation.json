@@ -1493,7 +1493,8 @@
     "swapFrom": "Von",
     "swapTo": "Zu",
     "insufficientFunds": "Unzureichendes {{token}}-Guthaben. Versuche es mit einem kleineren Betrag oder wähle einen anderen Token.",
-    "fetchSwapQuoteFailed": "Entschuldige die Verzögerung! Es dauert länger als üblich, um den besten Wechselkurs zu ermitteln. Bitte versuche es in ein paar Minuten erneut."
+    "fetchSwapQuoteFailed": "Entschuldige die Verzögerung! Es dauert länger als üblich, um den besten Wechselkurs zu ermitteln. Bitte versuche es in ein paar Minuten erneut.",
+    "disclaimer": "Swaps powered by Partner auf Celo. <0>Erfahre mehr.</0>"
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Tausch von",
