@@ -746,13 +746,13 @@
   },
   "phoneVerificationScreen": {
     "screenTitle": "Phone Number",
-    "title": "Connect your phone number",
-    "description": "To connect your phone number, you'll receive a text message.",
-    "startButtonLabel": "Start",
+    "title": "Connect your phone number to Valora",
+    "description": "This links your wallet address to your phone number so sending crypto is easy",
+    "startButtonLabel": "Connect",
     "learnMore": {
-      "buttonLabel": "Do I need to connect my phone?",
-      "title": "Do I need to connect my phone?",
-      "body": "Connecting your phone number will allow you to send money to friends in your address book and other phone numbers. \n \n If you choose to skip this step you won’t be able to access your contacts and you will only be able to send money via QR code or Account Address."
+      "buttonLabel": "Do I need to connect?",
+      "title": "Do I need to connect?",
+      "body": "Connecting your phone number will allow you to send money to friends in your address book and other phone numbers. \n \n If you choose to skip this step you won’t be able to access your contacts and you will only be able to send money via QR code or wallet address."
     },
     "skip": {
       "title": "Are you sure?",
@@ -768,13 +768,13 @@
     "codeInputPlaceholder": "123456",
     "helpDialog": {
       "title": "Help",
-      "body": "We sent an SMS to your phone number. Please check your text messages to find the 6 digit code. If you’re having trouble receiving messages, you can skip this step for now and try again later.",
+      "body": "We sent an SMS to your phone number. Please check your text messages to find the 6 digit code. \n \n If you’re having trouble receiving messages, you can skip this step for now and try again later.",
       "skip": "Skip",
       "dismiss": "Go back"
     },
     "verificationFailure": "Oops! Something went wrong, please try again later.",
     "resendButtonNotYetAvailable": "Resend available in {{secondsRemaining}} second(s)",
-    "resendButton": "Resend text message"
+    "resendButton": "Didn’t receive code?"
   },
   "importExistingKey": {
     "keyPlaceholder": "horse leopard dog monkey ...",
