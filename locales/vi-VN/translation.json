@@ -661,7 +661,6 @@
     "spend": "Sử dụng tiền điện tử để mua sắm thương hiệu yêu thích"
   },
   "enableBiometry": {
-    "title": "Bảo mật ví của bạn",
     "description": "{{biometryType}} bảo mật ví của bạn và giúp bạn sử dụng {{appName}} dễ dàng hơn",
     "cta": "Bật {{biometryType}}",
     "guideTitle": "Bạn muốn nạp {{biometryType}}?",
