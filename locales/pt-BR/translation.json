@@ -1493,7 +1493,8 @@
     "swapFrom": "De",
     "swapTo": "Para",
     "insufficientFunds": "Saldo de {{token}} insuficiente. Insira um valor menor ou escolha um token diferente.",
-    "fetchSwapQuoteFailed": "Lamentamos o atraso! A obtenção da melhor taxa de câmbio está demorando mais do que o normal. Tente novamente mais tarde."
+    "fetchSwapQuoteFailed": "Lamentamos o atraso! A obtenção da melhor taxa de câmbio está demorando mais do que o normal. Tente novamente mais tarde.",
+    "disclaimer": "Swaps alimentados por parceiros na Celo. <0>Saiba mais.</0>"
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Trocar de",
