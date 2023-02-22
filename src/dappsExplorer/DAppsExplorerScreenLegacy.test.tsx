@@ -4,7 +4,7 @@ import { Provider } from 'react-redux'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { dappSelected, favoriteDapp, fetchDappsList, unfavoriteDapp } from 'src/dapps/slice'
 import { Dapp, DappCategory, DappSection } from 'src/dapps/types'
-import DAppsExplorerScreen from 'src/dappsExplorer/DAppsExplorerScreen'
+import DAppsExplorerScreenLegacy from 'src/dappsExplorer/DAppsExplorerScreenLegacy'
 import { createMockStore } from 'test/utils'
 
 jest.mock('src/analytics/ValoraAnalytics')
@@ -49,7 +49,7 @@ const defaultStore = createMockStore({
   dapps: { dappListApiUrl: 'http://url.com', dappsList, dappsCategories },
 })
 
-describe(DAppsExplorerScreen, () => {
+describe(DAppsExplorerScreenLegacy, () => {
   beforeEach(() => {
     defaultStore.clearActions()
     jest.clearAllMocks()
@@ -58,7 +58,7 @@ describe(DAppsExplorerScreen, () => {
   it('renders correctly when no featured dapp is available', () => {
     const { getByTestId, queryByTestId } = render(
       <Provider store={defaultStore}>
-        <DAppsExplorerScreen />
+        <DAppsExplorerScreenLegacy />
       </Provider>
     )
 
@@ -95,7 +95,7 @@ describe(DAppsExplorerScreen, () => {
     })
     const { getByTestId, queryByTestId } = render(
       <Provider store={store}>
-        <DAppsExplorerScreen />
+        <DAppsExplorerScreenLegacy />
       </Provider>
     )
 
@@ -116,7 +116,7 @@ describe(DAppsExplorerScreen, () => {
   it('opens the screen directly when using a deeplink', () => {
     const { getByTestId, queryByTestId } = render(
       <Provider store={defaultStore}>
-        <DAppsExplorerScreen />
+        <DAppsExplorerScreenLegacy />
       </Provider>
     )
 
@@ -136,7 +136,7 @@ describe(DAppsExplorerScreen, () => {
   it('displays the dapps disclaimer bottom sheet when selecting a dapp', () => {
     const { getByTestId, getByText } = render(
       <Provider store={defaultStore}>
-        <DAppsExplorerScreen />
+        <DAppsExplorerScreenLegacy />
       </Provider>
     )
 
@@ -166,7 +166,7 @@ describe(DAppsExplorerScreen, () => {
     })
     const { getByTestId, getByText, queryByText } = render(
       <Provider store={store}>
-        <DAppsExplorerScreen />
+        <DAppsExplorerScreenLegacy />
       </Provider>
     )
 
@@ -194,7 +194,7 @@ describe(DAppsExplorerScreen, () => {
       })
       const { getByText } = render(
         <Provider store={store}>
-          <DAppsExplorerScreen />
+          <DAppsExplorerScreenLegacy />
         </Provider>
       )
 
@@ -214,11 +214,11 @@ describe(DAppsExplorerScreen, () => {
       })
       const { getByTestId, queryByText } = render(
         <Provider store={store}>
-          <DAppsExplorerScreen />
+          <DAppsExplorerScreenLegacy />
         </Provider>
       )
 
-      const favoritesSection = getByTestId('DAppExplorerScreen/FavoriteDappsSection')
+      const favoritesSection = getByTestId('DAppsExplorerScreenLegacy/FavoriteDappsSectionLegacy')
       expect(within(favoritesSection).queryByText(dappsList[0].name)).toBeFalsy()
       expect(within(favoritesSection).getByText(dappsList[1].name)).toBeTruthy()
       expect(within(favoritesSection).getByText(dappsList[1].description)).toBeTruthy()
@@ -237,14 +237,14 @@ describe(DAppsExplorerScreen, () => {
       })
       const { getByTestId, getByText } = render(
         <Provider store={store}>
-          <DAppsExplorerScreen />
+          <DAppsExplorerScreenLegacy />
         </Provider>
       )
 
       // don't include events dispatched on screen load
       jest.clearAllMocks()
 
-      const allDappsSection = getByTestId('DAppExplorerScreen/DappsList')
+      const allDappsSection = getByTestId('DAppsExplorerScreenLegacy/DappsList')
       fireEvent.press(within(allDappsSection).getByTestId('Dapp/Favorite/dapp2'))
 
       // favorited dapp confirmation toast
@@ -272,7 +272,7 @@ describe(DAppsExplorerScreen, () => {
       })
       const { getByTestId, getAllByTestId, queryByText } = render(
         <Provider store={store}>
-          <DAppsExplorerScreen />
+          <DAppsExplorerScreenLegacy />
         </Provider>
       )
 
@@ -283,7 +283,7 @@ describe(DAppsExplorerScreen, () => {
       // should only appear once, in the favorites section
       expect(selectedDappCards).toHaveLength(1)
 
-      const favoritesSection = getByTestId('DAppExplorerScreen/FavoriteDappsSection')
+      const favoritesSection = getByTestId('DAppsExplorerScreenLegacy/FavoriteDappsSectionLegacy')
       fireEvent.press(within(favoritesSection).getByTestId('Dapp/Favorite/dapp2'))
 
       expect(queryByText('dappsScreen.favoritedDappToast.message')).toBeFalsy()

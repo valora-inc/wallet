@@ -27,7 +27,7 @@ import {
 import { fetchDappsList } from 'src/dapps/slice'
 import { Dapp, DappSection } from 'src/dapps/types'
 import DappCard from 'src/dappsExplorer/DappCard'
-import FavoriteDappsSection from 'src/dappsExplorer/FavoriteDappsSection'
+import FavoriteDappsSection from 'src/dappsExplorer/FavoriteDappsSectionLegacy'
 import FeaturedDappCard from 'src/dappsExplorer/FeaturedDappCard'
 import useDappFavoritedToast from 'src/dappsExplorer/useDappFavoritedToast'
 import useDappInfoBottomSheet from 'src/dappsExplorer/useDappInfoBottomSheet'
@@ -51,7 +51,7 @@ interface SectionData {
   category: CategoryWithDapps
 }
 
-export function DAppsExplorerScreen() {
+export function DAppsExplorerScreenLegacy() {
   const { t } = useTranslation()
   const insets = useSafeAreaInsets()
 
@@ -93,7 +93,7 @@ export function DAppsExplorerScreen() {
         middleElement={<Text style={headerStyles.headerTitle}>{t('dappsScreen.title')}</Text>}
         rightElement={
           <TopBarIconButton
-            testID="DAppsExplorerScreen/HelpIcon"
+            testID="DAppsExplorerScreenLegacy/HelpIcon"
             icon={<Help />}
             onPress={openSheet}
           />
@@ -173,7 +173,7 @@ export function DAppsExplorerScreen() {
             renderSectionHeader={({ section }: { section: SectionListData<Dapp, SectionData> }) => (
               <CategoryHeader category={section.category} />
             )}
-            testID="DAppExplorerScreen/DappsList"
+            testID="DAppsExplorerScreenLegacy/DappsList"
           />
         )}
       </>
@@ -269,4 +269,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default DAppsExplorerScreen
+export default DAppsExplorerScreenLegacy
