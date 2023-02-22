@@ -661,7 +661,6 @@
     "spend": "Используйте криптовалюту для покупки любимых брендов"
   },
   "enableBiometry": {
-    "title": "Защитите ваш кошелек",
     "description": "{{biometryType}} поможет защитить ваш кошелек и упростить использование {{appName}}",
     "cta": "Включить {{biometryType}}",
     "guideTitle": "Хотите добавить {{biometryType}}?",
@@ -747,7 +746,7 @@
   "phoneVerificationScreen": {
     "screenTitle": "Номер телефона",
     "title": "Подключи свой телефонный номер к Valora",
-    "description": "This links your wallet address to your phone number so sending crypto is easy",
+    "description": "Это связывает адрес твоего кошелька с номером телефона, поэтому отправлять криптовалюту очень просто",
     "startButtonLabel": "Подключить",
     "learnMore": {
       "buttonLabel": "Нужно ли мне подключаться?",
