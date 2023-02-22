@@ -661,7 +661,6 @@
     "spend": "Use suas criptos para comprar suas marcas favoritas"
   },
   "enableBiometry": {
-    "title": "Proteja sua carteira",
     "description": "{{biometryType}} protege sua conta e faz com que seja mais fácil usar {{appName}}",
     "cta": "Ativar {{biometryType}}",
     "guideTitle": "Deseja ativar {{biometryType}}?",
