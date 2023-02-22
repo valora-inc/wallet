@@ -698,16 +698,15 @@
   "registrationSteps": "Krok {{step}} z {{totalSteps}}",
   "selectCountryCode": "Wybierz kod kraju",
   "pincodeSet": {
-    "create": "Utwórz kod PIN",
     "createNew": "Utwórz nowy kod PIN",
     "verify": "Wprowadź ponownie kod PIN, aby potwierdzić",
     "changePIN": "Zmień kod PIN",
     "pinsDontMatch": "Kody PIN nie zgadzają się",
     "invalidPin": "Użyj silniejszego kodu PIN",
-    "guideTitle": "Wybierz 6-cyfrowy kod PIN, który zapamiętasz",
-    "guideConfirm": "Wprowadź ponownie kod PIN, aby potwierdzić.",
-    "pinCodeGuide": "PIN to sposób na zabezpieczenie Twojego portfela.",
-    "selectPIN": "Wybierz PIN"
+    "onboardingTitle": "Wybierz 6-cyfrowy kod PIN",
+    "onboardingConfirm": "Wprowadź ponownie swój kod PIN",
+    "onboardingSubtitle": "Twój kod PIN zabezpieczy Twój portfel",
+    "pin": "PIN"
   },
   "inviteCode": {
     "title": "Kod zaproszenia",
