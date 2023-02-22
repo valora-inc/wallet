@@ -746,13 +746,13 @@
   },
   "phoneVerificationScreen": {
     "screenTitle": "Numéro de téléphone",
-    "title": "Connectez votre numéro de téléphone",
-    "description": "Pour connecter votre numéro de téléphone, vous recevrez un SMS.",
-    "startButtonLabel": "Commencer",
+    "title": "Connecte ton numéro de téléphone à Valora",
+    "description": "This links your wallet address to your phone number so sending crypto is easy",
+    "startButtonLabel": "Connecter",
     "learnMore": {
-      "buttonLabel": "Dois-je connecter mon téléphone ?",
-      "title": "Dois-je connecter mon téléphone ?",
-      "body": "Connecter votre numéro de téléphone vous permettra d'envoyer de l'argent à vos contacts et d'autres numéros de téléphone. \n \nSi vous choisissez de sauter cette étape, vous ne pourrez pas accéder à vos contacts, et vous ne pourrez envoyer de l’argent que via le code QR ou l’Adresse du compte."
+      "buttonLabel": "Dois-je connecter mon numéro ?",
+      "title": "Dois-je connecter mon numéro ?",
+      "body": "En connectant ton numéro de téléphone, tu pourras envoyer de l'argent aux amis de ton carnet d'adresses et à d'autres numéros de téléphone. \n \n Si tu choisis de sauter cette étape, tu ne pourras pas accéder à tes contacts et tu ne pourras envoyer de l'argent que par code QR ou adresse de portefeuille."
     },
     "skip": {
       "title": "Êtes-vous sûr ?",
@@ -768,13 +768,13 @@
     "codeInputPlaceholder": "123456",
     "helpDialog": {
       "title": "Aide",
-      "body": "Nous avons envoyé un SMS à votre numéro de téléphone. Veuillez consulter vos SMS, un code à 6 chiffres devrait s'y trouver. Si vous ne recevez pas nos messages, vous pouvez sauter cette étape pour le moment et réessayer plus tard.",
+      "body": "Nous avons envoyé un SMS à ton numéro de téléphone. Vérifie tes SMS pour trouver le code à 6 chiffres. \n \n Si tu as des difficultés à recevoir des messages, tu peux sauter cette étape pour l'instant et réessayer plus tard.",
       "skip": "Ignorer",
       "dismiss": "Retour"
     },
     "verificationFailure": "Une erreur s'est produite, veuillez réessayer plus tard.",
     "resendButtonNotYetAvailable": "Renvoi disponible dans {{secondsRemaining}} seconde(s)",
-    "resendButton": "Renvoyer le SMS"
+    "resendButton": "Tu n'as pas reçu de code ?"
   },
   "importExistingKey": {
     "keyPlaceholder": "cheval léopard chien singe ...",
