@@ -14,6 +14,7 @@ import Button, { BtnSizes } from 'src/components/Button'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
+import { SWAP_LEARN_MORE } from 'src/config'
 import { useMaxSendAmount } from 'src/fees/hooks'
 import { FeeType } from 'src/fees/reducer'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
@@ -21,6 +22,7 @@ import { styles as headerStyles } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { swapInfoSelector } from 'src/swap/selectors'
 import { setSwapUserInput } from 'src/swap/slice'
@@ -28,8 +30,6 @@ import SwapAmountInput from 'src/swap/SwapAmountInput'
 import { Field, SwapAmount } from 'src/swap/types'
 import useSwapQuote from 'src/swap/useSwapQuote'
 import { coreTokensSelector } from 'src/tokens/selectors'
-import { navigateToURI } from 'src/utils/linking'
-import fontStyles from 'src/styles/fonts'
 
 const FETCH_UPDATED_QUOTE_DEBOUNCE_TIME = 500
 const DEFAULT_TO_TOKEN = 'cUSD'
@@ -221,10 +221,8 @@ export function SwapScreen() {
   }
 
   const onPressLearnMore = () => {
-    //
-    // TODO(sbw): we need to include the actualy help article link here.
-    //
-    navigateToURI('https://valoraapp.com')
+    ValoraAnalytics.track(SwapEvents.swap_learn_more)
+    navigate(Screens.WebViewScreen, { uri: SWAP_LEARN_MORE })
   }
 
   return (

@@ -551,6 +551,7 @@ export enum SwapEvents {
   swap_execute_price_change = 'swap_execute_price_change', // When guaranteed is greater than 2% difference than the quoted price.
   swap_execute_success = 'swap_execute_success', // When the swap is executed successfully
   swap_execute_error = 'swap_execute_error', // When the swap returns an error
+  swap_learn_more = 'swap_learn_more', // When a user taps on the learn more button on the swap screen
 }
 
 export enum CeloNewsEvents {
