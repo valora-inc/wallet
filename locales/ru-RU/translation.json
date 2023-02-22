@@ -698,16 +698,15 @@
   "registrationSteps": "Шаг {{step}} из {{totalSteps}}",
   "selectCountryCode": "Выберите код страны",
   "pincodeSet": {
-    "create": "Создать PIN-код",
     "createNew": "Создать новый PIN-код",
     "verify": "Повторно введите PIN-код для подтверждения",
     "changePIN": "Изменить PIN-код",
     "pinsDontMatch": "PIN-код не совпадает",
     "invalidPin": "Используйте более надежный PIN-код",
-    "guideTitle": "Придумайте 6-значный PIN-код, который вы запомните",
-    "guideConfirm": "Повторно введите PIN-код для подтверждения.",
-    "pinCodeGuide": "Ваш PIN-код — это средство защиты вашего кошелька.",
-    "selectPIN": "Придумайте PIN-код"
+    "onboardingTitle": "Выберите 6-значный PIN-код",
+    "onboardingConfirm": "Снова введите PIN-код",
+    "onboardingSubtitle": "Твой PIN-код обеспечит безопасность твоего кошелька",
+    "pin": "PIN"
   },
   "inviteCode": {
     "title": "Код приглашения",
