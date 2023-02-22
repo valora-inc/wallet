@@ -56,8 +56,6 @@ describe('VerificationStartScreen', () => {
     expect(getByTestId('CountrySelectionButton')).toBeTruthy()
     expect(getByTestId('PhoneNumberField')).toBeTruthy()
     expect(getByText('phoneVerificationScreen.learnMore.buttonLabel')).toBeTruthy()
-    expect(getByTestId('PhoneVerificationLearnMoreDialog').props.visible).toBe(false)
-    expect(getByTestId('PhoneVerificationSkipDialog').props.visible).toBe(false)
   })
 
   it('does not allow starting CPV when signed message is not yet available', () => {
@@ -75,35 +73,25 @@ describe('VerificationStartScreen', () => {
     expect(queryByText('phoneVerificationScreen.startButtonLabel')).toBeFalsy()
   })
 
-  it('shows the learn more dialog', () => {
+  it('shows the learn more dialog', async () => {
     const { getByTestId, getByText } = renderComponent()
 
     act(() => {
       fireEvent.press(getByText('phoneVerificationScreen.learnMore.buttonLabel'))
     })
-
+    await waitFor(() => expect(getByTestId('PhoneVerificationLearnMoreDialog')).toBeTruthy())
     const LearnMoreDialog = getByTestId('PhoneVerificationLearnMoreDialog')
-    expect(LearnMoreDialog.props.visible).toBe(true)
     expect(
       within(LearnMoreDialog).getByText('phoneVerificationScreen.learnMore.title')
     ).toBeTruthy()
     expect(within(LearnMoreDialog).getByText('phoneVerificationScreen.learnMore.body')).toBeTruthy()
   })
 
-  it('shows the skip dialog', () => {
-    const { getByText, getByTestId } = renderComponent({ hideOnboardingStep: false })
+  it('skip button works', () => {
+    const { getByText } = renderComponent({ hideOnboardingStep: false })
 
     act(() => {
       fireEvent.press(getByText('skip'))
-    })
-
-    const SkipDialog = getByTestId('PhoneVerificationSkipDialog')
-    expect(SkipDialog.props.visible).toBe(true)
-    expect(within(SkipDialog).getByText('phoneVerificationScreen.skip.title')).toBeTruthy()
-    expect(within(SkipDialog).getByText('phoneVerificationScreen.skip.body')).toBeTruthy()
-
-    act(() => {
-      fireEvent.press(getByText('phoneVerificationScreen.skip.confirm'))
     })
 
     expect(navigateHome).toHaveBeenCalledTimes(1)
