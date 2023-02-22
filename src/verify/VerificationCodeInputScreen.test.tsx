@@ -1,5 +1,5 @@
-import { sleep } from '@celo/utils/lib/async'
 import * as DEK from '@celo/cryptographic-utils/lib/dataEncryptionKey'
+import { sleep } from '@celo/utils/lib/async'
 import { act, fireEvent, render, waitFor, within } from '@testing-library/react-native'
 import { FetchMock } from 'jest-fetch-mock/types'
 import MockDate from 'mockdate'
@@ -9,7 +9,7 @@ import SmsRetriever from 'react-native-sms-retriever'
 import { Provider } from 'react-redux'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { navigate, navigateHome } from 'src/navigator/NavigationService'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import VerificationCodeInputScreen from 'src/verify/VerificationCodeInputScreen'
 import networkConfig from 'src/web3/networkConfig'
@@ -73,7 +73,6 @@ describe('VerificationCodeInputScreen', () => {
     ).toBeTruthy()
     expect(getByText('phoneVerificationInput.help')).toBeTruthy()
     expect(getByTestId('PhoneVerificationCode')).toBeTruthy()
-    expect(getByTestId('PhoneVerificationInputHelpDialog').props.visible).toBe(false)
     expect(getByTestId('PhoneVerificationResendSmsBtn')).toBeDisabled()
 
     await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(1))
@@ -277,16 +276,9 @@ describe('VerificationCodeInputScreen', () => {
     act(() => {
       fireEvent.press(getByText('phoneVerificationInput.help'))
     })
-
+    await waitFor(() => expect(getByTestId('PhoneVerificationInputHelpDialog')))
     const HelpDialog = getByTestId('PhoneVerificationInputHelpDialog')
-    expect(HelpDialog.props.visible).toBe(true)
     expect(within(HelpDialog).getByText('phoneVerificationInput.helpDialog.title')).toBeTruthy()
     expect(within(HelpDialog).getByText('phoneVerificationInput.helpDialog.body')).toBeTruthy()
-
-    act(() => {
-      fireEvent.press(getByText('phoneVerificationInput.helpDialog.skip'))
-    })
-
-    await waitFor(() => expect(navigateHome).toHaveBeenCalledTimes(1))
   })
 })
