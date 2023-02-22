@@ -1,10 +1,9 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
-  Image,
   RefreshControl,
+  ScrollView,
   SectionList,
-  SectionListData,
   SectionListProps,
   StyleSheet,
   Text,
@@ -15,27 +14,27 @@ import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { DappExplorerEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import Touchable from 'src/components/Touchable'
 import {
   CategoryWithDapps,
-  dappCategoriesByIdSelector,
   dappFavoritesEnabledSelector,
+  dappsCategoriesSelector,
   dappsListErrorSelector,
   dappsListLoadingSelector,
+  dappsListSelector,
   dappsMinimalDisclaimerEnabledSelector,
-  featuredDappSelector,
+  favoriteDappIdsSelector,
 } from 'src/dapps/selectors'
 import { fetchDappsList } from 'src/dapps/slice'
-import { Dapp, DappSection } from 'src/dapps/types'
+import { Dapp, DappFilter, DappSection } from 'src/dapps/types'
 import DappCard from 'src/dappsExplorer/DappCard'
 import FavoriteDappsSection from 'src/dappsExplorer/FavoriteDappsSection'
-import FeaturedDappCard from 'src/dappsExplorer/FeaturedDappCard'
+import { NoResults } from 'src/dappsExplorer/NoResults'
 import useDappFavoritedToast from 'src/dappsExplorer/useDappFavoritedToast'
 import useDappInfoBottomSheet from 'src/dappsExplorer/useDappInfoBottomSheet'
 import useOpenDapp from 'src/dappsExplorer/useOpenDapp'
-import Help from 'src/icons/navigator/Help'
-import { dappListLogo } from 'src/images/Images'
+import Help from 'src/icons/Help'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
-import { styles as headerStyles } from 'src/navigator/Headers'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
@@ -44,11 +43,16 @@ import { Spacing } from 'src/styles/styles'
 const AnimatedSectionList =
   Animated.createAnimatedComponent<SectionListProps<Dapp, SectionData>>(SectionList)
 
-const SECTION_HEADER_MARGIN_TOP = 32
-
 interface SectionData {
   data: Dapp[]
   category: CategoryWithDapps
+}
+
+interface DappFilterChip {
+  chipFilter: DappFilter
+  selectedFilter: DappFilter
+  setFilter: (filter: DappFilter) => void
+  lastChip: boolean
 }
 
 export function DAppsExplorerScreen() {
@@ -57,58 +61,55 @@ export function DAppsExplorerScreen() {
 
   const sectionListRef = useRef<SectionList>(null)
   const scrollPosition = useRef(new Animated.Value(0)).current
+  const horizontalScrollView = useRef<ScrollView>(null)
 
   const onScroll = Animated.event([{ nativeEvent: { contentOffset: { y: scrollPosition } } }])
   const dispatch = useDispatch()
-  const featuredDapp = useSelector(featuredDappSelector)
   const loading = useSelector(dappsListLoadingSelector)
   const error = useSelector(dappsListErrorSelector)
-  const categoriesById = useSelector(dappCategoriesByIdSelector)
+  const categories = useSelector(dappsCategoriesSelector)
   const dappFavoritesEnabled = useSelector(dappFavoritesEnabledSelector)
   const dappsMinimalDisclaimerEnabled = useSelector(dappsMinimalDisclaimerEnabledSelector)
+  const dappList = useSelector(dappsListSelector)
+  const favoriteDappsById = useSelector(favoriteDappIdsSelector)
+  const [selectedFilter, setSelectedFilter] = useState({
+    id: 'all',
+    name: t('dappsScreen.allDapps'),
+  })
 
   const { onSelectDapp, ConfirmOpenDappBottomSheet } = useOpenDapp()
   const { onFavoriteDapp, DappFavoritedToast } = useDappFavoritedToast(sectionListRef)
   const { openSheet, DappInfoBottomSheet } = useDappInfoBottomSheet()
+
+  // Sorted shallow copy of categories to keep alphabetical order in multiple languages
+  const sortedCategories = categories.slice(0).sort((a, b) => a.name.localeCompare(b.name))
+  // TODO: exclude lend-borrow-earn category from the list
 
   useEffect(() => {
     dispatch(fetchDappsList())
     ValoraAnalytics.track(DappExplorerEvents.dapp_screen_open)
   }, [])
 
-  useEffect(() => {
-    if (featuredDapp) {
-      ValoraAnalytics.track(DappExplorerEvents.dapp_impression, {
-        categoryId: featuredDapp.categoryId,
-        dappId: featuredDapp.id,
-        dappName: featuredDapp.name,
-        section: DappSection.Featured,
-      })
-    }
-  }, [featuredDapp])
-
   return (
     <SafeAreaView style={styles.safeAreaContainer} edges={['top']}>
       <DrawerTopBar
-        middleElement={<Text style={headerStyles.headerTitle}>{t('dappsScreen.title')}</Text>}
         rightElement={
           <TopBarIconButton
             testID="DAppsExplorerScreen/HelpIcon"
-            icon={<Help />}
+            icon={<Help color={colors.greenUIDark} />}
             onPress={openSheet}
           />
         }
         scrollPosition={scrollPosition}
       />
       {ConfirmOpenDappBottomSheet}
-
       <>
-        {!loading && !categoriesById && error && (
+        {!loading && error && (
           <View style={styles.centerContainer}>
             <Text style={fontStyles.regular}>{t('dappsScreen.errorMessage')}</Text>
           </View>
         )}
-        {categoriesById && (
+        {sortedCategories.length && (
           <AnimatedSectionList
             refreshControl={
               <RefreshControl
@@ -130,22 +131,57 @@ export function DAppsExplorerScreen() {
             }
             ListHeaderComponent={
               <>
-                <DescriptionView message={t('dappsScreen.message')} />
-                {featuredDapp && (
+                <DescriptionView
+                  title={t('dappsScreen.title')}
+                  message={t('dappsScreen.message')}
+                />
+                {/* Dapps Filtering*/}
+                <View style={{ paddingTop: Spacing.Thick24 }}>
+                  <ScrollView
+                    horizontal={true}
+                    // Expand the scrollview to the edges of the screen
+                    style={{ marginHorizontal: -Spacing.Thick24 }}
+                    showsHorizontalScrollIndicator={false}
+                    bounces={false}
+                    ref={horizontalScrollView}
+                  >
+                    {/* All Dapps Filter */}
+                    <DappFilterChip
+                      chipFilter={{ id: 'all', name: t('dappsScreen.allDapps') }}
+                      selectedFilter={selectedFilter}
+                      setFilter={setSelectedFilter}
+                      lastChip={false}
+                      key={'all'}
+                    />
+                    {/* Category Filter Chips */}
+                    {sortedCategories.map((category, idx) => {
+                      return (
+                        <DappFilterChip
+                          chipFilter={{ id: category.id, name: category.name }}
+                          selectedFilter={selectedFilter}
+                          setFilter={setSelectedFilter}
+                          lastChip={idx === sortedCategories.length - 1}
+                          key={category.id}
+                        />
+                      )
+                    })}
+                  </ScrollView>
+                </View>
+                {dappFavoritesEnabled && (
                   <>
-                    <Text style={styles.sectionTitle}>{t('dappsScreen.featuredDapp')}</Text>
-                    <FeaturedDappCard dapp={featuredDapp} onPressDapp={onSelectDapp} />
+                    <Text style={styles.sectionTitle}>{t('dappsScreen.favoriteDappsUpper')}</Text>
+                    <FavoriteDappsSection
+                      filter={selectedFilter}
+                      removeFilter={() => {
+                        setSelectedFilter({ id: 'all', name: t('dappsScreen.allDapps') })
+                        horizontalScrollView.current?.scrollTo({ x: 0, animated: true })
+                      }}
+                      onPressDapp={onSelectDapp}
+                    />
                   </>
                 )}
 
                 {dappFavoritesEnabled && (
-                  <>
-                    <Text style={styles.sectionTitle}>{t('dappsScreen.favoriteDappsUpper')}</Text>
-                    <FavoriteDappsSection onPressDapp={onSelectDapp} />
-                  </>
-                )}
-
-                {(featuredDapp || dappFavoritesEnabled) && (
                   <Text style={styles.sectionTitle}>{t('dappsScreen.allDappsUpper')}</Text>
                 )}
               </>
@@ -154,12 +190,13 @@ export function DAppsExplorerScreen() {
             contentContainerStyle={{
               padding: Spacing.Thick24,
               paddingBottom: Math.max(insets.bottom, Spacing.Regular16),
+              flexGrow: 1,
             }}
             // Workaround iOS setting an incorrect automatic inset at the top
             scrollIndicatorInsets={{ top: 0.01 }}
             scrollEventThrottle={16}
             onScroll={onScroll}
-            sections={parseResultIntoSections(categoriesById)}
+            sections={parseResultsIntoAll(dappList, selectedFilter, favoriteDappsById)}
             renderItem={({ item: dapp }) => (
               <DappCard
                 dapp={dapp}
@@ -168,12 +205,19 @@ export function DAppsExplorerScreen() {
                 onFavoriteDapp={onFavoriteDapp}
               />
             )}
-            keyExtractor={(dapp: Dapp) => `${dapp.categoryId}-${dapp.id}`}
+            keyExtractor={(dapp: Dapp) => dapp.id}
             stickySectionHeadersEnabled={false}
-            renderSectionHeader={({ section }: { section: SectionListData<Dapp, SectionData> }) => (
-              <CategoryHeader category={section.category} />
-            )}
             testID="DAppsExplorerScreen/DappsList"
+            ListEmptyComponent={
+              <NoResults
+                filter={selectedFilter}
+                removeFilter={() => {
+                  setSelectedFilter({ id: 'all', name: t('dappsScreen.allDapps') })
+                  horizontalScrollView.current?.scrollTo({ x: 0, animated: true })
+                }}
+              />
+            }
+            ListFooterComponentStyle={{ flex: 1, justifyContent: 'flex-end' }}
           />
         )}
       </>
@@ -184,30 +228,79 @@ export function DAppsExplorerScreen() {
   )
 }
 
-function parseResultIntoSections(categoriesWithDapps: CategoryWithDapps[]): SectionData[] {
-  return categoriesWithDapps.map((category) => ({
-    data: category.dapps,
-    category: category,
-  }))
+function parseResultsIntoAll(
+  dappList: any,
+  filter: DappFilter,
+  favoriteDappsById: string[]
+): SectionData[] {
+  // Prevent favorite dapps from showing up in the all dapps section
+  const data =
+    filter.id === 'all'
+      ? dappList.filter((dapp: Dapp) => !favoriteDappsById.includes(dapp.id))
+      : dappList.filter(
+          (dapp: Dapp) =>
+            !favoriteDappsById.includes(dapp.id) &&
+            dapp.categories &&
+            dapp.categories.includes(filter.id)
+        )
+  // Return empty array if no results
+  if (data.length === 0) return []
+  // Else return dapps in all section
+  return [
+    {
+      data,
+      category: 'all' as unknown as CategoryWithDapps,
+    },
+  ]
 }
 
-function DescriptionView({ message }: { message: string }) {
+function DescriptionView({ message, title }: { message: string; title: string }) {
   return (
-    <View style={styles.descriptionContainer}>
-      <Text style={styles.descriptionText}>{message}</Text>
-      <View style={styles.descriptionImage}>
-        <Image source={dappListLogo} resizeMode="contain" />
-      </View>
+    <View>
+      <Text style={styles.pageHeaderText}>{title}</Text>
+      <Text style={styles.pageHeaderSubText}>{message}</Text>
     </View>
   )
 }
 
-function CategoryHeader({ category }: { category: CategoryWithDapps }) {
+function DappFilterChip({ chipFilter, selectedFilter, setFilter, lastChip }: DappFilterChip) {
+  const filterPress = () => {
+    ValoraAnalytics.track(DappExplorerEvents.dapp_filter, { id: chipFilter.id })
+    setFilter(chipFilter)
+  }
+
   return (
-    <View style={styles.categoryContainer}>
-      <View style={[styles.categoryTextContainer, { backgroundColor: category.backgroundColor }]}>
-        <Text style={[styles.categoryText, { color: category.fontColor }]}>{category.name}</Text>
-      </View>
+    <View
+      style={[
+        styles.filterChipContainer,
+        // Filter chips color based on selected filter
+        chipFilter.id === selectedFilter.id
+          ? { backgroundColor: colors.onboardingBlue }
+          : { backgroundColor: colors.onboardingLightBlue },
+        // First Chip has slightly different margins
+        chipFilter.id === 'all'
+          ? { marginLeft: Spacing.Regular16 }
+          : { marginLeft: Spacing.Smallest8 },
+        // Last Chip has slightly different right margin
+        lastChip && { marginRight: Spacing.Regular16 },
+      ]}
+    >
+      <Touchable
+        onPress={filterPress}
+        style={styles.filterChip}
+        testID={`DAppsExplorerScreen/FilterChip/${chipFilter.id}`}
+      >
+        <Text
+          style={[
+            styles.filterChipText,
+            chipFilter.id === selectedFilter.id
+              ? { color: colors.onboardingLightBlue }
+              : { color: colors.onboardingBlue },
+          ]}
+        >
+          {chipFilter.name}
+        </Text>
+      </Touchable>
     </View>
   )
 }
@@ -221,36 +314,20 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flex: 1,
   },
-  categoryContainer: {
-    alignItems: 'flex-start',
+  filterChipContainer: {
+    overflow: 'hidden',
+    borderRadius: 94,
+    flex: 1,
+  },
+  filterChip: {
+    minHeight: 32,
+    minWidth: 42,
     justifyContent: 'center',
-    flex: 1,
-    flexDirection: 'column',
-    marginTop: SECTION_HEADER_MARGIN_TOP,
-  },
-  descriptionContainer: {
     alignItems: 'center',
-    flexDirection: 'row',
-    flex: 1,
+    paddingHorizontal: Spacing.Regular16,
   },
-  // Padding values honor figma designs
-  categoryTextContainer: {
-    borderRadius: 100,
-    paddingHorizontal: 11,
-    paddingVertical: 4,
-  },
-  categoryText: {
-    ...fontStyles.sectionHeader,
-    fontSize: 13,
-  },
-  descriptionText: {
-    ...fontStyles.h1,
-    flex: 1,
-  },
-  descriptionImage: {
-    height: 106,
-    width: 94,
-    marginLeft: Spacing.Smallest8,
+  filterChipText: {
+    ...fontStyles.small,
   },
   sectionList: {
     flex: 1,
@@ -259,6 +336,12 @@ const styles = StyleSheet.create({
     ...fontStyles.label,
     color: colors.gray4,
     marginTop: Spacing.Large32,
+  },
+  pageHeaderText: {
+    ...fontStyles.h1,
+  },
+  pageHeaderSubText: {
+    ...fontStyles.regular,
   },
   disclaimer: {
     ...fontStyles.small,

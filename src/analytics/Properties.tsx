@@ -1141,6 +1141,10 @@ interface DappExplorerEventsProperties {
   [DappExplorerEvents.dapp_unfavorite]: DappProperties
   [DappExplorerEvents.dapp_open_info]: undefined
   [DappExplorerEvents.dapp_open_more_info]: undefined
+  [DappExplorerEvents.dapp_filter]: {
+    id: string
+  }
+  [DappExplorerEvents.dapp_filter_remove]: undefined
 }
 
 interface WebViewEventsProperties {

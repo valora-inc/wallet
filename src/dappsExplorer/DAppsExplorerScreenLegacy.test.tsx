@@ -4,7 +4,7 @@ import { Provider } from 'react-redux'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { dappSelected, favoriteDapp, fetchDappsList, unfavoriteDapp } from 'src/dapps/slice'
 import { Dapp, DappCategory, DappSection } from 'src/dapps/types'
-import DAppsExplorerScreenV2 from 'src/dappsExplorer/DAppsExplorerScreenV2'
+import DAppsExplorerScreenLegacy from 'src/dappsExplorer/DAppsExplorerScreenLegacy'
 import { createMockStore } from 'test/utils'
 
 jest.mock('src/analytics/ValoraAnalytics')
@@ -14,7 +14,6 @@ const dappsList: Dapp[] = [
     name: 'Dapp 1',
     id: 'dapp1',
     categoryId: '1',
-    categories: ['1'],
     description: 'Swap tokens!',
     iconUrl: 'https://raw.githubusercontent.com/valora-inc/app-list/main/assets/dapp1.png',
     dappUrl: 'https://app.dapp1.org/',
@@ -24,7 +23,6 @@ const dappsList: Dapp[] = [
     name: 'Dapp 2',
     id: 'dapp2',
     categoryId: '2',
-    categories: ['2'],
     description: 'Lend and borrow tokens!',
     iconUrl: 'https://raw.githubusercontent.com/valora-inc/app-list/main/assets/dapp2.png',
     dappUrl: 'celo://wallet/dapp2Screen',
@@ -51,7 +49,7 @@ const defaultStore = createMockStore({
   dapps: { dappListApiUrl: 'http://url.com', dappsList, dappsCategories },
 })
 
-describe(DAppsExplorerScreenV2, () => {
+describe(DAppsExplorerScreenLegacy, () => {
   beforeEach(() => {
     defaultStore.clearActions()
     jest.clearAllMocks()
@@ -60,7 +58,7 @@ describe(DAppsExplorerScreenV2, () => {
   it('renders correctly when no featured dapp is available', () => {
     const { getByTestId, queryByTestId } = render(
       <Provider store={defaultStore}>
-        <DAppsExplorerScreenV2 />
+        <DAppsExplorerScreenLegacy />
       </Provider>
     )
 
@@ -78,10 +76,47 @@ describe(DAppsExplorerScreenV2, () => {
     ])
   })
 
+  it("renders correctly when there's a featured dapp available", () => {
+    const featuredDapp: Dapp = {
+      name: 'SushiSwap',
+      id: '3',
+      categoryId: 'sushi',
+      description: 'Swap some tokens!',
+      iconUrl: 'https://raw.githubusercontent.com/valora-inc/app-list/main/assets/sushiswap.png',
+      dappUrl: 'https://app.sushi.com/',
+      isFeatured: true,
+    }
+    const store = createMockStore({
+      dapps: {
+        dappListApiUrl: 'http://url.com',
+        dappsList: [...dappsList, featuredDapp],
+        dappsCategories,
+      },
+    })
+    const { getByTestId, queryByTestId } = render(
+      <Provider store={store}>
+        <DAppsExplorerScreenLegacy />
+      </Provider>
+    )
+
+    expect(store.getActions()).toEqual([fetchDappsList()])
+    expect(getByTestId('Dapp/dapp1')).toBeTruthy()
+    expect(getByTestId('Dapp/dapp2')).toBeTruthy()
+    expect(queryByTestId('FeaturedDapp')).toBeTruthy()
+
+    fireEvent.press(getByTestId('FeaturedDapp'))
+    fireEvent.press(getByTestId('ConfirmDappButton'))
+
+    expect(store.getActions()).toEqual([
+      fetchDappsList(),
+      dappSelected({ dapp: { ...featuredDapp, openedFrom: DappSection.Featured } }),
+    ])
+  })
+
   it('opens the screen directly when using a deeplink', () => {
     const { getByTestId, queryByTestId } = render(
       <Provider store={defaultStore}>
-        <DAppsExplorerScreenV2 />
+        <DAppsExplorerScreenLegacy />
       </Provider>
     )
 
@@ -101,7 +136,7 @@ describe(DAppsExplorerScreenV2, () => {
   it('displays the dapps disclaimer bottom sheet when selecting a dapp', () => {
     const { getByTestId, getByText } = render(
       <Provider store={defaultStore}>
-        <DAppsExplorerScreenV2 />
+        <DAppsExplorerScreenLegacy />
       </Provider>
     )
 
@@ -131,7 +166,7 @@ describe(DAppsExplorerScreenV2, () => {
     })
     const { getByTestId, getByText, queryByText } = render(
       <Provider store={store}>
-        <DAppsExplorerScreenV2 />
+        <DAppsExplorerScreenLegacy />
       </Provider>
     )
 
@@ -155,12 +190,11 @@ describe(DAppsExplorerScreenV2, () => {
           dappsCategories,
           favoriteDappIds: [],
           dappFavoritesEnabled: true,
-          dappsFilterAndSearchEnabled: true,
         },
       })
       const { getByText } = render(
         <Provider store={store}>
-          <DAppsExplorerScreenV2 />
+          <DAppsExplorerScreenLegacy />
         </Provider>
       )
 
@@ -176,16 +210,15 @@ describe(DAppsExplorerScreenV2, () => {
           dappsCategories,
           favoriteDappIds: ['dapp2'],
           dappFavoritesEnabled: true,
-          dappsFilterAndSearchEnabled: true,
         },
       })
       const { getByTestId, queryByText } = render(
         <Provider store={store}>
-          <DAppsExplorerScreenV2 />
+          <DAppsExplorerScreenLegacy />
         </Provider>
       )
 
-      const favoritesSection = getByTestId('DAppsExplorerScreenV2/FavoriteDappsSection')
+      const favoritesSection = getByTestId('FavoriteDappsSectionLegacy')
       expect(within(favoritesSection).queryByText(dappsList[0].name)).toBeFalsy()
       expect(within(favoritesSection).getByText(dappsList[1].name)).toBeTruthy()
       expect(within(favoritesSection).getByText(dappsList[1].description)).toBeTruthy()
@@ -199,20 +232,19 @@ describe(DAppsExplorerScreenV2, () => {
           dappsList,
           dappsCategories,
           dappFavoritesEnabled: true,
-          dappsFilterAndSearchEnabled: true,
-          favoriteDappIds: ['dapp1'],
+          favoriteDappIds: [],
         },
       })
       const { getByTestId, getByText } = render(
         <Provider store={store}>
-          <DAppsExplorerScreenV2 />
+          <DAppsExplorerScreenLegacy />
         </Provider>
       )
 
       // don't include events dispatched on screen load
       jest.clearAllMocks()
 
-      const allDappsSection = getByTestId('DAppsExplorerScreenV2/DappsList')
+      const allDappsSection = getByTestId('DAppsExplorerScreenLegacy/DappsList')
       fireEvent.press(within(allDappsSection).getByTestId('Dapp/Favorite/dapp2'))
 
       // favorited dapp confirmation toast
@@ -235,13 +267,12 @@ describe(DAppsExplorerScreenV2, () => {
           dappsList,
           dappsCategories,
           dappFavoritesEnabled: true,
-          dappsFilterAndSearchEnabled: true,
           favoriteDappIds: ['dapp2'],
         },
       })
       const { getByTestId, getAllByTestId, queryByText } = render(
         <Provider store={store}>
-          <DAppsExplorerScreenV2 />
+          <DAppsExplorerScreenLegacy />
         </Provider>
       )
 
@@ -252,7 +283,7 @@ describe(DAppsExplorerScreenV2, () => {
       // should only appear once, in the favorites section
       expect(selectedDappCards).toHaveLength(1)
 
-      const favoritesSection = getByTestId('DAppsExplorerScreenV2/FavoriteDappsSection')
+      const favoritesSection = getByTestId('FavoriteDappsSectionLegacy')
       fireEvent.press(within(favoritesSection).getByTestId('Dapp/Favorite/dapp2'))
 
       expect(queryByText('dappsScreen.favoritedDappToast.message')).toBeFalsy()

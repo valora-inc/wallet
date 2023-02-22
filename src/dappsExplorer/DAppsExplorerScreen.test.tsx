@@ -1,9 +1,10 @@
 import { fireEvent, render, within } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
+import { DappExplorerEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { dappSelected, favoriteDapp, fetchDappsList, unfavoriteDapp } from 'src/dapps/slice'
-import { Dapp, DappCategory, DappSection } from 'src/dapps/types'
+import { Dapp, DappFilter, DappSection } from 'src/dapps/types'
 import DAppsExplorerScreen from 'src/dappsExplorer/DAppsExplorerScreen'
 import { createMockStore } from 'test/utils'
 
@@ -14,6 +15,7 @@ const dappsList: Dapp[] = [
     name: 'Dapp 1',
     id: 'dapp1',
     categoryId: '1',
+    categories: ['1'],
     description: 'Swap tokens!',
     iconUrl: 'https://raw.githubusercontent.com/valora-inc/app-list/main/assets/dapp1.png',
     dappUrl: 'https://app.dapp1.org/',
@@ -23,6 +25,7 @@ const dappsList: Dapp[] = [
     name: 'Dapp 2',
     id: 'dapp2',
     categoryId: '2',
+    categories: ['2'],
     description: 'Lend and borrow tokens!',
     iconUrl: 'https://raw.githubusercontent.com/valora-inc/app-list/main/assets/dapp2.png',
     dappUrl: 'celo://wallet/dapp2Screen',
@@ -30,18 +33,14 @@ const dappsList: Dapp[] = [
   },
 ]
 
-const dappsCategories: DappCategory[] = [
+const dappsCategories: DappFilter[] = [
   {
     id: '1',
     name: 'Swap',
-    backgroundColor: '#DEF8EA',
-    fontColor: '#1AB775',
   },
   {
     id: '2',
     name: 'Lend, Borrow & Earn',
-    backgroundColor: '#DEF8F7',
-    fontColor: '#07A0AE',
   },
 ]
 
@@ -73,43 +72,6 @@ describe(DAppsExplorerScreen, () => {
     expect(defaultStore.getActions()).toEqual([
       fetchDappsList(),
       dappSelected({ dapp: { ...dappsList[0], openedFrom: DappSection.All } }),
-    ])
-  })
-
-  it("renders correctly when there's a featured dapp available", () => {
-    const featuredDapp: Dapp = {
-      name: 'SushiSwap',
-      id: '3',
-      categoryId: 'sushi',
-      description: 'Swap some tokens!',
-      iconUrl: 'https://raw.githubusercontent.com/valora-inc/app-list/main/assets/sushiswap.png',
-      dappUrl: 'https://app.sushi.com/',
-      isFeatured: true,
-    }
-    const store = createMockStore({
-      dapps: {
-        dappListApiUrl: 'http://url.com',
-        dappsList: [...dappsList, featuredDapp],
-        dappsCategories,
-      },
-    })
-    const { getByTestId, queryByTestId } = render(
-      <Provider store={store}>
-        <DAppsExplorerScreen />
-      </Provider>
-    )
-
-    expect(store.getActions()).toEqual([fetchDappsList()])
-    expect(getByTestId('Dapp/dapp1')).toBeTruthy()
-    expect(getByTestId('Dapp/dapp2')).toBeTruthy()
-    expect(queryByTestId('FeaturedDapp')).toBeTruthy()
-
-    fireEvent.press(getByTestId('FeaturedDapp'))
-    fireEvent.press(getByTestId('ConfirmDappButton'))
-
-    expect(store.getActions()).toEqual([
-      fetchDappsList(),
-      dappSelected({ dapp: { ...featuredDapp, openedFrom: DappSection.Featured } }),
     ])
   })
 
@@ -190,6 +152,7 @@ describe(DAppsExplorerScreen, () => {
           dappsCategories,
           favoriteDappIds: [],
           dappFavoritesEnabled: true,
+          dappsFilterAndSearchEnabled: true,
         },
       })
       const { getByText } = render(
@@ -210,6 +173,7 @@ describe(DAppsExplorerScreen, () => {
           dappsCategories,
           favoriteDappIds: ['dapp2'],
           dappFavoritesEnabled: true,
+          dappsFilterAndSearchEnabled: true,
         },
       })
       const { getByTestId, queryByText } = render(
@@ -232,7 +196,8 @@ describe(DAppsExplorerScreen, () => {
           dappsList,
           dappsCategories,
           dappFavoritesEnabled: true,
-          favoriteDappIds: [],
+          dappsFilterAndSearchEnabled: true,
+          favoriteDappIds: ['dapp1'],
         },
       })
       const { getByTestId, getByText } = render(
@@ -267,6 +232,7 @@ describe(DAppsExplorerScreen, () => {
           dappsList,
           dappsCategories,
           dappFavoritesEnabled: true,
+          dappsFilterAndSearchEnabled: true,
           favoriteDappIds: ['dapp2'],
         },
       })
@@ -295,6 +261,173 @@ describe(DAppsExplorerScreen, () => {
         dappName: 'Dapp 2',
       })
       expect(store.getActions()).toEqual([fetchDappsList(), unfavoriteDapp({ dappId: 'dapp2' })])
+    })
+  })
+
+  describe('filter dapps', () => {
+    it('renders correctly when there are no filters applied', () => {
+      const store = createMockStore({
+        dapps: {
+          dappListApiUrl: 'http://url.com',
+          dappsList,
+          dappsCategories,
+          dappFavoritesEnabled: true,
+          dappsFilterAndSearchEnabled: true,
+          favoriteDappIds: ['dapp1'],
+        },
+      })
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <DAppsExplorerScreen />
+        </Provider>
+      )
+
+      // Filter Chips displayed
+      expect(getByTestId('DAppsExplorerScreen/FilterChip/all')).toBeTruthy()
+      expect(getByTestId('DAppsExplorerScreen/FilterChip/1')).toBeTruthy()
+      expect(getByTestId('DAppsExplorerScreen/FilterChip/2')).toBeTruthy()
+
+      // Displays favorited dapp in Favorites section
+      const favoritesSection = getByTestId('DAppsExplorerScreen/FavoriteDappsSection')
+      expect(within(favoritesSection).getByText(dappsList[0].name)).toBeTruthy()
+      expect(within(favoritesSection).getByText(dappsList[0].description)).toBeTruthy()
+      expect(within(favoritesSection).queryByText(dappsList[1].name)).toBeFalsy()
+      expect(within(favoritesSection).queryByText(dappsList[1].description)).toBeFalsy()
+
+      // Displays other dapps in All section
+      const allDappsSection = getByTestId('DAppsExplorerScreen/DappsList')
+      expect(within(allDappsSection).getByText(dappsList[1].name)).toBeTruthy()
+      expect(within(allDappsSection).getByText(dappsList[1].description)).toBeTruthy()
+      // TODO: debug why we can't check that dapp 1 is not in the list
+    })
+
+    it('renders correctly when there are filters applied', () => {
+      const store = createMockStore({
+        dapps: {
+          dappListApiUrl: 'http://url.com',
+          dappsList,
+          dappsCategories,
+          dappFavoritesEnabled: true,
+          dappsFilterAndSearchEnabled: true,
+          favoriteDappIds: ['dapp1'],
+        },
+      })
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <DAppsExplorerScreen />
+        </Provider>
+      )
+
+      // Tap on category 2 filter
+      fireEvent.press(getByTestId('DAppsExplorerScreen/FilterChip/2'))
+
+      // Favorite Section should show no results
+      expect(getByTestId('FavoriteDappsSection/NoResults')).toBeTruthy()
+
+      // All Section should show only 'dapp 2'
+      const allDappsSection = getByTestId('DAppsExplorerScreen/DappsList')
+      // queryByText returns null if not found
+      expect(within(allDappsSection).queryByText(dappsList[0].name)).toBeFalsy()
+      expect(within(allDappsSection).queryByText(dappsList[0].description)).toBeFalsy()
+      expect(within(allDappsSection).getByText(dappsList[1].name)).toBeTruthy()
+      expect(within(allDappsSection).getByText(dappsList[1].description)).toBeTruthy()
+    })
+
+    it('triggers event when filtering', () => {
+      const store = createMockStore({
+        dapps: {
+          dappListApiUrl: 'http://url.com',
+          dappsList,
+          dappsCategories,
+          dappFavoritesEnabled: true,
+          dappsFilterAndSearchEnabled: true,
+          favoriteDappIds: ['dapp1'],
+        },
+      })
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <DAppsExplorerScreen />
+        </Provider>
+      )
+
+      // don't include events dispatched on screen load
+      jest.clearAllMocks()
+
+      // Tap on category 2 filter
+      fireEvent.press(getByTestId('DAppsExplorerScreen/FilterChip/2'))
+
+      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(DappExplorerEvents.dapp_filter, {
+        id: '2',
+      })
+    })
+
+    it('triggers event when clearing filters from all section', () => {
+      const store = createMockStore({
+        dapps: {
+          dappListApiUrl: 'http://url.com',
+          dappsList,
+          dappsCategories,
+          dappFavoritesEnabled: true,
+          dappsFilterAndSearchEnabled: true,
+          favoriteDappIds: ['dapp2'],
+        },
+      })
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <DAppsExplorerScreen />
+        </Provider>
+      )
+
+      // don't include events dispatched on screen load
+      jest.clearAllMocks()
+
+      // Tap on category 2 filter
+      fireEvent.press(getByTestId('DAppsExplorerScreen/FilterChip/2'))
+
+      // Tap on remove filters from all section
+      fireEvent.press(getByTestId('NoResults/RemoveFilter'))
+
+      // Assert correct analytics are fired
+      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(2)
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(DappExplorerEvents.dapp_filter, {
+        id: '2',
+      })
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(DappExplorerEvents.dapp_filter_remove)
+    })
+
+    it('triggers event when clearing filters from favorite section', () => {
+      const store = createMockStore({
+        dapps: {
+          dappListApiUrl: 'http://url.com',
+          dappsList,
+          dappsCategories,
+          dappFavoritesEnabled: true,
+          dappsFilterAndSearchEnabled: true,
+          favoriteDappIds: ['dapp1'],
+        },
+      })
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <DAppsExplorerScreen />
+        </Provider>
+      )
+
+      // don't include events dispatched on screen load
+      jest.clearAllMocks()
+
+      // Tap on category 2 filter
+      fireEvent.press(getByTestId('DAppsExplorerScreen/FilterChip/2'))
+
+      // Tap on remove filters from all section
+      fireEvent.press(getByTestId('FavoriteDappsSection/NoResults/RemoveFilter'))
+
+      // Assert correct analytics are fired
+      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(2)
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(DappExplorerEvents.dapp_filter, {
+        id: '2',
+      })
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(DappExplorerEvents.dapp_filter_remove)
     })
   })
 })

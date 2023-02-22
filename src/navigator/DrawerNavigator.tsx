@@ -41,8 +41,8 @@ import ContactCircleSelf from 'src/components/ContactCircleSelf'
 import PhoneNumberWithFlag from 'src/components/PhoneNumberWithFlag'
 import { RewardsScreenOrigin } from 'src/consumerIncentives/analyticsEventsTracker'
 import { dappsFilterAndSearchEnabledSelector, dappsListApiUrlSelector } from 'src/dapps/selectors'
-import DAppsExplorerScreen from 'src/dappsExplorer/DAppsExplorerScreen'
-import DAppsExplorerScreenV2 from 'src/dappsExplorer/DAppsExplorerScreenV2'
+import DAppsExplorerScreen from 'src/dappsExplorer/DAppsExplorerScreen/DAppsExplorerScreen'
+import DAppsExplorerScreenLegacy from 'src/dappsExplorer/DAppsExplorerScreenLegacy/DAppsExplorerScreenLegacy'
 import { fetchExchangeRate } from 'src/exchange/actions'
 import ExchangeHomeScreen from 'src/exchange/ExchangeHomeScreen'
 import WalletHome from 'src/home/WalletHome'
@@ -266,7 +266,7 @@ export default function DrawerNavigator() {
       {!!dappsListUrl && (
         <Drawer.Screen
           name={Screens.DAppsExplorerScreen}
-          component={dappFilterAndSearchEnabled ? DAppsExplorerScreenV2 : DAppsExplorerScreen}
+          component={dappFilterAndSearchEnabled ? DAppsExplorerScreen : DAppsExplorerScreenLegacy}
           options={{
             title: t('dappsScreen.title'),
             drawerIcon: DappsExplorer,

@@ -1,6 +1,8 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { DappExplorerEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { DappFilter } from 'src/dapps/types'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
@@ -9,17 +11,29 @@ import { Spacing } from 'src/styles/styles'
 interface Props {
   filter: DappFilter | null
   removeFilter: () => void
+  testID?: string
 }
 
-export function NoResults({ filter, removeFilter }: Props) {
+export function NoResults({ filter, removeFilter, testID }: Props) {
   const { t } = useTranslation()
+  const localTestID = testID ? `${testID}/NoResults/RemoveFilter` : `NoResults/RemoveFilter`
+
+  const removePress = () => {
+    ValoraAnalytics.track(DappExplorerEvents.dapp_filter_remove)
+    removeFilter()
+  }
+
   return (
-    <View testID="DappsExplorer/NoResults" style={styles.noMatchingFavorites}>
+    <View testID={`${testID}/NoResults`} style={styles.noMatchingFavorites}>
       <Text style={styles.noResultsFilterText}>{filter?.name.toLocaleUpperCase()}</Text>
       <Text style={styles.noResultsFilterAppliedText}>
         {t('dappsScreen.emptyResults.filterApplied')}
       </Text>
-      <TouchableOpacity onPress={removeFilter} style={styles.noResultsRemoveFilterTouchable}>
+      <TouchableOpacity
+        onPress={removePress}
+        style={styles.noResultsRemoveFilterTouchable}
+        testID={localTestID}
+      >
         <Text style={styles.noResultsRemoveFilterText}>
           {t('dappsScreen.emptyResults.removeFilter')}
         </Text>
