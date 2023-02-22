@@ -2062,7 +2062,7 @@ export const v112Schema = {
     ...v111Schema.dapps,
     dappsFilterEnabled: false,
     dappsSearchEnabled: false,
-  }
+  },
 }
 
 export function getLatestSchema(): Partial<RootState> {
