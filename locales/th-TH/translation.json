@@ -698,16 +698,15 @@
   "registrationSteps": "ขั้นตอนที่ {{step}} จาก {{totalSteps}}",
   "selectCountryCode": "เลือกรหัสประเทศ",
   "pincodeSet": {
-    "create": "สร้างรหัส PIN",
     "createNew": "สร้างรหัส PIN ใหม่",
     "verify": "ป้อนรหัส PIN ของคุณอีกครั้งเพื่อยืนยัน",
     "changePIN": "เปลี่ยนรหัส PIN",
     "pinsDontMatch": "รหัส PIN ไม่ตรงกัน",
     "invalidPin": "โปรดใช้รหัส PIN ที่คาดเดายากกว่านี้",
-    "guideTitle": "เลือกรหัส PIN 6 หลักที่คุณจะจำได้",
-    "guideConfirm": "ป้อนรหัส PIN ของคุณอีกครั้งเพื่อยืนยัน",
-    "pinCodeGuide": "รหัส PIN ของคุณจะช่วยรักษาความปลอดภัยกระเป๋าเงินของคุณ",
-    "selectPIN": "เลือกรหัส PIN"
+    "onboardingTitle": "Choose a 6 digit PIN",
+    "onboardingConfirm": "Enter your PIN again",
+    "onboardingSubtitle": "Your PIN will secure your wallet",
+    "pin": "PIN"
   },
   "inviteCode": {
     "title": "รหัสคำเชิญ",
