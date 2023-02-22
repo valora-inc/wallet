@@ -746,13 +746,13 @@
   },
   "phoneVerificationScreen": {
     "screenTitle": "หมายเลขโทรศัพท์",
-    "title": "เชื่อมต่อหมายเลขโทรศัพท์ของคุณ",
-    "description": "คุณจะได้รับข้อความเพื่อเชื่อมต่อหมายเลขโทรศัพท์ของคุณ",
-    "startButtonLabel": "เริ่ม",
+    "title": "Connect your phone number to Valora",
+    "description": "This links your wallet address to your phone number so sending crypto is easy",
+    "startButtonLabel": "เชื่อมต่อ",
     "learnMore": {
-      "buttonLabel": "ฉันต้องเชื่อมต่อโทรศัพท์ของฉันหรือไม่",
-      "title": "ฉันต้องเชื่อมต่อโทรศัพท์ของฉันหรือไม่",
-      "body": "การเชื่อมต่อหมายเลขโทรศัพท์ของคุณจะช่วยให้คุณสามารถส่งเงินให้เพื่อนในสมุดที่อยู่และหมายเลขโทรศัพท์อื่นๆ \n \n หากคุณเลือกข้ามขั้นตอนนี้ คุณจะไม่สามารถเข้าถึงผู้ติดต่อของงคุณ และจะสามารถส่งเงินผ่าน QR Code หรือที่อยู่บัญชีเท่านั้น"
+      "buttonLabel": "ฉันต้องเชื่อมต่อหรือไม่",
+      "title": "ฉันต้องเชื่อมต่อหรือไม่",
+      "body": "Connecting your phone number will allow you to send money to friends in your address book and other phone numbers. \n \n If you choose to skip this step you won’t be able to access your contacts and you will only be able to send money via QR code or wallet address."
     },
     "skip": {
       "title": "คุณแน่ใจหรือไม่",
@@ -768,13 +768,13 @@
     "codeInputPlaceholder": "123456",
     "helpDialog": {
       "title": "ความช่วยเหลือ",
-      "body": "เราได้ส่ง SMS ไปยังหมายเลขโทรศัพท์ของคุณ โปรดตรวจสอบข้อความของคุณเพื่อดูรหัส 6 ตัว หากคุณมีปัญหาในการรับข้อความ คุณสามารถข้ามขั้นตอนนี้ไปก่อนและลองอีกครั้งภายหลัง",
+      "body": "We sent an SMS to your phone number. Please check your text messages to find the 6 digit code. \n \n If you’re having trouble receiving messages, you can skip this step for now and try again later.",
       "skip": "ข้าม",
       "dismiss": "ย้อนกลับ"
     },
     "verificationFailure": "ขออภัย มีบางอย่างผิดปกติ โปรดลองอีกครั้งภายหลัง",
     "resendButtonNotYetAvailable": "สามารถส่งอีกครั้งได้ในอีก {{secondsRemaining}} วินาที",
-    "resendButton": "ส่งข้อความอีกครั้ง"
+    "resendButton": "Didn’t receive code?"
   },
   "importExistingKey": {
     "keyPlaceholder": "horse leopard dog monkey ...",
