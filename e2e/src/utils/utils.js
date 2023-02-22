@@ -184,9 +184,6 @@ export async function quickOnboarding(mnemonic = SAMPLE_BACKUP_KEY) {
     await waitForElementId('PhoneVerificationSkipHeader')
     // Skip
     await element(by.id('PhoneVerificationSkipHeader')).tap()
-    // Confirmation popup skip
-    await waitForElementId('PhoneVerificationSkipDialog/PrimaryAction')
-    await element(by.id('PhoneVerificationSkipDialog/PrimaryAction')).tap()
 
     // Assert on Wallet Home Screen
     await dismissCashInBottomSheet()
