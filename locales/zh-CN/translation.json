@@ -746,13 +746,13 @@
   },
   "phoneVerificationScreen": {
     "screenTitle": "手机号码",
-    "title": "关联您的手机号码",
-    "description": "关联您的手机号码时您将收到一条短信。",
-    "startButtonLabel": "开始",
+    "title": "将您的电话号码连接到Valora",
+    "description": "This links your wallet address to your phone number so sending crypto is easy",
+    "startButtonLabel": "关联",
     "learnMore": {
-      "buttonLabel": "我需要关联我的手机吗？",
-      "title": "我需要关联我的手机吗？",
-      "body": "关联您的手机号码将允许您向您的通讯录中的朋友和其他手机号码发送资金。 \n \n 如果您选择跳过这一步，您将无法访问您的联系人，并将只能通过二维码或账户地址发送资金。"
+      "buttonLabel": "我需要关联吗？",
+      "title": "我需要关联吗？",
+      "body": "连接你的电话号码将允许你向你地址簿中的朋友和其他电话号码发送钱。 \n \n 如果你选择跳过这一步，你将无法访问你的联系人，你将只能通过二维码或钱包地址汇款。"
     },
     "skip": {
       "title": "您确定吗？",
@@ -768,13 +768,13 @@
     "codeInputPlaceholder": "123456",
     "helpDialog": {
       "title": "帮助",
-      "body": "我们向您的手机号码发送了短信。请查看您的短信以找到 6 位数字代码。如果您在接收短信方面有问题，可以暂时跳过这一步，稍后再试。",
+      "body": "我们向你的手机号码发送了一条短信。请检查你的短信，找到6位数的代码。 \n \n 如果你在接收信息时遇到困难，你可以暂时跳过这一步，以后再试。",
       "skip": "跳过",
       "dismiss": "返回"
     },
     "verificationFailure": "糟糕！出错了，请稍后再试。",
     "resendButtonNotYetAvailable": "{{secondsRemaining}} 秒后可重新发送",
-    "resendButton": "重新发送短信"
+    "resendButton": "没有收到代码？"
   },
   "importExistingKey": {
     "keyPlaceholder": "horse leopard dog monkey ...",
