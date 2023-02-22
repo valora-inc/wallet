@@ -582,7 +582,6 @@
   "namePlaceholder": "ex. name",
   "nameAndPicGuideCopyTitle": "What’s your name?",
   "nameAndPicGuideCopyContent": "We’d like to know what to call you.",
-  "importIt": "Restore Wallet",
   "important": "Important",
   "confirmPin": {
     "title": "Enter PIN"
@@ -747,13 +746,13 @@
   },
   "phoneVerificationScreen": {
     "screenTitle": "Phone Number",
-    "title": "Connect your phone number",
-    "description": "To connect your phone number, you'll receive a text message.",
-    "startButtonLabel": "Start",
+    "title": "Connect your phone number to Valora",
+    "description": "This links your wallet address to your phone number so sending crypto is easy",
+    "startButtonLabel": "Connect",
     "learnMore": {
-      "buttonLabel": "Do I need to connect my phone?",
-      "title": "Do I need to connect my phone?",
-      "body": "Connecting your phone number will allow you to send money to friends in your address book and other phone numbers. \n \n If you choose to skip this step you won’t be able to access your contacts and you will only be able to send money via QR code or Account Address."
+      "buttonLabel": "Do I need to connect?",
+      "title": "Do I need to connect?",
+      "body": "Connecting your phone number will allow you to send money to friends in your address book and other phone numbers. \n \n If you choose to skip this step you won’t be able to access your contacts and you will only be able to send money via QR code or wallet address."
     },
     "skip": {
       "title": "Are you sure?",
@@ -769,18 +768,24 @@
     "codeInputPlaceholder": "123456",
     "helpDialog": {
       "title": "Help",
-      "body": "We sent an SMS to your phone number. Please check your text messages to find the 6 digit code. If you’re having trouble receiving messages, you can skip this step for now and try again later.",
+      "body": "We sent an SMS to your phone number. Please check your text messages to find the 6 digit code. \n \n If you’re having trouble receiving messages, you can skip this step for now and try again later.",
       "skip": "Skip",
       "dismiss": "Go back"
     },
     "verificationFailure": "Oops! Something went wrong, please try again later.",
     "resendButtonNotYetAvailable": "Resend available in {{secondsRemaining}} second(s)",
-    "resendButton": "Resend text message"
+    "resendButton": "Didn’t receive code?"
   },
   "importExistingKey": {
-    "explanation": "Your Recovery Phrase is a 24-word phrase that you wrote down and saved when you set up your account. Please enter it here to restore your account.",
-    "explanationV1_50": "Your Recovery Phrase is a 12 or 24 word phrase that you wrote down and saved when you set up your account. Please enter it here to restore your account.",
-    "keyPlaceholder": "horse leopard dog monkey ..."
+    "keyPlaceholder": "horse leopard dog monkey ...",
+    "header": "Restore wallet",
+    "title": "Enter your recovery phrase",
+    "description": "Use the 12 or 24-word phrase that you saved when you set up your wallet to restore.",
+    "emptyWalletDialog": {
+      "description": "This wallet doesn’t have any funds. Would you still like to use it?",
+      "action": "Use Wallet",
+      "title": "Balance\n<0></0>"
+    }
   },
   "verificationInput": {
     "title": "Confirm",
@@ -817,11 +822,6 @@
     "body": "<0>$t(verificationInputHelpDialog.bodySection1.title)</0>\n\n$t(verificationInputHelpDialog.bodySection1.content)\n\n<1>$t(verificationInputHelpDialog.bodySection2.title)</1>\n\n$t(verificationInputHelpDialog.bodySection2.content)",
     "skip": "Skip for now",
     "back": "Go Back"
-  },
-  "emptyAccount": {
-    "description": "This account doesn’t have any funds. Would you still like to use it?",
-    "useAccount": "Use Account",
-    "title": "Balance <0></0>"
   },
   "success": {
     "message": "You're all set!"
