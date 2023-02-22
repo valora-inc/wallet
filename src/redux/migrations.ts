@@ -1046,4 +1046,12 @@ export const migrations = {
     },
   }),
   111: (state: any) => state,
+  112: (state: any) => ({
+    ...state,
+    dapps: {
+      ...state.dapps,
+      dappsFilterEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.dappsFilterEnabled,
+      dappsSearchEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.dappsSearchEnabled,
+    },
+  }),
 }
