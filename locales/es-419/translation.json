@@ -746,13 +746,13 @@
   },
   "phoneVerificationScreen": {
     "screenTitle": "Número de teléfono",
-    "title": "Conecta tu número de teléfono",
-    "description": "Para conectar tu número de teléfono, recibirás un mensaje de texto.",
-    "startButtonLabel": "Comenzar",
+    "title": "Conecta tu número de teléfono a Valora",
+    "description": "This links your wallet address to your phone number so sending crypto is easy",
+    "startButtonLabel": "Conectar",
     "learnMore": {
-      "buttonLabel": "¿Es necesario conectar mi teléfono?",
-      "title": "¿Es necesario conectar mi teléfono?",
-      "body": "Conectar tu número de teléfono te permitirá enviar dinero a tus contactos y a otros números de teléfono. \n \nSi prefieres omitir este paso, no podrás acceder a tus contactos y solo podrás enviar dinero mediante el código QR o la Dirección de cuenta."
+      "buttonLabel": "¿Necesito conectar mi número?",
+      "title": "¿Necesito conectar mi número?",
+      "body": "Conectar tu número de teléfono te permitirá enviar dinero a los amigos de tu agenda y a otros números de teléfono. \n \n Si decides omitir este paso, no podrás acceder a tus contactos y sólo podrás enviar dinero mediante el código QR o la dirección del monedero."
     },
     "skip": {
       "title": "¿Quieres omitir este paso?",
@@ -768,13 +768,13 @@
     "codeInputPlaceholder": "123456",
     "helpDialog": {
       "title": "Ayuda",
-      "body": "Hemos enviado un SMS a tu número de teléfono. Busca el código de 6 dígitos en tus mensajes. Si tienes problemas para recibir los mensajes, puedes omitir este paso por ahora e intentarlo más tarde.",
+      "body": "Hemos enviado un SMS a tu número de teléfono. Comprueba tus mensajes de texto para encontrar el código de 6 dígitos. \n \n Si tienes problemas para recibir mensajes, puedes omitir este paso por ahora y volver a intentarlo más tarde.",
       "skip": "Omitir",
       "dismiss": "Regresar"
     },
     "verificationFailure": "Algo salió mal, inténtalo de nuevo más tarde.",
     "resendButtonNotYetAvailable": "Reenvío disponible en {{secondsRemaining}} segundo(s)",
-    "resendButton": "Reenviar mensaje"
+    "resendButton": "¿No has recibido el código?"
   },
   "importExistingKey": {
     "keyPlaceholder": "caballo leopardo perro mono...",
