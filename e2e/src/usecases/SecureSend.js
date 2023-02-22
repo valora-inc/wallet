@@ -11,7 +11,9 @@ export default SecureSend = () => {
     await reloadReactNative()
   })
 
-  it('Send cUSD to phone number with multiple mappings', async () => {
+  // TODO: Unskip this test when the ODIS V1 debacle is resolved and fixed in code
+  // https://valora-app.slack.com/archives/C025V1D6F3J/p1676979118551299
+  it.skip('Send cUSD to phone number with multiple mappings', async () => {
     let randomContent = faker.lorem.words()
     await waitFor(element(by.id('SendOrRequestBar/SendButton')))
       .toBeVisible()
