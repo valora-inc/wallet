@@ -746,13 +746,13 @@
   },
   "phoneVerificationScreen": {
     "screenTitle": "Telefon Numarası",
-    "title": "Telefon numaranı bağla",
-    "description": "Telefon numaranızı bağlamak için bir kısa mesaj alacaksınız.",
-    "startButtonLabel": "Başla",
+    "title": "Telefon numaranızı Valora'ya bağlayın",
+    "description": "This links your wallet address to your phone number so sending crypto is easy",
+    "startButtonLabel": "Bağla",
     "learnMore": {
-      "buttonLabel": "Telefonumu bağlamam gerekiyor mu?",
-      "title": "Telefonumu bağlamam gerekiyor mu?",
-      "body": "Telefon numaranızı bağlamanız, adres defterinizdeki ve diğer telefon numaralarınızdaki arkadaşlarınıza para göndermenize olanak tanır.\n \nBu adımı atlarsanız, kişilerinize erişemezsiniz ve yalnızca QR kodu veya hesap adresi aracılığıyla para gönderebilirsiniz."
+      "buttonLabel": "Bağlanmam gerekiyor mu?",
+      "title": "Bağlanmam gerekiyor mu?",
+      "body": "Telefon numaranızı bağlamak, adres defterinizdeki arkadaşlarınıza ve diğer telefon numaralarına para göndermenizi sağlayacaktır. \n \n Bu adımı atlamayı seçerseniz, kişilerinize erişemezsiniz ve yalnızca QR kodu veya cüzdan adresi aracılığıyla para gönderebilirsiniz."
     },
     "skip": {
       "title": "Emin misiniz?",
@@ -768,13 +768,13 @@
     "codeInputPlaceholder": "123456",
     "helpDialog": {
       "title": "Yardım",
-      "body": "Telefon numaranıza bir SMS gönderdik. Lütfen 6 haneli kodu bulmak için kısa mesajlarınızı kontrol edin. Mesaj almakta sorun yaşıyorsanız şimdilik bu adımı atlayabilir ve daha sonra tekrar deneyebilirsiniz.",
+      "body": "Telefon numaranıza bir SMS gönderdik. Lütfen 6 haneli kodu bulmak için kısa mesajlarınızı kontrol edin. \n \n Mesajları almakta sorun yaşıyorsanız, şimdilik bu adımı atlayabilir ve daha sonra tekrar deneyebilirsiniz.",
       "skip": "Atla",
       "dismiss": "Geri dön"
     },
     "verificationFailure": "Bir şeyler ters gitti. Lütfen daha sonra tekrar deneyiniz.",
     "resendButtonNotYetAvailable": "{{secondsRemaining}} saniye sonra tekrar gönderilebilir",
-    "resendButton": "Kısa mesajı tekrar gönder"
+    "resendButton": "Kod almadınız mı?"
   },
   "importExistingKey": {
     "keyPlaceholder": "horse leopard dog monkey ...",
