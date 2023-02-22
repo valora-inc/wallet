@@ -2039,6 +2039,19 @@ export const v110Schema = {
   },
 }
 
+export const v111Schema = {
+  ...v110Schema,
+  _persist: {
+    ...v110Schema._persist,
+    version: 111,
+  },
+  supercharge: {
+    ...v110Schema.supercharge,
+    superchargeV2Enabled: false,
+    superchargeRewardContractAddress: '',
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v110Schema as Partial<RootState>
+  return v111Schema as Partial<RootState>
 }
