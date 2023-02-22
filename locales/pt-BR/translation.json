@@ -746,13 +746,13 @@
   },
   "phoneVerificationScreen": {
     "screenTitle": "Número de celular",
-    "title": "Conecte seu número de celular",
-    "description": "Para conectar seu número de celular, você receberá uma mensagem de texto.",
-    "startButtonLabel": "Iniciar",
+    "title": "Ligue o seu número de telefone à Valora",
+    "description": "Isto liga o endereço da sua carteira ao seu número de telefone, pelo que o envio de criptogramas é fácil",
+    "startButtonLabel": "Conectar",
     "learnMore": {
-      "buttonLabel": "Preciso conectar meu telefone?",
-      "title": "Preciso conectar meu telefone?",
-      "body": "Conectar seu número de telefone permitirá que você envie dinheiro para amigos em sua agenda de endereços e outros números de telefone. \n \nSe você optar por pular esta etapa, não poderá acessar seus contatos e só poderá enviar dinheiro via código QR ou Endereço de Conta."
+      "buttonLabel": "Preciso conectar o número?",
+      "title": "Preciso conectar o número?",
+      "body": "A ligação do seu número de telefone permitir-lhe-á enviar dinheiro a amigos na sua agenda de endereços e outros números de telefone. \n \n Se escolher saltar este passo, não poderá aceder aos seus contactos e só poderá enviar dinheiro através do código QR ou do endereço da carteira."
     },
     "skip": {
       "title": "Tem certeza?",
@@ -768,13 +768,13 @@
     "codeInputPlaceholder": "123456",
     "helpDialog": {
       "title": "Ajuda",
-      "body": "Enviamos um SMS para o seu número de celular. Verifique suas mensagens de texto para encontrar o código de 6 dígitos. Se você estiver tendo problemas para receber mensagens, pode pular esta etapa e tentar novamente mais tarde.",
+      "body": "Enviámos um SMS para o seu número de telefone. Por favor verifique as suas mensagens de texto para encontrar o código de 6 dígitos. \n \n Se tiver problemas em receber mensagens, pode saltar este passo por agora e tentar novamente mais tarde.",
       "skip": "Pular",
       "dismiss": "Voltar"
     },
     "verificationFailure": "Algo deu errado, tente novamente mais tarde.",
     "resendButtonNotYetAvailable": "Reenvio disponível em {{secondsRemaining}} segundo(s)",
-    "resendButton": "Reenviar mensagem de texto"
+    "resendButton": "Não recebeu o código?"
   },
   "importExistingKey": {
     "keyPlaceholder": "cavalo leopardo cachorro macaco...",
