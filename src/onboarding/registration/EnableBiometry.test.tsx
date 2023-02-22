@@ -46,9 +46,11 @@ describe('EnableBiometry', () => {
 
   it('should render the correct elements', () => {
     const { getByText, getByTestId } = renderComponent()
-
     expect(
-      getByText('enableBiometry.description, {"biometryType":"biometryType.FaceID"}')
+      getByText('enableBiometry.guideTitle, {"biometryType":"biometryType.FaceID"}')
+    ).toBeTruthy()
+    expect(
+      getByText('enableBiometry.guideDescription, {"biometryType":"biometryType.FaceID"}')
     ).toBeTruthy()
     expect(getByText('enableBiometry.cta, {"biometryType":"biometryType.FaceID"}')).toBeTruthy()
     expect(getByTestId('FaceIDBiometryIcon')).toBeTruthy()

@@ -12,7 +12,6 @@ import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import {
   registrationStepsSelector,
-  showGuidedOnboardingSelector,
   skipVerificationSelector,
   supportedBiometryTypeSelector,
 } from 'src/app/selectors'
@@ -23,7 +22,7 @@ import Fingerprint from 'src/icons/biometry/Fingerprint'
 import { Iris } from 'src/icons/biometry/Iris'
 import TouchID from 'src/icons/biometry/TouchID'
 import { setHasSeenVerificationNux } from 'src/identity/actions'
-import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
+import { HeaderTitleWithSubtitle, nuxNavigationOptionsOnboarding } from 'src/navigator/Headers'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
@@ -40,7 +39,7 @@ const TAG = 'EnableBiometry'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.EnableBiometry>
 
-const biometryImageMap: { [key in Keychain.BIOMETRY_TYPE]: JSX.Element } = {
+const biometryIconMap: { [key in Keychain.BIOMETRY_TYPE]: JSX.Element } = {
   [Keychain.BIOMETRY_TYPE.FACE_ID]: <FaceID />,
   [Keychain.BIOMETRY_TYPE.TOUCH_ID]: <TouchID />,
   [Keychain.BIOMETRY_TYPE.FINGERPRINT]: <Fingerprint />,
@@ -57,7 +56,6 @@ export default function EnableBiometry({ navigation }: Props) {
   const choseToRestoreAccount = useSelector(choseToRestoreAccountSelector)
   const skipVerification = useSelector(skipVerificationSelector)
   const { step, totalSteps } = useSelector(registrationStepsSelector)
-  const showGuidedOnboarding = useSelector(showGuidedOnboardingSelector)
 
   useEffect(() => {
     ValoraAnalytics.track(OnboardingEvents.biometry_opt_in_start)
@@ -67,11 +65,7 @@ export default function EnableBiometry({ navigation }: Props) {
     navigation.setOptions({
       headerTitle: () => (
         <HeaderTitleWithSubtitle
-          title={
-            showGuidedOnboarding
-              ? t(`biometryType.${supportedBiometryType}`)
-              : t('enableBiometry.title')
-          }
+          title={t(`biometryType.${supportedBiometryType}`)}
           subTitle={t('registrationSteps', { step, totalSteps })}
         />
       ),
@@ -80,7 +74,7 @@ export default function EnableBiometry({ navigation }: Props) {
           title={t('skip')}
           testID="EnableBiometrySkipHeader"
           onPress={onPressSkip}
-          titleStyle={{ color: colors.goldDark }}
+          titleStyle={{ color: colors.onboardingBrownLight }}
         />
       ),
     })
@@ -122,13 +116,8 @@ export default function EnableBiometry({ navigation }: Props) {
 
   return (
     <ScrollView style={styles.contentContainer}>
-      <SafeAreaView
-        style={
-          showGuidedOnboarding ? [styles.container, styles.containerLeftAligned] : styles.container
-        }
-      >
-        <View style={styles.imageContainer}>{biometryImageMap[supportedBiometryType!]}</View>
-        {showGuidedOnboarding ? (
+      <SafeAreaView style={styles.container}>
+        {
           <>
             <Text style={styles.guideTitle}>
               {t('enableBiometry.guideTitle', {
@@ -141,57 +130,53 @@ export default function EnableBiometry({ navigation }: Props) {
               })}
             </Text>
           </>
-        ) : (
-          <Text style={styles.description}>
-            {t('enableBiometry.description', {
-              biometryType: t(`biometryType.${supportedBiometryType}`),
-            })}
-          </Text>
-        )}
+        }
         <Button
           onPress={onPressUseBiometry}
           text={t('enableBiometry.cta', {
             biometryType: t(`biometryType.${supportedBiometryType}`),
           })}
-          size={BtnSizes.MEDIUM}
+          size={BtnSizes.FULL}
           type={BtnTypes.ONBOARDING}
           testID="EnableBiometryButton"
+          icon={
+            supportedBiometryType && (
+              <View style={styles.biometryIcon}>{biometryIconMap[supportedBiometryType]}</View>
+            )
+          }
+          style={styles.biometryButton}
         />
       </SafeAreaView>
     </ScrollView>
   )
 }
 
-EnableBiometry.navigationOptions = nuxNavigationOptions
+EnableBiometry.navigationOptions = nuxNavigationOptionsOnboarding
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 186,
+    paddingTop: 72,
     paddingHorizontal: 40,
     alignItems: 'center',
-  },
-  containerLeftAligned: {
-    alignItems: 'flex-start',
   },
   contentContainer: {
     flex: 1,
     backgroundColor: colors.onboardingBackground,
   },
-  imageContainer: {
-    marginBottom: Spacing.Thick24,
-  },
-  description: {
-    ...fontStyles.regular,
-    textAlign: 'center',
-    marginBottom: Spacing.Thick24,
+  biometryButton: {
+    width: '100%',
   },
   guideTitle: {
     ...fontStyles.h1,
-    marginBottom: Spacing.Thick24,
+    marginBottom: Spacing.Regular16,
+    textAlign: 'center',
   },
   guideText: {
     ...fontStyles.regular,
-    marginBottom: Spacing.Thick24,
-    textAlign: 'left',
+    marginBottom: Spacing.Large32,
+    textAlign: 'center',
+  },
+  biometryIcon: {
+    paddingRight: 4,
   },
 })

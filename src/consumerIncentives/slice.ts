@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { Actions as AppActions, UpdateConfigValuesAction } from 'src/app/actions'
 import { SuperchargePendingReward } from 'src/consumerIncentives/types'
 
 export interface State {
@@ -7,6 +8,8 @@ export interface State {
   availableRewards: SuperchargePendingReward[]
   fetchAvailableRewardsLoading: boolean
   fetchAvailableRewardsError: boolean
+  superchargeV2Enabled: boolean // switch to new backend to calculate rewards on the fly
+  superchargeRewardContractAddress: string
 }
 
 export const initialState: State = {
@@ -15,6 +18,8 @@ export const initialState: State = {
   fetchAvailableRewardsLoading: false,
   fetchAvailableRewardsError: false,
   availableRewards: [],
+  superchargeV2Enabled: false,
+  superchargeRewardContractAddress: '',
 }
 
 const slice = createSlice({
@@ -55,6 +60,16 @@ const slice = createSlice({
       ...state,
       availableRewards: action.payload,
     }),
+  },
+  extraReducers: (builder) => {
+    builder.addCase(
+      AppActions.UPDATE_REMOTE_CONFIG_VALUES,
+      (state, action: UpdateConfigValuesAction) => {
+        state.superchargeV2Enabled = action.configValues.superchargeV2Enabled
+        state.superchargeRewardContractAddress =
+          action.configValues.superchargeRewardContractAddress
+      }
+    )
   },
 })
 
