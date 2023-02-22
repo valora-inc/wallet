@@ -325,6 +325,7 @@ const styles = StyleSheet.create({
   disclaimerWrapper: {
     paddingBottom: Spacing.Thick24,
     justifyContent: 'flex-end',
+    flexWrap: 'wrap',
   },
   disclaimerText: {
     color: colors.gray5,
