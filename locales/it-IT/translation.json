@@ -698,16 +698,15 @@
   "registrationSteps": "Passaggio {{step}} di {{totalSteps}}",
   "selectCountryCode": "Seleziona il codice del Paese",
   "pincodeSet": {
-    "create": "Crea un PIN",
     "createNew": "Crea un nuovo PIN",
     "verify": "Immetti nuovamente il PIN per confermarlo",
     "changePIN": "Modifica il PIN",
     "pinsDontMatch": "I PIN non corrispondono",
     "invalidPin": "Usa un PIN più complesso",
-    "guideTitle": "Scegli un PIN di 6 cifre che ricorderai",
-    "guideConfirm": "Immetti nuovamente il PIN per confermarlo.",
-    "pinCodeGuide": "Il PIN è il modo in cui proteggerai il tuo wallet.",
-    "selectPIN": "Seleziona il PIN"
+    "onboardingTitle": "Scegli un PIN di 6 cifre",
+    "onboardingConfirm": "Inserisci nuovamente il PIN",
+    "onboardingSubtitle": "Il tuo PIN proteggerà il tuo portafoglio",
+    "pin": "PIN"
   },
   "inviteCode": {
     "title": "Codice di invito",
