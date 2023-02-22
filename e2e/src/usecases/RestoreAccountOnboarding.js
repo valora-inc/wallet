@@ -68,7 +68,6 @@ export default RestoreAccountOnboarding = () => {
       // verification step comes after restoring wallet, skip this step
       await waitForElementId('PhoneVerificationSkipHeader')
       await element(by.id('PhoneVerificationSkipHeader')).tap()
-      await element(by.id('PhoneVerificationSkipDialog/PrimaryAction')).tap()
 
       // verify that we land on the home screen
       await expect(element(by.id('SendOrRequestBar'))).toBeVisible()

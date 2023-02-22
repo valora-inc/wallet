@@ -8,12 +8,12 @@ import { PhoneVerificationEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
 import CodeInput, { CodeInputStatus } from 'src/components/CodeInput'
-import Dialog from 'src/components/Dialog'
+import InfoBottomSheet from 'src/components/InfoBottomSheet'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import { PHONE_NUMBER_VERIFICATION_CODE_LENGTH } from 'src/config'
 import { HeaderTitleWithSubtitle } from 'src/navigator/Headers'
-import { navigate, navigateHome } from 'src/navigator/NavigationService'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
@@ -49,11 +49,6 @@ function VerificationCodeInputScreen({
     resendSms()
   }
 
-  const onPressSkip = () => {
-    ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_input_help_skip)
-    navigateHome()
-  }
-
   const onPressHelp = () => {
     ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_input_help)
     setShowHelpDialog(true)
@@ -85,10 +80,10 @@ function VerificationCodeInputScreen({
           title={t('phoneVerificationInput.help')}
           testID="PhoneVerificationHelpHeader"
           onPress={onPressHelp}
-          titleStyle={{ color: colors.goldDark }}
+          titleStyle={{ color: colors.onboardingBrownLight }}
         />
       ),
-      headerLeft: () => <BackButton />,
+      headerLeft: () => <BackButton color={colors.onboardingBrownLight} />,
       headerTransparent: true,
     })
   }, [navigation, route.params])
@@ -137,18 +132,13 @@ function VerificationCodeInputScreen({
         <ResendButtonWithDelay onPress={onResendSms} />
       </View>
       <KeyboardSpacer />
-      <Dialog
-        testID="PhoneVerificationInputHelpDialog"
-        title={t('phoneVerificationInput.helpDialog.title')}
+      <InfoBottomSheet
         isVisible={showHelpDialog}
-        actionText={t('phoneVerificationInput.helpDialog.dismiss')}
-        actionPress={onPressHelpDismiss}
-        secondaryActionPress={onPressSkip}
-        secondaryActionText={t('phoneVerificationInput.helpDialog.skip')}
-        onBackgroundPress={onPressHelpDismiss}
-      >
-        {t('phoneVerificationInput.helpDialog.body')}
-      </Dialog>
+        title={t('phoneVerificationInput.helpDialog.title')}
+        body={t('phoneVerificationInput.helpDialog.body')}
+        onDismiss={onPressHelpDismiss}
+        testID="PhoneVerificationInputHelpDialog"
+      />
     </SafeAreaView>
   )
 }
@@ -172,6 +162,7 @@ const styles = StyleSheet.create({
   body: {
     ...fontStyles.regular,
     marginBottom: Spacing.Thick24,
+    textAlign: 'center',
   },
   codeInput: {
     marginHorizontal: Spacing.Thick24,
