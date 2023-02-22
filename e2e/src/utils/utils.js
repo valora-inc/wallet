@@ -129,7 +129,7 @@ export async function waitForElementId(elementId, timeout = 10 * 1000) {
       .toBeVisible()
       .withTimeout(timeout)
   } catch {
-    throw error(`Element with testID '${elementId}' not found`)
+    throw new Error(`Element with testID '${elementId}' not found`)
   }
 }
 
