@@ -746,13 +746,13 @@
   },
   "phoneVerificationScreen": {
     "screenTitle": "Numero telefonico",
-    "title": "Collega il tuo numero telefonico",
-    "description": "Per collegare il tuo numero telefonico, riceverai un messaggio di testo.",
-    "startButtonLabel": "Inizia",
+    "title": "Collega il tuo numero di telefono a Valora",
+    "description": "This links your wallet address to your phone number so sending crypto is easy",
+    "startButtonLabel": "Collega",
     "learnMore": {
-      "buttonLabel": "Devo collegare il mio telefono?",
-      "title": "Devo collegare il mio telefono?",
-      "body": "Collegando il tuo numero di telefono potrai scambiare denaro con i tuoi amici ad altri numeri di telefono.\n\nSe scegli di saltare questo passaggio, non potrai accedere ai tuoi contatti e potrai inviare denaro solo tramite codice QR o Indirizzo del conto."
+      "buttonLabel": "Devo necessariamente collegarmi?",
+      "title": "Devo necessariamente collegarmi?",
+      "body": "Collegando il tuo numero di telefono potrai inviare denaro agli amici della tua rubrica e ad altri numeri di telefono. \n \n Se scegli di saltare questo passaggio non potrai accedere ai tuoi contatti e potrai inviare denaro solo tramite codice QR o indirizzo del portafoglio."
     },
     "skip": {
       "title": "Sei sicuro?",
@@ -768,13 +768,13 @@
     "codeInputPlaceholder": "123456",
     "helpDialog": {
       "title": "Guida",
-      "body": "Abbiamo inviato un SMS al tuo numero telefonico. Controlla i tuoi SMS per trovare il codice di 6 cifre. Se hai problemi a ricevere i messaggi, puoi saltare questo passaggio e riprovare più tardi.",
+      "body": "Abbiamo inviato un SMS al tuo numero di telefono. Controlla i tuoi messaggi per trovare il codice a 6 cifre. \n \n Se hai problemi a ricevere i messaggi, puoi saltare questo passaggio e riprovare più tardi.",
       "skip": "Salta",
       "dismiss": "Indietro"
     },
     "verificationFailure": "Si è verificato un errore, riprova più tardi.",
     "resendButtonNotYetAvailable": "Nuovo invio disponibile tra {{secondsRemaining}} secondo/i",
-    "resendButton": "Invia nuovamente messaggio"
+    "resendButton": "Non hai ricevuto il codice?"
   },
   "importExistingKey": {
     "keyPlaceholder": "horse leopard dog monkey ...",
