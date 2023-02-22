@@ -1493,7 +1493,8 @@
     "swapFrom": "Bu Token’dan",
     "swapTo": "Şu Token’a",
     "insufficientFunds": "Yetersiz {{token}}. Lütfen daha küçük bir miktar girin veya farklı bir token seçin.",
-    "fetchSwapQuoteFailed": "Gecikme için üzgünüz! En iyi döviz kurunu almak normalden daha uzun sürüyor. Lütfen birkaç dakika içinde tekrar deneyin."
+    "fetchSwapQuoteFailed": "Gecikme için üzgünüz! En iyi döviz kurunu almak normalden daha uzun sürüyor. Lütfen birkaç dakika içinde tekrar deneyin.",
+    "disclaimer": "Celo'daki ortaklar tarafından desteklenen takaslar. <0>Daha fazla bilgi edinin.</0>"
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Takas kaynağı",
