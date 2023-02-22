@@ -210,6 +210,8 @@ export interface RemoteConfigValues {
   twelveWordMnemonicEnabled: boolean
   dappsMinimalDisclaimerEnabled: boolean
   guaranteedSwapPriceEnabled: boolean
+  superchargeV2Enabled: boolean
+  superchargeRewardContractAddress: string
 }
 
 export function* appRemoteFeatureFlagSaga() {

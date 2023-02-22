@@ -69,4 +69,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   twelveWordMnemonicEnabled: true,
   dappsMinimalDisclaimerEnabled: false,
   guaranteedSwapPriceEnabled: false,
+  superchargeV2Enabled: false,
+  superchargeRewardContractAddress: '',
 }
