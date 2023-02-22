@@ -1491,7 +1491,8 @@
     "swapFrom": "自",
     "swapTo": "至",
     "insufficientFunds": "{{token}} 余额不足，请尝试使用较小的金额或选择其他代币。",
-    "fetchSwapQuoteFailed": "抱歉有所延迟！获取最佳汇率所需时间较往常略长。请在几分钟后重试。"
+    "fetchSwapQuoteFailed": "抱歉有所延迟！获取最佳汇率所需时间较往常略长。请在几分钟后重试。",
+    "disclaimer": "由Celo上的合作伙伴提供的互换。<0>了解更多。</0>"
   },
   "swapTransactionDetailPage": {
     "swapFrom": "交换自",
