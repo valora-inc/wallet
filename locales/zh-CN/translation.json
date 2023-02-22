@@ -698,16 +698,15 @@
   "registrationSteps": "第 {{step}} 步，共 {{totalSteps}} 步",
   "selectCountryCode": "选择国家/地区代码",
   "pincodeSet": {
-    "create": "创建 PIN 码",
     "createNew": "创建新的 PIN 码",
     "verify": "再次输入您的 PIN 码以确认",
     "changePIN": "更改 PIN 码",
     "pinsDontMatch": "PIN 码不匹配",
     "invalidPin": "请使用更强的 PIN 码",
-    "guideTitle": "选择您记得住的 6 位数字 PIN 码",
-    "guideConfirm": "再次输入您的 PIN 码以确认。",
-    "pinCodeGuide": "您的 PIN 码将用于保护您的钱包。",
-    "selectPIN": "选择 PIN 码"
+    "onboardingTitle": "选择一个6位数的密码",
+    "onboardingConfirm": "再次输入你的密码",
+    "onboardingSubtitle": "你的密码将确保你的钱包安全",
+    "pin": "密码"
   },
   "inviteCode": {
     "title": "邀请代码",
