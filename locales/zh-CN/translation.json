@@ -661,7 +661,6 @@
     "spend": "使用加密货币购买您喜爱的品牌"
   },
   "enableBiometry": {
-    "title": "保护您的钱包",
     "description": "{{biometryType}} 可保护您的钱包并让您可以更轻松地使用 {{appName}}",
     "cta": "开启 {{biometryType}}",
     "guideTitle": "要添加 {{biometryType}}？",
@@ -747,7 +746,7 @@
   "phoneVerificationScreen": {
     "screenTitle": "手机号码",
     "title": "将您的电话号码连接到Valora",
-    "description": "This links your wallet address to your phone number so sending crypto is easy",
+    "description": "这将你的钱包地址与你的电话号码联系起来，因此发送加密货币很容易。",
     "startButtonLabel": "关联",
     "learnMore": {
       "buttonLabel": "我需要关联吗？",
