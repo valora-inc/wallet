@@ -746,13 +746,13 @@
   },
   "phoneVerificationScreen": {
     "screenTitle": "Numer telefonu",
-    "title": "Podłącz swój numer telefonu",
-    "description": "Aby podłączyć swój numer telefonu, otrzymasz wiadomość tekstową.",
-    "startButtonLabel": "Start",
+    "title": "Podłącz swój numer telefonu do Valory",
+    "description": "This links your wallet address to your phone number so sending crypto is easy",
+    "startButtonLabel": "Podłącz",
     "learnMore": {
-      "buttonLabel": "Czy muszę podłączyć telefon?",
-      "title": "Czy muszę podłączyć telefon?",
-      "body": "Podłączenie numeru telefonu pozwoli Ci na wysyłanie pieniędzy do znajomych z książki adresowej i innych numerów telefonów. \n \n Jeśli pominiesz ten krok, nie będziesz mieć dostępu do swoich kontaktów i będziesz w stanie wysyłać pieniądze tylko za pomocą kodu QR lub adres konta."
+      "buttonLabel": "Czy podłączenie numeru jest konieczne?",
+      "title": "Czy podłączenie numeru jest konieczne?",
+      "body": "Podłączenie numeru telefonu pozwoli Ci na wysyłanie pieniędzy do znajomych z książki adresowej i innych numerów telefonów. \n \n Jeśli pominiesz ten krok, nie będziesz miał dostępu do swoich kontaktów i będziesz mógł wysyłać pieniądze jedynie za pomocą kodu QR lub adresu portfela."
     },
     "skip": {
       "title": "Czy na pewno?",
@@ -768,13 +768,13 @@
     "codeInputPlaceholder": "123456",
     "helpDialog": {
       "title": "Pomoc",
-      "body": "Wysłaliśmy wiadomość SMS pod Twój numer telefonu. Sprawdź swoje wiadomości tekstowe, aby znaleźć 6-cyfrowy kod. Jeśli masz problemy z odbieraniem wiadomości, możesz pominąć ten krok i spróbować ponownie później.",
+      "body": "Wysłaliśmy wiadomość SMS na Twój numer telefonu. Sprawdź swoje wiadomości tekstowe, aby znaleźć 6-cyfrowy kod. \n \n Jeśli masz problemy z odbieraniem wiadomości, możesz pominąć ten krok i spróbować ponownie później.",
       "skip": "Pomiń",
       "dismiss": "Wróć"
     },
     "verificationFailure": "Coś poszło nie tak, spróbuj ponownie później.",
     "resendButtonNotYetAvailable": "Możliwość ponownego wysłania za {{secondsRemaining}} sek.",
-    "resendButton": "Ponownie wyślij wiadomość tekstową"
+    "resendButton": "Nie otrzymałeś kodu?"
   },
   "importExistingKey": {
     "keyPlaceholder": "koń lampart pies małpa ...",
