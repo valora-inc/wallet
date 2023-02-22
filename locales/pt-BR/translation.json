@@ -698,16 +698,15 @@
   "registrationSteps": "Passo {{step}} de {{totalSteps}}",
   "selectCountryCode": "Selecione o código do país",
   "pincodeSet": {
-    "create": "Criar um PIN",
     "createNew": "Criar um novo PIN",
     "verify": "Insira seu PIN novamente para confirmar",
     "changePIN": "Alterar PIN",
     "pinsDontMatch": "Os PINs não coincidem",
     "invalidPin": "Use um PIN mais forte",
-    "guideTitle": "Escolha um PIN de 6 dígitos que se lembrará",
-    "guideConfirm": "Insira o seu PIN novamente para confirmar.",
-    "pinCodeGuide": "O seu PIN é a forma de proteger a sua carteira.",
-    "selectPIN": "Selecione o PIN"
+    "onboardingTitle": "Escolha um PIN de 6 dígitos",
+    "onboardingConfirm": "Introduza novamente o seu PIN",
+    "onboardingSubtitle": "O seu PIN irá proteger a sua carteira",
+    "pin": "PIN"
   },
   "inviteCode": {
     "title": "Código de convite",
