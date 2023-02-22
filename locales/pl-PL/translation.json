@@ -1497,7 +1497,8 @@
     "swapFrom": "Od",
     "swapTo": "Do",
     "insufficientFunds": "Niewystarczające saldo {{token}}. Spróbuj wpłacić mniejszą kwotę lub wybierz inny token.",
-    "fetchSwapQuoteFailed": "Przepraszamy za opóźnienie! Przetwarzanie trwa dłużej niż zwykle, aby uzyskać najlepszy kurs wymiany. Spróbuj ponownie za kilka minut."
+    "fetchSwapQuoteFailed": "Przepraszamy za opóźnienie! Przetwarzanie trwa dłużej niż zwykle, aby uzyskać najlepszy kurs wymiany. Spróbuj ponownie za kilka minut.",
+    "disclaimer": "Swapy zasilane przez partnerów na Celo. <0>Dowiedz się więcej.</0>"
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Zamień z",
