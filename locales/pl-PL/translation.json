@@ -661,7 +661,6 @@
     "spend": "Wykorzystuj swoje kryptowaluty do zakupu ulubionych marek"
   },
   "enableBiometry": {
-    "title": "Zabezpiecz swój portfel",
     "description": "{{biometryType}} zabezpiecza portfel i ułatwia korzystanie z aplikacji {{appName}}",
     "cta": "Włącz {{biometryType}}",
     "guideTitle": "Chcesz dodać {{biometryType}}?",
@@ -747,7 +746,7 @@
   "phoneVerificationScreen": {
     "screenTitle": "Numer telefonu",
     "title": "Podłącz swój numer telefonu do Valory",
-    "description": "This links your wallet address to your phone number so sending crypto is easy",
+    "description": "To łączy adres portfela z numerem telefonu, więc wysyłanie kryptowalut jest łatwe",
     "startButtonLabel": "Podłącz",
     "learnMore": {
       "buttonLabel": "Czy podłączenie numeru jest konieczne?",
