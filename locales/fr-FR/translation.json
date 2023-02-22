@@ -1493,7 +1493,8 @@
     "swapFrom": "De",
     "swapTo": "À",
     "insufficientFunds": "{{token}} insuffisants. Veuillez saisir un montant inférieur ou choisissez un autre jeton.",
-    "fetchSwapQuoteFailed": "Désolé pour le retard ! Obtenir le meilleur taux de change prend plus longtemps que prévu. Veuillez réessayer plus tard."
+    "fetchSwapQuoteFailed": "Désolé pour le retard ! Obtenir le meilleur taux de change prend plus longtemps que prévu. Veuillez réessayer plus tard.",
+    "disclaimer": "Des échanges alimentés par des partenaires sur Celo. <0>Apprends-en plus.</0>"
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Échanger de",
