@@ -3126,6 +3126,12 @@
                 },
                 "loading": {
                     "type": "boolean"
+                },
+                "superchargeRewardContractAddress": {
+                    "type": "string"
+                },
+                "superchargeV2Enabled": {
+                    "type": "boolean"
                 }
             },
             "required": [
@@ -3133,7 +3139,9 @@
                 "error",
                 "fetchAvailableRewardsError",
                 "fetchAvailableRewardsLoading",
-                "loading"
+                "loading",
+                "superchargeRewardContractAddress",
+                "superchargeV2Enabled"
             ],
             "type": "object"
         },

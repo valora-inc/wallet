@@ -26,6 +26,7 @@ import {
   OnboardingEvents,
   PerformanceEvents,
   PhoneVerificationEvents,
+  QrScreenEvents,
   RequestEvents,
   RewardsEvents,
   SendEvents,
@@ -35,7 +36,6 @@ import {
   VerificationEvents,
   WalletConnectEvents,
   WebViewEvents,
-  QrScreenEvents,
 } from 'src/analytics/Events'
 import {
   BackQuizProgress,
@@ -1190,6 +1190,7 @@ interface SwapEventsProperties {
   [SwapEvents.swap_execute_error]: {
     error: string
   }
+  [SwapEvents.swap_learn_more]: undefined
 }
 
 interface CeloNewsEventsProperties {

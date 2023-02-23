@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect'
 import { superchargeTokenConfigByTokenSelector } from 'src/app/selectors'
 import { SuperchargeTokenConfig } from 'src/consumerIncentives/types'
+import { RootState } from 'src/redux/reducers'
 import { tokensByAddressSelector } from 'src/tokens/selectors'
 
 interface SuperchargeInfo {
@@ -56,3 +57,9 @@ export const superchargeInfoSelector = createSelector(
     return superchargeInfo
   }
 )
+
+export const superchargeV2EnabledSelector = (state: RootState) =>
+  state.supercharge.superchargeV2Enabled
+
+export const superchargeRewardContractAddressSelector = (state: RootState) =>
+  state.supercharge.superchargeRewardContractAddress

@@ -2,7 +2,7 @@ import { sleep } from '@celo/utils/lib/async'
 import { AnyAction } from 'redux'
 // Import the actions included in the logger blocklist below.
 import { REHYDRATE } from 'redux-persist'
-import { call, select, spawn, takeEvery } from 'redux-saga/effects'
+import { call, select, spawn, take, takeEvery } from 'redux-saga/effects'
 import { Actions as AccountActions } from 'src/account/actions'
 import { accountSaga } from 'src/account/saga'
 import { devModeSelector } from 'src/account/selectors'
@@ -36,7 +36,6 @@ import { networkInfoSaga } from 'src/networkInfo/saga'
 import { paymentRequestSaga } from 'src/paymentRequest/saga'
 import { setPhoneRecipientCache, updateValoraRecipientCache } from 'src/recipients/reducer'
 import { recipientsSaga } from 'src/recipients/saga'
-import { waitForRehydrate } from 'src/redux/persist-helper'
 import { sendSaga } from 'src/send/saga'
 import { sentrySaga } from 'src/sentry/saga'
 import { stableTokenSaga } from 'src/stableToken/saga'
@@ -100,7 +99,8 @@ export function* rootSaga() {
   try {
     // Delay all sagas until rehydrate is done
     // This prevents them from running with missing state
-    yield call(waitForRehydrate)
+    yield take(REHYDRATE)
+
     yield call(appInit)
 
     // Note, the order of these does matter in certain cases
