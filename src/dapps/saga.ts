@@ -2,7 +2,12 @@ import { PayloadAction } from '@reduxjs/toolkit'
 import { call, put, select, spawn, takeLatest, takeLeading } from 'redux-saga/effects'
 import { openDeepLink, openUrl } from 'src/app/actions'
 import { handleDeepLink, handleOpenUrl } from 'src/app/saga'
-import { dappsListApiUrlSelector, dappsWebViewEnabledSelector } from 'src/dapps/selectors'
+import {
+  dappsFilterEnabledSelector,
+  dappsListApiUrlSelector,
+  dappsSearchEnabledSelector,
+  dappsWebViewEnabledSelector,
+} from 'src/dapps/selectors'
 import {
   dappSelected,
   DappSelectedAction,
@@ -23,14 +28,14 @@ import { walletAddressSelector } from 'src/web3/selectors'
 
 const TAG = 'DappsSaga'
 
-interface Application {
-  categoryId: string
+// XOR for categoryId and categories
+type Application = {
   description: string
   id: string
   logoUrl: string
   name: string
   url: string
-}
+} & ({ categoryId: string; categories?: never } | { categoryId?: never; categories: string[] })
 
 export function* handleOpenDapp(action: PayloadAction<DappSelectedAction>) {
   const { dappUrl } = action.payload.dapp
@@ -58,18 +63,18 @@ export function* handleFetchDappsList() {
   const address = yield select(walletAddressSelector)
   const language = yield select(currentLanguageSelector)
   const shortLanguage = language.split('-')[0]
+  const dappsFilterEnabled = yield select(dappsFilterEnabledSelector)
+  const dappsSearchEnabled = yield select(dappsSearchEnabledSelector)
+  const dappsListVersion = dappsFilterEnabled || dappsSearchEnabled ? '2' : '1'
+  const url = `${dappsListApiUrl}?language=${shortLanguage}&address=${address}&version=${dappsListVersion}`
 
-  const response = yield call(
-    fetch,
-    `${dappsListApiUrl}?language=${shortLanguage}&address=${address}`,
-    {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-    }
-  )
+  const response = yield call(fetch, url, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+  })
 
   if (response.ok) {
     try {
@@ -80,15 +85,25 @@ export function* handleFetchDappsList() {
       } = yield call([response, 'json'])
 
       const dappsList: Dapp[] = result.applications.map((application) => {
-        return {
-          id: application.id,
-          categoryId: application.categoryId,
-          name: application.name,
-          iconUrl: application.logoUrl,
-          description: application.description,
-          dappUrl: application.url.replace('{{address}}', address ?? ''),
-          isFeatured: application.id === result.featured.id,
-        }
+        return application.categoryId !== undefined
+          ? {
+              id: application.id,
+              categoryId: application.categoryId,
+              name: application.name,
+              iconUrl: application.logoUrl,
+              description: application.description,
+              dappUrl: application.url.replace('{{address}}', address ?? ''),
+              isFeatured: application.id === result.featured.id,
+            }
+          : {
+              id: application.id,
+              categories: application.categories,
+              name: application.name,
+              iconUrl: application.logoUrl,
+              description: application.description,
+              dappUrl: application.url.replace('{{address}}', address ?? ''),
+              isFeatured: application.id === result.featured.id,
+            }
       })
 
       yield put(fetchDappsListCompleted({ dapps: dappsList, categories: result.categories }))
