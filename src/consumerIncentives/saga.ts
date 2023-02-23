@@ -138,6 +138,7 @@ function* claimReward(reward: SuperchargePendingReward, index: number, baseNonce
   ValoraAnalytics.track(RewardsEvents.claimed_reward, {
     amount,
     token: tokens[tokenAddress]?.symbol ?? '',
+    version: 1,
   })
   return {
     fundsSource: fundsSource.toLowerCase(),
@@ -185,6 +186,7 @@ function* claimRewardV2(reward: SuperchargePendingRewardV2, index: number, baseN
   ValoraAnalytics.track(RewardsEvents.claimed_reward, {
     amount,
     token: tokens[tokenAddress]?.symbol ?? '',
+    version: 2,
   })
   return {
     fundsSource: superchargeRewardContractAddress,
