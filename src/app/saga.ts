@@ -212,6 +212,8 @@ export interface RemoteConfigValues {
   guaranteedSwapPriceEnabled: boolean
   superchargeV2Enabled: boolean
   superchargeRewardContractAddress: string
+  dappsFilterEnabled: boolean
+  dappsSearchEnabled: boolean
 }
 
 export function* appRemoteFeatureFlagSaga() {
