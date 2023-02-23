@@ -35,6 +35,10 @@ const isCategoryWithDapps = (
   category: CategoryWithDapps | undefined
 ): category is CategoryWithDapps => !!category && category.dapps.length > 0
 
+/**
+ * Returns a list of categories with dapps
+ * Should only be used on the Legacy Dapps screens
+ */
 export const dappCategoriesByIdSelector = createSelector(
   dappsListSelector,
   dappsCategoriesSelector,
@@ -55,7 +59,8 @@ export const dappCategoriesByIdSelector = createSelector(
     })
     dapps.forEach((dapp) => {
       // favorited dapps live in their own list, remove them from the "all" section in the dapps list
-      if (!favoriteDappIds.includes(dapp.id)) {
+      // should always have a categoryId
+      if (!favoriteDappIds.includes(dapp.id) && dapp.categoryId) {
         mappedCategories[dapp.categoryId]?.dapps.push(dapp)
       }
     })
