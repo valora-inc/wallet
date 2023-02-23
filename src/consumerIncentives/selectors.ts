@@ -58,6 +58,10 @@ export const superchargeInfoSelector = createSelector(
   }
 )
 
+export const superchargeRewardsLoadingSelector = (state: RootState) => state.supercharge.loading
+
+export const availableRewardsSelector = (state: RootState) => state.supercharge.availableRewards
+
 export const superchargeV2EnabledSelector = (state: RootState) =>
   state.supercharge.superchargeV2Enabled
 

@@ -16,7 +16,11 @@ import Dialog from 'src/components/Dialog'
 import Pill from 'src/components/Pill'
 import Touchable from 'src/components/Touchable'
 import { RewardsScreenCta } from 'src/consumerIncentives/analyticsEventsTracker'
-import { superchargeInfoSelector } from 'src/consumerIncentives/selectors'
+import {
+  availableRewardsSelector,
+  superchargeInfoSelector,
+  superchargeRewardsLoadingSelector,
+} from 'src/consumerIncentives/selectors'
 import { claimRewards, fetchAvailableRewards } from 'src/consumerIncentives/slice'
 import {
   isSuperchargePendingRewardsV2,
@@ -226,8 +230,8 @@ export default function ConsumerIncentivesHomeScreen() {
   const defaultTokenConfigToSupercharge = useDefaultTokenConfigToSupercharge()
   const tokenConfigToSupercharge = superchargingTokenConfig ?? defaultTokenConfigToSupercharge
 
-  const claimRewardsLoading = useSelector((state) => state.supercharge.loading)
-  const superchargeRewards = useSelector((state) => state.supercharge.availableRewards)
+  const claimRewardsLoading = useSelector(superchargeRewardsLoadingSelector)
+  const superchargeRewards = useSelector(availableRewardsSelector)
   const loadingAvailableRewards = useSelector(
     (state) => state.supercharge.fetchAvailableRewardsLoading
   )
@@ -237,7 +241,7 @@ export default function ConsumerIncentivesHomeScreen() {
 
   const onPressCTA = async () => {
     if (canClaimRewards) {
-      dispatch(claimRewards(superchargeRewards))
+      dispatch(claimRewards())
       ValoraAnalytics.track(RewardsEvents.rewards_screen_cta_pressed, {
         buttonPressed: RewardsScreenCta.ClaimRewards,
       })
