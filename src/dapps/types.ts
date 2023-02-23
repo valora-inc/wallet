@@ -6,19 +6,19 @@ export enum DappSection {
   FavoritesHomeScreen = 'favorites home screen',
 }
 
-export interface Dapp {
+// XOR for categoryId and categories
+export type Dapp = {
   id: string
-  categoryId: string
   iconUrl: string
   name: string
   description: string
   dappUrl: string
   isFeatured: boolean
-}
+} & ({ categoryId: string; categories?: never } | { categoryId?: never; categories: string[] })
 
-export interface ActiveDapp extends Dapp {
-  openedFrom: DappSection
-}
+// Needs to be a type as an interface can only extend an object type
+// or intersection of object types with statically known members.
+export type ActiveDapp = Dapp & { openedFrom: DappSection }
 
 export interface DappCategory {
   backgroundColor: string
