@@ -58,7 +58,7 @@ describe('Dapps saga', () => {
     })
   })
 
-  describe('Handles fetching dapps list', () => {
+  describe('Handles fetching dapps list v1', () => {
     const mockFetch = fetch as FetchMock
     beforeEach(() => {
       mockFetch.resetMocks()
@@ -160,6 +160,118 @@ describe('Dapps saga', () => {
           [select(currentLanguageSelector), 'en'],
           [select(dappsFilterEnabledSelector), false],
           [select(dappsSearchEnabledSelector), false],
+        ])
+        .put(
+          fetchDappsListFailed({
+            error: 'Could not fetch dapps',
+          })
+        )
+        .run()
+    })
+  })
+
+  describe('Handles fetching dapp list v2', () => {
+    const mockFetch = fetch as FetchMock
+    beforeEach(() => {
+      mockFetch.resetMocks()
+    })
+
+    it('saves the dapps and categories', async () => {
+      const dapp1 = {
+        categories: ['finance-tools'],
+        description: 'Staking CELO made easy',
+        id: 'churritofi',
+        logoUrl:
+          'https://raw.githubusercontent.com/valora-inc/dapp-list/main/assets/churritofi.png',
+        name: 'ChurritoFi',
+        url: 'https://churrito.fi',
+      }
+      const dapp2 = {
+        categories: ['spend'],
+        description: 'Book flights around the world with cUSD and cEUR',
+        id: 'flywallet',
+        logoUrl: 'https://raw.githubusercontent.com/valora-inc/dapp-list/main/assets/flywallet.png',
+        name: 'Flywallet',
+        url: 'https://pro.flywallet.io',
+      }
+      const categories = [
+        {
+          backgroundColor: '#FDF0CE',
+          fontColor: '#BF8800',
+          id: 'spend',
+          name: 'Spend',
+        },
+        {
+          backgroundColor: '#E5E8FB',
+          fontColor: '#4E61E2',
+          id: 'finance-tools',
+          name: 'Financial Tools',
+        },
+      ]
+      mockFetch.mockResponse(
+        JSON.stringify({
+          applications: [dapp1, dapp2],
+          categories,
+          featured: dapp1,
+        })
+      )
+
+      await expectSaga(handleFetchDappsList)
+        .provide([
+          [select(dappsListApiUrlSelector), 'http://some.url'],
+          [select(walletAddressSelector), '0xabc'],
+          [select(currentLanguageSelector), 'en'],
+          [select(dappsFilterEnabledSelector), true],
+          [select(dappsSearchEnabledSelector), true],
+        ])
+        .put(
+          fetchDappsListCompleted({
+            dapps: [
+              {
+                categories: ['finance-tools'],
+                description: 'Staking CELO made easy',
+                id: 'churritofi',
+                iconUrl:
+                  'https://raw.githubusercontent.com/valora-inc/dapp-list/main/assets/churritofi.png',
+                name: 'ChurritoFi',
+                dappUrl: 'https://churrito.fi',
+                isFeatured: true,
+              },
+              {
+                categories: ['spend'],
+                description: 'Book flights around the world with cUSD and cEUR',
+                id: 'flywallet',
+                iconUrl:
+                  'https://raw.githubusercontent.com/valora-inc/dapp-list/main/assets/flywallet.png',
+                name: 'Flywallet',
+                dappUrl: 'https://pro.flywallet.io',
+                isFeatured: false,
+              },
+            ],
+            categories,
+          })
+        )
+        .run()
+
+      expect(mockFetch).toHaveBeenCalledWith(
+        'http://some.url?language=en&address=0xabc&version=2',
+        {
+          headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
+          method: 'GET',
+        }
+      )
+    })
+
+    it('saves an error', async () => {
+      mockFetch.mockRejectOnce()
+
+      await expectSaga(handleFetchDappsList)
+        .provide([
+          [select(dappsListApiUrlSelector), 'http://some.url'],
+          [select(walletAddressSelector), '0xabc'],
+          [select(currentLanguageSelector), 'en'],
+          [select(dappsFilterEnabledSelector), true],
+          [select(dappsSearchEnabledSelector), true],
         ])
         .put(
           fetchDappsListFailed({
