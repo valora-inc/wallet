@@ -17,8 +17,8 @@ export default DappListDisplay = () => {
   })
 
   it('should show dapp info icon and subsequent modal', async () => {
-    await waitForElementId('DAppsExplorerScreen/HelpIcon')
-    await element(by.id('DAppsExplorerScreen/HelpIcon')).tap()
+    await waitForElementId('DAppsExplorerScreenLegacy/HelpIcon')
+    await element(by.id('DAppsExplorerScreenLegacy/HelpIcon')).tap()
     await waitForElementId('DAppsExplorerScreen/InfoBottomSheet/PrimaryAction')
     await element(by.id('DAppsExplorerScreen/InfoBottomSheet/PrimaryAction')).tap()
 

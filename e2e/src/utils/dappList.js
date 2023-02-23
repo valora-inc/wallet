@@ -12,7 +12,7 @@ export async function navigateToDappList() {
   await element(by.id('Hamburger')).tap()
   await waitForElementId('dapps-explorer-icon')
   await element(by.id('dapps-explorer-icon')).tap()
-  await waitFor(element(by.id('DAppExplorerScreen/DappsList')))
+  await waitFor(element(by.id('DAppsExplorerScreenLegacy/DappsList')))
     .toExist()
     .withTimeout(10 * 1000)
   await device.enableSynchronization()
@@ -36,7 +36,7 @@ export async function scrollToDapp(dappIndex = 0) {
   try {
     await waitFor(element(by.id('DappCard')).atIndex(dappIndex))
       .toBeVisible(100)
-      .whileElement(by.id('DAppExplorerScreen/DappsList'))
+      .whileElement(by.id('DAppsExplorerScreenLegacy/DappsList'))
       .scroll(250, 'down')
   } catch {
     console.log('Catch of scrollToDapp')

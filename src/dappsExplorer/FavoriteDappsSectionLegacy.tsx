@@ -14,13 +14,13 @@ interface Props {
   onPressDapp: (dapp: ActiveDapp) => void
 }
 
-export function FavoriteDappsSection({ onPressDapp }: Props) {
+export function FavoriteDappsSectionLegacy({ onPressDapp }: Props) {
   const { t } = useTranslation()
   const favoriteDapps = useSelector(favoriteDappsSelector)
 
   if (favoriteDapps.length > 0) {
     return (
-      <View testID="DAppExplorerScreen/FavoriteDappsSection">
+      <View testID="DAppsExplorerScreenLegacy/FavoriteDappsSectionLegacy">
         {favoriteDapps.map((favoriteDapp) => (
           <DappCard
             key={favoriteDapp.id}
@@ -64,4 +64,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default FavoriteDappsSection
+export default FavoriteDappsSectionLegacy
