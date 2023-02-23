@@ -118,11 +118,19 @@ export async function isElementVisible(elementId, index) {
     return false
   }
 }
-
-export async function waitForElementId(elementId) {
-  await waitFor(element(by.id(elementId)))
-    .toBeVisible()
-    .withTimeout(30000)
+/**
+ * Wait for an element to be visible for at least set amount of time
+ * @param {string} elementId testID of the element to wait for
+ * @param {number} timeout timeout in milliseconds
+ */
+export async function waitForElementId(elementId, timeout = 10 * 1000) {
+  try {
+    await waitFor(element(by.id(elementId)))
+      .toBeVisible()
+      .withTimeout(timeout)
+  } catch {
+    throw new Error(`Element with testID '${elementId}' not found`)
+  }
 }
 
 export function quote(s) {
