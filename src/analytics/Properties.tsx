@@ -1116,13 +1116,13 @@ interface CICOEventsProperties {
   [CICOEvents.persona_kyc_error]: undefined
 }
 
-interface DappProperties {
-  categoryId: string
+// XOR for categoryId and categories
+type DappProperties = {
   dappId: string
   dappName: string
-}
+} & ({ categoryId: string; categories?: never } | { categoryId?: never; categories: string[] })
 
-interface DappEventProperties extends DappProperties {
+type DappEventProperties = DappProperties & {
   section: DappSection
   horizontalPosition?: number
 }
