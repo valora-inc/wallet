@@ -2070,7 +2070,12 @@ export const v113Schema = {
     ...v112Schema._persist,
     version: 113,
   },
-  app: _.omit(v112Schema.app, 'skipProfilePicture'),
+  app: _.omit(
+    v112Schema.app,
+    'skipProfilePicture',
+    'showGuidedOnboardingCopy',
+    'createAccountCopyTestType'
+  ),
 }
 
 export function getLatestSchema(): Partial<RootState> {

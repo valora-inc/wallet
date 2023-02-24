@@ -1,5 +1,4 @@
 import { RemoteConfigValues } from 'src/app/saga'
-import { CreateAccountCopyTestType } from 'src/app/types'
 import { DappConnectInfo } from 'src/dapps/types'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 
@@ -59,9 +58,7 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   coinbasePayEnabled: false,
   showSwapMenuInDrawerMenu: false,
   shouldShowRecoveryPhraseInSettings: true,
-  createAccountCopyTestType: CreateAccountCopyTestType.Account,
   maxSwapSlippagePercentage: 2,
-  showGuidedOnboardingCopy: false,
   networkTimeoutSeconds: 30,
   dappFavoritesEnabled: false,
   celoNews: JSON.stringify({ enabled: false } as RemoteConfigValues['celoNews']),

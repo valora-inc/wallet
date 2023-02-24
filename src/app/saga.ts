@@ -44,7 +44,6 @@ import {
   sentryNetworkErrorsSelector,
   shouldRunVerificationMigrationSelector,
 } from 'src/app/selectors'
-import { CreateAccountCopyTestType } from 'src/app/types'
 import { DYNAMIC_LINK_DOMAIN_URI_PREFIX, FETCH_TIMEOUT_DURATION } from 'src/config'
 import { SuperchargeTokenConfigByToken } from 'src/consumerIncentives/types'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
@@ -200,9 +199,7 @@ export interface RemoteConfigValues {
   coinbasePayEnabled: boolean
   showSwapMenuInDrawerMenu: boolean
   shouldShowRecoveryPhraseInSettings: boolean
-  createAccountCopyTestType: CreateAccountCopyTestType
   maxSwapSlippagePercentage: number
-  showGuidedOnboardingCopy: boolean
   networkTimeoutSeconds: number
   dappFavoritesEnabled: boolean
   celoNews: CeloNewsConfig

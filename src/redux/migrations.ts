@@ -795,7 +795,7 @@ export const migrations = {
     ...state,
     app: {
       ...state.app,
-      createAccountCopyTestType: REMOTE_CONFIG_VALUES_DEFAULTS.createAccountCopyTestType,
+      createAccountCopyTestType: 'ACCOUNT',
     },
   }),
   71: (state: any) => ({
@@ -829,7 +829,7 @@ export const migrations = {
     ...state,
     app: {
       ...state.app,
-      showGuidedOnboardingCopy: REMOTE_CONFIG_VALUES_DEFAULTS.showGuidedOnboardingCopy,
+      showGuidedOnboardingCopy: false,
     },
   }),
   77: (state: any) => state,
@@ -1056,6 +1056,11 @@ export const migrations = {
   }),
   113: (state: any) => ({
     ...state,
-    app: _.omit(state.app, 'skipProfilePicture'),
+    app: _.omit(
+      state.app,
+      'skipProfilePicture',
+      'showGuidedOnboardingCopy',
+      'createAccountCopyTestType'
+    ),
   }),
 }
