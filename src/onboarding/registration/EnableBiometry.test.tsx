@@ -139,7 +139,6 @@ describe('EnableBiometry', () => {
   it('should show guided onboarding explaining faceid when enabled to do so', () => {
     const store = createMockStore({
       app: {
-        showGuidedOnboardingCopy: true,
         supportedBiometryType: BIOMETRY_TYPE.FACE_ID,
         activeScreen: Screens.EnableBiometry,
       },

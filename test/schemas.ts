@@ -2064,7 +2064,20 @@ export const v112Schema = {
     dappsSearchEnabled: false,
   },
 }
+export const v113Schema = {
+  ...v112Schema,
+  _persist: {
+    ...v112Schema._persist,
+    version: 113,
+  },
+  app: _.omit(
+    v112Schema.app,
+    'skipProfilePicture',
+    'showGuidedOnboardingCopy',
+    'createAccountCopyTestType'
+  ),
+}
 
 export function getLatestSchema(): Partial<RootState> {
-  return v112Schema as Partial<RootState>
+  return v113Schema as Partial<RootState>
 }

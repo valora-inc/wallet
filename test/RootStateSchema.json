@@ -678,14 +678,6 @@
             ],
             "type": "object"
         },
-        "CreateAccountCopyTestType": {
-            "enum": [
-                "ACCOUNT",
-                "ALREADY_HAVE_WALLET",
-                "WALLET"
-            ],
-            "type": "string"
-        },
         "Currency": {
             "enum": [
                 "cEUR",
@@ -2425,9 +2417,6 @@
                 "coinbasePayEnabled": {
                     "type": "boolean"
                 },
-                "createAccountCopyTestType": {
-                    "$ref": "#/definitions/CreateAccountCopyTestType"
-                },
                 "fiatConnectCashInEnabled": {
                     "type": "boolean"
                 },
@@ -2509,16 +2498,10 @@
                 "shouldShowRecoveryPhraseInSettings": {
                     "type": "boolean"
                 },
-                "showGuidedOnboardingCopy": {
-                    "type": "boolean"
-                },
                 "showPriceChangeIndicatorInBalances": {
                     "type": "boolean"
                 },
                 "showSwapMenuInDrawerMenu": {
-                    "type": "boolean"
-                },
-                "skipProfilePicture": {
                     "type": "boolean"
                 },
                 "skipVerification": {
@@ -2566,7 +2549,6 @@
                 "celoEuroEnabled",
                 "celoNews",
                 "coinbasePayEnabled",
-                "createAccountCopyTestType",
                 "fiatConnectCashInEnabled",
                 "fiatConnectCashOutEnabled",
                 "inviterAddress",
@@ -2587,10 +2569,8 @@
                 "sentryTracesSampleRate",
                 "sessionId",
                 "shouldShowRecoveryPhraseInSettings",
-                "showGuidedOnboardingCopy",
                 "showPriceChangeIndicatorInBalances",
                 "showSwapMenuInDrawerMenu",
-                "skipProfilePicture",
                 "skipVerification",
                 "superchargeApy",
                 "superchargeTokenConfigByToken",
