@@ -192,7 +192,6 @@ export interface RemoteConfigValues {
   showPriceChangeIndicatorInBalances: boolean
   paymentDeepLinkHandler: PaymentDeepLinkHandler
   dappsWebViewEnabled: boolean
-  skipProfilePicture: boolean
   fiatConnectCashInEnabled: boolean
   fiatConnectCashOutEnabled: boolean
   fiatAccountSchemaCountryOverrides: FiatAccountSchemaCountryOverrides

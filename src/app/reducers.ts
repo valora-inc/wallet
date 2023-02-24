@@ -44,7 +44,6 @@ export interface State {
   skipVerification: boolean
   showPriceChangeIndicatorInBalances: boolean
   paymentDeepLinkHandler: PaymentDeepLinkHandler
-  skipProfilePicture: boolean
   fiatConnectCashInEnabled: boolean
   fiatConnectCashOutEnabled: boolean
   visualizeNFTsEnabledInHomeAssetsPage: boolean
@@ -91,7 +90,6 @@ const initialState = {
   showPriceChangeIndicatorInBalances:
     REMOTE_CONFIG_VALUES_DEFAULTS.showPriceChangeIndicatorInBalances,
   paymentDeepLinkHandler: REMOTE_CONFIG_VALUES_DEFAULTS.paymentDeepLinkHandler,
-  skipProfilePicture: REMOTE_CONFIG_VALUES_DEFAULTS.skipProfilePicture,
   fiatConnectCashInEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.fiatConnectCashInEnabled,
   fiatConnectCashOutEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.fiatConnectCashOutEnabled,
   visualizeNFTsEnabledInHomeAssetsPage:
@@ -211,7 +209,6 @@ export const appReducer = (
         skipVerification: action.configValues.skipVerification,
         showPriceChangeIndicatorInBalances: action.configValues.showPriceChangeIndicatorInBalances,
         paymentDeepLinkHandler: action.configValues.paymentDeepLinkHandler,
-        skipProfilePicture: action.configValues.skipProfilePicture,
         fiatConnectCashInEnabled: action.configValues.fiatConnectCashInEnabled,
         fiatConnectCashOutEnabled: action.configValues.fiatConnectCashOutEnabled,
         visualizeNFTsEnabledInHomeAssetsPage:

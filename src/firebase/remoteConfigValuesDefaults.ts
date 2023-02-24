@@ -54,7 +54,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   paymentDeepLinkHandler: PaymentDeepLinkHandler.Disabled,
   dappsWebViewEnabled: false,
   dappListApiUrl: '',
-  skipProfilePicture: false,
   fiatConnectCashInEnabled: false,
   fiatConnectCashOutEnabled: false,
   dappConnectInfo: DappConnectInfo.Default,

@@ -93,7 +93,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 112,
+          "version": 113,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -170,7 +170,6 @@ describe('store state', () => {
           "showGuidedOnboardingCopy": false,
           "showPriceChangeIndicatorInBalances": false,
           "showSwapMenuInDrawerMenu": false,
-          "skipProfilePicture": false,
           "skipVerification": false,
           "superchargeApy": 12,
           "superchargeTokenConfigByToken": Object {},

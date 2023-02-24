@@ -579,7 +579,7 @@ export const migrations = {
     ...state,
     app: {
       ...state.app,
-      skipProfilePicture: REMOTE_CONFIG_VALUES_DEFAULTS.skipProfilePicture,
+      skipProfilePicture: false,
     },
   }),
   43: (state: any) => state,
@@ -1053,5 +1053,9 @@ export const migrations = {
       dappsFilterEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.dappsFilterEnabled,
       dappsSearchEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.dappsSearchEnabled,
     },
+  }),
+  113: (state: any) => ({
+    ...state,
+    app: _.omit(state.app, 'skipProfilePicture'),
   }),
 }

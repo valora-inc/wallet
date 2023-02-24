@@ -2518,9 +2518,6 @@
                 "showSwapMenuInDrawerMenu": {
                     "type": "boolean"
                 },
-                "skipProfilePicture": {
-                    "type": "boolean"
-                },
                 "skipVerification": {
                     "type": "boolean"
                 },
@@ -2590,7 +2587,6 @@
                 "showGuidedOnboardingCopy",
                 "showPriceChangeIndicatorInBalances",
                 "showSwapMenuInDrawerMenu",
-                "skipProfilePicture",
                 "skipVerification",
                 "superchargeApy",
                 "superchargeTokenConfigByToken",
