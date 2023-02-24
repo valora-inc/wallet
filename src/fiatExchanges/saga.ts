@@ -1,3 +1,4 @@
+import { Action, Predicate } from '@redux-saga/types'
 import BigNumber from 'bignumber.js'
 import { call, put, race, select, spawn, take, takeEvery, takeLeading } from 'redux-saga/effects'
 import { SendOrigin } from 'src/analytics/types'
@@ -70,9 +71,9 @@ function* bidaliPaymentRequest({
     const { cancel } = yield race({
       sendStart: take(SendActions.SEND_PAYMENT_LEGACY),
       cancel: take(
-        (action: AppActionTypes) =>
+        ((action: AppActionTypes) =>
           action.type === AppActions.ACTIVE_SCREEN_CHANGED &&
-          action.activeScreen === Screens.BidaliScreen
+          action.activeScreen === Screens.BidaliScreen) as Predicate<Action>
       ),
     })
     if (cancel) {
