@@ -181,7 +181,7 @@ function ClaimSuperchargeRewards({
       const tokenAddress = reward.details.tokenAddress.toLowerCase()
 
       rewardsByToken[tokenAddress] = (rewardsByToken[tokenAddress] || new BigNumber(0)).plus(
-        new BigNumber(reward.details.amount, 16).div(WEI_PER_TOKEN)
+        new BigNumber(reward.details.amount).div(WEI_PER_TOKEN)
       )
     })
   } else {

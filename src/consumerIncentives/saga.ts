@@ -185,7 +185,7 @@ function* claimRewardV2(reward: SuperchargePendingRewardV2, index: number, baseN
     baseNonce + index
   )
   Logger.info(TAG, `Claimed reward at index ${index}: ${JSON.stringify(receipt)}`)
-  const amount = new BigNumber(details.amount, 16).div(WEI_PER_TOKEN).toString()
+  const amount = new BigNumber(details.amount).div(WEI_PER_TOKEN).toString()
   const tokenAddress = details.tokenAddress.toLowerCase()
   ValoraAnalytics.track(RewardsEvents.claimed_reward, {
     amount,
