@@ -9,6 +9,7 @@ import {
   v103Schema,
   v104Schema,
   v106Schema,
+  v112Schema,
   v13Schema,
   v14Schema,
   v15Schema,
@@ -850,6 +851,17 @@ describe('Redux persist migrations', () => {
         },
       },
     }
+    expect(migratedSchema).toStrictEqual(expectedSchema)
+  })
+  it('works from v112 to v113', () => {
+    const oldSchema = v112Schema
+    const migratedSchema = migrations[113](oldSchema)
+
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    delete expectedSchema.app.skipProfilePicture
+    delete expectedSchema.app.showGuidedOnboardingCopy
+    delete expectedSchema.app.createAccountCopyTestType
+
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 })
