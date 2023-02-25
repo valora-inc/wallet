@@ -579,7 +579,7 @@ export const migrations = {
     ...state,
     app: {
       ...state.app,
-      skipProfilePicture: REMOTE_CONFIG_VALUES_DEFAULTS.skipProfilePicture,
+      skipProfilePicture: false,
     },
   }),
   43: (state: any) => state,
@@ -795,7 +795,7 @@ export const migrations = {
     ...state,
     app: {
       ...state.app,
-      createAccountCopyTestType: REMOTE_CONFIG_VALUES_DEFAULTS.createAccountCopyTestType,
+      createAccountCopyTestType: 'ACCOUNT',
     },
   }),
   71: (state: any) => ({
@@ -829,7 +829,7 @@ export const migrations = {
     ...state,
     app: {
       ...state.app,
-      showGuidedOnboardingCopy: REMOTE_CONFIG_VALUES_DEFAULTS.showGuidedOnboardingCopy,
+      showGuidedOnboardingCopy: false,
     },
   }),
   77: (state: any) => state,
@@ -1053,5 +1053,14 @@ export const migrations = {
       dappsFilterEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.dappsFilterEnabled,
       dappsSearchEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.dappsSearchEnabled,
     },
+  }),
+  113: (state: any) => ({
+    ...state,
+    app: _.omit(
+      state.app,
+      'skipProfilePicture',
+      'showGuidedOnboardingCopy',
+      'createAccountCopyTestType'
+    ),
   }),
 }
