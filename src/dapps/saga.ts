@@ -15,7 +15,7 @@ import {
   fetchDappsListCompleted,
   fetchDappsListFailed,
 } from 'src/dapps/slice'
-import { Dapp, DappCategory } from 'src/dapps/types'
+import { DappCategory, DappV1, DappV2 } from 'src/dapps/types'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -28,14 +28,26 @@ import { walletAddressSelector } from 'src/web3/selectors'
 
 const TAG = 'DappsSaga'
 
-// XOR for categoryId and categories
-type Application = {
+interface ApplicationV1 {
   description: string
   id: string
   logoUrl: string
   name: string
   url: string
-} & ({ categoryId: string; categories?: never } | { categoryId?: never; categories: string[] })
+  categoryId: string
+}
+
+interface ApplicationV2 {
+  description: string
+  id: string
+  logoUrl: string
+  name: string
+  url: string
+  categories: string[]
+}
+
+export const isApplicationV2 = (dapp: ApplicationV1 | ApplicationV2): dapp is ApplicationV2 =>
+  'categories' in dapp
 
 export function* handleOpenDapp(action: PayloadAction<DappSelectedAction>) {
   const { dappUrl } = action.payload.dapp
@@ -79,23 +91,14 @@ export function* handleFetchDappsList() {
   if (response.ok) {
     try {
       const result: {
-        applications: Application[]
+        applications: ApplicationV1[] | ApplicationV2[]
         categories: DappCategory[]
-        featured: Application
+        featured: ApplicationV1
       } = yield call([response, 'json'])
 
-      const dappsList: Dapp[] = result.applications.map((application) => {
-        return application.categoryId !== undefined
-          ? {
-              id: application.id,
-              categoryId: application.categoryId,
-              name: application.name,
-              iconUrl: application.logoUrl,
-              description: application.description,
-              dappUrl: application.url.replace('{{address}}', address ?? ''),
-              isFeatured: application.id === result.featured.id,
-            }
-          : {
+      const dappsList: Array<DappV1 | DappV2> = isApplicationV2(result.applications[0])
+        ? (result.applications as ApplicationV2[]).map((application) => {
+            return {
               id: application.id,
               categories: application.categories,
               name: application.name,
@@ -104,7 +107,18 @@ export function* handleFetchDappsList() {
               dappUrl: application.url.replace('{{address}}', address ?? ''),
               isFeatured: application.id === result.featured.id,
             }
-      })
+          })
+        : (result.applications as ApplicationV1[]).map((application) => {
+            return {
+              id: application.id,
+              categoryId: application.categoryId,
+              name: application.name,
+              iconUrl: application.logoUrl,
+              description: application.description,
+              dappUrl: application.url.replace('{{address}}', address ?? ''),
+              isFeatured: application.id === result.featured.id,
+            }
+          })
 
       yield put(fetchDappsListCompleted({ dapps: dappsList, categories: result.categories }))
     } catch (error) {

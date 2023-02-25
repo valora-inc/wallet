@@ -6,19 +6,33 @@ export enum DappSection {
   FavoritesHomeScreen = 'favorites home screen',
 }
 
-// XOR for categoryId and categories
-export type Dapp = {
+export interface DappV1 {
   id: string
   iconUrl: string
   name: string
   description: string
   dappUrl: string
   isFeatured: boolean
-} & ({ categoryId: string; categories?: never } | { categoryId?: never; categories: string[] })
+  categoryId: string
+}
+
+export interface DappV2 {
+  id: string
+  iconUrl: string
+  name: string
+  description: string
+  dappUrl: string
+  isFeatured: boolean
+  categories: string[]
+}
+
+export const isDappV2 = (
+  dapp: DappV1 | DappV2
+): dapp is DappV2 => 'categories' in dapp
 
 // Needs to be a type as an interface can only extend an object type
 // or intersection of object types with statically known members.
-export type ActiveDapp = Dapp & { openedFrom: DappSection }
+export type ActiveDapp = (DappV1 | DappV2) & { openedFrom: DappSection }
 
 export interface DappCategory {
   backgroundColor: string
