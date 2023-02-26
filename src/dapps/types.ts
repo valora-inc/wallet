@@ -26,9 +26,7 @@ export interface DappV2 {
   categories: string[]
 }
 
-export const isDappV2 = (
-  dapp: DappV1 | DappV2
-): dapp is DappV2 => 'categories' in dapp
+export const isDappV2 = (dapp: DappV1 | DappV2): dapp is DappV2 => 'categories' in dapp
 
 // Needs to be a type as an interface can only extend an object type
 // or intersection of object types with statically known members.
