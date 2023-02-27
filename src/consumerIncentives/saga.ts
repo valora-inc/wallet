@@ -48,7 +48,7 @@ import { walletAddressSelector } from 'src/web3/selectors'
 import { applyChainIdWorkaround, buildTxo, getContract } from 'src/web3/utils'
 
 const TAG = 'SuperchargeRewardsClaimer'
-const SUPERCHARGE_FETCH_TIMEOUT = 30_000
+export const SUPERCHARGE_FETCH_TIMEOUT = 30_000
 
 export function* claimRewardsSaga() {
   try {
@@ -72,13 +72,11 @@ export function* claimRewardsSaga() {
       txHash: string
     }[] = []
 
-    if (isSuperchargePendingRewardsV2(rewards)) {
+    if (rewards.length > 0) {
+      const claimRewardFn = isSuperchargePendingRewardsV2(rewards) ? claimRewardV2 : claimReward
       receivedRewards = yield all(
-        rewards.map((reward, index) => call(claimRewardV2, reward, index, baseNonce))
-      )
-    } else {
-      receivedRewards = yield all(
-        rewards.map((reward, index) => call(claimReward, reward, index, baseNonce))
+        // @ts-ignore remove this ignore when upgrading to TS 4.2+ https://github.com/microsoft/TypeScript/issues/36390
+        rewards.map((reward, index) => call(claimRewardFn, reward, index, baseNonce))
       )
     }
 

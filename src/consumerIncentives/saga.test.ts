@@ -1,10 +1,17 @@
 import { toTransactionObject } from '@celo/connect'
 import { expectSaga } from 'redux-saga-test-plan'
-import * as matchers from 'redux-saga-test-plan/matchers'
 import { call, select } from 'redux-saga-test-plan/matchers'
 import { Actions as AlertActions, AlertTypes, showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { claimRewardsSaga, fetchAvailableRewardsSaga } from 'src/consumerIncentives/saga'
+import {
+  claimRewardsSaga,
+  fetchAvailableRewardsSaga,
+  SUPERCHARGE_FETCH_TIMEOUT,
+} from 'src/consumerIncentives/saga'
+import {
+  availableRewardsSelector,
+  superchargeV2EnabledSelector,
+} from 'src/consumerIncentives/selectors'
 import {
   claimRewards,
   claimRewardsFailure,
@@ -14,8 +21,11 @@ import {
   fetchAvailableRewardsSuccess,
   setAvailableRewards,
 } from 'src/consumerIncentives/slice'
-import { ONE_CUSD_REWARD_RESPONSE } from 'src/consumerIncentives/testValues'
-import { SuperchargePendingReward } from 'src/consumerIncentives/types'
+import {
+  ONE_CEUR_REWARD_RESPONSE,
+  ONE_CUSD_REWARD_RESPONSE,
+} from 'src/consumerIncentives/testValues'
+import { SuperchargePendingReward, SuperchargePendingRewardV2 } from 'src/consumerIncentives/types'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { tokensByAddressSelector } from 'src/tokens/selectors'
 import { Actions as TransactionActions } from 'src/transactions/actions'
@@ -72,7 +82,7 @@ jest.mock('src/transactions/send', () => ({
 
 describe('fetchAvailableRewardsSaga', () => {
   const userAddress = 'test'
-  const expectedRewards: SuperchargePendingReward[] = [
+  const expectedRewardsV1: SuperchargePendingReward[] = [
     {
       amount: '0x2386f26fc10000',
       contractAddress: '0x7e87b603F816e6dE393c892565eEF051ce9Ce851',
@@ -82,33 +92,62 @@ describe('fetchAvailableRewardsSaga', () => {
       proof: [],
     },
   ]
-  const mockResponse = {
-    json: () => {
-      return { availableRewards: expectedRewards }
+  const expectedRewardsV2: SuperchargePendingRewardV2[] = [
+    {
+      transaction: {
+        from: '0xabc',
+        chainId: 42220,
+        to: '0xxyz',
+        data: '0x0000000asdfhawejkh',
+        gas: 123,
+      },
+      details: {
+        amount: '0x2386f26fc10000',
+        tokenAddress: '0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1',
+      },
     },
-  }
-  const error = new Error('Unexpected error')
+  ]
 
-  const availableRewardsUri = `${config.fetchAvailableSuperchargeRewards}?address=${userAddress}`
+  it.each`
+    version | availableRewardsUri                          | expectedRewards
+    ${'1'}  | ${config.fetchAvailableSuperchargeRewards}   | ${expectedRewardsV1}
+    ${'2'}  | ${config.fetchAvailableSuperchargeRewardsV2} | ${expectedRewardsV2}
+  `(
+    'stores v$version rewards after fetching them',
+    async ({ version, availableRewardsUri, expectedRewards }) => {
+      const mockResponse = {
+        json: () => {
+          return { availableRewards: expectedRewards }
+        },
+      }
+      const uri = `${availableRewardsUri}?address=${userAddress}`
 
-  it('stores rewards after fetching them', async () => {
+      await expectSaga(fetchAvailableRewardsSaga)
+        .provide([
+          [select(superchargeV2EnabledSelector), version === '2'],
+          [select(walletAddressSelector), userAddress],
+          [call(fetchWithTimeout, uri, SUPERCHARGE_FETCH_TIMEOUT), mockResponse],
+        ])
+        .put(setAvailableRewards(expectedRewards))
+        .put(fetchAvailableRewardsSuccess())
+        .run()
+    }
+  )
+
+  it.each`
+    version | availableRewardsUri
+    ${'1'}  | ${config.fetchAvailableSuperchargeRewards}
+    ${'2'}  | ${config.fetchAvailableSuperchargeRewardsV2}
+  `('handles v$version failures correctly', async ({ version, availableRewardsUri }) => {
+    const error = new Error('Unexpected error')
+
     await expectSaga(fetchAvailableRewardsSaga)
       .provide([
+        [select(superchargeV2EnabledSelector), version === '2'],
         [select(walletAddressSelector), userAddress],
-        [call(fetchWithTimeout, availableRewardsUri), mockResponse],
+        [call(fetchWithTimeout, availableRewardsUri, SUPERCHARGE_FETCH_TIMEOUT), error],
       ])
-      .put(setAvailableRewards(expectedRewards))
-      .put(fetchAvailableRewardsSuccess())
-      .run()
-  })
-
-  it('handles failures correctly', async () => {
-    await expectSaga(fetchAvailableRewardsSaga)
-      .provide([
-        [select(walletAddressSelector), userAddress],
-        [call(fetchWithTimeout, availableRewardsUri), error],
-      ])
-      .not.put(setAvailableRewards(expectedRewards))
+      .not.put(setAvailableRewards(expect.anything()))
       .not.put(fetchAvailableRewardsSuccess())
       .put(fetchAvailableRewardsFailure())
       .put(showError(ErrorMessages.SUPERCHARGE_FETCH_REWARDS_FAILED))
@@ -122,13 +161,17 @@ describe('claimRewardsSaga', () => {
     ;(toTransactionObject as jest.Mock).mockImplementation(() => mockTx)
   })
 
-  it('claiming no rewards succeeds', async () => {
-    await expectSaga(claimRewardsSaga, claimRewards([]))
+  it.each`
+    version
+    ${'1'}
+    ${'2'}
+  `('claiming no v$version rewards succeeds', async ({ version }) => {
+    await expectSaga(claimRewardsSaga, claimRewards())
       .provide([
+        [select(availableRewardsSelector), []],
+        [select(superchargeV2EnabledSelector), version === '2'],
         [call(getContractKit), contractKit],
         [call(getConnectedUnlockedAccount), mockAccount],
-        [select(tokensByAddressSelector), {}],
-        [matchers.call.fn(sendTransaction), {}],
       ])
       .put(claimRewardsSuccess())
       .put.like({ action: { type: AlertActions.SHOW, message: 'superchargeClaimSuccess' } })
@@ -136,123 +179,114 @@ describe('claimRewardsSaga', () => {
     expect(navigateHome).toHaveBeenCalled()
   })
 
-  it('claiming one reward succeeds', async () => {
-    ;(getContract as jest.Mock).mockImplementation(() => mockContract)
-    await expectSaga(claimRewardsSaga, claimRewards(ONE_CUSD_REWARD_RESPONSE))
-      .provide([
-        [call(getContractKit), contractKit],
-        [call(getConnectedUnlockedAccount), mockAccount],
-        [select(tokensByAddressSelector), mockTokens],
-      ])
-      .put.like({
-        action: {
-          type: TransactionActions.ADD_STANDBY_TRANSACTION,
-          transaction: { tokenAddress: mockCusdAddress.toLowerCase() },
-        },
-      })
-      .put(fetchAvailableRewards())
-      .put(claimRewardsSuccess())
-      .put.like({ action: { type: AlertActions.SHOW, message: 'superchargeClaimSuccess' } })
-      .run()
-    expect(navigateHome).toHaveBeenCalled()
-    expect(sendTransaction).toHaveBeenCalledWith(
-      expect.anything(),
-      mockAccount,
-      expect.anything(),
-      undefined,
-      undefined,
-      undefined,
-      mockBaseNonce
-    )
-  })
-
-  it('claiming two rewards succeeds', async () => {
-    ;(getContract as jest.Mock).mockImplementation(() => mockContract)
-    await expectSaga(
-      claimRewardsSaga,
-      claimRewards([
-        {
-          contractAddress: '0xusdDistributorContract',
-          tokenAddress: mockCusdAddress,
-          amount: (1e18).toString(16),
-          index: 0,
-          proof: [],
-          createdAt: 1645591363099,
-        },
-        {
-          contractAddress: '0xeurDistributorContract',
-          tokenAddress: mockCeurAddress,
-          amount: (1e18).toString(16),
-          index: 0,
-          proof: [],
-          createdAt: 1645591363100,
-        },
-      ])
-    )
-      .provide([
-        [call(getContractKit), contractKit],
-        [call(getConnectedUnlockedAccount), mockAccount],
-        [select(tokensByAddressSelector), mockTokens],
-      ])
-      .put.like({
-        action: {
-          type: TransactionActions.ADD_STANDBY_TRANSACTION,
-          transaction: { tokenAddress: mockCusdAddress.toLowerCase() },
-        },
-      })
-      .put.like({
-        action: {
-          type: TransactionActions.ADD_STANDBY_TRANSACTION,
-          transaction: { tokenAddress: mockCeurAddress.toLowerCase() },
-        },
-      })
-      .put(fetchAvailableRewards())
-      .put(claimRewardsSuccess())
-      .put.like({ action: { type: AlertActions.SHOW, message: 'superchargeClaimSuccess' } })
-      .run()
-    expect(navigateHome).toHaveBeenCalled()
-    expect(sendTransaction).toHaveBeenCalledTimes(2)
-    expect(sendTransaction).toHaveBeenCalledWith(
-      expect.anything(),
-      mockAccount,
-      expect.anything(),
-      undefined,
-      undefined,
-      undefined,
-      mockBaseNonce
-    )
-    expect(sendTransaction).toHaveBeenCalledWith(
-      expect.anything(),
-      mockAccount,
-      expect.anything(),
-      undefined,
-      undefined,
-      undefined,
-      mockBaseNonce + 1
-    )
-  })
-
-  it('fails if claiming a reward fails', async () => {
-    ;(getContract as jest.Mock).mockImplementation(() => mockContract)
-    ;(sendTransaction as jest.Mock).mockImplementationOnce(() => {
-      throw new Error('Error claiming')
+  describe('claiming rewards in version 1', () => {
+    it('claiming one reward succeeds', async () => {
+      ;(getContract as jest.Mock).mockImplementation(() => mockContract)
+      await expectSaga(claimRewardsSaga, claimRewards())
+        .provide([
+          [select(superchargeV2EnabledSelector), false],
+          [select(availableRewardsSelector), ONE_CUSD_REWARD_RESPONSE],
+          [call(getContractKit), contractKit],
+          [call(getConnectedUnlockedAccount), mockAccount],
+          [select(tokensByAddressSelector), mockTokens],
+        ])
+        .put.like({
+          action: {
+            type: TransactionActions.ADD_STANDBY_TRANSACTION,
+            transaction: { tokenAddress: mockCusdAddress.toLowerCase() },
+          },
+        })
+        .put(fetchAvailableRewards())
+        .put(claimRewardsSuccess())
+        .put.like({ action: { type: AlertActions.SHOW, message: 'superchargeClaimSuccess' } })
+        .run()
+      expect(navigateHome).toHaveBeenCalled()
+      expect(sendTransaction).toHaveBeenCalledWith(
+        expect.anything(),
+        mockAccount,
+        expect.anything(),
+        undefined,
+        undefined,
+        undefined,
+        mockBaseNonce
+      )
     })
-    await expectSaga(claimRewardsSaga, claimRewards(ONE_CUSD_REWARD_RESPONSE))
-      .provide([
-        [call(getContractKit), contractKit],
-        [call(getConnectedUnlockedAccount), mockAccount],
-        [select(tokensByAddressSelector), mockTokens],
-      ])
-      .not.put(claimRewardsSuccess())
-      .put(claimRewardsFailure())
-      .put.like({
-        action: {
-          type: AlertActions.SHOW,
-          alertType: AlertTypes.ERROR,
-          message: 'superchargeClaimFailure',
-        },
+
+    it('claiming two rewards succeeds', async () => {
+      ;(getContract as jest.Mock).mockImplementation(() => mockContract)
+      await expectSaga(claimRewardsSaga, claimRewards())
+        .provide([
+          [select(superchargeV2EnabledSelector), false],
+          [
+            select(availableRewardsSelector),
+            [...ONE_CUSD_REWARD_RESPONSE, ...ONE_CEUR_REWARD_RESPONSE],
+          ],
+          [call(getContractKit), contractKit],
+          [call(getConnectedUnlockedAccount), mockAccount],
+          [select(tokensByAddressSelector), mockTokens],
+        ])
+        .put.like({
+          action: {
+            type: TransactionActions.ADD_STANDBY_TRANSACTION,
+            transaction: { tokenAddress: mockCusdAddress.toLowerCase() },
+          },
+        })
+        .put.like({
+          action: {
+            type: TransactionActions.ADD_STANDBY_TRANSACTION,
+            transaction: { tokenAddress: mockCeurAddress.toLowerCase() },
+          },
+        })
+        .put(fetchAvailableRewards())
+        .put(claimRewardsSuccess())
+        .put.like({ action: { type: AlertActions.SHOW, message: 'superchargeClaimSuccess' } })
+        .run()
+      expect(navigateHome).toHaveBeenCalled()
+      expect(sendTransaction).toHaveBeenCalledTimes(2)
+      expect(sendTransaction).toHaveBeenCalledWith(
+        expect.anything(),
+        mockAccount,
+        expect.anything(),
+        undefined,
+        undefined,
+        undefined,
+        mockBaseNonce
+      )
+      expect(sendTransaction).toHaveBeenCalledWith(
+        expect.anything(),
+        mockAccount,
+        expect.anything(),
+        undefined,
+        undefined,
+        undefined,
+        mockBaseNonce + 1
+      )
+    })
+
+    it('fails if claiming reward fails', async () => {
+      ;(getContract as jest.Mock).mockImplementation(() => mockContract)
+      ;(sendTransaction as jest.Mock).mockImplementationOnce(() => {
+        throw new Error('Error claiming')
       })
-      .run()
-    expect(navigateHome).not.toHaveBeenCalled()
+      await expectSaga(claimRewardsSaga, claimRewards())
+        .provide([
+          [select(superchargeV2EnabledSelector), false],
+          [select(availableRewardsSelector), ONE_CUSD_REWARD_RESPONSE],
+          [call(getContractKit), contractKit],
+          [call(getConnectedUnlockedAccount), mockAccount],
+          [select(tokensByAddressSelector), mockTokens],
+        ])
+        .not.put(claimRewardsSuccess())
+        .put(claimRewardsFailure())
+        .put.like({
+          action: {
+            type: AlertActions.SHOW,
+            alertType: AlertTypes.ERROR,
+            message: 'superchargeClaimFailure',
+          },
+        })
+        .run()
+      expect(navigateHome).not.toHaveBeenCalled()
+    })
   })
 })
