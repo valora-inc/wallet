@@ -45,3 +45,8 @@ export enum DappConnectInfo {
   Basic = 'basic', // display more correct title for connection request, indicate if dapp is in dappsList, display dapp logo for dappkit requests
   Full = 'full', // display detailed transaction data (future feature)
 }
+
+export interface DappFilter {
+  id: string
+  name: string
+}
