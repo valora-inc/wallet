@@ -179,7 +179,7 @@ function* claimRewardV2(reward: SuperchargePendingRewardV2, index: number, baseN
     txo,
     walletAddress,
     newTransactionContext(TAG, 'Claim Supercharge reward'),
-    undefined,
+    transaction.gas,
     undefined,
     undefined,
     baseNonce + index
