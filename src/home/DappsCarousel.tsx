@@ -21,7 +21,7 @@ import {
   maxNumRecentDappsSelector,
   recentDappsSelector,
 } from 'src/dapps/selectors'
-import { ActiveDapp, DappSection } from 'src/dapps/types'
+import { ActiveDapp, DappSection, isDappV2 } from 'src/dapps/types'
 import ArrowRight from 'src/icons/ArrowRight'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -98,13 +98,22 @@ function DappsCarousel({ onSelectDapp }: Props) {
       // duplicate events are not sent if user scrolls back to the beginning
       range(lastViewedDapp.current + 1, numDappsVisible).forEach((dappIndex) => {
         const dapp = dapps[dappIndex]
-        ValoraAnalytics.track(DappExplorerEvents.dapp_impression, {
-          categoryId: dapp.categoryId,
-          dappId: dapp.id,
-          dappName: dapp.name,
-          horizontalPosition: dappIndex,
-          section,
-        })
+        const eventProperties = isDappV2(dapp)
+          ? {
+              categories: dapp.categories,
+              dappId: dapp.id,
+              dappName: dapp.name,
+              horizontalPosition: dappIndex,
+              section,
+            }
+          : {
+              categoryId: dapp.categoryId,
+              dappId: dapp.id,
+              dappName: dapp.name,
+              horizontalPosition: dappIndex,
+              section,
+            }
+        ValoraAnalytics.track(DappExplorerEvents.dapp_impression, eventProperties)
       })
 
       lastViewedDapp.current = numDappsVisible - 1

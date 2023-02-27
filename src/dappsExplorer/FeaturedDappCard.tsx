@@ -2,13 +2,13 @@ import React from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import Card from 'src/components/Card'
 import Touchable from 'src/components/Touchable'
-import { ActiveDapp, Dapp, DappSection } from 'src/dapps/types'
+import { ActiveDapp, DappSection, DappV1, DappV2 } from 'src/dapps/types'
 import { Colors } from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Shadow, Spacing } from 'src/styles/styles'
 
 interface Props {
-  dapp: Dapp
+  dapp: DappV1 | DappV2
   onPressDapp: (dapp: ActiveDapp) => void
 }
 

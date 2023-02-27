@@ -2,7 +2,7 @@ import _ from 'lodash'
 import { FinclusiveKycStatus } from 'src/account/reducer'
 import { CodeInputStatus } from 'src/components/CodeInput'
 import { DEFAULT_SENTRY_NETWORK_ERRORS, DEFAULT_SENTRY_TRACES_SAMPLE_RATE } from 'src/config'
-import { Dapp, DappConnectInfo } from 'src/dapps/types'
+import { DappConnectInfo, DappV1, DappV2 } from 'src/dapps/types'
 import { initialState as exchangeInitialState } from 'src/exchange/reducer'
 import { CachedQuoteParams, SendingFiatAccountStatus } from 'src/fiatconnect/slice'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
@@ -961,8 +961,8 @@ export const migrations = {
     ...state,
     dapps: {
       ..._.omit(state.dapps, 'recentDapps', 'favoriteDapps'),
-      recentDappIds: state.dapps.recentDapps.map((dapp: Dapp) => dapp.id),
-      favoriteDappIds: state.dapps.favoriteDapps.map((dapp: Dapp) => dapp.id),
+      recentDappIds: state.dapps.recentDapps.map((dapp: DappV1 | DappV2) => dapp.id),
+      favoriteDappIds: state.dapps.favoriteDapps.map((dapp: DappV1 | DappV2) => dapp.id),
     },
   }),
   100: (state: any) => ({
