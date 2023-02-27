@@ -2052,6 +2052,32 @@ export const v111Schema = {
   },
 }
 
+export const v112Schema = {
+  ...v111Schema,
+  _persist: {
+    ...v111Schema._persist,
+    version: 112,
+  },
+  dapps: {
+    ...v111Schema.dapps,
+    dappsFilterEnabled: false,
+    dappsSearchEnabled: false,
+  },
+}
+export const v113Schema = {
+  ...v112Schema,
+  _persist: {
+    ...v112Schema._persist,
+    version: 113,
+  },
+  app: _.omit(
+    v112Schema.app,
+    'skipProfilePicture',
+    'showGuidedOnboardingCopy',
+    'createAccountCopyTestType'
+  ),
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v111Schema as Partial<RootState>
+  return v113Schema as Partial<RootState>
 }

@@ -13,7 +13,6 @@ import { call, take } from 'redux-saga/effects'
 import { handleUpdateAccountRegistration } from 'src/account/saga'
 import { updateAccountRegistration } from 'src/account/updateAccountRegistration'
 import { RemoteConfigValues } from 'src/app/saga'
-import { CreateAccountCopyTestType } from 'src/app/types'
 import { DEFAULT_PERSONA_TEMPLATE_ID, FETCH_TIMEOUT_DURATION, FIREBASE_ENABLED } from 'src/config'
 import { DappConnectInfo } from 'src/dapps/types'
 import { handleNotification } from 'src/firebase/notifications'
@@ -286,7 +285,6 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     showPriceChangeIndicatorInBalances: flags.showPriceChangeIndicatorInBalances.asBoolean(),
     paymentDeepLinkHandler: flags.paymentDeepLinkHandler.asString() as PaymentDeepLinkHandler,
     dappsWebViewEnabled: flags.dappsWebViewEnabled.asBoolean(),
-    skipProfilePicture: flags.skipProfilePicture.asBoolean(),
     fiatConnectCashInEnabled: flags.fiatConnectCashInEnabled.asBoolean(),
     fiatConnectCashOutEnabled: flags.fiatConnectCashOutEnabled.asBoolean(),
     fiatAccountSchemaCountryOverrides: fiatAccountSchemaCountryOverrides
@@ -297,10 +295,7 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     coinbasePayEnabled: flags.coinbasePayEnabled.asBoolean(),
     showSwapMenuInDrawerMenu: flags.showSwapMenuInDrawerMenu.asBoolean(),
     shouldShowRecoveryPhraseInSettings: flags.shouldShowRecoveryPhraseInSettings.asBoolean(),
-    createAccountCopyTestType:
-      flags.createAccountCopyTestType.asString() as CreateAccountCopyTestType,
     maxSwapSlippagePercentage: flags.maxSwapSlippagePercentage.asNumber(),
-    showGuidedOnboardingCopy: flags.showGuidedOnboardingCopy.asBoolean(),
     networkTimeoutSeconds: flags.networkTimeoutSeconds.asNumber(),
     dappFavoritesEnabled: flags.dappFavoritesEnabled.asBoolean(),
     celoNews: celoNewsString ? JSON.parse(celoNewsString) : {},
@@ -309,6 +304,8 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     guaranteedSwapPriceEnabled: flags.guaranteedSwapPriceEnabled.asBoolean(),
     superchargeV2Enabled: flags.superchargeV2Enabled.asBoolean(),
     superchargeRewardContractAddress: flags.superchargeRewardContractAddress.asString(),
+    dappsFilterEnabled: flags.dappsFilterEnabled.asBoolean(),
+    dappsSearchEnabled: flags.dappsSearchEnabled.asBoolean(),
   }
 }
 

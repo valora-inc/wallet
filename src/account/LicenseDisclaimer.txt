@@ -1108,11 +1108,11 @@ SOFTWARE.
 
 -----
 
-The following software may be included in this product: @redux-saga/core, @redux-saga/deferred, @redux-saga/delay-p, @redux-saga/is, @redux-saga/symbols, @redux-saga/types, redux-saga. A copy of the source code may be downloaded from https://github.com/redux-saga/redux-saga/tree/master/packages/core (@redux-saga/core), https://github.com/redux-saga/redux-saga/tree/master/packages/deferred (@redux-saga/deferred), https://github.com/redux-saga/redux-saga/tree/master/packages/delay-p (@redux-saga/delay-p), https://github.com/redux-saga/redux-saga/tree/master/packages/is (@redux-saga/is), https://github.com/redux-saga/redux-saga/tree/master/packages/symbols (@redux-saga/symbols), https://github.com/redux-saga/redux-saga/tree/master/packages/types (@redux-saga/types), https://github.com/redux-saga/redux-saga/tree/master/packages/core (redux-saga). This software contains the following license and notice below:
+The following software may be included in this product: @redux-saga/core, @redux-saga/deferred, @redux-saga/delay-p, @redux-saga/is, @redux-saga/symbols, @redux-saga/types, redux-saga. A copy of the source code may be downloaded from https://github.com/redux-saga/redux-saga/tree/main/packages/core (@redux-saga/core), https://github.com/redux-saga/redux-saga/tree/main/packages/deferred (@redux-saga/deferred), https://github.com/redux-saga/redux-saga/tree/main/packages/delay-p (@redux-saga/delay-p), https://github.com/redux-saga/redux-saga/tree/main/packages/is (@redux-saga/is), https://github.com/redux-saga/redux-saga/tree/main/packages/symbols (@redux-saga/symbols), https://github.com/redux-saga/redux-saga/tree/main/packages/types (@redux-saga/types), https://github.com/redux-saga/redux-saga/tree/main/packages/core (redux-saga). This software contains the following license and notice below:
 
-The MIT License (MIT)
+MIT License
 
-Copyright (c) 2015 Yassine Elouafi
+Copyright (c) Redux-Saga team and other contributors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

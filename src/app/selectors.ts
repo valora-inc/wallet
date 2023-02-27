@@ -79,13 +79,8 @@ export const fiatConnectCashOutEnabledSelector = (state: RootState) =>
 
 export const coinbasePayEnabledSelector = (state: RootState) => state.app.coinbasePayEnabled
 
-export const createAccountCopyTestTypeSelector = (state: RootState) =>
-  state.app.createAccountCopyTestType
-
 export const maxSwapSlippagePercentageSelector = (state: RootState) =>
   state.app.maxSwapSlippagePercentage
-
-export const showGuidedOnboardingSelector = (state: RootState) => state.app.showGuidedOnboardingCopy
 
 type StoreWipeRecoveryScreens = Extract<
   Screens,
