@@ -1219,11 +1219,13 @@
   },
   "dappsScreen": {
     "title": "Dapps",
-    "message": "Explore ways to use your crypto",
+    "message": "Explore ways to use your assets",
     "errorMessage": "There was an error loading dapps",
     "featuredDapp": "Featured",
     "allDapps": "All",
+    "allDappsUpper": "ALL",
     "favoriteDapps": "My Favorites",
+    "favoriteDappsUpper": "MY FAVORITES",
     "noFavorites": {
       "title": "No favorites added",
       "description": "Keep track of your most-used Dapps by tapping the star icon to add it as a favorite"
@@ -1231,6 +1233,10 @@
     "favoritedDappToast": {
       "message": "Added as a favorite",
       "labelCTA": "View Favorites"
+    },
+    "emptyResults": {
+      "message": "filter applied",
+      "removeFilter": "Remove filter"
     }
   },
   "dappsScreenHelpDialog": {
