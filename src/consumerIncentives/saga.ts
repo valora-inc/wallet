@@ -8,6 +8,7 @@ import { showError, showMessage } from 'src/alert/actions'
 import { RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { numberVerifiedCentrallySelector } from 'src/app/selectors'
 import {
   availableRewardsSelector,
   superchargeRewardContractAddressSelector,
@@ -206,6 +207,12 @@ export function* fetchAvailableRewardsSaga() {
   }
 
   const superchargeV2Enabled = yield select(superchargeV2EnabledSelector)
+  const numberVerifiedCentrally = yield select(numberVerifiedCentrallySelector)
+  if (superchargeV2Enabled && !numberVerifiedCentrally) {
+    Logger.debug(TAG, 'Skipping fetching available rewards since user is not verified with CPV')
+    return
+  }
+
   try {
     const superchargeRewardsUrl = superchargeV2Enabled
       ? config.fetchAvailableSuperchargeRewardsV2
@@ -219,7 +226,9 @@ export function* fetchAvailableRewardsSaga() {
     const data: { availableRewards: SuperchargePendingReward[] | SuperchargePendingRewardV2[] } =
       yield call([response, 'json'])
     if (!data.availableRewards) {
-      throw new Error('No rewards field found in supercharge service response')
+      throw new Error(
+        `No rewards field found in supercharge service response ${JSON.stringify(data)}`
+      )
     }
 
     yield put(setAvailableRewards(data.availableRewards))
