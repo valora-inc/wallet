@@ -3090,10 +3090,20 @@
             "additionalProperties": false,
             "properties": {
                 "availableRewards": {
-                    "items": {
-                        "$ref": "#/definitions/SuperchargePendingReward"
-                    },
-                    "type": "array"
+                    "anyOf": [
+                        {
+                            "items": {
+                                "$ref": "#/definitions/SuperchargePendingReward"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "items": {
+                                "$ref": "#/definitions/SuperchargePendingRewardV2"
+                            },
+                            "type": "array"
+                        }
+                    ]
                 },
                 "error": {
                     "type": "boolean"
@@ -4023,6 +4033,60 @@
                 "index",
                 "proof",
                 "tokenAddress"
+            ],
+            "type": "object"
+        },
+        "SuperchargePendingRewardV2": {
+            "additionalProperties": false,
+            "properties": {
+                "details": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "amount": {
+                            "type": "string"
+                        },
+                        "tokenAddress": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "amount",
+                        "tokenAddress"
+                    ],
+                    "type": "object"
+                },
+                "transaction": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "chainId": {
+                            "type": "number"
+                        },
+                        "data": {
+                            "type": "string"
+                        },
+                        "from": {
+                            "type": "string"
+                        },
+                        "gas": {
+                            "type": "number"
+                        },
+                        "to": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "chainId",
+                        "data",
+                        "from",
+                        "gas",
+                        "to"
+                    ],
+                    "type": "object"
+                }
+            },
+            "required": [
+                "details",
+                "transaction"
             ],
             "type": "object"
         },
