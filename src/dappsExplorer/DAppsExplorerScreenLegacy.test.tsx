@@ -3,13 +3,13 @@ import * as React from 'react'
 import { Provider } from 'react-redux'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { dappSelected, favoriteDapp, fetchDappsList, unfavoriteDapp } from 'src/dapps/slice'
-import { Dapp, DappCategory, DappSection } from 'src/dapps/types'
+import { DappCategory, DappSection, DappV1 } from 'src/dapps/types'
 import DAppsExplorerScreenLegacy from 'src/dappsExplorer/DAppsExplorerScreenLegacy'
 import { createMockStore } from 'test/utils'
 
 jest.mock('src/analytics/ValoraAnalytics')
 
-const dappsList: Dapp[] = [
+const dappsList: DappV1[] = [
   {
     name: 'Dapp 1',
     id: 'dapp1',
@@ -77,7 +77,7 @@ describe(DAppsExplorerScreenLegacy, () => {
   })
 
   it("renders correctly when there's a featured dapp available", () => {
-    const featuredDapp: Dapp = {
+    const featuredDapp: DappV1 = {
       name: 'SushiSwap',
       id: '3',
       categoryId: 'sushi',

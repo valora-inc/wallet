@@ -1117,7 +1117,8 @@ interface CICOEventsProperties {
 }
 
 interface DappProperties {
-  categoryId: string
+  categoryId?: string
+  categories?: string[]
   dappId: string
   dappName: string
 }

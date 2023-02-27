@@ -7,7 +7,7 @@ import Card from 'src/components/Card'
 import Touchable from 'src/components/Touchable'
 import { dappFavoritesEnabledSelector, favoriteDappIdsSelector } from 'src/dapps/selectors'
 import { favoriteDapp, unfavoriteDapp } from 'src/dapps/slice'
-import { ActiveDapp, Dapp, DappSection } from 'src/dapps/types'
+import { ActiveDapp, DappSection, DappV1, DappV2, isDappV2 } from 'src/dapps/types'
 import LinkArrow from 'src/icons/LinkArrow'
 import Star from 'src/icons/Star'
 import StarOutline from 'src/icons/StarOutline'
@@ -16,10 +16,10 @@ import fontStyles from 'src/styles/fonts'
 import { Shadow, Spacing } from 'src/styles/styles'
 
 interface Props {
-  dapp: Dapp
+  dapp: DappV1 | DappV2
   section: DappSection
   onPressDapp: (dapp: ActiveDapp) => void
-  onFavoriteDapp?: (dapp: Dapp) => void
+  onFavoriteDapp?: (dapp: DappV1 | DappV2) => void
 }
 
 // Since this icon exists within a touchable, make the hitslop bigger than usual
@@ -37,11 +37,17 @@ function DappCard({ dapp, section, onPressDapp, onFavoriteDapp }: Props) {
   }
 
   const onPressFavorite = () => {
-    const eventProperties = {
-      categoryId: dapp.categoryId,
-      dappId: dapp.id,
-      dappName: dapp.name,
-    }
+    const eventProperties = isDappV2(dapp)
+      ? {
+          categories: dapp.categories,
+          dappId: dapp.id,
+          dappName: dapp.name,
+        }
+      : {
+          categoryId: dapp.categoryId,
+          dappId: dapp.id,
+          dappName: dapp.name,
+        }
 
     if (isFavorited) {
       ValoraAnalytics.track(DappExplorerEvents.dapp_unfavorite, eventProperties)
