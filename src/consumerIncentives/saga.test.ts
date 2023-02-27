@@ -148,12 +148,13 @@ describe('fetchAvailableRewardsSaga', () => {
     ${'2'}  | ${config.fetchAvailableSuperchargeRewardsV2}
   `('handles v$version failures correctly', async ({ version, availableRewardsUri }) => {
     const error = new Error('Unexpected error')
+    const uri = `${availableRewardsUri}?address=${userAddress}`
 
     await expectSaga(fetchAvailableRewardsSaga)
       .provide([
         [select(superchargeV2EnabledSelector), version === '2'],
         [select(walletAddressSelector), userAddress],
-        [call(fetchWithTimeout, availableRewardsUri, SUPERCHARGE_FETCH_TIMEOUT), error],
+        [call(fetchWithTimeout, uri, SUPERCHARGE_FETCH_TIMEOUT), error],
       ])
       .not.put(setAvailableRewards(expect.anything()))
       .not.put(fetchAvailableRewardsSuccess())
