@@ -134,7 +134,7 @@ describe('ConsumerIncentivesHomeScreen', () => {
           tokenBalances: ONLY_CUSD_BALANCE,
           supercharge: {
             ...initialState,
-            availableRewards: [ONE_CUSD_REWARD_RESPONSE],
+            availableRewards: ONE_CUSD_REWARD_RESPONSE,
           },
         })}
       >
@@ -207,7 +207,7 @@ describe('ConsumerIncentivesHomeScreen', () => {
           tokenBalances: ONLY_CUSD_BALANCE,
           supercharge: {
             ...initialState,
-            availableRewards: [ONE_CUSD_REWARD_RESPONSE],
+            availableRewards: ONE_CUSD_REWARD_RESPONSE,
           },
         })}
       >
@@ -229,17 +229,12 @@ describe('ConsumerIncentivesHomeScreen', () => {
       Object {
         "payload": Array [
           Object {
-            "details": Object {
-              "amount": "de0b6b3a7640000",
-              "tokenAddress": "0x874069fa1eb16d44d622f2e0ca25eea172369bc1",
-            },
-            "transaction": Object {
-              "chainId": 42220,
-              "data": "0x0000000someEncodedData",
-              "from": "0x0000000000000000000000000000000000007E57",
-              "gas": 1234,
-              "to": "0xsuperchargeContract",
-            },
+            "amount": "de0b6b3a7640000",
+            "contractAddress": "0xdistributorContract",
+            "createdAt": 1645591363099,
+            "index": 0,
+            "proof": Array [],
+            "tokenAddress": "0x874069fa1eb16d44d622f2e0ca25eea172369bc1",
           },
         ],
         "type": "supercharge/claimRewards",
