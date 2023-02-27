@@ -33,7 +33,7 @@ export const ONE_CUSD_REWARD_RESPONSE_V2: SuperchargePendingRewardV2 = {
     gas: 1234,
   },
   details: {
-    amount: (1e18).toString(16),
+    amount: (1e18).toString(),
     tokenAddress: mockCusdAddress,
   },
 }
@@ -47,7 +47,7 @@ export const ONE_CEUR_REWARD_RESPONSE_V2: SuperchargePendingRewardV2 = {
     gas: 1234,
   },
   details: {
-    amount: (1e18).toString(16),
+    amount: (1e18).toString(),
     tokenAddress: mockCeurAddress,
   },
 }
