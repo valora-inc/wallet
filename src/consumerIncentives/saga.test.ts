@@ -12,6 +12,7 @@ import {
 import {
   availableRewardsSelector,
   superchargeRewardContractAddressSelector,
+  superchargeV1AddressesSelector,
   superchargeV2EnabledSelector,
 } from 'src/consumerIncentives/selectors'
 import {
@@ -294,6 +295,7 @@ describe('claimRewardsSaga', () => {
 
   describe('claiming rewards in version 2', () => {
     const defaultProviders: (EffectProviders | StaticProvider)[] = [
+      [select(superchargeV1AddressesSelector), []],
       [select(superchargeV2EnabledSelector), true],
       [select(availableRewardsSelector), [ONE_CUSD_REWARD_RESPONSE_V2]],
       [call(getContractKit), contractKit],
