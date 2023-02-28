@@ -10,6 +10,7 @@ export interface State {
   superchargeRewardContractAddress: string
   availableRewards: SuperchargePendingReward[] | SuperchargePendingRewardV2[]
   superchargeV2Enabled: boolean
+  superchargeV1Addresses: string[]
 }
 
 export const initialState: State = {
@@ -20,6 +21,7 @@ export const initialState: State = {
   availableRewards: [],
   superchargeV2Enabled: false,
   superchargeRewardContractAddress: '',
+  superchargeV1Addresses: [],
 }
 
 const slice = createSlice({
@@ -71,6 +73,7 @@ const slice = createSlice({
         state.superchargeV2Enabled = action.configValues.superchargeV2Enabled
         state.superchargeRewardContractAddress =
           action.configValues.superchargeRewardContractAddress
+        state.superchargeV1Addresses = action.configValues.superchargeV1Addresses
       }
     )
   },
