@@ -63,7 +63,8 @@ export const dappCategoriesSelector = createSelector(
         mappedCategories[dapp.categoryId]?.dapps.push(dapp)
       }
       // DappV2 dapps can have multiple categories
-      if (isDappV2(dapp) && !favoriteDappIds.includes(dapp.id)) {
+      // And don't need to be removed form favorites
+      if (isDappV2(dapp)) {
         dapp.categories.forEach((category) => {
           mappedCategories[category]?.dapps.push(dapp)
         })
