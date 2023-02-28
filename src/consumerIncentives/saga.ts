@@ -77,7 +77,7 @@ export function* claimRewardsSaga() {
       const claimRewardFn = isSuperchargePendingRewardsV2(rewards) ? claimRewardV2 : claimReward
       receivedRewards = yield all(
         // @ts-ignore remove this ignore when upgrading to TS 4.2+ https://github.com/microsoft/TypeScript/issues/36390
-        rewards.map((reward, index) => call(claimRewardFn, reward, index, baseNonce))
+        rewards.slice(0, 1).map((reward, index) => call(claimRewardFn, reward, index, baseNonce))
       )
     }
 
