@@ -19,6 +19,11 @@ export const dappsWebViewEnabledSelector = (state: RootState) => state.dapps.dap
 
 export const dappsCategoriesSelector = (state: RootState) => state.dapps.dappsCategories
 
+export const dappsCategoriesAlphabeticalSelector = createSelector(
+  dappsCategoriesSelector,
+  (categories) => categories.slice(0).sort((a, b) => a.name.localeCompare(b.name))
+)
+
 export const dappsListSelector = (state: RootState) => state.dapps.dappsList
 
 export const dappsListLoadingSelector = (state: RootState) => state.dapps.dappsListLoading

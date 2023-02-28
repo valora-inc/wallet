@@ -18,7 +18,7 @@ import Touchable from 'src/components/Touchable'
 import {
   CategoryWithDapps,
   dappFavoritesEnabledSelector,
-  dappsCategoriesSelector,
+  dappsCategoriesAlphabeticalSelector,
   dappsListErrorSelector,
   dappsListLoadingSelector,
   dappsListSelector,
@@ -67,7 +67,7 @@ export function DAppsExplorerScreen() {
   const dispatch = useDispatch()
   const loading = useSelector(dappsListLoadingSelector)
   const error = useSelector(dappsListErrorSelector)
-  const categories = useSelector(dappsCategoriesSelector)
+  const categories = useSelector(dappsCategoriesAlphabeticalSelector)
   const dappFavoritesEnabled = useSelector(dappFavoritesEnabledSelector)
   const dappsMinimalDisclaimerEnabled = useSelector(dappsMinimalDisclaimerEnabledSelector)
   const dappList = useSelector(dappsListSelector)
@@ -81,8 +81,6 @@ export function DAppsExplorerScreen() {
   const { onFavoriteDapp, DappFavoritedToast } = useDappFavoritedToast(sectionListRef)
   const { openSheet, DappInfoBottomSheet } = useDappInfoBottomSheet()
 
-  // Sorted shallow copy of categories to keep alphabetical order in multiple languages
-  const sortedCategories = categories.slice(0).sort((a, b) => a.name.localeCompare(b.name))
   // TODO: exclude lend-borrow-earn category from the list
 
   useEffect(() => {
@@ -109,7 +107,7 @@ export function DAppsExplorerScreen() {
             <Text style={fontStyles.regular}>{t('dappsScreen.errorMessage')}</Text>
           </View>
         )}
-        {sortedCategories.length && (
+        {categories.length && (
           <AnimatedSectionList
             refreshControl={
               <RefreshControl
@@ -154,13 +152,13 @@ export function DAppsExplorerScreen() {
                       key={'all'}
                     />
                     {/* Category Filter Chips */}
-                    {sortedCategories.map((category, idx) => {
+                    {categories.map((category, idx) => {
                       return (
                         <DappFilterChip
                           chipFilter={{ id: category.id, name: category.name }}
                           selectedFilter={selectedFilter}
                           setFilter={setSelectedFilter}
-                          lastChip={idx === sortedCategories.length - 1}
+                          lastChip={idx === categories.length - 1}
                           key={category.id}
                         />
                       )
