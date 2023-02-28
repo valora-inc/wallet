@@ -6882,14 +6882,14 @@ bip66@^1.1.5:
   dependencies:
     safe-buffer "^5.0.1"
 
-bl@^4.0.3:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/bl/-/bl-4.1.0.tgz#451535264182bec2fbbc83a62ab98cf11d9f7b3a"
-  integrity sha512-1W07cM9gS6DcLperZfFSj+bWLtaPGSOHWhPiGzXmvVJbRLdG82sH/Kn8EtW1VqWVA54AKf2h5k5BbnIbwF3h6w==
+bl@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/bl/-/bl-6.0.0.tgz#1f10c18a3289d412053add35cca09019075cff2d"
+  integrity sha512-Ik9BVIMdcWzSOCpzDv2XpQ4rJ4oZBuk3ck6MgiOv0EopdgtohN2uSCrrLlkH1Jf0KnpZZMBA3D0bUMbCdj/jgA==
   dependencies:
-    buffer "^5.5.0"
+    buffer "^6.0.3"
     inherits "^2.0.4"
-    readable-stream "^3.4.0"
+    readable-stream "^4.2.0"
 
 blakejs@^1.1.0:
   version "1.1.0"
@@ -16226,7 +16226,7 @@ readable-stream@^2.0.6, readable-stream@^2.2.2, readable-stream@^2.2.9, readable
     string_decoder "~1.1.1"
     util-deprecate "~1.0.1"
 
-readable-stream@^3.1.1, readable-stream@^3.4.0, readable-stream@^3.6.0:
+readable-stream@^3.1.1, readable-stream@^3.6.0:
   version "3.6.0"
   resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-3.6.0.tgz#337bbda3adc0706bd3e024426a286d4b4b2c9198"
   integrity sha512-BViHy7LKeTz4oNnkcLJ+lVSL6vpiFeX6/d3oSH8zCW7UxP2onchk+vTGB143xuFjHS3deTgkKoXXymXqymiIdA==
@@ -16234,6 +16234,16 @@ readable-stream@^3.1.1, readable-stream@^3.4.0, readable-stream@^3.6.0:
     inherits "^2.0.3"
     string_decoder "^1.1.1"
     util-deprecate "^1.0.1"
+
+readable-stream@^4.2.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-4.3.0.tgz#0914d0c72db03b316c9733bb3461d64a3cc50cba"
+  integrity sha512-MuEnA0lbSi7JS8XM+WNJlWZkHAAdm7gETHdFK//Q/mChGyj2akEFtdLZh32jSdkWGbRwCW9pn6g3LWDdDeZnBQ==
+  dependencies:
+    abort-controller "^3.0.0"
+    buffer "^6.0.3"
+    events "^3.3.0"
+    process "^0.11.10"
 
 readdirp@^2.2.1:
   version "2.2.1"
