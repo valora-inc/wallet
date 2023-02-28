@@ -81,8 +81,6 @@ export function DAppsExplorerScreen() {
   const { onFavoriteDapp, DappFavoritedToast } = useDappFavoritedToast(sectionListRef)
   const { openSheet, DappInfoBottomSheet } = useDappInfoBottomSheet()
 
-  // TODO: exclude lend-borrow-earn category from the list
-
   useEffect(() => {
     dispatch(fetchDappsList())
     ValoraAnalytics.track(DappExplorerEvents.dapp_screen_open)

@@ -17,7 +17,7 @@ import { DappExplorerEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import {
   CategoryWithDapps,
-  dappCategoriesByIdSelector,
+  dappCategoriesSelector,
   dappFavoritesEnabledSelector,
   dappsListErrorSelector,
   dappsListLoadingSelector,
@@ -63,7 +63,7 @@ export function DAppsExplorerScreenLegacy() {
   const featuredDapp = useSelector(featuredDappSelector)
   const loading = useSelector(dappsListLoadingSelector)
   const error = useSelector(dappsListErrorSelector)
-  const categoriesById = useSelector(dappCategoriesByIdSelector)
+  const categories = useSelector(dappCategoriesSelector)
   const dappFavoritesEnabled = useSelector(dappFavoritesEnabledSelector)
   const dappsMinimalDisclaimerEnabled = useSelector(dappsMinimalDisclaimerEnabledSelector)
 
@@ -104,12 +104,12 @@ export function DAppsExplorerScreenLegacy() {
       {ConfirmOpenDappBottomSheet}
 
       <>
-        {!loading && !categoriesById && error && (
+        {!loading && !categories && error && (
           <View style={styles.centerContainer}>
             <Text style={fontStyles.regular}>{t('dappsScreen.errorMessage')}</Text>
           </View>
         )}
-        {categoriesById && (
+        {categories && (
           <AnimatedSectionList
             refreshControl={
               <RefreshControl
@@ -160,7 +160,7 @@ export function DAppsExplorerScreenLegacy() {
             scrollIndicatorInsets={{ top: 0.01 }}
             scrollEventThrottle={16}
             onScroll={onScroll}
-            sections={parseResultIntoSections(categoriesById)}
+            sections={parseResultIntoSections(categories)}
             renderItem={({ item: dapp }) => (
               <DappCard
                 dapp={dapp}

@@ -19,11 +19,6 @@ export const dappsWebViewEnabledSelector = (state: RootState) => state.dapps.dap
 
 export const dappsCategoriesSelector = (state: RootState) => state.dapps.dappsCategories
 
-export const dappsCategoriesAlphabeticalSelector = createSelector(
-  dappsCategoriesSelector,
-  (categories) => categories.slice(0).sort((a, b) => a.name.localeCompare(b.name))
-)
-
 export const dappsListSelector = (state: RootState) => state.dapps.dappsList
 
 export const dappsListLoadingSelector = (state: RootState) => state.dapps.dappsListLoading
@@ -42,9 +37,8 @@ const isCategoryWithDapps = (
 
 /**
  * Returns a list of categories with dapps
- * Should only be used on the Legacy Dapps screens
  */
-export const dappCategoriesByIdSelector = createSelector(
+export const dappCategoriesSelector = createSelector(
   dappsListSelector,
   dappsCategoriesSelector,
   favoriteDappIdsSelector,
@@ -68,10 +62,21 @@ export const dappCategoriesByIdSelector = createSelector(
       if (!isDappV2(dapp) && !favoriteDappIds.includes(dapp.id)) {
         mappedCategories[dapp.categoryId]?.dapps.push(dapp)
       }
+      // DappV2 dapps can have multiple categories
+      if (isDappV2(dapp) && !favoriteDappIds.includes(dapp.id)) {
+        dapp.categories.forEach((category) => {
+          mappedCategories[category]?.dapps.push(dapp)
+        })
+      }
     })
 
     return Object.values(mappedCategories).filter(isCategoryWithDapps)
   }
+)
+
+export const dappsCategoriesAlphabeticalSelector = createSelector(
+  dappCategoriesSelector,
+  (categories) => categories.slice(0).sort((a, b) => a.name.localeCompare(b.name))
 )
 
 export const dappConnectInfoSelector = (state: RootState) => state.dapps.dappConnectInfo
