@@ -5,7 +5,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { activeScreenSelector } from 'src/app/selectors'
 import { dappsMinimalDisclaimerEnabledSelector, recentDappsSelector } from 'src/dapps/selectors'
 import { dappSelected } from 'src/dapps/slice'
-import { ActiveDapp } from 'src/dapps/types'
+import { ActiveDapp, isDappV2 } from 'src/dapps/types'
 import DAppsBottomSheet from 'src/dappsExplorer/DAppsBottomSheet'
 import { Screens } from 'src/navigator/Screens'
 import { isDeepLink } from 'src/utils/linking'
@@ -24,15 +24,26 @@ const useOpenDapp = () => {
 
   const recentlyUsedDappsMode = activeScreen === Screens.WalletHome
 
-  const getEventProperties = (dapp: ActiveDapp) => ({
-    categoryId: dapp.categoryId,
-    dappId: dapp.id,
-    dappName: dapp.name,
-    section: dapp.openedFrom,
-    horizontalPosition: recentlyUsedDappsMode
-      ? recentlyUsedDapps.findIndex((recentlyUsedDapp) => recentlyUsedDapp.id === dapp.id)
-      : undefined,
-  })
+  const getEventProperties = (dapp: ActiveDapp) =>
+    isDappV2(dapp)
+      ? {
+          categories: dapp.categories,
+          dappId: dapp.id,
+          dappName: dapp.name,
+          section: dapp.openedFrom,
+          horizontalPosition: recentlyUsedDappsMode
+            ? recentlyUsedDapps.findIndex((recentlyUsedDapp) => recentlyUsedDapp.id === dapp.id)
+            : undefined,
+        }
+      : {
+          categoryId: dapp.categoryId,
+          dappId: dapp.id,
+          dappName: dapp.name,
+          section: dapp.openedFrom,
+          horizontalPosition: recentlyUsedDappsMode
+            ? recentlyUsedDapps.findIndex((recentlyUsedDapp) => recentlyUsedDapp.id === dapp.id)
+            : undefined,
+        }
 
   const onCancelOpenDapp = () => {
     setShowOpenDappConfirmation(false)
