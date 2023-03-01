@@ -2,6 +2,7 @@ import { OdisUtils } from '@celo/identity'
 import { IdentifierPrefix } from '@celo/identity/lib/odis/identifier'
 import { PhoneNumberHashDetails } from '@celo/identity/lib/odis/phone-number-identifier'
 import { AuthSigner, ServiceContext } from '@celo/identity/lib/odis/query'
+import { CombinerEndpointPNP } from '@celo/phone-number-privacy-common'
 import { isE164NumberStrict, PhoneNumberUtils } from '@celo/phone-utils'
 import getPhoneHash from '@celo/phone-utils/lib/getPhoneHash'
 import DeviceInfo from 'react-native-device-info'
@@ -140,7 +141,10 @@ function* getPhoneHashPrivate(e164Number: string, selfPhoneHash?: string) {
       serviceContext,
       blindingFactor,
       DeviceInfo.getVersion(),
-      blsBlindingClient
+      blsBlindingClient,
+      undefined,
+      undefined,
+      CombinerEndpointPNP.LEGACY_PNP_SIGN
     )
   } catch (error) {
     if (error.message === ErrorMessages.ODIS_QUOTA_ERROR) {
