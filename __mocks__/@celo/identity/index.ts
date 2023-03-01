@@ -21,15 +21,11 @@ enum AuthenticationMethod {
 
 export const OdisUtils = {
   Query: {
-    ODIS_ALFAJORESSTAGING_CONTEXT: {
-      odisUrl: 'alfajoresstaging',
-      odisPubKey: 'alfajoresstaging',
-    },
-    ODIS_ALFAJORES_CONTEXT: {
+    ODIS_ALFAJORES_CONTEXT_PNP: {
       odisUrl: 'alfajores',
       odisPubKey: 'alfajores',
     },
-    ODIS_MAINNET_CONTEXT: {
+    ODIS_MAINNET_CONTEXT_PNP: {
       odisUrl: 'mainnet',
       odisPubKey: 'mainnet',
     },
