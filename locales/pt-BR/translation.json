@@ -578,8 +578,8 @@
     "privacy": "Ao entrar nesta rede, você nos dá permissão para coletar informações anônimas sobre o seu uso do aplicativo. Além disso, se você conectar seu número de celular, uma cópia hash dele será armazenada na rede Celo. Se você conceder acesso à sua lista de contatos, a Valora irá importar o nome, número de celular e foto de perfil de cada contato para permitir que os usuários se conectem com eles através da Valora. Para saber como coletamos e usamos essas informações, consulte nossa <0>Política de privacidade</0>.",
     "goldDisclaimer": "Ao criar uma \"conta\" com a Valora, você está criando uma carteira digital da qual só você detém as chaves. Nenhuma outra pessoa ou empresa, incluindo o cLabs ou a Valora, pode recuperar a sua chave, alterar ou desfazer transações ou recuperar fundos perdidos. Esteja ciente de que as criptomoedas fazem parte de uma nova classe de ativos e apresentam um risco de perda financeira. Considere cuidadosamente a sua situação financeira e a tolerância ao risco financeiro antes de adquirir qualquer ativo."
   },
-  "fullNameOrPsuedonym": "Nome completo ou pseudónimo",
-  "namePlaceholder": "ex. nome",
+  "fullNameOrPsuedonym": "Nome ou pseudônimo",
+  "namePlaceholder": "nome",
   "nameAndPicGuideCopyTitle": "Qual é o seu nome?",
   "nameAndPicGuideCopyContent": "Queremos saber como te chamar.",
   "important": "Importante",
@@ -683,7 +683,7 @@
     "createNewWallet": "Criar carteira",
     "restoreWallet": "Restaurar carteira",
     "hasWallet": "Já tenho uma carteira",
-    "header": "Bem-vindo a {{appName}}! Vamos criar a sua carteira criptográfica.",
+    "header": "Nossas boas-vindas! Vamos criar a sua carteira cripto.",
     "getStarted": "Começar"
   },
   "accessContacts": {
@@ -703,8 +703,8 @@
     "changePIN": "Alterar PIN",
     "pinsDontMatch": "Os PINs não coincidem",
     "invalidPin": "Use um PIN mais forte",
-    "onboardingTitle": "Escolha um PIN de 6 dígitos",
-    "onboardingConfirm": "Introduza novamente o seu PIN",
+    "onboardingTitle": "Escolha um PIN de 6 dígitos",
+    "onboardingConfirm": "Insira seu PIN novamente",
     "onboardingSubtitle": "O seu PIN irá proteger a sua carteira",
     "pin": "PIN"
   },
@@ -744,13 +744,13 @@
   },
   "phoneVerificationScreen": {
     "screenTitle": "Número de celular",
-    "title": "Ligue o seu número de telefone à Valora",
-    "description": "Isto liga o endereço da sua carteira ao seu número de telefone, pelo que o envio de criptogramas é fácil",
+    "title": "Conecte seu número de celular a Valora",
+    "description": "Isso vincula seu endereço de carteira ao seu número de celular, sendo fácil enviar cripto",
     "startButtonLabel": "Conectar",
     "learnMore": {
       "buttonLabel": "Preciso conectar o número?",
       "title": "Preciso conectar o número?",
-      "body": "A ligação do seu número de telefone permitir-lhe-á enviar dinheiro a amigos na sua agenda de endereços e outros números de telefone. \n \n Se escolher saltar este passo, não poderá aceder aos seus contactos e só poderá enviar dinheiro através do código QR ou do endereço da carteira."
+      "body": "Conectar seu número de telefone permitirá que você envie dinheiro para amigos em sua agenda de endereços e outros números de telefone. \n \nSe você optar por pular esta etapa, não poderá acessar seus contatos e só poderá enviar dinheiro via código QR ou endereço de carteira."
     },
     "skip": {
       "title": "Tem certeza?",
@@ -766,7 +766,7 @@
     "codeInputPlaceholder": "123456",
     "helpDialog": {
       "title": "Ajuda",
-      "body": "Enviámos um SMS para o seu número de telefone. Por favor verifique as suas mensagens de texto para encontrar o código de 6 dígitos. \n \n Se tiver problemas em receber mensagens, pode saltar este passo por agora e tentar novamente mais tarde.",
+      "body": "Enviamos um SMS para o seu número de celular com um código de 6 dígitos.\n\nSe você estiver tendo problemas para receber mensagens, pode pular esta etapa e tentar novamente mais tarde.",
       "skip": "Pular",
       "dismiss": "Voltar"
     },
@@ -777,12 +777,12 @@
   "importExistingKey": {
     "keyPlaceholder": "cavalo leopardo cachorro macaco...",
     "header": "Restaurar carteira",
-    "title": "Introduza a sua frase de recuperação",
-    "description": "Utilize a frase de 12 ou 24 palavras que guardou quando montou a sua carteira para restaurar.",
+    "title": "Insira a sua frase de recuperação",
+    "description": "Use a frase de 12 ou 24 palavras que você salvou quando configurou sua carteira para restaurar.",
     "emptyWalletDialog": {
-      "description": "Esta carteira não tem quaisquer fundos. Gostaria ainda de a utilizar?",
+      "description": "Esta carteira não tem fundos. Você ainda gostaria de usá-la?",
       "action": "Usar carteira",
-      "title": "Balanço\n<0></0>"
+      "title": "Saldo\n<0></0>"
     }
   },
   "verificationInput": {
@@ -1494,7 +1494,7 @@
     "swapTo": "Para",
     "insufficientFunds": "Saldo de {{token}} insuficiente. Insira um valor menor ou escolha um token diferente.",
     "fetchSwapQuoteFailed": "Lamentamos o atraso! A obtenção da melhor taxa de câmbio está demorando mais do que o normal. Tente novamente mais tarde.",
-    "disclaimer": "Swaps alimentados por parceiros na Celo. <0>Saiba mais.</0>"
+    "disclaimer": "As trocas são fornecidas por parceiros no Celo. <0>Saiba mais</0>"
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Trocar de",
