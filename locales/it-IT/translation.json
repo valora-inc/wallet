@@ -578,8 +578,8 @@
     "privacy": "Unendosi a questa rete, l’utente autorizza la raccolta di informazioni anonime riguardanti il suo utilizzo dell’app. Inoltre, se l’utente collega il proprio numero telefonico, una copia con hash sarà memorizzata nella rete Celo. Se l’utente concede a Valora l'accesso al proprio elenco di contatti, Valora importerà il nome, il numero telefonico e l’immagine del profilo di ciascun contatto per consentire agli utenti di collegarsi attraverso l’app Valora. Per informazioni su come raccogliamo e utilizziamo questi dati, leggere la nostra <0>Informativa sulla privacy</0>.",
     "goldDisclaimer": "Quando crei un “account” con Valora, crei un wallet digitale (“wallet”) del quale solo tu hai le chiavi. Nessun’altra persona, fisica o giuridica, compresi cLabs o Valora, può recuperare tali chiavi, modificare o annullare transazioni oppure recuperare fondi persi. Tieni presente che le criptovalute sono una nuova classe di asset e presentano il rischio di perdite finanziarie. Prima di acquistare qualsiasi asset, considera la tua situazione finanziaria e la tua tolleranza al rischio finanziario."
   },
-  "fullNameOrPsuedonym": "Nome completo o pseudonimo",
-  "namePlaceholder": "ex. nome",
+  "fullNameOrPsuedonym": "Nome e cognome o alias",
+  "namePlaceholder": "p. es. nome",
   "nameAndPicGuideCopyTitle": "Come ti chiami?",
   "nameAndPicGuideCopyContent": "Vorremmo sapere come chiamarti.",
   "important": "Importante",
@@ -683,7 +683,7 @@
     "createNewWallet": "Crea un wallet",
     "restoreWallet": "Ripristina un wallet",
     "hasWallet": "Ho già un wallet",
-    "header": "Benvenuto su {{appName}}! Creiamo il tuo portafoglio di criptovalute.",
+    "header": "Ti diamo il benvenuto in {{appName}}! Creiamo il tuo wallet cripto.",
     "getStarted": "Inizia"
   },
   "accessContacts": {
@@ -703,9 +703,9 @@
     "changePIN": "Modifica il PIN",
     "pinsDontMatch": "I PIN non corrispondono",
     "invalidPin": "Usa un PIN più complesso",
-    "onboardingTitle": "Scegli un PIN di 6 cifre",
-    "onboardingConfirm": "Inserisci nuovamente il PIN",
-    "onboardingSubtitle": "Il tuo PIN proteggerà il tuo portafoglio",
+    "onboardingTitle": "Scegli un PIN di 6 cifre",
+    "onboardingConfirm": "Immetti nuovamente il PIN",
+    "onboardingSubtitle": "Il PIN proteggerai il tuo wallet",
     "pin": "PIN"
   },
   "inviteCode": {
@@ -744,13 +744,13 @@
   },
   "phoneVerificationScreen": {
     "screenTitle": "Numero telefonico",
-    "title": "Collega il tuo numero di telefono a Valora",
-    "description": "Questo collega l'indirizzo del tuo portafoglio al tuo numero di telefono, in modo che inviare criptovalute sia facile.",
+    "title": "Collega il tuo numero telefonico a Valora",
+    "description": "Questo collega il tuo indirizzo del wallet al tuo numero telefonico, in modo che inviare cripto sia facile.",
     "startButtonLabel": "Collega",
     "learnMore": {
       "buttonLabel": "Devo necessariamente collegarmi?",
       "title": "Devo necessariamente collegarmi?",
-      "body": "Collegando il tuo numero di telefono potrai inviare denaro agli amici della tua rubrica e ad altri numeri di telefono. \n \n Se scegli di saltare questo passaggio non potrai accedere ai tuoi contatti e potrai inviare denaro solo tramite codice QR o indirizzo del portafoglio."
+      "body": "Collegando il tuo numero di telefono potrai scambiare denaro con i tuoi amici ad altri numeri di telefono.\n\nSe scegli di saltare questo passaggio, non potrai accedere ai tuoi contatti e potrai inviare denaro solo tramite codice QR o indirizzo del wallet."
     },
     "skip": {
       "title": "Sei sicuro?",
@@ -766,7 +766,7 @@
     "codeInputPlaceholder": "123456",
     "helpDialog": {
       "title": "Guida",
-      "body": "Abbiamo inviato un SMS al tuo numero di telefono. Controlla i tuoi messaggi per trovare il codice a 6 cifre. \n \n Se hai problemi a ricevere i messaggi, puoi saltare questo passaggio e riprovare più tardi.",
+      "body": "Abbiamo inviato un SMS al tuo numero telefonico. Controlla i tuoi SMS per trovare il codice di 6 cifre.\n\nSe hai problemi a ricevere i messaggi, puoi saltare questo passaggio e riprovare più tardi.",
       "skip": "Salta",
       "dismiss": "Indietro"
     },
@@ -777,12 +777,12 @@
   "importExistingKey": {
     "keyPlaceholder": "horse leopard dog monkey ...",
     "header": "Ripristina un wallet",
-    "title": "Inserisci la tua frase di recupero",
-    "description": "Utilizza la frase di 12 o 24 parole che hai salvato quando hai impostato il portafoglio per il ripristino.",
+    "title": "Immetti la tua frase di recupero",
+    "description": "Utilizza la frase di 12 o 24 parole che hai salvato quando hai impostato il wallet per il ripristino.",
     "emptyWalletDialog": {
-      "description": "Questo portafoglio non ha fondi. Vuoi comunque utilizzarlo?",
-      "action": "Usa il portafoglio",
-      "title": "Equilibrio\n<0></0>"
+      "description": "Questo wallet non contiene fondi. Desideri utilizzarlo comunque?",
+      "action": "Usa il wallet",
+      "title": "Saldo\n<0></0>"
     }
   },
   "verificationInput": {
@@ -1494,7 +1494,7 @@
     "swapTo": "A",
     "insufficientFunds": "Saldo {{token}} insufficiente. Immetti un importo inferiore o scegli un altro token.",
     "fetchSwapQuoteFailed": "Ci scusiamo per il ritardo! Ottenere il miglior tasso di cambio sta richiedendo più tempo del solito. Riprova più tardi.",
-    "disclaimer": "Scambi alimentati da partner su Celo. <0>Per saperne di più.</0>"
+    "disclaimer": "Scambi alimentati da partner su Celo. <0>Scopri di più</0>"
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Scambia da",
