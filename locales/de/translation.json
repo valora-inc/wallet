@@ -1348,8 +1348,8 @@
     "transactionDetails": "Transaktiondetails",
     "paymentMethodVia": "Über {{providerName}} verbunden",
     "receiveAmount": "Du wirst erhalten",
-    "bankFeeDisclaimer": "Deine Bank kann zusätzliche Gebühren für deine Überweisung verlangen.",
-    "mobileMoneyFeeDisclaimer": "Dein Mobilfunkanbieter kann zusätzliche Gebühren für deine Überweisung verlangen.",
+    "bankFeeDisclaimer": "Deine Bank möglicherweise eine zusätzliche Gebühr für Überweisen erhebt.",
+    "mobileMoneyFeeDisclaimer": "Deine Mobiles-Geld-Anbieter möglicherweise eine zusätzliche Gebühr für Überweisen erhebt.",
     "cashIn": {
       "header": "Guthaben hinzufügen überprüfen",
       "button": "Guthaben hinzufügen",
@@ -1459,7 +1459,7 @@
     "mobileMoney": {
       "operator": {
         "label": "Netzwerk",
-        "placeholderText": "Mobilnetzbetreiber eintragen"
+        "placeholderText": "Mobiles-Geld-Anbieter eintragen"
       },
       "mobile": {
         "label": "Telefonnummer",
@@ -1550,11 +1550,11 @@
     }
   },
   "celoNews": {
-    "headerTitle": "Updates",
+    "headerTitle": "Nachrichten",
     "headerDescription": "Erfahre mehr über Anwendungsfälle, Pilotprojekte und technische Updates im Celo Blog.",
-    "readMoreButtonText": "Lies mehr auf dem Blog",
-    "loadingError": "Leider konnten wir die neuesten Updates nicht laden. Bitte versuche es später noch einmal.",
-    "retryButtonText": "Wiederholen"
+    "readMoreButtonText": "Lies mehr im Blog",
+    "loadingError": "Wir konnten die neuesten Nachrichten nicht laden. Bitte versuche es später erneut.",
+    "retryButtonText": "Erneut versuchen"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
