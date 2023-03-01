@@ -280,7 +280,6 @@
     "node-gyp": "5.0.1",
     "tar": "4.4.18",
     "lodash": "~4.17.21",
-    "**/deep-extend": "^0.5.1",
     "**/extend": "^3.0.2",
     "**/cross-fetch": "^3.0.2",
     "bignumber.js": "^9.1.1",
