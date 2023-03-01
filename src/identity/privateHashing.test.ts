@@ -52,7 +52,7 @@ describe('Fetch phone hash details', () => {
         [select(e164NumberSelector), mockE164Number2],
         [select(e164NumberToSaltSelector), {}],
         [matchers.call.fn(isAccountUpToDate), true],
-        [matchers.call.fn(OdisUtils.PhoneNumberIdentifier.getPhoneNumberIdentifier), lookupResult],
+        [matchers.call.fn(OdisUtils.Identifier.getObfuscatedIdentifier), lookupResult],
       ])
       .withState(state)
       .put(
@@ -83,7 +83,7 @@ describe('Fetch phone hash details', () => {
           [select(e164NumberToSaltSelector), {}],
           [matchers.call.fn(isAccountUpToDate), true],
           [
-            matchers.call.fn(OdisUtils.PhoneNumberIdentifier.getPhoneNumberIdentifier),
+            matchers.call.fn(OdisUtils.Identifier.getObfuscatedIdentifier),
             throwError(new Error(ErrorMessages.ODIS_QUOTA_ERROR)),
           ],
         ])
