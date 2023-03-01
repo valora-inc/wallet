@@ -1,5 +1,5 @@
 import React from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { DappExplorerEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -25,8 +25,14 @@ export function NoResults({ filter, removeFilter, testID }: Props) {
 
   return (
     <View testID={`${testID}/NoResults`} style={styles.favorites}>
-      <Text style={styles.filterText}>{filter?.name.toUpperCase()}</Text>
-      <Text style={styles.filterAppliedText}>{t('dappsScreen.emptyResults.message')}</Text>
+      <Text style={styles.filterAppliedText}>
+        <Trans
+          i18nKey={'dappsScreen.emptyResults.message'}
+          tOptions={{ filter: filter?.name.toUpperCase() }}
+        >
+          <Text style={styles.filterText} />
+        </Trans>
+      </Text>
       <Touchable
         onPress={removePress}
         style={styles.removeFilterTouchable}

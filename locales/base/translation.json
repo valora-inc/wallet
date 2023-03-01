@@ -1235,7 +1235,7 @@
       "labelCTA": "View Favorites"
     },
     "emptyResults": {
-      "message": "filter applied",
+      "message": "<0>{{filter}}</0> filter applied",
       "removeFilter": "Remove filter"
     }
   },
