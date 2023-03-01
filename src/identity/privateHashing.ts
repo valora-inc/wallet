@@ -1,4 +1,5 @@
 import { OdisUtils } from '@celo/identity'
+import { IdentifierPrefix } from '@celo/identity/lib/odis/identifier'
 import { PhoneNumberHashDetails } from '@celo/identity/lib/odis/phone-number-identifier'
 import { AuthSigner, ServiceContext } from '@celo/identity/lib/odis/query'
 import { isE164NumberStrict, PhoneNumberUtils } from '@celo/phone-utils'
@@ -131,13 +132,13 @@ function* getPhoneHashPrivate(e164Number: string, selfPhoneHash?: string) {
   const blsBlindingClient = new ReactBlsBlindingClient(networkConfig.odisPubKey, blindingFactor)
   try {
     return yield call(
-      OdisUtils.PhoneNumberIdentifier.getPhoneNumberIdentifier,
+      OdisUtils.Identifier.getObfuscatedIdentifier,
       e164Number,
+      IdentifierPrefix.PHONE_NUMBER,
       accountAddress,
       authSigner,
       serviceContext,
       blindingFactor,
-      selfPhoneHash,
       DeviceInfo.getVersion(),
       blsBlindingClient
     )
