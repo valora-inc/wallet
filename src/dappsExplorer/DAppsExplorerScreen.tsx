@@ -92,7 +92,7 @@ export function DAppsExplorerScreen() {
         rightElement={
           <TopBarIconButton
             testID="DAppsExplorerScreen/HelpIcon"
-            icon={<Help color={colors.greenUI} />}
+            icon={<Help color={colors.onboardingGreen} />}
             onPress={openSheet}
           />
         }
