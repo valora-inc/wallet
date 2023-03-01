@@ -748,8 +748,8 @@
     "description": "Ceci relie votre adresse du wallet à votre numéro de téléphone, donc l'envoi de crypto est plus facile",
     "startButtonLabel": "Connecter",
     "learnMore": {
-      "buttonLabel": "Dois-je connecter mon numéro ?",
-      "title": "Dois-je connecter mon numéro ?",
+      "buttonLabel": "Dois-je connecter mon numéro ?",
+      "title": "Dois-je connecter mon numéro ?",
       "body": "Connecter votre numéro de téléphone vous permettra d'envoyer des fonds à vos contacts et d'autres numéros de téléphone. \n \nSi vous choisissez d'ignorer cette étape, vous ne pourrez pas accéder à vos contacts, et vous ne pourrez envoyer des fonds que via le code QR ou l’adresse du wallet."
     },
     "skip": {
@@ -778,11 +778,11 @@
     "keyPlaceholder": "cheval léopard chien singe ...",
     "header": "Restaurer un wallet",
     "title": "Saisissez votre phrase de récupération",
-    "description": "Utilise la phrase de 12 ou 24 mots que tu as enregistrée lorsque tu as configuré ton portefeuille pour le restaurer.",
+    "description": "Utilisez la phrase de 12 ou 24 mots que vous avez enregistrée lorsque vous avez configuré votre wallet pour le restaurer.",
     "emptyWalletDialog": {
-      "description": "Ce portefeuille n'a pas de fonds. Veux-tu quand même l'utiliser ?",
-      "action": "Utilise le porte-monnaie",
-      "title": "Balance\n<0></0>"
+      "description": "Ce wallet n'a pas de fonds. Voulez-vous l'utiliser ?",
+      "action": "Utiliser le wallet",
+      "title": "Solde\n<0></0>"
     }
   },
   "verificationInput": {
@@ -1494,7 +1494,7 @@
     "swapTo": "À",
     "insufficientFunds": "{{token}} insuffisants. Veuillez saisir un montant inférieur ou choisissez un autre jeton.",
     "fetchSwapQuoteFailed": "Désolé pour le retard ! Obtenir le meilleur taux de change prend plus longtemps que prévu. Veuillez réessayer plus tard.",
-    "disclaimer": "Des échanges alimentés par des partenaires sur Celo. <0>Apprends-en plus.</0>"
+    "disclaimer": "Des échanges propulsés par des partenaires sur Celo. <0>En savoir plus</0>"
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Échanger de",
