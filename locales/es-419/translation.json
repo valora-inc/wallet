@@ -578,8 +578,8 @@
     "privacy": "Al unirte a esta red, nos das permiso para recopilar información anónima sobre tu uso de la aplicación. Además, si conectas tu número de teléfono, se guardará una copia cifrada en la red Celo. Si decides conectar tu lista de contactos, Valora importará el nombre, número de teléfono y foto de perfil de tus contactos para permitirte conectar con ellos a través de Valora. Para obtener más información sobre cómo recopilamos y usamos tus datos, consulta nuestra <0>Política de privacidad</0>.",
     "goldDisclaimer": "Cuando creas una \"cuenta\" en Valora, estás creando una wallet digital de la que sólo tú tienes la clave. Ninguna otra persona o entidad, incluidos cLabs o Valora, puede recuperar tu clave, cambiar o deshacer transacciones, o recuperar fondos perdidos. Ten en cuenta que CELO y las stablecoins Celo forman parte de una nueva clase de activos y suponen un riesgo de pérdida financiera. Considera cuidadosamente tu circunstancia financiera y tu tolerancia al riesgo antes de comprar un activo."
   },
-  "fullNameOrPsuedonym": "Nombre completo o seudónimo",
-  "namePlaceholder": "ex. nombre",
+  "fullNameOrPsuedonym": "Nombre o alias",
+  "namePlaceholder": "p. ej. nombre",
   "nameAndPicGuideCopyTitle": "¿Cómo te llamas?",
   "nameAndPicGuideCopyContent": "Nos gustaría saber cómo llamarte.",
   "important": "Importante",
@@ -683,7 +683,7 @@
     "createNewWallet": "Crear wallet",
     "restoreWallet": "Restaurar wallet",
     "hasWallet": "Ya tengo una wallet",
-    "header": "¡Bienvenido a {{appName}}! Vamos a crear tu criptocartera.",
+    "header": "¡Te damos la bienvenida a {{appName}}! Demos el primer paso, creemos tu wallet.",
     "getStarted": "Primeros pasos"
   },
   "accessContacts": {
@@ -703,9 +703,9 @@
     "changePIN": "Cambiar PIN",
     "pinsDontMatch": "Los PIN no coinciden",
     "invalidPin": "Por favor use un PIN más fuerte",
-    "onboardingTitle": "Elige un PIN de 6 dígitos",
-    "onboardingConfirm": "Vuelve a introducir tu PIN",
-    "onboardingSubtitle": "Tu PIN protegerá tu monedero",
+    "onboardingTitle": "Elige un PIN de 6 dígitos",
+    "onboardingConfirm": "Ingresa tu PIN de nuevo",
+    "onboardingSubtitle": "El PIN te ayuda a asegurar tu wallet",
     "pin": "PIN"
   },
   "inviteCode": {
