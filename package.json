@@ -282,7 +282,7 @@
     "lodash": "~4.17.21",
     "**/deep-extend": "^0.5.1",
     "**/extend": "^3.0.2",
-    "**/cross-fetch": "^3.0.2",
+    "**/cross-fetch": "^3.1.5",
     "bignumber.js": "^9.1.1",
     "prettier": "2.7.1",
     "@types/prettier": "^2.7.1",
