@@ -745,12 +745,12 @@
   "phoneVerificationScreen": {
     "screenTitle": "Número de teléfono",
     "title": "Conecta tu número de teléfono a Valora",
-    "description": "Esto vincula la dirección de tu monedero a tu número de teléfono para que enviar criptomonedas sea fácil",
+    "description": "Esto vincula tu dirección de wallet a tu número de teléfono para que enviar cripto sea fácil.",
     "startButtonLabel": "Conectar",
     "learnMore": {
       "buttonLabel": "¿Necesito conectar mi número?",
       "title": "¿Necesito conectar mi número?",
-      "body": "Conectar tu número de teléfono te permitirá enviar dinero a los amigos de tu agenda y a otros números de teléfono. \n \n Si decides omitir este paso, no podrás acceder a tus contactos y sólo podrás enviar dinero mediante el código QR o la dirección del monedero."
+      "body": "Conectar tu número de teléfono te permitirá enviar fondos a tus contactos y a otros números de teléfono.\n\nSi decides omitir este paso, no podrás acceder a tus contactos y solo podrás enviar cripto con el código QR o la dirección de wallet."
     },
     "skip": {
       "title": "¿Quieres omitir este paso?",
@@ -766,7 +766,7 @@
     "codeInputPlaceholder": "123456",
     "helpDialog": {
       "title": "Ayuda",
-      "body": "Hemos enviado un SMS a tu número de teléfono. Comprueba tus mensajes de texto para encontrar el código de 6 dígitos. \n \n Si tienes problemas para recibir mensajes, puedes omitir este paso por ahora y volver a intentarlo más tarde.",
+      "body": "Hemos enviado un SMS a tu número de teléfono. Busca el código de 6 dígitos en tus mensajes.\n\nSi tienes problemas para recibir los mensajes, puedes omitir este paso por ahora e intentarlo más tarde.",
       "skip": "Omitir",
       "dismiss": "Regresar"
     },
@@ -777,11 +777,11 @@
   "importExistingKey": {
     "keyPlaceholder": "caballo leopardo perro mono...",
     "header": "Restaurar wallet",
-    "title": "Introduce tu frase de recuperación",
-    "description": "Utiliza la frase de 12 ó 24 palabras que guardaste cuando configuraste tu monedero para restaurar.",
+    "title": "Ingresa tu frase de recuperación",
+    "description": "Usa la frase de 12 ó 24 palabras que guardaste cuando configuraste tu wallet para restaurarla.",
     "emptyWalletDialog": {
-      "description": "Esta cartera no tiene fondos. ¿Te gustaría utilizarlo?",
-      "action": "Utiliza la Cartera",
+      "description": "Esta wallet no tiene fondos. ¿Quieres usarla de todos modos?",
+      "action": "Usar wallet",
       "title": "Saldo\n<0></0>"
     }
   },
@@ -1494,7 +1494,7 @@
     "swapTo": "Para",
     "insufficientFunds": "Saldo en {{token}} insuficiente. Ingresa un monto menor o elige otro token.",
     "fetchSwapQuoteFailed": "¡Lo sentimos! Conseguir la mejor tasa de cambio nos está llevando más tiempo del habitual. Inténtalo de nuevo más tarde.",
-    "disclaimer": "Intercambios impulsados por socios en Celo. <0>Más información.</0>"
+    "disclaimer": "Los intercambios se realizan mediante socios de Celo. <0>Más información</0>"
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Cambiar de",
