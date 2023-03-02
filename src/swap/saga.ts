@@ -6,6 +6,7 @@ import { call, put, select, takeLatest } from 'redux-saga/effects'
 import { SwapEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { maxSwapSlippagePercentageSelector } from 'src/app/selectors'
+import { fetchFeeCurrencySaga } from 'src/fees/saga'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import {
@@ -42,7 +43,17 @@ function* handleSendSwapTransaction(
   applyChainIdWorkaround(rawTx, yield call([kit.connection, 'chainId']))
   const tx: CeloTx = yield call(normalizer.populate.bind(normalizer), rawTx)
   const txo = buildTxo(kit, tx)
-  yield call(sendTransaction, txo, walletAddress, newTransactionContext(TAG, tagDescription))
+
+  const preferredFeeCurrency: string | undefined = yield call(fetchFeeCurrencySaga)
+  yield call(
+    sendTransaction,
+    txo,
+    walletAddress,
+    newTransactionContext(TAG, tagDescription),
+    undefined,
+    undefined,
+    preferredFeeCurrency
+  )
 }
 
 export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
