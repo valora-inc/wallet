@@ -5,9 +5,11 @@ import {
   ScrollView,
   SectionList,
   SectionListProps,
+  StyleProp,
   StyleSheet,
   Text,
   View,
+  ViewStyle,
 } from 'react-native'
 import Animated from 'react-native-reanimated'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -50,9 +52,9 @@ interface SectionData {
 
 interface DappFilterChip {
   chipFilter: DappFilter
-  selectedFilter: DappFilter
+  isSelected: boolean
   setFilter: (filter: DappFilter) => void
-  lastChip: boolean
+  style?: StyleProp<ViewStyle>
 }
 
 export function DAppsExplorerScreen() {
@@ -131,12 +133,12 @@ export function DAppsExplorerScreen() {
                   title={t('dappsScreen.title')}
                   message={t('dappsScreen.message')}
                 />
-                {/* Dapps Filtering*/}
                 <View style={{ paddingTop: Spacing.Thick24 }}>
                   <ScrollView
                     horizontal={true}
                     // Expand the scrollview to the edges of the screen
                     style={{ marginHorizontal: -Spacing.Thick24 }}
+                    contentContainerStyle={{ paddingHorizontal: Spacing.Thick24 }}
                     showsHorizontalScrollIndicator={false}
                     bounces={false}
                     ref={horizontalScrollView}
@@ -144,19 +146,17 @@ export function DAppsExplorerScreen() {
                     {/* All Dapps Filter */}
                     <DappFilterChip
                       chipFilter={{ id: 'all', name: t('dappsScreen.allDapps') }}
-                      selectedFilter={selectedFilter}
+                      isSelected={selectedFilter.id === 'all'}
                       setFilter={setSelectedFilter}
-                      lastChip={false}
-                      key={'all'}
+                      style={{ marginLeft: 0 }}
                     />
                     {/* Category Filter Chips */}
-                    {categories.map((category, idx) => {
+                    {categories.map((category) => {
                       return (
                         <DappFilterChip
                           chipFilter={{ id: category.id, name: category.name }}
-                          selectedFilter={selectedFilter}
+                          isSelected={selectedFilter.id === category.id}
                           setFilter={setSelectedFilter}
-                          lastChip={idx === categories.length - 1}
                           key={category.id}
                         />
                       )
@@ -260,7 +260,7 @@ function DescriptionView({ message, title }: { message: string; title: string })
   )
 }
 
-function DappFilterChip({ chipFilter, selectedFilter, setFilter, lastChip }: DappFilterChip) {
+function DappFilterChip({ chipFilter, isSelected, setFilter, style }: DappFilterChip) {
   const filterPress = () => {
     ValoraAnalytics.track(DappExplorerEvents.dapp_filter, { id: chipFilter.id })
     setFilter(chipFilter)
@@ -271,15 +271,10 @@ function DappFilterChip({ chipFilter, selectedFilter, setFilter, lastChip }: Dap
       style={[
         styles.filterChipContainer,
         // Filter chips color based on selected filter
-        chipFilter.id === selectedFilter.id
+        isSelected
           ? { backgroundColor: colors.onboardingBlue }
           : { backgroundColor: colors.onboardingLightBlue },
-        // First Chip has slightly different margins
-        chipFilter.id === 'all'
-          ? { marginLeft: Spacing.Regular16 }
-          : { marginLeft: Spacing.Smallest8 },
-        // Last Chip has slightly different right margin
-        lastChip && { marginRight: Spacing.Regular16 },
+        style,
       ]}
     >
       <Touchable
@@ -290,9 +285,7 @@ function DappFilterChip({ chipFilter, selectedFilter, setFilter, lastChip }: Dap
         <Text
           style={[
             styles.filterChipText,
-            chipFilter.id === selectedFilter.id
-              ? { color: colors.onboardingLightBlue }
-              : { color: colors.onboardingBlue },
+            isSelected ? { color: colors.onboardingLightBlue } : { color: colors.onboardingBlue },
           ]}
         >
           {chipFilter.name}
@@ -312,6 +305,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   filterChipContainer: {
+    marginLeft: Spacing.Smallest8,
     overflow: 'hidden',
     borderRadius: 94,
     flex: 1,
