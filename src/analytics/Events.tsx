@@ -544,6 +544,7 @@ export enum SwapEvents {
   swap_screen_open = 'swap_screen_open', // When the screen is mounted
   swap_screen_select_token = 'swap_screen_select_token', // When a user selects a token, prompting the token select bottom sheet
   swap_screen_confirm_token = 'swap_screen_confirm_token', // When a user selects a token from the bottom sheet
+  swap_screen_max_swap_amount = 'swap_screen_max_swap_amount', // when a user taps on the "max" button to swap their whole balance
   swap_screen_review_swap = 'swap_screen_review_swap', // When a user click on the review button to proceed to next step
   swap_feed_detail_view_tx = 'swap_feed_detail_view_tx', // When a user click 'View on CeloExplorer' in the swap feed detail page
   swap_review_screen_open = 'swap_review_screen_open', // When the review screen is mounted

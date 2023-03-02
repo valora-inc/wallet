@@ -208,6 +208,9 @@ export function SwapScreen() {
       ...prev,
       [Field.FROM]: maxFromAmount.toFormat(),
     }))
+    ValoraAnalytics.track(SwapEvents.swap_screen_max_swap_amount, {
+      tokenSymbol: fromToken?.symbol,
+    })
   }
 
   const allowReview = useMemo(
