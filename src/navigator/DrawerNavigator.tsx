@@ -55,7 +55,7 @@ import { AccountKey } from 'src/icons/navigator/AccountKey'
 import { AddWithdraw } from 'src/icons/navigator/AddWithdraw'
 import { DappsExplorer } from 'src/icons/navigator/DappsExplorer'
 import { Gold } from 'src/icons/navigator/Gold'
-import { Help } from 'src/icons/navigator/Help'
+import Help from 'src/icons/navigator/Help'
 import { Invite as InviteIcon } from 'src/icons/navigator/Invite'
 import { Settings } from 'src/icons/navigator/Settings'
 import { Swap } from 'src/icons/navigator/Swap'
@@ -319,7 +319,7 @@ export default function DrawerNavigator() {
       <Drawer.Screen
         name={Screens.Support}
         component={Support}
-        options={{ title: t('help'), drawerIcon: Help }}
+        options={{ title: t('help'), drawerIcon: () => <Help /> }}
       />
     </Drawer.Navigator>
   )
