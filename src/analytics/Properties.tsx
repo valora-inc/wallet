@@ -1176,6 +1176,7 @@ interface SwapEventsProperties {
   [SwapEvents.swap_screen_max_swap_amount]: {
     tokenSymbol?: string
   }
+  [SwapEvents.swap_gas_fees_learn_more]: undefined
   [SwapEvents.swap_screen_review_swap]: undefined
   [SwapEvents.swap_feed_detail_view_tx]: undefined
   [SwapEvents.swap_review_screen_open]: SwapEvent

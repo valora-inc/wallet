@@ -1496,7 +1496,12 @@
     "swapTo": "To",
     "insufficientFunds": "Insufficient {{token}} balance. Try a smaller amount or choose a different token.",
     "fetchSwapQuoteFailed": "Sorry for the delay! It's taking longer than usual to get the best exchange rate. Please try again in a few minutes.",
-    "disclaimer": "Swaps powered by partners on Celo. <0>Learn More.</0>"
+    "disclaimer": "Swaps powered by partners on Celo. <0>Learn More.</0>",
+    "maxSwapAmountWarning": {
+      "title": "Swapping the MAX amount",
+      "body": "Make sure you have CELO in your wallet to cover gas fees for future transactions",
+      "learnMore": "Learn more"
+    }
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Swap from",

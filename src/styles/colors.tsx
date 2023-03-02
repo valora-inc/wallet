@@ -10,6 +10,7 @@ export enum Colors {
   goldDark = '#9C6E00',
   beige = '#F1F0EB',
   brownFaint = '#FFF9EE',
+  yellowFaint = '#FFF9EA',
   warning = '#EA6042',
   informational = '#0768AE',
   dark = '#2E3338',

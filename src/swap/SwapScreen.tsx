@@ -24,6 +24,7 @@ import { Screens } from 'src/navigator/Screens'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import MaxAmountWarning from 'src/swap/MaxAmountWarning'
 import { swapInfoSelector } from 'src/swap/selectors'
 import { setSwapUserInput } from 'src/swap/slice'
 import SwapAmountInput from 'src/swap/SwapAmountInput'
@@ -59,6 +60,7 @@ export function SwapScreen() {
   const [updatedField, setUpdatedField] = useState(Field.FROM)
   const [selectingToken, setSelectingToken] = useState<Field | null>(null)
   const [fromSwapAmountError, setFromSwapAmountError] = useState(false)
+  const [showMaxSwapAmountWarning, setShowMaxSwapAmountWarning] = useState(false)
 
   const maxFromAmount = useMaxSendAmount(fromToken?.address || '', FeeType.SWAP)
   const { exchangeRate, refreshQuote, fetchSwapQuoteError, fetchingSwapQuote, clearQuote } =
@@ -208,6 +210,7 @@ export function SwapScreen() {
       ...prev,
       [Field.FROM]: maxFromAmount.toFormat(),
     }))
+    setShowMaxSwapAmountWarning(true)
     ValoraAnalytics.track(SwapEvents.swap_screen_max_swap_amount, {
       tokenSymbol: fromToken?.symbol,
     })
@@ -270,6 +273,7 @@ export function SwapScreen() {
             style={styles.toSwapAmountInput}
             loading={updatedField === Field.FROM && fetchingSwapQuote}
           />
+          {showMaxSwapAmountWarning && <MaxAmountWarning />}
         </View>
         <Text style={[styles.disclaimerWrapper, fontStyles.regular, styles.disclaimerText]}>
           <Trans i18nKey="swapScreen.disclaimer">
