@@ -34,6 +34,8 @@ import useFetchRecipientVerificationStatus from 'src/send/useFetchRecipientVerif
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import { navigateToPhoneSettings } from 'src/utils/linking'
 import { requestContactsPermission } from 'src/utils/permissions'
+import { stablecoinsSelector, tokensWithTokenBalanceSelector } from 'src/tokens/selectors'
+import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 
 const SEARCH_THROTTLE_TIME = 100
 
@@ -43,6 +45,7 @@ function Send({ route }: Props) {
   const skipContactsImport = route.params?.skipContactsImport ?? false
   const isOutgoingPaymentRequest = route.params?.isOutgoingPaymentRequest ?? false
   const forceTokenAddress = route.params?.forceTokenAddress
+  const defaultTokenOverride = route.params?.defaultTokenOverride
   const { t } = useTranslation()
 
   const { recipientVerificationStatus, recipient, setSelectedRecipient } =
@@ -55,11 +58,17 @@ function Send({ route }: Props) {
   const allRecipients = useSelector(phoneRecipientCacheSelector)
   const recentRecipients = useSelector((state) => state.send.recentRecipients)
 
+  const tokensWithBalance = useSelector(tokensWithTokenBalanceSelector)
+  const stableTokens = useSelector(stablecoinsSelector)
+
   const [searchQuery, setSearchQuery] = useState('')
   const [hasGivenContactPermission, setHasGivenContactPermission] = useState(true)
   const [allFiltered, setAllFiltered] = useState(() => sortRecipients(Object.values(allRecipients)))
   const [recentFiltered, setRecentFiltered] = useState(() => recentRecipients)
   const [showInviteModal, setShowInviteModal] = useState(false)
+  const [showingCurrencyPicker, setShowCurrencyPicker] = useState(false)
+
+  const closeCurrencyPicker = () => setShowCurrencyPicker(false)
 
   const dispatch = useDispatch()
 
@@ -112,13 +121,6 @@ function Send({ route }: Props) {
       setShowInviteModal(true)
       return
     }
-
-    navigate(Screens.SendAmount, {
-      recipient,
-      isOutgoingPaymentRequest,
-      origin: isOutgoingPaymentRequest ? SendOrigin.AppRequestFlow : SendOrigin.AppSendFlow,
-      forceTokenAddress,
-    })
   }, [recipient, recipientVerificationStatus])
 
   const onSelectRecipient = useCallback(
@@ -135,9 +137,35 @@ function Send({ route }: Props) {
       )
 
       setSelectedRecipient(recipient)
+
+      if (defaultTokenOverride) {
+        navigate(Screens.SendAmount, {
+          defaultTokenOverride,
+          forceTokenAddress,
+          recipient,
+          isOutgoingPaymentRequest,
+          origin: isOutgoingPaymentRequest ? SendOrigin.AppRequestFlow : SendOrigin.AppSendFlow,
+        })
+      } else {
+        setShowCurrencyPicker(true)
+      }
     },
     [isOutgoingPaymentRequest, searchQuery]
   )
+
+  const onTokenSelected = (token: string) => {
+    setShowCurrencyPicker(false)
+    if (!recipient) {
+      return
+    }
+
+    navigate(Screens.SendAmount, {
+      defaultTokenOverride: token,
+      recipient,
+      isOutgoingPaymentRequest,
+      origin: isOutgoingPaymentRequest ? SendOrigin.AppRequestFlow : SendOrigin.AppSendFlow,
+    })
+  }
 
   const onPressStartVerification = () => {
     navigate(Screens.VerificationStartScreen, {
@@ -210,6 +238,13 @@ function Send({ route }: Props) {
       {showInviteModal && recipient && (
         <InviteOptionsModal recipient={recipient} onClose={onCloseInviteModal} />
       )}
+      <TokenBottomSheet
+        isVisible={showingCurrencyPicker}
+        origin={TokenPickerOrigin.Send}
+        onTokenSelected={onTokenSelected}
+        onClose={closeCurrencyPicker}
+        tokens={isOutgoingPaymentRequest ? stableTokens : tokensWithBalance}
+      />
     </SafeAreaView>
   )
 }
