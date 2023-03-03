@@ -97,7 +97,7 @@ describe(estimateFeeSaga, () => {
         [matchers.call.fn(buildSendTx), jest.fn(() => ({ txo: mockTxo }))],
         [matchers.call.fn(estimateGas), new BigNumber(GAS_AMOUNT)],
         [
-          call(calculateFee, new BigNumber(4 * GAS_AMOUNT), mockCusdAddress),
+          call(calculateFee, new BigNumber(5 * GAS_AMOUNT), mockCusdAddress),
           { fee: new BigNumber(4e16), feeCurrency: mockCusdAddress },
         ],
       ])

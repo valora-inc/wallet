@@ -551,8 +551,8 @@
   "escrowPaymentNotificationTitle": "Zaproszenie na {{mobile}} nie może być odebrane",
   "sendAndInvite": "Wyślij i zaproś",
   "inviteRewardsBanner": {
-    "title": "Wyślij kryptowalutę, aby zaprosić znajomego",
-    "body": "Kiedy założy portfel w aplikacji {{appName}} i podłączy swój numer, oboje otrzymacie NFT. <0>Zdobądź do 3 NTF</0>"
+    "title": "Zaproś znajomych i zbieraj NFT",
+    "body": "Po skonfigurowaniu portfela {{appName}} i podłączeniu swojego numeru, każdy z Was otrzyma ekskluzywne NFT."
   },
   "inviteWithUrl": {
     "title": "Zaproś znajomego",
@@ -578,13 +578,10 @@
     "privacy": "Dołączając do tej sieci, zezwalasz nam na gromadzenie anonimowych informacji na temat sposobu, w jaki korzystasz z naszej aplikacji. Dodatkowo, jeśli podłączysz swój numer telefonu, jego zaszyfrowana kopia będzie przechowywana w Celo Network. Jeśli udzielisz aplikacji Valora dostępu do swojej listy kontaktów, aplikacja Valora zaimportuje nazwę, numer telefonu i zdjęcie profilowe każdego kontaktu, aby umożliwić użytkownikom komunikowanie się przez aplikację Valora. Aby dowiedzieć się, w jaki sposób zbieramy i wykorzystujemy te dane, zapoznaj się z naszą <0>Polityką prywatności</0>.",
     "goldDisclaimer": "Zakładając „konto” w Valora, tworzysz cyfrowy portfel, do którego klucze posiadasz tylko Ty. Żadna inna osoba ani podmiot, w tym cLabs lub Valora, nie może odzyskać Twojego klucza, zmienić go lub cofnąć transakcji ani odzyskać utraconych środków. Należy mieć świadomość, że kryptowaluty są nową klasą aktywów\n i wiążą się z ryzykiem strat finansowych. Przed zakupem jakichkolwiek aktywów dokładnie rozważ swoją sytuację finansową i tolerancję na ryzyko finansowe."
   },
-  "fullName": "Nazwa",
-  "fullNamePlaceholder": "Imię i nazwisko",
-  "fullNameOrPseudonymPlaceholder": "Imię i nazwisko lub pseudonim",
+  "fullNameOrPsuedonym": "Pełne imię i nazwisko lub pseudonim",
+  "namePlaceholder": "ex. imię",
   "nameAndPicGuideCopyTitle": "Jak masz na imię?",
-  "nameAndPicGuideCopyContent": "Chcielibyśmy wiedzieć, jak Cię nazywać",
-  "generateUsername": "Wygeneruj nazwę",
-  "importIt": "Przywróć portfel",
+  "nameAndPicGuideCopyContent": "Chcielibyśmy wiedzieć, jak Cię nazywać.",
   "important": "Ważne",
   "confirmPin": {
     "title": "Wprowadź kod PIN"
@@ -664,7 +661,6 @@
     "spend": "Wykorzystuj swoje kryptowaluty do zakupu ulubionych marek"
   },
   "enableBiometry": {
-    "title": "Zabezpiecz swój portfel",
     "description": "{{biometryType}} zabezpiecza portfel i ułatwia korzystanie z aplikacji {{appName}}",
     "cta": "Włącz {{biometryType}}",
     "guideTitle": "Chcesz dodać {{biometryType}}?",
@@ -686,7 +682,9 @@
     "restoreAccount": "Przywróć konto",
     "createNewWallet": "Utwórz portfel",
     "restoreWallet": "Przywróć portfel",
-    "iAlreadyHaveAWallet": "Mam już portfel"
+    "hasWallet": "Mam już portfel",
+    "header": "Witamy na {{appName}}! Stwórzmy twój portfel kryptowalutowy.",
+    "getStarted": "Rozpocznij"
   },
   "accessContacts": {
     "disclosure": {
@@ -700,16 +698,15 @@
   "registrationSteps": "Krok {{step}} z {{totalSteps}}",
   "selectCountryCode": "Wybierz kod kraju",
   "pincodeSet": {
-    "create": "Utwórz kod PIN",
     "createNew": "Utwórz nowy kod PIN",
     "verify": "Wprowadź ponownie kod PIN, aby potwierdzić",
     "changePIN": "Zmień kod PIN",
     "pinsDontMatch": "Kody PIN nie zgadzają się",
     "invalidPin": "Użyj silniejszego kodu PIN",
-    "guideTitle": "Wybierz 6-cyfrowy kod PIN, który zapamiętasz",
-    "guideConfirm": "Wprowadź ponownie kod PIN, aby potwierdzić.",
-    "pinCodeGuide": "PIN to sposób na zabezpieczenie Twojego portfela.",
-    "selectPIN": "Wybierz PIN"
+    "onboardingTitle": "Wybierz 6-cyfrowy kod PIN",
+    "onboardingConfirm": "Wprowadź ponownie swój kod PIN",
+    "onboardingSubtitle": "Twój kod PIN zabezpieczy Twój portfel",
+    "pin": "PIN"
   },
   "inviteCode": {
     "title": "Kod zaproszenia",
@@ -747,13 +744,13 @@
   },
   "phoneVerificationScreen": {
     "screenTitle": "Numer telefonu",
-    "title": "Podłącz swój numer telefonu",
-    "description": "Aby podłączyć swój numer telefonu, otrzymasz wiadomość tekstową.",
-    "startButtonLabel": "Start",
+    "title": "Podłącz swój numer telefonu do Valory",
+    "description": "To łączy adres portfela z numerem telefonu, więc wysyłanie kryptowalut jest łatwe",
+    "startButtonLabel": "Podłącz",
     "learnMore": {
-      "buttonLabel": "Czy muszę podłączyć telefon?",
-      "title": "Czy muszę podłączyć telefon?",
-      "body": "Podłączenie numeru telefonu pozwoli Ci na wysyłanie pieniędzy do znajomych z książki adresowej i innych numerów telefonów. \n \n Jeśli pominiesz ten krok, nie będziesz mieć dostępu do swoich kontaktów i będziesz w stanie wysyłać pieniądze tylko za pomocą kodu QR lub adres konta."
+      "buttonLabel": "Czy podłączenie numeru jest konieczne?",
+      "title": "Czy podłączenie numeru jest konieczne?",
+      "body": "Podłączenie numeru telefonu pozwoli Ci na wysyłanie pieniędzy do znajomych z książki adresowej i innych numerów telefonów. \n \n Jeśli pominiesz ten krok, nie będziesz miał dostępu do swoich kontaktów i będziesz mógł wysyłać pieniądze jedynie za pomocą kodu QR lub adresu portfela."
     },
     "skip": {
       "title": "Czy na pewno?",
@@ -769,18 +766,24 @@
     "codeInputPlaceholder": "123456",
     "helpDialog": {
       "title": "Pomoc",
-      "body": "Wysłaliśmy wiadomość SMS pod Twój numer telefonu. Sprawdź swoje wiadomości tekstowe, aby znaleźć 6-cyfrowy kod. Jeśli masz problemy z odbieraniem wiadomości, możesz pominąć ten krok i spróbować ponownie później.",
+      "body": "Wysłaliśmy wiadomość SMS na Twój numer telefonu. Sprawdź swoje wiadomości tekstowe, aby znaleźć 6-cyfrowy kod. \n \n Jeśli masz problemy z odbieraniem wiadomości, możesz pominąć ten krok i spróbować ponownie później.",
       "skip": "Pomiń",
       "dismiss": "Wróć"
     },
     "verificationFailure": "Coś poszło nie tak, spróbuj ponownie później.",
     "resendButtonNotYetAvailable": "Możliwość ponownego wysłania za {{secondsRemaining}} sek.",
-    "resendButton": "Ponownie wyślij wiadomość tekstową"
+    "resendButton": "Nie otrzymałeś kodu?"
   },
   "importExistingKey": {
-    "explanation": "Twoja fraza odzyskiwania to 24 słowa, które ustawiłeś(-aś) i zapisałeś(-aś) podczas zakładania konta. Wpisz je tutaj, aby przywrócić konto.",
-    "explanationV1_50": "Twoja fraza odzyskiwania to 12 lub 24 słowa, które zapisałeś podczas zakładania konta. Wpisz je tutaj, aby przywrócić swoje konto.",
-    "keyPlaceholder": "koń lampart pies małpa ..."
+    "keyPlaceholder": "koń lampart pies małpa ...",
+    "header": "Przywróć portfel",
+    "title": "Wprowadź hasło odzyskiwania.",
+    "description": "Użyj 12- lub 24-słownej frazy, którą zapisałeś podczas konfigurowania portfela do przywrócenia.",
+    "emptyWalletDialog": {
+      "description": "W tym portfelu nie ma żadnych środków. Czy nadal chcesz go używać?",
+      "action": "Użyj portfela",
+      "title": "Strona\n<0></0>"
+    }
   },
   "verificationInput": {
     "title": "Potwierdź",
@@ -821,11 +824,6 @@
     "body": "<0>$t(verificationInputHelpDialog.bodySection1.title)</0>\n\n$t(verificationInputHelpDialog.bodySection1.content)\n\n<1>$t(verificationInputHelpDialog.bodySection2.title)</1>\n\n$t(verificationInputHelpDialog.bodySection2.content)",
     "skip": "Na razie pomiń",
     "back": "Wróć"
-  },
-  "emptyAccount": {
-    "description": "Na tym koncie nie ma żadnych środków. Czy nadal chcesz z niego korzystać?",
-    "useAccount": "Użyj konta",
-    "title": "Saldo <0></0>"
   },
   "success": {
     "message": "Wszystko gotowe!"
@@ -1217,7 +1215,7 @@
     "buttonText": "Podłącz"
   },
   "outOfSyncBanner": {
-    "title": "Jesteś offline.",
+    "title": "Błąd pobierania tokenów.",
     "message": "Twoje salda mogą być nieaktualne.",
     "button": "Odśwież"
   },
@@ -1499,7 +1497,8 @@
     "swapFrom": "Od",
     "swapTo": "Do",
     "insufficientFunds": "Niewystarczające saldo {{token}}. Spróbuj wpłacić mniejszą kwotę lub wybierz inny token.",
-    "fetchSwapQuoteFailed": "Przepraszamy za opóźnienie! Przetwarzanie trwa dłużej niż zwykle, aby uzyskać najlepszy kurs wymiany. Spróbuj ponownie za kilka minut."
+    "fetchSwapQuoteFailed": "Przepraszamy za opóźnienie! Przetwarzanie trwa dłużej niż zwykle, aby uzyskać najlepszy kurs wymiany. Spróbuj ponownie za kilka minut.",
+    "disclaimer": "Swapy zasilane przez partnerów na Celo. <0>Dowiedz się więcej.</0>"
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Zamień z",
@@ -1551,7 +1550,7 @@
     "shareMessage": "Cześć! Używam {{appName}} jako mojego portfela kryptowalutowego i chcę Cię zaprosić do sprawdzenia go. Gdy pobierzesz aplikację i podłączysz swój numer telefonu, obaj dostaniemy specjalne NFT. Użyj tego linku: {{link}}",
     "rewardsActive": {
       "title": "Zaproś {{contactName}} do {{appName}}, a razem otrzymacie NFT!",
-      "body": "Wygląda na to, że {{contactName}} nie korzysta z {{appName}}. Jeśli znasz adres jego/jej portfela, nadal możesz wysłać płatność lub zaproszenie. \n\n Po pobraniu portfela i podaniu numeru telefonu otrzymacie ekskluzywne NFT."
+      "body": "Wygląda na to, że {{contactName}} nie jest na {{appName}}. Nadal możesz wysłać płatność, jeśli znasz adres ich portfela, lub wysłać zaproszenie. \n\n Po pobraniu portfela i podaniu numeru telefonu, oboje otrzymacie ekskluzywne NFT."
     }
   },
   "celoNews": {
