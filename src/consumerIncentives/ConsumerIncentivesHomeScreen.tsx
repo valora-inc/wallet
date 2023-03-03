@@ -239,7 +239,7 @@ export default function ConsumerIncentivesHomeScreen() {
 
   const onPressCTA = async () => {
     if (canClaimRewards) {
-      dispatch(claimRewards())
+      dispatch(claimRewards(superchargeRewards))
       ValoraAnalytics.track(RewardsEvents.rewards_screen_cta_pressed, {
         buttonPressed: RewardsScreenCta.ClaimRewards,
       })
