@@ -45,7 +45,7 @@ import { getContractKit } from 'src/web3/contracts'
 import config from 'src/web3/networkConfig'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { applyChainIdWorkaround, buildTxo, getContract } from 'src/web3/utils'
+import { buildTxo, getContract } from 'src/web3/utils'
 
 const TAG = 'SuperchargeRewardsClaimer'
 export const SUPERCHARGE_FETCH_TIMEOUT = 30_000
@@ -165,8 +165,6 @@ function* claimRewardV2(reward: SuperchargePendingRewardV2, index: number, baseN
   const walletAddress: string = yield call(getConnectedUnlockedAccount)
 
   Logger.debug(TAG, `Start claiming reward at index ${index}: ${JSON.stringify(reward)}`)
-
-  applyChainIdWorkaround(transaction, yield call([kit.connection, 'chainId']))
 
   const normalizer = new TxParamsNormalizer(kit.connection)
   const tx: CeloTx = yield call([normalizer, 'populate'], transaction)
