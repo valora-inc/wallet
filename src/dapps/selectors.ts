@@ -1,9 +1,9 @@
 import { createSelector } from 'reselect'
-import { Dapp, DappCategory } from 'src/dapps/types'
+import { DappCategory, DappV1, DappV2, isDappV2 } from 'src/dapps/types'
 import { RootState } from 'src/redux/reducers'
 
 export interface CategoryWithDapps extends DappCategory {
-  dapps: Dapp[]
+  dapps: Array<DappV1 | DappV2>
 }
 
 export const dappsListApiUrlSelector = (state: RootState) => state.dapps.dappListApiUrl
@@ -26,7 +26,7 @@ export const dappsListLoadingSelector = (state: RootState) => state.dapps.dappsL
 export const dappsListErrorSelector = (state: RootState) => state.dapps.dappsListError
 
 export const featuredDappSelector = createSelector(dappsListSelector, (dapps) => {
-  return dapps.find((dapp) => dapp.isFeatured)
+  return dapps.find((dapp: DappV1 | DappV2) => dapp.isFeatured)
 })
 
 export const favoriteDappIdsSelector = (state: RootState) => state.dapps.favoriteDappIds
@@ -35,6 +35,10 @@ const isCategoryWithDapps = (
   category: CategoryWithDapps | undefined
 ): category is CategoryWithDapps => !!category && category.dapps.length > 0
 
+/**
+ * Returns a list of categories with dapps
+ * Should only be used on the Legacy Dapps screens
+ */
 export const dappCategoriesByIdSelector = createSelector(
   dappsListSelector,
   dappsCategoriesSelector,
@@ -55,7 +59,8 @@ export const dappCategoriesByIdSelector = createSelector(
     })
     dapps.forEach((dapp) => {
       // favorited dapps live in their own list, remove them from the "all" section in the dapps list
-      if (!favoriteDappIds.includes(dapp.id)) {
+      // should always have a categoryId
+      if (!isDappV2(dapp) && !favoriteDappIds.includes(dapp.id)) {
         mappedCategories[dapp.categoryId]?.dapps.push(dapp)
       }
     })
@@ -75,7 +80,7 @@ export const recentDappsSelector = createSelector(
   dappsListSelector,
   recentDappIdsSelector,
   (dapps, recentDappIds) => {
-    const recentDapps: Dapp[] = []
+    const recentDapps: Array<DappV1 | DappV2> = []
     recentDappIds.forEach((recentDappId) => {
       const recentDapp = dapps.find((dapp) => dapp.id === recentDappId)
       if (recentDapp) {
@@ -90,7 +95,7 @@ export const favoriteDappsSelector = createSelector(
   dappsListSelector,
   favoriteDappIdsSelector,
   (dapps, favoriteDappIds) => {
-    const favoriteDapps: Dapp[] = []
+    const favoriteDapps: Array<DappV1 | DappV2> = []
     favoriteDappIds.forEach((favoriteDappId) => {
       const favoriteDapp = dapps.find((dapp) => dapp.id === favoriteDappId)
       if (favoriteDapp) {

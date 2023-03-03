@@ -34,8 +34,15 @@ export default Send = () => {
       await expect(element(by.text('0xe5f5...8846')).atIndex(0)).toBeVisible()
     })
 
-    it('Then tapping a recipient should navigate to send amount', async () => {
+    it('Then tapping a recipient should show bottom sheet', async () => {
       await element(by.text('0xe5f5...8846')).atIndex(0).tap()
+      await expect(element(by.id('CELOBalance'))).toBeVisible()
+      await expect(element(by.id('cUSDBalance'))).toBeVisible()
+      await expect(element(by.id('cEURBalance'))).toBeVisible()
+    })
+
+    it('Then tapping a token should navigate to send amount', async () => {
+      await element(by.id('CELOBalance')).tap()
       await expect(element(by.id('MaxButton'))).toBeVisible()
       await expect(element(by.id('onChangeToken'))).toBeVisible()
       await expect(element(by.id('SwapInput'))).toBeVisible()

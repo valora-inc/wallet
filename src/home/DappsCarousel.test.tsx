@@ -2,7 +2,7 @@ import { fireEvent, render, within } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { Dapp } from 'src/dapps/types'
+import { DappV1 } from 'src/dapps/types'
 import DappsCarousel from 'src/home/DappsCarousel'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -17,7 +17,7 @@ jest.mock('lodash', () => ({
   debounce: jest.fn((fn) => fn),
 }))
 
-const dappsList: Dapp[] = [
+const dappsList: DappV1[] = [
   {
     name: 'Ubeswap',
     description: 'Swap any token, enter a pool, or farm your crypto',

@@ -13,9 +13,17 @@ import {
   mockRecipient,
   mockRecipient2,
   mockRecipient4,
+  mockTokenBalances,
+  mockCeloAddress,
+  mockCusdAddress,
 } from 'test/values'
 
-const mockScreenProps = getMockStackScreenProps(Screens.Send)
+const mockScreenProps = (params: {
+  isOutgoingPaymentRequest?: boolean
+  skipContactsImport?: boolean
+  forceTokenAddress?: boolean
+  defaultTokenOverride?: string
+}) => getMockStackScreenProps(Screens.Send, params)
 
 const defaultStore = {
   send: {
@@ -33,6 +41,18 @@ const defaultStore = {
       [mockE164NumberInvite]: mockRecipient4,
     },
   },
+  tokens: {
+    tokenBalances: {
+      [mockCeloAddress]: {
+        ...mockTokenBalances[mockCeloAddress],
+        balance: '20.0',
+      },
+      [mockCusdAddress]: {
+        ...mockTokenBalances[mockCusdAddress],
+        balance: '10.0',
+      },
+    },
+  },
 }
 
 describe('Send', () => {
@@ -45,7 +65,7 @@ describe('Send', () => {
 
     const tree = render(
       <Provider store={store}>
-        <Send {...mockScreenProps} />
+        <Send {...mockScreenProps({})} />
       </Provider>
     )
 
@@ -65,19 +85,48 @@ describe('Send', () => {
 
     const tree = render(
       <Provider store={store}>
-        <Send {...mockScreenProps} />
+        <Send {...mockScreenProps({})} />
       </Provider>
     )
 
     expect(tree.queryByTestId('InviteRewardsBanner')).toBeTruthy()
   })
 
-  it('looks up a contact and navigates to the send amount screen', async () => {
+  it('looks up a contact, prompts token entry, navigates to the send amount screen', async () => {
+    const store = createMockStore(defaultStore)
+
+    const { getAllByTestId, findByTestId } = render(
+      <Provider store={store}>
+        <Send {...mockScreenProps({})} />
+      </Provider>
+    )
+
+    fireEvent.press(getAllByTestId('RecipientItem')[0])
+
+    const tokenOption = await findByTestId('cUSDBalance')
+    fireEvent.press(tokenOption)
+
+    await waitFor(() => expect(navigate).toHaveBeenCalledTimes(1))
+    expect(navigate).toHaveBeenCalledWith(Screens.SendAmount, {
+      recipient: expect.objectContaining(mockRecipient),
+      isOutgoingPaymentRequest: false,
+      origin: SendOrigin.AppSendFlow,
+      defaultTokenOverride: mockCusdAddress,
+    })
+  })
+
+  it('looks up a contact, navigates to the send amount screen', async () => {
     const store = createMockStore(defaultStore)
 
     const { getAllByTestId } = render(
       <Provider store={store}>
-        <Send {...mockScreenProps} />
+        <Send
+          {...mockScreenProps({
+            isOutgoingPaymentRequest: true,
+            defaultTokenOverride: mockCeloAddress,
+            forceTokenAddress: true,
+          })}
+        />
       </Provider>
     )
 
@@ -86,9 +135,10 @@ describe('Send', () => {
     await waitFor(() => expect(navigate).toHaveBeenCalledTimes(1))
     expect(navigate).toHaveBeenCalledWith(Screens.SendAmount, {
       recipient: expect.objectContaining(mockRecipient),
-      isOutgoingPaymentRequest: false,
-      origin: SendOrigin.AppSendFlow,
-      forceTokenAddress: undefined,
+      isOutgoingPaymentRequest: true,
+      origin: SendOrigin.AppRequestFlow,
+      defaultTokenOverride: mockCeloAddress,
+      forceTokenAddress: true,
     })
   })
 
@@ -106,7 +156,7 @@ describe('Send', () => {
 
     const { getAllByTestId, getByText } = render(
       <Provider store={store}>
-        <Send {...mockScreenProps} />
+        <Send {...mockScreenProps({})} />
       </Provider>
     )
 

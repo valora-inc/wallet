@@ -2,46 +2,6 @@
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
     "definitions": {
-        "ActiveDapp": {
-            "additionalProperties": false,
-            "properties": {
-                "categoryId": {
-                    "type": "string"
-                },
-                "dappUrl": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "iconUrl": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "isFeatured": {
-                    "type": "boolean"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "openedFrom": {
-                    "$ref": "#/definitions/DappSection"
-                }
-            },
-            "required": [
-                "categoryId",
-                "dappUrl",
-                "description",
-                "iconUrl",
-                "id",
-                "isFeatured",
-                "name",
-                "openedFrom"
-            ],
-            "type": "object"
-        },
         "AddressInfoToDisplay": {
             "additionalProperties": false,
             "properties": {
@@ -686,42 +646,6 @@
             ],
             "type": "string"
         },
-        "Dapp": {
-            "additionalProperties": false,
-            "properties": {
-                "categoryId": {
-                    "type": "string"
-                },
-                "dappUrl": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "iconUrl": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "isFeatured": {
-                    "type": "boolean"
-                },
-                "name": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "categoryId",
-                "dappUrl",
-                "description",
-                "iconUrl",
-                "id",
-                "isFeatured",
-                "name"
-            ],
-            "type": "object"
-        },
         "DappCategory": {
             "additionalProperties": false,
             "properties": {
@@ -763,6 +687,81 @@
                 "recently used"
             ],
             "type": "string"
+        },
+        "DappV1": {
+            "additionalProperties": false,
+            "properties": {
+                "categoryId": {
+                    "type": "string"
+                },
+                "dappUrl": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "iconUrl": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "isFeatured": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "categoryId",
+                "dappUrl",
+                "description",
+                "iconUrl",
+                "id",
+                "isFeatured",
+                "name"
+            ],
+            "type": "object"
+        },
+        "DappV2": {
+            "additionalProperties": false,
+            "properties": {
+                "categories": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "dappUrl": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "iconUrl": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "isFeatured": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "categories",
+                "dappUrl",
+                "description",
+                "iconUrl",
+                "id",
+                "isFeatured",
+                "name"
+            ],
+            "type": "object"
         },
         "E164NumberToAddressType": {
             "additionalProperties": {
@@ -3148,7 +3147,87 @@
                 "activeDapp": {
                     "anyOf": [
                         {
-                            "$ref": "#/definitions/ActiveDapp"
+                            "additionalProperties": false,
+                            "properties": {
+                                "categoryId": {
+                                    "type": "string"
+                                },
+                                "dappUrl": {
+                                    "type": "string"
+                                },
+                                "description": {
+                                    "type": "string"
+                                },
+                                "iconUrl": {
+                                    "type": "string"
+                                },
+                                "id": {
+                                    "type": "string"
+                                },
+                                "isFeatured": {
+                                    "type": "boolean"
+                                },
+                                "name": {
+                                    "type": "string"
+                                },
+                                "openedFrom": {
+                                    "$ref": "#/definitions/DappSection"
+                                }
+                            },
+                            "required": [
+                                "categoryId",
+                                "dappUrl",
+                                "description",
+                                "iconUrl",
+                                "id",
+                                "isFeatured",
+                                "name",
+                                "openedFrom"
+                            ],
+                            "type": "object"
+                        },
+                        {
+                            "additionalProperties": false,
+                            "properties": {
+                                "categories": {
+                                    "items": {
+                                        "type": "string"
+                                    },
+                                    "type": "array"
+                                },
+                                "dappUrl": {
+                                    "type": "string"
+                                },
+                                "description": {
+                                    "type": "string"
+                                },
+                                "iconUrl": {
+                                    "type": "string"
+                                },
+                                "id": {
+                                    "type": "string"
+                                },
+                                "isFeatured": {
+                                    "type": "boolean"
+                                },
+                                "name": {
+                                    "type": "string"
+                                },
+                                "openedFrom": {
+                                    "$ref": "#/definitions/DappSection"
+                                }
+                            },
+                            "required": [
+                                "categories",
+                                "dappUrl",
+                                "description",
+                                "iconUrl",
+                                "id",
+                                "isFeatured",
+                                "name",
+                                "openedFrom"
+                            ],
+                            "type": "object"
                         },
                         {
                             "type": "null"
@@ -3178,7 +3257,14 @@
                 },
                 "dappsList": {
                     "items": {
-                        "$ref": "#/definitions/Dapp"
+                        "anyOf": [
+                            {
+                                "$ref": "#/definitions/DappV1"
+                            },
+                            {
+                                "$ref": "#/definitions/DappV2"
+                            }
+                        ]
                     },
                     "type": "array"
                 },

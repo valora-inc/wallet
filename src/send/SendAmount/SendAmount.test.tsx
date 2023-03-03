@@ -81,8 +81,17 @@ const mockTransactionData2 = {
   reason: '',
 }
 
-const mockScreenProps = (isOutgoingPaymentRequest?: boolean, forceTokenAddress?: string) =>
+const mockScreenProps = ({
+  defaultTokenOverride,
+  isOutgoingPaymentRequest,
+  forceTokenAddress,
+}: {
+  defaultTokenOverride?: string
+  isOutgoingPaymentRequest?: boolean
+  forceTokenAddress?: boolean
+}) =>
   getMockStackScreenProps(Screens.SendAmount, {
+    defaultTokenOverride,
     recipient: mockTransactionData.recipient,
     isOutgoingPaymentRequest,
     origin: SendOrigin.AppSendFlow,
@@ -112,7 +121,7 @@ describe('SendAmount', () => {
     const getWrapper = () =>
       render(
         <Provider store={store}>
-          <SendAmount {...mockScreenProps()} />
+          <SendAmount {...mockScreenProps({})} />
         </Provider>
       )
 
@@ -149,7 +158,7 @@ describe('SendAmount', () => {
       const store = createMockStore(storeData)
       const wrapper = render(
         <Provider store={store}>
-          <SendAmount {...mockScreenProps()} />
+          <SendAmount {...mockScreenProps({})} />
         </Provider>
       )
       enterAmount(wrapper, AMOUNT_TOO_MUCH)
@@ -188,7 +197,7 @@ describe('SendAmount', () => {
       })
       const { getByTestId } = render(
         <Provider store={store}>
-          <SendAmount {...mockScreenProps()} />
+          <SendAmount {...mockScreenProps({})} />
         </Provider>
       )
 
@@ -222,7 +231,7 @@ describe('SendAmount', () => {
       })
       const { getByTestId } = render(
         <Provider store={store}>
-          <SendAmount {...mockScreenProps()} />
+          <SendAmount {...mockScreenProps({})} />
         </Provider>
       )
 
@@ -244,7 +253,7 @@ describe('SendAmount', () => {
       const store = createMockStore(storeData)
       const wrapper = render(
         <Provider store={store}>
-          <SendAmount {...mockScreenProps()} />
+          <SendAmount {...mockScreenProps({})} />
         </Provider>
       )
       enterAmount(wrapper, AMOUNT_ZERO)
@@ -277,7 +286,7 @@ describe('SendAmount', () => {
       })
       const { queryByText } = render(
         <Provider store={store}>
-          <SendAmount {...mockScreenProps()} />
+          <SendAmount {...mockScreenProps({})} />
         </Provider>
       )
 
@@ -288,7 +297,7 @@ describe('SendAmount', () => {
       const store = createMockStore(storeData)
       const { getByText } = render(
         <Provider store={store}>
-          <SendAmount {...mockScreenProps()} />
+          <SendAmount {...mockScreenProps({})} />
         </Provider>
       )
 
@@ -299,7 +308,13 @@ describe('SendAmount', () => {
       const store = createMockStore(storeData)
       const wrapper = render(
         <Provider store={store}>
-          <SendAmount {...mockScreenProps(false, mockTestTokenAddress)} />
+          <SendAmount
+            {...mockScreenProps({
+              isOutgoingPaymentRequest: false,
+              defaultTokenOverride: mockTestTokenAddress,
+              forceTokenAddress: true,
+            })}
+          />
         </Provider>
       )
       enterAmount(wrapper, AMOUNT_VALID)
@@ -328,7 +343,7 @@ describe('SendAmount', () => {
       const store = createMockStore(storeData)
       const wrapper = render(
         <Provider store={store}>
-          <SendAmount {...mockScreenProps()} />
+          <SendAmount {...mockScreenProps({})} />
         </Provider>
       )
 
@@ -347,7 +362,7 @@ describe('SendAmount', () => {
       const store = createMockStore(storeData)
       const wrapper = render(
         <Provider store={store}>
-          <SendAmount {...mockScreenProps()} />
+          <SendAmount {...mockScreenProps({})} />
         </Provider>
       )
 
@@ -378,7 +393,7 @@ describe('SendAmount', () => {
 
       const tree = render(
         <Provider store={store}>
-          <SendAmount {...mockScreenProps()} />
+          <SendAmount {...mockScreenProps({})} />
         </Provider>
       )
       enterAmount(tree, AMOUNT_VALID)
@@ -411,7 +426,12 @@ describe('SendAmount', () => {
 
       const tree = render(
         <Provider store={store}>
-          <SendAmount {...mockScreenProps(undefined, mockCeurAddress)} />
+          <SendAmount
+            {...mockScreenProps({
+              forceTokenAddress: true,
+              defaultTokenOverride: mockCeurAddress,
+            })}
+          />
         </Provider>
       )
       enterAmount(tree, AMOUNT_VALID)
