@@ -67,3 +67,6 @@ export const superchargeV2EnabledSelector = (state: RootState) =>
 
 export const superchargeRewardContractAddressSelector = (state: RootState) =>
   state.supercharge.superchargeRewardContractAddress
+
+export const superchargeV1AddressesSelector = (state: RootState) =>
+  state.supercharge.superchargeV1Addresses
