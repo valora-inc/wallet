@@ -30,7 +30,6 @@ function NameAndPicture({ navigation }: Props) {
   const cachedName = useTypedSelector((state) => state.account.name)
   const picture = useTypedSelector((state) => state.account.pictureUri)
   const choseToRestoreAccount = useTypedSelector((state) => state.account.choseToRestoreAccount)
-  const recoveringFromStoreWipe = useTypedSelector(recoveringFromStoreWipeSelector)
   const { step, totalSteps } = useTypedSelector(registrationStepsSelector)
   const shouldSkipProfilePicture = useTypedSelector((state) => state.app.skipProfilePicture)
   const dispatch = useDispatch()
@@ -56,13 +55,9 @@ function NameAndPicture({ navigation }: Props) {
   }, [navigation, choseToRestoreAccount, step, totalSteps])
 
   const goToNextScreen = () => {
-    if (recoveringFromStoreWipe) {
-      navigate(Screens.ImportWallet)
-    } else {
-      navigate(Screens.PincodeSet, {
-        komenciAvailable: !!asyncKomenciReadiness.result,
-      })
-    }
+    navigate(Screens.PincodeSet, {
+      komenciAvailable: !!asyncKomenciReadiness.result,
+    })
   }
 
   const onPressContinue = () => {

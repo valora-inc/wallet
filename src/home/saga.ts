@@ -23,7 +23,6 @@ import { fetchStableBalances } from 'src/stableToken/actions'
 import { fetchTokenBalances } from 'src/tokens/reducer'
 import { Actions as TransactionActions } from 'src/transactions/actions'
 import Logger from 'src/utils/Logger'
-import { getConnectedAccount } from 'src/web3/saga'
 
 const REFRESH_TIMEOUT = 15000
 const TAG = 'home/saga'
@@ -42,7 +41,6 @@ export function withLoading<Fn extends (...args: any[]) => any>(fn: Fn, ...args:
 
 export function* refreshBalances() {
   Logger.debug(TAG, 'Fetching all balances')
-  yield call(getConnectedAccount)
   yield put(fetchTokenBalances())
   yield put(fetchCurrentRate())
   yield put(fetchStableBalances())

@@ -230,6 +230,16 @@ let passwordLock = false
 let lastPassword: string | null = null
 let lastError: any = null
 
+/**
+ * Prompt the user for a pin and recompute the asymmetric key to
+ * unlock a given piece of data.
+ *
+ * N.B. Pin must have been set before this is called.
+ * @param account The account the password will unlock.
+ * @param withVerification Whether or not to verify the provided pin
+ * @param storeHash Whether or not to store the hashed passcode
+ * @returns {String} The decryption key
+ */
 export async function getPassword(
   account: string,
   withVerification: boolean = true,

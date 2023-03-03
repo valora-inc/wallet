@@ -568,6 +568,15 @@ export enum KolektivoNotificationEvents {
   cico_prompt_complete = 'cico_prompt_complete',
 }
 
+export enum KeyshareEvents {
+  export_user_keyshare_cancel = 'export_user_keyshare_cancel',
+  export_user_keyshare_timeout = 'export_user_keyshare_timeout',
+
+  import_user_keyshare_started = 'import_user_keyshare_started',
+  import_user_keyshare_success = 'import_user_keyshare_success',
+  import_user_keyshare_failure = 'import_user_keyshare_failure',
+}
+
 export type AnalyticsEventType =
   | AppEvents
   | HomeEvents
@@ -594,3 +603,4 @@ export type AnalyticsEventType =
   | CICOEvents
   | DappExplorerEvents
   | KolektivoNotificationEvents
+  | KeyshareEvents

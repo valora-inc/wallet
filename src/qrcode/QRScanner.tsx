@@ -14,6 +14,7 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 
 interface QRScannerProps {
+  isForKeyshare?: boolean
   onBarCodeDetected: (qrCode: QrCode) => void
 }
 
@@ -47,7 +48,7 @@ const SeeThroughOverlay = () => {
   )
 }
 
-export default function QRScanner({ onBarCodeDetected }: QRScannerProps) {
+export default function QRScanner({ onBarCodeDetected, isForKeyshare }: QRScannerProps) {
   const { t } = useTranslation()
   const inset = useSafeAreaInsets()
   // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -128,7 +129,7 @@ export default function QRScanner({ onBarCodeDetected }: QRScannerProps) {
           </TextButton>
         </View>
       </Modal>
-      <SendSheet />
+      {!isForKeyshare && <SendSheet />}
     </RNCamera>
   )
 }

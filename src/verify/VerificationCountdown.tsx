@@ -23,11 +23,23 @@ function formatTimeRemaining(seconds: number) {
 interface Props {
   onFinish: () => void
   startTime: number
+  duration?: number
+  shouldRepeat?: boolean
 }
 
-export default function VerificationCountdown({ onFinish, startTime }: Props) {
+export default function VerificationCountdown({
+  onFinish,
+  startTime,
+  duration,
+  shouldRepeat,
+}: Props) {
   const hasCalledOnFinishRef = useRef(false)
-  const endTime = useMemo(() => startTime + TOTAL_TIME, [startTime])
+  const endTime = useMemo(() => {
+    if (shouldRepeat) {
+      hasCalledOnFinishRef.current = false
+    }
+    return startTime + (duration ?? TOTAL_TIME)
+  }, [startTime])
   // Used for re-rendering, actual value unused
   const [, setTimer] = useState(0)
 
@@ -73,7 +85,7 @@ export default function VerificationCountdown({ onFinish, startTime }: Props) {
 
   return (
     <Animated.View>
-      <Animated.Image source={circularProgressBig} style={progressAnimatedStyle} />
+      <Animated.Image source={circularProgressBig} style={[progressAnimatedStyle, styles.loop]} />
       <View style={styles.content}>
         <Text style={styles.text}>{formatTimeRemaining(secondsLeft)}</Text>
       </View>
@@ -86,6 +98,9 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  loop: {
+    alignSelf: 'center',
   },
   text: {
     ...fontStyles.large,

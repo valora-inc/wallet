@@ -139,7 +139,7 @@ function WalletHome() {
 
   sections.push({
     data: [{}],
-    renderItem: () => <AccountNumber key={'AccountNumber'} address={account || ''} short />,
+    renderItem: () => <AccountNumber address={account!} short />,
   })
 
   sections.push({

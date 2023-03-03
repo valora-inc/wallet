@@ -4,7 +4,7 @@ import { Actions, ActionTypes, Web3SyncProgress } from 'src/web3/actions'
 
 export interface State {
   capsuleAccountId: string | null
-  capsuleVerified: boolean
+  capsuleEmail: string | null
   syncProgress: Web3SyncProgress
   latestBlockNumber: number
   account: string | null // this is the wallet address (EOA)
@@ -21,7 +21,7 @@ export interface State {
 
 const initialState: State = {
   capsuleAccountId: null,
-  capsuleVerified: false,
+  capsuleEmail: null,
   syncProgress: {
     startingBlock: 0,
     currentBlock: 0,
@@ -105,11 +105,11 @@ export const reducer = (
         ...state,
         mtwAddress: action.mtwAddress,
       }
-    case Actions.CAPSULE_AUTHENTICATE: {
+    case Actions.SET_CAPSULE_IDENTITY: {
       return {
         ...state,
-        capsuleAccountId: action.userId,
-        capsuleVerified: action.verified,
+        capsuleAccountId: action.capsuleUserId,
+        capsuleEmail: action.capsuleEmail,
       }
     }
     default:

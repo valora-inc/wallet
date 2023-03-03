@@ -49,7 +49,6 @@ import { iconHitslop } from 'src/styles/variables'
 import { useTokenInfo } from 'src/tokens/hooks'
 import { isStablecoin } from 'src/tokens/utils'
 import { Currency } from 'src/utils/currencies'
-import Logger from 'src/utils/Logger'
 import { isDekRegisteredSelector } from 'src/web3/selectors'
 
 type OwnProps = StackScreenProps<
@@ -149,14 +148,10 @@ function SendConfirmation(props: Props) {
   const feeEstimate = feeEstimates[tokenAddress]?.[feeType]
 
   useEffect(() => {
-    dispatch(estimateFee({ feeType, tokenAddress }))
-  }, [tokenAddress])
-
-  useEffect(() => {
     if (!feeEstimate) {
       dispatch(estimateFee({ feeType, tokenAddress }))
     }
-  }, [feeEstimate])
+  }, [tokenAddress, feeEstimate])
 
   useEffect(() => {
     if (!isDekRegistered) {
@@ -168,11 +163,6 @@ function SendConfirmation(props: Props) {
   const storedDekFee = feeEstimates[tokenAddress]?.[FeeType.REGISTER_DEK]
   const dekFee = storedDekFee?.usdFee ? new BigNumber(storedDekFee.usdFee) : undefined
   const totalFeeInUsd = securityFee?.plus(dekFee ?? 0)
-
-  Logger.debug('FeeEstimate', JSON.stringify(feeEstimate))
-  Logger.debug('FeeEstimates', JSON.stringify(feeEstimates))
-  Logger.debug('SecurityFee.usdFee', JSON.stringify(securityFee))
-  Logger.debug('StoredDekFee', JSON.stringify(storedDekFee))
 
   const FeeContainer = () => {
     return (

@@ -35,6 +35,7 @@ export enum EmbeddedNavBar {
 
 export enum EducationTopic {
   onboarding = 'onboarding',
+  multiparty = 'multiparty',
   backup = 'backup',
   celo = 'celo',
 }
@@ -182,7 +183,7 @@ const Education = ({
     }
   }
 
-  const isLastStep = step === stepInfo.length
+  const isLastStep = step === stepInfo.length - 1
 
   return (
     <SafeAreaView style={[styles.root, style]} edges={['bottom']} {...passThroughProps}>
@@ -257,7 +258,7 @@ const styles = StyleSheet.create({
   },
   bodyText: {
     ...fontStyles.regular,
-    textAlign: 'center',
+    textAlign: 'justify',
     paddingTop: 16,
     marginBottom: 24,
   },

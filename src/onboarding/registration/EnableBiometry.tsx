@@ -5,25 +5,20 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import * as Keychain from 'react-native-keychain'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
-import { initializeAccount, setPincodeSuccess } from 'src/account/actions'
+import { setPincodeSuccess } from 'src/account/actions'
 import { PincodeType } from 'src/account/reducer'
 import { choseToRestoreAccountSelector } from 'src/account/selectors'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import {
-  registrationStepsSelector,
-  skipVerificationSelector,
-  supportedBiometryTypeSelector,
-} from 'src/app/selectors'
+import { registrationStepsSelector, supportedBiometryTypeSelector } from 'src/app/selectors'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import Face from 'src/icons/biometry/Face'
 import FaceID from 'src/icons/biometry/FaceID'
 import Fingerprint from 'src/icons/biometry/Fingerprint'
 import { Iris } from 'src/icons/biometry/Iris'
 import TouchID from 'src/icons/biometry/TouchID'
-import { setHasSeenVerificationNux } from 'src/identity/actions'
 import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
-import { navigate, navigateHome } from 'src/navigator/NavigationService'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
@@ -54,7 +49,6 @@ export default function EnableBiometry({ navigation }: Props) {
   // This screen would not be displayed if supportedBiometryType were null
   const supportedBiometryType = useSelector(supportedBiometryTypeSelector)
   const choseToRestoreAccount = useSelector(choseToRestoreAccountSelector)
-  const skipVerification = useSelector(skipVerificationSelector)
   const { step, totalSteps } = useSelector(registrationStepsSelector)
 
   useEffect(() => {
@@ -87,16 +81,10 @@ export default function EnableBiometry({ navigation }: Props) {
 
   const handleNavigateToNextScreen = () => {
     if (choseToRestoreAccount) {
-      navigate(Screens.ImportWallet)
-      return
+      navigate(Screens.NuxInterests)
+    } else {
+      navigate(Screens.KeyshareProvisioningScreen)
     }
-    if (skipVerification) {
-      dispatch(initializeAccount())
-      dispatch(setHasSeenVerificationNux(true))
-      navigateHome()
-      return
-    }
-    navigate(Screens.VerificationEducationScreen)
   }
 
   const onPressUseBiometry = async () => {

@@ -89,7 +89,6 @@ function* initializeAccount() {
   try {
     ValoraAnalytics.track(OnboardingEvents.initialize_account_start)
     yield call(getOrCreateCapsuleAccount)
-    yield call(generateSignedMessage)
     yield put(refreshAllBalances())
     Logger.debug(TAG + '@initializeAccount', 'Account creation success')
     ValoraAnalytics.track(OnboardingEvents.initialize_account_complete)
@@ -203,6 +202,7 @@ export function* generateSignedMessage() {
     yield call(storeSignedMessage, signedTypedMessage)
     yield put(saveSignedMessage())
   } catch (error) {
+    Logger.error(TAG, '@generateSignedMessage', error as any)
     throw error
   }
 }

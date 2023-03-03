@@ -6,8 +6,6 @@ import SplashScreen from 'react-native-splash-screen'
 import AccountKeyEducation from 'src/account/AccountKeyEducation'
 import AccounSetupFailureScreen from 'src/account/AccountSetupFailureScreen'
 import BankAccounts from 'src/account/BankAccounts'
-import CapsuleEmailVerificationScreen from 'src/account/CapsuleEmailVerificationScreen'
-import CapsuleOAuthScreen from 'src/account/CapsuleOAuthScreen'
 import ConnectPhoneNumberScreen from 'src/account/ConnectPhoneNumberScreen'
 import GoldEducation from 'src/account/GoldEducation'
 import Licenses from 'src/account/Licenses'
@@ -30,6 +28,7 @@ import BackupComplete from 'src/backup/BackupComplete'
 import BackupForceScreen from 'src/backup/BackupForceScreen'
 import BackupPhrase, { navOptionsForBackupPhrase } from 'src/backup/BackupPhrase'
 import BackupQuiz, { navOptionsForQuiz } from 'src/backup/BackupQuiz'
+import KeyshareEducation from 'src/backup/mpc/KeyshareEducation'
 import BackButton from 'src/components/BackButton'
 import CancelButton from 'src/components/CancelButton'
 import ConsumerIncentivesHomeScreen from 'src/consumerIncentives/ConsumerIncentivesHomeScreen'
@@ -78,7 +77,10 @@ import QRNavigator from 'src/navigator/QRNavigator'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import OnboardingEducationScreen from 'src/onboarding/education/OnboardingEducationScreen'
+import CapsuleEmailVerificationScreen from 'src/onboarding/registration/CapsuleEmailVerificationScreen'
+import CapsuleOAuthScreen from 'src/onboarding/registration/CapsuleOAuthScreen'
 import EnableBiometry from 'src/onboarding/registration/EnableBiometry'
+import KeyshareProvisioningScreen from 'src/onboarding/registration/KeyshareProvisioningScreen'
 import NameAndPicture from 'src/onboarding/registration/NameAndPicture'
 import RegulatoryTerms from 'src/onboarding/registration/RegulatoryTerms'
 import SelectCountry from 'src/onboarding/registration/SelectCountry'
@@ -95,6 +97,9 @@ import PaymentRequestUnavailable, {
 } from 'src/paymentRequest/PaymentRequestUnavailable'
 import PincodeEnter from 'src/pincode/PincodeEnter'
 import PincodeSet from 'src/pincode/PincodeSet'
+import KeyshareScanner from 'src/qrcode/KeyshareScanner'
+import RecoveryKeyshareDisplay from 'src/qrcode/RecoveryKeyshareCode'
+import UserKeyshareDisplay from 'src/qrcode/UserKeyshareCode'
 import ReceiveAmount from 'src/receive'
 import { RootState } from 'src/redux/reducers'
 import { store } from 'src/redux/store'
@@ -307,6 +312,10 @@ const nuxScreens = (Navigator: typeof Stack) => (
       name={Screens.CapsuleEmailVerification}
       component={CapsuleEmailVerificationScreen}
       options={CapsuleEmailVerificationScreen.navigationOptions}
+    />
+    <Navigator.Screen
+      name={Screens.KeyshareProvisioningScreen}
+      component={KeyshareProvisioningScreen}
     />
   </>
 )
@@ -525,6 +534,16 @@ const backupScreens = (Navigator: typeof Stack) => (
       component={AccounSetupFailureScreen}
       options={AccounSetupFailureScreen.navOptions}
     />
+    <Navigator.Screen
+      name={Screens.UserKeyshareCode}
+      component={UserKeyshareDisplay}
+      options={UserKeyshareDisplay.navigationOptions}
+    />
+    <Navigator.Screen
+      name={Screens.RecoveryKeyshareCode}
+      component={RecoveryKeyshareDisplay}
+      options={RecoveryKeyshareDisplay.navigationOptions}
+    />
   </>
 )
 
@@ -699,13 +718,17 @@ export function MainStackScreen() {
 
     if (!language) {
       initialRoute = Screens.Language
-    } else if (!name || !acceptedTerms || pincodeType === PincodeType.Unset) {
+    } else if (!acceptedTerms) {
       // User didn't go far enough in onboarding, start again from education
       initialRoute = Screens.OnboardingEducationScreen
     } else if (!account) {
-      initialRoute = choseToRestoreAccount ? Screens.ImportWallet : Screens.CapsuleOAuth
+      initialRoute = Screens.Welcome
+    } else if (!name) {
+      initialRoute = Screens.NameAndPicture
+    } else if (pincodeType === PincodeType.Unset) {
+      initialRoute = Screens.PincodeSet
     } else if (!hasSeenVerificationNux) {
-      initialRoute = Screens.VerificationEducationScreen
+      initialRoute = Screens.NuxInterests
     } else {
       initialRoute = Screens.DrawerNavigator
     }
@@ -750,6 +773,7 @@ const modalAnimatedScreens = (Navigator: typeof Stack) => (
       component={QRNavigator}
       options={QRNavigator.navigationOptions}
     />
+
     <Navigator.Screen
       name={Screens.RegulatoryTerms}
       component={RegulatoryTerms}
@@ -784,6 +808,16 @@ const modalAnimatedScreens = (Navigator: typeof Stack) => (
       name={Screens.SendConfirmationLegacyModal}
       component={SendConfirmationLegacy}
       options={sendConfirmationLegacyScreenNavOptions}
+    />
+    <Navigator.Screen
+      name={Screens.KeyshareEducationScreen}
+      component={KeyshareEducation}
+      options={KeyshareEducation.navigationOptions}
+    />
+    <Navigator.Screen
+      name={Screens.KeyshareScanner}
+      component={KeyshareScanner}
+      options={KeyshareScanner.navigationOptions}
     />
   </>
 )

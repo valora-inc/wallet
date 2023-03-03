@@ -9,6 +9,7 @@ import {
   union as ioUnion,
 } from 'io-ts'
 import { PathReporter } from 'io-ts/lib/PathReporter'
+import { KeyshareType } from 'src/backup/mpc/hooks'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { parse } from 'url'
 
@@ -42,4 +43,29 @@ export const stripUndefined = (obj: object) => JSON.parse(JSON.stringify(obj))
 export const urlFromUriData = (data: Partial<UriData>, method: UriMethod = UriMethod.pay) => {
   const params = new URLSearchParams(stripUndefined(data))
   return encodeURI(`kolektivo://wallet/${method.toString()}?${params.toString()}`)
+}
+
+export const KeyshareUriDataType = ioType({
+  secret: ioUnion([ioUndefined, ioString]),
+})
+
+export type KeyshareUriData = ioTypeOf<typeof KeyshareUriDataType>
+
+const keyshareDataFromJson = (obj: Object): KeyshareUriData => {
+  const either = KeyshareUriDataType.decode(obj)
+  if (isLeft(either)) {
+    throw new Error(PathReporter.report(either)[0])
+  }
+  return either.right
+}
+
+export const keyshareDataFromUrl = (url: string) =>
+  keyshareDataFromJson(parse(decodeURI(url), true).query)
+
+export const urlFromKeyshareData = (
+  data: Partial<KeyshareUriData>,
+  type: KeyshareType = KeyshareType.User
+) => {
+  const params = new URLSearchParams(stripUndefined(data))
+  return encodeURI(`kolektivo://keyshare/${type.toString()}?${params.toString()}`)
 }

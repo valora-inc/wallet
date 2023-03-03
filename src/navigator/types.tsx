@@ -4,6 +4,7 @@ import BigNumber from 'bignumber.js'
 import { LinkError } from 'react-native-plaid-link-sdk'
 import { KycStatus } from 'src/account/reducer'
 import { SendOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
+import { KeyshareType } from 'src/backup/mpc/hooks'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { ExchangeConfirmationCardProps } from 'src/exchange/ExchangeConfirmationCard'
 import { CICOFlow, FiatExchangeFlow, ProviderInfo, SimplexQuote } from 'src/fiatExchanges/utils'
@@ -95,7 +96,7 @@ export type StackParamList = {
   [Screens.BidaliScreen]: { currency?: Currency }
   [Screens.CashInSuccess]: { provider?: string }
   [Screens.CapsuleOAuth]: { isExistingUser?: boolean }
-  [Screens.CapsuleEmailVerification]: undefined
+  [Screens.CapsuleEmailVerification]: { isExistingUser?: boolean }
   [Screens.ConsumerIncentivesHomeScreen]: undefined
   [Screens.DappKitAccountAuth]: {
     dappKitRequest: AccountAuthRequest
@@ -138,6 +139,8 @@ export type StackParamList = {
   [Screens.FiatExchangeCurrency]: {
     flow: FiatExchangeFlow
   }
+  [Screens.KeyshareProvisioningScreen]: undefined
+  [Screens.KeyshareScanner]: undefined | {}
   [Screens.MoonPayScreen]: {
     localAmount: number
     currencyCode: LocalCurrencyCode
@@ -172,6 +175,9 @@ export type StackParamList = {
   [Screens.IncomingPaymentRequestListScreen]: undefined
   [Screens.NameAndPicture]: undefined
   [Screens.EnableBiometry]: undefined
+  [Screens.KeyshareEducationScreen]: {
+    type: KeyshareType
+  }
   [Screens.Language]:
     | {
         nextScreen: keyof StackParamList
@@ -185,6 +191,11 @@ export type StackParamList = {
   [Screens.Licenses]: undefined
   [Screens.Main]: undefined
   [Screens.Map]: { typeFilter: string | undefined }
+  [Screens.ManageKeyshareScreen]:
+    | undefined
+    | {
+        navigatedFromSettings?: boolean
+      }
   [Screens.MerchantPayment]: { referenceId: string; apiBase: string }
   [Screens.NuxInterests]:
     | {
@@ -234,6 +245,7 @@ export type StackParamList = {
     onCancel?: () => void
   }
   [Screens.ReceiveAmount]: undefined
+  [Screens.RecoveryKeyshareCode]: undefined | {}
   [Screens.RegulatoryTerms]:
     | undefined
     | {
@@ -308,6 +320,7 @@ export type StackParamList = {
     reviewProps: ReviewProps
     confirmationProps: TransferConfirmationCardProps | ExchangeConfirmationCardProps
   }
+  [Screens.UserKeyshareCode]: undefined | {}
   [Screens.UpgradeScreen]: undefined
   [Screens.ValidateRecipientIntro]: {
     transactionData: TransactionDataInputLegacy | TransactionDataInput

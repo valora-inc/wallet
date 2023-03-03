@@ -1,11 +1,10 @@
 import { BlockHeader } from '@celo/connect'
 import { generateKeys, generateMnemonic, MnemonicStrength } from '@celo/utils/lib/account'
 import { privateKeyToAddress } from '@celo/utils/lib/address'
-import { UnlockableWallet } from '@celo/wallet-base'
 import { RpcWalletErrors } from '@celo/wallet-rpc/lib/rpc-wallet'
 import * as bip39 from 'react-native-bip39'
 import { call, delay, put, race, select, spawn, take, takeLatest } from 'redux-saga/effects'
-import { setAccountCreationTime, setPromptForno } from 'src/account/actions'
+import { setAccountCreationTime, setPincodeSuccess, setPromptForno } from 'src/account/actions'
 import { generateSignedMessage } from 'src/account/saga'
 import { promptFornoIfNeededSelector } from 'src/account/selectors'
 import { showError } from 'src/alert/actions'
@@ -13,7 +12,6 @@ import { GethEvents, NetworkEvents, SettingsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { getMnemonicLanguage, storeCapsuleKeyShare, storeMnemonic } from 'src/backup/utils'
-import { CapsuleWallet } from 'src/capsule/react-native/ReactNativeCapsuleWallet'
 import { features } from 'src/flags'
 import { cancelGethSaga } from 'src/geth/actions'
 import { UNLOCK_DURATION } from 'src/geth/consts'
@@ -49,6 +47,7 @@ import {
   walletAddressSelector,
 } from 'src/web3/selectors'
 import { blockIsFresh, getLatestBlock } from 'src/web3/utils'
+import { ZedWallet } from 'src/web3/wallet'
 import { RootState } from '../redux/reducers'
 
 const TAG = 'web3/saga'
@@ -177,36 +176,12 @@ export function* waitWeb3LastBlock() {
  * `yield take(Actions.CAPSULE_AUTHENTICATE)`.
  */
 export function* getOrCreateCapsuleAccount() {
-  // TODO
-  // @note Account already exists
   const account: string = yield select(currentAccountSelector)
   if (account) {
-    //   Logger.debug(TAG + '@getOrCreateCapsuleAccount', 'Account exists, loading keyshare')
-    //   let privateKeyShare: string | null = ''
-    //   privateKeyShare = yield call(getStoredCapsuleKeyShare, account)
-    //   if (privateKeyShare != null) {
-    //     const wallet: CapsuleWallet = yield call(getWallet)
-    //     try {
-    //       yield call([wallet, wallet.addAccount, privateKeyShare])
-    //     } catch (e) {
-    //       if (e.message === ErrorMessages.CAPSULE_ACCOUNT_ALREADY_EXISTS) {
-    //         Logger.warn(TAG + '@createAndAssignCapsuleAccount', 'Attempted to import same account')
-    //       } else {
-    //         Logger.error(TAG + '@createAndAssignCapsuleAccount', 'Error importing raw key')
-    //         throw e
-    //       }
-    //     }
-    //   }
-    //   Logger.debug(TAG + '@getOrCreateCapsuleAccount', 'Loaded keyshare')
-    //   return account
+    Logger.debug(TAG + '@getOrCreateCapsuleAccount', 'Account already exists.')
+    return account
   } else {
-    // @note Account does not exist, needs to be set up
-    let hasLoggedIn: boolean = false
-    while (!hasLoggedIn) {
-      Logger.debug(TAG, '@getOrCreateCapsuleAccount', 'Waiting on Capsule SDK Authentication')
-      const { verified } = yield take(Actions.CAPSULE_AUTHENTICATE)
-      hasLoggedIn = verified
-    }
+    // @todo Halt until determine whether using create or login with user keyshare
     try {
       Logger.debug(TAG + '@getOrCreateCapsuleAccount', 'Creating a new account')
       const accountAddress: string = yield call(createAndAssignCapsuleAccount)
@@ -219,6 +194,89 @@ export function* getOrCreateCapsuleAccount() {
       throw new Error(ErrorMessages.ACCOUNT_SETUP_FAILED)
     }
   }
+}
+
+export function* assignAccountFromPrivateKey(privateKey: string, mnemonic: string) {
+  try {
+    const account = privateKeyToAddress(privateKey)
+    const wallet: ZedWallet = yield call(getWallet)
+    const password: string = yield call(getPasswordSaga, account, false, true)
+
+    try {
+      yield call([wallet, wallet.addAccount], privateKey, password)
+    } catch (e) {
+      if (
+        e.message === RpcWalletErrors.AccountAlreadyExists ||
+        e.message === ErrorMessages.GETH_ACCOUNT_ALREADY_EXISTS
+      ) {
+        Logger.warn(TAG + '@assignAccountFromPrivateKey', 'Attempted to import same account')
+      } else {
+        Logger.error(TAG + '@assignAccountFromPrivateKey', 'Error importing raw key')
+        throw e
+      }
+
+      yield call([wallet, wallet.unlockAccount], account, password, UNLOCK_DURATION)
+    }
+
+    Logger.debug(TAG + '@assignAccountFromPrivateKey', `Added to wallet: ${account}`)
+    yield put(setAccount(account))
+    yield put(setAccountCreationTime(Date.now()))
+    yield call(createAccountDek, mnemonic)
+    return account
+  } catch (e) {
+    Logger.error(TAG + '@assignAccountFromPrivateKey', 'Error assigning account', e)
+    throw e
+  }
+}
+
+/**
+ * Initialize the in-memory wallet, and signer. This function initializes the
+ * session by registering the user's public key with the server.
+ *
+ * Once this is done, create an initial `account` address using multi-party computation
+ * from Capsule servers.
+ *
+ * N.B. When a new `account` is created, a `RECOVERY` keyshare is generated and
+ * is securely communicated to the user.
+ */
+export function* createAndAssignCapsuleAccount() {
+  Logger.debug(TAG + '@createAndAssignCapsuleAccount', 'Create and Assign Capsule Account')
+  try {
+    const wallet: ZedWallet = yield call(getWallet)
+    let account: string
+    try {
+      yield call([wallet, wallet.initSessionManagement])
+      account = yield call([wallet, wallet.createAccount], (recoveryKeyshare) =>
+        Logger.debug(
+          TAG,
+          '@createAndAssignCapsuleAccount',
+          `Generated recovery keyshare (keyshare=${recoveryKeyshare})`
+        )
+      )
+      const passcode: string = yield call(getPasswordSaga, account, false, true)
+      if (!passcode) {
+        yield take(setPincodeSuccess)
+      }
+      void wallet.getKeyshare(account).then((privateKeyShare) => {
+        void storeCapsuleKeyShare(privateKeyShare, account)
+      })
+      Logger.debug(TAG + '@createAndAssignCapsuleAccount', `Added to wallet: ${account}`)
+      yield put(setAccount(account))
+      yield put(setAccountCreationTime(Date.now()))
+      return account
+    } catch (e: any) {
+      if (e.message === ErrorMessages.CAPSULE_ACCOUNT_ALREADY_EXISTS) {
+        Logger.warn(TAG + '@createAndAssignCapsuleAccount', 'Attempted to import same account')
+      } else {
+        Logger.error(TAG + '@createAndAssignCapsuleAccount', 'Error importing raw key')
+        throw e
+      }
+    }
+  } catch (e: any) {
+    Logger.error(TAG + '@createAndAssignCapsuleAccount', 'Error assigning account', e)
+    throw e
+  }
+  Logger.debug(TAG + '@createAndAssignCapsuleAccount', 'Completed creating Capsule Account')
 }
 
 export function* getOrCreateAccount() {
@@ -276,83 +334,6 @@ export function* getOrCreateAccount() {
     const sanitizedError = Logger.sanitizeError(error, privateKey)
     Logger.error(TAG + '@getOrCreateAccount', 'Error creating account', sanitizedError)
     throw new Error(ErrorMessages.ACCOUNT_SETUP_FAILED)
-  }
-}
-
-export function* assignAccountFromPrivateKey(privateKey: string, mnemonic: string) {
-  try {
-    const account = privateKeyToAddress(privateKey)
-    const wallet: UnlockableWallet = yield call(getWallet)
-    const password: string = yield call(getPasswordSaga, account, false, true)
-
-    try {
-      yield call([wallet, wallet.addAccount], privateKey, password)
-    } catch (e) {
-      if (
-        e.message === RpcWalletErrors.AccountAlreadyExists ||
-        e.message === ErrorMessages.GETH_ACCOUNT_ALREADY_EXISTS
-      ) {
-        Logger.warn(TAG + '@assignAccountFromPrivateKey', 'Attempted to import same account')
-      } else {
-        Logger.error(TAG + '@assignAccountFromPrivateKey', 'Error importing raw key')
-        throw e
-      }
-
-      yield call([wallet, wallet.unlockAccount], account, password, UNLOCK_DURATION)
-    }
-
-    Logger.debug(TAG + '@assignAccountFromPrivateKey', `Added to wallet: ${account}`)
-    yield put(setAccount(account))
-    yield put(setAccountCreationTime(Date.now()))
-    yield call(createAccountDek, mnemonic)
-    return account
-  } catch (e) {
-    Logger.error(TAG + '@assignAccountFromPrivateKey', 'Error assigning account', e)
-    throw e
-  }
-}
-
-/**
- * Initialize the in-memory wallet, and signer. This function initializes the
- * session by registering the user's public key with the server.
- *
- * Once this is done, create an initial `account` address using multi-party computation
- * from Capsule servers.
- *
- * N.B. When a new `account` is created, a `RECOVERY` keyshare is generated and
- * is securely communicated to the user.
- */
-export function* createAndAssignCapsuleAccount() {
-  try {
-    Logger.debug(TAG + '@createAndAssignCapsuleAccount', 'Attempting to create wallet')
-    const wallet: CapsuleWallet = yield call(getWallet)
-    Logger.debug(TAG + '@createAndAssignCapsuleAccount', 'Capsule Wallet initialized')
-    let account: string
-    try {
-      yield call([wallet, wallet.initSessionManagement])
-      account = yield call([wallet, wallet.addAccount], undefined, (recoveryKeyshare) =>
-        // TODO: send it e.g., via e-mail to the user
-        Logger.info(`RECOVERY: ${recoveryKeyshare}`)
-      )
-      void wallet.getKeyshare(account).then((privateKeyShare) => {
-        void storeCapsuleKeyShare(privateKeyShare, account)
-      })
-      Logger.debug(TAG + '@createAndAssignCapsuleAccount', `Added to wallet: ${account}`)
-      yield put(setAccount(account))
-      yield put(setAccountCreationTime(Date.now()))
-      // yield call(createAccountDek, mnemonic)
-      return account
-    } catch (e: any) {
-      if (e.message === ErrorMessages.CAPSULE_ACCOUNT_ALREADY_EXISTS) {
-        Logger.warn(TAG + '@createAndAssignCapsuleAccount', 'Attempted to import same account')
-      } else {
-        Logger.error(TAG + '@createAndAssignCapsuleAccount', 'Error importing raw key')
-        throw e
-      }
-    }
-  } catch (e) {
-    Logger.error(TAG + '@createAndAssignCapsuleAccount', 'Error assigning account', e)
-    throw e
   }
 }
 
@@ -416,7 +397,7 @@ export enum UnlockResult {
 export function* unlockAccount(account: string, force: boolean = false) {
   Logger.debug(TAG + '@unlockAccount', `Unlocking account: ${account}`)
 
-  const wallet: UnlockableWallet = yield call(getWallet)
+  const wallet: ZedWallet = yield call(getWallet)
   if (!force && wallet.isAccountUnlocked(account)) {
     return UnlockResult.SUCCESS
   }
@@ -443,7 +424,6 @@ export function* unlockAccount(account: string, force: boolean = false) {
 
 // Wait for geth to be connected and account ready
 export function* getConnectedAccount() {
-  yield call(waitForGethConnectivity)
   const account: string = yield call(getAccount)
   return account
 }

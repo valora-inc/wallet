@@ -1,14 +1,19 @@
 import { createSelector } from 'reselect'
 import { RootState } from 'src/redux/reducers'
 
-export const capsuleAccountSelector = (state: RootState) =>
+export const capsuleIdSelector = (state: RootState) =>
   state.web3.capsuleAccountId?.toLowerCase() ?? null
-export const capsuleAuthenticatedSelector = createSelector(
-  [capsuleAccountSelector, (state: RootState) => state.web3.capsuleVerified],
-  (accountId, verified) => {
-    return !!accountId && verified
+
+export const capsuleEmailSelector = (state: RootState) =>
+  state.web3.capsuleEmail?.toLowerCase() ?? null
+
+export const capsuleAccountSelector = createSelector(
+  [capsuleIdSelector, capsuleEmailSelector],
+  (id: string | null, email: string | null) => {
+    return { id, email }
   }
 )
+
 export const walletAddressSelector = (state: RootState) => state.web3.account?.toLowerCase() ?? null
 // @deprecated please use walletAddressSelector instead.
 export const currentAccountSelector = walletAddressSelector

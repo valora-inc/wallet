@@ -23,7 +23,7 @@ PODS:
     - AppCenter/Core (= 4.4.2)
   - Base64 (1.1.2)
   - boost (1.76.0)
-  - capsule-react-native-wallet (0.1.6):
+  - capsule-react-native-wallet (0.1.11):
     - React-Core
   - CeloBlockchain (0.0.355)
   - CleverTap-iOS-SDK (3.9.3):
@@ -1125,7 +1125,7 @@ SPEC CHECKSUMS:
   AppCenterReactNativeShared: 0906af7a6bf95075d6c607189820a2e81fceb6fe
   Base64: cecfb41a004124895a7bcee567a89bae5a89d49b
   boost: a7c83b31436843459a1961bfd74b96033dc77234
-  capsule-react-native-wallet: df113aee4eda100e6c7bf8fe0319742cbd235b2f
+  capsule-react-native-wallet: 1337cbe4d797f18913f893bb6556292b9d563fff
   CeloBlockchain: 0bb44b288f8fc19528d2be951e2844575d4408d4
   CleverTap-iOS-SDK: 38f386d9aed648de7ef3ca0e7e2c8531b4cf58e9
   clevertap-react-native: f28f984e24a77559d82bb05786a8c1a7f58c2ce8

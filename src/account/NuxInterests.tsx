@@ -10,7 +10,7 @@ import Modal from 'react-native-modal'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { FlatGrid } from 'react-native-super-grid'
 import { useDispatch, useSelector } from 'react-redux'
-import { addUserInterest, initializeAccount, removeUserInterest } from 'src/account/actions'
+import { addUserInterest, removeUserInterest } from 'src/account/actions'
 import InterestsLearnMoreDialog from 'src/account/InterestsLearnMoreDialog'
 import { NuxInterestChoice } from 'src/account/reducer'
 import { currentInterestsSelector } from 'src/account/selectors'
@@ -138,7 +138,6 @@ function NuxInterestsScreen({ route, navigation }: Props) {
 
   useAsync(async () => {
     await waitUntilSagasFinishLoading()
-    dispatch(initializeAccount())
     dispatch(checkIfKomenciAvailable())
   }, [])
 

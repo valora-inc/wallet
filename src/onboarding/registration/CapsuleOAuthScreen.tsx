@@ -1,12 +1,10 @@
-// @ts-nocheck
 import { StackScreenProps, useHeaderHeight } from '@react-navigation/stack'
+import { isEmpty } from 'lodash'
 import React, { useLayoutEffect, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { KeyboardAvoidingView, StyleSheet, Text, TextInput, View } from 'react-native'
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
-import { useDispatch } from 'react-redux'
-import { initializeAccount } from 'src/account/actions'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import Logo, { LogoTypes } from 'src/icons/Logo'
@@ -22,12 +20,10 @@ type RouteProps = StackScreenProps<StackParamList, Screens.CapsuleOAuth>
 type Props = RouteProps
 
 function CapsuleOAuthScreen({ route, navigation }: Props) {
-  const dispatch = useDispatch()
   const { t } = useTranslation()
   const { isExistingUser } = route.params || {}
-  const { authenticateWithCapsule } = useCapsule()
+  const { authenticate, initiateLogin } = useCapsule()
 
-  const insets = useSafeAreaInsets()
   const headerHeight = useHeaderHeight()
 
   const [email, setEmail] = useState<string>('')
@@ -37,19 +33,22 @@ function CapsuleOAuthScreen({ route, navigation }: Props) {
   }
 
   const onSubmit = async () => {
-    await authenticateWithCapsule(email)
+    if (isExistingUser) {
+      await initiateLogin(email)
+    } else {
+      await authenticate(email)
+    }
   }
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerTitle: <Logo type={LogoTypes.LIGHT} />,
+      headerTitle: () => <Logo type={LogoTypes.LIGHT} />,
       headerLeft: () => <BackButton color={Colors.light} />,
     })
   }, [navigation, route.params])
 
   useAsync(async () => {
     await waitUntilSagasFinishLoading()
-    dispatch(initializeAccount())
   }, [])
 
   return (
@@ -59,6 +58,9 @@ function CapsuleOAuthScreen({ route, navigation }: Props) {
         style={[headerHeight ? { marginTop: headerHeight } : undefined, styles.accessibleView]}
       >
         <View style={styles.inputGroup}>
+          {isExistingUser && (
+            <Text style={[styles.emailLabel, styles.bottomPadded]}>{t('welcomeBack')}</Text>
+          )}
           <Text style={styles.emailLabel}>{t('signUp.emailLabel')}</Text>
           <TextInput
             autoCapitalize="none"
@@ -77,6 +79,7 @@ function CapsuleOAuthScreen({ route, navigation }: Props) {
             size={BtnSizes.FULL}
             text={t('next')}
             onPress={onSubmit}
+            disabled={isEmpty(email)}
           />
         </View>
       </KeyboardAvoidingView>
@@ -93,6 +96,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 20,
   },
+  bottomPadded: {},
   inputGroup: {
     flexGrow: 1,
     flexDirection: 'column',

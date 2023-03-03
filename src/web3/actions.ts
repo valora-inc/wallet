@@ -11,7 +11,7 @@ export enum Actions {
   COMPLETE_WEB3_SYNC = 'WEB3/COMPLETE_WEB3_SYNC',
   REQUEST_SYNC_PROGRESS = 'WEB3/REQUEST_SYNC_PROGRESS',
   UPDATE_WEB3_SYNC_PROGRESS = 'WEB3/UPDATE_WEB3_SYNC_PROGRESS',
-  CAPSULE_AUTHENTICATE = 'CAPSULE/AUTHENTICATE',
+  SET_CAPSULE_IDENTITY = 'CAPSULE/SET_IDENTITY',
 }
 
 export interface SetAccountAction {
@@ -62,10 +62,10 @@ export interface UpdateWeb3SyncProgressAction {
   }
 }
 
-export interface CapsuleAuthenticateAction {
-  type: Actions.CAPSULE_AUTHENTICATE
-  userId: string
-  verified: boolean
+export interface SetCapsuleIdentityAction {
+  type: Actions.SET_CAPSULE_IDENTITY
+  capsuleEmail: string | null
+  capsuleUserId: string | null
 }
 
 export type ActionTypes =
@@ -78,7 +78,7 @@ export type ActionTypes =
   | RegisterDataEncryptionKeyAction
   | CompleteWeb3SyncAction
   | UpdateWeb3SyncProgressAction
-  | CapsuleAuthenticateAction
+  | SetCapsuleIdentityAction
 
 export const setAccount = (address: string): SetAccountAction => {
   return {
@@ -133,13 +133,10 @@ export const completeWeb3Sync = (latestBlockNumber: number): CompleteWeb3SyncAct
   latestBlockNumber,
 })
 
-export const initiateCapsuleAuth = (
-  userId: string,
-  verified: boolean
-): CapsuleAuthenticateAction => ({
-  type: Actions.CAPSULE_AUTHENTICATE,
-  userId,
-  verified,
+export const setCapsuleIdentity = (capsuleEmail?: string, capsuleUserId?: string) => ({
+  type: Actions.SET_CAPSULE_IDENTITY,
+  capsuleEmail,
+  capsuleUserId,
 })
 
 export interface Web3SyncProgress {

@@ -77,15 +77,6 @@ export const NavigatorWrapper = () => {
     return isVersionBelowMinimum(version, minRequiredVersion)
   }, [minRequiredVersion])
 
-  const shouldForceBackup = useSelector(shouldForceBackupSelector)
-  const doingBackupFlow = useSelector(doingBackupFlowSelector)
-
-  React.useEffect(() => {
-    if (shouldForceBackup && !doingBackupFlow) {
-      navigate(Screens.BackupForceScreen)
-    }
-  }, [shouldForceBackup, doingBackupFlow])
-
   React.useEffect(() => {
     if (navigationRef && navigationRef.current) {
       const state = navigationRef.current.getRootState()

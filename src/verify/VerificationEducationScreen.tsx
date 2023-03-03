@@ -9,7 +9,7 @@ import * as RNLocalize from 'react-native-localize'
 import Modal from 'react-native-modal'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
-import { initializeAccount, setPhoneNumber } from 'src/account/actions'
+import { setPhoneNumber } from 'src/account/actions'
 import { choseToRestoreAccountSelector, defaultCountryCodeSelector } from 'src/account/selectors'
 import { showError } from 'src/alert/actions'
 import { OnboardingEvents, VerificationEvents } from 'src/analytics/Events'
@@ -184,7 +184,6 @@ function VerificationEducationScreen({ route, navigation }: Props) {
 
   useAsync(async () => {
     await waitUntilSagasFinishLoading()
-    dispatch(initializeAccount())
     dispatch(checkIfKomenciAvailable())
   }, [])
 

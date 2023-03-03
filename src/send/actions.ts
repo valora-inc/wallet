@@ -139,7 +139,8 @@ export const sendPaymentOrInvite = (
   comment: string,
   recipient: Recipient,
   feeInfo: FeeInfo,
-  fromModal: boolean
+  fromModal: boolean,
+  localAmount: BigNumber | null
 ): SendPaymentOrInviteAction => ({
   type: Actions.SEND_PAYMENT_OR_INVITE,
   amount,
@@ -149,6 +150,7 @@ export const sendPaymentOrInvite = (
   recipient,
   feeInfo,
   fromModal,
+  localAmount,
 })
 
 export const sendPaymentOrInviteSuccess = (

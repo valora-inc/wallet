@@ -21,7 +21,6 @@ export const reducer = (state: State | undefined = initialState, action: ActionT
         ...state,
         isImportingWallet: false,
       }
-
     default:
       return state
   }

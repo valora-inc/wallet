@@ -716,7 +716,7 @@
   "welcome": {
     "title": "Step into the future of crypto with {{appName}}",
     "createAccount": "Create new account",
-    "restoreAccount": "Import my account"
+    "restoreAccount": "I have a Kolektivo account"
   },
   "accessContacts": {
     "disclosure": {
@@ -1376,5 +1376,52 @@
     "verifyPlaceholder": "123456",
     "verifyInfo": "We've sent a one-time passcode to your email. Enter that passcode here to verify your account and secure your financial data.",
     "resend": "Resend"
-  }
+  },
+  "userKeyshare": "User Keyshare",
+  "recoveryKeyshare": "Recovery Keyshare",
+  "migrateUserKey": "Migrate your account",
+  "refreshRecoveryKey": "Refresh your backup key",
+  "manageKeyshare": "Manage your Wallet Keys",
+  "manageKeyshareInfo": "Your wallet contains two private keys, one for moving your funds between devices, and another to recover your account if you've lost it.",
+  "mpcGuide": {
+    "User": [
+      {
+        "title": "What is Multi-Party Computation?",
+        "text": "This process splits your private key into three keyshares. These keyshares keep your account secure, so that if one is lost or stolen, your funds are still safe."
+      },
+      {
+        "title": "3X Trustless",
+        "text": "Each of these three keys are securely stored in a different location, making it very difficult for your account to be stolen.\n\n Once there are two keyshares that are not compromised, your funds will remain secure."
+      },
+      {
+        "title": "Exporting the User Keyshare",
+        "text": "The user keyshare is part of this device now. When you created an account, we put one of those secure keyshares in your device's secure enclave. To move to a new device, you'll need to export it from this one."
+      },
+      {
+        "title": "Importing the User Keyshare",
+        "text": "On your new device or crypto wallet, you can import your user keyshare and gain access to your funds.\n\nRememebr that the user keyshare is one piece of the private key that provides access to your funds, so make sure to keep it safe."
+      }
+    ],
+    "Recovery": [
+      {
+        "title": "What is Multi-Party Computation?",
+        "text": "This process splits your private key into three keyshares. These keyshares keep your account secure, so that if one is lost or stolen, your funds are still safe."
+      },
+      {
+        "title": "3X Trustless",
+        "text": "Each of these three keys are securely stored in a different location, making it very difficult for your account to be stolen.\n\n Once there are two keyshares that are not compromised, your funds will remain secure."
+      },
+      {
+        "title": "Exporting the User Keyshare",
+        "text": "The user keyshare is part of this device now. When you created an account, we put one of those secure keyshares in your device's secure enclave. To move to a new device, you'll need to export it from this one."
+      },
+      {
+        "title": "Importing the User Keyshare",
+        "text": "On your new device or crypto wallet, you can import your user keyshare and gain access to your funds.\n\nRememebr that the user keyshare is one piece of the private key that provides access to your funds, so make sure to keep it safe."
+      }
+    ]
+  },
+  "welcomeBack": "We've missed you!",
+  "capsuleKeyshareEncryptionFailed": "Something went wrong when preparing your keyshare, please try again in a moment.",
+  "capsuleKeyshareDecryptionFailed": "Something went wrong when scanning your keyshare, please generate a new code, and try again."
 }

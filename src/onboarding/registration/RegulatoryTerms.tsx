@@ -1,4 +1,4 @@
-import { TransitionPresets } from '@react-navigation/stack'
+import { StackScreenProps, TransitionPresets } from '@react-navigation/stack'
 import * as React from 'react'
 import { Trans, WithTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text } from 'react-native'
@@ -15,6 +15,7 @@ import Logo, { LogoTypes } from 'src/icons/Logo'
 import { nuxNavigationOptions } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { StackParamList } from 'src/navigator/types'
 import { RootState } from 'src/redux/reducers'
 import fontStyles from 'src/styles/fonts'
 import { navigateToURI } from 'src/utils/linking'
@@ -32,7 +33,7 @@ const mapDispatchToProps: DispatchProps = {
 type Props = WithTranslation &
   DispatchProps & {
     existingUser?: boolean
-  }
+  } & StackScreenProps<StackParamList, Screens.RegulatoryTerms>
 
 export class RegulatoryTerms extends React.Component<Props> {
   static navigationOptions = {
@@ -42,13 +43,12 @@ export class RegulatoryTerms extends React.Component<Props> {
 
   onPressAccept = () => {
     ValoraAnalytics.track(OnboardingEvents.terms_and_conditions_accepted)
-
     this.props.acceptTerms()
     this.goToNextScreen()
   }
 
   goToNextScreen = () => {
-    navigate(Screens.CapsuleOAuth, { isExistingUser: this.props.existingUser })
+    navigate(Screens.CapsuleOAuth, { isExistingUser: this.props.route.params?.isExistingUser })
   }
 
   onPressGoToTerms = () => {
