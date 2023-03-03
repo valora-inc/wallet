@@ -34,7 +34,10 @@ const slice = createSlice({
   name: 'supercharge',
   initialState,
   reducers: {
-    claimRewards: (state) => ({
+    claimRewards: (
+      state,
+      action: PayloadAction<SuperchargePendingReward[] | SuperchargePendingRewardV2[]>
+    ) => ({
       ...state,
       loading: true,
       error: false,
