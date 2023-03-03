@@ -50,8 +50,8 @@ export function* estimateFeeSaga({
   const tokenBalances: TokenBalances = yield select(tokensByAddressSelector)
   const tokenInfo = tokenBalances[tokenAddress]
 
-  if (!tokenInfo?.balance) {
-    Logger.warn(`${TAG}/estimateFeeSaga`, 'Balance is null or empty string')
+  if (!tokenInfo?.balance || tokenInfo.balance.isEqualTo(0)) {
+    Logger.warn(`${TAG}/estimateFeeSaga`, 'Balance is null or empty string or zero')
     yield put(
       feeEstimated({
         feeType,

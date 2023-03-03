@@ -304,6 +304,7 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     guaranteedSwapPriceEnabled: flags.guaranteedSwapPriceEnabled.asBoolean(),
     superchargeV2Enabled: flags.superchargeV2Enabled.asBoolean(),
     superchargeRewardContractAddress: flags.superchargeRewardContractAddress.asString(),
+    superchargeV1Addresses: flags.superchargeV1Addresses.asString().split(','),
     dappsFilterEnabled: flags.dappsFilterEnabled.asBoolean(),
     dappsSearchEnabled: flags.dappsSearchEnabled.asBoolean(),
   }

@@ -45,7 +45,7 @@ describe('send/utils', () => {
         origin: SendOrigin.AppSendFlow,
         recipient: { address: mockData.address },
         isOutgoingPaymentRequest: undefined,
-        forceTokenAddress: undefined,
+        forceTokenAddress: false,
       })
     })
 
@@ -61,7 +61,8 @@ describe('send/utils', () => {
         origin: SendOrigin.AppSendFlow,
         recipient: { address: mockData.address },
         isOutgoingPaymentRequest: undefined,
-        forceTokenAddress: mockCeurAddress,
+        forceTokenAddress: true,
+        defaultTokenOverride: mockCeurAddress,
       })
     })
 
@@ -77,7 +78,7 @@ describe('send/utils', () => {
         origin: SendOrigin.AppSendFlow,
         recipient: { address: mockData.address },
         isOutgoingPaymentRequest: undefined,
-        forceTokenAddress: undefined,
+        forceTokenAddress: false,
       })
     })
 
@@ -179,6 +180,7 @@ describe('send/utils', () => {
         expect(navigate).toHaveBeenCalledWith(Screens.SendAmount, {
           origin: SendOrigin.AppSendFlow,
           recipient: mockQRCodeRecipient,
+          forceTokenAddress: false,
         })
       })
 
@@ -263,7 +265,8 @@ describe('send/utils', () => {
         expect(navigate).toHaveBeenCalledWith(Screens.SendAmount, {
           origin: SendOrigin.AppSendFlow,
           recipient: { address: mockUriData[1].address.toLowerCase() },
-          forceTokenAddress: mockCeloAddress,
+          forceTokenAddress: true,
+          defaultTokenOverride: mockCeloAddress,
         })
       })
 
@@ -278,6 +281,7 @@ describe('send/utils', () => {
         expect(navigate).toHaveBeenCalledWith(Screens.SendAmount, {
           origin: SendOrigin.AppSendFlow,
           recipient: { address: mockUriData[2].address.toLowerCase() },
+          forceTokenAddress: false,
         })
       })
     })
