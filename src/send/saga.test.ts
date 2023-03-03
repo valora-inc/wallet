@@ -104,6 +104,7 @@ describe(watchQrCodeDetections, () => {
         contactId: undefined,
         thumbnailPath: undefined,
       },
+      forceTokenAddress: false,
     })
   })
 
@@ -133,6 +134,7 @@ describe(watchQrCodeDetections, () => {
         contactId: undefined,
         thumbnailPath: undefined,
       },
+      forceTokenAddress: false,
     })
   })
 
@@ -164,6 +166,7 @@ describe(watchQrCodeDetections, () => {
         contactId: undefined,
         thumbnailPath: undefined,
       },
+      forceTokenAddress: false,
     })
   })
 

@@ -25,7 +25,7 @@ import {
   featuredDappSelector,
 } from 'src/dapps/selectors'
 import { fetchDappsList } from 'src/dapps/slice'
-import { Dapp, DappSection } from 'src/dapps/types'
+import { DappSection, DappV1, isDappV2 } from 'src/dapps/types'
 import DappCard from 'src/dappsExplorer/DappCard'
 import FavoriteDappsSection from 'src/dappsExplorer/FavoriteDappsSectionLegacy'
 import FeaturedDappCard from 'src/dappsExplorer/FeaturedDappCard'
@@ -42,12 +42,12 @@ import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
 const AnimatedSectionList =
-  Animated.createAnimatedComponent<SectionListProps<Dapp, SectionData>>(SectionList)
+  Animated.createAnimatedComponent<SectionListProps<DappV1, SectionData>>(SectionList)
 
 const SECTION_HEADER_MARGIN_TOP = 32
 
 interface SectionData {
-  data: Dapp[]
+  data: DappV1[]
   category: CategoryWithDapps
 }
 
@@ -77,7 +77,8 @@ export function DAppsExplorerScreenLegacy() {
   }, [])
 
   useEffect(() => {
-    if (featuredDapp) {
+    // Type guard to ensure that the featured dapp is a DappV1
+    if (featuredDapp && !isDappV2(featuredDapp)) {
       ValoraAnalytics.track(DappExplorerEvents.dapp_impression, {
         categoryId: featuredDapp.categoryId,
         dappId: featuredDapp.id,
@@ -168,11 +169,13 @@ export function DAppsExplorerScreenLegacy() {
                 onFavoriteDapp={onFavoriteDapp}
               />
             )}
-            keyExtractor={(dapp: Dapp) => `${dapp.categoryId}-${dapp.id}`}
+            keyExtractor={(dapp: DappV1) => `${dapp.categoryId}-${dapp.id}`}
             stickySectionHeadersEnabled={false}
-            renderSectionHeader={({ section }: { section: SectionListData<Dapp, SectionData> }) => (
-              <CategoryHeader category={section.category} />
-            )}
+            renderSectionHeader={({
+              section,
+            }: {
+              section: SectionListData<DappV1, SectionData>
+            }) => <CategoryHeader category={section.category} />}
             testID="DAppsExplorerScreenLegacy/DappsList"
           />
         )}
@@ -185,6 +188,7 @@ export function DAppsExplorerScreenLegacy() {
 }
 
 function parseResultIntoSections(categoriesWithDapps: CategoryWithDapps[]): SectionData[] {
+  // @ts-expect-error should only be used with DappV1
   return categoriesWithDapps.map((category) => ({
     data: category.dapps,
     category: category,

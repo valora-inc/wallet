@@ -3,14 +3,14 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import BottomSheet from 'src/components/BottomSheet'
 import Button from 'src/components/Button'
-import { Dapp } from 'src/dapps/types'
+import { DappV1, DappV2 } from 'src/dapps/types'
 import QuitIcon from 'src/icons/QuitIcon'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
 interface Props {
-  selectedDapp: Dapp | null
+  selectedDapp: DappV1 | DappV2 | null
   isVisible: boolean
   onClose(): void
   onConfirmOpenDapp(): void
