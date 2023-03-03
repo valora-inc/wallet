@@ -999,6 +999,7 @@ interface RewardsProperties {
   [RewardsEvents.claimed_reward]: {
     amount: string
     token: string
+    version?: number
   }
 }
 
