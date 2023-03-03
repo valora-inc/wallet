@@ -1,5 +1,9 @@
 import { createSelector } from 'reselect'
-import { superchargeTokenConfigByTokenSelector } from 'src/app/selectors'
+import {
+  numberVerifiedCentrallySelector,
+  phoneNumberVerifiedSelector,
+  superchargeTokenConfigByTokenSelector,
+} from 'src/app/selectors'
 import { SuperchargeTokenConfig } from 'src/consumerIncentives/types'
 import { RootState } from 'src/redux/reducers'
 import { tokensByAddressSelector } from 'src/tokens/selectors'
@@ -58,8 +62,24 @@ export const superchargeInfoSelector = createSelector(
   }
 )
 
+export const superchargeRewardsLoadingSelector = (state: RootState) => state.supercharge.loading
+
+export const availableRewardsSelector = (state: RootState) => state.supercharge.availableRewards
+
 export const superchargeV2EnabledSelector = (state: RootState) =>
   state.supercharge.superchargeV2Enabled
 
 export const superchargeRewardContractAddressSelector = (state: RootState) =>
   state.supercharge.superchargeRewardContractAddress
+
+export const userIsVerifiedForSuperchargeSelector = createSelector(
+  superchargeV2EnabledSelector,
+  numberVerifiedCentrallySelector,
+  phoneNumberVerifiedSelector,
+  (superchargeV2Enabled, numberVerifiedCentrally, phoneNumberVerified) => {
+    return superchargeV2Enabled ? numberVerifiedCentrally : phoneNumberVerified
+  }
+)
+
+export const superchargeV1AddressesSelector = (state: RootState) =>
+  state.supercharge.superchargeV1Addresses
