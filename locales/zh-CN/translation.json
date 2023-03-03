@@ -551,8 +551,8 @@
   "escrowPaymentNotificationTitle": "发送给 {{mobile}} 的邀请无法认领",
   "sendAndInvite": "发送和邀请",
   "inviteRewardsBanner": {
-    "title": "发送加密货币以邀请朋友",
-    "body": "一旦他们设置了他们的 {{appName}} 钱包并关联了号码，每一个都会让您获得一个专属 NFT。<0>最多可赚取 3 个 NFT</0>"
+    "title": "邀请朋友并收集 NFT",
+    "body": "一旦他们设置了他们的 {{appName}} 钱包并连接了他们的号码，你们将各自得到一个独家的NFT。"
   },
   "inviteWithUrl": {
     "title": "邀请朋友",
@@ -578,13 +578,10 @@
     "privacy": "加入此网络，即表示您允许我们收集有关您使用该应用程序的匿名信息。此外，如果您关联您的电话号码，它的哈希副本将存储在 Celo Network 上。如果您授予 Valora 访问您的联系人列表的权限，Valora 将导入每个联系人的姓名、电话号码和个人资料照片，以允许用户通过 Valora 应用程序进行关联。要了解我们如何收集和使用这些信息，请查看我们的<0>隐私政策</0>。",
     "goldDisclaimer": "当您使用 Valora 创建一个“账户”时，您创建的是一个只有您拥有密钥的数字钱包。包括 cLabs 或 Valora 在内的任何其他个人或实体都无法恢复您的密钥、更改或撤消交易或者追回丢失的资金。请注意，CELO、cUSD 和 cEUR 是新资产类别的一部分，存在财务损失风险。在购买任何资产之前，请仔细考虑您的财务状况和对财务风险的承受能力。"
   },
-  "fullName": "姓名",
-  "fullNamePlaceholder": "名字和姓氏",
-  "fullNameOrPseudonymPlaceholder": "名字和姓氏或化名",
+  "fullNameOrPsuedonym": "全名或笔名",
+  "namePlaceholder": "例如：名称",
   "nameAndPicGuideCopyTitle": "您的名字是？",
-  "nameAndPicGuideCopyContent": "我们想知道怎么称呼您",
-  "generateUsername": "生成名称",
-  "importIt": "恢复钱包",
+  "nameAndPicGuideCopyContent": "我们想知道怎么称呼您.",
   "important": "重要信息",
   "confirmPin": {
     "title": "输入 PIN 码"
@@ -664,7 +661,6 @@
     "spend": "使用加密货币购买您喜爱的品牌"
   },
   "enableBiometry": {
-    "title": "保护您的钱包",
     "description": "{{biometryType}} 可保护您的钱包并让您可以更轻松地使用 {{appName}}",
     "cta": "开启 {{biometryType}}",
     "guideTitle": "要添加 {{biometryType}}？",
@@ -686,7 +682,9 @@
     "restoreAccount": "恢复我的账户",
     "createNewWallet": "新建钱包",
     "restoreWallet": "恢复钱包",
-    "iAlreadyHaveAWallet": "我已有钱包"
+    "hasWallet": "我已有钱包",
+    "header": "欢迎来到 {{appName}}!让我们来创建你的加密货币钱包。",
+    "getStarted": "开始使用"
   },
   "accessContacts": {
     "disclosure": {
@@ -700,16 +698,15 @@
   "registrationSteps": "第 {{step}} 步，共 {{totalSteps}} 步",
   "selectCountryCode": "选择国家/地区代码",
   "pincodeSet": {
-    "create": "创建 PIN 码",
     "createNew": "创建新的 PIN 码",
     "verify": "再次输入您的 PIN 码以确认",
     "changePIN": "更改 PIN 码",
     "pinsDontMatch": "PIN 码不匹配",
     "invalidPin": "请使用更强的 PIN 码",
-    "guideTitle": "选择您记得住的 6 位数字 PIN 码",
-    "guideConfirm": "再次输入您的 PIN 码以确认。",
-    "pinCodeGuide": "您的 PIN 码将用于保护您的钱包。",
-    "selectPIN": "选择 PIN 码"
+    "onboardingTitle": "选择一个6位数的密码",
+    "onboardingConfirm": "再次输入你的密码",
+    "onboardingSubtitle": "你的密码将确保你的钱包安全",
+    "pin": "密码"
   },
   "inviteCode": {
     "title": "邀请代码",
@@ -747,13 +744,13 @@
   },
   "phoneVerificationScreen": {
     "screenTitle": "手机号码",
-    "title": "关联您的手机号码",
-    "description": "关联您的手机号码时您将收到一条短信。",
-    "startButtonLabel": "开始",
+    "title": "将您的电话号码连接到Valora",
+    "description": "这将你的钱包地址与你的电话号码联系起来，因此发送加密货币很容易。",
+    "startButtonLabel": "关联",
     "learnMore": {
-      "buttonLabel": "我需要关联我的手机吗？",
-      "title": "我需要关联我的手机吗？",
-      "body": "关联您的手机号码将允许您向您的通讯录中的朋友和其他手机号码发送资金。 \n \n 如果您选择跳过这一步，您将无法访问您的联系人，并将只能通过二维码或账户地址发送资金。"
+      "buttonLabel": "我需要关联吗？",
+      "title": "我需要关联吗？",
+      "body": "连接你的电话号码将允许你向你地址簿中的朋友和其他电话号码发送钱。 \n \n 如果你选择跳过这一步，你将无法访问你的联系人，你将只能通过二维码或钱包地址汇款。"
     },
     "skip": {
       "title": "您确定吗？",
@@ -769,18 +766,24 @@
     "codeInputPlaceholder": "123456",
     "helpDialog": {
       "title": "帮助",
-      "body": "我们向您的手机号码发送了短信。请查看您的短信以找到 6 位数字代码。如果您在接收短信方面有问题，可以暂时跳过这一步，稍后再试。",
+      "body": "我们向你的手机号码发送了一条短信。请检查你的短信，找到6位数的代码。 \n \n 如果你在接收信息时遇到困难，你可以暂时跳过这一步，以后再试。",
       "skip": "跳过",
       "dismiss": "返回"
     },
     "verificationFailure": "糟糕！出错了，请稍后再试。",
     "resendButtonNotYetAvailable": "{{secondsRemaining}} 秒后可重新发送",
-    "resendButton": "重新发送短信"
+    "resendButton": "没有收到代码？"
   },
   "importExistingKey": {
-    "explanation": "您的恢复短语是您在设置账户时写下并保存的一个 24 字短语。请在此处输入以恢复您的账户。",
-    "explanationV1_50": "你的恢复短语是一个12或24个字的短语，是你在设置账户时写下并保存的。请在这里输入它来恢复你的账户。",
-    "keyPlaceholder": "horse leopard dog monkey ..."
+    "keyPlaceholder": "horse leopard dog monkey ...",
+    "header": "恢复钱包",
+    "title": "输入你的恢复短语",
+    "description": "使用你在设置钱包时保存的12或24个字的短语来恢复。",
+    "emptyWalletDialog": {
+      "description": "这个钱包没有任何资金。你还想使用它吗？",
+      "action": "使用钱包",
+      "title": "平衡\n<0></0>"
+    }
   },
   "verificationInput": {
     "title": "确认",
@@ -815,11 +818,6 @@
     "body": "<0>$t(verificationInputHelpDialog.bodySection1.title)</0>\n\n$t(verificationInputHelpDialog.bodySection1.content)\n\n<1>$t(verificationInputHelpDialog.bodySection2.title)</1>\n\n$t(verificationInputHelpDialog.bodySection2.content)",
     "skip": "暂时跳过",
     "back": "返回"
-  },
-  "emptyAccount": {
-    "description": "此账户内没有任何资金。您仍要使用它吗？",
-    "useAccount": "使用账户",
-    "title": "余额 <0></0>"
   },
   "success": {
     "message": "您已准备就绪！"
@@ -1211,7 +1209,7 @@
     "buttonText": "关联"
   },
   "outOfSyncBanner": {
-    "title": "您已离线。",
+    "title": "取出令牌时出错。",
     "message": "您的余额可能不是最新数据。",
     "button": "刷新"
   },
@@ -1493,7 +1491,8 @@
     "swapFrom": "自",
     "swapTo": "至",
     "insufficientFunds": "{{token}} 余额不足，请尝试使用较小的金额或选择其他代币。",
-    "fetchSwapQuoteFailed": "抱歉有所延迟！获取最佳汇率所需时间较往常略长。请在几分钟后重试。"
+    "fetchSwapQuoteFailed": "抱歉有所延迟！获取最佳汇率所需时间较往常略长。请在几分钟后重试。",
+    "disclaimer": "由Celo上的合作伙伴提供的互换。<0>了解更多。</0>"
   },
   "swapTransactionDetailPage": {
     "swapFrom": "交换自",
@@ -1545,7 +1544,7 @@
     "shareMessage": "嗨！我一直在使用 {{appName}} 作为我的加密货币钱包，我想邀请你去看看。一旦你下载该应用程序并连接你的电话号码，我们都会得到一个特殊的NFT。使用这个链接。 {{link}}",
     "rewardsActive": {
       "title": "邀请 {{contactName}} 使用 {{appName}}，你们都将获得 NFT！",
-      "body": "似乎 {{contactName}} 未在 {{appName}} 上。如果您知道其钱包地址，则仍可发送付款，或者也可以发送一则邀请。\n\n在其下载钱包并关联手机号码后，你们都将获得一个独家的 NFT。"
+      "body": "看起来， {{contactName}} 并不在 {{appName}}。如果你知道他们的钱包地址，你仍然可以发送一个付款，或者发送一个邀请来代替。 \n\n 在他们下载钱包并连接他们的电话号码后，你们都会得到一个独家NFT。"
     }
   },
   "celoNews": {

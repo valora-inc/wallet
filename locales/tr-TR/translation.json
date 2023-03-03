@@ -551,8 +551,8 @@
   "escrowPaymentNotificationTitle": "{{mobile}} adresine davet talep edilemez",
   "sendAndInvite": "Gönder & Davet Et",
   "inviteRewardsBanner": {
-    "title": "Bir arkadaş davet etmek için kripto gönderin",
-    "body": "Söz konusu kişi {{appName}} cüzdanını oluşturup numarasını bağladığında ikiniz de özel bir NFT alacaksınız. <0>3 NFT'ye kadar kazanın</0>"
+    "title": "Arkadaşlarınızı davet edin ve NFT toplayın",
+    "body": "{{appName}} cüzdanlarını kurduklarında ve numaralarını bağladıklarında, her biriniz özel bir NFT alacaksınız."
   },
   "inviteWithUrl": {
     "title": "Arkadaşını davet et",
@@ -578,13 +578,10 @@
     "privacy": "Bu ağa katılarak, uygulamayı kullanımınız hakkında anonim bilgi toplamamıza izin veriyorsunuz. Ek olarak, telefon numaranızı bağlarsanız, bunun hash'li bir kopyası Celo Ağı'nda saklanır. Valora'ya kişi listenize erişim izni verirseniz, Valora, kullanıcıların Valora uygulaması aracılığıyla bağlanmasına izin vermek için her kişinin adını, telefon numarasını ve profil resmini içe aktarır. Bu bilgileri nasıl topladığımızı ve kullandığımızı öğrenmek için lütfen <0>Gizlilik Politikamızı</0> inceleyin.",
     "goldDisclaimer": "Valora ile bir \"hesap\" oluşturduğunuzda, anahtarlarını yalnızca sizin tuttuğunuz bir dijital cüzdan yaratmış olursunuz. cLabs veya Valora dahil olmak üzere başka hiçbir kişi veya kuruluş anahtarınızı geri alamaz, işlemleri değiştiremez veya geri alamaz ya da kaybedilen parayı geri alamaz. CELO, cUSD ve cEUR'un yeni bir varlık sınıfının parçası olduğunu ve finansal kayıp riski taşıdığını unutmayın. Herhangi bir varlık satın almadan önce finansal durumunuzu ve finansal risk toleransınızı dikkatlice değerlendirin."
   },
-  "fullName": "İsim",
-  "fullNamePlaceholder": "Ad & Soyad",
-  "fullNameOrPseudonymPlaceholder": "Adı ve soyadı veya takma ad",
+  "fullNameOrPsuedonym": "Tam ad veya takma ad",
+  "namePlaceholder": "örn. isim",
   "nameAndPicGuideCopyTitle": "Adınız nedir?",
-  "nameAndPicGuideCopyContent": "Size nasıl hitap edeceğimizi bilmek istiyoruz",
-  "generateUsername": "Bir isim oluşturun",
-  "importIt": "Cüzdanı Yeniden Kur",
+  "nameAndPicGuideCopyContent": "Size nasıl hitap edeceğimizi bilmek istiyoruz.",
   "important": "Önemli",
   "confirmPin": {
     "title": "PIN Gir"
@@ -664,7 +661,6 @@
     "spend": "Alışveriş için kripto kullanın"
   },
   "enableBiometry": {
-    "title": "Cüzdanınızı emniyete alın",
     "description": "{{biometryType}}, cüzdanınızın güvenliğini sağlar ve {{appName}} kullanımını kolaylaştırır",
     "cta": "{{biometryType}} etkinleştir",
     "guideTitle": "{{biometryType}} eklemek ister misiniz?",
@@ -686,7 +682,9 @@
     "restoreAccount": "Hesabımı geri yükle",
     "createNewWallet": "Cüzdan oluştur",
     "restoreWallet": "Cüzdan Yeniden Kur",
-    "iAlreadyHaveAWallet": "Zaten cüzdanım var"
+    "hasWallet": "Zaten cüzdanım var",
+    "header": "{{appName}}adresine hoş geldiniz! Hadi kripto cüzdanınızı oluşturalım.",
+    "getStarted": "Kullanmaya Başlayın"
   },
   "accessContacts": {
     "disclosure": {
@@ -700,16 +698,15 @@
   "registrationSteps": "Toplam {{totalSteps}} adımdan {{step}}.",
   "selectCountryCode": "Ülke Kodu Seçin",
   "pincodeSet": {
-    "create": "PIN Oluştur",
     "createNew": "Yeni PIN oluştur",
     "verify": "Doğrulamak için PIN'i tekrar girin",
     "changePIN": "PIN Değiştir",
     "pinsDontMatch": "PIN'ler eşleşmedi",
     "invalidPin": "Lütfen daha güçlü bir Pin kullanın",
-    "guideTitle": "Unutmayacağınız 6 haneli bir PIN seçin",
-    "guideConfirm": "Doğrulamak için PIN'i tekrar girin.",
-    "pinCodeGuide": "PIN'iniz, cüzdanınızı güvence altına almak içindir.",
-    "selectPIN": "PIN seçin"
+    "onboardingTitle": "6 haneli bir PIN seçin",
+    "onboardingConfirm": "PIN kodunuzu tekrar girin",
+    "onboardingSubtitle": "PIN kodunuz cüzdanınızı güvence altına alacak",
+    "pin": "PIN"
   },
   "inviteCode": {
     "title": "Davet Kodu",
@@ -747,13 +744,13 @@
   },
   "phoneVerificationScreen": {
     "screenTitle": "Telefon Numarası",
-    "title": "Telefon numaranı bağla",
-    "description": "Telefon numaranızı bağlamak için bir kısa mesaj alacaksınız.",
-    "startButtonLabel": "Başla",
+    "title": "Telefon numaranızı Valora'ya bağlayın",
+    "description": "Bu, cüzdan adresinizi telefon numaranıza bağlar, böylece kripto göndermek kolaydır",
+    "startButtonLabel": "Bağla",
     "learnMore": {
-      "buttonLabel": "Telefonumu bağlamam gerekiyor mu?",
-      "title": "Telefonumu bağlamam gerekiyor mu?",
-      "body": "Telefon numaranızı bağlamanız, adres defterinizdeki ve diğer telefon numaralarınızdaki arkadaşlarınıza para göndermenize olanak tanır.\n \nBu adımı atlarsanız, kişilerinize erişemezsiniz ve yalnızca QR kodu veya hesap adresi aracılığıyla para gönderebilirsiniz."
+      "buttonLabel": "Bağlanmam gerekiyor mu?",
+      "title": "Bağlanmam gerekiyor mu?",
+      "body": "Telefon numaranızı bağlamak, adres defterinizdeki arkadaşlarınıza ve diğer telefon numaralarına para göndermenizi sağlayacaktır. \n \n Bu adımı atlamayı seçerseniz, kişilerinize erişemezsiniz ve yalnızca QR kodu veya cüzdan adresi aracılığıyla para gönderebilirsiniz."
     },
     "skip": {
       "title": "Emin misiniz?",
@@ -769,18 +766,24 @@
     "codeInputPlaceholder": "123456",
     "helpDialog": {
       "title": "Yardım",
-      "body": "Telefon numaranıza bir SMS gönderdik. Lütfen 6 haneli kodu bulmak için kısa mesajlarınızı kontrol edin. Mesaj almakta sorun yaşıyorsanız şimdilik bu adımı atlayabilir ve daha sonra tekrar deneyebilirsiniz.",
+      "body": "Telefon numaranıza bir SMS gönderdik. Lütfen 6 haneli kodu bulmak için kısa mesajlarınızı kontrol edin. \n \n Mesajları almakta sorun yaşıyorsanız, şimdilik bu adımı atlayabilir ve daha sonra tekrar deneyebilirsiniz.",
       "skip": "Atla",
       "dismiss": "Geri dön"
     },
     "verificationFailure": "Bir şeyler ters gitti. Lütfen daha sonra tekrar deneyiniz.",
     "resendButtonNotYetAvailable": "{{secondsRemaining}} saniye sonra tekrar gönderilebilir",
-    "resendButton": "Kısa mesajı tekrar gönder"
+    "resendButton": "Kod almadınız mı?"
   },
   "importExistingKey": {
-    "explanation": "Kurtarma Kelimeleriniz, hesabınızı oluştururken not ettiğiniz ve kaydettiğiniz 24 kelimelik bir ifadedir. Hesabınızı geri yüklemek için kelimeleri lütfen buraya girin.",
-    "explanationV1_50": "Kurtarma İfadeniz, hesabınızı kurarken yazdığınız ve kaydettiğiniz 12 veya 24 kelimelik bir ifadedir. Hesabınızı geri yüklemek için lütfen buraya girin.",
-    "keyPlaceholder": "horse leopard dog monkey ..."
+    "keyPlaceholder": "horse leopard dog monkey ...",
+    "header": "Cüzdan Yeniden Kur",
+    "title": "Kurtarma cümlenizi girin",
+    "description": "Geri yüklemek için cüzdanınızı ayarlarken kaydettiğiniz 12 veya 24 kelimelik ifadeyi kullanın.",
+    "emptyWalletDialog": {
+      "description": "Bu cüzdanda hiç para yok. Yine de kullanmak ister misiniz?",
+      "action": "Cüzdan kullanın",
+      "title": "Denge\n<0></0>"
+    }
   },
   "verificationInput": {
     "title": "Onayla",
@@ -817,11 +820,6 @@
     "body": "<0>$t(verificationInputHelpDialog.bodySection1.title)</0>\n\n$t(verificationInputHelpDialog.bodySection1.content)\n\n<1>$t(verificationInputHelpDialog.bodySection2.title)</1>\n\n$t(verificationInputHelpDialog.bodySection2.content)",
     "skip": "Şimdilik Atla",
     "back": "Geri Dön"
-  },
-  "emptyAccount": {
-    "description": "Bu hesapta hiç bakiye yok. Yine de kullanmak ister misiniz?",
-    "useAccount": "Hesabı kullan",
-    "title": "Bakiye <0></0>"
   },
   "success": {
     "message": "Her şey tamam, hazırsınız!"
@@ -1213,7 +1211,7 @@
     "buttonText": "Bağla"
   },
   "outOfSyncBanner": {
-    "title": "Çevrimdışısınız.",
+    "title": "Belirteçler getirilirken hata oluştu.",
     "message": "Bakiyeleriniz güncel olmayabilir.",
     "button": "Yenile"
   },
@@ -1495,7 +1493,8 @@
     "swapFrom": "Bu Token’dan",
     "swapTo": "Şu Token’a",
     "insufficientFunds": "Yetersiz {{token}}. Lütfen daha küçük bir miktar girin veya farklı bir token seçin.",
-    "fetchSwapQuoteFailed": "Gecikme için üzgünüz! En iyi döviz kurunu almak normalden daha uzun sürüyor. Lütfen birkaç dakika içinde tekrar deneyin."
+    "fetchSwapQuoteFailed": "Gecikme için üzgünüz! En iyi döviz kurunu almak normalden daha uzun sürüyor. Lütfen birkaç dakika içinde tekrar deneyin.",
+    "disclaimer": "Celo'daki ortaklar tarafından desteklenen takaslar. <0>Daha fazla bilgi edinin.</0>"
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Takas kaynağı",
@@ -1547,7 +1546,7 @@
     "shareMessage": "Merhaba! Kripto cüzdanım olarak {{appName}} kullanıyorum ve sizi de kontrol etmeye davet etmek istiyorum. Uygulamayı indirip telefon numaranızı bağladığınızda, ikimiz de özel bir NFT alacağız. Bu bağlantıyı kullanın: {{link}}",
     "rewardsActive": {
       "title": "{{contactName}} adlı kişiyi {{appName}} uygulamasına davet edin ve ikiniz de NFT kazanın!",
-      "body": "Görünüşe göre {{contactName}} {{appName}} kullanmıyor. Bu kişinin cüzdan adresini biliyorsanız, yine de bir ödeme gönderebilir veya bunun yerine davet gönderebilirsiniz. \n\n Bu kişi cüzdanı indirdikten ve telefon numarasını bağladıktan sonra, ikiniz de özel bir NFT alacaksınız."
+      "body": "Görünüşe göre {{contactName}} {{appName}}adresinde değil. Cüzdan adreslerini biliyorsanız yine de bir ödeme gönderebilir veya bunun yerine bir davetiye gönderebilirsiniz. \n\n Cüzdanı indirdikten ve telefon numaralarını bağladıktan sonra, ikiniz de özel bir NFT alacaksınız."
     }
   },
   "celoNews": {
