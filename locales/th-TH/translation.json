@@ -1221,12 +1221,12 @@
     "allDapps": "ทั้งหมด",
     "favoriteDapps": "สิ่งที่ฉันชอบ",
     "noFavorites": {
-      "title": "No favorites added",
-      "description": "Keep track of your most-used Dapps by tapping the star icon to add it as a favorite"
+      "title": "สิ่งที่ฉันชอบ",
+      "description": "ติดตาม dapps ที่ใช้มากที่สุดของคุณโดยแตะไอคอนดาวเพื่อเพิ่มเป็นรายการโปรด"
     },
     "favoritedDappToast": {
-      "message": "Added as a favorite",
-      "labelCTA": "View Favorites"
+      "message": "เพิ่มเป็นรายการโปรด",
+      "labelCTA": "ดูรายการโปรด"
     }
   },
   "dappsScreenHelpDialog": {
@@ -1240,15 +1240,15 @@
     "button": "ไปที่ {{dappName}}"
   },
   "dappsScreenInfoSheet": {
-    "title": "What is a dapp?",
-    "description": "A dapp (or decentralized application) is an app that is built and run on top of a blockchain network. This means that no single company or organization manages or stores your data.\n\nDapps vary by the services they offer. Examples of these services include decentralized exchanges, lending, borrowing, swapping, storing NFTs.",
-    "buttonLabel": "Tell me more"
+    "title": "Dapp คืออะไร",
+    "description": "Dapp (หรือแอปพลิเคชันกระจายอำนาจ) เป็นแอพที่สร้างและทำงานบนเครือข่าย blockchain ซึ่งหมายความว่าไม่มี บริษัท หรือองค์กรเดียวจัดการหรือจัดเก็บข้อมูลของคุณ\n\ndapps แตกต่างกันไปตามบริการที่พวกเขาเสนอ ตัวอย่างของบริการเหล่านี้รวมถึงการแลกเปลี่ยนการกระจายอำนาจการให้กู้ยืมการกู้ยืมการแลกเปลี่ยนการจัดเก็บ NFT",
+    "buttonLabel": "บอกรายละเอียดฉันเพิ่มเตืม"
   },
-  "dappsDisclaimerAllDapps": "{{appName}} is not affiliated with these dapps and makes no representations or claims in using them. Please acknowledge the risk before using a dapp by reviewing the user agreement or privacy policy.",
-  "dappsDisclaimerSingleDapp": "{{appName}} is not affiliated with this dapp and makes no representations in using it. Always review a dapp's user agreement or privacy policy.",
-  "dappsDisclaimerUnlistedDapp": "This dapp is not listed in {{appName}}. {{appName}} is not affiliated with this dapp and makes no representations in using it. Always review a dapp's user agreement or privacy policy.",
+  "dappsDisclaimerAllDapps": "{{appName}} ไม่เกี่ยวข้องกับ dapps เหล่านี้และไม่ได้เป็นตัวแทนหรือการเรียกร้องในการใช้พวกเขา โปรดรับทราบความเสี่ยงก่อนที่จะใช้ DAPP โดยการตรวจสอบข้อตกลงผู้ใช้หรือนโยบายความเป็นส่วนตัว",
+  "dappsDisclaimerSingleDapp": "{{appName}} ไม่เกี่ยวข้องกับ dapp นี้และไม่ได้เป็นตัวแทนในการใช้งาน ตรวจสอบข้อตกลงผู้ใช้หรือนโยบายความเป็นส่วนตัวของ Dapp เสมอ",
+  "dappsDisclaimerUnlistedDapp": "dapp นี้ไม่ได้อยู่ใน {{appName}} {{appName}} ไม่เกี่ยวข้องกับ dapp นี้และไม่ได้เป็นตัวแทนในการใช้งาน ตรวจสอบข้อตกลงผู้ใช้หรือนโยบายความเป็นส่วนตัวของ Dapp เสมอ",
   "recentlyUsedDapps": "Dapp ที่ใช้ล่าสุด",
-  "favoritedDapps": "Favorited Dapps",
+  "favoritedDapps": "dapps ที่ชื่นชอบ",
   "allDapps": "Dapp ทั้งหมด",
   "rewards": "ผลตอบแทน",
   "supercharge": "Supercharge",
@@ -1260,7 +1260,7 @@
   "merchantPaymentNumberVerificationMessage": "คุณต้องเชื่อมต่อหมายเลขของคุณ",
   "merchantPaymentSubmitFail": "ไม่สามารถส่งการชำระเงินได้",
   "merchantPaymentSetup": "มีข้อผิดพลาดขณะโหลดข้อมูลร้านค้า โปรดลองสแกน QR Code อีกครั้ง",
-  "merchantPaymentSubmitSuccess": "Your payment was successfully submitted",
+  "merchantPaymentSubmitSuccess": "ส่งการชำระเงินสำเร็จแล้ว",
   "merchantWalletUnlockError": "มีบางอย่างผิดปกติเมื่อปลดล็อกกระเป๋าเงินของคุณ โปรดลองอีกครั้ง",
   "noMoreTransactions": "ไม่มีธุรกรรมเพิ่มอีก",
   "selectProviderScreen": {
@@ -1272,8 +1272,8 @@
     "cryptoExchange": "การแลกเปลี่ยนคริปโตเคอร์เรนซี",
     "feesVary": "อาจมีค่าธรรมเนียมแตกต่างกัน",
     "viewExchanges": "ดูการแลกเปลี่ยน",
-    "depositFrom": "Deposit from",
-    "cryptoExchangeOrWallet": "Crypto Exchange or Wallet",
+    "depositFrom": "ฝากเงินจาก",
+    "cryptoExchangeOrWallet": "การแลกเปลี่ยน crypto หรือกระเป๋าเงิน",
     "card": "บัตรเครดิต / เดบิต",
     "bank": "บัญชีธนาคาร",
     "mobileMoney": "เงินอิเล็กทรอนิกส์",
@@ -1346,8 +1346,8 @@
     "transactionDetails": "รายละเอียดธุรกรรม",
     "paymentMethodVia": "เชื่อมต่อแล้วผ่าน {{providerName}}",
     "receiveAmount": "คุณจะได้รับ",
-    "bankFeeDisclaimer": "Your bank may charge additional fees for your transfer.",
-    "mobileMoneyFeeDisclaimer": "Your mobile money operator may charge additional fees for your transfer.",
+    "bankFeeDisclaimer": "ธนาคารของคุณอาจเรียกเก็บค่าธรรมเนียมเพิ่มเติมสำหรับการโอนของคุณ",
+    "mobileMoneyFeeDisclaimer": "ผู้ให้บริการเงินมือถือของคุณอาจเรียกเก็บค่าธรรมเนียมเพิ่มเติมสำหรับการโอนของคุณ",
     "cashIn": {
       "header": "ตรวจสอบการเพิ่มเงินทุน",
       "button": "เพิ่มเงินทุน",
@@ -1409,7 +1409,7 @@
       "selectCurrencyTitle": "เพิ่มเงินทุน",
       "exchangeAmountTitle": "เพิ่ม {{currency}}",
       "selectProviderHeader": "เลือกวิธีการชำระเงิน",
-      "depositExchangeTitle": "Deposit Crypto"
+      "depositExchangeTitle": "เงินฝาก"
     },
     "cashOut": {
       "fiatExchangeTitle": "ถอนเงิน",
@@ -1417,7 +1417,7 @@
       "selectCurrencyTitle": "ถอนเงิน",
       "exchangeAmountTitle": "ถอน {{currency}}",
       "selectProviderHeader": "เลือกวิธีการถอนเงิน",
-      "withdrawExchangeTitle": "Withdraw Crypto"
+      "withdrawExchangeTitle": "ถอน"
     },
     "spend": {
       "fiatExchangeTitle": "ใช้เงิน",
@@ -1425,10 +1425,10 @@
       "selectCurrencyTitle": "ใช้เงิน"
     },
     "exchange": {
-      "copyAddress": "Copy Address",
-      "informationText": "Only use exchanges or assets <0>compatible with the Celo network</0> to prevent loss of funds",
-      "bottomSheetTitle": "What exchanges can I use to deposit funds?",
-      "bottomSheetInfo": "Double check that you are sending assets that are compatible with the Celo network."
+      "copyAddress": "ที่อยู่คัดลอก",
+      "informationText": "ใช้การแลกเปลี่ยนหรือสินทรัพย์เท่านั้น <0> เข้ากันได้กับเครือข่าย CELO </0> เพื่อป้องกันการสูญเสียเงินทุน",
+      "bottomSheetTitle": "ฉันสามารถใช้การแลกเปลี่ยนอะไรเพื่อฝากเงินได้?",
+      "bottomSheetInfo": "ตรวจสอบอีกครั้งว่าคุณกำลังส่งสินทรัพย์ที่เข้ากันได้กับเครือข่าย CELO"
     }
   },
   "fiatDetailsScreen": {
@@ -1457,7 +1457,7 @@
     "mobileMoney": {
       "operator": {
         "label": "เครือข่าย",
-        "placeholderText": "Enter Mobile Network Operator"
+        "placeholderText": "ป้อนผู้ให้บริการเครือข่ายมือถือ"
       },
       "mobile": {
         "label": "หมายเลขโทรศัพท์",
@@ -1492,7 +1492,7 @@
     "swapTo": "เป็น",
     "insufficientFunds": "ยอดคงเหลือ {{token}} ไม่เพียงพอ ลองจำนวนเงินที่น้อยลงหรือเลือกโทเค็นอื่น",
     "fetchSwapQuoteFailed": "ขออภัยในความล่าช้า การดำเนินการนี้ใช้เวลานานกว่าปกติเพื่อให้ได้อัตราแลกเปลี่ยนที่ดีที่สุด โปรดลองอีกครั้งในอีกสองสามนาที",
-    "disclaimer": "Swaps powered by partners on Celo. <0>Learn More.</0>"
+    "disclaimer": "แลกเปลี่ยนกับพันธมิตรใน Celo <0> เรียนรู้เพิ่มเติม </0>"
   },
   "swapTransactionDetailPage": {
     "swapFrom": "สว็อปจาก",
@@ -1541,17 +1541,17 @@
     "title": "ดูเหมือนว่า {{contactName}} จะยังไม่มีกระเป๋าเงิน {{appName}}",
     "body": "คุณยังคงสามารถเชิญพวกเขาเข้าร่วม {{appName}} หรือลองส่งการชำระเงินไปยังที่อยู่กระเป๋าเงินหรือ nom.space ของพวกเขา",
     "sendInviteButtonLabel": "ส่งคำเชิญ",
-    "shareMessage": "Hi! I've been using {{appName}} as my crypto wallet and I want to invite you to check it out. Once you download the app and connect your phone number, we both get a special NFT. Use this link: {{link}}",
+    "shareMessage": "สวัสดี ฉันเพิ่งส่งคริปโตให้คุณด้วยกระเป๋าเงิน {{appName}} ของฉัน เมื่อคุณดาวน์โหลดแอปและเชื่อมต่อหมายเลขโทรศัพท์ของคุณแล้ว เราทั้งสองคนจะได้รับ NFT รุ่นพิเศษ ใช้ลิงก์นี้: {{link}}",
     "rewardsActive": {
       "title": "เชิญ {{contactName}} มายัง {{appName}} คุณทั้งสองคนจะได้รับ NFT",
-      "body": "Looks like {{contactName}} isn't on {{appName}}. You can still send a payment if you know their wallet address, or send an invite instead. \n\n After they download the wallet and connect their phone number, you’ll both get an exclusive NFT."
+      "body": "ดูเหมือนว่า {{contactName}} ไม่ได้ใช้งาน {{appName}} หากคุณทราบที่อยู่กระเป๋าเงินของเขา คุณยังคงสามารถส่งการชำระเงินหรือส่งคำเชิญแทนได้ \n\nหลังจากที่เขาดาวน์โหลดกระเป๋าเงินและเชื่อมต่อหมายเลขโทรศัพท์แล้ว คุณทั้งสองจะได้รับ NFT พิเศษ"
     }
   },
   "celoNews": {
-    "headerTitle": "Updates",
-    "headerDescription": "Learn about use cases, pilots & technical updates on the Celo blog.",
-    "readMoreButtonText": "Read more on the blog",
-    "loadingError": "Sorry, we couldn't load the latest updates. Please try again later.",
+    "headerTitle": "ข่าว",
+    "headerDescription": "เรียนรู้เกี่ยวกับกรณีการใช้งานนักบินและการอัปเดตทางเทคนิคในบล็อก Celo",
+    "readMoreButtonText": "อ่านเพิ่มเติมเกี่ยวกับบล็อก",
+    "loadingError": "ขออภัยเราไม่สามารถโหลดการอัปเดตล่าสุดได้ กรุณาลองใหม่อีกครั้งในภายหลัง.",
     "retryButtonText": "ลองอีกครั้ง"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo ดอลลาร์"
