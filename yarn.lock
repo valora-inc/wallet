@@ -4954,10 +4954,10 @@
   resolved "https://registry.yarnpkg.com/@types/country-data/-/country-data-0.0.0.tgz#6f5563cae3d148780c5b6539803a29bd93f8f1a1"
   integrity sha512-lIxCk6G7AwmUagQ4gIQGxUBnvAq664prFD9nSAz6dgd1XmBXBtZABV/op+QsJsIyaP1GZsf/iXhYKHX3azSRCw==
 
-"@types/crypto-js@^3.1.47":
-  version "3.1.47"
-  resolved "https://registry.yarnpkg.com/@types/crypto-js/-/crypto-js-3.1.47.tgz#36e549dd3f1322742a3a738e7c113ebe48221860"
-  integrity sha512-eI6gvpcGHLk3dAuHYnRCAjX+41gMv1nz/VP55wAe5HtmAKDOoPSfr3f6vkMc08ov1S0NsjvUBxDtHHxqQY1LGA==
+"@types/crypto-js@^4.1.1":
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/@types/crypto-js/-/crypto-js-4.1.1.tgz#602859584cecc91894eb23a4892f38cfa927890d"
+  integrity sha512-BG7fQKZ689HIoc5h+6D2Dgq1fABRa0RbBWKBd9SP/MVRVXROflpm5fhwyATX5duFmbStzyzyycPB8qUYKDH3NA==
 
 "@types/d3-array@^3.0.3":
   version "3.0.3"
@@ -8074,7 +8074,7 @@ create-require@^1.1.0:
   resolved "https://registry.yarnpkg.com/create-require/-/create-require-1.1.1.tgz#c1d7e8f1e5f6cfc9ff65f9cd352d37348756c333"
   integrity sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==
 
-cross-fetch@3.0.4, cross-fetch@^3.0.2, cross-fetch@^3.0.4, cross-fetch@^3.0.6, cross-fetch@^3.1.5:
+cross-fetch@3.0.4, cross-fetch@^3.0.4, cross-fetch@^3.0.6, cross-fetch@^3.1.5:
   version "3.1.5"
   resolved "https://registry.yarnpkg.com/cross-fetch/-/cross-fetch-3.1.5.tgz#e1389f44d9e7ba767907f7af8454787952ab534f"
   integrity sha512-lvb1SBsI0Z7GDwmuid+mU3kWVBwTVUbe7S0H52yaaAdQOXq2YktTCZdlAcNKFzE6QtRz0snpw9bNiPeOIkkQvw==
@@ -8152,6 +8152,11 @@ crypto-js@^3.1.9-1:
   version "3.1.9-1"
   resolved "https://registry.yarnpkg.com/crypto-js/-/crypto-js-3.1.9-1.tgz#fda19e761fc077e01ffbfdc6e9fdfc59e8806cd8"
   integrity sha1-/aGedh/Ad+Af+/3G6f38WeiAbNg=
+
+crypto-js@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/crypto-js/-/crypto-js-4.1.1.tgz#9e485bcf03521041bd85844786b83fb7619736cf"
+  integrity sha512-o2JlM7ydqd3Qk9CA0L4NL6mTzU2sdx96a+oOfPu8Mkl/PK51vSyoi8/rQ8NknZtk44vq15lmhAj9CIAGwgeWKw==
 
 crypto-random-string@^1.0.0:
   version "1.0.0"
@@ -8465,10 +8470,10 @@ deep-equal@^2.0.5:
     which-collection "^1.0.1"
     which-typed-array "^1.1.2"
 
-deep-extend@^0.5.1, deep-extend@^0.6.0:
-  version "0.5.1"
-  resolved "https://registry.yarnpkg.com/deep-extend/-/deep-extend-0.5.1.tgz#b894a9dd90d3023fbf1c55a394fb858eb2066f1f"
-  integrity sha512-N8vBdOa+DF7zkRrDCsaOXoCs/E2fJfx9B9MrKnnSiHNh4ws7eSys6YQE4KvT1cecKmOASYQBhbKjeuDD9lT81w==
+deep-extend@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/deep-extend/-/deep-extend-0.6.0.tgz#c4fa7c95404a17a9c3e8ca7e1537312b736330ac"
+  integrity sha512-LOHxIOaPYdHlJRtCQfDIVZtfw/ufM8+rVj649RIHzcm/vGwQRXFt6OPqIFWsm2XEMrNIEtWR64sY1LEKD2vAOA==
 
 deep-is@^0.1.3:
   version "0.1.3"
@@ -9569,10 +9574,21 @@ ethereumjs-util@^5.2.0:
     safe-buffer "^5.1.1"
     secp256k1 "^3.0.1"
 
-ethereumjs-util@^7.1.0, ethereumjs-util@^7.1.3:
+ethereumjs-util@^7.1.0:
   version "7.1.3"
   resolved "https://registry.yarnpkg.com/ethereumjs-util/-/ethereumjs-util-7.1.3.tgz#b55d7b64dde3e3e45749e4c41288238edec32d23"
   integrity sha512-y+82tEbyASO0K0X1/SRhbJJoAlfcvq8JbrG4a5cjrOks7HS/36efU/0j2flxCPOUM++HFahk33kr/ZxyC4vNuw==
+  dependencies:
+    "@types/bn.js" "^5.1.0"
+    bn.js "^5.1.2"
+    create-hash "^1.1.2"
+    ethereum-cryptography "^0.1.3"
+    rlp "^2.2.4"
+
+ethereumjs-util@^7.1.5:
+  version "7.1.5"
+  resolved "https://registry.yarnpkg.com/ethereumjs-util/-/ethereumjs-util-7.1.5.tgz#9ecf04861e4fbbeed7465ece5f23317ad1129181"
+  integrity sha512-SDl5kKrQAudFBUe5OJM9Ac6WmMyYmXX/6sTmLZ3ffG2eY6ZIGBes3pEDxNN6V72WyOw4CPD5RomKdsa8DAAwLg==
   dependencies:
     "@types/bn.js" "^5.1.0"
     bn.js "^5.1.2"
@@ -15325,7 +15341,7 @@ prop-types@^15.6.2, prop-types@^15.7.2:
     object-assign "^4.1.1"
     react-is "^16.8.1"
 
-prop-types@^15.8.1:
+prop-types@^15.8.0, prop-types@^15.8.1:
   version "15.8.1"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -15425,7 +15441,7 @@ q@2.0.x:
     pop-iterate "^1.0.1"
     weak-map "^1.0.5"
 
-qrcode@^1.5.0, qrcode@^1.5.1:
+qrcode@^1.5.1:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/qrcode/-/qrcode-1.5.1.tgz#0103f97317409f7bc91772ef30793a54cd59f0cb"
   integrity sha512-nS8NJ1Z3md8uTjKtP+SGGhfqmTCs5flU/xR623oI0JX+Wepz9R8UrRVCTBTJm3qGw3rH6jJ6MUHjkDx15cxSSg==
@@ -15867,13 +15883,13 @@ react-native-platform-touchable@^1.1.1:
   resolved "https://registry.yarnpkg.com/react-native-platform-touchable/-/react-native-platform-touchable-1.1.1.tgz#fde4acc65eea585d28b164d0c3716a42129a68e4"
   integrity sha1-/eSsxl7qWF0osWTQw3FqQhKaaOQ=
 
-react-native-qrcode-svg@^6.1.2:
-  version "6.1.2"
-  resolved "https://registry.yarnpkg.com/react-native-qrcode-svg/-/react-native-qrcode-svg-6.1.2.tgz#a7cb6c10199ab01418a7f7700ce17a6a014f544e"
-  integrity sha512-lMbbxoPVybXCp9SYm73Aj/0iZ9OlSZl2u+zpdbjgC4DYHBm9m9tDQxISNg1OPeR7AAzmyx8IV4JTFmk8G5R22g==
+react-native-qrcode-svg@^6.2.0:
+  version "6.2.0"
+  resolved "https://registry.yarnpkg.com/react-native-qrcode-svg/-/react-native-qrcode-svg-6.2.0.tgz#62b62c5997ff23ba22544e289a6112a08f8ea306"
+  integrity sha512-rb2PgUwT8QpQyReVYNvzRY84AHsMh81354Tnkfp6MfqRbcdJURhnBWLBOO11pLMS6eXiwlq4SkcQxy88hRq+Dw==
   dependencies:
-    prop-types "^15.7.2"
-    qrcode "^1.5.0"
+    prop-types "^15.8.0"
+    qrcode "^1.5.1"
 
 react-native-randombytes@^3.5.1, react-native-randombytes@^3.6.0:
   version "3.6.0"
