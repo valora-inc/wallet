@@ -72,7 +72,7 @@ describe('ConsumerIncentivesHomeScreen', () => {
     numberVerified,
     tokenBalances,
     supercharge = initialState,
-    numberVerifiedCentrally = false,
+    numberVerifiedCentrally = true,
   }: {
     numberVerified: boolean
     tokenBalances: TokenBalances
@@ -214,6 +214,7 @@ describe('ConsumerIncentivesHomeScreen', () => {
       <Provider
         store={createStore({
           numberVerified: false,
+          numberVerifiedCentrally: false,
           tokenBalances: NO_BALANCES,
         })}
       >
