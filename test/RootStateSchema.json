@@ -3119,6 +3119,12 @@
                 "superchargeRewardContractAddress": {
                     "type": "string"
                 },
+                "superchargeV1Addresses": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
                 "superchargeV2Enabled": {
                     "type": "boolean"
                 }
@@ -3130,6 +3136,7 @@
                 "fetchAvailableRewardsLoading",
                 "loading",
                 "superchargeRewardContractAddress",
+                "superchargeV1Addresses",
                 "superchargeV2Enabled"
             ],
             "type": "object"

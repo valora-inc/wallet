@@ -80,3 +80,6 @@ export const userIsVerifiedForSuperchargeSelector = createSelector(
     return superchargeV2Enabled ? numberVerifiedCentrally : phoneNumberVerified
   }
 )
+
+export const superchargeV1AddressesSelector = (state: RootState) =>
+  state.supercharge.superchargeV1Addresses
