@@ -27,7 +27,7 @@ import { estimateGas } from 'src/web3/utils'
 
 const TAG = 'fees/saga'
 
-const SWAP_FEE_ESTIMATE_MULTIPLIER = 4
+const SWAP_FEE_ESTIMATE_MULTIPLIER = 5
 
 export interface FeeInfo {
   fee: BigNumber
@@ -50,8 +50,8 @@ export function* estimateFeeSaga({
   const tokenBalances: TokenBalances = yield select(tokensByAddressSelector)
   const tokenInfo = tokenBalances[tokenAddress]
 
-  if (!tokenInfo?.balance) {
-    Logger.warn(`${TAG}/estimateFeeSaga`, 'Balance is null or empty string')
+  if (!tokenInfo?.balance || tokenInfo.balance.isEqualTo(0)) {
+    Logger.warn(`${TAG}/estimateFeeSaga`, 'Balance is null or empty string or zero')
     yield put(
       feeEstimated({
         feeType,

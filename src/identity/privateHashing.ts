@@ -1,6 +1,8 @@
 import { OdisUtils } from '@celo/identity'
+import { IdentifierHashDetails, IdentifierPrefix } from '@celo/identity/lib/odis/identifier'
 import { PhoneNumberHashDetails } from '@celo/identity/lib/odis/phone-number-identifier'
 import { AuthSigner, ServiceContext } from '@celo/identity/lib/odis/query'
+import { CombinerEndpointPNP } from '@celo/phone-number-privacy-common'
 import { isE164NumberStrict, PhoneNumberUtils } from '@celo/phone-utils'
 import getPhoneHash from '@celo/phone-utils/lib/getPhoneHash'
 import DeviceInfo from 'react-native-device-info'
@@ -79,12 +81,7 @@ function* doFetchPhoneHashPrivate(e164Number: string) {
     return cachedDetails
   }
 
-  Logger.debug(`${TAG}@fetchPrivatePhoneHash`, 'Salt was not cached, fetching')
-  const selfPhoneDetails: PhoneNumberHashDetails | undefined = yield call(
-    getUserSelfPhoneHashDetails
-  )
-  const selfPhoneHash = selfPhoneDetails?.phoneHash
-  const details: PhoneNumberHashDetails = yield call(getPhoneHashPrivate, e164Number, selfPhoneHash)
+  const details: PhoneNumberHashDetails = yield call(getPhoneHashPrivate, e164Number)
   yield put(updateE164PhoneNumberSalts({ [e164Number]: details.pepper }))
   return details
 }
@@ -92,7 +89,7 @@ function* doFetchPhoneHashPrivate(e164Number: string) {
 // Unlike the getPhoneHash in utils, this leverages the phone number
 // privacy service to compute a secure, unique salt for the phone number
 // and then appends it before hashing.
-function* getPhoneHashPrivate(e164Number: string, selfPhoneHash?: string) {
+function* getPhoneHashPrivate(e164Number: string) {
   if (!isE164NumberStrict(e164Number)) {
     throw new Error(ErrorMessages.INVALID_PHONE_NUMBER)
   }
@@ -130,17 +127,27 @@ function* getPhoneHashPrivate(e164Number: string, selfPhoneHash?: string) {
   Logger.debug(TAG, '@fetchPrivatePhoneHash', 'Blinding factor', blindingFactor)
   const blsBlindingClient = new ReactBlsBlindingClient(networkConfig.odisPubKey, blindingFactor)
   try {
-    return yield call(
-      OdisUtils.PhoneNumberIdentifier.getPhoneNumberIdentifier,
+    const identifierHashDetails: IdentifierHashDetails = yield call(
+      OdisUtils.Identifier.getObfuscatedIdentifier,
       e164Number,
+      IdentifierPrefix.PHONE_NUMBER,
       accountAddress,
       authSigner,
       serviceContext,
       blindingFactor,
-      selfPhoneHash,
       DeviceInfo.getVersion(),
-      blsBlindingClient
+      blsBlindingClient,
+      undefined,
+      undefined,
+      CombinerEndpointPNP.LEGACY_PNP_SIGN
     )
+    const phoneNumberHashDetails: PhoneNumberHashDetails = {
+      e164Number: identifierHashDetails.plaintextIdentifier,
+      phoneHash: identifierHashDetails.obfuscatedIdentifier,
+      pepper: identifierHashDetails.pepper,
+      unblindedSignature: identifierHashDetails.unblindedSignature,
+    }
+    return phoneNumberHashDetails
   } catch (error) {
     if (error.message === ErrorMessages.ODIS_QUOTA_ERROR) {
       throw new Error(ErrorMessages.SALT_QUOTA_EXCEEDED)

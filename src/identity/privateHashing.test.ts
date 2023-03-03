@@ -1,5 +1,5 @@
 import { OdisUtils } from '@celo/identity'
-import { PhoneNumberHashDetails } from '@celo/identity/lib/odis/phone-number-identifier'
+import { IdentifierHashDetails } from '@celo/identity/lib/odis/identifier'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { throwError } from 'redux-saga-test-plan/providers'
@@ -34,9 +34,9 @@ describe('Fetch phone hash details', () => {
     const expectedPepper = 'piWqRHHYWtfg9'
     const expectedHash = '0xf6429456331dedf8bd32b5e3a578e5bc589a28d012724dcd3e0a4b1be67bb454'
 
-    const lookupResult: PhoneNumberHashDetails = {
-      e164Number: mockE164Number,
-      phoneHash: expectedHash,
+    const lookupResult: IdentifierHashDetails = {
+      plaintextIdentifier: mockE164Number,
+      obfuscatedIdentifier: expectedHash,
       pepper: expectedPepper,
     }
 
@@ -52,7 +52,7 @@ describe('Fetch phone hash details', () => {
         [select(e164NumberSelector), mockE164Number2],
         [select(e164NumberToSaltSelector), {}],
         [matchers.call.fn(isAccountUpToDate), true],
-        [matchers.call.fn(OdisUtils.PhoneNumberIdentifier.getPhoneNumberIdentifier), lookupResult],
+        [matchers.call.fn(OdisUtils.Identifier.getObfuscatedIdentifier), lookupResult],
       ])
       .withState(state)
       .put(
@@ -64,6 +64,7 @@ describe('Fetch phone hash details', () => {
         e164Number: mockE164Number,
         pepper: expectedPepper,
         phoneHash: expectedHash,
+        unblindedSignature: undefined,
       })
       .run()
   })
@@ -83,7 +84,7 @@ describe('Fetch phone hash details', () => {
           [select(e164NumberToSaltSelector), {}],
           [matchers.call.fn(isAccountUpToDate), true],
           [
-            matchers.call.fn(OdisUtils.PhoneNumberIdentifier.getPhoneNumberIdentifier),
+            matchers.call.fn(OdisUtils.Identifier.getObfuscatedIdentifier),
             throwError(new Error(ErrorMessages.ODIS_QUOTA_ERROR)),
           ],
         ])

@@ -6,19 +6,26 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import {
-  phoneNumberVerifiedSelector,
-  superchargeTokenConfigByTokenSelector,
-} from 'src/app/selectors'
+import { superchargeTokenConfigByTokenSelector } from 'src/app/selectors'
 import { SUPERCHARGE_LEARN_MORE } from 'src/brandingConfig'
 import Button, { BtnSizes } from 'src/components/Button'
 import Dialog from 'src/components/Dialog'
 import Pill from 'src/components/Pill'
 import Touchable from 'src/components/Touchable'
 import { RewardsScreenCta } from 'src/consumerIncentives/analyticsEventsTracker'
-import { superchargeInfoSelector } from 'src/consumerIncentives/selectors'
+import {
+  availableRewardsSelector,
+  superchargeInfoSelector,
+  superchargeRewardsLoadingSelector,
+  userIsVerifiedForSuperchargeSelector,
+} from 'src/consumerIncentives/selectors'
 import { claimRewards, fetchAvailableRewards } from 'src/consumerIncentives/slice'
-import { SuperchargePendingReward, SuperchargeTokenConfig } from 'src/consumerIncentives/types'
+import {
+  isSuperchargePendingRewardsV2,
+  SuperchargePendingReward,
+  SuperchargePendingRewardV2,
+  SuperchargeTokenConfig,
+} from 'src/consumerIncentives/types'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import InfoIcon from 'src/icons/InfoIcon'
 import Logo, { LogoTypes } from 'src/icons/Logo'
@@ -79,7 +86,7 @@ function SuperchargeInstructions() {
   const { t } = useTranslation()
   const [tokenDetailsVisible, setTokenDetailsVisible] = useState(false)
 
-  const userIsVerified = useSelector(phoneNumberVerifiedSelector)
+  const userIsVerified = useSelector(userIsVerifiedForSuperchargeSelector)
   const { superchargeApy } = useSelector((state) => state.app)
   const { hasBalanceForSupercharge, superchargingTokenConfig } =
     useSelector(superchargeInfoSelector)
@@ -157,24 +164,33 @@ function SuperchargingInfo() {
   )
 }
 
-function ClaimSuperchargeRewards({ rewards }: { rewards: SuperchargePendingReward[] }) {
+function ClaimSuperchargeRewards({
+  rewards,
+}: {
+  rewards: SuperchargePendingReward[] | SuperchargePendingRewardV2[]
+}) {
   const tokens = useSelector(tokensByAddressSelector)
   const { t } = useTranslation()
 
-  const rewardsByToken: { [tokenAddress: string]: BigNumber | undefined } = rewards.reduce(
-    (acc, reward) => {
-      const tokenAddress = reward.tokenAddress.toLowerCase()
-      if (!acc[tokenAddress]) {
-        acc[tokenAddress] = new BigNumber(0)
-      }
+  const rewardsByToken: { [tokenAddress: string]: BigNumber } = {}
 
-      acc[tokenAddress] = acc[tokenAddress].plus(
+  if (isSuperchargePendingRewardsV2(rewards)) {
+    rewards.forEach((reward) => {
+      const tokenAddress = reward.details.tokenAddress.toLowerCase()
+
+      rewardsByToken[tokenAddress] = (rewardsByToken[tokenAddress] || new BigNumber(0)).plus(
+        new BigNumber(reward.details.amount).div(WEI_PER_TOKEN)
+      )
+    })
+  } else {
+    rewards.forEach((reward) => {
+      const tokenAddress = reward.tokenAddress.toLowerCase()
+
+      rewardsByToken[tokenAddress] = (rewardsByToken[tokenAddress] || new BigNumber(0)).plus(
         new BigNumber(reward.amount, 16).div(WEI_PER_TOKEN)
       )
-      return acc
-    },
-    {} as { [tokenAddress: string]: BigNumber }
-  )
+    })
+  }
 
   const rewardStrings = Object.entries(rewardsByToken).map(
     ([token, amount]) => `${amount?.toFixed(2)} ${tokens[token]?.symbol}`
@@ -204,7 +220,7 @@ export default function ConsumerIncentivesHomeScreen() {
     dispatch(fetchAvailableRewards())
   }, [])
 
-  const userIsVerified = useSelector(phoneNumberVerifiedSelector)
+  const userIsVerified = useSelector(userIsVerifiedForSuperchargeSelector)
   const { hasBalanceForSupercharge, superchargingTokenConfig, hasMaxBalance } =
     useSelector(superchargeInfoSelector)
 
@@ -212,8 +228,8 @@ export default function ConsumerIncentivesHomeScreen() {
   const defaultTokenConfigToSupercharge = useDefaultTokenConfigToSupercharge()
   const tokenConfigToSupercharge = superchargingTokenConfig ?? defaultTokenConfigToSupercharge
 
-  const claimRewardsLoading = useSelector((state) => state.supercharge.loading)
-  const superchargeRewards = useSelector((state) => state.supercharge.availableRewards)
+  const claimRewardsLoading = useSelector(superchargeRewardsLoadingSelector)
+  const superchargeRewards = useSelector(availableRewardsSelector)
   const loadingAvailableRewards = useSelector(
     (state) => state.supercharge.fetchAvailableRewardsLoading
   )

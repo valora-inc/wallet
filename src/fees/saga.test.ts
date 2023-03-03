@@ -4,6 +4,8 @@ import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { throwError } from 'redux-saga-test-plan/providers'
 import { call } from 'redux-saga/effects'
+import { showErrorOrFallback } from 'src/alert/actions'
+import { ErrorMessages } from 'src/app/ErrorMessages'
 import { createReclaimTransaction } from 'src/escrow/saga'
 import { feeEstimated, FeeEstimateState, FeeType } from 'src/fees/reducer'
 import { calculateFee, estimateFeeSaga } from 'src/fees/saga'
@@ -34,7 +36,7 @@ const store = createMockStore({
         address: mockCeurAddress,
         symbol: 'cEUR',
         usdPrice: '1.2',
-        balance: '20',
+        balance: '0',
         isCoreToken: true,
         priceFetchedAt: Date.now(),
       },
@@ -95,7 +97,7 @@ describe(estimateFeeSaga, () => {
         [matchers.call.fn(buildSendTx), jest.fn(() => ({ txo: mockTxo }))],
         [matchers.call.fn(estimateGas), new BigNumber(GAS_AMOUNT)],
         [
-          call(calculateFee, new BigNumber(4 * GAS_AMOUNT), mockCusdAddress),
+          call(calculateFee, new BigNumber(5 * GAS_AMOUNT), mockCusdAddress),
           { fee: new BigNumber(4e16), feeCurrency: mockCusdAddress },
         ],
       ])
@@ -244,5 +246,58 @@ describe(estimateFeeSaga, () => {
         })
       )
       .run()
+  })
+
+  it('marks as error and shows banner if fee estimation fails', async () => {
+    await expectSaga(estimateFeeSaga, {
+      payload: { feeType: FeeType.SEND, tokenAddress: mockCusdAddress },
+    })
+      .withState(store.getState())
+      .provide([
+        [matchers.call.fn(buildSendTx), jest.fn(() => ({ txo: mockTxo }))],
+        [matchers.call.fn(estimateGas), throwError(new Error('cannot estimate fee'))],
+      ])
+      .put(
+        feeEstimated({
+          feeType: FeeType.SEND,
+          tokenAddress: mockCusdAddress,
+          estimation: {
+            loading: false,
+            error: true,
+            usdFee: null,
+            lastUpdated: Date.now(),
+          },
+        })
+      )
+      .put(
+        showErrorOrFallback(new Error('cannot estimate fee'), ErrorMessages.CALCULATE_FEE_FAILED)
+      )
+      .run()
+  })
+
+  it('marks as error without fee banner if token balance is zero', async () => {
+    const { effects } = await expectSaga(estimateFeeSaga, {
+      payload: { feeType: FeeType.SEND, tokenAddress: mockCeurAddress },
+    })
+      .withState(store.getState())
+      .provide([
+        [matchers.call.fn(buildSendTx), jest.fn(() => ({ txo: mockTxo }))],
+        [matchers.call.fn(estimateGas), throwError(new Error('cannot estimate fee'))],
+      ])
+      .put(
+        feeEstimated({
+          feeType: FeeType.SEND,
+          tokenAddress: mockCeurAddress,
+          estimation: {
+            loading: false,
+            error: true,
+            usdFee: null,
+            lastUpdated: Date.now(),
+          },
+        })
+      )
+      .run()
+    // ensures the above is the only put and put(showErrorOrFallback) isn't called
+    expect(effects.put).toBeUndefined()
   })
 })
