@@ -167,7 +167,9 @@ export function DAppsExplorerScreen() {
                 </View>
                 {dappFavoritesEnabled && (
                   <>
-                    <Text style={styles.sectionTitle}>{t('dappsScreen.favoriteDapps').toLocaleUpperCase(language ?? 'en-US')}</Text>
+                    <Text style={styles.sectionTitle}>
+                      {t('dappsScreen.favoriteDapps').toLocaleUpperCase(language ?? 'en-US')}
+                    </Text>
                     <FavoriteDappsSection
                       filter={selectedFilter}
                       removeFilter={() => {
@@ -180,7 +182,9 @@ export function DAppsExplorerScreen() {
                 )}
 
                 {dappFavoritesEnabled && (
-                  <Text style={styles.sectionTitle}>{t('dappsScreen.allDapps').toLocaleUpperCase(language ?? 'en-US')}</Text>
+                  <Text style={styles.sectionTitle}>
+                    {t('dappsScreen.allDapps').toLocaleUpperCase(language ?? 'en-US')}
+                  </Text>
                 )}
               </>
             }
