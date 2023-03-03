@@ -9,7 +9,6 @@ import { RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import {
-  availableRewardsSelector,
   superchargeRewardContractAddressSelector,
   superchargeV1AddressesSelector,
   superchargeV2EnabledSelector,
@@ -51,7 +50,7 @@ import { buildTxo, getContract } from 'src/web3/utils'
 const TAG = 'SuperchargeRewardsClaimer'
 export const SUPERCHARGE_FETCH_TIMEOUT = 30_000
 
-export function* claimRewardsSaga() {
+export function* claimRewardsSaga({ payload: rewards }: ReturnType<typeof claimRewards>) {
   try {
     const kit: ContractKit = yield call(getContractKit)
     const walletAddress: string = yield call(getConnectedUnlockedAccount)
@@ -59,9 +58,6 @@ export function* claimRewardsSaga() {
       // @ts-ignore I can't figure out the syntax for this, it works but TS complains :'(
       [kit.web3.eth, kit.web3.eth.getTransactionCount],
       walletAddress
-    )
-    const rewards: SuperchargePendingReward[] | SuperchargePendingRewardV2[] = yield select(
-      availableRewardsSelector
     )
 
     Logger.debug(TAG, `Starting to claim ${rewards.length} rewards with baseNonce: ${baseNonce}`)
