@@ -273,7 +273,16 @@ describe('ConsumerIncentivesHomeScreen', () => {
     `)
     expect(store.getActions()[1]).toMatchInlineSnapshot(`
       Object {
-        "payload": undefined,
+        "payload": Array [
+          Object {
+            "amount": "de0b6b3a7640000",
+            "contractAddress": "0xdistributorContract",
+            "createdAt": 1645591363099,
+            "index": 0,
+            "proof": Array [],
+            "tokenAddress": "0x874069fa1eb16d44d622f2e0ca25eea172369bc1",
+          },
+        ],
         "type": "supercharge/claimRewards",
       }
     `)
