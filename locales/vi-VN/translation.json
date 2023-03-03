@@ -187,10 +187,10 @@
   "startSuperchargingNotificationStart": "Nhận tiền thưởng",
   "cashIn": "Nạp {{currency}}",
   "connectNumber": "Kết nối số",
-  "connectToWallet": "Connect to {{dappName}}",
-  "confirmTransaction": "Confirm transaction",
+  "connectToWallet": "Kết nối với {{dappName}}",
+  "confirmTransaction": "Xác nhận giao dịch",
   "allow": "Cho phép",
-  "address": "Wallet address",
+  "address": "Địa chỉ ví",
   "phoneNumber": "Số điện thoại",
   "transaction": {
     "operation": "Hoạt động",
@@ -198,8 +198,8 @@
     "signTX": "Ký xác nhận giao dịch",
     "details": "Hiển thị chi tiết"
   },
-  "shareInfo": "You must connect your wallet to approve transactions in this Dapp. Once connected, it will have access to your wallet address.",
-  "connectWalletInfoDappkit": "You must connect your wallet to approve transactions in this Dapp. Once connected, it will have access to your wallet address and phone number.",
+  "shareInfo": "Bạn phải kết nối ví của mình để phê duyệt các giao dịch trong dapp này. Sau khi kết nối, nó sẽ có quyền truy cập vào địa chỉ ví của bạn.",
+  "connectWalletInfoDappkit": "Bạn phải kết nối ví của mình để phê duyệt các giao dịch trong dapp này. Sau khi kết nối, nó sẽ có quyền truy cập vào địa chỉ ví và số điện thoại của bạn.",
   "data": "Dữ liệu",
   "firebaseDisabled": "Firebase đang tắt, thông báo và tính năng tải nhật ký lên sẽ không hoạt động",
   "learnMore": "Tìm hiểu thêm",
@@ -552,7 +552,7 @@
   "sendAndInvite": "Gửi và mời",
   "inviteRewardsBanner": {
     "title": "Mời bạn bè và nhận NFT",
-    "body": "Once they set up their {{appName}} wallet and connect their number, you’ll each get an exclusive NFT."
+    "body": "Sau khi họ thiết lập ví {{appName}} và kết nối số điện thoại, mỗi bạn sẽ nhận được một NFT độc quyền."
   },
   "inviteWithUrl": {
     "title": "Mời bạn bè",
@@ -578,8 +578,8 @@
     "privacy": "Khi tham gia mạng lưới này, bạn cho phép chúng tôi thu thập thông tin ẩn danh về cách bạn sử dụng ứng dụng. Ngoài ra, nếu bạn kết nối số điện thoại, bản sao băm của số điện thoại sẽ được lưu trữ trên Celo Network. Nếu bạn cấp cho Valora quyền truy cập vào danh bạ, Valora sẽ nhập tên, số điện thoại và ảnh hồ sơ của từng người liên hệ để cho phép người dùng kết nối qua ứng dụng Valora. Để tìm hiểu cách chúng tôi thu thập và sử dụng thông tin này, vui lòng xem lại <0>Chính sách quyền riêng tư</0> của chúng tôi.",
     "goldDisclaimer": "Khi tạo \"tài khoản\" bằng Valora, bạn đang tạo một ví điện tử mà chỉ bạn giữ mã khóa. Không cá nhân hoặc tổ chức nào khác, bao gồm cLabs hay Valora, có thể khôi phục mã khóa của bạn, thay đổi hay hủy giao dịch hoặc thu hồi số tiền đã mất. Xin lưu ý rằng CELO, cUSD và cEUR thuộc loại tài sản mới và luôn tiềm ẩn rủi ro về tổn thất tài chính. Hãy xem xét thận trọng tình hình tài chính của bạn cũng như khả năng chấp nhận rủi ro tài chính trước khi mua bất kỳ tài sản nào."
   },
-  "fullNameOrPsuedonym": "Full name or pseudonym",
-  "namePlaceholder": "ex. name",
+  "fullNameOrPsuedonym": "Họ và tên hoặc biệt danh",
+  "namePlaceholder": "tên",
   "nameAndPicGuideCopyTitle": "Tên bạn là gì?",
   "nameAndPicGuideCopyContent": "Chúng tôi rất muốn biết tên bạn để tiện cho việc xưng hô.",
   "important": "Quan trọng",
@@ -683,7 +683,7 @@
     "createNewWallet": "Tạo ví mới",
     "restoreWallet": "Khôi phục ví",
     "hasWallet": "Tôi đã có ví",
-    "header": "Welcome to {{appName}}! Let's create your crypto wallet.",
+    "header": "Chào mừng bạn đến với {{appName}}! Hãy tạo ví tiền điện tử của bạn.",
     "getStarted": "Bắt đầu"
   },
   "accessContacts": {
@@ -703,9 +703,9 @@
     "changePIN": "Thay đổi mã PIN",
     "pinsDontMatch": "Mã PIN không khớp",
     "invalidPin": "Vui lòng sử dụng mã PIN mạnh hơn",
-    "onboardingTitle": "Choose a 6 digit PIN",
-    "onboardingConfirm": "Enter your PIN again",
-    "onboardingSubtitle": "Your PIN will secure your wallet",
+    "onboardingTitle": "Chọn mã PIN 6 chữ số",
+    "onboardingConfirm": "Nhập lại mã PIN của bạn",
+    "onboardingSubtitle": "Mã PIN là cách bảo mật ví của bạn",
     "pin": "PIN"
   },
   "inviteCode": {
@@ -744,13 +744,13 @@
   },
   "phoneVerificationScreen": {
     "screenTitle": "Số điện thoại",
-    "title": "Connect your phone number to Valora",
-    "description": "This links your wallet address to your phone number so sending crypto is easy",
+    "title": "Kết nối số điện thoại của bạn",
+    "description": "Điều này liên kết địa chỉ ví của bạn với số điện thoại của bạn, vì vậy việc gửi tiền điện tử rất dễ dàng",
     "startButtonLabel": "Kết nối",
     "learnMore": {
       "buttonLabel": "Tôi có cần kết nối không?",
       "title": "Tôi có cần kết nối không?",
-      "body": "Connecting your phone number will allow you to send money to friends in your address book and other phone numbers. \n \n If you choose to skip this step you won’t be able to access your contacts and you will only be able to send money via QR code or wallet address."
+      "body": "Việc kết nối số điện thoại cho phép bạn gửi tiền cho bạn bè trong sổ địa chỉ và các số điện thoại khác. \n \n Nếu bỏ qua bước này, bạn sẽ không truy cập được vào danh bạ và chỉ có thể gửi tiền qua mã QR hoặc địa chỉ ví khoản."
     },
     "skip": {
       "title": "Bạn có chắc chắn không?",
@@ -766,13 +766,13 @@
     "codeInputPlaceholder": "123456",
     "helpDialog": {
       "title": "Trợ giúp",
-      "body": "We sent an SMS to your phone number. Please check your text messages to find the 6 digit code. \n \n If you’re having trouble receiving messages, you can skip this step for now and try again later.",
+      "body": "Chúng tôi đã gửi tin nhắn SMS đến số điện thoại của bạn. Vui lòng kiểm tra tin nhắn văn bản để tìm mã gồm 6 chữ số. Nếu gặp sự cố khi nhận tin nhắn, bạn có thể tạm thời bỏ qua bước này và thử lại sau.",
       "skip": "Bỏ qua",
       "dismiss": "Quay lại"
     },
     "verificationFailure": "Rất tiếc! Đã xảy ra lỗi, vui lòng thử lại sau.",
     "resendButtonNotYetAvailable": "Có thể gửi lại trong {{secondsRemaining}} giây nữa",
-    "resendButton": "Didn’t receive code?"
+    "resendButton": "Didn nhận được mã?"
   },
   "importExistingKey": {
     "keyPlaceholder": "ngựa báo chó khỉ...",
