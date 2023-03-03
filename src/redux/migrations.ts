@@ -1063,7 +1063,8 @@ export const migrations = {
       'createAccountCopyTestType'
     ),
   }),
-  114: (state: any) => ({
+  114: (state: any) => state,
+  115: (state: any) => ({
     ...state,
     account: {
       ...state.account,

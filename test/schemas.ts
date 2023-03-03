@@ -2079,19 +2079,30 @@ export const v113Schema = {
     'createAccountCopyTestType'
   ),
 }
-
 export const v114Schema = {
   ...v113Schema,
   _persist: {
     ...v113Schema._persist,
     version: 114,
   },
+  supercharge: {
+    ...v113Schema.supercharge,
+    superchargeV1Addresses: [],
+  },
+}
+
+export const v115Schema = {
+  ...v114Schema,
+  _persist: {
+    ...v114Schema._persist,
+    version: 115,
+  },
   app: {
-    ...v113Schema.app,
+    ...v114Schema.app,
     requireCPV: false,
   },
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v114Schema as Partial<RootState>
+  return v115Schema as Partial<RootState>
 }

@@ -208,6 +208,7 @@ export interface RemoteConfigValues {
   guaranteedSwapPriceEnabled: boolean
   superchargeV2Enabled: boolean
   superchargeRewardContractAddress: string
+  superchargeV1Addresses: string[]
   dappsFilterEnabled: boolean
   dappsSearchEnabled: boolean
   requireCPV: boolean
