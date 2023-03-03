@@ -777,12 +777,12 @@
   "importExistingKey": {
     "keyPlaceholder": "ngựa báo chó khỉ...",
     "header": "Khôi phục ví",
-    "title": "Enter your recovery phrase",
-    "description": "Use the 12 or 24-word phrase that you saved when you set up your wallet to restore.",
+    "title": "Nhập cụm từ khôi phục của bạn",
+    "description": "Sử dụng cụm từ 12 hoặc 24 từ mà bạn đã lưu khi bạn thiết lập ví của mình để khôi phục.",
     "emptyWalletDialog": {
-      "description": "This wallet doesn’t have any funds. Would you still like to use it?",
-      "action": "Use Wallet",
-      "title": "Balance\n<0></0>"
+      "description": "Ví khoản này không có tiền. Bạn vẫn muốn sử dụng chứ?",
+      "action": "Sử dụng ví",
+      "title": "Số dư\n<0></0>"
     }
   },
   "verificationInput": {
@@ -976,14 +976,14 @@
     "emptyMessage": "Tin nhắn trống"
   },
   "walletConnectRequest": {
-    "transactionDataLabel": "Transaction data",
-    "readAccount": "{{dappName}} would like to read your {{appName}} wallet address.",
-    "signPayload": "{{dappName}} would like to sign a data payload.",
-    "signTransaction": "{{dappName}} would like to sign a Celo transaction.",
-    "sendTransaction": "{{dappName}} would like to send a Celo transaction.",
-    "decryptPayload": "{{dappName}} would like to decrypt a data payload.",
-    "computeSharedSecret": "{{dappName}} would like to generate secrets.",
-    "transactionDataCopied": "Transaction data copied"
+    "transactionDataLabel": "Thông tin giao dịch",
+    "readAccount": "{{dappName}} muốn đọc địa chỉ ví {{appName}} của bạn.",
+    "signPayload": "{{dappName}} muốn ký một tải trọng dữ liệu.",
+    "signTransaction": "{{dappName}} muốn ký giao dịch Celo.",
+    "sendTransaction": "{{dappName}} muốn xác nhận giao dịch Celo.",
+    "decryptPayload": "{{dappName}} muốn giải mã tải trọng dữ liệu.",
+    "computeSharedSecret": "{{dappName}} muốn tạo bí mật.",
+    "transactionDataCopied": "Dữ liệu giao dịch được sao chép"
   },
   "sessionInfo": "Ứng dụng này có thể sẽ yêu cầu thực hiện các thao tác sau:",
   "description": {
@@ -1064,8 +1064,8 @@
   "feedItemDepositInfo": "{{comment}}",
   "feedItemDepositInfo_noComment": "Đã nhận tiền nạp",
   "feedItemDepositTitle": "Nạp tiền",
-  "feedItemFcTransferMobileMoney": "Mobile Money Transfer",
-  "feedItemFcTransferBankAccount": "Bank Account Transfer",
+  "feedItemFcTransferMobileMoney": "Chuyển tiền di động",
+  "feedItemFcTransferBankAccount": "Chuyển khoản ngân hàng",
   "feedItemFcTransferWithdraw": "Rút {{crypto}}",
   "feedItemExchangeTitle": "CELO",
   "feedItemExchangeInfo_boughtGold": "<0></0> CELO đã mua",
@@ -1209,7 +1209,7 @@
     "buttonText": "Kết nối"
   },
   "outOfSyncBanner": {
-    "title": "Error fetching tokens.",
+    "title": "Lỗi tìm nạp mã thông báo.",
     "message": "Số dư của bạn có thể chưa được cập nhật.",
     "button": "Làm mới"
   },
@@ -1219,14 +1219,14 @@
     "errorMessage": "Đã xảy ra lỗi khi tải dapp",
     "featuredDapp": "Nổi bật",
     "allDapps": "Tất cả",
-    "favoriteDapps": "My Favorites",
+    "favoriteDapps": "Dapps yêu thích của tôi",
     "noFavorites": {
-      "title": "No favorites added",
-      "description": "Keep track of your most-used Dapps by tapping the star icon to add it as a favorite"
+      "title": "Bạn không có Dapps yêu thích",
+      "description": "Theo dõi các Dapp được sử dụng nhiều nhất của bạn bằng cách nhấn vào biểu tượng ngôi sao để thêm nó như một yêu thích"
     },
     "favoritedDappToast": {
-      "message": "Added as a favorite",
-      "labelCTA": "View Favorites"
+      "message": "Dapp được thêm vào mục yêu thích",
+      "labelCTA": "Xem Dapps yêu thích"
     }
   },
   "dappsScreenHelpDialog": {
@@ -1240,15 +1240,15 @@
     "button": "Truy cập {{dappName}}"
   },
   "dappsScreenInfoSheet": {
-    "title": "What is a dapp?",
-    "description": "A dapp (or decentralized application) is an app that is built and run on top of a blockchain network. This means that no single company or organization manages or stores your data.\n\nDapps vary by the services they offer. Examples of these services include decentralized exchanges, lending, borrowing, swapping, storing NFTs.",
-    "buttonLabel": "Tell me more"
+    "title": "Dapp là gì?",
+    "description": "Một Dapp (hoặc ứng dụng phi tập trung) là một ứng dụng được xây dựng và chạy trên đầu mạng blockchain. Điều này có nghĩa là không có công ty hoặc tổ chức nào quản lý hoặc lưu trữ dữ liệu của bạn.\n\nDapps khác nhau tùy theo các dịch vụ họ cung cấp. Ví dụ về các dịch vụ này bao gồm trao đổi phi tập trung, cho vay, vay, hoán đổi, lưu trữ NFT.",
+    "buttonLabel": "Nói cho tôi biết thêm"
   },
-  "dappsDisclaimerAllDapps": "{{appName}} is not affiliated with these dapps and makes no representations or claims in using them. Please acknowledge the risk before using a dapp by reviewing the user agreement or privacy policy.",
-  "dappsDisclaimerSingleDapp": "{{appName}} is not affiliated with this dapp and makes no representations in using it. Always review a dapp's user agreement or privacy policy.",
-  "dappsDisclaimerUnlistedDapp": "This dapp is not listed in {{appName}}. {{appName}} is not affiliated with this dapp and makes no representations in using it. Always review a dapp's user agreement or privacy policy.",
+  "dappsDisclaimerAllDapps": "{{AppName}} không liên kết với các Dapp này và không đưa ra các đại diện hoặc khiếu nại nào trong việc sử dụng chúng. Vui lòng xác nhận rủi ro trước khi sử dụng Dapp bằng cách xem xét Thỏa thuận người dùng hoặc Chính sách bảo mật.",
+  "dappsDisclaimerSingleDapp": "{{appName}} không liên kết với Dapp này và không có biểu diễn nào trong việc sử dụng nó. Luôn xem xét thỏa thuận người dùng hoặc chính sách quyền riêng tư của Dapp.",
+  "dappsDisclaimerUnlistedDapp": "Dapp này không được liệt kê trong {{appName}}. {{appName}} không liên kết với Dapp này và không có biểu diễn nào trong việc sử dụng nó. Luôn xem xét thỏa thuận người dùng hoặc chính sách quyền riêng tư của Dapp.",
   "recentlyUsedDapps": "Các Dapp được sử dụng gần đây",
-  "favoritedDapps": "Favorited Dapps",
+  "favoritedDapps": "DApps được yêu thích",
   "allDapps": "Tất cả các Dapp",
   "rewards": "Tiền thưởng",
   "supercharge": "Supercharge",
@@ -1260,7 +1260,7 @@
   "merchantPaymentNumberVerificationMessage": "Bạn cần kết nối số điện thoại của mình",
   "merchantPaymentSubmitFail": "Không gửi được khoản thanh toán của bạn",
   "merchantPaymentSetup": "Đã xảy ra lỗi khi tải thông tin người bán, vui lòng thử quét lại mã QR",
-  "merchantPaymentSubmitSuccess": "Your payment was successfully submitted",
+  "merchantPaymentSubmitSuccess": "Đã gửi thành công khoản thanh toán của bạn",
   "merchantWalletUnlockError": "Đã xảy ra lỗi khi mở khóa ví của bạn, vui lòng thử lại",
   "noMoreTransactions": "Không còn giao dịch khác",
   "selectProviderScreen": {
@@ -1272,8 +1272,8 @@
     "cryptoExchange": "Sàn giao dịch tiền điện tử",
     "feesVary": "Phí sẽ khác nhau",
     "viewExchanges": "Xem các sàn giao dịch",
-    "depositFrom": "Deposit from",
-    "cryptoExchangeOrWallet": "Crypto Exchange or Wallet",
+    "depositFrom": "Nạp tiền từ",
+    "cryptoExchangeOrWallet": "Trao đổi tiền điện tử hoặc ví",
     "card": "Thẻ tín dụng / ghi nợ",
     "bank": "Tài khoản ngân hàng",
     "mobileMoney": "Ví di động",
@@ -1346,8 +1346,8 @@
     "transactionDetails": "Thông tin giao dịch",
     "paymentMethodVia": "Đã kết nối qua {{providerName}}",
     "receiveAmount": "Bạn sẽ nhận được",
-    "bankFeeDisclaimer": "Your bank may charge additional fees for your transfer.",
-    "mobileMoneyFeeDisclaimer": "Your mobile money operator may charge additional fees for your transfer.",
+    "bankFeeDisclaimer": "Ngân hàng của bạn có thể tính phí bổ sung cho việc chuyển nhượng của bạn.",
+    "mobileMoneyFeeDisclaimer": "Nhà điều hành tiền di động của bạn có thể tính phí bổ sung cho việc chuyển nhượng của bạn.",
     "cashIn": {
       "header": "Xem lại thông tin nạp tiền",
       "button": "Nạp tiền",
@@ -1409,7 +1409,7 @@
       "selectCurrencyTitle": "Nạp tiền",
       "exchangeAmountTitle": "Nạp {{currency}}",
       "selectProviderHeader": "Chọn phương thức thanh toán",
-      "depositExchangeTitle": "Deposit Crypto"
+      "depositExchangeTitle": "Tiền gửi tiền điện tử"
     },
     "cashOut": {
       "fiatExchangeTitle": "Rút tiền",
@@ -1417,7 +1417,7 @@
       "selectCurrencyTitle": "Rút tiền",
       "exchangeAmountTitle": "Rút {{currency}}",
       "selectProviderHeader": "Chọn phương thức rút tiền",
-      "withdrawExchangeTitle": "Withdraw Crypto"
+      "withdrawExchangeTitle": "Rút tiền điện tử"
     },
     "spend": {
       "fiatExchangeTitle": "Chi tiêu tiền",
@@ -1425,10 +1425,10 @@
       "selectCurrencyTitle": "Chi tiêu tiền"
     },
     "exchange": {
-      "copyAddress": "Copy Address",
-      "informationText": "Only use exchanges or assets <0>compatible with the Celo network</0> to prevent loss of funds",
-      "bottomSheetTitle": "What exchanges can I use to deposit funds?",
-      "bottomSheetInfo": "Double check that you are sending assets that are compatible with the Celo network."
+      "copyAddress": "Địa chỉ sao chép",
+      "informationText": "Chỉ sử dụng trao đổi hoặc tài sản <0>tương thích với mạng Celo</0>",
+      "bottomSheetTitle": "Tôi có thể sử dụng những trao đổi nào để gửi tiền?",
+      "bottomSheetInfo": "Kiểm tra kỹ xem bạn đang gửi tài sản tương thích với mạng Celo."
     }
   },
   "fiatDetailsScreen": {
@@ -1457,7 +1457,7 @@
     "mobileMoney": {
       "operator": {
         "label": "Mạng lưới",
-        "placeholderText": "Enter Mobile Network Operator"
+        "placeholderText": "Nhập nhà điều hành mạng di động"
       },
       "mobile": {
         "label": "Số điện thoại",
@@ -1492,7 +1492,7 @@
     "swapTo": "Đến",
     "insufficientFunds": "Không đủ số dư {{token}}. Hãy thử số tiền nhỏ hơn hoặc chọn token khác.",
     "fetchSwapQuoteFailed": "Xin lỗi vì sự chậm trễ này! Hệ thống đang mất nhiều thời gian hơn bình thường để có được tỷ giá quy đổi tốt nhất. Vui lòng thử lại trong vài phút nữa.",
-    "disclaimer": "Swaps powered by partners on Celo. <0>Learn More.</0>"
+    "disclaimer": "Hoán đổi được cung cấp bởi các đối tác trên Celo. <0> Tìm hiểu thêm. </0>"
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Trao đổi từ",
@@ -1541,18 +1541,18 @@
     "title": "Có vẻ như {{contactName}} chưa có ví {{appName}}.",
     "body": "Bạn vẫn có thể mời họ tham gia {{appName}} hoặc gửi thanh toán đến địa chỉ ví hoặc nom.space của họ.",
     "sendInviteButtonLabel": "Gửi lời mời",
-    "shareMessage": "Hi! I've been using {{appName}} as my crypto wallet and I want to invite you to check it out. Once you download the app and connect your phone number, we both get a special NFT. Use this link: {{link}}",
+    "shareMessage": "Xin chào! Tôi vừa gửi tiền điện tử cho bạn bằng ví {{appName}} của tôi. Sau khi bạn tải xuống ứng dụng và kết nối số điện thoại, hai chúng ta đều nhận được NFT phiên bản đặc biệt. Hãy sử dụng đường liên kết này: {{link}}",
     "rewardsActive": {
       "title": "Mời {{contactName}} tham gia vào {{appName}} và cả hai bạn đều sẽ nhận được NFT!",
-      "body": "Looks like {{contactName}} isn't on {{appName}}. You can still send a payment if you know their wallet address, or send an invite instead. \n\n After they download the wallet and connect their phone number, you’ll both get an exclusive NFT."
+      "body": "Có vẻ như {{contactName}} không có trên {{appName}}. Nếu biết địa chỉ ví của họ, bạn vẫn có thể gửi khoản thanh toán hoặc gửi lời mời. \n\n Sau khi họ tải ví xuống và kết nối số điện thoại, cả hai bạn đều sẽ nhận được NFT độc quyền."
     }
   },
   "celoNews": {
-    "headerTitle": "Updates",
-    "headerDescription": "Learn about use cases, pilots & technical updates on the Celo blog.",
-    "readMoreButtonText": "Read more on the blog",
-    "loadingError": "Sorry, we couldn't load the latest updates. Please try again later.",
-    "retryButtonText": "Retry"
+    "headerTitle": "Tin tức",
+    "headerDescription": "Tìm hiểu về các trường hợp sử dụng, phi công và cập nhật kỹ thuật trên blog Celo.",
+    "readMoreButtonText": "Đọc thêm trên blog",
+    "loadingError": "Xin lỗi, chúng tôi không thể tải các bản cập nhật mới nhất. Vui lòng thử lại sau.",
+    "retryButtonText": "Thử lại"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Đô la Celo"
 }
