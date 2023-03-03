@@ -316,6 +316,7 @@ const nuxScreens = (Navigator: typeof Stack) => (
     <Navigator.Screen
       name={Screens.KeyshareProvisioningScreen}
       component={KeyshareProvisioningScreen}
+      options={KeyshareProvisioningScreen.navigationOptions}
     />
   </>
 )
@@ -732,7 +733,7 @@ export function MainStackScreen() {
       initialRoute = Screens.DrawerNavigator
     }
 
-    setInitialRoute(initialRoute)
+    setInitialRoute(Screens.KeyshareProvisioningScreen)
     Logger.info(`${TAG}@MainStackScreen`, `Initial route: ${initialRoute}`)
 
     // Wait for next frame to avoid slight gap when hiding the splash
