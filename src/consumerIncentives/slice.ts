@@ -1,15 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Actions as AppActions, UpdateConfigValuesAction } from 'src/app/actions'
-import { SuperchargePendingReward } from 'src/consumerIncentives/types'
+import { SuperchargePendingReward, SuperchargePendingRewardV2 } from 'src/consumerIncentives/types'
 
 export interface State {
   loading: boolean
   error: boolean
-  availableRewards: SuperchargePendingReward[]
   fetchAvailableRewardsLoading: boolean
   fetchAvailableRewardsError: boolean
-  superchargeV2Enabled: boolean // switch to new backend to calculate rewards on the fly
   superchargeRewardContractAddress: string
+  availableRewards: SuperchargePendingReward[] | SuperchargePendingRewardV2[]
+  superchargeV2Enabled: boolean
 }
 
 export const initialState: State = {
@@ -26,7 +26,10 @@ const slice = createSlice({
   name: 'supercharge',
   initialState,
   reducers: {
-    claimRewards: (state, action: PayloadAction<SuperchargePendingReward[]>) => ({
+    claimRewards: (
+      state,
+      action: PayloadAction<SuperchargePendingReward[] | SuperchargePendingRewardV2[]>
+    ) => ({
       ...state,
       loading: true,
       error: false,
@@ -56,7 +59,10 @@ const slice = createSlice({
       fetchAvailableRewardsLoading: false,
       fetchAvailableRewardsError: true,
     }),
-    setAvailableRewards: (state, action: PayloadAction<SuperchargePendingReward[]>) => ({
+    setAvailableRewards: (
+      state,
+      action: PayloadAction<SuperchargePendingReward[] | SuperchargePendingRewardV2[]>
+    ) => ({
       ...state,
       availableRewards: action.payload,
     }),
