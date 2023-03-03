@@ -187,10 +187,10 @@
   "startSuperchargingNotificationStart": "รับรางวัล",
   "cashIn": "เพิ่ม {{currency}}",
   "connectNumber": "เชื่อมต่อหมายเลข",
-  "connectToWallet": "Connect to {{dappName}}",
-  "confirmTransaction": "Confirm transaction",
+  "connectToWallet": "เชื่อมต่อกับ {{dappName}}",
+  "confirmTransaction": "ยืนยันธุรกรรม",
   "allow": "อนุญาต",
-  "address": "Wallet address",
+  "address": "ที่อยู่กระเป๋าเงิน",
   "phoneNumber": "หมายเลขโทรศัพท์",
   "transaction": {
     "operation": "การดำเนินการ",
@@ -198,8 +198,8 @@
     "signTX": "ลงนามธุรกรรม",
     "details": "แสดงรายละเอียด"
   },
-  "shareInfo": "You must connect your wallet to approve transactions in this Dapp. Once connected, it will have access to your wallet address.",
-  "connectWalletInfoDappkit": "You must connect your wallet to approve transactions in this Dapp. Once connected, it will have access to your wallet address and phone number.",
+  "shareInfo": "คุณต้องเชื่อมต่อกระเป๋าเงินของคุณเพื่ออนุมัติธุรกรรมใน dapp นี้ เมื่อเชื่อมต่อแล้วจะสามารถเข้าถึงที่อยู่กระเป๋าเงินของคุณได้",
+  "connectWalletInfoDappkit": "คุณต้องเชื่อมต่อกระเป๋าเงินของคุณเพื่ออนุมัติธุรกรรมใน dapp นี้ เมื่อเชื่อมต่อแล้วจะมีการเข้าถึงที่อยู่กระเป๋าเงินและหมายเลขโทรศัพท์ของคุณ",
   "data": "ข้อมูล",
   "firebaseDisabled": "Firebase ถูกปิดใช้งาน การแจ้งเตือนและการอัปโหลดบันทึกจะไม่ทำงาน",
   "learnMore": "ดูข้อมูลเพิ่มเติม",
@@ -552,7 +552,7 @@
   "sendAndInvite": "ส่งและเชิญ",
   "inviteRewardsBanner": {
     "title": "เชิญเพื่อนและสะสม NFT",
-    "body": "Once they set up their {{appName}} wallet and connect their number, you’ll each get an exclusive NFT."
+    "body": "เมื่อมีการตั้งค่ากระเป๋าเงิน {{appName}} และเชื่อมต่อหมายเลขแล้ว คุณแต่ละคนจะได้รับ NFT พิเศษ"
   },
   "inviteWithUrl": {
     "title": "เชิญเพื่อน",
@@ -578,8 +578,8 @@
     "privacy": "การเข้าร่วมเครือข่ายนี้แสดงว่าคุณให้อนุญาตเราเก็บรวบรวมข้อมูลโดยไม่ระบุตัวตนเกี่ยวกับการใช้งานแอปของคุณ นอกจากนี้ หากคุณเชื่อมต่อหมายเลขโทรศัพท์ของคุณ จะมีการจัดเก็บสำเนาแฮชบนเครือข่าย Celo หากคุณอนุญาตให้ Valora เข้าถึงรายชื่อผู้ติดต่อของคุณ Valora จะนำเข้าชื่อ หมายเลขโทรศัพท์ และรูปโปรไฟล์ของผู้ติดต่อแต่ละรายเพื่อให้ผู้ใช้สามารถเชื่อมต่อผ่านแอป Valora ได้ หากต้องการเรียนรู้วิธีการเก็บรวบรวมและใช้ข้อมูลนี้ของเรา โปรดตรวจสอบ<0>นโยบายความเป็นส่วนตัว</0>ของเรา",
     "goldDisclaimer": "เมื่อคุณสร้าง \"บัญชี\" กับ Valora เท่ากับคุณกำลังสร้างกระเป๋าเงินดิจิทัลที่มีเพียงคุณผู้เดียวเท่านั้นที่เป็นผู้ถือกุญแจ ไม่มีบุคคลหรือหน่วยงานใด รวมถึง cLabs หรือ Valora ที่สามารถกู้คืนกุญแจของคุณ เปลี่ยนแปลงหรือยกเลิกธุรกรรม หรือเรียกคืนเงินที่สูญเสียไปได้ โปรดทราบว่า CELO, cUSD และ cEUR เป็นส่วนหนึ่งของประเภทสินทรัพย์ใหม่และมีความเสี่ยงที่จะเกิดผลขาดทุนการเงิน โปรดพิจารณาสถานการณ์ทางการเงินและความสามารถในการยอมรับความเสี่ยงทางการเงินของคุณอย่างรอบคอบก่อนซื้อสินทรัพย์ใดๆ"
   },
-  "fullNameOrPsuedonym": "Full name or pseudonym",
-  "namePlaceholder": "ex. name",
+  "fullNameOrPsuedonym": "ชื่อและนามสกุลหรือนามแฝง",
+  "namePlaceholder": "ชื่อ",
   "nameAndPicGuideCopyTitle": "คุณชื่ออะไร",
   "nameAndPicGuideCopyContent": "เราอยากรู้ว่าควรจะเรียกคุณอย่างไร.",
   "important": "สำคัญ",
@@ -683,7 +683,7 @@
     "createNewWallet": "สร้างกระเป๋าเงินใหม่",
     "restoreWallet": "กู้คืนกระเป๋าเงิน",
     "hasWallet": "ฉันมีกระเป๋าเงินอยู่แล้ว",
-    "header": "Welcome to {{appName}}! Let's create your crypto wallet.",
+    "header": "ยินดีต้อนรับสู่ {{appName}}! เรามาสร้างกระเป๋าเงินคริปโตกัน",
     "getStarted": "เริ่มต้นใช้งาน"
   },
   "accessContacts": {
@@ -703,9 +703,9 @@
     "changePIN": "เปลี่ยนรหัส PIN",
     "pinsDontMatch": "รหัส PIN ไม่ตรงกัน",
     "invalidPin": "โปรดใช้รหัส PIN ที่คาดเดายากกว่านี้",
-    "onboardingTitle": "Choose a 6 digit PIN",
-    "onboardingConfirm": "Enter your PIN again",
-    "onboardingSubtitle": "Your PIN will secure your wallet",
+    "onboardingTitle": "เลือกรหัส PIN 6 หลักที่คุณจะจำได้",
+    "onboardingConfirm": "ป้อนรหัส PIN ของคุณอีกครั้งเพื่อยืนยัน",
+    "onboardingSubtitle": "รหัส PIN ของคุณจะช่วยรักษาความปลอดภัยกระเป๋าเงินของคุณ",
     "pin": "PIN"
   },
   "inviteCode": {
@@ -744,13 +744,13 @@
   },
   "phoneVerificationScreen": {
     "screenTitle": "หมายเลขโทรศัพท์",
-    "title": "Connect your phone number to Valora",
-    "description": "This links your wallet address to your phone number so sending crypto is easy",
+    "title": "เชื่อมต่อหมายเลขโทรศัพท์ของคุณ",
+    "description": "ลิงค์ที่อยู่กระเป๋าเงินของคุณไปยังหมายเลขโทรศัพท์ของคุณดังนั้นการส่ง crypto จึงเป็นเรื่องง่าย",
     "startButtonLabel": "เชื่อมต่อ",
     "learnMore": {
       "buttonLabel": "ฉันต้องเชื่อมต่อหรือไม่",
       "title": "ฉันต้องเชื่อมต่อหรือไม่",
-      "body": "Connecting your phone number will allow you to send money to friends in your address book and other phone numbers. \n \n If you choose to skip this step you won’t be able to access your contacts and you will only be able to send money via QR code or wallet address."
+      "body": "การเชื่อมต่อหมายเลขโทรศัพท์ของคุณจะช่วยให้คุณสามารถส่งเงินให้เพื่อนในสมุดที่อยู่และหมายเลขโทรศัพท์อื่นๆ \n \n หากคุณเลือกข้ามขั้นตอนนี้ คุณจะไม่สามารถเข้าถึงผู้ติดต่อของงคุณ และจะสามารถส่งเงินผ่าน QR Code หรือที่อยู่บัญชีเท่านั้น"
     },
     "skip": {
       "title": "คุณแน่ใจหรือไม่",
@@ -766,23 +766,23 @@
     "codeInputPlaceholder": "123456",
     "helpDialog": {
       "title": "ความช่วยเหลือ",
-      "body": "We sent an SMS to your phone number. Please check your text messages to find the 6 digit code. \n \n If you’re having trouble receiving messages, you can skip this step for now and try again later.",
+      "body": "เราได้ส่ง SMS ไปยังหมายเลขโทรศัพท์ของคุณ โปรดตรวจสอบข้อความของคุณเพื่อดูรหัส 6 ตัว หากคุณมีปัญหาในการรับข้อความ คุณสามารถข้ามขั้นตอนนี้ไปก่อนและลองอีกครั้งภายหลัง",
       "skip": "ข้าม",
       "dismiss": "ย้อนกลับ"
     },
     "verificationFailure": "ขออภัย มีบางอย่างผิดปกติ โปรดลองอีกครั้งภายหลัง",
     "resendButtonNotYetAvailable": "สามารถส่งอีกครั้งได้ในอีก {{secondsRemaining}} วินาที",
-    "resendButton": "Didn’t receive code?"
+    "resendButton": "ไม่ได้รับรหัส?"
   },
   "importExistingKey": {
     "keyPlaceholder": "horse leopard dog monkey ...",
     "header": "กู้คืนกระเป๋าเงิน",
-    "title": "Enter your recovery phrase",
-    "description": "Use the 12 or 24-word phrase that you saved when you set up your wallet to restore.",
+    "title": "ป้อนวลีการกู้คืนของคุณ",
+    "description": "ใช้วลี 12 หรือ 24 คำที่คุณบันทึกเมื่อคุณตั้งค่ากระเป๋าเงินเพื่อกู้คืน",
     "emptyWalletDialog": {
-      "description": "This wallet doesn’t have any funds. Would you still like to use it?",
-      "action": "Use Wallet",
-      "title": "Balance\n<0></0>"
+      "description": "กระเป๋าเงินนี้ไม่มีเงินทุนใด ๆ คุณยังต้องการใช้หรือไม่?",
+      "action": "ใช้กระเป๋าเงิน",
+      "title": "ยอดคงเหลือ\n<0></0>"
     }
   },
   "verificationInput": {
@@ -976,14 +976,14 @@
     "emptyMessage": "ข้อความว่างเปล่า"
   },
   "walletConnectRequest": {
-    "transactionDataLabel": "Transaction data",
-    "readAccount": "{{dappName}} would like to read your {{appName}} wallet address.",
-    "signPayload": "{{dappName}} would like to sign a data payload.",
-    "signTransaction": "{{dappName}} would like to sign a Celo transaction.",
-    "sendTransaction": "{{dappName}} would like to send a Celo transaction.",
-    "decryptPayload": "{{dappName}} would like to decrypt a data payload.",
-    "computeSharedSecret": "{{dappName}} would like to generate secrets.",
-    "transactionDataCopied": "Transaction data copied"
+    "transactionDataLabel": "รายละเอียดธุรกรรม",
+    "readAccount": "{{dappName}} ต้องการอ่าน {{appName}} ที่อยู่กระเป๋าเงินของคุณ",
+    "signPayload": "{{dappName}} ต้องการลงนามในข้อมูล Payload",
+    "signTransaction": "{{dappName}} ต้องการลงนามในธุรกรรม CELO",
+    "sendTransaction": "{{dappName}} ต้องการส่งธุรกรรม CELO",
+    "decryptPayload": "{{dappName}} ต้องการถอดรหัสข้อมูลของข้อมูล",
+    "computeSharedSecret": "{{dappName}} ต้องการสร้างความลับ",
+    "transactionDataCopied": "ข้อมูลการทำธุรกรรมคัดลอก"
   },
   "sessionInfo": "แอปพลิเคชั่นนี้อาจขอดำเนินการดังต่อไปนี้:",
   "description": {
@@ -1064,8 +1064,8 @@
   "feedItemDepositInfo": "{{comment}}",
   "feedItemDepositInfo_noComment": "เงินฝากที่ได้รับ",
   "feedItemDepositTitle": "ฝากเงิน",
-  "feedItemFcTransferMobileMoney": "Mobile Money Transfer",
-  "feedItemFcTransferBankAccount": "Bank Account Transfer",
+  "feedItemFcTransferMobileMoney": "การโอนเงินมือถือ",
+  "feedItemFcTransferBankAccount": "โอนเงินผ่านธนาคาร",
   "feedItemFcTransferWithdraw": "ถอน {{crypto}}",
   "feedItemExchangeTitle": "CELO",
   "feedItemExchangeInfo_boughtGold": "ซื้อ <0></0> CELO แล้ว",
@@ -1209,7 +1209,7 @@
     "buttonText": "เชื่อมต่อ"
   },
   "outOfSyncBanner": {
-    "title": "Error fetching tokens.",
+    "title": "โทเค็นการดึงข้อผิดพลาด",
     "message": "ยอดคงเหลือของคุณอาจไม่เป็นปัจจุบัน",
     "button": "รีเฟรช"
   },
@@ -1219,7 +1219,7 @@
     "errorMessage": "มีข้อผิดพลาดขณะโหลด Dapp",
     "featuredDapp": "โดดเด่น",
     "allDapps": "ทั้งหมด",
-    "favoriteDapps": "My Favorites",
+    "favoriteDapps": "สิ่งที่ฉันชอบ",
     "noFavorites": {
       "title": "No favorites added",
       "description": "Keep track of your most-used Dapps by tapping the star icon to add it as a favorite"
@@ -1552,7 +1552,7 @@
     "headerDescription": "Learn about use cases, pilots & technical updates on the Celo blog.",
     "readMoreButtonText": "Read more on the blog",
     "loadingError": "Sorry, we couldn't load the latest updates. Please try again later.",
-    "retryButtonText": "Retry"
+    "retryButtonText": "ลองอีกครั้ง"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo ดอลลาร์"
 }
