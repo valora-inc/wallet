@@ -10,7 +10,6 @@ import {
   SUPERCHARGE_FETCH_TIMEOUT,
 } from 'src/consumerIncentives/saga'
 import {
-  availableRewardsSelector,
   superchargeRewardContractAddressSelector,
   superchargeV2EnabledSelector,
 } from 'src/consumerIncentives/selectors'
@@ -174,9 +173,8 @@ describe('claimRewardsSaga', () => {
     ${'1'}
     ${'2'}
   `('claiming no v$version rewards succeeds', async ({ version }) => {
-    await expectSaga(claimRewardsSaga, claimRewards())
+    await expectSaga(claimRewardsSaga, claimRewards([]))
       .provide([
-        [select(availableRewardsSelector), []],
         [select(superchargeV2EnabledSelector), version === '2'],
         [call(getContractKit), contractKit],
         [call(getConnectedUnlockedAccount), mockAccount],
@@ -194,14 +192,13 @@ describe('claimRewardsSaga', () => {
 
     const defaultProviders: (EffectProviders | StaticProvider)[] = [
       [select(superchargeV2EnabledSelector), false],
-      [select(availableRewardsSelector), ONE_CUSD_REWARD_RESPONSE],
       [call(getContractKit), contractKit],
       [call(getConnectedUnlockedAccount), mockAccount],
       [select(tokensByAddressSelector), mockTokens],
     ]
 
     it('claims one reward successfully', async () => {
-      await expectSaga(claimRewardsSaga, claimRewards())
+      await expectSaga(claimRewardsSaga, claimRewards(ONE_CUSD_REWARD_RESPONSE))
         .provide(defaultProviders)
         .put.like({
           action: {
@@ -226,14 +223,11 @@ describe('claimRewardsSaga', () => {
     })
 
     it('claims two rewards successfully', async () => {
-      await expectSaga(claimRewardsSaga, claimRewards())
-        .provide([
-          [
-            select(availableRewardsSelector),
-            [...ONE_CUSD_REWARD_RESPONSE, ...ONE_CEUR_REWARD_RESPONSE],
-          ],
-          ...defaultProviders,
-        ])
+      await expectSaga(
+        claimRewardsSaga,
+        claimRewards([...ONE_CUSD_REWARD_RESPONSE, ...ONE_CEUR_REWARD_RESPONSE])
+      )
+        .provide(defaultProviders)
         .put.like({
           action: {
             type: TransactionActions.ADD_STANDBY_TRANSACTION,
@@ -276,7 +270,7 @@ describe('claimRewardsSaga', () => {
       ;(sendTransaction as jest.Mock).mockImplementationOnce(() => {
         throw new Error('Error claiming')
       })
-      await expectSaga(claimRewardsSaga, claimRewards())
+      await expectSaga(claimRewardsSaga, claimRewards(ONE_CUSD_REWARD_RESPONSE))
         .provide(defaultProviders)
         .not.put(claimRewardsSuccess())
         .put(claimRewardsFailure())
@@ -295,7 +289,6 @@ describe('claimRewardsSaga', () => {
   describe('claiming rewards in version 2', () => {
     const defaultProviders: (EffectProviders | StaticProvider)[] = [
       [select(superchargeV2EnabledSelector), true],
-      [select(availableRewardsSelector), [ONE_CUSD_REWARD_RESPONSE_V2]],
       [call(getContractKit), contractKit],
       [call(getConnectedUnlockedAccount), mockAccount],
       [select(tokensByAddressSelector), mockTokens],
@@ -303,7 +296,7 @@ describe('claimRewardsSaga', () => {
     ]
 
     it('claims one reward successfully', async () => {
-      await expectSaga(claimRewardsSaga, claimRewards())
+      await expectSaga(claimRewardsSaga, claimRewards([ONE_CUSD_REWARD_RESPONSE_V2]))
         .provide(defaultProviders)
         .put.like({
           action: {
@@ -328,14 +321,11 @@ describe('claimRewardsSaga', () => {
     })
 
     it('claims two rewards successfully', async () => {
-      await expectSaga(claimRewardsSaga, claimRewards())
-        .provide([
-          [
-            select(availableRewardsSelector),
-            [ONE_CUSD_REWARD_RESPONSE_V2, ONE_CEUR_REWARD_RESPONSE_V2],
-          ],
-          ...defaultProviders,
-        ])
+      await expectSaga(
+        claimRewardsSaga,
+        claimRewards([ONE_CUSD_REWARD_RESPONSE_V2, ONE_CEUR_REWARD_RESPONSE_V2])
+      )
+        .provide(defaultProviders)
         .put.like({
           action: {
             type: TransactionActions.ADD_STANDBY_TRANSACTION,
@@ -378,7 +368,7 @@ describe('claimRewardsSaga', () => {
       ;(sendTransaction as jest.Mock).mockImplementationOnce(() => {
         throw new Error('Error claiming')
       })
-      await expectSaga(claimRewardsSaga, claimRewards())
+      await expectSaga(claimRewardsSaga, claimRewards([ONE_CUSD_REWARD_RESPONSE_V2]))
         .provide(defaultProviders)
         .not.put(claimRewardsSuccess())
         .put(claimRewardsFailure())
@@ -394,7 +384,7 @@ describe('claimRewardsSaga', () => {
     })
 
     it('fails if the reward transaction to address is incorrect', async () => {
-      await expectSaga(claimRewardsSaga, claimRewards())
+      await expectSaga(claimRewardsSaga, claimRewards([ONE_CUSD_REWARD_RESPONSE_V2]))
         .provide([
           [select(superchargeRewardContractAddressSelector), '0xnewSuperchargeContract'],
           ...defaultProviders,
