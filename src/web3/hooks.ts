@@ -5,6 +5,8 @@ import { uploadKeyshare } from '@usecapsule/react-native-wallet/src/transmission
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { initializeAccount } from 'src/account/actions'
+import { showError } from 'src/alert/actions'
+import { ErrorMessages } from 'src/app/ErrorMessages'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import Logger from 'src/utils/Logger'
@@ -29,6 +31,7 @@ export const useCapsule = () => {
       navigate(Screens.CapsuleEmailVerification, {})
     } catch (error: any) {
       Logger.error(TAG, '@authenticate Unable to authenticate', error)
+      dispatch(showError(ErrorMessages.CAPSULE_ENDPOINT_FAILED, 2000))
     }
   }
 
@@ -39,19 +42,19 @@ export const useCapsule = () => {
       navigate(Screens.NameAndPicture)
     } catch (error: any) {
       Logger.error(TAG, '@verify Unable to verify', error)
+      dispatch(showError(ErrorMessages.CAPSULE_VERIFY_EMAIL_FAILED, 5000))
     }
   }
 
   const initiateLogin = async (email: string) => {
     try {
-      // @todo Call recovery veification with email, code,
       await login(email)
       dispatch(setCapsuleIdentity(email, cachedId || ''))
-      navigate(Screens.CapsuleEmailVerification, { isExistingUser: true })
     } catch (error: any) {
-      Logger.error(TAG, '@loginWithKeyshare Unable to send code', error)
-      Logger.error(TAG, '@loginWithKeyshare Unable to send code', error.response.data)
+      Logger.error(TAG, '@initiateLogin Unable to login', error)
+      Logger.error(TAG, '@initiateLogin Unable to login', error.response.data)
     }
+    navigate(Screens.CapsuleEmailVerification, { isExistingUser: true })
   }
 
   const loginWithKeyshare = async (code: string) => {
@@ -65,6 +68,7 @@ export const useCapsule = () => {
     } catch (error: any) {
       Logger.error(TAG, '@loginWithKeyshare Unable to login', error)
       Logger.error(TAG, '@loginWithKeyshare Unable to login', error.response.data)
+      dispatch(showError(ErrorMessages.CAPSULE_VERIFY_EMAIL_FAILED, 5000))
     }
   }
 

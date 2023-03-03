@@ -1423,5 +1423,8 @@
   },
   "welcomeBack": "We've missed you!",
   "capsuleKeyshareEncryptionFailed": "Something went wrong when preparing your keyshare, please try again in a moment.",
-  "capsuleKeyshareDecryptionFailed": "Something went wrong when scanning your keyshare, please generate a new code, and try again."
+  "capsuleKeyshareDecryptionFailed": "Something went wrong when scanning your keyshare, please generate a new code, and try again.",
+  "capsuleVerifyEmailFailed": "Invalid code, please check your email and try again.",
+  "hasNotReceivedEmail": "Your code is on its way! If you don't see it, please check your email address and spam folder.",
+  "capsuleEndpointFailed": "Oops! Something went wrong, please contact support."
 }

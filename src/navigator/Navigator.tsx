@@ -705,7 +705,6 @@ export function MainStackScreen() {
 
   React.useEffect(() => {
     const {
-      choseToRestoreAccount,
       language,
       name,
       acceptedTerms,

@@ -12,6 +12,7 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
+import variables from 'src/styles/variables'
 import Logger from 'src/utils/Logger'
 import { useCapsule } from 'src/web3/hooks'
 type RouteProps = StackScreenProps<StackParamList, Screens.CapsuleOAuth>
@@ -32,6 +33,7 @@ function CapsuleEmailVerificationScreen({ route, navigation }: Props) {
   }
 
   const handleBackspace = () => {
+    if (!code) return
     setCode(code.slice(0, code.length - 1))
   }
 
@@ -41,7 +43,7 @@ function CapsuleEmailVerificationScreen({ route, navigation }: Props) {
 
   useEffect(() => {
     async function callVerification() {
-      if (!code) return
+      if (!code || code.length < 6) return
       if (isExistingUser) {
         await loginWithKeyshare(code)
       } else {
@@ -64,11 +66,16 @@ function CapsuleEmailVerificationScreen({ route, navigation }: Props) {
         behavior="padding"
         style={[headerHeight ? { marginTop: headerHeight } : undefined, styles.accessibleView]}
       >
-        <View style={styles.inputGroup}>
-          <Text style={styles.verifyLabel}>{t('signUp.verifyLabel')}</Text>
-          <Text style={[!code ? styles.placeholder : styles.verifyLabel]}>
-            {code ?? t('signUp.verifyPlaceholder')}
-          </Text>
+        <View style={styles.spread}>
+          <View style={styles.inputGroup}>
+            <Text style={styles.verifyLabel}>{t('signUp.verifyLabel')}</Text>
+            <Text style={[!code ? styles.placeholder : styles.verifyLabel]}>
+              {code ?? t('signUp.verifyPlaceholder')}
+            </Text>
+          </View>
+          <View style={styles.callout}>
+            <Text style={styles.hasNotReceivedEmail}>{t('hasNotReceivedEmail')}</Text>
+          </View>
         </View>
         <Button
           style={styles.resendButton}
@@ -92,12 +99,16 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.greenUI,
   },
+  spread: {
+    flexGrow: 1,
+    flexDirection: 'column',
+    justifyContent: 'space-evenly',
+  },
   accessibleView: {
     flex: 1,
     paddingHorizontal: 20,
   },
   inputGroup: {
-    flexGrow: 1,
     flexDirection: 'column',
     justifyContent: 'center',
   },
@@ -111,6 +122,13 @@ const styles = StyleSheet.create({
   },
   resendButton: {
     justifyContent: 'center',
+  },
+  callout: {
+    padding: variables.contentPadding,
+  },
+  hasNotReceivedEmail: {
+    ...fontStyles.small,
+    color: Colors.lightGreen,
   },
 })
 
