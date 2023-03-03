@@ -71,4 +71,5 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   superchargeRewardContractAddress: '',
   dappsFilterEnabled: false,
   dappsSearchEnabled: false,
+  requireCPV: false,
 }

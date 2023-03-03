@@ -2473,6 +2473,9 @@
                 "rampCashInButtonExpEnabled": {
                     "type": "boolean"
                 },
+                "requireCPV": {
+                    "type": "boolean"
+                },
                 "requirePinOnAppOpen": {
                     "type": "boolean"
                 },
@@ -2563,6 +2566,7 @@
                 "phoneNumberVerified",
                 "pincodeUseExpandedBlocklist",
                 "rampCashInButtonExpEnabled",
+                "requireCPV",
                 "requirePinOnAppOpen",
                 "sentryNetworkErrors",
                 "sentryTracesSampleRate",

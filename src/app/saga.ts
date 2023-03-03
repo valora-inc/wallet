@@ -210,6 +210,7 @@ export interface RemoteConfigValues {
   superchargeRewardContractAddress: string
   dappsFilterEnabled: boolean
   dappsSearchEnabled: boolean
+  requireCPV: boolean
 }
 
 export function* appRemoteFeatureFlagSaga() {

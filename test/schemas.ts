@@ -2080,6 +2080,18 @@ export const v113Schema = {
   ),
 }
 
+export const v114Schema = {
+  ...v113Schema,
+  _persist: {
+    ...v113Schema._persist,
+    version: 114,
+  },
+  app: {
+    ...v113Schema.app,
+    requireCPV: false,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v113Schema as Partial<RootState>
+  return v114Schema as Partial<RootState>
 }

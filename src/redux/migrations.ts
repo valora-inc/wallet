@@ -1063,4 +1063,18 @@ export const migrations = {
       'createAccountCopyTestType'
     ),
   }),
+  114: (state: any) => ({
+    ...state,
+    account: {
+      ...state.account,
+      dismissedGetVerified:
+        state.app.numberVerified && !state.app.phoneNumberVerified
+          ? false
+          : state.account.dismissedGetVerified,
+    },
+    app: {
+      ...state.app,
+      requireCPV: false,
+    },
+  }),
 }

@@ -306,6 +306,7 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     superchargeRewardContractAddress: flags.superchargeRewardContractAddress.asString(),
     dappsFilterEnabled: flags.dappsFilterEnabled.asBoolean(),
     dappsSearchEnabled: flags.dappsSearchEnabled.asBoolean(),
+    requireCPV: flags.requireCPV.asBoolean(),
   }
 }
 
