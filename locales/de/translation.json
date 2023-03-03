@@ -187,10 +187,10 @@
   "startSuperchargingNotificationStart": "Erste Schritte",
   "cashIn": "{{currency}} hinzufügen",
   "connectNumber": "Nummer verbinden",
-  "connectToWallet": "Verbinde mit {{dappName}}",
+  "connectToWallet": "Mit {{dappName}} verbinden",
   "confirmTransaction": "Transaktion bestätigen",
   "allow": "Erlauben",
-  "address": "Adresse der Brieftasche",
+  "address": "Wallet-Adresse",
   "phoneNumber": "Telefonnummer",
   "transaction": {
     "operation": "Operation",
@@ -551,8 +551,8 @@
   "escrowPaymentNotificationTitle": "Die Einladung zu {{mobile}} kann nicht in Anspruch genommen werden",
   "sendAndInvite": "Senden & Einladen",
   "inviteRewardsBanner": {
-    "title": "Krypto senden, um einen Freund einzuladen",
-    "body": "Ihr erhaltet ein exklusives NFT, sobald dein Freund seine {{appName}}-Wallet eingerichtet hat und seine Nummer damit verknüpft hat. <0>Du kannst dir bis zu drei NFTs verdienen</0>"
+    "title": "Freunde einladen und NFTs sammeln",
+    "body": "Ihr erhaltet ein exklusives NFT, sobald dein Freund seine {{appName}}-Wallet eingerichtet hat und seine Nummer damit verknüpft hat."
   },
   "inviteWithUrl": {
     "title": "Lade deine Freunde ein",
@@ -578,13 +578,10 @@
     "privacy": "Indem du diesem Netzwerk beitrittst, gibst du uns die Erlaubnis, anonyme Informationen über deine Nutzung der App zu sammeln. Wenn du deine Telefonnummer verbindest, wird eine Kopie davon im Celo Netzwerk gespeichert. Wenn du Valora Zugriff auf deine Kontaktliste gewährst, wird Valora den Namen jedes Kontaktes importieren Telefonnummer und Profilbild, um Benutzern die Verbindung über die Valora-App zu ermöglichen. Um zu erfahren, wie wir diese Informationen sammeln und verwenden, lesen unsere <0>Datenschutzrichtlinie</0>.",
     "goldDisclaimer": "Wenn du ein „Konto“ bei Valora anlegst, erstellst du ein digitales Wallet, dessen Schlüssel nur du besitzt. Keine andere Person oder Organisation, einschließlich cLabs oder Valora, kann deinen Schlüssel wiederherstellen, Transaktionen ändern oder rückgängig machen oder verlorene Gelder wiedererlangen. Sei dir bewusst, dass CELO, cUSD und cEUR Teil einer neuen Vermögensklasse sind und ein Risiko für finanzielle Verluste darstellen. Überlege dir deine finanzielle Situation und deine Risikobereitschaft genau, bevor du einen Vermögenswert kaufst."
   },
-  "fullName": "Name",
-  "fullNamePlaceholder": "Vollständiger Name",
-  "fullNameOrPseudonymPlaceholder": "Vollständiger Name oder Alias",
+  "fullNameOrPsuedonym": "Vollständiger Name oder Alias",
+  "namePlaceholder": "z.B. Name",
   "nameAndPicGuideCopyTitle": "Wie heißt du?",
-  "nameAndPicGuideCopyContent": "Wir würden gerne wissen, wie wir dich nennen sollen",
-  "generateUsername": "Namen generieren",
-  "importIt": "Wallet wiederherstellen",
+  "nameAndPicGuideCopyContent": "Wir würden gerne wissen, wie wir dich nennen sollen.",
   "important": "Wichtig",
   "confirmPin": {
     "title": "PIN eingeben"
@@ -664,7 +661,6 @@
     "spend": "Verwende Krypto, um deine Lieblingsmarken zu kaufen"
   },
   "enableBiometry": {
-    "title": "Sichere dein Wallet",
     "description": "{{biometryType}} sichert dein Wallet und erleichtert die Verwendung von {{appName}}",
     "cta": "{{biometryType}} einschalten",
     "guideTitle": "Willst du {{biometryType}} einschalten?",
@@ -686,7 +682,9 @@
     "restoreAccount": "Mein Konto wiederherstellen",
     "createNewWallet": "Wallet erstellen",
     "restoreWallet": "Wallet wiederherstellen",
-    "iAlreadyHaveAWallet": "Ich habe bereits eine Wallet"
+    "hasWallet": "Ich habe bereits eine Wallet",
+    "header": "Willkommen bei {{appName}}! Lass uns deine Wallet erstellen.",
+    "getStarted": "Erste Schritte"
   },
   "accessContacts": {
     "disclosure": {
@@ -700,16 +698,15 @@
   "registrationSteps": "Schritt {{step}} von {{totalSteps}}",
   "selectCountryCode": "Ländercode auswählen",
   "pincodeSet": {
-    "create": "PIN erstellen",
     "createNew": "Neue PIN erstellen",
     "verify": "Zur Bestätigung erneut PIN eingeben",
     "changePIN": "PIN ändern",
     "pinsDontMatch": "Die PINs stimmen nicht überein",
     "invalidPin": "Bitte eine stärkere PIN verwenden",
-    "guideTitle": "Gib eine 6-stellige PIN ein, die du dir merken kannst",
-    "guideConfirm": "Zur Bestätigung erneut PIN eingeben.",
-    "pinCodeGuide": "Mit deiner PIN sicherst du deine Wallet.",
-    "selectPIN": "PIN auswählen"
+    "onboardingTitle": "Gib eine 6-stellige PIN",
+    "onboardingConfirm": "Gib deine PIN erneut ein",
+    "onboardingSubtitle": "Mit deiner PIN sicherst du deine Wallet",
+    "pin": "PIN"
   },
   "inviteCode": {
     "title": "Einladungscode",
@@ -747,13 +744,13 @@
   },
   "phoneVerificationScreen": {
     "screenTitle": "Telefonnummer",
-    "title": "Verbinde deine Telefonnummer",
-    "description": "Um deine Telefonnummer zu verbinden, erhältst du eine Textnachricht.",
-    "startButtonLabel": "Start",
+    "title": "Verbinde deine Telefonnummer mit Valora",
+    "description": "Dies verknüpft deine Wallet-Adresse mit deiner Telefonnummer, damit das Versenden von Krypto einfach ist",
+    "startButtonLabel": "Verbinden",
     "learnMore": {
-      "buttonLabel": "Muss ich mein Telefon verbinden?",
-      "title": "Muss ich mein Telefon verbinden?",
-      "body": "Wenn du deine Telefonnummer verbindest, kannst du Geld an Freunde in deinem Adressbuch sowie an andere Telefonnummern senden.\n\nWenn du diesen Schritt überspringst, kannst du nicht auf deine Kontakte zugreifen. Du kannst dann nur Geld per QR-Code oder über die Konto-Adressen versenden."
+      "buttonLabel": "Muss ich verbinden?",
+      "title": "Muss ich verbinden?",
+      "body": "Wenn du deine Telefonnummer verbindest, kannst du Guthaben an Freunde in deinem Adressbuch sowie an andere Telefonnummern senden.\n\nWenn du diesen Schritt überspringst, kannst du nicht auf deine Kontakte zugreifen. Du kannst dann nur Guthaben per QR-Code oder über deiner Wallet-Adresse versenden."
     },
     "skip": {
       "title": "Bist du sicher?",
@@ -769,18 +766,24 @@
     "codeInputPlaceholder": "123456",
     "helpDialog": {
       "title": "Hilfe",
-      "body": "Wir haben eine SMS an deine Telefonnummer geschickt. Bitte überprüfe deine SMS, um den 6-stelligen Code zu finden. Wenn du Probleme beim Empfang von Nachrichten hast, kannst du diesen Schritt überspringen und es später noch einmal versuchen.",
+      "body": "Wir haben eine SMS an deine Telefonnummer geschickt. Bitte überprüfe deine SMS, um den 6-stelligen Code zu finden.\n\nWenn du Probleme beim Empfang von Nachrichten hast, kannst du diesen Schritt überspringen.",
       "skip": "Überspringen",
       "dismiss": "Zurück"
     },
     "verificationFailure": "Etwas ist schief gelaufen, bitte versuche es später erneut.",
     "resendButtonNotYetAvailable": "„Erneut senden“ in {{secondsRemaining}} Sekunde(n) verfügbar",
-    "resendButton": "Textnachricht erneut senden"
+    "resendButton": "Du hast den Code nicht erhalten?"
   },
   "importExistingKey": {
-    "explanation": "Deine Wiederherstellungsphrase ist eine 24-Wort-Phrase, die du bei der Einrichtung deines Kontos aufgeschrieben und gespeichert hast. Bitte gib es hier ein, um dein Konto wiederherzustellen.",
-    "explanationV1_50": "Deine Wiederherstellungsphrase ist eine Phrase mit 12 oder 24 Wörtern, die du bei der Einrichtung deines Kontos aufgeschrieben und gespeichert hast. Bitte gib sie hier ein, um dein Konto wiederherzustellen.",
-    "keyPlaceholder": "horse leopard dog monkey ..."
+    "keyPlaceholder": "horse leopard dog monkey ...",
+    "header": "Wallet wiederherstellen",
+    "title": "Gib deine Recovery Phrase ein",
+    "description": "Verwende die 12- oder 24-Wort-Phrase, die du beim Einrichten deiner Wallet gespeichert hast, um sie wiederherzustellen.",
+    "emptyWalletDialog": {
+      "description": "Diese Wallet hat kein Guthaben. Möchtest du es trotzdem verwenden?",
+      "action": "Wallet benutzen",
+      "title": "Guthaben\n<0></0>"
+    }
   },
   "verificationInput": {
     "title": "Bestätigen",
@@ -817,11 +820,6 @@
     "body": "<0> $t(verificationInputHelpDialog.bodySection1.title) </0>\n\n $t(verificationInputHelpDialog.bodySection1.content)\n \n<1> $t(verificationInputHelpDialog.bodySection2.title) </1>\n \n $t(verificationInputHelpDialog.bodySection2.content)",
     "skip": "Vorerst überspringen",
     "back": "Zurück"
-  },
-  "emptyAccount": {
-    "description": "Dieses Konto hat kein Guthaben. Möchtest du es trotzdem verwenden?",
-    "useAccount": "Konto benutzen",
-    "title": "Guthaben <0></0>"
   },
   "success": {
     "message": "Du bist fertig!"
@@ -981,12 +979,12 @@
   },
   "walletConnectRequest": {
     "transactionDataLabel": "Transaktionsdaten",
-    "readAccount": "{{dappName}} würde gerne deine {{appName}} Brieftaschenadresse lesen.",
-    "signPayload": "{{dappName}} eine Daten-Nutzlast unterschreiben möchte.",
-    "signTransaction": "{{dappName}} möchte ein Celo-Geschäft abschließen.",
-    "sendTransaction": "{{dappName}} möchte eine Celo-Transaktion senden.",
-    "decryptPayload": "{{dappName}} eine Daten-Nutzlast entschlüsseln möchte.",
-    "computeSharedSecret": "{{dappName}} Geheimnisse erzeugen möchte.",
+    "readAccount": "{{dappName}} möchte sich deine {{appName}} Wallet-Adresse lesen.",
+    "signPayload": "{{dappName}} möchte sich eine Daten-Nutzlast signieren.",
+    "signTransaction": "{{dappName}} möchte sich eine Celo-Transaktion signieren.",
+    "sendTransaction": "{{dappName}} möchte sich eine Celo-Transaktion senden.",
+    "decryptPayload": "{{dappName}} möchte sich eine Daten-Nutzlast entschlüsseln.",
+    "computeSharedSecret": "{{dappName}} möchte sich Geheimnisse erzeugen.",
     "transactionDataCopied": "Transaktionsdaten kopiert"
   },
   "sessionInfo": "Diese Anwendung kann folgende Aktionen fordern:",
@@ -1069,7 +1067,7 @@
   "feedItemDepositInfo_noComment": "Anzahlung erhalten",
   "feedItemDepositTitle": "Einzahlung",
   "feedItemFcTransferMobileMoney": "Mobiler Geldtransfer",
-  "feedItemFcTransferBankAccount": "Bankkontoüberweisung",
+  "feedItemFcTransferBankAccount": "Banküberweisung",
   "feedItemFcTransferWithdraw": "{{crypto}} abheben",
   "feedItemExchangeTitle": "CELO",
   "feedItemExchangeInfo_boughtGold": "<0></0> CELO gekauft",
@@ -1213,7 +1211,7 @@
     "buttonText": "Verbinden"
   },
   "outOfSyncBanner": {
-    "title": "Du bist offline.",
+    "title": "Fehler beim Abrufen von Token.",
     "message": "Dein Guthaben ist möglicherweise nicht aktuell.",
     "button": "Aktualisieren"
   },
@@ -1223,7 +1221,7 @@
     "errorMessage": "Beim Laden Dapps ist ein Fehler aufgetreten",
     "featuredDapp": "Empfohlen",
     "allDapps": "Alle",
-    "favoriteDapps": "Meine Favoriten",
+    "favoriteDapps": "Lieblings-Dapps",
     "noFavorites": {
       "title": "Keine Favoriten hinzugefügt",
       "description": "Behalte den Überblick über deine meistgenutzten Dapps, indem du auf das Sternsymbol tippst, um sie als Favoriten hinzuzufügen"
@@ -1246,13 +1244,13 @@
   "dappsScreenInfoSheet": {
     "title": "Was ist eine Dapp?",
     "description": "Eine Dapp (oder dezentrale Anwendung) ist eine Anwendung, die auf einem Blockchain-Netzwerk aufgebaut ist und betrieben wird. Das bedeutet, dass keine einzelne Firma oder Organisation deine Daten verwaltet oder speichert.\n\nDapps unterscheiden sich durch die Dienste, die sie anbieten. Beispiele für diese Dienste sind dezentrale Börsen, Leihen, Borgen, Tauschen und das Speichern von NFTs.",
-    "buttonLabel": "Erzähl mir mehr"
+    "buttonLabel": "Mehr Infos"
   },
   "dappsDisclaimerAllDapps": "{{appName}} ist nicht mit diesen Apps verbunden und macht keine Zusicherungen oder Ansprüche bei der Nutzung dieser Apps. Bitte erkenne das Risiko, bevor du eine App nutzt, indem du die Benutzervereinbarung oder die Datenschutzrichtlinie liest.",
   "dappsDisclaimerSingleDapp": "{{appName}} ist nicht mit dieser App verbunden und übernimmt keine Verantwortung für die Nutzung dieser App. Lies immer die Nutzungsbedingungen oder die Datenschutzrichtlinien einer App.",
   "dappsDisclaimerUnlistedDapp": "Diese App ist nicht auf {{appName}}gelistet. {{appName}} steht in keiner Verbindung zu dieser App und übernimmt keine Verantwortung für deren Nutzung. Lies dir immer die Nutzungsbedingungen und Datenschutzrichtlinien einer App durch.",
   "recentlyUsedDapps": "Kürzlich verwendete Dapps",
-  "favoritedDapps": "Bevorzugte Dapps",
+  "favoritedDapps": "Lieblings-Dapps",
   "allDapps": "Alle Dapps",
   "rewards": "Rewards",
   "supercharge": "Supercharge",
@@ -1350,8 +1348,8 @@
     "transactionDetails": "Transaktiondetails",
     "paymentMethodVia": "Über {{providerName}} verbunden",
     "receiveAmount": "Du wirst erhalten",
-    "bankFeeDisclaimer": "Deine Bank kann zusätzliche Gebühren für deine Überweisung verlangen.",
-    "mobileMoneyFeeDisclaimer": "Dein Mobilfunkanbieter kann zusätzliche Gebühren für deine Überweisung verlangen.",
+    "bankFeeDisclaimer": "Deine Bank möglicherweise eine zusätzliche Gebühr für Überweisen erhebt.",
+    "mobileMoneyFeeDisclaimer": "Deine Mobiles-Geld-Anbieter möglicherweise eine zusätzliche Gebühr für Überweisen erhebt.",
     "cashIn": {
       "header": "Guthaben hinzufügen überprüfen",
       "button": "Guthaben hinzufügen",
@@ -1461,7 +1459,7 @@
     "mobileMoney": {
       "operator": {
         "label": "Netzwerk",
-        "placeholderText": "Mobilnetzbetreiber eintragen"
+        "placeholderText": "Mobiles-Geld-Anbieter eintragen"
       },
       "mobile": {
         "label": "Telefonnummer",
@@ -1495,7 +1493,8 @@
     "swapFrom": "Von",
     "swapTo": "Zu",
     "insufficientFunds": "Unzureichendes {{token}}-Guthaben. Versuche es mit einem kleineren Betrag oder wähle einen anderen Token.",
-    "fetchSwapQuoteFailed": "Entschuldige die Verzögerung! Es dauert länger als üblich, um den besten Wechselkurs zu ermitteln. Bitte versuche es in ein paar Minuten erneut."
+    "fetchSwapQuoteFailed": "Entschuldige die Verzögerung! Es dauert länger als üblich, um den besten Wechselkurs zu ermitteln. Bitte versuche es in ein paar Minuten erneut.",
+    "disclaimer": "Swaps powered by Partner auf Celo. <0>Erfahre mehr.</0>"
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Tausch von",
@@ -1547,15 +1546,15 @@
     "shareMessage": "Hallo! Ich benutze {{appName}} als meine Krypto-Brieftasche und möchte dich einladen, sie auszuprobieren. Wenn du die App herunterlädst und deine Telefonnummer angibst, bekommen wir beide eine spezielle NFT. Benutze diesen Link: {{link}}",
     "rewardsActive": {
       "title": "Lade {{contactName}} in {{appName}} ein und ihr beide erhaltet NFTs.",
-      "body": "Es sieht so aus, als wäre {{contactName}} nicht auf {{appName}}. Wenn du die Wallet-Adresse kennst, kannst du dennoch eine Zahlung oder stattdessen eine Einladung senden. \n\n Nachdem die Wallet heruntergeladen und mit der Telefonnummer verbunden wurde, erhaltet ihr beide ein exklusives NFT."
+      "body": "Wie es aussieht, ist {{contactName}} nicht auf {{appName}}. Du kannst immer noch eine Zahlung senden, wenn du ihre Wallet-Adresse kennst, oder stattdessen eine Einladung schicken. \n\n Nachdem sie die Wallet heruntergeladen und ihre Telefonnummer angegeben haben, erhaltet ihr beide eine exklusive NFT."
     }
   },
   "celoNews": {
-    "headerTitle": "Updates",
+    "headerTitle": "Nachrichten",
     "headerDescription": "Erfahre mehr über Anwendungsfälle, Pilotprojekte und technische Updates im Celo Blog.",
-    "readMoreButtonText": "Lies mehr auf dem Blog",
-    "loadingError": "Leider konnten wir die neuesten Updates nicht laden. Bitte versuche es später noch einmal.",
-    "retryButtonText": "Wiederholen"
+    "readMoreButtonText": "Lies mehr im Blog",
+    "loadingError": "Wir konnten die neuesten Nachrichten nicht laden. Bitte versuche es später erneut.",
+    "retryButtonText": "Erneut versuchen"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
