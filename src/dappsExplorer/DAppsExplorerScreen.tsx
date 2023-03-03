@@ -33,6 +33,7 @@ import { NoResults } from 'src/dappsExplorer/NoResults'
 import useDappFavoritedToast from 'src/dappsExplorer/useDappFavoritedToast'
 import useDappInfoBottomSheet from 'src/dappsExplorer/useDappInfoBottomSheet'
 import useOpenDapp from 'src/dappsExplorer/useOpenDapp'
+import { currentLanguageSelector } from 'src/i18n/selectors'
 import Help from 'src/icons/Help'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
@@ -71,6 +72,7 @@ export function DAppsExplorerScreen() {
   const dappFavoritesEnabled = useSelector(dappFavoritesEnabledSelector)
   const dappsMinimalDisclaimerEnabled = useSelector(dappsMinimalDisclaimerEnabledSelector)
   const dappList = useSelector(dappsListSelector)
+  const language = useSelector(currentLanguageSelector)
   const favoriteDappsById = useSelector(favoriteDappIdsSelector)
   const [selectedFilter, setSelectedFilter] = useState({
     id: 'all',
@@ -165,7 +167,7 @@ export function DAppsExplorerScreen() {
                 </View>
                 {dappFavoritesEnabled && (
                   <>
-                    <Text style={styles.sectionTitle}>{t('dappsScreen.favoriteDappsUpper')}</Text>
+                    <Text style={styles.sectionTitle}>{t('dappsScreen.favoriteDapps').toLocaleUpperCase(language ?? 'en-US')}</Text>
                     <FavoriteDappsSection
                       filter={selectedFilter}
                       removeFilter={() => {
@@ -178,7 +180,7 @@ export function DAppsExplorerScreen() {
                 )}
 
                 {dappFavoritesEnabled && (
-                  <Text style={styles.sectionTitle}>{t('dappsScreen.allDappsUpper')}</Text>
+                  <Text style={styles.sectionTitle}>{t('dappsScreen.allDapps').toLocaleUpperCase(language ?? 'en-US')}</Text>
                 )}
               </>
             }
