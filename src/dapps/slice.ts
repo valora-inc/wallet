@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Actions as AppActions, UpdateConfigValuesAction } from 'src/app/actions'
-import { ActiveDapp, Dapp, DappCategory, DappConnectInfo } from 'src/dapps/types'
+import { ActiveDapp, DappCategory, DappConnectInfo, DappV1, DappV2 } from 'src/dapps/types'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 
@@ -10,7 +10,7 @@ export interface State {
   maxNumRecentDapps: number
   recentDappIds: string[]
   dappListApiUrl: string | null
-  dappsList: Dapp[]
+  dappsList: Array<DappV1 | DappV2>
   dappsListLoading: boolean
   dappsListError: string | null
   dappsCategories: DappCategory[]
@@ -45,7 +45,7 @@ export interface DappSelectedAction {
 }
 
 export interface FetchDappsListCompletedAction {
-  dapps: Dapp[]
+  dapps: Array<DappV1 | DappV2>
   categories: DappCategory[]
 }
 
@@ -114,6 +114,8 @@ export const slice = createSlice({
           state.dappConnectInfo = action.configValues.dappConnectInfo
           state.dappFavoritesEnabled = action.configValues.dappFavoritesEnabled
           state.dappsMinimalDisclaimerEnabled = action.configValues.dappsMinimalDisclaimerEnabled
+          state.dappsFilterEnabled = action.configValues.dappsFilterEnabled
+          state.dappsSearchEnabled = action.configValues.dappsSearchEnabled
         }
       )
       .addCase(REHYDRATE, (state, action: RehydrateAction) => ({

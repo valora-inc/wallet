@@ -2,7 +2,7 @@ import _ from 'lodash'
 import { FinclusiveKycStatus, PincodeType } from 'src/account/reducer'
 import { AppState } from 'src/app/actions'
 import { CodeInputStatus } from 'src/components/CodeInput'
-import { Dapp, DappConnectInfo } from 'src/dapps/types'
+import { DappConnectInfo, DappV1, DappV2 } from 'src/dapps/types'
 import { FeeEstimates } from 'src/fees/reducer'
 import { SendingFiatAccountStatus } from 'src/fiatconnect/slice'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
@@ -1881,8 +1881,10 @@ export const v99Schema = {
   },
   dapps: {
     ..._.omit(v98Schema.dapps, 'recentDapps', 'favoriteDapps'),
-    recentDappIds: v98Schema.dapps.recentDapps?.map((recentDapp: Dapp) => recentDapp.id),
-    favoriteDappIds: v98Schema.dapps.favoriteDapps?.map((favoriteDapp: Dapp) => favoriteDapp.id),
+    recentDappIds: v98Schema.dapps.recentDapps?.map((recentDapp: DappV1 | DappV2) => recentDapp.id),
+    favoriteDappIds: v98Schema.dapps.favoriteDapps?.map(
+      (favoriteDapp: DappV1 | DappV2) => favoriteDapp.id
+    ),
   },
 }
 

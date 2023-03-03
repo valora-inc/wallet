@@ -46,7 +46,7 @@ import { getContractKit } from 'src/web3/contracts'
 import config from 'src/web3/networkConfig'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { applyChainIdWorkaround, buildTxo, getContract } from 'src/web3/utils'
+import { buildTxo, getContract } from 'src/web3/utils'
 
 const TAG = 'SuperchargeRewardsClaimer'
 export const SUPERCHARGE_FETCH_TIMEOUT = 30_000
@@ -76,7 +76,7 @@ export function* claimRewardsSaga() {
     if (rewards.length > 0) {
       const claimRewardFn = isSuperchargePendingRewardsV2(rewards) ? claimRewardV2 : claimReward
       receivedRewards = yield all(
-        // @ts-ignore remove this ignore when upgrading to TS 4.2+ https://github.com/microsoft/TypeScript/issues/36390
+        // @ts-expect-error remove this when upgrading to TS 4.2+ https://github.com/microsoft/TypeScript/issues/36390
         rewards.slice(0, 1).map((reward, index) => call(claimRewardFn, reward, index, baseNonce))
       )
     }
@@ -171,8 +171,6 @@ function* claimRewardV2(reward: SuperchargePendingRewardV2, index: number, baseN
 
   Logger.debug(TAG, `Start claiming reward at index ${index}: ${JSON.stringify(reward)}`)
 
-  applyChainIdWorkaround(transaction, yield call([kit.connection, 'chainId']))
-
   const normalizer = new TxParamsNormalizer(kit.connection)
   const tx: CeloTx = yield call([normalizer, 'populate'], transaction)
   const txo = buildTxo(kit, tx)
@@ -211,6 +209,12 @@ export function* fetchAvailableRewardsSaga() {
   }
 
   const superchargeV2Enabled = yield select(superchargeV2EnabledSelector)
+  const numberVerifiedCentrally = yield select(numberVerifiedCentrallySelector)
+  if (superchargeV2Enabled && !numberVerifiedCentrally) {
+    Logger.debug(TAG, 'Skipping fetching available rewards since user is not verified with CPV')
+    return
+  }
+
   try {
     const superchargeRewardsUrl = superchargeV2Enabled
       ? config.fetchAvailableSuperchargeRewardsV2
@@ -224,7 +228,9 @@ export function* fetchAvailableRewardsSaga() {
     const data: { availableRewards: SuperchargePendingReward[] | SuperchargePendingRewardV2[] } =
       yield call([response, 'json'])
     if (!data.availableRewards) {
-      throw new Error('No rewards field found in supercharge service response')
+      throw new Error(
+        `No rewards field found in supercharge service response ${JSON.stringify(data)}`
+      )
     }
 
     yield put(setAvailableRewards(data.availableRewards))

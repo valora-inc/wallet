@@ -72,14 +72,17 @@ describe('ConsumerIncentivesHomeScreen', () => {
     numberVerified,
     tokenBalances,
     supercharge = initialState,
+    numberVerifiedCentrally = true,
   }: {
     numberVerified: boolean
     tokenBalances: TokenBalances
     supercharge?: State
+    numberVerifiedCentrally?: boolean
   }) {
     store = createMockStore({
       app: {
         numberVerified,
+        phoneNumberVerified: numberVerifiedCentrally,
         superchargeTokenConfigByToken: {
           [mockCusdAddress]: {
             minBalance: 10,
@@ -103,6 +106,26 @@ describe('ConsumerIncentivesHomeScreen', () => {
         store={createStore({
           numberVerified: false,
           tokenBalances: NO_BALANCES,
+        })}
+      >
+        <ConsumerIncentivesHomeScreen />
+      </Provider>
+    )
+
+    expectVisibleMainComponents(queryByTestId, 'SuperchargeInstructions')
+  })
+
+  it('renders instructions when user is not verified for supercharge v2', () => {
+    const { queryByTestId } = render(
+      <Provider
+        store={createStore({
+          numberVerified: true,
+          tokenBalances: ONLY_CUSD_BALANCE,
+          numberVerifiedCentrally: false,
+          supercharge: {
+            ...initialState,
+            superchargeV2Enabled: true,
+          },
         })}
       >
         <ConsumerIncentivesHomeScreen />
@@ -191,6 +214,7 @@ describe('ConsumerIncentivesHomeScreen', () => {
       <Provider
         store={createStore({
           numberVerified: false,
+          numberVerifiedCentrally: false,
           tokenBalances: NO_BALANCES,
         })}
       >
