@@ -10,6 +10,13 @@ export interface State {
   superchargeRewardContractAddress: string
   availableRewards: SuperchargePendingReward[] | SuperchargePendingRewardV2[]
   superchargeV2Enabled: boolean
+  // superchargeV1Addresses can be removed 4 weeks after supercharge V2 is
+  // rolled out. it is an array of 24 contract addresses corresponding to the 6
+  // token contracts for the last 4 reward distributions in the v1 system. These
+  // are the contracts that the user claims their rewards against, we verify the
+  // transaction "to" address against this list to ensure the user is signing a
+  // safe transaction
+  superchargeV1Addresses: string[]
 }
 
 export const initialState: State = {
@@ -20,6 +27,7 @@ export const initialState: State = {
   availableRewards: [],
   superchargeV2Enabled: false,
   superchargeRewardContractAddress: '',
+  superchargeV1Addresses: [],
 }
 
 const slice = createSlice({
@@ -74,6 +82,7 @@ const slice = createSlice({
         state.superchargeV2Enabled = action.configValues.superchargeV2Enabled
         state.superchargeRewardContractAddress =
           action.configValues.superchargeRewardContractAddress
+        state.superchargeV1Addresses = action.configValues.superchargeV1Addresses
       }
     )
   },

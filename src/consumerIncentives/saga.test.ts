@@ -11,6 +11,7 @@ import {
 } from 'src/consumerIncentives/saga'
 import {
   superchargeRewardContractAddressSelector,
+  superchargeV1AddressesSelector,
   superchargeV2EnabledSelector,
 } from 'src/consumerIncentives/selectors'
 import {
@@ -288,6 +289,7 @@ describe('claimRewardsSaga', () => {
 
   describe('claiming rewards in version 2', () => {
     const defaultProviders: (EffectProviders | StaticProvider)[] = [
+      [select(superchargeV1AddressesSelector), []],
       [select(superchargeV2EnabledSelector), true],
       [call(getContractKit), contractKit],
       [call(getConnectedUnlockedAccount), mockAccount],

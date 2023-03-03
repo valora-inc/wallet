@@ -10,6 +10,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import {
   superchargeRewardContractAddressSelector,
+  superchargeV1AddressesSelector,
   superchargeV2EnabledSelector,
 } from 'src/consumerIncentives/selectors'
 import {
@@ -150,7 +151,11 @@ function* claimRewardV2(reward: SuperchargePendingRewardV2, index: number, baseN
   const { transaction, details } = reward
 
   const superchargeRewardContractAddress = yield select(superchargeRewardContractAddressSelector)
-  if (superchargeRewardContractAddress !== transaction.to) {
+  const superchargeV1Addresses: string[] = yield select(superchargeV1AddressesSelector)
+  if (
+    superchargeRewardContractAddress !== transaction.to &&
+    !superchargeV1Addresses.includes(transaction.to)
+  ) {
     throw new Error(
       `Unexpected supercharge contract address ${transaction.to} on reward transaction, aborting claim.`
     )

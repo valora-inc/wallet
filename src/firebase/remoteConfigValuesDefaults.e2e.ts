@@ -67,6 +67,7 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   guaranteedSwapPriceEnabled: false,
   superchargeV2Enabled: false,
   superchargeRewardContractAddress: '',
+  superchargeV1Addresses: [],
   dappsFilterEnabled: false,
   dappsSearchEnabled: false,
 }
