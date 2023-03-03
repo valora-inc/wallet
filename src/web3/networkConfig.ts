@@ -131,8 +131,8 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     // blockchainApiUrl: 'http://127.0.0.1:8080',
     blockchainApiUrl: 'https://blockchain-api-dot-celo-mobile-alfajores.appspot.com',
     cloudFunctionsUrl: CLOUD_FUNCTIONS_STAGING,
-    odisUrl: OdisUtils.Query.ODIS_ALFAJORES_CONTEXT.odisUrl,
-    odisPubKey: OdisUtils.Query.ODIS_ALFAJORES_CONTEXT.odisPubKey,
+    odisUrl: OdisUtils.Query.ODIS_ALFAJORES_CONTEXT_PNP.odisUrl,
+    odisPubKey: OdisUtils.Query.ODIS_ALFAJORES_CONTEXT_PNP.odisPubKey,
     sentryTracingUrls: [
       DEFAULT_FORNO_URL,
       'https://blockchain-api-dot-celo-mobile-alfajores.appspot.com',
@@ -172,8 +172,8 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     networkId: '42220',
     blockchainApiUrl: 'https://blockchain-api-dot-celo-mobile-mainnet.appspot.com',
     cloudFunctionsUrl: CLOUD_FUNCTIONS_MAINNET,
-    odisUrl: OdisUtils.Query.ODIS_MAINNET_CONTEXT.odisUrl,
-    odisPubKey: OdisUtils.Query.ODIS_MAINNET_CONTEXT.odisPubKey,
+    odisUrl: OdisUtils.Query.ODIS_MAINNET_CONTEXT_PNP.odisUrl,
+    odisPubKey: OdisUtils.Query.ODIS_MAINNET_CONTEXT_PNP.odisPubKey,
     sentryTracingUrls: [
       DEFAULT_FORNO_URL,
       'https://blockchain-api-dot-celo-mobile-mainnet.appspot.com',

@@ -4,6 +4,7 @@ import { call, select } from 'redux-saga-test-plan/matchers'
 import { EffectProviders, StaticProvider } from 'redux-saga-test-plan/providers'
 import { Actions as AlertActions, AlertTypes, showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { numberVerifiedCentrallySelector } from 'src/app/selectors'
 import {
   claimRewardsSaga,
   fetchAvailableRewardsSaga,
@@ -132,6 +133,7 @@ describe('fetchAvailableRewardsSaga', () => {
 
       await expectSaga(fetchAvailableRewardsSaga)
         .provide([
+          [select(numberVerifiedCentrallySelector), true],
           [select(superchargeV2EnabledSelector), version === '2'],
           [select(walletAddressSelector), userAddress],
           [call(fetchWithTimeout, uri, SUPERCHARGE_FETCH_TIMEOUT), mockResponse],
@@ -152,9 +154,43 @@ describe('fetchAvailableRewardsSaga', () => {
 
     await expectSaga(fetchAvailableRewardsSaga)
       .provide([
+        [select(numberVerifiedCentrallySelector), true],
         [select(superchargeV2EnabledSelector), version === '2'],
         [select(walletAddressSelector), userAddress],
         [call(fetchWithTimeout, uri, SUPERCHARGE_FETCH_TIMEOUT), error],
+      ])
+      .not.put(setAvailableRewards(expect.anything()))
+      .not.put(fetchAvailableRewardsSuccess())
+      .put(fetchAvailableRewardsFailure())
+      .put(showError(ErrorMessages.SUPERCHARGE_FETCH_REWARDS_FAILED))
+      .run()
+  })
+
+  it('skips fetching rewards for an unverified user for supercharge v2', async () => {
+    await expectSaga(fetchAvailableRewardsSaga)
+      .provide([
+        [select(numberVerifiedCentrallySelector), false],
+        [select(superchargeV2EnabledSelector), true],
+        [select(walletAddressSelector), userAddress],
+      ])
+      .not.call(fetchWithTimeout)
+      .run()
+  })
+
+  it('displays an error if a user is not properly verified for supercharge v2', async () => {
+    await expectSaga(fetchAvailableRewardsSaga)
+      .provide([
+        [select(numberVerifiedCentrallySelector), true],
+        [select(superchargeV2EnabledSelector), true],
+        [select(walletAddressSelector), userAddress],
+        [
+          call(
+            fetchWithTimeout,
+            `${config.fetchAvailableSuperchargeRewardsV2}?address=${userAddress}`,
+            SUPERCHARGE_FETCH_TIMEOUT
+          ),
+          JSON.stringify({ message: 'user not verified' }),
+        ],
       ])
       .not.put(setAvailableRewards(expect.anything()))
       .not.put(fetchAvailableRewardsSuccess())
