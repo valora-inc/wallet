@@ -42,7 +42,7 @@ export function FavoriteDappsSection({ onPressDapp, filter, removeFilter }: Prop
   )
 
   // Matching favorite dapp(s) found
-  if (favoriteDapps.length > 0 && favoritedDappsFiltered.length > 0) {
+  if (favoritedDappsFiltered.length > 0) {
     return (
       <View testID="DAppsExplorerScreen/FavoriteDappsSection">
         {favoritedDappsFiltered.map((favoriteDapp) => (
