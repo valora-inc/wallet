@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
   },
   filterAppliedText: {
     ...fontStyles.small500,
-    color: Colors.dark,
+    color: Colors.gray5,
     paddingHorizontal: 4,
   },
   removeFilterTouchableContainer: {
