@@ -2,7 +2,7 @@ import { render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { DappCategory } from 'src/dapps/types'
-import DAppsExplorerScreen from 'src/dappsExplorer/DappsExplorerScreen'
+import DAppsExplorerScreen from 'src/dappsExplorer/DAppsExplorerScreen'
 import { createMockStore } from 'test/utils'
 import { mockDappListV1, mockDappListV2 } from 'test/values'
 
