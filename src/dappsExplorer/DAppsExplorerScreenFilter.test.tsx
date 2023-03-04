@@ -193,7 +193,7 @@ describe(DAppsExplorerScreenFilter, () => {
       // don't include events dispatched on screen load
       jest.clearAllMocks()
 
-      const allDappsSection = getByTestId('DAppsExplorerScreen/DappsList')
+      const allDappsSection = getByTestId('DAppsExplorerScreenFilter/DappsList')
       fireEvent.press(within(allDappsSection).getByTestId('Dapp/Favorite/dapp2'))
 
       // favorited dapp confirmation toast
@@ -267,9 +267,9 @@ describe(DAppsExplorerScreenFilter, () => {
       )
 
       // Filter Chips displayed
-      expect(getByTestId('DAppsExplorerScreen/FilterChip/all')).toBeTruthy()
-      expect(getByTestId('DAppsExplorerScreen/FilterChip/1')).toBeTruthy()
-      expect(getByTestId('DAppsExplorerScreen/FilterChip/2')).toBeTruthy()
+      expect(getByTestId('DAppsExplorerScreenFilter/FilterChip/all')).toBeTruthy()
+      expect(getByTestId('DAppsExplorerScreenFilter/FilterChip/1')).toBeTruthy()
+      expect(getByTestId('DAppsExplorerScreenFilter/FilterChip/2')).toBeTruthy()
 
       // Displays favorited dapp in Favorites section
       const favoritesSection = getByTestId('DAppsExplorerScreen/FavoriteDappsSection')
@@ -279,7 +279,7 @@ describe(DAppsExplorerScreenFilter, () => {
       expect(within(favoritesSection).queryByText(dappsList[1].description)).toBeFalsy()
 
       // Displays other dapps in All section
-      const allDappsSection = getByTestId('DAppsExplorerScreen/DappsList')
+      const allDappsSection = getByTestId('DAppsExplorerScreenFilter/DappsList')
       expect(within(allDappsSection).getByText(dappsList[1].name)).toBeTruthy()
       expect(within(allDappsSection).getByText(dappsList[1].description)).toBeTruthy()
       // TODO: debug why we can't check that dapp 1 is not in the list
@@ -303,13 +303,13 @@ describe(DAppsExplorerScreenFilter, () => {
       )
 
       // Tap on category 2 filter
-      fireEvent.press(getByTestId('DAppsExplorerScreen/FilterChip/2'))
+      fireEvent.press(getByTestId('DAppsExplorerScreenFilter/FilterChip/2'))
 
       // Favorite Section should show no results
       expect(getByTestId('FavoriteDappsSection/NoResults')).toBeTruthy()
 
       // All Section should show only 'dapp 2'
-      const allDappsSection = getByTestId('DAppsExplorerScreen/DappsList')
+      const allDappsSection = getByTestId('DAppsExplorerScreenFilter/DappsList')
       // queryByText returns null if not found
       expect(within(allDappsSection).queryByText(dappsList[0].name)).toBeFalsy()
       expect(within(allDappsSection).queryByText(dappsList[0].description)).toBeFalsy()
