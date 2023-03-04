@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import { DappExplorerEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Touchable from 'src/components/Touchable'
@@ -10,15 +10,15 @@ import { Spacing } from 'src/styles/styles'
 
 interface DappFilterChip {
   chipFilter: DappFilter
-  selectedFilter: DappFilter
-  setFilter: (filter: DappFilter) => void
-  lastChip: boolean
+  isSelected: boolean
+  onPress: (filter: DappFilter) => void
+  style?: StyleProp<ViewStyle>
 }
 
-function DappFilterChip({ chipFilter, selectedFilter, setFilter, lastChip }: DappFilterChip) {
+function DappFilterChip({ chipFilter, isSelected, onPress, style }: DappFilterChip) {
   const filterPress = () => {
     ValoraAnalytics.track(DappExplorerEvents.dapp_filter, { id: chipFilter.id })
-    setFilter(chipFilter)
+    onPress(chipFilter)
   }
 
   return (
@@ -26,15 +26,10 @@ function DappFilterChip({ chipFilter, selectedFilter, setFilter, lastChip }: Dap
       style={[
         styles.filterChipContainer,
         // Filter chips color based on selected filter
-        chipFilter.id === selectedFilter.id
+        isSelected
           ? { backgroundColor: colors.onboardingBlue }
           : { backgroundColor: colors.onboardingLightBlue },
-        // First Chip has slightly different margins
-        chipFilter.id === 'all'
-          ? { marginLeft: Spacing.Thick24 }
-          : { marginLeft: Spacing.Smallest8 },
-        // Last Chip has slightly different right margin
-        lastChip && { marginRight: Spacing.Regular16 },
+        style,
       ]}
     >
       <Touchable
@@ -45,9 +40,7 @@ function DappFilterChip({ chipFilter, selectedFilter, setFilter, lastChip }: Dap
         <Text
           style={[
             styles.filterChipText,
-            chipFilter.id === selectedFilter.id
-              ? { color: colors.onboardingLightBlue }
-              : { color: colors.onboardingBlue },
+            isSelected ? { color: colors.onboardingLightBlue } : { color: colors.onboardingBlue },
           ]}
         >
           {chipFilter.name}
@@ -59,6 +52,7 @@ function DappFilterChip({ chipFilter, selectedFilter, setFilter, lastChip }: Dap
 
 const styles = StyleSheet.create({
   filterChipContainer: {
+    marginLeft: Spacing.Smallest8,
     overflow: 'hidden',
     borderRadius: 94,
     flex: 1,

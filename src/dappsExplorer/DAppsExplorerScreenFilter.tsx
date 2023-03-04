@@ -136,6 +136,7 @@ export function DAppsExplorerScreenFilter() {
                     horizontal={true}
                     // Expand the scrollview to the edges of the screen
                     style={{ marginHorizontal: -Spacing.Thick24 }}
+                    contentContainerStyle={{ paddingHorizontal: Spacing.Thick24 }}
                     showsHorizontalScrollIndicator={false}
                     bounces={false}
                     ref={horizontalScrollView}
@@ -143,9 +144,9 @@ export function DAppsExplorerScreenFilter() {
                     {/* All Dapps Filter */}
                     <DappFilterChip
                       chipFilter={{ id: 'all', name: t('dappsScreen.allDapps') }}
-                      selectedFilter={selectedFilter}
-                      setFilter={setSelectedFilter}
-                      lastChip={false}
+                      isSelected={selectedFilter.id === 'all'}
+                      onPress={setSelectedFilter}
+                      style={{ marginLeft: 0 }}
                       key={'all'}
                     />
                     {/* Category Filter Chips */}
@@ -153,9 +154,8 @@ export function DAppsExplorerScreenFilter() {
                       return (
                         <DappFilterChip
                           chipFilter={{ id: category.id, name: category.name }}
-                          selectedFilter={selectedFilter}
-                          setFilter={setSelectedFilter}
-                          lastChip={idx === categories.length - 1}
+                          isSelected={selectedFilter.id === category.id}
+                          onPress={setSelectedFilter}
                           key={category.id}
                         />
                       )
