@@ -63,7 +63,7 @@ export const dappCategoriesSelector = createSelector(
         mappedCategories[dapp.categoryId]?.dapps.push(dapp)
       }
       // DappV2 dapps can have multiple categories
-      // And don't need to be removed form the all section as this is handled in DappsExplorerScreen.tsx
+      // And don't need to be removed form the all section as this is handled in DAppsExplorerScreen.tsx
       if (isDappV2(dapp)) {
         dapp.categories.forEach((category) => {
           mappedCategories[category]?.dapps.push(dapp)
