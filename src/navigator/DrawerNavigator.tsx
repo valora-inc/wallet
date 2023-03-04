@@ -40,9 +40,7 @@ import AccountNumber from 'src/components/AccountNumber'
 import ContactCircleSelf from 'src/components/ContactCircleSelf'
 import PhoneNumberWithFlag from 'src/components/PhoneNumberWithFlag'
 import { RewardsScreenOrigin } from 'src/consumerIncentives/analyticsEventsTracker'
-import {
-  dappsListApiUrlSelector
-} from 'src/dapps/selectors'
+import { dappsListApiUrlSelector } from 'src/dapps/selectors'
 import DAppsExplorerScreen from 'src/dappsExplorer/DAppsExplorerScreenFilter'
 import { fetchExchangeRate } from 'src/exchange/actions'
 import ExchangeHomeScreen from 'src/exchange/ExchangeHomeScreen'

@@ -89,7 +89,11 @@ export function DAppsExplorerScreenLegacy() {
   }, [featuredDapp])
 
   return (
-    <SafeAreaView testID="DAppsExplorerScreenLegacy" style={styles.safeAreaContainer} edges={['top']}>
+    <SafeAreaView
+      testID="DAppsExplorerScreenLegacy"
+      style={styles.safeAreaContainer}
+      edges={['top']}
+    >
       <DrawerTopBar
         middleElement={<Text style={headerStyles.headerTitle}>{t('dappsScreen.title')}</Text>}
         rightElement={
