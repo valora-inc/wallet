@@ -15,7 +15,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { DappExplorerEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import {
-  CategoryWithDapps,
   dappFavoritesEnabledSelector,
   dappsCategoriesAlphabeticalSelector,
   dappsListErrorSelector,
@@ -42,11 +41,11 @@ import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
 const AnimatedSectionList =
-  Animated.createAnimatedComponent<SectionListProps<DappV1 | DappV2, SectionData>>(SectionList)
+  Animated.createAnimatedComponent<SectionListProps<DappV2, SectionData>>(SectionList)
 
 interface SectionData {
-  data: Array<DappV1 | DappV2>
-  category: CategoryWithDapps
+  data: DappV2[]
+  category: string
 }
 
 export function DAppsExplorerScreenFilter() {
@@ -249,7 +248,7 @@ function parseResultsIntoAll(
   return [
     {
       data,
-      category: 'all' as unknown as CategoryWithDapps,
+      category: 'all',
     },
   ]
 }
