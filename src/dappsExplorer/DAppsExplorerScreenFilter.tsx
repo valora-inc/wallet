@@ -80,6 +80,11 @@ export function DAppsExplorerScreenFilter() {
     ValoraAnalytics.track(DappExplorerEvents.dapp_screen_open)
   }, [])
 
+  const removeFilter = () => {
+    setSelectedFilter({ id: 'all', name: t('dappsScreen.allDapps') })
+    horizontalScrollView.current?.scrollTo({ x: 0, animated: true })
+  }
+
   return (
     <SafeAreaView
       testID="DAppsExplorerScreenFilter"
@@ -168,10 +173,7 @@ export function DAppsExplorerScreenFilter() {
                     </Text>
                     <FavoriteDappsSection
                       filter={selectedFilter}
-                      removeFilter={() => {
-                        setSelectedFilter({ id: 'all', name: t('dappsScreen.allDapps') })
-                        horizontalScrollView.current?.scrollTo({ x: 0, animated: true })
-                      }}
+                      removeFilter={removeFilter}
                       onPressDapp={onSelectDapp}
                     />
                   </>
@@ -209,10 +211,7 @@ export function DAppsExplorerScreenFilter() {
             ListEmptyComponent={
               <NoResults
                 filter={selectedFilter}
-                removeFilter={() => {
-                  setSelectedFilter({ id: 'all', name: t('dappsScreen.allDapps') })
-                  horizontalScrollView.current?.scrollTo({ x: 0, animated: true })
-                }}
+                removeFilter={removeFilter}
                 testID="DAppsExplorerScreenFilter"
               />
             }
