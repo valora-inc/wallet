@@ -13,9 +13,6 @@ import { getAddressChunks } from '@celo/utils/lib/address'
 const jestExpect = require('expect')
 
 export default NewAccountOnboarding = () => {
-  // Helper to remove any added indexes
-  const extractRecoveryPhrase = (text) => text.replace(/[0-9]+ /g, '')
-
   let testRecoveryPhrase, testAccountAddress
   beforeAll(async () => {
     await device.terminateApp()
@@ -70,7 +67,7 @@ export default NewAccountOnboarding = () => {
     await expect(element(by.id('AccountKeyWordsContainer'))).toBeVisible()
 
     const attributes = await element(by.id('AccountKeyWordsContainer')).getAttributes()
-    testRecoveryPhrase = extractRecoveryPhrase(attributes.label)
+    testRecoveryPhrase = attributes.label
 
     await element(by.id('backupKeySavedSwitch')).longPress()
     await element(by.id('backupKeyContinue')).tap()
