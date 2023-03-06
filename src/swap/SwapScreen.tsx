@@ -134,6 +134,7 @@ export function SwapScreen() {
 
     if (parsedSwapAmount[Field.FROM].gt(maxFromAmount)) {
       setFromSwapAmountError(true)
+      showMaxCeloSwapWarning()
       dispatch(showError(t('swapScreen.insufficientFunds', { token: fromToken?.symbol })))
     } else {
       dispatch(
@@ -202,6 +203,7 @@ export function SwapScreen() {
         [fieldType]: value,
       }))
     }
+    setShowMaxSwapAmountWarning(false)
   }
 
   const handleSetMaxFromAmount = () => {
@@ -210,10 +212,16 @@ export function SwapScreen() {
       ...prev,
       [Field.FROM]: maxFromAmount.toFormat(),
     }))
-    setShowMaxSwapAmountWarning(true)
+    showMaxCeloSwapWarning()
     ValoraAnalytics.track(SwapEvents.swap_screen_max_swap_amount, {
       tokenSymbol: fromToken?.symbol,
     })
+  }
+
+  const showMaxCeloSwapWarning = () => {
+    if (fromToken?.symbol === 'CELO') {
+      setShowMaxSwapAmountWarning(true)
+    }
   }
 
   const allowReview = useMemo(
