@@ -13,8 +13,8 @@ import { getAddressChunks } from '@celo/utils/lib/address'
 const jestExpect = require('expect')
 
 export default NewAccountOnboarding = () => {
-  // Helper to remove any added indexes/spaces
-  const extractRecoveryPhrase = (text) => text.replace(/[0-9]+ /g, '').trim()
+  // Helper to remove any added indexes
+  const extractRecoveryPhrase = (text) => text.replace(/[0-9]+ /g, '')
 
   let testRecoveryPhrase, testAccountAddress
   beforeAll(async () => {
