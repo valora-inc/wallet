@@ -5,7 +5,7 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { SWAP_LEARN_MORE } from 'src/brandingConfig'
+import { TRANSACTION_FEES_LEARN_MORE } from 'src/brandingConfig'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { setSwapUserInput } from 'src/swap/slice'
@@ -362,7 +362,9 @@ describe('SwapScreen', () => {
     expect(getByText('swapScreen.maxSwapAmountWarning.body')).toBeTruthy()
 
     fireEvent.press(getByText('swapScreen.maxSwapAmountWarning.learnMore'))
-    expect(navigate).toHaveBeenCalledWith(Screens.WebViewScreen, { uri: SWAP_LEARN_MORE })
+    expect(navigate).toHaveBeenCalledWith(Screens.WebViewScreen, {
+      uri: TRANSACTION_FEES_LEARN_MORE,
+    })
 
     act(() => {
       fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '1.234')

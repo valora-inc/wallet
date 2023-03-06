@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { SwapEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { SWAP_LEARN_MORE } from 'src/config'
+import { TRANSACTION_FEES_LEARN_MORE } from 'src/config'
 import AttentionIcon from 'src/icons/Attention'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -16,8 +16,7 @@ export function MaxAmountWarning() {
 
   const onPressLearnMore = () => {
     ValoraAnalytics.track(SwapEvents.swap_gas_fees_learn_more)
-    // TODO url
-    navigate(Screens.WebViewScreen, { uri: SWAP_LEARN_MORE })
+    navigate(Screens.WebViewScreen, { uri: TRANSACTION_FEES_LEARN_MORE })
   }
 
   return (
