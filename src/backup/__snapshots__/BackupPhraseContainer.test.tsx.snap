@@ -132,14 +132,16 @@ exports[`renders correctly for readonly backup phrase 1`] = `
       Object {
         "alignContent": "center",
         "backgroundColor": "#F1F0EB",
-        "borderColor": "#2E3338",
-        "borderRadius": 4,
-        "borderWidth": 1,
+        "borderRadius": 8,
+        "flexDirection": "row",
+        "flexWrap": "wrap",
         "justifyContent": "center",
+        "marginHorizontal": 10,
         "marginTop": 8,
-        "padding": 16,
+        "padding": 8,
       }
     }
+    testID="AccountKeyWordsContainer"
   >
     <Text
       style={
@@ -150,7 +152,6 @@ exports[`renders correctly for readonly backup phrase 1`] = `
           "lineHeight": 32,
         }
       }
-      testID="AccountKeyWords"
     >
       prosper winner find donate tape history measure umbrella agent patrol want rhythm old unable wash wrong need fluid hammer coach reveal plastic trust lake
     </Text>
