@@ -1429,7 +1429,7 @@
   "capsuleEndpointFailed": "Oops! Something went wrong, please contact support.",
   "provisioningInProgress": "Provisioning Your Account",
   "keyshareCreation": [
-    "Sit tight while we create your account. We're creating three keys, each will be stored in a separate location so make your account even more secure.",
+    "Sit tight while we create your account. We're creating three keys, each will be stored in a separate location to make your account even more secure.",
     "Once you keep two of these keys safe, your funds will always remain secure."
   ]
 }

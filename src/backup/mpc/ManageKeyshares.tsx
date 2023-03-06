@@ -3,7 +3,8 @@ import { useTranslation } from 'react-i18next'
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import { KeyshareType } from 'src/backup/mpc/hooks'
 import { SettingsItemTextValue } from 'src/components/SettingsItem'
-import DrawerTopBar from 'src/navigator/DrawerTopBar'
+import i18n from 'src/i18n'
+import { emptyHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import fontStyles from 'src/styles/fonts'
@@ -32,9 +33,7 @@ const ManageKeyshares = () => {
 
   return (
     <SafeAreaView>
-      <DrawerTopBar />
       <View style={styles.innerContainer}>
-        <Text style={styles.h1}>{t('manageKeyshare')}</Text>
         <Text style={styles.body}>{t('manageKeyshareInfo')}</Text>
       </View>
       <SettingsItemTextValue
@@ -58,11 +57,6 @@ const styles = StyleSheet.create({
     paddingTop: Spacing.Thick24,
     paddingHorizontal: Spacing.Regular16,
   },
-  h1: {
-    ...fontStyles.h1,
-    textAlign: 'center',
-    marginBottom: variables.contentPadding,
-  },
   body: {
     ...fontStyles.regular,
     textAlign: 'justify',
@@ -70,4 +64,10 @@ const styles = StyleSheet.create({
   },
 })
 
+ManageKeyshares.navigationOptions = () => {
+  return {
+    ...emptyHeader,
+    headerTitle: i18n.t('manageKeyshare'),
+  }
+}
 export default ManageKeyshares

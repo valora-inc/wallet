@@ -74,7 +74,12 @@ const KeyshareProvisioningScreen = ({ navigation }: Props) => {
         <View style={styles.row}>
           <View>
             <Animated.Image source={whiteProgressBig} style={[progressAnimatedStyle]} />
-            <AnimatedLottieView source={require('./keyshares.json')} autoPlay loop />
+            <AnimatedLottieView
+              source={require('./keyshares.json')}
+              style={styles.lottieKeys}
+              autoPlay
+              loop
+            />
           </View>
         </View>
 
@@ -104,6 +109,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
   },
+  lottieKeys: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    width: '90%',
+    alignSelf: 'center',
+  },
   innerContainer: {
     padding: variables.contentPadding,
     marginHorizontal: 32,
@@ -121,7 +133,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     ...fontStyles.small,
     color: Colors.light,
-    fontWeight: 'bold',
     paddingBottom: variables.contentPadding,
   },
 })

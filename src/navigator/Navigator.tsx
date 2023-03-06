@@ -29,6 +29,7 @@ import BackupForceScreen from 'src/backup/BackupForceScreen'
 import BackupPhrase, { navOptionsForBackupPhrase } from 'src/backup/BackupPhrase'
 import BackupQuiz, { navOptionsForQuiz } from 'src/backup/BackupQuiz'
 import KeyshareEducation from 'src/backup/mpc/KeyshareEducation'
+import ManageKeyshares from 'src/backup/mpc/ManageKeyshares'
 import BackButton from 'src/components/BackButton'
 import CancelButton from 'src/components/CancelButton'
 import ConsumerIncentivesHomeScreen from 'src/consumerIncentives/ConsumerIncentivesHomeScreen'
@@ -657,6 +658,11 @@ const settingsScreens = (Navigator: typeof Stack) => (
       component={TransactionSent}
       options={TransactionSent.navigationOptions}
     />
+    <Navigator.Screen
+      name={Screens.ManageKeyshareScreen}
+      component={ManageKeyshares}
+      options={ManageKeyshares.navigationOptions}
+    />
   </>
 )
 
@@ -733,7 +739,7 @@ export function MainStackScreen() {
       initialRoute = Screens.DrawerNavigator
     }
 
-    setInitialRoute(Screens.KeyshareProvisioningScreen)
+    setInitialRoute(initialRoute)
     Logger.info(`${TAG}@MainStackScreen`, `Initial route: ${initialRoute}`)
 
     // Wait for next frame to avoid slight gap when hiding the splash
