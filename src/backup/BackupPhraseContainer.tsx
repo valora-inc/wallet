@@ -12,6 +12,25 @@ import Logger from 'src/utils/Logger'
 
 const PhraseInput = withTextInputPasteAware(TextInput, { top: undefined, right: 12, bottom: 12 })
 
+type TwelveWordTableProps = {
+  words: string
+}
+
+function TwelveWordTable({ words }: TwelveWordTableProps) {
+  return (
+    <>
+      {words.split(' ').map((word, index) => (
+        <View key={index} style={styles.indexWordContainer}>
+          <Text style={styles.indexText}>{index + 1}</Text>
+          <Text key={index} style={styles.wordText}>
+            {word}
+          </Text>
+        </View>
+      ))}
+    </>
+  )
+}
+
 export enum BackupPhraseContainerMode {
   READONLY = 'READONLY',
   INPUT = 'INPUT',
@@ -51,6 +70,7 @@ export class BackupPhraseContainer extends React.Component<Props> {
 
   render() {
     const { t, value: words, showCopy, style, mode, type, includeHeader, testID } = this.props
+    const isTwelveWords = words?.split(' ').length === 12
 
     return (
       <View style={style}>
@@ -68,11 +88,11 @@ export class BackupPhraseContainer extends React.Component<Props> {
           )}
         </View>
         {mode === BackupPhraseContainerMode.READONLY && (
-          <View style={styles.phraseContainer}>
-            {!!words && (
-              <Text style={styles.phraseText} testID="AccountKeyWords">
-                {words}
-              </Text>
+          <View style={styles.phraseContainer} testID={'AccountKeyWordsConatiner'}>
+            {isTwelveWords ? (
+              <TwelveWordTable words={words} />
+            ) : (
+              !!words && <Text style={styles.phraseText}> {words} </Text>
             )}
           </View>
         )}
@@ -115,15 +135,34 @@ const styles = StyleSheet.create({
     ...fontStyles.h2,
     marginBottom: 16,
   },
+  indexText: {
+    ...fontStyles.regular,
+    color: colors.gray4,
+    marginRight: 8,
+    lineHeight: 24,
+  },
+  wordText: {
+    ...fontStyles.regular,
+    lineHeight: 24,
+  },
+  indexWordContainer: {
+    flexGrow: 1,
+    flexShrink: 1,
+    flexBasis: '30%',
+    flexDirection: 'row',
+    marginVertical: 11,
+    marginLeft: '2%',
+  },
   phraseContainer: {
+    flexWrap: 'wrap',
+    flexDirection: 'row',
     marginTop: 8,
+    marginHorizontal: 10,
     backgroundColor: colors.beige,
-    borderWidth: 1,
-    borderColor: colors.dark,
-    borderRadius: 4,
+    borderRadius: 8,
     alignContent: 'center',
     justifyContent: 'center',
-    padding: 16,
+    padding: 8,
   },
   phraseText: {
     ...fontStyles.regular,

@@ -13,6 +13,9 @@ import { getAddressChunks } from '@celo/utils/lib/address'
 const jestExpect = require('expect')
 
 export default NewAccountOnboarding = () => {
+  // Helper to remove any added indexes/spaces
+  const extractRecoveryPhrase = (text) => text.replace(/[0-9]+ /g, '').trim()
+
   let testRecoveryPhrase, testAccountAddress
   beforeAll(async () => {
     await device.terminateApp()
@@ -64,10 +67,10 @@ export default NewAccountOnboarding = () => {
       await element(by.id('Education/progressButton')).tap()
     }
 
-    await expect(element(by.id('AccountKeyWords'))).toBeVisible()
+    await expect(element(by.id('AccountKeyWordsConatiner'))).toBeVisible()
 
-    const attributes = await element(by.id('AccountKeyWords')).getAttributes()
-    testRecoveryPhrase = attributes.text
+    const attributes = await element(by.id('AccountKeyWordsConatiner')).getAttributes()
+    testRecoveryPhrase = extractRecoveryPhrase(attributes.label)
 
     await element(by.id('backupKeySavedSwitch')).longPress()
     await element(by.id('backupKeyContinue')).tap()
@@ -106,14 +109,14 @@ export default NewAccountOnboarding = () => {
     await waitForElementId('RecoveryPhrase')
     await element(by.id('RecoveryPhrase')).tap()
     await enterPinUi()
-    await waitForElementId('AccountKeyWords')
+    await waitForElementId('AccountKeyWordsConatiner')
   })
 
   // Based off the flag set in src/firebase/remoteConfigValuesDefaults.e2e.ts
   // We can only test one path 12 or 24 words as we cannot flip the flag after the build step
   it('Recovery phrase has 12 words', async () => {
-    const recoveryPhrase = await element(by.id('AccountKeyWords')).getAttributes()
-    const recoveryPhraseText = recoveryPhrase.text
+    const recoveryPhraseContainer = await element(by.id('AccountKeyWordsConatiner')).getAttributes()
+    const recoveryPhraseText = extractRecoveryPhrase(recoveryPhraseContainer.label)
     jestExpect(recoveryPhraseText.split(' ').length).toBe(12)
     jestExpect(recoveryPhraseText).toBe(testRecoveryPhrase)
   })
