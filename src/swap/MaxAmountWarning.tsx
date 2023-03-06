@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import { SwapEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { SWAP_LEARN_MORE } from 'src/config'
-import DeniedIcon from 'src/icons/DeniedIcon'
+import AttentionIcon from 'src/icons/Attention'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import Colors from 'src/styles/colors'
@@ -22,37 +22,40 @@ export function MaxAmountWarning() {
 
   return (
     <View style={styles.container}>
-      <DeniedIcon color={Colors.goldDark} />
-      <View style={styles.contentContainer}>
+      <View style={styles.row}>
+        <AttentionIcon color={Colors.goldDark} />
         <Text style={styles.titleText}>{t('swapScreen.maxSwapAmountWarning.title')}</Text>
-        <Text style={styles.bodyText}>{t('swapScreen.maxSwapAmountWarning.body')}</Text>
-        <Text style={styles.learnMoreText} onPress={onPressLearnMore}>
-          {t('swapScreen.maxSwapAmountWarning.learnMore')}
-        </Text>
       </View>
+
+      <Text style={styles.bodyText}>{t('swapScreen.maxSwapAmountWarning.body')}</Text>
+      <Text style={styles.learnMoreText} onPress={onPressLearnMore}>
+        {t('swapScreen.maxSwapAmountWarning.learnMore')}
+      </Text>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
     marginTop: Spacing.Thick24,
-    padding: Spacing.Regular16,
+    paddingHorizontal: Spacing.Thick24,
+    paddingVertical: Spacing.Regular16,
     backgroundColor: Colors.yellowFaint,
     borderRadius: 4,
   },
-  contentContainer: {
-    flex: 1,
-    paddingLeft: Spacing.Small12,
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: Spacing.Smallest8,
   },
   titleText: {
     ...fontStyles.small600,
-    marginBottom: Spacing.Smallest8,
+    marginLeft: Spacing.Small12,
   },
   bodyText: {
     ...fontStyles.small,
     marginBottom: Spacing.Regular16,
+    marginLeft: 28,
   },
   learnMoreText: {
     ...fontStyles.small600,
