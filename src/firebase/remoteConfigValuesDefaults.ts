@@ -10,6 +10,7 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   | 'superchargeTokenConfigByToken'
   | 'fiatAccountSchemaCountryOverrides'
   | 'celoNews'
+  | 'superchargeV1Addresses'
 > & {
   sentryNetworkErrors: string
   superchargecUSDMin: number
@@ -20,6 +21,7 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   superchargecREALMax: number
   dappListApiUrl: string
   celoNews: string
+  superchargeV1Addresses: string
 } = {
   celoEuroEnabled: true,
   inviteRewardsEnabled: false,
@@ -69,6 +71,7 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   guaranteedSwapPriceEnabled: false,
   superchargeV2Enabled: false,
   superchargeRewardContractAddress: '',
+  superchargeV1Addresses: '',
   dappsFilterEnabled: false,
   dappsSearchEnabled: false,
 }

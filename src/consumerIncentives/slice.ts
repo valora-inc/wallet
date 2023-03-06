@@ -1,15 +1,22 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Actions as AppActions, UpdateConfigValuesAction } from 'src/app/actions'
-import { SuperchargePendingReward } from 'src/consumerIncentives/types'
+import { SuperchargePendingReward, SuperchargePendingRewardV2 } from 'src/consumerIncentives/types'
 
 export interface State {
   loading: boolean
   error: boolean
-  availableRewards: SuperchargePendingReward[]
   fetchAvailableRewardsLoading: boolean
   fetchAvailableRewardsError: boolean
-  superchargeV2Enabled: boolean // switch to new backend to calculate rewards on the fly
   superchargeRewardContractAddress: string
+  availableRewards: SuperchargePendingReward[] | SuperchargePendingRewardV2[]
+  superchargeV2Enabled: boolean
+  // superchargeV1Addresses can be removed 4 weeks after supercharge V2 is
+  // rolled out. it is an array of 24 contract addresses corresponding to the 6
+  // token contracts for the last 4 reward distributions in the v1 system. These
+  // are the contracts that the user claims their rewards against, we verify the
+  // transaction "to" address against this list to ensure the user is signing a
+  // safe transaction
+  superchargeV1Addresses: string[]
 }
 
 export const initialState: State = {
@@ -20,13 +27,17 @@ export const initialState: State = {
   availableRewards: [],
   superchargeV2Enabled: false,
   superchargeRewardContractAddress: '',
+  superchargeV1Addresses: [],
 }
 
 const slice = createSlice({
   name: 'supercharge',
   initialState,
   reducers: {
-    claimRewards: (state, action: PayloadAction<SuperchargePendingReward[]>) => ({
+    claimRewards: (
+      state,
+      action: PayloadAction<SuperchargePendingReward[] | SuperchargePendingRewardV2[]>
+    ) => ({
       ...state,
       loading: true,
       error: false,
@@ -56,7 +67,10 @@ const slice = createSlice({
       fetchAvailableRewardsLoading: false,
       fetchAvailableRewardsError: true,
     }),
-    setAvailableRewards: (state, action: PayloadAction<SuperchargePendingReward[]>) => ({
+    setAvailableRewards: (
+      state,
+      action: PayloadAction<SuperchargePendingReward[] | SuperchargePendingRewardV2[]>
+    ) => ({
       ...state,
       availableRewards: action.payload,
     }),
@@ -68,6 +82,7 @@ const slice = createSlice({
         state.superchargeV2Enabled = action.configValues.superchargeV2Enabled
         state.superchargeRewardContractAddress =
           action.configValues.superchargeRewardContractAddress
+        state.superchargeV1Addresses = action.configValues.superchargeV1Addresses
       }
     )
   },
