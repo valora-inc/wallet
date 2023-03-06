@@ -10,6 +10,14 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
 >
   <View>
     <RNCSafeAreaView
+      edges={
+        Array [
+          "bottom",
+          "left",
+          "right",
+          "top",
+        ]
+      }
       style={
         Object {
           "flexGrow": 1,
@@ -802,6 +810,14 @@ exports[`TransferConfirmationCard renders correctly for faucet drilldown 1`] = `
 >
   <View>
     <RNCSafeAreaView
+      edges={
+        Array [
+          "bottom",
+          "left",
+          "right",
+          "top",
+        ]
+      }
       style={
         Object {
           "flexGrow": 1,
@@ -1049,6 +1065,14 @@ exports[`TransferConfirmationCard renders correctly for received CELO reward 1`]
 >
   <View>
     <RNCSafeAreaView
+      edges={
+        Array [
+          "bottom",
+          "left",
+          "right",
+          "top",
+        ]
+      }
       style={
         Object {
           "flexGrow": 1,
@@ -1594,6 +1618,14 @@ exports[`TransferConfirmationCard renders correctly for received escrow transact
 >
   <View>
     <RNCSafeAreaView
+      edges={
+        Array [
+          "bottom",
+          "left",
+          "right",
+          "top",
+        ]
+      }
       style={
         Object {
           "flexGrow": 1,
@@ -2129,6 +2161,14 @@ exports[`TransferConfirmationCard renders correctly for received transaction dri
 >
   <View>
     <RNCSafeAreaView
+      edges={
+        Array [
+          "bottom",
+          "left",
+          "right",
+          "top",
+        ]
+      }
       style={
         Object {
           "flexGrow": 1,
@@ -2664,6 +2704,14 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
 >
   <View>
     <RNCSafeAreaView
+      edges={
+        Array [
+          "bottom",
+          "left",
+          "right",
+          "top",
+        ]
+      }
       style={
         Object {
           "flexGrow": 1,
@@ -3456,6 +3504,14 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
 >
   <View>
     <RNCSafeAreaView
+      edges={
+        Array [
+          "bottom",
+          "left",
+          "right",
+          "top",
+        ]
+      }
       style={
         Object {
           "flexGrow": 1,
@@ -4248,6 +4304,14 @@ exports[`TransferConfirmationCard renders correctly for verification fee drilldo
 >
   <View>
     <RNCSafeAreaView
+      edges={
+        Array [
+          "bottom",
+          "left",
+          "right",
+          "top",
+        ]
+      }
       style={
         Object {
           "flexGrow": 1,

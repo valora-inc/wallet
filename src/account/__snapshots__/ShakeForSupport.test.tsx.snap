@@ -96,6 +96,14 @@ exports[`ShakeForSupport does not render when App not active 1`] = `
     useNativeDriverForBackdrop={true}
   >
     <RNCSafeAreaView
+      edges={
+        Array [
+          "bottom",
+          "left",
+          "right",
+          "top",
+        ]
+      }
       style={
         Object {
           "alignItems": "center",
@@ -370,6 +378,14 @@ exports[`ShakeForSupport renders correctly when App is active 1`] = `
     useNativeDriverForBackdrop={true}
   >
     <RNCSafeAreaView
+      edges={
+        Array [
+          "bottom",
+          "left",
+          "right",
+          "top",
+        ]
+      }
       style={
         Object {
           "alignItems": "center",
