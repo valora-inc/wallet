@@ -128,6 +128,7 @@ exports[`renders correctly for readonly backup 12-word phrase 1`] = `
     </View>
   </View>
   <View
+    accessibilityLabel="prosper winner find donate tape history measure umbrella agent patrol want rhythm"
     style={
       Object {
         "alignContent": "center",
@@ -649,6 +650,7 @@ exports[`renders correctly for readonly backup 24-word phrase 1`] = `
     </View>
   </View>
   <View
+    accessibilityLabel="prosper winner find donate tape history measure umbrella agent patrol want rhythm old unable wash wrong need fluid hammer coach reveal plastic trust lake"
     style={
       Object {
         "alignContent": "center",

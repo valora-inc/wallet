@@ -459,6 +459,7 @@ exports[`renders correctly with backup completed 1`] = `
           </View>
         </View>
         <View
+          accessibilityLabel=""
           style={
             Object {
               "alignContent": "center",
@@ -952,6 +953,7 @@ exports[`renders correctly with backup not completed 1`] = `
           </View>
         </View>
         <View
+          accessibilityLabel=""
           style={
             Object {
               "alignContent": "center",
@@ -1563,6 +1565,7 @@ exports[`still renders when mnemonic doesnt show up 1`] = `
           </View>
         </View>
         <View
+          accessibilityLabel=""
           style={
             Object {
               "alignContent": "center",

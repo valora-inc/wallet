@@ -113,7 +113,7 @@ export default NewAccountOnboarding = () => {
   // We can only test one path 12 or 24 words as we cannot flip the flag after the build step
   it('Recovery phrase has 12 words', async () => {
     const recoveryPhraseContainer = await element(by.id('AccountKeyWordsContainer')).getAttributes()
-    const recoveryPhraseText = extractRecoveryPhrase(recoveryPhraseContainer.label)
+    const recoveryPhraseText = recoveryPhraseContainer.label
     jestExpect(recoveryPhraseText.split(' ').length).toBe(12)
     jestExpect(recoveryPhraseText).toBe(testRecoveryPhrase)
   })
