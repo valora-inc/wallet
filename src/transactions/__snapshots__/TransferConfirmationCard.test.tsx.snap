@@ -36,7 +36,7 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
             <Text
               style={
                 Object {
-                  "color": "#B4B9BD",
+                  "color": "#757575",
                   "fontFamily": "Inter-SemiBold",
                   "fontSize": 13,
                   "lineHeight": 16,
@@ -110,7 +110,7 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
                 <Text
                   style={
                     Object {
-                      "color": "#9CA4A9",
+                      "color": "#666666",
                       "fontFamily": "Inter-Regular",
                       "fontSize": 14,
                       "lineHeight": 18,
@@ -140,7 +140,7 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
                   >
                     <path
                       d="M3 6l5 5 5-5"
-                      stroke="#B4B9BD"
+                      stroke="#757575"
                     />
                   </svg>
                 </View>
@@ -325,7 +325,7 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
         <Text
           style={
             Object {
-              "color": "#B4B9BD",
+              "color": "#757575",
               "fontFamily": "Inter-SemiBold",
               "fontSize": 13,
               "lineHeight": 16,
@@ -500,7 +500,7 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
                 >
                   <path
                     d="M3 6l5 5 5-5"
-                    stroke="#B4B9BD"
+                    stroke="#757575"
                   />
                 </svg>
               </View>
@@ -691,7 +691,7 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
                   "lineHeight": 22,
                 },
                 Object {
-                  "color": "#9CA4A9",
+                  "color": "#666666",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 14,
                   "lineHeight": 18,
@@ -726,7 +726,7 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
               <Text
                 style={
                   Object {
-                    "color": "#9CA4A9",
+                    "color": "#666666",
                     "fontFamily": "Inter-Regular",
                     "fontSize": 14,
                     "lineHeight": 18,
@@ -762,7 +762,7 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
                 "lineHeight": 22,
               },
               Object {
-                "color": "#9CA4A9",
+                "color": "#666666",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
                 "lineHeight": 18,
@@ -923,7 +923,7 @@ exports[`TransferConfirmationCard renders correctly for faucet drilldown 1`] = `
                   "lineHeight": 22,
                 },
                 Object {
-                  "color": "#9CA4A9",
+                  "color": "#666666",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 14,
                   "lineHeight": 18,
@@ -958,7 +958,7 @@ exports[`TransferConfirmationCard renders correctly for faucet drilldown 1`] = `
               <Text
                 style={
                   Object {
-                    "color": "#9CA4A9",
+                    "color": "#666666",
                     "fontFamily": "Inter-Regular",
                     "fontSize": 14,
                     "lineHeight": 18,
@@ -994,7 +994,7 @@ exports[`TransferConfirmationCard renders correctly for faucet drilldown 1`] = `
                 "lineHeight": 22,
               },
               Object {
-                "color": "#9CA4A9",
+                "color": "#666666",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
                 "lineHeight": 18,
@@ -1023,7 +1023,7 @@ exports[`TransferConfirmationCard renders correctly for faucet drilldown 1`] = `
       <Text
         style={
           Object {
-            "color": "#9CA4A9",
+            "color": "#666666",
             "fontFamily": "Inter-Regular",
             "fontSize": 16,
             "lineHeight": 22,
@@ -1075,7 +1075,7 @@ exports[`TransferConfirmationCard renders correctly for received CELO reward 1`]
             <Text
               style={
                 Object {
-                  "color": "#B4B9BD",
+                  "color": "#757575",
                   "fontFamily": "Inter-SemiBold",
                   "fontSize": 13,
                   "lineHeight": 16,
@@ -1149,7 +1149,7 @@ exports[`TransferConfirmationCard renders correctly for received CELO reward 1`]
                 <Text
                   style={
                     Object {
-                      "color": "#9CA4A9",
+                      "color": "#666666",
                       "fontFamily": "Inter-Regular",
                       "fontSize": 14,
                       "lineHeight": 18,
@@ -1345,7 +1345,7 @@ exports[`TransferConfirmationCard renders correctly for received CELO reward 1`]
         <Text
           style={
             Object {
-              "color": "#9CA4A9",
+              "color": "#666666",
               "fontFamily": "Inter-Regular",
               "fontSize": 14,
               "lineHeight": 18,
@@ -1482,7 +1482,7 @@ exports[`TransferConfirmationCard renders correctly for received CELO reward 1`]
                   "lineHeight": 22,
                 },
                 Object {
-                  "color": "#9CA4A9",
+                  "color": "#666666",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 14,
                   "lineHeight": 18,
@@ -1517,7 +1517,7 @@ exports[`TransferConfirmationCard renders correctly for received CELO reward 1`]
               <Text
                 style={
                   Object {
-                    "color": "#9CA4A9",
+                    "color": "#666666",
                     "fontFamily": "Inter-Regular",
                     "fontSize": 14,
                     "lineHeight": 18,
@@ -1553,7 +1553,7 @@ exports[`TransferConfirmationCard renders correctly for received CELO reward 1`]
                 "lineHeight": 22,
               },
               Object {
-                "color": "#9CA4A9",
+                "color": "#666666",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
                 "lineHeight": 18,
@@ -1620,7 +1620,7 @@ exports[`TransferConfirmationCard renders correctly for received escrow transact
             <Text
               style={
                 Object {
-                  "color": "#B4B9BD",
+                  "color": "#757575",
                   "fontFamily": "Inter-SemiBold",
                   "fontSize": 13,
                   "lineHeight": 16,
@@ -1694,7 +1694,7 @@ exports[`TransferConfirmationCard renders correctly for received escrow transact
                 <Text
                   style={
                     Object {
-                      "color": "#9CA4A9",
+                      "color": "#666666",
                       "fontFamily": "Inter-Regular",
                       "fontSize": 14,
                       "lineHeight": 18,
@@ -1724,7 +1724,7 @@ exports[`TransferConfirmationCard renders correctly for received escrow transact
                   >
                     <path
                       d="M3 6l5 5 5-5"
-                      stroke="#B4B9BD"
+                      stroke="#757575"
                     />
                   </svg>
                 </View>
@@ -2017,7 +2017,7 @@ exports[`TransferConfirmationCard renders correctly for received escrow transact
                   "lineHeight": 22,
                 },
                 Object {
-                  "color": "#9CA4A9",
+                  "color": "#666666",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 14,
                   "lineHeight": 18,
@@ -2052,7 +2052,7 @@ exports[`TransferConfirmationCard renders correctly for received escrow transact
               <Text
                 style={
                   Object {
-                    "color": "#9CA4A9",
+                    "color": "#666666",
                     "fontFamily": "Inter-Regular",
                     "fontSize": 14,
                     "lineHeight": 18,
@@ -2088,7 +2088,7 @@ exports[`TransferConfirmationCard renders correctly for received escrow transact
                 "lineHeight": 22,
               },
               Object {
-                "color": "#9CA4A9",
+                "color": "#666666",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
                 "lineHeight": 18,
@@ -2155,7 +2155,7 @@ exports[`TransferConfirmationCard renders correctly for received transaction dri
             <Text
               style={
                 Object {
-                  "color": "#B4B9BD",
+                  "color": "#757575",
                   "fontFamily": "Inter-SemiBold",
                   "fontSize": 13,
                   "lineHeight": 16,
@@ -2229,7 +2229,7 @@ exports[`TransferConfirmationCard renders correctly for received transaction dri
                 <Text
                   style={
                     Object {
-                      "color": "#9CA4A9",
+                      "color": "#666666",
                       "fontFamily": "Inter-Regular",
                       "fontSize": 14,
                       "lineHeight": 18,
@@ -2259,7 +2259,7 @@ exports[`TransferConfirmationCard renders correctly for received transaction dri
                   >
                     <path
                       d="M3 6l5 5 5-5"
-                      stroke="#B4B9BD"
+                      stroke="#757575"
                     />
                   </svg>
                 </View>
@@ -2552,7 +2552,7 @@ exports[`TransferConfirmationCard renders correctly for received transaction dri
                   "lineHeight": 22,
                 },
                 Object {
-                  "color": "#9CA4A9",
+                  "color": "#666666",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 14,
                   "lineHeight": 18,
@@ -2587,7 +2587,7 @@ exports[`TransferConfirmationCard renders correctly for received transaction dri
               <Text
                 style={
                   Object {
-                    "color": "#9CA4A9",
+                    "color": "#666666",
                     "fontFamily": "Inter-Regular",
                     "fontSize": 14,
                     "lineHeight": 18,
@@ -2623,7 +2623,7 @@ exports[`TransferConfirmationCard renders correctly for received transaction dri
                 "lineHeight": 22,
               },
               Object {
-                "color": "#9CA4A9",
+                "color": "#666666",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
                 "lineHeight": 18,
@@ -2690,7 +2690,7 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
             <Text
               style={
                 Object {
-                  "color": "#B4B9BD",
+                  "color": "#757575",
                   "fontFamily": "Inter-SemiBold",
                   "fontSize": 13,
                   "lineHeight": 16,
@@ -2764,7 +2764,7 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
                 <Text
                   style={
                     Object {
-                      "color": "#9CA4A9",
+                      "color": "#666666",
                       "fontFamily": "Inter-Regular",
                       "fontSize": 14,
                       "lineHeight": 18,
@@ -2794,7 +2794,7 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
                   >
                     <path
                       d="M3 6l5 5 5-5"
-                      stroke="#B4B9BD"
+                      stroke="#757575"
                     />
                   </svg>
                 </View>
@@ -2979,7 +2979,7 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
         <Text
           style={
             Object {
-              "color": "#B4B9BD",
+              "color": "#757575",
               "fontFamily": "Inter-SemiBold",
               "fontSize": 13,
               "lineHeight": 16,
@@ -3154,7 +3154,7 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
                 >
                   <path
                     d="M3 6l5 5 5-5"
-                    stroke="#B4B9BD"
+                    stroke="#757575"
                   />
                 </svg>
               </View>
@@ -3345,7 +3345,7 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
                   "lineHeight": 22,
                 },
                 Object {
-                  "color": "#9CA4A9",
+                  "color": "#666666",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 14,
                   "lineHeight": 18,
@@ -3380,7 +3380,7 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
               <Text
                 style={
                   Object {
-                    "color": "#9CA4A9",
+                    "color": "#666666",
                     "fontFamily": "Inter-Regular",
                     "fontSize": 14,
                     "lineHeight": 18,
@@ -3416,7 +3416,7 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
                 "lineHeight": 22,
               },
               Object {
-                "color": "#9CA4A9",
+                "color": "#666666",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
                 "lineHeight": 18,
@@ -3482,7 +3482,7 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
             <Text
               style={
                 Object {
-                  "color": "#B4B9BD",
+                  "color": "#757575",
                   "fontFamily": "Inter-SemiBold",
                   "fontSize": 13,
                   "lineHeight": 16,
@@ -3556,7 +3556,7 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
                 <Text
                   style={
                     Object {
-                      "color": "#9CA4A9",
+                      "color": "#666666",
                       "fontFamily": "Inter-Regular",
                       "fontSize": 14,
                       "lineHeight": 18,
@@ -3586,7 +3586,7 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
                   >
                     <path
                       d="M3 6l5 5 5-5"
-                      stroke="#B4B9BD"
+                      stroke="#757575"
                     />
                   </svg>
                 </View>
@@ -3771,7 +3771,7 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
         <Text
           style={
             Object {
-              "color": "#B4B9BD",
+              "color": "#757575",
               "fontFamily": "Inter-SemiBold",
               "fontSize": 13,
               "lineHeight": 16,
@@ -3946,7 +3946,7 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
                 >
                   <path
                     d="M3 6l5 5 5-5"
-                    stroke="#B4B9BD"
+                    stroke="#757575"
                   />
                 </svg>
               </View>
@@ -4137,7 +4137,7 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
                   "lineHeight": 22,
                 },
                 Object {
-                  "color": "#9CA4A9",
+                  "color": "#666666",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 14,
                   "lineHeight": 18,
@@ -4172,7 +4172,7 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
               <Text
                 style={
                   Object {
-                    "color": "#9CA4A9",
+                    "color": "#666666",
                     "fontFamily": "Inter-Regular",
                     "fontSize": 14,
                     "lineHeight": 18,
@@ -4208,7 +4208,7 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
                 "lineHeight": 22,
               },
               Object {
-                "color": "#9CA4A9",
+                "color": "#666666",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
                 "lineHeight": 18,
@@ -4368,7 +4368,7 @@ exports[`TransferConfirmationCard renders correctly for verification fee drilldo
                   "lineHeight": 22,
                 },
                 Object {
-                  "color": "#9CA4A9",
+                  "color": "#666666",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 14,
                   "lineHeight": 18,
@@ -4403,7 +4403,7 @@ exports[`TransferConfirmationCard renders correctly for verification fee drilldo
               <Text
                 style={
                   Object {
-                    "color": "#9CA4A9",
+                    "color": "#666666",
                     "fontFamily": "Inter-Regular",
                     "fontSize": 14,
                     "lineHeight": 18,
@@ -4439,7 +4439,7 @@ exports[`TransferConfirmationCard renders correctly for verification fee drilldo
                 "lineHeight": 22,
               },
               Object {
-                "color": "#9CA4A9",
+                "color": "#666666",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
                 "lineHeight": 18,
@@ -4467,7 +4467,7 @@ exports[`TransferConfirmationCard renders correctly for verification fee drilldo
       <Text
         style={
           Object {
-            "color": "#9CA4A9",
+            "color": "#666666",
             "fontFamily": "Inter-Regular",
             "fontSize": 16,
             "lineHeight": 22,

@@ -81,7 +81,7 @@ Array [
                   },
                   Object {
                     "backgroundColor": "#FFF",
-                    "borderColor": "#EDEEEF",
+                    "borderColor": "#E6E6E6",
                     "borderRadius": 3,
                     "borderWidth": 1,
                     "flex": 0,
@@ -495,7 +495,7 @@ Array [
             <Text
               style={
                 Object {
-                  "color": "#9CA4A9",
+                  "color": "#666666",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 14,
                   "lineHeight": 18,
@@ -561,7 +561,7 @@ Array [
               <Text
                 style={
                   Object {
-                    "color": "#9CA4A9",
+                    "color": "#666666",
                     "fontFamily": "Inter-Regular",
                     "fontSize": 14,
                     "lineHeight": 18,
@@ -576,7 +576,7 @@ Array [
             <Text
               style={
                 Object {
-                  "color": "#9CA4A9",
+                  "color": "#666666",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 14,
                   "lineHeight": 18,
@@ -720,7 +720,7 @@ Array [
                       },
                       Object {
                         "backgroundColor": "#FFF",
-                        "borderColor": "#EDEEEF",
+                        "borderColor": "#E6E6E6",
                         "borderRadius": 3,
                         "borderWidth": 1,
                         "flex": 0,
@@ -779,7 +779,7 @@ Array [
                       },
                       Object {
                         "backgroundColor": "#FFF",
-                        "borderColor": "#EDEEEF",
+                        "borderColor": "#E6E6E6",
                         "borderRadius": 3,
                         "borderWidth": 1,
                         "flex": 0,
@@ -838,7 +838,7 @@ Array [
                       },
                       Object {
                         "backgroundColor": "#FFF",
-                        "borderColor": "#EDEEEF",
+                        "borderColor": "#E6E6E6",
                         "borderRadius": 3,
                         "borderWidth": 1,
                         "flex": 0,
@@ -897,7 +897,7 @@ Array [
                       },
                       Object {
                         "backgroundColor": "#FFF",
-                        "borderColor": "#EDEEEF",
+                        "borderColor": "#E6E6E6",
                         "borderRadius": 3,
                         "borderWidth": 1,
                         "flex": 0,
@@ -1318,7 +1318,7 @@ Array [
             <Text
               style={
                 Object {
-                  "color": "#9CA4A9",
+                  "color": "#666666",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 14,
                   "lineHeight": 18,
@@ -1384,7 +1384,7 @@ Array [
               <Text
                 style={
                   Object {
-                    "color": "#9CA4A9",
+                    "color": "#666666",
                     "fontFamily": "Inter-Regular",
                     "fontSize": 14,
                     "lineHeight": 18,
@@ -1399,7 +1399,7 @@ Array [
             <Text
               style={
                 Object {
-                  "color": "#9CA4A9",
+                  "color": "#666666",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 14,
                   "lineHeight": 18,

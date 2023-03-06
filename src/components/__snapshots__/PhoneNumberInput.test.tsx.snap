@@ -119,7 +119,7 @@ exports[`PhoneNumberInput renders and behaves correctly 1`] = `
             >
               <path
                 d="M3 6l5 5 5-5"
-                stroke="#B4B9BD"
+                stroke="#757575"
               />
             </svg>
           </View>
@@ -155,7 +155,7 @@ exports[`PhoneNumberInput renders and behaves correctly 1`] = `
           onChangeText={[Function]}
           onFocus={[Function]}
           placeholder="00 00 00 00 00"
-          placeholderTextColor="#B4B9BD"
+          placeholderTextColor="#757575"
           style={
             Array [
               Object {
