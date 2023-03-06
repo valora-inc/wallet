@@ -388,7 +388,16 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
           }
           swipeThreshold={100}
         >
-          <RNCSafeAreaView>
+          <RNCSafeAreaView
+            edges={
+              Array [
+                "bottom",
+                "left",
+                "right",
+                "top",
+              ]
+            }
+          >
             <View
               style={
                 Array [

@@ -2,6 +2,14 @@
 
 exports[`BackupForceScreen renders correctly 1`] = `
 <RNCSafeAreaView
+  edges={
+    Array [
+      "bottom",
+      "left",
+      "right",
+      "top",
+    ]
+  }
   style={
     Object {
       "backgroundColor": "#FFFFFF",
@@ -10,6 +18,14 @@ exports[`BackupForceScreen renders correctly 1`] = `
   }
 >
   <RNCSafeAreaView
+    edges={
+      Array [
+        "bottom",
+        "left",
+        "right",
+        "top",
+      ]
+    }
     style={
       Object {
         "height": 35,
