@@ -7,7 +7,6 @@ import { Spacing } from 'src/styles/styles'
 //   useSelector,
 // } from 'react-redux'
 import Logger from 'src/utils/Logger'
-import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { useState } from 'react'
 // import { navigateHome } from 'src/navigator/NavigationService'
 // import { e164NumberSelector } from 'src/account/selectors'
@@ -98,7 +97,6 @@ function SetupCloudBackup() {
   )
   return (
     <SafeAreaView style={styles.container}>
-      <DrawerTopBar />
       <ScrollView>
         <View testID="SetupCloudBackupContainer" style={styles.importWalletFromCloudContainer}>
           {beginSetupContents}

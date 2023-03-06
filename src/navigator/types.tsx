@@ -66,6 +66,7 @@ export interface BottomSheetParams {
 }
 
 export type StackParamList = {
+  [Screens.SetupCloudBackup]: undefined
   [Screens.BackupComplete]:
     | undefined
     | {

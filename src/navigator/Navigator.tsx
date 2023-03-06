@@ -34,6 +34,7 @@ import BackupForceScreen from 'src/backup/BackupForceScreen'
 import BackupIntroduction from 'src/backup/BackupIntroduction'
 import BackupPhrase, { navOptionsForBackupPhrase } from 'src/backup/BackupPhrase'
 import BackupQuiz, { navOptionsForQuiz } from 'src/backup/BackupQuiz'
+import SetupCloudBackup from 'src/cloudBackup/SetupCloudBackup'
 import BackButton from 'src/components/BackButton'
 import CancelButton from 'src/components/CancelButton'
 import ConsumerIncentivesHomeScreen from 'src/consumerIncentives/ConsumerIncentivesHomeScreen'
@@ -691,6 +692,11 @@ const modalAnimatedScreens = (Navigator: typeof Stack) => (
       name={Screens.SendConfirmationLegacyModal}
       component={SendConfirmationLegacy}
       options={sendConfirmationLegacyScreenNavOptions as NativeStackNavigationOptions}
+    />
+    <Navigator.Screen
+      options={headerWithBackButton}
+      name={Screens.SetupCloudBackup}
+      component={SetupCloudBackup}
     />
   </>
 )
