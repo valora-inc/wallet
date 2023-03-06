@@ -67,9 +67,9 @@ export default NewAccountOnboarding = () => {
       await element(by.id('Education/progressButton')).tap()
     }
 
-    await expect(element(by.id('AccountKeyWordsConatiner'))).toBeVisible()
+    await expect(element(by.id('AccountKeyWordsContainer'))).toBeVisible()
 
-    const attributes = await element(by.id('AccountKeyWordsConatiner')).getAttributes()
+    const attributes = await element(by.id('AccountKeyWordsContainer')).getAttributes()
     testRecoveryPhrase = extractRecoveryPhrase(attributes.label)
 
     await element(by.id('backupKeySavedSwitch')).longPress()
@@ -109,13 +109,13 @@ export default NewAccountOnboarding = () => {
     await waitForElementId('RecoveryPhrase')
     await element(by.id('RecoveryPhrase')).tap()
     await enterPinUi()
-    await waitForElementId('AccountKeyWordsConatiner')
+    await waitForElementId('AccountKeyWordsContainer')
   })
 
   // Based off the flag set in src/firebase/remoteConfigValuesDefaults.e2e.ts
   // We can only test one path 12 or 24 words as we cannot flip the flag after the build step
   it('Recovery phrase has 12 words', async () => {
-    const recoveryPhraseContainer = await element(by.id('AccountKeyWordsConatiner')).getAttributes()
+    const recoveryPhraseContainer = await element(by.id('AccountKeyWordsContainer')).getAttributes()
     const recoveryPhraseText = extractRecoveryPhrase(recoveryPhraseContainer.label)
     jestExpect(recoveryPhraseText.split(' ').length).toBe(12)
     jestExpect(recoveryPhraseText).toBe(testRecoveryPhrase)

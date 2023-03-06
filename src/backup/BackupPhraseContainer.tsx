@@ -88,7 +88,7 @@ export class BackupPhraseContainer extends React.Component<Props> {
           )}
         </View>
         {mode === BackupPhraseContainerMode.READONLY && (
-          <View style={styles.phraseContainer} testID={'AccountKeyWordsConatiner'}>
+          <View style={styles.phraseContainer} testID={'AccountKeyWordsContainer'}>
             {isTwelveWords ? (
               <TwelveWordTable words={words} />
             ) : (
