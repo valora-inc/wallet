@@ -30,7 +30,7 @@ export default function SendOrRequestBar() {
 
   const onPressQrCode = () => {
     ValoraAnalytics.track(HomeEvents.home_qr)
-    navigate(Screens.QRNavigator)
+    navigate(Screens.SetupCloudBackup) // FIXME DONT MERGE THIS!!!! NO NO NO
   }
 
   const { t } = useTranslation()

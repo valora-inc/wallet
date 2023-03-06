@@ -8,9 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* celoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* celoTests.m */; };
-		0317E786245B696200AAAC2E /* Inter-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0317E783245B696200AAAC2E /* Inter-Regular.ttf */; };
-		0317E788245B696200AAAC2E /* Inter-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0317E784245B696200AAAC2E /* Inter-Medium.ttf */; };
-		0317E78A245B696200AAAC2E /* Inter-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0317E785245B696200AAAC2E /* Inter-SemiBold.ttf */; };
+		0317E786245B696200AAAC2E /* ../fonts/Inter-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0317E783245B696200AAAC2E /* ../fonts/Inter-Regular.ttf */; };
+		0317E788245B696200AAAC2E /* ../fonts/Inter-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0317E784245B696200AAAC2E /* ../fonts/Inter-Medium.ttf */; };
+		0317E78A245B696200AAAC2E /* ../fonts/Inter-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0317E785245B696200AAAC2E /* ../fonts/Inter-SemiBold.ttf */; };
 		0350D7F2EBD64D0585FEF0AF /* Hind-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 95E01263B685485BA7D5CEB0 /* Hind-Light.ttf */; };
 		0445977E03C74B20A93158B5 /* Hind-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B59F6FDB7D084157A12E7A52 /* Hind-Bold.ttf */; };
 		0581BC2D3AEB42D086D403E3 /* Hind-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AAE92820119F4CC5B23C6636 /* Hind-Medium.ttf */; };
@@ -35,6 +35,7 @@
 		6844FCD52570513C0057A74F /* QBImagePicker.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6844FCD42570513C0057A74F /* QBImagePicker.storyboard */; };
 		AC5A01A0F9858C1F2124D019 /* Pods_celo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4F289E12C8CFFF2BC8FB583 /* Pods_celo.framework */; };
 		B986845D4124CAF56EB14C7F /* Pods_NotificationService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B11FD0527A58E309137144D /* Pods_NotificationService.framework */; };
+		CB0E63BA29B68530002D9F68 /* RNCustomAuthSdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB0E63B929B68530002D9F68 /* RNCustomAuthSdk.framework */; };
 		EB3CF5B346854570A1EC69B3 /* Jost-Book.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F19E0D1442F8460181626D12 /* Jost-Book.ttf */; };
 /* End PBXBuildFile section */
 
@@ -81,9 +82,9 @@
 		00E356EE1AD99517003FC87E /* celoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = celoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* celoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = celoTests.m; sourceTree = "<group>"; };
-		0317E783245B696200AAAC2E /* Inter-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "../fonts/Inter-Regular.ttf"; sourceTree = "<group>"; };
-		0317E784245B696200AAAC2E /* Inter-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "../fonts/Inter-Medium.ttf"; sourceTree = "<group>"; };
-		0317E785245B696200AAAC2E /* Inter-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "../fonts/Inter-SemiBold.ttf"; sourceTree = "<group>"; };
+		0317E783245B696200AAAC2E /* ../fonts/Inter-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "../fonts/Inter-Regular.ttf"; sourceTree = "<group>"; };
+		0317E784245B696200AAAC2E /* ../fonts/Inter-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "../fonts/Inter-Medium.ttf"; sourceTree = "<group>"; };
+		0317E785245B696200AAAC2E /* ../fonts/Inter-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "../fonts/Inter-SemiBold.ttf"; sourceTree = "<group>"; };
 		0F3673F62673A63800F9586A /* celo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "celo-Bridging-Header.h"; path = "celo/celo-Bridging-Header.h"; sourceTree = "<group>"; };
 		0F3673F72673A63900F9586A /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = File.swift; path = celo/File.swift; sourceTree = "<group>"; };
 		0F49F5ED270F2F2A0005F897 /* NotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -123,6 +124,9 @@
 		C4F289E12C8CFFF2BC8FB583 /* Pods_celo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_celo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5952C9D168E4172BB52364C /* Hind-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Hind-SemiBold.ttf"; path = "../fonts/Hind-SemiBold.ttf"; sourceTree = "<group>"; };
 		C88C5BFD26FA424100B9C0CE /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		CB0E63B729B68503002D9F68 /* CustomAuth.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CustomAuth.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CB0E63B929B68530002D9F68 /* RNCustomAuthSdk.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RNCustomAuthSdk.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CB0E63BC29B69972002D9F68 /* RNCustomAuthSdk.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RNCustomAuthSdk.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2F7CB3EF18F92CA4317058A /* Pods-NotificationService.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NotificationService.release.xcconfig"; path = "Target Support Files/Pods-NotificationService/Pods-NotificationService.release.xcconfig"; sourceTree = "<group>"; };
 		E47888B729494A2C00308F07 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		E47888B829494A3B00308F07 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -153,6 +157,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CB0E63BA29B68530002D9F68 /* RNCustomAuthSdk.framework in Frameworks */,
 				67911AC6D310414DAAC1498E /* libz.tbd in Frameworks */,
 				AC5A01A0F9858C1F2124D019 /* Pods_celo.framework in Frameworks */,
 			);
@@ -195,6 +200,9 @@
 		080C3131575C4BB58D359856 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CB0E63BC29B69972002D9F68 /* RNCustomAuthSdk.framework */,
+				CB0E63B929B68530002D9F68 /* RNCustomAuthSdk.framework */,
+				CB0E63B729B68503002D9F68 /* CustomAuth.framework */,
 				F3F5FA21E7EC46BBB744FE54 /* libz.tbd */,
 				C4F289E12C8CFFF2BC8FB583 /* Pods_celo.framework */,
 				F0D58097DC128C43270DD6AE /* Pods_celoTests.framework */,
@@ -284,9 +292,9 @@
 		E3041EF3155B4320B4CF8300 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				0317E784245B696200AAAC2E /* Inter-Medium.ttf */,
-				0317E783245B696200AAAC2E /* Inter-Regular.ttf */,
-				0317E785245B696200AAAC2E /* Inter-SemiBold.ttf */,
+				0317E784245B696200AAAC2E /* ../fonts/Inter-Medium.ttf */,
+				0317E783245B696200AAAC2E /* ../fonts/Inter-Regular.ttf */,
+				0317E785245B696200AAAC2E /* ../fonts/Inter-SemiBold.ttf */,
 				B59F6FDB7D084157A12E7A52 /* Hind-Bold.ttf */,
 				95E01263B685485BA7D5CEB0 /* Hind-Light.ttf */,
 				AAE92820119F4CC5B23C6636 /* Hind-Medium.ttf */,
@@ -496,16 +504,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				6844FCD52570513C0057A74F /* QBImagePicker.storyboard in Resources */,
-				0317E78A245B696200AAAC2E /* Inter-SemiBold.ttf in Resources */,
+				0317E78A245B696200AAAC2E /* ../fonts/Inter-SemiBold.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				0FC6C310256FEF2700C35F47 /* InfoPlist.strings in Resources */,
 				0445977E03C74B20A93158B5 /* Hind-Bold.ttf in Resources */,
 				0350D7F2EBD64D0585FEF0AF /* Hind-Light.ttf in Resources */,
-				0317E786245B696200AAAC2E /* Inter-Regular.ttf in Resources */,
+				0317E786245B696200AAAC2E /* ../fonts/Inter-Regular.ttf in Resources */,
 				0581BC2D3AEB42D086D403E3 /* Hind-Medium.ttf in Resources */,
 				2CE54C7D16D44C5380C53609 /* Hind-Regular.ttf in Resources */,
-				0317E788245B696200AAAC2E /* Inter-Medium.ttf in Resources */,
+				0317E788245B696200AAAC2E /* ../fonts/Inter-Medium.ttf in Resources */,
 				5575263ED1EA4F568D328DE9 /* Hind-SemiBold.ttf in Resources */,
 				EB3CF5B346854570A1EC69B3 /* Jost-Book.ttf in Resources */,
 				2E6B8DA1BF6440D89CB45CCA /* Jost-Medium.ttf in Resources */,
@@ -621,8 +629,11 @@
 				"${BUILT_PRODUCTS_DIR}/Adjust/Adjust.framework",
 				"${BUILT_PRODUCTS_DIR}/Analytics/Segment.framework",
 				"${BUILT_PRODUCTS_DIR}/BVLinearGradient/BVLinearGradient.framework",
+				"${BUILT_PRODUCTS_DIR}/BigInt/BigInt.framework",
 				"${BUILT_PRODUCTS_DIR}/CleverTap-iOS-SDK/CleverTapSDK.framework",
 				"${BUILT_PRODUCTS_DIR}/CocoaAsyncSocket/CocoaAsyncSocket.framework",
+				"${BUILT_PRODUCTS_DIR}/CryptoSwift/CryptoSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/CustomAuth/CustomAuth.framework",
 				"${BUILT_PRODUCTS_DIR}/DoubleConversion/DoubleConversion.framework",
 				"${BUILT_PRODUCTS_DIR}/FBReactNativeSpec/FBReactNativeSpec.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseABTesting/FirebaseABTesting.framework",
@@ -636,8 +647,10 @@
 				"${BUILT_PRODUCTS_DIR}/FirebaseMessaging/FirebaseMessaging.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseRemoteConfig/FirebaseRemoteConfig.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GenericJSON/GenericJSON.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleDataTransport/GoogleDataTransport.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/JWTDecode/JWTDecode.framework",
 				"${BUILT_PRODUCTS_DIR}/PromisesObjC/FBLPromises.framework",
 				"${BUILT_PRODUCTS_DIR}/RCT-Folly/folly.framework",
 				"${BUILT_PRODUCTS_DIR}/RCTTypeSafety/RCTTypeSafety.framework",
@@ -645,6 +658,7 @@
 				"${BUILT_PRODUCTS_DIR}/RNCClipboard/RNCClipboard.framework",
 				"${BUILT_PRODUCTS_DIR}/RNCMaskedView/RNCMaskedView.framework",
 				"${BUILT_PRODUCTS_DIR}/RNCPicker/RNCPicker.framework",
+				"${BUILT_PRODUCTS_DIR}/RNCustomAuthSdk/RNCustomAuthSdk.framework",
 				"${BUILT_PRODUCTS_DIR}/RNDeviceInfo/RNDeviceInfo.framework",
 				"${BUILT_PRODUCTS_DIR}/RNExitApp/RNExitApp.framework",
 				"${BUILT_PRODUCTS_DIR}/RNFS/RNFS.framework",
@@ -681,6 +695,8 @@
 				"${BUILT_PRODUCTS_DIR}/Sentry/Sentry.framework",
 				"${BUILT_PRODUCTS_DIR}/TOCropViewController/TOCropViewController.framework",
 				"${BUILT_PRODUCTS_DIR}/Toast/Toast.framework",
+				"${BUILT_PRODUCTS_DIR}/Torus-fetchNodeDetails/FetchNodeDetails.framework",
+				"${BUILT_PRODUCTS_DIR}/Torus-utils/TorusUtils.framework",
 				"${BUILT_PRODUCTS_DIR}/Yoga/yoga.framework",
 				"${BUILT_PRODUCTS_DIR}/YogaKit/YogaKit.framework",
 				"${BUILT_PRODUCTS_DIR}/clevertap-react-native/CleverTapReact.framework",
@@ -706,6 +722,8 @@
 				"${BUILT_PRODUCTS_DIR}/react-native-simple-toast/react_native_simple_toast.framework",
 				"${BUILT_PRODUCTS_DIR}/react-native-splash-screen/react_native_splash_screen.framework",
 				"${BUILT_PRODUCTS_DIR}/react-native-webview/react_native_webview.framework",
+				"${BUILT_PRODUCTS_DIR}/secp256k1.swift/secp256k1.framework",
+				"${BUILT_PRODUCTS_DIR}/web3.swift/web3.framework",
 				"${BUILT_PRODUCTS_DIR}/CTNotificationService/CTNotificationService.framework",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/Flipper-DoubleConversion/double-conversion.framework/double-conversion",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL-Universal/OpenSSL.framework/OpenSSL",
@@ -716,8 +734,11 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Adjust.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Segment.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BVLinearGradient.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BigInt.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CleverTapSDK.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaAsyncSocket.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CryptoSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CustomAuth.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DoubleConversion.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBReactNativeSpec.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseABTesting.framework",
@@ -731,8 +752,10 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseMessaging.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseRemoteConfig.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GenericJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleDataTransport.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JWTDecode.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBLPromises.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/folly.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RCTTypeSafety.framework",
@@ -740,6 +763,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNCClipboard.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNCMaskedView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNCPicker.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNCustomAuthSdk.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNDeviceInfo.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNExitApp.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNFS.framework",
@@ -776,6 +800,8 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Sentry.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TOCropViewController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Toast.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FetchNodeDetails.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TorusUtils.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/yoga.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YogaKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CleverTapReact.framework",
@@ -801,6 +827,8 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/react_native_simple_toast.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/react_native_splash_screen.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/react_native_webview.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/secp256k1.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/web3.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CTNotificationService.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/double-conversion.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OpenSSL.framework",

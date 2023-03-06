@@ -3,6 +3,7 @@ PODS:
     - Adjust/Core (= 4.29.7)
   - Adjust/Core (4.29.7)
   - Analytics (4.1.6)
+  - BigInt (5.0.0)
   - boost (1.76.0)
   - BVLinearGradient (2.6.2):
     - React-Core
@@ -12,7 +13,11 @@ PODS:
     - CleverTap-iOS-SDK (= 4.0.0)
     - React-Core
   - CocoaAsyncSocket (7.6.5)
+  - CryptoSwift (1.5.1)
   - CTNotificationService (0.1.4)
+  - CustomAuth (5.0.0):
+    - JWTDecode (~> 2.6)
+    - Torus-utils (~> 4.0.0)
   - DoubleConversion (1.1.6)
   - FBLazyVector (0.66.4)
   - FBReactNativeSpec (0.66.4):
@@ -177,6 +182,7 @@ PODS:
     - FlipperKit/Core
     - FlipperKit/FlipperKitNetworkPlugin
   - fmt (6.2.1)
+  - GenericJSON (2.0.2)
   - glog (0.3.5)
   - GoogleAppMeasurement/AdIdSupport (7.11.0):
     - GoogleUtilities/AppDelegateSwizzler (~> 7.0)
@@ -208,6 +214,7 @@ PODS:
   - GoogleUtilities/UserDefaults (7.7.0):
     - GoogleUtilities/Logger
   - GTMSessionFetcher/Core (1.7.2)
+  - JWTDecode (2.6.3)
   - leveldb-library (1.22.1)
   - libevent (2.1.12)
   - lottie-ios (3.4.4)
@@ -560,6 +567,9 @@ PODS:
     - React-Core
   - RNCPicker (2.4.8):
     - React-Core
+  - RNCustomAuthSdk (4.0.1):
+    - CustomAuth (~> 5.0.0)
+    - React
   - RNDeviceInfo (10.2.0):
     - React-Core
   - RNExitApp (1.1.0):
@@ -652,6 +662,7 @@ PODS:
   - SDWebImage (5.11.1):
     - SDWebImage/Core (= 5.11.1)
   - SDWebImage/Core (5.11.1)
+  - secp256k1.swift (0.1.4)
   - Segment-Adjust (3.1.4):
     - Adjust (~> 4.29.3)
     - Analytics
@@ -672,6 +683,16 @@ PODS:
   - Sentry/HybridSDK (7.31.5)
   - Toast (4.0.0)
   - TOCropViewController (2.6.0)
+  - Torus-fetchNodeDetails (4.0.1):
+    - web3.swift (~> 0.9.3)
+  - Torus-utils (4.0.0):
+    - CryptoSwift (~> 1.5.1)
+    - secp256k1.swift (~> 0.1.4)
+    - Torus-fetchNodeDetails (~> 4.0.0)
+  - web3.swift (0.9.3):
+    - BigInt (~> 5.0.0)
+    - GenericJSON (~> 2.0)
+    - secp256k1.swift (~> 0.1)
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
     - Yoga (~> 1.14)
@@ -681,6 +702,7 @@ DEPENDENCIES:
   - BVLinearGradient (from `../node_modules/react-native-linear-gradient`)
   - clevertap-react-native (from `../node_modules/clevertap-react-native`)
   - CTNotificationService
+  - CustomAuth (~> 5.0.0)
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../node_modules/react-native/React/FBReactNativeSpec`)
@@ -759,6 +781,7 @@ DEPENDENCIES:
   - "RNCClipboard (from `../node_modules/@react-native-clipboard/clipboard`)"
   - "RNCMaskedView (from `../node_modules/@react-native-masked-view/masked-view`)"
   - "RNCPicker (from `../node_modules/@react-native-picker/picker`)"
+  - "RNCustomAuthSdk (from `../node_modules/@toruslabs/customauth-react-native-sdk`)"
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - RNExitApp (from `../node_modules/react-native-exit-app`)
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
@@ -786,9 +809,12 @@ SPEC REPOS:
   trunk:
     - Adjust
     - Analytics
+    - BigInt
     - CleverTap-iOS-SDK
     - CocoaAsyncSocket
+    - CryptoSwift
     - CTNotificationService
+    - CustomAuth
     - Firebase
     - FirebaseABTesting
     - FirebaseAnalytics
@@ -811,10 +837,12 @@ SPEC REPOS:
     - Flipper-RSocket
     - FlipperKit
     - fmt
+    - GenericJSON
     - GoogleAppMeasurement
     - GoogleDataTransport
     - GoogleUtilities
     - GTMSessionFetcher
+    - JWTDecode
     - leveldb-library
     - libevent
     - lottie-ios
@@ -823,12 +851,16 @@ SPEC REPOS:
     - PersonaInquirySDK2
     - PromisesObjC
     - SDWebImage
+    - secp256k1.swift
     - Segment-Adjust
     - Segment-CleverTap
     - Segment-Firebase
     - Sentry
     - Toast
     - TOCropViewController
+    - Torus-fetchNodeDetails
+    - Torus-utils
+    - web3.swift
     - YogaKit
 
 EXTERNAL SOURCES:
@@ -948,6 +980,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-masked-view/masked-view"
   RNCPicker:
     :path: "../node_modules/@react-native-picker/picker"
+  RNCustomAuthSdk:
+    :path: "../node_modules/@toruslabs/customauth-react-native-sdk"
   RNDeviceInfo:
     :path: "../node_modules/react-native-device-info"
   RNExitApp:
@@ -996,12 +1030,15 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Adjust: 91a06a01e4bb35b432e26b5d5bb8995b95fc381c
   Analytics: eefe524436f904b8bb3f8c8c3425280e43b34efc
+  BigInt: 74b4d88367b0e819d9f77393549226d36faeb0d8
   boost: a7c83b31436843459a1961bfd74b96033dc77234
   BVLinearGradient: 34a999fda29036898a09c6a6b728b0b4189e1a44
   CleverTap-iOS-SDK: fa4737b7cede85e55d49354ce79ef8d08762ddca
   clevertap-react-native: 97ccd6512b94fe034c126340b8eb677f28e5baa1
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
+  CryptoSwift: c4f2debceb38bf44c80659afe009f71e23e4a082
   CTNotificationService: 43d6e66c78bc338bde3db173d615d8cde5f104f7
+  CustomAuth: 2cbaef9c54da21080eef7ea1fa3d2ecb96517f18
   DoubleConversion: 831926d9b8bf8166fd87886c4abab286c2422662
   FBLazyVector: e5569e42a1c79ca00521846c223173a57aca1fe1
   FBReactNativeSpec: fe08c1cd7e2e205718d77ad14b34957cce949b58
@@ -1027,11 +1064,13 @@ SPEC CHECKSUMS:
   Flipper-RSocket: d9d9ade67cbecf6ac10730304bf5607266dd2541
   FlipperKit: d8d346844eca5d9120c17d441a2f38596e8ed2b9
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
+  GenericJSON: 79a840eeb77030962e8cf02a62d36bd413b67626
   glog: 5337263514dd6f09803962437687240c5dc39aa4
   GoogleAppMeasurement: fd19169c3034975cb934e865e5667bfdce59df7f
   GoogleDataTransport: cd9db2180fcecd8da1b561aea31e3e56cf834aa7
   GoogleUtilities: e0913149f6b0625b553d70dae12b49fc62914fd1
   GTMSessionFetcher: 5595ec75acf5be50814f81e9189490412bad82ba
+  JWTDecode: 33e5e26e5ddbd21b2065820894c08fef0cad9509
   leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
   lottie-ios: 8f97d3271e155c2d688875c29cd3c74908aef5f8
@@ -1090,6 +1129,7 @@ SPEC CHECKSUMS:
   RNCClipboard: 2834e1c4af68697089cdd455ee4a4cdd198fa7dd
   RNCMaskedView: bc0170f389056201c82a55e242e5d90070e18e5a
   RNCPicker: 0bf8ef8f7800524f32d2bb2a8bcadd53eda0ecd1
+  RNCustomAuthSdk: e1db0c850b41deaf38fdc8fe5433b3287db29c55
   RNDeviceInfo: 8b83e99e290deaf1bab71673cc636776ef647b6f
   RNExitApp: b6d5fb7a7ef85d502c45fb2d00840f517d6a4ac7
   RNFBApp: b8704b700f062ed0aa7bbca459b22dd47507a232
@@ -1112,15 +1152,19 @@ SPEC CHECKSUMS:
   RNShare: d76b8c9c6e6ffb38fc18f40b4338c9d867592ed3
   RNSVG: 302bfc9905bd8122f08966dc2ce2d07b7b52b9f8
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
+  secp256k1.swift: a7e7a214f6db6ce5db32cc6b2b45e5c4dd633634
   Segment-Adjust: 1a12861ab2e9372fc70af949057490858666cd37
   Segment-CleverTap: 33df087116d5a0a76d2fb3003ed8609c979eac10
   Segment-Firebase: 709fff402c50f74c218482603683edd42785cbf9
   Sentry: 4c9babff9034785067c896fd580b1f7de44da020
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
   TOCropViewController: 3105367e808b7d3d886a74ff59bf4804e7d3ab38
+  Torus-fetchNodeDetails: a92d02f1bfe91bd61c90f92d64df023babaa5bfa
+  Torus-utils: 2517d21b0bc84759fc2cd9617761ce9083e8ee2c
+  web3.swift: c6c3bf1f853743f8a7a58d263e5f7e46545e22c7
   Yoga: e7dc4e71caba6472ff48ad7d234389b91dadc280
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 8f9c2da159e58b9464bd2fa8bf67b81390853af3
+PODFILE CHECKSUM: 33053b119a841815db2faea906809efa8c971b0e
 
 COCOAPODS: 1.11.3

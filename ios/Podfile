@@ -9,13 +9,13 @@ $RNFirebaseAsStaticFramework = true
 # Workaround for the following error:
 # `The 'Pods-celo' target has transitive dependencies that include statically linked binaries [...]`
 $static_framework = [
-  'react-native-flipper', 
-  'FlipperKit', 
-  'Flipper', 
+  'react-native-flipper',
+  'FlipperKit',
+  'Flipper',
   'Flipper-Folly',
   'Flipper-DoubleConversion',
-  'Flipper-Glog', 
-  'Flipper-PeerTalk', 
+  'Flipper-Glog',
+  'Flipper-PeerTalk',
   'Flipper-RSocket',
   'Flipper-Fmt',
 ]
@@ -23,7 +23,7 @@ $static_framework = [
 require_relative "../node_modules/react-native/scripts/react_native_pods"
 require_relative "../node_modules/@react-native-community/cli-platform-ios/native_modules"
 
-platform :ios, '12.4'
+platform :ios, '13'
 use_frameworks!
 
 target "celo" do
@@ -31,6 +31,9 @@ target "celo" do
   permissions_path = '../node_modules/react-native-permissions/ios'
   pod 'Permission-Camera', :path => "#{permissions_path}/Camera"
   pod 'Permission-AppTrackingTransparency', :path => "#{permissions_path}/AppTrackingTransparency"
+
+  # customauth
+  pod 'CustomAuth', '~> 5.0.0', :modular_headers => false
 
   target "celoTests" do
     inherit! :search_paths

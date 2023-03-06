@@ -7,7 +7,11 @@ import { Spacing } from 'src/styles/styles'
 //   useSelector,
 // } from 'react-redux'
 import Logger from 'src/utils/Logger'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+
+// @ts-ignore // todo add types file for customauth
+import CustomAuth from '@toruslabs/customauth-react-native-sdk'
+
 // import { navigateHome } from 'src/navigator/NavigationService'
 // import { e164NumberSelector } from 'src/account/selectors'
 
@@ -43,6 +47,20 @@ export async function getValoraVerifierJWT({
   }
 }
 
+export async function triggerLogin() {
+  try {
+    const loginDetails = await CustomAuth.triggerLogin({
+      typeOfLogin: 'google',
+      verifier: 'google-lrc',
+      clientId: '221898609709-obfn3p63741l5333093430j3qeiinaa8.apps.googleusercontent.com',
+      // jwtParams,
+    })
+    Logger.info(TAG, loginDetails)
+  } catch (error) {
+    Logger.error(TAG, 'getTorusKey failed', error)
+  }
+}
+
 function SetupCloudBackup() {
   // const dispatch = useDispatch()
   // const phoneNumber = useSelector(e164NumberSelector) ?? '+11234567890'
@@ -50,7 +68,24 @@ function SetupCloudBackup() {
 
   const onPressBackup = () => {
     setBackupButtonClickable(false)
+    void triggerLogin().then(() => {
+      setBackupButtonClickable(true)
+    })
   }
+
+  useEffect(() => {
+    try {
+      CustomAuth.init({
+        browserRedirectUri: 'https://scripts.toruswallet.io/redirect.html',
+        redirectUri: 'torusapp://org.torusresearch.customauthexample/redirect',
+        network: 'testnet', // details for test net
+        enableLogging: true,
+        enableOneKey: false,
+      })
+    } catch (error) {
+      Logger.error(TAG, 'error initializing customauth', error)
+    }
+  }, [])
 
   // const onPressGroovy = () => {
   //   navigateHome()
