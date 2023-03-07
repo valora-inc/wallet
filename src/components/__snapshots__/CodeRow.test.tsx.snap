@@ -5,7 +5,7 @@ exports[`CodeRow renders correctly for all CodeRowStatus states 1`] = `
   style={
     Object {
       "backgroundColor": "#F0F0F0",
-      "borderColor": "#EDEEEF",
+      "borderColor": "#E6E6E6",
       "borderRadius": 3,
       "borderWidth": 1,
       "height": 50,
@@ -18,7 +18,7 @@ exports[`CodeRow renders correctly for all CodeRowStatus states 1`] = `
   <Text
     style={
       Object {
-        "color": "#81868B",
+        "color": "#505050",
         "fontFamily": "Inter-Regular",
         "fontSize": 15,
         "lineHeight": 22,
@@ -42,7 +42,7 @@ exports[`CodeRow renders correctly for all CodeRowStatus states 2`] = `
       },
       Object {
         "backgroundColor": "#FFF",
-        "borderColor": "#EDEEEF",
+        "borderColor": "#E6E6E6",
         "borderRadius": 3,
         "borderWidth": 1,
         "flex": 0,
@@ -83,7 +83,7 @@ exports[`CodeRow renders correctly for all CodeRowStatus states 3`] = `
   style={
     Object {
       "backgroundColor": "#FFF",
-      "borderColor": "#EDEEEF",
+      "borderColor": "#E6E6E6",
       "borderRadius": 3,
       "borderWidth": 1,
       "height": 50,
@@ -97,7 +97,7 @@ exports[`CodeRow renders correctly for all CodeRowStatus states 3`] = `
   <Text
     style={
       Object {
-        "color": "#81868B",
+        "color": "#505050",
         "fontFamily": "Inter-Regular",
         "fontSize": 15,
         "lineHeight": 22,
@@ -140,7 +140,7 @@ exports[`CodeRow renders correctly for all CodeRowStatus states 4`] = `
     numberOfLines={1}
     style={
       Object {
-        "color": "#81868B",
+        "color": "#505050",
         "fontFamily": "Inter-Regular",
         "fontSize": 15,
         "lineHeight": 22,
@@ -170,7 +170,7 @@ exports[`CodeRow renders correctly for all CodeRowStatus states 5`] = `
     numberOfLines={1}
     style={
       Object {
-        "color": "#81868B",
+        "color": "#505050",
         "fontFamily": "Inter-Regular",
         "fontSize": 15,
         "lineHeight": 22,
