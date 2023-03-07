@@ -13,13 +13,13 @@ import Logger from 'src/utils/Logger'
 const PhraseInput = withTextInputPasteAware(TextInput, { top: undefined, right: 12, bottom: 12 })
 
 type TwelveWordTableProps = {
-  words: string
+  words: string[]
 }
 
 function TwelveWordTable({ words }: TwelveWordTableProps) {
   return (
     <>
-      {words.split(' ').map((word, index) => (
+      {words.map((word, index) => (
         <View key={index} style={styles.indexWordContainer}>
           <Text style={styles.indexText}>{index + 1}</Text>
           <Text key={index} style={styles.wordText}>
@@ -70,7 +70,8 @@ export class BackupPhraseContainer extends React.Component<Props> {
 
   render() {
     const { t, value: words, showCopy, style, mode, type, includeHeader, testID } = this.props
-    const isTwelveWords = words?.split(' ').length === 12
+    const wordList = words?.split(' ')
+    const isTwelveWords = wordList?.length === 12
 
     return (
       <View style={style}>
@@ -94,7 +95,7 @@ export class BackupPhraseContainer extends React.Component<Props> {
             accessibilityLabel={words ?? ''}
           >
             {isTwelveWords
-              ? !!words && <TwelveWordTable words={words} />
+              ? !!wordList && <TwelveWordTable words={wordList} />
               : !!words && <Text style={styles.phraseText}>{words}</Text>}
           </View>
         )}
@@ -153,13 +154,12 @@ const styles = StyleSheet.create({
     flexBasis: '30%',
     flexDirection: 'row',
     marginVertical: 11,
-    marginLeft: '2%',
+    marginLeft: '3%',
   },
   phraseContainer: {
     flexWrap: 'wrap',
     flexDirection: 'row',
     marginTop: 8,
-    marginHorizontal: 10,
     backgroundColor: colors.beige,
     borderRadius: 8,
     alignContent: 'center',

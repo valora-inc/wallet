@@ -468,7 +468,6 @@ exports[`renders correctly with backup completed 1`] = `
               "flexDirection": "row",
               "flexWrap": "wrap",
               "justifyContent": "center",
-              "marginHorizontal": 10,
               "marginTop": 8,
               "padding": 8,
             }
@@ -962,7 +961,6 @@ exports[`renders correctly with backup not completed 1`] = `
               "flexDirection": "row",
               "flexWrap": "wrap",
               "justifyContent": "center",
-              "marginHorizontal": 10,
               "marginTop": 8,
               "padding": 8,
             }
@@ -1574,7 +1572,6 @@ exports[`still renders when mnemonic doesnt show up 1`] = `
               "flexDirection": "row",
               "flexWrap": "wrap",
               "justifyContent": "center",
-              "marginHorizontal": 10,
               "marginTop": 8,
               "padding": 8,
             }
