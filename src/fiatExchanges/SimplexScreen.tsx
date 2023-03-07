@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { e164NumberSelector } from 'src/account/selectors'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { numberVerifiedSelector } from 'src/app/selectors'
+import { phoneNumberVerifiedSelector } from 'src/app/selectors'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes } from 'src/components/Button'
 import WebView from 'src/components/WebView'
@@ -37,7 +37,7 @@ function SimplexScreen({ route, navigation }: Props) {
 
   const account = useSelector(currentAccountSelector)
   const e164PhoneNumber = useSelector(e164NumberSelector)
-  const phoneNumberConfirmed = useSelector(numberVerifiedSelector)
+  const phoneNumberConfirmed = useSelector(phoneNumberVerifiedSelector)
   const localCurrency = useSelector(getLocalCurrencyCode)
   const { ipAddress: userIpAddress } = useSelector(userLocationDataSelector)
 
