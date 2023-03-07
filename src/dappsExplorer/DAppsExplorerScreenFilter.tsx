@@ -81,6 +81,7 @@ export function DAppsExplorerScreenFilter() {
   }, [])
 
   const removeFilter = () => {
+    ValoraAnalytics.track(DappExplorerEvents.dapp_filter, { id: selectedFilter.id, remove: true })
     setSelectedFilter({ id: 'all', name: t('dappsScreen.allDapps') })
     horizontalScrollView.current?.scrollTo({ x: 0, animated: true })
   }

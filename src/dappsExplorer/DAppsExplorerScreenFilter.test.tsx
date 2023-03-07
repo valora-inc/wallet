@@ -343,6 +343,7 @@ describe(DAppsExplorerScreenFilter, () => {
       expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(DappExplorerEvents.dapp_filter, {
         id: '2',
+        remove: false,
       })
     })
 
@@ -376,8 +377,12 @@ describe(DAppsExplorerScreenFilter, () => {
       expect(ValoraAnalytics.track).toHaveBeenCalledTimes(2)
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(DappExplorerEvents.dapp_filter, {
         id: '2',
+        remove: false,
       })
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(DappExplorerEvents.dapp_filter_remove)
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(DappExplorerEvents.dapp_filter, {
+        id: '2',
+        remove: true,
+      })
     })
 
     it('triggers event when clearing filters from favorite section', () => {
@@ -410,8 +415,12 @@ describe(DAppsExplorerScreenFilter, () => {
       expect(ValoraAnalytics.track).toHaveBeenCalledTimes(2)
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(DappExplorerEvents.dapp_filter, {
         id: '2',
+        remove: false,
       })
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(DappExplorerEvents.dapp_filter_remove)
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(DappExplorerEvents.dapp_filter, {
+        id: '2',
+        remove: true,
+      })
     })
   })
 })

@@ -2,8 +2,6 @@ import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
-import { DappExplorerEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Touchable from 'src/components/Touchable'
 import { DappFilter } from 'src/dapps/types'
 import { currentLanguageSelector } from 'src/i18n/selectors'
@@ -22,7 +20,6 @@ export function NoResults({ filter, removeFilter, testID }: Props) {
   const language = useSelector(currentLanguageSelector)
 
   const onPress = () => {
-    ValoraAnalytics.track(DappExplorerEvents.dapp_filter_remove)
     removeFilter()
   }
 

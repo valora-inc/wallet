@@ -1144,8 +1144,8 @@ interface DappExplorerEventsProperties {
   [DappExplorerEvents.dapp_open_more_info]: undefined
   [DappExplorerEvents.dapp_filter]: {
     id: string
+    remove: boolean
   }
-  [DappExplorerEvents.dapp_filter_remove]: undefined
 }
 
 interface WebViewEventsProperties {
