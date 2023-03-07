@@ -2,6 +2,14 @@
 
 exports[`IncomingPaymentRequestListScreen renders correctly with no requests 1`] = `
 <RNCSafeAreaView
+  edges={
+    Array [
+      "bottom",
+      "left",
+      "right",
+      "top",
+    ]
+  }
   style={
     Object {
       "flex": 1,
@@ -31,6 +39,14 @@ exports[`IncomingPaymentRequestListScreen renders correctly with no requests 1`]
 
 exports[`IncomingPaymentRequestListScreen renders correctly with requests 1`] = `
 <RNCSafeAreaView
+  edges={
+    Array [
+      "bottom",
+      "left",
+      "right",
+      "top",
+    ]
+  }
   style={
     Object {
       "flex": 1,
@@ -105,7 +121,7 @@ exports[`IncomingPaymentRequestListScreen renders correctly with requests 1`] = 
                     numberOfLines={2}
                     style={
                       Object {
-                        "color": "#9CA4A9",
+                        "color": "#666666",
                         "fontFamily": "Inter-Regular",
                         "fontSize": 13,
                         "lineHeight": 16,
@@ -367,7 +383,7 @@ exports[`IncomingPaymentRequestListScreen renders correctly with requests 1`] = 
                     numberOfLines={2}
                     style={
                       Object {
-                        "color": "#9CA4A9",
+                        "color": "#666666",
                         "fontFamily": "Inter-Regular",
                         "fontSize": 13,
                         "lineHeight": 16,
@@ -629,7 +645,7 @@ exports[`IncomingPaymentRequestListScreen renders correctly with requests 1`] = 
                     numberOfLines={2}
                     style={
                       Object {
-                        "color": "#9CA4A9",
+                        "color": "#666666",
                         "fontFamily": "Inter-Regular",
                         "fontSize": 13,
                         "lineHeight": 16,

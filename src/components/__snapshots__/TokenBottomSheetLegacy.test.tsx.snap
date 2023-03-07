@@ -145,13 +145,13 @@ exports[`TokenBottomSheetLegacy renders correctly 1`] = `
             style={
               Array [
                 Object {
-                  "color": "#9CA4A9",
+                  "color": "#666666",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 14,
                   "lineHeight": 18,
                 },
                 Object {
-                  "color": "#9CA4A9",
+                  "color": "#666666",
                 },
               ]
             }
@@ -167,7 +167,7 @@ exports[`TokenBottomSheetLegacy renders correctly 1`] = `
     <View
       style={
         Object {
-          "backgroundColor": "#EDEEEF",
+          "backgroundColor": "#E6E6E6",
           "height": 1,
           "width": "100%",
         }
@@ -245,13 +245,13 @@ exports[`TokenBottomSheetLegacy renders correctly 1`] = `
             style={
               Array [
                 Object {
-                  "color": "#9CA4A9",
+                  "color": "#666666",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 14,
                   "lineHeight": 18,
                 },
                 Object {
-                  "color": "#9CA4A9",
+                  "color": "#666666",
                 },
               ]
             }

@@ -221,9 +221,7 @@ function Send({ route }: Props) {
       <SendHeader isOutgoingPaymentRequest={isOutgoingPaymentRequest} />
       <DisconnectBanner />
       <SendSearchInput input={searchQuery} onChangeText={throttledSearch} />
-      {inviteRewardsEnabled && numberVerified && hasGivenContactPermission && (
-        <InviteRewardsBanner />
-      )}
+      {inviteRewardsEnabled && hasGivenContactPermission && <InviteRewardsBanner />}
       <RecipientPicker
         testID={'RecipientPicker'}
         sections={buildSections()}

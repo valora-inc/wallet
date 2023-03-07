@@ -57,7 +57,7 @@ exports[`renders properly 1`] = `
       <g>
         <g>
           <line
-            stroke="#EDEEEF"
+            stroke="#E6E6E6"
             strokeWidth="1"
             x1={0}
             x2={750}
@@ -72,7 +72,7 @@ exports[`renders properly 1`] = `
           />
         </g>
         <text
-          fill="#9CA4A9"
+          fill="#666666"
           fontFamily="Inter-Regular"
           fontSize="14"
           onLayout={[Function]}
@@ -91,7 +91,7 @@ exports[`renders properly 1`] = `
           />
         </g>
         <text
-          fill="#9CA4A9"
+          fill="#666666"
           fontFamily="Inter-Regular"
           fontSize="14"
           onLayout={[Function]}
@@ -175,7 +175,7 @@ exports[`renders properly 1`] = `
     <Text
       style={
         Object {
-          "color": "#B4B9BD",
+          "color": "#757575",
           "fontSize": 16,
         }
       }
@@ -185,7 +185,7 @@ exports[`renders properly 1`] = `
     <Text
       style={
         Object {
-          "color": "#B4B9BD",
+          "color": "#757575",
           "fontSize": 16,
         }
       }
@@ -253,7 +253,7 @@ exports[`renders while update is in progress 1`] = `
       <g>
         <g>
           <line
-            stroke="#EDEEEF"
+            stroke="#E6E6E6"
             strokeWidth="1"
             x1={0}
             x2={750}
@@ -268,7 +268,7 @@ exports[`renders while update is in progress 1`] = `
           />
         </g>
         <text
-          fill="#9CA4A9"
+          fill="#666666"
           fontFamily="Inter-Regular"
           fontSize="14"
           onLayout={[Function]}
@@ -287,7 +287,7 @@ exports[`renders while update is in progress 1`] = `
           />
         </g>
         <text
-          fill="#9CA4A9"
+          fill="#666666"
           fontFamily="Inter-Regular"
           fontSize="14"
           onLayout={[Function]}
@@ -371,7 +371,7 @@ exports[`renders while update is in progress 1`] = `
     <Text
       style={
         Object {
-          "color": "#B4B9BD",
+          "color": "#757575",
           "fontSize": 16,
         }
       }
@@ -381,7 +381,7 @@ exports[`renders while update is in progress 1`] = `
     <Text
       style={
         Object {
-          "color": "#B4B9BD",
+          "color": "#757575",
           "fontSize": 16,
         }
       }

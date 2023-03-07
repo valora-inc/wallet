@@ -220,7 +220,7 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
         Array [
           Object {
             "alignItems": "center",
-            "borderColor": "#EDEEEF",
+            "borderColor": "#E6E6E6",
             "borderRadius": 18,
             "borderWidth": 1.5,
             "flexDirection": "row",
@@ -242,7 +242,7 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
         <Text
           style={
             Object {
-              "color": "#81868B",
+              "color": "#505050",
             }
           }
         >
@@ -268,7 +268,7 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
             <Text
               style={
                 Object {
-                  "color": "#81868B",
+                  "color": "#505050",
                 }
               }
             >
@@ -400,7 +400,16 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
         }
         swipeThreshold={100}
       >
-        <RNCSafeAreaView>
+        <RNCSafeAreaView
+          edges={
+            Array [
+              "bottom",
+              "left",
+              "right",
+              "top",
+            ]
+          }
+        >
           <View
             style={
               Array [
@@ -471,7 +480,7 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
                   style={
                     Object {
                       "alignItems": "center",
-                      "borderColor": "#EDEEEF",
+                      "borderColor": "#E6E6E6",
                       "borderRadius": 8,
                       "borderWidth": 2,
                       "flexDirection": "row",
@@ -493,8 +502,8 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
                         "marginRight": 16,
                       }
                     }
-                    thumbTintColor="#EDEEEF"
-                    trackColorForFalse="#81868B"
+                    thumbTintColor="#E6E6E6"
+                    trackColorForFalse="#505050"
                     trackColorForTrue="#1AB775"
                     trackTintColor="#1AB775"
                   />
@@ -553,7 +562,7 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
                         "lineHeight": 22,
                       },
                       Object {
-                        "color": "#9CA4A9",
+                        "color": "#666666",
                       },
                     ]
                   }
@@ -620,7 +629,7 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
             <Text
               style={
                 Object {
-                  "color": "#B4B9BD",
+                  "color": "#757575",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 18,
                   "lineHeight": 24,
@@ -961,7 +970,7 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
             <Text
               style={
                 Object {
-                  "color": "#9CA4A9",
+                  "color": "#666666",
                   "fontFamily": "Inter-Medium",
                   "fontSize": 13,
                   "lineHeight": 16,
@@ -1079,7 +1088,7 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
                 <Text
                   style={
                     Object {
-                      "color": "#9CA4A9",
+                      "color": "#666666",
                       "fontFamily": "Inter-Regular",
                       "fontSize": 14,
                       "lineHeight": 18,
@@ -1147,7 +1156,7 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
             <Text
               style={
                 Object {
-                  "color": "#9CA4A9",
+                  "color": "#666666",
                   "fontFamily": "Inter-Medium",
                   "fontSize": 13,
                   "lineHeight": 16,
@@ -1266,7 +1275,7 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
                   <Text
                     style={
                       Object {
-                        "color": "#9CA4A9",
+                        "color": "#666666",
                         "fontFamily": "Inter-Regular",
                         "fontSize": 14,
                         "lineHeight": 18,
@@ -1419,7 +1428,7 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
                 <Text
                   style={
                     Object {
-                      "color": "#9CA4A9",
+                      "color": "#666666",
                       "fontFamily": "Inter-Regular",
                       "fontSize": 14,
                       "lineHeight": 18,

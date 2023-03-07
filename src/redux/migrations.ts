@@ -1064,4 +1064,18 @@ export const migrations = {
     ),
   }),
   114: (state: any) => state,
+  115: (state: any) => ({
+    ...state,
+    account: {
+      ...state.account,
+      dismissedGetVerified:
+        state.app.numberVerified && !state.app.phoneNumberVerified
+          ? false
+          : state.account.dismissedGetVerified,
+    },
+    app: {
+      ...state.app,
+      requireCPV: false,
+    },
+  }),
 }

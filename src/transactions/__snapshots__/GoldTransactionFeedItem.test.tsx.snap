@@ -128,7 +128,7 @@ exports[`GoldTransactionFeedItem renders correctly 1`] = `
       <Text
         style={
           Object {
-            "color": "#9CA4A9",
+            "color": "#666666",
             "fontFamily": "Inter-Regular",
             "fontSize": 14,
             "lineHeight": 18,
@@ -269,7 +269,7 @@ exports[`GoldTransactionFeedItem renders correctly when local amount is null 1`]
       <Text
         style={
           Object {
-            "color": "#9CA4A9",
+            "color": "#666666",
             "fontFamily": "Inter-Regular",
             "fontSize": 14,
             "lineHeight": 18,
@@ -409,7 +409,7 @@ exports[`GoldTransactionFeedItem renders correctly when local amount is null and
       <Text
         style={
           Object {
-            "color": "#9CA4A9",
+            "color": "#666666",
             "fontFamily": "Inter-Regular",
             "fontSize": 14,
             "lineHeight": 18,
