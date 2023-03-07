@@ -3,10 +3,10 @@
  */
 
 import { validateInput } from '@celo/phone-utils'
+import { ValidatorKind } from '@celo/utils/lib/inputValidation'
 import * as React from 'react'
 import { KeyboardType } from 'react-native'
 import TextInput, { TextInputProps } from 'src/components/TextInput'
-import { ValidatorKind } from '@celo/utils/lib/inputValidation'
 
 interface OwnProps {
   InputComponent: React.ComponentType<TextInputProps>
@@ -27,32 +27,16 @@ export interface PhoneValidatorProps {
   countryCallingCode: string
 }
 
-export interface IntegerValidatorProps {
-  validator: ValidatorKind.Integer
-}
-
-export interface DecimalValidatorProps {
-  validator: ValidatorKind.Decimal
-  numberOfDecimals: number
-}
-
-// Required props for a custom input validator
-export interface CustomValidatorProps {
-  validator: ValidatorKind.Custom
-  customValidator: (input: string) => string
-}
-
-export type ValidatorProps =
-  | PhoneValidatorProps
-  | IntegerValidatorProps
-  | DecimalValidatorProps
-  | CustomValidatorProps
-
-export type ValidatedTextInputProps = OwnProps & ValidatorProps & TextInputProps
+export type ValidatedTextInputProps = OwnProps & PhoneValidatorProps & TextInputProps
 
 export default class ValidatedTextInput extends React.Component<ValidatedTextInputProps> {
   onChangeText = (input: string): void => {
-    const validated = validateInput(input, this.props)
+    // some countries support multiple phone number lengths. since we add the
+    // country code to a validated phone number in the UI, we need to omit the
+    // country code from subsequent validations if the user types a longer number
+    const rawInput = input.split(this.props.countryCallingCode)[1] ?? input
+    const validated = validateInput(rawInput, this.props)
+
     // Don't propagate change if new change is invalid
     if (this.props.value === validated) {
       return
@@ -63,10 +47,7 @@ export default class ValidatedTextInput extends React.Component<ValidatedTextInp
   }
 
   getMaxLength = () => {
-    const { numberOfDecimals, validator, value, decimalSeparator } = this.props
-    if (validator !== ValidatorKind.Decimal || !numberOfDecimals) {
-      return undefined
-    }
+    const { numberOfDecimals, value, decimalSeparator } = this.props
     const decimalPos = value.indexOf(decimalSeparator ?? '.')
     if (decimalPos === -1) {
       return undefined
