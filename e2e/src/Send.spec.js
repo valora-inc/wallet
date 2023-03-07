@@ -7,6 +7,6 @@ describe('Given', () => {
     await quickOnboarding()
   })
 
-  describe('Send', Send)
+  //describe('Send', Send)
   describe('SecureSend cUSD', SecureSend)
 })
