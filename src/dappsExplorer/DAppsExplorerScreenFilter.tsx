@@ -115,7 +115,7 @@ export function DAppsExplorerScreenFilter() {
               <RefreshControl
                 tintColor={colors.greenBrand}
                 colors={[colors.greenBrand]}
-                style={{ backgroundColor: colors.light }}
+                style={styles.refreshControl}
                 refreshing={loading}
                 onRefresh={() => dispatch(fetchDappsList())}
               />
@@ -136,12 +136,12 @@ export function DAppsExplorerScreenFilter() {
                   message={t('dappsScreen.message')}
                 />
                 {/* Dapps Filtering*/}
-                <View style={{ paddingTop: Spacing.Thick24 }}>
+                <View style={styles.dappFilterView}>
                   <ScrollView
                     horizontal={true}
                     // Expand the scrollview to the edges of the screen
-                    style={{ marginHorizontal: -Spacing.Thick24 }}
-                    contentContainerStyle={{ paddingHorizontal: Spacing.Thick24 }}
+                    style={styles.dappFilterScrollView}
+                    contentContainerStyle={styles.dappsFilteringScrollViewContentContainer}
                     showsHorizontalScrollIndicator={false}
                     bounces={false}
                     ref={horizontalScrollView}
@@ -151,11 +151,11 @@ export function DAppsExplorerScreenFilter() {
                       chipFilter={{ id: 'all', name: t('dappsScreen.allDapps') }}
                       isSelected={selectedFilter.id === 'all'}
                       onPress={setSelectedFilter}
-                      style={{ marginLeft: 0 }}
+                      style={styles.dappFilterAllChip}
                       key={'all'}
                     />
                     {/* Category Filter Chips */}
-                    {categories.map((category, idx) => {
+                    {categories.map((category) => {
                       return (
                         <DappFilterChip
                           chipFilter={{ id: category.id, name: category.name }}
@@ -188,11 +188,10 @@ export function DAppsExplorerScreenFilter() {
               </>
             }
             style={styles.sectionList}
-            contentContainerStyle={{
-              padding: Spacing.Thick24,
-              paddingBottom: Math.max(insets.bottom, Spacing.Regular16),
-              flexGrow: 1,
-            }}
+            contentContainerStyle={[
+              styles.sectionListContentContainer,
+              { paddingBottom: Math.max(insets.bottom, Spacing.Regular16) },
+            ]}
             // Workaround iOS setting an incorrect automatic inset at the top
             scrollIndicatorInsets={{ top: 0.01 }}
             scrollEventThrottle={16}
@@ -216,7 +215,7 @@ export function DAppsExplorerScreenFilter() {
                 testID="DAppsExplorerScreenFilter"
               />
             }
-            ListFooterComponentStyle={{ flex: 1, justifyContent: 'flex-end' }}
+            ListFooterComponentStyle={styles.ListFooterComponent}
           />
         )}
       </>
@@ -271,6 +270,25 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flex: 1,
   },
+  dappFilterView: {
+    paddingTop: Spacing.Thick24,
+  },
+  dappFilterScrollView: {
+    marginHorizontal: -Spacing.Thick24,
+  },
+  dappsFilteringScrollViewContentContainer: {
+    paddingHorizontal: Spacing.Thick24,
+  },
+  dappFilterAllChip: {
+    marginLeft: 0,
+  },
+  sectionListContentContainer: {
+    padding: Spacing.Thick24,
+    flexGrow: 1,
+  },
+  refreshControl: {
+    backgroundColor: colors.light,
+  },
   sectionList: {
     flex: 1,
   },
@@ -291,6 +309,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: Spacing.Large32,
     marginBottom: Spacing.Regular16,
+  },
+  ListFooterComponent: {
+    flex: 1,
+    justifyContent: 'flex-end',
   },
 })
 
