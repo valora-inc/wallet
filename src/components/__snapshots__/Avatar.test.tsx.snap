@@ -281,7 +281,7 @@ exports[`renders correctly with just number 1`] = `
             "lineHeight": 18,
           },
           Object {
-            "color": "#9CA4A9",
+            "color": "#666666",
           },
         ]
       }
@@ -408,7 +408,7 @@ exports[`renders correctly with number and name 1`] = `
             "lineHeight": 18,
           },
           Object {
-            "color": "#9CA4A9",
+            "color": "#666666",
           },
         ]
       }

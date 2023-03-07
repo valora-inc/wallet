@@ -59,7 +59,7 @@ exports[`renders correctly for input backup phrase 1`] = `
       multiline={true}
       onChangeText={[Function]}
       placeholder="backupPhrasePlaceholder"
-      placeholderTextColor="#9CA4A9"
+      placeholderTextColor="#666666"
       shouldShowClipboard={[Function]}
       style={
         Array [

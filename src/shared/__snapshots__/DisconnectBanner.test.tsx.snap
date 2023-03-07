@@ -12,7 +12,7 @@ exports[`renders banner when app is disconnected 1`] = `
         "textAlign": "center",
       },
       Object {
-        "color": "#9CA4A9",
+        "color": "#666666",
       },
       Object {
         "color": "#2E3338",

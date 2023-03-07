@@ -15,7 +15,7 @@ exports[`renders exchange 1`] = `
   <Text
     style={
       Object {
-        "color": "#B4B9BD",
+        "color": "#757575",
         "fontFamily": "Inter-Regular",
         "fontSize": 18,
         "lineHeight": 24,
@@ -43,7 +43,7 @@ exports[`renders home 1`] = `
   <Text
     style={
       Object {
-        "color": "#B4B9BD",
+        "color": "#757575",
         "fontFamily": "Inter-Regular",
         "fontSize": 18,
         "lineHeight": 24,
@@ -83,7 +83,7 @@ exports[`renders loading 1`] = `
   <Text
     style={
       Object {
-        "color": "#B4B9BD",
+        "color": "#757575",
         "fontFamily": "Inter-Regular",
         "fontSize": 18,
         "lineHeight": 24,

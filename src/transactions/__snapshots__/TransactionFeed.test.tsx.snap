@@ -16,7 +16,7 @@ exports[`renders for error 1`] = `
   <Text
     style={
       Object {
-        "color": "#B4B9BD",
+        "color": "#757575",
         "fontFamily": "Inter-Regular",
         "fontSize": 18,
         "lineHeight": 24,
@@ -28,7 +28,7 @@ exports[`renders for error 1`] = `
   <Text
     style={
       Object {
-        "color": "#B4B9BD",
+        "color": "#757575",
         "fontFamily": "Inter-Regular",
         "fontSize": 18,
         "lineHeight": 24,
@@ -112,7 +112,7 @@ exports[`renders for gold to dollar exchange properly 1`] = `
         <Text
           style={
             Object {
-              "color": "#9CA4A9",
+              "color": "#666666",
               "fontFamily": "Inter-Medium",
               "fontSize": 13,
               "lineHeight": 16,
@@ -245,7 +245,7 @@ exports[`renders for gold to dollar exchange properly 1`] = `
             <Text
               style={
                 Object {
-                  "color": "#9CA4A9",
+                  "color": "#666666",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 14,
                   "lineHeight": 18,
@@ -294,7 +294,7 @@ exports[`renders for loading 1`] = `
   <Text
     style={
       Object {
-        "color": "#B4B9BD",
+        "color": "#757575",
         "fontFamily": "Inter-Regular",
         "fontSize": 18,
         "lineHeight": 24,
@@ -322,7 +322,7 @@ exports[`renders for no transactions 1`] = `
   <Text
     style={
       Object {
-        "color": "#B4B9BD",
+        "color": "#757575",
         "fontFamily": "Inter-Regular",
         "fontSize": 18,
         "lineHeight": 24,
