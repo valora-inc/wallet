@@ -59,7 +59,7 @@ exports[`renders correctly for input backup phrase 1`] = `
       multiline={true}
       onChangeText={[Function]}
       placeholder="backupPhrasePlaceholder"
-      placeholderTextColor="#9CA4A9"
+      placeholderTextColor="#666666"
       shouldShowClipboard={[Function]}
       style={
         Array [
@@ -82,7 +82,7 @@ exports[`renders correctly for input backup phrase 1`] = `
 </View>
 `;
 
-exports[`renders correctly for readonly backup phrase 1`] = `
+exports[`renders correctly for readonly backup 12-word phrase 1`] = `
 <View>
   <View
     style={
@@ -128,18 +128,541 @@ exports[`renders correctly for readonly backup phrase 1`] = `
     </View>
   </View>
   <View
+    accessibilityLabel="prosper winner find donate tape history measure umbrella agent patrol want rhythm"
     style={
       Object {
         "alignContent": "center",
         "backgroundColor": "#F1F0EB",
-        "borderColor": "#2E3338",
-        "borderRadius": 4,
-        "borderWidth": 1,
+        "borderRadius": 8,
+        "flexDirection": "row",
+        "flexWrap": "wrap",
         "justifyContent": "center",
         "marginTop": 8,
-        "padding": 16,
+        "padding": 8,
       }
     }
+    testID="AccountKeyWordsContainer"
+  >
+    <View
+      style={
+        Object {
+          "flexBasis": "30%",
+          "flexDirection": "row",
+          "flexGrow": 1,
+          "flexShrink": 1,
+          "marginLeft": "3%",
+          "marginVertical": 11,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#666666",
+            "fontFamily": "Inter-Regular",
+            "fontSize": 16,
+            "lineHeight": 24,
+            "marginRight": 8,
+          }
+        }
+      >
+        1
+      </Text>
+      <Text
+        style={
+          Object {
+            "color": "#2E3338",
+            "fontFamily": "Inter-Regular",
+            "fontSize": 16,
+            "lineHeight": 24,
+          }
+        }
+      >
+        prosper
+      </Text>
+    </View>
+    <View
+      style={
+        Object {
+          "flexBasis": "30%",
+          "flexDirection": "row",
+          "flexGrow": 1,
+          "flexShrink": 1,
+          "marginLeft": "3%",
+          "marginVertical": 11,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#666666",
+            "fontFamily": "Inter-Regular",
+            "fontSize": 16,
+            "lineHeight": 24,
+            "marginRight": 8,
+          }
+        }
+      >
+        2
+      </Text>
+      <Text
+        style={
+          Object {
+            "color": "#2E3338",
+            "fontFamily": "Inter-Regular",
+            "fontSize": 16,
+            "lineHeight": 24,
+          }
+        }
+      >
+        winner
+      </Text>
+    </View>
+    <View
+      style={
+        Object {
+          "flexBasis": "30%",
+          "flexDirection": "row",
+          "flexGrow": 1,
+          "flexShrink": 1,
+          "marginLeft": "3%",
+          "marginVertical": 11,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#666666",
+            "fontFamily": "Inter-Regular",
+            "fontSize": 16,
+            "lineHeight": 24,
+            "marginRight": 8,
+          }
+        }
+      >
+        3
+      </Text>
+      <Text
+        style={
+          Object {
+            "color": "#2E3338",
+            "fontFamily": "Inter-Regular",
+            "fontSize": 16,
+            "lineHeight": 24,
+          }
+        }
+      >
+        find
+      </Text>
+    </View>
+    <View
+      style={
+        Object {
+          "flexBasis": "30%",
+          "flexDirection": "row",
+          "flexGrow": 1,
+          "flexShrink": 1,
+          "marginLeft": "3%",
+          "marginVertical": 11,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#666666",
+            "fontFamily": "Inter-Regular",
+            "fontSize": 16,
+            "lineHeight": 24,
+            "marginRight": 8,
+          }
+        }
+      >
+        4
+      </Text>
+      <Text
+        style={
+          Object {
+            "color": "#2E3338",
+            "fontFamily": "Inter-Regular",
+            "fontSize": 16,
+            "lineHeight": 24,
+          }
+        }
+      >
+        donate
+      </Text>
+    </View>
+    <View
+      style={
+        Object {
+          "flexBasis": "30%",
+          "flexDirection": "row",
+          "flexGrow": 1,
+          "flexShrink": 1,
+          "marginLeft": "3%",
+          "marginVertical": 11,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#666666",
+            "fontFamily": "Inter-Regular",
+            "fontSize": 16,
+            "lineHeight": 24,
+            "marginRight": 8,
+          }
+        }
+      >
+        5
+      </Text>
+      <Text
+        style={
+          Object {
+            "color": "#2E3338",
+            "fontFamily": "Inter-Regular",
+            "fontSize": 16,
+            "lineHeight": 24,
+          }
+        }
+      >
+        tape
+      </Text>
+    </View>
+    <View
+      style={
+        Object {
+          "flexBasis": "30%",
+          "flexDirection": "row",
+          "flexGrow": 1,
+          "flexShrink": 1,
+          "marginLeft": "3%",
+          "marginVertical": 11,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#666666",
+            "fontFamily": "Inter-Regular",
+            "fontSize": 16,
+            "lineHeight": 24,
+            "marginRight": 8,
+          }
+        }
+      >
+        6
+      </Text>
+      <Text
+        style={
+          Object {
+            "color": "#2E3338",
+            "fontFamily": "Inter-Regular",
+            "fontSize": 16,
+            "lineHeight": 24,
+          }
+        }
+      >
+        history
+      </Text>
+    </View>
+    <View
+      style={
+        Object {
+          "flexBasis": "30%",
+          "flexDirection": "row",
+          "flexGrow": 1,
+          "flexShrink": 1,
+          "marginLeft": "3%",
+          "marginVertical": 11,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#666666",
+            "fontFamily": "Inter-Regular",
+            "fontSize": 16,
+            "lineHeight": 24,
+            "marginRight": 8,
+          }
+        }
+      >
+        7
+      </Text>
+      <Text
+        style={
+          Object {
+            "color": "#2E3338",
+            "fontFamily": "Inter-Regular",
+            "fontSize": 16,
+            "lineHeight": 24,
+          }
+        }
+      >
+        measure
+      </Text>
+    </View>
+    <View
+      style={
+        Object {
+          "flexBasis": "30%",
+          "flexDirection": "row",
+          "flexGrow": 1,
+          "flexShrink": 1,
+          "marginLeft": "3%",
+          "marginVertical": 11,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#666666",
+            "fontFamily": "Inter-Regular",
+            "fontSize": 16,
+            "lineHeight": 24,
+            "marginRight": 8,
+          }
+        }
+      >
+        8
+      </Text>
+      <Text
+        style={
+          Object {
+            "color": "#2E3338",
+            "fontFamily": "Inter-Regular",
+            "fontSize": 16,
+            "lineHeight": 24,
+          }
+        }
+      >
+        umbrella
+      </Text>
+    </View>
+    <View
+      style={
+        Object {
+          "flexBasis": "30%",
+          "flexDirection": "row",
+          "flexGrow": 1,
+          "flexShrink": 1,
+          "marginLeft": "3%",
+          "marginVertical": 11,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#666666",
+            "fontFamily": "Inter-Regular",
+            "fontSize": 16,
+            "lineHeight": 24,
+            "marginRight": 8,
+          }
+        }
+      >
+        9
+      </Text>
+      <Text
+        style={
+          Object {
+            "color": "#2E3338",
+            "fontFamily": "Inter-Regular",
+            "fontSize": 16,
+            "lineHeight": 24,
+          }
+        }
+      >
+        agent
+      </Text>
+    </View>
+    <View
+      style={
+        Object {
+          "flexBasis": "30%",
+          "flexDirection": "row",
+          "flexGrow": 1,
+          "flexShrink": 1,
+          "marginLeft": "3%",
+          "marginVertical": 11,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#666666",
+            "fontFamily": "Inter-Regular",
+            "fontSize": 16,
+            "lineHeight": 24,
+            "marginRight": 8,
+          }
+        }
+      >
+        10
+      </Text>
+      <Text
+        style={
+          Object {
+            "color": "#2E3338",
+            "fontFamily": "Inter-Regular",
+            "fontSize": 16,
+            "lineHeight": 24,
+          }
+        }
+      >
+        patrol
+      </Text>
+    </View>
+    <View
+      style={
+        Object {
+          "flexBasis": "30%",
+          "flexDirection": "row",
+          "flexGrow": 1,
+          "flexShrink": 1,
+          "marginLeft": "3%",
+          "marginVertical": 11,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#666666",
+            "fontFamily": "Inter-Regular",
+            "fontSize": 16,
+            "lineHeight": 24,
+            "marginRight": 8,
+          }
+        }
+      >
+        11
+      </Text>
+      <Text
+        style={
+          Object {
+            "color": "#2E3338",
+            "fontFamily": "Inter-Regular",
+            "fontSize": 16,
+            "lineHeight": 24,
+          }
+        }
+      >
+        want
+      </Text>
+    </View>
+    <View
+      style={
+        Object {
+          "flexBasis": "30%",
+          "flexDirection": "row",
+          "flexGrow": 1,
+          "flexShrink": 1,
+          "marginLeft": "3%",
+          "marginVertical": 11,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#666666",
+            "fontFamily": "Inter-Regular",
+            "fontSize": 16,
+            "lineHeight": 24,
+            "marginRight": 8,
+          }
+        }
+      >
+        12
+      </Text>
+      <Text
+        style={
+          Object {
+            "color": "#2E3338",
+            "fontFamily": "Inter-Regular",
+            "fontSize": 16,
+            "lineHeight": 24,
+          }
+        }
+      >
+        rhythm
+      </Text>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`renders correctly for readonly backup 24-word phrase 1`] = `
+<View>
+  <View
+    style={
+      Object {
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+        "paddingHorizontal": 2,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "flexDirection": "column",
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#2E3338",
+            "fontFamily": "Jost-Medium",
+            "fontSize": 22,
+            "lineHeight": 28,
+            "marginBottom": 16,
+          }
+        }
+      >
+        writeDownKey
+      </Text>
+      <Text
+        style={
+          Object {
+            "color": "#2E3338",
+            "fontFamily": "Inter-SemiBold",
+            "fontSize": 13,
+            "lineHeight": 16,
+          }
+        }
+      >
+        yourAccountKey
+      </Text>
+    </View>
+  </View>
+  <View
+    accessibilityLabel="prosper winner find donate tape history measure umbrella agent patrol want rhythm old unable wash wrong need fluid hammer coach reveal plastic trust lake"
+    style={
+      Object {
+        "alignContent": "center",
+        "backgroundColor": "#F1F0EB",
+        "borderRadius": 8,
+        "flexDirection": "row",
+        "flexWrap": "wrap",
+        "justifyContent": "center",
+        "marginTop": 8,
+        "padding": 8,
+      }
+    }
+    testID="AccountKeyWordsContainer"
   >
     <Text
       style={
@@ -150,7 +673,6 @@ exports[`renders correctly for readonly backup phrase 1`] = `
           "lineHeight": 32,
         }
       }
-      testID="AccountKeyWords"
     >
       prosper winner find donate tape history measure umbrella agent patrol want rhythm old unable wash wrong need fluid hammer coach reveal plastic trust lake
     </Text>

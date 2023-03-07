@@ -422,7 +422,7 @@ exports[`AccountKeyEducation renders correctly 1`] = `
       <View
         style={
           Object {
-            "backgroundColor": "#9CA4A9",
+            "backgroundColor": "#666666",
             "borderRadius": 5,
             "flex": 0,
             "height": 5,
@@ -434,7 +434,7 @@ exports[`AccountKeyEducation renders correctly 1`] = `
       <View
         style={
           Object {
-            "backgroundColor": "#9CA4A9",
+            "backgroundColor": "#666666",
             "borderRadius": 5,
             "flex": 0,
             "height": 5,
@@ -446,7 +446,7 @@ exports[`AccountKeyEducation renders correctly 1`] = `
       <View
         style={
           Object {
-            "backgroundColor": "#9CA4A9",
+            "backgroundColor": "#666666",
             "borderRadius": 5,
             "flex": 0,
             "height": 5,

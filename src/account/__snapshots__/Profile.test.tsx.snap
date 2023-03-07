@@ -289,7 +289,7 @@ exports[`Profile renders correctly 1`] = `
                   style={
                     Array [
                       Object {
-                        "backgroundColor": "#EDEEEF",
+                        "backgroundColor": "#E6E6E6",
                         "height": 1,
                         "width": "100%",
                       },
@@ -338,12 +338,12 @@ exports[`Profile renders correctly 1`] = `
                   style={
                     Array [
                       Object {
-                        "backgroundColor": "#EDEEEF",
+                        "backgroundColor": "#E6E6E6",
                         "height": 1,
                         "width": "100%",
                       },
                       Object {
-                        "backgroundColor": "#B4B9BD",
+                        "backgroundColor": "#757575",
                       },
                     ]
                   }
@@ -400,7 +400,7 @@ exports[`Profile renders correctly 1`] = `
         <View
           style={
             Object {
-              "borderBottomColor": "#EDEEEF",
+              "borderBottomColor": "#E6E6E6",
               "borderBottomWidth": 1,
               "marginLeft": 16,
               "paddingVertical": 16,
@@ -478,13 +478,13 @@ exports[`Profile renders correctly 1`] = `
                     },
                     Array [
                       Object {
-                        "color": "#9CA4A9",
+                        "color": "#666666",
                         "minWidth": 160,
                         "paddingVertical": 0,
                         "textAlign": "right",
                       },
                       Object {
-                        "color": "#9CA4A9",
+                        "color": "#666666",
                       },
                     ],
                   ]

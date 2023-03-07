@@ -246,7 +246,7 @@ exports[`ReviewFees renders correctly 1`] = `
                       "lineHeight": 22,
                     },
                     Object {
-                      "color": "#9CA4A9",
+                      "color": "#666666",
                       "paddingTop": 16,
                     },
                   ]
@@ -485,7 +485,7 @@ exports[`ReviewFees renders correctly 1`] = `
                       "lineHeight": 22,
                     },
                     Object {
-                      "color": "#9CA4A9",
+                      "color": "#666666",
                       "paddingTop": 16,
                     },
                   ]
@@ -586,7 +586,7 @@ exports[`ReviewFees renders correctly 1`] = `
             "lineHeight": 22,
           },
           Object {
-            "color": "#9CA4A9",
+            "color": "#666666",
           },
         ]
       }
@@ -603,7 +603,7 @@ exports[`ReviewFees renders correctly 1`] = `
             "lineHeight": 22,
           },
           Object {
-            "color": "#9CA4A9",
+            "color": "#666666",
           },
         ]
       }
@@ -613,11 +613,11 @@ exports[`ReviewFees renders correctly 1`] = `
           Array [
             Array [
               Object {
-                "color": "#9CA4A9",
+                "color": "#666666",
               },
             ],
             Object {
-              "color": "#9CA4A9",
+              "color": "#666666",
             },
           ]
         }
@@ -633,7 +633,7 @@ exports[`ReviewFees renders correctly 1`] = `
     style={
       Array [
         Object {
-          "backgroundColor": "#EDEEEF",
+          "backgroundColor": "#E6E6E6",
           "height": 1,
           "marginVertical": 16,
           "width": "100%",
@@ -787,12 +787,12 @@ exports[`ReviewFees renders correctly 1`] = `
             cx="8"
             cy="8"
             r="7"
-            stroke="#B4B9BD"
+            stroke="#757575"
             strokeWidth="1.25"
           />
           <path
             d="M8 12V7M8 6V5"
-            stroke="#B4B9BD"
+            stroke="#757575"
             strokeWidth="1.25"
           />
         </svg>
@@ -1146,7 +1146,7 @@ exports[`ReviewFees renders correctly 2`] = `
                       "lineHeight": 22,
                     },
                     Object {
-                      "color": "#9CA4A9",
+                      "color": "#666666",
                       "paddingTop": 16,
                     },
                   ]
@@ -1381,7 +1381,7 @@ exports[`ReviewFees renders correctly 2`] = `
                       "lineHeight": 22,
                     },
                     Object {
-                      "color": "#9CA4A9",
+                      "color": "#666666",
                       "paddingTop": 16,
                     },
                   ]
@@ -1482,7 +1482,7 @@ exports[`ReviewFees renders correctly 2`] = `
             "lineHeight": 22,
           },
           Object {
-            "color": "#9CA4A9",
+            "color": "#666666",
           },
         ]
       }
@@ -1499,7 +1499,7 @@ exports[`ReviewFees renders correctly 2`] = `
             "lineHeight": 22,
           },
           Object {
-            "color": "#9CA4A9",
+            "color": "#666666",
           },
         ]
       }
@@ -1509,11 +1509,11 @@ exports[`ReviewFees renders correctly 2`] = `
           Array [
             Array [
               Object {
-                "color": "#9CA4A9",
+                "color": "#666666",
               },
             ],
             Object {
-              "color": "#9CA4A9",
+              "color": "#666666",
             },
           ]
         }
@@ -1529,7 +1529,7 @@ exports[`ReviewFees renders correctly 2`] = `
     style={
       Array [
         Object {
-          "backgroundColor": "#EDEEEF",
+          "backgroundColor": "#E6E6E6",
           "height": 1,
           "marginVertical": 16,
           "width": "100%",
@@ -1681,12 +1681,12 @@ exports[`ReviewFees renders correctly 2`] = `
             cx="8"
             cy="8"
             r="7"
-            stroke="#B4B9BD"
+            stroke="#757575"
             strokeWidth="1.25"
           />
           <path
             d="M8 12V7M8 6V5"
-            stroke="#B4B9BD"
+            stroke="#757575"
             strokeWidth="1.25"
           />
         </svg>

@@ -110,7 +110,7 @@ exports[`ExchangeTradeScreen renders correctly 1`] = `
             numberOfLines={1}
             style={
               Object {
-                "color": "#9CA4A9",
+                "color": "#666666",
               }
             }
             testID="HeaderSubTitle"
@@ -129,7 +129,7 @@ exports[`ExchangeTradeScreen renders correctly 1`] = `
                 allowFontScaling={false}
                 style={
                   Object {
-                    "color": "#9CA4A9",
+                    "color": "#666666",
                   }
                 }
               >
@@ -143,7 +143,7 @@ exports[`ExchangeTradeScreen renders correctly 1`] = `
               >
                 <path
                   d="M3 6l5 5 5-5"
-                  stroke="#B4B9BD"
+                  stroke="#757575"
                 />
               </svg>
             </View>
@@ -282,7 +282,7 @@ exports[`ExchangeTradeScreen renders correctly 1`] = `
             <Text
               style={
                 Object {
-                  "color": "#9CA4A9",
+                  "color": "#666666",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 13,
                   "lineHeight": 18,
@@ -301,7 +301,7 @@ exports[`ExchangeTradeScreen renders correctly 1`] = `
           keyboardType="decimal-pad"
           onChangeText={[Function]}
           placeholder="0"
-          placeholderTextColor="#B4B9BD"
+          placeholderTextColor="#757575"
           style={
             Object {
               "color": "#9C6E00",
@@ -469,7 +469,7 @@ exports[`ExchangeTradeScreen renders correctly 1`] = `
                 "lineHeight": 22,
               },
               Object {
-                "color": "#81868B",
+                "color": "#505050",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
                 "lineHeight": 18,
@@ -569,7 +569,7 @@ exports[`ExchangeTradeScreen renders correctly 1`] = `
           maxFontSizeMultiplier={1}
           style={
             Object {
-              "color": "#9CA4A9",
+              "color": "#666666",
               "fontFamily": "Inter-SemiBold",
               "fontSize": 16,
               "lineHeight": 22,
@@ -792,7 +792,7 @@ exports[`ExchangeTradeScreen renders correctly 1`] = `
                       "lineHeight": 22,
                     },
                     Object {
-                      "color": "#9CA4A9",
+                      "color": "#666666",
                       "paddingTop": 16,
                     },
                   ]
