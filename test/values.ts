@@ -54,6 +54,8 @@ export const mockAccount3 = '0x1230000000000000000000000000000000007E57'
 
 export const mockMnemonic =
   'prosper winner find donate tape history measure umbrella agent patrol want rhythm old unable wash wrong need fluid hammer coach reveal plastic trust lake'
+export const mockTwelveWordMnemonic =
+  'prosper winner find donate tape history measure umbrella agent patrol want rhythm'
 
 export const mockMnemonicShard1 =
   'prosper winner find donate tape history measure umbrella agent patrol want rhythm celo'

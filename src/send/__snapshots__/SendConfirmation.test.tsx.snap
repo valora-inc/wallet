@@ -192,7 +192,7 @@ exports[`SendConfirmation renders correctly 1`] = `
                 <Text
                   style={
                     Object {
-                      "color": "#9CA4A9",
+                      "color": "#666666",
                       "fontFamily": "Inter-Regular",
                       "fontSize": 16,
                       "lineHeight": 22,
@@ -469,7 +469,7 @@ exports[`SendConfirmation renders correctly 1`] = `
                               "lineHeight": 22,
                             },
                             Object {
-                              "color": "#9CA4A9",
+                              "color": "#666666",
                               "paddingTop": 16,
                             },
                           ]
@@ -566,7 +566,7 @@ exports[`SendConfirmation renders correctly 1`] = `
                 >
                   <path
                     d="M3 6l5 5 5-5"
-                    stroke="#B4B9BD"
+                    stroke="#757575"
                   />
                 </svg>
               </View>
@@ -750,7 +750,7 @@ exports[`SendConfirmation renders correctly 1`] = `
                   "lineHeight": 22,
                 },
                 Object {
-                  "color": "#9CA4A9",
+                  "color": "#666666",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 14,
                   "lineHeight": 18,
@@ -762,7 +762,7 @@ exports[`SendConfirmation renders correctly 1`] = `
             <Text
               style={
                 Object {
-                  "color": "#9CA4A9",
+                  "color": "#666666",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 14,
                   "lineHeight": 18,
@@ -788,7 +788,7 @@ exports[`SendConfirmation renders correctly 1`] = `
                 "lineHeight": 22,
               },
               Object {
-                "color": "#9CA4A9",
+                "color": "#666666",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
                 "lineHeight": 18,

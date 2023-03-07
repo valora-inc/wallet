@@ -152,7 +152,7 @@ exports[`Support renders correctly 1`] = `
             <View
               style={
                 Object {
-                  "borderBottomColor": "#EDEEEF",
+                  "borderBottomColor": "#E6E6E6",
                   "borderBottomWidth": 1,
                   "marginLeft": 16,
                   "paddingVertical": 16,
@@ -233,7 +233,7 @@ exports[`Support renders correctly 1`] = `
             <View
               style={
                 Object {
-                  "borderBottomColor": "#EDEEEF",
+                  "borderBottomColor": "#E6E6E6",
                   "borderBottomWidth": 1,
                   "marginLeft": 16,
                   "paddingVertical": 16,
@@ -314,7 +314,7 @@ exports[`Support renders correctly 1`] = `
             <View
               style={
                 Object {
-                  "borderBottomColor": "#EDEEEF",
+                  "borderBottomColor": "#E6E6E6",
                   "borderBottomWidth": 1,
                   "marginLeft": 16,
                   "paddingVertical": 16,

@@ -12,6 +12,7 @@ export interface State {
   loggedIn: boolean
   numberVerified: boolean // decentrally verified
   phoneNumberVerified: boolean // centrally verified
+  requireCPV: boolean
   analyticsEnabled: boolean
   requirePinOnAppOpen: boolean
   appState: AppState
@@ -59,6 +60,7 @@ const initialState = {
   loggedIn: false,
   numberVerified: false,
   phoneNumberVerified: false,
+  requireCPV: REMOTE_CONFIG_VALUES_DEFAULTS.requireCPV,
   analyticsEnabled: true,
   requirePinOnAppOpen: false,
   appState: AppState.Active,
@@ -214,6 +216,7 @@ export const appReducer = (
         maxSwapSlippagePercentage: action.configValues.maxSwapSlippagePercentage,
         networkTimeoutSeconds: action.configValues.networkTimeoutSeconds,
         celoNews: action.configValues.celoNews,
+        requireCPV: action.configValues.requireCPV,
       }
     case Actions.ACTIVE_SCREEN_CHANGED:
       return {

@@ -66,7 +66,7 @@ exports[`TransactionFeed renders correctly when there is a response 1`] = `
         <Text
           style={
             Object {
-              "color": "#9CA4A9",
+              "color": "#666666",
               "fontFamily": "Inter-Medium",
               "fontSize": 13,
               "lineHeight": 16,
@@ -180,7 +180,7 @@ exports[`TransactionFeed renders correctly when there is a response 1`] = `
             <Text
               style={
                 Object {
-                  "color": "#9CA4A9",
+                  "color": "#666666",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 14,
                   "lineHeight": 18,
@@ -226,7 +226,7 @@ exports[`TransactionFeed renders correctly when there is a response 1`] = `
             <Text
               style={
                 Object {
-                  "color": "#9CA4A9",
+                  "color": "#666666",
                   "flexWrap": "wrap",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 14,
