@@ -10510,9 +10510,9 @@ globby@^11.0.4:
     slash "^3.0.0"
 
 google-libphonenumber@^3.2.15, google-libphonenumber@^3.2.27:
-  version "3.2.31"
-  resolved "https://registry.yarnpkg.com/google-libphonenumber/-/google-libphonenumber-3.2.31.tgz#d2c4d4c8d7385be70b515086e4d28dd20da50600"
-  integrity sha512-l3bzAkfN4ITICKvuqEiY7JN06RxDAviOoKMtD2KfGYjGK3btPO8Xav7k0fgmf1Ud/pEm523yBh1/s/xDtKEvnw==
+  version "3.2.32"
+  resolved "https://registry.yarnpkg.com/google-libphonenumber/-/google-libphonenumber-3.2.32.tgz#63c48a9c247b64a3bc2eec21bdf3fcfbf2e148c0"
+  integrity sha512-mcNgakausov/B/eTgVeX8qc8IwWjRrupk9UzZZ/QDEvdh5fAjE7Aa211bkZpZj42zKkeS6MTT8avHUwjcLxuGQ==
 
 got@9.6.0, got@^9.6.0:
   version "9.6.0"
