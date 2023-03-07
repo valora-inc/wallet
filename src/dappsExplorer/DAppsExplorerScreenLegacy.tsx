@@ -158,7 +158,7 @@ export function DAppsExplorerScreenLegacy() {
             style={styles.sectionList}
             contentContainerStyle={[
               styles.sectionListContentContainer,
-              { paddingBottom: Math.max(insets.bottom, Spacing.Regular16) }
+              { paddingBottom: Math.max(insets.bottom, Spacing.Regular16) },
             ]}
             // Workaround iOS setting an incorrect automatic inset at the top
             scrollIndicatorInsets={{ top: 0.01 }}
