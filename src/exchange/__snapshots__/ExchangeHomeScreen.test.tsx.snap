@@ -343,7 +343,7 @@ exports[`ExchangeHomeScreen renders and behaves correctly for CP-DOTO restricted
       <View
         style={
           Object {
-            "backgroundColor": "#EDEEEF",
+            "backgroundColor": "#E6E6E6",
             "height": 1,
             "marginHorizontal": 16,
           }
@@ -402,7 +402,7 @@ exports[`ExchangeHomeScreen renders and behaves correctly for CP-DOTO restricted
         <Text
           style={
             Object {
-              "color": "#9CA4A9",
+              "color": "#666666",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
               "lineHeight": 22,
@@ -430,7 +430,7 @@ exports[`ExchangeHomeScreen renders and behaves correctly for CP-DOTO restricted
       <View
         style={
           Object {
-            "backgroundColor": "#EDEEEF",
+            "backgroundColor": "#E6E6E6",
             "height": 1,
             "marginHorizontal": 16,
           }
@@ -894,7 +894,7 @@ exports[`ExchangeHomeScreen renders and behaves correctly for non CP-DOTO restri
       <View
         style={
           Object {
-            "backgroundColor": "#EDEEEF",
+            "backgroundColor": "#E6E6E6",
             "height": 1,
             "marginHorizontal": 16,
           }
@@ -953,7 +953,7 @@ exports[`ExchangeHomeScreen renders and behaves correctly for non CP-DOTO restri
         <Text
           style={
             Object {
-              "color": "#9CA4A9",
+              "color": "#666666",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
               "lineHeight": 22,
@@ -981,7 +981,7 @@ exports[`ExchangeHomeScreen renders and behaves correctly for non CP-DOTO restri
       <View
         style={
           Object {
-            "backgroundColor": "#EDEEEF",
+            "backgroundColor": "#E6E6E6",
             "height": 1,
             "marginHorizontal": 16,
           }

@@ -116,7 +116,7 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
                 <Text
                   style={
                     Object {
-                      "color": "#9CA4A9",
+                      "color": "#666666",
                       "fontFamily": "Inter-Regular",
                       "fontSize": 16,
                       "lineHeight": 22,
@@ -298,7 +298,7 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
                   "lineHeight": 22,
                 },
                 Object {
-                  "color": "#9CA4A9",
+                  "color": "#666666",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 14,
                   "lineHeight": 18,
@@ -310,7 +310,7 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
             <Text
               style={
                 Object {
-                  "color": "#9CA4A9",
+                  "color": "#666666",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 14,
                   "lineHeight": 18,
@@ -336,7 +336,7 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
                 "lineHeight": 22,
               },
               Object {
-                "color": "#9CA4A9",
+                "color": "#666666",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
                 "lineHeight": 18,

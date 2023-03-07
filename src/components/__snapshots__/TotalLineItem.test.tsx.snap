@@ -116,7 +116,7 @@ Array [
               "lineHeight": 22,
             },
             Object {
-              "color": "#9CA4A9",
+              "color": "#666666",
               "fontFamily": "Inter-Regular",
               "fontSize": 14,
               "lineHeight": 18,
@@ -151,7 +151,7 @@ Array [
           <Text
             style={
               Object {
-                "color": "#9CA4A9",
+                "color": "#666666",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
                 "lineHeight": 18,
@@ -187,7 +187,7 @@ Array [
             "lineHeight": 22,
           },
           Object {
-            "color": "#9CA4A9",
+            "color": "#666666",
             "fontFamily": "Inter-Regular",
             "fontSize": 14,
             "lineHeight": 18,

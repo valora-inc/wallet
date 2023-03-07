@@ -252,7 +252,7 @@ exports[`renders correctly with backup completed 1`] = `
                           "lineHeight": 22,
                         },
                         Object {
-                          "color": "#9CA4A9",
+                          "color": "#666666",
                           "paddingTop": 16,
                         },
                       ]
@@ -343,7 +343,7 @@ exports[`renders correctly with backup completed 1`] = `
                   "color": "#2E3338",
                 },
                 Object {
-                  "color": "#9CA4A9",
+                  "color": "#666666",
                 },
               ],
             ]
@@ -743,7 +743,7 @@ exports[`renders correctly with backup not completed 1`] = `
                           "lineHeight": 22,
                         },
                         Object {
-                          "color": "#9CA4A9",
+                          "color": "#666666",
                           "paddingTop": 16,
                         },
                       ]
@@ -834,7 +834,7 @@ exports[`renders correctly with backup not completed 1`] = `
                   "color": "#2E3338",
                 },
                 Object {
-                  "color": "#9CA4A9",
+                  "color": "#666666",
                 },
               ],
             ]
@@ -997,10 +997,10 @@ exports[`renders correctly with backup not completed 1`] = `
       onResponderTerminationRequest={[Function]}
       onStartShouldSetResponder={[Function]}
       testID="backupKeySavedSwitch"
-      thumbTintColor="#EDEEEF"
-      trackColorForFalse="#B4B9BD"
+      thumbTintColor="#E6E6E6"
+      trackColorForFalse="#757575"
       trackColorForTrue="#1AB775"
-      trackTintColor="#B4B9BD"
+      trackTintColor="#757575"
     />
     <Text
       onPress={[Function]}
@@ -1083,7 +1083,7 @@ exports[`renders correctly with backup not completed 1`] = `
           maxFontSizeMultiplier={1}
           style={
             Object {
-              "color": "#9CA4A9",
+              "color": "#666666",
               "fontFamily": "Inter-SemiBold",
               "fontSize": 16,
               "lineHeight": 22,
@@ -1352,7 +1352,7 @@ exports[`still renders when mnemonic doesnt show up 1`] = `
                           "lineHeight": 22,
                         },
                         Object {
-                          "color": "#9CA4A9",
+                          "color": "#666666",
                           "paddingTop": 16,
                         },
                       ]
@@ -1443,7 +1443,7 @@ exports[`still renders when mnemonic doesnt show up 1`] = `
                   "color": "#2E3338",
                 },
                 Object {
-                  "color": "#9CA4A9",
+                  "color": "#666666",
                 },
               ],
             ]

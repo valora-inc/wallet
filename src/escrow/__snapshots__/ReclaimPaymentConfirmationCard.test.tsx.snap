@@ -124,7 +124,7 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
               "lineHeight": 18,
             },
             Object {
-              "color": "#9CA4A9",
+              "color": "#666666",
             },
           ]
         }
@@ -505,7 +505,7 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
                           "lineHeight": 22,
                         },
                         Object {
-                          "color": "#9CA4A9",
+                          "color": "#666666",
                           "paddingTop": 16,
                         },
                       ]
@@ -661,7 +661,7 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
               "lineHeight": 22,
             },
             Object {
-              "color": "#9CA4A9",
+              "color": "#666666",
               "fontFamily": "Inter-Regular",
               "fontSize": 14,
               "lineHeight": 18,
@@ -673,7 +673,7 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
         <Text
           style={
             Object {
-              "color": "#9CA4A9",
+              "color": "#666666",
               "fontFamily": "Inter-Regular",
               "fontSize": 14,
               "lineHeight": 18,
@@ -699,7 +699,7 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
             "lineHeight": 22,
           },
           Object {
-            "color": "#9CA4A9",
+            "color": "#666666",
             "fontFamily": "Inter-Regular",
             "fontSize": 14,
             "lineHeight": 18,

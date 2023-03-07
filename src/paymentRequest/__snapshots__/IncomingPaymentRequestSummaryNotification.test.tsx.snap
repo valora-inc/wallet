@@ -60,7 +60,7 @@ exports[`IncomingPaymentRequestSummaryNotification renders a number when the add
             numberOfLines={2}
             style={
               Object {
-                "color": "#9CA4A9",
+                "color": "#666666",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 13,
                 "lineHeight": 16,
@@ -314,7 +314,7 @@ exports[`IncomingPaymentRequestSummaryNotification renders correctly for just on
             numberOfLines={2}
             style={
               Object {
-                "color": "#9CA4A9",
+                "color": "#666666",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 13,
                 "lineHeight": 16,
@@ -590,7 +590,7 @@ exports[`IncomingPaymentRequestSummaryNotification renders correctly for more th
         numberOfLines={3}
         style={
           Object {
-            "color": "#81868B",
+            "color": "#505050",
             "flex": 1,
             "fontFamily": "Inter-Regular",
             "fontSize": 14,
