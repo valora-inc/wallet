@@ -22,6 +22,10 @@ interface OwnProps {
     | null
 }
 
+export interface PhoneValidatorProps {
+  validator: ValidatorKind.Phone
+  countryCallingCode: string
+}
 export interface IntegerValidatorProps {
   validator: ValidatorKind.Integer
 }
@@ -43,19 +47,17 @@ export type ValidatorProps =
   | DecimalValidatorProps
   | CustomValidatorProps
 
-export interface PhoneValidatorProps {
-  validator: ValidatorKind.Phone
-  countryCallingCode: string
-}
-
-export type ValidatedTextInputProps = OwnProps & PhoneValidatorProps & TextInputProps
+export type ValidatedTextInputProps = OwnProps & ValidatorProps & TextInputProps
 
 export default class ValidatedTextInput extends React.Component<ValidatedTextInputProps> {
   onChangeText = (input: string): void => {
     // some countries support multiple phone number lengths. since we add the
     // country code to a validated phone number in the UI, we need to omit the
     // country code from subsequent validations if the user types a longer number
-    const rawInput = input.split(this.props.countryCallingCode)[1] ?? input
+    const rawInput =
+      this.props.validator === ValidatorKind.Phone
+        ? input.split(this.props.countryCallingCode)[1] ?? input
+        : input
     const validated = validateInput(rawInput, this.props)
 
     // Don't propagate change if new change is invalid
@@ -68,7 +70,10 @@ export default class ValidatedTextInput extends React.Component<ValidatedTextInp
   }
 
   getMaxLength = () => {
-    const { numberOfDecimals, value, decimalSeparator } = this.props
+    const { numberOfDecimals, validator, value, decimalSeparator } = this.props
+    if (validator !== ValidatorKind.Decimal || !numberOfDecimals) {
+      return undefined
+    }
     const decimalPos = value.indexOf(decimalSeparator ?? '.')
     if (decimalPos === -1) {
       return undefined
