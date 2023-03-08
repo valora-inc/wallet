@@ -38,7 +38,7 @@ describe(DAppsExplorerScreenFilter, () => {
     jest.clearAllMocks()
   })
 
-  it('renders correctly when no featured dapp is available', () => {
+  it('renders correctly and fires the correct actions on press dapp', () => {
     const { getByTestId, queryByTestId } = render(
       <Provider store={defaultStore}>
         <DAppsExplorerScreenFilter />
