@@ -22,6 +22,27 @@ interface OwnProps {
     | null
 }
 
+export interface IntegerValidatorProps {
+  validator: ValidatorKind.Integer
+}
+
+export interface DecimalValidatorProps {
+  validator: ValidatorKind.Decimal
+  numberOfDecimals: number
+}
+
+// Required props for a custom input validator
+export interface CustomValidatorProps {
+  validator: ValidatorKind.Custom
+  customValidator: (input: string) => string
+}
+
+export type ValidatorProps =
+  | PhoneValidatorProps
+  | IntegerValidatorProps
+  | DecimalValidatorProps
+  | CustomValidatorProps
+
 export interface PhoneValidatorProps {
   validator: ValidatorKind.Phone
   countryCallingCode: string
