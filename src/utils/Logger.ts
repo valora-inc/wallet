@@ -259,7 +259,7 @@ class Logger {
   }
 
   // Anything being sent to console.log, console.warn, console.error, etc is piped into
-  // the logfile specified by getReactNativeLogsFilePath()
+  // the log file specified by getReactNativeLogsFilePath()
   overrideConsoleLogs = () => {
     const logFilePath = this.getReactNativeLogFilePath()
     console.debug('React Native logs will be piped to ' + logFilePath)
@@ -307,7 +307,7 @@ class Logger {
 
     global.nativeLoggingHook = (message: string, logLevel: number) => {
       // TODO: as an improvement, we could hook into the nativeLoggingHook from the native side
-      // to avoid the the extra calls via the bridge to write to the file
+      // to avoid the extra calls via the bridge to write to the file
       // but for now it's simpler
       writeLog(logLevel, message).catch((error) => console.error(error))
       originalNativeLoggingHook(message, logLevel)
