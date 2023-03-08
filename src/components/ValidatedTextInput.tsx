@@ -26,6 +26,7 @@ export interface PhoneValidatorProps {
   validator: ValidatorKind.Phone
   countryCallingCode: string
 }
+
 export interface IntegerValidatorProps {
   validator: ValidatorKind.Integer
 }
@@ -53,12 +54,13 @@ export default class ValidatedTextInput extends React.Component<ValidatedTextInp
   onChangeText = (input: string): void => {
     // some countries support multiple phone number lengths. since we add the
     // country code to a validated phone number in the UI, we need to omit the
-    // country code from subsequent validations if the user types a longer number
-    const rawInput =
+    // country code from subsequent validations if the user types a longer number.
+    // note: the countryCallingCode is a string like "+31"
+    const userInput =
       this.props.validator === ValidatorKind.Phone
         ? input.split(this.props.countryCallingCode)[1] ?? input
         : input
-    const validated = validateInput(rawInput, this.props)
+    const validated = validateInput(userInput, this.props)
 
     // Don't propagate change if new change is invalid
     if (this.props.value === validated) {
