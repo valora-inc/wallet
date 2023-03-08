@@ -1,0 +1,48 @@
+# Registering Tokens with Users
+
+> This feature is in-development and not fully supported yet!
+
+Valora includes a default list of popular tokens. Each token in the
+default list must meet the asset listing <a href={props.assetGuidlines}>requirements</a>.
+However, there are many tokens that users
+want to manage and transact with in Valora that do not meet the requirements. To
+support these tokens well, Valora implements
+[EIP-747](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-747.md),
+which allows dapps to make it easy for users to add arbitrary tokens
+to Valora.
+
+## Example
+
+```ts
+// The address that the token is at
+const tokenAddress = '0xb92463e2262e700e29c16416270c9fdfa17934d7'
+// A ticker symbol or shorthand, up to 5 chars.
+const tokenSymbol = 'C4P'
+// The number of decimals in the token
+const tokenDecimals = 6
+// Optional URL to download token image (must be a 256 x 256 PNG)
+const tokenImage = 'https://should-not-resolve.foo/256x256.png'
+
+try {
+  const wasAdded = await provider.send({
+    method: 'wallet_watchAsset',
+    params: {
+      type: 'ERC20',
+      options: {
+        address: tokenAddress,
+        symbol: tokenSymbol,
+        decimals: tokenDecimals,
+        image: tokenImage,
+      },
+    },
+  })
+
+  if (wasAdded) {
+    console.log('User confirmed!')
+  } else {
+    console.log('User did not confirm!')
+  }
+} catch (error) {
+  console.log('An error occurred:', error)
+}
+```
