@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   RefreshControl,
@@ -24,7 +24,7 @@ import {
   favoriteDappIdsSelector,
 } from 'src/dapps/selectors'
 import { fetchDappsList } from 'src/dapps/slice'
-import { DappFilter, DappSection, DappV1, DappV2 } from 'src/dapps/types'
+import { DappSection, DappV1, DappV2 } from 'src/dapps/types'
 import DappCard from 'src/dappsExplorer/DappCard'
 import DappFilterChip from 'src/dappsExplorer/DappFilterChip'
 import FavoriteDappsSection from 'src/dappsExplorer/FavoriteDappsSection'
@@ -66,10 +66,12 @@ export function DAppsExplorerScreenFilter() {
   const dappList = useSelector(dappsListSelector)
   const language = useSelector(currentLanguageSelector)
   const favoriteDappsById = useSelector(favoriteDappIdsSelector)
-  const [selectedFilter, setSelectedFilter] = useState({
-    id: 'all',
-    name: t('dappsScreen.allDapps'),
-  })
+  const [selectedFilter, setSelectedFilter] = useState('all')
+
+  const selectedFilterName = useMemo(() => {
+    const selectedCategory = categories.find((category) => category.id === selectedFilter)
+    return selectedCategory?.name ?? t('dappsScreen.allDapps')
+  }, [selectedFilter])
 
   const { onSelectDapp, ConfirmOpenDappBottomSheet } = useOpenDapp()
   const { onFavoriteDapp, DappFavoritedToast } = useDappFavoritedToast(sectionListRef)
@@ -81,8 +83,8 @@ export function DAppsExplorerScreenFilter() {
   }, [])
 
   const removeFilter = () => {
-    ValoraAnalytics.track(DappExplorerEvents.dapp_filter, { id: selectedFilter.id, remove: true })
-    setSelectedFilter({ id: 'all', name: t('dappsScreen.allDapps') })
+    ValoraAnalytics.track(DappExplorerEvents.dapp_filter, { id: selectedFilter, remove: true })
+    setSelectedFilter('all')
     horizontalScrollView.current?.scrollTo({ x: 0, animated: true })
   }
 
@@ -148,8 +150,9 @@ export function DAppsExplorerScreenFilter() {
                   >
                     {/* All Dapps Filter */}
                     <DappFilterChip
-                      chipFilter={{ id: 'all', name: t('dappsScreen.allDapps') }}
-                      isSelected={selectedFilter.id === 'all'}
+                      filterId={'all'}
+                      filterName={t('dappsScreen.allDapps')}
+                      isSelected={selectedFilter === 'all'}
                       onPress={setSelectedFilter}
                       style={styles.dappFilterAllChip}
                       key={'all'}
@@ -158,8 +161,9 @@ export function DAppsExplorerScreenFilter() {
                     {categories.map((category) => {
                       return (
                         <DappFilterChip
-                          chipFilter={{ id: category.id, name: category.name }}
-                          isSelected={selectedFilter.id === category.id}
+                          filterId={category.id}
+                          filterName={category.name}
+                          isSelected={selectedFilter === category.id}
                           onPress={setSelectedFilter}
                           key={category.id}
                         />
@@ -173,7 +177,8 @@ export function DAppsExplorerScreenFilter() {
                       {t('dappsScreen.favoriteDapps').toLocaleUpperCase(language ?? 'en-US')}
                     </Text>
                     <FavoriteDappsSection
-                      filter={selectedFilter}
+                      filterId={selectedFilter}
+                      filterName={selectedFilterName}
                       removeFilter={removeFilter}
                       onPressDapp={onSelectDapp}
                     />
@@ -207,7 +212,7 @@ export function DAppsExplorerScreenFilter() {
             testID="DAppsExplorerScreenFilter/DappsList"
             ListEmptyComponent={
               <NoResults
-                filter={selectedFilter}
+                filterName={selectedFilterName}
                 removeFilter={removeFilter}
                 testID="DAppsExplorerScreenFilter"
               />
@@ -225,18 +230,18 @@ export function DAppsExplorerScreenFilter() {
 
 function parseResultsIntoAll(
   dappList: any,
-  filter: DappFilter,
+  filterId: string,
   favoriteDappsById: string[]
 ): SectionData[] {
   // Prevent favorite dapps from showing up in the all dapps section
   const data =
-    filter.id === 'all'
+    filterId === 'all'
       ? dappList.filter((dapp: DappV2) => !favoriteDappsById.includes(dapp.id))
       : dappList.filter(
           (dapp: DappV2) =>
             !favoriteDappsById.includes(dapp.id) &&
             dapp.categories &&
-            dapp.categories.includes(filter.id)
+            dapp.categories.includes(filterId)
         )
   // Return empty array if no results
   if (data.length === 0) return []

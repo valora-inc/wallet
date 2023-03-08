@@ -3,22 +3,22 @@ import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import { DappExplorerEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Touchable from 'src/components/Touchable'
-import { DappFilter } from 'src/dapps/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
 interface DappFilterChip {
-  chipFilter: DappFilter
+  filterId: string
+  filterName: string
   isSelected: boolean
-  onPress: (filter: DappFilter) => void
+  onPress: (filterId: string) => void
   style?: StyleProp<ViewStyle>
 }
 
-function DappFilterChip({ chipFilter, isSelected, onPress, style }: DappFilterChip) {
+function DappFilterChip({ filterId, filterName, isSelected, onPress, style }: DappFilterChip) {
   const filterPress = () => {
-    ValoraAnalytics.track(DappExplorerEvents.dapp_filter, { id: chipFilter.id, remove: isSelected })
-    onPress(chipFilter)
+    ValoraAnalytics.track(DappExplorerEvents.dapp_filter, { id: filterId, remove: isSelected })
+    onPress(filterId)
   }
 
   return (
@@ -35,7 +35,7 @@ function DappFilterChip({ chipFilter, isSelected, onPress, style }: DappFilterCh
       <Touchable
         onPress={filterPress}
         style={styles.filterChip}
-        testID={`DAppsExplorerScreenFilter/FilterChip/${chipFilter.id}`}
+        testID={`DAppsExplorerScreenFilter/FilterChip/${filterId}`}
       >
         <Text
           style={[
@@ -43,7 +43,7 @@ function DappFilterChip({ chipFilter, isSelected, onPress, style }: DappFilterCh
             isSelected ? { color: colors.onboardingLightBlue } : { color: colors.onboardingBlue },
           ]}
         >
-          {chipFilter.name}
+          {filterName}
         </Text>
       </Touchable>
     </View>
