@@ -2,6 +2,14 @@
 
 exports[`QRCode renders correctly 1`] = `
 <RNCSafeAreaView
+  edges={
+    Array [
+      "bottom",
+      "left",
+      "right",
+      "top",
+    ]
+  }
   style={
     Object {
       "alignItems": "center",
@@ -126,7 +134,7 @@ exports[`QRCode renders correctly 1`] = `
               "lineHeight": 18,
             },
             Object {
-              "color": "#9CA4A9",
+              "color": "#666666",
             },
           ]
         }
@@ -164,6 +172,14 @@ exports[`QRCode renders correctly 1`] = `
 
 exports[`QRCode renders correctly 2`] = `
 <RNCSafeAreaView
+  edges={
+    Array [
+      "bottom",
+      "left",
+      "right",
+      "top",
+    ]
+  }
   style={
     Object {
       "alignItems": "center",
@@ -288,7 +304,7 @@ exports[`QRCode renders correctly 2`] = `
               "lineHeight": 18,
             },
             Object {
-              "color": "#9CA4A9",
+              "color": "#666666",
             },
           ]
         }

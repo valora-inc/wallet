@@ -181,7 +181,16 @@ Array [
       }
       swipeThreshold={100}
     >
-      <RNCSafeAreaView>
+      <RNCSafeAreaView
+        edges={
+          Array [
+            "bottom",
+            "left",
+            "right",
+            "top",
+          ]
+        }
+      >
         <View
           style={
             Array [
@@ -258,7 +267,7 @@ Array [
             style={
               Array [
                 Object {
-                  "backgroundColor": "#EDEEEF",
+                  "backgroundColor": "#E6E6E6",
                   "height": 1,
                   "width": "100%",
                 },
@@ -307,7 +316,7 @@ Array [
             style={
               Array [
                 Object {
-                  "backgroundColor": "#EDEEEF",
+                  "backgroundColor": "#E6E6E6",
                   "height": 1,
                   "width": "100%",
                 },
@@ -356,12 +365,12 @@ Array [
             style={
               Array [
                 Object {
-                  "backgroundColor": "#EDEEEF",
+                  "backgroundColor": "#E6E6E6",
                   "height": 1,
                   "width": "100%",
                 },
                 Object {
-                  "backgroundColor": "#B4B9BD",
+                  "backgroundColor": "#757575",
                 },
               ]
             }
