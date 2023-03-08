@@ -221,7 +221,7 @@ function VerificationStartScreen({
     <SafeAreaView style={styles.container} edges={['bottom']}>
       <KeyboardAwareScrollView
         style={[styles.scrollContainer, headerHeight ? { marginTop: headerHeight } : undefined]}
-        keyboardShouldPersistTaps="always"
+        keyboardShouldPersistTaps="never"
       >
         <Text style={styles.header} testID="PhoneVerificationHeader">
           {t('phoneVerificationScreen.title')}
