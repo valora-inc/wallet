@@ -3,7 +3,7 @@ import { throttle } from 'lodash'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet } from 'react-native'
+import { Keyboard, Platform, StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { defaultCountryCodeSelector } from 'src/account/selectors'
@@ -117,9 +117,27 @@ function Send({ route }: Props) {
       return
     }
 
+    // Dismiss the keyboard as soon as we know the verification status, so it does not
+    // interfere with the invite modal or bottom sheet.
+    Keyboard.dismiss()
+
     if (recipientVerificationStatus === RecipientVerificationStatus.UNVERIFIED) {
       setShowInviteModal(true)
       return
+    }
+
+    // Only show currency picker once we know that the recipient is verified,
+    // and only if the user is permitted to change tokens.
+    if (defaultTokenOverride) {
+      navigate(Screens.SendAmount, {
+        defaultTokenOverride,
+        forceTokenAddress,
+        recipient,
+        isOutgoingPaymentRequest,
+        origin: isOutgoingPaymentRequest ? SendOrigin.AppRequestFlow : SendOrigin.AppSendFlow,
+      })
+    } else {
+      setShowCurrencyPicker(true)
     }
   }, [recipient, recipientVerificationStatus])
 
@@ -135,20 +153,7 @@ function Send({ route }: Props) {
           usedSearchBar: searchQuery.length > 0,
         }
       )
-
       setSelectedRecipient(recipient)
-
-      if (defaultTokenOverride) {
-        navigate(Screens.SendAmount, {
-          defaultTokenOverride,
-          forceTokenAddress,
-          recipient,
-          isOutgoingPaymentRequest,
-          origin: isOutgoingPaymentRequest ? SendOrigin.AppRequestFlow : SendOrigin.AppSendFlow,
-        })
-      } else {
-        setShowCurrencyPicker(true)
-      }
     },
     [isOutgoingPaymentRequest, searchQuery]
   )

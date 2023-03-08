@@ -7,6 +7,7 @@ import { currentLanguageSelector } from 'src/i18n/selectors'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import { iconHitslop } from 'src/styles/variables'
 
 interface Props {
   filterName?: string
@@ -34,7 +35,7 @@ export function NoResults({ filterName, removeFilter, testID }: Props) {
       </Text>
       <View style={styles.removeFilterTouchableContainer}>
         <Touchable
-          hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+          hitSlop={iconHitslop}
           onPress={onPress}
           style={styles.removeFilterTouchable}
           testID={`${testID}/NoResults/RemoveFilter`}
@@ -68,7 +69,7 @@ const styles = StyleSheet.create({
   },
   removeFilterTouchable: {
     paddingVertical: 0,
-    paddingHorizontal: 8,
+    paddingHorizontal: Spacing.Smallest8,
     backgroundColor: Colors.gray2,
     borderRadius: 16,
   },

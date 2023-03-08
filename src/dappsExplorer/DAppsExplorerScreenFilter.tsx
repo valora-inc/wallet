@@ -182,13 +182,10 @@ export function DAppsExplorerScreenFilter() {
                       removeFilter={removeFilter}
                       onPressDapp={onSelectDapp}
                     />
+                    <Text style={styles.sectionTitle}>
+                      {t('dappsScreen.allDapps').toLocaleUpperCase(language ?? 'en-US')}
+                    </Text>
                   </>
-                )}
-
-                {dappFavoritesEnabled && (
-                  <Text style={styles.sectionTitle}>
-                    {t('dappsScreen.allDapps').toLocaleUpperCase(language ?? 'en-US')}
-                  </Text>
                 )}
               </>
             }

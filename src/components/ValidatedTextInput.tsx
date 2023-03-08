@@ -3,10 +3,10 @@
  */
 
 import { validateInput } from '@celo/phone-utils'
+import { ValidatorKind } from '@celo/utils/lib/inputValidation'
 import * as React from 'react'
 import { KeyboardType } from 'react-native'
 import TextInput, { TextInputProps } from 'src/components/TextInput'
-import { ValidatorKind } from '@celo/utils/lib/inputValidation'
 
 interface OwnProps {
   InputComponent: React.ComponentType<TextInputProps>
@@ -52,7 +52,16 @@ export type ValidatedTextInputProps = OwnProps & ValidatorProps & TextInputProps
 
 export default class ValidatedTextInput extends React.Component<ValidatedTextInputProps> {
   onChangeText = (input: string): void => {
-    const validated = validateInput(input, this.props)
+    // some countries support multiple phone number lengths. since we add the
+    // country code to a validated phone number in the UI, we need to omit the
+    // country code from subsequent validations if the user types a longer number.
+    // note: the countryCallingCode is a string like "+31"
+    const userInput =
+      this.props.validator === ValidatorKind.Phone
+        ? input.split(this.props.countryCallingCode)[1] ?? input
+        : input
+    const validated = validateInput(userInput, this.props)
+
     // Don't propagate change if new change is invalid
     if (this.props.value === validated) {
       return
