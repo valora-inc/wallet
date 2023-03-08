@@ -246,6 +246,7 @@ function VerificationStartScreen({
           testID="PhoneVerificationContinue"
         />
       </KeyboardAwareScrollView>
+      <KeyboardSpacer />
       <View style={styles.bottomButtonContainer}>
         <TextButton
           testID="PhoneVerificationLearnMore"
@@ -255,7 +256,6 @@ function VerificationStartScreen({
           {t('phoneVerificationScreen.learnMore.buttonLabel')}
         </TextButton>
       </View>
-      <KeyboardSpacer />
       <InfoBottomSheet
         isVisible={showLearnMoreDialog}
         title={t('phoneVerificationScreen.learnMore.title')}
@@ -297,6 +297,9 @@ const styles = StyleSheet.create({
   bottomButtonContainer: {
     padding: Spacing.Thick24,
     alignItems: 'center',
+
+    // borderWidth: 1,
+    // borderColor: colors.onboardingBrownLight,
   },
   learnMore: {
     color: colors.onboardingBrownLight,
