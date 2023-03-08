@@ -57,7 +57,7 @@ export async function triggerLogin() {
     })
     Logger.info(TAG, loginDetails)
   } catch (error) {
-    Logger.error(TAG, 'getTorusKey failed', error)
+    Logger.error(TAG, 'triggerLogin failed', error)
   }
 }
 
@@ -82,6 +82,7 @@ function SetupCloudBackup() {
         enableLogging: true,
         enableOneKey: false,
       })
+      Logger.info(TAG, 'initialized customauth')
     } catch (error) {
       Logger.error(TAG, 'error initializing customauth', error)
     }
