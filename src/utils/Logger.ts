@@ -46,8 +46,7 @@ class Logger {
     if (this.level < LoggerLevel.Warn) {
       return
     }
-    // console.warn would display yellow box, therefore, we will log to console.info instead.
-    console.info(`${tag}/${messages.join(', ')}`)
+    console.warn(`${tag}/${messages.join(', ')}`)
   }
 
   error = (
@@ -94,12 +93,9 @@ class Logger {
         Sentry.captureMessage(message, captureContext)
       }
     }
-    console.info(
+    console.error(
       `${tag} :: ${message} :: ${errorMsg} :: network connected ${this.isNetworkConnected}`
     )
-    if (__DEV__) {
-      console.info(console.trace())
-    }
   }
 
   setIsNetworkConnected = (isConnected: boolean) => {
