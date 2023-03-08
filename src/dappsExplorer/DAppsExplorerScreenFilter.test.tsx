@@ -59,7 +59,7 @@ describe(DAppsExplorerScreenFilter, () => {
     ])
   })
 
-  it('opens the screen directly when using a deeplink', () => {
+  it('renders correctly and fires the correct actions on press deep linked dapp', () => {
     const { getByTestId, queryByTestId } = render(
       <Provider store={defaultStore}>
         <DAppsExplorerScreenFilter />
