@@ -308,6 +308,58 @@ class Logger {
       writeLog(logLevel, message).catch((error) => console.error(error))
       originalNativeLoggingHook(message, logLevel)
     }
+
+    if (__DEV__) {
+      const colors = {
+        bold: [1, 22],
+        italic: [3, 23],
+        underline: [4, 24],
+        inverse: [7, 27],
+        white: [37, 39],
+        grey: [90, 39],
+        black: [30, 39],
+        blue: [34, 39],
+        cyan: [36, 39],
+        green: [32, 39],
+        magenta: [35, 39],
+        red: [31, 39],
+        yellow: [33, 39],
+      }
+
+      function stylize(str: string, color: keyof typeof colors) {
+        if (!str) {
+          return ''
+        }
+
+        if (!color) {
+          color = 'white'
+        }
+
+        const codes = colors[color]
+        if (codes) {
+          return '\x1B[' + codes[0] + 'm' + str + '\x1B[' + codes[1] + 'm'
+        }
+        return str
+      }
+
+      const HMRClient = require('react-native/Libraries/Utilities/HMRClient')
+      const RNDeviceInfo = require('react-native-device-info')
+      const originalHmrLog = HMRClient.log
+      HMRClient.log = (level: string, data: any[]) => {
+        // Padding so messages are aligned in the packager logs
+        // See levels in https://github.com/facebook/react-native/blob/7858a2147fde9f754034577932cb5b22983f658f/Libraries/Utilities/HMRClient.js#L30-L39
+        const leftPadding = Math.max(5 - level.length, 0)
+        originalHmrLog(level, [
+          [
+            ''.padStart(leftPadding),
+            `[${new Date().toISOString().substring(11)}]`,
+            // Add the model to help differentiate logs when running multiple devices
+            stylize(` ${RNDeviceInfo.getModel()}`, 'grey'),
+          ].join(''),
+          ...data,
+        ])
+      }
+    }
   }
 }
 
