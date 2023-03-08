@@ -9,6 +9,7 @@ import { Email } from 'src/account/emailSender'
 import { DEFAULT_SENTRY_NETWORK_ERRORS, LOGGER_LEVEL } from 'src/config'
 import { LoggerLevel } from 'src/utils/LoggerLevels'
 import { readFileChunked } from 'src/utils/readFile'
+import { stylize } from 'src/utils/stylize'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 
 class Logger {
@@ -310,38 +311,7 @@ class Logger {
     }
 
     if (__DEV__) {
-      const colors = {
-        bold: [1, 22],
-        italic: [3, 23],
-        underline: [4, 24],
-        inverse: [7, 27],
-        white: [37, 39],
-        grey: [90, 39],
-        black: [30, 39],
-        blue: [34, 39],
-        cyan: [36, 39],
-        green: [32, 39],
-        magenta: [35, 39],
-        red: [31, 39],
-        yellow: [33, 39],
-      }
-
-      function stylize(str: string, color: keyof typeof colors) {
-        if (!str) {
-          return ''
-        }
-
-        if (!color) {
-          color = 'white'
-        }
-
-        const codes = colors[color]
-        if (codes) {
-          return '\x1B[' + codes[0] + 'm' + str + '\x1B[' + codes[1] + 'm'
-        }
-        return str
-      }
-
+      // Add more info to the packager logs
       const HMRClient = require('react-native/Libraries/Utilities/HMRClient')
       const RNDeviceInfo = require('react-native-device-info')
       const originalHmrLog = HMRClient.log
