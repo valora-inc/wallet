@@ -459,18 +459,20 @@ exports[`renders correctly with backup completed 1`] = `
           </View>
         </View>
         <View
+          accessibilityLabel=""
           style={
             Object {
               "alignContent": "center",
               "backgroundColor": "#F1F0EB",
-              "borderColor": "#2E3338",
-              "borderRadius": 4,
-              "borderWidth": 1,
+              "borderRadius": 8,
+              "flexDirection": "row",
+              "flexWrap": "wrap",
               "justifyContent": "center",
               "marginTop": 8,
-              "padding": 16,
+              "padding": 8,
             }
           }
+          testID="AccountKeyWordsContainer"
         />
       </View>
       <Text
@@ -950,18 +952,20 @@ exports[`renders correctly with backup not completed 1`] = `
           </View>
         </View>
         <View
+          accessibilityLabel=""
           style={
             Object {
               "alignContent": "center",
               "backgroundColor": "#F1F0EB",
-              "borderColor": "#2E3338",
-              "borderRadius": 4,
-              "borderWidth": 1,
+              "borderRadius": 8,
+              "flexDirection": "row",
+              "flexWrap": "wrap",
               "justifyContent": "center",
               "marginTop": 8,
-              "padding": 16,
+              "padding": 8,
             }
           }
+          testID="AccountKeyWordsContainer"
         />
       </View>
       <Text
@@ -1559,18 +1563,20 @@ exports[`still renders when mnemonic doesnt show up 1`] = `
           </View>
         </View>
         <View
+          accessibilityLabel=""
           style={
             Object {
               "alignContent": "center",
               "backgroundColor": "#F1F0EB",
-              "borderColor": "#2E3338",
-              "borderRadius": 4,
-              "borderWidth": 1,
+              "borderRadius": 8,
+              "flexDirection": "row",
+              "flexWrap": "wrap",
               "justifyContent": "center",
               "marginTop": 8,
-              "padding": 16,
+              "padding": 8,
             }
           }
+          testID="AccountKeyWordsContainer"
         />
       </View>
       <Text

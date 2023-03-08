@@ -1550,7 +1550,7 @@
     }
   },
   "celoNews": {
-    "headerTitle": "Novedadez",
+    "headerTitle": "Novedades",
     "headerDescription": "Entérate sobre casos de uso, proyectos piloto y actualizaciones técnicas en el blog de Celo.",
     "readMoreButtonText": "Lee más en el blog",
     "loadingError": "Lo sentimos, no fue posible cargar las últimas novedades. Vuelve a intentarlo más tarde.",
