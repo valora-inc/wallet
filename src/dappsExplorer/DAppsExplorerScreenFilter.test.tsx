@@ -39,19 +39,19 @@ describe(DAppsExplorerScreenFilter, () => {
   })
 
   it('renders correctly and fires the correct actions on press dapp', () => {
-    const { getByTestId, queryByTestId } = render(
+    const { getByText, queryByText } = render(
       <Provider store={defaultStore}>
         <DAppsExplorerScreenFilter />
       </Provider>
     )
 
     expect(defaultStore.getActions()).toEqual([fetchDappsList()])
-    expect(getByTestId('Dapp/dapp1')).toBeTruthy()
-    expect(getByTestId('Dapp/dapp2')).toBeTruthy()
-    expect(queryByTestId('FeaturedDapp')).toBeFalsy()
+    expect(queryByText('featuredDapp')).toBeFalsy()
+    expect(getByText('Dapp 1')).toBeTruthy()
+    expect(getByText('Dapp 2')).toBeTruthy()
 
-    fireEvent.press(getByTestId('Dapp/dapp1'))
-    fireEvent.press(getByTestId('ConfirmDappButton'))
+    fireEvent.press(getByText('Dapp 1'))
+    fireEvent.press(getByText(`dappsScreenBottomSheet.button, {"dappName":"Dapp 1"}`))
 
     expect(defaultStore.getActions()).toEqual([
       fetchDappsList(),
@@ -60,18 +60,18 @@ describe(DAppsExplorerScreenFilter, () => {
   })
 
   it('renders correctly and fires the correct actions on press deep linked dapp', () => {
-    const { getByTestId, queryByTestId } = render(
+    const { getByText, queryByText } = render(
       <Provider store={defaultStore}>
         <DAppsExplorerScreenFilter />
       </Provider>
     )
 
     expect(defaultStore.getActions()).toEqual([fetchDappsList()])
-    expect(getByTestId('Dapp/dapp1')).toBeTruthy()
-    expect(getByTestId('Dapp/dapp2')).toBeTruthy()
-    expect(queryByTestId('FeaturedDapp')).toBeFalsy()
+    expect(getByText('Dapp 1')).toBeTruthy()
+    expect(getByText('Dapp 2')).toBeTruthy()
+    expect(queryByText('featuredDapp')).toBeFalsy()
 
-    fireEvent.press(getByTestId('Dapp/dapp2'))
+    fireEvent.press(getByText('Dapp 2'))
 
     expect(defaultStore.getActions()).toEqual([
       fetchDappsList(),
@@ -80,13 +80,13 @@ describe(DAppsExplorerScreenFilter, () => {
   })
 
   it('displays the dapps disclaimer bottom sheet when selecting a dapp', () => {
-    const { getByTestId, getByText } = render(
+    const { getByText } = render(
       <Provider store={defaultStore}>
         <DAppsExplorerScreenFilter />
       </Provider>
     )
 
-    fireEvent.press(getByTestId('Dapp/dapp1'))
+    fireEvent.press(getByText('Dapp 1'))
 
     expect(getByText(`dappsScreenBottomSheet.title, {"dappName":"Dapp 1"}`)).toBeTruthy()
     expect(defaultStore.getActions()).toEqual([
@@ -110,7 +110,7 @@ describe(DAppsExplorerScreenFilter, () => {
         dappsMinimalDisclaimerEnabled: true,
       },
     })
-    const { getByTestId, getByText, queryByText } = render(
+    const { getByText, queryByText } = render(
       <Provider store={store}>
         <DAppsExplorerScreenFilter />
       </Provider>
@@ -118,7 +118,7 @@ describe(DAppsExplorerScreenFilter, () => {
 
     expect(getByText('dappsDisclaimerAllDapps')).toBeTruthy()
 
-    fireEvent.press(getByTestId('Dapp/dapp1'))
+    fireEvent.press(getByText('Dapp 1'))
 
     expect(queryByText(`dappsScreenBottomSheet.title, {"dappName":"Dapp 1"}`)).toBeFalsy()
     expect(store.getActions()).toEqual([
@@ -260,16 +260,16 @@ describe(DAppsExplorerScreenFilter, () => {
           favoriteDappIds: ['dapp1'],
         },
       })
-      const { getByTestId } = render(
+      const { getByTestId, getByText } = render(
         <Provider store={store}>
           <DAppsExplorerScreenFilter />
         </Provider>
       )
 
       // Filter Chips displayed
-      expect(getByTestId('DAppsExplorerScreenFilter/FilterChip/all')).toBeTruthy()
-      expect(getByTestId('DAppsExplorerScreenFilter/FilterChip/1')).toBeTruthy()
-      expect(getByTestId('DAppsExplorerScreenFilter/FilterChip/2')).toBeTruthy()
+      expect(getByText('dappsScreen.allDapps')).toBeTruthy()
+      expect(getByText(dappsCategories[0].name)).toBeTruthy()
+      expect(getByText(dappsCategories[1].name)).toBeTruthy()
 
       // Displays favorited dapp in Favorites section
       const favoritesSection = getByTestId('DAppsExplorerScreen/FavoriteDappsSection')
@@ -282,7 +282,6 @@ describe(DAppsExplorerScreenFilter, () => {
       const allDappsSection = getByTestId('DAppsExplorerScreenFilter/DappsList')
       expect(within(allDappsSection).getByText(dappsList[1].name)).toBeTruthy()
       expect(within(allDappsSection).getByText(dappsList[1].description)).toBeTruthy()
-      // TODO: debug why we can't check that dapp 1 is not in the list
     })
 
     it('renders correctly when there are filters applied', () => {
@@ -296,14 +295,14 @@ describe(DAppsExplorerScreenFilter, () => {
           favoriteDappIds: ['dapp1'],
         },
       })
-      const { getByTestId } = render(
+      const { getByTestId, getByText } = render(
         <Provider store={store}>
           <DAppsExplorerScreenFilter />
         </Provider>
       )
 
       // Tap on category 2 filter
-      fireEvent.press(getByTestId('DAppsExplorerScreenFilter/FilterChip/2'))
+      fireEvent.press(getByText(dappsCategories[1].name))
 
       // Favorite Section should show no results
       expect(getByTestId('FavoriteDappsSection/NoResults')).toBeTruthy()
@@ -328,7 +327,7 @@ describe(DAppsExplorerScreenFilter, () => {
           favoriteDappIds: ['dapp1'],
         },
       })
-      const { getByTestId } = render(
+      const { getByText } = render(
         <Provider store={store}>
           <DAppsExplorerScreenFilter />
         </Provider>
@@ -338,7 +337,7 @@ describe(DAppsExplorerScreenFilter, () => {
       jest.clearAllMocks()
 
       // Tap on category 2 filter
-      fireEvent.press(getByTestId('DAppsExplorerScreenFilter/FilterChip/2'))
+      fireEvent.press(getByText(dappsCategories[1].name))
 
       expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(DappExplorerEvents.dapp_filter, {
@@ -358,7 +357,7 @@ describe(DAppsExplorerScreenFilter, () => {
           favoriteDappIds: ['dapp2'],
         },
       })
-      const { getByTestId } = render(
+      const { getByTestId, getByText } = render(
         <Provider store={store}>
           <DAppsExplorerScreenFilter />
         </Provider>
@@ -368,7 +367,7 @@ describe(DAppsExplorerScreenFilter, () => {
       jest.clearAllMocks()
 
       // Tap on category 2 filter
-      fireEvent.press(getByTestId('DAppsExplorerScreenFilter/FilterChip/2'))
+      fireEvent.press(getByText(dappsCategories[1].name))
 
       // Tap on remove filters from all section
       fireEvent.press(getByTestId('DAppsExplorerScreenFilter/NoResults/RemoveFilter'))
@@ -396,7 +395,7 @@ describe(DAppsExplorerScreenFilter, () => {
           favoriteDappIds: ['dapp1'],
         },
       })
-      const { getByTestId } = render(
+      const { getByTestId, getByText } = render(
         <Provider store={store}>
           <DAppsExplorerScreenFilter />
         </Provider>
@@ -406,7 +405,7 @@ describe(DAppsExplorerScreenFilter, () => {
       jest.clearAllMocks()
 
       // Tap on category 2 filter
-      fireEvent.press(getByTestId('DAppsExplorerScreenFilter/FilterChip/2'))
+      fireEvent.press(getByText(dappsCategories[1].name))
 
       // Tap on remove filters from all section
       fireEvent.press(getByTestId('FavoriteDappsSection/NoResults/RemoveFilter'))
