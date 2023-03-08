@@ -297,9 +297,6 @@ const styles = StyleSheet.create({
   bottomButtonContainer: {
     padding: Spacing.Thick24,
     alignItems: 'center',
-
-    // borderWidth: 1,
-    // borderColor: colors.onboardingBrownLight,
   },
   learnMore: {
     color: colors.onboardingBrownLight,
