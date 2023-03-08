@@ -27,7 +27,6 @@ export default SecureSend = () => {
     // Look for an address and tap on it.
     await element(by.id('SearchInput')).tap()
     await element(by.id('SearchInput')).replaceText(PHONE_NUMBER)
-    await element(by.id('SearchInput')).tapReturnKey()
     await element(by.id('RecipientItem')).tap()
 
     // Select the currency

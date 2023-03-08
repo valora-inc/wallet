@@ -3,7 +3,7 @@ import { throttle } from 'lodash'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet } from 'react-native'
+import { Keyboard, Platform, StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { defaultCountryCodeSelector } from 'src/account/selectors'
@@ -116,6 +116,10 @@ function Send({ route }: Props) {
     if (!recipient || recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN) {
       return
     }
+
+    // Dismiss the keyboard as soon as we know the verification status, so it does not
+    // interfere with the invite modal or bottom sheet.
+    Keyboard.dismiss()
 
     if (recipientVerificationStatus === RecipientVerificationStatus.UNVERIFIED) {
       setShowInviteModal(true)
