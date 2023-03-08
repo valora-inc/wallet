@@ -121,6 +121,20 @@ function Send({ route }: Props) {
       setShowInviteModal(true)
       return
     }
+
+    // Only show currency picker once we know that the recipient is verified,
+    // and only if the user is permitted to change tokens.
+    if (defaultTokenOverride) {
+      navigate(Screens.SendAmount, {
+        defaultTokenOverride,
+        forceTokenAddress,
+        recipient,
+        isOutgoingPaymentRequest,
+        origin: isOutgoingPaymentRequest ? SendOrigin.AppRequestFlow : SendOrigin.AppSendFlow,
+      })
+    } else {
+      setShowCurrencyPicker(true)
+    }
   }, [recipient, recipientVerificationStatus])
 
   const onSelectRecipient = useCallback(
@@ -135,20 +149,7 @@ function Send({ route }: Props) {
           usedSearchBar: searchQuery.length > 0,
         }
       )
-
       setSelectedRecipient(recipient)
-
-      if (defaultTokenOverride) {
-        navigate(Screens.SendAmount, {
-          defaultTokenOverride,
-          forceTokenAddress,
-          recipient,
-          isOutgoingPaymentRequest,
-          origin: isOutgoingPaymentRequest ? SendOrigin.AppRequestFlow : SendOrigin.AppSendFlow,
-        })
-      } else {
-        setShowCurrencyPicker(true)
-      }
     },
     [isOutgoingPaymentRequest, searchQuery]
   )
