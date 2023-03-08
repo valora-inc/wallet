@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import { favoriteDappsSelector } from 'src/dapps/selectors'
-import { ActiveDapp, DappFilter, DappSection, isDappV2 } from 'src/dapps/types'
+import { ActiveDapp, DappSection, isDappV2 } from 'src/dapps/types'
 import DappCard from 'src/dappsExplorer/DappCard'
 import { NoResults } from 'src/dappsExplorer/NoResults'
 import StarIllustration from 'src/icons/StarIllustration'
@@ -13,11 +13,12 @@ import { Spacing } from 'src/styles/styles'
 
 interface Props {
   onPressDapp: (dapp: ActiveDapp) => void
-  filter: DappFilter | null
+  filterName?: string
+  filterId?: string
   removeFilter: () => void
 }
 
-export function FavoriteDappsSection({ onPressDapp, filter, removeFilter }: Props) {
+export function FavoriteDappsSection({ onPressDapp, filterName, filterId, removeFilter }: Props) {
   const { t } = useTranslation()
   const favoriteDapps = useSelector(favoriteDappsSelector)
 
@@ -38,7 +39,7 @@ export function FavoriteDappsSection({ onPressDapp, filter, removeFilter }: Prop
   // Favorites dapps matching category filter
 
   const favoritedDappsFiltered = favoriteDapps.filter(
-    (dapp) => isDappV2(dapp) && (dapp.categories.includes(filter?.id ?? '') || filter?.id === 'all')
+    (dapp) => isDappV2(dapp) && (dapp.categories.includes(filterId ?? '') || filterId === 'all')
   )
 
   // Matching favorite dapp(s) found
@@ -58,7 +59,9 @@ export function FavoriteDappsSection({ onPressDapp, filter, removeFilter }: Prop
   }
 
   // No matching favorite dapp(s) found new return no results section
-  return <NoResults testID="FavoriteDappsSection" filter={filter} removeFilter={removeFilter} />
+  return (
+    <NoResults testID="FavoriteDappsSection" filterName={filterName} removeFilter={removeFilter} />
+  )
 }
 
 const styles = StyleSheet.create({

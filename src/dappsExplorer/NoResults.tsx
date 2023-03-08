@@ -3,19 +3,18 @@ import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import Touchable from 'src/components/Touchable'
-import { DappFilter } from 'src/dapps/types'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
 interface Props {
-  filter: DappFilter | null
+  filterName?: string
   removeFilter: () => void
   testID: string
 }
 
-export function NoResults({ filter, removeFilter, testID }: Props) {
+export function NoResults({ filterName, removeFilter, testID }: Props) {
   const { t } = useTranslation()
   const language = useSelector(currentLanguageSelector)
 
@@ -28,7 +27,7 @@ export function NoResults({ filter, removeFilter, testID }: Props) {
       <Text style={styles.filterAppliedText}>
         <Trans
           i18nKey={'dappsScreen.emptyResults.message'}
-          tOptions={{ filter: filter?.name.toLocaleUpperCase(language ?? 'en-US') }}
+          tOptions={{ filter: filterName?.toLocaleUpperCase(language ?? 'en-US') }}
         >
           <Text style={styles.filterText} />
         </Trans>
