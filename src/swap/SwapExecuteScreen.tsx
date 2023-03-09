@@ -198,11 +198,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     height: '100%',
   },
-  activityIndicator: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 16,
-  },
   text: {
     ...fontStyles.h2,
     marginBottom: 16,
