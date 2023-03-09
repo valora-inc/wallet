@@ -1217,7 +1217,7 @@
   },
   "dappsScreen": {
     "title": "Dapps",
-    "message": "Finde heraus, wie du dein Krypto nutzen kannst",
+    "message": "Erforsche Möglichkeiten, dein Vermögen zu nutzen",
     "errorMessage": "Beim Laden Dapps ist ein Fehler aufgetreten",
     "featuredDapp": "Empfohlen",
     "allDapps": "Alle",
@@ -1229,6 +1229,10 @@
     "favoritedDappToast": {
       "message": "Als Favorit hinzugefügt",
       "labelCTA": "Favoriten anzeigen"
+    },
+    "emptyResults": {
+      "message": "<0>{{filter}}</0> Filter angewendet",
+      "removeFilter": "Filter entfernen"
     }
   },
   "dappsScreenHelpDialog": {
