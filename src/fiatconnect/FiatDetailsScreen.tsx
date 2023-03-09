@@ -52,8 +52,8 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
   const { flow, quote } = route.params
   const sendingFiatAccountStatus = useSelector(sendingFiatAccountStatusSelector)
   const [validInputs, setValidInputs] = useState(false)
-  const [errors, setErrors] = useState(new Map<number, string | undefined>())
-  const fieldValues = useRef<string[]>([])
+  const [errors, setErrors] = useState(new Map<string, string | undefined>())
+  const fieldNamesToValues = useRef<Record<string, string>>({})
   const { countryCodeAlpha2 } = useSelector(userLocationDataSelector)
   const dispatch = useDispatch()
   const schemaCountryOverrides = useSelector(schemaCountryOverridesSelector)
@@ -135,9 +135,7 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
 
   const formFields = useMemo(() => {
     const fields = Object.values(schema).filter(isFormFieldParam)
-    for (let i = 0; i < fields.length; i++) {
-      fieldValues.current.push('')
-    }
+    fields.forEach((field) => (fieldNamesToValues.current[field.name] = ''))
     return fields
   }, [fiatAccountSchema])
 
@@ -154,9 +152,9 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
 
     if (validInputs) {
       const body: Record<string, any> = {}
-      for (let i = 0; i < formFields.length; i++) {
-        body[formFields[i].name] = fieldValues.current[i]
-      }
+      formFields.forEach((formField) => {
+        body[formField.name] = fieldNamesToValues.current[formField.name]
+      })
 
       implicitParameters.forEach((param) => {
         body[param.name] = param.value
@@ -177,15 +175,20 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
 
   const validateInput = () => {
     setValidInputs(false)
-    const newErrorMap = new Map<number, string | undefined>()
+    const newErrorMap = new Map<string, string | undefined>()
 
-    formFields.forEach((field, index) => {
+    formFields.forEach((field) => {
       if (field.format) {
-        fieldValues.current[index] = field.format(fieldValues.current[index])
+        fieldNamesToValues.current[field.name] = field.format(
+          fieldNamesToValues.current[field.name]
+        )
       }
-      const { isValid, errorMessage } = field.validate(fieldValues.current[index]?.trim())
+      const { isValid, errorMessage } = field.validate(
+        fieldNamesToValues.current[field.name]?.trim(),
+        fieldNamesToValues.current
+      )
       if (!isValid) {
-        newErrorMap.set(index, errorMessage)
+        newErrorMap.set(field.name, errorMessage)
       }
     })
 
@@ -193,8 +196,8 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
     setValidInputs(newErrorMap.size === 0)
   }
 
-  const setInputValue = (value: string, index: number) => {
-    fieldValues.current[index] = value
+  const setInputValue = (fieldName: string, value: string) => {
+    fieldNamesToValues.current[fieldName] = value
     validateInput()
   }
 
@@ -217,17 +220,17 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
         <SafeAreaView style={styles.container} edges={['bottom']}>
           <KeyboardAwareScrollView contentContainerStyle={styles.contentContainers}>
             <View>
-              {formFields.map((field, index) => (
+              {formFields.map((field) => (
                 <FormField
-                  key={`${field}-${index}`}
+                  key={field.name}
                   field={field}
-                  index={index}
-                  value={fieldValues.current[index]}
-                  errorMessage={errors.get(index)}
-                  onChange={(value) => {
-                    setInputValue(value, index)
+                  value={fieldNamesToValues.current[field.name]}
+                  errorMessage={errors.get(field.name)}
+                  onChange={(fieldName, value) => {
+                    setInputValue(fieldName, value)
                   }}
                   allowedValues={quote.getFiatAccountSchemaAllowedValues(field.name)}
+                  fieldNamesToValues={fieldNamesToValues.current}
                 />
               ))}
             </View>
@@ -248,18 +251,18 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
 
 function FormField({
   field,
-  index,
   value,
   allowedValues,
   errorMessage,
   onChange,
+  fieldNamesToValues,
 }: {
   field: FormFieldParam
-  index: number
   value: string
   allowedValues?: string[]
   errorMessage: string | undefined
-  onChange: (value: any) => void
+  onChange: (fieldName: string, value: any) => void
+  fieldNamesToValues: Record<string, string>
 }) {
   const { t } = useTranslation()
   const [showError, setShowError] = useState(false)
@@ -284,13 +287,17 @@ function FormField({
         setShowError(true)
       }, SHOW_ERROR_DELAY_MS)
     }
-    onChange(value)
+    onChange(field.name, value)
+  }
+
+  if (!field.isVisible?.(fieldNamesToValues)) {
+    return <></>
   }
 
   return (
-    <View style={styles.inputView} key={`inputField-${index}`}>
+    <View style={styles.inputView} key={`inputField-${field.name}`}>
       <View style={styles.row}>
-        <Text style={styles.inputLabel}>{field.label}</Text>
+        {field.label && <Text style={styles.inputLabel}>{field.label}</Text>}
         {field.infoDialog && (
           <TouchableOpacity
             testID={`infoIcon-${field.name}`}
