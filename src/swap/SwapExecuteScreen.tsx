@@ -5,6 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useSelector } from 'react-redux'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import Dialog from 'src/components/Dialog'
+import Touchable from 'src/components/Touchable'
 import GreenLoadingSpinner from 'src/icons/GreenLoadingSpinner'
 import GreenLoadingSpinnerToCheck from 'src/icons/GreenLoadingSpinnerToCheck'
 import RedLoadingSpinnerToInfo from 'src/icons/RedLoadingSpinnerToInfo'
@@ -109,11 +110,13 @@ export function SwapExecuteScreen() {
           <View>
             <Text style={styles.text}>{t('SwapExecuteScreen.swapErrorSection.title')}</Text>
             <Text style={styles.subText}>{t('SwapExecuteScreen.swapErrorSection.subtitle')}</Text>
-            <Text style={styles.contactSupportText} onPress={navigateToSupport}>
-              <Trans i18nKey="SwapExecuteScreen.swapErrorSection.contactSupport">
-                <Text style={styles.contactSupportLink} />
-              </Trans>
-            </Text>
+            <Touchable onPress={navigateToSupport}>
+              <Text style={styles.contactSupportText}>
+                <Trans i18nKey="SwapExecuteScreen.swapErrorSection.contactSupport">
+                  <Text style={styles.contactSupportLink} />
+                </Trans>
+              </Text>
+            </Touchable>
           </View>
         )
       case SwapState.PRICE_CHANGE:
