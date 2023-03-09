@@ -40,7 +40,8 @@ import AccountNumber from 'src/components/AccountNumber'
 import ContactCircleSelf from 'src/components/ContactCircleSelf'
 import PhoneNumberWithFlag from 'src/components/PhoneNumberWithFlag'
 import { RewardsScreenOrigin } from 'src/consumerIncentives/analyticsEventsTracker'
-import { dappsListApiUrlSelector } from 'src/dapps/selectors'
+import { dappsFilterEnabledSelector, dappsListApiUrlSelector } from 'src/dapps/selectors'
+import DAppsExplorerScreenFilter from 'src/dappsExplorer/DAppsExplorerScreenFilter'
 import DAppsExplorerScreenLegacy from 'src/dappsExplorer/DAppsExplorerScreenLegacy'
 import { fetchExchangeRate } from 'src/exchange/actions'
 import ExchangeHomeScreen from 'src/exchange/ExchangeHomeScreen'
@@ -197,6 +198,7 @@ export default function DrawerNavigator() {
   const { t } = useTranslation()
   const isCeloEducationComplete = useSelector(celoEducationCompletedSelector)
   const dappsListUrl = useSelector(dappsListApiUrlSelector)
+  const dappsFilterEnabled = useSelector(dappsFilterEnabledSelector)
 
   const shouldShowRecoveryPhraseInSettings = useSelector(shouldShowRecoveryPhraseInSettingsSelector)
   const backupCompleted = useSelector(backupCompletedSelector)
@@ -264,7 +266,7 @@ export default function DrawerNavigator() {
       {!!dappsListUrl && (
         <Drawer.Screen
           name={Screens.DAppsExplorerScreen}
-          component={DAppsExplorerScreenLegacy}
+          component={dappsFilterEnabled ? DAppsExplorerScreenFilter : DAppsExplorerScreenLegacy}
           options={{
             title: t('dappsScreen.title'),
             drawerIcon: DappsExplorer,
