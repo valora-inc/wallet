@@ -36,6 +36,9 @@ export default Send = () => {
 
     it('Then tapping a recipient should show bottom sheet', async () => {
       await element(by.text('0xe5f5...8846')).atIndex(0).tap()
+      await waitFor(element(by.id('CELOBalance')))
+        .toBeVisible()
+        .withTimeout(30 * 1000)
       await expect(element(by.id('CELOBalance'))).toBeVisible()
       await expect(element(by.id('cUSDBalance'))).toBeVisible()
       await expect(element(by.id('cEURBalance'))).toBeVisible()
