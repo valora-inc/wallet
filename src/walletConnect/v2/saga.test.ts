@@ -128,6 +128,7 @@ describe('applyIconFixIfNeeded', () => {
       async ({ metadata, expected }) => {
         const sessionProposal = createSessionProposal(metadata as SignClientTypes.Metadata)
         _applyIconFixIfNeeded(sessionProposal)
+        // eslint-disable-next-line jest/no-standalone-expect
         expect(sessionProposal.params.proposer.metadata?.icons).toStrictEqual(expected)
       }
     )
@@ -139,6 +140,7 @@ describe('applyIconFixIfNeeded', () => {
       async ({ metadata, expected }) => {
         const session = createSession(metadata as SignClientTypes.Metadata)
         _applyIconFixIfNeeded(session)
+        // eslint-disable-next-line jest/no-standalone-expect
         expect(session.peer.metadata?.icons).toStrictEqual(expected)
       }
     )
