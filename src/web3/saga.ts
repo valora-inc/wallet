@@ -4,7 +4,11 @@ import { privateKeyToAddress } from '@celo/utils/lib/address'
 import { RpcWalletErrors } from '@celo/wallet-rpc/lib/rpc-wallet'
 import * as bip39 from 'react-native-bip39'
 import { call, delay, put, race, select, spawn, take, takeLatest } from 'redux-saga/effects'
-import { setAccountCreationTime, setPincodeSuccess, setPromptForno } from 'src/account/actions'
+import {
+  Actions as AccountActions,
+  setAccountCreationTime,
+  setPromptForno,
+} from 'src/account/actions'
 import { generateSignedMessage } from 'src/account/saga'
 import { promptFornoIfNeededSelector } from 'src/account/selectors'
 import { showError } from 'src/alert/actions'
@@ -246,20 +250,13 @@ export function* createAndAssignCapsuleAccount() {
     let account: string
     try {
       yield call([wallet, wallet.initSessionManagement])
-      account = yield call([wallet, wallet.createAccount], (recoveryKeyshare) =>
-        Logger.debug(
-          TAG,
-          '@createAndAssignCapsuleAccount',
-          `Generated recovery keyshare (keyshare=${recoveryKeyshare})`
-        )
-      )
+      account = yield call([wallet, wallet.createAccount], transmitRecoveryKeyshare)
       const passcode: string = yield call(getPasswordSaga, account, false, true)
       if (!passcode) {
-        yield take(setPincodeSuccess)
+        yield take(AccountActions.SET_PINCODE_SUCCESS)
       }
-      void wallet.getKeyshare(account).then((privateKeyShare) => {
-        void storeCapsuleKeyShare(privateKeyShare, account)
-      })
+      const userKeyshare: string = yield call([wallet, wallet.getKeyshare], account)
+      yield call(storeCapsuleKeyShare, userKeyshare, account)
       Logger.debug(TAG + '@createAndAssignCapsuleAccount', `Added to wallet: ${account}`)
       yield put(setAccount(account))
       yield put(setAccountCreationTime(Date.now()))
@@ -337,6 +334,20 @@ export function* getOrCreateAccount() {
   }
 }
 
+export function* refreshAndResetKeyshares() {
+  Logger.debug(TAG, '@refreshAndResetKeyshares', 'Started')
+  try {
+    const account: string = yield call(getWalletAddress)
+    const wallet: ZedWallet = yield call(getWallet)
+    const recoveryKeyshare: string = yield call([wallet, wallet.getRecoveryShare], account)
+    Logger.debug(TAG, '@refreshAndResetKeyshares', recoveryKeyshare)
+    yield call([wallet, wallet.refresh], recoveryKeyshare, transmitRecoveryKeyshare)
+    navigate(Screens.WalletHome)
+  } catch (error: any) {
+    Logger.error(`${TAG}@refreshAndResetKeyshare`, 'Failed to refresh keyshares', error)
+  }
+}
+
 /**
  * Get an address associated with the user account.
  *
@@ -366,6 +377,20 @@ function* getAddress<T extends { address: string | null }>({
       return actionEffect.address
     }
   }
+}
+
+export const transmitRecoveryKeyshare = async (keyshare: string) => {
+  Logger.debug(TAG, '@transmitRecoveryKeyshare', 'Transmission of recovery keyshare started')
+  try {
+    Logger.debug(TAG, '@transmitRecoveryKeyshare', 'Transmitting', keyshare)
+  } catch (error: any) {
+    Logger.error(
+      TAG + '@transmitRecoveryKeyshare',
+      'Transmission of recovery keyshare failed',
+      error
+    )
+  }
+  Logger.debug(TAG, '@transmitRecoveryKeyshare', 'Transmission of recovery keyshare completed')
 }
 
 // Wait for account to exist and then return it

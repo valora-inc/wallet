@@ -1,6 +1,10 @@
 import { createUser, verifyEmail } from '@usecapsule/react-native-wallet'
 import { CapsuleBaseWallet } from '@usecapsule/react-native-wallet/src/CapsuleWallet'
-import { login, verifyLogin } from '@usecapsule/react-native-wallet/src/helpers'
+import {
+  login,
+  recoveryVerification,
+  verifyLogin,
+} from '@usecapsule/react-native-wallet/src/helpers'
 import { uploadKeyshare } from '@usecapsule/react-native-wallet/src/transmissionUtils'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -10,7 +14,7 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import Logger from 'src/utils/Logger'
-import { setCapsuleIdentity } from 'src/web3/actions'
+import { refreshCapsuleKeyshare, setCapsuleIdentity } from 'src/web3/actions'
 import { getWalletAsync } from 'src/web3/contracts'
 import { accountAddressSelector, capsuleAccountSelector } from 'src/web3/selectors'
 
@@ -89,6 +93,20 @@ export const useCapsule = () => {
     }
   }
 
+  const refreshRecoveryKeyshare = async (code: string) => {
+    try {
+      Logger.debug(TAG, '@refreshRecoveryKeyshare', 'Start Verification', cachedId, code)
+      if (!cachedId || !cachedEmail) {
+        Logger.debug(TAG, '@refreshRecoveryKeyshare', 'Email not cached')
+        return
+      }
+      await recoveryVerification(cachedEmail, code)
+      dispatch(refreshCapsuleKeyshare())
+    } catch (error: any) {
+      Logger.debug(TAG, '@refreshRecoveryKeyshare Failed', error)
+    }
+  }
+
   return {
     authenticate,
     verify,
@@ -96,5 +114,6 @@ export const useCapsule = () => {
     loginWithKeyshare,
     encryptAndShareSecret,
     userKeyshareSecret: cachedSecret,
+    refreshRecoveryKeyshare,
   }
 }

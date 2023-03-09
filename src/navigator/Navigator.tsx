@@ -30,6 +30,8 @@ import BackupPhrase, { navOptionsForBackupPhrase } from 'src/backup/BackupPhrase
 import BackupQuiz, { navOptionsForQuiz } from 'src/backup/BackupQuiz'
 import KeyshareEducation from 'src/backup/mpc/KeyshareEducation'
 import ManageKeyshares from 'src/backup/mpc/ManageKeyshares'
+import RecoveryKeyshareDisplay from 'src/backup/RecoveryKeyshare'
+import RecoveryVerificationScreen from 'src/backup/RecoveryVerificationScreen'
 import BackButton from 'src/components/BackButton'
 import CancelButton from 'src/components/CancelButton'
 import ConsumerIncentivesHomeScreen from 'src/consumerIncentives/ConsumerIncentivesHomeScreen'
@@ -99,7 +101,6 @@ import PaymentRequestUnavailable, {
 import PincodeEnter from 'src/pincode/PincodeEnter'
 import PincodeSet from 'src/pincode/PincodeSet'
 import KeyshareScanner from 'src/qrcode/KeyshareScanner'
-import RecoveryKeyshareDisplay from 'src/qrcode/RecoveryKeyshareCode'
 import UserKeyshareDisplay from 'src/qrcode/UserKeyshareCode'
 import ReceiveAmount from 'src/receive'
 import { RootState } from 'src/redux/reducers'
@@ -542,9 +543,14 @@ const backupScreens = (Navigator: typeof Stack) => (
       options={UserKeyshareDisplay.navigationOptions}
     />
     <Navigator.Screen
-      name={Screens.RecoveryKeyshareCode}
+      name={Screens.RecoveryKeyshare}
       component={RecoveryKeyshareDisplay}
       options={RecoveryKeyshareDisplay.navigationOptions}
+    />
+    <Navigator.Screen
+      name={Screens.RecoveryVerificationScreen}
+      component={RecoveryVerificationScreen}
+      options={RecoveryVerificationScreen.navigationOptions}
     />
   </>
 )

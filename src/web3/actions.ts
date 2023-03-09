@@ -12,6 +12,7 @@ export enum Actions {
   REQUEST_SYNC_PROGRESS = 'WEB3/REQUEST_SYNC_PROGRESS',
   UPDATE_WEB3_SYNC_PROGRESS = 'WEB3/UPDATE_WEB3_SYNC_PROGRESS',
   SET_CAPSULE_IDENTITY = 'CAPSULE/SET_IDENTITY',
+  REFRESH_CAPSULE_KEYSHARES = 'CAPSULE/REFRESH_KEYSHARES',
 }
 
 export interface SetAccountAction {
@@ -66,6 +67,10 @@ export interface SetCapsuleIdentityAction {
   type: Actions.SET_CAPSULE_IDENTITY
   capsuleEmail: string | null
   capsuleUserId: string | null
+}
+
+export interface RefreshCapsuleKeyshares {
+  type: Actions.REFRESH_CAPSULE_KEYSHARES
 }
 
 export type ActionTypes =
@@ -150,4 +155,8 @@ export const updateWeb3SyncProgress = (
 ): UpdateWeb3SyncProgressAction => ({
   type: Actions.UPDATE_WEB3_SYNC_PROGRESS,
   payload,
+})
+
+export const refreshCapsuleKeyshare = () => ({
+  type: Actions.REFRESH_CAPSULE_KEYSHARES,
 })

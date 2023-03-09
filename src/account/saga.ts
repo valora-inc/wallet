@@ -48,9 +48,15 @@ import {
 import { persistor } from 'src/redux/store'
 import { restartApp } from 'src/utils/AppRestart'
 import Logger from 'src/utils/Logger'
+import { Actions as Web3Actions } from 'src/web3/actions'
 import { getContractKit, getWallet } from 'src/web3/contracts'
 import { registerAccountDek } from 'src/web3/dataEncryptionKey'
-import { getOrCreateCapsuleAccount, getWalletAddress, unlockAccount } from 'src/web3/saga'
+import {
+  getOrCreateCapsuleAccount,
+  getWalletAddress,
+  refreshAndResetKeyshares,
+  unlockAccount,
+} from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { finclusiveKycStatusSelector } from './selectors'
 
@@ -253,6 +259,10 @@ export function* watchClearStoredAccount() {
   yield call(clearStoredAccountSaga, action)
 }
 
+export function* watchRefreshKeyshares() {
+  yield takeLeading(Web3Actions.REFRESH_CAPSULE_KEYSHARES, refreshAndResetKeyshares)
+}
+
 export function* watchInitializeAccount() {
   yield takeLeading(Actions.INITIALIZE_ACCOUNT, initializeAccount)
 }
@@ -272,6 +282,7 @@ export function* watchSignedMessage() {
 
 export function* accountSaga() {
   yield spawn(watchClearStoredAccount)
+  yield spawn(watchRefreshKeyshares)
   yield spawn(watchInitializeAccount)
   yield spawn(watchSaveNameAndPicture)
   yield spawn(watchDailyLimit)

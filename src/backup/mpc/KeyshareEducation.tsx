@@ -25,7 +25,7 @@ const KeyshareEducation = ({ route }: Props) => {
         navigate(Screens.UserKeyshareCode)
         break
       case KeyshareType.Recovery:
-        navigate(Screens.RecoveryKeyshareCode)
+        navigate(Screens.RecoveryKeyshare)
         break
       default:
         break
