@@ -290,7 +290,7 @@ function FormField({
     onChange(field.name, value)
   }
 
-  if (!field.isVisible?.(fieldNamesToValues)) {
+  if (field.isVisible?.(fieldNamesToValues) === false) {
     return <></>
   }
 
