@@ -1224,11 +1224,11 @@
     "favoriteDapps": "Lieblings-Dapps",
     "noFavorites": {
       "title": "Keine Favoriten hinzugefügt",
-      "description": "Behalte den Überblick über deine meistgenutzten Dapps, indem du auf das Sternsymbol tippst, um sie als Favoriten hinzuzufügen"
+      "description": "Behalte den Überblick über deine am häufigsten genutzen Dapps, indem du auf das Sternsymbol tippst, um sie als Favoriten hinzuzufügen"
     },
     "favoritedDappToast": {
       "message": "Als Favorit hinzugefügt",
-      "labelCTA": "Favoriten ansehen"
+      "labelCTA": "Favoriten anzeigen"
     }
   },
   "dappsScreenHelpDialog": {
@@ -1243,12 +1243,12 @@
   },
   "dappsScreenInfoSheet": {
     "title": "Was ist eine Dapp?",
-    "description": "Eine Dapp (oder dezentrale Anwendung) ist eine Anwendung, die auf einem Blockchain-Netzwerk aufgebaut ist und betrieben wird. Das bedeutet, dass keine einzelne Firma oder Organisation deine Daten verwaltet oder speichert.\n\nDapps unterscheiden sich durch die Dienste, die sie anbieten. Beispiele für diese Dienste sind dezentrale Börsen, Leihen, Borgen, Tauschen und das Speichern von NFTs.",
+    "description": "Eine Dapp (oder dezentralisierte App) ist eine App, die für die Ausführung in einem Blockchain-Netzwerk entwickelt wurde. Das bedeutet, dass kein Unternehmen oder keine Organisation deine Daten verwaltet und speichert.\n\nDapps bieten unterschiedliche Dienste an. Beispiele für diese Dienste umfassen dezentralisierte Börsen, das Leihen, Verleihen, Tauschen und Speichern von NFTs.",
     "buttonLabel": "Mehr Infos"
   },
-  "dappsDisclaimerAllDapps": "{{appName}} ist nicht mit diesen Apps verbunden und macht keine Zusicherungen oder Ansprüche bei der Nutzung dieser Apps. Bitte erkenne das Risiko, bevor du eine App nutzt, indem du die Benutzervereinbarung oder die Datenschutzrichtlinie liest.",
-  "dappsDisclaimerSingleDapp": "{{appName}} ist nicht mit dieser App verbunden und übernimmt keine Verantwortung für die Nutzung dieser App. Lies immer die Nutzungsbedingungen oder die Datenschutzrichtlinien einer App.",
-  "dappsDisclaimerUnlistedDapp": "Diese App ist nicht auf {{appName}}gelistet. {{appName}} steht in keiner Verbindung zu dieser App und übernimmt keine Verantwortung für deren Nutzung. Lies dir immer die Nutzungsbedingungen und Datenschutzrichtlinien einer App durch.",
+  "dappsDisclaimerAllDapps": "{{appName}} ist nicht mit diesen Apps verbunden und macht keine Zusicherungen oder Versprechen für die Nutzung. Bitte beachte das Risiko, bevor du eine App nutzt, indem du dir die Benutzervereinbarung oder die Datenschutzrichtlinie durchliest.",
+  "dappsDisclaimerSingleDapp": "{{appName}} ist nicht mit dieser Dapp verbunden und macht keine Zusicherungen bei der Verwendung. Lies dir immer die Benutzervereinbarung oder die Datenschutzrichtlinie der Dapp durch.",
+  "dappsDisclaimerUnlistedDapp": "Diese Dapp ist nicht in {{appName}} gelistet. {{appName}} ist nicht mit dieser Dapp verbunden und macht keine Zusicherungen bei der Verwendung. Lies dir immer die Benutzervereinbarung oder die Datenschutzrichtlinie der Dapp durch.",
   "recentlyUsedDapps": "Kürzlich verwendete Dapps",
   "favoritedDapps": "Lieblings-Dapps",
   "allDapps": "Alle Dapps",
@@ -1428,9 +1428,9 @@
     },
     "exchange": {
       "copyAddress": "Adresse kopieren",
-      "informationText": "Verwende nur Börsen oder Vermögenswerte <0>, die mit dem Celo-Netzwerk kompatibel sind</0>, um den Verlust von Geldern zu verhindern",
-      "bottomSheetTitle": "Welche Börsen kann ich nutzen, um Geld einzuzahlen?",
-      "bottomSheetInfo": "Vergewissere dich, dass du Assets versendest, die mit dem Celo-Netzwerk kompatibel sind."
+      "informationText": "Verwende nur Börsen oder Vermögenswerte, die mit <0>dem Celo-Netzwerk kompatibel sind</0>, um den Verlust von Guthaben zu vermeiden",
+      "bottomSheetTitle": "Welche Börse kann ich für den Umtausch von Guthaben benutzen?",
+      "bottomSheetInfo": "Vergewissere dich stets, dass das Vermögen, das du versendest, mit dem Celo-Netzwerk kompatibel ist."
     }
   },
   "fiatDetailsScreen": {
@@ -1494,7 +1494,7 @@
     "swapTo": "Zu",
     "insufficientFunds": "Unzureichendes {{token}}-Guthaben. Versuche es mit einem kleineren Betrag oder wähle einen anderen Token.",
     "fetchSwapQuoteFailed": "Entschuldige die Verzögerung! Es dauert länger als üblich, um den besten Wechselkurs zu ermitteln. Bitte versuche es in ein paar Minuten erneut.",
-    "disclaimer": "Swaps powered by Partner auf Celo. <0>Erfahre mehr.</0>"
+    "disclaimer": "Tausch, der von Celo-Partnern unterstützt wird. <0>Mehr erfahren.</0>"
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Tausch von",
@@ -1543,10 +1543,10 @@
     "title": "Sieht so aus, als ob {{contactName}} noch kein {{appName}}-Wallet hat.",
     "body": "Du kannst sie trotzdem zu {{appName}} einladen oder versuchen, eine Zahlung an ihre Wallet-Adresse oder nom.space zu senden.",
     "sendInviteButtonLabel": "Einladung senden",
-    "shareMessage": "Hallo! Ich benutze {{appName}} als meine Krypto-Brieftasche und möchte dich einladen, sie auszuprobieren. Wenn du die App herunterlädst und deine Telefonnummer angibst, bekommen wir beide eine spezielle NFT. Benutze diesen Link: {{link}}",
+    "shareMessage": "Hallo! Ich benutze {{appName}} als meine Krypto-Wallet und möchte dich einladen, sie auszuprobieren. Wenn du die App herunterlädst und deine Telefonnummer angibst, bekommen wir beide ein spezielle NFT. Benutze diesen Link: {{link}}",
     "rewardsActive": {
       "title": "Lade {{contactName}} in {{appName}} ein und ihr beide erhaltet NFTs.",
-      "body": "Wie es aussieht, ist {{contactName}} nicht auf {{appName}}. Du kannst immer noch eine Zahlung senden, wenn du ihre Wallet-Adresse kennst, oder stattdessen eine Einladung schicken. \n\n Nachdem sie die Wallet heruntergeladen und ihre Telefonnummer angegeben haben, erhaltet ihr beide eine exklusive NFT."
+      "body": "Es sieht so aus, als wäre {{contactName}} nicht auf {{appName}}. Wenn du die Wallet-Adresse kennst, kannst du dennoch eine Zahlung oder stattdessen eine Einladung senden. \n\nNachdem die Wallet heruntergeladen und mit der Telefonnummer verbunden wurde, erhaltet ihr beide ein exklusives NFT."
     }
   },
   "celoNews": {
