@@ -1215,7 +1215,7 @@
   },
   "dappsScreen": {
     "title": "Dapp",
-    "message": "探索如何使用您的加密货币",
+    "message": "探索使用你的资产的方法",
     "errorMessage": "加在 dapp 时出错",
     "featuredDapp": "精选",
     "allDapps": "全部",
@@ -1227,6 +1227,10 @@
     "favoritedDappToast": {
       "message": "添加为收藏",
       "labelCTA": "查看收藏"
+    },
+    "emptyResults": {
+      "message": "<0>{{filter}}</0>适用的过滤器",
+      "removeFilter": "移除过滤器"
     }
   },
   "dappsScreenHelpDialog": {
