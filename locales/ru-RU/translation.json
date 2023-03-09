@@ -1221,7 +1221,7 @@
   },
   "dappsScreen": {
     "title": "Dapps",
-    "message": "Изучите способы использования криптовалюты",
+    "message": "Исследуй способы использования своих активов",
     "errorMessage": "Произошла ошибка при загрузке dapps",
     "featuredDapp": "Подборка",
     "allDapps": "Все",
@@ -1233,6 +1233,10 @@
     "favoritedDappToast": {
       "message": "Добавлено в избранное",
       "labelCTA": "Посмотреть избранное"
+    },
+    "emptyResults": {
+      "message": "<0>{{filter}}</0> применен фильтр",
+      "removeFilter": "Удалить фильтр"
     }
   },
   "dappsScreenHelpDialog": {
