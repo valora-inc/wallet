@@ -12,7 +12,6 @@ import { accountToRecoverSelector, recoveringFromStoreWipeSelector } from 'src/a
 import { hideAlert } from 'src/alert/actions'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { registrationStepsSelector } from 'src/app/selectors'
 import {
   countMnemonicWords,
   formatBackupPhraseOnEdit,
@@ -30,6 +29,7 @@ import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Hea
 import { navigateClearingStack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import { getOnboardingStepValues, onboardingPropsSelector } from 'src/onboarding/steps'
 import TopBarTextButtonOnboarding from 'src/onboarding/TopBarTextButtonOnboarding'
 import { isAppConnected } from 'src/redux/selectors'
 import useTypedSelector from 'src/redux/useSelector'
@@ -58,7 +58,8 @@ function ImportWallet({ navigation, route }: Props) {
   const appConnected = useSelector(isAppConnected)
   const isRecoveringFromStoreWipe = useTypedSelector(recoveringFromStoreWipeSelector)
   const accountToRecoverFromStoreWipe = useTypedSelector(accountToRecoverSelector)
-  const { step, totalSteps } = useSelector(registrationStepsSelector)
+  const onboardingProps = useTypedSelector(onboardingPropsSelector)
+  const { step, totalSteps } = getOnboardingStepValues(Screens.ImportWallet, onboardingProps)
 
   const dispatch = useDispatch()
   const { t } = useTranslation()

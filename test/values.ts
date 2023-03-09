@@ -983,3 +983,11 @@ export const mockExchanges: ExternalExchangeProvider[] = [
     supportedRegions: ['global'],
   },
 ]
+
+export const mockOnboardingProps = {
+  recoveringFromStoreWipe: true,
+  choseToRestoreAccount: false,
+  supportedBiometryType: null,
+  skipVerification: true,
+  numberAlreadyVerifiedCentrally: false,
+}

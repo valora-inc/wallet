@@ -26,18 +26,17 @@ import { showError } from 'src/alert/actions'
 import { AppEvents, OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { numberVerifiedCentrallySelector, skipVerificationSelector } from 'src/app/selectors'
 import { countMnemonicWords, generateKeysFromMnemonic, storeMnemonic } from 'src/backup/utils'
 import { refreshAllBalances } from 'src/home/actions'
-import { setHasSeenVerificationNux } from 'src/identity/actions'
 import {
   Actions,
   ImportBackupPhraseAction,
   importBackupPhraseFailure,
   importBackupPhraseSuccess,
 } from 'src/import/actions'
-import { navigate, navigateHome } from 'src/navigator/NavigationService'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { goToNextOnboardingScreen, onboardingPropsSelector } from 'src/onboarding/steps'
 import { fetchTokenBalanceInWeiWithRetry } from 'src/tokens/saga'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
@@ -154,16 +153,8 @@ export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackup
     ValoraAnalytics.track(OnboardingEvents.wallet_import_success)
     yield call(initializeAccountSaga)
 
-    const numberAlreadyVerifiedCentrally = yield select(numberVerifiedCentrallySelector)
-    const skipVerification = yield select(skipVerificationSelector)
-    if (skipVerification || numberAlreadyVerifiedCentrally) {
-      yield put(setHasSeenVerificationNux(true))
-      // navigateHome will clear onboarding Stack
-      navigateHome()
-    } else {
-      // DO NOT CLEAR NAVIGATION STACK HERE - breaks restore flow on initial app open in native-stack v6
-      navigate(Screens.VerificationStartScreen)
-    }
+    const onboardingProps = yield select(onboardingPropsSelector)
+    yield call(goToNextOnboardingScreen, Screens.ImportWallet, onboardingProps)
 
     yield put(importBackupPhraseSuccess())
   } catch (error) {

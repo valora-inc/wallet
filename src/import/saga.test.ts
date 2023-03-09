@@ -13,14 +13,17 @@ import { numberVerifiedCentrallySelector, skipVerificationSelector } from 'src/a
 import { storeMnemonic } from 'src/backup/utils'
 import { refreshAllBalances } from 'src/home/actions'
 import { currentLanguageSelector } from 'src/i18n/selectors'
-import { setHasSeenVerificationNux } from 'src/identity/actions'
 import { importBackupPhraseFailure, importBackupPhraseSuccess } from 'src/import/actions'
 import { importBackupPhraseSaga, MNEMONIC_AUTOCORRECT_TIMEOUT } from 'src/import/saga'
-import { navigate, navigateHome } from 'src/navigator/NavigationService'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { goToNextOnboardingScreen, onboardingPropsSelector } from 'src/onboarding/steps'
 import { fetchTokenBalanceInWeiWithRetry } from 'src/tokens/saga'
 import { Currency } from 'src/utils/currencies'
 import { assignAccountFromPrivateKey } from 'src/web3/saga'
+import { mockOnboardingProps } from 'test/values'
+
+jest.mock('src/onboarding/steps')
 
 const mockPhraseValid =
   'oil please secret math suffer mesh retreat prosper quit traffic special creek educate rate weasel wide swing crystal day swim frost oxygen course expire'
@@ -75,15 +78,14 @@ describe('Import wallet saga', () => {
         [matchers.call.fn(assignAccountFromPrivateKey), mockAccount],
         [call(storeMnemonic, phrase, mockAccount), true],
         [call(initializeAccountSaga), undefined],
-        [select(numberVerifiedCentrallySelector), false],
         [select(recoveringFromStoreWipeSelector), false],
-        [select(skipVerificationSelector), false],
+        [select(onboardingPropsSelector), mockOnboardingProps],
+        [call(goToNextOnboardingScreen, Screens.ImportWallet, mockOnboardingProps), undefined],
       ])
       .put(setBackupCompleted())
       .put(refreshAllBalances())
       .put(importBackupPhraseSuccess())
       .run()
-    expect(navigate).toHaveBeenCalledWith(Screens.VerificationStartScreen)
   }
 
   it('imports a valid phrase', async () => {
@@ -96,52 +98,6 @@ describe('Import wallet saga', () => {
 
   it('imports a valid spanish phrase', async () => {
     await expectSuccessfulSagaWithPhrase(mockValidSpanishPhrase)
-  })
-
-  it('initializes account and navigates to home if skipVerification is true', async () => {
-    await expectSaga(importBackupPhraseSaga, {
-      phrase: mockPhraseValid,
-      useEmptyWallet: false,
-    })
-      .provide([
-        [matchers.fork.fn(fetchTokenBalanceInWeiWithRetry), dynamic(mockBalanceTask(10))],
-        [matchers.call.fn(assignAccountFromPrivateKey), mockAccount],
-        [call(storeMnemonic, mockPhraseValid, mockAccount), true],
-        [select(recoveringFromStoreWipeSelector), false],
-        [select(skipVerificationSelector), true],
-        [call(initializeAccountSaga), undefined],
-        [select(numberVerifiedCentrallySelector), false],
-      ])
-      .put(setBackupCompleted())
-      .put(refreshAllBalances())
-      .call(initializeAccountSaga)
-      .put(setHasSeenVerificationNux(true))
-      .put(importBackupPhraseSuccess())
-      .run()
-    expect(navigateHome).toHaveBeenCalledWith()
-  })
-
-  it('initializes account and navigates to home if the phone number is already verified', async () => {
-    await expectSaga(importBackupPhraseSaga, {
-      phrase: mockPhraseValid,
-      useEmptyWallet: false,
-    })
-      .provide([
-        [matchers.fork.fn(fetchTokenBalanceInWeiWithRetry), dynamic(mockBalanceTask(10))],
-        [matchers.call.fn(assignAccountFromPrivateKey), mockAccount],
-        [call(storeMnemonic, mockPhraseValid, mockAccount), true],
-        [select(recoveringFromStoreWipeSelector), false],
-        [select(skipVerificationSelector), false],
-        [call(initializeAccountSaga), undefined],
-        [select(numberVerifiedCentrallySelector), true],
-      ])
-      .put(setBackupCompleted())
-      .put(refreshAllBalances())
-      .call(initializeAccountSaga)
-      .put(setHasSeenVerificationNux(true))
-      .put(importBackupPhraseSuccess())
-      .run()
-    expect(navigateHome).toHaveBeenCalledWith()
   })
 
   it.each`

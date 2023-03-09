@@ -5,21 +5,24 @@ import { ScrollView, StyleSheet, Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { setName } from 'src/account/actions'
-import { nameSelector, recoveringFromStoreWipeSelector } from 'src/account/selectors'
+import { nameSelector } from 'src/account/selectors'
 import { hideAlert, showError } from 'src/alert/actions'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { registrationStepsSelector } from 'src/app/selectors'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import DevSkipButton from 'src/components/DevSkipButton'
 import FormInput from 'src/components/FormInput'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import { HeaderTitleWithSubtitle, nuxNavigationOptionsOnboarding } from 'src/navigator/Headers'
-import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
+import {
+  getOnboardingStepValues,
+  goToNextOnboardingScreen,
+  onboardingPropsSelector,
+} from 'src/onboarding/steps'
 import { default as useTypedSelector } from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
@@ -29,8 +32,8 @@ function NameAndPicture({ navigation, route }: Props) {
   const [nameInput, setNameInput] = useState('')
   const cachedName = useTypedSelector(nameSelector)
   const choseToRestoreAccount = useTypedSelector((state) => state.account.choseToRestoreAccount)
-  const recoveringFromStoreWipe = useTypedSelector(recoveringFromStoreWipeSelector)
-  const { step, totalSteps } = useTypedSelector(registrationStepsSelector)
+  const onboardingProps = useTypedSelector(onboardingPropsSelector)
+  const { step, totalSteps } = getOnboardingStepValues(Screens.NameAndPicture, onboardingProps)
   const dispatch = useDispatch()
 
   const { t } = useTranslation()
@@ -59,11 +62,7 @@ function NameAndPicture({ navigation, route }: Props) {
   }, [navigation, choseToRestoreAccount, step, totalSteps, nameInput])
 
   const goToNextScreen = () => {
-    if (recoveringFromStoreWipe) {
-      navigate(Screens.ImportWallet)
-    } else {
-      navigate(Screens.PincodeSet)
-    }
+    goToNextOnboardingScreen(Screens.NameAndPicture, onboardingProps)
   }
 
   const onPressContinue = () => {

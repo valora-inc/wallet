@@ -1,13 +1,20 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
-import { navigate, navigateClearingStack, navigateHome } from 'src/navigator/NavigationService'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { goToNextOnboardingScreen } from 'src/onboarding/steps'
 import { DEFAULT_CACHE_ACCOUNT, updatePin } from 'src/pincode/authentication'
 import { setCachedPin } from 'src/pincode/PasswordCache'
 import PincodeSet from 'src/pincode/PincodeSet'
 import { createMockStore, flushMicrotasksQueue, getMockStackScreenProps } from 'test/utils'
-import { mockAccount } from 'test/values'
+import { mockAccount, mockOnboardingProps } from 'test/values'
+
+jest.mock('src/onboarding/steps', () => ({
+  goToNextOnboardingScreen: jest.fn(),
+  getOnboardingStepValues: () => ({ step: 1, totalSteps: 2 }),
+  onboardingPropsSelector: () => mockOnboardingProps,
+}))
 
 const mockPin = '364141' // Last 6 hexidecimal values of the secp256k1 group order.
 
@@ -38,7 +45,7 @@ describe('Pincode', () => {
     })
   })
 
-  it('navigates to the VerificationStartScreen screen after successfully verifying', async () => {
+  it('calls goToNextOnboardingScreen after successfully verifying', async () => {
     const mockScreenProps = getMockStackScreenProps(Screens.PincodeSet)
     const mockStore = createMockStore()
 
@@ -64,45 +71,7 @@ describe('Pincode', () => {
     jest.runOnlyPendingTimers()
     await flushMicrotasksQueue()
 
-    expect(navigateClearingStack).toBeCalledWith(Screens.VerificationStartScreen)
-  })
-
-  it('navigates home if skipVerification is enabled', async () => {
-    const mockScreenProps = getMockStackScreenProps(Screens.PincodeSet)
-    const mockStore = createMockStore({
-      app: {
-        skipVerification: true,
-      },
-    })
-    mockStore.dispatch = jest.fn()
-
-    const { getByTestId, rerender } = render(
-      <Provider store={mockStore}>
-        <PincodeSet {...mockScreenProps} />
-      </Provider>
-    )
-
-    // Create pin
-    mockPin.split('').forEach((number) => fireEvent.press(getByTestId(`digit${number}`)))
-    jest.runOnlyPendingTimers()
-    await flushMicrotasksQueue()
-
-    rerender(
-      <Provider store={mockStore}>
-        <PincodeSet {...getMockStackScreenProps(Screens.PincodeSet)} />
-      </Provider>
-    )
-
-    // Verify pin
-    mockPin.split('').forEach((number) => fireEvent.press(getByTestId(`digit${number}`)))
-    jest.runOnlyPendingTimers()
-    await flushMicrotasksQueue()
-
-    expect(navigateHome).toBeCalled()
-    expect(mockStore.dispatch).toHaveBeenCalledWith({
-      status: true,
-      type: 'IDENTITY/SET_SEEN_VERIFICATION_NUX',
-    })
+    expect(goToNextOnboardingScreen).toBeCalledWith(Screens.PincodeSet, mockOnboardingProps)
   })
 
   it('displays an error text when setting a blocked PIN', async () => {
