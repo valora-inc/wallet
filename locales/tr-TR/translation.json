@@ -1217,7 +1217,7 @@
   },
   "dappsScreen": {
     "title": "Dapp'ler",
-    "message": "Kriptonuzu kullanmanın yollarını keşfedin",
+    "message": "Varlıklarınızı kullanmanın yollarını keşfedin",
     "errorMessage": "Dapp'ler yüklenirken bir hata oluştu",
     "featuredDapp": "Öne Çıkan",
     "allDapps": "Tümü",
@@ -1229,6 +1229,10 @@
     "favoritedDappToast": {
       "message": "Favori olarak eklendi",
       "labelCTA": "Favorileri Görüntüle"
+    },
+    "emptyResults": {
+      "message": "<0>{{filter}}</0> filtre uygulandı",
+      "removeFilter": "Filtreyi kaldır"
     }
   },
   "dappsScreenHelpDialog": {
