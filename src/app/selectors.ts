@@ -79,10 +79,12 @@ export const maxSwapSlippagePercentageSelector = (state: RootState) =>
 
 export const numberVerifiedCentrallySelector = (state: RootState) => state.app.phoneNumberVerified
 
+const requireCPVSelector = (state: RootState) => state.app.requireCPV
+
 export const phoneNumberVerifiedSelector = createSelector(
-  [numberVerifiedCentrallySelector, numberVerifiedSelector],
-  (numberVerifiedCentrally, numberVerifiedDecentrally) =>
-    numberVerifiedCentrally || numberVerifiedDecentrally
+  [numberVerifiedCentrallySelector, numberVerifiedSelector, requireCPVSelector],
+  (numberVerifiedCentrally, numberVerifiedDecentrally, requireCPV) =>
+    requireCPV ? numberVerifiedCentrally : numberVerifiedCentrally || numberVerifiedDecentrally
 )
 
 export const shouldRunVerificationMigrationSelector = createSelector(

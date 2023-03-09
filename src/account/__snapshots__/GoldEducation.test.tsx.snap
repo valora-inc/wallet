@@ -2,6 +2,14 @@
 
 exports[`renders correctly 1`] = `
 <RNCSafeAreaView
+  edges={
+    Array [
+      "bottom",
+      "left",
+      "right",
+      "top",
+    ]
+  }
   style={
     Array [
       Object {
@@ -434,7 +442,7 @@ exports[`renders correctly 1`] = `
       <View
         style={
           Object {
-            "backgroundColor": "#9CA4A9",
+            "backgroundColor": "#666666",
             "borderRadius": 5,
             "flex": 0,
             "height": 5,
@@ -446,7 +454,7 @@ exports[`renders correctly 1`] = `
       <View
         style={
           Object {
-            "backgroundColor": "#9CA4A9",
+            "backgroundColor": "#666666",
             "borderRadius": 5,
             "flex": 0,
             "height": 5,
@@ -458,7 +466,7 @@ exports[`renders correctly 1`] = `
       <View
         style={
           Object {
-            "backgroundColor": "#9CA4A9",
+            "backgroundColor": "#666666",
             "borderRadius": 5,
             "flex": 0,
             "height": 5,

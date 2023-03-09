@@ -17,7 +17,7 @@ import { DappExplorerEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import {
   CategoryWithDapps,
-  dappCategoriesByIdSelector,
+  dappCategoriesSelector,
   dappFavoritesEnabledSelector,
   dappsListErrorSelector,
   dappsListLoadingSelector,
@@ -32,7 +32,7 @@ import FeaturedDappCard from 'src/dappsExplorer/FeaturedDappCard'
 import useDappFavoritedToast from 'src/dappsExplorer/useDappFavoritedToast'
 import useDappInfoBottomSheet from 'src/dappsExplorer/useDappInfoBottomSheet'
 import useOpenDapp from 'src/dappsExplorer/useOpenDapp'
-import Help from 'src/icons/navigator/Help'
+import Help from 'src/icons/Help'
 import { dappListLogo } from 'src/images/Images'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { styles as headerStyles } from 'src/navigator/Headers'
@@ -63,7 +63,7 @@ export function DAppsExplorerScreenLegacy() {
   const featuredDapp = useSelector(featuredDappSelector)
   const loading = useSelector(dappsListLoadingSelector)
   const error = useSelector(dappsListErrorSelector)
-  const categoriesById = useSelector(dappCategoriesByIdSelector)
+  const categories = useSelector(dappCategoriesSelector)
   const dappFavoritesEnabled = useSelector(dappFavoritesEnabledSelector)
   const dappsMinimalDisclaimerEnabled = useSelector(dappsMinimalDisclaimerEnabledSelector)
 
@@ -89,7 +89,11 @@ export function DAppsExplorerScreenLegacy() {
   }, [featuredDapp])
 
   return (
-    <SafeAreaView style={styles.safeAreaContainer} edges={['top']}>
+    <SafeAreaView
+      testID="DAppsExplorerScreenLegacy"
+      style={styles.safeAreaContainer}
+      edges={['top']}
+    >
       <DrawerTopBar
         middleElement={<Text style={headerStyles.headerTitle}>{t('dappsScreen.title')}</Text>}
         rightElement={
@@ -104,18 +108,18 @@ export function DAppsExplorerScreenLegacy() {
       {ConfirmOpenDappBottomSheet}
 
       <>
-        {!loading && !categoriesById && error && (
+        {!loading && !categories && error && (
           <View style={styles.centerContainer}>
             <Text style={fontStyles.regular}>{t('dappsScreen.errorMessage')}</Text>
           </View>
         )}
-        {categoriesById && (
+        {categories && (
           <AnimatedSectionList
             refreshControl={
               <RefreshControl
                 tintColor={colors.greenBrand}
                 colors={[colors.greenBrand]}
-                style={{ backgroundColor: colors.light }}
+                style={styles.refreshControl}
                 refreshing={loading}
                 onRefresh={() => dispatch(fetchDappsList())}
               />
@@ -152,15 +156,15 @@ export function DAppsExplorerScreenLegacy() {
               </>
             }
             style={styles.sectionList}
-            contentContainerStyle={{
-              padding: Spacing.Thick24,
-              paddingBottom: Math.max(insets.bottom, Spacing.Regular16),
-            }}
+            contentContainerStyle={[
+              styles.sectionListContentContainer,
+              { paddingBottom: Math.max(insets.bottom, Spacing.Regular16) },
+            ]}
             // Workaround iOS setting an incorrect automatic inset at the top
             scrollIndicatorInsets={{ top: 0.01 }}
             scrollEventThrottle={16}
             onScroll={onScroll}
-            sections={parseResultIntoSections(categoriesById)}
+            sections={parseResultIntoSections(categories)}
             renderItem={({ item: dapp }) => (
               <DappCard
                 dapp={dapp}
@@ -231,6 +235,12 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     marginTop: SECTION_HEADER_MARGIN_TOP,
+  },
+  sectionListContentContainer: {
+    padding: Spacing.Thick24,
+  },
+  refreshControl: {
+    backgroundColor: colors.light,
   },
   descriptionContainer: {
     alignItems: 'center',

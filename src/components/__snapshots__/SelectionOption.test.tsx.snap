@@ -24,7 +24,7 @@ exports[`renders selected correctly 1`] = `
       Object {
         "alignItems": "center",
         "borderBottomWidth": 1,
-        "borderColor": "#EDEEEF",
+        "borderColor": "#E6E6E6",
         "flexDirection": "row",
         "marginLeft": 16,
         "paddingVertical": 14,
@@ -105,7 +105,7 @@ exports[`renders unselected correctly 1`] = `
       Object {
         "alignItems": "center",
         "borderBottomWidth": 1,
-        "borderColor": "#EDEEEF",
+        "borderColor": "#E6E6E6",
         "flexDirection": "row",
         "marginLeft": 16,
         "paddingVertical": 14,
@@ -130,7 +130,7 @@ exports[`renders unselected correctly 1`] = `
           cx="10"
           cy="10"
           r="9"
-          stroke="#B4B9BD"
+          stroke="#757575"
           strokeWidth={2}
           style={Object {}}
         />

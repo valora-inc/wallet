@@ -147,7 +147,16 @@ Array [
       }
       swipeThreshold={100}
     >
-      <RNCSafeAreaView>
+      <RNCSafeAreaView
+        edges={
+          Array [
+            "bottom",
+            "left",
+            "right",
+            "top",
+          ]
+        }
+      >
         <View
           style={
             Array [
@@ -255,7 +264,7 @@ Array [
                       "lineHeight": 22,
                     },
                     Object {
-                      "color": "#9CA4A9",
+                      "color": "#666666",
                       "paddingTop": 16,
                     },
                   ]
@@ -419,7 +428,16 @@ Array [
       }
       swipeThreshold={100}
     >
-      <RNCSafeAreaView>
+      <RNCSafeAreaView
+        edges={
+          Array [
+            "bottom",
+            "left",
+            "right",
+            "top",
+          ]
+        }
+      >
         <View
           style={
             Array [
@@ -527,7 +545,7 @@ Array [
                       "lineHeight": 22,
                     },
                     Object {
-                      "color": "#9CA4A9",
+                      "color": "#666666",
                       "paddingTop": 16,
                     },
                   ]
