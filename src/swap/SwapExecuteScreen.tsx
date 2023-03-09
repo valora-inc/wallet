@@ -39,7 +39,7 @@ export function SwapExecuteScreen() {
     return (
       <View style={styles.actionBar}>
         <Button
-          text={t('done')}
+          text={t('SwapExecuteScreen.swapActionBar.done')}
           onPress={navigateHome}
           type={BtnTypes.PRIMARY}
           size={BtnSizes.FULL}
@@ -66,7 +66,7 @@ export function SwapExecuteScreen() {
           onPress={navigateToReviewScreen}
           type={BtnTypes.PRIMARY}
           size={BtnSizes.FULL}
-          testID="SwapExecuteScreen/Done"
+          testID="SwapExecuteScreen/TryAgain"
           style={[styles.button, { paddingBottom: Spacing.Regular16 }]}
         />
         <Button
@@ -74,7 +74,7 @@ export function SwapExecuteScreen() {
           onPress={navigateHome}
           type={BtnTypes.SECONDARY}
           size={BtnSizes.FULL}
-          testID="SwapExecuteScreen/Review"
+          testID="SwapExecuteScreen/Done"
           style={styles.button}
         />
       </View>
