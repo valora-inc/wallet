@@ -187,7 +187,7 @@
   "startSuperchargingNotificationStart": " Ödül almak",
   "cashIn": "{{currency}} ekle",
   "connectNumber": "Telefon Numarası Bağla",
-  "connectToWallet": "{{dappName}}adresine bağlanın",
+  "connectToWallet": "{{dappName}} uygulamasına bağlanın",
   "confirmTransaction": "İşlemi onaylayın",
   "allow": "İzin ver",
   "address": "Cüzdan adresi",
@@ -552,7 +552,7 @@
   "sendAndInvite": "Gönder & Davet Et",
   "inviteRewardsBanner": {
     "title": "Arkadaşlarınızı davet edin ve NFT toplayın",
-    "body": "{{appName}} cüzdanlarını kurduklarında ve numaralarını bağladıklarında, her biriniz özel bir NFT alacaksınız."
+    "body": "Söz konusu kişi {{appName}} cüzdanını oluşturup numarasını bağladığında ikiniz de özel bir NFT alacaksınız."
   },
   "inviteWithUrl": {
     "title": "Arkadaşını davet et",
@@ -683,7 +683,7 @@
     "createNewWallet": "Cüzdan oluştur",
     "restoreWallet": "Cüzdan Yeniden Kur",
     "hasWallet": "Zaten cüzdanım var",
-    "header": "{{appName}}adresine hoş geldiniz! Hadi kripto cüzdanınızı oluşturalım.",
+    "header": "{{appName}} uygulamasına hoş geldiniz! Kripto cüzdanınızı oluşturalım.",
     "getStarted": "Kullanmaya Başlayın"
   },
   "accessContacts": {
@@ -705,7 +705,7 @@
     "invalidPin": "Lütfen daha güçlü bir Pin kullanın",
     "onboardingTitle": "6 haneli bir PIN seçin",
     "onboardingConfirm": "PIN kodunuzu tekrar girin",
-    "onboardingSubtitle": "PIN kodunuz cüzdanınızı güvence altına alacak",
+    "onboardingSubtitle": "PIN'iniz, cüzdanınızı güvence altına alacaktır",
     "pin": "PIN"
   },
   "inviteCode": {
@@ -745,12 +745,12 @@
   "phoneVerificationScreen": {
     "screenTitle": "Telefon Numarası",
     "title": "Telefon numaranızı Valora'ya bağlayın",
-    "description": "Bu, cüzdan adresinizi telefon numaranıza bağlar, böylece kripto göndermek kolaydır",
+    "description": "Bu, cüzdan adresinizi telefon numaranıza bağlar, böylece kripto göndermek kolaylaşır",
     "startButtonLabel": "Bağla",
     "learnMore": {
       "buttonLabel": "Bağlanmam gerekiyor mu?",
       "title": "Bağlanmam gerekiyor mu?",
-      "body": "Telefon numaranızı bağlamak, adres defterinizdeki arkadaşlarınıza ve diğer telefon numaralarına para göndermenizi sağlayacaktır. \n \n Bu adımı atlamayı seçerseniz, kişilerinize erişemezsiniz ve yalnızca QR kodu veya cüzdan adresi aracılığıyla para gönderebilirsiniz."
+      "body": "Telefon numaranızı bağlamanız, adres defterinizdeki ve diğer telefon numaralarınızdaki arkadaşlarınıza para göndermenize olanak tanır.\n \nBu adımı atlarsanız, kişilerinize erişemezsiniz ve yalnızca QR kodu veya cüzdan adresi aracılığıyla para gönderebilirsiniz."
     },
     "skip": {
       "title": "Emin misiniz?",
@@ -766,23 +766,23 @@
     "codeInputPlaceholder": "123456",
     "helpDialog": {
       "title": "Yardım",
-      "body": "Telefon numaranıza bir SMS gönderdik. Lütfen 6 haneli kodu bulmak için kısa mesajlarınızı kontrol edin. \n \n Mesajları almakta sorun yaşıyorsanız, şimdilik bu adımı atlayabilir ve daha sonra tekrar deneyebilirsiniz.",
+      "body": "Telefon numaranıza bir SMS gönderdik. Lütfen 6 haneli kodu bulmak için kısa mesajlarınızı kontrol edin. \n \n Mesaj almakta sorun yaşıyorsanız şimdilik bu adımı atlayabilir ve daha sonra tekrar deneyebilirsiniz.",
       "skip": "Atla",
       "dismiss": "Geri dön"
     },
     "verificationFailure": "Bir şeyler ters gitti. Lütfen daha sonra tekrar deneyiniz.",
     "resendButtonNotYetAvailable": "{{secondsRemaining}} saniye sonra tekrar gönderilebilir",
-    "resendButton": "Kod almadınız mı?"
+    "resendButton": "Kodu almadınız mı?"
   },
   "importExistingKey": {
     "keyPlaceholder": "horse leopard dog monkey ...",
     "header": "Cüzdan Yeniden Kur",
-    "title": "Kurtarma cümlenizi girin",
+    "title": "Kurtarma kelimelerinizi girin",
     "description": "Geri yüklemek için cüzdanınızı ayarlarken kaydettiğiniz 12 veya 24 kelimelik ifadeyi kullanın.",
     "emptyWalletDialog": {
-      "description": "Bu cüzdanda hiç para yok. Yine de kullanmak ister misiniz?",
-      "action": "Cüzdan kullanın",
-      "title": "Denge\n<0></0>"
+      "description": "Bu cüzdanda hiç bakiye yok. Yine de kullanmak ister misiniz?",
+      "action": "Cüzdan Kullan",
+      "title": "Bakiye\n<0></0>"
     }
   },
   "verificationInput": {
@@ -979,12 +979,12 @@
   },
   "walletConnectRequest": {
     "transactionDataLabel": "İşlem verileri",
-    "readAccount": "{{dappName}} {{appName}} cüzdan adresinizi okumak istiyorum.",
-    "signPayload": "{{dappName}} bir veri yükünü imzalamak istiyor.",
-    "signTransaction": "{{dappName}} bir Celo işlemi imzalamak istiyor.",
-    "sendTransaction": "{{dappName}} bir Celo işlemi göndermek istiyor.",
-    "decryptPayload": "{{dappName}} bir veri yükünün şifresini çözmek ister.",
-    "computeSharedSecret": "{{dappName}} sırlar üretmek istiyor.",
+    "readAccount": "{{dappName}}, {{appName}} cüzdan adresinizi okumak istiyor.",
+    "signPayload": "{{dappName}} bir veri yükü imzalamak istiyor.",
+    "signTransaction": "{{dappName}} bir Celo işlemini imzalamak istiyor.",
+    "sendTransaction": "{{dappName}} bir Celo işlemini göndermek istiyor.",
+    "decryptPayload": "{{dappName}} bir veri yükünün şifresini çözmek istiyor.",
+    "computeSharedSecret": "{{dappName}} gizli kelimeler oluşturmak istiyor.",
     "transactionDataCopied": "İşlem verileri kopyalandı"
   },
   "sessionInfo": "Bu uygulama aşağıdaki eylemleri gerçekleştirmek isteyebilir:",
@@ -1211,7 +1211,7 @@
     "buttonText": "Bağla"
   },
   "outOfSyncBanner": {
-    "title": "Belirteçler getirilirken hata oluştu.",
+    "title": "Tokenler alınırken hata oluştu.",
     "message": "Bakiyeleriniz güncel olmayabilir.",
     "button": "Yenile"
   },
@@ -1247,14 +1247,14 @@
   },
   "dappsScreenInfoSheet": {
     "title": "Dapp nedir?",
-    "description": "Bir dapp (veya merkezi olmayan uygulama), bir blockchain ağının üzerine inşa edilen ve çalıştırılan bir uygulamadır. Bu, verilerinizin tek bir şirket ya da kuruluş tarafından yönetilmediği ya da saklanmadığı anlamına gelir.\n\nDapp'ler sundukları hizmetlere göre çeşitlilik gösterir. Bu hizmetlere örnek olarak merkezi olmayan borsalar, borç verme, ödünç alma, takas etme, NFT'lerin depolanması verilebilir.",
+    "description": "Bir dapp (veya merkezi olmayan uygulama), bir blockchain ağının üzerinde inşa edilen ve çalıştırılan bir uygulamadır. Bu, verilerinizin tek bir şirket ya da kuruluş tarafından yönetilmediği ya da saklanmadığı anlamına gelir.\n\nDapp'ler sundukları hizmetlere göre çeşitlilik gösterir. Bu hizmetlere örnek olarak merkeziyetsiz borsalar, borç verme, ödünç alma, takas etme, NFT depolama verilebilir.",
     "buttonLabel": "Bana daha fazlasını anlat"
   },
-  "dappsDisclaimerAllDapps": "{{appName}} bu dapp'lerle bağlantılı değildir ve bunları kullanırken hiçbir beyan veya iddiada bulunmaz. Lütfen bir dapp kullanmadan önce kullanıcı sözleşmesini veya gizlilik politikasını inceleyerek riski kabul edin.",
-  "dappsDisclaimerSingleDapp": "{{appName}} bu dapp ile bağlantılı değildir ve onu kullanırken hiçbir beyanda bulunmaz. Her zaman bir uygulamanın kullanıcı sözleşmesini veya gizlilik politikasını inceleyin.",
-  "dappsDisclaimerUnlistedDapp": "Bu uygulama {{appName}}adresinde listelenmemiştir. {{appName}} bu uygulama ile bağlantılı değildir ve kullanımı konusunda herhangi bir beyanda bulunmaz. Her zaman bir dapp'ın kullanıcı sözleşmesini veya gizlilik politikasını inceleyin.",
+  "dappsDisclaimerAllDapps": "{{appName}} bu dapp'lerle bağlantılı değildir ve bunların kullanımına ilişkin hiçbir beyan veya iddiada bulunmaz. Lütfen bir dapp'i kullanmadan önce kullanıcı sözleşmesini veya gizlilik politikasını inceleyerek riskleri kabul edin.",
+  "dappsDisclaimerSingleDapp": "{{appName}} bu dapp ile bağlantılı değildir ve bunun kullanımına ilişkin hiçbir beyanda bulunmaz. Her zaman bir dapp'in kullanıcı sözleşmesini veya gizlilik politikasını inceleyin.",
+  "dappsDisclaimerUnlistedDapp": "Bu dapp {{appName}} uygulamasında listelenmemiştir. {{appName}}, bunun kullanımına ilişkin hiçbir beyanda bulunmaz. Her zaman bir dapp'in kullanıcı sözleşmesini veya gizlilik politikasını inceleyin.",
   "recentlyUsedDapps": "Son Kullanılan Dapp'ler",
-  "favoritedDapps": "Favori Dapps",
+  "favoritedDapps": "Favori Dapp'ler",
   "allDapps": "Tüm Dapp'ler",
   "rewards": "Ödüller",
   "supercharge": "Supercharge",
@@ -1278,7 +1278,7 @@
     "cryptoExchange": "Kripto Para Borsası",
     "feesVary": "Ücret Değişkendir",
     "viewExchanges": "Borsaları Görüntüle",
-    "depositFrom": "Depozito",
+    "depositFrom": "Para yatıran",
     "cryptoExchangeOrWallet": "Kripto Borsası veya Cüzdanı",
     "card": "Kredi / Banka Kartı",
     "bank": "Banka Hesabı",
@@ -1415,7 +1415,7 @@
       "selectCurrencyTitle": "Bakiye Ekle",
       "exchangeAmountTitle": "{{currency}} ekle",
       "selectProviderHeader": "Ödeme Yöntemi Seç",
-      "depositExchangeTitle": "Kripto Para Yatırma"
+      "depositExchangeTitle": "Kripto Para Yatır"
     },
     "cashOut": {
       "fiatExchangeTitle": "Bakiye Çek",
@@ -1431,7 +1431,7 @@
       "selectCurrencyTitle": "Para Harcama"
     },
     "exchange": {
-      "copyAddress": "Kopya Adres",
+      "copyAddress": "Adresi Kopyala",
       "informationText": "Fon kaybını önlemek için yalnızca <0>Celo ağıyla uyumlu</0> borsaları veya varlıkları kullanın",
       "bottomSheetTitle": "Para yatırmak için hangi borsaları kullanabilirim?",
       "bottomSheetInfo": "Celo ağı ile uyumlu varlıklar gönderdiğinizi iki kez kontrol edin."
@@ -1547,7 +1547,7 @@
     "title": "Görünüşe göre {{contactName}} henüz {{appName}} cüzdanına sahip değil.",
     "body": "Yine de onları {{appName}}'ya davet edebilir veya cüzdan adreslerine ya da nom.space'e bir ödeme göndermeyi deneyebilirsiniz.",
     "sendInviteButtonLabel": "Davet gönder",
-    "shareMessage": "Merhaba! Kripto cüzdanım olarak {{appName}} kullanıyorum ve sizi de kontrol etmeye davet etmek istiyorum. Uygulamayı indirip telefon numaranızı bağladığınızda, ikimiz de özel bir NFT alacağız. Bu bağlantıyı kullanın: {{link}}",
+    "shareMessage": "Merhaba! {{appName}} uygulamasını kripto cüzdanım olarak kullanıyorum ve sizi de uygulamaya göz atmaya davet etmek istiyorum. Uygulamayı indirip telefon numaranızı bağladığınızda, ikimiz de özel bir NFT alacağız. Bu bağlantıyı kullanın: {{link}}",
     "rewardsActive": {
       "title": "{{contactName}} adlı kişiyi {{appName}} uygulamasına davet edin ve ikiniz de NFT kazanın!",
       "body": "Görünüşe göre {{contactName}} {{appName}}adresinde değil. Cüzdan adreslerini biliyorsanız yine de bir ödeme gönderebilir veya bunun yerine bir davetiye gönderebilirsiniz. \n\n Cüzdanı indirdikten ve telefon numaralarını bağladıktan sonra, ikiniz de özel bir NFT alacaksınız."
