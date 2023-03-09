@@ -777,7 +777,7 @@
   "importExistingKey": {
     "keyPlaceholder": "horse leopard dog monkey ...",
     "header": "Cüzdan Yeniden Kur",
-    "title": "Kurtarma kelimelerinizi girin",
+    "title": "Kurtarma ifadenizi girin",
     "description": "Geri yüklemek için cüzdanınızı ayarlarken kaydettiğiniz 12 veya 24 kelimelik ifadeyi kullanın.",
     "emptyWalletDialog": {
       "description": "Bu cüzdanda hiç bakiye yok. Yine de kullanmak ister misiniz?",
@@ -1067,7 +1067,7 @@
   "feedItemDepositInfo_noComment": "Yatırılan",
   "feedItemDepositTitle": "Patra Yatırma",
   "feedItemFcTransferMobileMoney": "Mobil Para Transferi",
-  "feedItemFcTransferBankAccount": "Banka Hesap Transferi",
+  "feedItemFcTransferBankAccount": "Banka Hesabı Transferi",
   "feedItemFcTransferWithdraw": "{{crypto}} çek",
   "feedItemExchangeTitle": "CELO",
   "feedItemExchangeInfo_boughtGold": "<0></0> CELO alındı",
@@ -1231,7 +1231,7 @@
       "labelCTA": "Favorileri Görüntüle"
     },
     "emptyResults": {
-      "message": "<0>{{filter}}</0> filtre uygulandı",
+      "message": "<0>{{filter}}</0> filtresi uygulandı",
       "removeFilter": "Filtreyi kaldır"
     }
   },
@@ -1247,7 +1247,7 @@
   },
   "dappsScreenInfoSheet": {
     "title": "Dapp nedir?",
-    "description": "Bir dapp (veya merkezi olmayan uygulama), bir blockchain ağının üzerinde inşa edilen ve çalıştırılan bir uygulamadır. Bu, verilerinizin tek bir şirket ya da kuruluş tarafından yönetilmediği ya da saklanmadığı anlamına gelir.\n\nDapp'ler sundukları hizmetlere göre çeşitlilik gösterir. Bu hizmetlere örnek olarak merkeziyetsiz borsalar, borç verme, ödünç alma, takas etme, NFT depolama verilebilir.",
+    "description": "Bir dapp (veya merkezi olmayan uygulama), bir blok zincir ağının üzerinde inşa edilen ve çalıştırılan bir uygulamadır. Bu, verilerinizin tek bir şirket ya da kuruluş tarafından yönetilmediği ya da saklanmadığı anlamına gelir.\n\nDapp'ler sundukları hizmetlere göre çeşitlilik gösterir. Bu hizmetlere örnek olarak merkeziyetsiz borsalar, borç verme, ödünç alma, takas etme, NFT depolama verilebilir.",
     "buttonLabel": "Bana daha fazlasını anlat"
   },
   "dappsDisclaimerAllDapps": "{{appName}} bu dapp'lerle bağlantılı değildir ve bunların kullanımına ilişkin hiçbir beyan veya iddiada bulunmaz. Lütfen bir dapp'i kullanmadan önce kullanıcı sözleşmesini veya gizlilik politikasını inceleyerek riskleri kabul edin.",
@@ -1423,7 +1423,7 @@
       "selectCurrencyTitle": "Bakiye Çek",
       "exchangeAmountTitle": "{{currency}} çek",
       "selectProviderHeader": "Para Çekme Yöntemi Seç",
-      "withdrawExchangeTitle": "Kripto Çekme"
+      "withdrawExchangeTitle": "Kripto çekimi yap"
     },
     "spend": {
       "fiatExchangeTitle": "Harcama Çek",
@@ -1463,7 +1463,7 @@
     "mobileMoney": {
       "operator": {
         "label": "Ağ",
-        "placeholderText": "Mobil Şebeke Operatörüne Girin"
+        "placeholderText": "Mobil Şebeke Operatörünü girin"
       },
       "mobile": {
         "label": "Telefon Numarası",
@@ -1498,7 +1498,7 @@
     "swapTo": "Şu Token’a",
     "insufficientFunds": "Yetersiz {{token}}. Lütfen daha küçük bir miktar girin veya farklı bir token seçin.",
     "fetchSwapQuoteFailed": "Gecikme için üzgünüz! En iyi döviz kurunu almak normalden daha uzun sürüyor. Lütfen birkaç dakika içinde tekrar deneyin.",
-    "disclaimer": "Celo'daki ortaklar tarafından desteklenen takaslar. <0>Daha fazla bilgi edinin.</0>"
+    "disclaimer": "Celo'daki ortakların desteklediği takaslar. <0>Daha Fazla Bilgi Edinin.</0>"
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Takas kaynağı",
@@ -1550,7 +1550,7 @@
     "shareMessage": "Merhaba! {{appName}} uygulamasını kripto cüzdanım olarak kullanıyorum ve sizi de uygulamaya göz atmaya davet etmek istiyorum. Uygulamayı indirip telefon numaranızı bağladığınızda, ikimiz de özel bir NFT alacağız. Bu bağlantıyı kullanın: {{link}}",
     "rewardsActive": {
       "title": "{{contactName}} adlı kişiyi {{appName}} uygulamasına davet edin ve ikiniz de NFT kazanın!",
-      "body": "Görünüşe göre {{contactName}} {{appName}}adresinde değil. Cüzdan adreslerini biliyorsanız yine de bir ödeme gönderebilir veya bunun yerine bir davetiye gönderebilirsiniz. \n\n Cüzdanı indirdikten ve telefon numaralarını bağladıktan sonra, ikiniz de özel bir NFT alacaksınız."
+      "body": "Görünüşe göre {{contactName}} {{appName}} kullanmıyor. Bu kişinin cüzdan adresini biliyorsanız, yine de bir ödeme gönderebilir veya bunun yerine davet gönderebilirsiniz. \n\n Bu kişi cüzdanı indirdikten ve telefon numarasını bağladıktan sonra, ikiniz de özel bir NFT alacaksınız."
     }
   },
   "celoNews": {
