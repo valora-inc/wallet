@@ -636,7 +636,7 @@ function* sendPayment() {
 }
 ```
 
-However it's still possible that the `catch` blocks throws again, and we'd be back to the initial problem.
+However it's still possible that the `catch` block throws again, and we'd be back to the initial problem.
 
 To avoid this problem, we recommend wrapping `takeEvery`/`takeLatest`/`takeLeading` worker sagas using the [`safely`](src/utils/safely.ts) helper.
 

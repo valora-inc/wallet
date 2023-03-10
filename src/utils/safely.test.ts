@@ -41,7 +41,7 @@ describe(safely, () => {
     expect(consoleErrorSpy).toHaveBeenCalledTimes(0)
   })
 
-  it('in the (unlikely) case Logger throws, it writes to console.error', () => {
+  it('writes to console.error, in the (unlikely) case Logger throws', () => {
     const loggerFailed = new Error('logger failed')
     loggerErrorSpy.mockImplementation(() => {
       throw loggerFailed
@@ -66,7 +66,7 @@ describe(safely, () => {
     )
   })
 
-  it('in the (even more unlikely) case console throws, it still ignores the error', () => {
+  it('still ignores the error, in the (even more unlikely) case console throws', () => {
     const loggerFailed = new Error('logger failed')
     loggerErrorSpy.mockImplementation(() => {
       throw loggerFailed
