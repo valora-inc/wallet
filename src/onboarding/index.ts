@@ -2,7 +2,7 @@ export interface OnboardingExperimentParams {
   enableForcedBackup: boolean
   showRecoveryPhraseInOnboarding: boolean
   showCloudBackupFakeDoor: boolean // No effect if showRecoveryPhraseInOnboarding is false.
-  useNewBackupFlowCopy: boolean // Whether to use new copy in the backup flow.
+  useNewBackupFlowCopy: boolean
   showBackupAlert: boolean // Whether to show an alert in the sidenav if the user hasn't backed up.
   useNewBackupHomecard: boolean
 }
