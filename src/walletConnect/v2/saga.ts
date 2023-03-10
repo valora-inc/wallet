@@ -6,7 +6,17 @@ import SignClient from '@walletconnect/sign-client'
 import { SessionTypes, SignClientTypes } from '@walletconnect/types'
 import { getSdkError } from '@walletconnect/utils'
 import { EventChannel, eventChannel } from 'redux-saga'
-import { call, delay, put, race, select, take, takeEvery, takeLeading } from 'redux-saga/effects'
+import {
+  call,
+  delay,
+  put,
+  race,
+  select,
+  spawn,
+  take,
+  takeEvery,
+  takeLeading,
+} from 'redux-saga/effects'
 import { WalletConnectEvents } from 'src/analytics/Events'
 import { WalletConnect2Properties } from 'src/analytics/Properties'
 import { DappRequestOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
@@ -20,6 +30,7 @@ import i18n from 'src/i18n'
 import { isBottomSheetVisible, navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import Logger from 'src/utils/Logger'
+import { safely } from 'src/utils/safely'
 import {
   getDefaultRequestTrackedPropertiesV2,
   getDefaultSessionTrackedPropertiesV2,
@@ -551,19 +562,19 @@ function* checkPersistedState() {
 }
 
 export function* walletConnectV2Saga() {
-  yield takeLeading(Actions.INITIALISE_CLIENT_V2, handleInitialiseWalletConnect)
-  yield takeEvery(Actions.INITIALISE_PAIRING_V2, handleInitialisePairing)
-  yield takeEvery(Actions.CLOSE_SESSION_V2, closeSession)
+  yield takeLeading(Actions.INITIALISE_CLIENT_V2, safely(handleInitialiseWalletConnect))
+  yield takeEvery(Actions.INITIALISE_PAIRING_V2, safely(handleInitialisePairing))
+  yield takeEvery(Actions.CLOSE_SESSION_V2, safely(closeSession))
 
-  yield takeEvery(Actions.SESSION_PROPOSAL_V2, handleIncomingSessionRequest)
-  yield takeEvery(Actions.ACCEPT_SESSION_V2, acceptSession)
-  yield takeEvery(Actions.DENY_SESSION_V2, denySession)
+  yield takeEvery(Actions.SESSION_PROPOSAL_V2, safely(handleIncomingSessionRequest))
+  yield takeEvery(Actions.ACCEPT_SESSION_V2, safely(acceptSession))
+  yield takeEvery(Actions.DENY_SESSION_V2, safely(denySession))
 
-  yield takeEvery(Actions.SESSION_PAYLOAD_V2, handleIncomingActionRequest)
-  yield takeEvery(Actions.ACCEPT_REQUEST_V2, handleAcceptRequest)
-  yield takeEvery(Actions.DENY_REQUEST_V2, handleDenyRequest)
+  yield takeEvery(Actions.SESSION_PAYLOAD_V2, safely(handleIncomingActionRequest))
+  yield takeEvery(Actions.ACCEPT_REQUEST_V2, safely(handleAcceptRequest))
+  yield takeEvery(Actions.DENY_REQUEST_V2, safely(handleDenyRequest))
 
-  yield call(checkPersistedState)
+  yield spawn(checkPersistedState)
 }
 
 export function* initialiseWalletConnectV2(uri: string, origin: WalletConnectPairingOrigin) {

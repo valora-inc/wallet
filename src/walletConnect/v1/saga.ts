@@ -4,7 +4,7 @@ import '@react-native-firebase/messaging'
 import WalletConnectClient from '@walletconnect/client'
 import { IWalletConnectOptions } from '@walletconnect/legacy-types'
 import { EventChannel, eventChannel } from 'redux-saga'
-import { call, fork, put, select, take, takeEvery } from 'redux-saga/effects'
+import { call, fork, put, select, spawn, take, takeEvery } from 'redux-saga/effects'
 import { WalletConnectEvents } from 'src/analytics/Events'
 import { WalletConnect1Properties } from 'src/analytics/Properties'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
@@ -19,6 +19,7 @@ import { Screens } from 'src/navigator/Screens'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import Logger from 'src/utils/Logger'
+import { safely } from 'src/utils/safely'
 import {
   getDefaultRequestTrackedPropertiesV1,
   getDefaultSessionTrackedPropertiesV1,
@@ -497,18 +498,18 @@ function* checkPersistedState(): any {
 }
 
 export function* walletConnectV1Saga() {
-  yield takeEvery(Actions.INITIALISE_CONNECTION_V1, handleInitialiseWalletConnect)
+  yield takeEvery(Actions.INITIALISE_CONNECTION_V1, safely(handleInitialiseWalletConnect))
 
-  yield takeEvery(Actions.ACCEPT_SESSION_V1, acceptSession)
-  yield takeEvery(Actions.DENY_SESSION_V1, denySession)
-  yield takeEvery(Actions.CLOSE_SESSION_V1, closeSession)
-  yield takeEvery(Actions.ACCEPT_REQUEST_V1, acceptRequest)
-  yield takeEvery(Actions.DENY_REQUEST_V1, denyRequest)
+  yield takeEvery(Actions.ACCEPT_SESSION_V1, safely(acceptSession))
+  yield takeEvery(Actions.DENY_SESSION_V1, safely(denySession))
+  yield takeEvery(Actions.CLOSE_SESSION_V1, safely(closeSession))
+  yield takeEvery(Actions.ACCEPT_REQUEST_V1, safely(acceptRequest))
+  yield takeEvery(Actions.DENY_REQUEST_V1, safely(denyRequest))
 
-  yield takeEvery(Actions.SESSION_V1, handleSessionRequest)
-  yield takeEvery(Actions.PAYLOAD_V1, handlePayloadRequest)
+  yield takeEvery(Actions.SESSION_V1, safely(handleSessionRequest))
+  yield takeEvery(Actions.PAYLOAD_V1, safely(handlePayloadRequest))
 
-  yield call(checkPersistedState)
+  yield spawn(checkPersistedState)
 }
 
 export function* initialiseWalletConnectV1(uri: string, origin: WalletConnectPairingOrigin) {
