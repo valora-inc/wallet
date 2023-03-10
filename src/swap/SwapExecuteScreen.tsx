@@ -166,7 +166,7 @@ export function SwapExecuteScreen() {
       case SwapState.COMPLETE:
         return <DoneAndSwapAgain />
       default:
-        return <View style={styles.actionBar} />
+        return <View style={[styles.actionBar, { minHeight: 130 }]} />
     }
   }, [swapState])
 
@@ -216,13 +216,13 @@ const styles = StyleSheet.create({
   },
   button: {
     width: '100%',
+    paddingBottom: Spacing.Regular16,
   },
   actionBar: {
     flexGrow: 1,
     flexDirection: 'column',
     alignItems: 'center',
     paddingHorizontal: variables.contentPadding,
-    minHeight: 126,
   },
   contactSupportLink: {
     color: colors.onboardingBlue,
