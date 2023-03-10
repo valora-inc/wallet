@@ -319,7 +319,7 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     padding: Spacing.Regular16,
-    flex: 1,
+    flexGrow: 1,
   },
   swapAmountsContainer: {
     paddingBottom: Spacing.Thick24,
