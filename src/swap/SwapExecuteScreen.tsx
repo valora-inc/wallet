@@ -35,51 +35,54 @@ export function SwapExecuteScreen() {
     navigate(Screens.SupportContact)
   }
 
-  const DoneAndSwapAgain = () => {
-    return (
-      <View style={styles.actionBar}>
-        <Button
-          text={t('SwapExecuteScreen.swapActionBar.done')}
-          onPress={navigateHome}
-          type={BtnTypes.PRIMARY}
-          size={BtnSizes.FULL}
-          testID="SwapExecuteScreen/Done"
-          style={[styles.button, { paddingBottom: Spacing.Regular16 }]}
-        />
-        <Button
-          text={t('SwapExecuteScreen.swapActionBar.swapAgain')}
-          onPress={navigateToSwapStart}
-          type={BtnTypes.SECONDARY}
-          size={BtnSizes.FULL}
-          testID="SwapExecuteScreen/SwapAgain"
-          style={styles.button}
-        />
-      </View>
-    )
-  }
-
-  const TryAgainAndDone = () => {
-    return (
-      <View style={styles.actionBar}>
-        <Button
-          text={t('SwapExecuteScreen.swapActionBar.tryAgain')}
-          onPress={navigateToReviewScreen}
-          type={BtnTypes.PRIMARY}
-          size={BtnSizes.FULL}
-          testID="SwapExecuteScreen/TryAgain"
-          style={[styles.button, { paddingBottom: Spacing.Regular16 }]}
-        />
-        <Button
-          text={t('SwapExecuteScreen.swapActionBar.done')}
-          onPress={navigateHome}
-          type={BtnTypes.SECONDARY}
-          size={BtnSizes.FULL}
-          testID="SwapExecuteScreen/Done"
-          style={styles.button}
-        />
-      </View>
-    )
-  }
+  const navigationButtons = useMemo(() => {
+    switch (swapState) {
+      case SwapState.ERROR:
+        return (
+          <View style={styles.actionBar}>
+            <Button
+              text={t('SwapExecuteScreen.swapActionBar.tryAgain')}
+              onPress={navigateToReviewScreen}
+              type={BtnTypes.PRIMARY}
+              size={BtnSizes.FULL}
+              testID="SwapExecuteScreen/TryAgain"
+              style={[styles.button, { paddingBottom: Spacing.Regular16 }]}
+            />
+            <Button
+              text={t('SwapExecuteScreen.swapActionBar.done')}
+              onPress={navigateHome}
+              type={BtnTypes.SECONDARY}
+              size={BtnSizes.FULL}
+              testID="SwapExecuteScreen/Done"
+              style={styles.button}
+            />
+          </View>
+        )
+      case SwapState.COMPLETE:
+        return (
+          <View style={styles.actionBar}>
+            <Button
+              text={t('SwapExecuteScreen.swapActionBar.done')}
+              onPress={navigateHome}
+              type={BtnTypes.PRIMARY}
+              size={BtnSizes.FULL}
+              testID="SwapExecuteScreen/Done"
+              style={[styles.button, { paddingBottom: Spacing.Regular16 }]}
+            />
+            <Button
+              text={t('SwapExecuteScreen.swapActionBar.swapAgain')}
+              onPress={navigateToSwapStart}
+              type={BtnTypes.SECONDARY}
+              size={BtnSizes.FULL}
+              testID="SwapExecuteScreen/SwapAgain"
+              style={styles.button}
+            />
+          </View>
+        )
+      default:
+        return <View style={[styles.actionBar, { minHeight: 130 }]} />
+    }
+  }, [swapState])
 
   const swapDisplay = useMemo(() => {
     switch (swapState) {
@@ -158,17 +161,6 @@ export function SwapExecuteScreen() {
         return <RedLoadingSpinnerToInfo />
       case SwapState.COMPLETE:
         return <GreenLoadingSpinnerToCheck />
-    }
-  }, [swapState])
-
-  const navigationButtons = useMemo(() => {
-    switch (swapState) {
-      case SwapState.ERROR:
-        return <TryAgainAndDone />
-      case SwapState.COMPLETE:
-        return <DoneAndSwapAgain />
-      default:
-        return <View style={[styles.actionBar, { minHeight: 130 }]} />
     }
   }, [swapState])
 
