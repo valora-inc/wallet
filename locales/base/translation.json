@@ -1534,7 +1534,7 @@
       "action": "Continue",
       "body": "Crypto amounts & fees can change due to fluctuations in the crypto market. \n\n Please review your final amount & fees and resubmit."
     },
-    "swapCompleteScreen": {
+    "swapCompleteSection": {
       "title": "Swap successful",
       "subtitle": "Your assets are now in your wallet",
       "done": "Done"
@@ -1546,7 +1546,8 @@
     },
     "swapActionBar": {
       "tryAgain": "Try Again",
-      "done": "Done"
+      "done": "Done",
+      "swapAgain": "Swap Again"
     },
     "swapErrorModal": {
       "title": "We couldn’t complete this transaction.",

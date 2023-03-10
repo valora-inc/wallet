@@ -47,7 +47,7 @@ export function SwapExecuteScreen() {
           style={[styles.button, { paddingBottom: Spacing.Regular16 }]}
         />
         <Button
-          text={t('SwapExecuteScreen.swapAgain')}
+          text={t('SwapExecuteScreen.swapActionBar.swapAgain')}
           onPress={navigateToSwapStart}
           type={BtnTypes.SECONDARY}
           size={BtnSizes.FULL}
@@ -137,8 +137,8 @@ export function SwapExecuteScreen() {
       case SwapState.COMPLETE:
         return (
           <>
-            <Text style={styles.text}>{t('SwapExecuteScreen.swapCompleteScreen.title')}</Text>
-            <Text style={styles.subText}>{t('SwapExecuteScreen.swapCompleteScreen.subtitle')}</Text>
+            <Text style={styles.text}>{t('SwapExecuteScreen.swapCompleteSection.title')}</Text>
+            <Text style={styles.subText}>{t('SwapExecuteScreen.swapCompleteSection.subtitle')}</Text>
           </>
         )
     }
