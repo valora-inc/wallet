@@ -1221,7 +1221,7 @@
   },
   "dappsScreen": {
     "title": "Dapps",
-    "message": "Досліджуйте способи використання вашої криптовалюти",
+    "message": "Досліджуйте способи використання ваших активів",
     "errorMessage": "Сталася помилка під час завантаження застосунків dapps",
     "featuredDapp": "Рекомендовано",
     "allDapps": "Усі",
@@ -1233,6 +1233,10 @@
     "favoritedDappToast": {
       "message": "Додано як уподобання",
       "labelCTA": "Переглянути вподобання"
+    },
+    "emptyResults": {
+      "message": "<0>{{filter}}</0> фільтр застосовано",
+      "removeFilter": "Видалити фільтр"
     }
   },
   "dappsScreenHelpDialog": {

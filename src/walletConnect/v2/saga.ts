@@ -81,6 +81,22 @@ function* handleInitialiseWalletConnect() {
   }
 }
 
+// Though the WC types say `icons` is string[], we've seen buggy clients with no `icons` property
+// so to avoid crashing the code depending on this, we fix it here
+// Note: this method mutates the session
+function applyIconFixIfNeeded(
+  session: SignClientTypes.EventArguments['session_proposal'] | SessionTypes.Struct
+) {
+  const peer = 'params' in session ? session.params.proposer : session.peer
+  const { icons } = peer?.metadata || {}
+  if (peer?.metadata && (!Array.isArray(icons) || typeof icons[0] !== 'string' || !icons[0])) {
+    peer.metadata.icons = []
+  }
+}
+
+// Export for testing
+export const _applyIconFixIfNeeded = applyIconFixIfNeeded
+
 function* createWalletConnectChannel() {
   if (!client) {
     Logger.debug(TAG + '@createWalletConnectChannel', `init start`)
@@ -103,6 +119,7 @@ function* createWalletConnectChannel() {
 
   return eventChannel((emit) => {
     const onSessionProposal = (session: SignClientTypes.EventArguments['session_proposal']) => {
+      applyIconFixIfNeeded(session)
       emit(sessionProposal(session))
     }
 
@@ -336,6 +353,7 @@ function* getSessionFromClient(session: SignClientTypes.EventArguments['session_
     )
   }
 
+  applyIconFixIfNeeded(sessionValue)
   return sessionValue
 }
 
