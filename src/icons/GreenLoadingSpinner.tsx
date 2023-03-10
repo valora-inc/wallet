@@ -4,7 +4,7 @@ import React from 'react'
 const GreenLoadingSpinner = () => {
   return (
     <LottieView
-      source={require('./greenLoadingSpinnerIcon.json')}
+      source={require('./lottie-json/greenLoadingSpinner.json')}
       autoPlay={true}
       loop={true}
       style={{ height: 64 }}
