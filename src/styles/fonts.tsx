@@ -33,6 +33,12 @@ const standards = {
     fontFamily: Inter.Regular,
     color: colors.dark,
   },
+  xsmall: {
+    fontSize: 12,
+    lineHeight: 16,
+    fontFamily: Inter.Regular,
+    color: colors.dark,
+  },
 }
 // Figma Font Styles
 const fontStyles = StyleSheet.create({
@@ -81,12 +87,15 @@ const fontStyles = StyleSheet.create({
   large: standards.large,
   regular: standards.regular,
   small: standards.small,
+  xsmall: standards.xsmall,
   large600: { ...standards.large, fontFamily: Inter.SemiBold },
   regular600: { ...standards.regular, fontFamily: Inter.SemiBold },
   small600: { ...standards.small, fontFamily: Inter.SemiBold },
+  xsmall600: { ...standards.xsmall, fontFamily: Inter.SemiBold },
   large500: { ...standards.large, fontFamily: Inter.Medium },
   regular500: { ...standards.regular, fontFamily: Inter.Medium },
   small500: { ...standards.small, fontFamily: Inter.Medium },
+  xsmall500: { ...standards.xsmall, fontFamily: Inter.Medium },
   center: {
     textAlign: 'center',
   },
