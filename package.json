@@ -104,6 +104,7 @@
     "@sentry/react-native": "^4.13.0",
     "@sentry/types": "^7.29.0",
     "@th3rdwave/react-navigation-bottom-sheet": "^0.2.2",
+    "@tkey/default": "^8.0.0-alpha.0",
     "@toruslabs/customauth-react-native-sdk": "^4.0.1",
     "@toruslabs/react-native-web-browser": "^1.1.0",
     "@walletconnect/client": "^1.8.0",

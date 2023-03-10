@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { useState } from 'react'
 import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import fontStyles from 'src/styles/fonts'
@@ -7,15 +8,27 @@ import { Spacing } from 'src/styles/styles'
 //   useSelector,
 // } from 'react-redux'
 import Logger from 'src/utils/Logger'
-import { useState } from 'react'
 import Web3Auth, { OPENLOGIN_NETWORK } from '@web3auth/react-native-sdk'
 import * as WebBrowser from '@toruslabs/react-native-web-browser'
+import ThresholdKey from '@tkey/default'
+import TorusServiceProviderBase from '@tkey/service-provider-base'
+import TorusStorageLayer from '@tkey/storage-layer-torus'
+import { BN } from 'ethereumjs-util'
 // import {OpenloginAdapter} from '@web3auth/openlogin-adapter'
 
 // import { navigateHome } from 'src/navigator/NavigationService'
 // import { e164NumberSelector } from 'src/account/selectors'
 
 const TAG = 'SetupCloudBackup'
+
+const tKey = new ThresholdKey({
+  serviceProvider: new TorusServiceProviderBase({
+    enableLogging: true,
+  }),
+  storageLayer: new TorusStorageLayer({
+    hostUrl: 'https://metadata.tor.us',
+  }),
+})
 
 export async function getValoraVerifierJWT({
   phoneNumber,
@@ -50,41 +63,47 @@ export async function getValoraVerifierJWT({
 export async function triggerLogin() {
   try {
     const clientId = 'my-client-id' // fixme replace with real client id (probly from env vars)
-    // const openloginAdapter = new OpenloginAdapter({
-    //   adapterSettings: {
-    //     clientId, //Optional - Provide only if you haven't provided it in the Web3Auth Instantiation Code
-    //     network: "cyan", // Optional - Provide only if you haven't provided it in the Web3Auth Instantiation Code
-    //     uxMode: "popup",
-    //     whiteLabel: {
-    //       name: "Your app Name",
-    //       logoLight: "https://web3auth.io/images/w3a-L-Favicon-1.svg",
-    //       logoDark: "https://web3auth.io/images/w3a-D-Favicon-1.svg",
-    //       defaultLanguage: "en",
-    //       dark: true, // whether to enable dark mode. defaultValue: false
-    //     },
-    //   },
-    // });
     const web3auth = new Web3Auth(WebBrowser, {
-      // TODO check if modal looks lightweight enough (just 'sign in with google')
-      clientId,
+      // TODO try out UI white-labeling
+      // sdkUrl: '',  // TODO see if this can be used to remove the annoying blue loading circles
+      clientId, // fixme replace with real client id from env vars
       network: OPENLOGIN_NETWORK.TESTNET,
       loginConfig: {
         google: {
-          verifier: 'google-lrc', // todo replace with our own custom verifier
+          verifier: 'google-oauth-alfajores',
           typeOfLogin: 'google',
-          clientId: '221898609709-obfn3p63741l5333093430j3qeiinaa8.apps.googleusercontent.com', // todo replace with our own google client id
+          clientId: '1067724576910-j7aqq89gfe5c30lnd9u8jkt7837fsprm.apps.googleusercontent.com',
+          // logoLight: 'todo',
+          // logoDark: 'todo',
         },
       },
+      redirectUrl: 'celo://wallet',
     })
+    // await web3auth.logout({clientId})
     const loginDetails = await web3auth.login({
       loginProvider: 'google',
       mfaLevel: 'none',
-      redirectUrl: 'celo://wallet',
+      // redirectUrl: 'celo://wallet',
     })
     Logger.info(TAG, `name: ${loginDetails.userInfo?.name}`)
-    // todo set private key on tKey
+    if (!loginDetails.privKey) throw new Error('No private key returned from web3auth')
+
+    // initialize tkey
+    const postboxKey = new BN(loginDetails.privKey, 16)
+    tKey.serviceProvider.postboxKey = postboxKey
+    const keyDetails = await tKey.initialize() // fixme somehow this starts off with 2 shares instead of 1.. (??)
+    Logger.info(TAG, `tkey initialized with keyDetails: ${JSON.stringify(keyDetails)}`)
   } catch (error) {
     Logger.error(TAG, 'triggerLogin failed', error)
+  }
+}
+
+export async function getTKeyDetails() {
+  try {
+    await tKey.initialize()
+    Logger.info(TAG, `tKey details: ${JSON.stringify(tKey.getKeyDetails())}`)
+  } catch (error) {
+    Logger.error(TAG, 'getTKeyDetails failed', error)
   }
 }
 
@@ -98,6 +117,10 @@ function SetupCloudBackup() {
     void triggerLogin().then(() => {
       setBackupButtonClickable(true)
     })
+  }
+
+  const onPressDetails = () => {
+    void getTKeyDetails()
   }
 
   // const onPressGroovy = () => {
@@ -136,6 +159,14 @@ function SetupCloudBackup() {
       <Button
         text={'Back up with Google'}
         onPress={onPressBackup}
+        showLoading={!backupButtonClickable}
+        testID="BackUpWithGoogle"
+        type={BtnTypes.PRIMARY}
+        size={BtnSizes.MEDIUM}
+      />
+      <Button
+        text={'Get details'}
+        onPress={onPressDetails}
         showLoading={!backupButtonClickable}
         testID="BackUpWithGoogle"
         type={BtnTypes.PRIMARY}
