@@ -109,7 +109,9 @@ function* acceptSession(session: AcceptSession) {
     }
     connector.approveSession(sessionData)
     connector.updateSession(sessionData)
-    yield put(storeSession(connector.session))
+    const newSession = connector.session
+    applyIconFixIfNeeded(newSession)
+    yield put(storeSession(newSession))
     ValoraAnalytics.track(WalletConnectEvents.wc_session_approve_success, defaultTrackedProperties)
     yield call(showWalletConnectionSuccessMessage, peerMeta.name)
     SentryTransactionHub.finishTransaction(SentryTransaction.wallet_connect_connection)
@@ -299,6 +301,17 @@ function* listenForWalletConnectMessages(walletConnectChannel: EventChannel<Wall
   }
 }
 
+// Though the WC types say `icons` is string[], we've seen buggy clients with no `icons` property
+// so to avoid crashing the code depending on this, we fix it here
+// Note: this method mutates the session
+function applyIconFixIfNeeded(session: WalletConnectSessionRequest | WalletConnectSession) {
+  const { peerMeta } = 'peerMeta' in session ? session : session.params[0]
+  const { icons } = peerMeta || {}
+  if (peerMeta && (!Array.isArray(icons) || typeof icons[0] !== 'string' || !icons[0])) {
+    peerMeta.icons = []
+  }
+}
+
 // eslint-disable-next-line require-yield
 function* createWalletConnectChannelWithArgs(connectorOpts: IWalletConnectOptions) {
   Logger.info(
@@ -324,6 +337,7 @@ function* createWalletConnectChannelWithArgs(connectorOpts: IWalletConnectOption
       const peerId = payload.params[0].peerId
       connectors[peerId] = connector
       payload.uri = connectorOpts.uri
+      applyIconFixIfNeeded(payload)
       emit(sessionRequest(peerId, payload))
     })
     connector.on('call_request', (error: any, payload: WalletConnectPayloadRequest) => {
