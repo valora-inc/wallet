@@ -37,9 +37,8 @@ const isCategoryWithDapps = (
 
 /**
  * Returns a list of categories with dapps
- * Should only be used on the Legacy Dapps screens
  */
-export const dappCategoriesByIdSelector = createSelector(
+export const dappCategoriesSelector = createSelector(
   dappsListSelector,
   dappsCategoriesSelector,
   favoriteDappIdsSelector,
@@ -63,10 +62,22 @@ export const dappCategoriesByIdSelector = createSelector(
       if (!isDappV2(dapp) && !favoriteDappIds.includes(dapp.id)) {
         mappedCategories[dapp.categoryId]?.dapps.push(dapp)
       }
+      // DappV2 dapps can have multiple categories
+      // And don't need to be removed form the all section as this is handled in DAppsExplorerScreen.tsx
+      if (isDappV2(dapp)) {
+        dapp.categories.forEach((category) => {
+          mappedCategories[category]?.dapps.push(dapp)
+        })
+      }
     })
 
     return Object.values(mappedCategories).filter(isCategoryWithDapps)
   }
+)
+
+export const dappsCategoriesAlphabeticalSelector = createSelector(
+  dappCategoriesSelector,
+  (categories) => categories.slice(0).sort((a, b) => a.name.localeCompare(b.name))
 )
 
 export const dappConnectInfoSelector = (state: RootState) => state.dapps.dappConnectInfo

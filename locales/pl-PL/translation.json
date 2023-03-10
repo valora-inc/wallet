@@ -187,7 +187,7 @@
   "startSuperchargingNotificationStart": "Otrzymuj nagrody",
   "cashIn": "Dodaj {{currency}}",
   "connectNumber": "Podłącz numer",
-  "connectToWallet": "Połącz się z {{dappName}}.",
+  "connectToWallet": "Połącz z {{dappName}}",
   "confirmTransaction": "Potwierdź transakcję",
   "allow": "Zezwól",
   "address": "Adres portfela",
@@ -198,8 +198,8 @@
     "signTX": "Transakcję",
     "details": "Pokaż szczegóły"
   },
-  "shareInfo": "Musisz podłączyć swój portfel, aby zatwierdzać transakcje w tym Dapp. Po połączeniu będzie miał dostęp do adresu Twojego portfela.",
-  "connectWalletInfoDappkit": "Musisz podłączyć swój portfel, aby zatwierdzać transakcje w tym Dapp. Po podłączeniu będzie miał dostęp do Twojego adresu portfela i numeru telefonu.",
+  "shareInfo": "Musisz podłączyć swój portfel, aby zatwierdzać transakcje w Dapp. Po połączeniu będzie mieć dostęp do adresu Twojego portfela.",
+  "connectWalletInfoDappkit": "Musisz podłączyć swój portfel, aby zatwierdzać transakcje w Dapp. Po połączeniu będzie mieć dostęp do adresu Twojego portfela i numeru telefonu.",
   "data": "Dane",
   "firebaseDisabled": "Firebase jest wyłączony, powiadomienia i przesyłanie dzienników nie będą działać",
   "learnMore": "Dowiedz się więcej",
@@ -552,7 +552,7 @@
   "sendAndInvite": "Wyślij i zaproś",
   "inviteRewardsBanner": {
     "title": "Zaproś znajomych i zbieraj NFT",
-    "body": "Po skonfigurowaniu portfela {{appName}} i podłączeniu swojego numeru, każdy z Was otrzyma ekskluzywne NFT."
+    "body": "Po założeniu portfela w aplikacji {{appName}} i podłączeniu numeru oboje otrzymacie ekskluzywne NFT."
   },
   "inviteWithUrl": {
     "title": "Zaproś znajomego",
@@ -578,8 +578,8 @@
     "privacy": "Dołączając do tej sieci, zezwalasz nam na gromadzenie anonimowych informacji na temat sposobu, w jaki korzystasz z naszej aplikacji. Dodatkowo, jeśli podłączysz swój numer telefonu, jego zaszyfrowana kopia będzie przechowywana w Celo Network. Jeśli udzielisz aplikacji Valora dostępu do swojej listy kontaktów, aplikacja Valora zaimportuje nazwę, numer telefonu i zdjęcie profilowe każdego kontaktu, aby umożliwić użytkownikom komunikowanie się przez aplikację Valora. Aby dowiedzieć się, w jaki sposób zbieramy i wykorzystujemy te dane, zapoznaj się z naszą <0>Polityką prywatności</0>.",
     "goldDisclaimer": "Zakładając „konto” w Valora, tworzysz cyfrowy portfel, do którego klucze posiadasz tylko Ty. Żadna inna osoba ani podmiot, w tym cLabs lub Valora, nie może odzyskać Twojego klucza, zmienić go lub cofnąć transakcji ani odzyskać utraconych środków. Należy mieć świadomość, że kryptowaluty są nową klasą aktywów\n i wiążą się z ryzykiem strat finansowych. Przed zakupem jakichkolwiek aktywów dokładnie rozważ swoją sytuację finansową i tolerancję na ryzyko finansowe."
   },
-  "fullNameOrPsuedonym": "Pełne imię i nazwisko lub pseudonim",
-  "namePlaceholder": "ex. imię",
+  "fullNameOrPsuedonym": "Imię i nazwisko lub pseudonim",
+  "namePlaceholder": "np. imię",
   "nameAndPicGuideCopyTitle": "Jak masz na imię?",
   "nameAndPicGuideCopyContent": "Chcielibyśmy wiedzieć, jak Cię nazywać.",
   "important": "Ważne",
@@ -683,7 +683,7 @@
     "createNewWallet": "Utwórz portfel",
     "restoreWallet": "Przywróć portfel",
     "hasWallet": "Mam już portfel",
-    "header": "Witamy na {{appName}}! Stwórzmy twój portfel kryptowalutowy.",
+    "header": "Witamy w {{appName}}! Stwórzmy Twój portfel kryptowalutowy.",
     "getStarted": "Rozpocznij"
   },
   "accessContacts": {
@@ -744,13 +744,13 @@
   },
   "phoneVerificationScreen": {
     "screenTitle": "Numer telefonu",
-    "title": "Podłącz swój numer telefonu do Valory",
-    "description": "To łączy adres portfela z numerem telefonu, więc wysyłanie kryptowalut jest łatwe",
+    "title": "Podłącz swój numer telefonu z Valorą",
+    "description": "Powoduje to połączenie Twojego adresu portfela z Twoim numerem telefonu, dzięki czemu wysyłanie kryptowalut jest proste",
     "startButtonLabel": "Podłącz",
     "learnMore": {
       "buttonLabel": "Czy podłączenie numeru jest konieczne?",
       "title": "Czy podłączenie numeru jest konieczne?",
-      "body": "Podłączenie numeru telefonu pozwoli Ci na wysyłanie pieniędzy do znajomych z książki adresowej i innych numerów telefonów. \n \n Jeśli pominiesz ten krok, nie będziesz miał dostępu do swoich kontaktów i będziesz mógł wysyłać pieniądze jedynie za pomocą kodu QR lub adresu portfela."
+      "body": "Podłączenie numeru telefonu pozwoli Ci na wysyłanie pieniędzy do znajomych z książki adresowej i innych numerów telefonów. \n \n Jeśli pominiesz ten krok, nie będziesz mieć dostępu do swoich kontaktów i będziesz w stanie wysyłać pieniądze tylko za pomocą kodu QR lub adresu portfela."
     },
     "skip": {
       "title": "Czy na pewno?",
@@ -766,23 +766,23 @@
     "codeInputPlaceholder": "123456",
     "helpDialog": {
       "title": "Pomoc",
-      "body": "Wysłaliśmy wiadomość SMS na Twój numer telefonu. Sprawdź swoje wiadomości tekstowe, aby znaleźć 6-cyfrowy kod. \n \n Jeśli masz problemy z odbieraniem wiadomości, możesz pominąć ten krok i spróbować ponownie później.",
+      "body": "Wysłaliśmy wiadomość SMS pod Twój numer telefonu. Sprawdź swoje wiadomości tekstowe, aby znaleźć 6-cyfrowy kod. \n\nJeśli masz problemy z odbieraniem wiadomości, możesz pominąć ten krok i spróbować ponownie później.",
       "skip": "Pomiń",
       "dismiss": "Wróć"
     },
     "verificationFailure": "Coś poszło nie tak, spróbuj ponownie później.",
     "resendButtonNotYetAvailable": "Możliwość ponownego wysłania za {{secondsRemaining}} sek.",
-    "resendButton": "Nie otrzymałeś kodu?"
+    "resendButton": "Nie otrzymałeś(-aś) kodu?"
   },
   "importExistingKey": {
     "keyPlaceholder": "koń lampart pies małpa ...",
     "header": "Przywróć portfel",
-    "title": "Wprowadź hasło odzyskiwania.",
-    "description": "Użyj 12- lub 24-słownej frazy, którą zapisałeś podczas konfigurowania portfela do przywrócenia.",
+    "title": "Wprowadź frazę odzyskiwania",
+    "description": "Użyj zapisanej frazy składającej się z 12 lub 24 słów podczas konfigurowania przywracania portfela.",
     "emptyWalletDialog": {
-      "description": "W tym portfelu nie ma żadnych środków. Czy nadal chcesz go używać?",
-      "action": "Użyj portfela",
-      "title": "Strona\n<0></0>"
+      "description": "W tym portfelu nie ma żadnych środków. Czy nadal chcesz z niego korzystać?",
+      "action": "Użyj Portfela",
+      "title": "Saldo\n<0></0>"
     }
   },
   "verificationInput": {
@@ -983,13 +983,13 @@
   },
   "walletConnectRequest": {
     "transactionDataLabel": "Dane transakcyjne",
-    "readAccount": "{{dappName}} chciałbyś przeczytać adres swojego portfela {{appName}} .",
-    "signPayload": "{{dappName}} chciałby podpisać ładunek danych.",
-    "signTransaction": "{{dappName}} chciałby podpisać transakcję z Celo.",
-    "sendTransaction": "{{dappName}} chciałby wysłać transakcję Celo.",
-    "decryptPayload": "{{dappName}} chciałby odszyfrować ładunek danych.",
-    "computeSharedSecret": "{{dappName}} chciałby generować tajemnice.",
-    "transactionDataCopied": "Skopiowane dane transakcji"
+    "readAccount": "{{dappName}} chce przeczytać Twój adres portfela {{appName}}.",
+    "signPayload": "{{dappName}} chce podpisać ładunek danych.",
+    "signTransaction": "{{dappName}} chce podpisać transakcję Celo.",
+    "sendTransaction": "{{dappName}} chce wysłać transakcję Celo.",
+    "decryptPayload": "{{dappName}} chce odszyfrować ładunek danych.",
+    "computeSharedSecret": "{{dappName}} chce wygenerować tajemnice.",
+    "transactionDataCopied": "Dane transakcji zostały skopiowane"
   },
   "sessionInfo": "Ta aplikacja może poprosić o wykonanie następujących operacji:",
   "description": {
@@ -1221,18 +1221,22 @@
   },
   "dappsScreen": {
     "title": "Dapps",
-    "message": "Przeglądaj sposoby korzystania z kryptowalut",
+    "message": "Poznaj sposoby wykorzystania swoich aktywów",
     "errorMessage": "Wystąpił błąd podczas ładowania Dapps",
     "featuredDapp": "Polecane",
     "allDapps": "Wszystkie",
     "favoriteDapps": "Moje ulubione",
     "noFavorites": {
       "title": "Nie dodano żadnych ulubionych",
-      "description": "Śledź swoje najczęściej używane aplikacje, dotykając ikony gwiazdki, aby dodać je do ulubionych"
+      "description": "Śledź swoje najczęściej używane aplikacje Dapp poprzez dotknięcie ikony gwiazdki, aby dodać je do ulubionych"
     },
     "favoritedDappToast": {
       "message": "Dodane jako ulubione",
-      "labelCTA": "Zobacz Ulubione"
+      "labelCTA": "Zobacz ulubione"
+    },
+    "emptyResults": {
+      "message": "<0>{{filter}}</0> zastosowano filtr",
+      "removeFilter": "Usuń filtr"
     }
   },
   "dappsScreenHelpDialog": {
@@ -1247,14 +1251,14 @@
   },
   "dappsScreenInfoSheet": {
     "title": "Co to jest dapp?",
-    "description": "Dapp (lub zdecentralizowana aplikacja) to aplikacja zbudowana i działająca na szczycie sieci blockchain. Oznacza to, że żadna firma ani organizacja nie zarządza ani nie przechowuje Twoich danych.\n\nAplikacje różnią się pod względem oferowanych usług. Przykładami takich usług są zdecentralizowane giełdy, udzielanie pożyczek, pożyczanie, wymiana, przechowywanie NFT.",
-    "buttonLabel": "Powiedz mi więcej"
+    "description": "Dapp (lub zdecentralizowana aplikacja) to aplikacja zbudowana i działająca na szczycie sieci blockchain. Oznacza to, że żadna firma ani organizacja nie zarządza ani nie przechowuje Twoich danych.\n\nAplikacje Dapp różnią się pod względem oferowanych usług. Przykładami takich usług są zdecentralizowane giełdy, udzielanie pożyczek, pożyczanie, swap i przechowywanie NFT.",
+    "buttonLabel": "Opowiedz mi więcej"
   },
-  "dappsDisclaimerAllDapps": "{{appName}} nie jest powiązana z tymi dappami i nie składa żadnych oświadczeń ani roszczeń związanych z ich używaniem. Przed rozpoczęciem korzystania z aplikacji dapp należy zapoznać się z umową z użytkownikiem lub polityką prywatności.",
-  "dappsDisclaimerSingleDapp": "{{appName}} nie jest powiązana z tym dappem i nie składa żadnych oświadczeń dotyczących korzystania z niego. Zawsze sprawdzaj umowę z użytkownikiem lub politykę prywatności aplikacji.",
-  "dappsDisclaimerUnlistedDapp": "Ten dapp nie jest wymieniony w {{appName}}. {{appName}} nie jest powiązany z tym dappem i nie składa żadnych oświadczeń dotyczących korzystania z niego. Zawsze sprawdzaj umowę z użytkownikiem lub politykę prywatności aplikacji.",
+  "dappsDisclaimerAllDapps": "{{appName}} nie ma powiązania z tymi aplikacjami Dapp i nie składa żadnych oświadczeń ani roszczeń związanych z ich wykorzystaniem. Przed rozpoczęciem korzystania z Dapp należy zapoznać się z umową użytkownika lub polityką prywatności.",
+  "dappsDisclaimerSingleDapp": "{{appName}} nie jest powiązana z tą aplikacją Dapp i nie składa żadnych oświadczeń dotyczących jej wykorzystania. Zawsze sprawdzaj umowę użytkownika lub politykę prywatności aplikacji Dapp.",
+  "dappsDisclaimerUnlistedDapp": "Ta aplikacja Dapp nie jest wymieniona w {{appName}}. Aplikacja {{appName}} nie jest powiązana z tą aplikacją Dapp i nie składa żadnych oświadczeń dotyczących jej wykorzystania. Zawsze sprawdzaj umowę użytkownika lub politykę prywatności aplikacji Dapp.",
   "recentlyUsedDapps": "Ostatnio używane Dapps",
-  "favoritedDapps": "Ulubione aplikacje",
+  "favoritedDapps": "Ulubione aplikacje Dapp",
   "allDapps": "Wszystkie Dapps",
   "rewards": "Nagrody",
   "supercharge": "Supercharge",
@@ -1278,7 +1282,7 @@
     "cryptoExchange": "Giełda kryptowalut",
     "feesVary": "Opłaty mogą się różnić",
     "viewExchanges": "Zobacz giełdy",
-    "depositFrom": "Wpłata od",
+    "depositFrom": "Wpłata z",
     "cryptoExchangeOrWallet": "Giełda lub portfel kryptowalut",
     "card": "Karta kredytowa/debetowa",
     "bank": "Konto bankowe",
@@ -1353,7 +1357,7 @@
     "paymentMethodVia": "Połączono przez {{providerName}}",
     "receiveAmount": "Otrzymasz",
     "bankFeeDisclaimer": "Twój bank może pobierać dodatkowe opłaty za przelew.",
-    "mobileMoneyFeeDisclaimer": "Twój operator telefonii komórkowej może pobierać dodatkowe opłaty za przelew.",
+    "mobileMoneyFeeDisclaimer": "Twój operator pieniądza mobilnego może pobierać dodatkowe opłaty za przelew.",
     "cashIn": {
       "header": "Analizuj – Dodaj środki",
       "button": "Dodaj środki",
@@ -1423,7 +1427,7 @@
       "selectCurrencyTitle": "Wypłać środki",
       "exchangeAmountTitle": "Wypłać {{currency}}",
       "selectProviderHeader": "Wybierz metodę wypłaty",
-      "withdrawExchangeTitle": "Wypłać kryptowalutę"
+      "withdrawExchangeTitle": "Wypłać kryptowaluty"
     },
     "spend": {
       "fiatExchangeTitle": "Wykorzystaj środki",
@@ -1431,10 +1435,10 @@
       "selectCurrencyTitle": "Wykorzystaj środki"
     },
     "exchange": {
-      "copyAddress": "Kopia Adres",
-      "informationText": "Używaj tylko giełd lub aktywów <0>kompatybilnych z siecią Celo</0>, aby zapobiec utracie funduszy",
+      "copyAddress": "Skopiuj adres",
+      "informationText": "Używaj tylko giełd lub aktywów <0>kompatybilnych z siecią Celo</0>, aby zapobiegać utracie funduszy",
       "bottomSheetTitle": "Z jakich giełd mogę korzystać, aby wpłacać środki?",
-      "bottomSheetInfo": "Sprawdź, czy wysyłasz środki, które są kompatybilne z siecią Celo."
+      "bottomSheetInfo": "Dokładnie sprawdź, czy wysyłasz środki, które są kompatybilne z siecią Celo."
     }
   },
   "fiatDetailsScreen": {
@@ -1498,7 +1502,7 @@
     "swapTo": "Do",
     "insufficientFunds": "Niewystarczające saldo {{token}}. Spróbuj wpłacić mniejszą kwotę lub wybierz inny token.",
     "fetchSwapQuoteFailed": "Przepraszamy za opóźnienie! Przetwarzanie trwa dłużej niż zwykle, aby uzyskać najlepszy kurs wymiany. Spróbuj ponownie za kilka minut.",
-    "disclaimer": "Swapy zasilane przez partnerów na Celo. <0>Dowiedz się więcej.</0>"
+    "disclaimer": "Swapy wspierane przez partnerów na Celo. <0>Dowiedz się więcej.</0>"
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Zamień z",
@@ -1547,18 +1551,18 @@
     "title": "Wygląda na to, że {{contactName}} nie ma jeszcze portfela w {{appName}}.",
     "body": "Nadal możesz wysłać zaproszenie do {{appName}} lub spróbować wysłać płatność na adres portfela albo nom.space.",
     "sendInviteButtonLabel": "Wyślij zaproszenie",
-    "shareMessage": "Cześć! Używam {{appName}} jako mojego portfela kryptowalutowego i chcę Cię zaprosić do sprawdzenia go. Gdy pobierzesz aplikację i podłączysz swój numer telefonu, obaj dostaniemy specjalne NFT. Użyj tego linku: {{link}}",
+    "shareMessage": "Cześć! Używam {{appName}} jako mojego portfela kryptowalutowego i chcę Cię zaprosić do wypróbowania go. Gdy pobierzesz aplikację i podłączysz swój numer telefonu, dostaniemy specjalne NFT. Użyj tego linku: {{link}}",
     "rewardsActive": {
       "title": "Zaproś {{contactName}} do {{appName}}, a razem otrzymacie NFT!",
-      "body": "Wygląda na to, że {{contactName}} nie jest na {{appName}}. Nadal możesz wysłać płatność, jeśli znasz adres ich portfela, lub wysłać zaproszenie. \n\n Po pobraniu portfela i podaniu numeru telefonu, oboje otrzymacie ekskluzywne NFT."
+      "body": "Wygląda na to, że {{contactName}} nie korzysta z {{appName}}. Jeśli znasz adres jego/jej portfela, nadal możesz wysłać płatność lub zaproszenie. \n\n Po pobraniu portfela i podłączeniu numeru telefonu otrzymacie ekskluzywne NFT."
     }
   },
   "celoNews": {
     "headerTitle": "Aktualizacje",
-    "headerDescription": "Dowiedz się o przypadkach użycia, pilotażach i aktualizacjach technicznych na blogu Celo.",
+    "headerDescription": "Dowiedz się o przypadkach użycia, programach pilotażowych i aktualizacjach technicznych na blogu Celo.",
     "readMoreButtonText": "Przeczytaj więcej na blogu",
     "loadingError": "Przepraszamy, nie udało się załadować najnowszych aktualizacji. Spróbuj ponownie później.",
-    "retryButtonText": "Retry"
+    "retryButtonText": "Spróbuj ponownie"
   },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",

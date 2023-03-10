@@ -1217,7 +1217,7 @@
   },
   "dappsScreen": {
     "title": "Dapps",
-    "message": "Explore formas de usar suas cripto",
+    "message": "Explore formas de utilizar os seus bens",
     "errorMessage": "Ocorreu um erro ao carregar os dapps",
     "featuredDapp": "Em destaque",
     "allDapps": "Todos",
@@ -1229,6 +1229,10 @@
     "favoritedDappToast": {
       "message": "Adicionado aos favoritos",
       "labelCTA": "Ver Meus favoritos"
+    },
+    "emptyResults": {
+      "message": "<0>{{filter}}</0> filtro aplicado",
+      "removeFilter": "Remover filtro"
     }
   },
   "dappsScreenHelpDialog": {

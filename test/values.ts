@@ -14,6 +14,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import { MinimalContact } from 'react-native-contacts'
 import { TokenTransactionType } from 'src/apollo/types'
+import { DappV1, DappV2 } from 'src/dapps/types'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { ExchangeRates } from 'src/exchange/reducer'
 import { FeeType } from 'src/fees/reducer'
@@ -53,6 +54,8 @@ export const mockAccount3 = '0x1230000000000000000000000000000000007E57'
 
 export const mockMnemonic =
   'prosper winner find donate tape history measure umbrella agent patrol want rhythm old unable wash wrong need fluid hammer coach reveal plastic trust lake'
+export const mockTwelveWordMnemonic =
+  'prosper winner find donate tape history measure umbrella agent patrol want rhythm'
 
 export const mockMnemonicShard1 =
   'prosper winner find donate tape history measure umbrella agent patrol want rhythm celo'
@@ -981,5 +984,47 @@ export const mockExchanges: ExternalExchangeProvider[] = [
     link: 'https://www.okcoin.com/en/spot/trade/cusd-usd/',
     currencies: [Currency.Celo, Currency.Dollar],
     supportedRegions: ['global'],
+  },
+]
+
+export const mockDappListV1: DappV1[] = [
+  {
+    name: 'Dapp 1',
+    id: 'dapp1',
+    categoryId: '1',
+    description: 'Swap tokens!',
+    iconUrl: 'https://raw.githubusercontent.com/valora-inc/app-list/main/assets/dapp1.png',
+    dappUrl: 'https://app.dapp1.org/',
+    isFeatured: false,
+  },
+  {
+    name: 'Dapp 2',
+    id: 'dapp2',
+    categoryId: '2',
+    description: 'Lend and borrow tokens!',
+    iconUrl: 'https://raw.githubusercontent.com/valora-inc/app-list/main/assets/dapp2.png',
+    dappUrl: 'celo://wallet/dapp2Screen',
+    isFeatured: false,
+  },
+]
+
+export const mockDappListV2: DappV2[] = [
+  {
+    name: 'Dapp 1',
+    id: 'dapp1',
+    categories: ['1'],
+    description: 'Swap tokens!',
+    iconUrl: 'https://raw.githubusercontent.com/valora-inc/app-list/main/assets/dapp1.png',
+    dappUrl: 'https://app.dapp1.org/',
+    isFeatured: false,
+  },
+  {
+    name: 'Dapp 2',
+    id: 'dapp2',
+    categories: ['2'],
+    description: 'Lend and borrow tokens!',
+    iconUrl: 'https://raw.githubusercontent.com/valora-inc/app-list/main/assets/dapp2.png',
+    dappUrl: 'celo://wallet/dapp2Screen',
+    isFeatured: false,
   },
 ]
