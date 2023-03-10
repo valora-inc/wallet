@@ -110,7 +110,7 @@ export function SwapExecuteScreen() {
           <View>
             <Text style={styles.text}>{t('SwapExecuteScreen.swapErrorSection.title')}</Text>
             <Text style={styles.subText}>{t('SwapExecuteScreen.swapErrorSection.subtitle')}</Text>
-            <Touchable onPress={navigateToSupport}>
+            <Touchable testID="ContactSupportTouchable" onPress={navigateToSupport}>
               <Text style={styles.contactSupportText}>
                 <Trans i18nKey="SwapExecuteScreen.swapErrorSection.contactSupport">
                   <Text style={styles.contactSupportLink} />
