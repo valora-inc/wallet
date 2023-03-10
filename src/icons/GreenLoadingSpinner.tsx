@@ -4,13 +4,11 @@ import React from 'react'
 const GreenLoadingSpinner = () => {
   return (
     <LottieView
-      source={require('./greenLoadingSpinner.json')}
+      source={require('./greenLoadingSpinnerIcon.json')}
       autoPlay={true}
       loop={true}
       style={{ height: 64 }}
       testID="GreenLoadingSpinner"
-      hardwareAccelerationAndroid={true}
-      enableMergePathsAndroidForKitKatAndAbove={true}
     />
   )
 }

@@ -4,7 +4,7 @@ import React from 'react'
 const RedLoadingSpinnerToInfo = () => {
   return (
     <LottieView
-      source={require('./redLoadingSpinnerToInfo.json')}
+      source={require('./redLoadingSpinnerToInfoIcon.json')}
       autoPlay={true}
       loop={false}
       style={{ height: 64 }}
