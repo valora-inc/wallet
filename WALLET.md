@@ -31,6 +31,7 @@
 - [Other](#other)
   - [Localization (l10n) / translation process](#localization-l10n--translation-process)
   - [Redux state migration](#redux-state-migration)
+  - [Redux-Saga pitfalls](#redux-saga-pitfalls)
   - [Configuring the SMS Retriever](#configuring-the-sms-retriever)
   - [Generating GraphQL Types](#generating-graphql-types)
   - [Why do we use http(s) provider?](#why-do-we-use-https-provider)
@@ -591,6 +592,57 @@ If you're deleting or updating existing properties, please implement the appropr
 5. Add a new test schema in [test/schema.ts](test/schema.ts), with the newly added/deleted/updated properties. The test schema is useful to test migrations and show how the schema changed over time.
 6. Optional: if the migration is not trivial, add a test for it in [src/redux/migrations.test.ts](src/redux/migrations.test.ts)
 7. Commit the changes
+
+### Redux-Saga pitfalls
+
+### Error bubbling
+
+It's important to understand how errors propagates with Redux-Saga.
+
+Take the following example:
+
+```ts
+function* rootSaga() {
+  yield spawn(mySaga)
+  yield spawn(someOtherSaga)
+}
+
+function* mySaga() {
+  yield takeEvery('SEND_PAYMENT', sendPayment)
+  yield takeEvery('NOTIFY_USER', notifyUser)
+}
+
+function* someOtherSaga() {
+  // [...]
+}
+```
+
+If an exception is thrown from `sendPayment` or `notifyUser`, the whole `mySaga` will be cancelled.
+And won't handle `SEND_PAYMENT` AND `NOTIFY_USER` actions until the app is restarted.
+
+Since `mySaga` was spawned from the root saga, `someOtherSaga` won't be affected though.
+
+You may think that a good way to address this problem is to make sure `sendPayment` uses `try/catch`.
+
+```ts
+function* sendPayment() {
+  try {
+    // Code to send payment
+    // [...]
+  } catch (e) {
+    Logger.error(e)
+    yield put('SEND_PAYMENT_FAILED')
+  }
+}
+```
+
+However it's still possible that the `catch` blocks throws again, and we'd be back to the initial problem.
+
+To avoid this problem, we recommend wrapping `takeEvery`/`takeLatest`/`takeLeading` worker sagas using the [`safely`](src/utils/safely.ts) helper.
+
+Note that you should still handle errors happening in your action handlers. But at least you'll have the guarantee that it won't unexpectedly stop listening to actions because of an unhandled error.
+
+See more details https://redux-saga.js.org/docs/api#error-propagation
 
 ### Why do we use http(s) provider?
 
