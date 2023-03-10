@@ -63,7 +63,7 @@ export function onboardingPropsSelector(state: RootState): OnboardingProps {
  * and count the number of screens until the given screen and the total number
  */
 export function getOnboardingStepValues(screen: Screens, onboardingProps: OnboardingProps) {
-  let stepCounter = 1
+  let stepCounter = 1  // will increment this up to the onboarding step the user is on
   let totalCounter = 1
   let reachedScreeen = false
   let currentScreen: Screens = FIRST_ONBOARDING_SCREEN
