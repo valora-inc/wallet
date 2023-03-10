@@ -29,7 +29,7 @@ describe('getPixAccountSchema', () => {
       [PIXKeyTypeEnum.CPF, '000.000.000-00'],
       [PIXKeyTypeEnum.EMAIL, 'goodEmail@domain.com'],
       [PIXKeyTypeEnum.PHONE, '12345678901'],
-      [PIXKeyTypeEnum.RANDOM, 'ca2e0d3ea7f04b84b5dad09c3e156d8c'],
+      [PIXKeyTypeEnum.RANDOM, 'ca2e0d3e-a7f0-4b84-b5da-d09c3e156d8c'],
     ])('validate succeeds for valid %s', (keyType: PIXKeyTypeEnum, input: string) => {
       const { isValid, errorMessage } = validate(input, { keyType })
       expect(isValid).toEqual(true)

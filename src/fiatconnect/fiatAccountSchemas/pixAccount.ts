@@ -1,16 +1,17 @@
 import {
+  EMAIL_REGEX,
   FiatAccountSchema,
   FiatAccountType,
   PIXKeyTypeEnum,
   PIX_CPF_KEY_REGEX,
-  PIX_EMAIL_KEY_REGEX,
   PIX_PHONE_KEY_REGEX,
-  PIX_RANDOM_KEY_REGEX,
 } from '@fiatconnect/fiatconnect-types'
 import { getObfuscatedAccountNumber } from 'src/fiatconnect'
 import { INSTITUTION_NAME_FIELD } from 'src/fiatconnect/fiatAccountSchemas'
 import { FiatAccountFormSchema } from 'src/fiatconnect/fiatAccountSchemas/types'
 import i18n from 'src/i18n'
+
+const UUID_REGEX = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/g
 
 export const getPixAccountSchema = (): FiatAccountFormSchema<FiatAccountSchema.PIXAccount> => {
   const keyValidation = (input: string, fieldNamesToValues: Record<string, string>) => {
@@ -18,7 +19,7 @@ export const getPixAccountSchema = (): FiatAccountFormSchema<FiatAccountSchema.P
     let regex: RegExp
     switch (keyType) {
       case PIXKeyTypeEnum.EMAIL:
-        regex = PIX_EMAIL_KEY_REGEX
+        regex = EMAIL_REGEX
         break
       case PIXKeyTypeEnum.CPF:
         regex = PIX_CPF_KEY_REGEX
@@ -27,7 +28,7 @@ export const getPixAccountSchema = (): FiatAccountFormSchema<FiatAccountSchema.P
         regex = PIX_PHONE_KEY_REGEX
         break
       case PIXKeyTypeEnum.RANDOM:
-        regex = PIX_RANDOM_KEY_REGEX
+        regex = UUID_REGEX
         break
       default:
         // Occurs when keyType isn't selected
