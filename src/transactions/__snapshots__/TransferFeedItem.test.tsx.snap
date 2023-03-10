@@ -121,7 +121,7 @@ exports[`transfer feed item renders correctly for <0.000001 network fee 1`] = `
       <Text
         style={
           Object {
-            "color": "#9CA4A9",
+            "color": "#666666",
             "fontFamily": "Inter-Regular",
             "fontSize": 14,
             "lineHeight": 18,
@@ -258,7 +258,7 @@ exports[`transfer feed item renders correctly for faucet 1`] = `
       <Text
         style={
           Object {
-            "color": "#9CA4A9",
+            "color": "#666666",
             "fontFamily": "Inter-Regular",
             "fontSize": 14,
             "lineHeight": 18,
@@ -428,7 +428,7 @@ exports[`transfer feed item renders correctly for known received cEUR 1`] = `
       <Text
         style={
           Object {
-            "color": "#9CA4A9",
+            "color": "#666666",
             "fontFamily": "Inter-Regular",
             "fontSize": 14,
             "lineHeight": 18,
@@ -598,7 +598,7 @@ exports[`transfer feed item renders correctly for known received cUSD 1`] = `
       <Text
         style={
           Object {
-            "color": "#9CA4A9",
+            "color": "#666666",
             "fontFamily": "Inter-Regular",
             "fontSize": 14,
             "lineHeight": 18,
@@ -766,7 +766,7 @@ exports[`transfer feed item renders correctly for known sent 1`] = `
       <Text
         style={
           Object {
-            "color": "#9CA4A9",
+            "color": "#666666",
             "fontFamily": "Inter-Regular",
             "fontSize": 14,
             "lineHeight": 18,
@@ -934,7 +934,7 @@ exports[`transfer feed item renders correctly for known sent without recipient c
       <Text
         style={
           Object {
-            "color": "#9CA4A9",
+            "color": "#666666",
             "fontFamily": "Inter-Regular",
             "fontSize": 14,
             "lineHeight": 18,
@@ -1069,7 +1069,7 @@ exports[`transfer feed item renders correctly for network fee 1`] = `
       <Text
         style={
           Object {
-            "color": "#9CA4A9",
+            "color": "#666666",
             "fontFamily": "Inter-Regular",
             "fontSize": 14,
             "lineHeight": 18,
@@ -1239,7 +1239,7 @@ exports[`transfer feed item renders correctly for received 1`] = `
       <Text
         style={
           Object {
-            "color": "#9CA4A9",
+            "color": "#666666",
             "fontFamily": "Inter-Regular",
             "fontSize": 14,
             "lineHeight": 18,
@@ -1376,7 +1376,7 @@ exports[`transfer feed item renders correctly for received invite 1`] = `
       <Text
         style={
           Object {
-            "color": "#9CA4A9",
+            "color": "#666666",
             "fontFamily": "Inter-Regular",
             "fontSize": 14,
             "lineHeight": 18,
@@ -1546,7 +1546,7 @@ exports[`transfer feed item renders correctly for received with encrypted commen
       <Text
         style={
           Object {
-            "color": "#9CA4A9",
+            "color": "#666666",
             "fontFamily": "Inter-Regular",
             "fontSize": 14,
             "lineHeight": 18,
@@ -1714,7 +1714,7 @@ exports[`transfer feed item renders correctly for sent 1`] = `
       <Text
         style={
           Object {
-            "color": "#9CA4A9",
+            "color": "#666666",
             "fontFamily": "Inter-Regular",
             "fontSize": 14,
             "lineHeight": 18,
@@ -1849,7 +1849,7 @@ exports[`transfer feed item renders correctly for sent invite 1`] = `
       <Text
         style={
           Object {
-            "color": "#9CA4A9",
+            "color": "#666666",
             "fontFamily": "Inter-Regular",
             "fontSize": 14,
             "lineHeight": 18,
@@ -2017,7 +2017,7 @@ exports[`transfer feed item renders correctly for sent transaction 1`] = `
       <Text
         style={
           Object {
-            "color": "#9CA4A9",
+            "color": "#666666",
             "fontFamily": "Inter-Regular",
             "fontSize": 14,
             "lineHeight": 18,
@@ -2174,7 +2174,7 @@ exports[`transfer feed item renders correctly for sent with encrypted comment 1`
       <Text
         style={
           Object {
-            "color": "#9CA4A9",
+            "color": "#666666",
             "fontFamily": "Inter-Regular",
             "fontSize": 14,
             "lineHeight": 18,
@@ -2309,7 +2309,7 @@ exports[`transfer feed item renders correctly for verification fee 1`] = `
       <Text
         style={
           Object {
-            "color": "#9CA4A9",
+            "color": "#666666",
             "fontFamily": "Inter-Regular",
             "fontSize": 14,
             "lineHeight": 18,
@@ -2465,7 +2465,7 @@ exports[`transfer feed item renders correctly for verification reward 1`] = `
       <Text
         style={
           Object {
-            "color": "#9CA4A9",
+            "color": "#666666",
             "fontFamily": "Inter-Regular",
             "fontSize": 14,
             "lineHeight": 18,

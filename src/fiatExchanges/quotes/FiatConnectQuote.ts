@@ -20,6 +20,7 @@ import { CiCoCurrency, resolveCICOCurrency } from 'src/utils/currencies'
 
 const kycStrings = {
   [KycSchema.PersonalDataAndDocuments]: i18n.t('selectProviderScreen.idRequired'),
+  [KycSchema.PersonalDataAndDocumentsDetailed]: i18n.t('selectProviderScreen.idRequired'),
 }
 
 // TODO: When we add support for more types be sure to add more unit tests to the FiatConnectQuotes class

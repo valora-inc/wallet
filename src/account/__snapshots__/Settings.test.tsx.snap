@@ -163,7 +163,7 @@ exports[`Account renders correctly 1`] = `
             <View
               style={
                 Object {
-                  "borderBottomColor": "#EDEEEF",
+                  "borderBottomColor": "#E6E6E6",
                   "borderBottomWidth": 1,
                   "marginLeft": 16,
                   "paddingVertical": 16,
@@ -243,7 +243,7 @@ exports[`Account renders correctly 1`] = `
             <View
               style={
                 Object {
-                  "borderBottomColor": "#EDEEEF",
+                  "borderBottomColor": "#E6E6E6",
                   "borderBottomWidth": 1,
                   "marginLeft": 16,
                   "paddingVertical": 16,
@@ -324,7 +324,7 @@ exports[`Account renders correctly 1`] = `
             <View
               style={
                 Object {
-                  "borderBottomColor": "#EDEEEF",
+                  "borderBottomColor": "#E6E6E6",
                   "borderBottomWidth": 1,
                   "marginLeft": 16,
                   "paddingVertical": 16,
@@ -375,7 +375,7 @@ exports[`Account renders correctly 1`] = `
                   <Text
                     style={
                       Object {
-                        "color": "#9CA4A9",
+                        "color": "#666666",
                         "fontFamily": "Inter-Regular",
                         "fontSize": 16,
                         "lineHeight": 22,
@@ -437,7 +437,7 @@ exports[`Account renders correctly 1`] = `
             <View
               style={
                 Object {
-                  "borderBottomColor": "#EDEEEF",
+                  "borderBottomColor": "#E6E6E6",
                   "borderBottomWidth": 1,
                   "marginLeft": 16,
                   "paddingVertical": 16,
@@ -488,7 +488,7 @@ exports[`Account renders correctly 1`] = `
                   <Text
                     style={
                       Object {
-                        "color": "#9CA4A9",
+                        "color": "#666666",
                         "fontFamily": "Inter-Regular",
                         "fontSize": 16,
                         "lineHeight": 22,
@@ -533,7 +533,7 @@ exports[`Account renders correctly 1`] = `
                 "paddingVertical": 8,
               },
               Object {
-                "borderBottomColor": "#EDEEEF",
+                "borderBottomColor": "#E6E6E6",
                 "borderBottomWidth": 1,
                 "marginLeft": 16,
                 "marginTop": 44,
@@ -545,7 +545,7 @@ exports[`Account renders correctly 1`] = `
           <Text
             style={
               Object {
-                "color": "#9CA4A9",
+                "color": "#666666",
                 "fontFamily": "Inter-Medium",
                 "fontSize": 13,
                 "lineHeight": 16,
@@ -584,7 +584,7 @@ exports[`Account renders correctly 1`] = `
             <View
               style={
                 Object {
-                  "borderBottomColor": "#EDEEEF",
+                  "borderBottomColor": "#E6E6E6",
                   "borderBottomWidth": 1,
                   "marginLeft": 16,
                   "paddingVertical": 16,
@@ -646,7 +646,7 @@ exports[`Account renders correctly 1`] = `
           <View
             style={
               Object {
-                "borderBottomColor": "#EDEEEF",
+                "borderBottomColor": "#E6E6E6",
                 "borderBottomWidth": 1,
                 "marginLeft": 16,
                 "paddingVertical": 16,
@@ -710,7 +710,7 @@ exports[`Account renders correctly 1`] = `
                 "paddingVertical": 8,
               },
               Object {
-                "borderBottomColor": "#EDEEEF",
+                "borderBottomColor": "#E6E6E6",
                 "borderBottomWidth": 1,
                 "marginLeft": 16,
                 "marginTop": 44,
@@ -722,7 +722,7 @@ exports[`Account renders correctly 1`] = `
           <Text
             style={
               Object {
-                "color": "#9CA4A9",
+                "color": "#666666",
                 "fontFamily": "Inter-Medium",
                 "fontSize": 13,
                 "lineHeight": 16,
@@ -742,7 +742,7 @@ exports[`Account renders correctly 1`] = `
           <View
             style={
               Object {
-                "borderBottomColor": "#EDEEEF",
+                "borderBottomColor": "#E6E6E6",
                 "borderBottomWidth": 1,
                 "marginLeft": 16,
                 "paddingVertical": 16,
@@ -795,7 +795,7 @@ exports[`Account renders correctly 1`] = `
               <Text
                 style={
                   Object {
-                    "color": "#9CA4A9",
+                    "color": "#666666",
                     "fontFamily": "Inter-Regular",
                     "fontSize": 14,
                     "lineHeight": 18,
@@ -821,7 +821,7 @@ exports[`Account renders correctly 1`] = `
                 "paddingVertical": 8,
               },
               Object {
-                "borderBottomColor": "#EDEEEF",
+                "borderBottomColor": "#E6E6E6",
                 "borderBottomWidth": 1,
                 "marginLeft": 16,
                 "marginTop": 44,
@@ -833,7 +833,7 @@ exports[`Account renders correctly 1`] = `
           <Text
             style={
               Object {
-                "color": "#9CA4A9",
+                "color": "#666666",
                 "fontFamily": "Inter-Medium",
                 "fontSize": 13,
                 "lineHeight": 16,
@@ -871,7 +871,7 @@ exports[`Account renders correctly 1`] = `
             <View
               style={
                 Object {
-                  "borderBottomColor": "#EDEEEF",
+                  "borderBottomColor": "#E6E6E6",
                   "borderBottomWidth": 1,
                   "marginLeft": 16,
                   "paddingVertical": 16,
@@ -951,7 +951,7 @@ exports[`Account renders correctly 1`] = `
             <View
               style={
                 Object {
-                  "borderBottomColor": "#EDEEEF",
+                  "borderBottomColor": "#E6E6E6",
                   "borderBottomWidth": 1,
                   "marginLeft": 16,
                   "paddingVertical": 16,
@@ -1031,7 +1031,7 @@ exports[`Account renders correctly 1`] = `
             <View
               style={
                 Object {
-                  "borderBottomColor": "#EDEEEF",
+                  "borderBottomColor": "#E6E6E6",
                   "borderBottomWidth": 1,
                   "marginLeft": 16,
                   "paddingVertical": 16,
@@ -1095,7 +1095,7 @@ exports[`Account renders correctly 1`] = `
                 "paddingVertical": 8,
               },
               Object {
-                "borderBottomColor": "#EDEEEF",
+                "borderBottomColor": "#E6E6E6",
                 "borderBottomWidth": 1,
                 "marginLeft": 16,
                 "marginTop": 44,
@@ -1107,7 +1107,7 @@ exports[`Account renders correctly 1`] = `
           <Text
             style={
               Object {
-                "color": "#9CA4A9",
+                "color": "#666666",
                 "fontFamily": "Inter-Medium",
                 "fontSize": 13,
                 "lineHeight": 16,
@@ -1146,7 +1146,7 @@ exports[`Account renders correctly 1`] = `
             <View
               style={
                 Object {
-                  "borderBottomColor": "#EDEEEF",
+                  "borderBottomColor": "#E6E6E6",
                   "borderBottomWidth": 1,
                   "marginLeft": 16,
                   "paddingVertical": 16,
@@ -1191,7 +1191,7 @@ exports[`Account renders correctly 1`] = `
                 <Text
                   style={
                     Object {
-                      "color": "#9CA4A9",
+                      "color": "#666666",
                       "fontFamily": "Inter-Regular",
                       "fontSize": 14,
                       "lineHeight": 18,
@@ -1422,7 +1422,7 @@ exports[`Account renders correctly 1`] = `
                           "lineHeight": 22,
                         },
                         Object {
-                          "color": "#9CA4A9",
+                          "color": "#666666",
                           "paddingTop": 16,
                         },
                       ]
@@ -1684,7 +1684,7 @@ exports[`Account renders correctly 1`] = `
                           "lineHeight": 22,
                         },
                         Object {
-                          "color": "#9CA4A9",
+                          "color": "#666666",
                           "paddingTop": 16,
                         },
                       ]
@@ -1946,7 +1946,7 @@ exports[`Account renders correctly 1`] = `
                           "lineHeight": 22,
                         },
                         Object {
-                          "color": "#9CA4A9",
+                          "color": "#666666",
                           "paddingTop": 16,
                         },
                       ]
@@ -2165,7 +2165,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
             <View
               style={
                 Object {
-                  "borderBottomColor": "#EDEEEF",
+                  "borderBottomColor": "#E6E6E6",
                   "borderBottomWidth": 1,
                   "marginLeft": 16,
                   "paddingVertical": 16,
@@ -2245,7 +2245,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
             <View
               style={
                 Object {
-                  "borderBottomColor": "#EDEEEF",
+                  "borderBottomColor": "#E6E6E6",
                   "borderBottomWidth": 1,
                   "marginLeft": 16,
                   "paddingVertical": 16,
@@ -2326,7 +2326,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
             <View
               style={
                 Object {
-                  "borderBottomColor": "#EDEEEF",
+                  "borderBottomColor": "#E6E6E6",
                   "borderBottomWidth": 1,
                   "marginLeft": 16,
                   "paddingVertical": 16,
@@ -2377,7 +2377,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
                   <Text
                     style={
                       Object {
-                        "color": "#9CA4A9",
+                        "color": "#666666",
                         "fontFamily": "Inter-Regular",
                         "fontSize": 16,
                         "lineHeight": 22,
@@ -2439,7 +2439,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
             <View
               style={
                 Object {
-                  "borderBottomColor": "#EDEEEF",
+                  "borderBottomColor": "#E6E6E6",
                   "borderBottomWidth": 1,
                   "marginLeft": 16,
                   "paddingVertical": 16,
@@ -2490,7 +2490,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
                   <Text
                     style={
                       Object {
-                        "color": "#9CA4A9",
+                        "color": "#666666",
                         "fontFamily": "Inter-Regular",
                         "fontSize": 16,
                         "lineHeight": 22,
@@ -2535,7 +2535,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
                 "paddingVertical": 8,
               },
               Object {
-                "borderBottomColor": "#EDEEEF",
+                "borderBottomColor": "#E6E6E6",
                 "borderBottomWidth": 1,
                 "marginLeft": 16,
                 "marginTop": 44,
@@ -2547,7 +2547,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
           <Text
             style={
               Object {
-                "color": "#9CA4A9",
+                "color": "#666666",
                 "fontFamily": "Inter-Medium",
                 "fontSize": 13,
                 "lineHeight": 16,
@@ -2586,7 +2586,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
             <View
               style={
                 Object {
-                  "borderBottomColor": "#EDEEEF",
+                  "borderBottomColor": "#E6E6E6",
                   "borderBottomWidth": 1,
                   "marginLeft": 16,
                   "paddingVertical": 16,
@@ -2648,7 +2648,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
           <View
             style={
               Object {
-                "borderBottomColor": "#EDEEEF",
+                "borderBottomColor": "#E6E6E6",
                 "borderBottomWidth": 1,
                 "marginLeft": 16,
                 "paddingVertical": 16,
@@ -2712,7 +2712,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
                 "paddingVertical": 8,
               },
               Object {
-                "borderBottomColor": "#EDEEEF",
+                "borderBottomColor": "#E6E6E6",
                 "borderBottomWidth": 1,
                 "marginLeft": 16,
                 "marginTop": 44,
@@ -2724,7 +2724,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
           <Text
             style={
               Object {
-                "color": "#9CA4A9",
+                "color": "#666666",
                 "fontFamily": "Inter-Medium",
                 "fontSize": 13,
                 "lineHeight": 16,
@@ -2744,7 +2744,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
           <View
             style={
               Object {
-                "borderBottomColor": "#EDEEEF",
+                "borderBottomColor": "#E6E6E6",
                 "borderBottomWidth": 1,
                 "marginLeft": 16,
                 "paddingVertical": 16,
@@ -2797,7 +2797,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
               <Text
                 style={
                   Object {
-                    "color": "#9CA4A9",
+                    "color": "#666666",
                     "fontFamily": "Inter-Regular",
                     "fontSize": 14,
                     "lineHeight": 18,
@@ -2823,7 +2823,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
                 "paddingVertical": 8,
               },
               Object {
-                "borderBottomColor": "#EDEEEF",
+                "borderBottomColor": "#E6E6E6",
                 "borderBottomWidth": 1,
                 "marginLeft": 16,
                 "marginTop": 44,
@@ -2835,7 +2835,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
           <Text
             style={
               Object {
-                "color": "#9CA4A9",
+                "color": "#666666",
                 "fontFamily": "Inter-Medium",
                 "fontSize": 13,
                 "lineHeight": 16,
@@ -2873,7 +2873,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
             <View
               style={
                 Object {
-                  "borderBottomColor": "#EDEEEF",
+                  "borderBottomColor": "#E6E6E6",
                   "borderBottomWidth": 1,
                   "marginLeft": 16,
                   "paddingVertical": 16,
@@ -2953,7 +2953,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
             <View
               style={
                 Object {
-                  "borderBottomColor": "#EDEEEF",
+                  "borderBottomColor": "#E6E6E6",
                   "borderBottomWidth": 1,
                   "marginLeft": 16,
                   "paddingVertical": 16,
@@ -3033,7 +3033,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
             <View
               style={
                 Object {
-                  "borderBottomColor": "#EDEEEF",
+                  "borderBottomColor": "#E6E6E6",
                   "borderBottomWidth": 1,
                   "marginLeft": 16,
                   "paddingVertical": 16,
@@ -3097,7 +3097,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
                 "paddingVertical": 8,
               },
               Object {
-                "borderBottomColor": "#EDEEEF",
+                "borderBottomColor": "#E6E6E6",
                 "borderBottomWidth": 1,
                 "marginLeft": 16,
                 "marginTop": 44,
@@ -3109,7 +3109,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
           <Text
             style={
               Object {
-                "color": "#9CA4A9",
+                "color": "#666666",
                 "fontFamily": "Inter-Medium",
                 "fontSize": 13,
                 "lineHeight": 16,
@@ -3148,7 +3148,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
             <View
               style={
                 Object {
-                  "borderBottomColor": "#EDEEEF",
+                  "borderBottomColor": "#E6E6E6",
                   "borderBottomWidth": 1,
                   "marginLeft": 16,
                   "paddingVertical": 16,
@@ -3193,7 +3193,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
                 <Text
                   style={
                     Object {
-                      "color": "#9CA4A9",
+                      "color": "#666666",
                       "fontFamily": "Inter-Regular",
                       "fontSize": 14,
                       "lineHeight": 18,
@@ -3262,7 +3262,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
             <Text
               style={
                 Object {
-                  "color": "#9CA4A9",
+                  "color": "#666666",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 14,
                   "lineHeight": 18,
@@ -3782,7 +3782,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
                           "lineHeight": 22,
                         },
                         Object {
-                          "color": "#9CA4A9",
+                          "color": "#666666",
                           "paddingTop": 16,
                         },
                       ]
@@ -4044,7 +4044,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
                           "lineHeight": 22,
                         },
                         Object {
-                          "color": "#9CA4A9",
+                          "color": "#666666",
                           "paddingTop": 16,
                         },
                       ]
@@ -4306,7 +4306,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
                           "lineHeight": 22,
                         },
                         Object {
-                          "color": "#9CA4A9",
+                          "color": "#666666",
                           "paddingTop": 16,
                         },
                       ]

@@ -93,7 +93,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 114,
+          "version": 115,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -152,6 +152,7 @@ describe('store state', () => {
           "phoneNumberVerified": false,
           "pincodeUseExpandedBlocklist": false,
           "rampCashInButtonExpEnabled": false,
+          "requireCPV": false,
           "requirePinOnAppOpen": false,
           "rewardPillText": Object {
             "de": "Belohnungen",

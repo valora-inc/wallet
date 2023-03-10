@@ -86,7 +86,7 @@ exports[`CeloTransferFeedItem renders correctly 1`] = `
       <Text
         style={
           Object {
-            "color": "#9CA4A9",
+            "color": "#666666",
             "fontFamily": "Inter-Regular",
             "fontSize": 14,
             "lineHeight": 18,
@@ -186,7 +186,7 @@ exports[`CeloTransferFeedItem renders correctly when there's a default name 1`] 
       <Text
         style={
           Object {
-            "color": "#9CA4A9",
+            "color": "#666666",
             "fontFamily": "Inter-Regular",
             "fontSize": 14,
             "lineHeight": 18,
@@ -286,7 +286,7 @@ exports[`CeloTransferFeedItem renders correctly when there's a known address 1`]
       <Text
         style={
           Object {
-            "color": "#9CA4A9",
+            "color": "#666666",
             "fontFamily": "Inter-Regular",
             "fontSize": 14,
             "lineHeight": 18,
