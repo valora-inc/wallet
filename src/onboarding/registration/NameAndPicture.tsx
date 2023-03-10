@@ -62,7 +62,7 @@ function NameAndPicture({ navigation, route }: Props) {
   }, [navigation, choseToRestoreAccount, step, totalSteps, nameInput])
 
   const goToNextScreen = () => {
-    goToNextOnboardingScreen(Screens.NameAndPicture, onboardingProps)
+    goToNextOnboardingScreen({ firstScreenInCurrentStep: Screens.NameAndPicture, onboardingProps })
   }
 
   const onPressContinue = () => {

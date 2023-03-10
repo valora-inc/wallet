@@ -155,7 +155,10 @@ export class PincodeSet extends React.Component<Props, State> {
     if (this.isChangingPin()) {
       navigate(Screens.Settings)
     } else {
-      goToNextOnboardingScreen(Screens.PincodeSet, this.props.onboardingProps)
+      goToNextOnboardingScreen({
+        firstScreenInCurrentStep: Screens.PincodeSet,
+        onboardingProps: this.props.onboardingProps,
+      })
     }
   }
 

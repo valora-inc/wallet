@@ -84,7 +84,10 @@ export default function EnableBiometry({ navigation }: Props) {
   }
 
   const handleNavigateToNextScreen = () => {
-    goToNextOnboardingScreen(Screens.EnableBiometry, onboardingProps)
+    goToNextOnboardingScreen({
+      firstScreenInCurrentStep: Screens.EnableBiometry,
+      onboardingProps,
+    })
   }
 
   const onPressUseBiometry = async () => {

@@ -154,7 +154,10 @@ export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackup
     yield call(initializeAccountSaga)
 
     const onboardingProps = yield select(onboardingPropsSelector)
-    yield call(goToNextOnboardingScreen, Screens.ImportWallet, onboardingProps)
+    yield call(goToNextOnboardingScreen, {
+      firstScreenInCurrentStep: Screens.ImportWallet,
+      onboardingProps,
+    })
 
     yield put(importBackupPhraseSuccess())
   } catch (error) {

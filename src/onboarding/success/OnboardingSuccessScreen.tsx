@@ -15,7 +15,11 @@ function OnboardingSuccessScreen() {
   const onboardingProps = useTypedSelector(onboardingPropsSelector)
   useEffect(() => {
     const timeout = setTimeout(
-      () => goToNextOnboardingScreen(Screens.VerificationStartScreen, onboardingProps),
+      () =>
+        goToNextOnboardingScreen({
+          firstScreenInCurrentStep: Screens.VerificationStartScreen,
+          onboardingProps,
+        }),
       3000
     )
 

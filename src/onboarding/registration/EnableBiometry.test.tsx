@@ -70,10 +70,10 @@ describe('EnableBiometry', () => {
 
     expect(setPincodeWithBiometry).toHaveBeenCalled()
     expect(store.getActions()).toEqual([setPincodeSuccess(PincodeType.PhoneAuth)])
-    expect(goToNextOnboardingScreen).toHaveBeenCalledWith(
-      Screens.EnableBiometry,
-      mockOnboardingProps
-    )
+    expect(goToNextOnboardingScreen).toHaveBeenCalledWith({
+      firstScreenInCurrentStep: Screens.EnableBiometry,
+      onboardingProps: mockOnboardingProps,
+    })
 
     expect(analyticsSpy).toHaveBeenNthCalledWith(1, OnboardingEvents.biometry_opt_in_start)
     expect(analyticsSpy).toHaveBeenNthCalledWith(2, OnboardingEvents.biometry_opt_in_approve)
@@ -101,10 +101,10 @@ describe('EnableBiometry', () => {
     await flushMicrotasksQueue()
 
     expect(setPincodeWithBiometry).toHaveBeenCalled()
-    expect(goToNextOnboardingScreen).toHaveBeenCalledWith(
-      Screens.EnableBiometry,
-      mockOnboardingProps
-    )
+    expect(goToNextOnboardingScreen).toHaveBeenCalledWith({
+      firstScreenInCurrentStep: Screens.EnableBiometry,
+      onboardingProps: mockOnboardingProps,
+    })
   })
 
   it('should log error and not navigate if biometry enable fails', async () => {
@@ -139,10 +139,10 @@ describe('EnableBiometry', () => {
 
     fireEvent.press(getByText('skip'))
 
-    expect(goToNextOnboardingScreen).toHaveBeenCalledWith(
-      Screens.EnableBiometry,
-      mockOnboardingProps
-    )
+    expect(goToNextOnboardingScreen).toHaveBeenCalledWith({
+      firstScreenInCurrentStep: Screens.EnableBiometry,
+      onboardingProps: mockOnboardingProps,
+    })
   })
 
   it('should show guided onboarding explaining faceid when enabled to do so', () => {

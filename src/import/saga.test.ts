@@ -80,7 +80,13 @@ describe('Import wallet saga', () => {
         [call(initializeAccountSaga), undefined],
         [select(recoveringFromStoreWipeSelector), false],
         [select(onboardingPropsSelector), mockOnboardingProps],
-        [call(goToNextOnboardingScreen, Screens.ImportWallet, mockOnboardingProps), undefined],
+        [
+          call(goToNextOnboardingScreen, {
+            firstScreenInCurrentStep: Screens.ImportWallet,
+            onboardingProps: mockOnboardingProps,
+          }),
+          undefined,
+        ],
       ])
       .put(setBackupCompleted())
       .put(refreshAllBalances())

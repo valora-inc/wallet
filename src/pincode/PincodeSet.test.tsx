@@ -71,7 +71,10 @@ describe('Pincode', () => {
     jest.runOnlyPendingTimers()
     await flushMicrotasksQueue()
 
-    expect(goToNextOnboardingScreen).toBeCalledWith(Screens.PincodeSet, mockOnboardingProps)
+    expect(goToNextOnboardingScreen).toBeCalledWith({
+      firstScreenInCurrentStep: Screens.PincodeSet,
+      onboardingProps: mockOnboardingProps,
+    })
   })
 
   it('displays an error text when setting a blocked PIN', async () => {
