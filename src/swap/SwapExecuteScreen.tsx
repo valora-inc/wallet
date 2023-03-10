@@ -182,7 +182,9 @@ export function SwapExecuteScreen() {
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <ScrollView contentContainerStyle={styles.contentContainer}>
-        {SwapIcon}
+        <View style={styles.iconContainer}>
+          {SwapIcon}
+        </View>
         {SwapDisplay}
       </ScrollView>
       {NavigationButtons}
@@ -230,6 +232,9 @@ const styles = StyleSheet.create({
     color: colors.onboardingBlue,
     textDecorationLine: 'underline',
   },
+  iconContainer: {
+    marginBottom: Spacing.Regular16,
+  }
 })
 
 SwapExecuteScreen.navOptions = {
