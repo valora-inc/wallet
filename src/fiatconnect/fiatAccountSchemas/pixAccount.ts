@@ -13,15 +13,6 @@ import { FiatAccountFormSchema } from 'src/fiatconnect/fiatAccountSchemas/types'
 import i18n from 'src/i18n'
 
 export const getPixAccountSchema = (): FiatAccountFormSchema<FiatAccountSchema.PIXAccount> => {
-  const nonDigitPhoneCharacterRegex = /[()-.\+\s]/g
-
-  const clean = (input: string, keyType: PIXKeyTypeEnum | undefined) => {
-    if (keyType === PIXKeyTypeEnum.PHONE) {
-      return input.replace(nonDigitPhoneCharacterRegex, '')
-    }
-    return input
-  }
-
   const keyValidation = (input: string, fieldNamesToValues: Record<string, string>) => {
     const keyType = fieldNamesToValues['keyType'] as PIXKeyTypeEnum
     let regex: RegExp
@@ -34,11 +25,9 @@ export const getPixAccountSchema = (): FiatAccountFormSchema<FiatAccountSchema.P
         break
       case PIXKeyTypeEnum.PHONE:
         regex = PIX_PHONE_KEY_REGEX
-        input = input.replace(nonDigitPhoneCharacterRegex, '')
         break
       case PIXKeyTypeEnum.RANDOM:
         regex = PIX_RANDOM_KEY_REGEX
-        input = input.replace(/-/g, '')
         break
       default:
         // Occurs when keyType isn't selected
@@ -73,7 +62,7 @@ export const getPixAccountSchema = (): FiatAccountFormSchema<FiatAccountSchema.P
     accountName: {
       name: 'accountName',
       computeValue: ({ institutionName, key = '', keyType }) =>
-        `${institutionName} (${getObfuscatedAccountNumber(clean(key, keyType))})`,
+        `${institutionName} (${getObfuscatedAccountNumber(key)})`,
     },
   }
 }
