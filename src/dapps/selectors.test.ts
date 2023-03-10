@@ -1,4 +1,4 @@
-import { dappCategoriesByIdSelector } from 'src/dapps/selectors'
+import { dappCategoriesSelector } from 'src/dapps/selectors'
 import { getMockStoreData } from 'test/utils'
 
 const dapp1 = {
@@ -35,10 +35,10 @@ const dappsCategories = [
   },
 ]
 
-describe('dappCategoriesByIdSelector', () => {
+describe('dappCategoriesSelector', () => {
   it('should return categories with dapps', () => {
     expect(
-      dappCategoriesByIdSelector(
+      dappCategoriesSelector(
         getMockStoreData({
           dapps: {
             dappsList: [dapp1, dapp2],
