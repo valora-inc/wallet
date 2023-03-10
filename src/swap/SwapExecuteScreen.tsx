@@ -81,7 +81,7 @@ export function SwapExecuteScreen() {
     )
   }
 
-  const SwapDisplay = useMemo(() => {
+  const swapDisplay = useMemo(() => {
     switch (swapState) {
       default:
       case SwapState.START:
@@ -146,7 +146,7 @@ export function SwapExecuteScreen() {
     }
   }, [swapState])
 
-  const SwapIcon = useMemo(() => {
+  const swapIcon = useMemo(() => {
     switch (swapState) {
       default:
       case SwapState.START:
@@ -161,7 +161,7 @@ export function SwapExecuteScreen() {
     }
   }, [swapState])
 
-  const NavigationButtons = useMemo(() => {
+  const navigationButtons = useMemo(() => {
     switch (swapState) {
       case SwapState.ERROR:
         return <TryAgainAndDone />
@@ -183,11 +183,11 @@ export function SwapExecuteScreen() {
     <SafeAreaView style={styles.safeAreaView}>
       <ScrollView contentContainerStyle={styles.contentContainer}>
         <View style={styles.iconContainer}>
-          {SwapIcon}
+          {swapIcon}
         </View>
-        {SwapDisplay}
+        {swapDisplay}
       </ScrollView>
-      {NavigationButtons}
+      {navigationButtons}
     </SafeAreaView>
   )
 }
