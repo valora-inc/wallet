@@ -65,14 +65,13 @@ export function onboardingPropsSelector(state: RootState): OnboardingProps {
 export function getOnboardingStepValues(screen: Screens, onboardingProps: OnboardingProps) {
   let stepCounter = 1  // will increment this up to the onboarding step the user is on
   let totalCounter = 1
-  let reachedScreeen = false
-  let currentScreen: Screens = FIRST_ONBOARDING_SCREEN
+  let reachedScreeen = false  // tracks whether we have reached the screen the user is on in onboarding, and we can stop incrementing stepCounter
+  let currentScreen: Screens = FIRST_ONBOARDING_SCREEN  // pointer that we will update when simulating navigation through the onboarding screens to calculate "step" and "totalSteps"
 
   const navigate = (s: Screens) => {
+      // dummy navigation function to help determine what onboarding step the user is on, without triggering side effects like actually cycling them back through the first few onboarding screens
     totalCounter++
-    if (currentScreen === screen) {
-      reachedScreeen = true
-    }
+    reachedScreen = reachedScreen || (currentScreen === screen)
     if (!reachedScreeen) {
       stepCounter++
     }
@@ -80,7 +79,7 @@ export function getOnboardingStepValues(screen: Screens, onboardingProps: Onboar
   }
 
   const navigateHome = () => {
-    currentScreen = END_OF_ONBOARDING_SCREEN
+    currentScreen = Screens.WalletHome
   }
 
   // @ts-ignore: Compiler doesn't understand that navigate() can update currentScreen
