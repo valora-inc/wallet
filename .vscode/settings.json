@@ -13,6 +13,8 @@
   },
   "typescript.preferences.importModuleSpecifier": "non-relative",
   "typescript.updateImportsOnFileMove.enabled": "always",
+  // Use the project's TypeScript version instead of the one bundled with VS Code
+  "typescript.tsdk": "node_modules/typescript/lib",
   "editor.codeActionsOnSave": {
     "source.organizeImports": false
   },

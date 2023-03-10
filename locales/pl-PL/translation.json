@@ -1221,7 +1221,7 @@
   },
   "dappsScreen": {
     "title": "Dapps",
-    "message": "Przeglądaj sposoby korzystania z kryptowalut",
+    "message": "Poznaj sposoby wykorzystania swoich aktywów",
     "errorMessage": "Wystąpił błąd podczas ładowania Dapps",
     "featuredDapp": "Polecane",
     "allDapps": "Wszystkie",
@@ -1233,6 +1233,10 @@
     "favoritedDappToast": {
       "message": "Dodane jako ulubione",
       "labelCTA": "Zobacz ulubione"
+    },
+    "emptyResults": {
+      "message": "<0>{{filter}}</0> zastosowano filtr",
+      "removeFilter": "Usuń filtr"
     }
   },
   "dappsScreenHelpDialog": {
