@@ -138,7 +138,9 @@ export function SwapExecuteScreen() {
         return (
           <>
             <Text style={styles.text}>{t('SwapExecuteScreen.swapCompleteSection.title')}</Text>
-            <Text style={styles.subText}>{t('SwapExecuteScreen.swapCompleteSection.subtitle')}</Text>
+            <Text style={styles.subText}>
+              {t('SwapExecuteScreen.swapCompleteSection.subtitle')}
+            </Text>
           </>
         )
     }
