@@ -7,10 +7,10 @@ import { Spacing } from 'src/styles/styles'
 //   useSelector,
 // } from 'react-redux'
 import Logger from 'src/utils/Logger'
-import { useEffect, useState } from 'react'
-
-// @ts-ignore // todo add types file for customauth
-import CustomAuth from '@toruslabs/customauth-react-native-sdk'
+import { useState } from 'react'
+import Web3Auth, { OPENLOGIN_NETWORK } from '@web3auth/react-native-sdk'
+import * as WebBrowser from '@toruslabs/react-native-web-browser'
+// import {OpenloginAdapter} from '@web3auth/openlogin-adapter'
 
 // import { navigateHome } from 'src/navigator/NavigationService'
 // import { e164NumberSelector } from 'src/account/selectors'
@@ -49,13 +49,40 @@ export async function getValoraVerifierJWT({
 
 export async function triggerLogin() {
   try {
-    const loginDetails = await CustomAuth.triggerLogin({
-      typeOfLogin: 'google',
-      verifier: 'google-lrc',
-      clientId: '221898609709-obfn3p63741l5333093430j3qeiinaa8.apps.googleusercontent.com',
-      // jwtParams,
+    const clientId = 'my-client-id' // fixme replace with real client id (probly from env vars)
+    // const openloginAdapter = new OpenloginAdapter({
+    //   adapterSettings: {
+    //     clientId, //Optional - Provide only if you haven't provided it in the Web3Auth Instantiation Code
+    //     network: "cyan", // Optional - Provide only if you haven't provided it in the Web3Auth Instantiation Code
+    //     uxMode: "popup",
+    //     whiteLabel: {
+    //       name: "Your app Name",
+    //       logoLight: "https://web3auth.io/images/w3a-L-Favicon-1.svg",
+    //       logoDark: "https://web3auth.io/images/w3a-D-Favicon-1.svg",
+    //       defaultLanguage: "en",
+    //       dark: true, // whether to enable dark mode. defaultValue: false
+    //     },
+    //   },
+    // });
+    const web3auth = new Web3Auth(WebBrowser, {
+      // TODO check if modal looks lightweight enough (just 'sign in with google')
+      clientId,
+      network: OPENLOGIN_NETWORK.TESTNET,
+      loginConfig: {
+        google: {
+          verifier: 'google-lrc', // todo replace with our own custom verifier
+          typeOfLogin: 'google',
+          clientId: '221898609709-obfn3p63741l5333093430j3qeiinaa8.apps.googleusercontent.com', // todo replace with our own google client id
+        },
+      },
     })
-    Logger.info(TAG, loginDetails)
+    const loginDetails = await web3auth.login({
+      loginProvider: 'google',
+      mfaLevel: 'none',
+      redirectUrl: 'celo://wallet',
+    })
+    Logger.info(TAG, `name: ${loginDetails.userInfo?.name}`)
+    // todo set private key on tKey
   } catch (error) {
     Logger.error(TAG, 'triggerLogin failed', error)
   }
@@ -72,21 +99,6 @@ function SetupCloudBackup() {
       setBackupButtonClickable(true)
     })
   }
-
-  useEffect(() => {
-    try {
-      CustomAuth.init({
-        browserRedirectUri: 'https://scripts.toruswallet.io/redirect.html',
-        redirectUri: 'torusapp://org.torusresearch.customauthexample/redirect',
-        network: 'testnet', // details for test net
-        enableLogging: true,
-        enableOneKey: false,
-      })
-      Logger.info(TAG, 'initialized customauth')
-    } catch (error) {
-      Logger.error(TAG, 'error initializing customauth', error)
-    }
-  }, [])
 
   // const onPressGroovy = () => {
   //   navigateHome()

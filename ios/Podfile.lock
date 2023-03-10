@@ -474,6 +474,8 @@ PODS:
     - Toast (~> 4.0.0)
   - react-native-splash-screen (3.3.0):
     - React-Core
+  - react-native-web-browser (1.1.0):
+    - React-Core
   - react-native-webview (11.6.5):
     - React-Core
   - React-perflogger (0.66.4)
@@ -760,6 +762,7 @@ DEPENDENCIES:
   - react-native-shake (from `../node_modules/react-native-shake`)
   - react-native-simple-toast (from `../node_modules/react-native-simple-toast`)
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
+  - "react-native-web-browser (from `../node_modules/@toruslabs/react-native-web-browser`)"
   - react-native-webview (from `../node_modules/react-native-webview`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
@@ -938,6 +941,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-simple-toast"
   react-native-splash-screen:
     :path: "../node_modules/react-native-splash-screen"
+  react-native-web-browser:
+    :path: "../node_modules/@toruslabs/react-native-web-browser"
   react-native-webview:
     :path: "../node_modules/react-native-webview"
   React-perflogger:
@@ -1108,6 +1113,7 @@ SPEC CHECKSUMS:
   react-native-shake: 51c01abaf54a05d1ee23ddb8faad424c9fcc0569
   react-native-simple-toast: 8ee5d23f0b92b935ab7434cdb65159ce12dfb4b7
   react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
+  react-native-web-browser: 087b454e1e94b58b40ba73f54251d77486144d19
   react-native-webview: 2e8fe70dc32b50d3231c23043f8e8b5a5525d346
   React-perflogger: 93075d8931c32cd1fce8a98c15d2d5ccc4d891bd
   React-RCTActionSheet: 7d3041e6761b4f3044a37079ddcb156575fb6d89
@@ -1165,6 +1171,6 @@ SPEC CHECKSUMS:
   Yoga: e7dc4e71caba6472ff48ad7d234389b91dadc280
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 33053b119a841815db2faea906809efa8c971b0e
+PODFILE CHECKSUM: 078b99e1ef41fb2e87baf5390c4a40b1f2052d11
 
 COCOAPODS: 1.11.3
