@@ -3,16 +3,15 @@ import { expectSaga } from 'redux-saga-test-plan'
 import { select } from 'redux-saga/effects'
 import { DappRequestOrigin } from 'src/analytics/types'
 import { activeDappSelector } from 'src/dapps/selectors'
-import { getDefaultSessionTrackedProperties } from 'src/walletConnect/v2/saga'
+import {
+  getDefaultSessionTrackedProperties,
+  _applyIconFixIfNeeded,
+} from 'src/walletConnect/v2/saga'
 
-describe('getDefaultSessionTrackedProperties', () => {
-  const proposerMetadata = {
-    url: 'someUrl',
-    icons: ['someIcon'],
-    description: 'someDescription',
-    name: 'someName',
-  }
-  const sessionProposal: SignClientTypes.EventArguments['session_proposal'] = {
+function createSessionProposal(
+  proposerMetadata: SignClientTypes.Metadata
+): SignClientTypes.EventArguments['session_proposal'] {
+  return {
     id: 1669989187506938,
     params: {
       expiry: 1669989496,
@@ -36,7 +35,10 @@ describe('getDefaultSessionTrackedProperties', () => {
       pairingTopic: 'ab7c79764b6838abd24669ab735f6ce40bb26ca4d54cf948daca8e80a2eb6db1',
     },
   }
-  const session: SessionTypes.Struct = {
+}
+
+function createSession(proposerMetadata: SignClientTypes.Metadata): SessionTypes.Struct {
+  return {
     expiry: 1671006057,
     self: {
       metadata: {
@@ -72,6 +74,17 @@ describe('getDefaultSessionTrackedProperties', () => {
       },
     },
   }
+}
+
+describe('getDefaultSessionTrackedProperties', () => {
+  const proposerMetadata = {
+    url: 'someUrl',
+    icons: ['someIcon'],
+    description: 'someDescription',
+    name: 'someName',
+  }
+  const sessionProposal = createSessionProposal(proposerMetadata)
+  const session = createSession(proposerMetadata)
 
   it.each`
     sessionType          | sessionInfo
@@ -93,5 +106,43 @@ describe('getDefaultSessionTrackedProperties', () => {
         eip155Methods: ['eth_sendTransaction', 'eth_signTypedData'],
       })
       .run()
+  })
+})
+
+describe('applyIconFixIfNeeded', () => {
+  const eachMetadata = it.each`
+    metadata                    | expected
+    ${undefined}                | ${undefined}
+    ${{}}                       | ${[]}
+    ${{ icons: {} }}            | ${[]}
+    ${{ icons: [7] }}           | ${[]}
+    ${{ icons: [null] }}        | ${[]}
+    ${{ icons: [undefined] }}   | ${[]}
+    ${{ icons: [''] }}          | ${[]}
+    ${{ icons: ['something'] }} | ${['something']}
+  `
+
+  describe('with a session proposal', () => {
+    eachMetadata(
+      'fixes the `icons` property when the metadata is $metadata',
+      async ({ metadata, expected }) => {
+        const sessionProposal = createSessionProposal(metadata as SignClientTypes.Metadata)
+        _applyIconFixIfNeeded(sessionProposal)
+        // eslint-disable-next-line jest/no-standalone-expect
+        expect(sessionProposal.params.proposer.metadata?.icons).toStrictEqual(expected)
+      }
+    )
+  })
+
+  describe('with a session', () => {
+    eachMetadata(
+      'fixes the `icons` property when the metadata is $metadata',
+      async ({ metadata, expected }) => {
+        const session = createSession(metadata as SignClientTypes.Metadata)
+        _applyIconFixIfNeeded(session)
+        // eslint-disable-next-line jest/no-standalone-expect
+        expect(session.peer.metadata?.icons).toStrictEqual(expected)
+      }
+    )
   })
 })
