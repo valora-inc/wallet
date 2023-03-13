@@ -51,11 +51,12 @@ export function useMaxSendAmount(
   shouldRefresh: boolean = true
 ) {
   const dispatch = useDispatch()
-  const { balance } = useTokenInfo(tokenAddress)!
+  const balance = useTokenInfo(tokenAddress)?.balance
   const feeEstimates = useSelector(feeEstimatesSelector)
 
   // Optionally Keep Fees Up to Date
   useEffect(() => {
+    if (!balance) return
     if (!shouldRefresh) return
     const feeEstimate = feeEstimates[tokenAddress]?.[feeType]
     if (
@@ -83,5 +84,5 @@ export function useMaxSendAmount(
   if (tokenAddress !== feeTokenAddress) {
     return balance
   }
-  return balance.minus(feeEstimate)
+  return balance?.minus(feeEstimate)
 }

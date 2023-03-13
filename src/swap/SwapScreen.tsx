@@ -29,10 +29,13 @@ import { setSwapUserInput } from 'src/swap/slice'
 import SwapAmountInput from 'src/swap/SwapAmountInput'
 import { Field, SwapAmount } from 'src/swap/types'
 import useSwapQuote from 'src/swap/useSwapQuote'
-import { coreTokensSelector } from 'src/tokens/selectors'
+import { coreTokensSelector, tokensByUsdBalanceSelector } from 'src/tokens/selectors'
+import { TokenBalance } from 'src/tokens/slice'
+import Logger from 'src/utils/Logger'
+
+const TAG = 'swap/swapScreen'
 
 const FETCH_UPDATED_QUOTE_DEBOUNCE_TIME = 500
-const DEFAULT_TO_TOKEN = 'cUSD'
 const DEFAULT_FROM_TOKEN = 'CELO'
 const DEFAULT_SWAP_AMOUNT: SwapAmount = {
   [Field.FROM]: '',
@@ -45,15 +48,23 @@ export function SwapScreen() {
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
-  const coreTokens = useSelector(coreTokensSelector)
+  const supportedTokens = useSelector(coreTokensSelector)
+  const supportedTokensAddresses = supportedTokens.map((token) => token.address)
   const swapInfo = useSelector(swapInfoSelector)
+  const tokensSortedByUsdBalance = useSelector(tokensByUsdBalanceSelector)
 
-  const [toToken, setToToken] = useState(
-    coreTokens.find((token) => token.symbol === DEFAULT_TO_TOKEN)
+  const CELO = supportedTokens.find(
+    (token) => token.symbol === DEFAULT_FROM_TOKEN && token.isCoreToken
   )
-  const [fromToken, setFromToken] = useState(
-    coreTokens.find((token) => token.symbol === DEFAULT_FROM_TOKEN)
-  )
+
+  const defaultFromToken =
+    tokensSortedByUsdBalance.find(
+      (token) => token.balance.gt(0) && supportedTokensAddresses.includes(token.address)
+    ) ?? CELO
+
+  const [fromToken, setFromToken] = useState<TokenBalance | undefined>(defaultFromToken)
+  const [toToken, setToToken] = useState<TokenBalance | undefined>()
+
   // Raw input values (can contain region specific decimal separators)
   const [swapAmount, setSwapAmount] = useState(DEFAULT_SWAP_AMOUNT)
   const [updatedField, setUpdatedField] = useState(Field.FROM)
@@ -79,8 +90,8 @@ export function SwapScreen() {
       setSwapAmount(DEFAULT_SWAP_AMOUNT)
       setUpdatedField(Field.FROM)
       setSelectingToken(null)
-      setFromToken(coreTokens.find((token) => token.symbol === DEFAULT_FROM_TOKEN))
-      setToToken(coreTokens.find((token) => token.symbol === DEFAULT_TO_TOKEN))
+      setFromToken(defaultFromToken)
+      setToToken(undefined)
     }
   }, [swapInfo])
 
@@ -130,7 +141,7 @@ export function SwapScreen() {
   const handleReview = () => {
     ValoraAnalytics.track(SwapEvents.swap_screen_review_swap)
 
-    if (parsedSwapAmount[Field.FROM].gt(maxFromAmount)) {
+    if (maxFromAmount && parsedSwapAmount[Field.FROM].gt(maxFromAmount)) {
       setFromSwapAmountError(true)
       dispatch(showError(t('swapScreen.insufficientFunds', { token: fromToken?.symbol })))
     } else {
@@ -166,7 +177,7 @@ export function SwapScreen() {
   }
 
   const handleSelectToken = (tokenAddress: string) => {
-    const selectedToken = coreTokens.find((token) => token.address === tokenAddress)
+    const selectedToken = supportedTokens.find((token) => token.address === tokenAddress)
     if (selectedToken && selectingToken) {
       ValoraAnalytics.track(SwapEvents.swap_screen_confirm_token, {
         fieldType: selectingToken,
@@ -203,6 +214,10 @@ export function SwapScreen() {
   }
 
   const handleSetMaxFromAmount = () => {
+    if (!maxFromAmount) {
+      Logger.warn(TAG, 'Cannot set max amount, maxFromAmount is undefined')
+      return
+    }
     setUpdatedField(Field.FROM)
     setSwapAmount((prev) => ({
       ...prev,
@@ -215,11 +230,6 @@ export function SwapScreen() {
     [parsedSwapAmount]
   )
 
-  if (!toToken || !fromToken) {
-    // should not happen
-    return null
-  }
-
   const onPressLearnMore = () => {
     ValoraAnalytics.track(SwapEvents.swap_learn_more)
     navigate(Screens.WebViewScreen, { uri: SWAP_LEARN_MORE })
@@ -231,7 +241,7 @@ export function SwapScreen() {
         middleElement={
           <View style={styles.headerContainer}>
             <Text style={headerStyles.headerTitle}>{t('swapScreen.title')}</Text>
-            {exchangeRate && (
+            {exchangeRate && fromToken && toToken && (
               <Text
                 style={[headerStyles.headerSubTitle, fetchingSwapQuote ? styles.mutedHeader : {}]}
               >
@@ -257,6 +267,7 @@ export function SwapScreen() {
             autoFocus
             inputError={fromSwapAmountError}
             onPressMax={handleSetMaxFromAmount}
+            noTokenDisplay={t('swapScreen.swapFromTokenSelection')}
           />
           <SwapAmountInput
             label={t('swapScreen.swapTo')}
@@ -266,6 +277,7 @@ export function SwapScreen() {
             token={toToken}
             style={styles.toSwapAmountInput}
             loading={updatedField === Field.FROM && fetchingSwapQuote}
+            noTokenDisplay={t('swapScreen.swapToTokenSelection')}
           />
         </View>
         <Text style={[styles.disclaimerWrapper, fontStyles.regular, styles.disclaimerText]}>
@@ -289,7 +301,7 @@ export function SwapScreen() {
         origin={TokenPickerOrigin.Swap}
         onTokenSelected={handleSelectToken}
         onClose={handleCloseTokenSelect}
-        tokens={Object.values(coreTokens)}
+        tokens={Object.values(supportedTokens)}
       />
     </SafeAreaView>
   )
