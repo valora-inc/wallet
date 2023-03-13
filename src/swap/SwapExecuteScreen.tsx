@@ -80,7 +80,7 @@ export function SwapExecuteScreen() {
           </View>
         )
       default:
-        return <View style={[styles.actionBar, { minHeight: 130 }]} />
+        return null
     }
   }, [swapState])
 
@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
   contentContainer: {
     padding: Spacing.Regular16,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     height: '100%',
   },
   text: {
@@ -223,6 +223,7 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
   },
   iconContainer: {
+    marginTop: '55%',
     marginBottom: Spacing.Regular16,
   },
 })
