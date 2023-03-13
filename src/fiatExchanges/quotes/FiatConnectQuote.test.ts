@@ -22,6 +22,15 @@ jest.mock('src/web3/contracts', () => ({
     getAccounts: jest.fn(() => ['fake-account']),
   })),
 }))
+jest.mock('src/fiatExchanges/quotes/constants', () => ({
+  DEFAULT_ALLOWED_VALUES: {
+    // Using AccountNumber because jest hoisting prevents us from using the
+    // FiatAccountSchema enum.
+    AccountNumber: {
+      testKey: ['testDefaultValue'],
+    },
+  },
+}))
 
 const mockExchangeRates = {
   cGLD: '2',
@@ -376,6 +385,14 @@ describe('FiatConnectQuote', () => {
         'Bank A',
         'Bank B',
       ])
+    })
+    it('returns default value when quote has no value for a key', () => {
+      const quote = new FiatConnectQuote({
+        flow: CICOFlow.CashIn,
+        quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
+        fiatAccountType: FiatAccountType.BankAccount,
+      })
+      expect(quote.getFiatAccountSchemaAllowedValues('testKey')).toEqual(['testDefaultValue'])
     })
   })
 

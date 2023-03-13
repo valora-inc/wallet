@@ -35,5 +35,11 @@ describe('getPixAccountSchema', () => {
       expect(isValid).toEqual(true)
       expect(errorMessage).toBeUndefined()
     })
+
+    it('Invalid keyType will show error if pix key is also invalid', () => {
+      const { isValid, errorMessage } = validate('badInput', { keyType: 'notValidPixKeyType' })
+      expect(isValid).toEqual(false)
+      expect(errorMessage).toEqual('fiatAccountSchema.pix.key.errorMessage')
+    })
   })
 })

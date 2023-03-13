@@ -196,7 +196,7 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
     setValidInputs(newErrorMap.size === 0)
   }
 
-  const setInputValue = (fieldName: string, value: string) => {
+  const setInputValue = ({ fieldName, value }: { fieldName: string; value: string }) => {
     fieldNamesToValues.current[fieldName] = value
     validateInput()
   }
@@ -227,10 +227,10 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
                   value={fieldNamesToValues.current[field.name]}
                   errorMessage={errors.get(field.name)}
                   onChange={(fieldName, value) => {
-                    setInputValue(fieldName, value)
+                    setInputValue({ fieldName, value })
                   }}
                   allowedValues={quote.getFiatAccountSchemaAllowedValues(field.name)}
-                  fieldNamesToValues={fieldNamesToValues.current}
+                  isVisible={field.isVisible?.(fieldNamesToValues.current) ?? true}
                 />
               ))}
             </View>
@@ -254,15 +254,15 @@ function FormField({
   value,
   allowedValues,
   errorMessage,
+  isVisible,
   onChange,
-  fieldNamesToValues,
 }: {
   field: FormFieldParam
   value: string
   allowedValues?: string[]
   errorMessage: string | undefined
+  isVisible: boolean
   onChange: (fieldName: string, value: any) => void
-  fieldNamesToValues: Record<string, string>
 }) {
   const { t } = useTranslation()
   const [showError, setShowError] = useState(false)
@@ -290,7 +290,7 @@ function FormField({
     onChange(field.name, value)
   }
 
-  if (field.isVisible?.(fieldNamesToValues) === false) {
+  if (!isVisible) {
     return <></>
   }
 
