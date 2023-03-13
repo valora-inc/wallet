@@ -597,7 +597,7 @@ If you're deleting or updating existing properties, please implement the appropr
 
 ### Error bubbling
 
-It's important to understand how errors propagates with Redux-Saga.
+It's important to understand how errors propagate with Redux-Saga.
 
 Take the following example:
 
