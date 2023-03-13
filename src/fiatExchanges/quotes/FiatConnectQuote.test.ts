@@ -22,15 +22,20 @@ jest.mock('src/web3/contracts', () => ({
     getAccounts: jest.fn(() => ['fake-account']),
   })),
 }))
-jest.mock('src/fiatExchanges/quotes/constants', () => ({
-  DEFAULT_ALLOWED_VALUES: {
-    // Using AccountNumber because jest hoisting prevents us from using the
-    // FiatAccountSchema enum.
-    AccountNumber: {
-      testKey: ['testDefaultValue'],
+jest.mock('src/fiatExchanges/quotes/constants', () => {
+  const originalModule = jest.requireActual('src/fiatExchanges/quotes/constants')
+
+  return {
+    ...originalModule,
+    DEFAULT_ALLOWED_VALUES: {
+      // Using AccountNumber because jest hoisting prevents us from using the
+      // FiatAccountSchema enum.
+      AccountNumber: {
+        testKey: ['testDefaultValue'],
+      },
     },
-  },
-}))
+  }
+})
 
 const mockExchangeRates = {
   cGLD: '2',
