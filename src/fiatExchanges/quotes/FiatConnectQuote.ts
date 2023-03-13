@@ -10,7 +10,7 @@ import BigNumber from 'bignumber.js'
 import { Dispatch } from 'redux'
 import { FiatConnectProviderInfo, FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import { selectFiatConnectQuote } from 'src/fiatconnect/slice'
-import { SettlementTime } from 'src/fiatExchanges/quotes/constants'
+import { DEFAULT_ALLOWED_VALUES, SettlementTime } from 'src/fiatExchanges/quotes/constants'
 import NormalizedQuote from 'src/fiatExchanges/quotes/NormalizedQuote'
 import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import i18n from 'src/i18n'
@@ -236,7 +236,9 @@ export default class FiatConnectQuote extends NormalizedQuote {
   }
 
   getFiatAccountSchemaAllowedValues(key: string): string[] | undefined {
-    return this.quoteResponseFiatAccountSchema.allowedValues[key]
+    const schemaDefaultValues = DEFAULT_ALLOWED_VALUES[this.getFiatAccountSchema()]
+    const defaultValue = schemaDefaultValues?.[key as keyof typeof schemaDefaultValues]
+    return this.quoteResponseFiatAccountSchema.allowedValues[key] ?? defaultValue
   }
 
   getQuoteId(): string {
