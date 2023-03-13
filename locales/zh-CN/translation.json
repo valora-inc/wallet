@@ -1483,6 +1483,15 @@
       "label": "IFSC",
       "placeholderText": "输入 IFSC",
       "errorMessage": "IFSC 无效"
+    },
+    "pix": {
+      "keyType": {
+        "label": "PIX键类型"
+      },
+      "key": {
+        "placeholderText": "输入PIX键",
+        "errorMessage": "无效的PIX键"
+      }
     }
   },
   "webView": {
