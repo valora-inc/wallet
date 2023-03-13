@@ -14,14 +14,23 @@ to add arbitrary tokens to Valora.
 
 > This feature is in-development and not fully supported yet!
 
+Valora's deeplink handler requires the contract address. If your
+ERC-20 contract supports
+[EIP-1046](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-1046.md),
+Valora will fetch the token symbol, decimals, and image from the token
+metadata. If your ERC-20 contract does not support EIP-1046 you must
+specify symbol, decimals, and optionally image in the deeplink. You
+can also override the image specified in an EIP-1046 compliant
+contract.
+
 ```ts
-// The address that the token is at
+// Required: The address that the token is at
 const address = '0xb92463e2262e700e29c16416270c9fdfa17934d7'
-// A ticker symbol or shorthand, up to 5 chars.
+// Required if non-EIP-1046 compliant: a ticker symbol or shorthand, up to 5 chars.
 const symbol = 'C4P'
-// The number of decimals in the token
+// Required if non-EIP-1046 compliant: the number of decimals in the token
 const decimals = 6
-// Optional URL to download token image (must be a 256 x 256 PNG)
+// Optional: a URL to download token image (must be a 256 x 256 PNG)
 const image = 'https://should-not-resolve.foo/256x256.png'
 
 const watchAssetDeeplink = `celo://wallet/watchAsset?address=${address}&symbol=${symbol}&decimals=${decimals}&image=${encodeURIComponent(image)}`
