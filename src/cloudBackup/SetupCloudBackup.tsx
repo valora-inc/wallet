@@ -8,13 +8,24 @@ import { Spacing } from 'src/styles/styles'
 //   useSelector,
 // } from 'react-redux'
 import Logger from 'src/utils/Logger'
-import Web3Auth, { OPENLOGIN_NETWORK } from '@web3auth/react-native-sdk'
-import * as WebBrowser from '@toruslabs/react-native-web-browser'
+import Web3Auth, {
+  OPENLOGIN_NETWORK,
+  WebBrowserAuthSessionResult,
+  WebBrowserOpenOptions,
+} from '@web3auth/react-native-sdk'
 import ThresholdKey from '@tkey/default'
 import TorusServiceProviderBase from '@tkey/service-provider-base'
 import TorusStorageLayer from '@tkey/storage-layer-torus'
-import { BN } from 'ethereumjs-util'
-// import {OpenloginAdapter} from '@web3auth/openlogin-adapter'
+import { Web3AuthCore } from '@web3auth/core'
+// import { BN } from 'ethereumjs-util'
+import { OpenloginAdapter } from '@web3auth/openlogin-adapter'
+// import firebase from '@react-native-firebase/app'
+// import auth from '@react-native-firebase/auth'
+// import { GoogleAuthProvider, getAuth, signInWithPopup } from '@react-native-firebase/auth'
+import { WALLET_ADAPTERS } from '@web3auth/base'
+import { GoogleSignin } from '@react-native-google-signin/google-signin'
+import auth from '@react-native-firebase/auth'
+import { IWebBrowser } from '@web3auth/react-native-sdk/src/types/IWebBrowser'
 
 // import { navigateHome } from 'src/navigator/NavigationService'
 // import { e164NumberSelector } from 'src/account/selectors'
@@ -60,39 +71,131 @@ export async function getValoraVerifierJWT({
   }
 }
 
-export async function triggerLogin() {
-  try {
-    const clientId = 'my-client-id' // fixme replace with real client id (probly from env vars)
-    const web3auth = new Web3Auth(WebBrowser, {
-      // TODO try out UI white-labeling
-      // sdkUrl: '',  // TODO see if this can be used to remove the annoying blue loading circles
-      clientId, // fixme replace with real client id from env vars
-      network: OPENLOGIN_NETWORK.TESTNET,
+export async function getWeb3authCore(clientId: string) {
+  const web3auth = new Web3AuthCore({
+    // todo check if Web3AuthCore works on mobile. may need to use RN SDK instead.
+    clientId: clientId,
+    web3AuthNetwork: 'testnet',
+    chainConfig: {
+      chainNamespace: 'eip155',
+      chainId: '44787', // todo set from env var. this is for alfajores. see https://docs.celo.org/network
+      rpcTarget: 'https://alfajores-forno.celo-testnet.org', // todo set from env var
+    },
+  })
+  await web3auth.init()
+  Logger.info(TAG, 'web3auth initialized')
+  const openLoginAdapter = new OpenloginAdapter({
+    adapterSettings: {
+      clientId: clientId,
+      uxMode: 'redirect',
       loginConfig: {
-        google: {
-          verifier: 'google-oauth-alfajores',
-          typeOfLogin: 'google',
+        jwt: {
+          // todo see if 'name' field is needed
+          verifier: 'firebase-oauth-alfajores',
+          typeOfLogin: 'jwt',
           clientId: '1067724576910-j7aqq89gfe5c30lnd9u8jkt7837fsprm.apps.googleusercontent.com',
-          // logoLight: 'todo',
-          // logoDark: 'todo',
         },
       },
-      redirectUrl: 'celo://wallet',
-    })
-    // await web3auth.logout({clientId})
-    const loginDetails = await web3auth.login({
-      loginProvider: 'google',
-      mfaLevel: 'none',
-      // redirectUrl: 'celo://wallet',
-    })
-    Logger.info(TAG, `name: ${loginDetails.userInfo?.name}`)
-    if (!loginDetails.privKey) throw new Error('No private key returned from web3auth')
+    },
+  })
+  Logger.info(TAG, `created openlogin adapter with name ${openLoginAdapter.name}`)
+  web3auth.clearCache()
+  try {
+    // todo be smarter about this. there are other statuses that could be relevant
+    web3auth.configureAdapter(openLoginAdapter)
+    Logger.info(TAG, 'configured adapter')
+  } catch (e) {
+    Logger.info(TAG, `error configuring adapter: ${e}`)
+  }
+  return web3auth
+}
+
+export async function loginWithWeb3authCore(web3auth: Web3AuthCore, firebaseToken: string) {
+  // fixme getting this error: triggerLogin failed :: Wallet is not found, Please add wallet adapter for openlogin wallet, before connecting
+  //  not sure why, because when I try to configureAdapter with an adapter named openLogin, I get this error: {"name":"WalletInitializationError","code":5003,"message":"Wallet is not ready yet, Adapter is already initialized"}
+  await web3auth.connectTo(WALLET_ADAPTERS.OPENLOGIN, {
+    loginProvider: 'jwt',
+    extraLoginOptions: {
+      id_token: firebaseToken,
+      verifierIdField: 'sub',
+      // todo check if 'domain' is needed
+    },
+  })
+}
+
+export class FakeWebBrowser implements IWebBrowser {
+  async openAuthSessionAsync(
+    url: string,
+    redirectUrl: string,
+    browserParams?: WebBrowserOpenOptions
+  ): Promise<WebBrowserAuthSessionResult> {
+    return {
+      type: 'success',
+      url: 'celo://wallet',
+    }
+  }
+}
+
+import * as WebBrowser from '@toruslabs/react-native-web-browser'
+export async function getWeb3authRN(clientId: string) {
+  return new Web3Auth(WebBrowser, {
+    clientId,
+    network: OPENLOGIN_NETWORK.TESTNET,
+    loginConfig: {
+      jwt: {
+        verifier: 'firebase-oauth-alfajores',
+        typeOfLogin: 'jwt',
+        clientId: '1067724576910-j7aqq89gfe5c30lnd9u8jkt7837fsprm.apps.googleusercontent.com',
+      },
+    },
+    redirectUrl: 'celo://wallet',
+  })
+}
+
+export async function loginWithWeb3authRN(web3auth: Web3Auth, firebaseToken: string) {
+  // fixme this works, but it gives the user ANOTHER sign-in prompt, this time with openlogin.com, and pulls up a webview just to give a stupid message like 'constructing your key on sdk.openlogin.com'. UGH
+  //  tried using fake web browser implementation, but got this error: JSON Parse error: Unexpected EOF in parse@[native code]
+  return web3auth.login({
+    loginProvider: 'jwt',
+    extraLoginOptions: {
+      id_token: firebaseToken,
+      verifierIdField: 'sub',
+      domain: 'celo://wallet',
+    },
+  })
+}
+
+export async function getFirebaseToken(iosClientId: string) {
+  GoogleSignin.configure({ iosClientId })
+  const { idToken } = await GoogleSignin.signIn()
+  Logger.info(TAG, `idToken: ${idToken}`)
+  const googleCredential = auth.GoogleAuthProvider.credential(idToken)
+  await auth().signInWithCredential(googleCredential)
+  const firebaseToken = await auth().currentUser?.getIdToken() // todo should probly skip the firebase auth step and just use the google id token directly
+  Logger.info(TAG, `firebaseToken: ${firebaseToken}`)
+  if (!firebaseToken) throw new Error('missing firebase token')
+  return firebaseToken
+}
+
+export async function triggerLogin() {
+  try {
+    const iosClientId = '1067724576910-t5anhsbi8gq2u1r91969ijbpc66kaqnk.apps.googleusercontent.com'
+    const clientId = 'my-client-id' // fixme replace with real client id (probly from env vars)
+
+    // const web3auth = await getWeb3authCore(clientId)
+    // const firebaseToken = await getFirebaseToken(iosClientId)
+    // await loginWithWeb3authCore(web3auth, firebaseToken)
+
+    const web3auth = await getWeb3authRN(clientId)
+    const firebaseToken = await getFirebaseToken(iosClientId)
+    const userInfo = await loginWithWeb3authRN(web3auth, firebaseToken)
+    Logger.info(TAG, `userInfo: ${JSON.stringify(userInfo)}`)
 
     // initialize tkey
-    const postboxKey = new BN(loginDetails.privKey, 16)
-    tKey.serviceProvider.postboxKey = postboxKey
-    const keyDetails = await tKey.initialize() // fixme somehow this starts off with 2 shares instead of 1.. (??)
-    Logger.info(TAG, `tkey initialized with keyDetails: ${JSON.stringify(keyDetails)}`)
+    // const postboxKey = new BN(privateKey, 16)
+    // tKey.serviceProvider.postboxKey = postboxKey
+    // const keyDetails = await tKey.initialize() // fixme somehow this starts off with 2 shares instead of 1.. (??)
+    // Logger.info(TAG, `tkey initialized with keyDetails: ${JSON.stringify(keyDetails)}`)
   } catch (error) {
     Logger.error(TAG, 'triggerLogin failed', error)
   }

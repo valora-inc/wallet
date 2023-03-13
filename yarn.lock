@@ -4480,6 +4480,11 @@
   resolved "https://registry.yarnpkg.com/@react-native-firebase/remote-config/-/remote-config-11.5.0.tgz#61b87a998f188d332095be33e1c696b8ffedb0e8"
   integrity sha512-rAbXZaDAxh43ioDT7bZg/dTj6i4BSLIKqc/pKFsbCRioNa+fyneFU5t8InD5hp5k1JlU5Q3kzn3/aUPKkowiiA==
 
+"@react-native-google-signin/google-signin@^9.0.2":
+  version "9.0.2"
+  resolved "https://registry.yarnpkg.com/@react-native-google-signin/google-signin/-/google-signin-9.0.2.tgz#fd9d0cbb58591265c2ea9404b2d2ea7e514b9ea9"
+  integrity sha512-oTD0ZT6ZSH7CZjM1i6hR/gFAXv9As7nxhN99XGliNxf6SChZcQRwGeaz1DjoYrWExWDVX00EH1Per3dMjhAWkQ==
+
 "@react-native-masked-view/masked-view@^0.2.8":
   version "0.2.8"
   resolved "https://registry.yarnpkg.com/@react-native-masked-view/masked-view/-/masked-view-0.2.8.tgz#34405a4361882dae7c81b1b771fe9f5fbd545a97"
@@ -6537,6 +6542,13 @@
     "@walletconnect/window-getters" "^1.0.1"
     tslib "1.14.1"
 
+"@web3auth/base-plugin@^4.6.0":
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/@web3auth/base-plugin/-/base-plugin-4.6.0.tgz#897bd9450d93b7bf646d2262c9f7ea1d23a11405"
+  integrity sha512-L0APrd8T1TTPXLEylnFfOnPWOIHcs7rcmo8ZjjhfIFC/Dms4GYoPaOfmfsvG52juxHsHODFbBld7eJPhIuOfAA==
+  dependencies:
+    "@web3auth/base" "^4.6.0"
+
 "@web3auth/base-provider@^4.6.0":
   version "4.6.0"
   resolved "https://registry.yarnpkg.com/@web3auth/base-provider/-/base-provider-4.6.0.tgz#cdacd22c57014be28b72404ba4eac257dac3d0b8"
@@ -6559,6 +6571,28 @@
     jwt-decode "^3.1.2"
     loglevel "^1.8.1"
     ts-custom-error "^3.3.1"
+
+"@web3auth/base@^5.0.0-alpha.0":
+  version "5.0.0-alpha.0"
+  resolved "https://registry.yarnpkg.com/@web3auth/base/-/base-5.0.0-alpha.0.tgz#62e9d67a5e43c48754c6c6af69c1738e119a7786"
+  integrity sha512-5YaXIotwwHFqYhVJNM3Va6LWotUSV4zvceHTsswHcREb2eHg2cutevgw2xc4MwJ9+gDGMFMShIx6amdf6eI+hA==
+  dependencies:
+    "@toruslabs/http-helpers" "^3.2.0"
+    "@toruslabs/openlogin" "^3.1.0"
+    "@toruslabs/openlogin-jrpc" "^3.0.0"
+    jwt-decode "^3.1.2"
+    loglevel "^1.8.1"
+    ts-custom-error "^3.3.1"
+
+"@web3auth/core@^4.6.0":
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/@web3auth/core/-/core-4.6.0.tgz#38a9dced3a674ac1ce841dae5f2fad0e19bee27a"
+  integrity sha512-RkPcG6OyrVnRp2fzIjF6pqMxfVW7f7ZR7bpw6jJsM2i4zq6Pze2Gf3d3R9OreWQGrdJbx4ODbOHGczre/4L5iQ==
+  dependencies:
+    "@toruslabs/openlogin" "^3.1.0"
+    "@toruslabs/openlogin-jrpc" "^3.0.0"
+    "@web3auth/base" "^4.6.0"
+    "@web3auth/base-plugin" "^4.6.0"
 
 "@web3auth/ethereum-provider@^4.6.0":
   version "4.6.0"

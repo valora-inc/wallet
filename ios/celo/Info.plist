@@ -2,10 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CleverTapAccountID</key>
-	<string>$(CLEVERTAP_ACCOUNT_ID)</string>
-	<key>CleverTapToken</key>
-	<string>$(CLEVERTAP_TOKEN)</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -36,9 +32,21 @@
 				<string>celo</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.1067724576910-t5anhsbi8gq2u1r91969ijbpc66kaqnk</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>CleverTapAccountID</key>
+	<string>$(CLEVERTAP_ACCOUNT_ID)</string>
+	<key>CleverTapToken</key>
+	<string>$(CLEVERTAP_TOKEN)</string>
 	<key>FirebaseDynamicLinksCustomDomains</key>
 	<array>
 		<string>https://vlra.app</string>
