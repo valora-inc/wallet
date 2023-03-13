@@ -1545,7 +1545,7 @@
     },
     "swapErrorSection": {
       "title": "We couldn’t complete your swap",
-      "subtitle": "Your assets are safe in your wallet. Please try again.",
+      "subtitle": "Your assets are safe in your wallet.\nPlease try again.",
       "contactSupport": "If you need additional help, you can contact\n<0>customer support<0>"
     },
     "swapActionBar": {
