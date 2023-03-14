@@ -1507,7 +1507,12 @@
     "swapTo": "Para",
     "insufficientFunds": "Saldo en {{token}} insuficiente. Ingresa un monto menor o elige otro token.",
     "fetchSwapQuoteFailed": "¡Lo sentimos! Conseguir la mejor tasa de cambio nos está llevando más tiempo del habitual. Inténtalo de nuevo más tarde.",
-    "disclaimer": "Los intercambios se realizan mediante socios de Celo. <0>Más información</0>"
+    "disclaimer": "Los intercambios se realizan mediante socios de Celo. <0>Más información</0>",
+    "maxSwapAmountWarning": {
+      "title": "Swapping the MAX amount",
+      "body": "Make sure you have CELO in your wallet to cover gas fees for future transactions",
+      "learnMore": "Más información"
+    }
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Cambiar de",
