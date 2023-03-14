@@ -1215,7 +1215,7 @@
   },
   "dappsScreen": {
     "title": "Dapp",
-    "message": "Explore ways to use your assets",
+    "message": "Khám phá những phương thức sử dụng tài sản",
     "errorMessage": "Đã xảy ra lỗi khi tải dapp",
     "featuredDapp": "Nổi bật",
     "allDapps": "Tất cả",
@@ -1229,8 +1229,8 @@
       "labelCTA": "Xem Dapps yêu thích"
     },
     "emptyResults": {
-      "message": "<0>{{filter}}</0> filter applied",
-      "removeFilter": "Remove filter"
+      "message": "Đã áp dụng bộ lọc <0>{{filter}}</0>",
+      "removeFilter": "Xóa bộ lọc"
     }
   },
   "dappsScreenHelpDialog": {
