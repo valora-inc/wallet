@@ -1491,8 +1491,8 @@
         "label": "Tipo de clave PIX"
       },
       "key": {
-        "placeholderText": "Introducir tecla PIX",
-        "errorMessage": "Clave PIX no válida"
+        "placeholderText": "Ingresa tu clave PIX",
+        "errorMessage": "Clave PIX inválida"
       }
     }
   },
@@ -1509,8 +1509,8 @@
     "fetchSwapQuoteFailed": "¡Lo sentimos! Conseguir la mejor tasa de cambio nos está llevando más tiempo del habitual. Inténtalo de nuevo más tarde.",
     "disclaimer": "Los intercambios se realizan mediante socios de Celo. <0>Más información</0>",
     "maxSwapAmountWarning": {
-      "title": "Swapping the MAX amount",
-      "body": "Make sure you have CELO in your wallet to cover gas fees for future transactions",
+      "title": "Intercambio de monto MAX",
+      "body": "Asegúrate de contar con suficiente CELO en tu wallet para cubrir las tarifas de próximas transacciones.",
       "learnMore": "Más información"
     }
   },
