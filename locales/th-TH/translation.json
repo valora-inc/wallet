@@ -1505,7 +1505,12 @@
     "swapTo": "เป็น",
     "insufficientFunds": "ยอดคงเหลือ {{token}} ไม่เพียงพอ ลองจำนวนเงินที่น้อยลงหรือเลือกโทเค็นอื่น",
     "fetchSwapQuoteFailed": "ขออภัยในความล่าช้า การดำเนินการนี้ใช้เวลานานกว่าปกติเพื่อให้ได้อัตราแลกเปลี่ยนที่ดีที่สุด โปรดลองอีกครั้งในอีกสองสามนาที",
-    "disclaimer": "แลกเปลี่ยนกับพันธมิตรใน Celo <0> เรียนรู้เพิ่มเติม </0>"
+    "disclaimer": "แลกเปลี่ยนกับพันธมิตรใน Celo <0> เรียนรู้เพิ่มเติม </0>",
+    "maxSwapAmountWarning": {
+      "title": "Swapping the MAX amount",
+      "body": "Make sure you have CELO in your wallet to cover gas fees for future transactions",
+      "learnMore": "ดูข้อมูลเพิ่มเติม"
+    }
   },
   "swapTransactionDetailPage": {
     "swapFrom": "สว็อปจาก",
