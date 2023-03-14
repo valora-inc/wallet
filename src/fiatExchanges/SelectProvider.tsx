@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { showError } from 'src/alert/actions'
-import { ExperimentParams } from 'src/statsig/constants'
+import { defaultExperimentParamValues } from 'src/statsig/constants'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
@@ -43,7 +43,6 @@ import { CiCoCurrency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
-import { Statsig } from 'statsig-react-native'
 import {
   CICOFlow,
   fetchExchanges,
@@ -57,35 +56,17 @@ import {
   resolveCloudFunctionDigitalAsset,
 } from './utils'
 import { StatsigExperiments } from 'src/statsig/types'
+import { getExperimentParams } from 'src/statsig'
 
 const TAG = 'SelectProviderScreen'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.SelectProvider>
 
 function getAddFundsCryptoExchangeExperimentParams() {
-  const params = ExperimentParams[StatsigExperiments.ADD_FUNDS_CRYPTO_EXCHANGE_QR_CODE]
-  try {
-    const experiment = Statsig.getExperiment(StatsigExperiments.ADD_FUNDS_CRYPTO_EXCHANGE_QR_CODE)
-    const exchangesText = experiment.get(
-      params.addFundsExchangesText.paramName,
-      params.addFundsExchangesText.defaultValue
-    )
-    const exchangesLink = experiment.get(
-      params.addFundsExchangesLink.paramName,
-      params.addFundsExchangesLink.defaultValue
-    )
-    return { exchangesText, exchangesLink }
-  } catch (error) {
-    Logger.warn(
-      TAG,
-      `Error getting statsig experiment ${StatsigExperiments.ADD_FUNDS_CRYPTO_EXCHANGE_QR_CODE}`,
-      error
-    )
-    return {
-      exchangesText: params.addFundsExchangesText.defaultValue,
-      exchangesLink: params.addFundsExchangesLink.defaultValue,
-    }
-  }
+  return getExperimentParams(
+    StatsigExperiments.ADD_FUNDS_CRYPTO_EXCHANGE_QR_CODE,
+    defaultExperimentParamValues[StatsigExperiments.ADD_FUNDS_CRYPTO_EXCHANGE_QR_CODE]
+  )
 }
 
 export default function SelectProviderScreen({ route, navigation }: Props) {
@@ -352,15 +333,16 @@ function ExchangesSection({
 }) {
   const { t } = useTranslation()
 
-  const { exchangesText, exchangesLink } = useMemo(() => {
-    if (flow === CICOFlow.CashIn) {
-      return getAddFundsCryptoExchangeExperimentParams()
-    }
-    return {
-      exchangesText: SelectProviderExchangesText.CryptoExchange,
-      exchangesLink: SelectProviderExchangesLink.ExternalExchangesScreen,
-    }
-  }, [flow])
+  const { addFundsExchangesText: exchangesText, addFundsExchangesLink: exchangesLink } =
+    useMemo(() => {
+      if (flow === CICOFlow.CashIn) {
+        return getAddFundsCryptoExchangeExperimentParams()
+      }
+      return {
+        addFundsExchangesText: SelectProviderExchangesText.CryptoExchange,
+        addFundsExchangesLink: SelectProviderExchangesLink.ExternalExchangesScreen,
+      }
+    }, [flow])
 
   if (!exchanges.length) {
     return null
