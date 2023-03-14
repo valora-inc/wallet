@@ -21,5 +21,9 @@ export enum StatsigExperiments {
   RECOVERY_PHRASE_IN_ONBOARDING = 'recovery_phrase_in_onboarding',
 }
 
-export type ValueOrArray<T> = T | T[]
-export type StatsigParameter = ValueOrArray<string | boolean | number | Object>
+export type StatsigParameter =
+  | string
+  | number
+  | boolean
+  | StatsigParameter[]
+  | { [key: string]: StatsigParameter }
