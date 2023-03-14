@@ -46,6 +46,7 @@ import DAppsExplorerScreenLegacy from 'src/dappsExplorer/DAppsExplorerScreenLega
 import { fetchExchangeRate } from 'src/exchange/actions'
 import ExchangeHomeScreen from 'src/exchange/ExchangeHomeScreen'
 import WalletHome from 'src/home/WalletHome'
+import ExclamationCircleIcon from 'src/icons/ExclamationCircleIcon'
 import { Home } from 'src/icons/Home'
 import { AccountKey } from 'src/icons/navigator/AccountKey'
 import { AddWithdraw } from 'src/icons/navigator/AddWithdraw'
@@ -62,6 +63,7 @@ import { getActiveRouteName } from 'src/navigator/NavigatorWrapper'
 import RewardsPill from 'src/navigator/RewardsPill'
 import { Screens } from 'src/navigator/Screens'
 import { isAppSwapsEnabledSelector } from 'src/navigator/selectors'
+import { getOnboardingExperimentParams } from 'src/onboarding'
 import { default as useSelector } from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
@@ -283,7 +285,21 @@ export default function DrawerNavigator() {
           name={Screens.BackupIntroduction}
           // @ts-expect-error component type in native-stack v6
           component={BackupIntroduction}
-          options={{ title: t('accountKey'), drawerIcon: AccountKey }}
+          options={{
+            drawerLabel:
+              !backupCompleted && getOnboardingExperimentParams().showBackupAlert
+                ? () => (
+                    <View style={styles.itemStyle}>
+                      <Text style={styles.itemTitle}>{t('accountKey')}</Text>
+                      <View style={styles.drawerItemIcon}>
+                        <ExclamationCircleIcon />
+                      </View>
+                    </View>
+                  )
+                : t('accountKey'),
+            title: t('accountKey'),
+            drawerIcon: AccountKey,
+          }}
           initialParams={{ showDrawerTopBar: true }}
         />
       )}
@@ -348,5 +364,16 @@ const styles = StyleSheet.create({
     ...fontStyles.small,
     color: colors.gray4,
     marginTop: 32,
+  },
+  itemStyle: {
+    marginLeft: -20,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  drawerItemIcon: {
+    paddingLeft: 10,
+  },
+  itemTitle: {
+    ...fontStyles.regular,
   },
 })
