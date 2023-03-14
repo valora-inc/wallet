@@ -143,7 +143,7 @@ export enum OnboardingEvents {
   account_dek_register_complete = 'account_dek_register_complete',
 
   protect_wallet_use_recovery = 'protect_wallet_use_recovery',
-  protect_wallet_use_cloud = 'protect_wallet_backup_to_cloud',
+  protect_wallet_use_cloud = 'protect_wallet_use_cloud',
   protect_wallet_use_cloud_bottom_sheet = 'protect_wallet_cloud_bottom_sheet',
   protect_wallet_help = 'protect_wallet_help',
   protect_wallet_help_dismiss = 'protect_wallet_help_dismiss',
