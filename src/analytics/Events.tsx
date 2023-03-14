@@ -144,7 +144,7 @@ export enum OnboardingEvents {
 
   protect_wallet_use_recovery = 'protect_wallet_use_recovery',
   protect_wallet_use_cloud = 'protect_wallet_use_cloud',
-  protect_wallet_use_cloud_bottom_sheet = 'protect_wallet_cloud_bottom_sheet',
+  protect_wallet_use_cloud_bottom_sheet = 'protect_wallet_use_cloud_bottom_sheet',
   protect_wallet_help = 'protect_wallet_help',
   protect_wallet_help_dismiss = 'protect_wallet_help_dismiss',
   protect_wallet_copy_phrase = 'protect_wallet_copy_phrase',
