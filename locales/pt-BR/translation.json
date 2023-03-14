@@ -1217,7 +1217,7 @@
   },
   "dappsScreen": {
     "title": "Dapps",
-    "message": "Explore formas de utilizar os seus bens",
+    "message": "Explore formas de usar seus ativos",
     "errorMessage": "Ocorreu um erro ao carregar os dapps",
     "featuredDapp": "Em destaque",
     "allDapps": "Todos",
@@ -1231,7 +1231,7 @@
       "labelCTA": "Ver Meus favoritos"
     },
     "emptyResults": {
-      "message": "<0>{{filter}}</0> filtro aplicado",
+      "message": "Filtro <0>{{filter}}</0> aplicado",
       "removeFilter": "Remover filtro"
     }
   },
