@@ -61,6 +61,7 @@ describe('OnboardingRecoveryPhraseScreen', () => {
       onboardingProps: mockOnboardingProps,
     })
   })
+  // eslint-disable-next-line jest/no-disabled-tests
   it.skip('opens bottom sheet when help pressed', async () => {
     // Un-skip when able to test behavior of useLayoutEffect hook
     const { getByTestId } = render(
