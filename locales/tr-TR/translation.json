@@ -1485,6 +1485,15 @@
       "label": "IFSC",
       "placeholderText": "IFSC girin",
       "errorMessage": "Geçersiz IFSC"
+    },
+    "pix": {
+      "keyType": {
+        "label": "PIX Anahtar Türü"
+      },
+      "key": {
+        "placeholderText": "PIX anahtarını girin",
+        "errorMessage": "Geçersiz PIX anahtarı"
+      }
     }
   },
   "webView": {
