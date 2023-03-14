@@ -4,7 +4,6 @@ import OnboardingRecoveryPhrase from 'src/onboarding/registration/OnboardingReco
 import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import { Provider } from 'react-redux'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
-import * as steps from 'src/onboarding/steps'
 import { Screens } from 'src/navigator/Screens'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { OnboardingEvents } from 'src/analytics/Events'
@@ -26,16 +25,6 @@ jest.mock('@react-native-clipboard/clipboard', () => ({
 }))
 
 const mockScreenProps = getMockStackScreenProps(Screens.OnboardingRecoveryPhrase)
-
-const mockOnboardingProps = {
-  recoveringFromStoreWipe: false,
-  choseToRestoreAccount: false,
-  skipVerification: false,
-  supportedBiometryType: null,
-  numberAlreadyVerifiedCentrally: false,
-  showRecoveryPhrase: true,
-  showCloudBackupFakeDoor: true,
-}
 
 describe('OnboardingRecoveryPhraseScreen', () => {
   const store = createMockStore({
