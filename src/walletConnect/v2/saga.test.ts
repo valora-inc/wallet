@@ -3,10 +3,17 @@ import { expectSaga } from 'redux-saga-test-plan'
 import { select } from 'redux-saga/effects'
 import { DappRequestOrigin } from 'src/analytics/types'
 import { activeDappSelector } from 'src/dapps/selectors'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
+import { WalletConnectRequestType } from 'src/walletConnect/types'
+import { sessionProposal as sessionProposalAction } from 'src/walletConnect/v2/actions'
 import {
   getDefaultSessionTrackedProperties,
+  walletConnectV2Saga,
   _applyIconFixIfNeeded,
 } from 'src/walletConnect/v2/saga'
+import { createMockStore } from 'test/utils'
+import { mocked } from 'ts-jest/utils'
 
 function createSessionProposal(
   proposerMetadata: SignClientTypes.Metadata
@@ -144,5 +151,42 @@ describe('applyIconFixIfNeeded', () => {
         expect(session.peer.metadata?.icons).toStrictEqual(expected)
       }
     )
+  })
+})
+
+// See also our comprehensive E2E tests for WalletConnect
+// The tests here are mainly to check things that are more difficult to cover from the E2E test
+describe(walletConnectV2Saga, () => {
+  beforeAll(() => {
+    jest.useRealTimers()
+  })
+
+  const sessionProposal = createSessionProposal({
+    url: 'someUrl',
+    icons: ['someIcon'],
+    description: 'someDescription',
+    name: 'someName',
+  })
+
+  // Sanity check to ensure `safely` does its job
+  it('continues to handle actions even when handlers previously failed unexpectedly', async () => {
+    mocked(navigate).mockImplementationOnce(() => {
+      throw new Error('An unexpected failure')
+    })
+    const state = createMockStore({}).getState()
+    await expectSaga(walletConnectV2Saga)
+      .withState(state)
+      // This one will fail internally
+      .dispatch(sessionProposalAction(sessionProposal))
+      // This one will still succeed (previous one didn't crash the whole saga thanks to `safely`)
+      .dispatch(sessionProposalAction(sessionProposal))
+      .silentRun()
+
+    expect(navigate).toHaveBeenCalledTimes(2)
+    expect(navigate).toHaveBeenCalledWith(Screens.WalletConnectRequest, {
+      type: WalletConnectRequestType.Session,
+      pendingSession: sessionProposal,
+      version: 2,
+    })
   })
 })
