@@ -14,7 +14,7 @@ import * as NavigationService from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { RootState } from 'src/redux/reducers'
 import { store } from 'src/redux/store'
-import { getOnboardingExperimentParams } from 'src//onboarding'
+import { getOnboardingExperimentParams } from 'src/onboarding'
 
 export const FIRST_ONBOARDING_SCREEN = Screens.NameAndPicture
 export const END_OF_ONBOARDING_SCREEN = Screens.WalletHome
@@ -42,7 +42,6 @@ export interface OnboardingProps {
   skipVerification: boolean
   numberAlreadyVerifiedCentrally: boolean
   showRecoveryPhrase: boolean
-  showCloudBackupFakeDoor: boolean
 }
 
 /**
@@ -58,8 +57,7 @@ export function onboardingPropsSelector(state: RootState): OnboardingProps {
   const supportedBiometryType = supportedBiometryTypeSelector(state)
   const skipVerification = skipVerificationSelector(state)
   const numberAlreadyVerifiedCentrally = numberVerifiedCentrallySelector(state)
-  const { showRecoveryPhraseInOnboarding: showRecoveryPhrase, showCloudBackupFakeDoor } =
-    getOnboardingExperimentParams()
+  const { showRecoveryPhraseInOnboarding: showRecoveryPhrase } = getOnboardingExperimentParams()
 
   return {
     recoveringFromStoreWipe,
@@ -68,7 +66,6 @@ export function onboardingPropsSelector(state: RootState): OnboardingProps {
     skipVerification,
     numberAlreadyVerifiedCentrally,
     showRecoveryPhrase,
-    showCloudBackupFakeDoor,
   }
 }
 

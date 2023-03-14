@@ -16,7 +16,7 @@ interface Props {
 
 function OnboardingCard({ testId, onPress, title, subtitle }: Props) {
   return (
-    <Card testID="OnboardingCard" style={styles.card} rounded={true} shadow={Shadow.SoftLight}>
+    <Card testID="OnboardingCard" style={styles.card} rounded={true} shadow={Shadow.Soft}>
       <Touchable style={styles.pressableCard} onPress={onPress} testID={testId}>
         <>
           <View style={styles.itemTextContainer}>

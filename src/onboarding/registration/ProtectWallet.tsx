@@ -25,6 +25,7 @@ import { getWalletAsync } from 'src/web3/contracts'
 import { getPassword } from 'src/pincode/authentication'
 import { UnlockableWallet } from '@celo/wallet-base'
 import { UNLOCK_DURATION } from 'src/web3/consts'
+import { getOnboardingExperimentParams } from 'src/onboarding'
 import variables from 'src/styles/variables'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.ProtectWallet>
@@ -41,6 +42,7 @@ function ProtectWallet({ navigation }: Props) {
   const twelveWordMnemonicEnabled = useSelector(twelveWordMnemonicEnabledSelector)
   const mnemonicLength = twelveWordMnemonicEnabled ? '12' : '24'
   const onboardingProps = useTypedSelector(onboardingPropsSelector)
+  const { showCloudBackupFakeDoor } = getOnboardingExperimentParams()
   const { step, totalSteps } = getOnboardingStepValues(Screens.ProtectWallet, onboardingProps)
   const address = useSelector(walletAddressSelector)
   const [showBottomSheet, setShowBottomSheet] = useState(false)
@@ -79,7 +81,7 @@ function ProtectWallet({ navigation }: Props) {
 
   const onPressRecoveryPhrase = () => {
     ValoraAnalytics.track(OnboardingEvents.protect_wallet_use_recovery, {
-      position: onboardingProps.showCloudBackupFakeDoor ? 1 - cloudBackupIndex : undefined,
+      position: showCloudBackupFakeDoor ? 1 - cloudBackupIndex : undefined,
     })
     setShouldNavigate(true)
   }
@@ -108,7 +110,7 @@ function ProtectWallet({ navigation }: Props) {
         onPress={onPressRecoveryPhrase}
       />
     )
-    if (onboardingProps.showCloudBackupFakeDoor) {
+    if (showCloudBackupFakeDoor) {
       const cloudBackupCard = (
         <OnboardingCard
           testId={'cloudBackupCard'}
@@ -208,7 +210,6 @@ const styles = StyleSheet.create({
   },
   bottomSheetTitle: {
     ...fontStyles.h2,
-    marginTop: 22,
   },
   bottomSheetBody: {
     ...fontStyles.regular,

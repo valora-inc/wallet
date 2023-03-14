@@ -165,7 +165,6 @@ const styles = StyleSheet.create({
   },
   bottomSheetTitle: {
     ...fontStyles.h2,
-    marginTop: 22,
   },
   bottomSheetBody: {
     ...fontStyles.regular,

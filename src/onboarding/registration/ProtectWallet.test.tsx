@@ -4,12 +4,15 @@ import ProtectWallet from 'src/onboarding/registration/ProtectWallet'
 import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import { Provider } from 'react-redux'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
-import * as steps from 'src/onboarding/steps'
+import { getOnboardingExperimentParams } from 'src/onboarding/index'
 import { Screens } from 'src/navigator/Screens'
 import { navigate } from 'src/navigator/NavigationService'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { OnboardingEvents } from 'src/analytics/Events'
+import { mocked } from 'ts-jest/utils'
+import { mockOnboardingProps } from 'test/values'
 
+jest.mock('src/onboarding/index')
 jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/pincode/authentication', () => ({
   getPassword: jest.fn(),
@@ -19,17 +22,20 @@ jest.mock('src/web3/contracts', () => ({
     unlockAccount: jest.fn(),
   }),
 }))
+jest.mock('src/onboarding/steps', () => ({
+  getOnboardingStepValues: () => ({ step: 3, totalSteps: 3 }),
+  onboardingPropsSelector: () => mockOnboardingProps,
+}))
 
 const mockScreenProps = getMockStackScreenProps(Screens.ProtectWallet)
 
-const mockOnboardingProps = {
-  recoveringFromStoreWipe: false,
-  choseToRestoreAccount: false,
-  skipVerification: false,
-  supportedBiometryType: null,
-  numberAlreadyVerifiedCentrally: false,
-  showRecoveryPhrase: true,
+const mockExperimentParams = {
+  enableForcedBackup: true,
+  showRecoveryPhraseInOnboarding: true,
   showCloudBackupFakeDoor: true,
+  useNewBackupFlowCopy: false,
+  showBackupAlert: false,
+  useNewBackupHomecard: false,
 }
 
 describe('ProtectWalletScreen', () => {
@@ -41,11 +47,11 @@ describe('ProtectWalletScreen', () => {
   })
   beforeEach(() => {
     jest.clearAllMocks()
-    jest.spyOn(steps, 'onboardingPropsSelector').mockReturnValue(mockOnboardingProps)
+    mocked(getOnboardingExperimentParams).mockReturnValue(mockExperimentParams)
   })
   it('Shows only recovery phrase option', async () => {
-    const mockProps = { ...mockOnboardingProps, ...{ showCloudBackupFakeDoor: false } }
-    jest.spyOn(steps, 'onboardingPropsSelector').mockReturnValue(mockProps)
+    const mockParams = { ...mockExperimentParams, showCloudBackupFakeDoor: false }
+    mocked(getOnboardingExperimentParams).mockReturnValue(mockParams)
     const { getByTestId, queryByTestId } = render(
       <Provider store={store}>
         <ProtectWallet {...mockScreenProps} />
