@@ -45,6 +45,14 @@ export interface OnboardingProps {
   showCloudBackupFakeDoor: boolean
 }
 
+/**
+ * This function should return all the information needed to determine what the next step in onboarding is
+ * for any given step in onboarding.
+ *
+ * @param state
+ * @returns OnboardingProps
+ */
+
 export function onboardingPropsSelector(state: RootState): OnboardingProps {
   const recoveringFromStoreWipe = recoveringFromStoreWipeSelector(state)
   const choseToRestoreAccount = choseToRestoreAccountSelector(state)
@@ -72,22 +80,22 @@ export function onboardingPropsSelector(state: RootState): OnboardingProps {
 export function getOnboardingStepValues(screen: Screens, onboardingProps: OnboardingProps) {
   let stepCounter = 1 // will increment this up to the onboarding step the user is on
   let totalCounter = 1
-  let reachedScreeen = false // tracks whether we have reached the screen the user is on in onboarding, and we can stop incrementing stepCounter
+  let reachedStep = false // tracks whether we have reached the step the user is on in onboarding, and we can stop incrementing stepCounter
   let currentScreen: Screens = FIRST_ONBOARDING_SCREEN // pointer that we will update when simulating navigation through the onboarding screens to calculate "step" and "totalSteps"
 
-  const navigate = (s: Screens) => {
+  const nextStepAndCount = (s: Screens) => {
     // dummy navigation function to help determine what onboarding step the user is on, without triggering side effects like actually cycling them back through the first few onboarding screens
     totalCounter++
     if (currentScreen === screen) {
-      reachedScreeen = true
+      reachedStep = true
     }
-    if (!reachedScreeen) {
+    if (!reachedStep) {
       stepCounter++
     }
     currentScreen = s
   }
 
-  const navigateHome = () => {
+  const toHomeStep = () => {
     currentScreen = Screens.WalletHome
   }
 
@@ -96,12 +104,12 @@ export function getOnboardingStepValues(screen: Screens, onboardingProps: Onboar
     const stepInfo = _getStepInfo({
       firstScreenInStep: currentScreen,
       navigator: {
-        navigate,
+        navigate: nextStepAndCount,
         popToScreen: () => {
           // no-op
         },
-        navigateHome,
-        navigateClearingStack: navigate,
+        navigateHome: toHomeStep,
+        navigateClearingStack: nextStepAndCount,
       },
       dispatch: () => {
         // no-op
@@ -141,6 +149,16 @@ export function goToNextOnboardingScreen({
   stepInfo?.next()
 }
 
+/**
+ * This function is used to determine what the next step is for each step in the onboarding flow and is the
+ * source of truth for such info. New onboarding screens need to be handled by it.
+ *
+ * @param firstScreenInStep The first screen in the step that we are trying to get info for
+ * @param navigator The navigator functions to use (from NavigationService for actually navigating, or custom functions for calculating onboarding step)
+ * @param dispatch The dispatch function
+ * @param props The onboarding props aka all of the customer state that we need to determine what the next step is
+ * @returns
+ */
 export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: GetStepInfoProps) {
   const { navigate, popToScreen, navigateHome, navigateClearingStack } = navigator
   const {
@@ -235,5 +253,9 @@ export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: 
           }
         },
       }
+    default:
+      throw new Error(
+        `No step info found for ${firstScreenInStep}. this step needs to be handled in _getStepInfo`
+      )
   }
 }

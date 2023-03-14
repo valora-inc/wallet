@@ -3,6 +3,7 @@ import { getAccountNumberSchema } from 'src/fiatconnect/fiatAccountSchemas/accou
 import { getIbanNumberSchema } from 'src/fiatconnect/fiatAccountSchemas/ibanNumber'
 import { getIfscAccountSchema } from 'src/fiatconnect/fiatAccountSchemas/ifscAccount'
 import { getMobileMoneySchema } from 'src/fiatconnect/fiatAccountSchemas/mobileMoney'
+import { getPixAccountSchema } from 'src/fiatconnect/fiatAccountSchemas/pixAccount'
 import {
   ComputedParam,
   FormFieldParam,
@@ -53,6 +54,8 @@ export const getSchema = ({
         country,
         fiatAccountType,
       })
+    case FiatAccountSchema.PIXAccount:
+      return getPixAccountSchema()
     default:
       // should never happen
       throw new Error('Unsupported schema type')

@@ -57,11 +57,29 @@ describe('utils/Logger', () => {
     expect(console.info).toHaveBeenCalledWith('Test/Info/Test message #1, Test message #2')
   })
 
-  it('Logger.warn pipes to console.info', () => {
-    console.info = jest.fn()
+  it('Logger.warn pipes to console.warn', () => {
+    console.warn = jest.fn()
     Logger.warn('Test/Warn', 'Test message #1', 'Test message #2')
-    expect(console.info).toBeCalledTimes(1)
-    expect(console.info).toHaveBeenCalledWith('Test/Warn/Test message #1, Test message #2')
+    expect(console.warn).toBeCalledTimes(1)
+    expect(console.warn).toHaveBeenCalledWith('Test/Warn/Test message #1, Test message #2')
+  })
+
+  it('Logger.error pipes to console.error', () => {
+    console.error = jest.fn()
+    const testError = new Error('This is a test error')
+    // Override the stack so it's the same everywhere
+    testError.stack = testError.stack?.replace(
+      __filename,
+      '/Users/flarf/src/github.com/valora-inc/wallet/src/utils/Logger.test.ts'
+    )
+    Logger.error('Test/Error', 'Test message #1', testError)
+    expect(console.error).toBeCalledTimes(1)
+    expect((console.error as jest.Mock).mock.calls[0]).toMatchInlineSnapshot(`
+      Array [
+        "Test/Error :: Test message #1 :: This is a test error in Error: This is a test error
+          at Object.<anonymous> (/Users/flarf/src/github.com/valora-inc/wallet :: network connected true",
+      ]
+    `)
   })
 
   it('Returns combined logs file path iOS', () => {

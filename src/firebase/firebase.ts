@@ -1,5 +1,6 @@
 import firebase, { ReactNativeFirebase } from '@react-native-firebase/app'
 import '@react-native-firebase/auth'
+import '@react-native-firebase/database'
 import { FirebaseDatabaseTypes } from '@react-native-firebase/database'
 import dynamicLinks from '@react-native-firebase/dynamic-links'
 import '@react-native-firebase/messaging'

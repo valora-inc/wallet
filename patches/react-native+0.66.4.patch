@@ -1,0 +1,15 @@
+diff --git a/node_modules/react-native/React/CoreModules/RCTExceptionsManager.mm b/node_modules/react-native/React/CoreModules/RCTExceptionsManager.mm
+index 175c561..f393ab0 100644
+--- a/node_modules/react-native/React/CoreModules/RCTExceptionsManager.mm
++++ b/node_modules/react-native/React/CoreModules/RCTExceptionsManager.mm
+@@ -101,7 +101,9 @@ - (void)reportFatal:(NSString *)message
+                   : (double)exceptionId)
+ {
+   RCTRedBox *redbox = [_moduleRegistry moduleForName:"RedBox"];
+-  [redbox showErrorMessage:message withStack:stack errorCookie:(int)exceptionId];
++  // Backported from https://github.com/facebook/react-native/commit/9d2df5b8ae9
++  // Can be removed once we upgrade to RN >= 0.68
++  [redbox updateErrorMessage:message withStack:stack errorCookie:(int)exceptionId];
+ 
+   if (_delegate && [_delegate respondsToSelector:@selector(updateJSExceptionWithMessage:stack:exceptionId:)]) {
+     [_delegate updateJSExceptionWithMessage:message stack:stack exceptionId:[NSNumber numberWithDouble:exceptionId]];

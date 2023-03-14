@@ -1518,6 +1518,15 @@
       "label": "IFSC",
       "placeholderText": "Enter IFSC",
       "errorMessage": "Invalid IFSC"
+    },
+    "pix": {
+      "keyType": {
+        "label": "PIX Key Type"
+      },
+      "key": {
+        "placeholderText": "Enter PIX key",
+        "errorMessage": "Invalid PIX key"
+      }
     }
   },
   "webView": {
