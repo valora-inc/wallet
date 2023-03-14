@@ -52,7 +52,6 @@ export interface OnboardingProps {
  * @param state
  * @returns OnboardingProps
  */
-
 export function onboardingPropsSelector(state: RootState): OnboardingProps {
   const recoveringFromStoreWipe = recoveringFromStoreWipeSelector(state)
   const choseToRestoreAccount = choseToRestoreAccountSelector(state)
