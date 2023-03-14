@@ -80,9 +80,12 @@ export function useMaxSendAmount(
   const feeEstimate =
     useUsdToTokenAmount(new BigNumber(usdFeeEstimate ?? 0), tokenAddress) ?? new BigNumber(0)
 
+  if (!balance) {
+    return new BigNumber(0)
+  }
   // For example, if you are sending cUSD but you have more CELO this will be true
   if (tokenAddress !== feeTokenAddress) {
     return balance
   }
-  return balance?.minus(feeEstimate)
+  return balance.minus(feeEstimate)
 }

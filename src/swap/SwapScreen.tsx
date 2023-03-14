@@ -32,7 +32,6 @@ import { Field, SwapAmount } from 'src/swap/types'
 import useSwapQuote from 'src/swap/useSwapQuote'
 import { coreTokensSelector, tokensByUsdBalanceSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
-import Logger from 'src/utils/Logger'
 
 const TAG = 'swap/swapScreen'
 
@@ -143,7 +142,7 @@ export function SwapScreen() {
   const handleReview = () => {
     ValoraAnalytics.track(SwapEvents.swap_screen_review_swap)
 
-    if (maxFromAmount && parsedSwapAmount[Field.FROM].gt(maxFromAmount)) {
+    if (parsedSwapAmount[Field.FROM].gt(maxFromAmount)) {
       setFromSwapAmountError(true)
       showMaxCeloSwapWarning()
       dispatch(showError(t('swapScreen.insufficientFunds', { token: fromToken?.symbol })))
@@ -218,10 +217,6 @@ export function SwapScreen() {
   }
 
   const handleSetMaxFromAmount = () => {
-    if (!maxFromAmount) {
-      Logger.warn(TAG, 'Cannot set max amount, maxFromAmount is undefined')
-      return
-    }
     setUpdatedField(Field.FROM)
     setSwapAmount((prev) => ({
       ...prev,
