@@ -93,7 +93,18 @@ export const _persistConfig = persistConfig
 declare var window: any
 
 export const setupStore = (initialState = {}, config = persistConfig) => {
-  const sagaMiddleware = createSagaMiddleware()
+  const sagaMiddleware = createSagaMiddleware({
+    onError: (error, errorInfo) => {
+      // Log the uncaught error so it's captured by Sentry
+      // default just uses console.error
+      // TODO: would be nice if we could attach errorInfo as additional data to the error
+      Logger.error(
+        'redux/store',
+        `Uncaught error in saga with stack: ${errorInfo?.sagaStack}`,
+        error
+      )
+    },
+  })
   const middlewares: Middleware[] = [sagaMiddleware]
 
   if (__DEV__) {

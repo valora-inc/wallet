@@ -188,3 +188,9 @@ export function getObfuscatedAccountNumber(accountNumber: string): string {
   const digitsToReveal = Math.max(0, Math.min(accountNumber.length - 3, 4))
   return digitsToReveal > 0 ? '...' + accountNumber.slice(-digitsToReveal) : ''
 }
+
+export function getObfuscatedEmail(email: string): string {
+  const [username, domain] = email.split('@')
+  const charactersToReveal = Math.min(username.length - 1, 3)
+  return `${username.slice(0, charactersToReveal)}***@${domain}`
+}
