@@ -26,6 +26,14 @@ jest.mock('src/onboarding/steps', () => ({
   getOnboardingStepValues: () => ({ step: 3, totalSteps: 3 }),
   onboardingPropsSelector: () => mockOnboardingProps,
 }))
+jest.mock('src/navigator/NavigationService', () => {
+  const originalModule = jest.requireActual('src/navigator/NavigationService')
+  return {
+    ...originalModule,
+    navigate: jest.fn(),
+    ensurePincode: jest.fn().mockResolvedValue(true),
+  }
+})
 
 const mockScreenProps = getMockStackScreenProps(Screens.ProtectWallet)
 

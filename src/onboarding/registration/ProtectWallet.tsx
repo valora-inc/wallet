@@ -1,6 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useLayoutEffect, useState } from 'react'
-import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, View, ScrollView, StyleSheet, Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -21,12 +20,12 @@ import OnboardingCard from 'src/components/OnboardingCard'
 import { twelveWordMnemonicEnabledSelector, walletAddressSelector } from 'src/web3/selectors'
 import seedrandom from 'seedrandom'
 import BottomSheet from 'src/components/BottomSheet'
-import { getWalletAsync } from 'src/web3/contracts'
-import { getPassword } from 'src/pincode/authentication'
-import { UnlockableWallet } from '@celo/wallet-base'
-import { UNLOCK_DURATION } from 'src/web3/consts'
 import { getOnboardingExperimentParams } from 'src/onboarding'
 import variables from 'src/styles/variables'
+import { ensurePincode } from 'src/navigator/NavigationService'
+import Logger from 'src/utils/Logger'
+
+const TAG = 'ProtectWallet'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.ProtectWallet>
 
@@ -46,25 +45,21 @@ function ProtectWallet({ navigation }: Props) {
   const { step, totalSteps } = getOnboardingStepValues(Screens.ProtectWallet, onboardingProps)
   const address = useSelector(walletAddressSelector)
   const [showBottomSheet, setShowBottomSheet] = useState(false)
-  const [shouldNavigate, setShouldNavigate] = useState(false)
   const { t } = useTranslation()
 
   const cloudBackupIndex = getCloudBackupIndex(address)
 
-  // We need to ensure that the wallet is unlocked before navigating to the next screen,
-  // but don't want to prompt the user for their PIN until we actually need to. In practice,
-  // the wallet will likely already be unlocked.
-  useAsync(async () => {
-    try {
-      if (shouldNavigate && address) {
-        const wallet = (await getWalletAsync()) as UnlockableWallet
-        await wallet.unlockAccount(address, await getPassword(address), UNLOCK_DURATION)
-        navigate(Screens.OnboardingRecoveryPhrase)
-      }
-    } finally {
-      setShouldNavigate(false)
-    }
-  }, [shouldNavigate, address])
+  const navigateToRecoveryPhrase = () => {
+    ensurePincode()
+      .then((pinIsCorrect) => {
+        if (pinIsCorrect) {
+          navigate(Screens.OnboardingRecoveryPhrase)
+        }
+      })
+      .catch((error) => {
+        Logger.error(TAG, 'PIN ensure error', error)
+      })
+  }
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -83,7 +78,7 @@ function ProtectWallet({ navigation }: Props) {
     ValoraAnalytics.track(OnboardingEvents.protect_wallet_use_recovery, {
       position: showCloudBackupFakeDoor ? 1 - cloudBackupIndex : undefined,
     })
-    setShouldNavigate(true)
+    navigateToRecoveryPhrase()
   }
   const onPressCloudBackup = () => {
     ValoraAnalytics.track(OnboardingEvents.protect_wallet_use_cloud, {
@@ -93,7 +88,7 @@ function ProtectWallet({ navigation }: Props) {
   }
   const onPressContinueBottomSheet = () => {
     ValoraAnalytics.track(OnboardingEvents.protect_wallet_use_cloud_bottom_sheet)
-    setShouldNavigate(true)
+    navigateToRecoveryPhrase()
     setShowBottomSheet(false)
   }
   const onPressDismissBottomSheet = () => {
