@@ -4,11 +4,13 @@
  */
 import React, { useEffect } from 'react'
 import { Keyboard, StyleSheet, Text, View } from 'react-native'
+import { ScrollView } from 'react-native-gesture-handler'
 import NumberKeypad from 'src/components/NumberKeypad'
 import { PIN_LENGTH } from 'src/pincode/authentication'
 import PincodeDisplay from 'src/pincode/PincodeDisplay'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
 
 interface Props {
   title?: string // shown as H1
@@ -56,14 +58,14 @@ function Pincode({
 
   return (
     <View style={styles.container}>
-      <View style={styles.titleContainer}>
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.subtitle}>{subtitle}</Text>
-      </View>
-      <View style={styles.pincodeContainer}>
-        <PincodeDisplay pin={pin} maxLength={maxLength} />
-      </View>
-      <Text style={styles.error}>{errorText || ' '}</Text>
+        <View style={styles.pincodeContainer}>
+          <PincodeDisplay pin={pin} maxLength={maxLength} />
+        </View>
+        <Text style={styles.error}>{errorText || ''}</Text>
+      </ScrollView>
       <View style={styles.spacer} />
       <NumberKeypad onDigitPress={onDigitPress} onBackspacePress={onBackspacePress} />
     </View>
@@ -81,7 +83,7 @@ const styles = StyleSheet.create({
     ...fontStyles.regular500,
     color: colors.warning,
     textAlign: 'center',
-    marginBottom: 24,
+    marginBottom: Spacing.Thick24,
   },
   pincodeContainer: {
     marginVertical: 48,
@@ -95,11 +97,12 @@ const styles = StyleSheet.create({
   title: {
     ...fontStyles.h1,
     textAlign: 'center',
-    marginBottom: 16,
+    marginBottom: Spacing.Regular16,
   },
-  titleContainer: {
-    marginTop: 76,
-    marginHorizontal: 24,
+  scrollContainer: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    marginHorizontal: Spacing.Thick24,
   },
 })
 
