@@ -50,6 +50,7 @@ type Props = {
   onChangeText?: (value: string) => void
   includeHeader?: boolean
   testID?: string
+  readOnlyStyle?: ViewStyle
 } & WithTranslation
 
 export class BackupPhraseContainer extends React.Component<Props> {
@@ -69,7 +70,17 @@ export class BackupPhraseContainer extends React.Component<Props> {
   }
 
   render() {
-    const { t, value: words, showCopy, style, mode, type, includeHeader, testID } = this.props
+    const {
+      t,
+      value: words,
+      showCopy,
+      style,
+      mode,
+      type,
+      includeHeader,
+      testID,
+      readOnlyStyle,
+    } = this.props
     const wordList = words?.split(' ')
     const isTwelveWords = wordList?.length === 12
 
@@ -90,7 +101,7 @@ export class BackupPhraseContainer extends React.Component<Props> {
         </View>
         {mode === BackupPhraseContainerMode.READONLY && (
           <View
-            style={styles.phraseContainer}
+            style={{ ...styles.phraseContainer, ...readOnlyStyle }}
             testID="AccountKeyWordsContainer"
             accessibilityLabel={words ?? ''}
           >
