@@ -1485,6 +1485,15 @@
       "label": "Code IFSC",
       "placeholderText": "Saisissez un code IFSC",
       "errorMessage": "IFSC non valide"
+    },
+    "pix": {
+      "keyType": {
+        "label": "Type de clé PIX"
+      },
+      "key": {
+        "placeholderText": "Entrer la touche PIX",
+        "errorMessage": "Clé PIX non valide"
+      }
     }
   },
   "webView": {

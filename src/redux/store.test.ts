@@ -1,9 +1,13 @@
 import Ajv from 'ajv'
+import { spawn, takeEvery } from 'redux-saga/effects'
 import * as createMigrateModule from 'src/redux/createMigrate'
 import { migrations } from 'src/redux/migrations'
+import { rootSaga } from 'src/redux/sagas'
 import { setupStore, _persistConfig } from 'src/redux/store'
 import * as accountCheckerModule from 'src/utils/accountChecker'
+import Logger from 'src/utils/Logger'
 import { getLatestSchema, vNeg1Schema } from 'test/schemas'
+import { mocked } from 'ts-jest/utils'
 
 // Mock sagas because we don't want them to run in this test
 jest.mock('src/redux/sagas', () => ({
@@ -19,6 +23,8 @@ const resetStateOnInvalidStoredAccount = jest.spyOn(
   accountCheckerModule,
   'resetStateOnInvalidStoredAccount'
 )
+
+const loggerErrorSpy = jest.spyOn(Logger, 'error')
 
 beforeEach(() => {
   jest.clearAllMocks()
@@ -354,6 +360,33 @@ describe('store state', () => {
           "twelveWordMnemonicEnabled": false,
         },
       }
+    `)
+  })
+})
+
+describe(setupStore, () => {
+  it('reports uncaught errors happening in sagas', async () => {
+    mocked(rootSaga).mockImplementationOnce(function* () {
+      yield spawn(function* mySaga() {
+        yield takeEvery('SOME_ACTION', function* someActionHandler() {
+          // do something
+        })
+        throw new Error('Just a test error')
+      })
+    })
+
+    setupStore()
+
+    expect(rootSaga).toHaveBeenCalledTimes(1)
+    expect(loggerErrorSpy).toHaveBeenCalledTimes(1)
+    expect(loggerErrorSpy.mock.calls[0]).toMatchInlineSnapshot(`
+      Array [
+        "redux/store",
+        "Uncaught error in saga with stack: The above error occurred in task mySaga
+      Tasks cancelled due to error:
+      takeEvery(SOME_ACTION, someActionHandler)",
+        [Error: Just a test error],
+      ]
     `)
   })
 })

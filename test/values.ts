@@ -987,6 +987,14 @@ export const mockExchanges: ExternalExchangeProvider[] = [
   },
 ]
 
+export const mockOnboardingProps = {
+  recoveringFromStoreWipe: true,
+  choseToRestoreAccount: false,
+  supportedBiometryType: null,
+  skipVerification: true,
+  numberAlreadyVerifiedCentrally: false,
+}
+
 export const mockDappListV1: DappV1[] = [
   {
     name: 'Dapp 1',
