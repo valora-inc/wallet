@@ -4,6 +4,7 @@ import { getAccountNumberSchema } from 'src/fiatconnect/fiatAccountSchemas/accou
 import { getIbanNumberSchema } from 'src/fiatconnect/fiatAccountSchemas/ibanNumber'
 import { getIfscAccountSchema } from 'src/fiatconnect/fiatAccountSchemas/ifscAccount'
 import { getMobileMoneySchema } from 'src/fiatconnect/fiatAccountSchemas/mobileMoney'
+import { getPixAccountSchema } from 'src/fiatconnect/fiatAccountSchemas/pixAccount'
 import { FiatAccountSchemaCountryOverrides } from 'src/fiatconnect/types'
 
 jest.mock('src/fiatconnect/fiatAccountSchemas/accountNumber', () => ({
@@ -20,6 +21,10 @@ jest.mock('src/fiatconnect/fiatAccountSchemas/mobileMoney', () => ({
 
 jest.mock('src/fiatconnect/fiatAccountSchemas/ifscAccount', () => ({
   getIfscAccountSchema: jest.fn(() => 'ifsc-account-schema'),
+}))
+
+jest.mock('src/fiatconnect/fiatAccountSchemas/pixAccount', () => ({
+  getPixAccountSchema: jest.fn(() => 'pix-account-schema'),
 }))
 
 describe(getSchema, () => {
@@ -102,5 +107,13 @@ describe(getSchema, () => {
       fiatAccountType: params.fiatAccountType,
     })
     expect(schema).toEqual('ifsc-account-schema')
+  })
+  it('calls getPIXAccountSchema for PIXAccount schema', () => {
+    const schema = getSchema({
+      ...params,
+      fiatAccountSchema: FiatAccountSchema.PIXAccount,
+    })
+    expect(getPixAccountSchema).toHaveBeenCalled()
+    expect(schema).toEqual('pix-account-schema')
   })
 })
