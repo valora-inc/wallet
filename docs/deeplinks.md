@@ -6,6 +6,7 @@ You can create a deeplink that will prompt the user to make a payment to an addr
 
 The deeplink will look like this `celo://wallet/pay?{...queryParams}`
 where the query parameters can be:
+
 - `address` (required): The address that will be the recipient of the payment.
 - `displayName` (optional): The URL-encoded name of the recipient. If you leave this empty the address will be shown instead.
 - `comment` (optional): A URL-encoded text that explains the reason for the payment.
