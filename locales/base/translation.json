@@ -1512,6 +1512,11 @@
     "disclaimer": "Swaps powered by partners on Celo. <0>Learn More.</0>",
     "swapFromTokenSelection": "Swap From",
     "swapToTokenSelection": "Swap To"
+    "maxSwapAmountWarning": {
+      "title": "Swapping the MAX amount",
+      "body": "Make sure you have CELO in your wallet to cover gas fees for future transactions",
+      "learnMore": "Learn more"
+    }
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Swap from",

@@ -24,6 +24,7 @@ import { Screens } from 'src/navigator/Screens'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import MaxAmountWarning from 'src/swap/MaxAmountWarning'
 import { swapInfoSelector } from 'src/swap/selectors'
 import { setSwapUserInput } from 'src/swap/slice'
 import SwapAmountInput from 'src/swap/SwapAmountInput'
@@ -70,6 +71,7 @@ export function SwapScreen() {
   const [updatedField, setUpdatedField] = useState(Field.FROM)
   const [selectingToken, setSelectingToken] = useState<Field | null>(null)
   const [fromSwapAmountError, setFromSwapAmountError] = useState(false)
+  const [showMaxSwapAmountWarning, setShowMaxSwapAmountWarning] = useState(false)
 
   const maxFromAmount = useMaxSendAmount(fromToken?.address || '', FeeType.SWAP)
   const { exchangeRate, refreshQuote, fetchSwapQuoteError, fetchingSwapQuote, clearQuote } =
@@ -143,6 +145,7 @@ export function SwapScreen() {
 
     if (maxFromAmount && parsedSwapAmount[Field.FROM].gt(maxFromAmount)) {
       setFromSwapAmountError(true)
+      showMaxCeloSwapWarning()
       dispatch(showError(t('swapScreen.insufficientFunds', { token: fromToken?.symbol })))
     } else {
       dispatch(
@@ -211,6 +214,7 @@ export function SwapScreen() {
         [fieldType]: value,
       }))
     }
+    setShowMaxSwapAmountWarning(false)
   }
 
   const handleSetMaxFromAmount = () => {
@@ -223,6 +227,16 @@ export function SwapScreen() {
       ...prev,
       [Field.FROM]: maxFromAmount.toFormat(),
     }))
+    showMaxCeloSwapWarning()
+    ValoraAnalytics.track(SwapEvents.swap_screen_max_swap_amount, {
+      tokenSymbol: fromToken?.symbol,
+    })
+  }
+
+  const showMaxCeloSwapWarning = () => {
+    if (fromToken?.symbol === 'CELO') {
+      setShowMaxSwapAmountWarning(true)
+    }
   }
 
   const allowReview = useMemo(
@@ -279,6 +293,7 @@ export function SwapScreen() {
             loading={updatedField === Field.FROM && fetchingSwapQuote}
             noTokenDisplay={t('swapScreen.swapToTokenSelection')}
           />
+          {showMaxSwapAmountWarning && <MaxAmountWarning />}
         </View>
         <Text style={[styles.disclaimerWrapper, fontStyles.regular, styles.disclaimerText]}>
           <Trans i18nKey="swapScreen.disclaimer">
@@ -316,7 +331,7 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     padding: Spacing.Regular16,
-    flex: 1,
+    flexGrow: 1,
   },
   swapAmountsContainer: {
     paddingBottom: Spacing.Thick24,
