@@ -18,7 +18,6 @@ Valora's deeplink handler requires the contract address. If your
 decimals from your contract. If your ERC-20 contract does not implement
 `symbol` or `decimals`, you must specify them in the deeplink URL.
 
-
 ```ts
 // Required: The address that the token is at
 const address = '0xb92463e2262e700e29c16416270c9fdfa17934d7'
@@ -29,7 +28,9 @@ const decimals = 6
 // Optional: a URL to download token image (must be a 256 x 256 PNG)
 const image = 'https://image-hosting.foo/256x256.png'
 
-const watchAssetDeeplink = `valora://wallet/watchAsset?address=${address}&symbol=${symbol}&decimals=${decimals}&image=${encodeURIComponent(image)}`
+const watchAssetDeeplink = `valora://wallet/watchAsset?address=${address}&symbol=${symbol}&decimals=${decimals}&image=${encodeURIComponent(
+  image
+)}`
 ```
 
 ## Upcoming: using EIP-747
