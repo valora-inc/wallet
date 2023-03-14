@@ -1,5 +1,11 @@
 import { reloadReactNative } from '../utils/retries'
-import { enterPinUiIfNecessary, inputNumberKeypad, scrollIntoView, sleep } from '../utils/utils'
+import {
+  enterPinUiIfNecessary,
+  inputNumberKeypad,
+  scrollIntoView,
+  sleep,
+  addComment,
+} from '../utils/utils'
 const faker = require('@faker-js/faker')
 
 const PHONE_NUMBER = '+12057368924'
@@ -11,9 +17,7 @@ export default SecureSend = () => {
     await reloadReactNative()
   })
 
-  // TODO: Unskip this test when the ODIS V1 debacle is resolved and fixed in code
-  // https://valora-app.slack.com/archives/C025V1D6F3J/p1676979118551299
-  it.skip('Send cUSD to phone number with multiple mappings', async () => {
+  it('Send cUSD to phone number with multiple mappings', async () => {
     let randomContent = faker.lorem.words()
     await waitFor(element(by.id('SendOrRequestBar/SendButton')))
       .toBeVisible()
@@ -23,8 +27,13 @@ export default SecureSend = () => {
     // Look for an address and tap on it.
     await element(by.id('SearchInput')).tap()
     await element(by.id('SearchInput')).replaceText(PHONE_NUMBER)
-    await element(by.id('SearchInput')).tapReturnKey()
     await element(by.id('RecipientItem')).tap()
+
+    // Select the currency
+    await waitFor(element(by.id('cUSDBalance')))
+      .toBeVisible()
+      .withTimeout(30 * 1000)
+    await element(by.id('cUSDBalance')).tap()
 
     // Enter the amount and review
     await inputNumberKeypad(AMOUNT_TO_SEND)
@@ -53,8 +62,7 @@ export default SecureSend = () => {
     await element(by.id('ConfirmAccountButton')).tap()
 
     // Write a comment.
-    await element(by.id('commentInput/send')).replaceText(`${randomContent}\n`)
-    await element(by.id('commentInput/send')).tapReturnKey()
+    await addComment(randomContent)
 
     // Wait for the confirm button to be clickable. If it takes too long this test
     // will be flaky :(

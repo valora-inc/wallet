@@ -1215,7 +1215,7 @@
   },
   "dappsScreen": {
     "title": "Dapp",
-    "message": "Khám phá những phương thức sử dụng tiền điện tử",
+    "message": "Explore ways to use your assets",
     "errorMessage": "Đã xảy ra lỗi khi tải dapp",
     "featuredDapp": "Nổi bật",
     "allDapps": "Tất cả",
@@ -1227,6 +1227,10 @@
     "favoritedDappToast": {
       "message": "Dapp được thêm vào mục yêu thích",
       "labelCTA": "Xem Dapps yêu thích"
+    },
+    "emptyResults": {
+      "message": "<0>{{filter}}</0> filter applied",
+      "removeFilter": "Remove filter"
     }
   },
   "dappsScreenHelpDialog": {
@@ -1479,6 +1483,15 @@
       "label": "Mã IFSC",
       "placeholderText": "Nhập mã IFSC",
       "errorMessage": "Mã IFSC không hợp lệ"
+    },
+    "pix": {
+      "keyType": {
+        "label": "PIX Key Type"
+      },
+      "key": {
+        "placeholderText": "Enter PIX key",
+        "errorMessage": "Invalid PIX key"
+      }
     }
   },
   "webView": {

@@ -2,19 +2,25 @@ import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { BIOMETRY_TYPE } from 'react-native-keychain'
 import { Provider } from 'react-redux'
-import { initializeAccount, setPincodeSuccess } from 'src/account/actions'
+import { setPincodeSuccess } from 'src/account/actions'
 import { PincodeType } from 'src/account/reducer'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { setHasSeenVerificationNux } from 'src/identity/actions'
-import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import EnableBiometry from 'src/onboarding/registration/EnableBiometry'
+import { goToNextOnboardingScreen } from 'src/onboarding/steps'
 import { setPincodeWithBiometry } from 'src/pincode/authentication'
 import Logger from 'src/utils/Logger'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore, flushMicrotasksQueue } from 'test/utils'
+import { mockOnboardingProps } from 'test/values'
 import { mocked } from 'ts-jest/utils'
+
+jest.mock('src/onboarding/steps', () => ({
+  goToNextOnboardingScreen: jest.fn(),
+  getOnboardingStepValues: () => ({ step: 1, totalSteps: 2 }),
+  onboardingPropsSelector: () => mockOnboardingProps,
+}))
 
 const mockedSetPincodeWithBiometry = mocked(setPincodeWithBiometry)
 const loggerErrorSpy = jest.spyOn(Logger, 'error')
@@ -64,13 +70,16 @@ describe('EnableBiometry', () => {
 
     expect(setPincodeWithBiometry).toHaveBeenCalled()
     expect(store.getActions()).toEqual([setPincodeSuccess(PincodeType.PhoneAuth)])
-    expect(navigate).toHaveBeenCalledWith(Screens.VerificationStartScreen)
+    expect(goToNextOnboardingScreen).toHaveBeenCalledWith({
+      firstScreenInCurrentStep: Screens.EnableBiometry,
+      onboardingProps: mockOnboardingProps,
+    })
 
     expect(analyticsSpy).toHaveBeenNthCalledWith(1, OnboardingEvents.biometry_opt_in_start)
     expect(analyticsSpy).toHaveBeenNthCalledWith(2, OnboardingEvents.biometry_opt_in_approve)
     expect(analyticsSpy).toHaveBeenNthCalledWith(3, OnboardingEvents.biometry_opt_in_complete)
   })
-  it('should navigate to the home screen if skipVerification is true', async () => {
+  it('should call goToNextOnboardingScreen', async () => {
     const store = createMockStore({
       app: {
         supportedBiometryType: BIOMETRY_TYPE.FACE_ID,
@@ -92,13 +101,10 @@ describe('EnableBiometry', () => {
     await flushMicrotasksQueue()
 
     expect(setPincodeWithBiometry).toHaveBeenCalled()
-    expect(store.getActions()).toEqual([
-      setPincodeSuccess(PincodeType.PhoneAuth),
-      initializeAccount(),
-      setHasSeenVerificationNux(true),
-    ])
-    expect(navigate).not.toHaveBeenCalled()
-    expect(navigateHome).toHaveBeenCalled()
+    expect(goToNextOnboardingScreen).toHaveBeenCalledWith({
+      firstScreenInCurrentStep: Screens.EnableBiometry,
+      onboardingProps: mockOnboardingProps,
+    })
   })
 
   it('should log error and not navigate if biometry enable fails', async () => {
@@ -110,7 +116,7 @@ describe('EnableBiometry', () => {
 
     expect(setPincodeWithBiometry).toHaveBeenCalled()
     expect(store.getActions()).toEqual([])
-    expect(navigate).not.toHaveBeenCalled()
+    expect(goToNextOnboardingScreen).not.toHaveBeenCalled()
     expect(loggerErrorSpy).toHaveBeenCalled()
     expect(analyticsSpy).toHaveBeenCalledWith(OnboardingEvents.biometry_opt_in_error)
   })
@@ -124,7 +130,7 @@ describe('EnableBiometry', () => {
 
     expect(setPincodeWithBiometry).toHaveBeenCalled()
     expect(store.getActions()).toEqual([])
-    expect(navigate).not.toHaveBeenCalled()
+    expect(goToNextOnboardingScreen).not.toHaveBeenCalled()
     expect(loggerErrorSpy).not.toHaveBeenCalled()
   })
 
@@ -133,7 +139,10 @@ describe('EnableBiometry', () => {
 
     fireEvent.press(getByText('skip'))
 
-    expect(navigate).toHaveBeenCalledWith(Screens.VerificationStartScreen)
+    expect(goToNextOnboardingScreen).toHaveBeenCalledWith({
+      firstScreenInCurrentStep: Screens.EnableBiometry,
+      onboardingProps: mockOnboardingProps,
+    })
   })
 
   it('should show guided onboarding explaining faceid when enabled to do so', () => {

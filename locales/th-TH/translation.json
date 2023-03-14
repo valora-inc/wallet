@@ -1215,7 +1215,7 @@
   },
   "dappsScreen": {
     "title": "Dapp",
-    "message": "สำรวจวิธีใช้คริปโตของคุณ",
+    "message": "Explore ways to use your assets",
     "errorMessage": "มีข้อผิดพลาดขณะโหลด Dapp",
     "featuredDapp": "โดดเด่น",
     "allDapps": "ทั้งหมด",
@@ -1227,6 +1227,10 @@
     "favoritedDappToast": {
       "message": "เพิ่มเป็นรายการโปรด",
       "labelCTA": "ดูรายการโปรด"
+    },
+    "emptyResults": {
+      "message": "<0>{{filter}}</0> filter applied",
+      "removeFilter": "Remove filter"
     }
   },
   "dappsScreenHelpDialog": {
@@ -1479,6 +1483,15 @@
       "label": "IFSC",
       "placeholderText": "ป้อน IFSC",
       "errorMessage": "IFSC ไม่ถูกต้อง"
+    },
+    "pix": {
+      "keyType": {
+        "label": "PIX Key Type"
+      },
+      "key": {
+        "placeholderText": "Enter PIX key",
+        "errorMessage": "Invalid PIX key"
+      }
     }
   },
   "webView": {

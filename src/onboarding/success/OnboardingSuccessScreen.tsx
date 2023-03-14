@@ -4,14 +4,24 @@ import { Image, StyleSheet, Text, View } from 'react-native'
 import Logo, { LogoTypes } from 'src/icons/Logo'
 import { background } from 'src/images/Images'
 import { nuxNavigationOptionsNoBackButton } from 'src/navigator/Headers'
-import { navigateHome } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
+import { goToNextOnboardingScreen, onboardingPropsSelector } from 'src/onboarding/steps'
+import useTypedSelector from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
 function OnboardingSuccessScreen() {
+  const onboardingProps = useTypedSelector(onboardingPropsSelector)
   useEffect(() => {
-    const timeout = setTimeout(() => navigateHome(), 3000)
+    const timeout = setTimeout(
+      () =>
+        goToNextOnboardingScreen({
+          firstScreenInCurrentStep: Screens.VerificationStartScreen,
+          onboardingProps,
+        }),
+      3000
+    )
 
     return () => clearTimeout(timeout)
   }, [])

@@ -1,3 +1,21 @@
+import {
+  FiatAccountSchema,
+  FiatAccountSchemas,
+  PIXKeyTypeEnum,
+} from '@fiatconnect/fiatconnect-types'
+
+type DefaultAllowedValues = Partial<{
+  [Schema in FiatAccountSchema]: {
+    [Property in keyof Partial<FiatAccountSchemas[Schema]>]: string[]
+  }
+}>
+
+export const DEFAULT_ALLOWED_VALUES: DefaultAllowedValues = {
+  [FiatAccountSchema.PIXAccount]: {
+    keyType: Object.keys(PIXKeyTypeEnum),
+  },
+}
+
 export enum SettlementTime {
   // List of available settlement time strings for SelectProvider and
   // TransferStatus screens

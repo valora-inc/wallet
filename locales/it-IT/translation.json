@@ -1217,7 +1217,7 @@
   },
   "dappsScreen": {
     "title": "Dapp",
-    "message": "Esplora i modi per usare le tue criptovalute",
+    "message": "Esplora i modi per utilizzare le tue risorse",
     "errorMessage": "Errore durante il caricamento delle Dapp.",
     "featuredDapp": "In primo piano",
     "allDapps": "Tutti",
@@ -1229,6 +1229,10 @@
     "favoritedDappToast": {
       "message": "Dapp aggiunta ai tuoi preferiti",
       "labelCTA": "Visualizza le tue preferite"
+    },
+    "emptyResults": {
+      "message": "<0>{{filter}}</0> filtro applicato",
+      "removeFilter": "Rimuovi il filtro"
     }
   },
   "dappsScreenHelpDialog": {
@@ -1481,6 +1485,15 @@
       "label": "IFSC",
       "placeholderText": "Inserisci il codice IFSC",
       "errorMessage": "Codice IFSC non valido"
+    },
+    "pix": {
+      "keyType": {
+        "label": "Tipo di chiave PIX"
+      },
+      "key": {
+        "placeholderText": "Inserisci il tasto PIX",
+        "errorMessage": "Chiave PIX non valida"
+      }
     }
   },
   "webView": {

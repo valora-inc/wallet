@@ -187,7 +187,7 @@
   "startSuperchargingNotificationStart": "获取奖励",
   "cashIn": "添加 {{currency}}",
   "connectNumber": "关联号码",
-  "connectToWallet": "连接到 {{dappName}}",
+  "connectToWallet": "关联到 {{dappName}}",
   "confirmTransaction": "确认交易",
   "allow": "允许",
   "address": "钱包地址",
@@ -198,8 +198,8 @@
     "signTX": "签署交易",
     "details": "显示详情"
   },
-  "shareInfo": "你必须连接你的钱包以批准该Dapp的交易。一旦连接，它将有机会访问你的钱包地址。",
-  "connectWalletInfoDappkit": "你必须连接你的钱包，以批准该Dapp的交易。一旦连接，它将可以访问你的钱包地址和电话号码。",
+  "shareInfo": "您必须关联您的钱包，以同意该 Dapp 上的交易。关联成功后，该 Dapp 将有权限访问您的钱包地址。",
+  "connectWalletInfoDappkit": "您必须关联您的钱包，以同意该 Dapp 上的交易。关联成功后，该 Dapp 将有权限访问您的钱包地址和手机号码。",
   "data": "数据",
   "firebaseDisabled": "Firebase 已禁用，通知和日志上传功能将不可用",
   "learnMore": "了解更多",
@@ -269,7 +269,7 @@
   "onlyCelo": "仅限 CELO",
   "celoDollar": "Celo 美元",
   "celoEuro": "Celo 欧元",
-  "celoReal": "塞洛-雷亚尔",
+  "celoReal": "Celo Real",
   "celoDollars": "Celo 美元",
   "tapToCopyCeloDollarsAddress": "点按以复制您的 {{appName}} CUSD 地址",
   "disclaimerFiat": "{{currency}} 价值为估计值。",
@@ -552,7 +552,7 @@
   "sendAndInvite": "发送和邀请",
   "inviteRewardsBanner": {
     "title": "邀请朋友并收集 NFT",
-    "body": "一旦他们设置了他们的 {{appName}} 钱包并连接了他们的号码，你们将各自得到一个独家的NFT。"
+    "body": "在他们成功设置 {{appName}} 钱包并关联手机号码后，你们每个人都将获得一个专属 NFT。"
   },
   "inviteWithUrl": {
     "title": "邀请朋友",
@@ -578,8 +578,8 @@
     "privacy": "加入此网络，即表示您允许我们收集有关您使用该应用程序的匿名信息。此外，如果您关联您的电话号码，它的哈希副本将存储在 Celo Network 上。如果您授予 Valora 访问您的联系人列表的权限，Valora 将导入每个联系人的姓名、电话号码和个人资料照片，以允许用户通过 Valora 应用程序进行关联。要了解我们如何收集和使用这些信息，请查看我们的<0>隐私政策</0>。",
     "goldDisclaimer": "当您使用 Valora 创建一个“账户”时，您创建的是一个只有您拥有密钥的数字钱包。包括 cLabs 或 Valora 在内的任何其他个人或实体都无法恢复您的密钥、更改或撤消交易或者追回丢失的资金。请注意，CELO、cUSD 和 cEUR 是新资产类别的一部分，存在财务损失风险。在购买任何资产之前，请仔细考虑您的财务状况和对财务风险的承受能力。"
   },
-  "fullNameOrPsuedonym": "全名或笔名",
-  "namePlaceholder": "例如：名称",
+  "fullNameOrPsuedonym": "全名或化名",
+  "namePlaceholder": "例如：姓名",
   "nameAndPicGuideCopyTitle": "您的名字是？",
   "nameAndPicGuideCopyContent": "我们想知道怎么称呼您.",
   "important": "重要信息",
@@ -683,7 +683,7 @@
     "createNewWallet": "新建钱包",
     "restoreWallet": "恢复钱包",
     "hasWallet": "我已有钱包",
-    "header": "欢迎来到 {{appName}}!让我们来创建你的加密货币钱包。",
+    "header": "欢迎使用 {{appName}}！请创建您的加密货币钱包。",
     "getStarted": "开始使用"
   },
   "accessContacts": {
@@ -703,10 +703,10 @@
     "changePIN": "更改 PIN 码",
     "pinsDontMatch": "PIN 码不匹配",
     "invalidPin": "请使用更强的 PIN 码",
-    "onboardingTitle": "选择一个6位数的密码",
-    "onboardingConfirm": "再次输入你的密码",
-    "onboardingSubtitle": "你的密码将确保你的钱包安全",
-    "pin": "密码"
+    "onboardingTitle": "选择一个 6 位数字的 PIN 码",
+    "onboardingConfirm": "再次输入您的 PIN 码",
+    "onboardingSubtitle": "您的 PIN 码将用于保护您的钱包",
+    "pin": "PIN 码"
   },
   "inviteCode": {
     "title": "邀请代码",
@@ -744,13 +744,13 @@
   },
   "phoneVerificationScreen": {
     "screenTitle": "手机号码",
-    "title": "将您的电话号码连接到Valora",
-    "description": "这将你的钱包地址与你的电话号码联系起来，因此发送加密货币很容易。",
+    "title": "将您的手机号码关联至 Valora",
+    "description": "这样可将您的钱包地址与手机号码关联起来，便于发送加密货币",
     "startButtonLabel": "关联",
     "learnMore": {
       "buttonLabel": "我需要关联吗？",
       "title": "我需要关联吗？",
-      "body": "连接你的电话号码将允许你向你地址簿中的朋友和其他电话号码发送钱。 \n \n 如果你选择跳过这一步，你将无法访问你的联系人，你将只能通过二维码或钱包地址汇款。"
+      "body": "关联您的手机号码将允许您向您通讯录中的朋友和其他手机号码发送资金。 \n \n 如果您选择跳过这一步，您将无法访问您的联系人，并将只能通过二维码或钱包地址发送资金。"
     },
     "skip": {
       "title": "您确定吗？",
@@ -766,7 +766,7 @@
     "codeInputPlaceholder": "123456",
     "helpDialog": {
       "title": "帮助",
-      "body": "我们向你的手机号码发送了一条短信。请检查你的短信，找到6位数的代码。 \n \n 如果你在接收信息时遇到困难，你可以暂时跳过这一步，以后再试。",
+      "body": "我们向您的手机号码发送了短信。请查看您短信中的 6 位数字代码。\n\n如果您在接收短信方面有问题，可以暂时跳过这一步，稍后再试。",
       "skip": "跳过",
       "dismiss": "返回"
     },
@@ -777,12 +777,12 @@
   "importExistingKey": {
     "keyPlaceholder": "horse leopard dog monkey ...",
     "header": "恢复钱包",
-    "title": "输入你的恢复短语",
-    "description": "使用你在设置钱包时保存的12或24个字的短语来恢复。",
+    "title": "输入您的恢复短语",
+    "description": "使用您在设置钱包时保存的 12 或 24 字短语进行恢复。",
     "emptyWalletDialog": {
-      "description": "这个钱包没有任何资金。你还想使用它吗？",
+      "description": "此钱包内没有任何资金。您仍要使用它吗？",
       "action": "使用钱包",
-      "title": "平衡\n<0></0>"
+      "title": "余额 \n<0></0>"
     }
   },
   "verificationInput": {
@@ -977,13 +977,13 @@
   },
   "walletConnectRequest": {
     "transactionDataLabel": "交易数据",
-    "readAccount": "{{dappName}} 想阅读你的 {{appName}} 钱包地址。",
-    "signPayload": "{{dappName}} 想签署一个数据有效载荷。",
-    "signTransaction": "{{dappName}} 希望签署一份塞洛交易。",
-    "sendTransaction": "{{dappName}} 想发送一个塞洛交易。",
-    "decryptPayload": "{{dappName}} 想解密一个数据有效载荷。",
-    "computeSharedSecret": "{{dappName}} 想产生秘密。",
-    "transactionDataCopied": "复制的交易数据"
+    "readAccount": "{{dappName}} 想要读取您的 {{appName}} 钱包地址。",
+    "signPayload": "{{dappName}} 想要签署数据有效负载。",
+    "signTransaction": "{{dappName}} 想要签署一笔 Celo 交易。",
+    "sendTransaction": "{{dappName}} 想要发送一笔 Celo 交易。",
+    "decryptPayload": "{{dappName}} 想要解密数据有效负载。",
+    "computeSharedSecret": "{{dappName}} 想要生成密钥。",
+    "transactionDataCopied": "交易数据已复制"
   },
   "sessionInfo": "此应用程序可能会要求执行以下操作：",
   "description": {
@@ -1064,7 +1064,7 @@
   "feedItemDepositInfo": "{{comment}}",
   "feedItemDepositInfo_noComment": "已接收存款",
   "feedItemDepositTitle": "存款",
-  "feedItemFcTransferMobileMoney": "移动汇款",
+  "feedItemFcTransferMobileMoney": "移动货币转账",
   "feedItemFcTransferBankAccount": "银行账户转账",
   "feedItemFcTransferWithdraw": "提取 {{crypto}}",
   "feedItemExchangeTitle": "CELO",
@@ -1209,24 +1209,28 @@
     "buttonText": "关联"
   },
   "outOfSyncBanner": {
-    "title": "取出令牌时出错。",
+    "title": "获取代币时出错。",
     "message": "您的余额可能不是最新数据。",
     "button": "刷新"
   },
   "dappsScreen": {
     "title": "Dapp",
-    "message": "探索如何使用您的加密货币",
+    "message": "探索使用你的资产的方法",
     "errorMessage": "加在 dapp 时出错",
     "featuredDapp": "精选",
     "allDapps": "全部",
-    "favoriteDapps": "我的最爱",
+    "favoriteDapps": "我的收藏",
     "noFavorites": {
-      "title": "没有添加收藏夹",
-      "description": "追踪你最常用的Dapps，点击星星图标将其添加为最爱。"
+      "title": "未添加收藏",
+      "description": "点击星星图标将其添加为收藏，轻松找到最常使用的 Dapp"
     },
     "favoritedDappToast": {
-      "message": "添加为收藏夹",
-      "labelCTA": "查看收藏夹"
+      "message": "添加为收藏",
+      "labelCTA": "查看收藏"
+    },
+    "emptyResults": {
+      "message": "<0>{{filter}}</0>适用的过滤器",
+      "removeFilter": "移除过滤器"
     }
   },
   "dappsScreenHelpDialog": {
@@ -1240,15 +1244,15 @@
     "button": "转至 {{dappName}}"
   },
   "dappsScreenInfoSheet": {
-    "title": "什么是dapp？",
-    "description": "dapp（或称去中心化的应用程序）是一个建立并运行在区块链网络之上的应用程序。这意味着没有一个公司或组织管理或存储你的数据。\n\nDapp因其提供的服务而不同。这些服务的例子包括去中心化的交易所，借贷，交换，存储NFTs。",
-    "buttonLabel": "告诉我更多"
+    "title": "Dapp 是什么？",
+    "description": "Dapp（或称去中心化应用程序）是建立并运行在区块链网络上的应用程序。这意味着您的数据并非由某一个公司或组织进行管理或保存。\n\nDapp 因其提供的服务而各有不同。其服务包括去中心化交易所，借出、借入、交换及保存 NFT 等。",
+    "buttonLabel": "了解更多"
   },
-  "dappsDisclaimerAllDapps": "{{appName}} 与这些应用程序没有关系，在使用它们时不做任何陈述或主张。在使用dapp之前，请通过审查用户协议或隐私政策来确认风险。",
-  "dappsDisclaimerSingleDapp": "{{appName}} 与此应用程序没有关系，在使用它时不作任何陈述。始终审查一个应用程序的用户协议或隐私政策。",
-  "dappsDisclaimerUnlistedDapp": "这个应用程序没有在 {{appName}}。 {{appName}} ，与这个应用程序没有关系，在使用它时不作任何陈述。始终审查一个dapp的用户协议或隐私政策。",
+  "dappsDisclaimerAllDapps": "{{appName}} 与这些 Dapp 无任何关联，且不对其做任何使用担保或理赔。请在使用 Dapp 前查看用户协议或隐私政策，了解相关风险。",
+  "dappsDisclaimerSingleDapp": "{{appName}} 与该 Dapp 无任何关联，且不对其做任何使用担保。请务必查看 Dapp 的用户协议或隐私政策。",
+  "dappsDisclaimerUnlistedDapp": "此 Dapp 未在 {{appName}} 中列出。{{appName}} 与该 Dapp 无任何关联，且不对其做任何使用担保。请务必查看 Dapp 的用户协议或隐私政策。",
   "recentlyUsedDapps": "最近使用的 Dapp",
-  "favoritedDapps": "最喜欢的Dapps",
+  "favoritedDapps": "收藏的 Dapp",
   "allDapps": "所有 Dapp",
   "rewards": "奖励",
   "supercharge": "Supercharge",
@@ -1346,8 +1350,8 @@
     "transactionDetails": "交易详情",
     "paymentMethodVia": "已通过 {{providerName}} 关联",
     "receiveAmount": "您将收到",
-    "bankFeeDisclaimer": "你的银行可能对你的转账收取额外费用。",
-    "mobileMoneyFeeDisclaimer": "您的移动支付运营商可能会对您的转账收取额外费用。",
+    "bankFeeDisclaimer": "银行可能向您收取转账手续费。",
+    "mobileMoneyFeeDisclaimer": "移动货币运营商可能向您收取转账手续费。",
     "cashIn": {
       "header": "查看 — 添加资金",
       "button": "添加资金",
@@ -1426,9 +1430,9 @@
     },
     "exchange": {
       "copyAddress": "复制地址",
-      "informationText": "只使用<0>与Celo网络兼容</0>的交易所或资产，以防止资金损失。",
-      "bottomSheetTitle": "我可以用什么交易所来存入资金？",
-      "bottomSheetInfo": "仔细检查你所发送的资产是否与Celo网络兼容。"
+      "informationText": "请使用 <0>Celo Network 支持的</0>交易所或资产，以防资金损失",
+      "bottomSheetTitle": "我可以通过哪些交易所存入资金？",
+      "bottomSheetInfo": "请仔细核对您所发送的资产是否受 Celo Network 支持。"
     }
   },
   "fiatDetailsScreen": {
@@ -1457,7 +1461,7 @@
     "mobileMoney": {
       "operator": {
         "label": "网络",
-        "placeholderText": "进入移动网络运营商"
+        "placeholderText": "输入移动网络运营商"
       },
       "mobile": {
         "label": "手机号码",
@@ -1479,6 +1483,15 @@
       "label": "IFSC",
       "placeholderText": "输入 IFSC",
       "errorMessage": "IFSC 无效"
+    },
+    "pix": {
+      "keyType": {
+        "label": "PIX键类型"
+      },
+      "key": {
+        "placeholderText": "输入PIX键",
+        "errorMessage": "无效的PIX键"
+      }
     }
   },
   "webView": {
@@ -1492,7 +1505,7 @@
     "swapTo": "至",
     "insufficientFunds": "{{token}} 余额不足，请尝试使用较小的金额或选择其他代币。",
     "fetchSwapQuoteFailed": "抱歉有所延迟！获取最佳汇率所需时间较往常略长。请在几分钟后重试。",
-    "disclaimer": "由Celo上的合作伙伴提供的互换。<0>了解更多。</0>"
+    "disclaimer": "Celo 朋友发起的交换。<0>了解更多。</0>"
   },
   "swapTransactionDetailPage": {
     "swapFrom": "交换自",
@@ -1541,17 +1554,17 @@
     "title": "{{contactName}} 似乎还没有 {{appName}} 钱包。",
     "body": "您仍然可以邀请他们使用 {{appName}}，或者尝试将付款发送到他们的钱包地址或 nom.space。",
     "sendInviteButtonLabel": "发送邀请",
-    "shareMessage": "嗨！我一直在使用 {{appName}} 作为我的加密货币钱包，我想邀请你去看看。一旦你下载该应用程序并连接你的电话号码，我们都会得到一个特殊的NFT。使用这个链接。 {{link}}",
+    "shareMessage": "嗨！我一直在使用 {{appName}} 作为加密货币钱包，我想邀请您来体验。如果您下载该应用程序并关联手机号码，我们都将获得一个特定的 NFT。点击这个链接：{{link}}",
     "rewardsActive": {
       "title": "邀请 {{contactName}} 使用 {{appName}}，你们都将获得 NFT！",
-      "body": "看起来， {{contactName}} 并不在 {{appName}}。如果你知道他们的钱包地址，你仍然可以发送一个付款，或者发送一个邀请来代替。 \n\n 在他们下载钱包并连接他们的电话号码后，你们都会得到一个独家NFT。"
+      "body": "似乎 {{contactName}} 未在 {{appName}} 上。如果您知道其钱包地址，则仍可发送付款，或者也可以发送一则邀请。\n\n在其下载钱包并关联手机号码后，你们都将获得一个专属的 NFT。"
     }
   },
   "celoNews": {
     "headerTitle": "更新",
-    "headerDescription": "在Celo博客上了解使用案例、试点和技术更新。",
-    "readMoreButtonText": "在博客上阅读更多内容",
-    "loadingError": "对不起，我们无法加载最新的更新。请稍后再试。",
+    "headerDescription": "前往 Celo 博客了解使用案例、试点项目及技术更新。",
+    "readMoreButtonText": "前往博客阅读更多内容",
+    "loadingError": "抱歉，我们无法加载最近的更新。请稍后再试。",
     "retryButtonText": "重试"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"

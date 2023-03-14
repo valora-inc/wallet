@@ -1,9 +1,4 @@
 import { createSelector } from 'reselect'
-import {
-  choseToRestoreAccountSelector,
-  recoveringFromStoreWipeSelector,
-} from 'src/account/selectors'
-import { Screens } from 'src/navigator/Screens'
 import { RootState } from 'src/redux/reducers'
 import { walletAddressSelector } from 'src/web3/selectors'
 
@@ -81,108 +76,6 @@ export const coinbasePayEnabledSelector = (state: RootState) => state.app.coinba
 
 export const maxSwapSlippagePercentageSelector = (state: RootState) =>
   state.app.maxSwapSlippagePercentage
-
-type StoreWipeRecoveryScreens = Extract<
-  Screens,
-  | Screens.NameAndPicture
-  | Screens.ImportWallet
-  | Screens.VerificationStartScreen
-  | Screens.VerificationCodeInputScreen
->
-type CreateAccountScreens = Extract<
-  Screens,
-  | Screens.NameAndPicture
-  | Screens.PincodeSet
-  | Screens.EnableBiometry
-  | Screens.VerificationStartScreen
-  | Screens.VerificationCodeInputScreen
->
-type RestoreAccountScreens = CreateAccountScreens & Screens.ImportWallet
-
-export const storeWipeRecoverySteps: { [key in StoreWipeRecoveryScreens]: number } = {
-  [Screens.NameAndPicture]: 1,
-  [Screens.ImportWallet]: 2,
-  [Screens.VerificationStartScreen]: 3,
-  [Screens.VerificationCodeInputScreen]: 3,
-}
-export const createAccountSteps: { [key in CreateAccountScreens]: number } = {
-  [Screens.NameAndPicture]: 1,
-  [Screens.PincodeSet]: 2,
-  [Screens.EnableBiometry]: 3,
-  [Screens.VerificationStartScreen]: 4,
-  [Screens.VerificationCodeInputScreen]: 4,
-}
-export const restoreAccountSteps: { [key in RestoreAccountScreens]: number } = {
-  [Screens.NameAndPicture]: 1,
-  [Screens.PincodeSet]: 2,
-  [Screens.EnableBiometry]: 3,
-  [Screens.ImportWallet]: 4,
-  [Screens.VerificationStartScreen]: 5,
-  [Screens.VerificationCodeInputScreen]: 5,
-}
-
-// The logic in this selector should be moved to a hook when all registration
-// screens are function components
-export const registrationStepsSelector = createSelector(
-  [
-    choseToRestoreAccountSelector,
-    supportedBiometryTypeSelector,
-    activeScreenSelector,
-    recoveringFromStoreWipeSelector,
-    skipVerificationSelector,
-  ],
-  (
-    chooseRestoreAccount,
-    supportedBiometryType,
-    activeScreen,
-    recoveringFromStoreWipe,
-    skipVerification
-  ) => {
-    let steps
-    let totalSteps
-    let step
-    if (recoveringFromStoreWipe) {
-      steps = storeWipeRecoverySteps
-      totalSteps = 3
-      step = storeWipeRecoverySteps[activeScreen as StoreWipeRecoveryScreens]
-    } else if (chooseRestoreAccount) {
-      steps = restoreAccountSteps
-      totalSteps = 5
-      step = restoreAccountSteps[activeScreen as RestoreAccountScreens]
-    } else {
-      steps = createAccountSteps
-      totalSteps = 4
-      step = createAccountSteps[activeScreen as CreateAccountScreens]
-    }
-
-    if (supportedBiometryType === null) {
-      if (Object.keys(steps).includes(Screens.EnableBiometry)) {
-        totalSteps--
-        step =
-          step > (steps as Record<Screens.EnableBiometry, number>)[Screens.EnableBiometry]
-            ? step - 1
-            : step
-      }
-    }
-    if (skipVerification) {
-      if (Object.keys(steps).includes(Screens.VerificationStartScreen)) {
-        totalSteps--
-        step =
-          step >
-          (steps as Record<Screens.VerificationStartScreen, number>)[
-            Screens.VerificationStartScreen
-          ]
-            ? step - 1
-            : step
-      }
-    }
-
-    return {
-      step,
-      totalSteps,
-    }
-  }
-)
 
 export const numberVerifiedCentrallySelector = (state: RootState) => state.app.phoneNumberVerified
 

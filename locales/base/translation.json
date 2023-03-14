@@ -1219,7 +1219,7 @@
   },
   "dappsScreen": {
     "title": "Dapps",
-    "message": "Explore ways to use your crypto",
+    "message": "Explore ways to use your assets",
     "errorMessage": "There was an error loading dapps",
     "featuredDapp": "Featured",
     "allDapps": "All",
@@ -1231,6 +1231,10 @@
     "favoritedDappToast": {
       "message": "Added as a favorite",
       "labelCTA": "View Favorites"
+    },
+    "emptyResults": {
+      "message": "<0>{{filter}}</0> filter applied",
+      "removeFilter": "Remove filter"
     }
   },
   "dappsScreenHelpDialog": {
@@ -1483,6 +1487,15 @@
       "label": "IFSC",
       "placeholderText": "Enter IFSC",
       "errorMessage": "Invalid IFSC"
+    },
+    "pix": {
+      "keyType": {
+        "label": "PIX Key Type"
+      },
+      "key": {
+        "placeholderText": "Enter PIX key",
+        "errorMessage": "Invalid PIX key"
+      }
     }
   },
   "webView": {
