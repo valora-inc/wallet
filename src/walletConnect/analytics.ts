@@ -1,5 +1,3 @@
-import '@react-native-firebase/database'
-import '@react-native-firebase/messaging'
 import { SessionTypes, SignClientTypes } from '@walletconnect/types'
 import { getDappRequestOrigin } from 'src/app/utils'
 import { ActiveDapp } from 'src/dapps/types'
