@@ -1,7 +1,5 @@
 # Registering Tokens with Users
 
-> This feature is in-development and not fully supported yet!
-
 Valora includes a default list of popular tokens. Each token in the
 default list must meet the asset listing <a href={props.assetGuidelines}>requirements</a>.
 However, there are many tokens that users
@@ -29,7 +27,7 @@ const symbol = 'C4P'
 // Required if not implemented in contract: the number of decimals in the token
 const decimals = 6
 // Optional: a URL to download token image (must be a 256 x 256 PNG)
-const image = 'https://should-not-resolve.foo/256x256.png'
+const image = 'https://image-hosting.foo/256x256.png'
 
 const watchAssetDeeplink = `valora://wallet/watchAsset?address=${address}&symbol=${symbol}&decimals=${decimals}&image=${encodeURIComponent(image)}`
 ```
