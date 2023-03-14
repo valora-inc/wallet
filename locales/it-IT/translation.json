@@ -1217,7 +1217,7 @@
   },
   "dappsScreen": {
     "title": "Dapp",
-    "message": "Esplora i modi per utilizzare le tue risorse",
+    "message": "Scopri i modi per utilizzare i tuoi asset",
     "errorMessage": "Errore durante il caricamento delle Dapp.",
     "featuredDapp": "In primo piano",
     "allDapps": "Tutti",
@@ -1231,8 +1231,8 @@
       "labelCTA": "Visualizza le tue preferite"
     },
     "emptyResults": {
-      "message": "<0>{{filter}}</0> filtro applicato",
-      "removeFilter": "Rimuovi il filtro"
+      "message": "Filtro <0>{{filter}}</0> applicato",
+      "removeFilter": "Rimuovi filtro"
     }
   },
   "dappsScreenHelpDialog": {
