@@ -1489,6 +1489,15 @@
       "label": "IFSC",
       "placeholderText": "Введите IFSC",
       "errorMessage": "Неверный IFSC"
+    },
+    "pix": {
+      "keyType": {
+        "label": "Тип ключа PIX"
+      },
+      "key": {
+        "placeholderText": "Введите клавишу PIX",
+        "errorMessage": "Неверный ключ PIX"
+      }
     }
   },
   "webView": {

@@ -24,3 +24,6 @@ declare module 'eth-lib'
 declare module '@ungap/url-search-params'
 declare module 'react-native-install-referrer'
 declare module 'reactotron-react-native/dist/flipper'
+
+// eslint-disable-next-line no-var
+declare var nativeLoggingHook: (message: string, logLevel: number) => void
