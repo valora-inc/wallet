@@ -1,8 +1,6 @@
 import { CeloTransactionObject, CeloTxReceipt, EventLog } from '@celo/connect'
 import { ContractKit } from '@celo/contractkit'
 import { EscrowWrapper } from '@celo/contractkit/lib/wrappers/Escrow'
-import '@react-native-firebase/database'
-import '@react-native-firebase/messaging'
 import BigNumber from 'bignumber.js'
 import { call, put, select, spawn, take, takeEvery, takeLatest } from 'redux-saga/effects'
 import { showError } from 'src/alert/actions'

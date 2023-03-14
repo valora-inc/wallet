@@ -1483,6 +1483,15 @@
       "label": "Mã IFSC",
       "placeholderText": "Nhập mã IFSC",
       "errorMessage": "Mã IFSC không hợp lệ"
+    },
+    "pix": {
+      "keyType": {
+        "label": "PIX Key Type"
+      },
+      "key": {
+        "placeholderText": "Enter PIX key",
+        "errorMessage": "Invalid PIX key"
+      }
     }
   },
   "webView": {
