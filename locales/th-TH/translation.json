@@ -1215,7 +1215,7 @@
   },
   "dappsScreen": {
     "title": "Dapp",
-    "message": "Explore ways to use your assets",
+    "message": "สำรวจวิธีใช้สินทรัพย์ของคุณ",
     "errorMessage": "มีข้อผิดพลาดขณะโหลด Dapp",
     "featuredDapp": "โดดเด่น",
     "allDapps": "ทั้งหมด",
@@ -1229,8 +1229,8 @@
       "labelCTA": "ดูรายการโปรด"
     },
     "emptyResults": {
-      "message": "<0>{{filter}}</0> filter applied",
-      "removeFilter": "Remove filter"
+      "message": "ใช้ตัวกรอง <0>{{filter}}</0> แล้ว",
+      "removeFilter": "ลบตัวกรอง"
     }
   },
   "dappsScreenHelpDialog": {
