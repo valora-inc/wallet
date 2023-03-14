@@ -9,6 +9,7 @@ import { Email } from 'src/account/emailSender'
 import { DEFAULT_SENTRY_NETWORK_ERRORS, LOGGER_LEVEL } from 'src/config'
 import { LoggerLevel } from 'src/utils/LoggerLevels'
 import { readFileChunked } from 'src/utils/readFile'
+import { stylize } from 'src/utils/stylize'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 
 class Logger {
@@ -307,6 +308,27 @@ class Logger {
       // but for now it's simpler
       writeLog(logLevel, message).catch((error) => console.error(error))
       originalNativeLoggingHook(message, logLevel)
+    }
+
+    if (__DEV__) {
+      // Add more info to the packager logs
+      const HMRClient = require('react-native/Libraries/Utilities/HMRClient')
+      const RNDeviceInfo = require('react-native-device-info')
+      const originalHmrLog = HMRClient.log
+      HMRClient.log = (level: string, data: any[]) => {
+        // Padding so messages are aligned in the packager logs
+        // See levels in https://github.com/facebook/react-native/blob/7858a2147fde9f754034577932cb5b22983f658f/Libraries/Utilities/HMRClient.js#L30-L39
+        const leftPadding = Math.max(5 - level.length, 0)
+        originalHmrLog(level, [
+          [
+            ''.padStart(leftPadding),
+            `[${new Date().toISOString().substring(11)}]`,
+            // Add the model to help differentiate logs when running multiple devices
+            ` ${stylize(RNDeviceInfo.getModel(), 'grey')}`,
+          ].join(''),
+          ...data,
+        ])
+      }
     }
   }
 }
