@@ -133,7 +133,6 @@ describe('onboarding steps', () => {
         expect(mockStore.dispatch).not.toHaveBeenCalled()
         expect(navigate).toHaveBeenCalledWith(Screens.ImportWallet)
       })
-
       it('should naigate to VerficationStartScreen if skipVerification is false and choseToRestoreAccount is false', () => {
         goToNextOnboardingScreen({
           firstScreenInCurrentStep: Screens.EnableBiometry,
