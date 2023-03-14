@@ -55,7 +55,7 @@ jobs:
             */*/node_modules
           key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
       - run: yarn || yarn --network-concurrency 1
-      - run: yarn run prettify:diff
+      - run: yarn run format:check
       - run: yarn run lint
       - run: yarn tsc -p .github/scripts
   yarn-lock:
