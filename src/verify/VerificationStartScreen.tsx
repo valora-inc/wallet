@@ -12,7 +12,6 @@ import { initializeAccount } from 'src/account/actions'
 import { defaultCountryCodeSelector, e164NumberSelector } from 'src/account/selectors'
 import { PhoneVerificationEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { registrationStepsSelector } from 'src/app/selectors'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import InfoBottomSheet from 'src/components/InfoBottomSheet'
@@ -27,8 +26,10 @@ import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
+import { getOnboardingStepValues, onboardingPropsSelector } from 'src/onboarding/steps'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
 import { waitUntilSagasFinishLoading } from 'src/redux/sagas'
+import useTypedSelector from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -81,7 +82,11 @@ function VerificationStartScreen({
   const cachedNumber = useSelector(e164NumberSelector)
   const cachedCountryCallingCode = useSelector(defaultCountryCodeSelector)
   const walletAddress = useSelector(walletAddressSelector)
-  const { step, totalSteps } = useSelector(registrationStepsSelector)
+  const onboardingProps = useTypedSelector(onboardingPropsSelector)
+  const { step, totalSteps } = getOnboardingStepValues(
+    Screens.VerificationStartScreen,
+    onboardingProps
+  )
 
   const countries = useMemo(() => new Countries(i18n.language), [i18n.language])
   const country = phoneNumberInfo.countryCodeAlpha2
