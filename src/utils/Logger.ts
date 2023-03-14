@@ -46,8 +46,7 @@ class Logger {
     if (this.level < LoggerLevel.Warn) {
       return
     }
-    // console.warn would display yellow box, therefore, we will log to console.info instead.
-    console.info(`${tag}/${messages.join(', ')}`)
+    console.warn(`${tag}/${messages.join(', ')}`)
   }
 
   error = (
@@ -94,12 +93,9 @@ class Logger {
         Sentry.captureMessage(message, captureContext)
       }
     }
-    console.info(
+    console.error(
       `${tag} :: ${message} :: ${errorMsg} :: network connected ${this.isNetworkConnected}`
     )
-    if (__DEV__) {
-      console.info(console.trace())
-    }
   }
 
   setIsNetworkConnected = (isConnected: boolean) => {
@@ -258,23 +254,24 @@ class Logger {
     }
   }
 
-  // Anything being sent to console.log, console.warn, or console.error is piped into
-  // the logfile specified by getReactNativeLogsFilePath()
+  // Anything being sent to console.log, console.warn, console.error, etc is piped into
+  // the log file specified by getReactNativeLogsFilePath()
   overrideConsoleLogs = () => {
     const logFilePath = this.getReactNativeLogFilePath()
     console.debug('React Native logs will be piped to ' + logFilePath)
 
-    const consoleFns: { [key: string]: (message?: any, ...optionalParams: any[]) => void } = {
-      debug: console.debug,
-      log: console.log,
-      info: console.info,
-      // console.error displays a red box, therefore, we console.info instead
-      error: console.info,
-      // console.warn displays a yellow box, therefore, we console.info instead
-      warn: console.info,
+    // These are the levels used by the nativeLoggingHook
+    // See https://github.com/facebook/react-native/blob/419025df226dfad6a2be57c8d5515f103b96917b/packages/polyfills/console.js#L382-L387
+    // Here we pad the end of the string so logs are visually aligned in the file
+    // and is easier to parse for us humans :)
+    const NATIVE_LOG_LEVELS: Record<number, string | undefined> = {
+      0: 'DEBUG',
+      1: 'INFO ',
+      2: 'WARN ',
+      3: 'ERROR',
     }
 
-    const writeLog = async (level: string, message: string) => {
+    const writeLog = async (logLevel: number, message: string) => {
       try {
         // If log folder not present create it
         await RNFS.mkdir(this.getReactNativeLogsDir())
@@ -288,44 +285,28 @@ class Logger {
         // Ensure messages are converted to utf8 as some remote CTA's can have Non-ASCII characters
         await RNFS.appendFile(
           logFilePath,
-          `${level} [${timestamp}] ${Buffer.from(message, 'utf-8').toString()}\n`,
+          `${NATIVE_LOG_LEVELS[logLevel] || NATIVE_LOG_LEVELS[0]} [${timestamp}] ${Buffer.from(
+            message,
+            'utf-8'
+          ).toString()}\n`,
           'utf8'
         )
       } catch (error) {
-        consoleFns.debug(`Failed to write to ${logFilePath}`, error)
+        console.error(`Failed to write to ${logFilePath}`, error)
       }
     }
 
-    const log = (level: string, message?: any, ...optionalParams: any[]) => {
-      if (typeof message === 'string') {
-        const timestamp = Date.now()
-        const consoleMessage = `[${timestamp}] ${message}`
+    // Override the method used by React Native through which all logs go through
+    // See https://github.com/facebook/react-native/blob/419025df226dfad6a2be57c8d5515f103b96917b/packages/polyfills/console.js
+    // This way we don't need to override all console methods
+    const originalNativeLoggingHook = global.nativeLoggingHook
 
-        consoleFns[level](consoleMessage, ...optionalParams)
-        writeLog(level, message).catch((error) => consoleFns.debug(error))
-      } else {
-        consoleFns[level](message, ...optionalParams)
-      }
-    }
-
-    console.log = (message?: any, ...optionalParams: any[]) => {
-      log('log', message, ...optionalParams)
-    }
-
-    console.debug = (message?: any, ...optionalParams: any[]) => {
-      log('debug', message, ...optionalParams)
-    }
-
-    console.info = (message?: any, ...optionalParams: any[]) => {
-      log('info', message, ...optionalParams)
-    }
-
-    console.warn = (message?: any, ...optionalParams: any[]) => {
-      log('warn', message, ...optionalParams)
-    }
-
-    console.error = (message?: any, ...optionalParams: any[]) => {
-      log('error', message, ...optionalParams)
+    global.nativeLoggingHook = (message: string, logLevel: number) => {
+      // TODO: as an improvement, we could hook into the nativeLoggingHook from the native side
+      // to avoid the extra calls via the bridge to write to the file
+      // but for now it's simpler
+      writeLog(logLevel, message).catch((error) => console.error(error))
+      originalNativeLoggingHook(message, logLevel)
     }
   }
 }
