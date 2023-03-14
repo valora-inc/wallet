@@ -1215,7 +1215,7 @@
   },
   "dappsScreen": {
     "title": "Dapp",
-    "message": "探索使用你的资产的方法",
+    "message": "探索如何使用您的资产",
     "errorMessage": "加在 dapp 时出错",
     "featuredDapp": "精选",
     "allDapps": "全部",
@@ -1229,8 +1229,8 @@
       "labelCTA": "查看收藏"
     },
     "emptyResults": {
-      "message": "<0>{{filter}}</0>适用的过滤器",
-      "removeFilter": "移除过滤器"
+      "message": "<0>{{filter}}</0>已应用筛选条件",
+      "removeFilter": "移除筛选条件"
     }
   },
   "dappsScreenHelpDialog": {
