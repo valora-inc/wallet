@@ -1,5 +1,3 @@
-import '@react-native-firebase/database'
-import '@react-native-firebase/messaging'
 import '@walletconnect/react-native-compat'
 import { call, put, select, spawn } from 'redux-saga/effects'
 import { showMessage } from 'src/alert/actions'

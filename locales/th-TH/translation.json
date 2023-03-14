@@ -1483,6 +1483,15 @@
       "label": "IFSC",
       "placeholderText": "ป้อน IFSC",
       "errorMessage": "IFSC ไม่ถูกต้อง"
+    },
+    "pix": {
+      "keyType": {
+        "label": "PIX Key Type"
+      },
+      "key": {
+        "placeholderText": "Enter PIX key",
+        "errorMessage": "Invalid PIX key"
+      }
     }
   },
   "webView": {
