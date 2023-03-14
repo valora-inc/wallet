@@ -324,7 +324,7 @@ class Logger {
             ''.padStart(leftPadding),
             `[${new Date().toISOString().substring(11)}]`,
             // Add the model to help differentiate logs when running multiple devices
-            stylize(` ${RNDeviceInfo.getModel()}`, 'grey'),
+            ` ${stylize(RNDeviceInfo.getModel(), 'grey')}`,
           ].join(''),
           ...data,
         ])
