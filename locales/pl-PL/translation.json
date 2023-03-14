@@ -1221,7 +1221,7 @@
   },
   "dappsScreen": {
     "title": "Dapps",
-    "message": "Poznaj sposoby wykorzystania swoich aktywów",
+    "message": "Przeglądaj sposoby korzystania ze swoich aktywów",
     "errorMessage": "Wystąpił błąd podczas ładowania Dapps",
     "featuredDapp": "Polecane",
     "allDapps": "Wszystkie",
@@ -1235,7 +1235,7 @@
       "labelCTA": "Zobacz ulubione"
     },
     "emptyResults": {
-      "message": "<0>{{filter}}</0> zastosowano filtr",
+      "message": "Zastosowano filtr <0>{{filter}}</0>",
       "removeFilter": "Usuń filtr"
     }
   },
@@ -1495,8 +1495,8 @@
         "label": "Typ klucza PIX"
       },
       "key": {
-        "placeholderText": "Wprowadź klawisz PIX",
-        "errorMessage": "Nieprawidłowy klucz PIX"
+        "placeholderText": "Wprowadź klucz PIX",
+        "errorMessage": "Niewłaściwy klucz PIX"
       }
     }
   },
