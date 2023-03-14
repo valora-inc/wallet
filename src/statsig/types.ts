@@ -23,3 +23,8 @@ export enum StatsigExperiments {
 
 export type ValueOrArray<T> = T | T[]
 export type StatsigParameter = ValueOrArray<string | boolean | number | Object>
+
+export type ExperimentConfig<T extends Record<string, StatsigParameter>> = {
+  experimentName: StatsigExperiments
+  defaultValues: T
+}

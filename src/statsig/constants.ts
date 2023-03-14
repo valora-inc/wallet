@@ -15,18 +15,25 @@ export const LayerParams = {
   },
 }
 
-// for each experiment, obj mapping param name to default value
-export const defaultExperimentParamValues = {
-  [StatsigExperiments.RECOVERY_PHRASE_IN_ONBOARDING]: {
-    enableForcedBackup: true,
-    showRecoveryPhraseInOnboarding: false,
-    showCloudBackupFakeDoor: false,
-    useNewBackupFlowCopy: false,
-    showBackupAlert: false,
-    useNewBackupHomeCard: false,
-  },
+// names and default values for experiments
+//  keys of defaultValues MUST be parameter names for the experiment
+export const ExperimentConfigs = {
   [StatsigExperiments.ADD_FUNDS_CRYPTO_EXCHANGE_QR_CODE]: {
-    addFundsExchangesText: SelectProviderExchangesText.CryptoExchange,
-    addFundsExchangesLink: SelectProviderExchangesLink.ExternalExchangesScreen,
+    experimentName: StatsigExperiments.ADD_FUNDS_CRYPTO_EXCHANGE_QR_CODE,
+    defaultValues: {
+      addFundsExchangesText: SelectProviderExchangesText.CryptoExchange,
+      addFundsExchangesLink: SelectProviderExchangesLink.ExternalExchangesScreen,
+    },
+  },
+  [StatsigExperiments.RECOVERY_PHRASE_IN_ONBOARDING]: {
+    experimentName: StatsigExperiments.RECOVERY_PHRASE_IN_ONBOARDING,
+    defaultValues: {
+      enableForcedBackup: true,
+      showRecoveryPhraseInOnboarding: false,
+      showCloudBackupFakeDoor: false,
+      useNewBackupFlowCopy: false,
+      showBackupAlert: false,
+      useNewBackupHomeCard: false,
+    },
   },
 }
