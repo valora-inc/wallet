@@ -33,8 +33,6 @@ import useSwapQuote from 'src/swap/useSwapQuote'
 import { coreTokensSelector, tokensByUsdBalanceSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 
-const TAG = 'swap/swapScreen'
-
 const FETCH_UPDATED_QUOTE_DEBOUNCE_TIME = 500
 const DEFAULT_FROM_TOKEN = 'CELO'
 const DEFAULT_SWAP_AMOUNT: SwapAmount = {
