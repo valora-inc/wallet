@@ -1,4 +1,4 @@
-import { ExperimentConfig, StatsigExperiments, StatsigParameter } from 'src/statsig/types'
+import { StatsigExperiments, StatsigParameter } from 'src/statsig/types'
 import Logger from 'src/utils/Logger'
 import { Statsig } from 'statsig-react-native'
 
@@ -18,11 +18,4 @@ export function getExperimentParams<T extends Record<string, StatsigParameter>>(
     Logger.warn('getExperimentParams', `Error getting experiment params`, error)
     return defaultValuesForExperiment
   }
-}
-
-export function getExperimentParamsFromConfig<T extends Record<string, StatsigParameter>>({
-  experimentName,
-  defaultValues,
-}: ExperimentConfig<T>) {
-  return getExperimentParams(experimentName, defaultValues)
 }
