@@ -280,6 +280,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.onboardingBackground,
     justifyContent: 'space-between',
+    paddingTop: 72,
   },
   changePinContainer: {
     flex: 1,
