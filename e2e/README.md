@@ -61,6 +61,7 @@ Using the `--retries` CLI flag will retry an entire suite in order.
 graph LR
     A[Test 1 - Passed] --> B[Test 2 - Failed] --> C[Test 3  - Passed] --> D[Test 1 - Passed] --> E[Test 2 - Passed] --> F[Test 3 - Passed]
 ```
+
 #### Test Level Retries
 
 Using `jest.retryTimes(3)` above a test spec or describe block will retry the failed tests after the others complete.
@@ -222,6 +223,7 @@ If tests are failing for unknown reasons:
 - If running into issues building for iOS related to nvm try prefixing the build commands in `package.json` with `unset PREFIX && ...`
 
 ### Sample `.zshrc` & `.bashrc`
+
 ```sh
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin

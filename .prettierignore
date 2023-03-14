@@ -8,6 +8,7 @@ package.json
 android/app/build
 # Ignore Images.xcassets as Xcode reformats them anyway when saving
 branding/celo/ios/celo/Images.xcassets
+ios/build
 ios/celo/Images.xcassets
 ios/Pods
 # Ignore Crowdin generated files (often they are written with no final newline)
@@ -19,3 +20,7 @@ vendor
 
 # Ignore generated RootState schema
 test/RootStateSchema.json
+
+e2e/test-results/*
+# Ignore generated fastlane files
+fastlane/README.md
