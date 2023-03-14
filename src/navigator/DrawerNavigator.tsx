@@ -289,14 +289,15 @@ export default function DrawerNavigator() {
             drawerLabel:
               !backupCompleted && getOnboardingExperimentParams().showBackupAlert
                 ? () => (
-                    <Text style={styles.itemStyle}>
-                      {t('accountKey')}
+                    <View style={styles.itemStyle}>
+                      <Text style={styles.itemTitle}>{t('accountKey')}</Text>
                       <View style={styles.drawerItemIcon}>
                         <ExclamationCircleIcon />
                       </View>
-                    </Text>
+                    </View>
                   )
                 : t('accountKey'),
+            title: t('accountKey'),
             drawerIcon: AccountKey,
           }}
           initialParams={{ showDrawerTopBar: true }}
@@ -365,10 +366,14 @@ const styles = StyleSheet.create({
     marginTop: 32,
   },
   itemStyle: {
-    ...fontStyles.regular,
     marginLeft: -20,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   drawerItemIcon: {
     paddingLeft: 10,
+  },
+  itemTitle: {
+    ...fontStyles.regular,
   },
 })
