@@ -1,6 +1,4 @@
 import { appendPath } from '@celo/base'
-import '@react-native-firebase/database'
-import '@react-native-firebase/messaging'
 import WalletConnectClient from '@walletconnect/client'
 import { IWalletConnectOptions } from '@walletconnect/legacy-types'
 import { EventChannel, eventChannel } from 'redux-saga'
