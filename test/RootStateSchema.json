@@ -1745,7 +1745,7 @@
             ],
             "type": "object"
         },
-        "Partial<Record<FiatAccountType,{settlementTimeLowerBound?:string|undefined;settlementTimeUpperBound?:string|undefined;fiatAccountSchemas:{fiatAccountSchema:FiatAccountSchema;allowedValues:Record<string,[string,...string[]]>;}[];}>>": {
+        "Partial<Record<FiatAccountType,{fiatAccountSchemas:{fiatAccountSchema:FiatAccountSchema;allowedValues:Record<string,[string,...string[]]>;}[];settlementTimeLowerBound?:string|undefined;settlementTimeUpperBound?:string|undefined;}>>": {
             "additionalProperties": false,
             "properties": {
                 "BankAccount": {
@@ -3390,6 +3390,7 @@
                                             "GeoNotSupported",
                                             "InvalidFiatAccount",
                                             "InvalidParameters",
+                                            "InvalidQuote",
                                             "InvalidSchema",
                                             "InvalidSignature",
                                             "IssuedTooEarly",
@@ -3454,7 +3455,7 @@
                                 "additionalProperties": false,
                                 "properties": {
                                     "fiatAccount": {
-                                        "$ref": "#/definitions/Partial<Record<FiatAccountType,{settlementTimeLowerBound?:string|undefined;settlementTimeUpperBound?:string|undefined;fiatAccountSchemas:{fiatAccountSchema:FiatAccountSchema;allowedValues:Record<string,[string,...string[]]>;}[];}>>"
+                                        "$ref": "#/definitions/Partial<Record<FiatAccountType,{fiatAccountSchemas:{fiatAccountSchema:FiatAccountSchema;allowedValues:Record<string,[string,...string[]]>;}[];settlementTimeLowerBound?:string|undefined;settlementTimeUpperBound?:string|undefined;}>>"
                                     },
                                     "kyc": {
                                         "additionalProperties": false,
@@ -3471,7 +3472,8 @@
                                                         },
                                                         "kycSchema": {
                                                             "enum": [
-                                                                "PersonalDataAndDocuments"
+                                                                "PersonalDataAndDocuments",
+                                                                "PersonalDataAndDocumentsDetailed"
                                                             ],
                                                             "type": "string"
                                                         }

@@ -21,6 +21,7 @@ import {
   getFiatConnectProviders,
   getFiatConnectQuotes,
   getObfuscatedAccountNumber,
+  getObfuscatedEmail,
   loginWithFiatConnectProvider,
   QuotesInput,
 } from './index'
@@ -269,6 +270,22 @@ describe('FiatConnect helpers', () => {
       expect(getObfuscatedAccountNumber('123')).toEqual('')
       expect(getObfuscatedAccountNumber('12')).toEqual('')
       expect(getObfuscatedAccountNumber('1')).toEqual('')
+    })
+  })
+
+  describe('getObfuscatedEmail', () => {
+    it('shows only first 3 characters and domain when username is greater than 3 characters', () => {
+      expect(getObfuscatedEmail('veryLongUsername123456@domain.com')).toEqual('ver***@domain.com')
+      expect(getObfuscatedEmail('testEmail@domain.com')).toEqual('tes***@domain.com')
+    })
+    it('shows only first 2 characters and domain when username is 3 characters', () => {
+      expect(getObfuscatedEmail('123@domain.com')).toEqual('12***@domain.com')
+    })
+    it('shows only the first character and domain when username is 2 characters', () => {
+      expect(getObfuscatedEmail('12@domain.com')).toEqual('1***@domain.com')
+    })
+    it('hides entire username when username is 1 character', () => {
+      expect(getObfuscatedEmail('1@domain.com')).toEqual('***@domain.com')
     })
   })
 })

@@ -3,20 +3,25 @@ import { KeyboardType } from 'react-native'
 
 export interface FormFieldParam {
   name: string
-  label: string
+  label?: string
   infoDialog?: {
     title: string
     actionText: string
     body: string
   }
   format?(input: string): string
-  validate(input: string): {
+  validate(
+    input: string,
+    fieldNamesToValues?: Record<string, string>
+  ): {
     isValid: boolean
     errorMessage?: string
   }
   placeholderText: string
   keyboardType: KeyboardType
+  isVisible?(fieldNamesToValues: Record<string, string>): boolean
 }
+
 export interface ImplicitParam<T, K extends keyof T> {
   name: string
   value: T[K]
