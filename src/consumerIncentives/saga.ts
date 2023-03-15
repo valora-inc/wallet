@@ -210,6 +210,7 @@ export function* fetchAvailableRewardsSaga() {
   const superchargeV2Enabled = yield select(superchargeV2EnabledSelector)
   const numberVerifiedCentrally = yield select(numberVerifiedCentrallySelector)
   if (superchargeV2Enabled && !numberVerifiedCentrally) {
+    yield put(fetchAvailableRewardsSuccess())
     Logger.debug(TAG, 'Skipping fetching available rewards since user is not verified with CPV')
     return
   }
@@ -222,6 +223,7 @@ export function* fetchAvailableRewardsSaga() {
     const response: Response = yield call(
       fetchWithTimeout,
       `${superchargeRewardsUrl}?address=${address}`,
+      null,
       SUPERCHARGE_FETCH_TIMEOUT
     )
     const data: { availableRewards: SuperchargePendingReward[] | SuperchargePendingRewardV2[] } =
