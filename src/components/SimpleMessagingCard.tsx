@@ -62,8 +62,7 @@ const styles = StyleSheet.create({
     ...fontStyles.large,
   },
   iconContainer: {
-    marginLeft: 12,
-    marginright: 12,
+    marginHorizontal: 12,
     minWidth: 80,
     alignItems: 'center',
     justifyContent: 'center',

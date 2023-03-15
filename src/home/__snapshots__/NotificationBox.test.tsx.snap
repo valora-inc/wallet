@@ -145,8 +145,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                 Object {
                   "alignItems": "center",
                   "justifyContent": "center",
-                  "marginLeft": 12,
-                  "marginright": 12,
+                  "marginHorizontal": 12,
                   "minWidth": 80,
                 }
               }
@@ -496,8 +495,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                 Object {
                   "alignItems": "center",
                   "justifyContent": "center",
-                  "marginLeft": 12,
-                  "marginright": 12,
+                  "marginHorizontal": 12,
                   "minWidth": 80,
                 }
               }
@@ -691,8 +689,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                 Object {
                   "alignItems": "center",
                   "justifyContent": "center",
-                  "marginLeft": 12,
-                  "marginright": 12,
+                  "marginHorizontal": 12,
                   "minWidth": 80,
                 }
               }
@@ -1054,8 +1051,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                 Object {
                   "alignItems": "center",
                   "justifyContent": "center",
-                  "marginLeft": 12,
-                  "marginright": 12,
+                  "marginHorizontal": 12,
                   "minWidth": 80,
                 }
               }
