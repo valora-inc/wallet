@@ -56,7 +56,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
               ],
             ]
           }
-          testID="backup"
+          testID="BackupKeyNotification"
         >
           <View
             style={
@@ -83,7 +83,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                     "lineHeight": 24,
                   }
                 }
-                testID="backup/Text"
+                testID="BackupKeyNotification/Text"
               >
                 backupKeyNotification
               </Text>
@@ -95,7 +95,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                     "justifyContent": "flex-start",
                   }
                 }
-                testID="backup/CallToActions"
+                testID="BackupKeyNotification/CallToActions"
               >
                 <View
                   accessible={true}
@@ -114,7 +114,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                   onResponderTerminate={[Function]}
                   onResponderTerminationRequest={[Function]}
                   onStartShouldSetResponder={[Function]}
-                  testID="backup/CallToActions/introPrimaryAction/Button"
+                  testID="BackupKeyNotification/CallToActions/introPrimaryAction/Button"
                 >
                   <Text
                     style={
@@ -146,7 +146,8 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                   "alignItems": "center",
                   "justifyContent": "center",
                   "marginLeft": 12,
-                  "width": 80,
+                  "marginright": 12,
+                  "minWidth": 80,
                 }
               }
             >
@@ -163,7 +164,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                     "width": "100%",
                   }
                 }
-                testID="backup/Icon"
+                testID="BackupKeyNotification/Icon"
               />
             </View>
           </View>
@@ -496,7 +497,8 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                   "alignItems": "center",
                   "justifyContent": "center",
                   "marginLeft": 12,
-                  "width": 80,
+                  "marginright": 12,
+                  "minWidth": 80,
                 }
               }
             >
@@ -690,7 +692,8 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                   "alignItems": "center",
                   "justifyContent": "center",
                   "marginLeft": 12,
-                  "width": 80,
+                  "marginright": 12,
+                  "minWidth": 80,
                 }
               }
             >
@@ -1052,7 +1055,8 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                   "alignItems": "center",
                   "justifyContent": "center",
                   "marginLeft": 12,
-                  "width": 80,
+                  "marginright": 12,
+                  "minWidth": 80,
                 }
               }
             >

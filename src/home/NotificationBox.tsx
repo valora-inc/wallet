@@ -127,6 +127,7 @@ function useSimpleActions() {
       text,
       icon,
       priority: BACKUP_PRIORITY,
+      testID: 'BackupKeyNotification',
       callToActions: [
         {
           text: ctaText,
