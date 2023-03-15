@@ -2,7 +2,7 @@ import { SelectProviderExchangesLink, SelectProviderExchangesText } from 'src/fi
 import { QRCodeDataType, QRCodeStyle, StatsigExperiments, StatsigLayers } from 'src/statsig/types'
 
 export const LayerParams = {
-  // TODO(Charlie): refactor to imitate defaultExperimentParamValues (more type safe, less boilerplate)
+  // TODO(ACT-659): refactor to imitate defaultExperimentParamValues (more type safe, less boilerplate)
   [StatsigLayers.SEND_RECEIVE_QR_CODE]: {
     qrCodeStyle: {
       paramName: 'qrCodeStyle',
