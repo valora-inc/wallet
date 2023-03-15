@@ -5,6 +5,7 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { TRANSACTION_FEES_LEARN_MORE } from 'src/brandingConfig'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { setSwapUserInput } from 'src/swap/slice'
@@ -342,6 +343,34 @@ describe('SwapScreen', () => {
       '12.345678'
     )
     expect(getByText('swapScreen.review')).not.toBeDisabled()
+  })
+
+  it('should show and hide the max warning', async () => {
+    mockFetch.mockResponse(
+      JSON.stringify({
+        unvalidatedSwapTransaction: {
+          price: '1.2345678',
+        },
+      })
+    )
+    const { swapFromContainer, getByText, getByTestId, queryByText } = renderScreen({})
+
+    act(() => {
+      fireEvent.press(getByTestId('SwapAmountInput/MaxButton'))
+      jest.runOnlyPendingTimers()
+    })
+    expect(getByText('swapScreen.maxSwapAmountWarning.body')).toBeTruthy()
+
+    fireEvent.press(getByText('swapScreen.maxSwapAmountWarning.learnMore'))
+    expect(navigate).toHaveBeenCalledWith(Screens.WebViewScreen, {
+      uri: TRANSACTION_FEES_LEARN_MORE,
+    })
+
+    act(() => {
+      fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '1.234')
+      jest.runOnlyPendingTimers()
+    })
+    expect(queryByText('swapScreen.maxSwapAmountWarning.body')).toBeFalsy()
   })
 
   it('should fetch the quote if the amount is cleared and re-entered', async () => {

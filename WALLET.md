@@ -31,6 +31,7 @@
 - [Other](#other)
   - [Localization (l10n) / translation process](#localization-l10n--translation-process)
   - [Redux state migration](#redux-state-migration)
+  - [Redux-Saga pitfalls](#redux-saga-pitfalls)
   - [Configuring the SMS Retriever](#configuring-the-sms-retriever)
   - [Generating GraphQL Types](#generating-graphql-types)
   - [Why do we use http(s) provider?](#why-do-we-use-https-provider)
@@ -449,9 +450,9 @@ The flame graph provides a view of each component and sub-component. The width i
 
 ### App Profiling with Android Profiler
 
-The [Android Profiler (standalone)][AndroidProfilerStandalone] is useful for viewing memory, CPU, and energy consumption. Run the profiler either from Android Studio or following the standalone instructions.
+The [Android Profiler (standalone)][androidprofilerstandalone] is useful for viewing memory, CPU, and energy consumption. Run the profiler either from Android Studio or following the standalone instructions.
 
-Release mode is preferred for profiling as memory usage can be significantly higher in development builds. To create a  local mainnet release build for profiling run the app with `yarn dev:android -e mainnet -r -t`; this supplies an env flag: `-e <environment>`, the release flag: `-r` and the profile flag: `-t`. After both the app and profiler are launched, in the profiler attach a new session by selecting your device and a debuggable process e.g. `co.clabs.valora`.
+Release mode is preferred for profiling as memory usage can be significantly higher in development builds. To create a local mainnet release build for profiling run the app with `yarn dev:android -e mainnet -r -t`; this supplies an env flag: `-e <environment>`, the release flag: `-r` and the profile flag: `-t`. After both the app and profiler are launched, in the profiler attach a new session by selecting your device and a debuggable process e.g. `co.clabs.valora`.
 
 ## Testing
 
@@ -592,6 +593,57 @@ If you're deleting or updating existing properties, please implement the appropr
 6. Optional: if the migration is not trivial, add a test for it in [src/redux/migrations.test.ts](src/redux/migrations.test.ts)
 7. Commit the changes
 
+### Redux-Saga pitfalls
+
+### Error bubbling
+
+It's important to understand how errors propagate with Redux-Saga.
+
+Take the following example:
+
+```ts
+function* rootSaga() {
+  yield spawn(mySaga)
+  yield spawn(someOtherSaga)
+}
+
+function* mySaga() {
+  yield takeEvery('SEND_PAYMENT', sendPayment)
+  yield takeEvery('NOTIFY_USER', notifyUser)
+}
+
+function* someOtherSaga() {
+  // [...]
+}
+```
+
+If an exception is thrown from `sendPayment` or `notifyUser`, the whole `mySaga` will be cancelled.
+And won't handle `SEND_PAYMENT` AND `NOTIFY_USER` actions until the app is restarted.
+
+Since `mySaga` was spawned from the root saga, `someOtherSaga` won't be affected though.
+
+You may think that a good way to address this problem is to make sure `sendPayment` uses `try/catch`.
+
+```ts
+function* sendPayment() {
+  try {
+    // Code to send payment
+    // [...]
+  } catch (e) {
+    Logger.error(e)
+    yield put('SEND_PAYMENT_FAILED')
+  }
+}
+```
+
+However it's still possible that the `catch` block throws again, and we'd be back to the initial problem.
+
+To avoid this problem, we recommend wrapping `takeEvery`/`takeLatest`/`takeLeading` worker sagas using the [`safely`](src/utils/safely.ts) helper.
+
+Note that you should still handle errors happening in your action handlers. But at least you'll have the guarantee that it won't unexpectedly stop listening to actions because of an unhandled error.
+
+See more details https://redux-saga.js.org/docs/api#error-propagation
+
 ### Why do we use http(s) provider?
 
 Websockets (`ws`) would have been a better choice but we cannot use unencrypted `ws` provider since it would be bad to send plain-text data from a privacy perspective. Geth does not support `wss` by [default](https://github.com/ethereum/go-ethereum/issues/16423). And Kubernetes does not support it either. This forced us to use https provider.
@@ -731,4 +783,4 @@ $ adb kill-server && adb start-server
 [jq]: https://stedolan.github.io/jq/
 [rootstate]: src/redux/reducers.ts#L79
 [rootstateschema]: test/RootStateSchema.json
-[AndroidProfilerStandalone]: https://developer.android.com/studio/profile/android-profiler#standalone-profilers
+[androidprofilerstandalone]: https://developer.android.com/studio/profile/android-profiler#standalone-profilers
