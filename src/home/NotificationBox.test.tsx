@@ -149,12 +149,12 @@ describe('NotificationBox', () => {
         accountCreationTime: EXPIRED_BACKUP_TIME,
       },
     })
-    const { getByText } = render(
+    const { getByTestId } = render(
       <Provider store={store}>
         <NotificationBox />
       </Provider>
     )
-    expect(getByText('backupKeyNotification')).toBeTruthy()
+    expect(getByTestId('BackupKeyNotification')).toBeTruthy()
   })
 
   it('renders educations when not complete yet', () => {
