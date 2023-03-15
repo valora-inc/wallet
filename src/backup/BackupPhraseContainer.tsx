@@ -6,6 +6,7 @@ import { isValidBackupPhrase } from 'src/backup/utils'
 import Touchable from 'src/components/Touchable'
 import withTextInputPasteAware from 'src/components/WithTextInputPasteAware'
 import { withTranslation } from 'src/i18n'
+import { getOnboardingExperimentParams } from 'src/onboarding'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import Logger from 'src/utils/Logger'
@@ -79,7 +80,9 @@ export class BackupPhraseContainer extends React.Component<Props> {
           {type === BackupPhraseType.BACKUP_KEY && includeHeader !== false && (
             <View style={styles.writeDownKeyContainer}>
               <Text style={styles.writeDownKey}>{t('writeDownKey')}</Text>
-              <Text style={fontStyles.label}>{t('yourAccountKey')}</Text>
+              {!getOnboardingExperimentParams().useNewBackupFlowCopy && (
+                <Text style={fontStyles.label}>{t('yourAccountKey')}</Text>
+              )}
             </View>
           )}
           {showCopy && (
