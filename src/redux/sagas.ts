@@ -81,7 +81,7 @@ function* loggerSaga() {
       return
     }
     try {
-      Logger.debug('redux/saga@logger', JSON.stringify(action))
+      Logger.debug('redux/saga@logger', action)
     } catch (err) {
       Logger.warn('redux/saga@logger', 'could not log action of type', action.type)
     }
