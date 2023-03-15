@@ -7,6 +7,7 @@ import { throwError } from 'redux-saga-test-plan/providers'
 import { call, select } from 'redux-saga/effects'
 import {
   generateSignedMessage,
+  handleChooseCreateAccount,
   handleUpdateAccountRegistration,
   initializeAccountSaga,
 } from 'src/account/saga'
@@ -24,6 +25,7 @@ import { walletAddressSelector } from 'src/web3/selectors'
 import { mockWallet } from 'test/values'
 import { mocked } from 'ts-jest/utils'
 import { initializeAccountSuccess, saveSignedMessage } from './actions'
+import { Statsig } from 'statsig-react-native'
 
 const loggerErrorSpy = jest.spyOn(Logger, 'error')
 const mockedKeychain = mocked(Keychain)
@@ -34,6 +36,7 @@ mockedDEK.compressedPubKey = jest.fn().mockReturnValue('publicKeyForUser')
 const mockFetch = fetch as FetchMock
 jest.unmock('src/pincode/authentication')
 
+jest.mock('statsig-react-native')
 jest.mock('@react-native-firebase/app', () => ({
   app: jest.fn(() => ({
     messaging: () => ({
@@ -206,5 +209,29 @@ describe('initializeAccount', () => {
       .run()
 
     expect(mockFetch).toHaveBeenCalledTimes(1)
+  })
+})
+
+describe('handleChooseCreateAccount', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+  it('calls Statsig.updateUser with startOnboardingTimestamp', async () => {
+    const fakeISODateTime = '2023-03-15T22:16:39.658Z'
+    jest.spyOn(Date.prototype, 'toISOString').mockReturnValueOnce(fakeISODateTime)
+    await expectSaga(handleChooseCreateAccount).run()
+    expect(Statsig.updateUser).toHaveBeenCalledWith({
+      custom: {
+        startOnboardingTimestamp: fakeISODateTime,
+      },
+    })
+  })
+  it('logs an error if Statsig.updateUser fails', async () => {
+    ;(Statsig.updateUser as jest.Mock).mockImplementation(() => {
+      throw new Error('mock error updating user')
+    })
+    await expectSaga(handleChooseCreateAccount).run()
+    expect(Statsig.updateUser).toHaveBeenCalled()
+    expect(loggerErrorSpy).toHaveBeenCalled()
   })
 })

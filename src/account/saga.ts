@@ -221,9 +221,17 @@ export function* handleUpdateAccountRegistration() {
 }
 
 export function* handleChooseCreateAccount() {
-  yield call([Statsig, 'updateUser'], {
-    custom: { startOnboardingTimestamp: new Date().toISOString() },
-  })
+  try {
+    yield call([Statsig, 'updateUser'], {
+      custom: { startOnboardingTimestamp: new Date().toISOString() },
+    })
+  } catch (error) {
+    Logger.error(
+      `${TAG}@handleChooseCreateAccount`,
+      'Unable to update statsig user with startOnboardingTimestamp',
+      error
+    )
+  }
 }
 
 export function* watchChooseCreateAccount() {
