@@ -56,11 +56,7 @@ export function* initContractKit() {
       address: walletAddress,
       createdAt: new Date(accountCreationTime),
     }
-    Logger.info(
-      `${TAG}@initContractKit`,
-      'Initializing wallet',
-      JSON.stringify(importMnemonicAccount)
-    )
+    Logger.info(`${TAG}@initContractKit`, 'Initializing wallet', importMnemonicAccount)
 
     wallet = yield call(initWallet, importMnemonicAccount)
 

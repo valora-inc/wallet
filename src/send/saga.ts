@@ -150,7 +150,7 @@ export function* watchQrCodeShare() {
     try {
       const result = yield call(shareSVGImage, action.qrCodeSvg)
       // Note: when user cancels the share sheet, result contains {"dismissedAction":true}
-      Logger.info(TAG, 'Share done', JSON.stringify(result))
+      Logger.info(TAG, 'Share done', result)
     } catch (error) {
       Logger.error(TAG, 'Error sharing qr code', error)
     }
@@ -277,7 +277,7 @@ export function* buildAndSendPayment(
     context.id,
     tokenAddress,
     amount,
-    JSON.stringify(feeInfo)
+    feeInfo
   )
 
   yield put(
