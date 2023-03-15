@@ -118,10 +118,10 @@ function useSimpleActions() {
 
   const actions: SimpleMessagingCardProps[] = []
   if (!backupCompleted) {
-    const { useNewBackupHomecard } = getOnboardingExperimentParams()
-    const text = useNewBackupHomecard ? t('backupKeyNotification2') : t('backupKeyNotification')
-    const icon = useNewBackupHomecard ? <GuideKeyIcon /> : backupKey
-    const ctaText = useNewBackupHomecard ? t('backupKeyCTA') : t('introPrimaryAction')
+    const { useNewBackupHomeCard } = getOnboardingExperimentParams()
+    const text = useNewBackupHomeCard ? t('backupKeyNotification2') : t('backupKeyNotification')
+    const icon = useNewBackupHomeCard ? <GuideKeyIcon /> : backupKey
+    const ctaText = useNewBackupHomeCard ? t('backupKeyCTA') : t('introPrimaryAction')
     actions.push({
       id: 'backup',
       text,
