@@ -27,9 +27,11 @@ import { getReclaimableEscrowPayments } from 'src/escrow/reducer'
 import { dismissNotification } from 'src/home/actions'
 import { DEFAULT_PRIORITY } from 'src/home/reducers'
 import { getExtraNotifications } from 'src/home/selectors'
+import GuideKeyIcon from 'src/icons/GuideKeyHomeCardIcon'
 import { backupKey, boostRewards, getVerified, learnCelo } from 'src/images/Images'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { getOnboardingExperimentParams } from 'src/onboarding'
 import IncomingPaymentRequestSummaryNotification from 'src/paymentRequest/IncomingPaymentRequestSummaryNotification'
 import OutgoingPaymentRequestSummaryNotification from 'src/paymentRequest/OutgoingPaymentRequestSummaryNotification'
 import {
@@ -116,14 +118,19 @@ function useSimpleActions() {
 
   const actions: SimpleMessagingCardProps[] = []
   if (!backupCompleted) {
+    const { useNewBackupHomeCard } = getOnboardingExperimentParams()
+    const text = useNewBackupHomeCard ? t('backupKeyNotification2') : t('backupKeyNotification')
+    const icon = useNewBackupHomeCard ? <GuideKeyIcon /> : backupKey
+    const ctaText = useNewBackupHomeCard ? t('backupKeyCTA') : t('introPrimaryAction')
     actions.push({
       id: 'backup',
-      text: t('backupKeyNotification'),
-      icon: backupKey,
+      text,
+      icon,
       priority: BACKUP_PRIORITY,
+      testID: 'BackupKeyNotification',
       callToActions: [
         {
-          text: t('introPrimaryAction'),
+          text: ctaText,
           onPress: () => {
             ValoraAnalytics.track(HomeEvents.notification_select, {
               notificationType: NotificationBannerTypes.backup_prompt,
