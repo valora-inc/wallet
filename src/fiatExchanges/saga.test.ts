@@ -151,21 +151,19 @@ describe(watchBidaliPaymentRequests, () => {
     const onPaymentSent = jest.fn()
     const onCancelled = jest.fn()
 
-    await expect(
-      expectSaga(watchBidaliPaymentRequests)
-        .dispatch(
-          bidaliPaymentRequested(
-            '0xTEST',
-            '20',
-            'ETH',
-            'Some description',
-            'TEST_CHARGE_ID',
-            onPaymentSent,
-            onCancelled
-          )
+    await expectSaga(watchBidaliPaymentRequests)
+      .dispatch(
+        bidaliPaymentRequested(
+          '0xTEST',
+          '20',
+          'ETH',
+          'Some description',
+          'TEST_CHARGE_ID',
+          onPaymentSent,
+          onCancelled
         )
-        .run()
-    )
+      )
+      .run()
 
     expect(loggerErrorSpy).toHaveBeenCalledWith(
       'utils/safely',
