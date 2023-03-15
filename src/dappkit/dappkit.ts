@@ -24,6 +24,7 @@ import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
+import { safely } from 'src/utils/safely'
 import { getWeb3 } from 'src/web3/contracts'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { currentAccountSelector } from 'src/web3/selectors'
@@ -176,8 +177,8 @@ function* produceTxSignature(action: RequestTxSignatureAction) {
 }
 
 export function* dappKitSaga() {
-  yield takeLeading(actions.APPROVE_ACCOUNT_AUTH, respondToAccountAuth)
-  yield takeLeading(actions.REQUEST_TX_SIGNATURE, produceTxSignature)
+  yield takeLeading(actions.APPROVE_ACCOUNT_AUTH, safely(respondToAccountAuth))
+  yield takeLeading(actions.REQUEST_TX_SIGNATURE, safely(produceTxSignature))
 }
 
 export function* handleDappkitDeepLink(deeplink: string) {

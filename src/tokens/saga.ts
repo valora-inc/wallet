@@ -34,6 +34,7 @@ import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import { TransactionContext, TransactionStatus } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
+import { safely } from 'src/utils/safely'
 import { WEI_PER_TOKEN } from 'src/web3/consts'
 import { getContractKitAsync } from 'src/web3/contracts'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
@@ -329,7 +330,7 @@ export function* getTokenInfo(tokenAddress: string) {
 }
 
 export function* watchFetchBalance() {
-  yield takeEvery(fetchTokenBalances.type, fetchTokenBalancesSaga)
+  yield takeEvery(fetchTokenBalances.type, safely(fetchTokenBalancesSaga))
 }
 
 export function* watchAccountFundedOrLiquidated() {

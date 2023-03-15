@@ -84,6 +84,7 @@ import { isTxPossiblyPending } from 'src/transactions/send'
 import { newTransactionContext } from 'src/transactions/types'
 import { CiCoCurrency, resolveCICOCurrency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
+import { safely } from 'src/utils/safely'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -1081,39 +1082,39 @@ export function* handleKycTryAgain({ payload }: ReturnType<typeof kycTryAgain>) 
 }
 
 function* watchFiatConnectTransfers() {
-  yield takeLeading(createFiatConnectTransfer.type, handleCreateFiatConnectTransfer)
+  yield takeLeading(createFiatConnectTransfer.type, safely(handleCreateFiatConnectTransfer))
 }
 
 export function* watchFetchFiatConnectQuotes() {
-  yield takeLeading(fetchFiatConnectQuotes.type, handleFetchFiatConnectQuotes)
+  yield takeLeading(fetchFiatConnectQuotes.type, safely(handleFetchFiatConnectQuotes))
 }
 
 export function* watchFetchFiatConnectProviders() {
-  yield takeLeading(fetchFiatConnectProviders.type, handleFetchFiatConnectProviders)
+  yield takeLeading(fetchFiatConnectProviders.type, safely(handleFetchFiatConnectProviders))
 }
 
 export function* watchAttemptReturnUserFlow() {
-  yield takeLeading(attemptReturnUserFlow.type, handleAttemptReturnUserFlow)
+  yield takeLeading(attemptReturnUserFlow.type, safely(handleAttemptReturnUserFlow))
 }
 
 function* watchSelectFiatConnectQuote() {
-  yield takeLeading(selectFiatConnectQuote.type, handleSelectFiatConnectQuote)
+  yield takeLeading(selectFiatConnectQuote.type, safely(handleSelectFiatConnectQuote))
 }
 
 function* watchRefetchQuote() {
-  yield takeLeading(refetchQuote.type, handleRefetchQuote)
+  yield takeLeading(refetchQuote.type, safely(handleRefetchQuote))
 }
 
 function* watchSubmitFiatAccount() {
-  yield takeLeading(submitFiatAccount.type, handleSubmitFiatAccount)
+  yield takeLeading(submitFiatAccount.type, safely(handleSubmitFiatAccount))
 }
 
 function* watchKycTryAgain() {
-  yield takeLeading(kycTryAgain.type, handleKycTryAgain)
+  yield takeLeading(kycTryAgain.type, safely(handleKycTryAgain))
 }
 
 function* watchPostKyc() {
-  yield takeLeading(postKycAction.type, handlePostKyc)
+  yield takeLeading(postKycAction.type, safely(handlePostKyc))
 }
 
 export function* fiatConnectSaga() {
