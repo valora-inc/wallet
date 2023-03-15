@@ -1491,8 +1491,8 @@
         "label": "Tipo de clave PIX"
       },
       "key": {
-        "placeholderText": "Introducir tecla PIX",
-        "errorMessage": "Clave PIX no válida"
+        "placeholderText": "Ingresa tu clave PIX",
+        "errorMessage": "Clave PIX inválida"
       }
     }
   },
@@ -1507,7 +1507,12 @@
     "swapTo": "Para",
     "insufficientFunds": "Saldo en {{token}} insuficiente. Ingresa un monto menor o elige otro token.",
     "fetchSwapQuoteFailed": "¡Lo sentimos! Conseguir la mejor tasa de cambio nos está llevando más tiempo del habitual. Inténtalo de nuevo más tarde.",
-    "disclaimer": "Los intercambios se realizan mediante socios de Celo. <0>Más información</0>"
+    "disclaimer": "Los intercambios se realizan mediante socios de Celo. <0>Más información</0>",
+    "maxSwapAmountWarning": {
+      "title": "Intercambio de monto MAX",
+      "body": "Asegúrate de contar con suficiente CELO en tu wallet para cubrir las tarifas de próximas transacciones.",
+      "learnMore": "Más información"
+    }
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Cambiar de",

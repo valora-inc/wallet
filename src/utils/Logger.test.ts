@@ -45,23 +45,29 @@ jest.mock('react-native-fs', () => {
 describe('utils/Logger', () => {
   it('Logger overrides console.debug', () => {
     console.debug = jest.fn()
-    Logger.debug('Test/Debug', 'Test message #1', 'Test message #2')
+    Logger.debug('Test/Debug', 'Test message #1', 'Test message #2', { someVal: 'test' })
     expect(console.debug).toBeCalledTimes(1)
-    expect(console.debug).toHaveBeenCalledWith('Test/Debug/Test message #1, Test message #2')
+    expect(console.debug).toHaveBeenCalledWith('Test/Debug', 'Test message #1', 'Test message #2', {
+      someVal: 'test',
+    })
   })
 
   it('Logger overrides console.info', () => {
     console.info = jest.fn()
-    Logger.info('Test/Info', 'Test message #1', 'Test message #2')
+    Logger.info('Test/Info', 'Test message #1', 'Test message #2', { someVal: 'test' })
     expect(console.info).toBeCalledTimes(1)
-    expect(console.info).toHaveBeenCalledWith('Test/Info/Test message #1, Test message #2')
+    expect(console.info).toHaveBeenCalledWith('Test/Info', 'Test message #1', 'Test message #2', {
+      someVal: 'test',
+    })
   })
 
   it('Logger.warn pipes to console.warn', () => {
     console.warn = jest.fn()
-    Logger.warn('Test/Warn', 'Test message #1', 'Test message #2')
+    Logger.warn('Test/Warn', 'Test message #1', 'Test message #2', { someVal: 'test' })
     expect(console.warn).toBeCalledTimes(1)
-    expect(console.warn).toHaveBeenCalledWith('Test/Warn/Test message #1, Test message #2')
+    expect(console.warn).toHaveBeenCalledWith('Test/Warn', 'Test message #1', 'Test message #2', {
+      someVal: 'test',
+    })
   })
 
   it('Logger.error pipes to console.error', () => {
@@ -99,7 +105,9 @@ describe('utils/Logger', () => {
     await Logger.cleanupOldLogs()
     expect(console.debug).toHaveBeenCalledTimes(1)
     expect(console.debug).toHaveBeenCalledWith(
-      'Logger/cleanupOldLogs/Deleting React Native log file older than 60 days, __CACHES_DIRECTORY_PATH__/rn_logs/toDelete.txt'
+      'Logger/cleanupOldLogs',
+      'Deleting React Native log file older than 60 days',
+      '__CACHES_DIRECTORY_PATH__/rn_logs/toDelete.txt'
     )
   })
 })

@@ -33,21 +33,21 @@ class Logger {
     if (this.level < LoggerLevel.Debug) {
       return
     }
-    console.debug(`${tag}/${messages.join(', ')}`)
+    console.debug(tag, ...messages)
   }
 
   info = (tag: string, ...messages: any[]) => {
     if (this.level < LoggerLevel.Info) {
       return
     }
-    console.info(`${tag}/${messages.join(', ')}`)
+    console.info(tag, ...messages)
   }
 
   warn = (tag: string, ...messages: any[]) => {
     if (this.level < LoggerLevel.Warn) {
       return
     }
-    console.warn(`${tag}/${messages.join(', ')}`)
+    console.warn(tag, ...messages)
   }
 
   error = (
@@ -57,7 +57,6 @@ class Logger {
     shouldSanitizeError = false,
     valueToPurge?: string
   ) => {
-    // console.error would display red box, therefore, we will log to console.info instead.
     const sanitizedError =
       error && shouldSanitizeError ? this.sanitizeError(error, valueToPurge) : error
     const errorMsg = this.getErrorMessage(sanitizedError)

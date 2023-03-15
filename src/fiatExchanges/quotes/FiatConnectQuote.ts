@@ -33,6 +33,7 @@ const SUPPORTED_FIAT_ACCOUNT_SCHEMAS = new Set<FiatAccountSchema>([
   FiatAccountSchema.IBANNumber,
   FiatAccountSchema.IFSCAccount,
   FiatAccountSchema.MobileMoney,
+  FiatAccountSchema.PIXAccount,
 ])
 const SUPPORTED_KYC_SCHEMAS = new Set<KycSchema>([KycSchema.PersonalDataAndDocuments])
 
