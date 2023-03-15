@@ -194,7 +194,6 @@ const styles = StyleSheet.create({
   },
   scrollContainerExperimental: {
     flexGrow: 1,
-    paddingBottom: 16,
     padding: variables.contentPadding,
   },
   body: {
@@ -217,6 +216,7 @@ const styles = StyleSheet.create({
   },
   continueButton: {
     paddingHorizontal: variables.contentPadding,
+    paddingBottom: variables.contentPadding,
   },
 })
 
