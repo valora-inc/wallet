@@ -2,14 +2,16 @@ import { CeloTx, CeloTxReceipt, Contract, toTransactionObject } from '@celo/conn
 import { TxParamsNormalizer } from '@celo/connect/lib/utils/tx-params-normalizer'
 import { ContractKit } from '@celo/contractkit'
 import BigNumber from 'bignumber.js'
-import { all, call, put, select, spawn, takeEvery } from 'redux-saga/effects'
+import { all, call, put, select, spawn, take, takeEvery } from 'redux-saga/effects'
 import merkleDistributor from 'src/abis/MerkleDistributor.json'
 import { showError, showMessage } from 'src/alert/actions'
 import { RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { Actions as AppActions } from 'src/app/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { numberVerifiedCentrallySelector } from 'src/app/selectors'
 import {
+  availableRewardsSelector,
   superchargeRewardContractAddressSelector,
   superchargeV1AddressesSelector,
   superchargeV2EnabledSelector,
@@ -25,6 +27,7 @@ import {
 } from 'src/consumerIncentives/slice'
 import {
   isSuperchargePendingRewardsV2,
+  rewardTypesVersionMismatch,
   SuperchargePendingReward,
   SuperchargePendingRewardV2,
 } from 'src/consumerIncentives/types'
@@ -49,7 +52,7 @@ import { walletAddressSelector } from 'src/web3/selectors'
 import { buildTxo, getContract } from 'src/web3/utils'
 
 const TAG = 'SuperchargeRewardsClaimer'
-export const SUPERCHARGE_FETCH_TIMEOUT = 30_000
+export const SUPERCHARGE_FETCH_TIMEOUT = 45_000
 
 export function* claimRewardsSaga({ payload: rewards }: ReturnType<typeof claimRewards>) {
   try {
@@ -230,8 +233,13 @@ export function* fetchAvailableRewardsSaga() {
       )
     }
 
-    yield put(setAvailableRewards(data.availableRewards))
-    yield put(fetchAvailableRewardsSuccess())
+    // as there is a race condition on app start between fetching the
+    // supercharge rewards and fetching remote config values, prevent mismatched
+    // data from being stored in redux here
+    if (rewardTypesVersionMismatch(data.availableRewards, superchargeV2Enabled)) {
+      yield put(setAvailableRewards(data.availableRewards))
+      yield put(fetchAvailableRewardsSuccess())
+    }
   } catch (e) {
     yield put(fetchAvailableRewardsFailure())
     yield put(showError(ErrorMessages.SUPERCHARGE_FETCH_REWARDS_FAILED))
@@ -247,7 +255,31 @@ export function* watchClaimRewards() {
   yield takeEvery(claimRewards.type, claimRewardsSaga)
 }
 
+// this saga can be removed after supercharge v2 is rolled out. since
+// supercharge rewards are fetched from the notifications component inside the
+// home screen, on app launch there is a race condition between fetching
+// supercharge rewards and remote config values. since the supercharge v1 and v2
+// responses are not compatible, we should clear any stored rewards and refetch
+// when supercharge v2 is enabled.
+export function* watchSuperchargeV2Enabled() {
+  let superchargeV2Enabled = yield select(superchargeV2EnabledSelector)
+  while (true) {
+    const action = yield take(AppActions.UPDATE_REMOTE_CONFIG_VALUES)
+
+    if (superchargeV2Enabled !== action.configValues.superchargeV2Enabled) {
+      superchargeV2Enabled = action.configValues.superchargeV2Enabled
+
+      const rewards = yield select(availableRewardsSelector)
+      if (rewards.length > 0) {
+        yield put(setAvailableRewards([]))
+        yield put(fetchAvailableRewards())
+      }
+    }
+  }
+}
+
 export function* superchargeSaga() {
+  yield spawn(watchSuperchargeV2Enabled)
   yield spawn(watchClaimRewards)
   yield spawn(watchAvailableRewards)
 }
