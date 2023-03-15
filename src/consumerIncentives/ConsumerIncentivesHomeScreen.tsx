@@ -17,17 +17,11 @@ import {
   availableRewardsSelector,
   superchargeInfoSelector,
   superchargeRewardsLoadingSelector,
-  superchargeV2EnabledSelector,
   userIsVerifiedForSuperchargeSelector,
 } from 'src/consumerIncentives/selectors'
-import {
-  claimRewards,
-  fetchAvailableRewards,
-  setAvailableRewards,
-} from 'src/consumerIncentives/slice'
+import { claimRewards, fetchAvailableRewards } from 'src/consumerIncentives/slice'
 import {
   isSuperchargePendingRewardsV2,
-  rewardTypesVersionMismatch,
   SuperchargePendingReward,
   SuperchargePendingRewardV2,
   SuperchargeTokenConfig,
@@ -222,6 +216,10 @@ export default function ConsumerIncentivesHomeScreen() {
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
+  useEffect(() => {
+    dispatch(fetchAvailableRewards())
+  }, [])
+
   const userIsVerified = useSelector(userIsVerifiedForSuperchargeSelector)
   const { hasBalanceForSupercharge, superchargingTokenConfig, hasMaxBalance } =
     useSelector(superchargeInfoSelector)
@@ -232,21 +230,12 @@ export default function ConsumerIncentivesHomeScreen() {
 
   const claimRewardsLoading = useSelector(superchargeRewardsLoadingSelector)
   const superchargeRewards = useSelector(availableRewardsSelector)
-  const superchargeV2Enabled = useSelector(superchargeV2EnabledSelector)
   const loadingAvailableRewards = useSelector(
     (state) => state.supercharge.fetchAvailableRewardsLoading
   )
   const canClaimRewards = superchargeRewards.length > 0
 
   const showLoadingIndicator = !canClaimRewards && loadingAvailableRewards
-
-  useEffect(() => {
-    if (rewardTypesVersionMismatch(superchargeRewards, superchargeV2Enabled)) {
-      dispatch(setAvailableRewards([]))
-    }
-
-    dispatch(fetchAvailableRewards())
-  }, [])
 
   const onPressCTA = async () => {
     if (canClaimRewards) {
