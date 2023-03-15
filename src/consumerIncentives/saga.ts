@@ -110,7 +110,7 @@ function* claimReward(reward: SuperchargePendingReward, index: number, baseNonce
   const tokens: TokenBalances = yield select(tokensByAddressSelector)
   const walletAddress: string = yield call(getConnectedUnlockedAccount)
 
-  Logger.debug(TAG, `Start claiming reward at index ${index}: ${JSON.stringify(reward)}`)
+  Logger.debug(TAG, `Start claiming reward at index ${index}:`, reward)
   const merkleContract: Contract = yield call(
     getContract,
     merkleDistributor.abi,
@@ -132,7 +132,7 @@ function* claimReward(reward: SuperchargePendingReward, index: number, baseNonce
     undefined,
     baseNonce + index
   )
-  Logger.info(TAG, `Claimed reward at index ${index}: ${JSON.stringify(receipt)}`)
+  Logger.info(TAG, `Claimed reward at index ${index}:`, receipt)
   const amount = new BigNumber(reward.amount, 16).div(WEI_PER_TOKEN).toString()
   const tokenAddress = reward.tokenAddress.toLowerCase()
   ValoraAnalytics.track(RewardsEvents.claimed_reward, {
@@ -166,7 +166,7 @@ function* claimRewardV2(reward: SuperchargePendingRewardV2, index: number, baseN
   const tokens: TokenBalances = yield select(tokensByAddressSelector)
   const walletAddress: string = yield call(getConnectedUnlockedAccount)
 
-  Logger.debug(TAG, `Start claiming reward at index ${index}: ${JSON.stringify(reward)}`)
+  Logger.debug(TAG, `Start claiming reward at index ${index}:`, reward)
 
   const normalizer = new TxParamsNormalizer(kit.connection)
   const tx: CeloTx = yield call([normalizer, 'populate'], transaction)
@@ -182,7 +182,7 @@ function* claimRewardV2(reward: SuperchargePendingRewardV2, index: number, baseN
     undefined,
     baseNonce + index
   )
-  Logger.info(TAG, `Claimed reward at index ${index}: ${JSON.stringify(receipt)}`)
+  Logger.info(TAG, `Claimed reward at index ${index}:`, receipt)
   const amount = new BigNumber(details.amount).div(WEI_PER_TOKEN).toString()
   const tokenAddress = details.tokenAddress.toLowerCase()
   ValoraAnalytics.track(RewardsEvents.claimed_reward, {

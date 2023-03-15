@@ -70,7 +70,8 @@ async function getStoredPrivateKey(
 ): Promise<string | null> {
   Logger.debug(
     `${TAG}@getStoredPrivateKey`,
-    `Checking keychain for private key for account ${JSON.stringify(account)}`
+    `Checking keychain for private key for account`,
+    account
   )
   const encryptedPrivateKey = await retrieveStoredItem(accountStorageKey(account))
   if (!encryptedPrivateKey) {
@@ -197,10 +198,7 @@ export class KeychainSigner implements Signer {
     addToV: number,
     encodedTx: RLPEncodedTx
   ): Promise<{ v: number; r: Buffer; s: Buffer }> {
-    Logger.info(
-      `${TAG}@signTransaction`,
-      `Signing transaction: ${JSON.stringify(encodedTx.transaction)}`
-    )
+    Logger.info(`${TAG}@signTransaction`, `Signing transaction:`, encodedTx.transaction)
     const { gasPrice } = encodedTx.transaction
     const gasPriceBN = new BigNumber((gasPrice || 0).toString())
     if (gasPriceBN.isNaN() || gasPriceBN.isLessThanOrEqualTo(0)) {
@@ -218,10 +216,7 @@ export class KeychainSigner implements Signer {
   }
 
   async signTypedData(typedData: EIP712TypedData): Promise<{ v: number; r: Buffer; s: Buffer }> {
-    Logger.info(
-      `${TAG}@signTypedData`,
-      `Signing typed DATA: ${JSON.stringify({ address: this.account, typedData })}`
-    )
+    Logger.info(`${TAG}@signTypedData`, `Signing typed DATA:`, { address: this.account, typedData })
     return this.localSigner.signTypedData(typedData)
   }
 
