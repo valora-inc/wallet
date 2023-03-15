@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { showError } from 'src/alert/actions'
-import { defaultExperimentParamValues } from 'src/statsig/constants'
+import { experimentConfigs } from 'src/statsig/constants'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
@@ -64,8 +64,7 @@ type Props = NativeStackScreenProps<StackParamList, Screens.SelectProvider>
 
 function getAddFundsCryptoExchangeExperimentParams() {
   return getExperimentParams(
-    StatsigExperiments.ADD_FUNDS_CRYPTO_EXCHANGE_QR_CODE,
-    defaultExperimentParamValues[StatsigExperiments.ADD_FUNDS_CRYPTO_EXCHANGE_QR_CODE]
+    experimentConfigs[StatsigExperiments.ADD_FUNDS_CRYPTO_EXCHANGE_QR_CODE]
   )
 }
 
