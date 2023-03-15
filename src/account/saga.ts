@@ -42,7 +42,6 @@ import networkConfig from 'src/web3/networkConfig'
 import { getOrCreateAccount, unlockAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { Statsig } from 'statsig-react-native'
-// import { Statsig } from 'statsig-react-native'
 
 const TAG = 'account/saga'
 
@@ -78,7 +77,6 @@ export function* initializeAccountSaga() {
   Logger.debug(TAG + '@initializeAccountSaga', 'Creating account')
   try {
     ValoraAnalytics.track(OnboardingEvents.initialize_account_start)
-    // const walletAddress =
     yield call(getOrCreateAccount)
     yield call(generateSignedMessage)
     yield put(refreshAllBalances())
