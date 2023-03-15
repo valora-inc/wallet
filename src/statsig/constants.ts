@@ -15,7 +15,7 @@ export const LayerParams = {
   },
 }
 
-export const experimentConfigs = {
+export const ExperimentConfigs = {
   // NOTE: the keys of defaultValues MUST be parameter names
   [StatsigExperiments.ADD_FUNDS_CRYPTO_EXCHANGE_QR_CODE]: {
     experimentName: StatsigExperiments.ADD_FUNDS_CRYPTO_EXCHANGE_QR_CODE,
