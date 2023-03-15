@@ -34,7 +34,7 @@ import { coreTokensSelector, tokensByUsdBalanceSelector } from 'src/tokens/selec
 import { TokenBalance } from 'src/tokens/slice'
 
 const FETCH_UPDATED_QUOTE_DEBOUNCE_TIME = 500
-const DEFAULT_FROM_TOKEN = 'CELO'
+const DEFAULT_FROM_TOKEN_SYMBOL = 'CELO'
 const DEFAULT_SWAP_AMOUNT: SwapAmount = {
   [Field.FROM]: '',
   [Field.TO]: '',
@@ -47,18 +47,27 @@ export function SwapScreen() {
   const dispatch = useDispatch()
 
   const supportedTokens = useSelector(coreTokensSelector)
-  const supportedTokensAddresses = supportedTokens.map((token) => token.address)
+
   const swapInfo = useSelector(swapInfoSelector)
   const tokensSortedByUsdBalance = useSelector(tokensByUsdBalanceSelector)
 
-  const CELO = supportedTokens.find(
-    (token) => token.symbol === DEFAULT_FROM_TOKEN && token.isCoreToken
+  const CELO = useMemo(
+    () =>
+      supportedTokens.find(
+        (token) => token.symbol === DEFAULT_FROM_TOKEN_SYMBOL && token.isCoreToken
+      ),
+    [supportedTokens]
   )
 
-  const defaultFromToken =
-    tokensSortedByUsdBalance.find(
-      (token) => token.balance.gt(0) && supportedTokensAddresses.includes(token.address)
-    ) ?? CELO
+  const defaultFromToken = useMemo(() => {
+    const supportedTokensAddresses = supportedTokens.map((token) => token.address)
+    return (
+      tokensSortedByUsdBalance.find(
+        (token) =>
+          token.balance.gt(0) && token.usdPrice && supportedTokensAddresses.includes(token.address)
+      ) ?? CELO
+    )
+  }, [supportedTokens, tokensSortedByUsdBalance])
 
   const [fromToken, setFromToken] = useState<TokenBalance | undefined>(defaultFromToken)
   const [toToken, setToToken] = useState<TokenBalance | undefined>()
@@ -274,7 +283,7 @@ export function SwapScreen() {
             autoFocus
             inputError={fromSwapAmountError}
             onPressMax={handleSetMaxFromAmount}
-            noTokenDisplay={t('swapScreen.swapFromTokenSelection')}
+            buttonPlaceholder={t('swapScreen.swapFromTokenSelection')}
           />
           <SwapAmountInput
             label={t('swapScreen.swapTo')}
@@ -284,7 +293,7 @@ export function SwapScreen() {
             token={toToken}
             style={styles.toSwapAmountInput}
             loading={updatedField === Field.FROM && fetchingSwapQuote}
-            noTokenDisplay={t('swapScreen.swapToTokenSelection')}
+            buttonPlaceholder={t('swapScreen.swapToTokenSelection')}
           />
           {showMaxSwapAmountWarning && <MaxAmountWarning />}
         </View>

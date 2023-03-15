@@ -30,7 +30,7 @@ interface Props {
   autoFocus?: boolean
   inputError?: boolean
   style?: StyleProp<ViewStyle>
-  noTokenDisplay: string
+  buttonPlaceholder: string
 }
 
 const SwapAmountInput = ({
@@ -44,7 +44,7 @@ const SwapAmountInput = ({
   autoFocus,
   inputError,
   style,
-  noTokenDisplay,
+  buttonPlaceholder,
 }: Props) => {
   const { t } = useTranslation()
 
@@ -137,7 +137,7 @@ const SwapAmountInput = ({
             </>
           ) : (
             <>
-              <Text style={styles.tokenName}>{noTokenDisplay}</Text>
+              <Text style={styles.tokenName}>{buttonPlaceholder}</Text>
               <DownArrowIcon color={Colors.gray5} />
             </>
           )}
