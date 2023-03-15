@@ -313,11 +313,7 @@ function applyIconFixIfNeeded(session: WalletConnectSessionRequest | WalletConne
 
 // eslint-disable-next-line require-yield
 function* createWalletConnectChannelWithArgs(connectorOpts: IWalletConnectOptions) {
-  Logger.info(
-    TAG + '@createWalletConnectChannelWithArgs',
-    'Creating Wallet',
-    JSON.stringify(connectorOpts)
-  )
+  Logger.info(TAG + '@createWalletConnectChannelWithArgs', 'Creating Wallet', connectorOpts)
   return eventChannel((emit: any) => {
     const connector = new WalletConnectClient({
       ...connectorOpts,
