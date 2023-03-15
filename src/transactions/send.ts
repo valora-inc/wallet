@@ -82,10 +82,7 @@ const getLogger = (context: TransactionContext) => {
         ValoraAnalytics.track(TransactionEvents.transaction_confirmed, { txId })
         break
       case SendTransactionLogEventType.ReceiptReceived:
-        Logger.debug(
-          tag,
-          `Transaction id ${txId} received receipt: ${JSON.stringify(event.receipt)}`
-        )
+        Logger.debug(tag, `Transaction id ${txId} received receipt:`, event.receipt)
         ValoraAnalytics.track(TransactionEvents.transaction_receipt_received, { txId })
         break
       case SendTransactionLogEventType.Failed:
@@ -96,7 +93,7 @@ const getLogger = (context: TransactionContext) => {
         })
         break
       case SendTransactionLogEventType.Exception:
-        Logger.error(tag, `Transaction Exception caught ${txId}: `, event.error)
+        Logger.error(tag, `Transaction Exception caught ${txId}:`, event.error)
         ValoraAnalytics.track(TransactionEvents.transaction_exception, {
           txId,
           error: event.error.message,
