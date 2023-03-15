@@ -168,7 +168,7 @@ export function tokenTransferFactory({ actionName, tag }: TokenTransferFactory) 
         context.id,
         currency,
         amount,
-        feeInfo ? JSON.stringify(feeInfo) : 'undefined'
+        feeInfo
       )
 
       yield put(

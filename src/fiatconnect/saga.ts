@@ -927,7 +927,7 @@ export function* _initiateTransferWithProvider({
   }
   const transferResult = result.unwrap()
 
-  Logger.info(TAG, `${transferFnName} succeeded`, JSON.stringify(transferResult))
+  Logger.info(TAG, `${transferFnName} succeeded`, transferResult)
   return transferResult
 }
 

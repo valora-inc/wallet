@@ -156,7 +156,7 @@ function* produceTxSignature(action: RequestTxSignatureAction) {
         if (tx.to) {
           params.to = tx.to
         }
-        Logger.debug(TAG, 'Signing tx with params', JSON.stringify(params))
+        Logger.debug(TAG, 'Signing tx with params', params)
         const signedTx = await web3.eth.signTransaction(params)
         return signedTx.raw
       })
