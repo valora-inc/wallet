@@ -41,6 +41,7 @@ import { clearStoredAccounts } from 'src/web3/KeychainSigner'
 import networkConfig from 'src/web3/networkConfig'
 import { getOrCreateAccount, unlockAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
+// import { Statsig } from 'statsig-react-native'
 
 const TAG = 'account/saga'
 
@@ -76,6 +77,7 @@ export function* initializeAccountSaga() {
   Logger.debug(TAG + '@initializeAccountSaga', 'Creating account')
   try {
     ValoraAnalytics.track(OnboardingEvents.initialize_account_start)
+    // const walletAddress =
     yield call(getOrCreateAccount)
     yield call(generateSignedMessage)
     yield put(refreshAllBalances())
@@ -83,6 +85,15 @@ export function* initializeAccountSaga() {
     const choseToRestoreAccount = yield select(choseToRestoreAccountSelector)
     if (choseToRestoreAccount) {
       yield call(handlePreviouslyVerifiedPhoneNumber)
+    } else {
+      // TODO set statsig user start timestamp here (can use in experiment targeting gate)
+      // yield call(Statsig, 'updateUser', {
+      //   // fixme should probly wrap this in a function, maybe put it on ValoraAnalytics? or in Statsig/index.ts?
+      //   userID: walletAddress,
+      //   custom: {
+      //     initializeAccountTimestamp: Date.now(),
+      //   },
+      // })
     }
 
     Logger.debug(TAG + '@initializeAccountSaga', 'Account creation success')
