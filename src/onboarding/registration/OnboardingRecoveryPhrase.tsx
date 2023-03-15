@@ -74,7 +74,7 @@ function OnboardingRecoveryPhrase({ navigation }: Props) {
   }
   const onPressCopy = () => {
     ValoraAnalytics.track(OnboardingEvents.protect_wallet_copy_phrase)
-    Clipboard.setString(accountKey || '')
+    Clipboard.setString(accountKey ?? '')
     Logger.showMessage(t('recoveryPhrase.mnemonicCopied'))
   }
   const onPressContinue = () => {
@@ -124,8 +124,12 @@ function OnboardingRecoveryPhrase({ navigation }: Props) {
       >
         <View>
           <Text style={styles.bottomSheetTitle}>{t('recoveryPhrase.bottomSheet.title')}</Text>
-          <Text style={styles.bottomSheetBody}>{t('recoveryPhrase.bottomSheet.body1')}</Text>
-          <Text style={styles.bottomSheetBody}>{t('recoveryPhrase.bottomSheet.body2')}</Text>
+          <Text style={styles.bottomSheetBody}>
+            {t('recoveryPhrase.bottomSheet.writeDownPhrase')}
+          </Text>
+          <Text style={styles.bottomSheetBody}>
+            {t('recoveryPhrase.bottomSheet.phraseLocation')}
+          </Text>
           <TextButton
             style={styles.buttonStyle}
             onPress={onPressDismissBottomSheet}

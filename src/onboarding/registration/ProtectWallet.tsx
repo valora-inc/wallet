@@ -160,10 +160,10 @@ function ProtectWallet({ navigation }: Props) {
             {t('protectWallet.cloudBackup.bottomSheet.title')}
           </Text>
           <Text style={styles.bottomSheetBody}>
-            {t('protectWallet.cloudBackup.bottomSheet.body1')}
+            {t('protectWallet.cloudBackup.bottomSheet.restoreComingSoon')}
           </Text>
           <Text style={styles.bottomSheetBody}>
-            {t('protectWallet.cloudBackup.bottomSheet.body2')}
+            {t('protectWallet.cloudBackup.bottomSheet.writeDownPhrase')}
           </Text>
 
           <Button
