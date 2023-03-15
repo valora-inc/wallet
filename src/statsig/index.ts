@@ -12,9 +12,13 @@ export function getExperimentParams<T extends Record<string, StatsigParameter>>(
   try {
     const experiment = Statsig.getExperiment(experimentName)
     type Parameter = keyof T
+    type DefaultValue = T[Parameter]
     const output = {} as T
-    for (const key of Object.keys(defaultValues) as Parameter[]) {
-      output[key] = experiment.get(key as string, defaultValues[key])
+    for (const [param, defaultValue] of Object.entries(defaultValues) as [
+      Parameter,
+      DefaultValue
+    ][]) {
+      output[param] = experiment.get(param as string, defaultValue)
     }
     return output
   } catch (error) {
