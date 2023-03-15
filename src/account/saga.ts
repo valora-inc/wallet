@@ -221,7 +221,9 @@ export function* handleUpdateAccountRegistration() {
 }
 
 export function* handleChooseCreateAccount() {
-  yield call([Statsig, 'updateUser'], { custom: { startOnboardingTimestamp: Date.now() } })
+  yield call([Statsig, 'updateUser'], {
+    custom: { startOnboardingTimestamp: new Date().toISOString() },
+  })
 }
 
 export function* watchChooseCreateAccount() {
