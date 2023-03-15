@@ -27,7 +27,6 @@ import {
 } from 'src/consumerIncentives/slice'
 import {
   isSuperchargePendingRewardsV2,
-  rewardTypesVersionMismatch,
   SuperchargePendingReward,
   SuperchargePendingRewardV2,
 } from 'src/consumerIncentives/types'
@@ -236,7 +235,12 @@ export function* fetchAvailableRewardsSaga() {
     // as there is a race condition on app start between fetching the
     // supercharge rewards and fetching remote config values, prevent mismatched
     // data from being stored in redux here
-    if (rewardTypesVersionMismatch(data.availableRewards, superchargeV2Enabled)) {
+    const mostRecentSuperchargeV2Enabled = yield select(superchargeV2EnabledSelector)
+    if (
+      data.availableRewards.length === 0 ||
+      (mostRecentSuperchargeV2Enabled && isSuperchargePendingRewardsV2(data.availableRewards)) ||
+      (!mostRecentSuperchargeV2Enabled && !isSuperchargePendingRewardsV2(data.availableRewards))
+    ) {
       yield put(setAvailableRewards(data.availableRewards))
       yield put(fetchAvailableRewardsSuccess())
     }

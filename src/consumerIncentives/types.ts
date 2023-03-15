@@ -36,11 +36,3 @@ export interface SuperchargePendingRewardV2 {
 export const isSuperchargePendingRewardsV2 = (
   pendingRewards: SuperchargePendingReward[] | SuperchargePendingRewardV2[]
 ): pendingRewards is SuperchargePendingRewardV2[] => 'transaction' in pendingRewards[0]
-
-export const rewardTypesVersionMismatch = (
-  rewards: SuperchargePendingReward[] | SuperchargePendingRewardV2[],
-  superchargeV2Enabled: boolean
-) =>
-  rewards.length > 0 &&
-  ((superchargeV2Enabled && !isSuperchargePendingRewardsV2(rewards)) ||
-    (!superchargeV2Enabled && isSuperchargePendingRewardsV2(rewards)))
