@@ -2,6 +2,7 @@ import { Statsig } from 'statsig-react-native'
 import { getExperimentParams } from 'src/statsig/index'
 import { StatsigExperiments } from 'src/statsig/types'
 import Logger from 'src/utils/Logger'
+import { ExperimentConfigs } from 'src/statsig/constants'
 
 jest.mock('statsig-react-native')
 jest.mock('src/utils/Logger')
@@ -9,6 +10,14 @@ jest.mock('src/utils/Logger')
 describe('Statsig helpers', () => {
   beforeEach(() => {
     jest.clearAllMocks()
+  })
+  describe('data validation', () => {
+    it.each(Object.entries(ExperimentConfigs))(
+      `ExperimentConfigs.%s has correct experimentName`,
+      (key, { experimentName }) => {
+        expect(key).toEqual(experimentName)
+      }
+    )
   })
   describe('getExperimentParams', () => {
     it('returns default values if getting statsig experiment throws error', () => {
