@@ -18,7 +18,7 @@ adding yourself to the assignee list.
 
 Tasks range from minor to major improvements. Based on your interests,
 skillset, and level of comfort with the code-base feel free to
-contribute where you see appropriate.  We encourage you to PR \(pull
+contribute where you see appropriate. We encourage you to PR \(pull
 request\) your work regularly and often to solicit feedback and to
 ensure everyone has an idea of what you’re working on. If you’ve just
 started, we suggest creating a PR with “WIP” \(Work In Progress\) in
@@ -35,7 +35,7 @@ consider the following as examples of substantial changes:
 
 - Adding support for in-app swaps.
 - Changing how Valora calculates asset value in local fiat.
-- Changing Valora's branding (_e.g.), color palette).
+- Changing Valora's branding (_e.g.,_ color palette).
 - Adding a way for Valora users to go through decentralized KYC.
 - Removing screens from on-boarding.
 
@@ -49,7 +49,7 @@ server](./README.md#community) is a great way to contact us.
 ### Please make sure your PR
 
 - Requests the appropriate reviewers. When in doubt, consult the
-  CODEOWNERS file for suggestions. 
+  CODEOWNERS file for suggestions.
 - Provides a comprehensive description of the problem addressed and
   changes made.
 - Explains dependencies and backwards incompatible changes.
@@ -65,6 +65,6 @@ already exist and issue for the work you have in mind.
 - Has a clear detailed title such that it can’t be confused with other Valora issues.
 - Provides a comprehensive description of the current and expected
   behavior including, if relevant, links to external references and
-  specific implementation guidelines. 
+  specific implementation guidelines.
 - Is tagged with the relevant labels.
 - Is assigned if you or someone else is already working on it.

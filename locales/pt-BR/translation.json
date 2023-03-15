@@ -1485,6 +1485,15 @@
       "label": "IFSC",
       "placeholderText": "Insira o número IFSC",
       "errorMessage": "IFSC inválido"
+    },
+    "pix": {
+      "keyType": {
+        "label": "Tipo de chave PIX"
+      },
+      "key": {
+        "placeholderText": "Introduzir chave PIX",
+        "errorMessage": "Chave PIX inválida"
+      }
     }
   },
   "webView": {

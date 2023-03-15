@@ -16,3 +16,5 @@ export const SUPERCHARGE_LEARN_MORE = 'https://valoraapp.com/support/supercharge
 export const INVITE_REWARDS_LEARN_MORE = 'https://valoraapp.com/support/invite-rewards-learn-more'
 export const DAPPS_LEARN_MORE = 'https://valoraapp.com/support/dapps-learn-more'
 export const SWAP_LEARN_MORE = 'https://valoraapp.com/support/swap-learn-more'
+export const TRANSACTION_FEES_LEARN_MORE =
+  'https://valoraapp.com/support/transaction-fees-learn-more'
