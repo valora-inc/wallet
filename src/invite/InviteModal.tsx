@@ -60,12 +60,14 @@ const InviteModal = ({
       <View style={styles.contentContainer}>
         <Image style={styles.imageContainer} source={imageSource} resizeMode="contain" />
         <Text style={[fontStyles.h2, styles.text]}>{title}</Text>
-        {description && <Text style={[fontStyles.regular, styles.text]}>{description}</Text>}
-        {descriptionKey && (
-          <Trans i18nKey={descriptionKey}>
-            <Text style={styles.textBold} />
-          </Trans>
-        )}
+        {description ? <Text style={[fontStyles.regular, styles.text]}>{description}</Text> : null}
+        {descriptionKey ? (
+          <Text style={[fontStyles.regular, styles.text]}>
+            <Trans i18nKey={descriptionKey}>
+              <Text style={styles.textBold} />
+            </Trans>
+          </Text>
+        ) : null}
         <Button
           testID="InviteModalShareButton"
           icon={<ShareIcon color={colors.light} height={24} />}
@@ -77,13 +79,15 @@ const InviteModal = ({
           onPress={onShareInvite}
         />
       </View>
-      {helpKey && (
+      {helpKey ? (
         <View style={styles.helpContainer}>
-          <Trans i18nKey={helpKey} style={styles.helpText}>
-            <Text style={styles.helpLink} onPress={onPressHelp} />
-          </Trans>
+          <Text style={styles.helpText}>
+            <Trans i18nKey={helpKey}>
+              <Text style={styles.helpLink} onPress={onPressHelp} />
+            </Trans>
+          </Text>
         </View>
-      )}
+      ) : null}
     </SafeAreaView>
   )
 }
@@ -108,9 +112,9 @@ const styles = StyleSheet.create({
     height: 120,
   },
   helpContainer: {
-    flexWrap: 'wrap',
-    justifyContent: 'flex-end',
-    paddingBottom: Spacing.Thick24,
+    width: 312,
+    height: 100,
+    left: 24,
   },
   helpText: {
     color: colors.gray5,
