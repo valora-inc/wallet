@@ -101,6 +101,8 @@
   "completeEducation": "Entiendo",
   "yourAccountKey": "Esta es tu Frase de recuperación",
   "backupKeyNotification": "Protege tus fondos. Configura tu Frase de recuperación.",
+  "backupKeyNotification2": "Keep your funds safe. Back up your Recovery Phrase now.",
+  "backupKeyCTA": "Finish Backup Now",
   "backupKeySummary": "Encuentra un lugar privado y anota tu Frase de recuperación. Por favor, guárdala en un lugar seguro. No la guardes en tu celular.",
   "copied": "Frase copiada al portapapeles",
   "moreInfo": "Más Información",
@@ -1491,8 +1493,8 @@
         "label": "Tipo de clave PIX"
       },
       "key": {
-        "placeholderText": "Introducir tecla PIX",
-        "errorMessage": "Clave PIX no válida"
+        "placeholderText": "Ingresa tu clave PIX",
+        "errorMessage": "Clave PIX inválida"
       }
     }
   },
@@ -1507,7 +1509,12 @@
     "swapTo": "Para",
     "insufficientFunds": "Saldo en {{token}} insuficiente. Ingresa un monto menor o elige otro token.",
     "fetchSwapQuoteFailed": "¡Lo sentimos! Conseguir la mejor tasa de cambio nos está llevando más tiempo del habitual. Inténtalo de nuevo más tarde.",
-    "disclaimer": "Los intercambios se realizan mediante socios de Celo. <0>Más información</0>"
+    "disclaimer": "Los intercambios se realizan mediante socios de Celo. <0>Más información</0>",
+    "maxSwapAmountWarning": {
+      "title": "Intercambio de monto MAX",
+      "body": "Asegúrate de contar con suficiente CELO en tu wallet para cubrir las tarifas de próximas transacciones.",
+      "learnMore": "Más información"
+    }
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Cambiar de",

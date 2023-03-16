@@ -101,6 +101,8 @@
   "completeEducation": "Rozumiem",
   "yourAccountKey": "Twoja fraza odzyskiwania",
   "backupKeyNotification": "Zadbaj o bezpieczeństwo swoich środków. Ustaw teraz swoją frazę odzyskiwania.",
+  "backupKeyNotification2": "Keep your funds safe. Back up your Recovery Phrase now.",
+  "backupKeyCTA": "Finish Backup Now",
   "backupKeySummary": "Znajdź miejsce na osobności i zapisz swoją frazę odzyskiwania. Przechowuj ją w bezpiecznym miejscu. Nie zapisuj jej w swoim telefonie.",
   "copied": "Fraza skopiowana do schowka",
   "moreInfo": "Więcej informacji",
@@ -1221,7 +1223,7 @@
   },
   "dappsScreen": {
     "title": "Dapps",
-    "message": "Poznaj sposoby wykorzystania swoich aktywów",
+    "message": "Przeglądaj sposoby korzystania ze swoich aktywów",
     "errorMessage": "Wystąpił błąd podczas ładowania Dapps",
     "featuredDapp": "Polecane",
     "allDapps": "Wszystkie",
@@ -1235,7 +1237,7 @@
       "labelCTA": "Zobacz ulubione"
     },
     "emptyResults": {
-      "message": "<0>{{filter}}</0> zastosowano filtr",
+      "message": "Zastosowano filtr <0>{{filter}}</0>",
       "removeFilter": "Usuń filtr"
     }
   },
@@ -1495,8 +1497,8 @@
         "label": "Typ klucza PIX"
       },
       "key": {
-        "placeholderText": "Wprowadź klawisz PIX",
-        "errorMessage": "Nieprawidłowy klucz PIX"
+        "placeholderText": "Wprowadź klucz PIX",
+        "errorMessage": "Niewłaściwy klucz PIX"
       }
     }
   },
@@ -1511,7 +1513,12 @@
     "swapTo": "Do",
     "insufficientFunds": "Niewystarczające saldo {{token}}. Spróbuj wpłacić mniejszą kwotę lub wybierz inny token.",
     "fetchSwapQuoteFailed": "Przepraszamy za opóźnienie! Przetwarzanie trwa dłużej niż zwykle, aby uzyskać najlepszy kurs wymiany. Spróbuj ponownie za kilka minut.",
-    "disclaimer": "Swapy wspierane przez partnerów na Celo. <0>Dowiedz się więcej.</0>"
+    "disclaimer": "Swapy wspierane przez partnerów na Celo. <0>Dowiedz się więcej.</0>",
+    "maxSwapAmountWarning": {
+      "title": "Swapping the MAX amount",
+      "body": "Make sure you have CELO in your wallet to cover gas fees for future transactions",
+      "learnMore": "Dowiedz się więcej"
+    }
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Zamień z",

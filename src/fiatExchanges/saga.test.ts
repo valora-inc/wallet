@@ -18,10 +18,13 @@ import { AddressRecipient } from 'src/recipients/recipient'
 import { sendPaymentFailure, sendPaymentLegacy, sendPaymentSuccess } from 'src/send/actions'
 import { NewTransactionsInFeedAction } from 'src/transactions/actions'
 import { Currency } from 'src/utils/currencies'
+import Logger from 'src/utils/Logger'
 import { mockAccount } from 'test/values'
 
 const now = Date.now()
 Date.now = jest.fn(() => now)
+
+const loggerErrorSpy = jest.spyOn(Logger, 'error')
 
 describe(watchBidaliPaymentRequests, () => {
   const amount = new BigNumber(20)
@@ -144,26 +147,29 @@ describe(watchBidaliPaymentRequests, () => {
     expect(onCancelled).toHaveBeenCalled()
   })
 
-  it('throws an error when passing an unsupported currency', async () => {
+  it('logs an error when passing an unsupported currency', async () => {
     const onPaymentSent = jest.fn()
     const onCancelled = jest.fn()
 
-    await expect(
-      expectSaga(watchBidaliPaymentRequests)
-        .dispatch(
-          bidaliPaymentRequested(
-            '0xTEST',
-            '20',
-            'ETH',
-            'Some description',
-            'TEST_CHARGE_ID',
-            onPaymentSent,
-            onCancelled
-          )
+    await expectSaga(watchBidaliPaymentRequests)
+      .dispatch(
+        bidaliPaymentRequested(
+          '0xTEST',
+          '20',
+          'ETH',
+          'Some description',
+          'TEST_CHARGE_ID',
+          onPaymentSent,
+          onCancelled
         )
-        .run()
-    ).rejects.toThrowErrorMatchingInlineSnapshot(`"Unsupported payment currency from Bidali: ETH"`)
+      )
+      .run()
 
+    expect(loggerErrorSpy).toHaveBeenCalledWith(
+      'utils/safely',
+      'Unhandled error in wrapped saga',
+      new Error('Unsupported payment currency from Bidali: ETH')
+    )
     expect(navigate).not.toHaveBeenCalled()
     expect(onPaymentSent).not.toHaveBeenCalled()
     expect(onCancelled).not.toHaveBeenCalled()

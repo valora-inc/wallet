@@ -101,6 +101,8 @@
   "completeEducation": "ฉันเข้าใจ",
   "yourAccountKey": "วลีกู้คืนรหัสของคุณ",
   "backupKeyNotification": "เก็บเงินของคุณให้ปลอดภัย ตั้งค่าวลีกู้คืนรหัสของคุณตอนนี้",
+  "backupKeyNotification2": "Keep your funds safe. Back up your Recovery Phrase now.",
+  "backupKeyCTA": "Finish Backup Now",
   "backupKeySummary": "หาสถานที่ส่วนตัวเพื่อจดบันทึกวลีกู้คืนรหัสของคุณ โปรดเก็บวลีกู้คืนรหัสไว้ในที่ปลอดภัย ห้ามบันทึกลงในโทรศัพท์ของคุณ",
   "copied": "คัดลอกวลีไปยังคลิปบอร์ดแล้ว",
   "moreInfo": "ข้อมูลเพิ่มเติม",
@@ -1215,7 +1217,7 @@
   },
   "dappsScreen": {
     "title": "Dapp",
-    "message": "Explore ways to use your assets",
+    "message": "สำรวจวิธีใช้สินทรัพย์ของคุณ",
     "errorMessage": "มีข้อผิดพลาดขณะโหลด Dapp",
     "featuredDapp": "โดดเด่น",
     "allDapps": "ทั้งหมด",
@@ -1229,8 +1231,8 @@
       "labelCTA": "ดูรายการโปรด"
     },
     "emptyResults": {
-      "message": "<0>{{filter}}</0> filter applied",
-      "removeFilter": "Remove filter"
+      "message": "ใช้ตัวกรอง <0>{{filter}}</0> แล้ว",
+      "removeFilter": "ลบตัวกรอง"
     }
   },
   "dappsScreenHelpDialog": {
@@ -1505,7 +1507,12 @@
     "swapTo": "เป็น",
     "insufficientFunds": "ยอดคงเหลือ {{token}} ไม่เพียงพอ ลองจำนวนเงินที่น้อยลงหรือเลือกโทเค็นอื่น",
     "fetchSwapQuoteFailed": "ขออภัยในความล่าช้า การดำเนินการนี้ใช้เวลานานกว่าปกติเพื่อให้ได้อัตราแลกเปลี่ยนที่ดีที่สุด โปรดลองอีกครั้งในอีกสองสามนาที",
-    "disclaimer": "แลกเปลี่ยนกับพันธมิตรใน Celo <0> เรียนรู้เพิ่มเติม </0>"
+    "disclaimer": "แลกเปลี่ยนกับพันธมิตรใน Celo <0> เรียนรู้เพิ่มเติม </0>",
+    "maxSwapAmountWarning": {
+      "title": "Swapping the MAX amount",
+      "body": "Make sure you have CELO in your wallet to cover gas fees for future transactions",
+      "learnMore": "ดูข้อมูลเพิ่มเติม"
+    }
   },
   "swapTransactionDetailPage": {
     "swapFrom": "สว็อปจาก",
