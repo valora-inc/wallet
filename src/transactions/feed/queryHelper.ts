@@ -213,13 +213,11 @@ async function queryTransactionsFeed(
   localCurrencyCode: string,
   afterCursor?: string
 ) {
-  Logger.info(
-    `Request to fetch transactions with params: ${JSON.stringify({
-      address,
-      localCurrencyCode,
-      afterCursor,
-    })}`
-  )
+  Logger.info(`Request to fetch transactions with params:`, {
+    address,
+    localCurrencyCode,
+    afterCursor,
+  })
   const response = await fetch(`${config.blockchainApiUrl}/graphql`, {
     method: 'POST',
     headers: {

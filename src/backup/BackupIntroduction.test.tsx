@@ -4,7 +4,14 @@ import 'react-native'
 import { Provider } from 'react-redux'
 import BackupIntroduction from 'src/backup/BackupIntroduction'
 import { Screens } from 'src/navigator/Screens'
+import { getOnboardingExperimentParams } from 'src/onboarding'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
+
+jest.mock('src/onboarding', () => ({
+  getOnboardingExperimentParams: jest.fn().mockReturnValue({
+    useNewBackupFlowCopy: false,
+  }),
+}))
 
 describe('BackupIntroduction', () => {
   it('renders correctly when backup not complete', () => {
@@ -16,6 +23,22 @@ describe('BackupIntroduction', () => {
 
     expect(getByText('introTitle')).toBeTruthy()
     expect(getByText('introBody')).toBeTruthy()
+    expect(getByTestId('SetUpAccountKey')).toBeTruthy()
+  })
+
+  it('renders correctly when backup not complete and using new backup flow', () => {
+    ;(getOnboardingExperimentParams as jest.Mock).mockReturnValueOnce({
+      useNewBackupFlowCopy: true,
+    })
+
+    const { getByText, getByTestId } = render(
+      <Provider store={createMockStore({})}>
+        <BackupIntroduction {...getMockStackScreenProps(Screens.BackupIntroduction)} />
+      </Provider>
+    )
+
+    expect(getByText('introBackUpPhrase')).toBeTruthy()
+    expect(getByText('introCompleteQuiz')).toBeTruthy()
     expect(getByTestId('SetUpAccountKey')).toBeTruthy()
   })
 
