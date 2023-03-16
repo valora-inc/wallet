@@ -190,7 +190,7 @@ const styles = StyleSheet.create({
     padding: Spacing.Regular16,
     alignItems: 'center',
     justifyContent: 'flex-start',
-    height: '100%',
+    flexGrow: 1,
   },
   text: {
     ...fontStyles.h2,
@@ -213,7 +213,6 @@ const styles = StyleSheet.create({
     paddingBottom: Spacing.Regular16,
   },
   actionBar: {
-    flexGrow: 1,
     flexDirection: 'column',
     alignItems: 'center',
     paddingHorizontal: variables.contentPadding,
@@ -223,7 +222,7 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
   },
   iconContainer: {
-    marginTop: '55%',
+    marginTop: '32%',
     marginBottom: Spacing.Regular16,
   },
 })
