@@ -173,6 +173,8 @@
   },
   "superchargingTitle": "Your {{token}} is being Supercharged",
   "superchargingDescription": "You’re getting {{apy}}% annually. Every week you'll get a notification when your rewards are ready, come back here to claim them.",
+  "superchargingTitleV1_54": "Your {{token}} is being Supercharged",
+  "superchargingDescriptionV1_54": "You’re getting {{apy}}% annually. Every week you'll get a notification when your rewards are ready, come back here to claim them.",
   "superchargeRewardsAvailable": "You have {{amount}} {{token}} available to claim!",
   "superchargeRewardsAvailableMultipleTokens": "You have {{amounts}} available to claim!",
   "superchargeClaimText": "Claim your rewards to add them to your balance.",

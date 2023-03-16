@@ -152,10 +152,10 @@ function SuperchargingInfo() {
   return (
     <>
       <Text style={styles.title} testID="SuperchargingInfo">
-        {t('superchargingTitle', { token: tokenConfigToSupercharge.tokenSymbol })}
+        {t('superchargingTitleV1_54', { token: tokenConfigToSupercharge.tokenSymbol })}
       </Text>
       <Text style={styles.description}>
-        {t('superchargingDescription', {
+        {t('superchargingDescriptionV1_54', {
           token: tokenConfigToSupercharge.tokenSymbol,
           apy: superchargeApy,
         })}
