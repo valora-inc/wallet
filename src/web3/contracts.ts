@@ -11,7 +11,7 @@ import { accountCreationTimeSelector } from 'src/account/selectors'
 import { ContractKitEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { DEFAULT_FORNO_URL } from 'src/config'
+import { DEFAULT_FORNO_URL, STATSIG_ENV } from 'src/config'
 import { navigateToError } from 'src/navigator/NavigationService'
 import Logger from 'src/utils/Logger'
 import { importDekIfNecessary } from 'src/web3/dataEncryptionKey'
@@ -136,7 +136,7 @@ export async function getMasa() {
 
     masa = new Masa({
       wallet: new providers.Web3Provider(web3.currentProvider as any).getSigner(),
-      defaultNetwork: 'alfajores',
+      defaultNetwork: STATSIG_ENV.tier === 'production' ? 'celo' : 'alfajores',
     })
     Logger.info('loaded masa')
 
