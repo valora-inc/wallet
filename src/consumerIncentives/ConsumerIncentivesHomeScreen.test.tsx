@@ -1,5 +1,6 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
+import { TransProps } from 'react-i18next'
 import 'react-native'
 import { Provider } from 'react-redux'
 import { ReactTestInstance } from 'react-test-renderer'
@@ -18,6 +19,19 @@ import { RootState } from 'src/redux/reducers'
 import { StoredTokenBalance } from 'src/tokens/slice'
 import { createMockStore } from 'test/utils'
 import { mockCeurAddress, mockCusdAddress } from 'test/values'
+
+jest.mock('react-i18next', () => ({
+  ...(jest.requireActual('../../__mocks__/react-i18next') as any),
+  Trans: ({ i18nKey, tOptions, children }: TransProps) => {
+    const React = require('react')
+    return (
+      <React.Fragment>
+        {[i18nKey, JSON.stringify(tOptions)].filter((value) => !!value).join(', ')}
+        {children}
+      </React.Fragment>
+    )
+  },
+}))
 
 interface TokenBalances {
   [address: string]: StoredTokenBalance
