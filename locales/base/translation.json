@@ -100,6 +100,7 @@
   "failedFetchMnemonic": "Failed to fetch your Recovery Phrase",
   "backupAndRecovery": "Backup and Recovery",
   "writeDownKey": "Please write down your Phrase",
+  "writeDownKeyExperimental": "Please write down your phrase.",
   "completeEducation": "I Understand",
   "yourAccountKey": "Your Recovery Phrase",
   "backupKeyNotification": "Keep your funds safe. Set up your Recovery Phrase now.",

@@ -632,7 +632,7 @@ exports[`renders correctly for readonly backup 12-word phrase with new backup fl
           }
         }
       >
-        writeDownKey
+        writeDownKeyExperimental
       </Text>
     </View>
   </View>

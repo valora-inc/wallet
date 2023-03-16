@@ -73,16 +73,24 @@ export class BackupPhraseContainer extends React.Component<Props> {
     const { t, value: words, showCopy, style, mode, type, includeHeader, testID } = this.props
     const wordList = words?.split(' ')
     const isTwelveWords = wordList?.length === 12
+    const { writeDownKey, subtitleTextElement } = getOnboardingExperimentParams()
+      .useNewBackupFlowCopy
+      ? {
+          writeDownKey: t('writeDownKeyExperimental'),
+          subtitleTextElement: <></>,
+        }
+      : {
+          writeDownKey: t('writeDownKey'),
+          subtitleTextElement: <Text style={fontStyles.label}>{t('yourAccountKey')}</Text>,
+        }
 
     return (
       <View style={style}>
         <View style={styles.headerContainer}>
           {type === BackupPhraseType.BACKUP_KEY && includeHeader !== false && (
             <View style={styles.writeDownKeyContainer}>
-              <Text style={styles.writeDownKey}>{t('writeDownKey')}</Text>
-              {!getOnboardingExperimentParams().useNewBackupFlowCopy && (
-                <Text style={fontStyles.label}>{t('yourAccountKey')}</Text>
-              )}
+              <Text style={styles.writeDownKey}>{writeDownKey}</Text>
+              {subtitleTextElement}
             </View>
           )}
           {showCopy && (
