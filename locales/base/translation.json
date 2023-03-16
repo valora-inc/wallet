@@ -162,6 +162,7 @@
   "superchargeTitle": "Start Supercharging",
   "superchargeDescription": "Get {{apy}}% annual rewards on your {{token}} balance. Here's how to start:",
   "superchargeConnectNumber": "Connect your phone number",
+  "superchargeReconnectNumber": "Reconnect your phone number\n<0>We have launched an improved Supercharge experience. Reconnect your phone number to keep earning rewards on your {{token}}.</0>",
   "superchargeMinimumBalance": "Add a minimum balance of {{amount}} {{token}}",
   "superchargeDisclaimer": "Max-out rewards by adding up to {{amount}} {{token}}",
   "superchargeDisclaimerMaxRewards": "You’re getting maximum rewards on your {{token}}",
