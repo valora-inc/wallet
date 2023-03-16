@@ -1,5 +1,6 @@
 import firebase, { ReactNativeFirebase } from '@react-native-firebase/app'
 import '@react-native-firebase/auth'
+import '@react-native-firebase/database'
 import { FirebaseDatabaseTypes } from '@react-native-firebase/database'
 import dynamicLinks from '@react-native-firebase/dynamic-links'
 import '@react-native-firebase/messaging'
@@ -76,7 +77,7 @@ export function* checkInitialNotification() {
     ReturnType<FirebaseMessagingTypes.Module['getInitialNotification']>
   > = yield call([firebase.messaging(), 'getInitialNotification'])
   if (initialNotification) {
-    Logger.info(TAG, 'App opened fresh via a notification', JSON.stringify(initialNotification))
+    Logger.info(TAG, 'App opened fresh via a notification', initialNotification)
     yield call(handleNotification, initialNotification, NotificationReceiveState.AppColdStart)
   }
 }
@@ -244,7 +245,7 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
   await remoteConfig().fetchAndActivate()
 
   const flags: FirebaseRemoteConfigTypes.ConfigValues = remoteConfig().getAll()
-  Logger.debug(TAG, `Updated remote config values: ${JSON.stringify(flags)}`)
+  Logger.debug(TAG, `Updated remote config values:`, flags)
 
   // When adding a new remote config value there are 2 places that need updating:
   // the RemoteConfigValues interface as well as the REMOTE_CONFIG_VALUES_DEFAULTS map
@@ -381,7 +382,7 @@ export function simpleReadChannel(key: string) {
   return eventChannel((emit: any) => {
     const emitter = (snapshot: FirebaseDatabaseTypes.DataSnapshot) => {
       const value = snapshot.val()
-      Logger.debug(`Got value from Firebase for key ${key}: ${JSON.stringify(value)}`)
+      Logger.debug(`Got value from Firebase for key ${key}:`, value)
       emit(value || {})
     }
 

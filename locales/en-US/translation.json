@@ -101,6 +101,8 @@
   "completeEducation": "I Understand",
   "yourAccountKey": "Your Recovery Phrase",
   "backupKeyNotification": "Keep your funds safe. Set up your Recovery Phrase now.",
+  "backupKeyNotification2": "Keep your funds safe. Back up your Recovery Phrase now.",
+  "backupKeyCTA": "Finish Backup Now",
   "backupKeySummary": "Find a private place and write down your Recovery Phrase. Please store it somewhere safe. Do not save it in your phone.",
   "copied": "Phrase copied to clipboard",
   "moreInfo": "More Info",
@@ -1485,6 +1487,15 @@
       "label": "IFSC",
       "placeholderText": "Enter IFSC",
       "errorMessage": "Invalid IFSC"
+    },
+    "pix": {
+      "keyType": {
+        "label": "PIX Key Type"
+      },
+      "key": {
+        "placeholderText": "Enter PIX key",
+        "errorMessage": "Invalid PIX key"
+      }
     }
   },
   "webView": {
@@ -1498,7 +1509,12 @@
     "swapTo": "To",
     "insufficientFunds": "Insufficient {{token}} balance. Try a smaller amount or choose a different token.",
     "fetchSwapQuoteFailed": "Sorry for the delay! It's taking longer than usual to get the best exchange rate. Please try again in a few minutes.",
-    "disclaimer": "Swaps powered by partners on Celo. <0>Learn More.</0>"
+    "disclaimer": "Swaps powered by partners on Celo. <0>Learn More.</0>",
+    "maxSwapAmountWarning": {
+      "title": "Swapping the MAX amount",
+      "body": "Make sure you have CELO in your wallet to cover gas fees for future transactions",
+      "learnMore": "Learn more"
+    }
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Swap from",

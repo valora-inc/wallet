@@ -101,6 +101,8 @@
   "completeEducation": "Eu compreendo",
   "yourAccountKey": "Sua Frase de Recuperação",
   "backupKeyNotification": "Proteja seus fundos. Configure sua Frase de Recuperação.",
+  "backupKeyNotification2": "Keep your funds safe. Back up your Recovery Phrase now.",
+  "backupKeyCTA": "Finish Backup Now",
   "backupKeySummary": "Encontre um local privado e anote a sua Frase de Recuperação. Guarde-a em um lugar seguro. Não salve em seu telefone.",
   "copied": "Frase copiada para a área de transferência",
   "moreInfo": "Mais informações",
@@ -1217,7 +1219,7 @@
   },
   "dappsScreen": {
     "title": "Dapps",
-    "message": "Explore formas de utilizar os seus bens",
+    "message": "Explore formas de usar seus ativos",
     "errorMessage": "Ocorreu um erro ao carregar os dapps",
     "featuredDapp": "Em destaque",
     "allDapps": "Todos",
@@ -1231,7 +1233,7 @@
       "labelCTA": "Ver Meus favoritos"
     },
     "emptyResults": {
-      "message": "<0>{{filter}}</0> filtro aplicado",
+      "message": "Filtro <0>{{filter}}</0> aplicado",
       "removeFilter": "Remover filtro"
     }
   },
@@ -1485,6 +1487,15 @@
       "label": "IFSC",
       "placeholderText": "Insira o número IFSC",
       "errorMessage": "IFSC inválido"
+    },
+    "pix": {
+      "keyType": {
+        "label": "Tipo de chave PIX"
+      },
+      "key": {
+        "placeholderText": "Introduzir chave PIX",
+        "errorMessage": "Chave PIX inválida"
+      }
     }
   },
   "webView": {
@@ -1498,7 +1509,12 @@
     "swapTo": "Para",
     "insufficientFunds": "Saldo de {{token}} insuficiente. Insira um valor menor ou escolha um token diferente.",
     "fetchSwapQuoteFailed": "Lamentamos o atraso! A obtenção da melhor taxa de câmbio está demorando mais do que o normal. Tente novamente mais tarde.",
-    "disclaimer": "As trocas são fornecidas por parceiros no Celo. <0>Saiba mais</0>"
+    "disclaimer": "As trocas são fornecidas por parceiros no Celo. <0>Saiba mais</0>",
+    "maxSwapAmountWarning": {
+      "title": "Swapping the MAX amount",
+      "body": "Make sure you have CELO in your wallet to cover gas fees for future transactions",
+      "learnMore": "Saiba mais"
+    }
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Trocar de",

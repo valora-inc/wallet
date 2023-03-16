@@ -101,6 +101,8 @@
   "completeEducation": "我了解",
   "yourAccountKey": "您的恢复短语",
   "backupKeyNotification": "保障您的资金安全。马上设置恢复短语。",
+  "backupKeyNotification2": "Keep your funds safe. Back up your Recovery Phrase now.",
+  "backupKeyCTA": "Finish Backup Now",
   "backupKeySummary": "找一个私密地方写下您的恢复短语。请将它存放在另一处安全地点。切勿保存在您的手机上。",
   "copied": "短语已复制到剪贴板",
   "moreInfo": "更多信息",
@@ -1215,7 +1217,7 @@
   },
   "dappsScreen": {
     "title": "Dapp",
-    "message": "探索使用你的资产的方法",
+    "message": "探索如何使用您的资产",
     "errorMessage": "加在 dapp 时出错",
     "featuredDapp": "精选",
     "allDapps": "全部",
@@ -1229,8 +1231,8 @@
       "labelCTA": "查看收藏"
     },
     "emptyResults": {
-      "message": "<0>{{filter}}</0>适用的过滤器",
-      "removeFilter": "移除过滤器"
+      "message": "<0>{{filter}}</0>已应用筛选条件",
+      "removeFilter": "移除筛选条件"
     }
   },
   "dappsScreenHelpDialog": {
@@ -1483,6 +1485,15 @@
       "label": "IFSC",
       "placeholderText": "输入 IFSC",
       "errorMessage": "IFSC 无效"
+    },
+    "pix": {
+      "keyType": {
+        "label": "PIX键类型"
+      },
+      "key": {
+        "placeholderText": "输入PIX键",
+        "errorMessage": "无效的PIX键"
+      }
     }
   },
   "webView": {
@@ -1496,7 +1507,12 @@
     "swapTo": "至",
     "insufficientFunds": "{{token}} 余额不足，请尝试使用较小的金额或选择其他代币。",
     "fetchSwapQuoteFailed": "抱歉有所延迟！获取最佳汇率所需时间较往常略长。请在几分钟后重试。",
-    "disclaimer": "Celo 朋友发起的交换。<0>了解更多。</0>"
+    "disclaimer": "Celo 朋友发起的交换。<0>了解更多。</0>",
+    "maxSwapAmountWarning": {
+      "title": "Swapping the MAX amount",
+      "body": "Make sure you have CELO in your wallet to cover gas fees for future transactions",
+      "learnMore": "了解更多"
+    }
   },
   "swapTransactionDetailPage": {
     "swapFrom": "交换自",

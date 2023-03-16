@@ -12,11 +12,7 @@ import { initializeAccount, setPincodeSuccess } from 'src/account/actions'
 import { PincodeType } from 'src/account/reducer'
 import { OnboardingEvents, SettingsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import {
-  registrationStepsSelector,
-  skipVerificationSelector,
-  supportedBiometryTypeSelector,
-} from 'src/app/selectors'
+import { skipVerificationSelector, supportedBiometryTypeSelector } from 'src/app/selectors'
 import DevSkipButton from 'src/components/DevSkipButton'
 import i18n, { withTranslation } from 'src/i18n'
 import { setHasSeenVerificationNux } from 'src/identity/actions'
@@ -25,14 +21,15 @@ import {
   nuxNavigationOptions,
   nuxNavigationOptionsOnboarding,
 } from 'src/navigator/Headers'
-import {
-  navigate,
-  navigateClearingStack,
-  navigateHome,
-  popToScreen,
-} from 'src/navigator/NavigationService'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import {
+  getOnboardingStepValues,
+  goToNextOnboardingScreen,
+  OnboardingProps,
+  onboardingPropsSelector,
+} from 'src/onboarding/steps'
 import {
   DEFAULT_CACHE_ACCOUNT,
   isPinValid,
@@ -51,6 +48,7 @@ interface StateProps {
   useExpandedBlocklist: boolean
   account: string
   registrationStep: { step: number; totalSteps: number }
+  onboardingProps: OnboardingProps
   supportedBiometryType: BIOMETRY_TYPE | null
   skipVerification: boolean
 }
@@ -77,7 +75,8 @@ type Props = ScreenProps & StateProps & DispatchProps & WithTranslation
 function mapStateToProps(state: RootState): StateProps {
   return {
     choseToRestoreAccount: state.account.choseToRestoreAccount,
-    registrationStep: registrationStepsSelector(state),
+    onboardingProps: onboardingPropsSelector(state),
+    registrationStep: getOnboardingStepValues(Screens.PincodeSet, onboardingPropsSelector(state)),
     useExpandedBlocklist: state.app.pincodeUseExpandedBlocklist,
     account: currentAccountSelector(state) ?? '',
     supportedBiometryType: supportedBiometryTypeSelector(state),
@@ -155,20 +154,11 @@ export class PincodeSet extends React.Component<Props, State> {
   navigateToNextScreen = () => {
     if (this.isChangingPin()) {
       navigate(Screens.Settings)
-    } else if (this.props.supportedBiometryType !== null) {
-      navigate(Screens.EnableBiometry)
-    } else if (this.props.choseToRestoreAccount) {
-      popToScreen(Screens.Welcome)
-      navigate(Screens.ImportWallet)
-    } else if (this.props.skipVerification) {
-      this.props.initializeAccount()
-      // Tell the app that the user has already seen verification so that it
-      // doesn't prompt for verification after the app is killed. This same function
-      // is called when the user manually skips verification on the verification screen.
-      this.props.skipVerification && this.props.setHasSeenVerificationNux(true)
-      navigateHome()
     } else {
-      navigateClearingStack(Screens.VerificationStartScreen)
+      goToNextOnboardingScreen({
+        firstScreenInCurrentStep: Screens.PincodeSet,
+        onboardingProps: this.props.onboardingProps,
+      })
     }
   }
 
@@ -280,6 +270,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.onboardingBackground,
     justifyContent: 'space-between',
+    paddingTop: 72,
   },
   changePinContainer: {
     flex: 1,

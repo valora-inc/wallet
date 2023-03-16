@@ -23,6 +23,7 @@ import { sendTransaction } from 'src/transactions/send'
 import { newTransactionContext } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
+import { safely } from 'src/utils/safely'
 import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
 import { getConnectedAccount, getConnectedUnlockedAccount } from 'src/web3/saga'
 import { estimateGas } from 'src/web3/utils'
@@ -165,11 +166,11 @@ function* doFetchSentPayments() {
 }
 
 export function* watchReclaimPayment() {
-  yield takeLeading(Actions.RECLAIM_PAYMENT, reclaimFromEscrow)
+  yield takeLeading(Actions.RECLAIM_PAYMENT, safely(reclaimFromEscrow))
 }
 
 export function* watchFetchSentPayments() {
-  yield takeLeading(Actions.FETCH_SENT_PAYMENTS, doFetchSentPayments)
+  yield takeLeading(Actions.FETCH_SENT_PAYMENTS, safely(doFetchSentPayments))
 }
 
 export function* escrowSaga() {

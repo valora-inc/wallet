@@ -101,6 +101,8 @@
   "completeEducation": "Я понимаю",
   "yourAccountKey": "Ваша фраза восстановления",
   "backupKeyNotification": "Обеспечьте сохранность своих средств. Настройте фразу восстановления прямо сейчас.",
+  "backupKeyNotification2": "Keep your funds safe. Back up your Recovery Phrase now.",
+  "backupKeyCTA": "Finish Backup Now",
   "backupKeySummary": "Найдите недоступное для посторонних место и запишите свою фразу восстановления. Храните ее в безопасном месте. Не сохраняйте ее на телефон.",
   "copied": "Фраза скопирована в буфер обмена",
   "moreInfo": "Дополнительная информация",
@@ -1221,7 +1223,7 @@
   },
   "dappsScreen": {
     "title": "Dapps",
-    "message": "Исследуй способы использования своих активов",
+    "message": "Изучите способы использования своих активов",
     "errorMessage": "Произошла ошибка при загрузке dapps",
     "featuredDapp": "Подборка",
     "allDapps": "Все",
@@ -1235,7 +1237,7 @@
       "labelCTA": "Посмотреть избранное"
     },
     "emptyResults": {
-      "message": "<0>{{filter}}</0> применен фильтр",
+      "message": "Применен фильтр <0>{{filter}}</0>",
       "removeFilter": "Удалить фильтр"
     }
   },
@@ -1489,6 +1491,15 @@
       "label": "IFSC",
       "placeholderText": "Введите IFSC",
       "errorMessage": "Неверный IFSC"
+    },
+    "pix": {
+      "keyType": {
+        "label": "Тип ключа PIX"
+      },
+      "key": {
+        "placeholderText": "Введите клавишу PIX",
+        "errorMessage": "Неверный ключ PIX"
+      }
     }
   },
   "webView": {
@@ -1502,7 +1513,12 @@
     "swapTo": "К",
     "insufficientFunds": "Недостаточный остаток {{token}}. Попробуйте внести меньшую сумму или выберите другой токен.",
     "fetchSwapQuoteFailed": "Извините за задержку! Для получения самого выгодного обменного курса требуется больше времени. Повторите попытку через несколько минут.",
-    "disclaimer": "Обмены, поддерживаемые партнерами по Celo. <0>Подробнее.</0>"
+    "disclaimer": "Обмены, поддерживаемые партнерами по Celo. <0>Подробнее.</0>",
+    "maxSwapAmountWarning": {
+      "title": "Swapping the MAX amount",
+      "body": "Make sure you have CELO in your wallet to cover gas fees for future transactions",
+      "learnMore": "Подробнее"
+    }
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Обменять с",

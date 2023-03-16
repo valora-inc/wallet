@@ -67,6 +67,7 @@ import { handlePaymentDeeplink } from 'src/send/utils'
 import { initializeSentry } from 'src/sentry/Sentry'
 import { isDeepLink, navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
+import { safely } from 'src/utils/safely'
 import { isWalletConnectEnabled } from 'src/walletConnect/saga'
 import {
   handleWalletConnectDeepLink,
@@ -320,7 +321,7 @@ export function* handleDeepLink(action: OpenDeepLink) {
 }
 
 export function* watchDeepLinks() {
-  yield takeLatest(Actions.OPEN_DEEP_LINK, handleDeepLink)
+  yield takeLatest(Actions.OPEN_DEEP_LINK, safely(handleDeepLink))
 }
 
 export function* handleOpenUrl(action: OpenUrlAction) {
@@ -340,7 +341,7 @@ export function* handleOpenUrl(action: OpenUrlAction) {
 }
 
 export function* watchOpenUrl() {
-  yield takeEvery(Actions.OPEN_URL, handleOpenUrl)
+  yield takeEvery(Actions.OPEN_URL, safely(handleOpenUrl))
 }
 
 function createAppStateChannel() {
@@ -462,6 +463,9 @@ export function* appSaga() {
   yield spawn(watchOpenUrl)
   yield spawn(watchAppState)
   yield spawn(runCentralPhoneVerificationMigration)
-  yield takeLatest(Actions.UPDATE_REMOTE_CONFIG_VALUES, runCentralPhoneVerificationMigration)
-  yield takeLatest(Actions.SET_APP_STATE, handleSetAppState)
+  yield takeLatest(
+    Actions.UPDATE_REMOTE_CONFIG_VALUES,
+    safely(runCentralPhoneVerificationMigration)
+  )
+  yield takeLatest(Actions.SET_APP_STATE, safely(handleSetAppState))
 }

@@ -101,6 +101,8 @@
   "completeEducation": "Ho capito",
   "yourAccountKey": "La tua Frase di recupero",
   "backupKeyNotification": "Conserva i tuoi fondi al sicuro. Imposta la tua Frase di recupero.",
+  "backupKeyNotification2": "Keep your funds safe. Back up your Recovery Phrase now.",
+  "backupKeyCTA": "Finish Backup Now",
   "backupKeySummary": "Trova un luogo privato e annota la tua Frase di recupero. Conservala in un luogo sicuro. Non memorizzarla nel tuo telefono.",
   "copied": "La Frase di recupero è stata copiata negli appunti.",
   "moreInfo": "Maggiori informazioni",
@@ -1217,7 +1219,7 @@
   },
   "dappsScreen": {
     "title": "Dapp",
-    "message": "Esplora i modi per utilizzare le tue risorse",
+    "message": "Scopri i modi per utilizzare i tuoi asset",
     "errorMessage": "Errore durante il caricamento delle Dapp.",
     "featuredDapp": "In primo piano",
     "allDapps": "Tutti",
@@ -1231,8 +1233,8 @@
       "labelCTA": "Visualizza le tue preferite"
     },
     "emptyResults": {
-      "message": "<0>{{filter}}</0> filtro applicato",
-      "removeFilter": "Rimuovi il filtro"
+      "message": "Filtro <0>{{filter}}</0> applicato",
+      "removeFilter": "Rimuovi filtro"
     }
   },
   "dappsScreenHelpDialog": {
@@ -1485,6 +1487,15 @@
       "label": "IFSC",
       "placeholderText": "Inserisci il codice IFSC",
       "errorMessage": "Codice IFSC non valido"
+    },
+    "pix": {
+      "keyType": {
+        "label": "Tipo di chiave PIX"
+      },
+      "key": {
+        "placeholderText": "Inserisci il tasto PIX",
+        "errorMessage": "Chiave PIX non valida"
+      }
     }
   },
   "webView": {
@@ -1498,7 +1509,12 @@
     "swapTo": "A",
     "insufficientFunds": "Saldo {{token}} insufficiente. Immetti un importo inferiore o scegli un altro token.",
     "fetchSwapQuoteFailed": "Ci scusiamo per il ritardo! Ottenere il miglior tasso di cambio sta richiedendo più tempo del solito. Riprova più tardi.",
-    "disclaimer": "Scambi alimentati da partner su Celo. <0>Scopri di più</0>"
+    "disclaimer": "Scambi alimentati da partner su Celo. <0>Scopri di più</0>",
+    "maxSwapAmountWarning": {
+      "title": "Swapping the MAX amount",
+      "body": "Make sure you have CELO in your wallet to cover gas fees for future transactions",
+      "learnMore": "Ulteriori informazioni"
+    }
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Scambia da",

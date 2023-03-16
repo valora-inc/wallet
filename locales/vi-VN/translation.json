@@ -101,6 +101,8 @@
   "completeEducation": "Tôi đã hiểu",
   "yourAccountKey": "Cụm từ khôi phục của bạn",
   "backupKeyNotification": "Để bảo vệ tiền, hãy thiết lập Cụm từ khôi phục ngay.",
+  "backupKeyNotification2": "Keep your funds safe. Back up your Recovery Phrase now.",
+  "backupKeyCTA": "Finish Backup Now",
   "backupKeySummary": "Tìm một nơi riêng tư và viết ra Cụm từ khôi phục của bạn. Vui lòng lưu giữ Cụm từ này ở nơi an toàn. Không lưu vào điện thoại của bạn.",
   "copied": "Đã sao chép Cụm từ vào bảng nhớ tạm",
   "moreInfo": "Thêm thông tin",
@@ -1215,7 +1217,7 @@
   },
   "dappsScreen": {
     "title": "Dapp",
-    "message": "Explore ways to use your assets",
+    "message": "Khám phá những phương thức sử dụng tài sản",
     "errorMessage": "Đã xảy ra lỗi khi tải dapp",
     "featuredDapp": "Nổi bật",
     "allDapps": "Tất cả",
@@ -1229,8 +1231,8 @@
       "labelCTA": "Xem Dapps yêu thích"
     },
     "emptyResults": {
-      "message": "<0>{{filter}}</0> filter applied",
-      "removeFilter": "Remove filter"
+      "message": "Đã áp dụng bộ lọc <0>{{filter}}</0>",
+      "removeFilter": "Xóa bộ lọc"
     }
   },
   "dappsScreenHelpDialog": {
@@ -1483,6 +1485,15 @@
       "label": "Mã IFSC",
       "placeholderText": "Nhập mã IFSC",
       "errorMessage": "Mã IFSC không hợp lệ"
+    },
+    "pix": {
+      "keyType": {
+        "label": "PIX Key Type"
+      },
+      "key": {
+        "placeholderText": "Enter PIX key",
+        "errorMessage": "Invalid PIX key"
+      }
     }
   },
   "webView": {
@@ -1496,7 +1507,12 @@
     "swapTo": "Đến",
     "insufficientFunds": "Không đủ số dư {{token}}. Hãy thử số tiền nhỏ hơn hoặc chọn token khác.",
     "fetchSwapQuoteFailed": "Xin lỗi vì sự chậm trễ này! Hệ thống đang mất nhiều thời gian hơn bình thường để có được tỷ giá quy đổi tốt nhất. Vui lòng thử lại trong vài phút nữa.",
-    "disclaimer": "Hoán đổi được cung cấp bởi các đối tác trên Celo. <0> Tìm hiểu thêm. </0>"
+    "disclaimer": "Hoán đổi được cung cấp bởi các đối tác trên Celo. <0> Tìm hiểu thêm. </0>",
+    "maxSwapAmountWarning": {
+      "title": "Swapping the MAX amount",
+      "body": "Make sure you have CELO in your wallet to cover gas fees for future transactions",
+      "learnMore": "Tìm hiểu thêm"
+    }
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Trao đổi từ",
