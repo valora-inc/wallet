@@ -101,6 +101,8 @@
   "completeEducation": "Ich verstehe",
   "yourAccountKey": "Deine Wiederherstellungsphrase",
   "backupKeyNotification": "Verwahre dein Guthaben sicher. Richte deine Wiederherstellungsphrase ein.",
+  "backupKeyNotification2": "Keep your funds safe. Back up your Recovery Phrase now.",
+  "backupKeyCTA": "Finish Backup Now",
   "backupKeySummary": "Finde einen privaten Ort und schreibe deine Wiederherstellungsphrase auf. Bitte speichere sie an einem sicheren Ort. Speichere sie nicht in deinem Telefon.",
   "copied": "Phrase in die Zwischenablage kopiert",
   "moreInfo": "Weitere Infos",

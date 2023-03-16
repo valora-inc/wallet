@@ -101,6 +101,8 @@
   "completeEducation": "我了解",
   "yourAccountKey": "您的恢复短语",
   "backupKeyNotification": "保障您的资金安全。马上设置恢复短语。",
+  "backupKeyNotification2": "Keep your funds safe. Back up your Recovery Phrase now.",
+  "backupKeyCTA": "Finish Backup Now",
   "backupKeySummary": "找一个私密地方写下您的恢复短语。请将它存放在另一处安全地点。切勿保存在您的手机上。",
   "copied": "短语已复制到剪贴板",
   "moreInfo": "更多信息",
