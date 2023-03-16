@@ -101,6 +101,8 @@
   "completeEducation": "I Understand",
   "yourAccountKey": "Your Recovery Phrase",
   "backupKeyNotification": "Keep your funds safe. Set up your Recovery Phrase now.",
+  "backupKeyNotification2": "Keep your funds safe. Back up your Recovery Phrase now.",
+  "backupKeyCTA": "Finish Backup Now",
   "backupKeySummary": "Find a private place and write down your Recovery Phrase. Please store it somewhere safe. Do not save it in your phone.",
   "copied": "Phrase copied to clipboard",
   "moreInfo": "More Info",

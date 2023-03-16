@@ -101,6 +101,8 @@
   "completeEducation": "Ho capito",
   "yourAccountKey": "La tua Frase di recupero",
   "backupKeyNotification": "Conserva i tuoi fondi al sicuro. Imposta la tua Frase di recupero.",
+  "backupKeyNotification2": "Keep your funds safe. Back up your Recovery Phrase now.",
+  "backupKeyCTA": "Finish Backup Now",
   "backupKeySummary": "Trova un luogo privato e annota la tua Frase di recupero. Conservala in un luogo sicuro. Non memorizzarla nel tuo telefono.",
   "copied": "La Frase di recupero è stata copiata negli appunti.",
   "moreInfo": "Maggiori informazioni",
