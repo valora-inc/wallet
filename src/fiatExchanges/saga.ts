@@ -25,6 +25,7 @@ import {
 } from 'src/transactions/actions'
 import { resolveCurrency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
+import { safely } from 'src/utils/safely'
 import { getAccount } from 'src/web3/saga'
 
 const TAG = 'fiatExchanges/saga'
@@ -151,11 +152,11 @@ export function* importProviderLogos() {
 }
 
 export function* watchBidaliPaymentRequests() {
-  yield takeLeading(Actions.BIDALI_PAYMENT_REQUESTED, bidaliPaymentRequest)
+  yield takeLeading(Actions.BIDALI_PAYMENT_REQUESTED, safely(bidaliPaymentRequest))
 }
 
 function* watchNewFeedTransactions() {
-  yield takeEvery(TransactionActions.NEW_TRANSACTIONS_IN_FEED, tagTxsWithProviderInfo)
+  yield takeEvery(TransactionActions.NEW_TRANSACTIONS_IN_FEED, safely(tagTxsWithProviderInfo))
 }
 
 export function* fiatExchangesSaga() {

@@ -20,6 +20,7 @@ import {
 import { TokenBalance, TokenBalances } from 'src/tokens/slice'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
+import { safely } from 'src/utils/safely'
 import { getContractKit } from 'src/web3/contracts'
 import { getGasPrice } from 'src/web3/gas'
 import { getWalletAddress } from 'src/web3/saga'
@@ -255,5 +256,5 @@ export function fetchFeeCurrency(tokens: TokenBalance[]) {
 }
 
 export function* feesSaga() {
-  yield takeLatest(estimateFee.type, estimateFeeSaga)
+  yield takeLatest(estimateFee.type, safely(estimateFeeSaga))
 }
