@@ -41,6 +41,7 @@ import {
 } from 'src/transactions/types'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import Logger from 'src/utils/Logger'
+import { safely } from 'src/utils/safely'
 import { WEI_PER_TOKEN } from 'src/web3/consts'
 import { getContractKit } from 'src/web3/contracts'
 import config from 'src/web3/networkConfig'
@@ -240,11 +241,11 @@ export function* fetchAvailableRewardsSaga() {
 }
 
 export function* watchAvailableRewards() {
-  yield takeEvery(fetchAvailableRewards.type, fetchAvailableRewardsSaga)
+  yield takeEvery(fetchAvailableRewards.type, safely(fetchAvailableRewardsSaga))
 }
 
 export function* watchClaimRewards() {
-  yield takeEvery(claimRewards.type, claimRewardsSaga)
+  yield takeEvery(claimRewards.type, safely(claimRewardsSaga))
 }
 
 export function* superchargeSaga() {

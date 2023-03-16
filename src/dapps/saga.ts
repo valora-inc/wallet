@@ -21,6 +21,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { isDeepLink } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
+import { safely } from 'src/utils/safely'
 import { isWalletConnectEnabled } from 'src/walletConnect/saga'
 import { isWalletConnectDeepLink } from 'src/walletConnect/walletConnect'
 import { Actions } from 'src/web3/actions'
@@ -131,11 +132,11 @@ export function* handleFetchDappsList() {
 }
 
 export function* watchDappSelected() {
-  yield takeLatest(dappSelected.type, handleOpenDapp)
+  yield takeLatest(dappSelected.type, safely(handleOpenDapp))
 }
 
 export function* watchFetchDappsList() {
-  yield takeLeading([fetchDappsList.type, Actions.SET_ACCOUNT], handleFetchDappsList)
+  yield takeLeading([fetchDappsList.type, Actions.SET_ACCOUNT], safely(handleFetchDappsList))
 }
 
 export function* dappsSaga() {

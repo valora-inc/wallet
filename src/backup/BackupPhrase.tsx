@@ -23,6 +23,7 @@ import { navigate, pushToStack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
+import { getOnboardingExperimentParams } from 'src/onboarding'
 import { RootState } from 'src/redux/reducers'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
@@ -108,6 +109,16 @@ class BackupPhrase extends React.Component<Props, State> {
     const { t, backupCompleted } = this.props
     const { mnemonic, isConfirmChecked } = this.state
     const navigatedFromSettings = this.navigatedFromSettings()
+    const { backupSummaryText, scrollContainerStyle } = getOnboardingExperimentParams()
+      .useNewBackupFlowCopy
+      ? {
+          backupSummaryText: t('backupKeyWarning'),
+          scrollContainerStyle: styles.scrollContainerExperimental,
+        }
+      : {
+          backupSummaryText: t('backupKeySummary'),
+          scrollContainerStyle: styles.scrollContainerDefault,
+        }
     return (
       <SafeAreaView style={styles.container}>
         <CustomHeader
@@ -121,13 +132,13 @@ class BackupPhrase extends React.Component<Props, State> {
           }
           right={<HeaderRight />}
         />
-        <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <ScrollView contentContainerStyle={scrollContainerStyle}>
           <BackupPhraseContainer
             value={mnemonic}
             mode={BackupPhraseContainerMode.READONLY}
             type={BackupPhraseType.BACKUP_KEY}
           />
-          <Text style={styles.body}>{t('backupKeySummary')}</Text>
+          <Text style={styles.body}>{backupSummaryText}</Text>
         </ScrollView>
         {(!backupCompleted || navigatedFromSettings) && (
           <>
@@ -175,10 +186,14 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-between',
   },
-  scrollContainer: {
+  scrollContainerDefault: {
     flexGrow: 1,
     paddingBottom: 16,
     justifyContent: 'space-between',
+    padding: variables.contentPadding,
+  },
+  scrollContainerExperimental: {
+    flexGrow: 1,
     padding: variables.contentPadding,
   },
   body: {
@@ -201,6 +216,7 @@ const styles = StyleSheet.create({
   },
   continueButton: {
     paddingHorizontal: variables.contentPadding,
+    paddingBottom: variables.contentPadding,
   },
 })
 
