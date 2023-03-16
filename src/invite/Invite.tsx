@@ -8,25 +8,36 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { inviteModal, inviteWithRewards } from 'src/images/Images'
 import { noHeader } from 'src/navigator/Headers'
 import { navigateBack } from 'src/navigator/NavigationService'
-import { inviteRewardsActiveSelector } from 'src/send/selectors'
+import { inviteRewardsActiveSelector, inviteRewardsVersionSelector } from 'src/send/selectors'
 import { useShareUrl } from './hooks'
 import InviteModal from './InviteModal'
 
 export default function Invite() {
   const { t } = useTranslation()
   const shareUrl = useShareUrl()
-  const inviteRewardsEnabled = useSelector(inviteRewardsActiveSelector)
+  const inviteRewardsActive = useSelector(inviteRewardsActiveSelector)
+  const inviteRewardsVersion = useSelector(inviteRewardsVersionSelector)
 
-  const title = inviteRewardsEnabled
-    ? t('inviteWithUrl.rewardsActive.title')
-    : t('inviteWithUrl.title')
-  const description = inviteRewardsEnabled
-    ? t('inviteWithUrl.rewardsActive.body')
-    : t('inviteWithUrl.body')
-  const image = inviteRewardsEnabled ? inviteWithRewards : inviteModal
-  const message = inviteRewardsEnabled
-    ? t('inviteWithRewards', { link: shareUrl })
-    : t('inviteWithUrl.share', { shareUrl })
+  let title = t('inviteWithUrl.title')
+  let description = t('inviteWithUrl.body')
+  let message = t('inviteWithUrl.share', { shareUrl })
+  let image = inviteModal
+
+  if (inviteRewardsActive) {
+    switch (inviteRewardsVersion) {
+      case 'v4':
+        title = t('inviteWithUrl.rewardsActive.title')
+        description = t('inviteWithUrl.rewardsActive.body')
+        message = t('inviteWithRewards', { link: shareUrl })
+        image = inviteWithRewards
+        break
+      case 'v5':
+        title = t('inviteWithUrl.rewardsActiveV5.title')
+        description = t('inviteWithUrl.rewardsActiveV5.body')
+        message = t('inviteWithRewardsV5', { link: shareUrl })
+        break
+    }
+  }
 
   const handleShare = async () => {
     if (shareUrl) {

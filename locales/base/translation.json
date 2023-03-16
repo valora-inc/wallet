@@ -563,6 +563,10 @@
     "rewardsActive": {
       "title": "Invite friends and collect NFTs",
       "body": "Invite your friends and family to download {{appName}} and each of you will get an exclusive NFT"
+    },
+    "rewardsActiveV5": {
+      "title": "Invite friends and collect rewards",
+      "body": "Share {{appName}} with friends and family and you will both get <0>rewarded with 1 cUSD<0>"
     }
   },
   "getReward": "Get ${{reward}}",
@@ -880,6 +884,7 @@
   "inviteWithoutPayment": "Hi! I’ve been using {{appName}} to send crypto worldwide. It’s easy to try and I want to invite you to check it out with this link: {{link}}",
   "inviteWithEscrowedPayment": "Hi! I’ve been using {{appName}} to send crypto worldwide. I just sent you {{amount}} {{token}}. Please download the {{appName}} App and redeem your {{token}} using this link: {{link}}",
   "inviteWithRewards": "Hey! I just sent you crypto with my {{appName}} wallet. Once you download the app and connect your phone number, we both get a special edition NFT. Use this link: {{link}}",
+  "inviteWithRewardsV5": "Hi! I've been using {{appname}} as my crypto wallet and I want to invite you to check it out. Once you download the app and connect your phone number, we both get 1 cUSD as a reward. Use this link to download: {{link}}",
   "loadingContacts": "Finding your contacts",
   "myCode": "My Code",
   "scanCode": "Scan",
@@ -1553,6 +1558,10 @@
     "rewardsActive": {
       "title": "Invite {{contactName}} to {{appName}} and you’ll both receive NFTs!",
       "body": "Looks like {{contactName}} isn't on {{appName}}. You can still send a payment if you know their wallet address, or send an invite instead. \n\n After they download the wallet and connect their phone number, you’ll both get an exclusive NFT."
+    },
+    "rewardsActiveV5": {
+      "title": "Invite {{contactName}} and you'll both get rewarded with 1 cUSD",
+      "body": "Copy TBD"
     }
   },
   "celoNews": {

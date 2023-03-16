@@ -379,7 +379,7 @@ export const v7Schema = {
   },
   send: {
     ...v6Schema.send,
-    inviteRewardsEnabled: false,
+    inviteRewardsVersion: 'disabled',
     inviteRewardCusd: 1,
     inviteRewardWeeklyLimit: 5,
   },

@@ -9,7 +9,7 @@ import { inviteModal } from 'src/images/Images'
 import { useShareUrl } from 'src/invite/hooks'
 import InviteModal from 'src/invite/InviteModal'
 import { getDisplayName, Recipient } from 'src/recipients/recipient'
-import { inviteRewardsActiveSelector } from 'src/send/selectors'
+import { inviteRewardsActiveSelector, inviteRewardsVersionSelector } from 'src/send/selectors'
 
 interface Props {
   recipient: Recipient
@@ -19,7 +19,8 @@ interface Props {
 const InviteOptionsModal = ({ recipient, onClose }: Props) => {
   const { t } = useTranslation()
   const link = useShareUrl()
-  const inviteRewardsEnabled = useSelector(inviteRewardsActiveSelector)
+  const inviteRewardsActive = useSelector(inviteRewardsActiveSelector)
+  const inviteRewardsVersion = useSelector(inviteRewardsVersionSelector)
 
   const handleShareInvite = async () => {
     if (link) {
@@ -35,17 +36,29 @@ const InviteOptionsModal = ({ recipient, onClose }: Props) => {
     onClose()
   }
 
-  const title = inviteRewardsEnabled
-    ? t('inviteModal.rewardsActive.title', { contactName: getDisplayName(recipient, t) })
-    : t('inviteModal.title', { contactName: getDisplayName(recipient, t) })
-  const description = inviteRewardsEnabled
-    ? t('inviteModal.rewardsActive.body', { contactName: getDisplayName(recipient, t) })
-    : t('inviteModal.body')
-  const message = inviteRewardsEnabled
-    ? t('inviteWithRewards', { link })
-    : t('inviteModal.shareMessage', {
-        link,
-      })
+  let title = t('inviteModal.title', { contactName: getDisplayName(recipient, t) })
+  let description = t('inviteModal.body')
+  let message = t('inviteModal.shareMessage', { link })
+  if (inviteRewardsActive) {
+    switch (inviteRewardsVersion) {
+      case 'v4':
+        title = t('inviteModal.rewardsActive.title', { contactName: getDisplayName(recipient, t) })
+        description = t('inviteModal.rewardsActive.body', {
+          contactName: getDisplayName(recipient, t),
+        })
+        message = t('inviteWithRewards', { link })
+        break
+      case 'v5':
+        title = t('inviteModal.rewardsActiveV5.title', {
+          contactName: getDisplayName(recipient, t),
+        })
+        description = t('inviteModal.rewardsActiveV5.body', {
+          contactName: getDisplayName(recipient, t),
+        })
+        message = t('inviteWithRewardsV5', { link })
+        break
+    }
+  }
 
   return (
     <InviteModal

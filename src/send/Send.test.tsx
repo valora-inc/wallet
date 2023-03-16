@@ -8,14 +8,14 @@ import { Screens } from 'src/navigator/Screens'
 import Send from 'src/send/Send'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import {
+  mockCeloAddress,
+  mockCusdAddress,
   mockE164Number,
   mockE164NumberInvite,
   mockRecipient,
   mockRecipient2,
   mockRecipient4,
   mockTokenBalances,
-  mockCeloAddress,
-  mockCusdAddress,
 } from 'test/values'
 
 const mockScreenProps = (params: {
@@ -27,7 +27,7 @@ const mockScreenProps = (params: {
 
 const defaultStore = {
   send: {
-    inviteRewardsEnabled: false,
+    inviteRewardsVersion: 'disabled',
     recentRecipients: [mockRecipient],
     showSendToAddressWarning: true,
   },
@@ -78,7 +78,7 @@ describe('Send', () => {
       ...defaultStore,
       send: {
         ...defaultStore.send,
-        inviteRewardsEnabled: true,
+        inviteRewardsVersion: 'v4',
         inviteRewardCusd: 1,
       },
     })

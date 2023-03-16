@@ -21,9 +21,9 @@ describe('Invite', () => {
   })
 
   const getWrapper = ({
-    inviteRewardsEnabled,
+    inviteRewardsVersion,
     phoneNumberVerified,
-  }: { inviteRewardsEnabled?: boolean; phoneNumberVerified?: boolean } = {}) =>
+  }: { inviteRewardsVersion?: string; phoneNumberVerified?: boolean } = {}) =>
     render(
       <Provider
         store={createMockStore({
@@ -31,7 +31,7 @@ describe('Invite', () => {
             account: '0xabc123',
           },
           send: {
-            inviteRewardsEnabled,
+            inviteRewardsVersion,
           },
           app: {
             phoneNumberVerified,
@@ -90,7 +90,7 @@ describe('Invite', () => {
     })
 
     const { getByTestId, getByText } = getWrapper({
-      inviteRewardsEnabled: true,
+      inviteRewardsVersion: 'v4',
       phoneNumberVerified: true,
     })
 

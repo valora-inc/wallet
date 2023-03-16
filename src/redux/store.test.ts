@@ -297,7 +297,7 @@ describe('store state', () => {
         "send": Object {
           "inviteRewardCusd": 5,
           "inviteRewardWeeklyLimit": 20,
-          "inviteRewardsEnabled": false,
+          "inviteRewardsVersion": "disabled",
           "isSending": false,
           "lastUsedCurrency": "cUSD",
           "recentPayments": Array [],
