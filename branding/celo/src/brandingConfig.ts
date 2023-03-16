@@ -18,4 +18,5 @@ export const DAPPS_LEARN_MORE = 'https://valoraapp.com/support/dapps-learn-more'
 export const SWAP_LEARN_MORE = 'https://valoraapp.com/support/swap-learn-more'
 export const TRANSACTION_FEES_LEARN_MORE =
   'https://valoraapp.com/support/transaction-fees-learn-more'
-export const INVITE_REWARDS_STABLETOKEN_FAQ = 'https://valoraapp.com/support/TBD'
+export const INVITE_REWARDS_STABLETOKEN_FAQ =
+  'https://valoraapp.com/support/invite-rewards-stabletoken-learn-more'
