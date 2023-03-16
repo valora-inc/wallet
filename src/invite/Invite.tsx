@@ -5,7 +5,7 @@ import { Share } from 'react-native'
 import { useSelector } from 'react-redux'
 import { InviteEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { INVITE_REWARDS_STABLETOKEN_FAQ } from 'src/config'
+import { INVITE_REWARDS_STABLETOKEN_LEARN_MORE } from 'src/config'
 import { inviteModal, inviteWithRewards } from 'src/images/Images'
 import { noHeader } from 'src/navigator/Headers'
 import { navigateBack } from 'src/navigator/NavigationService'
@@ -39,7 +39,7 @@ export default function Invite() {
         descriptionKey = 'inviteWithUrl.rewardsActiveV5.body'
         message = t('inviteWithRewardsV5', { link: shareUrl })
         helpKey = 'inviteWithUrl.help'
-        helpLink = INVITE_REWARDS_STABLETOKEN_FAQ
+        helpLink = INVITE_REWARDS_STABLETOKEN_LEARN_MORE
         break
     }
   }

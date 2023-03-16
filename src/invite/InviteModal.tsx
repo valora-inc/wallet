@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   helpLink: {
-    color: colors.greenUI,
+    color: colors.onboardingBlue,
     flexWrap: 'wrap',
     textDecorationLine: 'underline',
   },
