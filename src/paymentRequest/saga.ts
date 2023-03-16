@@ -33,6 +33,7 @@ import {
 import { PaymentRequest, PaymentRequestStatus } from 'src/paymentRequest/types'
 import { decryptPaymentRequest, encryptPaymentRequest } from 'src/paymentRequest/utils'
 import Logger from 'src/utils/Logger'
+import { safely } from 'src/utils/safely'
 import { getAccount } from 'src/web3/saga'
 import { currentAccountSelector, dataEncryptionKeySelector } from 'src/web3/selectors'
 
@@ -176,15 +177,15 @@ function* subscribeToOutgoingPaymentRequests() {
 }
 
 function* watchPaymentRequestStatusUpdates() {
-  yield takeLeading(Actions.UPDATE_REQUEST_STATUS, updatePaymentRequestStatus)
+  yield takeLeading(Actions.UPDATE_REQUEST_STATUS, safely(updatePaymentRequestStatus))
 }
 
 function* watchPaymentRequestNotifiedUpdates() {
-  yield takeLeading(Actions.UPDATE_REQUEST_NOTIFIED, updatePaymentRequestNotified)
+  yield takeLeading(Actions.UPDATE_REQUEST_NOTIFIED, safely(updatePaymentRequestNotified))
 }
 
 function* watchWritePaymentRequest() {
-  yield takeEvery(Actions.WRITE_PAYMENT_REQUEST, paymentRequestWriter)
+  yield takeEvery(Actions.WRITE_PAYMENT_REQUEST, safely(paymentRequestWriter))
 }
 
 export function* paymentRequestSaga() {

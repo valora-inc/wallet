@@ -101,6 +101,8 @@
   "completeEducation": "Anladım",
   "yourAccountKey": "Kurtarma Kelimeleriniz",
   "backupKeyNotification": "Fonlarınızı güvende tutun. Kurtarma Kelimelerinizi şimdi oluşturun.",
+  "backupKeyNotification2": "Keep your funds safe. Back up your Recovery Phrase now.",
+  "backupKeyCTA": "Finish Backup Now",
   "backupKeySummary": "Kurtarma Kelimelerinizi yazmak için özel bir yer bulun ve not edin. Lütfen kelimelerinizi güvenli bir yerde saklayın ve telefonunuza kaydetmeyin.",
   "copied": "Kelimeler panoya kopyalandı",
   "moreInfo": "Daha Fazla Bilgi",

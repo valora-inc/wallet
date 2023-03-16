@@ -35,6 +35,7 @@ import {
 import { persistor } from 'src/redux/store'
 import { restartApp } from 'src/utils/AppRestart'
 import Logger from 'src/utils/Logger'
+import { safely } from 'src/utils/safely'
 import { getContractKit, getWallet } from 'src/web3/contracts'
 import { registerAccountDek } from 'src/web3/dataEncryptionKey'
 import { clearStoredAccounts } from 'src/web3/KeychainSigner'
@@ -245,7 +246,7 @@ export function* watchClearStoredAccount() {
 }
 
 export function* watchInitializeAccount() {
-  yield takeLeading(Actions.INITIALIZE_ACCOUNT, initializeAccountSaga)
+  yield takeLeading(Actions.INITIALIZE_ACCOUNT, safely(initializeAccountSaga))
 }
 
 export function* watchSignedMessage() {
