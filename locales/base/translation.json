@@ -1577,5 +1577,9 @@
     "readMoreButtonText": "Read more on the blog",
     "loadingError": "Sorry, we couldn't load the latest updates. Please try again later.",
     "retryButtonText": "Retry"
+  },
+  "reverifyUsingCPVHomecard": {
+    "description": "Reconnect your number to send, receive and get rewards on your crypto",
+    "buttonLabel": "Reconnect number"
   }
 }
