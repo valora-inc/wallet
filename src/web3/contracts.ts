@@ -20,6 +20,8 @@ import { KeychainWallet } from 'src/web3/KeychainWallet'
 import { getHttpProvider } from 'src/web3/providers'
 import { walletAddressSelector } from 'src/web3/selectors'
 import Web3 from 'web3'
+import { Masa } from '@masa-finance/masa-sdk'
+import { providers } from 'ethers'
 
 const TAG = 'web3/contracts'
 const WAIT_FOR_CONTRACT_KIT_RETRIES = 10
@@ -121,6 +123,27 @@ export function* getContractKit() {
   }
 
   return contractKit
+}
+
+let masa: Masa
+
+export async function getMasa() {
+  if (masa) return masa
+
+  Logger.info('loading masa')
+  try {
+    const web3 = new Web3(getHttpProvider(DEFAULT_FORNO_URL))
+
+    masa = new Masa({
+      wallet: new providers.Web3Provider(web3.currentProvider as any).getSigner(),
+      defaultNetwork: 'alfajores',
+    })
+    Logger.info('loaded masa')
+
+    return masa
+  } catch (error) {
+    if (error instanceof Error) Logger.error('masa', 'failed loading masa' + error.message)
+  }
 }
 
 // Used for cases where CK must be access outside of a saga

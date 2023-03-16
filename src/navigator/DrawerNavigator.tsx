@@ -15,7 +15,7 @@ import {
   ParamListBase,
   useLinkBuilder,
 } from '@react-navigation/native'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import deviceInfoModule from 'react-native-device-info'
@@ -70,6 +70,8 @@ import fontStyles from 'src/styles/fonts'
 import SwapScreen from 'src/swap/SwapScreen'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
+import { useAsync } from 'react-async-hook'
+import { getMasa } from 'src/web3/contracts'
 
 const TAG = 'NavigationService'
 
@@ -160,6 +162,14 @@ function CustomDrawerContent(props: DrawerContentComponentProps<DrawerContentOpt
   const account = useSelector(currentAccountSelector)
   const appVersion = deviceInfoModule.getVersion()
 
+  const [soulName, setSoulName] = useState<string | null>(null)
+  useAsync(async () => {
+    if (!account) return
+    const masa = await getMasa()
+    const soulName = (await masa?.soulName.list(account))?.[0].tokenDetails.sbtName
+    if (soulName) setSoulName(soulName)
+  }, [account])
+
   const dispatch = useDispatch()
   useEffect(() => {
     // Needed for the local CELO balance display
@@ -175,7 +185,7 @@ function CustomDrawerContent(props: DrawerContentComponentProps<DrawerContentOpt
         </View>
         {!!displayName && (
           <Text style={styles.nameLabel} testID="Drawer/Username">
-            {displayName}
+            {soulName || displayName}
           </Text>
         )}
         {e164PhoneNumber && (
