@@ -236,6 +236,7 @@ describe('handleChooseCreateAccount', () => {
     expect(loggerErrorSpy).toHaveBeenCalled()
   })
   it('integration test: Statsig.updateUser gets called when CHOOSE_CREATE_ACCOUNT is dispatched', async () => {
+    // to get coverage on watchChooseCreateAccount
     const fakeISODateTime = '2023-03-15T22:16:39.658Z'
     jest.spyOn(Date.prototype, 'toISOString').mockReturnValueOnce(fakeISODateTime)
     await expectSaga(watchChooseCreateAccount).dispatch(chooseCreateAccount()).silentRun()
