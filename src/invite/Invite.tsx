@@ -5,6 +5,7 @@ import { Share } from 'react-native'
 import { useSelector } from 'react-redux'
 import { InviteEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { INVITE_REWARDS_STABLETOKEN_FAQ } from 'src/config'
 import { inviteModal, inviteWithRewards } from 'src/images/Images'
 import { noHeader } from 'src/navigator/Headers'
 import { navigateBack } from 'src/navigator/NavigationService'
@@ -19,22 +20,26 @@ export default function Invite() {
   const inviteRewardsVersion = useSelector(inviteRewardsVersionSelector)
 
   let title = t('inviteWithUrl.title')
-  let description = t('inviteWithUrl.body')
+  let descriptionKey = 'inviteWithUrl.body'
   let message = t('inviteWithUrl.share', { shareUrl })
   let image = inviteModal
+  let helpKey = ''
+  let helpLink = ''
 
   if (inviteRewardsActive) {
     switch (inviteRewardsVersion) {
       case 'v4':
         title = t('inviteWithUrl.rewardsActive.title')
-        description = t('inviteWithUrl.rewardsActive.body')
+        descriptionKey = 'inviteWithUrl.rewardsActive.body'
         message = t('inviteWithRewards', { link: shareUrl })
         image = inviteWithRewards
         break
       case 'v5':
         title = t('inviteWithUrl.rewardsActiveV5.title')
-        description = t('inviteWithUrl.rewardsActiveV5.body')
+        descriptionKey = 'inviteWithUrl.rewardsActiveV5.body'
         message = t('inviteWithRewardsV5', { link: shareUrl })
+        helpKey = 'inviteWithUrl.help'
+        helpLink = INVITE_REWARDS_STABLETOKEN_FAQ
         break
     }
   }
@@ -49,9 +54,11 @@ export default function Invite() {
   return (
     <InviteModal
       title={title}
-      description={description}
+      descriptionKey={descriptionKey}
       buttonLabel={t('inviteWithUrl.button')}
       imageSource={image}
+      helpKey={helpKey}
+      helpLink={helpLink}
       disabled={isNil(shareUrl)}
       onClose={navigateBack}
       onShareInvite={handleShare}
