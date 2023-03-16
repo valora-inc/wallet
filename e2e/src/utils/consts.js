@@ -7,7 +7,7 @@ export const SAMPLE_WALLET_ADDRESS = '0x6131a6d616a4be3737b38988847270a64bc10caa
 export const SAMPLE_BACKUP_KEY_12_WORDS =
   'embody siege middle glory soda solar nasty report swap now never any'
 export const SAMPLE_WALLET_ADDRESS_12_WORDS = '0x86b8f44386cb2d457db79c3dab8cf42f9d8a3fc0' // corresponds to the backup key above
-export const DEFAULT_PIN = '323122'
+export const DEFAULT_PIN = '130685'
 export const ALTERNATIVE_PIN = '223121'
 export const EXAMPLE_NAME = 'Test Name'
 export const EXAMPLE_PHONE_NUMBER = '+1 306-555-5555'
