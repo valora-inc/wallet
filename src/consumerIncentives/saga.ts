@@ -234,18 +234,9 @@ export function* fetchAvailableRewardsSaga() {
       )
     }
 
-    // as there is a race condition on app start between fetching the
-    // supercharge rewards and fetching remote config values, prevent mismatched
-    // data from being stored in redux here
-    const mostRecentSuperchargeV2Enabled = yield select(superchargeV2EnabledSelector)
-    if (
-      data.availableRewards.length === 0 ||
-      (mostRecentSuperchargeV2Enabled && isSuperchargePendingRewardsV2(data.availableRewards)) ||
-      (!mostRecentSuperchargeV2Enabled && !isSuperchargePendingRewardsV2(data.availableRewards))
-    ) {
-      yield put(setAvailableRewards(data.availableRewards))
-      yield put(fetchAvailableRewardsSuccess())
-    }
+
+    yield put(setAvailableRewards(data.availableRewards))
+    yield put(fetchAvailableRewardsSuccess())
   } catch (e) {
     yield put(fetchAvailableRewardsFailure())
     yield put(showError(ErrorMessages.SUPERCHARGE_FETCH_REWARDS_FAILED))
@@ -254,7 +245,7 @@ export function* fetchAvailableRewardsSaga() {
 }
 
 export function* watchAvailableRewards() {
-  yield takeEvery(fetchAvailableRewards.type, fetchAvailableRewardsSaga)
+  yield takeLatest(fetchAvailableRewards.type, fetchAvailableRewardsSaga)
 }
 
 export function* watchClaimRewards() {
