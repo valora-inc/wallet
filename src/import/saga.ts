@@ -40,6 +40,7 @@ import { goToNextOnboardingScreen, onboardingPropsSelector } from 'src/onboardin
 import { fetchTokenBalanceInWeiWithRetry } from 'src/tokens/saga'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
+import { safely } from 'src/utils/safely'
 import { assignAccountFromPrivateKey } from 'src/web3/saga'
 
 const TAG = 'import/saga'
@@ -257,7 +258,7 @@ function* walletHasBalance(address: string) {
 }
 
 export function* watchImportBackupPhrase() {
-  yield takeLeading(Actions.IMPORT_BACKUP_PHRASE, importBackupPhraseSaga)
+  yield takeLeading(Actions.IMPORT_BACKUP_PHRASE, safely(importBackupPhraseSaga))
 }
 
 export function* importSaga() {

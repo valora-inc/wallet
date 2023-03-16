@@ -101,6 +101,8 @@
   "completeEducation": "ฉันเข้าใจ",
   "yourAccountKey": "วลีกู้คืนรหัสของคุณ",
   "backupKeyNotification": "เก็บเงินของคุณให้ปลอดภัย ตั้งค่าวลีกู้คืนรหัสของคุณตอนนี้",
+  "backupKeyNotification2": "Keep your funds safe. Back up your Recovery Phrase now.",
+  "backupKeyCTA": "Finish Backup Now",
   "backupKeySummary": "หาสถานที่ส่วนตัวเพื่อจดบันทึกวลีกู้คืนรหัสของคุณ โปรดเก็บวลีกู้คืนรหัสไว้ในที่ปลอดภัย ห้ามบันทึกลงในโทรศัพท์ของคุณ",
   "copied": "คัดลอกวลีไปยังคลิปบอร์ดแล้ว",
   "moreInfo": "ข้อมูลเพิ่มเติม",

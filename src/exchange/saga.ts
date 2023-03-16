@@ -57,6 +57,7 @@ import {
 } from 'src/utils/currencyExchange'
 import { roundDown } from 'src/utils/formatting'
 import Logger from 'src/utils/Logger'
+import { safely } from 'src/utils/safely'
 import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
 import { getConnectedAccount, getConnectedUnlockedAccount } from 'src/web3/saga'
 import { getLatestNonce } from 'src/web3/utils'
@@ -508,19 +509,19 @@ export function* withdrawCelo(action: WithdrawCeloAction) {
 }
 
 export function* watchFetchTobinTax() {
-  yield takeLatest(Actions.FETCH_TOBIN_TAX, doFetchTobinTax)
+  yield takeLatest(Actions.FETCH_TOBIN_TAX, safely(doFetchTobinTax))
 }
 
 export function* watchFetchExchangeRate() {
-  yield takeLatest(Actions.FETCH_EXCHANGE_RATE, doFetchExchangeRate)
+  yield takeLatest(Actions.FETCH_EXCHANGE_RATE, safely(doFetchExchangeRate))
 }
 
 export function* watchExchangeTokens() {
-  yield takeEvery(Actions.EXCHANGE_TOKENS, exchangeGoldAndStableTokens)
+  yield takeEvery(Actions.EXCHANGE_TOKENS, safely(exchangeGoldAndStableTokens))
 }
 
 export function* watchWithdrawCelo() {
-  yield takeEvery(Actions.WITHDRAW_CELO, withdrawCelo)
+  yield takeEvery(Actions.WITHDRAW_CELO, safely(withdrawCelo))
 }
 
 export function* exchangeSaga() {

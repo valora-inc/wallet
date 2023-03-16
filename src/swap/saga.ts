@@ -21,6 +21,7 @@ import { ApproveTransaction, Field, SwapInfo, SwapTransaction } from 'src/swap/t
 import { sendTransaction } from 'src/transactions/send'
 import { newTransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
+import { safely } from 'src/utils/safely'
 import { getContractKit } from 'src/web3/contracts'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
@@ -112,5 +113,5 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
 }
 
 export function* swapSaga() {
-  yield takeLatest(swapStart.type, swapSubmitSaga)
+  yield takeLatest(swapStart.type, safely(swapSubmitSaga))
 }

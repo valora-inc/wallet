@@ -2,7 +2,7 @@ import { CeloTx, CeloTxReceipt, Contract, toTransactionObject } from '@celo/conn
 import { TxParamsNormalizer } from '@celo/connect/lib/utils/tx-params-normalizer'
 import { ContractKit } from '@celo/contractkit'
 import BigNumber from 'bignumber.js'
-import { all, call, put, select, spawn, take, takeEvery } from 'redux-saga/effects'
+import { all, call, put, select, spawn, take, takeEvery, takeLatest } from 'redux-saga/effects'
 import merkleDistributor from 'src/abis/MerkleDistributor.json'
 import { showError, showMessage } from 'src/alert/actions'
 import { RewardsEvents } from 'src/analytics/Events'
@@ -43,6 +43,7 @@ import {
 } from 'src/transactions/types'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import Logger from 'src/utils/Logger'
+import { safely } from 'src/utils/safely'
 import { WEI_PER_TOKEN } from 'src/web3/consts'
 import { getContractKit } from 'src/web3/contracts'
 import config from 'src/web3/networkConfig'
@@ -112,7 +113,7 @@ function* claimReward(reward: SuperchargePendingReward, index: number, baseNonce
   const tokens: TokenBalances = yield select(tokensByAddressSelector)
   const walletAddress: string = yield call(getConnectedUnlockedAccount)
 
-  Logger.debug(TAG, `Start claiming reward at index ${index}: ${JSON.stringify(reward)}`)
+  Logger.debug(TAG, `Start claiming reward at index ${index}:`, reward)
   const merkleContract: Contract = yield call(
     getContract,
     merkleDistributor.abi,
@@ -134,7 +135,7 @@ function* claimReward(reward: SuperchargePendingReward, index: number, baseNonce
     undefined,
     baseNonce + index
   )
-  Logger.info(TAG, `Claimed reward at index ${index}: ${JSON.stringify(receipt)}`)
+  Logger.info(TAG, `Claimed reward at index ${index}:`, receipt)
   const amount = new BigNumber(reward.amount, 16).div(WEI_PER_TOKEN).toString()
   const tokenAddress = reward.tokenAddress.toLowerCase()
   ValoraAnalytics.track(RewardsEvents.claimed_reward, {
@@ -168,7 +169,7 @@ function* claimRewardV2(reward: SuperchargePendingRewardV2, index: number, baseN
   const tokens: TokenBalances = yield select(tokensByAddressSelector)
   const walletAddress: string = yield call(getConnectedUnlockedAccount)
 
-  Logger.debug(TAG, `Start claiming reward at index ${index}: ${JSON.stringify(reward)}`)
+  Logger.debug(TAG, `Start claiming reward at index ${index}:`, reward)
 
   const normalizer = new TxParamsNormalizer(kit.connection)
   const tx: CeloTx = yield call([normalizer, 'populate'], transaction)
@@ -184,7 +185,7 @@ function* claimRewardV2(reward: SuperchargePendingRewardV2, index: number, baseN
     undefined,
     baseNonce + index
   )
-  Logger.info(TAG, `Claimed reward at index ${index}: ${JSON.stringify(receipt)}`)
+  Logger.info(TAG, `Claimed reward at index ${index}:`, receipt)
   const amount = new BigNumber(details.amount).div(WEI_PER_TOKEN).toString()
   const tokenAddress = details.tokenAddress.toLowerCase()
   ValoraAnalytics.track(RewardsEvents.claimed_reward, {
@@ -234,7 +235,6 @@ export function* fetchAvailableRewardsSaga() {
       )
     }
 
-
     yield put(setAvailableRewards(data.availableRewards))
     yield put(fetchAvailableRewardsSuccess())
   } catch (e) {
@@ -245,11 +245,11 @@ export function* fetchAvailableRewardsSaga() {
 }
 
 export function* watchAvailableRewards() {
-  yield takeLatest(fetchAvailableRewards.type, fetchAvailableRewardsSaga)
+  yield takeLatest(fetchAvailableRewards.type, safely(fetchAvailableRewardsSaga))
 }
 
 export function* watchClaimRewards() {
-  yield takeEvery(claimRewards.type, claimRewardsSaga)
+  yield takeEvery(claimRewards.type, safely(claimRewardsSaga))
 }
 
 // this saga can be removed after supercharge v2 is rolled out. since

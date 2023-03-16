@@ -48,6 +48,7 @@ import {
 } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
+import { safely } from 'src/utils/safely'
 import { getContractKit } from 'src/web3/contracts'
 import { getRegisterDekTxGas } from 'src/web3/dataEncryptionKey'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
@@ -150,7 +151,7 @@ export function* watchQrCodeShare() {
     try {
       const result = yield call(shareSVGImage, action.qrCodeSvg)
       // Note: when user cancels the share sheet, result contains {"dismissedAction":true}
-      Logger.info(TAG, 'Share done', JSON.stringify(result))
+      Logger.info(TAG, 'Share done', result)
     } catch (error) {
       Logger.error(TAG, 'Error sharing qr code', error)
     }
@@ -277,7 +278,7 @@ export function* buildAndSendPayment(
     context.id,
     tokenAddress,
     amount,
-    JSON.stringify(feeInfo)
+    feeInfo
   )
 
   yield put(
@@ -409,7 +410,7 @@ export function* sendPaymentSagaLegacy({
 }
 
 export function* watchSendPaymentLegacy() {
-  yield takeLeading(Actions.SEND_PAYMENT_LEGACY, sendPaymentSagaLegacy)
+  yield takeLeading(Actions.SEND_PAYMENT_LEGACY, safely(sendPaymentSagaLegacy))
 }
 
 export function* sendPaymentSaga({
@@ -451,7 +452,7 @@ export function* sendPaymentSaga({
 }
 
 export function* watchSendPayment() {
-  yield takeLeading(Actions.SEND_PAYMENT, sendPaymentSaga)
+  yield takeLeading(Actions.SEND_PAYMENT, safely(sendPaymentSaga))
 }
 
 export function* sendSaga() {
