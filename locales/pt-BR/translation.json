@@ -1582,6 +1582,10 @@
     "loadingError": "Desculpe, não foi possível carregar as atualizações mais recentes. Tente novamente mais tarde.",
     "retryButtonText": "Repetir"
   },
+  "reverifyUsingCPVHomecard": {
+    "description": "Reconnect your number to send, receive and get rewards on your crypto",
+    "buttonLabel": "Reconnect number"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
