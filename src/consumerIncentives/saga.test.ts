@@ -136,7 +136,7 @@ describe('fetchAvailableRewardsSaga', () => {
           [select(numberVerifiedCentrallySelector), true],
           [select(superchargeV2EnabledSelector), version === '2'],
           [select(walletAddressSelector), userAddress],
-          [call(fetchWithTimeout, uri, SUPERCHARGE_FETCH_TIMEOUT), mockResponse],
+          [call(fetchWithTimeout, uri, null, SUPERCHARGE_FETCH_TIMEOUT), mockResponse],
         ])
         .put(setAvailableRewards(expectedRewards))
         .put(fetchAvailableRewardsSuccess())

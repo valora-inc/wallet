@@ -6,7 +6,10 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { superchargeTokenConfigByTokenSelector } from 'src/app/selectors'
+import {
+  phoneNumberVerifiedSelector,
+  superchargeTokenConfigByTokenSelector,
+} from 'src/app/selectors'
 import { SUPERCHARGE_LEARN_MORE } from 'src/brandingConfig'
 import Button, { BtnSizes } from 'src/components/Button'
 import Dialog from 'src/components/Dialog'
@@ -87,6 +90,8 @@ function SuperchargeInstructions() {
   const [tokenDetailsVisible, setTokenDetailsVisible] = useState(false)
 
   const userIsVerified = useSelector(userIsVerifiedForSuperchargeSelector)
+  const numberVerifiedDecentrally = useSelector(phoneNumberVerifiedSelector)
+
   const { superchargeApy } = useSelector((state) => state.app)
   const { hasBalanceForSupercharge, superchargingTokenConfig } =
     useSelector(superchargeInfoSelector)
@@ -107,7 +112,18 @@ function SuperchargeInstructions() {
       {!userIsVerified && (
         <View style={styles.section}>
           <Image source={earn1} style={styles.sectionIcon} resizeMode="contain" />
-          <Text style={styles.sectionText}>{t('superchargeConnectNumber')}</Text>
+          <Text style={styles.sectionText} testID="SuperchargeInstructions/ConnectNumber">
+            {numberVerifiedDecentrally ? (
+              <Trans
+                i18nKey={'superchargeReconnectNumber'}
+                tOptions={{ token: tokenConfigToSupercharge.tokenSymbol }}
+              >
+                <Text style={fontStyles.regular} />
+              </Trans>
+            ) : (
+              t('superchargeConnectNumber')
+            )}
+          </Text>
         </View>
       )}
       {!hasBalanceForSupercharge && (
@@ -152,10 +168,10 @@ function SuperchargingInfo() {
   return (
     <>
       <Text style={styles.title} testID="SuperchargingInfo">
-        {t('superchargingTitle', { token: tokenConfigToSupercharge.tokenSymbol })}
+        {t('superchargingTitleV1_54', { token: tokenConfigToSupercharge.tokenSymbol })}
       </Text>
       <Text style={styles.description}>
-        {t('superchargingDescription', {
+        {t('superchargingDescriptionV1_54', {
           token: tokenConfigToSupercharge.tokenSymbol,
           apy: superchargeApy,
         })}
@@ -345,13 +361,13 @@ const styles = StyleSheet.create({
     width: '100%',
     flex: 1,
     flexDirection: 'row',
-    alignItems: 'center',
     marginTop: 24,
   },
   sectionText: {
     ...fontStyles.regular600,
     flex: 1,
     flexGrow: 1,
+    alignSelf: 'center',
   },
   sectionIcon: {
     marginRight: 16,
