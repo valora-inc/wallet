@@ -166,6 +166,7 @@
   "superchargeTitle": "Start Supercharging",
   "superchargeDescription": "Get {{apy}}% annual rewards on your {{token}} balance. Here's how to start:",
   "superchargeConnectNumber": "Connect your phone number",
+  "superchargeReconnectNumber": "Reconnect your phone number\n<0>We have launched an improved Supercharge experience. Reconnect your phone number to keep earning rewards on your {{token}}.</0>",
   "superchargeMinimumBalance": "Add a minimum balance of {{amount}} {{token}}",
   "superchargeDisclaimer": "Max-out rewards by adding up to {{amount}} {{token}}",
   "superchargeDisclaimerMaxRewards": "You’re getting maximum rewards on your {{token}}",
@@ -177,6 +178,8 @@
   },
   "superchargingTitle": "Your {{token}} is being Supercharged",
   "superchargingDescription": "You’re getting {{apy}}% annually. Every week you'll get a notification when your rewards are ready, come back here to claim them.",
+  "superchargingTitleV1_54": "Your {{token}} is being Supercharged",
+  "superchargingDescriptionV1_54": "You’re getting {{apy}}% annually. Every week you'll get a notification when your rewards are ready, come back here to claim them.",
   "superchargeRewardsAvailable": "You have {{amount}} {{token}} available to claim!",
   "superchargeRewardsAvailableMultipleTokens": "You have {{amounts}} available to claim!",
   "superchargeClaimText": "Claim your rewards to add them to your balance.",
@@ -1583,5 +1586,9 @@
     "readMoreButtonText": "Read more on the blog",
     "loadingError": "Sorry, we couldn't load the latest updates. Please try again later.",
     "retryButtonText": "Retry"
+  },
+  "reverifyUsingCPVHomecard": {
+    "description": "Reconnect your number to send, receive and get rewards on your crypto",
+    "buttonLabel": "Reconnect number"
   }
 }

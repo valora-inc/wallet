@@ -290,6 +290,17 @@ export default WalletConnect = () => {
           { name: 'from', type: 'Person' },
           { name: 'to', type: 'Person' },
           { name: 'contents', type: 'string' },
+          { name: 'other', type: 'OtherTypes' },
+        ],
+        // Ensure some "less" common types are supported
+        OtherTypes: [
+          { name: 'ui8', type: 'uint8' },
+          { name: 'ui160', type: 'uint160' },
+          { name: 'i8', type: 'int8' },
+          { name: 'i160', type: 'int160' },
+          { name: 'b1', type: 'bytes1' },
+          { name: 'b17', type: 'bytes17' },
+          { name: 'b32', type: 'bytes32' },
         ],
       },
       primaryType: 'Mail',
@@ -303,6 +314,15 @@ export default WalletConnect = () => {
         from: { name: 'Cow', wallet: '0xCD2a3d9F938E13CD947Ec05AbC7FE734Df8DD826' },
         to: { name: 'Bob', wallet: '0xbBbBBBBbbBBBbbbBbbBbbbbBBbBbbbbBbBbbBBbB' },
         contents: 'Hello, Bob!',
+        other: {
+          ui8: 250,
+          ui160: '0x1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b',
+          i8: -120,
+          i160: '0x1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b',
+          b1: '0x01',
+          b17: '0x0102030405060708090a0b0c0d0e0f1011',
+          b32: '0x0102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f20',
+        },
       },
     }
     const params = [walletAddress, JSON.stringify(typedData)]
