@@ -15,6 +15,7 @@ import {
 } from 'src/i18n/selectors'
 import { otaTranslationsUpdated, setLanguage } from 'src/i18n/slice'
 import Logger from 'src/utils/Logger'
+import { safely } from 'src/utils/safely'
 
 const TAG = 'i18n/saga'
 const otaClient = new OtaClient(CROWDIN_DISTRIBUTION_HASH)
@@ -68,7 +69,7 @@ export function* handleFetchOtaTranslations() {
 export function* watchOtaTranslations() {
   yield takeLatest(
     [setLanguage.type, AppActions.UPDATE_REMOTE_CONFIG_VALUES],
-    handleFetchOtaTranslations
+    safely(handleFetchOtaTranslations)
   )
 }
 

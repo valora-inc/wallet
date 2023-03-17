@@ -21,6 +21,7 @@ import { shouldUpdateBalance } from 'src/redux/selectors'
 import { fetchTokenBalances } from 'src/tokens/slice'
 import { Actions as TransactionActions } from 'src/transactions/actions'
 import Logger from 'src/utils/Logger'
+import { safely } from 'src/utils/safely'
 import { getConnectedAccount } from 'src/web3/saga'
 
 const REFRESH_TIMEOUT = 15000
@@ -71,11 +72,11 @@ export function* watchRefreshBalances() {
   yield call(refreshBalances)
   yield takeLeading(
     Actions.REFRESH_BALANCES,
-    withLoading(withTimeout(REFRESH_TIMEOUT, refreshBalances))
+    safely(withLoading(withTimeout(REFRESH_TIMEOUT, refreshBalances)))
   )
   yield takeLeading(
     TransactionActions.NEW_TRANSACTIONS_IN_FEED,
-    withTimeout(REFRESH_TIMEOUT, refreshBalances)
+    safely(withTimeout(REFRESH_TIMEOUT, refreshBalances))
   )
 }
 

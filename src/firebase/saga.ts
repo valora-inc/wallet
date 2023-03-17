@@ -28,6 +28,7 @@ import {
 } from 'src/firebase/firebase'
 import { setLanguage } from 'src/i18n/slice'
 import Logger from 'src/utils/Logger'
+import { safely } from 'src/utils/safely'
 import { getAccount } from 'src/web3/saga'
 
 const TAG = 'firebase/saga'
@@ -90,7 +91,7 @@ export function* syncLanguageSelection() {
 }
 
 export function* watchLanguage() {
-  yield takeEvery(setLanguage.type, syncLanguageSelection)
+  yield takeEvery(setLanguage.type, safely(syncLanguageSelection))
 }
 
 function celoGoldExchangeRateHistoryChannel(lastTimeUpdated: number) {
@@ -171,6 +172,6 @@ export function* firebaseSaga() {
   yield spawn(initializeFirebase)
   yield spawn(watchLanguage)
   yield spawn(subscribeToCeloGoldExchangeRateHistory)
-  yield takeLatest(AppActions.APP_MOUNTED, watchFirebaseNotificationChannel)
-  yield takeLatest(AppActions.APP_MOUNTED, checkInitialNotification)
+  yield takeLatest(AppActions.APP_MOUNTED, safely(watchFirebaseNotificationChannel))
+  yield takeLatest(AppActions.APP_MOUNTED, safely(checkInitialNotification))
 }

@@ -25,6 +25,7 @@ import { e164NumberToAddressSelector } from 'src/identity/selectors'
 import { recipientHasNumber } from 'src/recipients/recipient'
 import { Actions as TransactionActions } from 'src/transactions/actions'
 import Logger from 'src/utils/Logger'
+import { safely } from 'src/utils/safely'
 import { fetchDataEncryptionKeyWrapper } from 'src/web3/dataEncryptionKey'
 import { currentAccountSelector } from 'src/web3/selectors'
 
@@ -90,24 +91,27 @@ export function* validateRecipientAddressSaga({
 }
 
 function* watchVerification() {
-  yield takeLeading(Actions.REVOKE_VERIFICATION, revokeVerificationSaga)
+  yield takeLeading(Actions.REVOKE_VERIFICATION, safely(revokeVerificationSaga))
 }
 
 function* watchContactMapping() {
-  yield takeLeading(Actions.IMPORT_CONTACTS, doImportContactsWrapper)
-  yield takeLatest(Actions.FETCH_ADDRESSES_AND_VALIDATION_STATUS, fetchAddressesAndValidateSaga)
+  yield takeLeading(Actions.IMPORT_CONTACTS, safely(doImportContactsWrapper))
+  yield takeLatest(
+    Actions.FETCH_ADDRESSES_AND_VALIDATION_STATUS,
+    safely(fetchAddressesAndValidateSaga)
+  )
 }
 
 export function* watchValidateRecipientAddress() {
-  yield takeLatest(Actions.VALIDATE_RECIPIENT_ADDRESS, validateRecipientAddressSaga)
+  yield takeLatest(Actions.VALIDATE_RECIPIENT_ADDRESS, safely(validateRecipientAddressSaga))
 }
 
 function* watchNewFeedTransactions() {
-  yield takeEvery(TransactionActions.NEW_TRANSACTIONS_IN_FEED, checkTxsForIdentityMetadata)
+  yield takeEvery(TransactionActions.NEW_TRANSACTIONS_IN_FEED, safely(checkTxsForIdentityMetadata))
 }
 
 function* watchFetchDataEncryptionKey() {
-  yield takeLeading(Actions.FETCH_DATA_ENCRYPTION_KEY, fetchDataEncryptionKeyWrapper)
+  yield takeLeading(Actions.FETCH_DATA_ENCRYPTION_KEY, safely(fetchDataEncryptionKeyWrapper))
 }
 
 export function* identitySaga() {
