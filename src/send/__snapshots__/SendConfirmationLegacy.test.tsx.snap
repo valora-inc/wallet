@@ -781,6 +781,7 @@ exports[`SendConfirmationLegacy renders correctly 1`] = `
                   }
                 }
               >
+                totalInDollars
                 <Text
                   style={
                     Array [

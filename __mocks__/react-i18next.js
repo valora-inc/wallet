@@ -2,36 +2,13 @@
 const React = require('react')
 const reactI18next = require('react-i18next')
 
-const hasChildren = (node) => node && (node.children || (node.props && node.props.children))
-
-const getChildren = (node) =>
-  node && node.children ? node.children : node.props && node.props.children
-
-const renderNodes = (reactNodes) => {
-  if (reactNodes === undefined) {
-    return null
-  }
-  if (typeof reactNodes === 'string' || React.isValidElement(reactNodes)) {
-    return reactNodes
-  }
-
-  return Object.keys(reactNodes).map((key, i) => {
-    const child = reactNodes[key]
-    const isElement = React.isValidElement(child)
-
-    if (typeof child === 'string') {
-      return child
-    }
-    if (hasChildren(child)) {
-      const inner = renderNodes(getChildren(child))
-      return React.cloneElement(child, { ...child.props, key: i }, inner)
-    }
-    if (typeof child === 'object' && !isElement) {
-      return Object.keys(child).reduce((str, childKey) => `${str}${child[childKey]}`, '')
-    }
-
-    return child
-  })
+const renderTrans = ({ i18nKey, tOptions, children }) => {
+  return (
+    <React.Fragment>
+      {[i18nKey, JSON.stringify(tOptions)].filter((value) => !!value).join(', ')}
+      {children}
+    </React.Fragment>
+  )
 }
 
 // Output the key and any params sent to the translation function.
@@ -50,7 +27,7 @@ module.exports = {
   // this mock makes sure any components using the translate HoC receive the t function as a prop
   withTranslation: () => (Component) => (props) =>
     <Component t={translationFunction} i18n={{ language: 'en' }} {...props} />,
-  Trans: ({ children }) => renderNodes(children),
+  Trans: renderTrans,
   Translation: ({ children }) => children(translationFunction, { i18n: {} }),
   useTranslation: () => useMock,
 
