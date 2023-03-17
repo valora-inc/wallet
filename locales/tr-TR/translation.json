@@ -1514,6 +1514,8 @@
     "insufficientFunds": "Yetersiz {{token}}. Lütfen daha küçük bir miktar girin veya farklı bir token seçin.",
     "fetchSwapQuoteFailed": "Gecikme için üzgünüz! En iyi döviz kurunu almak normalden daha uzun sürüyor. Lütfen birkaç dakika içinde tekrar deneyin.",
     "disclaimer": "Celo'daki ortakların desteklediği takaslar. <0>Daha Fazla Bilgi Edinin.</0>",
+    "swapFromTokenSelection": "Şuradan Gelen Takas",
+    "swapToTokenSelection": "Şuraya Giden Takas",
     "maxSwapAmountWarning": {
       "title": "Swapping the MAX amount",
       "body": "Make sure you have CELO in your wallet to cover gas fees for future transactions",
