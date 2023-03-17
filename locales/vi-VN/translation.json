@@ -1580,5 +1580,9 @@
     "loadingError": "Xin lỗi, chúng tôi không thể tải các bản cập nhật mới nhất. Vui lòng thử lại sau.",
     "retryButtonText": "Thử lại"
   },
+  "reverifyUsingCPVHomecard": {
+    "description": "Reconnect your number to send, receive and get rewards on your crypto",
+    "buttonLabel": "Reconnect number"
+  },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Đô la Celo"
 }
