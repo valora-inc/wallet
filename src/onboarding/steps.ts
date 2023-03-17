@@ -12,11 +12,12 @@ import {
 import { setHasSeenVerificationNux } from 'src/identity/actions'
 import * as NavigationService from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { getOnboardingExperimentParams } from 'src/onboarding'
 import { RootState } from 'src/redux/reducers'
 import { store } from 'src/redux/store'
 
 export const FIRST_ONBOARDING_SCREEN = Screens.NameAndPicture
-export const END_OF_ONBOARDING_SCREEN = Screens.WalletHome
+export const END_OF_ONBOARDING_SCREENS = [Screens.WalletHome, Screens.ChoseYourAdventure]
 
 interface NavigatorFunctions {
   navigate: typeof NavigationService.navigate | ((screen: Screens) => void)
@@ -40,6 +41,7 @@ export interface OnboardingProps {
   supportedBiometryType: BIOMETRY_TYPE | null
   skipVerification: boolean
   numberAlreadyVerifiedCentrally: boolean
+  showChooseAdventureScreen: boolean
 }
 
 /**
@@ -55,13 +57,14 @@ export function onboardingPropsSelector(state: RootState): OnboardingProps {
   const supportedBiometryType = supportedBiometryTypeSelector(state)
   const skipVerification = skipVerificationSelector(state)
   const numberAlreadyVerifiedCentrally = numberVerifiedCentrallySelector(state)
-
+  const { showChooseAdventureScreen } = getOnboardingExperimentParams()
   return {
     recoveringFromStoreWipe,
     choseToRestoreAccount,
     supportedBiometryType,
     skipVerification,
     numberAlreadyVerifiedCentrally,
+    showChooseAdventureScreen,
   }
 }
 
@@ -77,12 +80,14 @@ export function getOnboardingStepValues(screen: Screens, onboardingProps: Onboar
 
   const nextStepAndCount = (s: Screens) => {
     // dummy navigation function to help determine what onboarding step the user is on, without triggering side effects like actually cycling them back through the first few onboarding screens
-    totalCounter++
-    if (currentScreen === screen) {
-      reachedStep = true
-    }
-    if (!reachedStep) {
-      stepCounter++
+    if (!END_OF_ONBOARDING_SCREENS.includes(s)) {
+      totalCounter++
+      if (currentScreen === screen) {
+        reachedStep = true
+      }
+      if (!reachedStep) {
+        stepCounter++
+      }
     }
     currentScreen = s
   }
@@ -91,8 +96,7 @@ export function getOnboardingStepValues(screen: Screens, onboardingProps: Onboar
     currentScreen = Screens.WalletHome
   }
 
-  // @ts-ignore: Compiler doesn't understand that navigate() can update currentScreen
-  while (currentScreen !== END_OF_ONBOARDING_SCREEN) {
+  while (!END_OF_ONBOARDING_SCREENS.includes(currentScreen)) {
     const stepInfo = _getStepInfo({
       firstScreenInStep: currentScreen,
       navigator: {
@@ -161,6 +165,14 @@ export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: 
     numberAlreadyVerifiedCentrally,
   } = props
 
+  const navigateHomeOrChooseAdventure = () => {
+    if (props.showChooseAdventureScreen) {
+      navigate(Screens.ChoseYourAdventure)
+    } else {
+      navigateHome()
+    }
+  }
+
   switch (firstScreenInStep) {
     case Screens.NameAndPicture:
       return {
@@ -186,7 +198,7 @@ export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: 
             // doesn't prompt for verification after the app is killed. This same function
             // is called when the user manually skips verification on the verification screen.
             dispatch(setHasSeenVerificationNux(true))
-            navigateHome()
+            navigateHomeOrChooseAdventure()
           } else {
             navigateClearingStack(Screens.VerificationStartScreen)
           }
@@ -200,7 +212,7 @@ export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: 
           } else if (skipVerification) {
             dispatch(initializeAccount())
             dispatch(setHasSeenVerificationNux(true))
-            navigateHome()
+            navigateHomeOrChooseAdventure()
           } else {
             navigate(Screens.VerificationStartScreen)
           }
@@ -212,7 +224,7 @@ export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: 
           if (skipVerification || numberAlreadyVerifiedCentrally) {
             dispatch(setHasSeenVerificationNux(true))
             // navigateHome will clear onboarding Stack
-            navigateHome()
+            navigateHomeOrChooseAdventure()
           } else {
             // DO NOT CLEAR NAVIGATION STACK HERE - breaks restore flow on initial app open in native-stack v6
             navigate(Screens.VerificationStartScreen)
@@ -224,7 +236,7 @@ export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: 
         next: () => {
           // initializeAccount & setHasSeenVerificationNux are called in the middle of
           // the verification flow, so we don't need to call them here.
-          navigateHome()
+          navigateHomeOrChooseAdventure()
         },
       }
     default:

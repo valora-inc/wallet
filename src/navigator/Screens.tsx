@@ -10,6 +10,7 @@ export enum Screens {
   FiatDetailsScreen = 'FiatDetailsScreen',
   BidaliScreen = 'BidaliScreen',
   CashInSuccess = 'CashInSuccess',
+  ChoseYourAdventure = 'ChoseYourAdventure',
   CoinbasePayScreen = 'CoinbasePayScreen',
   ConsumerIncentivesHomeScreen = 'ConsumerIncentivesHomeScreen',
   DappKitAccountScreen = 'DappKitAccountScreen',

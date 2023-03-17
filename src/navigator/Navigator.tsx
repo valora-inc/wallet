@@ -90,6 +90,7 @@ import { navigateBack, navigateToExchangeHome } from 'src/navigator/NavigationSe
 import QRNavigator from 'src/navigator/QRNavigator'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import ChoseYourAdventure from 'src/onboarding/ChooseYourAdventure'
 import EnableBiometry from 'src/onboarding/registration/EnableBiometry'
 import NameAndPicture from 'src/onboarding/registration/NameAndPicture'
 import RegulatoryTerms from 'src/onboarding/registration/RegulatoryTerms'
@@ -545,6 +546,11 @@ const settingsScreens = (Navigator: typeof Stack) => (
 
 const generalScreens = (Navigator: typeof Stack) => (
   <>
+    <Navigator.Screen
+      name={Screens.ChoseYourAdventure}
+      component={ChoseYourAdventure}
+      options={ChoseYourAdventure.navOptions}
+    />
     <Navigator.Screen
       name={Screens.TransactionReview}
       component={TransactionReview}

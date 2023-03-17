@@ -100,6 +100,7 @@ export type StackParamList = {
   [Screens.BidaliScreen]: { currency?: Currency }
   [Screens.CoinbasePayScreen]: { uri: string }
   [Screens.CashInSuccess]: { provider?: string }
+  [Screens.ChoseYourAdventure]: undefined
   [Screens.ConsumerIncentivesHomeScreen]: undefined
   [Screens.DappKitAccountScreen]: {
     dappKitRequest: AccountAuthRequest
@@ -109,7 +110,9 @@ export type StackParamList = {
   }
   [Screens.DAppsExplorerScreen]: undefined
   [Screens.Debug]: undefined
-  [Screens.DrawerNavigator]: undefined
+  [Screens.DrawerNavigator]: {
+    initialScreen?: Screens
+  }
   [Screens.ErrorScreen]: {
     errorMessage?: string
   }
