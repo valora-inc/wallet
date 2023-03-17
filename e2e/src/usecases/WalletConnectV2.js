@@ -290,7 +290,7 @@ export default WalletConnect = () => {
           { name: 'from', type: 'Person' },
           { name: 'to', type: 'Person' },
           { name: 'contents', type: 'string' },
-          { other: 'other', type: 'OtherTypes' },
+          { name: 'other', type: 'OtherTypes' },
         ],
         // Ensure some "less" common types are supported
         OtherTypes: [
