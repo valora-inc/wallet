@@ -83,7 +83,9 @@ exports[`SummaryNotification renders correctly 1`] = `
           }
         }
         testID="undefined/Details"
-      />
+      >
+        someI18nKey, {"context":"moreThan3Items"}
+      </Text>
       <View
         style={
           Object {
