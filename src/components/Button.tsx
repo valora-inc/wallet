@@ -4,6 +4,7 @@ import { ActivityIndicator, StyleProp, StyleSheet, Text, View, ViewStyle } from 
 import Touchable from 'src/components/Touchable'
 import colors, { Colors } from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
+import { vibrateLight } from 'src/styles/hapticFeedback'
 
 const BUTTON_TAP_DEBOUNCE_TIME = 300 // milliseconds
 const DEBOUNCE_OPTIONS = {
@@ -60,8 +61,17 @@ export default React.memo(function Button(props: ButtonProps) {
   // Debounce onPress event so that it is called once on trigger and
   // consecutive calls in given period are ignored.
   const debouncedOnPress = useCallback(
-    debounce(props.onPress, BUTTON_TAP_DEBOUNCE_TIME, DEBOUNCE_OPTIONS),
-    [props.onPress, disabled]
+    debounce(
+      () => {
+        if (type === BtnTypes.PRIMARY) {
+          vibrateLight()
+        }
+        props.onPress()
+      },
+      BUTTON_TAP_DEBOUNCE_TIME,
+      DEBOUNCE_OPTIONS
+    ),
+    [props.onPress, type, disabled]
   )
 
   const { textColor, backgroundColor, opacity } = getColors(type, disabled)
