@@ -18,6 +18,7 @@ import { RootState } from 'src/redux/reducers'
 import { StoredTokenBalance } from 'src/tokens/slice'
 import { createMockStore } from 'test/utils'
 import { mockCeurAddress, mockCusdAddress } from 'test/values'
+
 interface TokenBalances {
   [address: string]: StoredTokenBalance
 }
@@ -115,8 +116,8 @@ describe('ConsumerIncentivesHomeScreen', () => {
     expectVisibleMainComponents(queryByTestId, 'SuperchargeInstructions')
   })
 
-  it('renders instructions when user is not verified for supercharge v2', () => {
-    const { queryByTestId } = render(
+  it('renders reconnect instructions when user verified for v1 but not for v2', () => {
+    const { queryByTestId, getByTestId } = render(
       <Provider
         store={createStore({
           numberVerified: true,
@@ -133,6 +134,30 @@ describe('ConsumerIncentivesHomeScreen', () => {
     )
 
     expectVisibleMainComponents(queryByTestId, 'SuperchargeInstructions')
+    expect(getByTestId('SuperchargeInstructions/ConnectNumber')).toHaveTextContent(
+      'superchargeReconnectNumber, {"token":"cUSD"}'
+    )
+  })
+
+  it('renders instructions when user is not verified for supercharge v2', () => {
+    const { queryByTestId, getByText } = render(
+      <Provider
+        store={createStore({
+          numberVerified: false,
+          tokenBalances: ONLY_CUSD_BALANCE,
+          numberVerifiedCentrally: false,
+          supercharge: {
+            ...initialState,
+            superchargeV2Enabled: true,
+          },
+        })}
+      >
+        <ConsumerIncentivesHomeScreen />
+      </Provider>
+    )
+
+    expectVisibleMainComponents(queryByTestId, 'SuperchargeInstructions')
+    expect(getByText('superchargeConnectNumber')).toBeTruthy()
   })
 
   it('renders Supercharge Info when there is balance', () => {

@@ -318,6 +318,7 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
               }
               testID="TotalLineItem/ExchangeRate"
             >
+              tokenExchanteRate, {"symbol":"cUSD"}
               <Text>
                 
                 ₱
