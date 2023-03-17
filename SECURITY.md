@@ -18,7 +18,7 @@ You can also email the [security@celo.org](mailto:security@celo.org) list with t
 
 While the primary focus of this disclosure program is the Celo protocol and the Celo wallet, the team may be able to assist in coordinating a response to a vulnerability in the third-party apps or tools in the Celo ecosystem.
 
-You may encrypt your email to this list using this GPG key (but encryption using GPG is NOT required to make a disclosure):  
+You may encrypt your email to this list using this GPG key (but encryption using GPG is NOT required to make a disclosure):
 
 ```
 -----BEGIN PGP PUBLIC KEY BLOCK-----

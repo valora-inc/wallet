@@ -86,6 +86,8 @@
   "contactSupport": "Contacter l'Assistance",
   "tapToCopy": "Appuyer pour copier",
   "headerTitle": "Phrase de récupération",
+  "introBackUpPhrase": "Back Up Recovery Phrase",
+  "introCompleteQuiz": "Complete our backup quiz to verify that your wallet can be recovered.\n\nIf you wrote it down incorrectly, you won’t be able to access your wallet if anything happens to your device.",
   "introTitle": "Votre Phrase de récupération",
   "introBody": "Votre Phrase de récupération est la partie la plus importante de votre compte.\n\nVeuillez trouver un endroit privé pour configurer votre Phrase. Cela vous prendra environ cinq minutes.",
   "introPrimaryAction": "Configuration",
@@ -98,10 +100,14 @@
   "failedFetchMnemonic": "Impossible d'extraire votre Phrase de récupération",
   "backupAndRecovery": "Sauvegarde et restauration",
   "writeDownKey": "Veuillez noter votre phrase",
+  "writeDownKeyExperimental": "Please write down your phrase.",
   "completeEducation": "Je comprends",
   "yourAccountKey": "Votre Phrase de récupération",
   "backupKeyNotification": "Sécurisez vos fonds. Configurez votre Phrase de récupération.",
+  "backupKeyNotification2": "Keep your funds safe. Back up your Recovery Phrase now.",
+  "backupKeyCTA": "Finish Backup Now",
   "backupKeySummary": "Trouvez un endroit secret et notez-y votre Phrase de récupération. Veuillez la conserver dans un endroit sûr. Ne l'enregistrez pas dans votre téléphone.",
+  "backupKeyWarning": "If you lose your recovery phrase, you will lose access to all funds held in Valora.",
   "copied": "Phrase copiée dans le presse-papiers",
   "moreInfo": "Plus d'informations",
   "savedConfirmation": "Oui, j'ai bien noté ma phrase.",
@@ -1217,7 +1223,7 @@
   },
   "dappsScreen": {
     "title": "Dapps",
-    "message": "Explorer les possibilités d'utilisation des actifs",
+    "message": "Découvrez les moyens d'utiliser vos actifs",
     "errorMessage": "Une erreur s'est produite lors du chargement des dapps",
     "featuredDapp": "Dapps à la une",
     "allDapps": "Tous",
@@ -1231,7 +1237,7 @@
       "labelCTA": "Voir mes favorites"
     },
     "emptyResults": {
-      "message": "<0>{{filter}}</0> filtre appliqué",
+      "message": "Le filtre <0>{{filter}}</0> est appliqué",
       "removeFilter": "Supprimer le filtre"
     }
   },
@@ -1507,7 +1513,12 @@
     "swapTo": "À",
     "insufficientFunds": "{{token}} insuffisants. Veuillez saisir un montant inférieur ou choisissez un autre jeton.",
     "fetchSwapQuoteFailed": "Désolé pour le retard ! Obtenir le meilleur taux de change prend plus longtemps que prévu. Veuillez réessayer plus tard.",
-    "disclaimer": "Des échanges propulsés par des partenaires sur Celo. <0>En savoir plus</0>"
+    "disclaimer": "Des échanges propulsés par des partenaires sur Celo. <0>En savoir plus</0>",
+    "maxSwapAmountWarning": {
+      "title": "Swapping the MAX amount",
+      "body": "Make sure you have CELO in your wallet to cover gas fees for future transactions",
+      "learnMore": "En savoir plus"
+    }
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Échanger de",

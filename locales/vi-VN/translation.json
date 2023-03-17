@@ -86,6 +86,8 @@
   "contactSupport": "Liên hệ với Bộ phận hỗ trợ",
   "tapToCopy": "Nhấn để sao chép",
   "headerTitle": "Cụm từ khôi phục",
+  "introBackUpPhrase": "Back Up Recovery Phrase",
+  "introCompleteQuiz": "Complete our backup quiz to verify that your wallet can be recovered.\n\nIf you wrote it down incorrectly, you won’t be able to access your wallet if anything happens to your device.",
   "introTitle": "Cụm từ khôi phục của bạn",
   "introBody": "Cụm từ khôi phục là phần quan trọng nhất trong tài khoản.\n\nVui lòng tìm nơi riêng tư để thiết lập Cụm từ khôi phục của bạn. Thời gian thực hiện là khoảng 5 phút.",
   "introPrimaryAction": "Thiết lập",
@@ -98,10 +100,14 @@
   "failedFetchMnemonic": "Không tìm nạp được Cụm từ khôi phục của bạn",
   "backupAndRecovery": "Sao lưu và khôi phục",
   "writeDownKey": "Vui lòng viết ra Cụm từ khôi phục của bạn",
+  "writeDownKeyExperimental": "Please write down your phrase.",
   "completeEducation": "Tôi đã hiểu",
   "yourAccountKey": "Cụm từ khôi phục của bạn",
   "backupKeyNotification": "Để bảo vệ tiền, hãy thiết lập Cụm từ khôi phục ngay.",
+  "backupKeyNotification2": "Keep your funds safe. Back up your Recovery Phrase now.",
+  "backupKeyCTA": "Finish Backup Now",
   "backupKeySummary": "Tìm một nơi riêng tư và viết ra Cụm từ khôi phục của bạn. Vui lòng lưu giữ Cụm từ này ở nơi an toàn. Không lưu vào điện thoại của bạn.",
+  "backupKeyWarning": "If you lose your recovery phrase, you will lose access to all funds held in Valora.",
   "copied": "Đã sao chép Cụm từ vào bảng nhớ tạm",
   "moreInfo": "Thêm thông tin",
   "savedConfirmation": "Có, tôi đã viết ra Cụm từ khôi phục của mình.",
@@ -1215,7 +1221,7 @@
   },
   "dappsScreen": {
     "title": "Dapp",
-    "message": "Explore ways to use your assets",
+    "message": "Khám phá những phương thức sử dụng tài sản",
     "errorMessage": "Đã xảy ra lỗi khi tải dapp",
     "featuredDapp": "Nổi bật",
     "allDapps": "Tất cả",
@@ -1229,8 +1235,8 @@
       "labelCTA": "Xem Dapps yêu thích"
     },
     "emptyResults": {
-      "message": "<0>{{filter}}</0> filter applied",
-      "removeFilter": "Remove filter"
+      "message": "Đã áp dụng bộ lọc <0>{{filter}}</0>",
+      "removeFilter": "Xóa bộ lọc"
     }
   },
   "dappsScreenHelpDialog": {
@@ -1505,7 +1511,12 @@
     "swapTo": "Đến",
     "insufficientFunds": "Không đủ số dư {{token}}. Hãy thử số tiền nhỏ hơn hoặc chọn token khác.",
     "fetchSwapQuoteFailed": "Xin lỗi vì sự chậm trễ này! Hệ thống đang mất nhiều thời gian hơn bình thường để có được tỷ giá quy đổi tốt nhất. Vui lòng thử lại trong vài phút nữa.",
-    "disclaimer": "Hoán đổi được cung cấp bởi các đối tác trên Celo. <0> Tìm hiểu thêm. </0>"
+    "disclaimer": "Hoán đổi được cung cấp bởi các đối tác trên Celo. <0> Tìm hiểu thêm. </0>",
+    "maxSwapAmountWarning": {
+      "title": "Swapping the MAX amount",
+      "body": "Make sure you have CELO in your wallet to cover gas fees for future transactions",
+      "learnMore": "Tìm hiểu thêm"
+    }
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Trao đổi từ",

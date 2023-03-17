@@ -41,6 +41,7 @@ import {
   TransactionStatus,
 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
+import { safely } from 'src/utils/safely'
 import { getContractKit } from 'src/web3/contracts'
 
 const TAG = 'transactions/saga'
@@ -238,14 +239,17 @@ function* refreshRecentTxRecipients() {
 }
 
 function* watchNewFeedTransactions() {
-  yield takeEvery(Actions.NEW_TRANSACTIONS_IN_FEED, cleanupStandbyTransactionsLegacy)
-  yield takeEvery(Actions.UPDATE_TRANSACTIONS, cleanupStandbyTransactions)
-  yield takeEvery(Actions.UPDATE_TRANSACTIONS, getInviteTransactionsDetails)
-  yield takeLatest(Actions.NEW_TRANSACTIONS_IN_FEED, refreshRecentTxRecipients)
+  yield takeEvery(Actions.NEW_TRANSACTIONS_IN_FEED, safely(cleanupStandbyTransactionsLegacy))
+  yield takeEvery(Actions.UPDATE_TRANSACTIONS, safely(cleanupStandbyTransactions))
+  yield takeEvery(Actions.UPDATE_TRANSACTIONS, safely(getInviteTransactionsDetails))
+  yield takeLatest(Actions.NEW_TRANSACTIONS_IN_FEED, safely(refreshRecentTxRecipients))
 }
 
 function* watchAddressToE164PhoneNumberUpdate() {
-  yield takeLatest(IdentityActions.UPDATE_E164_PHONE_NUMBER_ADDRESSES, refreshRecentTxRecipients)
+  yield takeLatest(
+    IdentityActions.UPDATE_E164_PHONE_NUMBER_ADDRESSES,
+    safely(refreshRecentTxRecipients)
+  )
 }
 
 export function* transactionSaga() {

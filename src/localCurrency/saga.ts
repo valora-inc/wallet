@@ -15,6 +15,7 @@ import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
+import { safely } from 'src/utils/safely'
 
 const TAG = 'localCurrency/saga'
 
@@ -77,7 +78,7 @@ export function* fetchLocalCurrencyRateSaga() {
 }
 
 export function* watchFetchCurrentRate() {
-  yield takeLatest(Actions.FETCH_CURRENT_RATE, fetchLocalCurrencyRateSaga)
+  yield takeLatest(Actions.FETCH_CURRENT_RATE, safely(fetchLocalCurrencyRateSaga))
 }
 
 export function* watchSelectPreferredCurrency() {
