@@ -6,6 +6,7 @@ import { isValidBackupPhrase } from 'src/backup/utils'
 import Touchable from 'src/components/Touchable'
 import withTextInputPasteAware from 'src/components/WithTextInputPasteAware'
 import { withTranslation } from 'src/i18n'
+import { getOnboardingExperimentParams } from 'src/onboarding'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import Logger from 'src/utils/Logger'
@@ -72,14 +73,24 @@ export class BackupPhraseContainer extends React.Component<Props> {
     const { t, value: words, showCopy, style, mode, type, includeHeader, testID } = this.props
     const wordList = words?.split(' ')
     const isTwelveWords = wordList?.length === 12
+    const { writeDownKey, subtitleTextElement } = getOnboardingExperimentParams()
+      .useNewBackupFlowCopy
+      ? {
+          writeDownKey: t('writeDownKeyExperimental'),
+          subtitleTextElement: <></>,
+        }
+      : {
+          writeDownKey: t('writeDownKey'),
+          subtitleTextElement: <Text style={fontStyles.label}>{t('yourAccountKey')}</Text>,
+        }
 
     return (
       <View style={style}>
         <View style={styles.headerContainer}>
           {type === BackupPhraseType.BACKUP_KEY && includeHeader !== false && (
             <View style={styles.writeDownKeyContainer}>
-              <Text style={styles.writeDownKey}>{t('writeDownKey')}</Text>
-              <Text style={fontStyles.label}>{t('yourAccountKey')}</Text>
+              <Text style={styles.writeDownKey}>{writeDownKey}</Text>
+              {subtitleTextElement}
             </View>
           )}
           {showCopy && (
