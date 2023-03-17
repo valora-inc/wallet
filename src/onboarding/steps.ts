@@ -78,9 +78,9 @@ export function getOnboardingStepValues(screen: Screens, onboardingProps: Onboar
   let reachedStep = false // tracks whether we have reached the step the user is on in onboarding, and we can stop incrementing stepCounter
   let currentScreen: Screens = FIRST_ONBOARDING_SCREEN // pointer that we will update when simulating navigation through the onboarding screens to calculate "step" and "totalSteps"
 
-  const nextStepAndCount = (s: Screens) => {
+  const nextStepAndCount = (nextScreen: Screens) => {
     // dummy navigation function to help determine what onboarding step the user is on, without triggering side effects like actually cycling them back through the first few onboarding screens
-    if (!END_OF_ONBOARDING_SCREENS.includes(s)) {
+    if (!END_OF_ONBOARDING_SCREENS.includes(nextScreen)) {
       totalCounter++
       if (currentScreen === screen) {
         reachedStep = true
@@ -89,7 +89,7 @@ export function getOnboardingStepValues(screen: Screens, onboardingProps: Onboar
         stepCounter++
       }
     }
-    currentScreen = s
+    currentScreen = nextScreen
   }
 
   const toHomeStep = () => {
