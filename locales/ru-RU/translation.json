@@ -1518,6 +1518,8 @@
     "insufficientFunds": "Недостаточный остаток {{token}}. Попробуйте внести меньшую сумму или выберите другой токен.",
     "fetchSwapQuoteFailed": "Извините за задержку! Для получения самого выгодного обменного курса требуется больше времени. Повторите попытку через несколько минут.",
     "disclaimer": "Обмены, поддерживаемые партнерами по Celo. <0>Подробнее.</0>",
+    "swapFromTokenSelection": "Обменять с",
+    "swapToTokenSelection": "Обменять на",
     "maxSwapAmountWarning": {
       "title": "Swapping the MAX amount",
       "body": "Make sure you have CELO in your wallet to cover gas fees for future transactions",
