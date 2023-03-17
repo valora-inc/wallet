@@ -1514,6 +1514,8 @@
     "insufficientFunds": "Saldo en {{token}} insuficiente. Ingresa un monto menor o elige otro token.",
     "fetchSwapQuoteFailed": "¡Lo sentimos! Conseguir la mejor tasa de cambio nos está llevando más tiempo del habitual. Inténtalo de nuevo más tarde.",
     "disclaimer": "Los intercambios se realizan mediante socios de Celo. <0>Más información</0>",
+    "swapFromTokenSelection": "Cambiar de",
+    "swapToTokenSelection": "Cambiar a",
     "maxSwapAmountWarning": {
       "title": "Intercambio de monto MAX",
       "body": "Asegúrate de contar con suficiente CELO en tu wallet para cubrir las tarifas de próximas transacciones.",
