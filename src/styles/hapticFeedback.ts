@@ -16,3 +16,7 @@ export const vibrateLight = () => {
 export const vibrateSuccess = () => {
   ReactNativeHapticFeedback.trigger('notificationSuccess', options)
 }
+
+export const vibrateError = () => {
+  ReactNativeHapticFeedback.trigger('notificationError', options)
+}
