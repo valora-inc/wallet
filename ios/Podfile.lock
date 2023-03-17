@@ -610,6 +610,8 @@ PODS:
   - RNPersonaInquiry2 (2.2.23):
     - PersonaInquirySDK2 (= 2.3.9)
     - React-Core
+  - RNReactNativeHapticFeedback (1.14.0):
+    - React-Core
   - RNReanimated (2.13.0):
     - DoubleConversion
     - FBLazyVector
@@ -774,6 +776,7 @@ DEPENDENCIES:
   - RNLocalize (from `../node_modules/react-native-localize`)
   - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNPersonaInquiry2 (from `../node_modules/react-native-persona`)
+  - RNReactNativeHapticFeedback (from `../node_modules/react-native-haptic-feedback`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSecureRandom (from `../node_modules/react-native-securerandom`)
@@ -978,6 +981,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-permissions"
   RNPersonaInquiry2:
     :path: "../node_modules/react-native-persona"
+  RNReactNativeHapticFeedback:
+    :path: "../node_modules/react-native-haptic-feedback"
   RNReanimated:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
@@ -1105,6 +1110,7 @@ SPEC CHECKSUMS:
   RNLocalize: f567ea0e35116a641cdffe6683b0d212d568f32a
   RNPermissions: 034db8a73d562766f990c89abbdeaa5d6e204c67
   RNPersonaInquiry2: 3ab52078e891a5d2fa39bf7cc9119ca27f0337fd
+  RNReactNativeHapticFeedback: 1e3efeca9628ff9876ee7cdd9edec1b336913f8c
   RNReanimated: 81ae02204392903240908ab05385e178b4f88690
   RNScreens: 34cc502acf1b916c582c60003dc3089fa01dc66d
   RNSecureRandom: ff25041dd065a945810ca01a2bcd06f8d141b81d
@@ -1121,6 +1127,6 @@ SPEC CHECKSUMS:
   Yoga: e7dc4e71caba6472ff48ad7d234389b91dadc280
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 8f9c2da159e58b9464bd2fa8bf67b81390853af3
+PODFILE CHECKSUM: 34b138aeb4c5280d788f932093c5f753375ea589
 
 COCOAPODS: 1.11.3

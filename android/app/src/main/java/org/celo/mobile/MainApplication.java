@@ -15,6 +15,7 @@ import com.facebook.react.bridge.JSIModulePackage;
 import com.facebook.react.modules.network.OkHttpClientProvider;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
+import com.mkuczera.RNReactNativeHapticFeedbackPackage;
 import com.swmansion.reanimated.ReanimatedJSIModulePackage;
 import io.sentry.react.RNSentryPackage;
 import java.lang.reflect.InvocationTargetException;
