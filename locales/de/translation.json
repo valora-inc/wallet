@@ -1582,6 +1582,10 @@
     "loadingError": "Wir konnten die neuesten Nachrichten nicht laden. Bitte versuche es später erneut.",
     "retryButtonText": "Erneut versuchen"
   },
+  "reverifyUsingCPVHomecard": {
+    "description": "Reconnect your number to send, receive and get rewards on your crypto",
+    "buttonLabel": "Reconnect number"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
