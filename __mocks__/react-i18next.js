@@ -5,7 +5,7 @@ const reactI18next = require('react-i18next')
 const renderTrans = ({ i18nKey, tOptions, children }) => {
   return (
     <React.Fragment>
-      {[i18nKey, JSON.stringify(tOptions)].filter((value) => !!value).join(', ')}
+      {translationFunction(i18nKey, tOptions)}
       {children}
     </React.Fragment>
   )
