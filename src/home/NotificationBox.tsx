@@ -14,13 +14,20 @@ import { HomeEvents, RewardsEvents } from 'src/analytics/Events'
 import { ScrollDirection } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { openUrl } from 'src/app/actions'
-import { phoneNumberVerifiedSelector, rewardsEnabledSelector } from 'src/app/selectors'
+import {
+  numberVerifiedSelector,
+  phoneNumberVerifiedSelector,
+  rewardsEnabledSelector,
+} from 'src/app/selectors'
 import Pagination from 'src/components/Pagination'
 import SimpleMessagingCard, {
   Props as SimpleMessagingCardProps,
 } from 'src/components/SimpleMessagingCard'
 import { RewardsScreenOrigin } from 'src/consumerIncentives/analyticsEventsTracker'
-import { superchargeInfoSelector } from 'src/consumerIncentives/selectors'
+import {
+  superchargeInfoSelector,
+  userIsVerifiedForSuperchargeSelector,
+} from 'src/consumerIncentives/selectors'
 import { fetchAvailableRewards } from 'src/consumerIncentives/slice'
 import EscrowedPaymentReminderSummaryNotification from 'src/escrow/EscrowedPaymentReminderSummaryNotification'
 import { getReclaimableEscrowPayments } from 'src/escrow/reducer'
@@ -28,7 +35,7 @@ import { dismissNotification } from 'src/home/actions'
 import { DEFAULT_PRIORITY } from 'src/home/reducers'
 import { getExtraNotifications } from 'src/home/selectors'
 import GuideKeyIcon from 'src/icons/GuideKeyHomeCardIcon'
-import { backupKey, boostRewards, getVerified, learnCelo } from 'src/images/Images'
+import { backupKey, boostRewards, getVerified, learnCelo, lightningPhone } from 'src/images/Images'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getOnboardingExperimentParams } from 'src/onboarding'
@@ -53,6 +60,7 @@ const OUTGOING_PAYMENT_REQUESTS_PRIORITY = 200
 const CELO_EDUCATION_PRIORITY = 10
 const SUPERCHARGE_AVAILABLE_PRIORITY = 950
 const SUPERCHARGE_INFO_PRIORITY = 440
+const REVERIFY_ON_CPV_PRIORITY = 990
 
 export enum NotificationBannerTypes {
   incoming_tx_request = 'incoming_tx_request',
@@ -67,6 +75,7 @@ export enum NotificationBannerTypes {
   remote_notification = 'remote_notification',
   supercharging = 'supercharging',
   start_supercharging = 'start_supercharging',
+  reverify_using_CPV = 'reverify_using_CPV',
 }
 
 export enum NotificationBannerCTATypes {
@@ -94,13 +103,16 @@ function useSimpleActions() {
     dismissedStartSupercharging,
   } = useSelector((state) => state.account)
 
-  const numberVerified = useSelector(phoneNumberVerifiedSelector)
+  const phoneNumberVerified = useSelector(phoneNumberVerifiedSelector)
+  const numberVerifiedDecentrally = useSelector(numberVerifiedSelector)
+
+  const numberVerifiedForSupercharge = useSelector(userIsVerifiedForSuperchargeSelector)
   const celoEducationCompleted = useSelector(celoEducationCompletedSelector)
 
   const extraNotifications = useSelector(getExtraNotifications)
 
   const { hasBalanceForSupercharge } = useSelector(superchargeInfoSelector)
-  const isSupercharging = numberVerified && hasBalanceForSupercharge
+  const isSupercharging = numberVerifiedForSupercharge && hasBalanceForSupercharge
 
   const rewardsEnabled = useSelector(rewardsEnabledSelector)
 
@@ -145,6 +157,27 @@ function useSimpleActions() {
               .catch((error) => {
                 Logger.error(`${TAG}@backupNotification`, 'PIN ensure error', error)
               })
+          },
+        },
+      ],
+    })
+  }
+
+  if (numberVerifiedDecentrally && !phoneNumberVerified) {
+    actions.push({
+      id: 'reverifyUsingCPV',
+      text: t('reverifyUsingCPVHomecard.description'),
+      icon: lightningPhone,
+      priority: REVERIFY_ON_CPV_PRIORITY,
+      callToActions: [
+        {
+          text: t('reverifyUsingCPVHomecard.buttonLabel'),
+          onPress: () => {
+            ValoraAnalytics.track(HomeEvents.notification_select, {
+              notificationType: NotificationBannerTypes.reverify_using_CPV,
+              selectedAction: NotificationBannerCTATypes.accept,
+            })
+            navigate(Screens.VerificationStartScreen, { hideOnboardingStep: true })
           },
         },
       ],
@@ -247,7 +280,7 @@ function useSimpleActions() {
     }
   }
 
-  if (!dismissedGetVerified && !numberVerified) {
+  if (!dismissedGetVerified && !phoneNumberVerified) {
     actions.push({
       id: 'getVerified',
       text: t('notification.body'),
