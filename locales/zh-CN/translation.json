@@ -1580,5 +1580,9 @@
     "loadingError": "抱歉，我们无法加载最近的更新。请稍后再试。",
     "retryButtonText": "重试"
   },
+  "reverifyUsingCPVHomecard": {
+    "description": "Reconnect your number to send, receive and get rewards on your crypto",
+    "buttonLabel": "Reconnect number"
+  },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
 }
