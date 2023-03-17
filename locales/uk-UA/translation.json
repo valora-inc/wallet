@@ -1586,6 +1586,10 @@
     "loadingError": "На жаль, не вдалося завантажити останні оновлення. Спробуйте ще раз пізніше.",
     "retryButtonText": "Повторити"
   },
+  "reverifyUsingCPVHomecard": {
+    "description": "Підключіть повторно свій номер, щоб надіслати, отримати та отримати нагороди на вашому крипто",
+    "buttonLabel": "Перепідключити номер"
+  },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
   "celoDollarAmount_2": "<0></0> Celo Dollars",
