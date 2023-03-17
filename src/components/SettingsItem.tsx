@@ -5,7 +5,7 @@ import TextInput from 'src/components/TextInput'
 import ForwardChevron from 'src/icons/ForwardChevron'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
-import { vibrate } from 'src/styles/hapticFeedback'
+import { vibrateInformative } from 'src/styles/hapticFeedback'
 
 interface WrapperProps {
   testID?: string
@@ -79,7 +79,7 @@ export function SettingsItemSwitch({
   details,
 }: SettingsItemSwitchProps) {
   const handleValueChange = (value: boolean) => {
-    vibrate()
+    vibrateInformative()
     onValueChange(value)
   }
   return (

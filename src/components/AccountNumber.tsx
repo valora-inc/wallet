@@ -8,7 +8,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { Screens } from 'src/navigator/Screens'
 import colors from 'src/styles/colors'
 import fontStyles, { fontFamily } from 'src/styles/fonts'
-import { vibrateLight } from 'src/styles/hapticFeedback'
+import { vibrateInformative } from 'src/styles/hapticFeedback'
 import Logger from 'src/utils/Logger'
 
 interface Props {
@@ -25,7 +25,7 @@ export default function AccountNumber({ address, touchDisabled, location }: Prop
     }
     Clipboard.setString(address)
     Logger.showMessage(t('addressCopied'))
-    vibrateLight()
+    vibrateInformative()
 
     if (location === Screens.DrawerNavigator) {
       ValoraAnalytics.track(HomeEvents.drawer_address_copy)

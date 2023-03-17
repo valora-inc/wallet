@@ -5,11 +5,7 @@ const options = {
   ignoreAndroidSystemSettings: false,
 }
 
-export const vibrate = () => {
-  ReactNativeHapticFeedback.trigger('impactMedium', options)
-}
-
-export const vibrateLight = () => {
+export const vibrateInformative = () => {
   ReactNativeHapticFeedback.trigger('impactMedium', options)
 }
 

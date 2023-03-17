@@ -13,7 +13,7 @@ import { SVG } from 'src/send/actions'
 import { QRCodeDataType } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
-import { vibrateLight } from 'src/styles/hapticFeedback'
+import { vibrateInformative } from 'src/styles/hapticFeedback'
 import variables from 'src/styles/variables'
 import Logger from 'src/utils/Logger'
 import { walletAddressSelector } from 'src/web3/selectors'
@@ -45,7 +45,7 @@ export default function NewQRCodeDisplay(props: Props) {
     props.onPressCopy?.()
     Clipboard.setString(address || '')
     Logger.showMessage(t('addressCopied'))
-    vibrateLight()
+    vibrateInformative()
   }
 
   const onPressInfo = () => {

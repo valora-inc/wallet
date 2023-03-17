@@ -4,7 +4,7 @@ import { ActivityIndicator, StyleProp, StyleSheet, Text, View, ViewStyle } from 
 import Touchable from 'src/components/Touchable'
 import colors, { Colors } from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
-import { vibrateLight } from 'src/styles/hapticFeedback'
+import { vibrateInformative } from 'src/styles/hapticFeedback'
 
 const BUTTON_TAP_DEBOUNCE_TIME = 300 // milliseconds
 const DEBOUNCE_OPTIONS = {
@@ -64,7 +64,7 @@ export default React.memo(function Button(props: ButtonProps) {
     debounce(
       () => {
         if (type === BtnTypes.PRIMARY) {
-          vibrateLight()
+          vibrateInformative()
         }
         props.onPress()
       },
