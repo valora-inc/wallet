@@ -1512,6 +1512,8 @@
     "insufficientFunds": "{{token}} 余额不足，请尝试使用较小的金额或选择其他代币。",
     "fetchSwapQuoteFailed": "抱歉有所延迟！获取最佳汇率所需时间较往常略长。请在几分钟后重试。",
     "disclaimer": "Celo 朋友发起的交换。<0>了解更多。</0>",
+    "swapFromTokenSelection": "交换自",
+    "swapToTokenSelection": "交换至",
     "maxSwapAmountWarning": {
       "title": "Swapping the MAX amount",
       "body": "Make sure you have CELO in your wallet to cover gas fees for future transactions",
