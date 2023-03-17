@@ -122,6 +122,7 @@ exports[`ExchangeReview renders correctly 1`] = `
                 }
                 testID="LineItemRowTitle/undefined"
               >
+                subtotalAmount
                 Subtotal @ 
                 <Text
                   style={
@@ -489,6 +490,7 @@ exports[`ExchangeReview renders correctly 1`] = `
                       }
                     }
                   >
+                    totalInDollars
                     <Text
                       style={
                         Array [
@@ -622,6 +624,7 @@ exports[`ExchangeReview renders correctly 1`] = `
             }
           }
         >
+          sellGoldAmount
           10.00
         </Text>
       </View>
