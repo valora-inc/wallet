@@ -5,6 +5,6 @@ import { StatsigExperiments } from 'src/statsig/types'
 export function getOnboardingExperimentParams() {
   return {
     ...getExperimentParams(ExperimentConfigs[StatsigExperiments.RECOVERY_PHRASE_IN_ONBOARDING]),
-    showChooseAdventureScreen: true,
+    showChooseAdventureScreen: false,
   }
 }
