@@ -223,6 +223,7 @@ export function* handleUpdateAccountRegistration() {
 
 export function* handleChooseCreateAccount() {
   try {
+    // TODO update redux state here, and update statsig user in synchronous button click handler instead if not already saved in redux
     yield call([Statsig, 'updateUser'], {
       custom: { startOnboardingTimestamp: new Date().toISOString() },
     })
