@@ -268,7 +268,9 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                   }
                 }
                 testID="undefined/Details"
-              />
+              >
+                incomingPaymentRequestsSummaryDetails, {"context":"exactly2Items"}
+              </Text>
               <View
                 style={
                   Object {

@@ -83,6 +83,7 @@ exports[`ExchangeTradeScreen renders correctly 1`] = `
             }
             testID="HeaderTitle"
           >
+            balanceAvailable
             <Text
               style={
                 Array [
@@ -359,6 +360,7 @@ exports[`ExchangeTradeScreen renders correctly 1`] = `
             }
             testID="LineItemRowTitle/undefined"
           >
+            inputSubtotal, {"context":null}
             Subtotal @
              
             <Text
