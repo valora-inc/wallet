@@ -1514,6 +1514,8 @@
     "insufficientFunds": "{{token}} insuffisants. Veuillez saisir un montant inférieur ou choisissez un autre jeton.",
     "fetchSwapQuoteFailed": "Désolé pour le retard ! Obtenir le meilleur taux de change prend plus longtemps que prévu. Veuillez réessayer plus tard.",
     "disclaimer": "Des échanges propulsés par des partenaires sur Celo. <0>En savoir plus</0>",
+    "swapFromTokenSelection": "Échanger de",
+    "swapToTokenSelection": "Échanger pour",
     "maxSwapAmountWarning": {
       "title": "Swapping the MAX amount",
       "body": "Make sure you have CELO in your wallet to cover gas fees for future transactions",
