@@ -14,6 +14,7 @@ import { activeDappSelector } from 'src/dapps/selectors'
 import CopyIcon from 'src/icons/CopyIcon'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
+import { vibrateLight } from 'src/styles/hapticFeedback'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import {
@@ -64,6 +65,7 @@ function ActionRequestPayload(props: Props) {
 
   const handleCopyRequestPayload = () => {
     Clipboard.setString(moreInfoString)
+    vibrateLight()
 
     const defaultTrackedProps =
       props.walletConnectVersion === 1

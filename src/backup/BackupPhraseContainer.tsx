@@ -9,6 +9,7 @@ import { withTranslation } from 'src/i18n'
 import { getOnboardingExperimentParams } from 'src/onboarding'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
+import { vibrateLight } from 'src/styles/hapticFeedback'
 import Logger from 'src/utils/Logger'
 
 const PhraseInput = withTextInputPasteAware(TextInput, { top: undefined, right: 12, bottom: 12 })
@@ -61,6 +62,7 @@ export class BackupPhraseContainer extends React.Component<Props> {
     }
     Clipboard.setString(words)
     Logger.showMessage(t('copied'))
+    vibrateLight()
   }
 
   onPhraseInputChange = (value: string) => {
