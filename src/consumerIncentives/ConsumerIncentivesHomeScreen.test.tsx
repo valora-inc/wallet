@@ -1,5 +1,6 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
+import { TransProps } from 'react-i18next'
 import 'react-native'
 import { Provider } from 'react-redux'
 import { ReactTestInstance } from 'react-test-renderer'
@@ -18,6 +19,20 @@ import { RootState } from 'src/redux/reducers'
 import { StoredTokenBalance } from 'src/tokens/slice'
 import { createMockStore } from 'test/utils'
 import { mockCeurAddress, mockCusdAddress } from 'test/values'
+
+jest.mock('react-i18next', () => ({
+  ...(jest.requireActual('../../__mocks__/react-i18next') as any),
+  Trans: ({ i18nKey, tOptions, children }: TransProps) => {
+    const React = require('react')
+    return (
+      <React.Fragment>
+        {[i18nKey, JSON.stringify(tOptions)].filter((value) => !!value).join(', ')}
+        {children}
+      </React.Fragment>
+    )
+  },
+}))
+
 interface TokenBalances {
   [address: string]: StoredTokenBalance
 }
@@ -115,8 +130,8 @@ describe('ConsumerIncentivesHomeScreen', () => {
     expectVisibleMainComponents(queryByTestId, 'SuperchargeInstructions')
   })
 
-  it('renders instructions when user is not verified for supercharge v2', () => {
-    const { queryByTestId } = render(
+  it('renders reconnect instructions when user verified for v1 but not for v2', () => {
+    const { queryByTestId, getByTestId } = render(
       <Provider
         store={createStore({
           numberVerified: true,
@@ -133,6 +148,30 @@ describe('ConsumerIncentivesHomeScreen', () => {
     )
 
     expectVisibleMainComponents(queryByTestId, 'SuperchargeInstructions')
+    expect(getByTestId('SuperchargeInstructions/ConnectNumber')).toHaveTextContent(
+      'superchargeReconnectNumber, {"token":"cUSD"}'
+    )
+  })
+
+  it('renders instructions when user is not verified for supercharge v2', () => {
+    const { queryByTestId, getByText } = render(
+      <Provider
+        store={createStore({
+          numberVerified: false,
+          tokenBalances: ONLY_CUSD_BALANCE,
+          numberVerifiedCentrally: false,
+          supercharge: {
+            ...initialState,
+            superchargeV2Enabled: true,
+          },
+        })}
+      >
+        <ConsumerIncentivesHomeScreen />
+      </Provider>
+    )
+
+    expectVisibleMainComponents(queryByTestId, 'SuperchargeInstructions')
+    expect(getByText('superchargeConnectNumber')).toBeTruthy()
   })
 
   it('renders Supercharge Info when there is balance', () => {
