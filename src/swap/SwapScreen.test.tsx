@@ -25,14 +25,16 @@ jest.mock('react-native-localize', () => ({
   }),
 }))
 
-const renderScreen = ({ hasZeroCeloBalance = false }) => {
+const now = Date.now()
+
+const renderScreen = ({ celoBalance = '10', cUSDBalance = '20.456' }) => {
   const store = createMockStore({
     tokens: {
       tokenBalances: {
         [mockCeurAddress]: {
           address: mockCeurAddress,
           symbol: 'cEUR',
-          priceFetchedAt: 1658144640753,
+          priceFetchedAt: now,
           historicalUsdPrices: {
             lastDay: {
               at: 1658057880747,
@@ -51,12 +53,12 @@ const renderScreen = ({ hasZeroCeloBalance = false }) => {
           usdPrice: '1',
           isCoreToken: true,
           address: mockCusdAddress,
-          priceFetchedAt: 1658144640753,
+          priceFetchedAt: now,
           symbol: 'cUSD',
           imageUrl:
             'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/cUSD.png',
           decimals: 18,
-          balance: '20.456',
+          balance: cUSDBalance,
           historicalUsdPrices: {
             lastDay: {
               at: 1658057880747,
@@ -68,7 +70,7 @@ const renderScreen = ({ hasZeroCeloBalance = false }) => {
         [mockCeloAddress]: {
           address: mockCeloAddress,
           symbol: 'CELO',
-          priceFetchedAt: 1658144640753,
+          priceFetchedAt: now,
           historicalUsdPrices: {
             lastDay: {
               at: 1658057880747,
@@ -81,7 +83,7 @@ const renderScreen = ({ hasZeroCeloBalance = false }) => {
             'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/CELO.png',
           isCoreToken: true,
           name: 'Celo native asset',
-          balance: hasZeroCeloBalance ? '0' : '10',
+          balance: celoBalance,
         },
       },
     },
@@ -126,14 +128,21 @@ describe('SwapScreen', () => {
 
     expect(within(swapToContainer).getByText('swapScreen.swapTo')).toBeTruthy()
     expect(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect')).toBeTruthy()
-    expect(within(swapToContainer).getByText('cUSD')).toBeTruthy()
+    expect(within(swapToContainer).getByText('swapScreen.swapToTokenSelection')).toBeTruthy()
+  })
+
+  it('should display the token with the highest usd balance as from token', () => {
+    const { swapFromContainer, swapToContainer } = renderScreen({ cUSDBalance: '1000' })
+
+    expect(within(swapFromContainer).getByText('cUSD')).toBeTruthy()
+    expect(within(swapToContainer).getByText('swapScreen.swapToTokenSelection')).toBeTruthy()
   })
 
   it('should allow selecting tokens', () => {
     const { swapFromContainer, swapToContainer, getByTestId } = renderScreen({})
 
     expect(within(swapFromContainer).getByText('CELO')).toBeTruthy()
-    expect(within(swapToContainer).getByText('cUSD')).toBeTruthy()
+    expect(within(swapToContainer).getByText('swapScreen.swapToTokenSelection')).toBeTruthy()
 
     act(() => {
       fireEvent.press(within(swapFromContainer).getByTestId('SwapAmountInput/TokenSelect'))
@@ -152,6 +161,12 @@ describe('SwapScreen', () => {
   it('should swap the to/from tokens if the same token is selected', () => {
     const { swapFromContainer, swapToContainer, getByTestId } = renderScreen({})
 
+    act(() => {
+      fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
+      jest.runOnlyPendingTimers()
+      fireEvent.press(getByTestId('cUSDTouchable'))
+    })
+
     expect(within(swapFromContainer).getByText('CELO')).toBeTruthy()
     expect(within(swapToContainer).getByText('cUSD')).toBeTruthy()
 
@@ -165,6 +180,22 @@ describe('SwapScreen', () => {
     expect(within(swapToContainer).getByText('CELO')).toBeTruthy()
   })
 
+  it('should swap the to/from tokens even if the to token was not selected', () => {
+    const { swapFromContainer, swapToContainer, getByTestId } = renderScreen({})
+
+    expect(within(swapFromContainer).getByText('CELO')).toBeTruthy()
+    expect(within(swapToContainer).getByText('swapScreen.swapToTokenSelection')).toBeTruthy()
+
+    act(() => {
+      fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
+      jest.runOnlyPendingTimers()
+      fireEvent.press(getByTestId('CELOTouchable'))
+    })
+
+    expect(within(swapFromContainer).getByText('swapScreen.swapFromTokenSelection')).toBeTruthy()
+    expect(within(swapToContainer).getByText('CELO')).toBeTruthy()
+  })
+
   it('should keep the to amount in sync with the exchange rate', async () => {
     mockFetch.mockResponse(
       JSON.stringify({
@@ -173,9 +204,13 @@ describe('SwapScreen', () => {
         },
       })
     )
-    const { swapFromContainer, swapToContainer, getByText } = renderScreen({})
+    const { getByTestId, swapFromContainer, swapToContainer, getByText } = renderScreen({})
 
     act(() => {
+      fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
+      jest.runOnlyPendingTimers()
+      fireEvent.press(getByTestId('cUSDTouchable'))
+
       fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '1.234')
       jest.runOnlyPendingTimers()
     })
@@ -196,9 +231,13 @@ describe('SwapScreen', () => {
         },
       })
     )
-    const { swapFromContainer, swapToContainer, getByText } = renderScreen({})
+    const { getByTestId, swapFromContainer, swapToContainer, getByText } = renderScreen({})
 
     act(() => {
+      fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
+      jest.runOnlyPendingTimers()
+      fireEvent.press(getByTestId('cUSDTouchable'))
+
       fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '1.234')
       jest.runOnlyPendingTimers()
     })
@@ -226,9 +265,13 @@ describe('SwapScreen', () => {
         },
       })
     )
-    const { swapFromContainer, swapToContainer, getByText } = renderScreen({})
+    const { getByTestId, swapFromContainer, swapToContainer, getByText } = renderScreen({})
 
     act(() => {
+      fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
+      jest.runOnlyPendingTimers()
+      fireEvent.press(getByTestId('cUSDTouchable'))
+
       fireEvent.changeText(within(swapToContainer).getByTestId('SwapAmountInput/Input'), '1.234')
       jest.runOnlyPendingTimers()
     })
@@ -262,9 +305,13 @@ describe('SwapScreen', () => {
         },
       })
     )
-    const { swapFromContainer, swapToContainer, getByText } = renderScreen({})
+    const { getByTestId, swapFromContainer, swapToContainer, getByText } = renderScreen({})
 
     act(() => {
+      fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
+      jest.runOnlyPendingTimers()
+      fireEvent.press(getByTestId('cUSDTouchable'))
+
       fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '1,234')
       jest.runOnlyPendingTimers()
     })
@@ -298,9 +345,13 @@ describe('SwapScreen', () => {
         },
       })
     )
-    const { swapFromContainer, swapToContainer, getByText } = renderScreen({})
+    const { getByTestId, swapFromContainer, swapToContainer, getByText } = renderScreen({})
 
     act(() => {
+      fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
+      jest.runOnlyPendingTimers()
+      fireEvent.press(getByTestId('cUSDTouchable'))
+
       fireEvent.changeText(within(swapToContainer).getByTestId('SwapAmountInput/Input'), '1,234')
       jest.runOnlyPendingTimers()
     })
@@ -331,6 +382,10 @@ describe('SwapScreen', () => {
     const { swapFromContainer, swapToContainer, getByText, getByTestId } = renderScreen({})
 
     act(() => {
+      fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
+      jest.runOnlyPendingTimers()
+      fireEvent.press(getByTestId('cUSDTouchable'))
+
       fireEvent.press(getByTestId('SwapAmountInput/MaxButton'))
       jest.runOnlyPendingTimers()
     })
@@ -384,6 +439,10 @@ describe('SwapScreen', () => {
     const { swapFromContainer, swapToContainer, getByText, getByTestId } = renderScreen({})
 
     act(() => {
+      fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
+      jest.runOnlyPendingTimers()
+      fireEvent.press(getByTestId('cUSDTouchable'))
+
       fireEvent.press(getByTestId('SwapAmountInput/MaxButton'))
       jest.runOnlyPendingTimers()
     })
@@ -419,10 +478,15 @@ describe('SwapScreen', () => {
 
   it('should set max value if it is zero', () => {
     const { swapFromContainer, swapToContainer, getByText, getByTestId } = renderScreen({
-      hasZeroCeloBalance: true,
+      celoBalance: '0',
+      cUSDBalance: '0',
     })
 
     act(() => {
+      fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
+      jest.runOnlyPendingTimers()
+      fireEvent.press(getByTestId('cUSDTouchable'))
+
       fireEvent.press(getByTestId('SwapAmountInput/MaxButton'))
       jest.runOnlyPendingTimers()
     })
@@ -436,9 +500,13 @@ describe('SwapScreen', () => {
   it('should display an error banner if api request fails', async () => {
     mockFetch.mockReject()
 
-    const { swapFromContainer, swapToContainer, getByText, store } = renderScreen({})
+    const { swapFromContainer, swapToContainer, getByText, store, getByTestId } = renderScreen({})
 
     act(() => {
+      fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
+      jest.runOnlyPendingTimers()
+      fireEvent.press(getByTestId('cUSDTouchable'))
+
       fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '1.234')
       jest.runOnlyPendingTimers()
     })
@@ -460,9 +528,13 @@ describe('SwapScreen', () => {
         },
       })
     )
-    const { getByText, getByTestId, store } = renderScreen({})
+    const { getByText, getByTestId, store, swapToContainer } = renderScreen({})
 
     act(() => {
+      fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
+      jest.runOnlyPendingTimers()
+      fireEvent.press(getByTestId('cUSDTouchable'))
+
       fireEvent.press(getByTestId('SwapAmountInput/MaxButton'))
       jest.runOnlyPendingTimers()
     })
@@ -494,9 +566,13 @@ describe('SwapScreen', () => {
         },
       })
     )
-    const { swapFromContainer, getByText, store } = renderScreen({})
+    const { getByTestId, swapToContainer, swapFromContainer, getByText, store } = renderScreen({})
 
     act(() => {
+      fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
+      jest.runOnlyPendingTimers()
+      fireEvent.press(getByTestId('cUSDTouchable'))
+
       fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '1,5')
       jest.runOnlyPendingTimers()
     })
