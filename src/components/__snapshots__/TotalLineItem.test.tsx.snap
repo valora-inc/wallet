@@ -158,6 +158,7 @@ Array [
               }
             }
           >
+            totalInDollars
             <Text
               style={
                 Array [

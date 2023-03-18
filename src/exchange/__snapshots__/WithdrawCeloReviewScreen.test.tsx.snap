@@ -499,6 +499,7 @@ exports[`WithdrawCeloReviewScreen renders correctly 1`] = `
                   }
                 }
               >
+                totalInCelo
                 <Text
                   style={
                     Array [
