@@ -272,7 +272,7 @@ export const fiatConnectKycTransferOut = () => {
 
     // Scroll down to continue button - all params needed to scroll down on persona template
     // Last parameter is the start point of the scroll, 0.5 is the middle of the element
-    await element(by.type('UIScrollView')).atIndex(0).scroll(600, 'down', 1.0, 0.5)
+    await element(by.type('UIScrollView')).atIndex(0).scroll(600, 'down', NaN, 0.7)
 
     await element(by.text('Continue')).tap()
 
@@ -287,7 +287,7 @@ export const fiatConnectKycTransferOut = () => {
       .withTimeout(15000)
     await expect(element(by.id('step-one-grey'))).toBeVisible()
     await expect(element(by.id('step-two-grey'))).not.toBeVisible()
-    await element(by.type('UIScrollView')).atIndex(0).scroll(600, 'down', 1.0, 0.5)
+    await element(by.type('UIScrollView')).atIndex(0).scroll(600, 'down', NaN, 0.7)
     await element(by.id('continueButton')).tap()
 
     // FiatDetailsScreen
