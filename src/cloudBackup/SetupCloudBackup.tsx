@@ -4,31 +4,13 @@ import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-// import {
-//   useSelector,
-// } from 'react-redux'
+import { getTorusPrivateKey } from 'src/cloudBackup/index'
 import Logger from 'src/utils/Logger'
-import Web3Auth, {
-  OPENLOGIN_NETWORK,
-  WebBrowserAuthSessionResult,
-  WebBrowserOpenOptions,
-} from '@web3auth/react-native-sdk'
 import ThresholdKey from '@tkey/default'
 import TorusServiceProviderBase from '@tkey/service-provider-base'
 import TorusStorageLayer from '@tkey/storage-layer-torus'
-import { Web3AuthCore } from '@web3auth/core'
-// import { BN } from 'ethereumjs-util'
-import { OpenloginAdapter } from '@web3auth/openlogin-adapter'
-// import firebase from '@react-native-firebase/app'
-// import auth from '@react-native-firebase/auth'
-// import { GoogleAuthProvider, getAuth, signInWithPopup } from '@react-native-firebase/auth'
-import { WALLET_ADAPTERS } from '@web3auth/base'
 import { GoogleSignin } from '@react-native-google-signin/google-signin'
 import auth from '@react-native-firebase/auth'
-import { IWebBrowser } from '@web3auth/react-native-sdk/src/types/IWebBrowser'
-
-// import { navigateHome } from 'src/navigator/NavigationService'
-// import { e164NumberSelector } from 'src/account/selectors'
 
 const TAG = 'SetupCloudBackup'
 
@@ -71,102 +53,6 @@ export async function getValoraVerifierJWT({
   }
 }
 
-export async function getWeb3authCore(clientId: string) {
-  const web3auth = new Web3AuthCore({
-    // todo check if Web3AuthCore works on mobile. may need to use RN SDK instead.
-    clientId: clientId,
-    web3AuthNetwork: 'testnet',
-    chainConfig: {
-      chainNamespace: 'eip155',
-      chainId: '44787', // todo set from env var. this is for alfajores. see https://docs.celo.org/network
-      rpcTarget: 'https://alfajores-forno.celo-testnet.org', // todo set from env var
-    },
-  })
-  await web3auth.init()
-  Logger.info(TAG, 'web3auth initialized')
-  const openLoginAdapter = new OpenloginAdapter({
-    adapterSettings: {
-      clientId: clientId,
-      uxMode: 'redirect',
-      loginConfig: {
-        jwt: {
-          // todo see if 'name' field is needed
-          verifier: 'firebase-oauth-alfajores',
-          typeOfLogin: 'jwt',
-          clientId: '1067724576910-j7aqq89gfe5c30lnd9u8jkt7837fsprm.apps.googleusercontent.com',
-        },
-      },
-    },
-  })
-  Logger.info(TAG, `created openlogin adapter with name ${openLoginAdapter.name}`)
-  web3auth.clearCache()
-  try {
-    // todo be smarter about this. there are other statuses that could be relevant
-    web3auth.configureAdapter(openLoginAdapter)
-    Logger.info(TAG, 'configured adapter')
-  } catch (e) {
-    Logger.info(TAG, `error configuring adapter: ${e}`)
-  }
-  return web3auth
-}
-
-export async function loginWithWeb3authCore(web3auth: Web3AuthCore, firebaseToken: string) {
-  // fixme getting this error: triggerLogin failed :: Wallet is not found, Please add wallet adapter for openlogin wallet, before connecting
-  //  not sure why, because when I try to configureAdapter with an adapter named openLogin, I get this error: {"name":"WalletInitializationError","code":5003,"message":"Wallet is not ready yet, Adapter is already initialized"}
-  await web3auth.connectTo(WALLET_ADAPTERS.OPENLOGIN, {
-    loginProvider: 'jwt',
-    extraLoginOptions: {
-      id_token: firebaseToken,
-      verifierIdField: 'sub',
-      // todo check if 'domain' is needed
-    },
-  })
-}
-
-export class FakeWebBrowser implements IWebBrowser {
-  async openAuthSessionAsync(
-    url: string,
-    redirectUrl: string,
-    browserParams?: WebBrowserOpenOptions
-  ): Promise<WebBrowserAuthSessionResult> {
-    return {
-      type: 'success',
-      url: 'celo://wallet',
-    }
-  }
-}
-
-import * as WebBrowser from '@toruslabs/react-native-web-browser'
-import { getTorusPrivateKey } from 'src/cloudBackup/index'
-
-export async function getWeb3authRN(clientId: string) {
-  return new Web3Auth(WebBrowser, {
-    clientId,
-    network: OPENLOGIN_NETWORK.TESTNET,
-    loginConfig: {
-      jwt: {
-        verifier: 'firebase-oauth-alfajores',
-        typeOfLogin: 'jwt',
-        clientId: '1067724576910-j7aqq89gfe5c30lnd9u8jkt7837fsprm.apps.googleusercontent.com',
-      },
-    },
-    redirectUrl: 'celo://wallet',
-  })
-}
-
-export async function loginWithWeb3authRN(web3auth: Web3Auth, firebaseToken: string) {
-  // fixme this works, but it gives the user ANOTHER sign-in prompt, this time with openlogin.com, and pulls up a webview just to give a stupid message like 'constructing your key on sdk.openlogin.com'. UGH
-  //  tried using fake web browser implementation, but got this error: JSON Parse error: Unexpected EOF in parse@[native code]
-  return web3auth.login({
-    loginProvider: 'jwt',
-    extraLoginOptions: {
-      id_token: firebaseToken,
-      verifierIdField: 'sub',
-      domain: 'celo://wallet',
-    },
-  })
-}
-
 export async function getFirebaseToken(iosClientId: string) {
   GoogleSignin.configure({ iosClientId })
   const { idToken } = await GoogleSignin.signIn()
@@ -182,16 +68,6 @@ export async function getFirebaseToken(iosClientId: string) {
 export async function triggerLogin() {
   try {
     const iosClientId = '1067724576910-t5anhsbi8gq2u1r91969ijbpc66kaqnk.apps.googleusercontent.com'
-    // const clientId = 'my-client-id' // fixme replace with real client id (probly from env vars)
-
-    // const web3auth = await getWeb3authCore(clientId)
-    // const firebaseToken = await getFirebaseToken(iosClientId)
-    // await loginWithWeb3authCore(web3auth, firebaseToken)
-
-    // const web3auth = await getWeb3authRN(clientId)
-    // const firebaseToken = await getFirebaseToken(iosClientId)
-    // const userInfo = await loginWithWeb3authRN(web3auth, firebaseToken)
-    // Logger.info(TAG, `userInfo: ${JSON.stringify(userInfo)}`)
 
     // DIY customAuth login
     const firebaseToken = await getFirebaseToken(iosClientId)
