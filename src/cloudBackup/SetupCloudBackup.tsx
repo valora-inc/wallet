@@ -137,6 +137,8 @@ export class FakeWebBrowser implements IWebBrowser {
 }
 
 import * as WebBrowser from '@toruslabs/react-native-web-browser'
+import { getTorusPrivateKey } from 'src/cloudBackup/index'
+
 export async function getWeb3authRN(clientId: string) {
   return new Web3Auth(WebBrowser, {
     clientId,
@@ -168,7 +170,7 @@ export async function loginWithWeb3authRN(web3auth: Web3Auth, firebaseToken: str
 export async function getFirebaseToken(iosClientId: string) {
   GoogleSignin.configure({ iosClientId })
   const { idToken } = await GoogleSignin.signIn()
-  Logger.info(TAG, `idToken: ${idToken}`)
+  Logger.info(TAG, `google idToken: ${idToken}`)
   const googleCredential = auth.GoogleAuthProvider.credential(idToken)
   await auth().signInWithCredential(googleCredential)
   const firebaseToken = await auth().currentUser?.getIdToken() // todo should probly skip the firebase auth step and just use the google id token directly
@@ -180,16 +182,25 @@ export async function getFirebaseToken(iosClientId: string) {
 export async function triggerLogin() {
   try {
     const iosClientId = '1067724576910-t5anhsbi8gq2u1r91969ijbpc66kaqnk.apps.googleusercontent.com'
-    const clientId = 'my-client-id' // fixme replace with real client id (probly from env vars)
+    // const clientId = 'my-client-id' // fixme replace with real client id (probly from env vars)
 
     // const web3auth = await getWeb3authCore(clientId)
     // const firebaseToken = await getFirebaseToken(iosClientId)
     // await loginWithWeb3authCore(web3auth, firebaseToken)
 
-    const web3auth = await getWeb3authRN(clientId)
+    // const web3auth = await getWeb3authRN(clientId)
+    // const firebaseToken = await getFirebaseToken(iosClientId)
+    // const userInfo = await loginWithWeb3authRN(web3auth, firebaseToken)
+    // Logger.info(TAG, `userInfo: ${JSON.stringify(userInfo)}`)
+
+    // DIY customAuth login
     const firebaseToken = await getFirebaseToken(iosClientId)
-    const userInfo = await loginWithWeb3authRN(web3auth, firebaseToken)
-    Logger.info(TAG, `userInfo: ${JSON.stringify(userInfo)}`)
+    const torusPrivateKey = await getTorusPrivateKey({
+      verifier: 'firebase-oauth-alfajores',
+      jwt: firebaseToken,
+      network: 'testnet',
+    })
+    Logger.info(TAG, `torusPrivateKey: ${torusPrivateKey}`)
 
     // initialize tkey
     // const postboxKey = new BN(privateKey, 16)

@@ -132,6 +132,7 @@
     "i18next": "^19.4.3",
     "ibantools": "^4.2.2",
     "io-ts": "2.0.1",
+    "jwt-decode": "^3.1.2",
     "lodash": "^4.17.21",
     "lottie-react-native": "^5.1.5",
     "node-libs-react-native": "^1.2.0",
