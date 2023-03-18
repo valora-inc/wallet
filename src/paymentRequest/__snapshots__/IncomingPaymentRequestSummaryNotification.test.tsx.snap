@@ -598,7 +598,9 @@ exports[`IncomingPaymentRequestSummaryNotification renders correctly for more th
           }
         }
         testID="undefined/Details"
-      />
+      >
+        incomingPaymentRequestsSummaryDetails, {"context":"exactly3Items"}
+      </Text>
       <View
         style={
           Object {

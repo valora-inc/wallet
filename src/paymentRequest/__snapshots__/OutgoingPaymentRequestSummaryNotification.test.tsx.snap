@@ -620,7 +620,9 @@ exports[`OutgoingPaymentRequestSummaryNotification renders correctly for multipl
           }
         }
         testID="undefined/Details"
-      />
+      >
+        outgoingPaymentRequestsSummaryDetails, {"context":"exactly3Items"}
+      </Text>
       <View
         style={
           Object {
