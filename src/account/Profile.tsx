@@ -1,23 +1,28 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet, View } from 'react-native'
+import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import * as RNFS from 'react-native-fs'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { saveNameAndPicture } from 'src/account/actions'
 import { nameSelector, pictureSelector } from 'src/account/selectors'
 import { showError, showMessage } from 'src/alert/actions'
+import { SettingsEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import Button from 'src/components/Button'
 import CancelButton from 'src/components/CancelButton'
-import { SettingsItemInput } from 'src/components/SettingsItem'
+import TextInput from 'src/components/TextInput'
+import Touchable from 'src/components/Touchable'
 import i18n from 'src/i18n'
+import { generateRandomUsername } from 'src/nameGenerator'
 import { emptyHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
-import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import PictureInput from 'src/onboarding/registration/PictureInput'
 import colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
 import { saveProfilePicture } from 'src/utils/image'
 import Logger from 'src/utils/Logger'
 
@@ -31,30 +36,23 @@ function Profile({ navigation, route }: Props) {
 
   const dispatch = useDispatch()
 
-  useLayoutEffect(() => {
-    const onSave = () => {
-      if (newName.length === 0) {
-        dispatch(showError(ErrorMessages.MISSING_FULL_NAME))
-        return
-      }
-      dispatch(saveNameAndPicture(newName, newPictureUri))
-      dispatch(showMessage(t('namePictureSaved')))
-      navigation.goBack()
-
-      // Delete old profile pictures if necessary.
-      if (picturePath && picturePath !== newPictureUri) {
-        RNFS.unlink(picturePath).catch((e) => {
-          Logger.error('Profile', 'Error deleting old profile picture:', e)
-        })
-      }
+  const onSave = () => {
+    if (newName.length === 0) {
+      dispatch(showError(ErrorMessages.MISSING_FULL_NAME))
+      return
     }
+    ValoraAnalytics.track(SettingsEvents.profile_save)
+    dispatch(saveNameAndPicture(newName, newPictureUri))
+    dispatch(showMessage(t('namePictureSaved')))
+    navigation.goBack()
 
-    navigation.setOptions({
-      headerRight: () => (
-        <TopBarTextButton title={t('save')} testID="SaveButton" onPress={onSave} />
-      ),
-    })
-  }, [navigation, newName, newPictureUri, picturePath])
+    // Delete old profile pictures if necessary.
+    if (picturePath && picturePath !== newPictureUri) {
+      RNFS.unlink(picturePath).catch((e) => {
+        Logger.error('Profile', 'Error deleting old profile picture:', e)
+      })
+    }
+  }
 
   const onPictureChosen = async (pictureDataUrl: string | null) => {
     if (!pictureDataUrl) {
@@ -73,6 +71,11 @@ function Profile({ navigation, route }: Props) {
     setNewName(updatedName)
   }
 
+  const generateName = () => {
+    ValoraAnalytics.track(SettingsEvents.profile_generate_name)
+    updateName(generateRandomUsername())
+  }
+
   return (
     <ScrollView style={styles.container}>
       <SafeAreaView edges={['bottom']}>
@@ -83,13 +86,25 @@ function Profile({ navigation, route }: Props) {
             backgroundColor={colors.gray6}
           />
         </View>
-        <SettingsItemInput
-          value={newName ?? t('unknown')}
-          testID="ProfileEditName"
-          title={t('name')}
-          placeholder={t('yourName')}
-          onValueChange={updateName}
-        />
+        <View style={styles.inputContainer}>
+          <TextInput
+            placeholder={t('profileScreen.namePlaceholder')}
+            testID="ProfileEditName"
+            onChangeText={updateName}
+            value={newName ?? t('unknown')}
+          />
+        </View>
+        <View style={styles.ctaContainer}>
+          <Button
+            style={styles.generateButton}
+            text={t('profileScreen.generateName')}
+            onPress={generateName}
+            testID="GenerateNameButton"
+          />
+          <Touchable testID="SaveButton" onPress={onSave}>
+            <Text style={styles.saveButton}>{t('save')}</Text>
+          </Touchable>
+        </View>
       </SafeAreaView>
     </ScrollView>
   )
@@ -97,6 +112,7 @@ function Profile({ navigation, route }: Props) {
 
 Profile.navigationOptions = ({ navigation }: Props) => {
   const onCancel = () => {
+    ValoraAnalytics.track(SettingsEvents.profile_cancel)
     navigation.goBack()
   }
   return {
@@ -119,5 +135,20 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
     flexDirection: 'column',
     alignItems: 'center',
+  },
+  inputContainer: {
+    borderBottomWidth: 1,
+    borderBottomColor: colors.gray2,
+    marginHorizontal: 24,
+  },
+  ctaContainer: {
+    alignItems: 'center',
+  },
+  generateButton: {
+    marginVertical: 24,
+  },
+  saveButton: {
+    ...fontStyles.regular,
+    color: colors.greenUI,
   },
 })

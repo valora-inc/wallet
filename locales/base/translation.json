@@ -1636,5 +1636,9 @@
   "reverifyUsingCPVHomecard": {
     "description": "Reconnect your number to send, receive and get rewards on your crypto",
     "buttonLabel": "Reconnect number"
+  },
+  "profileScreen": {
+    "generateName": "Generate a name",
+    "namePlaceholder": "Select a name ex) HeroicMartini"
   }
 }
