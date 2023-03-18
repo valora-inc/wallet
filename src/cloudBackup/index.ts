@@ -13,13 +13,13 @@ const NetworkToContractAddress: Record<TorusNetwork, string> = {
   [TORUS_NETWORK.CELESTE]: NodeDetailManager.PROXY_ADDRESS_CELESTE,
 }
 
-// const SIGNER_MAP: Record<TorusNetwork, string> = {
-//   [TORUS_NETWORK.MAINNET]: "https://signer.tor.us",
-//   [TORUS_NETWORK.TESTNET]: "https://signer.tor.us",
-//   [TORUS_NETWORK.CYAN]: "https://signer-polygon.tor.us",
-//   [TORUS_NETWORK.AQUA]: "https://signer-polygon.tor.us",
-//   [TORUS_NETWORK.CELESTE]: "https://signer-polygon.tor.us",
-// }
+const SIGNER_MAP: Record<TorusNetwork, string> = {
+  [TORUS_NETWORK.MAINNET]: 'https://signer.tor.us',
+  [TORUS_NETWORK.TESTNET]: 'https://signer.tor.us',
+  [TORUS_NETWORK.CYAN]: 'https://signer-polygon.tor.us',
+  [TORUS_NETWORK.AQUA]: 'https://signer-polygon.tor.us',
+  [TORUS_NETWORK.CELESTE]: 'https://signer-polygon.tor.us',
+}
 
 const TAG = 'cloudbackup/index'
 
@@ -41,8 +41,8 @@ export async function getTorusPrivateKey({
   const torus = new Torus({
     enableOneKey: false, // same as default from CustomAuth
     metadataHost: 'https://metadata.tor.us',
-    // allowHost: `${SIGNER_MAP[network]}/api/allow`,
-    // signerHost: `${SIGNER_MAP[network]}/api/sign`,
+    allowHost: `${SIGNER_MAP[network]}/api/allow`,
+    signerHost: `${SIGNER_MAP[network]}/api/sign`,
     network,
   })
   Logger.debug(TAG, `getting node details for verifier ${verifier} and sub ${sub}`)
