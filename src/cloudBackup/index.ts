@@ -70,12 +70,13 @@ export async function getTorusPrivateKey({
     jwt
   )
   Logger.debug(TAG, `got shares ${JSON.stringify(shares)}`)
+  const sharesEthAddressLower = shares.ethAddress.toLowerCase()
   if (
     typeof torusPubKey === 'string'
-      ? shares.ethAddress.toLowerCase() !== torusPubKey.toLowerCase()
-      : shares.ethAddress.toLowerCase() !== torusPubKey.address.toLowerCase()
+      ? sharesEthAddressLower !== torusPubKey.toLowerCase()
+      : sharesEthAddressLower !== torusPubKey.address.toLowerCase()
   ) {
-    throw new Error('data ethAddress does not match response address')
+    throw new Error('sharesEthAddressLower does not match torusPubKey')
   }
   return shares.privKey.toString()
 }
