@@ -220,7 +220,7 @@ export const fiatConnectKycTransferOut = () => {
     // Step 1
     await expect(element(by.text('Verify your Identity'))).toBeVisible()
     await expect(element(by.id('step-one-grey'))).not.toBeVisible()
-    await expect(element(by.id('step-two-grey'))).toBeVisible()
+    await expect(element(by.id('step-two-grey'))).toBeVisible(25) // should be at least 25% visible default is 75%
     await expect(element(by.id('checkbox/unchecked'))).toBeVisible()
     await element(by.id('checkbox/unchecked')).tap()
     await element(by.id('PersonaButton')).tap()
@@ -232,13 +232,13 @@ export const fiatConnectKycTransferOut = () => {
     await element(by.text('Begin verifying')).tap()
 
     // Country of govt id screen
-    await expect(element(by.text('Select'))).toBeVisible()
+    await waitFor(element(by.text('Select'))).toBeVisible().withTimeout(5 * 1000)
     await element(by.text('Select')).tap()
 
     // Id select screen
-    await expect(element(by.text('Driver License'))).toBeVisible()
+    await waitFor(element(by.text('Driver License'))).toBeVisible().withTimeout(5 * 1000)
     await element(by.text('Driver License')).tap()
-    await expect(element(by.text('Enable camera'))).toBeVisible()
+    await waitFor(element(by.text('Enable camera'))).toBeVisible().withTimeout(5 * 1000)
     await element(by.text('Enable camera')).tap()
 
     // Manually wait for Take Photo button to appear, withTimeout didn't work
@@ -251,7 +251,7 @@ export const fiatConnectKycTransferOut = () => {
     // Selfie section
     await waitFor(element(by.text('Get started')))
       .toBeVisible()
-      .withTimeout(10000)
+      .withTimeout(15 * 1000)
     await element(by.text('Get started')).tap()
     await element(by.label('shutter button')).tap()
     await element(by.label('shutter button')).tap()
@@ -262,7 +262,12 @@ export const fiatConnectKycTransferOut = () => {
       .toBeVisible()
       .withTimeout(10000)
     await element(by.type('PersonaPhoneNumberKit2.PhoneNumberTextField')).typeText('0123456789')
-    await element(by.text('Phone Number')).tap() // Tap away to unfocus from input
+    await element(by.text('Phone Number')).tap() // Tap away to unfocus from input 
+
+    // Scroll down to continue button - all params needed to scroll down on persona template
+    // Last parameter is the start point of the scroll, 0.5 is the middle of the element
+    await element(by.type('UIScrollView')).atIndex(0).scroll(600, 'down', NaN, 0.5)
+
     await element(by.text('Continue')).tap()
 
     await element(by.text('Done')).tap() // End of Persona flow
@@ -276,6 +281,7 @@ export const fiatConnectKycTransferOut = () => {
       .withTimeout(15000)
     await expect(element(by.id('step-one-grey'))).toBeVisible()
     await expect(element(by.id('step-two-grey'))).not.toBeVisible()
+    await element(by.type('UIScrollView')).atIndex(0).scroll(600, 'down', NaN, 0.5)
     await element(by.id('continueButton')).tap()
 
     // FiatDetailsScreen
