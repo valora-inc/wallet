@@ -232,13 +232,19 @@ export const fiatConnectKycTransferOut = () => {
     await element(by.text('Begin verifying')).tap()
 
     // Country of govt id screen
-    await waitFor(element(by.text('Select'))).toBeVisible().withTimeout(5 * 1000)
+    await waitFor(element(by.text('Select')))
+      .toBeVisible()
+      .withTimeout(5 * 1000)
     await element(by.text('Select')).tap()
 
     // Id select screen
-    await waitFor(element(by.text('Driver License'))).toBeVisible().withTimeout(5 * 1000)
+    await waitFor(element(by.text('Driver License')))
+      .toBeVisible()
+      .withTimeout(5 * 1000)
     await element(by.text('Driver License')).tap()
-    await waitFor(element(by.text('Enable camera'))).toBeVisible().withTimeout(5 * 1000)
+    await waitFor(element(by.text('Enable camera')))
+      .toBeVisible()
+      .withTimeout(5 * 1000)
     await element(by.text('Enable camera')).tap()
 
     // Manually wait for Take Photo button to appear, withTimeout didn't work
@@ -262,7 +268,7 @@ export const fiatConnectKycTransferOut = () => {
       .toBeVisible()
       .withTimeout(10000)
     await element(by.type('PersonaPhoneNumberKit2.PhoneNumberTextField')).typeText('0123456789')
-    await element(by.text('Phone Number')).tap() // Tap away to unfocus from input 
+    await element(by.text('Phone Number')).tap() // Tap away to unfocus from input
 
     // Scroll down to continue button - all params needed to scroll down on persona template
     // Last parameter is the start point of the scroll, 0.5 is the middle of the element
