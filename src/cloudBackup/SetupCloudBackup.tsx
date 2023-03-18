@@ -67,16 +67,27 @@ export async function getFirebaseToken(iosClientId: string) {
 
 export async function triggerLogin() {
   try {
-    const iosClientId = '1067724576910-t5anhsbi8gq2u1r91969ijbpc66kaqnk.apps.googleusercontent.com'
+    // login with firebase
+    // const iosClientId = '1067724576910-t5anhsbi8gq2u1r91969ijbpc66kaqnk.apps.googleusercontent.com'
+    // const firebaseToken = await getFirebaseToken(iosClientId)
+    // const torusPrivateKey = await getTorusPrivateKey({
+    //   verifier: 'firebase-oauth-alfajores',
+    //   jwt: firebaseToken,
+    //   network: 'testnet',
+    // })
 
-    // DIY customAuth login
-    const firebaseToken = await getFirebaseToken(iosClientId)
+    // login with Valora-signed JWT
+    const jwt = await getValoraVerifierJWT({
+      phoneNumber: '15551234567',
+      verificationCode: '123456',
+    })
     const torusPrivateKey = await getTorusPrivateKey({
-      verifier: 'firebase-oauth-alfajores',
-      jwt: firebaseToken,
+      verifier: 'phone-number-verification-alfajores',
+      jwt,
       network: 'testnet',
     })
-    Logger.debug(TAG, `torusPrivateKey: ${torusPrivateKey}`) // for Charlie's email this starts with 4feb9 on testnet
+
+    Logger.debug(TAG, `torusPrivateKey: ${torusPrivateKey}`)
 
     // initialize tkey
     // const postboxKey = new BN(privateKey, 16)
