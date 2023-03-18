@@ -200,7 +200,7 @@ export async function triggerLogin() {
       jwt: firebaseToken,
       network: 'testnet',
     })
-    Logger.info(TAG, `torusPrivateKey: ${torusPrivateKey}`)
+    Logger.info(TAG, `torusPrivateKey: ${torusPrivateKey}`) // for Charlie's email this starts with 4feb9 on testnet
 
     // initialize tkey
     // const postboxKey = new BN(privateKey, 16)

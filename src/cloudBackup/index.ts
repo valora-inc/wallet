@@ -46,23 +46,35 @@ export async function getTorusPrivateKey({
     network,
   })
   Logger.debug(TAG, `getting node details for verifier ${verifier} and sub ${sub}`)
-  const { torusNodeEndpoints } = await nodeDetailManager.getNodeDetails({
-    verifier,
-    verifierId: sub,
-  })
+  const { torusNodeEndpoints, torusNodePub, torusIndexes } = await nodeDetailManager.getNodeDetails(
+    {
+      verifier,
+      verifierId: sub,
+    }
+  )
   Logger.debug(
     TAG,
     `getting public address with torusNodeEndpoints ${JSON.stringify(torusNodeEndpoints)}`
   )
-  const torusPubKey = await torus.getPublicAddress(torusNodeEndpoints, {
+  const torusPubKey = await torus.getPublicAddress(torusNodeEndpoints, torusNodePub, {
     verifier,
     verifierId: sub,
-  }) // fixme getting this error: node results do not match at first lookup {}, {"code":-32601,"message":"Method not found"} in getPublicAddress
+  })
   Logger.debug(TAG, `getting shares with torusPubKey ${JSON.stringify(torusPubKey)}`)
-  if (typeof torusPubKey === 'string') throw new Error('must use extended pub key')
-  const shares = await torus.retrieveShares(torusNodeEndpoints, verifier, { verifier_id: sub }, jwt)
+  // if (typeof torusPubKey === 'string') throw new Error('must use extended pub key')  // todo check if this error is needed. CustomAuth has it, unclear why. While testing it got thrown. But ignoring it seems to work fine...
+  const shares = await torus.retrieveShares(
+    torusNodeEndpoints,
+    torusIndexes,
+    verifier,
+    { verifier_id: sub },
+    jwt
+  )
   Logger.debug(TAG, `got shares ${JSON.stringify(shares)}`)
-  if (shares.ethAddress.toLowerCase() !== torusPubKey.address.toLowerCase()) {
+  if (
+    typeof torusPubKey === 'string'
+      ? shares.ethAddress.toLowerCase() !== torusPubKey.toLowerCase()
+      : shares.ethAddress.toLowerCase() !== torusPubKey.address.toLowerCase()
+  ) {
     throw new Error('data ethAddress does not match response address')
   }
   return shares.privKey.toString()

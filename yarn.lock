@@ -5334,6 +5334,13 @@
   optionalDependencies:
     secp256k1 "^3.8.0"
 
+"@toruslabs/eccrypto@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@toruslabs/eccrypto/-/eccrypto-2.0.0.tgz#a3df9c6c37a86d250321370b83c6d92918d8891d"
+  integrity sha512-BBkWKHy0v3WOnFG3QYo+0W02ExpLghfYHuW5ePb9tAI2I8wwiWuuvvhz8JVYEACDsfDy0EikboJrgQVs5eZ7Tg==
+  dependencies:
+    elliptic "^6.5.4"
+
 "@toruslabs/fetch-node-details@^8.1.0":
   version "8.1.0"
   resolved "https://registry.yarnpkg.com/@toruslabs/fetch-node-details/-/fetch-node-details-8.1.0.tgz#eaa3a7bad6b8bc053c9683d65a6ead6ccc4e62fc"
@@ -5349,6 +5356,14 @@
   dependencies:
     lodash.merge "^4.6.2"
     loglevel "^1.8.0"
+
+"@toruslabs/http-helpers@^3.3.0":
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/@toruslabs/http-helpers/-/http-helpers-3.3.0.tgz#8b714571284a6da08da050544289bafa16f1b71d"
+  integrity sha512-lmef2k/Z5Kv8MDff46sb/PY/QBlBFCvGkrzAxjlxC1JBHZO8pbUqMTW8YKRgbkwinH5sR5SFQIAngqitL885Ng==
+  dependencies:
+    lodash.merge "^4.6.2"
+    loglevel "^1.8.1"
 
 "@toruslabs/metadata-helpers@^3.0.0":
   version "3.0.0"
@@ -5452,6 +5467,20 @@
     keccak "^3.0.3"
     loglevel "^1.8.1"
     web3-utils "^1.8.1"
+
+"@toruslabs/torus.js@^6.4.0":
+  version "6.4.0"
+  resolved "https://registry.yarnpkg.com/@toruslabs/torus.js/-/torus.js-6.4.0.tgz#0f0f3b8adf12cd97fecb18d50b43c55b34c91c0d"
+  integrity sha512-PlsAnn3SV9trDSkopZinJWMSemjr0kOTHliIFxcC+fjcUbWZ4eQMzEtiwdtOCDXwqygVkkyObbQBMZ3jgMHlUw==
+  dependencies:
+    "@toruslabs/eccrypto" "^2.0.0"
+    "@toruslabs/http-helpers" "^3.3.0"
+    bn.js "^5.2.1"
+    elliptic "^6.5.4"
+    json-stable-stringify "^1.0.2"
+    keccak "^3.0.3"
+    loglevel "^1.8.1"
+    web3-utils "^1.8.2"
 
 "@toruslabs/tweetnacl-js@^1.0.3":
   version "1.0.3"
@@ -20719,7 +20748,7 @@ web3-utils@1.3.6:
     underscore "1.12.1"
     utf8 "3.0.0"
 
-web3-utils@1.8.2, web3-utils@^1.8.1:
+web3-utils@1.8.2, web3-utils@^1.8.1, web3-utils@^1.8.2:
   version "1.8.2"
   resolved "https://registry.yarnpkg.com/web3-utils/-/web3-utils-1.8.2.tgz#c32dec5e9b955acbab220eefd7715bc540b75cc9"
   integrity sha512-v7j6xhfLQfY7xQDrUP0BKbaNrmZ2/+egbqP9q3KYmOiPpnvAfol+32slgL0WX/5n8VPvKCK5EZ1HGrAVICSToA==
