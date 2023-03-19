@@ -5,11 +5,12 @@ import { Share } from 'react-native'
 import { useSelector } from 'react-redux'
 import { InviteEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { INVITE_REWARDS_NFTS_LEARN_MORE, INVITE_REWARDS_STABLETOKEN_LEARN_MORE } from 'src/config'
 import { inviteModal } from 'src/images/Images'
 import { useShareUrl } from 'src/invite/hooks'
 import InviteModal from 'src/invite/InviteModal'
 import { getDisplayName, Recipient } from 'src/recipients/recipient'
-import { inviteRewardsActiveSelector, inviteRewardsVersionSelector } from 'src/send/selectors'
+import { inviteRewardsActiveSelector, inviteRewardsTypeSelector } from 'src/send/selectors'
 
 interface Props {
   recipient: Recipient
@@ -20,7 +21,7 @@ const InviteOptionsModal = ({ recipient, onClose }: Props) => {
   const { t } = useTranslation()
   const link = useShareUrl()
   const inviteRewardsActive = useSelector(inviteRewardsActiveSelector)
-  const inviteRewardsVersion = useSelector(inviteRewardsVersionSelector)
+  const inviteRewardsType = useSelector(inviteRewardsTypeSelector)
 
   const handleShareInvite = async () => {
     if (link) {
@@ -39,23 +40,27 @@ const InviteOptionsModal = ({ recipient, onClose }: Props) => {
   let title = t('inviteModal.title', { contactName: getDisplayName(recipient, t) })
   let description = t('inviteModal.body')
   let message = t('inviteModal.shareMessage', { link })
+  let helpLink = ''
+
   if (inviteRewardsActive) {
-    switch (inviteRewardsVersion) {
-      case 'v4':
+    switch (inviteRewardsType) {
+      case 'nft':
         title = t('inviteModal.rewardsActive.title', { contactName: getDisplayName(recipient, t) })
         description = t('inviteModal.rewardsActive.body', {
           contactName: getDisplayName(recipient, t),
         })
         message = t('inviteWithRewards', { link })
+        helpLink = INVITE_REWARDS_NFTS_LEARN_MORE
         break
-      case 'v5':
-        title = t('inviteModal.rewardsActiveV5.title', {
+      case 'cUSD':
+        title = t('inviteModal.rewardsActiveCUSD.title', {
           contactName: getDisplayName(recipient, t),
         })
-        description = t('inviteModal.rewardsActiveV5.body', {
+        description = t('inviteModal.rewardsActiveCUSD.body', {
           contactName: getDisplayName(recipient, t),
         })
-        message = t('inviteWithRewardsV5', { link })
+        message = t('inviteWithRewardsCUSD', { link })
+        helpLink = INVITE_REWARDS_STABLETOKEN_LEARN_MORE
         break
     }
   }

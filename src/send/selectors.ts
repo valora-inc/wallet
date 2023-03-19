@@ -16,12 +16,21 @@ export const isSendingSelector = (state: RootState) => {
 
 export const inviteRewardCusdSelector = (state: RootState) => state.send.inviteRewardCusd
 
-export const inviteRewardsVersionSelector = (state: RootState) => state.send.inviteRewardsVersion
+export const inviteRewardsTypeSelector = (state: RootState) => {
+  switch (state.send.inviteRewardsVersion) {
+    case 'v4':
+      return 'nft'
+    case 'v5':
+      return 'cUSD'
+    default:
+      return 'none'
+  }
+}
 
 export const inviteRewardsActiveSelector = createSelector(
-  [inviteRewardsVersionSelector, numberVerifiedCentrallySelector],
+  [inviteRewardsTypeSelector, numberVerifiedCentrallySelector],
   (inviteRewardsVersion, numberCentrallyVerified) =>
-    inviteRewardsVersion !== 'disabled' && numberCentrallyVerified
+    inviteRewardsVersion !== 'none' && numberCentrallyVerified
 )
 
 export const canSendTokensSelector = createSelector(

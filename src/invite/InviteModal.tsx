@@ -22,7 +22,6 @@ interface Props {
   buttonLabel: string
   disabled: boolean
   imageSource: ImageSourcePropType
-  helpKey?: string
   helpLink?: string
   onClose(): void
   onShareInvite(): void
@@ -35,13 +34,12 @@ const InviteModal = ({
   buttonLabel,
   disabled,
   imageSource,
-  helpKey,
   helpLink,
   onClose,
   onShareInvite,
 }: Props) => {
   const onPressHelp = () => {
-    if (helpKey && helpLink) {
+    if (helpLink) {
       ValoraAnalytics.track(InviteEvents.invite_help_link)
       navigate(Screens.WebViewScreen, { uri: helpLink })
     }
@@ -79,10 +77,10 @@ const InviteModal = ({
           onPress={onShareInvite}
         />
       </View>
-      {helpKey ? (
+      {helpLink ? (
         <View style={styles.helpContainer}>
           <Text style={styles.helpText}>
-            <Trans i18nKey={helpKey}>
+            <Trans i18nKey="inviteWithUrl.help">
               <Text style={styles.helpLink} onPress={onPressHelp} />
             </Trans>
           </Text>
@@ -112,13 +110,11 @@ const styles = StyleSheet.create({
     height: 120,
   },
   helpContainer: {
-    width: 312,
-    height: 100,
-    left: 24,
+    marginBottom: Spacing.Large32,
   },
   helpText: {
+    ...fontStyles.xsmall,
     color: colors.gray5,
-    fontSize: 12,
     textAlign: 'center',
   },
   helpLink: {
@@ -131,6 +127,7 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.Regular16,
   },
   textBold: {
+    ...fontStyles.xsmall,
     fontFamily: 'Inter-SemiBold',
   },
 })

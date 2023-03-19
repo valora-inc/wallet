@@ -5,11 +5,11 @@ import { Share } from 'react-native'
 import { useSelector } from 'react-redux'
 import { InviteEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { INVITE_REWARDS_STABLETOKEN_LEARN_MORE } from 'src/config'
+import { INVITE_REWARDS_NFTS_LEARN_MORE, INVITE_REWARDS_STABLETOKEN_LEARN_MORE } from 'src/config'
 import { inviteModal, inviteWithRewards } from 'src/images/Images'
 import { noHeader } from 'src/navigator/Headers'
 import { navigateBack } from 'src/navigator/NavigationService'
-import { inviteRewardsActiveSelector, inviteRewardsVersionSelector } from 'src/send/selectors'
+import { inviteRewardsActiveSelector, inviteRewardsTypeSelector } from 'src/send/selectors'
 import { useShareUrl } from './hooks'
 import InviteModal from './InviteModal'
 
@@ -17,28 +17,27 @@ export default function Invite() {
   const { t } = useTranslation()
   const shareUrl = useShareUrl()
   const inviteRewardsActive = useSelector(inviteRewardsActiveSelector)
-  const inviteRewardsVersion = useSelector(inviteRewardsVersionSelector)
+  const inviteRewardsType = useSelector(inviteRewardsTypeSelector)
 
   let title = t('inviteWithUrl.title')
   let descriptionKey = 'inviteWithUrl.body'
   let message = t('inviteWithUrl.share', { shareUrl })
   let image = inviteModal
-  let helpKey = ''
   let helpLink = ''
 
   if (inviteRewardsActive) {
-    switch (inviteRewardsVersion) {
-      case 'v4':
+    switch (inviteRewardsType) {
+      case 'nft':
         title = t('inviteWithUrl.rewardsActive.title')
         descriptionKey = 'inviteWithUrl.rewardsActive.body'
         message = t('inviteWithRewards', { link: shareUrl })
+        helpLink = INVITE_REWARDS_NFTS_LEARN_MORE
         image = inviteWithRewards
         break
-      case 'v5':
-        title = t('inviteWithUrl.rewardsActiveV5.title')
-        descriptionKey = 'inviteWithUrl.rewardsActiveV5.body'
-        message = t('inviteWithRewardsV5', { link: shareUrl })
-        helpKey = 'inviteWithUrl.help'
+      case 'cUSD':
+        title = t('inviteWithUrl.rewardsActiveCUSD.title')
+        descriptionKey = 'inviteWithUrl.rewardsActiveCUSD.body'
+        message = t('inviteWithRewardsCUSD', { link: shareUrl })
         helpLink = INVITE_REWARDS_STABLETOKEN_LEARN_MORE
         break
     }
@@ -57,7 +56,6 @@ export default function Invite() {
       descriptionKey={descriptionKey}
       buttonLabel={t('inviteWithUrl.button')}
       imageSource={image}
-      helpKey={helpKey}
       helpLink={helpLink}
       disabled={isNil(shareUrl)}
       onClose={navigateBack}
