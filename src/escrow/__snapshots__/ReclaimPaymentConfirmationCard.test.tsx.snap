@@ -681,6 +681,7 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
           }
           testID="TotalLineItem/ExchangeRate"
         >
+          tokenExchanteRate, {"symbol":"cUSD"}
           <Text>
             
             ₱

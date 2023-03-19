@@ -61,6 +61,7 @@ exports[`renders correctly when not ready 1`] = `
       }
     }
   >
+    equalToAmount
     Equal to 
     <Text
       style={
@@ -141,6 +142,7 @@ exports[`renders correctly when ready 1`] = `
       }
     }
   >
+    equalToAmount
     Equal to 
     <Text
       style={

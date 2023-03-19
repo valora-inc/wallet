@@ -86,6 +86,8 @@
   "contactSupport": "Liên hệ với Bộ phận hỗ trợ",
   "tapToCopy": "Nhấn để sao chép",
   "headerTitle": "Cụm từ khôi phục",
+  "introBackUpPhrase": "Back Up Recovery Phrase",
+  "introCompleteQuiz": "Complete our backup quiz to verify that your wallet can be recovered.\n\nIf you wrote it down incorrectly, you won’t be able to access your wallet if anything happens to your device.",
   "introTitle": "Cụm từ khôi phục của bạn",
   "introBody": "Cụm từ khôi phục là phần quan trọng nhất trong tài khoản.\n\nVui lòng tìm nơi riêng tư để thiết lập Cụm từ khôi phục của bạn. Thời gian thực hiện là khoảng 5 phút.",
   "introPrimaryAction": "Thiết lập",
@@ -98,12 +100,14 @@
   "failedFetchMnemonic": "Không tìm nạp được Cụm từ khôi phục của bạn",
   "backupAndRecovery": "Sao lưu và khôi phục",
   "writeDownKey": "Vui lòng viết ra Cụm từ khôi phục của bạn",
+  "writeDownKeyExperimental": "Please write down your phrase.",
   "completeEducation": "Tôi đã hiểu",
   "yourAccountKey": "Cụm từ khôi phục của bạn",
   "backupKeyNotification": "Để bảo vệ tiền, hãy thiết lập Cụm từ khôi phục ngay.",
   "backupKeyNotification2": "Keep your funds safe. Back up your Recovery Phrase now.",
   "backupKeyCTA": "Finish Backup Now",
   "backupKeySummary": "Tìm một nơi riêng tư và viết ra Cụm từ khôi phục của bạn. Vui lòng lưu giữ Cụm từ này ở nơi an toàn. Không lưu vào điện thoại của bạn.",
+  "backupKeyWarning": "If you lose your recovery phrase, you will lose access to all funds held in Valora.",
   "copied": "Đã sao chép Cụm từ vào bảng nhớ tạm",
   "moreInfo": "Thêm thông tin",
   "savedConfirmation": "Có, tôi đã viết ra Cụm từ khôi phục của mình.",
@@ -162,6 +166,7 @@
   "superchargeTitle": "Bắt đầu tham gia Supercharge",
   "superchargeDescription": "Nhận {{apy}}% tiền thưởng hằng năm tính trên số dư {{token}}. Sau đây là cách bắt đầu:",
   "superchargeConnectNumber": "Kết nối số điện thoại của bạn",
+  "superchargeReconnectNumber": "Reconnect your phone number\n<0>We have launched an improved Supercharge experience. Reconnect your phone number to keep earning rewards on your {{token}}.</0>",
   "superchargeMinimumBalance": "Thêm số dư tối thiểu là {{amount}} {{token}}",
   "superchargeDisclaimer": "Tăng tối đa tiền thưởng bằng cách nạp đến {{amount}} {{token}}",
   "superchargeDisclaimerMaxRewards": "Bạn sẽ nhận được tiền thưởng tối đa tính trên {{token}} của mình",
@@ -173,6 +178,8 @@
   },
   "superchargingTitle": "{{token}} của bạn đang được áp dụng Supercharge",
   "superchargingDescription": "Bạn đang nhận được {{apy}}% mỗi năm. Hằng tuần, bạn sẽ nhận được thông báo khi tiền thưởng đã về, hãy quay lại đây để xác nhận.",
+  "superchargingTitleV1_54": "{{token}} của bạn đang được áp dụng Supercharge",
+  "superchargingDescriptionV1_54": "Bạn đang nhận được {{apy}}% mỗi năm. Hằng tuần, bạn sẽ nhận được thông báo khi tiền thưởng đã về, hãy quay lại đây để xác nhận.",
   "superchargeRewardsAvailable": "Bạn có {{amount}} {{token}} cần xác nhận!",
   "superchargeRewardsAvailableMultipleTokens": "Bạn có {{amounts}} cần xác nhận!",
   "superchargeClaimText": "Xác nhận tiền thưởng của bạn để thêm vào số dư.",
@@ -1508,6 +1515,8 @@
     "insufficientFunds": "Không đủ số dư {{token}}. Hãy thử số tiền nhỏ hơn hoặc chọn token khác.",
     "fetchSwapQuoteFailed": "Xin lỗi vì sự chậm trễ này! Hệ thống đang mất nhiều thời gian hơn bình thường để có được tỷ giá quy đổi tốt nhất. Vui lòng thử lại trong vài phút nữa.",
     "disclaimer": "Hoán đổi được cung cấp bởi các đối tác trên Celo. <0> Tìm hiểu thêm. </0>",
+    "swapFromTokenSelection": "Trao đổi từ",
+    "swapToTokenSelection": "Trao đổi sang",
     "maxSwapAmountWarning": {
       "title": "Swapping the MAX amount",
       "body": "Make sure you have CELO in your wallet to cover gas fees for future transactions",
@@ -1573,6 +1582,10 @@
     "readMoreButtonText": "Đọc thêm trên blog",
     "loadingError": "Xin lỗi, chúng tôi không thể tải các bản cập nhật mới nhất. Vui lòng thử lại sau.",
     "retryButtonText": "Thử lại"
+  },
+  "reverifyUsingCPVHomecard": {
+    "description": "Reconnect your number to send, receive and get rewards on your crypto",
+    "buttonLabel": "Reconnect number"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Đô la Celo"
 }

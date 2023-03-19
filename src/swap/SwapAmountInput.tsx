@@ -25,11 +25,12 @@ interface Props {
   inputValue?: string | null
   onPressMax?(): void
   onSelectToken(): void
-  token: TokenBalance
+  token?: TokenBalance
   loading: boolean
   autoFocus?: boolean
   inputError?: boolean
   style?: StyleProp<ViewStyle>
+  buttonPlaceholder: string
 }
 
 const SwapAmountInput = ({
@@ -43,6 +44,7 @@ const SwapAmountInput = ({
   autoFocus,
   inputError,
   style,
+  buttonPlaceholder,
 }: Props) => {
   const { t } = useTranslation()
 
@@ -127,11 +129,18 @@ const SwapAmountInput = ({
           style={styles.tokenSelectButton}
           testID="SwapAmountInput/TokenSelect"
         >
-          <>
-            <Image source={{ uri: token.imageUrl }} style={styles.tokenImage} />
-            <Text style={styles.tokenName}>{token.symbol}</Text>
-            <DownArrowIcon color={Colors.gray5} />
-          </>
+          {token ? (
+            <>
+              <Image source={{ uri: token.imageUrl }} style={styles.tokenImage} />
+              <Text style={styles.tokenName}>{token.symbol}</Text>
+              <DownArrowIcon color={Colors.gray5} />
+            </>
+          ) : (
+            <>
+              <Text style={styles.tokenName}>{buttonPlaceholder}</Text>
+              <DownArrowIcon color={Colors.gray5} />
+            </>
+          )}
         </Touchable>
       </View>
     </View>
