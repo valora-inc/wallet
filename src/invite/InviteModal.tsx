@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.Regular16,
   },
   textBold: {
-    ...fontStyles.xsmall,
+    ...fontStyles.regular,
     fontFamily: 'Inter-SemiBold',
   },
 })
