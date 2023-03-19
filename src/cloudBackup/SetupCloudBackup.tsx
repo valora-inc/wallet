@@ -4,13 +4,14 @@ import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { getTorusPrivateKey } from 'src/cloudBackup/index'
+import { generateNewShareWithPrivateKey, getTorusPrivateKey } from 'src/cloudBackup/index'
 import Logger from 'src/utils/Logger'
 import ThresholdKey from '@tkey/default'
 import TorusServiceProviderBase from '@tkey/service-provider-base'
 import TorusStorageLayer from '@tkey/storage-layer-torus'
 import { GoogleSignin } from '@react-native-google-signin/google-signin'
 import auth from '@react-native-firebase/auth'
+import { BN } from 'ethereumjs-util'
 
 const TAG = 'SetupCloudBackup'
 
@@ -65,7 +66,7 @@ export async function getFirebaseToken(iosClientId: string) {
   return firebaseToken
 }
 
-export async function triggerLogin() {
+export async function initializeTKeyWithPhoneJWTShare() {
   try {
     // login with firebase
     // const iosClientId = '1067724576910-t5anhsbi8gq2u1r91969ijbpc66kaqnk.apps.googleusercontent.com'
@@ -90,12 +91,27 @@ export async function triggerLogin() {
     Logger.debug(TAG, `torusPrivateKey: ${torusPrivateKey}`)
 
     // initialize tkey
-    // const postboxKey = new BN(privateKey, 16)
-    // tKey.serviceProvider.postboxKey = postboxKey
-    // const keyDetails = await tKey.initialize() // fixme somehow this starts off with 2 shares instead of 1.. (??)
-    // Logger.info(TAG, `tkey initialized with keyDetails: ${JSON.stringify(keyDetails)}`)
+    tKey.serviceProvider.postboxKey = new BN(torusPrivateKey, 16)
+    const keyDetails = await tKey.initialize() // fixme somehow this starts off with 2 shares instead of 1.. (??)
+    Logger.info(TAG, `tkey initialized with keyDetails: ${JSON.stringify(keyDetails)}`)
   } catch (error) {
     Logger.error(TAG, 'triggerLogin failed', error)
+  }
+}
+
+export async function addFirebaseShare() {
+  try {
+    const iosClientId = '1067724576910-t5anhsbi8gq2u1r91969ijbpc66kaqnk.apps.googleusercontent.com'
+    const firebaseToken = await getFirebaseToken(iosClientId)
+    const torusPrivateKey = await getTorusPrivateKey({
+      verifier: 'firebase-oauth-alfajores',
+      jwt: firebaseToken,
+      network: 'testnet',
+    })
+    await generateNewShareWithPrivateKey(tKey, new BN(torusPrivateKey, 16), 'firebaseTorusKey')
+    Logger.info(TAG, `tKey details: ${JSON.stringify(tKey.getKeyDetails())}`)
+  } catch (error) {
+    Logger.error(TAG, 'addFirebaseShare failed', error)
   }
 }
 
@@ -115,7 +131,7 @@ function SetupCloudBackup() {
 
   const onPressBackup = () => {
     setBackupButtonClickable(false)
-    void triggerLogin().then(() => {
+    void initializeTKeyWithPhoneJWTShare().then(() => {
       setBackupButtonClickable(true)
     })
   }
@@ -158,10 +174,17 @@ function SetupCloudBackup() {
         }
       </Text>
       <Button
-        text={'Back up with Google'}
+        text={'Back up with Phone'}
         onPress={onPressBackup}
         showLoading={!backupButtonClickable}
-        testID="BackUpWithGoogle"
+        testID="BackUpWithPhone"
+        type={BtnTypes.PRIMARY}
+        size={BtnSizes.MEDIUM}
+      />
+      <Button
+        text={'Add Firebase Share'}
+        onPress={addFirebaseShare}
+        showLoading={!backupButtonClickable}
         type={BtnTypes.PRIMARY}
         size={BtnSizes.MEDIUM}
       />
@@ -169,7 +192,6 @@ function SetupCloudBackup() {
         text={'Get details'}
         onPress={onPressDetails}
         showLoading={!backupButtonClickable}
-        testID="BackUpWithGoogle"
         type={BtnTypes.PRIMARY}
         size={BtnSizes.MEDIUM}
       />
