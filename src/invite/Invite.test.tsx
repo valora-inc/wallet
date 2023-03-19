@@ -9,6 +9,10 @@ import * as InviteUtils from 'src/invite/utils'
 import { createMockStore } from 'test/utils'
 import Invite from './Invite'
 
+jest.mock('react-i18next', () => ({
+  ...(jest.requireActual('../../__mocks__/react-i18next') as any),
+}))
+
 jest.mock('src/analytics/ValoraAnalytics')
 const mockShare = jest.spyOn(Share, 'share')
 const mockedCreateDynamicLink = jest.spyOn(InviteUtils, 'createDynamicLink')
@@ -48,7 +52,7 @@ describe('Invite', () => {
 
     expect(getByTestId('InviteModalShareButton')).toBeDisabled()
     expect(getByText('inviteWithUrl.title')).toBeTruthy()
-    expect(getByText('inviteWithUrl.body')).toBeTruthy()
+    expect(getByTestId('InviteModalStyledDescription')).toBeTruthy()
   })
 
   it('should enable button when share URL is loaded', async () => {
@@ -95,7 +99,7 @@ describe('Invite', () => {
     })
 
     expect(getByText('inviteWithUrl.rewardsActive.title')).toBeTruthy()
-    expect(getByText('inviteWithUrl.rewardsActive.body')).toBeTruthy()
+    expect(getByTestId('InviteModalStyledDescription')).toBeTruthy()
 
     await waitFor(() => expect(getByTestId('InviteModalShareButton')).not.toBeDisabled())
     press(getByTestId('InviteModalShareButton'))

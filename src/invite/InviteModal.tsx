@@ -60,7 +60,7 @@ const InviteModal = ({
         <Text style={[fontStyles.h2, styles.text]}>{title}</Text>
         {description ? <Text style={[fontStyles.regular, styles.text]}>{description}</Text> : null}
         {descriptionKey ? (
-          <Text style={[fontStyles.regular, styles.text]}>
+          <Text style={[fontStyles.regular, styles.text]} testID="InviteModalStyledDescription">
             <Trans i18nKey={descriptionKey}>
               <Text style={styles.textBold} />
             </Trans>

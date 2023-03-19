@@ -72,6 +72,7 @@ const InviteOptionsModal = ({ recipient, onClose }: Props) => {
       buttonLabel={t('inviteModal.sendInviteButtonLabel')}
       imageSource={inviteModal}
       disabled={!link}
+      helpLink={helpLink}
       onClose={handleClose}
       onShareInvite={handleShareInvite}
     />
