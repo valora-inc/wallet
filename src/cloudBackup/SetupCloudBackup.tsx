@@ -4,7 +4,11 @@ import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { generateNewShareWithPrivateKey, getTorusPrivateKey } from 'src/cloudBackup/index'
+import {
+  generateNewShareWithPrivateKey,
+  getTorusPrivateKey,
+  inputShareFromPrivateKey,
+} from 'src/cloudBackup/index'
 import Logger from 'src/utils/Logger'
 import ThresholdKey from '@tkey/default'
 import TorusServiceProviderBase from '@tkey/service-provider-base'
@@ -79,7 +83,7 @@ export async function initializeTKeyWithPhoneJWTShare() {
 
     // login with Valora-signed JWT
     const jwt = await getValoraVerifierJWT({
-      phoneNumber: '15551234567',
+      phoneNumber: '12345',
       verificationCode: '123456',
     })
     const torusPrivateKey = await getTorusPrivateKey({
@@ -92,7 +96,7 @@ export async function initializeTKeyWithPhoneJWTShare() {
 
     // initialize tkey
     tKey.serviceProvider.postboxKey = new BN(torusPrivateKey, 16)
-    const keyDetails = await tKey.initialize() // fixme somehow this starts off with 2 shares instead of 1.. (??)
+    const keyDetails = await tKey.initialize() // fixme somehow this starts off with 2 shares instead of 1.. (??). and when you login again with the same PN you need the 2nd share to do anything :(
     Logger.info(TAG, `tkey initialized with keyDetails: ${JSON.stringify(keyDetails)}`)
   } catch (error) {
     Logger.error(TAG, 'triggerLogin failed', error)
@@ -112,6 +116,23 @@ export async function addFirebaseShare() {
     Logger.info(TAG, `tKey details: ${JSON.stringify(tKey.getKeyDetails())}`)
   } catch (error) {
     Logger.error(TAG, 'addFirebaseShare failed', error)
+  }
+}
+
+export async function inputFirebaseShare() {
+  try {
+    // fixme not working, getting invalid private key error here, unclear why
+    const iosClientId = '1067724576910-t5anhsbi8gq2u1r91969ijbpc66kaqnk.apps.googleusercontent.com'
+    const firebaseToken = await getFirebaseToken(iosClientId)
+    const torusPrivateKey = await getTorusPrivateKey({
+      verifier: 'firebase-oauth-alfajores',
+      jwt: firebaseToken,
+      network: 'testnet',
+    })
+    await inputShareFromPrivateKey(tKey, new BN(torusPrivateKey, 16), 'firebaseTorusKey')
+    Logger.info(TAG, `tKey details: ${JSON.stringify(tKey.getKeyDetails())}`)
+  } catch (error) {
+    Logger.error(TAG, 'inputFirebaseShare failed', error)
   }
 }
 
@@ -184,6 +205,13 @@ function SetupCloudBackup() {
       <Button
         text={'Add Firebase Share'}
         onPress={addFirebaseShare}
+        showLoading={!backupButtonClickable}
+        type={BtnTypes.PRIMARY}
+        size={BtnSizes.MEDIUM}
+      />
+      <Button
+        text={'Input Firebase Share'}
+        onPress={inputFirebaseShare}
         showLoading={!backupButtonClickable}
         type={BtnTypes.PRIMARY}
         size={BtnSizes.MEDIUM}
