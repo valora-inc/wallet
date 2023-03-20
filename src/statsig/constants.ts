@@ -28,8 +28,8 @@ export const ExperimentConfigs = {
     experimentName: StatsigExperiments.RECOVERY_PHRASE_IN_ONBOARDING,
     defaultValues: {
       enableForcedBackup: true,
-      showRecoveryPhraseInOnboarding: true,
-      showCloudBackupFakeDoor: true,
+      showRecoveryPhraseInOnboarding: false,
+      showCloudBackupFakeDoor: false,
       useNewBackupFlowCopy: false,
       showBackupAlert: false,
       useNewBackupHomeCard: false,
