@@ -1635,6 +1635,17 @@
     "loadingError": "Przepraszamy, nie udało się załadować najnowszych aktualizacji. Spróbuj ponownie później.",
     "retryButtonText": "Spróbuj ponownie"
   },
+  "chooseYourAdventure": {
+    "header": "Welcome to Valora",
+    "subtitle": "What would you like to do first?",
+    "later": "I'll explore later",
+    "options": {
+      "add": "Add funds",
+      "dapp": "Find ways to use crypto",
+      "profile": "Build your profile",
+      "learn": "Learn about Celo"
+    }
+  },
   "reverifyUsingCPVHomecard": {
     "description": "Podłącz ponownie swój numer, aby wysyłać, odbierać i otrzymywać nagrody za kryptowaluty",
     "buttonLabel": "Podłącz ponownie numer"
