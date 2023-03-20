@@ -361,20 +361,20 @@
       "simulator": {
         "type": "ios.simulator",
         "device": {
-          "type": "iPhone 11"
+          "type": "iPhone SE (2nd generation)"
         }
       },
       "simulator.15.0": {
         "type": "ios.simulator",
         "device": {
-          "type": "iPhone 11",
+          "type": "iPhone SE (2nd generation)",
           "os": "iOS 15.0"
         }
       },
       "simulator.14.5": {
         "type": "ios.simulator",
         "device": {
-          "type": "iPhone 11",
+          "type": "iPhone SE (2nd generation)",
           "os": "iOS 14.5"
         }
       },

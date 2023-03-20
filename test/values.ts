@@ -994,6 +994,7 @@ export const mockOnboardingProps = {
   skipVerification: true,
   numberAlreadyVerifiedCentrally: false,
   showChooseAdventureScreen: false,
+  showRecoveryPhrase: false,
 }
 
 export const mockDappListV1: DappV1[] = [

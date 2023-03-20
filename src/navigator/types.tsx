@@ -256,6 +256,8 @@ export type StackParamList = {
   }
   [Screens.PhotosEducation]: undefined
   [Screens.PhotosNUX]: undefined
+  [Screens.ProtectWallet]: undefined
+  [Screens.OnboardingRecoveryPhrase]: undefined
   [Screens.Profile]: undefined
   [Screens.QRNavigator]: NestedNavigatorParams<QRTabParamList> | undefined
   [Screens.ReclaimPaymentConfirmationScreen]: {
