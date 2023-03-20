@@ -71,6 +71,7 @@ function ProtectWallet({ navigation }: Props) {
           />
         )
       },
+      headerLeft: undefined,
     })
   }, [navigation, step, totalSteps])
 

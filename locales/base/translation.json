@@ -57,7 +57,7 @@
       "subtitle": "Restore your wallet without a phrase",
       "bottomSheet": {
         "title": "Cloud Backup is coming soon!",
-        "restoreComingSoon": "We are currently working on a way to restore your wallet without a recovery phrase.",
+        "restoreComingSoon": "Cloud backup is a way to restore your wallet without a recovery phrase. We are working on this as fast as we can and will notify you once it's available to use.",
         "writeDownPhrase": "In the meantime, please write down your recovery phrase to manually backup your wallet.",
         "continue": "Continue to Recovery Phrase"
       }
