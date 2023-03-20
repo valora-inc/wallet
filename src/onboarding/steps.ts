@@ -14,6 +14,7 @@ import * as NavigationService from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { RootState } from 'src/redux/reducers'
 import { store } from 'src/redux/store'
+import { getOnboardingExperimentParams } from 'src/onboarding'
 
 export const FIRST_ONBOARDING_SCREEN = Screens.NameAndPicture
 export const END_OF_ONBOARDING_SCREEN = Screens.WalletHome
@@ -40,6 +41,7 @@ export interface OnboardingProps {
   supportedBiometryType: BIOMETRY_TYPE | null
   skipVerification: boolean
   numberAlreadyVerifiedCentrally: boolean
+  showRecoveryPhrase: boolean
 }
 
 /**
@@ -55,6 +57,7 @@ export function onboardingPropsSelector(state: RootState): OnboardingProps {
   const supportedBiometryType = supportedBiometryTypeSelector(state)
   const skipVerification = skipVerificationSelector(state)
   const numberAlreadyVerifiedCentrally = numberVerifiedCentrallySelector(state)
+  const { showRecoveryPhraseInOnboarding: showRecoveryPhrase } = getOnboardingExperimentParams()
 
   return {
     recoveringFromStoreWipe,
@@ -62,6 +65,7 @@ export function onboardingPropsSelector(state: RootState): OnboardingProps {
     supportedBiometryType,
     skipVerification,
     numberAlreadyVerifiedCentrally,
+    showRecoveryPhrase,
   }
 }
 
@@ -159,6 +163,7 @@ export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: 
     supportedBiometryType,
     skipVerification,
     numberAlreadyVerifiedCentrally,
+    showRecoveryPhrase,
   } = props
 
   switch (firstScreenInStep) {
@@ -180,6 +185,9 @@ export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: 
           } else if (choseToRestoreAccount) {
             popToScreen(Screens.Welcome)
             navigate(Screens.ImportWallet)
+          } else if (showRecoveryPhrase) {
+            dispatch(initializeAccount())
+            navigate(Screens.ProtectWallet)
           } else if (skipVerification) {
             dispatch(initializeAccount())
             // Tell the app that the user has already seen verification so that it
@@ -197,6 +205,9 @@ export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: 
         next: () => {
           if (choseToRestoreAccount) {
             navigate(Screens.ImportWallet)
+          } else if (showRecoveryPhrase) {
+            dispatch(initializeAccount())
+            navigate(Screens.ProtectWallet)
           } else if (skipVerification) {
             dispatch(initializeAccount())
             dispatch(setHasSeenVerificationNux(true))
@@ -225,6 +236,17 @@ export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: 
           // initializeAccount & setHasSeenVerificationNux are called in the middle of
           // the verification flow, so we don't need to call them here.
           navigateHome()
+        },
+      }
+    case Screens.ProtectWallet:
+      return {
+        next: () => {
+          if (skipVerification) {
+            dispatch(setHasSeenVerificationNux(true))
+            navigateHome()
+          } else {
+            navigate(Screens.VerificationStartScreen)
+          }
         },
       }
     default:
