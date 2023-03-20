@@ -1631,6 +1631,17 @@
     "loadingError": "Üzgünüz, en son güncellemeleri yükleyemedik. Lütfen daha sonra tekrar deneyin.",
     "retryButtonText": "Yeniden Dene"
   },
+  "chooseYourAdventure": {
+    "header": "Welcome to Valora",
+    "subtitle": "What would you like to do first?",
+    "later": "I'll explore later",
+    "options": {
+      "add": "Add funds",
+      "dapp": "Find ways to use crypto",
+      "profile": "Build your profile",
+      "learn": "Learn about Celo"
+    }
+  },
   "reverifyUsingCPVHomecard": {
     "description": "Kriptonuzu göndermek, almak ve ödüller kazanmak için telefon numaranızı yeniden bağlayın",
     "buttonLabel": "Numarayı yeniden bağla"
