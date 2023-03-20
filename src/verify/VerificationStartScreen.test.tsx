@@ -2,15 +2,23 @@ import { act, fireEvent, render, waitFor, within } from '@testing-library/react-
 import React from 'react'
 import * as Keychain from 'react-native-keychain'
 import { Provider } from 'react-redux'
-import { navigate, navigateHome } from 'src/navigator/NavigationService'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import { goToNextOnboardingScreen } from 'src/onboarding/steps'
 import VerificationStartScreen from 'src/verify/VerificationStartScreen'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
+import { mockOnboardingProps } from 'test/values'
 import { mocked } from 'ts-jest/utils'
 
 const mockedKeychain = mocked(Keychain)
+
+jest.mock('src/onboarding/steps', () => ({
+  goToNextOnboardingScreen: jest.fn(),
+  getOnboardingStepValues: () => ({ step: 3, totalSteps: 3 }),
+  onboardingPropsSelector: () => mockOnboardingProps,
+}))
 
 const renderComponent = (navParams?: StackParamList[Screens.VerificationStartScreen]) =>
   render(
@@ -94,7 +102,10 @@ describe('VerificationStartScreen', () => {
       fireEvent.press(getByText('skip'))
     })
 
-    expect(navigateHome).toHaveBeenCalledTimes(1)
+    expect(goToNextOnboardingScreen).toHaveBeenCalledWith({
+      firstScreenInCurrentStep: Screens.VerificationStartScreen,
+      onboardingProps: mockOnboardingProps,
+    })
   })
 
   it('proceeds to the next verification step', async () => {
