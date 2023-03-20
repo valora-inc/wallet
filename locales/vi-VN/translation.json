@@ -1590,6 +1590,21 @@
       "action": "Tiếp tục",
       "body": "Phí và số tiền điện tử có thể thay đổi do biến động của thị trường tiền điện tử. \n\n Vui lòng xem lại số tiền và phí cuối cùng của bạn rồi gửi lại."
     },
+    "swapCompleteSection": {
+      "title": "Swap successful",
+      "subtitle": "Your assets are now in your wallet",
+      "done": "Xong"
+    },
+    "swapErrorSection": {
+      "title": "We couldn’t complete your swap",
+      "subtitle": "Your assets are safe in your wallet.\nPlease try again.",
+      "contactSupport": "If you need additional help, you can contact\n<0>customer support<0>"
+    },
+    "swapActionBar": {
+      "tryAgain": "Thử lại",
+      "done": "Xong",
+      "swapAgain": "Trao đổi lại"
+    },
     "swapErrorModal": {
       "title": "Chúng tôi không thể hoàn tất giao dịch này.",
       "body": "Vui lòng đợi và thử lại sau hoặc liên hệ với đội ngũ hỗ trợ của chúng tôi để được trợ giúp.",
