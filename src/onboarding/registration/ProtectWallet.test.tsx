@@ -43,7 +43,7 @@ const mockExperimentParams = {
   showCloudBackupFakeDoor: true,
   useNewBackupFlowCopy: false,
   showBackupAlert: false,
-  useNewBackupHomecard: false,
+  useNewBackupHomeCard: false,
 }
 
 describe('ProtectWalletScreen', () => {
