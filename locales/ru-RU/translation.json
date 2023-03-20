@@ -166,6 +166,7 @@
   "superchargeTitle": "Присоединяйтесь к программе Supercharge",
   "superchargeDescription": "Получите вознаграждение 12% годовых на свой баланс {{token}}. Вот как начать:",
   "superchargeConnectNumber": "Подключите свой номер телефона",
+  "superchargeReconnectNumber": "Reconnect your phone number\n<0>We have launched an improved Supercharge experience. Reconnect your phone number to keep earning rewards on your {{token}}.</0>",
   "superchargeMinimumBalance": "Внесите минимальную сумму {{amount}} {{token}}",
   "superchargeDisclaimer": "Получите максимальное вознаграждение, внеся до {{amount}} {{token}}",
   "superchargeDisclaimerMaxRewards": "Вы получаете максимальное вознаграждение за {{token}}",
@@ -177,6 +178,8 @@
   },
   "superchargingTitle": "Для вашего {{token}} действует программа Supercharge",
   "superchargingDescription": "Вы получаете {{apy}}% годовых. По готовности вознаграждений вы будете еженедельно получать уведомление. Вернитесь сюда, чтобы потребовать их.",
+  "superchargingTitleV1_54": "Для вашего {{token}} действует программа Supercharge",
+  "superchargingDescriptionV1_54": "Вы получаете {{apy}}% годовых. По готовности вознаграждений вы будете еженедельно получать уведомление. Вернитесь сюда, чтобы потребовать их.",
   "superchargeRewardsAvailable": "Вы можете заявить {{amount}} {{token}}!",
   "superchargeRewardsAvailableMultipleTokens": "У вас есть {{amounts}} для подачи заявки!",
   "superchargeClaimText": "Заявите о своих вознаграждениях, чтобы добавить их на свой баланс.",
@@ -1518,6 +1521,8 @@
     "insufficientFunds": "Недостаточный остаток {{token}}. Попробуйте внести меньшую сумму или выберите другой токен.",
     "fetchSwapQuoteFailed": "Извините за задержку! Для получения самого выгодного обменного курса требуется больше времени. Повторите попытку через несколько минут.",
     "disclaimer": "Обмены, поддерживаемые партнерами по Celo. <0>Подробнее.</0>",
+    "swapFromTokenSelection": "Обменять с",
+    "swapToTokenSelection": "Обменять на",
     "maxSwapAmountWarning": {
       "title": "Swapping the MAX amount",
       "body": "Make sure you have CELO in your wallet to cover gas fees for future transactions",
@@ -1583,6 +1588,10 @@
     "readMoreButtonText": "Подробнее в блоге",
     "loadingError": "К сожаланию, нам не удалось загрузить последние обновления. Повторите попытку позже.",
     "retryButtonText": "Повторить"
+  },
+  "reverifyUsingCPVHomecard": {
+    "description": "Reconnect your number to send, receive and get rewards on your crypto",
+    "buttonLabel": "Reconnect number"
   },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",

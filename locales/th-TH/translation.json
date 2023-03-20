@@ -166,6 +166,7 @@
   "superchargeTitle": "เริ่ม Supercharge",
   "superchargeDescription": "รับรางวัลรายปี {{apy}}% ในยอดคงเหลือ {{token}} ของคุณ โดยมีวิธีการเริ่มต้นดังนี้",
   "superchargeConnectNumber": "เชื่อมต่อหมายเลขโทรศัพท์ของคุณ",
+  "superchargeReconnectNumber": "Reconnect your phone number\n<0>We have launched an improved Supercharge experience. Reconnect your phone number to keep earning rewards on your {{token}}.</0>",
   "superchargeMinimumBalance": "เพิ่มยอดคงเหลือขั้นต่ำที่ {{amount}} {{token}}",
   "superchargeDisclaimer": "รับรางวัลสูงสุดโดยการเพิ่มให้ถึง {{amount}} {{token}}",
   "superchargeDisclaimerMaxRewards": "คุณกำลังจะได้รับรางวัลสูงสุดเป็น {{token}}",
@@ -177,6 +178,8 @@
   },
   "superchargingTitle": "กำลัง Supercharge {{token}} ของคุณ",
   "superchargingDescription": "คุณจะได้รับ {{apy}}% ทุกปี ในแต่ละสัปดาห์ คุณจะได้รับการแจ้งเตือนเมื่อรางวัลของคุณพร้อม กลับมาที่นี่เพื่อขอรับรางวัล",
+  "superchargingTitleV1_54": "กำลัง Supercharge {{token}} ของคุณ",
+  "superchargingDescriptionV1_54": "คุณจะได้รับ {{apy}}% ทุกปี ในแต่ละสัปดาห์ คุณจะได้รับการแจ้งเตือนเมื่อรางวัลของคุณพร้อม กลับมาที่นี่เพื่อขอรับรางวัล",
   "superchargeRewardsAvailable": "คุณมี {{amount}} {{token}} ที่สามารถขอรับได้!",
   "superchargeRewardsAvailableMultipleTokens": "คุณมี {{amounts}} ที่สามารถขอรับได้!",
   "superchargeClaimText": "ขอรับรางวัลเพื่อเพิ่มไปยังยอดคงเหลือของคุณ",
@@ -1512,6 +1515,8 @@
     "insufficientFunds": "ยอดคงเหลือ {{token}} ไม่เพียงพอ ลองจำนวนเงินที่น้อยลงหรือเลือกโทเค็นอื่น",
     "fetchSwapQuoteFailed": "ขออภัยในความล่าช้า การดำเนินการนี้ใช้เวลานานกว่าปกติเพื่อให้ได้อัตราแลกเปลี่ยนที่ดีที่สุด โปรดลองอีกครั้งในอีกสองสามนาที",
     "disclaimer": "แลกเปลี่ยนกับพันธมิตรใน Celo <0> เรียนรู้เพิ่มเติม </0>",
+    "swapFromTokenSelection": "สว็อปจาก",
+    "swapToTokenSelection": "สว็อปเป็น",
     "maxSwapAmountWarning": {
       "title": "Swapping the MAX amount",
       "body": "Make sure you have CELO in your wallet to cover gas fees for future transactions",
@@ -1577,6 +1582,10 @@
     "readMoreButtonText": "อ่านเพิ่มเติมเกี่ยวกับบล็อก",
     "loadingError": "ขออภัยเราไม่สามารถโหลดการอัปเดตล่าสุดได้ กรุณาลองใหม่อีกครั้งในภายหลัง.",
     "retryButtonText": "ลองอีกครั้ง"
+  },
+  "reverifyUsingCPVHomecard": {
+    "description": "Reconnect your number to send, receive and get rewards on your crypto",
+    "buttonLabel": "Reconnect number"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo ดอลลาร์"
 }
