@@ -1629,6 +1629,17 @@
     "loadingError": "抱歉，我们无法加载最近的更新。请稍后再试。",
     "retryButtonText": "重试"
   },
+  "chooseYourAdventure": {
+    "header": "Welcome to Valora",
+    "subtitle": "What would you like to do first?",
+    "later": "I'll explore later",
+    "options": {
+      "add": "Add funds",
+      "dapp": "Find ways to use crypto",
+      "profile": "Build your profile",
+      "learn": "Learn about Celo"
+    }
+  },
   "reverifyUsingCPVHomecard": {
     "description": "重新关联您的号码，以发送、接收并获取基于您的加密货币的奖励",
     "buttonLabel": "重新关联号码"
