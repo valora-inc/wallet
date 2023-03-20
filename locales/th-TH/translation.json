@@ -1590,6 +1590,21 @@
       "action": "ดำเนินการต่อ",
       "body": "จำนวนเงินคริปโตและค่าธรรมเนียมอาจมีการเปลี่ยนแปลงเนื่องจากความผันผวนของตลาดคริปโต \n\n โปรดตรวจสอบจำนวนเงินและค่าธรรมเนียมสุดท้ายของคุณและส่งอีกครั้ง"
     },
+    "swapCompleteSection": {
+      "title": "Swap successful",
+      "subtitle": "Your assets are now in your wallet",
+      "done": "เสร็จสิ้น"
+    },
+    "swapErrorSection": {
+      "title": "We couldn’t complete your swap",
+      "subtitle": "Your assets are safe in your wallet.\nPlease try again.",
+      "contactSupport": "If you need additional help, you can contact\n<0>customer support<0>"
+    },
+    "swapActionBar": {
+      "tryAgain": "ลองอีกครั้ง",
+      "done": "เสร็จสิ้น",
+      "swapAgain": "สว็อปอีกครั้ง"
+    },
     "swapErrorModal": {
       "title": "เราไม่สามารถดำเนินการธุรกรรมนี้ได้",
       "body": "โปรดรอแล้วลองอีกครั้งภายหลัง หรือติดต่อฝ่ายบริการลูกค้าของเราเพื่อขอความช่วยเหลือ",
