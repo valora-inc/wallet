@@ -117,8 +117,8 @@
   "contactSupport": "ติดต่อฝ่ายบริการลูกค้า",
   "tapToCopy": "แตะเพื่อคัดลอก",
   "headerTitle": "วลีกู้คืนรหัส",
-  "introBackUpPhrase": "Back Up Recovery Phrase",
-  "introCompleteQuiz": "Complete our backup quiz to verify that your wallet can be recovered.\n\nIf you wrote it down incorrectly, you won’t be able to access your wallet if anything happens to your device.",
+  "introBackUpPhrase": "สำรองข้อมูลวลีกู้คืนรหัส",
+  "introCompleteQuiz": "ทำแบบทดสอบการสำรองข้อมูลของเราเพื่อยืนยันว่าจะสามารถกู้คืนกระเป๋าเงินของคุณได้\n\nหากคุณจดบันทึกข้อมูลไม่ถูกต้อง คุณจะไม่สามารถเข้าถึงกระเป๋าเงินของคุณได้ หากมีอะไรเกิดขึ้นกับอุปกรณ์ของคุณ",
   "introTitle": "วลีกู้คืนรหัสของคุณ",
   "introBody": "วลีกู้คืนรหัสเป็นส่วนที่สำคัญที่สุดในบัญชีของคุณ\n\nโปรดหาสถานที่ส่วนตัวเพื่อตั้งค่าวลีของคุณ ซึ่งจะใช้เวลาประมาณห้านาที",
   "introPrimaryAction": "ตั้งค่า",
@@ -131,14 +131,14 @@
   "failedFetchMnemonic": "ไม่สามารถเรียกดูวลีกู้คืนรหัสของคุณได้",
   "backupAndRecovery": "สำรองและกู้คืนข้อมูล",
   "writeDownKey": "โปรดจดบันทึกวลีของคุณไว้",
-  "writeDownKeyExperimental": "Please write down your phrase.",
+  "writeDownKeyExperimental": "โปรดจดบันทึกวลีของคุณไว้",
   "completeEducation": "ฉันเข้าใจ",
   "yourAccountKey": "วลีกู้คืนรหัสของคุณ",
   "backupKeyNotification": "เก็บเงินของคุณให้ปลอดภัย ตั้งค่าวลีกู้คืนรหัสของคุณตอนนี้",
-  "backupKeyNotification2": "Keep your funds safe. Back up your Recovery Phrase now.",
-  "backupKeyCTA": "Finish Backup Now",
+  "backupKeyNotification2": "เก็บเงินทุนของคุณให้ปลอดภัย สำรองข้อมูลวลีกู้คืนรหัสตอนนี้",
+  "backupKeyCTA": "สำรองข้อมูลให้เสร็จตอนนี้",
   "backupKeySummary": "หาสถานที่ส่วนตัวเพื่อจดบันทึกวลีกู้คืนรหัสของคุณ โปรดเก็บวลีกู้คืนรหัสไว้ในที่ปลอดภัย ห้ามบันทึกลงในโทรศัพท์ของคุณ",
-  "backupKeyWarning": "If you lose your recovery phrase, you will lose access to all funds held in Valora.",
+  "backupKeyWarning": "หากคุณทำวลีกู้คืนรหัสหาย คุณจะไม่สามารถเข้าถึงเงินทุนทั้งหมดที่มีอยู่ใน Valora ได้",
   "copied": "คัดลอกวลีไปยังคลิปบอร์ดแล้ว",
   "moreInfo": "ข้อมูลเพิ่มเติม",
   "savedConfirmation": "ใช่ ฉันจดบันทึกวลีของฉันไว้แล้ว",
@@ -197,7 +197,7 @@
   "superchargeTitle": "เริ่ม Supercharge",
   "superchargeDescription": "รับรางวัลรายปี {{apy}}% ในยอดคงเหลือ {{token}} ของคุณ โดยมีวิธีการเริ่มต้นดังนี้",
   "superchargeConnectNumber": "เชื่อมต่อหมายเลขโทรศัพท์ของคุณ",
-  "superchargeReconnectNumber": "Reconnect your phone number\n<0>We have launched an improved Supercharge experience. Reconnect your phone number to keep earning rewards on your {{token}}.</0>",
+  "superchargeReconnectNumber": "เชื่อมต่อหมายเลขโทรศัพท์อีกครั้ง\n<0>เราได้เปิดตัว Supercharge ที่ปรับปรุงใหม่ โปรดเชื่อมต่อหมายเลขโทรศัพท์ของคุณอีกครั้งเพื่อรับรางวัลเป็น {{token}} ของคุณ</0>",
   "superchargeMinimumBalance": "เพิ่มยอดคงเหลือขั้นต่ำที่ {{amount}} {{token}}",
   "superchargeDisclaimer": "รับรางวัลสูงสุดโดยการเพิ่มให้ถึง {{amount}} {{token}}",
   "superchargeDisclaimerMaxRewards": "คุณกำลังจะได้รับรางวัลสูงสุดเป็น {{token}}",
@@ -1526,11 +1526,11 @@
     },
     "pix": {
       "keyType": {
-        "label": "PIX Key Type"
+        "label": "ประเภทรหัส PIX"
       },
       "key": {
-        "placeholderText": "Enter PIX key",
-        "errorMessage": "Invalid PIX key"
+        "placeholderText": "ใส่รหัส PIX",
+        "errorMessage": "รหัส PIX ไม่ถูกต้อง"
       }
     }
   },
@@ -1549,8 +1549,8 @@
     "swapFromTokenSelection": "สว็อปจาก",
     "swapToTokenSelection": "สว็อปเป็น",
     "maxSwapAmountWarning": {
-      "title": "Swapping the MAX amount",
-      "body": "Make sure you have CELO in your wallet to cover gas fees for future transactions",
+      "title": "การสว็อปจำนวนเงินสูงสุด",
+      "body": "โปรดตรวจสอบให้แน่ใจว่าคุณมี CELO ในกระเป๋าเงินเพียงพอที่จะจ่ายค่าก๊าซในครั้งต่อไป",
       "learnMore": "ดูข้อมูลเพิ่มเติม"
     }
   },
@@ -1615,8 +1615,8 @@
     "retryButtonText": "ลองอีกครั้ง"
   },
   "reverifyUsingCPVHomecard": {
-    "description": "Reconnect your number to send, receive and get rewards on your crypto",
-    "buttonLabel": "Reconnect number"
+    "description": "เชื่อมต่อหมายเลขของคุณอีกครั้งเพื่อส่ง รับ และได้รางวัลเป็นคริปโตของคุณ",
+    "buttonLabel": "เชื่อมต่อหมายเลขอีกครั้ง"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo ดอลลาร์"
 }
