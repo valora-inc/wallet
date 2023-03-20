@@ -1,7 +1,7 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import * as RNFS from 'react-native-fs'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
@@ -13,6 +13,8 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import Button from 'src/components/Button'
 import CancelButton from 'src/components/CancelButton'
+import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
+import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import TextInput from 'src/components/TextInput'
 import Touchable from 'src/components/Touchable'
 import i18n from 'src/i18n'
@@ -33,6 +35,7 @@ function Profile({ navigation, route }: Props) {
   const [newName, setNewName] = useState(useSelector(nameSelector) ?? '')
   const picturePath = useSelector(pictureSelector)
   const [newPictureUri, setNewPictureUri] = useState(picturePath || null)
+  const exampleName = useMemo(() => generateRandomUsername(), [])
 
   const dispatch = useDispatch()
 
@@ -77,8 +80,8 @@ function Profile({ navigation, route }: Props) {
   }
 
   return (
-    <ScrollView style={styles.container}>
-      <SafeAreaView edges={['bottom']}>
+    <SafeAreaView style={styles.container} edges={['bottom']}>
+      <KeyboardAwareScrollView>
         <View style={styles.accountProfile}>
           <PictureInput
             picture={newPictureUri}
@@ -88,7 +91,7 @@ function Profile({ navigation, route }: Props) {
         </View>
         <View style={styles.inputContainer}>
           <TextInput
-            placeholder={t('profileScreen.namePlaceholder')}
+            placeholder={t('profileScreen.namePlaceholder', { exampleName })}
             testID="ProfileEditName"
             onChangeText={updateName}
             value={newName ?? t('unknown')}
@@ -105,8 +108,9 @@ function Profile({ navigation, route }: Props) {
             <Text style={styles.saveButton}>{t('save')}</Text>
           </Touchable>
         </View>
-      </SafeAreaView>
-    </ScrollView>
+      </KeyboardAwareScrollView>
+      <KeyboardSpacer />
+    </SafeAreaView>
   )
 }
 

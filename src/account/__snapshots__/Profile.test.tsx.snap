@@ -1,21 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Profile renders correctly 1`] = `
-<RCTScrollView
+<RNCSafeAreaView
+  edges={
+    Array [
+      "bottom",
+    ]
+  }
   style={
     Object {
       "flex": 1,
     }
   }
 >
-  <View>
-    <RNCSafeAreaView
-      edges={
-        Array [
-          "bottom",
-        ]
-      }
-    >
+  <RCTScrollView
+    keyboardShouldPersistTaps="handled"
+    testID="KeyboardAwareScrollView"
+  >
+    <View>
       <View
         style={
           Object {
@@ -416,7 +418,7 @@ exports[`Profile renders correctly 1`] = `
             onBlur={[Function]}
             onChangeText={[Function]}
             onFocus={[Function]}
-            placeholder="profileScreen.namePlaceholder"
+            placeholder="profileScreen.namePlaceholder, {}"
             style={
               Array [
                 Object {
@@ -551,7 +553,23 @@ exports[`Profile renders correctly 1`] = `
           </Text>
         </View>
       </View>
-    </RNCSafeAreaView>
-  </View>
-</RCTScrollView>
+    </View>
+  </RCTScrollView>
+  <View
+    collapsable={false}
+    style={
+      Array [
+        Object {
+          "bottom": 0,
+          "left": 0,
+          "right": 0,
+        },
+        Object {
+          "height": 0,
+        },
+        undefined,
+      ]
+    }
+  />
+</RNCSafeAreaView>
 `;
