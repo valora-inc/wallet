@@ -1629,6 +1629,17 @@
     "loadingError": "Xin lỗi, chúng tôi không thể tải các bản cập nhật mới nhất. Vui lòng thử lại sau.",
     "retryButtonText": "Thử lại"
   },
+  "chooseYourAdventure": {
+    "header": "Welcome to Valora",
+    "subtitle": "What would you like to do first?",
+    "later": "I'll explore later",
+    "options": {
+      "add": "Add funds",
+      "dapp": "Find ways to use crypto",
+      "profile": "Build your profile",
+      "learn": "Learn about Celo"
+    }
+  },
   "reverifyUsingCPVHomecard": {
     "description": "Kết nối lại số điện thoại của bạn để gửi, nhận và kiếm tiền thưởng từ tiền điện tử",
     "buttonLabel": "Kết nối lại số điện thoại"
