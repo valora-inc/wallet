@@ -1592,6 +1592,21 @@
       "action": "Continua",
       "body": "Gli importi e le commissioni possono cambiare a causa di oscillazioni nel mercato delle criptovalute. \n\nEsamina l'importo e le commissioni finali e invia nuovamente."
     },
+    "swapCompleteSection": {
+      "title": "Swap successful",
+      "subtitle": "Your assets are now in your wallet",
+      "done": "Fatto"
+    },
+    "swapErrorSection": {
+      "title": "We couldn’t complete your swap",
+      "subtitle": "Your assets are safe in your wallet.\nPlease try again.",
+      "contactSupport": "If you need additional help, you can contact\n<0>customer support<0>"
+    },
+    "swapActionBar": {
+      "tryAgain": "Riprova",
+      "done": "Fatto",
+      "swapAgain": "Effettua un altro scambio"
+    },
     "swapErrorModal": {
       "title": "Non siamo stati in grado di completare la transazione.",
       "body": "Attendi e riprova in un secondo momento o contatta il team del nostro supporto tecnico per richiedere assistenza.",
