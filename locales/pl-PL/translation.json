@@ -44,6 +44,37 @@
     "body": "Po odłączeniu ponowne powiązanie tego numeru telefonu z tym portfelem nie będzie możliwe.",
     "revoke": "Odłącz"
   },
+  "protectWallet": {
+    "title": "Protect Your Wallet",
+    "subtitle": "Protect your wallet",
+    "body": "If your phone is lost or stolen, your {{mnemonicLength}} word recovery phrase is the only way you can access your funds.",
+    "recoveryPhrase": {
+      "title": "Use Recovery Phrase",
+      "subtitle": "Write down your recovery phrase"
+    },
+    "cloudBackup": {
+      "title": "Backup to Cloud",
+      "subtitle": "Restore your wallet without a phrase",
+      "bottomSheet": {
+        "title": "Cloud Backup is coming soon!",
+        "restoreComingSoon": "Cloud backup is a way to restore your wallet without a recovery phrase. We are working on this as fast as we can and will notify you once it's available to use.",
+        "writeDownPhrase": "In the meantime, please write down your recovery phrase to manually backup your wallet.",
+        "continue": "Continue to Recovery Phrase"
+      }
+    }
+  },
+  "recoveryPhrase": {
+    "title": "Your recovery phrase",
+    "body": "Write these {{mnemonicLength}} words down somewhere safe, where it cannot be stolen or damaged.",
+    "continue": "I've saved it",
+    "copy": "Copy to clipboard",
+    "mnemonicCopied": "Recovery phrase copied to clipboard",
+    "bottomSheet": {
+      "title": "How to save a recovery phrase",
+      "writeDownPhrase": "Writing down your recovery phrase with a pen, and storing it in a safe place is one of the most secure ways to protect your wallet.",
+      "phraseLocation": "An ideal place might be where you store other important documents & materials for safekeeping, that is not easily stolen and easy to retrieve. It's up to you!"
+    }
+  },
   "testFaqLink": "FAQ dotyczące aplikacji {{appName}}",
   "termsOfServiceLink": "Warunki użytkowania",
   "privacyPolicy": "Polityka prywatności",
