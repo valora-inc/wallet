@@ -46,7 +46,7 @@ export function SwapExecuteScreen() {
               type={BtnTypes.PRIMARY}
               size={BtnSizes.FULL}
               testID="SwapExecuteScreen/TryAgain"
-              style={[styles.button, { paddingBottom: Spacing.Regular16 }]}
+              style={styles.button}
             />
             <Button
               text={t('SwapExecuteScreen.swapActionBar.done')}
@@ -67,7 +67,7 @@ export function SwapExecuteScreen() {
               type={BtnTypes.PRIMARY}
               size={BtnSizes.FULL}
               testID="SwapExecuteScreen/Done"
-              style={[styles.button, { paddingBottom: Spacing.Regular16 }]}
+              style={styles.button}
             />
             <Button
               text={t('SwapExecuteScreen.swapActionBar.swapAgain')}
