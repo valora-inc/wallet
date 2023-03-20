@@ -1631,6 +1631,17 @@
     "loadingError": "Desculpe, não foi possível carregar as atualizações mais recentes. Tente novamente mais tarde.",
     "retryButtonText": "Repetir"
   },
+  "chooseYourAdventure": {
+    "header": "Welcome to Valora",
+    "subtitle": "What would you like to do first?",
+    "later": "I'll explore later",
+    "options": {
+      "add": "Add funds",
+      "dapp": "Find ways to use crypto",
+      "profile": "Build your profile",
+      "learn": "Learn about Celo"
+    }
+  },
   "reverifyUsingCPVHomecard": {
     "description": "Reconecte seu número para enviar, receber e receber recompensas com suas criptos",
     "buttonLabel": "Reconectar número"
