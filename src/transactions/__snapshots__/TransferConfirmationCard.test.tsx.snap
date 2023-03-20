@@ -741,6 +741,7 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
                   }
                 }
               >
+                totalInCelo
                 <Text
                   style={
                     Array [
@@ -981,6 +982,7 @@ exports[`TransferConfirmationCard renders correctly for faucet drilldown 1`] = `
                   }
                 }
               >
+                totalInDollars
                 <Text
                   style={
                     Array [
@@ -1548,6 +1550,7 @@ exports[`TransferConfirmationCard renders correctly for received CELO reward 1`]
                   }
                 }
               >
+                totalInDollars
                 <Text
                   style={
                     Array [
@@ -2091,6 +2094,7 @@ exports[`TransferConfirmationCard renders correctly for received escrow transact
                   }
                 }
               >
+                totalInDollars
                 <Text
                   style={
                     Array [
@@ -2634,6 +2638,7 @@ exports[`TransferConfirmationCard renders correctly for received transaction dri
                   }
                 }
               >
+                totalInDollars
                 <Text
                   style={
                     Array [
@@ -3435,6 +3440,7 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
                   }
                 }
               >
+                totalInDollars
                 <Text
                   style={
                     Array [
@@ -4235,6 +4241,7 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
                   }
                 }
               >
+                totalInDollars
                 <Text
                   style={
                     Array [
@@ -4474,6 +4481,7 @@ exports[`TransferConfirmationCard renders correctly for verification fee drilldo
                   }
                 }
               >
+                totalInDollars
                 <Text
                   style={
                     Array [

@@ -125,6 +125,7 @@ exports[`renders correctly 1`] = `
                 }
                 testID="LineItemRowTitle/undefined"
               >
+                subtotalAmount
                 Subtotal @
                  
                 <Text
@@ -493,6 +494,7 @@ exports[`renders correctly 1`] = `
                       }
                     }
                   >
+                    totalInDollars
                     <Text
                       style={
                         Array [
@@ -680,6 +682,7 @@ exports[`renders correctly when local amount is null 1`] = `
                 }
                 testID="LineItemRowTitle/undefined"
               >
+                subtotalAmount
                 Subtotal @
                  
                 <Text
@@ -1047,6 +1050,7 @@ exports[`renders correctly when local amount is null 1`] = `
                       }
                     }
                   >
+                    totalInDollars
                     <Text
                       style={
                         Array [
@@ -1234,6 +1238,7 @@ exports[`renders correctly when local amount is null and no local exchange rate 
                 }
                 testID="LineItemRowTitle/undefined"
               >
+                subtotalAmount
                 Subtotal @
                  
                 <Text
@@ -1654,6 +1659,7 @@ exports[`renders correctly with giant numbers 1`] = `
                 }
                 testID="LineItemRowTitle/undefined"
               >
+                subtotalAmount
                 Subtotal @
                  
                 <Text
@@ -2022,6 +2028,7 @@ exports[`renders correctly with giant numbers 1`] = `
                       }
                     }
                   >
+                    totalInDollars
                     <Text
                       style={
                         Array [
