@@ -1,20 +1,21 @@
 import React, { useEffect, useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
-import { ActivityIndicator, BackHandler, StyleSheet, Text, View } from 'react-native'
+import { Trans, useTranslation } from 'react-i18next'
+import { BackHandler, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useSelector } from 'react-redux'
-import Button, { BtnTypes } from 'src/components/Button'
+import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import Dialog from 'src/components/Dialog'
-import CustomHeader from 'src/components/header/CustomHeader'
-import Checkmark from 'src/icons/Checkmark'
-import Times from 'src/icons/Times'
+import Touchable from 'src/components/Touchable'
+import GreenLoadingSpinner from 'src/icons/GreenLoadingSpinner'
+import GreenLoadingSpinnerToCheck from 'src/icons/GreenLoadingSpinnerToCheck'
+import RedLoadingSpinnerToInfo from 'src/icons/RedLoadingSpinnerToInfo'
 import { noHeader } from 'src/navigator/Headers'
-import { navigate, navigateHome, replace } from 'src/navigator/NavigationService'
+import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import variables from 'src/styles/variables'
 import { swapStateSelector } from 'src/swap/selectors'
 import { SwapState } from 'src/swap/slice'
 
@@ -31,18 +32,59 @@ export function SwapExecuteScreen() {
   }
 
   const navigateToSupport = () => {
-    replace(Screens.SupportContact)
+    navigate(Screens.SupportContact)
   }
 
-  const NavigateHomeIcon = () => {
-    return (
-      <View style={styles.navigateHomeIcon}>
-        <TopBarIconButton icon={<Times />} testID="ReturnHome" onPress={navigateHome} />
-      </View>
-    )
-  }
+  const navigationButtons = useMemo(() => {
+    switch (swapState) {
+      case SwapState.ERROR:
+        return (
+          <View style={styles.actionBar}>
+            <Button
+              text={t('SwapExecuteScreen.swapActionBar.tryAgain')}
+              onPress={navigateToReviewScreen}
+              type={BtnTypes.PRIMARY}
+              size={BtnSizes.FULL}
+              testID="SwapExecuteScreen/TryAgain"
+              style={styles.button}
+            />
+            <Button
+              text={t('SwapExecuteScreen.swapActionBar.done')}
+              onPress={navigateHome}
+              type={BtnTypes.SECONDARY}
+              size={BtnSizes.FULL}
+              testID="SwapExecuteScreen/Done"
+              style={styles.button}
+            />
+          </View>
+        )
+      case SwapState.COMPLETE:
+        return (
+          <View style={styles.actionBar}>
+            <Button
+              text={t('SwapExecuteScreen.swapActionBar.done')}
+              onPress={navigateHome}
+              type={BtnTypes.PRIMARY}
+              size={BtnSizes.FULL}
+              testID="SwapExecuteScreen/Done"
+              style={styles.button}
+            />
+            <Button
+              text={t('SwapExecuteScreen.swapActionBar.swapAgain')}
+              onPress={navigateToSwapStart}
+              type={BtnTypes.SECONDARY}
+              size={BtnSizes.FULL}
+              testID="SwapExecuteScreen/SwapAgain"
+              style={styles.button}
+            />
+          </View>
+        )
+      default:
+        return null
+    }
+  }, [swapState])
 
-  const SwapDisplay = useMemo(() => {
+  const swapDisplay = useMemo(() => {
     switch (swapState) {
       default:
       case SwapState.START:
@@ -68,20 +110,17 @@ export function SwapExecuteScreen() {
         )
       case SwapState.ERROR:
         return (
-          <>
-            <Text style={styles.text}>{t('SwapExecuteScreen.swapError')}</Text>
-            <Dialog
-              isVisible={true}
-              title={t('SwapExecuteScreen.swapErrorModal.title')}
-              actionText={t('SwapExecuteScreen.swapErrorModal.swapRestart')}
-              actionPress={navigateToSwapStart}
-              secondaryActionText={t('SwapExecuteScreen.swapErrorModal.contactSupport')}
-              secondaryActionPress={navigateToSupport}
-              testID="ErrorModal"
-            >
-              {t('SwapExecuteScreen.swapErrorModal.body')}
-            </Dialog>
-          </>
+          <View>
+            <Text style={styles.text}>{t('SwapExecuteScreen.swapErrorSection.title')}</Text>
+            <Text style={styles.subText}>{t('SwapExecuteScreen.swapErrorSection.subtitle')}</Text>
+            <Touchable testID="ContactSupportTouchable" onPress={navigateToSupport}>
+              <Text style={styles.contactSupportText}>
+                <Trans i18nKey="SwapExecuteScreen.swapErrorSection.contactSupport">
+                  <Text style={styles.contactSupportLink} />
+                </Trans>
+              </Text>
+            </Touchable>
+          </View>
         )
       case SwapState.PRICE_CHANGE:
         return (
@@ -101,50 +140,27 @@ export function SwapExecuteScreen() {
       case SwapState.COMPLETE:
         return (
           <>
-            <Text style={styles.text}>{t('SwapExecuteScreen.swapSuccess')}</Text>
-            <Button
-              type={BtnTypes.SECONDARY}
-              text={t('SwapExecuteScreen.swapAgain')}
-              onPress={navigateToSwapStart}
-            />
+            <Text style={styles.text}>{t('SwapExecuteScreen.swapCompleteSection.title')}</Text>
+            <Text style={styles.subText}>
+              {t('SwapExecuteScreen.swapCompleteSection.subtitle')}
+            </Text>
           </>
         )
     }
   }, [swapState])
 
-  const SwapIcon = useMemo(() => {
+  const swapIcon = useMemo(() => {
     switch (swapState) {
       default:
       case SwapState.START:
       case SwapState.APPROVE:
       case SwapState.EXECUTE:
-        return (
-          <ActivityIndicator
-            size="large"
-            color={colors.greenBrand}
-            testID="SwapExecuteScreen/loadingIcon"
-            style={styles.activityIndicator}
-          />
-        )
+        return <GreenLoadingSpinner />
       case SwapState.ERROR:
       case SwapState.PRICE_CHANGE:
-        return (
-          <View
-            testID="SwapExecuteScreen/errorIcon"
-            style={[styles.iconContainer, { backgroundColor: colors.warning }]}
-          >
-            <Times color={colors.light} />
-          </View>
-        )
+        return <RedLoadingSpinnerToInfo />
       case SwapState.COMPLETE:
-        return (
-          <View
-            testID="SwapExecuteScreen/completeIcon"
-            style={[styles.iconContainer, { backgroundColor: colors.greenUI }]}
-          >
-            <Checkmark color={colors.light} />
-          </View>
-        )
+        return <GreenLoadingSpinnerToCheck />
     }
   }, [swapState])
 
@@ -157,11 +173,11 @@ export function SwapExecuteScreen() {
 
   return (
     <SafeAreaView style={styles.safeAreaView}>
-      <CustomHeader left={swapState === SwapState.COMPLETE ? <NavigateHomeIcon /> : null} />
-      <View style={styles.contentContainer}>
-        {SwapIcon}
-        {SwapDisplay}
-      </View>
+      <ScrollView contentContainerStyle={styles.contentContainer}>
+        <View style={styles.iconContainer}>{swapIcon}</View>
+        {swapDisplay}
+      </ScrollView>
+      {navigationButtons}
     </SafeAreaView>
   )
 }
@@ -171,33 +187,43 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   contentContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
     padding: Spacing.Regular16,
-    flexGrow: 1,
-  },
-  activityIndicator: {
     alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 16,
+    justifyContent: 'flex-start',
+    flexGrow: 1,
   },
   text: {
     ...fontStyles.h2,
     marginBottom: 16,
+    textAlign: 'center',
   },
   subText: {
     ...fontStyles.regular,
+    paddingHorizontal: Spacing.Regular16,
+    textAlign: 'center',
+    paddingBottom: Spacing.Thick24,
+  },
+  contactSupportText: {
+    ...fontStyles.small,
+    textAlign: 'center',
+    color: colors.gray3,
+  },
+  button: {
+    width: '100%',
+    paddingBottom: Spacing.Regular16,
+  },
+  actionBar: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    paddingHorizontal: variables.contentPadding,
+  },
+  contactSupportLink: {
+    color: colors.onboardingBlue,
+    textDecorationLine: 'underline',
   },
   iconContainer: {
-    width: 44,
-    height: 44,
-    marginBottom: 16,
-    borderRadius: 100,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  navigateHomeIcon: {
-    paddingHorizontal: Spacing.Thick24,
+    marginTop: '32%',
+    marginBottom: Spacing.Regular16,
   },
 })
 
