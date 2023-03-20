@@ -15,10 +15,9 @@ import { Screens } from 'src/navigator/Screens'
 import { getOnboardingExperimentParams } from 'src/onboarding'
 import { RootState } from 'src/redux/reducers'
 import { store } from 'src/redux/store'
-import { getOnboardingExperimentParams } from 'src/onboarding'
 
 export const FIRST_ONBOARDING_SCREEN = Screens.NameAndPicture
-export const END_OF_ONBOARDING_SCREENS = [Screens.WalletHome, Screens.ChoseYourAdventure]
+export const END_OF_ONBOARDING_SCREENS = [Screens.WalletHome, Screens.ChooseYourAdventure]
 
 interface NavigatorFunctions {
   navigate: typeof NavigationService.navigate | ((screen: Screens) => void)
@@ -59,7 +58,8 @@ export function onboardingPropsSelector(state: RootState): OnboardingProps {
   const supportedBiometryType = supportedBiometryTypeSelector(state)
   const skipVerification = skipVerificationSelector(state)
   const numberAlreadyVerifiedCentrally = numberVerifiedCentrallySelector(state)
-  const { showChooseAdventureScreen, showRecoveryPhraseInOnboarding: showRecoveryPhrase } = getOnboardingExperimentParams()
+  const { showChooseAdventureScreen, showRecoveryPhraseInOnboarding: showRecoveryPhrase } =
+    getOnboardingExperimentParams()
 
   return {
     recoveringFromStoreWipe,
@@ -172,7 +172,7 @@ export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: 
 
   const navigateHomeOrChooseAdventure = () => {
     if (props.showChooseAdventureScreen) {
-      navigate(Screens.ChoseYourAdventure)
+      navigate(Screens.ChooseYourAdventure)
     } else {
       navigateHome()
     }

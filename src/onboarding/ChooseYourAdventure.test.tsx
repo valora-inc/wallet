@@ -13,19 +13,19 @@ describe('ChooseYourAdventure', () => {
     {
       address: mockAccount,
       testIDs: [
-        'AdventureCard/0/choseYourAdventure.options.add',
-        'AdventureCard/1/choseYourAdventure.options.learn',
-        'AdventureCard/2/choseYourAdventure.options.dapp',
-        'AdventureCard/3/choseYourAdventure.options.profile',
+        'AdventureCard/0/chooseYourAdventure.options.add',
+        'AdventureCard/1/chooseYourAdventure.options.learn',
+        'AdventureCard/2/chooseYourAdventure.options.dapp',
+        'AdventureCard/3/chooseYourAdventure.options.profile',
       ],
     },
     {
       address: mockAccount2,
       testIDs: [
-        'AdventureCard/0/choseYourAdventure.options.dapp',
-        'AdventureCard/1/choseYourAdventure.options.profile',
-        'AdventureCard/2/choseYourAdventure.options.learn',
-        'AdventureCard/3/choseYourAdventure.options.add',
+        'AdventureCard/0/chooseYourAdventure.options.dapp',
+        'AdventureCard/1/chooseYourAdventure.options.profile',
+        'AdventureCard/2/chooseYourAdventure.options.learn',
+        'AdventureCard/3/chooseYourAdventure.options.add',
       ],
     },
   ]
@@ -59,24 +59,24 @@ describe('ChooseYourAdventure', () => {
         <ChooseYourAdventure />
       </Provider>
     )
-    fireEvent.press(getByTestId('AdventureCard/0/choseYourAdventure.options.add'))
+    fireEvent.press(getByTestId('AdventureCard/0/chooseYourAdventure.options.add'))
     expect(navigateHome).toHaveBeenLastCalledWith({
       params: { initialScreen: Screens.FiatExchange },
     })
 
-    fireEvent.press(getByTestId('AdventureCard/1/choseYourAdventure.options.learn'))
+    fireEvent.press(getByTestId('AdventureCard/1/chooseYourAdventure.options.learn'))
     expect(navigateHome).toHaveBeenLastCalledWith({
       params: { initialScreen: Screens.ExchangeHomeScreen },
     })
-    fireEvent.press(getByTestId('AdventureCard/2/choseYourAdventure.options.dapp'))
+    fireEvent.press(getByTestId('AdventureCard/2/chooseYourAdventure.options.dapp'))
     expect(navigateHome).toHaveBeenLastCalledWith({
       params: { initialScreen: Screens.DAppsExplorerScreen },
     })
-    fireEvent.press(getByTestId('AdventureCard/3/choseYourAdventure.options.profile'))
+    fireEvent.press(getByTestId('AdventureCard/3/chooseYourAdventure.options.profile'))
     expect(navigateHome).toHaveBeenLastCalledWith()
     expect(navigate).toHaveBeenLastCalledWith(Screens.Profile)
 
-    fireEvent.press(getByTestId('AdventureCard/3/choseYourAdventure.options.profile'))
+    fireEvent.press(getByTestId('AdventureCard/3/chooseYourAdventure.options.profile'))
     expect(navigateHome).toHaveBeenLastCalledWith()
   })
 })

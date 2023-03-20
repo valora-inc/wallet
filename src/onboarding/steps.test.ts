@@ -224,14 +224,14 @@ describe('onboarding steps', () => {
         expect(mockStore.dispatch).toHaveBeenCalledWith(setHasSeenVerificationNux(true))
         expect(navigateHome).toHaveBeenCalled()
       })
-      it('should navigate to Screens.ChoseYourAdventure and initialize account if skipVerification is true and showChooseAdventureScreen is true', () => {
+      it('should navigate to Screens.ChooseYourAdventure and initialize account if skipVerification is true and showChooseAdventureScreen is true', () => {
         goToNextOnboardingScreen({
           firstScreenInCurrentStep: Screens.PincodeSet,
           onboardingProps: { ...onboardingProps, showChooseAdventureScreen: true },
         })
         expect(mockStore.dispatch).toHaveBeenCalledWith(initializeAccount())
         expect(mockStore.dispatch).toHaveBeenCalledWith(setHasSeenVerificationNux(true))
-        expect(navigate).toHaveBeenCalledWith(Screens.ChoseYourAdventure)
+        expect(navigate).toHaveBeenCalledWith(Screens.ChooseYourAdventure)
       })
       it('should otherwise navigate to VerificationStartScreen clearing the stack', () => {
         goToNextOnboardingScreen({
@@ -255,7 +255,7 @@ describe('onboarding steps', () => {
         expect(mockStore.dispatch).toHaveBeenCalledWith(setHasSeenVerificationNux(true))
         expect(navigateHome).toHaveBeenCalled()
       })
-      it('should navigate to the Screens.ChoseYourAdventure if skipVerification is true and showChooseAdventureScreen is true', () => {
+      it('should navigate to the Screens.ChooseYourAdventure if skipVerification is true and showChooseAdventureScreen is true', () => {
         goToNextOnboardingScreen({
           firstScreenInCurrentStep: Screens.ImportWallet,
           onboardingProps: { ...onboardingProps, showChooseAdventureScreen: true },
@@ -295,12 +295,12 @@ describe('onboarding steps', () => {
         })
         expect(navigateHome).toHaveBeenCalled()
       })
-      it('should navigate to the Screens.ChoseYourAdventure if showChooseAdventureScreen is true', () => {
+      it('should navigate to the Screens.ChooseYourAdventure if showChooseAdventureScreen is true', () => {
         goToNextOnboardingScreen({
           firstScreenInCurrentStep: Screens.VerificationStartScreen,
           onboardingProps: { ...onboardingProps, showChooseAdventureScreen: true },
         })
-        expect(navigate).toHaveBeenCalledWith(Screens.ChoseYourAdventure)
+        expect(navigate).toHaveBeenCalledWith(Screens.ChooseYourAdventure)
       })
     })
     describe('Screens.ProtectWallet', () => {

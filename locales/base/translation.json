@@ -1633,7 +1633,7 @@
     "loadingError": "Sorry, we couldn't load the latest updates. Please try again later.",
     "retryButtonText": "Retry"
   },
-  "choseYourAdventure": {
+  "chooseYourAdventure": {
     "header": "Welcome to Valora",
     "subtitle": "What would you like to do first?",
     "later": "I'll explore later",
