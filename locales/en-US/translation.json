@@ -1631,6 +1631,17 @@
     "loadingError": "Sorry, we couldn't load the latest updates. Please try again later.",
     "retryButtonText": "Retry"
   },
+  "chooseYourAdventure": {
+    "header": "Welcome to Valora",
+    "subtitle": "What would you like to do first?",
+    "later": "I'll explore later",
+    "options": {
+      "add": "Add funds",
+      "dapp": "Find ways to use crypto",
+      "profile": "Build your profile",
+      "learn": "Learn about Celo"
+    }
+  },
   "reverifyUsingCPVHomecard": {
     "description": "Reconnect your number to send, receive and get rewards on your crypto",
     "buttonLabel": "Reconnect number"
