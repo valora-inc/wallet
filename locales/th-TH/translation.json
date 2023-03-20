@@ -1629,6 +1629,17 @@
     "loadingError": "ขออภัยเราไม่สามารถโหลดการอัปเดตล่าสุดได้ กรุณาลองใหม่อีกครั้งในภายหลัง.",
     "retryButtonText": "ลองอีกครั้ง"
   },
+  "chooseYourAdventure": {
+    "header": "Welcome to Valora",
+    "subtitle": "What would you like to do first?",
+    "later": "I'll explore later",
+    "options": {
+      "add": "Add funds",
+      "dapp": "Find ways to use crypto",
+      "profile": "Build your profile",
+      "learn": "Learn about Celo"
+    }
+  },
   "reverifyUsingCPVHomecard": {
     "description": "เชื่อมต่อหมายเลขของคุณอีกครั้งเพื่อส่ง รับ และได้รางวัลเป็นคริปโตของคุณ",
     "buttonLabel": "เชื่อมต่อหมายเลขอีกครั้ง"
