@@ -1596,6 +1596,21 @@
       "action": "Продолжить",
       "body": "Суммы в криптовалюте и комиссии могут меняться из-за колебаний криптовалютного рынка. \n\n Проверьте окончательные суммы и комиссии и отправьте повторно."
     },
+    "swapCompleteSection": {
+      "title": "Swap successful",
+      "subtitle": "Your assets are now in your wallet",
+      "done": "Готово"
+    },
+    "swapErrorSection": {
+      "title": "We couldn’t complete your swap",
+      "subtitle": "Your assets are safe in your wallet.\nPlease try again.",
+      "contactSupport": "If you need additional help, you can contact\n<0>customer support<0>"
+    },
+    "swapActionBar": {
+      "tryAgain": "Повторить попытку",
+      "done": "Готово",
+      "swapAgain": "Поменять еще раз"
+    },
     "swapErrorModal": {
       "title": "Нам не удалось выполнить эту транзакцию.",
       "body": "Подождите и повторите попытку позже или обратитесь в нашу службу поддержки.",
