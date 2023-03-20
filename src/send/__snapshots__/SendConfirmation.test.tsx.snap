@@ -770,6 +770,7 @@ exports[`SendConfirmation renders correctly 1`] = `
               }
               testID="TotalLineItem/ExchangeRate"
             >
+              tokenExchanteRate, {"symbol":"cUSD"}
               <Text>
                 
                 ₱

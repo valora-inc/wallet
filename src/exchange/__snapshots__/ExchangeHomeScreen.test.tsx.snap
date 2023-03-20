@@ -409,6 +409,7 @@ exports[`ExchangeHomeScreen renders and behaves correctly for CP-DOTO restricted
             }
           }
         >
+          equalToAmount
           Equal to 
           <Text
             style={
@@ -960,6 +961,7 @@ exports[`ExchangeHomeScreen renders and behaves correctly for non CP-DOTO restri
             }
           }
         >
+          equalToAmount
           Equal to 
           <Text
             style={
