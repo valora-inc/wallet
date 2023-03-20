@@ -45,7 +45,7 @@
     "revoke": "Desconectar"
   },
   "protectWallet": {
-    "title": "Protect Your Wallet",
+    "title": "Protege tu wallet",
     "subtitle": "Protect your wallet",
     "body": "If your phone is lost or stolen, your {{mnemonicLength}} word recovery phrase is the only way you can access your funds.",
     "recoveryPhrase": {
@@ -1591,6 +1591,21 @@
       "title": "Los precios han cambiado",
       "action": "Continuar",
       "body": "Los montos y las tarifas de cripto pueden fluctuar con el mercado de cripto.\n\nRevisa el monto y las tarifas finales y vuelve a enviar."
+    },
+    "swapCompleteSection": {
+      "title": "Swap successful",
+      "subtitle": "Your assets are now in your wallet",
+      "done": "Listo"
+    },
+    "swapErrorSection": {
+      "title": "We couldn’t complete your swap",
+      "subtitle": "Your assets are safe in your wallet.\nPlease try again.",
+      "contactSupport": "If you need additional help, you can contact\n<0>customer support<0>"
+    },
+    "swapActionBar": {
+      "tryAgain": "Reintentar",
+      "done": "Listo",
+      "swapAgain": "Volver a intercambiar"
     },
     "swapErrorModal": {
       "title": "No pudimos completar esta transacción.",
