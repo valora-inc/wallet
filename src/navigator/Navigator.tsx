@@ -92,6 +92,8 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import EnableBiometry from 'src/onboarding/registration/EnableBiometry'
 import NameAndPicture from 'src/onboarding/registration/NameAndPicture'
+import ProtectWallet from 'src/onboarding/registration/ProtectWallet'
+import OnboardingRecoveryPhrase from 'src/onboarding/registration/OnboardingRecoveryPhrase'
 import RegulatoryTerms from 'src/onboarding/registration/RegulatoryTerms'
 import SelectCountry from 'src/onboarding/registration/SelectCountry'
 import OnboardingSuccessScreen from 'src/onboarding/success/OnboardingSuccessScreen'
@@ -208,6 +210,16 @@ const nuxScreens = (Navigator: typeof Stack) => (
       name={Screens.NameAndPicture}
       component={NameAndPicture}
       options={NameAndPicture.navOptions}
+    />
+    <Navigator.Screen
+      name={Screens.ProtectWallet}
+      component={ProtectWallet}
+      options={ProtectWallet.navOptions}
+    />
+    <Navigator.Screen
+      name={Screens.OnboardingRecoveryPhrase}
+      component={OnboardingRecoveryPhrase}
+      options={OnboardingRecoveryPhrase.navOptions}
     />
     <Navigator.Screen
       name={Screens.PincodeSet}
