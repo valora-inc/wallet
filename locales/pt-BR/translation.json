@@ -117,8 +117,8 @@
   "contactSupport": "Contate o suporte",
   "tapToCopy": "Toque para copiar",
   "headerTitle": "Recuperação",
-  "introBackUpPhrase": "Back Up Recovery Phrase",
-  "introCompleteQuiz": "Complete our backup quiz to verify that your wallet can be recovered.\n\nIf you wrote it down incorrectly, you won’t be able to access your wallet if anything happens to your device.",
+  "introBackUpPhrase": "Fazer backup da frase de recuperação",
+  "introCompleteQuiz": "Responda ao nosso questionário de backup para verificar se sua carteira pode ser recuperada.\n\nSe você a escreveu incorretamente, não poderá acessar sua carteira se algo acontecer com seu dispositivo.",
   "introTitle": "Sua Frase de Recuperação",
   "introBody": "A sua Frase de Recuperação é a parte mais importante da sua conta.\n\nEncontre um local privado para configurar sua Frase. Leva apenas 5 minutos.",
   "introPrimaryAction": "Configurar",
@@ -131,14 +131,14 @@
   "failedFetchMnemonic": "Falha ao obter sua Frase de Recuperação",
   "backupAndRecovery": "Backup e recuperação",
   "writeDownKey": "Escreva sua frase",
-  "writeDownKeyExperimental": "Please write down your phrase.",
+  "writeDownKeyExperimental": "Escreva sua frase.",
   "completeEducation": "Eu compreendo",
   "yourAccountKey": "Sua Frase de Recuperação",
   "backupKeyNotification": "Proteja seus fundos. Configure sua Frase de Recuperação.",
-  "backupKeyNotification2": "Keep your funds safe. Back up your Recovery Phrase now.",
-  "backupKeyCTA": "Finish Backup Now",
+  "backupKeyNotification2": "Mantenha seus fundos em segurança. Faça o backup da sua frase de recuperação agora.",
+  "backupKeyCTA": "Concluir backup agora",
   "backupKeySummary": "Encontre um local privado e anote a sua Frase de Recuperação. Guarde-a em um lugar seguro. Não salve em seu telefone.",
-  "backupKeyWarning": "If you lose your recovery phrase, you will lose access to all funds held in Valora.",
+  "backupKeyWarning": "Se você perder sua frase de recuperação, perderá acesso a todos os fundos mantidos na Valora.",
   "copied": "Frase copiada para a área de transferência",
   "moreInfo": "Mais informações",
   "savedConfirmation": "Sim, eu anotei minha frase.",
@@ -197,7 +197,7 @@
   "superchargeTitle": "Entre no Supercharge",
   "superchargeDescription": "Ganhe 12% em recompensas anuais no seus {{token}}. Veja como começar:",
   "superchargeConnectNumber": "Conecte seu número de celular",
-  "superchargeReconnectNumber": "Reconnect your phone number\n<0>We have launched an improved Supercharge experience. Reconnect your phone number to keep earning rewards on your {{token}}.</0>",
+  "superchargeReconnectNumber": "Reconecte seu número de celular\n<0>Lançamos uma experiência aprimorada do Supercharge. Reconecte o seu número de celular para continuar ganhando recompensas com {{token}}.</0>",
   "superchargeMinimumBalance": "Adicione um saldo mínimo de {{amount}} {{token}}",
   "superchargeDisclaimer": "Obtenha o máximo de recompensas com até {{amount}} {{token}}",
   "superchargeDisclaimerMaxRewards": "Você está recebendo o máximo de recompensas no seus {{token}}",
@@ -1531,7 +1531,7 @@
         "label": "Tipo de chave PIX"
       },
       "key": {
-        "placeholderText": "Introduzir chave PIX",
+        "placeholderText": "Insira a chave PIX",
         "errorMessage": "Chave PIX inválida"
       }
     }
@@ -1551,8 +1551,8 @@
     "swapFromTokenSelection": "Trocar de",
     "swapToTokenSelection": "Trocar para",
     "maxSwapAmountWarning": {
-      "title": "Swapping the MAX amount",
-      "body": "Make sure you have CELO in your wallet to cover gas fees for future transactions",
+      "title": "Trocando a quantia MÁX",
+      "body": "Certifique-se de ter CELO em sua carteira para cobrir as taxas de gas para transações futuras",
       "learnMore": "Saiba mais"
     }
   },
@@ -1617,8 +1617,8 @@
     "retryButtonText": "Repetir"
   },
   "reverifyUsingCPVHomecard": {
-    "description": "Reconnect your number to send, receive and get rewards on your crypto",
-    "buttonLabel": "Reconnect number"
+    "description": "Reconecte seu número para enviar, receber e receber recompensas com suas criptos",
+    "buttonLabel": "Reconectar número"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
