@@ -1646,6 +1646,10 @@
     "description": "Ricollega il tuo numero per inviare, ricevere e ottenere ricompense sulle tue criptovalute",
     "buttonLabel": "Ricollega il numero"
   },
+  "profileScreen": {
+    "generateName": "Genera un nome",
+    "namePlaceholder": "Select a name ex) {{exampleName}}"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollar"
 }
