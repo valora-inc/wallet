@@ -19,8 +19,17 @@ import fontStyles from 'src/styles/fonts'
 import { Shadow, Spacing } from 'src/styles/styles'
 import { shuffle } from 'src/utils/random'
 import { walletAddressSelector } from 'src/web3/selectors'
+import { OnboardingEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 
 const DEFAULT_SEED = '0x0'
+
+enum AdventureCardName {
+  Add = 'add',
+  Dapp = 'dapp',
+  Profile = 'profile',
+  Learn = 'learn',
+}
 
 const AdventureCard = ({
   onPress,
@@ -61,6 +70,7 @@ function ChooseYourAdventure() {
           navigateHome({ params: { initialScreen: Screens.FiatExchange } })
         },
         icon: <PlusIcon />,
+        name: 'add',
       },
       {
         text: t('chooseYourAdventure.options.dapp'),
@@ -68,6 +78,7 @@ function ChooseYourAdventure() {
           navigateHome({ params: { initialScreen: Screens.DAppsExplorerScreen } })
         },
         icon: <GraphSparkle />,
+        name: 'dapp',
       },
       {
         text: t('chooseYourAdventure.options.profile'),
@@ -76,6 +87,7 @@ function ChooseYourAdventure() {
           navigate(Screens.Profile)
         },
         icon: <ProfilePlus />,
+        name: 'profile',
       },
       {
         text: t('chooseYourAdventure.options.learn'),
@@ -83,12 +95,25 @@ function ChooseYourAdventure() {
           navigateHome({ params: { initialScreen: Screens.ExchangeHomeScreen } })
         },
         icon: <CeloIconNew />,
+        name: 'learn',
       },
     ]
+    const shuffled = shuffle(cardDetails, address ?? DEFAULT_SEED)
+    const indexMap = shuffled.reduce((indexMap, cardDetails, index) => {
+      indexMap[index] = cardDetails.name
+    }, {})
     return shuffle(cardDetails, address ?? DEFAULT_SEED).map(
-      ({ text, goToNextScreen: onPress, icon }, index) => (
-        <AdventureCard text={text} onPress={onPress} index={index} icon={icon} />
-      )
+      ({ text, goToNextScreen, icon, name }, index) => {
+        const onPress = () => {
+          ValoraAnalytics.track(OnboardingEvents.cya_button_press, {
+            index,
+            name,
+            indexMap,
+          })
+          goToNextScreen()
+        }
+        return <AdventureCard text={text} onPress={onPress} index={index} icon={icon} />
+      }
     )
   }
 

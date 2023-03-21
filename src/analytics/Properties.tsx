@@ -334,6 +334,11 @@ interface OnboardingEventsProperties {
   [OnboardingEvents.protect_wallet_help_dismiss]: undefined
   [OnboardingEvents.protect_wallet_copy_phrase]: undefined
   [OnboardingEvents.protect_wallet_complete]: undefined
+  [OnboardingEvents.cya_button_press]: {
+    name: string
+    index: number
+    indexMap: object
+  }
 }
 
 interface VerificationEventsProperties {
