@@ -1650,6 +1650,10 @@
     "description": "Podłącz ponownie swój numer, aby wysyłać, odbierać i otrzymywać nagrody za kryptowaluty",
     "buttonLabel": "Podłącz ponownie numer"
   },
+  "profileScreen": {
+    "generateName": "Wygeneruj nazwę",
+    "namePlaceholder": "Select a name ex) {{exampleName}}"
+  },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",
   "celoDollarAmount_2": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolarów",
