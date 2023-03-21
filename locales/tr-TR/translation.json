@@ -1646,6 +1646,10 @@
     "description": "Kriptonuzu göndermek, almak ve ödüller kazanmak için telefon numaranızı yeniden bağlayın",
     "buttonLabel": "Numarayı yeniden bağla"
   },
+  "profileScreen": {
+    "generateName": "Bir isim oluşturun",
+    "namePlaceholder": "Select a name ex) {{exampleName}}"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
