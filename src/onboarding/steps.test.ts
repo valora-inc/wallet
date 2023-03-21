@@ -24,11 +24,14 @@ describe('onboarding steps', () => {
       skipVerification: false,
       supportedBiometryType: BIOMETRY_TYPE.FACE_ID,
       recoveringFromStoreWipe: false,
+      showChooseAdventureScreen: false,
+      showRecoveryPhrase: true,
     },
     screens: [
       Screens.NameAndPicture,
       Screens.PincodeSet,
       Screens.EnableBiometry,
+      Screens.ProtectWallet,
       Screens.VerificationStartScreen,
     ],
     name: 'newUserFlowWithEverythingEnabled',
@@ -40,6 +43,7 @@ describe('onboarding steps', () => {
       skipVerification: true,
       supportedBiometryType: null,
       recoveringFromStoreWipe: false,
+      showChooseAdventureScreen: false,
     },
     screens: [Screens.NameAndPicture, Screens.PincodeSet],
     name: 'newUserFlowWithEverythingDisabled',
@@ -52,6 +56,7 @@ describe('onboarding steps', () => {
       choseToRestoreAccount: true,
       skipVerification: false,
       supportedBiometryType: BIOMETRY_TYPE.FACE_ID,
+      showChooseAdventureScreen: false,
     },
     screens: [
       Screens.NameAndPicture,
@@ -143,6 +148,19 @@ describe('onboarding steps', () => {
         expect(mockStore.dispatch).not.toHaveBeenCalled()
         expect(navigate).toHaveBeenCalledWith(Screens.VerificationStartScreen)
       })
+      it('should navigate to ProtectWallet screen if showRecoveryPhrase is true', () => {
+        goToNextOnboardingScreen({
+          firstScreenInCurrentStep: Screens.EnableBiometry,
+          onboardingProps: {
+            ...onboardingProps,
+            skipVerification: false,
+            choseToRestoreAccount: false,
+            showRecoveryPhrase: true,
+          },
+        })
+        expect(mockStore.dispatch).toHaveBeenCalledWith(initializeAccount())
+        expect(navigate).toHaveBeenCalledWith(Screens.ProtectWallet)
+      })
     })
     describe('Screens.NameAndPicture', () => {
       it('should navigate to ImportWallet if recoveringFromStoreWipe is true', () => {
@@ -189,11 +207,31 @@ describe('onboarding steps', () => {
         expect(popToScreen).toHaveBeenCalledWith(Screens.Welcome)
         expect(navigate).toHaveBeenCalledWith(Screens.ImportWallet)
       })
+      it('should navigate to ProtectWallet if showRecoveryPhrase is true', () => {
+        goToNextOnboardingScreen({
+          firstScreenInCurrentStep: Screens.PincodeSet,
+          onboardingProps: {
+            ...onboardingProps,
+            showRecoveryPhrase: true,
+          },
+        })
+        expect(mockStore.dispatch).toHaveBeenCalledWith(initializeAccount())
+        expect(navigate).toHaveBeenCalledWith(Screens.ProtectWallet)
+      })
       it('should navigate to the home screen and initialize account if skipVerification is true', () => {
         goToNextOnboardingScreen({ firstScreenInCurrentStep: Screens.PincodeSet, onboardingProps })
         expect(mockStore.dispatch).toHaveBeenCalledWith(initializeAccount())
         expect(mockStore.dispatch).toHaveBeenCalledWith(setHasSeenVerificationNux(true))
         expect(navigateHome).toHaveBeenCalled()
+      })
+      it('should navigate to Screens.ChooseYourAdventure and initialize account if skipVerification is true and showChooseAdventureScreen is true', () => {
+        goToNextOnboardingScreen({
+          firstScreenInCurrentStep: Screens.PincodeSet,
+          onboardingProps: { ...onboardingProps, showChooseAdventureScreen: true },
+        })
+        expect(mockStore.dispatch).toHaveBeenCalledWith(initializeAccount())
+        expect(mockStore.dispatch).toHaveBeenCalledWith(setHasSeenVerificationNux(true))
+        expect(navigate).toHaveBeenCalledWith(Screens.ChooseYourAdventure)
       })
       it('should otherwise navigate to VerificationStartScreen clearing the stack', () => {
         goToNextOnboardingScreen({
@@ -213,6 +251,14 @@ describe('onboarding steps', () => {
         goToNextOnboardingScreen({
           firstScreenInCurrentStep: Screens.ImportWallet,
           onboardingProps,
+        })
+        expect(mockStore.dispatch).toHaveBeenCalledWith(setHasSeenVerificationNux(true))
+        expect(navigateHome).toHaveBeenCalled()
+      })
+      it('should navigate to the Screens.ChooseYourAdventure if skipVerification is true and showChooseAdventureScreen is true', () => {
+        goToNextOnboardingScreen({
+          firstScreenInCurrentStep: Screens.ImportWallet,
+          onboardingProps: { ...onboardingProps, showChooseAdventureScreen: true },
         })
         expect(mockStore.dispatch).toHaveBeenCalledWith(setHasSeenVerificationNux(true))
         expect(navigateHome).toHaveBeenCalled()
@@ -248,6 +294,35 @@ describe('onboarding steps', () => {
           onboardingProps,
         })
         expect(navigateHome).toHaveBeenCalled()
+      })
+      it('should navigate to the Screens.ChooseYourAdventure if showChooseAdventureScreen is true', () => {
+        goToNextOnboardingScreen({
+          firstScreenInCurrentStep: Screens.VerificationStartScreen,
+          onboardingProps: { ...onboardingProps, showChooseAdventureScreen: true },
+        })
+        expect(navigate).toHaveBeenCalledWith(Screens.ChooseYourAdventure)
+      })
+    })
+    describe('Screens.ProtectWallet', () => {
+      it('should navigate to the home screen if skipVerification is true', () => {
+        goToNextOnboardingScreen({
+          firstScreenInCurrentStep: Screens.ProtectWallet,
+          onboardingProps,
+        })
+        expect(mockStore.dispatch).toHaveBeenCalledWith(setHasSeenVerificationNux(true))
+        expect(navigateHome).toHaveBeenCalled()
+      })
+      it('should navigate to VerficationStartScreen if skipVerification is false and choseToRestoreAccount is false', () => {
+        goToNextOnboardingScreen({
+          firstScreenInCurrentStep: Screens.ProtectWallet,
+          onboardingProps: {
+            ...onboardingProps,
+            skipVerification: false,
+            choseToRestoreAccount: false,
+          },
+        })
+        expect(mockStore.dispatch).not.toHaveBeenCalled()
+        expect(navigate).toHaveBeenCalledWith(Screens.VerificationStartScreen)
       })
     })
   })

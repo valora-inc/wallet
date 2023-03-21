@@ -41,7 +41,9 @@ export enum HomeEvents {
 
 export enum SettingsEvents {
   settings_profile_edit = 'settings_profile_edit',
-  settings_profile_name_edit = 'settings_profile_name_edit',
+  profile_generate_name = 'profile_generate_name',
+  profile_save = 'profile_save',
+  profile_cancel = 'profile_cancel',
   settings_verify_number = 'settings_verify_number',
   language_select = 'language_select',
   pin_require_on_load = 'pin_require_on_load',
@@ -141,6 +143,14 @@ export enum OnboardingEvents {
   account_dek_register_account_unlocked = 'account_dek_register_account_unlocked',
   account_dek_register_account_checked = 'account_dek_register_account_checked',
   account_dek_register_complete = 'account_dek_register_complete',
+
+  protect_wallet_use_recovery = 'protect_wallet_use_recovery',
+  protect_wallet_use_cloud = 'protect_wallet_use_cloud',
+  protect_wallet_use_cloud_bottom_sheet = 'protect_wallet_use_cloud_bottom_sheet',
+  protect_wallet_help = 'protect_wallet_help',
+  protect_wallet_help_dismiss = 'protect_wallet_help_dismiss',
+  protect_wallet_copy_phrase = 'protect_wallet_copy_phrase',
+  protect_wallet_complete = 'protect_wallet_complete',
 }
 
 export enum VerificationEvents {

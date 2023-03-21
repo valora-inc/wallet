@@ -156,7 +156,9 @@ interface HomeEventsProperties {
 
 interface SettingsEventsProperties {
   [SettingsEvents.settings_profile_edit]: undefined
-  [SettingsEvents.settings_profile_name_edit]: undefined
+  [SettingsEvents.profile_generate_name]: undefined
+  [SettingsEvents.profile_save]: undefined
+  [SettingsEvents.profile_cancel]: undefined
   [SettingsEvents.language_select]: {
     language: string
   }
@@ -319,6 +321,19 @@ interface OnboardingEventsProperties {
     newRegistration: boolean
     feeless?: boolean
   }
+  [OnboardingEvents.protect_wallet_use_recovery]:
+    | {
+        position?: number
+      }
+    | undefined
+  [OnboardingEvents.protect_wallet_use_cloud]: {
+    position?: number
+  }
+  [OnboardingEvents.protect_wallet_use_cloud_bottom_sheet]: undefined
+  [OnboardingEvents.protect_wallet_help]: undefined
+  [OnboardingEvents.protect_wallet_help_dismiss]: undefined
+  [OnboardingEvents.protect_wallet_copy_phrase]: undefined
+  [OnboardingEvents.protect_wallet_complete]: undefined
 }
 
 interface VerificationEventsProperties {

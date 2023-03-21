@@ -90,8 +90,11 @@ import { navigateBack, navigateToExchangeHome } from 'src/navigator/NavigationSe
 import QRNavigator from 'src/navigator/QRNavigator'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import ChooseYourAdventure from 'src/onboarding/ChooseYourAdventure'
 import EnableBiometry from 'src/onboarding/registration/EnableBiometry'
 import NameAndPicture from 'src/onboarding/registration/NameAndPicture'
+import OnboardingRecoveryPhrase from 'src/onboarding/registration/OnboardingRecoveryPhrase'
+import ProtectWallet from 'src/onboarding/registration/ProtectWallet'
 import RegulatoryTerms from 'src/onboarding/registration/RegulatoryTerms'
 import SelectCountry from 'src/onboarding/registration/SelectCountry'
 import OnboardingSuccessScreen from 'src/onboarding/success/OnboardingSuccessScreen'
@@ -208,6 +211,16 @@ const nuxScreens = (Navigator: typeof Stack) => (
       name={Screens.NameAndPicture}
       component={NameAndPicture}
       options={NameAndPicture.navOptions}
+    />
+    <Navigator.Screen
+      name={Screens.ProtectWallet}
+      component={ProtectWallet}
+      options={ProtectWallet.navOptions}
+    />
+    <Navigator.Screen
+      name={Screens.OnboardingRecoveryPhrase}
+      component={OnboardingRecoveryPhrase}
+      options={OnboardingRecoveryPhrase.navOptions}
     />
     <Navigator.Screen
       name={Screens.PincodeSet}
@@ -545,6 +558,11 @@ const settingsScreens = (Navigator: typeof Stack) => (
 
 const generalScreens = (Navigator: typeof Stack) => (
   <>
+    <Navigator.Screen
+      name={Screens.ChooseYourAdventure}
+      component={ChooseYourAdventure}
+      options={ChooseYourAdventure.navOptions}
+    />
     <Navigator.Screen
       name={Screens.TransactionReview}
       component={TransactionReview}
