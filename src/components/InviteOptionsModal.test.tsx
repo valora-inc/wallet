@@ -22,7 +22,12 @@ it('renders correctly', () => {
         },
       })}
     >
-      <InviteOptionsModal recipient={recipient} onClose={() => {}} />
+      <InviteOptionsModal
+        recipient={recipient}
+        onClose={() => {
+          return null
+        }}
+      />
     </Provider>
   )
   expect(tree).toMatchSnapshot()
