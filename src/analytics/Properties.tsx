@@ -161,6 +161,8 @@ interface SettingsEventsProperties {
   [SettingsEvents.profile_generate_name]: undefined
   [SettingsEvents.profile_save]: undefined
   [SettingsEvents.profile_cancel]: undefined
+  [SettingsEvents.profile_photo_chosen]: undefined
+  [SettingsEvents.profile_photo_removed]: undefined
   [SettingsEvents.language_select]: {
     language: string
   }

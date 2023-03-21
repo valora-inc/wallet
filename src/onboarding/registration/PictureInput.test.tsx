@@ -12,7 +12,6 @@ const mockOnPhotoChosen = jest.fn()
 const mockProps = {
   picture: 'abc',
   onPhotoChosen: mockOnPhotoChosen,
-  backgroundColor: 'white',
 }
 
 const mockImageObj = {
