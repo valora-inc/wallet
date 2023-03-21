@@ -18,7 +18,7 @@ import variables from 'src/styles/variables'
 interface Props {
   title: string
   description?: string
-  descriptionKey?: string
+  descriptionProps?: Record<string, any>
   buttonLabel: string
   disabled: boolean
   imageSource: ImageSourcePropType
@@ -30,7 +30,7 @@ interface Props {
 const InviteModal = ({
   title,
   description,
-  descriptionKey,
+  descriptionProps,
   buttonLabel,
   disabled,
   imageSource,
@@ -59,9 +59,9 @@ const InviteModal = ({
         <Image style={styles.imageContainer} source={imageSource} resizeMode="contain" />
         <Text style={[fontStyles.h2, styles.text]}>{title}</Text>
         {description ? <Text style={[fontStyles.regular, styles.text]}>{description}</Text> : null}
-        {descriptionKey ? (
+        {descriptionProps ? (
           <Text style={[fontStyles.regular, styles.text]} testID="InviteModalStyledDescription">
-            <Trans i18nKey={descriptionKey}>
+            <Trans {...descriptionProps}>
               <Text style={styles.textBold} />
             </Trans>
           </Text>
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
     height: 120,
   },
   helpContainer: {
-    marginBottom: Spacing.Large32,
+    marginBottom: Spacing.Regular16,
   },
   helpText: {
     ...fontStyles.xsmall,

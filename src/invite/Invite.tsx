@@ -20,7 +20,7 @@ export default function Invite() {
   const inviteRewardsType = useSelector(inviteRewardsTypeSelector)
 
   let title = t('inviteWithUrl.title')
-  let descriptionKey = 'inviteWithUrl.body'
+  let descriptionProps = { i18nKey: 'inviteWithUrl.body' }
   let message = t('inviteWithUrl.share', { shareUrl })
   let image = inviteModal
   let helpLink = ''
@@ -29,14 +29,14 @@ export default function Invite() {
     switch (inviteRewardsType) {
       case 'nft':
         title = t('inviteWithUrl.rewardsActive.title')
-        descriptionKey = 'inviteWithUrl.rewardsActive.body'
+        descriptionProps.i18nKey = 'inviteWithUrl.rewardsActive.body'
         message = t('inviteWithRewards', { link: shareUrl })
         helpLink = INVITE_REWARDS_NFTS_LEARN_MORE
         image = inviteWithRewards
         break
       case 'cUSD':
         title = t('inviteWithUrl.rewardsActiveCUSD.title')
-        descriptionKey = 'inviteWithUrl.rewardsActiveCUSD.body'
+        descriptionProps.i18nKey = 'inviteWithUrl.rewardsActiveCUSD.body'
         message = t('inviteWithRewardsCUSD', { link: shareUrl })
         helpLink = INVITE_REWARDS_STABLETOKEN_LEARN_MORE
         break
@@ -53,7 +53,7 @@ export default function Invite() {
   return (
     <InviteModal
       title={title}
-      descriptionKey={descriptionKey}
+      descriptionProps={descriptionProps}
       buttonLabel={t('inviteWithUrl.button')}
       imageSource={image}
       helpLink={helpLink}

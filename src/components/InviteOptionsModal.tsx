@@ -38,7 +38,7 @@ const InviteOptionsModal = ({ recipient, onClose }: Props) => {
   }
 
   let title = t('inviteModal.title', { contactName: getDisplayName(recipient, t) })
-  let description = t('inviteModal.body')
+  const descriptionProps: Record<string, any> = { i18nKey: 'inviteModal.body' }
   let message = t('inviteModal.shareMessage', { link })
   let helpLink = ''
 
@@ -46,9 +46,8 @@ const InviteOptionsModal = ({ recipient, onClose }: Props) => {
     switch (inviteRewardsType) {
       case 'nft':
         title = t('inviteModal.rewardsActive.title', { contactName: getDisplayName(recipient, t) })
-        description = t('inviteModal.rewardsActive.body', {
-          contactName: getDisplayName(recipient, t),
-        })
+        descriptionProps.i18nKey = 'inviteModal.rewardsActive.body'
+        descriptionProps.values = { contactName: getDisplayName(recipient, t) }
         message = t('inviteWithRewards', { link })
         helpLink = INVITE_REWARDS_NFTS_LEARN_MORE
         break
@@ -56,9 +55,8 @@ const InviteOptionsModal = ({ recipient, onClose }: Props) => {
         title = t('inviteModal.rewardsActiveCUSD.title', {
           contactName: getDisplayName(recipient, t),
         })
-        description = t('inviteModal.rewardsActiveCUSD.body', {
-          contactName: getDisplayName(recipient, t),
-        })
+        descriptionProps.i18nKey = 'inviteModal.rewardsActiveCUSD.body'
+        descriptionProps.values = { contactName: getDisplayName(recipient, t) }
         message = t('inviteWithRewardsCUSD', { link })
         helpLink = INVITE_REWARDS_STABLETOKEN_LEARN_MORE
         break
@@ -68,7 +66,7 @@ const InviteOptionsModal = ({ recipient, onClose }: Props) => {
   return (
     <InviteModal
       title={title}
-      description={description}
+      descriptionProps={descriptionProps}
       buttonLabel={t('inviteModal.sendInviteButtonLabel')}
       imageSource={inviteModal}
       disabled={!link}
