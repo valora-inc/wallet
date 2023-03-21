@@ -1605,7 +1605,7 @@
     "swapActionBar": {
       "tryAgain": "Reintentar",
       "done": "Listo",
-      "swapAgain": "Volver a intercambiar"
+      "swapAgain": "Volver a cambiar"
     },
     "swapErrorModal": {
       "title": "No pudimos completar esta transacción.",
