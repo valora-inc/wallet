@@ -44,6 +44,37 @@
     "body": "После отключения не удастся снова подключить свой номер телефона к этому кошельку.",
     "revoke": "Отключить"
   },
+  "protectWallet": {
+    "title": "Protect Your Wallet",
+    "subtitle": "Protect your wallet",
+    "body": "If your phone is lost or stolen, your {{mnemonicLength}} word recovery phrase is the only way you can access your funds.",
+    "recoveryPhrase": {
+      "title": "Use Recovery Phrase",
+      "subtitle": "Write down your recovery phrase"
+    },
+    "cloudBackup": {
+      "title": "Backup to Cloud",
+      "subtitle": "Restore your wallet without a phrase",
+      "bottomSheet": {
+        "title": "Cloud Backup is coming soon!",
+        "restoreComingSoon": "Cloud backup is a way to restore your wallet without a recovery phrase. We are working on this as fast as we can and will notify you once it's available to use.",
+        "writeDownPhrase": "In the meantime, please write down your recovery phrase to manually backup your wallet.",
+        "continue": "Continue to Recovery Phrase"
+      }
+    }
+  },
+  "recoveryPhrase": {
+    "title": "Your recovery phrase",
+    "body": "Write these {{mnemonicLength}} words down somewhere safe, where it cannot be stolen or damaged.",
+    "continue": "I've saved it",
+    "copy": "Copy to clipboard",
+    "mnemonicCopied": "Recovery phrase copied to clipboard",
+    "bottomSheet": {
+      "title": "How to save a recovery phrase",
+      "writeDownPhrase": "Writing down your recovery phrase with a pen, and storing it in a safe place is one of the most secure ways to protect your wallet.",
+      "phraseLocation": "An ideal place might be where you store other important documents & materials for safekeeping, that is not easily stolen and easy to retrieve. It's up to you!"
+    }
+  },
   "testFaqLink": "Часто задаваемые вопросы по {{appName}}",
   "termsOfServiceLink": "Условия предоставления услуг",
   "privacyPolicy": "Политика конфиденциальности",
@@ -86,8 +117,8 @@
   "contactSupport": "Обратитесь в службу поддержки",
   "tapToCopy": "Коснитесь, чтобы скопировать",
   "headerTitle": "Фраза восстановления",
-  "introBackUpPhrase": "Back Up Recovery Phrase",
-  "introCompleteQuiz": "Complete our backup quiz to verify that your wallet can be recovered.\n\nIf you wrote it down incorrectly, you won’t be able to access your wallet if anything happens to your device.",
+  "introBackUpPhrase": "Подтвердить фразу восстановления",
+  "introCompleteQuiz": "Пройдите проверку, чтобы убедиться в возможности восстановления своего кошелька.\n\nЕсли вы записали ее неправильно, то не сможете получить доступ к своему кошельку, если что-то случится с вашим устройством.",
   "introTitle": "Ваша фраза восстановления",
   "introBody": "Ваша фраза восстановления является самой важной частью вашего аккаунта.\n\nНайдите недоступное для посторонних место для настройки своей фразы. Это займёт около пяти минут.",
   "introPrimaryAction": "Настройка",
@@ -100,14 +131,14 @@
   "failedFetchMnemonic": "Не удалось получить фразу восстановления",
   "backupAndRecovery": "Резервное копирование и восстановление",
   "writeDownKey": "Запишите свою фразу",
-  "writeDownKeyExperimental": "Please write down your phrase.",
+  "writeDownKeyExperimental": "Запишите свою фразу.",
   "completeEducation": "Я понимаю",
   "yourAccountKey": "Ваша фраза восстановления",
   "backupKeyNotification": "Обеспечьте сохранность своих средств. Настройте фразу восстановления прямо сейчас.",
-  "backupKeyNotification2": "Keep your funds safe. Back up your Recovery Phrase now.",
-  "backupKeyCTA": "Finish Backup Now",
+  "backupKeyNotification2": "Обеспечьте сохранность средств. Подтвердите свою фразу восстановления.",
+  "backupKeyCTA": "Завершить подтверждение",
   "backupKeySummary": "Найдите недоступное для посторонних место и запишите свою фразу восстановления. Храните ее в безопасном месте. Не сохраняйте ее на телефон.",
-  "backupKeyWarning": "If you lose your recovery phrase, you will lose access to all funds held in Valora.",
+  "backupKeyWarning": "Если вы потеряете фразу восстановления, то потеряете доступ ко всем средствам в Valora.",
   "copied": "Фраза скопирована в буфер обмена",
   "moreInfo": "Дополнительная информация",
   "savedConfirmation": "Да, моя фраза записана.",
@@ -166,7 +197,7 @@
   "superchargeTitle": "Присоединяйтесь к программе Supercharge",
   "superchargeDescription": "Получите вознаграждение 12% годовых на свой баланс {{token}}. Вот как начать:",
   "superchargeConnectNumber": "Подключите свой номер телефона",
-  "superchargeReconnectNumber": "Reconnect your phone number\n<0>We have launched an improved Supercharge experience. Reconnect your phone number to keep earning rewards on your {{token}}.</0>",
+  "superchargeReconnectNumber": "Переподключите свой номер телефона\n<0>Мы улучшили работу Supercharge. Переподключите свой номер телефона для получения вознаграждения по вашему {{token}}.</0>",
   "superchargeMinimumBalance": "Внесите минимальную сумму {{amount}} {{token}}",
   "superchargeDisclaimer": "Получите максимальное вознаграждение, внеся до {{amount}} {{token}}",
   "superchargeDisclaimerMaxRewards": "Вы получаете максимальное вознаграждение за {{token}}",
@@ -1504,7 +1535,7 @@
         "label": "Тип ключа PIX"
       },
       "key": {
-        "placeholderText": "Введите клавишу PIX",
+        "placeholderText": "Введите ключ PIX",
         "errorMessage": "Неверный ключ PIX"
       }
     }
@@ -1524,8 +1555,8 @@
     "swapFromTokenSelection": "Обменять с",
     "swapToTokenSelection": "Обменять на",
     "maxSwapAmountWarning": {
-      "title": "Swapping the MAX amount",
-      "body": "Make sure you have CELO in your wallet to cover gas fees for future transactions",
+      "title": "Обмен МАКС. суммы",
+      "body": "Убедитесь, что в вашем кошельке достаточно CELO для покрытия газа для будущих транзакций",
       "learnMore": "Подробнее"
     }
   },
@@ -1565,6 +1596,21 @@
       "action": "Продолжить",
       "body": "Суммы в криптовалюте и комиссии могут меняться из-за колебаний криптовалютного рынка. \n\n Проверьте окончательные суммы и комиссии и отправьте повторно."
     },
+    "swapCompleteSection": {
+      "title": "Swap successful",
+      "subtitle": "Your assets are now in your wallet",
+      "done": "Готово"
+    },
+    "swapErrorSection": {
+      "title": "We couldn’t complete your swap",
+      "subtitle": "Your assets are safe in your wallet.\nPlease try again.",
+      "contactSupport": "If you need additional help, you can contact\n<0>customer support<0>"
+    },
+    "swapActionBar": {
+      "tryAgain": "Повторить попытку",
+      "done": "Готово",
+      "swapAgain": "Поменять еще раз"
+    },
     "swapErrorModal": {
       "title": "Нам не удалось выполнить эту транзакцию.",
       "body": "Подождите и повторите попытку позже или обратитесь в нашу службу поддержки.",
@@ -1589,9 +1635,24 @@
     "loadingError": "К сожаланию, нам не удалось загрузить последние обновления. Повторите попытку позже.",
     "retryButtonText": "Повторить"
   },
+  "chooseYourAdventure": {
+    "header": "Welcome to Valora",
+    "subtitle": "What would you like to do first?",
+    "later": "I'll explore later",
+    "options": {
+      "add": "Add funds",
+      "dapp": "Find ways to use crypto",
+      "profile": "Build your profile",
+      "learn": "Learn about Celo"
+    }
+  },
   "reverifyUsingCPVHomecard": {
-    "description": "Reconnect your number to send, receive and get rewards on your crypto",
-    "buttonLabel": "Reconnect number"
+    "description": "Переподключите номер для отправки и получения средств и вознаграждений за криптовалюту",
+    "buttonLabel": "Переподключить номер"
+  },
+  "profileScreen": {
+    "generateName": "Сгенерировать имя",
+    "namePlaceholder": "Select a name ex) {{exampleName}}"
   },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",

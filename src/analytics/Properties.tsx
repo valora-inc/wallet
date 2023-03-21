@@ -156,7 +156,9 @@ interface HomeEventsProperties {
 
 interface SettingsEventsProperties {
   [SettingsEvents.settings_profile_edit]: undefined
-  [SettingsEvents.settings_profile_name_edit]: undefined
+  [SettingsEvents.profile_generate_name]: undefined
+  [SettingsEvents.profile_save]: undefined
+  [SettingsEvents.profile_cancel]: undefined
   [SettingsEvents.language_select]: {
     language: string
   }
