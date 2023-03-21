@@ -1646,6 +1646,10 @@
     "description": "Reconecte seu número para enviar, receber e receber recompensas com suas criptos",
     "buttonLabel": "Reconectar número"
   },
+  "profileScreen": {
+    "generateName": "Gerar um nome",
+    "namePlaceholder": "Select a name ex) {{exampleName}}"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
