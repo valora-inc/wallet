@@ -1644,5 +1644,9 @@
     "description": "Kết nối lại số điện thoại của bạn để gửi, nhận và kiếm tiền thưởng từ tiền điện tử",
     "buttonLabel": "Kết nối lại số điện thoại"
   },
+  "profileScreen": {
+    "generateName": "Tạo tên",
+    "namePlaceholder": "Select a name ex) {{exampleName}}"
+  },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Đô la Celo"
 }
