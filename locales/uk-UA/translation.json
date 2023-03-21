@@ -1650,6 +1650,10 @@
     "description": "Повторно під’єднайте свій номер, щоб надсилати, отримувати й здобувати винагороди на свій криптогаманець",
     "buttonLabel": "Повторно під’єднати номер"
   },
+  "profileScreen": {
+    "generateName": "Згенерувати ім'я",
+    "namePlaceholder": "Виберіть ім'я ex) {{exampleName}}"
+  },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
   "celoDollarAmount_2": "<0></0> Celo Dollars",
