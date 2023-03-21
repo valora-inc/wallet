@@ -32,7 +32,6 @@ target "celo" do
   pod 'Permission-Camera', :path => "#{permissions_path}/Camera"
   pod 'Permission-AppTrackingTransparency', :path => "#{permissions_path}/AppTrackingTransparency"
 
-  pod 'RNReactNativeHapticFeedback', :path => '../node_modules/react-native-haptic-feedback'
 
   target "celoTests" do
     inherit! :search_paths
