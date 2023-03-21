@@ -2104,7 +2104,7 @@ export const v115Schema = {
 }
 
 export const v116Schema = {
-  ...v111Schema,
+  ...v115Schema,
   _persist: {
     ...v115Schema._persist,
     version: 116,
