@@ -1646,6 +1646,10 @@
     "description": "Verbinde deine Nummer erneut, um deine Kryptowährung zu senden, zu empfangen und Rewards für diese zu erhalten",
     "buttonLabel": "Nummer erneut verbinden"
   },
+  "profileScreen": {
+    "generateName": "Namen generieren",
+    "namePlaceholder": "Select a name ex) {{exampleName}}"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
