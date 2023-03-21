@@ -1078,4 +1078,11 @@ export const migrations = {
       requireCPV: false,
     },
   }),
+  116: (state: any) => ({
+    ...state,
+    send: {
+      ..._.omit(state.send, 'inviteRewardsEnabled'),
+      inviteRewardsVersion: 'none',
+    },
+  }),
 }

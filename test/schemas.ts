@@ -379,7 +379,7 @@ export const v7Schema = {
   },
   send: {
     ...v6Schema.send,
-    inviteRewardsVersion: 'none',
+    inviteRewardsEnabled: false,
     inviteRewardCusd: 1,
     inviteRewardWeeklyLimit: 5,
   },
@@ -2103,6 +2103,18 @@ export const v115Schema = {
   },
 }
 
+export const v116Schema = {
+  ...v115Schema,
+  _persist: {
+    ...v115Schema._persist,
+    version: 116,
+  },
+  send: {
+    ..._.omit(v115Schema.send, 'inviteRewardsEnabled'),
+    inviteRewardsVersion: 'none',
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v115Schema as Partial<RootState>
+  return v116Schema as Partial<RootState>
 }
