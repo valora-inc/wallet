@@ -46,6 +46,7 @@ const mockExperimentParams = {
   useNewBackupHomeCard: false,
   chooseAdventureEnabled: false,
   onboardingNameScreenEnabled: true,
+  cashInBottomSheetEnabled: false,
 }
 
 describe('ProtectWalletScreen', () => {

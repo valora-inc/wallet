@@ -8,7 +8,11 @@ import {
   popToScreen,
 } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { getOnboardingStepValues, goToNextOnboardingScreen } from 'src/onboarding/steps'
+import {
+  firstOnboardingScreen,
+  getOnboardingStepValues,
+  goToNextOnboardingScreen,
+} from 'src/onboarding/steps'
 import { store } from 'src/redux/store'
 import { mockOnboardingProps } from 'test/values'
 import { mocked } from 'ts-jest/utils'
@@ -129,6 +133,30 @@ describe('onboarding steps', () => {
       })
     }
   )
+
+  describe('firstOnboardingScreen', () => {
+    it('should return NameAndPicture if onboardingNameScreenEnabled is true', () => {
+      const firstScreen = firstOnboardingScreen({
+        onboardingNameScreenEnabled: true,
+        recoveringFromStoreWipe: false,
+      })
+      expect(firstScreen).toEqual(Screens.NameAndPicture)
+    })
+    it('should return ImportWallet if recoveringFromStoreWipe is true and onboardingNameScreenEnabled is false', () => {
+      const firstScreen = firstOnboardingScreen({
+        onboardingNameScreenEnabled: false,
+        recoveringFromStoreWipe: true,
+      })
+      expect(firstScreen).toEqual(Screens.ImportWallet)
+    })
+    it('should return PincodeSet if recoveringFromStoreWipe is false and onboardingNameScreenEnabled is false', () => {
+      const firstScreen = firstOnboardingScreen({
+        onboardingNameScreenEnabled: false,
+        recoveringFromStoreWipe: false,
+      })
+      expect(firstScreen).toEqual(Screens.PincodeSet)
+    })
+  })
 
   describe('goToNextOnboardingScreen', () => {
     const onboardingProps = mockOnboardingProps

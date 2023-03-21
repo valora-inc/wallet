@@ -16,7 +16,6 @@ import { getOnboardingExperimentParams } from 'src/onboarding'
 import { RootState } from 'src/redux/reducers'
 import { store } from 'src/redux/store'
 
-export const FIRST_ONBOARDING_SCREEN = Screens.NameAndPicture
 export const END_OF_ONBOARDING_SCREENS = [Screens.WalletHome, Screens.ChooseYourAdventure]
 
 interface NavigatorFunctions {

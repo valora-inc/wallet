@@ -25,12 +25,10 @@ import SendOrRequestBar from 'src/home/SendOrRequestBar'
 import Logo from 'src/icons/Logo'
 import { importContacts } from 'src/identity/actions'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
+import { getOnboardingExperimentParams } from 'src/onboarding'
 import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import useSelector from 'src/redux/useSelector'
 import { initializeSentryUserContext } from 'src/sentry/actions'
-import { getExperimentParams } from 'src/statsig'
-import { ExperimentConfigs } from 'src/statsig/constants'
-import { StatsigExperiments } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import { celoAddressSelector, coreTokensSelector } from 'src/tokens/selectors'
 import TransactionFeed from 'src/transactions/feed/TransactionFeed'
@@ -122,9 +120,7 @@ function WalletHome() {
         ?.balance.isGreaterThan(CELO_TRANSACTION_MIN_AMOUNT) ?? false
     const isAccountBalanceZero = hasStable === false && hasCelo === false
 
-    const { cashInBottomSheetEnabled } = getExperimentParams(
-      ExperimentConfigs[StatsigExperiments.CHOOSE_YOUR_ADVENTURE]
-    )
+    const { cashInBottomSheetEnabled } = getOnboardingExperimentParams()
 
     return cashInBottomSheetEnabled && isAccountBalanceZero
   }

@@ -87,8 +87,8 @@ const recentDappIds = [dapp.id, deepLinkedDapp.id]
 
 jest.mock('src/exchange/CeloGoldOverview', () => 'CeloGoldOverview')
 jest.mock('src/transactions/TransactionsList', () => 'TransactionsList')
-jest.mock('src/statsig', () => ({
-  getExperimentParams: jest.fn(() => ({ cashInBottomSheetEnabled: true })),
+jest.mock('src/onboarding', () => ({
+  getOnboardingExperimentParams: jest.fn(() => ({ cashInBottomSheetEnabled: true })),
 }))
 describe('WalletHome', () => {
   const mockFetch = fetch as FetchMock
