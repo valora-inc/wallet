@@ -20,7 +20,7 @@ export default function Invite() {
   const inviteRewardsType = useSelector(inviteRewardsTypeSelector)
 
   let title = t('inviteWithUrl.title')
-  let descriptionProps = { i18nKey: 'inviteWithUrl.body' }
+  const descriptionProps = { i18nKey: 'inviteWithUrl.body' }
   let message = t('inviteWithUrl.share', { shareUrl })
   let image = inviteModal
   let helpLink = ''
