@@ -13,6 +13,7 @@ export enum Spacing {
 export enum Shadow {
   Soft = 'Soft',
   SoftLight = 'SoftLight',
+  BarShadow = 'BarShadow',
 }
 
 export function getShadowStyle(shadow: Shadow) {
@@ -21,6 +22,8 @@ export function getShadowStyle(shadow: Shadow) {
       return styles.softShadow
     case Shadow.SoftLight:
       return styles.softShadowLight
+    case Shadow.BarShadow:
+      return styles.barShadow
   }
 }
 
@@ -48,6 +51,13 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
     shadowOpacity: 1,
     shadowColor: 'rgba(48, 46, 37, 0.15)',
+  },
+  barShadow: {
+    elevation: 1.5,
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.5,
+    shadowRadius: 1.5,
+    shadowColor: 'rgba(129, 134, 139, 0.5)',
   },
 })
 

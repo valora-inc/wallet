@@ -1,5 +1,11 @@
 import { SelectProviderExchangesLink, SelectProviderExchangesText } from 'src/fiatExchanges/types'
-import { QRCodeDataType, QRCodeStyle, StatsigExperiments, StatsigLayers } from 'src/statsig/types'
+import {
+  QRCodeDataType,
+  QRCodeStyle,
+  StatsigDynamicConfigs,
+  StatsigExperiments,
+  StatsigLayers,
+} from 'src/statsig/types'
 
 export const LayerParams = {
   // TODO(ACT-659): refactor to imitate defaultExperimentParamValues (more type safe, less boilerplate)
@@ -33,6 +39,16 @@ export const ExperimentConfigs = {
       useNewBackupFlowCopy: false,
       showBackupAlert: false,
       useNewBackupHomeCard: false,
+    },
+  },
+}
+
+export const DynamicConfigs = {
+  [StatsigDynamicConfigs.USERNAME_BLOCK_LIST]: {
+    configName: StatsigDynamicConfigs.USERNAME_BLOCK_LIST,
+    defaultValues: {
+      blockedAdjectives: [] as string[],
+      blockedNouns: [] as string[],
     },
   },
 }
