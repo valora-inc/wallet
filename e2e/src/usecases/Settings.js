@@ -22,6 +22,7 @@ export default Settings = () => {
     await element(by.id('ProfileEditName')).tap()
     await element(by.id('ProfileEditName')).clearText()
     await element(by.id('ProfileEditName')).replaceText(`${randomName}`)
+    await scrollIntoView('SaveButton', 'ProfileScrollView')
     await element(by.id('SaveButton')).tap()
     await waitFor(element(by.text('Your name and picture were saved successfully.')))
       .toBeVisible()

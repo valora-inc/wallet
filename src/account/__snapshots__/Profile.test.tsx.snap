@@ -15,7 +15,7 @@ exports[`Profile renders correctly 1`] = `
 >
   <RCTScrollView
     keyboardShouldPersistTaps="handled"
-    testID="KeyboardAwareScrollView"
+    testID="ProfileScrollView"
   >
     <View>
       <View

@@ -81,7 +81,7 @@ function Profile({ navigation, route }: Props) {
 
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>
-      <KeyboardAwareScrollView>
+      <KeyboardAwareScrollView testID="ProfileScrollView">
         <View style={styles.accountProfile}>
           <PictureInput
             picture={newPictureUri}
