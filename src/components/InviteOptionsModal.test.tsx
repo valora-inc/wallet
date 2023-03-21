@@ -5,7 +5,7 @@ import InviteOptionsModal from 'src/components/InviteOptionsModal'
 import { Recipient } from 'src/recipients/recipient'
 import { createMockStore } from 'test/utils'
 
-it('renders correctly', () => {
+it('renders correctly with invite rewards disabled', () => {
   const recipient: Recipient = { name: 'John Doe', address: '0x123000' }
 
   const tree = render(
@@ -19,6 +19,62 @@ it('renders correctly', () => {
         },
         app: {
           phoneNumberVerified: false,
+        },
+      })}
+    >
+      <InviteOptionsModal
+        recipient={recipient}
+        onClose={() => {
+          return null
+        }}
+      />
+    </Provider>
+  )
+  expect(tree).toMatchSnapshot()
+})
+
+it('renders correctly with invite rewards NFTs', () => {
+  const recipient: Recipient = { name: 'John Doe', address: '0x123000' }
+
+  const tree = render(
+    <Provider
+      store={createMockStore({
+        web3: {
+          account: '0xabc123',
+        },
+        send: {
+          inviteRewardsVersion: 'v4',
+        },
+        app: {
+          phoneNumberVerified: true,
+        },
+      })}
+    >
+      <InviteOptionsModal
+        recipient={recipient}
+        onClose={() => {
+          return null
+        }}
+      />
+    </Provider>
+  )
+  expect(tree).toMatchSnapshot()
+})
+
+it('renders correctly with invite rewards cUSD', () => {
+  const recipient: Recipient = { name: 'John Doe', address: '0x123000' }
+
+  const tree = render(
+    <Provider
+      store={createMockStore({
+        web3: {
+          account: '0xabc123',
+        },
+        send: {
+          inviteRewardsVersion: 'v5',
+        },
+        app: {
+          phoneNumberVerified: true,
         },
       })}
     >

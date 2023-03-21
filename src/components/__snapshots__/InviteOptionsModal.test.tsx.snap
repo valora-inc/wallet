@@ -239,3 +239,785 @@ exports[`renders correctly 1`] = `
   </View>
 </RNCSafeAreaView>
 `;
+
+exports[`renders correctly with invite rewards NFTs 1`] = `
+<RNCSafeAreaView
+  edges={
+    Array [
+      "bottom",
+      "left",
+      "right",
+      "top",
+    ]
+  }
+  style={
+    Object {
+      "backgroundColor": "#FFFFFF",
+      "flexGrow": 1,
+      "height": 1292,
+      "padding": 24,
+      "position": "absolute",
+      "width": 750,
+    }
+  }
+>
+  <View
+    accessible={true}
+    focusable={true}
+    hitSlop={
+      Object {
+        "bottom": 10,
+        "left": 10,
+        "right": 10,
+        "top": 10,
+      }
+    }
+    nativeBackgroundAndroid={
+      Object {
+        "attribute": "selectableItemBackgroundBorderless",
+        "rippleRadius": undefined,
+        "type": "ThemeAttrAndroid",
+      }
+    }
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    testID="InviteModalCloseButton"
+  >
+    <svg
+      height={16}
+      style={Object {}}
+      testID="Times"
+      viewBox="0 0 16 16"
+      width={16}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M13.9999 2.00146L1.99994 14.0015"
+        stroke="#2E3338"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        style={Object {}}
+      />
+      <path
+        d="M1.99994 2.00146L13.9999 14.0015"
+        stroke="#2E3338"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        style={Object {}}
+      />
+    </svg>
+  </View>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flex": 1,
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Image
+      resizeMode="contain"
+      source={
+        Object {
+          "testUri": "../../../src/images/invite-modal.png",
+        }
+      }
+      style={
+        Object {
+          "height": 120,
+          "marginBottom": 16,
+          "width": 120,
+        }
+      }
+    />
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "#2E3338",
+            "fontFamily": "Jost-Medium",
+            "fontSize": 22,
+            "lineHeight": 28,
+          },
+          Object {
+            "marginBottom": 16,
+            "textAlign": "center",
+          },
+        ]
+      }
+    >
+      inviteModal.rewardsActive.title, {"contactName":"John Doe"}
+    </Text>
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "#2E3338",
+            "fontFamily": "Inter-Regular",
+            "fontSize": 16,
+            "lineHeight": 22,
+          },
+          Object {
+            "marginBottom": 16,
+            "textAlign": "center",
+          },
+        ]
+      }
+      testID="InviteModalStyledDescription"
+    >
+      inviteModal.rewardsActive.body
+      <Text
+        style={
+          Object {
+            "color": "#2E3338",
+            "fontFamily": "Inter-SemiBold",
+            "fontSize": 16,
+            "lineHeight": 22,
+          }
+        }
+      />
+    </Text>
+    <View
+      style={
+        Array [
+          Object {
+            "flexDirection": "row",
+          },
+          undefined,
+        ]
+      }
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "overflow": "hidden",
+            },
+            Object {
+              "borderRadius": 100,
+            },
+          ]
+        }
+      >
+        <View
+          accessibilityState={
+            Object {
+              "disabled": true,
+            }
+          }
+          accessible={true}
+          focusable={false}
+          nativeBackgroundAndroid={
+            Object {
+              "attribute": "selectableItemBackground",
+              "rippleRadius": undefined,
+              "type": "ThemeAttrAndroid",
+            }
+          }
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "#97DFC1",
+              "flexDirection": "row-reverse",
+              "height": 40,
+              "justifyContent": "center",
+              "minWidth": 120,
+              "opacity": undefined,
+              "paddingHorizontal": 24,
+              "paddingVertical": 5,
+            }
+          }
+          testID="InviteModalShareButton"
+        >
+          <svg
+            fill="none"
+            height={24}
+            style={Object {}}
+            viewBox="0 0 32 32"
+            width={24}
+          >
+            <path
+              d="M16 18V4M12 7l4-4 4 4M12.571 12H11a3 3 0 00-3 3v9a3 3 0 003 3h10a3 3 0 003-3v-9a3 3 0 00-3-3h-1.571"
+              stroke="#FFFFFF"
+              strokeWidth={2.5}
+              style={Object {}}
+            />
+          </svg>
+          <Text
+            maxFontSizeMultiplier={1}
+            style={
+              Object {
+                "color": "#FFFFFF",
+                "fontFamily": "Inter-SemiBold",
+                "fontSize": 16,
+                "lineHeight": 22,
+                "marginLeft": 0,
+                "marginRight": 4,
+              }
+            }
+          >
+            inviteModal.sendInviteButtonLabel
+          </Text>
+        </View>
+      </View>
+    </View>
+  </View>
+  <View
+    style={
+      Object {
+        "marginBottom": 16,
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "color": "#505050",
+          "fontFamily": "Inter-Regular",
+          "fontSize": 12,
+          "lineHeight": 16,
+          "textAlign": "center",
+        }
+      }
+    >
+      inviteWithUrl.help
+      <Text
+        onPress={[Function]}
+        style={
+          Object {
+            "color": "#0768AE",
+            "flexWrap": "wrap",
+            "textDecorationLine": "underline",
+          }
+        }
+      />
+    </Text>
+  </View>
+</RNCSafeAreaView>
+`;
+
+exports[`renders correctly with invite rewards cUSD 1`] = `
+<RNCSafeAreaView
+  edges={
+    Array [
+      "bottom",
+      "left",
+      "right",
+      "top",
+    ]
+  }
+  style={
+    Object {
+      "backgroundColor": "#FFFFFF",
+      "flexGrow": 1,
+      "height": 1292,
+      "padding": 24,
+      "position": "absolute",
+      "width": 750,
+    }
+  }
+>
+  <View
+    accessible={true}
+    focusable={true}
+    hitSlop={
+      Object {
+        "bottom": 10,
+        "left": 10,
+        "right": 10,
+        "top": 10,
+      }
+    }
+    nativeBackgroundAndroid={
+      Object {
+        "attribute": "selectableItemBackgroundBorderless",
+        "rippleRadius": undefined,
+        "type": "ThemeAttrAndroid",
+      }
+    }
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    testID="InviteModalCloseButton"
+  >
+    <svg
+      height={16}
+      style={Object {}}
+      testID="Times"
+      viewBox="0 0 16 16"
+      width={16}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M13.9999 2.00146L1.99994 14.0015"
+        stroke="#2E3338"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        style={Object {}}
+      />
+      <path
+        d="M1.99994 2.00146L13.9999 14.0015"
+        stroke="#2E3338"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        style={Object {}}
+      />
+    </svg>
+  </View>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flex": 1,
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Image
+      resizeMode="contain"
+      source={
+        Object {
+          "testUri": "../../../src/images/invite-modal.png",
+        }
+      }
+      style={
+        Object {
+          "height": 120,
+          "marginBottom": 16,
+          "width": 120,
+        }
+      }
+    />
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "#2E3338",
+            "fontFamily": "Jost-Medium",
+            "fontSize": 22,
+            "lineHeight": 28,
+          },
+          Object {
+            "marginBottom": 16,
+            "textAlign": "center",
+          },
+        ]
+      }
+    >
+      inviteModal.rewardsActiveCUSD.title, {"contactName":"John Doe"}
+    </Text>
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "#2E3338",
+            "fontFamily": "Inter-Regular",
+            "fontSize": 16,
+            "lineHeight": 22,
+          },
+          Object {
+            "marginBottom": 16,
+            "textAlign": "center",
+          },
+        ]
+      }
+      testID="InviteModalStyledDescription"
+    >
+      inviteModal.rewardsActiveCUSD.body
+      <Text
+        style={
+          Object {
+            "color": "#2E3338",
+            "fontFamily": "Inter-SemiBold",
+            "fontSize": 16,
+            "lineHeight": 22,
+          }
+        }
+      />
+    </Text>
+    <View
+      style={
+        Array [
+          Object {
+            "flexDirection": "row",
+          },
+          undefined,
+        ]
+      }
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "overflow": "hidden",
+            },
+            Object {
+              "borderRadius": 100,
+            },
+          ]
+        }
+      >
+        <View
+          accessibilityState={
+            Object {
+              "disabled": true,
+            }
+          }
+          accessible={true}
+          focusable={false}
+          nativeBackgroundAndroid={
+            Object {
+              "attribute": "selectableItemBackground",
+              "rippleRadius": undefined,
+              "type": "ThemeAttrAndroid",
+            }
+          }
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "#97DFC1",
+              "flexDirection": "row-reverse",
+              "height": 40,
+              "justifyContent": "center",
+              "minWidth": 120,
+              "opacity": undefined,
+              "paddingHorizontal": 24,
+              "paddingVertical": 5,
+            }
+          }
+          testID="InviteModalShareButton"
+        >
+          <svg
+            fill="none"
+            height={24}
+            style={Object {}}
+            viewBox="0 0 32 32"
+            width={24}
+          >
+            <path
+              d="M16 18V4M12 7l4-4 4 4M12.571 12H11a3 3 0 00-3 3v9a3 3 0 003 3h10a3 3 0 003-3v-9a3 3 0 00-3-3h-1.571"
+              stroke="#FFFFFF"
+              strokeWidth={2.5}
+              style={Object {}}
+            />
+          </svg>
+          <Text
+            maxFontSizeMultiplier={1}
+            style={
+              Object {
+                "color": "#FFFFFF",
+                "fontFamily": "Inter-SemiBold",
+                "fontSize": 16,
+                "lineHeight": 22,
+                "marginLeft": 0,
+                "marginRight": 4,
+              }
+            }
+          >
+            inviteModal.sendInviteButtonLabel
+          </Text>
+        </View>
+      </View>
+    </View>
+  </View>
+  <View
+    style={
+      Object {
+        "marginBottom": 16,
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "color": "#505050",
+          "fontFamily": "Inter-Regular",
+          "fontSize": 12,
+          "lineHeight": 16,
+          "textAlign": "center",
+        }
+      }
+    >
+      inviteWithUrl.help
+      <Text
+        onPress={[Function]}
+        style={
+          Object {
+            "color": "#0768AE",
+            "flexWrap": "wrap",
+            "textDecorationLine": "underline",
+          }
+        }
+      />
+    </Text>
+  </View>
+</RNCSafeAreaView>
+`;
+
+exports[`renders correctly with invite rewards disabled 1`] = `
+<RNCSafeAreaView
+  edges={
+    Array [
+      "bottom",
+      "left",
+      "right",
+      "top",
+    ]
+  }
+  style={
+    Object {
+      "backgroundColor": "#FFFFFF",
+      "flexGrow": 1,
+      "height": 1292,
+      "padding": 24,
+      "position": "absolute",
+      "width": 750,
+    }
+  }
+>
+  <View
+    accessible={true}
+    focusable={true}
+    hitSlop={
+      Object {
+        "bottom": 10,
+        "left": 10,
+        "right": 10,
+        "top": 10,
+      }
+    }
+    nativeBackgroundAndroid={
+      Object {
+        "attribute": "selectableItemBackgroundBorderless",
+        "rippleRadius": undefined,
+        "type": "ThemeAttrAndroid",
+      }
+    }
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    testID="InviteModalCloseButton"
+  >
+    <svg
+      height={16}
+      style={Object {}}
+      testID="Times"
+      viewBox="0 0 16 16"
+      width={16}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M13.9999 2.00146L1.99994 14.0015"
+        stroke="#2E3338"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        style={Object {}}
+      />
+      <path
+        d="M1.99994 2.00146L13.9999 14.0015"
+        stroke="#2E3338"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        style={Object {}}
+      />
+    </svg>
+  </View>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flex": 1,
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Image
+      resizeMode="contain"
+      source={
+        Object {
+          "testUri": "../../../src/images/invite-modal.png",
+        }
+      }
+      style={
+        Object {
+          "height": 120,
+          "marginBottom": 16,
+          "width": 120,
+        }
+      }
+    />
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "#2E3338",
+            "fontFamily": "Jost-Medium",
+            "fontSize": 22,
+            "lineHeight": 28,
+          },
+          Object {
+            "marginBottom": 16,
+            "textAlign": "center",
+          },
+        ]
+      }
+    >
+      inviteModal.title, {"contactName":"John Doe"}
+    </Text>
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "#2E3338",
+            "fontFamily": "Inter-Regular",
+            "fontSize": 16,
+            "lineHeight": 22,
+          },
+          Object {
+            "marginBottom": 16,
+            "textAlign": "center",
+          },
+        ]
+      }
+      testID="InviteModalStyledDescription"
+    >
+      inviteModal.body
+      <Text
+        style={
+          Object {
+            "color": "#2E3338",
+            "fontFamily": "Inter-SemiBold",
+            "fontSize": 16,
+            "lineHeight": 22,
+          }
+        }
+      />
+    </Text>
+    <View
+      style={
+        Array [
+          Object {
+            "flexDirection": "row",
+          },
+          undefined,
+        ]
+      }
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "overflow": "hidden",
+            },
+            Object {
+              "borderRadius": 100,
+            },
+          ]
+        }
+      >
+        <View
+          accessibilityState={
+            Object {
+              "disabled": true,
+            }
+          }
+          accessible={true}
+          focusable={false}
+          nativeBackgroundAndroid={
+            Object {
+              "attribute": "selectableItemBackground",
+              "rippleRadius": undefined,
+              "type": "ThemeAttrAndroid",
+            }
+          }
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "#97DFC1",
+              "flexDirection": "row-reverse",
+              "height": 40,
+              "justifyContent": "center",
+              "minWidth": 120,
+              "opacity": undefined,
+              "paddingHorizontal": 24,
+              "paddingVertical": 5,
+            }
+          }
+          testID="InviteModalShareButton"
+        >
+          <svg
+            fill="none"
+            height={24}
+            style={Object {}}
+            viewBox="0 0 32 32"
+            width={24}
+          >
+            <path
+              d="M16 18V4M12 7l4-4 4 4M12.571 12H11a3 3 0 00-3 3v9a3 3 0 003 3h10a3 3 0 003-3v-9a3 3 0 00-3-3h-1.571"
+              stroke="#FFFFFF"
+              strokeWidth={2.5}
+              style={Object {}}
+            />
+          </svg>
+          <Text
+            maxFontSizeMultiplier={1}
+            style={
+              Object {
+                "color": "#FFFFFF",
+                "fontFamily": "Inter-SemiBold",
+                "fontSize": 16,
+                "lineHeight": 22,
+                "marginLeft": 0,
+                "marginRight": 4,
+              }
+            }
+          >
+            inviteModal.sendInviteButtonLabel
+          </Text>
+        </View>
+      </View>
+    </View>
+  </View>
+</RNCSafeAreaView>
+`;
