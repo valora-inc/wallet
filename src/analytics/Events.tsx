@@ -44,6 +44,8 @@ export enum SettingsEvents {
   profile_generate_name = 'profile_generate_name',
   profile_save = 'profile_save',
   profile_cancel = 'profile_cancel',
+  profile_photo_chosen = 'profile_photo_chosen',
+  profile_photo_removed = 'profile_photo_removed',
   settings_verify_number = 'settings_verify_number',
   language_select = 'language_select',
   pin_require_on_load = 'pin_require_on_load',
