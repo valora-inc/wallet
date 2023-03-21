@@ -1644,5 +1644,9 @@
     "description": "重新关联您的号码，以发送、接收并获取基于您的加密货币的奖励",
     "buttonLabel": "重新关联号码"
   },
+  "profileScreen": {
+    "generateName": "生成名称",
+    "namePlaceholder": "Select a name ex) {{exampleName}}"
+  },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
 }
