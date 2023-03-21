@@ -1,7 +1,7 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
-import { navigate, navigateHome, replace } from 'src/navigator/NavigationService'
+import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { SwapState } from 'src/swap/slice'
 import SwapExecuteScreen from 'src/swap/SwapExecuteScreen'
@@ -20,14 +20,14 @@ describe('SwapExecuteScreen', () => {
     })
 
     it('should display correctly if swap state is Swap.START', () => {
-      const { getByTestId, getByText } = render(
+      const swapStart = render(
         <Provider store={store}>
           <SwapExecuteScreen />
         </Provider>
       )
-      expect(getByTestId('SwapExecuteScreen/loadingIcon')).toBeTruthy()
-      expect(getByText('SwapExecuteScreen.swapPending')).toBeTruthy()
-      expect(getByText('SwapExecuteScreen.exchangeRateSubtext')).toBeTruthy()
+      expect(swapStart.getByTestId('GreenLoadingSpinner')).toBeTruthy()
+      expect(swapStart.getByText('SwapExecuteScreen.swapPending')).toBeTruthy()
+      expect(swapStart.getByText('SwapExecuteScreen.exchangeRateSubtext')).toBeTruthy()
     })
   })
 
@@ -44,7 +44,7 @@ describe('SwapExecuteScreen', () => {
           <SwapExecuteScreen />
         </Provider>
       )
-      expect(getByTestId('SwapExecuteScreen/loadingIcon')).toBeTruthy()
+      expect(getByTestId('GreenLoadingSpinner')).toBeTruthy()
       expect(getByText('SwapExecuteScreen.swapPending')).toBeTruthy()
       expect(getByText('SwapExecuteScreen.approvingSubtext')).toBeTruthy()
     })
@@ -62,7 +62,7 @@ describe('SwapExecuteScreen', () => {
           <SwapExecuteScreen />
         </Provider>
       )
-      expect(getByTestId('SwapExecuteScreen/loadingIcon')).toBeTruthy()
+      expect(getByTestId('GreenLoadingSpinner')).toBeTruthy()
       expect(getByText('SwapExecuteScreen.swapPending')).toBeTruthy()
       expect(getByText('SwapExecuteScreen.completingSubtext')).toBeTruthy()
     })
@@ -81,15 +81,29 @@ describe('SwapExecuteScreen', () => {
         </Provider>
       )
 
-      expect(getByText('SwapExecuteScreen.swapErrorModal.title')).toBeTruthy()
-      expect(getByText('SwapExecuteScreen.swapErrorModal.swapRestart')).toBeTruthy()
-      expect(getByText('SwapExecuteScreen.swapErrorModal.contactSupport')).toBeTruthy()
-      expect(getByTestId('ErrorModal')).toBeTruthy()
-      expect(getByText('SwapExecuteScreen.swapErrorModal.body')).toBeTruthy()
-      expect(getByTestId('SwapExecuteScreen/errorIcon')).toBeTruthy()
+      expect(getByTestId('RedLoadingSpinnerToInfo')).toBeTruthy()
+      expect(getByText('SwapExecuteScreen.swapErrorSection.title')).toBeTruthy()
+      expect(getByText('SwapExecuteScreen.swapErrorSection.subtitle')).toBeTruthy()
+      expect(getByTestId('ContactSupportTouchable')).toBeTruthy()
     })
 
-    it('should be able to navigate to swap start', () => {
+    it("should navigate to contact support on tap of 'Contact Support' touchable", () => {
+      const store = createMockStore({
+        swap: {
+          swapState: SwapState.ERROR,
+        },
+      })
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <SwapExecuteScreen />
+        </Provider>
+      )
+
+      fireEvent.press(getByTestId('ContactSupportTouchable'))
+      expect(navigate).toHaveBeenCalledWith(Screens.SupportContact)
+    })
+
+    it("should navigate to swap review on tap of 'Try Again'", () => {
       const store = createMockStore({
         swap: {
           swapState: SwapState.ERROR,
@@ -101,11 +115,11 @@ describe('SwapExecuteScreen', () => {
         </Provider>
       )
 
-      fireEvent.press(getByText('SwapExecuteScreen.swapErrorModal.swapRestart'))
-      expect(navigate).toHaveBeenCalledWith(Screens.SwapScreen)
+      fireEvent.press(getByText('SwapExecuteScreen.swapActionBar.tryAgain'))
+      expect(navigate).toHaveBeenCalledWith(Screens.SwapReviewScreen)
     })
 
-    it('should be able to navigate to contact support', () => {
+    it("should navigate to home on tap of 'Done'", () => {
       const store = createMockStore({
         swap: {
           swapState: SwapState.ERROR,
@@ -117,13 +131,13 @@ describe('SwapExecuteScreen', () => {
         </Provider>
       )
 
-      fireEvent.press(getByText('SwapExecuteScreen.swapErrorModal.contactSupport'))
-      expect(replace).toHaveBeenCalledWith(Screens.SupportContact)
+      fireEvent.press(getByText('SwapExecuteScreen.swapActionBar.done'))
+      expect(navigateHome).toHaveBeenCalled()
     })
   })
 
   describe('Swap.PRICE_CHANGE', () => {
-    it('should display correctly if swap state is Swap.PRICE_CHANGE', () => {
+    it('should display modal if swap state is Swap.PRICE_CHANGE', () => {
       const store = createMockStore({
         swap: {
           swapState: SwapState.PRICE_CHANGE,
@@ -138,7 +152,7 @@ describe('SwapExecuteScreen', () => {
       expect(getByText('SwapExecuteScreen.swapPriceModal.action')).toBeTruthy()
       expect(getByTestId('PriceChangeModal')).toBeTruthy()
       expect(getByText('SwapExecuteScreen.swapPriceModal.body')).toBeTruthy()
-      expect(getByTestId('SwapExecuteScreen/errorIcon')).toBeTruthy()
+      expect(getByTestId('RedLoadingSpinnerToInfo')).toBeTruthy()
     })
 
     it('should navigate to swap review on modal dismiss', () => {
@@ -164,14 +178,14 @@ describe('SwapExecuteScreen', () => {
           swapState: SwapState.COMPLETE,
         },
       })
-      const { getByTestId, getByText } = render(
+      const { getByText, getByTestId } = render(
         <Provider store={store}>
           <SwapExecuteScreen />
         </Provider>
       )
-      expect(getByText('SwapExecuteScreen.swapSuccess')).toBeTruthy()
-      expect(getByText('SwapExecuteScreen.swapAgain')).toBeTruthy()
-      expect(getByTestId('ReturnHome')).toBeTruthy()
+      expect(getByTestId('GreenLoadingSpinnerToCheck')).toBeTruthy()
+      expect(getByText('SwapExecuteScreen.swapCompleteSection.title')).toBeTruthy()
+      expect(getByText('SwapExecuteScreen.swapCompleteSection.subtitle')).toBeTruthy()
     })
   })
 
@@ -186,22 +200,22 @@ describe('SwapExecuteScreen', () => {
         <SwapExecuteScreen />
       </Provider>
     )
-    fireEvent.press(getByText('SwapExecuteScreen.swapAgain'))
+    fireEvent.press(getByText('SwapExecuteScreen.swapActionBar.swapAgain'))
     expect(navigate).toHaveBeenCalledWith(Screens.SwapScreen)
   })
 
-  it("should be able to navigate home on press of 'X' button", () => {
+  it("should be able to navigate home on press of 'Done'", () => {
     const store = createMockStore({
       swap: {
         swapState: SwapState.COMPLETE,
       },
     })
-    const { getByTestId } = render(
+    const { getByText } = render(
       <Provider store={store}>
         <SwapExecuteScreen />
       </Provider>
     )
-    fireEvent.press(getByTestId('ReturnHome'))
+    fireEvent.press(getByText('SwapExecuteScreen.swapActionBar.done'))
     expect(navigateHome).toHaveBeenCalled()
   })
 })

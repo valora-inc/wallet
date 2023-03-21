@@ -44,6 +44,37 @@
     "body": "Khi đã ngắt kết nối, bạn không thể kết nối lại số điện thoại của mình với ví này.",
     "revoke": "Ngắt kết nối"
   },
+  "protectWallet": {
+    "title": "Protect Your Wallet",
+    "subtitle": "Protect your wallet",
+    "body": "If your phone is lost or stolen, your {{mnemonicLength}} word recovery phrase is the only way you can access your funds.",
+    "recoveryPhrase": {
+      "title": "Use Recovery Phrase",
+      "subtitle": "Write down your recovery phrase"
+    },
+    "cloudBackup": {
+      "title": "Backup to Cloud",
+      "subtitle": "Restore your wallet without a phrase",
+      "bottomSheet": {
+        "title": "Cloud Backup is coming soon!",
+        "restoreComingSoon": "Cloud backup is a way to restore your wallet without a recovery phrase. We are working on this as fast as we can and will notify you once it's available to use.",
+        "writeDownPhrase": "In the meantime, please write down your recovery phrase to manually backup your wallet.",
+        "continue": "Continue to Recovery Phrase"
+      }
+    }
+  },
+  "recoveryPhrase": {
+    "title": "Your recovery phrase",
+    "body": "Write these {{mnemonicLength}} words down somewhere safe, where it cannot be stolen or damaged.",
+    "continue": "I've saved it",
+    "copy": "Copy to clipboard",
+    "mnemonicCopied": "Recovery phrase copied to clipboard",
+    "bottomSheet": {
+      "title": "How to save a recovery phrase",
+      "writeDownPhrase": "Writing down your recovery phrase with a pen, and storing it in a safe place is one of the most secure ways to protect your wallet.",
+      "phraseLocation": "An ideal place might be where you store other important documents & materials for safekeeping, that is not easily stolen and easy to retrieve. It's up to you!"
+    }
+  },
   "testFaqLink": "Câu hỏi thường gặp về {{appName}}",
   "termsOfServiceLink": "Điều khoản dịch vụ",
   "privacyPolicy": "Chính sách quyền riêng tư",
@@ -86,8 +117,8 @@
   "contactSupport": "Liên hệ với Bộ phận hỗ trợ",
   "tapToCopy": "Nhấn để sao chép",
   "headerTitle": "Cụm từ khôi phục",
-  "introBackUpPhrase": "Back Up Recovery Phrase",
-  "introCompleteQuiz": "Complete our backup quiz to verify that your wallet can be recovered.\n\nIf you wrote it down incorrectly, you won’t be able to access your wallet if anything happens to your device.",
+  "introBackUpPhrase": "Sao lưu Cụm từ khôi phục",
+  "introCompleteQuiz": "Hoàn thành câu hỏi kiểm tra sao lưu của chúng tôi để xác minh đảm bảo ví của bạn có thể được khôi phục.\n\nNếu viết sai cụm từ khôi phục, bạn sẽ không thể truy cập vào ví trong trường hợp xảy bất kỳ sự cố nào với thiết bị.",
   "introTitle": "Cụm từ khôi phục của bạn",
   "introBody": "Cụm từ khôi phục là phần quan trọng nhất trong tài khoản.\n\nVui lòng tìm nơi riêng tư để thiết lập Cụm từ khôi phục của bạn. Thời gian thực hiện là khoảng 5 phút.",
   "introPrimaryAction": "Thiết lập",
@@ -100,14 +131,14 @@
   "failedFetchMnemonic": "Không tìm nạp được Cụm từ khôi phục của bạn",
   "backupAndRecovery": "Sao lưu và khôi phục",
   "writeDownKey": "Vui lòng viết ra Cụm từ khôi phục của bạn",
-  "writeDownKeyExperimental": "Please write down your phrase.",
+  "writeDownKeyExperimental": "Vui lòng viết ra cụm từ của bạn.",
   "completeEducation": "Tôi đã hiểu",
   "yourAccountKey": "Cụm từ khôi phục của bạn",
   "backupKeyNotification": "Để bảo vệ tiền, hãy thiết lập Cụm từ khôi phục ngay.",
-  "backupKeyNotification2": "Keep your funds safe. Back up your Recovery Phrase now.",
-  "backupKeyCTA": "Finish Backup Now",
+  "backupKeyNotification2": "Để bảo vệ tiền của bạn, hãy sao lưu Cụm từ khôi phục ngay.",
+  "backupKeyCTA": "Hoàn tất quy trình sao lưu ngay",
   "backupKeySummary": "Tìm một nơi riêng tư và viết ra Cụm từ khôi phục của bạn. Vui lòng lưu giữ Cụm từ này ở nơi an toàn. Không lưu vào điện thoại của bạn.",
-  "backupKeyWarning": "If you lose your recovery phrase, you will lose access to all funds held in Valora.",
+  "backupKeyWarning": "Nếu làm mất cụm từ khôi phục, bạn sẽ không thể truy cập vào toàn bộ số tiền bạn sở hữu trên Valora.",
   "copied": "Đã sao chép Cụm từ vào bảng nhớ tạm",
   "moreInfo": "Thêm thông tin",
   "savedConfirmation": "Có, tôi đã viết ra Cụm từ khôi phục của mình.",
@@ -166,6 +197,7 @@
   "superchargeTitle": "Bắt đầu tham gia Supercharge",
   "superchargeDescription": "Nhận {{apy}}% tiền thưởng hằng năm tính trên số dư {{token}}. Sau đây là cách bắt đầu:",
   "superchargeConnectNumber": "Kết nối số điện thoại của bạn",
+  "superchargeReconnectNumber": "Kết nối lại với điện thoại\n<0>Chúng tôi đã khởi chạy trải nghiệm chương trình Supercharge cải tiến. Kết nối lại số điện thoại của bạn để tiếp tục kiếm tiền thưởng từ {{token}}.</0>",
   "superchargeMinimumBalance": "Thêm số dư tối thiểu là {{amount}} {{token}}",
   "superchargeDisclaimer": "Tăng tối đa tiền thưởng bằng cách nạp đến {{amount}} {{token}}",
   "superchargeDisclaimerMaxRewards": "Bạn sẽ nhận được tiền thưởng tối đa tính trên {{token}} của mình",
@@ -177,6 +209,8 @@
   },
   "superchargingTitle": "{{token}} của bạn đang được áp dụng Supercharge",
   "superchargingDescription": "Bạn đang nhận được {{apy}}% mỗi năm. Hằng tuần, bạn sẽ nhận được thông báo khi tiền thưởng đã về, hãy quay lại đây để xác nhận.",
+  "superchargingTitleV1_54": "{{token}} của bạn đang được áp dụng Supercharge",
+  "superchargingDescriptionV1_54": "Bạn đang nhận được {{apy}}% mỗi năm. Hằng tuần, bạn sẽ nhận được thông báo khi tiền thưởng đã về, hãy quay lại đây để xác nhận.",
   "superchargeRewardsAvailable": "Bạn có {{amount}} {{token}} cần xác nhận!",
   "superchargeRewardsAvailableMultipleTokens": "Bạn có {{amounts}} cần xác nhận!",
   "superchargeClaimText": "Xác nhận tiền thưởng của bạn để thêm vào số dư.",
@@ -1492,11 +1526,11 @@
     },
     "pix": {
       "keyType": {
-        "label": "PIX Key Type"
+        "label": "Loại mã khóa PIX"
       },
       "key": {
-        "placeholderText": "Enter PIX key",
-        "errorMessage": "Invalid PIX key"
+        "placeholderText": "Nhập mã khóa PIX",
+        "errorMessage": "Mã khóa PIX không hợp lệ"
       }
     }
   },
@@ -1512,9 +1546,11 @@
     "insufficientFunds": "Không đủ số dư {{token}}. Hãy thử số tiền nhỏ hơn hoặc chọn token khác.",
     "fetchSwapQuoteFailed": "Xin lỗi vì sự chậm trễ này! Hệ thống đang mất nhiều thời gian hơn bình thường để có được tỷ giá quy đổi tốt nhất. Vui lòng thử lại trong vài phút nữa.",
     "disclaimer": "Hoán đổi được cung cấp bởi các đối tác trên Celo. <0> Tìm hiểu thêm. </0>",
+    "swapFromTokenSelection": "Trao đổi từ",
+    "swapToTokenSelection": "Trao đổi sang",
     "maxSwapAmountWarning": {
-      "title": "Swapping the MAX amount",
-      "body": "Make sure you have CELO in your wallet to cover gas fees for future transactions",
+      "title": "Trao đổi số tiền TỐI ĐA",
+      "body": "Đảm bảo bạn có CELO trong ví để thanh toán phí ga cho các giao dịch trong tương lai",
       "learnMore": "Tìm hiểu thêm"
     }
   },
@@ -1554,6 +1590,21 @@
       "action": "Tiếp tục",
       "body": "Phí và số tiền điện tử có thể thay đổi do biến động của thị trường tiền điện tử. \n\n Vui lòng xem lại số tiền và phí cuối cùng của bạn rồi gửi lại."
     },
+    "swapCompleteSection": {
+      "title": "Swap successful",
+      "subtitle": "Your assets are now in your wallet",
+      "done": "Xong"
+    },
+    "swapErrorSection": {
+      "title": "We couldn’t complete your swap",
+      "subtitle": "Your assets are safe in your wallet.\nPlease try again.",
+      "contactSupport": "If you need additional help, you can contact\n<0>customer support<0>"
+    },
+    "swapActionBar": {
+      "tryAgain": "Thử lại",
+      "done": "Xong",
+      "swapAgain": "Trao đổi lại"
+    },
     "swapErrorModal": {
       "title": "Chúng tôi không thể hoàn tất giao dịch này.",
       "body": "Vui lòng đợi và thử lại sau hoặc liên hệ với đội ngũ hỗ trợ của chúng tôi để được trợ giúp.",
@@ -1577,6 +1628,25 @@
     "readMoreButtonText": "Đọc thêm trên blog",
     "loadingError": "Xin lỗi, chúng tôi không thể tải các bản cập nhật mới nhất. Vui lòng thử lại sau.",
     "retryButtonText": "Thử lại"
+  },
+  "chooseYourAdventure": {
+    "header": "Welcome to Valora",
+    "subtitle": "What would you like to do first?",
+    "later": "I'll explore later",
+    "options": {
+      "add": "Add funds",
+      "dapp": "Find ways to use crypto",
+      "profile": "Build your profile",
+      "learn": "Learn about Celo"
+    }
+  },
+  "reverifyUsingCPVHomecard": {
+    "description": "Kết nối lại số điện thoại của bạn để gửi, nhận và kiếm tiền thưởng từ tiền điện tử",
+    "buttonLabel": "Kết nối lại số điện thoại"
+  },
+  "profileScreen": {
+    "generateName": "Tạo tên",
+    "namePlaceholder": "Select a name ex) {{exampleName}}"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Đô la Celo"
 }

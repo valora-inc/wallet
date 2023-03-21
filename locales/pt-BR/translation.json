@@ -44,6 +44,37 @@
     "body": "Depois de desconectá-lo, você não poderá reconectar o seu número de celular a esta carteira novamente.",
     "revoke": "Desconectar"
   },
+  "protectWallet": {
+    "title": "Protect Your Wallet",
+    "subtitle": "Protect your wallet",
+    "body": "If your phone is lost or stolen, your {{mnemonicLength}} word recovery phrase is the only way you can access your funds.",
+    "recoveryPhrase": {
+      "title": "Use Recovery Phrase",
+      "subtitle": "Write down your recovery phrase"
+    },
+    "cloudBackup": {
+      "title": "Backup to Cloud",
+      "subtitle": "Restore your wallet without a phrase",
+      "bottomSheet": {
+        "title": "Cloud Backup is coming soon!",
+        "restoreComingSoon": "Cloud backup is a way to restore your wallet without a recovery phrase. We are working on this as fast as we can and will notify you once it's available to use.",
+        "writeDownPhrase": "In the meantime, please write down your recovery phrase to manually backup your wallet.",
+        "continue": "Continue to Recovery Phrase"
+      }
+    }
+  },
+  "recoveryPhrase": {
+    "title": "Your recovery phrase",
+    "body": "Write these {{mnemonicLength}} words down somewhere safe, where it cannot be stolen or damaged.",
+    "continue": "I've saved it",
+    "copy": "Copy to clipboard",
+    "mnemonicCopied": "Recovery phrase copied to clipboard",
+    "bottomSheet": {
+      "title": "How to save a recovery phrase",
+      "writeDownPhrase": "Writing down your recovery phrase with a pen, and storing it in a safe place is one of the most secure ways to protect your wallet.",
+      "phraseLocation": "An ideal place might be where you store other important documents & materials for safekeeping, that is not easily stolen and easy to retrieve. It's up to you!"
+    }
+  },
   "testFaqLink": "Perguntas frequentes da {{appName}}",
   "termsOfServiceLink": "Termos de Serviço",
   "privacyPolicy": "Política de Privacidade",
@@ -86,8 +117,8 @@
   "contactSupport": "Contate o suporte",
   "tapToCopy": "Toque para copiar",
   "headerTitle": "Recuperação",
-  "introBackUpPhrase": "Back Up Recovery Phrase",
-  "introCompleteQuiz": "Complete our backup quiz to verify that your wallet can be recovered.\n\nIf you wrote it down incorrectly, you won’t be able to access your wallet if anything happens to your device.",
+  "introBackUpPhrase": "Fazer backup da frase de recuperação",
+  "introCompleteQuiz": "Responda ao nosso questionário de backup para verificar se sua carteira pode ser recuperada.\n\nSe você a escreveu incorretamente, não poderá acessar sua carteira se algo acontecer com seu dispositivo.",
   "introTitle": "Sua Frase de Recuperação",
   "introBody": "A sua Frase de Recuperação é a parte mais importante da sua conta.\n\nEncontre um local privado para configurar sua Frase. Leva apenas 5 minutos.",
   "introPrimaryAction": "Configurar",
@@ -100,14 +131,14 @@
   "failedFetchMnemonic": "Falha ao obter sua Frase de Recuperação",
   "backupAndRecovery": "Backup e recuperação",
   "writeDownKey": "Escreva sua frase",
-  "writeDownKeyExperimental": "Please write down your phrase.",
+  "writeDownKeyExperimental": "Escreva sua frase.",
   "completeEducation": "Eu compreendo",
   "yourAccountKey": "Sua Frase de Recuperação",
   "backupKeyNotification": "Proteja seus fundos. Configure sua Frase de Recuperação.",
-  "backupKeyNotification2": "Keep your funds safe. Back up your Recovery Phrase now.",
-  "backupKeyCTA": "Finish Backup Now",
+  "backupKeyNotification2": "Mantenha seus fundos em segurança. Faça o backup da sua frase de recuperação agora.",
+  "backupKeyCTA": "Concluir backup agora",
   "backupKeySummary": "Encontre um local privado e anote a sua Frase de Recuperação. Guarde-a em um lugar seguro. Não salve em seu telefone.",
-  "backupKeyWarning": "If you lose your recovery phrase, you will lose access to all funds held in Valora.",
+  "backupKeyWarning": "Se você perder sua frase de recuperação, perderá acesso a todos os fundos mantidos na Valora.",
   "copied": "Frase copiada para a área de transferência",
   "moreInfo": "Mais informações",
   "savedConfirmation": "Sim, eu anotei minha frase.",
@@ -166,6 +197,7 @@
   "superchargeTitle": "Entre no Supercharge",
   "superchargeDescription": "Ganhe 12% em recompensas anuais no seus {{token}}. Veja como começar:",
   "superchargeConnectNumber": "Conecte seu número de celular",
+  "superchargeReconnectNumber": "Reconecte seu número de celular\n<0>Lançamos uma experiência aprimorada do Supercharge. Reconecte o seu número de celular para continuar ganhando recompensas com {{token}}.</0>",
   "superchargeMinimumBalance": "Adicione um saldo mínimo de {{amount}} {{token}}",
   "superchargeDisclaimer": "Obtenha o máximo de recompensas com até {{amount}} {{token}}",
   "superchargeDisclaimerMaxRewards": "Você está recebendo o máximo de recompensas no seus {{token}}",
@@ -177,6 +209,8 @@
   },
   "superchargingTitle": "Você está recebendo recompensas de Supercharge no seus {{token}}",
   "superchargingDescription": "Você recebe {{apy}}% anualmente. Toda semana você receberá uma notificação avisando quando as suas recompensas estiverem pronta. Basta voltar aqui para resgatá-las.",
+  "superchargingTitleV1_54": "Você está recebendo recompensas de Supercharge no seus {{token}}",
+  "superchargingDescriptionV1_54": "Você recebe {{apy}}% anualmente. Toda semana você receberá uma notificação avisando quando as suas recompensas estiverem pronta. Basta voltar aqui para resgatá-las.",
   "superchargeRewardsAvailable": "Você tem {{amount}} {{token}} disponíveis para resgatar!",
   "superchargeRewardsAvailableMultipleTokens": "Você tem {{amounts}} disponíveis para resgatar!",
   "superchargeClaimText": "Resgate suas recompensas para adicioná-las ao seu saldo.",
@@ -1497,7 +1531,7 @@
         "label": "Tipo de chave PIX"
       },
       "key": {
-        "placeholderText": "Introduzir chave PIX",
+        "placeholderText": "Insira a chave PIX",
         "errorMessage": "Chave PIX inválida"
       }
     }
@@ -1514,9 +1548,11 @@
     "insufficientFunds": "Saldo de {{token}} insuficiente. Insira um valor menor ou escolha um token diferente.",
     "fetchSwapQuoteFailed": "Lamentamos o atraso! A obtenção da melhor taxa de câmbio está demorando mais do que o normal. Tente novamente mais tarde.",
     "disclaimer": "As trocas são fornecidas por parceiros no Celo. <0>Saiba mais</0>",
+    "swapFromTokenSelection": "Trocar de",
+    "swapToTokenSelection": "Trocar para",
     "maxSwapAmountWarning": {
-      "title": "Swapping the MAX amount",
-      "body": "Make sure you have CELO in your wallet to cover gas fees for future transactions",
+      "title": "Trocando a quantia MÁX",
+      "body": "Certifique-se de ter CELO em sua carteira para cobrir as taxas de gas para transações futuras",
       "learnMore": "Saiba mais"
     }
   },
@@ -1556,6 +1592,21 @@
       "action": "Continuar",
       "body": "As quantias e taxas de cripto podem mudar devido a flutuações no mercado cripto.\n\nRevise a quantia e as taxas finais e reenvie."
     },
+    "swapCompleteSection": {
+      "title": "Swap successful",
+      "subtitle": "Your assets are now in your wallet",
+      "done": "Concluído"
+    },
+    "swapErrorSection": {
+      "title": "We couldn’t complete your swap",
+      "subtitle": "Your assets are safe in your wallet.\nPlease try again.",
+      "contactSupport": "If you need additional help, you can contact\n<0>customer support<0>"
+    },
+    "swapActionBar": {
+      "tryAgain": "Repetir",
+      "done": "Concluído",
+      "swapAgain": "Trocar novamente"
+    },
     "swapErrorModal": {
       "title": "Não foi possível concluir esta transação.",
       "body": "Aguarde e tente de novo depois ou contate o suporte para obter ajuda.",
@@ -1579,6 +1630,25 @@
     "readMoreButtonText": "Leia mais no blog",
     "loadingError": "Desculpe, não foi possível carregar as atualizações mais recentes. Tente novamente mais tarde.",
     "retryButtonText": "Repetir"
+  },
+  "chooseYourAdventure": {
+    "header": "Welcome to Valora",
+    "subtitle": "What would you like to do first?",
+    "later": "I'll explore later",
+    "options": {
+      "add": "Add funds",
+      "dapp": "Find ways to use crypto",
+      "profile": "Build your profile",
+      "learn": "Learn about Celo"
+    }
+  },
+  "reverifyUsingCPVHomecard": {
+    "description": "Reconecte seu número para enviar, receber e receber recompensas com suas criptos",
+    "buttonLabel": "Reconectar número"
+  },
+  "profileScreen": {
+    "generateName": "Gerar um nome",
+    "namePlaceholder": "Select a name ex) {{exampleName}}"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

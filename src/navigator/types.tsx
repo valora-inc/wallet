@@ -100,6 +100,7 @@ export type StackParamList = {
   [Screens.BidaliScreen]: { currency?: Currency }
   [Screens.CoinbasePayScreen]: { uri: string }
   [Screens.CashInSuccess]: { provider?: string }
+  [Screens.ChooseYourAdventure]: undefined
   [Screens.ConsumerIncentivesHomeScreen]: undefined
   [Screens.DappKitAccountScreen]: {
     dappKitRequest: AccountAuthRequest
@@ -109,7 +110,9 @@ export type StackParamList = {
   }
   [Screens.DAppsExplorerScreen]: undefined
   [Screens.Debug]: undefined
-  [Screens.DrawerNavigator]: undefined
+  [Screens.DrawerNavigator]: {
+    initialScreen?: Screens
+  }
   [Screens.ErrorScreen]: {
     errorMessage?: string
   }
@@ -253,6 +256,8 @@ export type StackParamList = {
   }
   [Screens.PhotosEducation]: undefined
   [Screens.PhotosNUX]: undefined
+  [Screens.ProtectWallet]: undefined
+  [Screens.OnboardingRecoveryPhrase]: undefined
   [Screens.Profile]: undefined
   [Screens.QRNavigator]: NestedNavigatorParams<QRTabParamList> | undefined
   [Screens.ReclaimPaymentConfirmationScreen]: {

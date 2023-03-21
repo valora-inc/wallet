@@ -44,6 +44,37 @@
     "body": "Una vez desconectado, no podrás volver a conectar tu número de teléfono a esta dirección.",
     "revoke": "Desconectar"
   },
+  "protectWallet": {
+    "title": "Protege tu wallet",
+    "subtitle": "Protect your wallet",
+    "body": "If your phone is lost or stolen, your {{mnemonicLength}} word recovery phrase is the only way you can access your funds.",
+    "recoveryPhrase": {
+      "title": "Use Recovery Phrase",
+      "subtitle": "Write down your recovery phrase"
+    },
+    "cloudBackup": {
+      "title": "Backup to Cloud",
+      "subtitle": "Restore your wallet without a phrase",
+      "bottomSheet": {
+        "title": "Cloud Backup is coming soon!",
+        "restoreComingSoon": "Cloud backup is a way to restore your wallet without a recovery phrase. We are working on this as fast as we can and will notify you once it's available to use.",
+        "writeDownPhrase": "In the meantime, please write down your recovery phrase to manually backup your wallet.",
+        "continue": "Continue to Recovery Phrase"
+      }
+    }
+  },
+  "recoveryPhrase": {
+    "title": "Your recovery phrase",
+    "body": "Write these {{mnemonicLength}} words down somewhere safe, where it cannot be stolen or damaged.",
+    "continue": "I've saved it",
+    "copy": "Copy to clipboard",
+    "mnemonicCopied": "Recovery phrase copied to clipboard",
+    "bottomSheet": {
+      "title": "How to save a recovery phrase",
+      "writeDownPhrase": "Writing down your recovery phrase with a pen, and storing it in a safe place is one of the most secure ways to protect your wallet.",
+      "phraseLocation": "An ideal place might be where you store other important documents & materials for safekeeping, that is not easily stolen and easy to retrieve. It's up to you!"
+    }
+  },
   "testFaqLink": "Preguntas frecuentes sobre {{appName}}",
   "termsOfServiceLink": "Condiciones de uso",
   "privacyPolicy": "Política de privacidad",
@@ -166,6 +197,7 @@
   "superchargeTitle": "¡Súmate a Supercharge!",
   "superchargeDescription": "Obtén un 12% anual en recompensas sobre tu saldo en {{token}}. ¿Cómo? Es muy fácil:",
   "superchargeConnectNumber": "Conecta tu número de teléfono",
+  "superchargeReconnectNumber": "Reconnect your phone number\n<0>We have launched an improved Supercharge experience. Reconnect your phone number to keep earning rewards on your {{token}}.</0>",
   "superchargeMinimumBalance": "Agrega un saldo mínimo de {{amount}} {{token}}",
   "superchargeDisclaimer": "Maximiza las recompensas sumando hasta {{amount}} {{token}}",
   "superchargeDisclaimerMaxRewards": "Has alcanzado el saldo máximo en {{token}} sobre el cual puedes recibir recompensas",
@@ -177,6 +209,8 @@
   },
   "superchargingTitle": "Estás participando en Supercharge con tus {{token}}",
   "superchargingDescription": "Estás recibiendo un {{apy}}% anual en recompensas. Recibirás una notificación cada semana cuando las recompensas estén listas, vuelve a esta pantalla para reclamarlas.",
+  "superchargingTitleV1_54": "Estás participando en Supercharge con tus {{token}}",
+  "superchargingDescriptionV1_54": "Estás recibiendo un {{apy}}% anual en recompensas. Recibirás una notificación cada semana cuando las recompensas estén listas, vuelve a esta pantalla para reclamarlas.",
   "superchargeRewardsAvailable": "¡Has acumulado {{amount}} {{token}} en recompensas!",
   "superchargeRewardsAvailableMultipleTokens": "¡Has acumulado {{amounts}} en recompensas!",
   "superchargeClaimText": "Reclama tus recompensas y multiplica tu saldo.",
@@ -1514,6 +1548,8 @@
     "insufficientFunds": "Saldo en {{token}} insuficiente. Ingresa un monto menor o elige otro token.",
     "fetchSwapQuoteFailed": "¡Lo sentimos! Conseguir la mejor tasa de cambio nos está llevando más tiempo del habitual. Inténtalo de nuevo más tarde.",
     "disclaimer": "Los intercambios se realizan mediante socios de Celo. <0>Más información</0>",
+    "swapFromTokenSelection": "Cambiar de",
+    "swapToTokenSelection": "Cambiar a",
     "maxSwapAmountWarning": {
       "title": "Intercambio de monto MAX",
       "body": "Asegúrate de contar con suficiente CELO en tu wallet para cubrir las tarifas de próximas transacciones.",
@@ -1556,6 +1592,21 @@
       "action": "Continuar",
       "body": "Los montos y las tarifas de cripto pueden fluctuar con el mercado de cripto.\n\nRevisa el monto y las tarifas finales y vuelve a enviar."
     },
+    "swapCompleteSection": {
+      "title": "Swap successful",
+      "subtitle": "Your assets are now in your wallet",
+      "done": "Listo"
+    },
+    "swapErrorSection": {
+      "title": "We couldn’t complete your swap",
+      "subtitle": "Your assets are safe in your wallet.\nPlease try again.",
+      "contactSupport": "If you need additional help, you can contact\n<0>customer support<0>"
+    },
+    "swapActionBar": {
+      "tryAgain": "Reintentar",
+      "done": "Listo",
+      "swapAgain": "Volver a intercambiar"
+    },
     "swapErrorModal": {
       "title": "No pudimos completar esta transacción.",
       "body": "Espera y vuelve a intentarlo más tarde o ponte en contacto con nuestro equipo de soporte técnico para obtener ayuda.",
@@ -1579,6 +1630,25 @@
     "readMoreButtonText": "Lee más en el blog",
     "loadingError": "Lo sentimos, no fue posible cargar las últimas novedades. Vuelve a intentarlo más tarde.",
     "retryButtonText": "Reintentar"
+  },
+  "chooseYourAdventure": {
+    "header": "Welcome to Valora",
+    "subtitle": "What would you like to do first?",
+    "later": "I'll explore later",
+    "options": {
+      "add": "Add funds",
+      "dapp": "Find ways to use crypto",
+      "profile": "Build your profile",
+      "learn": "Learn about Celo"
+    }
+  },
+  "reverifyUsingCPVHomecard": {
+    "description": "Reconnect your number to send, receive and get rewards on your crypto",
+    "buttonLabel": "Reconnect number"
+  },
+  "profileScreen": {
+    "generateName": "Generar un nombre",
+    "namePlaceholder": "Select a name ex) {{exampleName}}"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
