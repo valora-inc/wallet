@@ -43,6 +43,7 @@ export interface OnboardingProps {
   numberAlreadyVerifiedCentrally: boolean
   chooseAdventureEnabled: boolean
   showRecoveryPhrase: boolean
+  onboardingNameScreenEnabled: boolean
 }
 
 /**
@@ -79,8 +80,11 @@ export function onboardingPropsSelector(state: RootState): OnboardingProps {
   const supportedBiometryType = supportedBiometryTypeSelector(state)
   const skipVerification = skipVerificationSelector(state)
   const numberAlreadyVerifiedCentrally = numberVerifiedCentrallySelector(state)
-  const { chooseAdventureEnabled, showRecoveryPhraseInOnboarding: showRecoveryPhrase } =
-    getOnboardingExperimentParams()
+  const {
+    chooseAdventureEnabled,
+    showRecoveryPhraseInOnboarding: showRecoveryPhrase,
+    onboardingNameScreenEnabled,
+  } = getOnboardingExperimentParams()
 
   return {
     recoveringFromStoreWipe,
@@ -90,6 +94,7 @@ export function onboardingPropsSelector(state: RootState): OnboardingProps {
     numberAlreadyVerifiedCentrally,
     chooseAdventureEnabled,
     showRecoveryPhrase,
+    onboardingNameScreenEnabled,
   }
 }
 
@@ -98,10 +103,15 @@ export function onboardingPropsSelector(state: RootState): OnboardingProps {
  * and count the number of screens until the given screen and the total number
  */
 export function getOnboardingStepValues(screen: Screens, onboardingProps: OnboardingProps) {
+  const firstScreen = firstOnboardingScreen({
+    onboardingNameScreenEnabled: onboardingProps.onboardingNameScreenEnabled,
+    recoveringFromStoreWipe: onboardingProps.recoveringFromStoreWipe,
+  })
+
   let stepCounter = 1 // will increment this up to the onboarding step the user is on
   let totalCounter = 1
   let reachedStep = false // tracks whether we have reached the step the user is on in onboarding, and we can stop incrementing stepCounter
-  let currentScreen: Screens = FIRST_ONBOARDING_SCREEN // pointer that we will update when simulating navigation through the onboarding screens to calculate "step" and "totalSteps"
+  let currentScreen: Screens = firstScreen // pointer that we will update when simulating navigation through the onboarding screens to calculate "step" and "totalSteps"
 
   const nextStepAndCount = (nextScreen: Screens) => {
     // dummy navigation function to help determine what onboarding step the user is on, without triggering side effects like actually cycling them back through the first few onboarding screens

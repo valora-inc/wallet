@@ -37,6 +37,25 @@ describe('onboarding steps', () => {
     name: 'newUserFlowWithEverythingEnabled',
   }
 
+  const newUserChooseAdventure = {
+    onboardingProps: {
+      ...mockOnboardingProps,
+      skipVerification: false,
+      supportedBiometryType: BIOMETRY_TYPE.FACE_ID,
+      recoveringFromStoreWipe: false,
+      chooseAdventureEnabled: true,
+      onboardingNameScreenEnabled: false,
+      showRecoveryPhrase: true,
+    },
+    screens: [
+      Screens.PincodeSet,
+      Screens.EnableBiometry,
+      Screens.ProtectWallet,
+      Screens.VerificationStartScreen,
+    ],
+    name: 'newUserChooseAdventure',
+  }
+
   const newUserFlowWithEverythingDisabled = {
     onboardingProps: {
       ...mockOnboardingProps,
@@ -70,6 +89,7 @@ describe('onboarding steps', () => {
 
   it.each([
     newUserFlowWithEverythingEnabled,
+    newUserChooseAdventure,
     newUserFlowWithEverythingDisabled,
     importWalletFlowEverythingEnabled,
   ])(
