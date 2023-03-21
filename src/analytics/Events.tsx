@@ -153,6 +153,7 @@ export enum OnboardingEvents {
   protect_wallet_complete = 'protect_wallet_complete',
 
   cya_button_press = 'cya_button_press',
+  cya_later = 'cya_later',
 }
 
 export enum VerificationEvents {
