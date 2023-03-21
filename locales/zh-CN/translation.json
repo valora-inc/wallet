@@ -44,6 +44,37 @@
     "body": "一旦断开关联，您的手机号码将无法与此钱包重新关联。",
     "revoke": "断开关联"
   },
+  "protectWallet": {
+    "title": "Protect Your Wallet",
+    "subtitle": "Protect your wallet",
+    "body": "If your phone is lost or stolen, your {{mnemonicLength}} word recovery phrase is the only way you can access your funds.",
+    "recoveryPhrase": {
+      "title": "Use Recovery Phrase",
+      "subtitle": "Write down your recovery phrase"
+    },
+    "cloudBackup": {
+      "title": "Backup to Cloud",
+      "subtitle": "Restore your wallet without a phrase",
+      "bottomSheet": {
+        "title": "Cloud Backup is coming soon!",
+        "restoreComingSoon": "Cloud backup is a way to restore your wallet without a recovery phrase. We are working on this as fast as we can and will notify you once it's available to use.",
+        "writeDownPhrase": "In the meantime, please write down your recovery phrase to manually backup your wallet.",
+        "continue": "Continue to Recovery Phrase"
+      }
+    }
+  },
+  "recoveryPhrase": {
+    "title": "Your recovery phrase",
+    "body": "Write these {{mnemonicLength}} words down somewhere safe, where it cannot be stolen or damaged.",
+    "continue": "I've saved it",
+    "copy": "Copy to clipboard",
+    "mnemonicCopied": "Recovery phrase copied to clipboard",
+    "bottomSheet": {
+      "title": "How to save a recovery phrase",
+      "writeDownPhrase": "Writing down your recovery phrase with a pen, and storing it in a safe place is one of the most secure ways to protect your wallet.",
+      "phraseLocation": "An ideal place might be where you store other important documents & materials for safekeeping, that is not easily stolen and easy to retrieve. It's up to you!"
+    }
+  },
   "testFaqLink": "{{appName}} 常见问题",
   "termsOfServiceLink": "服务条款",
   "privacyPolicy": "隐私政策",
@@ -86,8 +117,8 @@
   "contactSupport": "联系支持团队",
   "tapToCopy": "点按以复制",
   "headerTitle": "恢复短语",
-  "introBackUpPhrase": "Back Up Recovery Phrase",
-  "introCompleteQuiz": "Complete our backup quiz to verify that your wallet can be recovered.\n\nIf you wrote it down incorrectly, you won’t be able to access your wallet if anything happens to your device.",
+  "introBackUpPhrase": "备份恢复短语",
+  "introCompleteQuiz": "完成我们的备份测试，以验证您的钱包是否可以恢复。\n\n如果您写错恢复短语，则无法在您的设备出现问题时访问您的钱包。",
   "introTitle": "您的恢复短语",
   "introBody": "您的恢复短语是您账户中最重要的部分。\n\n请找一处私密的地方来设置您的短语。设置过程需要大约 5 分钟时间。",
   "introPrimaryAction": "设置",
@@ -100,14 +131,14 @@
   "failedFetchMnemonic": "获取恢复短语失败",
   "backupAndRecovery": "备份和恢复",
   "writeDownKey": "请写下您的短语",
-  "writeDownKeyExperimental": "Please write down your phrase.",
+  "writeDownKeyExperimental": "请写下您的短语。",
   "completeEducation": "我了解",
   "yourAccountKey": "您的恢复短语",
   "backupKeyNotification": "保障您的资金安全。马上设置恢复短语。",
-  "backupKeyNotification2": "Keep your funds safe. Back up your Recovery Phrase now.",
-  "backupKeyCTA": "Finish Backup Now",
+  "backupKeyNotification2": "保障您的资金安全。马上备份恢复短语。",
+  "backupKeyCTA": "立即完成备份",
   "backupKeySummary": "找一个私密地方写下您的恢复短语。请将它存放在另一处安全地点。切勿保存在您的手机上。",
-  "backupKeyWarning": "If you lose your recovery phrase, you will lose access to all funds held in Valora.",
+  "backupKeyWarning": "如果丢失恢复短语，您将无法访问您在 Valora 持有的所有资金。",
   "copied": "短语已复制到剪贴板",
   "moreInfo": "更多信息",
   "savedConfirmation": "是的，我已写下了我的短语。",
@@ -166,7 +197,7 @@
   "superchargeTitle": "开始 Supercharge",
   "superchargeDescription": "基于您的 {{token}} 余额获取 {{apy}}% 的年度奖励。具体方式如下：",
   "superchargeConnectNumber": "关联您的手机号码",
-  "superchargeReconnectNumber": "Reconnect your phone number\n<0>We have launched an improved Supercharge experience. Reconnect your phone number to keep earning rewards on your {{token}}.</0>",
+  "superchargeReconnectNumber": "重新关联您的手机号码\n<0>我们已经改进 Supercharge 体验。重新关联您的手机号码，继续获取基于您的 {{token}} 的奖励。</0>",
   "superchargeMinimumBalance": "添加 {{amount}} {{token}} 的最低余额",
   "superchargeDisclaimer": "通过添加至 {{amount}} {{token}} 获取最高奖励",
   "superchargeDisclaimerMaxRewards": "您即将获得基于您的 {{token}} 的最高奖励",
@@ -1495,11 +1526,11 @@
     },
     "pix": {
       "keyType": {
-        "label": "PIX键类型"
+        "label": "PIX 密钥类型"
       },
       "key": {
-        "placeholderText": "输入PIX键",
-        "errorMessage": "无效的PIX键"
+        "placeholderText": "输入 PIX 密钥",
+        "errorMessage": "PIX 密钥无效"
       }
     }
   },
@@ -1518,8 +1549,8 @@
     "swapFromTokenSelection": "交换自",
     "swapToTokenSelection": "交换至",
     "maxSwapAmountWarning": {
-      "title": "Swapping the MAX amount",
-      "body": "Make sure you have CELO in your wallet to cover gas fees for future transactions",
+      "title": "交换最大金额",
+      "body": "请确保您的钱包里有 CELO，以支付未来交易的手续费",
       "learnMore": "了解更多"
     }
   },
@@ -1559,6 +1590,21 @@
       "action": "继续",
       "body": "加密货币的金额和费用可能因加密货币市场的波动而发生变化。\n\n请在重新提交之前审查您的最终金额和费用。"
     },
+    "swapCompleteSection": {
+      "title": "Swap successful",
+      "subtitle": "Your assets are now in your wallet",
+      "done": "完成"
+    },
+    "swapErrorSection": {
+      "title": "We couldn’t complete your swap",
+      "subtitle": "Your assets are safe in your wallet.\nPlease try again.",
+      "contactSupport": "If you need additional help, you can contact\n<0>customer support<0>"
+    },
+    "swapActionBar": {
+      "tryAgain": "再试一次",
+      "done": "完成",
+      "swapAgain": "再次交换"
+    },
     "swapErrorModal": {
       "title": "我们无法完成此交易。",
       "body": "请稍后再尝试，或联系我们的支持团队寻求帮助。",
@@ -1583,9 +1629,24 @@
     "loadingError": "抱歉，我们无法加载最近的更新。请稍后再试。",
     "retryButtonText": "重试"
   },
+  "chooseYourAdventure": {
+    "header": "Welcome to Valora",
+    "subtitle": "What would you like to do first?",
+    "later": "I'll explore later",
+    "options": {
+      "add": "Add funds",
+      "dapp": "Find ways to use crypto",
+      "profile": "Build your profile",
+      "learn": "Learn about Celo"
+    }
+  },
   "reverifyUsingCPVHomecard": {
-    "description": "Reconnect your number to send, receive and get rewards on your crypto",
-    "buttonLabel": "Reconnect number"
+    "description": "重新关联您的号码，以发送、接收并获取基于您的加密货币的奖励",
+    "buttonLabel": "重新关联号码"
+  },
+  "profileScreen": {
+    "generateName": "生成名称",
+    "namePlaceholder": "Select a name ex) {{exampleName}}"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
 }
