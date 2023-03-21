@@ -1650,6 +1650,10 @@
     "description": "Переподключите номер для отправки и получения средств и вознаграждений за криптовалюту",
     "buttonLabel": "Переподключить номер"
   },
+  "profileScreen": {
+    "generateName": "Сгенерировать имя",
+    "namePlaceholder": "Select a name ex) {{exampleName}}"
+  },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
   "celoDollarAmount_2": "<0></0> Celo Dollars",
