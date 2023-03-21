@@ -21,6 +21,7 @@ export interface State {
   backupCompleted: boolean
   accountCreationTime: number
   backupRequiredTime: number | null
+  startOnboardingTime: number | undefined
   dismissedGetVerified: boolean
   dismissedGoldEducation: boolean
   acceptedTerms: boolean
@@ -81,6 +82,7 @@ export const initialState: State = {
   pincodeType: PincodeType.Unset,
   accountCreationTime: 99999999999999,
   backupRequiredTime: null,
+  startOnboardingTime: undefined,
   backupCompleted: false,
   dismissedGetVerified: false,
   dismissedGoldEducation: false,
@@ -95,10 +97,8 @@ export const initialState: State = {
   celoEducationCompleted: false,
 }
 
-export const reducer = (
-  state: State | undefined = initialState,
-  action: ActionTypes | RehydrateAction | Web3ActionTypes | AppActionTypes
-): State => {
+export type AccountAction = ActionTypes | RehydrateAction | Web3ActionTypes | AppActionTypes
+export const reducer = (state: State | undefined = initialState, action: AccountAction): State => {
   switch (action.type) {
     case REHYDRATE: {
       const rehydratedPayload = getRehydratePayload(action, 'account')
@@ -113,6 +113,7 @@ export const reducer = (
       return {
         ...state,
         choseToRestoreAccount: false,
+        startOnboardingTime: state?.startOnboardingTime ?? action.now,
       }
     case Actions.CHOOSE_RESTORE_ACCOUNT:
       return {

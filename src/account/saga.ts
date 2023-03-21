@@ -42,7 +42,6 @@ import { clearStoredAccounts } from 'src/web3/KeychainSigner'
 import networkConfig from 'src/web3/networkConfig'
 import { getOrCreateAccount, unlockAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { Statsig } from 'statsig-react-native'
 
 const TAG = 'account/saga'
 
@@ -221,26 +220,6 @@ export function* handleUpdateAccountRegistration() {
   }
 }
 
-export function* handleChooseCreateAccount() {
-  try {
-    // TODO update redux state here, and update statsig user in synchronous button click handler instead if not already saved in redux
-    yield call([Statsig, 'updateUser'], {
-      custom: { startOnboardingTimestamp: new Date().toISOString() },
-    })
-  } catch (error) {
-    Logger.error(
-      `${TAG}@handleChooseCreateAccount`,
-      'Unable to update statsig user with startOnboardingTimestamp',
-      error
-    )
-  }
-}
-
-export function* watchChooseCreateAccount() {
-  yield take(Actions.CHOOSE_CREATE_ACCOUNT)
-  yield call(handleChooseCreateAccount)
-}
-
 export function* watchClearStoredAccount() {
   const action = yield take(Actions.CLEAR_STORED_ACCOUNT)
   yield call(clearStoredAccountSaga, action)
@@ -260,5 +239,4 @@ export function* accountSaga() {
   yield spawn(watchInitializeAccount)
   yield spawn(registerAccountDek)
   yield spawn(watchSignedMessage)
-  yield spawn(watchChooseCreateAccount)
 }
