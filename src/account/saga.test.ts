@@ -34,7 +34,6 @@ mockedDEK.compressedPubKey = jest.fn().mockReturnValue('publicKeyForUser')
 const mockFetch = fetch as FetchMock
 jest.unmock('src/pincode/authentication')
 
-jest.mock('statsig-react-native')
 jest.mock('@react-native-firebase/app', () => ({
   app: jest.fn(() => ({
     messaging: () => ({
