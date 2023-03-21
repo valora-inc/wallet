@@ -60,10 +60,12 @@ function Profile({ navigation, route }: Props) {
   const onPictureChosen = async (pictureDataUrl: string | null) => {
     if (!pictureDataUrl) {
       setNewPictureUri(null)
+      ValoraAnalytics.track(SettingsEvents.profile_photo_removed)
     } else {
       try {
         const newPicturePath = await saveProfilePicture(pictureDataUrl)
         setNewPictureUri(newPicturePath)
+        ValoraAnalytics.track(SettingsEvents.profile_photo_chosen)
       } catch (error) {
         dispatch(showError(ErrorMessages.PICTURE_LOAD_FAILED))
       }
