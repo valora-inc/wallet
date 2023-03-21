@@ -1644,5 +1644,9 @@
     "description": "เชื่อมต่อหมายเลขของคุณอีกครั้งเพื่อส่ง รับ และได้รางวัลเป็นคริปโตของคุณ",
     "buttonLabel": "เชื่อมต่อหมายเลขอีกครั้ง"
   },
+  "profileScreen": {
+    "generateName": "สร้างชื่อ",
+    "namePlaceholder": "Select a name ex) {{exampleName}}"
+  },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo ดอลลาร์"
 }
