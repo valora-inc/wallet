@@ -46,11 +46,11 @@
   },
   "protectWallet": {
     "title": "Protege tu wallet",
-    "subtitle": "Protect your wallet",
-    "body": "If your phone is lost or stolen, your {{mnemonicLength}} word recovery phrase is the only way you can access your funds.",
+    "subtitle": "Protege tu wallet",
+    "body": "Si tu teléfono se pierde o te lo roban, tu frase de recuperación de {{mnemonicLength}} palabras es la única manera de acceder a tus fondos.",
     "recoveryPhrase": {
-      "title": "Use Recovery Phrase",
-      "subtitle": "Write down your recovery phrase"
+      "title": "Usar frase de recuperación",
+      "subtitle": "Ingresa tu frase de recuperación"
     },
     "cloudBackup": {
       "title": "Backup to Cloud",
