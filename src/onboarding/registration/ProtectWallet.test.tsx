@@ -44,7 +44,8 @@ const mockExperimentParams = {
   useNewBackupFlowCopy: false,
   showBackupAlert: false,
   useNewBackupHomeCard: false,
-  showChooseAdventureScreen: false,
+  chooseAdventureEnabled: false,
+  onboardingNameScreenEnabled: true,
 }
 
 describe('ProtectWalletScreen', () => {

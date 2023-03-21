@@ -4,6 +4,7 @@ import { Platform, ScrollView, StyleSheet, Text } from 'react-native'
 import { SafeAreaInsetsContext, SafeAreaView } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
 import { acceptTerms } from 'src/account/actions'
+import { recoveringFromStoreWipeSelector } from 'src/account/selectors'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
@@ -14,6 +15,8 @@ import Logo, { LogoTypes } from 'src/icons/Logo'
 import { nuxNavigationOptions } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { getOnboardingExperimentParams } from 'src/onboarding'
+import { firstOnboardingScreen } from 'src/onboarding/steps'
 import { RootState } from 'src/redux/reducers'
 import fontStyles from 'src/styles/fonts'
 import { navigateToURI } from 'src/utils/linking'
@@ -23,12 +26,19 @@ const MARGIN = 24
 interface DispatchProps {
   acceptTerms: typeof acceptTerms
 }
+interface StateProps {
+  recoveringFromStoreWipe: boolean
+}
 
 const mapDispatchToProps: DispatchProps = {
   acceptTerms,
 }
 
-type Props = WithTranslation & DispatchProps
+const mapStateToProps = (state: RootState) => ({
+  recoveringFromStoreWipe: recoveringFromStoreWipeSelector(state),
+})
+
+type Props = WithTranslation & DispatchProps & StateProps
 
 export class RegulatoryTerms extends React.Component<Props> {
   static navigationOptions = {
@@ -42,11 +52,17 @@ export class RegulatoryTerms extends React.Component<Props> {
     ValoraAnalytics.track(OnboardingEvents.terms_and_conditions_accepted)
 
     this.props.acceptTerms()
-    this.goToNextScreen()
+    this.startOnboarding()
   }
 
-  goToNextScreen = () => {
-    navigate(Screens.NameAndPicture)
+  startOnboarding = () => {
+    const { onboardingNameScreenEnabled } = getOnboardingExperimentParams()
+    navigate(
+      firstOnboardingScreen({
+        onboardingNameScreenEnabled,
+        recoveringFromStoreWipe: this.props.recoveringFromStoreWipe,
+      })
+    )
   }
 
   onPressGoToTerms = () => {
@@ -102,7 +118,7 @@ export class RegulatoryTerms extends React.Component<Props> {
 }
 
 export default connect<{}, DispatchProps, {}, RootState>(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(withTranslation<Props>()(RegulatoryTerms))
 

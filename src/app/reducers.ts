@@ -36,7 +36,6 @@ export interface State {
   rewardPillText?: {
     [lang: string]: string
   }
-  cashInButtonExpEnabled: boolean
   rampCashInButtonExpEnabled: boolean
   sentryTracesSampleRate: number
   sentryNetworkErrors: string[]
@@ -80,7 +79,6 @@ const initialState = {
   huaweiMobileServicesAvailable: undefined,
   pincodeUseExpandedBlocklist: REMOTE_CONFIG_VALUES_DEFAULTS.pincodeUseExpandedBlocklist,
   rewardPillText: JSON.parse(REMOTE_CONFIG_VALUES_DEFAULTS.rewardPillText),
-  cashInButtonExpEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.cashInButtonExpEnabled,
   rampCashInButtonExpEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.rampCashInButtonExpEnabled,
   sentryTracesSampleRate: REMOTE_CONFIG_VALUES_DEFAULTS.sentryTracesSampleRate,
   sentryNetworkErrors: REMOTE_CONFIG_VALUES_DEFAULTS.sentryNetworkErrors.split(','),
@@ -199,7 +197,6 @@ export const appReducer = (
         logPhoneNumberTypeEnabled: action.configValues.logPhoneNumberTypeEnabled,
         pincodeUseExpandedBlocklist: action.configValues.pincodeUseExpandedBlocklist,
         rewardPillText: JSON.parse(action.configValues.rewardPillText),
-        cashInButtonExpEnabled: action.configValues.cashInButtonExpEnabled,
         rampCashInButtonExpEnabled: action.configValues.rampCashInButtonExpEnabled,
         sentryTracesSampleRate: action.configValues.sentryTracesSampleRate,
         sentryNetworkErrors: action.configValues.sentryNetworkErrors,

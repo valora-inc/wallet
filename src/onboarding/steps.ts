@@ -41,8 +41,29 @@ export interface OnboardingProps {
   supportedBiometryType: BIOMETRY_TYPE | null
   skipVerification: boolean
   numberAlreadyVerifiedCentrally: boolean
-  showChooseAdventureScreen: boolean
+  chooseAdventureEnabled: boolean
   showRecoveryPhrase: boolean
+}
+
+/**
+ * Helper function to determine where onboarding starts.
+ */
+export function firstOnboardingScreen({
+  onboardingNameScreenEnabled,
+  recoveringFromStoreWipe,
+}: {
+  onboardingNameScreenEnabled: boolean
+  recoveringFromStoreWipe: boolean
+}) {
+  if (onboardingNameScreenEnabled) {
+    return Screens.NameAndPicture
+  } else {
+    if (recoveringFromStoreWipe) {
+      return Screens.ImportWallet
+    } else {
+      return Screens.PincodeSet
+    }
+  }
 }
 
 /**
@@ -58,7 +79,7 @@ export function onboardingPropsSelector(state: RootState): OnboardingProps {
   const supportedBiometryType = supportedBiometryTypeSelector(state)
   const skipVerification = skipVerificationSelector(state)
   const numberAlreadyVerifiedCentrally = numberVerifiedCentrallySelector(state)
-  const { showChooseAdventureScreen, showRecoveryPhraseInOnboarding: showRecoveryPhrase } =
+  const { chooseAdventureEnabled, showRecoveryPhraseInOnboarding: showRecoveryPhrase } =
     getOnboardingExperimentParams()
 
   return {
@@ -67,7 +88,7 @@ export function onboardingPropsSelector(state: RootState): OnboardingProps {
     supportedBiometryType,
     skipVerification,
     numberAlreadyVerifiedCentrally,
-    showChooseAdventureScreen,
+    chooseAdventureEnabled,
     showRecoveryPhrase,
   }
 }
@@ -171,7 +192,7 @@ export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: 
   } = props
 
   const navigateHomeOrChooseAdventure = () => {
-    if (props.showChooseAdventureScreen) {
+    if (props.chooseAdventureEnabled) {
       navigate(Screens.ChooseYourAdventure)
     } else {
       navigateHome()

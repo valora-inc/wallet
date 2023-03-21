@@ -1078,4 +1078,8 @@ export const migrations = {
       requireCPV: false,
     },
   }),
+  116: (state: any) => ({
+    ...state,
+    app: _.omit(state.app, 'cashInButtonExpEnabled'),
+  }),
 }

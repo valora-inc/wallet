@@ -18,7 +18,11 @@ describe('RegulatoryTermsScreen', () => {
       const acceptTerms = jest.fn()
       const wrapper = render(
         <Provider store={store}>
-          <RegulatoryTermsClass {...getMockI18nProps()} acceptTerms={acceptTerms} />
+          <RegulatoryTermsClass
+            {...getMockI18nProps()}
+            acceptTerms={acceptTerms}
+            recoveringFromStoreWipe={false}
+          />
         </Provider>
       )
       fireEvent.press(wrapper.getByTestId('AcceptTermsButton'))
@@ -29,7 +33,11 @@ describe('RegulatoryTermsScreen', () => {
       const acceptTerms = jest.fn()
       const wrapper = render(
         <Provider store={store}>
-          <RegulatoryTermsClass {...getMockI18nProps()} acceptTerms={acceptTerms} />
+          <RegulatoryTermsClass
+            {...getMockI18nProps()}
+            acceptTerms={acceptTerms}
+            recoveringFromStoreWipe={false}
+          />
         </Provider>
       )
       fireEvent.press(wrapper.getByTestId('AcceptTermsButton'))

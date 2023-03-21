@@ -993,7 +993,7 @@ export const mockOnboardingProps = {
   supportedBiometryType: null,
   skipVerification: true,
   numberAlreadyVerifiedCentrally: false,
-  showChooseAdventureScreen: false,
+  chooseAdventureEnabled: false,
   showRecoveryPhrase: false,
 }
 
