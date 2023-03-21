@@ -1,21 +1,26 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Image, Platform, StyleSheet, Text, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 import ImagePicker from 'react-native-image-crop-picker'
+import { useSelector } from 'react-redux'
+import { currentUserRecipientSelector } from 'src/account/selectors'
+import ContactCircle from 'src/components/ContactCircle'
 import OptionsChooser from 'src/components/OptionsChooser'
 import Touchable from 'src/components/Touchable'
-import Photo from 'src/icons/Photo'
+import Edit from 'src/icons/Edit'
+import { Recipient } from 'src/recipients/recipient'
 import colors from 'src/styles/colors'
 import { getDataURL } from 'src/utils/image'
 import Logger from 'src/utils/Logger'
 
+const PICTURE_SIZE = 64
+
 interface Props {
   picture: string | null
   onPhotoChosen: (dataUrl: string | null) => void
-  backgroundColor: string
 }
 
-function PictureInput({ picture, onPhotoChosen, backgroundColor }: Props) {
+function PictureInput({ picture, onPhotoChosen }: Props) {
   const [showOptions, setShowOptions] = useState(false)
   const updateShowOptions = (show: boolean) => () => setShowOptions(show)
 
@@ -69,24 +74,23 @@ function PictureInput({ picture, onPhotoChosen, backgroundColor }: Props) {
     )
   }
 
+  const recipient: Recipient = {
+    ...useSelector(currentUserRecipientSelector),
+    thumbnailPath: picture || undefined,
+  }
+
   const showRemoveOption = !!picture
   return (
     <>
       <Touchable
-        style={[styles.container, { backgroundColor }]}
+        style={[styles.container]}
         onPress={updateShowOptions(true)}
         testID={'PictureInput'}
       >
         <>
-          {picture ? (
-            <Image style={styles.picture} source={{ uri: picture }} />
-          ) : (
-            <Text maxFontSizeMultiplier={2} style={styles.addPhoto}>
-              {t('addPhoto')}
-            </Text>
-          )}
-          <View style={styles.photoIconContainer}>
-            <Photo />
+          <ContactCircle size={PICTURE_SIZE} recipient={recipient} />
+          <View style={styles.editIconContainer}>
+            <Edit />
           </View>
         </>
       </Touchable>
@@ -108,33 +112,23 @@ function PictureInput({ picture, onPhotoChosen, backgroundColor }: Props) {
 
 const styles = StyleSheet.create({
   container: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
+    width: PICTURE_SIZE,
+    height: PICTURE_SIZE,
+    borderRadius: PICTURE_SIZE / 2,
     alignSelf: 'center',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  photoIconContainer: {
-    width: 32,
-    height: 32,
+  editIconContainer: {
+    width: 40,
+    height: 40,
     position: 'absolute',
-    right: 0,
-    bottom: 0,
-    borderRadius: 16,
-    backgroundColor: colors.greenUI,
+    left: 37,
+    bottom: -13,
+    borderRadius: 20,
+    backgroundColor: colors.gray1,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  picture: {
-    height: 120,
-    width: 120,
-    borderRadius: 60,
-    resizeMode: 'cover',
-  },
-  addPhoto: {
-    textAlignVertical: 'center',
-    textAlign: 'center',
   },
 })
 
