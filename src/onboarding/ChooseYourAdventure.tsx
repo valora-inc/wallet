@@ -19,6 +19,9 @@ import fontStyles from 'src/styles/fonts'
 import { Shadow, Spacing } from 'src/styles/styles'
 import { shuffle } from 'src/utils/random'
 import { walletAddressSelector } from 'src/web3/selectors'
+import { OnboardingEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { AdventureCardName } from 'src/onboarding/types'
 
 const DEFAULT_SEED = '0x0'
 
@@ -61,6 +64,7 @@ function ChooseYourAdventure() {
           navigateHome({ params: { initialScreen: Screens.FiatExchange } })
         },
         icon: <PlusIcon />,
+        name: AdventureCardName.Add,
       },
       {
         text: t('chooseYourAdventure.options.dapp'),
@@ -68,6 +72,7 @@ function ChooseYourAdventure() {
           navigateHome({ params: { initialScreen: Screens.DAppsExplorerScreen } })
         },
         icon: <GraphSparkle />,
+        name: AdventureCardName.Dapp,
       },
       {
         text: t('chooseYourAdventure.options.profile'),
@@ -76,6 +81,7 @@ function ChooseYourAdventure() {
           navigate(Screens.Profile)
         },
         icon: <ProfilePlus />,
+        name: AdventureCardName.Profile,
       },
       {
         text: t('chooseYourAdventure.options.learn'),
@@ -83,13 +89,27 @@ function ChooseYourAdventure() {
           navigateHome({ params: { initialScreen: Screens.ExchangeHomeScreen } })
         },
         icon: <CeloIconNew />,
+        name: AdventureCardName.Learn,
       },
     ]
-    return shuffle(cardDetails, address ?? DEFAULT_SEED).map(
-      ({ text, goToNextScreen: onPress, icon }, index) => (
-        <AdventureCard text={text} onPress={onPress} index={index} icon={icon} />
-      )
-    )
+    const shuffled = shuffle(cardDetails, address ?? DEFAULT_SEED)
+    const cardOrder: AdventureCardName[] = shuffled.map((details) => details.name)
+    return shuffled.map(({ text, goToNextScreen, icon, name }, index) => {
+      const onPress = () => {
+        ValoraAnalytics.track(OnboardingEvents.cya_button_press, {
+          position: index + 1,
+          name,
+          cardOrder,
+        })
+        goToNextScreen()
+      }
+      return <AdventureCard text={text} onPress={onPress} index={index} icon={icon} />
+    })
+  }
+
+  const onNavigateHome = () => {
+    ValoraAnalytics.track(OnboardingEvents.cya_later)
+    navigateHome()
   }
 
   return (
@@ -101,11 +121,7 @@ function ChooseYourAdventure() {
         {getAdventureCards()}
       </ScrollView>
       <View style={styles.bottomButtonContainer}>
-        <TextButton
-          testID="ChooseYourAdventure/Later"
-          style={styles.skip}
-          onPress={() => navigateHome()}
-        >
+        <TextButton testID="ChooseYourAdventure/Later" style={styles.skip} onPress={onNavigateHome}>
           {t('chooseYourAdventure.later')}
         </TextButton>
       </View>
