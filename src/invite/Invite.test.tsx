@@ -130,7 +130,7 @@ describe('Invite', () => {
 
     expect(Share.share).toHaveBeenCalledTimes(1)
     expect(Share.share).toHaveBeenCalledWith({
-      message: 'inviteWithRewards, {"link":"https://vlra.app/abc123"}',
+      message: 'inviteWithRewardsCUSD, {"link":"https://vlra.app/abc123"}',
     })
   })
 })

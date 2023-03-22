@@ -2109,12 +2109,24 @@ export const v116Schema = {
     ...v115Schema._persist,
     version: 116,
   },
+  account: {
+    ...v115Schema.account,
+    startOnboardingTime: undefined,
+  },
+}
+
+const v117Schema = {
+  ...v116Schema,
+  _persist: {
+    ...v116Schema._persist,
+    version: 117,
+  },
   send: {
-    ..._.omit(v115Schema.send, 'inviteRewardsEnabled'),
+    ..._.omit(v116Schema.send, 'inviteRewardsEnabled'),
     inviteRewardsVersion: 'none',
   },
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v116Schema as Partial<RootState>
+  return v117Schema as Partial<RootState>
 }
