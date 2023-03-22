@@ -45,34 +45,34 @@
     "revoke": "Ngắt kết nối"
   },
   "protectWallet": {
-    "title": "Protect Your Wallet",
-    "subtitle": "Protect your wallet",
-    "body": "If your phone is lost or stolen, your {{mnemonicLength}} word recovery phrase is the only way you can access your funds.",
+    "title": "Bảo vệ ví của bạn",
+    "subtitle": "Bảo vệ ví của bạn",
+    "body": "Nếu điện thoại của bạn bị mất hoặc bị đánh cắp, thì cụm từ khôi phục gồm {{mnemonicLength}} từ sẽ là cách duy nhất bạn để truy cập vào tiền của mình.",
     "recoveryPhrase": {
-      "title": "Use Recovery Phrase",
-      "subtitle": "Write down your recovery phrase"
+      "title": "Sử dụng Cụm từ khôi phục",
+      "subtitle": "Viết ra cụm từ khôi phục"
     },
     "cloudBackup": {
-      "title": "Backup to Cloud",
-      "subtitle": "Restore your wallet without a phrase",
+      "title": "Sao lưu lên Đám mây",
+      "subtitle": "Khôi phục ví mà không cần cụm từ khôi phục",
       "bottomSheet": {
-        "title": "Cloud Backup is coming soon!",
-        "restoreComingSoon": "Cloud backup is a way to restore your wallet without a recovery phrase. We are working on this as fast as we can and will notify you once it's available to use.",
-        "writeDownPhrase": "In the meantime, please write down your recovery phrase to manually backup your wallet.",
-        "continue": "Continue to Recovery Phrase"
+        "title": "Tính năng Sao lưu lên đám mây sẽ sớm ra mắt!",
+        "restoreComingSoon": "Sao lưu lên đám mây là cách khôi phục ví mà không cần cụm từ khôi phục. Chúng tôi đang nỗ lực để ra mắt tính năng này nhanh nhất có thể và sẽ thông báo cho bạn ngay khi có thể sử dụng được tính năng này.",
+        "writeDownPhrase": "Trong thời gian chờ đợi, vui lòng viết ra cụm từ khôi phục để sao lưu ví theo cách thủ công.",
+        "continue": "Tiếp tục với Cụm từ khôi phục"
       }
     }
   },
   "recoveryPhrase": {
-    "title": "Your recovery phrase",
-    "body": "Write these {{mnemonicLength}} words down somewhere safe, where it cannot be stolen or damaged.",
-    "continue": "I've saved it",
-    "copy": "Copy to clipboard",
-    "mnemonicCopied": "Recovery phrase copied to clipboard",
+    "title": "Cụm từ khôi phục của bạn",
+    "body": "Viết các từ {{mnemonicLength}} này vào một nơi an toàn mà không ai có thể đánh cắp hoặc làm hư hòng chúng.",
+    "continue": "Tôi đã lưu cụm từ khôi phục",
+    "copy": "Sao chép vào bảng nhớ tạm",
+    "mnemonicCopied": "Đã sao chép cụm từ khôi phục vào bảng nhớ tạm",
     "bottomSheet": {
-      "title": "How to save a recovery phrase",
-      "writeDownPhrase": "Writing down your recovery phrase with a pen, and storing it in a safe place is one of the most secure ways to protect your wallet.",
-      "phraseLocation": "An ideal place might be where you store other important documents & materials for safekeeping, that is not easily stolen and easy to retrieve. It's up to you!"
+      "title": "Cách lưu cụm từ khôi phục",
+      "writeDownPhrase": "Dùng bút viết ra cụm từ khôi phục và cất vào một nơi an toàn là một trong những cách an toàn nhất để bảo vệ ví của bạn.",
+      "phraseLocation": "Nơi lý tưởng có thể là nơi bạn thường cất giữ các giấy tờ và tài liệu quan trọng khác mà người khác không dễ đánh cắp hay lấy đi. Cái đó tùy bạn quyết định!"
     }
   },
   "testFaqLink": "Câu hỏi thường gặp về {{appName}}",
@@ -1591,14 +1591,14 @@
       "body": "Phí và số tiền điện tử có thể thay đổi do biến động của thị trường tiền điện tử. \n\n Vui lòng xem lại số tiền và phí cuối cùng của bạn rồi gửi lại."
     },
     "swapCompleteSection": {
-      "title": "Swap successful",
-      "subtitle": "Your assets are now in your wallet",
+      "title": "Trao đổi thành công",
+      "subtitle": "Tài sản của bạn hiện đã ở trong ví",
       "done": "Xong"
     },
     "swapErrorSection": {
-      "title": "We couldn’t complete your swap",
-      "subtitle": "Your assets are safe in your wallet.\nPlease try again.",
-      "contactSupport": "If you need additional help, you can contact\n<0>customer support<0>"
+      "title": "Chúng tôi không thể hoàn thành giao dịch trao đổi của bạn",
+      "subtitle": "Tài sản của bạn hiện đã an toàn trong ví.\nVui lòng thử lại.",
+      "contactSupport": "Nếu cần trợ giúp thêm, bạn có thể liên hệ với\n<0>bộ phận hỗ trợ khách hàng<0>"
     },
     "swapActionBar": {
       "tryAgain": "Thử lại",
