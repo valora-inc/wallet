@@ -45,34 +45,34 @@
     "revoke": "Verbindung trennen"
   },
   "protectWallet": {
-    "title": "Protect Your Wallet",
-    "subtitle": "Protect your wallet",
-    "body": "If your phone is lost or stolen, your {{mnemonicLength}} word recovery phrase is the only way you can access your funds.",
+    "title": "Schütze deine Wallet",
+    "subtitle": "Schütze deine Wallet",
+    "body": "Wenn du dein Telefon verlierst oder es dir gestohlen wird, ist deine {{mnemonicLength}}-Wörter Wiederherstellungsphrase die einzige Möglichkeit, um auf dein Guthaben zugreifen zu können.",
     "recoveryPhrase": {
-      "title": "Use Recovery Phrase",
-      "subtitle": "Write down your recovery phrase"
+      "title": "Wiederherstellungsphrase verwenden",
+      "subtitle": "Schreibe dir deine Wiederherstellungsphrase auf"
     },
     "cloudBackup": {
-      "title": "Backup to Cloud",
-      "subtitle": "Restore your wallet without a phrase",
+      "title": "In der Cloud sichern",
+      "subtitle": "Deine Wallet ohne Wiederherstellungsphrase wiederherstellen",
       "bottomSheet": {
-        "title": "Cloud Backup is coming soon!",
-        "restoreComingSoon": "Cloud backup is a way to restore your wallet without a recovery phrase. We are working on this as fast as we can and will notify you once it's available to use.",
-        "writeDownPhrase": "In the meantime, please write down your recovery phrase to manually backup your wallet.",
-        "continue": "Continue to Recovery Phrase"
+        "title": "Das Cloud-Backup kommt demnächst!",
+        "restoreComingSoon": "Das Cloud-Backup ist eine Möglichkeit, deine Wallet ohne Wiederherstellungsphrase wiederherzustellen. Wir arbeiten so schnell wir können und benachrichtigen dich, sobald diese Funktion verfügbar ist.",
+        "writeDownPhrase": "In der Zwischenzeit schreibe dir bitte deine Wiederherstellungsphrase auf, um deine Wallet manuell zu sichern.",
+        "continue": "Mit Wiederherstellungsphrase fortfahren"
       }
     }
   },
   "recoveryPhrase": {
-    "title": "Your recovery phrase",
-    "body": "Write these {{mnemonicLength}} words down somewhere safe, where it cannot be stolen or damaged.",
-    "continue": "I've saved it",
-    "copy": "Copy to clipboard",
-    "mnemonicCopied": "Recovery phrase copied to clipboard",
+    "title": "Deine Wiederherstellungsphrase",
+    "body": "Schreibe diese {{mnemonicLength}} Wörter so auf, dass sie nicht gestohlen oder beschädigt werden können.",
+    "continue": "Ich habe sie gespeichert",
+    "copy": "In Zwischenablage kopieren",
+    "mnemonicCopied": "Wiederherstellungsphrase in die Zwischenablage kopiert",
     "bottomSheet": {
-      "title": "How to save a recovery phrase",
-      "writeDownPhrase": "Writing down your recovery phrase with a pen, and storing it in a safe place is one of the most secure ways to protect your wallet.",
-      "phraseLocation": "An ideal place might be where you store other important documents & materials for safekeeping, that is not easily stolen and easy to retrieve. It's up to you!"
+      "title": "Wiederherstellungsphrase speichern",
+      "writeDownPhrase": "Schreibe deine Wiederherstellungsphrase auf ein Blatt Papier auf und bewahre es an einem sicheren Ort auf, um deine Wallet effektiv zu schützen.",
+      "phraseLocation": "Ein idealer Ort könnte dort sein, wo du andere wichtige Dokumente und Unterlagen aufbewahrst, die nicht leicht gestohlen werden sollen. Es liegt an dir!"
     }
   },
   "testFaqLink": "{{appName}} FAQ",
@@ -1593,14 +1593,14 @@
       "body": "Krypto-Beträge und -Gebühren können sich aufgrund von Schwankungen auf dem Krypto-Markt ändern. \n\n Bitte überprüfe deine endgültigen Beträge und Gebühren und reiche sie erneut ein."
     },
     "swapCompleteSection": {
-      "title": "Swap successful",
-      "subtitle": "Your assets are now in your wallet",
+      "title": "Tausch erfolgreich",
+      "subtitle": "Dein Vermögen befindet sich jetzt in deiner Wallet",
       "done": "Fertig"
     },
     "swapErrorSection": {
-      "title": "We couldn’t complete your swap",
-      "subtitle": "Your assets are safe in your wallet.\nPlease try again.",
-      "contactSupport": "If you need additional help, you can contact\n<0>customer support<0>"
+      "title": "Wir konnten deinen Tausch nicht abschließen",
+      "subtitle": "Dein Vermögen ist in deiner Wallet sicher.\nBitte versuche es erneut.",
+      "contactSupport": "Wenn du zusätzliche Hilfe benötigst, kannst du den\n<0>Kunden-Support<0> kontaktieren"
     },
     "swapActionBar": {
       "tryAgain": "Wiederholen",
