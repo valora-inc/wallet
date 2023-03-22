@@ -35,6 +35,7 @@ export enum Actions {
 
 export interface ChooseCreateAccountAction {
   type: Actions.CHOOSE_CREATE_ACCOUNT
+  now: number
 }
 export interface ChooseRestoreAccountAction {
   type: Actions.CHOOSE_RESTORE_ACCOUNT
@@ -189,9 +190,10 @@ export type ActionTypes =
   | SaveSignedMessage
   | SetCeloEducationCompletedAction
 
-export function chooseCreateAccount(): ChooseCreateAccountAction {
+export function chooseCreateAccount(now: number): ChooseCreateAccountAction {
   return {
     type: Actions.CHOOSE_CREATE_ACCOUNT,
+    now,
   }
 }
 
