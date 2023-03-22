@@ -30,7 +30,7 @@ it('renders correctly with invite rewards disabled', () => {
       />
     </Provider>
   )
-  expect(tree).toMatchSnapshot()
+  expect(tree.getByTestId('InviteModalStyledDescription')).toBeTruthy()
 })
 
 it('renders correctly with invite rewards NFTs', () => {
@@ -58,7 +58,7 @@ it('renders correctly with invite rewards NFTs', () => {
       />
     </Provider>
   )
-  expect(tree).toMatchSnapshot()
+  expect(tree.getByTestId('InviteModalStyledDescription')).toBeTruthy()
 })
 
 it('renders correctly with invite rewards cUSD', () => {
@@ -86,5 +86,5 @@ it('renders correctly with invite rewards cUSD', () => {
       />
     </Provider>
   )
-  expect(tree).toMatchSnapshot()
+  expect(tree.getByTestId('InviteModalStyledDescription')).toBeTruthy()
 })

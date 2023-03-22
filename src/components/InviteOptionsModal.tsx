@@ -1,6 +1,6 @@
 import getPhoneHash from '@celo/phone-utils/lib/getPhoneHash'
 import * as React from 'react'
-import { useTranslation } from 'react-i18next'
+import { TransProps, useTranslation } from 'react-i18next'
 import { Share } from 'react-native'
 import { useSelector } from 'react-redux'
 import { InviteEvents } from 'src/analytics/Events'
@@ -11,6 +11,7 @@ import { useShareUrl } from 'src/invite/hooks'
 import InviteModal from 'src/invite/InviteModal'
 import { getDisplayName, Recipient } from 'src/recipients/recipient'
 import { inviteRewardsActiveSelector, inviteRewardsTypeSelector } from 'src/send/selectors'
+import { InviteRewardsType } from 'src/send/types'
 
 interface Props {
   recipient: Recipient
@@ -38,20 +39,20 @@ const InviteOptionsModal = ({ recipient, onClose }: Props) => {
   }
 
   let title = t('inviteModal.title', { contactName: getDisplayName(recipient, t) })
-  const descriptionProps: Record<string, any> = { i18nKey: 'inviteModal.body' }
+  const descriptionProps: TransProps = { i18nKey: 'inviteModal.body' }
   let message = t('inviteModal.shareMessage', { link })
   let helpLink = ''
 
   if (inviteRewardsActive) {
     switch (inviteRewardsType) {
-      case 'nft':
+      case InviteRewardsType.NFT:
         title = t('inviteModal.rewardsActive.title', { contactName: getDisplayName(recipient, t) })
         descriptionProps.i18nKey = 'inviteModal.rewardsActive.body'
         descriptionProps.values = { contactName: getDisplayName(recipient, t) }
         message = t('inviteWithRewards', { link })
         helpLink = INVITE_REWARDS_NFTS_LEARN_MORE
         break
-      case 'cUSD':
+      case InviteRewardsType.CUSD:
         title = t('inviteModal.rewardsActiveCUSD.title', {
           contactName: getDisplayName(recipient, t),
         })

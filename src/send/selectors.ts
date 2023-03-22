@@ -3,6 +3,7 @@ import { numberVerifiedCentrallySelector } from 'src/app/selectors'
 import { localCurrencyToUsdSelector } from 'src/localCurrency/selectors'
 import { RootState } from 'src/redux/reducers'
 import { tokensWithTokenBalanceSelector } from 'src/tokens/selectors'
+import { InviteRewardsType } from './types'
 
 export const getRecentPayments = (state: RootState) => {
   return state.send.recentPayments
@@ -19,11 +20,11 @@ export const inviteRewardCusdSelector = (state: RootState) => state.send.inviteR
 export const inviteRewardsTypeSelector = (state: RootState) => {
   switch (state.send.inviteRewardsVersion) {
     case 'v4':
-      return 'nft'
+      return InviteRewardsType.NFT
     case 'v5':
-      return 'cUSD'
+      return InviteRewardsType.CUSD
     default:
-      return 'none'
+      return InviteRewardsType.NONE
   }
 }
 

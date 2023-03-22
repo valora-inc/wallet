@@ -9,10 +9,6 @@ import * as InviteUtils from 'src/invite/utils'
 import { createMockStore } from 'test/utils'
 import Invite from './Invite'
 
-jest.mock('react-i18next', () => ({
-  ...(jest.requireActual('../../__mocks__/react-i18next') as any),
-}))
-
 jest.mock('src/analytics/ValoraAnalytics')
 const mockShare = jest.spyOn(Share, 'share')
 const mockedCreateDynamicLink = jest.spyOn(InviteUtils, 'createDynamicLink')

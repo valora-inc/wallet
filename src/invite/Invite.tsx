@@ -10,6 +10,7 @@ import { inviteModal, inviteWithRewards } from 'src/images/Images'
 import { noHeader } from 'src/navigator/Headers'
 import { navigateBack } from 'src/navigator/NavigationService'
 import { inviteRewardsActiveSelector, inviteRewardsTypeSelector } from 'src/send/selectors'
+import { InviteRewardsType } from 'src/send/types'
 import { useShareUrl } from './hooks'
 import InviteModal from './InviteModal'
 
@@ -27,14 +28,14 @@ export default function Invite() {
 
   if (inviteRewardsActive) {
     switch (inviteRewardsType) {
-      case 'nft':
+      case InviteRewardsType.NFT:
         title = t('inviteWithUrl.rewardsActive.title')
         descriptionProps.i18nKey = 'inviteWithUrl.rewardsActive.body'
         message = t('inviteWithRewards', { link: shareUrl })
         helpLink = INVITE_REWARDS_NFTS_LEARN_MORE
         image = inviteWithRewards
         break
-      case 'cUSD':
+      case InviteRewardsType.CUSD:
         title = t('inviteWithUrl.rewardsActiveCUSD.title')
         descriptionProps.i18nKey = 'inviteWithUrl.rewardsActiveCUSD.body'
         message = t('inviteWithRewardsCUSD', { link: shareUrl })
