@@ -34,6 +34,7 @@ export enum Actions {
   PHONE_NUMBER_VERIFICATION_MIGRATED = 'APP/PHONE_NUMBER_VERIFICATION_MIGRATED',
   PHONE_NUMBER_REVOKED = 'APP/PHONE_NUMBER_REVOKED',
   INVITE_LINK_CONSUMED = 'APP/INVITE_LINK_CONSUMED',
+  HAPTIC_FEEDBACK_SET = 'APP/HAPTIC_FEEDBACK_SET',
 }
 
 export interface SetAppState {
@@ -145,6 +146,11 @@ export interface InviteLinkConsumed {
   inviterAddress: string
 }
 
+interface HapticFeedbackSet {
+  type: Actions.HAPTIC_FEEDBACK_SET
+  hapticFeedbackEnabled: boolean
+}
+
 export type ActionTypes =
   | SetAppState
   | SetLoggedIn
@@ -168,6 +174,7 @@ export type ActionTypes =
   | PhoneNumberVerificationMigrated
   | PhoneNumberRevoked
   | InviteLinkConsumed
+  | HapticFeedbackSet
 
 export const setAppState = (state: string) => ({
   type: Actions.SET_APP_STATE,
@@ -299,5 +306,12 @@ export const inviteLinkConsumed = (inviterAddress: string): InviteLinkConsumed =
   return {
     type: Actions.INVITE_LINK_CONSUMED,
     inviterAddress,
+  }
+}
+
+export const hapticFeedbackSet = (hapticFeedbackEnabled: boolean): HapticFeedbackSet => {
+  return {
+    type: Actions.HAPTIC_FEEDBACK_SET,
+    hapticFeedbackEnabled,
   }
 }

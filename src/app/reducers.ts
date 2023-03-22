@@ -54,6 +54,7 @@ export interface State {
   inviterAddress: string | null
   networkTimeoutSeconds: number
   celoNews: CeloNewsConfig
+  hapticFeedbackEnabled: boolean
 }
 
 const initialState = {
@@ -101,6 +102,7 @@ const initialState = {
   inviterAddress: null,
   networkTimeoutSeconds: REMOTE_CONFIG_VALUES_DEFAULTS.networkTimeoutSeconds,
   celoNews: JSON.parse(REMOTE_CONFIG_VALUES_DEFAULTS.celoNews),
+  hapticFeedbackEnabled: true,
 }
 
 export const appReducer = (
@@ -249,6 +251,11 @@ export const appReducer = (
       return {
         ...state,
         inviterAddress: action.inviterAddress,
+      }
+    case Actions.HAPTIC_FEEDBACK_SET:
+      return {
+        ...state,
+        hapticFeedbackEnabled: action.hapticFeedbackEnabled,
       }
     default:
       return state

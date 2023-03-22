@@ -2115,6 +2115,18 @@ export const v116Schema = {
   },
 }
 
+export const v117Schema = {
+  ...v116Schema,
+  _persist: {
+    ...v116Schema._persist,
+    version: 117,
+  },
+  app: {
+    ...v116Schema.app,
+    hapticFeedbackEnabled: true,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v116Schema as Partial<RootState>
+  return v117Schema as Partial<RootState>
 }
