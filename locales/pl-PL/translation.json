@@ -47,7 +47,7 @@
   "protectWallet": {
     "title": "Chroń swój portfel",
     "subtitle": "Chroń swój portfel",
-    "body": "Jeśli telefon zostanie zgubiony lub skradziony, Twoja {{mnemonicLength}} fraza odzyskiwania jest jedynym sposobem na uzyskanie dostępu do środków.",
+    "body": "Jeśli telefon zostanie zgubiony lub skradziony, Twoja fraza odzyskiwania jest jedynym sposobem na uzyskanie dostępu do środków.",
     "recoveryPhrase": {
       "title": "Użyj frazy odzyskiwania",
       "subtitle": "Wprowadź frazę odzyskiwania"
