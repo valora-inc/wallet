@@ -8,11 +8,12 @@ import Button from 'src/components/Button'
 import ExchangesBottomSheet from 'src/components/ExchangesBottomSheet'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import Paste from 'src/icons/Paste'
-import { QRCodeDataType } from 'src/statsig/types'
 import StyledQRCode from 'src/qrcode/StyledQRCode'
 import { SVG } from 'src/send/actions'
+import { QRCodeDataType } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
+import { vibrateInformative } from 'src/styles/hapticFeedback'
 import variables from 'src/styles/variables'
 import Logger from 'src/utils/Logger'
 import { walletAddressSelector } from 'src/web3/selectors'
@@ -44,6 +45,7 @@ export default function NewQRCodeDisplay(props: Props) {
     props.onPressCopy?.()
     Clipboard.setString(address || '')
     Logger.showMessage(t('addressCopied'))
+    vibrateInformative()
   }
 
   const onPressInfo = () => {

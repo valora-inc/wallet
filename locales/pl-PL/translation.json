@@ -45,34 +45,34 @@
     "revoke": "Odłącz"
   },
   "protectWallet": {
-    "title": "Protect Your Wallet",
-    "subtitle": "Protect your wallet",
-    "body": "If your phone is lost or stolen, your {{mnemonicLength}} word recovery phrase is the only way you can access your funds.",
+    "title": "Chroń swój portfel",
+    "subtitle": "Chroń swój portfel",
+    "body": "Jeśli telefon zostanie zgubiony lub skradziony, Twoja {{mnemonicLength}} fraza odzyskiwania jest jedynym sposobem na uzyskanie dostępu do środków.",
     "recoveryPhrase": {
-      "title": "Use Recovery Phrase",
-      "subtitle": "Write down your recovery phrase"
+      "title": "Użyj frazy odzyskiwania",
+      "subtitle": "Wprowadź frazę odzyskiwania"
     },
     "cloudBackup": {
-      "title": "Backup to Cloud",
-      "subtitle": "Restore your wallet without a phrase",
+      "title": "Kopia zapasowa w chmurze",
+      "subtitle": "Przywróć swój portfel bez frazy",
       "bottomSheet": {
-        "title": "Cloud Backup is coming soon!",
-        "restoreComingSoon": "Cloud backup is a way to restore your wallet without a recovery phrase. We are working on this as fast as we can and will notify you once it's available to use.",
-        "writeDownPhrase": "In the meantime, please write down your recovery phrase to manually backup your wallet.",
-        "continue": "Continue to Recovery Phrase"
+        "title": "Kopia zapasowa w chmurze już wkrótce!",
+        "restoreComingSoon": "Kopia zapasowa w chmurze to sposób na przywrócenie portfela bez frazy odzyskiwania. Pracujemy nad tym tak szybko, jak to możliwe, i powiadomimy Cię, gdy ta funkcja będzie dostępna do użycia.",
+        "writeDownPhrase": "W międzyczasie zapisz sobie frazę odzyskiwania, aby ręcznie wykonać kopię zapasową portfela.",
+        "continue": "Przejdź do frazy odzyskiwania"
       }
     }
   },
   "recoveryPhrase": {
-    "title": "Your recovery phrase",
-    "body": "Write these {{mnemonicLength}} words down somewhere safe, where it cannot be stolen or damaged.",
-    "continue": "I've saved it",
-    "copy": "Copy to clipboard",
-    "mnemonicCopied": "Recovery phrase copied to clipboard",
+    "title": "Twoja fraza odzyskiwania",
+    "body": "Zapisz te {{mnemonicLength}} słowa gdzieś w bezpiecznym miejscu, gdzie nie mogą zostać skradzione lub zniszczone.",
+    "continue": "Mam to zapisane",
+    "copy": "Kopiuj do schowka",
+    "mnemonicCopied": "Fraza skopiowana do schowka",
     "bottomSheet": {
-      "title": "How to save a recovery phrase",
-      "writeDownPhrase": "Writing down your recovery phrase with a pen, and storing it in a safe place is one of the most secure ways to protect your wallet.",
-      "phraseLocation": "An ideal place might be where you store other important documents & materials for safekeeping, that is not easily stolen and easy to retrieve. It's up to you!"
+      "title": "Jak zapisać frazę odzyskiwania",
+      "writeDownPhrase": "Zapisanie długopisem frazy odzyskiwania i przechowywanie jej w bezpiecznym miejscu jest jednym z najbezpieczniejszych sposobów ochrony portfela.",
+      "phraseLocation": "Idealne miejsce może być tam, gdzie przechowujesz dla bezpieczeństwa inne ważne dokumenty i materiały, których nie można łatwo ukraść i łatwo odnaleźć. Wszystko zależy od Ciebie!"
     }
   },
   "testFaqLink": "FAQ dotyczące aplikacji {{appName}}",
@@ -1597,14 +1597,14 @@
       "body": "Kwoty kryptowalut i opłaty mogą ulegać zmianie z uwagi na wahania kursów na rynku kryptowalutowym.\n\nPrzed przesłaniem sprawdź końcową kwotę i opłaty."
     },
     "swapCompleteSection": {
-      "title": "Swap successful",
-      "subtitle": "Your assets are now in your wallet",
+      "title": "Zamiana zakończona pomyślnie",
+      "subtitle": "Twoje zasoby są teraz w Twoim portfelu",
       "done": "Gotowe"
     },
     "swapErrorSection": {
-      "title": "We couldn’t complete your swap",
-      "subtitle": "Your assets are safe in your wallet.\nPlease try again.",
-      "contactSupport": "If you need additional help, you can contact\n<0>customer support<0>"
+      "title": "Nie mogliśmy dokończyć Twojej zamiany",
+      "subtitle": "Twoje zasoby są bezpieczne w portfelu.\nSpróbuj ponownie.",
+      "contactSupport": "Jeśli potrzebujesz dodatkowej pomocy, możesz skontaktować się z\n<0>działem obsługi klienta<0>"
     },
     "swapActionBar": {
       "tryAgain": "Spróbuj ponownie",
@@ -1636,14 +1636,14 @@
     "retryButtonText": "Spróbuj ponownie"
   },
   "chooseYourAdventure": {
-    "header": "Welcome to Valora",
-    "subtitle": "What would you like to do first?",
-    "later": "I'll explore later",
+    "header": "Witamy w Valora",
+    "subtitle": "Co chcesz zrobić najpierw?",
+    "later": "Odkryję później",
     "options": {
-      "add": "Add funds",
-      "dapp": "Find ways to use crypto",
-      "profile": "Build your profile",
-      "learn": "Learn about Celo"
+      "add": "Dodaj środki",
+      "dapp": "Znajdź sposoby korzystania z kryptowalut",
+      "profile": "Stwórz swój profil",
+      "learn": "Dowiedz się więcej o Celo"
     }
   },
   "reverifyUsingCPVHomecard": {
@@ -1652,7 +1652,7 @@
   },
   "profileScreen": {
     "generateName": "Wygeneruj nazwę",
-    "namePlaceholder": "Select a name ex) {{exampleName}}"
+    "namePlaceholder": "Wybierz nazwę ex) {{exampleName}}"
   },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",

@@ -11,6 +11,7 @@ import { ExperimentConfigs } from 'src/statsig/constants'
 import { StatsigExperiments } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
+import { vibrateInformative } from 'src/styles/hapticFeedback'
 import Logger from 'src/utils/Logger'
 
 const PhraseInput = withTextInputPasteAware(TextInput, { top: undefined, right: 12, bottom: 12 })
@@ -64,6 +65,7 @@ export class BackupPhraseContainer extends React.Component<Props> {
     }
     Clipboard.setString(words)
     Logger.showMessage(t('copied'))
+    vibrateInformative()
   }
 
   onPhraseInputChange = (value: string) => {
