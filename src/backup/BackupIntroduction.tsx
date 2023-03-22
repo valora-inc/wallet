@@ -18,8 +18,10 @@ import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { getOnboardingExperimentParams } from 'src/onboarding'
 import { RootState } from 'src/redux/reducers'
+import { getExperimentParams } from 'src/statsig'
+import { ExperimentConfigs } from 'src/statsig/constants'
+import { StatsigExperiments } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -91,7 +93,8 @@ function AccountKeyIntro({ onPrimaryPress }: AccountKeyStartProps) {
   const { t } = useTranslation()
   const { title, body, primaryAction } = React.useMemo(
     () =>
-      getOnboardingExperimentParams().useNewBackupFlowCopy
+      getExperimentParams(ExperimentConfigs[StatsigExperiments.RECOVERY_PHRASE_IN_ONBOARDING])
+        .useNewBackupFlowCopy
         ? {
             title: t('introBackUpPhrase'),
             body: t('introCompleteQuiz'),

@@ -182,7 +182,6 @@ export interface RemoteConfigValues {
   superchargeTokenConfigByToken: SuperchargeTokenConfigByToken
   pincodeUseExpandedBlocklist: boolean
   rewardPillText: string
-  cashInButtonExpEnabled: boolean
   rampCashInButtonExpEnabled: boolean
   allowOtaTranslations: boolean
   sentryTracesSampleRate: number

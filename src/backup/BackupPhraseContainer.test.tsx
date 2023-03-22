@@ -5,11 +5,11 @@ import BackupPhraseContainer, {
   BackupPhraseContainerMode,
   BackupPhraseType,
 } from 'src/backup/BackupPhraseContainer'
-import { getOnboardingExperimentParams } from 'src/onboarding'
+import { getExperimentParams } from 'src/statsig'
 import { mockMnemonic, mockTwelveWordMnemonic } from 'test/values'
 
-jest.mock('src/onboarding', () => ({
-  getOnboardingExperimentParams: jest.fn().mockReturnValue({
+jest.mock('src/statsig', () => ({
+  getExperimentParams: jest.fn().mockReturnValue({
     useNewBackupFlowCopy: false,
   }),
 }))
@@ -38,7 +38,7 @@ describe(BackupPhraseContainer, () => {
   })
 
   it('renders correctly for readonly backup 12-word phrase with new backup flow copy', () => {
-    ;(getOnboardingExperimentParams as jest.Mock).mockReturnValueOnce({
+    ;(getExperimentParams as jest.Mock).mockReturnValueOnce({
       useNewBackupFlowCopy: true,
     })
     const tree = render(
