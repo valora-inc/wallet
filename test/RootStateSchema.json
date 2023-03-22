@@ -2401,9 +2401,6 @@
                 "appState": {
                     "$ref": "#/definitions/AppState"
                 },
-                "cashInButtonExpEnabled": {
-                    "type": "boolean"
-                },
                 "celoEducationUri": {
                     "type": [
                         "null",
@@ -2549,7 +2546,6 @@
                 "activeScreen",
                 "analyticsEnabled",
                 "appState",
-                "cashInButtonExpEnabled",
                 "celoEducationUri",
                 "celoEuroEnabled",
                 "celoNews",

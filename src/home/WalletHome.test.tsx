@@ -87,7 +87,9 @@ const recentDappIds = [dapp.id, deepLinkedDapp.id]
 
 jest.mock('src/exchange/CeloGoldOverview', () => 'CeloGoldOverview')
 jest.mock('src/transactions/TransactionsList', () => 'TransactionsList')
-
+jest.mock('src/statsig', () => ({
+  getExperimentParams: jest.fn(() => ({ cashInBottomSheetEnabled: true })),
+}))
 describe('WalletHome', () => {
   const mockFetch = fetch as FetchMock
 
@@ -201,20 +203,13 @@ describe('WalletHome', () => {
   it('Renders cash in bottom sheet when experiment flag is turned on and balances are zero', async () => {
     const { getByTestId } = renderScreen({
       ...zeroBalances,
-      app: {
-        cashInButtonExpEnabled: true,
-      },
     })
 
     expect(getByTestId('cashInBtn')).toBeTruthy()
   })
 
   it('Does not render cash in bottom sheet when experiment flag is turned on but balances are not zero', async () => {
-    const { queryByTestId } = renderScreen({
-      app: {
-        cashInButtonExpEnabled: true,
-      },
-    })
+    const { queryByTestId } = renderScreen()
 
     expect(queryByTestId('cashInBtn')).toBeFalsy()
   })
@@ -222,9 +217,6 @@ describe('WalletHome', () => {
   it('Does not render cash in bottom sheet when experiment flag is turned on but balances are empty', async () => {
     const { queryByTestId } = renderScreen({
       ...emptyBalances,
-      app: {
-        cashInButtonExpEnabled: true,
-      },
     })
 
     expect(queryByTestId('cashInBtn')).toBeFalsy()

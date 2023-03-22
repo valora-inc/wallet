@@ -28,6 +28,9 @@ import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import useSelector from 'src/redux/useSelector'
 import { initializeSentryUserContext } from 'src/sentry/actions'
+import { getExperimentParams } from 'src/statsig'
+import { ExperimentConfigs } from 'src/statsig/constants'
+import { StatsigExperiments } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import { celoAddressSelector, coreTokensSelector } from 'src/tokens/selectors'
 import TransactionFeed from 'src/transactions/feed/TransactionFeed'
@@ -45,7 +48,6 @@ function WalletHome() {
   const isNumberVerified = useSelector(phoneNumberVerifiedSelector)
   const coreTokenBalances = useSelector(coreTokensSelector)
   const celoAddress = useSelector(celoAddressSelector)
-  const cashInButtonExpEnabled = useSelector((state) => state.app.cashInButtonExpEnabled)
   const userInSanctionedCountry = useSelector(userInSanctionedCountrySelector)
 
   const scrollPosition = useRef(new Animated.Value(0)).current
@@ -120,7 +122,11 @@ function WalletHome() {
         ?.balance.isGreaterThan(CELO_TRANSACTION_MIN_AMOUNT) ?? false
     const isAccountBalanceZero = hasStable === false && hasCelo === false
 
-    return cashInButtonExpEnabled && isAccountBalanceZero
+    const { cashInBottomSheetEnabled } = getExperimentParams(
+      ExperimentConfigs[StatsigExperiments.CHOOSE_YOUR_ADVENTURE]
+    )
+
+    return cashInBottomSheetEnabled && isAccountBalanceZero
   }
 
   const keyExtractor = (_item: any, index: number) => {
