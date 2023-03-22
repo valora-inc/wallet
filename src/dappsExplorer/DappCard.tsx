@@ -13,6 +13,7 @@ import Star from 'src/icons/Star'
 import StarOutline from 'src/icons/StarOutline'
 import { Colors } from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
+import { vibrateSuccess } from 'src/styles/hapticFeedback'
 import { Shadow, Spacing } from 'src/styles/styles'
 
 interface Props {
@@ -56,6 +57,7 @@ function DappCard({ dapp, section, onPressDapp, onFavoriteDapp }: Props) {
       ValoraAnalytics.track(DappExplorerEvents.dapp_favorite, eventProperties)
       dispatch(favoriteDapp({ dappId: dapp.id }))
       onFavoriteDapp?.(dapp)
+      vibrateSuccess()
     }
   }
 

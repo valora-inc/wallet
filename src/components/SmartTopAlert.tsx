@@ -6,6 +6,7 @@ import SmallButton from 'src/components/SmallButton'
 import Error from 'src/icons/Error'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
+import { vibrateError, vibrateInformative } from 'src/styles/hapticFeedback'
 interface Props {
   alert: {
     type: AlertTypes
@@ -46,6 +47,11 @@ function SmartTopAlert({ alert }: Props) {
     if (alert) {
       // show
       setVisibleAlertState(alert)
+      if (type === AlertTypes.ERROR) {
+        vibrateError()
+      } else {
+        vibrateInformative()
+      }
     } else {
       // hide
       hide()
