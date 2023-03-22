@@ -97,8 +97,10 @@ export const initialState: State = {
   celoEducationCompleted: false,
 }
 
-export type AccountAction = ActionTypes | RehydrateAction | Web3ActionTypes | AppActionTypes
-export const reducer = (state: State | undefined = initialState, action: AccountAction): State => {
+export const reducer = (
+  state: State | undefined = initialState,
+  action: ActionTypes | RehydrateAction | Web3ActionTypes | AppActionTypes
+): State => {
   switch (action.type) {
     case REHYDRATE: {
       const rehydratedPayload = getRehydratePayload(action, 'account')
