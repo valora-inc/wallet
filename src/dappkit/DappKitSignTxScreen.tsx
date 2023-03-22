@@ -18,6 +18,7 @@ import { Screens } from 'src/navigator/Screens'
 import { BottomSheetParams, StackParamList } from 'src/navigator/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
+import { vibrateInformative } from 'src/styles/hapticFeedback'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import Logger from 'src/utils/Logger'
@@ -50,6 +51,7 @@ const DappKitSignTxScreen = ({ route, handleContentLayout }: Props) => {
 
   const handleCopyRequestPayload = () => {
     Clipboard.setString(txs[0].txData)
+    vibrateInformative()
     ValoraAnalytics.track(
       DappKitEvents.dappkit_copy_request_details,
       getDefaultRequestTrackedProperties(dappKitRequest, activeDapp)
