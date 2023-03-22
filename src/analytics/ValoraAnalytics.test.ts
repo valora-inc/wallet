@@ -101,6 +101,9 @@ const state = getMockStoreData({
   account: {
     pincodeType: PincodeType.CustomPin,
   },
+  app: {
+    phoneNumberVerified: true,
+  },
 })
 
 // Disable __DEV__ so analytics is enabled
@@ -121,6 +124,7 @@ const defaultSuperProperties = {
   sDeviceLanguage: 'en-US',
   sHasCompletedBackup: false,
   sHasVerifiedNumber: false,
+  sHasVerifiedNumberCPV: true,
   sLanguage: 'es-419',
   sLocalCurrencyCode: 'PHP',
   sOtherTenTokens: 'UBE:1,TT:10',
