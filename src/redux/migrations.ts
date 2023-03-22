@@ -1080,6 +1080,13 @@ export const migrations = {
   }),
   116: (state: any) => ({
     ...state,
+    account: {
+      ...state.account,
+      startOnboardingTime: undefined,
+    },
+  }),
+  117: (state: any) => ({
+    ...state,
     app: _.omit(state.app, 'cashInButtonExpEnabled'),
   }),
 }

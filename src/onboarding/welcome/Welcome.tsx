@@ -22,11 +22,16 @@ import { StatsigExperiments } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import { Statsig } from 'statsig-react-native'
+import Logger from 'src/utils/Logger'
+
+const TAG = 'Welcome'
 
 export default function Welcome() {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const acceptedTerms = useSelector((state) => state.account.acceptedTerms)
+  const startOnboardingTime = useSelector((state) => state.account.startOnboardingTime)
   const insets = useSafeAreaInsets()
   const recoveringFromStoreWipe = useSelector(recoveringFromStoreWipeSelector)
 
@@ -50,9 +55,20 @@ export default function Welcome() {
     }
   }
 
-  const onPressCreateAccount = () => {
+  const onPressCreateAccount = async () => {
     ValoraAnalytics.track(OnboardingEvents.create_account_start)
-    dispatch(chooseCreateAccount())
+    const now = Date.now()
+    if (startOnboardingTime === undefined) {
+      // this is the user's first time selecting 'create account' on this device
+      try {
+        // this lets us restrict some onboarding experiments to only users who begin onboarding
+        //  after the experiment begins
+        await Statsig.updateUser({ custom: { startOnboardingTime: now } })
+      } catch (error) {
+        Logger.error(TAG, 'Failed to update Statsig user with startOnboardingTimestamp', error)
+      }
+    }
+    dispatch(chooseCreateAccount(now))
     navigateNext()
   }
 

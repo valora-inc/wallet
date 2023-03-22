@@ -10,6 +10,7 @@ import {
   v104Schema,
   v106Schema,
   v112Schema,
+  v115Schema,
   v13Schema,
   v14Schema,
   v15Schema,
@@ -862,6 +863,13 @@ describe('Redux persist migrations', () => {
     delete expectedSchema.app.showGuidedOnboardingCopy
     delete expectedSchema.app.createAccountCopyTestType
 
+    expect(migratedSchema).toStrictEqual(expectedSchema)
+  })
+  it('works from v115 to v116', () => {
+    const oldSchema = v115Schema
+    const migratedSchema = migrations[116](oldSchema)
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    expectedSchema.account.startOnboardingTime = undefined
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 })

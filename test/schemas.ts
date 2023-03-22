@@ -2109,9 +2109,21 @@ export const v116Schema = {
     ...v115Schema._persist,
     version: 116,
   },
-  app: _.omit(v115Schema.app, 'cashInButtonExpEnabled'),
+  account: {
+    ...v115Schema.account,
+    startOnboardingTime: undefined,
+  },
+}
+
+export const v117Schema = {
+  ...v116Schema,
+  _persist: {
+    ...v116Schema._persist,
+    version: 117,
+  },
+  app: _.omit(v116Schema.app, 'cashInButtonExpEnabled'),
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v116Schema as Partial<RootState>
+  return v117Schema as Partial<RootState>
 }

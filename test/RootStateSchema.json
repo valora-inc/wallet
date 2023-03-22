@@ -2700,6 +2700,9 @@
                 },
                 "recoveringFromStoreWipe": {
                     "type": "boolean"
+                },
+                "startOnboardingTime": {
+                    "type": "number"
                 }
             },
             "required": [
