@@ -45,34 +45,34 @@
     "revoke": "ยกเลิกการเชื่อมต่อ"
   },
   "protectWallet": {
-    "title": "Protect Your Wallet",
-    "subtitle": "Protect your wallet",
-    "body": "If your phone is lost or stolen, your {{mnemonicLength}} word recovery phrase is the only way you can access your funds.",
+    "title": "ป้องกันกระเป๋าเงินของคุณ",
+    "subtitle": "ป้องกันกระเป๋าเงินของคุณ",
+    "body": "หากโทรศัพท์ของคุณสูญหายหรือถูกขโมย วลีกู้คืนรหัสคำ {{mnemonicLength}} ของคุณเป็นหนทางเดียวที่คุณจะสามารถเข้าถึงเงินทุนของคุณได้",
     "recoveryPhrase": {
-      "title": "Use Recovery Phrase",
-      "subtitle": "Write down your recovery phrase"
+      "title": "ใช้วลีกู้คืนรหัส",
+      "subtitle": "จดวลีกู้คืนรหัสของคุณไว้"
     },
     "cloudBackup": {
-      "title": "Backup to Cloud",
-      "subtitle": "Restore your wallet without a phrase",
+      "title": "สำรองข้อมูลไปยังคลาวด์",
+      "subtitle": "กู้คืนกระเป๋าเงินของคุณโดยไม่ต้องใช้วลี",
       "bottomSheet": {
-        "title": "Cloud Backup is coming soon!",
-        "restoreComingSoon": "Cloud backup is a way to restore your wallet without a recovery phrase. We are working on this as fast as we can and will notify you once it's available to use.",
-        "writeDownPhrase": "In the meantime, please write down your recovery phrase to manually backup your wallet.",
-        "continue": "Continue to Recovery Phrase"
+        "title": "การสำรองข้อมูลไปยังคลาวด์เร็วๆ นี้",
+        "restoreComingSoon": "การสำรองข้อมูลไปยังคลาวด์เป็นวิธีกู้คืนกระเป๋าเงินของคุณโดยไม่ต้องใช้วลีกู้คืนรหัส เราจะดำเนินการโดยเร็วที่สุดและจะแจ้งให้คุณทราบทันทีเมื่อคุณสมบัตินี้พร้อมให้คุณใช้งาน",
+        "writeDownPhrase": "ในระหว่างนี้ โปรดจดบันทึกวลีกู้คืนรหัสของคุณไว้เพื่อสำรองข้อมูลกระเป๋าเงินของคุณไว้ด้วยตัวเองก่อน",
+        "continue": "ดำเนินการต่อไปยังวลีกู้คืนรหัส"
       }
     }
   },
   "recoveryPhrase": {
-    "title": "Your recovery phrase",
-    "body": "Write these {{mnemonicLength}} words down somewhere safe, where it cannot be stolen or damaged.",
-    "continue": "I've saved it",
-    "copy": "Copy to clipboard",
-    "mnemonicCopied": "Recovery phrase copied to clipboard",
+    "title": "วลีกู้คืนรหัสของคุณ",
+    "body": "จดบันทึกคำ {{mnemonicLength}} เหล่านี้ไว้ในที่ที่ปลอดภัยจากการถูกขโมยหรือทำให้เสียหาย",
+    "continue": "ฉันบันทึกไว้แล้ว",
+    "copy": "คัดลอกไปยังคลิปบอร์ด",
+    "mnemonicCopied": "คัดลอกวลีกู้คืนรหัสไปยังคลิปบอร์ดแล้ว",
     "bottomSheet": {
-      "title": "How to save a recovery phrase",
-      "writeDownPhrase": "Writing down your recovery phrase with a pen, and storing it in a safe place is one of the most secure ways to protect your wallet.",
-      "phraseLocation": "An ideal place might be where you store other important documents & materials for safekeeping, that is not easily stolen and easy to retrieve. It's up to you!"
+      "title": "วิธีการบันทึกวลีกู้คืนรหัส",
+      "writeDownPhrase": "การจดบันทึกวลีกู้คืนรหัสของคุณด้วยปากกาและจัดเก็บไว้ในที่ที่ปลอดภัยเป็นหนึ่งในวิธีที่ปลอดภัยที่สุดในการปกป้องกระเป๋าเงินของคุณ",
+      "phraseLocation": "สถานที่ที่เหมาะสมอาจจะเป็นสถานที่ปลอยภัยที่คุณจัดเก็บเอกสารและวัสดุที่สำคัญอื่นๆ ซึ่งยากต่อการถูกขโมยและสามารถเรียกดูได้ง่าย ขึ้นอยู่กับความต้องการของคุณ"
     }
   },
   "testFaqLink": "คำถามที่พบบ่อยเกี่ยวกับ {{appName}}",
@@ -1591,14 +1591,14 @@
       "body": "จำนวนเงินคริปโตและค่าธรรมเนียมอาจมีการเปลี่ยนแปลงเนื่องจากความผันผวนของตลาดคริปโต \n\n โปรดตรวจสอบจำนวนเงินและค่าธรรมเนียมสุดท้ายของคุณและส่งอีกครั้ง"
     },
     "swapCompleteSection": {
-      "title": "Swap successful",
-      "subtitle": "Your assets are now in your wallet",
+      "title": "สว็อปสำเร็จ",
+      "subtitle": "สินทรัพย์ของคุณอยู่ในกระเป๋าเงินแล้ว",
       "done": "เสร็จสิ้น"
     },
     "swapErrorSection": {
-      "title": "We couldn’t complete your swap",
-      "subtitle": "Your assets are safe in your wallet.\nPlease try again.",
-      "contactSupport": "If you need additional help, you can contact\n<0>customer support<0>"
+      "title": "เราไม่สามารถดำเนินการสว็อปของคุณได้",
+      "subtitle": "สินทรัพย์ของคุณอยู่ในกระเป๋าเงินของคุณอย่างปลอดภัย\nโปรดลองอีกครั้ง",
+      "contactSupport": "หากคุณต้องการความช่วยเหลือเพิ่มเติม โปรดติดต่อ<0>ฝ่ายบริการลูกค้า<0>"
     },
     "swapActionBar": {
       "tryAgain": "ลองอีกครั้ง",
