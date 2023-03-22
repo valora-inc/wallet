@@ -2108,6 +2108,7 @@
                 "BackupQuiz",
                 "BidaliScreen",
                 "CashInSuccess",
+                "ChooseYourAdventure",
                 "CoinbasePayScreen",
                 "ConsumerIncentivesHomeScreen",
                 "DAppsExplorerScreen",
@@ -2703,6 +2704,9 @@
                 },
                 "recoveringFromStoreWipe": {
                     "type": "boolean"
+                },
+                "startOnboardingTime": {
+                    "type": "number"
                 }
             },
             "required": [
