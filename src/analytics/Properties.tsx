@@ -60,7 +60,7 @@ import { RecipientType } from 'src/recipients/recipient'
 import { Field } from 'src/swap/types'
 import { Currency, CurrencyOrCREAL, StableCurrency } from 'src/utils/currencies'
 import { Awaited } from 'src/utils/typescript'
-import { AdventureCardMap } from 'src/onboarding/ChooseYourAdventure'
+import { AdventureCardName } from 'src/onboarding/types'
 
 type PermissionStatus = Awaited<ReturnType<typeof check>>
 
@@ -338,8 +338,8 @@ interface OnboardingEventsProperties {
   [OnboardingEvents.protect_wallet_complete]: undefined
   [OnboardingEvents.cya_button_press]: {
     name: string
-    index: number
-    indexMap: AdventureCardMap
+    position: number
+    cardOrder: AdventureCardName[]
   }
   [OnboardingEvents.cya_later]: undefined
 }

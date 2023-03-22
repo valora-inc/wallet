@@ -21,19 +21,9 @@ import { shuffle } from 'src/utils/random'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { AdventureCardName } from 'src/onboarding/types'
 
 const DEFAULT_SEED = '0x0'
-
-export enum AdventureCardName {
-  Add = 'add',
-  Dapp = 'dapp',
-  Profile = 'profile',
-  Learn = 'learn',
-}
-
-export interface AdventureCardMap {
-  [key: number]: AdventureCardName
-}
 
 const AdventureCard = ({
   onPress,
@@ -103,16 +93,13 @@ function ChooseYourAdventure() {
       },
     ]
     const shuffled = shuffle(cardDetails, address ?? DEFAULT_SEED)
-    const indexMap: AdventureCardMap = shuffled.reduce((indexMap, cardDetails, index) => {
-      indexMap[index] = cardDetails.name
-      return indexMap
-    }, {})
+    const cardOrder: AdventureCardName[] = shuffled.map((details) => details.name)
     return shuffled.map(({ text, goToNextScreen, icon, name }, index) => {
       const onPress = () => {
         ValoraAnalytics.track(OnboardingEvents.cya_button_press, {
-          index,
+          position: index + 1,
           name,
-          indexMap,
+          cardOrder,
         })
         goToNextScreen()
       }

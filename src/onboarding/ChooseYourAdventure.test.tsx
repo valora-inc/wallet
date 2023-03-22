@@ -4,7 +4,8 @@ import 'react-native'
 import { Provider } from 'react-redux'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import ChooseYourAdventure, { AdventureCardName } from 'src/onboarding/ChooseYourAdventure'
+import ChooseYourAdventure from 'src/onboarding/ChooseYourAdventure'
+import { AdventureCardName } from 'src/onboarding/types'
 import { createMockStore } from 'test/utils'
 import { mockAccount, mockAccount2 } from 'test/values'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -68,21 +69,21 @@ describe('ChooseYourAdventure', () => {
         <ChooseYourAdventure />
       </Provider>
     )
-    const expectedIndexMap = {
-      0: AdventureCardName.Add,
-      1: AdventureCardName.Learn,
-      2: AdventureCardName.Dapp,
-      3: AdventureCardName.Profile,
-    }
+    const expectedCardOrder = [
+      AdventureCardName.Add,
+      AdventureCardName.Learn,
+      AdventureCardName.Dapp,
+      AdventureCardName.Profile,
+    ]
 
     fireEvent.press(getByTestId('AdventureCard/0/chooseYourAdventure.options.add'))
     expect(navigateHome).toHaveBeenLastCalledWith({
       params: { initialScreen: Screens.FiatExchange },
     })
     expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(OnboardingEvents.cya_button_press, {
-      index: 0,
+      position: 1,
       name: AdventureCardName.Add,
-      indexMap: expectedIndexMap,
+      cardOrder: expectedCardOrder,
     })
     fireEvent.press(getByTestId('AdventureCard/1/chooseYourAdventure.options.learn'))
     expect(navigateHome).toHaveBeenLastCalledWith({
@@ -90,9 +91,9 @@ describe('ChooseYourAdventure', () => {
     })
 
     expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(OnboardingEvents.cya_button_press, {
-      index: 1,
+      position: 2,
       name: AdventureCardName.Learn,
-      indexMap: expectedIndexMap,
+      cardOrder: expectedCardOrder,
     })
 
     fireEvent.press(getByTestId('AdventureCard/2/chooseYourAdventure.options.dapp'))
@@ -100,18 +101,18 @@ describe('ChooseYourAdventure', () => {
       params: { initialScreen: Screens.DAppsExplorerScreen },
     })
     expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(OnboardingEvents.cya_button_press, {
-      index: 2,
+      position: 3,
       name: AdventureCardName.Dapp,
-      indexMap: expectedIndexMap,
+      cardOrder: expectedCardOrder,
     })
 
     fireEvent.press(getByTestId('AdventureCard/3/chooseYourAdventure.options.profile'))
     expect(navigateHome).toHaveBeenLastCalledWith()
     expect(navigate).toHaveBeenLastCalledWith(Screens.Profile)
     expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(OnboardingEvents.cya_button_press, {
-      index: 3,
+      position: 4,
       name: AdventureCardName.Profile,
-      indexMap: expectedIndexMap,
+      cardOrder: expectedCardOrder,
     })
 
     fireEvent.press(getByTestId('AdventureCard/3/chooseYourAdventure.options.profile'))
