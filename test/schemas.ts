@@ -2103,6 +2103,18 @@ export const v115Schema = {
   },
 }
 
+export const v116Schema = {
+  ...v115Schema,
+  _persist: {
+    ...v115Schema._persist,
+    version: 116,
+  },
+  account: {
+    ...v115Schema.account,
+    startOnboardingTime: undefined,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v115Schema as Partial<RootState>
+  return v116Schema as Partial<RootState>
 }
