@@ -729,6 +729,101 @@ exports[`Account renders correctly 1`] = `
               }
             }
           >
+            appPreferences
+          </Text>
+        </View>
+        <View
+          style={
+            Object {
+              "backgroundColor": "#FFFFFF",
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "borderBottomColor": "#E6E6E6",
+                "borderBottomWidth": 1,
+                "marginLeft": 16,
+                "paddingVertical": 16,
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "justifyContent": "space-between",
+                  "paddingRight": 16,
+                }
+              }
+            >
+              <View
+                style={
+                  Array [
+                    Object {
+                      "flex": 1,
+                      "justifyContent": "center",
+                    },
+                  ]
+                }
+              >
+                <Text
+                  style={
+                    Object {
+                      "color": "#2E3338",
+                      "fontFamily": "Inter-Regular",
+                      "fontSize": 16,
+                      "lineHeight": 22,
+                    }
+                  }
+                >
+                  hapticFeedback
+                </Text>
+              </View>
+              <AndroidSwitch
+                accessibilityRole="switch"
+                enabled={true}
+                on={true}
+                onChange={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+              />
+            </View>
+          </View>
+        </View>
+        <View
+          style={
+            Array [
+              Object {
+                "alignItems": "center",
+                "backgroundColor": "#FFFFFF",
+                "flexDirection": "row",
+                "justifyContent": "space-between",
+                "paddingHorizontal": 16,
+                "paddingVertical": 8,
+              },
+              Object {
+                "borderBottomColor": "#E6E6E6",
+                "borderBottomWidth": 1,
+                "marginLeft": 16,
+                "marginTop": 44,
+                "paddingLeft": 0,
+              },
+            ]
+          }
+        >
+          <Text
+            style={
+              Object {
+                "color": "#666666",
+                "fontFamily": "Inter-Medium",
+                "fontSize": 13,
+                "lineHeight": 16,
+              }
+            }
+          >
             data
           </Text>
         </View>
@@ -2696,6 +2791,101 @@ exports[`Account renders correctly when dev mode active 1`] = `
                 onResponderTerminationRequest={[Function]}
                 onStartShouldSetResponder={[Function]}
                 testID="requirePinOnAppOpenToggle"
+              />
+            </View>
+          </View>
+        </View>
+        <View
+          style={
+            Array [
+              Object {
+                "alignItems": "center",
+                "backgroundColor": "#FFFFFF",
+                "flexDirection": "row",
+                "justifyContent": "space-between",
+                "paddingHorizontal": 16,
+                "paddingVertical": 8,
+              },
+              Object {
+                "borderBottomColor": "#E6E6E6",
+                "borderBottomWidth": 1,
+                "marginLeft": 16,
+                "marginTop": 44,
+                "paddingLeft": 0,
+              },
+            ]
+          }
+        >
+          <Text
+            style={
+              Object {
+                "color": "#666666",
+                "fontFamily": "Inter-Medium",
+                "fontSize": 13,
+                "lineHeight": 16,
+              }
+            }
+          >
+            appPreferences
+          </Text>
+        </View>
+        <View
+          style={
+            Object {
+              "backgroundColor": "#FFFFFF",
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "borderBottomColor": "#E6E6E6",
+                "borderBottomWidth": 1,
+                "marginLeft": 16,
+                "paddingVertical": 16,
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "justifyContent": "space-between",
+                  "paddingRight": 16,
+                }
+              }
+            >
+              <View
+                style={
+                  Array [
+                    Object {
+                      "flex": 1,
+                      "justifyContent": "center",
+                    },
+                  ]
+                }
+              >
+                <Text
+                  style={
+                    Object {
+                      "color": "#2E3338",
+                      "fontFamily": "Inter-Regular",
+                      "fontSize": 16,
+                      "lineHeight": 22,
+                    }
+                  }
+                >
+                  hapticFeedback
+                </Text>
+              </View>
+              <AndroidSwitch
+                accessibilityRole="switch"
+                enabled={true}
+                on={true}
+                onChange={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
               />
             </View>
           </View>
