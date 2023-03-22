@@ -15,7 +15,11 @@ describe('account reducer', () => {
     })
     it('sets choseToRestoreAccount to false', () => {
       const action: ChooseCreateAccountAction = { type: Actions.CHOOSE_CREATE_ACCOUNT, now: 123 }
-      const expectedState = { ...initialState, choseToRestoreAccount: false }
+      const expectedState = {
+        ...initialState,
+        choseToRestoreAccount: false,
+        startOnboardingTime: 123,
+      }
       expect(reducer(initialState, action)).toEqual(expectedState)
     })
   })
