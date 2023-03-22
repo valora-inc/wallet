@@ -48,7 +48,7 @@ describe('Invite', () => {
 
     expect(getByTestId('InviteModalShareButton')).toBeDisabled()
     expect(getByText('inviteWithUrl.title')).toBeTruthy()
-    expect(getByTestId('InviteModalStyledDescription')).toBeTruthy()
+    expect(getByTestId('InviteModalStyledDescription')).toHaveTextContent('inviteWithUrl.body')
   })
 
   it('should enable button when share URL is loaded', async () => {
@@ -95,7 +95,9 @@ describe('Invite', () => {
     })
 
     expect(getByText('inviteWithUrl.rewardsActive.title')).toBeTruthy()
-    expect(getByTestId('InviteModalStyledDescription')).toBeTruthy()
+    expect(getByTestId('InviteModalStyledDescription')).toHaveTextContent(
+      'inviteWithUrl.rewardsActive.body'
+    )
 
     await waitFor(() => expect(getByTestId('InviteModalShareButton')).not.toBeDisabled())
     press(getByTestId('InviteModalShareButton'))
@@ -119,7 +121,9 @@ describe('Invite', () => {
     })
 
     expect(getByText('inviteWithUrl.rewardsActiveCUSD.title')).toBeTruthy()
-    expect(getByTestId('InviteModalStyledDescription')).toBeTruthy()
+    expect(getByTestId('InviteModalStyledDescription')).toHaveTextContent(
+      'inviteWithUrl.rewardsActiveCUSD.body'
+    )
 
     await waitFor(() => expect(getByTestId('InviteModalShareButton')).not.toBeDisabled())
     press(getByTestId('InviteModalShareButton'))
