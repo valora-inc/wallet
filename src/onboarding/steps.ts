@@ -59,12 +59,10 @@ export function firstOnboardingScreen({
 }): Screens.NameAndPicture | Screens.ImportWallet | Screens.PincodeSet {
   if (onboardingNameScreenEnabled) {
     return Screens.NameAndPicture
+  } else if (recoveringFromStoreWipe) {
+    return Screens.ImportWallet
   } else {
-    if (recoveringFromStoreWipe) {
-      return Screens.ImportWallet
-    } else {
-      return Screens.PincodeSet
-    }
+    return Screens.PincodeSet
   }
 }
 
