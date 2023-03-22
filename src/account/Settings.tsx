@@ -314,6 +314,13 @@ export class Account extends React.Component<Props, State> {
     })
   }
 
+  handleHapticFeedbackToggle = (value: boolean) => {
+    this.props.hapticFeedbackSet(value)
+    ValoraAnalytics.track(SettingsEvents.settings_haptic_feedback, {
+      enabled: value,
+    })
+  }
+
   onTermsPress() {
     navigateToURI(TOS_LINK)
     ValoraAnalytics.track(SettingsEvents.tos_view)
@@ -475,7 +482,7 @@ export class Account extends React.Component<Props, State> {
             <SettingsItemSwitch
               title={t('hapticFeedback')}
               value={this.props.hapticFeedbackEnabled}
-              onValueChange={this.props.hapticFeedbackSet}
+              onValueChange={this.handleHapticFeedbackToggle}
             />
             <SectionHead text={t('data')} style={styles.sectionTitle} />
             <SettingsItemSwitch
