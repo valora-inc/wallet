@@ -60,10 +60,12 @@ function Profile({ navigation, route }: Props) {
   const onPictureChosen = async (pictureDataUrl: string | null) => {
     if (!pictureDataUrl) {
       setNewPictureUri(null)
+      ValoraAnalytics.track(SettingsEvents.profile_photo_removed)
     } else {
       try {
         const newPicturePath = await saveProfilePicture(pictureDataUrl)
         setNewPictureUri(newPicturePath)
+        ValoraAnalytics.track(SettingsEvents.profile_photo_chosen)
       } catch (error) {
         dispatch(showError(ErrorMessages.PICTURE_LOAD_FAILED))
       }
@@ -83,11 +85,7 @@ function Profile({ navigation, route }: Props) {
     <SafeAreaView style={styles.container} edges={['bottom']}>
       <KeyboardAwareScrollView testID="ProfileScrollView">
         <View style={styles.accountProfile}>
-          <PictureInput
-            picture={newPictureUri}
-            onPhotoChosen={onPictureChosen}
-            backgroundColor={colors.gray6}
-          />
+          <PictureInput picture={newPictureUri} onPhotoChosen={onPictureChosen} />
         </View>
         <View style={styles.inputContainer}>
           <TextInput
@@ -134,9 +132,9 @@ const styles = StyleSheet.create({
   },
   accountProfile: {
     paddingLeft: 10,
-    paddingTop: 30,
+    paddingTop: 24,
     paddingRight: 15,
-    paddingBottom: 15,
+    paddingBottom: 37,
     flexDirection: 'column',
     alignItems: 'center',
   },
