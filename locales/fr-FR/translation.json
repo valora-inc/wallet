@@ -1632,14 +1632,14 @@
     "retryButtonText": "Réessayer"
   },
   "chooseYourAdventure": {
-    "header": "Welcome to Valora",
-    "subtitle": "What would you like to do first?",
-    "later": "I'll explore later",
+    "header": "Bienvenue sur Valora",
+    "subtitle": "Que voulez-vous faire en premier ?",
+    "later": "Je vais découvrir plus tard",
     "options": {
-      "add": "Add funds",
-      "dapp": "Find ways to use crypto",
-      "profile": "Build my profile",
-      "learn": "Learn about Celo"
+      "add": "Ajouter des fonds",
+      "dapp": "Explorez les moyens d'utiliser mes crypto",
+      "profile": "Créer mon profil",
+      "learn": "En savoir plus sur Celo"
     }
   },
   "reverifyUsingCPVHomecard": {
@@ -1648,7 +1648,7 @@
   },
   "profileScreen": {
     "generateName": "Générez un nom",
-    "namePlaceholder": "Select a name ex) {{exampleName}}"
+    "namePlaceholder": "Sélectionnez un nom (p. ex. {{exampleName}})"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
