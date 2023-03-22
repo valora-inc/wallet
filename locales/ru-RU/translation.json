@@ -45,34 +45,34 @@
     "revoke": "Отключить"
   },
   "protectWallet": {
-    "title": "Protect Your Wallet",
-    "subtitle": "Protect your wallet",
-    "body": "If your phone is lost or stolen, your {{mnemonicLength}} word recovery phrase is the only way you can access your funds.",
+    "title": "Защитите свой кошелек",
+    "subtitle": "Защитите свой кошелек",
+    "body": "При потере или краже телефона ваша фраза восстановления из {{mnemonicLength}} слов является единственным способом доступа к вашим средствам.",
     "recoveryPhrase": {
-      "title": "Use Recovery Phrase",
-      "subtitle": "Write down your recovery phrase"
+      "title": "Использовать фразу восстановления",
+      "subtitle": "Запишите свою фразу восстановления"
     },
     "cloudBackup": {
-      "title": "Backup to Cloud",
-      "subtitle": "Restore your wallet without a phrase",
+      "title": "Резервное копирование в облако",
+      "subtitle": "Восстановите свой кошелек без фразы",
       "bottomSheet": {
-        "title": "Cloud Backup is coming soon!",
-        "restoreComingSoon": "Cloud backup is a way to restore your wallet without a recovery phrase. We are working on this as fast as we can and will notify you once it's available to use.",
-        "writeDownPhrase": "In the meantime, please write down your recovery phrase to manually backup your wallet.",
-        "continue": "Continue to Recovery Phrase"
+        "title": "Скоро появится облачное резервное копирование!",
+        "restoreComingSoon": "Облачное резервное копирование позволяет восстановить кошелек без ключевой фразы. Мы внедрим его в самые сжатые сроки и уведомим вас, как только все будет готово.",
+        "writeDownPhrase": "А пока запишите свою фразу восстановления, чтобы вручную подстраховать свой кошелок.",
+        "continue": "Перейти к фразе восстановления"
       }
     }
   },
   "recoveryPhrase": {
-    "title": "Your recovery phrase",
-    "body": "Write these {{mnemonicLength}} words down somewhere safe, where it cannot be stolen or damaged.",
-    "continue": "I've saved it",
-    "copy": "Copy to clipboard",
-    "mnemonicCopied": "Recovery phrase copied to clipboard",
+    "title": "Ваша фраза восстановления",
+    "body": "Запишите эти {{mnemonicLength}} слов в безопасном месте, где их невозможно украсть или повредить.",
+    "continue": "Сохранено",
+    "copy": "Скопировать в буфер обмена",
+    "mnemonicCopied": "Фраза восстановления скопирована в буфер обмена",
     "bottomSheet": {
-      "title": "How to save a recovery phrase",
-      "writeDownPhrase": "Writing down your recovery phrase with a pen, and storing it in a safe place is one of the most secure ways to protect your wallet.",
-      "phraseLocation": "An ideal place might be where you store other important documents & materials for safekeeping, that is not easily stolen and easy to retrieve. It's up to you!"
+      "title": "Как сохранить фразу восстановления",
+      "writeDownPhrase": "Одним из самых безопасных способов защиты кошелька является запись фразы восстановления ручкой и сохранение ее в надежном месте.",
+      "phraseLocation": "Лучше всего хранить ее вместе с другими важными документами и материалами в таком сохранном месте, где ее легко найти, но сложно украсть. Вам решать!"
     }
   },
   "testFaqLink": "Часто задаваемые вопросы по {{appName}}",
@@ -1597,14 +1597,14 @@
       "body": "Суммы в криптовалюте и комиссии могут меняться из-за колебаний криптовалютного рынка. \n\n Проверьте окончательные суммы и комиссии и отправьте повторно."
     },
     "swapCompleteSection": {
-      "title": "Swap successful",
-      "subtitle": "Your assets are now in your wallet",
+      "title": "Обмен выполнен успешно",
+      "subtitle": "Ваши активы теперь в вашем кошельке",
       "done": "Готово"
     },
     "swapErrorSection": {
-      "title": "We couldn’t complete your swap",
-      "subtitle": "Your assets are safe in your wallet.\nPlease try again.",
-      "contactSupport": "If you need additional help, you can contact\n<0>customer support<0>"
+      "title": "Мы не смогли завершить ваш обмен",
+      "subtitle": "Ваши активы в безопасности в вашем кошельке.\nПовторите попытку.",
+      "contactSupport": "Если вам нужна дополнительная помощь, обратитесь в\n<0>службу поддержки клиентов<0>"
     },
     "swapActionBar": {
       "tryAgain": "Повторить попытку",
