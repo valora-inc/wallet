@@ -5,11 +5,11 @@ import * as Keychain from 'react-native-keychain'
 import { Provider } from 'react-redux'
 import BackupPhrase from 'src/backup/BackupPhrase'
 import { Screens } from 'src/navigator/Screens'
-import { getOnboardingExperimentParams } from 'src/onboarding'
+import { getExperimentParams } from 'src/statsig'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
-jest.mock('src/onboarding', () => ({
-  getOnboardingExperimentParams: jest.fn().mockReturnValue({
+jest.mock('src/statsig', () => ({
+  getExperimentParams: jest.fn().mockReturnValue({
     useNewBackupFlowCopy: false,
   }),
 }))
@@ -24,7 +24,7 @@ it('renders correctly with backup not completed', () => {
 })
 
 it('renders correctly with backup not completed and using new backup flow copy', () => {
-  ;(getOnboardingExperimentParams as jest.Mock).mockReturnValueOnce({
+  ;(getExperimentParams as jest.Mock).mockReturnValueOnce({
     useNewBackupFlowCopy: true,
   })
   const tree = render(
@@ -45,7 +45,7 @@ it('renders correctly with backup completed', () => {
 })
 
 it('renders correctly with backup completed and using new backup flow copy', () => {
-  ;(getOnboardingExperimentParams as jest.Mock).mockReturnValueOnce({
+  ;(getExperimentParams as jest.Mock).mockReturnValueOnce({
     useNewBackupFlowCopy: true,
   })
   const tree = render(

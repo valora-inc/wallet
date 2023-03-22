@@ -13,10 +13,12 @@ import { welcomeBackground } from 'src/images/Images'
 import { nuxNavigationOptions } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { getOnboardingExperimentParams } from 'src/onboarding'
 import LanguageButton from 'src/onboarding/LanguageButton'
 import { firstOnboardingScreen } from 'src/onboarding/steps'
 import { default as useSelector } from 'src/redux/useSelector'
+import { getExperimentParams } from 'src/statsig'
+import { ExperimentConfigs } from 'src/statsig/constants'
+import { StatsigExperiments } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -29,7 +31,9 @@ export default function Welcome() {
   const recoveringFromStoreWipe = useSelector(recoveringFromStoreWipeSelector)
 
   const startOnboarding = () => {
-    const { onboardingNameScreenEnabled } = getOnboardingExperimentParams()
+    const { onboardingNameScreenEnabled } = getExperimentParams(
+      ExperimentConfigs[StatsigExperiments.CHOOSE_YOUR_ADVENTURE]
+    )
     navigate(
       firstOnboardingScreen({
         onboardingNameScreenEnabled,

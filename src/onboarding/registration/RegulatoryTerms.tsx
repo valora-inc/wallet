@@ -15,9 +15,11 @@ import Logo, { LogoTypes } from 'src/icons/Logo'
 import { nuxNavigationOptions } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { getOnboardingExperimentParams } from 'src/onboarding'
 import { firstOnboardingScreen } from 'src/onboarding/steps'
 import { RootState } from 'src/redux/reducers'
+import { getExperimentParams } from 'src/statsig'
+import { ExperimentConfigs } from 'src/statsig/constants'
+import { StatsigExperiments } from 'src/statsig/types'
 import fontStyles from 'src/styles/fonts'
 import { navigateToURI } from 'src/utils/linking'
 
@@ -56,7 +58,9 @@ export class RegulatoryTerms extends React.Component<Props> {
   }
 
   startOnboarding = () => {
-    const { onboardingNameScreenEnabled } = getOnboardingExperimentParams()
+    const { onboardingNameScreenEnabled } = getExperimentParams(
+      ExperimentConfigs[StatsigExperiments.CHOOSE_YOUR_ADVENTURE]
+    )
     navigate(
       firstOnboardingScreen({
         onboardingNameScreenEnabled,

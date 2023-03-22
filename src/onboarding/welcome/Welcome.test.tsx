@@ -52,7 +52,7 @@ describe('Welcome', () => {
     mocked(firstOnboardingScreen).mockReturnValue(Screens.NameAndPicture)
     const { getByTestId } = render(
       <Provider store={store}>
-        <Welcome /*{...getMockStackScreenProps(Screens.)}*/ />
+        <Welcome />
       </Provider>
     )
 

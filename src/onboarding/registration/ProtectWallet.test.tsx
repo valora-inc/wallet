@@ -6,13 +6,13 @@ import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { getOnboardingExperimentParams } from 'src/onboarding/index'
 import ProtectWallet from 'src/onboarding/registration/ProtectWallet'
+import { getExperimentParams } from 'src/statsig'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockOnboardingProps } from 'test/values'
 import { mocked } from 'ts-jest/utils'
 
-jest.mock('src/onboarding/index')
+jest.mock('src/statsig')
 jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/pincode/authentication', () => ({
   getPassword: jest.fn(),
@@ -58,11 +58,11 @@ describe('ProtectWalletScreen', () => {
   })
   beforeEach(() => {
     jest.clearAllMocks()
-    mocked(getOnboardingExperimentParams).mockReturnValue(mockExperimentParams)
+    mocked(getExperimentParams).mockReturnValue(mockExperimentParams)
   })
   it('Shows only recovery phrase option', async () => {
     const mockParams = { ...mockExperimentParams, showCloudBackupFakeDoor: false }
-    mocked(getOnboardingExperimentParams).mockReturnValue(mockParams)
+    mocked(getExperimentParams).mockReturnValue(mockParams)
     const { getByTestId, queryByTestId } = render(
       <Provider store={store}>
         <ProtectWallet {...mockScreenProps} />

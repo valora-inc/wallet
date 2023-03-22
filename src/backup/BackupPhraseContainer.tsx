@@ -6,7 +6,9 @@ import { isValidBackupPhrase } from 'src/backup/utils'
 import Touchable from 'src/components/Touchable'
 import withTextInputPasteAware from 'src/components/WithTextInputPasteAware'
 import { withTranslation } from 'src/i18n'
-import { getOnboardingExperimentParams } from 'src/onboarding'
+import { getExperimentParams } from 'src/statsig'
+import { ExperimentConfigs } from 'src/statsig/constants'
+import { StatsigExperiments } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import Logger from 'src/utils/Logger'
@@ -84,8 +86,9 @@ export class BackupPhraseContainer extends React.Component<Props> {
     } = this.props
     const wordList = words?.split(' ')
     const isTwelveWords = wordList?.length === 12
-    const { writeDownKey, subtitleTextElement } = getOnboardingExperimentParams()
-      .useNewBackupFlowCopy
+    const { writeDownKey, subtitleTextElement } = getExperimentParams(
+      ExperimentConfigs[StatsigExperiments.RECOVERY_PHRASE_IN_ONBOARDING]
+    ).useNewBackupFlowCopy
       ? {
           writeDownKey: t('writeDownKeyExperimental'),
           subtitleTextElement: <></>,

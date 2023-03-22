@@ -12,9 +12,11 @@ import {
 import { setHasSeenVerificationNux } from 'src/identity/actions'
 import * as NavigationService from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { getOnboardingExperimentParams } from 'src/onboarding'
 import { RootState } from 'src/redux/reducers'
 import { store } from 'src/redux/store'
+import { getExperimentParams } from 'src/statsig'
+import { ExperimentConfigs } from 'src/statsig/constants'
+import { StatsigExperiments } from 'src/statsig/types'
 
 export const END_OF_ONBOARDING_SCREENS = [Screens.WalletHome, Screens.ChooseYourAdventure]
 
@@ -54,7 +56,7 @@ export function firstOnboardingScreen({
 }: {
   onboardingNameScreenEnabled: boolean
   recoveringFromStoreWipe: boolean
-}) {
+}): Screens.NameAndPicture | Screens.ImportWallet | Screens.PincodeSet {
   if (onboardingNameScreenEnabled) {
     return Screens.NameAndPicture
   } else {
@@ -79,11 +81,12 @@ export function onboardingPropsSelector(state: RootState): OnboardingProps {
   const supportedBiometryType = supportedBiometryTypeSelector(state)
   const skipVerification = skipVerificationSelector(state)
   const numberAlreadyVerifiedCentrally = numberVerifiedCentrallySelector(state)
-  const {
-    chooseAdventureEnabled,
-    showRecoveryPhraseInOnboarding: showRecoveryPhrase,
-    onboardingNameScreenEnabled,
-  } = getOnboardingExperimentParams()
+  const { showRecoveryPhraseInOnboarding: showRecoveryPhrase } = getExperimentParams(
+    ExperimentConfigs[StatsigExperiments.RECOVERY_PHRASE_IN_ONBOARDING]
+  )
+  const { chooseAdventureEnabled, onboardingNameScreenEnabled } = getExperimentParams(
+    ExperimentConfigs[StatsigExperiments.CHOOSE_YOUR_ADVENTURE]
+  )
 
   return {
     recoveringFromStoreWipe,
