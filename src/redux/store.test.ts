@@ -99,7 +99,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 117,
+          "version": 118,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -303,7 +303,7 @@ describe('store state', () => {
         "send": Object {
           "inviteRewardCusd": 5,
           "inviteRewardWeeklyLimit": 20,
-          "inviteRewardsEnabled": false,
+          "inviteRewardsVersion": "none",
           "isSending": false,
           "lastUsedCurrency": "cUSD",
           "recentPayments": Array [],

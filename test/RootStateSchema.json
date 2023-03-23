@@ -3703,8 +3703,8 @@
                 "inviteRewardWeeklyLimit": {
                     "type": "number"
                 },
-                "inviteRewardsEnabled": {
-                    "type": "boolean"
+                "inviteRewardsVersion": {
+                    "type": "string"
                 },
                 "isSending": {
                     "type": "boolean"
@@ -3802,7 +3802,7 @@
             "required": [
                 "inviteRewardCusd",
                 "inviteRewardWeeklyLimit",
-                "inviteRewardsEnabled",
+                "inviteRewardsVersion",
                 "isSending",
                 "lastUsedCurrency",
                 "recentPayments",

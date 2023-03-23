@@ -20,7 +20,7 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   celoNews: string
 } = {
   celoEuroEnabled: true,
-  inviteRewardsEnabled: false,
+  inviteRewardsVersion: 'none',
   inviteRewardCusd: 1,
   inviteRewardWeeklyLimit: 20,
   walletConnectV1Enabled: true,

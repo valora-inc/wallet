@@ -20,7 +20,7 @@ export interface State {
   recentRecipients: Recipient[]
   // Keep a list of recent (last 24 hours) payments
   recentPayments: PaymentInfo[]
-  inviteRewardsEnabled: boolean
+  inviteRewardsVersion: string
   inviteRewardCusd: number
   inviteRewardWeeklyLimit: number
   lastUsedCurrency: Currency
@@ -31,7 +31,7 @@ const initialState = {
   isSending: false,
   recentRecipients: [],
   recentPayments: [],
-  inviteRewardsEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.inviteRewardsEnabled,
+  inviteRewardsVersion: REMOTE_CONFIG_VALUES_DEFAULTS.inviteRewardsVersion,
   inviteRewardCusd: REMOTE_CONFIG_VALUES_DEFAULTS.inviteRewardCusd,
   inviteRewardWeeklyLimit: REMOTE_CONFIG_VALUES_DEFAULTS.inviteRewardWeeklyLimit,
   lastUsedCurrency: Currency.Dollar,
@@ -77,7 +77,7 @@ export const sendReducer = (
     case AppActions.UPDATE_REMOTE_CONFIG_VALUES:
       return {
         ...state,
-        inviteRewardsEnabled: action.configValues.inviteRewardsEnabled,
+        inviteRewardsVersion: action.configValues.inviteRewardsVersion,
         inviteRewardCusd: action.configValues.inviteRewardCusd,
         inviteRewardWeeklyLimit: action.configValues.inviteRewardWeeklyLimit,
       }

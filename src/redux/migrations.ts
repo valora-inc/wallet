@@ -1089,4 +1089,11 @@ export const migrations = {
     ...state,
     app: _.omit(state.app, 'cashInButtonExpEnabled'),
   }),
+  118: (state: any) => ({
+    ...state,
+    send: {
+      ..._.omit(state.send, 'inviteRewardsEnabled'),
+      inviteRewardsVersion: 'none',
+    },
+  }),
 }
