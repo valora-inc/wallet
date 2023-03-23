@@ -1,4 +1,9 @@
-import { StatsigDynamicConfigs, StatsigExperiments, StatsigParameter } from 'src/statsig/types'
+import {
+  StatsigDynamicConfigs,
+  StatsigExperiments,
+  StatsigFeatureGates,
+  StatsigParameter,
+} from 'src/statsig/types'
 import Logger from 'src/utils/Logger'
 import { DynamicConfig, Statsig } from 'statsig-react-native'
 
@@ -50,5 +55,14 @@ export function getDynamicConfigParams<T extends Record<string, StatsigParameter
   } catch (error) {
     Logger.warn('getDynamicConfig', `Error getting experiment params`, error)
     return defaultValues
+  }
+}
+
+export function getFeatureGate(featureGateName: StatsigFeatureGates) {
+  try {
+    return Statsig.checkGate(featureGateName)
+  } catch (error) {
+    Logger.warn('getFeatureGate', `Error getting feature gate`, error)
+    return false
   }
 }

@@ -1,6 +1,6 @@
 import { DynamicConfigs, ExperimentConfigs } from 'src/statsig/constants'
-import { getDynamicConfigParams, getExperimentParams } from 'src/statsig/index'
-import { StatsigDynamicConfigs, StatsigExperiments } from 'src/statsig/types'
+import { getDynamicConfigParams, getExperimentParams, getFeatureGate } from 'src/statsig/index'
+import { StatsigDynamicConfigs, StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
 import Logger from 'src/utils/Logger'
 import { Statsig } from 'statsig-react-native'
 
@@ -92,6 +92,25 @@ describe('Statsig helpers', () => {
       expect(getMock).toHaveBeenCalledWith('param1', 'defaultValue1')
       expect(getMock).toHaveBeenCalledWith('param2', 'defaultValue2')
       expect(output).toEqual({ param1: 'statsigValue1', param2: 'statsigValue2' })
+    })
+  })
+  describe('getFeatureGate', () => {
+    it('returns false if getting statsig feature gate throws error', () => {
+      ;(Statsig.checkGate as jest.Mock).mockImplementation(() => {
+        throw new Error('mock error')
+      })
+      const featureName = StatsigFeatureGates.SHOULD_SHOW_BITMAMMA_WIDGET
+      const output = getFeatureGate(featureName)
+      expect(Logger.warn).toHaveBeenCalled()
+      expect(output).toEqual(false)
+    })
+    it('returns Statsig value if no error is thrown', () => {
+      ;(Statsig.checkGate as jest.Mock).mockImplementation(() => true)
+      const featureName = StatsigFeatureGates.SHOULD_SHOW_BITMAMMA_WIDGET
+      const output = getFeatureGate(featureName)
+      expect(Logger.warn).not.toHaveBeenCalled()
+      expect(Statsig.checkGate).toHaveBeenCalledWith(featureName)
+      expect(output).toEqual(true)
     })
   })
 })

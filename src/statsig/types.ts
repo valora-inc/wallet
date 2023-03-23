@@ -16,6 +16,10 @@ export enum StatsigDynamicConfigs {
   USERNAME_BLOCK_LIST = 'username_block_list',
 }
 
+export enum StatsigFeatureGates {
+  SHOULD_SHOW_BITMAMMA_WIDGET = 'should_show_bitmamma_widget',
+}
+
 export enum StatsigExperiments {
   ADD_FUNDS_CRYPTO_EXCHANGE_QR_CODE = 'add_funds_crypto_exchange_qr_code',
   RECOVERY_PHRASE_IN_ONBOARDING = 'recovery_phrase_in_onboarding',
