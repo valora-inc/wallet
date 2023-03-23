@@ -229,6 +229,7 @@ export enum InviteEvents {
   invite_with_share_dismiss = 'invite_with_share_dismiss',
   invite_with_referral_url = 'invite_with_referral_url',
   opened_via_invite_url = 'opened_via_invite_url',
+  invite_help_link = 'invite_help_link', // When taps "View all terms" in invite disclaimer
 }
 
 export enum EscrowEvents {

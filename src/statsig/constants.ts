@@ -41,6 +41,14 @@ export const ExperimentConfigs = {
       useNewBackupHomeCard: false,
     },
   },
+  [StatsigExperiments.CHOOSE_YOUR_ADVENTURE]: {
+    experimentName: StatsigExperiments.CHOOSE_YOUR_ADVENTURE,
+    defaultValues: {
+      onboardingNameScreenEnabled: true,
+      chooseAdventureEnabled: false,
+      cashInBottomSheetEnabled: true,
+    },
+  },
 }
 
 export const DynamicConfigs = {

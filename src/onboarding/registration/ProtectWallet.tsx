@@ -1,29 +1,30 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ActivityIndicator, View, ScrollView, StyleSheet, Text } from 'react-native'
+import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useSelector } from 'react-redux'
+import seedrandom from 'seedrandom'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import BottomSheet from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
+import OnboardingCard from 'src/components/OnboardingCard'
+import GuideKeyIcon from 'src/icons/GuideKeyIcon'
 import { HeaderTitleWithSubtitle, nuxNavigationOptionsOnboarding } from 'src/navigator/Headers'
-import { navigate } from 'src/navigator/NavigationService'
+import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import GuideKeyIcon from 'src/icons/GuideKeyIcon'
 import { getOnboardingStepValues, onboardingPropsSelector } from 'src/onboarding/steps'
 import { default as useTypedSelector } from 'src/redux/useSelector'
+import { getExperimentParams } from 'src/statsig'
+import { ExperimentConfigs } from 'src/statsig/constants'
+import { StatsigExperiments } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
-import OnboardingCard from 'src/components/OnboardingCard'
-import { twelveWordMnemonicEnabledSelector, walletAddressSelector } from 'src/web3/selectors'
-import seedrandom from 'seedrandom'
-import BottomSheet from 'src/components/BottomSheet'
-import { getOnboardingExperimentParams } from 'src/onboarding'
 import variables from 'src/styles/variables'
-import { ensurePincode } from 'src/navigator/NavigationService'
 import Logger from 'src/utils/Logger'
+import { twelveWordMnemonicEnabledSelector, walletAddressSelector } from 'src/web3/selectors'
 
 const TAG = 'ProtectWallet'
 
@@ -41,7 +42,9 @@ function ProtectWallet({ navigation }: Props) {
   const twelveWordMnemonicEnabled = useSelector(twelveWordMnemonicEnabledSelector)
   const mnemonicLength = twelveWordMnemonicEnabled ? '12' : '24'
   const onboardingProps = useTypedSelector(onboardingPropsSelector)
-  const { showCloudBackupFakeDoor } = getOnboardingExperimentParams()
+  const { showCloudBackupFakeDoor } = getExperimentParams(
+    ExperimentConfigs[StatsigExperiments.RECOVERY_PHRASE_IN_ONBOARDING]
+  )
   const { step, totalSteps } = getOnboardingStepValues(Screens.ProtectWallet, onboardingProps)
   const address = useSelector(walletAddressSelector)
   const [showBottomSheet, setShowBottomSheet] = useState(false)

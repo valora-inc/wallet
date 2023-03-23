@@ -465,6 +465,7 @@ interface InviteEventsProperties {
   [InviteEvents.opened_via_invite_url]: {
     inviterAddress: string
   }
+  [InviteEvents.invite_help_link]: undefined
 }
 
 interface EscrowEventsProperties {

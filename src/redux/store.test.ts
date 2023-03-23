@@ -99,7 +99,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 117,
+          "version": 119,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -135,7 +135,6 @@ describe('store state', () => {
           "activeScreen": "Main",
           "analyticsEnabled": true,
           "appState": "Active",
-          "cashInButtonExpEnabled": false,
           "celoEducationUri": null,
           "celoEuroEnabled": true,
           "celoNews": Object {
@@ -305,7 +304,7 @@ describe('store state', () => {
         "send": Object {
           "inviteRewardCusd": 5,
           "inviteRewardWeeklyLimit": 20,
-          "inviteRewardsEnabled": false,
+          "inviteRewardsVersion": "none",
           "isSending": false,
           "lastUsedCurrency": "cUSD",
           "recentPayments": Array [],

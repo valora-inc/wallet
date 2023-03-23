@@ -65,8 +65,10 @@ import RewardsPill from 'src/navigator/RewardsPill'
 import { Screens } from 'src/navigator/Screens'
 import { isAppSwapsEnabledSelector } from 'src/navigator/selectors'
 import { StackParamList } from 'src/navigator/types'
-import { getOnboardingExperimentParams } from 'src/onboarding'
 import { default as useSelector } from 'src/redux/useSelector'
+import { getExperimentParams } from 'src/statsig'
+import { ExperimentConfigs } from 'src/statsig/constants'
+import { StatsigExperiments } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import SwapScreen from 'src/swap/SwapScreen'
@@ -292,7 +294,10 @@ export default function DrawerNavigator({ route }: Props) {
           component={BackupIntroduction}
           options={{
             drawerLabel:
-              !backupCompleted && getOnboardingExperimentParams().showBackupAlert
+              !backupCompleted &&
+              getExperimentParams(
+                ExperimentConfigs[StatsigExperiments.RECOVERY_PHRASE_IN_ONBOARDING]
+              ).showBackupAlert
                 ? () => (
                     <View style={styles.itemStyle}>
                       <Text style={styles.itemTitle}>{t('accountKey')}</Text>
