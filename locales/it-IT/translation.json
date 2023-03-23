@@ -7,7 +7,7 @@
   "removeAccountTitle": "Ripristina Valora",
   "removeAccountDetails": "Il ripristino rimuoverà il tuo conto da questo dispositivo. I tuoi fondi rimarranno nel conto, ma saranno accessibili solo con la tua Frase di recupero.",
   "legal": "Informazioni legali",
-  "appPreferences": "App Preferences",
+  "appPreferences": "Preferenze App",
   "security": "Sicurezza",
   "changePin": "Modifica il PIN",
   "pinChanged": "Il PIN è stato modificato",
@@ -16,7 +16,7 @@
   "connectedApplications": "Dapp connesse",
   "analytics": "Statistiche",
   "shareAnalytics": "Condividi statistiche",
-  "hapticFeedback": "Haptic Feedback",
+  "hapticFeedback": "Feedback Haptic",
   "shareAnalytics_detail": "Raccogliamo dati anonimizzati sull'utilizzo di {{appName}} per migliorare l’app a beneficio di tutti.",
   "dataSaver": "Risparmio dati",
   "enableDataSaver": "Abilita Risparmio dati",
@@ -602,14 +602,14 @@
     "button": "Invia l'invito",
     "error": "Si è verificato un errore nella creazione di un link condivisibile",
     "share": "Ciao. Uso {{appName}} come wallet di criptovalute. Provare l'app è facile e desidero invitarti a scoprirla con questo collegamento: {{shareUrl}}",
-    "help": "To collect this reward, the invitee must download {{appName}} through the referral link and connect their phone number during onboarding. <0>View all terms</0>",
+    "help": "Per raccogliere questa ricompensa, l'invitato deve scaricare {{appName}} attraverso il link di segnalazione e collegare il loro numero di telefono durante l'onboarding. <0>Visualizza tutti i termini</0>",
     "rewardsActive": {
       "title": "Invita gli amici e colleziona NFT",
       "body": "Invita gli amici e i familiari a scaricare {{appName}} e ciascuno di voi riceverà un NFT esclusivo"
     },
     "rewardsActiveCUSD": {
-      "title": "Invite friends and collect rewards",
-      "body": "Share {{appName}} with friends and family and you will both get <0>rewarded with 1 cUSD</0>"
+      "title": "Invita amici e raccogli premi",
+      "body": "Condividi {{appName}} con amici e familiari e riceverai entrambi <0>ricompensati con 1 cUSD</0>"
     }
   },
   "getReward": "Ricevi ${{reward}}",
@@ -924,8 +924,8 @@
   "walletAddress": "Indirizzo del wallet",
   "inviteWithoutPayment": "Ciao. Uso {{appName}} per inviare criptovalute in tutto il mondo. Provare l'app è facile e desidero invitarti a scoprirla con questo collegamento: {{link}}",
   "inviteWithEscrowedPayment": "Ciao. Uso {{appName}} per inviare criptovalute in tutto il mondo. Ti ho appena inviato {{amount}} {{token}}. Scarica l’app {{appName}} e riscatta {{token}} tramite questo collegamento: {{link}}",
-  "inviteWithRewards": "Hi! 👋 I'm using {{appName}} as my crypto wallet. It's super quick to download the app and connect your phone number - plus, we both get a special edition NFT as a reward. 💫 \n\nUse this link to download: {{link}}",
-  "inviteWithRewardsCUSD": "Hi! 👋 I'm using {{appName}} as my crypto wallet. It's super quick to download the app and connect your phone number - plus, we both get 1 cUSD as a reward. 💫 \n\nUse this link to download: {{link}}",
+  "inviteWithRewards": "Ciao! 👋 Sto usando {{appName}} come mio portafoglio criptovalute. È super veloce scaricare l'app e collegare il tuo numero di telefono - più, abbiamo entrambi una edizione speciale NFT come ricompensa. 💫 \n\nUsa questo link per scaricare: {{link}}",
+  "inviteWithRewardsCUSD": "Ciao! 👋 Sto usando {{appName}} come mio portafoglio criptovalute. È super veloce scaricare l'app e collegare il tuo numero di telefono - più, entrambi riceviamo 1 cUSD come ricompensa. 💫 \n\nUsa questo link per scaricare: {{link}}",
   "loadingContacts": "Ricerca dei contatti in corso",
   "myCode": "Il mio codice",
   "scanCode": "Inquadra",
@@ -1632,8 +1632,8 @@
       "body": "Sembra che {{contactName}} non sia su {{appName}}. Puoi comunque inviare un pagamento se conosci l'indirizzo del suo portafoglio, o un invito se non. \n\nDopo che avrà scaricato il wallet e collegato il suo numero telefonico, riceverete entrambi un NFT esclusivo."
     },
     "rewardsActiveCUSD": {
-      "title": "Invite {{contactName}} to {{appName}} and you'll both get a reward",
-      "body": "Looks like {{contactName}} isn’t on Valora. You can still send a payment if you know their wallet address, or send an invite instead. \n\n After they download the wallet and connect their phone number, you will both get <0>rewarded with 1 cUSD</0>"
+      "title": "Invita {{contactName}} a {{appName}} e riceverai entrambi una ricompensa",
+      "body": "Sembra che {{contactName}} non sia su Valora. Puoi ancora inviare un pagamento se conosci l'indirizzo del portafoglio, o inviare un invito. \n\n Dopo aver scaricato il portafoglio e collegato il loro numero di telefono, riceverai entrambi <0>ricompensati con 1 cUSD</0>"
     }
   },
   "celoNews": {
@@ -1644,14 +1644,14 @@
     "retryButtonText": "Riprova"
   },
   "chooseYourAdventure": {
-    "header": "Welcome to Valora",
-    "subtitle": "What would you like to do first?",
-    "later": "I'll explore later",
+    "header": "Benvenuto su Valora",
+    "subtitle": "Cosa vorresti fare per primo?",
+    "later": "Esplorerò più tardi",
     "options": {
-      "add": "Add funds",
-      "dapp": "Find ways to use crypto",
-      "profile": "Build my profile",
-      "learn": "Learn about Celo"
+      "add": "Aggiungi fondi",
+      "dapp": "Trova modi per utilizzare le criptovalute",
+      "profile": "Costruisci il mio profilo",
+      "learn": "Scopri di più su Celo"
     }
   },
   "reverifyUsingCPVHomecard": {
@@ -1660,7 +1660,7 @@
   },
   "profileScreen": {
     "generateName": "Genera un nome",
-    "namePlaceholder": "Select a name ex) {{exampleName}}"
+    "namePlaceholder": "Seleziona un nome ex) {{exampleName}}"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollar"
