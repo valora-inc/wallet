@@ -4,6 +4,8 @@ import { FIREBASE_ENABLED } from 'src/config'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { UserLocationData } from 'src/networkInfo/saga'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import Logger from 'src/utils/Logger'
@@ -311,4 +313,19 @@ export function resolveCloudFunctionDigitalAsset(
     [CiCoCurrency.cREAL]: CloudFunctionDigitalAsset.CREAL,
   }
   return mapping[currency]
+}
+
+// Filters out providers that are disabled by feature flags
+export const filterByFeatureFlags = (externalProviders?: FetchProvidersOutput[]) => {
+  const providerFlagMap: { [key: string]: boolean } = {
+    Bitmama: getFeatureGate(StatsigFeatureGates.SHOULD_SHOW_BITMAMA_WIDGET),
+  }
+
+  return externalProviders?.filter((provider) => {
+    const providerName = provider.name
+    if (providerName in providerFlagMap) {
+      return providerFlagMap[providerName]
+    }
+    return true
+  })
 }

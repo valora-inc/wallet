@@ -17,6 +17,7 @@ import {
   fetchExchanges,
   fetchLegacyMobileMoneyProviders,
   fetchProviders,
+  filterByFeatureFlags,
   LegacyMobileMoneyProvider,
 } from './utils'
 
@@ -30,6 +31,7 @@ jest.mock('./utils', () => ({
   fetchProviders: jest.fn(),
   fetchLegacyMobileMoneyProviders: jest.fn(),
   fetchExchanges: jest.fn(),
+  filterByFeatureFlags: jest.fn().mockImplementation((providers) => providers),
 }))
 
 jest.mock('@coinbase/cbpay-js', () => {
@@ -118,6 +120,7 @@ describe(SelectProviderScreen, () => {
   })
 
   it('calls fetchProviders correctly', async () => {
+    ;(fetchProviders as jest.Mock).mockImplementation(() => mockProviders)
     render(
       <Provider store={mockStore}>
         <SelectProviderScreen {...mockScreenProps()} />
@@ -138,6 +141,7 @@ describe(SelectProviderScreen, () => {
         walletAddress: mockAccount.toLowerCase(),
       })
     )
+    expect(filterByFeatureFlags).toHaveBeenCalledWith(mockProviders)
   })
   it('calls fetchExchanges correctly', async () => {
     render(

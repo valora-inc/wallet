@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { showError } from 'src/alert/actions'
-import { ExperimentConfigs } from 'src/statsig/constants'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
@@ -36,6 +35,9 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
+import { getExperimentParams } from 'src/statsig'
+import { ExperimentConfigs } from 'src/statsig/constants'
+import { StatsigExperiments } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
@@ -49,14 +51,13 @@ import {
   fetchLegacyMobileMoneyProviders,
   fetchProviders,
   FiatExchangeFlow,
+  filterByFeatureFlags,
   filterLegacyMobileMoneyProviders,
   filterProvidersByPaymentMethod,
   LegacyMobileMoneyProvider,
   PaymentMethod,
   resolveCloudFunctionDigitalAsset,
 } from './utils'
-import { StatsigExperiments } from 'src/statsig/types'
-import { getExperimentParams } from 'src/statsig'
 
 const TAG = 'SelectProviderScreen'
 
@@ -149,7 +150,10 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
         userLocation.countryCodeAlpha2,
         digitalAsset
       )
-      return { externalProviders, legacyMobileMoneyProviders }
+      return {
+        externalProviders: filterByFeatureFlags(externalProviders),
+        legacyMobileMoneyProviders,
+      }
     } catch (error) {
       dispatch(showError(ErrorMessages.PROVIDER_FETCH_FAILED))
     }

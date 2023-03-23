@@ -17,7 +17,7 @@ export enum StatsigDynamicConfigs {
 }
 
 export enum StatsigFeatureGates {
-  SHOULD_SHOW_BITMAMMA_WIDGET = 'should_show_bitmamma_widget',
+  SHOULD_SHOW_BITMAMA_WIDGET = 'should_show_bitmama_widget',
 }
 
 export enum StatsigExperiments {

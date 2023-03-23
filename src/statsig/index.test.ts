@@ -99,14 +99,14 @@ describe('Statsig helpers', () => {
       ;(Statsig.checkGate as jest.Mock).mockImplementation(() => {
         throw new Error('mock error')
       })
-      const featureName = StatsigFeatureGates.SHOULD_SHOW_BITMAMMA_WIDGET
+      const featureName = StatsigFeatureGates.SHOULD_SHOW_BITMAMA_WIDGET
       const output = getFeatureGate(featureName)
       expect(Logger.warn).toHaveBeenCalled()
       expect(output).toEqual(false)
     })
     it('returns Statsig value if no error is thrown', () => {
       ;(Statsig.checkGate as jest.Mock).mockImplementation(() => true)
-      const featureName = StatsigFeatureGates.SHOULD_SHOW_BITMAMMA_WIDGET
+      const featureName = StatsigFeatureGates.SHOULD_SHOW_BITMAMA_WIDGET
       const output = getFeatureGate(featureName)
       expect(Logger.warn).not.toHaveBeenCalled()
       expect(Statsig.checkGate).toHaveBeenCalledWith(featureName)
