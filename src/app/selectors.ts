@@ -87,6 +87,17 @@ export const phoneNumberVerifiedSelector = createSelector(
     requireCPV ? numberVerifiedCentrally : numberVerifiedCentrally || numberVerifiedDecentrally
 )
 
+export const phoneVerificationStatusSelector = createSelector(
+  numberVerifiedSelector,
+  numberVerifiedCentrallySelector,
+  (numberVerifiedDecentralized, numberVerifiedCentralized) => {
+    return {
+      numberVerifiedDecentralized,
+      numberVerifiedCentralized,
+    }
+  }
+)
+
 export const shouldRunVerificationMigrationSelector = createSelector(
   [numberVerifiedCentrallySelector, numberVerifiedSelector],
   (numberVerifiedCentrally, numberVerifiedDecentrally) =>

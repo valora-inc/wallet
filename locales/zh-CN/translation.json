@@ -45,34 +45,34 @@
     "revoke": "断开关联"
   },
   "protectWallet": {
-    "title": "Protect Your Wallet",
-    "subtitle": "Protect your wallet",
-    "body": "If your phone is lost or stolen, your {{mnemonicLength}} word recovery phrase is the only way you can access your funds.",
+    "title": "保护您的钱包",
+    "subtitle": "保护您的钱包",
+    "body": "如果您的手机丢失或被盗，{{mnemonicLength}} 单词恢复短语是您访问资金的唯一方式。",
     "recoveryPhrase": {
-      "title": "Use Recovery Phrase",
-      "subtitle": "Write down your recovery phrase"
+      "title": "使用恢复短语",
+      "subtitle": "写下您的恢复短语"
     },
     "cloudBackup": {
-      "title": "Backup to Cloud",
-      "subtitle": "Restore your wallet without a phrase",
+      "title": "备份至云",
+      "subtitle": "不使用短语恢复钱包",
       "bottomSheet": {
-        "title": "Cloud Backup is coming soon!",
-        "restoreComingSoon": "Cloud backup is a way to restore your wallet without a recovery phrase. We are working on this as fast as we can and will notify you once it's available to use.",
-        "writeDownPhrase": "In the meantime, please write down your recovery phrase to manually backup your wallet.",
-        "continue": "Continue to Recovery Phrase"
+        "title": "云备份功能即将上线！",
+        "restoreComingSoon": "云备份是一种无需恢复短语即可恢复钱包的方式。我们正在尽快开发此项功能，一旦该功能投入使用，我们将立即通知您。",
+        "writeDownPhrase": "同时，请写下您的恢复短语，手动备份钱包。",
+        "continue": "继续使用恢复短语"
       }
     }
   },
   "recoveryPhrase": {
-    "title": "Your recovery phrase",
-    "body": "Write these {{mnemonicLength}} words down somewhere safe, where it cannot be stolen or damaged.",
-    "continue": "I've saved it",
-    "copy": "Copy to clipboard",
-    "mnemonicCopied": "Recovery phrase copied to clipboard",
+    "title": "您的恢复短语",
+    "body": "将这些 {{mnemonicLength}} 单词写在某个安全的地方，以防被盗或损坏。",
+    "continue": "我已保存好",
+    "copy": "复制到剪贴板",
+    "mnemonicCopied": "恢复短语已复制到剪贴板",
     "bottomSheet": {
-      "title": "How to save a recovery phrase",
-      "writeDownPhrase": "Writing down your recovery phrase with a pen, and storing it in a safe place is one of the most secure ways to protect your wallet.",
-      "phraseLocation": "An ideal place might be where you store other important documents & materials for safekeeping, that is not easily stolen and easy to retrieve. It's up to you!"
+      "title": "如何保存恢复短语",
+      "writeDownPhrase": "用笔写下恢复短语，并将其储存在一个安全的地方是您保护钱包最安全的方法之一。",
+      "phraseLocation": "这个理想的地方可能是您妥善保管其他重要文件和材料，不会轻易被盗或被检索的地方。您自己决定就好！"
     }
   },
   "testFaqLink": "{{appName}} 常见问题",
@@ -600,9 +600,14 @@
     "button": "分享邀请",
     "error": "创建可分享链接时出现问题",
     "share": "嗨！我一直使用 {{appName}} 作为我的加密货币钱包。它使用简便，我想邀请您访问此链接进行查看：{{shareUrl}}",
+    "help": "To collect this reward, the invitee must download {{appName}} through the referral link and connect their phone number during onboarding. <0>View all terms</0>",
     "rewardsActive": {
       "title": "邀请朋友并收集 NFT",
       "body": "邀请您的朋友和家人下载 {{appName}} ，你们每个人都将获得一个独家的 NFT"
+    },
+    "rewardsActiveCUSD": {
+      "title": "Invite friends and collect rewards",
+      "body": "Share {{appName}} with friends and family and you will both get <0>rewarded with 1 cUSD</0>"
     }
   },
   "getReward": "获得 ${{reward}}",
@@ -915,7 +920,8 @@
   "walletAddress": "钱包地址",
   "inviteWithoutPayment": "嗨！我一直在使用 {{appName}} 作为我的加密货币钱包。它使用简便，我想邀请您访问此链接试用： {{link}}",
   "inviteWithEscrowedPayment": "嗨！我一直在使用 {{appName}} 将加密货币发送到世界各地。我刚刚向您发送了 {{amount}} {{token}}。请使用此链接下载 {{appName}} 应用程序并兑换您的 {{token}}：{{link}}",
-  "inviteWithRewards": "嘿！我刚刚用我的 {{appName}} 钱包给您发送了加密货币。如果您下载应用程序并关联您的手机号码，我们都会得到一个特殊版本的 NFT。使用此链接： {{link}}",
+  "inviteWithRewards": "Hi! 👋 I'm using {{appName}} as my crypto wallet. It's super quick to download the app and connect your phone number - plus, we both get a special edition NFT as a reward. 💫 \n\nUse this link to download: {{link}}",
+  "inviteWithRewardsCUSD": "Hi! 👋 I'm using {{appName}} as my crypto wallet. It's super quick to download the app and connect your phone number - plus, we both get 1 cUSD as a reward. 💫 \n\nUse this link to download: {{link}}",
   "loadingContacts": "查找您的联系人",
   "myCode": "我的代码",
   "scanCode": "扫描",
@@ -1591,14 +1597,14 @@
       "body": "加密货币的金额和费用可能因加密货币市场的波动而发生变化。\n\n请在重新提交之前审查您的最终金额和费用。"
     },
     "swapCompleteSection": {
-      "title": "Swap successful",
-      "subtitle": "Your assets are now in your wallet",
+      "title": "交换成功",
+      "subtitle": "您的资产现已放入钱包",
       "done": "完成"
     },
     "swapErrorSection": {
-      "title": "We couldn’t complete your swap",
-      "subtitle": "Your assets are safe in your wallet.\nPlease try again.",
-      "contactSupport": "If you need additional help, you can contact\n<0>customer support<0>"
+      "title": "我们无法完成交换",
+      "subtitle": "您的资产放在钱包里很安全。\n请重试。",
+      "contactSupport": "如需其他帮助，请联系\n<0>customer support<0>"
     },
     "swapActionBar": {
       "tryAgain": "再试一次",
@@ -1620,6 +1626,10 @@
     "rewardsActive": {
       "title": "邀请 {{contactName}} 使用 {{appName}}，你们都将获得 NFT！",
       "body": "似乎 {{contactName}} 未在 {{appName}} 上。如果您知道其钱包地址，则仍可发送付款，或者也可以发送一则邀请。\n\n在其下载钱包并关联手机号码后，你们都将获得一个专属的 NFT。"
+    },
+    "rewardsActiveCUSD": {
+      "title": "Invite {{contactName}} to {{appName}} and you'll both get a reward",
+      "body": "Looks like {{contactName}} isn’t on Valora. You can still send a payment if you know their wallet address, or send an invite instead. \n\n After they download the wallet and connect their phone number, you will both get <0>rewarded with 1 cUSD</0>"
     }
   },
   "celoNews": {
@@ -1630,13 +1640,13 @@
     "retryButtonText": "重试"
   },
   "chooseYourAdventure": {
-    "header": "Welcome to Valora",
+    "header": "欢迎使用 Valora",
     "subtitle": "What would you like to do first?",
     "later": "I'll explore later",
     "options": {
       "add": "Add funds",
       "dapp": "Find ways to use crypto",
-      "profile": "Build your profile",
+      "profile": "Build my profile",
       "learn": "Learn about Celo"
     }
   },

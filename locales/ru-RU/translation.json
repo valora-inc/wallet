@@ -45,34 +45,34 @@
     "revoke": "Отключить"
   },
   "protectWallet": {
-    "title": "Protect Your Wallet",
-    "subtitle": "Protect your wallet",
-    "body": "If your phone is lost or stolen, your {{mnemonicLength}} word recovery phrase is the only way you can access your funds.",
+    "title": "Защитите свой кошелек",
+    "subtitle": "Защитите свой кошелек",
+    "body": "При потере или краже телефона ваша фраза восстановления является единственным способом доступа к вашим средствам.",
     "recoveryPhrase": {
-      "title": "Use Recovery Phrase",
-      "subtitle": "Write down your recovery phrase"
+      "title": "Использовать фразу восстановления",
+      "subtitle": "Запишите свою фразу восстановления"
     },
     "cloudBackup": {
-      "title": "Backup to Cloud",
-      "subtitle": "Restore your wallet without a phrase",
+      "title": "Резервное копирование в облако",
+      "subtitle": "Восстановите свой кошелек без фразы",
       "bottomSheet": {
-        "title": "Cloud Backup is coming soon!",
-        "restoreComingSoon": "Cloud backup is a way to restore your wallet without a recovery phrase. We are working on this as fast as we can and will notify you once it's available to use.",
-        "writeDownPhrase": "In the meantime, please write down your recovery phrase to manually backup your wallet.",
-        "continue": "Continue to Recovery Phrase"
+        "title": "Скоро появится облачное резервное копирование!",
+        "restoreComingSoon": "Облачное резервное копирование позволяет восстановить кошелек без ключевой фразы. Мы внедрим его в самые сжатые сроки и уведомим вас, как только все будет готово.",
+        "writeDownPhrase": "А пока запишите свою фразу восстановления, чтобы вручную подстраховать свой кошелок.",
+        "continue": "Перейти к фразе восстановления"
       }
     }
   },
   "recoveryPhrase": {
-    "title": "Your recovery phrase",
-    "body": "Write these {{mnemonicLength}} words down somewhere safe, where it cannot be stolen or damaged.",
-    "continue": "I've saved it",
-    "copy": "Copy to clipboard",
-    "mnemonicCopied": "Recovery phrase copied to clipboard",
+    "title": "Ваша фраза восстановления",
+    "body": "Запишите эти {{mnemonicLength}} слов в безопасном месте, где их невозможно украсть или повредить.",
+    "continue": "Сохранено",
+    "copy": "Скопировать в буфер обмена",
+    "mnemonicCopied": "Фраза восстановления скопирована в буфер обмена",
     "bottomSheet": {
-      "title": "How to save a recovery phrase",
-      "writeDownPhrase": "Writing down your recovery phrase with a pen, and storing it in a safe place is one of the most secure ways to protect your wallet.",
-      "phraseLocation": "An ideal place might be where you store other important documents & materials for safekeeping, that is not easily stolen and easy to retrieve. It's up to you!"
+      "title": "Как сохранить фразу восстановления",
+      "writeDownPhrase": "Одним из самых безопасных способов защиты кошелька является запись фразы восстановления ручкой и сохранение ее в надежном месте.",
+      "phraseLocation": "Лучше всего хранить ее вместе с другими важными документами и материалами в таком сохранном месте, где ее легко найти, но сложно украсть. Вам решать!"
     }
   },
   "testFaqLink": "Часто задаваемые вопросы по {{appName}}",
@@ -600,9 +600,14 @@
     "button": "Отправить приглашение",
     "error": "Возникла проблема с созданием ссылки",
     "share": "Привет! Я использую криптовалютный кошелек {{appName}}. Это просто! Ознакомиться с этим способом можно по ссылке: {{shareUrl}}",
+    "help": "To collect this reward, the invitee must download {{appName}} through the referral link and connect their phone number during onboarding. <0>View all terms</0>",
     "rewardsActive": {
       "title": "Приглашайте друзей и собирайте NFT",
       "body": "Предложите своим друзьям и родственникам скачать {{appName}}, а в награду и вы, и приглашенный вами участник получите эксклюзивный NFT"
+    },
+    "rewardsActiveCUSD": {
+      "title": "Invite friends and collect rewards",
+      "body": "Share {{appName}} with friends and family and you will both get <0>rewarded with 1 cUSD</0>"
     }
   },
   "getReward": "Получить ${{reward}}",
@@ -921,7 +926,8 @@
   "walletAddress": "Адрес кошелька",
   "inviteWithoutPayment": "Привет! Я использую {{appName}} для отправки криптовалют по всему миру. Это просто! Ознакомиться с этим способом можно по ссылке: {{link}}",
   "inviteWithEscrowedPayment": "Привет! Я использую {{appName}} для отправки криптовалют по всему миру. Я уже отправил(а) тебе {{amount}} {{token}}. Скачай приложение {{appName}} и приобрети {{token}} по этой ссылке: {{link}}",
-  "inviteWithRewards": "Привет! Тебе отправлена криптовалюта из моего кошелька {{appName}}. Как только ты скачаешь приложение и подключишь свой номер телефона, мы получим по специальному NFT. Используйте эту ссылку: {{link}}",
+  "inviteWithRewards": "Hi! 👋 I'm using {{appName}} as my crypto wallet. It's super quick to download the app and connect your phone number - plus, we both get a special edition NFT as a reward. 💫 \n\nUse this link to download: {{link}}",
+  "inviteWithRewardsCUSD": "Hi! 👋 I'm using {{appName}} as my crypto wallet. It's super quick to download the app and connect your phone number - plus, we both get 1 cUSD as a reward. 💫 \n\nUse this link to download: {{link}}",
   "loadingContacts": "Поиск контактов",
   "myCode": "Мой код",
   "scanCode": "Сканировать",
@@ -1597,14 +1603,14 @@
       "body": "Суммы в криптовалюте и комиссии могут меняться из-за колебаний криптовалютного рынка. \n\n Проверьте окончательные суммы и комиссии и отправьте повторно."
     },
     "swapCompleteSection": {
-      "title": "Swap successful",
-      "subtitle": "Your assets are now in your wallet",
+      "title": "Обмен выполнен успешно",
+      "subtitle": "Ваши активы теперь в вашем кошельке",
       "done": "Готово"
     },
     "swapErrorSection": {
-      "title": "We couldn’t complete your swap",
-      "subtitle": "Your assets are safe in your wallet.\nPlease try again.",
-      "contactSupport": "If you need additional help, you can contact\n<0>customer support<0>"
+      "title": "Мы не смогли завершить ваш обмен",
+      "subtitle": "Ваши активы в безопасности в вашем кошельке.\nПовторите попытку.",
+      "contactSupport": "Если вам нужна дополнительная помощь, обратитесь в\n<0>службу поддержки клиентов<0>"
     },
     "swapActionBar": {
       "tryAgain": "Повторить попытку",
@@ -1626,6 +1632,10 @@
     "rewardsActive": {
       "title": "Пригласите {{contactName}} в {{appName}}, и вы оба получите NFT!",
       "body": "Похоже, что {{contactName}} нет в {{appName}}. Вы по-прежнему можете отправить платеж, если знаете адрес этого кошелька, или отправить приглашение. \n\n После загрузки кошелька и подключения номера телефона, вы оба получите эксклюзивный NFT."
+    },
+    "rewardsActiveCUSD": {
+      "title": "Invite {{contactName}} to {{appName}} and you'll both get a reward",
+      "body": "Looks like {{contactName}} isn’t on Valora. You can still send a payment if you know their wallet address, or send an invite instead. \n\n After they download the wallet and connect their phone number, you will both get <0>rewarded with 1 cUSD</0>"
     }
   },
   "celoNews": {
@@ -1642,7 +1652,7 @@
     "options": {
       "add": "Add funds",
       "dapp": "Find ways to use crypto",
-      "profile": "Build your profile",
+      "profile": "Build my profile",
       "learn": "Learn about Celo"
     }
   },

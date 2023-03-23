@@ -47,7 +47,7 @@
   "protectWallet": {
     "title": "Chroń swój portfel",
     "subtitle": "Chroń swój portfel",
-    "body": "Jeśli telefon zostanie zgubiony lub skradziony, Twoja {{mnemonicLength}} fraza odzyskiwania jest jedynym sposobem na uzyskanie dostępu do środków.",
+    "body": "Jeśli telefon zostanie zgubiony lub skradziony, Twoja fraza odzyskiwania jest jedynym sposobem na uzyskanie dostępu do środków.",
     "recoveryPhrase": {
       "title": "Użyj frazy odzyskiwania",
       "subtitle": "Wprowadź frazę odzyskiwania"
@@ -600,9 +600,14 @@
     "button": "Wyślij zaproszenie",
     "error": "Wystąpił błąd z tworzeniem linku",
     "share": "Cześć! Korzystam z portfel kryptowalutowy {{appName}}. To bardzo proste. Może Ty też spróbujesz? Skorzystaj z tego linku: {{shareUrl}}",
+    "help": "To collect this reward, the invitee must download {{appName}} through the referral link and connect their phone number during onboarding. <0>View all terms</0>",
     "rewardsActive": {
       "title": "Zaproś znajomych i zbieraj NFT",
       "body": "Zaproś swoich znajomych i rodzinę do pobrania {{appName}}, a każdy z Was otrzyma ekskluzywny NFT"
+    },
+    "rewardsActiveCUSD": {
+      "title": "Invite friends and collect rewards",
+      "body": "Share {{appName}} with friends and family and you will both get <0>rewarded with 1 cUSD</0>"
     }
   },
   "getReward": "Otrzymaj ${{reward}}",
@@ -921,7 +926,8 @@
   "walletAddress": "Adres portfela",
   "inviteWithoutPayment": "Cześć! Korzystam z aplikacji {{appName}} do przesyłania kryptowalut z dowolnego miejsca na świecie. To bardzo proste. Może Ty też spróbujesz? Skorzystaj z tego linku: {{link}}",
   "inviteWithEscrowedPayment": "Cześć! Korzystam z aplikacji {{appName}} do przesyłania kryptowalut z dowolnego miejsca na świecie. Przesyłam Ci właśnie {{amount}} {{token}}. Pobierz aplikację {{appName}} i odbierz {{token}}, korzystając z tego linku: {{link}}",
-  "inviteWithRewards": "Cześć! Przesyłam Ci kryptowalutę z portfela w aplikacji {{appName}}. Gdy pobierzesz aplikację i podłączysz do niej swój numer telefonu, oboje otrzymamy NFT specjalnej edycji. Użyj tego linku: {{link}}",
+  "inviteWithRewards": "Hi! 👋 I'm using {{appName}} as my crypto wallet. It's super quick to download the app and connect your phone number - plus, we both get a special edition NFT as a reward. 💫 \n\nUse this link to download: {{link}}",
+  "inviteWithRewardsCUSD": "Hi! 👋 I'm using {{appName}} as my crypto wallet. It's super quick to download the app and connect your phone number - plus, we both get 1 cUSD as a reward. 💫 \n\nUse this link to download: {{link}}",
   "loadingContacts": "Wyszukiwanie kontaktów",
   "myCode": "Mój kod",
   "scanCode": "Skanuj",
@@ -1626,6 +1632,10 @@
     "rewardsActive": {
       "title": "Zaproś {{contactName}} do {{appName}}, a razem otrzymacie NFT!",
       "body": "Wygląda na to, że {{contactName}} nie korzysta z {{appName}}. Jeśli znasz adres jego/jej portfela, nadal możesz wysłać płatność lub zaproszenie. \n\n Po pobraniu portfela i podłączeniu numeru telefonu otrzymacie ekskluzywne NFT."
+    },
+    "rewardsActiveCUSD": {
+      "title": "Invite {{contactName}} to {{appName}} and you'll both get a reward",
+      "body": "Looks like {{contactName}} isn’t on Valora. You can still send a payment if you know their wallet address, or send an invite instead. \n\n After they download the wallet and connect their phone number, you will both get <0>rewarded with 1 cUSD</0>"
     }
   },
   "celoNews": {
@@ -1642,7 +1652,7 @@
     "options": {
       "add": "Dodaj środki",
       "dapp": "Znajdź sposoby korzystania z kryptowalut",
-      "profile": "Stwórz swój profil",
+      "profile": "Build my profile",
       "learn": "Dowiedz się więcej o Celo"
     }
   },
