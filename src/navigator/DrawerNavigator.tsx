@@ -40,7 +40,11 @@ import AccountNumber from 'src/components/AccountNumber'
 import ContactCircleSelf from 'src/components/ContactCircleSelf'
 import PhoneNumberWithFlag from 'src/components/PhoneNumberWithFlag'
 import { RewardsScreenOrigin } from 'src/consumerIncentives/analyticsEventsTracker'
-import { dappsFilterEnabledSelector, dappsListApiUrlSelector, dappsSearchEnabledSelector } from 'src/dapps/selectors'
+import {
+  dappsFilterEnabledSelector,
+  dappsListApiUrlSelector,
+  dappsSearchEnabledSelector,
+} from 'src/dapps/selectors'
 import DAppsExplorerScreenFilter from 'src/dappsExplorer/DAppsExplorerScreenFilter'
 import DAppsExplorerScreenLegacy from 'src/dappsExplorer/DAppsExplorerScreenLegacy'
 import DAppsExplorerScreenSearch from 'src/dappsExplorer/DAppsExplorerScreenSearch'
@@ -271,9 +275,10 @@ export default function DrawerNavigator() {
         <Drawer.Screen
           name={Screens.DAppsExplorerScreen}
           // TODO: Adjust once we have a filter & search screen
-          component={dappsSearchEnabled
-            ? DAppsExplorerScreenSearch
-            : dappsFilterEnabled
+          component={
+            dappsSearchEnabled
+              ? DAppsExplorerScreenSearch
+              : dappsFilterEnabled
               ? DAppsExplorerScreenFilter
               : DAppsExplorerScreenLegacy
           }
