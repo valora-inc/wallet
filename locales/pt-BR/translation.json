@@ -45,34 +45,34 @@
     "revoke": "Desconectar"
   },
   "protectWallet": {
-    "title": "Protect Your Wallet",
-    "subtitle": "Protect your wallet",
-    "body": "If your phone is lost or stolen, your {{mnemonicLength}} word recovery phrase is the only way you can access your funds.",
+    "title": "Proteja sua carteira",
+    "subtitle": "Proteja sua carteira",
+    "body": "Se perder seu celular ou ele for roubado, sua frase recuperação de {{mnemonicLength}} palavras é a única maneira de acessar seus fundos.",
     "recoveryPhrase": {
-      "title": "Use Recovery Phrase",
-      "subtitle": "Write down your recovery phrase"
+      "title": "Usar frase de recuperação",
+      "subtitle": "Anote sua frase de recuperação"
     },
     "cloudBackup": {
-      "title": "Backup to Cloud",
-      "subtitle": "Restore your wallet without a phrase",
+      "title": "Backup na nuvem",
+      "subtitle": "Restaure sua carteira sem uma frase",
       "bottomSheet": {
-        "title": "Cloud Backup is coming soon!",
-        "restoreComingSoon": "Cloud backup is a way to restore your wallet without a recovery phrase. We are working on this as fast as we can and will notify you once it's available to use.",
-        "writeDownPhrase": "In the meantime, please write down your recovery phrase to manually backup your wallet.",
-        "continue": "Continue to Recovery Phrase"
+        "title": "O backup na nuvem está chegando em breve!",
+        "restoreComingSoon": "O backup da nuvem é uma maneira de restaurar sua carteira sem uma frase de recuperação. Estamos trabalhando nisso o mais rápido possível e avisaremos assim que estiver disponível para uso.",
+        "writeDownPhrase": "Enquanto isso, anote a sua frase de recuperação para fazer backup manualmente da sua carteira.",
+        "continue": "Continuar para a frase de recuperação"
       }
     }
   },
   "recoveryPhrase": {
-    "title": "Your recovery phrase",
-    "body": "Write these {{mnemonicLength}} words down somewhere safe, where it cannot be stolen or damaged.",
-    "continue": "I've saved it",
-    "copy": "Copy to clipboard",
-    "mnemonicCopied": "Recovery phrase copied to clipboard",
+    "title": "Sua frase de recuperação",
+    "body": "Anote essas {{mnemonicLength}} palavras em algum lugar seguro, onde ninguém possa roubá-las ou danificá-las.",
+    "continue": "Já salvei",
+    "copy": "Copiar para área de transferência",
+    "mnemonicCopied": "Frase de recuperação copiada para a área de transferência",
     "bottomSheet": {
-      "title": "How to save a recovery phrase",
-      "writeDownPhrase": "Writing down your recovery phrase with a pen, and storing it in a safe place is one of the most secure ways to protect your wallet.",
-      "phraseLocation": "An ideal place might be where you store other important documents & materials for safekeeping, that is not easily stolen and easy to retrieve. It's up to you!"
+      "title": "Como salvar uma frase de recuperação",
+      "writeDownPhrase": "Anotar sua frase de recuperação com uma caneta e armazená-la em um lugar seguro é uma das maneiras mais seguras de proteger sua carteira.",
+      "phraseLocation": "Um lugar ideal pode ser onde você guarda outros documentos e materiais importantes para mantê-los em segurança, que não seja facilmente roubado e seja fácil de recuperar. Você é quem decide!"
     }
   },
   "testFaqLink": "Perguntas frequentes da {{appName}}",
@@ -600,9 +600,14 @@
     "button": "Enviar convite",
     "error": "Ocorreu um erro ao criar um link compartilhável",
     "share": "Olá! Estou usando a carteira cripto {{appName}}. É muito fácil de usar e eu gostaria de convidar você para conferir com este link: {{shareUrl}}",
+    "help": "To collect this reward, the invitee must download {{appName}} through the referral link and connect their phone number during onboarding. <0>View all terms</0>",
     "rewardsActive": {
       "title": "Convide amigos e colete NFTs",
       "body": "Convide seus amigos e familiares para baixar o app {{appName}} e cada um de vocês ganhará um NFT exclusivo"
+    },
+    "rewardsActiveCUSD": {
+      "title": "Invite friends and collect rewards",
+      "body": "Share {{appName}} with friends and family and you will both get <0>rewarded with 1 cUSD</0>"
     }
   },
   "getReward": "Receba ${{reward}}",
@@ -917,7 +922,8 @@
   "walletAddress": "Endereço da conta",
   "inviteWithoutPayment": "Olá! Estou usando a {{appName}} para enviar cripto para o mundo inteiro. É muito fácil de usar e eu gostaria de convidar você para conferir com este link: {{link}}",
   "inviteWithEscrowedPayment": "Olá! Estou usando a {{appName}} para enviar cripto para o mundo inteiro. Acabei de enviar {{amount}} {{token}} para você. Instale o aplicativo da {{appName}} e resgate seus {{token}} usando este link: {{link}}",
-  "inviteWithRewards": "Oi! Acabei de enviar criptomoedas para você com minha carteira {{appName}}. É só baixar o app e conectar seu número de celular, e nós dois recebemos um NFT. Use este link: {{link}}",
+  "inviteWithRewards": "Hi! 👋 I'm using {{appName}} as my crypto wallet. It's super quick to download the app and connect your phone number - plus, we both get a special edition NFT as a reward. 💫 \n\nUse this link to download: {{link}}",
+  "inviteWithRewardsCUSD": "Hi! 👋 I'm using {{appName}} as my crypto wallet. It's super quick to download the app and connect your phone number - plus, we both get 1 cUSD as a reward. 💫 \n\nUse this link to download: {{link}}",
   "loadingContacts": "Encontrar seus contatos",
   "myCode": "Meu código",
   "scanCode": "Escanear",
@@ -1593,14 +1599,14 @@
       "body": "As quantias e taxas de cripto podem mudar devido a flutuações no mercado cripto.\n\nRevise a quantia e as taxas finais e reenvie."
     },
     "swapCompleteSection": {
-      "title": "Swap successful",
-      "subtitle": "Your assets are now in your wallet",
+      "title": "Troca bem-sucedida",
+      "subtitle": "Seus ativos agora estão em sua carteira",
       "done": "Concluído"
     },
     "swapErrorSection": {
-      "title": "We couldn’t complete your swap",
-      "subtitle": "Your assets are safe in your wallet.\nPlease try again.",
-      "contactSupport": "If you need additional help, you can contact\n<0>customer support<0>"
+      "title": "Não foi possível concluir sua troca",
+      "subtitle": "Seus ativos estão em segurança em sua carteira.\nTente novamente.",
+      "contactSupport": "Se você precisar de mais ajuda, entre em contato com o\n<0>atendimento ao cliente<0>"
     },
     "swapActionBar": {
       "tryAgain": "Repetir",
@@ -1622,6 +1628,10 @@
     "rewardsActive": {
       "title": "Convide {{contactName}} para o app {{appName}} e vocês dois receberão NFTs!",
       "body": "Parece que {{contactName}} não está no app {{appName}}. Você ainda pode enviar um pagamento a essa pessoa se souber o endereço da carteira dela ou, em vez disso, enviar um convite.\n\nDepois que seu amigo baixar a carteira e conectar o número de celular, vocês dois receberão um NFT exclusivo."
+    },
+    "rewardsActiveCUSD": {
+      "title": "Invite {{contactName}} to {{appName}} and you'll both get a reward",
+      "body": "Looks like {{contactName}} isn’t on Valora. You can still send a payment if you know their wallet address, or send an invite instead. \n\n After they download the wallet and connect their phone number, you will both get <0>rewarded with 1 cUSD</0>"
     }
   },
   "celoNews": {
@@ -1632,14 +1642,14 @@
     "retryButtonText": "Repetir"
   },
   "chooseYourAdventure": {
-    "header": "Welcome to Valora",
-    "subtitle": "What would you like to do first?",
-    "later": "I'll explore later",
+    "header": "Bem-vindo à Valora",
+    "subtitle": "O que você gostaria de fazer primeiro?",
+    "later": "Explorarei mais tarde",
     "options": {
-      "add": "Add funds",
-      "dapp": "Find ways to use crypto",
-      "profile": "Build your profile",
-      "learn": "Learn about Celo"
+      "add": "Adicionar Fundos",
+      "dapp": "Encontrar formas de usar as cripto",
+      "profile": "Criar meu perfil",
+      "learn": "Aprender sobre Celo"
     }
   },
   "reverifyUsingCPVHomecard": {
@@ -1648,7 +1658,7 @@
   },
   "profileScreen": {
     "generateName": "Gerar um nome",
-    "namePlaceholder": "Select a name ex) {{exampleName}}"
+    "namePlaceholder": "Selecione um nome (ex. {{exampleName}})"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

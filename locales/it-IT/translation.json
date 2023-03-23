@@ -45,34 +45,34 @@
     "revoke": "Disconnetti"
   },
   "protectWallet": {
-    "title": "Protect Your Wallet",
-    "subtitle": "Protect your wallet",
-    "body": "If your phone is lost or stolen, your {{mnemonicLength}} word recovery phrase is the only way you can access your funds.",
+    "title": "Proteggi il tuo portafoglio",
+    "subtitle": "Proteggi il tuo portafoglio",
+    "body": "Se il tuo telefono va perso o viene rubato, la tua Frase di recupero di {{mnemonicLength}} parole è l'unico modo per accedere ai tuoi fondi.",
     "recoveryPhrase": {
-      "title": "Use Recovery Phrase",
-      "subtitle": "Write down your recovery phrase"
+      "title": "Usa la Frase di recupero",
+      "subtitle": "Annota la tua Frase di recupero"
     },
     "cloudBackup": {
-      "title": "Backup to Cloud",
-      "subtitle": "Restore your wallet without a phrase",
+      "title": "Esegui backup nel cloud",
+      "subtitle": "Ripristina il tuo portafoglio senza una frase",
       "bottomSheet": {
-        "title": "Cloud Backup is coming soon!",
-        "restoreComingSoon": "Cloud backup is a way to restore your wallet without a recovery phrase. We are working on this as fast as we can and will notify you once it's available to use.",
-        "writeDownPhrase": "In the meantime, please write down your recovery phrase to manually backup your wallet.",
-        "continue": "Continue to Recovery Phrase"
+        "title": "È in arrivo il backup nel cloud!",
+        "restoreComingSoon": "Il backup nel cloud è un modo per ripristinare il tuo portafoglio senza una Frase di recupero. Ci stiamo lavorando il più velocemente possibile e ti avviseremo una volta che sarà disponibile.",
+        "writeDownPhrase": "Nel frattempo, annota la Frase di recupero per eseguire manualmente il backup del portafoglio.",
+        "continue": "Continua alla Frase di recupero"
       }
     }
   },
   "recoveryPhrase": {
-    "title": "Your recovery phrase",
-    "body": "Write these {{mnemonicLength}} words down somewhere safe, where it cannot be stolen or damaged.",
-    "continue": "I've saved it",
-    "copy": "Copy to clipboard",
-    "mnemonicCopied": "Recovery phrase copied to clipboard",
+    "title": "La tua Frase di recupero",
+    "body": "Scrivi queste {{mnemonicLength}} parole in un posto sicuro, dove non possono essere rubate o danneggiate.",
+    "continue": "Le ho salvate",
+    "copy": "Copia negli Appunti",
+    "mnemonicCopied": "Frase di recupero copiata negli Appunti",
     "bottomSheet": {
-      "title": "How to save a recovery phrase",
-      "writeDownPhrase": "Writing down your recovery phrase with a pen, and storing it in a safe place is one of the most secure ways to protect your wallet.",
-      "phraseLocation": "An ideal place might be where you store other important documents & materials for safekeeping, that is not easily stolen and easy to retrieve. It's up to you!"
+      "title": "Come salvare una Frase di recupero",
+      "writeDownPhrase": "Annotare la frase di recupero con una penna e conservarla in un luogo sicuro è uno dei metodi più affidabili per proteggere il tuo portafoglio.",
+      "phraseLocation": "Un luogo ideale potrebbe essere lo stesso in cui si memorizzano altri documenti e materiali importanti per la custodia, difficile da rubare e facile da recuperare. Sta a te!"
     }
   },
   "testFaqLink": "Domande frequenti su {{appName}}",
@@ -600,9 +600,14 @@
     "button": "Invia l'invito",
     "error": "Si è verificato un errore nella creazione di un link condivisibile",
     "share": "Ciao. Uso {{appName}} come wallet di criptovalute. Provare l'app è facile e desidero invitarti a scoprirla con questo collegamento: {{shareUrl}}",
+    "help": "To collect this reward, the invitee must download {{appName}} through the referral link and connect their phone number during onboarding. <0>View all terms</0>",
     "rewardsActive": {
       "title": "Invita gli amici e colleziona NFT",
       "body": "Invita gli amici e i familiari a scaricare {{appName}} e ciascuno di voi riceverà un NFT esclusivo"
+    },
+    "rewardsActiveCUSD": {
+      "title": "Invite friends and collect rewards",
+      "body": "Share {{appName}} with friends and family and you will both get <0>rewarded with 1 cUSD</0>"
     }
   },
   "getReward": "Ricevi ${{reward}}",
@@ -917,7 +922,8 @@
   "walletAddress": "Indirizzo del wallet",
   "inviteWithoutPayment": "Ciao. Uso {{appName}} per inviare criptovalute in tutto il mondo. Provare l'app è facile e desidero invitarti a scoprirla con questo collegamento: {{link}}",
   "inviteWithEscrowedPayment": "Ciao. Uso {{appName}} per inviare criptovalute in tutto il mondo. Ti ho appena inviato {{amount}} {{token}}. Scarica l’app {{appName}} e riscatta {{token}} tramite questo collegamento: {{link}}",
-  "inviteWithRewards": "Ehi! Ti ho appena inviato criptovalute con il mio wallet {{appName}}. Dopo che avrai scaricato l'applicazione e che avrai collegato il tuo numero telefonico, riceveremo entrambi un NFT. Usa questo collegamento: {{link}}",
+  "inviteWithRewards": "Hi! 👋 I'm using {{appName}} as my crypto wallet. It's super quick to download the app and connect your phone number - plus, we both get a special edition NFT as a reward. 💫 \n\nUse this link to download: {{link}}",
+  "inviteWithRewardsCUSD": "Hi! 👋 I'm using {{appName}} as my crypto wallet. It's super quick to download the app and connect your phone number - plus, we both get 1 cUSD as a reward. 💫 \n\nUse this link to download: {{link}}",
   "loadingContacts": "Ricerca dei contatti in corso",
   "myCode": "Il mio codice",
   "scanCode": "Inquadra",
@@ -1593,14 +1599,14 @@
       "body": "Gli importi e le commissioni possono cambiare a causa di oscillazioni nel mercato delle criptovalute. \n\nEsamina l'importo e le commissioni finali e invia nuovamente."
     },
     "swapCompleteSection": {
-      "title": "Swap successful",
-      "subtitle": "Your assets are now in your wallet",
+      "title": "Scambio eseguito",
+      "subtitle": "I tuoi asset sono ora nel tuo portafoglio",
       "done": "Fatto"
     },
     "swapErrorSection": {
-      "title": "We couldn’t complete your swap",
-      "subtitle": "Your assets are safe in your wallet.\nPlease try again.",
-      "contactSupport": "If you need additional help, you can contact\n<0>customer support<0>"
+      "title": "Non è stato possibile completare lo scambio",
+      "subtitle": "I tuoi asset sono al sicuro nel tuo portafoglio.\nRiprova.",
+      "contactSupport": "Se hai bisogno di ulteriore assistenza, puoi contattare il\n<0>Supporto clienti<0>"
     },
     "swapActionBar": {
       "tryAgain": "Riprova",
@@ -1622,6 +1628,10 @@
     "rewardsActive": {
       "title": "Invita {{contactName}} in {{appName}} ed entrambi riceverete NFT!",
       "body": "Sembra che {{contactName}} non sia su {{appName}}. Puoi comunque inviare un pagamento se conosci l'indirizzo del suo portafoglio, o un invito se non. \n\nDopo che avrà scaricato il wallet e collegato il suo numero telefonico, riceverete entrambi un NFT esclusivo."
+    },
+    "rewardsActiveCUSD": {
+      "title": "Invite {{contactName}} to {{appName}} and you'll both get a reward",
+      "body": "Looks like {{contactName}} isn’t on Valora. You can still send a payment if you know their wallet address, or send an invite instead. \n\n After they download the wallet and connect their phone number, you will both get <0>rewarded with 1 cUSD</0>"
     }
   },
   "celoNews": {
@@ -1638,7 +1648,7 @@
     "options": {
       "add": "Add funds",
       "dapp": "Find ways to use crypto",
-      "profile": "Build your profile",
+      "profile": "Build my profile",
       "learn": "Learn about Celo"
     }
   },
