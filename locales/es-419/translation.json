@@ -7,7 +7,7 @@
   "removeAccountTitle": "Restablecer Valora",
   "removeAccountDetails": "Si seleccionas esta opción, se borrará tu cuenta de este dispositivo. No se perderán los fondos, pero solo podrás acceder a ellos con tu Frase de recuperación.",
   "legal": "Legal",
-  "appPreferences": "App Preferences",
+  "appPreferences": "Preferencias de App",
   "security": "Seguridad",
   "changePin": "Cambiar PIN",
   "pinChanged": "Se cambió el PIN",
@@ -16,7 +16,7 @@
   "connectedApplications": "Dapps conectadas",
   "analytics": "Estadísticas de uso",
   "shareAnalytics": "Compartir estadísticas de uso",
-  "hapticFeedback": "Haptic Feedback",
+  "hapticFeedback": "Comentarios Hápticos",
   "shareAnalytics_detail": "Recopilamos datos anónimos sobre cómo utilizas {{appName}} para mejorar la aplicación para todos.",
   "dataSaver": "Ahorrar datos",
   "enableDataSaver": "Ahorrar datos",
@@ -602,14 +602,14 @@
     "button": "Enviar invitación",
     "error": "Hubo un error al crear el enlace compartible",
     "share": "¡Hola! Estoy usando la wallet cripto {{appName}}. Es fácil de usar y me gustaría invitarte a probarla con este link: {{shareUrl}}",
-    "help": "To collect this reward, the invitee must download {{appName}} through the referral link and connect their phone number during onboarding. <0>View all terms</0>",
+    "help": "Para recoger esta recompensa, el invitado debe descargar {{appName}} a través del enlace de recomendación y conectar su número de teléfono durante el embarque. <0>Ver todos los términos</0>",
     "rewardsActive": {
       "title": "Invita a tus amigos y obtén NFTs",
       "body": "Invita a tus amigos y familiares a descargar {{appName}} y cada uno obtendrá un NFT exclusivo."
     },
     "rewardsActiveCUSD": {
-      "title": "Invite friends and collect rewards",
-      "body": "Share {{appName}} with friends and family and you will both get <0>rewarded with 1 cUSD</0>"
+      "title": "Invita a amigos y recoge recompensas",
+      "body": "Comparte {{appName}} con amigos y familiares y ambos obtendrás <0>recompensas con 1 cUSD</0>"
     }
   },
   "getReward": "Obtén ${{reward}}",
@@ -924,8 +924,8 @@
   "walletAddress": "Dirección de wallet",
   "inviteWithoutPayment": "¡Hola! Estoy usando {{appName}} para enviar cripto en todo el mundo. Es fácil de usar y me gustaría invitarte a probarla con este link: {{link}}",
   "inviteWithEscrowedPayment": "¡Hola! Estoy usando {{appName}} para enviar dinero en todo el mundo. Acabo de enviarte {{amount}} {{token}}. Puedes descargar la app de {{appName}} y reclamar tus {{token}} con este link: {{link}}",
-  "inviteWithRewards": "Hi! 👋 I'm using {{appName}} as my crypto wallet. It's super quick to download the app and connect your phone number - plus, we both get a special edition NFT as a reward. 💫 \n\nUse this link to download: {{link}}",
-  "inviteWithRewardsCUSD": "Hi! 👋 I'm using {{appName}} as my crypto wallet. It's super quick to download the app and connect your phone number - plus, we both get 1 cUSD as a reward. 💫 \n\nUse this link to download: {{link}}",
+  "inviteWithRewards": "¡Hola! 👋 Estoy usando {{appName}} como mi criptocartera. Es muy rápido descargar la aplicación y conectar tu número de teléfono - además, ambos obtenemos una edición especial NFT como recompensa. 💫 \n\nUsar este enlace para descargar: {{link}}",
+  "inviteWithRewardsCUSD": "¡Hola! 👋 Estoy usando {{appName}} como mi criptocartera. Es muy rápido descargar la aplicación y conectar tu número de teléfono - además, ambos obtenemos 1 cUSD como recompensa. 💫 \n\nUsar este enlace para descargar: {{link}}",
   "loadingContacts": "Estamos encontrando tus contactos",
   "myCode": "Mi código",
   "scanCode": "Escanear",
@@ -1632,8 +1632,8 @@
       "body": "Parece que {{contactName}} no está en {{appName}}. Si conoces su dirección de wallet, envíale el pago a su billetera, o bien envíale una invitación. \n\nUna vez de que descargue la app y conecte su número de teléfono, ambos obtendrán un NFT exclusivo."
     },
     "rewardsActiveCUSD": {
-      "title": "Invite {{contactName}} to {{appName}} and you'll both get a reward",
-      "body": "Looks like {{contactName}} isn’t on Valora. You can still send a payment if you know their wallet address, or send an invite instead. \n\n After they download the wallet and connect their phone number, you will both get <0>rewarded with 1 cUSD</0>"
+      "title": "Invita a {{contactName}} a {{appName}} y ambos obtendrás una recompensa",
+      "body": "Parece que {{contactName}} no está en Valora. Todavía puedes enviar un pago si conoces su dirección de billetera, o enviar una invitación en su lugar. \n\n Después de descargar el monedero y conectar su número de teléfono, ambos obtendrán <0>recompensas con 1 cUSD</0>"
     }
   },
   "celoNews": {
