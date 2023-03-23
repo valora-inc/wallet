@@ -600,9 +600,14 @@
     "button": "Davet gönder",
     "error": "Bağlantı oluşturulurken bir sorun oluştu",
     "share": "Merhaba, kripto para cüzdanıdır {{appName}} kullanıyorum. Denemen için seni davet etmek isterim. Bu bağlantıya göz atabilirsin: {{shareUrl}}",
+    "help": "To collect this reward, the invitee must download {{appName}} through the referral link and connect their phone number during onboarding. <0>View all terms</0>",
     "rewardsActive": {
       "title": "Arkadaşlarınızı davet edin ve NFT toplayın",
       "body": "Arkadaşlarınızı ve ailenizi {{appName}} uygulamasını indirmeye davet edin ve her biriniz özel bir NFT kazanın"
+    },
+    "rewardsActiveCUSD": {
+      "title": "Invite friends and collect rewards",
+      "body": "Share {{appName}} with friends and family and you will both get <0>rewarded with 1 cUSD</0>"
     }
   },
   "getReward": "${{reward}} kazanın",
@@ -917,7 +922,8 @@
   "walletAddress": "Cüzdan Adresi",
   "inviteWithoutPayment": "Merhaba, dünyanın her tarafına kripto göndermek için {{appName}} kullanıyorum. Denemen için seni davet etmek isterim. Bu bağlantıya göz atabilirsin: {{link}}",
   "inviteWithEscrowedPayment": "Merhaba, dünyanın her tarafına kripto göndermek için {{appName}} kullanıyorum. Sana az önce {{amount}} {{token}} gönderdim. {{appName}} uygulamasını indirerek {{token}} miktarını alabilmen lütfen şu bağlantıyı tıkla{{link}}",
-  "inviteWithRewards": "Hey! Az önce sana {{appName}} cüzdanımla kripto gönderdim. Uygulamayı indirip telefon numaranı bağladığında, ikimiz de özel bir NFT sürümü alacağız. Bu bağlantıyı kullanabilirsin: {{link}}",
+  "inviteWithRewards": "Hi! 👋 I'm using {{appName}} as my crypto wallet. It's super quick to download the app and connect your phone number - plus, we both get a special edition NFT as a reward. 💫 \n\nUse this link to download: {{link}}",
+  "inviteWithRewardsCUSD": "Hi! 👋 I'm using {{appName}} as my crypto wallet. It's super quick to download the app and connect your phone number - plus, we both get 1 cUSD as a reward. 💫 \n\nUse this link to download: {{link}}",
   "loadingContacts": "Kişilerinizi bulma",
   "myCode": "Benim Kodum",
   "scanCode": "Tara",
@@ -1622,6 +1628,10 @@
     "rewardsActive": {
       "title": "{{contactName}} adlı kişiyi {{appName}} uygulamasına davet edin ve ikiniz de NFT kazanın!",
       "body": "Görünüşe göre {{contactName}} {{appName}} kullanmıyor. Bu kişinin cüzdan adresini biliyorsanız, yine de bir ödeme gönderebilir veya bunun yerine davet gönderebilirsiniz. \n\n Bu kişi cüzdanı indirdikten ve telefon numarasını bağladıktan sonra, ikiniz de özel bir NFT alacaksınız."
+    },
+    "rewardsActiveCUSD": {
+      "title": "Invite {{contactName}} to {{appName}} and you'll both get a reward",
+      "body": "Looks like {{contactName}} isn’t on Valora. You can still send a payment if you know their wallet address, or send an invite instead. \n\n After they download the wallet and connect their phone number, you will both get <0>rewarded with 1 cUSD</0>"
     }
   },
   "celoNews": {
