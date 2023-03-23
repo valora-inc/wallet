@@ -600,9 +600,14 @@
     "button": "Отправить приглашение",
     "error": "Возникла проблема с созданием ссылки",
     "share": "Привет! Я использую криптовалютный кошелек {{appName}}. Это просто! Ознакомиться с этим способом можно по ссылке: {{shareUrl}}",
+    "help": "To collect this reward, the invitee must download {{appName}} through the referral link and connect their phone number during onboarding. <0>View all terms</0>",
     "rewardsActive": {
       "title": "Приглашайте друзей и собирайте NFT",
       "body": "Предложите своим друзьям и родственникам скачать {{appName}}, а в награду и вы, и приглашенный вами участник получите эксклюзивный NFT"
+    },
+    "rewardsActiveCUSD": {
+      "title": "Invite friends and collect rewards",
+      "body": "Share {{appName}} with friends and family and you will both get <0>rewarded with 1 cUSD</0>"
     }
   },
   "getReward": "Получить ${{reward}}",
@@ -921,7 +926,8 @@
   "walletAddress": "Адрес кошелька",
   "inviteWithoutPayment": "Привет! Я использую {{appName}} для отправки криптовалют по всему миру. Это просто! Ознакомиться с этим способом можно по ссылке: {{link}}",
   "inviteWithEscrowedPayment": "Привет! Я использую {{appName}} для отправки криптовалют по всему миру. Я уже отправил(а) тебе {{amount}} {{token}}. Скачай приложение {{appName}} и приобрети {{token}} по этой ссылке: {{link}}",
-  "inviteWithRewards": "Привет! Тебе отправлена криптовалюта из моего кошелька {{appName}}. Как только ты скачаешь приложение и подключишь свой номер телефона, мы получим по специальному NFT. Используйте эту ссылку: {{link}}",
+  "inviteWithRewards": "Hi! 👋 I'm using {{appName}} as my crypto wallet. It's super quick to download the app and connect your phone number - plus, we both get a special edition NFT as a reward. 💫 \n\nUse this link to download: {{link}}",
+  "inviteWithRewardsCUSD": "Hi! 👋 I'm using {{appName}} as my crypto wallet. It's super quick to download the app and connect your phone number - plus, we both get 1 cUSD as a reward. 💫 \n\nUse this link to download: {{link}}",
   "loadingContacts": "Поиск контактов",
   "myCode": "Мой код",
   "scanCode": "Сканировать",
@@ -1626,6 +1632,10 @@
     "rewardsActive": {
       "title": "Пригласите {{contactName}} в {{appName}}, и вы оба получите NFT!",
       "body": "Похоже, что {{contactName}} нет в {{appName}}. Вы по-прежнему можете отправить платеж, если знаете адрес этого кошелька, или отправить приглашение. \n\n После загрузки кошелька и подключения номера телефона, вы оба получите эксклюзивный NFT."
+    },
+    "rewardsActiveCUSD": {
+      "title": "Invite {{contactName}} to {{appName}} and you'll both get a reward",
+      "body": "Looks like {{contactName}} isn’t on Valora. You can still send a payment if you know their wallet address, or send an invite instead. \n\n After they download the wallet and connect their phone number, you will both get <0>rewarded with 1 cUSD</0>"
     }
   },
   "celoNews": {
