@@ -7,7 +7,7 @@
   "removeAccountTitle": "Valora zurücksetzen",
   "removeAccountDetails": "Das Zurücksetzen wird dein Konto von diesem Gerät entfernen. Dein Guthaben bleibt im Konto, wird aber nur mit deiner Wiederherstellungsphrase erreichbar sein",
   "legal": "Rechtshinweisen",
-  "appPreferences": "App Preferences",
+  "appPreferences": "App-Einstellungen",
   "security": "Sicherheit",
   "changePin": "PIN ändern",
   "pinChanged": "PIN geändert",
@@ -16,7 +16,7 @@
   "connectedApplications": "Verknüpfte Dapps",
   "analytics": "Analytik",
   "shareAnalytics": "Analytics teilen",
-  "hapticFeedback": "Haptic Feedback",
+  "hapticFeedback": "Haptisches Feedback",
   "shareAnalytics_detail": "Wir sammeln anonymisierte Daten darüber, wie du {{appName}} verwendest, um die Anwendung für alle zu verbessern.",
   "dataSaver": "Datensparmodus",
   "enableDataSaver": "Datensparmodus aktivieren",
@@ -602,14 +602,14 @@
     "button": "Einladung senden",
     "error": "Es gab ein Problem beim Erstellen eines teilbaren Links",
     "share": "Hallo! Ich habe {{appName}} Krypto Wallet benutzt. Es ist einfach zu versuchen und ich möchte dich einladen, es mit diesem Link zu sehen: {{shareUrl}}",
-    "help": "To collect this reward, the invitee must download {{appName}} through the referral link and connect their phone number during onboarding. <0>View all terms</0>",
+    "help": "Um diese Belohnung einzusammeln, muss der Teilnehmer {{appName}} über den Empfehlungslink herunterladen und seine Telefonnummer an Bord verbinden. <0>Alle Bedingungen anzeigen</0>",
     "rewardsActive": {
       "title": "Freunde einladen und NFTs sammeln",
       "body": "Lade deine Freunde und Familien ein, {{appName}} herunterzuladen. Jeder von euch erhält somit ein exklusives NFT"
     },
     "rewardsActiveCUSD": {
-      "title": "Invite friends and collect rewards",
-      "body": "Share {{appName}} with friends and family and you will both get <0>rewarded with 1 cUSD</0>"
+      "title": "Lade Freunde ein und sammle Belohnungen",
+      "body": "Teile {{appName}} mit Freunden und Familie und du erhältst beide <0>mit 1 KUSD</0> belohnt"
     }
   },
   "getReward": "Erhalte ${{reward}}",
@@ -924,8 +924,8 @@
   "walletAddress": "Wallet-Adresse",
   "inviteWithoutPayment": "Hallo! Ich habe {{appName}} benutzt, um Krypto weltweit zu überweisen. Es ist einfach zu versuchen und ich möchte dich einladen, es mit diesem Link zu sehen: {{link}}",
   "inviteWithEscrowedPayment": "Hallo! Ich habe {{appName}} benutzt, um Krypto weltweit zu überweisen. Ich habe dir gerade {{amount}} {{token}} geschickt. Bitte lade die {{appName}} App herunter und löse dein {{token}} mit diesem Link ein: {{link}}",
-  "inviteWithRewards": "Hi! 👋 I'm using {{appName}} as my crypto wallet. It's super quick to download the app and connect your phone number - plus, we both get a special edition NFT as a reward. 💫 \n\nUse this link to download: {{link}}",
-  "inviteWithRewardsCUSD": "Hi! 👋 I'm using {{appName}} as my crypto wallet. It's super quick to download the app and connect your phone number - plus, we both get 1 cUSD as a reward. 💫 \n\nUse this link to download: {{link}}",
+  "inviteWithRewards": "Hallo! 👋 Ich benutze {{appName}} als meine Krypto-Wallet. Es ist super schnell, die App herunterzuladen und deine Telefonnummer zu verbinden - Plus erhalten wir beide eine spezielle Ausgabe NFT als Belohnung. 💫 \n\nVerwenden Sie diesen Link zum Herunterladen: {{link}}",
+  "inviteWithRewardsCUSD": "Hallo! 👋 Ich benutze {{appName}} als meine Krypto-Wallet. Es ist super schnell, die App herunterzuladen und Ihre Telefonnummer zu verbinden - plus erhalten wir beide 1 cUSD als Belohnung. 💫 \n\nVerwenden Sie diesen Link zum Herunterladen: {{link}}",
   "loadingContacts": "Deine Kontakte finden",
   "myCode": "Mein Code",
   "scanCode": "Scannen",
@@ -1632,8 +1632,8 @@
       "body": "Es sieht so aus, als wäre {{contactName}} nicht auf {{appName}}. Wenn du die Wallet-Adresse kennst, kannst du dennoch eine Zahlung oder stattdessen eine Einladung senden. \n\nNachdem die Wallet heruntergeladen und mit der Telefonnummer verbunden wurde, erhaltet ihr beide ein exklusives NFT."
     },
     "rewardsActiveCUSD": {
-      "title": "Invite {{contactName}} to {{appName}} and you'll both get a reward",
-      "body": "Looks like {{contactName}} isn’t on Valora. You can still send a payment if you know their wallet address, or send an invite instead. \n\n After they download the wallet and connect their phone number, you will both get <0>rewarded with 1 cUSD</0>"
+      "title": "Lade {{contactName}} zu {{appName}} ein und du bekommst beide eine Belohnung",
+      "body": "Es sieht so aus, als ob {{contactName}} nicht auf Valora ist. Sie können trotzdem eine Zahlung senden, wenn Sie ihre Wallet-Adresse kennen, oder stattdessen eine Einladung senden. \n\n Nachdem sie die Brieftasche heruntergeladen und ihre Telefonnummer verbunden haben, erhalten Sie beide <0>mit 1 KUSD</0> belohnt"
     }
   },
   "celoNews": {
@@ -1645,13 +1645,13 @@
   },
   "chooseYourAdventure": {
     "header": "Willkommen bei Valora",
-    "subtitle": "What would you like to do first?",
-    "later": "I'll explore later",
+    "subtitle": "Was möchten Sie zuerst tun?",
+    "later": "Später erkunden",
     "options": {
-      "add": "Add funds",
-      "dapp": "Find ways to use crypto",
-      "profile": "Build my profile",
-      "learn": "Learn about Celo"
+      "add": "Guthaben hinzufügen",
+      "dapp": "Wege finden, Krypto zu verwenden",
+      "profile": "Mein Profil erstellen",
+      "learn": "Erfahren Sie mehr über Celo"
     }
   },
   "reverifyUsingCPVHomecard": {
@@ -1660,7 +1660,7 @@
   },
   "profileScreen": {
     "generateName": "Namen generieren",
-    "namePlaceholder": "Select a name ex) {{exampleName}}"
+    "namePlaceholder": "Wähle einen Namen ex) {{exampleName}}"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
