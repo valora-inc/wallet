@@ -40,9 +40,10 @@ import AccountNumber from 'src/components/AccountNumber'
 import ContactCircleSelf from 'src/components/ContactCircleSelf'
 import PhoneNumberWithFlag from 'src/components/PhoneNumberWithFlag'
 import { RewardsScreenOrigin } from 'src/consumerIncentives/analyticsEventsTracker'
-import { dappsFilterEnabledSelector, dappsListApiUrlSelector } from 'src/dapps/selectors'
+import { dappsFilterEnabledSelector, dappsListApiUrlSelector, dappsSearchEnabledSelector } from 'src/dapps/selectors'
 import DAppsExplorerScreenFilter from 'src/dappsExplorer/DAppsExplorerScreenFilter'
 import DAppsExplorerScreenLegacy from 'src/dappsExplorer/DAppsExplorerScreenLegacy'
+import DAppsExplorerScreenSearch from 'src/dappsExplorer/DAppsExplorerScreenSearch'
 import { fetchExchangeRate } from 'src/exchange/actions'
 import ExchangeHomeScreen from 'src/exchange/ExchangeHomeScreen'
 import WalletHome from 'src/home/WalletHome'
@@ -201,6 +202,7 @@ export default function DrawerNavigator() {
   const isCeloEducationComplete = useSelector(celoEducationCompletedSelector)
   const dappsListUrl = useSelector(dappsListApiUrlSelector)
   const dappsFilterEnabled = useSelector(dappsFilterEnabledSelector)
+  const dappsSearchEnabled = useSelector(dappsSearchEnabledSelector)
 
   const shouldShowRecoveryPhraseInSettings = useSelector(shouldShowRecoveryPhraseInSettingsSelector)
   const backupCompleted = useSelector(backupCompletedSelector)
@@ -268,7 +270,13 @@ export default function DrawerNavigator() {
       {!!dappsListUrl && (
         <Drawer.Screen
           name={Screens.DAppsExplorerScreen}
-          component={dappsFilterEnabled ? DAppsExplorerScreenFilter : DAppsExplorerScreenLegacy}
+          // TODO: Adjust once we have a filter & search screen
+          component={dappsSearchEnabled
+            ? DAppsExplorerScreenSearch
+            : dappsFilterEnabled
+              ? DAppsExplorerScreenFilter
+              : DAppsExplorerScreenLegacy
+          }
           options={{
             title: t('dappsScreen.title'),
             drawerIcon: DappsExplorer,
