@@ -2143,7 +2143,7 @@ export const v119Schema = {
     version: 119,
   },
   app: {
-    ...v116Schema.app,
+    ...v118Schema.app,
     hapticFeedbackEnabled: true,
   },
 }
