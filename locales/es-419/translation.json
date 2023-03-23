@@ -541,7 +541,7 @@
   "addAndWithdraw": "Agregar y retirar",
   "settings": "Configuración",
   "help": "Ayuda",
-  "dismiss": "Descartar",
+  "dismiss": "Ignorar",
   "review": "Revisar",
   "insufficientBalance": "Tu saldo es demasiado bajo para realizar esta transacción.",
   "amount": "Monto",
@@ -1194,7 +1194,7 @@
   "whatTotalValue": {
     "title": "¿Qué es el saldo total?",
     "body": "Tu saldo total es la suma aproximada de todos tus activos en Valora. El saldo total cambia según las fluctuaciones de precio de los activos, y se actualiza cada 10 minutos. \n\nEs posible que algunos activos no se reflejen en el saldo total si su precio no está disponible al realizar el cálculo.",
-    "dismiss": "Descartar"
+    "dismiss": "Ignorar"
   },
   "supportExportLogsStart": "Exportando registros...",
   "supportExportLogsFailed": "Error de exportación: {{error}}",
@@ -1286,7 +1286,7 @@
   "dappsScreenHelpDialog": {
     "title": "¿Qué son las dapps?",
     "message": "Las dapps (apps decentralizadas) traen nuevas maneras de usar tus cripto, ganar recompensas y explorar la Web3.\n\nContecta Valora a una dapp para comenzar.",
-    "dismiss": "Descartar"
+    "dismiss": "Ignorar"
   },
   "dappsScreenBottomSheet": {
     "title": "{{dappName}} es una aplicación externa",
@@ -1344,7 +1344,7 @@
     "newDialog": {
       "title": "Nuevas formas de transferir fondos",
       "body": "Estamos lanzando nuevas formas de transferir fondos a y desde cuentas bancarias, directamente desde Valora.\n\nSi ves este mensaje, puedes acceder a esta función en tu región.",
-      "dismiss": "Descartar"
+      "dismiss": "Ignorar"
     }
   },
   "fiatConnectLinkAccountScreen": {
