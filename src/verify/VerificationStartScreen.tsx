@@ -22,11 +22,15 @@ import TextButton from 'src/components/TextButton'
 import i18n from 'src/i18n'
 import { setHasSeenVerificationNux } from 'src/identity/actions'
 import { HeaderTitleWithSubtitle } from 'src/navigator/Headers'
-import { navigate, navigateHome } from 'src/navigator/NavigationService'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
-import { getOnboardingStepValues, onboardingPropsSelector } from 'src/onboarding/steps'
+import {
+  getOnboardingStepValues,
+  goToNextOnboardingScreen,
+  onboardingPropsSelector,
+} from 'src/onboarding/steps'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
 import { waitUntilSagasFinishLoading } from 'src/redux/sagas'
 import useTypedSelector from 'src/redux/useSelector'
@@ -110,7 +114,10 @@ function VerificationStartScreen({
   const onPressSkip = () => {
     dispatch(setHasSeenVerificationNux(true))
     ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_skip_confirm)
-    navigateHome()
+    goToNextOnboardingScreen({
+      firstScreenInCurrentStep: Screens.VerificationStartScreen,
+      onboardingProps,
+    })
   }
 
   const onPressLearnMore = () => {

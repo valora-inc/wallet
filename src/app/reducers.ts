@@ -36,7 +36,6 @@ export interface State {
   rewardPillText?: {
     [lang: string]: string
   }
-  cashInButtonExpEnabled: boolean
   rampCashInButtonExpEnabled: boolean
   sentryTracesSampleRate: number
   sentryNetworkErrors: string[]
@@ -54,6 +53,7 @@ export interface State {
   inviterAddress: string | null
   networkTimeoutSeconds: number
   celoNews: CeloNewsConfig
+  hapticFeedbackEnabled: boolean
 }
 
 const initialState = {
@@ -80,7 +80,6 @@ const initialState = {
   huaweiMobileServicesAvailable: undefined,
   pincodeUseExpandedBlocklist: REMOTE_CONFIG_VALUES_DEFAULTS.pincodeUseExpandedBlocklist,
   rewardPillText: JSON.parse(REMOTE_CONFIG_VALUES_DEFAULTS.rewardPillText),
-  cashInButtonExpEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.cashInButtonExpEnabled,
   rampCashInButtonExpEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.rampCashInButtonExpEnabled,
   sentryTracesSampleRate: REMOTE_CONFIG_VALUES_DEFAULTS.sentryTracesSampleRate,
   sentryNetworkErrors: REMOTE_CONFIG_VALUES_DEFAULTS.sentryNetworkErrors.split(','),
@@ -101,6 +100,7 @@ const initialState = {
   inviterAddress: null,
   networkTimeoutSeconds: REMOTE_CONFIG_VALUES_DEFAULTS.networkTimeoutSeconds,
   celoNews: JSON.parse(REMOTE_CONFIG_VALUES_DEFAULTS.celoNews),
+  hapticFeedbackEnabled: true,
 }
 
 export const appReducer = (
@@ -199,7 +199,6 @@ export const appReducer = (
         logPhoneNumberTypeEnabled: action.configValues.logPhoneNumberTypeEnabled,
         pincodeUseExpandedBlocklist: action.configValues.pincodeUseExpandedBlocklist,
         rewardPillText: JSON.parse(action.configValues.rewardPillText),
-        cashInButtonExpEnabled: action.configValues.cashInButtonExpEnabled,
         rampCashInButtonExpEnabled: action.configValues.rampCashInButtonExpEnabled,
         sentryTracesSampleRate: action.configValues.sentryTracesSampleRate,
         sentryNetworkErrors: action.configValues.sentryNetworkErrors,
@@ -249,6 +248,11 @@ export const appReducer = (
       return {
         ...state,
         inviterAddress: action.inviterAddress,
+      }
+    case Actions.HAPTIC_FEEDBACK_SET:
+      return {
+        ...state,
+        hapticFeedbackEnabled: action.hapticFeedbackEnabled,
       }
     default:
       return state

@@ -44,6 +44,37 @@
     "body": "Po odłączeniu ponowne powiązanie tego numeru telefonu z tym portfelem nie będzie możliwe.",
     "revoke": "Odłącz"
   },
+  "protectWallet": {
+    "title": "Chroń swój portfel",
+    "subtitle": "Chroń swój portfel",
+    "body": "Jeśli telefon zostanie zgubiony lub skradziony, Twoja fraza odzyskiwania jest jedynym sposobem na uzyskanie dostępu do środków.",
+    "recoveryPhrase": {
+      "title": "Użyj frazy odzyskiwania",
+      "subtitle": "Wprowadź frazę odzyskiwania"
+    },
+    "cloudBackup": {
+      "title": "Kopia zapasowa w chmurze",
+      "subtitle": "Przywróć swój portfel bez frazy",
+      "bottomSheet": {
+        "title": "Kopia zapasowa w chmurze już wkrótce!",
+        "restoreComingSoon": "Kopia zapasowa w chmurze to sposób na przywrócenie portfela bez frazy odzyskiwania. Pracujemy nad tym tak szybko, jak to możliwe, i powiadomimy Cię, gdy ta funkcja będzie dostępna do użycia.",
+        "writeDownPhrase": "W międzyczasie zapisz sobie frazę odzyskiwania, aby ręcznie wykonać kopię zapasową portfela.",
+        "continue": "Przejdź do frazy odzyskiwania"
+      }
+    }
+  },
+  "recoveryPhrase": {
+    "title": "Twoja fraza odzyskiwania",
+    "body": "Zapisz te {{mnemonicLength}} słowa gdzieś w bezpiecznym miejscu, gdzie nie mogą zostać skradzione lub zniszczone.",
+    "continue": "Mam to zapisane",
+    "copy": "Kopiuj do schowka",
+    "mnemonicCopied": "Fraza skopiowana do schowka",
+    "bottomSheet": {
+      "title": "Jak zapisać frazę odzyskiwania",
+      "writeDownPhrase": "Zapisanie długopisem frazy odzyskiwania i przechowywanie jej w bezpiecznym miejscu jest jednym z najbezpieczniejszych sposobów ochrony portfela.",
+      "phraseLocation": "Idealne miejsce może być tam, gdzie przechowujesz dla bezpieczeństwa inne ważne dokumenty i materiały, których nie można łatwo ukraść i łatwo odnaleźć. Wszystko zależy od Ciebie!"
+    }
+  },
   "testFaqLink": "FAQ dotyczące aplikacji {{appName}}",
   "termsOfServiceLink": "Warunki użytkowania",
   "privacyPolicy": "Polityka prywatności",
@@ -86,8 +117,8 @@
   "contactSupport": "Skontaktuj się z Działem wsparcia",
   "tapToCopy": "Naciśnij, aby skopiować",
   "headerTitle": "Fraza odzyskiwania",
-  "introBackUpPhrase": "Back Up Recovery Phrase",
-  "introCompleteQuiz": "Complete our backup quiz to verify that your wallet can be recovered.\n\nIf you wrote it down incorrectly, you won’t be able to access your wallet if anything happens to your device.",
+  "introBackUpPhrase": "Faza odzyskiwania z kopii zapasowej",
+  "introCompleteQuiz": "Ukończ nasz quiz dotyczący kopii zapasowej, aby sprawdzić, czy Twój portfel może zostać odzyskany.\n\nJeśli zapis był niepoprawny, nie będziesz mieć możliwości uzyskania dostępu do swojego portfela, w razie gdyby coś stało się z urządzeniem.",
   "introTitle": "Twoja fraza odzyskiwania",
   "introBody": "Twoja fraza odzyskiwania jest najważniejszym elementem konta.\n\nUstaw swoją frazę odzyskiwania tak, aby nikt jej nie widział. Zajmie to około pięciu minut.",
   "introPrimaryAction": "Ustaw",
@@ -100,14 +131,14 @@
   "failedFetchMnemonic": "Nie udało się pobrać frazy odzyskiwania",
   "backupAndRecovery": "Kopia zapasowa i odzyskiwanie",
   "writeDownKey": "Zapisz swoją frazę",
-  "writeDownKeyExperimental": "Please write down your phrase.",
+  "writeDownKeyExperimental": "Zapisz swoją frazę.",
   "completeEducation": "Rozumiem",
   "yourAccountKey": "Twoja fraza odzyskiwania",
   "backupKeyNotification": "Zadbaj o bezpieczeństwo swoich środków. Ustaw teraz swoją frazę odzyskiwania.",
-  "backupKeyNotification2": "Keep your funds safe. Back up your Recovery Phrase now.",
-  "backupKeyCTA": "Finish Backup Now",
+  "backupKeyNotification2": "Zadbaj o bezpieczeństwo swoich środków. Stwórz teraz kopię zapasową swojej frazy odzyskiwania.",
+  "backupKeyCTA": "Zakończ tworzenie kopii zapasowej",
   "backupKeySummary": "Znajdź miejsce na osobności i zapisz swoją frazę odzyskiwania. Przechowuj ją w bezpiecznym miejscu. Nie zapisuj jej w swoim telefonie.",
-  "backupKeyWarning": "If you lose your recovery phrase, you will lose access to all funds held in Valora.",
+  "backupKeyWarning": "Jeśli stracisz swoją frazę odzyskiwania, stracisz również dostęp do wszystkich funduszy przechowywanych w Valorze.",
   "copied": "Fraza skopiowana do schowka",
   "moreInfo": "Więcej informacji",
   "savedConfirmation": "Tak, zapisałem(-am) frazę.",
@@ -166,7 +197,7 @@
   "superchargeTitle": "Skorzystaj z programu Supercharge",
   "superchargeDescription": "Otrzymuj {{apy}}% rocznych nagród za saldo tokenów {{token}}. Oto jak zacząć:",
   "superchargeConnectNumber": "Podłącz swój numer telefonu",
-  "superchargeReconnectNumber": "Reconnect your phone number\n<0>We have launched an improved Supercharge experience. Reconnect your phone number to keep earning rewards on your {{token}}.</0>",
+  "superchargeReconnectNumber": "Podłącz ponownie swój numer telefonu\n<0>Uruchomiliśmy ulepszoną obsługę programu Supercharge. Podłącz ponownie swój numer telefonu, aby zdobywać nagrody na {{token}}.</0>",
   "superchargeMinimumBalance": "Dodaj minimalne saldo {{amount}} {{token}}",
   "superchargeDisclaimer": "Maksymalizuj nagrody, zwiększając saldo do {{amount}} {{token}}",
   "superchargeDisclaimerMaxRewards": "Otrzymujesz maksymalne nagrody za swoje saldo tokenów {{token}}",
@@ -569,9 +600,14 @@
     "button": "Wyślij zaproszenie",
     "error": "Wystąpił błąd z tworzeniem linku",
     "share": "Cześć! Korzystam z portfel kryptowalutowy {{appName}}. To bardzo proste. Może Ty też spróbujesz? Skorzystaj z tego linku: {{shareUrl}}",
+    "help": "To collect this reward, the invitee must download {{appName}} through the referral link and connect their phone number during onboarding. <0>View all terms</0>",
     "rewardsActive": {
       "title": "Zaproś znajomych i zbieraj NFT",
       "body": "Zaproś swoich znajomych i rodzinę do pobrania {{appName}}, a każdy z Was otrzyma ekskluzywny NFT"
+    },
+    "rewardsActiveCUSD": {
+      "title": "Invite friends and collect rewards",
+      "body": "Share {{appName}} with friends and family and you will both get <0>rewarded with 1 cUSD</0>"
     }
   },
   "getReward": "Otrzymaj ${{reward}}",
@@ -890,7 +926,8 @@
   "walletAddress": "Adres portfela",
   "inviteWithoutPayment": "Cześć! Korzystam z aplikacji {{appName}} do przesyłania kryptowalut z dowolnego miejsca na świecie. To bardzo proste. Może Ty też spróbujesz? Skorzystaj z tego linku: {{link}}",
   "inviteWithEscrowedPayment": "Cześć! Korzystam z aplikacji {{appName}} do przesyłania kryptowalut z dowolnego miejsca na świecie. Przesyłam Ci właśnie {{amount}} {{token}}. Pobierz aplikację {{appName}} i odbierz {{token}}, korzystając z tego linku: {{link}}",
-  "inviteWithRewards": "Cześć! Przesyłam Ci kryptowalutę z portfela w aplikacji {{appName}}. Gdy pobierzesz aplikację i podłączysz do niej swój numer telefonu, oboje otrzymamy NFT specjalnej edycji. Użyj tego linku: {{link}}",
+  "inviteWithRewards": "Hi! 👋 I'm using {{appName}} as my crypto wallet. It's super quick to download the app and connect your phone number - plus, we both get a special edition NFT as a reward. 💫 \n\nUse this link to download: {{link}}",
+  "inviteWithRewardsCUSD": "Hi! 👋 I'm using {{appName}} as my crypto wallet. It's super quick to download the app and connect your phone number - plus, we both get 1 cUSD as a reward. 💫 \n\nUse this link to download: {{link}}",
   "loadingContacts": "Wyszukiwanie kontaktów",
   "myCode": "Mój kod",
   "scanCode": "Skanuj",
@@ -1524,8 +1561,8 @@
     "swapFromTokenSelection": "Zamień z",
     "swapToTokenSelection": "Zamień na",
     "maxSwapAmountWarning": {
-      "title": "Swapping the MAX amount",
-      "body": "Make sure you have CELO in your wallet to cover gas fees for future transactions",
+      "title": "Swap kwoty MAX",
+      "body": "Upewnij się, że w swoim portfelu masz CELO, aby pokryć opłaty za gaz w przyszłych transakcjach",
       "learnMore": "Dowiedz się więcej"
     }
   },
@@ -1565,6 +1602,21 @@
       "action": "Kontynuuj",
       "body": "Kwoty kryptowalut i opłaty mogą ulegać zmianie z uwagi na wahania kursów na rynku kryptowalutowym.\n\nPrzed przesłaniem sprawdź końcową kwotę i opłaty."
     },
+    "swapCompleteSection": {
+      "title": "Zamiana zakończona pomyślnie",
+      "subtitle": "Twoje zasoby są teraz w Twoim portfelu",
+      "done": "Gotowe"
+    },
+    "swapErrorSection": {
+      "title": "Nie mogliśmy dokończyć Twojej zamiany",
+      "subtitle": "Twoje zasoby są bezpieczne w portfelu.\nSpróbuj ponownie.",
+      "contactSupport": "Jeśli potrzebujesz dodatkowej pomocy, możesz skontaktować się z\n<0>działem obsługi klienta<0>"
+    },
+    "swapActionBar": {
+      "tryAgain": "Spróbuj ponownie",
+      "done": "Gotowe",
+      "swapAgain": "Wymień ponownie"
+    },
     "swapErrorModal": {
       "title": "Nie mogliśmy sfinalizować tej transakcji.",
       "body": "Poczekaj i spróbuj ponownie później lub skontaktuj się z naszym działem wsparcia, aby uzyskać pomoc.",
@@ -1580,6 +1632,10 @@
     "rewardsActive": {
       "title": "Zaproś {{contactName}} do {{appName}}, a razem otrzymacie NFT!",
       "body": "Wygląda na to, że {{contactName}} nie korzysta z {{appName}}. Jeśli znasz adres jego/jej portfela, nadal możesz wysłać płatność lub zaproszenie. \n\n Po pobraniu portfela i podłączeniu numeru telefonu otrzymacie ekskluzywne NFT."
+    },
+    "rewardsActiveCUSD": {
+      "title": "Invite {{contactName}} to {{appName}} and you'll both get a reward",
+      "body": "Looks like {{contactName}} isn’t on Valora. You can still send a payment if you know their wallet address, or send an invite instead. \n\n After they download the wallet and connect their phone number, you will both get <0>rewarded with 1 cUSD</0>"
     }
   },
   "celoNews": {
@@ -1589,9 +1645,24 @@
     "loadingError": "Przepraszamy, nie udało się załadować najnowszych aktualizacji. Spróbuj ponownie później.",
     "retryButtonText": "Spróbuj ponownie"
   },
+  "chooseYourAdventure": {
+    "header": "Witamy w Valora",
+    "subtitle": "Co chcesz zrobić najpierw?",
+    "later": "Odkryję później",
+    "options": {
+      "add": "Dodaj środki",
+      "dapp": "Znajdź sposoby korzystania z kryptowalut",
+      "profile": "Build my profile",
+      "learn": "Dowiedz się więcej o Celo"
+    }
+  },
   "reverifyUsingCPVHomecard": {
-    "description": "Reconnect your number to send, receive and get rewards on your crypto",
-    "buttonLabel": "Reconnect number"
+    "description": "Podłącz ponownie swój numer, aby wysyłać, odbierać i otrzymywać nagrody za kryptowaluty",
+    "buttonLabel": "Podłącz ponownie numer"
+  },
+  "profileScreen": {
+    "generateName": "Wygeneruj nazwę",
+    "namePlaceholder": "Wybierz nazwę ex) {{exampleName}}"
   },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",

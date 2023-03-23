@@ -99,7 +99,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 115,
+          "version": 119,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -128,13 +128,13 @@ describe('store state', () => {
           "pincodeType": "Unset",
           "profileUploaded": false,
           "recoveringFromStoreWipe": false,
+          "startOnboardingTime": undefined,
         },
         "alert": null,
         "app": Object {
           "activeScreen": "Main",
           "analyticsEnabled": true,
           "appState": "Active",
-          "cashInButtonExpEnabled": false,
           "celoEducationUri": null,
           "celoEuroEnabled": true,
           "celoNews": Object {
@@ -144,6 +144,7 @@ describe('store state', () => {
           "fiatConnectCashInEnabled": false,
           "fiatConnectCashOutEnabled": false,
           "googleMobileServicesAvailable": undefined,
+          "hapticFeedbackEnabled": true,
           "huaweiMobileServicesAvailable": undefined,
           "inviterAddress": null,
           "lastTimeBackgrounded": 0,
@@ -303,7 +304,7 @@ describe('store state', () => {
         "send": Object {
           "inviteRewardCusd": 5,
           "inviteRewardWeeklyLimit": 20,
-          "inviteRewardsEnabled": false,
+          "inviteRewardsVersion": "none",
           "isSending": false,
           "lastUsedCurrency": "cUSD",
           "recentPayments": Array [],

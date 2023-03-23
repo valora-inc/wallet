@@ -44,6 +44,37 @@
     "body": "Bağlantı kesildiğinde, telefon numaranızı bu cüzdana tekrar bağlayamazsınız.",
     "revoke": "Bağlantıyı kes"
   },
+  "protectWallet": {
+    "title": "Cüzdanınızı Koruyun",
+    "subtitle": "Cüzdanınızı koruyun",
+    "body": "Telefonunuz kaybolur ya da çalınırsa {{mnemonicLength}} kelimelik kurtarma ifadeniz fonlarınıza erişebilmenizin tek yoludur.",
+    "recoveryPhrase": {
+      "title": "Kurtarma İfadesini Kullan",
+      "subtitle": "Kurtarma ifadenizi not edin"
+    },
+    "cloudBackup": {
+      "title": "Buluta Yedekle",
+      "subtitle": "İfade kullanmadan cüzdanınızı geri yükleyin",
+      "bottomSheet": {
+        "title": "Bulut Yedekleme yakında!",
+        "restoreComingSoon": "Bulut yedekleme, kurtarma ifadesi olmadan cüzdanınızı geri yüklemenin bir yoludur. Bu konuda elimizden geldiğince hızlı çalışıyoruz ve hazır olduğunda sizi bilgilendireceğiz.",
+        "writeDownPhrase": "Bu sırada cüzdanınızı manuel olarak yedeklemek için lütfen kurtarma ifadenizi not edin.",
+        "continue": "Kurtarma İfadesine Devam Et"
+      }
+    }
+  },
+  "recoveryPhrase": {
+    "title": "Kurtarma ifadeniz",
+    "body": "Bu {{mnemonicLength}} kelimeyi çalınamayacağı veya zarar görmeyeceği güvenli bir yere not edin.",
+    "continue": "Kaydettim",
+    "copy": "Panoya kopyala",
+    "mnemonicCopied": "Kurtarma ifadesi panoya kopyalandı",
+    "bottomSheet": {
+      "title": "Kurtarma ifadesini kaydetme",
+      "writeDownPhrase": "Kurtarma ifadenizi kalemle bir kağıda not etmek ve güvenli bir yerde saklamak cüzdanınızı korumanın en güvenli yollarından biridir.",
+      "phraseLocation": "Kolayca çalınamayacağı ve tekrar ulaşılması kolay olan, diğer önemli belgeleri ve malzemeleri sakladığınız yer ideal bir yer olabilir. Karar sizin!"
+    }
+  },
   "testFaqLink": "{{appName}} SSS",
   "termsOfServiceLink": "Kullanım Şartları",
   "privacyPolicy": "Gizlilik Politikası",
@@ -86,8 +117,8 @@
   "contactSupport": "Destek ile İletişime Geç",
   "tapToCopy": "Kopyalamak için Dokunun",
   "headerTitle": "Kurtarma Kelimeleri",
-  "introBackUpPhrase": "Back Up Recovery Phrase",
-  "introCompleteQuiz": "Complete our backup quiz to verify that your wallet can be recovered.\n\nIf you wrote it down incorrectly, you won’t be able to access your wallet if anything happens to your device.",
+  "introBackUpPhrase": "Kurtarma İfadesini Yedekle",
+  "introCompleteQuiz": "Cüzdanınızın kurtarılabileceğini doğrulamak üzere yedekleme testimizi tamamlayın.\n\nYanlış not ettiyseniz cihazınıza bir şey olursa cüzdanınıza erişemezsiniz.",
   "introTitle": "Kurtarma Kelimeleriniz",
   "introBody": "Kurtarma Kelimeleriniz, hesabınızın en önemli parçasıdır.\n\nLütfen Kelimelerinizi oluşturmak için yalnız olabileceğiniz bir yer bulun. Bu işlem yaklaşık beş dakika sürer.",
   "introPrimaryAction": "Oluştur",
@@ -100,14 +131,14 @@
   "failedFetchMnemonic": "Kurtarma Kelimeleriniz kaydedilemedi",
   "backupAndRecovery": "Yedekleme ve Kurtarma",
   "writeDownKey": "Lütfen kelimelerinizi not edin",
-  "writeDownKeyExperimental": "Please write down your phrase.",
+  "writeDownKeyExperimental": "Lütfen ifadenizi not edin.",
   "completeEducation": "Anladım",
   "yourAccountKey": "Kurtarma Kelimeleriniz",
   "backupKeyNotification": "Fonlarınızı güvende tutun. Kurtarma Kelimelerinizi şimdi oluşturun.",
-  "backupKeyNotification2": "Keep your funds safe. Back up your Recovery Phrase now.",
-  "backupKeyCTA": "Finish Backup Now",
+  "backupKeyNotification2": "Fonlarınızı güvende tutun. Kurtarma İfadenizi şimdi yedekleyin.",
+  "backupKeyCTA": "Yedeklemeyi Şimdi Tamamlayın",
   "backupKeySummary": "Kurtarma Kelimelerinizi yazmak için özel bir yer bulun ve not edin. Lütfen kelimelerinizi güvenli bir yerde saklayın ve telefonunuza kaydetmeyin.",
-  "backupKeyWarning": "If you lose your recovery phrase, you will lose access to all funds held in Valora.",
+  "backupKeyWarning": "Kurtarma ifadenizi kaybederseniz Valora'da tutulan tüm fonlarınıza erişimi kaybedersiniz.",
   "copied": "Kelimeler panoya kopyalandı",
   "moreInfo": "Daha Fazla Bilgi",
   "savedConfirmation": "Evet, Kurtarma Kelimelerimi yazdım.",
@@ -166,7 +197,7 @@
   "superchargeTitle": "Supercharge'lamaya başlayın",
   "superchargeDescription": "{{token}} bakiyeniz için yıllık %12 oranında ödül kazanın. Başlamak için şunları yapmanız yeterli:",
   "superchargeConnectNumber": "Telefon numaranı bağla",
-  "superchargeReconnectNumber": "Reconnect your phone number\n<0>We have launched an improved Supercharge experience. Reconnect your phone number to keep earning rewards on your {{token}}.</0>",
+  "superchargeReconnectNumber": "Telefon numaranızı yeniden bağlayın\n<0>Gelişmiş bir Süper charge deneyimi başlattık. {{token}} tokeninizde ödüller kazanmaya devam etmek için telefon numaranızı yeniden bağlayın.</0>",
   "superchargeMinimumBalance": "En az {{amount}} {{token}} olacak şekilde bakiye ekleyin",
   "superchargeDisclaimer": "Maksimum ödül kazanmak için {{amount}} {{token}}'a kadar ekleme yapabilirsiniz",
   "superchargeDisclaimerMaxRewards": "{{token}} ile maksimum ödül alıyorsunuz",
@@ -569,9 +600,14 @@
     "button": "Davet gönder",
     "error": "Bağlantı oluşturulurken bir sorun oluştu",
     "share": "Merhaba, kripto para cüzdanıdır {{appName}} kullanıyorum. Denemen için seni davet etmek isterim. Bu bağlantıya göz atabilirsin: {{shareUrl}}",
+    "help": "To collect this reward, the invitee must download {{appName}} through the referral link and connect their phone number during onboarding. <0>View all terms</0>",
     "rewardsActive": {
       "title": "Arkadaşlarınızı davet edin ve NFT toplayın",
       "body": "Arkadaşlarınızı ve ailenizi {{appName}} uygulamasını indirmeye davet edin ve her biriniz özel bir NFT kazanın"
+    },
+    "rewardsActiveCUSD": {
+      "title": "Invite friends and collect rewards",
+      "body": "Share {{appName}} with friends and family and you will both get <0>rewarded with 1 cUSD</0>"
     }
   },
   "getReward": "${{reward}} kazanın",
@@ -886,7 +922,8 @@
   "walletAddress": "Cüzdan Adresi",
   "inviteWithoutPayment": "Merhaba, dünyanın her tarafına kripto göndermek için {{appName}} kullanıyorum. Denemen için seni davet etmek isterim. Bu bağlantıya göz atabilirsin: {{link}}",
   "inviteWithEscrowedPayment": "Merhaba, dünyanın her tarafına kripto göndermek için {{appName}} kullanıyorum. Sana az önce {{amount}} {{token}} gönderdim. {{appName}} uygulamasını indirerek {{token}} miktarını alabilmen lütfen şu bağlantıyı tıkla{{link}}",
-  "inviteWithRewards": "Hey! Az önce sana {{appName}} cüzdanımla kripto gönderdim. Uygulamayı indirip telefon numaranı bağladığında, ikimiz de özel bir NFT sürümü alacağız. Bu bağlantıyı kullanabilirsin: {{link}}",
+  "inviteWithRewards": "Hi! 👋 I'm using {{appName}} as my crypto wallet. It's super quick to download the app and connect your phone number - plus, we both get a special edition NFT as a reward. 💫 \n\nUse this link to download: {{link}}",
+  "inviteWithRewardsCUSD": "Hi! 👋 I'm using {{appName}} as my crypto wallet. It's super quick to download the app and connect your phone number - plus, we both get 1 cUSD as a reward. 💫 \n\nUse this link to download: {{link}}",
   "loadingContacts": "Kişilerinizi bulma",
   "myCode": "Benim Kodum",
   "scanCode": "Tara",
@@ -1520,8 +1557,8 @@
     "swapFromTokenSelection": "Şuradan Gelen Takas",
     "swapToTokenSelection": "Şuraya Giden Takas",
     "maxSwapAmountWarning": {
-      "title": "Swapping the MAX amount",
-      "body": "Make sure you have CELO in your wallet to cover gas fees for future transactions",
+      "title": "MAKS. miktarda takas",
+      "body": "Gelecekteki işlemlerinizin gas ücretlerini karşılamak için cüzdanınızda CELO bulundurun",
       "learnMore": "Daha fazla bilgi edinin"
     }
   },
@@ -1561,6 +1598,21 @@
       "action": "İleri",
       "body": "Kripto para piyasasındaki dalgalanmalar nedeniyle kripto tutarları ve ücretleri değişebilir. \n\n Lütfen tekrar göndermeden önce nihai tutarınızı ve ücretlerinizi gözden geçirin."
     },
+    "swapCompleteSection": {
+      "title": "Takas başarılı",
+      "subtitle": "Varlıklarınız artık cüzdanınızda",
+      "done": "Tamamlandı"
+    },
+    "swapErrorSection": {
+      "title": "Takas işleminizi tamamlayamadık",
+      "subtitle": "Varlıklarınız cüzdanınızda güvende.\nLütfen tekrar deneyin.",
+      "contactSupport": "Başka yardım gerekirse şuraya ulaşabilirsiniz:\n<0>müşteri desteği<0>"
+    },
+    "swapActionBar": {
+      "tryAgain": "Tekrar Deneyin",
+      "done": "Tamamlandı",
+      "swapAgain": "Tekrar Takas Yapın"
+    },
     "swapErrorModal": {
       "title": "Bu işlemi tamamlayamadık.",
       "body": "Lütfen bekleyip daha sonra tekrar deneyin veya yardım için destek ekibimizle iletişime geçin.",
@@ -1576,6 +1628,10 @@
     "rewardsActive": {
       "title": "{{contactName}} adlı kişiyi {{appName}} uygulamasına davet edin ve ikiniz de NFT kazanın!",
       "body": "Görünüşe göre {{contactName}} {{appName}} kullanmıyor. Bu kişinin cüzdan adresini biliyorsanız, yine de bir ödeme gönderebilir veya bunun yerine davet gönderebilirsiniz. \n\n Bu kişi cüzdanı indirdikten ve telefon numarasını bağladıktan sonra, ikiniz de özel bir NFT alacaksınız."
+    },
+    "rewardsActiveCUSD": {
+      "title": "Invite {{contactName}} to {{appName}} and you'll both get a reward",
+      "body": "Looks like {{contactName}} isn’t on Valora. You can still send a payment if you know their wallet address, or send an invite instead. \n\n After they download the wallet and connect their phone number, you will both get <0>rewarded with 1 cUSD</0>"
     }
   },
   "celoNews": {
@@ -1585,9 +1641,24 @@
     "loadingError": "Üzgünüz, en son güncellemeleri yükleyemedik. Lütfen daha sonra tekrar deneyin.",
     "retryButtonText": "Yeniden Dene"
   },
+  "chooseYourAdventure": {
+    "header": "Welcome to Valora",
+    "subtitle": "What would you like to do first?",
+    "later": "I'll explore later",
+    "options": {
+      "add": "Add funds",
+      "dapp": "Find ways to use crypto",
+      "profile": "Build my profile",
+      "learn": "Learn about Celo"
+    }
+  },
   "reverifyUsingCPVHomecard": {
-    "description": "Reconnect your number to send, receive and get rewards on your crypto",
-    "buttonLabel": "Reconnect number"
+    "description": "Kriptonuzu göndermek, almak ve ödüller kazanmak için telefon numaranızı yeniden bağlayın",
+    "buttonLabel": "Numarayı yeniden bağla"
+  },
+  "profileScreen": {
+    "generateName": "Bir isim oluşturun",
+    "namePlaceholder": "Select a name ex) {{exampleName}}"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

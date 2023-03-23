@@ -2108,6 +2108,7 @@
                 "BackupQuiz",
                 "BidaliScreen",
                 "CashInSuccess",
+                "ChooseYourAdventure",
                 "CoinbasePayScreen",
                 "ConsumerIncentivesHomeScreen",
                 "DAppsExplorerScreen",
@@ -2400,9 +2401,6 @@
                 "appState": {
                     "$ref": "#/definitions/AppState"
                 },
-                "cashInButtonExpEnabled": {
-                    "type": "boolean"
-                },
                 "celoEducationUri": {
                     "type": [
                         "null",
@@ -2425,6 +2423,9 @@
                     "type": "boolean"
                 },
                 "googleMobileServicesAvailable": {
+                    "type": "boolean"
+                },
+                "hapticFeedbackEnabled": {
                     "type": "boolean"
                 },
                 "huaweiMobileServicesAvailable": {
@@ -2548,13 +2549,13 @@
                 "activeScreen",
                 "analyticsEnabled",
                 "appState",
-                "cashInButtonExpEnabled",
                 "celoEducationUri",
                 "celoEuroEnabled",
                 "celoNews",
                 "coinbasePayEnabled",
                 "fiatConnectCashInEnabled",
                 "fiatConnectCashOutEnabled",
+                "hapticFeedbackEnabled",
                 "inviterAddress",
                 "lastTimeBackgrounded",
                 "locked",
@@ -2703,6 +2704,9 @@
                 },
                 "recoveringFromStoreWipe": {
                     "type": "boolean"
+                },
+                "startOnboardingTime": {
+                    "type": "number"
                 }
             },
             "required": [
@@ -3703,8 +3707,8 @@
                 "inviteRewardWeeklyLimit": {
                     "type": "number"
                 },
-                "inviteRewardsEnabled": {
-                    "type": "boolean"
+                "inviteRewardsVersion": {
+                    "type": "string"
                 },
                 "isSending": {
                     "type": "boolean"
@@ -3802,7 +3806,7 @@
             "required": [
                 "inviteRewardCusd",
                 "inviteRewardWeeklyLimit",
-                "inviteRewardsEnabled",
+                "inviteRewardsVersion",
                 "isSending",
                 "lastUsedCurrency",
                 "recentPayments",

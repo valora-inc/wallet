@@ -31,6 +31,7 @@ import {
 import { SettingsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import {
+  hapticFeedbackSet,
   resetAppOpenedState,
   setAnalyticsEnabled,
   setNumberVerified,
@@ -38,6 +39,7 @@ import {
   setSessionId,
 } from 'src/app/actions'
 import {
+  hapticFeedbackEnabledSelector,
   phoneNumberVerifiedSelector,
   sessionIdSelector,
   supportedBiometryTypeSelector,
@@ -79,6 +81,7 @@ interface DispatchProps {
   setPincodeSuccess: typeof setPincodeSuccess
   setSessionId: typeof setSessionId
   clearStoredAccount: typeof clearStoredAccount
+  hapticFeedbackSet: typeof hapticFeedbackSet
 }
 
 interface StateProps {
@@ -96,6 +99,7 @@ interface StateProps {
   walletConnectEnabled: boolean
   supportedBiometryType: BIOMETRY_TYPE | null
   shouldShowRecoveryPhraseInSettings: boolean
+  hapticFeedbackEnabled: boolean
 }
 
 type OwnProps = NativeStackScreenProps<StackParamList, Screens.Settings>
@@ -120,6 +124,7 @@ const mapStateToProps = (state: RootState): StateProps => {
     walletConnectEnabled: v1,
     supportedBiometryType: supportedBiometryTypeSelector(state),
     shouldShowRecoveryPhraseInSettings: shouldShowRecoveryPhraseInSettingsSelector(state),
+    hapticFeedbackEnabled: hapticFeedbackEnabledSelector(state),
   }
 }
 
@@ -134,6 +139,7 @@ const mapDispatchToProps = {
   setPincodeSuccess,
   setSessionId,
   clearStoredAccount,
+  hapticFeedbackSet,
 }
 
 interface State {
@@ -308,6 +314,13 @@ export class Account extends React.Component<Props, State> {
     })
   }
 
+  handleHapticFeedbackToggle = (value: boolean) => {
+    this.props.hapticFeedbackSet(value)
+    ValoraAnalytics.track(SettingsEvents.settings_haptic_feedback, {
+      enabled: value,
+    })
+  }
+
   onTermsPress() {
     navigateToURI(TOS_LINK)
     ValoraAnalytics.track(SettingsEvents.tos_view)
@@ -464,6 +477,12 @@ export class Account extends React.Component<Props, State> {
               value={this.props.requirePinOnAppOpen}
               onValueChange={this.handleRequirePinToggle}
               testID="requirePinOnAppOpenToggle"
+            />
+            <SectionHead text={t('appPreferences')} style={styles.sectionTitle} />
+            <SettingsItemSwitch
+              title={t('hapticFeedback')}
+              value={this.props.hapticFeedbackEnabled}
+              onValueChange={this.handleHapticFeedbackToggle}
             />
             <SectionHead text={t('data')} style={styles.sectionTitle} />
             <SettingsItemSwitch

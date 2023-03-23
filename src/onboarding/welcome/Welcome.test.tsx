@@ -3,28 +3,39 @@ import * as React from 'react'
 import { Provider } from 'react-redux'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { firstOnboardingScreen } from 'src/onboarding/steps'
 import Welcome from 'src/onboarding/welcome/Welcome'
+import { Statsig } from 'statsig-react-native'
 import { createMockStore } from 'test/utils'
+import { mocked } from 'ts-jest/utils'
+
+jest.mock('src/onboarding/steps')
+jest.mock('statsig-react-native')
 
 describe('Welcome', () => {
-  it('renders and behaves correctly', () => {
+  beforeAll(() => {
+    jest.spyOn(Date, 'now').mockImplementation(() => 123)
+  })
+  it('renders and behaves correctly', async () => {
     const store = createMockStore()
     const { getByTestId } = render(
       <Provider store={store}>
         <Welcome /*{...getMockStackScreenProps(Screens.)}*/ />
       </Provider>
     )
-
     fireEvent.press(getByTestId('CreateAccountButton'))
     jest.runOnlyPendingTimers()
-    expect(navigate).toHaveBeenCalledWith(Screens.RegulatoryTerms)
+    await Promise.resolve() // waits for Statsig.updateUser promise to resolve
+    expect(Statsig.updateUser).toHaveBeenCalledWith({ custom: { startOnboardingTime: 123 } })
     expect(store.getActions()).toMatchInlineSnapshot(`
       Array [
         Object {
+          "now": 123,
           "type": "ACCOUNT/CHOOSE_CREATE",
         },
       ]
     `)
+    expect(navigate).toHaveBeenCalledWith(Screens.RegulatoryTerms)
 
     store.clearActions()
 
@@ -38,5 +49,24 @@ describe('Welcome', () => {
         },
       ]
     `)
+  })
+  it('goes to the onboarding screen', async () => {
+    const store = createMockStore({
+      account: {
+        acceptedTerms: true,
+      },
+    })
+    mocked(firstOnboardingScreen).mockReturnValue(Screens.NameAndPicture)
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <Welcome />
+      </Provider>
+    )
+
+    fireEvent.press(getByTestId('CreateAccountButton'))
+    jest.runOnlyPendingTimers()
+    await Promise.resolve() // waits for Statsig.updateUser promise to resolve
+    expect(firstOnboardingScreen).toHaveBeenCalled()
+    expect(navigate).toHaveBeenCalledWith(Screens.NameAndPicture)
   })
 })

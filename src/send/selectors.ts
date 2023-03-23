@@ -3,6 +3,7 @@ import { numberVerifiedCentrallySelector } from 'src/app/selectors'
 import { localCurrencyToUsdSelector } from 'src/localCurrency/selectors'
 import { RootState } from 'src/redux/reducers'
 import { tokensWithTokenBalanceSelector } from 'src/tokens/selectors'
+import { InviteRewardsType } from './types'
 
 export const getRecentPayments = (state: RootState) => {
   return state.send.recentPayments
@@ -16,11 +17,21 @@ export const isSendingSelector = (state: RootState) => {
 
 export const inviteRewardCusdSelector = (state: RootState) => state.send.inviteRewardCusd
 
-export const inviteRewardsEnabledSelector = (state: RootState) => state.send.inviteRewardsEnabled
+export const inviteRewardsTypeSelector = (state: RootState) => {
+  switch (state.send.inviteRewardsVersion) {
+    case 'v4':
+      return InviteRewardsType.NFT
+    case 'v5':
+      return InviteRewardsType.CUSD
+    default:
+      return InviteRewardsType.NONE
+  }
+}
 
 export const inviteRewardsActiveSelector = createSelector(
-  [inviteRewardsEnabledSelector, numberVerifiedCentrallySelector],
-  (inviteRewardsEnabled, numberCentrallyVerified) => inviteRewardsEnabled && numberCentrallyVerified
+  [inviteRewardsTypeSelector, numberVerifiedCentrallySelector],
+  (inviteRewardsVersion, numberCentrallyVerified) =>
+    inviteRewardsVersion !== 'none' && numberCentrallyVerified
 )
 
 export const canSendTokensSelector = createSelector(

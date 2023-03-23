@@ -15,6 +15,7 @@ import {
   ParamListBase,
   useLinkBuilder,
 } from '@react-navigation/native'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
@@ -68,8 +69,11 @@ import { getActiveRouteName } from 'src/navigator/NavigatorWrapper'
 import RewardsPill from 'src/navigator/RewardsPill'
 import { Screens } from 'src/navigator/Screens'
 import { isAppSwapsEnabledSelector } from 'src/navigator/selectors'
-import { getOnboardingExperimentParams } from 'src/onboarding'
+import { StackParamList } from 'src/navigator/types'
 import { default as useSelector } from 'src/redux/useSelector'
+import { getExperimentParams } from 'src/statsig'
+import { ExperimentConfigs } from 'src/statsig/constants'
+import { StatsigExperiments } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import SwapScreen from 'src/swap/SwapScreen'
@@ -201,8 +205,11 @@ function CustomDrawerContent(props: DrawerContentComponentProps<DrawerContentOpt
   )
 }
 
-export default function DrawerNavigator() {
+type Props = NativeStackScreenProps<StackParamList, Screens.DrawerNavigator>
+
+export default function DrawerNavigator({ route }: Props) {
   const { t } = useTranslation()
+  const initialScreen = route.params?.initialScreen ?? Screens.WalletHome
   const isCeloEducationComplete = useSelector(celoEducationCompletedSelector)
   const dappsListUrl = useSelector(dappsListApiUrlSelector)
   const dappsFilterEnabled = useSelector(dappsFilterEnabledSelector)
@@ -241,7 +248,7 @@ export default function DrawerNavigator() {
 
   return (
     <Drawer.Navigator
-      initialRouteName={Screens.WalletHome}
+      initialRouteName={initialScreen}
       drawerContent={drawerContent}
       backBehavior={'initialRoute'}
       drawerContentOptions={{
@@ -300,7 +307,10 @@ export default function DrawerNavigator() {
           component={BackupIntroduction}
           options={{
             drawerLabel:
-              !backupCompleted && getOnboardingExperimentParams().showBackupAlert
+              !backupCompleted &&
+              getExperimentParams(
+                ExperimentConfigs[StatsigExperiments.RECOVERY_PHRASE_IN_ONBOARDING]
+              ).showBackupAlert
                 ? () => (
                     <View style={styles.itemStyle}>
                       <Text style={styles.itemTitle}>{t('accountKey')}</Text>

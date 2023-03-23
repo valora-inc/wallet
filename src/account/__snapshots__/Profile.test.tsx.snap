@@ -1,30 +1,32 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Profile renders correctly 1`] = `
-<RCTScrollView
+<RNCSafeAreaView
+  edges={
+    Array [
+      "bottom",
+    ]
+  }
   style={
     Object {
       "flex": 1,
     }
   }
 >
-  <View>
-    <RNCSafeAreaView
-      edges={
-        Array [
-          "bottom",
-        ]
-      }
-    >
+  <RCTScrollView
+    keyboardShouldPersistTaps="handled"
+    testID="ProfileScrollView"
+  >
+    <View>
       <View
         style={
           Object {
             "alignItems": "center",
             "flexDirection": "column",
-            "paddingBottom": 15,
+            "paddingBottom": 37,
             "paddingLeft": 10,
             "paddingRight": 15,
-            "paddingTop": 30,
+            "paddingTop": 24,
           }
         }
       >
@@ -50,62 +52,91 @@ exports[`Profile renders correctly 1`] = `
               Object {
                 "alignItems": "center",
                 "alignSelf": "center",
-                "borderRadius": 60,
-                "height": 120,
+                "borderRadius": 32,
+                "height": 64,
                 "justifyContent": "center",
-                "width": 120,
-              },
-              Object {
-                "backgroundColor": "#DFDBCE",
+                "width": 64,
               },
             ]
           }
           testID="PictureInput"
         >
-          <Text
-            maxFontSizeMultiplier={2}
+          <View
             style={
-              Object {
-                "textAlign": "center",
-                "textAlignVertical": "center",
-              }
+              Array [
+                Object {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "justifyContent": "center",
+                },
+                undefined,
+              ]
             }
           >
-            addPhoto
-          </Text>
+            <View
+              style={
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "justifyContent": "center",
+                  },
+                  Object {
+                    "backgroundColor": "hsl(0, 53%, 93%)",
+                    "borderRadius": 32,
+                    "height": 64,
+                    "width": 64,
+                  },
+                ]
+              }
+            >
+              <Text
+                allowFontScaling={false}
+                style={
+                  Array [
+                    Object {
+                      "color": "#FFFFFF",
+                      "fontFamily": "Inter-Medium",
+                      "fontSize": 16,
+                    },
+                    Object {
+                      "color": "hsl(0, 67%, 24%)",
+                      "fontSize": 32,
+                    },
+                  ]
+                }
+              >
+                J
+              </Text>
+            </View>
+          </View>
           <View
             style={
               Object {
                 "alignItems": "center",
-                "backgroundColor": "#1AB775",
-                "borderRadius": 16,
-                "bottom": 0,
-                "height": 32,
+                "backgroundColor": "#F8F9F9",
+                "borderRadius": 20,
+                "bottom": -13,
+                "height": 40,
                 "justifyContent": "center",
+                "left": 37,
                 "position": "absolute",
-                "right": 0,
-                "width": 32,
+                "width": 40,
               }
             }
           >
             <svg
               fill="none"
-              height={16}
+              height={13}
               style={Object {}}
-              viewBox="0 0 16 16"
-              width={16}
+              viewBox="0 0 13 13"
+              width={13}
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
                 clip-rule="evenodd"
-                d="M5 3C5 1.89543 5.89543 1 7 1H9C10.1046 1 11 1.89543 11 3H13C14.1046 3 15 3.89543 15 5V11C15 12.1046 14.1046 13 13 13H3C1.89543 13 1 12.1046 1 11V5C1 3.89543 1.89543 3 3 3H5ZM8 10C9.10457 10 10 9.10457 10 8C10 6.89543 9.10457 6 8 6C6.89543 6 6 6.89543 6 8C6 9.10457 6.89543 10 8 10Z"
-                fill="#1AB775"
+                d="M10.8667 4.94998L8.03333 2.14998L8.96667 1.21665C9.22222 0.961091 9.53622 0.833313 9.90867 0.833313C10.2807 0.833313 10.5944 0.961091 10.85 1.21665L11.7833 2.14998C12.0389 2.40554 12.1722 2.71398 12.1833 3.07531C12.1944 3.4362 12.0722 3.74442 11.8167 3.99998L10.8667 4.94998ZM9.9 5.93331L2.83333 13H0V10.1666L7.06667 3.09998L9.9 5.93331Z"
+                fill="#178154"
                 fill-rule="evenodd"
-                style={Object {}}
-              />
-              <path
-                d="M5 3V3.5C5.27614 3.5 5.5 3.27614 5.5 3H5ZM11 3H10.5C10.5 3.27614 10.7239 3.5 11 3.5V3ZM7 0.5C5.61929 0.5 4.5 1.61929 4.5 3H5.5C5.5 2.17157 6.17157 1.5 7 1.5V0.5ZM9 0.5H7V1.5H9V0.5ZM11.5 3C11.5 1.61929 10.3807 0.5 9 0.5V1.5C9.82843 1.5 10.5 2.17157 10.5 3H11.5ZM13 2.5H11V3.5H13V2.5ZM15.5 5C15.5 3.61929 14.3807 2.5 13 2.5V3.5C13.8284 3.5 14.5 4.17157 14.5 5H15.5ZM15.5 11V5H14.5V11H15.5ZM13 13.5C14.3807 13.5 15.5 12.3807 15.5 11H14.5C14.5 11.8284 13.8284 12.5 13 12.5V13.5ZM3 13.5H13V12.5H3V13.5ZM0.5 11C0.5 12.3807 1.61929 13.5 3 13.5V12.5C2.17157 12.5 1.5 11.8284 1.5 11H0.5ZM0.5 5V11H1.5V5H0.5ZM3 2.5C1.61929 2.5 0.5 3.61929 0.5 5H1.5C1.5 4.17157 2.17157 3.5 3 3.5V2.5ZM5 2.5H3V3.5H5V2.5ZM9.5 8C9.5 8.82843 8.82843 9.5 8 9.5V10.5C9.38071 10.5 10.5 9.38071 10.5 8H9.5ZM8 6.5C8.82843 6.5 9.5 7.17157 9.5 8H10.5C10.5 6.61929 9.38071 5.5 8 5.5V6.5ZM6.5 8C6.5 7.17157 7.17157 6.5 8 6.5V5.5C6.61929 5.5 5.5 6.61929 5.5 8H6.5ZM8 9.5C7.17157 9.5 6.5 8.82843 6.5 8H5.5C5.5 9.38071 6.61929 10.5 8 10.5V9.5Z"
-                fill="white"
                 style={Object {}}
               />
             </svg>
@@ -393,110 +424,181 @@ exports[`Profile renders correctly 1`] = `
       <View
         style={
           Object {
-            "backgroundColor": "#FFFFFF",
+            "borderBottomColor": "#E6E6E6",
+            "borderBottomWidth": 1,
+            "marginHorizontal": 24,
           }
         }
       >
         <View
           style={
-            Object {
-              "borderBottomColor": "#E6E6E6",
-              "borderBottomWidth": 1,
-              "marginLeft": 16,
-              "paddingVertical": 16,
+            Array [
+              Object {
+                "alignItems": "center",
+                "flex": 1,
+                "flexDirection": "row",
+                "justifyContent": "center",
+              },
+              undefined,
+            ]
+          }
+        >
+          <TextInput
+            onBlur={[Function]}
+            onChangeText={[Function]}
+            onFocus={[Function]}
+            placeholder="profileScreen.namePlaceholder, {}"
+            style={
+              Array [
+                Object {
+                  "color": "#2E3338",
+                  "flex": 1,
+                  "fontFamily": "Inter-Regular",
+                  "fontSize": 16,
+                  "lineHeight": 22,
+                  "paddingHorizontal": 0,
+                  "paddingVertical": 12,
+                },
+                undefined,
+                undefined,
+              ]
             }
+            testID="ProfileEditName"
+            value="John Doe"
+          />
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+          }
+        }
+      >
+        <View
+          style={
+            Array [
+              Object {
+                "flexDirection": "row",
+              },
+              Object {
+                "marginVertical": 24,
+              },
+            ]
           }
         >
           <View
             style={
-              Object {
-                "alignItems": "center",
-                "flexDirection": "row",
-                "justifyContent": "space-between",
-                "paddingRight": 16,
-              }
+              Array [
+                Object {
+                  "overflow": "hidden",
+                },
+                Object {
+                  "borderRadius": 100,
+                },
+              ]
             }
           >
             <View
-              style={
-                Array [
-                  Object {
-                    "flex": 1,
-                    "justifyContent": "center",
-                  },
-                ]
+              accessible={true}
+              focusable={true}
+              nativeBackgroundAndroid={
+                Object {
+                  "attribute": "selectableItemBackground",
+                  "rippleRadius": undefined,
+                  "type": "ThemeAttrAndroid",
+                }
               }
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                Object {
+                  "alignItems": "center",
+                  "backgroundColor": "#1AB775",
+                  "flexDirection": "row",
+                  "height": 48,
+                  "justifyContent": "center",
+                  "minWidth": 120,
+                  "opacity": undefined,
+                  "paddingHorizontal": 24,
+                  "paddingVertical": 5,
+                }
+              }
+              testID="GenerateNameButton"
             >
               <Text
+                maxFontSizeMultiplier={1}
                 style={
                   Object {
-                    "color": "#2E3338",
-                    "fontFamily": "Inter-Regular",
+                    "color": "#FFFFFF",
+                    "fontFamily": "Inter-SemiBold",
                     "fontSize": 16,
                     "lineHeight": 22,
+                    "marginLeft": 0,
+                    "marginRight": 0,
                   }
                 }
               >
-                name
+                profileScreen.generateName
               </Text>
-            </View>
-            <View
-              style={
-                Array [
-                  Object {
-                    "alignItems": "center",
-                    "flex": 1,
-                    "flexDirection": "row",
-                    "justifyContent": "center",
-                  },
-                  Object {
-                    "justifyContent": "flex-end",
-                    "paddingLeft": 16,
-                  },
-                ]
-              }
-            >
-              <TextInput
-                multiline={true}
-                onBlur={[Function]}
-                onChangeText={[Function]}
-                onFocus={[Function]}
-                placeholder="yourName"
-                style={
-                  Array [
-                    Object {
-                      "color": "#2E3338",
-                      "flex": 1,
-                      "fontFamily": "Inter-Regular",
-                      "fontSize": 16,
-                      "lineHeight": 22,
-                      "paddingHorizontal": 0,
-                      "paddingVertical": 12,
-                    },
-                    Object {
-                      "textAlignVertical": "top",
-                    },
-                    Array [
-                      Object {
-                        "color": "#666666",
-                        "minWidth": 160,
-                        "paddingVertical": 0,
-                        "textAlign": "right",
-                      },
-                      Object {
-                        "color": "#666666",
-                      },
-                    ],
-                  ]
-                }
-                testID="ProfileEditName"
-                value="John Doe"
-              />
             </View>
           </View>
         </View>
+        <View
+          accessible={true}
+          focusable={true}
+          nativeBackgroundAndroid={
+            Object {
+              "attribute": "selectableItemBackground",
+              "rippleRadius": undefined,
+              "type": "ThemeAttrAndroid",
+            }
+          }
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          testID="SaveButton"
+        >
+          <Text
+            style={
+              Object {
+                "color": "#1AB775",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 16,
+                "lineHeight": 22,
+              }
+            }
+          >
+            save
+          </Text>
+        </View>
       </View>
-    </RNCSafeAreaView>
-  </View>
-</RCTScrollView>
+    </View>
+  </RCTScrollView>
+  <View
+    collapsable={false}
+    style={
+      Array [
+        Object {
+          "bottom": 0,
+          "left": 0,
+          "right": 0,
+        },
+        Object {
+          "height": 0,
+        },
+        undefined,
+      ]
+    }
+  />
+</RNCSafeAreaView>
 `;

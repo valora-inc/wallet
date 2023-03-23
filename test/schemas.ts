@@ -2103,6 +2103,51 @@ export const v115Schema = {
   },
 }
 
+export const v116Schema = {
+  ...v115Schema,
+  _persist: {
+    ...v115Schema._persist,
+    version: 116,
+  },
+  account: {
+    ...v115Schema.account,
+    startOnboardingTime: undefined,
+  },
+}
+
+export const v117Schema = {
+  ...v116Schema,
+  _persist: {
+    ...v116Schema._persist,
+    version: 117,
+  },
+  app: _.omit(v116Schema.app, 'cashInButtonExpEnabled'),
+}
+
+export const v118Schema = {
+  ...v117Schema,
+  _persist: {
+    ...v116Schema._persist,
+    version: 118,
+  },
+  send: {
+    ..._.omit(v117Schema.send, 'inviteRewardsEnabled'),
+    inviteRewardsVersion: 'none',
+  },
+}
+
+export const v119Schema = {
+  ...v118Schema,
+  _persist: {
+    ...v118Schema._persist,
+    version: 119,
+  },
+  app: {
+    ...v118Schema.app,
+    hapticFeedbackEnabled: true,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v115Schema as Partial<RootState>
+  return v119Schema as Partial<RootState>
 }

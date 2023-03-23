@@ -60,6 +60,8 @@ import { RecipientType } from 'src/recipients/recipient'
 import { Field } from 'src/swap/types'
 import { Currency, CurrencyOrCREAL, StableCurrency } from 'src/utils/currencies'
 import { Awaited } from 'src/utils/typescript'
+import { AdventureCardName } from 'src/onboarding/types'
+
 type PermissionStatus = Awaited<ReturnType<typeof check>>
 
 interface AppEventsProperties {
@@ -156,7 +158,11 @@ interface HomeEventsProperties {
 
 interface SettingsEventsProperties {
   [SettingsEvents.settings_profile_edit]: undefined
-  [SettingsEvents.settings_profile_name_edit]: undefined
+  [SettingsEvents.profile_generate_name]: undefined
+  [SettingsEvents.profile_save]: undefined
+  [SettingsEvents.profile_cancel]: undefined
+  [SettingsEvents.profile_photo_chosen]: undefined
+  [SettingsEvents.profile_photo_removed]: undefined
   [SettingsEvents.language_select]: {
     language: string
   }
@@ -179,6 +185,7 @@ interface SettingsEventsProperties {
   [SettingsEvents.settings_biometry_opt_in_error]: undefined
   [SettingsEvents.settings_biometry_opt_in_disable]: undefined
   [SettingsEvents.settings_recovery_phrase]: undefined
+  [SettingsEvents.settings_haptic_feedback]: { enabled: boolean }
 }
 
 interface OnboardingEventsProperties {
@@ -332,6 +339,12 @@ interface OnboardingEventsProperties {
   [OnboardingEvents.protect_wallet_help_dismiss]: undefined
   [OnboardingEvents.protect_wallet_copy_phrase]: undefined
   [OnboardingEvents.protect_wallet_complete]: undefined
+  [OnboardingEvents.cya_button_press]: {
+    name: string
+    position: number
+    cardOrder: AdventureCardName[]
+  }
+  [OnboardingEvents.cya_later]: undefined
 }
 
 interface VerificationEventsProperties {
@@ -452,6 +465,7 @@ interface InviteEventsProperties {
   [InviteEvents.opened_via_invite_url]: {
     inviterAddress: string
   }
+  [InviteEvents.invite_help_link]: undefined
 }
 
 interface EscrowEventsProperties {

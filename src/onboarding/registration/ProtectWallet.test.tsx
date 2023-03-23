@@ -1,18 +1,18 @@
+import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
-import ProtectWallet from 'src/onboarding/registration/ProtectWallet'
-import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import { Provider } from 'react-redux'
-import { createMockStore, getMockStackScreenProps } from 'test/utils'
-import { getOnboardingExperimentParams } from 'src/onboarding/index'
-import { Screens } from 'src/navigator/Screens'
-import { navigate } from 'src/navigator/NavigationService'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { OnboardingEvents } from 'src/analytics/Events'
-import { mocked } from 'ts-jest/utils'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
+import ProtectWallet from 'src/onboarding/registration/ProtectWallet'
+import { getExperimentParams } from 'src/statsig'
+import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockOnboardingProps } from 'test/values'
+import { mocked } from 'ts-jest/utils'
 
-jest.mock('src/onboarding/index')
+jest.mock('src/statsig')
 jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/pincode/authentication', () => ({
   getPassword: jest.fn(),
@@ -44,6 +44,9 @@ const mockExperimentParams = {
   useNewBackupFlowCopy: false,
   showBackupAlert: false,
   useNewBackupHomeCard: false,
+  chooseAdventureEnabled: false,
+  onboardingNameScreenEnabled: true,
+  cashInBottomSheetEnabled: false,
 }
 
 describe('ProtectWalletScreen', () => {
@@ -55,11 +58,11 @@ describe('ProtectWalletScreen', () => {
   })
   beforeEach(() => {
     jest.clearAllMocks()
-    mocked(getOnboardingExperimentParams).mockReturnValue(mockExperimentParams)
+    mocked(getExperimentParams).mockReturnValue(mockExperimentParams)
   })
   it('Shows only recovery phrase option', async () => {
     const mockParams = { ...mockExperimentParams, showCloudBackupFakeDoor: false }
-    mocked(getOnboardingExperimentParams).mockReturnValue(mockParams)
+    mocked(getExperimentParams).mockReturnValue(mockParams)
     const { getByTestId, queryByTestId } = render(
       <Provider store={store}>
         <ProtectWallet {...mockScreenProps} />

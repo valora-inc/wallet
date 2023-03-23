@@ -993,7 +993,10 @@ export const mockOnboardingProps = {
   supportedBiometryType: null,
   skipVerification: true,
   numberAlreadyVerifiedCentrally: false,
+  chooseAdventureEnabled: false,
   showRecoveryPhrase: false,
+  onboardingNameScreenEnabled: true,
+  cashInBottomSheetEnabled: true,
 }
 
 export const mockDappListV1: DappV1[] = [

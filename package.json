@@ -1,6 +1,6 @@
 {
   "name": "@valora/wallet",
-  "version": "1.54.0",
+  "version": "1.55.0",
   "author": "Valora Inc",
   "license": "Apache-2.0",
   "private": true,
@@ -146,6 +146,7 @@
     "react-native-fs": "^2.20.0",
     "react-native-gesture-handler": "^2.9.0",
     "react-native-get-random-values": "^1.8.0",
+    "react-native-haptic-feedback": "^1.14.0",
     "react-native-image-crop-picker": "^0.35.1",
     "react-native-keychain": "8.0.0",
     "react-native-linear-gradient": "^2.6.2",

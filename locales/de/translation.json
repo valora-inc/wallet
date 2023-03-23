@@ -44,6 +44,37 @@
     "body": "Sobald die Verbindung getrennt wurde, kannst du deine Telefonnummer nicht mehr mit dieser Wallet verbinden.",
     "revoke": "Verbindung trennen"
   },
+  "protectWallet": {
+    "title": "Schütze deine Wallet",
+    "subtitle": "Schütze deine Wallet",
+    "body": "Wenn du dein Telefon verlierst oder es dir gestohlen wird, ist deine {{mnemonicLength}}-Wörter Wiederherstellungsphrase die einzige Möglichkeit, um auf dein Guthaben zugreifen zu können.",
+    "recoveryPhrase": {
+      "title": "Wiederherstellungsphrase verwenden",
+      "subtitle": "Schreibe dir deine Wiederherstellungsphrase auf"
+    },
+    "cloudBackup": {
+      "title": "In der Cloud sichern",
+      "subtitle": "Deine Wallet ohne Wiederherstellungsphrase wiederherstellen",
+      "bottomSheet": {
+        "title": "Das Cloud-Backup kommt demnächst!",
+        "restoreComingSoon": "Das Cloud-Backup ist eine Möglichkeit, deine Wallet ohne Wiederherstellungsphrase wiederherzustellen. Wir arbeiten so schnell wir können und benachrichtigen dich, sobald diese Funktion verfügbar ist.",
+        "writeDownPhrase": "In der Zwischenzeit schreibe dir bitte deine Wiederherstellungsphrase auf, um deine Wallet manuell zu sichern.",
+        "continue": "Mit Wiederherstellungsphrase fortfahren"
+      }
+    }
+  },
+  "recoveryPhrase": {
+    "title": "Deine Wiederherstellungsphrase",
+    "body": "Schreibe diese {{mnemonicLength}} Wörter so auf, dass sie nicht gestohlen oder beschädigt werden können.",
+    "continue": "Ich habe sie gespeichert",
+    "copy": "In Zwischenablage kopieren",
+    "mnemonicCopied": "Wiederherstellungsphrase in die Zwischenablage kopiert",
+    "bottomSheet": {
+      "title": "Wiederherstellungsphrase speichern",
+      "writeDownPhrase": "Schreibe deine Wiederherstellungsphrase auf ein Blatt Papier auf und bewahre es an einem sicheren Ort auf, um deine Wallet effektiv zu schützen.",
+      "phraseLocation": "Ein idealer Ort könnte dort sein, wo du andere wichtige Dokumente und Unterlagen aufbewahrst, die nicht leicht gestohlen werden sollen. Es liegt an dir!"
+    }
+  },
   "testFaqLink": "{{appName}} FAQ",
   "termsOfServiceLink": "Nutzungsbedingungen",
   "privacyPolicy": "Datenschutzrichtlinie",
@@ -86,8 +117,8 @@
   "contactSupport": "Support kontaktieren",
   "tapToCopy": "Zum Kopieren antippen",
   "headerTitle": "Wiederherstellungsphrase",
-  "introBackUpPhrase": "Back Up Recovery Phrase",
-  "introCompleteQuiz": "Complete our backup quiz to verify that your wallet can be recovered.\n\nIf you wrote it down incorrectly, you won’t be able to access your wallet if anything happens to your device.",
+  "introBackUpPhrase": "Wiederherstellungsphrase sichern",
+  "introCompleteQuiz": "Schließe unser Backup-Quiz ab, um zu überprüfen, ob dein Wallet wiederhergestellt werden kann.\n\nWenn du es falsch geschrieben hast, dann hast du keinen Zugang auf dein Wallet, wenn etwas mit deinem Gerät passieren sollte.",
   "introTitle": "Deine Wiederherstellungsphrase",
   "introBody": "Deine Wiederherstellungsphrase ist der wichtigste Teil deines Kontos.\n\nBitte finde einen privaten Ort, um deine Phrase einzurichten. Es dauert etwa fünf Minuten.",
   "introPrimaryAction": "Einrichten",
@@ -100,14 +131,14 @@
   "failedFetchMnemonic": "Fehler beim Abrufen der Wiederherstellungsphrase",
   "backupAndRecovery": "Sicherung und Wiederherstellung",
   "writeDownKey": "Bitte schreibe deine Phrase auf",
-  "writeDownKeyExperimental": "Please write down your phrase.",
+  "writeDownKeyExperimental": "Bitte schreibe deine Phrase auf.",
   "completeEducation": "Ich verstehe",
   "yourAccountKey": "Deine Wiederherstellungsphrase",
   "backupKeyNotification": "Verwahre dein Guthaben sicher. Richte deine Wiederherstellungsphrase ein.",
-  "backupKeyNotification2": "Keep your funds safe. Back up your Recovery Phrase now.",
-  "backupKeyCTA": "Finish Backup Now",
+  "backupKeyNotification2": "Verwahre dein Guthaben sicher. Sichere jetzt deine Wiederherstellungsphrase.",
+  "backupKeyCTA": "Schließe die Sicherung jetzt ab",
   "backupKeySummary": "Finde einen privaten Ort und schreibe deine Wiederherstellungsphrase auf. Bitte speichere sie an einem sicheren Ort. Speichere sie nicht in deinem Telefon.",
-  "backupKeyWarning": "If you lose your recovery phrase, you will lose access to all funds held in Valora.",
+  "backupKeyWarning": "Solltest du deine Wiederherstellungsphrase verlieren, dann verlierst du Zugang auf dein gesamtes Guthaben in Valora.",
   "copied": "Phrase in die Zwischenablage kopiert",
   "moreInfo": "Weitere Infos",
   "savedConfirmation": "Ja, ich habe meine Phrase aufgeschrieben.",
@@ -166,7 +197,7 @@
   "superchargeTitle": "Supercharge starten",
   "superchargeDescription": "Erhalte 12% jährliche Rewards auf dein {{token}} -Guthaben. Hier ist, wie man beginnt:",
   "superchargeConnectNumber": "Verbinde deine Telefonnummer",
-  "superchargeReconnectNumber": "Reconnect your phone number\n<0>We have launched an improved Supercharge experience. Reconnect your phone number to keep earning rewards on your {{token}}.</0>",
+  "superchargeReconnectNumber": "Verbinde deine Telefonnummer erneut. \n<0>Wir haben das Supercharge-Erlebnis eingeführt und verbessert. Verbinde deine Telefonnummer erneut, um weiterhin Rewards auf deinem {{token}} zu verdienen.</0>",
   "superchargeMinimumBalance": "Füge einen Mindestsaldo von {{amount}} {{token}} hinzu",
   "superchargeDisclaimer": "Maximiere die Rewards, indem du bis zu {{amount}} {{token}} hinzufügst",
   "superchargeDisclaimerMaxRewards": "Du erhältst maximale Rewards für dein {{token}}",
@@ -569,9 +600,14 @@
     "button": "Einladung senden",
     "error": "Es gab ein Problem beim Erstellen eines teilbaren Links",
     "share": "Hallo! Ich habe {{appName}} Krypto Wallet benutzt. Es ist einfach zu versuchen und ich möchte dich einladen, es mit diesem Link zu sehen: {{shareUrl}}",
+    "help": "To collect this reward, the invitee must download {{appName}} through the referral link and connect their phone number during onboarding. <0>View all terms</0>",
     "rewardsActive": {
       "title": "Freunde einladen und NFTs sammeln",
       "body": "Lade deine Freunde und Familien ein, {{appName}} herunterzuladen. Jeder von euch erhält somit ein exklusives NFT"
+    },
+    "rewardsActiveCUSD": {
+      "title": "Invite friends and collect rewards",
+      "body": "Share {{appName}} with friends and family and you will both get <0>rewarded with 1 cUSD</0>"
     }
   },
   "getReward": "Erhalte ${{reward}}",
@@ -886,7 +922,8 @@
   "walletAddress": "Wallet-Adresse",
   "inviteWithoutPayment": "Hallo! Ich habe {{appName}} benutzt, um Krypto weltweit zu überweisen. Es ist einfach zu versuchen und ich möchte dich einladen, es mit diesem Link zu sehen: {{link}}",
   "inviteWithEscrowedPayment": "Hallo! Ich habe {{appName}} benutzt, um Krypto weltweit zu überweisen. Ich habe dir gerade {{amount}} {{token}} geschickt. Bitte lade die {{appName}} App herunter und löse dein {{token}} mit diesem Link ein: {{link}}",
-  "inviteWithRewards": "Hey! Ich habe dir gerade Kryptos mit meiner {{appName}}-Wallet überwiesen. Sobald du die App heruntergeladen und deine Telefonnummer verbunden hast, erhalten wir beide ein NFT. Verwende diesen Link: {{link}}",
+  "inviteWithRewards": "Hi! 👋 I'm using {{appName}} as my crypto wallet. It's super quick to download the app and connect your phone number - plus, we both get a special edition NFT as a reward. 💫 \n\nUse this link to download: {{link}}",
+  "inviteWithRewardsCUSD": "Hi! 👋 I'm using {{appName}} as my crypto wallet. It's super quick to download the app and connect your phone number - plus, we both get 1 cUSD as a reward. 💫 \n\nUse this link to download: {{link}}",
   "loadingContacts": "Deine Kontakte finden",
   "myCode": "Mein Code",
   "scanCode": "Scannen",
@@ -1497,7 +1534,7 @@
     },
     "pix": {
       "keyType": {
-        "label": "PIX Schlüssel Typ"
+        "label": "PIX-Schlüsseltyp"
       },
       "key": {
         "placeholderText": "PIX-Schlüssel eingeben",
@@ -1520,8 +1557,8 @@
     "swapFromTokenSelection": "Tausch von",
     "swapToTokenSelection": "Tausch zu",
     "maxSwapAmountWarning": {
-      "title": "Swapping the MAX amount",
-      "body": "Make sure you have CELO in your wallet to cover gas fees for future transactions",
+      "title": "Den maximalen Betrag tauschen",
+      "body": "Stelle sicher, dass du CELO in deiner Wallet hast, um die Gasgebühren für zukünftige Transaktionen zu decken",
       "learnMore": "Mehr Infos"
     }
   },
@@ -1561,6 +1598,21 @@
       "action": "Weiter",
       "body": "Krypto-Beträge und -Gebühren können sich aufgrund von Schwankungen auf dem Krypto-Markt ändern. \n\n Bitte überprüfe deine endgültigen Beträge und Gebühren und reiche sie erneut ein."
     },
+    "swapCompleteSection": {
+      "title": "Tausch erfolgreich",
+      "subtitle": "Dein Vermögen befindet sich jetzt in deiner Wallet",
+      "done": "Fertig"
+    },
+    "swapErrorSection": {
+      "title": "Wir konnten deinen Tausch nicht abschließen",
+      "subtitle": "Dein Vermögen ist in deiner Wallet sicher.\nBitte versuche es erneut.",
+      "contactSupport": "Wenn du zusätzliche Hilfe benötigst, kannst du den\n<0>Kunden-Support<0> kontaktieren"
+    },
+    "swapActionBar": {
+      "tryAgain": "Wiederholen",
+      "done": "Fertig",
+      "swapAgain": "Erneut tauschen"
+    },
     "swapErrorModal": {
       "title": "Wir konnten diese Transaktion nicht abschließen.",
       "body": "Bitte warte und versuche es später erneut oder kontaktiere unser Support-Team für Hilfe.",
@@ -1576,6 +1628,10 @@
     "rewardsActive": {
       "title": "Lade {{contactName}} in {{appName}} ein und ihr beide erhaltet NFTs.",
       "body": "Es sieht so aus, als wäre {{contactName}} nicht auf {{appName}}. Wenn du die Wallet-Adresse kennst, kannst du dennoch eine Zahlung oder stattdessen eine Einladung senden. \n\nNachdem die Wallet heruntergeladen und mit der Telefonnummer verbunden wurde, erhaltet ihr beide ein exklusives NFT."
+    },
+    "rewardsActiveCUSD": {
+      "title": "Invite {{contactName}} to {{appName}} and you'll both get a reward",
+      "body": "Looks like {{contactName}} isn’t on Valora. You can still send a payment if you know their wallet address, or send an invite instead. \n\n After they download the wallet and connect their phone number, you will both get <0>rewarded with 1 cUSD</0>"
     }
   },
   "celoNews": {
@@ -1585,9 +1641,24 @@
     "loadingError": "Wir konnten die neuesten Nachrichten nicht laden. Bitte versuche es später erneut.",
     "retryButtonText": "Erneut versuchen"
   },
+  "chooseYourAdventure": {
+    "header": "Willkommen bei Valora",
+    "subtitle": "What would you like to do first?",
+    "later": "I'll explore later",
+    "options": {
+      "add": "Add funds",
+      "dapp": "Find ways to use crypto",
+      "profile": "Build my profile",
+      "learn": "Learn about Celo"
+    }
+  },
   "reverifyUsingCPVHomecard": {
-    "description": "Reconnect your number to send, receive and get rewards on your crypto",
-    "buttonLabel": "Reconnect number"
+    "description": "Verbinde deine Nummer erneut, um deine Kryptowährung zu senden, zu empfangen und Rewards für diese zu erhalten",
+    "buttonLabel": "Nummer erneut verbinden"
+  },
+  "profileScreen": {
+    "generateName": "Namen generieren",
+    "namePlaceholder": "Select a name ex) {{exampleName}}"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

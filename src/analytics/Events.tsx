@@ -41,7 +41,11 @@ export enum HomeEvents {
 
 export enum SettingsEvents {
   settings_profile_edit = 'settings_profile_edit',
-  settings_profile_name_edit = 'settings_profile_name_edit',
+  profile_generate_name = 'profile_generate_name',
+  profile_save = 'profile_save',
+  profile_cancel = 'profile_cancel',
+  profile_photo_chosen = 'profile_photo_chosen',
+  profile_photo_removed = 'profile_photo_removed',
   settings_verify_number = 'settings_verify_number',
   language_select = 'language_select',
   pin_require_on_load = 'pin_require_on_load',
@@ -62,6 +66,7 @@ export enum SettingsEvents {
   // intentionally not tracking analytics opt in/out
   // to avoid tracking through omission
   settings_recovery_phrase = 'settings_recovery_phrase',
+  settings_haptic_feedback = 'settings_haptic_feedback',
 }
 
 export enum OnboardingEvents {
@@ -149,6 +154,9 @@ export enum OnboardingEvents {
   protect_wallet_help_dismiss = 'protect_wallet_help_dismiss',
   protect_wallet_copy_phrase = 'protect_wallet_copy_phrase',
   protect_wallet_complete = 'protect_wallet_complete',
+
+  cya_button_press = 'cya_button_press',
+  cya_later = 'cya_later',
 }
 
 export enum VerificationEvents {
@@ -221,6 +229,7 @@ export enum InviteEvents {
   invite_with_share_dismiss = 'invite_with_share_dismiss',
   invite_with_referral_url = 'invite_with_referral_url',
   opened_via_invite_url = 'opened_via_invite_url',
+  invite_help_link = 'invite_help_link', // When taps "View all terms" in invite disclaimer
 }
 
 export enum EscrowEvents {

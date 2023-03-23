@@ -1078,4 +1078,23 @@ export const migrations = {
       requireCPV: false,
     },
   }),
+  116: (state: any) => ({
+    ...state,
+    account: {
+      ...state.account,
+      startOnboardingTime: undefined,
+    },
+  }),
+  117: (state: any) => ({
+    ...state,
+    app: _.omit(state.app, 'cashInButtonExpEnabled'),
+  }),
+  118: (state: any) => ({
+    ...state,
+    send: {
+      ..._.omit(state.send, 'inviteRewardsEnabled'),
+      inviteRewardsVersion: 'none',
+    },
+  }),
+  119: (state: any) => state,
 }

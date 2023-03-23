@@ -1,0 +1,27 @@
+import ReactNativeHapticFeedback from 'react-native-haptic-feedback'
+import { hapticFeedbackEnabledSelector } from 'src/app/selectors'
+import { store } from 'src/redux/store'
+
+const options = {
+  enableVibrateFallback: false,
+  ignoreAndroidSystemSettings: false,
+}
+
+const triggerHapticFeedback = (type: ReactNativeHapticFeedback.HapticFeedbackTypes) => {
+  const hapticFeedbackEnabled = hapticFeedbackEnabledSelector(store.getState())
+  if (hapticFeedbackEnabled) {
+    ReactNativeHapticFeedback.trigger(type, options)
+  }
+}
+
+export const vibrateInformative = () => {
+  triggerHapticFeedback('impactMedium')
+}
+
+export const vibrateSuccess = () => {
+  triggerHapticFeedback('notificationSuccess')
+}
+
+export const vibrateError = () => {
+  triggerHapticFeedback('notificationError')
+}
