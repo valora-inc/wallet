@@ -4,7 +4,7 @@ import DeviceInfo from 'react-native-device-info'
 import * as RNLocalize from 'react-native-localize'
 import { createSelector } from 'reselect'
 import { defaultCountryCodeSelector, pincodeTypeSelector } from 'src/account/selectors'
-import { numberVerifiedSelector } from 'src/app/selectors'
+import { phoneVerificationStatusSelector } from 'src/app/selectors'
 import { backupCompletedSelector } from 'src/backup/selectors'
 import { superchargeInfoSelector } from 'src/consumerIncentives/selectors'
 import { currentLanguageSelector } from 'src/i18n/selectors'
@@ -24,7 +24,7 @@ export const getCurrentUserTraits = createSelector(
     tokensWithTokenBalanceSelector,
     coreTokensSelector,
     getLocalCurrencyCode,
-    numberVerifiedSelector,
+    phoneVerificationStatusSelector,
     backupCompletedSelector,
     pincodeTypeSelector,
     superchargeInfoSelector,
@@ -38,7 +38,7 @@ export const getCurrentUserTraits = createSelector(
     tokens,
     coreTokens,
     localCurrencyCode,
-    hasVerifiedNumber,
+    { numberVerifiedDecentralized, numberVerifiedCentralized },
     hasCompletedBackup,
     pincodeType,
     superchargeInfo
@@ -90,7 +90,8 @@ export const getCurrentUserTraits = createSelector(
         ])
       ),
       localCurrencyCode,
-      hasVerifiedNumber,
+      hasVerifiedNumber: numberVerifiedDecentralized,
+      hasVerifiedNumberCPV: numberVerifiedCentralized,
       hasCompletedBackup,
       deviceId: DeviceInfo.getUniqueIdSync(),
       appVersion: DeviceInfo.getVersion(),
