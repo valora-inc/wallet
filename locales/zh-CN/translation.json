@@ -600,9 +600,14 @@
     "button": "分享邀请",
     "error": "创建可分享链接时出现问题",
     "share": "嗨！我一直使用 {{appName}} 作为我的加密货币钱包。它使用简便，我想邀请您访问此链接进行查看：{{shareUrl}}",
+    "help": "To collect this reward, the invitee must download {{appName}} through the referral link and connect their phone number during onboarding. <0>View all terms</0>",
     "rewardsActive": {
       "title": "邀请朋友并收集 NFT",
       "body": "邀请您的朋友和家人下载 {{appName}} ，你们每个人都将获得一个独家的 NFT"
+    },
+    "rewardsActiveCUSD": {
+      "title": "Invite friends and collect rewards",
+      "body": "Share {{appName}} with friends and family and you will both get <0>rewarded with 1 cUSD</0>"
     }
   },
   "getReward": "获得 ${{reward}}",
@@ -915,7 +920,8 @@
   "walletAddress": "钱包地址",
   "inviteWithoutPayment": "嗨！我一直在使用 {{appName}} 作为我的加密货币钱包。它使用简便，我想邀请您访问此链接试用： {{link}}",
   "inviteWithEscrowedPayment": "嗨！我一直在使用 {{appName}} 将加密货币发送到世界各地。我刚刚向您发送了 {{amount}} {{token}}。请使用此链接下载 {{appName}} 应用程序并兑换您的 {{token}}：{{link}}",
-  "inviteWithRewards": "嘿！我刚刚用我的 {{appName}} 钱包给您发送了加密货币。如果您下载应用程序并关联您的手机号码，我们都会得到一个特殊版本的 NFT。使用此链接： {{link}}",
+  "inviteWithRewards": "Hi! 👋 I'm using {{appName}} as my crypto wallet. It's super quick to download the app and connect your phone number - plus, we both get a special edition NFT as a reward. 💫 \n\nUse this link to download: {{link}}",
+  "inviteWithRewardsCUSD": "Hi! 👋 I'm using {{appName}} as my crypto wallet. It's super quick to download the app and connect your phone number - plus, we both get 1 cUSD as a reward. 💫 \n\nUse this link to download: {{link}}",
   "loadingContacts": "查找您的联系人",
   "myCode": "我的代码",
   "scanCode": "扫描",
@@ -1620,6 +1626,10 @@
     "rewardsActive": {
       "title": "邀请 {{contactName}} 使用 {{appName}}，你们都将获得 NFT！",
       "body": "似乎 {{contactName}} 未在 {{appName}} 上。如果您知道其钱包地址，则仍可发送付款，或者也可以发送一则邀请。\n\n在其下载钱包并关联手机号码后，你们都将获得一个专属的 NFT。"
+    },
+    "rewardsActiveCUSD": {
+      "title": "Invite {{contactName}} to {{appName}} and you'll both get a reward",
+      "body": "Looks like {{contactName}} isn’t on Valora. You can still send a payment if you know their wallet address, or send an invite instead. \n\n After they download the wallet and connect their phone number, you will both get <0>rewarded with 1 cUSD</0>"
     }
   },
   "celoNews": {
