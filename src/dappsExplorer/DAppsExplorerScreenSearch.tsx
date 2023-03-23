@@ -298,7 +298,7 @@ const styles = StyleSheet.create({
     ...fontStyles.regular,
   },
   disclaimer: {
-    ...fontStyles.small,
+    ...fontStyles.xsmall,
     color: colors.gray5,
     textAlign: 'center',
     marginTop: Spacing.Large32,
