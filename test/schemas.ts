@@ -2124,6 +2124,18 @@ export const v117Schema = {
   app: _.omit(v116Schema.app, 'cashInButtonExpEnabled'),
 }
 
+export const v118Schema = {
+  ...v117Schema,
+  _persist: {
+    ...v116Schema._persist,
+    version: 118,
+  },
+  send: {
+    ..._.omit(v117Schema.send, 'inviteRewardsEnabled'),
+    inviteRewardsVersion: 'none',
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v117Schema as Partial<RootState>
+  return v118Schema as Partial<RootState>
 }

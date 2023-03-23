@@ -21,9 +21,9 @@ describe('Invite', () => {
   })
 
   const getWrapper = ({
-    inviteRewardsEnabled,
+    inviteRewardsVersion,
     phoneNumberVerified,
-  }: { inviteRewardsEnabled?: boolean; phoneNumberVerified?: boolean } = {}) =>
+  }: { inviteRewardsVersion?: string; phoneNumberVerified?: boolean } = {}) =>
     render(
       <Provider
         store={createMockStore({
@@ -31,7 +31,7 @@ describe('Invite', () => {
             account: '0xabc123',
           },
           send: {
-            inviteRewardsEnabled,
+            inviteRewardsVersion,
           },
           app: {
             phoneNumberVerified,
@@ -48,7 +48,7 @@ describe('Invite', () => {
 
     expect(getByTestId('InviteModalShareButton')).toBeDisabled()
     expect(getByText('inviteWithUrl.title')).toBeTruthy()
-    expect(getByText('inviteWithUrl.body')).toBeTruthy()
+    expect(getByTestId('InviteModalStyledDescription')).toHaveTextContent('inviteWithUrl.body')
   })
 
   it('should enable button when share URL is loaded', async () => {
@@ -82,7 +82,7 @@ describe('Invite', () => {
     })
   })
 
-  it('should share when invite rewards are active and button is pressed', async () => {
+  it('should share when invite rewards NFTs is active and button is pressed', async () => {
     mockedCreateDynamicLink.mockResolvedValue('https://vlra.app/abc123')
     mockShare.mockResolvedValue({
       action: Share.sharedAction,
@@ -90,12 +90,14 @@ describe('Invite', () => {
     })
 
     const { getByTestId, getByText } = getWrapper({
-      inviteRewardsEnabled: true,
+      inviteRewardsVersion: 'v4',
       phoneNumberVerified: true,
     })
 
     expect(getByText('inviteWithUrl.rewardsActive.title')).toBeTruthy()
-    expect(getByText('inviteWithUrl.rewardsActive.body')).toBeTruthy()
+    expect(getByTestId('InviteModalStyledDescription')).toHaveTextContent(
+      'inviteWithUrl.rewardsActive.body'
+    )
 
     await waitFor(() => expect(getByTestId('InviteModalShareButton')).not.toBeDisabled())
     press(getByTestId('InviteModalShareButton'))
@@ -103,6 +105,32 @@ describe('Invite', () => {
     expect(Share.share).toHaveBeenCalledTimes(1)
     expect(Share.share).toHaveBeenCalledWith({
       message: 'inviteWithRewards, {"link":"https://vlra.app/abc123"}',
+    })
+  })
+
+  it('should share when invite rewards cUSD is active and button is pressed', async () => {
+    mockedCreateDynamicLink.mockResolvedValue('https://vlra.app/abc123')
+    mockShare.mockResolvedValue({
+      action: Share.sharedAction,
+      activityType: 'clipboard',
+    })
+
+    const { getByTestId, getByText } = getWrapper({
+      inviteRewardsVersion: 'v5',
+      phoneNumberVerified: true,
+    })
+
+    expect(getByText('inviteWithUrl.rewardsActiveCUSD.title')).toBeTruthy()
+    expect(getByTestId('InviteModalStyledDescription')).toHaveTextContent(
+      'inviteWithUrl.rewardsActiveCUSD.body'
+    )
+
+    await waitFor(() => expect(getByTestId('InviteModalShareButton')).not.toBeDisabled())
+    press(getByTestId('InviteModalShareButton'))
+
+    expect(Share.share).toHaveBeenCalledTimes(1)
+    expect(Share.share).toHaveBeenCalledWith({
+      message: 'inviteWithRewardsCUSD, {"link":"https://vlra.app/abc123"}',
     })
   })
 })

@@ -174,7 +174,7 @@ export interface RemoteConfigValues {
   dappListApiUrl: string | null
   inviteRewardCusd: number
   inviteRewardWeeklyLimit: number
-  inviteRewardsEnabled: boolean
+  inviteRewardsVersion: string
   walletConnectV1Enabled: boolean
   walletConnectV2Enabled: boolean
   logPhoneNumberTypeEnabled: boolean

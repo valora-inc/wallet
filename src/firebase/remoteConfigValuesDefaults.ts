@@ -24,7 +24,7 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   superchargeV1Addresses: string
 } = {
   celoEuroEnabled: true,
-  inviteRewardsEnabled: false,
+  inviteRewardsVersion: 'none',
   inviteRewardCusd: 5,
   inviteRewardWeeklyLimit: 20,
   walletConnectV1Enabled: true,
