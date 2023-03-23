@@ -12,11 +12,12 @@ import {
 import { setHasSeenVerificationNux } from 'src/identity/actions'
 import * as NavigationService from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { getOnboardingExperimentParams } from 'src/onboarding'
 import { RootState } from 'src/redux/reducers'
 import { store } from 'src/redux/store'
+import { getExperimentParams } from 'src/statsig'
+import { ExperimentConfigs } from 'src/statsig/constants'
+import { StatsigExperiments } from 'src/statsig/types'
 
-export const FIRST_ONBOARDING_SCREEN = Screens.NameAndPicture
 export const END_OF_ONBOARDING_SCREENS = [Screens.WalletHome, Screens.ChooseYourAdventure]
 
 interface NavigatorFunctions {
@@ -41,8 +42,28 @@ export interface OnboardingProps {
   supportedBiometryType: BIOMETRY_TYPE | null
   skipVerification: boolean
   numberAlreadyVerifiedCentrally: boolean
-  showChooseAdventureScreen: boolean
+  chooseAdventureEnabled: boolean
   showRecoveryPhrase: boolean
+  onboardingNameScreenEnabled: boolean
+}
+
+/**
+ * Helper function to determine where onboarding starts.
+ */
+export function firstOnboardingScreen({
+  onboardingNameScreenEnabled,
+  recoveringFromStoreWipe,
+}: {
+  onboardingNameScreenEnabled: boolean
+  recoveringFromStoreWipe: boolean
+}): Screens.NameAndPicture | Screens.ImportWallet | Screens.PincodeSet {
+  if (onboardingNameScreenEnabled) {
+    return Screens.NameAndPicture
+  } else if (recoveringFromStoreWipe) {
+    return Screens.ImportWallet
+  } else {
+    return Screens.PincodeSet
+  }
 }
 
 /**
@@ -58,8 +79,12 @@ export function onboardingPropsSelector(state: RootState): OnboardingProps {
   const supportedBiometryType = supportedBiometryTypeSelector(state)
   const skipVerification = skipVerificationSelector(state)
   const numberAlreadyVerifiedCentrally = numberVerifiedCentrallySelector(state)
-  const { showChooseAdventureScreen, showRecoveryPhraseInOnboarding: showRecoveryPhrase } =
-    getOnboardingExperimentParams()
+  const { showRecoveryPhraseInOnboarding: showRecoveryPhrase } = getExperimentParams(
+    ExperimentConfigs[StatsigExperiments.RECOVERY_PHRASE_IN_ONBOARDING]
+  )
+  const { chooseAdventureEnabled, onboardingNameScreenEnabled } = getExperimentParams(
+    ExperimentConfigs[StatsigExperiments.CHOOSE_YOUR_ADVENTURE]
+  )
 
   return {
     recoveringFromStoreWipe,
@@ -67,8 +92,9 @@ export function onboardingPropsSelector(state: RootState): OnboardingProps {
     supportedBiometryType,
     skipVerification,
     numberAlreadyVerifiedCentrally,
-    showChooseAdventureScreen,
+    chooseAdventureEnabled,
     showRecoveryPhrase,
+    onboardingNameScreenEnabled,
   }
 }
 
@@ -77,10 +103,15 @@ export function onboardingPropsSelector(state: RootState): OnboardingProps {
  * and count the number of screens until the given screen and the total number
  */
 export function getOnboardingStepValues(screen: Screens, onboardingProps: OnboardingProps) {
+  const firstScreen = firstOnboardingScreen({
+    onboardingNameScreenEnabled: onboardingProps.onboardingNameScreenEnabled,
+    recoveringFromStoreWipe: onboardingProps.recoveringFromStoreWipe,
+  })
+
   let stepCounter = 1 // will increment this up to the onboarding step the user is on
   let totalCounter = 1
   let reachedStep = false // tracks whether we have reached the step the user is on in onboarding, and we can stop incrementing stepCounter
-  let currentScreen: Screens = FIRST_ONBOARDING_SCREEN // pointer that we will update when simulating navigation through the onboarding screens to calculate "step" and "totalSteps"
+  let currentScreen: Screens = firstScreen // pointer that we will update when simulating navigation through the onboarding screens to calculate "step" and "totalSteps"
 
   const nextStepAndCount = (nextScreen: Screens) => {
     // dummy navigation function to help determine what onboarding step the user is on, without triggering side effects like actually cycling them back through the first few onboarding screens
@@ -171,7 +202,7 @@ export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: 
   } = props
 
   const navigateHomeOrChooseAdventure = () => {
-    if (props.showChooseAdventureScreen) {
+    if (props.chooseAdventureEnabled) {
       navigate(Screens.ChooseYourAdventure)
     } else {
       navigateHome()

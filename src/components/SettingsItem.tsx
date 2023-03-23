@@ -5,6 +5,7 @@ import TextInput from 'src/components/TextInput'
 import ForwardChevron from 'src/icons/ForwardChevron'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
+import { vibrateInformative } from 'src/styles/hapticFeedback'
 
 interface WrapperProps {
   testID?: string
@@ -77,11 +78,15 @@ export function SettingsItemSwitch({
   value,
   details,
 }: SettingsItemSwitchProps) {
+  const handleValueChange = (value: boolean) => {
+    vibrateInformative()
+    onValueChange(value)
+  }
   return (
     <Wrapper>
       <View style={styles.container}>
         <Title value={title} />
-        <Switch testID={testID} value={value} onValueChange={onValueChange} />
+        <Switch testID={testID} value={value} onValueChange={handleValueChange} />
       </View>
       {details && (
         <View>

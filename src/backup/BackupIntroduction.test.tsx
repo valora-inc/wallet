@@ -4,11 +4,11 @@ import 'react-native'
 import { Provider } from 'react-redux'
 import BackupIntroduction from 'src/backup/BackupIntroduction'
 import { Screens } from 'src/navigator/Screens'
-import { getOnboardingExperimentParams } from 'src/onboarding'
+import { getExperimentParams } from 'src/statsig'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
-jest.mock('src/onboarding', () => ({
-  getOnboardingExperimentParams: jest.fn().mockReturnValue({
+jest.mock('src/statsig', () => ({
+  getExperimentParams: jest.fn().mockReturnValue({
     useNewBackupFlowCopy: false,
   }),
 }))
@@ -27,7 +27,7 @@ describe('BackupIntroduction', () => {
   })
 
   it('renders correctly when backup not complete and using new backup flow', () => {
-    ;(getOnboardingExperimentParams as jest.Mock).mockReturnValueOnce({
+    ;(getExperimentParams as jest.Mock).mockReturnValueOnce({
       useNewBackupFlowCopy: true,
     })
 
