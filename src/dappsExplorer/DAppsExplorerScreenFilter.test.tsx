@@ -346,7 +346,7 @@ describe(DAppsExplorerScreenFilter, () => {
       })
     })
 
-    it('triggers event when clearing filters from all section', () => {
+    it('triggers event when clearing filters from category section', () => {
       const store = createMockStore({
         dapps: {
           dappListApiUrl: 'http://url.com',

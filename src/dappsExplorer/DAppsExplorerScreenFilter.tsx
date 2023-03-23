@@ -183,7 +183,7 @@ export function DAppsExplorerScreenFilter() {
                       onPressDapp={onSelectDapp}
                     />
                     <Text style={styles.sectionTitle}>
-                      {t('dappsScreen.allDapps').toLocaleUpperCase(language ?? 'en-US')}
+                      {selectedFilterName.toLocaleUpperCase(language ?? 'en-US')}
                     </Text>
                   </>
                 )}
@@ -249,7 +249,7 @@ function parseResultsIntoAll(
   return [
     {
       data,
-      category: 'all',
+      category: filterId,
     },
   ]
 }
