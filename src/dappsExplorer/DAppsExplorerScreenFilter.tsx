@@ -89,9 +89,7 @@ export function DAppsExplorerScreenFilter() {
   }
 
   const filterPress = (filterId: string) => {
-    selectedFilter === filterId
-      ? setSelectedFilter('all')
-      : setSelectedFilter(filterId)
+    selectedFilter === filterId ? setSelectedFilter('all') : setSelectedFilter(filterId)
   }
 
   return (
