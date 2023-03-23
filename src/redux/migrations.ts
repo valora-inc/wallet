@@ -1096,4 +1096,5 @@ export const migrations = {
       inviteRewardsVersion: 'none',
     },
   }),
+  119: (state: any) => state,
 }

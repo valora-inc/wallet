@@ -2425,6 +2425,9 @@
                 "googleMobileServicesAvailable": {
                     "type": "boolean"
                 },
+                "hapticFeedbackEnabled": {
+                    "type": "boolean"
+                },
                 "huaweiMobileServicesAvailable": {
                     "type": "boolean"
                 },
@@ -2552,6 +2555,7 @@
                 "coinbasePayEnabled",
                 "fiatConnectCashInEnabled",
                 "fiatConnectCashOutEnabled",
+                "hapticFeedbackEnabled",
                 "inviterAddress",
                 "lastTimeBackgrounded",
                 "locked",
