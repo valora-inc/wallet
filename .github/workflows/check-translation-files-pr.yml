@@ -23,7 +23,7 @@ jobs:
       - name: Checking changed files for translation files
         run: |
           # matches all translation.json and InfoPlist.strings files except for the base ones 
-          translation_files_pattern=/^locales\/(?!base\/)[^\/]+\/translation\.json$|^ios\/celo\/(?!Base\b)\w+\.lproj\/InfoPlist\.strings$/
+          translation_files_pattern="/^locales\/(?!base\/)[^\/]+\/translation\.json$|^ios\/celo\/(?!Base\b)\w+\.lproj\/InfoPlist\.strings$/"
           match_found=false
 
           for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
