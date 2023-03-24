@@ -19,4 +19,12 @@ jobs:
         with:
           node-version: '16'
           check-latest: true
+      - uses: actions/cache@v3
+        with:
+          path: |
+            node_modules
+            */*/node_modules
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+      - name: Install Yarn dependencies
+        run: yarn || yarn --network-concurrency 1
       - run: yarn ts-node .github/scripts/createAppVersionPr.ts
