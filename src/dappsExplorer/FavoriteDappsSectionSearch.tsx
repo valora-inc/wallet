@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
@@ -36,11 +36,16 @@ export function FavoriteDappsSectionSearch({
     (a, b) => calculateSearchScore(b, searchQuery) - calculateSearchScore(a, searchQuery)
   )
 
+  useEffect(() => {
+    if (favoritedDappsSearched.length > 0 && searchQuery !== '') {
+      setFavoriteResultsEmpty(false)
+    } else {
+      setFavoriteResultsEmpty(true)
+    }
+  }, [favoritedDappsSearched])
+
   if (favoritedDappsSearched.length === 0 && searchQuery !== '') {
-    setFavoriteResultsEmpty(true)
     return <NoResultsSearch testID="FavoriteDappsSectionSearch" searchQuery={searchQuery} />
-  } else {
-    setFavoriteResultsEmpty(false)
   }
 
   if (favoritedDappsSearched.length > 0) {
