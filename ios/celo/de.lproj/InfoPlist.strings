@@ -5,4 +5,4 @@ NSContactsUsageDescription = "Das Hinzufügen deiner Kontakte macht es einfach, 
 NSPhotoLibraryAddUsageDescription = "Wenn du deine Foto-Bibliothek anschließt, kannst du deinen Code mit deinen Fotos speichern.";
 NSPhotoLibraryUsageDescription = "Dies ist erforderlich, um ein Profilbild auszuwählen.";
 NSUserTrackingUsageDescription = "Wir verwenden die Werbe-Identifikation, um App-Installationen aus Werbekampagnen genau zuzuordnen.";
-NSFaceIDUsageDescription = "Dies ist erforderlich, um Face ID auszuwählen.";
+NSFaceIDUsageDescription = "test Dies ist erforderlich, um Face ID auszuwählen.";
