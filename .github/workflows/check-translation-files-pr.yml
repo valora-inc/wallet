@@ -26,6 +26,9 @@ jobs:
           translation_files_pattern="/^locales\/(?!base\/)[^\/]+\/translation\.json$|^ios\/celo\/(?!Base\b)\w+\.lproj\/InfoPlist\.strings$/"
           match_found=false
 
+          echo "Changed files"
+          echo "${{ steps.changed-files.outputs.all_changed_files }}"
+
           for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
             if [[ "$file" =~ $translation_files_pattern ]]
             then
