@@ -11,7 +11,6 @@ import { Actions as AppActions } from 'src/app/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { numberVerifiedCentrallySelector } from 'src/app/selectors'
 import {
-  availableRewardsSelector,
   superchargeRewardContractAddressSelector,
   superchargeV1AddressesSelector,
   superchargeV2EnabledSelector,
