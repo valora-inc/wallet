@@ -10,7 +10,7 @@
   "security": "Sicherheit",
   "changePin": "PIN ändern",
   "pinChanged": "PIN geändert",
-  "pinChangeFailed": "PIN-Ängit cderung fehlgeschlagen",
+  "pinChangeFailed": "PIN-Änderung fehlgeschlagen",
   "requirePinOnAppOpen": "PIN beim Öffnen der App erforderlich",
   "connectedApplications": "Verknüpfte Dapps",
   "analytics": "Analytik",
