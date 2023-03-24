@@ -602,14 +602,14 @@
     "button": "Einladung senden",
     "error": "Es gab ein Problem beim Erstellen eines teilbaren Links",
     "share": "Hallo! Ich habe {{appName}} Krypto Wallet benutzt. Es ist einfach zu versuchen und ich möchte dich einladen, es mit diesem Link zu sehen: {{shareUrl}}",
-    "help": "Um diese Belohnung einzusammeln, muss der Teilnehmer {{appName}} über den Empfehlungslink herunterladen und seine Telefonnummer an Bord verbinden. <0>Alle Bedingungen anzeigen</0>",
+    "help": "Um diesen Reward zu erhalten, müssen Eingeladene {{appName}} über den Empfehlungslink herunterladen und beim Registrieren ihre Telefonnummer verbinden. <0>Alle Bedingungen anzeigen</0>",
     "rewardsActive": {
       "title": "Freunde einladen und NFTs sammeln",
       "body": "Lade deine Freunde und Familien ein, {{appName}} herunterzuladen. Jeder von euch erhält somit ein exklusives NFT"
     },
     "rewardsActiveCUSD": {
-      "title": "Lade Freunde ein und sammle Belohnungen",
-      "body": "Teile {{appName}} mit Freunden und Familie und du erhältst beide <0>mit 1 KUSD</0> belohnt"
+      "title": "Freunde einladen und Rewards erhalten",
+      "body": "Teile {{appName}} mit Freunden und Familie und beide werden <0>mit 1 cUSD belohnt</0>"
     }
   },
   "getReward": "Erhalte ${{reward}}",
@@ -924,8 +924,8 @@
   "walletAddress": "Wallet-Adresse",
   "inviteWithoutPayment": "Hallo! Ich habe {{appName}} benutzt, um Krypto weltweit zu überweisen. Es ist einfach zu versuchen und ich möchte dich einladen, es mit diesem Link zu sehen: {{link}}",
   "inviteWithEscrowedPayment": "Hallo! Ich habe {{appName}} benutzt, um Krypto weltweit zu überweisen. Ich habe dir gerade {{amount}} {{token}} geschickt. Bitte lade die {{appName}} App herunter und löse dein {{token}} mit diesem Link ein: {{link}}",
-  "inviteWithRewards": "Hallo! 👋 Ich benutze {{appName}} als meine Krypto-Wallet. Es ist super schnell, die App herunterzuladen und deine Telefonnummer zu verbinden - Plus erhalten wir beide eine spezielle Ausgabe NFT als Belohnung. 💫 \n\nVerwenden Sie diesen Link zum Herunterladen: {{link}}",
-  "inviteWithRewardsCUSD": "Hallo! 👋 Ich benutze {{appName}} als meine Krypto-Wallet. Es ist super schnell, die App herunterzuladen und Ihre Telefonnummer zu verbinden - plus erhalten wir beide 1 cUSD als Belohnung. 💫 \n\nVerwenden Sie diesen Link zum Herunterladen: {{link}}",
+  "inviteWithRewards": "Hallo! 👋 Ich nutze {{appName}} als Krypto-Wallet. Du kannst die App super schnell herunterladen und deine Telefonnummer verbinden. Außerdem erhalten wir beide ein exklusives NFT als Reward. 💫 \n\nLade die App mit diesem Link herunter: {{link}}",
+  "inviteWithRewardsCUSD": "Hallo! 👋 Ich nutze {{appName}} als Krypto-Wallet. Du kannst die App super schnell herunterladen und deine Telefonnummer verbinden. Außerdem erhalten wir beide 1 cUSD als Reward. 💫 \n\nLade die App mit diesem Link herunter: {{link}}",
   "loadingContacts": "Deine Kontakte finden",
   "myCode": "Mein Code",
   "scanCode": "Scannen",
@@ -1632,8 +1632,8 @@
       "body": "Es sieht so aus, als wäre {{contactName}} nicht auf {{appName}}. Wenn du die Wallet-Adresse kennst, kannst du dennoch eine Zahlung oder stattdessen eine Einladung senden. \n\nNachdem die Wallet heruntergeladen und mit der Telefonnummer verbunden wurde, erhaltet ihr beide ein exklusives NFT."
     },
     "rewardsActiveCUSD": {
-      "title": "Lade {{contactName}} zu {{appName}} ein und du bekommst beide eine Belohnung",
-      "body": "Es sieht so aus, als ob {{contactName}} nicht auf Valora ist. Sie können trotzdem eine Zahlung senden, wenn Sie ihre Wallet-Adresse kennen, oder stattdessen eine Einladung senden. \n\n Nachdem sie die Brieftasche heruntergeladen und ihre Telefonnummer verbunden haben, erhalten Sie beide <0>mit 1 KUSD</0> belohnt"
+      "title": "Lade {{contactName}} zu {{appName}} ein und ihr beide werdet belohnt",
+      "body": "Scheinbar ist {{contactName}} nicht auf Valora. Wenn du die Wallet-Adresse kennst, kannst du dennoch eine Zahlung oder stattdessen eine Einladung senden. \n\n Nachdem dein Kontakt die Wallet heruntergeladen und seine Telefonnummer verbunden hat, werdet ihr beide <0>mit 1 cUSD belohnt</0>"
     }
   },
   "celoNews": {
@@ -1645,13 +1645,13 @@
   },
   "chooseYourAdventure": {
     "header": "Willkommen bei Valora",
-    "subtitle": "Was möchten Sie zuerst tun?",
-    "later": "Später erkunden",
+    "subtitle": "Was möchtest du zuerst tun?",
+    "later": "Ich sehe mich später um",
     "options": {
       "add": "Guthaben hinzufügen",
-      "dapp": "Wege finden, Krypto zu verwenden",
+      "dapp": "Wege finden, Krypto zu nutzen",
       "profile": "Mein Profil erstellen",
-      "learn": "Erfahren Sie mehr über Celo"
+      "learn": "Mehr über Celo erfahren"
     }
   },
   "reverifyUsingCPVHomecard": {
@@ -1660,7 +1660,7 @@
   },
   "profileScreen": {
     "generateName": "Namen generieren",
-    "namePlaceholder": "Wähle einen Namen ex) {{exampleName}}"
+    "namePlaceholder": "Wähle einen Namen, z. B. {{exampleName}}"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
