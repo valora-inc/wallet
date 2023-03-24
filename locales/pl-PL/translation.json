@@ -7,7 +7,7 @@
   "removeAccountTitle": "Resetuj aplikację Valora",
   "removeAccountDetails": "Zresetowanie spowoduje usunięcie Twojego konta z tego urządzenia. Twoje środki pozostaną na koncie, ale będą dostępne tylko przy użyciu frazy odzyskiwania",
   "legal": "Informacje prawne",
-  "appPreferences": "Ustawienia aplikacji",
+  "appPreferences": "Preferencje aplikacji",
   "security": "Bezpieczeństwo",
   "changePin": "Zmień kod PIN",
   "pinChanged": "Kod PIN został zmieniony",
@@ -16,7 +16,7 @@
   "connectedApplications": "Połączone Dapps",
   "analytics": "Statystyki",
   "shareAnalytics": "Udostępniaj statystyki",
-  "hapticFeedback": "Opinie Haptic",
+  "hapticFeedback": "Dotykowa informacja zwrotna",
   "shareAnalytics_detail": "Zbieramy anonimowe dane o tym, jak korzystasz z {{appName}}, aby móc ulepszać aplikację dla wszystkich.",
   "dataSaver": "Oszczędzanie danych",
   "enableDataSaver": "Włącz oszczędzanie danych",
@@ -602,14 +602,14 @@
     "button": "Wyślij zaproszenie",
     "error": "Wystąpił błąd z tworzeniem linku",
     "share": "Cześć! Korzystam z portfel kryptowalutowy {{appName}}. To bardzo proste. Może Ty też spróbujesz? Skorzystaj z tego linku: {{shareUrl}}",
-    "help": "Aby zebrać tę nagrodę, zaproszony musi pobrać {{appName}} za pomocą linku polecającego i podłączyć swój numer telefonu podczas wprowadzania na pokład. <0>Zobacz wszystkie warunki</0>",
+    "help": "Aby odebrać tę nagrodę, zaproszony użytkownik musi pobrać {{appName}} za pomocą linku polecającego i połączyć swój numer telefonu w procesie wprowadzania. <0>Zobacz wszystkie warunki</0>",
     "rewardsActive": {
       "title": "Zaproś znajomych i zbieraj NFT",
       "body": "Zaproś swoich znajomych i rodzinę do pobrania {{appName}}, a każdy z Was otrzyma ekskluzywny NFT"
     },
     "rewardsActiveCUSD": {
-      "title": "Zaproś znajomych i zbieraj nagrody",
-      "body": "Podziel się {{appName}} z przyjaciółmi i rodziną, a obaj otrzymasz <0>nagrodzone 1 cUSD</0>"
+      "title": "Zapraszaj znajomych i zbieraj nagrody",
+      "body": "Podziel się {{appName}} z przyjaciółmi i rodziną, a wszyscy w nagrodę otrzymacie <0>1 cUSD</0>"
     }
   },
   "getReward": "Otrzymaj ${{reward}}",
@@ -928,8 +928,8 @@
   "walletAddress": "Adres portfela",
   "inviteWithoutPayment": "Cześć! Korzystam z aplikacji {{appName}} do przesyłania kryptowalut z dowolnego miejsca na świecie. To bardzo proste. Może Ty też spróbujesz? Skorzystaj z tego linku: {{link}}",
   "inviteWithEscrowedPayment": "Cześć! Korzystam z aplikacji {{appName}} do przesyłania kryptowalut z dowolnego miejsca na świecie. Przesyłam Ci właśnie {{amount}} {{token}}. Pobierz aplikację {{appName}} i odbierz {{token}}, korzystając z tego linku: {{link}}",
-  "inviteWithRewards": "Cześć! 👋 Używam {{appName}} jako mojego portfela kryptowalut. Bardzo szybkie jest pobranie aplikacji i podłączenie numeru telefonu - obaj otrzymujemy specjalną edycję NFT jako nagrodę. 💫 \n\nUżyj tego linku, aby pobrać: {{link}}",
-  "inviteWithRewardsCUSD": "Cześć! 👋 Używam {{appName}} jako mojego portfela kryptowalut. Bardzo szybkie jest pobranie aplikacji i podłączenie numeru telefonu - obaj otrzymujemy nagrodę w wysokości 1 cUSD. 💫 \n\nUżyj tego linku, aby pobrać: {{link}}",
+  "inviteWithRewards": "Cześć! 👋 Używam {{appName}} jako mojego portfela kryptowalut. Aplikację możesz szybko pobrać i połączyć z Twoim numerem telefonu. Do tego w nagrodę otrzymamy specjalną edycję NFT. 💫 \n\nUżyj tego linku, aby pobrać: {{link}}",
+  "inviteWithRewardsCUSD": "Cześć! 👋 Używam {{appName}} jako mojego portfela kryptowalut. Aplikację możesz szybko pobrać i połączyć z Twoim numerem telefonu. Do tego w nagrodę otrzymamy 1 cUSD. 💫 \n\nUżyj tego linku, aby pobrać: {{link}}",
   "loadingContacts": "Wyszukiwanie kontaktów",
   "myCode": "Mój kod",
   "scanCode": "Skanuj",
@@ -1636,8 +1636,8 @@
       "body": "Wygląda na to, że {{contactName}} nie korzysta z {{appName}}. Jeśli znasz adres jego/jej portfela, nadal możesz wysłać płatność lub zaproszenie. \n\n Po pobraniu portfela i podłączeniu numeru telefonu otrzymacie ekskluzywne NFT."
     },
     "rewardsActiveCUSD": {
-      "title": "Zaproś {{contactName}} do {{appName}} i oboje otrzymasz nagrodę",
-      "body": "Wygląda na to, że {{contactName}} nie jest na Valorze. Nadal możesz wysłać płatność, jeśli znasz ich adres portfela lub wysłać zaproszenie. \n\n Po pobraniu portfela i podłączeniu ich numeru telefonu, obie otrzymają <0>nagrodzone 1 cUSD</0>"
+      "title": "Zaproś {{contactName}} do {{appName}}, a otrzymacie nagrodę",
+      "body": "Wygląda na to, że {{contactName}} nie używa jeszcze Valory. Nadal możesz wysłać płatność, jeśli znasz adres jego/jej portfela lub wysłać zaproszenie.\n\nGdy ta osoba pobierze portfel i połączy swój numer telefonu, oboje otrzymacie w nagrodę <0>1 cUSD</0>"
     }
   },
   "celoNews": {
