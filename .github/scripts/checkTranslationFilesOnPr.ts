@@ -9,7 +9,6 @@ const TRANSLATION_FILES = new RegExp(
 
 echo('Checking modified files')
 const updatedFilenames = process.argv[2]
-echo(`argv 2 ${updatedFilenames}`)
 const modifiedTranslationFiles = updatedFilenames.split(',').filter((filename) => {
   return filename.match(TRANSLATION_FILES)
 })
