@@ -1,4 +1,4 @@
-import { config, echo, exec } from 'shelljs'
+import { config, echo } from 'shelljs'
 
 config.fatal = true
 
@@ -8,10 +8,9 @@ const TRANSLATION_FILES = new RegExp(
 )
 
 echo('Checking modified files')
-const updatedFilenames = exec('git diff --name-only origin/main HEAD', {
-  silent: true,
-}).stdout.split(/\n/)
-const modifiedTranslationFiles = updatedFilenames.filter((filename) => {
+const updatedFilenames = process.argv[2]
+echo(`argv 2 ${updatedFilenames}`)
+const modifiedTranslationFiles = updatedFilenames.split('\n').filter((filename) => {
   return filename.match(TRANSLATION_FILES)
 })
 

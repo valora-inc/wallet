@@ -15,31 +15,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-        with:
-          fetch-depth: 2
       - name: Get changed files
         id: changed-files
         uses: tj-actions/changed-files@v35
-      - name: Checking changed files for translation files
-        run: |
-          # matches all translation.json and InfoPlist.strings files except for the base ones 
-          translation_files_pattern="/^locales\/(?!base\/)[^\/]+\/translation\.json$|^ios\/celo\/(?!Base\b)\w+\.lproj\/InfoPlist\.strings$/"
-          match_found=false
-
-          echo "Changed files"
-          echo "${{ steps.changed-files.outputs.all_changed_files }}"
-
-          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
-            if [[ "$file" =~ $translation_files_pattern ]]
-            then
-              echo "$file"
-              match_found=true
-            fi
-          done
-
-          if [ "$match_found" = true ]; then
-            echo "❌ The above files are translation files and should not be changed directly."
-            exit 1
-          else
-            echo "✅ No translation files were changed, good to go!"
-          fi
+      - uses: actions/cache@v3
+        with:
+          path: |
+            node_modules
+            */*/node_modules
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+      - name: Install Yarn dependencies
+        run: yarn || yarn --network-concurrency 1
+      - run: yarn ts-node .github/scripts/checkTranslationFilesOnPr.ts ${{ steps.changed-files.outputs.all_changed_files }}
