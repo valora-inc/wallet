@@ -15,9 +15,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Get changed files
-        id: changed-files
-        uses: tj-actions/changed-files@v35
       - uses: actions/cache@v3
         with:
           path: |
@@ -26,4 +23,9 @@ jobs:
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
       - name: Install Yarn dependencies
         run: yarn || yarn --network-concurrency 1
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v35
+        with:
+          separator: ','
       - run: yarn ts-node .github/scripts/checkTranslationFilesOnPr.ts ${{ steps.changed-files.outputs.all_changed_files }}
