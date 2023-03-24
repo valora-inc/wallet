@@ -1,0 +1,22 @@
+name: Check translation files
+
+on:
+  # Run on pull request.
+  pull_request:
+
+# Cancel any in progress run of the workflow for a given PR
+# This avoids building outdated code
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref }}
+  cancel-in-progress: true
+
+jobs:
+  check-translation-files:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          check-latest: true
+      - run: yarn ts-node .github/scripts/createAppVersionPr.ts
