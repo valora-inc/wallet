@@ -16,7 +16,7 @@
   "connectedApplications": "已关联的 Dapp",
   "analytics": "分析",
   "shareAnalytics": "共享分析",
-  "hapticFeedback": "触动反馈",
+  "hapticFeedback": "触觉反馈",
   "shareAnalytics_detail": "我们会收集有关您如何使用 {{appName}} 的匿名数据，用于帮助改善应用程序。",
   "dataSaver": "数据保护模式",
   "enableDataSaver": "启用数据保护模式",
@@ -602,14 +602,14 @@
     "button": "分享邀请",
     "error": "创建可分享链接时出现问题",
     "share": "嗨！我一直使用 {{appName}} 作为我的加密货币钱包。它使用简便，我想邀请您访问此链接进行查看：{{shareUrl}}",
-    "help": "要领取这笔奖励，受邀者必须通过推荐链接下载 {{appName}} 并在登机时连接他们的电话号码。<0>查看所有条款</0>",
+    "help": "要领取这笔奖励，受邀者必须通过推荐链接下载 {{appName}} 并在初次登录时关联其手机号码。<0>查看所有条款</0>",
     "rewardsActive": {
       "title": "邀请朋友并收集 NFT",
       "body": "邀请您的朋友和家人下载 {{appName}} ，你们每个人都将获得一个独家的 NFT"
     },
     "rewardsActiveCUSD": {
       "title": "邀请好友并领取奖励",
-      "body": "与朋友和家人分享 {{appName}} ，您都会得到1cUSD</0>的奖励。"
+      "body": "与亲朋好友分享 {{appName}} ，即可获得 <0>1cUSD 的奖励</0>"
     }
   },
   "getReward": "获得 ${{reward}}",
@@ -922,8 +922,8 @@
   "walletAddress": "钱包地址",
   "inviteWithoutPayment": "嗨！我一直在使用 {{appName}} 作为我的加密货币钱包。它使用简便，我想邀请您访问此链接试用： {{link}}",
   "inviteWithEscrowedPayment": "嗨！我一直在使用 {{appName}} 将加密货币发送到世界各地。我刚刚向您发送了 {{amount}} {{token}}。请使用此链接下载 {{appName}} 应用程序并兑换您的 {{token}}：{{link}}",
-  "inviteWithRewards": "你好！👋 我使用 {{appName}} 作为我的加密钱包。 它是超速下载应用程序并连接您的手机号码 - 此外，我们都会获得一个特定版本 NFT 作为奖励。 :dizy: \n\n使用此链接下载: {{link}}",
-  "inviteWithRewardsCUSD": "你好！👋 我使用 {{appName}} 作为我的加密钱包。 它是超速下载应用程序并连接您的手机号码 - 此外，我们都会获得1cUSD 作为奖励。 :dizy: \n\n使用此链接下载: {{link}}",
+  "inviteWithRewards": "嗨！👋 我正在使用 {{appName}} 作为加密货币钱包。您可以快速下载此应用程序并关联手机号码，之后我们都可以获得一个特别版的 NFT 作为奖励。💫 \n\n请使用此链接下载: {{link}}",
+  "inviteWithRewardsCUSD": "嗨！👋 我正在使用 {{appName}} 作为加密货币钱包。您可以快速下载此应用程序并关联手机号码，之后我们都可以获得 1 cUSD 的奖励。💫 \n\n请使用此链接下载: {{link}}",
   "loadingContacts": "查找您的联系人",
   "myCode": "我的代码",
   "scanCode": "扫描",
@@ -1630,8 +1630,8 @@
       "body": "似乎 {{contactName}} 未在 {{appName}} 上。如果您知道其钱包地址，则仍可发送付款，或者也可以发送一则邀请。\n\n在其下载钱包并关联手机号码后，你们都将获得一个专属的 NFT。"
     },
     "rewardsActiveCUSD": {
-      "title": "邀请 {{contactName}} 到 {{appName}} 您都会得到奖励",
-      "body": "看起来 {{contactName}} 不是在 Valora 上。如果你知道他们的钱包地址，你仍然可以发送付款，或者发送邀请函。 \n\n 在他们下载钱包并连接他们的电话号码后，你都会得到1cUSD</0> 奖励。"
+      "title": "邀请 {{contactName}} 使用 {{appName}}，你们都将获得奖励",
+      "body": "似乎 {{contactName}} 未在 Valora 上。如果您知道其钱包地址，则仍可发送付款，或者也可以发送一则邀请。\n\n在其下载钱包并关联手机号码后，你们都将获得<0> 1 cUSD 的奖励</0>"
     }
   },
   "celoNews": {
@@ -1643,13 +1643,13 @@
   },
   "chooseYourAdventure": {
     "header": "欢迎使用 Valora",
-    "subtitle": "你想先做什么？",
+    "subtitle": "您想先做什么？",
     "later": "我稍后再试",
     "options": {
       "add": "添加资金",
-      "dapp": "查找使用加密的方式",
-      "profile": "建立我的个人资料",
-      "learn": "了解Celo"
+      "dapp": "查找使用加密货币的方式",
+      "profile": "创建我的个人资料",
+      "learn": "了解 Celo"
     }
   },
   "reverifyUsingCPVHomecard": {
