@@ -78,24 +78,25 @@ const slice = createSlice({
     }),
   },
   extraReducers: (builder) => {
-    builder.addCase(REHYDRATE, (state, action: RehydrateAction) => ({
-      ...state,
-      ...getRehydratePayload(action, 'supercharge'),
-      loading: false,
-      error: false,
-      fetchAvailableRewardsLoading: false,
-      fetchAvailableRewardsError: false,
-      availableRewards: [],
-    }))
-    builder.addCase(
-      AppActions.UPDATE_REMOTE_CONFIG_VALUES,
-      (state, action: UpdateConfigValuesAction) => {
-        state.superchargeV2Enabled = action.configValues.superchargeV2Enabled
-        state.superchargeRewardContractAddress =
-          action.configValues.superchargeRewardContractAddress
-        state.superchargeV1Addresses = action.configValues.superchargeV1Addresses
-      }
-    )
+    builder
+      .addCase(REHYDRATE, (state, action: RehydrateAction) => ({
+        ...state,
+        ...getRehydratePayload(action, 'supercharge'),
+        loading: false,
+        error: false,
+        fetchAvailableRewardsLoading: false,
+        fetchAvailableRewardsError: false,
+        availableRewards: [],
+      }))
+      .addCase(
+        AppActions.UPDATE_REMOTE_CONFIG_VALUES,
+        (state, action: UpdateConfigValuesAction) => {
+          state.superchargeV2Enabled = action.configValues.superchargeV2Enabled
+          state.superchargeRewardContractAddress =
+            action.configValues.superchargeRewardContractAddress
+          state.superchargeV1Addresses = action.configValues.superchargeV1Addresses
+        }
+      )
   },
 })
 
