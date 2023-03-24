@@ -8,8 +8,10 @@ const TRANSLATION_FILES = new RegExp(
 )
 
 echo('Checking modified files')
-const updatedFiles = exec('git diff origin/main --name-only', { silent: true }).stdout.split(/\n/)
-const modifiedTranslationFiles = updatedFiles.filter((filename) => {
+const updatedFilenames = exec('git diff --name-only origin/main HEAD', {
+  silent: true,
+}).stdout.split(/\n/)
+const modifiedTranslationFiles = updatedFilenames.filter((filename) => {
   return filename.match(TRANSLATION_FILES)
 })
 
