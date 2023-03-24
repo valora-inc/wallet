@@ -265,12 +265,8 @@ export function* watchSuperchargeV2Enabled() {
 
     if (superchargeV2Enabled !== action.configValues.superchargeV2Enabled) {
       superchargeV2Enabled = action.configValues.superchargeV2Enabled
-
-      const rewards = yield select(availableRewardsSelector)
-      if (rewards.length > 0) {
-        yield put(setAvailableRewards([]))
-        yield put(fetchAvailableRewards())
-      }
+      yield put(setAvailableRewards([]))
+      yield put(fetchAvailableRewards())
     }
   }
 }
