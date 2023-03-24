@@ -27,4 +27,4 @@ jobs:
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
       - name: Install Yarn dependencies
         run: yarn || yarn --network-concurrency 1
-      - run: yarn ts-node .github/scripts/createAppVersionPr.ts
+      - run: yarn ts-node .github/scripts/checkTranslationFilesOnPr.ts
