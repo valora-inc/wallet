@@ -271,7 +271,43 @@ describe(DAppsExplorerScreenSearch, () => {
 
       // Should display just the no results within the favorites section
       expect(getByTestId('FavoriteDappsSectionSearch/NoResultsSearch')).toBeTruthy()
-      expect(queryByTestId('DappsList/NoResultsSearch')).toBeNull()
+      expect(queryByTestId('DAppsExplorerScreenSearch/NoResultsSearch')).toBeNull()
+    })
+
+    it('renders correctly when there are search results in both sections', () => {
+      const store = createMockStore({
+        dapps: {
+          dappListApiUrl: 'http://url.com',
+          dappsList,
+          dappsCategories,
+          dappFavoritesEnabled: true,
+          dappsFilterEnabled: true,
+          favoriteDappIds: ['dapp2'],
+        },
+      })
+
+      const { getByTestId, queryByTestId } = render(
+        <Provider store={store}>
+          <DAppsExplorerScreenSearch />
+        </Provider>
+      )
+
+      fireEvent.changeText(getByTestId('SearchInput'), 'dapp')
+
+      // Should display the correct sections
+      const favoritesSection = getByTestId('DAppsExplorerScreenSearch/FavoriteDappsSectionSearch')
+      const allDappsSection = getByTestId('DAppsExplorerScreenSearch/DappsList')
+
+      // Names display correctly in the favorites section
+      expect(within(favoritesSection).queryByText(dappsList[0].name)).toBeFalsy()
+      expect(within(favoritesSection).getByText(dappsList[1].name)).toBeTruthy()
+
+      // Names display correctly in the all dapps section
+      expect(within(allDappsSection).getByText(dappsList[0].name)).toBeTruthy()
+
+      // No results sections should not be displayed
+      expect(queryByTestId('FavoriteDappsSectionSearch/NoResultsSearch')).toBeNull()
+      expect(queryByTestId('DAppsExplorerScreenSearch/NoResultsSearch')).toBeNull()
     })
   })
 })
