@@ -247,4 +247,31 @@ describe(DAppsExplorerScreenSearch, () => {
       expect(store.getActions()).toEqual([fetchDappsList(), unfavoriteDapp({ dappId: 'dapp2' })])
     })
   })
+
+  describe('searching dapps', () => {
+    it('renders correctly when there are no search results', () => {
+      const store = createMockStore({
+        dapps: {
+          dappListApiUrl: 'http://url.com',
+          dappsList,
+          dappsCategories,
+          dappFavoritesEnabled: true,
+          dappsFilterEnabled: true,
+          favoriteDappIds: [],
+        },
+      })
+
+      const { getByTestId, queryByTestId } = render(
+        <Provider store={store}>
+          <DAppsExplorerScreenSearch />
+        </Provider>
+      )
+
+      fireEvent.changeText(getByTestId('SearchInput'), 'iDoNotExist')
+
+      // Should display just the no results within the favorites section
+      expect(getByTestId('FavoriteDappsSectionSearch/NoResultsSearch')).toBeTruthy()
+      expect(queryByTestId('DappsList/NoResultsSearch')).toBeNull()
+    })
+  })
 })
