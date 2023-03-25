@@ -221,31 +221,38 @@ function DescriptionView({ message, title }: { message: string; title: string })
   )
 }
 
-function parseResultsIntoAll(
-  dappList: any,
-  searchQuery: string,
-  favoriteDappsById: string[]
-): SectionData[] {
-  // Prevent favorite dapps from showing up in the all dapps section
-  // And filter results based on the search term
-  let data: any
+function parseResultsIntoAll(dappList: any, searchQuery: string, favoriteDappsById: string[]) {
+  // If there is no search query, return the non favorite dapps in the all section
+  const nonFavoriteDapps = dappList.filter(
+    (dapp: DappV1 | DappV2) => !favoriteDappsById.includes(dapp.id)
+  )
   if (searchQuery === '') {
-    data = dappList.filter((dapp: DappV2 | DappV1) => !favoriteDappsById.includes(dapp.id))
-  } else {
-    data = dappList
-      .filter((dapp: DappV2 | DappV1) => !favoriteDappsById.includes(dapp.id))
-      .filter((dapp: DappV2 | DappV1) => {
-        return calculateSearchScore(dapp, searchQuery)
-      })
-    data.sort((a: DappV2 | DappV1, b: DappV2 | DappV1) => {
-      return calculateSearchScore(b, searchQuery) - calculateSearchScore(a, searchQuery)
-    })
+    return [
+      {
+        data: nonFavoriteDapps,
+        category: 'all',
+      },
+    ]
   }
 
-  if (data.length === 0) return []
+  // Filter out dapps that don't match the search query
+  const nonFavoriteDappsMatchingSearch = nonFavoriteDapps.filter((dapp: DappV1 | DappV2) =>
+    calculateSearchScore(dapp, searchQuery)
+  )
+
+  // If there are no dapps matching the search query, return an empty array to be handled by section list
+  if (nonFavoriteDappsMatchingSearch.length === 0) return []
+
+  // Sort these dapps by their search score - could be faster with counting sort
+  nonFavoriteDappsMatchingSearch.sort(
+    (a: DappV2 | DappV1, b: DappV2 | DappV1) =>
+      calculateSearchScore(b, searchQuery) - calculateSearchScore(a, searchQuery)
+  )
+
+  // Otherwise, return the dapps matching the search query ordered descending by their search score
   return [
     {
-      data,
+      data: nonFavoriteDappsMatchingSearch,
       category: 'all',
     },
   ]
