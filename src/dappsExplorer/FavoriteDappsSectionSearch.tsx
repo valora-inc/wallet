@@ -3,9 +3,10 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import { favoriteDappsSelector } from 'src/dapps/selectors'
-import { ActiveDapp, DappSection, DappV1, DappV2 } from 'src/dapps/types'
+import { ActiveDapp, DappSection } from 'src/dapps/types'
 import DappCard from 'src/dappsExplorer/DappCard'
 import NoResultsSearch from 'src/dappsExplorer/NoResultsSearch'
+import { calculateSearchScore } from 'src/dappsExplorer/utils'
 import StarIllustration from 'src/icons/StarIllustration'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
@@ -14,14 +15,12 @@ import { Spacing } from 'src/styles/styles'
 interface Props {
   onPressDapp: (dapp: ActiveDapp) => void
   searchQuery: string
-  calculateSearchScore: (dapp: DappV1 | DappV2, searchQuery: string) => number
   setFavoriteResultsEmpty: (empty: boolean) => void
 }
 
 export function FavoriteDappsSectionSearch({
   onPressDapp,
   searchQuery,
-  calculateSearchScore,
   setFavoriteResultsEmpty,
 }: Props) {
   const { t } = useTranslation()

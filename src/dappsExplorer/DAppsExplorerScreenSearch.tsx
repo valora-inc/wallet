@@ -17,13 +17,14 @@ import {
   favoriteDappIdsSelector,
 } from 'src/dapps/selectors'
 import { fetchDappsList } from 'src/dapps/slice'
-import { DappSection, DappV1, DappV2, isDappV2 } from 'src/dapps/types'
+import { DappSection, DappV1, DappV2 } from 'src/dapps/types'
 import DappCard from 'src/dappsExplorer/DappCard'
 import FavoriteDappsSectionSearch from 'src/dappsExplorer/FavoriteDappsSectionSearch'
 import NoResultsSearch from 'src/dappsExplorer/NoResultsSearch'
 import useDappFavoritedToast from 'src/dappsExplorer/useDappFavoritedToast'
 import useDappInfoBottomSheet from 'src/dappsExplorer/useDappInfoBottomSheet'
 import useOpenDapp from 'src/dappsExplorer/useOpenDapp'
+import { calculateSearchScore } from 'src/dappsExplorer/utils'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import Help from 'src/icons/Help'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
@@ -38,22 +39,6 @@ const AnimatedSectionList =
 interface SectionData {
   data: DappV2[] | DappV1[]
   category: string
-}
-
-const calculateSearchScore = (dapp: DappV2 | DappV1, searchQuery: string) => {
-  const nameMatchingCaseScore = dapp.name.includes(searchQuery) ? 2 : 0
-  const nameScore = dapp.name.toLowerCase().includes(searchQuery.toLowerCase()) ? 1 : 0
-  const descriptionScore = dapp.description.toLowerCase().includes(searchQuery.toLowerCase())
-    ? 1
-    : 0
-  const categoryScore = isDappV2(dapp)
-    ? dapp.categories.some((category) => category.toLowerCase().includes(searchQuery.toLowerCase()))
-      ? 1
-      : 0
-    : dapp.categoryId.toLowerCase().includes(searchQuery.toLowerCase())
-    ? 1
-    : 0
-  return nameMatchingCaseScore + nameScore + descriptionScore + categoryScore
 }
 
 export function DAppsExplorerScreenSearch() {
@@ -182,7 +167,6 @@ export function DAppsExplorerScreenSearch() {
                     <FavoriteDappsSectionSearch
                       onPressDapp={onSelectDapp}
                       searchQuery={searchQuery}
-                      calculateSearchScore={calculateSearchScore}
                       setFavoriteResultsEmpty={setFavoriteResultsEmpty}
                     />
                     {/* If all dapp section isn't empty or favoriteResults isn't empty display add section header */}
