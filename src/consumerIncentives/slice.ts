@@ -1,6 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { REHYDRATE, RehydrateAction } from 'redux-persist'
 import { Actions as AppActions, UpdateConfigValuesAction } from 'src/app/actions'
 import { SuperchargePendingReward, SuperchargePendingRewardV2 } from 'src/consumerIncentives/types'
+import { getRehydratePayload } from 'src/redux/persist-helper'
 
 export interface State {
   loading: boolean
@@ -76,15 +78,25 @@ const slice = createSlice({
     }),
   },
   extraReducers: (builder) => {
-    builder.addCase(
-      AppActions.UPDATE_REMOTE_CONFIG_VALUES,
-      (state, action: UpdateConfigValuesAction) => {
-        state.superchargeV2Enabled = action.configValues.superchargeV2Enabled
-        state.superchargeRewardContractAddress =
-          action.configValues.superchargeRewardContractAddress
-        state.superchargeV1Addresses = action.configValues.superchargeV1Addresses
-      }
-    )
+    builder
+      .addCase(REHYDRATE, (state, action: RehydrateAction) => ({
+        ...state,
+        ...getRehydratePayload(action, 'supercharge'),
+        loading: false,
+        error: false,
+        fetchAvailableRewardsLoading: false,
+        fetchAvailableRewardsError: false,
+        availableRewards: [],
+      }))
+      .addCase(
+        AppActions.UPDATE_REMOTE_CONFIG_VALUES,
+        (state, action: UpdateConfigValuesAction) => {
+          state.superchargeV2Enabled = action.configValues.superchargeV2Enabled
+          state.superchargeRewardContractAddress =
+            action.configValues.superchargeRewardContractAddress
+          state.superchargeV1Addresses = action.configValues.superchargeV1Addresses
+        }
+      )
   },
 })
 
