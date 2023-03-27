@@ -17,8 +17,8 @@ interface DappFilterChip {
 
 function DappFilterChip({ filterId, filterName, isSelected, onPress, style }: DappFilterChip) {
   const filterPress = () => {
-    isSelected ? onPress('all') : onPress(filterId)
     ValoraAnalytics.track(DappExplorerEvents.dapp_filter, { id: filterId, remove: isSelected })
+    onPress(filterId)
   }
 
   return (
