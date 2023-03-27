@@ -81,19 +81,15 @@ export function DAppsExplorerScreenSearch() {
   // Analytics for Search Query
   // Wait 1 second after the users finishes interacting with the search bar get the value
   useEffect(() => {
-    if (value !== '') {
-      if ((value: string) => !value) {
-        ValoraAnalytics.track(DappExplorerEvents.dapp_search, {
-          query: value,
-          clearing: false,
-        })
-      }
-    } else {
-      ValoraAnalytics.track(DappExplorerEvents.dapp_search, {
+    value
+      ? ValoraAnalytics.track(DappExplorerEvents.dapp_search, {
+        query: value,
+        clearing: false,
+      })
+      : ValoraAnalytics.track(DappExplorerEvents.dapp_search, {
         query: previousValue,
         clearing: true,
       })
-    }
   }, [value])
 
   const allSectionResults: SectionData[] = React.useMemo(() => {
