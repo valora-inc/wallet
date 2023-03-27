@@ -147,7 +147,6 @@ export function DAppsExplorerScreenSearch() {
                   underlineColorAndroid="transparent"
                   placeholder={t('dappsScreen.searchPlaceHolder')}
                   showClearButton={true}
-                  testID={'DappSearchInput'}
                   allowFontScaling={false}
                 />
                 {dappFavoritesEnabled && (
