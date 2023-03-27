@@ -32,6 +32,7 @@ import {
   SendEvents,
   SettingsEvents,
   SwapEvents,
+  TokenBottomSheetEvents,
   TransactionEvents,
   VerificationEvents,
   WalletConnectEvents,
@@ -56,11 +57,11 @@ import { CICOFlow, FiatExchangeFlow, PaymentMethod } from 'src/fiatExchanges/uti
 import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { NotificationReceiveState } from 'src/notifications/types'
+import { AdventureCardName } from 'src/onboarding/types'
 import { RecipientType } from 'src/recipients/recipient'
 import { Field } from 'src/swap/types'
 import { Currency, CurrencyOrCREAL, StableCurrency } from 'src/utils/currencies'
 import { Awaited } from 'src/utils/typescript'
-import { AdventureCardName } from 'src/onboarding/types'
 
 type PermissionStatus = Awaited<ReturnType<typeof check>>
 
@@ -1240,6 +1241,12 @@ interface CeloNewsEventsProperties {
   }
   [CeloNewsEvents.celo_news_retry_tap]: undefined
 }
+interface TokenBottomSheetEventsProperties {
+  [TokenBottomSheetEvents.search_token]: {
+    origin: TokenPickerOrigin
+    searchInput: string
+  }
+}
 
 export type AnalyticsPropertiesList = AppEventsProperties &
   HomeEventsProperties &
@@ -1269,4 +1276,5 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   CoinbasePayEventsProperties &
   SwapEventsProperties &
   CeloNewsEventsProperties &
-  QrScreenProperties
+  QrScreenProperties &
+  TokenBottomSheetEventsProperties

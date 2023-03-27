@@ -571,7 +571,7 @@ export enum SwapEvents {
   swap_execute_price_change = 'swap_execute_price_change', // When guaranteed is greater than 2% difference than the quoted price.
   swap_execute_success = 'swap_execute_success', // When the swap is executed successfully
   swap_execute_error = 'swap_execute_error', // When the swap returns an error
-  swap_learn_more = 'swap_learn_more', // When a user taps on the learn more button on the swap screen
+  swap_learn_more = 'swap_learn_more', // When a user taps on the learn more button on the swap screen,
 }
 
 export enum CeloNewsEvents {
@@ -579,6 +579,10 @@ export enum CeloNewsEvents {
   celo_news_article_tap = 'celo_news_article_tap', // When a user taps on a news article
   celo_news_bottom_read_more_tap = 'celo_news_bottom_read_more_tap', // When a user taps on the read more button at the bottom of the screen
   celo_news_retry_tap = 'celo_news_retry_tap', // When a user taps on the retry button
+}
+
+export enum TokenBottomSheetEvents {
+  search_token = 'search_token', // When a user searches a token using the token bottom sheet search box
 }
 
 export type AnalyticsEventType =
@@ -608,3 +612,4 @@ export type AnalyticsEventType =
   | CoinbasePayEvents
   | SwapEvents
   | CeloNewsEvents
+  | TokenBottomSheetEvents

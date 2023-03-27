@@ -1,16 +1,17 @@
-import React from 'react'
+import { throttle } from 'lodash'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
-import { SendEvents } from 'src/analytics/Events'
+import { SendEvents, TokenBottomSheetEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BottomSheet from 'src/components/BottomSheet'
+import SearchInput from 'src/components/SearchInput'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { TokenBalance } from 'src/tokens/slice'
-import { sortFirstStableThenCeloThenOthersByUsdBalance } from 'src/tokens/utils'
 
 export enum TokenPickerOrigin {
   Send = 'Send',
@@ -25,6 +26,7 @@ interface Props {
   onTokenSelected: (tokenAddress: string) => void
   onClose: () => void
   tokens: TokenBalance[]
+  searchEnabled?: boolean
 }
 
 function TokenOption({ tokenInfo, onPress }: { tokenInfo: TokenBalance; onPress: () => void }) {
@@ -56,9 +58,20 @@ function TokenOption({ tokenInfo, onPress }: { tokenInfo: TokenBalance; onPress:
     </Touchable>
   )
 }
+
 // TODO: In the exchange flow or when requesting a payment, only show CELO & stable tokens.
-function TokenBottomSheet({ isVisible, origin, onTokenSelected, onClose, tokens }: Props) {
-  const tokenList = tokens.sort(sortFirstStableThenCeloThenOthersByUsdBalance)
+function TokenBottomSheet({
+  isVisible,
+  origin,
+  onTokenSelected,
+  onClose,
+  tokens,
+  searchEnabled,
+}: Props) {
+  // TODO: Sort outside token sheet
+  // const tokenList = tokens.sort(sortFirstStableThenCeloThenOthersByUsdBalance)
+  const [tokenList, setTokenList] = useState(tokens)
+  const [searchQuery, setSearchQuery] = useState('')
 
   const { t } = useTranslation()
 
@@ -70,10 +83,43 @@ function TokenBottomSheet({ isVisible, origin, onTokenSelected, onClose, tokens 
     onTokenSelected(tokenAddress)
   }
 
+  const throttledSearch = throttle((searchInput: string) => {
+    const matchedTokens = tokens.filter((tokenInfo) => {
+      if (searchQuery.length === 0) {
+        return true
+      }
+
+      return (
+        tokenInfo.symbol.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        tokenInfo.name.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    })
+    setTokenList(matchedTokens)
+    setSearchQuery(searchInput)
+    ValoraAnalytics.track(TokenBottomSheetEvents.search_token, {
+      origin,
+      searchInput,
+    })
+  }, 100)
+
+  const title = <Text style={styles.title}>{t('selectToken')}</Text>
+
+  const searchInput = searchEnabled ? (
+    <>
+      {title}
+      <SearchInput
+        placeholder={t('searchAssets')}
+        value={searchQuery}
+        onChangeText={throttledSearch}
+        style={styles.searchInput}
+      ></SearchInput>
+    </>
+  ) : undefined
+
   return (
-    <BottomSheet isVisible={isVisible} onBackgroundPress={onClose}>
-      <>
-        <Text style={styles.title}>{t('selectToken')}</Text>
+    <BottomSheet isVisible={isVisible} onBackgroundPress={onClose} stickyHeader={searchInput}>
+      <View>
+        {!searchEnabled && title}
         {tokenList.map((tokenInfo, index) => {
           return (
             <React.Fragment key={`token-${tokenInfo.address}`}>
@@ -82,7 +128,7 @@ function TokenBottomSheet({ isVisible, origin, onTokenSelected, onClose, tokens 
             </React.Fragment>
           )
         })}
-      </>
+      </View>
     </BottomSheet>
   )
 }
@@ -128,6 +174,10 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 1,
     backgroundColor: colors.gray2,
+  },
+  searchInput: {
+    marginTop: Spacing.Regular16,
+    marginBottom: Spacing.Thick24,
   },
 })
 

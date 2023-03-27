@@ -30,7 +30,7 @@ import { setSwapUserInput } from 'src/swap/slice'
 import SwapAmountInput from 'src/swap/SwapAmountInput'
 import { Field, SwapAmount } from 'src/swap/types'
 import useSwapQuote from 'src/swap/useSwapQuote'
-import { coreTokensSelector, tokensByUsdBalanceSelector } from 'src/tokens/selectors'
+import { swappableTokensSelector, tokensByUsdBalanceSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 
 const FETCH_UPDATED_QUOTE_DEBOUNCE_TIME = 500
@@ -46,7 +46,7 @@ export function SwapScreen() {
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
-  const supportedTokens = useSelector(coreTokensSelector)
+  const supportedTokens = useSelector(swappableTokensSelector)
 
   const swapInfo = useSelector(swapInfoSelector)
   const tokensSortedByUsdBalance = useSelector(tokensByUsdBalanceSelector)
@@ -319,6 +319,7 @@ export function SwapScreen() {
         onTokenSelected={handleSelectToken}
         onClose={handleCloseTokenSelect}
         tokens={Object.values(supportedTokens)}
+        searchEnabled={true}
       />
     </SafeAreaView>
   )

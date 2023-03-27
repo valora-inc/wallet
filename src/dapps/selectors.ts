@@ -117,6 +117,6 @@ export const favoriteDappsSelector = createSelector(
   }
 )
 
-export const dappsFilterEnabledSelector = (state: RootState) => state.dapps.dappsFilterEnabled
+export const dappsFilterEnabledSelector = (state: RootState) => true
 
 export const dappsSearchEnabledSelector = (state: RootState) => state.dapps.dappsSearchEnabled

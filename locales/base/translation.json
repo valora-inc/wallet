@@ -1663,5 +1663,6 @@
   "profileScreen": {
     "generateName": "Generate a name",
     "namePlaceholder": "Select a name ex) {{exampleName}}"
-  }
+  },
+  "searchAssets": "Search Assets"
 }

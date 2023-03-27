@@ -19,6 +19,7 @@ interface Props {
   testID?: string
   opacity?: number
   backgroundColor?: string
+  stickyHeader?: JSX.Element
 }
 
 const MIN_EMPTY_SPACE = 100
@@ -30,6 +31,7 @@ function BottomSheet({
   testID = 'BottomSheetContainer',
   opacity = 0.5,
   backgroundColor = colors.modalBackdrop,
+  stickyHeader,
 }: Props) {
   const [showingOptions, setOptionsVisible] = useState(isVisible)
   const [pickerHeight, setPickerHeight] = useState(0)
@@ -70,6 +72,7 @@ function BottomSheet({
   }
 
   const maxHeight = Dimensions.get('window').height - MIN_EMPTY_SPACE
+  const minHeight = stickyHeader ? maxHeight : undefined
   const paddingBottom = Math.max(safeAreaInsets.bottom, Spacing.Thick24)
 
   return (
@@ -77,13 +80,24 @@ function BottomSheet({
       <TouchableWithoutFeedback onPress={onBackgroundPress} testID={'BackgroundTouchable'}>
         <Animated.View style={[styles.background, animatedOpacity]} />
       </TouchableWithoutFeedback>
-      <Animated.ScrollView
-        style={[styles.contentContainer, { paddingBottom, maxHeight }, animatedPickerPosition]}
-        contentContainerStyle={pickerHeight >= maxHeight ? styles.fullHeightScrollView : undefined}
+
+      <View
+        style={[
+          styles.contentContainer,
+          { paddingBottom, maxHeight, minHeight },
+          animatedPickerPosition,
+        ]}
         onLayout={onLayout}
       >
-        {children}
-      </Animated.ScrollView>
+        {stickyHeader}
+        <Animated.ScrollView
+          contentContainerStyle={
+            pickerHeight >= maxHeight ? styles.fullHeightScrollView : undefined
+          }
+        >
+          {children}
+        </Animated.ScrollView>
+      </View>
     </View>
   )
 }
