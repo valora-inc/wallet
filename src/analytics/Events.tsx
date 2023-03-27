@@ -545,7 +545,8 @@ export enum DappExplorerEvents {
   dapp_unfavorite = 'dapp_unfavorite', // when user unfavorites a dapp
   dapp_open_info = 'dapp_open_info', // when a user taps on the help icon
   dapp_open_more_info = 'dapp_open_more_info', // when a user taps on the "more" button from inside the help bottom sheet
-  dapp_filter = 'dapp_filter', // when a user taps on a filter
+  dapp_filter = 'dapp_filter', // when a user taps on a filter chip
+  dapp_search = 'dapp_search', // when a user searches on the dapp explorer screen
 }
 
 export enum WebViewEvents {

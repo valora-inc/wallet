@@ -32,6 +32,7 @@ import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import { useDebounce } from 'use-debounce'
 
 const AnimatedSectionList =
   Animated.createAnimatedComponent<SectionListProps<DappV2, SectionData>>(SectionList)
@@ -61,6 +62,10 @@ export function DAppsExplorerScreenSearch() {
 
   // Some state lifted up from all and favorite sections
   const [searchQuery, setSearchQuery] = React.useState('')
+  // @ts-expect-error 'previousSearchQuery' is declared but its value is never read
+  const [previousSearchQuery, setPrevSearchQuery] = React.useState('')
+  const [value] = useDebounce(searchQuery, 1000)
+  const [previousValue] = useDebounce(value, 1000)
   const [favoriteResultsEmpty, setFavoriteResultsEmpty] = React.useState(false)
   const [allResultEmpty, setAllResultEmpty] = React.useState(false)
 
@@ -72,6 +77,24 @@ export function DAppsExplorerScreenSearch() {
     dispatch(fetchDappsList())
     ValoraAnalytics.track(DappExplorerEvents.dapp_screen_open)
   }, [])
+
+  // Analytics for Search Query
+  // Wait 1 second after the users finishes interacting with the search bar get the value
+  useEffect(() => {
+    if (value !== '') {
+      if ((value: string) => !value) {
+        ValoraAnalytics.track(DappExplorerEvents.dapp_search, {
+          query: value,
+          clearing: false,
+        })
+      }
+    } else {
+      ValoraAnalytics.track(DappExplorerEvents.dapp_search, {
+        query: previousValue,
+        clearing: true,
+      })
+    }
+  }, [value])
 
   const allSectionResults: SectionData[] = React.useMemo(() => {
     const allResultsParsed = parseResultsIntoAll(dappList, searchQuery, favoriteDappsById)
@@ -139,6 +162,7 @@ export function DAppsExplorerScreenSearch() {
                 />
                 <SearchInput
                   onChangeText={(value) => {
+                    setPrevSearchQuery(searchQuery)
                     setSearchQuery(value)
                   }}
                   value={searchQuery}
