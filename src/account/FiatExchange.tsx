@@ -73,7 +73,7 @@ function FiatExchange() {
   return (
     <SafeAreaView style={styles.container}>
       <DrawerTopBar />
-      <ScrollView contentContainerStyle={styles.contentContainer}>
+      <ScrollView testID="FiatExchange/scrollView" contentContainerStyle={styles.contentContainer}>
         <View style={styles.headerContainer}>
           <FiatExchangeTokenBalance key={'FiatExchangeTokenBalance'} />
           <Image source={fiatExchange} style={styles.image} resizeMode={'contain'} />
