@@ -256,7 +256,7 @@ describe(DAppsExplorerScreenSearch, () => {
           dappsList,
           dappsCategories,
           dappFavoritesEnabled: true,
-          dappsFilterEnabled: true,
+          dappsSearchEnabled: true,
           favoriteDappIds: [],
         },
       })
@@ -281,7 +281,7 @@ describe(DAppsExplorerScreenSearch, () => {
           dappsList,
           dappsCategories,
           dappFavoritesEnabled: true,
-          dappsFilterEnabled: true,
+          dappsSearchEnabled: true,
           favoriteDappIds: ['dapp2'],
         },
       })
@@ -308,6 +308,43 @@ describe(DAppsExplorerScreenSearch, () => {
       // No results sections should not be displayed
       expect(queryByTestId('FavoriteDappsSectionSearch/NoResultsSearch')).toBeNull()
       expect(queryByTestId('DAppsExplorerScreenSearch/NoResultsSearch')).toBeNull()
+    })
+
+    it('clearing search input should show all dapps', () => {
+      const store = createMockStore({
+        dapps: {
+          dappListApiUrl: 'http://url.com',
+          dappsList,
+          dappsCategories,
+          dappFavoritesEnabled: true,
+          dappsSearchEnabled: true,
+          favoriteDappIds: ['dapp2'],
+        },
+      })
+
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <DAppsExplorerScreenSearch />
+        </Provider>
+      )
+
+      // Type in search that should have no results
+      fireEvent.press(getByTestId('SearchInput'))
+      fireEvent.changeText(getByTestId('SearchInput'), 'iDoNotExist')
+
+      // Clear search field - onPress is tested in src/components/CircleButton.test.tsx
+      fireEvent.changeText(getByTestId('SearchInput'), '')
+
+      // Dapps displayed in the correct sections
+      const favoritesSection = getByTestId('DAppsExplorerScreenSearch/FavoriteDappsSectionSearch')
+      const allDappsSection = getByTestId('DAppsExplorerScreenSearch/DappsList')
+
+      // Names display correctly in the favorites section
+      expect(within(favoritesSection).queryByText(dappsList[0].name)).toBeFalsy()
+      expect(within(favoritesSection).getByText(dappsList[1].name)).toBeTruthy()
+
+      // Names display correctly in the all dapps section
+      expect(within(allDappsSection).getByText(dappsList[0].name)).toBeTruthy()
     })
   })
 })
