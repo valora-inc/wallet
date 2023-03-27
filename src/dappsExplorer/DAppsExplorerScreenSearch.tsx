@@ -83,13 +83,13 @@ export function DAppsExplorerScreenSearch() {
   useEffect(() => {
     value
       ? ValoraAnalytics.track(DappExplorerEvents.dapp_search, {
-        query: value,
-        clearing: false,
-      })
+          query: value,
+          clearing: false,
+        })
       : ValoraAnalytics.track(DappExplorerEvents.dapp_search, {
-        query: previousValue,
-        clearing: true,
-      })
+          query: previousValue,
+          clearing: true,
+        })
   }, [value])
 
   const allSectionResults: SectionData[] = React.useMemo(() => {
