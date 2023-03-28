@@ -257,7 +257,7 @@ export function* watchClaimRewards() {
 // home screen, on app launch there is a race condition between fetching
 // supercharge rewards and remote config values. since the supercharge v1 and v2
 // responses are not compatible, we should clear any stored rewards and refetch
-// when supercharge v2 is enabled.
+// when supercharge v2 is enabled. test
 export function* watchSuperchargeV2Enabled() {
   let superchargeV2Enabled = yield select(superchargeV2EnabledSelector)
   while (true) {

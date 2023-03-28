@@ -3,6 +3,8 @@ name: Check translation files
 on:
   # Run on pull request.
   pull_request:
+    branches-ignore:
+      - l10n/main
 
 # Cancel any in progress run of the workflow for a given PR
 # This avoids building outdated code
@@ -19,13 +21,14 @@ jobs:
         id: changed-files
         uses: tj-actions/changed-files@v35
         with:
-          separator: ','
-      - uses: actions/cache@v3
-        with:
-          path: |
-            node_modules
-            */*/node_modules
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-      - name: Install Yarn dependencies
-        run: yarn || yarn --network-concurrency 1
-      - run: yarn ts-node .github/scripts/checkTranslationFilesOnPr.ts ${{ steps.changed-files.outputs.all_changed_files }}
+          files: |
+            locales/*/translation.json
+            ios/celo/*.lproj/InfoPlist.strings
+          files_ignore: |
+            locales/base/translation.json
+            ios/celo/Base.lproj/InfoPlist.strings
+      - name: Fail if translation files are changed
+        if: steps.changed-files.outputs.any_changed == 'true'
+        run: |
+          echo "❌ Only base translation files should be modified!"
+          echo "These translation files should not have been modified: ${{ steps.changed-files.outputs.all_changed_files }}"
