@@ -11,7 +11,6 @@ import { Actions as AppActions } from 'src/app/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { numberVerifiedCentrallySelector } from 'src/app/selectors'
 import {
-  availableRewardsSelector,
   superchargeRewardContractAddressSelector,
   superchargeV1AddressesSelector,
   superchargeV2EnabledSelector,
@@ -265,12 +264,8 @@ export function* watchSuperchargeV2Enabled() {
 
     if (superchargeV2Enabled !== action.configValues.superchargeV2Enabled) {
       superchargeV2Enabled = action.configValues.superchargeV2Enabled
-
-      const rewards = yield select(availableRewardsSelector)
-      if (rewards.length > 0) {
-        yield put(setAvailableRewards([]))
-        yield put(fetchAvailableRewards())
-      }
+      yield put(setAvailableRewards([]))
+      yield put(fetchAvailableRewards())
     }
   }
 }
