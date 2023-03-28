@@ -27,7 +27,6 @@ jobs:
           files_ignore: |
             locales/base/translation.json
             ios/celo/Base.lproj/InfoPlist.strings
-          separator: '\n'
       - name: Fail if translation files are changed
         if: steps.changed-files.outputs.any_changed == 'true'
         run: |
