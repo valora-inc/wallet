@@ -1553,7 +1553,7 @@
     "review": "Revisar",
     "swapFrom": "De",
     "swapTo": "Para",
-    "insufficientFunds": "Saldo de {{token}} insuficiente. Insira um valor menor ou escolha um token diferente.",
+    "insufficientFunds": "Insufficient {{token}} balance. Try a smaller amount or choose a different asset.",
     "fetchSwapQuoteFailed": "Lamentamos o atraso! A obtenção da melhor taxa de câmbio está demorando mais do que o normal. Tente novamente mais tarde.",
     "disclaimer": "As trocas são fornecidas por parceiros no Celo. <0>Saiba mais</0>",
     "swapFromTokenSelection": "Trocar de",
@@ -1602,7 +1602,7 @@
     },
     "swapCompleteSection": {
       "title": "Troca bem-sucedida",
-      "subtitle": "Seus ativos agora estão em sua carteira",
+      "subtitle": "Your swapped assets will appear in your wallet shortly",
       "done": "Concluído"
     },
     "swapErrorSection": {
