@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Trans, TransProps } from 'react-i18next'
 import { Image, ImageSourcePropType, StyleSheet, Text, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { SafeAreaView, useSafeAreaFrame } from 'react-native-safe-area-context'
 import { InviteEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
@@ -38,6 +38,8 @@ const InviteModal = ({
   onClose,
   onShareInvite,
 }: Props) => {
+  const { height, width } = useSafeAreaFrame()
+
   const onPressHelp = () => {
     if (helpLink) {
       ValoraAnalytics.track(InviteEvents.invite_help_link)
@@ -46,7 +48,7 @@ const InviteModal = ({
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, { height, width }]}>
       <Touchable
         onPress={onClose}
         borderless={true}
@@ -92,8 +94,6 @@ const InviteModal = ({
 
 const styles = StyleSheet.create({
   container: {
-    height: variables.height,
-    width: variables.width,
     flexGrow: 1,
     position: 'absolute',
     backgroundColor: colors.light,
