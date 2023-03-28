@@ -27,8 +27,11 @@ jobs:
           files_ignore: |
             locales/base/translation.json
             ios/celo/Base.lproj/InfoPlist.strings
+          separator: '\n'
       - name: Fail if translation files are changed
         if: steps.changed-files.outputs.any_changed == 'true'
         run: |
           echo "❌ Only base translation files should be modified!"
-          echo "These translation files should not have been modified: ${{ steps.changed-files.outputs.all_changed_files }}"
+          echo "These translation files should not have been modified:"
+          echo ${{ steps.changed-files.outputs.all_changed_files }}
+          exit 1
