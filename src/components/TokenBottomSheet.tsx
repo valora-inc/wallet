@@ -8,7 +8,9 @@ import BottomSheet from 'src/components/BottomSheet'
 import SearchInput from 'src/components/SearchInput'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
-import colors from 'src/styles/colors'
+import InfoIcon from 'src/icons/InfoIcon'
+import Times from 'src/icons/Times'
+import colors, { Colors } from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { TokenBalance } from 'src/tokens/slice'
@@ -27,6 +29,7 @@ interface Props {
   onClose: () => void
   tokens: TokenBalance[]
   searchEnabled?: boolean
+  titleText: string
 }
 
 function TokenOption({ tokenInfo, onPress }: { tokenInfo: TokenBalance; onPress: () => void }) {
@@ -67,6 +70,7 @@ function TokenBottomSheet({
   onClose,
   tokens,
   searchEnabled,
+  titleText,
 }: Props) {
   // TODO: Sort outside token sheet
   // const tokenList = tokens.sort(sortFirstStableThenCeloThenOthersByUsdBalance)
@@ -75,7 +79,18 @@ function TokenBottomSheet({
 
   const { t } = useTranslation()
 
+  const resetSearchState = () => {
+    setSearchQuery('')
+    setTokenList(tokens)
+  }
+
+  const onCloseBottomSheet = () => {
+    resetSearchState()
+    onClose()
+  }
+
   const onTokenPressed = (tokenAddress: string) => () => {
+    resetSearchState()
     ValoraAnalytics.track(SendEvents.token_selected, {
       origin,
       tokenAddress,
@@ -83,51 +98,77 @@ function TokenBottomSheet({
     onTokenSelected(tokenAddress)
   }
 
-  const throttledSearch = throttle((searchInput: string) => {
+  const thottleSearch = throttle((searchInput: string) => {
+    setSearchQuery(searchInput)
     const matchedTokens = tokens.filter((tokenInfo) => {
-      if (searchQuery.length === 0) {
+      if (searchInput.length === 0) {
         return true
       }
 
       return (
-        tokenInfo.symbol.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        tokenInfo.name.toLowerCase().includes(searchQuery.toLowerCase())
+        tokenInfo.symbol.toLowerCase().includes(searchInput.toLowerCase()) ||
+        tokenInfo.name.toLowerCase().includes(searchInput.toLowerCase())
       )
     })
     setTokenList(matchedTokens)
-    setSearchQuery(searchInput)
+
     ValoraAnalytics.track(TokenBottomSheetEvents.search_token, {
       origin,
       searchInput,
     })
   }, 100)
 
-  const title = <Text style={styles.title}>{t('selectToken')}</Text>
+  const title = <Text style={styles.title}>{titleText}</Text>
 
-  const searchInput = searchEnabled ? (
+  const searchInput = (
+    <SearchInput
+      placeholder={t('searchAssets')}
+      value={searchQuery}
+      onChangeText={thottleSearch}
+      style={styles.searchInput}
+      returnKeyType={'search'}
+    />
+  )
+
+  const stickyHeader = (
     <>
-      {title}
-      <SearchInput
-        placeholder={t('searchAssets')}
-        value={searchQuery}
-        onChangeText={throttledSearch}
-        style={styles.searchInput}
-      ></SearchInput>
+      <View style={styles.stickyHeader}>
+        <View style={{ flex: 10 }}>{title}</View>
+        <Touchable style={{ flex: 1 }} onPress={onCloseBottomSheet}>
+          <Times />
+        </Touchable>
+      </View>
+      {searchEnabled && searchInput}
     </>
-  ) : undefined
+  )
+
+  const noTokensComponent = (
+    <View style={styles.viewContainer}>
+      <View style={styles.iconContainer}>
+        <InfoIcon color={Colors.onboardingBlue} />
+      </View>
+      <Text style={styles.text}>{t('noTokenInResult', { searchQuery })}</Text>
+    </View>
+  )
 
   return (
-    <BottomSheet isVisible={isVisible} onBackgroundPress={onClose} stickyHeader={searchInput}>
+    <BottomSheet
+      isVisible={isVisible}
+      onBackgroundPress={onCloseBottomSheet}
+      stickyHeader={searchEnabled ? stickyHeader : title}
+      fullHeight={searchEnabled}
+    >
       <View>
-        {!searchEnabled && title}
-        {tokenList.map((tokenInfo, index) => {
-          return (
-            <React.Fragment key={`token-${tokenInfo.address}`}>
-              {index > 0 && <View style={styles.separator} />}
-              <TokenOption tokenInfo={tokenInfo} onPress={onTokenPressed(tokenInfo.address)} />
-            </React.Fragment>
-          )
-        })}
+        {tokenList.length == 0
+          ? noTokensComponent
+          : tokenList.map((tokenInfo, index) => {
+              return (
+                <React.Fragment key={`token-${tokenInfo.address}`}>
+                  {index > 0 && <View style={styles.separator} />}
+                  <TokenOption tokenInfo={tokenInfo} onPress={onTokenPressed(tokenInfo.address)} />
+                </React.Fragment>
+              )
+            })}
       </View>
     </BottomSheet>
   )
@@ -138,7 +179,6 @@ TokenBottomSheet.navigationOptions = {}
 const styles = StyleSheet.create({
   title: {
     ...fontStyles.h2,
-    marginBottom: Spacing.Smallest8,
   },
   tokenOptionContainer: {
     flexDirection: 'row',
@@ -178,6 +218,32 @@ const styles = StyleSheet.create({
   searchInput: {
     marginTop: Spacing.Regular16,
     marginBottom: Spacing.Thick24,
+  },
+  iconContainer: {
+    flex: 1,
+  },
+  searchedText: {
+    color: Colors.dark,
+    fontWeight: 'bold',
+  },
+  text: {
+    ...fontStyles.regular500,
+    flex: 10,
+    textAlignVertical: 'center',
+  },
+  viewContainer: {
+    flex: 1,
+    alignItems: 'center',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: Spacing.Thick24,
+    marginHorizontal: Spacing.Thick24,
+    marginTop: Spacing.Large32,
+  },
+  stickyHeader: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    marginBottom: Spacing.Smallest8,
   },
 })
 

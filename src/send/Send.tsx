@@ -247,6 +247,7 @@ function Send({ route }: Props) {
         onTokenSelected={onTokenSelected}
         onClose={closeCurrencyPicker}
         tokens={isOutgoingPaymentRequest ? stableTokens : tokensWithBalance}
+        titleText={t('selectToken')}
       />
     </SafeAreaView>
   )

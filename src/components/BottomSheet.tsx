@@ -20,6 +20,7 @@ interface Props {
   opacity?: number
   backgroundColor?: string
   stickyHeader?: JSX.Element
+  fullHeight?: boolean
 }
 
 const MIN_EMPTY_SPACE = 100
@@ -32,6 +33,7 @@ function BottomSheet({
   opacity = 0.5,
   backgroundColor = colors.modalBackdrop,
   stickyHeader,
+  fullHeight = false,
 }: Props) {
   const [showingOptions, setOptionsVisible] = useState(isVisible)
   const [pickerHeight, setPickerHeight] = useState(0)
@@ -72,7 +74,7 @@ function BottomSheet({
   }
 
   const maxHeight = Dimensions.get('window').height - MIN_EMPTY_SPACE
-  const minHeight = stickyHeader ? maxHeight : undefined
+  const minHeight = fullHeight ? maxHeight : undefined
   const paddingBottom = Math.max(safeAreaInsets.bottom, Spacing.Thick24)
 
   return (
