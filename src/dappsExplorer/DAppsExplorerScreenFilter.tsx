@@ -88,6 +88,10 @@ export function DAppsExplorerScreenFilter() {
     horizontalScrollView.current?.scrollTo({ x: 0, animated: true })
   }
 
+  const filterPress = (filterId: string) => {
+    selectedFilter === filterId ? setSelectedFilter('all') : setSelectedFilter(filterId)
+  }
+
   return (
     <SafeAreaView
       testID="DAppsExplorerScreenFilter"
@@ -153,7 +157,7 @@ export function DAppsExplorerScreenFilter() {
                       filterId={'all'}
                       filterName={t('dappsScreen.allDapps')}
                       isSelected={selectedFilter === 'all'}
-                      onPress={setSelectedFilter}
+                      onPress={filterPress}
                       style={styles.dappFilterAllChip}
                       key={'all'}
                     />
@@ -164,7 +168,7 @@ export function DAppsExplorerScreenFilter() {
                           filterId={category.id}
                           filterName={category.name}
                           isSelected={selectedFilter === category.id}
-                          onPress={setSelectedFilter}
+                          onPress={filterPress}
                           key={category.id}
                         />
                       )
@@ -183,7 +187,7 @@ export function DAppsExplorerScreenFilter() {
                       onPressDapp={onSelectDapp}
                     />
                     <Text style={styles.sectionTitle}>
-                      {t('dappsScreen.allDapps').toLocaleUpperCase(language ?? 'en-US')}
+                      {selectedFilterName.toLocaleUpperCase(language ?? 'en-US')}
                     </Text>
                   </>
                 )}
@@ -249,7 +253,7 @@ function parseResultsIntoAll(
   return [
     {
       data,
-      category: 'all',
+      category: filterId,
     },
   ]
 }
