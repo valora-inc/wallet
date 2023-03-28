@@ -1553,7 +1553,7 @@
     "review": "Gözden Geçir",
     "swapFrom": "Bu Token’dan",
     "swapTo": "Şu Token’a",
-    "insufficientFunds": "Yetersiz {{token}}. Lütfen daha küçük bir miktar girin veya farklı bir token seçin.",
+    "insufficientFunds": "Insufficient {{token}} balance. Try a smaller amount or choose a different asset.",
     "fetchSwapQuoteFailed": "Gecikme için üzgünüz! En iyi döviz kurunu almak normalden daha uzun sürüyor. Lütfen birkaç dakika içinde tekrar deneyin.",
     "disclaimer": "Celo'daki ortakların desteklediği takaslar. <0>Daha Fazla Bilgi Edinin.</0>",
     "swapFromTokenSelection": "Şuradan Gelen Takas",
@@ -1602,7 +1602,7 @@
     },
     "swapCompleteSection": {
       "title": "Takas başarılı",
-      "subtitle": "Varlıklarınız artık cüzdanınızda",
+      "subtitle": "Your swapped assets will appear in your wallet shortly",
       "done": "Tamamlandı"
     },
     "swapErrorSection": {
