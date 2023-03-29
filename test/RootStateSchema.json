@@ -2473,6 +2473,9 @@
                 "pincodeUseExpandedBlocklist": {
                     "type": "boolean"
                 },
+                "pushNotificationsEnabled": {
+                    "type": "boolean"
+                },
                 "rampCashInButtonExpEnabled": {
                     "type": "boolean"
                 },
@@ -2568,6 +2571,7 @@
                 "paymentDeepLinkHandler",
                 "phoneNumberVerified",
                 "pincodeUseExpandedBlocklist",
+                "pushNotificationsEnabled",
                 "rampCashInButtonExpEnabled",
                 "requireCPV",
                 "requirePinOnAppOpen",
