@@ -25,17 +25,17 @@ describe('calculateSearchScore', () => {
   // Expected score is the sum of the scores:
   // nameMatchingCaseScore + nameScore + descriptionScore + categoryScore
   it.each`
-    Dapp      | searchTerm    | expectedScore
-    ${dappV1} | ${'Ubeswap'}  | ${3}
-    ${dappV2} | ${'Ubeswap'}  | ${3}
-    ${dappV1} | ${'exchange'} | ${1}
-    ${dappV2} | ${'exchange'} | ${1}
-    ${dappV1} | ${'swap'}     | ${4}
-    ${dappV2} | ${'swap'}     | ${4}
-    ${dappV1} | ${'pool'}     | ${1}
-    ${dappV2} | ${'pool'}     | ${1}
+    Dapp      | searchTerm    | expectedScore | dappVersion
+    ${dappV1} | ${'Ubeswap'}  | ${3}          | ${1}
+    ${dappV2} | ${'Ubeswap'}  | ${3}          | ${2}
+    ${dappV1} | ${'exchange'} | ${1}          | ${1}
+    ${dappV2} | ${'exchange'} | ${1}          | ${2}
+    ${dappV1} | ${'swap'}     | ${4}          | ${1}
+    ${dappV2} | ${'swap'}     | ${4}          | ${2}
+    ${dappV1} | ${'pool'}     | ${1}          | ${1}
+    ${dappV2} | ${'pool'}     | ${1}          | ${2}
   `(
-    'Dapp: $Dapp.name & searchTerm: $searchTerm as $expectedScore',
+    "dappVersion: $dappVersion Dapp: '$Dapp.name' searchTerm: '$searchTerm' returns $expectedScore",
     ({ Dapp, searchTerm, expectedScore }) => {
       expect(calculateSearchScore(Dapp, searchTerm)).toBe(expectedScore)
     }
