@@ -1551,7 +1551,7 @@
     "review": "查看",
     "swapFrom": "自",
     "swapTo": "至",
-    "insufficientFunds": "{{token}} 余额不足，请尝试使用较小的金额或选择其他代币。",
+    "insufficientFunds": "Insufficient {{token}} balance. Try a smaller amount or choose a different asset.",
     "fetchSwapQuoteFailed": "抱歉有所延迟！获取最佳汇率所需时间较往常略长。请在几分钟后重试。",
     "disclaimer": "Celo 朋友发起的交换。<0>了解更多。</0>",
     "swapFromTokenSelection": "交换自",
@@ -1600,7 +1600,7 @@
     },
     "swapCompleteSection": {
       "title": "交换成功",
-      "subtitle": "您的资产现已放入钱包",
+      "subtitle": "Your swapped assets will appear in your wallet shortly",
       "done": "完成"
     },
     "swapErrorSection": {

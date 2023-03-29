@@ -1557,7 +1557,7 @@
     "review": "Проверить",
     "swapFrom": "От",
     "swapTo": "К",
-    "insufficientFunds": "Недостаточный остаток {{token}}. Попробуйте внести меньшую сумму или выберите другой токен.",
+    "insufficientFunds": "Insufficient {{token}} balance. Try a smaller amount or choose a different asset.",
     "fetchSwapQuoteFailed": "Извините за задержку! Для получения самого выгодного обменного курса требуется больше времени. Повторите попытку через несколько минут.",
     "disclaimer": "Обмены, поддерживаемые партнерами по Celo. <0>Подробнее.</0>",
     "swapFromTokenSelection": "Обменять с",
@@ -1606,7 +1606,7 @@
     },
     "swapCompleteSection": {
       "title": "Обмен выполнен успешно",
-      "subtitle": "Ваши активы теперь в вашем кошельке",
+      "subtitle": "Your swapped assets will appear in your wallet shortly",
       "done": "Готово"
     },
     "swapErrorSection": {

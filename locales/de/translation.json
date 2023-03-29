@@ -1553,7 +1553,7 @@
     "review": "Überprüfen",
     "swapFrom": "Von",
     "swapTo": "Zu",
-    "insufficientFunds": "Unzureichendes {{token}}-Guthaben. Versuche es mit einem kleineren Betrag oder wähle einen anderen Token.",
+    "insufficientFunds": "Insufficient {{token}} balance. Try a smaller amount or choose a different asset.",
     "fetchSwapQuoteFailed": "Entschuldige die Verzögerung! Es dauert länger als üblich, um den besten Wechselkurs zu ermitteln. Bitte versuche es in ein paar Minuten erneut.",
     "disclaimer": "Tausch, der von Celo-Partnern unterstützt wird. <0>Mehr erfahren.</0>",
     "swapFromTokenSelection": "Tausch von",
@@ -1602,7 +1602,7 @@
     },
     "swapCompleteSection": {
       "title": "Tausch erfolgreich",
-      "subtitle": "Dein Vermögen befindet sich jetzt in deiner Wallet",
+      "subtitle": "Your swapped assets will appear in your wallet shortly",
       "done": "Fertig"
     },
     "swapErrorSection": {
