@@ -110,6 +110,9 @@ interface AppEventsProperties {
     state: NotificationReceiveState
     type?: string
   }
+  [AppEvents.push_notifications_permission_changed]: {
+    enabled: boolean
+  }
   [AppEvents.android_mobile_services_availability_checked]: {
     googleIsAvailable: boolean | undefined
     huaweiIsAvailable: boolean | undefined
@@ -125,9 +128,6 @@ interface AppEventsProperties {
   }
   [AppEvents.account_funded]: undefined
   [AppEvents.account_liquidated]: undefined
-  [AppEvents.push_notifications_opt_in_changed]: {
-    optIn: boolean
-  }
 }
 
 interface HomeEventsProperties {

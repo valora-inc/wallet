@@ -150,9 +150,9 @@ export function* initializeCloudMessaging(app: ReactNativeFirebase.Module, addre
   if (authStatus === firebase.messaging.AuthorizationStatus.NOT_DETERMINED) {
     try {
       yield call([app.messaging(), 'requestPermission'])
-      ValoraAnalytics.track(AppEvents.push_notifications_opt_in_changed, { optIn: true })
+      ValoraAnalytics.track(AppEvents.push_notifications_permission_changed, { enabled: true })
     } catch (error) {
-      ValoraAnalytics.track(AppEvents.push_notifications_opt_in_changed, { optIn: false })
+      ValoraAnalytics.track(AppEvents.push_notifications_permission_changed, { enabled: false })
       Logger.warn(TAG, 'User has rejected messaging permissions', error)
       throw error
     }
