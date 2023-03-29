@@ -1551,7 +1551,7 @@
     "review": "Xem lại",
     "swapFrom": "Từ",
     "swapTo": "Đến",
-    "insufficientFunds": "Không đủ số dư {{token}}. Hãy thử số tiền nhỏ hơn hoặc chọn token khác.",
+    "insufficientFunds": "Insufficient {{token}} balance. Try a smaller amount or choose a different asset.",
     "fetchSwapQuoteFailed": "Xin lỗi vì sự chậm trễ này! Hệ thống đang mất nhiều thời gian hơn bình thường để có được tỷ giá quy đổi tốt nhất. Vui lòng thử lại trong vài phút nữa.",
     "disclaimer": "Hoán đổi được cung cấp bởi các đối tác trên Celo. <0> Tìm hiểu thêm. </0>",
     "swapFromTokenSelection": "Trao đổi từ",
@@ -1600,7 +1600,7 @@
     },
     "swapCompleteSection": {
       "title": "Trao đổi thành công",
-      "subtitle": "Tài sản của bạn hiện đã ở trong ví",
+      "subtitle": "Your swapped assets will appear in your wallet shortly",
       "done": "Xong"
     },
     "swapErrorSection": {
