@@ -13,3 +13,45 @@ index 175c561..f393ab0 100644
  
    if (_delegate && [_delegate respondsToSelector:@selector(updateJSExceptionWithMessage:stack:exceptionId:)]) {
      [_delegate updateJSExceptionWithMessage:message stack:stack exceptionId:[NSNumber numberWithDouble:exceptionId]];
+diff --git a/node_modules/react-native/Libraries/Components/ScrollView/ScrollView.js b/node_modules/react-native/Libraries/Components/ScrollView/ScrollView.js
+index e497288..06ba0fe 100644
+--- a/node_modules/react-native/Libraries/Components/ScrollView/ScrollView.js
++++ b/node_modules/react-native/Libraries/Components/ScrollView/ScrollView.js
+@@ -1162,6 +1162,16 @@ class ScrollView extends React.Component<Props, State> {
+     }
+   }
+   
++  _handleBeginScroll = (e: ScrollEvent) => {
++    if (
++      this.props.keyboardDismissMode === 'on-drag' &&
++      Platform.OS === 'android'
++    ) {
++      dismissKeyboard();
++    }
++    this._handleScrollBeginDrag(e);
++  };
++
+   _handleScroll = (e: ScrollEvent) => {
+     if (__DEV__) {
+       if (
+@@ -1178,11 +1188,6 @@ class ScrollView extends React.Component<Props, State> {
+         );
+       }
+     }
+-    if (Platform.OS === 'android') {
+-      if (this.props.keyboardDismissMode === 'on-drag' && this._isTouching) {
+-        dismissKeyboard();
+-      }
+-    }
+     this._observedScrollSinceBecomingResponder = true;
+     this.props.onScroll && this.props.onScroll(e);
+   };
+@@ -1716,7 +1721,7 @@ class ScrollView extends React.Component<Props, State> {
+       onResponderReject: this._handleResponderReject,
+       onResponderRelease: this._handleResponderRelease,
+       onResponderTerminationRequest: this._handleResponderTerminationRequest,
+-      onScrollBeginDrag: this._handleScrollBeginDrag,
++      onScrollBeginDrag: this._handleBeginScroll,
+       onScrollEndDrag: this._handleScrollEndDrag,
+       onScrollShouldSetResponder: this._handleScrollShouldSetResponder,
+       onStartShouldSetResponder: this._handleStartShouldSetResponder,
