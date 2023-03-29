@@ -118,7 +118,7 @@
     "date-fns": "^2.29.3",
     "dot-prop-immutable": "^2.1.1",
     "ethereumjs-util": "^7.1.5",
-    "fp-ts": "2.1.1",
+    "fp-ts": "2.13.1",
     "fuzzysort": "^2.0.4",
     "graphql": "^14.1.1",
     "i18next": "^19.4.3",
