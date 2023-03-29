@@ -34,6 +34,8 @@ describe('calculateSearchScore', () => {
     ${dappV2} | ${'swap'}     | ${4}          | ${2}
     ${dappV1} | ${'pool'}     | ${1}          | ${1}
     ${dappV2} | ${'pool'}     | ${1}          | ${2}
+    ${dappV1} | ${''}         | ${0}          | ${1}
+    ${dappV2} | ${''}         | ${0}          | ${2}
   `(
     "dappVersion: $dappVersion Dapp: '$Dapp.name' searchTerm: '$searchTerm' returns $expectedScore",
     ({ Dapp, searchTerm, expectedScore }) => {
