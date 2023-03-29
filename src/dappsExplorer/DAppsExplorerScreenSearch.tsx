@@ -223,6 +223,7 @@ export function DAppsExplorerScreenSearch() {
             ListEmptyComponent={emptyListComponent}
             ListFooterComponentStyle={styles.listFooterComponent}
             keyboardShouldPersistTaps="always"
+            keyboardDismissMode="on-drag"
           />
         )}
       </>
