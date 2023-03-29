@@ -35,6 +35,7 @@ export enum Actions {
   PHONE_NUMBER_REVOKED = 'APP/PHONE_NUMBER_REVOKED',
   INVITE_LINK_CONSUMED = 'APP/INVITE_LINK_CONSUMED',
   HAPTIC_FEEDBACK_SET = 'APP/HAPTIC_FEEDBACK_SET',
+  PUSH_NOTIFICATIONS_PERMISSION_CHANGED = 'APP/PUSH_NOTIFICATIONS_PERMISSION_CHANGED',
 }
 
 export interface SetAppState {
@@ -151,6 +152,11 @@ interface HapticFeedbackSet {
   hapticFeedbackEnabled: boolean
 }
 
+export interface PushNotificationsPermissionChanged {
+  type: Actions.PUSH_NOTIFICATIONS_PERMISSION_CHANGED
+  enabled: boolean
+}
+
 export type ActionTypes =
   | SetAppState
   | SetLoggedIn
@@ -175,6 +181,7 @@ export type ActionTypes =
   | PhoneNumberRevoked
   | InviteLinkConsumed
   | HapticFeedbackSet
+  | PushNotificationsPermissionChanged
 
 export const setAppState = (state: string) => ({
   type: Actions.SET_APP_STATE,
@@ -313,5 +320,14 @@ export const hapticFeedbackSet = (hapticFeedbackEnabled: boolean): HapticFeedbac
   return {
     type: Actions.HAPTIC_FEEDBACK_SET,
     hapticFeedbackEnabled,
+  }
+}
+
+export const pushNotificationsPermissionChanged = (
+  enabled: boolean
+): PushNotificationsPermissionChanged => {
+  return {
+    type: Actions.PUSH_NOTIFICATIONS_PERMISSION_CHANGED,
+    enabled,
   }
 }
