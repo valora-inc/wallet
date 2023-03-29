@@ -10136,6 +10136,11 @@ fp-ts@2.1.1:
   resolved "https://registry.yarnpkg.com/fp-ts/-/fp-ts-2.1.1.tgz#c910544499d7c959351bb4260ee7c44a544084c1"
   integrity sha512-YcWhMdDCFCja0MmaDroTgNu+NWWrrnUEn92nvDgrtVy9Z71YFnhNVIghoHPt8gs82ijoMzFGeWKvArbyICiJgw==
 
+fp-ts@2.13.1:
+  version "2.13.1"
+  resolved "https://registry.yarnpkg.com/fp-ts/-/fp-ts-2.13.1.tgz#1bf2b24136cca154846af16752dc29e8fa506f2a"
+  integrity sha512-0eu5ULPS2c/jsa1lGFneEFFEdTbembJv8e4QKXeVJ3lm/5hyve06dlKZrpxmMwJt6rYen7sxmHHK2CLaXvWuWQ==
+
 fragment-cache@^0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/fragment-cache/-/fragment-cache-0.2.1.tgz#4290fad27f13e89be7f33799c6bc5a0abfff0d19"
