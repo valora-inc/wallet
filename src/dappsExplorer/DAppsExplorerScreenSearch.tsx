@@ -222,6 +222,7 @@ export function DAppsExplorerScreenSearch() {
             testID="DAppsExplorerScreenSearch/DappsList"
             ListEmptyComponent={emptyListComponent}
             ListFooterComponentStyle={styles.listFooterComponent}
+            keyboardShouldPersistTaps="always"
           />
         )}
       </>
