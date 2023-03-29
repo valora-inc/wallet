@@ -13,6 +13,7 @@ export enum AppEvents {
   redux_store_recovery_success = 'redux_store_recovery_success',
   redux_no_matching_keychain_account = 'redux_no_matching_keychain_account', // when account in redux has no matching password hash in the keychain
   push_notification_opened = 'push_notification_opened',
+  push_notifications_opt_in_changed = 'push_notifications_opt_in_changed',
   android_mobile_services_availability_checked = 'android_mobile_services_availability_checked',
 
   request_tracking_permission_started = 'request_tracking_permission_started',

@@ -13,6 +13,8 @@ import { eventChannel } from 'redux-saga'
 import { call, take } from 'redux-saga/effects'
 import { handleUpdateAccountRegistration } from 'src/account/saga'
 import { updateAccountRegistration } from 'src/account/updateAccountRegistration'
+import { AppEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { RemoteConfigValues } from 'src/app/saga'
 import { DEFAULT_PERSONA_TEMPLATE_ID, FETCH_TIMEOUT_DURATION, FIREBASE_ENABLED } from 'src/config'
 import { DappConnectInfo } from 'src/dapps/types'
@@ -148,8 +150,10 @@ export function* initializeCloudMessaging(app: ReactNativeFirebase.Module, addre
   if (authStatus === firebase.messaging.AuthorizationStatus.NOT_DETERMINED) {
     try {
       yield call([app.messaging(), 'requestPermission'])
+      ValoraAnalytics.track(AppEvents.push_notifications_opt_in_changed, { optIn: true })
     } catch (error) {
-      Logger.error(TAG, 'User has rejected messaging permissions', error)
+      ValoraAnalytics.track(AppEvents.push_notifications_opt_in_changed, { optIn: false })
+      Logger.warn(TAG, 'User has rejected messaging permissions', error)
       throw error
     }
   }
