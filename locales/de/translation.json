@@ -1662,6 +1662,14 @@
     "generateName": "Namen generieren",
     "namePlaceholder": "Wähle einen Namen, z. B. {{exampleName}}"
   },
+  "homeActions": {
+    "add": "Add",
+    "receive": "Erhalten",
+    "request": "Anfragen",
+    "send": "Senden",
+    "swap": "Tauschen",
+    "withdraw": "Abheben"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
