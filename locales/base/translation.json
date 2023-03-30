@@ -1663,5 +1663,10 @@
   "profileScreen": {
     "generateName": "Generate a name",
     "namePlaceholder": "Select a name ex) {{exampleName}}"
+  },
+  "quickActions": {
+    "add": "Add",
+    "receive": "Receive",
+    "swap": "Swap"
   }
 }
