@@ -22,10 +22,11 @@ export function FavoriteDappsSection({ onPressDapp, searchTerm, setFavoriteResul
   const { t } = useTranslation()
   const favoriteDapps = useSelector(favoriteDappsSelector)
 
-  // Filter dapps that match the search query
+  // Filter dapps that match the search query if present
   const favoritedDappsSearched = favoriteDapps.filter((dapp) =>
-    calculateSearchScore(dapp, searchTerm)
+    searchTerm === '' ? true : calculateSearchScore(dapp, searchTerm)
   )
+
   // Sort these dapps by their search score
   favoritedDappsSearched.sort(
     (a, b) => calculateSearchScore(b, searchTerm) - calculateSearchScore(a, searchTerm)
