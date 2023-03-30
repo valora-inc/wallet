@@ -1660,5 +1660,13 @@
     "generateName": "生成名称",
     "namePlaceholder": "选择一个名称，例如 {{exampleName}}"
   },
+  "homeActions": {
+    "add": "Add",
+    "receive": "Receive",
+    "request": "请求",
+    "send": "发送",
+    "swap": "交换",
+    "withdraw": "提取"
+  },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
 }
