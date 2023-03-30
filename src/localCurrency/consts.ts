@@ -53,7 +53,7 @@ export enum LocalCurrencySymbol {
   BOB = 'Bs',
   BRL = 'R$',
   CAD = '$',
-  CHF = 'CHF',
+  CHF = 'Fr.',
   CLP = '$',
   CNY = '¥',
   COP = '$',
