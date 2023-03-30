@@ -1,6 +1,7 @@
-import { fireEvent, render, within } from '@testing-library/react-native'
+import { fireEvent, render, waitFor, within } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
+import { DappExplorerEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { dappSelected, favoriteDapp, fetchDappsList, unfavoriteDapp } from 'src/dapps/slice'
 import { DappCategory, DappSection } from 'src/dapps/types'
@@ -344,6 +345,94 @@ describe(DAppsExplorerScreenSearch, () => {
 
       // Names display correctly in the all dapps section
       expect(within(allDappsSection).getByText(dappsList[0].name)).toBeTruthy()
+    })
+
+    it('triggers events when searching', async () => {
+      jest.useRealTimers()
+      const store = createMockStore({
+        dapps: {
+          dappListApiUrl: 'http://url.com',
+          dappsList,
+          dappsCategories,
+          dappFavoritesEnabled: true,
+          dappsSearchEnabled: true,
+          favoriteDappIds: [],
+        },
+      })
+
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <DAppsExplorerScreenSearch />
+        </Provider>
+      )
+
+      // don't include events dispatched on screen load
+      jest.clearAllMocks()
+      fireEvent.changeText(getByTestId('SearchInput'), 'swap')
+
+      await waitFor(
+        () => {
+          expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+          expect(ValoraAnalytics.track).toHaveBeenCalledWith(DappExplorerEvents.dapp_search, {
+            query: 'swap',
+            clearing: false,
+          })
+        },
+        { timeout: 1500 }
+      )
+    })
+
+    it('triggers events when clearing search', async () => {
+      jest.useRealTimers()
+      const store = createMockStore({
+        dapps: {
+          dappListApiUrl: 'http://url.com',
+          dappsList,
+          dappsCategories,
+          dappFavoritesEnabled: true,
+          dappsSearchEnabled: true,
+          favoriteDappIds: [],
+        },
+      })
+
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <DAppsExplorerScreenSearch />
+        </Provider>
+      )
+
+      // don't include events dispatched on screen load
+      jest.clearAllMocks()
+
+      fireEvent.changeText(getByTestId('SearchInput'), 'swap')
+      await waitFor(
+        () => {
+          expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+          expect(ValoraAnalytics.track).toHaveBeenCalledWith(DappExplorerEvents.dapp_search, {
+            query: 'swap',
+            clearing: false,
+          })
+        },
+        { timeout: 1500 }
+      )
+
+      // clear search input
+      fireEvent.changeText(getByTestId('SearchInput'), '')
+
+      await waitFor(
+        () => {
+          expect(ValoraAnalytics.track).toHaveBeenCalledTimes(2)
+          expect(ValoraAnalytics.track).toHaveBeenCalledWith(DappExplorerEvents.dapp_search, {
+            query: 'swap',
+            clearing: false,
+          })
+          expect(ValoraAnalytics.track).toHaveBeenCalledWith(DappExplorerEvents.dapp_search, {
+            query: 'swap',
+            clearing: true,
+          })
+        },
+        { timeout: 1500 }
+      )
     })
   })
 })
