@@ -1173,6 +1173,10 @@ interface DappExplorerEventsProperties {
     id: string
     remove: boolean
   }
+  [DappExplorerEvents.dapp_search]: {
+    query: string
+    clearing: boolean
+  }
 }
 
 interface WebViewEventsProperties {

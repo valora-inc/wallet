@@ -32,6 +32,7 @@ import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import { useDebounce } from 'use-debounce'
 
 const AnimatedSectionList =
   Animated.createAnimatedComponent<SectionListProps<DappV2, SectionData>>(SectionList)
@@ -64,6 +65,12 @@ export function DAppsExplorerScreenSearch() {
   const [favoriteResultsEmpty, setFavoriteResultsEmpty] = React.useState(false)
   const [allResultEmpty, setAllResultEmpty] = React.useState(false)
 
+  // Search Analytics
+  // @ts-expect-error 'previousSearchQuery' is declared but its value is never read
+  const [previousSearchTerm, setPreviousSearchTerm] = React.useState('')
+  const [value] = useDebounce(searchTerm, 1000)
+  const [previousValue] = useDebounce(value, 1000)
+
   const { onSelectDapp, ConfirmOpenDappBottomSheet } = useOpenDapp()
   const { onFavoriteDapp, DappFavoritedToast } = useDappFavoritedToast(sectionListRef)
   const { openSheet, DappInfoBottomSheet } = useDappInfoBottomSheet()
@@ -72,6 +79,20 @@ export function DAppsExplorerScreenSearch() {
     dispatch(fetchDappsList())
     ValoraAnalytics.track(DappExplorerEvents.dapp_screen_open)
   }, [])
+
+  // Analytics for Search Term
+  // Wait 1 second after the users finishes interacting with the search bar get the value
+  useEffect(() => {
+    value
+      ? ValoraAnalytics.track(DappExplorerEvents.dapp_search, {
+          query: value,
+          clearing: false,
+        })
+      : ValoraAnalytics.track(DappExplorerEvents.dapp_search, {
+          query: previousValue,
+          clearing: true,
+        })
+  }, [value])
 
   // @ts-expect-error Property 'categories' is missing in type 'DappV1' but required in type 'DappV2'.
   const allSectionResults: SectionData[] = React.useMemo(() => {
@@ -140,6 +161,7 @@ export function DAppsExplorerScreenSearch() {
                 />
                 <SearchInput
                   onChangeText={(value) => {
+                    setPreviousSearchTerm(searchTerm)
                     setSearchTerm(value)
                   }}
                   value={searchTerm}
