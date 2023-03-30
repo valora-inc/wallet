@@ -2168,7 +2168,7 @@ export const v121Schema = {
   },
   app: {
     ...v120Schema.app,
-    odisV1Enabled: true,
+    decentralizedVerificationEnabled: true,
   },
 }
 

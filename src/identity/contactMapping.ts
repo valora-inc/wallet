@@ -15,7 +15,7 @@ import { showErrorOrFallback } from 'src/alert/actions'
 import { IdentityEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { odisV1EnabledSelector } from 'src/app/selectors'
+import { decentralizedVerificationEnabledSelector } from 'src/app/selectors'
 import { fetchLostAccounts } from 'src/firebase/firebase'
 import {
   Actions,
@@ -223,8 +223,8 @@ function* getAccountAddresses(e164Number: string) {
 
 export function* fetchWalletAddressesDecentralized(e164Number: string) {
   // once odis v1 is EOL'ed, we can remove this whole path for fetching wallet addresses
-  const odisV1Enabled = yield select(odisV1EnabledSelector)
-  if (!odisV1Enabled) {
+  const decentralizedVerificationEnabled = yield select(decentralizedVerificationEnabledSelector)
+  if (!decentralizedVerificationEnabled) {
     return []
   }
 

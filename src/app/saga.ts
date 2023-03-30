@@ -212,7 +212,7 @@ export interface RemoteConfigValues {
   dappsFilterEnabled: boolean
   dappsSearchEnabled: boolean
   requireCPV: boolean
-  odisV1Enabled: boolean
+  decentralizedVerificationEnabled: boolean
 }
 
 export function* appRemoteFeatureFlagSaga() {

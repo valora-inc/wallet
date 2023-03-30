@@ -2464,7 +2464,7 @@
                 "numberVerified": {
                     "type": "boolean"
                 },
-                "odisV1Enabled": {
+                "decentralizedVerificationEnabled": {
                     "type": "boolean"
                 },
                 "paymentDeepLinkHandler": {
@@ -2571,7 +2571,7 @@
                 "minVersion",
                 "networkTimeoutSeconds",
                 "numberVerified",
-                "odisV1Enabled",
+                "decentralizedVerificationEnabled",
                 "paymentDeepLinkHandler",
                 "phoneNumberVerified",
                 "pincodeUseExpandedBlocklist",

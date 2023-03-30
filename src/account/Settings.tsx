@@ -39,8 +39,8 @@ import {
   setSessionId,
 } from 'src/app/actions'
 import {
+  decentralizedVerificationEnabledSelector,
   hapticFeedbackEnabledSelector,
-  odisV1EnabledSelector,
   phoneNumberVerifiedSelector,
   sessionIdSelector,
   supportedBiometryTypeSelector,
@@ -101,7 +101,7 @@ interface StateProps {
   supportedBiometryType: BIOMETRY_TYPE | null
   shouldShowRecoveryPhraseInSettings: boolean
   hapticFeedbackEnabled: boolean
-  odisV1Enabled: boolean
+  decentralizedVerificationEnabled: boolean
 }
 
 type OwnProps = NativeStackScreenProps<StackParamList, Screens.Settings>
@@ -127,7 +127,7 @@ const mapStateToProps = (state: RootState): StateProps => {
     supportedBiometryType: supportedBiometryTypeSelector(state),
     shouldShowRecoveryPhraseInSettings: shouldShowRecoveryPhraseInSettingsSelector(state),
     hapticFeedbackEnabled: hapticFeedbackEnabledSelector(state),
-    odisV1Enabled: odisV1EnabledSelector(state),
+    decentralizedVerificationEnabled: decentralizedVerificationEnabledSelector(state),
   }
 }
 
@@ -251,7 +251,7 @@ export class Account extends React.Component<Props, State> {
               )}
             </RevokePhoneNumber>
           </View>
-          {this.props.odisV1Enabled && (
+          {this.props.decentralizedVerificationEnabled && (
             <View style={styles.devSettingsItem}>
               <TouchableOpacity onPress={this.showConfirmRevokeModal}>
                 <Text>Revoke Number Verification (on-chain)</Text>
