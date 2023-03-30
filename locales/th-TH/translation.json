@@ -1660,5 +1660,13 @@
     "generateName": "สร้างชื่อ",
     "namePlaceholder": "เลือกชื่อ เช่น {{exampleName}}"
   },
+  "homeActions": {
+    "add": "Add",
+    "receive": "Receive",
+    "request": "ส่งคำขอ",
+    "send": "ส่ง",
+    "swap": "สว็อป",
+    "withdraw": "ถอน"
+  },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo ดอลลาร์"
 }
