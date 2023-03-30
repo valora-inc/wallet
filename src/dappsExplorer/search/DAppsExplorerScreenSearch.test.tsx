@@ -157,7 +157,7 @@ describe(DAppsExplorerScreenSearch, () => {
           dappsCategories,
           favoriteDappIds: ['dapp2'],
           dappFavoritesEnabled: true,
-          dappsFilterEnabled: true,
+          dappsSearchEnabled: true,
         },
       })
       const { getByTestId, queryByText } = render(
@@ -180,7 +180,7 @@ describe(DAppsExplorerScreenSearch, () => {
           dappsList,
           dappsCategories,
           dappFavoritesEnabled: true,
-          dappsFilterEnabled: true,
+          dappsSearchEnabled: true,
           favoriteDappIds: ['dapp1'],
         },
       })
@@ -216,7 +216,7 @@ describe(DAppsExplorerScreenSearch, () => {
           dappsList,
           dappsCategories,
           dappFavoritesEnabled: true,
-          dappsFilterEnabled: true,
+          dappsSearchEnabled: true,
           favoriteDappIds: ['dapp2'],
         },
       })
