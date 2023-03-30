@@ -2167,7 +2167,7 @@ export const v121Schema = {
     version: 121,
   },
   app: {
-    ...v119Schema.app,
+    ...v120Schema.app,
     odisV1Enabled: true,
   },
 }
