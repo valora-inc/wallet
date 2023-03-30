@@ -1667,6 +1667,9 @@
   "homeActions": {
     "add": "Add",
     "receive": "Receive",
-    "swap": "Swap"
+    "request": "Request",
+    "send": "Send",
+    "swap": "Swap",
+    "withdraw": "Withdraw"
   }
 }

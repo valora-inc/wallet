@@ -22,7 +22,7 @@ function ActionsCarousel() {
   const actions = [
     {
       name: HomeActionName.Send,
-      title: t('send'),
+      title: t('homeActions.send'),
       icon: <HomeActionsSend />,
       onPress: () => {
         navigate(Screens.Send)
@@ -56,7 +56,7 @@ function ActionsCarousel() {
     },
     {
       name: HomeActionName.Request,
-      title: t('request'),
+      title: t('homeActions.request'),
       icon: <HomeActionsRequest />,
       onPress: () => {
         navigate(Screens.Send, { isOutgoingPaymentRequest: true })
@@ -64,7 +64,7 @@ function ActionsCarousel() {
     },
     {
       name: HomeActionName.Withdraw,
-      title: t('withdraw'),
+      title: t('homeActions.withdraw'),
       icon: <HomeActionsWithdraw />,
       onPress: () => {
         navigate(Screens.FiatExchange)

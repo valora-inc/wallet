@@ -20,21 +20,18 @@ describe('ActionsCarousel', () => {
 
   it.each([
     [HomeActionName.Send, 'send', Screens.Send, undefined],
-    [HomeActionName.Receive, 'homeActions.receive', Screens.QRNavigator, undefined],
-    [
-      HomeActionName.Add,
-      'homeActions.add',
-      Screens.FiatExchangeCurrency,
-      { flow: FiatExchangeFlow.CashIn },
-    ],
-    [HomeActionName.Swap, 'homeActions.swap', Screens.SwapScreen, undefined],
+    [HomeActionName.Receive, 'receive', Screens.QRNavigator, undefined],
+    [HomeActionName.Add, 'add', Screens.FiatExchangeCurrency, { flow: FiatExchangeFlow.CashIn }],
+    [HomeActionName.Swap, 'swap', Screens.SwapScreen, undefined],
     [HomeActionName.Request, 'request', Screens.Send, { isOutgoingPaymentRequest: true }],
     [HomeActionName.Withdraw, 'withdraw', Screens.FiatExchange, undefined],
   ])(
     'renders title and navigates to appropriate screen for %s',
     (name, title, screen, screenOptions) => {
       const { getByTestId } = render(<ActionsCarousel />)
-      expect(within(getByTestId(`HomeAction/Title-${name}`)).getByText(title)).toBeTruthy()
+      expect(
+        within(getByTestId(`HomeAction/Title-${name}`)).getByText(`homeActions.${title}`)
+      ).toBeTruthy()
 
       fireEvent.press(getByTestId(`HomeAction-${name}`))
 
