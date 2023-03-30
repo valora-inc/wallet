@@ -111,3 +111,5 @@ export const networkTimeoutSecondsSelector = (state: RootState) => state.app.net
 export const celoNewsConfigSelector = (state: RootState) => state.app.celoNews
 
 export const hapticFeedbackEnabledSelector = (state: RootState) => state.app.hapticFeedbackEnabled
+
+export const odisV1EOLSelector = (state: RootState) => state.app.odisV1EOL

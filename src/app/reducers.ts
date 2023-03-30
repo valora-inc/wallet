@@ -54,6 +54,7 @@ export interface State {
   networkTimeoutSeconds: number
   celoNews: CeloNewsConfig
   hapticFeedbackEnabled: boolean
+  odisV1EOL: boolean
 }
 
 const initialState = {
@@ -101,6 +102,7 @@ const initialState = {
   networkTimeoutSeconds: REMOTE_CONFIG_VALUES_DEFAULTS.networkTimeoutSeconds,
   celoNews: JSON.parse(REMOTE_CONFIG_VALUES_DEFAULTS.celoNews),
   hapticFeedbackEnabled: true,
+  odisV1EOL: REMOTE_CONFIG_VALUES_DEFAULTS.odisV1EOL,
 }
 
 export const appReducer = (

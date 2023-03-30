@@ -41,6 +41,7 @@ import {
   googleMobileServicesAvailableSelector,
   huaweiMobileServicesAvailableSelector,
   inviterAddressSelector,
+  odisV1EOLSelector,
   sentryNetworkErrorsSelector,
   shouldRunVerificationMigrationSelector,
 } from 'src/app/selectors'
@@ -212,6 +213,7 @@ export interface RemoteConfigValues {
   dappsFilterEnabled: boolean
   dappsSearchEnabled: boolean
   requireCPV: boolean
+  odisV1EOL: boolean
 }
 
 export function* appRemoteFeatureFlagSaga() {
@@ -384,8 +386,9 @@ export function* handleSetAppState(action: SetAppState) {
 }
 
 export function* runCentralPhoneVerificationMigration() {
+  const odisV1EOL = yield select(odisV1EOLSelector)
   const shouldRunVerificationMigration = yield select(shouldRunVerificationMigrationSelector)
-  if (!shouldRunVerificationMigration) {
+  if (odisV1EOL || !shouldRunVerificationMigration) {
     return
   }
 

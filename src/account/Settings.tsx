@@ -40,6 +40,7 @@ import {
 } from 'src/app/actions'
 import {
   hapticFeedbackEnabledSelector,
+  odisV1EOLSelector,
   phoneNumberVerifiedSelector,
   sessionIdSelector,
   supportedBiometryTypeSelector,
@@ -100,6 +101,7 @@ interface StateProps {
   supportedBiometryType: BIOMETRY_TYPE | null
   shouldShowRecoveryPhraseInSettings: boolean
   hapticFeedbackEnabled: boolean
+  odisV1EOL: boolean
 }
 
 type OwnProps = NativeStackScreenProps<StackParamList, Screens.Settings>
@@ -125,6 +127,7 @@ const mapStateToProps = (state: RootState): StateProps => {
     supportedBiometryType: supportedBiometryTypeSelector(state),
     shouldShowRecoveryPhraseInSettings: shouldShowRecoveryPhraseInSettingsSelector(state),
     hapticFeedbackEnabled: hapticFeedbackEnabledSelector(state),
+    odisV1EOL: odisV1EOLSelector(state),
   }
 }
 
@@ -248,11 +251,13 @@ export class Account extends React.Component<Props, State> {
               )}
             </RevokePhoneNumber>
           </View>
-          <View style={styles.devSettingsItem}>
-            <TouchableOpacity onPress={this.showConfirmRevokeModal}>
-              <Text>Revoke Number Verification (on-chain)</Text>
-            </TouchableOpacity>
-          </View>
+          {!this.props.odisV1EOL && (
+            <View style={styles.devSettingsItem}>
+              <TouchableOpacity onPress={this.showConfirmRevokeModal}>
+                <Text>Revoke Number Verification (on-chain)</Text>
+              </TouchableOpacity>
+            </View>
+          )}
           <View style={styles.devSettingsItem}>
             <TouchableOpacity onPress={this.resetAppOpenedState}>
               <Text>Reset app opened state</Text>
