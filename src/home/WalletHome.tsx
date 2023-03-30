@@ -58,7 +58,7 @@ function WalletHome() {
   const { onSelectDapp, ConfirmOpenDappBottomSheet } = useOpenDapp()
 
   const { showHomeNavBar } = getExperimentParams(
-    ExperimentConfigs[StatsigExperiments.HOME_SCREEN_QUICK_ACTIONS]
+    ExperimentConfigs[StatsigExperiments.HOME_SCREEN_ACTIONS]
   )
 
   const showTestnetBanner = () => {
