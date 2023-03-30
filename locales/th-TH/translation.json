@@ -1551,7 +1551,7 @@
     "review": "ตรวจสอบ",
     "swapFrom": "จาก",
     "swapTo": "เป็น",
-    "insufficientFunds": "Insufficient {{token}} balance. Try a smaller amount or choose a different asset.",
+    "insufficientFunds": "ยอดคงเหลือ {{token}} ไม่เพียงพอ ลองจำนวนเงินที่น้อยลงหรือเลือกสินทรัพย์อื่น",
     "fetchSwapQuoteFailed": "ขออภัยในความล่าช้า การดำเนินการนี้ใช้เวลานานกว่าปกติเพื่อให้ได้อัตราแลกเปลี่ยนที่ดีที่สุด โปรดลองอีกครั้งในอีกสองสามนาที",
     "disclaimer": "แลกเปลี่ยนกับพันธมิตรใน Celo <0> เรียนรู้เพิ่มเติม </0>",
     "swapFromTokenSelection": "สว็อปจาก",
@@ -1600,7 +1600,7 @@
     },
     "swapCompleteSection": {
       "title": "สว็อปสำเร็จ",
-      "subtitle": "Your swapped assets will appear in your wallet shortly",
+      "subtitle": "สินทรัพย์ที่สว็อปจะแสดงในกระเป๋าเงินของคุณเร็วๆ นี้",
       "done": "เสร็จสิ้น"
     },
     "swapErrorSection": {
