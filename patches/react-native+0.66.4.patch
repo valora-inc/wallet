@@ -1,3 +1,35 @@
+diff --git a/node_modules/react-native/Libraries/Components/ScrollView/ScrollView.js b/node_modules/react-native/Libraries/Components/ScrollView/ScrollView.js
+index e497288..083485f 100644
+--- a/node_modules/react-native/Libraries/Components/ScrollView/ScrollView.js
++++ b/node_modules/react-native/Libraries/Components/ScrollView/ScrollView.js
+@@ -1178,11 +1178,6 @@ class ScrollView extends React.Component<Props, State> {
+         );
+       }
+     }
+-    if (Platform.OS === 'android') {
+-      if (this.props.keyboardDismissMode === 'on-drag' && this._isTouching) {
+-        dismissKeyboard();
+-      }
+-    }
+     this._observedScrollSinceBecomingResponder = true;
+     this.props.onScroll && this.props.onScroll(e);
+   };
+@@ -1299,6 +1294,15 @@ class ScrollView extends React.Component<Props, State> {
+    */
+   _handleScrollBeginDrag: (e: ScrollEvent) => void = (e: ScrollEvent) => {
+     FrameRateLogger.beginScroll(); // TODO: track all scrolls after implementing onScrollEndAnimation
++    // Patch from rn fix on main
++    // https://github.com/facebook/react-native/commit/7edf9274cf6d3398075c19cd1cb020a5d6a346a2
++    if (
++      Platform.OS === 'android' &&
++      this.props.keyboardDismissMode === 'on-drag'
++    ) {
++      dismissKeyboard();
++    }
++
+     this.props.onScrollBeginDrag && this.props.onScrollBeginDrag(e);
+   };
+ 
 diff --git a/node_modules/react-native/React/CoreModules/RCTExceptionsManager.mm b/node_modules/react-native/React/CoreModules/RCTExceptionsManager.mm
 index 175c561..f393ab0 100644
 --- a/node_modules/react-native/React/CoreModules/RCTExceptionsManager.mm
