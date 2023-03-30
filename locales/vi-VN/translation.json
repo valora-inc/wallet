@@ -1660,5 +1660,13 @@
     "generateName": "Tạo tên",
     "namePlaceholder": "Chọn tên, chẳng hạn như {{exampleName}}"
   },
+  "homeActions": {
+    "add": "Add",
+    "receive": "Receive",
+    "request": "Yêu cầu",
+    "send": "Gửi",
+    "swap": "Trao đổi",
+    "withdraw": "Rút tiền"
+  },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Đô la Celo"
 }
