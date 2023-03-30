@@ -1666,6 +1666,14 @@
     "generateName": "Згенерувати ім'я",
     "namePlaceholder": "Вибрати ім’я (напр.) {{exampleName}}"
   },
+  "homeActions": {
+    "add": "Додати",
+    "receive": "Отримання",
+    "request": "Запит",
+    "send": "Надіслати",
+    "swap": "Обміняти",
+    "withdraw": "Зняти"
+  },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
   "celoDollarAmount_2": "<0></0> Celo Dollars",
