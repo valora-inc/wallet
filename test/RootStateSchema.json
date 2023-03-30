@@ -2464,6 +2464,9 @@
                 "numberVerified": {
                     "type": "boolean"
                 },
+                "odisV1EOL": {
+                    "type": "boolean"
+                },
                 "paymentDeepLinkHandler": {
                     "$ref": "#/definitions/PaymentDeepLinkHandler"
                 },
@@ -2565,6 +2568,7 @@
                 "minVersion",
                 "networkTimeoutSeconds",
                 "numberVerified",
+                "odisV1EOL",
                 "paymentDeepLinkHandler",
                 "phoneNumberVerified",
                 "pincodeUseExpandedBlocklist",

@@ -99,7 +99,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 119,
+          "version": 120,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -155,6 +155,7 @@ describe('store state', () => {
           "minVersion": null,
           "networkTimeoutSeconds": 30,
           "numberVerified": false,
+          "odisV1EOL": false,
           "paymentDeepLinkHandler": "",
           "phoneNumberVerified": false,
           "pincodeUseExpandedBlocklist": false,
