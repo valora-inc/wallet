@@ -54,6 +54,7 @@ export interface State {
   networkTimeoutSeconds: number
   celoNews: CeloNewsConfig
   hapticFeedbackEnabled: boolean
+  pushNotificationsEnabled: boolean
 }
 
 const initialState = {
@@ -101,6 +102,7 @@ const initialState = {
   networkTimeoutSeconds: REMOTE_CONFIG_VALUES_DEFAULTS.networkTimeoutSeconds,
   celoNews: JSON.parse(REMOTE_CONFIG_VALUES_DEFAULTS.celoNews),
   hapticFeedbackEnabled: true,
+  pushNotificationsEnabled: false,
 }
 
 export const appReducer = (
@@ -253,6 +255,11 @@ export const appReducer = (
       return {
         ...state,
         hapticFeedbackEnabled: action.hapticFeedbackEnabled,
+      }
+    case Actions.PUSH_NOTIFICATIONS_PERMISSION_CHANGED:
+      return {
+        ...state,
+        pushNotificationsEnabled: action.enabled,
       }
     default:
       return state

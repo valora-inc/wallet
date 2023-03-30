@@ -170,7 +170,7 @@ describe('ValoraAnalytics', () => {
     expect(Statsig.initialize).toHaveBeenCalledWith(
       'statsig-key',
       { userID: '0x1234abc' },
-      { environment: { tier: 'development' }, overrideStableID: 'anonId' }
+      { environment: { tier: 'development' }, overrideStableID: 'anonId', localMode: false }
     )
   })
 
@@ -180,6 +180,7 @@ describe('ValoraAnalytics', () => {
     expect(Statsig.initialize).toHaveBeenCalledWith('statsig-key', null, {
       environment: { tier: 'development' },
       overrideStableID: 'anonId',
+      localMode: false,
     })
   })
 
