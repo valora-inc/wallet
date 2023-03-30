@@ -1553,7 +1553,7 @@
     "review": "Rivedi",
     "swapFrom": "Da",
     "swapTo": "A",
-    "insufficientFunds": "Insufficient {{token}} balance. Try a smaller amount or choose a different asset.",
+    "insufficientFunds": "Saldo {{token}} insufficiente. Immetti un importo inferiore o scegli un altro asset.",
     "fetchSwapQuoteFailed": "Ci scusiamo per il ritardo! Ottenere il miglior tasso di cambio sta richiedendo più tempo del solito. Riprova più tardi.",
     "disclaimer": "Scambi alimentati da partner su Celo. <0>Scopri di più</0>",
     "swapFromTokenSelection": "Scambia da",
@@ -1602,7 +1602,7 @@
     },
     "swapCompleteSection": {
       "title": "Scambio eseguito",
-      "subtitle": "Your swapped assets will appear in your wallet shortly",
+      "subtitle": "I tuoi asset scambiati appariranno nel tuo portafoglio a breve",
       "done": "Fatto"
     },
     "swapErrorSection": {
