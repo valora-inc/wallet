@@ -4,42 +4,42 @@ import { ScrollView, StyleSheet, Text } from 'react-native'
 import Card from 'src/components/Card'
 import Touchable from 'src/components/Touchable'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
-import { QuickActionName } from 'src/home/types'
-import QuickActionsAdd from 'src/icons/quick-actions/Add'
-import QuickActionsReceive from 'src/icons/quick-actions/Receive'
-import QuickActionsRequest from 'src/icons/quick-actions/Request'
-import QuickActionsSend from 'src/icons/quick-actions/Send'
-import QuickActionsSwap from 'src/icons/quick-actions/Swap'
-import QuickActionsWithdraw from 'src/icons/quick-actions/Withdraw'
+import { HomeActionName } from 'src/home/types'
+import HomeActionsAdd from 'src/icons/home-actions/Add'
+import HomeActionsReceive from 'src/icons/home-actions/Receive'
+import HomeActionsRequest from 'src/icons/home-actions/Request'
+import HomeActionsSend from 'src/icons/home-actions/Send'
+import HomeActionsSwap from 'src/icons/home-actions/Swap'
+import HomeActionsWithdraw from 'src/icons/home-actions/Withdraw'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 
-function QuickActions() {
+function ActionsCarousel() {
   const { t } = useTranslation()
 
   const actions = [
     {
-      name: QuickActionName.Send,
+      name: HomeActionName.Send,
       title: t('send'),
-      icon: <QuickActionsSend />,
+      icon: <HomeActionsSend />,
       onPress: () => {
         navigate(Screens.Send)
       },
     },
     {
-      name: QuickActionName.Receive,
-      title: t('quickActions.receive'),
-      icon: <QuickActionsReceive />,
+      name: HomeActionName.Receive,
+      title: t('homeActions.receive'),
+      icon: <HomeActionsReceive />,
       onPress: () => {
         navigate(Screens.QRNavigator)
       },
     },
     {
-      name: QuickActionName.Add,
-      title: t('quickActions.add'),
-      icon: <QuickActionsAdd />,
+      name: HomeActionName.Add,
+      title: t('homeActions.add'),
+      icon: <HomeActionsAdd />,
       onPress: () => {
         navigate(Screens.FiatExchangeCurrency, {
           flow: FiatExchangeFlow.CashIn,
@@ -47,25 +47,25 @@ function QuickActions() {
       },
     },
     {
-      name: QuickActionName.Swap,
-      title: t('quickActions.swap'),
-      icon: <QuickActionsSwap />,
+      name: HomeActionName.Swap,
+      title: t('homeActions.swap'),
+      icon: <HomeActionsSwap />,
       onPress: () => {
         navigate(Screens.SwapScreen)
       },
     },
     {
-      name: QuickActionName.Request,
+      name: HomeActionName.Request,
       title: t('request'),
-      icon: <QuickActionsRequest />,
+      icon: <HomeActionsRequest />,
       onPress: () => {
         navigate(Screens.Send, { isOutgoingPaymentRequest: true })
       },
     },
     {
-      name: QuickActionName.Withdraw,
+      name: HomeActionName.Withdraw,
       title: t('withdraw'),
-      icon: <QuickActionsWithdraw />,
+      icon: <HomeActionsWithdraw />,
       onPress: () => {
         navigate(Screens.FiatExchange)
       },
@@ -77,14 +77,14 @@ function QuickActions() {
       horizontal={true}
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={styles.carouselContainer}
-      testID={'QuickActionsContainer'}
+      testID={'HomeActionsCarousel'}
     >
-      {actions.map(({ name, title, icon, onPress }, index) => (
-        <Card style={styles.card} shadow={null} key={`QuickAction-${name}`}>
-          <Touchable onPress={onPress} style={styles.touchable} testID={`QuickAction-${name}`}>
+      {actions.map(({ name, title, icon, onPress }) => (
+        <Card style={styles.card} shadow={null} key={`HomeAction-${name}`}>
+          <Touchable onPress={onPress} style={styles.touchable} testID={`HomeAction-${name}`}>
             <>
               {icon}
-              <Text style={styles.name} testID={`QuickAction/Title-${name}`}>
+              <Text style={styles.name} testID={`HomeAction/Title-${name}`}>
                 {title}
               </Text>
             </>
@@ -119,4 +119,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default QuickActions
+export default ActionsCarousel

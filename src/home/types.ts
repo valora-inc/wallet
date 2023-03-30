@@ -1,4 +1,4 @@
-export enum QuickActionName {
+export enum HomeActionName {
   Send = 'Send',
   Receive = 'Receive',
   Add = 'Add',

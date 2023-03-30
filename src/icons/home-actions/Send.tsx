@@ -1,13 +1,13 @@
 import * as React from 'react'
 import Svg, { Path } from 'react-native-svg'
 
-const QuickActionsAdd = () => (
+const HomeActionsSend = () => (
   <Svg width={24} height={24} viewBox="0 0 24 24" fill="none">
     <Path
-      d="M10.8571 20V13.1429H4V10.8571H10.8571V4H13.1429V10.8571H20V13.1429H13.1429V20H10.8571Z"
+      d="M3.00889 20L21.6667 12L3.00889 4L3 10.2222L16.3333 12L3 13.7778L3.00889 20Z"
       fill="#178154"
     />
   </Svg>
 )
 
-export default React.memo(QuickActionsAdd)
+export default React.memo(HomeActionsSend)
