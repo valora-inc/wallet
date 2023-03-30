@@ -2476,6 +2476,9 @@
                 "pincodeUseExpandedBlocklist": {
                     "type": "boolean"
                 },
+                "pushNotificationsEnabled": {
+                    "type": "boolean"
+                },
                 "rampCashInButtonExpEnabled": {
                     "type": "boolean"
                 },
@@ -2572,6 +2575,7 @@
                 "paymentDeepLinkHandler",
                 "phoneNumberVerified",
                 "pincodeUseExpandedBlocklist",
+                "pushNotificationsEnabled",
                 "rampCashInButtonExpEnabled",
                 "requireCPV",
                 "requirePinOnAppOpen",
@@ -2820,6 +2824,7 @@
                         "BOB",
                         "BRL",
                         "CAD",
+                        "CHF",
                         "CLP",
                         "CNY",
                         "COP",
@@ -2874,6 +2879,7 @@
                         "BOB",
                         "BRL",
                         "CAD",
+                        "CHF",
                         "CLP",
                         "CNY",
                         "COP",

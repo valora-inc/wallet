@@ -112,4 +112,7 @@ export const celoNewsConfigSelector = (state: RootState) => state.app.celoNews
 
 export const hapticFeedbackEnabledSelector = (state: RootState) => state.app.hapticFeedbackEnabled
 
+export const pushNotificationsEnabledSelector = (state: RootState) =>
+  state.app.pushNotificationsEnabled
+
 export const odisV1EOLSelector = (state: RootState) => state.app.odisV1EOL

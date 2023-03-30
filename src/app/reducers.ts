@@ -55,6 +55,7 @@ export interface State {
   celoNews: CeloNewsConfig
   hapticFeedbackEnabled: boolean
   odisV1EOL: boolean
+  pushNotificationsEnabled: boolean
 }
 
 const initialState = {
@@ -103,6 +104,7 @@ const initialState = {
   celoNews: JSON.parse(REMOTE_CONFIG_VALUES_DEFAULTS.celoNews),
   hapticFeedbackEnabled: true,
   odisV1EOL: REMOTE_CONFIG_VALUES_DEFAULTS.odisV1EOL,
+  pushNotificationsEnabled: false,
 }
 
 export const appReducer = (
@@ -255,6 +257,11 @@ export const appReducer = (
       return {
         ...state,
         hapticFeedbackEnabled: action.hapticFeedbackEnabled,
+      }
+    case Actions.PUSH_NOTIFICATIONS_PERMISSION_CHANGED:
+      return {
+        ...state,
+        pushNotificationsEnabled: action.enabled,
       }
     default:
       return state

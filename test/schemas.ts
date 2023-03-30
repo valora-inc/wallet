@@ -2156,10 +2156,22 @@ export const v120Schema = {
   },
   app: {
     ...v119Schema.app,
+    pushNotificationsEnabled: false,
+  },
+}
+
+export const v121Schema = {
+  ...v120Schema,
+  _persist: {
+    ...v120Schema._persist,
+    version: 121,
+  },
+  app: {
+    ...v119Schema.app,
     odisV1EOL: false,
   },
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v120Schema as Partial<RootState>
+  return v121Schema as Partial<RootState>
 }
