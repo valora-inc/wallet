@@ -56,11 +56,11 @@ import { CICOFlow, FiatExchangeFlow, PaymentMethod } from 'src/fiatExchanges/uti
 import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { NotificationReceiveState } from 'src/notifications/types'
+import { AdventureCardName } from 'src/onboarding/types'
 import { RecipientType } from 'src/recipients/recipient'
 import { Field } from 'src/swap/types'
 import { Currency, CurrencyOrCREAL, StableCurrency } from 'src/utils/currencies'
 import { Awaited } from 'src/utils/typescript'
-import { AdventureCardName } from 'src/onboarding/types'
 
 type PermissionStatus = Awaited<ReturnType<typeof check>>
 
@@ -109,6 +109,9 @@ interface AppEventsProperties {
     id?: string
     state: NotificationReceiveState
     type?: string
+  }
+  [AppEvents.push_notifications_permission_changed]: {
+    enabled: boolean
   }
   [AppEvents.android_mobile_services_availability_checked]: {
     googleIsAvailable: boolean | undefined
