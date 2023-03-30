@@ -2416,6 +2416,9 @@
                 "coinbasePayEnabled": {
                     "type": "boolean"
                 },
+                "decentralizedVerificationEnabled": {
+                    "type": "boolean"
+                },
                 "fiatConnectCashInEnabled": {
                     "type": "boolean"
                 },
@@ -2462,9 +2465,6 @@
                     "type": "number"
                 },
                 "numberVerified": {
-                    "type": "boolean"
-                },
-                "decentralizedVerificationEnabled": {
                     "type": "boolean"
                 },
                 "paymentDeepLinkHandler": {
@@ -2559,6 +2559,7 @@
                 "celoEuroEnabled",
                 "celoNews",
                 "coinbasePayEnabled",
+                "decentralizedVerificationEnabled",
                 "fiatConnectCashInEnabled",
                 "fiatConnectCashOutEnabled",
                 "hapticFeedbackEnabled",
@@ -2571,7 +2572,6 @@
                 "minVersion",
                 "networkTimeoutSeconds",
                 "numberVerified",
-                "decentralizedVerificationEnabled",
                 "paymentDeepLinkHandler",
                 "phoneNumberVerified",
                 "pincodeUseExpandedBlocklist",
