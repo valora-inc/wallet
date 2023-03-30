@@ -49,6 +49,12 @@ export const ExperimentConfigs = {
       cashInBottomSheetEnabled: true,
     },
   },
+  [StatsigExperiments.HOME_SCREEN_ACTIONS]: {
+    experimentName: StatsigExperiments.HOME_SCREEN_ACTIONS,
+    defaultValues: {
+      showHomeNavBar: true,
+    },
+  },
 }
 
 export const DynamicConfigs = {

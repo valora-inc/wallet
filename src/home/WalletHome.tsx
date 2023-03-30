@@ -57,6 +57,10 @@ function WalletHome() {
 
   const { onSelectDapp, ConfirmOpenDappBottomSheet } = useOpenDapp()
 
+  const { showHomeNavBar } = getExperimentParams(
+    ExperimentConfigs[StatsigExperiments.HOME_SCREEN_ACTIONS]
+  )
+
   const showTestnetBanner = () => {
     dispatch(
       showMessage(
@@ -173,7 +177,7 @@ function WalletHome() {
         keyExtractor={keyExtractor}
         testID="WalletHome/SectionList"
       />
-      <SendOrRequestBar />
+      {showHomeNavBar && <SendOrRequestBar />}
       {shouldShowCashInBottomSheet() && <CashInBottomSheet />}
       {ConfirmOpenDappBottomSheet}
     </SafeAreaView>
