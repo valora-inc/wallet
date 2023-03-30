@@ -98,12 +98,12 @@ export const phoneVerificationStatusSelector = createSelector(
   }
 )
 
-export const odisV1EOLSelector = (state: RootState) => state.app.odisV1EOL
+export const odisV1EnabledSelector = (state: RootState) => state.app.odisV1Enabled
 
 export const shouldRunVerificationMigrationSelector = createSelector(
-  [numberVerifiedCentrallySelector, numberVerifiedSelector, odisV1EOLSelector],
-  (numberVerifiedCentrally, numberVerifiedDecentrally, odisV1EOL) =>
-    numberVerifiedDecentrally && !numberVerifiedCentrally && !odisV1EOL
+  [numberVerifiedCentrallySelector, numberVerifiedSelector, odisV1EnabledSelector],
+  (numberVerifiedCentrally, numberVerifiedDecentrally, odisV1Enabled) =>
+    numberVerifiedDecentrally && !numberVerifiedCentrally && odisV1Enabled
 )
 
 export const inviterAddressSelector = (state: RootState) => state.app.inviterAddress

@@ -2168,7 +2168,7 @@ export const v121Schema = {
   },
   app: {
     ...v119Schema.app,
-    odisV1EOL: false,
+    odisV1Enabled: true,
   },
 }
 

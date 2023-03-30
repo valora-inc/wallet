@@ -155,7 +155,7 @@ describe('store state', () => {
           "minVersion": null,
           "networkTimeoutSeconds": 30,
           "numberVerified": false,
-          "odisV1EOL": false,
+          "odisV1Enabled": true,
           "paymentDeepLinkHandler": "",
           "phoneNumberVerified": false,
           "pincodeUseExpandedBlocklist": false,

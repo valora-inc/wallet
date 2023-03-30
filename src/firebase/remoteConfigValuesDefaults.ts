@@ -74,5 +74,5 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   dappsFilterEnabled: false,
   dappsSearchEnabled: false,
   requireCPV: false,
-  odisV1EOL: false,
+  odisV1Enabled: true,
 }
