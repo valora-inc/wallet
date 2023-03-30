@@ -2148,6 +2148,18 @@ export const v119Schema = {
   },
 }
 
+export const v120Schema = {
+  ...v119Schema,
+  _persist: {
+    ...v119Schema._persist,
+    version: 120,
+  },
+  app: {
+    ...v119Schema.app,
+    pushNotificationsEnabled: false,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v119Schema as Partial<RootState>
+  return v120Schema as Partial<RootState>
 }
