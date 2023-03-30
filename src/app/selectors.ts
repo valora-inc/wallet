@@ -98,10 +98,12 @@ export const phoneVerificationStatusSelector = createSelector(
   }
 )
 
+export const odisV1EOLSelector = (state: RootState) => state.app.odisV1EOL
+
 export const shouldRunVerificationMigrationSelector = createSelector(
-  [numberVerifiedCentrallySelector, numberVerifiedSelector],
-  (numberVerifiedCentrally, numberVerifiedDecentrally) =>
-    numberVerifiedDecentrally && !numberVerifiedCentrally
+  [numberVerifiedCentrallySelector, numberVerifiedSelector, odisV1EOLSelector],
+  (numberVerifiedCentrally, numberVerifiedDecentrally, odisV1EOL) =>
+    numberVerifiedDecentrally && !numberVerifiedCentrally && !odisV1EOL
 )
 
 export const inviterAddressSelector = (state: RootState) => state.app.inviterAddress
@@ -114,5 +116,3 @@ export const hapticFeedbackEnabledSelector = (state: RootState) => state.app.hap
 
 export const pushNotificationsEnabledSelector = (state: RootState) =>
   state.app.pushNotificationsEnabled
-
-export const odisV1EOLSelector = (state: RootState) => state.app.odisV1EOL

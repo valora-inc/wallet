@@ -41,7 +41,6 @@ import {
   googleMobileServicesAvailableSelector,
   huaweiMobileServicesAvailableSelector,
   inviterAddressSelector,
-  odisV1EOLSelector,
   sentryNetworkErrorsSelector,
   shouldRunVerificationMigrationSelector,
 } from 'src/app/selectors'
@@ -386,9 +385,8 @@ export function* handleSetAppState(action: SetAppState) {
 }
 
 export function* runCentralPhoneVerificationMigration() {
-  const odisV1EOL = yield select(odisV1EOLSelector)
   const shouldRunVerificationMigration = yield select(shouldRunVerificationMigrationSelector)
-  if (odisV1EOL || !shouldRunVerificationMigration) {
+  if (!shouldRunVerificationMigration) {
     return
   }
 

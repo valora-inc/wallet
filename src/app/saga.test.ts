@@ -26,7 +26,6 @@ import {
   getLastTimeBackgrounded,
   getRequirePinOnAppOpen,
   inviterAddressSelector,
-  odisV1EOLSelector,
   shouldRunVerificationMigrationSelector,
 } from 'src/app/selectors'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
@@ -409,7 +408,6 @@ describe('runCentralPhoneVerificationMigration', () => {
 
     await expectSaga(runCentralPhoneVerificationMigration)
       .provide([
-        [select(odisV1EOLSelector), false],
         [select(dataEncryptionKeySelector), 'someDEK'],
         [select(shouldRunVerificationMigrationSelector), true],
         [select(inviterAddressSelector), '0x123'],
@@ -441,7 +439,6 @@ describe('runCentralPhoneVerificationMigration', () => {
 
     await expectSaga(runCentralPhoneVerificationMigration)
       .provide([
-        [select(odisV1EOLSelector), false],
         [select(dataEncryptionKeySelector), 'someDEK'],
         [select(shouldRunVerificationMigrationSelector), true],
         [select(inviterAddressSelector), undefined],
@@ -472,18 +469,8 @@ describe('runCentralPhoneVerificationMigration', () => {
   it('should not run if migration conditions are not met', async () => {
     await expectSaga(runCentralPhoneVerificationMigration)
       .provide([
-        [select(odisV1EOLSelector), false],
         [select(dataEncryptionKeySelector), 'someDEK'],
         [select(shouldRunVerificationMigrationSelector), false],
-      ])
-      .not.put(phoneNumberVerificationMigrated())
-      .run()
-
-    await expectSaga(runCentralPhoneVerificationMigration)
-      .provide([
-        [select(odisV1EOLSelector), true],
-        [select(dataEncryptionKeySelector), 'someDEK'],
-        [select(shouldRunVerificationMigrationSelector), true],
       ])
       .not.put(phoneNumberVerificationMigrated())
       .run()
@@ -496,7 +483,6 @@ describe('runCentralPhoneVerificationMigration', () => {
   it('should not run if migration conditions there is no signed message', async () => {
     await expectSaga(runCentralPhoneVerificationMigration)
       .provide([
-        [select(odisV1EOLSelector), false],
         [select(dataEncryptionKeySelector), 'someDEK'],
         [select(shouldRunVerificationMigrationSelector), true],
         [select(inviterAddressSelector), undefined],
@@ -514,7 +500,6 @@ describe('runCentralPhoneVerificationMigration', () => {
   it('should not run if no DEK can be found', async () => {
     await expectSaga(runCentralPhoneVerificationMigration)
       .provide([
-        [select(odisV1EOLSelector), false],
         [select(dataEncryptionKeySelector), null],
         [select(shouldRunVerificationMigrationSelector), true],
       ])
