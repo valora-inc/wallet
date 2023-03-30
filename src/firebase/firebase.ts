@@ -308,6 +308,7 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     dappsFilterEnabled: flags.dappsFilterEnabled.asBoolean(),
     dappsSearchEnabled: flags.dappsSearchEnabled.asBoolean(),
     requireCPV: flags.requireCPV.asBoolean(),
+    odisV1EOL: flags.odisV1EOL.asBoolean(),
   }
 }
 
