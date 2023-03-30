@@ -1553,7 +1553,7 @@
     "review": "Revisar",
     "swapFrom": "De",
     "swapTo": "Para",
-    "insufficientFunds": "Insufficient {{token}} balance. Try a smaller amount or choose a different asset.",
+    "insufficientFunds": "Saldo en {{token}} insuficiente. Ingresa un monto menor o elige otro activo.",
     "fetchSwapQuoteFailed": "¡Lo sentimos! Conseguir la mejor tasa de cambio nos está llevando más tiempo del habitual. Inténtalo de nuevo más tarde.",
     "disclaimer": "Los intercambios se realizan mediante socios de Celo. <0>Más información</0>",
     "swapFromTokenSelection": "Cambiar de",
@@ -1602,7 +1602,7 @@
     },
     "swapCompleteSection": {
       "title": "Cambio exitoso",
-      "subtitle": "Your swapped assets will appear in your wallet shortly",
+      "subtitle": "Tus activos intercambiados aparecerán en tu billetera en breve",
       "done": "Listo"
     },
     "swapErrorSection": {
