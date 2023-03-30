@@ -40,12 +40,12 @@ export function FavoriteDappsSection({ onPressDapp, searchTerm, setFavoriteResul
   }, [favoritedDappsSearched])
 
   if (favoritedDappsSearched.length === 0 && searchTerm !== '') {
-    return <NoResults testID="FavoriteDappsSectionSearch" searchTerm={searchTerm} />
+    return <NoResults testID="FavoriteDappsSection" searchTerm={searchTerm} />
   }
 
   if (favoritedDappsSearched.length > 0) {
     return (
-      <View testID="DAppsExplorerScreenSearch/FavoriteDappsSectionSearch">
+      <View testID="DAppsExplorerScreenSearch/FavoriteDappsSection">
         {favoritedDappsSearched.map((favoriteDapp) => (
           <DappCard
             key={favoriteDapp.id}
