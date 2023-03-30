@@ -596,6 +596,10 @@
     "title": "Invite friends and collect NFTs",
     "body": "Once they set up their {{appName}} wallet and connect their number, you’ll each get an exclusive NFT."
   },
+  "inviteRewardsBannerCUSD": {
+    "title": "Invite friends and earn rewards",
+    "body": "Once they set up their {{appName}} wallet and connect their number, you will both get rewarded with 1 cUSD."
+  },
   "inviteWithUrl": {
     "title": "Invite a friend",
     "body": "Connect and share value with your friends and family on {{appName}}.",
