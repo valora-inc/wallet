@@ -20,12 +20,18 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import { navigateToURI } from 'src/utils/linking'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import { StackParamList } from 'src/navigator/types'
 import Logger from 'src/utils/Logger'
 
-function FiatExchange() {
+type Props = NativeStackScreenProps<StackParamList, Screens.FiatExchange>
+
+function FiatExchange({ route }: Props) {
   const [timestamp, setTimestamp] = useState<number | null>(null)
   const appState = useTypedSelector((state) => state.app.appState)
   const dispatch = useDispatch()
+  const hideAddFunds = route?.params?.hideAddFunds
+
   useEffect(() => {
     if (appState === AppState.Active && timestamp) {
       const timeElapsed: number = Date.now() - timestamp
@@ -79,14 +85,16 @@ function FiatExchange() {
           <Image source={fiatExchange} style={styles.image} resizeMode={'contain'} />
         </View>
         <View style={styles.optionsListContainer}>
-          <ListItem onPress={goToAddFunds}>
-            <Text testID="addFunds" style={styles.optionTitle}>
-              {t(`fiatExchangeFlow.cashIn.fiatExchangeTitle`)}
-            </Text>
-            <Text style={styles.optionSubtitle}>
-              {t(`fiatExchangeFlow.cashIn.fiatExchangeSubtitle`)}
-            </Text>
-          </ListItem>
+          {!hideAddFunds && (
+            <ListItem onPress={goToAddFunds}>
+              <Text testID="addFunds" style={styles.optionTitle}>
+                {t(`fiatExchangeFlow.cashIn.fiatExchangeTitle`)}
+              </Text>
+              <Text style={styles.optionSubtitle}>
+                {t(`fiatExchangeFlow.cashIn.fiatExchangeSubtitle`)}
+              </Text>
+            </ListItem>
+          )}
           <ListItem onPress={goToSpend}>
             <Text testID="spend" style={styles.optionTitle}>
               {t(`fiatExchangeFlow.spend.fiatExchangeTitle`)}

@@ -139,7 +139,11 @@ export type StackParamList = {
     flow: CICOFlow
     exchanges: ExternalExchangeProvider[]
   }
-  [Screens.FiatExchange]: undefined
+  [Screens.FiatExchange]:
+    | {
+        hideAddFunds: boolean
+      }
+    | undefined
   [Screens.FiatExchangeAmount]: {
     currency: CiCoCurrency
     flow: CICOFlow
