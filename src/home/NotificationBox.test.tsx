@@ -88,6 +88,7 @@ const superchargeSetUp = {
   },
   supercharge: {
     availableRewards: [testReward],
+    rewardsRefreshTimestamp: new Date('2023-03-29T00:00:00.000Z').valueOf(),
   },
 }
 
@@ -95,6 +96,7 @@ const superchargeWithoutRewardsSetUp = {
   ...superchargeSetUp,
   supercharge: {
     availableRewards: [],
+    rewardsRefreshTimestamp: new Date('2023-03-29T00:00:00.000Z').valueOf(),
   },
 }
 
@@ -121,6 +123,10 @@ const mockcUsdWithoutEnoughBalance = {
 }
 
 describe('NotificationBox', () => {
+  beforeAll(() => {
+    jest.spyOn(Date, 'now').mockImplementation(() => new Date('2023-03-31T00:00:00.000Z').valueOf())
+  })
+
   it('renders correctly for with all notifications', () => {
     const store = createMockStore({
       ...storeDataNotificationsEnabled,
@@ -551,5 +557,19 @@ describe('NotificationBox', () => {
     expect(queryByTestId('NotificationView/claimSuperchargeRewards')).toBeFalsy()
     expect(queryByTestId('NotificationView/keepSupercharging')).toBeFalsy()
     expect(queryByTestId('NotificationView/startSupercharging')).toBeFalsy()
+  })
+
+  it('does not try to fetch supercharge rewards if fetched within the last 24 hours', () => {
+    jest.spyOn(Date, 'now').mockImplementation(() => new Date('2023-03-30T00:00:00.000Z').valueOf())
+
+    const store = createMockStore(superchargeSetUp)
+
+    render(
+      <Provider store={store}>
+        <NotificationBox />
+      </Provider>
+    )
+
+    expect(store.getActions()).toEqual([])
   })
 })

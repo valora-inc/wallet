@@ -25,6 +25,8 @@ import SimpleMessagingCard, {
 } from 'src/components/SimpleMessagingCard'
 import { RewardsScreenOrigin } from 'src/consumerIncentives/analyticsEventsTracker'
 import {
+  availableRewardsSelector,
+  rewardsRefreshTimestampSelector,
   superchargeInfoSelector,
   userIsVerifiedForSuperchargeSelector,
 } from 'src/consumerIncentives/selectors'
@@ -96,6 +98,8 @@ interface Notification {
   id: string
 }
 
+const REFRESH_REWARDS_INTERVAL = 1000 * 60 * 60 * 24 // 24 hours
+
 function useSimpleActions() {
   const {
     backupCompleted,
@@ -117,6 +121,7 @@ function useSimpleActions() {
   const isSupercharging = numberVerifiedForSupercharge && hasBalanceForSupercharge
 
   const rewardsEnabled = useSelector(rewardsEnabledSelector)
+  const rewardsRefreshTimestamp = useSelector(rewardsRefreshTimestampSelector)
 
   const { superchargeApy } = useSelector((state) => state.app)
 
@@ -125,10 +130,12 @@ function useSimpleActions() {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(fetchAvailableRewards())
+    if (Date.now() - rewardsRefreshTimestamp > REFRESH_REWARDS_INTERVAL) {
+      dispatch(fetchAvailableRewards())
+    }
   }, [])
 
-  const superchargeRewards = useSelector((state) => state.supercharge.availableRewards)
+  const superchargeRewards = useSelector(availableRewardsSelector)
 
   const actions: SimpleMessagingCardProps[] = []
   if (!backupCompleted) {
