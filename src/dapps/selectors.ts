@@ -117,6 +117,52 @@ export const favoriteDappsSelector = createSelector(
   }
 )
 
+export const favoriteDappsWithCategoryNamesSelector = createSelector(
+  favoriteDappsSelector,
+  dappsCategoriesSelector,
+  (dapps, categories) => {
+    const categoryMap: { [id: string]: string } = {}
+    categories.forEach((category) => {
+      categoryMap[category.id] = category.name
+    })
+    return dapps.map((dapp) => {
+      if (isDappV2(dapp)) {
+        return {
+          ...dapp,
+          categoryNames: dapp.categories.map((categoryId) => categoryMap[categoryId]),
+        }
+      }
+      return {
+        ...dapp,
+        categoryName: categoryMap[dapp.categoryId],
+      }
+    })
+  }
+)
+
+export const dappListWithCategoryNamesSelector = createSelector(
+  dappsListSelector,
+  dappsCategoriesSelector,
+  (dapps, categories) => {
+    const categoryMap: { [id: string]: string } = {}
+    categories.forEach((category) => {
+      categoryMap[category.id] = category.name
+    })
+    return dapps.map((dapp) => {
+      if (isDappV2(dapp)) {
+        return {
+          ...dapp,
+          categoryNames: dapp.categories.map((categoryId) => categoryMap[categoryId]),
+        }
+      }
+      return {
+        ...dapp,
+        categoryName: categoryMap[dapp.categoryId],
+      }
+    })
+  }
+)
+
 export const dappsFilterEnabledSelector = (state: RootState) => state.dapps.dappsFilterEnabled
 
 export const dappsSearchEnabledSelector = (state: RootState) => state.dapps.dappsSearchEnabled

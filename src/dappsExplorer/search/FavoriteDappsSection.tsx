@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
-import { favoriteDappsSelector } from 'src/dapps/selectors'
+import { favoriteDappsWithCategoryNamesSelector } from 'src/dapps/selectors'
 import { ActiveDapp, DappSection } from 'src/dapps/types'
 import DappCard from 'src/dappsExplorer/DappCard'
 import NoResults from 'src/dappsExplorer/search/NoResults'
@@ -20,10 +20,10 @@ interface Props {
 
 export function FavoriteDappsSection({ onPressDapp, searchTerm, setFavoriteResultsEmpty }: Props) {
   const { t } = useTranslation()
-  const favoriteDapps = useSelector(favoriteDappsSelector)
+  const favoriteDappsWithCategoryNames = useSelector(favoriteDappsWithCategoryNamesSelector)
 
   // Filter dapps that match the search query if present
-  const favoritedDappsSearched = favoriteDapps.filter((dapp) =>
+  const favoritedDappsSearched = favoriteDappsWithCategoryNames.filter((dapp) =>
     searchTerm === '' ? true : calculateSearchScore(dapp, searchTerm)
   )
 

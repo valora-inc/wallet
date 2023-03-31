@@ -1666,5 +1666,13 @@
   "profileScreen": {
     "generateName": "Generate a name",
     "namePlaceholder": "Select a name ex) {{exampleName}}"
+  },
+  "homeActions": {
+    "add": "Add",
+    "receive": "Receive",
+    "request": "Request",
+    "send": "Send",
+    "swap": "Swap",
+    "withdraw": "Withdraw"
   }
 }
