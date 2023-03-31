@@ -7,9 +7,9 @@ import { DappSection } from 'src/dapps/types'
 import WalletHome from 'src/home/WalletHome'
 import { Actions as IdentityActions } from 'src/identity/actions'
 import { RootState } from 'src/redux/reducers'
+import { getExperimentParams } from 'src/statsig'
 import { createMockStore, flushMicrotasksQueue, RecursivePartial } from 'test/utils'
 import { mockCeurAddress, mockCusdAddress } from 'test/values'
-import { getExperimentParams } from 'src/statsig'
 import { mocked } from 'ts-jest/utils'
 
 const mockBalances = {
@@ -92,6 +92,7 @@ jest.mock('src/transactions/TransactionsList', () => 'TransactionsList')
 jest.mock('src/statsig', () => ({
   getExperimentParams: jest.fn(() => ({
     showHomeNavBar: true,
+    showHomeActions: false,
     cashInBottomSheetEnabled: true,
   })),
 }))
@@ -184,6 +185,7 @@ describe('WalletHome', () => {
     mocked(getExperimentParams)
       .mockReturnValueOnce({
         showHomeNavBar: false,
+        showHomeActions: false,
       })
       .mockReturnValueOnce({
         cashInBottomSheetEnabled: false,
@@ -239,6 +241,23 @@ describe('WalletHome', () => {
     })
 
     expect(queryByTestId('cashInBtn')).toBeFalsy()
+  })
+
+  it('Does not render actions when experiment flag is off', () => {
+    const { queryByTestId } = renderScreen()
+
+    expect(queryByTestId('HomeActionsCarousel')).toBeFalsy()
+  })
+
+  it('Renders actions when experiment flag is on', () => {
+    mocked(getExperimentParams).mockReturnValueOnce({
+      showHomeNavBar: true,
+      showHomeActions: true,
+    })
+
+    const { queryByTestId } = renderScreen()
+
+    expect(queryByTestId('HomeActionsCarousel')).toBeTruthy()
   })
 
   describe('recently used dapps', () => {

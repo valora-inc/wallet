@@ -1553,7 +1553,7 @@
     "review": "Revisar",
     "swapFrom": "De",
     "swapTo": "Para",
-    "insufficientFunds": "Insufficient {{token}} balance. Try a smaller amount or choose a different asset.",
+    "insufficientFunds": "Saldo de {{token}} insuficiente. Insira um valor menor ou escolha um ativo diferente.",
     "fetchSwapQuoteFailed": "Lamentamos o atraso! A obtenção da melhor taxa de câmbio está demorando mais do que o normal. Tente novamente mais tarde.",
     "disclaimer": "As trocas são fornecidas por parceiros no Celo. <0>Saiba mais</0>",
     "swapFromTokenSelection": "Trocar de",
@@ -1602,7 +1602,7 @@
     },
     "swapCompleteSection": {
       "title": "Troca bem-sucedida",
-      "subtitle": "Your swapped assets will appear in your wallet shortly",
+      "subtitle": "Seus ativos trocados aparecerão em sua carteira em breve",
       "done": "Concluído"
     },
     "swapErrorSection": {
@@ -1661,6 +1661,14 @@
   "profileScreen": {
     "generateName": "Gerar um nome",
     "namePlaceholder": "Selecione um nome (ex. {{exampleName}})"
+  },
+  "homeActions": {
+    "add": "Add",
+    "receive": "Receber",
+    "request": "Solicitar",
+    "send": "Enviar",
+    "swap": "Troca",
+    "withdraw": "Transferir"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
