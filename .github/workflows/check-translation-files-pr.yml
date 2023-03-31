@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Skip check for Crowdin branches
-        if: github.head_ref == 'l10n/main'
+        if: github.head_ref != 'l10n/main'
         run: |
           echo "🤖 Skipping check for Crowdin branches"
           exit 0
