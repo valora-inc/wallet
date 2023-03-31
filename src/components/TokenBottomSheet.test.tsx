@@ -2,6 +2,8 @@ import { fireEvent, render } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { Provider } from 'react-redux'
+import { TokenBottomSheetEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import { TokenBalance } from 'src/tokens/slice'
 import { createMockStore, getElementText } from 'test/utils'
@@ -57,6 +59,7 @@ const mockStore = createMockStore({
         address: mockCusdAddress,
         isCoreToken: true,
         priceFetchedAt: Date.now(),
+        name: 'Celo Dollar',
       },
       [mockCeurAddress]: {
         balance: '20',
@@ -65,12 +68,14 @@ const mockStore = createMockStore({
         address: mockCeurAddress,
         isCoreToken: true,
         priceFetchedAt: Date.now(),
+        name: 'Celo Euro',
       },
       [mockTestTokenAddress]: {
         balance: '10',
         symbol: 'TT',
         address: mockTestTokenAddress,
         priceFetchedAt: Date.now(),
+        name: 'Test Token',
       },
     },
   },
@@ -89,25 +94,26 @@ describe('TokenBottomSheet', () => {
     jest.clearAllMocks()
   })
 
-  function renderPicker(visible: boolean, isInvite: boolean = false) {
+  function renderPicker(visible: boolean, searchEnabled: boolean = false) {
     return render(
       <Provider store={mockStore}>
         <TokenBottomSheet
+          titleText="testTitle"
           isVisible={visible}
           origin={TokenPickerOrigin.Send}
           onTokenSelected={onTokenSelectedMock}
           onClose={onCloseMock}
           tokens={tokens}
+          searchEnabled={searchEnabled}
         />
       </Provider>
     )
   }
 
   it('renders correctly', () => {
-    const tree = renderPicker(true)
-    const { getByTestId } = tree
+    const { getByTestId } = renderPicker(true)
 
-    expect(tree.getByTestId('BottomSheetContainer')).toBeTruthy()
+    expect(getByTestId('BottomSheetContainer')).toBeTruthy()
 
     expect(getElementText(getByTestId('cUSDBalance'))).toBe('10.00 cUSD')
     expect(getElementText(getByTestId('LocalcUSDBalance'))).toBe('₱13.30')
@@ -139,5 +145,48 @@ describe('TokenBottomSheet', () => {
   it('renders nothing if not visible', () => {
     const { queryByTestId } = renderPicker(false)
     expect(queryByTestId('BottomSheetContainer')).toBeFalsy()
+  })
+
+  it('renders and behaves correctly when the search is enabled', () => {
+    const { getByPlaceholderText, queryByTestId } = renderPicker(true, true)
+    const searchInput = getByPlaceholderText('searchAssets')
+    expect(searchInput).toBeTruthy()
+
+    expect(queryByTestId('cUSDTouchable')).toBeTruthy()
+    expect(queryByTestId('cEURTouchable')).toBeTruthy()
+    expect(queryByTestId('TTTouchable')).toBeTruthy()
+
+    fireEvent.changeText(searchInput, 'Celo')
+
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(TokenBottomSheetEvents.search_token, {
+      origin: TokenPickerOrigin.Send,
+      searchInput: 'Celo',
+    })
+
+    expect(queryByTestId('cUSDTouchable')).toBeTruthy()
+    expect(queryByTestId('cEURTouchable')).toBeTruthy()
+    expect(queryByTestId('TTTouchable')).toBeNull()
+
+    fireEvent.changeText(searchInput, 'Test')
+
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(TokenBottomSheetEvents.search_token, {
+      origin: TokenPickerOrigin.Send,
+      searchInput: 'Test',
+    })
+
+    expect(queryByTestId('cUSDTouchable')).toBeNull()
+    expect(queryByTestId('cEURTouchable')).toBeNull()
+    expect(queryByTestId('TTTouchable')).toBeTruthy()
+
+    fireEvent.changeText(searchInput, 'Usd')
+
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(TokenBottomSheetEvents.search_token, {
+      origin: TokenPickerOrigin.Send,
+      searchInput: 'Usd',
+    })
+
+    expect(queryByTestId('cUSDTouchable')).toBeTruthy()
+    expect(queryByTestId('cEURTouchable')).toBeNull()
+    expect(queryByTestId('TTTouchable')).toBeNull()
   })
 })
