@@ -6,11 +6,11 @@ import { dappSelected, favoriteDapp, fetchDappsList, unfavoriteDapp } from 'src/
 import { DappCategory, DappSection } from 'src/dapps/types'
 import DAppsExplorerScreenSearch from 'src/dappsExplorer/search/DAppsExplorerScreenSearch'
 import { createMockStore } from 'test/utils'
-import { mockDappListV2 } from 'test/values'
+import { mockDappListWithCategoryNames } from 'test/values'
 
 jest.mock('src/analytics/ValoraAnalytics')
 
-const dappsList = mockDappListV2
+const dappsList = mockDappListWithCategoryNames
 
 const dappsCategories: DappCategory[] = [
   {

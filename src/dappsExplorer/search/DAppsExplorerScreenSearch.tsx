@@ -9,6 +9,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import SearchInput from 'src/components/SearchInput'
 import {
   dappFavoritesEnabledSelector,
+  dappListWithCategoryNamesSelector,
   dappsCategoriesAlphabeticalSelector,
   dappsListErrorSelector,
   dappsListLoadingSelector,
@@ -17,7 +18,7 @@ import {
   favoriteDappIdsSelector,
 } from 'src/dapps/selectors'
 import { fetchDappsList } from 'src/dapps/slice'
-import { DappSection, DappV1, DappV2 } from 'src/dapps/types'
+import { DappSection, DappV1, DappV1WithCategoryName, DappV2, DappV2WithCategoryNames } from 'src/dapps/types'
 import DappCard from 'src/dappsExplorer/DappCard'
 import FavoriteDappsSection from 'src/dappsExplorer/search/FavoriteDappsSection'
 import NoResultsSearch from 'src/dappsExplorer/search/NoResults'
@@ -37,7 +38,7 @@ const AnimatedSectionList =
   Animated.createAnimatedComponent<SectionListProps<DappV2, SectionData>>(SectionList)
 
 interface SectionData {
-  data: DappV2[] | DappV1[]
+  data: (DappV1WithCategoryName | DappV2WithCategoryNames)[]
   category: string
 }
 
@@ -56,6 +57,7 @@ export function DAppsExplorerScreenSearch() {
   const dappFavoritesEnabled = useSelector(dappFavoritesEnabledSelector)
   const dappsMinimalDisclaimerEnabled = useSelector(dappsMinimalDisclaimerEnabledSelector)
   const dappList = useSelector(dappsListSelector)
+  const dappListWithCategoryNames = useSelector(dappListWithCategoryNamesSelector)
   const language = useSelector(currentLanguageSelector)
   const favoriteDappsById = useSelector(favoriteDappIdsSelector)
 
@@ -73,9 +75,8 @@ export function DAppsExplorerScreenSearch() {
     ValoraAnalytics.track(DappExplorerEvents.dapp_screen_open)
   }, [])
 
-  // @ts-expect-error Property 'categories' is missing in type 'DappV1' but required in type 'DappV2'.
   const allSectionResults: SectionData[] = React.useMemo(() => {
-    const allResultsParsed = parseResultsIntoAll(dappList, searchTerm, favoriteDappsById)
+    const allResultsParsed = parseResultsIntoAll(dappListWithCategoryNames, searchTerm, favoriteDappsById)
     if (allResultsParsed.length === 0) {
       setAllResultEmpty(true)
     } else {
@@ -224,7 +225,7 @@ function DescriptionView({ message, title }: { message: string; title: string })
 }
 
 function parseResultsIntoAll(
-  dappList: (DappV1 | DappV2)[],
+  dappList: (DappV1WithCategoryName | DappV2WithCategoryNames)[],
   searchTerm: string,
   favoriteDappsById: string[]
 ) {
@@ -242,7 +243,8 @@ function parseResultsIntoAll(
   }
 
   // Filter out dapps that don't match the search query
-  const nonFavoriteDappsMatchingSearch = nonFavoriteDapps.filter((dapp: DappV1 | DappV2) =>
+  const nonFavoriteDappsMatchingSearch = nonFavoriteDapps.filter((
+    dapp: DappV1WithCategoryName | DappV2WithCategoryNames) =>
     calculateSearchScore(dapp, searchTerm)
   )
 
@@ -251,7 +253,7 @@ function parseResultsIntoAll(
 
   // Sort these dapps by their search score - could be faster with counting sort
   nonFavoriteDappsMatchingSearch.sort(
-    (a: DappV2 | DappV1, b: DappV2 | DappV1) =>
+    (a: DappV2WithCategoryNames | DappV1WithCategoryName, b: DappV2WithCategoryNames | DappV1WithCategoryName) =>
       calculateSearchScore(b, searchTerm) - calculateSearchScore(a, searchTerm)
   )
 
