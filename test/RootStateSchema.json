@@ -3136,6 +3136,9 @@
                 "loading": {
                     "type": "boolean"
                 },
+                "rewardsRefreshTimestamp": {
+                    "type": "number"
+                },
                 "superchargeRewardContractAddress": {
                     "type": "string"
                 },
@@ -3155,6 +3158,7 @@
                 "fetchAvailableRewardsError",
                 "fetchAvailableRewardsLoading",
                 "loading",
+                "rewardsRefreshTimestamp",
                 "superchargeRewardContractAddress",
                 "superchargeV1Addresses",
                 "superchargeV2Enabled"

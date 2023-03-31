@@ -19,6 +19,7 @@ export interface State {
   // transaction "to" address against this list to ensure the user is signing a
   // safe transaction
   superchargeV1Addresses: string[]
+  rewardsRefreshTimestamp: number
 }
 
 export const initialState: State = {
@@ -30,6 +31,7 @@ export const initialState: State = {
   superchargeV2Enabled: false,
   superchargeRewardContractAddress: '',
   superchargeV1Addresses: [],
+  rewardsRefreshTimestamp: 0,
 }
 
 const slice = createSlice({
@@ -63,6 +65,7 @@ const slice = createSlice({
       ...state,
       fetchAvailableRewardsLoading: false,
       fetchAvailableRewardsError: false,
+      rewardsRefreshTimestamp: Date.now(),
     }),
     fetchAvailableRewardsFailure: (state) => ({
       ...state,

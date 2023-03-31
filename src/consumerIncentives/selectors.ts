@@ -83,3 +83,6 @@ export const userIsVerifiedForSuperchargeSelector = createSelector(
 
 export const superchargeV1AddressesSelector = (state: RootState) =>
   state.supercharge.superchargeV1Addresses
+
+export const rewardsRefreshTimestampSelector = (state: RootState) =>
+  state.supercharge.rewardsRefreshTimestamp
