@@ -2416,6 +2416,9 @@
                 "coinbasePayEnabled": {
                     "type": "boolean"
                 },
+                "decentralizedVerificationEnabled": {
+                    "type": "boolean"
+                },
                 "fiatConnectCashInEnabled": {
                     "type": "boolean"
                 },
@@ -2471,6 +2474,9 @@
                     "type": "boolean"
                 },
                 "pincodeUseExpandedBlocklist": {
+                    "type": "boolean"
+                },
+                "pushNotificationsEnabled": {
                     "type": "boolean"
                 },
                 "rampCashInButtonExpEnabled": {
@@ -2553,6 +2559,7 @@
                 "celoEuroEnabled",
                 "celoNews",
                 "coinbasePayEnabled",
+                "decentralizedVerificationEnabled",
                 "fiatConnectCashInEnabled",
                 "fiatConnectCashOutEnabled",
                 "hapticFeedbackEnabled",
@@ -2568,6 +2575,7 @@
                 "paymentDeepLinkHandler",
                 "phoneNumberVerified",
                 "pincodeUseExpandedBlocklist",
+                "pushNotificationsEnabled",
                 "rampCashInButtonExpEnabled",
                 "requireCPV",
                 "requirePinOnAppOpen",
@@ -2816,6 +2824,7 @@
                         "BOB",
                         "BRL",
                         "CAD",
+                        "CHF",
                         "CLP",
                         "CNY",
                         "COP",
@@ -2870,6 +2879,7 @@
                         "BOB",
                         "BRL",
                         "CAD",
+                        "CHF",
                         "CLP",
                         "CNY",
                         "COP",

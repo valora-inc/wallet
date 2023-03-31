@@ -1097,4 +1097,6 @@ export const migrations = {
     },
   }),
   119: (state: any) => state,
+  120: (state: any) => state,
+  121: (state: any) => state,
 }

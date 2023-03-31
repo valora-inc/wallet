@@ -88,6 +88,10 @@ export function DAppsExplorerScreenFilter() {
     horizontalScrollView.current?.scrollTo({ x: 0, animated: true })
   }
 
+  const filterPress = (filterId: string) => {
+    selectedFilter === filterId ? setSelectedFilter('all') : setSelectedFilter(filterId)
+  }
+
   return (
     <SafeAreaView
       testID="DAppsExplorerScreenFilter"
@@ -148,24 +152,16 @@ export function DAppsExplorerScreenFilter() {
                     bounces={false}
                     ref={horizontalScrollView}
                   >
-                    {/* All Dapps Filter */}
-                    <DappFilterChip
-                      filterId={'all'}
-                      filterName={t('dappsScreen.allDapps')}
-                      isSelected={selectedFilter === 'all'}
-                      onPress={setSelectedFilter}
-                      style={styles.dappFilterAllChip}
-                      key={'all'}
-                    />
                     {/* Category Filter Chips */}
-                    {categories.map((category) => {
+                    {categories.map((category, idx) => {
                       return (
                         <DappFilterChip
                           filterId={category.id}
                           filterName={category.name}
                           isSelected={selectedFilter === category.id}
-                          onPress={setSelectedFilter}
+                          onPress={filterPress}
                           key={category.id}
+                          style={idx === 0 ? styles.dappFilterChipFirst : undefined}
                         />
                       )
                     })}
@@ -183,7 +179,7 @@ export function DAppsExplorerScreenFilter() {
                       onPressDapp={onSelectDapp}
                     />
                     <Text style={styles.sectionTitle}>
-                      {t('dappsScreen.allDapps').toLocaleUpperCase(language ?? 'en-US')}
+                      {selectedFilterName.toLocaleUpperCase(language ?? 'en-US')}
                     </Text>
                   </>
                 )}
@@ -249,7 +245,7 @@ function parseResultsIntoAll(
   return [
     {
       data,
-      category: 'all',
+      category: filterId,
     },
   ]
 }
@@ -281,7 +277,7 @@ const styles = StyleSheet.create({
   dappsFilteringScrollViewContentContainer: {
     paddingHorizontal: Spacing.Thick24,
   },
-  dappFilterAllChip: {
+  dappFilterChipFirst: {
     marginLeft: 0,
   },
   sectionListContentContainer: {

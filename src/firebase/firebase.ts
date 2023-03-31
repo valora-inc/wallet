@@ -10,10 +10,14 @@ import remoteConfig, { FirebaseRemoteConfigTypes } from '@react-native-firebase/
 import CleverTap from 'clevertap-react-native'
 import { Platform } from 'react-native'
 import { eventChannel } from 'redux-saga'
-import { call, take } from 'redux-saga/effects'
+import { call, put, select, take } from 'redux-saga/effects'
 import { handleUpdateAccountRegistration } from 'src/account/saga'
 import { updateAccountRegistration } from 'src/account/updateAccountRegistration'
+import { AppEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { pushNotificationsPermissionChanged } from 'src/app/actions'
 import { RemoteConfigValues } from 'src/app/saga'
+import { pushNotificationsEnabledSelector } from 'src/app/selectors'
 import { DEFAULT_PERSONA_TEMPLATE_ID, FETCH_TIMEOUT_DURATION, FIREBASE_ENABLED } from 'src/config'
 import { DappConnectInfo } from 'src/dapps/types'
 import { handleNotification } from 'src/firebase/notifications'
@@ -148,9 +152,22 @@ export function* initializeCloudMessaging(app: ReactNativeFirebase.Module, addre
   if (authStatus === firebase.messaging.AuthorizationStatus.NOT_DETERMINED) {
     try {
       yield call([app.messaging(), 'requestPermission'])
+      ValoraAnalytics.track(AppEvents.push_notifications_permission_changed, { enabled: true })
+      yield put(pushNotificationsPermissionChanged(true))
     } catch (error) {
-      Logger.error(TAG, 'User has rejected messaging permissions', error)
+      ValoraAnalytics.track(AppEvents.push_notifications_permission_changed, { enabled: false })
+      Logger.warn(TAG, 'User has rejected messaging permissions', error)
       throw error
+    }
+  } else {
+    const pushNotificationsEnabled = authStatus !== firebase.messaging.AuthorizationStatus.DENIED
+    const lastKnownEnabledState = yield select(pushNotificationsEnabledSelector)
+
+    if (lastKnownEnabledState !== pushNotificationsEnabled) {
+      ValoraAnalytics.track(AppEvents.push_notifications_permission_changed, {
+        enabled: pushNotificationsEnabled,
+      })
+      yield put(pushNotificationsPermissionChanged(pushNotificationsEnabled))
     }
   }
 
@@ -308,6 +325,7 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     dappsFilterEnabled: flags.dappsFilterEnabled.asBoolean(),
     dappsSearchEnabled: flags.dappsSearchEnabled.asBoolean(),
     requireCPV: flags.requireCPV.asBoolean(),
+    decentralizedVerificationEnabled: flags.decentralizedVerificationEnabled.asBoolean(),
   }
 }
 

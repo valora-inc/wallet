@@ -260,14 +260,15 @@ describe(DAppsExplorerScreenFilter, () => {
           favoriteDappIds: ['dapp1'],
         },
       })
-      const { getByTestId, getByText } = render(
+      const { getByTestId, getByText, queryByText } = render(
         <Provider store={store}>
           <DAppsExplorerScreenFilter />
         </Provider>
       )
 
-      // Filter Chips displayed
-      expect(getByText('dappsScreen.allDapps')).toBeTruthy()
+      // All Filter Chips is not displayed
+      expect(queryByText('dappsScreen.allDapps')).toBeFalsy()
+      // Category Filter Chips displayed
       expect(getByText(dappsCategories[0].name)).toBeTruthy()
       expect(getByText(dappsCategories[1].name)).toBeTruthy()
 
@@ -346,7 +347,44 @@ describe(DAppsExplorerScreenFilter, () => {
       })
     })
 
-    it('triggers event when clearing filters from all section', () => {
+    it('triggers events when toggling a category filter', () => {
+      const store = createMockStore({
+        dapps: {
+          dappListApiUrl: 'http://url.com',
+          dappsList,
+          dappsCategories,
+          dappFavoritesEnabled: true,
+          dappsFilterEnabled: true,
+          favoriteDappIds: ['dapp1'],
+        },
+      })
+      const { getByText } = render(
+        <Provider store={store}>
+          <DAppsExplorerScreenFilter />
+        </Provider>
+      )
+
+      // don't include events dispatched on screen load
+      jest.clearAllMocks()
+
+      // Tap on category 2 filter
+      fireEvent.press(getByText(dappsCategories[1].name))
+
+      // Tap on category 2 filter again to remove it
+      fireEvent.press(getByText(dappsCategories[1].name))
+
+      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(2)
+      expect(ValoraAnalytics.track).toHaveBeenNthCalledWith(1, DappExplorerEvents.dapp_filter, {
+        id: '2',
+        remove: false,
+      })
+      expect(ValoraAnalytics.track).toHaveBeenNthCalledWith(2, DappExplorerEvents.dapp_filter, {
+        id: '2',
+        remove: true,
+      })
+    })
+
+    it('triggers event when clearing filters from category section', () => {
       const store = createMockStore({
         dapps: {
           dappListApiUrl: 'http://url.com',
