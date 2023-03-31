@@ -54,8 +54,8 @@ export const ExperimentConfigs = {
     defaultValues: {
       showAddWithdrawOnMenu: true,
       showSwapOnMenu: true,
-      showHomeNavBar: true,
       showHomeActions: false,
+      showHomeNavBar: true,
     },
   },
 }

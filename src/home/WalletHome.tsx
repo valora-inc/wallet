@@ -18,6 +18,7 @@ import {
 } from 'src/config'
 import useOpenDapp from 'src/dappsExplorer/useOpenDapp'
 import { refreshAllBalances } from 'src/home/actions'
+import ActionsCarousel from 'src/home/ActionsCarousel'
 import CashInBottomSheet from 'src/home/CashInBottomSheet'
 import DappsCarousel from 'src/home/DappsCarousel'
 import NotificationBox from 'src/home/NotificationBox'
@@ -57,7 +58,7 @@ function WalletHome() {
 
   const { onSelectDapp, ConfirmOpenDappBottomSheet } = useOpenDapp()
 
-  const { showHomeNavBar } = getExperimentParams(
+  const { showHomeActions, showHomeNavBar } = getExperimentParams(
     ExperimentConfigs[StatsigExperiments.HOME_SCREEN_ACTIONS]
   )
 
@@ -143,15 +144,24 @@ function WalletHome() {
 
   const sections = []
 
-  sections.push({
+  const notificationBoxSection = {
     data: [{}],
     renderItem: () => <NotificationBox key={'NotificationBox'} />,
-  })
-
-  sections.push({
+  }
+  const tokenBalanceSection = {
     data: [{}],
     renderItem: () => <HomeTokenBalance key={'HomeTokenBalance'} />,
-  })
+  }
+  const actionsCarouselSection = {
+    data: [{}],
+    renderItem: () => <ActionsCarousel key={'ActionsCarousel'} />,
+  }
+
+  if (showHomeActions) {
+    sections.push(tokenBalanceSection, actionsCarouselSection, notificationBoxSection)
+  } else {
+    sections.push(notificationBoxSection, tokenBalanceSection)
+  }
 
   sections.push({
     data: [{}],

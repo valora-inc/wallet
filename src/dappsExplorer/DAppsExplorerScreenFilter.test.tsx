@@ -260,14 +260,15 @@ describe(DAppsExplorerScreenFilter, () => {
           favoriteDappIds: ['dapp1'],
         },
       })
-      const { getByTestId, getByText } = render(
+      const { getByTestId, getByText, queryByText } = render(
         <Provider store={store}>
           <DAppsExplorerScreenFilter />
         </Provider>
       )
 
-      // Filter Chips displayed
-      expect(getByText('dappsScreen.allDapps')).toBeTruthy()
+      // All Filter Chips is not displayed
+      expect(queryByText('dappsScreen.allDapps')).toBeFalsy()
+      // Category Filter Chips displayed
       expect(getByText(dappsCategories[0].name)).toBeTruthy()
       expect(getByText(dappsCategories[1].name)).toBeTruthy()
 
