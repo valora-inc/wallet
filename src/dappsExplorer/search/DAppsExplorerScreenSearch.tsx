@@ -18,7 +18,13 @@ import {
   favoriteDappIdsSelector,
 } from 'src/dapps/selectors'
 import { fetchDappsList } from 'src/dapps/slice'
-import { DappSection, DappV1, DappV1WithCategoryName, DappV2, DappV2WithCategoryNames } from 'src/dapps/types'
+import {
+  DappSection,
+  DappV1,
+  DappV1WithCategoryName,
+  DappV2,
+  DappV2WithCategoryNames,
+} from 'src/dapps/types'
 import DappCard from 'src/dappsExplorer/DappCard'
 import FavoriteDappsSection from 'src/dappsExplorer/search/FavoriteDappsSection'
 import NoResultsSearch from 'src/dappsExplorer/search/NoResults'
@@ -76,7 +82,11 @@ export function DAppsExplorerScreenSearch() {
   }, [])
 
   const allSectionResults: SectionData[] = React.useMemo(() => {
-    const allResultsParsed = parseResultsIntoAll(dappListWithCategoryNames, searchTerm, favoriteDappsById)
+    const allResultsParsed = parseResultsIntoAll(
+      dappListWithCategoryNames,
+      searchTerm,
+      favoriteDappsById
+    )
     if (allResultsParsed.length === 0) {
       setAllResultEmpty(true)
     } else {
@@ -243,9 +253,9 @@ function parseResultsIntoAll(
   }
 
   // Filter out dapps that don't match the search query
-  const nonFavoriteDappsMatchingSearch = nonFavoriteDapps.filter((
-    dapp: DappV1WithCategoryName | DappV2WithCategoryNames) =>
-    calculateSearchScore(dapp, searchTerm)
+  const nonFavoriteDappsMatchingSearch = nonFavoriteDapps.filter(
+    (dapp: DappV1WithCategoryName | DappV2WithCategoryNames) =>
+      calculateSearchScore(dapp, searchTerm)
   )
 
   // If there are no dapps matching the search query, return an empty array to be handled by section list
@@ -253,8 +263,10 @@ function parseResultsIntoAll(
 
   // Sort these dapps by their search score - could be faster with counting sort
   nonFavoriteDappsMatchingSearch.sort(
-    (a: DappV2WithCategoryNames | DappV1WithCategoryName, b: DappV2WithCategoryNames | DappV1WithCategoryName) =>
-      calculateSearchScore(b, searchTerm) - calculateSearchScore(a, searchTerm)
+    (
+      a: DappV2WithCategoryNames | DappV1WithCategoryName,
+      b: DappV2WithCategoryNames | DappV1WithCategoryName
+    ) => calculateSearchScore(b, searchTerm) - calculateSearchScore(a, searchTerm)
   )
 
   // Otherwise, return the dapps matching the search query ordered descending by their search score
