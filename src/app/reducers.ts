@@ -54,6 +54,7 @@ export interface State {
   networkTimeoutSeconds: number
   celoNews: CeloNewsConfig
   hapticFeedbackEnabled: boolean
+  decentralizedVerificationEnabled: boolean
   pushNotificationsEnabled: boolean
 }
 
@@ -102,6 +103,7 @@ const initialState = {
   networkTimeoutSeconds: REMOTE_CONFIG_VALUES_DEFAULTS.networkTimeoutSeconds,
   celoNews: JSON.parse(REMOTE_CONFIG_VALUES_DEFAULTS.celoNews),
   hapticFeedbackEnabled: true,
+  decentralizedVerificationEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.decentralizedVerificationEnabled,
   pushNotificationsEnabled: false,
 }
 
