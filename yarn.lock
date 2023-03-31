@@ -7523,10 +7523,10 @@ class-utils@^0.3.5:
     isobject "^3.0.0"
     static-extend "^0.1.1"
 
-clevertap-react-native@^0.8.1:
-  version "0.8.1"
-  resolved "https://registry.yarnpkg.com/clevertap-react-native/-/clevertap-react-native-0.8.1.tgz#168a4d421e20157aea2f4cf4fdd6515a2549b8b4"
-  integrity sha512-Ierz74Vi9oY7ZgTLBRkDOLb8i7t5Qn+lMThgQE0IWYRY1fK3XbxmQlP3oKZcYRL5rqOrCfRqHDOk2IbVDVn4tQ==
+clevertap-react-native@^0.9.4:
+  version "0.9.5"
+  resolved "https://registry.yarnpkg.com/clevertap-react-native/-/clevertap-react-native-0.9.5.tgz#73539fcd8706f6b887c23ef8a56fe3fc19a06efc"
+  integrity sha512-9EREx5phd/u2LZNg8bxzaBXXVA4vAi4HgKpKhBVJ5OqKSUJ5qwNrysNO3eA5AfPRCVeLawTv6epLj3GvqQbEeg==
   dependencies:
     extract-zip "^1.6.6"
 
