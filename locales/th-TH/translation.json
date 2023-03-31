@@ -1551,7 +1551,7 @@
     "review": "ตรวจสอบ",
     "swapFrom": "จาก",
     "swapTo": "เป็น",
-    "insufficientFunds": "ยอดคงเหลือ {{token}} ไม่เพียงพอ ลองจำนวนเงินที่น้อยลงหรือเลือกโทเค็นอื่น",
+    "insufficientFunds": "ยอดคงเหลือ {{token}} ไม่เพียงพอ ลองจำนวนเงินที่น้อยลงหรือเลือกสินทรัพย์อื่น",
     "fetchSwapQuoteFailed": "ขออภัยในความล่าช้า การดำเนินการนี้ใช้เวลานานกว่าปกติเพื่อให้ได้อัตราแลกเปลี่ยนที่ดีที่สุด โปรดลองอีกครั้งในอีกสองสามนาที",
     "disclaimer": "แลกเปลี่ยนกับพันธมิตรใน Celo <0> เรียนรู้เพิ่มเติม </0>",
     "swapFromTokenSelection": "สว็อปจาก",
@@ -1600,7 +1600,7 @@
     },
     "swapCompleteSection": {
       "title": "สว็อปสำเร็จ",
-      "subtitle": "สินทรัพย์ของคุณอยู่ในกระเป๋าเงินแล้ว",
+      "subtitle": "สินทรัพย์ที่สว็อปจะแสดงในกระเป๋าเงินของคุณเร็วๆ นี้",
       "done": "เสร็จสิ้น"
     },
     "swapErrorSection": {
@@ -1659,6 +1659,14 @@
   "profileScreen": {
     "generateName": "สร้างชื่อ",
     "namePlaceholder": "เลือกชื่อ เช่น {{exampleName}}"
+  },
+  "homeActions": {
+    "add": "Add",
+    "receive": "Receive",
+    "request": "ส่งคำขอ",
+    "send": "ส่ง",
+    "swap": "สว็อป",
+    "withdraw": "ถอน"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo ดอลลาร์"
 }

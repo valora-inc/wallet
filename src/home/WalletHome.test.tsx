@@ -9,6 +9,8 @@ import { Actions as IdentityActions } from 'src/identity/actions'
 import { RootState } from 'src/redux/reducers'
 import { createMockStore, flushMicrotasksQueue, RecursivePartial } from 'test/utils'
 import { mockCeurAddress, mockCusdAddress } from 'test/values'
+import { getExperimentParams } from 'src/statsig'
+import { mocked } from 'ts-jest/utils'
 
 const mockBalances = {
   tokens: {
@@ -88,7 +90,10 @@ const recentDappIds = [dapp.id, deepLinkedDapp.id]
 jest.mock('src/exchange/CeloGoldOverview', () => 'CeloGoldOverview')
 jest.mock('src/transactions/TransactionsList', () => 'TransactionsList')
 jest.mock('src/statsig', () => ({
-  getExperimentParams: jest.fn(() => ({ cashInBottomSheetEnabled: true })),
+  getExperimentParams: jest.fn(() => ({
+    showHomeNavBar: true,
+    cashInBottomSheetEnabled: true,
+  })),
 }))
 describe('WalletHome', () => {
   const mockFetch = fetch as FetchMock
@@ -173,6 +178,20 @@ describe('WalletHome', () => {
         },
       ]
     `)
+  })
+
+  it('hides sections', async () => {
+    mocked(getExperimentParams)
+      .mockReturnValueOnce({
+        showHomeNavBar: false,
+      })
+      .mockReturnValueOnce({
+        cashInBottomSheetEnabled: false,
+      })
+
+    const { queryByTestId } = renderScreen({ ...zeroBalances })
+    expect(queryByTestId('SendOrRequestBar')).toBeFalsy()
+    expect(queryByTestId('cashInBtn')).toBeFalsy()
   })
 
   it("doesn't import contacts if number isn't verified", async () => {

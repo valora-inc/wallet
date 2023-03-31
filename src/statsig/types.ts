@@ -20,6 +20,7 @@ export enum StatsigExperiments {
   ADD_FUNDS_CRYPTO_EXCHANGE_QR_CODE = 'add_funds_crypto_exchange_qr_code',
   RECOVERY_PHRASE_IN_ONBOARDING = 'recovery_phrase_in_onboarding',
   CHOOSE_YOUR_ADVENTURE = 'choose_your_adventure',
+  HOME_SCREEN_ACTIONS = 'home_screen_actions',
 }
 
 export type StatsigParameter =

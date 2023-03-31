@@ -1551,7 +1551,7 @@
     "review": "查看",
     "swapFrom": "自",
     "swapTo": "至",
-    "insufficientFunds": "{{token}} 余额不足，请尝试使用较小的金额或选择其他代币。",
+    "insufficientFunds": "{{token}} 余额不足，请尝试使用较小的金额或选择其他资产。",
     "fetchSwapQuoteFailed": "抱歉有所延迟！获取最佳汇率所需时间较往常略长。请在几分钟后重试。",
     "disclaimer": "Celo 朋友发起的交换。<0>了解更多。</0>",
     "swapFromTokenSelection": "交换自",
@@ -1600,7 +1600,7 @@
     },
     "swapCompleteSection": {
       "title": "交换成功",
-      "subtitle": "您的资产现已放入钱包",
+      "subtitle": "稍后您的钱包中将能看到您交换的资产",
       "done": "完成"
     },
     "swapErrorSection": {
@@ -1659,6 +1659,14 @@
   "profileScreen": {
     "generateName": "生成名称",
     "namePlaceholder": "选择一个名称，例如 {{exampleName}}"
+  },
+  "homeActions": {
+    "add": "Add",
+    "receive": "Receive",
+    "request": "请求",
+    "send": "发送",
+    "swap": "交换",
+    "withdraw": "提取"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
 }

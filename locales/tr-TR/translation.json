@@ -1553,7 +1553,7 @@
     "review": "Gözden Geçir",
     "swapFrom": "Bu Token’dan",
     "swapTo": "Şu Token’a",
-    "insufficientFunds": "Yetersiz {{token}}. Lütfen daha küçük bir miktar girin veya farklı bir token seçin.",
+    "insufficientFunds": "Yetersiz {{token}}. Lütfen daha küçük bir miktar girin veya farklı bir varlık seçin.",
     "fetchSwapQuoteFailed": "Gecikme için üzgünüz! En iyi döviz kurunu almak normalden daha uzun sürüyor. Lütfen birkaç dakika içinde tekrar deneyin.",
     "disclaimer": "Celo'daki ortakların desteklediği takaslar. <0>Daha Fazla Bilgi Edinin.</0>",
     "swapFromTokenSelection": "Şuradan Gelen Takas",
@@ -1602,7 +1602,7 @@
     },
     "swapCompleteSection": {
       "title": "Takas başarılı",
-      "subtitle": "Varlıklarınız artık cüzdanınızda",
+      "subtitle": "Takas varlıklarınız yakında cüzdanınızda görünecek",
       "done": "Tamamlandı"
     },
     "swapErrorSection": {
@@ -1661,6 +1661,14 @@
   "profileScreen": {
     "generateName": "Bir isim oluşturun",
     "namePlaceholder": "Ad örneği seçme) {{exampleName}}"
+  },
+  "homeActions": {
+    "add": "Add",
+    "receive": "Receive",
+    "request": "İste",
+    "send": "Gönder",
+    "swap": "Swap",
+    "withdraw": "Çek"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

@@ -1553,7 +1553,7 @@
     "review": "Review",
     "swapFrom": "From",
     "swapTo": "To",
-    "insufficientFunds": "Insufficient {{token}} balance. Try a smaller amount or choose a different token.",
+    "insufficientFunds": "Insufficient {{token}} balance. Try a smaller amount or choose a different asset.",
     "fetchSwapQuoteFailed": "Sorry for the delay! It's taking longer than usual to get the best exchange rate. Please try again in a few minutes.",
     "disclaimer": "Swaps powered by partners on Celo. <0>Learn More.</0>",
     "swapFromTokenSelection": "Swap From",
@@ -1602,7 +1602,7 @@
     },
     "swapCompleteSection": {
       "title": "Swap successful",
-      "subtitle": "Your assets are now in your wallet",
+      "subtitle": "Your swapped assets will appear in your wallet shortly",
       "done": "Done"
     },
     "swapErrorSection": {
@@ -1661,6 +1661,14 @@
   "profileScreen": {
     "generateName": "Generate a name",
     "namePlaceholder": "Select a name ex) {{exampleName}}"
+  },
+  "homeActions": {
+    "add": "Add",
+    "receive": "Receive",
+    "request": "Request",
+    "send": "Send",
+    "swap": "Swap",
+    "withdraw": "Withdraw"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

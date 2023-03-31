@@ -1553,7 +1553,7 @@
     "review": "Überprüfen",
     "swapFrom": "Von",
     "swapTo": "Zu",
-    "insufficientFunds": "Unzureichendes {{token}}-Guthaben. Versuche es mit einem kleineren Betrag oder wähle einen anderen Token.",
+    "insufficientFunds": "Unzureichendes {{token}}-Guthaben. Versuche es mit einem kleineren Betrag oder wähle ein anderes Vermögen.",
     "fetchSwapQuoteFailed": "Entschuldige die Verzögerung! Es dauert länger als üblich, um den besten Wechselkurs zu ermitteln. Bitte versuche es in ein paar Minuten erneut.",
     "disclaimer": "Tausch, der von Celo-Partnern unterstützt wird. <0>Mehr erfahren.</0>",
     "swapFromTokenSelection": "Tausch von",
@@ -1602,7 +1602,7 @@
     },
     "swapCompleteSection": {
       "title": "Tausch erfolgreich",
-      "subtitle": "Dein Vermögen befindet sich jetzt in deiner Wallet",
+      "subtitle": "Dein ausgetauschtes Vermögen wird in Kürze in deiner Wallet erscheinen",
       "done": "Fertig"
     },
     "swapErrorSection": {
@@ -1661,6 +1661,14 @@
   "profileScreen": {
     "generateName": "Namen generieren",
     "namePlaceholder": "Wähle einen Namen, z. B. {{exampleName}}"
+  },
+  "homeActions": {
+    "add": "Add",
+    "receive": "Erhalten",
+    "request": "Anfragen",
+    "send": "Senden",
+    "swap": "Tauschen",
+    "withdraw": "Abheben"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
