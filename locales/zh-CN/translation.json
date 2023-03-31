@@ -1661,8 +1661,8 @@
     "namePlaceholder": "选择一个名称，例如 {{exampleName}}"
   },
   "homeActions": {
-    "add": "Add",
-    "receive": "Receive",
+    "add": "添加",
+    "receive": "接收",
     "request": "请求",
     "send": "发送",
     "swap": "交换",
