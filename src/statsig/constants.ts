@@ -49,6 +49,12 @@ export const ExperimentConfigs = {
       cashInBottomSheetEnabled: true,
     },
   },
+  [StatsigExperiments.SWAPPING_NON_NATIVE_TOKENS]: {
+    experimentName: StatsigExperiments.SWAPPING_NON_NATIVE_TOKENS,
+    defaultValues: {
+      swappingNonNativeTokensEnabled: false,
+    },
+  },
 }
 
 export const DynamicConfigs = {

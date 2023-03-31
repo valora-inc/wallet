@@ -21,6 +21,9 @@ import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { styles as headerStyles } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { getExperimentParams } from 'src/statsig'
+import { ExperimentConfigs } from 'src/statsig/constants'
+import { StatsigExperiments } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -30,7 +33,11 @@ import { setSwapUserInput } from 'src/swap/slice'
 import SwapAmountInput from 'src/swap/SwapAmountInput'
 import { Field, SwapAmount } from 'src/swap/types'
 import useSwapQuote from 'src/swap/useSwapQuote'
-import { swappableTokensSelector, tokensByUsdBalanceSelector } from 'src/tokens/selectors'
+import {
+  coreTokensSelector,
+  swappableTokensSelector,
+  tokensByUsdBalanceSelector,
+} from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { sortByUsdBalanceThenByAlphabetical } from 'src/tokens/utils'
 
@@ -47,7 +54,13 @@ export function SwapScreen() {
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
-  const supportedTokens = useSelector(swappableTokensSelector)
+  const { swappingNonNativeTokensEnabled } = getExperimentParams(
+    ExperimentConfigs[StatsigExperiments.SWAPPING_NON_NATIVE_TOKENS]
+  )
+
+  const supportedTokens = useSelector(
+    swappingNonNativeTokensEnabled ? swappableTokensSelector : coreTokensSelector
+  )
 
   const swapInfo = useSelector(swapInfoSelector)
   const tokensSortedByUsdBalance = useSelector(tokensByUsdBalanceSelector)
@@ -321,8 +334,8 @@ export function SwapScreen() {
         origin={TokenPickerOrigin.Swap}
         onTokenSelected={handleSelectToken}
         onClose={handleCloseTokenSelect}
-        tokens={Object.values(supportedTokens)}
-        searchEnabled={true}
+        tokens={sortedTokens}
+        searchEnabled={swappingNonNativeTokensEnabled}
         titleText={
           selectingToken == Field.FROM
             ? t('swapScreen.swapFromTokenSelection')
