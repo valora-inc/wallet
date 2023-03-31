@@ -52,6 +52,7 @@ export const ExperimentConfigs = {
   [StatsigExperiments.HOME_SCREEN_ACTIONS]: {
     experimentName: StatsigExperiments.HOME_SCREEN_ACTIONS,
     defaultValues: {
+      showHomeActions: false,
       showHomeNavBar: true,
     },
   },
