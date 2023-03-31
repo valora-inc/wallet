@@ -280,9 +280,11 @@ export default function ConsumerIncentivesHomeScreen() {
       >
         <Header />
         <Image style={styles.image} source={boostRewards} />
-        {showLoadingIndicator ? (
+        {loadingAvailableRewards && (
           <ActivityIndicator size="small" color={colors.greenUI} testID="SuperchargeLoading" />
-        ) : canClaimRewards ? (
+        )}
+
+        {canClaimRewards ? (
           <ClaimSuperchargeRewards rewards={superchargeRewards} />
         ) : isSupercharging ? (
           <SuperchargingInfo />
