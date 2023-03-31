@@ -32,6 +32,7 @@ import { Field, SwapAmount } from 'src/swap/types'
 import useSwapQuote from 'src/swap/useSwapQuote'
 import { swappableTokensSelector, tokensByUsdBalanceSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
+import { sortByUsdBalanceThenByAlphabetical } from 'src/tokens/utils'
 
 const FETCH_UPDATED_QUOTE_DEBOUNCE_TIME = 500
 const DEFAULT_FROM_TOKEN_SYMBOL = 'CELO'
@@ -250,6 +251,8 @@ export function SwapScreen() {
     ValoraAnalytics.track(SwapEvents.swap_learn_more)
     navigate(Screens.WebViewScreen, { uri: SWAP_LEARN_MORE })
   }
+
+  const sortedTokens = supportedTokens.sort(sortByUsdBalanceThenByAlphabetical)
 
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
