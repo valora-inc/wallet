@@ -1663,8 +1663,8 @@
     "namePlaceholder": "Sélectionnez un nom (p. ex. {{exampleName}})"
   },
   "homeActions": {
-    "add": "Add",
-    "receive": "Receive",
+    "add": "Ajouter",
+    "receive": "Recevoir",
     "request": "Demander",
     "send": "Envoyer",
     "swap": "Échanger",
