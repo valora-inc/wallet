@@ -1,4 +1,8 @@
-import { dappCategoriesSelector } from 'src/dapps/selectors'
+import {
+  dappCategoriesSelector,
+  dappListWithCategoryNamesSelector,
+  favoriteDappsWithCategoryNamesSelector,
+} from 'src/dapps/selectors'
 import { getMockStoreData } from 'test/utils'
 
 const dapp1 = {
@@ -54,6 +58,55 @@ describe('dappCategoriesSelector', () => {
       {
         ...dappsCategories[1],
         dapps: [dapp2],
+      },
+    ])
+  })
+})
+
+describe('favoriteDappsWithCategoryNamesSelector', () => {
+  it('should return favorites with category names', () => {
+    expect(
+      favoriteDappsWithCategoryNamesSelector(
+        getMockStoreData({
+          dapps: {
+            dappsList: [dapp1, dapp2],
+            dappsCategories,
+            favoriteDappIds: [dapp1.id, dapp2.id],
+          },
+        })
+      )
+    ).toEqual([
+      {
+        ...dapp1,
+        categoryName: dappsCategories[0].name,
+      },
+      {
+        ...dapp2,
+        categoryName: dappsCategories[1].name,
+      },
+    ])
+  })
+})
+
+describe('dappListWithCategoryNamesSelector', () => {
+  it('should return dapps with category names', () => {
+    expect(
+      dappListWithCategoryNamesSelector(
+        getMockStoreData({
+          dapps: {
+            dappsList: [dapp1, dapp2],
+            dappsCategories,
+          },
+        })
+      )
+    ).toEqual([
+      {
+        ...dapp1,
+        categoryName: dappsCategories[0].name,
+      },
+      {
+        ...dapp2,
+        categoryName: dappsCategories[1].name,
       },
     ])
   })
