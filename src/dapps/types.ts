@@ -26,6 +26,14 @@ export interface DappV2 {
   categories: string[]
 }
 
+export interface DappV1WithCategoryName extends DappV1 {
+  categoryName: string
+}
+
+export interface DappV2WithCategoryNames extends DappV2 {
+  categoryNames: string[]
+}
+
 export const isDappV2 = (dapp: DappV1 | DappV2): dapp is DappV2 => 'categories' in dapp
 
 // Needs to be a type as an interface can only extend an object type
