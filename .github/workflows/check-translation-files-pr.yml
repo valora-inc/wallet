@@ -1,0 +1,34 @@
+name: Check translation files
+
+on:
+  # Run on pull request.
+  pull_request:
+
+# Cancel any in progress run of the workflow for a given PR
+# This avoids building outdated code
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref }}
+  cancel-in-progress: true
+
+jobs:
+  check-translation-files:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v35
+        with:
+          files: |
+            locales/*/translation.json
+            ios/celo/*.lproj/InfoPlist.strings
+          files_ignore: |
+            locales/base/translation.json
+            ios/celo/Base.lproj/InfoPlist.strings
+      - name: Fail if translation files are changed
+        if: ${{ (github.head_ref != 'l10n/main') && (steps.changed-files.outputs.any_changed == 'true') }}
+        run: |
+          echo "❌ Only the base translation files should be modified in non-Crowdin PR's!"
+          echo "These translation files should not have been modified:"
+          echo ${{ steps.changed-files.outputs.all_changed_files }}
+          exit 1
