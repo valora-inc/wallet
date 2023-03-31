@@ -14,11 +14,6 @@ jobs:
   check-translation-files:
     runs-on: ubuntu-latest
     steps:
-      - name: Skip check for Crowdin branches
-        if: github.head_ref != 'l10n/main'
-        run: |
-          echo "🤖 Skipping check for Crowdin branches"
-          exit 0
       - uses: actions/checkout@v3
       - name: Get changed files
         id: changed-files
@@ -31,9 +26,9 @@ jobs:
             locales/base/translation.json
             ios/celo/Base.lproj/InfoPlist.strings
       - name: Fail if translation files are changed
-        if: steps.changed-files.outputs.any_changed == 'true'
+        if: ${{ (github.head_ref != 'l10n/main') && (steps.changed-files.outputs.any_changed == 'true') }}
         run: |
-          echo "❌ Only base translation files should be modified!"
+          echo "❌ Only the base translation files should be modified in non-Crowdin PR's!"
           echo "These translation files should not have been modified:"
           echo ${{ steps.changed-files.outputs.all_changed_files }}
           exit 1
