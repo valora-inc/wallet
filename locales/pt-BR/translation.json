@@ -1663,12 +1663,12 @@
     "namePlaceholder": "Selecione um nome (ex. {{exampleName}})"
   },
   "homeActions": {
-    "add": "Add",
+    "add": "Adicionar",
     "receive": "Receber",
     "request": "Solicitar",
     "send": "Enviar",
-    "swap": "Troca",
-    "withdraw": "Transferir"
+    "swap": "Trocar",
+    "withdraw": "Sacar"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

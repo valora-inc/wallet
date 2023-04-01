@@ -1667,8 +1667,8 @@
     "namePlaceholder": "Выберите имя, например, {{exampleName}}"
   },
   "homeActions": {
-    "add": "Add",
-    "receive": "Receive",
+    "add": "Внести",
+    "receive": "Получить",
     "request": "Запросить",
     "send": "Отправить",
     "swap": "Обменять",
