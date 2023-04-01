@@ -72,8 +72,6 @@ function TokenBottomSheet({
   searchEnabled,
   titleText,
 }: Props) {
-  // TODO: Sort outside token sheet
-  // const tokenList = tokens.sort(sortFirstStableThenCeloThenOthersByUsdBalance)
   const [tokenList, setTokenList] = useState(tokens)
   const [searchQuery, setSearchQuery] = useState('')
 
