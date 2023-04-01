@@ -96,8 +96,7 @@ function TokenBottomSheet({
     onTokenSelected(tokenAddress)
   }
 
-  const thottleSearch = throttle((searchInput: string) => {
-    setSearchQuery(searchInput)
+  const throttleSearch = throttle((searchInput: string) => {
     const matchedTokens = tokens.filter((tokenInfo) => {
       if (searchInput.length === 0) {
         return true
@@ -122,7 +121,10 @@ function TokenBottomSheet({
     <SearchInput
       placeholder={t('searchAssets')}
       value={searchQuery}
-      onChangeText={thottleSearch}
+      onChangeText={(text) => {
+        setSearchQuery(text)
+        throttleSearch(text)
+      }}
       style={styles.searchInput}
       returnKeyType={'search'}
     />
