@@ -222,10 +222,6 @@ const styles = StyleSheet.create({
   iconContainer: {
     flex: 1,
   },
-  searchedText: {
-    color: Colors.dark,
-    fontWeight: 'bold',
-  },
   text: {
     ...fontStyles.regular500,
     flex: 10,

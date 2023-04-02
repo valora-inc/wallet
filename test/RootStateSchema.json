@@ -4086,6 +4086,9 @@
                 "isCoreToken": {
                     "type": "boolean"
                 },
+                "isSwappable": {
+                    "type": "boolean"
+                },
                 "name": {
                     "type": "string"
                 },
