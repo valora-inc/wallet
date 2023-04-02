@@ -149,7 +149,7 @@ describe('TokenBottomSheet', () => {
 
   it('renders and behaves correctly when the search is enabled', () => {
     const { getByPlaceholderText, queryByTestId } = renderPicker(true, true)
-    const searchInput = getByPlaceholderText('searchAssets')
+    const searchInput = getByPlaceholderText('tokenBottomSheet.searchAssets')
     expect(searchInput).toBeTruthy()
 
     expect(queryByTestId('cUSDTouchable')).toBeTruthy()

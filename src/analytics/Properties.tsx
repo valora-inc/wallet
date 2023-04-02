@@ -111,6 +111,9 @@ interface AppEventsProperties {
     state: NotificationReceiveState
     type?: string
   }
+  [AppEvents.push_notifications_permission_changed]: {
+    enabled: boolean
+  }
   [AppEvents.android_mobile_services_availability_checked]: {
     googleIsAvailable: boolean | undefined
     huaweiIsAvailable: boolean | undefined

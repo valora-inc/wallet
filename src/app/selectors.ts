@@ -98,10 +98,17 @@ export const phoneVerificationStatusSelector = createSelector(
   }
 )
 
+export const decentralizedVerificationEnabledSelector = (state: RootState) =>
+  state.app.decentralizedVerificationEnabled
+
 export const shouldRunVerificationMigrationSelector = createSelector(
-  [numberVerifiedCentrallySelector, numberVerifiedSelector],
-  (numberVerifiedCentrally, numberVerifiedDecentrally) =>
-    numberVerifiedDecentrally && !numberVerifiedCentrally
+  [
+    numberVerifiedCentrallySelector,
+    numberVerifiedSelector,
+    decentralizedVerificationEnabledSelector,
+  ],
+  (numberVerifiedCentrally, numberVerifiedDecentrally, decentralizedVerificationEnabled) =>
+    numberVerifiedDecentrally && !numberVerifiedCentrally && decentralizedVerificationEnabled
 )
 
 export const inviterAddressSelector = (state: RootState) => state.app.inviterAddress
@@ -111,3 +118,6 @@ export const networkTimeoutSecondsSelector = (state: RootState) => state.app.net
 export const celoNewsConfigSelector = (state: RootState) => state.app.celoNews
 
 export const hapticFeedbackEnabledSelector = (state: RootState) => state.app.hapticFeedbackEnabled
+
+export const pushNotificationsEnabledSelector = (state: RootState) =>
+  state.app.pushNotificationsEnabled

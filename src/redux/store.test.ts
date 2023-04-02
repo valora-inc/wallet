@@ -99,7 +99,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 119,
+          "version": 121,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -141,6 +141,7 @@ describe('store state', () => {
             "enabled": false,
           },
           "coinbasePayEnabled": false,
+          "decentralizedVerificationEnabled": true,
           "fiatConnectCashInEnabled": false,
           "fiatConnectCashOutEnabled": false,
           "googleMobileServicesAvailable": undefined,
@@ -158,6 +159,7 @@ describe('store state', () => {
           "paymentDeepLinkHandler": "",
           "phoneNumberVerified": false,
           "pincodeUseExpandedBlocklist": false,
+          "pushNotificationsEnabled": false,
           "rampCashInButtonExpEnabled": false,
           "requireCPV": false,
           "requirePinOnAppOpen": false,

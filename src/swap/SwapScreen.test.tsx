@@ -652,7 +652,7 @@ describe('SwapScreen', () => {
       jest.runOnlyPendingTimers()
     })
 
-    expect(getByPlaceholderText('searchAssets')).toBeTruthy()
+    expect(getByPlaceholderText('tokenBottomSheet.searchAssets')).toBeTruthy()
     expect(queryByTestId('cUSDTouchable')).toBeTruthy()
     expect(queryByTestId('cEURTouchable')).toBeTruthy()
     expect(queryByTestId('POOFTouchable')).toBeTruthy()

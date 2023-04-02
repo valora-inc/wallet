@@ -7,6 +7,7 @@
   "removeAccountTitle": "Resetuj aplikację Valora",
   "removeAccountDetails": "Zresetowanie spowoduje usunięcie Twojego konta z tego urządzenia. Twoje środki pozostaną na koncie, ale będą dostępne tylko przy użyciu frazy odzyskiwania",
   "legal": "Informacje prawne",
+  "appPreferences": "Preferencje aplikacji",
   "security": "Bezpieczeństwo",
   "changePin": "Zmień kod PIN",
   "pinChanged": "Kod PIN został zmieniony",
@@ -15,6 +16,7 @@
   "connectedApplications": "Połączone Dapps",
   "analytics": "Statystyki",
   "shareAnalytics": "Udostępniaj statystyki",
+  "hapticFeedback": "Dotykowa informacja zwrotna",
   "shareAnalytics_detail": "Zbieramy anonimowe dane o tym, jak korzystasz z {{appName}}, aby móc ulepszać aplikację dla wszystkich.",
   "dataSaver": "Oszczędzanie danych",
   "enableDataSaver": "Włącz oszczędzanie danych",
@@ -600,14 +602,14 @@
     "button": "Wyślij zaproszenie",
     "error": "Wystąpił błąd z tworzeniem linku",
     "share": "Cześć! Korzystam z portfel kryptowalutowy {{appName}}. To bardzo proste. Może Ty też spróbujesz? Skorzystaj z tego linku: {{shareUrl}}",
-    "help": "To collect this reward, the invitee must download {{appName}} through the referral link and connect their phone number during onboarding. <0>View all terms</0>",
+    "help": "Aby odebrać tę nagrodę, zaproszony użytkownik musi pobrać {{appName}} za pomocą linku polecającego i połączyć swój numer telefonu w procesie wprowadzania. <0>Zobacz wszystkie warunki</0>",
     "rewardsActive": {
       "title": "Zaproś znajomych i zbieraj NFT",
       "body": "Zaproś swoich znajomych i rodzinę do pobrania {{appName}}, a każdy z Was otrzyma ekskluzywny NFT"
     },
     "rewardsActiveCUSD": {
-      "title": "Invite friends and collect rewards",
-      "body": "Share {{appName}} with friends and family and you will both get <0>rewarded with 1 cUSD</0>"
+      "title": "Zapraszaj znajomych i zbieraj nagrody",
+      "body": "Podziel się {{appName}} z przyjaciółmi i rodziną, a wszyscy w nagrodę otrzymacie <0>1 cUSD</0>"
     }
   },
   "getReward": "Otrzymaj ${{reward}}",
@@ -926,8 +928,8 @@
   "walletAddress": "Adres portfela",
   "inviteWithoutPayment": "Cześć! Korzystam z aplikacji {{appName}} do przesyłania kryptowalut z dowolnego miejsca na świecie. To bardzo proste. Może Ty też spróbujesz? Skorzystaj z tego linku: {{link}}",
   "inviteWithEscrowedPayment": "Cześć! Korzystam z aplikacji {{appName}} do przesyłania kryptowalut z dowolnego miejsca na świecie. Przesyłam Ci właśnie {{amount}} {{token}}. Pobierz aplikację {{appName}} i odbierz {{token}}, korzystając z tego linku: {{link}}",
-  "inviteWithRewards": "Hi! 👋 I'm using {{appName}} as my crypto wallet. It's super quick to download the app and connect your phone number - plus, we both get a special edition NFT as a reward. 💫 \n\nUse this link to download: {{link}}",
-  "inviteWithRewardsCUSD": "Hi! 👋 I'm using {{appName}} as my crypto wallet. It's super quick to download the app and connect your phone number - plus, we both get 1 cUSD as a reward. 💫 \n\nUse this link to download: {{link}}",
+  "inviteWithRewards": "Cześć! 👋 Używam {{appName}} jako mojego portfela kryptowalut. Aplikację możesz szybko pobrać i połączyć z Twoim numerem telefonu. Do tego w nagrodę otrzymamy specjalną edycję NFT. 💫 \n\nUżyj tego linku, aby pobrać: {{link}}",
+  "inviteWithRewardsCUSD": "Cześć! 👋 Używam {{appName}} jako mojego portfela kryptowalut. Aplikację możesz szybko pobrać i połączyć z Twoim numerem telefonu. Do tego w nagrodę otrzymamy 1 cUSD. 💫 \n\nUżyj tego linku, aby pobrać: {{link}}",
   "loadingContacts": "Wyszukiwanie kontaktów",
   "myCode": "Mój kod",
   "scanCode": "Skanuj",
@@ -1555,7 +1557,7 @@
     "review": "Analizuj",
     "swapFrom": "Od",
     "swapTo": "Do",
-    "insufficientFunds": "Niewystarczające saldo {{token}}. Spróbuj wpłacić mniejszą kwotę lub wybierz inny token.",
+    "insufficientFunds": "Niewystarczające saldo {{token}}. Spróbuj wpłacić mniejszą kwotę lub wybierz inny aktyw.",
     "fetchSwapQuoteFailed": "Przepraszamy za opóźnienie! Przetwarzanie trwa dłużej niż zwykle, aby uzyskać najlepszy kurs wymiany. Spróbuj ponownie za kilka minut.",
     "disclaimer": "Swapy wspierane przez partnerów na Celo. <0>Dowiedz się więcej.</0>",
     "swapFromTokenSelection": "Zamień z",
@@ -1604,7 +1606,7 @@
     },
     "swapCompleteSection": {
       "title": "Zamiana zakończona pomyślnie",
-      "subtitle": "Twoje zasoby są teraz w Twoim portfelu",
+      "subtitle": "Twoje zamienione aktywa wkrótce pojawią się w Twoim portfelu",
       "done": "Gotowe"
     },
     "swapErrorSection": {
@@ -1634,8 +1636,8 @@
       "body": "Wygląda na to, że {{contactName}} nie korzysta z {{appName}}. Jeśli znasz adres jego/jej portfela, nadal możesz wysłać płatność lub zaproszenie. \n\n Po pobraniu portfela i podłączeniu numeru telefonu otrzymacie ekskluzywne NFT."
     },
     "rewardsActiveCUSD": {
-      "title": "Invite {{contactName}} to {{appName}} and you'll both get a reward",
-      "body": "Looks like {{contactName}} isn’t on Valora. You can still send a payment if you know their wallet address, or send an invite instead. \n\n After they download the wallet and connect their phone number, you will both get <0>rewarded with 1 cUSD</0>"
+      "title": "Zaproś {{contactName}} do {{appName}}, a otrzymacie nagrodę",
+      "body": "Wygląda na to, że {{contactName}} nie używa jeszcze Valory. Nadal możesz wysłać płatność, jeśli znasz adres jego/jej portfela lub wysłać zaproszenie.\n\nGdy ta osoba pobierze portfel i połączy swój numer telefonu, oboje otrzymacie w nagrodę <0>1 cUSD</0>"
     }
   },
   "celoNews": {
@@ -1652,7 +1654,7 @@
     "options": {
       "add": "Dodaj środki",
       "dapp": "Znajdź sposoby korzystania z kryptowalut",
-      "profile": "Build my profile",
+      "profile": "Zbuduj mój profil",
       "learn": "Dowiedz się więcej o Celo"
     }
   },
@@ -1663,6 +1665,14 @@
   "profileScreen": {
     "generateName": "Wygeneruj nazwę",
     "namePlaceholder": "Wybierz nazwę ex) {{exampleName}}"
+  },
+  "homeActions": {
+    "add": "Dodaj",
+    "receive": "Otrzymaj",
+    "request": "Zażądaj",
+    "send": "Wysyłaj",
+    "swap": "Zamieniaj",
+    "withdraw": "Wycofaj"
   },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",

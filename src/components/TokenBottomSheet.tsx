@@ -119,7 +119,7 @@ function TokenBottomSheet({
 
   const searchInput = (
     <SearchInput
-      placeholder={t('searchAssets')}
+      placeholder={t('tokenBottomSheet.searchAssets')}
       value={searchQuery}
       onChangeText={(text) => {
         setSearchQuery(text)
@@ -147,7 +147,7 @@ function TokenBottomSheet({
       <View style={styles.iconContainer}>
         <InfoIcon color={Colors.onboardingBlue} />
       </View>
-      <Text style={styles.text}>{t('noTokenInResult', { searchQuery })}</Text>
+      <Text style={styles.text}>{t('tokenBottomSheet.noTokenInResult', { searchQuery })}</Text>
     </View>
   )
 

@@ -3,12 +3,14 @@ import { expectSaga } from 'redux-saga-test-plan'
 import { call, select } from 'redux-saga-test-plan/matchers'
 import { EffectProviders, StaticProvider } from 'redux-saga-test-plan/providers'
 import { Actions as AlertActions, AlertTypes, showError } from 'src/alert/actions'
+import { Actions as AppActions } from 'src/app/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { numberVerifiedCentrallySelector } from 'src/app/selectors'
 import {
   claimRewardsSaga,
   fetchAvailableRewardsSaga,
   SUPERCHARGE_FETCH_TIMEOUT,
+  watchSuperchargeV2Enabled,
 } from 'src/consumerIncentives/saga'
 import {
   superchargeRewardContractAddressSelector,
@@ -438,6 +440,29 @@ describe('claimRewardsSaga', () => {
         })
         .run()
       expect(navigateHome).not.toHaveBeenCalled()
+    })
+  })
+
+  describe('migrating from v1 to v2', () => {
+    beforeAll(() => {
+      jest.useRealTimers()
+    })
+
+    it('clears old rewards and fetches new rewards when v2 becomes enabled', async () => {
+      await expectSaga(watchSuperchargeV2Enabled)
+        .provide([[select(superchargeV2EnabledSelector), false]])
+        // remote config value updated twice
+        .dispatch({
+          type: AppActions.UPDATE_REMOTE_CONFIG_VALUES,
+          configValues: { superchargeV2Enabled: true },
+        })
+        .dispatch({
+          type: AppActions.UPDATE_REMOTE_CONFIG_VALUES,
+          configValues: { superchargeV2Enabled: true },
+        })
+        .put(setAvailableRewards([]))
+        .put(fetchAvailableRewards())
+        .silentRun()
     })
   })
 })
