@@ -26,7 +26,13 @@ function FiatExchange() {
   return <FiatExchangeSection />
 }
 
-export function FiatExchangeSection({ hideAddFunds }: { hideAddFunds?: boolean }) {
+export function FiatExchangeSection({
+  hideAddFunds,
+  hideDrawerTopNav,
+}: {
+  hideAddFunds?: boolean
+  hideDrawerTopNav?: boolean
+}) {
   const [timestamp, setTimestamp] = useState<number | null>(null)
   const appState = useTypedSelector((state) => state.app.appState)
   const dispatch = useDispatch()
@@ -77,7 +83,7 @@ export function FiatExchangeSection({ hideAddFunds }: { hideAddFunds?: boolean }
 
   return (
     <SafeAreaView style={styles.container}>
-      <DrawerTopBar />
+      {!hideDrawerTopNav && <DrawerTopBar testID="FiatExchange/DrawerBar" />}
       <ScrollView testID="FiatExchange/scrollView" contentContainerStyle={styles.contentContainer}>
         <View style={styles.headerContainer}>
           <FiatExchangeTokenBalance key={'FiatExchangeTokenBalance'} />
