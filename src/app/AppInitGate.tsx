@@ -14,6 +14,8 @@ import useChangeLanguage from 'src/i18n/useChangeLanguage'
 import { navigateToError } from 'src/navigator/NavigationService'
 import Logger from 'src/utils/Logger'
 
+const TAG = 'AppInitGate'
+
 interface Props {
   loading: React.ReactNode
   children: React.ReactNode
@@ -39,14 +41,14 @@ const AppInitGate = ({ loading, children }: Props) => {
 
   const initResult = useAsync(
     async () => {
-      Logger.debug('AppInitGate', 'Starting init')
+      Logger.debug(TAG, 'Starting init')
       await Promise.all([i18nInitializer(), ValoraAnalytics.init()])
-      Logger.debug('AppInitGate', 'init completed')
+      Logger.debug(TAG, 'init completed')
     },
     [],
     {
       onError: (error) => {
-        Logger.error('AppInitGate', 'Failed init', error)
+        Logger.error(TAG, 'Failed init', error)
         navigateToError('appInitFailed', error)
       },
     }
