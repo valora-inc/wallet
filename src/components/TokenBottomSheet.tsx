@@ -70,7 +70,7 @@ function TokenBottomSheet({
   onClose,
   tokens,
   searchEnabled,
-  title: titleText,
+  title,
 }: Props) {
   const [searchInputText, setSearchInputText] = useState('')
   const [searchQuery, setSearchQuery] = useState('')
@@ -79,6 +79,7 @@ function TokenBottomSheet({
 
   const resetSearchState = () => {
     setSearchQuery('')
+    setSearchInputText('')
   }
 
   const onCloseBottomSheet = () => {
@@ -121,7 +122,7 @@ function TokenBottomSheet({
     [searchQuery]
   )
 
-  const title = <Text style={styles.title}>{titleText}</Text>
+  const titleComponent = <Text style={styles.title}>{title}</Text>
 
   const searchInput = (
     <SearchInput
@@ -139,7 +140,7 @@ function TokenBottomSheet({
   const stickyHeader = (
     <>
       <View style={styles.stickyHeader}>
-        <View style={{ flex: 10 }}>{title}</View>
+        <View style={{ flex: 10 }}>{titleComponent}</View>
         <Touchable style={{ flex: 1 }} onPress={onCloseBottomSheet}>
           <Times />
         </Touchable>
@@ -161,7 +162,7 @@ function TokenBottomSheet({
     <BottomSheet
       isVisible={isVisible}
       onBackgroundPress={onCloseBottomSheet}
-      stickyHeader={searchEnabled ? stickyHeader : title}
+      stickyHeader={searchEnabled ? stickyHeader : titleComponent}
       fullHeight={searchEnabled}
     >
       <View>
