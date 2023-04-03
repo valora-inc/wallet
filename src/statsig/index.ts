@@ -1,6 +1,10 @@
 import { StatsigDynamicConfigs, StatsigExperiments, StatsigParameter } from 'src/statsig/types'
 import Logger from 'src/utils/Logger'
-import { DynamicConfig, Statsig } from 'statsig-react-native'
+import { DynamicConfig, Statsig, StatsigUser } from 'statsig-react-native'
+import { store } from 'src/redux/store'
+import { walletAddressSelector } from 'src/web3/selectors'
+import { startOnboardingTimeSelector } from 'src/account/selectors'
+import * as _ from 'lodash'
 
 function getParams<T extends Record<string, StatsigParameter>>({
   config,
@@ -51,4 +55,15 @@ export function getDynamicConfigParams<T extends Record<string, StatsigParameter
     Logger.warn('getDynamicConfig', `Error getting experiment params`, error)
     return defaultValues
   }
+}
+
+export async function updateStatsigUser(statsigUser?: StatsigUser) {
+  const state = store.getState()
+  const defaultUser = {
+    userID: walletAddressSelector(state),
+    custom: {
+      startOnboardingTime: startOnboardingTimeSelector(state),
+    },
+  }
+  await Statsig.updateUser(_.merge(defaultUser, statsigUser))
 }

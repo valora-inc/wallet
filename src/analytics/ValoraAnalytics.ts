@@ -22,6 +22,7 @@ import { store } from 'src/redux/store'
 import Logger from 'src/utils/Logger'
 import { isPresent } from 'src/utils/typescript'
 import { Statsig } from 'statsig-react-native'
+import { updateStatsigUser } from 'src/statsig'
 
 const TAG = 'ValoraAnalytics'
 
@@ -215,7 +216,7 @@ class ValoraAnalytics {
     }
 
     try {
-      void Statsig.updateUser({ userID })
+      void updateStatsigUser({ userID })
     } catch (error) {
       Logger.warn(TAG, 'Error updating statsig user', error)
     }

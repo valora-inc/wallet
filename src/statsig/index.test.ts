@@ -1,11 +1,25 @@
 import { DynamicConfigs, ExperimentConfigs } from 'src/statsig/constants'
-import { getDynamicConfigParams, getExperimentParams } from 'src/statsig/index'
+import { getDynamicConfigParams, getExperimentParams, updateStatsigUser } from 'src/statsig/index'
 import { StatsigDynamicConfigs, StatsigExperiments } from 'src/statsig/types'
 import Logger from 'src/utils/Logger'
 import { Statsig } from 'statsig-react-native'
+import { store } from 'src/redux/store'
+import { getMockStoreData } from 'test/utils'
+import { mocked } from 'ts-jest/utils'
 
+jest.mock('src/redux/store', () => ({ store: { getState: jest.fn() } }))
 jest.mock('statsig-react-native')
 jest.mock('src/utils/Logger')
+
+const mockStore = mocked(store)
+const MOCK_ACCOUNT = '0x000000000000000000000000000000000000000000'
+const MOCK_START_ONBOARDING_TIME = 1680563877
+mockStore.getState.mockImplementation(() =>
+  getMockStoreData({
+    web3: { account: MOCK_ACCOUNT },
+    account: { startOnboardingTime: MOCK_START_ONBOARDING_TIME },
+  })
+)
 
 describe('Statsig helpers', () => {
   beforeEach(() => {
@@ -93,5 +107,43 @@ describe('Statsig helpers', () => {
       expect(getMock).toHaveBeenCalledWith('param2', 'defaultValue2')
       expect(output).toEqual({ param1: 'statsigValue1', param2: 'statsigValue2' })
     })
+  })
+  describe('updateStatsigUser', () => {
+    it('uses default values when passed no parameters', async () => {
+      await updateStatsigUser()
+      expect(Statsig.updateUser).toHaveBeenCalledTimes(1)
+      expect(Statsig.updateUser).toHaveBeenCalledWith({
+        userID: MOCK_ACCOUNT.toLowerCase(),
+        custom: {
+          startOnboardingTime: MOCK_START_ONBOARDING_TIME,
+        },
+      })
+    })
+    it('overrides custom fields when passed (partial override)', async () => {
+      const statsigUser = {
+        custom: {
+          startOnboardingTime: 1680563880,
+          otherCustomProperty: 'foo',
+        },
+      }
+      await updateStatsigUser(statsigUser)
+      expect(Statsig.updateUser).toHaveBeenCalledTimes(1)
+      expect(Statsig.updateUser).toHaveBeenCalledWith({
+        userID: MOCK_ACCOUNT.toLowerCase(),
+        custom: statsigUser.custom,
+      })
+    }),
+      it('overrides user ID when passed (full override)', async () => {
+        const statsigUser = {
+          userID: 'some address',
+          custom: {
+            startOnboardingTime: 1680563880,
+            otherCustomProperty: 'foo',
+          },
+        }
+        await updateStatsigUser(statsigUser)
+        expect(Statsig.updateUser).toHaveBeenCalledTimes(1)
+        expect(Statsig.updateUser).toHaveBeenCalledWith(statsigUser)
+      })
   })
 })
