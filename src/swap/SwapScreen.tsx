@@ -39,13 +39,25 @@ import {
   tokensByUsdBalanceSelector,
 } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
-import { sortByUsdBalanceThenByAlphabetical } from 'src/tokens/utils'
 
 const FETCH_UPDATED_QUOTE_DEBOUNCE_TIME = 500
 const DEFAULT_FROM_TOKEN_SYMBOL = 'CELO'
 const DEFAULT_SWAP_AMOUNT: SwapAmount = {
   [Field.FROM]: '',
   [Field.TO]: '',
+}
+
+function tokenCompareByUsdBalanceThenByAlphabetical(token1: TokenBalance, token2: TokenBalance) {
+  const token1UsdBalance = token1.balance.multipliedBy(token1.usdPrice ?? 0)
+  const token2UsdBalance = token2.balance.multipliedBy(token2.usdPrice ?? 0)
+  const usdPriceComparison = token2UsdBalance.comparedTo(token1UsdBalance)
+  if (usdPriceComparison === 0) {
+    const token1Name = token1.name ?? 'ZZ'
+    const token2Name = token2.name ?? 'ZZ'
+    return token1Name.localeCompare(token2Name)
+  } else {
+    return usdPriceComparison
+  }
 }
 
 const { decimalSeparator } = getNumberFormatSettings()
@@ -265,7 +277,7 @@ export function SwapScreen() {
     navigate(Screens.WebViewScreen, { uri: SWAP_LEARN_MORE })
   }
 
-  const sortedTokens = supportedTokens.sort(sortByUsdBalanceThenByAlphabetical)
+  const sortedTokens = supportedTokens.sort(tokenCompareByUsdBalanceThenByAlphabetical)
 
   return (
     <SafeAreaView style={styles.safeAreaContainer}>

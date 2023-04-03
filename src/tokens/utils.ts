@@ -25,19 +25,6 @@ export function sortByUsdBalance(token1: TokenBalance, token2: TokenBalance) {
   return token2UsdBalance.comparedTo(token1UsdBalance)
 }
 
-export function sortByUsdBalanceThenByAlphabetical(token1: TokenBalance, token2: TokenBalance) {
-  const token1UsdBalance = token1.balance.multipliedBy(token1.usdPrice ?? 0)
-  const token2UsdBalance = token2.balance.multipliedBy(token2.usdPrice ?? 0)
-  const usdPriceComparison = token2UsdBalance.comparedTo(token1UsdBalance)
-  if (usdPriceComparison === 0) {
-    const token1Name = token1.name ?? 'ZZ'
-    const token2Name = token2.name ?? 'ZZ'
-    return token1Name.localeCompare(token2Name)
-  } else {
-    return usdPriceComparison
-  }
-}
-
 export function isStablecoin(token: TokenBalance | undefined) {
   return token?.isCoreToken && token.symbol !== 'CELO'
 }
