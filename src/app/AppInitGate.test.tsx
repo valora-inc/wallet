@@ -5,8 +5,8 @@ import 'react-native'
 import { Text } from 'react-native'
 import * as RNLocalize from 'react-native-localize'
 import { Provider } from 'react-redux'
+import AppInitGate from 'src/app/AppInitGate'
 import * as I18n from 'src/i18n'
-import I18nGate from 'src/i18n/I18nGate'
 import * as I18nActions from 'src/i18n/slice'
 import { navigateToError } from 'src/navigator/NavigationService'
 import { createMockStore, flushMicrotasksQueue } from 'test/utils'
@@ -27,9 +27,9 @@ const setLanguageSpy = jest.spyOn(I18nActions, 'setLanguage')
 const renderI18nGate = (language: string | null) =>
   render(
     <Provider store={createMockStore({ i18n: { language } })}>
-      <I18nGate loading={<Text>Loading component</Text>}>
+      <AppInitGate loading={<Text>Loading component</Text>}>
         <Text>App</Text>
-      </I18nGate>
+      </AppInitGate>
     </Provider>
   )
 
