@@ -152,17 +152,8 @@ export function DAppsExplorerScreenFilter() {
                     bounces={false}
                     ref={horizontalScrollView}
                   >
-                    {/* All Dapps Filter */}
-                    <DappFilterChip
-                      filterId={'all'}
-                      filterName={t('dappsScreen.allDapps')}
-                      isSelected={selectedFilter === 'all'}
-                      onPress={filterPress}
-                      style={styles.dappFilterAllChip}
-                      key={'all'}
-                    />
                     {/* Category Filter Chips */}
-                    {categories.map((category) => {
+                    {categories.map((category, idx) => {
                       return (
                         <DappFilterChip
                           filterId={category.id}
@@ -170,6 +161,7 @@ export function DAppsExplorerScreenFilter() {
                           isSelected={selectedFilter === category.id}
                           onPress={filterPress}
                           key={category.id}
+                          style={idx === 0 ? styles.dappFilterChipFirst : undefined}
                         />
                       )
                     })}
@@ -285,7 +277,7 @@ const styles = StyleSheet.create({
   dappsFilteringScrollViewContentContainer: {
     paddingHorizontal: Spacing.Thick24,
   },
-  dappFilterAllChip: {
+  dappFilterChipFirst: {
     marginLeft: 0,
   },
   sectionListContentContainer: {
