@@ -220,7 +220,7 @@ export default function DrawerNavigator({ route }: Props) {
     <CustomDrawerContent {...props} />
   )
 
-  const shouldShowSwapMenuInDrawerMenu = showSwapOnMenu && useSelector(isAppSwapsEnabledSelector)
+  const shouldShowSwapMenuInDrawerMenu = useSelector(isAppSwapsEnabledSelector) && showSwapOnMenu
 
   // Show ExchangeHomeScreen if the user has completed the Celo education
   // or if the Celo News feature is enabled
